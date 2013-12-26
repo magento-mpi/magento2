@@ -113,7 +113,7 @@ class FileSystem
      * @param string $path
      * @return string
      */
-    public static function normalizePath($path)
+    public function normalizePath($path)
     {
         $parts = explode('/', $path);
         $result = array();
