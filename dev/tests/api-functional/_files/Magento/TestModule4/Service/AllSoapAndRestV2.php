@@ -31,7 +31,6 @@ class AllSoapAndRestV2 /**  extends AllSoapAndRestV1 */ implements AllSoapAndRes
      */
     public function items()
     {
-        $result = array();
         $allSoapAndRest1 = new Entity\V2\AllSoapAndRest();
         $allSoapAndRest1->setId(1);
         $allSoapAndRest1->setName('testProduct1');
@@ -40,7 +39,7 @@ class AllSoapAndRestV2 /**  extends AllSoapAndRestV1 */ implements AllSoapAndRes
         $allSoapAndRest2->setId(2);
         $allSoapAndRest2->setPrice(1);
         $allSoapAndRest2->setName('testProduct2');
-        return $result;
+        return [$allSoapAndRest1, $allSoapAndRest2];
     }
 
     /**
@@ -57,7 +56,7 @@ class AllSoapAndRestV2 /**  extends AllSoapAndRestV1 */ implements AllSoapAndRes
      */
     public function update(Entity\V2\AllSoapAndRest $item)
     {
-        $item->setName('Updated' + $item->getName());
+        $item->setName('Updated' . $item->getName());
         return $item;
     }
     /**

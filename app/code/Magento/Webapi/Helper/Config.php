@@ -174,4 +174,27 @@ class Config extends \Magento\App\Helper\AbstractHelper
         }
         throw new \InvalidArgumentException(sprintf('The service interface name "%s" is invalid.', $className));
     }
+
+    /**
+     * Convert DTO getter name into field name.
+     *
+     * @param string $getterName
+     * @return string
+     */
+    public function dtoGetterNameToFieldName($getterName)
+    {
+        /** Remove 'get' prefix and make the first letter lower case */
+        return lcfirst(substr($getterName, strlen('get')));
+    }
+
+    /**
+     * Convert DTO field name into setter name.
+     *
+     * @param string $fieldName
+     * @return string
+     */
+    public function dtoFieldNameToSetterName($fieldName)
+    {
+        return 'set' . ucfirst($fieldName);
+    }
 }

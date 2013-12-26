@@ -45,6 +45,9 @@ class Server
     /** @var \Magento\Webapi\Model\Soap\Server\Factory */
     protected $_soapServerFactory;
 
+    /** @var \Magento\Webapi\Model\Soap\Config */
+    protected $_soapConfig;
+
     /**
      * Initialize dependencies, initialize WSDL cache.
      *
@@ -54,6 +57,7 @@ class Server
      * @param \Magento\DomDocument\Factory $domDocumentFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Webapi\Model\Soap\Server\Factory $soapServerFactory
+     * @param \Magento\Webapi\Model\Soap\Config $soapConfig
      * @throws \Magento\Webapi\Exception
      */
     public function __construct(
@@ -62,7 +66,8 @@ class Server
         \Magento\Webapi\Controller\Soap\Request $request,
         \Magento\DomDocument\Factory $domDocumentFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Webapi\Model\Soap\Server\Factory $soapServerFactory
+        \Magento\Webapi\Model\Soap\Server\Factory $soapServerFactory,
+        \Magento\Webapi\Model\Soap\Config $soapConfig
     ) {
         if (!extension_loaded('soap')) {
             throw new \Magento\Webapi\Exception('SOAP extension is not loaded.', 0,
@@ -74,6 +79,7 @@ class Server
         $this->_domDocumentFactory = $domDocumentFactory;
         $this->_storeManager = $storeManager;
         $this->_soapServerFactory = $soapServerFactory;
+        $this->_soapConfig = $soapConfig;
         /** Enable or disable SOAP extension WSDL cache depending on Magento configuration. */
         $wsdlCacheEnabled = (bool)$storeManager->getStore()->getConfig(self::CONFIG_PATH_WSDL_CACHE_ENABLED);
         if ($wsdlCacheEnabled) {
@@ -93,6 +99,7 @@ class Server
         $rawRequestBody = file_get_contents('php://input');
         $this->_checkRequest($rawRequestBody);
         $options = array(
+            'classmap' => $this->_soapConfig->getTypeToClassMap(),
             'encoding' => $this->getApiCharset(),
             'soap_version' => SOAP_1_2
         );

@@ -13,11 +13,15 @@ use Magento\Webapi\Model\Soap\Config as SoapConfig;
 use Magento\Webapi\Controller\Soap\Request as SoapRequest;
 use Magento\Webapi\Exception as WebapiException;
 use Magento\Service\AuthorizationException;
+use Zend\Code\Reflection\ClassReflection;
 
 /**
  * Handler of requests to SOAP server.
  *
  * The main responsibility is to instantiate proper action controller (service) and execute requested method on it.
+ *
+ * TODO: Fix warnings suppression
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Handler
 {
@@ -35,6 +39,9 @@ class Handler
     /** @var AuthorizationService */
     protected $_authorizationService;
 
+    /** @var \Magento\Webapi\Helper\Config */
+    protected $_configHelper;
+
     /**
      * Initialize dependencies.
      *
@@ -42,17 +49,20 @@ class Handler
      * @param \Magento\ObjectManager $objectManager
      * @param SoapConfig $apiConfig
      * @param AuthorizationService $authorizationService
+     * @param \Magento\Webapi\Helper\Config $configHelper
      */
     public function __construct(
         SoapRequest $request,
         \Magento\ObjectManager $objectManager,
         SoapConfig $apiConfig,
-        AuthorizationService $authorizationService
+        AuthorizationService $authorizationService,
+        \Magento\Webapi\Helper\Config $configHelper
     ) {
         $this->_request = $request;
         $this->_objectManager = $objectManager;
         $this->_apiConfig = $apiConfig;
         $this->_authorizationService = $authorizationService;
+        $this->_configHelper = $configHelper;
     }
 
     /**
@@ -89,28 +99,111 @@ class Handler
                 implode($serviceMethodInfo[SoapConfig::KEY_ACL_RESOURCES], ', '));
         }
         $service = $this->_objectManager->get($serviceClass);
-        $outputData = $service->$serviceMethod($this->_prepareParameters($arguments));
-        if (!is_array($outputData)) {
-            throw new \LogicException(
-                sprintf('The method "%s" of service "%s" must return an array.', $serviceMethod, $serviceClass)
-            );
-        }
-        return $outputData;
+        $outputData = call_user_func_array(array($service, $serviceMethod), $this->_prepareRequestData($arguments));
+        return $this->_prepareResponseData($outputData);
     }
 
     /**
-     * Extract service method parameters from SOAP operation arguments.
+     * Convert SOAP operation arguments into format acceptable by service method.
      *
-     * @param \stdClass|array $arguments
+     * @param array $arguments
      * @return array
      */
-    protected function _prepareParameters($arguments)
+    protected function _prepareRequestData($arguments)
     {
         /** SoapServer wraps parameters into array. Thus this wrapping should be removed to get access to parameters. */
         $arguments = reset($arguments);
         $this->_associativeObjectToArray($arguments);
         $arguments = get_object_vars($arguments);
+        foreach ($arguments as $argument) {
+            if ($this->_isDto($argument)) {
+                $this->_packDto($argument);
+            }
+        }
         return $arguments;
+    }
+
+    /**
+     * Convert service response into format acceptable by SoapServer.
+     *
+     * @param \Magento\Service\Entity\AbstractDto|array|string|int|double|null $data
+     * @return array
+     * @throws \InvalidArgumentException
+     */
+    protected function _prepareResponseData($data)
+    {
+        if ($this->_isDto($data)) {
+            $this->_unpackDto($data);
+        } else if (is_array($data)) {
+            foreach ($data as $dataItem) {
+                if ($this->_isDto($dataItem)) {
+                    $this->_unpackDto($dataItem);
+                }
+            }
+        } elseif (!(is_string($data) || is_numeric($data) || is_null($data))) {
+            throw new \InvalidArgumentException("Service returned result in invalid format.");
+        }
+        return array('result' => $data);
+    }
+
+    /**
+     * Use DTO setters to set data which was set directly to fields by SoapServer.
+     *
+     * This method processes all nested DTOs recursively.
+     *
+     * @param \Magento\Service\Entity\AbstractDto $dto DTO object is changed by reference
+     * @return Handler
+     */
+    protected function _packDto(\Magento\Service\Entity\AbstractDto &$dto)
+    {
+        $fields = get_object_vars($dto);
+        foreach ($fields as $fieldName => $fieldValue) {
+            if ($this->_isDto($fieldValue)) {
+                $this->_packDto($fieldValue);
+            }
+            $setterName = $this->_configHelper->dtoFieldNameToSetterName($fieldName);
+            $dto->$setterName($fieldValue);
+            unset($dto->$fieldName);
+        }
+        return $this;
+    }
+
+    /**
+     * Initialize DTO public fields by data retrieved with DTO getters. Allows SoapServer to extract data from DTO.
+     *
+     * This method processes all nested DTOs recursively.
+     *
+     * @param \Magento\Service\Entity\AbstractDto $dto DTO object is changed by reference
+     * @return Handler
+     */
+    protected function _unpackDto(\Magento\Service\Entity\AbstractDto &$dto)
+    {
+        // TODO: Performance impact related to Reflection usage can be avoided if DTOs store data in public fields
+        $classReflection = new ClassReflection($dto);
+        /** @var \Zend\Code\Reflection\MethodReflection $methodReflection */
+        foreach ($classReflection->getMethods(\ReflectionMethod::IS_PUBLIC) as $methodReflection) {
+            if (strpos($methodReflection->getName(), 'get') === 0) {
+                $getterName = $methodReflection->getName();
+                $fieldName = $this->_configHelper->dtoGetterNameToFieldName($getterName);
+                $fieldValue = $dto->$getterName();
+                if ($this->_isDto($fieldValue)) {
+                    $this->_unpackDto($fieldValue);
+                }
+                $dto->$fieldName = $fieldValue;
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * Check if provided variable is service DTO.
+     *
+     * @param mixed $var
+     * @return bool
+     */
+    protected function _isDto($var)
+    {
+        return (is_object($var) && $var instanceof \Magento\Service\Entity\AbstractDto);
     }
 
     /**

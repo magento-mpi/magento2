@@ -145,8 +145,7 @@ class TypeProcessor
             } else {
                 $isRequired = true;
             }
-            /** Convert getter name into field name by removing 'get' prefix and making the first letter lower case */
-            $fieldName = lcfirst(substr($methodReflection->getName(), strlen('get')));
+            $fieldName = $this->_helper->dtoGetterNameToFieldName($methodReflection->getName());
             $this->_types[$typeName]['parameters'][$fieldName] = array(
                 'type' => $this->process($returnType),
                 'required' => $isRequired,

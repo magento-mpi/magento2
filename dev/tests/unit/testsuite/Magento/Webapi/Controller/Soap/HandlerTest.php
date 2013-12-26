@@ -28,6 +28,9 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_authzServiceMock;
 
+    /** @var \Magento\Webapi\Helper\Config|\PHPUnit_Framework_MockObject_MockObject */
+    protected $_configHelperMock;
+
     /** @var array */
     protected $_arguments;
 
@@ -53,12 +56,15 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $this->_configHelperMock = $this->getMock('Magento\Webapi\Helper\Config', [], [], '', false);
+
         /** Initialize SUT. */
         $this->_handler = new \Magento\Webapi\Controller\Soap\Handler(
             $this->_requestMock,
             $this->_objectManagerMock,
             $this->_apiConfigMock,
-            $this->_authzServiceMock
+            $this->_authzServiceMock,
+            $this->_configHelperMock
         );
 
         parent::setUp();
@@ -105,14 +111,14 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
             ->setMethods(array($methodName))
             ->getMock();
 
-        $expectedResult = array('foo' => 'bar');
-        $serviceMock->expects($this->once())->method($methodName)->will($this->returnValue($expectedResult));
+        $serviceResponse = array('foo' => 'bar');
+        $serviceMock->expects($this->once())->method($methodName)->will($this->returnValue($serviceResponse));
         $this->_objectManagerMock->expects($this->once())->method('get')->with($className)
             ->will($this->returnValue($serviceMock));
 
         /** Execute SUT. */
         $this->assertEquals(
-            $expectedResult,
+            array('result' => $serviceResponse),
             $this->_handler->__call($operationName, array((object)array('field' => 1)))
         );
     }
