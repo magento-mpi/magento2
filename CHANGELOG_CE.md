@@ -56,6 +56,7 @@
   * Fixed broken design on product page with Fixed Product Tax attribute
   * Fixed spaces between parentheses and the numbers in the Cart, Wishlist and Compare Products blocks
   * Fixed message display quantity products found on Advanced Search page
+  * Fixed fatal error when a file reference is added to HTML head
 * Themes update:
   * Responsive design improvements
 * Improvements to code coverage calculation:
