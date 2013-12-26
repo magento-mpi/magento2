@@ -207,7 +207,7 @@ class Observer
             case 'promo_quote_edit_tabs' :
                 if ($this->_isEnterpriseBannerEnabled && !$this->_canEditSalesRules) {
                     $relatedBannersBlock = $block->getChildBlock('salesrule.related.banners');
-                    if (!is_null($relatedBannersBlock)) {
+                    if ($relatedBannersBlock instanceof \Magento\View\Element\AbstractBlock) {
                         $relatedBannersBlock->unsetChild('banners_grid_serializer');
                     }
                 }
