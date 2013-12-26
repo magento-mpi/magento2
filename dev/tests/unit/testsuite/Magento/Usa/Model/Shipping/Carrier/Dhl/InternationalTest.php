@@ -50,7 +50,9 @@ class InternationalTest extends \PHPUnit_Framework_TestCase
     public function prepareShippingLabelContentExceptionDataProvider()
     {
         $filesPath = __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR;
-        $empty = $billingNumberOnly = $outputImageOnly = simplexml_load_file($filesPath . 'response_shipping_label.xml');
+        $empty = $billingNumberOnly = $outputImageOnly = simplexml_load_file(
+            $filesPath . 'response_shipping_label.xml'
+        );
         unset(
             $empty->AirwayBillNumber, $empty->LabelImage,
             $billingNumberOnly->LabelImage, $outputImageOnly->AirwayBillNumber
@@ -72,6 +74,6 @@ class InternationalTest extends \PHPUnit_Framework_TestCase
         $model = $this->_helper->getObject('Magento\Usa\Model\Shipping\Carrier\Dhl\International');
         $method = new \ReflectionMethod($model, '_prepareShippingLabelContent');
         $method->setAccessible(true);
-        return $result = $method->invoke($model, $xml);
+        return $method->invoke($model, $xml);
     }
 }
