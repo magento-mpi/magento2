@@ -341,6 +341,14 @@ interface DriverInterface
     public function getRelativePath($basePath, $path = null);
 
     /**
+     * Get real path
+     *
+     * @param string $path
+     * @return mixed
+     */
+    public function getRealPath($path);
+
+    /**
      * @param $path
      * @param $directory
      * @return mixed

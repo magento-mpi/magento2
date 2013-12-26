@@ -286,49 +286,4 @@ class Images extends \Magento\App\Helper\AbstractHelper
         }
         return substr($filename, 0, $maxLength) . '...';
     }
-
-    /**
-     * Is path under storage root directory
-     *
-     * @param string $path
-     *
-     * @throws \Magento\Core\Exception
-     */
-    public function validatePath($path)
-    {
-        $root = $this->sanitizePath($this->getStorageRoot());
-        if ($root == $path) {
-            throw new \Magento\Core\Exception(__('We cannot delete root directory %1.', $path));
-        }
-        if (strpos($path, $root) !== 0) {
-            throw new \Magento\Core\Exception(__('Directory %1 is not under storage root path.', $path));
-        }
-    }
-
-    /**
-     * Sanitize path
-     *
-     * @param string $path
-     *
-     * @return string
-     */
-    public function sanitizePath($path)
-    {
-        return rtrim(preg_replace('~[/\\\]+~', '/', realpath($path)), '/');
-    }
-
-    /**
-     * Get path in root storage dir
-     *
-     * @param string $path
-     *
-     * @return string
-     */
-    public function getRelativePathToRoot($path)
-    {
-        return substr(
-            $this->sanitizePath($path),
-            strlen($this->sanitizePath($this->getStorageRoot()))
-        );
-    }
 }

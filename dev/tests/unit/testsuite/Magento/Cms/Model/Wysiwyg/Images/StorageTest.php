@@ -90,11 +90,24 @@ class StorageTest extends \PHPUnit_Framework_TestCase
      */
     protected $_directoryMock;
 
+    /**
+     * @var \Magento\Filesystem\DriverInterface|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_driverMock;
+
     protected function setUp()
     {
-        $this->_directoryMock = $this->getMock(
-            'Magento\Filesystem\Directory\Write', array('delete'), array(), '', false
+        $this->_driverMock = $this->getMockForAbstractClass(
+            'Magento\Filesystem\DriverInterface', array(), '', false, false, true, array('getRealPath')
         );
+        $this->_driverMock->expects($this->any())->method('getRealPath')
+           ->will($this->returnArgument(0));
+
+        $this->_directoryMock = $this->getMock(
+            'Magento\Filesystem\Directory\Write', array('delete', 'getDriver'), array(), '', false
+        );
+        $this->_directoryMock->expects($this->any())->method('getDriver')
+            ->will($this->returnValue($this->_driverMock));
 
 
         $this->_filesystemMock = $this->getMock('Magento\Filesystem', array('getDirectoryWrite'), array(), '', false);
@@ -108,15 +121,10 @@ class StorageTest extends \PHPUnit_Framework_TestCase
         );
         $this->_viewUrlMock = $this->getMock('Magento\View\Url', array(), array(), '', false);
         $this->_imageHelperMock = $this->getMock(
-            'Magento\Cms\Helper\Wysiwyg\Images', array('getStorageRoot', 'sanitizePath'), array(), '', false
+            'Magento\Cms\Helper\Wysiwyg\Images', array('getStorageRoot'), array(), '', false
         );
-        $this->_imageHelperMock->expects($this->any())
-            ->method('getStorageRoot')->will($this->returnValue(self::STORAGE_ROOT_DIR));
-
-        $this->_imageHelperMock->expects($this->any())
-            ->method('sanitizePath')
-            ->withAnyParameters()
-            ->will($this->returnArgument(0));
+        $this->_imageHelperMock->expects($this->any())->method('getStorageRoot')
+            ->will($this->returnValue(self::STORAGE_ROOT_DIR));
 
         $this->_resizeParameters = array('width' => 100, 'height' => 50);
 
