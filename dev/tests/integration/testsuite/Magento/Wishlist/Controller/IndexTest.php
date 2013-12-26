@@ -83,4 +83,31 @@ class IndexTest extends \Magento\TestFramework\TestCase\AbstractController
         }
         $this->assertTrue($isProductNamePresent, 'Product name was not found in session messages');
     }
+
+    /**
+     * @magentoConfigFixture default_store cataloginventory/item_options/enable_qty_increments 1
+     * @magentoConfigFixture default_store cataloginventory/item_options/qty_increments 5
+     *
+     * @magentoDataFixture Magento/Wishlist/_files/wishlist_all_cart.php
+     */
+    public function testAllcartAction()
+    {
+        $this->dispatch('wishlist/index/allcart');
+
+        /** @var \Magento\Checkout\Model\Cart $cart */
+        $cart = $this->_objectManager->get('Magento\Checkout\Model\Cart');
+        $quoteCount = $cart->getQuote()->getItemsCollection()->count();
+
+        $this->assertEquals(0, $quoteCount);
+
+        /** @var \Magento\Message\ManagerInterface $messageManager */
+        $messageManager = $this->_objectManager->get('Magento\Message\ManagerInterface');
+
+        $countErrors = $messageManager->getMessages()->getCountByType(\Magento\Message\MessageInterface::TYPE_ERROR);
+        $this->assertEquals(1,$countErrors);
+        $this->assertEquals(
+            'You can buy this product only in increments of 5 for "Simple Product".',
+            $messageManager->getMessages()->getLastAddedMessage()->getText()
+        );
+    }
 }
