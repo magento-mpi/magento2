@@ -167,11 +167,12 @@ class TypeProcessor
         $shortDescription = $doc->getShortDescription();
         $longDescription = $doc->getLongDescription();
 
-        $description = $shortDescription;
-        if ($longDescription && !empty($description)) {
-            $description .= "\r\n";
+        $description = rtrim($shortDescription);
+        $longDescription = str_replace(array("\n", "\r"), '', $longDescription);
+        if (!empty($longDescription) && !empty($description)) {
+            $description .= " ";
         }
-        $description .= $longDescription;
+        $description .= ltrim($longDescription);
 
         return $description;
     }
