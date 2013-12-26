@@ -958,10 +958,6 @@ class International
      */
     protected function _parseResponse($response)
     {
-        $htmlTranslationTable = get_html_translation_table(HTML_ENTITIES);
-        unset($htmlTranslationTable['<'], $htmlTranslationTable['>'], $htmlTranslationTable['"']);
-        $response = str_replace(array_keys($htmlTranslationTable), array_values($htmlTranslationTable), $response);
-
         $responseError =  __('The response is in wrong format.');
 
         if (strlen(trim($response)) > 0) {
@@ -1674,10 +1670,6 @@ class International
     {
         $errorTitle = __('Unable to retrieve tracking');
         $resultArr = array();
-
-        $htmlTranslationTable = get_html_translation_table(HTML_ENTITIES);
-        unset($htmlTranslationTable['<'], $htmlTranslationTable['>'], $htmlTranslationTable['"']);
-        $response = str_replace(array_keys($htmlTranslationTable), array_values($htmlTranslationTable), $response);
 
         if (strlen(trim($response)) > 0) {
             $xml = simplexml_load_string($response);
