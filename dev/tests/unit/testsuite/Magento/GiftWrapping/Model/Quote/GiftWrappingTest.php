@@ -16,123 +16,138 @@ namespace Magento\GiftWrapping\Model\Quote;
  */
 class GiftWrappingTest extends \PHPUnit_Framework_TestCase
 {
-    protected $model;
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\GiftWrapping\Model\Wrapping
+     */
+    protected $_wrappingMock;
 
-    public function setUp()
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Sales\Model\Quote\Address
+     */
+    protected $_addressMock;
+
+    /**
+     * Test for collect method
+     *
+     * @param bool $withProduct
+     * @dataProvider collectQuoteDataProvider
+     */
+    public function testCollectQuote($withProduct)
     {
-        $this->model = $this->getMockBuilder('Magento\GiftWrapping\Model\Total\Quote\Giftwrapping')
-            ->disableOriginalConstructor()
-            ->setMethods(array('_getAddressItems', '_getWrapping'))
-            ->getMock();
+        $addressMock = $this->_prepareData($withProduct);
+        $helperMock = $this->getMock('Magento\GiftWrapping\Helper\Data', [], [], '', false);
+        $factoryMock = $this->getMock('Magento\GiftWrapping\Model\WrappingFactory', ['create'], [], '', false);
+        $factoryMock->expects($this->any())
+            ->method('create')
+            ->will($this->returnValue($this->_wrappingMock));
+
+        $model = new \Magento\GiftWrapping\Model\Total\Quote\Giftwrapping($helperMock, $factoryMock);
+        $model->collect($addressMock);
     }
 
     /**
-     * @param $store
-     * @param $item
-     * @param $address
-     * @dataProvider quoteItemWrappingWithProductDataProvider
+     * Prepare mocks for test
+     *
+     * @param bool $withProduct
+     * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\Sales\Model\Quote\Address
      */
-    public function testQuoteItemWrappingWithProduct($store, $item, $address)
-    {
-        $this->model->expects($this->any())
-            ->method('_getAddressItems')
-            ->will($this->returnValue(array($item)));
-        $this->model->expects($this->any())
-            ->method('_getWrapping')
-            ->will($this->returnValue($item->getWrapping()));
-
-        $storeProperty = new \ReflectionProperty($this->model, '_store');
-        $storeProperty->setAccessible(true);
-        $storeProperty->setValue($this->model, $store);
-
-        $method = new \ReflectionMethod(get_class($this->model), '_collectWrappingForItems');
-        $method->setAccessible(true);
-        $method->invoke($this->model, $address);
-
-        $this->assertEquals(20, $address->getGwItemsBasePrice());
-        $this->assertEquals(10, $item->getGwBasePrice());
-        $this->assertEquals(20, $address->getGwItemsPrice());
-        $this->assertEquals(10, $item->getGwPrice());
-    }
-
-    public function quoteItemWrappingWithProductDataProvider()
-    {
-        return $this->_prepareData(true);
-    }
-
-    /**
-     * @param $store
-     * @param $item
-     * @param $address
-     * @dataProvider quoteItemWrappingWithoutProductDataProvider
-     */
-    public function testQuoteItemWrappingWithoutProduct($store, $item, $address)
-    {
-        $this->model->expects($this->any())
-            ->method('_getAddressItems')
-            ->will($this->returnValue(array($item)));
-        $wrapping = new \Magento\Object(array('base_price' => 6));
-        $item->setWrapping($wrapping);
-        $this->model->expects($this->any())
-            ->method('_getWrapping')
-            ->will($this->returnValue($item->getWrapping()));
-
-        $storeProperty = new \ReflectionProperty($this->model, '_store');
-        $storeProperty->setAccessible(true);
-        $storeProperty->setValue($this->model, $store);
-
-        $method = new \ReflectionMethod(get_class($this->model), '_collectWrappingForItems');
-        $method->setAccessible(true);
-        $method->invoke($this->model, $address);
-
-        $this->assertEquals(12, $address->getGwItemsBasePrice());
-        $this->assertEquals(6, $item->getGwBasePrice());
-        $this->assertEquals(20, $address->getGwItemsPrice());
-        $this->assertEquals(10, $item->getGwPrice());
-    }
-
-    public function quoteItemWrappingWithoutProductDataProvider()
-    {
-        return $this->_prepareData(false);
-    }
-
     protected function _prepareData($withProduct)
     {
-        $item = new \Magento\Object();
         $product = $this->getMockBuilder('Magento\Catalog\Model\Product')
             ->disableOriginalConstructor()
             ->setMethods(array('isVirtual', '__wakeup'))
             ->getMock();
+        $storeMock = $this->getMockBuilder('Magento\Core\Model\Store')
+            ->disableOriginalConstructor()
+            ->setMethods(array('convertPrice', 'getId', '__wakeup'))
+            ->getMock();
+        $this->_wrappingMock = $this->getMock(
+            'Magento\GiftWrapping\Model\Wrapping',
+            ['load', 'setStoreId', 'getBasePrice', '__wakeup'],
+            [],
+            '',
+            false
+        );
+        $this->_addressMock = $this->getMock(
+            'Magento\Sales\Model\Quote\Address',
+            [
+                'getAddressType',
+                'getQuote',
+                'getAllNonNominalItems',
+                'setGwItemsBasePrice',
+                'setGwItemsPrice',
+                '__wakeup'
+            ],
+            [],
+            '',
+            false
+        );
 
+        $storeMock->expects($this->any())
+            ->method('convertPrice')
+            ->will($this->returnValue(10));
         $product->expects($this->any())
             ->method('isVirtual')
             ->will($this->returnValue(false));
+        $quote = new \Magento\Object([
+            'isMultishipping' => false,
+            'store' => $storeMock
+        ]);
 
-        $product->setGiftWrappingPrice(($withProduct) ? 10 : 0);
+        $this->_wrappingMock->expects($this->any())
+            ->method('load')
+            ->will($this->returnSelf());
+        $this->_wrappingMock->expects($this->any())
+            ->method('getBasePrice')
+            ->will($this->returnValue(6));
 
+        $item = new \Magento\Object();
+        if ($withProduct) {
+            $product->setGiftWrappingPrice(10);
+        } else {
+            $product->setGiftWrappingPrice(0);
+            $item->setWrapping($this->_wrappingMock);
+        }
         $item->setProduct($product)
             ->setQty(2)
             ->setGwId(1);
+        $this->_addressMock->expects($this->any())
+            ->method('getAddressType')
+            ->will($this->returnValue(\Magento\Sales\Model\Quote\Address::TYPE_SHIPPING));
+        $this->_addressMock->expects($this->any())
+            ->method('getQuote')
+            ->will($this->returnValue($quote));
+        $this->_addressMock->expects($this->any())
+            ->method('getAllNonNominalItems')
+            ->will($this->returnValue([
+                $item
+            ]));
 
-        $address = $this->getMockBuilder('Magento\Sales\Model\Quote\Address')
-            ->disableOriginalConstructor()
-            ->setMethods(array('getAllItems', 'setId', '__wakeup'))
-            ->getMock();
-        $address->expects($this->any())
-            ->method('getAllItems')
-            ->will($this->returnValue(array($item)));
+        if ($withProduct) {
+            $this->_addressMock->expects($this->once())
+                ->method('setGwItemsBasePrice')
+                ->with(20);
+        } else {
+            $this->_addressMock->expects($this->once())
+                ->method('setGwItemsBasePrice')
+                ->with(12);
+        }
+        $this->_addressMock->expects($this->once())
+            ->method('setGwItemsPrice')
+            ->with(20);
+        return $this->_addressMock;
+    }
 
-        $store = $this->getMockBuilder('Magento\Core\Model\Store')
-            ->disableOriginalConstructor()
-            ->setMethods(array('convertPrice', '__wakeup'))
-            ->getMock();
-
-        $store->expects($this->any())
-            ->method('convertPrice')
-            ->will($this->returnValue(10));
-
+    /**
+     * Data provider for testCollectQuote
+     *
+     * @return array
+     */
+    public function collectQuoteDataProvider()
+    {
         return [
-            [$store, $item, $address]
+            'withProduct' => [true],
+            'withoutProduct' => [false]
         ];
     }
 }
