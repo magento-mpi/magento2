@@ -129,6 +129,7 @@ return array(
     array('_needSubtractTax'),
     array('_needToAddDummy'),
     array('_needToAddDummyForShipment'),
+    array('_outTemplate', 'Magento\Backend\App\AbstractAction'),
     array('_parseDescription', 'Magento\Sales\Model\Order\Pdf\Items\AbstractItems'),
     array('_parsePackageTheme', 'Magento\Widget\Model\Widget\Instance'),
     array('_parseXmlTrackingResponse', 'Magento\Usa\Model\Shipping\Carrier\Fedex'),
