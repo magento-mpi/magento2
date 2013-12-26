@@ -49,7 +49,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->_store));
 
         $this->_role = $this->getMockBuilder('Magento\AdminGws\Model\Role')
-            ->setMethods(array('getStoreIds'))
+            ->setMethods(array('getStoreIds', 'setStoreIds'))
             ->disableOriginalConstructor()
             ->getMock();
         $this->_role->expects($this->any())
@@ -65,6 +65,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     public function testUpdateRoleStores()
     {
         $this->_store->setData('store_id', 1000);
-        $this->assertInstanceOf('Magento\AdminGws\Model\Observer', $this->_model->updateRoleStores($this->_observer));
+        $this->_role->expects($this->once())
+            ->method('setStoreIds')
+            ->with($this->contains(1000));
+        $this->_model->updateRoleStores($this->_observer);
     }
 }
