@@ -76,6 +76,11 @@ class History extends \Magento\Core\Model\AbstractModel
     protected $dateTime;
 
     /**
+     * @var Rate
+     */
+    protected $rewardRate;
+
+    /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Reward\Helper\Data $rewardData
@@ -83,6 +88,7 @@ class History extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Reward\Model\Reward $reward
      * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Reward\Model\Reward\Rate $rewardRate
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -94,6 +100,7 @@ class History extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Reward\Model\Reward $reward,
         \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Reward\Model\Reward\Rate $rewardRate,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -101,6 +108,7 @@ class History extends \Magento\Core\Model\AbstractModel
         $this->_storeManager = $storeManager;
         $this->_reward = $reward;
         $this->dateTime = $dateTime;
+        $this->rewardRate = $rewardRate;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -280,8 +288,10 @@ class History extends \Magento\Core\Model\AbstractModel
     {
         $rate = $this->getAdditionalDataByKey('rate');
         if (isset($rate['points']) && isset($rate['currency_amount']) && isset($rate['direction'])) {
-            return \Magento\Reward\Model\Reward\Rate::getRateText(
-                (int)$rate['direction'], (int)$rate['points'], (float)$rate['currency_amount'],
+            return $this->rewardRate->getRateText(
+                (int)$rate['direction'],
+                (int)$rate['points'],
+                (float)$rate['currency_amount'],
                 $this->getBaseCurrencyCode()
             );
         }
