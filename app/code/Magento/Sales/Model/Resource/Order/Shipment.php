@@ -49,6 +49,15 @@ class Shipment extends \Magento\Sales\Model\Resource\Order\AbstractOrder
     protected $_entityTypeForIncrementId     = 'shipment';
 
     /**
+     * Fields that should be serialized before persistence
+     *
+     * @var array
+     */
+    protected $_serializableFields   = array(
+        'packages' => array(array(), array())
+    );
+
+    /**
      * Model initialization
      *
      */
