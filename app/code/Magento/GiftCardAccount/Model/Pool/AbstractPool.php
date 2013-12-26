@@ -35,8 +35,9 @@ abstract class AbstractPool extends \Magento\Core\Model\AbstractModel
         if (is_array($notInArray) && !empty($notInArray)) {
             $collection->addFieldToFilter('code', array('nin' => $notInArray));
         }
-        $collection->load();
-        if (!$items = $collection->getItems()) {
+        $collection->getSelect()->forUpdate(true);
+        $items = $collection->getItems();
+        if (!$items) {
             throw new \Magento\Core\Exception(__('No codes left in the pool.'));
         }
 

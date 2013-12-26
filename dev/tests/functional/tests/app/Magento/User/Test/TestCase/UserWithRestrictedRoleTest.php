@@ -37,7 +37,7 @@ class UserWithRestrictedRoleTest extends Functional
     /**
      * Test verify "Using ACL Role with full GWS Scope"
      *
-     * @ZephyrId MAGETWO-12513
+     * @ZephyrId MAGETWO-12375
      */
     public function testAclRoleWithFullGwsScope()
     {
