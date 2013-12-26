@@ -104,7 +104,7 @@ class IndexTest extends \Magento\TestFramework\TestCase\AbstractController
         $messageManager = $this->_objectManager->get('Magento\Message\ManagerInterface');
 
         $countErrors = $messageManager->getMessages()->getCountByType(\Magento\Message\MessageInterface::TYPE_ERROR);
-        $this->assertEquals(1,$countErrors);
+        $this->assertEquals(1, $countErrors);
         $this->assertEquals(
             'You can buy this product only in increments of 5 for "Simple Product".',
             $messageManager->getMessages()->getLastAddedMessage()->getText()
