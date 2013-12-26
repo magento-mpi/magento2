@@ -161,7 +161,7 @@ class Version
                 // display success message
                 $this->messageManager->addSuccess(__('You have saved the version.'));
                 // clear previously saved data from session
-                $this->messageManager->setFormData(false);
+                $this->_session->setFormData(false);
                 // check if 'Save and Continue'
                 if ($this->getRequest()->getParam('back')) {
                     $this->_redirect('adminhtml/*/' . $this->getRequest()->getParam('back'),

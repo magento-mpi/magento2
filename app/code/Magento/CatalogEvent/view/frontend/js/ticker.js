@@ -29,15 +29,15 @@
                 this.element.find('[data-container="minute"]').html(this._formatNumber(Math.floor((minuteSec - hourSec) / this.options.secondsInMinute)));
                 this.element.find('[data-container="second"]').html(this._formatNumber(seconds - minuteSec));
                 if (daySec > 0) {
-                    this.element.find('[data-container="days"]').parent().show();
-                    this.element.find('[data-container="hour"]').parent().show();
-                    this.element.find('[data-container="minute"]').parent().show();
+                    this.element.find('[data-container="days"]').parent().css("display", "inline-block");
+                    this.element.find('[data-container="hour"]').parent().css("display", "inline-block");
+                    this.element.find('[data-container="minute"]').parent().css("display", "inline-block");
                     this.element.find('[data-container="second"]').parent().hide();
                 } else {
                     this.element.find('[data-container="days"]').parent().hide();
-                    this.element.find('[data-container="hour"]').parent().show();
-                    this.element.find('[data-container="minute"]').parent().show();
-                    this.element.find('[data-container="second"]').parent().show();
+                    this.element.find('[data-container="hour"]').parent().css("display", "inline-block");
+                    this.element.find('[data-container="minute"]').parent().css("display", "inline-block");
+                    this.element.find('[data-container="second"]').parent().css("display", "inline-block");
                 }
             }, this), this.options.msInSecond);
         },
