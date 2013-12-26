@@ -47,6 +47,12 @@
   * Fixed system message was displayed in incorrect place on backend page
   * Fixed 404 error on customer review page
   * Fixed autocomplete enabled on admin login page
+  * Fixed size of 3D secure iframe
+  * Fixed asterix appearance for Package Extension with mandatory fields
+  * Fixed image size in product description for Compare products page
+  * Fixed broken design on product page with Fixed Product Tax attribute
+  * Fixed spaces between parentheses and the numbers in the Cart, Wishlist and Compare Products blocks
+  * Fixed message display quantity products found on Advanced Search page
 * Themes update:
   * Responsive design improvements
 * Improvements to code coverage calculation:
