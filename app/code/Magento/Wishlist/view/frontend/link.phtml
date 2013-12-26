@@ -1,0 +1,15 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+/* @var $this \Magento\Wishlist\Block\Link */
+?>
+<li class="link wishlist">
+    <a <?php echo $this->getLinkAttributes() ?>><?php echo $this->escapeHtml($this->getLabel())?>
+        <?php echo ($this->getCounter()) ? '<span class="counter qty">' . $this->escapeHtml($this->getCounter()) . '</span>' : ''; ?>
+    </a>
+</li>

@@ -6981,6 +6981,12 @@ table .col-draggable .draggable-handle {
   display: inline-block;
   float: none;
 }
+.fpt-item-container select {
+  width: 100%;
+}
+.fpt-item-container select:first-child {
+  margin-bottom: 8px;
+}
 .clearfix:before,
 .clearfix:after,
 [class$="-layout"]:after,
@@ -9030,26 +9036,31 @@ table .col-draggable .draggable-handle {
 }
 .sales-order-create-index thead .col-entity_id,
 .sales-order-create-index .col-entity_id,
-.sales-order-create-index .col-qty {
+.sales-order-create-index .col-qty,
+.checkout-index-index .col-qty {
   width: 50px;
 }
-.sales-order-create-index .col-in_products {
+.sales-order-create-index .col-in_products,
+.checkout-index-index .col-in_products {
   text-align: center;
 }
 .sales-order-create-index .col-sku,
-.sales-order-create-index .col-remove {
+.sales-order-create-index .col-remove,
+.checkout-index-index .col-remove {
   width: 120px;
 }
 .sales-order-create-index .col-price {
   width: 70px;
 }
-.sales-order-create-index .order-search-items .col-name {
+.sales-order-create-index .order-search-items .col-name,
+.checkout-index-index #source_products_table .col-name {
   width: 50%;
 }
 .sales-order-create-index .order-items.fieldset-wrapper .fieldset-wrapper-title,
 .sales-order-create-index .order-search-items.fieldset-wrapper .fieldset-wrapper-title,
 .sales-order-create-index .order-additional-area.fieldset-wrapper .fieldset-wrapper-title,
-.sales-order-create-index .order-errors .fieldset-wrapper-title {
+.sales-order-create-index .order-errors .fieldset-wrapper-title,
+.checkout-index-index .checkout-errors .fieldset-wrapper-title {
   border-bottom: 0;
   margin: 0;
 }
@@ -9060,7 +9071,8 @@ table .col-draggable .draggable-handle {
 .sales-order-create-index .order-items.fieldset-wrapper .title,
 .sales-order-create-index .order-additional-area.fieldset-wrapper .title,
 .sales-order-create-index .order-search-items.fieldset-wrapper .title,
-.sales-order-create-index .order-errors .title {
+.sales-order-create-index .order-errors .title,
+.checkout-index-index .checkout-errors .title {
   border-bottom: 1px solid #ededed;
   float: none;
   margin: 0 0 18px;
@@ -9068,7 +9080,8 @@ table .col-draggable .draggable-handle {
 }
 .sales-order-create-index .order-items.fieldset-wrapper .actions,
 .sales-order-create-index .order-search-items.fieldset-wrapper .actions,
-.sales-order-create-index #order-errors .actions {
+.sales-order-create-index #order-errors .actions,
+.checkout-index-index .checkout-errors .fieldset-wrapper-title .actions {
   float: none;
   border: 1px solid #c0bbaf;
   border-bottom: 0;
@@ -9085,7 +9098,8 @@ table .col-draggable .draggable-handle {
   padding: 0 8px;
   position: relative;
 }
-.sales-order-create-index #order-data .fieldset-wrapper .actions .action-add {
+.sales-order-create-index #order-data .fieldset-wrapper .actions .action-add,
+.checkout-index-index .checkout-errors .fieldset-wrapper-title .actions .action-add {
   margin: 7px 8px 8px 0;
 }
 .sales-order-create-index .order-additional-area.fieldset-wrapper .actions {
@@ -9093,8 +9107,9 @@ table .col-draggable .draggable-handle {
   margin: 0 0 8px;
   padding: 0;
 }
-.sales-order-create-index #order-data .fieldset-wrapper .actions .action-delete {
-  margin: 11px 0 0;
+.sales-order-create-index #order-data .fieldset-wrapper .actions .action-delete,
+.checkout-index-index .checkout-errors .fieldset-wrapper-title .actions .action-delete {
+  margin: 13px 0 0;
 }
 .sales-order-create-index .ui-dialog .downloadable.information .link .label {
   margin-left: 0;
@@ -10059,8 +10074,40 @@ table.items-to-invoice tbody tr:hover td {
   min-width: 0;
 }
 /*
+    Customers - Manage Shopping Cart
+-------------------------------------- */
+.checkout-index-index .products-search {
+  margin-top: 35px;
+}
+.checkout-index-index .products-search > .actions {
+  text-align: right;
+  margin: 10px 0;
+}
+.checkout-index-index .shopping-cart-items > .actions {
+  margin-bottom: 15px;
+}
+.checkout-index-index .shopping-cart-items .box-left,
+.checkout-index-index .shopping-cart-items .box.right {
+  width: 49%;
+}
+.checkout-index-index .shopping-cart-items .box-left fieldset,
+.checkout-index-index .shopping-cart-items .box.right fieldset {
+  border-radius: 5px;
+}
+.checkout-index-index .shopping-cart-items .box-left {
+  float: left;
+}
+.checkout-index-index .shopping-cart-items .box.right {
+  float: right;
+}
+.checkout-index-index .grid table .action-configure {
+  float: right;
+}
+/*
     Clearfix
 -------------------------------------- */
+.shopping-cart-items:before,
+.shopping-cart-items:after,
 .image-panel:before,
 .image-panel:after,
 .images:before,
@@ -10072,6 +10119,7 @@ table.items-to-invoice tbody tr:hover td {
   content: "";
   display: table;
 }
+.shopping-cart-items:after,
 .image-panel:after,
 .images:after,
 .tax-rate-popup .field:after,
