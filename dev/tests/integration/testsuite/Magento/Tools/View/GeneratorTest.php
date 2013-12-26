@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Test\Integrity\View;
+namespace Magento\Tools\View;
 
 class GeneratorTest extends \PHPUnit_Framework_TestCase
 {
@@ -32,7 +32,9 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         $this->tmpDir = BP . '/var/static';
         $this->shell = new \Magento\Shell();
         $this->filesystem = new \Magento\Filesystem\Driver\File();
-        $this->filesystem->createDirectory($this->tmpDir, 0777);
+        if (!$this->filesystem->isExists($this->tmpDir)) {
+            $this->filesystem->createDirectory($this->tmpDir, 0777);
+        }
     }
 
     protected function tearDown()
