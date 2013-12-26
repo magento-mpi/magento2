@@ -18,98 +18,70 @@
 <?php if (empty($_items)): ?>
     <div class="grid" id="order-items_grid">
         <table cellspacing="0" class="data order-tables">
-            <col />
-            <?php if ($canReadPrice) : ?>
-            <col width="100" />
-            <?php endif; ?>
-            <col width="40" />
-            <?php if ($canReadPrice) : ?>
-            <col width="100" />
-            <?php endif; ?>
-            <col width="80" />
-            <?php if ($canReadPrice) : ?>
-            <col width="100" />
-            <?php endif; ?>
-            <col width="80" />
             <thead>
                 <tr class="headings">
-                    <th class="no-link"><?php echo __('Product') ?></th>
+                    <th class="col-product no-link"><span><?php echo __('Product') ?></span></th>
                     <?php if ($canReadPrice) : ?>
-                    <th class="no-link"><?php echo __('Price') ?></th>
+                    <th class="col-price no-link"><span><?php echo __('Price') ?></span></th>
                     <?php endif; ?>
-                    <th class="no-link"><?php echo __('Qty') ?></th>
+                    <th class="col-qty no-link"><span><?php echo __('Qty') ?></span></th>
                     <?php if ($canReadPrice) : ?>
-                    <th class="no-link"><?php echo __('Subtotal') ?></th>
+                    <th class="col-price no-link"><span><?php echo __('Subtotal') ?></span></th>
                     <?php endif; ?>
-                    <th class="no-link"><?php echo __('Discount') ?></th>
+                    <th class="col-price no-link"><span><?php echo __('Discount') ?></span></th>
                     <?php if ($canReadPrice) : ?>
-                    <th class="no-link"><?php echo __('Row Subtotal') ?></th>
+                    <th class="col-price no-link"><span><?php echo __('Row Subtotal') ?></span></th>
                     <?php endif; ?>
                     <?php if ($this->isAllowedActionColumn()): ?>
-                    <th class="no-link last"><?php echo __('Action') ?></th>
+                    <th class="col-action no-link"><span><?php echo __('Action') ?></span></th>
                     <?php endif; ?>
                 </tr>
             </thead>
             <tbody>
-                <tr class="even">
-                    <td class="empty-text a-center" colspan="100"><?php echo __('No ordered items') ?></td>
+                <tr>
+                    <td class="empty-text" colspan="100"><?php echo __('No ordered items') ?></td>
                 </tr>
             </tbody>
         </table>
     </div>
 <?php else: ?>
-<div>
     <div class="grid" id="order-items_grid">
         <table cellspacing="0" class="data order-tables">
-            <col />
-            <?php if ($canReadPrice) : ?>
-            <col width="100" />
-            <col width="100" />
-            <?php endif; ?>
-            <col width="40" />
-            <?php if ($canReadPrice) : ?>
-            <col width="100" />
-            <?php endif; ?>
-            <col width="80" />
-            <?php if ($canReadPrice) : ?>
-            <col width="100" />
-            <?php endif; ?>
-            <col width="80" />
             <thead>
                 <tr class="headings">
-                    <th class="no-link" colspan="2"><?php echo __('Product') ?></th>
+                    <th class="col-product no-link" colspan="2"><span><?php echo __('Product') ?></span></th>
                     <?php if ($canReadPrice) : ?>
-                    <th class="no-link"><?php echo __('Price') ?></th>
+                    <th class="col-price no-link"><span><?php echo __('Price') ?></span></th>
                     <?php endif; ?>
-                    <th class="no-link"><?php echo __('Qty') ?></th>
+                    <th class="col-qty no-link"><span><?php echo __('Qty') ?></span></th>
                     <?php if ($canReadPrice) : ?>
-                    <th class="no-link"><?php echo __('Subtotal') ?></th>
+                    <th class="col-price no-link"><span><?php echo __('Subtotal') ?></span></th>
                     <?php endif; ?>
-                    <th class="no-link"><?php echo __('Discount') ?></th>
+                    <th class="col-price no-link"><span><?php echo __('Discount') ?></span></th>
                     <?php if ($canReadPrice) : ?>
-                    <th class="no-link"><?php echo __('Row Subtotal') ?></th>
+                    <th class="col-price no-link"><span><?php echo __('Row Subtotal') ?></span></th>
                     <?php endif; ?>
                     <?php if ($this->isAllowedActionColumn()): ?>
-                    <th class="no-link last"><?php echo __('Action') ?></th>
+                    <th class="col-action no-link last"><span><?php echo __('Action') ?></span></th>
                     <?php endif; ?>
                 </tr>
             </thead>
             <tfoot>
                 <tr>
-                    <td class="a-left" colspan="2"><?php echo __('Total %1 product(s)', count($_items)) ?></td>
+                    <td colspan="2" class="col-total-items"><?php echo __('Total %1 product(s)', count($_items)) ?></td>
                     <?php if ($canReadPrice) : ?>
-                    <td colspan="2" class="a-right"><?php echo __('Subtotal:') ?></td>
-                    <td class="price"><strong><?php echo $this->formatPrice($this->getSubtotal()) ?></strong></td>
-                    <td class="price"><strong><?php echo $this->formatPrice($this->getDiscountAmount()) ?></strong></td>
-                    <td class="price"><strong><?php echo $this->formatPrice($this->getSubtotalWithDiscount()) ?></strong></td>
+                    <td colspan="2"class="col-subtotal"><?php echo __('Subtotal:') ?></td>
+                    <td class="col-price"><strong><?php echo $this->formatPrice($this->getSubtotal()) ?></strong></td>
+                    <td class="col-price"><strong><?php echo $this->formatPrice($this->getDiscountAmount()) ?></strong></td>
+                    <td class="col-price"><strong><?php echo $this->formatPrice($this->getSubtotalWithDiscount()) ?></strong></td>
                     <?php if ($this->isAllowedActionColumn()): ?>
                     <td>&nbsp;</td>
                     <?php endif; ?>
                     <?php else : ?>
                     <td>&nbsp;</td>
-                    <td class="price"><strong><?php echo $this->formatPrice($this->getDiscountAmount()) ?></strong></td>
+                    <td class="col-price"><strong><?php echo $this->formatPrice($this->getDiscountAmount()) ?></strong></td>
                     <?php if ($this->isAllowedActionColumn()) : ?>
-                    <td class="a-right">&nbsp;</td>
+                    <td>&nbsp;</td>
                     <?php endif; ?>
                     <?php endif; ?>
                 </tr>
@@ -118,7 +90,8 @@
                 <?php $i=0 ?>
                 <?php foreach ($_items as $_item):$i++ ?>
                     <tr class="<?php echo ($i%2)?'even':'odd' ?>">
-                        <td class="first"><h5 class="title"><?php echo $this->escapeHtml($_item->getName()) ?></h5>
+                        <td class="col-product">
+                            <span class="title"><?php echo $this->escapeHtml($_item->getName()) ?></span>
                             <div>
                                 <strong><?php echo __('SKU') ?>:</strong>
                                 <?php echo implode('<br />', $this->helper('Magento\Catalog\Helper\Data')->splitSku($this->escapeHtml($_item->getSku()))); ?>
@@ -131,11 +104,11 @@
                             <?php endforeach; ?>
                             <?php endif; ?>
                         </td>
-                        <td class="a-center v-middle">
+                        <td class="col-configure">
                             <?php echo $this->getConfigureButtonHtml($_item) ?>
                         </td>
                         <?php if ($canReadPrice) : ?>
-                        <td class="price">
+                        <td class="col-price">
 
 
 
@@ -216,9 +189,9 @@
     <?php endif; ?>
                         </td>
                         <?php endif; ?>
-                        <td><input name="item[<?php echo $_item->getId() ?>][qty]" class="input-text item-qty" value="<?php echo $_item->getQty()*1 ?>" maxlength="12" /></td>
+                        <td class="col-qty"><input name="item[<?php echo $_item->getId() ?>][qty]" class="input-text item-qty" value="<?php echo $_item->getQty()*1 ?>" maxlength="12" /></td>
                         <?php if ($canReadPrice) : ?>
-                        <td class="price">
+                        <td class="col-price">
 
 
 
@@ -302,11 +275,11 @@
 
                         </td>
                         <?php endif; ?>
-                        <td class="price">
+                        <td class="col-price">
                             <?php echo $this->formatPrice(-$_item->getDiscountAmount()) ?><br />
                         </td>
                         <?php if ($canReadPrice) : ?>
-                        <td class="price">
+                        <td class="col-price">
 
 
     <?php if ($this->helper('Magento\Tax\Helper\Data')->displayCartPriceExclTax($this->getStore()) || $this->helper('Magento\Tax\Helper\Data')->displayCartBothPrices($this->getStore())): ?>
@@ -388,8 +361,8 @@
                         </td>
                         <?php endif; ?>
                         <?php if ($this->isAllowedActionColumn()): ?>
-                        <td class="last">
-                            <select name="item[<?php echo $_item->getId() ?>][action]" style="width:100px;">
+                        <td class="col-action">
+                            <select name="item[<?php echo $_item->getId() ?>][action]">
                                 <option value=""></option>
                                 <option value="remove"><?php echo __('Remove') ?></option>
                                 <?php if ($this->isMoveToWishlistAllowed($_item)): ?>
@@ -412,7 +385,6 @@
             </tbody>
         </table>
     </div>
-</div>
 <?php endif; ?>
 
 <?php $listType = $this->getJsObjectName() ?>

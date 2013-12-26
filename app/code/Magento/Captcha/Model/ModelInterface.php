@@ -26,7 +26,7 @@ interface ModelInterface
      *
      * @abstract
      * @param string $word
-     * @return void
+     * @return bool
      */
     public function isCorrect($word);
 

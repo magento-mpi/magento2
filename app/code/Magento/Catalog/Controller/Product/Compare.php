@@ -86,6 +86,11 @@ class Compare extends \Magento\App\Action\Action
     protected $_storeManager;
 
     /**
+     * @var \Magento\Core\App\Action\FormKeyValidator
+     */
+    protected $_formKeyValidator;
+
+    /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Catalog\Model\Product\Compare\ItemFactory $compareItemFactory
@@ -107,7 +112,8 @@ class Compare extends \Magento\App\Action\Action
         \Magento\Log\Model\Visitor $logVisitor,
         \Magento\Catalog\Model\Product\Compare\ListCompare $catalogProductCompareList,
         \Magento\Catalog\Model\Session $catalogSession,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
     ) {
         $this->_storeManager = $storeManager;
         $this->_customerFactory = $customerFactory;
@@ -118,6 +124,7 @@ class Compare extends \Magento\App\Action\Action
         $this->_logVisitor = $logVisitor;
         $this->_catalogProductCompareList = $catalogProductCompareList;
         $this->_catalogSession = $catalogSession;
+        $this->_formKeyValidator = $formKeyValidator;
         parent::__construct($context);
     }
 
@@ -152,6 +159,11 @@ class Compare extends \Magento\App\Action\Action
      */
     public function addAction()
     {
+        if (!$this->_formKeyValidator->validate($this->getRequest())) {
+            $this->getResponse()->setRedirect($this->_redirect->getRefererUrl());
+            return;
+        }
+
         $productId = (int)$this->getRequest()->getParam('product');
         if ($productId
             && ($this->_logVisitor->getId()
