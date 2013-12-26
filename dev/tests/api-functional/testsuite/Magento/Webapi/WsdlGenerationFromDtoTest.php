@@ -31,7 +31,8 @@ class WsdlGenerationFromDtoTest extends \Magento\TestFramework\TestCase\WebapiAb
         $this->_checkBindingDeclaration($wsdlContent);
         $this->_checkServiceDeclaration($wsdlContent);
         $this->_checkMessagesDeclaration($wsdlContent);
-        $this->_checkFaultsDeclaration($wsdlContent);
+        // TODO: Uncomment when implemented
+        // $this->_checkFaultsDeclaration($wsdlContent);
     }
 
     public function testInvalidWsdlUrlNoServices()
@@ -225,13 +226,13 @@ RESPONSE_TYPE;
          DTO long
          multi line description.
         </xsd:documentation>
-        <xsd:appinfo xmlns:inf="http://magento.ll/soap?services%3DtestModule4AllSoapAndRestV1%2CtestModule4AllSoapAndRestV2"/>
+        <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule4AllSoapAndRestV1%2CtestModule4AllSoapAndRestV2"/>
     </xsd:annotation>
     <xsd:sequence>
         <xsd:element name="id" minOccurs="1" maxOccurs="1" type="xsd:int">
             <xsd:annotation>
                 <xsd:documentation>Item ID</xsd:documentation>
-                <xsd:appinfo xmlns:inf="http://magento.ll/soap?services%3DtestModule4AllSoapAndRestV1%2CtestModule4AllSoapAndRestV2">
+                <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule4AllSoapAndRestV1%2CtestModule4AllSoapAndRestV2">
                     <inf:min/>
                     <inf:max/>
                     <inf:callInfo>
@@ -251,7 +252,7 @@ RESPONSE_TYPE;
         <xsd:element name="name" minOccurs="0" maxOccurs="1" type="xsd:string">
             <xsd:annotation>
                 <xsd:documentation>Item name</xsd:documentation>
-                <xsd:appinfo xmlns:inf="http://magento.ll/soap?services%3DtestModule4AllSoapAndRestV1%2CtestModule4AllSoapAndRestV2">
+                <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule4AllSoapAndRestV1%2CtestModule4AllSoapAndRestV2">
                     <inf:maxLength/>
                     <inf:callInfo>
                         <inf:callName>testModule4AllSoapAndRestV1Item</inf:callName>
@@ -310,12 +311,10 @@ SECOND_PORT_TYPE;
 <operation name="testModule4AllSoapAndRestV2Item">
     <input message="tns:testModule4AllSoapAndRestV2ItemRequest"/>
     <output message="tns:testModule4AllSoapAndRestV2ItemResponse"/>
-    <fault name="DefaultFault" message="tns:DefaultFault"/>
 </operation>
 <operation name="testModule4AllSoapAndRestV2Items">
     <input message="tns:testModule4AllSoapAndRestV2ItemsRequest"/>
     <output message="tns:testModule4AllSoapAndRestV2ItemsResponse"/>
-    <fault name="DefaultFault" message="tns:DefaultFault"/>
 </operation>
 OPERATION_DECLARATION;
         // @codingStandardsIgnoreEnd
@@ -365,9 +364,6 @@ SECOND_BINDING;
     <output>
         <soap12:body use="literal"/>
     </output>
-    <fault name="DefaultFault">
-        <soap:fault name="DefaultFault" use="literal"/>
-    </fault>
 </operation>
 <operation name="testModule4AllSoapAndRestV1Items">
     <soap:operation soapAction="testModule4AllSoapAndRestV1Items"/>
@@ -377,9 +373,6 @@ SECOND_BINDING;
     <output>
         <soap12:body use="literal"/>
     </output>
-    <fault name="DefaultFault">
-        <soap:fault name="DefaultFault" use="literal"/>
-    </fault>
 </operation>
 OPERATION_DECLARATION;
         // @codingStandardsIgnoreEnd
@@ -519,8 +512,6 @@ FAULT_IN_BINDING;
      */
     protected function _checkFaultsMessagesSection($wsdlContent)
     {
-        // TODO: Uncomment after implementation
-        return;
         $defaultFaultMessage = <<< DEFAULT_FAULT_IN_MESSAGES
 <message name="DefaultFault">
     <part name="messageParameters" element="tns:DefaultFault"/>
@@ -552,8 +543,6 @@ FAULT_IN_MESSAGES;
      */
     protected function _checkFaultsComplexTypeSection($wsdlContent)
     {
-        // TODO: Uncomment after implementation
-        return;
         $firstFaultType = <<< FIRST_FAULT_IN_COMPLEX_TYPES
 <xsd:complexType name="testModule3ErrorV1ParameterizedServiceExceptionFirstFault">
     <xsd:sequence>

@@ -112,7 +112,8 @@ class Generator
         $this->_collectCallInfo($requestedServices);
         $wsdl = $this->_wsdlFactory->create(self::WSDL_NAME, $endPointUrl);
         $wsdl->addSchemaTypeSection();
-        $this->_addDefaultFaultComplexTypeNodes($wsdl);
+        // TODO: Process SOAP faults
+        // $this->_addDefaultFaultComplexTypeNodes($wsdl);
         foreach ($requestedServices as $serviceClass => $serviceData) {
             $portTypeName = $this->getPortTypeName($serviceClass);
             $bindingName = $this->getBindingName($serviceClass);
@@ -137,6 +138,9 @@ class Generator
                 }
 
                 /** Default SOAP fault should be added to each operation declaration */
+                $faultsInfo = false;
+                /*
+                TODO: Process SOAP faults
                 $faultsInfo = array(
                     array(
                         'name' => Fault::NODE_DETAIL_WRAPPER,
@@ -149,6 +153,7 @@ class Generator
                         $this->_createOperationFaults($wsdl, $operationName, $methodData)
                     );
                 }
+                */
 
                 $wsdl->addPortOperation(
                     $portType,
