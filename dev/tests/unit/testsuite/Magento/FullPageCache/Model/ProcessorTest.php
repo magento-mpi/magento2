@@ -110,34 +110,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
         $this->_storeManager = $this->getMock('Magento\Core\Model\StoreManagerInterface');
         $this->_cacheTypeList = $this->getMock('Magento\App\Cache\TypeListInterface');
 
-        $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
-        $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
-        $coreConfig = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false);
-
-        $this->_model = $helper->getObject('Magento\FullPageCache\Model\Processor', array(
-            'eventManager' => $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false),
-            'restriction' => $this->_restrictionMock,
-            'fpcCache' => $this->_fpcCacheMock,
-            'subProcessorFactory' => $this->_subProcFactoryMock,
-            'placeholderFactory' => $this->_plcFactoryMock,
-            'containerFactory' => $this->_cntrFactoryMock,
-            'environment' => $this->_environmentMock,
-            'requestIdentifier' => $this->_requestIdtfMock,
-            'designInfo' => $this->_designInfoMock,
-            'metadata' => $this->_metadataMock,
-            'storeIdentifier' => $this->_storeIdentifier,
-            'storeManager' => $this->_storeManager,
-            'coreRegistry' => $coreRegistry,
-            'typeList' => $this->_cacheTypeList,
-            'coreStoreConfig' => $coreStoreConfig,
-            'coreConfig' => $coreConfig,
-            'fpcObserverFactory' => $this->getMock(
-                'Magento\FullPageCache\Model\ObserverFactory', array(), array(), '', false
-            ),
-            'processorFactory' => $this->getMock(
-                'Magento\FullPageCache\Model\Cache\SubProcessorFactory', array(), array(), '', false
-            ),
-        ));
+        $this->_model = $helper->getObject('Magento\FullPageCache\Model\Processor', $this->getDependencies());
     }
 
     public function testGetRequestId()
@@ -262,4 +235,91 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($subProcessor, $this->_model->getSubprocessor());
     }
 
+    /**
+     * Data provider for XssProtection Test
+     *
+     * @return array
+     */
+    public function xssProtectionDataProvider()
+    {
+        $data = array();
+        $contentString = 'content-{{' . chr(1) . chr(2) . chr(3) . '_SID_MARKER_' . chr(3) . chr(2) . chr(1) . '}}';
+        $data[] = array("cookie", "content-cookie", $contentString);
+        $data[] = array("<script>alert()</script>", "content-&lt;script&gt;alert()&lt;/script&gt;", $contentString);
+        $data[] = array('"\'&dangerous"', "content-&quot;&#039;&amp;dangerous&quot;", $contentString);
+        return $data;
+    }
+
+    /**
+     * Test XSS Protection
+     *
+     * @param string $cookieValue
+     * @param string $expectedContent
+     * @param string $contentString
+     * @dataProvider xssProtectionDataProvider
+     */
+    public function testXssProtection($cookieValue, $expectedContent, $contentString)
+    {
+        $cacheId = 'Cache_Id';
+        $sessionInfoString = 'a:1:{i:0;s:4:"Math";}';
+        $this->_fpcCacheMock->expects($this->once())
+            ->method('load')
+            ->with($cacheId)
+            ->will($this->returnValue($sessionInfoString));
+
+        $this->_metadataMock->expects($this->once())
+            ->method('getMetadata')
+            ->with('sid_cookie_name')
+            ->will($this->returnValue('cookie_name'));
+        $this->_environmentMock->expects($this->once())
+            ->method('getCookie')
+            ->with('cookie_name', '')
+            ->will($this->returnValue($cookieValue));
+
+        /** @var \Magento\FullPageCache\Model\Processor\Fixture $model */
+        $model = $this->getMock(
+            'Magento\FullPageCache\Model\Processor\Dummy',
+            array('_processContainers', 'getSessionInfoCacheId'),
+            $this->getDependencies()
+        );
+
+        $model->expects($this->once())
+            ->method('_processContainers')
+            ->will($this->returnValue(array()));
+
+        $model->expects($this->once())
+            ->method('getSessionInfoCacheId')
+            ->will($this->returnValue($cacheId));
+
+        $request = $this->getMock('Zend_Controller_Request_Http', array(), array(), '', false);
+
+        $this->assertEquals($expectedContent, $model->processContent($contentString, $request));
+    }
+
+    protected function getDependencies()
+    {
+        return array(
+            'eventManager' => $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false),
+            'restriction' => $this->_restrictionMock,
+            'fpcCache' => $this->_fpcCacheMock,
+            'subProcessorFactory' => $this->_subProcFactoryMock,
+            'placeholderFactory' => $this->_plcFactoryMock,
+            'containerFactory' => $this->_cntrFactoryMock,
+            'environment' => $this->_environmentMock,
+            'requestIdentifier' => $this->_requestIdtfMock,
+            'designInfo' => $this->_designInfoMock,
+            'metadata' => $this->_metadataMock,
+            'storeIdentifier' => $this->_storeIdentifier,
+            'storeManager' => $this->_storeManager,
+            'coreRegistry' => $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false),
+            'typeList' => $this->_cacheTypeList,
+            'coreStoreConfig' => $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false),
+            'fpcCookie' => $this->getMock('Magento\FullPageCache\Model\Cookie', array(), array(), '', false),
+            'coreSession' => $this->getMock('Magento\Core\Model\Session', array(), array(), '', false),
+            'urlHelper' => $this->getMock('Magento\FullPageCache\Helper\Url', array(), array(), '', false),
+            'fpcObserverFactory' => $this->getMock(
+                    'Magento\FullPageCache\Model\ObserverFactory', array(), array(), '', false
+                ),
+        );
+    }
 }
