@@ -10,7 +10,7 @@
   * Fixed validation message for the Quantity field on the product page in the backend
   * Fixed the email template for sharing a Wishlist
   * Fixed the response of the drop-down menu in the Plushe theme
-  * Fixed missing the Related Banners tab for Catalog Price Rule
+  * Fixed the missing Related Banners tab for Catalog Price Rule
   * Fixed inability to enable the duplicated product
   * Removed warnings on saving payment method configuration
   * Fixed gift messages displaying on the Order View page after admin edits
@@ -18,13 +18,13 @@
   * Fixed the behavior of the Save and Previous and the Previous buttons on the Edit Review page
   * Fixed inability to delete a website if the number of websites is less or equal to two
   * Fixed Export on the All Customers page
-  * Fixed inability to add products to the Cart from the Category page in Internet Explorer
-  * Fixed the logo on the backend login page
+  * Fixed inability to add products to the Shopping Cart from the Category page in Internet Explorer
+  * Fixed logo on the backend login page
   * Fixed visual elements to indicate that Tax details can be expanded on the order creation page in the backend
   * Fixed the CMS page preview design
   * Fixed the newsletter template preview design
   * Fixed the Matched Customers grid design in the Email Reminder Rules
-  * Fixed the theme version validation message displayed when creation a new theme
+  * Fixed the theme version validation message displayed when creating a new theme
   * Fixed performance degradation during installation wizard execution
   * Fixed cron shell script
   * Fixed user login on the frontend, when the Redirect Customer to Account Dashboard after Logging option is set to No
@@ -58,13 +58,13 @@
   * Fixed product image scaling on the Compare Products page
   * Fixed product page design for products with the Fixed Product Tax attribute
   * Removed spaces between parentheses and numbers in the Cart, Wishlist, and Compare Products blocks
-  * Fixed the message displaying the quantity for products found on Advanced Search page
+  * Fixed the message displaying the quantity for products found on the Advanced Search page
   * Fixed incorrect caching of locale settings and URL settings during web installation
   * Fixed inability to use a newly created store for admin user roles
   * Fixed absence of the Advanced Search field on the frontend, when the Popular Search Terms functionality is disabled
   * Fixed incorrect link to downloadable product(s) in the email invoice copy
   * Fixed customs monetary value in labels/package info for international shipments
-  * Fixed importing for files whit blank URL Key field on the store view level
+  * Fixed importing for files with blank URL Key field on the store view level
   * Fixed table rate error message
   * Fixed frontend login without pre-set cookies
   * Fixed date resetting to 1 Jan 1970 after saving a design change in the admin panel in case date format is DD/MM/YY
