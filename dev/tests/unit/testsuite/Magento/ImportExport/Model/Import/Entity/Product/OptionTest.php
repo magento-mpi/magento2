@@ -289,11 +289,6 @@ class OptionTest extends \PHPUnit_Framework_TestCase
     protected $_iteratorPageSize = 100;
 
     /**
-     * @var \Magento\Catalog\Helper\Data
-     */
-    protected $_catalogDataMock;
-
-    /**
      * Init entity adapter model
      */
     protected function setUp()
@@ -312,7 +307,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
             $doubleOptions = true;
         }
 
-        $this->_catalogDataMock = $this->getMock(
+        $catalogDataMock = $this->getMock(
             'Magento\Catalog\Helper\Data', array('__construct'), array(), '', false
         );
 
@@ -328,7 +323,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
                 array(), array(), '', false),
             $this->getMock('Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory',
                 array(), array(), '', false),
-            $this->_catalogDataMock,
+            $catalogDataMock,
             $coreStoreConfig,
             new \Magento\Stdlib\DateTime,
             $this->_getModelDependencies($addExpectations, $deleteBehavior, $doubleOptions)
