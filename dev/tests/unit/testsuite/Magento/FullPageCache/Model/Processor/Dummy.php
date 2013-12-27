@@ -7,7 +7,7 @@
  */
 namespace Magento\FullPageCache\Model\Processor;
 
-class Fixture extends \Magento\FullPageCache\Model\Processor
+class Dummy extends \Magento\FullPageCache\Model\Processor
 {
     /**
      * Expose the parent's protected process content method to unit tests

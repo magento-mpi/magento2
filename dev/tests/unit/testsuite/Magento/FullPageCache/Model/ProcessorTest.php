@@ -110,10 +110,6 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
         $this->_storeManager = $this->getMock('Magento\Core\Model\StoreManagerInterface');
         $this->_cacheTypeList = $this->getMock('Magento\App\Cache\TypeListInterface');
 
-//        $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
-//        $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
-//        $coreConfig = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false);
-
         $this->_model = $helper->getObject('Magento\FullPageCache\Model\Processor', $this->getDependencies());
     }
 
@@ -326,5 +322,4 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
                 ),
         );
     }
-
 }
