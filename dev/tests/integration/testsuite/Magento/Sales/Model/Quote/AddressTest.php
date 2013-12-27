@@ -73,7 +73,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         }
         $shippingAddress->setSameAsBilling(0);
         $shippingAddress->save();
-        $this->assertEquals($unsetId ? 1 : 0, $shippingAddress->getSameAsBilling());
+        $this->assertEquals((int)$unsetId, $shippingAddress->getSameAsBilling());
     }
 
     /**
@@ -92,7 +92,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $shippingAddress->setSameAsBilling(0)
             ->setCustomerAddress(null)
             ->save();
-        $this->assertEquals($unsetId ? 1 : 0, $this->_quote->getShippingAddress()->getSameAsBilling());
+        $this->assertEquals((int)$unsetId, $this->_quote->getShippingAddress()->getSameAsBilling());
     }
 
     /**
@@ -106,7 +106,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $this->_customer->setDefaultShipping(-1);
         $this->_quote->setCustomer($this->_customer);
         $this->_setCustomerAddressAndSave($unsetId);
-        $this->assertEquals($unsetId ? 1 : 0, $this->_quote->getShippingAddress()->getSameAsBilling());
+        $this->assertEquals((int)$unsetId, $this->_quote->getShippingAddress()->getSameAsBilling());
     }
 
     /**
@@ -119,7 +119,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     {
         $this->_quote->setCustomer($this->_customer);
         $this->_setCustomerAddressAndSave($unsetId);
-        $this->assertEquals($unsetId ? 1 : 0, $this->_quote->getShippingAddress()->getSameAsBilling());
+        $this->assertEquals((int)$unsetId, $this->_quote->getShippingAddress()->getSameAsBilling());
     }
 
     /**
