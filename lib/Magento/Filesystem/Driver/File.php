@@ -768,7 +768,7 @@ class File implements \Magento\Filesystem\DriverInterface
      *
      * @param string $path
      *
-     * @return string
+     * @return string|bool
      */
     public function getRealPath($path)
     {

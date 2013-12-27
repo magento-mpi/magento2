@@ -675,7 +675,7 @@ class Storage extends \Magento\Object
      *
      * @param string $path
      *
-     * @return string
+     * @return string|bool
      */
     protected function _getRelativePathToRoot($path)
     {

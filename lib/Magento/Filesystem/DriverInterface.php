@@ -344,7 +344,7 @@ interface DriverInterface
      * Get real path
      *
      * @param string $path
-     * @return mixed
+     * @return string|bool
      */
     public function getRealPath($path);
 
