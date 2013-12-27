@@ -52,10 +52,8 @@ class OrderTest extends \PHPUnit_Framework_TestCase
 
         $this->_orderMock = $this->getMockBuilder('\Magento\Sales\Model\Order')
             ->disableOriginalConstructor()
-            ->setMethods(array('__wakeup', 'getActionFlag', 'getRealOrderId'))
+            ->setMethods(array('__wakeup', 'getRealOrderId'))
             ->getMock();
-        $this->_orderMock->expects($this->once())
-            ->method('getRealOrderId');
 
         $this->_messageMock = $this->getMockBuilder('\Magento\Message')
             ->disableOriginalConstructor()
@@ -67,14 +65,11 @@ class OrderTest extends \PHPUnit_Framework_TestCase
 
         $this->_controllerMock= $this->getMockBuilder('\Magento\Sales\Controller\Adminhtml\Stub\Order')
             ->disableOriginalConstructor()
-            ->setMethods(array('__wakeup', '_initOrder', '_initAction', '__', 'renderLayout'))
+            ->setMethods(array('__wakeup', '_initOrder', '_initAction', '__', 'renderLayout', '_redirect'))
             ->getMock();
         $this->_controllerMock->expects($this->any())
             ->method('__')
             ->will($this->returnArgument(0));
-        $this->_controllerMock->expects($this->once())
-            ->method('_initOrder')
-            ->will($this->returnValue($this->_orderMock));
 
         $this->_controllerMock->_title = $titleMock;
         $this->_controllerMock->_view = $viewMock;
@@ -88,9 +83,24 @@ class OrderTest extends \PHPUnit_Framework_TestCase
      */
     public function testViewActionWithError()
     {
+        $msg = 'You need more permissions to view this item.';
+        /** @var \PHPUnit_Framework_MockObject_MockObject $exceptionMock */
+        $exceptionMock = $this->getMockBuilder('\Magento\App\Action\Exception')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getMessage'))
+            ->getMock();
         $this->_messageMock->expects($this->once())
             ->method('addError')
-            ->with($this->equalTo('You don\'t have permissions to manage this order because of one or more products are not permitted for your website.'));
+            ->with($this->equalTo($msg));
+        $this->_controllerMock->expects($this->once())
+            ->method('_initOrder')
+            ->will($this->returnValue($this->_orderMock));
+        $this->_controllerMock->expects($this->once())
+            ->method('_initAction')
+            ->will($this->throwException(new \Magento\App\Action\Exception($msg)));
+        $this->_orderMock->expects($this->never())
+            ->method('getRealOrderId');
+
 
         $this->_controllerMock->viewAction();
     }
@@ -101,14 +111,12 @@ class OrderTest extends \PHPUnit_Framework_TestCase
      */
     public function testViewActionWithoutError()
     {
-        $this->_orderMock->expects($this->once())
-            ->method('getActionFlag')
-            ->with($this->equalTo(\Magento\Sales\Model\Order::ACTION_FLAG_PRODUCTS_PERMISSION_DENIED))
-            ->will($this->returnValue(false));
         $this->_messageMock->expects($this->never())
             ->method('addError');
-        $this->_controllerMock->expects($this->never())
-            ->method('_getSession');
+        $this->_orderMock->expects($this->once())
+            ->method('getRealOrderId')
+            ->will($this->returnValue(1));
+
         $this->_controllerMock->viewAction();
     }
 }
