@@ -31,13 +31,6 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
     protected $_categoryFactory = null;
 
     /**
-     * Catalog product factory
-     *
-     * @var \Magento\Catalog\Model\ProductFactory
-     */
-    protected $_productFactory = null;
-
-    /**
      * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager = null;
@@ -52,13 +45,11 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
         \Magento\AdminGws\Model\Role $role,
         \Magento\AdminGws\Helper\Data $adminGwsData,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         parent::__construct($role);
         $this->_adminGwsData = $adminGwsData;
         $this->_categoryFactory = $categoryFactory;
-        $this->_productFactory = $productFactory;
         $this->_storeManager = $storeManager;
     }
 
