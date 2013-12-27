@@ -28,6 +28,11 @@ class NewCategory extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_jsonEncoder;
 
     /**
+     * @var \Magento\Catalog\Model\CategoryFactory
+     */
+    protected $_categoryFactory;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Core\Model\Registry $registry
@@ -44,9 +49,9 @@ class NewCategory extends \Magento\Backend\Block\Widget\Form\Generic
         array $data = array()
     ) {
         $this->_jsonEncoder = $jsonEncoder;
+        $this->_categoryFactory = $categoryFactory;
         parent::__construct($context, $registry, $formFactory, $data);
         $this->setUseContainer(true);
-        $this->_categoryFactory = $categoryFactory;
     }
 
     /**
@@ -103,9 +108,13 @@ class NewCategory extends \Magento\Backend\Block\Widget\Form\Generic
             ->load()
             ->getItems();
 
-        return count($items) === 2
-            ? array($items[2]->getEntityId() => $items[2]->getName())
-            : array();
+        $result = array();
+        if (count($items) === 2) {
+            $item = array_pop($items);
+            $result = array($item->getEntityId() => $item->getName());
+        }
+
+        return $result;
     }
 
     /**

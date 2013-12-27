@@ -1,4 +1,8 @@
 * Fixed bugs:
+  * Fixed CSRF in Login, Update Cart, Add to Compare, Review and Add entire wish list Actions
+  * Fixed warnings on category page when Flat Catalog Category is enabled
+  * Fixed invalid price after switching currency
+  * Fixed "Save & Duplicate" action for product  
   * Fixed big image in product description scale
   * Fixed admin dashboard styling issue
   * Fixed validation message for qty field
@@ -20,9 +24,54 @@
   * Fixed broken design on Matched Customers tab grid in Email Remainder
   * Fixed validation message about uncompatible version format while Theme creation
   * Fixed performance degradation during install wizard execution
+  * Fixed cron shell script exits with error
   * Fixed case when user try to login without redirect to account dashboard after logging in
   * Fixed incorrect address in request to shipping carrier (DHL International) in case when address contains letter with diacritic
   * Fixed invalid account creation date
+  * Fixed displaying of Product Alert links on product view page when the functionality is disabled
+  * Fixed absence of some bundle options on 'Configure product from Cart' page
+  * Fixed ability to view and cancel billing agreements belonging to another customer
+  * Fixed content spoofing vulnerability when Solr is used
+  * Fixed potential XSS vulnerability in customer log in
+  * Fixed fatal error in category RSS feed when it contains a bundle product
+  * Fixed inability to place order with 3-D Secure under IE 10
+  * Fixed inability to place order within PayPal Payflow Link and PayPal Payments Advanced
+  * Fixed integrity constraint violation in catalog URL rewrites
+  * Fixed missing error message when try create New Website with wrong Website Code
+  * Fixed inability to save new address in case of new customer address attributes that not visible on frontend
+  * Fixed USPS: enabled method isn't available for checkout
+  * Fixed inability to place order with recurring profile item via PayPal Express
+  * Fixed inability for user to create new email template
+  * Fixed default billing and shipping address not honored through backend
+  * Fixed inability to choose DB as Media Storage
+  * Fixed PHP issues found during the UI testing of backend
+  * Fixed can not create Shipping Label for Priority Mail methods from USPS
+  * Fixed possibility to create customer with duplicate email
+  * Fixed abstract product block error in tier price template getter
+  * Fixed system message was displayed in incorrect place on backend page
+  * Fixed 404 error on customer review page
+  * Fixed autocomplete enabled on admin login page
+  * Fixed size of 3D secure iframe
+  * Fixed asterix appearance for Package Extension with mandatory fields
+  * Fixed image size in product description for Compare products page
+  * Fixed broken design on product page with Fixed Product Tax attribute
+  * Fixed spaces between parentheses and the numbers in the Cart, Wishlist and Compare Products blocks
+  * Fixed message display quantity products found on Advanced Search page
+  * Fixed incorrect caching of locale settings and url settings during web installation
+  * Fixed inability to use newly created store for admin user roles
+  * Fixed absence of Advanced Search field on frontend, when Popular Search Terms functionality is disabled
+  * Fixed link for downloadable product in copy of invoice email leads to backend
+  * Fixed customs monetary value appears cut in labels / package info for international shipments
+  * Fixed url key is not set to default after importing file with blank URL Key field on store view level
+  * Fixed table rate won't display error message
+  * Fixed fatal error on frontend login without pre-set cookies
+  * Fixed if the date format is DD/MM/YY, saving a design change in the admin panel resets the date to 1 Jan 1970
+  * Fixed CAPTCHA on Multi-address checkout flow
+  * Fixed view files population tool
+* GitHub requests:
+  * [#122](https://github.com/magento/magento2/pull/122) -- Added support of federal units of Brazil with 27 states
+  * [#184](https://github.com/magento/magento2/issues/184) -- Removed unused blocks and methods in Magento_Wishlist module
+  * [#390](https://github.com/magento/magento2/pull/390) -- Support of alphanumeric order increment ids by the quote resource model
 * Themes update:
   * Responsive design improvements
 * Improvements to code coverage calculation:
@@ -58,7 +107,6 @@
   * [#406](https://github.com/magento/magento2/pull/406) -- Remove cast to (int) for the varch increment_id
   * [#425](https://github.com/magento/magento2/issues/425) -- Installation of dev53 fails
   * [#324](https://github.com/magento/magento2/pull/324) -- ImportExport: Easier debugging
-  * [#163](https://github.com/magento/magento2/pull/163) -- It is possible to change important and used variables inside the setup model while installing
 * Modularity improvements:
   * Removed \Magento\App\Helper\HelperFactory
   * Removed the "helper" method from the abstract block interface
@@ -75,7 +123,7 @@
     * Session generic wrapper moved to library
     * Messages functionality moved from the Session model as separate component, message manager interface created
     * Sid resolver interface created to handle session sid from request
-  
+
 2.0.0.0-dev56
 =============
 * Fixed bugs:

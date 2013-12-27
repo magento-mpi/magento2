@@ -67,7 +67,7 @@ class SimpleProduct extends Product
             'category_id' => '%category::getCategoryId%',
             'fields' => array_intersect_key(
                 $defaultData['fields'],
-                array_flip(array('name', 'sku', 'price', 'weight'))
+                array_flip(array('name', 'sku', 'price', 'weight', 'product_website_1'))
             )
         );
     }
