@@ -419,9 +419,9 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
         /**
          * restore session_id in content whether content is completely processed or not
          */
-        $sidCookieName = $this->_metadata->getMetadata('sid_cookie_name');
-        $sidCookieValue = $sidCookieName && $this->_environment->getCookie($sidCookieName, '');
-        \Magento\FullPageCache\Helper\Url::restoreSid($content, $sidCookieValue);
+        $sidCookieName  = $this->_metadata->getMetadata('sid_cookie_name');
+        $sidCookieValue = $this->_environment->getCookie($sidCookieName, '');
+        \Magento\FullPageCache\Helper\Url::restoreSid($content, htmlspecialchars($sidCookieValue, ENT_QUOTES));
 
         if ($isProcessed) {
             return $content;
