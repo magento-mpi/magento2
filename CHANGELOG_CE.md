@@ -1,3 +1,5 @@
+2.0.0.0-dev58
+=============
 * Fixed bugs:
   * Fixed CSRF in Login, Update Cart, Add to Compare, Review and Add entire wish list Actions
   * Fixed warnings on category page when Flat Catalog Category is enabled
