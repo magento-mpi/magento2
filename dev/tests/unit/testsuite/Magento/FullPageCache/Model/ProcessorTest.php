@@ -282,7 +282,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
 
         /** @var \Magento\FullPageCache\Model\Processor\Fixture $model */
         $model = $this->getMock(
-            'Magento\FullPageCache\Model\Processor\Fixture',
+            'Magento\FullPageCache\Model\Processor\Dummy',
             array('_processContainers', 'getSessionInfoCacheId'),
             $this->getDependencies()
         );
