@@ -12,6 +12,7 @@
   * Fixed occurrences of non-existent resource model Mage_Catalog_Model_Resource_Convert
   * Fixed impossibility to publish products to Google Shopping
   * Fixed inability to download or revert backup
+  * Fixed products from non-default website aren't shown as bundle items
 
 2.0.0.0-dev58
 =============
