@@ -206,7 +206,7 @@ class Account extends \Magento\App\Action\Action
      */
     public function loginPostAction()
     {
-        if ($this->_getSession()->isLoggedIn()) {
+        if ($this->_getSession()->isLoggedIn() || !$this->_formKeyValidator->validate($this->getRequest())) {
             $this->_redirect('*/*/');
             return;
         }

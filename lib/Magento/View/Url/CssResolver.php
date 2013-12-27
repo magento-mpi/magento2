@@ -25,20 +25,20 @@ class CssResolver
     protected $filesystem;
 
     /**
-     * @var \Magento\View\Filesystem
+     * @var \Magento\View\FileSystem
      */
-    protected $viewFilesystem;
+    protected $viewFileSystem;
 
     /**
      * @param \Magento\Filesystem $filesystem
-     * @param \Magento\View\FileSystem $viewFilesystem
+     * @param \Magento\View\FileSystem $viewFileSystem
      */
     public function __construct(
         \Magento\Filesystem $filesystem,
-        \Magento\View\FileSystem $viewFilesystem
+        \Magento\View\FileSystem $viewFileSystem
     ) {
         $this->filesystem = $filesystem;
-        $this->viewFilesystem = $viewFilesystem;
+        $this->viewFileSystem = $viewFileSystem;
     }
 
     /**
@@ -54,8 +54,8 @@ class CssResolver
      */
     public function replaceCssRelativeUrls($cssContent, $originalPath, $newPath, $cbRelUrlToPublicPath = null)
     {
-        $originalPath = $this->viewFilesystem->normalizePath($originalPath);
-        $newPath = $this->viewFilesystem->normalizePath($newPath);
+        $originalPath = $this->viewFileSystem->normalizePath($originalPath);
+        $newPath = $this->viewFileSystem->normalizePath($newPath);
         $relativeUrls = $this->_extractCssRelativeUrls($cssContent);
         foreach ($relativeUrls as $urlNotation => $originalRelativeUrl) {
             if ($cbRelUrlToPublicPath) {
@@ -63,7 +63,7 @@ class CssResolver
             } else {
                 $filePath = dirname($originalPath) . '/' . $originalRelativeUrl;
             }
-            $filePath = $this->viewFilesystem->normalizePath(str_replace('\\', '/', $filePath));
+            $filePath = $this->viewFileSystem->normalizePath(str_replace('\\', '/', $filePath));
             $relativePath = $this->_getFileRelativePath(
                 str_replace('\\', '/', $newPath), $filePath
             );
