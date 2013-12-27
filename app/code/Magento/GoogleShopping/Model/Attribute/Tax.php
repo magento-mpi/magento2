@@ -29,6 +29,9 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      */
     protected $_taxData = null;
 
+    /** @var \Magento\GoogleCheckout\Helper\Data  */
+    protected $checkoutDataHelper;
+
     /**
      * Config
      *
@@ -56,6 +59,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         \Magento\GoogleShopping\Helper\Data $gsData,
         \Magento\GoogleShopping\Helper\Product $gsProduct,
         \Magento\GoogleShopping\Helper\Price $gsPrice,
+        \Magento\GoogleCheckout\Helper\Data $checkoutDataHelper,
         \Magento\GoogleShopping\Model\Resource\Attribute $resource,
         \Magento\GoogleShopping\Model\Config $config,
         \Magento\Tax\Helper\Data $taxData,
@@ -64,6 +68,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
     ) {
         $this->_config = $config;
         $this->_taxData = $taxData;
+        $this->checkoutDataHelper = $checkoutDataHelper;
         parent::__construct(
             $context,
             $registry,
@@ -139,7 +144,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         if (strpos($zip, '-') == -1) {
             return array($zip);
         } else {
-            return $this->_gsData->zipRangeToZipPattern($zip);
+            return $this->checkoutDataHelper->zipRangeToZipPattern($zip);
         }
     }
 }
