@@ -68,6 +68,10 @@
   * Fixed if the date format is DD/MM/YY, saving a design change in the admin panel resets the date to 1 Jan 1970
   * Fixed CAPTCHA on Multi-address checkout flow
   * Fixed view files population tool
+* GitHub requests:
+  * [#122](https://github.com/magento/magento2/pull/122) -- Added support of federal units of Brazil with 27 states
+  * [#184](https://github.com/magento/magento2/issues/184) -- Removed unused blocks and methods in Magento_Wishlist module
+  * [#390](https://github.com/magento/magento2/pull/390) -- Support of alphanumeric order increment ids by the quote resource model
 * Themes update:
   * Responsive design improvements
 * Improvements to code coverage calculation:
