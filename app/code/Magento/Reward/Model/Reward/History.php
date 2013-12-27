@@ -2,12 +2,11 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Reward
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
+namespace Magento\Reward\Model\Reward;
 
 /**
  * Reward history model
@@ -51,13 +50,7 @@
  * @method \Magento\Reward\Model\Reward\History setIsDuplicateOf(int $value)
  * @method int getNotificationSent()
  * @method \Magento\Reward\Model\Reward\History setNotificationSent(int $value)
- *
- * @category    Magento
- * @package     Magento_Reward
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reward\Model\Reward;
-
 class History extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -227,24 +220,22 @@ class History extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Getter.
-     * Unserialize if need
+     * Retrieve additional data of an arbitrary structure
      *
      * @return array
+     * @throws \UnexpectedValueException
      */
     public function getAdditionalData()
     {
-        $additional = $this->_getData('additional_data');
-        if (is_string($additional)) {
-            $additional = unserialize($additional);
-            $this->setData('additional_data', $additional);
+        $result = $this->hasData('additional_data') ? $this->_getData('additional_data') : array();
+        if (!is_array($result)) {
+            throw new \UnexpectedValueException('Additional data for a reward point history has to be an array.');
         }
-        return $additional ?: array();
+        return $result;
     }
 
     /**
-     * Getter.
-     * Return value of unserialized additional data item by given item key
+     * Retrieve value of additional data's field
      *
      * @param string $key
      * @return mixed | null
@@ -252,28 +243,21 @@ class History extends \Magento\Core\Model\AbstractModel
     public function getAdditionalDataByKey($key)
     {
         $data = $this->getAdditionalData();
-        if (is_array($data) && !empty($data) && isset($data[$key])) {
+        if (isset($data[$key])) {
             return $data[$key];
         }
         return null;
     }
 
     /**
-     * Add additional values to additional_data
+     * Add field values to the additional data, overriding values of existing fields
      *
      * @param array $data
      * @return \Magento\Reward\Model\Reward\History
      */
-    public function addAdditionalData($data)
+    public function addAdditionalData(array $data)
     {
-        if (is_array($data)) {
-            $additional = $this->getAdditionalData();
-            foreach ($data as $k => $v) {
-                $additional[$k] = $v;
-            }
-            $this->setData('additional_data', $additional);
-        }
-
+        $this->setData('additional_data', array_merge($this->getAdditionalData(), $data));
         return $this;
     }
 

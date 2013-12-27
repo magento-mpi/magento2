@@ -41,8 +41,8 @@ class Giftwrapping extends \Magento\Sales\Model\Order\Creditmemo\Total\AbstractT
                 && $orderItem->getGwBaseTaxAmountInvoiced() != $orderItem->getGwBaseTaxAmountRefunded()) {
                 $orderItem->setGwBaseTaxAmountRefunded($orderItem->getGwBaseTaxAmountInvoiced());
                 $orderItem->setGwTaxAmountRefunded($orderItem->getGwTaxAmountInvoiced());
-                $baseRefunded += $orderItem->getGwBaseTaxAmountInvoiced();
-                $refunded += $orderItem->getGwTaxAmountInvoiced();
+                $baseRefunded += $orderItem->getGwBaseTaxAmountInvoiced() * $creditmemoItem->getQty();
+                $refunded += $orderItem->getGwTaxAmountInvoiced() * $creditmemoItem->getQty();
             }
         }
         if ($refunded > 0 || $baseRefunded > 0) {

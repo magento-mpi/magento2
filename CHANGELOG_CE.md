@@ -1,4 +1,6 @@
 * Fixed bugs:
+  * Fixed shipment with packages data corrupted functionality
+  * Fixed unavailability to add gift wrapping for multiple items
   * Fixed CSRF in Login, Update Cart, Add to Compare, Review and Add entire wish list Actions
   * Fixed warnings on category page when Flat Catalog Category is enabled
   * Fixed invalid price after switching currency
@@ -57,6 +59,9 @@
   * Fixed broken design on product page with Fixed Product Tax attribute
   * Fixed spaces between parentheses and the numbers in the Cart, Wishlist and Compare Products blocks
   * Fixed message display quantity products found on Advanced Search page
+  * Fixed incorrect caching of locale settings and url settings during web installation
+  * Fixed inability to use newly created store for admin user roles
+  * Fixed absence of Advanced Search field on frontend, when Popular Search Terms functionality is disabled
   * Fixed link for downloadable product in copy of invoice email leads to backend
   * Fixed customs monetary value appears cut in labels / package info for international shipments
   * Fixed url key is not set to default after importing file with blank URL Key field on store view level
@@ -68,6 +73,10 @@
   * Fixed DHL functionality of generation shipping labels
   * Fixed target rule if it is applied for specific customer segment
   * Fixed product importing that cleared price and weight
+* GitHub requests:
+  * [#122](https://github.com/magento/magento2/pull/122) -- Added support of federal units of Brazil with 27 states
+  * [#184](https://github.com/magento/magento2/issues/184) -- Removed unused blocks and methods in Magento_Wishlist module
+  * [#390](https://github.com/magento/magento2/pull/390) -- Support of alphanumeric order increment ids by the quote resource model
 * Themes update:
   * Responsive design improvements
 * Improvements to code coverage calculation:
@@ -119,7 +128,7 @@
     * Session generic wrapper moved to library
     * Messages functionality moved from the Session model as separate component, message manager interface created
     * Sid resolver interface created to handle session sid from request
-  
+
 2.0.0.0-dev56
 =============
 * Fixed bugs:
