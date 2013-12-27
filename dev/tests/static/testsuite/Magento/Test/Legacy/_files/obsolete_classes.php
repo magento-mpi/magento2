@@ -1758,4 +1758,5 @@ return array(
     array('Magento\Core\Model\Session\Exception', 'Magento\Session\Exception'),
     array('Magento\Core\Model\Session\Context'),
     array('Magento\Core\Model\Session\AbstractSession', 'Magento\Session\SessionManager'),
+    array('Mage_Catalog_Model_Resource_Convert', 'Magento\Catalog\Model\Resource\Convert'),
 );
