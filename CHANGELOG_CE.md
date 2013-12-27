@@ -1,5 +1,7 @@
 * Fixed bugs:
   * Fixed security issue - set `CURLOPT_SSL_VERIFYPEER` to `true` and `CURLOPT_SSL_VERIFYHOST` to 2 by default in cUrl calls
+  * Fixed shipment with packages data corrupted functionality
+  * Fixed unavailability to add gift wrapping for multiple items
   * Fixed CSRF in Login, Update Cart, Add to Compare, Review and Add entire wish list Actions
   * Fixed warnings on category page when Flat Catalog Category is enabled
   * Fixed invalid price after switching currency

@@ -41,8 +41,8 @@ class Giftwrapping extends \Magento\Sales\Model\Order\Invoice\Total\AbstractTota
                 && $orderItem->getGwBaseTaxAmount() != $orderItem->getGwBaseTaxAmountInvoiced()) {
                 $orderItem->setGwBaseTaxAmountInvoiced($orderItem->getGwBaseTaxAmount());
                 $orderItem->setGwTaxAmountInvoiced($orderItem->getGwTaxAmount());
-                $baseInvoiced += $orderItem->getGwBaseTaxAmount();
-                $invoiced += $orderItem->getGwTaxAmount();
+                $baseInvoiced += $orderItem->getGwBaseTaxAmount() * $invoiceItem->getQty();
+                $invoiced += $orderItem->getGwTaxAmount() * $invoiceItem->getQty();
             }
         }
         if ($invoiced > 0 || $baseInvoiced > 0) {
