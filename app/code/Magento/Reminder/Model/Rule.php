@@ -67,7 +67,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     protected $collectionFactory;
 
     /**
-     * @var \Magento\Email\Model\Template
+     * @var \Magento\Email\Model\TemplateFactory
      */
     protected $emailTemplateFactory;
 
