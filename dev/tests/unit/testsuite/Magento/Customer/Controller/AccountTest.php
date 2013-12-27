@@ -66,6 +66,11 @@ class AccountTest extends \PHPUnit_Framework_TestCase
         'loginpost'
     );
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_formKeyValidator;
+
     protected function setUp()
     {
         $this->request = $this->getMock(
@@ -92,12 +97,17 @@ class AccountTest extends \PHPUnit_Framework_TestCase
         $this->url = $this->getMockForAbstractClass('\Magento\UrlInterface');
         $this->objectManager = $this->getMock('\Magento\ObjectManager\ObjectManager', ['get'], [], '', false);
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_formKeyValidator = $this->getMock(
+            'Magento\Core\App\Action\FormKeyValidator', array(), array(), '', false
+        );
         $this->object = $objectManager->getObject('Magento\Customer\Controller\Account', [
             'request' => $this->request,
             'response' => $this->response,
             'customerSession' => $this->customerSession,
             'url' => $this->url,
             'objectManager' => $this->objectManager,
+            'formKeyValidator' => $this->_formKeyValidator,
+            ''
         ]);
     }
 
@@ -118,6 +128,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
 
     public function testLoginPostActionWhenRefererSetBeforeAuthUrl()
     {
+        $this->_formKeyValidator->expects($this->once())->method('validate')->will($this->returnValue(true));
         $this->objectManager->expects($this->any())->method('get')
             ->will($this->returnValueMap([
                 ['Magento\Customer\Helper\Data', new \Magento\Object(['account_url' => 1])],
