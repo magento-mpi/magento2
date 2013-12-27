@@ -122,21 +122,23 @@ class Order extends \Magento\Backend\App\Action
      */
     public function viewAction()
     {
-
         $this->_title->add(__('Orders'));
 
         $order = $this->_initOrder();
         if ($order) {
             try {
                 $this->_initAction();
-                $this->_title->add(sprintf("#%s", $order->getRealOrderId()));
             } catch (\Magento\App\Action\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
+                $this->_redirect('sales/order/*');
+                return;
             } catch(\Exception $e) {
                 $this->_objectManager->get('Magento\Logger')->logException($e);
                 $this->messageManager->addError(__('Exception occurred during order load'));
-                $this->_redirect('sales/*/');
+                $this->_redirect('sales/order/*');
+                return;
             }
+            $this->_title->add(sprintf("#%s", $order->getRealOrderId()));
             $this->_view->renderLayout();
         }
     }
