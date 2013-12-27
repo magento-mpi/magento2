@@ -22,6 +22,11 @@ class OptionTest extends \PHPUnit_Framework_TestCase
     const PATH_TO_CSV_FILE = '/_files/product_with_custom_options.csv';
 
     /**
+     * @var \Magento\TestFramework\Helper\ObjectManager
+     */
+    protected $_helper;
+
+    /**
      * Test store parametes
      *
      * @var array
@@ -293,6 +298,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
+        $this->_helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $addExpectations = false;
         $deleteBehavior  = false;
         $testName = $this->getName(true);
@@ -904,10 +910,38 @@ class OptionTest extends \PHPUnit_Framework_TestCase
 
     public function testParseRequiredData()
     {
-        $method = new \ReflectionMethod('Magento\ImportExport\Model\Import\Entity\Product\Option',
-            '_parseRequiredData');
-        $method->setAccessible(true);
-        $data = array('sku' => 'simple3');
-        $this->assertEquals(false, $method->invoke($this->_model, $data));
+        $modelData = $this->getMock('stdClass', array('getNextBunch'), array(), '', false);
+        $modelData->expects($this->at(0))
+            ->method('getNextBunch')
+            ->will($this->returnValue(array(array(
+                'sku' => 'simple3',
+                '_custom_option_type' => 'field',
+                '_custom_option_title' => 'Title',
+            ))));
+        $modelData->expects($this->at(1))
+            ->method('getNextBunch')
+            ->will($this->returnValue(null));
+
+        $productModel = $this->getMock('stdClass', array('getProductEntitiesInfo'), array(),
+            '', false);
+        $productModel->expects($this->any())
+            ->method('getProductEntitiesInfo')
+            ->will($this->returnValue(array()));
+
+        $productEntity = $this->getMock('\Magento\ImportExport\Model\Import\Entity\Product', array(), array(),
+            '', false);
+
+        $model = $this->_helper->getObject('Magento\ImportExport\Model\Import\Entity\Product\Option', array(
+            'data' => array(
+                'data_source_model' => $modelData,
+                'product_model' => $productModel,
+                'option_collection' => $this->_helper->getObject('stdClass'),
+                'product_entity' => $productEntity,
+                'collection_by_pages_iterator' => $this->_helper->getObject('stdClass'),
+                'page_size' => 5000,
+                'stores' => array(),
+            )
+        ));
+        $this->assertTrue($model->importData());
     }
 }
