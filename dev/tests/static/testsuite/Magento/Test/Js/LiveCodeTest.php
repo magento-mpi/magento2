@@ -8,11 +8,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Test\Js;
+use Magento\TestFramework\Utility;
+
 /**
  * JSHint static code analysis tests for javascript files
  */
-namespace Magento\Test\Js;
-
 class LiveCodeTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -62,8 +63,8 @@ class LiveCodeTest extends \PHPUnit_Framework_TestCase
         }
         self::$_reportFile = $reportDir . '/js_report.txt';
         @unlink(self::$_reportFile);
-        $whiteList = self::_readLists(__DIR__ . '/_files/whitelist/*.txt');
-        $blackList = self::_readLists(__DIR__ . '/_files/blacklist/*.txt');
+        $whiteList = Utility\Files::readLists(__DIR__ . '/_files/whitelist/*.txt');
+        $blackList = Utility\Files::readLists(__DIR__ . '/_files/blacklist/*.txt');
         foreach ($blackList as $listFiles) {
             self::$_blackListJsFiles = array_merge(self::$_blackListJsFiles, self::_scanJsFile($listFiles));
         }
@@ -111,26 +112,5 @@ class LiveCodeTest extends \PHPUnit_Framework_TestCase
             return array($value);
         };
         return array_map($map, self::$_whiteListJsFiles);
-    }
-
-    /**
-     * Read all text files by specified glob pattern and combine them into an array of valid files/directories
-     *
-     * The Magento root path is prepended to all (non-empty) entries
-     *
-     * @param string $globPattern
-     * @return array
-     */
-    protected static function _readLists($globPattern)
-    {
-        $result = array();
-        foreach (glob($globPattern) as $list) {
-            $result = array_merge($result, file($list));
-        }
-        $map = function ($value) {
-            return trim($value) ?
-                \Magento\TestFramework\Utility\Files::init()->getPathToSource() . '/' . trim($value) : '';
-        };
-        return array_filter(array_map($map, $result), 'file_exists');
     }
 }

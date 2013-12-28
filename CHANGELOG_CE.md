@@ -70,7 +70,8 @@
   * Fixed if the date format is DD/MM/YY, saving a design change in the admin panel resets the date to 1 Jan 1970
   * Fixed CAPTCHA on Multi-address checkout flow
   * Fixed view files population tool
-  Fixed fatal error when a file reference is added to HTML head
+  * Fixed fatal error when a file reference is added to HTML head
+  * Fixed JavaScript static testing framework to properly handle corrupted paths in white/black lists
 * GitHub requests:
   * [#122](https://github.com/magento/magento2/pull/122) -- Added support of federal units of Brazil with 27 states
   * [#184](https://github.com/magento/magento2/issues/184) -- Removed unused blocks and methods in Magento_Wishlist module
