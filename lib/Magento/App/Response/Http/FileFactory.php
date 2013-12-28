@@ -50,8 +50,13 @@ class FileFactory
      * @SuppressWarnings(PHPMD.NPathComplexity)
      * @SuppressWarnings(PHPMD.ExitExpression)
      */
-    public function create($fileName, $content, $baseDir = \Magento\Filesystem::ROOT, $contentType = 'application/octet-stream', $contentLength = null)
-    {
+    public function create(
+        $fileName,
+        $content,
+        $baseDir = \Magento\Filesystem::ROOT,
+        $contentType = 'application/octet-stream',
+        $contentLength = null
+    ) {
         $dir = $this->_filesystem->getDirectoryWrite($baseDir);
         $isFile = false;
         $file = null;
