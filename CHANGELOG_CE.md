@@ -79,6 +79,7 @@
   * Responsive design improvements
 * Improvements to code coverage calculation:
   * Code coverage calculation approach for unit tests was changed from blacklist to whitelist
+* Consolidated a few 3rd-party JavaScript libraries under `pub/lib` directory and specified their original license notice texts
 
 2.0.0.0-dev57
 =============
