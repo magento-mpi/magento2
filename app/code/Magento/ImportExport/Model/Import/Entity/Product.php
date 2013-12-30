@@ -1254,6 +1254,12 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                     }
                 }
 
+                if ($this->getBehavior() == \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND ||
+                    empty($rowData[self::COL_SKU])
+                ) {
+                    $rowData = $this->_productTypeModels[$productType]->clearEmptyData($rowData);
+                }
+
                 $rowData = $this->_productTypeModels[$productType]->prepareAttributesWithDefaultValueForSave(
                     $rowData,
                     !isset($this->_oldSku[$rowSku])
