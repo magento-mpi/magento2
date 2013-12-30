@@ -298,7 +298,7 @@ class Session extends \Magento\Core\Model\AbstractModel
      */
     protected function _afterDeleteCommit()
     {
-        $this->_cookie->set(self::COOKIE_NAME, null, null, $this->sessionConfig->getCookiePath());
+        $this->removePersistentCookie();
         return parent::_afterDeleteCommit();
     }
 

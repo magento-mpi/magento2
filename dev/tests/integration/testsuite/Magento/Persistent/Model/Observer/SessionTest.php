@@ -1,7 +1,5 @@
 <?php
 /**
- * \Magento\Persistent\Model\Session
- *
  * {license_notice}
  *
  * @copyright   {copyright}

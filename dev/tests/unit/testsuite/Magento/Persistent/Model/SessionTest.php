@@ -46,20 +46,8 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Persistent\Model\Session::removePersistentCookie
-     */
-    public function testRemovePersistentCookie()
-    {
-        $cookiePath = 'some_path';
-        $this->_configMock->expects($this->once())->method('getCookiePath')->will($this->returnValue($cookiePath));
-        $this->_cookieMock->expects($this->once())->method('set')->with(
-            \Magento\Persistent\Model\Session::COOKIE_NAME, $this->anything(), $this->anything(), $cookiePath
-        );
-        $this->_model->removePersistentCookie();
-    }
-
-    /**
      * @covers \Magento\Persistent\Model\Session::_afterDeleteCommit
+     * @covers \Magento\Persistent\Model\Session::removePersistentCookie
      */
     public function testAfterDeleteCommit()
     {
