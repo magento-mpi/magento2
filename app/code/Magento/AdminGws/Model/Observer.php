@@ -108,17 +108,15 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     }
 
     /**
-     * Put websites/stores permissions data after loading admin role
+     * Assign group/website/store permissions to the admin role
      *
      * If all permissions are allowed, all possible websites / store groups / stores will be set
      * If only websites selected, all their store groups and stores will be set as well
      *
-     * @param  \Magento\Event\Observer $observer
-     * @return \Magento\AdminGws\Model\Observer
+     * @param \Magento\User\Model\Role $object
      */
-    public function addDataAfterRoleLoad($observer)
+    protected function _assignRolePermissions(\Magento\User\Model\Role $object)
     {
-        $object   = $observer->getEvent()->getObject();
         $gwsIsAll = (bool)(int)$object->getData('gws_is_all');
         $object->setGwsIsAll($gwsIsAll);
 
@@ -170,8 +168,27 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
             }
         }
         $object->setGwsRelevantWebsites(array_values(array_unique($relevantWebsites)));
+    }
 
-        return $this;
+    /**
+     * Assign websites/stores permissions data after loading admin role
+     *
+     * @param \Magento\Event\Observer $observer
+     */
+    public function addDataAfterRoleLoad(\Magento\Event\Observer $observer)
+    {
+        $this->_assignRolePermissions($observer->getEvent()->getObject());
+    }
+
+    /**
+     * Refresh group/website/store permissions of the current admin user's role
+     */
+    public function refreshRolePermissions()
+    {
+        $user = $this->_backendAuthSession->getUser();
+        if ($user instanceof \Magento\User\Model\User) {
+            $this->_assignRolePermissions($user->getRole());
+        }
     }
 
     /**
@@ -609,5 +626,17 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
             list($class, $method) = $callback;
         }
         $this->_objectManager->get($class)->$method($passThroughObject);
+    }
+
+    /**
+     * Update store list which is available for role
+     *
+     * @param \Magento\Event\Observer $observer
+     * @return $this \Magento\AdminGws\Model\Observer
+     */
+    public function updateRoleStores($observer)
+    {
+        $this->_role->setStoreIds(array_merge($this->_role->getStoreIds(), array($observer->getStore()->getStoreId())));
+        return $this;
     }
 }

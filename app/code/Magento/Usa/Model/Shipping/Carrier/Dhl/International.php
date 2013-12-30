@@ -155,11 +155,6 @@ class International
     protected $_coreDate;
 
     /**
-     * @var \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\PdfFactory
-     */
-    protected $_pdfFactory;
-
-    /**
      * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
@@ -202,7 +197,6 @@ class International
      * @param \Magento\Directory\Helper\Data $directoryData
      * @param \Magento\Usa\Helper\Data $usaData
      * @param \Magento\Core\Model\Date $coreDate
-     * @param Label\PdfFactory $pdfFactory
      * @param \Magento\Module\Dir\Reader $configReader
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Stdlib\String $string
@@ -227,7 +221,6 @@ class International
         \Magento\Directory\Helper\Data $directoryData,
         \Magento\Usa\Helper\Data $usaData,
         \Magento\Core\Model\Date $coreDate,
-        \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\PdfFactory $pdfFactory,
         \Magento\Module\Dir\Reader $configReader,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Stdlib\String $string,
@@ -239,7 +232,6 @@ class International
         $this->modulesDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::MODULES);
         $this->_usaData = $usaData;
         $this->_coreDate = $coreDate;
-        $this->_pdfFactory = $pdfFactory;
         $this->_storeManager = $storeManager;
         $this->_configReader = $configReader;
         $this->string = $string;
@@ -961,14 +953,11 @@ class International
      * Parse response from DHL web service
      *
      * @param string $response
-     * @return \Magento\Shipping\Model\Rate\Result
+     * @return bool|\Magento\Object|\Magento\Shipping\Model\Rate\Result|\Magento\Shipping\Model\Rate\Result\Error
+     * @throws \Magento\Core\Exception
      */
     protected function _parseResponse($response)
     {
-        $htmlTranslationTable = get_html_translation_table(HTML_ENTITIES);
-        unset($htmlTranslationTable['<'], $htmlTranslationTable['>'], $htmlTranslationTable['"']);
-        $response = str_replace(array_keys($htmlTranslationTable), array_values($htmlTranslationTable), $response);
-
         $responseError =  __('The response is in wrong format.');
 
         if (strlen(trim($response)) > 0) {
@@ -1006,18 +995,7 @@ class International
                                 $this->_addRate($quotedShipment);
                             }
                         } elseif (isset($xml->AirwayBillNumber)) {
-                            $result = new \Magento\Object();
-                            $result->setTrackingNumber((string)$xml->AirwayBillNumber);
-                            try {
-                                /* @var $pdf \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\Pdf */
-                                $pdf = $this->_pdfFactory->create(
-                                    array('arguments' => array('info' => $xml, 'request' => $this->_request))
-                                );
-                                $result->setShippingLabelContent($pdf->render());
-                            } catch (\Exception $e) {
-                                throw new \Magento\Core\Exception(__($e->getMessage()));
-                            }
-                            return $result;
+                            return $this->_prepareShippingLabelContent($xml);
                         } else {
                             $this->_errors[] = $responseError;
                         }
@@ -1127,6 +1105,7 @@ class International
      * Returns dimension unit (cm or inch)
      *
      * @return string
+     * @throws \Magento\Core\Exception
      */
     protected function _getDimensionUnit()
     {
@@ -1262,6 +1241,7 @@ class International
      *
      * @param \Magento\Object $request
      * @return null
+     * @throws \Magento\Core\Exception
      */
     protected function _mapRequestToShipment(\Magento\Object $request)
     {
@@ -1316,6 +1296,7 @@ class International
      * Do rate request and handle errors
      *
      * @return \Magento\Shipping\Model\Rate\Result|\Magento\Object
+     * @throws \Magento\Core\Exception
      */
     protected function _doRequest()
     {
@@ -1459,6 +1440,8 @@ class International
         $nodeContact = $nodeShipper->addChild('Contact', '', '');
         $nodeContact->addChild('PersonName', substr($rawRequest->getShipperContactPersonName(), 0, 34));
         $nodeContact->addChild('PhoneNumber', substr($rawRequest->getShipperContactPhoneNumber(), 0, 24));
+
+        $xml->addChild('LabelImageFormat', 'PDF', '');
 
         $request = $xml->asXML();
         $request = utf8_encode($request);
@@ -1688,10 +1671,6 @@ class International
         $errorTitle = __('Unable to retrieve tracking');
         $resultArr = array();
 
-        $htmlTranslationTable = get_html_translation_table(HTML_ENTITIES);
-        unset($htmlTranslationTable['<'], $htmlTranslationTable['>'], $htmlTranslationTable['"']);
-        $response = str_replace(array_keys($htmlTranslationTable), array_values($htmlTranslationTable), $response);
-
         if (strlen(trim($response)) > 0) {
             $xml = simplexml_load_string($response);
             if (!is_object($xml)) {
@@ -1792,7 +1771,8 @@ class International
      * Do request to shipment
      *
      * @param \Magento\Shipping\Model\Shipment\Request $request
-     * @return \Magento\Object
+     * @return array|\Magento\Object
+     * @throws \Magento\Core\Exception
      */
     public function requestToShipment(\Magento\Shipping\Model\Shipment\Request $request)
     {
@@ -1834,5 +1814,28 @@ class International
         }
 
         return $this->_isDomestic;
+    }
+
+    /**
+     * Prepare shipping label data
+     *
+     * @param \SimpleXMLElement $xml
+     * @return \Magento\Object
+     * @throws \Magento\Core\Exception
+     */
+    protected function _prepareShippingLabelContent(\SimpleXMLElement $xml)
+    {
+        $result = new \Magento\Object();
+        try {
+            if (!isset($xml->AirwayBillNumber) || !isset($xml->LabelImage->OutputImage)) {
+                throw new \Magento\Core\Exception('Unable to retrieve shipping label');
+            }
+            $result->setTrackingNumber((string)$xml->AirwayBillNumber);
+            $labelContent = (string)$xml->LabelImage->OutputImage;
+            $result->setShippingLabelContent(base64_decode($labelContent));
+        } catch (\Exception $e) {
+            throw new \Magento\Core\Exception(__($e->getMessage()));
+        }
+        return $result;
     }
 }

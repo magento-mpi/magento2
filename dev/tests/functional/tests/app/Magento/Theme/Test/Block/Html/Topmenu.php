@@ -9,11 +9,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Theme\Test\Block\Html;
 
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
+use Mtf\Factory\Factory;
+use Mtf\TestCase\Functional;
 
 /**
  * Class Topmenu

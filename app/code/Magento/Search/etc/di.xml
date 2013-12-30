@@ -19,7 +19,7 @@
     </type>
     <type name="Magento\Search\Block\Catalog\Layer\View">
         <param name="searchLayer">
-            <instance type="Magento\Search\Model\Search\Layer\Proxy" />
+            <instance type="Magento\Search\Model\Catalog\Layer\Proxy" />
         </param>
     </type>
     <type name="Magento\Search\Block\Catalogsearch\Layer">

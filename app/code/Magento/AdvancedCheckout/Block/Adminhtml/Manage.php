@@ -80,14 +80,14 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Container
         $this->addChild('update_button', 'Magento\Backend\Block\Widget\Button', array(
             'label' => __('Update Items and Qty\'s'),
             'onclick' => 'checkoutObj.updateItems()',
-            'style' => 'float:right; margin-left: 5px;'
+            'class' => 'update'
         ));
         $deleteAllConfirmString = __('Are you sure you want to clear your shopping cart?');
         $this->addChild('empty_customer_cart_button', 'Magento\Backend\Block\Widget\Button', array(
             'label' => __('Clear the shopping cart.'),
             'onclick' => 'confirm(\'' . $deleteAllConfirmString . '\') '
                 . ' && checkoutObj.updateItems({\'empty_customer_cart\': 1})',
-            'style' => 'float:right;'
+            'class' => 'clear'
         ));
 
         $this->addChild('addto_cart_button', 'Magento\Backend\Block\Widget\Button', array(

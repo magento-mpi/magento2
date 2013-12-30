@@ -2,12 +2,11 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Reward
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
+namespace Magento\Reward\Model\Reward;
 
 /**
  * Reward history model
@@ -51,13 +50,7 @@
  * @method \Magento\Reward\Model\Reward\History setIsDuplicateOf(int $value)
  * @method int getNotificationSent()
  * @method \Magento\Reward\Model\Reward\History setNotificationSent(int $value)
- *
- * @category    Magento
- * @package     Magento_Reward
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reward\Model\Reward;
-
 class History extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -83,6 +76,11 @@ class History extends \Magento\Core\Model\AbstractModel
     protected $dateTime;
 
     /**
+     * @var Rate
+     */
+    protected $rewardRate;
+
+    /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Reward\Helper\Data $rewardData
@@ -90,6 +88,7 @@ class History extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Reward\Model\Reward $reward
      * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Reward\Model\Reward\Rate $rewardRate
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -101,6 +100,7 @@ class History extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Reward\Model\Reward $reward,
         \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Reward\Model\Reward\Rate $rewardRate,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -108,6 +108,7 @@ class History extends \Magento\Core\Model\AbstractModel
         $this->_storeManager = $storeManager;
         $this->_reward = $reward;
         $this->dateTime = $dateTime;
+        $this->rewardRate = $rewardRate;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -219,22 +220,22 @@ class History extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Getter.
-     * Unserialize if need
+     * Retrieve additional data of an arbitrary structure
      *
      * @return array
+     * @throws \UnexpectedValueException
      */
     public function getAdditionalData()
     {
-        if (is_string($this->_getData('additional_data'))) {
-            $this->setData('additional_data', unserialize($this->_getData('additional_data')));
+        $result = $this->hasData('additional_data') ? $this->_getData('additional_data') : array();
+        if (!is_array($result)) {
+            throw new \UnexpectedValueException('Additional data for a reward point history has to be an array.');
         }
-        return $this->_getData('additional_data');
+        return $result;
     }
 
     /**
-     * Getter.
-     * Return value of unserialized additional data item by given item key
+     * Retrieve value of additional data's field
      *
      * @param string $key
      * @return mixed | null
@@ -242,28 +243,21 @@ class History extends \Magento\Core\Model\AbstractModel
     public function getAdditionalDataByKey($key)
     {
         $data = $this->getAdditionalData();
-        if (is_array($data) && !empty($data) && isset($data[$key])) {
+        if (isset($data[$key])) {
             return $data[$key];
         }
         return null;
     }
 
     /**
-     * Add additional values to additional_data
+     * Add field values to the additional data, overriding values of existing fields
      *
      * @param array $data
      * @return \Magento\Reward\Model\Reward\History
      */
-    public function addAdditionalData($data)
+    public function addAdditionalData(array $data)
     {
-        if (is_array($data)) {
-            $additional = $this->getDataSetDefault('additional_data', array());
-            foreach ($data as $k => $v) {
-                $additional[$k] = $v;
-            }
-            $this->setData('additional_data', $additional);
-        }
-
+        $this->setData('additional_data', array_merge($this->getAdditionalData(), $data));
         return $this;
     }
 
@@ -294,8 +288,10 @@ class History extends \Magento\Core\Model\AbstractModel
     {
         $rate = $this->getAdditionalDataByKey('rate');
         if (isset($rate['points']) && isset($rate['currency_amount']) && isset($rate['direction'])) {
-            return \Magento\Reward\Model\Reward\Rate::getRateText(
-                (int)$rate['direction'], (int)$rate['points'], (float)$rate['currency_amount'],
+            return $this->rewardRate->getRateText(
+                (int)$rate['direction'],
+                (int)$rate['points'],
+                (float)$rate['currency_amount'],
                 $this->getBaseCurrencyCode()
             );
         }
