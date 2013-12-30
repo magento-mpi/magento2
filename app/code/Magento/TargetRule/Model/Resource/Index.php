@@ -611,28 +611,26 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
      * Remove target rule matched product index data by product id or/and rule id
      *
      * @param int $productId
-     * @param int $ruleId
+     * @param array|int|string $ruleIds
      *
      * @return \Magento\TargetRule\Model\Resource\Index
      */
-    public function removeProductIndex($productId = null, $ruleId = null)
+    public function removeProductIndex($productId = null, $ruleIds = array())
     {
-        $this->_rule->unbindRuleFromEntity($ruleId, $productId, 'product');
+        $this->_rule->unbindRuleFromEntity($ruleIds, $productId, 'product');
         return $this;
     }
 
     /**
      * Bind target rule to specified product
      *
-     * @param int $ruleId
-     * @param int $productId
-     * @param int $storeId
+     * @param \Magento\TargetRule\Model\Rule $object
      *
      * @return \Magento\TargetRule\Model\Resource\Index
      */
-    public function saveProductIndex($ruleId, $productId, $storeId)
+    public function saveProductIndex($object)
     {
-        $this->_rule->bindRuleToEntity($ruleId, $productId, 'product');
+        $this->_rule->bindRuleToEntity($object->getId(), $object->getMatchingProductIds(), 'product');
         return $this;
     }
 
