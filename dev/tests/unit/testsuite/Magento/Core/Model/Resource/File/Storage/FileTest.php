@@ -8,7 +8,7 @@
 namespace Magento\Core\Model\Resource\File\Storage;
 
 /**
- * Class MediaTest
+ * Class FileTest
  */
 class FileTest extends \PHPUnit_Framework_TestCase
 {
@@ -39,9 +39,9 @@ class FileTest extends \PHPUnit_Framework_TestCase
         $this->loggerMock =
             $this->getMock('Magento\Logger', array(), array(), '', false);
         $this->filesystemMock =
-            $this->getMock('Magento\Filesystem', array(), array(), '', false);
+            $this->getMock('Magento\Filesystem', array('getDirectoryRead'), array(), '', false);
         $this->directoryReadMock =
-            $this->getMock('Magento\Filesystem\Directory\Read', array(), array(), '', false);
+            $this->getMock('Magento\Filesystem\Directory\Read', array('isDirectory', 'readRecursively'), array(), '', false);
 
         $this->storageFile = new \Magento\Core\Model\Resource\File\Storage\File(
             $this->filesystemMock,
@@ -101,7 +101,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
                 'folder_one/folder_two/file_two.txt'
             ),
             'directories' => array(
-                array('name' => 'folder_one', 'path' => '.'),
+                array('name' => 'folder_one', 'path' => '/'),
                 array('name' => 'folder_two', 'path' => 'folder_one'),
             )
         );
