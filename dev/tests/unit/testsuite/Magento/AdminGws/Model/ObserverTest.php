@@ -33,6 +33,21 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     protected $_backendAuthSession;
 
+    /**
+     * @var \Magento\Event\Observer
+     */
+    protected $_observer;
+
+    /**
+     * @var \Magento\Object
+     */
+    protected $_store;
+
+    /**
+     * @var \Magento\AdminGws\Model\Role
+     */
+    protected $_role;
+
     protected function setUp()
     {
         $websiteOne = $this->getMock('Magento\Core\Model\Website', array('__wakeup'), array(), '', false);
@@ -89,11 +104,34 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             'Magento\Backend\Model\Auth\Session', array('getUser'), array(), '', false
         );
 
+        $this->_store = new \Magento\Object();
+
+        $this->_observer = $this->getMockBuilder('Magento\Event\Observer')
+            ->setMethods(array('getStore'))
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_observer->expects($this->any())
+            ->method('getStore')
+            ->will($this->returnValue($this->_store));
+
+        $this->_role = $this->getMockBuilder('Magento\AdminGws\Model\Role')
+            ->setMethods(array('getStoreIds', 'setStoreIds'))
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_role->expects($this->any())
+            ->method('getStoreIds')
+            ->will(
+                $this->returnValue(
+                    array(1, 2, 3, 4,5)
+                )
+            );
+        
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $objectManagerHelper->getObject('Magento\AdminGws\Model\Observer', array(
             'backendAuthSession' => $this->_backendAuthSession,
             'storeManager' => $this->_storeManager,
             'storeGroups' => $this->_storeGroups,
+            'role' => $this->_role
         ));
     }
 
@@ -197,5 +235,14 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_backendAuthSession->expects($this->once())->method('getUser')->will($this->returnValue($user));
 
         $this->_model->refreshRolePermissions();
+    }
+
+    public function testUpdateRoleStores()
+    {
+        $this->_store->setData('store_id', 1000);
+        $this->_role->expects($this->once())
+            ->method('setStoreIds')
+            ->with($this->contains(1000));
+        $this->_model->updateRoleStores($this->_observer);
     }
 }
