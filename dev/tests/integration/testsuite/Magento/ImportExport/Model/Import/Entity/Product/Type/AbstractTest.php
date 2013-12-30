@@ -97,4 +97,57 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
             ),
         );
     }
+
+    /**
+     * @dataProvider clearEmptyDataDataProvider
+     */
+    public function testClearEmptyData($rowData, $expectedAttributes)
+    {
+        $actualAttributes = $this->_model->clearEmptyData($rowData);
+        foreach ($expectedAttributes as $key => $value) {
+            $this->assertArrayHasKey($key, $actualAttributes);
+            $this->assertEquals($value, $actualAttributes[$key]);
+        }
+    }
+
+    public function clearEmptyDataDataProvider()
+    {
+        return array(
+            array(
+                array(
+                    'sku' => 'simple1',
+                    '_store' => '',
+                    '_attribute_set' => 'Default',
+                    '_type' => 'simple',
+                    'name' => 'Simple 01',
+                    'price' => 10
+                ),
+                array(
+                    'sku' => 'simple1',
+                    '_store' => '',
+                    '_attribute_set' => 'Default',
+                    '_type' => 'simple',
+                    'name' => 'Simple 01',
+                    'price' => 10
+                ),
+            ),
+            array(
+                array(
+                    'sku' => '',
+                    '_store' => 'German',
+                    '_attribute_set' => 'Default',
+                    '_type' => '',
+                    'name' => 'Simple 01 German',
+                    'price' => ''
+                ),
+                array(
+                    'sku' => '',
+                    '_store' => 'German',
+                    '_attribute_set' => 'Default',
+                    '_type' => '',
+                    'name' => 'Simple 01 German',
+                ),
+            )
+        );
+    }
 }

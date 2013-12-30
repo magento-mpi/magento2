@@ -1,3 +1,10 @@
+* Fixed bugs:
+  * Fixed shipment with packages data corrupted functionality
+  * Fixed unavailability to add gift wrapping for multiple items
+  * Fixed DHL functionality of generation shipping labels
+  * Fixed target rule if it is applied for specific customer segment
+  * Fixed product importing that cleared price and weight
+  * Fixed fatal error when a file reference is added to HTML head
 2.0.0.0-dev58
 =============
 * Fixed bugs:

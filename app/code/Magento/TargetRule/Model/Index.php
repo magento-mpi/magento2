@@ -94,6 +94,11 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
     protected $_ruleCollectionFactory;
 
     /**
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_productFactory;
+
+    /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\TargetRule\Model\Resource\Rule\CollectionFactory $ruleFactory
@@ -104,6 +109,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
      * @param \Magento\TargetRule\Helper\Data $targetRuleData
      * @param \Magento\TargetRule\Model\Resource\Index $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory,
      * @param array $data
      */
     public function __construct(
@@ -117,6 +123,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
         \Magento\TargetRule\Helper\Data $targetRuleData,
         \Magento\TargetRule\Model\Resource\Index $resource,
         \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
         array $data = array()
     ) {
         $this->_ruleCollectionFactory = $ruleFactory;
@@ -125,6 +132,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
         $this->_indexer = $indexer;
         $this->_session = $session;
         $this->_targetRuleData = $targetRuleData;
+        $this->_productFactory = $productFactory;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -445,18 +453,18 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
         $indexResource = $this->_getResource();
 
         // remove old cache index data
-        $indexResource->removeIndexByProductIds($product->getId());
+        $this->_cleanIndex();
 
         // remove old matched product index
         $indexResource->removeProductIndex($product->getId());
 
-        $ruleCollection = $this->_ruleCollectionFactory->create()
-            ->addProductFilter($product->getId());
+        $ruleCollection = $this->_ruleCollectionFactory->create();
 
+        $product = $this->_productFactory->create()->load($product->getId());
         foreach ($ruleCollection as $rule) {
             /** @var $rule \Magento\TargetRule\Model\Rule */
             if ($rule->validate($product)) {
-                $indexResource->saveProductIndex($rule->getId(), $product->getId(), $product->getStoreId());
+                $indexResource->saveProductIndex($rule);
             }
         }
         return $this;

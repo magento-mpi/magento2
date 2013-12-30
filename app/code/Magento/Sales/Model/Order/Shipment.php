@@ -656,9 +656,6 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
             $this->setOrderId($this->getOrder()->getId());
             $this->setShippingAddressId($this->getOrder()->getShippingAddress()->getId());
         }
-        if ($this->getPackages()) {
-            $this->setPackages(serialize($this->getPackages()));
-        }
 
         return parent::_beforeSave();
     }
