@@ -28,7 +28,6 @@
   * Fixed potential XSS vulnerability in customer log in
   * Fixed fatal error in category RSS feed when it contains a bundle product
   * Fixed wrong count of coupon's usage after applying it with multiple addresses
-  * Fixed Fedex API isn’t pulling the correct rates.
   * Fixed Abandoned cart emails are not sending out
   * Fixed User with "Reorder" permission cannot make reorder
   * Fixed Community bugathon - Item clone is added to cart via wishlist if "Qty Increments" is enabled
