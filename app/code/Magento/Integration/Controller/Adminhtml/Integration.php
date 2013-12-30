@@ -16,6 +16,8 @@ use Magento\Integration\Model\Integration as IntegrationModel;
 
 /**
  * Controller for integrations management.
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Integration extends Action
 {
