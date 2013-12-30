@@ -104,6 +104,24 @@ class Cart extends Block
     }
 
     /**
+     * Get product options in the cart
+     *
+     * @param Product $product
+     * @return array|string
+     */
+    public function getCartItemOptions($product)
+    {
+        $selector = '//tr[string(td/div/strong/a)="' . $this->getProductName($product)
+            . '"]//dl[@class="cart item options"]';
+
+        $optionsBlock = $this->_rootElement->find($selector, Locator::SELECTOR_XPATH);
+        if (!$optionsBlock->isVisible()) {
+            return '';
+        }
+        return $optionsBlock->getText();
+    }
+
+    /**
      * Get proceed to checkout block
      *
      * @return \Magento\Checkout\Test\Block\Onepage\Link

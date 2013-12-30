@@ -43,7 +43,23 @@ class SimpleProduct extends Product
             'input_prefix' => 'product'
         );
 
-        $data = array(
+        $data = $this->_getPreparedData();
+        $this->_data['fields'] = array_merge($this->_data['fields'], $data);
+
+        $this->_repository = Factory::getRepositoryFactory()->getMagentoCatalogSimpleProduct(
+            $this->_dataConfig,
+            $this->_data
+        );
+    }
+
+    /**
+     * Get data for the product
+     *
+     * @return array
+     */
+    protected function _getPreparedData()
+    {
+        return array(
             'price' => array(
                 'value' => '%' . self::PRICE_VALUE . '%',
                 'group' => static::GROUP_PRODUCT_DETAILS
@@ -73,14 +89,7 @@ class SimpleProduct extends Product
                 'group' => static::GROUP_PRODUCT_INVENTORY,
                 'input' => 'select',
                 'input_name' => 'product[stock_data][manage_stock]'
-            )
-        );
-
-        $this->_data['fields'] = array_merge($this->_data['fields'], $data);
-
-        $this->_repository = Factory::getRepositoryFactory()->getMagentoCatalogSimpleProduct(
-            $this->_dataConfig,
-            $this->_data
+            ),
         );
     }
 }
