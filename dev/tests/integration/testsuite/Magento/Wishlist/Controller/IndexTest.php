@@ -85,10 +85,7 @@ class IndexTest extends \Magento\TestFramework\TestCase\AbstractController
     }
 
     /**
-     * @magentoConfigFixture default_store cataloginventory/item_options/enable_qty_increments 1
-     * @magentoConfigFixture default_store cataloginventory/item_options/qty_increments 5
-     *
-     * @magentoDataFixture Magento/Wishlist/_files/wishlist_all_cart.php
+     * @magentoDataFixture Magento/Wishlist/_files/wishlist_with_product_qty_increments.php
      */
     public function testAllcartAction()
     {
