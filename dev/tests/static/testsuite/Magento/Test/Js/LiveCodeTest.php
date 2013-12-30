@@ -57,7 +57,7 @@ class LiveCodeTest extends \PHPUnit_Framework_TestCase
      */
     public static function setUpBeforeClass()
     {
-        $reportDir = \Magento\TestFramework\Utility\Files::init()->getPathToSource() . '/dev/tests/static/report';
+        $reportDir = Utility\Files::init()->getPathToSource() . '/dev/tests/static/report';
         if (!is_dir($reportDir)) {
             mkdir($reportDir, 0777);
         }
@@ -80,7 +80,7 @@ class LiveCodeTest extends \PHPUnit_Framework_TestCase
 
     public function testCodeJsHint()
     {
-        $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
+        $invoker = new Utility\AggregateInvoker($this);
         $invoker(
             /**
              * @param string $filename

@@ -32,7 +32,7 @@ class FilesTest extends \PHPUnit_Framework_TestCase
 
         // the braces
         $this->assertContains(self::$baseDir . '/one.txt', $result);
-        $this->assertContains(self::$baseDir . '/one.txt', $result);
+        $this->assertContains(self::$baseDir . '/two.txt', $result);
 
         // directory is returned as-is, without expanding contents recursively
         $this->assertContains(self::$baseDir . '/bar', $result);
