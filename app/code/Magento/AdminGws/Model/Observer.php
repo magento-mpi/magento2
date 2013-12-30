@@ -627,4 +627,16 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
         }
         $this->_objectManager->get($class)->$method($passThroughObject);
     }
+
+    /**
+     * Update store list which is available for role
+     *
+     * @param \Magento\Event\Observer $observer
+     * @return $this \Magento\AdminGws\Model\Observer
+     */
+    public function updateRoleStores($observer)
+    {
+        $this->_role->setStoreIds(array_merge($this->_role->getStoreIds(), array($observer->getStore()->getStoreId())));
+        return $this;
+    }
 }
