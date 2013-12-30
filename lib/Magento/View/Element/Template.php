@@ -91,7 +91,7 @@ class Template extends AbstractBlock
      *
      * @var \Magento\Filesystem\Directory\ReadInterface
      */
-    protected $mediaDirectory;
+    private $mediaDirectory;
 
     /**
      * @param Template\Context $context
