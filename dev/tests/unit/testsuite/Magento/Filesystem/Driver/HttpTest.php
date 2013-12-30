@@ -23,6 +23,8 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+        require_once __DIR__. '/../_files/http_mock.php';
+
         self::$headers = [];
         self::$fileGetContents = '';
         self::$filePutContents = true;
@@ -143,15 +145,6 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         (new Http())->fileOpen('', '');
     }
 
-    /**
-     * @expectedException \Magento\Filesystem\FilesystemException
-     */
-    public function testFileOpenFsockopenFailed()
-    {
-        self::$fsockopen = false;
-        (new Http())->fileOpen('example.com', 'r');
-    }
-
     public function testFileOpen()
     {
         $fsockopenResult = 'resource';
@@ -168,65 +161,4 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 function get_headers()
 {
     return HttpTest::$headers;
-}
-
-/**
- * Override standard function
- *
- * @param string $path
- * @return string
- */
-function file_get_contents($path)
-{
-    return HttpTest::$fileGetContents;
-}
-
-
-/**
- * Override standard function
- *
- * @param string $path
- * @param string $contents
- * @return bool
- */
-function file_put_contents($path, $contents)
-{
-    return HttpTest::$filePutContents;
-}
-
-/**
- * Override standard function
- *
- * @param string $hostname
- * @param int    $port
- * @param int    $errorNumber
- * @param string $errorMessage
- * @return bool
- */
-function fsockopen($hostname, $port, &$errorNumber, &$errorMessage)
-{
-    $errorNumber = 0;
-    $errorMessage = '';
-    return HttpTest::$fsockopen;
-}
-
-/**
- * Override standard function (make a placeholder - we don't need it in our tests)
- *
- * @param resource $handle
- * @param string   $content
- */
-function fwrite($handle, $content)
-{
-}
-
-/**
- * Override standard function (make a placeholder - we don't need it in our tests)
- *
- * @param resource $handle
- * @return bool
- */
-function feof($handle)
-{
-    return true;
 }

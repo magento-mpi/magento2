@@ -7,4 +7,5 @@
  */
 
 /** @var $reportData array */
-PHPUnit_Framework_Assert::assertNotEmpty($reportData);
+\Magento\Filesystem\Driver\HttpTest::assertNotEmpty($reportData);
+\Magento\Downloadable\Helper\DownloadTest::assertNotEmpty($reportData);

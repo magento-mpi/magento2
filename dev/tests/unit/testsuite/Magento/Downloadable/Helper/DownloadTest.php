@@ -13,6 +13,9 @@ use Magento\Filesystem\File\ReadInterface as FileReadInterface;
 use Magento\Filesystem\Directory\ReadInterface as DirReadInterface;
 use Magento\Downloadable\Helper\File as DownloadableFile;
 
+/**
+ * @runInSeparateProcess
+ */
 class DownloadTest extends \PHPUnit_Framework_TestCase
 {
     /** @var DownloadHelper */
@@ -43,6 +46,8 @@ class DownloadTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+        require_once __DIR__. '/../_files/download_mock.php';
+
         self::$functionExists = true;
         self::$mimeContentType = self::MIME_TYPE;
 
@@ -208,14 +213,4 @@ class DownloadTest extends \PHPUnit_Framework_TestCase
 
         $this->_helper->setResource($url, DownloadHelper::LINK_TYPE_URL);
     }
-}
-
-function function_exists($name)
-{
-    return DownloadTest::$functionExists;
-}
-
-function mime_content_type($path)
-{
-    return DownloadTest::$mimeContentType;
 }
