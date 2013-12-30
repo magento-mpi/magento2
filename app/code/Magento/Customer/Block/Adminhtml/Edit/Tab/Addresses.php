@@ -44,6 +44,11 @@ class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_customerHelper;
 
     /**
+     * @var \Magento\Directory\Helper\Data
+     */
+    protected $_directoryHelper;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
@@ -169,8 +174,13 @@ class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
         }
         $this->_setFieldset($attributes, $fieldset);
 
+        $country = $form->getElement('country_id');
+        if ($country) {
+            $country->addClass('countries');
+        }
+
         $regionElement = $form->getElement('region');
-        $regionElement->setRequired(true);
+
         if ($regionElement) {
             $regionElement->setRenderer($this->_regionFactory->create());
         }
@@ -180,10 +190,6 @@ class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
             $regionElement->setNoDisplay(true);
         }
 
-        $country = $form->getElement('country_id');
-        if ($country) {
-            $country->addClass('countries');
-        }
 
         if ($this->isReadonly()) {
             foreach ($addressModel->getAttributes() as $attribute) {
