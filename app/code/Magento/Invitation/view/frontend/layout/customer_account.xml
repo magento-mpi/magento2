@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceBlock name="customer_account_navigation">
-        <block class="Magento\View\Element\Template" ifconfig="magento_invitation/general/enabled" template="Magento_Core::template.phtml" name="customer-account-navigation-magento-invitation-link2">
+        <block class="Magento\View\Element\Template" ifconfig="magento_invitation/general/enabled" template="Magento_Core::template.phtml" name="customer-account-navigation-magento-invitation-link-container">
             <block class="Magento\View\Element\Html\Link\Current" ifconfig="magento_invitation/general/enabled_on_front" name="customer-account-navigation-magento-invitation-link">
                 <arguments>
                     <argument name="path" xsi:type="string">magento_invitation/</argument>
