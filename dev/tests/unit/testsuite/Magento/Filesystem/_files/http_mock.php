@@ -48,11 +48,8 @@ function fsockopen(&$errorNumber, &$errorMessage)
 
 /**
  * Override standard function (make a placeholder - we don't need it in our tests)
- *
- * @param resource $handle
- * @param string   $content
  */
-function fwrite($handle, $content)
+function fwrite()
 {
 }
 
