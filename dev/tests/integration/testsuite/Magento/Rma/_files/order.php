@@ -39,11 +39,11 @@ $orderItem->setProductId(1)
 /** @var $order \Magento\Sales\Model\Order */
 $order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
     ->create('Magento\Sales\Model\Order');
-$order->setCustomerEmail('admin@example.com');
 $order->addItem($orderItem)
     ->setIncrementId('100000001')
     ->setSubtotal(100)
     ->setBaseSubtotal(100)
+    ->setCustomerEmail('admin@example.com')
     ->setBillingAddress($billingAddress)
     ->setShippingAddress($shippingAddress)
     ->setStoreId(
