@@ -8,13 +8,38 @@
 
 namespace Magento\TestModule1\Service;
 
-interface AllSoapAndRestV2Interface extends \Magento\TestModule1\Service\AllSoapAndRestV1Interface
+use Magento\TestModule1\Service\Entity\V2\Item;
+
+interface AllSoapAndRestV2Interface
 {
 
     /**
-     * @param $request
+     * @param int $id
+     * @return Item
+     */
+    public function item($id);
+
+    /**
+     * @param string $name
+     * @return Item
+     */
+    public function create($name);
+
+    /**
+     * @param Item $item
+     * @return Item
+     */
+    public function update(Item $item);
+
+    /**
      * @return array
      */
-    public function delete($request);
+    public function items();
+
+    /**
+     * @param int $id
+     * @return Item
+     */
+    public function delete($id);
 
 }

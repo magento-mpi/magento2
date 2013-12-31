@@ -8,6 +8,16 @@
  */
 -->
 <config>
+    <preference for="Magento\Customer\Service\CustomerGroupV1Interface"
+                type="Magento\Customer\Service\CustomerGroupV1" />
+    <preference for="Magento\Customer\Service\CustomerV1Interface"
+                type="Magento\Customer\Service\CustomerV1" />
+    <preference for="Magento\Customer\Service\Eav\AttributeMetadataServiceV1Interface"
+                type="Magento\Customer\Service\Eav\AttributeMetadataServiceV1" />
+    <preference for="Magento\Customer\Service\Entity\V1\Eav\Request\AttributeMetadataRequestInterface"
+                type="Magento\Customer\Service\Entity\V1\Eav\Request\AttributeMetadataRequest" />
+    <preference for="Magento\Customer\Service\Entity\V1\Eav\AttributeMetadataInterface"
+                type="Magento\Customer\Service\Entity\V1\Eav\AttributeMetadata" />
     <type name="Magento\Customer\Model\Session">
         <param name="configShare">
             <instance type="Magento\Customer\Model\Config\Share\Proxy" />

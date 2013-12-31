@@ -202,6 +202,9 @@ class CurlClient
 
         // merge headers
         $headers = array_merge($curlOpts[CURLOPT_HTTPHEADER], $headers);
+        if (TESTS_XDEBUG_ENABLED) {
+            $headers[] = 'Cookie: XDEBUG_SESSION=XDEBUG_INTEGRATION_TESTS';
+        }
         $curlOpts[CURLOPT_HTTPHEADER] = $headers;
 
         // merge custom Curl Options & return

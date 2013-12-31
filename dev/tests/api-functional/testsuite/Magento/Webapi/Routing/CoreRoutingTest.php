@@ -15,6 +15,7 @@ class CoreRoutingTest extends \Magento\Webapi\Routing\BaseService
 {
     public function testBasicRoutingPathAutoDetection()
     {
+        $this->markTestSkipped('This test is obsolete');
         $itemId = 1;
         $serviceInfo = array(
             'serviceInterface' => 'Magento\TestModule1\Service\AllSoapAndRestV1Interface',

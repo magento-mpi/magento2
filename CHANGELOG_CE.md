@@ -86,6 +86,8 @@
   * Responsive design improvements
 * Improvements to code coverage calculation:
   * Code coverage calculation approach for unit tests was changed from blacklist to whitelist
+* Service Layer Implementation:
+  * Implemented initial set of services for the Customer module
 
 2.0.0.0-dev57
 =============
