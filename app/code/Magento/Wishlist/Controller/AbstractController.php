@@ -10,6 +10,8 @@
 
 namespace Magento\Wishlist\Controller;
 
+use Magento\App\Action\Context;
+
 /**
  * Wishlist Abstract Front Controller Action
  */
@@ -20,6 +22,23 @@ abstract class AbstractController extends \Magento\App\Action\Action
      * @var \Zend_Filter_LocalizedToNormalized
      */
     protected $_localFilter = null;
+
+    /**
+     * @var \Magento\Core\App\Action\FormKeyValidator
+     */
+    protected $_formKeyValidator;
+
+    /**
+     * @param Context $context
+     * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
+     */
+    public function __construct(
+        \Magento\App\Action\Context $context,
+        \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
+    ) {
+        $this->_formKeyValidator = $formKeyValidator;
+        parent::__construct($context);
+    }
 
     /**
      * Processes localized qty (entered by user at frontend) into internal php format
@@ -50,10 +69,14 @@ abstract class AbstractController extends \Magento\App\Action\Action
 
     /**
      * Add all items from wishlist to shopping cart
-     *
      */
     public function allcartAction()
     {
+        if (!$this->_formKeyValidator->validate($this->getRequest())) {
+            $this->_forward('noroute');
+            return ;
+        }
+
         $wishlist   = $this->_getWishlist();
         if (!$wishlist) {
             $this->_forward('noroute');

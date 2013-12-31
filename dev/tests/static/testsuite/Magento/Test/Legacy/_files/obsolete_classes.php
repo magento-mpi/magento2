@@ -829,6 +829,7 @@ return array(
         . ' and \Magento\Catalog\Block\Product\View\BaseImage classes'
     ),
     array('Magento\Wishlist\Block\Links', 'Magento\Wishlist\Block\Link'),
+    array('Magento\Wishlist\Block\Render\Item\Price'),
     array('Mage_Adminhtml_Block_Api_Tab_Userroles'),
     array('Mage_Adminhtml_Block_Api_Tab_Roleinfo'),
     array('Mage_Adminhtml_Block_Api_Tab_Rolesusers'),
@@ -1757,6 +1758,7 @@ return array(
     array('Magento\Core\Model\Session\Exception', 'Magento\Session\Exception'),
     array('Magento\Core\Model\Session\Context'),
     array('Magento\Core\Model\Session\AbstractSession', 'Magento\Session\SessionManager'),
+    array('Magento\Catalog\Model\Resource\Convert'),
     array('Magento\Reminder\Model\Resource\HelperFactory'),
     array('Magento\Reminder\Model\Resource\Helper'),
 );

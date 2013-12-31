@@ -7,4 +7,5 @@
  */
 
 /** @var $reportData array */
-\Magento\App\Error\HandlerTest::assertNotEmpty($reportData);
+\Magento\Filesystem\Driver\HttpTest::assertNotEmpty($reportData);
+\Magento\Downloadable\Helper\DownloadTest::assertNotEmpty($reportData);

@@ -1196,7 +1196,7 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      */
     protected function _parseRequiredData(array $rowData)
     {
-        if ($rowData[self::COLUMN_SKU] != '') {
+        if ($rowData[self::COLUMN_SKU] != '' && isset($this->_productsSkuToId[$rowData[self::COLUMN_SKU]])) {
             $this->_rowProductId = $this->_productsSkuToId[$rowData[self::COLUMN_SKU]];
         } elseif (!isset($this->_rowProductId)) {
             return false;

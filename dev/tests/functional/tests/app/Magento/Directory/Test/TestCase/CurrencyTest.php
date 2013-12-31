@@ -29,7 +29,6 @@ class CurrencyTest extends Functional
      */
     public function testSwitchDisplayCurrency()
     {
-        $this->markTestIncomplete('MAGETWO-18597');
         $product = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
         $product->switchData('simple');
         $product->persist();

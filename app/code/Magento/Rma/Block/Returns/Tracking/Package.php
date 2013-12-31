@@ -49,7 +49,7 @@ class Package extends \Magento\Shipping\Block\Tracking\Popup
      */
     public function getPackages()
     {
-        return unserialize($this->getPackageInfo()->getPackages());
+        return $this->getPackageInfo()->getPackages();
     }
 
     /**

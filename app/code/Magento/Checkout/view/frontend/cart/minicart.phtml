@@ -18,9 +18,7 @@
 <?php if (!$this->getIsLinkMode() || !$this->getIsNeedToDisplaySideBar()): ?>
     <a <?php if ($this->getIsNeedToDisplaySideBar()): ?>data-toggle="dropdown"<?php endif ?> class="action showcart" href="<?php echo $this->getUrl('checkout/cart'); ?>">
         <span class="text"><?php echo __('My Cart'); ?></span>
-        <span class="qty<?php echo ($_cartQty > 0) ? '' : ' empty'; ?>">
-            <?php echo $_cartQty ?>
-        </span>
+        <span class="counter qty<?php echo ($_cartQty > 0) ? '' : ' empty'; ?>"><?php echo ($_cartQty == 1) ? __('1 item') : __('%1 items',$_cartQty) ?></span>
     </a>
     <?php if ($this->getIsNeedToDisplaySideBar()): ?>
         <div data-target="dropdown" class="block minicart<?php echo ($_cartQty > 0) ? '' : ' empty'; ?>">

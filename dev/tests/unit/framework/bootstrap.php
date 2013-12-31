@@ -5,10 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 if (!defined('TESTS_TEMP_DIR')) {
     define('BP', realpath(__DIR__ . '/../../../../'));
     define('TESTS_TEMP_DIR', dirname(__DIR__) . '/tmp');
 }
+
 require BP . '/app/functions.php';
 require BP . '/app/autoload.php';
 \Magento\Autoload\IncludePath::addIncludePath(array(
