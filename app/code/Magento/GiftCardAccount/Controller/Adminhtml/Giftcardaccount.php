@@ -269,7 +269,8 @@ class Giftcardaccount extends \Magento\Backend\App\Action
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('We were unable to generate a new code pool.'));
         }
-        $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl($this->getUrl('*/*/')));
+
+        $this->_redirect($this->getUrl('*/*/'));
     }
 
     /**
