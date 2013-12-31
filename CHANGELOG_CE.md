@@ -13,6 +13,7 @@
   * Fixed impossibility to publish products to Google Shopping
   * Fixed inability to download or revert backup
   * Fixed products from non-default website aren't shown as bundle items
+  * Fixed Authorize.net Direct Post after order placement wrong status
 
 2.0.0.0-dev58
 =============
