@@ -111,6 +111,10 @@ class OrderTest extends \PHPUnit_Framework_TestCase
      */
     public function testViewActionWithoutError()
     {
+        $this->_orderMock->setRealOrderId(1);
+        $this->_controllerMock->expects($this->once())
+            ->method('_initOrder')
+            ->will($this->returnValue($this->_orderMock));
         $this->_messageMock->expects($this->never())
             ->method('addError');
         $this->_orderMock->expects($this->once())
