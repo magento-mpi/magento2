@@ -89,6 +89,8 @@ class IndexTest extends \Magento\TestFramework\TestCase\AbstractController
      */
     public function testAllcartAction()
     {
+        $formKey = $this->_objectManager->get('Magento\Data\Form\FormKey')->getFormKey();
+        $this->getRequest()->setParam('form_key', $formKey);
         $this->dispatch('wishlist/index/allcart');
 
         /** @var \Magento\Checkout\Model\Cart $cart */
@@ -97,7 +99,7 @@ class IndexTest extends \Magento\TestFramework\TestCase\AbstractController
 
         $this->assertEquals(0, $quoteCount);
         $this->assertSessionMessages(
-            $this->equalTo(array('You can buy this product only in increments of 5 for "Simple Product".')),
+            $this->contains('You can buy this product only in increments of 5 for "Simple Product".'),
             \Magento\Message\MessageInterface::TYPE_ERROR
         );
     }
