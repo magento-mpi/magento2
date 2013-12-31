@@ -267,7 +267,7 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart
     }
 
     /**
-     * Define if Shopping Cart Sidebar enabled
+     * Define if Mini Shopping Cart Pop-Up Menu enabled
      *
      * @return bool
      */

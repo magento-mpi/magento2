@@ -69,6 +69,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
      * Test for processException method report
      *
      * @covers \Magento\Error\Handler::processException
+     * @runInSeparateProcess
      */
     public function testProcessExceptionReport()
     {
