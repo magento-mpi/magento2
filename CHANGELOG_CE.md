@@ -4,7 +4,7 @@
   * Fixed CSRF in Login, Update Cart, Add to Compare, Review and Add entire wish list Actions
   * Fixed warnings on category page when Flat Catalog Category is enabled
   * Fixed invalid price after switching currency
-  * Fixed "Save & Duplicate" action for product  
+  * Fixed "Save & Duplicate" action for product
   * Fixed big image in product description scale
   * Fixed admin dashboard styling issue
   * Fixed validation message for qty field
@@ -78,6 +78,7 @@
   * Fixed 'Same as shipping' checkbox to be selected after returning from PayPal side
   * Fixed preview of Email Templates shows blank page
   * Fixed no possibility to create refund from Paypal side.
+  * Fixed incorrect product duplication in multiple store view configuration
 * GitHub requests:
   * [#122](https://github.com/magento/magento2/pull/122) -- Added support of federal units of Brazil with 27 states
   * [#184](https://github.com/magento/magento2/issues/184) -- Removed unused blocks and methods in Magento_Wishlist module
