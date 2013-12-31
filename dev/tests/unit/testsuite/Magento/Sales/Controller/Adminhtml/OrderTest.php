@@ -74,7 +74,6 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         $this->_controllerMock->_title = $titleMock;
         $this->_controllerMock->_view = $viewMock;
         $this->_controllerMock->messageManager = $this->_messageMock;
-
     }
 
     /**
@@ -84,11 +83,6 @@ class OrderTest extends \PHPUnit_Framework_TestCase
     public function testViewActionWithError()
     {
         $msg = 'You need more permissions to view this item.';
-        /** @var \PHPUnit_Framework_MockObject_MockObject $exceptionMock */
-        $exceptionMock = $this->getMockBuilder('\Magento\App\Action\Exception')
-            ->disableOriginalConstructor()
-            ->setMethods(array('getMessage'))
-            ->getMock();
         $this->_messageMock->expects($this->once())
             ->method('addError')
             ->with($this->equalTo($msg));
@@ -100,7 +94,6 @@ class OrderTest extends \PHPUnit_Framework_TestCase
             ->will($this->throwException(new \Magento\App\Action\Exception($msg)));
         $this->_orderMock->expects($this->never())
             ->method('getRealOrderId');
-
 
         $this->_controllerMock->viewAction();
     }
