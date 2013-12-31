@@ -75,6 +75,10 @@
   * Fixed target rule if it is applied for specific customer segment
   * Fixed product importing that cleared price and weight
   * Fixed fatal error when a file reference is added to HTML head
+  * Fixed fatal Error on page if print order for Downloadable product
+  * Fixed 'Same as shipping' checkbox to be selected after returning from PayPal side
+  * Fixed preview of Email Templates shows blank page
+  * Fixed no possibility to create refund from Paypal side.
 * GitHub requests:
   * [#122](https://github.com/magento/magento2/pull/122) -- Added support of federal units of Brazil with 27 states
   * [#184](https://github.com/magento/magento2/issues/184) -- Removed unused blocks and methods in Magento_Wishlist module
