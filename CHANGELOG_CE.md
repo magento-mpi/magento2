@@ -23,6 +23,8 @@
   * Fixed Disabling "Display Shopping Cart Sidebar" doesn't work
   * Fixed Adminhtml cookie isn't set on backend
   * Fixed Persistent_shopping_cart cookie isn't set after customer's login
+  * Fixed impossibility to publish products to Google Shopping
+  * Fixed inability to download or revert backup
 
 2.0.0.0-dev58
 =============
