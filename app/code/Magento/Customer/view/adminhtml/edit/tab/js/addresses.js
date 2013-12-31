@@ -404,7 +404,7 @@
                         currentElement.removeClass('validate-select');
                     }
                 } else {
-                    if (regionField.hasClass('required') == false) {
+                    if (regionField.hasClass('required') === false) {
                         regionField.addClass('required');
                     }
                     if (activeElement == currentElement) {
