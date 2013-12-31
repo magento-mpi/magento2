@@ -83,7 +83,8 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
     {
         $this->contextMock          = $this->getMock('Magento\Core\Model\Context', array(), array(), '', false);
         $this->registryMock         = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
-        $this->helperStorageDatabase = $this->getMock('Magento\Core\Helper\File\Storage\Database', array(), array(), '', false);
+        $this->helperStorageDatabase = $this->getMock('Magento\Core\Helper\File\Storage\Database',
+            array(), array(), '', false);
         $this->dateModelMock        = $this->getMock('Magento\Core\Model\Date',
             array(), array(), '', false);
         $this->applicationMock      = $this->getMock('Magento\Core\Model\App',

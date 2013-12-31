@@ -41,7 +41,8 @@ class FileTest extends \PHPUnit_Framework_TestCase
         $this->filesystemMock =
             $this->getMock('Magento\Filesystem', array('getDirectoryRead'), array(), '', false);
         $this->directoryReadMock =
-            $this->getMock('Magento\Filesystem\Directory\Read', array('isDirectory', 'readRecursively'), array(), '', false);
+            $this->getMock('Magento\Filesystem\Directory\Read',
+                array('isDirectory', 'readRecursively'), array(), '', false);
 
         $this->storageFile = new \Magento\Core\Model\Resource\File\Storage\File(
             $this->filesystemMock,
