@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\Downloadable\Model;
+
 /**
  * Downloadable sample model
  *
@@ -24,12 +26,8 @@
  * @method int getSortOrder()
  * @method \Magento\Downloadable\Model\Sample setSortOrder(int $value)
  *
- * @category    Magento
- * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Downloadable\Model;
-
 class Sample extends \Magento\Core\Model\AbstractModel
 {
     const XML_PATH_SAMPLES_TITLE = 'catalog/downloadable/samples_title';
