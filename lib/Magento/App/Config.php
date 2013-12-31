@@ -100,6 +100,16 @@ class Config
     }
 
     /**
+     * Retrieve list of resources
+     *
+     * @return array
+     */
+    public function getResources()
+    {
+        return $this->_data['resource'];
+    }
+
+    /**
      * Retrieve key
      *
      * @param string $key
