@@ -800,8 +800,8 @@ class Payment extends \Magento\Payment\Model\Info
         $creditmemo->setPaymentRefundDisallowed(true)
             ->setAutomaticallyCreated(true)
             ->register()
-            ->addComment(__('The credit memo has been created automatically.'))
-            ->save();
+            ->addComment(__('The credit memo has been created automatically.'));
+        $creditmemo->save();
 
         $this->_updateTotals(array(
             'amount_refunded' => $creditmemo->getGrandTotal(),
