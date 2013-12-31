@@ -21,7 +21,21 @@ class TypeProcessor
     /**
      * Array of types data.
      *
-     * @var array
+     * @var array <pre>array(
+     *     $complexTypeName => array(
+     *         'documentation' => $typeDocumentation
+     *         'parameters' => array(
+     *             $firstParameter => array(
+     *                 'type' => $type,
+     *                 'required' => $isRequired,
+     *                 'default' => $defaultValue,
+     *                 'documentation' => $parameterDocumentation
+     *             ),
+     *             ...
+     *         )
+     *     ),
+     *     ...
+     * )</pre>
      */
     protected $_types;
 

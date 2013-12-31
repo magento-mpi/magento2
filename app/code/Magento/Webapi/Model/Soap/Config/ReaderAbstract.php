@@ -51,7 +51,61 @@ abstract class ReaderAbstract
     protected $_modulesList;
 
     /**
-     * @var array
+     * @var array <pre>array(
+     *     'services' => array(
+     *         $serviceA => array(
+     *             'service' => $interfaceName,
+     *             'methods' => array(
+     *                 $firstMethod => array(
+     *                     'documentation' => $methodDocumentation,
+     *                     'interface' => array(
+     *                         'in' => array(
+     *                             'parameters' => array(
+     *                                 $firstParameter => array(
+     *                                     'type' => $type,
+     *                                     'required' => $isRequired,
+     *                                     'documentation' => $parameterDocumentation
+     *                                 ),
+     *                                 ...
+     *                             )
+     *                         ),
+     *                         'out' => array(
+     *                             'parameters' => array(
+     *                                 $firstParameter => array(
+     *                                     'type' => $type,
+     *                                     'required' => $isRequired,
+     *                                     'documentation' => $parameterDocumentation
+     *                                 ),
+     *                                 ...
+     *                             )
+     *                         )
+     *                     )
+     *                 ),
+     *                 ...
+     *             )
+     *         ),
+     *         ...
+     *     ),
+     *     'types' => array(
+     *         $complexTypeName => array(
+     *             'documentation' => $typeDocumentation,
+     *             'parameters' => array(
+     *                 $firstParameter => array(
+     *                     'type' => $parameterType,
+     *                     'required' => $isRequired,
+     *                     'default' => $defaultValue,
+     *                     'documentation' => $parameterDocumentation
+     *                 ),
+     *                 ...
+     *             )
+     *         ),
+     *         ...
+     *     ),
+     *     'type_to_class_map' => array(
+     *         $complexTypeName => $interfaceName,
+     *         ...
+     *     )
+     * )</pre>
      */
     protected $_data = array();
 
