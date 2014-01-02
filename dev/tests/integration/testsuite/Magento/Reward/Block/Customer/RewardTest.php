@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Reward
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,12 +11,11 @@ namespace Magento\Reward\Block\Customer;
 class RewardTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * @magentoAppArea frontend
      * @magentoDataFixture Magento/Reward/_files/history.php
      */
     public function testToHtml()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')
-            ->setAreaCode('frontend');
         $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Customer\Model\Customer');
         $customer->load(1);

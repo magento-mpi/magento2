@@ -272,4 +272,22 @@ class ReadTest extends \PHPUnit_Framework_TestCase
         return $directoryFactory->create($config,
             new \Magento\Filesystem\DriverFactory($objectManager->get('Magento\Filesystem\DirectoryList')));
     }
+
+    /**
+     * test read recursively read
+     */
+    public function testReadRecursively()
+    {
+        $expected = array(
+            'directory/read.txt',
+            'directory',
+            'directory.txt'
+        );
+
+        $dir = $this->getDirectoryInstance('recursively');
+        $actual = $dir->readRecursively('');
+        $this->assertNotEquals($expected, $actual);
+        sort($expected);
+        $this->assertEquals($expected, $actual);
+    }
 }

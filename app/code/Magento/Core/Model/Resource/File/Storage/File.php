@@ -43,23 +43,21 @@ class File
      * @param string $dir
      * @return array
      */
-    public function getStorageData($dir = '')
+    public function getStorageData($dir = '/')
     {
         $files          = array();
         $directories    = array();
-
         $directoryInstance = $this->_filesystem->getDirectoryRead(\Magento\Filesystem::MEDIA);
         if ($directoryInstance->isDirectory($dir)) {
-            foreach ($directoryInstance->read($dir) as $path) {
+            foreach ($directoryInstance->readRecursively($dir) as $path) {
                 $itemName = basename($path);
                 if ($itemName == '.svn' || $itemName == '.htaccess') {
                     continue;
                 }
-
                 if ($directoryInstance->isDirectory($path)) {
                     $directories[] = array(
                         'name' => $itemName,
-                        'path' => dirname($path)
+                        'path' => (dirname($path) == '.') ? '/' : dirname($path)
                     );
                 } else {
                     $files[] = $path;

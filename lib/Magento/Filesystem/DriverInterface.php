@@ -107,6 +107,15 @@ interface DriverInterface
     public function readDirectory($path);
 
     /**
+     * Read directory recursively
+     *
+     * @param string|null $path
+     * @return array
+     * @throws \Magento\Filesystem\FilesystemException
+     */
+    public function readDirectoryRecursively($path = null);
+
+    /**
      * Search paths by given regex
      *
      * @param string $pattern

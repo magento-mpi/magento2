@@ -90,7 +90,7 @@ class Observer
     {
         $order = $observer->getEvent()->getOrder();
 
-        if (!$order) {
+        if (!$order || $order->getDiscountAmount() == 0) {
             return $this;
         }
 

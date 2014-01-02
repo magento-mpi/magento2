@@ -736,4 +736,30 @@ class File implements \Magento\Filesystem\DriverInterface
     {
         return 0 === strpos($this->fixSeparator($path), $this->fixSeparator($directory));
     }
+
+    /**
+     * Read directory recursively
+     *
+     * @param string|null $path
+     * @return array
+     * @throws \Magento\Filesystem\FilesystemException
+     */
+    public function readDirectoryRecursively($path = null)
+    {
+        $result = array();
+        $flags = \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::UNIX_PATHS;
+        try {
+            $iterator = new \RecursiveIteratorIterator(
+                new \RecursiveDirectoryIterator($path, $flags),
+                \RecursiveIteratorIterator::CHILD_FIRST
+            );
+            /** @var \FilesystemIterator $file */
+            foreach ($iterator as $file) {
+                $result[] = $file->getPathname();
+            }
+        } catch (\Exception $e) {
+            throw new FilesystemException($e->getMessage(), $e->getCode(), $e);
+        }
+        return $result;
+    }
 }
