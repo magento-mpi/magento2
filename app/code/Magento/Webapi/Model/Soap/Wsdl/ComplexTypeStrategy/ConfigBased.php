@@ -10,8 +10,6 @@ namespace Magento\Webapi\Model\Soap\Wsdl\ComplexTypeStrategy;
 
 use Zend\Soap\Wsdl\ComplexTypeStrategy\AbstractComplexTypeStrategy;
 use Zend\Soap\Wsdl;
-use Magento\Webapi\Helper\Config as ConfigHelper;
-use Magento\Webapi\Model\Soap\Config as SoapConfig;
 
 /**
  * Magento-specific Complex type strategy for WSDL auto discovery.
@@ -27,9 +25,6 @@ class ConfigBased extends AbstractComplexTypeStrategy
      * Appinfo nodes namespace.
      */
     const APP_INF_NS = 'inf';
-
-    /** @var ConfigHelper */
-    protected $_helper;
 
     /** @var \Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor */
     protected $_typeProcessor;
@@ -48,13 +43,9 @@ class ConfigBased extends AbstractComplexTypeStrategy
      * Construct strategy with config helper.
      *
      * @param \Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor $typeProcessor
-     * @param ConfigHelper $helper
      */
-    public function __construct(
-        \Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor $typeProcessor,
-        ConfigHelper $helper
-    ) {
-        $this->_helper = $helper;
+    public function __construct(\Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor $typeProcessor)
+    {
         $this->_typeProcessor = $typeProcessor;
     }
 
@@ -115,11 +106,11 @@ class ConfigBased extends AbstractComplexTypeStrategy
             $default = isset($parameterData['default']) ? $parameterData['default'] : null;
             $this->_revertRequiredCallInfo($isRequired, $callInfo);
 
-            if ($this->_helper->isArrayType($parameterType)) {
+            if ($this->_typeProcessor->isArrayType($parameterType)) {
                 $this->_processArrayParameter($parameterType, $callInfo);
                 $element->setAttribute(
                     'type',
-                    Wsdl::TYPES_NS . ':' . $this->_helper->translateArrayTypeName($parameterType)
+                    Wsdl::TYPES_NS . ':' . $this->_typeProcessor->translateArrayTypeName($parameterType)
                 );
             } else {
                 $this->_processParameter($element, $isRequired, $parameterData, $parameterType, $callInfo);
@@ -146,7 +137,7 @@ class ConfigBased extends AbstractComplexTypeStrategy
         $element->setAttribute('minOccurs', $isRequired ? 1 : 0);
         $maxOccurs = (isset($parameterData['isArray']) && $parameterData['isArray']) ? 'unbounded' : 1;
         $element->setAttribute('maxOccurs', $maxOccurs);
-        if ($this->_helper->isTypeSimple($parameterType)) {
+        if ($this->_typeProcessor->isTypeSimple($parameterType)) {
             $typeNs = Wsdl::XSD_NS;
         } else {
             $typeNs = Wsdl::TYPES_NS;
@@ -163,9 +154,9 @@ class ConfigBased extends AbstractComplexTypeStrategy
      */
     protected function _processArrayParameter($type, $callInfo = array())
     {
-        $arrayItemType = $this->_helper->getArrayItemType($type);
-        $arrayTypeName = $this->_helper->translateArrayTypeName($type);
-        if (!$this->_helper->isTypeSimple($arrayItemType)) {
+        $arrayItemType = $this->_typeProcessor->getArrayItemType($type);
+        $arrayTypeName = $this->_typeProcessor->translateArrayTypeName($type);
+        if (!$this->_typeProcessor->isTypeSimple($arrayItemType)) {
             $this->addComplexType($arrayItemType, $callInfo);
         }
         $arrayTypeParameters = array(
@@ -293,7 +284,7 @@ class ConfigBased extends AbstractComplexTypeStrategy
             $this->_processRequiredAnnotation('maxLength', $documentation, $appInfoNode);
         }
 
-        if ($this->_helper->isArrayType($elementType)) {
+        if ($this->_typeProcessor->isArrayType($elementType)) {
             $natureOfTypeNode = $this->_dom->createElement(self::APP_INF_NS . ':natureOfType');
             $natureOfTypeNode->appendChild($this->_dom->createTextNode('array'));
             $appInfoNode->appendChild($natureOfTypeNode);

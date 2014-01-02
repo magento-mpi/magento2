@@ -30,9 +30,9 @@ class Soap implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
     protected $_soapConfig;
 
     /**
-     * @var \Magento\Webapi\Helper\Config
+     * @var \Magento\Webapi\Helper\Data
      */
-    protected $_configHelper;
+    protected $_helper;
 
     /**
      * Initialize dependencies.
@@ -42,7 +42,7 @@ class Soap implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_soapConfig = $objectManager->get('Magento\Webapi\Model\Soap\Config');
-        $this->_configHelper = $objectManager->get('Magento\Webapi\Helper\Config');
+        $this->_helper = $objectManager->get('Magento\Webapi\Helper\Data');
     }
 
     /**
@@ -196,7 +196,7 @@ class Soap implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
         if (isset($serviceInfo['soap']['service'])) {
             $serviceName = $serviceInfo['soap']['service'];
         } else if (isset($serviceInfo['serviceInterface'])) {
-            $serviceName = $this->_configHelper->getServiceName($serviceInfo['serviceInterface'], false);
+            $serviceName = $this->_helper->getServiceName($serviceInfo['serviceInterface'], false);
         } else {
             throw new \LogicException("Service name cannot be identified.");
         }

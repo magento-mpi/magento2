@@ -19,21 +19,14 @@ class ClassReflector
     /** @var \Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor */
     protected $_typeProcessor;
 
-    /** @var \Magento\Webapi\Helper\Config */
-    protected $_configHelper;
-
     /**
      * Construct reflector.
      *
      * @param \Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor $typeProcessor
-     * @param \Magento\Webapi\Helper\Config $configHelper
      */
-    public function __construct(
-        \Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor $typeProcessor,
-        \Magento\Webapi\Helper\Config $configHelper
-    ) {
+    public function __construct(\Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor $typeProcessor)
+    {
         $this->_typeProcessor = $typeProcessor;
-        $this->_configHelper = $configHelper;
     }
 
     /**

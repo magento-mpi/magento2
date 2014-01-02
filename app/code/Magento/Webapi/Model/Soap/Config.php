@@ -51,8 +51,8 @@ class Config
      */
     protected $_soapOperations;
 
-    /** @var \Magento\Webapi\Helper\Config */
-    protected $_configHelper;
+    /** @var \Magento\Webapi\Helper\Data */
+    protected $_helper;
 
     /** @var \Magento\Webapi\Model\Soap\Config\Reader\Soap\ClassReflector */
     protected $_classReflector;
@@ -65,7 +65,7 @@ class Config
      * @param \Magento\App\Dir $dir
      * @param \Magento\Webapi\Model\Config $config
      * @param \Magento\Webapi\Model\Soap\Config\Reader\Soap\ClassReflector $classReflector
-     * @param \Magento\Webapi\Helper\Config $configHelper
+     * @param \Magento\Webapi\Helper\Data $helper
      */
     public function __construct(
         \Magento\ObjectManager $objectManager,
@@ -73,13 +73,13 @@ class Config
         \Magento\App\Dir $dir,
         \Magento\Webapi\Model\Config $config,
         \Magento\Webapi\Model\Soap\Config\Reader\Soap\ClassReflector $classReflector,
-        \Magento\Webapi\Helper\Config $configHelper
+        \Magento\Webapi\Helper\Data $helper
     ) {
         $this->_filesystem = $filesystem;
         $this->_dir = $dir;
         $this->_config = $config;
         $this->_objectManager = $objectManager;
-        $this->_configHelper = $configHelper;
+        $this->_helper = $helper;
         $this->_classReflector = $classReflector;
         $this->_initServicesMetadata();
     }
@@ -131,7 +131,7 @@ class Config
             $this->_soapServices = array();
             foreach ($this->_config->getServices() as $serviceData) {
                 $serviceClass = $serviceData[Converter::KEY_SERVICE_CLASS];
-                $serviceName = $this->_configHelper->getServiceName($serviceClass);
+                $serviceName = $this->_helper->getServiceName($serviceClass);
                 foreach ($serviceData[Converter::KEY_SERVICE_METHODS] as $methodMetadata) {
                     // TODO: Simplify the structure in SOAP. Currently it is unified in SOAP and REST
                     $methodName = $methodMetadata[Converter::KEY_SERVICE_METHOD];
@@ -209,7 +209,7 @@ class Config
      */
     public function getSoapOperation($interfaceName, $methodName)
     {
-        $serviceName = $this->_configHelper->getServiceName($interfaceName);
+        $serviceName = $this->_helper->getServiceName($interfaceName);
         $operationName = $serviceName . ucfirst($methodName);
         return $operationName;
     }

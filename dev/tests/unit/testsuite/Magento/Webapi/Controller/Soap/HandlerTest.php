@@ -28,8 +28,8 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_authzServiceMock;
 
-    /** @var \Magento\Webapi\Helper\Config|\PHPUnit_Framework_MockObject_MockObject */
-    protected $_configHelperMock;
+    /** @var \Magento\Webapi\Helper\Data|\PHPUnit_Framework_MockObject_MockObject */
+    protected $_helperMock;
 
     /** @var array */
     protected $_arguments;
@@ -56,7 +56,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_configHelperMock = $this->getMock('Magento\Webapi\Helper\Config', [], [], '', false);
+        $this->_helperMock = $this->getMock('Magento\Webapi\Helper\Data', [], [], '', false);
 
         /** Initialize SUT. */
         $this->_handler = new \Magento\Webapi\Controller\Soap\Handler(
@@ -64,7 +64,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
             $this->_objectManagerMock,
             $this->_apiConfigMock,
             $this->_authzServiceMock,
-            $this->_configHelperMock
+            $this->_helperMock
         );
 
         parent::setUp();

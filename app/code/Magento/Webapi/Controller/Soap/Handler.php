@@ -39,8 +39,8 @@ class Handler
     /** @var AuthorizationService */
     protected $_authorizationService;
 
-    /** @var \Magento\Webapi\Helper\Config */
-    protected $_configHelper;
+    /** @var \Magento\Webapi\Helper\Data */
+    protected $_helper;
 
     /**
      * Initialize dependencies.
@@ -49,20 +49,20 @@ class Handler
      * @param \Magento\ObjectManager $objectManager
      * @param SoapConfig $apiConfig
      * @param AuthorizationService $authorizationService
-     * @param \Magento\Webapi\Helper\Config $configHelper
+     * @param \Magento\Webapi\Helper\Data $helper
      */
     public function __construct(
         SoapRequest $request,
         \Magento\ObjectManager $objectManager,
         SoapConfig $apiConfig,
         AuthorizationService $authorizationService,
-        \Magento\Webapi\Helper\Config $configHelper
+        \Magento\Webapi\Helper\Data $helper
     ) {
         $this->_request = $request;
         $this->_objectManager = $objectManager;
         $this->_apiConfig = $apiConfig;
         $this->_authorizationService = $authorizationService;
-        $this->_configHelper = $configHelper;
+        $this->_helper = $helper;
     }
 
     /**
@@ -161,7 +161,7 @@ class Handler
             if ($this->_isDto($fieldValue)) {
                 $this->_packDto($fieldValue);
             }
-            $setterName = $this->_configHelper->dtoFieldNameToSetterName($fieldName);
+            $setterName = $this->_helper->dtoFieldNameToSetterName($fieldName);
             $dto->$setterName($fieldValue);
             unset($dto->$fieldName);
         }
@@ -184,7 +184,7 @@ class Handler
         foreach ($classReflection->getMethods(\ReflectionMethod::IS_PUBLIC) as $methodReflection) {
             if (strpos($methodReflection->getName(), 'get') === 0) {
                 $getterName = $methodReflection->getName();
-                $fieldName = $this->_configHelper->dtoGetterNameToFieldName($getterName);
+                $fieldName = $this->_helper->dtoGetterNameToFieldName($getterName);
                 $fieldValue = $dto->$getterName();
                 if ($this->_isDto($fieldValue)) {
                     $this->_unpackDto($fieldValue);

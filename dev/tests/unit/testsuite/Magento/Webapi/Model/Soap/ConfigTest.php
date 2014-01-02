@@ -23,7 +23,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     protected $_configMock;
 
     /** @var \Magento\Webapi\Helper\Config|\PHPUnit_Framework_MockObject_MockObject */
-    protected $_configHelperMock;
+    protected $_helperMock;
 
     /**
      * Set up helper.
@@ -43,8 +43,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             false
         );
         $classReflection->expects($this->any())->method('reflectClassMethods')->will($this->returnValue(array()));
-        $helperContext = $this->getMock('Magento\App\Helper\Context', [], [], '', false);
-        $this->_configHelperMock = $this->getMock('Magento\Webapi\Helper\Config', [], ['context' => $helperContext]);
+        $this->_helperMock = $this->getMock('Magento\Webapi\Helper\Data', [], [], '', false);
         $this->_configMock = $this->getMock('Magento\Webapi\Model\Config', [], [], '', false);
         $servicesConfig = array(
             'ModuleFooV1' => array(
@@ -75,7 +74,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             )
         );
         $this->_configMock->expects($this->once())->method('getServices')->will($this->returnValue($servicesConfig));
-        $this->_configHelperMock->expects($this->any())
+        $this->_helperMock->expects($this->any())
             ->method('getServiceName')
             ->will(
                 $this->returnValueMap(
@@ -91,7 +90,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             $dirMock,
             $this->_configMock,
             $classReflection,
-            $this->_configHelperMock
+            $this->_helperMock
         );
         parent::setUp();
     }

@@ -51,29 +51,23 @@ class Generator
      */
     protected $_registeredTypes = array();
 
-    /** @var \Magento\Webapi\Helper\Config */
-    protected $_helper;
-
     /**
      * Initialize dependencies.
      *
      * @param \Magento\Webapi\Model\Soap\Config $apiConfig
      * @param \Magento\Webapi\Model\Soap\Wsdl\Factory $wsdlFactory
      * @param \Magento\Webapi\Model\Cache\Type $cache
-     * @param \Magento\Webapi\Helper\Config $helper
      * @param \Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor $typeProcessor
      */
     public function __construct(
         \Magento\Webapi\Model\Soap\Config $apiConfig,
         \Magento\Webapi\Model\Soap\Wsdl\Factory $wsdlFactory,
         \Magento\Webapi\Model\Cache\Type $cache,
-        \Magento\Webapi\Helper\Config $helper,
         \Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor $typeProcessor
     ) {
         $this->_apiConfig = $apiConfig;
         $this->_wsdlFactory = $wsdlFactory;
         $this->_cache = $cache;
-        $this->_helper = $helper;
         $this->_typeProcessor = $typeProcessor;
     }
 
@@ -428,7 +422,7 @@ class Generator
             $direction = ($direction == 'in') ? 'requiredInput' : 'returned';
             foreach ($interfaceData['parameters'] as $parameterData) {
                 $parameterType = $parameterData['type'];
-                if (!$this->_helper->isTypeSimple($parameterType)) {
+                if (!$this->_typeProcessor->isTypeSimple($parameterType)) {
                     $operation = $this->getOperationName($serviceName, $methodName);
                     if ($parameterData['required']) {
                         $condition = ($direction == 'requiredInput') ? 'yes' : 'always';

@@ -38,8 +38,7 @@ class ConfigBasedTest extends \PHPUnit_Framework_TestCase
             ->setMethods(array('toDomDocument', 'getTypes', 'getSchema'))
             ->disableOriginalConstructor()
             ->getMock();
-        $helper = $objectManager->getObject('Magento\Webapi\Helper\Config');
-        $this->_strategy = new ConfigBased($this->_typeProcessor, $helper);
+        $this->_strategy = new ConfigBased($this->_typeProcessor);
         $this->_strategy->setContext($this->_wsdl);
         parent::setUp();
     }

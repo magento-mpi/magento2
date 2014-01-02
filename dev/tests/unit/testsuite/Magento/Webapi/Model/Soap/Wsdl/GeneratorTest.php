@@ -23,9 +23,6 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Webapi\Model\Cache\Type|\PHPUnit_Framework_MockObject_MockObject */
     protected $_cacheMock;
 
-    /** @var \Magento\Webapi\Helper\Config|\PHPUnit_Framework_MockObject_MockObject */
-    protected $_helperConfig;
-
     /** @var \Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor|\PHPUnit_Framework_MockObject_MockObject */
     protected $_typeProcessor;
 
@@ -66,7 +63,6 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         $this->_cacheMock->expects($this->any())->method('load')->will($this->returnValue(false));
         $this->_cacheMock->expects($this->any())->method('save')->will($this->returnValue(true));
 
-        $this->_helperConfig = $this->getMock('Magento\Webapi\Helper\Config', [], [], '', false);
         $this->_typeProcessor = $this->getMock(
             'Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor',
             [],
@@ -79,7 +75,6 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
             $this->_soapConfigMock,
             $this->_wsdlFactoryMock,
             $this->_cacheMock,
-            $this->_helperConfig,
             $this->_typeProcessor
         );
 
@@ -258,7 +253,6 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
                     $this->_soapConfigMock,
                     $this->_wsdlFactoryMock,
                     $this->_cacheMock,
-                    $this->_helperConfig,
                     $this->_typeProcessor
                 )
             )

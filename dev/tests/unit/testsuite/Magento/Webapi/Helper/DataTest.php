@@ -9,20 +9,20 @@
 namespace Magento\Webapi\Helper;
 
 /**
- * Class implements tests for \Magento\Webapi\Helper\Config class.
+ * Class implements tests for \Magento\Webapi\Helper\Data class.
  */
-class ConfigTest extends \PHPUnit_Framework_TestCase
+class DataTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\Webapi\Helper\Config */
-    protected $_configHelper;
+    /** @var \Magento\Webapi\Helper\Data */
+    protected $_helper;
 
     /**
      * Set up helper.
      */
     protected function setUp()
     {
-        $helperContext = $this->getMock('Magento\App\Helper\Context', [], [], '', false);
-        $this->_configHelper = new \Magento\Webapi\Helper\Config($helperContext);
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_helper = $objectManager->getObject('Magento\Webapi\Helper\Data');
         parent::setUp();
     }
 
@@ -33,7 +33,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetServiceNameParts($className, $preserveVersion, $expected)
     {
-        $actual = $this->_configHelper->getServiceNameParts(
+        $actual = $this->_helper->getServiceNameParts(
             $className,
             $preserveVersion
         );
@@ -64,7 +64,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetServiceNamePartsInvalidName($interfaceClassName)
     {
-        $this->_configHelper->getServiceNameParts($interfaceClassName);
+        $this->_helper->getServiceNameParts($interfaceClassName);
     }
 
     public function dataProviderForTestGetServiceNamePartsInvalidName()
