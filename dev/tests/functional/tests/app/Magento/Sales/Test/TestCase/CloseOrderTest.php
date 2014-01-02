@@ -16,22 +16,22 @@ use Mtf\TestCase\Functional;
 use Mtf\Fixture\DataFixture;
 
 /**
- * Class CancelOrderTest
- * Test cancel order
+ * Class CloseOrderTest
+ * Test close order
  *
  * @package Magento\Sales\Test\TestCase\
  */
 class CloseOrderTest extends Functional
 {
     /**
-     * Cancel order placed by PayPal Express from product page
+     * Cancel orders
      *
-     * @ZephyrId MAGETWO-12434
+     * @ZephyrId MAGETWO-12434, MAGETWO-12833
      * 
      * @dataProvider dataProviderOrder
      * @param DataFixture $fixture
      */
-    public function testPayPalExpress(DataFixture $fixture)
+    public function testCloseOrder(DataFixture $fixture)
     {
         $fixture->persist();
         //Data
@@ -98,14 +98,15 @@ class CloseOrderTest extends Functional
     }
 
     /**
-     * Data provider for testPayPalExpress
+     * Data providers for creating an order
      *
      * @return array
      */
     public function dataProviderOrder()
     {
         return array(
-            array(Factory::getFixtureFactory()->getMagentoSalesPaypalExpressOrder())
+            array(Factory::getFixtureFactory()->getMagentoSalesPaypalExpressOrder()),
+            array(Factory::getFixtureFactory()->getMagentoSalesAuthorizeNetOrder()),
         );
     }
 }
