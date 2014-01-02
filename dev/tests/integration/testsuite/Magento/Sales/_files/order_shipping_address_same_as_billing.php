@@ -45,6 +45,7 @@ $payment->setMethod('checkmo');
 
 $order = $clonedOrder;
 $order->setId(null)
+    ->setCustomerEmail('customer@example.com')
     ->setBillingAddress($billingAddress)
     ->setShippingAddress($shippingAddress)
     ->setPayment($payment);
