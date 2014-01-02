@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\CatalogEvent\Block\Adminhtml\Event\Edit;
+namespace Magento\AdminGws\Magento\CatalogEvent\Block\Adminhtml\Event\Edit;
 
 /**
  * Test that Catalog Event Edit form is wrapped by AdminGws
