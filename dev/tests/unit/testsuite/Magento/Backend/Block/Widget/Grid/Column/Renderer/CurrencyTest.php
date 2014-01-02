@@ -73,7 +73,13 @@ class CurrencyTest extends \PHPUnit_Framework_TestCase
         $this->_currencyMock->expects($this->any())
             ->method('load')
             ->will($this->returnSelf());
-        $currencyFactoryMock = $this->getMock('Magento\Directory\Model\CurrencyFactory', array('create'), array(), '', false);
+        $currencyFactoryMock = $this->getMock(
+            'Magento\Directory\Model\CurrencyFactory',
+            array('create'),
+            array(),
+            '',
+            false
+        );
         $currencyFactoryMock->expects($this->any())
             ->method('create')
             ->will($this->returnValue($this->_currencyMock));
