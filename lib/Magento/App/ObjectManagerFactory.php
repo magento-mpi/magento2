@@ -128,7 +128,7 @@ class ObjectManagerFactory
         ));
         $locator->setFactory($factory);
 
-        $directoryListConfig = $locator->get('Magento\Filesystem\DirectoryList\Configuration');
+        $directoryListConfig = $locator->get('Magento\App\Filesystem\DirectoryList\Configuration');
         $directoryListConfig->configure($directories);
 
         return $locator;
