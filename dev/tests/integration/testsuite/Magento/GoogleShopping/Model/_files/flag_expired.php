@@ -1,5 +1,12 @@
 <?php
 /**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/**
  * Expired flag for the google shopping synchronization
  */
 $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
