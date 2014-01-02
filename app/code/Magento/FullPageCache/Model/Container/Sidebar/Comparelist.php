@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\FullPageCache\Model\Container\Sidebar;
+
 /**
  * Compare list sidebar container
  */
-namespace Magento\FullPageCache\Model\Container\Sidebar;
-
 class Comparelist extends \Magento\FullPageCache\Model\Container\AbstractContainer
 {
     /**

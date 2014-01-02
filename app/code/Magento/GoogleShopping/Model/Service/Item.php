@@ -76,8 +76,8 @@ class Item extends \Magento\GoogleShopping\Model\Service
     {
         $service = $this->getService();
         $entry = $service->newEntry();
-        $item->getType()
-            ->convertProductToEntry($item->getProduct(), $entry);
+        $type = $item->getType();
+        $type->convertProductToEntry($item->getProduct(), $entry);
 
         $entry = $service->insertItem($entry);
         $published = $this->convertContentDateToTimestamp($entry->getPublished()->getText());

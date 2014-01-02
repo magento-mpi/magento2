@@ -9,7 +9,6 @@
  * @license     {license_link}
  */
 
-
 namespace Magento\Sales\Controller\Adminhtml\Order;
 
 /**
@@ -30,7 +29,7 @@ class CreateTest extends \Magento\Backend\Utility\Controller
      */
     public function testLoadBlockActionData()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Sales\Model\AdminOrder\Create')
+        $this->_objectManager->get('Magento\Sales\Model\AdminOrder\Create')
             ->addProducts(array(1 => array('qty' => 1)));
         $this->getRequest()->setParam('block', 'data');
         $this->getRequest()->setParam('json', 1);
@@ -70,7 +69,7 @@ class CreateTest extends \Magento\Backend\Utility\Controller
      */
     public function testLoadBlockActionItems()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Sales\Model\AdminOrder\Create')
+        $this->_objectManager->get('Magento\Sales\Model\AdminOrder\Create')
             ->addProducts(array(1 => array('qty' => 1)));
         $this->getRequest()->setParam('block', 'items');
         $this->getRequest()->setParam('json', 1);
@@ -86,8 +85,7 @@ class CreateTest extends \Magento\Backend\Utility\Controller
     public function testIndexAction()
     {
         /** @var $order \Magento\Sales\Model\AdminOrder\Create */
-        $order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Sales\Model\AdminOrder\Create');
+        $order = $this->_objectManager->get('Magento\Sales\Model\AdminOrder\Create');
         $order->addProducts(array(1 => array('qty' => 1)));
         $this->dispatch('backend/sales/order_create/index');
         $html = $this->getResponse()->getBody();
@@ -97,5 +95,45 @@ class CreateTest extends \Magento\Backend\Utility\Controller
         $this->assertContains('id="shipping-method-overlay"', $html);
         $this->assertContains('<div id="sales_order_create_search_grid">', $html);
         $this->assertContains('id="coupons:code"', $html);
+    }
+
+    /**
+     * @param string $actionName
+     * @param boolean $reordered
+     * @param string $expectedResult
+     *
+     * @dataProvider getAclResourceDataProvider
+     * @magentoAppIsolation enabled
+     */
+    public function testGetAclResource($actionName, $reordered, $expectedResult)
+    {
+        $this->_objectManager->get('Magento\Backend\Model\Session\Quote')->setReordered($reordered);
+        $orderController = $this->_objectManager->get('\Magento\Sales\Controller\Adminhtml\Order\Create');
+
+        $this->getRequest()->setActionName($actionName);
+
+        $method = new \ReflectionMethod('\Magento\Sales\Controller\Adminhtml\Order\Create', '_getAclResource');
+        $method->setAccessible(true);
+        $result = $method->invoke($orderController);
+        $this->assertEquals($result, $expectedResult);
+    }
+
+    /**
+     * @return array
+     */
+    public function getAclResourceDataProvider()
+    {
+        return array(
+            array('index', false, 'Magento_Sales::create'),
+            array('index', true, 'Magento_Sales::reorder'),
+            array('save', false, 'Magento_Sales::create'),
+            array('save', true, 'Magento_Sales::reorder'),
+            array('reorder', false, 'Magento_Sales::reorder'),
+            array('reorder', true, 'Magento_Sales::reorder'),
+            array('cancel', false, 'Magento_Sales::cancel'),
+            array('cancel', true, 'Magento_Sales::reorder'),
+            array('', false, 'Magento_Sales::actions'),
+            array('', true, 'Magento_Sales::actions'),
+        );
     }
 }

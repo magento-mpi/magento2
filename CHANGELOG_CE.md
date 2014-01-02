@@ -10,6 +10,22 @@
   * Fixed preview of Email Templates shows blank page
   * Fixed no possibility to create refund from Paypal side.
   * Fixed occurrences of non-existent resource model Mage_Catalog_Model_Resource_Convert
+  * Fixed wrong count of coupon's usage after applying it with multiple addresses
+  * Fixed Abandoned cart emails are not sending out
+  * Fixed User with "Reorder" permission cannot make reorder
+  * Fixed Community bugathon - Item clone is added to cart via wishlist if "Qty Increments" is enabled
+  * Fixed catalog_url indexer incorrect rewrites history for categories
+  * Fixed Fatal error on attempt to save integration with duplicate name
+  * Fixed Customer can see someone's else reviews on private Account Dashboard
+  * Fixed "New Theme" page is displayed broken while trying to create Theme with incorrectly "Version" field filled
+  * Fixed Admin has no possibility to save integration with XSS injection inside required fields
+  * Fixed Mini Shopping Cart is displayed broken if contains virtual product
+  * Fixed Disabling "Display Shopping Cart Sidebar" doesn't work
+  * Fixed Adminhtml cookie isn't set on backend
+  * Fixed Persistent_shopping_cart cookie isn't set after customer's login
+  * Fixed impossibility to publish products to Google Shopping
+  * Fixed inability to download or revert backup
+
 2.0.0.0-dev58
 =============
 * Fixed bugs:
