@@ -30,6 +30,8 @@
   * Fixed products from non-default website aren't shown as bundle items
   * Fixed placing order with status Pending Payment instead of Processing when payment method Authorize.net is used
   * Fixed PayPal Express: order can't be placed if HTTPS is used on frontend
+  * Fixed security issue with user session on registration
+  * Fixed CSRF vulnerability in checkout
 * Various improvements:
   * Disabled PHP errors, notices and warnings output in production mode to prevent exposing sensitive information
 
