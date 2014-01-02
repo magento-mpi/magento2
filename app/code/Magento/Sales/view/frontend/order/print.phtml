@@ -14,6 +14,7 @@
 <p class="order-date"><?php echo __('Order Date: %1', $this->formatDate($_order->getCreatedAtStoreDate(), 'long')) ?></p>
 
 <div class="order details view">
+    <?php if (!$_order->getIsVirtual()): ?>
     <div class="block order shipping address">
         <div class="title">
             <strong><?php echo __('Shipping Address') ?></strong>
@@ -22,6 +23,7 @@
             <address><?php echo $_order->getShippingAddress()->format('html') ?></address>
         </div>
     </div>
+    <?php endif; ?>
     <div class="block order billing address">
         <div class="title">
             <strong><?php echo __('Billing Address') ?></strong>

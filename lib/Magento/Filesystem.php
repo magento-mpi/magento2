@@ -177,7 +177,7 @@ class Filesystem
      * @var \Magento\Filesystem\WrapperFactory
      */
     protected $wrapperFactory;
-    
+
     /**
      * @var \Magento\Filesystem\Directory\WriteInterface[]
      */
@@ -251,11 +251,18 @@ class Filesystem
      * @param string $protocol
      * @return mixed
      */
-    public function getRemoteResource($path, $protocol)
+    public function getRemoteResource($path, $protocol = null)
     {
         if (!$this->fileReadFactory) {
             // case when a temporary Filesystem object is used for loading primary configuration
             return null;
+        }
+
+        if (empty($protocol)) {
+            $protocol = strtolower(parse_url($path, PHP_URL_SCHEME));
+            if ($protocol) {
+                $path = preg_replace('#.+://#', '', $path); // Strip down protocol from path
+            }
         }
 
         if (!array_key_exists($protocol, $this->remoteResourceInstances)) {
