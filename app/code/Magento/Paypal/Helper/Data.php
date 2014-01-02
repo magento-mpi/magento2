@@ -21,28 +21,18 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected static $_shouldAskToCreateBillingAgreement = null;
 
     /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreData;
-
-    /**
      * @var \Magento\Sales\Model\Billing\AgreementFactory
      */
     protected $_agreementFactory;
 
     /**
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Sales\Model\Billing\AgreementFactory $agreementFactory
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Sales\Model\Billing\AgreementFactory $agreementFactory
     ) {
-        $this->_coreData = $coreData;
         $this->_agreementFactory = $agreementFactory;
         parent::__construct($context);
     }
@@ -65,28 +55,5 @@ class Data extends \Magento\App\Helper\AbstractHelper
             }
         }
         return self::$_shouldAskToCreateBillingAgreement;
-    }
-
-    /**
-     * Return backend config for element like JSON
-     *
-     * @param \Magento\Data\Form\Element\AbstractElement $element
-     * @return string
-     */
-    public function getElementBackendConfig(\Magento\Data\Form\Element\AbstractElement $element)
-    {
-        $config = $element->getFieldConfig();
-        if (!array_key_exists('backend_congif', $config)) {
-            return false;
-        }
-
-        $config = $config['backend_congif'];
-        if (isset($config['enable_for_countries'])) {
-            $config['enable_for_countries'] = explode(',', str_replace(' ', '', $config['enable_for_countries']));
-        }
-        if (isset($config['disable_for_countries'])) {
-            $config['disable_for_countries'] = explode(',', str_replace(' ', '', $config['disable_for_countries']));
-        }
-        return $this->_coreData->jsonEncode($config);
     }
 }

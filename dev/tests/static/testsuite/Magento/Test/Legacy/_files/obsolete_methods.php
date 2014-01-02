@@ -349,6 +349,7 @@ return array(
     array('getDirectOutput', 'Magento\Core\Model\Layout'),
     array('getDirectOutput', 'Magento\View\LayoutInterface'),
     array('getDistroServerVars', 'Magento\Core\Model\Config', 'getDistroBaseUrl'),
+    array('getElementBackendConfig', 'Magento\Paypal\Helper\Data'),
     array('getElementClass', 'Magento\Core\Model\Layout\Update'),
     array('getEngineFactory', 'Magento\View\Element\Template\Context', 'getEnginePool'),
     array('getEntityIdsToIncrementIds', 'Magento\Rss\Model\Resource\Order'),
