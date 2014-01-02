@@ -21,40 +21,48 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected $coreRegistry;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Helper\Data|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $storeManager;
+    protected $coreData;
 
     protected function setUp()
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $store = $this->getMock('Magento\Core\Model\Store', [], [], '', false);
         $this->coreRegistry = $this->getMock('Magento\Core\Model\Registry', []);
-        $this->storeManager = $this->getMockForAbstractClass('Magento\Core\Model\StoreManagerInterface');
+        $storeManager = $this->getMockForAbstractClass('Magento\Core\Model\StoreManagerInterface');
+        $storeManager->expects($this->any())->method('getStore')->will($this->returnValue($store));
+        $payment = $this->getMock('Magento\Authorizenet\Model\Directpost', null, [], '', false);
+        $this->coreData = $this->getMock('Magento\Core\Helper\Data', [], [], '', false);
         $this->model = $helper->getObject('Magento\Authorizenet\Model\Directpost\Observer', [
             'coreRegistry' => $this->coreRegistry,
-            'storeManager' => $this->storeManager
+            'storeManager' => $storeManager,
+            'payment' => $payment,
+            'coreData' => $this->coreData
         ]);
     }
 
     public function testAddAdditionalFieldsToResponseFrontend()
     {
-        $store = $this->getMock('Magento\Core\Model\Store', [], [], '', false);
-        $this->storeManager->expects($this->once())->method('getStore')->will($this->returnValue($store));
-
         $directpostRequest = $this->getMock('Magento\Authorizenet\Model\Directpost\Request', []);
+        $order = $this->getMock('Magento\Sales\Model\Order', [], [], '', false);
 
         $methodInstance = $this->getMock('Magento\Authorizenet\Model\Directpost', [], [], '', false);
         $methodInstance->expects($this->once())
             ->method('generateRequestFromOrder')
+            ->with($this->identicalTo($order))
             ->will($this->returnValue($directpostRequest));
 
-        $payment = $this->getMock('Magento\Sales\Model\Order\Payment', [], [], '', false);
+        $payment = $this->getMock('Magento\Sales\Model\Order\Payment', [
+            'getMethodInstance',
+            '__wakeup'
+        ], [], '', false);
         $payment->expects($this->once())->method('getMethodInstance')->will($this->returnValue($methodInstance));
         $payment->setMethod('authorizenet_directpost');
 
-        $order = $this->getMock('Magento\Sales\Model\Order', [], [], '', false);
         $order->expects($this->once())->method('getId')->will($this->returnValue(1));
-        $order->expects($this->any())->method('getPayment')->will($this->returnValue($payment));
+        $order->expects($this->atLeastOnce())->method('getPayment')->will($this->returnValue($payment));
+
 
         $this->coreRegistry->expects($this->once())
             ->method('registry')
@@ -70,6 +78,17 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $controller->expects($this->once())->method('getRequest')->will($this->returnValue($request));
         $controller->expects($this->once())->method('getResponse')->will($this->returnValue($response));
         $observer = new \Magento\Event\Observer(['event' => new \Magento\Object(['controller_action' => $controller])]);
+
+        $this->coreData->expects($this->once())
+            ->method('jsonEncode')
+            ->with(self::logicalNot(self::isEmpty()))
+            ->will($this->returnValue('encoded response'));
+        $response->expects($this->once())
+            ->method('clearHeader')
+            ->with('Location');
+        $response->expects($this->once())
+            ->method('setBody')
+            ->with('encoded response');
         $this->model->addAdditionalFieldsToResponseFrontend($observer);
     }
 }
