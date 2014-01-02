@@ -1,91 +1,114 @@
 * Fixed bugs:
   * Fixed shipment with packages data corrupted functionality
   * Fixed unavailability to add gift wrapping for multiple items
-  * Fixed CSRF in Login, Update Cart, Add to Compare, Review and Add entire wish list Actions
-  * Fixed warnings on category page when Flat Catalog Category is enabled
-  * Fixed invalid price after switching currency
-  * Fixed "Save & Duplicate" action for product  
-  * Fixed big image in product description scale
+  * Fixed DHL functionality of generation shipping labels
+  * Fixed target rule if it is applied for specific customer segment
+  * Fixed product importing that cleared price and weight
+  * Fixed fatal error when a file reference is added to HTML head
+  * Fixed fatal error on page if print order for Downloadable product
+  * Fixed 'Same as shipping' checkbox to be selected after returning from PayPal side
+  * Fixed preview of Email Templates shows blank page
+  * Fixed no possibility to create refund from Paypal side.
+  * Fixed occurrences of non-existent resource model Mage_Catalog_Model_Resource_Convert
+  * Fixed wrong count of coupon's usage after applying it with multiple addresses
+  * Fixed Abandoned cart emails are not sending out
+  * Fixed User with "Reorder" permission cannot make reorder
+  * Fixed Community bugathon - Item clone is added to cart via wishlist if "Qty Increments" is enabled
+  * Fixed catalog_url indexer incorrect rewrites history for categories
+  * Fixed Fatal error on attempt to save integration with duplicate name
+  * Fixed Customer can see someone's else reviews on private Account Dashboard
+  * Fixed "New Theme" page is displayed broken while trying to create Theme with incorrectly "Version" field filled
+  * Fixed Admin has no possibility to save integration with XSS injection inside required fields
+  * Fixed Mini Shopping Cart is displayed broken if contains virtual product
+  * Fixed Disabling "Display Shopping Cart Sidebar" doesn't work
+  * Fixed Adminhtml cookie isn't set on backend
+  * Fixed Persistent_shopping_cart cookie isn't set after customer's login
+  * Fixed impossibility to publish products to Google Shopping
+  * Fixed inability to download or revert backup
+
+2.0.0.0-dev58
+=============
+* Fixed bugs:
+  * Security improved for the Login, Update Cart, Add to Compare, Review, and Add entire wishlist actions on the frontend
+  * Removed warnings on category pages when Flat Catalog Category is enabled
+  * Fixed product price displayed in wrong currency after switching currency on the frontend
+  * Fixed the Save & Duplicate action in product creation
+  * Fixed big image scaling in product description
   * Fixed admin dashboard styling issue
-  * Fixed validation message for qty field
-  * Fixed bug in share wishlist email template
-  * Fixed plushe Issue - Drop-down menu should respond quicker when the pointer moves off
-  * Fixed Related Banners tab is missing for Catalog Price Rule
-  * Fixed Its unable to enable duplicated product
-  * Fixed Warnings on attempt to save configuration for Payment Methods
-  * Fixed After update Gift messages for Items Ordered disapears from Order View page in backend
-  * Fixed Impossible to create New Order Status
-  * Fixed Save and Previous + Previous buttons are not working on edit review page
-  * Fixed Website can't be deleted if the number of websites is less or equal than two
-  * Fixed Fatal Error during export Customers from Customer page
-  * Fixed impossibility to add Product to the Cart from the Category page in IE
-  * Fixed Logo is absent on login page from backend
-  * Fixed visual indication for tax details opener on create order page in backend
-  * Fixed broken design CMS page preview
-  * Fixed broken design newsletter template preview
-  * Fixed broken design on Matched Customers tab grid in Email Remainder
-  * Fixed validation message about uncompatible version format while Theme creation
-  * Fixed performance degradation during install wizard execution
-  * Fixed cron shell script exits with error
-  * Fixed case when user try to login without redirect to account dashboard after logging in
-  * Fixed incorrect address in request to shipping carrier (DHL International) in case when address contains letter with diacritic
+  * Fixed validation message for the Quantity field on the product page in the backend
+  * Fixed the email template for sharing a Wishlist
+  * Fixed the response of the drop-down menu in the Plushe theme
+  * Fixed the missing Related Banners tab for Catalog Price Rule
+  * Fixed inability to enable the duplicated product
+  * Removed warnings on saving payment method configuration
+  * Fixed gift messages displaying on the Order View page after admin edits
+  * Fixed inability to create a new order status
+  * Fixed the behavior of the Save and Previous and the Previous buttons on the Edit Review page
+  * Fixed inability to delete a website if the number of websites is less or equal to two
+  * Fixed Export on the All Customers page
+  * Fixed inability to add products to the Shopping Cart from the Category page in Internet Explorer
+  * Fixed logo on the backend login page
+  * Fixed visual elements to indicate that Tax details can be expanded on the order creation page in the backend
+  * Fixed the CMS page preview design
+  * Fixed the newsletter template preview design
+  * Fixed the Matched Customers grid design in the Email Reminder Rules
+  * Fixed the theme version validation message displayed when creating a new theme
+  * Fixed performance degradation during installation wizard execution
+  * Fixed cron shell script
+  * Fixed user login on the frontend, when the Redirect Customer to Account Dashboard after Logging option is set to No
+  * Fixed errors in requests to shipping carrier (DHL International) when the shipping address contains letters with diacritic marks
   * Fixed invalid account creation date
-  * Fixed displaying of Product Alert links on product view page when the functionality is disabled
-  * Fixed absence of some bundle options on 'Configure product from Cart' page
-  * Fixed ability to view and cancel billing agreements belonging to another customer
-  * Fixed content spoofing vulnerability when Solr is used
-  * Fixed potential XSS vulnerability in customer log in
-  * Fixed fatal error in category RSS feed when it contains a bundle product
-  * Fixed inability to place order with 3-D Secure under IE 10
-  * Fixed inability to place order within PayPal Payflow Link and PayPal Payments Advanced
+  * Fixed displaying Product Alert links on product view page when the functionality is disabled
+  * Fixed the absence of some bundle options when configuring a bundle product in the Shopping Cart on the frontend
+  * Fixed the issue which allowed to view and cancel billing agreements belonging to another customer
+  * Fixed the content spoofing vulnerability when Solr was used
+  * Fixed a potential XSS vulnerability in customer login
+  * Fixed RSS feed for categories containing bundle product(s)
+  * Fixed inability to place an order with 3D Secure in Internet Explorer 10
+  * Fixed inability to place an order with PayPal Payflow Link and PayPal Payments Advanced
   * Fixed integrity constraint violation in catalog URL rewrites
-  * Fixed missing error message when try create New Website with wrong Website Code
-  * Fixed inability to save new address in case of new customer address attributes that not visible on frontend
-  * Fixed USPS: enabled method isn't available for checkout
-  * Fixed inability to place order with recurring profile item via PayPal Express
-  * Fixed inability for user to create new email template
-  * Fixed default billing and shipping address not honored through backend
+  * Fixed the absence of the error when a wrong website code is specified during a website creation
+  * Fixed saving in the backend a new customer address, which contains new customer address attributes configured to be not visible on frontend
+  * Fixed USPS shipping method in the checkout
+  * Fixed placing orders with recurring profile items via PayPal Express Checkout
+  * Fixed email template creation in the backend
+  * Fixed the issue with default billing address being used instead of default shipping address during admin order creation
   * Fixed inability to choose DB as Media Storage
-  * Fixed PHP issues found during the UI testing of backend
-  * Fixed can not create Shipping Label for Priority Mail methods from USPS
-  * Fixed possibility to create customer with duplicate email
-  * Fixed abstract product block error in tier price template getter
-  * Fixed system message was displayed in incorrect place on backend page
-  * Fixed 404 error on customer review page
-  * Fixed autocomplete enabled on admin login page
-  * Fixed size of 3D secure iframe
-  * Fixed asterix appearance for Package Extension with mandatory fields
-  * Fixed image size in product description for Compare products page
-  * Fixed broken design on product page with Fixed Product Tax attribute
-  * Fixed spaces between parentheses and the numbers in the Cart, Wishlist and Compare Products blocks
-  * Fixed message display quantity products found on Advanced Search page
-  * Fixed incorrect caching of locale settings and url settings during web installation
-  * Fixed inability to use newly created store for admin user roles
-  * Fixed absence of Advanced Search field on frontend, when Popular Search Terms functionality is disabled
-  * Fixed link for downloadable product in copy of invoice email leads to backend
-  * Fixed customs monetary value appears cut in labels / package info for international shipments
-  * Fixed url key is not set to default after importing file with blank URL Key field on store view level
-  * Fixed table rate won't display error message
-  * Fixed fatal error on frontend login without pre-set cookies
-  * Fixed if the date format is DD/MM/YY, saving a design change in the admin panel resets the date to 1 Jan 1970
-  * Fixed CAPTCHA on Multi-address checkout flow
+  * Fixed PHP issues found during the UI testing of the backend
+  * Fixed shipping label creation for USPS Priority Mail Shipping methods
+  * Fixed the issue which allowed to create customers with duplicate email
+  * Fixed the abstract product block error in the tier price template getter
+  * Fixed system message displaying in the backend
+  * Fixed the "404" error on customer review page
+  * Fixed autocomplete enabled on the admin login page
+  * Fixed the 3D Secure iframe
+  * Fixed the indicators of mandatory fields on the Package Extension page
+  * Fixed product image scaling on the Compare Products page
+  * Fixed product page design for products with the Fixed Product Tax attribute
+  * Removed spaces between parentheses and numbers in the Cart, Wishlist, and Compare Products blocks
+  * Fixed the message displaying the quantity for products found on the Advanced Search page
+  * Fixed incorrect caching of locale settings and URL settings during web installation
+  * Fixed inability to use a newly created store for admin user roles
+  * Fixed absence of the Advanced Search field on the frontend, when the Popular Search Terms functionality is disabled
+  * Fixed incorrect link to downloadable product(s) in the email invoice copy
+  * Fixed customs monetary value in labels/package info for international shipments
+  * Fixed importing for files with blank URL Key field on the store view level
+  * Fixed table rate error message
+  * Fixed frontend login without pre-set cookies
+  * Fixed date resetting to 1 Jan 1970 after saving a design change in the admin panel in case date format is DD/MM/YY
+  * Fixed CAPTCHA on multi-address checkout flow
   * Fixed view files population tool
   * Fixed DHL functionality of generation shipping labels
   * Fixed target rule if it is applied for specific customer segment
   * Fixed product importing that cleared price and weight
   * Fixed fatal error when a file reference is added to HTML head
-  * Fixed fatal Error on page if print order for Downloadable product
-  * Fixed 'Same as shipping' checkbox to be selected after returning from PayPal side
-  * Fixed preview of Email Templates shows blank page
-  * Fixed no possibility to create refund from Paypal side.
-  * Fixed occurrences of non-existent resource model Mage_Catalog_Model_Resource_Convert
 * GitHub requests:
   * [#122](https://github.com/magento/magento2/pull/122) -- Added support of federal units of Brazil with 27 states
   * [#184](https://github.com/magento/magento2/issues/184) -- Removed unused blocks and methods in Magento_Wishlist module
   * [#390](https://github.com/magento/magento2/pull/390) -- Support of alphanumeric order increment ids by the quote resource model
 * Themes update:
   * Responsive design improvements
-* Improvements to code coverage calculation:
+* Improvements in code coverage calculation:
   * Code coverage calculation approach for unit tests was changed from blacklist to whitelist
 
 2.0.0.0-dev57

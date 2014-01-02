@@ -42,6 +42,7 @@ if (typeof Mage.GoogleShopping == 'undefined') {
 
         startAction: function (form) {
             jQuery.ajax({
+                url: form.action,
                 'type': 'post',
                 'data': form.serialize(true),
                 'success': Mage.GoogleShopping.onSuccess.bind(Mage.GoogleShopping, this),
