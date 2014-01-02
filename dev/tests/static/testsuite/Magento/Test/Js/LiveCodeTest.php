@@ -9,7 +9,12 @@
  */
 
 namespace Magento\Test\Js;
-use Magento\TestFramework\Utility;
+
+/**
+ * Duplicating the same namespace in the "use" below is a workaround to comply with
+ * \Magento\Test\Integrity\ClassesTest::testClassReferences()
+ */
+use Magento\TestFramework\Utility\Files, Magento\TestFramework\Utility\AggregateInvoker;
 
 /**
  * JSHint static code analysis tests for javascript files
@@ -57,14 +62,14 @@ class LiveCodeTest extends \PHPUnit_Framework_TestCase
      */
     public static function setUpBeforeClass()
     {
-        $reportDir = Utility\Files::init()->getPathToSource() . '/dev/tests/static/report';
+        $reportDir = Files::init()->getPathToSource() . '/dev/tests/static/report';
         if (!is_dir($reportDir)) {
             mkdir($reportDir, 0777);
         }
         self::$_reportFile = $reportDir . '/js_report.txt';
         @unlink(self::$_reportFile);
-        $whiteList = Utility\Files::readLists(__DIR__ . '/_files/whitelist/*.txt');
-        $blackList = Utility\Files::readLists(__DIR__ . '/_files/blacklist/*.txt');
+        $whiteList = Files::readLists(__DIR__ . '/_files/whitelist/*.txt');
+        $blackList = Files::readLists(__DIR__ . '/_files/blacklist/*.txt');
         foreach ($blackList as $listFiles) {
             self::$_blackListJsFiles = array_merge(self::$_blackListJsFiles, self::_scanJsFile($listFiles));
         }
@@ -80,7 +85,7 @@ class LiveCodeTest extends \PHPUnit_Framework_TestCase
 
     public function testCodeJsHint()
     {
-        $invoker = new Utility\AggregateInvoker($this);
+        $invoker = new AggregateInvoker($this);
         $invoker(
             /**
              * @param string $filename

@@ -625,8 +625,9 @@ class Files
             /**
              * Use realpath() instead of file_exists() to avoid incorrect work on Windows because of case insensitivity
              * of file names
+             * Note that realpath() automatically changes directory separator to the OS-native
              */
-            if (realpath($fullPath) == $fullPath) {
+            if (realpath($fullPath) == str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $fullPath)) {
                 $fileContent = file_get_contents($fullPath);
                 if (strpos($fileContent, 'namespace ' . $namespace) !== false &&
                     (strpos($fileContent, 'class ' . $className) !== false ||
