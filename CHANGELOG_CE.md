@@ -26,6 +26,9 @@
   * Fixed impossibility to publish products to Google Shopping
   * Fixed inability to download or revert backup
   * Fixed an issue where it was impossible for the customer to register when placing an order with a downloadable product
+  * Fixed products from non-default website aren't shown as bundle items
+  * Fixed placing order with status Pending Payment instead of Processing when payment method Authorize.net is used
+  * Fixed PayPal Express: order can't be placed if HTTPS is used on frontend
 
 2.0.0.0-dev58
 =============
