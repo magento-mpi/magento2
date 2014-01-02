@@ -32,8 +32,8 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Webapi\Model\Soap\Server\Factory */
     protected $_soapServerFactory;
 
-    /** @var \Magento\Webapi\Model\Soap\Config|\PHPUnit_Framework_MockObject_MockObject */
-    protected $_soapConfig;
+    /** @var \Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor|\PHPUnit_Framework_MockObject_MockObject */
+    protected $_typeProcessor;
 
     protected function setUp()
     {
@@ -62,7 +62,13 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $this->_soapServerFactory = $this->getMockBuilder('Magento\Webapi\Model\Soap\Server\Factory')
             ->disableOriginalConstructor()->getMock();
 
-        $this->_soapConfig = $this->getMock('Magento\Webapi\Model\Soap\Config', [], [], '', false);
+        $this->_typeProcessor = $this->getMock(
+            'Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor',
+            [],
+            [],
+            '',
+            false
+        );
 
         /** Init SUT. */
         $this->_soapServer = new \Magento\Webapi\Model\Soap\Server(
@@ -72,7 +78,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
             $this->_domDocumentFactory,
             $this->_storeManagerMock,
             $this->_soapServerFactory,
-            $this->_soapConfig
+            $this->_typeProcessor
         );
 
         parent::setUp();

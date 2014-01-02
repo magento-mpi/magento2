@@ -28,19 +28,13 @@ class ConfigBased extends AbstractComplexTypeStrategy
      */
     const APP_INF_NS = 'inf';
 
-    /**
-     * @var ConfigHelper
-     */
+    /** @var ConfigHelper */
     protected $_helper;
 
-    /**
-     * @var SoapConfig
-     */
-    protected $_config;
+    /** @var \Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor */
+    protected $_typeProcessor;
 
-    /**
-     * @var \DOMDocument
-     */
+    /** @var \DOMDocument */
     protected $_dom;
 
     /**
@@ -53,13 +47,15 @@ class ConfigBased extends AbstractComplexTypeStrategy
     /**
      * Construct strategy with config helper.
      *
-     * @param SoapConfig $config
+     * @param \Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor $typeProcessor
      * @param ConfigHelper $helper
      */
-    public function __construct(SoapConfig $config, ConfigHelper $helper)
-    {
+    public function __construct(
+        \Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor $typeProcessor,
+        ConfigHelper $helper
+    ) {
         $this->_helper = $helper;
-        $this->_config = $config;
+        $this->_typeProcessor = $typeProcessor;
     }
 
     /**
@@ -86,7 +82,7 @@ class ConfigBased extends AbstractComplexTypeStrategy
 
         $complexType = $this->_dom->createElement(Wsdl::XSD_NS . ':complexType');
         $complexType->setAttribute('name', $type);
-        $typeData = $this->_config->getTypeData($type);
+        $typeData = $this->_typeProcessor->getTypeData($type);
         if (isset($typeData['documentation'])) {
             $this->addAnnotation($complexType, $typeData['documentation']);
         }
@@ -184,7 +180,7 @@ class ConfigBased extends AbstractComplexTypeStrategy
             'documentation' => sprintf('An array of %s items.', $arrayItemType),
             'parameters' => $arrayTypeParameters,
         );
-        $this->_config->setTypeData($arrayTypeName, $arrayTypeData);
+        $this->_typeProcessor->setTypeData($arrayTypeName, $arrayTypeData);
         $this->addComplexType($arrayTypeName, $callInfo);
     }
 

@@ -51,22 +51,20 @@ class Config
      */
     protected $_soapOperations;
 
-    /**
-     * Service methods metadata collected via reflection.
-     *
-     * @var array
-     */
-    protected $_serviceMetadata;
-
     /** @var \Magento\Webapi\Helper\Config */
     protected $_configHelper;
 
+    /** @var \Magento\Webapi\Model\Soap\Config\Reader\Soap\ClassReflector */
+    protected $_classReflector;
+
     /**
+     * Initialize dependencies.
+     *
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\App\Dir $dir
      * @param \Magento\Webapi\Model\Config $config
-     * @param \Magento\Webapi\Model\Soap\Config\Reader\Soap $reader
+     * @param \Magento\Webapi\Model\Soap\Config\Reader\Soap\ClassReflector $classReflector
      * @param \Magento\Webapi\Helper\Config $configHelper
      */
     public function __construct(
@@ -74,7 +72,7 @@ class Config
         \Magento\Filesystem $filesystem,
         \Magento\App\Dir $dir,
         \Magento\Webapi\Model\Config $config,
-        \Magento\Webapi\Model\Soap\Config\Reader\Soap $reader,
+        \Magento\Webapi\Model\Soap\Config\Reader\Soap\ClassReflector $classReflector,
         \Magento\Webapi\Helper\Config $configHelper
     ) {
         $this->_filesystem = $filesystem;
@@ -82,7 +80,8 @@ class Config
         $this->_config = $config;
         $this->_objectManager = $objectManager;
         $this->_configHelper = $configHelper;
-        $this->_serviceMetadata = $reader->getData($this->_getSoapServices());
+        $this->_classReflector = $classReflector;
+        $this->_initServicesMetadata();
     }
 
     /**
@@ -125,24 +124,34 @@ class Config
      *
      * @return array
      */
-    protected function _getSoapServices()
+    protected function _initServicesMetadata()
     {
         // TODO: Implement caching if this approach is approved
         if (is_null($this->_soapServices)) {
             $this->_soapServices = array();
             foreach ($this->_config->getServices() as $serviceData) {
                 $serviceClass = $serviceData[Converter::KEY_SERVICE_CLASS];
+                $serviceName = $this->_configHelper->getServiceName($serviceClass);
                 foreach ($serviceData[Converter::KEY_SERVICE_METHODS] as $methodMetadata) {
                     // TODO: Simplify the structure in SOAP. Currently it is unified in SOAP and REST
                     $methodName = $methodMetadata[Converter::KEY_SERVICE_METHOD];
-                    $this->_soapServices[$serviceClass]['methods'][$methodName] = array(
+                    $this->_soapServices[$serviceName]['methods'][$methodName] = array(
                         self::KEY_METHOD => $methodName,
                         self::KEY_IS_REQUIRED => (bool)$methodMetadata[Converter::KEY_IS_SECURE],
                         self::KEY_IS_SECURE => $methodMetadata[Converter::KEY_IS_SECURE],
                         self::KEY_ACL_RESOURCES => $methodMetadata[Converter::KEY_ACL_RESOURCES]
                     );
-                    $this->_soapServices[$serviceClass][self::KEY_CLASS] = $serviceClass;
+                    $this->_soapServices[$serviceName][self::KEY_CLASS] = $serviceClass;
                 };
+                $reflectedMethodsMetadata = $this->_classReflector->reflectClassMethods(
+                    $serviceClass,
+                    $this->_soapServices[$serviceName]['methods']
+                );
+                // TODO: Consider service documentation extraction via reflection
+                $this->_soapServices[$serviceName]['methods'] = array_merge_recursive(
+                    $this->_soapServices[$serviceName]['methods'],
+                    $reflectedMethodsMetadata
+                );
             };
         }
         return $this->_soapServices;
@@ -184,11 +193,8 @@ class Config
     {
         $services = array();
         foreach ($requestedServices as $serviceName) {
-            foreach ($this->_getSoapServices() as $serviceData) {
-                $serviceWithVersion = $this->_configHelper->getServiceName($serviceData[self::KEY_CLASS]);
-                if ($serviceWithVersion === $serviceName) {
-                    $services[] = $serviceData;
-                }
+            if (isset($this->_soapServices[$serviceName])) {
+                $services[] = $this->_soapServices[$serviceName];
             }
         }
         return $services;
@@ -244,52 +250,6 @@ class Config
     }
 
     /**
-     * Retrieve data type details for the given type name.
-     * TODO: modify metadata to contain request input and output param
-     *
-     * @param string $typeName
-     * @return array
-     * @throws \InvalidArgumentException
-     */
-    public function getTypeData($typeName)
-    {
-        if (!isset($this->_serviceMetadata['types'][$typeName])) {
-            throw new \InvalidArgumentException(sprintf('Data type "%s" was not found in config.', $typeName));
-        }
-        return $this->_serviceMetadata['types'][$typeName];
-    }
-
-    /**
-     * Add or update type data in config.
-     *
-     * @param string $typeName
-     * @param array $data
-     */
-    public function setTypeData($typeName, $data)
-    {
-        if (!isset($this->_serviceMetadata['types'][$typeName])) {
-            $this->_serviceMetadata['types'][$typeName] = $data;
-        } else {
-            $this->_serviceMetadata['types'][$typeName] = array_merge_recursive(
-                $this->_serviceMetadata['types'][$typeName],
-                $data
-            );
-        }
-    }
-
-    /**
-     * Retrieve mapping of complex types defined in WSDL to real data classes.
-     *
-     * @return array
-     */
-    public function getTypeToClassMap()
-    {
-        return !is_null($this->_serviceMetadata['type_to_class_map'])
-            ? $this->_serviceMetadata['type_to_class_map']
-            : array();
-    }
-
-    /**
      * Retrieve specific service interface data.
      *
      * @param string $serviceName
@@ -298,11 +258,9 @@ class Config
      */
     public function getServiceMetadata($serviceName)
     {
-        if (!isset($this->_serviceMetadata['services'][$serviceName])
-            || !is_array($this->_serviceMetadata['services'][$serviceName])
-        ) {
+        if (!isset($this->_soapServices[$serviceName]) || !is_array($this->_soapServices[$serviceName])) {
             throw new \RuntimeException(__('Requested service is not available: "%1"', $serviceName));
         }
-        return $this->_serviceMetadata['services'][$serviceName];
+        return $this->_soapServices[$serviceName];
     }
 }

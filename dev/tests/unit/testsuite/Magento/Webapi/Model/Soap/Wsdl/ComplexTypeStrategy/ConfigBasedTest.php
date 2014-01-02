@@ -15,10 +15,10 @@ use Zend\Soap\Wsdl;
  */
 class ConfigBasedTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \PHPUnit_Framework_MockObject_MockObject */
-    protected $_resourceConfig;
+    /** @var \Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor|\PHPUnit_Framework_MockObject_MockObject */
+    protected $_typeProcessor;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Webapi\Model\Soap\Wsdl|\PHPUnit_Framework_MockObject_MockObject */
     protected $_wsdl;
 
     /** @var ConfigBased */
@@ -30,7 +30,7 @@ class ConfigBasedTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_resourceConfig = $this->getMockBuilder('Magento\Webapi\Model\Soap\Config')
+        $this->_typeProcessor = $this->getMockBuilder('Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor')
             ->setMethods(array('getTypeData'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -39,7 +39,7 @@ class ConfigBasedTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $helper = $objectManager->getObject('Magento\Webapi\Helper\Config');
-        $this->_strategy = new ConfigBased($this->_resourceConfig, $helper);
+        $this->_strategy = new ConfigBased($this->_typeProcessor, $helper);
         $this->_strategy->setContext($this->_wsdl);
         parent::setUp();
     }
@@ -49,7 +49,7 @@ class ConfigBasedTest extends \PHPUnit_Framework_TestCase
      */
     protected function tearDown()
     {
-        unset($this->_resourceConfig);
+        unset($this->_typeProcessor);
         unset($this->_strategy);
         unset($this->_wsdl);
 
@@ -98,7 +98,7 @@ class ConfigBasedTest extends \PHPUnit_Framework_TestCase
             ->method('getSchema')
             ->will($this->returnValue($schemaMock));
 
-        $this->_resourceConfig->expects($this->at(0))
+        $this->_typeProcessor->expects($this->at(0))
             ->method('getTypeData')
             ->with($type)
             ->will($this->returnValue($data));
@@ -249,11 +249,11 @@ class ConfigBasedTest extends \PHPUnit_Framework_TestCase
         $this->_wsdl->expects($this->any())
             ->method('getSchema')
             ->will($this->returnValue($schemaMock));
-        $this->_resourceConfig->expects($this->at(0))
+        $this->_typeProcessor->expects($this->at(0))
             ->method('getTypeData')
             ->with($type)
             ->will($this->returnValue($typeData));
-        $this->_resourceConfig->expects($this->at(1))
+        $this->_typeProcessor->expects($this->at(1))
             ->method('getTypeData')
             ->with($parameterType)
             ->will($this->returnValue($parameterData));

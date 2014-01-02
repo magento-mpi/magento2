@@ -26,6 +26,9 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Webapi\Helper\Config|\PHPUnit_Framework_MockObject_MockObject */
     protected $_helperConfig;
 
+    /** @var \Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor|\PHPUnit_Framework_MockObject_MockObject */
+    protected $_typeProcessor;
+
     protected function setUp()
     {
         $this->_soapConfigMock = $this->getMockBuilder('Magento\Webapi\Model\Soap\Config')
@@ -64,24 +67,23 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         $this->_cacheMock->expects($this->any())->method('save')->will($this->returnValue(true));
 
         $this->_helperConfig = $this->getMock('Magento\Webapi\Helper\Config', [], [], '', false);
+        $this->_typeProcessor = $this->getMock(
+            'Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor',
+            [],
+            [],
+            '',
+            false
+        );
 
         $this->_wsdlGenerator = new \Magento\Webapi\Model\Soap\Wsdl\Generator(
             $this->_soapConfigMock,
             $this->_wsdlFactoryMock,
             $this->_cacheMock,
-            $this->_helperConfig
+            $this->_helperConfig,
+            $this->_typeProcessor
         );
 
         parent::setUp();
-    }
-
-    protected function tearDown()
-    {
-        unset($this->_wsdlGenerator);
-        unset($this->_soapConfigMock);
-        unset($this->_wsdlFactoryMock);
-        unset($this->_cacheMock);
-        parent::tearDown();
     }
 
     public function testGetComplexTypeNodes()
@@ -256,7 +258,8 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
                     $this->_soapConfigMock,
                     $this->_wsdlFactoryMock,
                     $this->_cacheMock,
-                    $this->_helperConfig
+                    $this->_helperConfig,
+                    $this->_typeProcessor
                 )
             )
             ->getMock();

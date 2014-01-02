@@ -36,8 +36,8 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Webapi\Model\Soap\Server\Factory */
     protected $_soapServerFactory;
 
-    /** @var \Magento\Webapi\Model\Soap\Server\Factory */
-    protected $_soapConfigMock;
+    /** @var \Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor */
+    protected $_typeProcessor;
 
     protected function setUp()
     {
@@ -56,7 +56,13 @@ class ServerTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()->getMock();
         $this->_soapServerFactory = $this->getMockBuilder('Magento\Webapi\Model\Soap\Server\Factory')
             ->disableOriginalConstructor()->getMock();
-        $this->_soapConfigMock = $this->getMock('Magento\Webapi\Model\Soap\Config', [], [], '', false);
+        $this->_typeProcessor = $this->getMock(
+            'Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor',
+            [],
+            [],
+            '',
+            false
+        );
 
         parent::setUp();
     }
@@ -77,7 +83,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
             $this->_domDocumentFactory,
             $this->_storeManagerMock,
             $this->_soapServerFactory,
-            $this->_soapConfigMock
+            $this->_typeProcessor
         );
         /** Assert that SOAP WSDL caching option was enabled after SOAP server initialization. */
         $this->assertTrue((bool)ini_get('soap.wsdl_cache_enabled'), 'WSDL caching was not enabled.');
@@ -99,7 +105,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
             $this->_domDocumentFactory,
             $this->_storeManagerMock,
             $this->_soapServerFactory,
-            $this->_soapConfigMock
+            $this->_typeProcessor
         );
         /** Assert that SOAP WSDL caching option was disabled after SOAP server initialization. */
         $this->assertFalse((bool)ini_get('soap.wsdl_cache_enabled'), 'WSDL caching was not disabled.');

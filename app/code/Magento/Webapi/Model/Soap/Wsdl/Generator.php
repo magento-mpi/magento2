@@ -41,6 +41,9 @@ class Generator
      */
     protected $_apiConfig;
 
+    /** @var \Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor */
+    protected $_typeProcessor;
+
     /**
      * The list of registered complex types.
      *
@@ -58,17 +61,20 @@ class Generator
      * @param \Magento\Webapi\Model\Soap\Wsdl\Factory $wsdlFactory
      * @param \Magento\Webapi\Model\Cache\Type $cache
      * @param \Magento\Webapi\Helper\Config $helper
+     * @param \Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor $typeProcessor
      */
     public function __construct(
         \Magento\Webapi\Model\Soap\Config $apiConfig,
         \Magento\Webapi\Model\Soap\Wsdl\Factory $wsdlFactory,
         \Magento\Webapi\Model\Cache\Type $cache,
-        \Magento\Webapi\Helper\Config $helper
+        \Magento\Webapi\Helper\Config $helper,
+        \Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor $typeProcessor
     ) {
         $this->_apiConfig = $apiConfig;
         $this->_wsdlFactory = $wsdlFactory;
         $this->_cache = $cache;
         $this->_helper = $helper;
+        $this->_typeProcessor = $typeProcessor;
     }
 
     /**
@@ -251,7 +257,7 @@ class Generator
             'parameters' => $inputParameters,
             'callInfo' => $callInfo,
         );
-        $this->_apiConfig->setTypeData($complexTypeName, $typeData);
+        $this->_typeProcessor->setTypeData($complexTypeName, $typeData);
         $wsdl->addComplexType($complexTypeName);
         $wsdl->addMessage(
             $inputMessageName,
@@ -290,7 +296,7 @@ class Generator
             'parameters' => $methodData['interface']['out']['parameters'],
             'callInfo' => $callInfo,
         );
-        $this->_apiConfig->setTypeData($complexTypeName, $typeData);
+        $this->_typeProcessor->setTypeData($complexTypeName, $typeData);
         $wsdl->addComplexType($complexTypeName);
         $wsdl->addMessage(
             $outputMessageName,
@@ -431,7 +437,7 @@ class Generator
                     }
                     $callInfo = array();
                     $callInfo[$direction][$condition]['calls'][] = $operation;
-                    $this->_apiConfig->setTypeData($parameterType, array('callInfo' => $callInfo));
+                    $this->_typeProcessor->setTypeData($parameterType, array('callInfo' => $callInfo));
                 }
             }
         }

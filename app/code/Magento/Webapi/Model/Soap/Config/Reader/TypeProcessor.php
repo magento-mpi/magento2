@@ -37,14 +37,17 @@ class TypeProcessor
      *     ...
      * )</pre>
      */
-    protected $_types;
+    protected $_types = array();
 
     /**
      * Types class map.
      *
-     * @var array
+     * @var array <pre>array(
+     *     $complexTypeName => $interfaceName,
+     *     ...
+     * )</pre>
      */
-    protected $_typeToClassMap;
+    protected $_typeToClassMap = array();
 
     /**
      * Construct type processor.
@@ -67,7 +70,37 @@ class TypeProcessor
     }
 
     /**
-     * Retrieve processed types to class map.
+     * Retrieve data type details for the given type name.
+     *
+     * @param string $typeName
+     * @return array
+     * @throws \InvalidArgumentException
+     */
+    public function getTypeData($typeName)
+    {
+        if (!isset($this->_types[$typeName])) {
+            throw new \InvalidArgumentException(sprintf('Data type "%s" is not declared.', $typeName));
+        }
+        return $this->_types[$typeName];
+    }
+
+    /**
+     * Add or update type data in config.
+     *
+     * @param string $typeName
+     * @param array $data
+     */
+    public function setTypeData($typeName, $data)
+    {
+        if (!isset($this->_types[$typeName])) {
+            $this->_types[$typeName] = $data;
+        } else {
+            $this->_types[$typeName] = array_merge_recursive($this->_types[$typeName], $data);
+        }
+    }
+
+    /**
+     * Retrieve mapping of complex types defined in WSDL to real data classes.
      *
      * @return array
      */

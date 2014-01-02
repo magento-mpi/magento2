@@ -37,40 +37,51 @@ class ClassReflector
     }
 
     /**
-     * Set types data into reader after reflecting all files.
-     *
-     * @return array
-     */
-    public function getPostReflectionData()
-    {
-        return array(
-            'types' => $this->_typeProcessor->getTypesData(),
-            'type_to_class_map' => $this->_typeProcessor->getTypeToClassMap(),
-        );
-    }
-
-    /**
      * Reflect methods in given class and set retrieved data into reader.
      *
      * @param array $methodsDeclaredInSoap
      * @param string $className
-     * @return array
+     * @return array <pre>array(
+     *     $firstMethod => array(
+     *         'documentation' => $methodDocumentation,
+     *         'interface' => array(
+     *             'in' => array(
+     *                 'parameters' => array(
+     *                     $firstParameter => array(
+     *                         'type' => $type,
+     *                         'required' => $isRequired,
+     *                         'documentation' => $parameterDocumentation
+     *                     ),
+     *                     ...
+     *                 )
+     *             ),
+     *             'out' => array(
+     *                 'parameters' => array(
+     *                     $firstParameter => array(
+     *                         'type' => $type,
+     *                         'required' => $isRequired,
+     *                         'documentation' => $parameterDocumentation
+     *                     ),
+     *                     ...
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     ...
+     * )</pre>
      */
     public function reflectClassMethods($className, $methodsDeclaredInSoap)
     {
-        $data = array(
-            'service' => $className,
-        );
+        $data = array();
         $classReflection = new \Zend\Server\Reflection\ReflectionClass(new \ReflectionClass($className));
         /** @var $methodReflection ReflectionMethod */
         foreach ($classReflection->getMethods() as $methodReflection) {
             $methodName = $methodReflection->getName();
             if (array_key_exists($methodName, $methodsDeclaredInSoap)) {
-                $data['methods'][$methodName] = $this->extractMethodData($methodReflection);
+                $data[$methodName] = $this->extractMethodData($methodReflection);
             }
         }
-        // TODO: Consider moving getServiceName() to helper
-        return array('services' => array($this->_configHelper->getServiceName($className) => $data));
+        return $data;
     }
 
     /**
