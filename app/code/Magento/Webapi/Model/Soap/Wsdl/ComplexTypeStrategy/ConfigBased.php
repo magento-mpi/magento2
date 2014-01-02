@@ -56,7 +56,7 @@ class ConfigBased extends AbstractComplexTypeStrategy
      * @param SoapConfig $config
      * @param ConfigHelper $helper
      */
-    public function __construct(SoapConfig $config,ConfigHelper $helper)
+    public function __construct(SoapConfig $config, ConfigHelper $helper)
     {
         $this->_helper = $helper;
         $this->_config = $config;
