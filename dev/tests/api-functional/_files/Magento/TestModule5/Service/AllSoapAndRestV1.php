@@ -10,16 +10,11 @@ namespace Magento\TestModule5\Service;
 
 class AllSoapAndRestV1 implements \Magento\TestModule5\Service\AllSoapAndRestV1Interface
 {
-
     /**
      * @inheritdoc
      */
     public function item($itemId)
     {
-        //TODO: Fix exception
-        if ($itemId == null) {
-            throw new \Magento\Webapi\Exception("Invalid Id");
-        }
         $allSoapAndRest = new Entity\V1\AllSoapAndRest();
         $allSoapAndRest->setId($itemId);
         $allSoapAndRest->setName('testItemName');

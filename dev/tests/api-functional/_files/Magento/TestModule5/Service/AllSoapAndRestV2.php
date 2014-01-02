@@ -8,17 +8,13 @@
 
 namespace Magento\TestModule5\Service;
 
-class AllSoapAndRestV2 /**  extends AllSoapAndRestV1 */ implements AllSoapAndRestV2Interface
+class AllSoapAndRestV2 implements AllSoapAndRestV2Interface
 {
     /**
      * @inheritdoc
      */
     public function item($itemId)
     {
-        //TODO: Fix exception
-        if ($itemId == null) {
-            throw new \Magento\Webapi\Exception("Invalid Id");
-        }
         $allSoapAndRest = new Entity\V2\AllSoapAndRest();
         $allSoapAndRest->setId($itemId);
         $allSoapAndRest->setName('testItemName');
@@ -66,10 +62,6 @@ class AllSoapAndRestV2 /**  extends AllSoapAndRestV1 */ implements AllSoapAndRes
      */
     public function delete($itemId)
     {
-        if ($itemId == null) {
-            throw new \Magento\Webapi\Exception("Invalid Id");
-        }
-
         $allSoapAndRest = new Entity\V2\AllSoapAndRest();
         $allSoapAndRest->setId($itemId);
         $allSoapAndRest->setName('testProduct');

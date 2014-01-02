@@ -8,7 +8,6 @@
 
 namespace Magento\TestModule5\Service\Entity\V1;
 
-
 use Magento\Service\Entity\AbstractDto;
 
 /**
@@ -59,5 +58,4 @@ class AllSoapAndRest extends AbstractDto
     {
         return $this->_set(self::NAME, $name);
     }
-
 }

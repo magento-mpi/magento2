@@ -10,7 +10,6 @@ namespace Magento\TestModule5\Service;
 
 interface AllSoapAndRestV1Interface
 {
-
     /**
      * Retrieve an item.
      *
@@ -42,5 +41,4 @@ interface AllSoapAndRestV1Interface
      * @return \Magento\TestModule5\Service\Entity\V1\AllSoapAndRest
      */
     public function update(\Magento\TestModule5\Service\Entity\V1\AllSoapAndRest $item);
-
 }

@@ -49,5 +49,4 @@ interface AllSoapAndRestV2Interface
      * @return \Magento\TestModule5\Service\Entity\V2\AllSoapAndRest
      */
     public function delete($itemId);
-
 }

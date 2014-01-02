@@ -8,7 +8,6 @@
 
 namespace Magento\TestModule5\Service\Entity\V2;
 
-
 use Magento\TestModule5\Service\Entity\V1;
 
 class AllSoapAndRest extends V1\AllSoapAndRest
@@ -31,5 +30,4 @@ class AllSoapAndRest extends V1\AllSoapAndRest
     {
         return $this->_set(self::PRICE, $price);
     }
-
 }
