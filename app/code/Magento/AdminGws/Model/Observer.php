@@ -119,8 +119,20 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     {
         $gwsIsAll = (bool)(int)$object->getData('gws_is_all');
         $object->setGwsIsAll($gwsIsAll);
+        $notEmptyFilter = function ($el) {
+            return strlen($el) > 0;
+        };
+        if ($object->hasGwsWebsites() && !is_array($object->getGwsWebsites())) {
+            $object->setGwsWebsites(array_filter(explode(',', (string)$object->getGwsWebsites()), $notEmptyFilter));
+        }
+        if ($object->hasData('gws_store_groups') && !is_array($object->getData('gws_store_groups'))) {
+            $object->setData(
+                'gws_store_groups',
+                array_filter(explode(',', (string)$object->getData('gws_store_groups')), $notEmptyFilter)
+            );
+        }
 
-        $storeGroupIds = array();
+        $storeGroupIds = $object->getData('gws_store_groups');
 
         // set all websites and store groups
         if ($gwsIsAll) {
@@ -128,28 +140,20 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
             foreach ($this->_getAllStoreGroups() as $storeGroup) {
                 $storeGroupIds[] = $storeGroup->getId();
             }
-            $object->setGwsStoreGroups($storeGroupIds);
         } else {
             // set selected website ids
-            $websiteIds = ($object->getData('gws_websites') != '' ?
-                    explode(',', $object->getData('gws_websites')) :
-                    array());
-            $object->setGwsWebsites($websiteIds);
-
             // set either the set store group ids or all of allowed websites
-            if ($object->getData('gws_store_groups') != '') {
-                $storeGroupIds = explode(',', $object->getData('gws_store_groups'));
-            } else {
-                if ($websiteIds) {
-                    foreach ($this->_getAllStoreGroups() as $storeGroup) {
-                        if (in_array($storeGroup->getWebsiteId(), $websiteIds)) {
-                            $storeGroupIds[] = $storeGroup->getId();
-                        }
+            if (empty($storeGroupIds)
+                && count($object->getGwsWebsites())
+            ) {
+                foreach ($this->_getAllStoreGroups() as $storeGroup) {
+                    if (in_array($storeGroup->getWebsiteId(), $object->getGwsWebsites())) {
+                        $storeGroupIds[] = $storeGroup->getId();
                     }
                 }
             }
-            $object->setGwsStoreGroups($storeGroupIds);
         }
+        $object->setGwsStoreGroups(array_values(array_unique($storeGroupIds)));
 
         // determine and set store ids
         $storeIds = array();
