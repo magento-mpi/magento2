@@ -122,17 +122,16 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
         $notEmptyFilter = function ($el) {
             return strlen($el) > 0;
         };
-        if ($object->hasGwsWebsites() && !is_array($object->getGwsWebsites())) {
+        if (!is_array($object->getGwsWebsites())) {
             $object->setGwsWebsites(array_filter(explode(',', (string)$object->getGwsWebsites()), $notEmptyFilter));
         }
-        if ($object->hasData('gws_store_groups') && !is_array($object->getData('gws_store_groups'))) {
-            $object->setData(
-                'gws_store_groups',
-                array_filter(explode(',', (string)$object->getData('gws_store_groups')), $notEmptyFilter)
+        if (!is_array($object->getGwsStoreGroups())) {
+            $object->setGwsStoreGroups(
+                array_filter(explode(',', (string)$object->getGwsStoreGroups()), $notEmptyFilter)
             );
         }
 
-        $storeGroupIds = $object->getData('gws_store_groups');
+        $storeGroupIds = $object->getGwsStoreGroups();
 
         // set all websites and store groups
         if ($gwsIsAll) {
@@ -158,7 +157,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
         // determine and set store ids
         $storeIds = array();
         foreach ($this->_storeManager->getStores() as $store) {
-            if (in_array($store->getGroupId(), $storeGroupIds)) {
+            if (in_array($store->getGroupId(), $object->getGwsStoreGroups())) {
                 $storeIds[] = $store->getId();
             }
         }
@@ -167,7 +166,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
         // set relevant website ids from allowed store group ids
         $relevantWebsites = array();
         foreach ($this->_getAllStoreGroups() as $storeGroup) {
-            if (in_array($storeGroup->getId(), $storeGroupIds)) {
+            if (in_array($storeGroup->getId(), $object->getGwsStoreGroups())) {
                 $relevantWebsites[] = $storeGroup->getWebsite()->getId();
             }
         }
