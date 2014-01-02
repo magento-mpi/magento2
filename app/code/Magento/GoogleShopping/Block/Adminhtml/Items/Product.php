@@ -89,9 +89,11 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _beforeToHtml()
     {
-        $this->setId($this->getId().'_'.$this->getIndex());
-        $this->getChildBlock('reset_filter_button')->setData('onclick', $this->getJsObjectName().'.resetFilter()');
-        $this->getChildBlock('search_button')->setData('onclick', $this->getJsObjectName().'.doFilter()');
+        $this->setId($this->getId() . '_' . $this->getIndex());
+        $this->getChildBlock('reset_filter_button')
+            ->setData('onclick', $this->getJsObjectName() . '.resetFilter()');
+        $this->getChildBlock('search_button')
+            ->setData('onclick', $this->getJsObjectName() . '.doFilter()');
         return parent::_beforeToHtml();
     }
 

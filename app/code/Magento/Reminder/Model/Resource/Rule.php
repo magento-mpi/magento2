@@ -8,16 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Reminder\Model\Resource;
 
 /**
  * Reminder Rule resource model
- *
- * @category    Magento
- * @package     Magento_Reminder
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reminder\Model\Resource;
-
 class Rule extends \Magento\Rule\Model\Resource\AbstractResource
 {
     /**
@@ -45,22 +40,22 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     /**
      * Core resource helper
      *
-     * @var \Magento\Reminder\Model\Resource\HelperFactory
+     * @var \Magento\Core\Model\Resource\Helper
      */
-    protected $_resHelperFactory;
+    protected $_resourceHelper;
 
     /**
      * @param \Magento\App\Resource $resource
-     * @param HelperFactory $resHelperFactory
+     * @param \Magento\Core\Model\Resource\Helper $resourceHelper
      * @param \Magento\Stdlib\DateTime $dateTime
      */
     public function __construct(
         \Magento\App\Resource $resource,
-        \Magento\Reminder\Model\Resource\HelperFactory $resHelperFactory,
+        \Magento\Core\Model\Resource\Helper $resourceHelper,
         \Magento\Stdlib\DateTime $dateTime
     ) {
         parent::__construct($resource);
-        $this->_resHelperFactory = $resHelperFactory;
+        $this->_resourceHelper = $resourceHelper;
         $this->dateTime = $dateTime;
     }
 
@@ -79,7 +74,6 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      * Add website ids to rule data after load
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     *
      * @return \Magento\Reminder\Model\Resource\Rule
      */
     protected function _afterLoad(\Magento\Core\Model\AbstractModel $object)
@@ -349,13 +343,11 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
             'log_sent_at_min' => 'MIN(l.sent_at)'
         ));
 
-        /** @var $helper \Magento\Core\Model\Resource\Helper */
-        $helper = $this->_resHelperFactory->create();
         $findInSetSql = $adapter->prepareSqlCondition('schedule', array(
-            'finset' => $helper->getDateDiff('log_sent_at_min', $adapter->formatDate($currentDate))
+            'finset' => $this->_resourceHelper->getDateDiff('log_sent_at_min', $adapter->formatDate($currentDate))
         ));
         $select->having('log_sent_at_max IS NULL OR (' . $findInSetSql . ' AND '
-            . $helper->getDateDiff('log_sent_at_max', $adapter->formatDate($currentDate)) . ' = 0)');
+            . $this->_resourceHelper->getDateDiff('log_sent_at_max', $adapter->formatDate($currentDate)) . ' = 0)');
 
         if ($limit) {
             $select->limit($limit);

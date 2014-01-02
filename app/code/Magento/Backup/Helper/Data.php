@@ -55,6 +55,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $this->_authorization = $authorization;
         $this->_filesystem = $filesystem;        
         $this->_cacheTypeList = $cacheTypeList;
+        $this->_processFactory = $processFactory;
     }
 
     /**
