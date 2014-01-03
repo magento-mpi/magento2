@@ -1,0 +1,72 @@
+<?php
+/**
+ * {license_notice}
+ *   
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+//include_once __DIR__ .  '/../../Catalog/_files/categories.php';
+include_once __DIR__ .  '/../../Catalog/_files/products.php';
+include_once __DIR__ .  '/../../Customer/_files/customer.php';
+/** @var \Magento\ObjectManager $objectManager */
+$objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+
+// create gift registry
+$data = array(
+    'type_id' => 1,
+    'title'   => 'Test Registry',
+    'message' => 'Test Message',
+    'is_public' => 1,
+    'is_active' => 1,
+    'event_country' => 'US',
+    'event_date'    => date('m/d/y', strtotime('+1 month')),
+    'registrant' => array(
+        array(
+            'firstname' => 'TestReg',
+            'lastname'  => 'TestReg last',
+            'email'     => 'test1@test.magento.loc',
+        )
+    ),
+    'address' => array(
+        'firstname' => 'test',
+        'lastname'  => 'test',
+        'address'   => 'test addr',
+        'city'      => 'LA',
+        'region_id' => 1,
+        'postcode'  => 123456,
+        'country_id'=> 'US',
+        'telephone' => '123456789'
+    ),
+);
+/** @var \Magento\GiftRegistry\Model\Entity $giftRegistry */
+$giftRegistry = $objectManager->create('Magento\GiftRegistry\Model\Entity');
+$giftRegistry->setTypeId($data['type_id']);
+$giftRegistry->importData($data, false)
+    ->setCustomerId($customer->getId())
+    ->setWebsiteId(1)
+    ->setIsAddAction(true)
+    ->setUrlKey($giftRegistry->getGenerateKeyId());
+
+/** @var \Magento\GiftRegistry\Model\Person $person */
+$person = $objectManager->create('Magento\GiftRegistry\Model\Person');
+$person->addData($data['registrant'][0]);
+
+/** @var \Magento\Customer\Model\Address $address */
+$address = $objectManager->create('Magento\Customer\Model\Address');
+$address->isObjectNew(true);
+$address->addData($data['address']);
+$giftRegistry->importAddress($address);
+
+$giftRegistry->save();
+$person->setEntityId($giftRegistry->getId())->save();
+
+
+/** @var \Magento\GiftRegistry\Model\Item $item */
+$item = $objectManager->create('Magento\GiftRegistry\Model\Item');
+$item->setEntityId($giftRegistry->getId())
+    ->setProductId($product->getId())
+    ->setQty(2)
+    ->save();
+
+$objectManager->get('Magento\Core\Model\Registry')->register('test_gift_registry', $giftRegistry);
+$objectManager->get('Magento\Core\Model\Registry')->register('test_product', $product);
