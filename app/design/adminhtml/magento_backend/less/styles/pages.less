@@ -1,9 +1,11 @@
-// /**
-//  * {license_notice}
-//  *
-//  * @copyright  {copyright}
-//  * @license    {license_link}
-//  */
+/**
+ * {license_notice}
+ *
+ * @copyright  {copyright}
+ * @license    {license_link}
+ */
+
+@import "vars.less";
 
 /*
     Product Creation
@@ -22,12 +24,6 @@
     color: #7a7976;
 }
 
-.eq-ie8 [class^=" catalog-product-"] .page-actions .action-back,
-.eq-ie8 [class^=" catalog-product-"] .page-actions .action-back:hover,
-.eq-ie8 [class^=" catalog-product-"] .page-actions .action-back:active,
-.eq-ie8 [class^=" newsletter-"] .page-actions .action-back,
-.eq-ie8 [class^=" newsletter-"] .page-actions .action-back:hover,
-.eq-ie8 [class^=" newsletter-"] .page-actions .action-back:active,
 .sales-order-create-index .page-actions-inner .cancel,
 .sales-order-create-index .page-actions-inner .cancel:hover,
 .sales-order-create-index .page-actions-inner .cancel:active {
@@ -2002,11 +1998,6 @@ tr.row-totals:nth-child(odd) + tr.summary-details ~ tr.summary-total:not(.show-d
     word-wrap: break-word;
 }
 
-.eq-ie8 .sales-order-index .col-1-layout table.data {
-    table-layout: auto;
-    word-wrap: normal;
-}
-
 [class^=" sales-"] .col-from-store {
     width: 15%;
 }
@@ -2794,3 +2785,5 @@ table.items-to-invoice tbody tr:hover td {
 .clearfix:after {
     clear: both;
 }
+
+@import "debug.less";
