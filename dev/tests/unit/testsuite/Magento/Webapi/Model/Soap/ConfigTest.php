@@ -22,7 +22,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Webapi\Model\Config|\PHPUnit_Framework_MockObject_MockObject */
     protected $_configMock;
 
-    /** @var \Magento\Webapi\Helper\Config|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Webapi\Helper\Data|\PHPUnit_Framework_MockObject_MockObject */
     protected $_helperMock;
 
     /**

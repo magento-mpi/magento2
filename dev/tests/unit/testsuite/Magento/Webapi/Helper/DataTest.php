@@ -79,6 +79,16 @@ class DataTest extends \PHPUnit_Framework_TestCase
             array('Foo\\BarV1Interface'), // Module and 'Service' missed
         );
     }
+
+    public function testDtoGetterNameToFieldName()
+    {
+        $this->assertEquals('id', $this->_helper->dtoGetterNameToFieldName('getId'));
+    }
+
+    public function testDtoFieldNameToSetterName()
+    {
+        $this->assertEquals('setId', $this->_helper->dtoFieldNameToSetterName('id'));
+    }
 }
 
 require_once realpath(__DIR__ . '/../_files/test_interfaces.php');
