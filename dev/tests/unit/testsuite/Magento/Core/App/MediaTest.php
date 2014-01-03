@@ -80,7 +80,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         $this->_configMock = $this->getMock('Magento\Core\Model\File\Storage\Config', array(), array(), '', false);
         $this->_sync= $this->getMock('Magento\Core\Model\File\Storage\Synchronization', array(), array(), '', false);
         $this->_dirVerificationMock = $this->getMock(
-            'Magento\Filesystem\DirectoryList\Verification', array(), array(), '', false
+            'Magento\App\Filesystem\DirectoryList\Verification', array(), array(), '', false
         );
 
         $this->filesystemMock = $this->getMock('Magento\App\Filesystem', array(), array(), '', false);
@@ -94,7 +94,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         $this->_responseMock = $this->getMock('Magento\Core\Model\File\Storage\Response', array(), array(), '', false);
 
         $map = array(
-            array('Magento\Filesystem\DirectoryList\Verification', $this->_dirVerificationMock),
+            array('Magento\App\Filesystem\DirectoryList\Verification', $this->_dirVerificationMock),
             array('Magento\App\State', $this->_appState),
             array('Magento\Core\Model\File\Storage\Request', $this->_requestMock),
             array('Magento\Core\Model\File\Storage\Synchronization', $this->_sync),

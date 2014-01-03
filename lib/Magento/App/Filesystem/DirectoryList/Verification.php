@@ -7,10 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Filesystem\DirectoryList;
+namespace Magento\App\Filesystem\DirectoryList;
 
 use Magento\App\State,
-    Magento\Filesystem,
     Magento\Filesystem\FilesystemException,
     Magento\App\Filesystem as AppFilesystem;
 

@@ -11,7 +11,8 @@
 
 namespace Magento\TestFramework;
 
-use Magento\App\Filesystem;
+use Magento\App\Filesystem,
+    Magento\App\Filesystem\DirectoryList;
 
 /**
  * Encapsulates application installation, initialization and uninstall
@@ -222,12 +223,12 @@ class Application
         $this->loadArea(\Magento\TestFramework\Application::DEFAULT_APP_AREA);
         \Magento\Phrase::setRenderer($objectManager->get('Magento\Phrase\Renderer\Placeholder'));
 
-        /** @var \Magento\Filesystem\DirectoryList\Verification $verification */
-        $verification = $objectManager->get('Magento\Filesystem\DirectoryList\Verification');
+        /** @var \Magento\App\Filesystem\DirectoryList\Verification $verification */
+        $verification = $objectManager->get('Magento\App\Filesystem\DirectoryList\Verification');
         $verification->createAndVerifyDirectories();
 
         $directoryList = $objectManager->get('Magento\Filesystem\DirectoryList');
-        $directoryListConfig = $objectManager->get('Magento\Filesystem\DirectoryList\Configuration');
+        $directoryListConfig = $objectManager->get('Magento\App\Filesystem\DirectoryList\Configuration');
         $directoryListConfig->configure($directoryList);
 
         $directories = isset($overriddenParams[\Magento\App\Filesystem::PARAM_APP_DIRS])
