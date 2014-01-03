@@ -21,13 +21,13 @@
   * Fixed an issue when a customer could see someone's else reviews on the private Account Dashboard
   * Fixed an issue when a "New Theme" page was displayed as broken when trying to create a theme with incorrect "Version" value
   * Fixed an issue in saving an integration with XSS injection in the required fields
-  * Fixed an issue in the Mini Shopping Cart displaying when it contained virtual product
+  * Fixed an issue with the Mini Shopping Cart when it contained virtual product
   * Fixed an issue in disabling the Shopping Cart sidebar
-  * Fixed an issue when the "Adminhtml" cookie was not set when user logged in to the backend
+  * Fixed an issue when the "Adminhtml" cookie was not set when a user logged in to the backend
   * Fixed an issue when the "Persistent_shopping_cart" cookie was not set after customer's login
   * Fixed inability to publish products to Google Shopping
   * Fixed inability to download or revert the backup
-  * Fixed an issue where it was impossible for a customer to register when placing an order with a downloadable product
+  * Fixed inability to create a customer account when placing an order with a downloadable product
 * Various improvements:
   * Disabled PHP errors, notices and warnings output in the production mode, to prevent exposing sensitive information
 
