@@ -40,6 +40,39 @@ class CategoryTreeTest extends \PHPUnit_Framework_TestCase
         $this->_model->setData(array());
         $this->_model->load(7);
         $this->assertEquals(6, $this->_model->getParentId());
+        //checking position
+        $this->assertEquals(1, $this->_model->getPosition());
+        //positing for 8 must be decreased by 1 eq 3
+        $this->_model->setData(array());
+        $this->_model->load(8);
+        $this->assertEquals(3, $this->_model->getPosition());
+        //positing for 10 must be decreased by 1 eq 5
+        $this->_model->setData(array());
+        $this->_model->load(10);
+        $this->assertEquals(5, $this->_model->getPosition());
+        //positing for 6 must not be changed eq 2
+        $this->_model->setData(array());
+        $this->_model->load(6);
+        $this->assertEquals(2, $this->_model->getPosition());
+        //moving category 9 with null value
+        $this->_model->setData(array());
+        $this->_model->load(9);
+        $this->_model->move(6, null);
+        /* load is not enough to reset category data */
+        $this->_model->setData(array());
+        $this->_model->load(9);
+        //checking new parent
+        $this->assertEquals(6, $this->_model->getParentId());
+        //checking new position id
+        $this->assertEquals(1, $this->_model->getPosition());
+        //checking new position id for 10
+        $this->_model->setData(array());
+        $this->_model->load(10);
+        $this->assertEquals(4, $this->_model->getPosition());
+        /* load is not enough to reset category data */
+        $this->_model->setData(array());
+        $this->_model->load(7);
+        $this->assertEquals(2, $this->_model->getPosition());
     }
 
     /**

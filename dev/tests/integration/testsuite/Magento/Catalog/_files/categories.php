@@ -52,7 +52,7 @@ $category->setId(5)
     ->setAvailableSortBy('name')
     ->setDefaultSortBy('name')
     ->setIsActive(true)
-    ->setPosition(2)
+    ->setPosition(1)
     ->setCustomUseParentSettings(0)
     ->setCustomDesign('magento_blank')
     ->save();
@@ -82,6 +82,33 @@ $category->setId(7)
     ->setIsActive(true)
     ->setPosition(3)
     ->save();
+
+$category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Category');
+$category->setId(9)
+    ->setName('Movable 2')
+    ->setParentId(2) /**/
+    ->setPath('1/2/9')
+    ->setLevel(2)
+    ->setAvailableSortBy('name')
+    ->setDefaultSortBy('name')
+    ->setIsActive(true)
+    ->setPosition(5)
+    ->save();
+
+$category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Catalog\Model\Category');
+$category->setId(10)
+    ->setName('Movable 3')
+    ->setParentId(2) /**/
+    ->setPath('1/2/10')
+    ->setLevel(2)
+    ->setAvailableSortBy('name')
+    ->setDefaultSortBy('name')
+    ->setIsActive(true)
+    ->setPosition(6)
+    ->save();
+
 
 $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
     ->create('Magento\Catalog\Model\Category');
