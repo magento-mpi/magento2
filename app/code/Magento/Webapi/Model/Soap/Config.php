@@ -54,7 +54,7 @@ class Config
     /** @var \Magento\Webapi\Helper\Data */
     protected $_helper;
 
-    /** @var \Magento\Webapi\Model\Soap\Config\Reader\Soap\ClassReflector */
+    /** @var \Magento\Webapi\Model\Soap\Config\Reader\ClassReflector */
     protected $_classReflector;
 
     /**
@@ -64,7 +64,7 @@ class Config
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\App\Dir $dir
      * @param \Magento\Webapi\Model\Config $config
-     * @param \Magento\Webapi\Model\Soap\Config\Reader\Soap\ClassReflector $classReflector
+     * @param \Magento\Webapi\Model\Soap\Config\Reader\ClassReflector $classReflector
      * @param \Magento\Webapi\Helper\Data $helper
      */
     public function __construct(
@@ -72,7 +72,7 @@ class Config
         \Magento\Filesystem $filesystem,
         \Magento\App\Dir $dir,
         \Magento\Webapi\Model\Config $config,
-        \Magento\Webapi\Model\Soap\Config\Reader\Soap\ClassReflector $classReflector,
+        \Magento\Webapi\Model\Soap\Config\Reader\ClassReflector $classReflector,
         \Magento\Webapi\Helper\Data $helper
     ) {
         $this->_filesystem = $filesystem;
@@ -212,41 +212,6 @@ class Config
         $serviceName = $this->_helper->getServiceName($interfaceName);
         $operationName = $serviceName . ucfirst($methodName);
         return $operationName;
-    }
-
-    /**
-     * Identify the list of service name parts including sub-services using class name.
-     *
-     * Examples of input/output pairs: <br/>
-     * - 'Magento\Customer\Service\Customer\AddressV1Interface' => array('Customer', 'Address', 'V1') <br/>
-     * - 'Vendor\Customer\Service\Customer\AddressV1Interface' => array('VendorCustomer', 'Address', 'V1) <br/>
-     * - 'Magento\Catalog\Service\ProductV2Interface' => array('CatalogProduct', 'V2')
-     *
-     * @param string $className
-     * @param bool $preserveVersion Should version be preserved during class name conversion into service name
-     * @return array
-     * @throws \InvalidArgumentException When class is not valid API service.
-     */
-    public function getServiceNameParts($className, $preserveVersion = false)
-    {
-        if (preg_match(\Magento\Webapi\Model\Config::SERVICE_CLASS_PATTERN, $className, $matches)) {
-            $moduleNamespace = $matches[1];
-            $moduleName = $matches[2];
-            $moduleNamespace = ($moduleNamespace == 'Magento') ? '' : $moduleNamespace;
-            $serviceNameParts = explode('\\', trim($matches[3], '\\'));
-            if ($moduleName == $serviceNameParts[0]) {
-                /** Avoid duplication of words in service name */
-                $moduleName = '';
-            }
-            $parentServiceName = $moduleNamespace . $moduleName . array_shift($serviceNameParts);
-            array_unshift($serviceNameParts, $parentServiceName);
-            if ($preserveVersion) {
-                $serviceVersion = $matches[4];
-                $serviceNameParts[] = $serviceVersion;
-            }
-            return $serviceNameParts;
-        }
-        throw new \InvalidArgumentException(sprintf('The service interface name "%s" is invalid.', $className));
     }
 
     /**

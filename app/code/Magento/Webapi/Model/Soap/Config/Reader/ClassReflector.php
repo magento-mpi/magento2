@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Webapi\Model\Soap\Config\Reader\Soap;
+namespace Magento\Webapi\Model\Soap\Config\Reader;
 
 use Zend\Server\Reflection;
 use Zend\Server\Reflection\ReflectionMethod;
