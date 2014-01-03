@@ -52,6 +52,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDbIsolation enabled
      * @magentoAppIsolation enabled
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     * @magentoDataFixture Magento/Catalog/_files/products.php
      * @magentoDataFixture Magento/GiftRegistry/_files/resource_item_collection.php
      */
     public function testGiftCollection()

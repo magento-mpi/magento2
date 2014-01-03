@@ -5,9 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-//include_once __DIR__ .  '/../../Catalog/_files/categories.php';
-include_once __DIR__ .  '/../../Catalog/_files/products.php';
-include_once __DIR__ .  '/../../Customer/_files/customer.php';
 /** @var \Magento\ObjectManager $objectManager */
 $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
@@ -38,6 +35,10 @@ $data = array(
         'telephone' => '123456789'
     ),
 );
+/** @var \Magento\Customer\Model\Customer $customer */
+$customer = $objectManager->create('Magento\Customer\Model\Customer');
+$customer->load(1);
+
 /** @var \Magento\GiftRegistry\Model\Entity $giftRegistry */
 $giftRegistry = $objectManager->create('Magento\GiftRegistry\Model\Entity');
 $giftRegistry->setTypeId($data['type_id']);
@@ -60,6 +61,8 @@ $giftRegistry->importAddress($address);
 $giftRegistry->save();
 $person->setEntityId($giftRegistry->getId())->save();
 
+$product = $objectManager->create('Magento\Catalog\Model\Product');
+$product->load(1);
 
 /** @var \Magento\GiftRegistry\Model\Item $item */
 $item = $objectManager->create('Magento\GiftRegistry\Model\Item');
