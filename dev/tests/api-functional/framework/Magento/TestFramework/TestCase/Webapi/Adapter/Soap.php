@@ -1,7 +1,5 @@
 <?php
 /**
- * Test client for SOAP API testing.
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -10,9 +8,12 @@
 
 namespace Magento\TestFramework\TestCase\Webapi\Adapter;
 
-use Magento\Webapi\Model\Soap\Wsdl\ComplexTypeStrategy\ConfigBased as WsdlDiscoveryStrategy;
+use Magento\Webapi\Model\Soap\Wsdl\ComplexTypeStrategy as WsdlDiscoveryStrategy;
 use Magento\Webapi\Controller\Soap\Handler as SoapHandler;
 
+/**
+ * Test client for SOAP API testing.
+ */
 class Soap implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
 {
     const WSDL_BASE_PATH = '/soap?wsdl=1';

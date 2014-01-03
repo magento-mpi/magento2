@@ -1,16 +1,18 @@
 <?php
 /**
- * Class allows to clone array values of object/array type lazily, when accessed
- *
- * This class will also allow for locking that prevents modifications of the data until cloned.
- *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Service\Entity;
 
+/**
+ * Class allows to clone array values of object/array type lazily, when accessed
+ *
+ * This class will also allow for locking that prevents modifications of the data until cloned.
+ */
 class LockableLazyArrayClone extends LazyArrayClone implements LockableInterface
 {
     /**
@@ -93,5 +95,4 @@ class LockableLazyArrayClone extends LazyArrayClone implements LockableInterface
             );
         }
     }
-
 }

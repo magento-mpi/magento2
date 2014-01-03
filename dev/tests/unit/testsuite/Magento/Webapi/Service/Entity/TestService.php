@@ -5,21 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Webapi\Service\Entity;
 
-/**
- * Class TestService
- *
- * Used to help test DTO serialization
- *
- * @package Magento\Webapi\Service\Entity
- */
 class TestService
 {
     /**
      * @param int    $entityId
      * @param string $name
-     *
      * @return array
      */
     public function simple($entityId, $name)
@@ -29,7 +22,6 @@ class TestService
 
     /**
      * @param \Magento\Webapi\Service\Entity\NestedDto $nested
-     *
      * @return NestedDto
      */
     public function nestedDto(NestedDto $nested)
@@ -39,7 +31,6 @@ class TestService
 
     /**
      * @param array $ids
-     *
      * @return array
      */
     public function simpleArray(array $ids)
@@ -49,7 +40,6 @@ class TestService
 
     /**
      * @param array $associativeArray
-     *
      * @return array
      */
     public function associativeArray(array $associativeArray)
@@ -59,7 +49,6 @@ class TestService
 
     /**
      * @param \Magento\Webapi\Service\Entity\SimpleDto[] $dtos
-     *
      * @return array
      */
     public function dtoArray(array $dtos)
@@ -69,7 +58,6 @@ class TestService
 
     /**
      * @param \Magento\Webapi\Service\Entity\SimpleArrayDto $arrayDto
-     *
      * @return SimpleArrayDto
      */
     public function nestedSimpleArray(SimpleArrayDto $arrayDto)
@@ -79,7 +67,6 @@ class TestService
 
     /**
      * @param \Magento\Webapi\Service\Entity\AssociativeArrayDto $associativeArrayDto
-     *
      * @return AssociativeArrayDto
      */
     public function nestedAssociativeArray(AssociativeArrayDto $associativeArrayDto)
@@ -89,7 +76,6 @@ class TestService
 
     /**
      * @param \Magento\Webapi\Service\Entity\DtoArrayDto $dtos
-     *
      * @return DtoArrayDto
      */
     public function nestedDtoArray(DtoArrayDto $dtos)

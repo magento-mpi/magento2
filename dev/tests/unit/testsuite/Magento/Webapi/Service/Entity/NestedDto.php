@@ -9,11 +9,6 @@ namespace Magento\Webapi\Service\Entity;
 
 use Magento\Service\Entity\AbstractDto;
 
-/**
- * Class NestedDto
- *
- * @package Magento\Webapi\Service\Entity
- */
 class NestedDto extends AbstractDto
 {
     /**

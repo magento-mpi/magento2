@@ -1,14 +1,12 @@
 <?php
 /**
- * Customer Service Address Interface
- *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\TestModule1\Service\Entity\V1;
 
+namespace Magento\TestModule1\Service\Entity\V1;
 
 class Item extends \Magento\Service\Entity\AbstractDto
 {

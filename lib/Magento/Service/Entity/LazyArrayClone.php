@@ -1,14 +1,16 @@
 <?php
 /**
- * Class allows to clone array values of object/array type lazily, when accesses
- *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Service\Entity;
 
+/**
+ * Class allows to clone array values of object/array type lazily, when accesses
+ */
 class LazyArrayClone implements \ArrayAccess, \IteratorAggregate, \Countable
 {
     /**
@@ -35,7 +37,7 @@ class LazyArrayClone implements \ArrayAccess, \IteratorAggregate, \Countable
     }
 
     /**
-     *@inheritdoc
+     * @inheritdoc
      */
     public function getIterator()
     {

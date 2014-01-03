@@ -34,8 +34,6 @@ class RequestTest extends \PHPUnit_Framework_TestCase
 
     public function testGetRequestedServicesNotAllowedParametersException()
     {
-        /** TODO: Fix */
-        $this->markTestIncomplete("Should be fixed after MAGETWO-14491 is done.");
         /** Prepare mocks for SUT constructor. */
         $wsdlParam = \Magento\Webapi\Model\Soap\Server::REQUEST_PARAM_WSDL;
         $servicesParam = \Magento\Webapi\Model\Soap\Server::REQUEST_PARAM_SERVICES;

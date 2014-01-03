@@ -140,32 +140,6 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
         );
     }
 
-    public function testReturnIncompatibleDataType()
-    {
-        $this->markTestSkipped("i don't believe this is a valid test anymore");
-
-        $serviceInfo = array(
-            'rest' => array(
-                'resourcePath' => '/V1/errortest/returnIncompatibleDataType',
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
-            ),
-        );
-        $expectedMessages = array(
-            'Internal Error. Details are available in Magento log file. Report ID: %1',
-            'The method "returnIncompatibleDataType" of service '
-            . '"Magento\TestModule3\Service\ErrorV1Interface" must return an array.'
-        );
-        // \Magento\Service\Exception
-        $this->_errorTest(
-            $serviceInfo,
-            array(),
-            \Magento\Webapi\Exception::HTTP_INTERNAL_ERROR,
-            0,
-            $expectedMessages,
-            null
-        );
-    }
-
     /**
      * Perform a negative REST api call test case and compare the results with expected values.
      *

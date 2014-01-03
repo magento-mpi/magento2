@@ -67,11 +67,11 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
         $itemArr = array(
             array(
                 'id' => 1,
-                'name' => 'testProduct1',
+                'name' => 'testProduct1'
             ),
             array(
                 'id' => 2,
-                'name' => 'testProduct2',
+                'name' => 'testProduct2'
             )
         );
         $serviceInfo = array(

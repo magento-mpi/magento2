@@ -6,14 +6,14 @@
  * @license     {license_link}
  */
 
-namespace Magento\Webapi\Model\Soap\Wsdl\ComplexTypeStrategy;
+namespace Magento\Webapi\Model\Soap\Wsdl;
 
 use Zend\Soap\Wsdl;
 
 /**
  * Complex type strategy tests.
  */
-class ConfigBasedTest extends \PHPUnit_Framework_TestCase
+class ComplexTypeStrategyTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor|\PHPUnit_Framework_MockObject_MockObject */
     protected $_typeProcessor;
@@ -21,7 +21,7 @@ class ConfigBasedTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Webapi\Model\Soap\Wsdl|\PHPUnit_Framework_MockObject_MockObject */
     protected $_wsdl;
 
-    /** @var ConfigBased */
+    /** @var ComplexTypeStrategy */
     protected $_strategy;
 
     /**
@@ -37,7 +37,7 @@ class ConfigBasedTest extends \PHPUnit_Framework_TestCase
             ->setMethods(array('toDomDocument', 'getTypes', 'getSchema'))
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_strategy = new ConfigBased($this->_typeProcessor);
+        $this->_strategy = new ComplexTypeStrategy($this->_typeProcessor);
         $this->_strategy->setContext($this->_wsdl);
         parent::setUp();
     }

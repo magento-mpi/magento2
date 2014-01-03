@@ -5,15 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Webapi\Service\Entity;
 
 use Magento\Service\Entity\AbstractDto;
 
-/**
- * Class SimpleDto
- *
- * @package Magento\Webapi\Service\Entity
- */
 class SimpleDto extends AbstractDto
 {
     /**
@@ -26,7 +22,6 @@ class SimpleDto extends AbstractDto
 
     /**
      * @param $entityId
-     *
      * @return SimpleDto
      */
     public function setEntityId($entityId)
@@ -44,7 +39,6 @@ class SimpleDto extends AbstractDto
 
     /**
      * @param string $name
-     *
      * @return SimpleDto
      */
     public function setName($name)

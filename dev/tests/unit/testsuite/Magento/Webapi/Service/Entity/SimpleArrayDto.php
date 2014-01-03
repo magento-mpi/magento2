@@ -5,15 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Webapi\Service\Entity;
 
 use Magento\Service\Entity\AbstractDto;
 
-/**
- * Class SimpleArrayDto
- *
- * @package Magento\Webapi\Service\Entity
- */
 class SimpleArrayDto extends AbstractDto
 {
     /**
@@ -26,7 +22,6 @@ class SimpleArrayDto extends AbstractDto
 
     /**
      * @param array $ids
-     *
      * @return SimpleArrayDto
      */
     public function setIds(array $ids)

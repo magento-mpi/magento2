@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\TestModule2\Service;
 
 use Magento\TestModule2\Service\Entity\V1\Item;
@@ -16,9 +17,6 @@ class NoWebApiXmlV1 implements \Magento\TestModule2\Service\NoWebApiXmlV1Interfa
      */
     public function item($id)
     {
-        if ($id == null) {
-            throw new \Magento\Webapi\Exception("Invalid Id");
-        }
         $result = new Item();
         $result->setId($id);
         $result->setName('testProduct1');
@@ -57,10 +55,6 @@ class NoWebApiXmlV1 implements \Magento\TestModule2\Service\NoWebApiXmlV1Interfa
      */
     public function update(Item $item)
     {
-        if ($item->getId() == null) {
-            throw new \Magento\Webapi\Exception("Invalid Id");
-        }
-
         $result = new Item();
         $result->setId($item->getId());
         $result->setName('Updated'.$item->getName());

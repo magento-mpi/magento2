@@ -1,7 +1,5 @@
 <?php
 /**
- * The list of test interfaces.
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -10,6 +8,9 @@
 
 namespace Magento\Module\Service;
 
+/**
+ * The list of test interfaces.
+ */
 interface FooV1Interface
 {
     public function someMethod();

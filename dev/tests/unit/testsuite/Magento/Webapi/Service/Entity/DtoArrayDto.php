@@ -9,11 +9,6 @@ namespace Magento\Webapi\Service\Entity;
 
 use Magento\Service\Entity\AbstractDto;
 
-/**
- * Class DtoArrayDto
- *
- * @package Magento\Webapi\Service\Entity
- */
 class DtoArrayDto extends AbstractDto
 {
     /**
@@ -26,7 +21,6 @@ class DtoArrayDto extends AbstractDto
 
     /**
      * @param \Magento\Webapi\Service\Entity\SimpleDto[] $items
-     *
      * @return DtoArrayDto
      */
     public function setItems(array $items)

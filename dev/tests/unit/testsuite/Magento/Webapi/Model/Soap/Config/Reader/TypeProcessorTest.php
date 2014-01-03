@@ -118,10 +118,7 @@ class TypeProcessorTest extends \PHPUnit_Framework_TestCase
      */
     public function testTranslateTypeNameInvalidArgumentException()
     {
-        //TODO: Uncomment once regex is fixed
-        //$this->_typeProcessor->translateTypeName('\Magento\TestModule3\Service\V1\Parameter[]');
         $this->_typeProcessor->translateTypeName('\Magento\TestModule3\V1\Parameter[]');
-
     }
 
     public function testTranslateArrayTypeName()

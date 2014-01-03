@@ -1,14 +1,12 @@
 <?php
 /**
- * Customer Service Address Interface
- *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\TestModule4\Service\Entity\V1;
 
+namespace Magento\TestModule4\Service\Entity\V1;
 
 class DtoResponse extends \Magento\Service\Entity\AbstractDto
 {
@@ -30,7 +28,6 @@ class DtoResponse extends \Magento\Service\Entity\AbstractDto
 
     /**
      * @param int $entityId
-     *
      * @return DtoResponse
      */
     public function setEntityId($entityId)
@@ -40,7 +37,6 @@ class DtoResponse extends \Magento\Service\Entity\AbstractDto
 
     /**
      * @param string $name
-     *
      * @return DtoResponse
      */
     public function setName($name)

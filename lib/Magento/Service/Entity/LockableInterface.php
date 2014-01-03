@@ -1,14 +1,16 @@
 <?php
 /**
- * Interface LockableInterface adds locking capabilities to an object
- *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Service\Entity;
 
+/**
+ * Interface LockableInterface adds locking capabilities to an object
+ */
 interface LockableInterface
 {
     /**

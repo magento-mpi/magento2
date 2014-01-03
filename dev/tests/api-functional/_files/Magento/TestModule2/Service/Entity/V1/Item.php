@@ -1,14 +1,12 @@
 <?php
 /**
- * Customer Service Address Interface
- *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\TestModule2\Service\Entity\V1;
 
+namespace Magento\TestModule2\Service\Entity\V1;
 
 class Item extends \Magento\Service\Entity\AbstractDto
 {
@@ -30,8 +28,7 @@ class Item extends \Magento\Service\Entity\AbstractDto
 
     /**
      * @param int $id
-     *
-     * @return \Magento\TestModule1\Service\Entity\V1\Item
+     * @return \Magento\TestModule2\Service\Entity\V1\Item
      */
     public function setId($id)
     {
@@ -41,8 +38,7 @@ class Item extends \Magento\Service\Entity\AbstractDto
 
     /**
      * @param string $name
-     *
-     * @return \Magento\TestModule1\Service\Entity\V1\Item
+     * @return \Magento\TestModule2\Service\Entity\V1\Item
      */
     public function setName($name)
     {

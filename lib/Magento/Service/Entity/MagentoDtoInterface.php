@@ -1,16 +1,18 @@
 <?php
 /**
- * Interface that all Magento DTO objects must adhere to.
- *
- * Ensure that classes implementing the interface deeply clone all referenced objects
- *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Service\Entity;
 
+/**
+ * Interface that all Magento DTO objects must adhere to.
+ *
+ * Ensure that classes implementing the interface deeply clone all referenced objects
+ */
 interface MagentoDtoInterface extends LockableInterface
 {
     /**
@@ -29,5 +31,4 @@ interface MagentoDtoInterface extends LockableInterface
      * @return \ArrayAccess
      */
     public function __toArray();
-
 }

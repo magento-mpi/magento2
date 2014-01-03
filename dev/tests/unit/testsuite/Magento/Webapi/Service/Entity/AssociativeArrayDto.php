@@ -21,7 +21,6 @@ class AssociativeArrayDto extends AbstractDto
 
     /**
      * @param array $associativeArray
-     *
      * @return AssociativeArrayDto
      */
     public function setAssociativeArray(array $associativeArray)

@@ -10,17 +10,13 @@ namespace Magento\TestModule1\Service;
 
 use Magento\TestModule1\Service\Entity\V2\Item;
 
-class AllSoapAndRestV2 implements
-    \Magento\TestModule1\Service\AllSoapAndRestV2Interface
+class AllSoapAndRestV2 implements \Magento\TestModule1\Service\AllSoapAndRestV2Interface
 {
     /**
      * {@inheritdoc}
      */
     public function item($id)
     {
-        if ($id == null) {
-            throw new \Magento\Webapi\Exception("Invalid Id");
-        }
         $result = new Item();
         $result->setId($id);
         $result->setName('testProduct1');
@@ -63,10 +59,6 @@ class AllSoapAndRestV2 implements
      */
     public function update(Item $item)
     {
-        if ($item->getId() == null) {
-            throw new \Magento\Webapi\Exception("Invalid Id");
-        }
-
         $result = new Item();
         $result->setId($item->getId());
         $result->setName('Updated'.$item->getName());
@@ -79,10 +71,6 @@ class AllSoapAndRestV2 implements
      */
     public function delete($id)
     {
-        if ($id == null) {
-            throw new \Magento\Webapi\Exception("Invalid Id");
-        }
-
         $result = new Item();
         $result->setId($id);
         $result->setName('testProduct1');

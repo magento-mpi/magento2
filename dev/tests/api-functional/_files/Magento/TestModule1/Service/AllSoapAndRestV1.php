@@ -17,9 +17,6 @@ class AllSoapAndRestV1 implements \Magento\TestModule1\Service\AllSoapAndRestV1I
      */
     public function item($id)
     {
-        if ($id == null) {
-            throw new \Magento\Webapi\Exception("Invalid Id");
-        }
         $result = new Item();
         $result->setId($id);
         $result->setName('testProduct1');
@@ -58,10 +55,6 @@ class AllSoapAndRestV1 implements \Magento\TestModule1\Service\AllSoapAndRestV1I
      */
     public function update(Item $item)
     {
-        if ($item->getId() == null) {
-            throw new \Magento\Webapi\Exception("Invalid Id");
-        }
-
         $result = new Item();
         $result->setId($item->getId());
         $result->setName('Updated'.$item->getName());

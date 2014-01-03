@@ -1,14 +1,16 @@
 <?php
 /**
- * Initialize and provide access to LazyArrayClone internal storage. Ensure it is cloned on clone operation
- *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Service\Entity;
 
+/**
+ * Initialize and provide access to LazyArrayClone internal storage. Ensure it is cloned on clone operation
+ */
 abstract class AbstractDto implements MagentoDtoInterface
 {
     /**
@@ -87,7 +89,6 @@ abstract class AbstractDto implements MagentoDtoInterface
     /**
      * @param string $key
      * @param mixed $value
-     *
      * @return AbstractDto
      */
     protected function _set($key, $value)
@@ -105,7 +106,8 @@ abstract class AbstractDto implements MagentoDtoInterface
     {
         if (null === $this->_data
             || !($this->_data instanceof \ArrayAccess)
-            || !($this->_data instanceof LockableInterface)) {
+            || !($this->_data instanceof LockableInterface)
+        ) {
             throw new \LogicException('Unable to clone because $_data is not a lockable array access object. '
                 . ' Please be sure to call parent::__construct when extending AbstractDto.');
         }

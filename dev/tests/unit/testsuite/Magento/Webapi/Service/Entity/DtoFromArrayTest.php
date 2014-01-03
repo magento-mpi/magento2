@@ -2,16 +2,10 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Webapi
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Test for \Magento\Webapi\Model\Source\Acl\Role.
- */
 namespace Magento\Webapi\Service\Entity;
 
 use Magento\Service\Entity\AbstractDto;
@@ -42,7 +36,7 @@ class DtoFromArrayTest extends \PHPUnit_Framework_TestCase
     {
         $data = ['nested' => ['details' => ['entityId' => 15, 'name' => 'Test']]];
         $result = $this->serializer
-                       ->getInputData('\\Magento\\Webapi\\Service\\Entity\\TestService', 'nestedDto', $data);
+            ->getInputData('\\Magento\\Webapi\\Service\\Entity\\TestService', 'nestedDto', $data);
         $this->assertNotNull($result);
         $this->assertTrue( $result[0] instanceof NestedDto);
         /** @var array $result */
@@ -73,6 +67,7 @@ class DtoFromArrayTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(4, count($ids));
         $this->assertEquals($data['ids'], $ids);
     }
+
     public function testAssociativeArrayProperties()
     {
         $data = ['associativeArray' => ['key' => 'value', 'key_two' => 'value_two']];
@@ -90,6 +85,7 @@ class DtoFromArrayTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('value', $associativeArray['key']);
         $this->assertEquals('value_two', $associativeArray['key_two']);
     }
+
     public function testArrayOfDtoProperties()
     {
         $data = ['dtos' => [ ['entityId' => 14, 'name' => 'First'], [ 'entityId' => 15, 'name' => 'Second' ] ]];
@@ -151,6 +147,7 @@ class DtoFromArrayTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('value', $associativeArray['key']);
         $this->assertEquals('value2', $associativeArray['key2']);
     }
+
     public function testNestedArrayOfDtoProperties()
     {
         $data = ['dtos' => ['items' => [['entityId' => 1, 'name' => 'First'], ['entityId' => 2, 'name' => 'Second']]]];
@@ -175,15 +172,5 @@ class DtoFromArrayTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($second instanceof SimpleDto);
         $this->assertEquals(2, $second->getEntityId());
         $this->assertEquals('Second', $second->getName());
-    }
-
-    public function testDefaultValueProvided()
-    {
-
-    }
-
-    public function testDefaultValueNotProvided()
-    {
-
     }
 }

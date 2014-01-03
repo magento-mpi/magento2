@@ -14,16 +14,11 @@ use Magento\Webapi\Model\Soap\Fault;
 
 /**
  * WSDL generator.
- *
- * TODO: Remove warnings suppression
- * @SuppressWarnings(PHPMD.UnusedFormalParameter)
- * @SuppressWarnings(PHPMD.UnusedLocalVariable)
  */
 class Generator
 {
     const WSDL_NAME = 'MagentoWSDL';
     const WSDL_CACHE_ID = 'WSDL';
-
     /**
      * WSDL factory instance.
      *
@@ -199,7 +194,6 @@ class Generator
                 )
             )
         );
-
         return Wsdl::TYPES_NS . ':' . $inputMessageName;
     }
 
@@ -238,7 +232,6 @@ class Generator
                 )
             )
         );
-
         return Wsdl::TYPES_NS . ':' . $outputMessageName;
     }
 

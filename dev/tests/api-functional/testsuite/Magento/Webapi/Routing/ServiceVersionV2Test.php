@@ -6,24 +6,16 @@
  * @license     {license_link}
  */
 
-/**
- * Class to test routing based on Service Versioning(for a new version V2 of an existing V1 service)
- */
 namespace Magento\Webapi\Routing;
 
 class ServiceVersionV2Test extends \Magento\Webapi\Routing\BaseService
 {
-
-    /**
-     * @override
-     */
     protected function setUp()
     {
         $this->_version = 'V2';
         $this->_soapService = 'testModule1AllSoapAndRestV2';
         $this->_restResourcePath = "/$this->_version/testmodule1/";
     }
-
 
     /**
      *  Test to assert overriding of the existing 'Item' api in V2 version of the same service

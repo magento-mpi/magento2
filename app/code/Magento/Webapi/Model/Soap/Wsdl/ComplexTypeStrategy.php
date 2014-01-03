@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Webapi\Model\Soap\Wsdl\ComplexTypeStrategy;
+namespace Magento\Webapi\Model\Soap\Wsdl;
 
 use Zend\Soap\Wsdl\ComplexTypeStrategy\AbstractComplexTypeStrategy;
 use Zend\Soap\Wsdl;
@@ -14,7 +14,7 @@ use Zend\Soap\Wsdl;
 /**
  * Magento-specific Complex type strategy for WSDL auto discovery.
  */
-class ConfigBased extends AbstractComplexTypeStrategy
+class ComplexTypeStrategy extends AbstractComplexTypeStrategy
 {
     /**
      *  Array item key value for element.

@@ -1,7 +1,5 @@
 <?php
 /**
- * Class allows iterating over an ArrayAccess object
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,6 +7,9 @@
  */
 namespace Magento\Service\Entity;
 
+/**
+ * Class allows iterating over an ArrayAccess object
+ */
 class ArrayAccessIterator implements \Iterator
 {
     /** @var \ArrayAccess  */

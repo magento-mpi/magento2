@@ -1,7 +1,5 @@
 <?php
 /**
- * Test WSDL generation mechanisms.
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -10,6 +8,9 @@
 
 namespace Magento\Webapi;
 
+/**
+ * Test WSDL generation mechanisms.
+ */
 class WsdlGenerationFromDtoTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
     /** @var string */

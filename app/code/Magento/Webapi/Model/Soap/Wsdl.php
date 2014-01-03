@@ -8,7 +8,7 @@
 namespace Magento\Webapi\Model\Soap;
 
 use DOMElement;
-use Magento\Webapi\Model\Soap\Wsdl\ComplexTypeStrategy\ConfigBased as ComplexTypeStrategy;
+use Magento\Webapi\Model\Soap\Wsdl\ComplexTypeStrategy;
 
 /**
  * Magento-specific WSDL builder.
@@ -23,11 +23,8 @@ class Wsdl extends \Zend\Soap\Wsdl
      * @param string|\Zend\Uri\Uri $uri
      * @param ComplexTypeStrategy $strategy
      */
-    public function __construct(
-        $name,
-        $uri,
-        ComplexTypeStrategy $strategy
-    ) {
+    public function __construct($name, $uri, ComplexTypeStrategy $strategy)
+    {
         parent::__construct($name, $uri, $strategy);
     }
 
