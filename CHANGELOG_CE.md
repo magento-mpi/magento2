@@ -1,3 +1,12 @@
+* Fixed bugs:
+  * Fixed products from non-default website aren't shown as bundle items
+  * Fixed placing order with status Pending Payment instead of Processing when payment method Authorize.net is used
+  * Fixed PayPal Express: order can't be placed if HTTPS is used on frontend
+  * Fixed security issue with user session on registration
+  * Fixed CSRF vulnerability in checkout
+  * Fixed JavaScript static testing framework to properly handle corrupted paths in white/black lists
+* Consolidated a few 3rd-party JavaScript libraries under `pub/lib` directory and specified their original license notice texts
+
 2.0.0.0-dev59
 =============
 * Fixed bugs:
