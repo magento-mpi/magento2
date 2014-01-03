@@ -55,4 +55,9 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(array('default' => array('connection_name')), $this->_config->getConnections());
     }
+
+    public function testGetResources()
+    {
+        $this->assertEquals(array('name' => array('default_setup')), $this->_config->getResources());
+    }
 }
