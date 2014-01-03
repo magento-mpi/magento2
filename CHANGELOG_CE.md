@@ -1,4 +1,5 @@
 * Fixed bugs:
+  * Fixed Exception Log Errors Invalid year
   * Fixed shipment with packages data corrupted functionality
   * Fixed unavailability to add gift wrapping for multiple items
   * Fixed DHL functionality of generation shipping labels
@@ -29,6 +30,8 @@
   * Fixed products from non-default website aren't shown as bundle items
   * Fixed placing order with status Pending Payment instead of Processing when payment method Authorize.net is used
   * Fixed PayPal Express: order can't be placed if HTTPS is used on frontend
+* Various improvements:
+  * Disabled PHP errors, notices and warnings output in production mode to prevent exposing sensitive information
 
 2.0.0.0-dev58
 =============
