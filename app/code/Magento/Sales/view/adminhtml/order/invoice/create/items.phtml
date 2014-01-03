@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 ?>
+
 <div class="fieldset-wrapper">
     <div class="fieldset-wrapper-title">
         <?php $_itemsGridLabel = $this->getForcedShipmentCreate()?'Items to Invoice and Ship':'Items to Invoice'; ?>
@@ -47,9 +48,15 @@
         </table>
     </div>
 </div>
+
+<?php $orderTotalBar = $this->getChildHtml('order_totalbar'); ?>
+
+<?php if (!empty($orderTotalBar)): ?>
 <div class="fieldset-wrapper">
-    <?php echo $this->getChildHtml('order_totalbar') ?>
+    <?php echo $orderTotalBar; ?>
 </div>
+<?php endif; ?>
+
 <div class="clearfix">
     <div class="order-comments-history">
         <div class="fieldset-wrapper">
@@ -62,6 +69,7 @@
             </div>
         </div>
     </div>
+
     <div class="order-totals">
         <div class="fieldset-wrapper" id="invoice_totals">
             <div class="fieldset-wrapper-title">
