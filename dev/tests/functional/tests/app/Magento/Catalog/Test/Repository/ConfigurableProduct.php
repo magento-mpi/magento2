@@ -23,6 +23,7 @@ class ConfigurableProduct extends Product
 {
     const CONFIGURABLE = 'configurable';
 
+    const CONFIGURABLE_MAP = 'configurable_applied_map';
     /**
      * Construct
      *
@@ -34,7 +35,7 @@ class ConfigurableProduct extends Product
         parent::__construct($defaultConfig, $defaultData);
         $this->_data[self::CONFIGURABLE]['data']['affect_configurable_product_attributes'] = 'Template %isolation%';
         $this->_data['configurable_advanced_pricing'] = $this->getConfigurableAdvancedPricing();
-
+        $this->_data[self::CONFIGURABLE_MAP] = $this->getConfigurableAppliedMap();
         $this->_data['product_variations'] = array(
             'config' => $defaultConfig,
             'data' => $this->buildProductVariations($defaultData),
@@ -53,6 +54,40 @@ class ConfigurableProduct extends Product
                 'fields' => array(
                     'special_price' => array(
                         'value' => '9',
+                        'group' => Fixture\Product::GROUP_PRODUCT_PRICING
+                    )
+                )
+            )
+        );
+        $product = array_replace_recursive($this->_data[self::CONFIGURABLE], $pricing);
+
+        return $product;
+    }
+
+    /**
+     * Get configurable product with advanced pricing (MAP)
+     *
+     * @return array
+     */
+    protected function getConfigurableAppliedMap()
+    {
+        $pricing = array(
+            'data' => array(
+                'fields' => array(
+                    'msrp_enabled' => array(
+                        'value' => 'Yes',
+                        'input_value' => '1',
+                        'group' => Fixture\Product::GROUP_PRODUCT_PRICING,
+                        'input' => 'select'
+                    ),
+                    'msrp_display_actual_price_type' => array(
+                        'value' => 'On Gesture',
+                        'input_value' => '1',
+                        'group' => Fixture\Product::GROUP_PRODUCT_PRICING,
+                        'input' => 'select'
+                    ),
+                    'msrp' => array(
+                        'value' => '15',
                         'group' => Fixture\Product::GROUP_PRODUCT_PRICING
                     )
                 )

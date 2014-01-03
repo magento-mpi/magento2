@@ -73,6 +73,13 @@ class Price extends Block
     protected $addToCart = '.action.tocart';
 
     /**
+     * 'Close' button
+     *
+     * @var string
+     */
+    protected $closeMap = '#map-popup-close';
+
+    /**
      * @param string $currency
      * @return string|array
      */
@@ -199,5 +206,14 @@ class Price extends Block
     public function addToCartFromMap()
     {
         $this->_rootElement->find($this->addToCart, Locator::SELECTOR_CSS)->click();
+    }
+
+    /**
+     * Close MAP Block
+     *
+     */
+    public function closeMapBlock()
+    {
+        $this->_rootElement->find($this->closeMap, Locator::SELECTOR_CSS)->click();
     }
 }
