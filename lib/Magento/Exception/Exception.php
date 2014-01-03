@@ -7,19 +7,25 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Service\Exception;
+namespace Magento\Exception;
 
 abstract class Exception extends \Exception
 {
     protected $params;
 
-    public function __construct($code, $message) {
-        parent::__construct($code, $message);
-        $params = array();
+    /**
+     * @param string $message
+     * @param int    $code
+     */
+    public function __construct($message, $code)
+    {
+        parent::__construct($message, $code);
+        $this->params = array();
     }
 
     /**
      * Returns the parameters detailing specifics of this Exception
+     *
      * @return array
      */
     public function getParams()

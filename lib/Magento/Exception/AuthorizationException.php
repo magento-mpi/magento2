@@ -9,9 +9,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Service\Exception;
+namespace Magento\Exception;
 
-class AuthorizationException extends \Magento\Service\Exception\Exception
+class AuthorizationException extends \Magento\Exception\Exception
 {
-    const NO_RECORD_ACCESS = 0;
+    const UNAUTHENTICATED_USER = 0;
+    const NO_RECORD_ACCESS = 1;
 }
