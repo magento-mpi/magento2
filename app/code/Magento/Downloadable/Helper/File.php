@@ -55,7 +55,7 @@ class File extends \Magento\App\Helper\AbstractHelper
     ) {
         $this->_coreFileStorageDatabase = $coreFileStorageDatabase;
         $this->_filesystem = $filesystem;
-        $this->_mediaDirectory = $filesystem->getDirectoryWrite($filesystem::MEDIA);
+        $this->_mediaDirectory = $filesystem->getDirectoryWrite($filesystem::MEDIA_DIR);
         parent::__construct($context);
         if (!empty($mimeTypes)) {
             foreach ($mimeTypes as $key => $value) {
