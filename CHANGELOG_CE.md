@@ -1,4 +1,5 @@
 * Fixed bugs:
+  * Fixed Exception Log Errors Invalid year
   * Fixed shipment with packages data corrupted functionality
   * Fixed unavailability to add gift wrapping for multiple items
   * Fixed DHL functionality of generation shipping labels
@@ -26,7 +27,16 @@
   * Fixed impossibility to publish products to Google Shopping
   * Fixed inability to download or revert backup
   * Fixed an issue where it was impossible for the customer to register when placing an order with a downloadable product
+  * Fixed products from non-default website aren't shown as bundle items
+  * Fixed placing order with status Pending Payment instead of Processing when payment method Authorize.net is used
+  * Fixed PayPal Express: order can't be placed if HTTPS is used on frontend
+  * Fixed security issue with user session on registration
+  * Fixed CSRF vulnerability in checkout
+  * Fixed JavaScript static testing framework to properly handle corrupted paths in white/black lists
   * Fixed error during Google Shopping synchronization due to invalid method call
+* Various improvements:
+  * Disabled PHP errors, notices and warnings output in production mode to prevent exposing sensitive information
+* Consolidated a few 3rd-party JavaScript libraries under `pub/lib` directory and specified their original license notice texts
 
 2.0.0.0-dev58
 =============
