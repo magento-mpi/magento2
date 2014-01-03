@@ -72,7 +72,7 @@ class Gws
         // analyze current row values
         $storeGroupIds = array();
         if ($websiteIds = $row->getData('gws_websites')) {
-            $websiteIds = explode(',', $websiteIds);
+            $websiteIds = !is_array($websiteIds) ? explode(',', $websiteIds) : $websiteIds;
             foreach (self::$websites as $websiteId => $website) {
                 if (in_array($websiteId, $websiteIds)) {
                     unset($website['name']);
