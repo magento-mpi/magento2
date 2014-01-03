@@ -61,10 +61,10 @@ class Verification
     /**
      * Constructor - initialize object with required dependencies, determine application state
      *
-     * @param Filesystem $filesystem
+     * @param AppFilesystem $filesystem
      * @param State $appState
      */
-    public function __construct(Filesystem $filesystem, State $appState) {
+    public function __construct(AppFilesystem $filesystem, State $appState) {
         $this->filesystem = $filesystem;
         $this->dirsToVerify = $this->_getDirsToVerify($appState);
     }

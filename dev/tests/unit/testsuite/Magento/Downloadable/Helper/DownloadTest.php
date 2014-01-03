@@ -192,7 +192,7 @@ class DownloadTest extends \PHPUnit_Framework_TestCase
         $this->_filesystemMock
             ->expects($this->any())
             ->method('getDirectoryRead')
-            ->with(Filesystem::MEDIA)
+            ->with(Filesystem::MEDIA_DIR)
             ->will($this->returnValue($this->_workingDirectoryMock));
 
         $this->_helper->setResource($path, DownloadHelper::LINK_TYPE_FILE);

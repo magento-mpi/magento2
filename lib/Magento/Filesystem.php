@@ -162,19 +162,6 @@ class Filesystem
     }
 
     /**
-     * Retrieve absolute path for for given code
-     *
-     * @param string $code
-     * @return string
-     */
-    public function getPath($code = self::ROOT)
-    {
-        $config = $this->directoryList->getConfig($code);
-        $path = isset($config['path']) ? $config['path'] : '';
-        return str_replace('\\', '/', $path);
-    }
-
-    /**
      * Retrieve uri for given code
      *
      * @param string $code

@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Filesystem\DirectoryList;
+namespace Magento\App\Filesystem\DirectoryList;
 
 use Magento\App\State;
 
@@ -170,7 +170,7 @@ class VerificationTest extends \PHPUnit_Framework_TestCase
      */
     protected function getFilesystemMock(array $dirsToVerify)
     {
-        $filesystem = $this->getMock('Magento\Filesystem', array('getDirectoryWrite', '__wakeup'), array(), '', false);
+        $filesystem = $this->getMock('Magento\App\Filesystem', array('getDirectoryWrite', '__wakeup'), array(), '', false);
         $valueMap = array();
         foreach ($dirsToVerify as $code => $config) {
             $createException = isset($config[3]) ? $config[3] : false;

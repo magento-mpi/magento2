@@ -62,7 +62,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
     {
         $this->filesystemMock->expects($this->once())
             ->method('getDirectoryRead')
-            ->with($this->equalTo(\Magento\FileSystem::MEDIA))
+            ->with($this->equalTo(\Magento\App\Filesystem::MEDIA_DIR))
             ->will($this->returnValue($this->directoryReadMock));
 
         $this->directoryReadMock->expects($this->any())
