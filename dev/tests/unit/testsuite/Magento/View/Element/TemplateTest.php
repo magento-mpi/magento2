@@ -19,7 +19,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     protected $_block;
 
     /**
-     * @var \Magento\Filesystem|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\App\Filesystem|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_filesystem;
 
@@ -37,7 +37,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     {
         $this->_viewFileSystem = $this->getMock('\Magento\View\FileSystem', array(), array(), '', false);
 
-        $this->_filesystem = $this->getMock('\Magento\Filesystem', array(), array(), '', false);
+        $this->_filesystem = $this->getMock('\Magento\App\Filesystem', array(), array(), '', false);
 
         $this->_templateEngine =
             $this->getMock('Magento\View\TemplateEnginePool', array('render', 'get'), array(), '', false);

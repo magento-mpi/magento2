@@ -60,7 +60,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
     protected $_responseMock;
 
     /**
-     * @var \Magento\Filesystem|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\App\Filesystem|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $filesystemMock;
 
@@ -83,12 +83,12 @@ class MediaTest extends \PHPUnit_Framework_TestCase
             'Magento\Filesystem\DirectoryList\Verification', array(), array(), '', false
         );
 
-        $this->filesystemMock = $this->getMock('Magento\Filesystem', array(), array(), '', false);
+        $this->filesystemMock = $this->getMock('Magento\App\Filesystem', array(), array(), '', false);
         $this->directoryReadMock = $this->getMock('Magento\Filesystem\Directory\Read', array(), array(), '', false);
 
         $this->filesystemMock->expects($this->any())
             ->method('getDirectoryRead')
-            ->with(\Magento\Filesystem::MEDIA)
+            ->with(\Magento\App\Filesystem::MEDIA_DIR)
             ->will($this->returnValue($this->directoryReadMock));
 
         $this->_responseMock = $this->getMock('Magento\Core\Model\File\Storage\Response', array(), array(), '', false);

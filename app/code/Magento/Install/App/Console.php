@@ -48,7 +48,7 @@ class Console implements \Magento\AppInterface
      * @param \Magento\App\State $state
      * @param \Magento\App\ObjectManager\ConfigLoader $loader
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
      * @param array $arguments
      */
     public function __construct(
@@ -57,10 +57,10 @@ class Console implements \Magento\AppInterface
         \Magento\App\State $state,
         \Magento\App\ObjectManager\ConfigLoader $loader,
         \Magento\ObjectManager $objectManager,
-        \Magento\Filesystem $filesystem,
+        \Magento\App\Filesystem $filesystem,
         array $arguments = array()
     ) {
-        $this->rootDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);
+        $this->rootDirectory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
         $this->_loader = $loader;
         $this->_state  = $state;
         $this->_installerFactory = $installerFactory;
@@ -81,13 +81,13 @@ class Console implements \Magento\AppInterface
         if (!empty($args[\Magento\Install\Model\Installer\Console::OPTION_URIS])) {
             $uris = unserialize(base64_decode($args[\Magento\Install\Model\Installer\Console::OPTION_URIS]));
             foreach ($uris as $code => $uri) {
-                $args[\Magento\Filesystem::PARAM_APP_DIRS][$code]['uri'] = $uri;
+                $args[\Magento\App\Filesystem::PARAM_APP_DIRS][$code]['uri'] = $uri;
             }
         }
         if (!empty($args[\Magento\Install\Model\Installer\Console::OPTION_DIRS])) {
             $dirs = unserialize(base64_decode($args[\Magento\Install\Model\Installer\Console::OPTION_DIRS]));
             foreach ($dirs as $code => $dir) {
-                $args[\Magento\Filesystem::PARAM_APP_DIRS][$code]['path'] = $dir;
+                $args[\Magento\App\Filesystem::PARAM_APP_DIRS][$code]['path'] = $dir;
             }
         }
         return $args;

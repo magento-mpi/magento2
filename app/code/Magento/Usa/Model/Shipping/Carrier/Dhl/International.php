@@ -202,7 +202,7 @@ class International
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Math\Division $mathDivision
      * @param \Magento\Stdlib\DateTime $dateTime
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
      * @param array $data
      */
     public function __construct(
@@ -226,10 +226,10 @@ class International
         \Magento\Stdlib\String $string,
         \Magento\Math\Division $mathDivision,
         \Magento\Stdlib\DateTime $dateTime,
-        \Magento\Filesystem $filesystem,
+        \Magento\App\Filesystem $filesystem,
         array $data = array()
     ) {
-        $this->modulesDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::MODULES);
+        $this->modulesDirectory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::MODULES_DIR);
         $this->_usaData = $usaData;
         $this->_coreDate = $coreDate;
         $this->_storeManager = $storeManager;

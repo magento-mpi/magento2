@@ -30,9 +30,9 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        /** @var \Magento\Filesystem $filesystem */
-        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Filesystem');
-        self::$_varDirectory = $filesystem->getDirectoryWrite(\Magento\Filesystem::VAR_DIR);
+        /** @var \Magento\App\Filesystem $filesystem */
+        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Filesystem');
+        self::$_varDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
         self::$_tmpDir = self::$_varDirectory->getAbsolutePath('InstallerTest');
         self::$_tmpConfigFile = self::$_tmpDir . '/local.xml';
         self::$_varDirectory->create(self::$_varDirectory->getRelativePath(self::$_tmpDir));
@@ -58,11 +58,11 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
                     array(
                         'root' => __DIR__,
                         'directories' => array(
-                            \Magento\Filesystem::CONFIG => array('path' => self::$_tmpDir)
+                            \Magento\App\Filesystem::CONFIG_DIR => array('path' => self::$_tmpDir)
                         )
                     )
                 );
-        $filesystem = $objectManager->create('Magento\Filesystem', array('directoryList' => $directoryList));
+        $filesystem = $objectManager->create('Magento\App\Filesystem', array('directoryList' => $directoryList));
 
         if ($emulateConfig) {
             $installerConfig = new \Magento\Install\Model\Installer\Config(

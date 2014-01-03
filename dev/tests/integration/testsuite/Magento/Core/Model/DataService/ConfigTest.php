@@ -17,7 +17,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     protected $_config;
 
     /**
-     * @var \Magento\Filesystem
+     * @var \Magento\App\Filesystem
      */
     protected $filesystem;
 
@@ -32,19 +32,19 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $rootPath = $this->objectManager->get('Magento\Filesystem')
-            ->getDirectoryRead(\Magento\Filesystem::ROOT)
+        $rootPath = $this->objectManager->get('Magento\App\Filesystem')
+            ->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR)
             ->getAbsolutePath();
 
         $path = str_replace('\\', '/', realpath(__DIR__ . '/../DataService/LayoutTest'));
 
         $directoryList = new \Magento\Filesystem\DirectoryList(
             $rootPath, array(
-            \Magento\Filesystem::MODULES => array('path' => $path),
-            \Magento\Filesystem::CONFIG => array('path' => $path)
+            \Magento\App\Filesystem::MODULES_DIR => array('path' => $path),
+            \Magento\App\Filesystem::CONFIG_DIR => array('path' => $path)
         ));
 
-        $this->filesystem = new \Magento\Filesystem(
+        $this->filesystem = new \Magento\App\Filesystem(
             $directoryList,
             new \Magento\Filesystem\Directory\ReadFactory(),
             new \Magento\Filesystem\Directory\WriteFactory()

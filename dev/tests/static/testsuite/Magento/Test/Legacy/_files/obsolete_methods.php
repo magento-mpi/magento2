@@ -257,7 +257,7 @@ return array(
     ),
     array('cleanVarFolder', '', 'Magento_Io_File::rmdirRecursive()'),
     array('cleanVarSubFolders', '',
-        '\Magento\Filesystem::getDirectoryRead(\Magento\Filesystem::VAR_DIR)::search())'),
+        '\Magento\App\Filesystem::getDirectoryRead(\Magento\App\Filesystem::VAR_DIR)::search())'),
     array('cloneIndexTable', 'Magento\Index\Model\Resource\AbstractResource'),
     array('collectRoutes', 'Magento\Backend\App\Router\DefaultRouter'),
     array('collectRoutes', 'Magento\Core\App\Router\Base'),

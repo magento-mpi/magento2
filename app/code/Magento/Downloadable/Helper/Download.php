@@ -8,7 +8,7 @@
 
 namespace Magento\Downloadable\Helper;
 
-use Magento\Filesystem;
+use Magento\App\Filesystem;
 use Magento\Core\Exception as CoreException;
 
 /**
@@ -107,7 +107,7 @@ class Download extends \Magento\App\Helper\AbstractHelper
     protected $_app;
 
     /**
-     * @var \Magento\Filesystem
+     * @var \Magento\App\Filesystem
      */
     protected $_filesystem;
 
@@ -123,7 +123,7 @@ class Download extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Downloadable\Helper\File $downloadableFile
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
@@ -131,7 +131,7 @@ class Download extends \Magento\App\Helper\AbstractHelper
         \Magento\Downloadable\Helper\File $downloadableFile,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Filesystem $filesystem
+        \Magento\App\Filesystem $filesystem
     ) {
         $this->_coreData = $coreData;
         $this->_downloadableFile = $downloadableFile;

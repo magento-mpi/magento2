@@ -11,22 +11,25 @@ namespace Magento\Filesystem\DirectoryList;
 
 use Magento\App\State,
     Magento\Filesystem,
-    Magento\Filesystem\FilesystemException;
+    Magento\Filesystem\FilesystemException,
+    Magento\App\Filesystem as AppFilesystem;
 
 class Verification
 {
     /**
      * Codes of directories to create and verify in production mode
      *
+     * @TODO temporary solution for constants
+     *
      * @var array
      */
     protected static $productionDirs = array(
-        Filesystem::MEDIA,
-        Filesystem::VAR_DIR,
-        Filesystem::TMP,
-        Filesystem::CACHE,
-        Filesystem::LOG,
-        Filesystem::SESSION,
+        AppFilesystem::MEDIA_DIR,
+        AppFilesystem::VAR_DIR,
+        AppFilesystem::TMP_DIR,
+        AppFilesystem::CACHE_DIR,
+        AppFilesystem::LOG_DIR,
+        AppFilesystem::SESSION_DIR,
     );
 
     /**
@@ -35,13 +38,13 @@ class Verification
      * @var array
      */
     protected static $nonProductionDirs = array(
-        Filesystem::MEDIA,
-        Filesystem::STATIC_VIEW,
-        Filesystem::VAR_DIR,
-        Filesystem::TMP,
-        Filesystem::CACHE,
-        Filesystem::LOG,
-        Filesystem::SESSION,
+        AppFilesystem::MEDIA_DIR,
+        AppFilesystem::STATIC_VIEW_DIR,
+        AppFilesystem::VAR_DIR,
+        AppFilesystem::TMP_DIR,
+        AppFilesystem::CACHE_DIR,
+        AppFilesystem::LOG_DIR,
+        AppFilesystem::SESSION_DIR,
     );
 
     /**

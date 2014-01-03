@@ -23,7 +23,7 @@ class Rma extends \Magento\Backend\App\Action
     protected $_coreRegistry;
 
     /**
-     * @var \Magento\Filesystem
+     * @var \Magento\App\Filesystem
      */
     protected $filesystem;
 
@@ -46,11 +46,11 @@ class Rma extends \Magento\Backend\App\Action
         Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\App\Response\Http\FileFactory $fileFactory,
-        \Magento\Filesystem $filesystem
+        \Magento\App\Filesystem $filesystem
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->filesystem = $filesystem;
-        $this->readDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::MEDIA);
+        $this->readDirectory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::MEDIA_DIR);
         $this->_fileFactory = $fileFactory;
         parent::__construct($context);
     }
@@ -1295,7 +1295,7 @@ class Rma extends \Magento\Backend\App\Action
         $page = new \Zend_Pdf_Page($xSize, $ySize);
 
         imageinterlace($image, 0);
-        $dir = $this->filesystem->getDirectoryWrite(\Magento\Filesystem::SYS_TMP);
+        $dir = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::SYS_TMP_DIR);
         $tmpFileName = 'shipping_labels_' . uniqid(mt_rand()) . time() . '.png';
         $tmpFilePath = $dir->getAbsolutePath($tmpFileName);
         imagepng($image, $tmpFilePath);

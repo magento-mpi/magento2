@@ -37,7 +37,7 @@ class QuickStylesTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Filesystem\DirectoryList $directoryList */
         $directoryList = $objectManager->get('Magento\Filesystem\DirectoryList');
         $path = str_replace($directoryList->getRoot(), '', str_replace('\\', '/', __DIR__) . '/../_files/design');
-        $directoryList->addDirectory(\Magento\Filesystem::THEMES, array('path' => ltrim($path, '/')));
+        $directoryList->addDirectory(\Magento\App\Filesystem::THEMES_DIR, array('path' => ltrim($path, '/')));
         $this->_design = $objectManager->get('Magento\View\DesignInterface');
         $objectManager->get('Magento\App\State')->setAreaCode(\Magento\View\DesignInterface::DEFAULT_AREA);
         $this->_design->setDesignTheme('vendor_test');

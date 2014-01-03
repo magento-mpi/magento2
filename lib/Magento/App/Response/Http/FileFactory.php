@@ -17,17 +17,17 @@ class FileFactory
     protected $_response;
 
     /**
-     * @var \Magento\Filesystem
+     * @var \Magento\App\Filesystem
      */
     protected $_filesystem;
 
     /**
      * @param \Magento\App\ResponseInterface $response
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
      */
     public function __construct(
         \Magento\App\ResponseInterface $response,
-        \Magento\Filesystem $filesystem
+        \Magento\App\Filesystem $filesystem
     ) {
         $this->_response = $response;
         $this->_filesystem = $filesystem;
@@ -51,7 +51,7 @@ class FileFactory
      */
     public function create($fileName, $content, $contentType = 'application/octet-stream', $contentLength = null)
     {
-        $dir = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem::VAR_DIR);
+        $dir = $this->_filesystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
         $isFile = false;
         $file = null;
         if (is_array($content)) {

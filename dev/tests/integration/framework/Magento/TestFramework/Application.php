@@ -11,7 +11,7 @@
 
 namespace Magento\TestFramework;
 
-use Magento\Filesystem;
+use Magento\App\Filesystem;
 
 /**
  * Encapsulates application installation, initialization and uninstall
@@ -126,12 +126,12 @@ class Application
         $generationDir = "$installDir/generation";
         $this->_initParams = array(
             Filesystem::PARAM_APP_DIRS => array(
-                Filesystem::CONFIG      => array('path' => $this->_installEtcDir),
+                Filesystem::CONFIG_DIR      => array('path' => $this->_installEtcDir),
                 Filesystem::VAR_DIR     => array('path' => $installDir),
-                Filesystem::MEDIA       => array('path' => "$installDir/media"),
-                Filesystem::STATIC_VIEW => array('path' => "$installDir/pub_static"),
-                Filesystem::PUB_VIEW_CACHE => array('path' => "$installDir/pub_cache"),
-                Filesystem::GENERATION => array('path' => $generationDir)
+                Filesystem::MEDIA_DIR       => array('path' => "$installDir/media"),
+                Filesystem::STATIC_VIEW_DIR => array('path' => "$installDir/pub_static"),
+                Filesystem::PUB_VIEW_CACHE_DIR => array('path' => "$installDir/pub_cache"),
+                Filesystem::GENERATION_DIR => array('path' => $generationDir)
             ),
             \Magento\App\State::PARAM_MODE => $appMode
         );
@@ -230,8 +230,8 @@ class Application
         $directoryListConfig = $objectManager->get('Magento\Filesystem\DirectoryList\Configuration');
         $directoryListConfig->configure($directoryList);
 
-        $directories = isset($overriddenParams[\Magento\Filesystem::PARAM_APP_DIRS])
-            ? $overriddenParams[\Magento\Filesystem::PARAM_APP_DIRS]
+        $directories = isset($overriddenParams[\Magento\App\Filesystem::PARAM_APP_DIRS])
+            ? $overriddenParams[\Magento\App\Filesystem::PARAM_APP_DIRS]
             : array();
         foreach ($directories as $code => $configOverrides) {
             $config = array_merge($directoryList->getConfig($code), $configOverrides);

@@ -25,14 +25,14 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             ->create(
                 'Magento\Filesystem\DirectoryList',
                 array(
-                    'root' => \Magento\Filesystem::ROOT,
+                    'root' => \Magento\App\Filesystem::ROOT_DIR,
                     'directories' => array(
-                        \Magento\Filesystem::MODULES => array('path' => dirname(__DIR__))
+                        \Magento\App\Filesystem::MODULES_DIR => array('path' => dirname(__DIR__))
                     ),
                 )
             );
         $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Filesystem', array('directoryList' => $directoryList));
+            ->create('Magento\App\Filesystem', array('directoryList' => $directoryList));
 
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_model = $this->_objectManager->create(

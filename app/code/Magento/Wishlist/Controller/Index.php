@@ -768,7 +768,7 @@ class Index
 
         try {
             $info      = unserialize($option->getValue());
-            $filePath  = $this->_objectManager->get('Magento\Filesystem')->getPath(\Magento\Filesystem::ROOT)
+            $filePath  = $this->_objectManager->get('Magento\App\Filesystem')->getPath(\Magento\App\Filesystem::ROOT_DIR)
                 . $info['quote_path'];
             $secretKey = $this->getRequest()->getParam('key');
 

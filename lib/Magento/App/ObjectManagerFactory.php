@@ -12,7 +12,7 @@ namespace Magento\App;
 
 use Magento\App\Config,
     Magento\Profiler,
-    Magento\Filesystem;
+    Magento\App\Filesystem;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -50,12 +50,12 @@ class ObjectManagerFactory
     {
         $directories = new \Magento\Filesystem\DirectoryList(
             $rootDir,
-            isset($arguments[\Magento\Filesystem::PARAM_APP_DIRS])
-                ? $arguments[\Magento\Filesystem::PARAM_APP_DIRS]
+            isset($arguments[\Magento\App\Filesystem::PARAM_APP_DIRS])
+                ? $arguments[\Magento\App\Filesystem::PARAM_APP_DIRS]
                 : array()
         );
 
-        \Magento\Autoload\IncludePath::addIncludePath(array($directories->getDir(\Magento\Filesystem::GENERATION)));
+        \Magento\Autoload\IncludePath::addIncludePath(array($directories->getDir(\Magento\App\Filesystem::GENERATION_DIR)));
 
         $options = new Config(
             $arguments,
@@ -69,8 +69,8 @@ class ObjectManagerFactory
 
         $definitionFactory = new \Magento\ObjectManager\DefinitionFactory(
             new \Magento\Filesystem\Driver\File(),
-            $directories->getDir(\Magento\Filesystem::DI),
-            $directories->getDir(\Magento\Filesystem::GENERATION),
+            $directories->getDir(\Magento\App\Filesystem::DI_DIR),
+            $directories->getDir(\Magento\App\Filesystem::GENERATION_DIR),
             $options->get('definition.format', 'serialized')
         );
 

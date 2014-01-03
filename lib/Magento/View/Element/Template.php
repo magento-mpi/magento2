@@ -8,7 +8,7 @@
 
 namespace Magento\View\Element;
 
-use Magento\Filesystem;
+use Magento\App\Filesystem;
 
 /**
  * Base html block
@@ -294,7 +294,7 @@ class Template extends AbstractBlock
     protected function getRootDirectory()
     {
         if (null === $this->directory) {
-            $this->directory = $this->_filesystem->getDirectoryRead(Filesystem::ROOT);
+            $this->directory = $this->_filesystem->getDirectoryRead(Filesystem::ROOT_DIR);
         }
 
         return $this->directory;
@@ -308,7 +308,7 @@ class Template extends AbstractBlock
     protected function getMediaDirectory()
     {
         if (!$this->mediaDirectory) {
-            $this->mediaDirectory = $this->_filesystem->getDirectoryRead(Filesystem::MEDIA);
+            $this->mediaDirectory = $this->_filesystem->getDirectoryRead(Filesystem::MEDIA_DIR);
         }
         return $this->mediaDirectory;
     }
@@ -328,8 +328,8 @@ class Template extends AbstractBlock
     {
         $fileName = str_replace('\\', '/', $fileName);
 
-        $themesDir = str_replace('\\', '/', $this->_filesystem->getPath(Filesystem::THEMES));
-        $appDir = str_replace('\\', '/', $this->_filesystem->getPath(Filesystem::APP));
+        $themesDir = str_replace('\\', '/', $this->_filesystem->getPath(Filesystem::THEMES_DIR));
+        $appDir = str_replace('\\', '/', $this->_filesystem->getPath(Filesystem::APP_DIR));
         return (
             $this->isPathInDirectory($fileName, $appDir)
             || $this->isPathInDirectory($fileName, $themesDir)

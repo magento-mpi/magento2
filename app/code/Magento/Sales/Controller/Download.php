@@ -27,19 +27,19 @@ class Download extends \Magento\App\Action\Action
     /**
      * Filesystem instance
      *
-     * @var \Magento\Filesystem
+     * @var \Magento\App\Filesystem
      */
     protected $_filesystem;
     
     /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\App\Response\Http\FileFactory $fileResponseFactory
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
      */
     public function __construct(
         \Magento\App\Action\Context $context,
         \Magento\App\Response\Http\FileFactory $fileResponseFactory,
-        \Magento\Filesystem $filesystem
+        \Magento\App\Filesystem $filesystem
     ) {
         $this->_fileResponseFactory = $fileResponseFactory;
         $this->_filesystem = $filesystem;
@@ -60,8 +60,8 @@ class Download extends \Magento\App\Action\Action
             }
 
             /** @var \Magento\Filesystem\Directory\Read $directory */
-            $directory = $this->_objectManager->get('Magento\Filesystem')
-                ->getDirectoryWrite(\Magento\Filesystem::ROOT);
+            $directory = $this->_objectManager->get('Magento\App\Filesystem')
+                ->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR);
 
             $relativePath = $info['order_path'];
             $filePath = $directory->getAbsolutePath($relativePath);
@@ -108,8 +108,8 @@ class Download extends \Magento\App\Action\Action
         }
 
         /** @var \Magento\Filesystem\Directory\WriteInterface $directory */
-        $directory = $this->_objectManager->get('Magento\Filesystem')
-            ->getDirectoryWrite(\Magento\Filesystem::ROOT);
+        $directory = $this->_objectManager->get('Magento\App\Filesystem')
+            ->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR);
         $stream = $directory->openFile($filePath, 'w+');
         $stream->lock();
         $stream->write($filePath, $file->getContent());

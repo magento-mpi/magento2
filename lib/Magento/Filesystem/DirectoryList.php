@@ -12,7 +12,8 @@
  */
 namespace Magento\Filesystem;
 
-use Magento\Filesystem;
+use Magento\Filesystem,
+    Magento\App\Filesystem as AppFilesystem;
 
 class DirectoryList
 {
@@ -26,30 +27,32 @@ class DirectoryList
     /**
      * Directories configurations
      *
+     * @TODO initialize directories from other method
+     *
      * @var array
      */
     protected $directories = array(
-        Filesystem::ROOT           => array('path' => ''),
-        Filesystem::APP            => array('path' => 'app'),
-        Filesystem::MODULES        => array('path' => 'app/code'),
-        Filesystem::THEMES         => array('path' => 'app/design'),
-        Filesystem::CONFIG         => array('path' => 'app/etc'),
-        Filesystem::LIB            => array('path' => 'lib'),
-        Filesystem::VAR_DIR        => array('path' => 'var'),
-        Filesystem::TMP            => array('path' => 'var/tmp'),
-        Filesystem::CACHE          => array('path' => 'var/cache'),
-        Filesystem::LOG            => array('path' => 'var/log'),
-        Filesystem::SESSION        => array('path' => 'var/session'),
-        Filesystem::DI             => array('path' => 'var/di'),
-        Filesystem::GENERATION     => array('path' => 'var/generation'),
-        Filesystem::HTTP           => array('path' => null),
-        Filesystem::PUB            => array('path' => 'pub'),
-        Filesystem::PUB_LIB        => array('path' => 'pub/lib'),
-        Filesystem::MEDIA          => array('path' => 'pub/media'),
-        Filesystem::UPLOAD         => array('path' => 'pub/media/upload'),
-        Filesystem::STATIC_VIEW    => array('path' => 'pub/static'),
-        Filesystem::PUB_VIEW_CACHE => array('path' => 'pub/cache'),
-        Filesystem::LOCALE         => array('path' => '')
+        AppFilesystem::ROOT_DIR => array('path' => ''),
+        AppFilesystem::APP_DIR => array('path' => 'app'),
+        AppFilesystem::MODULES_DIR => array('path' => 'app/code'),
+        AppFilesystem::THEMES_DIR => array('path' => 'app/design'),
+        AppFilesystem::CONFIG_DIR => array('path' => 'app/etc'),
+        AppFilesystem::LIB_DIR => array('path' => 'lib'),
+        AppFilesystem::VAR_DIR => array('path' => 'var'),
+        AppFilesystem::TMP_DIR => array('path' => 'var/tmp'),
+        AppFilesystem::CACHE_DIR => array('path' => 'var/cache'),
+        AppFilesystem::LOG_DIR => array('path' => 'var/log'),
+        AppFilesystem::SESSION_DIR => array('path' => 'var/session'),
+        AppFilesystem::DI_DIR => array('path' => 'var/di'),
+        AppFilesystem::GENERATION_DIR => array('path' => 'var/generation'),
+        AppFilesystem::HTTP => array('path' => null),
+        AppFilesystem::PUB_DIR => array('path' => 'pub'),
+        AppFilesystem::PUB_LIB_DIR => array('path' => 'pub/lib'),
+        AppFilesystem::MEDIA_DIR => array('path' => 'pub/media'),
+        AppFilesystem::UPLOAD_DIR => array('path' => 'pub/media/upload'),
+        AppFilesystem::STATIC_VIEW_DIR => array('path' => 'pub/static'),
+        AppFilesystem::PUB_VIEW_CACHE_DIR => array('path' => 'pub/cache'),
+        AppFilesystem::LOCALE_DIR => array('path' => '')
     );
 
     /**
@@ -83,7 +86,7 @@ class DirectoryList
             }
         }
 
-        $this->directories[Filesystem::SYS_TMP] = array(
+        $this->directories[AppFilesystem::SYS_TMP_DIR] = array(
             'path'              => sys_get_temp_dir(),
             'read_only'         => false,
             'allow_create_dirs' => true,
@@ -207,7 +210,7 @@ class DirectoryList
      * @param string $code One of self const
      * @return string|bool
      */
-    public function getDir($code = Filesystem::ROOT)
+    public function getDir($code = AppFilesystem::ROOT_DIR)
     {
         return isset($this->directories[$code]['path']) ? $this->directories[$code]['path'] : false;
     }

@@ -80,7 +80,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_filesystemMock = $this->getMock('Magento\Filesystem', array(), array(), '', false);
+        $this->_filesystemMock = $this->getMock('Magento\App\Filesystem', array(), array(), '', false);
         $this->_adapterFactoryMock = $this->getMock(
             'Magento\Image\AdapterFactory', array(), array(), '', false
         );

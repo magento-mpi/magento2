@@ -44,7 +44,7 @@ class Primary
     {
         $reader = new \Magento\ObjectManager\Config\Reader\Dom(
             new \Magento\App\Config\FileResolver\Primary(
-                new \Magento\Filesystem(
+                new \Magento\App\Filesystem(
                     $this->_directoryList,
                     new \Magento\Filesystem\Directory\ReadFactory(),
                     new \Magento\Filesystem\Directory\WriteFactory()

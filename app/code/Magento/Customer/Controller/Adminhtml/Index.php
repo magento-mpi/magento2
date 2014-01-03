@@ -833,9 +833,9 @@ class Index extends \Magento\Backend\App\Action
             throw new NotFoundException();
         }
 
-        /** @var \Magento\Filesystem $filesystem */
-        $filesystem = $this->_objectManager->get('Magento\Filesystem');
-        $directory = $filesystem->getDirectoryRead(\Magento\Filesystem:: MEDIA);
+        /** @var \Magento\App\Filesystem $filesystem */
+        $filesystem = $this->_objectManager->get('Magento\App\Filesystem');
+        $directory = $filesystem->getDirectoryRead(\Magento\App\Filesystem:: MEDIA);
         $fileName = 'customer/' . $file;
         $path = $directory->getAbsolutePath($fileName);
         if (!$directory->isFile($fileName)

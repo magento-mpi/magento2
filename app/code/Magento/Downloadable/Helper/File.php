@@ -29,7 +29,7 @@ class File extends \Magento\App\Helper\AbstractHelper
     /**
      * Filesystem object.
      *
-     * @var \Magento\Filesystem
+     * @var \Magento\App\Filesystem
      */
     protected $_filesystem;
 
@@ -44,13 +44,13 @@ class File extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
      * @param array $mimeTypes
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
-        \Magento\Filesystem $filesystem,
+        \Magento\App\Filesystem $filesystem,
         array $mimeTypes = array()
     ) {
         $this->_coreFileStorageDatabase = $coreFileStorageDatabase;

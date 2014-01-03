@@ -41,7 +41,7 @@ class FileFactory extends \Magento\App\Response\Http\FileFactory
 
     /**
      * @param \Magento\App\ResponseInterface $response
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\Backend\Model\Auth $auth
      * @param \Magento\Backend\Model\Url $backendUrl
      * @param \Magento\Backend\Model\Session $session
@@ -50,7 +50,7 @@ class FileFactory extends \Magento\App\Response\Http\FileFactory
      */
     public function __construct(
         \Magento\App\ResponseInterface $response,
-        \Magento\Filesystem $filesystem,
+        \Magento\App\Filesystem $filesystem,
         \Magento\Backend\Model\Auth $auth,
         \Magento\Backend\Model\Url $backendUrl,
         \Magento\Backend\Model\Session $session,
