@@ -60,8 +60,6 @@ class CustomerV1 implements CustomerV1Interface
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Customer\Model\AddressFactory $addressFactory
      * @param Eav\AttributeMetadataServiceV1Interface $eavMetadataService
-     * @param \Magento\Core\Model\Email\Template\MailerFactory $mailerFactory
-     * @param \Magento\Core\Model\Email\InfoFactory $emailInfoFactory
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Math\Random $mathRandom
