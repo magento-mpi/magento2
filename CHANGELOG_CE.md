@@ -1,4 +1,5 @@
 * Fixed bugs:
+  * Fixed Exception Log Errors Invalid year
   * Fixed shipment with packages data corrupted functionality
   * Fixed unavailability to add gift wrapping for multiple items
   * Fixed DHL functionality of generation shipping labels
@@ -26,6 +27,8 @@
   * Fixed impossibility to publish products to Google Shopping
   * Fixed inability to download or revert backup
   * Fixed an issue where it was impossible for the customer to register when placing an order with a downloadable product
+* Various improvements:
+  * Disabled PHP errors, notices and warnings output in production mode to prevent exposing sensitive information
 
 2.0.0.0-dev58
 =============
