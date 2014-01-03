@@ -29,7 +29,6 @@ class ConfigBasedTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_typeProcessor = $this->getMockBuilder('Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor')
             ->setMethods(array('getTypeData'))
             ->disableOriginalConstructor()
