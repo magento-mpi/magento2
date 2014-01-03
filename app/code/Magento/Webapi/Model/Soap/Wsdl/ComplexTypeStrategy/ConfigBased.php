@@ -29,9 +29,6 @@ class ConfigBased extends AbstractComplexTypeStrategy
     /** @var \Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor */
     protected $_typeProcessor;
 
-    /** @var \DOMDocument */
-    protected $_dom;
-
     /**
      * Resources configuration data.
      *
@@ -50,6 +47,16 @@ class ConfigBased extends AbstractComplexTypeStrategy
     }
 
     /**
+     * Return DOM Document
+     *
+     * @return \DomDocument
+     */
+    protected function _getDom()
+    {
+        return $this->getContext()->toDomDocument();
+    }
+
+    /**
      * Add complex type.
      *
      * @param string $type
@@ -62,16 +69,10 @@ class ConfigBased extends AbstractComplexTypeStrategy
         if (($soapType = $this->scanRegisteredTypes($type)) !== null) {
             return $soapType;
         }
-
-        /** @var \DOMDocument $dom */
-        $dom = $this->getContext()->toDomDocument();
-        $this->_dom = $dom;
         $soapType = Wsdl::TYPES_NS . ':' . $type;
-
         // Register type here to avoid recursion
         $this->getContext()->addType($type, $soapType);
-
-        $complexType = $this->_dom->createElement(Wsdl::XSD_NS . ':complexType');
+        $complexType = $this->_getDom()->createElement(Wsdl::XSD_NS . ':complexType');
         $complexType->setAttribute('name', $type);
         $typeData = $this->_typeProcessor->getTypeData($type);
         if (isset($typeData['documentation'])) {
@@ -97,10 +98,10 @@ class ConfigBased extends AbstractComplexTypeStrategy
      */
     protected function _processParameters($parameters, $callInfo)
     {
-        $sequence = $this->_dom->createElement(Wsdl::XSD_NS . ':sequence');
+        $sequence = $this->_getDom()->createElement(Wsdl::XSD_NS . ':sequence');
         foreach ($parameters as $parameterName => $parameterData) {
             $parameterType = $parameterData['type'];
-            $element = $this->_dom->createElement(Wsdl::XSD_NS . ':element');
+            $element = $this->_getDom()->createElement(Wsdl::XSD_NS . ':element');
             $element->setAttribute('name', $parameterName);
             $isRequired = isset($parameterData['required']) && $parameterData['required'];
             $default = isset($parameterData['default']) ? $parameterData['default'] : null;
@@ -208,10 +209,10 @@ class ConfigBased extends AbstractComplexTypeStrategy
      */
     public function addAnnotation(\DOMElement $element, $documentation, $default = null, $callInfo = array())
     {
-        $annotationNode = $this->_dom->createElement(Wsdl::XSD_NS . ':annotation');
+        $annotationNode = $this->_getDom()->createElement(Wsdl::XSD_NS . ':annotation');
 
         $elementType = $this->_getElementType($element);
-        $appInfoNode = $this->_dom->createElement(Wsdl::XSD_NS . ':appinfo');
+        $appInfoNode = $this->_getDom()->createElement(Wsdl::XSD_NS . ':appinfo');
         $appInfoNode->setAttributeNS(
             Wsdl::XML_NS_URI,
             Wsdl::XML_NS . ':' . self::APP_INF_NS,
@@ -250,8 +251,8 @@ class ConfigBased extends AbstractComplexTypeStrategy
                         break;
                     default:
                         $nodeValue = trim($tagValue);
-                        $simpleTextNode = $this->_dom->createElement(self::APP_INF_NS . ':' . $tagName);
-                        $simpleTextNode->appendChild($this->_dom->createTextNode($nodeValue));
+                        $simpleTextNode = $this->_getDom()->createElement(self::APP_INF_NS . ':' . $tagName);
+                        $simpleTextNode->appendChild($this->_getDom()->createTextNode($nodeValue));
                         $appInfoNode->appendChild($simpleTextNode);
                         break;
                 }
@@ -259,9 +260,9 @@ class ConfigBased extends AbstractComplexTypeStrategy
             }
         }
         $this->_processCallInfo($appInfoNode, $callInfo);
-        $documentationNode = $this->_dom->createElement(Wsdl::XSD_NS . ':documentation');
+        $documentationNode = $this->_getDom()->createElement(Wsdl::XSD_NS . ':documentation');
         $documentationText = trim($documentation);
-        $documentationNode->appendChild($this->_dom->createTextNode($documentationText));
+        $documentationNode->appendChild($this->_getDom()->createTextNode($documentationText));
         $annotationNode->appendChild($documentationNode);
         $annotationNode->appendChild($appInfoNode);
         $element->appendChild($annotationNode);
@@ -277,6 +278,7 @@ class ConfigBased extends AbstractComplexTypeStrategy
     protected function _processElementType($elementType, $documentation, \DOMElement $appInfoNode)
     {
         if ($elementType == 'int') {
+            //TODO: Check if these are really needed. All it does is generate blank inf:min and inf:max
             $this->_processRequiredAnnotation('min', $documentation, $appInfoNode);
             $this->_processRequiredAnnotation('max', $documentation, $appInfoNode);
         }
@@ -285,8 +287,8 @@ class ConfigBased extends AbstractComplexTypeStrategy
         }
 
         if ($this->_typeProcessor->isArrayType($elementType)) {
-            $natureOfTypeNode = $this->_dom->createElement(self::APP_INF_NS . ':natureOfType');
-            $natureOfTypeNode->appendChild($this->_dom->createTextNode('array'));
+            $natureOfTypeNode = $this->_getDom()->createElement(self::APP_INF_NS . ':natureOfType');
+            $natureOfTypeNode->appendChild($this->_getDom()->createTextNode('array'));
             $appInfoNode->appendChild($natureOfTypeNode);
         }
     }
@@ -304,8 +306,8 @@ class ConfigBased extends AbstractComplexTypeStrategy
             $default = (bool)$default ? 'true' : 'false';
         }
         if ($default) {
-            $defaultNode = $this->_dom->createElement(self::APP_INF_NS . ':default');
-            $defaultNode->appendChild($this->_dom->createTextNode($default));
+            $defaultNode = $this->_getDom()->createElement(self::APP_INF_NS . ':default');
+            $defaultNode->appendChild($this->_getDom()->createTextNode($default));
             $appInfoNode->appendChild($defaultNode);
         }
     }
@@ -336,7 +338,7 @@ class ConfigBased extends AbstractComplexTypeStrategy
     protected function _processRequiredAnnotation($annotation, $documentation, \DOMElement $appInfoNode)
     {
         if (!preg_match("/{{$annotation}:.+}/Ui", $documentation)) {
-            $annotationNode = $this->_dom->createElement(self::APP_INF_NS . ':' . $annotation);
+            $annotationNode = $this->_getDom()->createElement(self::APP_INF_NS . ':' . $annotation);
             $appInfoNode->appendChild($annotationNode);
         }
     }
@@ -352,20 +354,20 @@ class ConfigBased extends AbstractComplexTypeStrategy
         if (!empty($callInfo)) {
             foreach ($callInfo as $direction => $conditions) {
                 foreach ($conditions as $condition => $info) {
-                    $callInfoNode = $this->_dom->createElement(self::APP_INF_NS . ':callInfo');
+                    $callInfoNode = $this->_getDom()->createElement(self::APP_INF_NS . ':callInfo');
                     if (isset($info['allCallsExcept'])) {
-                        $allExceptNode = $this->_dom->createElement(self::APP_INF_NS . ':allCallsExcept');
-                        $allExceptNode->appendChild($this->_dom->createTextNode($info['allCallsExcept']));
+                        $allExceptNode = $this->_getDom()->createElement(self::APP_INF_NS . ':allCallsExcept');
+                        $allExceptNode->appendChild($this->_getDom()->createTextNode($info['allCallsExcept']));
                         $callInfoNode->appendChild($allExceptNode);
                     } else if (isset($info['calls'])) {
                         foreach ($info['calls'] as $callName) {
-                            $callNode = $this->_dom->createElement(self::APP_INF_NS . ':callName');
-                            $callNode->appendChild($this->_dom->createTextNode($callName));
+                            $callNode = $this->_getDom()->createElement(self::APP_INF_NS . ':callName');
+                            $callNode->appendChild($this->_getDom()->createTextNode($callName));
                             $callInfoNode->appendChild($callNode);
                         }
                     }
-                    $directionNode = $this->_dom->createElement(self::APP_INF_NS . ':' . $direction);
-                    $directionNode->appendChild($this->_dom->createTextNode(ucfirst($condition)));
+                    $directionNode = $this->_getDom()->createElement(self::APP_INF_NS . ':' . $direction);
+                    $directionNode->appendChild($this->_getDom()->createTextNode(ucfirst($condition)));
                     $callInfoNode->appendChild($directionNode);
                     $appInfoNode->appendChild($callInfoNode);
                 }
@@ -382,9 +384,9 @@ class ConfigBased extends AbstractComplexTypeStrategy
     protected function _processDocInstructions(\DOMElement $appInfoNode, $tagValue)
     {
         if (preg_match('/(input|output):(.+)/', $tagValue, $docMatches)) {
-            $docInstructionsNode = $this->_dom->createElement(self::APP_INF_NS . ':docInstructions');
-            $directionNode = $this->_dom->createElement(self::APP_INF_NS . ':' . $docMatches[1]);
-            $directionValueNode = $this->_dom->createElement(self::APP_INF_NS . ':' . $docMatches[2]);
+            $docInstructionsNode = $this->_getDom()->createElement(self::APP_INF_NS . ':docInstructions');
+            $directionNode = $this->_getDom()->createElement(self::APP_INF_NS . ':' . $docMatches[1]);
+            $directionValueNode = $this->_getDom()->createElement(self::APP_INF_NS . ':' . $docMatches[2]);
             $directionNode->appendChild($directionValueNode);
             $docInstructionsNode->appendChild($directionNode);
             $appInfoNode->appendChild($docInstructionsNode);
@@ -405,11 +407,11 @@ class ConfigBased extends AbstractComplexTypeStrategy
                 'title' => $matches[2],
                 'for' => $matches[3],
             );
-            $seeLinkNode = $this->_dom->createElement(self::APP_INF_NS . ':seeLink');
+            $seeLinkNode = $this->_getDom()->createElement(self::APP_INF_NS . ':seeLink');
             foreach (array('url', 'title', 'for') as $subNodeName) {
                 if (isset($seeLink[$subNodeName])) {
-                    $seeLinkSubNode = $this->_dom->createElement(self::APP_INF_NS . ':' . $subNodeName);
-                    $seeLinkSubNode->appendChild($this->_dom->createTextNode($seeLink[$subNodeName]));
+                    $seeLinkSubNode = $this->_getDom()->createElement(self::APP_INF_NS . ':' . $subNodeName);
+                    $seeLinkSubNode->appendChild($this->_getDom()->createTextNode($seeLink[$subNodeName]));
                     $seeLinkNode->appendChild($seeLinkSubNode);
                 }
             }
