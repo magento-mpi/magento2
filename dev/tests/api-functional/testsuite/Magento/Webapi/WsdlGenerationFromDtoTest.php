@@ -31,14 +31,12 @@ class WsdlGenerationFromDtoTest extends \Magento\TestFramework\TestCase\WebapiAb
         $this->_checkBindingDeclaration($wsdlContent);
         $this->_checkServiceDeclaration($wsdlContent);
         $this->_checkMessagesDeclaration($wsdlContent);
-        // TODO: Uncomment when implemented
-        // $this->_checkFaultsDeclaration($wsdlContent);
+        $this->_checkFaultsDeclaration($wsdlContent);
     }
 
     public function testInvalidWsdlUrlNoServices()
     {
         $responseContent = $this->_getWsdlContent($this->_getBaseWsdlUrl());
-        /** TODO: Change current assert and add new ones when behavior is changed */
         $this->assertContains("Requested services are missing.", $responseContent);
     }
 
@@ -119,21 +117,17 @@ TYPES_SECTION_DECLARATION;
      */
     protected function _checkElementsDeclaration($wsdlContent)
     {
-        // @codingStandardsIgnoreStart
         $requestElement = <<< REQUEST_ELEMENT
 <xsd:element name="testModule5AllSoapAndRestV1ItemRequest" type="tns:TestModule5AllSoapAndRestV1ItemRequest"/>
 REQUEST_ELEMENT;
-        // @codingStandardsIgnoreEnd
         $this->assertContains(
             $this->_convertXmlToString($requestElement),
             $wsdlContent,
             'Request element declaration in types section is invalid'
         );
-        // @codingStandardsIgnoreStart
         $responseElement = <<< RESPONSE_ELEMENT
 <xsd:element name="testModule5AllSoapAndRestV1ItemResponse" type="tns:TestModule5AllSoapAndRestV1ItemResponse"/>
 RESPONSE_ELEMENT;
-        // @codingStandardsIgnoreEnd
         $this->assertContains(
             $this->_convertXmlToString($responseElement),
             $wsdlContent,
@@ -281,38 +275,34 @@ RESPONSE_TYPE;
      */
     protected function _checkPortTypeDeclaration($wsdlContent)
     {
-        // @codingStandardsIgnoreStart
         $firstPortType = <<< FIRST_PORT_TYPE
 <portType name="testModule5AllSoapAndRestV1PortType">
 FIRST_PORT_TYPE;
-        // @codingStandardsIgnoreEnd
         $this->assertContains(
             $this->_convertXmlToString($firstPortType),
             $wsdlContent,
             'Port type declaration is missing or invalid'
         );
-        // @codingStandardsIgnoreStart
         $secondPortType = <<< SECOND_PORT_TYPE
 <portType name="testModule5AllSoapAndRestV2PortType">
 SECOND_PORT_TYPE;
-        // @codingStandardsIgnoreEnd
         $this->assertContains(
             $this->_convertXmlToString($secondPortType),
             $wsdlContent,
             'Port type declaration is missing or invalid'
         );
-        // @codingStandardsIgnoreStart
         $operationDeclaration = <<< OPERATION_DECLARATION
 <operation name="testModule5AllSoapAndRestV2Item">
     <input message="tns:testModule5AllSoapAndRestV2ItemRequest"/>
     <output message="tns:testModule5AllSoapAndRestV2ItemResponse"/>
+    <fault name="GenericFault" message="tns:GenericFault"/>
 </operation>
 <operation name="testModule5AllSoapAndRestV2Items">
     <input message="tns:testModule5AllSoapAndRestV2ItemsRequest"/>
     <output message="tns:testModule5AllSoapAndRestV2ItemsResponse"/>
+    <fault name="GenericFault" message="tns:GenericFault"/>
 </operation>
 OPERATION_DECLARATION;
-        // @codingStandardsIgnoreEnd
         $this->assertContains(
             $this->_convertXmlToString($operationDeclaration),
             $wsdlContent,
@@ -327,29 +317,24 @@ OPERATION_DECLARATION;
      */
     protected function _checkBindingDeclaration($wsdlContent)
     {
-        // @codingStandardsIgnoreStart
         $firstBinding = <<< FIRST_BINDING
 <binding name="testModule5AllSoapAndRestV1Binding" type="tns:testModule5AllSoapAndRestV1PortType">
     <soap12:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
 FIRST_BINDING;
-        // @codingStandardsIgnoreEndd
         $this->assertContains(
             $this->_convertXmlToString($firstBinding),
             $wsdlContent,
             'Binding declaration is missing or invalid'
         );
-        // @codingStandardsIgnoreStart
         $secondBinding = <<< SECOND_BINDING
 <binding name="testModule5AllSoapAndRestV2Binding" type="tns:testModule5AllSoapAndRestV2PortType">
     <soap12:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
 SECOND_BINDING;
-        // @codingStandardsIgnoreEnd
         $this->assertContains(
             $this->_convertXmlToString($secondBinding),
             $wsdlContent,
             'Binding declaration is missing or invalid'
         );
-        // @codingStandardsIgnoreStart
         $operationDeclaration = <<< OPERATION_DECLARATION
 <operation name="testModule5AllSoapAndRestV1Item">
     <soap:operation soapAction="testModule5AllSoapAndRestV1Item"/>
@@ -359,6 +344,9 @@ SECOND_BINDING;
     <output>
         <soap12:body use="literal"/>
     </output>
+    <fault name="GenericFault">
+        <soap12:fault use="literal" name="GenericFault"/>
+    </fault>
 </operation>
 <operation name="testModule5AllSoapAndRestV1Items">
     <soap:operation soapAction="testModule5AllSoapAndRestV1Items"/>
@@ -368,9 +356,11 @@ SECOND_BINDING;
     <output>
         <soap12:body use="literal"/>
     </output>
+    <fault name="GenericFault">
+        <soap12:fault use="literal" name="GenericFault"/>
+    </fault>
 </operation>
 OPERATION_DECLARATION;
-        // @codingStandardsIgnoreEnd
         $this->assertContains(
             $this->_convertXmlToString($operationDeclaration),
             $wsdlContent,
@@ -423,7 +413,6 @@ SECOND_SERVICE_DECLARATION;
      */
     protected function _checkMessagesDeclaration($wsdlContent)
     {
-        // @codingStandardsIgnoreStart
         $itemMessagesDeclaration = <<< MESSAGES_DECLARATION
 <message name="testModule5AllSoapAndRestV2ItemRequest">
     <part name="messageParameters" element="tns:testModule5AllSoapAndRestV2ItemRequest"/>
@@ -432,13 +421,11 @@ SECOND_SERVICE_DECLARATION;
     <part name="messageParameters" element="tns:testModule5AllSoapAndRestV2ItemResponse"/>
 </message>
 MESSAGES_DECLARATION;
-        // @codingStandardsIgnoreEnd
         $this->assertContains(
             $this->_convertXmlToString($itemMessagesDeclaration),
             $wsdlContent,
             'Messages section for "item" operation is invalid'
         );
-        // @codingStandardsIgnoreStart
         $itemsMessagesDeclaration = <<< MESSAGES_DECLARATION
 <message name="testModule5AllSoapAndRestV2ItemsRequest">
     <part name="messageParameters" element="tns:testModule5AllSoapAndRestV2ItemsRequest"/>
@@ -447,7 +434,6 @@ MESSAGES_DECLARATION;
     <part name="messageParameters" element="tns:testModule5AllSoapAndRestV2ItemsResponse"/>
 </message>
 MESSAGES_DECLARATION;
-        // @codingStandardsIgnoreEnd
         $this->assertContains(
             $this->_convertXmlToString($itemsMessagesDeclaration),
             $wsdlContent,
@@ -473,11 +459,9 @@ MESSAGES_DECLARATION;
      */
     protected function _checkFaultsPortTypeSection($wsdlContent)
     {
-        // @codingStandardsIgnoreStart
         $faultsInPortType = <<< FAULT_IN_PORT_TYPE
-<fault name="DefaultFault" message="tns:DefaultFault"/>
+<fault name="GenericFault" message="tns:GenericFault"/>
 FAULT_IN_PORT_TYPE;
-        // @codingStandardsIgnoreEnd
         $this->assertContains(
             $this->_convertXmlToString($faultsInPortType),
             $wsdlContent,
@@ -491,8 +475,8 @@ FAULT_IN_PORT_TYPE;
     protected function _checkFaultsBindingSection($wsdlContent)
     {
         $faultsInBinding = <<< FAULT_IN_BINDING
-<fault name="DefaultFault">
-    <soap:fault name="DefaultFault" use="literal"/>
+<fault name="GenericFault">
+    <soap12:fault use="literal" name="GenericFault"/>
 </fault>
 FAULT_IN_BINDING;
         $this->assertContains(
@@ -507,29 +491,15 @@ FAULT_IN_BINDING;
      */
     protected function _checkFaultsMessagesSection($wsdlContent)
     {
-        $defaultFaultMessage = <<< DEFAULT_FAULT_IN_MESSAGES
-<message name="DefaultFault">
-    <part name="messageParameters" element="tns:DefaultFault"/>
+        $genericFaultMessage = <<< GENERIC_FAULT_IN_MESSAGES
+<message name="GenericFault">
+    <part name="messageParameters" element="tns:GenericFault"/>
 </message>
-DEFAULT_FAULT_IN_MESSAGES;
+GENERIC_FAULT_IN_MESSAGES;
         $this->assertContains(
-            $this->_convertXmlToString($defaultFaultMessage),
+            $this->_convertXmlToString($genericFaultMessage),
             $wsdlContent,
-            'Default SOAP Fault declaration in messages section is invalid'
-        );
-
-        $faultsInMessages = <<< FAULT_IN_MESSAGES
-<message name="testModule3ErrorV1ParameterizedServiceExceptionFirstFault">
-    <part name="messageParameters" element="tns:testModule3ErrorV1ParameterizedServiceExceptionFirstFault"/>
-</message>
-<message name="testModule3ErrorV1ParameterizedServiceExceptionSecondFault">
-    <part name="messageParameters" element="tns:testModule3ErrorV1ParameterizedServiceExceptionSecondFault"/>
-</message>
-FAULT_IN_MESSAGES;
-        $this->assertContains(
-            $this->_convertXmlToString($faultsInMessages),
-            $wsdlContent,
-            'SOAP Fault declaration in messages section is invalid'
+            'Generic SOAP Fault declaration in messages section is invalid'
         );
     }
 
@@ -538,86 +508,101 @@ FAULT_IN_MESSAGES;
      */
     protected function _checkFaultsComplexTypeSection($wsdlContent)
     {
-        $firstFaultType = <<< FIRST_FAULT_IN_COMPLEX_TYPES
-<xsd:complexType name="testModule3ErrorV1ParameterizedServiceExceptionFirstFault">
-    <xsd:sequence>
-        <xsd:element name="Code" type="xsd:int"/>
-        <xsd:element name="Trace" type="xsd:string" minOccurs="0"/>
-        <xsd:element name="Parameters" type="tns:testModule3ErrorV1ParameterizedServiceExceptionFirstFaultParams"/>
-    </xsd:sequence>
-</xsd:complexType>
-<xsd:complexType name="testModule3ErrorV1ParameterizedServiceExceptionFirstFaultParams">
-    <xsd:sequence>
-        <xsd:element name="firstFaultMessage" type="xsd:string"/>
-        <xsd:element name="firstFaultDetail1" type="xsd:double"/>
-        <xsd:element name="firstFaultDetail2" type="xsd:int"/>
-    </xsd:sequence>
-</xsd:complexType>
-FIRST_FAULT_IN_COMPLEX_TYPES;
-
         $this->assertContains(
-            $this->_convertXmlToString($firstFaultType),
-            $wsdlContent,
-            'First SOAP Fault complex types declaration is invalid'
-        );
-
-        $firstElement = '<xsd:element name="testModule3ErrorV1ParameterizedServiceExceptionFirstFault" '
-            . 'type="tns:testModule3ErrorV1ParameterizedServiceExceptionFirstFault"/>';
-        $this->assertContains(
-            $this->_convertXmlToString($firstElement),
-            $wsdlContent,
-            'First SOAP Fault complex type element declaration is invalid'
-        );
-
-        $secondFaultType = <<< SECOND_FAULT_IN_COMPLEX_TYPES
-<xsd:complexType name="testModule3ErrorV1ParameterizedServiceExceptionSecondFault">
-    <xsd:sequence>
-        <xsd:element name="Code" type="xsd:int"/>
-        <xsd:element name="Trace" type="xsd:string" minOccurs="0"/>
-        <xsd:element name="Parameters" type="tns:testModule3ErrorV1ParameterizedServiceExceptionSecondFaultParams"/>
-    </xsd:sequence>
-</xsd:complexType>
-<xsd:complexType name="testModule3ErrorV1ParameterizedServiceExceptionSecondFaultParams">
-    <xsd:sequence>
-        <xsd:element name="secondFaultMessage" type="xsd:string"/>
-        <xsd:element name="secondFaultDetail1" type="xsd:double"/>
-    </xsd:sequence>
-</xsd:complexType>
-SECOND_FAULT_IN_COMPLEX_TYPES;
-        $this->assertContains(
-            $this->_convertXmlToString($secondFaultType),
-            $wsdlContent,
-            'Second SOAP Fault complex types declaration is invalid'
-        );
-
-        $secondElement = '<xsd:element name="testModule3ErrorV1ParameterizedServiceExceptionSecondFault" '
-            . 'type="tns:testModule3ErrorV1ParameterizedServiceExceptionSecondFault"/>';
-        $this->assertContains(
-            $this->_convertXmlToString($secondElement),
-            $wsdlContent,
-            'Second SOAP Fault complex type element declaration is invalid'
-        );
-
-        $defaultFaultType = <<< DEFAULT_FAULT_COMPLEX_TYPE
-<xsd:complexType name="DefaultFault">
-    <xsd:sequence>
-        <xsd:element name="Code" type="xsd:int"/>
-        <xsd:element name="Trace" type="xsd:string" minOccurs="0"/>
-    </xsd:sequence>
-</xsd:complexType>
-DEFAULT_FAULT_COMPLEX_TYPE;
-        $this->assertContains(
-            $this->_convertXmlToString($defaultFaultType),
-            $wsdlContent,
-            'Default SOAP Fault complex types declaration is invalid'
-        );
-
-        $defaultElement = '<xsd:element name="DefaultFault" type="tns:DefaultFault"/>';
-        $this->assertContains(
-            $this->_convertXmlToString($defaultElement),
+            $this->_convertXmlToString('<xsd:element name="GenericFault" type="tns:GenericFault"/>'),
             $wsdlContent,
             'Default SOAP Fault complex type element declaration is invalid'
         );
 
+        // @codingStandardsIgnoreStart
+        $genericFaultType = <<< GENERIC_FAULT_COMPLEX_TYPE
+<xsd:complexType name="GenericFault">
+    <xsd:sequence>
+        <xsd:element name="Code" minOccurs="1" maxOccurs="1" type="xsd:int">
+            <xsd:annotation>
+                <xsd:documentation>
+                    SOAP fault code, unique for each type of exceptions.
+                </xsd:documentation>
+                <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2">
+                    <inf:min/>
+                    <inf:max/>
+                </xsd:appinfo>
+            </xsd:annotation>
+        </xsd:element>
+        <xsd:element name="Trace" minOccurs="0" maxOccurs="1" type="xsd:string">
+            <xsd:annotation>
+                <xsd:documentation>Exception calls stack trace.</xsd:documentation>
+                <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2">
+                    <inf:maxLength/>
+                </xsd:appinfo>
+            </xsd:annotation>
+        </xsd:element>
+        <xsd:element name="Parameters" type="tns:ArrayOfGenericFaultParameter">
+            <xsd:annotation>
+                <xsd:documentation>Additional exception parameters.</xsd:documentation>
+                <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2">
+                    <inf:natureOfType>array</inf:natureOfType>
+                </xsd:appinfo>
+            </xsd:annotation>
+        </xsd:element>
+    </xsd:sequence>
+</xsd:complexType>
+GENERIC_FAULT_COMPLEX_TYPE;
+        $this->assertContains(
+            $this->_convertXmlToString($genericFaultType),
+            $wsdlContent,
+            'Default SOAP Fault complex types declaration is invalid'
+        );
+
+        $detailsParameterType = <<< PARAM_COMPLEX_TYPE
+<xsd:complexType name="GenericFaultParameter">
+    <xsd:sequence>
+        <xsd:element name="key" minOccurs="1" maxOccurs="1" type="xsd:string">
+            <xsd:annotation>
+                <xsd:documentation></xsd:documentation>
+                <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2">
+                    <inf:maxLength/>
+                </xsd:appinfo>
+            </xsd:annotation>
+        </xsd:element>
+        <xsd:element name="value" minOccurs="1" maxOccurs="1" type="xsd:string">
+            <xsd:annotation>
+                <xsd:documentation></xsd:documentation>
+                <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2">
+                    <inf:maxLength/>
+                </xsd:appinfo>
+            </xsd:annotation>
+        </xsd:element>
+    </xsd:sequence>
+</xsd:complexType>
+PARAM_COMPLEX_TYPE;
+        $this->assertContains(
+            $this->_convertXmlToString($detailsParameterType),
+            $wsdlContent,
+            'Details parameter complex types declaration is invalid.'
+        );
+
+        $detailsParametersType = <<< PARAMETERS_COMPLEX_TYPE
+<xsd:complexType name="ArrayOfGenericFaultParameter">
+    <xsd:annotation>
+        <xsd:documentation>An array of GenericFaultParameter items.</xsd:documentation>
+        <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2"/>
+    </xsd:annotation>
+    <xsd:sequence>
+        <xsd:element name="item" minOccurs="0" maxOccurs="unbounded" type="tns:GenericFaultParameter">
+            <xsd:annotation>
+                <xsd:documentation>An item of ArrayOfGenericFaultParameter.</xsd:documentation>
+                <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2"/>
+            </xsd:annotation>
+        </xsd:element>
+    </xsd:sequence>
+</xsd:complexType>
+PARAMETERS_COMPLEX_TYPE;
+        // @codingStandardsIgnoreEnd
+        $this->assertContains(
+            $this->_convertXmlToString($detailsParametersType),
+            $wsdlContent,
+            'Details parameters (array of parameters) complex types declaration is invalid.'
+        );
     }
 }

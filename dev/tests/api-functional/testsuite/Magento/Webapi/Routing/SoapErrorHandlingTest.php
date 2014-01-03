@@ -19,6 +19,7 @@ class SoapErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
 
     public function testPerameterizedServiceException()
     {
+        // TODO: Uncomment the test
         $this->markTestIncomplete('Should be uncommented when SOAP request processing is fixed');
         $serviceInfo = array(
             'soap' => array(
