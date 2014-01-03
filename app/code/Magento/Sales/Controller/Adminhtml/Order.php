@@ -126,7 +126,18 @@ class Order extends \Magento\Backend\App\Action
 
         $order = $this->_initOrder();
         if ($order) {
-            $this->_initAction();
+            try {
+                $this->_initAction();
+            } catch (\Magento\App\Action\Exception $e) {
+                $this->messageManager->addError($e->getMessage());
+                $this->_redirect('sales/order/index');
+                return;
+            } catch(\Exception $e) {
+                $this->_objectManager->get('Magento\Logger')->logException($e);
+                $this->messageManager->addError(__('Exception occurred during order load'));
+                $this->_redirect('sales/order/index');
+                return;
+            }
             $this->_title->add(sprintf("#%s", $order->getRealOrderId()));
             $this->_view->renderLayout();
         }

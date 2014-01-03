@@ -116,6 +116,23 @@ class Read implements ReadInterface
     }
 
     /**
+     * Read recursively
+     *
+     * @param null $path
+     * @return array
+     */
+    public function readRecursively($path = null)
+    {
+        $result = array();
+        $paths = $this->driver->readDirectoryRecursively($this->driver->getAbsolutePath($this->path, $path));
+        /** @var \FilesystemIterator $file */
+        foreach ($paths as $file) {
+            $result[] = $this->getRelativePath($file);
+        }
+        sort($result);
+        return $result;
+    }
+    /**
      * Search all entries for given regex pattern
      *
      * @param string $pattern
