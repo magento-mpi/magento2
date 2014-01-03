@@ -1759,4 +1759,6 @@ return array(
     array('Magento\Core\Model\Session\Context'),
     array('Magento\Core\Model\Session\AbstractSession', 'Magento\Session\SessionManager'),
     array('Magento\Catalog\Model\Resource\Convert'),
+    array('Magento\Reminder\Model\Resource\HelperFactory'),
+    array('Magento\Reminder\Model\Resource\Helper'),
 );

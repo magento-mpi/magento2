@@ -184,6 +184,7 @@ class Tar extends \Magento\Archive\AbstractArchive implements \Magento\Archive\A
      */
     protected function _setCurrentFile($file)
     {
+        $file = str_replace('\\', '/', $file);
         $this->_currentFile = $file .((!is_link($file) && is_dir($file) && substr($file, -1) != '/') ? '/' : '');
         return $this;
     }
@@ -218,6 +219,7 @@ class Tar extends \Magento\Archive\AbstractArchive implements \Magento\Archive\A
      */
     protected function _setCurrentPath($path)
     {
+        $path = str_replace('\\', '/', $path);
         if ($this->_skipRoot && is_dir($path)) {
             $this->_currentPath = $path . (substr($path, -1) != '/' ? '/' : '');
         } else {

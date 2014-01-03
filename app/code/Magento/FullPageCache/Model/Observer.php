@@ -8,18 +8,14 @@
  * @license     {license_link}
  */
 
-/**
- * Full page cache observer
- *
- * @category   Magento
- * @package    Magento_FullPageCache
- * @author     Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\FullPageCache\Model;
 
+/**
+ * Full page cache observer
+ */
 class Observer
 {
-    /*
+    /**
      * Design exception key
      */
     const XML_PATH_DESIGN_EXCEPTION = 'design/package/ua_regexp';
@@ -102,7 +98,7 @@ class Observer
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
 
     /**
      * @var \Magento\Logger
@@ -378,10 +374,9 @@ class Observer
         if (!$this->isCacheEnabled()) {
             return $this;
         }
-        $object = $observer->getEvent()->getObject();
-        $object = $this->_fpcValidatorFactory
+        $this->_fpcValidatorFactory
             ->create()
-            ->checkDataChange($object);
+            ->checkDataChange($observer->getEvent()->getObject());
         return $this;
     }
 
@@ -396,11 +391,9 @@ class Observer
         if (!$this->isCacheEnabled()) {
             return $this;
         }
-        $object = $observer->getEvent()->getObject();
-
-        $object = $this->_fpcValidatorFactory
+        $this->_fpcValidatorFactory
             ->create()
-            ->checkDataDelete($object);
+            ->checkDataDelete($observer->getEvent()->getObject());
         return $this;
     }
 
@@ -498,7 +491,12 @@ class Observer
             $ids[] = $item->getId();
         }
         sort($ids);
-        $this->_cookie->set(\Magento\FullPageCache\Model\Cookie::COOKIE_COMPARE_LIST, implode(',', $ids));
+        $this->_cookie->set(
+            \Magento\FullPageCache\Model\Cookie::COOKIE_COMPARE_LIST,
+            implode(',', $ids),
+            $this->_catalogSession->getCookieLifetime(),
+            $this->_catalogSession->getCookiePath()
+        );
 
         //Recently compared products processing
         $recentlyComparedProducts = $this->_cookie
@@ -517,14 +515,17 @@ class Observer
         $recentlyComparedProducts = array_unique($recentlyComparedProducts);
         sort($recentlyComparedProducts);
 
-        $this->_cookie->set(\Magento\FullPageCache\Model\Cookie::COOKIE_RECENTLY_COMPARED,
-            implode(',', $recentlyComparedProducts));
-
-       return $this;
+        $this->_cookie->set(
+            \Magento\FullPageCache\Model\Cookie::COOKIE_RECENTLY_COMPARED,
+            implode(',', $recentlyComparedProducts),
+            $this->_catalogSession->getCookieLifetime(),
+            $this->_catalogSession->getCookiePath()
+        );
+        return $this;
     }
 
     /**
-     * Set new message cookie on adding messsage to session.
+     * Set new message cookie on adding message to session
      *
      * @param \Magento\Event\Observer $observer
      * @return \Magento\FullPageCache\Model\Observer
@@ -610,8 +611,18 @@ class Observer
         $this->_cookie->updateCustomerCookies();
 
         if (!$this->_cookie->get(\Magento\FullPageCache\Model\Cookie::COOKIE_CUSTOMER)) {
-            $this->_cookie->set(\Magento\FullPageCache\Model\Cookie::COOKIE_RECENTLY_COMPARED, null);
-            $this->_cookie->set(\Magento\FullPageCache\Model\Cookie::COOKIE_COMPARE_LIST, null);
+            $this->_cookie->set(
+                \Magento\FullPageCache\Model\Cookie::COOKIE_RECENTLY_COMPARED,
+                null,
+                $this->_catalogSession->getCookieLifetime(),
+                $this->_catalogSession->getCookiePath()
+            );
+            $this->_cookie->set(
+                \Magento\FullPageCache\Model\Cookie::COOKIE_COMPARE_LIST,
+                null,
+                $this->_catalogSession->getCookieLifetime(),
+                $this->_catalogSession->getCookiePath()
+            );
             \Magento\FullPageCache\Model\Cookie::registerViewedProducts(array(), 0, false);
         }
 

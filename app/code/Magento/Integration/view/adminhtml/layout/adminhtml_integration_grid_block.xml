@@ -35,6 +35,7 @@
                         <argument name="type" xsi:type="string">text</argument>
                         <argument name="index" xsi:type="string">name</argument>
                         <argument name="id" xsi:type="string">name</argument>
+                        <argument name="escape" xsi:type="string">1</argument>
                     </arguments>
                 </block>
                 <block class="Magento\Backend\Block\Widget\Grid\Column" as="status">

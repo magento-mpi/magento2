@@ -344,7 +344,9 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
                 $this->setCustomerAddressId($this->getCustomerAddress()->getId());
             }
 
-            $this->setSameAsBilling((int)$this->_isSameAsBilling());
+            if (!$this->getId()) {
+                $this->setSameAsBilling((int)$this->_isSameAsBilling());
+            }
         }
     }
 
