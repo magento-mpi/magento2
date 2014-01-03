@@ -16,23 +16,25 @@ use \Magento\TestFramework\Helper\ObjectManager;
 
 /**
  * @param $paramName
+ * @throws \InvalidArgumentException
  * @return string
  */
 function ini_get($paramName) {
     if ('memory_limit' == $paramName) {
-        return '2M';
+        return Gd2Test::$memoryLimit;
     }
 
-    return \ini_get($paramName);
+    throw new \InvalidArgumentException('Unexpected parameter ' . $paramName);
 }
 
 /**
  * @param $file
  * @return mixed
+ * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  */
 function getimagesize($file)
 {
-    return Gd2Test::${$file};
+    return Gd2Test::$imageData;
 }
 
 /**
@@ -63,31 +65,17 @@ function call_user_func($callable, $param)
 class Gd2Test extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var array simulation of getimagesize() output for small image
+     * Value to mock ini_get('memory_limit')
+     *
+     * @var string
      */
-    public static $smallFile = array(
-        0 => 480,
-        1 => 320,
-        2 => 2,
-        3 => 'width="480" height="320"',
-        'bits' => 8,
-        'channels' => 3,
-        'mime' => 'image/jpeg',
-    );
+    public static $memoryLimit;
 
     /**
-     * @var array simulation of getimagesize() output for big image
+     * @var array simulation of getimagesize()
      */
-    public static $bigFile = array(
-        0 => 3579,
-        1 => 2398,
-        2 => 2,
-        3 => 'width="3579" height="2398"',
-        'bits' => 8,
-        'channels' => 3,
-        'mime' => 'image/jpeg',
-    );
-    
+    public static $imageData = array();
+
     /**
      * Adapter for testing
      * @var \Magento\Image\Adapter\Gd2
@@ -119,22 +107,49 @@ class Gd2Test extends \PHPUnit_Framework_TestCase
     /**
      * Test open() method
      *
+     * @param $fileData array
+     * @param $exception string|bool|null
+     * @param $limit string
      * @dataProvider filesProvider
      */
-    public function testOpen($filePath, $exception)
+    public function testOpen($fileData, $exception, $limit)
     {
+        self::$memoryLimit = $limit;
+        self::$imageData = $fileData;
+
         if (!empty($exception)) {
             $this->setExpectedException($exception);
         }
 
-        $this->adapter->open($filePath);
+        $this->adapter->open('file');
     }
 
     public function filesProvider()
     {
+        $smallFile = array(
+            0 => 480,
+            1 => 320,
+            2 => 2,
+            3 => 'width="480" height="320"',
+            'bits' => 8,
+            'channels' => 3,
+            'mime' => 'image/jpeg',
+        );
+
+        $bigFile = array(
+            0 => 3579,
+            1 => 2398,
+            2 => 2,
+            3 => 'width="3579" height="2398"',
+            'bits' => 8,
+            'channels' => 3,
+            'mime' => 'image/jpeg',
+        );
+
         return array(
-            'positive' => array('smallFile', false),
-            'negative' => array('bigFile', 'OverflowException')
+            'positive_M' => array($smallFile, false, '2M'),
+            'positive_KB' => array($smallFile, false, '2048KB'),
+            'negative_bytes' => array($bigFile, 'OverflowException', '2048000')
         );
     }
 }
