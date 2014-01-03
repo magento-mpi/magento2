@@ -7,4 +7,4 @@
  */
 
 /** @var $reportData array */
-PHPUnit_Framework_Assert::assertNotEmpty($reportData);
+\Magento\App\Error\HandlerTest::assertNotEmpty($reportData);
