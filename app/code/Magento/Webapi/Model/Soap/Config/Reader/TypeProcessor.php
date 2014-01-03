@@ -312,6 +312,7 @@ class TypeProcessor
      */
     public function translateTypeName($class)
     {
+        //TODO: Is 'Entity' also needed in the regex pattern
         if (preg_match('/\\\\?(.*)\\\\(.*)\\\\Service\\\\\2?(.*)/', $class, $matches)) {
             $moduleNamespace = $matches[1] == 'Magento' ? '' : $matches[1];
             $moduleName = $matches[2];

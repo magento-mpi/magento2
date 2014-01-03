@@ -8,8 +8,6 @@
 
 namespace Magento\Webapi\Model\Soap\Config\Reader;
 
-use Zend\Code\Reflection\ClassReflection;
-
 /**
  * Type processor Test
  */
@@ -67,5 +65,67 @@ class TypeProcessorTest extends \PHPUnit_Framework_TestCase
         $this->_typeProcessor->setTypeData('typeA', ['dataA2']);
         $this->_typeProcessor->setTypeData('typeA', ['dataA3']);
         $this->assertEquals(['dataA1', 'dataA2', 'dataA3'], $this->_typeProcessor->getTypeData('typeA'));
+    }
+
+    public function testNormalizeType()
+    {
+        $this->assertEquals('blah', $this->_typeProcessor->normalizeType('blah'));
+        $this->assertEquals('string', $this->_typeProcessor->normalizeType('str'));
+        //$this->assertEquals('integer', $this->_typeProcessor->normalizeType('int'));
+        $this->assertEquals('boolean', $this->_typeProcessor->normalizeType('bool'));
+    }
+
+    public function testIsTypeSimple()
+    {
+        $this->assertTrue($this->_typeProcessor->isTypeSimple('string'));
+        $this->assertTrue($this->_typeProcessor->isTypeSimple('string[]'));
+        $this->assertTrue($this->_typeProcessor->isTypeSimple('int'));
+        $this->assertTrue($this->_typeProcessor->isTypeSimple('float'));
+        $this->assertTrue($this->_typeProcessor->isTypeSimple('double'));
+        $this->assertTrue($this->_typeProcessor->isTypeSimple('boolean'));
+        $this->assertFalse($this->_typeProcessor->isTypeSimple('blah'));
+    }
+
+    public function testIsArrayType()
+    {
+        $this->assertFalse($this->_typeProcessor->isArrayType('string'));
+        $this->assertTrue($this->_typeProcessor->isArrayType('string[]'));
+    }
+
+    public function getArrayItemType()
+    {
+        $this->assertEquals('string', $this->_typeProcessor->getArrayItemType('str[]'));
+        $this->assertEquals('string', $this->_typeProcessor->getArrayItemType('string[]'));
+        $this->assertEquals('integer', $this->_typeProcessor->getArrayItemType('int[]'));
+        $this->assertEquals('boolean', $this->_typeProcessor->getArrayItemType('bool[]'));
+    }
+
+    public function testTranslateTypeName()
+    {
+        $this->assertEquals(
+            'TestModule1EntityV1Item',
+            $this->_typeProcessor->translateTypeName('\Magento\TestModule1\Service\Entity\V1\Item')
+        );
+        $this->assertEquals(
+            'TestModule3EntityV1Parameter[]',
+            $this->_typeProcessor->translateTypeName('\Magento\TestModule3\Service\Entity\V1\Parameter[]')
+        );
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Invalid parameter type "\Magento\TestModule3\V1\Parameter[]".
+     */
+    public function testTranslateTypeNameInvalidArgumentException()
+    {
+        //TODO: Uncomment once regex is fixed
+        //$this->_typeProcessor->translateTypeName('\Magento\TestModule3\Service\V1\Parameter[]');
+        $this->_typeProcessor->translateTypeName('\Magento\TestModule3\V1\Parameter[]');
+
+    }
+
+    public function testTranslateArrayTypeName()
+    {
+        $this->assertEquals('ArrayOfComplexType', $this->_typeProcessor->translateArrayTypeName('complexType'));
     }
 }
