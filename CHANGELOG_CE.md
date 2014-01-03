@@ -106,6 +106,7 @@
   * Fixed target rule if it is applied for specific customer segment
   * Fixed product importing that cleared price and weight
   * Fixed fatal error when a file reference is added to HTML head
+  * Fixed JavaScript static testing framework to properly handle corrupted paths in white/black lists
 * GitHub requests:
   * [#122](https://github.com/magento/magento2/pull/122) -- Added support of federal units of Brazil with 27 states
   * [#184](https://github.com/magento/magento2/issues/184) -- Removed unused blocks and methods in Magento_Wishlist module
@@ -114,6 +115,7 @@
   * Responsive design improvements
 * Improvements in code coverage calculation:
   * Code coverage calculation approach for unit tests was changed from blacklist to whitelist
+* Consolidated a few 3rd-party JavaScript libraries under `pub/lib` directory and specified their original license notice texts
 
 2.0.0.0-dev57
 =============

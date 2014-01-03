@@ -36,12 +36,12 @@
         </block>
         <block class="Magento\Theme\Block\Html\Head\Script" name="js-dnd-js">
             <arguments>
-                <argument name="file" xsi:type="string">js/dnd.js</argument>
+                <argument name="file" xsi:type="string">dnd.js</argument>
             </arguments>
         </block>
         <block class="Magento\Theme\Block\Html\Head\Script" name="js-modernizr-js">
             <arguments>
-                <argument name="file" xsi:type="string">js/modernizr.js</argument>
+                <argument name="file" xsi:type="string">modernizr/modernizr.2.0.6.js</argument>
             </arguments>
         </block>
     </referenceBlock>
