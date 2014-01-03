@@ -16,18 +16,12 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructorAndGetters()
     {
-        $attribute = new Attribute(self::ATTRIBUTE_CODE, self::VALUE);
+        $attribute = new \Magento\Customer\Service\Entity\V1\Eav\Attribute([
+            'attribute_code' => self::ATTRIBUTE_CODE,
+            'value' => self::VALUE
+        ]);
 
         $this->assertSame(self::ATTRIBUTE_CODE, $attribute->getAttributeCode());
         $this->assertSame(self::VALUE, $attribute->getValue());
-    }
-
-    public function testSetters()
-    {
-        $attribute = new Attribute(self::ATTRIBUTE_CODE, self::VALUE);
-        $attribute->setValue('other_value');
-
-        $this->assertSame(self::ATTRIBUTE_CODE, $attribute->getAttributeCode());
-        $this->assertSame('other_value', $attribute->getValue());
     }
 }

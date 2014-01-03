@@ -50,11 +50,22 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         'region' => 'Texas',
     ];
 
+    /**
+     * @var \Magento\Customer\Service\Entity\V1\AddressBuilder
+     */
+    protected $_addressBuilder;
+
+    protected function setUp()
+    {
+        $this->_addressBuilder = new \Magento\Customer\Service\Entity\V1\AddressBuilder(
+            new \Magento\Customer\Service\Entity\V1\RegionBuilder()
+        );
+    }
+
     public function testMinimalAddress()
     {
-        $address = new Address();
-        $this->_fillMinimumRequiredFields($address);
-        $this->_assertMinimumRequiredFields($address);
+        $this->_fillMinimumRequiredFields($this->_addressBuilder);
+        $this->_assertMinimumRequiredFields($this->_addressBuilder->create());
     }
 
     public function testCopyAndModify()
@@ -69,7 +80,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             'getStreet' => $this->_expectedValues['street'],
             'getCity' => $this->_expectedValues['city'],
             'getCountryId' => $this->_expectedValues['country_id'],
-            'getRegion' => new Region('', $this->_expectedValues['region']),
+            'getRegion' => new \Magento\Customer\Service\Entity\V1\Region(['region' => 'Texas', 'region_code' => '']),
             'getPostcode' => $this->_expectedValues['postcode'],
             'getTelephone' => $this->_expectedValues['telephone'],
         ));
@@ -79,9 +90,8 @@ class AddressTest extends \PHPUnit_Framework_TestCase
 
     public function testFullAddress()
     {
-        $address = new Address();
-        $this->_fillAllFields($address);
-
+        $this->_fillAllFields($this->_addressBuilder);
+        $address = $this->_addressBuilder->create();
 
         $this->_assertMinimumRequiredFields($address);
         $this->assertEquals($this->_expectedValues['id'], $address->getId());
@@ -97,24 +107,26 @@ class AddressTest extends \PHPUnit_Framework_TestCase
 
     public function testSetStreet()
     {
-        $address = new Address();
-        $this->_fillMinimumRequiredFields($address);
-        $street = $address->getStreet();
+        $this->_fillMinimumRequiredFields($this->_addressBuilder);
+        $tmpAddress = $this->_addressBuilder->create();
+        $street = $tmpAddress->getStreet();
         $street[] = 'Line_1';
-        $address->setStreet($street);
+        $this->_addressBuilder->populate($tmpAddress);
+        $this->_addressBuilder->setStreet($street);
+
+        $address = $this->_addressBuilder->create();
         $this->_assertMinimumRequiredFields($address);
         $this->assertEquals('Line_1', $address->getStreet()[1]);
     }
 
     public function testGetAttributes()
     {
-        $address = new Address();
-        $this->_fillAllFields($address);
+        $this->_fillAllFields($this->_addressBuilder);
         $expected = $this->_expectedValues;
         unset($expected['id']);
         unset($expected['default_billing']);
         unset($expected['default_shipping']);
-        $this->assertEquals($expected, $address->getAttributes());
+        $this->assertEquals($expected, $this->_addressBuilder->create()->getAttributes());
     }
 
     /**
@@ -131,36 +143,39 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param Address $address
+     * @param AddressBuilder $address
      */
-    private function _fillMinimumRequiredFields($address)
+    private function _fillMinimumRequiredFields($addressBuilder)
     {
-        $address->setFirstname($this->_expectedValues['firstname']);
-        $address->setLastname($this->_expectedValues['lastname']);
-        $address->setStreet($this->_expectedValues['street']);
-        $address->setCity($this->_expectedValues['city']);
-        $address->setCountryId($this->_expectedValues['country_id']);
-        $address->setRegion(new Region('', $this->_expectedValues['region']));
-        $address->setPostcode($this->_expectedValues['postcode']);
-        $address->setTelephone($this->_expectedValues['telephone']);
+        $addressBuilder->setFirstname($this->_expectedValues['firstname']);
+        $addressBuilder->setLastname($this->_expectedValues['lastname']);
+        $addressBuilder->setStreet($this->_expectedValues['street']);
+        $addressBuilder->setCity($this->_expectedValues['city']);
+        $addressBuilder->setCountryId($this->_expectedValues['country_id']);
+        $addressBuilder->setRegion(
+            new \Magento\Customer\Service\Entity\V1\Region(['region' => $this->_expectedValues['region'],
+                'region_code' => ''])
+        );
+        $addressBuilder->setPostcode($this->_expectedValues['postcode']);
+        $addressBuilder->setTelephone($this->_expectedValues['telephone']);
     }
 
     /**
      * @param Address $address
      */
-    private function _fillAllFields($address)
+    private function _fillAllFields($addressBuilder)
     {
-        $this->_fillMinimumRequiredFields($address);
+        $this->_fillMinimumRequiredFields($addressBuilder);
 
-        $address->setId($this->_expectedValues['id']);
-        $address->setSuffix($this->_expectedValues['suffix']);
-        $address->setMiddlename($this->_expectedValues['middlename']);
-        $address->setPrefix($this->_expectedValues['prefix']);
-        $address->setVatId($this->_expectedValues['vat_id']);
-        $address->setDefaultShipping($this->_expectedValues['default_shipping']);
-        $address->setDefaultBilling($this->_expectedValues['default_billing']);
-        $address->setCompany($this->_expectedValues['company']);
-        $address->setFax($this->_expectedValues['fax']);
+        $addressBuilder->setId($this->_expectedValues['id']);
+        $addressBuilder->setSuffix($this->_expectedValues['suffix']);
+        $addressBuilder->setMiddlename($this->_expectedValues['middlename']);
+        $addressBuilder->setPrefix($this->_expectedValues['prefix']);
+        $addressBuilder->setVatId($this->_expectedValues['vat_id']);
+        $addressBuilder->setDefaultShipping($this->_expectedValues['default_shipping']);
+        $addressBuilder->setDefaultBilling($this->_expectedValues['default_billing']);
+        $addressBuilder->setCompany($this->_expectedValues['company']);
+        $addressBuilder->setFax($this->_expectedValues['fax']);
     }
 
     /**
@@ -173,7 +188,11 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->_expectedValues['street'][0], $address->getStreet()[0]);
         $this->assertEquals($this->_expectedValues['city'], $address->getCity());
         $this->assertEquals($this->_expectedValues['country_id'], $address->getCountryId());
-        $this->assertEquals(new Region('', $this->_expectedValues['region']), $address->getRegion());
+        $this->assertEquals(
+            new \Magento\Customer\Service\Entity\V1\Region(['region' => $this->_expectedValues['region'],
+                'region_code' => '']),
+            $address->getRegion()
+        );
         $this->assertEquals($this->_expectedValues['postcode'], $address->getPostcode());
         $this->assertEquals($this->_expectedValues['telephone'], $address->getTelephone());
     }

@@ -9,10 +9,7 @@
  */
 namespace Magento\Customer\Service\Entity\V1\Eav;
 
-use Magento\Service\Entity\AbstractDto;
-use Magento\Service\Entity\LazyArrayClone;
-
-class AttributeMetadata extends AbstractDto
+class AttributeMetadata extends \Magento\Service\Entity\AbstractDto
 {
     /**
      * Constants used as keys into $_data
@@ -27,12 +24,6 @@ class AttributeMetadata extends AbstractDto
     const REQUIRED = 'is_required';
     const MULTILINE_COUNT = 'multiline_count';
     const DATA_MODEL = 'data_model';
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->_data[self::OPTIONS] = $this->_createArray();
-    }
 
     /**
      * @return string
@@ -112,96 +103,5 @@ class AttributeMetadata extends AbstractDto
     public function getOptions()
     {
         return $this->_get(self::OPTIONS);
-    }
-
-    /**
-     * @param $attributeCode
-     * @return AttributeMetadata
-     */
-    public function setAttributeCode($attributeCode)
-    {
-        return $this->_set(self::ATTRIBUTE_CODE, $attributeCode);
-    }
-
-    /**
-     * @param $frontendInput
-     * @return AttributeMetadata
-     */
-    public function setFrontendInput($frontendInput)
-    {
-        return $this->_set(self::FRONT_END_INPUT, $frontendInput);
-    }
-
-    /**
-     * @param $inputFilter
-     * @return AttributeMetadata
-     */
-    public function setInputFilter($inputFilter)
-    {
-        return $this->_set(self::INPUT_FILTER, $inputFilter);
-    }
-
-    /**
-     * @param $storeLabel
-     * @return AttributeMetadata
-     */
-    public function setStoreLabel($storeLabel)
-    {
-        return $this->_set(self::STORE_LABEL, $storeLabel);
-    }
-
-    /**
-     * @param string $validationRules
-     * @return AttributeMetadata
-     */
-    public function setValidationRules($validationRules)
-    {
-        return $this->_set(self::VALIDATION_RULES, $validationRules);
-    }
-
-    /**
-     * @param \Magento\Customer\Service\Entity\V1\Eav\Option[] $options
-     * @return AttributeMetadata
-     */
-    public function setOptions($options)
-    {
-        $this->_set(self::OPTIONS, $options);
-    }
-
-    /**
-     * @param boolean $visible
-     * @return AttributeMetadata
-     */
-    public function setIsVisible($visible)
-    {
-        return $this->_set(self::VISIBLE, $visible);
-    }
-
-    /**
-     * @param boolean $required
-     * @return AttributeMetadata
-     */
-    public function setIsRequired($required)
-    {
-        return $this->_set(self::REQUIRED, $required);
-    }
-
-
-    /**
-     * @param int $count
-     * @return AttributeMetadata
-     */
-    public function setMultilineCount($count)
-    {
-        return $this->_set(self::MULTILINE_COUNT, $count);
-    }
-
-    /**
-     * @param string
-     * @return AttributeMetadata
-     */
-    public function setDataModel($dataModel)
-    {
-        return $this->_set(self::DATA_MODEL, $dataModel);
     }
 }

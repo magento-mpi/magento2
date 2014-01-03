@@ -26,12 +26,32 @@ class CustomerGroupV1 implements CustomerGroupV1Interface
      */
     protected $_storeConfig;
 
+    /**
+     * @var \Magento\Customer\Service\Entity\V1\SearchResultsBuilder
+     */
+    protected $_searchResultsBuilder;
+
+    /**
+     * @var \Magento\Customer\Service\Entity\V1\CustomerGroupBuilder
+     */
+    protected $_customerGroupBuilder;
+
+    /**
+     * @param \Magento\Customer\Model\GroupFactory $groupFactory
+     * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\Customer\Service\Entity\V1\SearchResultsBuilder $searchResultsBuilder
+     * @param \Magento\Customer\Service\Entity\V1\CustomerGroupBuilder $customerGroupBuilder
+     */
     public function __construct(
         \Magento\Customer\Model\GroupFactory $groupFactory,
-        \Magento\Core\Model\Store\Config $storeConfig
+        \Magento\Core\Model\Store\Config $storeConfig,
+        \Magento\Customer\Service\Entity\V1\SearchResultsBuilder $searchResultsBuilder,
+        \Magento\Customer\Service\Entity\V1\CustomerGroupBuilder $customerGroupBuilder
     ) {
         $this->_groupFactory = $groupFactory;
         $this->_storeConfig = $storeConfig;
+        $this->_searchResultsBuilder = $searchResultsBuilder;
+        $this->_customerGroupBuilder = $customerGroupBuilder;
     }
 
     /**
@@ -50,11 +70,10 @@ class CustomerGroupV1 implements CustomerGroupV1Interface
         }
         /** @var \Magento\Customer\Model\Group $group */
         foreach ($collection as $group) {
-            $groups[] = new Entity\V1\CustomerGroup(
-                $group->getId(),
-                $group->getCode(),
-                $group->getTaxClassId()
-            );
+            $this->_customerGroupBuilder->setId($group->getId())
+                ->setCode($group->getCode())
+                ->setTaxClassId($group->getTaxClassId());
+            $groups[] = $this->_customerGroupBuilder->create();
         }
         return $groups;
     }
@@ -64,8 +83,7 @@ class CustomerGroupV1 implements CustomerGroupV1Interface
      */
     public function searchGroups(SearchCriteria $searchCriteria)
     {
-        $searchResults = new SearchResults();
-        $searchResults->setSearchCriteria($searchCriteria);
+        $this->_searchResultsBuilder->setSearchCriteria($searchCriteria);
 
         $groups = array();
         /** @var \Magento\Customer\Model\Resource\Group\Collection $collection */
@@ -73,7 +91,7 @@ class CustomerGroupV1 implements CustomerGroupV1Interface
         foreach ($searchCriteria->getFilters() as $filter) {
             $collection->addFilter($filter->getField(), $filter->getValue(), $filter->getConditionType());
         }
-        $searchResults->setTotalCount($collection->getSize());
+        $this->_searchResultsBuilder->setTotalCount($collection->getSize());
         foreach ($searchCriteria->getSortOrders() as $field => $direction) {
             switch($field) {
                 case 'id' :
@@ -93,14 +111,13 @@ class CustomerGroupV1 implements CustomerGroupV1Interface
 
         /** @var \Magento\Customer\Model\Group $group */
         foreach ($collection as $group) {
-            $groups[] = new Entity\V1\CustomerGroup(
-                $group->getId(),
-                $group->getCode(),
-                $group->getTaxClassId()
-            );
+            $this->_customerGroupBuilder->setId($group->getId())
+                ->setCode($group->getCode())
+                ->setTaxClassId($group->getTaxClassId());
+            $groups[] = $this->_customerGroupBuilder->create();
         }
-        $searchResults->setItems($groups);
-        return $searchResults;
+        $this->_searchResultsBuilder->setItems($groups);
+        return $this->_searchResultsBuilder->create();
     }
 
     /**
@@ -114,7 +131,10 @@ class CustomerGroupV1 implements CustomerGroupV1Interface
         if (is_null($customerGroup->getId())) {
             throw new Entity\V1\Exception(__('groupId ' . $groupId . ' does not exist.'));
         }
-        return new CustomerGroup($customerGroup->getId(), $customerGroup->getCode(), $customerGroup->getTaxClassId());
+        $this->_customerGroupBuilder->setId($customerGroup->getId())
+            ->setCode($customerGroup->getCode())
+            ->setTaxClassId($customerGroup->getTaxClassId());
+        return $this->_customerGroupBuilder->create();
     }
 
     /**

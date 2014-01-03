@@ -16,7 +16,10 @@ class OptionTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructorAndGetters()
     {
-        $option = new Option(self::LABEL, self::VALUE);
+        $option = new \Magento\Customer\Service\Entity\V1\Eav\Option([
+            'label' => self::LABEL,
+            'value' => self::VALUE
+        ]);
 
         $this->assertSame(self::LABEL, $option->getLabel());
         $this->assertSame(self::VALUE, $option->getValue());

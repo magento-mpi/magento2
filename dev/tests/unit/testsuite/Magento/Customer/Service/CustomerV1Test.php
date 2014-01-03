@@ -13,6 +13,7 @@ namespace Magento\Customer\Service;
  * @SuppressWarnings(PHPMD.TooManyMethods)
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class CustomerV1Test extends \PHPUnit_Framework_TestCase
 {
@@ -32,8 +33,8 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
     const EMAIL = 'janedoe@example.com';
     const EMAIL_CONFIRMATION_KEY = 'blj487lkjs4confirmation_key';
     const PASSWORD = 'password';
-    const ATTRIBUTE_CODE = 'first_name';
-    const ATTRIBUTE_VALUE = 'Jane';
+    const ATTRIBUTE_CODE = 'random_attr_code';
+    const ATTRIBUTE_VALUE = 'random_attr_value';
     const WEBSITE_ID = 1;
 
     /**
@@ -85,6 +86,16 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
      * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Core\Model\Store
      */
     protected $_storeMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\Entity\V1\AddressBuilder
+     */
+    protected $_addressBuilder;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\Entity\V1\CustomerBuilder
+     */
+    protected $_customerBuilder;
 
     protected $_validator;
 
@@ -186,11 +197,18 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_converter = new \Magento\Customer\Model\Converter();
-
         $this->_validator = $this->getMockBuilder('\Magento\Customer\Model\Metadata\Validator')
             ->disableOriginalConstructor()
             ->getMock();
+
+        $this->_addressBuilder = new \Magento\Customer\Service\Entity\V1\AddressBuilder(
+            new \Magento\Customer\Service\Entity\V1\RegionBuilder());
+
+        $this->_customerBuilder = new \Magento\Customer\Service\Entity\V1\CustomerBuilder();
+
+        $customerBuilder = new \Magento\Customer\Service\Entity\V1\CustomerBuilder();
+
+        $this->_converter = new \Magento\Customer\Model\Converter($customerBuilder);
     }
 
     public function testGetCustomer()
@@ -254,34 +272,6 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
         $secondCall = $service->getCustomer(1);
 
         $this->assertSame($firstCall, $secondCall);
-    }
-
-    public function testGetCustomerLocked()
-    {
-        $this->_customerModelMock->expects($this->any())
-            ->method('load')
-            ->will($this->returnValue($this->_customerModelMock));
-
-        $this->_mockReturnValue(
-            $this->_customerModelMock,
-            array(
-                'getId' => self::ID,
-                'getFirstname' => self::FIRSTNAME,
-                'getLastname' => self::LASTNAME,
-                'getName' => self::NAME,
-                'getEmail' => self::EMAIL,
-                'getAttributes' => array($this->_attributeModelMock),
-            )
-        );
-
-        $this->_customerFactoryMock->expects($this->any())
-            ->method('create')
-            ->will($this->returnValue($this->_customerModelMock));
-        $service = $this->_createService();
-
-        $customer = $service->getCustomer(1);
-
-        $this->assertTrue($customer->isLocked(), 'Service should return locked DTO');
     }
 
     public function testActivateAccount()
@@ -984,7 +974,11 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
             'default_billing' => true,
             'default_shipping' => false,
             'customer_id' => self::ID,
-            'region' => new Entity\V1\Region('', self::REGION, self::REGION_ID),
+            'region' => new \Magento\Customer\Service\Entity\V1\Region([
+                'region_id' => self::REGION_ID,
+                'region_code' => '',
+                'region' => self::REGION
+            ]),
             'country_id' => self::COUNTRY_ID,
             'street' => [self::STREET],
             'telephone' => self::TELEPHONE,
@@ -1026,7 +1020,11 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
             'default_shipping' => true,
             'default_billing' => false,
             'customer_id' => self::ID,
-            'region' => new Entity\V1\Region('', self::REGION, self::REGION_ID),
+            'region' => new \Magento\Customer\Service\Entity\V1\Region([
+                'region_id' => self::REGION_ID,
+                'region_code' => '',
+                'region' => self::REGION
+            ]),
             'country_id' => self::COUNTRY_ID,
             'street' => [self::STREET],
             'telephone' => self::TELEPHONE,
@@ -1069,7 +1067,11 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
             'default_shipping' => true,
             'default_billing' => false,
             'customer_id' => self::ID,
-            'region' => new Entity\V1\Region('', self::REGION, self::REGION_ID),
+            'region' => new \Magento\Customer\Service\Entity\V1\Region([
+                'region_id' => self::REGION_ID,
+                'region_code' => '',
+                'region' => self::REGION
+            ]),
             'country_id' => self::COUNTRY_ID,
             'street' => [self::STREET],
             'telephone' => self::TELEPHONE,
@@ -1115,7 +1117,11 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
                 'default_shipping' => true,
                 'default_billing' => false,
                 'customer_id' => self::ID,
-                'region' => new Entity\V1\Region('', self::REGION, self::REGION_ID),
+                'region' => new \Magento\Customer\Service\Entity\V1\Region([
+                    'region_id' => self::REGION_ID,
+                    'region_code' => '',
+                    'region' => self::REGION
+                ]),
                 'country_id' => self::COUNTRY_ID,
                 'street' => [self::STREET],
                 'telephone' => self::TELEPHONE,
@@ -1128,7 +1134,11 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
                 'default_billing' => true,
                 'default_shipping' => false,
                 'customer_id' => self::ID,
-                'region' => new Entity\V1\Region('', self::REGION, self::REGION_ID),
+                'region' => new \Magento\Customer\Service\Entity\V1\Region([
+                    'region_id' => self::REGION_ID,
+                    'region_code' => '',
+                    'region' => self::REGION
+                ]),
                 'country_id' => self::COUNTRY_ID,
                 'street' => [self::STREET],
                 'telephone' => self::TELEPHONE,
@@ -1170,16 +1180,19 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($mockAddress));
         $customerService = $this->_createService();
 
-        $address = new Entity\V1\Address();
-        $address->setFirstname('John')
+        $this->_addressBuilder->setFirstname('John')
             ->setLastname(self::LASTNAME)
-            ->setRegion(new Entity\V1\Region('', self::REGION, self::REGION_ID))
+            ->setRegion(new \Magento\Customer\Service\Entity\V1\Region([
+                'region_id' => self::REGION_ID,
+                'region_code' => '',
+                'region' => self::REGION
+            ]))
             ->setStreet([self::STREET])
             ->setTelephone(self::TELEPHONE)
             ->setCity(self::CITY)
             ->setCountryId(self::COUNTRY_ID)
             ->setPostcode(self::POSTCODE);
-        $ids = $customerService->saveAddresses(1, [$address]);
+        $ids = $customerService->saveAddresses(1, [$this->_addressBuilder->create()]);
         $this->assertEquals([1], $ids);
     }
 
@@ -1210,17 +1223,20 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
             ->method('setData');
 
         $customerService = $this->_createService();
-        $address = new Entity\V1\Address();
-        $address->setId(1)
+        $this->_addressBuilder->setId(1)
             ->setFirstname('Jane')
             ->setLastname(self::LASTNAME)
-            ->setRegion(new Entity\V1\Region('', self::REGION, self::REGION_ID))
+            ->setRegion(new \Magento\Customer\Service\Entity\V1\Region([
+                'region_id' => self::REGION_ID,
+                'region_code' => '',
+                'region' => self::REGION
+            ]))
             ->setStreet([self::STREET])
             ->setTelephone(self::TELEPHONE)
             ->setCity(self::CITY)
             ->setCountryId(self::COUNTRY_ID)
             ->setPostcode(self::POSTCODE);
-        $ids = $customerService->saveAddresses(1, [$address]);
+        $ids = $customerService->saveAddresses(1, [$this->_addressBuilder->create()]);
         $this->assertEquals([1], $ids);
     }
 
@@ -1273,17 +1289,20 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($mockAddress));
         $customerService = $this->_createService();
 
-        $address = new Entity\V1\Address();
-        $address->setId(1)
+        $this->_addressBuilder->setId(1)
             ->setFirstname('John')
             ->setLastname(self::LASTNAME)
-            ->setRegion(new Entity\V1\Region('', self::REGION, self::REGION_ID))
+            ->setRegion(new \Magento\Customer\Service\Entity\V1\Region([
+                'region_id' => self::REGION_ID,
+                'region_code' => '',
+                'region' => self::REGION
+            ]))
             ->setStreet([self::STREET])
             ->setTelephone(self::TELEPHONE)
             ->setCity(self::CITY)
             ->setCountryId(self::COUNTRY_ID)
             ->setPostcode(self::POSTCODE);
-        $ids = $customerService->saveAddresses(1, [$address]);
+        $ids = $customerService->saveAddresses(1, [$this->_addressBuilder->create()]);
         $this->assertEquals([1], $ids);
     }
 
@@ -1311,32 +1330,35 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
             ->with(1)
             ->will($this->returnValue(null));
         $customerService = $this->_createService();
-        $address = new Entity\V1\Address();
-        $address->setFirstname('John')
+        $this->_addressBuilder->setFirstname('John')
             ->setLastname(self::LASTNAME)
-            ->setRegion(new Entity\V1\Region('', self::REGION, self::REGION_ID))
+            ->setRegion(new \Magento\Customer\Service\Entity\V1\Region([
+                'region_id' => self::REGION_ID,
+                'region_code' => '',
+                'region' => self::REGION
+            ]))
             ->setStreet([self::STREET])
             ->setTelephone(self::TELEPHONE)
             ->setCity(self::CITY)
             ->setCountryId(self::COUNTRY_ID)
             ->setPostcode(self::POSTCODE);
 
-        $failures = $customerService->saveAddresses(4200, [$address]);
+        $failures = $customerService->saveAddresses(4200, [$this->_addressBuilder->create()]);
         $this->assertEmpty($failures);
     }
 
     public function testSaveCustomer()
     {
-        $customerEntity = new Entity\V1\Customer();
-        $customerEntity->setCustomerId(self::ID);
-        $customerEntity->setEmail(self::EMAIL);
-        $customerEntity->setFirstName(self::FIRSTNAME);
-        $customerEntity->setLastName(self::LASTNAME);
-        $attributes = array(
+        $customerData = [
+            'customer_id' => self::ID,
+            'email' => self::EMAIL,
+            'firstname' => self::FIRSTNAME,
+            'lastname' => self::LASTNAME,
             'create_in' => 'Admin',
-            'password' => 'password',
-        );
-        $customerEntity->setAttributes($attributes);
+            'password' => 'password'
+        ];
+        $this->_customerBuilder->populateWithArray($customerData);
+        $customerEntity = $this->_customerBuilder->create();
 
         $this->_customerFactoryMock->expects($this->any())
             ->method('create')
@@ -1361,16 +1383,16 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
 
     public function testSaveNonexistingCustomer()
     {
-        $customerEntity = new Entity\V1\Customer();
-        $customerEntity->setCustomerId(self::ID);
-        $customerEntity->setEmail(self::EMAIL);
-        $customerEntity->setFirstName(self::FIRSTNAME);
-        $customerEntity->setLastName(self::LASTNAME);
-        $attributes = array(
+        $customerData = [
+            'customer_id' => self::ID,
+            'email' => self::EMAIL,
+            'firstname' => self::FIRSTNAME,
+            'lastname' => self::LASTNAME,
             'create_in' => 'Admin',
-            'password' => 'password',
-        );
-        $customerEntity->setAttributes($attributes);
+            'password' => 'password'
+        ];
+        $this->_customerBuilder->populateWithArray($customerData);
+        $customerEntity = $this->_customerBuilder->create();
 
         $this->_customerFactoryMock->expects($this->atLeastOnce())
             ->method('create')
@@ -1392,35 +1414,17 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
         $this->assertEquals(2, $customerService->saveCustomer($customerEntity));
     }
 
-    /**
-     * @expectedException \Magento\Customer\Service\Entity\V1\Exception
-     */
-    public function testNewCustomerIdException()
-    {
-        $customerEntity = new Entity\V1\Customer();
-        $customerEntity->setEmail(self::EMAIL);
-        $customerEntity->setFirstName(self::FIRSTNAME);
-        $customerEntity->setLastName(self::LASTNAME);
-        $attributes = array(
-            'create_in' => 'Admin',
-            'password' => 'password',
-            'id' => '3', // setting id causes the exception
-        );
-        $customerEntity->setAttributes($attributes);
-
-    }
-
     public function testSaveNewCustomer()
     {
-        $customerEntity = new Entity\V1\Customer();
-        $customerEntity->setEmail(self::EMAIL);
-        $customerEntity->setFirstName(self::FIRSTNAME);
-        $customerEntity->setLastName(self::LASTNAME);
-        $attributes = array(
+        $customerData = [
+            'email' => self::EMAIL,
+            'firstname' => self::FIRSTNAME,
+            'lastname' => self::LASTNAME,
             'create_in' => 'Admin',
-            'password' => 'password',
-        );
-        $customerEntity->setAttributes($attributes);
+            'password' => 'password'
+        ];
+        $this->_customerBuilder->populateWithArray($customerData);
+        $customerEntity = $this->_customerBuilder->create();
 
         $this->_customerFactoryMock->expects($this->any())
             ->method('create')
@@ -1448,15 +1452,15 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
      */
     public function testSaveCustomerWithException()
     {
-        $customerEntity = new Entity\V1\Customer();
-        $customerEntity->setEmail(self::EMAIL);
-        $customerEntity->setFirstName(self::FIRSTNAME);
-        $customerEntity->setLastName(self::LASTNAME);
-        $attributes = array(
+        $customerData = [
+            'email' => self::EMAIL,
+            'firstname' => self::FIRSTNAME,
+            'lastname' => self::LASTNAME,
             'create_in' => 'Admin',
-            'password' => 'password',
-        );
-        $customerEntity->setAttributes($attributes);
+            'password' => 'password'
+        ];
+        $this->_customerBuilder->populateWithArray($customerData);
+        $customerEntity = $this->_customerBuilder->create();
 
         $this->_customerFactoryMock->expects($this->any())
             ->method('create')
@@ -1664,17 +1668,20 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($mockAddress));
         $customerService = $this->_createService();
 
-        $address = new Entity\V1\Address();
-        $address->setFirstname('John')
+        $this->_addressBuilder->setFirstname('John')
             ->setLastname(self::LASTNAME)
-            ->setRegion(new Entity\V1\Region('', self::REGION, self::REGION_ID))
+            ->setRegion(new \Magento\Customer\Service\Entity\V1\Region([
+                'region_id' => self::REGION_ID,
+                'region_code' => '',
+                'region' => self::REGION
+            ]))
             ->setStreet([self::STREET])
             ->setTelephone(self::TELEPHONE)
             ->setCity(self::CITY)
             ->setCountryId(self::COUNTRY_ID)
             ->setPostcode(self::POSTCODE);
         try {
-            $customerService->saveAddresses(1, [$address]);
+            $customerService->saveAddresses(1, [$this->_addressBuilder->create()]);
         } catch (Entity\V1\AggregateException $ae) {
             $addressException = $ae->getExceptions()[0];
             $this->assertInstanceOf('\Magento\Customer\Service\Entity\V1\Exception', $addressException);
@@ -1799,7 +1806,10 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
             $this->_storeManagerMock,
             $this->_mathRandomMock,
             $this->_converter,
-            $this->_validator
+            $this->_validator,
+            new \Magento\Customer\Service\Entity\V1\RegionBuilder(),
+            $this->_addressBuilder,
+            new \Magento\Customer\Service\Entity\V1\Response\CreateCustomerAccountResponseBuilder()
         );
         return $customerService;
     }

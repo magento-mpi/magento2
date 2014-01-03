@@ -10,7 +10,7 @@
 namespace Magento\Customer\Service\Eav;
 
 use Magento\Customer\Service\Entity\V1\Eav\AttributeMetadata;
-use Magento\Customer\Service\Entity\V1\Eav\Option;
+use Magento\Customer\Service\Entity\V1\Eav\OptionBuilder;
 
 class AttributeMetadataServiceV1 implements AttributeMetadataServiceV1Interface
 {
@@ -33,18 +33,36 @@ class AttributeMetadataServiceV1 implements AttributeMetadataServiceV1Interface
     protected $_storeManager;
 
     /**
+     * @var \Magento\Customer\Service\Entity\V1\Eav\OptionBuilder
+     */
+    protected $_optionBuilder;
+
+    /**
+     * @var \Magento\Customer\Service\Entity\V1\Eav\AttributeMetadataBuilder
+     */
+    protected $_attributeMetadataBuilder;
+
+    /**
      * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Customer\Model\Resource\Form\Attribute\Collection $attrFormCollection
+     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Customer\Service\Entity\V1\Eav\OptionBuilder $optionBuilder
+     * @param \Magento\Customer\Service\Entity\V1\Eav\AttributeMetadataBuilder $attributeMetadataBuilder
      */
     public function __construct(
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Customer\Model\Resource\Form\Attribute\Collection $attrFormCollection,
-        \Magento\Core\Model\StoreManager $storeManager
+        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Customer\Service\Entity\V1\Eav\OptionBuilder $optionBuilder,
+        \Magento\Customer\Service\Entity\V1\Eav\AttributeMetadataBuilder $attributeMetadataBuilder
     )
     {
         $this->_eavConfig = $eavConfig;
         $this->_cache = [];
         $this->_attrFormCollection = $attrFormCollection;
         $this->_storeManager = $storeManager;
+        $this->_optionBuilder = $optionBuilder;
+        $this->_attributeMetadataBuilder = $attributeMetadataBuilder;
     }
 
     /**
@@ -65,7 +83,6 @@ class AttributeMetadataServiceV1 implements AttributeMetadataServiceV1Interface
         $attribute = $this->_eavConfig->getAttribute($entityType, $attributeCode);
         $attributeMetadata = $this->_createMetadataAttribute($attribute);
         $dtoCache[$attributeCode] = $attributeMetadata;
-        $attributeMetadata->lock();
         return $attributeMetadata;
     }
 
@@ -138,16 +155,14 @@ class AttributeMetadataServiceV1 implements AttributeMetadataServiceV1Interface
         $options = [];
         try {
             foreach ($attribute->getSource()->getAllOptions() as $option) {
-                $options[$option['label']] = new Option(
-                    $option['label'],
-                    $option['value']
-                );
+                $options[$option['label']] = $this->_optionBuilder->setLabel($option['label'])
+                    ->setValue($option['value'])
+                    ->create();
             }
         } catch (\Exception $e) {
             // There is no source for this attribute
         }
-        $attributeMetadata = new AttributeMetadata();
-        $attributeMetadata->setAttributeCode($attribute->getAttributeCode())
+        $this->_attributeMetadataBuilder->setAttributeCode($attribute->getAttributeCode())
             ->setFrontendInput($attribute->getFrontendInput())
             ->setInputFilter($attribute->getInputFilter())
             ->setStoreLabel($attribute->getStoreLabel())
@@ -158,7 +173,7 @@ class AttributeMetadataServiceV1 implements AttributeMetadataServiceV1Interface
             ->setDataModel($attribute->getDataModel())
             ->setOptions($options);
 
-        return $attributeMetadata;
+        return $this->_attributeMetadataBuilder->create();
     }
 
     /**

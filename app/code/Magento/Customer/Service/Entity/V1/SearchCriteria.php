@@ -9,7 +9,6 @@
  */
 namespace Magento\Customer\Service\Entity\V1;
 
-
 class SearchCriteria extends \Magento\Service\Entity\AbstractDto
 {
     const SORT_ASC = 1;
@@ -45,48 +44,5 @@ class SearchCriteria extends \Magento\Service\Entity\AbstractDto
     public function getCurrentPage()
     {
         return $this->_get('current_page');
-    }
-
-    /**
-     * @param Filter $filter
-     *
-     * @return SearchCriteria
-     */
-    public function addFilter($filter)
-    {
-        $this->getFilters()[] = $filter;
-        return $this;
-    }
-
-    /**
-     * @param string $field
-     * @param int $direction
-     *
-     * @return SearchCriteria
-     */
-    public function addSortOrder($field, $direction)
-    {
-        $this->getSortOrders()[$field] = $direction;
-        return $this;
-    }
-
-    /**
-     * @param int $pageSize
-     *
-     * @return SearchCriteria
-     */
-    public function setPageSize($pageSize)
-    {
-        return $this->_set('page_size', $pageSize);
-    }
-
-    /**
-     * @param int $currentPage
-     *
-     * @return SearchCriteria
-     */
-    public function setCurrentPage($currentPage)
-    {
-        return $this->_set('current_page', $currentPage);
     }
 }

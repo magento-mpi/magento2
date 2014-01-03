@@ -54,4 +54,15 @@
             <instance type="Magento\Customer\Helper\Data\Proxy" />
         </param>
     </type>
+    <type name="Magento\Customer\Service\Entity\V1\AddressBuilder" shared="false" />
+    <type name="Magento\Customer\Service\Entity\V1\CustomerBuilder" shared="false" />
+    <type name="Magento\Customer\Service\Entity\V1\CustomerGroupBuilder" shared="false" />
+    <type name="Magento\Customer\Service\Entity\V1\Eav\AttributeBuilder" shared="false" />
+    <type name="Magento\Customer\Service\Entity\V1\Eav\AttributeMetadataBuilder" shared="false" />
+    <type name="Magento\Customer\Service\Entity\V1\Eav\OptionBuilder" shared="false" />
+    <type name="Magento\Customer\Service\Entity\V1\FilterBuilder" shared="false" />
+    <type name="Magento\Customer\Service\Entity\V1\RegionBuilder" shared="false" />
+    <type name="Magento\Customer\Service\Entity\V1\Response\CreateCustomerAccountResponseBuilder" shared="false" />
+    <type name="Magento\Customer\Service\Entity\V1\SearchCriteriaBuilder" shared="false" />
+    <type name="Magento\Customer\Service\Entity\V1\SearchResultsBuilder" shared="false" />
 </config>

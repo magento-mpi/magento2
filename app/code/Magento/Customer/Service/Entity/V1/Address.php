@@ -9,21 +9,12 @@
  */
 namespace Magento\Customer\Service\Entity\V1;
 
-use Magento\Service\Entity\AbstractDto;
-use Magento\Service\Entity\LockableLazyArrayClone;
-
-class Address extends AbstractDto implements Eav\EntityInterface
+class Address extends \Magento\Service\Entity\AbstractDto implements Eav\EntityInterface
 {
     /**
      * @var array
      */
-    private $_nonAttributes = ['id', 'customer_id', 'region', 'default_billing', 'default_shipping'];
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->_data['region'] = new Region();
-    }
+    private static $_nonAttributes = ['id', 'customer_id', 'region', 'default_billing', 'default_shipping'];
 
     /**
      * @return int|null
@@ -31,15 +22,6 @@ class Address extends AbstractDto implements Eav\EntityInterface
     public function getId()
     {
         return $this->_get('id');
-    }
-
-    /**
-     * @param int $id
-     * @return Address
-     */
-    public function setId($id)
-    {
-        return $this->_set('id', $id);
     }
 
     /**
@@ -51,15 +33,6 @@ class Address extends AbstractDto implements Eav\EntityInterface
     }
 
     /**
-     * @param boolean $defaultShipping
-     * @return Address
-     */
-    public function setDefaultShipping($defaultShipping)
-    {
-        return $this->_set('default_shipping', $defaultShipping);
-    }
-
-    /**
      * @return boolean|null
      */
     public function isDefaultBilling()
@@ -68,25 +41,22 @@ class Address extends AbstractDto implements Eav\EntityInterface
     }
 
     /**
-     * @param boolean $defaultBilling
-     * @return Address
-     */
-    public function setDefaultBilling($defaultBilling)
-    {
-        return $this->_set('default_billing', $defaultBilling);
-    }
-
-    /**
      * @return string[]
      */
     public function getAttributes()
     {
-        $attributes = $this->_data->__toArray();
-        foreach ($this->_nonAttributes as $keyName) {
+        $attributes = $this->_data;
+        foreach (self::$_nonAttributes as $keyName) {
             unset ($attributes[$keyName]);
         }
-        $attributes['region_id'] = $this->getRegion()->getRegionId();
-        $attributes['region'] = $this->getRegion()->getRegion();
+
+        /** This triggers some code in _updateAddressModel in CustomerV1 Service */
+        if (!is_null($this->getRegion())) {
+            $attributes['region_id'] = $this->getRegion()->getRegionId();
+
+            $attributes['region'] = $this->getRegion()->getRegion();
+        }
+
         return $attributes;
     }
 
@@ -98,33 +68,10 @@ class Address extends AbstractDto implements Eav\EntityInterface
     {
         $attributes = $this->getAttributes();
         if (isset($attributes[$attributeCode])
-            && !in_array($attributeCode, $this->_nonAttributes)) {
+            && !in_array($attributeCode, self::$_nonAttributes)) {
             return $attributes[$attributeCode];
         }
         return null;
-    }
-
-    /**
-     * @param string[] $attributes
-     * @return Address
-     */
-    public function setAttributes(array $attributes)
-    {
-        foreach ($attributes as $key => $value) {
-            $this->setAttribute($key, $value);
-        }
-        return $this;
-    }
-
-    /**
-     * @param string $attributeCode
-     * @param string $attributeValue
-     * @return $this
-     */
-    public function setAttribute($attributeCode, $attributeValue)
-    {
-        $this->_data[$attributeCode] = $attributeValue;
-        return $this;
     }
 
     /**
@@ -132,16 +79,7 @@ class Address extends AbstractDto implements Eav\EntityInterface
      */
     public function getRegion()
     {
-        return $this->_get('region', new Region());
-    }
-
-    /**
-     * @param Region $region
-     * @return Address
-     */
-    public function setRegion(Region $region)
-    {
-        return $this->_set('region', $region);
+        return $this->_get('region');
     }
 
     /**
@@ -153,29 +91,11 @@ class Address extends AbstractDto implements Eav\EntityInterface
     }
 
     /**
-     * @param int $countryId
-     * @return Address
-     */
-    public function setCountryId($countryId)
-    {
-        return $this->_set('country_id', $countryId);
-    }
-
-    /**
      * @return \string[]|null
      */
     public function getStreet()
     {
         return $this->_get('street');
-    }
-
-    /**
-     * @param \string[] $street
-     * @return Address
-     */
-    public function setStreet($street)
-    {
-        return $this->_set('street', $street);
     }
 
     /**
@@ -187,29 +107,11 @@ class Address extends AbstractDto implements Eav\EntityInterface
     }
 
     /**
-     * @param string $company
-     * @return Address
-     */
-    public function setCompany($company)
-    {
-        return $this->_set('company', $company);
-    }
-
-    /**
      * @return string|null
      */
     public function getTelephone()
     {
         return $this->_get('telephone');
-    }
-
-    /**
-     * @param string $telephone
-     * @return Address
-     */
-    public function setTelephone($telephone)
-    {
-        return $this->_set('telephone', $telephone);
     }
 
     /**
@@ -221,29 +123,11 @@ class Address extends AbstractDto implements Eav\EntityInterface
     }
 
     /**
-     * @param string $fax
-     * @return Address
-     */
-    public function setFax($fax)
-    {
-        return $this->_set('fax', $fax);
-    }
-
-    /**
      * @return string|null
      */
     public function getPostcode()
     {
         return $this->_get('postcode');
-    }
-
-    /**
-     * @param string $postcode
-     * @return Address
-     */
-    public function setPostcode($postcode)
-    {
-        return $this->_set('postcode', $postcode);
     }
 
     /**
@@ -255,29 +139,11 @@ class Address extends AbstractDto implements Eav\EntityInterface
     }
 
     /**
-     * @param string $city
-     * @return Address
-     */
-    public function setCity($city)
-    {
-        return $this->_set('city', $city);
-    }
-
-    /**
      * @return string|null
      */
     public function getFirstname()
     {
         return $this->_get('firstname');
-    }
-
-    /**
-     * @param string $firstname
-     * @return Address
-     */
-    public function setFirstname($firstname)
-    {
-        return $this->_set('firstname', $firstname);
     }
 
     /**
@@ -289,29 +155,11 @@ class Address extends AbstractDto implements Eav\EntityInterface
     }
 
     /**
-     * @param string $lastname
-     * @return Address
-     */
-    public function setLastname($lastname)
-    {
-        return $this->_set('lastname', $lastname);
-    }
-
-    /**
      * @return string|null
      */
     public function getMiddlename()
     {
         return $this->_get('middlename');
-    }
-
-    /**
-     * @param string $middlename
-     * @return Address
-     */
-    public function setMiddlename($middlename)
-    {
-        return $this->_set('middlename', $middlename);
     }
 
     /**
@@ -323,29 +171,11 @@ class Address extends AbstractDto implements Eav\EntityInterface
     }
 
     /**
-     * @param string $prefix
-     * @return Address
-     */
-    public function setPrefix($prefix)
-    {
-        return $this->_set('prefix', $prefix);
-    }
-
-    /**
      * @return string|null
      */
     public function getSuffix()
     {
         return $this->_get('suffix');
-    }
-
-    /**
-     * @param string $suffix
-     * @return Address
-     */
-    public function setSuffix($suffix)
-    {
-        return $this->_set('suffix', $suffix);
     }
 
     /**
@@ -357,28 +187,10 @@ class Address extends AbstractDto implements Eav\EntityInterface
     }
 
     /**
-     * @param string $vatId
-     * @return Address
-     */
-    public function setVatId($vatId)
-    {
-        return $this->_set('vat_id', $vatId);
-    }
-
-    /**
      * @return string|null
      */
     public function getCustomerId()
     {
         return $this->_get('customer_id');
-    }
-
-    /**
-     * @param string $customerId
-     * @return Address
-     */
-    public function setCustomerId($customerId)
-    {
-        return $this->_set('customer_id', $customerId);
     }
 }

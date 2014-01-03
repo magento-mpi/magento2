@@ -35,34 +35,4 @@ class SearchResults extends \Magento\Service\Entity\AbstractDto
     {
         return $this->_get('total_count');
     }
-
-    /**
-     * @param \Magento\Customer\Service\Entity\V1\SearchCriteria $searchCriteria
-     *
-     * @return SearchResults
-     */
-    public function setSearchCriteria(SearchCriteria $searchCriteria)
-    {
-        return $this->_set('search_criteria', $searchCriteria);
-    }
-
-    /**
-     * @param int $totalCount
-     *
-     * @return SearchResults
-     */
-    public function setTotalCount($totalCount)
-    {
-        return $this->_set('total_count', $totalCount);
-    }
-
-    /**
-     * @param array $items
-     *
-     * @return SearchResults
-     */
-    public function setItems($items)
-    {
-        return $this->_set('items', $items);
-    }
 }

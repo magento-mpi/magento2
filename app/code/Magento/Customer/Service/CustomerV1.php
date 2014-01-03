@@ -55,6 +55,21 @@ class CustomerV1 implements CustomerV1Interface
     protected $_validator;
 
     /**
+     * @var \Magento\Customer\Service\Entity\V1\RegionBuilder
+     */
+    protected $_regionBuilder;
+
+    /**
+     * @var \Magento\Customer\Service\Entity\V1\AddressBuilder
+     */
+    protected $_addressBuilder;
+
+    /**
+     * @var \Magento\Customer\Service\Entity\V1\Response\CreateCustomerAccountResponseBuilder
+     */
+    protected $_createCustomerAccountResponseBuilder;
+
+    /**
      * Constructor
      *
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
@@ -65,6 +80,9 @@ class CustomerV1 implements CustomerV1Interface
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Customer\Model\Converter $converter
      * @param \Magento\Customer\Model\Metadata\Validator $validator
+     * @param \Magento\Customer\Service\Entity\V1\RegionBuilder $regionBuilder
+     * @param \Magento\Customer\Service\Entity\V1\AddressBuilder $addressBuilder
+     * @param \Magento\Customer\Service\Entity\V1\Response\CreateCustomerAccountResponseBuilder $createCustomerAccountResponseBuilder
      */
     public function __construct(
         \Magento\Customer\Model\CustomerFactory $customerFactory,
@@ -74,7 +92,10 @@ class CustomerV1 implements CustomerV1Interface
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Math\Random $mathRandom,
         \Magento\Customer\Model\Converter $converter,
-        \Magento\Customer\Model\Metadata\Validator $validator
+        \Magento\Customer\Model\Metadata\Validator $validator,
+        \Magento\Customer\Service\Entity\V1\RegionBuilder $regionBuilder,
+        \Magento\Customer\Service\Entity\V1\AddressBuilder $addressBuilder,
+        \Magento\Customer\Service\Entity\V1\Response\CreateCustomerAccountResponseBuilder $createCustomerAccountResponseBuilder
     ) {
         $this->_customerFactory = $customerFactory;
         $this->_addressFactory = $addressFactory;
@@ -84,6 +105,9 @@ class CustomerV1 implements CustomerV1Interface
         $this->_mathRandom = $mathRandom;
         $this->_converter = $converter;
         $this->_validator = $validator;
+        $this->_regionBuilder = $regionBuilder;
+        $this->_addressBuilder = $addressBuilder;
+        $this->_createCustomerAccountResponseBuilder = $createCustomerAccountResponseBuilder;
     }
 
     /**
@@ -176,20 +200,7 @@ class CustomerV1 implements CustomerV1Interface
     protected function _createAddress(\Magento\Customer\Model\Address $addressModel,
         $defaultBillingId, $defaultShippingId
     ) {
-        $address = new Entity\V1\Address();
         $addressId = $addressModel->getId();
-        $address->setId($addressId)
-            ->setStreet($addressModel->getStreet())
-            ->setDefaultBilling($addressId === $defaultBillingId)
-            ->setDefaultShipping($addressId === $defaultShippingId)
-            ->setCustomerId($addressModel->getCustomerId())
-            ->setRegion(
-                new Entity\V1\Region(
-                    $addressModel->getRegionCode(),
-                    $addressModel->getRegion(),
-                    $addressModel->getRegionId()
-                )
-            );
         $validAttributes = array_merge(
             $addressModel->getDefaultAttributeCodes(),
             [
@@ -199,14 +210,29 @@ class CustomerV1 implements CustomerV1Interface
                 'vat_request_id', 'vat_request_date', 'vat_request_success'
             ]
         );
+        $addressData = [];
         foreach ($addressModel->getAttributes() as $attribute) {
             $code = $attribute->getAttributeCode();
             if (!in_array($code, $validAttributes) && $addressModel->getData($code) !== null) {
-                $address->setAttribute($code, $addressModel->getData($code));
+                $addressData[$code] = $addressModel->getData($code);
             }
         }
 
-        return $address;
+        $region = $this->_regionBuilder->setRegionCode($addressModel->getRegionCode())
+            ->setRegion($addressModel->getRegion())
+            ->setRegionId($addressModel->getRegionId())
+            ->create();
+        $this->_addressBuilder->populateWithArray(array_merge($addressData, [
+            'street' => $addressModel->getStreet(),
+            'id' => $addressId,
+            'default_billing' => $addressId === $defaultBillingId,
+            'default_shipping' => $addressId === $defaultShippingId,
+            'customer_id' => $addressModel->getCustomerId(),
+            'region' => $region
+        ]));
+
+        $retValue = $this->_addressBuilder->create();
+        return $retValue;
     }
 
 
@@ -323,7 +349,6 @@ class CustomerV1 implements CustomerV1Interface
         if (!isset($this->_cache[$customerId])) {
             $customerModel = $this->_getCustomerModel($customerId);
             $customerEntity = $this->_converter->createCustomerFromModel($customerModel);
-            $customerEntity->lock();
             $this->_cache[$customerId] = $customerEntity;
         }
 
@@ -520,7 +545,9 @@ class CustomerV1 implements CustomerV1Interface
         if ($customerId) {
             $customerModel = $this->_getCustomerModel($customerId);
             if ($customerModel->isInStore($storeId)) {
-                return new Entity\V1\Response\CreateCustomerAccountResponse($customerId, '');;
+                return $this->_createCustomerAccountResponseBuilder->setCustomerId($customerId)
+                    ->setStatus('')
+                    ->create();
             }
         }
         $customerId = $this->saveCustomer($customer, $password);
@@ -537,10 +564,14 @@ class CustomerV1 implements CustomerV1Interface
 
         if ($customerModel->isConfirmationRequired()) {
             $customerModel->sendNewAccountEmail('confirmation', $confirmationBackUrl, $storeId);
-            return new Entity\V1\Response\CreateCustomerAccountResponse($customerId, self::ACCOUNT_CONFIRMATION);
+            return $this->_createCustomerAccountResponseBuilder->setCustomerId($customerId)
+                ->setStatus(self::ACCOUNT_CONFIRMATION)
+                ->create();
         } else {
             $customerModel->sendNewAccountEmail('registered', $registeredBackUrl, $storeId);
-            return new Entity\V1\Response\CreateCustomerAccountResponse($customerId, self::ACCOUNT_REGISTERED);
+            return $this->_createCustomerAccountResponseBuilder->setCustomerId($customerId)
+                ->setStatus(self::ACCOUNT_REGISTERED)
+                ->create();
         }
     }
 

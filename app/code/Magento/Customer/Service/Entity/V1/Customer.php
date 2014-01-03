@@ -7,22 +7,20 @@
  */
 namespace Magento\Customer\Service\Entity\V1;
 
-use Magento\Service\Entity\AbstractDto;
-
 /**
  * Class Customer
  * Uses array to hold data, setters return $this so they can be chained.
  *
  * @package Magento\Customer\Service\Entity\V1
  */
-class Customer extends AbstractDto implements Eav\EntityInterface
+class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\EntityInterface
 {
 
     /**
      * @var array  Special attribute codes which cannot be set or gotten
      * they are used by the model but should not be exposed in the DTO
      */
-    private $_nonAttributes = [self::ID];
+    private static $_nonAttributes = [self::ID];
 
     /**
      * name of field containing entity id, used to exclude this field from list of attributes.
@@ -52,48 +50,16 @@ class Customer extends AbstractDto implements Eav\EntityInterface
 
     /**
      * Retrieve array of all attributes, in the form of 'attribute code' => <attribute value'
+     *
      * @return array|\ArrayAccess|\string[]
      */
     public function getAttributes()
     {
         $attributes = $this->__toArray();
-        foreach ($this->_nonAttributes as $keyName) {
+        foreach (self::$_nonAttributes as $keyName) {
             unset ($attributes[$keyName]);
         }
         return $attributes;
-    }
-
-    /**
-     * Sets the customer's attributes.
-     *
-     * Must be in the form of 'attribute code' => 'attribute value'
-     * @param array $attributes
-     * @return Customer
-     * @throws Exception
-     */
-    public function setAttributes(array $attributes)
-    {
-        foreach ($attributes as $attributeCode => $value) {
-            $this->setAttribute($attributeCode, $value);
-        }
-        return $this;
-    }
-
-    /**
-     * Set a customer attribute value.
-     *
-     * @param $attributeCode
-     * @param $value
-     * @return $this
-     * @throws Exception
-     */
-    public function setAttribute($attributeCode, $value)
-    {
-        if (in_array($attributeCode, $this->_nonAttributes)) {
-            throw new Exception('Cannot set or change attribute ' . $attributeCode);
-        }
-        $this->_data[$attributeCode] = $value;
-        return $this;
     }
 
     /**
@@ -153,30 +119,11 @@ class Customer extends AbstractDto implements Eav\EntityInterface
     }
 
     /**
-     * @param string $createdAt
-     * @return Customer
-     */
-    public function setCreatedAt($createdAt)
-    {
-        return $this->_set(self::CREATED_AT, $createdAt);
-    }
-
-
-    /**
      * @return string
      */
     public function getCreatedIn()
     {
         return $this->_get(self::CREATED_IN);
-    }
-
-    /**
-     * @param string $createdIn
-     * @return Customer
-     */
-    public function setCreatedIn($createdIn)
-    {
-        return $this->_set(self::CREATED_IN, $createdIn);
     }
 
     /**
@@ -188,29 +135,11 @@ class Customer extends AbstractDto implements Eav\EntityInterface
     }
 
     /**
-     * @param string $dob
-     * @return Customer
-     */
-    public function setDob($dob)
-    {
-        return $this->_set(self::DOB, $dob);
-    }
-
-    /**
      * @return string
      */
     public function getEmail()
     {
         return $this->_get(self::EMAIL);
-    }
-
-    /**
-     * @param string $email
-     * @return Customer
-     */
-    public function setEmail($email)
-    {
-        return $this->_set(self::EMAIL, $email);
     }
 
     /**
@@ -222,29 +151,11 @@ class Customer extends AbstractDto implements Eav\EntityInterface
     }
 
     /**
-     * @param string $firstname
-     * @return Customer
-     */
-    public function setFirstname($firstname)
-    {
-        return $this->_set(self::FIRSTNAME, $firstname);
-    }
-
-    /**
      * @return string
      */
     public function getGender()
     {
         return $this->_get(self::GENDER);
-    }
-
-    /**
-     * @param string $gender
-     * @return Customer
-     */
-    public function setGender($gender)
-    {
-        return $this->_set(self::GENDER, $gender);
     }
 
     /**
@@ -256,29 +167,11 @@ class Customer extends AbstractDto implements Eav\EntityInterface
     }
 
     /**
-     * @param string $groupId
-     * @return Customer
-     */
-    public function setGroupId($groupId)
-    {
-        return $this->_set(self::GROUP_ID, $groupId);
-    }
-
-    /**
      * @return int
      */
     public function getCustomerId()
     {
         return $this->_get(self::ID);
-    }
-
-    /**
-     * @param int $id
-     * @return Customer
-     */
-    public function setCustomerId($id)
-    {
-        return $this->_set(self::ID, $id);
     }
 
     /**
@@ -290,29 +183,11 @@ class Customer extends AbstractDto implements Eav\EntityInterface
     }
 
     /**
-     * @param string $lastname
-     * @return Customer
-     */
-    public function setLastname($lastname)
-    {
-        return $this->_set(self::LASTNAME, $lastname);
-    }
-
-    /**
      * @return string
      */
     public function getMiddlename()
     {
         return $this->_get(self::MIDDLENAME);
-    }
-
-    /**
-     * @param string $middlename
-     * @return Customer
-     */
-    public function setMiddlename($middlename)
-    {
-        return $this->_set(self::MIDDLENAME, $middlename);
     }
 
     /**
@@ -324,29 +199,11 @@ class Customer extends AbstractDto implements Eav\EntityInterface
     }
 
     /**
-     * @param string $prefix
-     * @return Customer
-     */
-    public function setPrefix($prefix)
-    {
-        return $this->_set(self::PREFIX, $prefix);
-    }
-
-    /**
      * @return int
      */
     public function getStoreId()
     {
         return $this->_get(self::STORE_ID);
-    }
-
-    /**
-     * @param int $storeId
-     * @return Customer
-     */
-    public function setStoreId($storeId)
-    {
-        return $this->_set(self::STORE_ID, $storeId);
     }
 
     /**
@@ -358,15 +215,6 @@ class Customer extends AbstractDto implements Eav\EntityInterface
     }
 
     /**
-     * @param string $suffix
-     * @return Customer
-     */
-    public function setSuffix($suffix)
-    {
-        return $this->_set(self::SUFFIX, $suffix);
-    }
-
-    /**
      * @return string
      */
     public function getTaxvat()
@@ -375,28 +223,10 @@ class Customer extends AbstractDto implements Eav\EntityInterface
     }
 
     /**
-     * @param string $taxvat
-     * @return Customer
-     */
-    public function setTaxvat($taxvat)
-    {
-        return $this->_set(self::TAXVAT, $taxvat);
-    }
-
-    /**
      * @return int
      */
     public function getWebsiteId()
     {
         return $this->_get(self::WEBSITE_ID, 0);
-    }
-
-    /**
-     * @param int $websiteId
-     * @return Customer
-     */
-    public function setWebsiteId($websiteId)
-    {
-        return $this->_set(self::WEBSITE_ID, $websiteId);
     }
 }

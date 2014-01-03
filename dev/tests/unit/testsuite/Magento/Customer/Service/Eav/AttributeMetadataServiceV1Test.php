@@ -105,7 +105,13 @@ class AttributeMetadataServiceV1Test extends \PHPUnit_Framework_TestCase
         $storeManagerMock = $this->getMockBuilder('\\Magento\\Core\\Model\\StoreManager')
             ->disableOriginalConstructor()
             ->getMock();
-        $service = new AttributeMetadataServiceV1($this->_eavConfigMock, $attributeColMock, $storeManagerMock);
+
+        $optionBuilder = new \Magento\Customer\Service\Entity\V1\Eav\OptionBuilder();
+
+        $attributeMetadataBuilder = new \Magento\Customer\Service\Entity\V1\Eav\AttributeMetadataBuilder();
+
+        $service = new AttributeMetadataServiceV1($this->_eavConfigMock, $attributeColMock, $storeManagerMock,
+            $optionBuilder, $attributeMetadataBuilder);
 
         $attributeMetadata = $service->getAttributeMetadata('entityCode', 'attributeId');
         $this->assertEquals(self::ATTRIBUTE_CODE, $attributeMetadata->getAttributeCode());
@@ -142,7 +148,13 @@ class AttributeMetadataServiceV1Test extends \PHPUnit_Framework_TestCase
         $storeManagerMock = $this->getMockBuilder('\\Magento\\Core\\Model\\StoreManager')
             ->disableOriginalConstructor()
             ->getMock();
-        $service = new AttributeMetadataServiceV1($this->_eavConfigMock, $attributeColMock, $storeManagerMock);
+
+        $attributeMetadataBuilder = new \Magento\Customer\Service\Entity\V1\Eav\AttributeMetadataBuilder();
+
+        $optionBuilder = new \Magento\Customer\Service\Entity\V1\Eav\OptionBuilder();
+
+        $service = new AttributeMetadataServiceV1($this->_eavConfigMock, $attributeColMock, $storeManagerMock,
+            $optionBuilder, $attributeMetadataBuilder);
 
         $attributeMetadata = $service->getAttributeMetadata('entityCode', 'attributeId');
         $this->assertEquals(self::ATTRIBUTE_CODE, $attributeMetadata->getAttributeCode());
@@ -171,7 +183,13 @@ class AttributeMetadataServiceV1Test extends \PHPUnit_Framework_TestCase
         $storeManagerMock = $this->getMockBuilder('\\Magento\\Core\\Model\\StoreManager')
             ->disableOriginalConstructor()
             ->getMock();
-        $service = new AttributeMetadataServiceV1($this->_eavConfigMock, $attributeColMock, $storeManagerMock);
+
+        $optionBuilder = new \Magento\Customer\Service\Entity\V1\Eav\OptionBuilder();
+
+        $attributeMetadataBuilder = new \Magento\Customer\Service\Entity\V1\Eav\AttributeMetadataBuilder();
+
+        $service = new AttributeMetadataServiceV1($this->_eavConfigMock, $attributeColMock, $storeManagerMock,
+            $optionBuilder, $attributeMetadataBuilder);
 
         $attributeMetadata = $service->getAttributeMetadata('entityCode', 'attributeId');
         $this->assertEquals(self::ATTRIBUTE_CODE, $attributeMetadata->getAttributeCode());

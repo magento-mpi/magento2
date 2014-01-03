@@ -39,12 +39,16 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
 
     public function testSetters()
     {
+        $customerData = $this->_createCustomerData();
+        $customerBuilder = new \Magento\Customer\Service\Entity\V1\CustomerBuilder();
+        $customerBuilder->populateWithArray($customerData);
+
         /** @var Customer $customer */
-        $customer = $this->_createCustomerWithSetters();
+        $customer = $customerBuilder->create();
 
         $this->assertEquals(self::ID, $customer->getCustomerId());
-        $this->assertEquals(self::FIRSTNAME, $customer->getFirstName());
-        $this->assertEquals(self::LASTNAME, $customer->getLastName());
+        $this->assertEquals(self::FIRSTNAME, $customer->getFirstname());
+        $this->assertEquals(self::LASTNAME, $customer->getLastname());
         $this->assertEquals(self::EMAIL, $customer->getEmail());
         $this->assertEquals(self::CONFIRMATION, $customer->getConfirmation());
         $this->assertEquals(self::CREATED_AT, $customer->getCreatedAt());
@@ -64,39 +68,24 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
 
     public function testGetAttributeNotExist()
     {
+        $customerData = $this->_createCustomerData();
+        $customerBuilder = new \Magento\Customer\Service\Entity\V1\CustomerBuilder();
+        $customerBuilder->populateWithArray($customerData);
         /** @var Customer $customer */
-        $customer = $this->_createCustomerWithSetters();
+        $customer = $customerBuilder->create();
+
         $this->assertNull($customer->getAttribute('A non existing attribute code'));
-    }
-
-    /**
-     * @dataProvider setNonattributeDataProvider
-     * @expectedException \Magento\Customer\Service\Entity\V1\Exception
-     * @expectedExceptionMessage Cannot set or change attribute
-     */
-    public function testSetNonattribute($attrName, $attrValue)
-    {
-        /** @var Customer $customer */
-        $customer = $this->_createCustomerWithSetters();
-        $customer->setAttribute($attrName, $attrValue);
-    }
-
-    /**
-     * Dataprovider which returns forbidden customer attributes
-     *
-     * @return array
-     */
-    public function setNonattributeDataProvider()
-    {
-        return [
-            ['id', 1],
-        ];
     }
 
     public function testGetAttributes()
     {
+        $customerData = $this->_createCustomerData();
+        /** @var CustomerBuilder $customerBuilder */
+        $customerBuilder = new \Magento\Customer\Service\Entity\V1\CustomerBuilder();
+        $customerBuilder->populateWithArray($customerData);
         /** @var Customer $customer */
-        $customer = $this->_createCustomerWithSetters();
+        $customer = $customerBuilder->create();
+
         $actualAttributes = $customer->getAttributes();
         $this->assertEquals(
             [
@@ -120,32 +109,32 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             $actualAttributes
         );
     }
+
     /**
      * Create customer using setters.
      *
-     * @return Customer
+     * @return CustomerBuilder
      */
-    private function _createCustomerWithSetters()
+    private function _createCustomerData()
     {
-        /** @var Customer $customer */
-        $customer = new Customer();
-        $customer->setCustomerId(self::ID)
-            ->setFirstName(self::FIRSTNAME)
-            ->setLastName(self::LASTNAME)
-            ->setEmail(self::EMAIL)
-            ->setConfirmation(self::CONFIRMATION)
-            ->setCreatedAt(self::CREATED_AT)
-            ->setCreatedIn(self::STORE_NAME)
-            ->setDob(self::DOB)
-            ->setGender(self::GENDER)
-            ->setGroupId(self::GROUP_ID)
-            ->setMiddlename(self::MIDDLENAME)
-            ->setPrefix(self::PREFIX)
-            ->setStoreId(self::STORE_ID)
-            ->setSuffix(self::SUFFIX)
-            ->setTaxvat(self::TAXVAT)
-            ->setWebsiteId(self::WEBSITE_ID)
-            ->setAttributes([self::ATTRIBUTE_CODE => self::ATTRIBUTE_VALUE]);
-        return $customer;
+        return [
+            self::ATTRIBUTE_CODE => self::ATTRIBUTE_VALUE,
+            'id' => self::ID,
+            'firstname' => self::FIRSTNAME,
+            'lastname' => self::LASTNAME,
+            'email' => self::EMAIL,
+            'confirmation' => self::CONFIRMATION,
+            'created_at' => self::CREATED_AT,
+            'created_in' => self::STORE_NAME,
+            'dob' => self::DOB,
+            'gender' => self::GENDER,
+            'group_id' => self::GROUP_ID,
+            'middlename' => self::MIDDLENAME,
+            'prefix' => self::PREFIX,
+            'store_id' => self::STORE_ID,
+            'suffix' => self::SUFFIX,
+            'taxvat' => self::TAXVAT,
+            'website_id' => self::WEBSITE_ID
+        ];
     }
 }

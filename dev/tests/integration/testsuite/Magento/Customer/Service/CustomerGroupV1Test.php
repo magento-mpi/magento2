@@ -107,7 +107,11 @@ class CustomerGroupV1Test extends \PHPUnit_Framework_TestCase
 
     public function testCreateGroup()
     {
-        $group = new Entity\V1\CustomerGroup(null, "Test Group", 4);
+        $group = new Entity\V1\CustomerGroup([
+          'id' => null,
+          'code' => "Test Group",
+          'tax_class_id' => 4
+        ]);
         $groupId = $this->_groupService->saveGroup($group);
         $this->assertNotNull($groupId);
 
@@ -119,7 +123,11 @@ class CustomerGroupV1Test extends \PHPUnit_Framework_TestCase
 
     public function testUpdateGroup()
     {
-        $group = new Entity\V1\CustomerGroup(null, "New Group", 4);
+        $group = new Entity\V1\CustomerGroup([
+          'id' => null,
+          'code' => "New Group",
+          'tax_class_id' => 4
+        ]);
         $groupId = $this->_groupService->saveGroup($group);
         $this->assertNotNull($groupId);
 
@@ -128,7 +136,11 @@ class CustomerGroupV1Test extends \PHPUnit_Framework_TestCase
         $this->assertEquals($group->getCode(), $newGroup->getCode());
         $this->assertEquals($group->getTaxClassId(), $newGroup->getTaxClassId());
 
-        $updates = new Entity\V1\CustomerGroup($groupId, "Updated Group", 2);
+        $updates = new Entity\V1\CustomerGroup([
+          'id' => $groupId,
+          'code' => "Updated Group",
+          'tax_class_id' => 2
+        ]);
         $newId = $this->_groupService->saveGroup($updates);
         $this->assertEquals($newId, $groupId);
         $updatedGroup = $this->_groupService->getGroup($groupId);
@@ -142,9 +154,9 @@ class CustomerGroupV1Test extends \PHPUnit_Framework_TestCase
     public function getGroups()
     {
         return [ [["id" => 0, "code" => "NOT LOGGED IN", "taxClass" => 3]],
-            [["id" => 1, "code" => "General", "taxClass" => 3]],
-            [["id" => 2, "code" => "Wholesale", "taxClass" => 3]],
-            [["id" => 3, "code" => "Retailer", "taxClass" => 3]],
-        ];
+                 [["id" => 1, "code" => "General", "taxClass" => 3]],
+                 [["id" => 2, "code" => "Wholesale", "taxClass" => 3]],
+                 [["id" => 3, "code" => "Retailer", "taxClass" => 3]],
+                ];
     }
 }

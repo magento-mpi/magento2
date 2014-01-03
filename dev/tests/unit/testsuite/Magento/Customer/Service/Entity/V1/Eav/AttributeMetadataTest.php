@@ -22,13 +22,15 @@ class AttributeMetadataTest extends \PHPUnit_Framework_TestCase
     public function testConstructorAndGetters()
     {
         $options = array('OPTION_ONE', 'OPTION_TWO');
-        $attributeMetadata = new AttributeMetadata();
-        $attributeMetadata->setAttributeCode(self::ATTRIBUTE_CODE)
-            ->setFrontendInput(self::FRONT_END_INPUT)
-            ->setInputFilter(self::INPUT_FILTER)
-            ->setStoreLabel(self::STORE_LABEL)
-            ->setValidationRules(self::VALIDATION_RULES)
-            ->setOptions($options);
+
+        $attributeMetadata = new \Magento\Customer\Service\Entity\V1\Eav\AttributeMetadata([
+            'attribute_code' => self::ATTRIBUTE_CODE,
+            'front_end_input' => self::FRONT_END_INPUT,
+            'input_filter' => self::INPUT_FILTER,
+            'store_label' => self::STORE_LABEL,
+            'validation_rules' => self::VALIDATION_RULES,
+            'options' => $options
+        ]);
 
         $this->assertSame(self::ATTRIBUTE_CODE, $attributeMetadata->getAttributeCode());
         $this->assertSame(self::FRONT_END_INPUT, $attributeMetadata->getFrontendInput());

@@ -24,38 +24,56 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Customer\Service\Entity\V1\Address[] */
     private $_expectedAddresses;
 
+    /** @var \Magento\Customer\Service\Entity\V1\AddressBuilder */
+    private $_addressBuilder;
+
+    /** @var \Magento\Customer\Service\Entity\V1\CustomerBuilder */
+    private $_customerBuilder;
+
     protected function setUp()
     {
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_service = $this->_objectManager->create('Magento\Customer\Service\CustomerV1');
 
-        $address = new Entity\V1\Address();
-        $address->setId(1)
+        $this->_addressBuilder = $this->_objectManager->create('Magento\Customer\Service\Entity\V1\AddressBuilder');
+        $this->_customerBuilder = $this->_objectManager->create('Magento\Customer\Service\Entity\V1\CustomerBuilder');
+
+        $this->_addressBuilder->setId(1)
             ->setCountryId('US')
             ->setCustomerId(1)
             ->setDefaultBilling(true)
             ->setDefaultShipping(true)
             ->setPostcode('75477')
-            ->setRegion(new Entity\V1\Region('AL', 'Alabama', 1))
+            ->setRegion(new \Magento\Customer\Service\Entity\V1\Region([
+                'region_code' => 'AL',
+                'region' => 'Alabama',
+                'region_id' => 1
+            ]))
             ->setStreet(['Green str, 67'])
             ->setTelephone('3468676')
             ->setCity('CityM')
             ->setFirstname('John')
             ->setLastname('Smith');
+        $address = $this->_addressBuilder->create();
 
-        $address2 = new Entity\V1\Address();
-        $address2->setId(2)
+        /* XXX: would it be better to have a clear method for this? */
+        $this->_addressBuilder->setId(2)
             ->setCountryId('US')
             ->setCustomerId(1)
             ->setDefaultBilling(false)
             ->setDefaultShipping(false)
             ->setPostcode('47676')
-            ->setRegion(new Entity\V1\Region('AL', 'Alabama', 1))
+            ->setRegion(new \Magento\Customer\Service\Entity\V1\Region([
+                'region_code' => 'AL',
+                'region' => 'Alabama',
+                'region_id' => 1
+            ]))
             ->setStreet(['Black str, 48'])
             ->setCity('CityX')
             ->setTelephone('3234676')
             ->setFirstname('John')
             ->setLastname('Smith');
+        $address2 = $this->_addressBuilder->create();
 
         $this->_expectedAddresses = [$address, $address2];
     }
@@ -63,13 +81,13 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
     /**
      * Helper function that returns an Address DTO that matches the data from customer_address fixture
      *
-     * @return Entity\V1\Address
+     * @return Entity\V1\AddressBuilder
      */
-    private function _createFirstAddress()
+    private function _createFirstAddressBuilder()
     {
-        $address = clone $this->_expectedAddresses[0];
-        $address->setId(null);
-        return $address;
+        $addressBuilder = $this->_addressBuilder->populate($this->_expectedAddresses[0]);
+        $addressBuilder->setId(null);
+        return $addressBuilder;
     }
 
     /**
@@ -77,11 +95,10 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
      *
      * @return Entity\V1\Address
      */
-    private function _createSecondAddress()
+    private function _createSecondAddressBuilder()
     {
-        $address = clone $this->_expectedAddresses[1];
-        $address->setId(null);
-        return $address;
+        return $this->_addressBuilder->populate($this->_expectedAddresses[1])
+            ->setId(null);
     }
 
 
@@ -95,8 +112,10 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
     {
         $customerId = 1;
         $address = $this->_service->getAddressById($customerId, 2);
-        $proposedAddress = clone $address;
-        $proposedAddress->setTelephone('555' . $address->getTelephone());
+        $proposedAddressBuilder = $this->_addressBuilder->populate($address);
+        $proposedAddressBuilder->setTelephone('555' . $address->getTelephone());
+        $proposedAddress = $proposedAddressBuilder->create();
+
         $this->_service->saveAddresses($customerId, [$proposedAddress]);
 
         $addresses = $this->_service->getAddresses($customerId);
@@ -141,22 +160,11 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
         $this->assertSame($firstCall, $secondCall);
     }
 
-    /**
-     * @magentoDataFixture Magento/Customer/_files/customer.php
-     */
-    public function testGetCustomerLocked()
-    {
-        $customer = $this->_service->getCustomer(1);
-
-        $this->assertTrue($customer->isLocked(), 'Service should return locked DTO');
-    }
-
     public function testGetAddressAttributeMetadata()
     {
         $vatValidMetadata = $this->_service->getAddressAttributeMetadata('vat_is_valid');
 
         $this->assertNotNull($vatValidMetadata);
-        $this->assertTrue($vatValidMetadata->isLocked(), 'Service should return locked DTO');
         $this->assertEquals('vat_is_valid', $vatValidMetadata->getAttributeCode());
         $this->assertEquals('text', $vatValidMetadata->getFrontendInput());
         $this->assertEquals('VAT number validity', $vatValidMetadata->getStoreLabel());
@@ -170,9 +178,10 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
      */
     public function testSaveAddressesIdSetButNotAlreadyExisting()
     {
-        $proposedAddress = $this->_createSecondAddress()
+        $proposedAddressBuilder = $this->_createSecondAddressBuilder()
             ->setFirstname('Jane')
             ->setId(4200);
+        $proposedAddress = $proposedAddressBuilder->create();
 
         $customerId = 1;
         $this->_service->saveAddresses($customerId, [$proposedAddress]);
@@ -180,10 +189,10 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->_expectedAddresses[0], $addresses[0]);
         $this->assertEquals($this->_expectedAddresses[1], $addresses[1]);
 
-        //unlock object
-        $expectedThirdAddress = clone $proposedAddress;
+        $expectedThirdAddressBuilder = $this->_addressBuilder->populate($proposedAddress);
         // set id
-        $expectedThirdAddress->setId($addresses[2]->getId());
+        $expectedThirdAddressBuilder->setId($addresses[2]->getId());
+        $expectedThirdAddress = $expectedThirdAddressBuilder->create();
         $this->_assertAddressAndRegionArrayEquals($expectedThirdAddress->__toArray(), $addresses[2]->__toArray());
     }
 
@@ -234,8 +243,8 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
         // All these expected values come from _files/customer.php fixture
         $this->assertEquals(1, $customer->getCustomerId());
         $this->assertEquals('customer@example.com', $customer->getEmail());
-        $this->assertEquals('Firstname', $customer->getFirstName());
-        $this->assertEquals('Lastname', $customer->getLastName());
+        $this->assertEquals('Firstname', $customer->getFirstname());
+        $this->assertEquals('Lastname', $customer->getLastname());
     }
 
     /**
@@ -281,15 +290,17 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
      */
     public function testSaveNewAddress()
     {
-        $proposedAddress = $this->_createSecondAddress();
+        $proposedAddressBuilder = $this->_createSecondAddressBuilder();
+        $proposedAddress = $proposedAddressBuilder->create();
         $customerId = 1;
 
         $this->_service->saveAddresses($customerId, [$proposedAddress]);
         $addresses = $this->_service->getAddresses($customerId);
         $this->assertEquals($this->_expectedAddresses[0], $addresses[0]);
-        $expectedNewAddress = clone $this->_expectedAddresses[1];
-        $expectedNewAddress
+        $expectedNewAddressBuilder = $this->_addressBuilder->populate($this->_expectedAddresses[1]);
+        $expectedNewAddressBuilder
             ->setId($addresses[1]->getId());
+        $expectedNewAddress = $expectedNewAddressBuilder->create();
         $this->assertEquals($expectedNewAddress->__toArray(), $addresses[1]->__toArray());
     }
 
@@ -300,8 +311,13 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
      */
     public function testSaveNewAddressWithAttributes()
     {
-        $proposedAddress = $this->_createSecondAddress();
-        $proposedAddress->setAttribute('weird', 'something_strange_with_hair');
+        $this->_addressBuilder->populateWithArray(array_merge($this->_expectedAddresses[1]->__toArray(), [
+            'firstname' => 'Jane',
+            'id' => 4200,
+            'weird' => 'something_strange_with_hair'
+        ]))->setId(null);
+        $proposedAddress = $this->_addressBuilder->create();
+
         $customerId = 1;
         $this->_service->saveAddresses($customerId, [$proposedAddress]);
 
@@ -318,10 +334,18 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
      */
     public function testSaveNewInvalidAddresses()
     {
-        $firstAddress = $this->_createFirstAddress();
-        $firstAddress->setAttribute('firstname', null);
-        $secondAddress = $this->_createFirstAddress();
-        $secondAddress->setAttribute('lastname', null);
+        $firstAddressBuilder = $this->_addressBuilder->populateWithArray(
+            array_merge($this->_expectedAddresses[0]->__toArray(), [
+                'firstname' => null
+            ])
+        )->setId(null);
+        $firstAddress = $firstAddressBuilder->create();
+        $secondAddressBuilder = $this->_addressBuilder->populateWithArray(
+            array_merge($this->_expectedAddresses[0]->__toArray(), [
+                'lastname' => null
+            ])
+        )->setId(null);
+        $secondAddress = $secondAddressBuilder->create();
         $customerId = 1;
         try {
             $this->_service->saveAddresses($customerId, [$firstAddress, $secondAddress]);
@@ -347,20 +371,24 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
      */
     public function testSaveNewAddressDefaults()
     {
-        $addressShipping = $this->_createFirstAddress();
-        $addressShipping->setDefaultShipping(true)->setDefaultBilling(false);
+        $addressShippingBuilder = $this->_createFirstAddressBuilder();
+        $addressShippingBuilder->setDefaultShipping(true)->setDefaultBilling(false);
+        $addressShipping = $addressShippingBuilder->create();
 
-        $addressBilling = $this->_createSecondAddress();
-        $addressBilling->setDefaultBilling(true)->setDefaultShipping(false);
+        $addressBillingBuilder = $this->_createSecondAddressBuilder();
+        $addressBillingBuilder->setDefaultBilling(true)->setDefaultShipping(false);
+        $addressBilling = $addressBillingBuilder->create();
         $customerId = 1;
         $this->_service->saveAddresses($customerId, [$addressShipping, $addressBilling]);
 
         $shipping = $this->_service->getDefaultShippingAddress($customerId);
-        $addressShipping->setId($shipping->getId());
+        /* XXX: cannot reuse addressShippingBuilder; actually all of this code
+           is re-using the same addressBuilder which is wrong */
+        $addressShipping = $this->_addressBuilder->populate($addressShipping)->setId($shipping->getId())->create();
         $this->_assertAddressAndRegionArrayEquals($addressShipping->__toArray(), $shipping->__toArray());
 
         $billing = $this->_service->getDefaultBillingAddress($customerId);
-        $addressBilling->setId($billing->getId());
+        $addressBilling = $this->_addressBuilder->populate($addressBilling)->setId($billing->getId())->create();
         $this->_assertAddressAndRegionArrayEquals($addressBilling->__toArray(), $billing->__toArray());
     }
 
@@ -371,16 +399,20 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
      */
     public function testSaveSeveralNewAddressesSameDefaults()
     {
-        $addressTwo = $this->_createSecondAddress();
-        $addressThree = clone $addressTwo;
-        $addressThree->setDefaultBilling(true);
+        $addressTwoBuilder = $this->_createSecondAddressBuilder();
+        $addressTwo = $addressTwoBuilder->create();
+        $addressThreeBuilder = $this->_addressBuilder->populate($addressTwo);
+        $addressThreeBuilder->setDefaultBilling(true);
+        $addressThree = $addressThreeBuilder->create();
 
-        $addressFour = clone $addressTwo;
-        $addressFour->setDefaultBilling(false)->setDefaultShipping(true);
+        $addressFourBuilder = $this->_addressBuilder->populate($addressTwo);
+        $addressFourBuilder->setDefaultBilling(false)->setDefaultShipping(true);
+        $addressFour = $addressFourBuilder->create();
 
-        $addressDefault = clone $addressTwo;
-        $addressDefault->setDefaultBilling(true)->setDefaultShipping(true)
-            ->setFirstName('Dirty Garry');
+        $addressDefaultBuilder = $this->_addressBuilder->populate($addressTwo);
+        $addressDefaultBuilder->setDefaultBilling(true)->setDefaultShipping(true)
+            ->setFirstname('Dirty Garry');
+        $addressDefault = $addressDefaultBuilder->create();
 
         $customerId = 1;
         $this->_service->saveAddresses(
@@ -398,12 +430,13 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
         ];
         // Same address is returned twice
         $this->assertEquals($addresses[0], $addresses[1]);
-        $this->assertEquals($addressDefault->getFirstname(), $addresses[1]->getFirstName());
+        $this->assertEquals($addressDefault->getFirstname(), $addresses[1]->getFirstname());
 
         //clone object
-        $expectedDefault = clone $addressDefault;
+        $expectedDefaultBuilder = $this->_addressBuilder->populate($addressDefault);
         // It is the same address retrieved as the one which get saved
-        $expectedDefault->setId($addresses[1]->getId());
+        $expectedDefaultBuilder->setId($addresses[1]->getId());
+        $expectedDefault = $expectedDefaultBuilder->create();
         $this->_assertAddressAndRegionArrayEquals($expectedDefault->__toArray(), $addresses[1]->__toArray());
     }
 
@@ -414,22 +447,27 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
      */
     public function testSaveSeveralNewAddressesDifferentDefaults()
     {
-        $addressTwo = $this->_createSecondAddress();
-        $addressThree = clone $addressTwo;
-        $addressThree->setDefaultBilling(true);
+        $addressTwoBuilder = $this->_createSecondAddressBuilder();
+        $addressTwo = $addressTwoBuilder->create();
 
-        $defaultShipping = clone $addressTwo;
-        $defaultShipping->setFirstname('Shippy')
+        $addressThreeBuilder = $this->_addressBuilder->populate($addressTwo);
+        $addressThreeBuilder->setDefaultBilling(true);
+        $addressThree = $addressThreeBuilder->create();
+
+        $defaultShippingBuilder = $this->_addressBuilder->populate($addressTwo);
+        $defaultShippingBuilder->setFirstname('Shippy')
             ->setLastname('McShippington')
             ->setDefaultBilling(false)
             ->setDefaultShipping(true);
+        $defaultShipping = $defaultShippingBuilder->create();
 
-        $defaultBilling = clone $addressTwo;
-        $defaultBilling
+        $defaultBillingBuilder = $this->_addressBuilder->populate($addressTwo);
+        $defaultBillingBuilder
             ->setFirstname('Billy')
             ->setLastname('McBillington')
             ->setDefaultBilling(true)
             ->setDefaultShipping(false);
+        $defaultBilling = $defaultBillingBuilder->create();
 
         $customerId = 1;
 
@@ -446,11 +484,13 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
         $this->assertTrue($addresses[0]->isDefaultBilling());
         $this->assertTrue($addresses[1]->isDefaultShipping());
 
-        $expectedDfltShip = clone $defaultShipping;
-        $expectedDfltShip->setId($addresses[1]->getId());
+        $expectedDfltShipBuilder = $this->_addressBuilder->populate($defaultShipping);
+        $expectedDfltShipBuilder->setId($addresses[1]->getId());
+        $expectedDfltShip = $expectedDfltShipBuilder->create();
 
-        $expectedDfltBill = clone $defaultBilling;
-        $expectedDfltBill->setId($addresses[0]->getId());
+        $expectedDfltBillBuilder = $this->_addressBuilder->populate($defaultBilling);
+        $expectedDfltBillBuilder->setId($addresses[0]->getId());
+        $expectedDfltBill = $expectedDfltBillBuilder->create();
 
         $this->_assertAddressAndRegionArrayEquals($expectedDfltShip->__toArray(), $addresses[1]->__toArray());
         $this->_assertAddressAndRegionArrayEquals($expectedDfltBill->__toArray(), $addresses[0]->__toArray());
@@ -477,7 +517,7 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
      */
     public function testSaveAddressesCustomerIdNotExist()
     {
-        $proposedAddress = $this->_createSecondAddress();
+        $proposedAddress = $this->_createSecondAddressBuilder()->create();
         $this->_service->saveAddresses(4200, [$proposedAddress]);
     }
 
@@ -487,7 +527,7 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
      */
     public function testSaveAddressesCustomerIdInvalid()
     {
-        $proposedAddress = $this->_createSecondAddress();
+        $proposedAddress = $this->_createSecondAddressBuilder()->create();
         $this->_service->saveAddresses('this_is_not_a_valid_id', [$proposedAddress]);
     }
 
@@ -609,23 +649,24 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
         $lastname = 'Lastsave';
 
         $customerBefore = $this->_service->getCustomer($existingCustId);
-        $modifiedCustomer = clone $customerBefore;
-        $modifiedCustomer->setCustomerId(1);
-        $modifiedCustomer->setEmail($email);
-        $modifiedCustomer->setFirstName($firstName);
-        $modifiedCustomer->setLastName($lastname);
-        $attributes = array(
+
+        $customerData = array_merge($customerBefore->__toArray(), array(
+            'id' => 1,
+            'email' => $email,
+            'firstname' => $firstName,
+            'lastname' => $lastname,
             'created_in' => 'Admin',
-            'password' => 'notsaved',
-        );
-        $modifiedCustomer->setAttributes($attributes);
+            'password' => 'notsaved'
+        ));
+        $this->_customerBuilder->populateWithArray($customerData);
+        $modifiedCustomer = $this->_customerBuilder->create();
 
         $returnedCustomerId = $this->_service->saveCustomer($modifiedCustomer, 'aPassword');
         $this->assertEquals($existingCustId, $returnedCustomerId);
         $customerAfter = $this->_service->getCustomer($existingCustId);
         $this->assertEquals($email, $customerAfter->getEmail());
-        $this->assertEquals($firstName, $customerAfter->getFirstName());
-        $this->assertEquals($lastname, $customerAfter->getLastName());
+        $this->assertEquals($firstName, $customerAfter->getFirstname());
+        $this->assertEquals($lastname, $customerAfter->getLastname());
         $this->assertEquals('Admin', $customerAfter->getAttribute('created_in'));
         $this->_service->authenticate(
             $customerAfter->getEmail(),
@@ -647,10 +688,10 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
         );
         $this->assertEquals($expectedInBefore, array_keys($inBeforeOnly));
         $expectedInAfter = array(
+            'created_in',
             'firstname',
             'lastname',
             'email',
-            'created_in',
             'password_hash',
         );
         $this->assertEquals($expectedInAfter, array_keys($inAfterOnly));
@@ -666,25 +707,27 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
 
         $email = 'savecustomer@example.com';
         $firstName = 'Firstsave';
-        $lastname = 'Lastsave';
+        $lastName = 'Lastsave';
 
         $customerBefore = $this->_service->getCustomer($existingCustId);
-        $modifiedCustomer = clone $customerBefore;
-        $modifiedCustomer->setCustomerId(1);
-        $modifiedCustomer->setEmail($email);
-        $modifiedCustomer->setFirstName($firstName);
-        $modifiedCustomer->setLastName($lastname);
-        $attributes = array(
-            'created_in' => 'Admin',
+        $customerData = array_merge($customerBefore->__toArray(),
+            [
+                'id' => 1,
+                'email' => $email,
+                'firstname' => $firstName,
+                'lastname' => $lastName,
+                'created_in' => 'Admin'
+            ]
         );
-        $modifiedCustomer->setAttributes($attributes);
+        $this->_customerBuilder->populateWithArray($customerData);
+        $modifiedCustomer = $this->_customerBuilder->create();
 
         $returnedCustomerId = $this->_service->saveCustomer($modifiedCustomer);
         $this->assertEquals($existingCustId, $returnedCustomerId);
         $customerAfter = $this->_service->getCustomer($existingCustId);
         $this->assertEquals($email, $customerAfter->getEmail());
-        $this->assertEquals($firstName, $customerAfter->getFirstName());
-        $this->assertEquals($lastname, $customerAfter->getLastName());
+        $this->assertEquals($firstName, $customerAfter->getFirstname());
+        $this->assertEquals($lastName, $customerAfter->getLastname());
         $this->assertEquals('Admin', $customerAfter->getAttribute('created_in'));
         $this->_service->authenticate(
             $customerAfter->getEmail(),
@@ -703,14 +746,20 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
             'lastname',
             'email',
         );
-        $this->assertEquals($expectedInBefore, array_keys($inBeforeOnly));
+        sort($expectedInBefore);
+        $actualInBeforeOnly = array_keys($inBeforeOnly);
+        sort($actualInBeforeOnly);
+        $this->assertEquals($expectedInBefore, $actualInBeforeOnly);
         $expectedInAfter = array(
             'firstname',
             'lastname',
             'email',
             'created_in',
         );
-        $this->assertEquals($expectedInAfter, array_keys($inAfterOnly));
+        sort($expectedInAfter);
+        $actualInAfterOnly = array_keys($inAfterOnly);
+        sort($actualInAfterOnly);
+        $this->assertEquals($expectedInAfter, $actualInAfterOnly);
     }
 
     /**
@@ -723,26 +772,28 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
 
         $email = 'savecustomer@example.com';
         $firstName = 'Firstsave';
-        $lastname = 'Lastsave';
+        $lastName = 'Lastsave';
 
         $customerBefore = $this->_service->getCustomer($existingCustId);
-        $modifiedCustomer = clone $customerBefore;
-        $modifiedCustomer->setCustomerId(1);
-        $modifiedCustomer->setEmail($email);
-        $modifiedCustomer->setFirstName($firstName);
-        $modifiedCustomer->setLastName($lastname);
-        $attributes = array(
-            'created_in' => 'Admin',
-            'password' => 'aPassword',
+        $customerData = array_merge($customerBefore->__toArray(),
+            [
+                'id' => 1,
+                'email' => $email,
+                'firstname' => $firstName,
+                'lastname' => $lastName,
+                'created_in' => 'Admin',
+                'password' => 'aPassword'
+            ]
         );
-        $modifiedCustomer->setAttributes($attributes);
+        $this->_customerBuilder->populateWithArray($customerData);
+        $modifiedCustomer = $this->_customerBuilder->create();
 
         $returnedCustomerId = $this->_service->saveCustomer($modifiedCustomer);
         $this->assertEquals($existingCustId, $returnedCustomerId);
         $customerAfter = $this->_service->getCustomer($existingCustId);
         $this->assertEquals($email, $customerAfter->getEmail());
-        $this->assertEquals($firstName, $customerAfter->getFirstName());
-        $this->assertEquals($lastname, $customerAfter->getLastName());
+        $this->assertEquals($firstName, $customerAfter->getFirstname());
+        $this->assertEquals($lastName, $customerAfter->getLastname());
         $this->assertEquals('Admin', $customerAfter->getAttribute('created_in'));
         $this->_service->authenticate(
             $customerAfter->getEmail(),
@@ -761,40 +812,20 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
             'lastname',
             'email',
         );
-        $this->assertEquals($expectedInBefore, array_keys($inBeforeOnly));
+        sort($expectedInBefore);
+        $actualInBeforeOnly = array_keys($inBeforeOnly);
+        sort($actualInBeforeOnly);
+        $this->assertEquals($expectedInBefore, $actualInBeforeOnly);
         $expectedInAfter = array(
             'firstname',
             'lastname',
             'email',
             'created_in',
         );
-        $this->assertEquals($expectedInAfter, array_keys($inAfterOnly));
-    }
-
-    /**
-     * @magentoDataFixture Magento/Customer/_files/customer.php
-     * @expectedException \Magento\Customer\Service\Entity\V1\Exception
-     * @expectedExceptionMessage Cannot set or change attribute id
-     */
-    public function testSaveCustomerSetIdException()
-    {
-        $existingCustId = 1;
-
-        $email = 'savecustomer@example.com';
-        $firstName = 'Firstsave';
-        $lastname = 'Lastsave';
-
-        $customerBefore = $this->_service->getCustomer($existingCustId);
-        $modifiedCustomer = clone $customerBefore;
-        $modifiedCustomer->setCustomerId(1);
-        $modifiedCustomer->setEmail($email);
-        $modifiedCustomer->setFirstName($firstName);
-        $modifiedCustomer->setLastName($lastname);
-        $attributes = array(
-            'created_in' => 'Admin',
-            'id' => '200',
-        );
-        $modifiedCustomer->setAttributes($attributes);
+        sort($expectedInAfter);
+        $actualInAfterOnly = array_keys($inAfterOnly);
+        sort($actualInAfterOnly);
+        $this->assertEquals($expectedInAfter, $actualInAfterOnly);
     }
 
     /**
@@ -804,12 +835,12 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
      */
     public function testSaveCustomerException()
     {
-        $customerEntity = new Entity\V1\Customer();
-        $customerEntity->setCustomerId(1);
-        $attributes = array(
-            'password' => 'aPassword',
-        );
-        $customerEntity->setAttributes($attributes);
+        $customerData = [
+            'id' => 1,
+            'password' => 'aPassword'
+        ];
+        $this->_customerBuilder->populateWithArray($customerData);
+        $customerEntity = $this->_customerBuilder->create();
 
         try {
             $this->_service->saveCustomer($customerEntity);
@@ -832,23 +863,25 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
         $newCustId = 2;
         $email = 'savecustomer@example.com';
         $firstName = 'Firstsave';
-        $lastname = 'Lastsave';
-        $customerEntity = clone $existingCustomer;
-        $customerEntity->setCustomerId($newCustId);
-        $customerEntity->setEmail($email);
-        $customerEntity->setFirstName($firstName);
-        $customerEntity->setLastName($lastname);
-        $attributes = array(
-            'created_in' => 'Admin',
+        $lastName = 'Lastsave';
+        $customerData = array_merge($existingCustomer->__toArray(),
+            [
+                'id' => $newCustId,
+                'email' => $email,
+                'firstname' => $firstName,
+                'lastname' => $lastName,
+                'created_in' => 'Admin'
+            ]
         );
-        $customerEntity->setAttributes($attributes);
+        $this->_customerBuilder->populateWithArray($customerData);
+        $customerEntity = $this->_customerBuilder->create();
 
         $customerId = $this->_service->saveCustomer($customerEntity, 'aPassword');
         $this->assertEquals($newCustId, $customerId);
         $customerAfter = $this->_service->getCustomer($customerId);
         $this->assertEquals($email, $customerAfter->getEmail());
-        $this->assertEquals($firstName, $customerAfter->getFirstName());
-        $this->assertEquals($lastname, $customerAfter->getLastName());
+        $this->assertEquals($firstName, $customerAfter->getFirstname());
+        $this->assertEquals($lastName, $customerAfter->getLastname());
         $this->assertEquals('Admin', $customerAfter->getAttribute('created_in'));
         $this->_service->authenticate(
             $customerAfter->getEmail(),
@@ -871,7 +904,10 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
             'entity_id',
             'password_hash',
         );
-        $this->assertEquals($expectedInBefore, array_keys($inBeforeOnly));
+        sort($expectedInBefore);
+        $actualInBeforeOnly = array_keys($inBeforeOnly);
+        sort($actualInBeforeOnly);
+        $this->assertEquals($expectedInBefore, $actualInBeforeOnly);
         $expectedInAfter = array(
             'firstname',
             'lastname',
@@ -880,7 +916,10 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
             'created_in',
             'password_hash',
         );
-        $this->assertEquals($expectedInAfter, array_keys($inAfterOnly));
+        sort($expectedInAfter);
+        $actualInAfterOnly = array_keys($inAfterOnly);
+        sort($actualInAfterOnly);
+        $this->assertEquals($expectedInAfter, $actualInAfterOnly);
     }
 
     /**
@@ -910,11 +949,11 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
             ->load($customerModel->getId());
         $dataInModel = $savedModel->getData();
 
-        $newCustomerEntity = new Entity\V1\Customer();
-        $newCustomerEntity->setEmail($email2)
+        $this->_customerBuilder->setEmail($email2)
             ->setFirstname($firstname)
             ->setLastname($lastname)
             ->setGroupId($groupId);
+        $newCustomerEntity = $this->_customerBuilder->create();
         $customerId = $this->_service->saveCustomer($newCustomerEntity, $password);
         $this->assertNotNull($customerId);
         $savedCustomer = $this->_service->getCustomer($customerId);
@@ -923,7 +962,7 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
             if (!in_array(
                 $key,
                 array('created_at', 'updated_at', 'email', 'is_active', 'entity_id', 'password_hash',
-                    'attribute_set_id')
+                     'attribute_set_id')
             )) {
                 if (is_null($value)) {
                     $this->assertArrayNotHasKey($key, $dataInService);
@@ -951,12 +990,12 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
         $lastname = 'McTest';
         $groupId = 1;
 
-        $newCustomerEntity = new Entity\V1\Customer();
-        $newCustomerEntity->setStoreId($storeId)
+        $this->_customerBuilder->setStoreId($storeId)
             ->setEmail($email)
             ->setFirstname($firstname)
             ->setLastname($lastname)
             ->setGroupId($groupId);
+        $newCustomerEntity = $this->_customerBuilder->create();
         $customerId = $this->_service->saveCustomer($newCustomerEntity, 'aPassword');
         $this->assertNotNull($customerId);
         $savedCustomer = $this->_service->getCustomer($customerId);
@@ -980,21 +1019,23 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
 
         $existingCustId = 1;
         $existingCustomer = $this->_service->getCustomer($existingCustId);
-        $customerEntity = clone $existingCustomer;
-        $customerEntity->setEmail($email);
-        $customerEntity->setFirstName($firstName);
-        $customerEntity->setLastName($lastname);
-        $attributes = array(
-            'created_in' => 'Admin',
+        $customerData = array_merge($existingCustomer->__toArray(),
+            [
+                'email' => $email,
+                'firstname' => $firstName,
+                'lastname' => $lastname,
+                'created_in' => 'Admin'
+            ]
         );
-        $customerEntity->setAttributes($attributes);
+        $this->_customerBuilder->populateWithArray($customerData);
+        $customerEntity = $this->_customerBuilder->create();
 
         $customerId = $this->_service->saveCustomer($customerEntity, 'aPassword');
         $this->assertNotEmpty($customerId);
         $customer = $this->_service->getCustomer($customerId);
         $this->assertEquals($email, $customer->getEmail());
-        $this->assertEquals($firstName, $customer->getFirstName());
-        $this->assertEquals($lastname, $customer->getLastName());
+        $this->assertEquals($firstName, $customer->getFirstname());
+        $this->assertEquals($lastname, $customer->getLastname());
         $this->assertEquals('Admin', $customer->getAttribute('created_in'));
         $this->_service->authenticate(
             $customer->getEmail(),
@@ -1008,16 +1049,20 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
      */
     public function testSaveCustomerRpToken()
     {
-        $customer = clone $this->_service->getCustomer(1);
-        $customer->setAttribute('rp_token', 'token');
-        $customer->setAttribute('rp_token_created_at', '2013-11-05');
+        $this->_customerBuilder->populateWithArray(array_merge($this->_service->getCustomer(1)->__toArray(), [
+            'rp_token' => 'token',
+            'rp_token_created_at' => '2013-11-05'
+        ]));
+        $customer = $this->_customerBuilder->create();
         $this->_service->saveCustomer($customer);
 
-        $customer = clone $this->_service->getCustomer(1);
         // Empty current reset password token i.e. invalidate it
-        $customer->setAttribute('rp_token', null);
-        $customer->setAttribute('rp_token_created_at', null);
-        $customer->setConfirmation(null);
+        $this->_customerBuilder->populateWithArray(array_merge($this->_service->getCustomer(1)->__toArray(), [
+            'rp_token' => null,
+            'rp_token_created_at' => null
+        ]));
+        $this->_customerBuilder->setConfirmation(null);
+        $customer = $this->_customerBuilder->create();
 
         $this->_service->saveCustomer($customer, 'password');
 
@@ -1031,10 +1076,11 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
      */
     public function testValidateResetPasswordLinkToken()
     {
-        $customer = clone $this->_service->getCustomer(1);
-        $customer->setAttribute('rp_token', 'token');
-        $customer->setAttribute('rp_token_created_at', date('Y-m-d'));
-        $this->_service->saveCustomer($customer);
+        $this->_customerBuilder->populateWithArray(array_merge($this->_service->getCustomer(1)->__toArray(), [
+            'rp_token' => 'token',
+            'rp_token_created_at' => date('Y-m-d')
+        ]));
+        $this->_service->saveCustomer($this->_customerBuilder->create());
 
         $this->_service->validateResetPasswordLinkToken(1, 'token');
     }
@@ -1121,10 +1167,11 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
         $resetToken = 'lsdj579slkj5987slkj595lkj';
         $password = 'password_secret';
 
-        $customer = clone $this->_service->getCustomer(1);
-        $customer->setAttribute('rp_token', $resetToken);
-        $customer->setAttribute('rp_token_created_at', date('Y-m-d'));
-        $this->_service->saveCustomer($customer);
+        $this->_customerBuilder->populateWithArray(array_merge($this->_service->getCustomer(1)->__toArray(), [
+            'rp_token' => $resetToken,
+            'rp_token_created_at' => date('Y-m-d')
+        ]));
+        $this->_service->saveCustomer($this->_customerBuilder->create());
 
         $this->_service->resetPassword(1, $password, $resetToken);
     }
@@ -1141,10 +1188,11 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
         $resetToken = 'lsdj579slkj5987slkj595lkj';
         $password = 'password_secret';
 
-        $customer = clone $this->_service->getCustomer(1);
-        $customer->setAttribute('rp_token', $resetToken);
-        $customer->setAttribute('rp_token_created_at', '1970-01-01');
-        $this->_service->saveCustomer($customer);
+        $this->_customerBuilder->populateWithArray(array_merge($this->_service->getCustomer(1)->__toArray(), [
+            'rp_token' => $resetToken,
+            'rp_token_created_at' => '1970-01-01'
+        ]));
+        $this->_service->saveCustomer($this->_customerBuilder->create());
 
         $this->_service->resetPassword(1, $password, $resetToken);
     }
@@ -1162,10 +1210,11 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
         $invalidToken = $resetToken . 'invalid';
         $password = 'password_secret';
 
-        $customer = clone $this->_service->getCustomer(1);
-        $customer->setAttribute('rp_token', $resetToken);
-        $customer->setAttribute('rp_token_created_at', date('Y-m-d'));
-        $this->_service->saveCustomer($customer);
+        $this->_customerBuilder->populateWithArray(array_merge($this->_service->getCustomer(1)->__toArray(), [
+            'rp_token' => $resetToken,
+            'rp_token_created_at' => date('Y-m-d')
+        ]));
+        $this->_service->saveCustomer($this->_customerBuilder->create());
 
         $this->_service->resetPassword(1, $password, $invalidToken);
     }
@@ -1182,10 +1231,11 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
         $resetToken = 'lsdj579slkj5987slkj595lkj';
         $password = 'password_secret';
 
-        $customer = clone $this->_service->getCustomer(1);
-        $customer->setAttribute('rp_token', $resetToken);
-        $customer->setAttribute('rp_token_created_at', date('Y-m-d'));
-        $this->_service->saveCustomer($customer);
+        $this->_customerBuilder->populateWithArray(array_merge($this->_service->getCustomer(1)->__toArray(), [
+            'rp_token' => $resetToken,
+            'rp_token_created_at' => date('Y-m-d')
+        ]));
+        $this->_service->saveCustomer($this->_customerBuilder->create());
 
         $this->_service->resetPassword(4200, $password, $resetToken);
     }
@@ -1202,10 +1252,11 @@ class CustomerV1Test extends \PHPUnit_Framework_TestCase
         $resetToken = 'lsdj579slkj5987slkj595lkj';
         $password = 'password_secret';
 
-        $customer = clone $this->_service->getCustomer(1);
-        $customer->setAttribute('rp_token', $resetToken);
-        $customer->setAttribute('rp_token_created_at', date('Y-m-d'));
-        $this->_service->saveCustomer($customer);
+        $this->_customerBuilder->populateWithArray(array_merge($this->_service->getCustomer(1)->__toArray(), [
+            'rp_token' => $resetToken,
+            'rp_token_created_at' => date('Y-m-d')
+        ]));
+        $this->_service->saveCustomer($this->_customerBuilder->create());
 
         $this->_service->resetPassword(0, $password, $resetToken);
     }

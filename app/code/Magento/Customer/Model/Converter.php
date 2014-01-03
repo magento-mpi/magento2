@@ -19,6 +19,20 @@ namespace Magento\Customer\Model;
 class Converter
 {
     /**
+     * @var \Magento\Customer\Service\Entity\V1\CustomerBuilder
+     */
+    protected $_customerBuilder;
+
+    /**
+     * @param \Magento\Customer\Service\Entity\V1\CustomerBuilder $customerBuilder
+     */
+    public function __construct(
+        \Magento\Customer\Service\Entity\V1\CustomerBuilder $customerBuilder
+    ) {
+        $this->_customerBuilder = $customerBuilder;
+    }
+
+    /**
      * Convert a customer model to a customer entity
      *
      * @param \Magento\Customer\Model\Customer $customerModel
@@ -30,23 +44,21 @@ class Converter
         if (!($customerModel instanceof \Magento\Customer\Model\Customer)) {
             throw new \InvalidArgumentException('customer model is invalid');
         }
-        $customer = new \Magento\Customer\Service\Entity\V1\Customer();
-        $customer->setCustomerId($customerModel->getId());
-        $customer->setFirstName($customerModel->getFirstname());
-        $customer->setLastName($customerModel->getLastname());
-        $customer->setEmail($customerModel->getEmail());
-        $this->_convertAttributesFromModel($customer, $customerModel);
-
-        return $customer;
+        $this->_convertAttributesFromModel($this->_customerBuilder, $customerModel);
+        $this->_customerBuilder->setCustomerId($customerModel->getId());
+        $this->_customerBuilder->setFirstname($customerModel->getFirstname());
+        $this->_customerBuilder->setLastname($customerModel->getLastname());
+        $this->_customerBuilder->setEmail($customerModel->getEmail());
+        return $this->_customerBuilder->create();
     }
 
     /**
      * Loads the values from a customer model
      *
-     * @param \Magento\Customer\Service\Entity\V1\Customer $customer
+     * @param \Magento\Customer\Service\Entity\V1\CustomerBuilder $customerBuilder
      * @param \Magento\Customer\Model\Customer $customerModel
      */
-    protected function _convertAttributesFromModel($customer, $customerModel)
+    protected function _convertAttributesFromModel($customerBuilder, $customerModel)
     {
         $attributes = [];
         foreach ($customerModel->getAttributes() as $attribute) {
@@ -58,7 +70,7 @@ class Converter
             $attributes[$attrCode] = $value;
         }
 
-        $customer->setAttributes($attributes);
+        $customerBuilder->populateWithArray($attributes);
     }
 
 }

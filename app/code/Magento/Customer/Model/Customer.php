@@ -14,6 +14,7 @@ namespace Magento\Customer\Model;
  * Customer model
  *
  * @method int getWebsiteId() getWebsiteId()
+ * @method \Magento\Customer\Model\Customer setWebsiteId(int)
  * @method int getStoreId() getStoreId()
  * @method string getEmail() getEmail()
  * @method \Magento\Customer\Model\Resource\Customer _getResource()
@@ -154,14 +155,14 @@ class Customer extends \Magento\Core\Model\AbstractModel
     protected $_emailInfoFactory;
 
     /**
-     * @var \Magento\Customer\Model\GroupFactory
-     */
-    protected $_groupFactory;
-
-    /**
      * @var \Magento\Customer\Model\AttributeFactory
      */
     protected $_attributeFactory;
+
+    /**
+     * @var \Magento\Customer\Service\CustomerGroupV1Interface
+     */
+    protected $_groupService;
 
     /**
      * @var \Magento\Encryption\EncryptorInterface
@@ -192,7 +193,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Customer\Model\Resource\Address\CollectionFactory $addressesFactory
      * @param \Magento\Email\Model\Template\MailerFactory $mailerFactory
      * @param \Magento\Email\Model\InfoFactory $emailInfoFactory
-     * @param \Magento\Customer\Model\GroupFactory $groupFactory
+     * @param \Magento\Customer\Service\CustomerGroupV1Interface $groupService
      * @param \Magento\Customer\Model\AttributeFactory $attributeFactory
      * @param \Magento\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Math\Random $mathRandom
@@ -214,7 +215,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
         \Magento\Customer\Model\Resource\Address\CollectionFactory $addressesFactory,
         \Magento\Email\Model\Template\MailerFactory $mailerFactory,
         \Magento\Email\Model\InfoFactory $emailInfoFactory,
-        \Magento\Customer\Model\GroupFactory $groupFactory,
+        \Magento\Customer\Service\CustomerGroupV1Interface $groupService,
         \Magento\Customer\Model\AttributeFactory $attributeFactory,
         \Magento\Encryption\EncryptorInterface $encryptor,
         \Magento\Math\Random $mathRandom,
@@ -232,7 +233,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
         $this->_addressesFactory = $addressesFactory;
         $this->_mailerFactory = $mailerFactory;
         $this->_emailInfoFactory = $emailInfoFactory;
-        $this->_groupFactory = $groupFactory;
+        $this->_groupService = $groupService;
         $this->_attributeFactory = $attributeFactory;
         $this->_encryptor = $encryptor;
         $this->mathRandom = $mathRandom;
@@ -280,9 +281,9 @@ class Customer extends \Magento\Core\Model\AbstractModel
             );
         }
         $this->_eventManager->dispatch('customer_customer_authenticated', array(
-           'model'    => $this,
-           'password' => $password,
-        ));
+                'model'    => $this,
+                'password' => $password,
+            ));
 
         return true;
     }
@@ -429,14 +430,14 @@ class Customer extends \Magento\Core\Model\AbstractModel
     /**
      * Retrieve all customer attributes
      *
-     * @return array
+     * @return \Magento\Customer\Model\Attribute[]
      */
     public function getAttributes()
     {
         if ($this->_attributes === null) {
             $this->_attributes = $this->_getResource()
-            ->loadAllAttributes($this)
-            ->getSortedAttributes();
+                ->loadAllAttributes($this)
+                ->getSortedAttributes();
         }
         return $this->_attributes;
     }
@@ -805,7 +806,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
     {
         if (!$this->hasData('group_id')) {
             $storeId = $this->getStoreId() ? $this->getStoreId() : $this->_storeManager->getStore()->getId();
-            $groupId = $this->_coreStoreConfig->getConfig(\Magento\Customer\Model\Group::XML_PATH_DEFAULT_ID, $storeId);
+            $groupId = $this->_groupService->getDefaultGroup($storeId)->getId();
             $this->setData('group_id', $groupId);
         }
         return $this->getData('group_id');
@@ -819,7 +820,8 @@ class Customer extends \Magento\Core\Model\AbstractModel
     public function getTaxClassId()
     {
         if (!$this->getData('tax_class_id')) {
-            $this->setTaxClassId($this->_createCustomerGroup()->getTaxClassId($this->getGroupId()));
+            $groupTaxClassId = $this->_groupService->getGroup($this->getGroupId())->getTaxClassId();
+            $this->setData('tax_class_id', $groupTaxClassId);
         }
         return $this->getData('tax_class_id');
     }
@@ -1238,14 +1240,6 @@ class Customer extends \Magento\Core\Model\AbstractModel
     protected function _createEmailInfo()
     {
         return $this->_emailInfoFactory->create();
-    }
-
-    /**
-     * @return \Magento\Customer\Model\Group
-     */
-    protected function _createCustomerGroup()
-    {
-        return $this->_groupFactory->create();
     }
 
     /**

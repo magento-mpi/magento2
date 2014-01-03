@@ -52,11 +52,11 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         $this->_mockReturnValue(
             $customerModelMock,
             array(
-                 'getId' => 1,
-                 'getFirstname' => 'Tess',
-                 'getLastname' => 'Tester',
-                 'getEmail' => 'ttester@example.com',
-                 'getAttributes' => [$attributeModelMock, $attributeModelMock, $attributeModelMock],
+                'getId' => 1,
+                'getFirstname' => 'Tess',
+                'getLastname' => 'Tester',
+                'getEmail' => 'ttester@example.com',
+                'getAttributes' => [$attributeModelMock, $attributeModelMock, $attributeModelMock],
             )
         );
 
@@ -70,17 +70,23 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             ->method('getData')
             ->will($this->returnValueMap($map));
 
+        $customerBuilder = new \Magento\Customer\Service\Entity\V1\CustomerBuilder();
 
-        $converter = new Converter();
+        $converter = new Converter($customerBuilder);
         $customerDto = $converter->createCustomerFromModel($customerModelMock);
-        $expectedCustomerDto = new \Magento\Customer\Service\Entity\V1\Customer();
-        $expectedCustomerDto->setFirstname('Tess');
-        $expectedCustomerDto->setEmail('ttester@example.com');
-        $expectedCustomerDto->setLastname('Tester');
-        $expectedCustomerDto->setCustomerId(1);
-        $expectedCustomerDto->setAttribute('attribute_code', 'attributeValue');
-        $expectedCustomerDto->setAttribute('attribute_code2', 'attributeValue2');
+
+        $customerBuilder = new \Magento\Customer\Service\Entity\V1\CustomerBuilder();
+        $customerData = [
+            'firstname' => 'Tess',
+            'email' => 'ttester@example.com',
+            'lastname' => 'Tester',
+            'id' => 1,
+            'attribute_code' => 'attributeValue',
+            'attribute_code2' => 'attributeValue2'
+        ];
         // There will be no attribute_code3: it has a value of null, so the converter will drop it
+        $customerBuilder->populateWithArray($customerData);
+        $expectedCustomerDto = $customerBuilder->create();
 
         $this->assertEquals($expectedCustomerDto, $customerDto);
     }
@@ -92,7 +98,11 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateCustomerFromModelBadParam($param)
     {
-        $converter = new Converter();
+        $customerBuilder = $this->getMockBuilder('Magento\Customer\Service\Entity\V1\CustomerBuilder')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $converter = new Converter($customerBuilder);
         $converter->createCustomerFromModel($param);
     }
 
