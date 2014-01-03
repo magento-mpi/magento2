@@ -13,14 +13,18 @@ namespace Magento\Exception;
 
 class InputException extends \Magento\Exception\Exception
 {
+    // This will always be the value of $this->code
     const INPUT_EXCEPTION = 0;
 
+    // These are possible code to be stored in params
     const INVALID_FIELD_RANGE = 'Invalid field range.';
     const INVALID_STATE_CHANGE = 'Invalid state change.';
     const EMPTY_FIELD_REQUIRED = 'A required field has been left empty.';
     const NO_SUCH_ENTITY = 'No such entity found.';
 
     /**
+     * Create an input exception with the first error to be stored in params
+     *
      * @param string $fieldName
      * @param string $code
      * @param array  $params
@@ -32,14 +36,19 @@ class InputException extends \Magento\Exception\Exception
     }
 
     /**
+     * Add another error to the parameters list of errors
+     *
      * @param string $fieldName
      * @param string $code
      * @param array  $params
+     *
+     * @return $this
      */
     public function addError($fieldName, $code, array $params = array())
     {
         $params['fieldName'] = $fieldName;
         $params['code'] = $code;
         $this->params[] = $params;
+        return $this;
     }
 }

@@ -11,6 +11,9 @@ namespace Magento\Exception;
 
 abstract class Exception extends \Exception
 {
+    /**
+     * @var array
+     */
     protected $params;
 
     /**

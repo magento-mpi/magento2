@@ -1,4 +1,10 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 namespace Magento\Exception;
 
 class InputExceptionTest extends \PHPUnit_Framework_TestCase
