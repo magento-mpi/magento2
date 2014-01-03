@@ -260,6 +260,25 @@ class ConfigBasedTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test to verify if annotations are added correctly
+     */
+    public function testAddAnnotationToComplexType()
+    {
+        $dom = new \DOMDocument();
+        $this->_wsdl->expects($this->any())
+            ->method('toDomDocument')
+            ->will($this->returnValue($dom));
+        $annotationDoc = "test doc";
+        $complexType = $dom->createElement(Wsdl::XSD_NS . ':complexType');
+        $complexType->setAttribute('name', 'testRequest');
+        $this->_strategy->addAnnotation($complexType, $annotationDoc);
+        $this->assertEquals(
+            $annotationDoc,
+            $complexType->getElementsByTagName("xsd:documentation")->item(0)->nodeValue
+        );
+    }
+
+    /**
      * Create mock for DOMElement.
      *
      * @return \PHPUnit_Framework_MockObject_MockObject
