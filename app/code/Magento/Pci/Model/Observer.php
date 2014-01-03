@@ -39,7 +39,7 @@ class Observer
     {
         $password = $observer->getEvent()->getPassword();
         $model    = $observer->getEvent()->getModel();
-        if (!$this->_encryptor->validateHashByVersion($password, $model->getPassword())) {
+        if (!$this->_encryptor->validateHashByVersion($password, $model->getPasswordHash())) {
             $model->changePassword($password, false);
         }
     }
