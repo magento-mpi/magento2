@@ -27,6 +27,16 @@ class DateTime
     /**#@-*/
 
     /**
+     * Minimum allowed year value
+     */
+    const YEAR_MIN_VALUE = -10000;
+
+    /**
+     * Maximum allowed year value
+     */
+    const YEAR_MAX_VALUE = 10000;
+
+    /**
      * Convert date to UNIX timestamp
      * Returns current UNIX timestamp if date is true
      *

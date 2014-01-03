@@ -1,4 +1,5 @@
 * Fixed bugs:
+  * Fixed Exception Log Errors Invalid year
   * Fixed shipment with packages data corrupted functionality
   * Fixed unavailability to add gift wrapping for multiple items
   * Fixed DHL functionality of generation shipping labels
@@ -26,6 +27,8 @@
   * Fixed impossibility to publish products to Google Shopping
   * Fixed inability to download or revert backup
   * Fixed an issue where it was impossible for the customer to register when placing an order with a downloadable product
+* Various improvements:
+  * Disabled PHP errors, notices and warnings output in production mode to prevent exposing sensitive information
 
 2.0.0.0-dev58
 =============
@@ -103,6 +106,7 @@
   * Fixed target rule if it is applied for specific customer segment
   * Fixed product importing that cleared price and weight
   * Fixed fatal error when a file reference is added to HTML head
+  * Fixed JavaScript static testing framework to properly handle corrupted paths in white/black lists
   * Fixed fatal Error on page if print order for Downloadable product
   * Fixed 'Same as shipping' checkbox to be selected after returning from PayPal side
   * Fixed preview of Email Templates shows blank page
@@ -116,6 +120,7 @@
   * Responsive design improvements
 * Improvements in code coverage calculation:
   * Code coverage calculation approach for unit tests was changed from blacklist to whitelist
+* Consolidated a few 3rd-party JavaScript libraries under `pub/lib` directory and specified their original license notice texts
 
 2.0.0.0-dev57
 =============
