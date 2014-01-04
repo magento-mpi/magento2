@@ -33,9 +33,9 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Eav\Model\Attribute|\PHPUnit_Framework_MockObject_MockObject */
     protected $_attribute;
 
-    /**
-     * Set required values
-     */
+    /** @var \Magento\Encryption\EncryptorInterface|\PHPUnit_Framework_MockObject_MockObject */
+    protected $_encryptor;
+
     protected function setUp()
     {
         $this->_website = $this->getMock('Magento\Core\Model\Website', array(), array(), '', false);
@@ -43,13 +43,25 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $this->_config = $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false);
         $this->_attribute = $this->getMock('Magento\Eav\Model\Attribute', array(), array(), '', false);
         $this->_storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
+        $this->_encryptor = $this->getMock('Magento\Encryption\EncryptorInterface');
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $helper->getObject('Magento\Customer\Model\Customer', array(
             'sender' => $this->_senderMock,
             'storeManager' => $this->_storeManager,
-            'config' =>  $this->_config
-            )
-        );
+            'config' => $this->_config,
+            'encryptor' => $this->_encryptor,
+        ));
+    }
+
+    public function testHashPassword()
+    {
+        $this->_encryptor
+            ->expects($this->once())
+            ->method('getHash')
+            ->with('password', 'salt')
+            ->will($this->returnValue('hash'))
+        ;
+        $this->assertEquals('hash', $this->_model->hashPassword('password', 'salt'));
     }
 
     public function testSendPasswordResetConfirmationEmail()

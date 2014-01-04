@@ -21,6 +21,11 @@ class Encryptor implements EncryptorInterface
     const PARAM_CRYPT_KEY = 'crypt.key';
 
     /**
+     * Default length of salt in bytes
+     */
+    const DEFAULT_SALT_LENGTH = 32;
+
+    /**
      * @var \Magento\Math\Random
      */
     protected $_randomGenerator;
@@ -61,20 +66,27 @@ class Encryptor implements EncryptorInterface
      * Generate a [salted] hash.
      *
      * $salt can be:
-     * false - a random will be generated
-     * integer - a random with specified length will be generated
-     * string
+     * false - salt is not used
+     * true - random salt of the default length will be generated
+     * integer - random salt of specified length will be generated
+     * string - actual salt value to be used
      *
      * @param string $password
-     * @param mixed $salt
+     * @param bool|int|string $salt
      * @return string
      */
     public function getHash($password, $salt = false)
     {
+        if ($salt === false) {
+            return $this->hash($password);
+        }
+        if ($salt === true) {
+            $salt = self::DEFAULT_SALT_LENGTH;
+        }
         if (is_integer($salt)) {
             $salt = $this->_randomGenerator->getRandomString($salt);
         }
-        return $salt === false ? $this->hash($password) : $this->hash($salt . $password) . ':' . $salt;
+        return $this->hash($salt . $password) . ':' . $salt;
     }
 
     /**
