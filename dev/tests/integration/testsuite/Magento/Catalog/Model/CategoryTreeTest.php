@@ -31,6 +31,38 @@ class CategoryTreeTest extends \PHPUnit_Framework_TestCase
             ->create('Magento\Catalog\Model\Category');
     }
 
+    protected function loadCategory($categoryId)
+    {
+        $this->_model->setData(array());
+        $this->_model->load($categoryId);
+        return $this->_model;
+    }
+
+    public function testMovePosition()
+    {
+        //move category 9 to new parent 6 with afterCategoryId = null
+        $category = $this->loadCategory(9);
+        $category->move(6, null);
+        $category = $this->loadCategory(9);
+        $this->assertEquals(1, $category->getPosition(), 'Positing must be 1, if $afterCategoryId was null|false|0');
+        $category = $this->loadCategory(10);
+        $this->assertEquals(5, $category->getPosition(), 'Category 10 position must decrease after Category 9 moved');
+        $category = $this->loadCategory(11);
+        $this->assertEquals(6, $category->getPosition(), 'Category 11 position must decrease after Category 9 moved');
+        $category = $this->loadCategory(6);
+        $this->assertEquals(2, $category->getPosition(), 'Category 6 position must be the same');
+
+        //move category 11 to new parent 6 with afterCategoryId = 9
+        $category = $this->loadCategory(11);
+        $category->move(6, 9);
+        $category = $this->loadCategory(11);
+        $this->assertEquals(2, $category->getPosition(), 'Category 11 position must be after category 9');
+        $category = $this->loadCategory(10);
+        $this->assertEquals(5, $category->getPosition(), 'Category 10 position must be the same');
+        $category = $this->loadCategory(9);
+        $this->assertEquals(1, $category->getPosition(), 'Category 9 position must be 1');
+    }
+
     public function testMove()
     {
         $this->_model->load(7);
@@ -40,39 +72,6 @@ class CategoryTreeTest extends \PHPUnit_Framework_TestCase
         $this->_model->setData(array());
         $this->_model->load(7);
         $this->assertEquals(6, $this->_model->getParentId());
-        //checking position
-        $this->assertEquals(1, $this->_model->getPosition());
-        //positing for 8 must be decreased by 1 eq 3
-        $this->_model->setData(array());
-        $this->_model->load(8);
-        $this->assertEquals(3, $this->_model->getPosition());
-        //positing for 10 must be decreased by 1 eq 5
-        $this->_model->setData(array());
-        $this->_model->load(10);
-        $this->assertEquals(5, $this->_model->getPosition());
-        //positing for 6 must not be changed eq 2
-        $this->_model->setData(array());
-        $this->_model->load(6);
-        $this->assertEquals(2, $this->_model->getPosition());
-        //moving category 9 with null value
-        $this->_model->setData(array());
-        $this->_model->load(9);
-        $this->_model->move(6, null);
-        /* load is not enough to reset category data */
-        $this->_model->setData(array());
-        $this->_model->load(9);
-        //checking new parent
-        $this->assertEquals(6, $this->_model->getParentId());
-        //checking new position id
-        $this->assertEquals(1, $this->_model->getPosition());
-        //checking new position id for 10
-        $this->_model->setData(array());
-        $this->_model->load(10);
-        $this->assertEquals(4, $this->_model->getPosition());
-        /* load is not enough to reset category data */
-        $this->_model->setData(array());
-        $this->_model->load(7);
-        $this->assertEquals(2, $this->_model->getPosition());
     }
 
     /**

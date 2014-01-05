@@ -899,7 +899,7 @@ class Category extends \Magento\Catalog\Model\Resource\AbstractResource
         /**
          * Prepare position value
          */
-        if ( $afterCategoryId ) {
+        if ($afterCategoryId) {
             $select = $adapter->select()
                 ->from($table, 'position')
                 ->where('entity_id = :entity_id');
@@ -915,12 +915,7 @@ class Category extends \Magento\Catalog\Model\Resource\AbstractResource
             $adapter->update($table, $bind, $where);
             $position += 1;
         } else {
-            $select = $adapter->select()
-                ->from($table, array('position' => new \Zend_Db_Expr('MIN(' . $positionField . ')')))
-                ->where('parent_id = :parent_id');
-            $position = $adapter->fetchOne($select, array('parent_id' => $newParent->getId()));
-            //is no existing children set position to first
-            if(0 == $position) $position = 1;
+            $position = 1;
             $bind = array(
                 'position' => new \Zend_Db_Expr($positionField . ' + 1')
             );
