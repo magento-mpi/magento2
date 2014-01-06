@@ -725,19 +725,6 @@ class File implements \Magento\Filesystem\DriverInterface
     }
 
     /**
-     * Checks is directory contains path
-     * Utility method.
-     *
-     * @param string $path
-     * @param string $directory
-     * @return bool
-     */
-    public function isPathInDirectory($path, $directory)
-    {
-        return 0 === strpos($this->fixSeparator($path), $this->fixSeparator($directory));
-    }
-
-    /**
      * Read directory recursively
      *
      * @param string|null $path

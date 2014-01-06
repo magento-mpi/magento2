@@ -339,11 +339,4 @@ interface DriverInterface
      * @return mixed
      */
     public function getRelativePath($basePath, $path = null);
-
-    /**
-     * @param $path
-     * @param $directory
-     * @return mixed
-     */
-    public function isPathInDirectory($path, $directory);
 }
