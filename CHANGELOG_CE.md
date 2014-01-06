@@ -34,6 +34,10 @@
   * Fixed CSRF vulnerability in checkout
   * Fixed JavaScript static testing framework to properly handle corrupted paths in white/black lists
   * Fixed error during Google Shopping synchronization due to invalid method call
+  * Fixed design for contextual help tooltip
+  * Fixed "Authorize.net CC" section UI on "Onepage Checkout" page
+  * Fixed UI issues on backend create and view order pages
+  * Fixed IE9 backend UI issues
 * Various improvements:
   * Disabled PHP errors, notices and warnings output in production mode to prevent exposing sensitive information
 * Consolidated a few 3rd-party JavaScript libraries under `pub/lib` directory and specified their original license notice texts
