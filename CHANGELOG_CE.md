@@ -33,6 +33,9 @@
   * Fixed PayPal Express: order can't be placed if HTTPS is used on frontend
   * Fixed security issue with user session on registration
   * Fixed CSRF vulnerability in checkout
+  * Fixed product's status after a virtual product was duplicated
+  * Fixed fatal error with attribute file from customer account page in backend
+  * Updated comments for eliminating redirect when secure url is used
 * Various improvements:
   * Disabled PHP errors, notices and warnings output in production mode to prevent exposing sensitive information
 
