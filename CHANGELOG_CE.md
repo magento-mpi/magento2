@@ -1,32 +1,4 @@
 * Fixed bugs:
-  * Fixed Exception Log Errors Invalid year
-  * Fixed shipment with packages data corrupted functionality
-  * Fixed unavailability to add gift wrapping for multiple items
-  * Fixed DHL functionality of generation shipping labels
-  * Fixed target rule if it is applied for specific customer segment
-  * Fixed product importing that cleared price and weight
-  * Fixed fatal error when a file reference is added to HTML head
-  * Fixed fatal error on page if print order for Downloadable product
-  * Fixed 'Same as shipping' checkbox to be selected after returning from PayPal side
-  * Fixed preview of Email Templates shows blank page
-  * Fixed no possibility to create refund from Paypal side.
-  * Fixed occurrences of non-existent resource model Mage_Catalog_Model_Resource_Convert
-  * Fixed wrong count of coupon's usage after applying it with multiple addresses
-  * Fixed Abandoned cart emails are not sending out
-  * Fixed User with "Reorder" permission cannot make reorder
-  * Fixed Community bugathon - Item clone is added to cart via wishlist if "Qty Increments" is enabled
-  * Fixed catalog_url indexer incorrect rewrites history for categories
-  * Fixed Fatal error on attempt to save integration with duplicate name
-  * Fixed Customer can see someone's else reviews on private Account Dashboard
-  * Fixed "New Theme" page is displayed broken while trying to create Theme with incorrectly "Version" field filled
-  * Fixed Admin has no possibility to save integration with XSS injection inside required fields
-  * Fixed Mini Shopping Cart is displayed broken if contains virtual product
-  * Fixed Disabling "Display Shopping Cart Sidebar" doesn't work
-  * Fixed Adminhtml cookie isn't set on backend
-  * Fixed Persistent_shopping_cart cookie isn't set after customer's login
-  * Fixed impossibility to publish products to Google Shopping
-  * Fixed inability to download or revert backup
-  * Fixed an issue where it was impossible for the customer to register when placing an order with a downloadable product
   * Fixed products from non-default website aren't shown as bundle items
   * Fixed placing order with status Pending Payment instead of Processing when payment method Authorize.net is used
   * Fixed PayPal Express: order can't be placed if HTTPS is used on frontend
@@ -34,9 +6,40 @@
   * Fixed CSRF vulnerability in checkout
   * Fixed JavaScript static testing framework to properly handle corrupted paths in white/black lists
   * Fixed error during Google Shopping synchronization due to invalid method call
-* Various improvements:
-  * Disabled PHP errors, notices and warnings output in production mode to prevent exposing sensitive information
 * Consolidated a few 3rd-party JavaScript libraries under `pub/lib` directory and specified their original license notice texts
+
+2.0.0.0-dev59
+=============
+* Fixed bugs:
+  * Fixed invalid year in exception log errors
+  * Fixed the double-serialization in saving data for shipments
+  * Fixed an issue with adding a gift wrapping for multiple items
+  * Fixed shipping labels generation for DHL
+  * Fixed an issue with lost product price and weight during import
+  * Fixed a fatal error when a file reference is added to the HTML head
+  * Fixed an issue with printing orders containing downloadable product(s)
+  * Fixed an issue with the 'Same as shipping' check box not being selected on the Review Order page for PayPal Express checkout
+  * Fixed an issue with Email Templates preview showing a blank page
+  * Fixed an issue with a refund creation from the PayPal side
+  * Removed the occurrences of the non-existing Mage_Catalog_Model_Resource_Convert resource model
+  * Fixed an issue with a coupon usage after applying it with multiple addresses
+  * Fixed the Abandoned Cart emails sending
+  * Fixed an issue where users with "Reorder" permission could not perform reorder
+  * Fixed an issue with adding items from wishlist to the Shopping Cart with quantity increments enabled
+  * Fixed an issue with the catalog_url indexer incorrect rewrites history for categories
+  * Fixed an issue in saving an integration with a duplicate name
+  * Fixed an issue when a customer could see someone's else reviews on the private Account Dashboard
+  * Fixed an issue when a "New Theme" page was displayed as broken when trying to create a theme with incorrect "Version" value
+  * Fixed an issue in saving an integration with XSS injection in the required fields
+  * Fixed an issue with the Mini Shopping Cart when it contained virtual product
+  * Fixed an issue in disabling the Shopping Cart sidebar
+  * Fixed an issue when the "Adminhtml" cookie was not set when a user logged in to the backend
+  * Fixed an issue when the "Persistent_shopping_cart" cookie was not set after customer's login
+  * Fixed inability to publish products to Google Shopping
+  * Fixed inability to download or revert the backup
+  * Fixed inability to create a customer account when placing an order with a downloadable product
+* Various improvements:
+  * Disabled PHP errors, notices and warnings output in the production mode, to prevent exposing sensitive information
 
 2.0.0.0-dev58
 =============
