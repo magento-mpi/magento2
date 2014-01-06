@@ -19,6 +19,11 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     protected $customerMock;
 
+    /**
+     * @var \Magento\Pci\Model\Observer
+     */
+    protected $observer;
+
     protected function setUp()
     {
         $this->encryptorMock = $this->getMockBuilder('\Magento\Pci\Model\Encryption')
@@ -33,12 +38,20 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
                     }
                 )
             );
+        $this->observer = new \Magento\Pci\Model\Observer($this->encryptorMock);
         $this->customerMock = $this->getMockBuilder('\Magento\Customer\Model\Customer')
             ->disableOriginalConstructor()
             ->setMethods(array('getPasswordHash', 'changePassword', '__wakeup'))
             ->getMock();
     }
 
+    /**
+     * Create Observer with custom data structure and fill password
+     *
+     * @param $password
+     * @param $passwordHash
+     * @return \Magento\Object
+     */
     protected function getObserverMock($password, $passwordHash)
     {
         $this->customerMock->expects($this->once())
@@ -59,20 +72,24 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         return $observerMock;
     }
 
+    /**
+     * Test successfully password change if new password doesn't match old one
+     */
     public function testUpgradeCustomerPassword()
     {
         $this->customerMock->expects($this->once())
             ->method('changePassword')
             ->will($this->returnSelf());
-        $observer = new \Magento\Pci\Model\Observer($this->encryptorMock);
-        $observer->upgradeCustomerPassword($this->getObserverMock('different password', 'old password'));
+        $this->observer->upgradeCustomerPassword($this->getObserverMock('different password', 'old password'));
     }
 
+    /**
+     * Test failure password change if new password matches old one
+     */
     public function testUpgradeCustomerPasswordNotChanged()
     {
         $this->customerMock->expects($this->never())
             ->method('changePassword');
-        $observer = new \Magento\Pci\Model\Observer($this->encryptorMock);
-        $observer->upgradeCustomerPassword($this->getObserverMock('same password', 'same password'));
+        $this->observer->upgradeCustomerPassword($this->getObserverMock('same password', 'same password'));
     }
 }
