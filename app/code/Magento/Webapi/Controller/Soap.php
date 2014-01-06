@@ -13,6 +13,8 @@ use Magento\Webapi\Exception as WebapiException;
 use Magento\Service\AuthorizationException;
 
 /**
+ * TODO: Consider warnings suppression removal
+ *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Soap implements \Magento\App\FrontControllerInterface
@@ -78,16 +80,6 @@ class Soap implements \Magento\App\FrontControllerInterface
         $this->_appState = $appState;
         $this->_application = $application;
         $this->_oauthService = $oauthService;
-    }
-
-    /**
-     * Initialize front controller
-     *
-     * @return \Magento\Webapi\Controller\Soap
-     */
-    public function init()
-    {
-        return $this;
     }
 
     /**

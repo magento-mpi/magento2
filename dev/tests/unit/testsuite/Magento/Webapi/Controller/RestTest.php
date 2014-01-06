@@ -94,6 +94,9 @@ class RestTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $errorProcessorMock = $this->getMock('Magento\Webapi\Controller\ErrorProcessor', [], [], '', false);
+        $errorProcessorMock->expects($this->any())->method('maskException')->will($this->returnArgument(0));
+
         /** Init SUT. */
         $this->_restController = new \Magento\Webapi\Controller\Rest(
             $this->_requestMock,
@@ -104,7 +107,8 @@ class RestTest extends \PHPUnit_Framework_TestCase
             $this->_oauthServiceMock,
             $this->_oauthHelperMock,
             $this->_authzServiceMock,
-            new ServiceArgsSerializer()
+            new ServiceArgsSerializer(),
+            $errorProcessorMock
         );
 
         // Set default expectations used by all tests

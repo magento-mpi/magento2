@@ -14,9 +14,6 @@ use Magento\Service\Entity\MagentoDtoInterface;
 
 /**
  * Front controller for WebAPI REST area.
- *
- * TODO: Fix coupling between objects
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Rest implements \Magento\App\FrontControllerInterface
 {
@@ -47,7 +44,15 @@ class Rest implements \Magento\App\FrontControllerInterface
     /** @var ServiceArgsSerializer */
     protected $_serializer;
 
+    /** @var \Magento\Webapi\Controller\ErrorProcessor */
+    protected $_errorProcessor;
+
     /**
+     * Initialize dependencies.
+     *
+     * TODO: Consider removal of warning suppression
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      * @param Rest\Request $request
      * @param Rest\Response $response
      * @param Rest\Router $router
@@ -57,6 +62,7 @@ class Rest implements \Magento\App\FrontControllerInterface
      * @param \Magento\Oauth\Helper\Request $oauthHelper
      * @param AuthorizationService $authorizationService
      * @param ServiceArgsSerializer $serializer
+     * @param \Magento\Webapi\Controller\ErrorProcessor $errorProcessor
      */
     public function __construct(
         \Magento\Webapi\Controller\Rest\Request $request,
@@ -67,7 +73,8 @@ class Rest implements \Magento\App\FrontControllerInterface
         \Magento\Oauth\OauthInterface $oauthService,
         \Magento\Oauth\Helper\Request $oauthHelper,
         AuthorizationService $authorizationService,
-        ServiceArgsSerializer $serializer
+        ServiceArgsSerializer $serializer,
+        \Magento\Webapi\Controller\ErrorProcessor $errorProcessor
     ) {
         $this->_router = $router;
         $this->_request = $request;
@@ -78,16 +85,7 @@ class Rest implements \Magento\App\FrontControllerInterface
         $this->_oauthHelper = $oauthHelper;
         $this->_authorizationService = $authorizationService;
         $this->_serializer = $serializer;
-    }
-
-    /**
-     * Initialize front controller
-     *
-     * @return \Magento\Webapi\Controller\Rest
-     */
-    public function init()
-    {
-        return $this;
+        $this->_errorProcessor = $errorProcessor;
     }
 
     /**
@@ -140,7 +138,8 @@ class Rest implements \Magento\App\FrontControllerInterface
             $outputArray = $this->_getOutputArray($outputData);
             $this->_response->prepareResponse($outputArray);
         } catch (\Exception $e) {
-            $this->_response->setException($e);
+            $maskedException = $this->_errorProcessor->maskException($e);
+            $this->_response->setException($maskedException);
         }
         return $this->_response;
     }
