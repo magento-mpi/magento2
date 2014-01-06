@@ -1,21 +1,14 @@
 <?php
 /**
+ * Grouped product edit tab
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * admin edit tabs for grouped product
- *
- * @category    Magento
- * @package     Magento_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tabs;
+namespace Magento\GroupedProduct\Block\Adminhtml\Product\Edit\Tabs;
 
 class Grouped extends \Magento\Catalog\Block\Adminhtml\Product\Edit\Tabs
 {

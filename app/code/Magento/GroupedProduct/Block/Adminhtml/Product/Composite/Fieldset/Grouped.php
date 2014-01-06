@@ -11,10 +11,10 @@
 /**
  * Adminhtml block for fieldset of grouped product
  */
-namespace Magento\Catalog\Block\Adminhtml\Product\Composite\Fieldset;
+namespace Magento\GroupedProduct\Block\Adminhtml\Product\Composite\Fieldset;
 
 class Grouped
-    extends \Magento\Catalog\Block\Product\View\Type\Grouped
+    extends \Magento\GroupedProduct\Block\Product\View\Type\Grouped
 {
     /**
      * @var \Magento\Tax\Model\Calculation
@@ -143,7 +143,7 @@ class Grouped
     /**
      * Set preconfigured values to grouped associated products
      *
-     * @return \Magento\Catalog\Block\Product\View\Type\Grouped
+     * @return \Magento\GroupedProduct\Block\Product\View\Type\Grouped
      */
     public function setPreconfiguredValue() {
         $configValues = $this->getProduct()->getPreconfiguredValues()->getSuperGroup();

@@ -15,7 +15,7 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Block\Product\Grouped\AssociatedProducts;
+namespace Magento\GroupedProduct\Block\Product\Grouped\AssociatedProducts;
 
 class ListAssociatedProducts extends \Magento\Backend\Block\Template
 {

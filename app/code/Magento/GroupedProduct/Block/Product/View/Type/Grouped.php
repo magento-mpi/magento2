@@ -1,22 +1,13 @@
 <?php
 /**
+ * Catalog grouped product info block
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
-/**
- * Catalog grouped product info block
- *
- * @category   Magento
- * @package    Magento_Catalog
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-namespace Magento\Catalog\Block\Product\View\Type;
+namespace Magento\GroupedProduct\Block\Product\View\Type;
 
 class Grouped extends \Magento\Catalog\Block\Product\View\AbstractView
 {
@@ -26,11 +17,10 @@ class Grouped extends \Magento\Catalog\Block\Product\View\AbstractView
             ->getAssociatedProducts($this->getProduct());
     }
 
-
     /**
      * Set preconfigured values to grouped associated products
      *
-     * @return \Magento\Catalog\Block\Product\View\Type\Grouped
+     * @return \Magento\GroupedProduct\Block\Product\View\Type\Grouped
      */
     public function setPreconfiguredValue() {
         $configValues = $this->getProduct()->getPreconfiguredValues()->getSuperGroup();
