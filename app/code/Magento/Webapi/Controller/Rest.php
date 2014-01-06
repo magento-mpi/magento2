@@ -14,6 +14,10 @@ use Magento\Service\Entity\MagentoDtoInterface;
 
 /**
  * Front controller for WebAPI REST area.
+ *
+ * TODO: Consider warnings suppression removal
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Rest implements \Magento\App\FrontControllerInterface
 {
