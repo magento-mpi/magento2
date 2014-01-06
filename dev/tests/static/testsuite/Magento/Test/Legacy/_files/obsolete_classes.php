@@ -1761,4 +1761,28 @@ return array(
     array('Magento\Catalog\Model\Resource\Convert'),
     array('Magento\Reminder\Model\Resource\HelperFactory'),
     array('Magento\Reminder\Model\Resource\Helper'),
+    array(
+        'Magento\Catalog\Model\Product\Type\Grouped\Backend',
+        'Magento\GroupedProduct\Model\Product\Type\Grouped\Backend'
+    ),
+    array(
+        'Magento\Catalog\Model\Product\Type\Grouped\Price',
+        'Magento\GroupedProduct\Model\Product\Type\Grouped\Price'
+    ),
+    array(
+        'Magento\Catalog\Model\Resource\Product\Indexer\Price\Grouped',
+        'Magento\GroupedProduct\Model\Resource\Product\Indexer\Price\Grouped'
+    ),
+    array(
+        'Magento\Catalog\Model\Resource\Product\Indexer\Price\Grouped',
+        'Magento\GroupedProduct\Model\Resource\Product\Indexer\Price\Grouped'
+    ),
+    array(
+        'Magento\Catalog\Model\Resource\Product\Type\Grouped\AssociatedProductsCollection',
+        'Magento\GroupedProduct\Model\Resource\Product\Type\Grouped\AssociatedProductsCollection'
+    ),
+    array(
+        'Magento\Catalog\Model\Product\Type\Grouped',
+        'Magento\GroupedProduct\Model\Product\Type\Grouped'
+    ),
 );

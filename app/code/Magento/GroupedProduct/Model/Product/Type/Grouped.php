@@ -1,21 +1,15 @@
 <?php
 /**
+ * Grouped product type implementation
+ *
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Catalog
+ * @package     Magento_GroupedProduct
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Grouped product type implementation
- *
- * @category   Magento
- * @package    Magento_Catalog
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-namespace Magento\Catalog\Model\Product\Type;
+namespace Magento\GroupedProduct\Model\Product\Type;
 
 class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
 {
@@ -216,7 +210,7 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
      *
      * @param  int $status
      * @param  \Magento\Catalog\Model\Product $product
-     * @return \Magento\Catalog\Model\Product\Type\Grouped
+     * @return \Magento\GroupedProduct\Model\Product\Type\Grouped
      */
     public function addStatusFilter($status, $product)
     {
@@ -235,7 +229,7 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
      * Set only saleable filter
      *
      * @param  \Magento\Catalog\Model\Product $product
-     * @return \Magento\Catalog\Model\Product\Type\Grouped
+     * @return \Magento\GroupedProduct\Model\Product\Type\Grouped
      */
     public function setSaleableStatus($product)
     {
@@ -320,7 +314,7 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
      * Save type related data
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @return \Magento\Catalog\Model\Product\Type\Grouped
+     * @return \Magento\GroupedProduct\Model\Product\Type\Grouped
      */
     public function save($product)
     {

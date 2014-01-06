@@ -3,23 +3,23 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Catalog
+ * @package     Magento_GroupedProduct
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Model\Product\Type\Grouped;
+namespace Magento\GroupedProduct\Model\Product\Type\Grouped;
 
 /**
  * Grouped product type implementation for backend
  */
-class Backend extends \Magento\Catalog\Model\Product\Type\Grouped
+class Backend extends \Magento\GroupedProduct\Model\Product\Type\Grouped
 {
     /**
      * No filters required in backend
      *
      * @param  \Magento\Catalog\Model\Product $product
-     * @return \Magento\Catalog\Model\Product\Type\Grouped
+     * @return \Magento\GroupedProduct\Model\Product\Type\Grouped
      */
     public function setSaleableStatus($product)
     {

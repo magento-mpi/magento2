@@ -6,13 +6,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Model\Resource\Product\Type\Grouped;
+namespace Magento\GroupedProduct\Model\Resource\Product\Type\Grouped;
 
 class AssociatedProductsCollectionTest
     extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @magentoDataFixture Magento/Catalog/_files/product_grouped.php
+     * @magentoDataFixture Magento/GroupedProduct/_files/product_grouped.php
      * @magentoAppIsolation enabled
      */
     public function testGetColumnValues()
@@ -25,9 +25,9 @@ class AssociatedProductsCollectionTest
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Registry')->register('current_product', $product);
 
-        /** @var \Magento\Catalog\Model\Resource\Product\Type\Grouped\AssociatedProductsCollection $collection */
+        /** @var \Magento\GroupedProduct\Model\Resource\Product\Type\Grouped\AssociatedProductsCollection $collection */
         $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Catalog\Model\Resource\Product\Type\Grouped\AssociatedProductsCollection'
+            'Magento\GroupedProduct\Model\Resource\Product\Type\Grouped\AssociatedProductsCollection'
         );
 
         $this->assertEquals(array('simple-1', 'virtual-product'), $collection->getColumnValues('sku'));

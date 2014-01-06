@@ -152,13 +152,13 @@ class Configuration extends \Magento\App\Helper\AbstractHelper
     {
         $product = $item->getProduct();
         $typeId = $product->getTypeId();
-        if ($typeId != \Magento\Catalog\Model\Product\Type\Grouped::TYPE_CODE) {
+        if ($typeId != \Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE) {
              throw new \Magento\Core\Exception(__('The product type to extract configurable options is incorrect.'));
         }
 
         $options = array();
         /**
-         * @var \Magento\Catalog\Model\Product\Type\Grouped
+         * @var \Magento\GroupedProduct\Model\Product\Type\Grouped
          */
         $typeInstance = $product->getTypeInstance();
         $associatedProducts = $typeInstance->getAssociatedProducts($product);
@@ -198,7 +198,7 @@ class Configuration extends \Magento\App\Helper\AbstractHelper
         switch ($typeId) {
             case \Magento\Catalog\Model\Product\Type\Configurable::TYPE_CODE:
                 return $this->getConfigurableOptions($item);
-            case \Magento\Catalog\Model\Product\Type\Grouped::TYPE_CODE:
+            case \Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE:
                 return $this->getGroupedOptions($item);
             default:
                 break;

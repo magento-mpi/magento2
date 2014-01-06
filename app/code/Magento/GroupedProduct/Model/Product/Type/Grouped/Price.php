@@ -1,21 +1,16 @@
 <?php
 /**
+ * Grouped product price model
+ *
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Catalog
+ * @package     Magento_GroupedProduct
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Grouped product price model
- *
- * @category    Magento
- * @package     Magento_Catalog
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-namespace Magento\Catalog\Model\Product\Type\Grouped;
+namespace Magento\GroupedProduct\Model\Product\Type\Grouped;
 
 class Price extends \Magento\Catalog\Model\Product\Type\Price
 {
@@ -34,7 +29,7 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
 
         $finalPrice = parent::getFinalPrice($qty, $product);
         if ($product->hasCustomOptions()) {
-            /* @var $typeInstance \Magento\Catalog\Model\Product\Type\Grouped */
+            /* @var $typeInstance \Magento\GroupedProduct\Model\Product\Type\Grouped */
             $typeInstance = $product->getTypeInstance();
             $associatedProducts = $typeInstance->setStoreFilter($product->getStore(), $product)
                 ->getAssociatedProducts($product);

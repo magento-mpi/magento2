@@ -48,7 +48,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
             array(null, 'Magento\Catalog\Model\Product\Type\Simple'),
             array(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE, 'Magento\Catalog\Model\Product\Type\Simple'),
             array(\Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL, 'Magento\Catalog\Model\Product\Type\Virtual'),
-            array(\Magento\Catalog\Model\Product\Type::TYPE_GROUPED, 'Magento\Catalog\Model\Product\Type\Grouped'),
+            array(\Magento\Catalog\Model\Product\Type::TYPE_GROUPED, 'Magento\GroupedProduct\Model\Product\Type\Grouped'),
             array(\Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE,
                 'Magento\Catalog\Model\Product\Type\Configurable'
             ),

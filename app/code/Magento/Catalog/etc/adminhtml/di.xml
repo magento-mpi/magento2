@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <preference for="Magento\Catalog\Model\Product\Type\Grouped" type="Magento\Catalog\Model\Product\Type\Grouped\Backend" />
+    <preference for="Magento\GroupedProduct\Model\Product\Type\Grouped" type="Magento\GroupedProduct\Model\Product\Type\Grouped\Backend" />
     <type name="Magento\Catalog\Controller\Adminhtml\Product\Attribute">
         <param name="attributeLabelCache">
             <instance type="Magento\App\Cache\Type\Translate" />

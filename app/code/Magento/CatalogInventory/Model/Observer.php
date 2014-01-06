@@ -545,7 +545,7 @@ class Observer
             $productTypeCustomOption = $quoteItem->getProduct()->getCustomOption('product_type');
             if (!is_null($productTypeCustomOption)) {
                 // Check if product related to current item is a part of grouped product
-                if ($productTypeCustomOption->getValue() == \Magento\Catalog\Model\Product\Type\Grouped::TYPE_CODE) {
+                if ($productTypeCustomOption->getValue() == \Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE) {
                     $stockItem->setProductName($quoteItem->getProduct()->getName());
                     $stockItem->setIsChildItem(true);
                 }

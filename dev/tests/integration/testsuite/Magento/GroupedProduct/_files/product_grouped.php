@@ -6,8 +6,8 @@
  * @license     {license_link}
  */
 
-require __DIR__ . '/product_simple_duplicated.php';
-require __DIR__ . '/product_virtual.php';
+require realpath(__DIR__ . '/../../') . '/Catalog/_files/product_simple_duplicated.php';
+require realpath(__DIR__ . '/../../') . '/Catalog/_files/product_virtual.php';
 
 /** @var $product \Magento\Catalog\Model\Product */
 $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()

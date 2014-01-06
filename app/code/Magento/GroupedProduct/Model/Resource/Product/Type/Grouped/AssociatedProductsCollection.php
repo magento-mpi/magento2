@@ -1,21 +1,16 @@
 <?php
 /**
+ * Associated products collection
+ *
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Catalog
+ * @package     Magento_GroupedProduct
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Associated products collection
- *
- * @category    Magento
- * @package     Magento_Catalog
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-namespace Magento\Catalog\Model\Resource\Product\Type\Grouped;
+namespace Magento\GroupedProduct\Model\Resource\Product\Type\Grouped;
 
 class AssociatedProductsCollection
     extends \Magento\Catalog\Model\Resource\Product\Link\Product\Collection

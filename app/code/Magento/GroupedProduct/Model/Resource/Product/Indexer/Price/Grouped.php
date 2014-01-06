@@ -1,22 +1,15 @@
 <?php
 /**
+ * Grouped Products Price Indexer Resource model
+ *
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Catalog
+ * @package     Magento_GroupedProduct
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
-/**
- * Configurable Products Price Indexer Resource model
- *
- * @category    Magento
- * @package     Magento_Catalog
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-namespace Magento\Catalog\Model\Resource\Product\Indexer\Price;
+namespace Magento\GroupedProduct\Model\Resource\Product\Indexer\Price;
 
 class Grouped
     extends \Magento\Catalog\Model\Resource\Product\Indexer\Price\DefaultPrice
@@ -24,7 +17,7 @@ class Grouped
     /**
      * Reindex temporary (price result data) for all products
      *
-     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Price\Grouped
+     * @return \Magento\GroupedProduct\Model\Resource\Product\Indexer\Price\Grouped
      */
     public function reindexAll()
     {
@@ -44,7 +37,7 @@ class Grouped
      * Reindex temporary (price result data) for defined product(s)
      *
      * @param int|array $entityIds
-     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Price\Grouped
+     * @return \Magento\GroupedProduct\Model\Resource\Product\Indexer\Price\Grouped
      */
     public function reindexEntity($entityIds)
     {
@@ -58,7 +51,7 @@ class Grouped
      * Use calculated price for relation products
      *
      * @param int|array $entityIds  the parent entity ids limitation
-     * @return \Magento\Catalog\Model\Resource\Product\Indexer\Price\Grouped
+     * @return \Magento\GroupedProduct\Model\Resource\Product\Indexer\Price\Grouped
      */
     protected function _prepareGroupedProductPriceData($entityIds = null)
     {
@@ -69,7 +62,8 @@ class Grouped
             ->from(array('e' => $this->getTable('catalog_product_entity')), 'entity_id')
             ->joinLeft(
                 array('l' => $this->getTable('catalog_product_link')),
-                'e.entity_id = l.product_id AND l.link_type_id=' . \Magento\Catalog\Model\Product\Link::LINK_TYPE_GROUPED,
+                'e.entity_id = l.product_id AND l.link_type_id='
+                . \Magento\Catalog\Model\Product\Link::LINK_TYPE_GROUPED,
                 array())
             ->join(
                 array('cg' => $this->getTable('customer_group')),
