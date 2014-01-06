@@ -1785,4 +1785,24 @@ return array(
         'Magento\Catalog\Model\Product\Type\Grouped',
         'Magento\GroupedProduct\Model\Product\Type\Grouped'
     ),
+    array(
+        'Magento\Catalog\Block\Adminhtml\Product\Composite\Fieldset\Grouped',
+        'Magento\GroupedProduct\Block\Adminhtml\Product\Composite\Fieldset\Grouped'
+    ),
+    array(
+        'Magento\Catalog\Block\Adminhtml\Product\Edit\Tabs\Grouped',
+        'Magento\GroupedProduct\Block\Adminhtml\Product\Edit\Tabs\Grouped',
+    ),
+    array(
+        'Magento\Catalog\Block\Product\Grouped\AssociatedProducts',
+        'Magento\GroupedProduct\Block\Product\Grouped\AssociatedProducts',
+    ),
+    array(
+        'Magento\Catalog\Block\Product\Grouped\AssociatedProducts\ListAssociatedProducts',
+        'Magento\GroupedProduct\Block\Product\Grouped\AssociatedProducts\ListAssociatedProducts'
+    ),
+    array(
+        'Magento\Catalog\Block\Product\View\Type\Grouped',
+        'Magento\GroupedProduct\Block\Product\View\Type\Grouped'
+    )
 );

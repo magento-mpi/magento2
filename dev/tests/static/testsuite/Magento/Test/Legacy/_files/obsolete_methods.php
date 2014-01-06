@@ -384,6 +384,7 @@ return array(
     array('getIsEngineAvailable'),
     array('getIsGlobal', 'Magento\Eav\Model\Entity\Attribute\AbstractAttribute'),
     array('getIsInStock', 'Magento\Checkout\Block\Cart\Item\Renderer'),
+    array('getIsGrouped', 'Magento\Catalog\Block\Adminhtml\Product\Edit'),
     array('getItemRender', 'Magento\Checkout\Block\Cart\AbstractCart'),
     array('getItemRendererInfo', 'Magento\Checkout\Block\Cart\AbstractCart'),
     array('getKeyList', 'Magento\DB\Adapter\Pdo\Mysql'),
