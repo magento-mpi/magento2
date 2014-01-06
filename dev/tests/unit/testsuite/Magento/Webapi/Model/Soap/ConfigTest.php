@@ -113,6 +113,28 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $result = $this->_soapConfig->getRequestedSoapServices(array('moduleFooV1', 'moduleBarV2', 'moduleBazV1'));
         $this->assertEquals($expectedResult, $result);
     }
+
+    public function testGetServiceMethodInfo()
+    {
+        $expectedResult = array(
+            'class' => 'Magento\Module\Service\BarV1Interface',
+            'method' => 'someMethod',
+            'isSecure' => false,
+            'resources' => array('Magento_TestModule1::resource2')
+        );
+        $methodInfo = $this->_soapConfig->getServiceMethodInfo(
+            'moduleBarV1SomeMethod',
+            array('moduleBarV1', 'moduleBazV1')
+        );
+        $this->assertEquals($expectedResult, $methodInfo);
+    }
+
+    public function testGetSoapOperation()
+    {
+        $expectedResult = 'moduleFooV1SomeMethod';
+        $soapOperation = $this->_soapConfig->getSoapOperation('Magento\Module\Service\FooV1Interface', 'someMethod');
+        $this->assertEquals($expectedResult, $soapOperation);
+    }
 }
 
 require_once realpath(__DIR__ . '/../../_files/test_interfaces.php');
