@@ -11,11 +11,13 @@
     <module name="Magento_TargetRule" version="1.11.0.0.4" active="false">
         <sequence>
             <module name="Magento_Catalog"/>
+            <module name="Magento_GroupedProduct" />
             <module name="Magento_Rule"/>
         </sequence>
         <depends>
             <module name="Magento_Backend"/>
             <module name="Magento_Catalog"/>
+            <module name="Magento_GroupedProduct" />
             <module name="Magento_Rule"/>
             <module name="Magento_Core"/>
             <module name="Magento_Checkout"/>
