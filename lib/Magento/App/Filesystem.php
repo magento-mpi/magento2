@@ -136,5 +136,4 @@ class Filesystem extends \Magento\Filesystem
         $path = isset($config['path']) ? $config['path'] : '';
         return str_replace('\\', '/', $path);
     }
-
 }

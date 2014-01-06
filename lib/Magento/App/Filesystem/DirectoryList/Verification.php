@@ -11,24 +11,22 @@ namespace Magento\App\Filesystem\DirectoryList;
 
 use Magento\App\State,
     Magento\Filesystem\FilesystemException,
-    Magento\App\Filesystem as AppFilesystem;
+    Magento\App\Filesystem;
 
 class Verification
 {
     /**
      * Codes of directories to create and verify in production mode
      *
-     * @TODO temporary solution for constants
-     *
      * @var array
      */
     protected static $productionDirs = array(
-        AppFilesystem::MEDIA_DIR,
-        AppFilesystem::VAR_DIR,
-        AppFilesystem::TMP_DIR,
-        AppFilesystem::CACHE_DIR,
-        AppFilesystem::LOG_DIR,
-        AppFilesystem::SESSION_DIR,
+        Filesystem::MEDIA_DIR,
+        Filesystem::VAR_DIR,
+        Filesystem::TMP_DIR,
+        Filesystem::CACHE_DIR,
+        Filesystem::LOG_DIR,
+        Filesystem::SESSION_DIR,
     );
 
     /**
@@ -37,13 +35,13 @@ class Verification
      * @var array
      */
     protected static $nonProductionDirs = array(
-        AppFilesystem::MEDIA_DIR,
-        AppFilesystem::STATIC_VIEW_DIR,
-        AppFilesystem::VAR_DIR,
-        AppFilesystem::TMP_DIR,
-        AppFilesystem::CACHE_DIR,
-        AppFilesystem::LOG_DIR,
-        AppFilesystem::SESSION_DIR,
+        Filesystem::MEDIA_DIR,
+        Filesystem::STATIC_VIEW_DIR,
+        Filesystem::VAR_DIR,
+        Filesystem::TMP_DIR,
+        Filesystem::CACHE_DIR,
+        Filesystem::LOG_DIR,
+        Filesystem::SESSION_DIR,
     );
 
     /**
@@ -61,10 +59,11 @@ class Verification
     /**
      * Constructor - initialize object with required dependencies, determine application state
      *
-     * @param AppFilesystem $filesystem
+     * @param Filesystem $filesystem
      * @param State $appState
      */
-    public function __construct(AppFilesystem $filesystem, State $appState) {
+    public function __construct(Filesystem $filesystem, State $appState)
+    {
         $this->filesystem = $filesystem;
         $this->dirsToVerify = $this->_getDirsToVerify($appState);
     }

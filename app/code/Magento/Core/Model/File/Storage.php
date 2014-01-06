@@ -282,7 +282,7 @@ class Storage extends \Magento\Core\Model\AbstractModel
     public function getScriptConfig()
     {
         $config = array();
-        $config['media_directory'] = $this->filesystem->getPath(Filesystem::MEDIA);
+        $config['media_directory'] = $this->filesystem->getPath(Filesystem::MEDIA_DIR);
 
         $allowedResources = $this->_coreConfig->getValue(self::XML_PATH_MEDIA_RESOURCE_WHITELIST, 'default');
         foreach ($allowedResources as $allowedResource) {

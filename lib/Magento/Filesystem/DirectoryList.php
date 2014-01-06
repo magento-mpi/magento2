@@ -12,8 +12,7 @@
  */
 namespace Magento\Filesystem;
 
-use Magento\Filesystem,
-    Magento\App\Filesystem as AppFilesystem;
+use Magento\Filesystem;
 
 class DirectoryList
 {
@@ -27,33 +26,9 @@ class DirectoryList
     /**
      * Directories configurations
      *
-     * @TODO initialize directories from other method
-     *
      * @var array
      */
-    protected $directories = array(
-        AppFilesystem::ROOT_DIR => array('path' => ''),
-        AppFilesystem::APP_DIR => array('path' => 'app'),
-        AppFilesystem::MODULES_DIR => array('path' => 'app/code'),
-        AppFilesystem::THEMES_DIR => array('path' => 'app/design'),
-        AppFilesystem::CONFIG_DIR => array('path' => 'app/etc'),
-        AppFilesystem::LIB_DIR => array('path' => 'lib'),
-        AppFilesystem::VAR_DIR => array('path' => 'var'),
-        AppFilesystem::TMP_DIR => array('path' => 'var/tmp'),
-        AppFilesystem::CACHE_DIR => array('path' => 'var/cache'),
-        AppFilesystem::LOG_DIR => array('path' => 'var/log'),
-        AppFilesystem::SESSION_DIR => array('path' => 'var/session'),
-        AppFilesystem::DI_DIR => array('path' => 'var/di'),
-        AppFilesystem::GENERATION_DIR => array('path' => 'var/generation'),
-        AppFilesystem::HTTP => array('path' => null),
-        AppFilesystem::PUB_DIR => array('path' => 'pub'),
-        AppFilesystem::PUB_LIB_DIR => array('path' => 'pub/lib'),
-        AppFilesystem::MEDIA_DIR => array('path' => 'pub/media'),
-        AppFilesystem::UPLOAD_DIR => array('path' => 'pub/media/upload'),
-        AppFilesystem::STATIC_VIEW_DIR => array('path' => 'pub/static'),
-        AppFilesystem::PUB_VIEW_CACHE_DIR => array('path' => 'pub/cache'),
-        AppFilesystem::LOCALE_DIR => array('path' => '')
-    );
+    protected $directories = array();
 
     /**
      * @var array
@@ -63,53 +38,52 @@ class DirectoryList
     /**
      * @param string $root
      * @param array $directories
+     * @param ConfigurationInterface $configuration
      */
-    public function __construct($root, array $directories = array())
+    public function __construct($root, array $directories = array(), ConfigurationInterface $configuration = null)
     {
         $this->root = str_replace('\\', '/', $root);
 
-        foreach ($this->directories as $code => $configuration) {
-            if (!$this->isAbsolute($configuration['path'])) {
-                $this->directories[$code]['path'] = $this->makeAbsolute($configuration['path']);
+        foreach ($this->directories as $code => $directoryConfig) {
+            if (!$this->isAbsolute($directoryConfig['path'])) {
+                $this->directories[$code]['path'] = $this->makeAbsolute($directoryConfig['path']);
             }
         }
 
-        foreach ($directories as $code => $configuration) {
+        foreach ($directories as $code => $directoryConfig) {
             $baseConfiguration = isset($this->directories[$code]) ? $this->directories[$code] : array();
-            $this->directories[$code] = array_merge($baseConfiguration, $configuration);
+            $this->directories[$code] = array_merge($baseConfiguration, $directoryConfig);
 
-            if (isset($configuration['path'])) {
-                $this->setPath($code, $configuration['path']);
+            if (isset($directoryConfig['path'])) {
+                $this->setPath($code, $directoryConfig['path']);
             }
-            if (isset($configuration['uri'])) {
-                $this->setUri($code, $configuration['uri']);
+            if (isset($directoryConfig['uri'])) {
+                $this->setUri($code, $directoryConfig['uri']);
             }
         }
-
-        $this->directories[AppFilesystem::SYS_TMP_DIR] = array(
-            'path'              => sys_get_temp_dir(),
-            'read_only'         => false,
-            'allow_create_dirs' => true,
-            'permissions'       => 0777
-        );
+        $this->addDirectories($configuration);
     }
 
     /**
      * Add directory configuration
      *
-     * @param string $code
-     * @param array $configuration
+     * @param ConfigurationInterface|null $configuration
      */
-    public function addDirectory($code, array $configuration)
+    protected function addDirectories(ConfigurationInterface $configuration = null)
     {
-        if (!isset($configuration['path'])) {
-            $configuration['path'] = null;
+        if (!$configuration) {
+            return;
         }
-        if (!$this->isAbsolute($configuration['path'])) {
-            $configuration['path'] = $this->makeAbsolute($configuration['path']);
-        }
+        foreach ($configuration->getDirectories() as $code => $directoryConfig) {
+            if (!isset($directoryConfig['path'])) {
+                $directoryConfig['path'] = null;
+            }
+            if (!$this->isAbsolute($directoryConfig['path'])) {
+                $directoryConfig['path'] = $this->makeAbsolute($directoryConfig['path']);
+            }
 
-        $this->directories[$code] = $configuration;
+            $this->directories[$code] = $directoryConfig;
+        }
     }
 
     /**
