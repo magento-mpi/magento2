@@ -74,6 +74,9 @@
 /*
     Customer
 ---------------------------------------*/
+.customer-index-edit .grid tr.headings th > span {
+  white-space: normal;
+}
 #customer_info_tabs_account_content #_accountsendemail {
   margin-top: 8px;
 }
