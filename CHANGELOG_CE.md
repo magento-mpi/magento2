@@ -1,5 +1,4 @@
 * Fixed bugs:
-  * Fixed security issue - set `CURLOPT_SSL_VERIFYPEER` to `true` and `CURLOPT_SSL_VERIFYHOST` to 2 by default in cUrl calls
   * Fixed Exception Log Errors Invalid year
   * Fixed shipment with packages data corrupted functionality
   * Fixed unavailability to add gift wrapping for multiple items
@@ -33,11 +32,14 @@
   * Fixed PayPal Express: order can't be placed if HTTPS is used on frontend
   * Fixed security issue with user session on registration
   * Fixed CSRF vulnerability in checkout
+  * Fixed JavaScript static testing framework to properly handle corrupted paths in white/black lists
+  * Fixed error during Google Shopping synchronization due to invalid method call
   * Fixed product's status after a virtual product was duplicated
   * Fixed fatal error with attribute file from customer account page in backend
   * Updated comments for eliminating redirect when secure url is used
 * Various improvements:
   * Disabled PHP errors, notices and warnings output in production mode to prevent exposing sensitive information
+* Consolidated a few 3rd-party JavaScript libraries under `pub/lib` directory and specified their original license notice texts
 
 2.0.0.0-dev58
 =============
