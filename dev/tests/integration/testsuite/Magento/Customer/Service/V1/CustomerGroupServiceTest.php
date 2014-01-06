@@ -43,7 +43,7 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
     {
         /** @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService */
         $customerGroupService = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Customer\Service\CustomerGroupServiceInterface'
+            'Magento\Customer\Service\V1\CustomerGroupServiceInterface'
         );
         foreach ($customerGroupService->getGroups() as $group) {
             if ($group->getId() > 3) {

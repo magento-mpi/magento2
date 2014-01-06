@@ -72,7 +72,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
 
         $customerBuilder = new \Magento\Customer\Service\V1\Dto\CustomerBuilder();
 
-        $converter = new Converter($customerBuilder);
+        $converter = new Converter($customerBuilder, null);
         $customerDto = $converter->createCustomerFromModel($customerModelMock);
 
         $customerBuilder = new \Magento\Customer\Service\V1\Dto\CustomerBuilder();
@@ -102,7 +102,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $converter = new Converter($customerBuilder);
+        $converter = new Converter($customerBuilder, null);
         $converter->createCustomerFromModel($param);
     }
 

@@ -177,7 +177,7 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($firstName, $customerAfter->getFirstname());
         $this->assertEquals($lastname, $customerAfter->getLastname());
         $this->assertEquals('Admin', $customerAfter->getAttribute('created_in'));
-        $this->_service->authenticate(
+        $this->_accountService->authenticate(
             $customerAfter->getEmail(),
             'aPassword',
             true

@@ -38,7 +38,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $this->_service = $this->_objectManager->create('Magento\Customer\Service\V1\CustomerAccountInterface');
+        $this->_service = $this->_objectManager->create('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
         $this->_customerService = $this->_objectManager->create('Magento\Customer\Service\V1\CustomerServiceInterface');
 
         $this->_addressBuilder = $this->_objectManager->create('Magento\Customer\Service\V1\Dto\AddressBuilder');
@@ -209,7 +209,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/Customer/_files/customer.php
      *
      * @expectedException Exception
-     * @expectedExceptionCode \Magento\Customer\Service\CustomerV1Interface::CODE_RESET_TOKEN_EXPIRED
+     * @expectedExceptionCode \Magento\Customer\Service\Entity\V1\Exception::CODE_RESET_TOKEN_EXPIRED
      */
     public function testValidateResetPasswordLinkTokenExpired()
     {
@@ -220,7 +220,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/Customer/_files/customer.php
      *
      * @expectedException Exception
-     * @expectedExceptionCode \Magento\Customer\Service\CustomerV1Interface::CODE_INVALID_RESET_TOKEN
+     * @expectedExceptionCode \Magento\Customer\Service\Entity\V1\Exception::CODE_INVALID_RESET_TOKEN
      */
     public function testValidateResetPasswordLinkTokenInvalid()
     {
@@ -231,7 +231,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/Customer/_files/customer.php
      *
      * @expectedException Exception
-     * @expectedExceptionCode \Magento\Customer\Service\CustomerV1Interface::CODE_INVALID_CUSTOMER_ID
+     * @expectedExceptionCode \Magento\Customer\Service\Entity\V1\Exception::CODE_INVALID_CUSTOMER_ID
      * @expectedExceptionMessage No customer with customerId 4200 exists
      */
     public function testValidateResetPasswordLinkTokenWrongUser()
@@ -246,7 +246,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/Customer/_files/customer.php
      *
      * @expectedException Exception
-     * @expectedExceptionCode \Magento\Customer\Service\CustomerV1Interface::CODE_INVALID_RESET_TOKEN
+     * @expectedExceptionCode \Magento\Customer\Service\Entity\V1\Exception::CODE_INVALID_RESET_TOKEN
      * @expectedExceptionMessage Invalid password reset token
      */
     public function testValidateResetPasswordLinkTokenNull()
@@ -269,7 +269,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/Customer/_files/customer.php
      *
      * @expectedException Exception
-     * @expectedExceptionCode \Magento\Customer\Service\CustomerV1Interface::CODE_EMAIL_NOT_FOUND
+     * @expectedExceptionCode \Magento\Customer\Service\Entity\V1\Exception::CODE_EMAIL_NOT_FOUND
      * @expectedExceptionMessage No customer found for the provided email and website ID
      */
     public function testSendPasswordResetLinkBadEmailOrWebsite()
@@ -300,7 +300,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/Customer/_files/customer.php
      *
      * @expectedException Exception
-     * @expectedExceptionCode \Magento\Customer\Service\CustomerV1Interface::CODE_RESET_TOKEN_EXPIRED
+     * @expectedExceptionCode \Magento\Customer\Service\Entity\V1\Exception::CODE_RESET_TOKEN_EXPIRED
      * @expectedExceptionMessage Your password reset link has expired.
      */
     public function testResetPasswordTokenExpired()
@@ -321,7 +321,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/Customer/_files/customer.php
      *
      * @expectedException Exception
-     * @expectedExceptionCode \Magento\Customer\Service\CustomerV1Interface::CODE_RESET_TOKEN_EXPIRED
+     * @expectedExceptionCode \Magento\Customer\Service\Entity\V1\Exception::CODE_RESET_TOKEN_EXPIRED
      * @expectedExceptionMessage Your password reset link has expired.
      */
     public function testResetPasswordTokenInvalid()
@@ -343,7 +343,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/Customer/_files/customer.php
      *
      * @expectedException Exception
-     * @expectedExceptionCode \Magento\Customer\Service\CustomerV1Interface::CODE_INVALID_CUSTOMER_ID
+     * @expectedExceptionCode \Magento\Customer\Service\Entity\V1\Exception::CODE_INVALID_CUSTOMER_ID
      * @expectedExceptionMessage No customer with customerId 4200 exists
      */
     public function testResetPasswordTokenWrongUser()
@@ -364,7 +364,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/Customer/_files/customer.php
      *
      * @expectedException Exception
-     * @expectedExceptionCode \Magento\Customer\Service\CustomerV1Interface::CODE_INVALID_RESET_TOKEN
+     * @expectedExceptionCode \Magento\Customer\Service\Entity\V1\Exception::CODE_INVALID_RESET_TOKEN
      * @expectedExceptionMessage Invalid password reset token
      */
     public function testResetPasswordTokenInvalidUserId()
@@ -395,7 +395,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/Customer/_files/customer.php
      *
      * @expectedException Exception
-     * @expectedExceptionCode \Magento\Customer\Service\CustomerV1Interface::CODE_EMAIL_NOT_FOUND
+     * @expectedExceptionCode \Magento\Customer\Service\Entity\V1\Exception::CODE_EMAIL_NOT_FOUND
      */
     public function testSendConfirmationNoEmail()
     {
@@ -406,7 +406,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/Customer/_files/customer.php
      *
      * @expectedException Exception
-     * @expectedExceptionCode \Magento\Customer\Service\CustomerV1Interface::CODE_CONFIRMATION_NOT_NEEDED
+     * @expectedExceptionCode \Magento\Customer\Service\Entity\V1\Exception::CODE_CONFIRMATION_NOT_NEEDED
      */
     public function testSendConfirmationNotNeeded()
     {

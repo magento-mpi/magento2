@@ -5,7 +5,7 @@ use Magento\Customer\Service\V1;
 use Magento\Customer\Service\Entity\V1\Exception;
 
 /**
- * Integration test for service layer \Magento\Customer\Service\CustomerV1
+ * Integration test for service layer \Magento\Customer\Service\V1\CustomerAddressService
  *
  * {license_notice}
  *
@@ -35,7 +35,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $this->_service = $this->_objectManager->create('Magento\Customer\Service\V1\CustomerAddressInterface');
+        $this->_service = $this->_objectManager->create('Magento\Customer\Service\V1\CustomerAddressServiceInterface');
 
         $this->_addressBuilder = $this->_objectManager->create('Magento\Customer\Service\V1\Dto\AddressBuilder');
         $this->_customerBuilder = $this->_objectManager->create('Magento\Customer\Service\V1\Dto\CustomerBuilder');
@@ -181,7 +181,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/Customer/_files/customer.php
      *
      * @expectedException Exception
-     * @expectedExceptionCode \Magento\Customer\Service\CustomerV1Interface::CODE_ADDRESS_NOT_FOUND
+     * @expectedExceptionCode \Magento\Customer\Service\Entity\V1\Exception::CODE_ADDRESS_NOT_FOUND
      */
     public function testGetAddressByIdBadAddrId()
     {
@@ -465,7 +465,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/Customer/_files/customer.php
      *
      * @expectedException Exception
-     * @expectedExceptionCode \Magento\Customer\Service\CustomerV1Interface::CODE_ADDRESS_NOT_FOUND
+     * @expectedExceptionCode \Magento\Customer\Service\Entity\V1\Exception::CODE_ADDRESS_NOT_FOUND
      */
     public function testDeleteAddressFromCustomerBadAddrId()
     {
@@ -477,7 +477,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/Customer/_files/customer.php
      *
      * @expectedException Exception
-     * @expectedExceptionCode \Magento\Customer\Service\CustomerV1Interface::CODE_INVALID_ADDRESS_ID
+     * @expectedExceptionCode \Magento\Customer\Service\Entity\V1\Exception::CODE_INVALID_ADDRESS_ID
      */
     public function testDeleteAddressFromCustomerAddrIdNotSet()
     {
@@ -489,7 +489,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/Customer/_files/customer.php
      * @magentoDataFixture Magento/Customer/_files/customer_two_addresses.php
      * @expectedException Exception
-     * @expectedExceptionCode \Magento\Customer\Service\CustomerV1Interface::CODE_CUSTOMER_ID_MISMATCH
+     * @expectedExceptionCode \Magento\Customer\Service\Entity\V1\Exception::CODE_CUSTOMER_ID_MISMATCH
      */
     public function testDeleteAddressFromCustomerBadCustMismatch()
     {
@@ -544,8 +544,8 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         // Either both set or both unset
         $this->assertTrue(!(isset($expectedRegion) xor isset($actualRegion)));
         if (isset($expectedRegion) && isset($actualRegion)) {
-            $this->assertInstanceOf('Magento\Customer\Service\Entity\V1\Region', $expectedRegion);
-            $this->assertInstanceOf('Magento\Customer\Service\Entity\V1\Region', $actualRegion);
+            $this->assertInstanceOf('Magento\Customer\Service\V1\Dto\Region', $expectedRegion);
+            $this->assertInstanceOf('Magento\Customer\Service\V1\Dto\Region', $actualRegion);
             $this->assertEquals($expectedRegion->__toArray(), $actualRegion->__toArray());
         }
     }

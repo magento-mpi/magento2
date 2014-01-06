@@ -57,7 +57,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
         foreach ($attributes as $attributeCode => $attributeValue) {
             $this->assertNotNull($attributeCode);
             $this->assertNotNull($attributeValue);
-            $attributeMetadata = $this->_customerService->getCustomerAttributeMetadata($attributeCode);
+            $attributeMetadata = $this->_service->getCustomerAttributeMetadata($attributeCode);
             $attrMetadataCode = $attributeMetadata->getAttributeCode();
             $this->assertSame($attributeCode, $attrMetadataCode);
             if (($key = array_search($attrMetadataCode, $expectAttrsWOutVals)) !== false) {
@@ -78,8 +78,8 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testAttributeMetadataCached()
     {
-        $firstCallMetadata = $this->_customerService->getAddressAttributeMetadata('firstname');
-        $secondCallMetadata = $this->_customerService->getAddressAttributeMetadata('firstname');
+        $firstCallMetadata = $this->_service->getAddressAttributeMetadata('firstname');
+        $secondCallMetadata = $this->_service->getAddressAttributeMetadata('firstname');
 
         $this->assertSame($firstCallMetadata, $secondCallMetadata);
 
