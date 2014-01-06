@@ -45,7 +45,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         $index = 0;
         $expectedPaths = array(
             array(3, '1/2/3'), array(6, '1/2/6'), array(7, '1/2/7'),
-            array(9, '1/2/9'), array(10, '1/2/10'),
+            array(9, '1/2/9'), array(10, '1/2/10'), array(10, '1/2/11'),
         );
         foreach ($categories as $category) {
             $this->assertInstanceOf('Magento\Data\Tree\Node', $category);
