@@ -278,7 +278,6 @@ class ComplexTypeStrategy extends AbstractComplexTypeStrategy
     protected function _processElementType($elementType, $documentation, \DOMElement $appInfoNode)
     {
         if ($elementType == 'int') {
-            //TODO: Check if these are really needed. All it does is generate blank inf:min and inf:max
             $this->_processRequiredAnnotation('min', $documentation, $appInfoNode);
             $this->_processRequiredAnnotation('max', $documentation, $appInfoNode);
         }
