@@ -1,35 +1,48 @@
 <?php
-
-
-namespace Magento\Customer\Model;
-
 /**
- * Customer Model converter.
- *
- * Converts a Customer Model to a DTO.
- * TODO Remove this class after service refactoring is done and the model
- * is no longer needed outside of service.  Then this funciton could be moved to the
- * service.
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+namespace Magento\Customer\Model;
+
+use Magento\Customer\Service\Entity\V1\Exception;
+use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
+
+/**
+ * Customer Model converter.
+ *
+ * Converts a Customer Model to a DTO.
+ *
+ * TODO: Remove this class after service refactoring is done and the model
+ * TODO: is no longer needed outside of service.  Then this function could
+ * TODO: be moved to the service.
+ */
 class Converter
 {
     /**
-     * @var \Magento\Customer\Service\Entity\V1\CustomerBuilder
+     * @var \Magento\Customer\Service\V1\Dto\CustomerBuilder
      */
     protected $_customerBuilder;
 
     /**
-     * @param \Magento\Customer\Service\Entity\V1\CustomerBuilder $customerBuilder
+     * @var CustomerFactory
+     */
+    protected $_customerFactory;
+
+    /**
+     * @param CustomerFactory $customerFactory
+     * @param \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder
      */
     public function __construct(
-        \Magento\Customer\Service\Entity\V1\CustomerBuilder $customerBuilder
+        \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder,
+        \Magento\Customer\Model\CustomerFactory $customerFactory
     ) {
         $this->_customerBuilder = $customerBuilder;
+        $this->_customerFactory = $customerFactory;
     }
 
     /**
@@ -37,7 +50,7 @@ class Converter
      *
      * @param \Magento\Customer\Model\Customer $customerModel
      * @throws \InvalidArgumentException
-     * @return \Magento\Customer\Service\Entity\V1\Customer
+     * @return \Magento\Customer\Service\V1\Dto\Customer
      */
     public function createCustomerFromModel($customerModel)
     {
@@ -52,10 +65,70 @@ class Converter
         return $this->_customerBuilder->create();
     }
 
+
+    /**
+     * @param int $customerId
+     * @throws Exception If customerId is not found or other error occurs.
+     * @return Customer
+     */
+    public function getCustomerModel($customerId)
+    {
+        try {
+            $customer = $this->_customerFactory->create()->load($customerId);
+        } catch (\Exception $e) {
+            throw new Exception($e->getMessage(), $e->getCode(), $e);
+        }
+
+        if (!$customer->getId()) {
+            // customer does not exist
+            throw new Exception(
+                'No customer with customerId ' . $customerId . ' exists.',
+                Exception::CODE_INVALID_CUSTOMER_ID
+            );
+        } else {
+            return $customer;
+        }
+    }
+
+
+    /**
+     * Creates a customer model from a customer entity.
+     *
+     * @param \Magento\Customer\Service\V1\Dto\Customer $customer
+     * @return Customer
+     */
+    public function createCustomerModel(\Magento\Customer\Service\V1\Dto\Customer $customer)
+    {
+        $customerModel = $this->_customerFactory->create();
+
+        $attributes = $customer->getAttributes();
+        foreach ($attributes as $attributeCode => $attributeValue) {
+            // avoid setting password through set attribute
+            if ($attributeCode == 'password') {
+                continue;
+            } else {
+                $customerModel->setData($attributeCode, $attributeValue);
+            }
+        }
+
+        $customerId = $customer->getCustomerId();
+        if ($customerId) {
+            $customerModel->setId($customerId);
+        }
+
+        // Need to use attribute set or future updates can cause data loss
+        if (!$customerModel->getAttributeSetId()) {
+            $customerModel->setAttributeSetId(CustomerMetadataServiceInterface::CUSTOMER_ATTRIBUTE_SET_ID);
+            return $customerModel;
+        }
+
+        return $customerModel;
+    }
+
     /**
      * Loads the values from a customer model
      *
-     * @param \Magento\Customer\Service\Entity\V1\CustomerBuilder $customerBuilder
+     * @param \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder
      * @param \Magento\Customer\Model\Customer $customerModel
      */
     protected function _convertAttributesFromModel($customerBuilder, $customerModel)

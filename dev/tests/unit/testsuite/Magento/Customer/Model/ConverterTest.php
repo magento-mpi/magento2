@@ -70,12 +70,12 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             ->method('getData')
             ->will($this->returnValueMap($map));
 
-        $customerBuilder = new \Magento\Customer\Service\Entity\V1\CustomerBuilder();
+        $customerBuilder = new \Magento\Customer\Service\V1\Dto\CustomerBuilder();
 
         $converter = new Converter($customerBuilder);
         $customerDto = $converter->createCustomerFromModel($customerModelMock);
 
-        $customerBuilder = new \Magento\Customer\Service\Entity\V1\CustomerBuilder();
+        $customerBuilder = new \Magento\Customer\Service\V1\Dto\CustomerBuilder();
         $customerData = [
             'firstname' => 'Tess',
             'email' => 'ttester@example.com',

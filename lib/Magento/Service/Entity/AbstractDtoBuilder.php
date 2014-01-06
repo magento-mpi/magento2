@@ -26,7 +26,7 @@ abstract class AbstractDtoBuilder
      * Populates the fields with an existing entity.
      *
      * @param \Magento\Service\Entity\AbstractDto $prototype the prototype to base on
-     * @return AbstractDto
+     * @return $this
      */
     public function populate(\Magento\Service\Entity\AbstractDto $prototype)
     {

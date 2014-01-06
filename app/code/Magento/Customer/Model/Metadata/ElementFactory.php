@@ -37,14 +37,14 @@ class ElementFactory
     /**
      * Create Form Element
      *
-     * @param \Magento\Customer\Service\Entity\V1\Eav\AttributeMetadata $attribute
+     * @param \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute
      * @param $value
      * @param $entityTypeCode
      * @param bool $isAjax
      * @return \Magento\Customer\Model\Metadata\Form\AbstractData
      */
     public function create(
-        \Magento\Customer\Service\Entity\V1\Eav\AttributeMetadata $attribute,
+        \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute,
         $value,
         $entityTypeCode,
         $isAjax = false

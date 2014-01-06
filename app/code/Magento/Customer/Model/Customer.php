@@ -160,7 +160,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
     protected $_attributeFactory;
 
     /**
-     * @var \Magento\Customer\Service\CustomerGroupV1Interface
+     * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
      */
     protected $_groupService;
 
@@ -193,7 +193,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Customer\Model\Resource\Address\CollectionFactory $addressesFactory
      * @param \Magento\Email\Model\Template\MailerFactory $mailerFactory
      * @param \Magento\Email\Model\InfoFactory $emailInfoFactory
-     * @param \Magento\Customer\Service\CustomerGroupV1Interface $groupService
+     * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService
      * @param \Magento\Customer\Model\AttributeFactory $attributeFactory
      * @param \Magento\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Math\Random $mathRandom
@@ -215,7 +215,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
         \Magento\Customer\Model\Resource\Address\CollectionFactory $addressesFactory,
         \Magento\Email\Model\Template\MailerFactory $mailerFactory,
         \Magento\Email\Model\InfoFactory $emailInfoFactory,
-        \Magento\Customer\Service\CustomerGroupV1Interface $groupService,
+        \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService,
         \Magento\Customer\Model\AttributeFactory $attributeFactory,
         \Magento\Encryption\EncryptorInterface $encryptor,
         \Magento\Math\Random $mathRandom,
