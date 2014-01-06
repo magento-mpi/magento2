@@ -32,8 +32,11 @@
   * Fixed PayPal Express: order can't be placed if HTTPS is used on frontend
   * Fixed security issue with user session on registration
   * Fixed CSRF vulnerability in checkout
+  * Fixed JavaScript static testing framework to properly handle corrupted paths in white/black lists
+  * Fixed error during Google Shopping synchronization due to invalid method call
 * Various improvements:
   * Disabled PHP errors, notices and warnings output in production mode to prevent exposing sensitive information
+* Consolidated a few 3rd-party JavaScript libraries under `pub/lib` directory and specified their original license notice texts
 
 2.0.0.0-dev58
 =============
@@ -111,12 +114,6 @@
   * Fixed target rule if it is applied for specific customer segment
   * Fixed product importing that cleared price and weight
   * Fixed fatal error when a file reference is added to HTML head
-  * Fixed JavaScript static testing framework to properly handle corrupted paths in white/black lists
-  * Fixed fatal Error on page if print order for Downloadable product
-  * Fixed 'Same as shipping' checkbox to be selected after returning from PayPal side
-  * Fixed preview of Email Templates shows blank page
-  * Fixed no possibility to create refund from Paypal side.
-  * Fixed occurrences of non-existent resource model Mage_Catalog_Model_Resource_Convert
 * GitHub requests:
   * [#122](https://github.com/magento/magento2/pull/122) -- Added support of federal units of Brazil with 27 states
   * [#184](https://github.com/magento/magento2/issues/184) -- Removed unused blocks and methods in Magento_Wishlist module
@@ -125,7 +122,6 @@
   * Responsive design improvements
 * Improvements in code coverage calculation:
   * Code coverage calculation approach for unit tests was changed from blacklist to whitelist
-* Consolidated a few 3rd-party JavaScript libraries under `pub/lib` directory and specified their original license notice texts
 
 2.0.0.0-dev57
 =============
