@@ -37,8 +37,9 @@ interface RendererInterface
     /**
      * Render address
      *
-     * @param \Magento\Customer\Model\Address\AbstractAddress $address
-     * @return mixed
+     * @param array $addressAttributes
+     * @param \Magento\Directory\Model\Country\Format $format
+     * @return string
      */
-    function render(\Magento\Customer\Model\Address\AbstractAddress $address);
+    public function render($addressAttributes, $format = null);
 }

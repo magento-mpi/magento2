@@ -10,6 +10,8 @@
 
 namespace Magento\Customer\Block\Widget;
 
+use Magento\Customer\Service\Entity\V1\Customer;
+
 class Name extends \Magento\Customer\Block\Widget\AbstractWidget
 {
     /**
@@ -19,20 +21,20 @@ class Name extends \Magento\Customer\Block\Widget\AbstractWidget
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Customer\Helper\Address $addressHelper
+     * @param \Magento\Customer\Service\Eav\AttributeMetadataServiceV1Interface $attributeMetadata,
      * @param \Magento\Customer\Helper\Data $customerHelper
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Eav\Model\Config $eavConfig,
         \Magento\Customer\Helper\Address $addressHelper,
+        \Magento\Customer\Service\Eav\AttributeMetadataServiceV1Interface $attributeMetadata,
         \Magento\Customer\Helper\Data $customerHelper,
         array $data = array()
     ) {
         $this->_customerHelper = $customerHelper;
-        parent::__construct($context, $eavConfig, $addressHelper, $data);
+        parent::__construct($context, $addressHelper, $attributeMetadata, $data);
     }
 
     public function _construct()
@@ -176,15 +178,17 @@ class Name extends \Magento\Customer\Block\Widget\AbstractWidget
      * Retrieve customer or customer address attribute instance
      *
      * @param string $attributeCode
-     * @return \Magento\Customer\Model\Attribute|false
+     * @return \Magento\Customer\Service\Entity\V1\Eav\AttributeMetadata
      */
     protected function _getAttribute($attributeCode)
     {
-        if ($this->getForceUseCustomerAttributes() || $this->getObject() instanceof \Magento\Customer\Model\Customer) {
+        if ($this->getForceUseCustomerAttributes()
+            || $this->getObject() instanceof \Magento\Customer\Model\Customer
+            || $this->getObject() instanceof Customer) {
             return parent::_getAttribute($attributeCode);
         }
 
-        $attribute = $this->_eavConfig->getAttribute('customer_address', $attributeCode);
+        $attribute = $this->_attributeMetadata->getAttributeMetadata('customer_address', $attributeCode);
 
         if ($this->getForceUseCustomerRequiredAttributes() && $attribute && !$attribute->getIsRequired()) {
             $customerAttribute = parent::_getAttribute($attributeCode);

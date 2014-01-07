@@ -299,6 +299,7 @@ return array(
     array('getAclPrivilegeSet', 'Magento\Admin\Model\Config'),
     array('getAclResourceList', 'Magento\Admin\Model\Config'),
     array('getAclResourceTree', 'Magento\Admin\Model\Config'),
+    array('getAddress', 'Magento\Customer\Block\Form\Register'),
     array('getAddNewButtonHtml', 'Magento\Backend\Block\Catalog\Product'),
     array('getAddNewButtonHtml', 'Magento\Eav\Block\Adminhtml\Attribute\Edit\Options\AbstractOptions'),
     array('getAddToCartItemUrl', 'Magento\Wishlist\Block\Customer\Sidebar'),

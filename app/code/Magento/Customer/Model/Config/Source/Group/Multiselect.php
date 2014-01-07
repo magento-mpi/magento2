@@ -20,16 +20,25 @@ class Multiselect implements \Magento\Core\Model\Option\ArrayInterface
     protected $_options;
 
     /**
-     * @var \Magento\Customer\Model\Resource\Group\CollectionFactory
+     * @var \Magento\Customer\Service\CustomerGroupV1Interface
      */
-    protected $_groupsFactory;
+    protected $_groupService;
 
     /**
-     * @param \Magento\Customer\Model\Resource\Group\CollectionFactory $groupsFactory
+     * @var \Magento\Convert\Object
      */
-    public function __construct(\Magento\Customer\Model\Resource\Group\CollectionFactory $groupsFactory)
-    {
-        $this->_groupsFactory = $groupsFactory;
+    protected $_converter;
+
+    /**
+     * @param \Magento\Customer\Service\CustomerGroupV1Interface $groupService
+     * @param \Magento\Convert\Object $converter
+     */
+    public function __construct(
+        \Magento\Customer\Service\CustomerGroupV1Interface $groupService,
+        \Magento\Convert\Object $converter
+    ) {
+        $this->_groupService = $groupService;
+        $this->_converter = $converter;
     }
 
     /**
@@ -40,16 +49,9 @@ class Multiselect implements \Magento\Core\Model\Option\ArrayInterface
     public function toOptionArray()
     {
         if (!$this->_options) {
-            $this->_options = $this->_getCustomerGroupsCollection()->setRealGroupsFilter()->loadData()->toOptionArray();
+            $groups = $this->_groupService->getGroups(FALSE);
+            $this->_options = $this->_converter->toOptionArray($groups, 'id', 'code');
         }
         return $this->_options;
-    }
-
-    /**
-     * @return \Magento\Customer\Model\Resource\Group\Collection
-     */
-    protected function _getCustomerGroupsCollection()
-    {
-        return $this->_groupsFactory->create();
     }
 }

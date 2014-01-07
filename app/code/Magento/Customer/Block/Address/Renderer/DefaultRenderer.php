@@ -18,6 +18,8 @@
  */
 namespace Magento\Customer\Block\Address\Renderer;
 
+use Magento\Customer\Model\Metadata\ElementFactory;
+
 class DefaultRenderer
     extends \Magento\View\Element\AbstractBlock
     implements \Magento\Customer\Block\Address\Renderer\RendererInterface
@@ -30,31 +32,37 @@ class DefaultRenderer
     protected $_type;
 
     /**
-     * Customer address
-     *
-     * @var \Magento\Customer\Helper\Address
-     */
-    protected $_customerAddress = null;
-
-    /**
-     * @var \Magento\Eav\Model\AttributeDataFactory
+     * @var ElementFactory
      */
     protected $_attrDataFactory;
 
     /**
+     * @var \Magento\Directory\Model\CountryFactory
+     */
+    protected $_countryFactory;
+
+    /**
+     * @var \Magento\Customer\Service\CustomerV1Interface
+     */
+    protected $_customerService;
+
+    /**
      * @param \Magento\View\Element\Context $context
-     * @param \Magento\Customer\Helper\Address $customerAddress
-     * @param \Magento\Eav\Model\AttributeDataFactory $attrDataFactory
+     * @param \Magento\Customer\Model\Metadata\ElementFactory $attrDataFactory
+     * @param \Magento\Directory\Model\CountryFactory $countryFactory,
+     * @param \Magento\Customer\Service\CustomerV1Interface $customerService
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Context $context,
-        \Magento\Customer\Helper\Address $customerAddress,
-        \Magento\Eav\Model\AttributeDataFactory $attrDataFactory,
+        \Magento\Customer\Model\Metadata\ElementFactory $attrDataFactory,
+        \Magento\Directory\Model\CountryFactory $countryFactory,
+        \Magento\Customer\Service\CustomerV1Interface $customerService,
         array $data = array()
     ) {
-        $this->_customerAddress = $customerAddress;
         $this->_attrDataFactory = $attrDataFactory;
+        $this->_countryFactory = $countryFactory;
+        $this->_customerService = $customerService;
         parent::__construct($context, $data);
     }
 
@@ -80,11 +88,20 @@ class DefaultRenderer
         return $this;
     }
 
-    public function getFormat(\Magento\Customer\Model\Address\AbstractAddress $address=null)
+    /**
+     * Get a format object for a given address, based on the type set earlier.
+     *
+     * @param null $addressAttributes
+     * @return \Magento\Directory\Model\Country\Format
+     */
+    public function getFormat($addressAttributes = null)
     {
-        $countryFormat = is_null($address)
-            ? false
-            : $address->getCountryModel()->getFormat($this->getType()->getCode());
+        $countryFormat = false;
+        if ($addressAttributes && isset($addressAttributes['country_id'])) {
+            /** @var \Magento\Directory\Model\Country $country */
+            $country = $this->_countryFactory->create()->load($addressAttributes['country_id']);
+            $countryFormat = $country->getFormat($this->getType()->getCode());
+        }
         $format = $countryFormat ? $countryFormat->getFormat() : $this->getType()->getDefaultFormat();
         return $format;
     }
@@ -92,10 +109,11 @@ class DefaultRenderer
     /**
      * Render address
      *
-     * @param \Magento\Customer\Model\Address\AbstractAddress $address
+     * @param array $addressAttributes
+     * @param \Magento\Directory\Model\Country\Format $format
      * @return string
      */
-    public function render(\Magento\Customer\Model\Address\AbstractAddress $address, $format=null)
+    public function render($addressAttributes, $format = null)
     {
         switch ($this->getType()->getCode()) {
             case 'html':
@@ -112,40 +130,38 @@ class DefaultRenderer
                 break;
         }
 
-        $attributes = $this->_customerAddress->getAttributes();
-
+        $attributesMetadata = $this->_customerService->getAllAddressAttributeMetadata();
         $data = array();
-        foreach ($attributes as $attribute) {
-            /* @var $attribute \Magento\Customer\Model\Attribute */
-            if (!$attribute->getIsVisible()) {
+        foreach ($attributesMetadata as $attributeMetadata) {
+            if (!$attributeMetadata->getIsVisible()) {
                 continue;
             }
-            if ($attribute->getAttributeCode() == 'country_id') {
-                $data['country'] = $address->getCountryModel()->getName();
-            } else if ($attribute->getAttributeCode() == 'region') {
-                $data['region'] = __($address->getRegion());
-            } else {
-                $dataModel = $this->_attrDataFactory->create($attribute, $address);
+            $attributeCode = $attributeMetadata->getAttributeCode();
+            if ($attributeCode == 'country_id' && isset($addressAttributes['country_id'])) {
+                $data['country'] = $this->_countryFactory->create(['id' => $addressAttributes['country_id']])->getName();
+            } elseif ($attributeCode == 'region' && isset($addressAttributes['region'])) {
+                $data['region'] = __($addressAttributes['region']);
+            } elseif (isset($addressAttributes[$attributeCode])) {
+                $value = $addressAttributes[$attributeCode];
+                $dataModel = $this->_attrDataFactory->create($attributeMetadata, $value, 'customer_address');
                 $value     = $dataModel->outputValue($dataFormat);
-                if ($attribute->getFrontendInput() == 'multiline') {
+                if ($attributeMetadata->getFrontendInput() == 'multiline') {
                     $values    = $dataModel->outputValue(\Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_ARRAY);
                     // explode lines
                     foreach ($values as $k => $v) {
-                        $key = sprintf('%s%d', $attribute->getAttributeCode(), $k + 1);
+                        $key = sprintf('%s%d', $attributeCode, $k + 1);
                         $data[$key] = $v;
                     }
                 }
-                $data[$attribute->getAttributeCode()] = $value;
+                $data[$attributeCode] = $value;
             }
         }
-
         if ($this->getType()->getEscapeHtml()) {
             foreach ($data as $key => $value) {
                 $data[$key] = $this->escapeHtml($value);
             }
         }
-        $format = !is_null($format) ? $format : $this->getFormat($address);
-
+        $format = !is_null($format) ? $format : $this->getFormat($addressAttributes);
         return $this->filterManager->template($format, array('variables' => $data));
     }
 }

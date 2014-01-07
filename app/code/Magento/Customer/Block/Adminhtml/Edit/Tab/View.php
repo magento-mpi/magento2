@@ -40,9 +40,9 @@ class View
     protected $_modelVisitor;
 
     /**
-     * @var \Magento\Customer\Model\GroupFactory
+     * @var \Magento\Customer\Service\CustomerGroupV1Interface
      */
-    protected $_groupFactory;
+    protected $_groupService;
 
     /**
      * @var \Magento\Log\Model\CustomerFactory
@@ -53,10 +53,10 @@ class View
      * @var \Magento\Stdlib\DateTime
      */
     protected $dateTime;
-
+    
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Customer\Model\GroupFactory $groupFactory
+     * @param \Magento\Customer\Service\CustomerGroupV1Interface $groupService
      * @param \Magento\Log\Model\CustomerFactory $logFactory
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Log\Model\Visitor $modelVisitor
@@ -65,7 +65,7 @@ class View
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Customer\Model\GroupFactory $groupFactory,
+        \Magento\Customer\Service\CustomerGroupV1Interface $groupService,
         \Magento\Log\Model\CustomerFactory $logFactory,
         \Magento\Core\Model\Registry $registry,
         \Magento\Log\Model\Visitor $modelVisitor,
@@ -74,7 +74,7 @@ class View
     ) {
         $this->_coreRegistry = $registry;
         $this->_modelVisitor = $modelVisitor;
-        $this->_groupFactory = $groupFactory;
+        $this->_groupService = $groupService;
         $this->_logFactory = $logFactory;
         $this->dateTime = $dateTime;
         parent::__construct($context, $data);
@@ -98,9 +98,7 @@ class View
     {
         $groupId = $this->getCustomer()->getGroupId();
         if ($groupId) {
-            return $this->_groupFactory->create()
-                ->load($groupId)
-                ->getCustomerGroupCode();
+            return $this->_groupService->getGroup($groupId)->getCode();
         }
     }
 

@@ -49,6 +49,25 @@ class Address extends \Magento\App\Action\Action
      */
     protected $_formKeyValidator;
 
+
+    /** @var \Magento\Customer\Service\CustomerV1 */
+    protected $_customerService;
+
+    /**
+     * @var FormFactory
+     */
+    protected $_formFactory;
+
+    /**
+     * @var \Magento\Customer\Service\Entity\V1\RegionBuilder
+     */
+    protected $_regionBuilder;
+
+    /**
+     * @var \Magento\Customer\Service\Entity\V1\AddressBuilder
+     */
+    protected $_addressBuilder;
+
     /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
@@ -56,6 +75,9 @@ class Address extends \Magento\App\Action\Action
      * @param \Magento\Customer\Model\Address\FormFactory $addressFormFactory
      * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
+     * @param \Magento\Customer\Service\CustomerV1 $customerService
+     * @param \Magento\Customer\Model\Metadata\FormFactory $formFactory
+     * @param \Magento\Customer\Service\Entity\V1\RegionBuilder $regionBuilder
      */
     public function __construct(
         \Magento\App\Action\Context $context,
@@ -63,13 +85,21 @@ class Address extends \Magento\App\Action\Action
         \Magento\Customer\Model\AddressFactory $addressFactory,
         \Magento\Customer\Model\Address\FormFactory $addressFormFactory,
         \Magento\Customer\Helper\Data $customerData,
-        \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
+        \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
+        \Magento\Customer\Service\CustomerV1 $customerService,
+        \Magento\Customer\Model\Metadata\FormFactory $formFactory,
+        \Magento\Customer\Service\Entity\V1\RegionBuilder $regionBuilder,
+        \Magento\Customer\Service\Entity\V1\AddressBuilder $addressBuilder
     ) {
         $this->_customerSession = $customerSession;
         $this->_addressFactory = $addressFactory;
         $this->_addressFormFactory = $addressFormFactory;
         $this->_customerData = $customerData;
         $this->_formKeyValidator = $formKeyValidator;
+        $this->_customerService = $customerService;
+        $this->_formFactory = $formFactory;
+        $this->_regionBuilder = $regionBuilder;
+        $this->_addressBuilder = $addressBuilder;
         parent::__construct($context);
     }
 
@@ -102,7 +132,8 @@ class Address extends \Magento\App\Action\Action
      */
     public function indexAction()
     {
-        if (count($this->_getSession()->getCustomer()->getAddresses())) {
+        $addresses = $this->_customerService->getAddresses($this->_getSession()->getCustomerId());
+        if (count($addresses)) {
             $this->_view->loadLayout();
             $this->_view->getLayout()->initMessages();
 
@@ -154,24 +185,10 @@ class Address extends \Magento\App\Action\Action
             $this->getResponse()->setRedirect($this->_redirect->error($this->_buildUrl('*/*/edit')));
             return;
         }
-
+        $customerId = $this->_getSession()->getCustomerId();
         try {
             $address = $this->_extractAddress();
-            $this->_validateAddress($address);
-            $address->save();
-
-            // set in VAT observer
-            if ($address->getVatValidationResult()) {
-                $validationMessage = $this->_customerData->getVatValidationUserMessage(
-                    $address,
-                    $this->_getSession()->getCustomer()->getDisableAutoGroupChange(),
-                    $address->getVatValidationResult()
-                );
-                $validationMessage->getIsError()
-                    ? $this->messageManager->addError($validationMessage->getMessage())
-                    : $this->messageManager->addSuccess($validationMessage->getMessage());
-            }
-
+            $this->_customerService->saveAddresses($customerId, [$address]);
             $this->messageManager->addSuccess(__('The address has been saved.'));
             $url = $this->_buildUrl('*/*/index', array('_secure'=>true));
             $this->getResponse()->setRedirect($this->_redirect->success($url));
@@ -214,25 +231,35 @@ class Address extends \Magento\App\Action\Action
      */
     protected function _extractAddress()
     {
-        $customer = $this->_getSession()->getCustomer();
-        /* @var \Magento\Customer\Model\Address $address */
-        $address  = $this->_createAddress();
+        $customerId = $this->_getSession()->getCustomerId();
         $addressId = $this->getRequest()->getParam('id');
+        $existingAddressData = [];
         if ($addressId) {
-            $existsAddress = $customer->getAddressById($addressId);
-            if ($existsAddress->getId() && $existsAddress->getCustomerId() == $customer->getId()) {
-                $address->load($existsAddress->getId());
+            $existingAddress = $this->_customerService->getAddressById($customerId, $addressId);
+            if ($existingAddress->getId()) {
+                $existingAddressData = $existingAddress->__toArray();
             }
         }
-        /* @var \Magento\Customer\Model\Form $addressForm */
-        $addressForm = $this->_createAddressForm();
-        $addressForm->setFormCode('customer_address_edit')
-            ->setEntity($address);
+
+        /** @var \Magento\Customer\Model\Metadata\Form $addressForm */
+        $addressForm = $this->_formFactory->create(
+            'customer_address',
+            'customer_address_edit',
+            $address->getAttributes()
+        );
         $addressData = $addressForm->extractData($this->getRequest());
-        $addressForm->compactData($addressData);
-        $address->setCustomerId($customer->getId())
-            ->setIsDefaultBilling($this->getRequest()->getParam('default_billing', false))
-            ->setIsDefaultShipping($this->getRequest()->getParam('default_shipping', false));
+        $attributeValues = $addressForm->compactData($addressData);
+        $region = $regionBuilder->setRegionCode('')
+            ->setRegion($attributeValues['region'])
+            ->setRegionId($attributeValues['region_id'])
+            ->create();
+        unset($attributeValues['region'], $attributeValues['region_id']);
+
+        $this->_addressBuilder->populateWithArray(array_merge($existingAddressData, $attributeValues));
+        $address
+            ->setRegion($region)
+            ->setDefaultBilling($this->getRequest()->getParam('default_billing', false))
+            ->setDefaultShipping($this->getRequest()->getParam('default_shipping', false));
         return $address;
     }
 

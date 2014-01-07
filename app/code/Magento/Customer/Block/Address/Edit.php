@@ -13,8 +13,14 @@
  */
 namespace Magento\Customer\Block\Address;
 
+use Magento\Customer\Service\Entity\V1\Address;
+use Magento\Customer\Service\Entity\V1\Customer;
+
 class Edit extends \Magento\Directory\Block\Data
 {
+    /**
+     * @var Address
+     */
     protected $_address;
     protected $_countryCollection;
     protected $_regionCollection;
@@ -30,9 +36,9 @@ class Edit extends \Magento\Directory\Block\Data
     protected $_customerSession;
 
     /**
-     * @var \Magento\Customer\Model\AddressFactory
+     * @var \Magento\Customer\Service\CustomerV1Interface
      */
-    protected $_addressFactory;
+    protected $_customerService;
 
     /**
      * @param \Magento\View\Element\Template\Context $context
@@ -43,7 +49,7 @@ class Edit extends \Magento\Directory\Block\Data
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Customer\Model\AddressFactory $addressFactory
+     * @param \Magento\Customer\Service\CustomerV1Interface $customerService
      * @param array $data
      */
     public function __construct(
@@ -55,12 +61,12 @@ class Edit extends \Magento\Directory\Block\Data
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory,
         \Magento\Core\Model\Config $config,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Customer\Model\AddressFactory $addressFactory,
+        \Magento\Customer\Service\CustomerV1Interface $customerService,
         array $data = array()
     ) {
         $this->_config = $config;
         $this->_customerSession = $customerSession;
-        $this->_addressFactory = $addressFactory;
+        $this->_customerService = $customerService;
         parent::__construct(
             $context, $coreData, $jsonEncoder, $configCacheType, $regionCollFactory, $countryCollFactory, $data
         );
@@ -69,14 +75,18 @@ class Edit extends \Magento\Directory\Block\Data
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
-        $this->_address = $this->_createAddress();
 
         // Init address object
-        if ($id = $this->getRequest()->getParam('id')) {
-            $this->_address->load($id);
-            if ($this->_address->getCustomerId() != $this->_customerSession->getCustomerId()) {
-                $this->_address->setData(array());
+        if ($addressId = $this->getRequest()->getParam('id')) {
+            $customerId = $this->_customerSession->getCustomerId();
+            try {
+                $this->_address = $this->_customerService->getAddressById($customerId, $addressId);
+            } catch (\Magento\Customer\Service\Entity\V1\Exception $e) {
+                // something went wrong, but we are ignore it for now
+                $this->_address = $this->_createAddress();
             }
+        } else {
+            $this->_address = $this->_createAddress();
         }
 
         if (!$this->_address->getId()) {
@@ -92,7 +102,9 @@ class Edit extends \Magento\Directory\Block\Data
         }
 
         if ($postedData = $this->_customerSession->getAddressFormData(true)) {
-            $this->_address->addData($postedData);
+            foreach ($postedData as $key => $value) {
+                $this->_address->setAttribute($key, $value);
+            }
         }
     }
 
@@ -139,9 +151,15 @@ class Edit extends \Magento\Directory\Block\Data
 
     public function getSaveUrl()
     {
-        return $this->_urlBuilder->getUrl('customer/address/formPost', array('_secure'=>true, 'id'=>$this->getAddress()->getId()));
+        return $this->_urlBuilder->getUrl(
+            'customer/address/formPost',
+            array('_secure'=>true, 'id'=>$this->getAddress()->getId())
+        );
     }
 
+    /**
+     * @return Address
+     */
     public function getAddress()
     {
         return $this->_address;
@@ -157,7 +175,7 @@ class Edit extends \Magento\Directory\Block\Data
 
     public function getRegionId()
     {
-        return $this->getAddress()->getRegionId();
+        return $this->getAddress()->getRegion()->getRegionId();
     }
 
     public function getCustomerAddressCount()
@@ -178,24 +196,29 @@ class Edit extends \Magento\Directory\Block\Data
         if (!$this->getAddress()->getId()) {
             return $this->getCustomerAddressCount();
         }
-        return !$this->isDefaultShipping();;
+        return !$this->isDefaultShipping();
     }
 
     public function isDefaultBilling()
     {
-        $defaultBilling = $this->_customerSession->getCustomer()->getDefaultBilling();
+        $defaultBilling = $this->_customerService
+            ->getDefaultBillingAddress($this->_customerSession->getCustomerId());
         return $this->getAddress()->getId() && $this->getAddress()->getId() == $defaultBilling;
     }
 
     public function isDefaultShipping()
     {
-        $defaultShipping = $this->_customerSession->getCustomer()->getDefaultShipping();
+        $defaultShipping = $this->_customerService
+            ->getDefaultShippingAddress($this->_customerSession->getCustomerId());
         return $this->getAddress()->getId() && $this->getAddress()->getId() == $defaultShipping;
     }
 
+    /**
+     * @return Customer
+     */
     public function getCustomer()
     {
-        return $this->_customerSession->getCustomer();
+        return $this->_customerService->getCustomer($this->_customerSession->getId());
     }
 
     public function getBackButtonUrl()
@@ -219,10 +242,10 @@ class Edit extends \Magento\Directory\Block\Data
     }
 
     /**
-     * @return \Magento\Customer\Model\Address
+     * @return Address
      */
     protected function _createAddress()
     {
-        return $this->_addressFactory->create();
+        return new Address();
     }
 }

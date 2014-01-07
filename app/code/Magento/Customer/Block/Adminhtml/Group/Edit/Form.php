@@ -52,25 +52,26 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
 
+        /** @var \Magento\Customer\Service\Entity\V1\CustomerGroup $customerGroup */
         $customerGroup = $this->_coreRegistry->registry('current_group');
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Group Information')));
 
         $validateClass = sprintf('required-entry validate-length maximum-length-%d',
-            \Magento\Customer\Model\Group::GROUP_CODE_MAX_LENGTH);
+            \Magento\Customer\Service\CustomerGroupV1Interface::GROUP_CODE_MAX_LENGTH);
         $name = $fieldset->addField('customer_group_code', 'text',
             array(
                 'name'  => 'code',
                 'label' => __('Group Name'),
                 'title' => __('Group Name'),
                 'note'  => __('Maximum length must be less then %1 symbols',
-                    \Magento\Customer\Model\Group::GROUP_CODE_MAX_LENGTH),
+                    \Magento\Customer\Service\CustomerGroupV1Interface::GROUP_CODE_MAX_LENGTH),
                 'class' => $validateClass,
                 'required' => true,
             )
         );
 
-        if ($customerGroup->getId()==0 && $customerGroup->getCustomerGroupCode() ) {
+        if ($customerGroup->getId()==0 && $customerGroup->getCode() ) {
             $name->setDisabled(true);
         }
 
@@ -99,7 +100,12 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             $form->addValues($this->_backendSession->getCustomerGroupData());
             $this->_backendSession->setCustomerGroupData(null);
         } else {
-            $form->addValues($customerGroup->getData());
+            // TODO: need to figure out how the DTOs can work with forms
+            $form->addValues([
+                'id'                  => $customerGroup->getId(),
+                'customer_group_code' => $customerGroup->getCode(),
+                'tax_class_id'        => $customerGroup->getTaxClassId(),
+            ]);
         }
 
         $form->setUseContainer(true);

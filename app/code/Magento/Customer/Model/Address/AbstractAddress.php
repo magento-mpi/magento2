@@ -266,8 +266,8 @@ class AbstractAddress extends \Magento\Core\Model\AbstractModel
     public function explodeStreetAddress()
     {
         $streetLines = $this->getStreet();
-        foreach ($streetLines as $i=>$line) {
-            $this->setData('street'.($i+1), $line);
+        foreach ($streetLines as $i => $line) {
+            $this->setData('street' . ($i+1), $line);
         }
         return $this;
     }
@@ -283,8 +283,8 @@ class AbstractAddress extends \Magento\Core\Model\AbstractModel
         $region   = $this->getData('region');
 
         if ($regionId) {
-               if ($this->getRegionModel($regionId)->getCountryId() == $this->getCountryId()) {
-                   $region = $this->getRegionModel($regionId)->getName();
+            if ($this->getRegionModel($regionId)->getCountryId() == $this->getCountryId()) {
+                $region = $this->getRegionModel($regionId)->getName();
                 $this->setData('region', $region);
             }
         }
@@ -400,7 +400,7 @@ class AbstractAddress extends \Magento\Core\Model\AbstractModel
             return null;
         }
         $this->_eventManager->dispatch('customer_address_format', array('type' => $formatType, 'address' => $this));
-        return $formatType->getRenderer()->render($this);
+        return $formatType->getRenderer()->render($this->toArray());
     }
 
     /**
