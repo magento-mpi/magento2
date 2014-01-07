@@ -28,7 +28,7 @@ class Session extends \Magento\Session\SessionManager
         \Magento\Session\StorageInterface $storage
     ) {
         parent::__construct($request, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage);
-        $this->start();
+        $this->start('adminhtml');
     }
 
     /**

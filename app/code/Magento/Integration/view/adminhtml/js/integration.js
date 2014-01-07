@@ -153,16 +153,14 @@
                 // Check to see if the location has changed.
                 try {
                     //Is the success callback invoked
-                    IdentityLogin.isCalledBack = IdentityLogin.win.location.href == IdentityLogin.successCallbackUrl;
-                    if (IdentityLogin.win.closed || IdentityLogin.isCalledBack) {
+                    if (IdentityLogin.win.closed ||
+                        (IdentityLogin.win.location.href == IdentityLogin.successCallbackUrl)) {
                         //Stop the the polling
                         clearInterval(IdentityLogin.checker);
-                        if (IdentityLogin.isCalledBack) {
-                            $('body').trigger('processStart');
-                            //Check for window closed
-                            window.location.reload();
-                            IdentityLogin.jqInfoDialog.dialog('close');
-                        }
+                        $('body').trigger('processStart');
+                        //Check for window closed
+                        window.location.reload();
+                        IdentityLogin.jqInfoDialog.dialog('close');
                     }
                 } catch (e) {
                     //squash. In case Window closed without success callback, clear polling

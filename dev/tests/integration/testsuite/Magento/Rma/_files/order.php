@@ -44,6 +44,7 @@ $order->addItem($orderItem)
     ->setSubtotal(100)
     ->setBaseSubtotal(100)
     ->setCustomerIsGuest(true)
+    ->setCustomerEmail('admin@example.com')
     ->setBillingAddress($billingAddress)
     ->setShippingAddress($shippingAddress)
     ->setStoreId(

@@ -66,4 +66,11 @@ interface ReadInterface
      * @return bool
      */
     public function close();
+
+    /**
+     * Get file properties.
+     *
+     * @return array
+     */
+    public function stat();
 }
