@@ -13,7 +13,7 @@ namespace Magento\Sales\Test\TestCase;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\Checkout\Test\Fixture\Checkout;
+use Magento\Sales\Test\Fixture\OrderCheckout;
 
 /**
  * Class CloseOrderTest
@@ -23,15 +23,16 @@ use Magento\Checkout\Test\Fixture\Checkout;
 class CloseOrderTest extends Functional
 {
     /**
-     * Close orders
+     * Test the closing of sales order for various payment methods.
      *
      * @ZephyrId MAGETWO-12434
      * @ZephyrId MAGETWO-12833
+     * @ZephyrId MAGETWO-13015
      * 
      * @dataProvider dataProviderOrder
-     * @param Checkout $fixture
+     * @param OrderCheckout $fixture
      */
-    public function testCloseOrder(Checkout $fixture)
+    public function testCloseOrder(OrderCheckout $fixture)
     {
         $fixture->persist();
         //Data
@@ -107,7 +108,8 @@ class CloseOrderTest extends Functional
     {
         return array(
             array(Factory::getFixtureFactory()->getMagentoSalesPaypalExpressOrder()),
-            array(Factory::getFixtureFactory()->getMagentoSalesAuthorizeNetOrder())
+            array(Factory::getFixtureFactory()->getMagentoSalesAuthorizeNetOrder()),
+            array(Factory::getFixtureFactory()->getMagentoSalesPaypalPaymentsProOrder())
         );
     }
 }

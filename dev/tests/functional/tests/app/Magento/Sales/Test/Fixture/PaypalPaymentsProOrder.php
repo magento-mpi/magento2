@@ -14,20 +14,19 @@ namespace Magento\Sales\Test\Fixture;
 use Mtf\Factory\Factory;
 
 /**
- * Class AuthorizeNetOrder
- * Guest checkout using Authorize.Net
+ * Class PaypalPaymentsProOrder
+ * Guest checkout using PayPal Payments Pro method
  *
- * @ZephyrId MAGETWO-12833
  * @package Magento\Sales\Test\Fixture
  */
-class AuthorizeNetOrder extends OrderCheckout
+class PaypalPaymentsProOrder extends OrderCheckout
 {
     /**
-     * Prepare data for guest checkout using Authorize.Net.
+     * Prepare data for guest checkout using Paypal Payments Pro.
      */
     protected function _initData()
     {
-        $this->checkoutFixture = Factory::getFixtureFactory()->getMagentoCheckoutGuestAuthorizenet();
+        $this->checkoutFixture = Factory::getFixtureFactory()->getMagentoCheckoutGuestPaypalDirect();
         //Verification data
         $this->_data = array(
             'totals' => array(
