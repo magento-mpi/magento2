@@ -8,16 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Wishlist\Controller;
+
+use Magento\App\Action\Context;
 
 /**
  * Wishlist Abstract Front Controller Action
- *
- * @category    Magento
- * @package     Magento_Wishlist
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Wishlist\Controller;
-
 abstract class AbstractController extends \Magento\App\Action\Action
 {
     /**
@@ -25,6 +22,23 @@ abstract class AbstractController extends \Magento\App\Action\Action
      * @var \Zend_Filter_LocalizedToNormalized
      */
     protected $_localFilter = null;
+
+    /**
+     * @var \Magento\Core\App\Action\FormKeyValidator
+     */
+    protected $_formKeyValidator;
+
+    /**
+     * @param Context $context
+     * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
+     */
+    public function __construct(
+        \Magento\App\Action\Context $context,
+        \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
+    ) {
+        $this->_formKeyValidator = $formKeyValidator;
+        parent::__construct($context);
+    }
 
     /**
      * Processes localized qty (entered by user at frontend) into internal php format
@@ -55,10 +69,14 @@ abstract class AbstractController extends \Magento\App\Action\Action
 
     /**
      * Add all items from wishlist to shopping cart
-     *
      */
     public function allcartAction()
     {
+        if (!$this->_formKeyValidator->validate($this->getRequest())) {
+            $this->_forward('noroute');
+            return ;
+        }
+
         $wishlist   = $this->_getWishlist();
         if (!$wishlist) {
             $this->_forward('noroute');
@@ -98,10 +116,15 @@ abstract class AbstractController extends \Magento\App\Action\Action
             } catch (\Magento\Core\Exception $e) {
                 if ($e->getCode() == \Magento\Wishlist\Model\Item::EXCEPTION_CODE_NOT_SALABLE) {
                     $notSalable[] = $item;
-                } else if ($e->getCode() == \Magento\Wishlist\Model\Item::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS) {
+                } elseif ($e->getCode() == \Magento\Wishlist\Model\Item::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS) {
                     $hasOptions[] = $item;
                 } else {
                     $messages[] = __('%1 for "%2".', trim($e->getMessage(), '.'), $item->getProduct()->getName());
+                }
+
+                $cartItem = $cart->getQuote()->getItemByProduct($item->getProduct());
+                if ($cartItem) {
+                    $cart->getQuote()->deleteItem($cartItem);
                 }
             } catch (\Exception $e) {
                 $this->_objectManager->get('Magento\Logger')->logException($e);
@@ -117,7 +140,7 @@ abstract class AbstractController extends \Magento\App\Action\Action
         }
         if ($this->_objectManager->get('Magento\Checkout\Helper\Cart')->getShouldRedirectToCart()) {
             $redirectUrl = $this->_objectManager->get('Magento\Checkout\Helper\Cart')->getCartUrl();
-        } else if ($this->_redirect->getRefererUrl()) {
+        } elseif ($this->_redirect->getRefererUrl()) {
             $redirectUrl = $this->_redirect->getRefererUrl();
         } else {
             $redirectUrl = $indexUrl;
@@ -159,8 +182,7 @@ abstract class AbstractController extends \Magento\App\Action\Action
             // save wishlist model for setting date of last update
             try {
                 $wishlist->save();
-            }
-            catch (\Exception $e) {
+            } catch (\Exception $e) {
                 $this->messageManager->addError(__('We can\'t update wish list.'));
                 $redirectUrl = $indexUrl;
             }
@@ -173,10 +195,10 @@ abstract class AbstractController extends \Magento\App\Action\Action
             $this->messageManager->addSuccess(
                 __('%1 product(s) have been added to shopping cart: %2.', count($addedItems), join(', ', $products))
             );
-        }
-        // save cart and collect totals
-        $cart->save()->getQuote()->collectTotals();
 
+            // save cart and collect totals
+            $cart->save()->getQuote()->collectTotals();
+        }
         $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
 
         $this->getResponse()->setRedirect($redirectUrl);

@@ -131,7 +131,7 @@ class Session
      */
     protected function _forward(\Magento\App\RequestInterface $request)
     {
-        $request->initForwared();
+        $request->initForward();
         $request->setActionName('noCookies');
         $request->setControllerName('index');
         $request->setModuleName('core');

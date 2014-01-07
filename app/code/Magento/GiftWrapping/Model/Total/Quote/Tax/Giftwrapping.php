@@ -194,8 +194,8 @@ class Giftwrapping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTota
             $item->setGwBaseTaxAmount($wrappingBaseTaxAmount);
             $item->setGwTaxAmount($wrappingTaxAmount);
 
-            $wrappingForItemsBaseTaxAmount += $wrappingBaseTaxAmount;
-            $wrappingForItemsTaxAmount += $wrappingTaxAmount;
+            $wrappingForItemsBaseTaxAmount += $wrappingBaseTaxAmount * $item->getQty();
+            $wrappingForItemsTaxAmount += $wrappingTaxAmount * $item->getQty();
         }
         $address->setGwItemsBaseTaxAmount($wrappingForItemsBaseTaxAmount);
         $address->setGwItemsTaxAmount($wrappingForItemsTaxAmount);

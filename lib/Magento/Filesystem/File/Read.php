@@ -171,4 +171,12 @@ class Read implements ReadInterface
     {
         return $this->driver->fileClose($this->resource);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function stat()
+    {
+        return $this->driver->stat($this->path);
+    }
 }

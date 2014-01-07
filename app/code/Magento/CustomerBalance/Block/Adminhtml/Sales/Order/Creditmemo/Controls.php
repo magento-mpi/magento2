@@ -14,32 +14,32 @@
  */
 namespace Magento\CustomerBalance\Block\Adminhtml\Sales\Order\Creditmemo;
 
-class Controls
- extends \Magento\View\Element\Template
+use Magento\Core\Model\Registry;
+use Magento\View\Element\Template;
+use Magento\View\Element\Template\Context;
+
+class Controls extends Template
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param Context $context
+     * @param Registry $registry
      * @param array $data
      */
-    public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        array $data = array()
-    ) {
+    public function __construct(Context $context, Registry $registry, array $data = array())
+    {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
     }
 
     /**
-     * Check whether refund to customerbalance is available
+     * Check whether refund to customer balance is available
      *
      * @return bool
      */
@@ -69,13 +69,20 @@ class Controls
     }
 
     /**
-     * Prepopulate amount to be refunded to customerbalance
+     * Populate amount to be refunded to customer balance
      *
      * @return float
      */
     public function getReturnValue()
     {
         $max = $this->_coreRegistry->registry('current_creditmemo')->getCustomerBalanceReturnMax();
+
+        //We want to subtract the reward balance when returning to the customer
+        $rewardCurrencyBalance = $this->_coreRegistry->registry('current_creditmemo')->getRewardCurrencyAmount();
+        if ($rewardCurrencyBalance > 0 && $rewardCurrencyBalance < $max) {
+            $max = $max - $rewardCurrencyBalance;
+        }
+
         if ($max) {
             return $max;
         }

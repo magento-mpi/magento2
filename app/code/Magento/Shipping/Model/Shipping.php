@@ -74,7 +74,7 @@ class Shipping
     /**
      * @var \Magento\Shipping\Model\Rate\RequestFactory
      */
-    protected $_rateRequestFactory;
+    protected $_shipmentRequestFactory;
 
     /**
      * @var \Magento\Directory\Model\RegionFactory
@@ -92,7 +92,7 @@ class Shipping
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Shipping\Model\Carrier\Factory $carrierFactory
      * @param \Magento\Shipping\Model\Rate\ResultFactory $rateResultFactory
-     * @param \Magento\Shipping\Model\Rate\RequestFactory $rateRequestFactory
+     * @param \Magento\Shipping\Model\Shipment\RequestFactory $shipmentRequestFactory
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Math\Division $mathDivision
      */
@@ -102,7 +102,7 @@ class Shipping
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Shipping\Model\Carrier\Factory $carrierFactory,
         \Magento\Shipping\Model\Rate\ResultFactory $rateResultFactory,
-        \Magento\Shipping\Model\Rate\RequestFactory $rateRequestFactory,
+        \Magento\Shipping\Model\Shipment\RequestFactory $shipmentRequestFactory,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Math\Division $mathDivision
     ) {
@@ -111,7 +111,7 @@ class Shipping
         $this->_storeManager = $storeManager;
         $this->_carrierFactory = $carrierFactory;
         $this->_rateResultFactory = $rateResultFactory;
-        $this->_rateRequestFactory = $rateRequestFactory;
+        $this->_shipmentRequestFactory = $shipmentRequestFactory;
         $this->_regionFactory = $regionFactory;
         $this->mathDivision = $mathDivision;
     }
@@ -425,7 +425,7 @@ class Shipping
     public function collectRatesByAddress(\Magento\Object $address, $limitCarrier = null)
     {
         /** @var $request \Magento\Shipping\Model\Rate\Request */
-        $request = $this->_rateRequestFactory->create();
+        $request = $this->_shipmentRequestFactory->create();
         $request->setAllItems($address->getAllItems());
         $request->setDestCountryId($address->getCountryId());
         $request->setDestRegionId($address->getRegionId());

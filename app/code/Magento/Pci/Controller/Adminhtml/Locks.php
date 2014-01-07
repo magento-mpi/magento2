@@ -50,8 +50,7 @@ class Locks extends \Magento\Backend\App\Action
             $userIds = $this->getRequest()->getPost('unlock');
             if ($userIds && is_array($userIds)) {
                 $affectedUsers = $this->_objectManager->get('Magento\Pci\Model\Resource\Admin\User')->unlock($userIds);
-                $this->_objectManager->get('Magento\Backend\Model\Session')
-                        ->addSuccess(__('Unlocked %1 user(s).', $affectedUsers));
+                $this->getMessageManager()->addSuccess(__('Unlocked %1 user(s).', $affectedUsers));
             }
         }
         catch (\Exception $e) {

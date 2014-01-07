@@ -52,7 +52,7 @@ class Http extends File
      */
     public function stat($path)
     {
-        $headers = array_change_key_case(get_headers($path, 1), CASE_LOWER);
+        $headers = array_change_key_case(get_headers($this->getScheme() . $path, 1), CASE_LOWER);
 
         $result = array(
             'dev'         => 0,
@@ -86,7 +86,7 @@ class Http extends File
     public function fileGetContents($path, $flags = null, $context = null)
     {
         clearstatcache();
-        $result = @file_get_contents($path, $flags, $context);
+        $result = @file_get_contents($this->getScheme() . $path, $flags, $context);
         if (!$result) {
             throw new FilesystemException(
                 sprintf(
@@ -110,7 +110,7 @@ class Http extends File
      */
     public function filePutContents($path, $content, $mode = null, $context = null)
     {
-        $result = @file_put_contents($path, $content, $mode, $context);
+        $result = @file_put_contents($this->getScheme() . $path, $content, $mode, $context);
         if (!$result) {
             throw new FilesystemException(
                 sprintf(
@@ -133,12 +133,9 @@ class Http extends File
     public function fileOpen($path, $mode)
     {
         $urlProp = parse_url($this->getScheme() . $path);
-        if (!isset($urlProp['scheme']) || strtolower($urlProp['scheme'] != 'http')) {
-            throw new FilesystemException(__('Please correct the download URL scheme.'));
-        }
 
-        if (!isset($urlProp['host'])) {
-            throw new FilesystemException(__('Please correct the download URL host.'));
+        if (false === $urlProp) {
+            throw new FilesystemException(__('Please correct the download URL.'));
         }
 
         $hostname = $urlProp['host'];
@@ -157,11 +154,7 @@ class Http extends File
             $query = '?' . $urlProp['query'];
         }
 
-        try {
-            $result = fsockopen($hostname, $port, $errorNumber, $errorMessage);
-        } catch (\Exception $e) {
-            throw new FilesystemException($e->getMessage());
-        }
+        $result = @fsockopen($hostname, $port, $errorNumber, $errorMessage);
 
         if ($result === false) {
             throw new FilesystemException(

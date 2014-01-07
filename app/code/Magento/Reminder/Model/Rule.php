@@ -67,7 +67,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     protected $collectionFactory;
 
     /**
-     * @var \Magento\Email\Model\Template
+     * @var \Magento\Email\Model\TemplateFactory
      */
     protected $emailTemplateFactory;
 
@@ -108,7 +108,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Reminder\Model\Rule\Condition\Combine\RootFactory $rootFactory
      * @param \Magento\Rule\Model\Action\CollectionFactory $collectionFactory
-     * @param \Magento\Email\Model\Template $emailTemplateFactory
+     * @param \Magento\Email\Model\TemplateFactory $emailTemplateFactory
      * @param \Magento\Core\Model\Translate $translate
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -127,7 +127,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Reminder\Model\Rule\Condition\Combine\RootFactory $rootFactory,
         \Magento\Rule\Model\Action\CollectionFactory $collectionFactory,
-        \Magento\Email\Model\Template $emailTemplateFactory,
+        \Magento\Email\Model\TemplateFactory $emailTemplateFactory,
         \Magento\Core\Model\Translate $translate,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -301,7 +301,6 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         $threshold   = $this->_reminderData->getSendFailureThreshold();
         $currentDate = $this->dateFactory->create()->date('Y-m-d');
         $rules       = $this->getCollection()->addDateFilter($currentDate)->addIsActiveFilter(1);
-
         if ($this->getRuleId()) {
             $rules->addRuleFilter($this->getRuleId());
         }

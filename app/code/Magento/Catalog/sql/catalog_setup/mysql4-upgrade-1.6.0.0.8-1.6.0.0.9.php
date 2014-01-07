@@ -8,6 +8,9 @@
  * @license     {license_link}
  */
 
+/** @var $installer \Magento\Catalog\Model\Resource\Setup */
+$installer = $this;
+
 /** @var $this \Magento\Catalog\Model\Resource\Setup */
 $installFile = __DIR__ . '/upgrade-1.6.0.0.8-1.6.0.0.9.php';
 

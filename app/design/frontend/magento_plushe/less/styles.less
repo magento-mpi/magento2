@@ -346,11 +346,23 @@ body {
             font-weight: @baseFontWeightLighter;
             font-size: 20px;
         }
+        .qty.counter {
+            font-size: 16px;
+        }
     }
     &.filter {
         .item {
             margin-bottom: 10px;
         }
+    }
+}
+
+.qty.counter {
+    &:before {
+        content: "(";
+    }
+    &:after {
+        content: ")";
     }
 }
 
@@ -2587,6 +2599,10 @@ body {
         min-height: @height;
         text-align: center;
         padding: 0 4px;
+        &:before,
+        &:after {
+            content: "";
+        }
     }
     .qty.empty {
         display: none;
@@ -2928,6 +2944,10 @@ span.widget.link {
     }
     .cell.attribute {
         font-size: @baseFontSizeMiddle;
+        img {
+            max-width: 100%;
+            height: auto;
+        }
     }
     td:last-child {
         border-right: 1px solid @primary2;
