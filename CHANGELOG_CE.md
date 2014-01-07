@@ -1,4 +1,6 @@
 * Fixed bugs:
+  * Fixed category move is not changing position in case if $afterCategoryId is null
+  * Fixed admin users locked out after lognum update
   * Fixed products from non-default website aren't shown as bundle items
   * Fixed placing order with status Pending Payment instead of Processing when payment method Authorize.net is used
   * Fixed PayPal Express: order can't be placed if HTTPS is used on frontend
