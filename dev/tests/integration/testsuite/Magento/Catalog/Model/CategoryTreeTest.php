@@ -31,6 +31,12 @@ class CategoryTreeTest extends \PHPUnit_Framework_TestCase
             ->create('Magento\Catalog\Model\Category');
     }
 
+    /**
+     * Load category
+     *
+     * @param $categoryId
+     * @return Category
+     */
     protected function loadCategory($categoryId)
     {
         $this->_model->setData(array());
@@ -44,7 +50,7 @@ class CategoryTreeTest extends \PHPUnit_Framework_TestCase
         $category = $this->loadCategory(9);
         $category->move(6, null);
         $category = $this->loadCategory(9);
-        $this->assertEquals(1, $category->getPosition(), 'Positing must be 1, if $afterCategoryId was null|false|0');
+        $this->assertEquals(1, $category->getPosition(), 'Position must be 1, if $afterCategoryId was null|false|0');
         $category = $this->loadCategory(10);
         $this->assertEquals(5, $category->getPosition(), 'Category 10 position must decrease after Category 9 moved');
         $category = $this->loadCategory(11);
