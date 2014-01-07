@@ -39,7 +39,8 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
     {
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_service = $this->_objectManager->create('Magento\Customer\Service\V1\CustomerServiceInterface');
-        $this->_accountService = $this->_objectManager->create('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
+        $this->_accountService = $this->_objectManager
+            ->create('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
 
         $this->_addressBuilder = $this->_objectManager->create('Magento\Customer\Service\V1\Dto\AddressBuilder');
         $this->_customerBuilder = $this->_objectManager->create('Magento\Customer\Service\V1\Dto\CustomerBuilder');

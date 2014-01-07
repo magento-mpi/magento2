@@ -7,9 +7,15 @@
  */
 
 namespace Magento\Customer\Service\V1;
-use Magento\Customer\Service\V1;
-use Magento\Customer\Service\Entity;
 
+/**
+ * \Magento\Customer\Service\V1\CustomerAccountService
+ *
+ * @SuppressWarnings(PHPMD.TooManyMethods)
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
+ * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 {
 
@@ -61,39 +67,39 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Event\ManagerInterface
      */
-    protected $_eventManagerMock;
+    private $_eventManagerMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Core\Model\StoreManagerInterface
      */
-    protected $_storeManagerMock;
+    private $_storeManagerMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Math\Random
      */
-    protected $_mathRandomMock;
+    private $_mathRandomMock;
 
     /**
      * @var \Magento\Customer\Model\Converter
      */
-    protected $_converter;
+    private $_converter;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Core\Model\Store
      */
-    protected $_storeMock;
+    private $_storeMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\Dto\AddressBuilder
      */
-    protected $_addressBuilder;
+    private $_addressBuilder;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\Dto\CustomerBuilder
      */
-    protected $_customerBuilder;
+    private $_customerBuilder;
 
-    protected $_validator;
+    private $_validator;
 
     private $_customerServiceMock;
 
@@ -202,11 +208,11 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->_addressBuilder = new Dto\AddressBuilder(
-            new V1\Dto\RegionBuilder());
+            new Dto\RegionBuilder());
 
-        $this->_customerBuilder = new V1\Dto\CustomerBuilder();
+        $this->_customerBuilder = new Dto\CustomerBuilder();
 
-        $customerBuilder = new V1\Dto\CustomerBuilder();
+        $customerBuilder = new Dto\CustomerBuilder();
 
         $this->_converter = new \Magento\Customer\Model\Converter($customerBuilder, $this->_customerFactoryMock);
 
@@ -999,7 +1005,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $this->_mathRandomMock,
             $this->_converter,
             $this->_validator,
-            new V1\Dto\Response\CreateCustomerAccountResponseBuilder(),
+            new Dto\Response\CreateCustomerAccountResponseBuilder(),
             $this->_customerServiceMock,
             $this->_customerAddressServiceMock
         );

@@ -10,10 +10,7 @@
 namespace Magento\Customer\Service\V1;
 
 use Magento\Customer\Service\V1\Dto\SearchCriteria;
-use Magento\Customer\Service\V1\Dto\SearchResults;
-use Magento\Customer\Service\Entity;
-use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
-use Magento\Reports\Exception;
+use Magento\Customer\Service\Entity\V1\Exception;
 
 class CustomerGroupService implements CustomerGroupServiceInterface
 {
@@ -130,7 +127,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
         $customerGroup->load($groupId);
         // Throw exception if a customer group does not exist
         if (is_null($customerGroup->getId())) {
-            throw new Entity\V1\Exception(__('groupId ' . $groupId . ' does not exist.'));
+            throw new Exception(__('groupId ' . $groupId . ' does not exist.'));
         }
         $this->_customerGroupBuilder->setId($customerGroup->getId())
             ->setCode($customerGroup->getCode())
@@ -184,7 +181,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
             $customerGroup->setId($groupId);
             $customerGroup->delete();
         } catch (\Exception $e) {
-            throw new Entity\V1\Exception($e->getMessage(), $e->getCode(), $e);
+            throw new Exception($e->getMessage(), $e->getCode(), $e);
         }
     }
 }

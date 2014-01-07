@@ -7,9 +7,15 @@
  */
 
 namespace Magento\Customer\Service\V1;
-use Magento\Customer\Service\V1;
-use Magento\Customer\Service\Entity;
 
+/**
+ * \Magento\Customer\Service\V1\CustomerAddressService
+ *
+ * @SuppressWarnings(PHPMD.TooManyMethods)
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
+ * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
 {
 
@@ -61,39 +67,39 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Event\ManagerInterface
      */
-    protected $_eventManagerMock;
+    private $_eventManagerMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Core\Model\StoreManagerInterface
      */
-    protected $_storeManagerMock;
+    private $_storeManagerMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Math\Random
      */
-    protected $_mathRandomMock;
+    private $_mathRandomMock;
 
     /**
      * @var \Magento\Customer\Model\Converter
      */
-    protected $_converter;
+    private $_converter;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Core\Model\Store
      */
-    protected $_storeMock;
+    private $_storeMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\Dto\AddressBuilder
      */
-    protected $_addressBuilder;
+    private $_addressBuilder;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\Dto\CustomerBuilder
      */
-    protected $_customerBuilder;
+    private $_customerBuilder;
 
-    protected $_validator;
+    private $_validator;
 
     public function setUp()
     {
@@ -197,12 +203,12 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_addressBuilder = new V1\Dto\AddressBuilder(
-            new V1\Dto\RegionBuilder());
+        $this->_addressBuilder = new Dto\AddressBuilder(
+            new Dto\RegionBuilder());
 
-        $this->_customerBuilder = new V1\Dto\CustomerBuilder();
+        $this->_customerBuilder = new Dto\CustomerBuilder();
 
-        $customerBuilder = new V1\Dto\CustomerBuilder();
+        $customerBuilder = new Dto\CustomerBuilder();
 
         $this->_converter = new \Magento\Customer\Model\Converter($customerBuilder, $this->_customerFactoryMock);
     }
@@ -236,7 +242,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             'default_billing' => true,
             'default_shipping' => false,
             'customer_id' => self::ID,
-            'region' => new V1\Dto\Region([
+            'region' => new Dto\Region([
                     'region_id' => self::REGION_ID,
                     'region_code' => '',
                     'region' => self::REGION
@@ -282,7 +288,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             'default_shipping' => true,
             'default_billing' => false,
             'customer_id' => self::ID,
-            'region' => new V1\Dto\Region([
+            'region' => new Dto\Region([
                     'region_id' => self::REGION_ID,
                     'region_code' => '',
                     'region' => self::REGION
@@ -329,7 +335,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             'default_shipping' => true,
             'default_billing' => false,
             'customer_id' => self::ID,
-            'region' => new V1\Dto\Region([
+            'region' => new Dto\Region([
                     'region_id' => self::REGION_ID,
                     'region_code' => '',
                     'region' => self::REGION
@@ -379,7 +385,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
                 'default_shipping' => true,
                 'default_billing' => false,
                 'customer_id' => self::ID,
-                'region' => new V1\Dto\Region([
+                'region' => new Dto\Region([
                         'region_id' => self::REGION_ID,
                         'region_code' => '',
                         'region' => self::REGION
@@ -396,7 +402,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
                 'default_billing' => true,
                 'default_shipping' => false,
                 'customer_id' => self::ID,
-                'region' => new V1\Dto\Region([
+                'region' => new Dto\Region([
                         'region_id' => self::REGION_ID,
                         'region_code' => '',
                         'region' => self::REGION
@@ -444,7 +450,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->_addressBuilder->setFirstname('John')
             ->setLastname(self::LASTNAME)
-            ->setRegion(new V1\Dto\Region([
+            ->setRegion(new Dto\Region([
                 'region_id' => self::REGION_ID,
                 'region_code' => '',
                 'region' => self::REGION
@@ -488,7 +494,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $this->_addressBuilder->setId(1)
             ->setFirstname('Jane')
             ->setLastname(self::LASTNAME)
-            ->setRegion(new V1\Dto\Region([
+            ->setRegion(new Dto\Region([
                 'region_id' => self::REGION_ID,
                 'region_code' => '',
                 'region' => self::REGION
@@ -554,7 +560,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $this->_addressBuilder->setId(1)
             ->setFirstname('John')
             ->setLastname(self::LASTNAME)
-            ->setRegion(new V1\Dto\Region([
+            ->setRegion(new Dto\Region([
                 'region_id' => self::REGION_ID,
                 'region_code' => '',
                 'region' => self::REGION
@@ -594,7 +600,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $customerService = $this->_createService();
         $this->_addressBuilder->setFirstname('John')
             ->setLastname(self::LASTNAME)
-            ->setRegion(new V1\Dto\Region([
+            ->setRegion(new Dto\Region([
                 'region_id' => self::REGION_ID,
                 'region_code' => '',
                 'region' => self::REGION
@@ -712,7 +718,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->_addressBuilder->setFirstname('John')
             ->setLastname(self::LASTNAME)
-            ->setRegion(new V1\Dto\Region([
+            ->setRegion(new Dto\Region([
                 'region_id' => self::REGION_ID,
                 'region_code' => '',
                 'region' => self::REGION
@@ -724,7 +730,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             ->setPostcode(self::POSTCODE);
         try {
             $customerService->saveAddresses(1, [$this->_addressBuilder->create()]);
-        } catch (Entity\V1\AggregateException $ae) {
+        } catch (\Magento\Customer\Service\Entity\V1\AggregateException $ae) {
             $addressException = $ae->getExceptions()[0];
             $this->assertInstanceOf('\Magento\Customer\Service\Entity\V1\Exception', $addressException);
             $this->assertInstanceOf('\Magento\Validator\ValidatorException', $addressException->getPrevious());
@@ -753,19 +759,6 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param \PHPUnit_Framework_MockObject_MockObject $mock
-     * @param array $valueMap
-     */
-    private function _mockReturnValue($mock, $valueMap)
-    {
-        foreach ($valueMap as $method => $value) {
-            $mock->expects($this->any())
-                ->method($method)
-                ->will($this->returnValue($value));
-        }
-    }
-
-    /**
      * @return CustomerAddressService
      */
     private function _createService()
@@ -773,7 +766,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $customerService = new CustomerAddressService(
             $this->_addressFactoryMock,
             $this->_converter,
-            new V1\Dto\RegionBuilder(),
+            new Dto\RegionBuilder(),
             $this->_addressBuilder
         );
         return $customerService;
