@@ -41,16 +41,16 @@ class ApplyMapConfigurableTest extends Functional
         $config->switchData('enable_map_config');
         $config->persist();
         // precondition 2: Add configurable product with minimum advertised price (MAP)
-        $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
-        $configurable->switchData(Repository::CONFIGURABLE_MAP);
-        $configurable->persist();
+        $product = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
+        $product->switchData(Repository::CONFIGURABLE_MAP);
+        $product->persist();
         //Flush cache
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();
         $cachePage->getActionsBlock()->flushMagentoCache();
         $cachePage->getMessagesBlock()->assertSuccessMessage();
         //Verifying
-        $this->verifyMap($configurable);
+        $this->verifyMap($product);
     }
 
     /**
@@ -66,17 +66,18 @@ class ApplyMapConfigurableTest extends Functional
         $frontendHomePage->getTopmenu()->selectCategoryByName($product->getCategoryName());
         // Verify on category product list
         $productListBlock = $categoryPage->getListProductBlock();
-        $mapBlock = $categoryPage->getMapBlock();
         $this->assertTrue(
             $productListBlock->isProductVisible($product->getProductName()),
             'Product is invisible on Category page'
         );
+        $this->assertFalse($productListBlock->isRegularPriceVisible(), 'Regular price is visible and not expected.');
         $this->assertContains(
             $product->getProductMapPrice(),
             $productListBlock->getOldPriceCategoryPage(),
             'Displayed on Category page MAP is incorrect'
         );
         $productListBlock->openMapBlockOnCategoryPage($product->getProductName());
+        $mapBlock = $categoryPage->getMapBlock();
         $this->assertContains(
             $product->getProductMapPrice(),
             $mapBlock->getOldPrice(),
@@ -91,6 +92,8 @@ class ApplyMapConfigurableTest extends Functional
         $productPage = Factory::getPageFactory()->getCatalogProductView();
         $productPage->getMessagesBlock()->assertNoticeMessage();
         $productViewBlock = $productPage->getViewBlock();
+        $productPriceBlock = $productViewBlock->getProductPriceBlock();
+        $this->assertFalse($productPriceBlock->isRegularPriceVisible(), 'Regular price is visible and not expected.');
         $productViewBlock->openMapBlockOnProductPage();
         $mapBlock = $productPage->getMapBlock();
         // Verify on Product View page

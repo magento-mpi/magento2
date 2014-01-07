@@ -163,6 +163,16 @@ class Price extends Block
     }
 
     /**
+     * This method returns if the regular price is visible.
+     *
+     * @return bool
+     */
+    public function isRegularPriceVisible()
+    {
+        return $this->_rootElement->find($this->regularPriceClass, Locator::SELECTOR_CLASS_NAME)->isVisible();
+    }
+
+    /**
      * This method returns if the special price is visible.
      *
      * @return bool
