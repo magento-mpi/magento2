@@ -71,8 +71,11 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValueMap($map));
 
         $customerBuilder = new \Magento\Customer\Service\V1\Dto\CustomerBuilder();
+        $customerFactory = $this->getMockBuilder('Magento\Customer\Model\CustomerFactory')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-        $converter = new Converter($customerBuilder, null);
+        $converter = new Converter($customerBuilder, $customerFactory);
         $customerDto = $converter->createCustomerFromModel($customerModelMock);
 
         $customerBuilder = new \Magento\Customer\Service\V1\Dto\CustomerBuilder();
@@ -98,11 +101,15 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateCustomerFromModelBadParam($param)
     {
-        $customerBuilder = $this->getMockBuilder('Magento\Customer\Service\Entity\V1\CustomerBuilder')
+        $customerBuilder = $this->getMockBuilder('Magento\Customer\Service\V1\Dto\CustomerBuilder')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $converter = new Converter($customerBuilder, null);
+        $customerFactory = $this->getMockBuilder('Magento\Customer\Model\CustomerFactory')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $converter = new Converter($customerBuilder, $customerFactory);
         $converter->createCustomerFromModel($param);
     }
 
