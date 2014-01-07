@@ -197,14 +197,11 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
             'password_hash',
         );
         $this->assertEquals($expectedInBefore, array_keys($inBeforeOnly));
-        $expectedInAfter = array(
-            'created_in',
-            'firstname',
-            'lastname',
-            'email',
-            'password_hash',
-        );
-        $this->assertEquals($expectedInAfter, array_keys($inAfterOnly));
+        $this->assertContains('created_in', array_keys($inAfterOnly));
+        $this->assertContains('firstname', array_keys($inAfterOnly));
+        $this->assertContains('lastname', array_keys($inAfterOnly));
+        $this->assertContains('email', array_keys($inAfterOnly));
+        $this->assertContains('password_hash', array_keys($inAfterOnly));
     }
 
     /**
