@@ -13,34 +13,35 @@ namespace Magento\Sales\Test\TestCase;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Mtf\Fixture\DataFixture;
+use Magento\Checkout\Test\Fixture\Checkout;
 
 /**
  * Class CloseOrderTest
- * Test close order
  *
  * @package Magento\Sales\Test\TestCase\
  */
 class CloseOrderTest extends Functional
 {
     /**
-     * Cancel orders
+     * Close orders
      *
-     * @ZephyrId MAGETWO-12434, MAGETWO-12833
+     * @ZephyrId MAGETWO-12434
+     * @ZephyrId MAGETWO-12833
      * 
      * @dataProvider dataProviderOrder
-     * @param DataFixture $fixture
+     * @param Checkout $fixture
      */
-    public function testCloseOrder(DataFixture $fixture)
+    public function testCloseOrder(Checkout $fixture)
     {
         $fixture->persist();
         //Data
         $orderId = $fixture->getOrderId();
         $grandTotal = $fixture->getGrandTotal();
         //Pages
-        $orderPage = Factory::getPageFactory()->getSalesOrder();
-        $newInvoicePage = Factory::getPageFactory()->getSalesOrderInvoiceNew();
-        $newShipmentPage = Factory::getPageFactory()->getSalesOrderShipmentNew();
+        $pageFactory = Factory::getPageFactory();
+        $orderPage = $pageFactory->getSalesOrder();
+        $newInvoicePage = $pageFactory->getSalesOrderInvoiceNew();
+        $newShipmentPage = $pageFactory->getSalesOrderShipmentNew();
 
         //Steps
         Factory::getApp()->magentoBackendLoginUser();
@@ -106,7 +107,7 @@ class CloseOrderTest extends Functional
     {
         return array(
             array(Factory::getFixtureFactory()->getMagentoSalesPaypalExpressOrder()),
-            array(Factory::getFixtureFactory()->getMagentoSalesAuthorizeNetOrder()),
+            array(Factory::getFixtureFactory()->getMagentoSalesAuthorizeNetOrder())
         );
     }
 }

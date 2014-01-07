@@ -19,30 +19,10 @@ use Magento\Checkout\Test\Fixture\Checkout;
  * Guest checkout using Authorize.Net
  *
  * @ZephyrId MAGETWO-12833
- * @package Magento\Checkout\Test\Fixture
+ * @package Magento\Sales\Test\Fixture
  */
-class AuthorizeNetOrder extends Checkout
+class AuthorizeNetOrder extends OrderCheckout
 {
-    /**
-     * Order ID
-     *
-     * @var string
-     */
-    private $orderId;
-
-    /**
-     * Checkout fixture
-     *
-     * @var Checkout
-     */
-    private $checkoutFixture;
-
-    /**
-     * Product Array
-     * @var array
-     * */
-    private $additionalProducts;
-
     /**
      * Prepare data for guest checkout using Authorize.Net.
      */
@@ -71,25 +51,5 @@ class AuthorizeNetOrder extends Checkout
             }
         }
         $this->orderId = Factory::getApp()->magentoCheckoutCreateOrder($this->checkoutFixture);
-    }
-
-    /**
-     * Get order grand total
-     *
-     * @return string
-     */
-    public function getGrandTotal()
-    {
-        return $this->checkoutFixture->getGrandTotal();
-    }
-
-    /**
-     * Get order id
-     *
-     * @return string
-     */
-    public function getOrderId()
-    {
-        return $this->orderId;
     }
 }
