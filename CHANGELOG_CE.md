@@ -1,4 +1,6 @@
 * Fixed bugs:
+  * Fixed category move is not changing position in case if $afterCategoryId is null
+  * Fixed admin users locked out after lognum update
   * Fixed products from non-default website aren't shown as bundle items
   * Fixed placing order with status Pending Payment instead of Processing when payment method Authorize.net is used
   * Fixed PayPal Express: order can't be placed if HTTPS is used on frontend
@@ -7,6 +9,8 @@
   * Fixed JavaScript static testing framework to properly handle corrupted paths in white/black lists
   * Fixed error during Google Shopping synchronization due to invalid method call
 * Consolidated a few 3rd-party JavaScript libraries under `pub/lib` directory and specified their original license notice texts
+* Service Layer Implementation:
+  * Implemented initial set of services for the Customer module
 
 2.0.0.0-dev59
 =============
@@ -125,8 +129,6 @@
   * Responsive design improvements
 * Improvements in code coverage calculation:
   * Code coverage calculation approach for unit tests was changed from blacklist to whitelist
-* Service Layer Implementation:
-  * Implemented initial set of services for the Customer module
 
 2.0.0.0-dev57
 =============
