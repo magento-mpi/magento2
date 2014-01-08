@@ -145,7 +145,7 @@ class File implements \Magento\Filesystem\DriverInterface
     {
         clearstatcache();
         $result = @file_get_contents($this->getScheme() . $path, $flag, $context);
-        if (!$result) {
+        if (false === $result) {
             throw new FilesystemException(
                 sprintf('Cannot read contents from file "%s" %s',
                     $path,
@@ -583,7 +583,7 @@ class File implements \Magento\Filesystem\DriverInterface
     public function fileWrite($resource, $data)
     {
         $result = @fwrite($resource, $data);
-        if (!$result) {
+        if (false === $result) {
             throw new FilesystemException(
                 sprintf('Error occurred during execution of fileWrite %s',
                     $this->getWarningMessage()
