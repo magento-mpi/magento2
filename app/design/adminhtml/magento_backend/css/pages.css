@@ -2327,7 +2327,9 @@ table.items-to-invoice tbody tr:hover td {
 .tax-rate-popup .field:before,
 .tax-rate-popup .field:after,
 .clearfix:before,
-.clearfix:after {
+.clearfix:after,
+#tab_content_downloadableInfo .data-table td .row:before,
+#tab_content_downloadableInfo .data-table td .row:after {
   content: "";
   display: table;
 }
@@ -2335,7 +2337,8 @@ table.items-to-invoice tbody tr:hover td {
 .image-panel:after,
 .images:after,
 .tax-rate-popup .field:after,
-.clearfix:after {
+.clearfix:after,
+#tab_content_downloadableInfo .data-table td .row:after {
   clear: both;
 }
 .debug {
