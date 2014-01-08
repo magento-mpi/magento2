@@ -12,6 +12,7 @@
   * Fixed "Authorize.net CC" section UI on "Onepage Checkout" page
   * Fixed UI issues on backend create and view order pages
   * Fixed IE9 backend UI issues
+  * Fixed UI issues on "Edit Customer" backend page
 * Consolidated a few 3rd-party JavaScript libraries under `pub/lib` directory and specified their original license notice texts
 
 2.0.0.0-dev59
