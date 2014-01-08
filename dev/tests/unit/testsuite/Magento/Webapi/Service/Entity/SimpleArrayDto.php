@@ -13,7 +13,7 @@ use Magento\Service\Entity\AbstractDto;
 class SimpleArrayDto extends AbstractDto
 {
     /**
-     * @return array
+     * @return int[]
      */
     public function getIds()
     {
@@ -21,7 +21,7 @@ class SimpleArrayDto extends AbstractDto
     }
 
     /**
-     * @param array $ids
+     * @param int[] $ids
      * @return SimpleArrayDto
      */
     public function setIds(array $ids)

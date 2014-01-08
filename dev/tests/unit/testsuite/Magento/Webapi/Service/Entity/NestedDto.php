@@ -21,7 +21,6 @@ class NestedDto extends AbstractDto
 
     /**
      * @param \Magento\Webapi\Service\Entity\SimpleDto $details
-     *
      * @return NestedDto
      */
     public function setDetails(SimpleDto $details)

@@ -244,7 +244,7 @@ class TypeProcessor
             'bool' => 'boolean',
         );
 
-        return isset($normalizationMap[$type]) ? $normalizationMap[$type] : $type;
+        return is_string($type) && isset($normalizationMap[$type]) ? $normalizationMap[$type] : $type;
     }
 
     /**
@@ -255,6 +255,7 @@ class TypeProcessor
      */
     public function isTypeSimple($type)
     {
+        $type = $this->normalizeType($type);
         if ($this->isArrayType($type)) {
             $type = $this->getArrayItemType($type);
         }

@@ -10,14 +10,29 @@
 
 namespace Magento\Webapi\Controller;
 
-
-use Magento\Service\Entity\AbstractDtoBuilder;
+use Magento\Service\Entity\AbstractDto;
 use Zend\Code\Reflection\ClassReflection;
 use Zend\Code\Reflection\MethodReflection;
 use Zend\Code\Reflection\ParameterReflection;
+use Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor;
 
 class ServiceArgsSerializer
 {
+    /** @var \Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor */
+    protected $_typeProcessor;
+
+    /**
+     * Initialize dependencies.
+     *
+     * TODO: Reconsider dependency on Soap\Config\Reader\TypeProcessor
+     *
+     * @param TypeProcessor $typeProcessor
+     */
+    public function __construct(TypeProcessor $typeProcessor)
+    {
+        $this->_typeProcessor = $typeProcessor;
+    }
+
     /**
      * Converts the provided input array from key-value format to a list of parameters suitable for the specified
      * class / method.
@@ -47,7 +62,8 @@ class ServiceArgsSerializer
             $paramName = $param->getName();
 
             if (isset($inputArray[$paramName])) {
-                $inputData[] = $this->_convertValue($inputArray[$paramName], $param);
+                $paramType = $param->isArray() ? "{$param->getType()}[]" : $param->getType();
+                $inputData[] = $this->_convertValue($inputArray[$paramName], $paramType);
             } else {
                 $inputData[] = $param->getDefaultValue();                   // not set, so use default
             }
@@ -57,63 +73,82 @@ class ServiceArgsSerializer
     }
 
     /**
-     * Creates a new instance of the given class and populates it with the array of data using setter methods
-     * on the new object.
+     * Creates a new instance of the given class and populates it with the array of data.
      *
      * @param string|\ReflectionClass $class
      * @param array $data
-     *
      * @return object the newly created and populated object
      */
     protected function _createFromArray($class, $data)
     {
         $className = is_string($class) ? $class : $class->getName();
-        $class = new ClassReflection($className . "Builder");
-        /** @var $obj AbstractDtoBuilder */
-        $obj = $class->newInstance();
-        foreach ($data as $propertyName => $value) {
-            $setterName = 'set' . str_replace(' ', '', ucwords(str_replace('_', ' ', $propertyName)));
-            try {
-                $method = $class->getMethod($setterName);
-                if ($method->getNumberOfParameters() == 1) {
-                    $param = $method->getParameters()[0];
-                    $arg = $this->_convertValue($value, $param);
-                    $method->invoke($obj, $arg);
+        try {
+            $class = new ClassReflection($className);
+            foreach ($data as $propertyName => $value) {
+                $getterName = 'get' . str_replace(' ', '', ucwords(str_replace('_', ' ', $propertyName)));
+                $methodReflection = $class->getMethod($getterName);
+                if ($methodReflection->isPublic()) {
+                    $returnType = $this->_getReturnType($methodReflection);
+                    $data[$propertyName] = $this->_convertValue($value, $returnType);
                 }
-            } catch (\ReflectionException $e) {
-                // Case where data array contains keys with no matching setter methods
-                // TODO: do we need to do anything here or can we just ignore this and keep going?
             }
+        } catch (\ReflectionException $e) {
+            // Case where data array contains keys with no matching setter methods
+            // TODO: do we need to do anything here or can we just ignore this and keep going?
         }
-        return $obj->create();
+        /** @var $obj AbstractDto */
+        $obj = new $className($data);
+        return $obj;
     }
 
     /**
-     * @param mixed $value
-     * @param ParameterReflection $param
+     * Convert data from array to DTO representation if type is DTO or array of DTOs.
      *
-     * @return array|null|object
+     * @param mixed $value
+     * @param string $type
+     * @return mixed
      */
-    protected function _convertValue($value, ParameterReflection $param)
+    protected function _convertValue($value, $type)
     {
-        $converted = null;
-        $paramClass = $param->getClass();
-        if ($param->isArray()) {                                    // is array
-            $paramType = $param->getType();  // from doc block
-            if (!empty($paramType) && $paramType != 'array') {          // typed array
-                $values = [];
-                foreach ($value as $dtoArray) {
-                    $values[] = $this->_createFromArray($paramType, $dtoArray);
+        if (!$this->_typeProcessor->isTypeSimple($type)) {
+            if ($this->_typeProcessor->isArrayType($type)) {
+                $itemType = $this->_typeProcessor->getArrayItemType($type);
+                foreach ($value as $key => $item) {
+                    $value[$key] = $this->_createFromArray($itemType, $item);
                 }
-                $converted = $values;
-            } else {                                                    // simple or associative array
-                $converted = $value;
+            } else {
+                $value = $this->_createFromArray($type, $value);
             }
-        } elseif (is_null($paramClass)) {                           // is primitive
-            $converted = $value;
-        } else {                                                    // is object/DTO
-            $converted = $this->_createFromArray($paramClass, $value);
         }
-        return $converted;
+        return $value;
+    }
+
+    /**
+     * Identify getter return type by method reflection.
+     *
+     * @param \Zend\Code\Reflection\MethodReflection $methodReflection
+     * @return string
+     * @throws \InvalidArgumentException
+     */
+    protected function _getReturnType($methodReflection)
+    {
+        // TODO: Avoid code duplication with \Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor::_processMethod
+        $methodDocBlock = $methodReflection->getDocBlock();
+        if (!$methodDocBlock) {
+            throw new \InvalidArgumentException('Each getter must have description with @return annotation.');
+        }
+        $returnAnnotations = $methodDocBlock->getTags('return');
+        if (empty($returnAnnotations)) {
+            throw new \InvalidArgumentException('Getter return type must be specified using @return annotation.');
+        }
+        /** @var \Zend\Code\Reflection\DocBlock\Tag\ReturnTag $returnAnnotation */
+        $returnAnnotation = current($returnAnnotations);
+        $returnType = $returnAnnotation->getType();
+        if (preg_match('/^(.+)\|null$/', $returnType, $matches)) {
+            /** If return value is optional, alternative return type should be set to null */
+            $returnType = $matches[1];
+            return $returnType;
+        }
+        return $returnType;
     }
 }

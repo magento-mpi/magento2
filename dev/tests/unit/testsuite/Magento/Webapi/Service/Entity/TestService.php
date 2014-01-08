@@ -11,9 +11,9 @@ namespace Magento\Webapi\Service\Entity;
 class TestService
 {
     /**
-     * @param int    $entityId
+     * @param int $entityId
      * @param string $name
-     * @return array
+     * @return string[]
      */
     public function simple($entityId, $name)
     {
@@ -22,7 +22,7 @@ class TestService
 
     /**
      * @param \Magento\Webapi\Service\Entity\NestedDto $nested
-     * @return NestedDto
+     * @return \Magento\Webapi\Service\Entity\NestedDto
      */
     public function nestedDto(NestedDto $nested)
     {
@@ -30,8 +30,8 @@ class TestService
     }
 
     /**
-     * @param array $ids
-     * @return array
+     * @param int[] $ids
+     * @return int[]
      */
     public function simpleArray(array $ids)
     {
@@ -39,8 +39,8 @@ class TestService
     }
 
     /**
-     * @param array $associativeArray
-     * @return array
+     * @param string[] $associativeArray
+     * @return string[]
      */
     public function associativeArray(array $associativeArray)
     {
@@ -49,7 +49,7 @@ class TestService
 
     /**
      * @param \Magento\Webapi\Service\Entity\SimpleDto[] $dtos
-     * @return array
+     * @return \Magento\Webapi\Service\Entity\SimpleDto[]
      */
     public function dtoArray(array $dtos)
     {
@@ -58,7 +58,7 @@ class TestService
 
     /**
      * @param \Magento\Webapi\Service\Entity\SimpleArrayDto $arrayDto
-     * @return SimpleArrayDto
+     * @return \Magento\Webapi\Service\Entity\SimpleArrayDto
      */
     public function nestedSimpleArray(SimpleArrayDto $arrayDto)
     {
@@ -67,7 +67,7 @@ class TestService
 
     /**
      * @param \Magento\Webapi\Service\Entity\AssociativeArrayDto $associativeArrayDto
-     * @return AssociativeArrayDto
+     * @return \Magento\Webapi\Service\Entity\AssociativeArrayDto
      */
     public function nestedAssociativeArray(AssociativeArrayDto $associativeArrayDto)
     {
@@ -76,11 +76,10 @@ class TestService
 
     /**
      * @param \Magento\Webapi\Service\Entity\DtoArrayDto $dtos
-     * @return DtoArrayDto
+     * @return \Magento\Webapi\Service\Entity\DtoArrayDto
      */
     public function nestedDtoArray(DtoArrayDto $dtos)
     {
         return $dtos;
     }
-
 }

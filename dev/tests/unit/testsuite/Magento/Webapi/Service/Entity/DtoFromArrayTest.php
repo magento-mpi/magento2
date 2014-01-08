@@ -19,7 +19,9 @@ class DtoFromArrayTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->serializer = new ServiceArgsSerializer();
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $typeProcessor = $objectManager->getObject('Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor');
+        $this->serializer = new ServiceArgsSerializer($typeProcessor);
     }
 
     public function testSimpleProperties()
@@ -34,7 +36,7 @@ class DtoFromArrayTest extends \PHPUnit_Framework_TestCase
 
     public function testNestedDtoProperties()
     {
-        $data = ['nested' => ['details' => ['entityId' => 15, 'name' => 'Test']]];
+        $data = ['nested' => ['details' => ['entity_id' => 15, 'name' => 'Test']]];
         $result = $this->serializer
             ->getInputData('\\Magento\\Webapi\\Service\\Entity\\TestService', 'nestedDto', $data);
         $this->assertNotNull($result);
@@ -56,8 +58,11 @@ class DtoFromArrayTest extends \PHPUnit_Framework_TestCase
     public function testSimpleArrayProperties()
     {
         $data = ['ids'=>[1,2,3,4]];
-        $result = $this->serializer
-                       ->getInputData('\\Magento\\Webapi\\Service\\Entity\\TestService', 'simpleArray', $data);
+        $result = $this->serializer->getInputData(
+            '\\Magento\\Webapi\\Service\\Entity\\TestService',
+            'simpleArray',
+            $data
+        );
         $this->assertNotNull($result);
         /** @var array $result */
         $this->assertEquals(1, count($result));
@@ -88,9 +93,8 @@ class DtoFromArrayTest extends \PHPUnit_Framework_TestCase
 
     public function testArrayOfDtoProperties()
     {
-        $data = ['dtos' => [ ['entityId' => 14, 'name' => 'First'], [ 'entityId' => 15, 'name' => 'Second' ] ]];
-        $result = $this->serializer
-            ->getInputData('\\Magento\\Webapi\\Service\\Entity\\TestService', 'dtoArray', $data);
+        $data = ['dtos' => [ ['entity_id' => 14, 'name' => 'First'], [ 'entity_id' => 15, 'name' => 'Second' ] ]];
+        $result = $this->serializer->getInputData('\\Magento\\Webapi\\Service\\Entity\\TestService', 'dtoArray', $data);
         $this->assertNotNull($result);
         /** @var array $result */
         $this->assertEquals(1, count($result));
@@ -151,8 +155,11 @@ class DtoFromArrayTest extends \PHPUnit_Framework_TestCase
     public function testNestedArrayOfDtoProperties()
     {
         $data = ['dtos' => ['items' => [['entityId' => 1, 'name' => 'First'], ['entityId' => 2, 'name' => 'Second']]]];
-        $result = $this->serializer
-            ->getInputData('\\Magento\\Webapi\\Service\\Entity\\TestService', 'nestedDtoArray', $data);
+        $result = $this->serializer->getInputData(
+            '\\Magento\\Webapi\\Service\\Entity\\TestService',
+            'nestedDtoArray',
+            $data
+        );
         $this->assertNotNull($result);
         /** @var array $result */
         $this->assertEquals(1, count($result));

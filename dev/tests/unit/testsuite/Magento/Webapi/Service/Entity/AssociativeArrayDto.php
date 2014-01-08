@@ -12,7 +12,7 @@ use Magento\Service\Entity\AbstractDto;
 class AssociativeArrayDto extends AbstractDto
 {
     /**
-     * @return array
+     * @return string[]
      */
     public function getAssociativeArray()
     {
@@ -20,7 +20,7 @@ class AssociativeArrayDto extends AbstractDto
     }
 
     /**
-     * @param array $associativeArray
+     * @param string[] $associativeArray
      * @return AssociativeArrayDto
      */
     public function setAssociativeArray(array $associativeArray)
