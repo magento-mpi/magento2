@@ -1,4 +1,5 @@
 * Fixed bugs:
+  * Fixed memory exceeding on very large image uploading
   * Fixed category move is not changing position in case if $afterCategoryId is null
   * Fixed admin users locked out after lognum update
   * Fixed products from non-default website aren't shown as bundle items
