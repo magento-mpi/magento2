@@ -83,6 +83,13 @@
     width: 100%;
 }
 
+#tab_content_downloadableInfo .data-table td {
+    vertical-align: top;
+    .row {
+        margin-bottom: 10px;
+    }
+}
+
 /*
     Customer
 ---------------------------------------*/
@@ -448,6 +455,7 @@
 
 #export_filter_grid .grid select {
     margin-bottom: 0;
+    width: 86%;
 }
 
 #export_filter_grid .grid table td:first-child,
@@ -1599,6 +1607,17 @@
                     display: inline-block;
                     margin: 0 0 0 10px;
                     width: 60px;
+                }
+            }
+        }
+    }
+    .order-billing-method {
+        .payment-methods {
+            .fieldset {
+                padding: 0;
+                margin: 0;
+                .field {
+                    margin: 0 0 12px 0;
                 }
             }
         }
