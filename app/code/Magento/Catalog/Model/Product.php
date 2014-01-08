@@ -190,16 +190,18 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     protected $_itemOptionFactory;
 
     /**
-     * @var \Magento\App\State
-     */
-    protected $_appState;
-
-    /**
      * Filesystem facade
      *
      * @var \Magento\Filesystem
      */
     protected $_filesystem;
+
+    /**
+     * @var ProductTypes\ConfigInterface
+     *
+     * @todo Remove this dependency when MAGETWO-18783 is finished
+     */
+    protected $productTypeConfig;
 
     /**
      * @param \Magento\Core\Model\Context $context
@@ -224,8 +226,9 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      * @param Resource\Product\Collection $resourceCollection
      * @param \Magento\Data\CollectionFactory $collectionFactory
      * @param \Magento\Filesystem $filesystem
+     * @param ProductTypes\ConfigInterface $productTypeConfig
      * @param array $data
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -251,6 +254,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         \Magento\Catalog\Model\Resource\Product\Collection $resourceCollection,
         \Magento\Data\CollectionFactory $collectionFactory,
         \Magento\Filesystem $filesystem,
+        \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
         array $data = array()
     ) {
         $this->_itemOptionFactory = $itemOptionFactory;
@@ -270,6 +274,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         $this->_urlModel = $url;
         $this->_linkInstance = $productLink;
         $this->_filesystem = $filesystem;
+        $this->productTypeConfig = $productTypeConfig;
         parent::__construct($context, $registry, $storeManager, $resource, $resourceCollection, $data);
     }
 
@@ -1235,50 +1240,20 @@ class Product extends \Magento\Catalog\Model\AbstractModel
 
         $this->getOptionInstance()->duplicate($this->getId(), $newProduct->getId());
         $this->getResource()->duplicate($this->getId(), $newProduct->getId());
-
-        // TODO - duplicate product on all stores of the websites it is associated with
-        /*if ($storeIds = $this->getWebsiteIds()) {
-            foreach ($storeIds as $storeId) {
-                $this->setStoreId($storeId)
-                   ->load($this->getId());
-
-                $newProduct->setData($this->getData())
-                    ->setSku(null)
-                    ->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_DISABLED)
-                    ->setId($newId)
-                    ->save();
-            }
-        }*/
         return $newProduct;
     }
 
     /**
-     * Is product grouped
-     *
-     * @return bool
-     */
-    public function isSuperGroup()
-    {
-        return $this->getTypeId() == \Magento\Catalog\Model\Product\Type::TYPE_GROUPED;
-    }
-
-    /**
-     * Alias for isConfigurable()
-     *
-     * @return bool
-     */
-    public function isSuperConfig()
-    {
-        return $this->isConfigurable();
-    }
-    /**
      * Check is product grouped
      *
      * @return bool
+     *
+     * @todo Remove this dependency when MAGETWO-18783 is finished
+     * @deprecated
      */
     public function isGrouped()
     {
-        return $this->getTypeId() == \Magento\Catalog\Model\Product\Type::TYPE_GROUPED;
+        return $this->productTypeConfig->isProductSet($this->getTypeId());
     }
 
     /**
@@ -1289,16 +1264,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     public function isConfigurable()
     {
         return $this->getTypeId() == \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE;
-    }
-
-    /**
-     * Whether product configurable or grouped
-     *
-     * @return bool
-     */
-    public function isSuper()
-    {
-        return $this->isConfigurable() || $this->isGrouped();
     }
 
     /**
@@ -1471,7 +1436,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     /**
      * Get attribute text by its code
      *
-     * @param $attributeCode Code of the attribute
+     * @param string $attributeCode Code of the attribute
      * @return string
      */
     public function getAttributeText($attributeCode)
@@ -1864,9 +1829,9 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     }
 
     /**
-     *  Returns system reserved attribute codes
+     * Returns system reserved attribute codes
      *
-     *  @return array Reserved attribute names
+     * @return array Reserved attribute names
      */
     public function getReservedAttributes()
     {
@@ -1889,10 +1854,10 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     }
 
     /**
-     *  Check whether attribute reserved or not
+     * Check whether attribute reserved or not
      *
-     *  @param \Magento\Catalog\Model\Entity\Attribute $attribute Attribute model object
-     *  @return boolean
+     * @param \Magento\Catalog\Model\Entity\Attribute $attribute Attribute model object
+     * @return boolean
      */
     public function isReservedAttribute ($attribute)
     {
@@ -2003,12 +1968,12 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      */
     public function getPreconfiguredValues()
     {
-        $preconfiguredValues = $this->getData('preconfigured_values');
-        if (!$preconfiguredValues) {
-            $preconfiguredValues = new \Magento\Object();
+        $preConfiguredValues = $this->getData('preconfigured_values');
+        if (!$preConfiguredValues) {
+            $preConfiguredValues = new \Magento\Object();
         }
 
-        return $preconfiguredValues;
+        return $preConfiguredValues;
     }
 
     /**
@@ -2046,8 +2011,8 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      */
     protected function _clearData()
     {
-        foreach ($this->_data as $data){
-            if (is_object($data) && method_exists($data, 'reset')){
+        foreach ($this->_data as $data) {
+            if (is_object($data) && method_exists($data, 'reset')) {
                 $data->reset();
             }
         }

@@ -59,6 +59,11 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
     protected $_productHelper;
 
     /**
+     * @var \Magento\Catalog\Model\ProductTypes\ConfigInterface
+     */
+    protected $productTypeConfig;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Core\Model\Registry $registry
@@ -76,8 +81,9 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
      * @param \Magento\Tax\Model\Calculation $taxCalculation
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Catalog\Helper\Product $productHelper
+     * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
      * @param array $data
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -98,6 +104,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
         \Magento\Tax\Model\Calculation $taxCalculation,
         \Magento\Stdlib\String $string,
         \Magento\Catalog\Helper\Product $productHelper,
+        \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
         array $data = array()
     ) {
         $this->_productHelper = $productHelper;
@@ -105,6 +112,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
         $this->_jsonEncoder = $jsonEncoder;
         $this->_productFactory = $productFactory;
         $this->_taxCalculation = $taxCalculation;
+        $this->productTypeConfig = $productTypeConfig;
         $this->string = $string;
         parent::__construct(
             $context,
@@ -141,7 +149,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
             $currentCategory = $this->_coreRegistry->registry('current_category');
             if ($keyword) {
                 $headBlock->setKeywords($keyword);
-            } elseif($currentCategory) {
+            } elseif ($currentCategory) {
                 $headBlock->setKeywords($product->getName());
             }
             $description = $product->getMetaDescription();
@@ -357,5 +365,15 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
     public function getOptionsContainer()
     {
         return $this->getProduct()->getOptionsContainer() == 'container1' ? 'container1' : 'container2';
+    }
+
+    /**
+     * Check whether quantity field should be rendered
+     *
+     * @return bool
+     */
+    public function shouldRenderQuantity()
+    {
+        return !$this->productTypeConfig->isProductSet($this->getProduct()->getTypeId());
     }
 }
