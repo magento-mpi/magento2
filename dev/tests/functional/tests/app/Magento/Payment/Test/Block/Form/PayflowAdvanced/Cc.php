@@ -22,7 +22,7 @@ use Mtf\Block\Block;
  * Class Authentication
  * Card Verification frame on OnePageCheckout order review step
  *
- * @package Magento\Centinel
+ * @package Magento\Payment
  */
 class Cc extends Form
 {
