@@ -70,6 +70,16 @@ use Magento\Core\Model\StoreManager;
 class Url extends \Magento\Object implements \Magento\UrlInterface
 {
     /**
+     * Default controller name
+     */
+    const DEFAULT_CONTROLLER_NAME   = 'index';
+
+    /**
+     * Default action name
+     */
+    const DEFAULT_ACTION_NAME       = 'index';
+
+    /**
      * Configuration data cache
      *
      * @var array

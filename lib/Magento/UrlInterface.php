@@ -10,24 +10,6 @@ namespace Magento;
 interface UrlInterface
 {
     /**
-     * Default controller name
-     */
-    const DEFAULT_CONTROLLER_NAME   = 'index';
-
-    /**
-     * Default action name
-     */
-    const DEFAULT_ACTION_NAME       = 'index';
-
-    /**
-     * Configuration paths
-     */
-    const XML_PATH_UNSECURE_URL     = 'web/unsecure/base_url';
-    const XML_PATH_SECURE_URL       = 'web/secure/base_url';
-    const XML_PATH_SECURE_IN_ADMIN  = 'web/secure/use_in_adminhtml';
-    const XML_PATH_SECURE_IN_FRONT  = 'web/secure/use_in_frontend';
-
-    /**
      * Initialize object data from retrieved url
      *
      * @param   string $url

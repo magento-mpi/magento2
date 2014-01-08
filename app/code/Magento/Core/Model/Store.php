@@ -699,7 +699,7 @@ class Store extends \Magento\Core\Model\AbstractModel
     {
         if ($this->_isFrontSecure === null) {
             $this->_isFrontSecure = $this->_coreStoreConfig->getConfigFlag(
-                \Magento\Core\Model\Url::XML_PATH_SECURE_IN_FRONT,
+                self::XML_PATH_SECURE_IN_FRONTEND,
                 $this->getId()
             );
         }
@@ -729,7 +729,7 @@ class Store extends \Magento\Core\Model\AbstractModel
         }
 
         if ($this->_appState->isInstalled()) {
-            $secureBaseUrl = $this->_coreStoreConfig->getConfig(\Magento\Core\Model\Url::XML_PATH_SECURE_URL);
+            $secureBaseUrl = $this->_coreStoreConfig->getConfig(self::XML_PATH_SECURE_BASE_URL);
 
             if (!$secureBaseUrl) {
                 return false;
