@@ -450,7 +450,7 @@ class File implements \Magento\Filesystem\DriverInterface
     public function fileReadLine($resource, $length, $ending = null)
     {
         $result = @stream_get_line($resource, $length, $ending);
-        if (!$result) {
+        if (false === $result) {
             throw new FilesystemException(
                 sprintf('File cannot be read %s',
                     $this->getWarningMessage()
