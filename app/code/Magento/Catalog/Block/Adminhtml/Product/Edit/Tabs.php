@@ -176,14 +176,8 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
              * @see \Magento\Catalog\Block\Adminhtml\Product\Edit\Tabs\Configurable
              * @see \Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tabs
              */
-            if (!$product->isGrouped()) {
-                $this->addTab('customer_options', array(
-                    'label' => __('Custom Options'),
-                    'url'   => $this->getUrl('catalog/*/options', array('_current' => true)),
-                    'class' => 'ajax',
-                    'group_code' => self::ADVANCED_TAB_GROUP_CODE,
-                ));
-            }
+            $this->addTab('customer_options', 'customer_options');
+            $this->getChildBlock('customer_options')->setGroupCode(self::ADVANCED_TAB_GROUP_CODE);
 
             $this->addTab('related', array(
                 'label'     => __('Related Products'),
@@ -211,18 +205,8 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
                 unset($advancedGroups['design']);
             }
 
-            $alertPriceAllow = $this->_storeConfig->getConfig('catalog/productalert/allow_price');
-            $alertStockAllow = $this->_storeConfig->getConfig('catalog/productalert/allow_stock');
-            if (($alertPriceAllow || $alertStockAllow) && !$product->isGrouped()) {
-                $this->addTab('product-alerts', array(
-                    'label'     => __('Product Alerts'),
-                    'content'   => $this->_translateHtml($this->getLayout()
-                        ->createBlock('Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Alerts', 'admin.alerts.products')
-                        ->toHtml()
-                    ),
-                    'group_code' => self::ADVANCED_TAB_GROUP_CODE,
-                ));
-            }
+            $this->addTab('product-alerts', 'product-alerts');
+            $this->getChildBlock('customer_options')->setGroupCode(self::ADVANCED_TAB_GROUP_CODE);
 
             if ($this->getRequest()->getParam('id')) {
                 if ($this->_catalogData->isModuleEnabled('Magento_Review')) {

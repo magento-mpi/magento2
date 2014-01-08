@@ -21,5 +21,15 @@
             <argument name="name" xsi:type="string">grouped</argument>
             <argument name="block" xsi:type="string">catalog.product.edit.grouped.container</argument>
         </action>
+        <referenceBlock name="product_tabs.customer_options">
+            <arguments>
+                <argument name="can_show" xsi:type="boolean">false</argument>
+            </arguments>
+        </referenceBlock>
+        <referenceBlock name="product_tabs.product-alerts">
+            <arguments>
+                <argument name="can_show" xsi:type="boolean">false</argument>
+            </arguments>
+        </referenceBlock>
     </referenceBlock>
 </layout>
