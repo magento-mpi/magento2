@@ -39,7 +39,7 @@ class ConfigurableProduct extends Product
         parent::__construct($defaultConfig, $defaultData);
         $this->_data[self::CONFIGURABLE]['data']['affect_configurable_product_attributes'] = 'Template %isolation%';
         $this->_data[self::CONFIGURABLE_ADVANCED_PRICING] = $this->getConfigurableAdvancedPricing();
-        $this->_data[self::CONFIGURABLE_MAP] = $this->addMapToConfigurable();
+        $this->_data[self::CONFIGURABLE_MAP] = $this->addMapToConfigurable($this->_data[self::CONFIGURABLE]);
         $this->_data[self::PRODUCT_VARIATIONS] = array(
             'config' => $defaultConfig,
             'data' => $this->buildProductVariations($defaultData)
@@ -66,11 +66,12 @@ class ConfigurableProduct extends Product
     }
 
     /**
-     * Get configurable product with advanced pricing (MAP)
+     * Add advanced pricing (MAP) to configurable product
      *
+     * @param array $data
      * @return array
      */
-    protected function addMapToConfigurable()
+    protected function addMapToConfigurable(array $data)
     {
         $pricing = array(
             'data' => array(
@@ -91,7 +92,7 @@ class ConfigurableProduct extends Product
                 )
             )
         );
-        $product = array_replace_recursive($this->_data[self::CONFIGURABLE], $pricing);
+        $product = array_replace_recursive($data, $pricing);
 
         return $product;
     }

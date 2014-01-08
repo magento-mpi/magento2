@@ -40,7 +40,7 @@ class ApplyMapConfigurableTest extends Functional
         $config = Factory::getFixtureFactory()->getMagentoCoreConfig();
         $config->switchData('enable_map_config');
         $config->persist();
-        // precondition 2: Add configurable product with minimum advertised price (MAP)
+        // precondition 2: Create configurable product with minimum advertised price (MAP)
         $product = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
         $product->switchData(Repository::CONFIGURABLE_MAP);
         $product->persist();
@@ -50,15 +50,17 @@ class ApplyMapConfigurableTest extends Functional
         $cachePage->getActionsBlock()->flushMagentoCache();
         $cachePage->getMessagesBlock()->assertSuccessMessage();
         //Verifying
-        $this->verifyMap($product);
+        $this->verifyMapOnCategory($product);
+        $this->verifyMapOnProductView($product);
+        $this->verifyMapInShoppingCart($product);
     }
 
     /**
-     * Assert product MAP related data on storefront
+     * Assert product MAP related data on category list
      *
      * @param \Magento\Catalog\Test\Fixture\ConfigurableProduct $product
      */
-    protected function verifyMap($product)
+    protected function verifyMapOnCategory($product)
     {
         $frontendHomePage = Factory::getPageFactory()->getCmsIndexIndex();
         $categoryPage = Factory::getPageFactory()->getCatalogCategoryView();
@@ -89,6 +91,15 @@ class ApplyMapConfigurableTest extends Functional
             'Displayed on Category page price is incorrect'
         );
         $mapBlock->addToCartFromMap();
+    }
+
+    /**
+     * Assert product MAP related data on product view
+     *
+     * @param \Magento\Catalog\Test\Fixture\ConfigurableProduct $product
+     */
+    protected function verifyMapOnProductView($product)
+    {
         $productPage = Factory::getPageFactory()->getCatalogProductView();
         $productPage->getMessagesBlock()->assertNoticeMessage();
         $productViewBlock = $productPage->getViewBlock();
@@ -96,7 +107,6 @@ class ApplyMapConfigurableTest extends Functional
         $this->assertFalse($productPriceBlock->isRegularPriceVisible(), 'Regular price is visible and not expected.');
         $productViewBlock->openMapBlockOnProductPage();
         $mapBlock = $productPage->getMapBlock();
-        // Verify on Product View page
         $this->assertContains(
             $product->getProductMapPrice(),
             $mapBlock->getOldPrice(),
@@ -108,13 +118,31 @@ class ApplyMapConfigurableTest extends Functional
             'Displayed on Product page price is incorrect'
         );
         $mapBlock->closeMapBlock();
-        // Verify Cart page price
         $productViewBlock->fillOptions($product);
         $productViewBlock->addToCart($product);
+    }
+
+    /**
+     * Assert product MAP related data on cart
+     *
+     * @param \Magento\Catalog\Test\Fixture\ConfigurableProduct $product
+     */
+    protected function verifyMapInShoppingCart($product)
+    {
         $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
         $checkoutCartPage->getMessageBlock()->assertSuccessMessage();
         $unitPrice = $checkoutCartPage->getCartBlock()->getCartItemUnitPrice($product);
         $optionPrice = $product->getProductOptionsPrice() + floatval($product->getProductPrice());
         $this->assertEquals($optionPrice, $unitPrice, 'Incorrect price for ' . $product->getProductName());
+    }
+
+    /**
+     * Disable MAP on Config level
+     */
+    public static function tearDownAfterClass()
+    {
+        $config = Factory::getFixtureFactory()->getMagentoCoreConfig();
+        $config->switchData('disable_map_config');
+        $config->persist();
     }
 }
