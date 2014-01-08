@@ -36,13 +36,20 @@ class Cc extends Form
     protected $continue = '#btn_pay_cc';
 
     /**
+     * Credit card number locator
+     *
+     * @var string
+     */
+    protected $creditCardNumber = '#cc_number';
+
+    /**
      * Initialize block elements
      */
     protected function _init()
     {
         //Initialize mapping
         $this->_mapping = array(
-            'credit_card_number' => '#cc_number',
+            'credit_card_number' => $this->creditCardNumber,
             'expiration_month' => '#expdate_month',
             'expiration_year' => '#expdate_year',
             'credit_card_cvv' => '#cvv2_number',
@@ -59,6 +66,7 @@ class Cc extends Form
     {
         /** @var $fixture \Magento\Checkout\Test\Fixture\Checkout */
         $this->paymentCode = $fixture->getPaymentMethod()->getPaymentCode();
+        $this->waitForElementVisible($this->creditCardNumber);
         $this->_init();
         parent::fill($fixture->getCreditCard(), $element);
     }
