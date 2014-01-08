@@ -12,13 +12,11 @@
 namespace Magento\Sales\Test\Fixture;
 
 use Mtf\Factory\Factory;
-use Magento\Checkout\Test\Fixture\Checkout;
 
 /**
  * Class AuthorizeNetOrder
  * Guest checkout using Authorize.Net
  *
- * @ZephyrId MAGETWO-12833
  * @package Magento\Sales\Test\Fixture
  */
 class AuthorizeNetOrder extends OrderCheckout

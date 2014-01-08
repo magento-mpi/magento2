@@ -25,11 +25,10 @@ class CloseOrderTest extends Functional
     /**
      * Close orders
      *
-     * @ZephyrId MAGETWO-12434
-     * @ZephyrId MAGETWO-12833
-     * 
-     * @dataProvider dataProviderOrder
      * @param Checkout $fixture
+     * @dataProvider dataProviderOrder
+     *
+     * @ZephyrId MAGETWO-12434, MAGETWO-12833
      */
     public function testCloseOrder(Checkout $fixture)
     {
