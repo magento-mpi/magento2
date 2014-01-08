@@ -172,5 +172,4 @@ class Filesystem
         $config = $this->directoryList->getConfig($code);
         return isset($config['uri']) ? $config['uri'] : '';
     }
-
 }

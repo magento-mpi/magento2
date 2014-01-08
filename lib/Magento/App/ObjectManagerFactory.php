@@ -129,11 +129,8 @@ class ObjectManagerFactory
         $objectManager->setFactory($factory);
 
         $directoryListConfig = $objectManager->get('Magento\App\Filesystem\DirectoryList\Configuration');
+        $directoryListConfig->configure($directoryList);
 
-        $objectManager->create(
-            'Magento\App\Filesystem\DirectoryList',
-            array('root' => $rootDir, 'configuration' => $directoryListConfig)
-        );
         return $objectManager;
     }
 

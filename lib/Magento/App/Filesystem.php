@@ -9,8 +9,6 @@
  */
 namespace Magento\App;
 
-use Magento\Filesystem\FilesystemException;
-
 class Filesystem extends \Magento\Filesystem
 {
     /**

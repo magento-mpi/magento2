@@ -8,13 +8,14 @@
 
 namespace Magento\App\Filesystem\DirectoryList;
 
-use Magento\App\Filesystem;
+use Magento\App\Filesystem,
+    Magento\Filesystem\DirectoryList;
 
 /**
  * Class Configuration
  * @package Magento\App\Filesystem\DirectoryList
  */
-class Configuration implements \Magento\Filesystem\ConfigurationInterface
+class Configuration
 {
     /**
      * Path to filesystem directory configuration
@@ -27,6 +28,13 @@ class Configuration implements \Magento\Filesystem\ConfigurationInterface
      * Declaration wrapper configuration
      */
     const XML_FILESYSTEM_WRAPPER_PATH = 'system/filesystem/protocol';
+
+    /**
+     * Filesystem Directory configuration
+     *
+     * @var array
+     */
+    protected $directories;
 
     /**
      * Filesystem protocols configuration
@@ -47,10 +55,18 @@ class Configuration implements \Magento\Filesystem\ConfigurationInterface
     }
 
     /**
-     * @return array
+     * Add directories from configuration to Filesystem
+     *
+     * @param DirectoryList $directoryList
      */
-    public function getDirectories()
+    public function configure(DirectoryList $directoryList)
     {
-        return $this->directories;
+        foreach ($this->directories as $code => $directoryConfiguration) {
+            $directoryList->addDirectory($code, $directoryConfiguration);
+        }
+
+        foreach ($this->protocols as $code => $protocolConfiguration) {
+            $directoryList->addProtocol($code, $protocolConfiguration);
+        }
     }
 }

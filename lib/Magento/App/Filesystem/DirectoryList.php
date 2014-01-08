@@ -25,28 +25,73 @@ class DirectoryList extends \Magento\Filesystem\DirectoryList
         Filesystem::ROOT_DIR => array('path' => ''),
         Filesystem::APP_DIR => array('path' => 'app'),
         Filesystem::MODULES_DIR => array('path' => 'app/code'),
-        Filesystem::THEMES_DIR => array('path' => 'app/design'),
         Filesystem::CONFIG_DIR => array('path' => 'app/etc'),
         Filesystem::LIB_DIR => array('path' => 'lib'),
-        Filesystem::VAR_DIR => array('path' => 'var'),
-        Filesystem::TMP_DIR => array('path' => 'var/tmp'),
-        Filesystem::CACHE_DIR => array('path' => 'var/cache'),
-        Filesystem::LOG_DIR => array('path' => 'var/log'),
-        Filesystem::SESSION_DIR => array('path' => 'var/session'),
+        Filesystem::VAR_DIR => array(
+            'path'              => 'var',
+            'read_only'         => false,
+            'allow_create_dirs' => true,
+            'permissions'       => 0777
+
+        ),
+        Filesystem::TMP_DIR => array(
+            'path'              => 'var/tmp',
+            'read_only'         => false,
+            'allow_create_dirs' => true,
+            'permissions'       => 0777
+        ),
+        Filesystem::CACHE_DIR => array(
+            'path'              => 'var/cache',
+            'read_only'         => false,
+            'allow_create_dirs' => true,
+            'permissions'       => 0777
+        ),
+        Filesystem::LOG_DIR => array(
+            'path'              => 'var/log',
+            'read_only'         => false,
+            'allow_create_dirs' => true,
+            'permissions'       => 0777
+        ),
+        Filesystem::SESSION_DIR => array(
+            'path'              => 'var/session',
+            'read_only'         => false,
+            'allow_create_dirs' => true,
+            'permissions'       => 0777
+        ),
         Filesystem::DI_DIR => array('path' => 'var/di'),
         Filesystem::GENERATION_DIR => array('path' => 'var/generation'),
         Filesystem::HTTP => array('path' => null),
-        Filesystem::PUB_DIR => array('path' => 'pub'),
-        Filesystem::PUB_LIB_DIR => array('path' => 'pub/lib'),
-        Filesystem::MEDIA_DIR => array('path' => 'pub/media'),
-        Filesystem::UPLOAD_DIR => array('path' => 'pub/media/upload'),
-        Filesystem::STATIC_VIEW_DIR => array('path' => 'pub/static'),
-        Filesystem::PUB_VIEW_CACHE_DIR => array('path' => 'pub/cache'),
+        Filesystem::PUB_DIR => array(
+            'path' => 'pub',
+            'uri'  => 'pub',
+        ),
+        Filesystem::PUB_LIB_DIR => array(
+            'path' => 'pub/lib',
+            'uri'  => 'pub/lib'
+        ),
+        Filesystem::MEDIA_DIR => array(
+            'path' => 'pub/media',
+            'uri'  => 'pub/media'
+        ),
+        Filesystem::STATIC_VIEW_DIR => array(
+            'path' => 'pub/static',
+            'uri'  => 'pub/static',
+        ),
         Filesystem::LOCALE_DIR => array('path' => ''),
         Filesystem::SYS_TMP_DIR => array(
-            'path'              => '', // @TODO fix path
+            'path'              => '',
             'read_only'         => false,
             'allow_create_dirs' => true,
             'permissions'       => 0777
         ));
+
+    /**
+     * @param string $root
+     * @param array $directories
+     */
+    public function __construct($root, array $directories = array())
+    {
+        $this->directories[Filesystem::SYS_TMP_DIR]['path'] = sys_get_temp_dir();
+        parent::__construct($root, $directories);
+    }
 }

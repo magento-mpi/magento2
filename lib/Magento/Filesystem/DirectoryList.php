@@ -38,9 +38,8 @@ class DirectoryList
     /**
      * @param string $root
      * @param array $directories
-     * @param ConfigurationInterface $configuration
      */
-    public function __construct($root, array $directories = array(), ConfigurationInterface $configuration = null)
+    public function __construct($root, array $directories = array())
     {
         $this->root = str_replace('\\', '/', $root);
 
@@ -61,29 +60,28 @@ class DirectoryList
                 $this->setUri($code, $directoryConfig['uri']);
             }
         }
-        $this->addDirectories($configuration);
     }
 
     /**
      * Add directory configuration
      *
-     * @param ConfigurationInterface|null $configuration
+     * @param string $code
+     * @param array $directoryConfig
+     * @throws \Magento\Filesystem\FilesystemException
      */
-    protected function addDirectories(ConfigurationInterface $configuration = null)
+    public function addDirectory($code, array $directoryConfig)
     {
-        if (!$configuration) {
-            return;
+        if (isset($this->directories[$code])) {
+            throw new \Magento\Filesystem\FilesystemException("Configuration for '{$code}' already defined");
         }
-        foreach ($configuration->getDirectories() as $code => $directoryConfig) {
-            if (!isset($directoryConfig['path'])) {
-                $directoryConfig['path'] = null;
-            }
-            if (!$this->isAbsolute($directoryConfig['path'])) {
-                $directoryConfig['path'] = $this->makeAbsolute($directoryConfig['path']);
-            }
+        if (!isset($directoryConfig['path'])) {
+            $directoryConfig['path'] = null;
+        }
+        if (!$this->isAbsolute($directoryConfig['path'])) {
+            $directoryConfig['path'] = $this->makeAbsolute($directoryConfig['path']);
+        }
 
-            $this->directories[$code] = $directoryConfig;
-        }
+        $this->directories[$code] = $directoryConfig;
     }
 
     /**
@@ -184,7 +182,7 @@ class DirectoryList
      * @param string $code One of self const
      * @return string|bool
      */
-    public function getDir($code = AppFilesystem::ROOT_DIR)
+    public function getDir($code)
     {
         return isset($this->directories[$code]['path']) ? $this->directories[$code]['path'] : false;
     }
