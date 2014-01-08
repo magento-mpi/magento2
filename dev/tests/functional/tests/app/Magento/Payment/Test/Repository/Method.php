@@ -99,16 +99,14 @@ class Method extends AbstractRepository
     }
 
     /**
-     * Provides Credit Card Data for PayPal Payflow Link Express Method
+     * Provides info for PayPal Payflow Link Express Method
      *
      * @return array
      */
     protected function _getPayPalPayflowLinkExpress()
     {
         return array(
-            'config' => array(
-                'payment_form_class' => '\\Magento\\Payment\\Test\\Block\\Form\\Cc',
-            ),
+            'config' => array(),
             'data' => array(
                 'fields' => array(
                     'payment_code' => 'paypaluk_express'
