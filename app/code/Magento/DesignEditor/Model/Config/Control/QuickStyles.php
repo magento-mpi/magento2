@@ -28,8 +28,8 @@ class QuickStyles extends \Magento\DesignEditor\Model\Config\Control\AbstractCon
     protected $_moduleReader;
 
     /**
-     * @param \Magento\Module\Dir\Reader $moduleReader
      * @param $configFiles
+     * @param \Magento\Module\Dir\Reader $moduleReader
      */
     public function __construct(
         $configFiles,

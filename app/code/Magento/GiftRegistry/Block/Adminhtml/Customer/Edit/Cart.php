@@ -42,6 +42,7 @@ class Cart
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Data\CollectionFactory $dataFactory
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
@@ -51,6 +52,7 @@ class Cart
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Url $urlModel,
+        \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Data\CollectionFactory $dataFactory,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
@@ -61,7 +63,7 @@ class Cart
         $this->_coreRegistry = $coreRegistry;
         $this->customerFactory = $customerFactory;
         $this->salesQuoteFactory = $salesQuoteFactory;
-        parent::__construct($context, $urlModel, $data);
+        parent::__construct($context, $urlModel, $backendHelper, $data);
     }
 
     protected function _construct()

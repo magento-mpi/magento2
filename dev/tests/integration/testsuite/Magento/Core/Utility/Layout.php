@@ -82,7 +82,6 @@ class Layout
             'themeFactory'       => $objectManager->get('Magento\Core\Model\Resource\Theme\CollectionFactory'),
             'logger'             => $objectManager->get('Magento\Logger'),
             'eventManager'       => $objectManager->get('Magento\Event\ManagerInterface'),
-            'factoryHelper'      => $objectManager->get('Magento\App\Helper\HelperFactory'),
             'coreData'           => $objectManager->get('Magento\Core\Helper\Data'),
             'design'             => $objectManager->get('Magento\View\DesignInterface'),
             'blockFactory'       => $objectManager->create('Magento\View\Element\BlockFactory', array()),

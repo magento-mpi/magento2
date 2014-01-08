@@ -54,6 +54,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Reward\Helper\Data $rewardData
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Reward\Model\Resource\Reward\CollectionFactory $rewardsFactory
@@ -63,6 +64,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Url $urlModel,
+        \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Reward\Helper\Data $rewardData,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Reward\Model\Resource\Reward\CollectionFactory $rewardsFactory,
@@ -73,7 +75,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         $this->_rewardData = $rewardData;
         $this->_rewardsFactory = $rewardsFactory;
         $this->_websitesFactory = $websitesFactory;
-        parent::__construct($context, $urlModel, $data);
+        parent::__construct($context, $urlModel, $backendHelper, $data);
     }
 
     /**

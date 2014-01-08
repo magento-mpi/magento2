@@ -83,6 +83,11 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\View\LayoutInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $_layoutMock;
 
+    /**
+     * @var \Magento\Escaper|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_escaper;
+
     /** Sample integration ID */
     const INTEGRATION_ID = 1;
 
@@ -138,6 +143,10 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $this->_messageManager = $this->getMockBuilder('Magento\Message\ManagerInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_escaper = $this->getMockBuilder('Magento\Escaper')
+            ->setMethods(array('escapeHtml'))
             ->disableOriginalConstructor()
             ->getMock();
     }
@@ -308,6 +317,31 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
             ->with(__('The integration \'%1\' has been saved.', $integration->getName()));
         $integrationContr = $this->_createIntegrationController();
         $integrationContr->saveAction();
+    }
+
+    public function testSaveActionExceptionDuringServiceCreation()
+    {
+        $exceptionMessage = 'Service could not be saved.';
+        $integration = $this->_getSampleIntegrationData();
+        // No id when New Integration is Post-ed
+        $integration->unsetData(array(IntegrationModel::ID, 'id'));
+        $this->_requestMock->expects($this->any())->method('getPost')->will(
+            $this->returnValue($integration->getData())
+        );
+        $integration->setData('id', self::INTEGRATION_ID);
+        $this->_integrationSvcMock->expects($this->any())->method('create')->with($this->anything())
+            ->will($this->throwException(new \Magento\Integration\Exception($exceptionMessage)));
+        $this->_integrationSvcMock->expects($this->any())->method('get')->with(self::INTEGRATION_ID)->will(
+            $this->returnValue(null)
+        );
+        // Use real translate model
+        $this->_translateModelMock = null;
+        // Verify success message
+        $this->_messageManager->expects($this->once())
+            ->method('addError')
+            ->with($exceptionMessage);
+        $integrationController = $this->_createIntegrationController();
+        $integrationController->saveAction();
     }
 
     public function testDeleteAction()
@@ -554,14 +588,16 @@ HANDLE;
         $blockMock->expects($this->any())->method('getMenuModel')->will($this->returnValue($menuMock));
         $this->_layoutMock->expects($this->any())->method('getMessagesBlock')->will($this->returnValue($blockMock));
         $this->_layoutMock->expects($this->any())->method('getBlock')->will($this->returnValue($blockMock));
+        $this->_escaper->expects($this->any())->method('escapeHtml')
+            ->will($this->returnArgument(0));
         $contextParameters = array(
-            'view' => $this->_viewMock,
-            'objectManager' => $this->_objectManagerMock,
-            'session' => $this->_backendSessionMock,
-            'translator' => $this->_translateModelMock,
-            'request' => $this->_requestMock,
-            'response' => $this->_responseMock,
-            'messageManager' => $this->_messageManager
+            'view'           => $this->_viewMock,
+            'objectManager'  => $this->_objectManagerMock,
+            'session'        => $this->_backendSessionMock,
+            'translator'     => $this->_translateModelMock,
+            'request'        => $this->_requestMock,
+            'response'       => $this->_responseMock,
+            'messageManager' => $this->_messageManager,
         );
 
         $this->_backendActionCtxMock = $this->_objectManagerHelper
@@ -575,7 +611,8 @@ HANDLE;
             'oauthService' => $this->_oauthSvcMock,
             'registry' => $this->_registryMock,
             'logger' => $loggerMock,
-            'integrationData' => $this->_integrationHelperMock
+            'integrationData' => $this->_integrationHelperMock,
+            'escaper'        => $this->_escaper
         );
         /** Create IntegrationController to test */
         $controller = $this->_objectManagerHelper

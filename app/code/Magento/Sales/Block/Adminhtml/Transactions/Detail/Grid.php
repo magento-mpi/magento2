@@ -34,6 +34,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Data\CollectionFactory $collectionFactory
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
@@ -41,13 +42,14 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Url $urlModel,
+        \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Data\CollectionFactory $collectionFactory,
         \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_collectionFactory = $collectionFactory;
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($context, $urlModel, $data);
+        parent::__construct($context, $urlModel, $backendHelper, $data);
     }
 
     /**

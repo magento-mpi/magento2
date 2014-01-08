@@ -55,16 +55,24 @@ class Address
     protected $_coreData;
 
     /**
+     * @var \Magento\Customer\Helper\Data
+     */
+    protected $_customerHelper;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Backend\Model\Session\Quote $sessionQuote
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
      * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Customer\Model\AddressFactory $addressFactory
      * @param \Magento\Customer\Model\FormFactory $customerFormFactory
      * @param \Magento\Backend\Helper\Addresses $adminhtmlAddresses
+     * @param \Magento\Customer\Helper\Data $customerHelper
      * @param array $data
+     * 
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
@@ -76,8 +84,10 @@ class Address
         \Magento\Customer\Model\AddressFactory $addressFactory,
         \Magento\Customer\Model\FormFactory $customerFormFactory,
         \Magento\Backend\Helper\Addresses $adminhtmlAddresses,
+        \Magento\Customer\Helper\Data $customerHelper,
         array $data = array()
     ) {
+        $this->_customerHelper = $customerHelper;
         $this->_coreData = $coreData;
         $this->_jsonEncoder = $jsonEncoder;
         $this->_addressFactory = $addressFactory;
@@ -172,7 +182,7 @@ class Address
 
         $prefixElement = $this->_form->getElement('prefix');
         if ($prefixElement) {
-            $prefixOptions = $this->helper('Magento\Customer\Helper\Data')->getNamePrefixOptions($this->getStore());
+            $prefixOptions = $this->_customerHelper->getNamePrefixOptions($this->getStore());
             if (!empty($prefixOptions)) {
                 $fieldset->removeField($prefixElement->getId());
                 $prefixField = $fieldset->addField($prefixElement->getId(),
@@ -189,7 +199,7 @@ class Address
 
         $suffixElement = $this->_form->getElement('suffix');
         if ($suffixElement) {
-            $suffixOptions = $this->helper('Magento\Customer\Helper\Data')->getNameSuffixOptions($this->getStore());
+            $suffixOptions = $this->_customerHelper->getNameSuffixOptions($this->getStore());
             if (!empty($suffixOptions)) {
                 $fieldset->removeField($suffixElement->getId());
                 $suffixField = $fieldset->addField($suffixElement->getId(),

@@ -30,6 +30,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Sales\Model\Order\CreditmemoFactory $creditmemoFactory
      * @param \Magento\Sales\Model\Resource\Order\Creditmemo\Grid\CollectionFactory $collectionFactory
      * @param array $data
@@ -37,13 +38,14 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Url $urlModel,
+        \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Sales\Model\Order\CreditmemoFactory $creditmemoFactory,
         \Magento\Sales\Model\Resource\Order\Creditmemo\Grid\CollectionFactory $collectionFactory,
         array $data = array()
     ) {
         $this->_creditmemoFactory = $creditmemoFactory;
         $this->_collectionFactory = $collectionFactory;
-        parent::__construct($context, $urlModel, $data);
+        parent::__construct($context, $urlModel, $backendHelper, $data);
     }
 
     protected function _construct()

@@ -37,11 +37,17 @@ class Css
     protected $_customCssFile;
 
     /**
+     * @var \Magento\Theme\Helper\Data
+     */
+    protected $helper;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Theme\Model\Uploader\Service $uploaderService
+     * @param \Magento\Theme\Helper\Data $helper
      * @param array $data
      */
     public function __construct(
@@ -50,10 +56,12 @@ class Css
         \Magento\Data\FormFactory $formFactory,
         \Magento\ObjectManager $objectManager,
         \Magento\Theme\Model\Uploader\Service $uploaderService,
+        \Magento\Theme\Helper\Data $helper,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $formFactory, $objectManager, $data);
         $this->_uploaderService = $uploaderService;
+        $this->helper = $helper;
     }
 
     /**
@@ -274,7 +282,7 @@ class Css
     }
 
     /**
-     * Get url to downlaod CSS file
+     * Get URL to download CSS file
      *
      * @param string $fileId
      * @param int $themeId
@@ -284,7 +292,7 @@ class Css
     {
         return $this->getUrl('adminhtml/*/downloadCss', array(
             'theme_id' => $themeId,
-            'file'     => $this->_helperFactory->get('Magento\Core\Helper\Data')->urlEncode($fileId)
+            'file'     => $this->helper->urlEncode($fileId)
         ));
     }
 }

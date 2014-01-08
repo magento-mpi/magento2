@@ -39,17 +39,25 @@ class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_coreData;
 
     /**
+     * @var \Magento\Customer\Helper\Data
+     */
+    protected $_customerHelper;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Customer\Model\Renderer\RegionFactory $regionFactory
      * @param \Magento\Customer\Model\AddressFactory $addressFactory
      * @param \Magento\Customer\Model\FormFactory $customerFactory
      * @param \Magento\Core\Model\System\Store $systemStore
      * @param \Magento\Backend\Helper\Addresses $adminhtmlAddresses
+     * @param \Magento\Customer\Helper\Data $customerHelper
      * @param array $data
+     * 
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
@@ -62,8 +70,10 @@ class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Customer\Model\FormFactory $customerFactory,
         \Magento\Core\Model\System\Store $systemStore,
         \Magento\Backend\Helper\Addresses $adminhtmlAddresses,
+        \Magento\Customer\Helper\Data $customerHelper,
         array $data = array()
     ) {
+        $this->_customerHelper = $customerHelper;
         $this->_coreData = $coreData;
         $this->_jsonEncoder = $jsonEncoder;
         $this->_adminhtmlAddresses = $adminhtmlAddresses;
@@ -160,7 +170,7 @@ class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
         $this->_setFieldset($attributes, $fieldset);
 
         $regionElement = $form->getElement('region');
-        $regionElement->setRequired(true);
+
         if ($regionElement) {
             $regionElement->setRenderer($this->_regionFactory->create());
         }
@@ -193,7 +203,7 @@ class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
 
         $prefixElement = $form->getElement('prefix');
         if ($prefixElement) {
-            $prefixOptions = $this->helper('Magento\Customer\Helper\Data')->getNamePrefixOptions($customerStoreId);
+            $prefixOptions = $this->_customerHelper->getNamePrefixOptions($customerStoreId);
             if (!empty($prefixOptions)) {
                 $fieldset->removeField($prefixElement->getId());
                 $prefixField = $fieldset->addField($prefixElement->getId(),
@@ -207,7 +217,7 @@ class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
 
         $suffixElement = $form->getElement('suffix');
         if ($suffixElement) {
-            $suffixOptions = $this->helper('Magento\Customer\Helper\Data')->getNameSuffixOptions($customerStoreId);
+            $suffixOptions = $this->_customerHelper->getNameSuffixOptions($customerStoreId);
             if (!empty($suffixOptions)) {
                 $fieldset->removeField($suffixElement->getId());
                 $suffixField = $fieldset->addField($suffixElement->getId(),

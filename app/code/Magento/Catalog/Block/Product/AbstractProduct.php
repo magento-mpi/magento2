@@ -71,7 +71,7 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
      * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
-    
+
     /**
      * Catalog data
      *
@@ -99,13 +99,45 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
     protected $mathRandom;
 
     /**
+     * @var \Magento\Checkout\Helper\Cart
+     */
+    protected $_cartHelper;
+
+    /**
+     * @var \Magento\Wishlist\Helper\Data
+     */
+    protected $_wishlistHelper;
+
+    /**
+     * @var \Magento\Catalog\Helper\Product\Compare
+     */
+    protected $_compareProduct;
+
+    /**
+     * @var \Magento\Theme\Helper\Layout
+     */
+    protected $_layoutHelper;
+
+    /**
+     * @var \Magento\Catalog\Helper\Image
+     */
+    protected $_imageHelper;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\Checkout\Helper\Cart $cartHelper
+     * @param \Magento\Wishlist\Helper\Data $wishlistHelper
+     * @param \Magento\Catalog\Helper\Product\Compare $compareProduct
+     * @param \Magento\Theme\Helper\Layout $layoutHelper
+     * @param \Magento\Catalog\Helper\Image $imageHelper
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
@@ -114,8 +146,18 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Math\Random $mathRandom,
+        \Magento\Checkout\Helper\Cart $cartHelper,
+        \Magento\Wishlist\Helper\Data $wishlistHelper,
+        \Magento\Catalog\Helper\Product\Compare $compareProduct,
+        \Magento\Theme\Helper\Layout $layoutHelper,
+        \Magento\Catalog\Helper\Image $imageHelper,
         array $data = array()
     ) {
+        $this->_imageHelper = $imageHelper;
+        $this->_layoutHelper = $layoutHelper;
+        $this->_compareProduct = $compareProduct;
+        $this->_wishlistHelper = $wishlistHelper;
+        $this->_cartHelper = $cartHelper;
         $this->_catalogConfig = $catalogConfig;
         $this->_coreRegistry = $registry;
         $this->_taxData = $taxData;
@@ -145,7 +187,7 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
 
             return $this->getProductUrl($product, $additional);
         }
-        return $this->helper('Magento\Checkout\Helper\Cart')->getAddUrl($product, $additional);
+        return $this->_cartHelper->getAddUrl($product, $additional);
     }
 
     /**
@@ -178,7 +220,7 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
      */
     public function getAddToWishlistUrl($product)
     {
-        return $this->helper('Magento\Wishlist\Helper\Data')->getAddUrl($product);
+        return $this->_wishlistHelper->getAddUrl($product);
     }
 
     /**
@@ -189,7 +231,7 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
      */
     public function getAddToCompareUrl($product)
     {
-        return $this->helper('Magento\Catalog\Helper\Product\Compare')->getAddUrl($product);
+        return $this->_compareProduct->getAddUrl($product);
     }
 
     /**
@@ -341,6 +383,11 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
         return $this->getData('product');
     }
 
+    /**
+     * Retrieve tier price template
+     *
+     * @return string
+     */
     public function getTierPriceTemplate()
     {
         if (!$this->hasData('tier_price_template')) {
@@ -349,6 +396,7 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
 
         return $this->getData('tier_price_template');
     }
+
     /**
      * Returns product tier price block html
      *
@@ -363,7 +411,7 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
         return $this->_getPriceBlock($product->getTypeId())
             ->setTemplate($this->getTierPriceTemplate())
             ->setProduct($product)
-            ->setInGrouped($this->getProduct()->isGrouped())
+            ->setInGrouped($product->isGrouped())
             ->toHtml();
     }
 
@@ -581,7 +629,7 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
      */
     public function getPageLayout()
     {
-        return $this->helper('Magento\Theme\Helper\Layout')->getCurrentPageLayout();
+        return $this->_layoutHelper->getCurrentPageLayout();
     }
 
     /**
@@ -635,7 +683,7 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
      */
     public function getThumbnailUrl($product)
     {
-        return (string)$this->helper('Magento\Catalog\Helper\Image')->init($product, 'thumbnail')
+        return (string)$this->_imageHelper->init($product, 'thumbnail')
             ->resize($this->getThumbnailSize());
     }
 
@@ -657,7 +705,7 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
      */
     public function getThumbnailSidebarUrl($product)
     {
-        return (string) $this->helper('Magento\Catalog\Helper\Image')->init($product, 'thumbnail')
+        return (string) $this->_imageHelper->init($product, 'thumbnail')
             ->resize($this->getThumbnailSidebarSize());
     }
 
@@ -679,7 +727,7 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
      */
     public function getSmallImageUrl($product)
     {
-        return (string) $this->helper('Magento\Catalog\Helper\Image')->init($product, 'small_image')
+        return (string) $this->_imageHelper->init($product, 'small_image')
             ->resize($this->getSmallImageSize());
     }
 
@@ -701,7 +749,7 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
      */
     public function getSmallImageSidebarUrl($product)
     {
-        return (string) $this->helper('Magento\Catalog\Helper\Image')->init($product, 'small_image')
+        return (string) $this->_imageHelper->init($product, 'small_image')
             ->resize($this->getSmallImageSidebarSize());
     }
 
@@ -723,7 +771,7 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
      */
     public function getBaseImageUrl($product)
     {
-        return (string)$this->helper('Magento\Catalog\Helper\Image')->init($product, 'image')
+        return (string)$this->_imageHelper->init($product, 'image')
             ->resize($this->getBaseImageSize());
     }
 
@@ -745,7 +793,7 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
      */
     public function getBaseImageIconUrl($product)
     {
-        return (string)$this->helper('Magento\Catalog\Helper\Image')->init($product, 'image')
+        return (string)$this->_imageHelper->init($product, 'image')
             ->resize($this->getBaseImageIconSize());
     }
 

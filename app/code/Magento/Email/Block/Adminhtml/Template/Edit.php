@@ -53,12 +53,18 @@ class Edit extends \Magento\Backend\Block\Widget
     protected $_jsonEncoder;
 
     /**
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreHelper;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Backend\Model\Menu\Config $menuConfig
      * @param \Magento\Backend\Model\Config\Structure $configStructure
      * @param \Magento\Email\Model\Template\Config $emailConfig
+     * @param \Magento\Core\Helper\Data $coreHelper
      * @param array $data
      */
     public function __construct(
@@ -68,8 +74,10 @@ class Edit extends \Magento\Backend\Block\Widget
         \Magento\Backend\Model\Menu\Config $menuConfig,
         \Magento\Backend\Model\Config\Structure $configStructure,
         \Magento\Email\Model\Template\Config $emailConfig,
+        \Magento\Core\Helper\Data $coreHelper,
         array $data = array()
     ) {
+        $this->_coreHelper = $coreHelper;
         $this->_jsonEncoder = $jsonEncoder;
         $this->_registryManager = $registry;
         $this->_menuConfig = $menuConfig;
@@ -358,7 +366,7 @@ class Edit extends \Magento\Backend\Block\Widget
         $paths = $template->getSystemConfigPathsWhereUsedAsDefault();
         $pathsParts = $this->_getSystemConfigPathsParts($paths);
         if ($asJSON) {
-            return $this->helper('Magento\Core\Helper\Data')->jsonEncode($pathsParts);
+            return $this->_coreHelper->jsonEncode($pathsParts);
         }
         return $pathsParts;
     }
@@ -395,12 +403,12 @@ class Edit extends \Magento\Backend\Block\Widget
         if ($paths) {
             /** @var $menu \Magento\Backend\Model\Menu */
             $menu = $this->_menuConfig->getMenu();
-            $item = $menu->get('Magento_Adminhtml::system');
+            $item = $menu->get('Magento_Backend::stores');
             // create prefix path parts
             $prefixParts[] = array(
                 'title' => __($item->getTitle()),
             );
-            $item = $menu->get('Magento_Adminhtml::system_config');
+            $item = $menu->get('Magento_Backend::system_config');
             $prefixParts[] = array(
                 'title' => __($item->getTitle()),
                 'url' => $this->getUrl('adminhtml/system_config/'),

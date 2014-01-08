@@ -98,21 +98,6 @@ class Read implements ReadInterface
     {
         return $this->driver->getRelativePath($this->path, $path);
     }
-    /**
-     * Validate of path existence
-     *
-     * @param string $path
-     * @return bool
-     * @throws \Magento\Filesystem\FilesystemException
-     */
-    protected function assertExist($path)
-    {
-        $absolutePath = $this->driver->getAbsolutePath($this->path, $path);
-        if ($this->driver->isExists($absolutePath) === false) {
-            throw new FilesystemException(sprintf('The path "%s" doesn\'t exist', $absolutePath));
-        }
-        return true;
-    }
 
     /**
      * Retrieve list of all entities in given path
@@ -122,19 +107,31 @@ class Read implements ReadInterface
      */
     public function read($path = null)
     {
-        $this->assertExist($path);
-
-        $flags = \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::UNIX_PATHS;
-        $iterator = new \FilesystemIterator($this->driver->getAbsolutePath($this->path, $path), $flags);
+        $files = $this->driver->readDirectory($this->driver->getAbsolutePath($this->path, $path));
         $result = array();
+        foreach ($files as $file) {
+            $result[] = $this->getRelativePath($file);
+        }
+        return $result;
+    }
+
+    /**
+     * Read recursively
+     *
+     * @param null $path
+     * @return array
+     */
+    public function readRecursively($path = null)
+    {
+        $result = array();
+        $paths = $this->driver->readDirectoryRecursively($this->driver->getAbsolutePath($this->path, $path));
         /** @var \FilesystemIterator $file */
-        foreach ($iterator as $file) {
-            $result[] = $this->getRelativePath($file->getPathname());
+        foreach ($paths as $file) {
+            $result[] = $this->getRelativePath($file);
         }
         sort($result);
         return $result;
     }
-
     /**
      * Search all entries for given regex pattern
      *
@@ -144,26 +141,17 @@ class Read implements ReadInterface
      */
     public function search($pattern, $path = null)
     {
-        clearstatcache();
         if ($path) {
             $absolutePath = $this->driver->getAbsolutePath($this->path, $this->getRelativePath($path));
         } else {
             $absolutePath = $this->path;
         }
 
-        $flags = \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::UNIX_PATHS;
-        $iterator = new \RegexIterator(
-            new \RecursiveIteratorIterator(
-                new \RecursiveDirectoryIterator($absolutePath, $flags), \RecursiveIteratorIterator::CHILD_FIRST
-            ),
-            $pattern
-        );
+        $files = $this->driver->search($pattern, $absolutePath);
         $result = array();
-        /** @var \FilesystemIterator $file */
-        foreach ($iterator as $file) {
-            $result[] = $this->getRelativePath($file->getPathname());
+        foreach ($files as $file) {
+            $result[] = $this->getRelativePath($file);
         }
-        sort($result);
         return $result;
     }
 
@@ -188,7 +176,6 @@ class Read implements ReadInterface
      */
     public function stat($path)
     {
-        $this->assertExist($path);
         return $this->driver->stat($this->driver->getAbsolutePath($this->path, $path));
     }
 

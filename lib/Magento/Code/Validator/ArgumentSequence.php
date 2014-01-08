@@ -61,10 +61,14 @@ class ArgumentSequence implements ValidatorInterface
 
             if (isset($this->_cache[$parentClass])) {
                 $parentCall = $this->_argumentsReader->getParentCall($class, array());
-                if ($parentCall) {
+                if (empty($classArguments) || $parentCall) {
                     $parentArguments = $this->_cache[$parentClass];
                 }
             }
+        }
+
+        if (empty($classArguments)) {
+            $classArguments = $parentArguments;
         }
 
         $requiredSequence = $this->_buildsSequence($classArguments, $parentArguments);
@@ -127,7 +131,7 @@ class ArgumentSequence implements ValidatorInterface
     {
         $output = array();
         if (empty($classArguments)) {
-            return $output;
+            return $parentArguments;
         }
 
         $classArgumentList = $this->_sortArguments($classArguments);

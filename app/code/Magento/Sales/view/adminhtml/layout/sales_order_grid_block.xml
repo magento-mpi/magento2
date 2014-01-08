@@ -73,11 +73,11 @@
                 <arguments>
                     <argument name="exportTypes" xsi:type="array">
                         <item name="csv" xsi:type="array">
-                            <item name="urlPath" xsi:type="string">adminhtml/*/exportCsv</item>
+                            <item name="urlPath" xsi:type="string">sales/*/exportCsv</item>
                             <item name="label" xsi:type="string" translate="true">CSV</item>
                         </item>
                         <item name="excel" xsi:type="array">
-                            <item name="urlPath" xsi:type="string">adminhtml/*/exportExcel</item>
+                            <item name="urlPath" xsi:type="string">sales/*/exportExcel</item>
                             <item name="label" xsi:type="string" translate="true">Excel XML</item>
                         </item>
                     </argument>

@@ -39,17 +39,25 @@ class Giftmessage extends \Magento\Backend\Block\Widget
     protected $_messageFactory;
 
     /**
+     * @var \Magento\GiftMessage\Helper\Message
+     */
+    protected $_messageHelper;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\GiftMessage\Model\MessageFactory $messageFactory
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\GiftMessage\Helper\Message $messageHelper
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\GiftMessage\Model\MessageFactory $messageFactory,
         \Magento\Core\Model\Registry $registry,
+        \Magento\GiftMessage\Helper\Message $messageHelper,
         array $data = array()
     ) {
+        $this->_messageHelper = $messageHelper;
         $this->_coreRegistry = $registry;
         $this->_messageFactory = $messageFactory;
         parent::__construct($context, $data);
@@ -220,7 +228,7 @@ class Giftmessage extends \Magento\Backend\Block\Widget
      */
     protected function _initMessage()
     {
-        $this->_giftMessage = $this->helper('Magento\GiftMessage\Helper\Message')->getGiftMessage(
+        $this->_giftMessage = $this->_messageHelper->getGiftMessage(
                                    $this->getEntity()->getGiftMessageId()
                               );
 
@@ -277,7 +285,7 @@ class Giftmessage extends \Magento\Backend\Block\Widget
      */
     public function canDisplayGiftmessage()
     {
-        return $this->helper('Magento\GiftMessage\Helper\Message')->getIsMessagesAvailable(
+        return $this->_messageHelper->getIsMessagesAvailable(
             'order', $this->getEntity(), $this->getEntity()->getStoreId()
         );
     }

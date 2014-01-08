@@ -48,19 +48,23 @@ class Products
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Json\DecoderInterface $jsonDecoder
      * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Data\CollectionFactory $collectionFactory
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Json\DecoderInterface $jsonDecoder
      * @param \Magento\CatalogInventory\Model\Stock\Status $catalogStockStatus
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Sales\Model\Config $salesConfig
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param array $data
+     * 
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Url $urlModel,
+        \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Data\CollectionFactory $collectionFactory,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Json\DecoderInterface $jsonDecoder,
@@ -71,7 +75,7 @@ class Products
         array $data = array()
     ) {
         $this->_jsonDecoder = $jsonDecoder;
-        parent::__construct($context, $urlModel, $collectionFactory, $coreRegistry, $data);
+        parent::__construct($context, $urlModel, $backendHelper, $collectionFactory, $coreRegistry, $data);
         $this->_catalogStockStatus = $catalogStockStatus;
         $this->_catalogConfig = $catalogConfig;
         $this->_salesConfig = $salesConfig;

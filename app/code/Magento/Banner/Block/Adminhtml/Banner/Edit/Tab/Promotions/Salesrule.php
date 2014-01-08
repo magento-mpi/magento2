@@ -22,6 +22,7 @@ class Salesrule extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\SalesRule\Model\Resource\Rule\Collection $ruleCollection
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
@@ -29,12 +30,13 @@ class Salesrule extends \Magento\Backend\Block\Widget\Grid\Extended
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Url $urlModel,
+        \Magento\Backend\Helper\Data $backendHelper,
         \Magento\SalesRule\Model\Resource\Rule\Collection $ruleCollection,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_registry = $registry;
-        parent::__construct($context, $urlModel, $data);
+        parent::__construct($context, $urlModel, $backendHelper, $data);
         $this->setCollection($ruleCollection);
     }
 

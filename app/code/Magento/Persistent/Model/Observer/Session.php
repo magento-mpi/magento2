@@ -8,25 +8,19 @@
  * @license     {license_link}
  */
 
+namespace Magento\Persistent\Model\Observer;
 
 /**
  * Persistent Session Observer
  */
-namespace Magento\Persistent\Model\Observer;
-
 class Session
 {
-    /**
-     * Create/Update and Load session when customer log in
-     *
-     * @param \Magento\Event\Observer $observer
-     */
     /**
      * Persistent session
      *
      * @var \Magento\Persistent\Helper\Session
      */
-    protected $_persistentSession = null;
+    protected $_persistentSession;
 
     /**
      * Persistent data
@@ -94,10 +88,7 @@ class Session
         /** @var $customer \Magento\Customer\Model\Customer */
         $customer = $observer->getEvent()->getCustomer();
         // Check if customer is valid (remove persistent cookie for invalid customer)
-        if (!$customer
-            || !$customer->getId()
-            || !$this->_persistentSession->isRememberMeChecked()
-        ) {
+        if (!$customer || !$customer->getId() || !$this->_persistentSession->isRememberMeChecked()) {
             $this->_sessionFactory->create()->removePersistentCookie();
             return;
         }
@@ -122,10 +113,8 @@ class Session
             if (!$sessionModel->getId()) {
                 /** @var \Magento\Persistent\Model\Session $sessionModel */
                 $sessionModel = $this->_sessionFactory->create();
-                $sessionModel->setCustomerId($customer->getId())
-                    ->save();
+                $sessionModel->setCustomerId($customer->getId())->save();
             }
-
             $this->_persistentSession->setSession($sessionModel);
         }
 
@@ -134,7 +123,8 @@ class Session
             $this->_cookie->set(
                 \Magento\Persistent\Model\Session::COOKIE_NAME,
                 $sessionModel->getKey(),
-                $persistentLifeTime
+                $persistentLifeTime,
+                $this->_customerSession->getCookiePath()
             );
         }
     }
@@ -170,9 +160,7 @@ class Session
      */
     public function synchronizePersistentInfo(\Magento\Event\Observer $observer)
     {
-        if (!$this->_persistentData->isEnabled()
-            || !$this->_persistentSession->isPersistent()
-        ) {
+        if (!$this->_persistentData->isEnabled() || !$this->_persistentSession->isPersistent()) {
             return;
         }
 
@@ -209,9 +197,8 @@ class Session
         if ($request) {
             $rememberMeCheckbox = $request->getPost('persistent_remember_me');
             $this->_persistentSession->setRememberMeChecked((bool)$rememberMeCheckbox);
-            if (
-                $request->getFullActionName() == 'checkout_onepage_saveBilling'
-                    || $request->getFullActionName() == 'customer_account_createpost'
+            if ($request->getFullActionName() == 'checkout_onepage_saveBilling'
+                || $request->getFullActionName() == 'customer_account_createpost'
             ) {
                 $this->_checkoutSession->setRememberMeChecked((bool)$rememberMeCheckbox);
             }
@@ -238,7 +225,8 @@ class Session
         if ($this->_customerSession->isLoggedIn() || $request->getFullActionName() == 'customer_account_logout') {
             $this->_cookie->renew(
                 \Magento\Persistent\Model\Session::COOKIE_NAME,
-                $this->_persistentData->getLifeTime()
+                $this->_persistentData->getLifeTime(),
+                $this->_customerSession->getCookiePath()
             );
         }
     }

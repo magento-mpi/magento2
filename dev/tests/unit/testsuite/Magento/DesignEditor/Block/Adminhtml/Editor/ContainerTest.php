@@ -39,11 +39,8 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getBlockArguments()
     {
-        $helperFactory = $this->getMock('Magento\App\Helper\HelperFactory', array('get'), array(), '', false);
-
         return array(
             'urlBuilder'    => $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false),
-            'helperFactory' => $helperFactory
         );
     }
 

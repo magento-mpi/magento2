@@ -99,8 +99,8 @@ class ReadTest extends \PHPUnit_Framework_TestCase
     public function searchProvider()
     {
         return array(
-            array('foo', '/bar/', array('bar/baz/file_one.txt', 'bar/file_two.txt')),
-            array('foo', '/\.txt/', array('bar/baz/file_one.txt', 'bar/file_two.txt', 'file_three.txt')),
+            array('foo', 'bar/*', array('bar/file_two.txt', 'bar/baz')),
+            array('foo', '/*/*.txt', array('bar/file_two.txt')),
             array('foo', '/notfound/', array())
         );
     }
@@ -271,5 +271,23 @@ class ReadTest extends \PHPUnit_Framework_TestCase
         $directoryFactory = $objectManager->create('Magento\Filesystem\Directory\ReadFactory');
         return $directoryFactory->create($config,
             new \Magento\Filesystem\DriverFactory($objectManager->get('Magento\Filesystem\DirectoryList')));
+    }
+
+    /**
+     * test read recursively read
+     */
+    public function testReadRecursively()
+    {
+        $expected = array(
+            'directory/read.txt',
+            'directory',
+            'directory.txt'
+        );
+
+        $dir = $this->getDirectoryInstance('recursively');
+        $actual = $dir->readRecursively('');
+        $this->assertNotEquals($expected, $actual);
+        sort($expected);
+        $this->assertEquals($expected, $actual);
     }
 }

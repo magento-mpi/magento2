@@ -56,12 +56,18 @@ class Url
     protected $_fileUrlMap;
 
     /**
+     * @var \Magento\View\FileSystem
+     */
+    protected $_viewFileSystem;
+
+    /**
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\UrlInterface $urlBuilder
      * @param Url\ConfigInterface $config
      * @param Service $viewService
      * @param Publisher $publisher
      * @param DeployedFilesManager $deployedFileManager
+     * @param \Magento\View\FileSystem $viewFileSystem,
      * @param array $fileUrlMap
      */
     public function __construct(
@@ -71,6 +77,7 @@ class Url
         \Magento\View\Service $viewService,
         \Magento\View\Publisher $publisher,
         \Magento\View\DeployedFilesManager $deployedFileManager,
+        \Magento\View\FileSystem $viewFileSystem,
         array $fileUrlMap = array()
     ) {
         $this->_filesystem = $filesystem;
@@ -79,6 +86,7 @@ class Url
         $this->_viewService = $viewService;
         $this->_publisher = $publisher;
         $this->_deployedFileManager = $deployedFileManager;
+        $this->_viewFileSystem = $viewFileSystem;
         $this->_fileUrlMap = $fileUrlMap;
     }
 
@@ -113,7 +121,7 @@ class Url
     public function getViewFilePublicPath($fileId, array $params = array())
     {
         $this->_viewService->updateDesignParams($params);
-        $filePath = $this->_viewService->extractScope($fileId, $params);
+        $filePath = $this->_viewService->extractScope($this->_viewFileSystem->normalizePath($fileId), $params);
 
         $publicFilePath = $this->_getFilesManager()->getPublicFilePath($filePath, $params);
 
@@ -136,11 +144,11 @@ class Url
             if (strpos($publicFilePath, $dir) === 0) {
                 $relativePath = ltrim(substr($publicFilePath, strlen($dir)), '\\/');
                 $url = $this->_urlBuilder->getBaseUrl(
-                    array(
-                        '_type' => $urlMap['key'],
-                        '_secure' => $isSecure
-                    )
-                ) . $relativePath;
+                        array(
+                            '_type' => $urlMap['key'],
+                            '_secure' => $isSecure
+                        )
+                    ) . $relativePath;
 
                 if ($this->_isStaticFilesSigned() && $this->_viewService->isViewFileOperationAllowed()) {
                     $directory = $this->_filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);

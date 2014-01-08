@@ -88,11 +88,6 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     protected $_frontController;
 
     /**
-     * @var \Magento\App\Helper\HelperFactory
-     */
-    protected $_helperFactory;
-
-    /**
      * @var \Magento\View\Url
      */
     protected $_viewUrl;
@@ -151,7 +146,6 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
         $this->_sidResolver     = $context->getSidResolver();
         $this->_storeConfig     = $context->getStoreConfig();
         $this->_frontController = $context->getFrontController();
-        $this->_helperFactory   = $context->getHelperFactory();
         $this->_viewUrl         = $context->getViewUrl();
         $this->_viewConfig      = $context->getViewConfig();
         $this->_cacheState      = $context->getCacheState();
@@ -677,6 +671,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     public function getViewFileUrl($file = null, array $params = array())
     {
         try {
+            $params = array_merge(['_secure' => $this->getRequest()->isSecure()], $params);
             return $this->_viewUrl->getViewFileUrl($file, $params);
         } catch (\Magento\Exception $e) {
 
@@ -695,17 +690,6 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     protected function _getNotFoundUrl($route = '', $params = array('_direct' => 'core/index/notfound'))
     {
         return $this->getUrl($route, $params);
-    }
-
-    /**
-     * Return helper object
-     *
-     * @param string $name
-     * @return \Magento\App\Helper\AbstractHelper
-     */
-    public function helper($name)
-    {
-        return $this->_helperFactory->get($name);
     }
 
     /**

@@ -98,6 +98,34 @@ interface DriverInterface
     public function createDirectory($path, $permissions);
 
     /**
+     * Read directory
+     *
+     * @param string $path
+     * @return array
+     * @throws FilesystemException
+     */
+    public function readDirectory($path);
+
+    /**
+     * Read directory recursively
+     *
+     * @param string|null $path
+     * @return array
+     * @throws \Magento\Filesystem\FilesystemException
+     */
+    public function readDirectoryRecursively($path = null);
+
+    /**
+     * Search paths by given regex
+     *
+     * @param string $pattern
+     * @param string $path
+     * @return array
+     * @throws FilesystemException
+     */
+    public function search($pattern, $path);
+
+    /**
      * Renames a file or directory
      *
      * @param string $oldPath

@@ -83,7 +83,7 @@ class Link extends \Magento\Backend\Block\Template
     public function canDisplayGiftWrappingForItem()
     {
         $product = $this->getItem()->getProduct();
-        $allowed = !$product->getTypeInstance()->isVirtual($product) && $product->getGiftWrappingAvailable();
+        $allowed = !$product->getTypeInstance()->isVirtual($product) ? $product->getGiftWrappingAvailable() : false;
         $storeId = $this->getItem()->getStoreId();
         return $this->_giftWrappingData->isGiftWrappingAvailableForProduct($allowed, $storeId);
     }

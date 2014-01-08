@@ -20,13 +20,13 @@ class FileIterator extends \Magento\Config\FileIterator
 
     /**
      * @param \Magento\Filesystem\Directory\ReadInterface $directory
-     * @param \Magento\Module\Dir\ReverseResolver         $dirResolver
      * @param array                                       $paths
+     * @param \Magento\Module\Dir\ReverseResolver         $dirResolver
      */
     public function __construct(
         \Magento\Filesystem\Directory\ReadInterface $directory,
-        \Magento\Module\Dir\ReverseResolver $dirResolver,
-        array $paths
+        array $paths,
+        \Magento\Module\Dir\ReverseResolver $dirResolver
     ) {
         parent::__construct($directory, $paths);
         $this->_moduleDirResolver = $dirResolver;

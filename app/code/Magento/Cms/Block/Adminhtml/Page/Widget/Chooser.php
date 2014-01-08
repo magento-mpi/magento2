@@ -42,6 +42,7 @@ class Chooser extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Theme\Model\Layout\Source\Layout $pageLayout
      * @param \Magento\Cms\Model\Page $cmsPage
      * @param \Magento\Cms\Model\PageFactory $pageFactory
@@ -51,6 +52,7 @@ class Chooser extends \Magento\Backend\Block\Widget\Grid\Extended
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Url $urlModel,
+        \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Theme\Model\Layout\Source\Layout $pageLayout,
         \Magento\Cms\Model\Page $cmsPage,
         \Magento\Cms\Model\PageFactory $pageFactory,
@@ -61,7 +63,7 @@ class Chooser extends \Magento\Backend\Block\Widget\Grid\Extended
         $this->_cmsPage = $cmsPage;
         $this->_pageFactory = $pageFactory;
         $this->_collectionFactory = $collectionFactory;
-        parent::__construct($context, $urlModel, $data);
+        parent::__construct($context, $urlModel, $backendHelper, $data);
     }
 
     /**

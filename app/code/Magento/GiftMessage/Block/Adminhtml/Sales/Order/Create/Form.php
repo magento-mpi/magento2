@@ -25,15 +25,23 @@ class Form extends \Magento\Backend\Block\Template
     protected $_sessionQuote;
 
     /**
+     * @var \Magento\GiftMessage\Helper\Message
+     */
+    protected $_messageHelper;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Model\Session\Quote $sessionQuote
+     * @param \Magento\GiftMessage\Helper\Message $messageHelper
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Model\Session\Quote $sessionQuote,
+        \Magento\GiftMessage\Helper\Message $messageHelper,
         array $data = array()
     ) {
+        $this->_messageHelper = $messageHelper;
         $this->_sessionQuote = $sessionQuote;
         parent::__construct($context, $data);
     }
@@ -46,6 +54,6 @@ class Form extends \Magento\Backend\Block\Template
     public function canDisplayGiftmessageForm()
     {
         $quote = $this->_sessionQuote->getQuote();
-        return $this->helper('Magento\GiftMessage\Helper\Message')->getIsMessagesAvailable('items', $quote, $quote->getStore());
+        return $this->_messageHelper->getIsMessagesAvailable('items', $quote, $quote->getStore());
     }
 }

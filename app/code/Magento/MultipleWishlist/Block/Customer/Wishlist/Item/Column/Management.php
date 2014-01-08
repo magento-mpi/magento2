@@ -23,7 +23,7 @@ class Management
      */
     public function isEnabled()
     {
-        return $this->_wishlistData->isMultipleEnabled();
+        return $this->_wishlistHelper->isMultipleEnabled();
     }
 
     /**
@@ -33,7 +33,7 @@ class Management
      */
     public function getWishlists()
     {
-        return $this->_wishlistData->getCustomerWishlists();
+        return $this->_wishlistHelper->getCustomerWishlists();
     }
 
     /**
@@ -43,7 +43,7 @@ class Management
      */
     public function getDefaultWishlist()
     {
-        return $this->_wishlistData->getDefaultWishlist();
+        return $this->_wishlistHelper->getDefaultWishlist();
     }
 
     /**
@@ -53,7 +53,7 @@ class Management
      */
     public function getCurrentWishlist()
     {
-        return $this->_wishlistData->getWishlist();
+        return $this->_wishlistHelper->getWishlist();
     }
 
     /**
@@ -65,7 +65,7 @@ class Management
     public function canCreateWishlists(\Magento\Wishlist\Model\Resource\Wishlist\Collection $wishlists)
     {
         $customerId = $this->_customerSession->getCustomerId();
-        return !$this->_wishlistData->isWishlistLimitReached($wishlists) && $customerId;
+        return !$this->_wishlistHelper->isWishlistLimitReached($wishlists) && $customerId;
     }
 
     /**

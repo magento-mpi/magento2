@@ -83,8 +83,8 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
 
         $fileIterator = new \Magento\Email\Model\Template\Config\FileIterator(
             $this->_filesystemDirectoryMock,
-            $this->_moduleDirResolver,
-            $this->_paths
+            $this->_paths,
+            $this->_moduleDirResolver
         );
         $fileResolver->expects($this->once())
             ->method('get')

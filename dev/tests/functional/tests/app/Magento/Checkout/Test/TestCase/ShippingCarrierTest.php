@@ -60,7 +60,7 @@ class ShippingCarrierTest extends Functional
      * @param string|null $currencyRateDataSet
      *
      * @dataProvider dataProviderShippingCarriers
-     * @ZephyrId MAGETWO-12844
+     * @ZephyrId MAGETWO-12444
      * @ZephyrId MAGETWO-12848
      * @ZephyrId MAGETWO-12849
      * @ZephyrId MAGETWO-12850
@@ -73,6 +73,9 @@ class ShippingCarrierTest extends Functional
         $addressDataSet,
         $currencyRateDataSet = null
     ) {
+        if ($shippingMethodConfig == 'shipping_carrier_usps') {
+            $this->markTestIncomplete('MAGETWO-15586');
+        }
         $this->performPreConditions(
             $shippingMethodConfig,
             $shippingMethodCheckout,
