@@ -35,6 +35,7 @@ class Method extends AbstractRepository
         $this->_data['paypal_express'] = $this->_getPayPalExpress();
         $this->_data['paypal_direct'] = $this->_getPayPalDirect();
         $this->_data['paypal_payflow_pro'] = $this->_getPayPalPayflowPro();
+        $this->_data['paypal_payflow_link_express'] = $this->_getPayPalPayflowLinkExpress();
         $this->_data['paypal_advanced'] = $this->_getPayPalAdvanced();
         $this->_data['check_money_order'] = $this->_getCheckMoneyOrder();
     }
@@ -92,6 +93,25 @@ class Method extends AbstractRepository
             'data' => array(
                 'fields' => array(
                     'payment_code' => 'verisign'
+                ),
+            )
+        );
+    }
+
+    /**
+     * Provides Credit Card Data for PayPal Payflow Link Express Method
+     *
+     * @return array
+     */
+    protected function _getPayPalPayflowLinkExpress()
+    {
+        return array(
+            'config' => array(
+                'payment_form_class' => '\\Magento\\Payment\\Test\\Block\\Form\\Cc',
+            ),
+            'data' => array(
+                'fields' => array(
+                    'payment_code' => 'paypaluk_express'
                 ),
             )
         );

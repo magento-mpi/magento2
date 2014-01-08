@@ -54,6 +54,7 @@ class Config extends AbstractRepository
         $this->_data['paypal_express'] = $this->_getPaypalExpress();
         $this->_data['paypal_direct'] = $this->_getPaypalDirect();
         $this->_data['paypal_disabled_all_methods'] = $this->_getPaypalDisabled();
+        $this->_data['paypal_payflow_link'] = $this->_getPaypalPayFlowLink();
         $this->_data['paypal_payflow_pro'] = $this->_getPaypalPayFlowPro();
         $this->_data['paypal_advanced'] = $this->_getPaypalAdvanced();
         $this->_data['paypal_payflow_pro_3d_secure'] = $this->_getPayPalPayflowPro3dSecure();
@@ -1014,6 +1015,80 @@ class Config extends AbstractRepository
                                                         ),
                                                     )
                                                 ),
+                                            )
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+    }
+
+    /**
+     * Get Configuration Settings for PayPal Payflow Link Payment Method
+     *
+     * @return array
+     */
+    protected function _getPaypalPayFlowLink()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'payment' => array(
+                        'section' => 'payment',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'paypal_payment_gateways' => array( // PayPal Payment Gateways
+                                'groups' => array(
+                                    'payflow_link_us' => array( // Payflow Link(Includes Express Checkout)
+                                        'groups' => array(
+                                            'payflow_link_required' => array( // Required Paypal Settings
+                                                'groups' => array(
+                                                    'payflow_link_payflow_link' => array( // Payflow Link and Express Checkout
+                                                        'fields' => array(
+                                                            'business_account' => array( // Email Associated with PayPal Merchant Account
+                                                                'value' => 'rllink_1350648053_biz@ebay.com'
+                                                            ),
+                                                            'partner' => array( // Partner
+                                                                'value' => 'PayPal'
+                                                            ),
+                                                            'user' => array( // API User
+                                                                'value' => 'mpipayflowlink'
+                                                            ),
+                                                            'vendor' => array( // Vendor
+                                                                'value' => 'mpipayflowlink'
+                                                            ),
+                                                            'pwd' => array( // API Password
+                                                                'value' => '12341234'
+                                                            ),
+                                                            'sandbox_flag' => array( // Test Mode
+                                                                'value' => self::YES_VALUE
+                                                            ),
+                                                            'use_proxy' => array( // Use Proxy
+                                                                'value' => self::NO_VALUE
+                                                            )
+                                                        )
+                                                    )
+                                                ),
+                                                'fields' => array(
+                                                    'enable_payflow_link' => array( // Enable this solution
+                                                        'value' => self::YES_VALUE
+                                                    ),
+                                                    'enable_express_checkout' => array( // Enable this solution
+                                                        'value' => self::YES_VALUE
+                                                    )
+                                                )
+                                            ),
+                                            'settings_payflow_link' => array( // Basic Settings - PayPal Payflow Link
+                                                'fields' => array(
+                                                    'payment_action' => array( // Payment Action
+                                                        'value' => 'Authorization'
+                                                    )
+                                                )
                                             )
                                         )
                                     )
