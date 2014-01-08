@@ -8,6 +8,8 @@
 
 namespace Magento\TestModule5\Service;
 
+use Magento\TestModule5\Service\Entity\V1\AllSoapAndRestBuilder;
+
 class AllSoapAndRestV1 implements \Magento\TestModule5\Service\AllSoapAndRestV1Interface
 {
     /**
@@ -15,10 +17,7 @@ class AllSoapAndRestV1 implements \Magento\TestModule5\Service\AllSoapAndRestV1I
      */
     public function item($itemId)
     {
-        $allSoapAndRest = new Entity\V1\AllSoapAndRest();
-        $allSoapAndRest->setId($itemId);
-        $allSoapAndRest->setName('testItemName');
-        return $allSoapAndRest;
+        return (new AllSoapAndRestBuilder())->setId($itemId)->setName('testItemName')->create();
     }
 
     /**
@@ -26,12 +25,8 @@ class AllSoapAndRestV1 implements \Magento\TestModule5\Service\AllSoapAndRestV1I
      */
     public function items()
     {
-        $allSoapAndRest1 = new Entity\V1\AllSoapAndRest();
-        $allSoapAndRest1->setId(1);
-        $allSoapAndRest1->setName('testProduct1');
-        $allSoapAndRest2 = new Entity\V1\AllSoapAndRest();
-        $allSoapAndRest2->setId(2);
-        $allSoapAndRest2->setName('testProduct2');
+        $allSoapAndRest1 = (new AllSoapAndRestBuilder())->setId(1)->setName('testProduct1')->create();
+        $allSoapAndRest2 = (new AllSoapAndRestBuilder())->setId(2)->setName('testProduct2')->create();
         return [$allSoapAndRest1, $allSoapAndRest2];
     }
 
@@ -40,8 +35,7 @@ class AllSoapAndRestV1 implements \Magento\TestModule5\Service\AllSoapAndRestV1I
      */
     public function create(Entity\V1\AllSoapAndRest $item)
     {
-        $item->setId(rand());
-        return $item;
+        return (new AllSoapAndRestBuilder())->populate($item)->create();
     }
 
     /**
@@ -50,6 +44,6 @@ class AllSoapAndRestV1 implements \Magento\TestModule5\Service\AllSoapAndRestV1I
     public function update(Entity\V1\AllSoapAndRest $item)
     {
         $item->setName('Updated' . $item->getName());
-        return $item;
+        return (new AllSoapAndRestBuilder())->populate($item)->create();
     }
 }

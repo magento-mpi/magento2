@@ -25,22 +25,4 @@ class DtoResponse extends \Magento\Service\Entity\AbstractDto
     {
         return $this->_get('name');
     }
-
-    /**
-     * @param int $entityId
-     * @return DtoResponse
-     */
-    public function setEntityId($entityId)
-    {
-        return $this->_set('entity_id', $entityId);
-    }
-
-    /**
-     * @param string $name
-     * @return DtoResponse
-     */
-    public function setName($name)
-    {
-        return $this->_set('name', $name);
-    }
 }

@@ -11,6 +11,7 @@
 namespace Magento\Webapi\Controller;
 
 
+use Magento\Service\Entity\AbstractDtoBuilder;
 use Zend\Code\Reflection\ClassReflection;
 use Zend\Code\Reflection\MethodReflection;
 use Zend\Code\Reflection\ParameterReflection;
@@ -66,15 +67,15 @@ class ServiceArgsSerializer
      */
     protected function _createFromArray($class, $data)
     {
-        if (is_string($class)) {
-            $class = new ClassReflection($class);
-        }
+        $className = is_string($class) ? $class : $class->getName();
+        $class = new ClassReflection($className . "Builder");
+        /** @var $obj AbstractDtoBuilder */
         $obj = $class->newInstance();
         foreach ($data as $propertyName => $value) {
             $setterName = 'set' . str_replace(' ', '', ucwords(str_replace('_', ' ', $propertyName)));
             try {
                 $method = $class->getMethod($setterName);
-                if ($method->isPublic() && $method->getNumberOfParameters() == 1) {
+                if ($method->getNumberOfParameters() == 1) {
                     $param = $method->getParameters()[0];
                     $arg = $this->_convertValue($value, $param);
                     $method->invoke($obj, $arg);
@@ -84,7 +85,7 @@ class ServiceArgsSerializer
                 // TODO: do we need to do anything here or can we just ignore this and keep going?
             }
         }
-        return $obj;
+        return $obj->create();
     }
 
     /**

@@ -19,29 +19,11 @@ class DtoRequest extends \Magento\Service\Entity\AbstractDto
     }
 
     /**
-     * @param string $name
-     * @return DtoRequest
-     */
-    public function setName($name)
-    {
-        return $this->_set('name', $name);
-    }
-
-    /**
      * @return int|null
      */
     public function getEntityId()
     {
         return $this->_get('entity_id');
-    }
-
-    /**
-     * @param int $entityId
-     * @return DtoRequest
-     */
-    public function setEntityId($entityId)
-    {
-        return $this->_set('entity_id', $entityId);
     }
 
 }

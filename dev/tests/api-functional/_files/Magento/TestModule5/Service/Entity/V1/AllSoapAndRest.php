@@ -40,22 +40,4 @@ class AllSoapAndRest extends AbstractDto
     {
         return $this->_get(self::NAME);
     }
-
-    /**
-     * @param int $id
-     * @return AllSoapAndRest
-     */
-    public function setId($id)
-    {
-        return $this->_set(self::ID, $id);
-    }
-
-    /**
-     * @param string $name
-     * @return AllSoapAndRest
-     */
-    public function setName($name)
-    {
-        return $this->_set(self::NAME, $name);
-    }
 }

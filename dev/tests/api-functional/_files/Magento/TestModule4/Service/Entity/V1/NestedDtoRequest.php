@@ -17,13 +17,4 @@ class NestedDtoRequest extends \Magento\Service\Entity\AbstractDto
     {
         return $this->_get('details');
     }
-
-    /**
-     * @param \Magento\TestModule4\Service\Entity\V1\DtoRequest $details
-     * @return \Magento\TestModule4\Service\Entity\V1\DtoRequest
-     */
-    public function setDetails(DtoRequest $details)
-    {
-        return $this->_set('details', $details);
-    }
 }

@@ -8,6 +8,8 @@
 
 namespace Magento\TestModule5\Service;
 
+use Magento\TestModule5\Service\Entity\V2\AllSoapAndRestBuilder;
+
 class AllSoapAndRestV2 implements AllSoapAndRestV2Interface
 {
     /**
@@ -15,11 +17,7 @@ class AllSoapAndRestV2 implements AllSoapAndRestV2Interface
      */
     public function item($itemId)
     {
-        $allSoapAndRest = new Entity\V2\AllSoapAndRest();
-        $allSoapAndRest->setId($itemId);
-        $allSoapAndRest->setName('testItemName');
-        $allSoapAndRest->setPrice(1);
-        return $allSoapAndRest;
+        return (new AllSoapAndRestBuilder())->setPrice(1)->setId($itemId)->setName('testItemName')->create();
     }
 
     /**
@@ -27,14 +25,8 @@ class AllSoapAndRestV2 implements AllSoapAndRestV2Interface
      */
     public function items()
     {
-        $allSoapAndRest1 = new Entity\V2\AllSoapAndRest();
-        $allSoapAndRest1->setId(1);
-        $allSoapAndRest1->setName('testProduct1');
-        $allSoapAndRest1->setPrice(1);
-        $allSoapAndRest2 = new Entity\V2\AllSoapAndRest();
-        $allSoapAndRest2->setId(2);
-        $allSoapAndRest2->setPrice(1);
-        $allSoapAndRest2->setName('testProduct2');
+        $allSoapAndRest1 = (new AllSoapAndRestBuilder())->setPrice(1)->setId(1)->setName('testProduct1')->create();
+        $allSoapAndRest2 = (new AllSoapAndRestBuilder())->setPrice(1)->setId(2)->setName('testProduct2')->create();
         return [$allSoapAndRest1, $allSoapAndRest2];
     }
 
@@ -43,8 +35,7 @@ class AllSoapAndRestV2 implements AllSoapAndRestV2Interface
      */
     public function create(Entity\V2\AllSoapAndRest $item)
     {
-        $item->setId(rand());
-        return $item;
+        return (new AllSoapAndRestBuilder())->populate($item)->create();
     }
 
     /**
@@ -53,8 +44,9 @@ class AllSoapAndRestV2 implements AllSoapAndRestV2Interface
     public function update(Entity\V2\AllSoapAndRest $item)
     {
         $item->setName('Updated' . $item->getName());
-        return $item;
+        return (new AllSoapAndRestBuilder())->populate($item)->create();
     }
+
     /**
      * @param string $itemId
      * @return Entity\V2\AllSoapAndRest
@@ -62,10 +54,6 @@ class AllSoapAndRestV2 implements AllSoapAndRestV2Interface
      */
     public function delete($itemId)
     {
-        $allSoapAndRest = new Entity\V2\AllSoapAndRest();
-        $allSoapAndRest->setId($itemId);
-        $allSoapAndRest->setName('testProduct');
-        $allSoapAndRest->setPrice(1);
-        return $allSoapAndRest;
+        return (new AllSoapAndRestBuilder())->setPrice(1)->setId($itemId)->setName('testItemName')->create();
     }
 }

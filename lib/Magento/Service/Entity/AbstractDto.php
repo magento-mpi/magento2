@@ -5,70 +5,23 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Service\Entity;
 
-/**
- * Initialize and provide access to LazyArrayClone internal storage. Ensure it is cloned on clone operation
- */
-abstract class AbstractDto implements MagentoDtoInterface
+abstract class AbstractDto
 {
     /**
-     * @var LockableLazyArrayClone Stores all data for this DTO
+     * @var array
      */
     protected $_data;
 
     /**
      * Initialize internal storage
-     */
-    public function __construct()
-    {
-        $this->_data = new LockableLazyArrayClone();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function __clone()
-    {
-        $this->_validateDataType();
-        $this->_data = clone $this->_data;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function isLocked()
-    {
-        $this->_validateDataType();
-        return $this->_data->isLocked();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function lock()
-    {
-        $this->_validateDataType();
-        $this->_data->lock();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function __toArray()
-    {
-        return $this->_data->__toArray();
-    }
-
-    /**
-     * Recommended method for creating arrays for storing inside of the DTO.
      *
-     * @return LazyArrayClone
+     * @param array $data
      */
-    protected function _createArray()
+    public function __construct(array $data)
     {
-        return new LockableLazyArrayClone();
+        $this->_data = $data;
     }
 
     /**
@@ -79,37 +32,16 @@ abstract class AbstractDto implements MagentoDtoInterface
      */
     protected function _get($key)
     {
-        if (isset($this->_data[$key])) {
-            return $this->_data[$key];
-        } else {
-            return null;
-        }
+        return isset($this->_data[$key]) ? $this->_data[$key]: null;
     }
 
     /**
-     * @param string $key
-     * @param mixed $value
-     * @return AbstractDto
-     */
-    protected function _set($key, $value)
-    {
-        $this->_data[$key] = $value;
-        return $this;
-    }
-
-    /**
-     * Validates that $data is the proper type
+     * Return DTO data in array format.
      *
-     * @throws \LogicException
+     * @return \ArrayAccess
      */
-    private function _validateDataType()
+    public function __toArray()
     {
-        if (null === $this->_data
-            || !($this->_data instanceof \ArrayAccess)
-            || !($this->_data instanceof LockableInterface)
-        ) {
-            throw new \LogicException('Unable to clone because $_data is not a lockable array access object. '
-                . ' Please be sure to call parent::__construct when extending AbstractDto.');
-        }
+        return $this->_data;
     }
 }

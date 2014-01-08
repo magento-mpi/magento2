@@ -15,10 +15,8 @@ class DtoServiceV1 implements \Magento\TestModule4\Service\DtoServiceV1Interface
      */
     public function getData($id)
     {
-        $response = new Entity\V1\DtoResponse();
-        $response->setEntityId($id);
-        $response->setName("Test");
-        return $response;
+        $response = new Entity\V1\DtoResponseBuilder();
+        return $response->setEntityId($id)->setName("Test")->create();
     }
 
     /**
@@ -26,10 +24,8 @@ class DtoServiceV1 implements \Magento\TestModule4\Service\DtoServiceV1Interface
      */
     public function updateData($id, Entity\V1\DtoRequest $request)
     {
-        $response = new Entity\V1\DtoResponse();
-        $response->setEntityId($id);
-        $response->setName($request->getName());
-        return $response;
+        $response = new Entity\V1\DtoResponseBuilder();
+        return $response->setEntityId($id)->setName($request->getName())->create();
     }
 
     /**
@@ -37,9 +33,7 @@ class DtoServiceV1 implements \Magento\TestModule4\Service\DtoServiceV1Interface
      */
     public function nestedData($id, Entity\V1\NestedDtoRequest $request)
     {
-        $response = new Entity\V1\DtoResponse();
-        $response->setEntityId($id);
-        $response->setName($request->getDetails()->getName());
-        return $response;
+        $response = new Entity\V1\DtoResponseBuilder();
+        return $response->setEntityId($id)->setName($request->getDetails()->getName())->create();
     }
 }

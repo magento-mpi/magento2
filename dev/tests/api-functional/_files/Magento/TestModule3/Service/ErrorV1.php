@@ -10,15 +10,13 @@
 namespace Magento\TestModule3\Service;
 
 use Magento\TestModule3\Service\Entity\V1\Parameter;
+use Magento\TestModule3\Service\Entity\V1\ParameterBuilder;
 
 class ErrorV1 implements \Magento\TestModule3\Service\ErrorV1Interface
 {
     public function success()
     {
-        $result = new Parameter();
-        $result->setName('id');
-        $result->setValue('a good id');
-        return $result;
+        return (new ParameterBuilder())->setName('id')->setValue('a good id')->create();
     }
 
     public function resourceNotFoundException()
