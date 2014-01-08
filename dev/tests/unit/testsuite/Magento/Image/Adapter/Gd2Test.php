@@ -19,7 +19,8 @@ use \Magento\TestFramework\Helper\ObjectManager;
  * @throws \InvalidArgumentException
  * @return string
  */
-function ini_get($paramName) {
+function ini_get($paramName)
+{
     if ('memory_limit' == $paramName) {
         return Gd2Test::$memoryLimit;
     }
