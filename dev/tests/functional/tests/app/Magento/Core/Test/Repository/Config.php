@@ -57,6 +57,7 @@ class Config extends AbstractRepository
         $this->_data['paypal_payflow_link'] = $this->_getPaypalPayFlowLink();
         $this->_data['paypal_payflow_pro'] = $this->_getPaypalPayFlowPro();
         $this->_data['paypal_advanced'] = $this->_getPaypalAdvanced();
+        $this->_data['paypal_standard'] = $this->_getPaypalStandard();
         $this->_data['paypal_payflow_pro_3d_secure'] = $this->_getPayPalPayflowPro3dSecure();
         $this->_data['paypal_payments_pro_3d_secure'] = $this->_getPayPalPaymentsPro3dSecure();
         $this->_data['authorizenet_disable'] = $this->_getAuthorizeNetDisable();
@@ -951,6 +952,67 @@ class Config extends AbstractRepository
             )
         );
     }
+
+    protected function _getPaypalStandard()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'payment' => array(
+                        'section' => 'payment',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'paypal_group_all_in_one' => array( //PayPal All-in-One Payment Solutions
+                                'groups' => array(
+                                    'wps_us' => array( //Payments Standard
+                                        'groups' => array(
+                                            'wps_required_settings' => array( //Required PayPal Settings
+                                                'fields' => array(
+                                                    'business_account' => array( //Email Associated with PayPal Merchant Account
+                                                        'value' => 'rlus_1349181941_biz@ebay.com'
+                                                    ),
+                                                    'enable_wps' => array( //Enable this Solution
+                                                        'value' => 1 //Yes
+                                                    )
+                                                )
+                                            ),
+                                            'settings_payments_standart' => array( //Basic Settings - PayPal Payments Standard
+                                                'fields' => array(
+                                                    'payment_action' => array( //Payment Action
+                                                        'value' => 'Sale' //Sale
+                                                    )
+                                                ),
+                                                'groups' => array(
+                                                    'settings_payments_standart_advanced' => array(
+                                                        'fields' => array(
+                                                            'allowspecific' => array(  // Payment Applicable From
+                                                                'value' => 'All Allowed Countries'
+                                                            ),
+                                                            'sandbox_flag' => array( //Sandbox Mode
+                                                                'value' => 1 //Yes
+                                                            ),
+                                                            'line_items_enabled' => array( //Transfer Cart Line Items
+                                                                'value' => 1 //Yes
+                                                            ),
+                                                            'verify_peer' => array( //Enable SSL verification
+                                                                'value' => 0 //No
+                                                            )
+                                                        )
+                                                    )
+                                                )
+                                            )
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+    }
+
 
     protected function _getPaypalExpress()
     {

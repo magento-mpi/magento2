@@ -38,6 +38,7 @@ class Method extends AbstractRepository
         $this->_data['paypal_payflow_link'] = $this->_getPayPalPayflowLink();
         $this->_data['paypal_payflow_link_express'] = $this->_getPayPalPayflowLinkExpress();
         $this->_data['paypal_advanced'] = $this->_getPayPalAdvanced();
+        $this->_data['paypal_standard'] = $this->_getPayPalStandard();
         $this->_data['check_money_order'] = $this->_getCheckMoneyOrder();
     }
 
@@ -145,6 +146,23 @@ class Method extends AbstractRepository
             'data' => array(
                 'fields' => array(
                     'payment_code' => 'payflow_advanced'
+                ),
+            )
+        );
+    }
+
+    /**
+     * Provides Credit Card Data for PayPal Standard Method
+     *
+     * @return array
+     */
+    protected function _getPayPalStandard()
+    {
+        return array(
+            'config' => array(),
+            'data' => array(
+                'fields' => array(
+                    'payment_code' => 'paypal_standard'
                 ),
             )
         );
