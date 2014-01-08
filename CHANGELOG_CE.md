@@ -1,4 +1,5 @@
 * Fixed bugs:
+  * Fixed memory exceeding on very large image uploading
   * Fixed Exception Log Errors Invalid year
   * Fixed shipment with packages data corrupted functionality
   * Fixed unavailability to add gift wrapping for multiple items
