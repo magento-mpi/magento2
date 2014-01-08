@@ -13,6 +13,7 @@ namespace Magento\Sales\Test\TestCase;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
+use Magento\Checkout\Test\Fixture\Checkout;
 use Magento\Sales\Test\Fixture\OrderCheckout;
 
 /**
@@ -25,19 +26,25 @@ class CloseOrderTest extends Functional
     /**
      * Test the closing of sales order for various payment methods.
      *
-     * @ZephyrId MAGETWO-12434
-     * @ZephyrId MAGETWO-12833
-     * @ZephyrId MAGETWO-13015
-     * 
-     * @dataProvider dataProviderOrder
      * @param OrderCheckout $fixture
+     * @param null|string $paymentMethodFunction
+     * @dataProvider dataProviderOrder
+     *
+     * @ZephyrId MAGETWO-12434, MAGETWO-12833, MAGETWO-13015, MAGETWO-13019
      */
-    public function testCloseOrder(OrderCheckout $fixture)
+    public function testCloseOrder(OrderCheckout $fixture, $paymentMethodFunction = null)
     {
         $fixture->persist();
+
+        // Capture additional payment method data when needed
+        if (!is_null($paymentMethodFunction)) {
+            call_user_func_array(array($this, $paymentMethodFunction), array($fixture->getCheckoutFixture()));
+        }
+
         //Data
         $orderId = $fixture->getOrderId();
         $grandTotal = $fixture->getGrandTotal();
+
         //Pages
         $pageFactory = Factory::getPageFactory();
         $orderPage = $pageFactory->getSalesOrder();
@@ -109,7 +116,21 @@ class CloseOrderTest extends Functional
         return array(
             array(Factory::getFixtureFactory()->getMagentoSalesPaypalExpressOrder()),
             array(Factory::getFixtureFactory()->getMagentoSalesAuthorizeNetOrder()),
-            array(Factory::getFixtureFactory()->getMagentoSalesPaypalPaymentsProOrder())
+            array(Factory::getFixtureFactory()->getMagentoSalesPaypalPaymentsProOrder()),
+            array(Factory::getFixtureFactory()->getMagentoSalesPaypalPaymentsAdvancedOrder(),
+                  'populatePayflowAdvancedCcForm')
         );
+    }
+
+    /**
+     * Populate additional data needed for Paypal Payments Advanced checkout.
+     *
+     * @param Checkout $fixture
+     */
+    public function populatePayflowAdvancedCcForm(Checkout $fixture) {
+        /** @var \Magento\Payment\Test\Block\Form\PayflowAdvanced\Cc $formBlock */
+        $formBlock = Factory::getPageFactory()->getCheckoutOnepage()->getPayflowCcBlock();
+        $formBlock->fill($fixture);
+        $formBlock->pressContinue();
     }
 }

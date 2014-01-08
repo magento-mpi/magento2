@@ -14,19 +14,19 @@ namespace Magento\Sales\Test\Fixture;
 use Mtf\Factory\Factory;
 
 /**
- * Class PaypalPaymentsProOrder
- * Guest checkout using PayPal Payments Pro method
+ * Class PaypalPaymentsAdvancedOrder
+ * Guest checkout using PayPal Payments Advanced method
  *
  * @package Magento\Sales\Test\Fixture
  */
-class PaypalPaymentsProOrder extends OrderCheckout
+class PaypalPaymentsAdvancedOrder extends OrderCheckout
 {
     /**
-     * Prepare data for guest checkout using Paypal Payments Pro.
+     * Prepare data for guest checkout using Paypal Payments Advanced.
      */
     protected function _initData()
     {
-        $this->checkoutFixture = Factory::getFixtureFactory()->getMagentoCheckoutGuestPaypalDirect();
+        $this->checkoutFixture = Factory::getFixtureFactory()->getMagentoCheckoutGuestPayPalAdvanced();
         //Verification data
         $this->_data = array(
             'totals' => array(

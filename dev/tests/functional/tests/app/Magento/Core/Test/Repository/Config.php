@@ -890,7 +890,7 @@ class Config extends AbstractRepository
                         'groups' => array(
                             'paypal_group_all_in_one' => array( //PayPal All-in-One Payment Solutions
                                 'groups' => array(
-                                    'payflow_advanced_us' => array( //Payments Pro (Includes Express Checkout)
+                                    'payflow_advanced_us' => array( //PayPal Payments Advanced (Includes Express Checkout)
                                         'groups' => array(
                                             'required_settings' => array( //Required PayPal Settings
                                                 'groups' => array(
@@ -911,18 +911,18 @@ class Config extends AbstractRepository
                                                             'pwd' => array( //Password
                                                                 'value' => 'Temp1234'
                                                             ),
-                                                            'sandbox_flag' => array( //Sandbox Mode
-                                                                'value' => 1 //Yes
+                                                            'sandbox_flag' => array( //Test Mode
+                                                                'value' => self::YES_VALUE
                                                             ),
-                                                            'use_proxy' => array( //API Uses Proxy
-                                                                'value' => 0 //No
+                                                            'use_proxy' => array( //Use Proxy
+                                                                'value' => self::NO_VALUE
                                                             )
                                                         )
                                                     )
                                                 ),
                                                 'fields' => array(
                                                     'enable_payflow_advanced' => array( //Enable this Solution
-                                                        'value' => 1 //Yes
+                                                        'value' => self::YES_VALUE
                                                     )
                                                 )
                                             ),
@@ -940,7 +940,7 @@ class Config extends AbstractRepository
                             'paypal_express' => array(
                                 'fields' => array(
                                     'active' => array(
-                                        'value' => 1
+                                        'value' => self::YES_VALUE
                                     )
                                 )
                             )
