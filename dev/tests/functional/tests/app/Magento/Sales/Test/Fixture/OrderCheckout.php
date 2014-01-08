@@ -16,6 +16,7 @@ use Magento\Checkout\Test\Fixture\Checkout;
 
 /**
  * Class OrderCheckout
+ * Fixture with all necessary data for order creation on the frontend
  *
  * @package Magento\Checkout\Test\Fixture
  */
@@ -38,7 +39,7 @@ class OrderCheckout extends Checkout
     /**
      * Product Array
      * @var array
-     * */
+     */
     protected $additionalProducts;
 
     /**

@@ -17,7 +17,6 @@ use Mtf\Factory\Factory;
  * Class AuthorizeNetOrder
  * Guest checkout using Authorize.Net
  *
- * @ZephyrId MAGETWO-12833
  * @package Magento\Sales\Test\Fixture
  */
 class AuthorizeNetOrder extends OrderCheckout
