@@ -8,22 +8,22 @@
 
 namespace Magento\TestModule1\Service;
 
-use Magento\TestModule1\Service\Entity\V1\Item;
-
 class AllSoapAndRestV1 implements \Magento\TestModule1\Service\AllSoapAndRestV1Interface
 {
     /**
-     * @param int $request
-     * @return Item
+     * @param $request
+     * @return array
+     * @throws \Magento\Webapi\Exception
      */
-    public function item($id)
+    public function item($request)
     {
-        if ($id == null) {
+        if ($request['id'] == null) {
             throw new \Magento\Webapi\Exception("Invalid Id");
         }
-        $result = new Item();
-        $result->setId($id);
-        $result->setName('testProduct1');
+        $result = array(
+            'id' => $request['id'],
+            'name' => 'testProduct1'
+        );
         return $result;
     }
 
@@ -32,42 +32,47 @@ class AllSoapAndRestV1 implements \Magento\TestModule1\Service\AllSoapAndRestV1I
      */
     public function items()
     {
-        $result1 = new Item();
-        $result1->setId(1);
-        $result1->setName('testProduct1');
-
-        $result2 = new Item();
-        $result2->setId(2);
-        $result2->setName('testProduct2');
-
-        return [$result1, $result2];
-    }
-
-    /**
-     * @param string $name
-     * @return Item
-     */
-    public function create($name)
-    {
-        $result = new Item();
-        $result->setId(rand());
-        $result->setName($name);
+        $result = array(
+            array(
+                'id' => 1,
+                'name' => 'testProduct1'
+            ),
+            array(
+                'id' => 2,
+                'name' => 'testProduct2'
+            )
+        );
         return $result;
     }
 
     /**
-     * @param Item $item
-     * @return Item
+     * @param $request
+     * @return array
      */
-    public function update(Item $item)
+    public function create($request)
     {
-        if ($item->getId() == null) {
+        $result = array(
+            'id' => rand(),
+            'name' => $request['name']
+        );
+        return $result;
+    }
+
+    /**
+     * @param $request
+     * @return array
+     * @throws \Magento\Webapi\Exception
+     */
+    public function update($request)
+    {
+        if ($request['id'] == null) {
             throw new \Magento\Webapi\Exception("Invalid Id");
         }
 
-        $result = new Item();
-        $result->setId($item->getId());
-        $result->setName('Updated'.$item->getName());
+        $result = array(
+            'id' => $request['id'],
+            'name' => 'Updated' . $request['name']
+        );
         return $result;
     }
 }

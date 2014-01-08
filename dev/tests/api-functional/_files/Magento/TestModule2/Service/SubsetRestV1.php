@@ -7,33 +7,35 @@
  */
 namespace Magento\TestModule2\Service;
 
-use Magento\TestModule2\Service\Entity\V1\Item;
-
 class SubsetRestV1 implements \Magento\TestModule2\Service\SubsetRestV1Interface
 {
     /**
-     * @param int $id
-     * @return Item
+     * @param array $request
+     * @return array
      */
-    public function item($id)
+    public function item($request)
     {
-        $response = new Item();
-        $response->setId($id);
-        return $response;
+        return array(
+            'id' => $request['id']
+        );
     }
 
     /**
+     * @param array $request
      * @return array
      */
     public function items()
     {
-        $r1 = new Item();
-        $r1->setId('1');
-        $r1->setName('testItem1');
-        $r2 = new Item();
-        $r2->setId('2');
-        $r2->setName('testItem2');
-        return [$r1, $r2];
+        return array(
+            array(
+                'id' => 1,
+                'name' => 'testItem1'
+            ),
+            array(
+                'id' => 2,
+                'name' => 'testItem2'
+            )
+        );
     }
 
     /**

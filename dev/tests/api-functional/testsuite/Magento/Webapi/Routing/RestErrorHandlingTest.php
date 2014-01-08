@@ -30,7 +30,7 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
 
          // TODO: check Http Status = 200, cannot do yet due to missing header info returned
 
-        $this->assertEquals('a good id', $item['value'], 'Success case is correct');
+        $this->assertEquals('a good id', $item['id'], 'Success case is correct');
     }
 
     public function testNotFound()
@@ -142,8 +142,6 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
 
     public function testReturnIncompatibleDataType()
     {
-        $this->markTestSkipped("i don't believe this is a valid test anymore");
-
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => '/V1/errortest/returnIncompatibleDataType',
