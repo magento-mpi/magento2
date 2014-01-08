@@ -1,4 +1,6 @@
 * Fixed bugs:
+  * Fixed category move is not changing position in case if $afterCategoryId is null
+  * Fixed admin users locked out after lognum update
   * Fixed products from non-default website aren't shown as bundle items
   * Fixed placing order with status Pending Payment instead of Processing when payment method Authorize.net is used
   * Fixed PayPal Express: order can't be placed if HTTPS is used on frontend
@@ -6,6 +8,14 @@
   * Fixed CSRF vulnerability in checkout
   * Fixed JavaScript static testing framework to properly handle corrupted paths in white/black lists
   * Fixed error during Google Shopping synchronization due to invalid method call
+  * Fixed design for contextual help tooltip
+  * Fixed "Authorize.net CC" section UI on "Onepage Checkout" page
+  * Fixed UI issues on backend create and view order pages
+  * Fixed IE9 backend UI issues
+  * Fixed UI issues on "Edit Customer" backend page
+  * Fixed UI issue of placeholder for preview images on "Edit Product" page in IE9
+  * Fixed Admin Look&Feel forms UI issues
+  * Fixed Admin Look&Feel buttons UI issues
 * Consolidated a few 3rd-party JavaScript libraries under `pub/lib` directory and specified their original license notice texts
 
 2.0.0.0-dev59
