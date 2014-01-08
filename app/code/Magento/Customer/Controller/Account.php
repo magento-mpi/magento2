@@ -269,7 +269,7 @@ class Account extends \Magento\App\Action\Action
                     $this->_getSession()->regenerateId();
                 } catch (ServiceException $e) {
                     switch ($e->getCode()) {
-                        case CustomerV1Interface::CODE_EMAIL_NOT_CONFIRMED:
+                        case ServiceException::CODE_EMAIL_NOT_CONFIRMED:
                             $value = $this->_objectManager->get('Magento\Customer\Helper\Data')
                                 ->getEmailConfirmationUrl($login['username']);
                             $message = __(
@@ -278,7 +278,7 @@ class Account extends \Magento\App\Action\Action
                                 $value
                             );
                             break;
-                        case CustomerV1Interface::CODE_INVALID_EMAIL_OR_PASSWORD:
+                        case ServiceException::CODE_INVALID_EMAIL_OR_PASSWORD:
                             $message = __('Invalid login or password.');
                             break;
                         default:
@@ -421,7 +421,7 @@ class Account extends \Magento\App\Action\Action
                 array('account_controller' => $this, 'customer' => $customer)
             );
 
-            if ($result->getStatus() == CustomerV1Interface::ACCOUNT_CONFIRMATION) {
+            if ($result->getStatus() == CustomerAccountServiceInterface::ACCOUNT_CONFIRMATION) {
                 $email = $this->_objectManager->get('Magento\Customer\Helper\Data')->getEmailConfirmationUrl($customer->getEmail());
                 $this->messageManager->addSuccess(
                     __('Account confirmation is required. Please, check your email for the confirmation link. To resend the confirmation email please <a href="%1">click here</a>.', $email)
@@ -435,7 +435,7 @@ class Account extends \Magento\App\Action\Action
             }
             return;
         } catch (ServiceException $e) {
-            if ($e->getCode() === CustomerV1Interface::CODE_EMAIL_EXISTS) {
+            if ($e->getCode() === ServiceException::CODE_EMAIL_EXISTS) {
                 $url = $this->_createUrl()->getUrl('customer/account/forgotpassword');
                 $message = __('There is already an account with this email address. If you are sure that it is your email address, <a href="%1">click here</a> to get your password and access your account.', $url);
             } else {
@@ -644,7 +644,7 @@ class Account extends \Magento\App\Action\Action
             $this->_redirect->success($backUrl ? $backUrl : $successUrl);
             return;
         } catch (ServiceException $e) {
-            if ($e->getCode() == CustomerV1Interface::CODE_ACCT_ALREADY_ACTIVE) {
+            if ($e->getCode() == ServiceException::CODE_ACCT_ALREADY_ACTIVE) {
                 // die happy
                 $this->_redirect->success($this->_createUrl()->getUrl('*/*/index', array('_secure' => true)));
             } else {
@@ -709,7 +709,7 @@ class Account extends \Magento\App\Action\Action
                 $this->_customerAccountService->sendConfirmation($email);
                 $this->_getSession()->addSuccess(__('Please, check your email for confirmation key.'));
             } catch (ServiceException $e) {
-                if ($e->getCode() == CustomerV1Interface::CODE_CONFIRMATION_NOT_NEEDED) {
+                if ($e->getCode() == ServiceException::CODE_CONFIRMATION_NOT_NEEDED) {
                     $this->_getSession()->addSuccess(__('This email does not require confirmation.'));
                 } else {
                     $this->_getSession()->addException($e, __('Wrong email.'));
@@ -771,7 +771,7 @@ class Account extends \Magento\App\Action\Action
                 $this->_customerAccountService
                     ->sendPasswordResetLink($email, $this->_storeManager->getStore()->getWebsiteId());
             } catch (ServiceException $exception) {
-                if ($exception->getCode() !== CustomerV1Interface::CODE_EMAIL_NOT_FOUND) {
+                if ($exception->getCode() !== ServiceException::CODE_EMAIL_NOT_FOUND) {
                     $this->messageManager->addError($exception->getMessage());
                     $this->_redirect('*/*/forgotpassword');
                     return;
@@ -821,7 +821,7 @@ class Account extends \Magento\App\Action\Action
                 ->setResetPasswordLinkToken($resetPasswordToken);
             $this->_view->renderLayout();
         } catch (\Exception $exception) {
-            if ($exception->getCode() === CustomerV1Interface::CODE_INVALID_RESET_TOKEN) {
+            if ($exception->getCode() === ServiceException::CODE_INVALID_RESET_TOKEN) {
                 $this->messageManager->addError(__('Invalid password reset token.'));
             } else {
                 $this->messageManager->addError(__('Your password reset link has expired.'));
@@ -869,8 +869,8 @@ class Account extends \Magento\App\Action\Action
             return;
         } catch (ServiceException $exception) {
             switch ($exception->getCode()) {
-                case CustomerV1Interface::CODE_INVALID_RESET_TOKEN:
-                case CustomerV1Interface::CODE_RESET_TOKEN_EXPIRED:
+                case ServiceException::CODE_INVALID_RESET_TOKEN:
+                case ServiceException::CODE_RESET_TOKEN_EXPIRED:
                 $this->messageManager->addError(
                         __('Your password reset link has expired.')
                     );
