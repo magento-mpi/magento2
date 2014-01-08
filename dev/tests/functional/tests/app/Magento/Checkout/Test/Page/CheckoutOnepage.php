@@ -78,9 +78,11 @@ class CheckoutOnepage extends Page
     protected $centinelAuthenticationBlock = 'body';
 
     /**
-     * @var \Magento\Centinel\Test\Block\Authentication
+     * Payflow Advanced IFrame body
+     *
+     * @var string
      */
-    private $payflowAdvancedBlock;
+    protected $payflowAdvancedBlock = 'body';
 
     /**
      * 3D Secure frame locator
@@ -94,7 +96,7 @@ class CheckoutOnepage extends Page
      *
      * @var $Locator
      */
-    protected $_payflowAdvancedFrame;
+    protected $payflowAdvancedFrame = "#payflow-advanced-iframe";
 
     /**
      * Custom constructor
@@ -189,13 +191,13 @@ class CheckoutOnepage extends Page
     }
 
     /**
-     * @return \Magento\Centinel\Test\Block\Authentication
+     * @return \Magento\Payment\Test\Block\Form\PayflowAdvanced\Cc
      */
     public function getPayflowCcBlock()
     {
-        $this->_browser->switchToFrame(new Locator($this->_payflowAdvancedFrame));
+        $this->_browser->switchToFrame(new Locator($this->payflowAdvancedFrame));
         return Factory::getBlockFactory()->getMagentoPaymentFormPayflowAdvancedCc(
-            $this->_browser->find($this->payflowAdvancedBlock)
+            $this->_browser->find($this->payflowAdvancedBlock, Locator::SELECTOR_CSS)
         );
     }
 }
