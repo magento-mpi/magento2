@@ -15,7 +15,6 @@
         </sequence>
         <depends>
             <module name="Magento_Catalog" />
-            <module name="Magento_CatalogInventory" />
             <module name="Magento_Core" />
         </depends>
     </module>
