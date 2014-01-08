@@ -20,6 +20,11 @@ namespace Magento\Wishlist\Block\Customer;
 
 class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
 {
+    /*
+     * List of product options rendering configurations by product type
+     */
+    protected $_optionsCfg = array();
+
     /**
      * @var \Magento\Catalog\Helper\Product\ConfigurationPool
      */
@@ -210,9 +215,9 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
             $template = $cfgDefault['template'];
         }
 
-        return $block->setTemplate($template)
-            ->setOptionList($this->_helperPool($cfg['helper'])->getOptions($item))
-            ->toHtml();
+        $block->setTemplate($template);
+        $block->setOptionList($this->_helperPool->get($cfg['helper'])->getOptions($item));
+        return $block->toHtml();
     }
 
     /**
