@@ -1774,10 +1774,6 @@ return array(
         'Magento\GroupedProduct\Model\Resource\Product\Indexer\Price\Grouped'
     ),
     array(
-        'Magento\Catalog\Model\Resource\Product\Indexer\Price\Grouped',
-        'Magento\GroupedProduct\Model\Resource\Product\Indexer\Price\Grouped'
-    ),
-    array(
         'Magento\Catalog\Model\Resource\Product\Type\Grouped\AssociatedProductsCollection',
         'Magento\GroupedProduct\Model\Resource\Product\Type\Grouped\AssociatedProductsCollection'
     ),
