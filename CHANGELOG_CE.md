@@ -15,6 +15,7 @@
   * Fixed UI issues on "Edit Customer" backend page
   * Fixed UI issue of placeholder for preview images on "Edit Product" page in IE9
   * Fixed Admin Look&Feel forms UI issues
+  * Fixed Admin Look&Feel buttons UI issues
 * Consolidated a few 3rd-party JavaScript libraries under `pub/lib` directory and specified their original license notice texts
 
 2.0.0.0-dev59

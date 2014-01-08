@@ -387,6 +387,7 @@ button.primary:active,
 .adminhtml-integration-new .actions-split.btn-round .action-default.primary:hover,
 .adminhtml-integration-new .actions-split.btn-round .action-default.primary:focus,
 .adminhtml-integration-new .actions-split.btn-round .action-default.primary:active {
+  text-decoration: none;
   background: #cac3b4;
   color: #676056;
 }

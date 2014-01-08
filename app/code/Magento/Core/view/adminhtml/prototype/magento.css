@@ -225,11 +225,27 @@
     margin: 0 5px 0 0;
 }
 
+.magento_message #contents-uploader {
+    margin: 0 0 18px;
+}
+
 .magento_message .fileinput-button {
     display: inline-block;
     cursor: pointer;
     float: none;
     vertical-align: middle;
+}
+
+.magento_message .fileinput-button span {
+    display: none;
+}
+
+.magento_message .fileinput-button input {
+    position: static;
+    border: none;
+    opacity: 1;
+    filter: alpha(opacity=1);
+    -moz-transform: none;
 }
 
 .magento_message .file-row {
@@ -322,7 +338,8 @@
 
 .ui-dialog .ui-dialog-title {
     color: #676056;
-    font: normal 20px/1 'CallunaSans';
+    font-size: 20px;
+    line-height: 1;
     display: block;
     padding: 19px 0 19px 20px;
     cursor: move;
