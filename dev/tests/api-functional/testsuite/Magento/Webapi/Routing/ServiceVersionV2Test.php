@@ -11,7 +11,7 @@
  */
 namespace Magento\Webapi\Routing;
 
-class ServiceVersionV2Test extends \Magento\Webapi\Routing\BaseService
+class ServiceVersionV2Test extends \Magento\Webapi\Routing\ServiceVersionV1Test
 {
 
     /**
@@ -45,58 +45,6 @@ class ServiceVersionV2Test extends \Magento\Webapi\Routing\BaseService
         $item = $this->_webApiCall($serviceInfo, $requestData);
         // Asserting for additional attribute returned by the V2 api
         $this->assertEquals(1, $item['price'], 'Item was retrieved unsuccessfully from V2');
-    }
-
-    /**
-     * Test fetching all items
-     */
-    public function testItems()
-    {
-        $itemArr = array(
-            array(
-                'id' => 1,
-                'name' => 'testProduct1',
-                'price' => '1',
-            ),
-            array(
-                'id' => 2,
-                'name' => 'testProduct2',
-                'price' => '2',
-            )
-        );
-        $serviceInfo = array(
-            'rest' => array(
-                'resourcePath' => $this->_restResourcePath,
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
-            ),
-            'soap' => array(
-                'service' => $this->_soapService,
-                'operation' => $this->_soapService . 'Items'
-            )
-        );
-        $item = $this->_webApiCall($serviceInfo);
-        $this->assertEquals($itemArr, $item, 'Items were not retrieved');
-    }
-
-    /**
-     *  Test update item
-     */
-    public function testUpdate()
-    {
-        $itemId = 1;
-        $serviceInfo = array(
-            'rest' => array(
-                'resourcePath' => $this->_restResourcePath . $itemId,
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
-            ),
-            'soap' => array(
-                'service' => $this->_soapService,
-                'operation' => $this->_soapService . 'Update'
-            )
-        );
-        $requestData = ['item' => ['id' => $itemId, 'name' => 'testName', 'price' => '4']];
-        $item = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals('Updated' . $requestData['item']['name'], $item['name'], 'Item update failed');
     }
 
     /**

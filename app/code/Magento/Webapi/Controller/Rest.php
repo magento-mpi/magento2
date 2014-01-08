@@ -8,7 +8,6 @@
 
 namespace Magento\Webapi\Controller;
 
-use Magento\Service\Entity\MagentoDtoInterface;
 use Magento\Authz\Service\AuthorizationV1Interface as AuthorizationService;
 
 /**
@@ -43,9 +42,6 @@ class Rest implements \Magento\App\FrontControllerInterface
     /** @var AuthorizationService */
     protected $_authorizationService;
 
-    /** @var  ServiceArgsSerializer */
-    protected $_serializer;
-
     /**
      * @param Rest\Request $request
      * @param Rest\Response $response
@@ -64,8 +60,7 @@ class Rest implements \Magento\App\FrontControllerInterface
         \Magento\App\State $appState,
         \Magento\Oauth\OauthInterface $oauthService,
         \Magento\Oauth\Helper\Request $oauthHelper,
-        AuthorizationService $authorizationService,
-        ServiceArgsSerializer $serializer
+        AuthorizationService $authorizationService
     ) {
         $this->_router = $router;
         $this->_request = $request;
@@ -75,7 +70,6 @@ class Rest implements \Magento\App\FrontControllerInterface
         $this->_oauthService = $oauthService;
         $this->_oauthHelper = $oauthHelper;
         $this->_authorizationService = $authorizationService;
-        $this->_serializer = $serializer;
     }
 
     /**
@@ -132,51 +126,19 @@ class Rest implements \Magento\App\FrontControllerInterface
             }
             /** @var array $inputData */
             $inputData = $this->_request->getRequestData();
-            $serviceMethodName = $route->getServiceMethod();
-            $serviceClassName = $route->getServiceClass();
-            $inputParams = $this->_serializer->getInputData($serviceClassName, $serviceMethodName, $inputData);
-            $service = $this->_objectManager->get($serviceClassName);
-            /** @var \Magento\Service\Entity\AbstractDto $outputData */
-            $outputData = call_user_func_array([$service, $serviceMethodName], $inputParams);
-            $outputArray = $this->_getOutputArray($outputData);
-            $this->_response->prepareResponse($outputArray);
+            $serviceMethod = $route->getServiceMethod();
+            $service = $this->_objectManager->get($route->getServiceClass());
+            $outputData = $service->$serviceMethod($inputData);
+            if (!is_array($outputData)) {
+                throw new \LogicException(
+                    sprintf('The method "%s" of service "%s" must return an array.', $serviceMethod,
+                        $route->getServiceClass())
+                );
+            }
+            $this->_response->prepareResponse($outputData);
         } catch (\Exception $e) {
             $this->_response->setException($e);
         }
         return $this->_response;
     }
-
-    /**
-     * Converts the incoming data into an array format.
-     *
-     * If the data provided is null, then an empty array is returned.  Otherwise, if the data is an object, it is
-     * assumed to be a DTO and converted to an associative array with keys representing the properties of the DTO.
-     * Nested DTOs are also converted.  If the data provided is itself an array, then we iterate through the contents
-     * and convert each piece individually.
-     *
-     * @param array|\Magento\Service\Entity\MagentoDtoInterface $data A DTO or an array of DTOs to be converted into
-     *                                                                a key-value array format.
-     * @return array
-     */
-    protected function _getOutputArray($data)
-    {
-        if (!is_null($data)) {
-            $outputArray = [];
-            if (is_array($data)) {
-                foreach ($data as $datum) {
-                    if (method_exists($datum, '__toArray')) {
-                        $outputArray[] = $datum->__toArray();
-                    } else {
-                        $outputArray[] = $datum;
-                    }
-                }
-            } else {
-                /** @var MagentoDtoInterface $data */
-                $outputArray = $data->__toArray();
-            }
-            return $outputArray;
-        }
-        return null;
-    }
-
 }
