@@ -23,25 +23,25 @@ class Group extends \Magento\Backend\App\Action
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\Customer\Service\CustomerGroupV1Interface
+     * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
      */
     protected $_groupService = null;
     
     /**
-     * @var \Magento\Customer\Service\Entity\V1\CustomerGroupBuilder
+     * @var \Magento\Customer\Service\V1\Dto\CustomerGroupBuilder
      */
     protected $_customerGroupBuilder;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Customer\Service\CustomerGroupV1Interface $groupService
+     * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Customer\Service\CustomerGroupV1Interface $groupService,
-        \Magento\Customer\Service\Entity\V1\CustomerGroupBuilder $customerGroupBuilder
+        \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService,
+        \Magento\Customer\Service\V1\Dto\CustomerGroupBuilder $customerGroupBuilder
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_groupService = $groupService;
@@ -88,7 +88,7 @@ class Group extends \Magento\Backend\App\Action
         $this->_addBreadcrumb(__('Customers'), __('Customers'));
         $this->_addBreadcrumb(__('Customer Groups'), __('Customer Groups'), $this->getUrl('customer/group'));
 
-        /** @var \Magento\Customer\Service\Entity\V1\CustomerGroup $currentGroup */
+        /** @var \Magento\Customer\Service\V1\Dto\CustomerGroup $currentGroup */
         $currentGroup = $this->_coreRegistry->registry('current_group');
 
         if (!is_null($currentGroup->getId())) {

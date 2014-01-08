@@ -11,7 +11,7 @@ namespace Magento\Customer\Service\V1\Dto;
 /**
  * Customer
  *
- * @package Magento\Customer\Service\Entity\V1
+ * @package Magento\Customer\Service\V1\Dto
  */
 class CustomerTest extends \PHPUnit_Framework_TestCase
 {

@@ -26,9 +26,14 @@ class Address extends \Magento\View\Element\Template
     protected $_customerSession;
 
     /**
-     * @var \Magento\Customer\Service\CustomerV1Interface
+     * @var \Magento\Customer\Service\V1\CustomerServiceInterface
      */
     protected $_customerService;
+
+    /**
+     * @var \Magento\Customer\Service\V1\CustomerAddressServiceInterface
+     */
+     protected $_addressService;
 
     /**
      * @var \Magento\Customer\Model\Address\Config
@@ -38,19 +43,22 @@ class Address extends \Magento\View\Element\Template
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Customer\Service\CustomerV1Interface $customerService
+     * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
+     * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
      * @param \Magento\Customer\Model\Address\Config $addressConfig
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Customer\Service\CustomerV1Interface $customerService,
+        \Magento\Customer\Service\V1\CustomerServiceInterface $customerService,
+        \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
         \Magento\Customer\Model\Address\Config $addressConfig,
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;
         $this->_customerService = $customerService;
+        $this->_addressService = $addressService;
         $this->_addressConfig = $addressConfig;
         parent::__construct($context, $data);
     }
@@ -58,7 +66,7 @@ class Address extends \Magento\View\Element\Template
     /**
      * Get the logged in customer
      *
-     * @return \Magento\Customer\Service\Entity\V1\Customer
+     * @return \Magento\Customer\Service\V1\Dto\Customer
      */
     public function getCustomer()
     {
@@ -72,7 +80,7 @@ class Address extends \Magento\View\Element\Template
      */
     public function getPrimaryShippingAddressHtml()
     {
-        $address = $this->_customerService->getDefaultShippingAddress($this->_customerSession->getCustomerId());
+        $address = $this->_addressService->getDefaultShippingAddress($this->_customerSession->getCustomerId());
 
         if ($address) {
             return $this->_getAddressHtml($address);
@@ -88,7 +96,7 @@ class Address extends \Magento\View\Element\Template
      */
     public function getPrimaryBillingAddressHtml()
     {
-        $address = $this->_customerService->getDefaultBillingAddress($this->_customerSession->getCustomerId());
+        $address = $this->_addressService->getDefaultBillingAddress($this->_customerSession->getCustomerId());
 
         if ($address) {
             return $this->_getAddressHtml($address);
@@ -115,7 +123,7 @@ class Address extends \Magento\View\Element\Template
     /**
      * Render an address as HTML and return the result
      *
-     * @param \Magento\Customer\Service\Entity\V1\Address $address
+     * @param \Magento\Customer\Service\V1\Dto\Address $address
      * @return string
      */
     protected function _getAddressHtml($address)

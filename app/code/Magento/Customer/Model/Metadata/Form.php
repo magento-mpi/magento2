@@ -13,7 +13,7 @@ namespace Magento\Customer\Model\Metadata;
 class Form
 {
     /**
-     * @var \Magento\Customer\Service\Eav\AttributeMetadataServiceV1Interface
+     * @var \Magento\Customer\Service\V1\CustomerMetadataServiceInterface
      */
     protected $_eavMetadataService;
 
@@ -73,7 +73,7 @@ class Form
     protected $_validator;
 
     /**
-     * @param \Magento\Customer\Service\Eav\AttributeMetadataServiceV1Interface $eavMetadataService
+     * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $eavMetadataService
      * @param ElementFactory $elementFactory
      * @param \Magento\App\RequestInterface $httpRequest
      * @param \Magento\Module\Dir\Reader $modulesReader
@@ -86,7 +86,7 @@ class Form
      * @param bool $isAjax
      */
     public function __construct(
-        \Magento\Customer\Service\Eav\AttributeMetadataServiceV1Interface $eavMetadataService,
+        \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $eavMetadataService,
         ElementFactory $elementFactory,
         \Magento\App\RequestInterface $httpRequest,
         \Magento\Module\Dir\Reader $modulesReader,
@@ -114,7 +114,7 @@ class Form
     /**
      * Retrieve attributes metadata for the form
      *
-     * @return \Magento\Customer\Service\Entity\V1\Eav\AttributeMetadata[]
+     * @return \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata[]
      */
     public function getAttributes()
     {
@@ -125,7 +125,7 @@ class Form
     /**
      * Retrieve filtered attributes
      *
-     * @return \Magento\Customer\Service\Entity\V1\Eav\AttributeMetadata[]
+     * @return \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata[]
      */
     public function getAllowedAttributes()
     {

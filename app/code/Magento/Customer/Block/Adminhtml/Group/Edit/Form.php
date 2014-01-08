@@ -52,20 +52,20 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
 
-        /** @var \Magento\Customer\Service\Entity\V1\CustomerGroup $customerGroup */
+        /** @var \Magento\Customer\Service\V1\Dto\CustomerGroup $customerGroup */
         $customerGroup = $this->_coreRegistry->registry('current_group');
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Group Information')));
 
         $validateClass = sprintf('required-entry validate-length maximum-length-%d',
-            \Magento\Customer\Service\CustomerGroupV1Interface::GROUP_CODE_MAX_LENGTH);
+            \Magento\Customer\Service\V1\CustomerGroupServiceInterface::GROUP_CODE_MAX_LENGTH);
         $name = $fieldset->addField('customer_group_code', 'text',
             array(
                 'name'  => 'code',
                 'label' => __('Group Name'),
                 'title' => __('Group Name'),
                 'note'  => __('Maximum length must be less then %1 symbols',
-                    \Magento\Customer\Service\CustomerGroupV1Interface::GROUP_CODE_MAX_LENGTH),
+                    \Magento\Customer\Service\V1\CustomerGroupServiceInterface::GROUP_CODE_MAX_LENGTH),
                 'class' => $validateClass,
                 'required' => true,
             )

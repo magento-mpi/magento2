@@ -13,8 +13,8 @@
  */
 namespace Magento\Customer\Block\Address;
 
-use Magento\Customer\Service\Entity\V1\Address;
-use Magento\Customer\Service\Entity\V1\Customer;
+use Magento\Customer\Service\V1\Dto\Address;
+use Magento\Customer\Service\V1\Dto\Customer;
 
 class Edit extends \Magento\Directory\Block\Data
 {
@@ -36,20 +36,26 @@ class Edit extends \Magento\Directory\Block\Data
     protected $_customerSession;
 
     /**
-     * @var \Magento\Customer\Service\CustomerV1Interface
+     * @var \Magento\Customer\Service\V1\CustomerServiceInterface
      */
     protected $_customerService;
 
     /**
+     * @var \Magento\Customer\Service\V1\CustomerAddressServiceInterface
+     */
+    protected $_addressService;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Customer\Service\CustomerV1Interface $customerService
+     * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
+     * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
      * @param array $data
      */
     public function __construct(
@@ -61,7 +67,8 @@ class Edit extends \Magento\Directory\Block\Data
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory,
         \Magento\Core\Model\Config $config,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Customer\Service\CustomerV1Interface $customerService,
+        \Magento\Customer\Service\V1\CustomerServiceInterface $customerService,
+        \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
         array $data = array()
     ) {
         $this->_config = $config;
@@ -70,6 +77,7 @@ class Edit extends \Magento\Directory\Block\Data
         parent::__construct(
             $context, $coreData, $jsonEncoder, $configCacheType, $regionCollFactory, $countryCollFactory, $data
         );
+        $this->_addressService = $addressService;
     }
 
     protected function _prepareLayout()
@@ -80,7 +88,7 @@ class Edit extends \Magento\Directory\Block\Data
         if ($addressId = $this->getRequest()->getParam('id')) {
             $customerId = $this->_customerSession->getCustomerId();
             try {
-                $this->_address = $this->_customerService->getAddressById($customerId, $addressId);
+                $this->_address = $this->_addressService->getAddressById($customerId, $addressId);
             } catch (\Magento\Customer\Service\Entity\V1\Exception $e) {
                 // something went wrong, but we are ignore it for now
                 $this->_address = $this->_createAddress();
@@ -201,14 +209,14 @@ class Edit extends \Magento\Directory\Block\Data
 
     public function isDefaultBilling()
     {
-        $defaultBilling = $this->_customerService
+        $defaultBilling = $this->_addressService
             ->getDefaultBillingAddress($this->_customerSession->getCustomerId());
         return $this->getAddress()->getId() && $this->getAddress()->getId() == $defaultBilling;
     }
 
     public function isDefaultShipping()
     {
-        $defaultShipping = $this->_customerService
+        $defaultShipping = $this->_addressService
             ->getDefaultShippingAddress($this->_customerSession->getCustomerId());
         return $this->getAddress()->getId() && $this->getAddress()->getId() == $defaultShipping;
     }

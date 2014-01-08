@@ -9,38 +9,38 @@
  */
 namespace Magento\Customer\Model\Resource\Group\Grid;
 
-use Magento\Customer\Service\Entity\V1\CustomerGroup;
-use Magento\Customer\Service\Entity\V1\Filter;
-use Magento\Customer\Service\Entity\V1\SearchCriteria;
+use Magento\Customer\Service\V1\Dto\CustomerGroup;
+use Magento\Customer\Service\V1\Dto\Filter;
+use Magento\Customer\Service\V1\Dto\SearchCriteria;
 
 class ServiceCollection extends \Magento\Data\Collection
 {
     /**
-     * @var \Magento\Customer\Service\CustomerGroupV1Interface
+     * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
      */
     protected $groupService;
 
     /**
-     * @var \Magento\Customer\Service\Entity\V1\FilterBuilder
+     * @var \Magento\Customer\Service\V1\Dto\FilterBuilder
      */
     protected $filterBuilder;
 
     /**
-     * @var \Magento\Customer\Service\Entity\V1\SearchCriteriaBuilder
+     * @var \Magento\Customer\Service\V1\Dto\SearchCriteriaBuilder
      */
     protected $searchCriteriaBuilder;
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
-     * @param \Magento\Customer\Service\CustomerGroupV1Interface $groupService
-     * @param \Magento\Customer\Service\Entity\V1\FilterBuilder $filterBuilder
-     * @param \Magento\Customer\Service\Entity\V1\SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService
+     * @param \Magento\Customer\Service\V1\Dto\FilterBuilder $filterBuilder
+     * @param \Magento\Customer\Service\V1\Dto\SearchCriteriaBuilder $searchCriteriaBuilder
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
-        \Magento\Customer\Service\CustomerGroupV1Interface $groupService,
-        \Magento\Customer\Service\Entity\V1\FilterBuilder $filterBuilder,
-        \Magento\Customer\Service\Entity\V1\SearchCriteriaBuilder $searchCriteriaBuilder
+        \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService,
+        \Magento\Customer\Service\V1\Dto\FilterBuilder $filterBuilder,
+        \Magento\Customer\Service\V1\Dto\SearchCriteriaBuilder $searchCriteriaBuilder
     ) {
         parent::__construct($entityFactory);
         $this->groupService = $groupService;
@@ -82,10 +82,10 @@ class ServiceCollection extends \Magento\Data\Collection
     protected function getSearchCriteria()
     {
         foreach ($this->_filters as $filter) {
-            $filerBuilder->setField($filter['field'])
+            $this->filerBuilder->setField($filter['field'])
                 ->setValue($filter['value'])
                 ->setConditionType($filter['type']);
-            $this->searchCriteriaBuilder->addFilter($filterBuilder->create());
+            $this->searchCriteriaBuilder->addFilter($this->filterBuilder->create());
         }
         foreach ($this->_orders as $field => $direction) {
             $this->searchCriteriaBuilder->addSortOrder(

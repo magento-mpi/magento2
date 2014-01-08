@@ -11,7 +11,7 @@
 
 namespace Magento\Customer\Model;
 
-use Magento\Customer\Service\Entity\V1\Customer as CustomerDto;
+use Magento\Customer\Service\V1\Dto\Customer as CustomerDto;
 
 /**
  * Customer session model
@@ -64,10 +64,12 @@ class Session extends \Magento\Session\SessionManager
     protected $_session;
 
     /**
-     * @var \Magento\Customer\Service\CustomerV1Interface
+     * @var \Magento\Customer\Service\V1\CustomerServiceInterface
      */
     protected $_customerService;
 
+    /** @var  \Magento\Customer\Service\V1\CustomerAccountServiceInterface */
+    protected $_customerAccountService;
     /**
      * @var CustomerFactory
      */
@@ -104,7 +106,8 @@ class Session extends \Magento\Session\SessionManager
      * @param \Magento\Core\Model\Session $session
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Customer\Service\CustomerV1Interface $customerService
+     * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
+     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
      * @param null $sessionName
      * @param array $data
      */
@@ -124,7 +127,8 @@ class Session extends \Magento\Session\SessionManager
         \Magento\Core\Model\Session $session,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Customer\Service\CustomerV1Interface $customerService,
+        \Magento\Customer\Service\V1\CustomerServiceInterface $customerService,
+        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
         $sessionName = null,
         array $data = array()
     ) {
@@ -136,6 +140,7 @@ class Session extends \Magento\Session\SessionManager
         $this->_urlFactory = $urlFactory;
         $this->_session = $session;
         $this->_customerService = $customerService;
+        $this->_customerAccountService = $customerAccountService;
         $this->_eventManager = $eventManager;
         $this->_storeManager = $storeManager;
         parent::__construct($request, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage);
@@ -289,7 +294,7 @@ class Session extends \Magento\Session\SessionManager
             $this->setCustomerGroupId($customerGroupId);
             return $customerGroupId;
         }
-        return \Magento\Customer\Service\CustomerGroupV1Interface::NOT_LOGGED_IN_ID;
+        return \Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID;
     }
 
     /**
@@ -333,7 +338,7 @@ class Session extends \Magento\Session\SessionManager
     public function login($username, $password)
     {
         try {
-            $customer = $this->_customerService->authenticate($username, $password);
+            $customer = $this->_customerAccountService->authenticate($username, $password);
             $this->setCustomerDtoAsLoggedIn($customer);
             return true;
         } catch (\Exception $e) {
@@ -450,7 +455,7 @@ class Session extends \Magento\Session\SessionManager
         $this->_customer = null;
         $this->_customerModel = null;
         $this->setCustomerId(null);
-        $this->setCustomerGroupId(\Magento\Customer\Service\CustomerGroupV1Interface::NOT_LOGGED_IN_ID);
+        $this->setCustomerGroupId(\Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID);
         $this->destroy(array('clear_storage' => false));
         return $this;
     }

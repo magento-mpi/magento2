@@ -40,7 +40,7 @@ class View
     protected $_modelVisitor;
 
     /**
-     * @var \Magento\Customer\Service\CustomerGroupV1Interface
+     * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
      */
     protected $_groupService;
 
@@ -56,7 +56,7 @@ class View
     
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Customer\Service\CustomerGroupV1Interface $groupService
+     * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService
      * @param \Magento\Log\Model\CustomerFactory $logFactory
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Log\Model\Visitor $modelVisitor
@@ -65,7 +65,7 @@ class View
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Customer\Service\CustomerGroupV1Interface $groupService,
+        \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService,
         \Magento\Log\Model\CustomerFactory $logFactory,
         \Magento\Core\Model\Registry $registry,
         \Magento\Log\Model\Visitor $modelVisitor,

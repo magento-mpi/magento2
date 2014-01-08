@@ -5,7 +5,7 @@ use Magento\Customer\Service\V1;
 use Magento\Customer\Service\Entity\V1\Exception;
 
 /**
- * Integration test for service layer \Magento\Customer\Service\CustomerV1
+ * Integration test for service layer \Magento\Customer\Service\V1\CustomerAccountService
  *
  * {license_notice}
  *

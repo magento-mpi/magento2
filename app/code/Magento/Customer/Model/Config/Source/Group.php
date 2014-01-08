@@ -19,7 +19,7 @@ class Group implements \Magento\Core\Model\Option\ArrayInterface
     protected $_options;
 
     /**
-     * @var \Magento\Customer\Service\CustomerGroupV1Interface
+     * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
      */
     protected $_groupService;
 
@@ -29,11 +29,11 @@ class Group implements \Magento\Core\Model\Option\ArrayInterface
     protected $_converter;
 
     /**
-     * @param \Magento\Customer\Service\CustomerGroupV1Interface $groupService
+     * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService
      * @param \Magento\Convert\Object $converter
      */
     public function __construct(
-        \Magento\Customer\Service\CustomerGroupV1Interface $groupService,
+        \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService,
         \Magento\Convert\Object $converter
     ) {
         $this->_groupService = $groupService;

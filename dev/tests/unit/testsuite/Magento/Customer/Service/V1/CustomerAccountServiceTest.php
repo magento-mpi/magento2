@@ -167,7 +167,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->_eavMetadataServiceMock =
-            $this->getMockBuilder('Magento\Customer\Service\Eav\AttributeMetadataServiceV1Interface')
+            $this->getMockBuilder('Magento\Customer\Service\V1\CustomerMetadataServiceInterface')
                 ->disableOriginalConstructor()
                 ->getMock();
 

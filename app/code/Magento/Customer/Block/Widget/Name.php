@@ -10,7 +10,7 @@
 
 namespace Magento\Customer\Block\Widget;
 
-use Magento\Customer\Service\Entity\V1\Customer;
+use Magento\Customer\Service\V1\Dto\Customer;
 
 class Name extends \Magento\Customer\Block\Widget\AbstractWidget
 {
@@ -22,14 +22,14 @@ class Name extends \Magento\Customer\Block\Widget\AbstractWidget
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Customer\Helper\Address $addressHelper
-     * @param \Magento\Customer\Service\Eav\AttributeMetadataServiceV1Interface $attributeMetadata,
+     * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $attributeMetadata,
      * @param \Magento\Customer\Helper\Data $customerHelper
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Customer\Helper\Address $addressHelper,
-        \Magento\Customer\Service\Eav\AttributeMetadataServiceV1Interface $attributeMetadata,
+        \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $attributeMetadata,
         \Magento\Customer\Helper\Data $customerHelper,
         array $data = array()
     ) {
@@ -178,7 +178,7 @@ class Name extends \Magento\Customer\Block\Widget\AbstractWidget
      * Retrieve customer or customer address attribute instance
      *
      * @param string $attributeCode
-     * @return \Magento\Customer\Service\Entity\V1\Eav\AttributeMetadata
+     * @return \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata
      */
     protected function _getAttribute($attributeCode)
     {

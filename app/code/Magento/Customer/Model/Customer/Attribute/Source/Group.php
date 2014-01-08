@@ -20,7 +20,7 @@ namespace Magento\Customer\Model\Customer\Attribute\Source;
 class Group extends \Magento\Eav\Model\Entity\Attribute\Source\Table
 {
     /**
-     * @var \Magento\Customer\Service\CustomerGroupV1Interface
+     * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
      */
     protected $_groupService;
 
@@ -33,14 +33,14 @@ class Group extends \Magento\Eav\Model\Entity\Attribute\Source\Table
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptCollFactory
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\OptionFactory $attrOptionFactory
-     * @param \Magento\Customer\Service\CustomerGroupV1Interface $groupService
+     * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService
      * @param \Magento\Convert\Object $converter
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptCollFactory,
         \Magento\Eav\Model\Resource\Entity\Attribute\OptionFactory $attrOptionFactory,
-        \Magento\Customer\Service\CustomerGroupV1Interface $groupService,
+        \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService,
         \Magento\Convert\Object $converter
     ) {
         $this->_groupService = $groupService;

@@ -11,7 +11,7 @@ namespace Magento\Customer\Service\V1\Dto;
  * Class Customer
  * Uses array to hold data, setters return $this so they can be chained.
  *
- * @package Magento\Customer\Service\Entity\V1
+ * @package Magento\Customer\Service\V1\Dto
  */
 class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\EntityInterface
 {

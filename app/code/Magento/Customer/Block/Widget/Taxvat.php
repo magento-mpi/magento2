@@ -20,14 +20,14 @@ class Taxvat extends \Magento\Customer\Block\Widget\AbstractWidget
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Customer\Helper\Address $addressHelper
-     * @param \Magento\Customer\Service\Eav\AttributeMetadataServiceV1Interface $attributeMetadata
+     * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $attributeMetadata
      * @param \Magento\Customer\Model\Session $customerSession
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Customer\Helper\Address $addressHelper,
-        \Magento\Customer\Service\Eav\AttributeMetadataServiceV1Interface $attributeMetadata,
+        \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $attributeMetadata,
         \Magento\Customer\Model\Session $customerSession,
         array $data = array()
     ) {

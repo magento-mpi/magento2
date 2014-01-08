@@ -23,20 +23,20 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\Customer\Service\CustomerGroupV1Interface
+     * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
      */
     protected $_groupService = null;
     /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Customer\Service\CustomerGroupV1Interface $groupService
+     * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Customer\Service\CustomerGroupV1Interface $groupService,
+        \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -55,7 +55,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         $this->_updateButton('save', 'label', __('Save Customer Group'));
         $this->_updateButton('delete', 'label', __('Delete Customer Group'));
 
-        /** @var \Magento\Customer\Service\Entity\V1\CustomerGroup $group */
+        /** @var \Magento\Customer\Service\V1\Dto\CustomerGroup $group */
         $group = $this->_coreRegistry->registry('current_group');
         if (!$group || !$group->getId() || !$this->_groupService->canDelete($group->getId())) {
             $this->_removeButton('delete');

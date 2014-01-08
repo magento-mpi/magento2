@@ -30,7 +30,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     protected $_customersFactory;
 
     /**
-     * @var \Magento\Customer\Service\CustomerGroupV1Interface
+     * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
      */
     protected $_groupService;
     
@@ -50,7 +50,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Core\Model\System\Store $systemStore
      * @param \Magento\Customer\Model\Resource\Customer\CollectionFactory $customersFactory
-     * @param \Magento\Customer\Service\CustomerGroupV1Interface $groupService
+     * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService
      * @param \Magento\Convert\Object $converter
      * @param array $data
      */
@@ -60,7 +60,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Core\Model\System\Store $systemStore,
         \Magento\Customer\Model\Resource\Customer\CollectionFactory $customersFactory,
-        \Magento\Customer\Service\CustomerGroupV1Interface $groupService,
+        \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService,
         \Magento\Convert\Object $converter,
         array $data = array()
     ) {

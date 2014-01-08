@@ -22,11 +22,11 @@ class GroupTest extends \Magento\Backend\Utility\Controller
 
     public static function customerGroupDataFixture()
     {
-        /** @var \Magento\Customer\Service\CustomerGroupV1Interface $groupService */
+        /** @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService */
         $groupService = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Customer\Service\CustomerGroupV1Interface');
+            ->get('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
 
-        $group = new \Magento\Customer\Service\Entity\V1\CustomerGroup([
+        $group = new \Magento\Customer\Service\V1\Dto\CustomerGroup([
           'id' => null,
           'code' => 'New Customer Group',
           'tax_class_id' => 3

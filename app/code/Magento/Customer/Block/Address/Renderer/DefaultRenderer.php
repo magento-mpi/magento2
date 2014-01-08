@@ -42,27 +42,27 @@ class DefaultRenderer
     protected $_countryFactory;
 
     /**
-     * @var \Magento\Customer\Service\CustomerV1Interface
+     * @var \Magento\Customer\Service\V1\CustomerServiceInterface
      */
-    protected $_customerService;
+    protected $_metadataService;
 
     /**
      * @param \Magento\View\Element\Context $context
      * @param \Magento\Customer\Model\Metadata\ElementFactory $attrDataFactory
-     * @param \Magento\Directory\Model\CountryFactory $countryFactory,
-     * @param \Magento\Customer\Service\CustomerV1Interface $customerService
+     * @param \Magento\Directory\Model\CountryFactory $countryFactory ,
+     * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface|\Magento\Customer\Service\V1\CustomerServiceInterface $metadataService
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Context $context,
         \Magento\Customer\Model\Metadata\ElementFactory $attrDataFactory,
         \Magento\Directory\Model\CountryFactory $countryFactory,
-        \Magento\Customer\Service\CustomerV1Interface $customerService,
+        \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $metadataService,
         array $data = array()
     ) {
         $this->_attrDataFactory = $attrDataFactory;
         $this->_countryFactory = $countryFactory;
-        $this->_customerService = $customerService;
+        $this->_metadataService = $metadataService;
         parent::__construct($context, $data);
     }
 
@@ -130,7 +130,7 @@ class DefaultRenderer
                 break;
         }
 
-        $attributesMetadata = $this->_customerService->getAllAddressAttributeMetadata();
+        $attributesMetadata = $this->_metadataService->getAllAddressAttributeMetadata();
         $data = array();
         foreach ($attributesMetadata as $attributeMetadata) {
             if (!$attributeMetadata->getIsVisible()) {

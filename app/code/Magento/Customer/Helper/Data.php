@@ -114,7 +114,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_customerSession;
 
     /**
-     * @var \Magento\Customer\Service\CustomerGroupV1Interface
+     * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
      */
     protected $_groupService;
 
@@ -145,7 +145,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Config $coreConfig
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Customer\Service\CustomerGroupV1Interface $groupService
+     * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService
      * @param \Magento\Customer\Model\FormFactory $formFactory
      * @param \Magento\Escaper $escaper
      * @param \Magento\Math\Random $mathRandom
@@ -158,7 +158,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Config $coreConfig,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Customer\Service\CustomerGroupV1Interface $groupService,
+        \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService,
         \Magento\Customer\Model\FormFactory $formFactory,
         \Magento\Escaper $escaper,
         \Magento\Math\Random $mathRandom,
@@ -777,7 +777,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * TODO to be removed after service refactoring is done
      *
      * @param \Magento\Customer\Model\Customer $customerModel
-     * @return \Magento\Customer\Service\Entity\V1\Customer
+     * @return \Magento\Customer\Service\V1\Dto\Customer
      */
     public function createCustomerFromModel($customerModel)
     {

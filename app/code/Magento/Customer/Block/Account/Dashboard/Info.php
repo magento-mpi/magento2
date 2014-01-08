@@ -11,7 +11,7 @@
 namespace Magento\Customer\Block\Account\Dashboard;
 
 
-use Magento\Customer\Service\Eav\AttributeMetadataServiceV1Interface;
+use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 
 /**
  * Dashboard Customer Info
@@ -41,21 +41,32 @@ class Info extends \Magento\View\Element\Template
     protected $_subscriberFactory;
 
     /**
+     * @var CustomerMetadataServiceInterface
+     */
+    protected $_metadataService;
+
+    /** @var  \Magento\Customer\Service\V1\CustomerServiceInterface */
+    protected $_customerService;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Customer\Service\CustomerV1Interface $customerService
+     * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
+     * @param CustomerMetadataServiceInterface $metadataService
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Customer\Service\CustomerV1Interface $customerService,
+        \Magento\Customer\Service\V1\CustomerServiceInterface $customerService,
+        CustomerMetadataServiceInterface $metadataService,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;
         $this->_customerService = $customerService;
+        $this->_metadataService = $metadataService;
         $this->_subscriberFactory = $subscriberFactory;
         parent::__construct($context, $data);
     }
@@ -63,7 +74,7 @@ class Info extends \Magento\View\Element\Template
     /**
      * Returns the Magento Customer Model for this block
      *
-     * @return \Magento\Customer\Service\Entity\V1\Customer
+     * @return \Magento\Customer\Service\V1\Dto\Customer
      */
     public function getCustomer()
     {
@@ -85,17 +96,17 @@ class Info extends \Magento\View\Element\Template
 
         $customer = $this->getCustomer();
 
-        if ($this->_customerService->getCustomerAttributeMetadata('prefix')->getIsVisible()
+        if ($this->_metadataService->getCustomerAttributeMetadata('prefix')->getIsVisible()
             && $customer->getPrefix()) {
             $name .= $customer->getPrefix() . ' ';
         }
         $name .= $customer->getFirstname();
-        if ($this->_customerService->getCustomerAttributeMetadata('middlename')->getIsVisible()
+        if ($this->_metadataService->getCustomerAttributeMetadata('middlename')->getIsVisible()
             && $customer->getMiddlename()) {
             $name .= ' ' . $customer->getMiddlename();
         }
         $name .=  ' ' . $customer->getLastname();
-        if ($this->_customerService->getCustomerAttributeMetadata('suffix')->getIsVisible()
+        if ($this->_metadataService->getCustomerAttributeMetadata('suffix')->getIsVisible()
             && $customer->getSuffix()) {
             $name .= ' ' . $customer->getSuffix();
         }
