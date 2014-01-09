@@ -93,6 +93,7 @@ class ObjectManagerFactory
         /** @var \Magento\ObjectManager $objectManager */
         $objectManager = new $className($factory, $diConfig, array(
             'Magento\App\Config' => $options,
+            'Magento\App\Filesystem\DirectoryList' => $directoryList,
             'Magento\Filesystem\DirectoryList' => $directoryList
         ));
 

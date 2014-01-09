@@ -53,13 +53,14 @@ class ObjectManagerFactory extends \Magento\App\ObjectManagerFactory
         $directories = isset($arguments[\Magento\App\Filesystem::PARAM_APP_DIRS])
             ? $arguments[\Magento\App\Filesystem::PARAM_APP_DIRS]
             : array();
-        $directoryList = new \Magento\Filesystem\DirectoryList($rootDir, $directories);
+        $directoryList = new \Magento\TestFramework\App\Filesystem\DirectoryList(BP, $directories);
 
         \Magento\TestFramework\ObjectManager::setInstance($objectManager);
 
         $this->_pluginList->reset();
 
         $objectManager->configure($this->_primaryConfigData);
+        $objectManager->addSharedInstance($directoryList, 'Magento\App\Filesystem\DirectoryList');
         $objectManager->addSharedInstance($directoryList, 'Magento\Filesystem\DirectoryList');
         $objectManager->configure(array(
             'Magento\View\Design\FileResolution\Strategy\Fallback\CachingProxy' => array(

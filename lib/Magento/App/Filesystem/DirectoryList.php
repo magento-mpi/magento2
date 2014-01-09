@@ -77,6 +77,11 @@ class DirectoryList extends \Magento\Filesystem\DirectoryList
             'path' => 'pub/static',
             'uri'  => 'pub/static',
         ),
+        Filesystem::PUB_VIEW_CACHE_DIR => array(
+            'read_only' => false,
+            'path'      => 'pub/cache',
+            'uri'       => 'pub/cache',
+        ),
         Filesystem::LOCALE_DIR => array('path' => ''),
         Filesystem::SYS_TMP_DIR => array(
             'path'              => '',

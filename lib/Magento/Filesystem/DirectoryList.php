@@ -74,6 +74,15 @@ class DirectoryList
         if (isset($this->directories[$code])) {
             throw new \Magento\Filesystem\FilesystemException("Configuration for '{$code}' already defined");
         }
+        $this->setDirectory($code, $directoryConfig);
+    }
+
+    /**
+     * @param string $code
+     * @param array $directoryConfig
+     */
+    protected function setDirectory($code, array $directoryConfig)
+    {
         if (!isset($directoryConfig['path'])) {
             $directoryConfig['path'] = null;
         }

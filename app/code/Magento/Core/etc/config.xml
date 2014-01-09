@@ -82,12 +82,6 @@
                         <uri>pub/media/upload</uri>
                         <permissions>511</permissions>
                     </upload>
-                    <view_cache>
-                        <read_only>0</read_only>
-                        <path>pub/cache</path>
-                        <uri>pub/cache</uri>
-                        <permissions>511</permissions>
-                    </view_cache>
                     <ftp>
                         <read_only>0</read_only>
                         <permissions>511</permissions>

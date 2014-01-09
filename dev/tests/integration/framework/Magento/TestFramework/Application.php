@@ -196,6 +196,13 @@ class Application
             $objectManager = $this->_factory->restore($objectManager, BP, $overriddenParams);
         }
 
+        $directoryList = new \Magento\TestFramework\App\Filesystem\DirectoryList(BP);
+
+        $objectManager->addSharedInstance($directoryList, 'Magento\App\Filesystem\DirectoryList');
+        $objectManager->addSharedInstance($directoryList, 'Magento\Filesystem\DirectoryList');
+        $objectManager->removeSharedInstance('Magento\App\Filesystem');
+        $objectManager->removeSharedInstance('Magento\App\Filesystem\DirectoryList\Verification');
+
         Helper\Bootstrap::setObjectManager($objectManager);
 
         $objectManager->configure(array(
@@ -227,7 +234,7 @@ class Application
         $verification = $objectManager->get('Magento\App\Filesystem\DirectoryList\Verification');
         $verification->createAndVerifyDirectories();
 
-        $directoryList = $objectManager->get('Magento\Filesystem\DirectoryList');
+        $directoryList = $objectManager->get('Magento\App\Filesystem\DirectoryList');
         $directoryListConfig = $objectManager->get('Magento\App\Filesystem\DirectoryList\Configuration');
         $directoryListConfig->configure($directoryList);
 
