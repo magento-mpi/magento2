@@ -22,6 +22,8 @@
   * Fixed security issue - set `CURLOPT_SSL_VERIFYPEER` to `true` and `CURLOPT_SSL_VERIFYHOST` to 2 by default in cUrl calls
   * Updated comments for eliminating redirect when secure url is used
 * Consolidated a few 3rd-party JavaScript libraries under `pub/lib` directory and specified their original license notice texts
+* Service Layer Implementation:
+  * Implemented initial set of services for the Customer module
 
 2.0.0.0-dev59
 =============

@@ -144,7 +144,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     /**
      * Retrieve address entity attributes
      *
-     * @return array
+     * @return \Magento\Customer\Model\Attribute[]
      */
     public function getAttributes()
     {
@@ -156,6 +156,16 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
             $this->setData('attributes', $attributes);
         }
         return $attributes;
+    }
+
+    /**
+     * Get attributes created by default
+     *
+     * @return string[]
+     */
+    public function getDefaultAttributeCodes()
+    {
+        return $this->_getResource()->getDefaultAttributes();
     }
 
     public function __clone()
