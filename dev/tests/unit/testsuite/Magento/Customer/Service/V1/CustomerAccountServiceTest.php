@@ -293,10 +293,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $customerService->activateAccount(self::ID, self::EMAIL_CONFIRMATION_KEY);
     }
 
-    /**
-     * @expectedException \Magento\Customer\Service\Entity\V1\Exception
-     * @expectedExceptionMessage No customer with customerId 1 exists.
-     */
     public function testActivateAccountDoesntExist()
     {
         $this->_customerModelMock->expects($this->any())
@@ -322,11 +318,27 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $customerService = $this->_createService();
 
-        $customerService->activateAccount(self::ID, self::EMAIL_CONFIRMATION_KEY);
+        try {
+            $customerService->activateAccount(self::ID, self::EMAIL_CONFIRMATION_KEY);
+        } catch (\Magento\Exception\InputException $ie) {
+            $this->assertSame($ie->getCode(), \Magento\Exception\InputException::INPUT_EXCEPTION);
+            $this->assertSame(
+                $ie->getParams(),
+                [
+                    [
+                        'value'     => self::ID,
+                        'fieldName' => 'customer.id',
+                        'code'      => \Magento\Exception\InputException::NO_SUCH_ENTITY,
+                    ]
+                ]
+            );
+            return;
+        }
+        $this->fail("Expected InputException not caught");
     }
 
     /**
-     * @expectedException \Magento\Customer\Service\Entity\V1\Exception
+     * @expectedException \Exception
      * @expectedExceptionMessage DB was down
      */
     public function testActivateAccountLoadError()
@@ -551,11 +563,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $customerService->validateResetPasswordLinkToken(self::ID, $invalidToken);
     }
 
-    /**
-     * @expectedException \Magento\Customer\Service\Entity\V1\Exception
-     * @expectedExceptionCode \Magento\Customer\Service\Entity\V1\Exception::CODE_INVALID_CUSTOMER_ID
-     * @expectedExceptionMessage No customer with customerId 1 exists
-     */
     public function testValidateResetPasswordLinkTokenWrongUser()
     {
         $resetToken = 'lsdj579slkj5987slkj595lkj';
@@ -575,7 +582,23 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $customerService = $this->_createService();
 
-        $customerService->validateResetPasswordLinkToken(1, $resetToken);
+        try {
+            $customerService->validateResetPasswordLinkToken(1, $resetToken);
+        } catch (\Magento\Exception\InputException $ie) {
+            $this->assertSame($ie->getCode(), \Magento\Exception\InputException::INPUT_EXCEPTION);
+            $this->assertSame(
+                $ie->getParams(),
+                [
+                    [
+                        'value'     => self::ID,
+                        'fieldName' => 'customer.id',
+                        'code'      => \Magento\Exception\InputException::NO_SUCH_ENTITY,
+                    ]
+                ]
+            );
+            return;
+        }
+        $this->fail("Expected InputException not caught");
     }
 
     /**
@@ -828,11 +851,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $customerService->resetPassword(self::ID, $password, $invalidToken);
     }
 
-    /**
-     * @expectedException \Magento\Customer\Service\Entity\V1\Exception
-     * @expectedExceptionCode \Magento\Customer\Service\Entity\V1\Exception::CODE_INVALID_CUSTOMER_ID
-     * @expectedExceptionMessage No customer with customerId 4200 exists
-     */
     public function testResetPasswordTokenWrongUser()
     {
         $resetToken = 'lsdj579slkj5987slkj595lkj';
@@ -860,7 +878,23 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $customerService = $this->_createService();
 
-        $customerService->resetPassword(4200, $password, $resetToken);
+        try {
+            $customerService->resetPassword(4200, $password, $resetToken);
+        } catch (\Magento\Exception\InputException $ie) {
+            $this->assertSame($ie->getCode(), \Magento\Exception\InputException::INPUT_EXCEPTION);
+            $this->assertSame(
+                $ie->getParams(),
+                [
+                    [
+                        'value'     => 4200,
+                        'fieldName' => 'customer.id',
+                        'code'      => \Magento\Exception\InputException::NO_SUCH_ENTITY,
+                    ]
+                ]
+            );
+            return;
+        }
+        $this->fail("Expected InputException not caught");
     }
 
     /**

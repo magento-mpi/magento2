@@ -574,10 +574,6 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals([1], $ids);
     }
 
-    /**
-     * @expectedException \Magento\Customer\Service\Entity\V1\Exception
-     * @expectedExceptionMessage No customer with customerId 4200 exists
-     */
     public function testSaveAddressesCustomerIdNotExist()
     {
         // Setup Customer mock
@@ -611,8 +607,23 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             ->setCountryId(self::COUNTRY_ID)
             ->setPostcode(self::POSTCODE);
 
-        $failures = $customerService->saveAddresses(4200, [$this->_addressBuilder->create()]);
-        $this->assertEmpty($failures);
+        try {
+            $customerService->saveAddresses(4200, [$this->_addressBuilder->create()]);
+        } catch (\Magento\Exception\InputException $ie) {
+            $this->assertSame($ie->getCode(), \Magento\Exception\InputException::INPUT_EXCEPTION);
+            $this->assertSame(
+                $ie->getParams(),
+                [
+                    [
+                        'value'     => 4200,
+                        'fieldName' => 'customer.id',
+                        'code'      => \Magento\Exception\InputException::NO_SUCH_ENTITY,
+                    ]
+                ]
+            );
+            return;
+        }
+        $this->fail("Expected InputException not caught");
     }
 
     public function testDeleteAddressFromCustomer()
