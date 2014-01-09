@@ -67,11 +67,11 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
         $itemArr = array(
             array(
                 'id' => 1,
-                'name' => 'testProduct1',
+                'name' => 'testProduct1'
             ),
             array(
                 'id' => 2,
-                'name' => 'testProduct2',
+                'name' => 'testProduct2'
             )
         );
         $serviceInfo = array(
@@ -156,9 +156,9 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
                 'operation' => $this->_soapService . 'Update'
             )
         );
-        $requestData = ['item' => ['id' => $itemId, 'name' => 'testName']];
+        $requestData = array('id' => $itemId, 'name' => 'testName');
         $item = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals('Updated' . $requestData['item']['name'], $item['name'], 'Item update failed');
+        $this->assertEquals('Updated' . $requestData['name'], $item['name'], 'Item update failed');
     }
 
     /**
