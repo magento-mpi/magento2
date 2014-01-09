@@ -43,7 +43,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_applicationMock;
+    protected $_storeManagerMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -75,7 +75,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
             ),
         );
 
-        $this->_applicationMock = $this->getMockBuilder('Magento\Core\Model\App')
+        $this->_storeManagerMock = $this->getMockBuilder('Magento\Core\Model\StoreManager')
             ->setMethods(array('getStore'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -89,14 +89,14 @@ class MapperTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $this->_model = new \Magento\Backend\Model\Config\Structure\Element\Dependency\Mapper(
-            $this->_applicationMock, $this->_configStructureMock, $this->_fieldFactoryMock);
+            $this->_storeManagerMock, $this->_configStructureMock, $this->_fieldFactoryMock);
     }
 
     protected function tearDown()
     {
         unset($this->_model);
         unset($this->_configStructureMock);
-        unset($this->_applicationMock);
+        unset($this->_storeManagerMock);
         unset($this->_fieldFactoryMock);
         unset($this->_testData);
     }
@@ -110,7 +110,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
         $storeMock = $this->getMockBuilder('Magento\Core\Model\Store')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_applicationMock->expects($this->exactly(count($this->_testData)))
+        $this->_storeManagerMock->expects($this->exactly(count($this->_testData)))
             ->method('getStore')
             ->with(self::STORE_CODE)
             ->will($this->returnValue($storeMock));
@@ -154,7 +154,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
 
     public function testGetDependenciesIsVisible()
     {
-        $this->_applicationMock->expects($this->never())
+        $this->_storeManagerMock->expects($this->never())
             ->method('getStore');
 
         $expected = array();

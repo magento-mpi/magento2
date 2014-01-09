@@ -866,7 +866,7 @@ return array(
     array('run', '\Magento\Core\Model\App'),
     array('_initFrontController', '\Magento\Core\Model\App'),
     array('_getFrontControllerByCurrentArea', '\Magento\Core\Model\App'),
-    array('run', '\Magento\Core\Model\AppInterface'),
+    array('run', '\Magento\AppInterface'),
     array('setModuleDir', 'Magento\Module\Dir\Reader'),
     array('setModuleDir', 'Magento\Core\Model\Config'),
     array('getAreaConfig', 'Magento\Core\Model\Config'),

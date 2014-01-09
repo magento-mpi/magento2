@@ -9,11 +9,10 @@
  */
 namespace Magento\App;
 
-use \Magento\Config\ScopeInterface,
-    \Magento\App\ObjectManager\ConfigLoader,
+use \Magento\App\ObjectManager\ConfigLoader,
     \Magento\Event\ManagerInterface;
 
-class Cron implements \Magento\AppInterface
+class Cron implements \Magento\LauncherInterface
 {
     /**
      * @var \Magento\Event\ManagerInterface
@@ -42,7 +41,7 @@ class Cron implements \Magento\AppInterface
      *
      * @return int
      */
-    public function execute()
+    public function launch()
     {
         $this->_state->setAreaCode('crontab');
         $this->_eventManager->dispatch('default');

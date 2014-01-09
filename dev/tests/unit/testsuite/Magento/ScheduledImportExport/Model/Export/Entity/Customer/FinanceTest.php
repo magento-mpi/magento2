@@ -72,9 +72,14 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             'Magento\ImportExport\Model\Export\Entity\Eav\CustomerFactory', array(), array(), '', false, false
         );
 
+        $storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
+        $storeManager->expects($this->exactly(2))
+            ->method('getWebsites')
+            ->will($this->returnCallback(array($this, 'getWebsites')));
+
         $this->_model = new \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance(
             $coreStoreConfig,
-            $this->getMock('Magento\Core\Model\App', array(), array(), '', false, false),
+            $storeManager,
             $this->getMock('Magento\ImportExport\Model\Export\Factory', array(), array(), '', false, false),
             $this->getMock(
                 'Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory',
@@ -101,11 +106,6 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
     {
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $websiteManager = $this->getMock('stdClass', array('getWebsites'));
-        $websiteManager->expects($this->exactly(2))
-            ->method('getWebsites')
-            ->will($this->returnCallback(array($this, 'getWebsites')));
-
         $translator = $this->getMock('stdClass');
 
         /** @var $attributeCollection \Magento\Data\Collection|PHPUnit_Framework_TestCase */
@@ -127,8 +127,6 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         }
 
         $data = array(
-            'website_manager'              => $websiteManager,
-            'store_manager'                => 'not_used',
             'translator'                   => $translator,
             'attribute_collection'         => $attributeCollection,
             'page_size'                    => 1,

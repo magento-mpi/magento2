@@ -12,6 +12,7 @@
   * Fixed an issue with synchronization with google shopping on product update caused by missed service property
   * Fixed Authorize.net Direct Post: Ability to proceed order when it was created from Backend
 * Removed the deprecated service-calls and data source functionality
+* AppInterface has been renamed to LauncherInterface
 
 
 2.0.0.0-dev61

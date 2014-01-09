@@ -58,8 +58,8 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         }
 
         // get list of not existing tables
-        /** @var $application \Magento\Core\Model\App */
-        $application = self::$_objectManager->get('Magento\Core\Model\App');
+        /** @var $storeManager \Magento\Core\Model\StoreManagerInterface */
+        $storeManager  = self::$_objectManager->get('Magento\Core\Model\StoreManagerInterface');
         /** @var $categoryResource \Magento\Catalog\Model\Resource\Category\Flat */
         $categoryResource = self::$_objectManager->create('Magento\Catalog\Model\Resource\Category\Flat');
         /** @var $setupModel \Magento\Core\Model\Resource\Setup */
@@ -69,7 +69,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
                 'moduleName' => 'Magento_Core',
             )
         );
-        $stores = $application->getStores();
+        $stores = $storeManager->getStores();
         /** @var $store \Magento\Core\Model\Store */
         foreach ($stores as $store) {
             $tableName = $categoryResource->getMainStoreTable($store->getId());
@@ -130,9 +130,9 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        /** @var $application \Magento\Core\Model\App */
-        $application  = self::$_objectManager->get('Magento\Core\Model\App');
-        $this->_store = $application->getStore();
+        /** @var $storeManager \Magento\Core\Model\StoreManagerInterface */
+        $storeManager  = self::$_objectManager->get('Magento\Core\Model\StoreManagerInterface');
+        $this->_store = $storeManager->getStore();
         $this->_model = self::$_objectManager->create('Magento\Catalog\Model\Category');
     }
 

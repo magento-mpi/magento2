@@ -44,7 +44,7 @@ class StorageFactory
     protected $_log;
 
     /**
-     * @var \Magento\Core\Model\AppInterface
+     * @var \Magento\AppInterface
      */
     protected $_app;
 
@@ -62,7 +62,7 @@ class StorageFactory
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Logger $logger
-     * @param \Magento\Core\Model\AppInterface $app
+     * @param \Magento\AppInterface $app
      * @param \Magento\App\State $appState
      * @param string $defaultStorageClassName
      * @param string $installedStoreClassName
@@ -72,7 +72,7 @@ class StorageFactory
         \Magento\ObjectManager $objectManager,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Logger $logger,
-        \Magento\Core\Model\AppInterface $app,
+        \Magento\AppInterface $app,
         \Magento\App\State $appState,
         $defaultStorageClassName = 'Magento\Core\Model\Store\Storage\DefaultStorage',
         $installedStoreClassName = 'Magento\Core\Model\Store\Storage\Db',

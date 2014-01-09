@@ -54,7 +54,7 @@ class Attribute extends \Magento\Backend\Helper\Data
     /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\App\Route\Config $routeConfig
-     * @param \Magento\Core\Model\AppInterface $app
+     * @param \Magento\AppInterface $app
      * @param \Magento\Backend\Model\Url $backendUrl
      * @param \Magento\Backend\Model\Auth $auth
      * @param \Magento\Backend\App\Area\FrontNameResolver $frontNameResolver
@@ -66,7 +66,7 @@ class Attribute extends \Magento\Backend\Helper\Data
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\App\Route\Config $routeConfig,
-        \Magento\Core\Model\AppInterface $app,
+        \Magento\AppInterface $app,
         \Magento\Backend\Model\Url $backendUrl,
         \Magento\Backend\Model\Auth $auth,
         \Magento\Backend\App\Area\FrontNameResolver $frontNameResolver,

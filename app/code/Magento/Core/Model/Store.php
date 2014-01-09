@@ -103,7 +103,12 @@ class Store extends \Magento\Core\Model\AbstractModel implements \Magento\Url\Sc
      * Identifier of default store
      * used for loading data of default scope
      */
-    const DEFAULT_STORE_ID = 0;
+    const DEFAULT_STORE_ID                = 0;
+
+    /**
+     * Default store Id (for install)
+     */
+    const DISTRO_STORE_ID                 = 1;
 
     /**
      * @var \Magento\App\Cache\Type\Config

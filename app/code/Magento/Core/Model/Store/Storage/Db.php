@@ -12,7 +12,6 @@ namespace Magento\Core\Model\Store\Storage;
 use Magento\Backend\Model\Url\Proxy;
 use Magento\Core\Exception;
 use Magento\App\State;
-use Magento\Core\Model\AppInterface;
 use Magento\Core\Model\Config;
 use Magento\Core\Model\Store;
 use Magento\Core\Model\Store\StorageInterface;
@@ -192,8 +191,8 @@ class Db implements StorageInterface
     {
         if (empty($this->_store)) {
             $this->_store = $this->_storeFactory->create()
-                ->setId(AppInterface::DISTRO_STORE_ID)
-                ->setCode(AppInterface::DISTRO_STORE_CODE);
+                ->setId(\Magento\Core\Model\Store::DISTRO_STORE_ID)
+                ->setCode(\Magento\Core\Model\Store::DEFAULT_CODE);
         }
         return $this->_store;
     }

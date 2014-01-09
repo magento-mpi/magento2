@@ -17,7 +17,7 @@ namespace Magento\Core\Model;
 
 use Magento\App\CacheInterface;
 
-class App implements \Magento\Core\Model\AppInterface
+class App implements \Magento\AppInterface
 {
     /**#@+
      * Product edition labels
@@ -151,13 +151,6 @@ class App implements \Magento\Core\Model\AppInterface
     protected $_dbUpdater;
 
     /**
-     * Store list manager
-     *
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\App\State
      */
     protected $_appState;
@@ -176,7 +169,6 @@ class App implements \Magento\Core\Model\AppInterface
      * @param Config $config
      * @param CacheInterface $cache
      * @param \Magento\ObjectManager $objectManager
-     * @param StoreManagerInterface $storeManager
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\App\State $appState
      * @param \Magento\Config\Scope $configScope
@@ -186,7 +178,6 @@ class App implements \Magento\Core\Model\AppInterface
         \Magento\Core\Model\Config $config,
         \Magento\App\CacheInterface $cache,
         \Magento\ObjectManager $objectManager,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\App\State $appState,
         \Magento\Config\Scope $configScope,
@@ -195,7 +186,6 @@ class App implements \Magento\Core\Model\AppInterface
         $this->_config = $config;
         $this->_cache = $cache;
         $this->_objectManager = $objectManager;
-        $this->_storeManager = $storeManager;
         $this->_appState = $appState;
         $this->_eventManager = $eventManager;
         $this->_configScope = $configScope;
@@ -520,222 +510,6 @@ class App implements \Magento\Core\Model\AppInterface
     public function isDeveloperMode()
     {
         return $this->_appState->getMode() == \Magento\App\State::MODE_DEVELOPER;
-    }
-
-    /**
-     * Retrieve application store object without Store_Exception
-     *
-     * @param string|int|\Magento\Core\Model\Store $storeId
-     * @return \Magento\Core\Model\Store
-     *
-     * @deprecated use \Magento\Core\Model\StoreManagerInterface::getSafeStore()
-     */
-    public function getSafeStore($storeId = null)
-    {
-        return $this->_storeManager->getSafeStore($storeId);
-    }
-
-    /**
-     * Allow or disallow single store mode
-     *
-     * @param bool $value
-     *
-     * @deprecated use \Magento\Core\Model\StoreManagerInterface::setIsSingleStoreModeAllowed()
-     */
-    public function setIsSingleStoreModeAllowed($value)
-    {
-        $this->_storeManager->setIsSingleStoreModeAllowed($value);
-    }
-
-    /**
-     * Check if store has only one store view
-     *
-     * @return bool
-     *
-     * @deprecated use \Magento\Core\Model\StoreManagerInterface::hasSingleStore()
-     */
-    public function hasSingleStore()
-    {
-        return $this->_storeManager->hasSingleStore();
-    }
-
-    /**
-     * Check if system is run in the single store mode
-     *
-     * @return bool
-     *
-     * @deprecated use \Magento\Core\Model\StoreManagerInterface::isSingleStoreMode()
-     */
-    public function isSingleStoreMode()
-    {
-        return $this->_storeManager->isSingleStoreMode();
-    }
-
-    /**
-     * @throws \Magento\Core\Model\Store\Exception
-     *
-     * @deprecated use \Magento\Core\Model\StoreManagerInterface::throwStoreException()
-     */
-    public function throwStoreException()
-    {
-        $this->_storeManager->throwStoreException();
-    }
-
-    /**
-     * Retrieve application store object
-     *
-     * @param null|string|bool|int|\Magento\Core\Model\Store $storeId
-     * @return \Magento\Core\Model\Store
-     * @throws \Magento\Core\Model\Store\Exception
-     *
-     * @deprecated use \Magento\Core\Model\StoreManagerInterface::getStore()
-     */
-    public function getStore($storeId = null)
-    {
-        return $this->_storeManager->getStore($storeId);
-    }
-
-    /**
-     * Retrieve stores array
-     *
-     * @param bool $withDefault
-     * @param bool $codeKey
-     * @return \Magento\Core\Model\Store[]
-     *
-     * @deprecated use \Magento\Core\Model\StoreManagerInterface::getStores()
-     */
-    public function getStores($withDefault = false, $codeKey = false)
-    {
-        return $this->_storeManager->getStores($withDefault, $codeKey);
-    }
-
-    /**
-     * Retrieve application website object
-     *
-     * @param null|bool|int|string|\Magento\Core\Model\Website $websiteId
-     * @return \Magento\Core\Model\Website
-     * @throws \Magento\Core\Exception
-     *
-     * @deprecated use \Magento\Core\Model\StoreManagerInterface::getWebsite()
-     */
-    public function getWebsite($websiteId = null)
-    {
-        return $this->_storeManager->getWebsite($websiteId);
-    }
-
-    /**
-     * Get loaded websites
-     *
-     * @param bool $withDefault
-     * @param bool|string $codeKey
-     * @return \Magento\Core\Model\Website[]
-     *
-     * @deprecated use \Magento\Core\Model\StoreManagerInterface::getWebsites()
-     */
-    public function getWebsites($withDefault = false, $codeKey = false)
-    {
-        return $this->_storeManager->getWebsites($withDefault, $codeKey);
-    }
-
-    /**
-     * Reinitialize store list
-     *
-     * @deprecated use \Magento\Core\Model\StoreManagerInterface::reinitStores()
-     */
-    public function reinitStores()
-    {
-        $this->_storeManager->reinitStores();
-    }
-
-    /**
-     * Set current default store
-     *
-     * @param string $store
-     *
-     * @deprecated use \Magento\Core\Model\StoreManagerInterface::setCurrentStore()
-     */
-    public function setCurrentStore($store)
-    {
-        $this->_storeManager->setCurrentStore($store);
-    }
-
-    /**
-     * Get current store code
-     *
-     * @return string
-     *
-     * @deprecated use \Magento\Core\Model\StoreManagerInterface::getCurrentStore()
-     */
-    public function getCurrentStore()
-    {
-        return $this->_storeManager->getCurrentStore();
-    }
-
-
-    /**
-     * Retrieve default store for default group and website
-     *
-     * @return \Magento\Core\Model\Store
-     *
-     * @deprecated use \Magento\Core\Model\StoreManagerInterface::getDefaultStoreView()
-     */
-    public function getDefaultStoreView()
-    {
-        return $this->_storeManager->getDefaultStoreView();
-    }
-
-    /**
-     * Retrieve application store group object
-     *
-     * @param null|\Magento\Core\Model\Store\Group|string $groupId
-     * @return \Magento\Core\Model\Store\Group
-     * @throws \Magento\Core\Exception
-     *
-     * @deprecated use \Magento\Core\Model\StoreManagerInterface::getGroup()
-     */
-    public function getGroup($groupId = null)
-    {
-        return $this->_storeManager->getGroup($groupId);
-    }
-
-    /**
-     * Prepare array of store groups
-     * can be filtered to contain default store group or not by $withDefault flag
-     * depending on flag $codeKey array keys can be group id or group code
-     *
-     * @param bool $withDefault
-     * @param bool $codeKey
-     * @return \Magento\Core\Model\Store\Group[]
-     *
-     * @deprecated use \Magento\Core\Model\StoreManagerInterface::getGroups()
-     */
-    public function getGroups($withDefault = false, $codeKey = false)
-    {
-        return $this->_storeManager->getGroups($withDefault, $codeKey);
-    }
-
-    /**
-     *  Unset website by id from app cache
-     *
-     * @param null|bool|int|string|\Magento\Core\Model\Website $websiteId
-     *
-     * @deprecated use \Magento\Core\Model\StoreManagerInterface::clearWebsiteCache()
-     */
-    public function clearWebsiteCache($websiteId = null)
-    {
-        $this->_storeManager->clearWebsiteCache($websiteId);
-    }
-
-    /**
-     * Get either default or any store view
-     *
-     * @return \Magento\Core\Model\Store|null
-     *
-     * @deprecated use \Magento\Core\Model\StoreManagerInterface::getAnyStoreView()
-     */
-    public function getAnyStoreView()
-    {
-        return $this->_storeManager->getAnyStoreView();
     }
 
     /**

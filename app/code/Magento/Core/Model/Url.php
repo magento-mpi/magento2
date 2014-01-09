@@ -1149,9 +1149,9 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
     {
         if ($this->useSessionIdForUrl($match[2] == 'S' ? true : false)) {
             return $match[1]
-                . $this->_sidResolver->getSessionIdQueryParam($this->_session)
-                . '=' . $this->_session->getSessionId()
-                . (isset($match[3]) ? $match[3] : '');
+            . $this->_sidResolver->getSessionIdQueryParam($this->_session)
+            . '=' . $this->_session->getSessionId()
+            . (isset($match[3]) ? $match[3] : '');
         } else {
             if ($match[1] == '?' && isset($match[3])) {
                 return '?';
@@ -1178,7 +1178,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
         foreach ($this->_scopeResolver->getScopes() as $scope) {
             $scopeDomains[] = parse_url($scope->getBaseUrl(), PHP_URL_HOST);
             $scopeDomains[] = parse_url($scope->getBaseUrl(
-                \Magento\UrlInterface::URL_TYPE_LINK, true), PHP_URL_HOST
+                    \Magento\UrlInterface::URL_TYPE_LINK, true), PHP_URL_HOST
             );
         }
         $scopeDomains = array_unique($scopeDomains);
@@ -1226,7 +1226,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
         }
         $requestUri = $this->_request->getServer('REQUEST_URI');
         $url = $this->_request->getScheme() . '://' . $this->_request->getHttpHost()
-                . $port . $requestUri;
+            . $port . $requestUri;
         return $url;
     }
 }

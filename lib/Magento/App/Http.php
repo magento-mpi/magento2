@@ -13,7 +13,7 @@ use Magento\Config\Scope,
     Magento\App\ObjectManager\ConfigLoader,
     Magento\Event;
 
-class Http implements \Magento\AppInterface
+class Http implements \Magento\LauncherInterface
 {
     /**
      * @var \Magento\ObjectManager
@@ -88,7 +88,7 @@ class Http implements \Magento\AppInterface
     /**
      * Execute application
      */
-    public function execute()
+    public function launch()
     {
         try {
             $areaCode = $this->_areaList->getCodeByFrontName($this->_request->getFrontName());

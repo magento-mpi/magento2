@@ -129,7 +129,7 @@ abstract class AbstractConfigFiles extends \PHPUnit_Framework_TestCase
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $directory = $objectManager->get('Magento\Filesystem')->getDirectoryRead(\Magento\Filesystem::MODULES);
-        return $objectManager->get('\Magento\Config\FileIteratorFactory')->create(
+        return $objectManager->get('Magento\Config\FileIteratorFactory')->create(
             $directory,
             $directory->search($this->_getConfigFilePathGlob())
         );

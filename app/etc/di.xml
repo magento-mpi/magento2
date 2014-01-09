@@ -14,7 +14,7 @@
     <preference for="Magento\App\RouterListInterface" type="Magento\App\RouterList" />
     <preference for="Magento\App\FrontControllerInterface" type="Magento\App\FrontController" />
     <preference for="Magento\Module\UpdaterInterface" type="Magento\Module\Updater" />
-    <preference for="Magento\Core\Model\AppInterface" type="Magento\Core\Model\App\Proxy" />
+    <preference for="Magento\AppInterface" type="Magento\Core\Model\App\Proxy" />
     <preference for="Magento\App\CacheInterface" type="Magento\App\Cache\Proxy" />
     <preference for="Magento\App\Cache\StateInterface" type="Magento\App\Cache\State" />
     <preference for="Magento\App\Cache\TypeListInterface" type="Magento\App\Cache\TypeList" />

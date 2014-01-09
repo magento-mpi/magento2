@@ -124,7 +124,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         $this->_appState->expects($this->once())->method('isInstalled')->will($this->returnValue(false));
         $this->_responseMock->expects($this->once())->method('sendNotFound');
         $this->_requestMock->expects($this->never())->method('getPathInfo');
-        $this->assertEquals(-1, $this->_model->execute());
+        $this->assertEquals(-1, $this->_model->launch());
     }
 
     public function testProcessRequestCreatesConfigFileMediaDirectoryIsNotProvided()
@@ -146,7 +146,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
             ->with('Magento\Core\Model\File\Storage\Config')
             ->will($this->returnValue($this->_configMock));
         $this->_configMock->expects($this->once())->method('save');
-        $this->assertEquals(-1, $this->_model->execute());
+        $this->assertEquals(-1, $this->_model->launch());
 
     }
 
@@ -174,7 +174,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
             ->with('Magento\Core\Model\File\Storage\Config')
             ->will($this->returnValue($this->_configMock));
         $this->_configMock->expects($this->once())->method('getAllowedResources')->will($this->returnValue(false));
-        $this->assertEquals(-1, $this->_model->execute());
+        $this->assertEquals(-1, $this->_model->launch());
 
     }
 
@@ -185,7 +185,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         $this->_requestMock->expects($this->once())->method('getPathInfo');
         $this->_responseMock->expects($this->once())->method('sendNotFound');
         $this->_requestMock->expects($this->never())->method('getFilePath');
-        $this->assertEquals(-1, $this->_model->execute());
+        $this->assertEquals(-1, $this->_model->launch());
     }
 
     public function testProcessRequestReturnsFileIfItsProperlySynchronized()
@@ -215,7 +215,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         $this->_responseMock
             ->expects($this->never())
             ->method('sendNotFound');
-        $this->assertEquals(0, $this->_model->execute());
+        $this->assertEquals(0, $this->_model->launch());
     }
 
     public function testProcessRequestReturnsNotFoundIfFileIsNotSynchronized()
@@ -228,6 +228,6 @@ class MediaTest extends \PHPUnit_Framework_TestCase
             ->method('getFilePath')->will($this->returnValue('non_existing_file_name'));
         $this->_responseMock->expects($this->never())->method('sendFile');
         $this->_responseMock->expects($this->once())->method('sendNotFound');
-        $this->assertEquals(-1, $this->_model->execute());
+        $this->assertEquals(-1, $this->_model->launch());
     }
 }

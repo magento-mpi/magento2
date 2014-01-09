@@ -75,6 +75,13 @@ class State
     protected $_application;
 
     /**
+     * Store list manager
+     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * @param \Magento\Backend\Model\Session $backendSession
      * @param \Magento\Core\Model\Layout\Factory $layoutFactory
      * @param \Magento\DesignEditor\Model\Url\Factory $urlModelFactory
@@ -83,6 +90,7 @@ class State
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Core\Model\App $application
      * @param \Magento\DesignEditor\Model\Theme\Context $themeContext
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Backend\Model\Session $backendSession,
@@ -92,7 +100,8 @@ class State
         \Magento\DesignEditor\Helper\Data $dataHelper,
         \Magento\ObjectManager $objectManager,
         \Magento\Core\Model\App $application,
-        \Magento\DesignEditor\Model\Theme\Context $themeContext
+        \Magento\DesignEditor\Model\Theme\Context $themeContext,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_backendSession  = $backendSession;
         $this->_layoutFactory   = $layoutFactory;
@@ -102,6 +111,7 @@ class State
         $this->_objectManager   = $objectManager;
         $this->_application     = $application;
         $this->_themeContext    = $themeContext;
+        $this->_storeManager    = $storeManager;
     }
 
     /**
@@ -174,7 +184,7 @@ class State
     {
         if ($this->_themeContext->getEditableTheme()) {
             $themeId = $this->_themeContext->getVisibleTheme()->getId();
-            $this->_application->getStore()->setConfig(
+            $this->_storeManager->getStore()->setConfig(
                 \Magento\View\DesignInterface::XML_PATH_THEME_ID,
                 $themeId
             );

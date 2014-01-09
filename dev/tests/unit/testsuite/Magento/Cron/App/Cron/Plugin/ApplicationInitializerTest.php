@@ -21,7 +21,7 @@ class ApplicationInitializerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_applicationMock = $this->getMock('Magento\Core\Model\AppInterface');
+        $this->_applicationMock = $this->getMock('Magento\AppInterface');
         $this->_model = new ApplicationInitializer(
             $this->_applicationMock
         );

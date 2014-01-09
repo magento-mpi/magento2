@@ -63,14 +63,7 @@ class Config extends \Magento\Object
      */
     protected $_transactionFactory;
 
-    /**
-     * Global Application
-     *
-     * @var \Magento\Core\Model\App
-     */
-    protected $_application;
-
-    /**
+     /**
      * Config data loader
      *
      * @var \Magento\Backend\Model\Config\Loader
@@ -90,7 +83,6 @@ class Config extends \Magento\Object
     protected $_storeManager;
 
     /**
-     * @param \Magento\Core\Model\App $application
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Backend\Model\Config\Structure $configStructure
@@ -101,7 +93,6 @@ class Config extends \Magento\Object
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\App $application,
         \Magento\Core\Model\Config $config,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Backend\Model\Config\Structure $configStructure,
@@ -116,7 +107,6 @@ class Config extends \Magento\Object
         $this->_configStructure = $configStructure;
         $this->_transactionFactory = $transactionFactory;
         $this->_appConfig = $config;
-        $this->_application = $application;
         $this->_configLoader = $configLoader;
         $this->_configValueFactory = $configValueFactory;
         $this->_storeManager = $storeManager;
@@ -414,12 +404,12 @@ class Config extends \Magento\Object
         \Magento\Backend\Model\Config\Structure\Element\Field $fieldConfig,
         $dataObject
     ) {
-        $isSingleStoreMode = $this->_application->isSingleStoreMode();
+        $isSingleStoreMode = $this->_storeManager->isSingleStoreMode();
         if (!$isSingleStoreMode) {
             return;
         }
         if (!$fieldConfig->showInDefault()) {
-            $websites = $this->_application->getWebsites();
+            $websites = $this->_storeManager->getWebsites();
             $singleStoreWebsite = array_shift($websites);
             $dataObject->setScope('websites');
             $dataObject->setWebsiteCode($singleStoreWebsite->getCode());

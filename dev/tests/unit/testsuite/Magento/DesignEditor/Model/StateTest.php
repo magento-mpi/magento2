@@ -132,10 +132,6 @@ class StateTest extends \PHPUnit_Framework_TestCase
             )
             ->will($this->returnSelf());
 
-        $this->_application->expects($this->any())
-            ->method('getStore')
-            ->will($this->returnValue($storeManager));
-
         $configMock = $this->getMock('Magento\Core\Model\Config', array('setNode'), array(), '', false);
         $configMock->expects($this->any())
             ->method('setNode')
@@ -168,7 +164,8 @@ class StateTest extends \PHPUnit_Framework_TestCase
             $this->_dataHelper,
             $this->_objectManager,
             $this->_application,
-            $this->_themeContext
+            $this->_themeContext,
+            $storeManager
         );
     }
 

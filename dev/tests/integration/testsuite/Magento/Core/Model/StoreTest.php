@@ -112,8 +112,8 @@ class StoreTest extends \PHPUnit_Framework_TestCase
     public function testSetGetGroup()
     {
         $this->assertFalse($this->_model->getGroup());
-        $storeGroup = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
-            ->getGroup();
+        $storeGroup = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\StoreManager')->getGroup();
         $this->_model->setGroup($storeGroup);
         $actualResult = $this->_model->getGroup();
         $this->assertSame($storeGroup, $actualResult);

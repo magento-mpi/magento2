@@ -63,7 +63,7 @@ class EntryPoint implements EntryPointInterface
                 $locatorFactory = new \Magento\App\ObjectManagerFactory();
                 $this->_locator = $locatorFactory->create($this->_rootDir, $this->_parameters);
             }
-            return $this->_locator->create($applicationName, $arguments)->execute();
+            return $this->_locator->create($applicationName, $arguments)->launch();
         } catch (\Exception $exception) {
             if (isset($this->_parameters[state::PARAM_MODE])
                 && $this->_parameters[State::PARAM_MODE] == State::MODE_DEVELOPER
