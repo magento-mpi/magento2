@@ -24,6 +24,8 @@
   * Fixed No Collapsing for Tax Summary
   * Optimized Plushe theme css
 * Consolidated a few 3rd-party JavaScript libraries under `pub/lib` directory and specified their original license notice texts
+* Service Layer Implementation:
+  * Implemented initial set of services for the Customer module
 
 2.0.0.0-dev59
 =============
