@@ -291,26 +291,6 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
     }
 
     /**
-     * Check is product available for sale
-     *
-     * @param \Magento\Catalog\Model\Product $product
-     * @return bool
-     */
-    public function isSalable($product)
-    {
-        $salable = parent::isSalable($product);
-        if (!is_null($salable)) {
-            return $salable;
-        }
-
-        $salable = false;
-        foreach ($this->getAssociatedProducts($product) as $associatedProduct) {
-            $salable = $salable || $associatedProduct->isSalable();
-        }
-        return $salable;
-    }
-
-    /**
      * Save type related data
      *
      * @param \Magento\Catalog\Model\Product $product
