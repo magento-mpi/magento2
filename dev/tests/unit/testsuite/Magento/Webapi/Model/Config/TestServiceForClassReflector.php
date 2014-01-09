@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Webapi\Model\Soap\Config\Reader;
+namespace Magento\Webapi\Model\Config;
 
 class TestServiceForClassReflector
 {
@@ -20,4 +20,4 @@ class TestServiceForClassReflector
     {
         return substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $length);
     }
-} 
+}

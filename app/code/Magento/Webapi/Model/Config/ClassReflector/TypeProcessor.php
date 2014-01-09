@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Webapi\Model\Soap\Config\Reader;
+namespace Magento\Webapi\Model\Config\ClassReflector;
 
 use Zend\Code\Reflection\ClassReflection;
 

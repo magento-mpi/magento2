@@ -20,7 +20,7 @@ class DtoFromArrayTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $typeProcessor = $objectManager->getObject('Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor');
+        $typeProcessor = $objectManager->getObject('Magento\Webapi\Model\Config\ClassReflector\TypeProcessor');
         $this->serializer = new ServiceArgsSerializer($typeProcessor);
     }
 

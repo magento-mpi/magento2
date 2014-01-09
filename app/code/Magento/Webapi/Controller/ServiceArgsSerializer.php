@@ -13,18 +13,16 @@ namespace Magento\Webapi\Controller;
 use Zend\Code\Reflection\ClassReflection;
 use Zend\Code\Reflection\MethodReflection;
 use Zend\Code\Reflection\ParameterReflection;
-use Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor;
+use Magento\Webapi\Model\Config\ClassReflector\TypeProcessor;
 use Magento\Webapi\Model\Soap\Wsdl\ComplexTypeStrategy;
 
 class ServiceArgsSerializer
 {
-    /** @var \Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor */
+    /** @var \Magento\Webapi\Model\Config\ClassReflector\TypeProcessor */
     protected $_typeProcessor;
 
     /**
      * Initialize dependencies.
-     *
-     * TODO: Reconsider dependency on Soap\Config\Reader\TypeProcessor
      *
      * @param TypeProcessor $typeProcessor
      */

@@ -45,7 +45,7 @@ class Server
     /** @var \Magento\Webapi\Model\Soap\Server\Factory */
     protected $_soapServerFactory;
 
-    /** @var \Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor */
+    /** @var \Magento\Webapi\Model\Config\ClassReflector\TypeProcessor */
     protected $_typeProcessor;
 
     /**
@@ -57,7 +57,7 @@ class Server
      * @param \Magento\DomDocument\Factory $domDocumentFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Webapi\Model\Soap\Server\Factory $soapServerFactory
-     * @param \Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor $typeProcessor
+     * @param \Magento\Webapi\Model\Config\ClassReflector\TypeProcessor $typeProcessor
      * @throws \Magento\Webapi\Exception
      */
     public function __construct(
@@ -67,7 +67,7 @@ class Server
         \Magento\DomDocument\Factory $domDocumentFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Webapi\Model\Soap\Server\Factory $soapServerFactory,
-        \Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor $typeProcessor
+        \Magento\Webapi\Model\Config\ClassReflector\TypeProcessor $typeProcessor
     ) {
         if (!extension_loaded('soap')) {
             throw new \Magento\Webapi\Exception('SOAP extension is not loaded.', 0,

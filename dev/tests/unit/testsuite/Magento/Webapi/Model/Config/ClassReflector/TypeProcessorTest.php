@@ -6,14 +6,14 @@
  * @license     {license_link}
  */
 
-namespace Magento\Webapi\Model\Soap\Config\Reader;
+namespace Magento\Webapi\Model\Config\ClassReflector;
 
 /**
  * Type processor Test
  */
 class TypeProcessorTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor */
+    /** @var \Magento\Webapi\Model\Config\ClassReflector\TypeProcessor */
     protected $_typeProcessor;
 
     /** @var \Magento\Webapi\Helper\Data|\PHPUnit_Framework_MockObject_MockObject */
@@ -25,7 +25,7 @@ class TypeProcessorTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_helperMock = $this->getMock('Magento\Webapi\Helper\Data', [], [], '', false);
-        $this->_typeProcessor = new \Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor($this->_helperMock);
+        $this->_typeProcessor = new \Magento\Webapi\Model\Config\ClassReflector\TypeProcessor($this->_helperMock);
     }
 
     /**

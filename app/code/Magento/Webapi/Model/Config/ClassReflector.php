@@ -6,25 +6,25 @@
  * @license     {license_link}
  */
 
-namespace Magento\Webapi\Model\Soap\Config\Reader;
+namespace Magento\Webapi\Model\Config;
 
 use Zend\Server\Reflection;
 use Zend\Server\Reflection\ReflectionMethod;
 
 /**
- * SOAP API specific class reflector.
+ * Class reflector.
  */
 class ClassReflector
 {
-    /** @var \Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor */
+    /** @var \Magento\Webapi\Model\Config\ClassReflector\TypeProcessor */
     protected $_typeProcessor;
 
     /**
      * Construct reflector.
      *
-     * @param \Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor $typeProcessor
+     * @param \Magento\Webapi\Model\Config\ClassReflector\TypeProcessor $typeProcessor
      */
-    public function __construct(\Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor $typeProcessor)
+    public function __construct(\Magento\Webapi\Model\Config\ClassReflector\TypeProcessor $typeProcessor)
     {
         $this->_typeProcessor = $typeProcessor;
     }
@@ -32,7 +32,7 @@ class ClassReflector
     /**
      * Reflect methods in given class and set retrieved data into reader.
      *
-     * @param array $methodsDeclaredInSoap
+     * @param array $methods
      * @param string $className
      * @return array <pre>array(
      *     $firstMethod => array(
@@ -63,14 +63,14 @@ class ClassReflector
      *     ...
      * )</pre>
      */
-    public function reflectClassMethods($className, $methodsDeclaredInSoap)
+    public function reflectClassMethods($className, $methods)
     {
         $data = array();
         $classReflection = new \Zend\Server\Reflection\ReflectionClass(new \ReflectionClass($className));
         /** @var $methodReflection ReflectionMethod */
         foreach ($classReflection->getMethods() as $methodReflection) {
             $methodName = $methodReflection->getName();
-            if (array_key_exists($methodName, $methodsDeclaredInSoap)) {
+            if (array_key_exists($methodName, $methods)) {
                 $data[$methodName] = $this->extractMethodData($methodReflection);
             }
         }

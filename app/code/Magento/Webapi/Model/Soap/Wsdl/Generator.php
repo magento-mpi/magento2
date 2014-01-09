@@ -36,7 +36,7 @@ class Generator
      */
     protected $_apiConfig;
 
-    /** @var \Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor */
+    /** @var \Magento\Webapi\Model\Config\ClassReflector\TypeProcessor */
     protected $_typeProcessor;
 
     /**
@@ -52,13 +52,13 @@ class Generator
      * @param \Magento\Webapi\Model\Soap\Config $apiConfig
      * @param \Magento\Webapi\Model\Soap\Wsdl\Factory $wsdlFactory
      * @param \Magento\Webapi\Model\Cache\Type $cache
-     * @param \Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor $typeProcessor
+     * @param \Magento\Webapi\Model\Config\ClassReflector\TypeProcessor $typeProcessor
      */
     public function __construct(
         \Magento\Webapi\Model\Soap\Config $apiConfig,
         \Magento\Webapi\Model\Soap\Wsdl\Factory $wsdlFactory,
         \Magento\Webapi\Model\Cache\Type $cache,
-        \Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor $typeProcessor
+        \Magento\Webapi\Model\Config\ClassReflector\TypeProcessor $typeProcessor
     ) {
         $this->_apiConfig = $apiConfig;
         $this->_wsdlFactory = $wsdlFactory;

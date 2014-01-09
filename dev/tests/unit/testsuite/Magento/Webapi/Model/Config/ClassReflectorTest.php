@@ -6,17 +6,17 @@
  * @license     {license_link}
  */
 
-namespace Magento\Webapi\Model\Soap\Config\Reader;
+namespace Magento\Webapi\Model\Config;
 
 /**
- * Test for SOAP API specific class reflector.
+ * Test for class reflector.
  */
 class ClassReflectorTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor | \PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Webapi\Model\Config\ClassReflector\TypeProcessor|\PHPUnit_Framework_MockObject_MockObject */
     protected $_typeProcessor;
 
-    /** @var \Magento\Webapi\Model\Soap\Config\Reader\ClassReflector */
+    /** @var \Magento\Webapi\Model\Config\ClassReflector */
     protected $_classReflector;
 
     /**
@@ -25,7 +25,7 @@ class ClassReflectorTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_typeProcessor = $this->getMock(
-            '\Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor',
+            '\Magento\Webapi\Model\Config\ClassReflector\TypeProcessor',
             ['process'],
             [],
             '',
@@ -39,13 +39,13 @@ class ClassReflectorTest extends \PHPUnit_Framework_TestCase
                 )
             )
         );
-        $this->_classReflector = new \Magento\Webapi\Model\Soap\Config\Reader\ClassReflector($this->_typeProcessor);
+        $this->_classReflector = new \Magento\Webapi\Model\Config\ClassReflector($this->_typeProcessor);
     }
 
     public function testReflectClassMethods()
     {
         $data = $this->_classReflector->reflectClassMethods(
-            '\\Magento\\Webapi\\Model\\Soap\\Config\\Reader\\TestServiceForClassReflector',
+            '\\Magento\\Webapi\\Model\\Config\\TestServiceForClassReflector',
             ['generateRandomString' => ['method' => 'generateRandomString']]
         );
         $this->assertEquals(['generateRandomString' => $this->_getSampleReflectionData()], $data);
@@ -54,7 +54,7 @@ class ClassReflectorTest extends \PHPUnit_Framework_TestCase
     public function testExtractMethodData()
     {
         $classReflection = new \Zend\Server\Reflection\ReflectionClass
-        (new \ReflectionClass('\\Magento\\Webapi\\Model\\Soap\\Config\\Reader\\TestServiceForClassReflector'));
+        (new \ReflectionClass('\\Magento\\Webapi\\Model\\Config\\TestServiceForClassReflector'));
         /** @var $methodReflection ReflectionMethod */
         $methodReflection = $classReflection->getMethods()[0];
         $methodData = $this->_classReflector->extractMethodData($methodReflection);

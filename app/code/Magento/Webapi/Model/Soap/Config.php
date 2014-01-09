@@ -54,7 +54,7 @@ class Config
     /** @var \Magento\Webapi\Helper\Data */
     protected $_helper;
 
-    /** @var \Magento\Webapi\Model\Soap\Config\Reader\ClassReflector */
+    /** @var \Magento\Webapi\Model\Config\ClassReflector */
     protected $_classReflector;
 
     /**
@@ -64,7 +64,7 @@ class Config
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\App\Dir $dir
      * @param \Magento\Webapi\Model\Config $config
-     * @param \Magento\Webapi\Model\Soap\Config\Reader\ClassReflector $classReflector
+     * @param \Magento\Webapi\Model\Config\ClassReflector $classReflector
      * @param \Magento\Webapi\Helper\Data $helper
      */
     public function __construct(
@@ -72,7 +72,7 @@ class Config
         \Magento\Filesystem $filesystem,
         \Magento\App\Dir $dir,
         \Magento\Webapi\Model\Config $config,
-        \Magento\Webapi\Model\Soap\Config\Reader\ClassReflector $classReflector,
+        \Magento\Webapi\Model\Config\ClassReflector $classReflector,
         \Magento\Webapi\Helper\Data $helper
     ) {
         $this->_filesystem = $filesystem;
