@@ -44,6 +44,16 @@ class Edit extends \Magento\Backend\App\AbstractAction
     }
 
     /**
+     * Check for is allowed
+     *
+     * @return boolean
+     */
+    protected function _isAllowed()
+    {
+        return $this->_authorization->isAllowed('Magento_Catalog::products');
+    }
+
+    /**
      * Get associated grouped products grid popup
      */
     public function popupAction()

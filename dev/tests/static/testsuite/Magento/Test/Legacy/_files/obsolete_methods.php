@@ -1106,4 +1106,25 @@ return array(
     array('isSuper', '\Magento\Catalog\Model\Product'),
     array('isSuperGroup', '\Magento\Catalog\Model\Product'),
     array('isSuperConfig', '\Magento\Catalog\Model\Product'),
+    array(
+        '_initProductSave', '\Magento\Catalog\Controller\Adminhtml\Product',
+        '\Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper::initialize'
+    ),
+    array('superGroupAction', '\Magento\Catalog\Controller\Adminhtml\Product'),
+    array('superGroupPopupAction', '\Magento\Catalog\Controller\Adminhtml\Product',
+        '\Magento\GroupedProduct\Controller\Adminhtml\Edit::popupAction'
+    ),
+    array(
+        'prepareProductSave', '\Magento\Bundle\Model\Observer',
+        '\Magento\Bundle\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Bundle::afterInitialize'
+    ),
+    array(
+        'prepareProductSave', '\Magento\Downloadable\Model\Observer',
+        '\Magento\Downloadable\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Downloadable::afterInitialize'
+    ),
+    array(
+        'catalogProductPrepareSave', '\Magento\PricePermissions\Model\Observer',
+        '\Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\PricePermissions::'
+            . 'afterInitialize'
+    ),
 );

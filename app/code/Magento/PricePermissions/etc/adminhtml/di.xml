@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper">
+        <plugin name="PricePermissions" type="Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\PricePermissions" sortOrder="80" />
+    </type>
+</config>
