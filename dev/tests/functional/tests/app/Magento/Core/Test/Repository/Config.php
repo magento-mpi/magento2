@@ -1051,19 +1051,19 @@ class Config extends AbstractRepository
                                                     'payflow_link_payflow_link' => array( // Payflow Link and Express Checkout
                                                         'fields' => array(
                                                             'business_account' => array( // Email Associated with PayPal Merchant Account
-                                                                'value' => 'rllink_1350648053_biz@ebay.com'
+                                                                'value' => 'rlus_1349181941_biz@ebay.com'
                                                             ),
                                                             'partner' => array( // Partner
                                                                 'value' => 'PayPal'
                                                             ),
                                                             'user' => array( // API User
-                                                                'value' => 'mpipayflowlink'
+                                                                'value' => 'mpiteamlink'
                                                             ),
                                                             'vendor' => array( // Vendor
-                                                                'value' => 'mpipayflowlink'
+                                                                'value' => 'mpiteamlink'
                                                             ),
                                                             'pwd' => array( // API Password
-                                                                'value' => '12341234'
+                                                                'value' => '123123qa'
                                                             ),
                                                             'sandbox_flag' => array( // Test Mode
                                                                 'value' => self::YES_VALUE
