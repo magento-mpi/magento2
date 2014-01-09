@@ -25,8 +25,8 @@ interface CustomerAccountServiceInterface
     /**
      * Create Customer Account
      *
-     * @param \Magento\Customer\Service\V1\Dto\Customer $customer
-     * @param \Magento\Customer\Service\V1\Dto\Address[] $addresses
+     * @param Dto\Customer $customer
+     * @param Dto\Address[] $addresses
      * @param string $password
      * @param string $confirmationBackUrl
      * @param string $registeredBackUrl
@@ -49,7 +49,7 @@ interface CustomerAccountServiceInterface
      * @param string $key
      * @throws \Magento\Customer\Service\Entity\V1\Exception If customerId is invalid, does not exist, or customer account was already active
      * @throws \Magento\Core\Exception If there is an issue with supplied $customerId or $key
-     * @return \Magento\Customer\Service\V1\Dto\Customer
+     * @return Dto\Customer
      */
     public function activateAccount($customerId, $key);
 
@@ -59,7 +59,7 @@ interface CustomerAccountServiceInterface
      * @param string $username username in plain-text
      * @param string $password password in plain-text
      * @throws \Magento\Customer\Service\Entity\V1\Exception if unable to login due to issue with username or password or others
-     * @return \Magento\Customer\Service\V1\Dto\Customer
+     * @return Dto\Customer
      */
     public function authenticate($username, $password);
 
@@ -102,8 +102,8 @@ interface CustomerAccountServiceInterface
     /**
      * Validate customer entity
      *
-     * @param \Magento\Customer\Service\V1\Dto\Customer $customer
-     * @param \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata[] $attributes
+     * @param Dto\Customer $customer
+     * @param Dto\Eav\AttributeMetadata[] $attributes
      * @return array|bool
      */
     public function validateCustomerData(Dto\Customer $customer, array $attributes);

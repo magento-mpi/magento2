@@ -9,7 +9,7 @@
  */
 namespace Magento\Customer\Service\V1;
 
-use Magento\Customer\Service\V1\Dto\SearchCriteria;
+use Magento\Customer\Model\Group as CustomerGroupModel;
 use Magento\Customer\Service\Entity\V1\Exception;
 
 class CustomerGroupService implements CustomerGroupServiceInterface
@@ -66,7 +66,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
         if (!is_null($taxClassId)) {
             $collection->addFieldToFilter('tax_class_id', $taxClassId);
         }
-        /** @var \Magento\Customer\Model\Group $group */
+        /** @var CustomerGroupModel $group */
         foreach ($collection as $group) {
             $this->_customerGroupBuilder->setId($group->getId())
                 ->setCode($group->getCode())
@@ -79,7 +79,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     /**
      * @inheritdoc
      */
-    public function searchGroups(SearchCriteria $searchCriteria)
+    public function searchGroups(Dto\SearchCriteria $searchCriteria)
     {
         $this->_searchResultsBuilder->setSearchCriteria($searchCriteria);
 
@@ -102,12 +102,12 @@ class CustomerGroupService implements CustomerGroupServiceInterface
                 default:
                     break;
             }
-            $collection->addOrder($field, $direction == SearchCriteria::SORT_ASC ? 'ASC' : 'DESC');
+            $collection->addOrder($field, $direction == Dto\SearchCriteria::SORT_ASC ? 'ASC' : 'DESC');
         }
         $collection->setCurPage($searchCriteria->getCurrentPage());
         $collection->setPageSize($searchCriteria->getPageSize());
 
-        /** @var \Magento\Customer\Model\Group $group */
+        /** @var CustomerGroupModel $group */
         foreach ($collection as $group) {
             $this->_customerGroupBuilder->setId($group->getId())
                 ->setCode($group->getCode())
@@ -140,7 +140,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
      */
     public function getDefaultGroup($storeId)
     {
-        $groupId = $this->_storeConfig->getConfig(\Magento\Customer\Model\Group::XML_PATH_DEFAULT_ID, $storeId);
+        $groupId = $this->_storeConfig->getConfig(CustomerGroupModel::XML_PATH_DEFAULT_ID, $storeId);
         return $this->getGroup($groupId);
     }
 

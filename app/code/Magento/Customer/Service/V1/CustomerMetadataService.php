@@ -9,9 +9,7 @@
  */
 namespace Magento\Customer\Service\V1;
 
-use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
-use Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata;
-use Magento\Customer\Service\V1\Dto\Eav\OptionBuilder;
+use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
 
 class CustomerMetadataService implements CustomerMetadataServiceInterface
 {
@@ -34,12 +32,12 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     private $_storeManager;
 
     /**
-     * @var \Magento\Customer\Service\V1\Dto\Eav\OptionBuilder
+     * @var Dto\Eav\OptionBuilder
      */
     private $_optionBuilder;
 
     /**
-     * @var \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadataBuilder
+     * @var Dto\Eav\AttributeMetadataBuilder
      */
     private $_attributeMetadataBuilder;
 
@@ -47,15 +45,15 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Customer\Model\Resource\Form\Attribute\Collection $attrFormCollection
      * @param \Magento\Core\Model\StoreManager $storeManager
-     * @param \Magento\Customer\Service\V1\Dto\Eav\OptionBuilder $optionBuilder
-     * @param \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadataBuilder $attributeMetadataBuilder
+     * @param Dto\Eav\OptionBuilder $optionBuilder
+     * @param Dto\Eav\AttributeMetadataBuilder $attributeMetadataBuilder
      */
     public function __construct(
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Customer\Model\Resource\Form\Attribute\Collection $attrFormCollection,
         \Magento\Core\Model\StoreManager $storeManager,
-        \Magento\Customer\Service\V1\Dto\Eav\OptionBuilder $optionBuilder,
-        \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadataBuilder $attributeMetadataBuilder
+        Dto\Eav\OptionBuilder $optionBuilder,
+        Dto\Eav\AttributeMetadataBuilder $attributeMetadataBuilder
     ) {
         $this->_eavConfig = $eavConfig;
         $this->_cache = [];
@@ -70,7 +68,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
      *
      * @param   mixed $entityType
      * @param   mixed $attributeCode
-     * @return \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata
+     * @return Dto\Eav\AttributeMetadata
      */
     public function getAttributeMetadata($entityType, $attributeCode)
     {
@@ -79,7 +77,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
             return $dtoCache[$attributeCode];
         }
 
-        /** @var \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute */
+        /** @var AbstractAttribute $attribute */
         $attribute = $this->_eavConfig->getAttribute($entityType, $attributeCode);
         $attributeMetadata = $this->_createMetadataAttribute($attribute);
         $dtoCache[$attributeCode] = $attributeMetadata;
@@ -92,7 +90,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
      * @param string $entityType
      * @param int $attributeSetId
      * @param int $storeId
-     * @return AttributeMetadata[]
+     * @return Dto\Eav\AttributeMetadata[]
      */
     public function getAllAttributeSetMetadata($entityType, $attributeSetId = 0, $storeId = null)
     {
@@ -117,7 +115,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
      *
      * @param $entityType
      * @param $formCode
-     * @return \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata[]
+     * @return Dto\Eav\AttributeMetadata[]
      */
     public function getAttributes($entityType, $formCode)
     {
@@ -127,53 +125,6 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
             $attributes[$attribute->getAttributeCode()] = $this->_createMetadataAttribute($attribute);
         }
         return $attributes;
-    }
-
-    /**
-     * Load collection with filters applied
-     *
-     * @param $entityType
-     * @param $formCode
-     * @return null
-     */
-    private function _loadAttributesCollection($entityType, $formCode)
-    {
-         $this->_attrFormCollection
-            ->setStore($this->_storeManager->getStore())
-            ->setEntityType($entityType)
-            ->addFormCodeFilter($formCode)
-            ->setSortOrder()
-            ->load();
-    }
-
-    /**
-     * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute
-     * @return AttributeMetadata
-     */
-    private function _createMetadataAttribute($attribute)
-    {
-        $options = [];
-        try {
-            foreach ($attribute->getSource()->getAllOptions() as $option) {
-                $options[$option['label']] = $this->_optionBuilder->setLabel($option['label'])
-                    ->setValue($option['value'])
-                    ->create();
-            }
-        } catch (\Exception $e) {
-            // There is no source for this attribute
-        }
-        $this->_attributeMetadataBuilder->setAttributeCode($attribute->getAttributeCode())
-            ->setFrontendInput($attribute->getFrontendInput())
-            ->setInputFilter($attribute->getInputFilter())
-            ->setStoreLabel($attribute->getStoreLabel())
-            ->setValidationRules($attribute->getValidateRules())
-            ->setIsVisible($attribute->getIsVisible())
-            ->setIsRequired($attribute->getIsRequired())
-            ->setMultilineCount($attribute->getMultilineCount())
-            ->setDataModel($attribute->getDataModel())
-            ->setOptions($options);
-
-        return $this->_attributeMetadataBuilder->create();
     }
 
     /**
@@ -208,6 +159,54 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
         return $this->getAllAttributeSetMetadata('customer_address', self::ADDRESS_ATTRIBUTE_SET_ID);
     }
 
+
+
+    /**
+     * Load collection with filters applied
+     *
+     * @param $entityType
+     * @param $formCode
+     * @return null
+     */
+    private function _loadAttributesCollection($entityType, $formCode)
+    {
+        $this->_attrFormCollection
+            ->setStore($this->_storeManager->getStore())
+            ->setEntityType($entityType)
+            ->addFormCodeFilter($formCode)
+            ->setSortOrder()
+            ->load();
+    }
+
+    /**
+     * @param AbstractAttribute $attribute
+     * @return Dto\Eav\AttributeMetadata
+     */
+    private function _createMetadataAttribute($attribute)
+    {
+        $options = [];
+        try {
+            foreach ($attribute->getSource()->getAllOptions() as $option) {
+                $options[$option['label']] = $this->_optionBuilder->setLabel($option['label'])
+                    ->setValue($option['value'])
+                    ->create();
+            }
+        } catch (\Exception $e) {
+            // There is no source for this attribute
+        }
+        $this->_attributeMetadataBuilder->setAttributeCode($attribute->getAttributeCode())
+            ->setFrontendInput($attribute->getFrontendInput())
+            ->setInputFilter($attribute->getInputFilter())
+            ->setStoreLabel($attribute->getStoreLabel())
+            ->setValidationRules($attribute->getValidateRules())
+            ->setIsVisible($attribute->getIsVisible())
+            ->setIsRequired($attribute->getIsRequired())
+            ->setMultilineCount($attribute->getMultilineCount())
+            ->setDataModel($attribute->getDataModel())
+            ->setOptions($options);
+
+        return $this->_attributeMetadataBuilder->create();
+    }
 
     /**
      * Helper for getting access to an entity types DTO cache.

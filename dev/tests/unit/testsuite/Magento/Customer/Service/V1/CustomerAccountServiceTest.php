@@ -18,15 +18,6 @@ namespace Magento\Customer\Service\V1;
  */
 class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 {
-
-    const STREET = 'Parmer';
-    const CITY = 'Albuquerque';
-    const POSTCODE = '90014';
-    const TELEPHONE = '7143556767';
-    const REGION = 'Alabama';
-    const REGION_ID = 1;
-    const COUNTRY_ID = 'US';
-
     /** Sample values for testing */
     const ID = 1;
     const FIRSTNAME = 'Jane';
@@ -45,24 +36,9 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     private $_customerFactoryMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Model\AddressFactory
-     */
-    private $_addressFactoryMock;
-
-    /**
      * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Model\Customer
      */
     private $_customerModelMock;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Model\Attribute
-     */
-    private $_attributeModelMock;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\CustomerMetadataServiceInterface
-     */
-    private $_eavMetadataServiceMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Event\ManagerInterface
@@ -90,19 +66,18 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     private $_storeMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\Dto\AddressBuilder
+     * @var \Magento\Customer\Model\Metadata\Validator
      */
-    private $_addressBuilder;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\Dto\CustomerBuilder
-     */
-    private $_customerBuilder;
-
     private $_validator;
 
+    /**
+     * @var \Magento\Customer\Service\V1\CustomerService
+     */
     private $_customerServiceMock;
 
+    /**
+     * @var \Magento\Customer\Service\V1\CustomerAddressService
+     */
     private $_customerAddressServiceMock;
 
     public function setUp()
@@ -161,30 +136,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             )
             ->getMock();
 
-        $this->_addressFactoryMock = $this->getMockBuilder('Magento\Customer\Model\AddressFactory')
-            ->disableOriginalConstructor()
-            ->setMethods(array('create'))
-            ->getMock();
-
-        $this->_eavMetadataServiceMock =
-            $this->getMockBuilder('Magento\Customer\Service\V1\CustomerMetadataServiceInterface')
-                ->disableOriginalConstructor()
-                ->getMock();
-
         $this->_eventManagerMock =
             $this->getMockBuilder('\Magento\Event\ManagerInterface')
                 ->disableOriginalConstructor()
                 ->getMock();
-
-        $this->_attributeModelMock =
-            $this->getMockBuilder('\Magento\Customer\Model\Attribute')
-                ->disableOriginalConstructor()
-                ->getMock();
-
-        $this->_attributeModelMock
-            ->expects($this->any())
-            ->method('getAttributeCode')
-            ->will($this->returnValue(self::ATTRIBUTE_CODE));
 
         $this->_customerModelMock
             ->expects($this->any())
@@ -206,11 +161,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_validator = $this->getMockBuilder('\Magento\Customer\Model\Metadata\Validator')
             ->disableOriginalConstructor()
             ->getMock();
-
-        $this->_addressBuilder = new Dto\AddressBuilder(
-            new Dto\RegionBuilder());
-
-        $this->_customerBuilder = new Dto\CustomerBuilder();
 
         $customerBuilder = new Dto\CustomerBuilder();
 

@@ -9,10 +9,6 @@
  */
 namespace Magento\Customer\Service\V1;
 
-use Magento\Customer\Service\V1\Dto\CustomerGroup;
-use Magento\Customer\Service\V1\Dto\SearchCriteria;
-use Magento\Validator\Test\True;
-
 interface CustomerGroupServiceInterface
 {
     const NOT_LOGGED_IN_ID          = 0;
@@ -28,14 +24,14 @@ interface CustomerGroupServiceInterface
      * @param boolean $includeNotLoggedIn
      * @param int $taxClassId
      *
-     * @return \Magento\Customer\Service\V1\Dto\CustomerGroup[]
+     * @return Dto\CustomerGroup[]
      */
     public function getGroups($includeNotLoggedIn = true, $taxClassId = null);
 
     /**
-     * @param \Magento\Customer\Service\V1\Dto\SearchCriteria $searchCriteria
+     * @param Dto\SearchCriteria $searchCriteria
      *
-     * @return \Magento\Customer\Service\V1\Dto\SearchResults
+     * @return Dto\SearchResults
      */
     public function searchGroups(Dto\SearchCriteria $searchCriteria);
 
@@ -44,14 +40,14 @@ interface CustomerGroupServiceInterface
      *
      * @param int $groupId
      * @throws \Magento\Customer\Service\Entity\V1\Exception if groupId is not found
-     * @return \Magento\Customer\Service\V1\Dto\CustomerGroup
+     * @return Dto\CustomerGroup
      */
     public function getGroup($groupId);
 
     /**
      * @param int $storeId
      *
-     * @return \Magento\Customer\Service\V1\Dto\CustomerGroup
+     * @return Dto\CustomerGroup
      */
     public function getDefaultGroup($storeId);
 
@@ -63,11 +59,11 @@ interface CustomerGroupServiceInterface
     public function canDelete($groupId);
 
     /**
-     * @param \Magento\Customer\Service\V1\Dto\CustomerGroup $group
+     * @param Dto\CustomerGroup $group
      *
      * @return int customer group ID
      */
-    public function saveGroup(CustomerGroup $group);
+    public function saveGroup(Dto\CustomerGroup $group);
 
     /**
      * @param int $groupId
