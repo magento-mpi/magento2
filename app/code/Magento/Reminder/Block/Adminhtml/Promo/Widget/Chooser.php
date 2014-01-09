@@ -1,17 +1,11 @@
 <?php
 /**
  * {license_notice}
- *
- * @category    Magento
- * @package     Magento_CatalogRule
+ *   
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Shopping cart price rule chooser
- */
-namespace Magento\CatalogRule\Block\Adminhtml\Promo\Widget;
+namespace Magento\Reminder\Block\Adminhtml\Promo\Widget;
 
 class Chooser extends \Magento\Backend\Block\Widget\Grid\Chooser
 {
@@ -23,5 +17,5 @@ class Chooser extends \Magento\Backend\Block\Widget\Grid\Chooser
     /**
      * @var string
      */
-    protected $type = 'catalog_rule';
+    protected $type = 'sales_rule';
 }
