@@ -36,7 +36,7 @@ class DtoFromArrayTest extends \PHPUnit_Framework_TestCase
 
     public function testNestedDtoProperties()
     {
-        $data = ['nested' => ['details' => ['entity_id' => 15, 'name' => 'Test']]];
+        $data = ['nested' => ['details' => ['entityId' => 15, 'name' => 'Test']]];
         $result = $this->serializer
             ->getInputData('\\Magento\\Webapi\\Service\\Entity\\TestService', 'nestedDto', $data);
         $this->assertNotNull($result);
@@ -93,7 +93,7 @@ class DtoFromArrayTest extends \PHPUnit_Framework_TestCase
 
     public function testArrayOfDtoProperties()
     {
-        $data = ['dtos' => [ ['entity_id' => 14, 'name' => 'First'], [ 'entity_id' => 15, 'name' => 'Second' ] ]];
+        $data = ['dtos' => [ ['entityId' => 14, 'name' => 'First'], [ 'entityId' => 15, 'name' => 'Second' ] ]];
         $result = $this->serializer->getInputData('\\Magento\\Webapi\\Service\\Entity\\TestService', 'dtoArray', $data);
         $this->assertNotNull($result);
         /** @var array $result */

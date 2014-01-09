@@ -18,13 +18,4 @@ class AssociativeArrayDto extends AbstractDto
     {
         return $this->_get('associativeArray');
     }
-
-    /**
-     * @param string[] $associativeArray
-     * @return AssociativeArrayDto
-     */
-    public function setAssociativeArray(array $associativeArray)
-    {
-        return $this->_set('associativeArray', $associativeArray);
-    }
 }

@@ -18,13 +18,4 @@ class DtoArrayDto extends AbstractDto
     {
         return $this->_get('items');
     }
-
-    /**
-     * @param \Magento\Webapi\Service\Entity\SimpleDto[] $items
-     * @return DtoArrayDto
-     */
-    public function setItems(array $items)
-    {
-        return $this->_set('items', $items);
-    }
 }

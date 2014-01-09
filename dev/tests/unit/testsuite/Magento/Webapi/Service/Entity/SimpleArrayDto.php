@@ -19,13 +19,4 @@ class SimpleArrayDto extends AbstractDto
     {
         return $this->_get('ids');
     }
-
-    /**
-     * @param int[] $ids
-     * @return SimpleArrayDto
-     */
-    public function setIds(array $ids)
-    {
-        return $this->_set('ids', $ids);
-    }
 }
