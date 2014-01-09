@@ -21,6 +21,23 @@ use Mtf\Factory\Factory;
 class GuestPayPalPayflowLinkExpress extends Checkout
 {
     /**
+     * Paypal customer buyer
+     *
+     * @var \Magento\Paypal\Test\Fixture\Customer
+     */
+    private $paypalCustomer;
+
+    /**
+     * Get Paypal buyer account
+     *
+     * @return \Magento\Paypal\Test\Fixture\Customer
+     */
+    public function getPaypalCustomer()
+    {
+        return $this->paypalCustomer;
+    }
+
+    /**
      * Prepare for PayPal Payflow Link Express Edition
      */
     protected function _initData()
