@@ -49,7 +49,6 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
     protected function _prepareLayout()
     {
         $this->addChild('items', 'Magento\Sales\Block\Adminhtml\Order\Shipment\Create\Items');
-        $this->addChild('tracking', 'Magento\Sales\Block\Adminhtml\Order\Shipment\Create\Tracking');
         return parent::_prepareLayout();
     }
 

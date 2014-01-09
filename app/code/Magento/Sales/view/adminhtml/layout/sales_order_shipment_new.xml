@@ -20,7 +20,6 @@
             <block class="Magento\Sales\Block\Adminhtml\Order\Shipment\Create\Form" name="form" template="order/shipment/create/form.phtml">
                 <block class="Magento\Sales\Block\Adminhtml\Order\View\Info" name="order_info" template="order/view/info.phtml"/>
                 <block class="Magento\Sales\Block\Adminhtml\Order\Payment" name="order_payment"/>
-                <block class="Magento\Sales\Block\Adminhtml\Order\Shipment\Create\Tracking" name="shipment_tracking" template="order/shipment/create/tracking.phtml"/>
                 <block class="Magento\Sales\Block\Adminhtml\Order\Shipment\Create\Items" name="order_items" template="order/shipment/create/items.phtml">
                     <block class="Magento\Sales\Block\Adminhtml\Items\Renderer\DefaultRenderer" as="default" template="order/shipment/create/items/renderer/default.phtml"/>
                     <block class="Magento\Sales\Block\Adminhtml\Items\Column\Qty" name="column_qty" template="items/column/qty.phtml" group="column"/>

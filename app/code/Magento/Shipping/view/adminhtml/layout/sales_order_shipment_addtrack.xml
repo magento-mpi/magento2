@@ -8,5 +8,5 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <block class="Magento\Sales\Block\Adminhtml\Order\Shipment\View\Tracking" name="shipment_tracking" template="order/shipment/view/tracking.phtml"/>
+    <block class="Magento\Shipping\Block\Adminhtml\Order\Tracking\View" name="shipment_tracking" template="order/tracking/view.phtml"/>
 </layout>

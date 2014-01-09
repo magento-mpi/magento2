@@ -15,7 +15,7 @@
  * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Block\Adminhtml\Order\Shipment\Create;
+namespace Magento\Shipping\Block\Adminhtml\Order;
 
 class Tracking extends \Magento\Backend\Block\Template
 {
@@ -60,7 +60,6 @@ class Tracking extends \Magento\Backend\Block\Template
             'class'   => '',
             'onclick' => 'trackingControl.add()'
         ));
-
     }
 
     /**
@@ -74,16 +73,14 @@ class Tracking extends \Magento\Backend\Block\Template
     }
 
     /**
-     * Retrieve
+     * Retrieve carriers
      *
-     * @return unknown
+     * @return array
      */
     public function getCarriers()
     {
         $carriers = array();
-        $carrierInstances = $this->_shippingConfig->getAllCarriers(
-            $this->getShipment()->getStoreId()
-        );
+        $carrierInstances = $this->_getCarriersInstances();
         $carriers['custom'] = __('Custom Value');
         foreach ($carrierInstances as $code => $carrier) {
             if ($carrier->isTrackingAvailable()) {
@@ -91,5 +88,12 @@ class Tracking extends \Magento\Backend\Block\Template
             }
         }
         return $carriers;
+    }
+
+    protected function _getCarriersInstances()
+    {
+        return $this->_shippingConfig->getAllCarriers(
+            $this->getShipment()->getStoreId()
+        );
     }
 }
