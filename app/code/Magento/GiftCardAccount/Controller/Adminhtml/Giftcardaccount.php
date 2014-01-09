@@ -330,7 +330,11 @@ class Giftcardaccount extends \Magento\Backend\App\Action
         $fileName = 'giftcardaccounts.xml';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
         $exportBlock = $this->_view->getLayout()->getChildBlock('gift.card.account.grid', 'grid.export');
-        return $this->_fileFactory->create($fileName, $exportBlock->getExcelFile($fileName));
+        return $this->_fileFactory->create(
+            $fileName,
+            $exportBlock->getExcelFile($fileName),
+            \Magento\Filesystem::VAR_DIR
+        );
     }
 
     /**
@@ -342,7 +346,11 @@ class Giftcardaccount extends \Magento\Backend\App\Action
         $fileName = 'giftcardaccounts.csv';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
         $exportBlock = $this->_view->getLayout()->getChildBlock('gift.card.account.grid', 'grid.export');
-        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile($fileName));
+        return $this->_fileFactory->create(
+            $fileName,
+            $exportBlock->getCsvFile($fileName),
+            \Magento\Filesystem::VAR_DIR
+        );
     }
 
     /**
