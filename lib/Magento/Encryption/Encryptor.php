@@ -154,7 +154,7 @@ class Encryptor implements EncryptorInterface
     /**
      * Return crypt model, instantiate if it is empty
      *
-     * @param string $key
+     * @param string|null $key NULL value means usage of the default key specified on constructor
      * @return \Magento\Encryption\Crypt
      */
     public function validateKey($key)
@@ -165,7 +165,7 @@ class Encryptor implements EncryptorInterface
     /**
      * Instantiate crypt model
      *
-     * @param string $key
+     * @param string|null $key NULL value means usage of the default key specified on constructor
      * @return \Magento\Encryption\Crypt
      */
     protected function _getCrypt($key = null)

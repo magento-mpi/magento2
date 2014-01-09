@@ -187,7 +187,7 @@ class EncryptorTest extends \PHPUnit_Framework_TestCase
     public function decryptDataProvider()
     {
         return array(
-            array(base64_encode('value1'), 'value1'),
+            array('dmFsdWUx', 'value1'),
         );
     }
 
@@ -199,7 +199,7 @@ class EncryptorTest extends \PHPUnit_Framework_TestCase
             ->with(array('key' => 'some_key'))
             ->will($this->returnValue($crypt))
         ;
-        $this->_model->validateKey('some_key');
+        $this->assertSame($crypt, $this->_model->validateKey('some_key'));
     }
 
     public function testValidateKeyDefault()
@@ -210,6 +210,8 @@ class EncryptorTest extends \PHPUnit_Framework_TestCase
             ->with(array('key' => 'cryptKey'))
             ->will($this->returnValue($crypt))
         ;
-        $this->_model->validateKey(null);
+        $this->assertSame($crypt, $this->_model->validateKey(null));
+        // Ensure crypt factory is invoked only one
+        $this->assertSame($crypt, $this->_model->validateKey(null));
     }
 }
