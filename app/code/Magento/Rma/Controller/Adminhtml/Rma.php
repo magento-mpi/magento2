@@ -38,9 +38,10 @@ class Rma extends \Magento\Backend\App\Action
     protected $_fileFactory;
 
     /**
-     * @param \Magento\Backend\App\Action\Context $context
+     * @param Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     * @param \Magento\Filesystem $filesystem
      */
     public function __construct(
         Action\Context $context,
@@ -609,6 +610,7 @@ class Rma extends \Magento\Backend\App\Action
                 return $this->_fileFactory->create(
                     'rma' . $dateModel->date('Y-m-d_H-i-s') . '.pdf',
                     $pdf->render(),
+                    \Magento\Filesystem::MEDIA,
                     'application/pdf'
                 );
             }
@@ -859,10 +861,14 @@ class Rma extends \Magento\Backend\App\Action
             }
         } else {
             $name = pathinfo($fileName, PATHINFO_BASENAME);
-            $this->_fileFactory->create($name, array(
-                'type'  => 'filename',
-                'value' => $this->readDirectory->getAbsolutePath($filePath)
-            ))->sendResponse();
+            $this->_fileFactory->create(
+                $name,
+                array(
+                    'type'  => 'filename',
+                    'value' => $this->readDirectory->getAbsolutePath($filePath)
+                ),
+                \Magento\Filesystem::MEDIA
+            )->sendResponse();
         }
 
         exit();
@@ -1233,6 +1239,7 @@ class Rma extends \Magento\Backend\App\Action
                 return $this->_fileFactory->create(
                     'ShippingLabel(' . $model->getIncrementId() . ').pdf',
                     $pdfContent,
+                    \Magento\Filesystem::MEDIA,
                     'application/pdf'
                 );
             }
@@ -1269,7 +1276,9 @@ class Rma extends \Magento\Backend\App\Action
             /** @var $dateModel \Magento\Core\Model\Date */
             $dateModel = $this->_objectManager->get('Magento\Core\Model\Date');
             return $this->_fileFactory->create(
-                'packingslip' . $dateModel->date('Y-m-d_H-i-s') . '.pdf', $pdf->render(),
+                'packingslip' . $dateModel->date('Y-m-d_H-i-s') . '.pdf',
+                $pdf->render(),
+                \Magento\Filesystem::MEDIA,
                 'application/pdf'
             );
         } else {
