@@ -261,5 +261,4 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
         $this->_model->setSubprocessor($subProcessor);
         $this->assertEquals($subProcessor, $this->_model->getSubprocessor());
     }
-
 }
