@@ -72,7 +72,6 @@ class OrderCheckout extends Checkout
         return $this->orderId;
     }
 
-
     /**
      * Persists prepared data into application
      */

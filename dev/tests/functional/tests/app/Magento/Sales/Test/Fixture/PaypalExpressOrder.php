@@ -38,22 +38,6 @@ class PaypalExpressOrder extends OrderCheckout
     }
 
     /**
-     * Persists prepared data into application
-     */
-    public function persist()
-    {
-        $this->checkoutFixture->persist();
-        if(!is_null($this->additionalProducts))
-        {
-            foreach($this->additionalProducts as $product)
-            {
-                $this->checkoutFixture->addProduct($product);
-            }
-        }
-        $this->orderId = Factory::getApp()->magentoCheckoutCreatePaypalExpressOrder($this->checkoutFixture);
-    }
-
-    /**
      * @return \Magento\Customer\Test\Fixture\Address
      */
     public function getBillingAddress()
@@ -70,6 +54,7 @@ class PaypalExpressOrder extends OrderCheckout
     }
 
     /**
+     * @param $index
      * @return \Magento\Catalog\Test\Fixture\SimpleProduct
      */
     public function getProduct($index)
