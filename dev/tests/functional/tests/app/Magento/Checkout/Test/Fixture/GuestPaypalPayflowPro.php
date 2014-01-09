@@ -30,7 +30,7 @@ class GuestPaypalPayflowPro extends Checkout
         //Verification data
         $this->_data = array(
             'totals' => array(
-                'grand_total' => '$156.81'
+                'grand_total' => '$168.72'
             )
         );
     }
@@ -61,10 +61,10 @@ class GuestPaypalPayflowPro extends Checkout
         $simple->switchData('simple_required');
         $simple->persist();
         $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
-        $configurable->switchData('configurable_required');
+        $configurable->switchData('configurable_checkout_selection_option_label_2');
         $configurable->persist();
         $bundle = Factory::getFixtureFactory()->getMagentoBundleBundleFixed();
-        $bundle->switchData('bundle_required');
+        $bundle->switchData('bundle_fixed_selection_simple_product_percentage');
         $bundle->persist();
 
         $this->products = array(

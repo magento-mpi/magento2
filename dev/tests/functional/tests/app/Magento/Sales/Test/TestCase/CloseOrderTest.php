@@ -30,7 +30,7 @@ class CloseOrderTest extends Functional
      * @param null|string $paymentMethodFunction
      * @dataProvider dataProviderOrder
      *
-     * @ZephyrId MAGETWO-12434, MAGETWO-12833, MAGETWO-13015, MAGETWO-13019
+     * @ZephyrId MAGETWO-12434, MAGETWO-12833, MAGETWO-13015, MAGETWO-13019, MAGETWO-13020
      */
     public function testCloseOrder(OrderCheckout $fixture, $paymentMethodFunction = null)
     {

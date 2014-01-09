@@ -137,6 +137,6 @@ class BundleFixed extends Bundle
             )
         );
         $this->_repository = Factory::getRepositoryFactory()
-            ->getMagentoBundleBundle($this->_dataConfig, $this->_data);
+            ->getMagentoBundleBundleFixed($this->_dataConfig, $this->_data);
     }
 }
