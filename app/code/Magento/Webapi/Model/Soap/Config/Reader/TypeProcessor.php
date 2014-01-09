@@ -177,34 +177,16 @@ class TypeProcessor
      *
      * @param \Zend\Code\Reflection\MethodReflection $methodReflection
      * @param string $typeName
-     * @throws \InvalidArgumentException
      */
     protected function _processMethod(\Zend\Code\Reflection\MethodReflection $methodReflection, $typeName)
     {
         if (strpos($methodReflection->getName(), 'get') === 0) {
-            $methodDocBlock = $methodReflection->getDocBlock();
-            if (!$methodDocBlock) {
-                throw new \InvalidArgumentException('Each getter must have description with @return annotation.');
-            }
-            $returnAnnotations = $methodDocBlock->getTags('return');
-            if (empty($returnAnnotations)) {
-                throw new \InvalidArgumentException('Getter return type must be specified using @return annotation.');
-            }
-            /** @var \Zend\Code\Reflection\DocBlock\Tag\ReturnTag $returnAnnotation */
-            $returnAnnotation = current($returnAnnotations);
-            $returnType = $returnAnnotation->getType();
-            if (preg_match('/^(.+)\|null$/', $returnType, $matches)) {
-                /** If return value is optional, alternative return type should be set to null */
-                $returnType = $matches[1];
-                $isRequired = false;
-            } else {
-                $isRequired = true;
-            }
+            $returnMetadata = $this->getGetterReturnType($methodReflection);
             $fieldName = $this->_helper->dtoGetterNameToFieldName($methodReflection->getName());
             $this->_types[$typeName]['parameters'][$fieldName] = array(
-                'type' => $this->process($returnType),
-                'required' => $isRequired,
-                'documentation' => $returnAnnotation->getDescription()
+                'type' => $this->process($returnMetadata['type']),
+                'required' => $returnMetadata['isRequired'],
+                'documentation' => $returnMetadata['description']
             );
         }
     }
@@ -228,6 +210,50 @@ class TypeProcessor
         $description .= ltrim($longDescription);
 
         return $description;
+    }
+
+    /**
+     * Identify getter return type by its reflection.
+     *
+     * @param \Zend\Code\Reflection\MethodReflection $methodReflection
+     * @return array <pre>array(
+     *     'type' => <string>$type,
+     *     'isRequired' => $isRequired,
+     *     'description' => $description
+     * )</pre>
+     * @throws \InvalidArgumentException
+     */
+    public function getGetterReturnType($methodReflection)
+    {
+        $methodDocBlock = $methodReflection->getDocBlock();
+        if (!$methodDocBlock) {
+            throw new \InvalidArgumentException('Each getter must have description with @return annotation.');
+        }
+        $returnAnnotations = $methodDocBlock->getTags('return');
+        if (empty($returnAnnotations)) {
+            throw new \InvalidArgumentException('Getter return type must be specified using @return annotation.');
+        }
+        /** @var \Zend\Code\Reflection\DocBlock\Tag\ReturnTag $returnAnnotation */
+        $returnAnnotation = current($returnAnnotations);
+        $returnType = $returnAnnotation->getType();
+        /*
+         * Adding this code as a workaround since \Zend\Code\Reflection\DocBlock\Tag\ReturnTag::initialize does not
+         * detect and return correct type for array of objects in annotation.
+         * eg @return \Magento\Webapi\Service\Entity\SimpleDto[] is returned with type
+         * \Magento\Webapi\Service\Entity\SimpleDto instead of \Magento\Webapi\Service\Entity\SimpleDto[]
+         */
+        $escapedReturnType = str_replace('\\', '\\\\', $returnType);
+        if (preg_match("/.*\@return\s+({$escapedReturnType}\[\]).*/i", $methodDocBlock->getContents(), $matches)) {
+            $returnType = $matches[1];
+        }
+        $isRequired = preg_match("/.*\@return\s+\S+\|null.*/i", $methodDocBlock->getContents(), $matches)
+            ? false
+            : true;
+        return [
+            'type' => $returnType,
+            'isRequired' => $isRequired,
+            'description' => $returnAnnotation->getDescription()
+        ];
     }
 
     /**

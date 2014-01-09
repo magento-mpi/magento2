@@ -88,7 +88,7 @@ class ServiceArgsSerializer
                 $getterName = 'get' . str_replace(' ', '', ucwords(str_replace('_', ' ', $propertyName)));
                 $methodReflection = $class->getMethod($getterName);
                 if ($methodReflection->isPublic()) {
-                    $returnType = $this->_getReturnType($methodReflection);
+                    $returnType = $this->_typeProcessor->getGetterReturnType($methodReflection)['type'];
                     $data[$propertyName] = $this->_convertValue($value, $returnType);
                 }
             }
@@ -121,45 +121,5 @@ class ServiceArgsSerializer
             }
         }
         return $value;
-    }
-
-    /**
-     * Identify getter return type by method reflection.
-     *
-     * @param \Zend\Code\Reflection\MethodReflection $methodReflection
-     * @return string
-     * @throws \InvalidArgumentException
-     */
-    protected function _getReturnType($methodReflection)
-    {
-        // TODO: Avoid code duplication with \Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor::_processMethod
-        $methodDocBlock = $methodReflection->getDocBlock();
-        if (!$methodDocBlock) {
-            throw new \InvalidArgumentException('Each getter must have description with @return annotation.');
-        }
-        $returnAnnotations = $methodDocBlock->getTags('return');
-        if (empty($returnAnnotations)) {
-            throw new \InvalidArgumentException('Getter return type must be specified using @return annotation.');
-        }
-        /** @var \Zend\Code\Reflection\DocBlock\Tag\ReturnTag $returnAnnotation */
-        $returnAnnotation = current($returnAnnotations);
-        $returnType = $returnAnnotation->getType();
-        /*
-         * Adding this code as a workaround since \Zend\Code\Reflection\DocBlock\Tag\ReturnTag::initialize does not
-         * detect and return correct type for array of objects in annotation.
-         * eg @return \Magento\Webapi\Service\Entity\SimpleDto[] is returned with type
-         * \Magento\Webapi\Service\Entity\SimpleDto instead of \Magento\Webapi\Service\Entity\SimpleDto[]
-         */
-        $match = array();
-        preg_match('/(?<=@return )\S+/i', $methodDocBlock->getContents(), $match);
-        if (isset($match[0]) && $this->_typeProcessor->isArrayType($match[0])) {
-            $returnType = $returnType . '[]';
-        }
-        if (preg_match('/^(.+)\|null$/', $returnType, $matches)) {
-            /** If return value is optional, alternative return type should be set to null */
-            $returnType = $matches[1];
-            return $returnType;
-        }
-        return $returnType;
     }
 }

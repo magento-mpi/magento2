@@ -12,7 +12,7 @@ use Magento\Service\Entity\AbstractDto;
 class DtoArrayDto extends AbstractDto
 {
     /**
-     * @return \Magento\Webapi\Service\Entity\SimpleDto[]
+     * @return \Magento\Webapi\Service\Entity\SimpleDto[]|null
      */
     public function getItems()
     {
