@@ -7,12 +7,16 @@
  */
 namespace Magento\Exception;
 
+/**
+ * Class InputExceptionTest
+ *
+ * @package Magento\Exception
+ */
 class InputExceptionTest extends \PHPUnit_Framework_TestCase
 {
 
-    public function test()
+    public function testConstructor()
     {
-        // test constructor
         $inputException = new InputException('product.quantity', InputException::INVALID_FIELD_RANGE, [
             'minValue' => 0,
             'value'    => -100
@@ -31,8 +35,15 @@ class InputExceptionTest extends \PHPUnit_Framework_TestCase
             ],
             $inputException->getParams()
         );
+    }
 
-        // test addError
+    public function testAddError()
+    {
+        $inputException = new InputException('product.weight', InputException::INVALID_FIELD_RANGE, [
+            'minValue' => 1,
+            'value'    => -100
+        ]);
+
         $inputException->addError('product.name', InputException::EMPTY_FIELD_REQUIRED);
 
         $this->assertSame(InputException::INPUT_EXCEPTION, $inputException->getCode());
@@ -40,9 +51,9 @@ class InputExceptionTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(
             [
                 [
-                    'minValue'  => 0,
+                    'minValue'  => 1,
                     'value'     => -100,
-                    'fieldName' => 'product.quantity',
+                    'fieldName' => 'product.weight',
                     'code'      => InputException::INVALID_FIELD_RANGE,
                 ],
                 [

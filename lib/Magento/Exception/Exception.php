@@ -14,7 +14,7 @@ abstract class Exception extends \Exception
     /**
      * @var array
      */
-    protected $params;
+    protected $params = array();
 
     /**
      * @param string $message
@@ -23,7 +23,6 @@ abstract class Exception extends \Exception
     public function __construct($message, $code)
     {
         parent::__construct($message, $code);
-        $this->params = array();
     }
 
     /**

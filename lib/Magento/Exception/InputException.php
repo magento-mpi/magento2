@@ -1,6 +1,7 @@
 <?php
 /**
  * Input service exception
+ *
  * The top level data (code and message) is consistent across all Input Exceptions.
  * InputException is inherently build to contain aggregates.  All failure specifics are stored in params.
  *
