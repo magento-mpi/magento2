@@ -1,4 +1,5 @@
 * Fixed bugs:
+  * Fixed memory exceeding on very large image uploading
   * Fixed category move is not changing position in case if $afterCategoryId is null
   * Fixed admin users locked out after lognum update
   * Fixed products from non-default website aren't shown as bundle items
@@ -8,8 +9,22 @@
   * Fixed CSRF vulnerability in checkout
   * Fixed JavaScript static testing framework to properly handle corrupted paths in white/black lists
   * Fixed error during Google Shopping synchronization due to invalid method call
+  * Fixed design for contextual help tooltip
+  * Fixed "Authorize.net CC" section UI on "Onepage Checkout" page
+  * Fixed UI issues on backend create and view order pages
+  * Fixed IE9 backend UI issues
+  * Fixed UI issues on "Edit Customer" backend page
+  * Fixed UI issue of placeholder for preview images on "Edit Product" page in IE9
+  * Fixed Admin Look&Feel forms UI issues
+  * Fixed Admin Look&Feel buttons UI issues
+  * Fixed product's status after a virtual product was duplicated
+  * Fixed fatal error with attribute file from customer account page in backend
+  * Fixed security issue - set `CURLOPT_SSL_VERIFYPEER` to `true` and `CURLOPT_SSL_VERIFYHOST` to 2 by default in cUrl calls
+  * Updated comments for eliminating redirect when secure url is used
   * Fixed incorrect product duplication in multiple store view configuration
 * Consolidated a few 3rd-party JavaScript libraries under `pub/lib` directory and specified their original license notice texts
+* Service Layer Implementation:
+  * Implemented initial set of services for the Customer module
 
 2.0.0.0-dev59
 =============

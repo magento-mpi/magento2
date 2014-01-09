@@ -34,9 +34,32 @@
                 <argument name="file" xsi:type="string">mui/components.css</argument>
             </arguments>
         </block>
-        <block class="Magento\Theme\Block\Html\Head\Css" name="css-styles-css">
+        <!--<block class="Magento\Theme\Block\Html\Head\Css" name="css-styles-css">
             <arguments>
                 <argument name="file" xsi:type="string">css/styles.css</argument>
+            </arguments>
+        </block>-->
+        <block class="Magento\Theme\Block\Html\Head\Css" name="css-styles-admin">
+            <arguments>
+                <argument name="file" xsi:type="string">css/admin.css</argument>
+            </arguments>
+        </block>
+        <block class="Magento\Theme\Block\Html\Head\Css" name="css-styles-header">
+            <arguments>
+                <argument name="file" xsi:type="string">css/header.css</argument>
+            </arguments>
+        </block>
+        <block class="Magento\Theme\Block\Html\Head\Css" name="css-styles-pages">
+            <arguments>
+                <argument name="file" xsi:type="string">css/pages.css</argument>
+            </arguments>
+        </block>
+        <block class="Magento\Theme\Block\Html\Head\Css" name="css-styles-ie8">
+            <arguments>
+                <argument name="file" xsi:type="string">css/styles-ie8.css</argument>
+                <argument name="properties" xsi:type="array">
+                    <item name="ie_condition" xsi:type="string">lt IE 9</item>
+                </argument>
             </arguments>
         </block>
         <block class="Magento\Theme\Block\Html\Head\Css" name="jquery-farbtastic-css-farbtastic-css">
