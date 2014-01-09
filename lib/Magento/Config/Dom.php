@@ -71,7 +71,6 @@ class Dom
      * @param array $idAttributes
      * @param string $schemaFile
      * @param string $errorFormat
-     * @throws \Magento\Config\Dom\ValidationException
      */
     public function __construct(
         $xml, array $idAttributes = array(), $schemaFile = null, $errorFormat = self::ERROR_FORMAT_DEFAULT
@@ -88,7 +87,6 @@ class Dom
      *
      * @param string $xml
      * @return void
-     * @throws \Magento\Config\Dom\ValidationException
      */
     public function merge($xml)
     {
