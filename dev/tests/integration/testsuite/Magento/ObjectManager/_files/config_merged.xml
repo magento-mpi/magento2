@@ -10,9 +10,9 @@
 <config>
     <preference for="Magento\Module\UpdaterInterface" type="Magento\Module\UpdaterOne" />
     <preference for="Magento\Module\UpdaterInterfaceTwo" type="Magento\Module\UpdaterTwo"/>
-    <type name="Magento\App\Config\Loader" shared="false">
+    <type name="Magento\App\Arguments\Loader" shared="false">
         <param name="customFile">
-            <value type="argument">Magento\App\Config\Loader::PARAM_CUSTOM_FILE</value>
+            <value type="argument">Magento\App\Arguments\Loader::PARAM_CUSTOM_FILE</value>
         </param>
         <param name="customConfig">
             <instance shared="false" type="Magento\Core\Model\Config\Storage_Modules" />
@@ -34,9 +34,9 @@
         </param>
         <plugin name="three" type="somePluginThree"/>
     </type>
-    <virtualType name="Magento\App\Config\LoaderVirtual" type="Magento\App\Config\Loader\Local" shared="true">
+    <virtualType name="Magento\App\Arguments\LoaderVirtual" type="Magento\App\Arguments\Loader\Local" shared="true">
         <param name="customFile">
-            <value type="argument">Magento\App\Config\Loader::PARAM_CUSTOM_FILE</value>
+            <value type="argument">Magento\App\Arguments\Loader::PARAM_CUSTOM_FILE</value>
         </param>
         <param name="customConfig">
             <instance type="Magento\Core\Model\Config\Storage_Modules" />

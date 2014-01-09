@@ -29,7 +29,7 @@
     <preference for="Magento\Config\ScopeInterface" type="Magento\Config\Scope" />
     <preference for="Magento\Config\FileResolverInterface" type="Magento\Core\Model\Config\FileResolver" />
     <preference for="Magento\Config\CacheInterface" type="Magento\App\Cache\Type\Config" />
-    <preference for="Magento\Config\ValidationStateInterface" type="Magento\App\Config\ValidationState" />
+    <preference for="Magento\Config\ValidationStateInterface" type="Magento\App\Arguments\ValidationState" />
     <preference for="Magento\Module\ModuleListInterface" type="Magento\Module\ModuleList" />
     <preference for="Magento\Event\ConfigInterface" type="Magento\Event\Config" />
     <preference for="Magento\Event\InvokerInterface" type="Magento\Event\Invoker\InvokerDefault" />
@@ -100,14 +100,14 @@
             <instance type="Magento\App\Cache\Type\Config" />
         </param>
     </type>
-    <type name="Magento\App\Config\ValidationState">
+    <type name="Magento\App\Arguments\ValidationState">
         <param name="appMode">
             <value type="argument">Magento\App\State::PARAM_MODE</value>
         </param>
     </type>
-    <type name="Magento\App\Config\Loader">
+    <type name="Magento\App\Arguments\Loader">
         <param name="customFile">
-            <value type="argument">Magento\App\Config\Loader::PARAM_CUSTOM_FILE</value>
+            <value type="argument">Magento\App\Arguments\Loader::PARAM_CUSTOM_FILE</value>
         </param>
     </type>
     <type name="Magento\Module\Declaration\Reader\Filesystem">

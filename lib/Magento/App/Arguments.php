@@ -9,7 +9,7 @@
  */
 namespace Magento\App;
 
-class Config
+class Arguments
 {
     /**
      * Config data
@@ -21,7 +21,7 @@ class Config
     /**
      * Configuration loader
      *
-     * @var \Magento\App\Config\Loader
+     * @var \Magento\App\Arguments\Loader
      */
     protected $_loader;
 
@@ -34,9 +34,9 @@ class Config
 
     /**
      * @param array $parameters
-     * @param Config\Loader $loader
+     * @param \Magento\App\Arguments\Loader $loader
      */
-    public function __construct(array $parameters, Config\Loader $loader)
+    public function __construct(array $parameters, \Magento\App\Arguments\Loader $loader)
     {
         $this->_loader = $loader;
         $this->_parameters = $parameters;

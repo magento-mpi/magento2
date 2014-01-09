@@ -7,12 +7,12 @@
  */
 namespace Magento\App;
 
-class ConfigTest extends \PHPUnit_Framework_TestCase
+class ArgumentsTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\App\Config
+     * @var \Magento\App\Arguments
      */
-    protected $_config;
+    protected $_arguments;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -21,13 +21,13 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_loaderMock = $this->getMock('Magento\App\Config\Loader', array(), array(), '', false);
+        $this->_loaderMock = $this->getMock('Magento\App\Arguments\Loader', array(), array(), '', false);
         $params = array(
           'connection' => array('default' => array('connection_name')),
           'resource' => array('name' => array('default_setup'))
         );
         $this->_loaderMock->expects($this->any())->method('load')->will($this->returnValue($params));
-        $this->_config = new \Magento\App\Config(
+        $this->_arguments = new \Magento\App\Arguments(
             array(),
             $this->_loaderMock
         );
@@ -40,7 +40,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetConnection($connectionDetail, $connectionName)
     {
-        $this->assertEquals($connectionDetail, $this->_config->getConnection($connectionName));
+        $this->assertEquals($connectionDetail, $this->_arguments->getConnection($connectionName));
     }
 
     public function getConnectionDataProvider()
@@ -53,11 +53,11 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testGetConnections()
     {
-        $this->assertEquals(array('default' => array('connection_name')), $this->_config->getConnections());
+        $this->assertEquals(array('default' => array('connection_name')), $this->_arguments->getConnections());
     }
 
     public function testGetResources()
     {
-        $this->assertEquals(array('name' => array('default_setup')), $this->_config->getResources());
+        $this->assertEquals(array('name' => array('default_setup')), $this->_arguments->getResources());
     }
 }

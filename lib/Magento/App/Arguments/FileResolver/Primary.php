@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\App\Config\FileResolver;
+namespace Magento\App\Arguments\FileResolver;
 
 /***
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)

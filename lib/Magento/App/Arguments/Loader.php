@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\App\Config;
+namespace Magento\App\Arguments;
 
 class Loader
 {

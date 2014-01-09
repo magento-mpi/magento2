@@ -10,7 +10,7 @@
 
 namespace Magento\App;
 
-use Magento\App\Config,
+use Magento\App\Arguments,
     Magento\Profiler,
     Magento\Filesystem;
 
@@ -57,12 +57,12 @@ class ObjectManagerFactory
 
         \Magento\Autoload\IncludePath::addIncludePath(array($directories->getDir(\Magento\Filesystem::GENERATION)));
 
-        $options = new Config(
+        $options = new \Magento\App\Arguments(
             $arguments,
-            new Config\Loader(
+            new \Magento\App\Arguments\Loader(
                 $directories,
-                isset($arguments[Config\Loader::PARAM_CUSTOM_FILE])
-                    ? $arguments[Config\Loader::PARAM_CUSTOM_FILE]
+                isset($arguments[\Magento\App\Arguments\Loader::PARAM_CUSTOM_FILE])
+                    ? $arguments[\Magento\App\Arguments\Loader::PARAM_CUSTOM_FILE]
                     : null
             )
         );
@@ -92,7 +92,7 @@ class ObjectManagerFactory
         $className = $this->_locatorClassName;
         /** @var \Magento\ObjectManager $locator */
         $locator = new $className($factory, $diConfig, array(
-            'Magento\App\Config' => $options,
+            'Magento\App\Arguments' => $options,
             'Magento\Filesystem\DirectoryList' => $directories
         ));
 

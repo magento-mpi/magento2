@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\App\Config;
+namespace Magento\App\Arguments;
 
 class LoaderTest extends \PHPUnit_Framework_TestCase
 {

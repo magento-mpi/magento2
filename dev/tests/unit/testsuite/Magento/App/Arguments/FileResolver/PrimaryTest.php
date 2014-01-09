@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\App\Config\FileResolver;
+namespace Magento\App\Arguments\FileResolver;
 
 class PrimaryTest extends \PHPUnit_Framework_TestCase
 {
@@ -36,7 +36,7 @@ class PrimaryTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue(true));
 
-        $model = new \Magento\App\Config\FileResolver\Primary($filesystem, $iteratorFactory);
+        $model = new \Magento\App\Arguments\FileResolver\Primary($filesystem, $iteratorFactory);
 
         $this->assertTrue($model->get($filename, $scope));
     }
