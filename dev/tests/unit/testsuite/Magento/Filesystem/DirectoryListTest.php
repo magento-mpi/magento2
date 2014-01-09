@@ -31,6 +31,16 @@ class DirectoryListTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @expectedException \Magento\Filesystem\FilesystemException
+     */
+    public function testAddDefinedDirectory()
+    {
+        $directories = array(AppFilesystem::PUB_LIB_DIR => array('path' => ''));
+        $directoryList = new DirectoryList(__DIR__, $directories);
+        $directoryList->addDirectory(AppFilesystem::PUB_LIB_DIR, array('path' => ''));
+    }
+
+    /**
      * Data provider for testAddDirectoryGetConfig
      */
     public function providerConfig()
@@ -39,10 +49,10 @@ class DirectoryListTest extends \PHPUnit_Framework_TestCase
             'pub_lib' => array(
                 __DIR__,
                 array(
-                    AppFilesystem::PUB_LIB_DIR => array('path' => 'pub/lib_basic')
+                    'custom1_' . AppFilesystem::PUB_LIB_DIR => array('path' => 'pub/lib_basic')
                 ),
                 array(
-                    AppFilesystem::PUB_LIB_DIR => array(
+                    'custom2_' . AppFilesystem::PUB_LIB_DIR => array(
                         'path' => 'pub/lib',
                         'uri' => 'pub/lib',
                         'permissions' => 0777,
@@ -51,7 +61,7 @@ class DirectoryListTest extends \PHPUnit_Framework_TestCase
                     )
                 ),
                 array(
-                    AppFilesystem::PUB_LIB_DIR => array(
+                    'custom2_' . AppFilesystem::PUB_LIB_DIR => array(
                         'path' => str_replace('\\', '/', __DIR__ . '/pub/lib'),
                         'uri' => 'pub/lib',
                         'permissions' => 0777,
@@ -129,21 +139,5 @@ class DirectoryListTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('test2', $dir->getDir('custom'));
         $this->assertEquals(str_replace('\\', '/', $newRoot), $dir->getConfig(AppFilesystem::ROOT_DIR)['path']);
         $this->assertEquals(str_replace('\\', '/', $newMedia), $dir->getConfig(AppFilesystem::MEDIA_DIR)['path']);
-    }
-
-    /**
-     * Test that dirs are not affected by custom URIs
-     */
-    public function testGetDirIndependentOfUris()
-    {
-        $fixtureUris = array(
-            AppFilesystem::PUB_DIR   => array('uri' => ''),
-            AppFilesystem::MEDIA_DIR => array('uri' => 'test')
-        );
-        $default = new DirectoryList(__DIR__);
-        $custom = new DirectoryList(__DIR__, $fixtureUris);
-        foreach (array_keys($fixtureUris) as $dirCode ) {
-            $this->assertEquals($default->getConfig($dirCode)['path'], $custom->getConfig($dirCode)['path']);
-        }
     }
 }
