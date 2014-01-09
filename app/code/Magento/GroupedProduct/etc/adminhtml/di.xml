@@ -12,4 +12,11 @@
     <type name="Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\ProductLinks">
         <plugin name="GroupedProduct" type="Magento\GroupedProduct\Controller\Adminhtml\Product\Initialization\Helper\ProductLinks\Plugin\Grouped" />
     </type>
+    <type name="Magento\Catalog\Model\Product\CopyConstructor\Composite">
+        <param name="constructors">
+            <value>
+                <grouped>Magento\GroupedProduct\Model\Product\CopyConstructor\Grouped</grouped>
+            </value>
+        </param>
+    </type>
 </config>

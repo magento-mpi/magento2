@@ -255,6 +255,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         \Magento\Data\CollectionFactory $collectionFactory,
         \Magento\Filesystem $filesystem,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
+        \Magento\Catalog\Model\Product\CopyConstructor\Composite $copier,
         array $data = array()
     ) {
         $this->_itemOptionFactory = $itemOptionFactory;
@@ -275,6 +276,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         $this->_linkInstance = $productLink;
         $this->_filesystem = $filesystem;
         $this->productTypeConfig = $productTypeConfig;
+        $this->copier = $copier;
         parent::__construct($context, $registry, $storeManager, $resource, $resourceCollection, $data);
     }
 
@@ -1165,82 +1167,22 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         $this->getWebsiteIds();
         $this->getCategoryIds();
 
-        /* @var $newProduct \Magento\Catalog\Model\Product */
-        $newProduct = $this->_productFactory->create()->setData($this->getData())
-            ->setIsDuplicate(true)
-            ->setOriginalId($this->getId())
-            ->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_DISABLED)
-            ->setCreatedAt(null)
-            ->setUpdatedAt(null)
-            ->setId(null)
-            ->setStoreId($this->_storeManager->getStore()->getId());
+        $duplicate = $this->_productFactory->create();
+        $duplicate->setData($this->getData());
+        $duplicate->setIsDuplicate(true);
+        $duplicate->setOriginalId($this->getId());
+        $duplicate->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_DISABLED);
+        $duplicate->setCreatedAt(null);
+        $duplicate->setUpdatedAt(null);
+        $duplicate->setId(null);
+        $duplicate->setStoreId($this->_storeManager->getStore()->getId());
 
-        $this->_eventManager->dispatch(
-            'catalog_model_product_duplicate',
-            array('current_product' => $this, 'new_product' => $newProduct)
-        );
+        $this->copier->build($this, $duplicate);
+        $duplicate->save();
 
-        /* Prepare Related*/
-        $data = array();
-        $this->getLinkInstance()->useRelatedLinks();
-        $attributes = array();
-        foreach ($this->getLinkInstance()->getAttributes() as $_attribute) {
-            if (isset($_attribute['code'])) {
-                $attributes[] = $_attribute['code'];
-            }
-        }
-        foreach ($this->getRelatedLinkCollection() as $_link) {
-            $data[$_link->getLinkedProductId()] = $_link->toArray($attributes);
-        }
-        $newProduct->setRelatedLinkData($data);
-
-        /* Prepare UpSell*/
-        $data = array();
-        $this->getLinkInstance()->useUpSellLinks();
-        $attributes = array();
-        foreach ($this->getLinkInstance()->getAttributes() as $_attribute) {
-            if (isset($_attribute['code'])) {
-                $attributes[] = $_attribute['code'];
-            }
-        }
-        foreach ($this->getUpSellLinkCollection() as $_link) {
-            $data[$_link->getLinkedProductId()] = $_link->toArray($attributes);
-        }
-        $newProduct->setUpSellLinkData($data);
-
-        /* Prepare Cross Sell */
-        $data = array();
-        $this->getLinkInstance()->useCrossSellLinks();
-        $attributes = array();
-        foreach ($this->getLinkInstance()->getAttributes() as $_attribute) {
-            if (isset($_attribute['code'])) {
-                $attributes[] = $_attribute['code'];
-            }
-        }
-        foreach ($this->getCrossSellLinkCollection() as $_link) {
-            $data[$_link->getLinkedProductId()] = $_link->toArray($attributes);
-        }
-        $newProduct->setCrossSellLinkData($data);
-
-        /* Prepare Grouped */
-        $data = array();
-        $this->getLinkInstance()->useGroupedLinks();
-        $attributes = array();
-        foreach ($this->getLinkInstance()->getAttributes() as $_attribute) {
-            if (isset($_attribute['code'])) {
-                $attributes[] = $_attribute['code'];
-            }
-        }
-        foreach ($this->getGroupedLinkCollection() as $_link) {
-            $data[$_link->getLinkedProductId()] = $_link->toArray($attributes);
-        }
-        $newProduct->setGroupedLinkData($data);
-
-        $newProduct->save();
-
-        $this->getOptionInstance()->duplicate($this->getId(), $newProduct->getId());
-        $this->getResource()->duplicate($this->getId(), $newProduct->getId());
-        return $newProduct;
+        $this->getOptionInstance()->duplicate($this->getId(), $duplicate->getId());
+        $this->getResource()->duplicate($this->getId(), $duplicate->getId());
+        return $duplicate;
     }
 
     /**

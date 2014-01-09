@@ -48,4 +48,13 @@
     <type name="Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper">
         <plugin name="configurable" type="Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Configurable" sortOrder="50" />
     </type>
+    <type name="Magento\Catalog\Model\Product\CopyConstructor\Composite">
+        <param name="constructors">
+            <value>
+                <crossSell>Magento\Catalog\Model\Product\CopyConstructor\CrossSell</crossSell>
+                <upSell>Magento\Catalog\Model\Product\CopyConstructor\UpSell</upSell>
+                <related>Magento\Catalog\Model\Product\CopyConstructor\Related</related>
+            </value>
+        </param>
+    </type>
 </config>
