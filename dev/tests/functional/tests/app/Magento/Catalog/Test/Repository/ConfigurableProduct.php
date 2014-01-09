@@ -56,7 +56,7 @@ class ConfigurableProduct extends Product
         $pricing = array(
             'data' => array(
                 'fields' => array(
-                    'special_price' => array('value' => '9', 'group' => Fixture\Product::GROUP_PRODUCT_PRICING)
+                    'special_price' => array('value' => '9', 'group' => ConfigurableProductFixture::GROUP_PRODUCT_PRICING)
                 )
             )
         );
@@ -79,16 +79,16 @@ class ConfigurableProduct extends Product
                     'msrp_enabled' => array(
                         'value' => 'Yes',
                         'input_value' => '1',
-                        'group' => Fixture\Product::GROUP_PRODUCT_PRICING,
+                        'group' => ConfigurableProductFixture::GROUP_PRODUCT_PRICING,
                         'input' => 'select'
                     ),
                     'msrp_display_actual_price_type' => array(
                         'value' => 'On Gesture',
                         'input_value' => '1',
-                        'group' => Fixture\Product::GROUP_PRODUCT_PRICING,
+                        'group' => ConfigurableProductFixture::GROUP_PRODUCT_PRICING,
                         'input' => 'select'
                     ),
-                    'msrp' => array('value' => '15', 'group' => Fixture\Product::GROUP_PRODUCT_PRICING)
+                    'msrp' => array('value' => '15', 'group' => ConfigurableProductFixture::GROUP_PRODUCT_PRICING)
                 )
             )
         );

@@ -29,7 +29,7 @@ class ListProduct extends Block
      *
      * @var string
      */
-    protected $regularPriceClass = "regular-price";
+    protected $regularPriceClass = ".regular-price";
 
     /**
      * This member holds the class name for the price block found inside the product details.
@@ -97,7 +97,7 @@ class ListProduct extends Block
      */
     public function isRegularPriceVisible()
     {
-        return $this->_rootElement->find($this->regularPriceClass, Locator::SELECTOR_CLASS_NAME)->isVisible();
+        return $this->_rootElement->find($this->regularPriceClass)->isVisible();
     }
 
     /**

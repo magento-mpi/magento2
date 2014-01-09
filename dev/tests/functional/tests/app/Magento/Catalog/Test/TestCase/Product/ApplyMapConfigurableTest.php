@@ -27,6 +27,10 @@ class ApplyMapConfigurableTest extends Functional
     protected function setUp()
     {
         Factory::getApp()->magentoBackendLoginUser();
+        // precondition 1: Configure MAP Settings. In setup() since teardown() method will disable.
+        $config = Factory::getFixtureFactory()->getMagentoCoreConfig();
+        $config->switchData('enable_map_config');
+        $config->persist();
     }
 
     /**
@@ -36,10 +40,6 @@ class ApplyMapConfigurableTest extends Functional
      */
     public function testApplyMapToConfigurable()
     {
-        // precondition 1: Configure MAP Settings
-        $config = Factory::getFixtureFactory()->getMagentoCoreConfig();
-        $config->switchData('enable_map_config');
-        $config->persist();
         // precondition 2: Create configurable product with minimum advertised price (MAP)
         $product = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
         $product->switchData(Repository::CONFIGURABLE_MAP);
