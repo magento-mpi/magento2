@@ -9762,7 +9762,8 @@ img[align="right"] {
 .customer.welcome + li {
   display: none;
 }
-.customer.welcome + li {
+.customer.welcome + li,
+.customer.welcome + .greet.welcome + li {
   display: none !important;
 }
 .login.container {
