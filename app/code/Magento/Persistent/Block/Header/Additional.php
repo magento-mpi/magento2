@@ -42,7 +42,7 @@ class Additional extends \Magento\View\Element\Html\Link
     }
 
     /*
-     * Retrive unset cookie link
+     * Retrieve unset cookie link
      *
      * @return string
      */
