@@ -82,7 +82,6 @@ class Less implements PreProcessorInterface
 
         $lessFileSourcePath = $this->viewFileSystem->getViewFile($lessFilePath, $params);
 
-
         $preparedLessFileSourcePath = $this->prepareFinalLessFile($lessFileSourcePath);
 
         $cssContent = $this->adapter->process($preparedLessFileSourcePath);
@@ -96,16 +95,20 @@ class Less implements PreProcessorInterface
 
     protected function prepareFinalLessFile($lessFileSourcePath)
     {
+        //TODO: Concerns about order
+
         $importInstructions = $this->parser->parse(file_get_contents($lessFileSourcePath));
         $resolvedInstructions = array();
         foreach ($importInstructions as $instruction) {
             if ($instruction->isMagentoImport()) {
                 $file = $this->viewFileResolver->get($instruction->getFile());
+                $resolvedInstructions[] = $this->importFactory->create($file, false);
             } else {
-                $file = $this->viewFileSystem->get($instruction->getFile());
+                $files = $this->viewFileSystem->get($instruction->getFile());
+                foreach ($files as $file) {
+                    $resolvedInstructions[] = $this->importFactory->create($file, false);
+                }
             }
-
-            $resolvedInstructions[] = $this->importFactory->create($file, false);
         }
 
         //$filePath is the same as $lessFileSourcePath actually

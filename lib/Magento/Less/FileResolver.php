@@ -35,7 +35,13 @@ class FileResolver
         $this->viewFileSystem = $viewFileSystem;
     }
 
-    public function get()
+    /**
+     * @param string $file
+     *
+     * @return array
+     */
+    public function get($file)
     {
+        return array();
     }
 }
