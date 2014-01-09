@@ -144,6 +144,17 @@ class ServiceArgsSerializer
         /** @var \Zend\Code\Reflection\DocBlock\Tag\ReturnTag $returnAnnotation */
         $returnAnnotation = current($returnAnnotations);
         $returnType = $returnAnnotation->getType();
+        /*
+         * Adding this code as a workaround since \Zend\Code\Reflection\DocBlock\Tag\ReturnTag::initialize does not
+         * detect and return correct type for array of objects in annotation.
+         * eg @return \Magento\Webapi\Service\Entity\SimpleDto[] is returned with type
+         * \Magento\Webapi\Service\Entity\SimpleDto instead of \Magento\Webapi\Service\Entity\SimpleDto[]
+         */
+        $match = array();
+        preg_match('/(?<=@return )\S+/i', $methodDocBlock->getContents(), $match);
+        if (isset($match[0]) && $this->_typeProcessor->isArrayType($match[0])) {
+            $returnType = $returnType . '[]';
+        }
         if (preg_match('/^(.+)\|null$/', $returnType, $matches)) {
             /** If return value is optional, alternative return type should be set to null */
             $returnType = $matches[1];
