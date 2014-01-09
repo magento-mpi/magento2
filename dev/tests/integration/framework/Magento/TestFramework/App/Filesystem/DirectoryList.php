@@ -18,6 +18,10 @@ class DirectoryList extends \Magento\App\Filesystem\DirectoryList
      */
     public function addDirectory($code, array $directoryConfig)
     {
-        $this->setDirectory($code, $directoryConfig);
+        try{
+            parent::addDirectory($code, $directoryConfig);
+        } catch(\Exception $e) {
+            // Ignore exception during executing tests
+        }
     }
 }

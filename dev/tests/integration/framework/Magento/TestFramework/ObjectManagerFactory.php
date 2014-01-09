@@ -53,7 +53,7 @@ class ObjectManagerFactory extends \Magento\App\ObjectManagerFactory
         $directories = isset($arguments[\Magento\App\Filesystem::PARAM_APP_DIRS])
             ? $arguments[\Magento\App\Filesystem::PARAM_APP_DIRS]
             : array();
-        $directoryList = new \Magento\TestFramework\App\Filesystem\DirectoryList(BP, $directories);
+        $directoryList = new \Magento\TestFramework\App\Filesystem\DirectoryList($rootDir, $directories);
 
         \Magento\TestFramework\ObjectManager::setInstance($objectManager);
 
