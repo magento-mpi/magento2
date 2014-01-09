@@ -116,7 +116,11 @@ class Logging extends \Magento\Backend\App\Action
         $fileName = 'log.csv';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
         $exportBlock = $this->_view->getLayout()->getChildBlock('logging.grid', 'grid.export');
-        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile($fileName));
+        return $this->_fileFactory->create(
+            $fileName,
+            $exportBlock->getCsvFile($fileName),
+            \Magento\Filesystem::VAR_DIR
+        );
     }
 
     /**
@@ -128,7 +132,11 @@ class Logging extends \Magento\Backend\App\Action
         $fileName = 'log.xml';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
         $exportBlock = $this->_view->getLayout()->getChildBlock('logging.grid', 'grid.export');
-        return $this->_fileFactory->create($fileName, $exportBlock->getExcelFile($fileName));
+        return $this->_fileFactory->create(
+            $fileName,
+            $exportBlock->getExcelFile($fileName),
+            \Magento\Filesystem::VAR_DIR
+        );
     }
 
     /**
@@ -164,6 +172,7 @@ class Logging extends \Magento\Backend\App\Action
             return $this->_fileFactory->create(
                 $archive->getBaseName(),
                 $archive->getContents(),
+                \Magento\Filesystem::VAR_DIR,
                 $archive->getMimeType()
             );
         }
