@@ -414,7 +414,6 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
         return $this->_getPriceBlock($product->getTypeId())
             ->setTemplate($this->getTierPriceTemplate())
             ->setProduct($product)
-            ->setInGrouped($product->isGrouped())
             ->toHtml();
     }
 
