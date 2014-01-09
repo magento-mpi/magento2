@@ -53,7 +53,7 @@ class FileParser
         $imports = array();
         foreach ($this->_parse($content) as $row) {
             $isMagentoImport = $row[0] == \Magento\Less\Instruction\Import::TYPE_MAGENTO;
-            $this->importFactory->create($row[1], $isMagentoImport);
+            $imports[] = $this->importFactory->create(array('file' => $row[1], 'isMagentoImport' => $isMagentoImport));
         }
         return $imports;
     }
@@ -66,18 +66,20 @@ class FileParser
     {
         $instructions = array();
         $lines = explode(PHP_EOL, $content);
+
+        $pattern = sprintf('(^(%s|%s)\s"(.+?)";$)',
+            preg_quote(\Magento\Less\Instruction\Import::TYPE_LESS),
+            preg_quote(\Magento\Less\Instruction\Import::TYPE_MAGENTO)
+        );
+
         foreach ($lines as $line) {
-            $pattern = sprintf('(%s|%s)\s(.+)',
-                preg_quote(\Magento\Less\Instruction\Import::TYPE_LESS),
-                preg_quote(\Magento\Less\Instruction\Import::TYPE_MAGENTO)
-            );
             $matches = null;
             if (preg_match($pattern, $line, $matches)) {
-                $instruction = array_shift($matches);
-                $instructions[] = $instruction;
+                array_shift($matches);
+                $instructions[] = $matches;
             }
         }
 
-        return array();
+        return $instructions;
     }
 }
