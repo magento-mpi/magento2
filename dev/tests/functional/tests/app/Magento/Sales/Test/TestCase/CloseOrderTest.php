@@ -118,7 +118,8 @@ class CloseOrderTest extends Functional
             array(Factory::getFixtureFactory()->getMagentoSalesAuthorizeNetOrder()),
             array(Factory::getFixtureFactory()->getMagentoSalesPaypalPaymentsProOrder()),
             array(Factory::getFixtureFactory()->getMagentoSalesPaypalPaymentsAdvancedOrder(),
-                  'populatePayflowAdvancedCcForm')
+                  'populatePayflowAdvancedCcForm'),
+            array(Factory::getFixtureFactory()->getMagentoSalesPaypalPayflowProOrder())
         );
     }
 
