@@ -32,6 +32,10 @@
         <container instance="Magento\FullPageCache\Model\Container\Sidebar\Comparelist" />
         <block instance="Magento\Catalog\Block\Product\Compare\Sidebar" />
     </placeholder>
+    <placeholder name="header_compare" code="HEADER_COMPARE" cacheLifeTime="86400">
+        <container instance="Magento\FullPageCache\Model\Container\Header\Compare" />
+        <block instance="Magento\View\Element\Template" name="catalog.compare.link" />
+    </placeholder>
     <placeholder name="messages" code="MESSAGES" cacheLifeTime="86400">
         <container instance="Magento\FullPageCache\Model\Container\Messages" />
         <block instance="Magento\View\Element\Messages" name="messages" />
