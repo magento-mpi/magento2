@@ -1240,6 +1240,26 @@ body {
         font-size: 24px;
         color: @secondary1;
     }
+    tr.tax.totals.details {
+        display: none;
+        &.shown {
+            display: table-row;
+        }
+    }
+    tr.tax.totals.summary {
+        .detailed {
+            cursor: pointer;
+            .iconBefore(@content: @icon-expand, @size: 18px, @font: "icons");
+            &:before {
+                vertical-align: top;
+                font-size: 12px;
+                margin-right: 5px;
+            }
+        }
+        &.expanded .detailed:before {
+            content: @icon-collapse;
+        }
+    }
     tfoot {
         .amount {
             text-align: right;

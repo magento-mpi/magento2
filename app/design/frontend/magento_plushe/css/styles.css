@@ -5715,6 +5715,39 @@ body {
   font-size: 24px;
   color: #da370a;
 }
+.order.data.items tr.tax.totals.details {
+  display: none;
+}
+.order.data.items tr.tax.totals.details.shown {
+  display: table-row;
+}
+.order.data.items tr.tax.totals.summary .detailed {
+  cursor: pointer;
+}
+.order.data.items tr.tax.totals.summary .detailed:before {
+  font-family: "icons";
+  font-size: 18px;
+  line-height: 18px;
+  height: 18px;
+  margin: 0;
+  overflow: hidden;
+  content: "\e00d";
+  font-style: normal;
+  speak: none;
+  font-weight: normal;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+}
+.order.data.items tr.tax.totals.summary .detailed:before {
+  vertical-align: top;
+  font-size: 12px;
+  margin-right: 5px;
+}
+.order.data.items tr.tax.totals.summary.expanded .detailed:before {
+  content: "\e011";
+}
 .order.data.items tfoot .amount {
   text-align: right;
 }
