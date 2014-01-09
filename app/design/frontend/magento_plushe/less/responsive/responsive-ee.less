@@ -6,11 +6,24 @@
 //  * @license     {license_link}
 //  */
 
-
 @breakPoint1: 640px;
+@icon-expand-mobile: "+";
+@icon-collapse-mobile: "–";
 
 @media only screen
 and (max-width : @breakPoint1) {
+
+    /*
+         Forms
+    -------------------------------------- */
+    .form.reward.settings,
+    .form.add.invitations,
+    .form.create.return,
+    .form.giftregistry.search,
+    .form.addbysku {
+        .formResponsive();
+    }
+
     /*
          Gift Card
     -------------------------------------- */

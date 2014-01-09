@@ -10,36 +10,6 @@
 @icon-expand-mobile: "+";
 @icon-collapse-mobile: "–";
 
-.mobileAction {
-    .box-sizing();
-    display: block;
-    margin: 0 auto 15px;
-    padding: 10px;
-    width: 100%;
-    max-width: 100%;
-    line-height: 1;
-    float: none;
-    text-align: center;
-    text-decoration: none;
-    text-transform: uppercase;
-    border: none;
-    span {
-        font-size: 18px;
-    }
-}
-
-.mobilePrimaryAction {
-    .mobileAction();
-    background-color: @primaryActionBg;
-    color: @primaryActionColor;
-}
-
-.mobileSecondaryAction {
-    .mobileAction();
-    background-color: @secondaryActionBg;
-    color: @secondaryActionColor;
-}
-
 ///* Smartphones (portrait and landscape) ----------- */
 //@media only screen
 //and (min-device-width : 320px)
@@ -1128,12 +1098,12 @@ and (max-width : @breakPoint1) {
         }
 
         // Load indicator
-        .load.indicator {
-/*            left: 0;
-            position: absolute;
-            top: 10px;
-            width: 100%;*/
-        }
+//        .load.indicator {
+///*            left: 0;
+//            position: absolute;
+//            top: 10px;
+//            width: 100%;*/
+//        }
     }
 
     // Your Checkout Progress block
@@ -1252,10 +1222,9 @@ and (max-width : @breakPoint1) {
         }
     }
 
-/*
-Magento_Checkout
-Multishipping
--------------------------------------- */
+    /*
+        Magento_Checkout - Multishipping
+    -------------------------------------- */
 
     .multicheckout {
         &.progress {
@@ -1422,7 +1391,9 @@ Multishipping
         }
     }
 
-    /* Registration */
+    /*
+        Forms
+    -------------------------------------- */
     .form.send.friend,
     .form.address.edit,
     .form.edit.account,
@@ -1435,47 +1406,7 @@ Multishipping
     .form.password.reset,
     .form.add.tag,
     .form.paypal.review {
-        .fieldset {
-            width: 100%;
-            padding: 20px;
-            margin: 0 -20px;
-            -webkit-box-sizing: content-box;
-            -moz-box-sizing: content-box;
-            box-sizing: content-box;
-            .legend {
-                margin: 0;
-                padding: 0 0 10px 0;
-                background: transparent;
-            }
-            > .field {
-                width: 100%;
-                display: block;
-                padding-right: 0;
-            }
-        }
-        .action.save,
-        .action.submit,
-        .action.add {
-            .mobilePrimaryAction();
-        }
-        .actions {
-            width: 100%;
-            margin-top: 15px;
-            .primary {
-                float: none;
-            }
-            .secondary {
-                margin: 15px 0 0;
-                float: none;
-                text-align: center;
-            }
-        }
-        .fieldset.create.account {
-            &:after {
-                content: attr(data-hasrequired);
-                position: relative;
-            }
-        }
+        .formResponsive();
     }
 
     .form.search.advanced,
@@ -1521,9 +1452,7 @@ Multishipping
     }
 
     /*
-    *    Mage_Customer
-    *
-    *    Account
+        Mage_Customer - Account
     ----------------------------------------------------------------------------- */
     .col2-left-layout.account {
         .column.main {
@@ -1680,7 +1609,9 @@ Multishipping
         }
     }
 
-    /* Address book */
+    /*
+        Address book
+    -------------------------------------- */
 
     .block.addresses:not(.dashboard) {
         margin-bottom: 20px;
@@ -1715,7 +1646,7 @@ Multishipping
     }
 
     /*
-    My Account -> Billing agreements
+        My Account -> Billing agreements
     -------------------------------------- */
     .billing.agreements {
         .form.new.agreement {
@@ -1730,7 +1661,7 @@ Multishipping
 
 
     /*
-    My Account -> Wishlist
+        My Account -> Wishlist
     -------------------------------------- */
     .account {
         .form.wishlist.items {
@@ -1747,10 +1678,8 @@ Multishipping
     }
 
     /*
-   *    My Account -> My orders
-   *
-  ----------------------------------------------------------------------------- */
-
+        My Account -> My orders
+    ----------------------------------------------------------------------------- */
 
     .order.details {
         .order.toolbar {
@@ -2428,11 +2357,10 @@ Multishipping
 
     /*
     Magento_Catalog Compare
--------------------------------------- */
+    -------------------------------------- */
     .catalog-product-compare-index {
         .action.print {
             margin: -20px 0 20px;
         }
     }
-
 }

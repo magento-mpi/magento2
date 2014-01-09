@@ -22,6 +22,7 @@
   * Fixed security issue - set `CURLOPT_SSL_VERIFYPEER` to `true` and `CURLOPT_SSL_VERIFYHOST` to 2 by default in cUrl calls
   * Updated comments for eliminating redirect when secure url is used
   * Fixed No Collapsing for Tax Summary
+  * Optimized Plushe theme css
 * Consolidated a few 3rd-party JavaScript libraries under `pub/lib` directory and specified their original license notice texts
 
 2.0.0.0-dev59
