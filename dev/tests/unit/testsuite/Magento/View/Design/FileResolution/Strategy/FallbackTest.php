@@ -229,7 +229,13 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
                     }
                 )
             );
-        $filesystem = $this->getMock('Magento\App\Filesystem', array('getDirectoryRead', '__wakeup'), array(), '', false);
+        $filesystem = $this->getMock(
+            'Magento\App\Filesystem',
+            array('getDirectoryRead', '__wakeup'),
+            array(),
+            '',
+            false
+        );
         $filesystem->expects($this->once())
             ->method('getDirectoryRead')
             ->with(\Magento\App\Filesystem::ROOT_DIR)

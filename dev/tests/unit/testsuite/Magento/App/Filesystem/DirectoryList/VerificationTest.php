@@ -170,7 +170,13 @@ class VerificationTest extends \PHPUnit_Framework_TestCase
      */
     protected function getFilesystemMock(array $dirsToVerify)
     {
-        $filesystem = $this->getMock('Magento\App\Filesystem', array('getDirectoryWrite', '__wakeup'), array(), '', false);
+        $filesystem = $this->getMock(
+            'Magento\App\Filesystem',
+            array('getDirectoryWrite', '__wakeup'),
+            array(),
+            '',
+            false
+        );
         $valueMap = array();
         foreach ($dirsToVerify as $code => $config) {
             $createException = isset($config[3]) ? $config[3] : false;
