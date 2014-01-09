@@ -17,7 +17,7 @@ class SubsetRestV1 implements \Magento\TestModule2\Service\SubsetRestV1Interface
      */
     public function item($id)
     {
-        return (new ItemBuilder())->setId($id)->create();
+        return (new ItemBuilder())->setId($id)->setName('testItem' . $id)->create();
     }
 
     /**

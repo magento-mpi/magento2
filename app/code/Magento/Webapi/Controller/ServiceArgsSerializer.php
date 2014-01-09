@@ -10,11 +10,11 @@
 
 namespace Magento\Webapi\Controller;
 
-use Magento\Service\Entity\AbstractDto;
 use Zend\Code\Reflection\ClassReflection;
 use Zend\Code\Reflection\MethodReflection;
 use Zend\Code\Reflection\ParameterReflection;
 use Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor;
+use Magento\Webapi\Model\Soap\Wsdl\ComplexTypeStrategy;
 
 class ServiceArgsSerializer
 {
@@ -51,6 +51,7 @@ class ServiceArgsSerializer
      */
     public function getInputData($serviceClassName, $serviceMethodName, array $inputArray)
     {
+        /** TODO: Reflection causes performance degradation when used in runtime. Should be optimized via caching */
         $serviceClass = new ClassReflection($serviceClassName);
         /** @var MethodReflection $serviceMethod */
         $serviceMethod = $serviceClass->getMethod($serviceMethodName);
@@ -60,16 +61,46 @@ class ServiceArgsSerializer
         $inputData = [];
         foreach ($params as $param) {
             $paramName = $param->getName();
-
             if (isset($inputArray[$paramName])) {
-                $paramType = $param->isArray() ? "{$param->getType()}[]" : $param->getType();
-                $inputData[] = $this->_convertValue($inputArray[$paramName], $paramType);
+                if ($this->_isArrayParam($param)) {
+                    $paramType = "{$param->getType()}[]";
+                    /** Eliminate 'item' node if present. It is wrapping all data, declared in WSDL as array */
+                    $paramValue = isset($inputArray[$paramName][ComplexTypeStrategy::ARRAY_ITEM_KEY_NAME])
+                        ? $inputArray[$paramName][ComplexTypeStrategy::ARRAY_ITEM_KEY_NAME]
+                        : $inputArray[$paramName];
+                } else {
+                    $paramType = $param->getType();
+                    $paramValue = $inputArray[$paramName];
+                }
+                $inputData[] = $this->_convertValue($paramValue, $paramType);
             } else {
                 $inputData[] = $param->getDefaultValue();                   // not set, so use default
             }
         }
 
         return $inputData;
+    }
+
+    /**
+     * Check if parameter is an array.
+     *
+     * @param ParameterReflection $param
+     * @return bool
+     */
+    protected function _isArrayParam($param)
+    {
+        $isArray = $param->isArray();
+        $docBlock = $param->getDeclaringFunction()->getDocBlock();
+        /** If array type is not set explicitly in the method interface, examine annotations */
+        if (!$isArray && $docBlock) {
+            /** This pattern will help to skip parameters declarations which precede to the current one */
+            $precedingParamsPattern = str_repeat('.*\@param.*', $param->getPosition());
+            $paramType = str_replace('\\', '\\\\', $param->getType());
+            if (preg_match("/.*{$precedingParamsPattern}\@param\s+({$paramType}\[\]).*/i", $docBlock->getContents())) {
+                $isArray = true;
+            }
+        }
+        return $isArray;
     }
 
     /**
@@ -96,7 +127,6 @@ class ServiceArgsSerializer
             // Case where data array contains keys with no matching setter methods
             // TODO: do we need to do anything here or can we just ignore this and keep going?
         }
-        /** @var $obj AbstractDto */
         $obj = new $className($data);
         return $obj;
     }
@@ -114,12 +144,14 @@ class ServiceArgsSerializer
             if ($this->_typeProcessor->isArrayType($type)) {
                 $itemType = $this->_typeProcessor->getArrayItemType($type);
                 foreach ($value as $key => $item) {
-                    $value[$key] = $this->_createFromArray($itemType, $item);
+                    $result[$key] = $this->_createFromArray($itemType, $item);
                 }
             } else {
-                $value = $this->_createFromArray($type, $value);
+                $result = $this->_createFromArray($type, $value);
             }
+        } else {
+            $result = $value;
         }
-        return $value;
+        return $result;
     }
 }

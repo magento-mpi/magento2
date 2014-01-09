@@ -16,7 +16,6 @@ use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
 {
-
     /**
      * @var string
      */
@@ -36,7 +35,6 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
         $this->_soapService = 'testModule1AllSoapAndRestV1';
         $this->_restResourcePath = "/{$this->_version}/testmodule1/";
     }
-
 
     /**
      *  Test get item

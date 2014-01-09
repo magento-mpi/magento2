@@ -13,7 +13,7 @@ use Magento\Webapi\Model\Soap\Config as SoapConfig;
 use Magento\Webapi\Controller\Soap\Request as SoapRequest;
 use Magento\Webapi\Exception as WebapiException;
 use Magento\Service\AuthorizationException;
-use Zend\Code\Reflection\ClassReflection;
+use Magento\Webapi\Controller\ServiceArgsSerializer;
 
 /**
  * Handler of requests to SOAP server.
@@ -42,6 +42,9 @@ class Handler
     /** @var \Magento\Webapi\Helper\Data */
     protected $_helper;
 
+    /** @var ServiceArgsSerializer */
+    protected $_serializer;
+
     /**
      * Initialize dependencies.
      *
@@ -50,19 +53,22 @@ class Handler
      * @param SoapConfig $apiConfig
      * @param AuthorizationService $authorizationService
      * @param \Magento\Webapi\Helper\Data $helper
+     * @param ServiceArgsSerializer $serializer
      */
     public function __construct(
         SoapRequest $request,
         \Magento\ObjectManager $objectManager,
         SoapConfig $apiConfig,
         AuthorizationService $authorizationService,
-        \Magento\Webapi\Helper\Data $helper
+        \Magento\Webapi\Helper\Data $helper,
+        ServiceArgsSerializer $serializer
     ) {
         $this->_request = $request;
         $this->_objectManager = $objectManager;
         $this->_apiConfig = $apiConfig;
         $this->_authorizationService = $authorizationService;
         $this->_helper = $helper;
+        $this->_serializer = $serializer;
     }
 
     /**
@@ -99,100 +105,72 @@ class Handler
                 implode($serviceMethodInfo[SoapConfig::KEY_ACL_RESOURCES], ', '));
         }
         $service = $this->_objectManager->get($serviceClass);
-        $outputData = call_user_func_array(array($service, $serviceMethod), $this->_prepareRequestData($arguments));
+        $inputData = $this->_prepareRequestData($serviceClass, $serviceMethod, $arguments);
+        $outputData = call_user_func_array(array($service, $serviceMethod), $inputData);
         return $this->_prepareResponseData($outputData);
     }
 
     /**
      * Convert SOAP operation arguments into format acceptable by service method.
      *
+     * @param string $serviceClass
+     * @param string $serviceMethod
      * @param array $arguments
      * @return array
      */
-    protected function _prepareRequestData($arguments)
+    protected function _prepareRequestData($serviceClass, $serviceMethod, $arguments)
     {
         /** SoapServer wraps parameters into array. Thus this wrapping should be removed to get access to parameters. */
         $arguments = reset($arguments);
-        $this->_associativeObjectToArray($arguments);
-        $arguments = get_object_vars($arguments);
-        foreach ($arguments as $argument) {
-            if ($this->_isDto($argument)) {
-                $this->_packDto($argument);
-            }
-        }
-        return $arguments;
+        $arguments = $this->_toArray($arguments);
+        return $this->_serializer->getInputData($serviceClass, $serviceMethod, $arguments);
     }
 
     /**
      * Convert service response into format acceptable by SoapServer.
      *
-     * @param \Magento\Service\Entity\AbstractDto|array|string|int|double|null $data
+     * @param object|array|string|int|double|null $data
      * @return array
      * @throws \InvalidArgumentException
      */
     protected function _prepareResponseData($data)
     {
         if ($this->_isDto($data)) {
-            $this->_unpackDto($data);
-        } else if (is_array($data)) {
-            foreach ($data as $dataItem) {
-                if ($this->_isDto($dataItem)) {
-                    $this->_unpackDto($dataItem);
-                }
+            $result = $this->_unpackDto($data);
+        } elseif (is_array($data)) {
+            foreach ($data as $key => $value) {
+                $result[$key] = $this->_isDto($value) ? $this->_unpackDto($value) : $value;
             }
-        } elseif (!(is_string($data) || is_numeric($data) || is_null($data))) {
+        } elseif (is_string($data) || is_numeric($data) || is_null($data)) {
+            $result = $data;
+        } else {
             throw new \InvalidArgumentException("Service returned result in invalid format.");
         }
-        return array(self::RESULT_NODE_NAME => $data);
+        return array(self::RESULT_NODE_NAME => $result);
     }
 
     /**
-     * Use DTO setters to set data which was set directly to fields by SoapServer.
+     * Create new object and initialize its public fields with data retrieved from DTO.
      *
      * This method processes all nested DTOs recursively.
      *
-     * @param \Magento\Service\Entity\AbstractDto $dto DTO object is changed by reference
-     * @return Handler
+     * @param object $dto
+     * @return \stdClass
+     * @throws \InvalidArgumentException
      */
-    protected function _packDto(\Magento\Service\Entity\AbstractDto &$dto)
+    protected function _unpackDto($dto)
     {
-        $fields = get_object_vars($dto);
-        foreach ($fields as $fieldName => $fieldValue) {
+        if (!$this->_isDto($dto)) {
+            throw new \InvalidArgumentException("DTO is expected.");
+        }
+        $response = new \stdClass();
+        foreach ($dto->__toArray() as $fieldName => $fieldValue) {
             if ($this->_isDto($fieldValue)) {
-                $this->_packDto($fieldValue);
+                $fieldValue = $this->_unpackDto($fieldValue);
             }
-            $setterName = $this->_helper->dtoFieldNameToSetterName($fieldName);
-            $dto->$setterName($fieldValue);
-            unset($dto->$fieldName);
+            $response->$fieldName = $fieldValue;
         }
-        return $this;
-    }
-
-    /**
-     * Initialize DTO public fields by data retrieved with DTO getters. Allows SoapServer to extract data from DTO.
-     *
-     * This method processes all nested DTOs recursively.
-     *
-     * @param \Magento\Service\Entity\AbstractDto $dto DTO object is changed by reference
-     * @return Handler
-     */
-    protected function _unpackDto(\Magento\Service\Entity\AbstractDto &$dto)
-    {
-        // TODO: Performance impact related to Reflection usage can be avoided if DTOs store data in public fields
-        $classReflection = new ClassReflection($dto);
-        /** @var \Zend\Code\Reflection\MethodReflection $methodReflection */
-        foreach ($classReflection->getMethods(\ReflectionMethod::IS_PUBLIC) as $methodReflection) {
-            if (strpos($methodReflection->getName(), 'get') === 0) {
-                $getterName = $methodReflection->getName();
-                $fieldName = $this->_helper->dtoGetterNameToFieldName($getterName);
-                $fieldValue = $dto->$getterName();
-                if ($this->_isDto($fieldValue)) {
-                    $this->_unpackDto($fieldValue);
-                }
-                $dto->$fieldName = $fieldValue;
-            }
-        }
-        return $this;
+        return $response;
     }
 
     /**
@@ -203,43 +181,29 @@ class Handler
      */
     protected function _isDto($var)
     {
-        return (is_object($var) && $var instanceof \Magento\Service\Entity\AbstractDto);
+        return (is_object($var) && method_exists($var, '__toArray'));
     }
 
     /**
-     * Go through an object parameters and unpack associative object to array.
+     * Convert multidimensional object/array into multidimensional array of primitives.
      *
-     * This function uses recursion and operates by reference.
-     *
-     * @param \stdClass|array $obj
-     * @return bool
+     * @param object|array $input
+     * @return array
+     * @throws \InvalidArgumentException
      */
-    protected function _associativeObjectToArray(&$obj)
+    protected function _toArray($input)
     {
-        if (is_object($obj)) {
-            if (property_exists($obj, 'key') && property_exists($obj, 'value')) {
-                if (count(array_keys(get_object_vars($obj))) === 2) {
-                    $obj = array($obj->key => $obj->value);
-                    return true;
-                }
-            } else {
-                foreach (array_keys(get_object_vars($obj)) as $key) {
-                    $this->_associativeObjectToArray($obj->$key);
-                }
-            }
-        } else if (is_array($obj)) {
-            $arr = array();
-            $object = $obj;
-            foreach ($obj as &$value) {
-                if ($this->_associativeObjectToArray($value)) {
-                    array_walk($value, function ($val, $key) use (&$arr) {
-                        $arr[$key] = $val;
-                    });
-                    $object = $arr;
-                }
-            }
-            $obj = $object;
+        if (!is_object($input) && !is_array($input)) {
+            throw new \InvalidArgumentException("Input argument must be an array or object");
         }
-        return false;
+        $result = array();
+        foreach ((array)$input as $key => $value) {
+            if (is_object($value) || is_array($value)) {
+                $result[$key] = $this->_toArray($value);
+            } else {
+                $result[$key] = $value;
+            }
+        }
+        return $result;
     }
 }

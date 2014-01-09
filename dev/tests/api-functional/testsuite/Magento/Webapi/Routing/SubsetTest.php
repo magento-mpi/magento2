@@ -7,11 +7,11 @@
  */
 
 /**
- * Class to test routing based on a Service that exposes subset of REST Operations
+ * Class to test routing based on a Service that exposes subset of operations
  */
 namespace Magento\Webapi\Routing;
 
-class SubsetRestTest extends \Magento\Webapi\Routing\BaseService
+class SubsetTest extends \Magento\Webapi\Routing\BaseService
 {
     /**
      * @var string

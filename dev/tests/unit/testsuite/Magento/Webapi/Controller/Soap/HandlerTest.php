@@ -31,6 +31,9 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Webapi\Helper\Data|\PHPUnit_Framework_MockObject_MockObject */
     protected $_helperMock;
 
+    /** @var \Magento\Webapi\Helper\Data|\PHPUnit_Framework_MockObject_MockObject */
+    protected $_serializerMock;
+
     /** @var array */
     protected $_arguments;
 
@@ -38,46 +41,22 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
     {
         /** Prepare mocks for SUT constructor. */
         $this->_apiConfigMock = $this->getMockBuilder('Magento\Webapi\Model\Soap\Config')
-            ->setMethods(
-                array('getServiceMethodInfo')
-            )->disableOriginalConstructor()
-            ->getMock();
-
-        $this->_requestMock = $this->getMockBuilder('Magento\Webapi\Controller\Soap\Request')
-            ->setMethods(array('getRequestedServices'))
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->_objectManagerMock = $this->getMockBuilder('Magento\ObjectManager')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->_authzServiceMock = $this->getMockBuilder('Magento\Authz\Service\AuthorizationV1Interface')
-            ->disableOriginalConstructor()
-            ->getMock();
-
+            ->setMethods(array('getServiceMethodInfo'))->disableOriginalConstructor()->getMock();
+        $this->_requestMock = $this->getMock('Magento\Webapi\Controller\Soap\Request', [], [], '', false);
+        $this->_objectManagerMock = $this->getMock('Magento\ObjectManager', [], [], '', false);
+        $this->_authzServiceMock = $this->getMock('Magento\Authz\Service\AuthorizationV1Interface', [], [], '', false);
         $this->_helperMock = $this->getMock('Magento\Webapi\Helper\Data', [], [], '', false);
-
+        $this->_serializerMock = $this->getMock('Magento\Webapi\Controller\ServiceArgsSerializer', [], [], '', false);
         /** Initialize SUT. */
         $this->_handler = new \Magento\Webapi\Controller\Soap\Handler(
             $this->_requestMock,
             $this->_objectManagerMock,
             $this->_apiConfigMock,
             $this->_authzServiceMock,
-            $this->_helperMock
+            $this->_helperMock,
+            $this->_serializerMock
         );
-
         parent::setUp();
-    }
-
-    protected function tearDown()
-    {
-        unset($this->_handler);
-        unset($this->_objectManagerMock);
-        unset($this->_apiConfigMock);
-        unset($this->_requestMock);
-        unset($this->_authzServiceMock);
-        parent::tearDown();
     }
 
     public function testCall()
@@ -115,6 +94,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
         $serviceMock->expects($this->once())->method($methodName)->will($this->returnValue($serviceResponse));
         $this->_objectManagerMock->expects($this->once())->method('get')->with($className)
             ->will($this->returnValue($serviceMock));
+        $this->_serializerMock->expects($this->once())->method('getInputData')->will($this->returnArgument(2));
 
         /** Execute SUT. */
         $this->assertEquals(

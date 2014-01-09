@@ -11,26 +11,22 @@ namespace Magento\TestModule3\Service\Entity\V1;
 class Parameter extends \Magento\Service\Entity\AbstractDto
 {
     /**
-     * Set Name.
+     * Get Name.
      *
-     * @param string $name
-     * @return \Magento\TestModule3\Service\Entity\V1\Parameter
+     * @return string $name
      */
-    public function setName($name)
+    public function getName()
     {
-        $this->_data['name'] = $name;
-        return $this;
+        return $this->_data['name'];
     }
 
     /**
-     * Set value.
+     * Get value.
      *
-     * @param string $value
-     * @return \Magento\TestModule3\Service\Entity\V1\Parameter
+     * @return string $value
      */
-    public function setValue($value)
+    public function getValue()
     {
-        $this->_data['value'] = $value;
-        return $this;
+        return $this->_data['value'];
     }
 }

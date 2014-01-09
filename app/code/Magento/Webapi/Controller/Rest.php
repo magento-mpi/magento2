@@ -156,12 +156,16 @@ class Rest implements \Magento\App\FrontControllerInterface
      * Nested DTOs are also converted.  If the data provided is itself an array, then we iterate through the contents
      * and convert each piece individually.
      *
-     * @param array|\Magento\Service\Entity\MagentoDtoInterface $data A DTO or an array of DTOs to be converted into
-     *                                                                a key-value array format.
+     * @param array|object $data A DTO or an array of DTOs to be converted into a key-value array format.
      * @return array
+     * @throws \InvalidArgumentException
      */
     protected function _getOutputArray($data)
     {
+        if (!is_null($data) && !array($data) && !(is_object($data) && method_exists($data, '__toArray'))) {
+            throw new \InvalidArgumentException("null, array or service DTO was expected.");
+        }
+        $outputArray = array();
         if (!is_null($data)) {
             $outputArray = [];
             if (is_array($data)) {
@@ -173,12 +177,10 @@ class Rest implements \Magento\App\FrontControllerInterface
                     }
                 }
             } else {
-                /** @var MagentoDtoInterface $data */
                 $outputArray = $data->__toArray();
             }
-            return $outputArray;
         }
-        return null;
+        return $outputArray;
     }
 
 }
