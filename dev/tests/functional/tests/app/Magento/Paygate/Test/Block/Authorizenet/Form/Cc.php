@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Paygate\Test\Block\Authorizenet\Form;
+namespace Magento\Authorizenet\Test\Block\Authorizenet\Form;
 
 use Magento\Payment\Test\Block\Form\Cc as CreditCard;
 
@@ -17,7 +17,7 @@ use Magento\Payment\Test\Block\Form\Cc as CreditCard;
  * Class Cc
  * Form for filling credit card data for Authorize.Net payment method
  *
- * @package Magento\Paygate\Test\Block\Authorizenet\Form
+ * @package Magento\Authorizenet\Test\Block\Authorizenet\Form
  */
 class Cc extends CreditCard
 {

@@ -9,19 +9,19 @@
  * @license     {license_link}
  */
 
-namespace Magento\Paygate\Model\Authorizenet;
+namespace Magento\Authorizenet\Model\Authorizenet;
 
 class CardsTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Paygate\Model\Authorizenet\Card
+     * @var \Magento\Authorizenet\Model\Authorizenet\Card
      */
     protected $_object;
 
     protected function setUp()
     {
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_object = $objectManagerHelper->getObject('Magento\Paygate\Model\Authorizenet\Cards');
+        $this->_object = $objectManagerHelper->getObject('Magento\Authorizenet\Model\Authorizenet\Cards');
     }
 
     /**

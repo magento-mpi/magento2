@@ -1,3 +1,5 @@
+* Modules Decoupling
+  * Autorizenet is consolidated in separate module
 * Fixed bugs:
   * Fixed memory exceeding on very large image uploading
   * Fixed category move is not changing position in case if $afterCategoryId is null
