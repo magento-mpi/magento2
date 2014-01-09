@@ -511,26 +511,6 @@ class Product extends \Magento\Backend\App\Action
     }
 
     /**
-     * Get associated grouped products grid
-     */
-    public function superGroupAction()
-    {
-        $this->_initProduct();
-        $this->_view->loadLayout(false);
-        $this->_view->renderLayout();
-    }
-
-    /**
-     * Get associated grouped products grid popup
-     */
-    public function superGroupPopupAction()
-    {
-        $this->_initProduct();
-        $this->_view->loadLayout(false);
-        $this->_view->renderLayout();
-    }
-
-    /**
      * Get product reviews grid
      *
      */

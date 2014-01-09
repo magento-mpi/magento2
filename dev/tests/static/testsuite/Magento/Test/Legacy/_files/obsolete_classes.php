@@ -1787,7 +1787,6 @@ return array(
     ),
     array(
         'Magento\Catalog\Block\Adminhtml\Product\Edit\Tabs\Grouped',
-        'Magento\GroupedProduct\Block\Adminhtml\Product\Edit\Tabs\Grouped',
     ),
     array(
         'Magento\Catalog\Block\Product\Grouped\AssociatedProducts',
