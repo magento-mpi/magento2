@@ -34,6 +34,7 @@
   * Fixed CSRF vulnerability in checkout
   * Fixed JavaScript static testing framework to properly handle corrupted paths in white/black lists
   * Fixed error during Google Shopping synchronization due to invalid method call
+  * Fixed 3D secure validation
 * Various improvements:
   * Disabled PHP errors, notices and warnings output in production mode to prevent exposing sensitive information
 * Consolidated a few 3rd-party JavaScript libraries under `pub/lib` directory and specified their original license notice texts
