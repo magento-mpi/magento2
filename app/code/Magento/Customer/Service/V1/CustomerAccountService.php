@@ -8,6 +8,7 @@
 
 namespace Magento\Customer\Service\V1;
 
+use Magento\Customer\Model\Customer as CustomerModel;
 use Magento\Exception\InputException;
 use Magento\Exception\AuthenticationException;
 
@@ -16,9 +17,9 @@ use Magento\Exception\AuthenticationException;
  */
 class CustomerAccountService implements CustomerAccountServiceInterface
 {
-
     /** @var \Magento\Customer\Model\CustomerFactory */
     private $_customerFactory;
+
     /**
      * Core event manager proxy
      *
@@ -63,16 +64,14 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      * Constructor
      *
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param \Magento\Customer\Model\AddressFactory $addressFactory
-     * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $eavMetadataService
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Customer\Model\Converter $converter
      * @param \Magento\Customer\Model\Metadata\Validator $validator
-     * @param \Magento\Customer\Service\V1\Dto\RegionBuilder $regionBuilder
-     * @param \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder
      * @param \Magento\Customer\Service\V1\Dto\Response\CreateCustomerAccountResponseBuilder $createCustomerAccountResponseBuilder
+     * @param CustomerServiceInterface $customerService
+     * @param CustomerAddressServiceInterface $customerAddressService
      */
     public function __construct(
         \Magento\Customer\Model\CustomerFactory $customerFactory,
@@ -163,10 +162,10 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         } catch (\Magento\Core\Exception $e) {
             switch ($e->getCode()) {
                 case \Magento\Customer\Model\Customer::EXCEPTION_EMAIL_NOT_CONFIRMED:
-                    $code = AuthenticationException::EMAIL_NOT_CONFIRMED;
+                    $code = Exception::CODE_EMAIL_NOT_CONFIRMED;
                     break;
                 case \Magento\Customer\Model\Customer::EXCEPTION_INVALID_EMAIL_OR_PASSWORD:
-                    $code = AuthenticationException::INVALID_EMAIL_OR_PASSWORD;
+                    $code = Exception::CODE_INVALID_EMAIL_OR_PASSWORD;
                     break;
                 default:
                     $code = AuthenticationException::UNKNOWN;
@@ -297,10 +296,12 @@ class CustomerAccountService implements CustomerAccountServiceInterface
 
 
     /**
+     * Validate the Reset Password Token for a customer.
+     *
      * @param $customerId
      * @param $resetPasswordLinkToken
      * @return \Magento\Customer\Model\Customer
-     * @throws InputException
+     * @throws Exception
      */
     private function _validateResetPasswordToken($customerId, $resetPasswordLinkToken)
     {

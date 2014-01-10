@@ -59,6 +59,7 @@ abstract class AbstractDtoBuilder
      * Populates the fields with data from the array.
      *
      * @param array $data
+     * @return $this
      */
     public function populateWithArray(array $data)
     {

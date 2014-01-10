@@ -18,35 +18,19 @@ namespace Magento\Customer\Service\V1;
  */
 class CustomerServiceTest extends \PHPUnit_Framework_TestCase
 {
-    const STREET = 'Parmer';
-    const CITY = 'Albuquerque';
-    const POSTCODE = '90014';
-    const TELEPHONE = '7143556767';
-    const REGION = 'Alabama';
-    const REGION_ID = 1;
-    const COUNTRY_ID = 'US';
-
     /** Sample values for testing */
     const ID = 1;
     const FIRSTNAME = 'Jane';
     const LASTNAME = 'Doe';
     const NAME = 'J';
     const EMAIL = 'janedoe@example.com';
-    const EMAIL_CONFIRMATION_KEY = 'blj487lkjs4confirmation_key';
-    const PASSWORD = 'password';
     const ATTRIBUTE_CODE = 'random_attr_code';
     const ATTRIBUTE_VALUE = 'random_attr_value';
-    const WEBSITE_ID = 1;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Model\CustomerFactory
      */
     private $_customerFactoryMock;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Model\AddressFactory
-     */
-    private $_addressFactoryMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Model\Customer
@@ -59,24 +43,9 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
     private $_attributeModelMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\CustomerMetadataServiceInterface
-     */
-    private $_eavMetadataServiceMock;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Event\ManagerInterface
-     */
-    private $_eventManagerMock;
-
-    /**
      * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Core\Model\StoreManagerInterface
      */
     private $_storeManagerMock;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Math\Random
-     */
-    private $_mathRandomMock;
 
     /**
      * @var \Magento\Customer\Model\Converter
@@ -89,16 +58,9 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
     private $_storeMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\Dto\AddressBuilder
-     */
-    private $_addressBuilder;
-
-    /**
      * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\Dto\CustomerBuilder
      */
     private $_customerBuilder;
-
-    private $_validator;
 
     public function setUp()
     {
@@ -156,21 +118,6 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
             )
             ->getMock();
 
-        $this->_addressFactoryMock = $this->getMockBuilder('Magento\Customer\Model\AddressFactory')
-            ->disableOriginalConstructor()
-            ->setMethods(array('create'))
-            ->getMock();
-
-        $this->_eavMetadataServiceMock =
-            $this->getMockBuilder('Magento\Customer\Service\V1\CustomerMetadataServiceInterface')
-                ->disableOriginalConstructor()
-                ->getMock();
-
-        $this->_eventManagerMock =
-            $this->getMockBuilder('\Magento\Event\ManagerInterface')
-                ->disableOriginalConstructor()
-                ->getMock();
-
         $this->_attributeModelMock =
             $this->getMockBuilder('\Magento\Customer\Model\Attribute')
             ->disableOriginalConstructor()
@@ -194,22 +141,9 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->_setupStoreMock();
 
-        $this->_mathRandomMock = $this->getMockBuilder('\Magento\Math\Random')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->_validator = $this->getMockBuilder('\Magento\Customer\Model\Metadata\Validator')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->_addressBuilder = new Dto\AddressBuilder(
-            new Dto\RegionBuilder());
-
         $this->_customerBuilder = new Dto\CustomerBuilder();
 
-        $customerBuilder = new Dto\CustomerBuilder();
-
-        $this->_converter = new \Magento\Customer\Model\Converter($customerBuilder, $this->_customerFactoryMock);
+        $this->_converter = new \Magento\Customer\Model\Converter($this->_customerBuilder, $this->_customerFactoryMock);
     }
 
     public function testGetCustomer()
@@ -451,5 +385,4 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getStore')
             ->will($this->returnValue($this->_storeMock));
     }
-
 }

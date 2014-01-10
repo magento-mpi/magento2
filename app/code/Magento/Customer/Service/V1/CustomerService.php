@@ -8,8 +8,9 @@
 
 namespace Magento\Customer\Service\V1;
 
+use Magento\Customer\Model\Converter;
 use Magento\Customer\Service\Entity\V1\Exception;
-use Magento\Customer\Model\Customer;
+use Magento\Customer\Model\Customer as CustomerModel;
 use Magento\Validator\ValidatorException;
 
 /**
@@ -23,7 +24,7 @@ class CustomerService implements CustomerServiceInterface
 
 
     /**
-     * @var \Magento\Customer\Model\Converter
+     * @var Converter
      */
     private $_converter;
 
@@ -31,20 +32,10 @@ class CustomerService implements CustomerServiceInterface
     /**
      * Constructor
      *
-     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param \Magento\Customer\Model\AddressFactory $addressFactory
-     * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $eavMetadataService
-     * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Math\Random $mathRandom
-     * @param \Magento\Customer\Model\Converter $converter
-     * @param \Magento\Customer\Model\Metadata\Validator $validator
-     * @param \Magento\Customer\Service\V1\Dto\RegionBuilder $regionBuilder
-     * @param \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder
-     * @param \Magento\Customer\Service\V1\Dto\Response\CreateCustomerAccountResponseBuilder $createCustomerAccountResponseBuilder
+     * @param Converter $converter
      */
     public function __construct(
-        \Magento\Customer\Model\Converter $converter
+        Converter $converter
     ) {
         $this->_converter = $converter;
     }
@@ -90,7 +81,7 @@ class CustomerService implements CustomerServiceInterface
             unset($this->_cache[$customerModel->getId()]);
         } catch (\Exception $e) {
             switch ($e->getCode()) {
-                case Customer::EXCEPTION_EMAIL_EXISTS:
+                case CustomerModel::EXCEPTION_EMAIL_EXISTS:
                     $code = Exception::CODE_EMAIL_EXISTS;
                     break;
                 default:

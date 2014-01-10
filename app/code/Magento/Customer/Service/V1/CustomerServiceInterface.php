@@ -16,7 +16,7 @@ interface CustomerServiceInterface
     /**
      * Create or update customer information
      *
-     * @param \Magento\Customer\Service\V1\Dto\Customer $customer
+     * @param Dto\Customer $customer
      * @param string $password
      * @throws \Magento\Customer\Service\Entity\V1\Exception
      * @return int customer ID
@@ -27,7 +27,7 @@ interface CustomerServiceInterface
      * Retrieve Customer
      *
      * @param int $customerId
-     * @return \Magento\Customer\Service\V1\Dto\Customer
+     * @return Dto\Customer
      */
     public function getCustomer($customerId);
 
