@@ -70,7 +70,7 @@ class PaypalExpressOrder extends OrderCheckout
     }
 
     /**
-     * @param $index
+     * @param int $index
      * @return \Magento\Catalog\Test\Fixture\SimpleProduct
      */
     public function getProduct($index)
