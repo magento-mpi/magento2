@@ -104,7 +104,7 @@ class Message extends \Magento\Core\Helper\Data
      */
     public function getInline($type, \Magento\Object $entity, $dontDisplayContainer = false)
     {
-        if (!in_array($type, array('onepage_checkout', 'multishipping_address'))
+        if (!in_array($type, array('onepage_checkout',))
             && !$this->isMessagesAvailable($type, $entity)
         ) {
             return '';
