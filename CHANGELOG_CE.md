@@ -4,6 +4,7 @@
   * Event "catalog_model_product_duplicate" was replaced with composite Product\Copier model
   * Event "catalog_product_prepare_save" was replaced with controller product initialization helper that can be pluginized
   * Autorizenet is consolidated in separate module
+  * Improved accuracy and quality of Module Dependency Test
 * Introduced new layout block attribute - cacheable
 * Fixed bugs:
   * Fixed configurable product images display in shopping cart

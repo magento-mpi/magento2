@@ -31,6 +31,7 @@
             <module name="Magento_Bundle"/>
             <module name="Magento_Paypal"/>
             <module name="Magento_Newsletter"/>
+            <module name="Magento_Email"/>
         </depends>
     </module>
 </config>

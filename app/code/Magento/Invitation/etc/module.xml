@@ -22,6 +22,7 @@
             <module name="Magento_Logging"/>
             <module name="Magento_Directory"/>
             <module name="Magento_Newsletter"/>
+            <module name="Magento_Email"/>
         </depends>
     </module>
 </config>

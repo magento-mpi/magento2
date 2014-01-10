@@ -19,7 +19,8 @@
             <module name="Magento_Sales"/>
             <module name="Magento_Customer"/>
             <module name="Magento_Backend"/>
-	    <module name="Magento_Directory"/>
+            <module name="Magento_Directory"/>
+            <module name="Magento_Contacts"/>
         </depends>
     </module>
 </config>

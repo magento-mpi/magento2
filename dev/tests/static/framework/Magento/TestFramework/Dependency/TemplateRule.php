@@ -100,19 +100,14 @@ class TemplateRule implements \Magento\TestFramework\Dependency\RuleInterface
 
     /**
      * Constructor
+     *
+     * @param array $mapRouters
+     * @param array $mapLayoutBlocks
      */
-    public function __construct()
+    public function __construct(array $mapRouters, array $mapLayoutBlocks)
     {
-        $args = func_get_args();
-        if (count($args)) {
-            if (isset($args[0]['mapRouters'])) {
-                $this->_mapRouters = $args[0]['mapRouters'];
-            }
-            if (isset($args[0]['mapLayoutBlocks'])) {
-                $this->_mapLayoutBlocks = $args[0]['mapLayoutBlocks'];
-            }
-        }
-
+        $this->_mapRouters = $mapRouters;
+        $this->_mapLayoutBlocks = $mapLayoutBlocks;
         $this->_namespaces = implode('|', \Magento\TestFramework\Utility\Files::init()->getNamespaces());
     }
 
@@ -127,7 +122,7 @@ class TemplateRule implements \Magento\TestFramework\Dependency\RuleInterface
      */
     public function getDependencyInfo($currentModule, $fileType, $file, &$contents)
     {
-        if ('template' != $fileType) {
+        if (!in_array($fileType, array('php', 'template'))) {
             return array();
         }
 
@@ -287,75 +282,6 @@ class TemplateRule implements \Magento\TestFramework\Dependency\RuleInterface
                 . '(?<module>[A-Z][a-zA-Z]+)::[\w\/\.-]+)/',
         );
         return $this->_checkDependenciesByRegexp($currentModule, $contents, $patterns);
-    }
-
-    /**
-     * Check get URL method
-     *
-     * Ex.: getUrl('{path}')
-     *
-     * @param $currentModule
-     * @param $fileType
-     * @param $file
-     * @param $contents
-     * @return array
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    protected function _caseGetUrl($currentModule, $fileType, $file, &$contents)
-    {
-        $pattern = '/[\->:]+(?<source>getUrl\([\'"](?<router>[\w\/*]+)[\'"])/';
-
-        $dependencies = array();
-        if (preg_match_all($pattern, $contents, $matches, PREG_SET_ORDER)) {
-            foreach ($matches as $item) {
-                $router = str_replace('/', '\\', $item['router']);
-                if (isset($this->_mapRouters[$router])) {
-                    $moduleName = $this->_mapRouters[$router];
-                    if ($currentModule != $moduleName) {
-                        $dependencies[] = array(
-                            'module' => $moduleName,
-                            'type' => \Magento\TestFramework\Dependency\RuleInterface::TYPE_SOFT,
-                            'source' => $item['source'],
-                        );
-                    }
-                }
-            }
-        }
-        return $dependencies;
-    }
-
-    /**
-     * Check layout blocks
-     *
-     * @param $currentModule
-     * @param $fileType
-     * @param $file
-     * @param $contents
-     * @return array
-     *
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    protected function _caseLayoutBlock($currentModule, $fileType, $file, &$contents)
-    {
-        $pattern = '/[\->:]+(?<source>(?:getBlock|getBlockHtml)\([\'"](?<block>[\w\.\-]+)[\'"]\))/';
-
-        $area = $this->_getAreaByFile($file);
-
-        $result = array();
-        if (preg_match_all($pattern, $contents, $matches, PREG_SET_ORDER)) {
-            foreach ($matches as $match) {
-                $check = $this->_checkDependencyLayoutBlock($currentModule, $area, $match['block']);
-                $module = isset($check['module']) ? $check['module'] : null;
-                if ($module) {
-                    $result[$module] = array(
-                        'type' => \Magento\TestFramework\Dependency\RuleInterface::TYPE_HARD,
-                        'source' => $match['source'],
-                    );
-                }
-            }
-        }
-        return $this->_getUniqueDependencies($result);
     }
 
     /**
