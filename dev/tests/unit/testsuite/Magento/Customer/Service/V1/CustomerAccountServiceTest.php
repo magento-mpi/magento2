@@ -494,8 +494,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
                 ]
             ];
             $this->assertEquals($expectedParams, $e->getParams());
-        } catch (\Exception $unexpected) {
-            $this->fail('Unexpected exception type thrown. '. $unexpected->getMessage());
         }
     }
 
@@ -531,8 +529,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
                 ]
             ];
             $this->assertEquals($expectedParams, $e->getParams());
-        } catch (\Exception $unexpected) {
-            $this->fail('Unexpected exception type thrown. '. $unexpected->getMessage());
         }
     }
 
@@ -566,8 +562,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
                     'customerId' => self::ID,
                 ]
             );
-        } catch (\Exception $unexpected) {
-            $this->fail('Unexpected exception type thrown. '. $unexpected->getMessage());
         }
     }
 
@@ -602,8 +596,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
                 ]
             ];
             $this->assertEquals($expectedParams, $e->getParams());
-        } catch (\Exception $unexpected) {
-            $this->fail('Unexpected exception type thrown. '. $unexpected->getMessage());
         }
     }
 
@@ -662,8 +654,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
                     'websiteId' => 0
                 ]
             );
-        }  catch (\Exception $unexpected) {
-            $this->fail('Unexpected exception type thrown. ' . $unexpected->getMessage());
         }
     }
 
@@ -806,8 +796,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
                 ]
             ];
             $this->assertEquals($expectedParams, $e->getParams());
-        } catch (\Exception $unexpected) {
-            $this->fail('Unexpected exception type thrown. '. $unexpected->getMessage());
         }
     }
 
@@ -851,8 +839,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
                 ]
             ];
             $this->assertEquals($expectedParams, $e->getParams());
-        } catch (\Exception $unexpected) {
-            $this->fail('Unexpected exception type thrown. '. $unexpected->getMessage());
         }
     }
 
@@ -894,8 +880,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
                     'customerId' => 4200,
                 ]
             );
-        } catch (\Exception $unexpected) {
-            $this->fail('Unexpected exception type thrown. '. $unexpected->getMessage());
         }
     }
 
@@ -938,8 +922,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
                 ]
             ];
             $this->assertEquals($expectedParams, $e->getParams());
-        } catch (\Exception $unexpected) {
-            $this->fail('Unexpected exception type thrown. '. $unexpected->getMessage());
         }
     }
 
@@ -988,8 +970,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
                 'websiteId' => null
             ];
             $this->assertEquals($expectedParams, $nsee->getParams());
-        } catch (\Exception $unexpected) {
-            $this->fail('Unexpected exception type thrown. ' . $unexpected->getMessage());
         }
     }
 
@@ -1008,6 +988,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $customerService = $this->_createService();
         try {
             $customerService->sendConfirmation('email');
+            $this->fail('Expected exception not thrown');
         } catch ( InputException $e) {
             $expectedParams = [
                 [
@@ -1017,8 +998,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
                 ]
             ];
             $this->assertEquals($expectedParams, $e->getParams());
-        } catch (\Exception $unexpected) {
-            $this->fail('Unexpected exception type thrown. '. $unexpected->getMessage());
         }
     }
 
