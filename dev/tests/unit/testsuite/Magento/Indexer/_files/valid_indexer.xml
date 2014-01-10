@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <indexer id="indexer_internal_name" class="Index\Class\Name">
+        <title translate="true">Indexer public name</title>
+        <description translate="true">Indexer public description</description>
+        <depends>
+            <table name="some_entity" entity_column="entity_id" />
+            <table name="some_product_relation" entity_column="product_id" />
+        </depends>
+    </indexer>
+    <indexer id="new_indexer_internal_name" class="Some\Class\Name">
+        <title translate="true">Indexer public name</title>
+        <description translate="true">Indexer public description</description>
+        <depends>
+            <table name="some_entity" entity_column="entity_id" />
+            <table name="some_product_relation" entity_column="product_id" />
+        </depends>
+    </indexer>
+</config>
