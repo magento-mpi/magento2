@@ -7,7 +7,9 @@
  */
 
 namespace Magento\Customer\Service\V1;
-use Magento\Customer\Service\Entity\V1\Exception;
+
+use Magento\Exception\InputException;
+use Magento\Exception\AuthenticationException;
 
 /**
  * Manipulate Customer Address Entities *
@@ -103,18 +105,18 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $customer = $this->_customerFactory->create();
         $customer->setWebsiteId($this->_storeManager->getStore()->getWebsiteId())->loadByEmail($email);
         if (!$customer->getId()) {
-            throw new Exception('Wrong email.', Exception::CODE_EMAIL_NOT_FOUND);
+            throw new InputException('email', InputException::NO_SUCH_ENTITY, $email);
         }
         if ($customer->getConfirmation()) {
             $customer->sendNewAccountEmail('confirmation', '', $this->_storeManager->getStore()->getId());
         } else {
-            throw new Exception(
-                'This email does not require confirmation.',
-                Exception::CODE_CONFIRMATION_NOT_NEEDED
+            throw new InputException(
+                'email',
+                InputException::INVALID_STATE_CHANGE,
+                ['message' => 'This email does not require confirmation.']
             );
         }
     }
-
 
     /**
      * @inheritdoc
@@ -127,21 +129,22 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         // check if customer is inactive
         if ($customer->getConfirmation()) {
             if ($customer->getConfirmation() !== $key) {
-                throw new \Magento\Core\Exception('Wrong confirmation key.');
+                throw new InputException(
+                    'key',
+                    InputException::INVALID_FIELD_VALUE,
+                    ['message' => 'Wrong confirmation key.']
+                );
             }
 
             // activate customer
-            try {
-                $customer->setConfirmation(null);
-                $customer->save();
-            } catch (\Exception $e) {
-                throw new \Magento\Core\Exception('Failed to confirm customer account.');
-            }
+            $customer->setConfirmation(null);
+            $customer->save();
             $customer->sendNewAccountEmail('confirmed', '', $this->_storeManager->getStore()->getId());
         } else {
-            throw new Exception(
-                'Customer account is already active.',
-                Exception::CODE_ACCT_ALREADY_ACTIVE
+            throw new InputException(
+                'customerId',
+                InputException::INVALID_STATE_CHANGE,
+                ['message' => 'Customer account is already active.']
             );
         }
 
@@ -160,15 +163,15 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         } catch (\Magento\Core\Exception $e) {
             switch ($e->getCode()) {
                 case \Magento\Customer\Model\Customer::EXCEPTION_EMAIL_NOT_CONFIRMED:
-                    $code = Exception::CODE_EMAIL_NOT_CONFIRMED;
+                    $code = AuthenticationException::EMAIL_NOT_CONFIRMED;
                     break;
                 case \Magento\Customer\Model\Customer::EXCEPTION_INVALID_EMAIL_OR_PASSWORD:
-                    $code = Exception::CODE_INVALID_EMAIL_OR_PASSWORD;
+                    $code = AuthenticationException::INVALID_EMAIL_OR_PASSWORD;
                     break;
                 default:
-                    $code = Exception::CODE_UNKNOWN;
+                    $code = AuthenticationException::UNKNOWN;
             }
-            throw new Exception($e->getMessage(), $code, $e);
+            throw new AuthenticationException($e->getMessage(), $code, $e);
         }
 
         $this->_eventManager->dispatch('customer_login', array('customer'=>$customerModel));
@@ -194,16 +197,15 @@ class CustomerAccountService implements CustomerAccountServiceInterface
             ->loadByEmail($email);
 
         if (!$customer->getId()) {
-            throw new Exception(
-                'No customer found for the provided email and website ID.', Exception::CODE_EMAIL_NOT_FOUND);
+            throw new InputException(
+                'email',
+                InputException::NO_SUCH_ENTITY,
+                ['message' => 'No customer found for the provided email and website ID.']
+            );
         }
-        try {
-            $newPasswordToken = $this->_mathRandom->getUniqueHash();
-            $customer->changeResetPasswordLinkToken($newPasswordToken);
-            $customer->sendPasswordResetConfirmationEmail();
-        } catch (\Exception $exception) {
-            throw new Exception($exception->getMessage(), Exception::CODE_UNKNOWN, $exception);
-        }
+        $newPasswordToken = $this->_mathRandom->getUniqueHash();
+        $customer->changeResetPasswordLinkToken($newPasswordToken);
+        $customer->sendPasswordResetConfirmationEmail();
     }
 
     /**
@@ -298,7 +300,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      * @param $customerId
      * @param $resetPasswordLinkToken
      * @return \Magento\Customer\Model\Customer
-     * @throws Exception
+     * @throws InputException
      */
     private function _validateResetPasswordToken($customerId, $resetPasswordLinkToken)
     {
@@ -308,7 +310,11 @@ class CustomerAccountService implements CustomerAccountServiceInterface
             || empty($customerId)
             || $customerId < 0
         ) {
-            throw new Exception('Invalid password reset token.', Exception::CODE_INVALID_RESET_TOKEN);
+            throw new InputException(
+                'resetPasswordLinkToken',
+                InputException::INVALID_FIELD_VALUE,
+                ['message' => 'Invalid password reset token.']
+            );
         }
 
         $customerModel = $this->_converter->getCustomerModel($customerId);
@@ -317,7 +323,11 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         if (strcmp($customerToken, $resetPasswordLinkToken) !== 0
             || $customerModel->isResetPasswordLinkTokenExpired($customerId)
         ) {
-            throw new Exception('Your password reset link has expired.', Exception::CODE_RESET_TOKEN_EXPIRED);
+            throw new InputException(
+                'resetPasswordLinkToken',
+                InputException::TOKEN_EXPIRED,
+                ['message' => 'Your password reset link has expired.']
+            );
         }
 
         return $customerModel;

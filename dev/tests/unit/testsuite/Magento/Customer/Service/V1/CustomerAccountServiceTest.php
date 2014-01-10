@@ -261,7 +261,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException  \Magento\Customer\Service\Entity\V1\Exception
+     * @expectedException  \Magento\Exception\InputException
      */
     public function testActivateAccountAlreadyActive()
     {
@@ -369,10 +369,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $customerService->activateAccount(self::ID, self::EMAIL_CONFIRMATION_KEY);
     }
 
-    /**
-     * @expectedException \Magento\Core\Exception
-     * @expectedExceptionMessage Wrong confirmation key
-     */
     public function testActivateAccountBadKey()
     {
         $this->_customerModelMock->expects($this->any())
@@ -399,11 +395,19 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $customerService = $this->_createService();
 
-        $customerService->activateAccount(self::ID, self::EMAIL_CONFIRMATION_KEY);
+        try {
+            $customerService->activateAccount(self::ID, self::EMAIL_CONFIRMATION_KEY);
+            $this->fail('Expected exception not thrown.');
+        } catch (\Magento\Exception\InputException $e) {
+            $expectedParams = [
+                ['code' => 'Invalid field value.', 'fieldName' => 'key', 'message' => 'Wrong confirmation key.']
+            ];
+            $this->assertEquals($expectedParams, $e->getParams());
+        }
     }
 
     /**
-     * @expectedException \Magento\Core\Exception
+     * @expectedException \Exception
      * @expectedExceptionMessage Failed to confirm customer account
      */
     public function testActivateAccountSaveFailed()
