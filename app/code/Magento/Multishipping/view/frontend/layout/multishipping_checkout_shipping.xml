@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <update handle="multishipping_checkout"/>
+    <referenceBlock name="page.main.title">
+        <action method="setPageTitle">
+            <argument translate="true" name="title" xsi:type="string">Shipping Information</argument>
+        </action>
+    </referenceBlock>
+    <referenceContainer name="content">
+        <block class="Magento\Multishipping\Block\Checkout\Shipping" name="checkout_shipping" template="checkout/shipping.phtml">
+            <block class="Magento\Checkout\Block\Cart\Item\Renderer" as="default" template="checkout/item/default.phtml"/>
+            <block class="Magento\Checkout\Block\Cart\Item\Renderer\Grouped" as="grouped" template="checkout/item/default.phtml"/>
+            <block class="Magento\Checkout\Block\Cart\Item\Renderer\Configurable" as="configurable" template="checkout/item/default.phtml"/>
+            <block class="Magento\Multishipping\Block\Checkout\Billing\Items" name="checkout_billing_items" template="checkout/billing/items.phtml">
+                <block class="Magento\Checkout\Block\Cart\Item\Renderer" as="default" template="checkout/item/default.phtml"/>
+                <block class="Magento\Checkout\Block\Cart\Item\Renderer\Grouped" as="grouped" template="checkout/item/default.phtml"/>
+                <block class="Magento\Checkout\Block\Cart\Item\Renderer\Configurable" as="configurable" template="checkout/item/default.phtml"/>
+            </block>
+        </block>
+    </referenceContainer>
+    <block class="Magento\View\Element\Template" name="additional.product.info" template="Magento_Core::template.phtml"/>
+</layout>

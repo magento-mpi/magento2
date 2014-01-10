@@ -9,34 +9,34 @@
  */
 
 /**
- * Checkout payment information data
+ * Multishipping checkout payment information data
  *
  * @category   Magento
  * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Checkout\Block\Onepage\Payment;
+namespace Magento\Multishipping\Block\Checkout\Payment;
 
 class Info extends \Magento\Payment\Block\Info\AbstractContainer
 {
     /**
-     * @var \Magento\Checkout\Model\Session
+     * @var \Magento\Multishipping\Model\Checkout\Type\Multishipping
      */
-    protected $_checkoutSession;
+    protected $_multishipping;
 
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Payment\Helper\Data $paymentData
-     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Payment\Helper\Data $paymentData,
-        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping,
         array $data = array()
     ) {
-        $this->_checkoutSession = $checkoutSession;
+        $this->_multishipping = $multishipping;
         parent::__construct($context, $paymentData, $data);
     }
 
@@ -47,17 +47,17 @@ class Info extends \Magento\Payment\Block\Info\AbstractContainer
      */
     public function getPaymentInfo()
     {
-        $info = $this->_checkoutSession->getQuote()->getPayment();
-        if ($info->getMethod()) {
-            return $info;
-        }
-        return false;
+        return $this->_multishipping->getQuote()->getPayment();
     }
 
+    /**
+     * @return string
+     */
     protected function _toHtml()
     {
         $html = '';
-        if ($block = $this->getChildBlock($this->_getInfoBlockName())) {
+        $block = $this->getChildBlock($this->_getInfoBlockName());
+        if ($block) {
             $html = $block->toHtml();
         }
         return $html;

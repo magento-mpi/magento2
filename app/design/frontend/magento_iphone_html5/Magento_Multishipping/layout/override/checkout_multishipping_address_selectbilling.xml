@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <update handle="checkout_multishipping"/>
+    <referenceContainer name="content">
+        <block class="Magento\Multishipping\Block\Checkout\Address\Select" name="checkout_address_select" template="multishipping/address/select.phtml"/>
+    </referenceContainer>
+</layout>
