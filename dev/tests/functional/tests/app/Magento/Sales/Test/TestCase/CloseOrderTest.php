@@ -13,7 +13,6 @@ namespace Magento\Sales\Test\TestCase;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\Checkout\Test\Fixture\Checkout;
 use Magento\Sales\Test\Fixture\OrderCheckout;
 
 /**
@@ -27,19 +26,13 @@ class CloseOrderTest extends Functional
      * Test the closing of sales order for various payment methods.
      *
      * @param OrderCheckout $fixture
-     * @param null|string $paymentMethodFunction
      * @dataProvider dataProviderOrder
      *
      * @ZephyrId MAGETWO-12434, MAGETWO-12833, MAGETWO-13015, MAGETWO-13019, MAGETWO-13020, MAGETWO-13018
      */
-    public function testCloseOrder(OrderCheckout $fixture, $paymentMethodFunction = null)
+    public function testCloseOrder(OrderCheckout $fixture)
     {
         $fixture->persist();
-
-        // Capture additional payment method data when needed
-        if (!is_null($paymentMethodFunction)) {
-            call_user_func_array(array($this, $paymentMethodFunction), array($fixture->getCheckoutFixture()));
-        }
 
         //Data
         $orderId = $fixture->getOrderId();
@@ -117,36 +110,10 @@ class CloseOrderTest extends Functional
             array(Factory::getFixtureFactory()->getMagentoSalesPaypalExpressOrder()),
             array(Factory::getFixtureFactory()->getMagentoSalesAuthorizeNetOrder()),
             array(Factory::getFixtureFactory()->getMagentoSalesPaypalPaymentsProOrder()),
-            array(Factory::getFixtureFactory()->getMagentoSalesPaypalPaymentsAdvancedOrder(),
-                  'populatePayflowAdvancedCcForm'),
+            array(Factory::getFixtureFactory()->getMagentoSalesPaypalPaymentsAdvancedOrder()),
             array(Factory::getFixtureFactory()->getMagentoSalesPaypalPayflowProOrder()),
             array(Factory::getFixtureFactory()->getMagentoSalesPaypalStandardOrder()),
-            array(Factory::getFixtureFactory()->getMagentoSalesPaypalPayflowLinkOrder(),
-                  'populatePayflowLinkCcForm'),
+            array(Factory::getFixtureFactory()->getMagentoSalesPaypalPayflowLinkOrder())
         );
-    }
-
-    /**
-     * Populate additional data needed for Paypal Payments Advanced checkout.
-     *
-     * @param Checkout $fixture
-     */
-    public function populatePayflowAdvancedCcForm(Checkout $fixture) {
-        /** @var \Magento\Payment\Test\Block\Form\PayflowAdvanced\Cc $formBlock */
-        $formBlock = Factory::getPageFactory()->getCheckoutOnepage()->getPayflowAdvancedCcBlock();
-        $formBlock->fill($fixture);
-        $formBlock->pressContinue();
-    }
-
-    /**
-     * Populate additional data needed for Paypal Payflow Link checkout.
-     *
-     * @param Checkout $fixture
-     */
-    public function populatePayflowLinkCcForm(Checkout $fixture) {
-        /** @var \Magento\Payment\Test\Block\Form\PayflowAdvanced\Cc $formBlock */
-        $formBlock = Factory::getPageFactory()->getCheckoutOnepage()->getPayflowLinkCcBlock();
-        $formBlock->fill($fixture);
-        $formBlock->pressContinue();
     }
 }

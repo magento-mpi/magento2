@@ -43,16 +43,6 @@ class OrderCheckout extends Checkout
     protected $additionalProducts;
 
     /**
-     * Return the checkout fixture instance
-     *
-     * @return Checkout
-     */
-    public function getCheckoutFixture()
-    {
-        return $this->checkoutFixture;
-    }
-
-    /**
      * Get order grand total
      *
      * @return string

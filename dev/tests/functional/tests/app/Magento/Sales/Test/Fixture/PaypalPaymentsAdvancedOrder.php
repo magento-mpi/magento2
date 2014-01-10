@@ -34,4 +34,22 @@ class PaypalPaymentsAdvancedOrder extends OrderCheckout
             )
         );
     }
+
+    /**
+     * Override persist to capture credit card data for Paypal Payments Advanced payment method.
+     */
+    public function persist()
+    {
+        parent::persist();
+
+        /** @var \Magento\Payment\Test\Block\Form\PayflowAdvanced\Cc $formBlock */
+        $formBlock = Factory::getPageFactory()->getCheckoutOnepage()->getPayflowAdvancedCcBlock();
+        $formBlock->fill($this->checkoutFixture);
+        $formBlock->pressContinue();
+
+        // Update order id now that order has been placed.
+        /** @var \Magento\Checkout\Test\Page\CheckoutOnepageSuccess $successPage */
+        $successPage = Factory::getPageFactory()->getCheckoutOnepageSuccess();
+        $this->orderId = $successPage->getSuccessBlock()->getOrderId($this->checkoutFixture);
+    }
 }
