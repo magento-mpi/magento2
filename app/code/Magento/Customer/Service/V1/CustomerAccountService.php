@@ -104,7 +104,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $customer = $this->_customerFactory->create();
         $customer->setWebsiteId($this->_storeManager->getStore()->getWebsiteId())->loadByEmail($email);
         if (!$customer->getId()) {
-            throw new InputException(
+            throw InputException::create(
                 'email',
                 InputException::NO_SUCH_ENTITY,
                 ['message' => 'No customer found for the provided email.', 'value' => $email]
@@ -133,7 +133,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         if ($customer->getConfirmation()) {
             if ($customer->getConfirmation() !== $key) {
                 throw InputException::create(
-                    'key',
+                    'confirmation',
                     InputException::INVALID_FIELD_VALUE,
                     ['message' => 'Wrong confirmation key.']
                 );

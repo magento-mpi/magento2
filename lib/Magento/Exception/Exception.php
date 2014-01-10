@@ -14,7 +14,7 @@ abstract class Exception extends \Exception
     /**
      * @var array
      */
-    protected $params = array();
+    protected $params = [];
 
     /**
      * @param string $message

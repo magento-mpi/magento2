@@ -7,6 +7,7 @@
  */
 
 namespace Magento\Customer\Service\V1;
+use Magento\Exception\InputException;
 
 /**
  * \Magento\Customer\Service\V1\CustomerService
@@ -61,6 +62,11 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
      * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\Dto\CustomerBuilder
      */
     private $_customerBuilder;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\CustomerMetadataService
+     */
+    private $_customerMetadataService;
 
     public function setUp()
     {
@@ -123,17 +129,6 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_attributeModelMock
-            ->expects($this->any())
-            ->method('getAttributeCode')
-            ->will($this->returnValue(self::ATTRIBUTE_CODE));
-
-        $this->_customerModelMock
-            ->expects($this->any())
-            ->method('getData')
-            ->with($this->equalTo(self::ATTRIBUTE_CODE))
-            ->will($this->returnValue(self::ATTRIBUTE_VALUE));
-
         $this->_customerModelMock
             ->expects($this->any())
             ->method('validate')
@@ -144,6 +139,10 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerBuilder = new Dto\CustomerBuilder();
 
         $this->_converter = new \Magento\Customer\Model\Converter($this->_customerBuilder, $this->_customerFactoryMock);
+
+        $this->_customerMetadataService = $this->getMockBuilder('Magento\Customer\Service\V1\CustomerMetadataService')
+            ->disableOriginalConstructor()
+            ->getMock();
     }
 
     public function testGetCustomer()
@@ -163,6 +162,17 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
                  'getAttributes' => array($this->_attributeModelMock),
             )
         );
+
+        $this->_attributeModelMock
+            ->expects($this->any())
+            ->method('getAttributeCode')
+            ->will($this->returnValue(self::ATTRIBUTE_CODE));
+
+        $this->_customerModelMock
+            ->expects($this->any())
+            ->method('getData')
+            ->with($this->equalTo(self::ATTRIBUTE_CODE))
+            ->will($this->returnValue(self::ATTRIBUTE_VALUE));
 
         $this->_customerFactoryMock->expects($this->any())
             ->method('create')
@@ -231,8 +241,18 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
             array(
                 'getId' => self::ID,
                 'load' => $this->_customerModelMock,
+                'getEmail' => self::EMAIL,
+                'getFirstname' => self::FIRSTNAME,
+                'getLastname' => self::LASTNAME,
             )
         );
+
+        $mockAttribute = $this->getMockBuilder('Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_customerMetadataService->expects($this->any())
+            ->method('getCustomerAttributeMetadata')
+            ->will($this->returnValue($mockAttribute));
 
         // verify
         $this->_customerModelMock->expects($this->atLeastOnce())
@@ -264,8 +284,18 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
             $this->_customerModelMock,
             array(
                 'getId' => '2',
+                'getEmail' => self::EMAIL,
+                'getFirstname' => self::FIRSTNAME,
+                'getLastname' => self::LASTNAME,
             )
         );
+
+        $mockAttribute = $this->getMockBuilder('Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_customerMetadataService->expects($this->any())
+            ->method('getCustomerAttributeMetadata')
+            ->will($this->returnValue($mockAttribute));
 
         // verify
         $this->_customerModelMock->expects($this->atLeastOnce())
@@ -296,8 +326,18 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
             $this->_customerModelMock,
             array(
                 'getId' => self::ID,
+                'getEmail' => self::EMAIL,
+                'getFirstname' => self::FIRSTNAME,
+                'getLastname' => self::LASTNAME,
             )
         );
+
+        $mockAttribute = $this->getMockBuilder('Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_customerMetadataService->expects($this->any())
+            ->method('getCustomerAttributeMetadata')
+            ->will($this->returnValue($mockAttribute));
 
         // verify
         $this->_customerModelMock->expects($this->atLeastOnce())
@@ -309,7 +349,7 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Customer\Service\Entity\V1\Exception
+     * @expectedException \Exception
      * @expectedExceptionMessage exception message
      */
     public function testSaveCustomerWithException()
@@ -332,8 +372,18 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
             $this->_customerModelMock,
             array(
                 'getId' => self::ID,
+                'getEmail' => self::EMAIL,
+                'getFirstname' => self::FIRSTNAME,
+                'getLastname' => self::LASTNAME,
             )
         );
+
+        $mockAttribute = $this->getMockBuilder('Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_customerMetadataService->expects($this->any())
+            ->method('getCustomerAttributeMetadata')
+            ->will($this->returnValue($mockAttribute));
 
         $this->_customerModelMock->expects($this->once())
             ->method('save')
@@ -343,6 +393,75 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
         $customerService = $this->_createService();
 
         $customerService->saveCustomer($customerEntity);
+    }
+
+
+    public function testSaveCustomerWithInputException()
+    {
+        $customerData = [
+            'email' => self::EMAIL,
+            'firstname' => self::FIRSTNAME,
+            'lastname' => self::LASTNAME,
+            'create_in' => 'Admin',
+            'password' => 'password'
+        ];
+        $this->_customerBuilder->populateWithArray($customerData);
+        $customerEntity = $this->_customerBuilder->create();
+
+        $this->_customerFactoryMock->expects($this->any())
+            ->method('create')
+            ->will($this->returnValue($this->_customerModelMock));
+
+        $this->_mockReturnValue(
+            $this->_customerModelMock,
+            array(
+                'getId' => self::ID,
+                'getEmail' => 'missingAtSign',
+            )
+        );
+
+        $mockAttribute = $this->getMockBuilder('Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $mockAttribute->expects($this->atLeastOnce())
+            ->method('getIsRequired')
+            ->will($this->returnValue(true));
+        $this->_customerMetadataService->expects($this->any())
+            ->method('getCustomerAttributeMetadata')
+            ->will($this->returnValue($mockAttribute));
+
+        // verify
+        $customerService = $this->_createService();
+
+        try {
+            $customerService->saveCustomer($customerEntity);
+        } catch (InputException $inputException) {
+            $this->assertContains([
+                'fieldName' => 'firstname',
+                'code' => InputException::EMPTY_FIELD_REQUIRED,
+            ], $inputException->getParams());
+            $this->assertContains([
+                'fieldName' => 'lastname',
+                'code' => InputException::EMPTY_FIELD_REQUIRED,
+            ], $inputException->getParams());
+            $this->assertContains([
+                'fieldName' => 'email',
+                'code' => InputException::INVALID_FIELD_VALUE,
+                'value' => 'missingAtSign',
+            ], $inputException->getParams());
+            $this->assertContains([
+                'fieldName' => 'dob',
+                'code' => InputException::EMPTY_FIELD_REQUIRED,
+            ], $inputException->getParams());
+            $this->assertContains([
+                'fieldName' => 'taxvat',
+                'code' => InputException::EMPTY_FIELD_REQUIRED,
+            ], $inputException->getParams());
+            $this->assertContains([
+                'fieldName' => 'gender',
+                'code' => InputException::EMPTY_FIELD_REQUIRED,
+            ], $inputException->getParams());
+        }
     }
 
     /**
@@ -364,7 +483,8 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
     private function _createService()
     {
         $customerService = new CustomerService(
-            $this->_converter
+            $this->_converter,
+            $this->_customerMetadataService
         );
         return $customerService;
     }

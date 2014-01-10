@@ -350,10 +350,9 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $customerService->activateAccount(self::ID, self::EMAIL_CONFIRMATION_KEY);
             $this->fail('Expected exception not thrown.');
         } catch (InputException $e) {
-            $expectedParams = [
-                ['code' => 'Invalid field value.', 'fieldName' => 'key', 'message' => 'Wrong confirmation key.']
-            ];
-            $this->assertEquals($expectedParams, $e->getParams());
+            $this->assertEquals(InputException::INVALID_FIELD_VALUE, $e->getParams()[0]['code']);
+            $this->assertEquals('confirmation', $e->getParams()[0]['fieldName']);
+            $this->assertEquals('Wrong confirmation key.', $e->getParams()[0]['message']);
         } catch (\Exception $unexpected) {
             $this->fail('Unexpected exception type thrown. '. $unexpected->getMessage());
         }
