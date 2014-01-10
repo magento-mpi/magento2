@@ -101,7 +101,7 @@ class Method extends AbstractRepository
     }
 
     /**
-     * Specify PayPal Payflow as the payment method.
+     * Specify PayPal Payflow Link as the payment method.
      *
      * @return array
      */
