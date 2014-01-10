@@ -9,6 +9,8 @@
 namespace Magento\Customer\Service\V1;
 
 use Magento\Exception\InputException;
+use Magento\Exception\NoSuchEntityException;
+
 /**
  * \Magento\Customer\Service\V1\CustomerAccountService
  *
@@ -271,21 +273,18 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         try {
             $customerService->activateAccount(self::ID, self::EMAIL_CONFIRMATION_KEY);
-        } catch (InputException $ie) {
-            $this->assertSame($ie->getCode(), InputException::INPUT_EXCEPTION);
+            $this->fail("Expected NoSuchEntityException not caught");
+        } catch (\Magento\Exception\NoSuchEntityException $nsee) {
+            $this->assertSame($nsee->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
             $this->assertSame(
-                $ie->getParams(),
+                $nsee->getParams(),
                 [
-                    [
-                        'value'     => self::ID,
-                        'fieldName' => 'customer.id',
-                        'code'      => InputException::NO_SUCH_ENTITY,
-                    ]
+                    'customerId' => self::ID,
                 ]
             );
-            return;
+        } catch (\Exception $unexpected) {
+            $this->fail('Unexpected exception type thrown. '. $unexpected->getMessage());
         }
-        $this->fail("Expected InputException not caught");
     }
 
     /**
@@ -559,21 +558,18 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         try {
             $customerService->validateResetPasswordLinkToken(1, $resetToken);
-        } catch (InputException $ie) {
-            $this->assertSame($ie->getCode(), InputException::INPUT_EXCEPTION);
+            $this->fail("Expected NoSuchEntityException not caught");
+        } catch (\Magento\Exception\NoSuchEntityException $nsee) {
+            $this->assertSame($nsee->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
             $this->assertSame(
-                $ie->getParams(),
+                $nsee->getParams(),
                 [
-                    [
-                        'value'     => self::ID,
-                        'fieldName' => 'customer.id',
-                        'code'      => InputException::NO_SUCH_ENTITY,
-                    ]
+                    'customerId' => self::ID,
                 ]
             );
-            return;
+        } catch (\Exception $unexpected) {
+            $this->fail('Unexpected exception type thrown. '. $unexpected->getMessage());
         }
-        $this->fail("Expected InputException not caught");
     }
 
     public function testValidateResetPasswordLinkTokenNull()
@@ -657,18 +653,18 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         try {
             $customerService->sendPasswordResetLink($email, 0);
-            $this->fail('Expected exception not thrown.');
-        } catch ( InputException $e) {
-            $expectedParams = [
+            $this->fail("Expected NoSuchEntityException not caught");
+        } catch (\Magento\Exception\NoSuchEntityException $nsee) {
+            $this->assertSame($nsee->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
+            $this->assertSame(
+                $nsee->getParams(),
                 [
-                    'code' => InputException::NO_SUCH_ENTITY,
-                    'fieldName' => 'email',
-                    'message' => 'No customer found for the provided email and website ID.',
+                    'email' => $email,
+                    'websiteId' => 0
                 ]
-            ];
-            $this->assertEquals($expectedParams, $e->getParams());
-        } catch (\Exception $unexpected) {
-            $this->fail('Unexpected exception type thrown. '. $unexpected->getMessage());
+            );
+        }  catch (\Exception $unexpected) {
+            $this->fail('Unexpected exception type thrown. ' . $unexpected->getMessage());
         }
     }
 
@@ -890,21 +886,18 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         try {
             $customerService->resetPassword(4200, $password, $resetToken);
-        } catch (InputException $ie) {
-            $this->assertSame($ie->getCode(), InputException::INPUT_EXCEPTION);
+            $this->fail("Expected NoSuchEntityException not caught");
+        } catch (\Magento\Exception\NoSuchEntityException $nsee) {
+            $this->assertSame($nsee->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
             $this->assertSame(
-                $ie->getParams(),
+                $nsee->getParams(),
                 [
-                    [
-                        'value'     => 4200,
-                        'fieldName' => 'customer.id',
-                        'code'      => InputException::NO_SUCH_ENTITY,
-                    ]
+                    'customerId' => 4200,
                 ]
             );
-            return;
+        } catch (\Exception $unexpected) {
+            $this->fail('Unexpected exception type thrown. '. $unexpected->getMessage());
         }
-        $this->fail("Expected InputException not caught");
     }
 
     public function testResetPasswordTokenInvalidUserId()
@@ -989,19 +982,15 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $customerService = $this->_createService();
         try {
             $customerService->sendConfirmation('email@no.customer');
-            $this->fail('Expected exception not thrown.');
-        } catch ( InputException $e) {
+            $this->fail("Expected NoSuchEntityException not caught");
+        } catch (NoSuchEntityException $nsee) {
             $expectedParams = [
-                [
-                    'code' => InputException::NO_SUCH_ENTITY,
-                    'fieldName' => 'email',
-                    'message' => 'No customer found for the provided email.',
-                    'value' => 'email@no.customer',
-                ]
+                'email' => 'email@no.customer',
+                'websiteId' => null
             ];
-            $this->assertEquals($expectedParams, $e->getParams());
+            $this->assertEquals($expectedParams, $nsee->getParams());
         } catch (\Exception $unexpected) {
-            $this->fail('Unexpected exception type thrown. '. $unexpected->getMessage());
+            $this->fail('Unexpected exception type thrown. ' . $unexpected->getMessage());
         }
     }
 

@@ -14,7 +14,7 @@ abstract class Exception extends \Exception
     /**
      * @var array
      */
-    protected $params = array();
+    protected $_params = array();
 
     /**
      * @param string $message
@@ -32,6 +32,6 @@ abstract class Exception extends \Exception
      */
     public function getParams()
     {
-        return $this->params;
+        return $this->_params;
     }
 }

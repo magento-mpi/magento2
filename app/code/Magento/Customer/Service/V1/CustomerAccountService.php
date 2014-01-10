@@ -11,6 +11,7 @@ namespace Magento\Customer\Service\V1;
 use Magento\Customer\Model\Customer as CustomerModel;
 use Magento\Exception\InputException;
 use Magento\Exception\AuthenticationException;
+use Magento\Exception\NoSuchEntityException;
 
 /**
  * Manipulate Customer Address Entities *
@@ -102,13 +103,10 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     public function sendConfirmation($email)
     {
         $customer = $this->_customerFactory->create();
-        $customer->setWebsiteId($this->_storeManager->getStore()->getWebsiteId())->loadByEmail($email);
+        $websiteId = $this->_storeManager->getStore()->getWebsiteId();
+        $customer->setWebsiteId($websiteId)->loadByEmail($email);
         if (!$customer->getId()) {
-            throw new InputException(
-                'email',
-                InputException::NO_SUCH_ENTITY,
-                ['message' => 'No customer found for the provided email.', 'value' => $email]
-            );
+            throw NoSuchEntityException::create('email', $email)->addField('websiteId', $websiteId);
         }
         if ($customer->getConfirmation()) {
             $customer->sendNewAccountEmail('confirmation', '', $this->_storeManager->getStore()->getId());
@@ -200,11 +198,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
             ->loadByEmail($email);
 
         if (!$customer->getId()) {
-            throw InputException::create(
-                'email',
-                InputException::NO_SUCH_ENTITY,
-                ['message' => 'No customer found for the provided email and website ID.']
-            );
+            throw NoSuchEntityException::create('email', $email)->addField('websiteId', $websiteId);
         }
         $newPasswordToken = $this->_mathRandom->getUniqueHash();
         $customer->changeResetPasswordLinkToken($newPasswordToken);

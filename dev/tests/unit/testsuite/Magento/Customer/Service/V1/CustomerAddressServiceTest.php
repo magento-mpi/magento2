@@ -558,21 +558,18 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
 
         try {
             $customerService->saveAddresses(4200, [$this->_addressBuilder->create()]);
-        } catch (\Magento\Exception\InputException $ie) {
-            $this->assertSame($ie->getCode(), \Magento\Exception\InputException::INPUT_EXCEPTION);
+            $this->fail("Expected NoSuchEntityException not caught");
+        } catch (\Magento\Exception\NoSuchEntityException $nsee) {
+            $this->assertSame($nsee->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
             $this->assertSame(
-                $ie->getParams(),
+                $nsee->getParams(),
                 [
-                    [
-                        'value'     => 4200,
-                        'fieldName' => 'customer.id',
-                        'code'      => \Magento\Exception\InputException::NO_SUCH_ENTITY,
-                    ]
+                    'customerId' => 4200,
                 ]
             );
-            return;
+        } catch (\Exception $unexpected) {
+            $this->fail('Unexpected exception type thrown. ' . $unexpected->getMessage());
         }
-        $this->fail("Expected InputException not caught");
     }
 
     public function testDeleteAddressFromCustomer()

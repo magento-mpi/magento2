@@ -77,7 +77,7 @@ class Converter
 
         if (!$customer->getId()) {
             // customer does not exist
-            throw InputException::create('customer.id', InputException::NO_SUCH_ENTITY, array('value' => $customerId));
+            throw new \Magento\Exception\NoSuchEntityException('customerId', $customerId);
         } else {
             return $customer;
         }
