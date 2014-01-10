@@ -9,8 +9,8 @@
  */
 namespace Magento\Webapi\Controller;
 
-use Magento\Webapi\Exception as WebapiException;
 use Magento\Service\AuthorizationException;
+use Magento\Webapi\Exception as WebapiException;
 
 /**
  * TODO: Consider warnings suppression removal
@@ -101,13 +101,13 @@ class Soap implements \Magento\App\FrontControllerInterface
                     $this->_soapServer->generateUri()
                 );
                 $this->_setResponseContentType(self::CONTENT_TYPE_WSDL_REQUEST);
+                $this->_setResponseBody($responseBody);
             } else {
                 $consumerId = $this->_oauthService->validateAccessToken($this->_getAccessToken());
                 $this->_request->setConsumerId($consumerId);
-                $responseBody = $this->_soapServer->handle();
+                $this->_soapServer->handle();
                 $this->_setResponseContentType(self::CONTENT_TYPE_SOAP_CALL);
             }
-            $this->_setResponseBody($responseBody);
         } catch (\Exception $e) {
             $this->_prepareErrorResponse($e);
         }

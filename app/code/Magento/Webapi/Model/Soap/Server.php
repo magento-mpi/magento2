@@ -103,8 +103,7 @@ class Server
             'encoding' => $this->getApiCharset(),
             'soap_version' => SOAP_1_2
         );
-        $soap = $this->_soapServerFactory->create($this->generateUri(true), $options);
-        return $soap->handle($rawRequestBody);
+        $this->_soapServerFactory->create($this->generateUri(true), $options)->handle($rawRequestBody);
     }
 
     /**
