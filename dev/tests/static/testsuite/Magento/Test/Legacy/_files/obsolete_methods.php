@@ -1105,7 +1105,15 @@ return array(
     array('shouldEscapeMessage', 'Magento\View\Block\Messages'),
     array('isSuper', '\Magento\Catalog\Model\Product'),
     array('isSuperGroup', '\Magento\Catalog\Model\Product'),
+    array('isGrouped', '\Magento\Catalog\Model\Product'),
     array('isSuperConfig', '\Magento\Catalog\Model\Product'),
+    array('getGroupedLinkCollection', '\Magento\Catalog\Model\Product'),
+    array('duplicate', '\Magento\Catalog\Model\Product', '\Magento\Catalog\Model\Product\Copier::copy'),
+    array('useGroupedLinks', '\Magento\Catalog\Model\Product\Link'),
+    array('saveGroupedLinks', '\Magento\Catalog\Model\Product\Link'),
+    array('saveGroupedLinks', '\Magento\Catalog\Model\Resource\Product\Link',
+        '\Magento\GroupedProduct\Model\Resource\Product::saveGroupedLinks'
+    ),
     array(
         '_initProductSave', '\Magento\Catalog\Controller\Adminhtml\Product',
         '\Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper::initialize'
@@ -1118,13 +1126,27 @@ return array(
         'prepareProductSave', '\Magento\Bundle\Model\Observer',
         '\Magento\Bundle\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Bundle::afterInitialize'
     ),
+    array('duplicateProduct', 'Magento\Bundle\Model\Observer',
+        'Magento\Bundle\Model\Product\CopyConstructor\Bundle::build'
+    ),
     array(
         'prepareProductSave', '\Magento\Downloadable\Model\Observer',
         '\Magento\Downloadable\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Downloadable::afterInitialize'
     ),
     array(
+        'duplicateProduct', '\Magento\Downloadable\Model\Observer',
+        '\Magento\Downloadable\Model\Product\CopyConstructor\Downloadable::build'
+    ),
+    array(
         'catalogProductPrepareSave', '\Magento\PricePermissions\Model\Observer',
         '\Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\PricePermissions::'
             . 'afterInitialize'
+    ),
+    array(
+        'getGroupedOptions', '\Magento\Catalog\Helper\Product\Configuration',
+        '\Magento\GroupedProduct\Helper\Product\Configuration\Plugin\Grouped::aroundGetOptions',
+    ),
+    array('copyInventoryData', 'Magento\CatalogInventory\Model\Observer',
+        '\Magento\CatalogInventory\Model\Product\CopyConstructor\CatalogInventory::build'
     ),
 );
