@@ -10,6 +10,36 @@ namespace Magento;
 interface UrlInterface
 {
     /**
+     * Possible URL types
+     */
+    const URL_TYPE_LINK                   = 'link';
+    const URL_TYPE_DIRECT_LINK            = 'direct_link';
+    const URL_TYPE_WEB                    = 'web';
+    const URL_TYPE_LIB                    = 'lib';
+    const URL_TYPE_MEDIA                  = 'media';
+    const URL_TYPE_STATIC                 = 'static';
+    const URL_TYPE_CACHE                  = 'cache';
+    const URL_TYPE_JS                     = 'js';
+
+    /**
+     * Default controller name
+     */
+    const DEFAULT_CONTROLLER_NAME   = 'index';
+
+    /**
+     * Default action name
+     */
+    const DEFAULT_ACTION_NAME       = 'index';
+
+    /**
+     * Configuration paths
+     */
+    const XML_PATH_UNSECURE_URL     = 'web/unsecure/base_url';
+    const XML_PATH_SECURE_URL       = 'web/secure/base_url';
+    const XML_PATH_SECURE_IN_ADMIN  = 'web/secure/use_in_adminhtml';
+    const XML_PATH_SECURE_IN_FRONT  = 'web/secure/use_in_frontend';
+
+    /**
      * Initialize object data from retrieved url
      *
      * @param   string $url
@@ -23,14 +53,6 @@ interface UrlInterface
      * @return string
      */
     public function getDefaultControllerName();
-
-    /**
-     * Set use_url_cache flag
-     *
-     * @param boolean $flag
-     * @return \Magento\UrlInterface
-     */
-    public function setUseUrlCache($flag);
 
     /**
      * Set use session rule

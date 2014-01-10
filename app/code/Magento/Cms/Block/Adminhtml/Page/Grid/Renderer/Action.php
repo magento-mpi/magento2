@@ -35,7 +35,7 @@ class Action
     public function render(\Magento\Object $row)
     {
         /** @var \Magento\Core\Model\Url $urlModel */
-        $urlModel = $this->_urlFactory->create()->setStore($row->getData('_first_store_id'));
+        $urlModel = $this->_urlFactory->create()->setScope($row->getData('_first_store_id'));
         $href = $urlModel->getUrl(
             $row->getIdentifier(), array(
                 '_current' => false,

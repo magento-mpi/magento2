@@ -29,7 +29,16 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_model = $this->_objectManager->getObject('\Magento\Core\Model\Url');
+        $paramsResolverMock = $this->getMock(
+            'Magento\Url\RouteParamsResolverFactory', array(), array(), '', false
+        );
+        $paramsResolver = $this->_objectManager->getObject('\Magento\Core\Model\Url\RouteParamsResolver');
+        $paramsResolverMock->expects($this->any())
+            ->method('create')
+            ->will($this->returnValue($paramsResolver));
+        $this->_model = $this->_objectManager->getObject(
+            '\Magento\Core\Model\Url', array('routeParamsResolver' => $paramsResolverMock)
+        );
     }
 
     public function testSetRoutePath()

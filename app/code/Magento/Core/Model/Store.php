@@ -25,7 +25,7 @@
  */
 namespace Magento\Core\Model;
 
-class Store extends \Magento\Core\Model\AbstractModel
+class Store extends \Magento\Core\Model\AbstractModel implements \Magento\Url\ScopeInterface
 {
     /**
      * Entity name
@@ -67,19 +67,6 @@ class Store extends \Magento\Core\Model\AbstractModel
      */
     const PRICE_SCOPE_GLOBAL              = 0;
     const PRICE_SCOPE_WEBSITE             = 1;
-
-    /**#@+
-     * Possible URL types
-     */
-    const URL_TYPE_LINK                   = 'link';
-    const URL_TYPE_DIRECT_LINK            = 'direct_link';
-    const URL_TYPE_WEB                    = 'web';
-    const URL_TYPE_LIB                    = 'lib';
-    const URL_TYPE_MEDIA                  = 'media';
-    const URL_TYPE_STATIC                 = 'static';
-    const URL_TYPE_CACHE                  = 'cache';
-    const URL_TYPE_JS                     = 'js';
-    /**#@-*/
 
     /**
      * Code constants
@@ -507,9 +494,9 @@ class Store extends \Magento\Core\Model\AbstractModel
     {
         /** @var $url \Magento\Core\Model\Url */
         $url = $this->getUrlModel()
-            ->setStore($this);
+            ->setScope($this);
         if ($this->_storeManager->getStore()->getId() != $this->getId()) {
-            $params['_store_to_url'] = true;
+            $params['_scope_to_url'] = true;
         }
 
         return $url->getUrl($route, $params);
@@ -523,64 +510,64 @@ class Store extends \Magento\Core\Model\AbstractModel
      * @return string
      * @throws \InvalidArgumentException
      */
-    public function getBaseUrl($type = self::URL_TYPE_LINK, $secure = null)
+    public function getBaseUrl($type = \Magento\UrlInterface::URL_TYPE_LINK, $secure = null)
     {
         $cacheKey = $type . '/' . (is_null($secure) ? 'null' : ($secure ? 'true' : 'false'));
         if (!isset($this->_baseUrlCache[$cacheKey])) {
             $secure = is_null($secure) ? $this->isCurrentlySecure() : (bool)$secure;
             switch ($type) {
-                case self::URL_TYPE_WEB:
+                case \Magento\UrlInterface::URL_TYPE_WEB:
                     $path = $secure ? self::XML_PATH_SECURE_BASE_URL : self::XML_PATH_UNSECURE_BASE_URL;
                     $url = $this->getConfig($path);
                     break;
 
-                case self::URL_TYPE_LINK:
+                case \Magento\UrlInterface::URL_TYPE_LINK:
                     $path = $secure ? self::XML_PATH_SECURE_BASE_LINK_URL : self::XML_PATH_UNSECURE_BASE_LINK_URL;
                     $url = $this->getConfig($path);
                     $url = $this->_updatePathUseRewrites($url);
                     $url = $this->_updatePathUseStoreView($url);
                     break;
 
-                case self::URL_TYPE_DIRECT_LINK:
+                case \Magento\UrlInterface::URL_TYPE_DIRECT_LINK:
                     $path = $secure ? self::XML_PATH_SECURE_BASE_LINK_URL : self::XML_PATH_UNSECURE_BASE_LINK_URL;
                     $url = $this->getConfig($path);
                     $url = $this->_updatePathUseRewrites($url);
                     break;
 
-                case self::URL_TYPE_LIB:
+                case \Magento\UrlInterface::URL_TYPE_LIB:
                     $path = $secure ? self::XML_PATH_SECURE_BASE_LIB_URL : self::XML_PATH_UNSECURE_BASE_LIB_URL;
                     $url = $this->getConfig($path);
                     if (!$url) {
-                        $url = $this->getBaseUrl(self::URL_TYPE_WEB, $secure)
+                        $url = $this->getBaseUrl(\Magento\UrlInterface::URL_TYPE_WEB, $secure)
                             . $this->filesystem->getUri(\Magento\Filesystem::PUB_LIB);
                     }
                     break;
 
-                case self::URL_TYPE_STATIC:
+                case \Magento\UrlInterface::URL_TYPE_STATIC:
                     $path = $secure ? self::XML_PATH_SECURE_BASE_STATIC_URL : self::XML_PATH_UNSECURE_BASE_STATIC_URL;
                     $url = $this->getConfig($path);
                     if (!$url) {
-                        $url = $this->getBaseUrl(self::URL_TYPE_WEB, $secure)
+                        $url = $this->getBaseUrl(\Magento\UrlInterface::URL_TYPE_WEB, $secure)
                             . $this->filesystem->getUri(\Magento\Filesystem::STATIC_VIEW);
                     }
                     break;
 
-                case self::URL_TYPE_CACHE:
+                case \Magento\UrlInterface::URL_TYPE_CACHE:
                     $path = $secure ? self::XML_PATH_SECURE_BASE_CACHE_URL : self::XML_PATH_UNSECURE_BASE_CACHE_URL;
                     $url = $this->getConfig($path);
                     if (!$url) {
-                        $url = $this->getBaseUrl(self::URL_TYPE_WEB, $secure)
+                        $url = $this->getBaseUrl(\Magento\UrlInterface::URL_TYPE_WEB, $secure)
                             . $this->filesystem->getUri(\Magento\Filesystem::PUB_VIEW_CACHE);
                     }
                     break;
 
-                case self::URL_TYPE_MEDIA:
+                case \Magento\UrlInterface::URL_TYPE_MEDIA:
                     $url = $this->_getMediaScriptUrl($this->filesystem, $secure);
                     if (!$url) {
                         $path = $secure ? self::XML_PATH_SECURE_BASE_MEDIA_URL : self::XML_PATH_UNSECURE_BASE_MEDIA_URL;
                         $url = $this->getConfig($path);
                         if (!$url) {
-                            $url = $this->getBaseUrl(self::URL_TYPE_WEB, $secure)
+                            $url = $this->getBaseUrl(\Magento\UrlInterface::URL_TYPE_WEB, $secure)
                                 . $this->filesystem->getUri(\Magento\Filesystem::MEDIA);
                         }
                     }
@@ -648,7 +635,7 @@ class Store extends \Magento\Core\Model\AbstractModel
         if (!$this->getConfig(self::XML_PATH_USE_REWRITES)
             && $this->_coreFileStorageDatabase->checkDbUsage()
         ) {
-            return $this->getBaseUrl(self::URL_TYPE_WEB, $secure) . $filesystem->getUri(\Magento\Filesystem::PUB)
+            return $this->getBaseUrl(\Magento\UrlInterface::URL_TYPE_WEB, $secure) . $filesystem->getUri(\Magento\Filesystem::PUB)
             . '/' . self::MEDIA_REWRITE_SCRIPT;
         }
         return false;

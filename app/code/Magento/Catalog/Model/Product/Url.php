@@ -136,7 +136,7 @@ class Url extends \Magento\Object
      */
     public function getUrlInStore(\Magento\Catalog\Model\Product $product, $params = array())
     {
-        $params['_store_to_url'] = true;
+        $params['_scope_to_url'] = true;
         return $this->getUrl($product, $params);
     }
 
@@ -223,7 +223,7 @@ class Url extends \Magento\Object
 
         if ($product->hasUrlDataObject()) {
             $requestPath = $product->getUrlDataObject()->getUrlRewrite();
-            $routeParams['_store'] = $product->getUrlDataObject()->getStoreId();
+            $routeParams['_scope'] = $product->getUrlDataObject()->getStoreId();
         } else {
             $requestPath = $product->getRequestPath();
             if (empty($requestPath) && $requestPath !== false) {
@@ -243,12 +243,12 @@ class Url extends \Magento\Object
             }
         }
 
-        if (isset($routeParams['_store'])) {
-            $storeId = $this->_storeManager->getStore($routeParams['_store'])->getId();
+        if (isset($routeParams['_scope'])) {
+            $storeId = $this->_storeManager->getStore($routeParams['_scope'])->getId();
         }
 
         if ($storeId != $this->_storeManager->getStore()->getId()) {
-            $routeParams['_store_to_url'] = true;
+            $routeParams['_scope_to_url'] = true;
         }
 
         if (!empty($requestPath)) {
@@ -267,7 +267,7 @@ class Url extends \Magento\Object
             $routeParams['_query'] = array();
         }
 
-        return $this->getUrlInstance()->setStore($storeId)
+        return $this->getUrlInstance()->setScope($storeId)
             ->getUrl($routePath, $routeParams);
     }
 }

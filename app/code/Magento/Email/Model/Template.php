@@ -184,7 +184,8 @@ class Template extends \Magento\Core\Model\Template
             $uploadDir = \Magento\Backend\Model\Config\Backend\Email\Logo::UPLOAD_DIR;
             $mediaDirectory = $this->_filesystem->getDirectoryRead(\Magento\Filesystem::MEDIA);
             if ($mediaDirectory->isFile($uploadDir . '/' . $fileName)) {
-                return $this->_storeManager->getStore()->getBaseUrl('media') . $uploadDir . '/' . $fileName;
+                return $this->_storeManager->getStore()
+                    ->getBaseUrl(\Magento\UrlInterface::URL_TYPE_MEDIA) . $uploadDir . '/' . $fileName;
             }
         }
         return $this->_viewUrl->getViewFileUrl('Magento_Core::logo_email.gif');

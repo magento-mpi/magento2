@@ -266,7 +266,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getRegistryLink($entity)
     {
-        return $this->urlFactory->create()->setStore($entity->getStoreId())
+        return $this->urlFactory->create()->setScope($entity->getStoreId())
             ->getUrl('giftregistry/view/index', array('id' => $entity->getUrlKey()));
     }
 

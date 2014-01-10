@@ -273,10 +273,12 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
     public function getImageUrl()
     {
         if ($this->getTmpImage()) {
-            return $this->_storeManager->getStore()->getBaseUrl('media') . self::IMAGE_TMP_PATH . $this->getTmpImage();
+            return $this->_storeManager->getStore()
+                ->getBaseUrl(\Magento\UrlInterface::URL_TYPE_MEDIA) . self::IMAGE_TMP_PATH . $this->getTmpImage();
         }
         if ($this->getImage()) {
-            return $this->_storeManager->getStore()->getBaseUrl('media') . self::IMAGE_PATH . $this->getImage();
+            return $this->_storeManager->getStore()
+                ->getBaseUrl(\Magento\UrlInterface::URL_TYPE_MEDIA) . self::IMAGE_PATH . $this->getImage();
         }
         return false;
     }

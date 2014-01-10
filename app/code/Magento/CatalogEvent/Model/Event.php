@@ -226,7 +226,7 @@ class Event extends \Magento\Core\Model\AbstractModel
     public function getImageUrl()
     {
         if ($this->getImage()) {
-            return $this->_storeManager->getStore()->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_MEDIA) . '/'
+            return $this->_storeManager->getStore()->getBaseUrl(\Magento\UrlInterface::URL_TYPE_MEDIA) . '/'
                    . self::IMAGE_PATH . '/' . $this->getImage();
         }
 

@@ -255,7 +255,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
      */
     protected function _prepareCssElements(array $staticItems, array $skinItems, $mergeCallback = null)
     {
-        $baseJsUrl = $this->_storeManager->getStore()->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_JS);
+        $baseJsUrl = $this->_storeManager->getStore()->getBaseUrl(\Magento\UrlInterface::URL_TYPE_JS);
         $items = array();
         if ($mergeCallback && !is_callable($mergeCallback)) {
             $mergeCallback = null;

@@ -115,7 +115,7 @@ class Review extends \Magento\Backend\Block\AbstractBlock
         $row = $args['row'];
 
         $productUrl = $this->_urlModel
-            ->setStore($row['store_id'])
+            ->setScope($row['store_id'])
             ->getUrl('catalog/product/view', array('id' => $row['entity_id']));
         $reviewUrl = $this->getUrl(
             'catalog/product_review/edit/',

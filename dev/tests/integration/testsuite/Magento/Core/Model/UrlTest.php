@@ -43,13 +43,6 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('index', $this->_model->getDefaultControllerName());
     }
 
-    public function testSetUseUrlCache()
-    {
-        $value = '2';
-        $this->_model->setUseUrlCache($value);
-        $this->assertEquals($value, $this->_model->getData('use_url_cache'));
-    }
-
     public function testSetGetUseSession()
     {
         $this->assertTrue((bool)$this->_model->getUseSession());
@@ -87,7 +80,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
 
     public function testGetType()
     {
-        $this->assertEquals(\Magento\Core\Model\Store::URL_TYPE_LINK, $this->_model->getType());
+        $this->assertEquals(\Magento\UrlInterface::URL_TYPE_LINK, $this->_model->getType());
     }
 
     /**
@@ -103,12 +96,12 @@ class UrlTest extends \PHPUnit_Framework_TestCase
 
     public function testSetGetStore()
     {
-        $this->assertInstanceOf('Magento\Core\Model\Store', $this->_model->getStore());
+        $this->assertInstanceOf('Magento\Core\Model\Store', $this->_model->getScope());
 
         $store = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Core\Model\Store');
-        $this->_model->setStore($store);
-        $this->assertSame($store, $this->_model->getStore());
+        $this->_model->setScope($store);
+        $this->assertSame($store, $this->_model->getScope());
     }
 
     /**
@@ -163,7 +156,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         /**
          * Set specified type
          */
-        $this->_model->setType(\Magento\Core\Model\Store::URL_TYPE_WEB);
+        $this->_model->setType(\Magento\UrlInterface::URL_TYPE_WEB);
         $webUrl = $this->_model->getBaseUrl();
         $this->assertEquals('http://localhost/', $webUrl, 'Incorrect web url');
         $this->assertEquals('http://localhost/index.php/', $this->_model->getBaseUrl(), 'Incorrect link url');
@@ -171,7 +164,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         /**
          * Get url with type specified in params
          */
-        $mediaUrl = $this->_model->getBaseUrl(array('_type' => \Magento\Core\Model\Store::URL_TYPE_MEDIA));
+        $mediaUrl = $this->_model->getBaseUrl(array('_type' => \Magento\UrlInterface::URL_TYPE_MEDIA));
         $this->assertEquals('http://localhost/pub/media/', $mediaUrl, 'Incorrect media url');
         $this->assertEquals('http://localhost/index.php/', $this->_model->getBaseUrl(), 'Incorrect link url');
     }
@@ -180,15 +173,15 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                array('_type' => \Magento\Core\Model\Store::URL_TYPE_WEB),
+                array('_type' => \Magento\UrlInterface::URL_TYPE_WEB),
                 'http://sample.com/base_path/'
             ),
             array(
-                array('_type' => \Magento\Core\Model\Store::URL_TYPE_LINK),
+                array('_type' => \Magento\UrlInterface::URL_TYPE_LINK),
                 'http://sample.com/base_link_path/index.php/'
             ),
             array(
-                array('_type' => \Magento\Core\Model\Store::URL_TYPE_LINK, '_secure' => 1),
+                array('_type' => \Magento\UrlInterface::URL_TYPE_LINK, '_secure' => 1),
                 'https://sample.com/base_link_path/index.php/'
             ),
         );
@@ -273,12 +266,12 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     {
         $this->_model->setRouteParams(array(
             '_type' => 1,
-            '_store' => 1,
+            '_scope' => 1,
             '_forced_secure' => 1,
             '_absolute' => 1,
             '_current' => 0,
             '_use_rewrite' => 1,
-            '_store_to_url' => true,
+            '_scope_to_url' => true,
             'param1' => 'value1',
         ));
         $this->assertEquals(array('param1' => 'value1'), $this->_model->getRouteParams());

@@ -17,7 +17,7 @@
  *
  * - relative_url: true, false
  * - type: 'link', 'skin', 'js', 'media'
- * - store: instanceof \Magento\Core\Model\Store
+ * - store: instanceof \Magento\Url\ScopeInterface
  * - secure: true, false
  *
  * - scheme: 'http', 'https'
@@ -64,8 +64,6 @@ namespace Magento\Core\Model;
 
 use Magento\Core\Model\App;
 use Magento\Core\Model\Session;
-use Magento\Core\Model\Store;
-use Magento\Core\Model\StoreManager;
 
 class Url extends \Magento\Object implements \Magento\UrlInterface
 {
@@ -99,9 +97,9 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
      * @var array
      */
     protected $_reservedRouteParams = array(
-        '_store', '_type', '_secure', '_forced_secure', '_use_rewrite', '_nosid',
+        '_scope', '_type', '_secure', '_forced_secure', '_use_rewrite', '_nosid',
         '_absolute', '_current', '_direct', '_fragment', '_escape', '_query',
-        '_store_to_url'
+        '_scope_to_url'
     );
 
     /**
@@ -126,19 +124,9 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
     protected $_urlSecurityInfo;
 
     /**
-     * @var \Magento\Core\Model\Store\Config
-     */
-    protected $_coreStoreConfig;
-
-    /**
      * @var \Magento\Core\Model\App
      */
     protected $_app;
-
-    /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
 
     /**
      * @var \Magento\Core\Model\Session
@@ -163,14 +151,24 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
     protected $_areaCode;
 
     /**
+     * @var \Magento\Url\RouteParamsResolverInterface
+     */
+    protected $_routeParamsResolver;
+
+    /**
+     * @var \Magento\Url\ScopeResolverInterface
+     */
+    protected $_scopeResolver;
+
+    /**
      * @param \Magento\App\Route\ConfigInterface $routeConfig
      * @param \Magento\App\RequestInterface $request
      * @param Url\SecurityInfoInterface $urlSecurityInfo
-     * @param Store\Config $coreStoreConfig
      * @param App $app
-     * @param StoreManager $storeManager
+     * @param \Magento\Url\ScopeResolverInterface $scopeResolver
      * @param Session $session
      * @param \Magento\Session\SidResolverInterface $sidResolver
+     * @param \Magento\Url\RouteParamsResolverFactory $routeParamsResolver
      * @param null $areaCode
      * @param array $data
      */
@@ -178,32 +176,24 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
         \Magento\App\Route\ConfigInterface $routeConfig,
         \Magento\App\RequestInterface $request,
         Url\SecurityInfoInterface $urlSecurityInfo,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\App $app,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Url\ScopeResolverInterface $scopeResolver,
         \Magento\Core\Model\Session $session,
         \Magento\Session\SidResolverInterface $sidResolver,
+        \Magento\Url\RouteParamsResolverFactory $routeParamsResolver,
         $areaCode = null,
         array $data = array()
     ) {
         $this->_request = $request;
         $this->_routeConfig = $routeConfig;
         $this->_urlSecurityInfo = $urlSecurityInfo;
-        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_app = $app;
-        $this->_storeManager = $storeManager;
+        $this->_scopeResolver = $scopeResolver;
         $this->_session = $session;
         $this->_sidResolver = $sidResolver;
         $this->_areaCode = $areaCode;
+        $this->_routeParamsResolver = $routeParamsResolver->create();
         parent::__construct($data);
-    }
-
-    /**
-     * Initialize object
-     */
-    protected function _construct()
-    {
-        $this->setStore(null);
     }
 
     /**
@@ -213,7 +203,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
      */
     protected function _getDefaultUrlType()
     {
-        return \Magento\Core\Model\Store::URL_TYPE_LINK;
+        return \Magento\UrlInterface::URL_TYPE_LINK;
     }
 
     /**
@@ -251,18 +241,6 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
     public function getDefaultControllerName()
     {
         return self::DEFAULT_CONTROLLER_NAME;
-    }
-
-    /**
-     * Set use_url_cache flag
-     *
-     * @param boolean $flag
-     * @return \Magento\Core\Model\Url
-     */
-    public function setUseUrlCache($flag)
-    {
-        $this->setData('use_url_cache', $flag);
-        return $this;
     }
 
     /**
@@ -343,7 +321,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
      */
     protected function _getConfigCacheId($path)
     {
-        return $this->getStore()->getCode() . '/' . $path;
+        return $this->getScope()->getCode() . '/' . $path;
     }
 
     /**
@@ -354,7 +332,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
      */
     protected function _getConfig($path)
     {
-        return $this->getStore()->getConfig($path);
+        return $this->getScope()->getConfig($path);
     }
 
     /**
@@ -386,10 +364,20 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
      */
     public function getType()
     {
-        if (!$this->hasData('type')) {
-            $this->setData('type', $this->_getDefaultUrlType());
+        if (!$this->_routeParamsResolver->hasData('type')) {
+            $this->_routeParamsResolver->setData('type', $this->_getDefaultUrlType());
         }
-        return $this->_getData('type');
+        return $this->_routeParamsResolver->getType();
+    }
+
+    /**
+     * @param string $type
+     * @return mixed
+     */
+    public function setType($type)
+    {
+        $this->_routeParamsResolver->setType($type);
+        return $this;
     }
 
     /**
@@ -399,49 +387,50 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
      */
     public function isSecure()
     {
-        if ($this->hasData('secure_is_forced')) {
-            return (bool)$this->getData('secure');
+        if ($this->_routeParamsResolver->hasData('secure_is_forced')) {
+            return (bool)$this->_routeParamsResolver->getData('secure');
         }
 
-        if (!$this->getStore()->isUrlSecure()) {
+        if (!$this->getScope()->isUrlSecure()) {
             return false;
         }
 
-        if (!$this->hasData('secure')) {
-            if ($this->getType() == \Magento\Core\Model\Store::URL_TYPE_LINK) {
+        if (!$this->_routeParamsResolver->hasData('secure')) {
+            if ($this->getType() == \Magento\UrlInterface::URL_TYPE_LINK) {
                 $pathSecure = $this->_urlSecurityInfo->isSecure('/' . $this->getActionPath());
-                $this->setData('secure', $pathSecure);
+                $this->_routeParamsResolver->setData('secure', $pathSecure);
             } else {
-                $this->setData('secure', true);
+                $this->_routeParamsResolver->setData('secure', true);
             }
         }
 
-        return $this->getData('secure');
+        return $this->_routeParamsResolver->getData('secure');
     }
 
     /**
-     * Set store entity
+     * Set scope entity
      *
      * @param mixed $params
      * @return \Magento\Core\Model\Url
      */
-    public function setStore($params)
+    public function setScope($params)
     {
-        $this->setData('store', $this->_storeManager->getStore($params));
+        $this->setData('scope', $this->_scopeResolver->getScope($params));
+        $this->_routeParamsResolver->setScope($this->_scopeResolver->getScope($params));
         return $this;
     }
 
     /**
-     * Get current store for the url instance
+     * Get current scope for the url instance
      *
-     * @return \Magento\Core\Model\Store
+     * @return \Magento\Url\ScopeInterface
      */
-    public function getStore()
+    public function getScope()
     {
-        if (!$this->hasData('store')) {
-            $this->setStore(null);
+        if (!$this->hasData('scope')) {
+            $this->setScope(null);
         }
-        return $this->_getData('store');
+        return $this->_getData('scope');
     }
 
     /**
@@ -452,27 +441,27 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
      */
     public function getBaseUrl($params = array())
     {
-        if (isset($params['_store'])) {
-            $this->setStore($params['_store']);
+        if (isset($params['_scope'])) {
+            $this->setScope($params['_scope']);
         }
         if (isset($params['_type'])) {
-            $this->setType($params['_type']);
+            $this->_routeParamsResolver->setType($params['_type']);
         }
 
         if (isset($params['_secure'])) {
-            $this->setSecure($params['_secure']);
+            $this->_routeParamsResolver->setSecure($params['_secure']);
         }
 
         /**
-         * Add availability support urls without store code
+         * Add availability support urls without scope code
          */
-        if ($this->getType() == \Magento\Core\Model\Store::URL_TYPE_LINK
+        if ($this->getType() == \Magento\UrlInterface::URL_TYPE_LINK
             && $this->getRequest()->isDirectAccessFrontendName($this->getRouteFrontName())) {
-            $this->setType(\Magento\Core\Model\Store::URL_TYPE_DIRECT_LINK);
+            $this->_routeParamsResolver->setType(\Magento\UrlInterface::URL_TYPE_DIRECT_LINK);
         }
 
-        $result =  $this->getStore()->getBaseUrl($this->getType(), $this->isSecure());
-        $this->setType($this->_getDefaultUrlType());
+        $result =  $this->getScope()->getBaseUrl($this->getType(), $this->isSecure());
+        $this->_routeParamsResolver->setType($this->_getDefaultUrlType());
         return $result;
     }
 
@@ -520,7 +509,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
                 $key = array_shift($routePieces);
                 if (!empty($routePieces)) {
                     $value = array_shift($routePieces);
-                    $this->setRouteParam($key, $value);
+                    $this->_routeParamsResolver->setRouteParam($key, $value);
                 }
             }
         }
@@ -696,74 +685,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
      */
     public function setRouteParams(array $data, $unsetOldParams = true)
     {
-        if (isset($data['_type'])) {
-            $this->setType($data['_type']);
-            unset($data['_type']);
-        }
-
-        if (isset($data['_store'])) {
-            $this->setStore($data['_store']);
-            unset($data['_store']);
-        }
-
-        if (isset($data['_forced_secure'])) {
-            $this->setSecure((bool)$data['_forced_secure']);
-            $this->setSecureIsForced(true);
-            unset($data['_forced_secure']);
-        } elseif (isset($data['_secure'])) {
-            $this->setSecure((bool)$data['_secure']);
-            unset($data['_secure']);
-        }
-
-        if (isset($data['_absolute'])) {
-            unset($data['_absolute']);
-        }
-
-        if ($unsetOldParams) {
-            $this->unsetData('route_params');
-        }
-
-        $this->setUseUrlCache(true);
-        if (isset($data['_current'])) {
-            if (is_array($data['_current'])) {
-                foreach ($data['_current'] as $key) {
-                    if (array_key_exists($key, $data) || !$this->getRequest()->getUserParam($key)) {
-                        continue;
-                    }
-                    $data[$key] = $this->getRequest()->getUserParam($key);
-                }
-            } elseif ($data['_current']) {
-                foreach ($this->getRequest()->getUserParams() as $key => $value) {
-                    if (array_key_exists($key, $data) || $this->getRouteParam($key)) {
-                        continue;
-                    }
-                    $data[$key] = $value;
-                }
-                foreach ($this->getRequest()->getQuery() as $key => $value) {
-                    $this->setQueryParam($key, $value);
-                }
-                $this->setUseUrlCache(false);
-            }
-            unset($data['_current']);
-        }
-
-        if (isset($data['_use_rewrite'])) {
-            unset($data['_use_rewrite']);
-        }
-
-        if (isset($data['_store_to_url']) && (bool)$data['_store_to_url'] === true) {
-            if (!$this->_coreStoreConfig->getConfig(\Magento\Core\Model\Store::XML_PATH_STORE_IN_URL, $this->getStore())
-                && !$this->_storeManager->hasSingleStore()
-            ) {
-                $this->setQueryParam('___store', $this->getStore()->getCode());
-            }
-        }
-        unset($data['_store_to_url']);
-
-        foreach ($data as $k => $v) {
-            $this->setRouteParam($k, $v);
-        }
-
+        $this->_routeParamsResolver->setRouteParams($data, $unsetOldParams);
         return $this;
     }
 
@@ -774,7 +696,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
      */
     public function getRouteParams()
     {
-        return $this->_getData('route_params');
+        return $this->_routeParamsResolver->getRouteParams();
     }
 
     /**
@@ -786,13 +708,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
      */
     public function setRouteParam($key, $data)
     {
-        $params = $this->_getData('route_params');
-        if (isset($params[$key]) && $params[$key] == $data) {
-            return $this;
-        }
-        $params[$key] = $data;
-        $this->unsetData('route_path');
-        return $this->setData('route_params', $params);
+        return $this->_routeParamsResolver->setRouteParam($key, $data);
     }
 
     /**
@@ -803,7 +719,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
      */
     public function getRouteParam($key)
     {
-        return $this->getData('route_params', $key);
+        return $this->_routeParamsResolver->getRouteParam($key);
     }
 
     /**
@@ -819,7 +735,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
             return $routePath;
         }
 
-        $this->unsetData('route_params');
+        $this->_routeParamsResolver->unsetData('route_params');
 
         if (isset($routeParams['_direct'])) {
             if (is_array($routeParams)) {
@@ -833,8 +749,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
             $this->setRouteParams($routeParams, false);
         }
 
-        $url = $this->getBaseUrl() . $this->getRoutePath($routeParams);
-        return $url;
+        return $this->getBaseUrl() . $this->getRoutePath($routeParams);
     }
 
     /**
@@ -1212,7 +1127,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
         $key = 'use_session_id_for_url_' . (int) $secure;
         if (is_null($this->getData($key))) {
             $httpHost = $this->_request->getHttpHost();
-            $urlHost = parse_url($this->getStore()->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_LINK, $secure),
+            $urlHost = parse_url($this->getScope()->getBaseUrl(\Magento\UrlInterface::URL_TYPE_LINK, $secure),
                 PHP_URL_HOST);
 
             if ($httpHost != $urlHost) {
@@ -1252,22 +1167,22 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
     }
 
     /**
-     * Check if users originated URL is one of the domain URLs assigned to stores
+     * Check if users originated URL is one of the domain URLs assigned to scopes
      *
      * @return boolean
      */
     public function isOwnOriginUrl()
     {
-        $storeDomains = array();
+        $scopeDomains = array();
         $referer = parse_url($this->_app->getRequest()->getServer('HTTP_REFERER'), PHP_URL_HOST);
-        foreach ($this->_storeManager->getStores() as $store) {
-            $storeDomains[] = parse_url($store->getBaseUrl(), PHP_URL_HOST);
-            $storeDomains[] = parse_url($store->getBaseUrl(
-                \Magento\Core\Model\Store::URL_TYPE_LINK, true), PHP_URL_HOST
+        foreach ($this->_scopeResolver->getScopes() as $scope) {
+            $scopeDomains[] = parse_url($scope->getBaseUrl(), PHP_URL_HOST);
+            $scopeDomains[] = parse_url($scope->getBaseUrl(
+                \Magento\UrlInterface::URL_TYPE_LINK, true), PHP_URL_HOST
             );
         }
-        $storeDomains = array_unique($storeDomains);
-        if (empty($referer) || in_array($referer, $storeDomains)) {
+        $scopeDomains = array_unique($scopeDomains);
+        if (empty($referer) || in_array($referer, $scopeDomains)) {
             return true;
         }
         return false;

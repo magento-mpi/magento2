@@ -245,19 +245,19 @@
         <param name="fileUrlMap">
             <value>
                 <urlLib>
-                    <key type="const">Magento\Core\Model\Store::URL_TYPE_LIB</key>
+                    <key type="const">Magento\UrlInterface::URL_TYPE_LIB</key>
                     <value type="const">Magento\Filesystem::PUB_LIB</value>
                 </urlLib>
                 <urlMedia>
-                    <key type="const">Magento\Core\Model\Store::URL_TYPE_MEDIA</key>
+                    <key type="const">Magento\UrlInterface::URL_TYPE_MEDIA</key>
                     <value type="const">Magento\Filesystem::MEDIA</value>
                 </urlMedia>
                 <urlStatic>
-                    <key type="const">Magento\Core\Model\Store::URL_TYPE_STATIC</key>
+                    <key type="const">Magento\UrlInterface::URL_TYPE_STATIC</key>
                     <value type="const">Magento\Filesystem::STATIC_VIEW</value>
                 </urlStatic>
                 <urlCache>
-                    <key type="const">Magento\Core\Model\Store::URL_TYPE_CACHE</key>
+                    <key type="const">Magento\UrlInterface::URL_TYPE_CACHE</key>
                     <value type="const">Magento\Filesystem::PUB_VIEW_CACHE</value>
                 </urlCache>
             </value>

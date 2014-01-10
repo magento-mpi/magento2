@@ -86,6 +86,11 @@ class Url extends \Magento\Core\Model\Url
     protected $_coreConfig;
 
     /**
+     * @var \Magento\Core\Model\Store\Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @var \Magento\Data\Form\FormKey
      */
     protected $formKey;
@@ -94,11 +99,11 @@ class Url extends \Magento\Core\Model\Url
      * @param \Magento\App\Route\ConfigInterface $routeConfig
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Core\Model\Url\SecurityInfoInterface $urlSecurityInfo
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\App $app
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Url\ScopeResolverInterface $scopeResolver
      * @param \Magento\Core\Model\Session $session
      * @param \Magento\Session\SidResolverInterface $sidResolver
+     * @param \Magento\Url\RouteParamsResolverFactory $routeParamsResolver
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param Menu\Config $menuConfig
      * @param \Magento\App\CacheInterface $cache
@@ -108,20 +113,21 @@ class Url extends \Magento\Core\Model\Url
      * @param \Magento\Core\Model\StoreFactory $storeFactory
      * @param \Magento\Core\Model\ConfigInterface $coreConfig
      * @param \Magento\Data\Form\FormKey $formKey
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param null $areaCode
      * @param array $data
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\App\Route\ConfigInterface $routeConfig,
         \Magento\App\RequestInterface $request,
         \Magento\Core\Model\Url\SecurityInfoInterface $urlSecurityInfo,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\App $app,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Url\ScopeResolverInterface $scopeResolver,
         \Magento\Core\Model\Session $session,
         \Magento\Session\SidResolverInterface $sidResolver,
+        \Magento\Url\RouteParamsResolverFactory $routeParamsResolver,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Backend\Model\Menu\Config $menuConfig,
         \Magento\App\CacheInterface $cache,
@@ -131,6 +137,7 @@ class Url extends \Magento\Core\Model\Url
         \Magento\Core\Model\StoreFactory $storeFactory,
         \Magento\Core\Model\ConfigInterface $coreConfig,
         \Magento\Data\Form\FormKey $formKey,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
         $areaCode = null,
         array $data = array()
     ) {
@@ -139,11 +146,11 @@ class Url extends \Magento\Core\Model\Url
             $routeConfig,
             $request,
             $urlSecurityInfo,
-            $coreStoreConfig,
             $app,
-            $storeManager,
+            $scopeResolver,
             $session,
             $sidResolver,
+            $routeParamsResolver,
             $areaCode,
             $data
         );
@@ -156,6 +163,7 @@ class Url extends \Magento\Core\Model\Url
         $this->formKey = $formKey;
         $this->_storeFactory = $storeFactory;
         $this->_coreConfig = $coreConfig;
+        $this->_coreStoreConfig = $coreStoreConfig;
     }
 
     /**
@@ -186,7 +194,7 @@ class Url extends \Magento\Core\Model\Url
         } else {
             $this->setNoSecret(false);
         }
-        unset($data['_store_to_url']);
+        unset($data['_scope_to_url']);
         return parent::setRouteParams($data, $unsetOldParams);
     }
 
@@ -411,11 +419,11 @@ class Url extends \Magento\Core\Model\Url
     }
 
     /**
-     * Get fake store for the url instance
+     * Get scope for the url instance
      *
      * @return \Magento\Core\Model\Store
      */
-    public function getStore()
+    public function getScope()
     {
         return $this->_storeFactory->create(array('url' => $this, 'data' => array(
             'code' => 'admin',

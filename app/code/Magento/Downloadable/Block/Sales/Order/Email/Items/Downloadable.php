@@ -88,7 +88,7 @@ class Downloadable extends \Magento\Sales\Block\Order\Email\Items\DefaultItems
     {
         return $this->urlGenerator->getUrl('downloadable/download/link', array(
             'id'        => $item->getLinkHash(),
-            '_store'    => $this->getOrder()->getStore(),
+            '_scope'    => $this->getOrder()->getStore(),
             '_secure'   => true,
             '_nosid'    => true
         ));

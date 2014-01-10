@@ -735,7 +735,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
         } else {
             $secure = $this->_coreStoreConfig->getConfigFlag(\Magento\Core\Model\Store::XML_PATH_SECURE_IN_FRONTEND);
             $websiteUrl = $this->_storeManager->getStore()
-                ->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_LINK, $secure);
+                ->getBaseUrl(\Magento\UrlInterface::URL_TYPE_LINK, $secure);
         }
 
         return $websiteUrl . 'paypal/' . $this->getCallbackController() . '/' . $actionName;

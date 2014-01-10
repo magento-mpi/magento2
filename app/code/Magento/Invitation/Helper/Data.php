@@ -88,10 +88,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getInvitationUrl($invitation)
     {
-        return $this->_urlBuilder->setStore($invitation->getStoreId())
+        return $this->_urlBuilder->setScope($invitation->getStoreId())
             ->getUrl('magento_invitation/customer_account/create', array(
                 'invitation' => $this->_coreData->urlEncode($invitation->getInvitationCode()),
-                '_store_to_url' => true,
+                '_scope_to_url' => true,
                 '_nosid' => true
             ));
     }
