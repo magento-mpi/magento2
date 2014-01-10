@@ -13,7 +13,7 @@ require realpath(__DIR__ . '/../../') . '/Catalog/_files/product_virtual.php';
 $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
     ->create('Magento\Catalog\Model\Product');
 $product->isObjectNew(true);
-$product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_GROUPED)
+$product->setTypeId(\Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE)
     ->setId(9)
     ->setAttributeSetId(4)
     ->setWebsiteIds(array(1))

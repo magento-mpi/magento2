@@ -375,6 +375,7 @@ abstract class AbstractType
         ) {
             $superProductId = (int)$superProductConfig['product_id'];
             if ($superProductId) {
+                /** @var \Magento\Catalog\Model\Product $superProduct */
                 $superProduct = $this->_coreRegistry->registry('used_super_product_' . $superProductId);
                 if (!$superProduct) {
                     $superProduct = $this->_productFactory->create()->load($superProductId);

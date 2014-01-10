@@ -197,13 +197,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     protected $_filesystem;
 
     /**
-     * @var ProductTypes\ConfigInterface
-     *
-     * @todo Remove this dependency when MAGETWO-18783 is finished
-     */
-    protected $productTypeConfig;
-
-    /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -226,7 +219,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      * @param Resource\Product\Collection $resourceCollection
      * @param \Magento\Data\CollectionFactory $collectionFactory
      * @param \Magento\Filesystem $filesystem
-     * @param ProductTypes\ConfigInterface $productTypeConfig
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -254,7 +246,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         \Magento\Catalog\Model\Resource\Product\Collection $resourceCollection,
         \Magento\Data\CollectionFactory $collectionFactory,
         \Magento\Filesystem $filesystem,
-        \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
         array $data = array()
     ) {
         $this->_itemOptionFactory = $itemOptionFactory;
@@ -1136,19 +1127,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     public function getMediaConfig()
     {
         return $this->_catalogProductMediaConfig;
-    }
-
-    /**
-     * Check is product grouped
-     *
-     * @return bool
-     *
-     * @todo Remove this dependency when MAGETWO-18783 is finished
-     * @deprecated
-     */
-    public function isGrouped()
-    {
-        return $this->productTypeConfig->isProductSet($this->getTypeId());
     }
 
     /**
