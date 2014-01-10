@@ -31,11 +31,22 @@ class InputException extends \Magento\Exception\Exception
      * @param string $fieldName
      * @param string $code
      * @param array  $params
+     * @return self
      */
-    public function __construct($fieldName, $code, array $params = array())
+    public static function create($fieldName, $code, array $params = array())
     {
-        parent::__construct('One or more input exceptions have occurred.', self::INPUT_EXCEPTION);
-        $this->addError($fieldName, $code, $params);
+        $exception = new self();
+        $exception->addError($fieldName, $code, $params);
+        return $exception;
+    }
+
+    /**
+     * @param string $message
+     * @param int    $code
+     */
+    public function __construct($message = 'One or more input exceptions have occurred.', $code = self::INPUT_EXCEPTION)
+    {
+        parent::__construct($message, $code);
     }
 
     /**

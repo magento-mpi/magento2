@@ -17,7 +17,7 @@ class InputExceptionTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructor()
     {
-        $inputException = new InputException('product.quantity', InputException::INVALID_FIELD_RANGE, [
+        $inputException = InputException::create('product.quantity', InputException::INVALID_FIELD_RANGE, [
             'minValue' => 0,
             'value'    => -100
         ]);
@@ -39,7 +39,7 @@ class InputExceptionTest extends \PHPUnit_Framework_TestCase
 
     public function testAddError()
     {
-        $inputException = new InputException('product.weight', InputException::INVALID_FIELD_RANGE, [
+        $inputException = InputException::create('product.weight', InputException::INVALID_FIELD_RANGE, [
             'minValue' => 1,
             'value'    => -100
         ]);
@@ -65,4 +65,3 @@ class InputExceptionTest extends \PHPUnit_Framework_TestCase
         );
     }
 }
- 

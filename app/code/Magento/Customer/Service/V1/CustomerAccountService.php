@@ -104,12 +104,12 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $customer = $this->_customerFactory->create();
         $customer->setWebsiteId($this->_storeManager->getStore()->getWebsiteId())->loadByEmail($email);
         if (!$customer->getId()) {
-            throw new InputException('email', InputException::NO_SUCH_ENTITY, $email);
+            throw InputException::create('email', InputException::NO_SUCH_ENTITY, $email);
         }
         if ($customer->getConfirmation()) {
             $customer->sendNewAccountEmail('confirmation', '', $this->_storeManager->getStore()->getId());
         } else {
-            throw new InputException(
+            throw InputException::create(
                 'email',
                 InputException::INVALID_STATE_CHANGE,
                 ['message' => 'This email does not require confirmation.']
@@ -128,7 +128,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         // check if customer is inactive
         if ($customer->getConfirmation()) {
             if ($customer->getConfirmation() !== $key) {
-                throw new InputException(
+                throw InputException::create(
                     'key',
                     InputException::INVALID_FIELD_VALUE,
                     ['message' => 'Wrong confirmation key.']
@@ -140,7 +140,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
             $customer->save();
             $customer->sendNewAccountEmail('confirmed', '', $this->_storeManager->getStore()->getId());
         } else {
-            throw new InputException(
+            throw InputException::create(
                 'customerId',
                 InputException::INVALID_STATE_CHANGE,
                 ['message' => 'Customer account is already active.']
@@ -196,7 +196,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
             ->loadByEmail($email);
 
         if (!$customer->getId()) {
-            throw new InputException(
+            throw InputException::create(
                 'email',
                 InputException::NO_SUCH_ENTITY,
                 ['message' => 'No customer found for the provided email and website ID.']
@@ -311,7 +311,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
             || empty($customerId)
             || $customerId < 0
         ) {
-            throw new InputException(
+            throw InputException::create(
                 'resetPasswordLinkToken',
                 InputException::INVALID_FIELD_VALUE,
                 ['message' => 'Invalid password reset token.']
@@ -324,7 +324,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         if (strcmp($customerToken, $resetPasswordLinkToken) !== 0
             || $customerModel->isResetPasswordLinkTokenExpired($customerId)
         ) {
-            throw new InputException(
+            throw InputException::create(
                 'resetPasswordLinkToken',
                 InputException::TOKEN_EXPIRED,
                 ['message' => 'Your password reset link has expired.']
