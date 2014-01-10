@@ -11,6 +11,13 @@
     <type name="Magento\Catalog\Model\ProductTypes\Config\Converter">
         <plugin name="groupedProductType" type="Magento\GroupedProduct\Model\ProductTypes\Config\Converter\Plugin\Grouped" />
     </type>
+    <type name="Magento\Module\Updater\SetupFactory">
+        <param name="resourceTypes">
+            <value>
+                <groupedproduct_setup>Magento\Catalog\Model\Resource\Setup</groupedproduct_setup>
+            </value>
+        </param>
+    </type>
 </config>
 
 
