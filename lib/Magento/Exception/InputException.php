@@ -23,7 +23,6 @@ class InputException extends \Magento\Exception\Exception
     const INVALID_STATE_CHANGE = 'INVALID_STATE_CHANGE';
     // FIXME: EMPTY_FIELD_REQUIRED is could be read to mean the field is required to be empty. Suggest: REQUIRED_FIELD
     const EMPTY_FIELD_REQUIRED = 'REQUIRED_FIELD';
-    const NO_SUCH_ENTITY = 'NO_SUCH_ENTITY';
     const TOKEN_EXPIRED = 'TOKEN_EXPIRED';
     const DUPLICATE_UNIQUE_VALUE_EXISTS = 'DUPLICATE_UNIQUE_VALUE_EXISTS';
 
@@ -66,7 +65,7 @@ class InputException extends \Magento\Exception\Exception
         $this->message .= "\n{\n\tfieldName: $fieldName\n\tcode: $code\n\tparams: " . $printParams . "}\n";
         $params['fieldName'] = $fieldName;
         $params['code'] = $code;
-        $this->params[] = $params;
+        $this->_params[] = $params;
         return $this;
     }
 }

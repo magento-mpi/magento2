@@ -77,7 +77,7 @@ interface CustomerAccountServiceInterface
      *
      * @param string $email
      * @param int $websiteId
-     * @throws \Magento\Customer\Service\Entity\V1\Exception
+     * @throws NoSuchEntityException
      */
     public function sendPasswordResetLink($email, $websiteId);
 
@@ -95,7 +95,7 @@ interface CustomerAccountServiceInterface
      * Send Confirmation email
      *
      * @param string $email email address of customer
-     * @throws Entity\V1\Exception if error occurs getting customerId
+     * @throws NoSuchEntityException if error occurs getting customerId
      */
     public function sendConfirmation($email);
 
