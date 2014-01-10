@@ -31,6 +31,7 @@ class Tax extends \Magento\Reports\Model\Resource\Report\AbstractReport
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Reports\Model\FlagFactory $reportsFlagFactory
      * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Stdlib\DateTime\Timezone\Validator $timezoneValidator
      * @param \Magento\Tax\Model\Resource\Report\Tax\CreatedatFactory $createdAtFactory
      * @param \Magento\Tax\Model\Resource\Report\Tax\UpdatedatFactory $updatedAtFactory
      */
@@ -40,12 +41,13 @@ class Tax extends \Magento\Reports\Model\Resource\Report\AbstractReport
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Reports\Model\FlagFactory $reportsFlagFactory,
         \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Stdlib\DateTime\Timezone\Validator $timezoneValidator,
         \Magento\Tax\Model\Resource\Report\Tax\CreatedatFactory $createdAtFactory,
         \Magento\Tax\Model\Resource\Report\Tax\UpdatedatFactory $updatedAtFactory
     ) {
         $this->_createdAtFactory = $createdAtFactory;
         $this->_updatedAtFactory = $updatedAtFactory;
-        parent::__construct($resource, $logger, $locale, $reportsFlagFactory, $dateTime);
+        parent::__construct($resource, $logger, $locale, $reportsFlagFactory, $dateTime, $timezoneValidator);
     }
 
     /**

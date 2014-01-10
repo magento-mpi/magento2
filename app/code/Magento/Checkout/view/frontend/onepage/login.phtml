@@ -115,9 +115,8 @@
             <?php elseif ($this->helper('Magento\Checkout\Helper\Data')->isCustomerMustBeLogged()): ?>
                 <button id="onepage-guest-register-button" type="button" class="action register" data-checkout='{"isGuestCheckoutAllowed":false, "registrationUrl":"<?php echo $this->helper('Magento\Checkout\Helper\Url')->getRegistrationUrl();?>"}'><span><?php echo __('Register') ?></span></button>
             <?php else: ?>
-                <form action="<?php echo $this->getUrl('persistent/index/saveMethod'); ?>">
-                    <button id="onepage-guest-register-button" type="submit" class="action register"><span><?php echo __('Register') ?></span></button>
-                </form>
+                <input type="hidden" name="checkout_method" id="login:register" value="register" checked="checked" />
+                <button id="onepage-guest-register-button" type="button" class="action register" data-checkout='{"isGuestCheckoutAllowed":true}'><span><?php echo __('Register') ?></span></button>
             <?php endif; ?>
         </div>
     </div>
