@@ -104,7 +104,11 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $customer = $this->_customerFactory->create();
         $customer->setWebsiteId($this->_storeManager->getStore()->getWebsiteId())->loadByEmail($email);
         if (!$customer->getId()) {
-            throw new InputException('email', InputException::NO_SUCH_ENTITY, $email);
+            throw new InputException(
+                'email',
+                InputException::NO_SUCH_ENTITY,
+                ['message' => 'No customer found for the provided email.', 'value' => $email]
+            );
         }
         if ($customer->getConfirmation()) {
             $customer->sendNewAccountEmail('confirmation', '', $this->_storeManager->getStore()->getId());
