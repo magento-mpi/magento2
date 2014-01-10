@@ -67,9 +67,9 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
     /**
      * Catalog product link
      *
-     * @var \Magento\Catalog\Model\Resource\Product\Link
+     * @var \Magento\GroupedProduct\Model\Resource\Product\Link
      */
-    protected $_catalogProductLink;
+    protected $productLinks;
 
     /**
      * @var \Magento\App\State
@@ -87,12 +87,12 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Logger $logger
-     * @param \Magento\Catalog\Model\Resource\Product\Link $catalogProductLink
+     * @param \Magento\GroupedProduct\Model\Resource\Product\Link $catalogProductLink
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Product\Status $catalogProductStatus
      * @param \Magento\App\State $appState
      * @param array $data
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -106,13 +106,13 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
         \Magento\Filesystem $filesystem,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Logger $logger,
-        \Magento\Catalog\Model\Resource\Product\Link $catalogProductLink,
+        \Magento\GroupedProduct\Model\Resource\Product\Link $catalogProductLink,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Product\Status $catalogProductStatus,
         \Magento\App\State $appState,
         array $data = array()
     ) {
-        $this->_catalogProductLink = $catalogProductLink;
+        $this->productLinks = $catalogProductLink;
         $this->_storeManager = $storeManager;
         $this->_catalogProductStatus = $catalogProductStatus;
         $this->_appState = $appState;
@@ -142,7 +142,7 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
         $info->setTable('catalog_product_link')
             ->setParentFieldName('product_id')
             ->setChildFieldName('linked_product_id')
-            ->setWhere('link_type_id=' . \Magento\Catalog\Model\Product\Link::LINK_TYPE_GROUPED);
+            ->setWhere('link_type_id=' . \Magento\GroupedProduct\Model\Resource\Product\Link::LINK_TYPE_GROUPED);
         return $info;
     }
 
@@ -158,22 +158,26 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
      */
     public function getChildrenIds($parentId, $required = true)
     {
-        return $this->_catalogProductLink
-            ->getChildrenIds($parentId,
-                \Magento\Catalog\Model\Product\Link::LINK_TYPE_GROUPED);
+        return $this->productLinks
+            ->getChildrenIds(
+                $parentId,
+                \Magento\GroupedProduct\Model\Resource\Product\Link::LINK_TYPE_GROUPED
+            );
     }
 
     /**
-     * Retrieve parent ids array by requered child
+     * Retrieve parent ids array by requested child
      *
      * @param int|array $childId
      * @return array
      */
     public function getParentIdsByChild($childId)
     {
-        return $this->_catalogProductLink
-            ->getParentIdsByChild($childId,
-                \Magento\Catalog\Model\Product\Link::LINK_TYPE_GROUPED);
+        return $this->productLinks
+            ->getParentIdsByChild(
+                $childId,
+                \Magento\GroupedProduct\Model\Resource\Product\Link::LINK_TYPE_GROUPED
+            );
     }
 
     /**
@@ -233,8 +237,7 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
      */
     public function setSaleableStatus($product)
     {
-        $product->setData($this->_keyStatusFilters,
-            $this->_catalogProductStatus->getSaleableStatusIds());
+        $product->setData($this->_keyStatusFilters, $this->_catalogProductStatus->getSaleableStatusIds());
         return $this;
     }
 
@@ -265,6 +268,7 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
     {
         if (!$product->hasData($this->_keyAssociatedProductIds)) {
             $associatedProductIds = array();
+            /** @var $item \Magento\Catalog\Model\Product */
             foreach ($this->getAssociatedProducts($product) as $item) {
                 $associatedProductIds[] = $item->getId();
             }
@@ -281,8 +285,10 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
      */
     public function getAssociatedProductCollection($product)
     {
-        $collection = $product->getLinkInstance()->useGroupedLinks()
-            ->getProductCollection()
+        /** @var \Magento\Catalog\Model\Product\Link  $links */
+        $links = $product->getLinkInstance();
+        $links->setLinkTypeId(\Magento\GroupedProduct\Model\Resource\Product\Link::LINK_TYPE_GROUPED);
+        $collection = $links->getProductCollection()
             ->setFlag('require_stock_items', true)
             ->setFlag('product_children', true)
             ->setIsStrongMode();
@@ -299,7 +305,11 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
     public function save($product)
     {
         parent::save($product);
-        $product->getLinkInstance()->saveGroupedLinks($product);
+
+        $data = $product->getGroupedLinkData();
+        if (!is_null($data)) {
+            $this->productLinks->saveGroupedLinks($product, $data);
+        }
         return $this;
     }
 
@@ -324,7 +334,7 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
             if ($associatedProducts || !$isStrictProcessMode) {
                 foreach ($associatedProducts as $subProduct) {
                     $subProductId = $subProduct->getId();
-                    if(isset($productsInfo[$subProductId])) {
+                    if (isset($productsInfo[$subProductId])) {
                         $qty = $productsInfo[$subProductId];
                         if (!empty($qty) && is_numeric($qty)) {
 
