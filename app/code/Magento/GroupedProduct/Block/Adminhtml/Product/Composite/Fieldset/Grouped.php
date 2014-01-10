@@ -16,10 +16,6 @@ namespace Magento\GroupedProduct\Block\Adminhtml\Product\Composite\Fieldset;
 class Grouped
     extends \Magento\GroupedProduct\Block\Product\View\Type\Grouped
 {
-    /**
-     * @var \Magento\Tax\Model\Calculation
-     */
-    protected $_taxCalculation;
 
     protected $_priceBlockDefaultTemplate = 'catalog/product/price.phtml';
 
@@ -65,7 +61,6 @@ class Grouped
         array $data = array()
     ) {
         $this->_coreHelper = $coreHelper;
-        $this->_taxCalculation = $taxCalculation;
         parent::__construct(
             $context,
             $catalogConfig,
@@ -79,6 +74,7 @@ class Grouped
             $layoutHelper,
             $imageHelper,
             $arrayUtils,
+            $taxCalculation,
             $data
         );
     }
@@ -93,10 +89,6 @@ class Grouped
 
         $this->_block = 'Magento\Catalog\Block\Adminhtml\Product\Price';
         $this->_useLinkForAsLowAs = false;
-
-        if (!$this->_taxCalculation->getCustomer() && $this->_coreRegistry->registry('current_customer')) {
-            $this->_taxCalculation->setCustomer($this->_coreRegistry->registry('current_customer'));
-        }
     }
 
     /**

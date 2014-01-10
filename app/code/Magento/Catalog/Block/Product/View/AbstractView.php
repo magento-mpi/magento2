@@ -25,6 +25,11 @@ abstract class AbstractView extends \Magento\Catalog\Block\Product\AbstractProdu
     protected $arrayUtils;
 
     /**
+     * @var \Magento\Tax\Model\Calculation
+     */
+    protected $_taxCalculation;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Core\Model\Registry $registry
@@ -37,8 +42,9 @@ abstract class AbstractView extends \Magento\Catalog\Block\Product\AbstractProdu
      * @param \Magento\Theme\Helper\Layout $layoutHelper
      * @param \Magento\Catalog\Helper\Image $imageHelper
      * @param \Magento\Stdlib\ArrayUtils $arrayUtils
+     * @param \Magento\Tax\Model\Calculation $taxCalculation
      * @param array $data
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -54,9 +60,11 @@ abstract class AbstractView extends \Magento\Catalog\Block\Product\AbstractProdu
         \Magento\Theme\Helper\Layout $layoutHelper,
         \Magento\Catalog\Helper\Image $imageHelper,
         \Magento\Stdlib\ArrayUtils $arrayUtils,
+        \Magento\Tax\Model\Calculation $taxCalculation,
         array $data = array()
     ) {
         $this->arrayUtils = $arrayUtils;
+        $this->_taxCalculation = $taxCalculation;
         parent::__construct(
             $context,
             $catalogConfig,
@@ -73,6 +81,13 @@ abstract class AbstractView extends \Magento\Catalog\Block\Product\AbstractProdu
         );
     }
 
+    protected function _construct()
+    {
+        parent::_construct();
+        if (!$this->_taxCalculation->getCustomer() && $this->_coreRegistry->registry('current_customer')) {
+            $this->_taxCalculation->setCustomer($this->_coreRegistry->registry('current_customer'));
+        }
+    }
 
     /**
      * Retrieve product

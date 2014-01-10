@@ -42,13 +42,6 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
     protected $_catalogProduct = null;
 
     /**
-     * Tax calculation
-     *
-     * @var \Magento\Tax\Model\Calculation
-     */
-    protected $_taxCalculation;
-
-    /**
      * @var \Magento\Json\EncoderInterface
      */
     protected $_jsonEncoder;
@@ -91,13 +84,12 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
         \Magento\Theme\Helper\Layout $layoutHelper,
         \Magento\Catalog\Helper\Image $imageHelper,
         \Magento\Stdlib\ArrayUtils $arrayUtils,
-        \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Tax\Model\Calculation $taxCalculation,
+        \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Catalog\Helper\Product $catalogProduct,
         array $data = array()
     ) {
         $this->_imageHelper = $imageHelper;
-        $this->_taxCalculation = $taxCalculation;
         $this->_catalogProduct = $catalogProduct;
         $this->_jsonEncoder = $jsonEncoder;
         parent::__construct(
@@ -113,6 +105,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
             $layoutHelper,
             $imageHelper,
             $arrayUtils,
+            $taxCalculation,
             $data
         );
     }

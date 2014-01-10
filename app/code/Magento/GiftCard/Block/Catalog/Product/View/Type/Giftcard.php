@@ -33,8 +33,9 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
      * @param \Magento\Catalog\Helper\Image $imageHelper
      * @param \Magento\Stdlib\ArrayUtils $arrayUtils
      * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Tax\Model\Calculation $taxCalculation
      * @param array $data
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -50,6 +51,7 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
         \Magento\Theme\Helper\Layout $layoutHelper,
         \Magento\Catalog\Helper\Image $imageHelper,
         \Magento\Stdlib\ArrayUtils $arrayUtils,
+        \Magento\Tax\Model\Calculation $taxCalculation,
         \Magento\Customer\Model\Session $customerSession,
         array $data = array()
     ) {
@@ -67,6 +69,7 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
             $layoutHelper,
             $imageHelper,
             $arrayUtils,
+            $taxCalculation,
             $data
         );
     }
