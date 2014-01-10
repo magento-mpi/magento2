@@ -40,14 +40,20 @@ class PaypalStandardOrder extends OrderCheckout
      */
     public function persist()
     {
-        $this->checkoutFixture->persist();
-        if(!is_null($this->additionalProducts))
-        {
-            foreach($this->additionalProducts as $product)
-            {
-                $this->checkoutFixture->addProduct($product);
-            }
-        }
-        $this->orderId = Factory::getApp()->magentoCheckoutCreatePaypalStandardOrder($this->checkoutFixture);
+        parent::persist();
+
+        //PayPal Site
+        $fixture = $this->checkoutFixture;
+        $paypalCustomer = $fixture->getPaypalCustomer();
+        $paypalPage = Factory::getPageFactory()->getPaypal();
+        $paypalPage->getBillingBlock()->clickLoginLink();
+        $paypalPage->getLoginBlock()->login($paypalCustomer);
+        $paypalPage->getReviewBlock()->continueCheckout();
+        $paypalPage->getMainPanelBlock()->clickReturnLink();
+
+        $successPage = Factory::getPageFactory()->getCheckoutOnepageSuccess();
+        $orderId = $successPage->getSuccessBlock()->getOrderId($fixture);
+
+        return $orderId;
     }
 }

@@ -53,13 +53,17 @@ class CheckoutOnepageSuccess extends Page
     /**
      * Get one page success block
      *
-     * @return \Magento\Checkout\Test\Block\Onepage\Success
+     * @return \Magento\Checkout\Test\Block\Onepage\Success | boolean
      */
     public function getSuccessBlock()
     {
-        return Factory::getBlockFactory()->getMagentoCheckoutOnepageSuccess(
+        $successBlock = Factory::getBlockFactory()->getMagentoCheckoutOnepageSuccess(
             $this->_browser->find($this->successBlock, Locator::SELECTOR_XPATH)
         );
+        if ($successBlock->isVisible()) {
+            return $successBlock;
+        }
+        return false;
     }
 
     /**

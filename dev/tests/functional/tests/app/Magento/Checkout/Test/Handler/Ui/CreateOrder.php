@@ -53,8 +53,10 @@ class CreateOrder extends Ui
         $checkoutOnePage->getPaymentMethodsBlock()->selectPaymentMethod($fixture);
         $checkoutOnePage->getReviewBlock()->placeOrder();
 
-        $orderId = Factory::getPageFactory()->getCheckoutOnepageSuccess()->getSuccessBlock()->getOrderId($fixture);
-
-        return $orderId;
+        $successBlock = Factory::getPageFactory()->getCheckoutOnepageSuccess()->getSuccessBlock();
+        if ($successBlock) {
+            $orderId = $successBlock->getOrderId($fixture);
+            return $orderId;
+        }
     }
 }
