@@ -125,15 +125,9 @@ class EncryptorTest extends \PHPUnit_Framework_TestCase
      */
     public function testEncryptWithEmptyKey($key)
     {
-        $encryptor = new \Magento\Encryption\Encryptor(
-            $this->getMock('\Magento\Math\Random', array(), array(), '', false),
-            $this->getMock('Magento\Encryption\CryptFactory', array(), array(), '', false),
-            $key
-        );
-
+        $model = new Encryptor($this->_randomGenerator, $this->_cryptFactory, $key);
         $value = 'arbitrary_string';
-
-        $this->assertEquals($value, $encryptor->encrypt($value));
+        $this->assertEquals($value, $model->encrypt($value));
     }
 
     public function encryptWithEmptyKeyDataProvider()
@@ -211,7 +205,7 @@ class EncryptorTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($crypt))
         ;
         $this->assertSame($crypt, $this->_model->validateKey(null));
-        // Ensure crypt factory is invoked only one
+        // Ensure crypt factory is invoked only once
         $this->assertSame($crypt, $this->_model->validateKey(null));
     }
 }
