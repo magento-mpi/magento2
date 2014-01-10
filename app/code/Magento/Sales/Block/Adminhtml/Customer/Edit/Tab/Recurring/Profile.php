@@ -2,18 +2,16 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
  * Adminhtml customer recurring profiles tab
- *
- * @author Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Sales\Block\Adminhtml\Customer\Edit\Tab\Recurring;
+
+use Magento\Customer\Controller\Adminhtml\Index as CustomerController;
 
 class Profile
     extends \Magento\Sales\Block\Adminhtml\Recurring\Profile\Grid
@@ -95,8 +93,19 @@ class Profile
      */
     public function canShowTab()
     {
-        $customer = $this->_coreRegistry->registry('current_customer');
-        return (bool)$customer->getId();
+        $customer = $this->_getCurrentCustomer();
+        // @todo correct after MAGETWO-19344 is done
+        return (bool)($customer instanceof \Magento\Customer\Model\Backend\Customer ? $customer->getId() : $customer);
+    }
+
+    /**
+     * Return customer DTO from registry (if it is there)
+     *
+     * @return \Magento\Customer\Service\V1\Dto\Customer|null
+     */
+    protected function _getCurrentCustomer()
+    {
+        return $this->_coreRegistry->registry(CustomerController::REGISTRY_CURRENT_CUSTOMER);
     }
 
     /**
@@ -116,8 +125,16 @@ class Profile
      */
     protected function _prepareCollection()
     {
-        $collection = $this->_profileCollection->create()
-            ->addFieldToFilter('customer_id', $this->_coreRegistry->registry('current_customer')->getId());
+        $collection = $this->_profileCollection->create();
+        $customer = $this->_getCurrentCustomer();
+
+        // @todo correct after MAGETWO-19344 is done
+        if ($customer instanceof \Magento\Customer\Model\Backend\Customer) {
+            $collection->addFieldToFilter('customer_id', $customer->getId());
+        } else {
+            $collection->addFieldToFilter('customer_id', $customer->getCustomerId());
+        }
+
         if (!$this->getParam($this->getVarNameSort())) {
             $collection->setOrder('profile_id', 'desc');
         }
