@@ -1119,13 +1119,13 @@ class Config extends AbstractRepository
                                                                 'value' => 'PayPal'
                                                             ),
                                                             'user' => array( // API User
-                                                                'value' => 'mpiteamlink'
+                                                                'value' => 'rlpayflowlinknew'
                                                             ),
                                                             'vendor' => array( // Vendor
-                                                                'value' => 'mpiteamlink'
+                                                                'value' => 'rlpayflowlinknew'
                                                             ),
                                                             'pwd' => array( // API Password
-                                                                'value' => '123123qa'
+                                                                'value' => 'Temp1234'
                                                             ),
                                                             'sandbox_flag' => array( // Test Mode
                                                                 'value' => self::YES_VALUE
