@@ -51,23 +51,31 @@ class Product extends \Magento\Backend\App\Action
     protected $stockFilter;
 
     /**
+     * @var \Magento\Catalog\Model\Product\Copier
+     */
+    protected $productCopier;
+
+    /**
      * @param Action\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Filter\Date $dateFilter
      * @param Product\Initialization\Helper $initializationHelper
      * @param Product\Initialization\StockDataFilter $stockFilter
+     * @param \Magento\Catalog\Model\Product\Copier $productCopier
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Filter\Date $dateFilter,
         \Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper $initializationHelper,
-        \Magento\Catalog\Controller\Adminhtml\Product\Initialization\StockDataFilter $stockFilter
+        \Magento\Catalog\Controller\Adminhtml\Product\Initialization\StockDataFilter $stockFilter,
+        \Magento\Catalog\Model\Product\Copier $productCopier
     ) {
         $this->stockFilter = $stockFilter;
         $this->initializationHelper = $initializationHelper;
         $this->registry = $registry;
         $this->_dateFilter = $dateFilter;
+        $this->productCopier = $productCopier;
         parent::__construct($context);
     }
 
@@ -732,7 +740,7 @@ class Product extends \Magento\Backend\App\Action
                 );
 
                 if ($redirectBack === 'duplicate') {
-                    $newProduct = $product->duplicate();
+                    $newProduct = $this->productCopier->copy($product);
                     $this->messageManager->addSuccess(__('You duplicated the product.'));
                 }
 
@@ -784,7 +792,7 @@ class Product extends \Magento\Backend\App\Action
     {
         $product = $this->_initProduct();
         try {
-            $newProduct = $product->duplicate();
+            $newProduct = $this->productCopier->copy($product);
             $this->messageManager->addSuccess(__('You duplicated the product.'));
             $this->_redirect('catalog/*/edit', array('_current'=>true, 'id'=>$newProduct->getId()));
         } catch (\Exception $e) {

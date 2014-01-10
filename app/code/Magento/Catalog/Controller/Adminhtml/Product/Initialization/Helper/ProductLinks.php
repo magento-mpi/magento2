@@ -16,11 +16,18 @@ class ProductLinks
     protected $request;
 
     /**
-     * @param \Magento\App\RequestInterface $request
+     * @var \Magento\Backend\Helper\Js
      */
-    public function __construct(\Magento\App\RequestInterface $request)
+    protected $jsHelper;
+
+    /**
+     * @param \Magento\App\RequestInterface $request
+     * @param \Magento\Backend\Helper\Js $jsHelper
+     */
+    public function __construct(\Magento\App\RequestInterface $request, \Magento\Backend\Helper\Js $jsHelper)
     {
         $this->request = $request;
+        $this->jsHelper = $jsHelper;
     }
 
     /**

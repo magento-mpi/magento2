@@ -11,4 +11,11 @@
     <type name="Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper">
         <plugin name="Downloadable" type="Magento\Downloadable\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Downloadable" sortOrder="70" />
     </type>
+    <type name="Magento\Catalog\Model\Product\CopyConstructor\Composite">
+        <param name="constructors">
+            <value>
+                <downloadable>Magento\Downloadable\Model\Product\CopyConstructor\Downloadable</downloadable>
+            </value>
+        </param>
+    </type>
 </config>

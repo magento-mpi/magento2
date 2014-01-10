@@ -255,7 +255,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         \Magento\Data\CollectionFactory $collectionFactory,
         \Magento\Filesystem $filesystem,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
-        \Magento\Catalog\Model\Product\CopyConstructor\Composite $copier,
         array $data = array()
     ) {
         $this->_itemOptionFactory = $itemOptionFactory;
@@ -276,7 +275,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         $this->_linkInstance = $productLink;
         $this->_filesystem = $filesystem;
         $this->productTypeConfig = $productTypeConfig;
-        $this->copier = $copier;
         parent::__construct($context, $registry, $storeManager, $resource, $resourceCollection, $data);
     }
 
@@ -1061,23 +1059,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         $collection->joinAttributes();
         return $collection;
     }
-
-    /**
-     * Retrieve collection grouped link
-     *
-     * @return \Magento\Catalog\Model\Resource\Product\Link\Collection
-     */
-    public function getGroupedLinkCollection()
-    {
-        $collection = $this->getLinkInstance()->useGroupedLinks()
-            ->getLinkCollection();
-        $collection->setProduct($this);
-        $collection->addLinkTypeIdFilter();
-        $collection->addProductIdFilter();
-        $collection->joinAttributes();
-        return $collection;
-    }
-
 /*******************************************************************************
  ** Media API
  */
@@ -1155,34 +1136,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     public function getMediaConfig()
     {
         return $this->_catalogProductMediaConfig;
-    }
-
-    /**
-     * Create duplicate
-     *
-     * @return \Magento\Catalog\Model\Product
-     */
-    public function duplicate()
-    {
-        $this->getWebsiteIds();
-        $this->getCategoryIds();
-
-        $duplicate = $this->_productFactory->create();
-        $duplicate->setData($this->getData());
-        $duplicate->setIsDuplicate(true);
-        $duplicate->setOriginalId($this->getId());
-        $duplicate->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_DISABLED);
-        $duplicate->setCreatedAt(null);
-        $duplicate->setUpdatedAt(null);
-        $duplicate->setId(null);
-        $duplicate->setStoreId($this->_storeManager->getStore()->getId());
-
-        $this->copier->build($this, $duplicate);
-        $duplicate->save();
-
-        $this->getOptionInstance()->duplicate($this->getId(), $duplicate->getId());
-        $this->getResource()->duplicate($this->getId(), $duplicate->getId());
-        return $duplicate;
     }
 
     /**

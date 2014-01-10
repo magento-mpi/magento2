@@ -57,4 +57,9 @@
             </value>
         </param>
     </type>
+    <type name="Magento\Catalog\Model\Product\Copier">
+        <param name="copyConstructor">
+            <instance type="Magento\Catalog\Model\Product\CopyConstructor\Composite" />
+        </param>
+    </type>
 </config>
