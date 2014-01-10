@@ -498,7 +498,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         } catch (\Exception $unexpected) {
             $this->fail('Unexpected exception type thrown. '. $unexpected->getMessage());
         }
-}
+    }
 
     public function testValidateResetPasswordLinkTokenInvalid()
     {
