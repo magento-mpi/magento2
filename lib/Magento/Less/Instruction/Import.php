@@ -59,6 +59,6 @@ class Import
     {
         $instruction = $this->isMagentoImport ? self::TYPE_MAGENTO : self::TYPE_LESS;
 
-        return sprintf('%s %s', $instruction, $this->file);
+        return sprintf('%s "%s";', $instruction, $this->file);
     }
 }
