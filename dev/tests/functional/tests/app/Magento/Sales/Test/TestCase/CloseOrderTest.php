@@ -130,7 +130,7 @@ class CloseOrderTest extends Functional
      */
     public function populatePayflowAdvancedCcForm(Checkout $fixture) {
         /** @var \Magento\Payment\Test\Block\Form\PayflowAdvanced\Cc $formBlock */
-        $formBlock = Factory::getPageFactory()->getCheckoutOnepage()->getPayflowCcBlock();
+        $formBlock = Factory::getPageFactory()->getCheckoutOnepage()->getPayflowAdvancedCcBlock();
         $formBlock->fill($fixture);
         $formBlock->pressContinue();
     }
