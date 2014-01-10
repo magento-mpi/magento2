@@ -164,10 +164,10 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         } catch (\Magento\Core\Exception $e) {
             switch ($e->getCode()) {
                 case \Magento\Customer\Model\Customer::EXCEPTION_EMAIL_NOT_CONFIRMED:
-                    $code = Exception::CODE_EMAIL_NOT_CONFIRMED;
+                    $code = AuthenticationException::EMAIL_NOT_CONFIRMED;
                     break;
                 case \Magento\Customer\Model\Customer::EXCEPTION_INVALID_EMAIL_OR_PASSWORD:
-                    $code = Exception::CODE_INVALID_EMAIL_OR_PASSWORD;
+                    $code = AuthenticationException::INVALID_EMAIL_OR_PASSWORD;
                     break;
                 default:
                     $code = AuthenticationException::UNKNOWN;
