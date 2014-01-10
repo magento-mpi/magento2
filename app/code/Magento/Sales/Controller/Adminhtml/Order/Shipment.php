@@ -386,44 +386,6 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
     }
 
     /**
-     * View shipment tracking information
-     */
-    public function viewTrackAction()
-    {
-        $trackId    = $this->getRequest()->getParam('track_id');
-        $track = $this->_objectManager->create('Magento\Sales\Model\Order\Shipment\Track')->load($trackId);
-        if ($track->getId()) {
-            try {
-                $response = $track->getNumberDetail();
-            } catch (\Exception $e) {
-                $response = array(
-                    'error'     => true,
-                    'message'   => __('Cannot retrieve tracking number detail.'),
-                );
-            }
-        } else {
-            $response = array(
-                'error'     => true,
-                'message'   => __('Cannot load track with retrieving identifier.'),
-            );
-        }
-
-        if (is_object($response)) {
-            $block = $this->_objectManager->create('Magento\Backend\Block\Template');
-            $block->setTemplate('sales/order/shipment/tracking/info.phtml');
-            $block->setTrackingInfo($response);
-
-            $this->getResponse()->setBody($block->toHtml());
-        } else {
-            if (is_array($response)) {
-                $response = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response);
-            }
-
-            $this->getResponse()->setBody($response);
-        }
-    }
-
-    /**
      * Add comment to shipment history
      */
     public function addCommentAction()

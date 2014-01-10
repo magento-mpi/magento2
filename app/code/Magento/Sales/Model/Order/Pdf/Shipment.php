@@ -26,7 +26,6 @@ class Shipment extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Core\Model\Translate $translate
      * @param \Magento\Filesystem $filesystem
-     * @param \Magento\Shipping\Model\Config $shippingConfig
      * @param \Magento\Sales\Model\Order\Pdf\Config $pdfConfig
      * @param \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory
      * @param \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory
@@ -42,7 +41,6 @@ class Shipment extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Core\Model\Translate $translate,
         \Magento\Filesystem $filesystem,
-        \Magento\Shipping\Model\Config $shippingConfig,
         \Magento\Sales\Model\Order\Pdf\Config $pdfConfig,
         \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory,
         \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory,
@@ -57,7 +55,6 @@ class Shipment extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
             $coreStoreConfig,
             $translate,
             $filesystem,
-            $shippingConfig,
             $pdfConfig,
             $pdfTotalFactory,
             $pdfItemsFactory,

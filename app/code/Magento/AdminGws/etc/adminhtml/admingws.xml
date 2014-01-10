@@ -187,7 +187,6 @@
         <callback class="adminhtml__sales_order_shipment__print" method="validateSalesOrderShipmentViewAction" />
         <callback class="adminhtml__sales_order_shipment__" method="validateSalesOrderShipmentCreateAction" />
         <callback class="adminhtml__sales_order_shipment__removeTrack" method="validateSalesOrderShipmentTrackAction" />
-        <callback class="adminhtml__sales_order_shipment__viewTrack" method="validateSalesOrderShipmentTrackAction" />
         <callback class="adminhtml__checkout_agreement__edit" method="validateCheckoutAgreementEditAction" />
         <callback class="adminhtml__permissions_user__edit" method="validateAdminUserAction" />
         <callback class="adminhtml__permissions_user__save" method="validateAdminUserAction" />

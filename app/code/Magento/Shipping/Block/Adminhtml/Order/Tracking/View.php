@@ -57,24 +57,12 @@ class View extends \Magento\Shipping\Block\Adminhtml\Order\Tracking
     /**
      * Retrieve remove url
      *
+     * @param $track
      * @return string
      */
     public function getRemoveUrl($track)
     {
         return $this->getUrl('sales/*/removeTrack/', array(
-            'shipment_id' => $this->getShipment()->getId(),
-            'track_id' => $track->getId()
-        ));
-    }
-
-    /**
-     * Retrieve remove url
-     *
-     * @return string
-     */
-    public function getTrackInfoUrl($track)
-    {
-        return $this->getUrl('sales/*/viewTrack/', array(
             'shipment_id' => $this->getShipment()->getId(),
             'track_id' => $track->getId()
         ));
