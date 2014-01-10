@@ -21,57 +21,34 @@ class NameTest extends \PHPUnit_Framework_TestCase
     const PREFIX = 'Mr';
     const MIDDLENAME = 'Middle';
     const SUFFIX = 'Jr';
-    const CLASS_NAME = 'customer-name';
-    const CONTAINER_CLASS_NAME = 'customer-name-prefix-middlename-suffix';
-    const STORE_LABEL = 'Store Label';
+    const KEY_CLASS_NAME = 'class_name';
+    const DEFAULT_CLASS_NAME = 'customer-name';
+    const CUSTOM_CLASS_NAME = 'my-class-name';
+    const CONTAINER_CLASS_NAME_PREFIX = '-prefix';
+    const CONTAINER_CLASS_NAME_MIDDLENAME = '-middlename';
+    const CONTAINER_CLASS_NAME_SUFFIX = '-suffix';
+    const PREFIX_ATTRIBUTE_CODE = 'prefix';
+    const INVALID_ATTRIBUTE_CODE = 'invalid attribute code';
+    const PREFIX_STORE_LABEL = 'Prefix';
     /**#@-*/
 
-    /** @var  \Magento\TestFramework\Helper\ObjectManager */
-    protected $_objectManager;
+    /** @var  \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata */
+    private $_attributeMetadata;
 
-    /** @var  \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata */
-    protected $_attributeMetadata;
+    /** @var  \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Helper\Data */
+    private $_customerHelper;
 
-    /** @var  \Magento\Customer\Helper\Data */
-    protected $_customerHelper;
+    /** @var  \PHPUnit_Framework_MockObject_MockObject | \Magento\Escaper */
+    private $_escaper;
 
-    /** @var  \Magento\Escaper */
-    protected $_escaper;
-
-    /** @var  \Magento\Customer\Block\Widget\Name */
-    protected $_block;
+    /** @var  \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Block\Widget\Name */
+    private $_block;
 
     public function setUp()
     {
-        $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_escaper = $this->getMock('Magento\Escaper', array(), array(), '', false);
-
-        $context = new \Magento\View\Element\Template\Context(
-            $this->getMockForAbstractClass('Magento\App\RequestInterface', array(), '', false),
-            $this->getMockForAbstractClass('Magento\View\LayoutInterface', array(), '', false),
-            $this->getMockForAbstractClass('Magento\Event\ManagerInterface', array(), '', false),
-            $this->getMockForAbstractClass('Magento\UrlInterface', array(), '', false),
-            $this->getMockForAbstractClass('Magento\TranslateInterface', array(), '', false),
-            $this->getMockForAbstractClass('Magento\App\CacheInterface', array(), '', false),
-            $this->getMockForAbstractClass('Magento\View\DesignInterface', array(), '', false),
-            $this->getMockForAbstractClass('Magento\Session\SessionManagerInterface', array(), '', false),
-            $this->getMockForAbstractClass('Magento\Session\SidResolverInterface', array(), '', false),
-            $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false),
-            $this->getMock('Magento\App\FrontController', array(), array(), '', false),
-            $this->getMock('Magento\View\Url', array(), array(), '', false),
-            $this->getMockForAbstractClass('Magento\View\ConfigInterface', array(), '', false),
-            $this->getMockForAbstractClass('Magento\App\Cache\StateInterface', array(), '', false),
-            $this->getMock('Magento\Logger', array(), array(), '', false),
-            $this->getMock('Magento\Core\Model\App', array(), array(), '', false),
-            $this->_escaper,
-            $this->getMock('Magento\Filter\FilterManager', array(), array(), '', false),
-            $this->getMockForAbstractClass('Magento\Core\Model\LocaleInterface', array(), '', false),
-            $this->getMock('Magento\Filesystem', array(), array(), '', false),
-            $this->getMock('Magento\View\FileSystem', array(), array(), '', false),
-            $this->getMock('Magento\View\TemplateEnginePool', array(), array(), '', false),
-            $this->getMock('Magento\App\State', array(), array(), '', false),
-            $this->getMockForAbstractClass('Magento\Core\Model\StoreManagerInterface', array(), '', false)
-        );
+        $context = $this->getMock('Magento\View\Element\Template\Context', array(), array(), '', false);
+        $context->expects($this->any())->method('getEscaper')->will($this->returnValue($this->_escaper));
 
         $addressHelper = $this->getMock('Magento\Customer\Helper\Address', array(), array(), '', false);
         $metadataService = $this->getMockForAbstractClass(
@@ -84,49 +61,26 @@ class NameTest extends \PHPUnit_Framework_TestCase
             ->expects($this->any())
             ->method('getAttributeMetadata')->will($this->returnValue($this->_attributeMetadata));
 
-        $this->_block = new \Magento\Customer\Block\Widget\Name(
-            $context, $addressHelper, $metadataService, $this->_customerHelper
-        );
+        $this->_block = new Name($context, $addressHelper, $metadataService, $this->_customerHelper);
     }
 
     /**
-     * Helper method for testing all show*() methods.
-     *
-     * @param array $data Customer attribute(s)
+     * @see self::_setUpShowAttribute()
      */
-    private function _setUpShowAttribute(array $data)
-    {
-        $customer = $this->_objectManager->getObject(
-            'Magento\Customer\Service\V1\Dto\Customer', array('data' => $data)
-        );
-
-        $this->_block->setForceUseCustomerAttributes(true);
-        $this->_block->setObject($customer);
-
-        $this->_attributeMetadata
-            ->expects($this->once())->method('getIsVisible')->will($this->returnValue(true));
-    }
-
-    /**
-     * Helper method for testing all is*Required() methods.
-     */
-    private function _setUpIsAttributeRequired()
-    {
-        $this->_block->setForceUseCustomerAttributes(false);
-        $this->_block->setForceUseCustomerRequiredAttributes(true);
-        $this->_block->setObject(new \StdClass());
-
-        $this->_attributeMetadata->expects($this->at(0))->method('getIsRequired')->will($this->returnValue(false));
-        $this->_attributeMetadata->expects($this->at(1))->method('getIsRequired')->will($this->returnValue(true));
-        $this->_attributeMetadata->expects($this->at(2))->method('getIsRequired')->will($this->returnValue(true));
-    }
-
     public function testShowPrefix()
     {
         $this->_setUpShowAttribute(array(Customer::PREFIX => self::PREFIX));
         $this->assertTrue($this->_block->showPrefix());
+
+        $this->_attributeMetadata
+            ->expects($this->at(0))->method('getIsVisible')->will($this->returnValue(false));
+
+        $this->assertFalse($this->_block->showPrefix());
     }
 
+    /**
+     * @see self::_setUpIsAttributeRequired()
+     */
     public function testIsPrefixRequired()
     {
         $this->_setUpIsAttributeRequired();
@@ -157,61 +111,205 @@ class NameTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->_block->isSuffixRequired());
     }
 
-    public function testGetPrefixOptions()
+    public function testGetPrefixOptionsNotEmpty()
     {
-        $customer = $this->_objectManager->getObject(
-            'Magento\Customer\Service\V1\Dto\Customer', array('data' => array(Customer::PREFIX => self::PREFIX))
-        );
+        /**
+         * Added some padding so that the trim() call on Customer::getPrefix() will remove it. Also added
+         * special characters so that the escapeHtml() method returns a htmlspecialchars translated value.
+         */
+        $customer = new Customer(array(Customer::PREFIX => '  <' . self::PREFIX . '>  '));
         $this->_block->setObject($customer);
 
         $prefixOptions = array(
-            'Mr' => 'Mr',
             'Mrs' => 'Mrs',
             'Ms' => 'Ms',
             'Miss' => 'Miss'
         );
 
+        $prefix = '&lt;' . self::PREFIX . '&gt;';
+        $expectedOptions = $prefixOptions;
+        $expectedOptions[$prefix] = $prefix;
+
         $this->_customerHelper
             ->expects($this->once())->method('getNamePrefixOptions')->will($this->returnValue($prefixOptions));
-        $this->_escaper->expects($this->once())->method('escapeHtml')->will($this->returnValue(self::PREFIX));
+        $this->_escaper->expects($this->once())->method('escapeHtml')->will($this->returnValue($prefix));
 
-        $this->assertSame($prefixOptions, $this->_block->getPrefixOptions());
+        $this->assertSame($expectedOptions, $this->_block->getPrefixOptions());
     }
 
-    public function testGetSuffixOptions()
+    public function testGetPrefixOptionsEmpty()
     {
-        $customer = $this->_objectManager->getObject(
-            'Magento\Customer\Service\V1\Dto\Customer', array('data' => array(Customer::SUFFIX => self::SUFFIX))
-        );
+        $customer = new Customer(array(Customer::PREFIX => self::PREFIX));
+        $this->_block->setObject($customer);
+
+        $this->_customerHelper
+            ->expects($this->once())->method('getNamePrefixOptions')->will($this->returnValue(array()));
+
+        $this->assertEmpty($this->_block->getPrefixOptions());
+    }
+
+    public function testGetSuffixOptionsNotEmpty()
+    {
+        /**
+         * Added padding and special characters to show that trim() works on Customer::getSuffix() and that
+         * a properly htmlspecialchars translated value is returned.
+         */
+        $customer = new Customer(array(Customer::SUFFIX => '  <' . self::SUFFIX . '>  '));
         $this->_block->setObject($customer);
 
         $suffixOptions = array(
-            'Jr' => 'Jr',
             'Sr' => 'Sr'
         );
 
+        $suffix = '&lt;' . self::SUFFIX . '&gt;';
+        $expectedOptions = $suffixOptions;
+        $expectedOptions[$suffix] = $suffix;
+
         $this->_customerHelper
             ->expects($this->once())->method('getNameSuffixOptions')->will($this->returnValue($suffixOptions));
-        $this->_escaper->expects($this->once())->method('escapeHtml')->will($this->returnValue(self::SUFFIX));
+        $this->_escaper->expects($this->once())->method('escapeHtml')->will($this->returnValue($suffix));
 
-        $this->assertSame($suffixOptions, $this->_block->getSuffixOptions());
+        $this->assertSame($expectedOptions, $this->_block->getSuffixOptions());
+    }
+
+    public function testGetSuffixOptionsEmpty()
+    {
+        $customer = new Customer(array(Customer::SUFFIX => self::SUFFIX));
+        $this->_block->setObject($customer);
+
+        $this->_customerHelper
+            ->expects($this->once())->method('getNameSuffixOptions')->will($this->returnValue(array()));
+
+        $this->assertEmpty($this->_block->getSuffixOptions());
     }
 
     public function testGetClassName()
     {
-        $this->assertEquals(self::CLASS_NAME, $this->_block->getClassName());
+        /** Test the default case when the block has no data set for the class name. */
+        $this->assertEquals(self::DEFAULT_CLASS_NAME, $this->_block->getClassName());
+
+        /** Set custom data for the class name and verify that the Name::getClassName() method returns it. */
+        $this->_block->setData(self::KEY_CLASS_NAME, self::CUSTOM_CLASS_NAME);
+        $this->assertEquals(self::CUSTOM_CLASS_NAME, $this->_block->getClassName());
     }
 
-    public function testGetContainerClassName()
+    /**
+     * @param bool $isPrefixVisible Value returned by Name::showPrefix()
+     * @param bool $isMiddlenameVisible Value returned by Name::showMiddlename()
+     * @param bool $isSuffixVisible Value returned by Name::showSuffix()
+     * @param string $expectedValue The expected value of Name::getContainerClassName()
+     *
+     * @dataProvider getContainerClassNameProvider
+     */
+    public function testGetContainerClassName(
+        $isPrefixVisible, $isMiddlenameVisible, $isSuffixVisible, $expectedValue
+    ) {
+        $this->_attributeMetadata
+            ->expects($this->at(0))->method('getIsVisible')->will($this->returnValue($isPrefixVisible));
+        $this->_attributeMetadata
+            ->expects($this->at(1))->method('getIsVisible')->will($this->returnValue($isMiddlenameVisible));
+        $this->_attributeMetadata
+            ->expects($this->at(2))->method('getIsVisible')->will($this->returnValue($isSuffixVisible));
+
+        $this->assertEquals($expectedValue, $this->_block->getContainerClassName());
+    }
+
+    /**
+     * This data provider provides enough data sets to test both ternary operator code paths for each one
+     * that's used in Name::getContainerClassName().
+     *
+     * @return array
+     */
+    public function getContainerClassNameProvider()
     {
-        $this->_attributeMetadata->expects($this->any())->method('getIsVisible')->will($this->returnValue(true));
-        $this->assertEquals(self::CONTAINER_CLASS_NAME, $this->_block->getContainerClassName());
+        return array(
+            array(false, false, false, self::DEFAULT_CLASS_NAME),
+            array(true,  false, false, self::DEFAULT_CLASS_NAME . self::CONTAINER_CLASS_NAME_PREFIX),
+            array(false, true,  false, self::DEFAULT_CLASS_NAME . self::CONTAINER_CLASS_NAME_MIDDLENAME),
+            array(false, false, true,  self::DEFAULT_CLASS_NAME . self::CONTAINER_CLASS_NAME_SUFFIX),
+            array(true,  true,  true,
+                self::DEFAULT_CLASS_NAME . self::CONTAINER_CLASS_NAME_PREFIX .
+                self::CONTAINER_CLASS_NAME_MIDDLENAME . self::CONTAINER_CLASS_NAME_SUFFIX
+            )
+        );
     }
 
-    public function testGetStoreLabel()
+    /**
+     * @param string $attributeCode An attribute code
+     * @param string $storeLabel The attribute's store label
+     * @param string $expectedValue The expected value of Name::getStoreLabel()
+     *
+     * @dataProvider getStoreLabelProvider
+     */
+    public function testGetStoreLabel($attributeCode, $storeLabel, $expectedValue)
     {
         $this->_attributeMetadata
-            ->expects($this->once())->method('getStoreLabel')->will($this->returnValue(self::STORE_LABEL));
-        $this->assertEquals(self::STORE_LABEL, $this->_block->getStoreLabel('store_label'));
+            ->expects($this->once())->method('getStoreLabel')->will($this->returnValue($storeLabel));
+        $this->assertEquals($expectedValue, $this->_block->getStoreLabel($attributeCode));
+    }
+
+    /**
+     * This data provider provides two data sets. One tests that an empty string is returned for an invalid
+     * attribute code instead of an exception being thrown. The second tests that the correct store label is
+     * returned for a valid attribute code.
+     *
+     * @return array
+     */
+    public function getStoreLabelProvider()
+    {
+        return array(
+            array(self::INVALID_ATTRIBUTE_CODE, '', ''),
+            array(self::PREFIX_ATTRIBUTE_CODE, self::PREFIX_STORE_LABEL, self::PREFIX_STORE_LABEL)
+        );
+    }
+
+    /**
+     * Helper method for testing all show*() methods.
+     *
+     * @param array $data Customer attribute(s)
+     */
+    private function _setUpShowAttribute(array $data)
+    {
+        $customer = new Customer($data);
+
+        /**
+         * These settings cause the first code path in Name::_getAttribute() to be executed, which
+         * basically just returns the value of parent::_getAttribute().
+         */
+        $this->_block->setForceUseCustomerAttributes(true);
+        $this->_block->setObject($customer);
+
+        /**
+         * The show*() methods return true for the attribute returned by parent::_getAttribute() for the
+         * first call to the method. Subsequent calls may return true or false depending on the returnValue
+         * of the at({0, 1, 2, 3, ...}), etc. calls as set and configured in a particular test.
+         */
+        $this->_attributeMetadata
+            ->expects($this->at(0))->method('getIsVisible')->will($this->returnValue(true));
+    }
+
+    /**
+     * Helper method for testing all is*Required() methods.
+     */
+    private function _setUpIsAttributeRequired()
+    {
+        /**
+         * These settings cause the first code path in Name::_getAttribute() to be skipped so that the rest of
+         * the code in the other code path(s) can be executed.
+         */
+        $this->_block->setForceUseCustomerAttributes(false);
+        $this->_block->setForceUseCustomerRequiredAttributes(true);
+        $this->_block->setObject(new \StdClass());
+
+        /**
+         * The first call to getIsRequired() is false so that the second if conditional in the other code path
+         * of Name::_getAttribute() will evaluate to true, which causes the if's code block to be executed. The
+         * second getIsRequired() call causes the code in the nested if conditional to be executed. Thus, all
+         * code paths in Name::_getAttribute() will be executed. Returning true for the third getIsRequired()
+         * call causes the is*Required() method of the block to return true for the attribute.
+         */
+        $this->_attributeMetadata->expects($this->at(0))->method('getIsRequired')->will($this->returnValue(false));
+        $this->_attributeMetadata->expects($this->at(1))->method('getIsRequired')->will($this->returnValue(true));
+        $this->_attributeMetadata->expects($this->at(2))->method('getIsRequired')->will($this->returnValue(true));
     }
 }
