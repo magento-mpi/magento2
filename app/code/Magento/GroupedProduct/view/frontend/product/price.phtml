@@ -12,8 +12,8 @@
 <?php
 /* @var $_coreHelper \Magento\Core\Helper\Data */
 $_coreHelper = $this->helper('Magento\Core\Helper\Data');
-/* @var $_taxHelper \Magento\Tax\Helper\Data */
-$_taxHelper  = $this->helper('Magento\Tax\Helper\Data');
+/* @var $_taxHelper \Magento\Catalog\Helper\Product\Price */
+$_taxHelper  = $this->helper('Magento\Catalog\Helper\Product\Price');
 
 $_product = $this->getProduct();
 $_id = $_product->getId();

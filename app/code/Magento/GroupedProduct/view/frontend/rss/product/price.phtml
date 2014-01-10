@@ -15,8 +15,11 @@
 $_product = $this->getProduct();
 $_id = $_product->getId();
 $_minimalPriceValue = $_product->getMinimalPrice();
-$_exclTax = $this->helper('Magento\Tax\Helper\Data')->getPrice($_product, $_minimalPriceValue, $includingTax = null);
-$_inclTax = $this->helper('Magento\Tax\Helper\Data')->getPrice($_product, $_minimalPriceValue, $includingTax = true);
+
+/** @var \Magento\Catalog\Helper\Product\Price $taxHelper */
+$taxHelper = $this->helper('Magento\Catalog\Helper\Product\Price');
+$_exclTax = $taxHelper->getPrice($_product, $_minimalPriceValue, $includingTax = null);
+$_inclTax = $taxHelper->getPrice($_product, $_minimalPriceValue, $includingTax = true);
 ?>
 
 <?php if ($_product->getCanShowPrice() !== false):?>
@@ -36,7 +39,7 @@ $_inclTax = $this->helper('Magento\Tax\Helper\Data')->getPrice($_product, $_mini
                 <?php else: ?>
                     <?php
                     $_showPrice = $_inclTax;
-                    if (!$this->helper('Magento\Tax\Helper\Data')->displayPriceIncludingTax()) {
+                    if (!$taxHelper->displayPriceIncludingTax()) {
                         $_showPrice = $_exclTax;
                     }
                     ?>

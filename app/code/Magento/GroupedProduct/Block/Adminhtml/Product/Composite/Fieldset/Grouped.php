@@ -40,7 +40,7 @@ class Grouped
      * @param \Magento\Tax\Model\Calculation $taxCalculation
      * @param \Magento\Core\Helper\Data $coreHelper
      * @param array $data
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
