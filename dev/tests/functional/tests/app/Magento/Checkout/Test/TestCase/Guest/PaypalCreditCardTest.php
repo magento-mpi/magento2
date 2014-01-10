@@ -14,24 +14,29 @@ namespace Magento\Checkout\Test\TestCase\Guest;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
 use Magento\Checkout\Test\Fixture\Checkout;
+use Magento\Checkout\Test\Page\CheckoutOnepage;
+use Magento\Payment\Test\Block\Form\PayflowAdvanced\Cc;
 
 /**
- * Class OnepageTest
- * Test one page with PayPal Advanced payment method
+ * Class PaypalCreditCardTest
+ *
+ * Test one page checkout with PayPal credit card payments (payments advanced and payflow link).
  *
  * @package Magento\Test\TestCase\Guest
  */
-class PaypalAdvancedTest extends Functional
+class PaypalCreditCardTest extends Functional
 {
     /**
-     * Guest checkout using PayPal Payments Advanced method and offline shipping method
+     * Guest checkout using PayPal payment method specified by the dataprovider.
      *
-     * @ZephyrId MAGETWO-12991
+     * @param Checkout $fixture
+     * @param string $formBlockFunction
+     * @dataProvider dataProviderCheckout
+     *
+     * @ZephyrId MAGETWO-12991, MAGETWO-12974
      */
-    public function testOnepageCheckout()
+    public function testOnepageCheckout(Checkout $fixture, $formBlockFunction)
     {
-        $this->markTestSkipped('Bamboo inability to run tests on instance with public IP address');
-        $fixture = Factory::getFixtureFactory()->getMagentoCheckoutGuestPaypalAdvanced();
         $fixture->persist();
 
         //Ensure shopping cart is empty
@@ -63,7 +68,7 @@ class PaypalAdvancedTest extends Functional
         $checkoutOnePage->getReviewBlock()->placeOrder();
 
         /** @var \Magento\Payment\Test\Block\Form\PayflowAdvanced\Cc $formBlock */
-        $formBlock = $checkoutOnePage->getPayflowCcBlock();
+        $formBlock = call_user_func_array(array($this, $formBlockFunction), array($checkoutOnePage));
         $formBlock->fill($fixture);
         $formBlock->pressContinue();
 
@@ -105,5 +110,40 @@ class PaypalAdvancedTest extends Functional
             Factory::getPageFactory()->getSalesOrderView()->getOrderHistoryBlock()->getCommentsHistory(),
             'Incorrect authorized amount value for the order #' . $orderId
         );
+    }
+
+    /**
+     * Data providers for checking out
+     *
+     * @return array
+     */
+    public function dataProviderCheckout()
+    {
+        return array(
+            array(Factory::getFixtureFactory()->getMagentoCheckoutGuestPaypalAdvanced(),
+                  'getPayflowAdvancedCcBlock'),
+            array(Factory::getFixtureFactory()->getMagentoCheckoutGuestPaypalPayflowLink(),
+                  'getPayflowLinkCcBlock')
+        );
+    }
+
+    /**
+     * Return the block associated with the PayPal Payments Advanced credit card form.
+     *
+     * @param CheckoutOnepage $checkoutOnePage
+     * @return Cc
+     */
+    public function getPayflowAdvancedCcBlock(CheckoutOnepage $checkoutOnePage) {
+        return $checkoutOnePage->getPayflowAdvancedCcBlock();
+    }
+
+    /**
+     * Return the block associated with the PayPal Payflow Link credit card form.
+     *
+     * @param CheckoutOnepage $checkoutOnePage
+     * @return Cc
+     */
+    public function getPayflowLinkCcBlock(CheckoutOnepage $checkoutOnePage) {
+        return $checkoutOnePage->getPayflowLinkCcBlock();
     }
 }

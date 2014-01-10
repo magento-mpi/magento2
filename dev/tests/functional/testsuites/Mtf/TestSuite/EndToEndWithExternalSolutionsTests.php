@@ -21,7 +21,7 @@ class EndToEndWithExternalSolutionsTests
         $suite->addTestSuite('Magento\Centinel\Test\TestCase\CentinelPaymentsValidCcTest');
         $suite->addTestSuite('Magento\Centinel\Test\TestCase\CentinelPaymentsInvalidCcTest');
         // Guest checkout
-        $suite->addTestSuite('Magento\Checkout\Test\TestCase\Guest\PaypalAdvancedTest');
+        $suite->addTestSuite('Magento\Checkout\Test\TestCase\Guest\PaypalCreditCardTest');
         // Guest checkout. PayPal Express
         $suite->addTestSuite('Magento\Checkout\Test\TestCase\Guest\PaypalExpress\CheckoutOnepageTest');
         $suite->addTestSuite('Magento\Checkout\Test\TestCase\Guest\PaypalExpress\PayflowProTest');
