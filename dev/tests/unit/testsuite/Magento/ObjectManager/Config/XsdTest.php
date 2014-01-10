@@ -56,6 +56,6 @@ class XsdTest extends \PHPUnit_Framework_TestCase
         $xmlString = file_get_contents(__DIR__ . '/_files/valid_config.xml');
         $actualResult = $this->_xsdValidator->validate($this->_xsdSchema, $xmlString);
 
-        $this->assertEmpty($actualResult);
+        $this->assertEmpty($actualResult, join("\n", $actualResult));
     }
 }

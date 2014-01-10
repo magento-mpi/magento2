@@ -133,18 +133,6 @@ return array
         </config>',
         array("Element 'array': This element is not expected.")
      ),
-    'type_param_repetitious_allowed_element' => array(
-        '<?xml version="1.0"?>
-        <config>
-            <type name="Some_Name">
-                <param name="test_param_name">
-                    <value>value</value>
-                    <value>value</value>
-                </param>
-            </type>
-        </config>',
-        array("Element 'value': This element is not expected.")
-     ),
     'type_array_empty' => array(
         '<?xml version="1.0"?>
         <config>
@@ -195,19 +183,6 @@ return array
             </type>
         </config>',
         array("Element 'item': The attribute 'key' is required but missing.")
-     ),
-    'type_array_item_forbidden_argument' => array(
-        '<?xml version="1.0"?>
-        <config>
-            <type name="Some_Name">
-                <param name="test_param_name">
-                    <array>
-                        <item key="key" forbidden="text"><value>value</value></item>
-                    </array>
-                </param>
-            </type>
-        </config>',
-        array("Element 'item', attribute 'forbidden': The attribute 'forbidden' is not allowed.")
      ),
     'type_array_item_name_argument (difference between item and param)' => array(
         '<?xml version="1.0"?>
