@@ -16,7 +16,7 @@ $data = array(
     'link_type_id'  => \Magento\GroupedProduct\Model\Resource\Product\Link::LINK_TYPE_GROUPED,
     'code'  => 'super'
 );
-$installer->getConnection()->insertForce($installer->getTable('catalog_product_link_type'), $data);
+$installer->getConnection()->insertOnDuplicate($installer->getTable('catalog_product_link_type'), $data);
 
 /**
  * Install grouped product link attributes
@@ -33,4 +33,6 @@ $data = array(
         'data_type'                     => 'decimal'
     )
 );
-$installer->getConnection()->insertMultiple($installer->getTable('catalog_product_link_attribute'), $data);
+foreach ($data as $bind) {
+    $installer->getConnection()->insertOnDuplicate($installer->getTable('catalog_product_link_attribute'), $bind);
+}
