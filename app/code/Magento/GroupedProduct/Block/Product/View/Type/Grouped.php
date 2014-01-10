@@ -46,7 +46,9 @@ class Grouped extends \Magento\Catalog\Block\Product\View\AbstractView
         return $this->_getPriceBlock($product->getTypeId())
             ->setTemplate($this->getTierPriceTemplate())
             ->setProduct($product)
-            ->setInGrouped(true)
+            ->setListClass('tier prices grouped items')
+            ->setShowDetailedPrice(false)
+            ->setCanDisplayQty(false)
             ->toHtml();
     }
 }
