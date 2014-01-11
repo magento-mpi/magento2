@@ -17,7 +17,7 @@ use Mtf\Factory\Factory;
  * Class PaypalStandardOrder
  * Guest checkout using PayPal Payments Standard method
  *
- * @package Magento\Sales\Test\Fixturessd
+ * @package Magento\Sales\Test\Fixture
  */
 class PaypalStandardOrder extends OrderCheckout
 {
@@ -52,8 +52,6 @@ class PaypalStandardOrder extends OrderCheckout
         $paypalPage->getMainPanelBlock()->clickReturnLink();
 
         $successPage = Factory::getPageFactory()->getCheckoutOnepageSuccess();
-        $orderId = $successPage->getSuccessBlock()->getOrderId($fixture);
-
-        return $orderId;
+        $this->orderId = $successPage->getSuccessBlock()->getOrderId($fixture);
     }
 }
