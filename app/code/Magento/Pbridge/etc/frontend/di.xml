@@ -23,10 +23,10 @@
     </type>
     <type name="Magento\Core\Model\Url\SecurityInfo">
         <param name="secureUrlList">
-            <value>
-                <magento_pbridge_pbridge>/magento_pbridge/pbridge/</magento_pbridge_pbridge>
-                <magento_pbridge_payment_profile>/magento_pbridge/payment_profile/</magento_pbridge_payment_profile>
-            </value>
+            <array>
+                <item key="magento_pbridge_pbridge"><value>/magento_pbridge/pbridge/</value></item>
+                <item key="magento_pbridge_payment_profile"><value>/magento_pbridge/payment_profile/</value></item>
+            </array>
         </param>
     </type>
 

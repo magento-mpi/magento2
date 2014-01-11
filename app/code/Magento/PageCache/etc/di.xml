@@ -10,12 +10,14 @@
 <config>
     <type name="Magento\PageCache\Model\CacheControlFactory">
         <param name="cacheControls">
-            <value>
-                <zendPageCache>
-                    <instance>Magento\PageCache\Model\Control\Zend</instance>
-                    <label>Zend Full Page Cache</label>
-                </zendPageCache>
-            </value>
+            <array>
+                <item key="zendPageCache">
+                    <array>
+                        <item key="instance"><value>Magento\PageCache\Model\Control\Zend</value></item>
+                        <item key="label"><value>Zend Full Page Cache</value></item>
+                    </array>
+                </item>
+            </array>
         </param>
     </type>
 </config>

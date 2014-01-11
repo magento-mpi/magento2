@@ -36,130 +36,194 @@
     </type>
     <type name="Magento\HTTP\Handler\Composite">
         <param name="handlers">
-            <value>
-                <fpc>
-                    <sortOrder>25</sortOrder>
-                    <class>Magento\FullPageCache\Model\Http\Handler</class>
-                </fpc>
-            </value>
+            <array>
+                <item key="fpc">
+                    <array>
+                        <item key="sortOrder"><value>25</value></item>
+                        <item key="class"><value>Magento\FullPageCache\Model\Http\Handler</value></item>
+                    </array>
+                </item>
+            </array>
         </param>
     </type>
     <type name="Magento\FullPageCache\Model\Http\Handler">
         <param name="requestProcessors">
-            <value>
-                <ee>
-                    <class>Magento\FullPageCache\Model\Processor</class>
-                    <sortOrder>50</sortOrder>
-                </ee>
-            </value>
+            <array>
+                <item key="ee">
+                    <array>
+                        <item key="class"><value>Magento\FullPageCache\Model\Processor</value></item>
+                        <item key="sortOrder"><value>50</value></item>
+                    </array>
+                </item>
+            </array>
         </param>
     </type>
     <type name="Magento\App\Cache\Frontend\Pool">
         <param name="advancedSettings">
-            <value>
-                <full_page>
-                    <backend_options>
-                        <cache_dir>full_page_cache</cache_dir>
-                    </backend_options>
-                </full_page>
-            </value>
+            <array>
+                <item key="full_page">
+                    <array>
+                        <item key="backend_options">
+                            <array>
+                                <item key="cache_dir"><value>full_page_cache</value></item>
+                            </array>
+                        </item>
+                    </array>
+                </item>
+            </array>
         </param>
     </type>
     <type name="Magento\App\Cache\Frontend\Pool">
         <param name="advancedSettings">
-            <value>
-                <full_page>
-                    <backend>Magento\Cache\Backend\Memcached</backend>
-                    <backend_options>
-                        <servers>
-                            <server>
-                                <host>{{memcache_host}}</host>
-                                <port>{{memcache_port}}</port>
-                            </server>
-                        </servers>
-                        <compression>0</compression>
-                        <slab_size>1048576</slab_size>
-                    </backend_options>
-                </full_page>
-                <config>
-                    <backend>Magento\Cache\Backend\Memcached</backend>
-                    <backend_options>
-                        <servers>
-                            <server>
-                                <host>{{memcache_host}}</host>
-                                <port>{{memcache_port}}</port>
-                            </server>
-                        </servers>
-                        <compression>0</compression>
-                        <slab_size>1048576</slab_size>
-                    </backend_options>
-                </config>
-                <layout>
-                    <backend>Magento\Cache\Backend\Memcached</backend>
-                    <backend_options>
-                        <servers>
-                            <server>
-                                <host>{{memcache_host}}</host>
-                                <port>{{memcache_port}}</port>
-                            </server>
-                        </servers>
-                        <compression>0</compression>
-                        <slab_size>1048576</slab_size>
-                    </backend_options>
-                </layout>
-                <block_html>
-                    <backend>Magento\Cache\Backend\Memcached</backend>
-                    <backend_options>
-                        <servers>
-                            <server>
-                                <host>{{memcache_host}}</host>
-                                <port>{{memcache_port}}</port>
-                            </server>
-                        </servers>
-                        <compression>0</compression>
-                        <slab_size>1048576</slab_size>
-                    </backend_options>
-                </block_html>
-                <translate>
-                    <backend>Magento\Cache\Backend\Memcached</backend>
-                    <backend_options>
-                        <servers>
-                            <server>
-                                <host>{{memcache_host}}</host>
-                                <port>{{memcache_port}}</port>
-                            </server>
-                        </servers>
-                        <compression>0</compression>
-                        <slab_size>1048576</slab_size>
-                    </backend_options>
-                </translate>
-                <collections>
-                    <backend>Magento\Cache\Backend\Memcached</backend>
-                    <backend_options>
-                        <servers>
-                            <server>
-                                <host>{{memcache_host}}</host>
-                                <port>{{memcache_port}}</port>
-                            </server>
-                        </servers>
-                        <compression>0</compression>
-                        <slab_size>1048576</slab_size>
-                    </backend_options>
-                </collections>
-                <eav>
-                    <backend>Magento\Cache\Backend\Memcached</backend>
-                    <backend_options>
-                        <servers>
-                            <server>
-                                <host>{{memcache_host}}</host>
-                                <port>{{memcache_port}}</port>
-                            </server>
-                        </servers>
-                        <compression>0</compression>
-                        <slab_size>1048576</slab_size>
-                    </backend_options>
-                </eav>
-            </value>
+            <array>
+                <item key="full_page">
+                    <array>
+                        <item key="backend"><value>Magento\Cache\Backend\Memcached</value></item>
+                        <item key="backend_options">
+                            <array>
+                                <item key="servers">
+                                    <array>
+                                        <item key="server">
+                                            <array>
+                                                <item key="host"><value>{{memcache_host}}</value></item>
+                                                <item key="port"><value>{{memcache_port}}</value></item>
+                                            </array>
+                                        </item>
+                                    </array>
+                                </item>
+                                <item key="compression"><value>0</value></item>
+                                <item key="slab_size"><value>1048576</value></item>
+                            </array>
+                        </item>
+                    </array>
+                </item>
+                <item key="config">
+                    <array>
+                        <item key="backend"><value>Magento\Cache\Backend\Memcached</value></item>
+                        <item key="backend_options">
+                            <array>
+                                <item key="servers">
+                                    <array>
+                                        <item key="server">
+                                            <array>
+                                                <item key="host"><value>{{memcache_host}}</value></item>
+                                                <item key="port"><value>{{memcache_port}}</value></item>
+                                            </array>
+                                        </item>
+                                    </array>
+                                </item>
+                                <item key="compression"><value>0</value></item>
+                                <item key="slab_size"><value>1048576</value></item>
+                            </array>
+                        </item>
+                    </array>
+                </item>
+                <item key="layout">
+                    <array>
+                        <item key="backend"><value>Magento\Cache\Backend\Memcached</value></item>
+                        <item key="backend_options">
+                            <array>
+                                <item key="servers">
+                                    <array>
+                                        <item key="server">
+                                            <array>
+                                                <item key="host"><value>{{memcache_host}}</value></item>
+                                                <item key="port"><value>{{memcache_port}}</value></item>
+                                            </array>
+                                        </item>
+                                    </array>
+                                </item>
+                                <item key="compression"><value>0</value></item>
+                                <item key="slab_size"><value>1048576</value></item>
+                            </array>
+                        </item>
+                    </array>
+                </item>
+                <item key="block_html">
+                    <array>
+                        <item key="backend"><value>Magento\Cache\Backend\Memcached</value></item>
+                        <item key="backend_options">
+                            <array>
+                                <item key="servers">
+                                    <array>
+                                        <item key="server">
+                                            <array>
+                                                <item key="host"><value>{{memcache_host}}</value></item>
+                                                <item key="port"><value>{{memcache_port}}</value></item>
+                                            </array>
+                                        </item>
+                                    </array>
+                                </item>
+                                <item key="compression"><value>0</value></item>
+                                <item key="slab_size"><value>1048576</value></item>
+                            </array>
+                        </item>
+                    </array>
+                </item>
+                <item key="translate">
+                    <array>
+                        <item key="backend"><value>Magento\Cache\Backend\Memcached</value></item>
+                        <item key="backend_options">
+                            <array>
+                                <item key="servers">
+                                    <array>
+                                        <item key="server">
+                                            <array>
+                                                <item key="host"><value>{{memcache_host}}</value></item>
+                                                <item key="port"><value>{{memcache_port}}</value></item>
+                                            </array>
+                                        </item>
+                                    </array>
+                                </item>
+                                <item key="compression"><value>0</value></item>
+                                <item key="slab_size"><value>1048576</value></item>
+                            </array>
+                        </item>
+                    </array>
+                </item>
+                <item key="collections">
+                    <array>
+                        <item key="backend"><value>Magento\Cache\Backend\Memcached</value></item>
+                        <item key="backend_options">
+                            <array>
+                                <item key="servers">
+                                    <array>
+                                        <item key="server">
+                                            <array>
+                                                <item key="host"><value>{{memcache_host}}</value></item>
+                                                <item key="port"><value>{{memcache_port}}</value></item>
+                                            </array>
+                                        </item>
+                                    </array>
+                                </item>
+                                <item key="compression"><value>0</value></item>
+                                <item key="slab_size"><value>1048576</value></item>
+                            </array>
+                        </item>
+                    </array>
+                </item>
+                <item key="eav">
+                    <array>
+                        <item key="backend"><value>Magento\Cache\Backend\Memcached</value></item>
+                        <item key="backend_options">
+                            <array>
+                                <item key="servers">
+                                    <array>
+                                        <item key="server">
+                                            <array>
+                                                <item key="host"><value>{{memcache_host}}</value></item>
+                                                <item key="port"><value>{{memcache_port}}</value></item>
+                                            </array>
+                                        </item>
+                                    </array>
+                                </item>
+                                <item key="compression"><value>0</value></item>
+                                <item key="slab_size"><value>1048576</value></item>
+                            </array>
+                        </item>
+                    </array>
+                </item>
+            </array>
         </param>
     </type>
 </config>

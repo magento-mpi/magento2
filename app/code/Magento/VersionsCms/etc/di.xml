@@ -16,9 +16,9 @@
     </type>
     <type name="Magento\Module\Updater\SetupFactory">
         <param name="resourceTypes">
-            <value>
-                <versionscms_setup>Magento\VersionsCms\Model\Resource\Setup</versionscms_setup>
-            </value>
+            <array>
+                <item key="versionscms_setup"><value>Magento\VersionsCms\Model\Resource\Setup</value></item>
+            </array>
         </param>
     </type>
 </config>
