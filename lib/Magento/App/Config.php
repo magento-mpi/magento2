@@ -1,6 +1,6 @@
 <?php
 /**
- * Magento application object manager. Configures and application application
+ * Application deployment configuration that contain settings, values of which may vary from one installation to another
  *
  * {license_notice}
  *
@@ -52,6 +52,7 @@ class Config
         $stack = $input;
         unset($stack['resource']);
         unset($stack['connection']);
+        unset($stack['cache']);
         $separator = '.';
         $output = array();
 
@@ -73,6 +74,7 @@ class Config
         }
         $output['connection'] = isset($input['connection']) ? $input['connection'] : array();
         $output['resource'] = isset($input['resource']) ? $input['resource'] : array();
+        $output['cache'] = isset($input['cache']) ? $input['cache'] : array();
         return $output;
     }
 
@@ -107,6 +109,16 @@ class Config
     public function getResources()
     {
         return $this->_data['resource'];
+    }
+
+    /**
+     * Retrieve settings for cache front-ends that will override the defaults
+     *
+     * @return array Format: array('<cache_frontend_id>' => array(<cache_settings>), ...)
+     */
+    public function getCacheSettings()
+    {
+        return $this->_data['cache'];
     }
 
     /**

@@ -21,7 +21,9 @@ class PoolTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        // Init frontend factory
+        $config = $this->getMock('Magento\App\Config', array(), array(), '', false);
+        $config->expects($this->any())->method('getCacheSettings')->will($this->returnValue(array()));
+
         $frontendFactory = $this->getMock('Magento\App\Cache\Frontend\Factory', array(), array(), '', false);
 
         $this->_frontendInstances = array(
@@ -52,9 +54,8 @@ class PoolTest extends \PHPUnit_Framework_TestCase
             'data1' => 'value1',
             'data2' => 'value2',
         );
-        // Create model
         $this->_model = new \Magento\App\Cache\Frontend\Pool(
-            $frontendFactory, $defaultOptions, $advancedOptions);
+            $config, $frontendFactory, $defaultOptions, $advancedOptions);
     }
 
     /**
@@ -62,12 +63,13 @@ class PoolTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructorNoInitialization()
     {
+        $config = $this->getMock('Magento\App\Config', array(), array(), '', false);
         $frontendFactory = $this->getMock('Magento\App\Cache\Frontend\Factory', array(), array(), '', false);
         $frontendFactory
             ->expects($this->never())
             ->method('create')
         ;
-        new \Magento\App\Cache\Frontend\Pool($frontendFactory);
+        new \Magento\App\Cache\Frontend\Pool($config, $frontendFactory);
     }
 
     public function testCurrent()

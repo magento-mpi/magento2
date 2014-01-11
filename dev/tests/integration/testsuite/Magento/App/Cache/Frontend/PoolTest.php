@@ -20,13 +20,9 @@ class PoolTest extends \PHPUnit_Framework_TestCase
     public function testGetCache($cacheBackendName)
     {
         $settings = array('backend' => $cacheBackendName);
-        $this->_model = new \Magento\App\Cache\Frontend\Pool(
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\App\Cache\Frontend\Factory'),
-            $settings
-        );
-
-
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\App\Cache\Frontend\Pool', array('defaultSettings' => $settings))
+        ;
         $cache = $this->_model->get(\Magento\App\Cache\Frontend\Pool::DEFAULT_FRONTEND_ID);
         $this->assertInstanceOf('Magento\Cache\FrontendInterface', $cache);
         $this->assertInstanceOf('Zend_Cache_Backend_Interface', $cache->getBackend());
