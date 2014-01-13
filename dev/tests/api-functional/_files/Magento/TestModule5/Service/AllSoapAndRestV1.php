@@ -15,10 +15,10 @@ class AllSoapAndRestV1 implements \Magento\TestModule5\Service\AllSoapAndRestV1I
     /**
      * @inheritdoc
      */
-    public function item($itemId)
+    public function item($id)
     {
         return (new AllSoapAndRestBuilder())
-            ->setId($itemId)
+            ->setId($id)
             ->setName('testItemName')
             ->setIsEnabled(true)
             ->setHasName(true)

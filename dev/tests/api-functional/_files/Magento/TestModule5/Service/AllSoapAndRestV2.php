@@ -15,9 +15,9 @@ class AllSoapAndRestV2 implements AllSoapAndRestV2Interface
     /**
      * @inheritdoc
      */
-    public function item($itemId)
+    public function item($id)
     {
-        return (new AllSoapAndRestBuilder())->setPrice(1)->setId($itemId)->setName('testItemName')->create();
+        return (new AllSoapAndRestBuilder())->setPrice(1)->setId($id)->setName('testItemName')->create();
     }
 
     /**
@@ -48,12 +48,12 @@ class AllSoapAndRestV2 implements AllSoapAndRestV2Interface
     }
 
     /**
-     * @param string $itemId
+     * @param string $id
      * @return Entity\V2\AllSoapAndRest
      * @throws \Magento\Webapi\Exception
      */
-    public function delete($itemId)
+    public function delete($id)
     {
-        return (new AllSoapAndRestBuilder())->setPrice(1)->setId($itemId)->setName('testItemName')->create();
+        return (new AllSoapAndRestBuilder())->setPrice(1)->setId($id)->setName('testItemName')->create();
     }
 }

@@ -45,7 +45,7 @@ class GettersTest extends \Magento\Webapi\Routing\BaseService
                 'operation' => $this->_soapService . 'Item'
             )
         );
-        $requestData = array('itemId' => $itemId);
+        $requestData = array('id' => $itemId);
         $item = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertEquals($itemId, $item['id'], 'Item was retrieved unsuccessfully');
         $isEnabled = isset($item['isEnabled']) && $item['isEnabled'] === true;

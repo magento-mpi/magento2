@@ -13,11 +13,11 @@ interface AllSoapAndRestV2Interface
     /**
      * Retrieve existing item.
      *
-     * @param int $itemId
+     * @param int $id
      * @return \Magento\TestModule5\Service\Entity\V2\AllSoapAndRest
      * @throws \Magento\Webapi\Exception
      */
-    public function item($itemId);
+    public function item($id);
 
     /**
      * Retrieve a list of all existing items.
@@ -45,8 +45,8 @@ interface AllSoapAndRestV2Interface
     /**
      * Delete existing item.
      *
-     * @param string $itemId
+     * @param string $id
      * @return \Magento\TestModule5\Service\Entity\V2\AllSoapAndRest
      */
-    public function delete($itemId);
+    public function delete($id);
 }
