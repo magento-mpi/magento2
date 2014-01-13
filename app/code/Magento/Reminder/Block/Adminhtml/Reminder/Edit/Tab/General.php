@@ -86,7 +86,7 @@ class General
         ));
 
         $model->unsSalesruleId();
-        $helperBlock = $this->getLayout()->createBlock('Magento\Reminder\Block\Adminhtml\Promo\Widget\Chooser');
+        $helperBlock = $this->getLayout()->createBlock('Magento\SalesRule\Block\Adminhtml\Promo\Widget\Chooser');
 
         if ($helperBlock instanceof \Magento\Object) {
             $helperBlock->setConfig($this->getChooserConfig())
