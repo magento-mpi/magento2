@@ -169,7 +169,10 @@ class TypeProcessor
      */
     protected function _processMethod(\Zend\Code\Reflection\MethodReflection $methodReflection, $typeName)
     {
-        if (strpos($methodReflection->getName(), 'get') === 0) {
+        $isGetter = (strpos($methodReflection->getName(), 'get') === 0)
+            || (strpos($methodReflection->getName(), 'is') === 0)
+            || (strpos($methodReflection->getName(), 'has') === 0);
+        if ($isGetter) {
             $returnMetadata = $this->getGetterReturnType($methodReflection);
             $fieldName = $this->_helper->dtoGetterNameToFieldName($methodReflection->getName());
             $this->_types[$typeName]['parameters'][$fieldName] = array(

@@ -98,8 +98,14 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function dtoGetterNameToFieldName($getterName)
     {
-        /** Remove 'get' prefix and make the first letter lower case */
-        return lcfirst(substr($getterName, strlen('get')));
+        if ((strpos($getterName, 'get') === 0)) {
+            /** Remove 'get' prefix and make the first letter lower case */
+            $fieldName = substr($getterName, strlen('get'));
+        } else {
+            /** If methods are with 'is' or 'has' prefix */
+            $fieldName = $getterName;
+        }
+        return lcfirst($fieldName);
     }
 
     /**

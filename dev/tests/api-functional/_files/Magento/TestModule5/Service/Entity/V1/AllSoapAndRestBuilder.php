@@ -21,6 +21,8 @@ class AllSoapAndRestBuilder extends AbstractDtoBuilder
 {
     const ID = 'id';
     const NAME = 'name';
+    const IS_ENABLED = 'isEnabled';
+    const HAS_NAME = 'hasName';
 
     /**
      * @param int $id
@@ -38,5 +40,27 @@ class AllSoapAndRestBuilder extends AbstractDtoBuilder
     public function setName($name)
     {
         return $this->_set(self::NAME, $name);
+    }
+
+    /**
+     * Set flag if entity is enabled
+     *
+     * @param bool $isEnabled
+     * @return AllSoapAndRestBuilder
+     */
+    public function setIsEnabled($isEnabled)
+    {
+        return $this->_set(self::IS_ENABLED, $isEnabled);
+    }
+
+    /**
+     * Set flag if entity has name
+     *
+     * @param bool $hasName
+     * @return AllSoapAndRestBuilder
+     */
+    public function setHasName($hasName)
+    {
+        return $this->_set(self::HAS_NAME, $hasName);
     }
 }

@@ -17,7 +17,12 @@ class AllSoapAndRestV1 implements \Magento\TestModule5\Service\AllSoapAndRestV1I
      */
     public function item($itemId)
     {
-        return (new AllSoapAndRestBuilder())->setId($itemId)->setName('testItemName')->create();
+        return (new AllSoapAndRestBuilder())
+            ->setId($itemId)
+            ->setName('testItemName')
+            ->setIsEnabled(true)
+            ->setHasName(true)
+            ->create();
     }
 
     /**
