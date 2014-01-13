@@ -9,6 +9,8 @@ namespace Magento\Customer\Service\V1;
 
 use Magento\Customer\Service\Entity\V1\Exception;
 use Magento\Customer\Service\V1;
+use Magento\Exception\InputException;
+use Magento\Exception\NoSuchEntityException;
 
 /**
  * Integration test for service layer \Magento\Customer\Service\V1\CustomerService
@@ -137,14 +139,19 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Lastname', $customer->getLastname());
     }
 
-    /**
-     * @expectedException Exception
-     * @expectedExceptionMessage No customer with customerId 1 exists.
-     */
     public function testGetCustomerNotExist()
     {
-        // No fixture, so customer with id 1 shouldn't exist, exception should be thrown
-        $this->_service->getCustomer(1);
+        try {
+            // No fixture, so customer with id 1 shouldn't exist, exception should be thrown
+            $this->_service->getCustomer(1);
+            $this->assertFalse('Did not throw expected exception.');
+        } catch (NoSuchEntityException $nsee) {
+            $expectedParams = [
+                'customerId' => '1',
+            ];
+            $this->assertEquals($expectedParams, $nsee->getParams());
+            $this->assertEquals('No such entity with customerId = 1', $nsee->getMessage());
+        }
     }
 
     /**
@@ -338,8 +345,6 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoDbIsolation enabled
-     * @expectedException \Magento\Validator\ValidatorException
-     * @expectedExceptionMessage Please correct this email address
      */
     public function testSaveCustomerException()
     {
@@ -352,10 +357,23 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
 
         try {
             $this->_service->saveCustomer($customerEntity);
-        } catch (Exception $e) {
-            $this->assertEquals('There were one or more errors validating the customer object.', $e->getMessage());
-            $this->assertEquals(Exception::CODE_VALIDATION_FAILED, $e->getCode());
-            throw $e->getPrevious();
+        } catch (InputException $ie) {
+            $expectedParams = [
+                [
+                    'fieldName' => 'firstname',
+                    'code' => InputException::EMPTY_FIELD_REQUIRED,
+                ],
+                [
+                    'fieldName' => 'lastname',
+                    'code' => InputException::EMPTY_FIELD_REQUIRED,
+                ],
+                [
+                    'fieldName' => 'email',
+                    'value' => '',
+                    'code' => InputException::INVALID_FIELD_VALUE,
+                ],
+            ];
+            $this->assertEquals($expectedParams, $ie->getParams());
         }
     }
 

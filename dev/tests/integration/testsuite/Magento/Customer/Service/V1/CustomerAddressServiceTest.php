@@ -3,6 +3,7 @@
 namespace Magento\Customer\Service\V1;
 use Magento\Customer\Service\V1;
 use Magento\Customer\Service\Entity\V1\Exception;
+use Magento\Exception\NoSuchEntityException;
 
 /**
  * Integration test for service layer \Magento\Customer\Service\V1\CustomerAddressService
@@ -417,24 +418,32 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->_expectedAddresses, $addresses);
     }
 
-    /**
-     * @expectedException Exception
-     * @expectedExceptionMessage No customer with customerId 4200 exists
-     */
     public function testSaveAddressesCustomerIdNotExist()
     {
         $proposedAddress = $this->_createSecondAddressBuilder()->create();
-        $this->_service->saveAddresses(4200, [$proposedAddress]);
+        try {
+            $this->_service->saveAddresses(4200, [$proposedAddress]);
+        } catch (NoSuchEntityException $nsee) {
+            $expectedParams = [
+                'customerId' => '4200',
+            ];
+            $this->assertEquals($expectedParams, $nsee->getParams());
+            $this->assertEquals('No such entity with customerId = 4200', $nsee->getMessage());
+        }
     }
 
-    /**
-     * @expectedException Exception
-     * @expectedExceptionMessage No customer with customerId this_is_not_a_valid_id exists
-     */
     public function testSaveAddressesCustomerIdInvalid()
     {
         $proposedAddress = $this->_createSecondAddressBuilder()->create();
-        $this->_service->saveAddresses('this_is_not_a_valid_id', [$proposedAddress]);
+        try {
+            $this->_service->saveAddresses('this_is_not_a_valid_id', [$proposedAddress]);
+        } catch (NoSuchEntityException $nsee) {
+            $expectedParams = [
+                'customerId' => 'this_is_not_a_valid_id',
+            ];
+            $this->assertEquals($expectedParams, $nsee->getParams());
+            $this->assertEquals('No such entity with customerId = this_is_not_a_valid_id', $nsee->getMessage());
+        }
     }
 
     /**
