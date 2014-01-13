@@ -14,6 +14,8 @@ namespace Magento\Sales\Test\TestCase;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
 use Magento\Sales\Test\Fixture\OrderCheckout;
+use Magento\Sales\Test\Fixture\PaypalPayflowLinkOrder;
+use Magento\Sales\Test\Fixture\PaypalPaymentsAdvancedOrder;
 
 /**
  * Class CloseOrderTest
@@ -32,6 +34,10 @@ class CloseOrderTest extends Functional
      */
     public function testCloseOrder(OrderCheckout $fixture)
     {
+        if ($fixture instanceof PaypalPaymentsAdvancedOrder || $fixture instanceof PaypalPayflowLinkOrder){
+            $this->markTestSkipped('Bamboo inability to run tests on instance with public IP address');
+        }
+
         $fixture->persist();
 
         //Data
