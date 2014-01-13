@@ -119,15 +119,18 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
             ->addAttributeToSelect('sku')
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('attribute_set_id')
-            ->addAttributeToSelect('type_id');
+            ->addAttributeToSelect('type_id')
+            ->setStore($store);
 
         if ($this->_catalogData->isModuleEnabled('Magento_CatalogInventory')) {
-            $collection->joinField('qty',
+            $collection->joinField(
+                'qty',
                 'cataloginventory_stock_item',
                 'qty',
                 'product_id=entity_id',
                 '{{table}}.stock_id=1',
-                'left');
+                'left'
+            );
         }
         if ($store->getId()) {
             //$collection->setStoreId($store->getId());
@@ -172,8 +175,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
                 'left',
                 $store->getId()
             );
-        }
-        else {
+        } else {
             $collection->addAttributeToSelect('price');
             $collection->joinAttribute('status', 'catalog_product/status', 'entity_id', null, 'inner');
             $collection->joinAttribute('visibility', 'catalog_product/visibility', 'entity_id', null, 'inner');
@@ -190,12 +192,14 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     {
         if ($this->getCollection()) {
             if ($column->getId() == 'websites') {
-                $this->getCollection()->joinField('websites',
+                $this->getCollection()->joinField(
+                    'websites',
                     'catalog_product_website',
                     'website_id',
                     'product_id=entity_id',
                     null,
-                    'left');
+                    'left'
+                );
             }
         }
         return parent::_addColumnFilterToCollection($column);
@@ -203,7 +207,8 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 
     protected function _prepareColumns()
     {
-        $this->addColumn('entity_id',
+        $this->addColumn(
+            'entity_id',
             array(
                 'header'=> __('ID'),
                 'width' => '50px',
@@ -211,28 +216,34 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
                 'index' => 'entity_id',
                 'header_css_class'  => 'col-id',
                 'column_css_class'  => 'col-id'
-        ));
-        $this->addColumn('name',
+            )
+        );
+        $this->addColumn(
+            'name',
             array(
                 'header'=> __('Name'),
                 'index' => 'name',
                 'class' => 'xxx',
                 'header_css_class'  => 'col-name',
                 'column_css_class'  => 'col-name'
-        ));
+            )
+        );
 
         $store = $this->_getStore();
         if ($store->getId()) {
-            $this->addColumn('custom_name',
+            $this->addColumn(
+                'custom_name',
                 array(
                     'header'=> __('Name in %1', $store->getName()),
                     'index' => 'custom_name',
                     'header_css_class'  => 'col-name',
                     'column_css_class'  => 'col-name'
-            ));
+                )
+            );
         }
 
-        $this->addColumn('type',
+        $this->addColumn(
+            'type',
             array(
                 'header'=> __('Type'),
                 'width' => '60px',
@@ -241,14 +252,16 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
                 'options' => $this->_type->getOptionArray(),
                 'header_css_class'  => 'col-type',
                 'column_css_class'  => 'col-type'
-        ));
+            )
+        );
 
         $sets = $this->_setsFactory->create()
             ->setEntityTypeFilter($this->_productFactory->create()->getResource()->getTypeId())
             ->load()
             ->toOptionHash();
 
-        $this->addColumn('set_name',
+        $this->addColumn(
+            'set_name',
             array(
                 'header'=> __('Attribute Set'),
                 'width' => '100px',
@@ -257,19 +270,23 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
                 'options' => $sets,
                 'header_css_class'  => 'col-attr-name',
                 'column_css_class'  => 'col-attr-name'
-        ));
+            )
+        );
 
-        $this->addColumn('sku',
+        $this->addColumn(
+            'sku',
             array(
                 'header'=> __('SKU'),
                 'width' => '80px',
                 'index' => 'sku',
                 'header_css_class'  => 'col-sku',
                 'column_css_class'  => 'col-sku'
-        ));
+            )
+        );
 
         $store = $this->_getStore();
-        $this->addColumn('price',
+        $this->addColumn(
+            'price',
             array(
                 'header'=> __('Price'),
                 'type'  => 'price',
@@ -277,10 +294,12 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
                 'index' => 'price',
                 'header_css_class'  => 'col-price',
                 'column_css_class'  => 'col-price'
-        ));
+            )
+        );
 
         if ($this->_catalogData->isModuleEnabled('Magento_CatalogInventory')) {
-            $this->addColumn('qty',
+            $this->addColumn(
+                'qty',
                 array(
                     'header'=> __('Quantity'),
                     'width' => '100px',
@@ -288,10 +307,12 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
                     'index' => 'qty',
                     'header_css_class'  => 'col-qty',
                     'column_css_class'  => 'col-qty'
-            ));
+                )
+            );
         }
 
-        $this->addColumn('visibility',
+        $this->addColumn(
+            'visibility',
             array(
                 'header'=> __('Visibility'),
                 'width' => '70px',
@@ -300,9 +321,11 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
                 'options' => $this->_visibility->getOptionArray(),
                 'header_css_class'  => 'col-visibility',
                 'column_css_class'  => 'col-visibility'
-        ));
+            )
+        );
 
-        $this->addColumn('status',
+        $this->addColumn(
+            'status',
             array(
                 'header'=> __('Status'),
                 'width' => '70px',
@@ -311,10 +334,12 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
                 'options' => $this->_status->getOptionArray(),
                 'header_css_class'  => 'col-status',
                 'column_css_class'  => 'col-status'
-        ));
+            )
+        );
 
         if (!$this->_storeManager->isSingleStoreMode()) {
-            $this->addColumn('websites',
+            $this->addColumn(
+                'websites',
                 array(
                     'header'=> __('Websites'),
                     'width' => '100px',
@@ -324,10 +349,12 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
                     'options'   => $this->_websiteFactory->create()->getCollection()->toOptionHash(),
                     'header_css_class'  => 'col-websites',
                     'column_css_class'  => 'col-websites'
-            ));
+                )
+            );
         }
 
-        $this->addColumn('edit',
+        $this->addColumn(
+            'edit',
             array(
                 'header'    => __('Edit'),
                 'width'     => '50px',
@@ -348,7 +375,8 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
                 'index'     => 'stores',
                 'header_css_class'  => 'col-action',
                 'column_css_class'  => 'col-action'
-        ));
+            )
+        );
 
         if ($this->_catalogData->isModuleEnabled('Magento_Rss')) {
             $this->addRssList('rss/catalog/notifystock', __('Notify Low Stock RSS'));
@@ -386,7 +414,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
              )
         ));
 
-        if ($this->_authorization->isAllowed('Magento_Catalog::update_attributes')){
+        if ($this->_authorization->isAllowed('Magento_Catalog::update_attributes')) {
             $this->getMassactionBlock()->addItem('attributes', array(
                 'label' => __('Update Attributes'),
                 'url'   => $this->getUrl('catalog/product_action_attribute/edit', array('_current'=>true))
@@ -404,9 +432,12 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 
     public function getRowUrl($row)
     {
-        return $this->getUrl('catalog/*/edit', array(
-            'store'=>$this->getRequest()->getParam('store'),
-            'id'=>$row->getId())
+        return $this->getUrl(
+            'catalog/*/edit',
+            array(
+                'store'=>$this->getRequest()->getParam('store'),
+                'id'=>$row->getId()
+            )
         );
     }
 }

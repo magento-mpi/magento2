@@ -225,7 +225,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      * @param \Magento\Data\CollectionFactory $collectionFactory
      * @param \Magento\App\Filesystem $filesystem
      * @param array $data
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -1168,7 +1168,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
             ->setCreatedAt(null)
             ->setUpdatedAt(null)
             ->setId(null)
-            ->setStoreId($this->_storeManager->getStore()->getId());
+            ->setStoreId(\Magento\Core\Model\Store::DEFAULT_STORE_ID);
 
         $this->_eventManager->dispatch(
             'catalog_model_product_duplicate',
