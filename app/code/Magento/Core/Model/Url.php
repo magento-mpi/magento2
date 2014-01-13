@@ -146,11 +146,6 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
     protected $_routeConfig;
 
     /**
-     * @var string
-     */
-    protected $_areaCode;
-
-    /**
      * @var \Magento\Url\RouteParamsResolverInterface
      */
     protected $_routeParamsResolver;
@@ -169,7 +164,6 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
      * @param Session $session
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Url\RouteParamsResolverFactory $routeParamsResolver
-     * @param null $areaCode
      * @param array $data
      */
     public function __construct(
@@ -181,7 +175,6 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
         \Magento\Core\Model\Session $session,
         \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Url\RouteParamsResolverFactory $routeParamsResolver,
-        $areaCode = null,
         array $data = array()
     ) {
         $this->_request = $request;
@@ -191,7 +184,6 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
         $this->_scopeResolver = $scopeResolver;
         $this->_session = $session;
         $this->_sidResolver = $sidResolver;
-        $this->_areaCode = $areaCode;
         $this->_routeParamsResolver = $routeParamsResolver->create();
         parent::__construct($data);
     }
@@ -603,7 +595,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
     public function getRouteFrontName()
     {
         if (!$this->hasData('route_front_name')) {
-            $frontName = $this->_routeConfig->getRouteFrontName($this->getRouteName(), $this->_areaCode);
+            $frontName = $this->_routeConfig->getRouteFrontName($this->getRouteName());
             $this->setRouteFrontName($frontName);
         }
 

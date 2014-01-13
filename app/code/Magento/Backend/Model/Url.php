@@ -114,7 +114,6 @@ class Url extends \Magento\Core\Model\Url
      * @param \Magento\Core\Model\ConfigInterface $coreConfig
      * @param \Magento\Data\Form\FormKey $formKey
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param null $areaCode
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -138,7 +137,6 @@ class Url extends \Magento\Core\Model\Url
         \Magento\Core\Model\ConfigInterface $coreConfig,
         \Magento\Data\Form\FormKey $formKey,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        $areaCode = null,
         array $data = array()
     ) {
         $this->_encryptor = $encryptor;
@@ -151,7 +149,6 @@ class Url extends \Magento\Core\Model\Url
             $session,
             $sidResolver,
             $routeParamsResolver,
-            $areaCode,
             $data
         );
         $this->_config = $config;

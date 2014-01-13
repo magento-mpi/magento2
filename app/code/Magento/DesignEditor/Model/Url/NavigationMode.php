@@ -63,7 +63,6 @@ class NavigationMode extends \Magento\Core\Model\Url
         \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\DesignEditor\Helper\Data $helper,
         \Magento\Url\RouteParamsResolverFactory $routeParamsResolver,
-        $areaCode,
         array $data = array()
     ) {
         $this->_helper = $helper;
@@ -83,7 +82,6 @@ class NavigationMode extends \Magento\Core\Model\Url
             $session,
             $sidResolver,
             $routeParamsResolver,
-            $areaCode,
             $data
         );
     }
