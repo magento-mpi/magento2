@@ -285,38 +285,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    /**
-     * @expectedException \Exception
-     * @expectedExceptionMessage DB was down
-     */
-    public function testActivateAccountLoadError()
-    {
-        $this->_customerModelMock->expects($this->any())
-            ->method('load')
-            ->will($this->throwException(new \Exception('DB was down')));
-
-        $this->_mockReturnValue(
-            $this->_customerModelMock,
-            array(
-                'getId' => 0,
-            )
-        );
-
-        $this->_customerFactoryMock->expects($this->any())
-            ->method('create')
-            ->will($this->returnValue($this->_customerModelMock));
-
-        // Assertions
-        $this->_customerModelMock->expects($this->never())
-            ->method('save');
-        $this->_customerModelMock->expects($this->never())
-            ->method('setConfirmation');
-
-        $customerService = $this->_createService();
-
-        $customerService->activateAccount(self::ID, self::EMAIL_CONFIRMATION_KEY);
-    }
-
     public function testActivateAccountBadKey()
     {
         $this->_customerModelMock->expects($this->any())
