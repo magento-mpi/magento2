@@ -14,7 +14,7 @@ $billingAgreement = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
     ->setAgreementLabel('TEST')
     ->setCustomerId(1)
     ->setMethodCode('paypal_express')
-    ->setReferenceId(1)
+    ->setReferenceId('REF-ID-TEST-678')
     ->setStatus(Magento\Sales\Model\Billing\Agreement::STATUS_ACTIVE)
     ->setStoreId(1)
     ->save();

@@ -13,6 +13,8 @@
  */
 namespace Magento\Sales\Controller\Adminhtml\Billing;
 
+use Magento\Customer\Service\V1\CustomerServiceInterface;
+
 class Agreement extends \Magento\Backend\App\Action
 {
     /**
@@ -23,14 +25,24 @@ class Agreement extends \Magento\Backend\App\Action
     protected $_coreRegistry = null;
 
     /**
+     * Customer service
+     *
+     * @var CustomerServiceInterface
+     */
+    protected $_customerService;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param CustomerServiceInterface $customerService
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        CustomerServiceInterface $customerService
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_customerService = $customerService;
         parent::__construct($context);
     }
 
@@ -176,14 +188,10 @@ class Agreement extends \Magento\Backend\App\Action
      */
     protected function _initCustomer()
     {
-        $customerId = (int) $this->getRequest()->getParam('id');
-        $customer = $this->_objectManager->create('Magento\Customer\Model\Customer');
-
+        $customerId = (int)$this->getRequest()->getParam('id');
         if ($customerId) {
-            $customer->load($customerId);
+            $this->_coreRegistry->register('current_customer_id', $customerId);
         }
-
-        $this->_coreRegistry->register('current_customer', $customer);
         return $this;
     }
 
