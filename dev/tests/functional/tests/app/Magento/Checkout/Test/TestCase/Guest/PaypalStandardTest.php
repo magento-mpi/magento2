@@ -30,6 +30,9 @@ class PaypalStandardTest extends Functional
      */
     public function testOnepageCheckout()
     {
+        $this->markTestSkipped('1. Bamboo inability to run tests on instance without public IP address. '
+        .'2. Blocked by MAGETWO-19364');
+
         /** @var \Magento\Sales\Test\Fixture\OrderCheckout $fixture */
         $fixture = Factory::getFixtureFactory()->getMagentoSalesPaypalStandardOrder();
         $fixture->persist();
@@ -50,6 +53,17 @@ class PaypalStandardTest extends Functional
             $fixture->getCheckoutFixture()->getGrandTotal(),
             Factory::getPageFactory()->getSalesOrderView()->getOrderTotalsBlock()->getGrandTotal(),
             'Incorrect grand total value for the order #' . $orderId
+        );
+
+        if ($fixture->getCheckoutFixture()->getCommentHistory()) {
+            $expectedAuthorizedAmount = $fixture->getCheckoutFixture()->getCommentHistory();
+        } else {
+            $expectedAuthorizedAmount = 'Authorized amount of ' . $fixture->getCheckoutFixture()->getGrandTotal();
+        }
+        $this->assertContains(
+            $expectedAuthorizedAmount,
+            Factory::getPageFactory()->getSalesOrderView()->getOrderHistoryBlock()->getCommentsHistory(),
+            'Incorrect authorized amount value for the order #' . $orderId
         );
     }
 }
