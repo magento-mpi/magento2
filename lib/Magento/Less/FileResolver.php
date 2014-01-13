@@ -24,15 +24,33 @@ class FileResolver
     protected $viewFileSystem;
 
     /**
+     * @var \Magento\Less\File\SourceInterface
+     */
+    protected $fileSource;
+
+    /**
+     * @var \Magento\View\Design\ThemeInterface
+     */
+    protected $theme;
+
+    /**
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\View\FileSystem $viewFileSystem
+     * @param \Magento\Less\File\SourceInterface $fileSource
+     * @param \Magento\View\DesignInterface $design
+     * @param \Magento\View\Design\ThemeInterface $theme
      */
     public function __construct(
         \Magento\Filesystem $filesystem,
-        \Magento\View\FileSystem $viewFileSystem
+        \Magento\View\FileSystem $viewFileSystem,
+        \Magento\Less\File\SourceInterface $fileSource,
+        \Magento\View\DesignInterface $design,
+        \Magento\View\Design\ThemeInterface $theme = null
     ) {
         $this->filesystem = $filesystem;
         $this->viewFileSystem = $viewFileSystem;
+        $this->fileSource = $fileSource;
+        $this->theme = $theme ?: $design->getDesignTheme();
     }
 
     /**
@@ -41,6 +59,9 @@ class FileResolver
      */
     public function get($file)
     {
-        return array();
+        //$theme = $this->_getPhysicalTheme($this->_theme);
+        $files = $this->fileSource->getFiles($this->theme, $file);
+
+        return $files;
     }
 }

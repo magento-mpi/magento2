@@ -487,4 +487,26 @@
     <type name="Magento\View\Asset\MergeService">
         <plugin name="cleanMergedJsCss" type="Magento\Core\Model\Asset\Plugin\CleanMergedJsCss"/>
     </type>
+    <type name="Magento\Less\FileResolver.php">
+        <param name="fileSource">
+            <instance type="Magento\Less\File\Source\Aggregated" />
+        </param>
+    </type>
+    <type name="Magento\Less\File\Source\Aggregated">
+        <param name="libraryFiles">
+            <instance type="Magento\Less\File\Source\Library" />
+        </param>
+        <param name="baseFiles">
+            <instance type="Magento\Less\File\Source\Base" />
+        </param>
+        <param name="themeFiles">
+            <instance type="Magento\Less\File\Source\Theme" />
+        </param>
+        <param name="overrideBaseFiles">
+            <instance type="layoutFileSourceOverrideBaseSorted" />
+        </param>
+        <param name="overrideThemeFiles">
+            <instance type="layoutFileSourceOverrideThemeSorted" />
+        </param>
+    </type>
 </config>
