@@ -11,7 +11,6 @@
 (function($) {
     $.widget('mage.addToCart', {
         options: {
-            groupedProductContainer: '.grouped-items-table',
             showAddToCart: true
         },
 
