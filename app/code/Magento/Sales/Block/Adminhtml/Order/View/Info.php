@@ -168,8 +168,7 @@ class Info extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
 
         $entityType = 'customer';
         foreach ($this->_customerMetadataService->getAllCustomerAttributeMetadata($entityType) as $attribute) {
-            /* @var $attribute \Magento\Customer\Model\Attribute */
-            if (!$attribute->getIsVisible() || $attribute->getIsSystem()) {
+            if (!$attribute->isVisible() || $attribute->isSystem()) {
                 continue;
             }
             $orderKey   = sprintf('customer_%s', $attribute->getAttributeCode());
