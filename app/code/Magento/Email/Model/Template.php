@@ -188,7 +188,7 @@ class Template extends \Magento\Core\Model\Template
             }
         }
         return $this->_viewUrl->getViewFileUrl(
-            'Magento_Core::logo_email.gif',
+            'Magento_Email::logo_email.gif',
             array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND)
         );
     }
