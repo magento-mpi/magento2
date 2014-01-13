@@ -16,6 +16,7 @@ use Mtf\TestCase\Functional;
 use Magento\Sales\Test\Fixture\OrderCheckout;
 use Magento\Sales\Test\Fixture\PaypalPayflowLinkOrder;
 use Magento\Sales\Test\Fixture\PaypalPaymentsAdvancedOrder;
+use Magento\Sales\Test\Fixture\PaypalStandardOrder;
 
 /**
  * Class CloseOrderTest
@@ -36,6 +37,9 @@ class CloseOrderTest extends Functional
     {
         if ($fixture instanceof PaypalPaymentsAdvancedOrder || $fixture instanceof PaypalPayflowLinkOrder){
             $this->markTestSkipped('Bamboo inability to run tests on instance with public IP address');
+        }
+        if ($fixture instanceof PaypalStandardOrder) {
+            $this->markTestSkipped('Test is blocked by MAGETWO-19364');
         }
 
         $fixture->persist();
