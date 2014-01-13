@@ -2,7 +2,8 @@
 
 namespace Magento\Customer\Service\V1;
 use Magento\Customer\Service\V1;
-use Magento\Customer\Service\Entity\V1\Exception;
+use Magento\Exception\InputException;
+use Magento\Exception\NoSuchEntityException;
 
 /**
  * Integration test for service layer \Magento\Customer\Service\V1\CustomerAccountService
@@ -100,7 +101,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      *
-     * @expectedException \Magento\Customer\Service\Entity\V1\Exception
+     * @expectedException \Magento\Exception\AuthenticationException
      * @expectedExceptionMessage Invalid login or password
      */
     public function testLoginWrongPassword()
@@ -112,7 +113,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      *
-     * @expectedException \Magento\Customer\Service\Entity\V1\Exception
+     * @expectedException \Magento\Exception\AuthenticationException
      * @expectedExceptionMessage Invalid login or password
      */
     public function testLoginWrongUsername()
@@ -142,9 +143,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoDataFixture Magento/Customer/_files/inactive_customer.php
-     *
-     * @expectedException \Magento\Core\Exception
-     * @expectedExceptionMessage Wrong confirmation key
      */
     public function testActivateAccountWrongKey()
     {
@@ -153,14 +151,23 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $customerModel->load(1);
         $key = $customerModel->getConfirmation();
 
-        $this->_service->activateAccount($customerModel->getId(), $key . $key);
+        try {
+            $this->_service->activateAccount($customerModel->getId(), $key . $key);
+            $this->fail('Expected exception was not thrown');
+        } catch (InputException $ie) {
+            $expectedParams = [
+                [
+                    'code' => InputException::INVALID_FIELD_VALUE,
+                    'fieldName' => 'confirmation',
+                    'message' => 'Wrong confirmation key.',
+                ]
+            ];
+            $this->assertEquals($expectedParams, $ie->getParams());
+        }
     }
 
     /**
      * @magentoDataFixture Magento/Customer/_files/inactive_customer.php
-     *
-     * @expectedException \Magento\Customer\Service\Entity\V1\Exception
-     * @expectedExceptionMessage No customer with customerId 12341 exists.
      */
     public function testActivateAccountWrongAccount()
     {
@@ -168,16 +175,20 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $customerModel = $this->_objectManager->create('Magento\Customer\Model\Customer');
         $customerModel->load(1);
         $key = $customerModel->getConfirmation();
-
-        $this->_service->activateAccount('1234' . $customerModel->getId(), $key);
+        try {
+            $this->_service->activateAccount('1234' . $customerModel->getId(), $key);
+        } catch (NoSuchEntityException $nsee) {
+            $expectedParams = [
+                'customerId' => '12341',
+            ];
+            $this->assertEquals($expectedParams, $nsee->getParams());
+        }
     }
 
     /**
      * @magentoDataFixture Magento/Customer/_files/inactive_customer.php
      * @magentoAppArea frontend
      *
-     * @expectedException  \Magento\Customer\Service\Entity\V1\Exception
-     * @expectedExceptionMessage Customer account is already active
      */
     public function testActivateAccountAlreadyActive()
     {
@@ -187,7 +198,18 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $key = $customerModel->getConfirmation();
         $this->_service->activateAccount($customerModel->getId(), $key);
 
-        $this->_service->activateAccount($customerModel->getId(), $key);
+        try {
+            $this->_service->activateAccount($customerModel->getId(), $key);
+        } catch ( InputException $ie) {
+            $expectedParams = [
+                [
+                    'message' => 'Customer account is already active.',
+                    'fieldName' => 'customerId',
+                    'code' => InputException::INVALID_STATE_CHANGE,
+                ]
+            ];
+            $this->assertEquals($expectedParams, $ie->getParams());
+        }
     }
 
 
@@ -208,50 +230,81 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      *
-     * @expectedException Exception
-     * @expectedExceptionCode \Magento\Customer\Service\Entity\V1\Exception::CODE_RESET_TOKEN_EXPIRED
      */
     public function testValidateResetPasswordLinkTokenExpired()
     {
-        $this->_service->validateResetPasswordLinkToken(1, 'some_token');
+        try {
+            $this->_service->validateResetPasswordLinkToken(1, 'some_token');
+        } catch (InputException $ie) {
+            $expectedParams = [
+                [
+                    'message' => 'Your password reset link has expired.',
+                    'fieldName' => 'resetPasswordLinkToken',
+                    'code' => InputException::TOKEN_EXPIRED,
+                ]
+            ];
+            $this->assertEquals($expectedParams, $ie->getParams());
+        }
+
     }
 
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      *
-     * @expectedException Exception
-     * @expectedExceptionCode \Magento\Customer\Service\Entity\V1\Exception::CODE_INVALID_RESET_TOKEN
      */
     public function testValidateResetPasswordLinkTokenInvalid()
     {
-        $this->_service->validateResetPasswordLinkToken(0, null);
+        try {
+            $this->_service->validateResetPasswordLinkToken(0, null);
+        } catch (InputException $ie) {
+            $expectedParams = [
+                [
+                    'message' => 'Invalid password reset token.',
+                    'fieldName' => 'resetPasswordLinkToken',
+                    'code' => InputException::INVALID_FIELD_VALUE,
+                ]
+            ];
+            $this->assertEquals($expectedParams, $ie->getParams());
+        }
     }
 
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      *
-     * @expectedException Exception
-     * @expectedExceptionCode \Magento\Customer\Service\Entity\V1\Exception::CODE_INVALID_CUSTOMER_ID
-     * @expectedExceptionMessage No customer with customerId 4200 exists
      */
     public function testValidateResetPasswordLinkTokenWrongUser()
     {
         $resetToken = 'lsdj579slkj5987slkj595lkj';
 
-
-        $this->_service->validateResetPasswordLinkToken(4200, $resetToken);
+        try {
+            $this->_service->validateResetPasswordLinkToken(4200, $resetToken);
+        } catch (NoSuchEntityException $nsee) {
+            $expectedParams = [
+                'customerId' => '4200',
+            ];
+            $this->assertEquals($expectedParams, $nsee->getParams());
+            $this->assertEquals('No such entity with customerId = 4200', $nsee->getMessage());
+        }
     }
 
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      *
-     * @expectedException Exception
-     * @expectedExceptionCode \Magento\Customer\Service\Entity\V1\Exception::CODE_INVALID_RESET_TOKEN
-     * @expectedExceptionMessage Invalid password reset token
      */
     public function testValidateResetPasswordLinkTokenNull()
     {
-        $this->_service->validateResetPasswordLinkToken(null, null);
+        try {
+            $this->_service->validateResetPasswordLinkToken(null, null);
+        } catch (InputException $ie) {
+            $expectedParams = [
+                [
+                    'message' => 'Invalid password reset token.',
+                    'fieldName' => 'resetPasswordLinkToken',
+                    'code' => InputException::INVALID_FIELD_VALUE,
+                ]
+            ];
+            $this->assertEquals($expectedParams, $ie->getParams());
+        }
     }
 
     /**
@@ -268,15 +321,20 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      *
-     * @expectedException Exception
-     * @expectedExceptionCode \Magento\Customer\Service\Entity\V1\Exception::CODE_EMAIL_NOT_FOUND
-     * @expectedExceptionMessage No customer found for the provided email and website ID
      */
     public function testSendPasswordResetLinkBadEmailOrWebsite()
     {
         $email = 'foo@example.com';
 
-        $this->_service->sendPasswordResetLink($email, 0);
+        try {
+            $this->_service->sendPasswordResetLink($email, 0);
+        } catch (NoSuchEntityException $nsee) {
+            $expectedParams = [
+                'email' => $email,
+                'websiteId' => 0,
+            ];
+            $this->assertEquals($expectedParams, $nsee->getParams());
+        }
     }
 
     /**
@@ -299,9 +357,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      *
-     * @expectedException Exception
-     * @expectedExceptionCode \Magento\Customer\Service\Entity\V1\Exception::CODE_RESET_TOKEN_EXPIRED
-     * @expectedExceptionMessage Your password reset link has expired.
      */
     public function testResetPasswordTokenExpired()
     {
@@ -314,15 +369,23 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         ]));
         $this->_customerService->saveCustomer($this->_customerBuilder->create());
 
-        $this->_service->resetPassword(1, $password, $resetToken);
+        try {
+            $this->_service->resetPassword(1, $password, $resetToken);
+        } catch (InputException $ie) {
+            $expectedParams = [
+                [
+                    'message' => 'Your password reset link has expired.',
+                    'fieldName' => 'resetPasswordLinkToken',
+                    'code' => InputException::TOKEN_EXPIRED,
+                ]
+            ];
+            $this->assertEquals($expectedParams, $ie->getParams());
+        }
     }
 
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      *
-     * @expectedException Exception
-     * @expectedExceptionCode \Magento\Customer\Service\Entity\V1\Exception::CODE_RESET_TOKEN_EXPIRED
-     * @expectedExceptionMessage Your password reset link has expired.
      */
     public function testResetPasswordTokenInvalid()
     {
@@ -336,15 +399,22 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         ]));
         $this->_customerService->saveCustomer($this->_customerBuilder->create());
 
-        $this->_service->resetPassword(1, $password, $invalidToken);
+        try {
+            $this->_service->resetPassword(1, $password, $invalidToken);
+        } catch (InputException $ie) {
+            $expectedParams = [
+                [
+                    'message' => 'Your password reset link has expired.',
+                    'fieldName' => 'resetPasswordLinkToken',
+                    'code' => InputException::TOKEN_EXPIRED,
+                ]
+            ];
+            $this->assertEquals($expectedParams, $ie->getParams());
+        }
     }
 
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
-     *
-     * @expectedException Exception
-     * @expectedExceptionCode \Magento\Customer\Service\Entity\V1\Exception::CODE_INVALID_CUSTOMER_ID
-     * @expectedExceptionMessage No customer with customerId 4200 exists
      */
     public function testResetPasswordTokenWrongUser()
     {
@@ -356,16 +426,18 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             'rp_token_created_at' => date('Y-m-d')
         ]));
         $this->_customerService->saveCustomer($this->_customerBuilder->create());
-
-        $this->_service->resetPassword(4200, $password, $resetToken);
+        try {
+            $this->_service->resetPassword(4200, $password, $resetToken);
+        } catch (NoSuchEntityException $nsee) {
+            $expectedParams = [
+                'customerId' => '4200',
+            ];
+            $this->assertEquals($expectedParams, $nsee->getParams());
+        }
     }
 
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
-     *
-     * @expectedException Exception
-     * @expectedExceptionCode \Magento\Customer\Service\Entity\V1\Exception::CODE_INVALID_RESET_TOKEN
-     * @expectedExceptionMessage Invalid password reset token
      */
     public function testResetPasswordTokenInvalidUserId()
     {
@@ -377,8 +449,19 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             'rp_token_created_at' => date('Y-m-d')
         ]));
         $this->_customerService->saveCustomer($this->_customerBuilder->create());
+        try {
+            $this->_service->resetPassword(0, $password, $resetToken);
+        } catch (InputException $ie) {
+            $expectedParams = [
+                [
+                    'message' => 'Invalid password reset token.',
+                    'fieldName' => 'resetPasswordLinkToken',
+                    'code' => InputException::INVALID_FIELD_VALUE,
+                ]
+            ];
+            $this->assertEquals($expectedParams, $ie->getParams());
+        }
 
-        $this->_service->resetPassword(0, $password, $resetToken);
     }
 
     /**
@@ -393,26 +476,36 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
-     *
-     * @expectedException Exception
-     * @expectedExceptionCode \Magento\Customer\Service\Entity\V1\Exception::CODE_EMAIL_NOT_FOUND
      */
     public function testSendConfirmationNoEmail()
     {
-        $this->_service->sendConfirmation('wrongemail@example.com');
+        try {
+            $this->_service->sendConfirmation('wrongemail@example.com');
+        } catch (NoSuchEntityException $nsee) {
+            $expectedParams = [
+                'email' => 'wrongemail@example.com',
+                'websiteId' => '1',
+            ];
+            $this->assertEquals($expectedParams, $nsee->getParams());
+        }
     }
 
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
-     *
-     * @expectedException Exception
-     * @expectedExceptionCode \Magento\Customer\Service\Entity\V1\Exception::CODE_CONFIRMATION_NOT_NEEDED
      */
     public function testSendConfirmationNotNeeded()
     {
-        $this->_service->sendConfirmation('customer@example.com');
+        try {
+            $this->_service->sendConfirmation('customer@example.com');
+        } catch (InputException $ie) {
+            $expectedParams = [
+                [
+                    'message' => 'This email does not require confirmation.',
+                    'fieldName' => 'email',
+                    'code' => InputException::INVALID_STATE_CHANGE,
+                ]
+            ];
+            $this->assertEquals($expectedParams, $ie->getParams());
+        }
     }
-
-
-
 }
