@@ -6,6 +6,7 @@
   * Fixed DHL doesn't work on holidays
   * Fixed ability to export product
   * Fixed 3D secure validation
+  * Fixed session to be transfered between Magento urls
 
 2.0.0.0-dev60
 =============
