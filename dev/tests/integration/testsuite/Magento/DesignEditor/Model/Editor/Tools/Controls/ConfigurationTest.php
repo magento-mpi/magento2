@@ -53,7 +53,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         $relativePath = $objectManager->get('Magento\App\Filesystem')
             ->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR)
             ->getRelativePath(__DIR__ . '/../../../_files/design');
-        /** @var \Magento\Filesystem\DirectoryList $directoryList */
+        /** @var \Magento\App\Filesystem\DirectoryList $directoryList */
         $directoryList = $objectManager->get('Magento\App\Filesystem\DirectoryList');
         $directoryList->addDirectory(\Magento\App\Filesystem::ROOT_DIR, array('path' => $relativePath));
         $directoryList->addDirectory(\Magento\App\Filesystem::THEMES_DIR, array('path' => $relativePath));

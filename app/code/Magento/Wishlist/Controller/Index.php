@@ -793,7 +793,7 @@ class Index
                         'value' => $filePath,
                         'type'  => 'filename'
                     ),
-                    \Magento\Filesystem::ROOT
+                    \Magento\App\Filesystem::ROOT_DIR
                 );
             }
 

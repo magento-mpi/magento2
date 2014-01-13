@@ -83,7 +83,7 @@ class Download extends \Magento\App\Action\Action
                     'value' => $filePath,
                     'type'  => 'filename'
                 ),
-                \Magento\Filesystem::ROOT
+                \Magento\App\Filesystem::ROOT_DIR
             );
         } catch (\Exception $e) {
             $this->_forward('noroute');

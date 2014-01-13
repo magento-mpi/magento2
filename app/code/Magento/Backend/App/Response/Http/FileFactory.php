@@ -96,7 +96,7 @@ class FileFactory extends \Magento\App\Response\Http\FileFactory
     public function create(
         $fileName,
         $content,
-        $baseDir = \Magento\Filesystem::ROOT,
+        $baseDir = \Magento\App\Filesystem::ROOT_DIR,
         $contentType = 'application/octet-stream',
         $contentLength = null
     ) {

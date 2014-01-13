@@ -41,7 +41,7 @@ class Rma extends \Magento\Backend\App\Action
      * @param Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\App\Response\Http\FileFactory $fileFactory
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
      */
     public function __construct(
         Action\Context $context,
@@ -610,7 +610,7 @@ class Rma extends \Magento\Backend\App\Action
                 return $this->_fileFactory->create(
                     'rma' . $dateModel->date('Y-m-d_H-i-s') . '.pdf',
                     $pdf->render(),
-                    \Magento\Filesystem::MEDIA,
+                    \Magento\App\Filesystem::MEDIA_DIR,
                     'application/pdf'
                 );
             }
@@ -867,7 +867,7 @@ class Rma extends \Magento\Backend\App\Action
                     'type'  => 'filename',
                     'value' => $this->readDirectory->getAbsolutePath($filePath)
                 ),
-                \Magento\Filesystem::MEDIA
+                \Magento\App\Filesystem::MEDIA_DIR
             )->sendResponse();
         }
 
@@ -1239,7 +1239,7 @@ class Rma extends \Magento\Backend\App\Action
                 return $this->_fileFactory->create(
                     'ShippingLabel(' . $model->getIncrementId() . ').pdf',
                     $pdfContent,
-                    \Magento\Filesystem::MEDIA,
+                    \Magento\App\Filesystem::MEDIA_DIR,
                     'application/pdf'
                 );
             }
@@ -1278,7 +1278,7 @@ class Rma extends \Magento\Backend\App\Action
             return $this->_fileFactory->create(
                 'packingslip' . $dateModel->date('Y-m-d_H-i-s') . '.pdf',
                 $pdf->render(),
-                \Magento\Filesystem::MEDIA,
+                \Magento\App\Filesystem::MEDIA_DIR,
                 'application/pdf'
             );
         } else {

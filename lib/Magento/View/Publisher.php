@@ -36,7 +36,7 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
     /**#@-*/
 
     /**
-     * @var \Magento\Filesystem
+     * @var \Magento\App\Filesystem
      */
     protected $_filesystem;
 

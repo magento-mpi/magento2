@@ -19,16 +19,16 @@ class Primary
     protected $_appMode;
 
     /**
-     * @var \Magento\Filesystem\DirectoryList
+     * @var \Magento\App\Filesystem\DirectoryList
      */
     protected $_directoryList;
 
     /**
-     * @param string $configDirectoryPath
+     * @param \Magento\App\Filesystem\DirectoryList $directoryList
      * @param string $appMode
      */
     public function __construct(
-        \Magento\Filesystem\DirectoryList $directoryList,
+        \Magento\App\Filesystem\DirectoryList $directoryList,
         $appMode = \Magento\App\State::MODE_DEFAULT
     ) {
         $this->_directoryList = $directoryList;

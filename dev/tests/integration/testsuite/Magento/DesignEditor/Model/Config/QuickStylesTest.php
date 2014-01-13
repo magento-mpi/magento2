@@ -34,7 +34,7 @@ class QuickStylesTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        /** @var \Magento\Filesystem\DirectoryList $directoryList */
+        /** @var \Magento\App\Filesystem\DirectoryList $directoryList */
         $directoryList = $objectManager->get('Magento\App\Filesystem\DirectoryList');
         $path = str_replace($directoryList->getRoot(), '', str_replace('\\', '/', __DIR__) . '/../_files/design');
         $directoryList->addDirectory(\Magento\App\Filesystem::THEMES_DIR, array('path' => ltrim($path, '/')));

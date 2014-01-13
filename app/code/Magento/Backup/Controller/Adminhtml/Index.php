@@ -199,7 +199,7 @@ class Index extends \Magento\Backend\App\Action
         $response = $this->_fileFactory->create(
             $fileName,
             null,
-            \Magento\Filesystem::VAR_DIR,
+            \Magento\App\Filesystem::VAR_DIR,
             'application/octet-stream',
             $backup->getSize()
         );

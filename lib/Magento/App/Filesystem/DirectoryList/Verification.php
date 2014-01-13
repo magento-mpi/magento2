@@ -45,7 +45,7 @@ class Verification
     );
 
     /**
-     * @var \Magento\Filesystem
+     * @var \Magento\App\Filesystem
      */
     protected $filesystem;
 
