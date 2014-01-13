@@ -282,8 +282,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
                     'customerId' => self::ID,
                 ]
             );
-        } catch (\Exception $unexpected) {
-            $this->fail('Unexpected exception type thrown. '. $unexpected->getMessage());
         }
     }
 
@@ -352,8 +350,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals(InputException::INVALID_FIELD_VALUE, $e->getParams()[0]['code']);
             $this->assertEquals('confirmation', $e->getParams()[0]['fieldName']);
             $this->assertEquals('Wrong confirmation key.', $e->getParams()[0]['message']);
-        } catch (\Exception $unexpected) {
-            $this->fail('Unexpected exception type thrown. '. $unexpected->getMessage());
         }
     }
 
