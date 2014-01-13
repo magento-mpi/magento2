@@ -21,6 +21,13 @@ use Mtf\Factory\Factory;
 class GuestPayPalStandard extends Checkout
 {
     /**
+     * Paypal customer buyer
+     *
+     * @var \Magento\Paypal\Test\Fixture\Customer
+     */
+    private $paypalCustomer;
+
+    /**
      * Prepare for PayPal Standard
      */
     protected function _initData()
