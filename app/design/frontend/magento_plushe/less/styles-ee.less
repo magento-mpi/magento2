@@ -1,12 +1,15 @@
-// /**
-//  * {license_notice}
-//  *
-//  * @category    design
-//  * @copyright   {copyright}
-//  * @license     {license_link}
-//  */
+/**
+  * {license_notice}
+  *
+  * @category    design
+  * @copyright   {copyright}
+  * @license     {license_link}
+  */
 
-@import "styles.less";
+@import "clearless/all";
+@import "lib/snippets";
+@import "lib/buttons";
+@import "vars";
 
 /*
     GiftCard Form
@@ -158,7 +161,7 @@
 .form.add.invitations,
 .form.create.return,
 .form.giftregistry.search {
-    &:extend(.form.send.friend all);
+    .formCommon();
 }
 
 /*
@@ -1440,7 +1443,20 @@
             position:absolute;
             right: 10px;
             top: 15px;
-            &:extend(.action.delete all);
+            display: inline-block;
+            span {
+                color: @primary3;
+                .iconAfter(@content: @icon-trash, @font: 'icons');
+                .iconHideText();
+            }
+            &:focus,
+            &:active,
+            &:hover {
+                outline: none;
+                span {
+                    color: @primary4;
+                }
+            }
             border:0;
             background: none;
             color: @primary5;
@@ -1459,7 +1475,7 @@
         }
     }
     .field.qty { width:20%; }
-    &:extend(.form.send.friend all);
+    &:extend(.form.reward.settings all);
     .action.add {
         &:extend(.secondary.action all);
     }
