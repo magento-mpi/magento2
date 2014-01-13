@@ -73,7 +73,6 @@ class FileList
      * Add or replace already added LESS files with specified ones, checking for identity match
      *
      * @param File[] $files
-     * @throws \LogicException
      */
     public function override(array $files)
     {
@@ -91,9 +90,6 @@ class FileList
      */
     protected function getFileIdentifier(File $file)
     {
-        //TODO: Seems theme is not used anyway
-
-        $theme = ($file->getTheme() ? 'theme:' . $file->getTheme()->getFullPath() : 'base');
-        return $theme . '|module:' . $file->getModule() . '|file:' . $file->getName();
+        return 'module:' . $file->getModule() . '|file:' . $file->getName();
     }
 }

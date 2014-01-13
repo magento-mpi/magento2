@@ -66,11 +66,8 @@ class Aggregated implements SourceInterface
         $list->add($this->baseFiles->getFiles($filePath, $theme));
 
         foreach ($this->getInheritedThemes($theme) as $currentTheme) {
-            var_dump(get_class($currentTheme));
-            var_dump($filePath);
-            var_dump($this->themeFiles->getFiles($filePath, $currentTheme));
-            //var_dump(get_parent_class($currentTheme));
-            $list->add($this->themeFiles->getFiles($filePath, $currentTheme));
+            $files = $this->themeFiles->getFiles($filePath, $currentTheme);
+            $list->override($files);
         }
         
         return $list->getAll();
@@ -80,7 +77,7 @@ class Aggregated implements SourceInterface
      * Return the full theme inheritance sequence, from the root theme till a specified one
      *
      * @param ThemeInterface $theme
-     * @return Theme[] Format: array([<root_theme>, ..., <parent_theme>,] <current_theme>)
+     * @return ThemeInterface[] Format: array([<root_theme>, ..., <parent_theme>,] <current_theme>)
      */
     protected function getInheritedThemes(ThemeInterface $theme)
     {
