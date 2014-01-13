@@ -1,3 +1,6 @@
+  * Fixed No Collapsing for Tax Summary
+  * Optimized Plushe theme css
+
 2.0.0.0-dev60
 =============
 * Fixed bugs:
