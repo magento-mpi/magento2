@@ -9,8 +9,6 @@
  */
 namespace Magento\Customer\Service\V1\Dto\Eav;
 
-use Magento\Customer\Service\V1\Dto\Eav\Option;
-
 class AttributeMetadata extends \Magento\Service\Entity\AbstractDto
 {
     /**
@@ -26,6 +24,7 @@ class AttributeMetadata extends \Magento\Service\Entity\AbstractDto
     const REQUIRED = 'is_required';
     const MULTILINE_COUNT = 'multiline_count';
     const DATA_MODEL = 'data_model';
+    const FRONTEND_CLASS = 'front_end_class';
 
     /**
      * @return string
@@ -105,5 +104,13 @@ class AttributeMetadata extends \Magento\Service\Entity\AbstractDto
     public function getOptions()
     {
         return $this->_get(self::OPTIONS);
+    }
+
+    /**
+     * @return string
+     */
+    public function getFrontendClass()
+    {
+        return $this->_get(self::FRONTEND_CLASS);
     }
 }
