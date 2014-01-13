@@ -20,10 +20,9 @@ class CrossSell implements \Magento\Catalog\Model\Product\CopyConstructorInterfa
     {
         $data = array();
         $attributes = array();
-
-        $product->getLinkInstance()->useCrossSellLinks();
-
-        foreach ($product->getLinkInstance()->getAttributes() as $attribute) {
+        $link = $product->getLinkInstance();
+        $link->useCrossSellLinks();
+        foreach ($link->getAttributes() as $attribute) {
             if (isset($attribute['code'])) {
                 $attributes[] = $attribute['code'];
             }

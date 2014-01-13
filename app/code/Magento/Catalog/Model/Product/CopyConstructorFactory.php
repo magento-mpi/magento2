@@ -28,7 +28,7 @@ class CopyConstructorFactory
      *
      * @param string $instance
      * @param array $arguments
-     * @return BuilderInterface
+     * @return CopyConstructorInterface
      * @throws \InvalidArgumentException
      */
     public function create($instance, array $arguments = array())

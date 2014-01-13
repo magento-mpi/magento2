@@ -36,8 +36,10 @@ class Downloadable implements \Magento\Catalog\Model\Product\CopyConstructorInte
             return;
         }
         $data = array();
+        /** @var \Magento\Downloadable\Model\Product\Type $type */
         $type = $product->getTypeInstance();
         foreach ($type->getLinks($product) as $link) {
+            /* @var \Magento\Downloadable\Model\Link $link */
             $linkData = $link->getData();
             $data['link'][] = array(
                 'is_delete'           => false,
@@ -67,6 +69,8 @@ class Downloadable implements \Magento\Catalog\Model\Product\CopyConstructorInte
                 'price'               => $linkData['price'],
             );
         }
+
+        /** @var \Magento\Downloadable\Model\Sample $sample */
         foreach ($type->getSamples($product) as $sample) {
             $sampleData = $sample->getData();
             $data['sample'][] = array(

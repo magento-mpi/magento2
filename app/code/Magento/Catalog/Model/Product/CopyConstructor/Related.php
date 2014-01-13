@@ -21,8 +21,9 @@ class Related implements \Magento\Catalog\Model\Product\CopyConstructorInterface
         $data = array();
         $attributes = array();
 
-        $product->getLinkInstance()->useRelatedLinks();
-        foreach ($product->getLinkInstance()->getAttributes() as $attribute) {
+        $link = $product->getLinkInstance();
+        $link->useRelatedLinks();
+        foreach ($link->getAttributes() as $attribute) {
             if (isset($attribute['code'])) {
                 $attributes[] = $attribute['code'];
             }

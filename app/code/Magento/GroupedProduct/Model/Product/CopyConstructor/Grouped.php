@@ -16,7 +16,7 @@ class Grouped implements \Magento\Catalog\Model\Product\CopyConstructorInterface
      * @param \Magento\Catalog\Model\Product $product
      * @return \Magento\Catalog\Model\Resource\Product\Link\Collection
      */
-    protected function getGroupedLinkCollection(\Magento\Catalog\Model\Product $product)
+    protected function _getGroupedLinkCollection(\Magento\Catalog\Model\Product $product)
     {
         /** @var \Magento\Catalog\Model\Product\Link  $links */
         $links = $product->getLinkInstance();
@@ -45,15 +45,16 @@ class Grouped implements \Magento\Catalog\Model\Product\CopyConstructorInterface
 
         $data = array();
         $attributes = array();
-        $product->getLinkInstance()
-            ->setLinkTypeId(\Magento\GroupedProduct\Model\Resource\Product\Link::LINK_TYPE_GROUPED);
-        foreach ($product->getLinkInstance()->getAttributes() as $attribute) {
+        $link = $product->getLinkInstance();
+        $link->setLinkTypeId(\Magento\GroupedProduct\Model\Resource\Product\Link::LINK_TYPE_GROUPED);
+        foreach ($link->getAttributes() as $attribute) {
             if (isset($attribute['code'])) {
                 $attributes[] = $attribute['code'];
             }
         }
+
         /** @var \Magento\Catalog\Model\Product\Link $link  */
-        foreach ($this->getGroupedLinkCollection($product) as $link) {
+        foreach ($this->_getGroupedLinkCollection($product) as $link) {
             $data[$link->getLinkedProductId()] = $link->toArray($attributes);
         }
         $duplicate->setGroupedLinkData($data);
