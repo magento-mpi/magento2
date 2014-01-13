@@ -12,6 +12,7 @@ namespace Magento\Customer\Block\Account\Dashboard;
 
 
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
+use Magento\Exception\NoSuchEntityException;
 
 /**
  * Dashboard Customer Info
@@ -80,7 +81,7 @@ class Info extends \Magento\View\Element\Template
     {
         try {
             return $this->_customerService->getCustomer($this->_customerSession->getId());
-        } catch (\Magento\Customer\Service\Entity\V1\Exception $e) {
+        } catch (NoSuchEntityException $e) {
             return null;
         }
     }
