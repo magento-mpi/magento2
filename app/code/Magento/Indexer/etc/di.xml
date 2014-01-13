@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento\Indexer\Model\Config">
+        <param name="reader">
+            <instance type="Magento\Indexer\Model\Config\Reader" />
+        </param>
+    </type>
+</config>
