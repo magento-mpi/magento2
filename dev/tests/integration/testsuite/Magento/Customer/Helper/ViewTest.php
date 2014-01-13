@@ -60,7 +60,8 @@ class ViewTest extends \PHPUnit_Framework_TestCase
 
         $this->_customerMetadataService->expects($this->any())
             ->method('getAttributeMetadata')
-            ->will($this->returnValueMap(
+            ->will(
+                $this->returnValueMap(
                     [
                         ['customer', 'prefix', $isPrefixAllowed ? $visibleAttribute : $invisibleAttribute],
                         ['customer', 'middlename', $isMiddleNameAllowed ? $visibleAttribute : $invisibleAttribute],
