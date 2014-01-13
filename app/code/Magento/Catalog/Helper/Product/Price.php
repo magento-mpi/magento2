@@ -41,7 +41,7 @@ class Price extends \Magento\App\Helper\AbstractHelper
     }
 
     /**
-     * Proxy method for templates
+     * Get product price with all tax settings processing
      *
      * @param $_product
      * @param $_minimalPriceValue
@@ -54,7 +54,7 @@ class Price extends \Magento\App\Helper\AbstractHelper
     }
 
     /**
-     * Proxy to tax module for template
+     * Check if we have display in catalog prices including and excluding tax
      *
      * @return bool
      */
@@ -64,7 +64,7 @@ class Price extends \Magento\App\Helper\AbstractHelper
     }
 
     /**
-     * Proxy to tax module for template
+     * Check if we have display in catalog prices including tax
      *
      * @return bool
      */
@@ -74,7 +74,7 @@ class Price extends \Magento\App\Helper\AbstractHelper
     }
 
     /**
-     * proxy method for template
+     * Check if product prices on input include tax
      *
      * @return bool
      */
@@ -96,6 +96,8 @@ class Price extends \Magento\App\Helper\AbstractHelper
     }
 
     /**
+     * Get request object with information necessary for getting tax rate
+     *
      * @param   null|bool|\Magento\Object $shippingAddress
      * @param   null|bool||\Magento\Object $billingAddress
      * @param   null|int $customerTaxClass
@@ -112,6 +114,8 @@ class Price extends \Magento\App\Helper\AbstractHelper
     }
 
     /**
+     * Get calculation tax rate by specific request
+     *
      * @param   \Magento\Object $request
      * @return  float
      */

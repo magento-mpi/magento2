@@ -12,8 +12,8 @@
 <?php
 /* @var $_coreHelper \Magento\Core\Helper\Data */
 $_coreHelper = $this->helper('Magento\Core\Helper\Data');
-/* @var $_taxHelper \Magento\Catalog\Helper\Product\Price */
-$_taxHelper  = $this->helper('Magento\Catalog\Helper\Product\Price');
+/* @var $priceHelper \Magento\Catalog\Helper\Product\Price */
+$priceHelper  = $this->helper('Magento\Catalog\Helper\Product\Price');
 
 $_product = $this->getProduct();
 $_id = $_product->getId();
@@ -21,13 +21,13 @@ $_minimalPriceValue = $_product->getMinimalPrice();
 $showMinPrice = $this->getDisplayMinimalPrice();
 
 if ($showMinPrice && $_minimalPriceValue) {
-    $_exclTax = $_taxHelper->getPrice($_product, $_minimalPriceValue);
-    $_inclTax = $_taxHelper->getPrice($_product, $_minimalPriceValue, true);
+    $_exclTax = $priceHelper->getPrice($_product, $_minimalPriceValue);
+    $_inclTax = $priceHelper->getPrice($_product, $_minimalPriceValue, true);
     $price    = $showMinPrice ? $_minimalPriceValue : 0;
 } else {
     $price    = $_product->getFinalPrice();
-    $_exclTax = $_taxHelper->getPrice($_product, $price);
-    $_inclTax = $_taxHelper->getPrice($_product, $price, true);
+    $_exclTax = $priceHelper->getPrice($_product, $price);
+    $_inclTax = $priceHelper->getPrice($_product, $price, true);
 }
 ?>
 
@@ -37,7 +37,7 @@ if ($showMinPrice && $_minimalPriceValue) {
             <?php if ($showMinPrice): ?>
                 <span class="price-label"><?php echo __('Starting at:') ?></span>
             <?php endif ?>
-            <?php if ($_taxHelper->displayBothPrices()): ?>
+            <?php if ($priceHelper->displayBothPrices()): ?>
                 <span class="price-excluding-tax">
                         <span class="label"><?php echo __('Excl. Tax:') ?></span>
                         <span class="price" id="price-excluding-tax-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>" itemprop="price">
@@ -53,7 +53,7 @@ if ($showMinPrice && $_minimalPriceValue) {
             <?php else: ?>
                 <?php
                 $_showPrice = $_inclTax;
-                if (!$_taxHelper->displayPriceIncludingTax()) {
+                if (!$priceHelper->displayPriceIncludingTax()) {
                     $_showPrice = $_exclTax;
                 }
                 ?>
