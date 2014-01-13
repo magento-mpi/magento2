@@ -131,8 +131,10 @@ class Profile
         // @todo correct after MAGETWO-19344 is done
         if ($customer instanceof \Magento\Customer\Model\Backend\Customer) {
             $collection->addFieldToFilter('customer_id', $customer->getId());
-        } else {
+        } elseif ($customer instanceof \Magento\Customer\Service\V1\Dto\Customer) {
             $collection->addFieldToFilter('customer_id', $customer->getCustomerId());
+        } else {
+            return $this;
         }
 
         if (!$this->getParam($this->getVarNameSort())) {
