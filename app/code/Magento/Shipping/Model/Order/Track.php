@@ -1,0 +1,108 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Sales
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/**
+ * @method \Magento\Sales\Model\Resource\Order\Shipment\Track _getResource()
+ * @method \Magento\Sales\Model\Resource\Order\Shipment\Track getResource()
+ * @method int getParentId()
+ * @method \Magento\Sales\Model\Order\Shipment\Track setParentId(int $value)
+ * @method float getWeight()
+ * @method \Magento\Sales\Model\Order\Shipment\Track setWeight(float $value)
+ * @method float getQty()
+ * @method \Magento\Sales\Model\Order\Shipment\Track setQty(float $value)
+ * @method int getOrderId()
+ * @method \Magento\Sales\Model\Order\Shipment\Track setOrderId(int $value)
+ * @method string getDescription()
+ * @method \Magento\Sales\Model\Order\Shipment\Track setDescription(string $value)
+ * @method string getTitle()
+ * @method \Magento\Sales\Model\Order\Shipment\Track setTitle(string $value)
+ * @method string getCarrierCode()
+ * @method \Magento\Sales\Model\Order\Shipment\Track setCarrierCode(string $value)
+ * @method string getCreatedAt()
+ * @method \Magento\Sales\Model\Order\Shipment\Track setCreatedAt(string $value)
+ * @method string getUpdatedAt()
+ * @method \Magento\Sales\Model\Order\Shipment\Track setUpdatedAt(string $value)
+ *
+ * @category    Magento
+ * @package     Magento_Sales
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
+namespace Magento\Shipping\Model\Order;
+
+class Track extends \Magento\Sales\Model\Order\Shipment\Track
+{
+    /**
+     * @var \Magento\Shipping\Model\Config
+     */
+    protected $_shippingConfig;
+
+    /**
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\LocaleInterface $coreLocale
+     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Sales\Model\Order\ShipmentFactory $shipmentFactory
+     * @param \Magento\Shipping\Model\Config $shippingConfig
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\LocaleInterface $coreLocale,
+        \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Sales\Model\Order\ShipmentFactory $shipmentFactory,
+        \Magento\Shipping\Model\Config $shippingConfig,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        parent::__construct(
+            $context,
+            $registry,
+            $coreLocale,
+            $dateTime,
+            $storeManager,
+            $shipmentFactory,
+            $resource,
+            $resourceCollection,
+            $data
+        );
+        $this->_shippingConfig = $shippingConfig;
+    }
+
+    /**
+     * Retrieve detail for shipment track
+     *
+     * @return string
+     */
+    public function getNumberDetail()
+    {
+        $carrierInstance = $this->_shippingConfig->getCarrierInstance($this->getCarrierCode());
+        if (!$carrierInstance) {
+            $custom = array();
+            $custom['title'] = $this->getTitle();
+            $custom['number'] = $this->getTrackNumber();
+            return $custom;
+        } else {
+            $carrierInstance->setStore($this->getStore());
+        }
+
+        $trackingInfo = $carrierInstance->getTrackingInfo($this->getNumber());
+        if (!$trackingInfo) {
+            return __('No detail for number "%1"', $this->getNumber());
+        }
+
+        return $trackingInfo;
+    }
+}

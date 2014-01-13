@@ -40,23 +40,31 @@ class Tracking extends \Magento\App\Action\Action
     protected $_orderFactory;
 
     /**
+     * @var \Magento\Sales\Model\ResourceFactory
+     */
+    protected $_resourceFactory;
+
+    /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Shipping\Model\InfoFactory $shippingInfoFactory
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
+     * @param \Magento\Sales\Model\ResourceFactory $resourceFactory
      */
     public function __construct(
         \Magento\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Shipping\Model\InfoFactory $shippingInfoFactory,
-        \Magento\Sales\Model\OrderFactory $orderFactory
+        \Magento\Sales\Model\OrderFactory $orderFactory,
+        \Magento\Sales\Model\ResourceFactory $resourceFactory
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_customerSession = $customerSession;
         $this->_shippingInfoFactory = $shippingInfoFactory;
         $this->_orderFactory = $orderFactory;
+        $this->_resourceFactory = $resourceFactory;
         parent::__construct($context);
     }
 
@@ -69,7 +77,7 @@ class Tracking extends \Magento\App\Action\Action
         $order = $this->_initOrder();
         if ($order) {
             $response = '';
-            $tracks = $order->getTracksCollection();
+            $tracks = $this->_getTracksCollection($order);
 
             $block = $this->_objectManager->create('Magento\View\Element\Template');
             $block->setType('Magento\View\Element\Template')
@@ -121,4 +129,20 @@ class Tracking extends \Magento\App\Action\Action
         return $order;
     }
 
+    /**
+     * @param \Magento\Sales\Model\Order $order
+     * @return mixed
+     */
+    protected function _getTracksCollection(\Magento\Sales\Model\Order $order)
+    {
+        /** @var \Magento\Shipping\Model\Resource\Order\Track\Collection $tracks */
+        $tracks = $this->_resourceFactory->create('Magento\Shipping\Model\Resource\Order\Track\Collection')
+            ->setOrderFilter($order);
+
+        if ($order->getId()) {
+            $tracks->load();
+        }
+
+        return $tracks;
+    }
 }
