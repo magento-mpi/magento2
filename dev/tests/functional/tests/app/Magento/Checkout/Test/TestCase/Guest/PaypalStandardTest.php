@@ -13,7 +13,6 @@ namespace Magento\Checkout\Test\TestCase\Guest;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\Checkout\Test\Fixture\Checkout;
 
 /**
  * Class OnepageTest
@@ -33,18 +32,19 @@ class PaypalStandardTest extends Functional
         $this->markTestSkipped('1. Bamboo inability to run tests on instance without public IP address. '
         .'2. Blocked by MAGETWO-19364');
 
-        /** @var \Magento\Sales\Test\Fixture\OrderCheckout $fixture */
+        /** @var \Magento\Sales\Test\Fixture\PaypalStandardOrder $fixture */
         $fixture = Factory::getFixtureFactory()->getMagentoSalesPaypalStandardOrder();
         $fixture->persist();
 
         //Verify order in Backend
         $successPage = Factory::getPageFactory()->getCheckoutOnepageSuccess();
+        $orderId = $successPage->getSuccessBlock()->getOrderId($fixture);
+
         $this->assertContains(
             'Your order has been received.',
             $successPage->getTitleBlock()->getTitle(),
             'Order success page was not opened.');
 
-        $orderId = $fixture->getOrderId();
         Factory::getApp()->magentoBackendLoginUser();
         $orderPage = Factory::getPageFactory()->getSalesOrder();
         $orderPage->open();
