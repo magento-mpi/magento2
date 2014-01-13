@@ -8,7 +8,7 @@
 
 namespace Magento\Indexer\Model;
 
-class Config extends \Magento\Config\Data
+class Config extends \Magento\Config\Data implements ConfigInterface
 {
     /**
      * @param \Magento\Config\ReaderInterface $reader
