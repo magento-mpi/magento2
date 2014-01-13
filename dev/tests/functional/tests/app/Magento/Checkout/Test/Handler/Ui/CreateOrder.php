@@ -39,6 +39,7 @@ class CreateOrder extends Ui
             $productPage->init($product);
             $productPage->open();
             $productPage->getViewBlock()->addToCart($product);
+            Factory::getPageFactory()->getCheckoutCart()->getMessageBlock()->assertSuccessMessage();
         }
 
         //Proceed to checkout
@@ -54,8 +55,8 @@ class CreateOrder extends Ui
         $checkoutOnePage->getReviewBlock()->placeOrder();
 
         $checkoutOnePageSuccess = Factory::getPageFactory()->getCheckoutOnepageSuccess();
-        if ($checkoutOnePageSuccess->isSuccessBlockVisible()) {
-            return $checkoutOnePageSuccess->getSuccessBlock()->getOrderId($fixture);
-        }
+        return $checkoutOnePageSuccess->isSuccessBlockVisible()
+            ? $checkoutOnePageSuccess->getSuccessBlock()->getOrderId($fixture)
+            : false;
     }
 }
