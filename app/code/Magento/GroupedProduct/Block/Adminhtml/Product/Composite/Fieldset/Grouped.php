@@ -17,6 +17,11 @@ class Grouped
     extends \Magento\GroupedProduct\Block\Product\View\Type\Grouped
 {
 
+    /**
+     * @var \Magento\Catalog\Helper\Product\Price
+     */
+    protected $priceHelper;
+
     protected $_priceBlockDefaultTemplate = 'catalog/product/price.phtml';
 
     /**
@@ -37,7 +42,7 @@ class Grouped
      * @param \Magento\Theme\Helper\Layout $layoutHelper
      * @param \Magento\Catalog\Helper\Image $imageHelper
      * @param \Magento\Stdlib\ArrayUtils $arrayUtils
-     * @param \Magento\Tax\Model\Calculation $taxCalculation
+     * @param \Magento\Catalog\Helper\Product\Price $priceHelper
      * @param \Magento\Core\Helper\Data $coreHelper
      * @param array $data
      *
@@ -56,7 +61,7 @@ class Grouped
         \Magento\Theme\Helper\Layout $layoutHelper,
         \Magento\Catalog\Helper\Image $imageHelper,
         \Magento\Stdlib\ArrayUtils $arrayUtils,
-        \Magento\Tax\Model\Calculation $taxCalculation,
+        \Magento\Catalog\Helper\Product\Price $priceHelper,
         \Magento\Core\Helper\Data $coreHelper,
         array $data = array()
     ) {
@@ -74,7 +79,6 @@ class Grouped
             $layoutHelper,
             $imageHelper,
             $arrayUtils,
-            $taxCalculation,
             $data
         );
     }
@@ -89,6 +93,7 @@ class Grouped
 
         $this->_block = 'Magento\Catalog\Block\Adminhtml\Product\Price';
         $this->_useLinkForAsLowAs = false;
+        $this->priceHelper->setCustomer($this->_coreRegistry->registry('current_customer'));
     }
 
     /**

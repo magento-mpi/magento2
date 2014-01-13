@@ -52,6 +52,11 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
     protected $_imageHelper;
 
     /**
+     * @var \Magento\Catalog\Helper\Product\Price
+     */
+    protected $priceHelper;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Core\Model\Registry $registry
@@ -65,10 +70,10 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
      * @param \Magento\Catalog\Helper\Image $imageHelper
      * @param \Magento\Stdlib\ArrayUtils $arrayUtils
      * @param \Magento\Json\EncoderInterface $jsonEncoder
-     * @param \Magento\Tax\Model\Calculation $taxCalculation
      * @param \Magento\Catalog\Helper\Product $catalogProduct
+     * @param \Magento\Catalog\Helper\Product\Price $priceHelper
      * @param array $data
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -84,14 +89,15 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
         \Magento\Theme\Helper\Layout $layoutHelper,
         \Magento\Catalog\Helper\Image $imageHelper,
         \Magento\Stdlib\ArrayUtils $arrayUtils,
-        \Magento\Tax\Model\Calculation $taxCalculation,
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Catalog\Helper\Product $catalogProduct,
+        \Magento\Catalog\Helper\Product\Price $priceHelper,
         array $data = array()
     ) {
         $this->_imageHelper = $imageHelper;
         $this->_catalogProduct = $catalogProduct;
         $this->_jsonEncoder = $jsonEncoder;
+        $this->priceHelper = $priceHelper;
         parent::__construct(
             $context,
             $catalogConfig,
@@ -105,7 +111,6 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
             $layoutHelper,
             $imageHelper,
             $arrayUtils,
-            $taxCalculation,
             $data
         );
     }
@@ -291,9 +296,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
             }
         }
 
-        if (!$this->_taxCalculation->getCustomer() && $this->_coreRegistry->registry('current_customer')) {
-            $this->_taxCalculation->setCustomer($this->_coreRegistry->registry('current_customer'));
-        }
+        $this->priceHelper->setCustomer($this->_coreRegistry->registry('current_customer'));
 
         $_request = $this->_taxCalculation->getRateRequest(false, false, false);
         $_request->setProductClassId($currentProduct->getTaxClassId());
