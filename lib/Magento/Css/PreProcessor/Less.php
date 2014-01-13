@@ -76,12 +76,8 @@ class Less implements PreProcessorInterface
      * @param null|string $sourcePath
      * @return string
      */
-    public function process(
-        $filePath,
-        $params,
-        \Magento\Filesystem\Directory\WriteInterface $targetDirectory,
-        $sourcePath = null
-    ) {
+    public function process($filePath, $params, $targetDirectory, $sourcePath = null)
+    {
         // if css file has being already discovered/prepared by previous pre-processor
         if ($sourcePath) {
             return $sourcePath;
