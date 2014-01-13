@@ -26,7 +26,7 @@
         </block>
     </referenceBlock>
     <referenceContainer name="content">
-        <block class="Magento\Catalog\Block\Product\Compare\ListCompare" name="catalog.compare.list" template="product/compare/list.phtml"/>
+        <block class="Magento\Catalog\Block\Product\Compare\ListCompare" name="catalog.compare.list" template="product/compare/list.phtml" cacheable="0"/>
     </referenceContainer>
     <update handle="MAP_popup"/>
 </layout>

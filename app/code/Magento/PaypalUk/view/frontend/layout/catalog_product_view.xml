@@ -13,7 +13,7 @@
                    label="PayPal Express Checkout (Payflow Edition) Shortcut Wrapper" htmlTag="p"
                    htmlClass="paypal-logo">
             <block class="Magento\PaypalUk\Block\Express\Shortcut" name="product.info.addtocart.paypaluk"
-                   template="Magento_Paypal::express/shortcut.phtml">
+                   template="Magento_Paypal::express/shortcut.phtml" cacheable="0">
                 <action method="setIsInCatalogProduct">
                     <argument name="value" xsi:type="string">1</argument>
                 </action>

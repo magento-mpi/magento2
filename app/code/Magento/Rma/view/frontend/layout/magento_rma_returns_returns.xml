@@ -11,11 +11,11 @@
     <update handle="customer_account"/>
     <referenceContainer name="content">
         <block class="Magento\Sales\Block\Order\Info" as="info" name="sales.order.info">
-            <block class="Magento\Sales\Block\Order\Info\Buttons" as="buttons" name="sales.order.info.buttons">
+            <block class="Magento\Sales\Block\Order\Info\Buttons" as="buttons" name="sales.order.info.buttons" cacheable="0">
                 <block class="Magento\Rma\Block\Order\Button" name="magento.rma.info.button" template="order/button.phtml"/>
             </block>
         </block>
-        <block class="Magento\Rma\Block\Returns\Returns" name="rma.returns.returns"/>
+        <block class="Magento\Rma\Block\Returns\Returns" name="rma.returns.returns" cacheable="0"/>
     </referenceContainer>
     <update handle="sales_order_info_rma_links"/>
 </layout>

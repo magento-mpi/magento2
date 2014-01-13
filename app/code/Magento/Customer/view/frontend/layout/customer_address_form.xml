@@ -15,6 +15,6 @@
         </arguments>
     </referenceBlock>
     <referenceContainer name="content">
-        <block class="Magento\Customer\Block\Address\Edit" name="customer_address_edit" template="address/edit.phtml"/>
+        <block class="Magento\Customer\Block\Address\Edit" name="customer_address_edit" template="address/edit.phtml" cacheable="0"/>
     </referenceContainer>
 </layout>

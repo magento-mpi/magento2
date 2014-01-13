@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceContainer name="product.review.form.fields.before">
-        <block class="Magento\Reward\Block\Tooltip" name="reward.hint.review" template="tooltip.phtml" after="product.info">
+        <block class="Magento\Reward\Block\Tooltip" name="reward.hint.review" template="tooltip.phtml" after="product.info" cacheable="0">
             <arguments>
                 <argument name="reward_type" xsi:type="string">Magento\Reward\Model\Action\Review</argument>
                 <argument name="wrapper_class" xsi:type="string">reward-newsletter</argument>

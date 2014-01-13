@@ -15,13 +15,13 @@
         </action>
     </referenceBlock>
     <referenceContainer name="my.account.wrapper">
-        <block class="Magento\GiftRegistry\Block\Items" name="giftregistry.customer.items" template="customer/items.phtml">
-            <block class="Magento\Checkout\Block\Cart\Item\Renderer" as="default" template="Magento_GiftRegistry::customer/items/default.phtml"/>
-            <block class="Magento\Checkout\Block\Cart\Item\Renderer" as="simple" template="Magento_GiftRegistry::customer/items/default.phtml"/>
-            <block class="Magento\Checkout\Block\Cart\Item\Renderer\Grouped" as="grouped" template="Magento_GiftRegistry::customer/items/default.phtml"/>
-            <block class="Magento\Checkout\Block\Cart\Item\Renderer\Configurable" as="configurable" template="Magento_GiftRegistry::customer/items/default.phtml"/>
-            <block class="Magento\Bundle\Block\Checkout\Cart\Item\Renderer" as="bundle" template="Magento_GiftRegistry::customer/items/default.phtml"/>
-            <block class="Magento\GiftCard\Block\Checkout\Cart\Item\Renderer" as="giftcard" template="Magento_GiftRegistry::customer/items/default.phtml"/>
+        <block class="Magento\GiftRegistry\Block\Items" name="giftregistry.customer.items" template="customer/items.phtml" cacheable="0">
+            <block class="Magento\Checkout\Block\Cart\Item\Renderer" as="default" template="Magento_GiftRegistry::customer/items/default.phtml" cacheable="0"/>
+            <block class="Magento\Checkout\Block\Cart\Item\Renderer" as="simple" template="Magento_GiftRegistry::customer/items/default.phtml" cacheable="0"/>
+            <block class="Magento\Checkout\Block\Cart\Item\Renderer\Grouped" as="grouped" template="Magento_GiftRegistry::customer/items/default.phtml" cacheable="0"/>
+            <block class="Magento\Checkout\Block\Cart\Item\Renderer\Configurable" as="configurable" template="Magento_GiftRegistry::customer/items/default.phtml" cacheable="0"/>
+            <block class="Magento\Bundle\Block\Checkout\Cart\Item\Renderer" as="bundle" template="Magento_GiftRegistry::customer/items/default.phtml" cacheable="0"/>
+            <block class="Magento\GiftCard\Block\Checkout\Cart\Item\Renderer" as="giftcard" template="Magento_GiftRegistry::customer/items/default.phtml" cacheable="0"/>
         </block>
     </referenceContainer>
 </layout>

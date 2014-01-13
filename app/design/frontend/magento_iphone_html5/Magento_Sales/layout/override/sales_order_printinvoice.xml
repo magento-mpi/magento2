@@ -12,7 +12,7 @@
         <block class="Magento\Sales\Block\Order\PrintOrder\Invoice" name="sales.order.print.invoice" template="order/print/invoice.phtml">
             <block class="Magento\Catalog\Block\Product\Price" as="default" template="Magento_Sales::order/invoice/items/renderer/default.phtml"/>
             <block class="Magento\Sales\Block\Order\Item\Renderer\Grouped" as="grouped" template="order/invoice/items/renderer/default.phtml"/>
-            <block class="Magento\Sales\Block\Order\Invoice\Totals" name="invoice_totals" template="order/totals.phtml">
+            <block class="Magento\Sales\Block\Order\Invoice\Totals" name="invoice_totals" template="order/totals.phtml" cacheable="0">
                 <action method="setLabelProperties">
                     <argument name="value" xsi:type="string">colspan="4" class="a-right"</argument>
                 </action>

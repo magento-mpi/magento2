@@ -11,7 +11,7 @@
     <section name="quote">
         <group name="totals">
             <item name="giftcardaccount" instance="Magento\GiftCardAccount\Model\Total\Quote\Giftcardaccount" sort_order="700">
-                <renderer name="frontend" instance="Magento\GiftCardAccount\Block\Checkout\Cart\Total"/>
+                <renderer name="frontend" instance="Magento\GiftCardAccount\Block\Checkout\Cart\Total" cacheable="0"/>
             </item>
         </group>
     </section>

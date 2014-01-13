@@ -21,6 +21,7 @@ class Element extends \Magento\Simplexml\Element
     const TYPE_DATA = 'data';
     const TYPE_BLOCK = 'block';
     const TYPE_CONTAINER = 'container';
+    const TYPE_WIDGET = 'widget';
     const TYPE_ACTION = 'action';
     const TYPE_ARGUMENTS = 'arguments';
     const TYPE_ARGUMENT = 'argument';
@@ -173,5 +174,30 @@ class Element extends \Magento\Simplexml\Element
     public function prepareActionArgument()
     {
         return $this;
+    }
+
+    /**
+     * Returns information is this element type allows caching
+     *
+     * @return bool
+     */
+    public function isCacheableType()
+    {
+        return in_array((string)$this->getName(), array(
+            self::TYPE_BLOCK, self::TYPE_RENDERER, self::TYPE_WIDGET
+        ));
+    }
+
+    /**
+     * Returns information is this element allows caching
+     *
+     * @return bool
+     */
+    public function isCacheable()
+    {
+        if ($this->isCacheableType()) {
+            return $this->getAttribute('cacheable') === "0" ? false : true;
+        }
+        return false;
     }
 }

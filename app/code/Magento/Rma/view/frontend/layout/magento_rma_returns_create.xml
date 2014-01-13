@@ -15,7 +15,7 @@
         </action>
     </referenceBlock>
     <referenceContainer name="content">
-        <block class="Magento\Rma\Block\Returns\Create" as="create" name="rma.returns.create" template="return/create.phtml">
+        <block class="Magento\Rma\Block\Returns\Create" as="create" name="rma.returns.create" template="return/create.phtml" cacheable="0">
             <action method="setFormCode">
                 <argument name="code" xsi:type="string">default</argument>
             </action>

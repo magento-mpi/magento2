@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceContainer name="checkout.cart.form.before">
-        <block class="Magento\Reward\Block\Tooltip\Checkout" name="reward.tooltip.checkout" template="tooltip.phtml">
+        <block class="Magento\Reward\Block\Tooltip\Checkout" name="reward.tooltip.checkout" template="tooltip.phtml" cacheable="0">
             <arguments>
                 <argument name="reward_type" xsi:type="string">Magento\Reward\Model\Action\OrderExtra</argument>
             </arguments>
@@ -25,7 +25,7 @@
         </block>
     </referenceContainer>
     <referenceContainer name="checkout.cart.form.before">
-        <block class="Magento\Reward\Block\Tooltip\Checkout" name="reward.tooltip.checkout.salesrule" template="tooltip.phtml">
+        <block class="Magento\Reward\Block\Tooltip\Checkout" name="reward.tooltip.checkout.salesrule" template="tooltip.phtml" cacheable="0">
             <arguments>
                 <argument name="reward_type" xsi:type="string">Magento\Reward\Model\Action\Salesrule</argument>
             </arguments>

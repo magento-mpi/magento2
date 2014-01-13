@@ -15,6 +15,6 @@
         </action>
     </referenceBlock>
     <referenceContainer name="content">
-        <block class="Magento\Sendfriend\Block\Send" name="sendfriend.send" template="send.phtml"/>
+        <block class="Magento\Sendfriend\Block\Send" name="sendfriend.send" template="send.phtml" cacheable="0"/>
     </referenceContainer>
 </layout>

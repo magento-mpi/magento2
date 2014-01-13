@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceContainer name="checkout.cart.methods">
-        <block class="Magento\GiftRegistry\Block\Cart\Link" name="giftregistry.cart.link" template="cart/link.phtml"/>
+        <block class="Magento\GiftRegistry\Block\Cart\Link" name="giftregistry.cart.link" template="cart/link.phtml" cacheable="0"/>
     </referenceContainer>
     <referenceBlock name="additional.product.info">
         <block class="Magento\GiftRegistry\Block\Cart\Product\Mark" name="giftregistry.product.mark" template="cart/product/mark.phtml"/>

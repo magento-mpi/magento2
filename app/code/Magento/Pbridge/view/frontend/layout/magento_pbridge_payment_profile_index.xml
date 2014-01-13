@@ -15,6 +15,6 @@
         </action>
     </referenceBlock>
     <referenceContainer name="content">
-        <block class="Magento\Pbridge\Block\Payment\Profile" name="pbridge.payment.profile" template="payment/profile.phtml"/>
+        <block class="Magento\Pbridge\Block\Payment\Profile" name="pbridge.payment.profile" template="payment/profile.phtml" cacheable="0"/>
     </referenceContainer>
 </layout>

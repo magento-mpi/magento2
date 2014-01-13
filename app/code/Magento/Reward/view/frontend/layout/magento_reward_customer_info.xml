@@ -15,10 +15,10 @@
         </action>
     </referenceBlock>
     <referenceBlock name="content">
-        <block class="Magento\Reward\Block\Customer\Reward" name="customer.reward" template="customer/reward.phtml">
-            <block class="Magento\Reward\Block\Customer\Reward\Info" name="customer.reward.info" template="customer/reward/info.phtml"/>
-            <block class="Magento\Reward\Block\Customer\Reward\History" name="customer.reward.history" template="customer/reward/history.phtml"/>
-            <block class="Magento\Reward\Block\Customer\Reward\Subscription" name="customer.reward.subscription" template="customer/reward/subscription.phtml"/>
+        <block class="Magento\Reward\Block\Customer\Reward" name="customer.reward" template="customer/reward.phtml" cacheable="0">
+            <block class="Magento\Reward\Block\Customer\Reward\Info" name="customer.reward.info" template="customer/reward/info.phtml" cacheable="0"/>
+            <block class="Magento\Reward\Block\Customer\Reward\History" name="customer.reward.history" template="customer/reward/history.phtml" cacheable="0"/>
+            <block class="Magento\Reward\Block\Customer\Reward\Subscription" name="customer.reward.subscription" template="customer/reward/subscription.phtml" cacheable="0"/>
         </block>
     </referenceBlock>
 </layout>

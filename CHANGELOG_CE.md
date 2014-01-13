@@ -1,3 +1,4 @@
+* Introduced new layout block attribute - cacheable
 * Fixed bugs:
   * Fixed memory exceeding on very large image uploading
   * Fixed category move is not changing position in case if $afterCategoryId is null
