@@ -86,7 +86,7 @@ class Account extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
 
         // add system required attributes
         foreach ($customerForm->getSystemAttributes() as $attribute) {
-            if ($attribute->getIsRequired()) {
+            if ($attribute->isRequired()) {
                 $attributes[$attribute->getAttributeCode()] = $attribute;
             }
         }

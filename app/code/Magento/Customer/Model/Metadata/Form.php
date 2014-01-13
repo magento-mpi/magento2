@@ -141,7 +141,7 @@ class Form
     {
         $result = [];
         foreach ($this->getAttributes() as $attribute) {
-            if ($attribute->getIsUserDefined()) {
+            if ($attribute->isUserDefined()) {
                 $result[$attribute->getAttributeCode()] = $attribute;
             }
         }
@@ -157,7 +157,7 @@ class Form
     {
         $result = [];
         foreach ($this->getAttributes() as $attribute) {
-            if (!$attribute->getIsUserDefined()) {
+            if (!$attribute->isUserDefined()) {
                 $result[$attribute->getAttributeCode()] = $attribute;
             }
         }
@@ -174,7 +174,7 @@ class Form
         $attributes = $this->_eavMetadataService->getAttributes($this->_entityType, $this->_formCode);
         foreach ($attributes as $attributeCode => $attribute) {
             if (
-                $this->_ignoreInvisible && !$attribute->getIsVisible()
+                $this->_ignoreInvisible && !$attribute->isVisible()
                 || in_array($attribute->getAttributeCode(), $this->_filterAttributes)
             ) {
                 unset($attributes[$attributeCode]);

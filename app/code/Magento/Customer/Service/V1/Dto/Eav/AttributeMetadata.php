@@ -81,7 +81,7 @@ class AttributeMetadata extends \Magento\Service\Entity\AbstractDto
     /**
      * @return boolean
      */
-    public function getIsVisible()
+    public function isVisible()
     {
         return $this->_get(self::VISIBLE);
     }
@@ -89,7 +89,7 @@ class AttributeMetadata extends \Magento\Service\Entity\AbstractDto
     /**
      * @return boolean
      */
-    public function getIsRequired()
+    public function isRequired()
     {
         return $this->_get(self::REQUIRED);
     }
@@ -121,7 +121,7 @@ class AttributeMetadata extends \Magento\Service\Entity\AbstractDto
     /**
      * @return bool
      */
-    public function getIsUserDefined()
+    public function isUserDefined()
     {
         return $this->_get(self::IS_USER_DEFINED);
     }
@@ -145,7 +145,7 @@ class AttributeMetadata extends \Magento\Service\Entity\AbstractDto
     /**
      * @return bool
      */
-    public function getIsSystem()
+    public function isSystem()
     {
         return $this->_get(self::IS_SYSTEM);
     }

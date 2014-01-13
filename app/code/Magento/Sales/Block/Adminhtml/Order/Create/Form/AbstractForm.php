@@ -165,7 +165,7 @@ abstract class AbstractForm
                     'name'      => $attribute->getAttributeCode(),
                     'label'     => __($attribute->getStoreLabel()),
                     'class'     => $attribute->getFrontendClass(),
-                    'required'  => $attribute->getIsRequired(),
+                    'required'  => $attribute->isRequired(),
                 ));
                 if ($inputType == 'multiline') {
                     $element->setLineCount($attribute->getMultilineCount());

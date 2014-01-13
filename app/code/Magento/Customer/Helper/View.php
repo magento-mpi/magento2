@@ -40,21 +40,21 @@ class View extends \Magento\App\Helper\AbstractHelper
     {
         $name = '';
         $prefixMetadata = $this->_customerMetadataService->getAttributeMetadata('customer', 'prefix');
-        if ($prefixMetadata->getIsVisible() && $customerData->getPrefix()) {
+        if ($prefixMetadata->isVisible() && $customerData->getPrefix()) {
             $name .= $customerData->getPrefix() . ' ';
         }
 
         $name .= $customerData->getFirstname();
 
         $middleNameMetadata = $this->_customerMetadataService->getAttributeMetadata('customer', 'middlename');
-        if ($middleNameMetadata->getIsVisible() && $customerData->getMiddlename()) {
+        if ($middleNameMetadata->isVisible() && $customerData->getMiddlename()) {
             $name .= ' ' . $customerData->getMiddlename();
         }
 
         $name .=  ' ' . $customerData->getLastname();
 
         $suffixMetadata = $this->_customerMetadataService->getAttributeMetadata('customer', 'suffix');
-        if ($suffixMetadata->getIsVisible() && $customerData->getSuffix()) {
+        if ($suffixMetadata->isVisible() && $customerData->getSuffix()) {
             $name .= ' ' . $customerData->getSuffix();
         }
         return $name;

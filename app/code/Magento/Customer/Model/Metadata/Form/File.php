@@ -195,11 +195,11 @@ class File extends AbstractData
             return true;
         }
 
-        if (!$attribute->getIsRequired() && !$toUpload) {
+        if (!$attribute->isRequired() && !$toUpload) {
             return true;
         }
 
-        if ($attribute->getIsRequired() && !$toUpload) {
+        if ($attribute->isRequired() && !$toUpload) {
             $errors[] = __('"%1" is a required value.', $label);
         }
 
@@ -231,7 +231,7 @@ class File extends AbstractData
         $original  = $this->_value;
         $toDelete  = false;
         if ($original) {
-            if (!$attribute->getIsRequired() && !empty($value['delete'])) {
+            if (!$attribute->isRequired() && !empty($value['delete'])) {
                 $toDelete  = true;
             }
             if (!empty($value['tmp_name'])) {
