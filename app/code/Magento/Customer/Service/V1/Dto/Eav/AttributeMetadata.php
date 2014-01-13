@@ -78,7 +78,7 @@ class AttributeMetadata extends \Magento\Service\Entity\AbstractDto
     /**
      * @return boolean
      */
-    public function getIsVisible()
+    public function isVisible()
     {
         return $this->_get(self::VISIBLE);
     }
@@ -86,7 +86,7 @@ class AttributeMetadata extends \Magento\Service\Entity\AbstractDto
     /**
      * @return boolean
      */
-    public function getIsRequired()
+    public function isRequired()
     {
         return $this->_get(self::REQUIRED);
     }
