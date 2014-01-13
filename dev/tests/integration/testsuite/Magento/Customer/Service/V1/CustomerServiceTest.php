@@ -144,7 +144,7 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
         try {
             // No fixture, so customer with id 1 shouldn't exist, exception should be thrown
             $this->_service->getCustomer(1);
-            $this->assertFalse('Did not throw expected exception.');
+            $this->fail('Did not throw expected exception.');
         } catch (NoSuchEntityException $nsee) {
             $expectedParams = [
                 'customerId' => '1',
@@ -357,6 +357,7 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
 
         try {
             $this->_service->saveCustomer($customerEntity);
+            $this->fail('Expected exception not thrown');
         } catch (InputException $ie) {
             $expectedParams = [
                 [

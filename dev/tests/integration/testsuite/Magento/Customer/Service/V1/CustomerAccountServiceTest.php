@@ -177,6 +177,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $key = $customerModel->getConfirmation();
         try {
             $this->_service->activateAccount('1234' . $customerModel->getId(), $key);
+            $this->fail('Expected exception not thrown.');
         } catch (NoSuchEntityException $nsee) {
             $expectedParams = [
                 'customerId' => '12341',
@@ -200,6 +201,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         try {
             $this->_service->activateAccount($customerModel->getId(), $key);
+            $this->fail('Expected exception not thrown.');
         } catch ( InputException $ie) {
             $expectedParams = [
                 [
@@ -235,6 +237,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     {
         try {
             $this->_service->validateResetPasswordLinkToken(1, 'some_token');
+            $this->fail('Expected exception not thrown.');
         } catch (InputException $ie) {
             $expectedParams = [
                 [
@@ -256,6 +259,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     {
         try {
             $this->_service->validateResetPasswordLinkToken(0, null);
+            $this->fail('Expected exception not thrown.');
         } catch (InputException $ie) {
             $expectedParams = [
                 [
@@ -278,6 +282,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         try {
             $this->_service->validateResetPasswordLinkToken(4200, $resetToken);
+            $this->fail('Expected exception not thrown.');
         } catch (NoSuchEntityException $nsee) {
             $expectedParams = [
                 'customerId' => '4200',
@@ -295,6 +300,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     {
         try {
             $this->_service->validateResetPasswordLinkToken(null, null);
+            $this->fail('Expected exception not thrown.');
         } catch (InputException $ie) {
             $expectedParams = [
                 [
@@ -328,6 +334,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         try {
             $this->_service->sendPasswordResetLink($email, 0);
+            $this->fail('Expected exception not thrown.');
         } catch (NoSuchEntityException $nsee) {
             $expectedParams = [
                 'email' => $email,
@@ -371,6 +378,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         try {
             $this->_service->resetPassword(1, $password, $resetToken);
+            $this->fail('Expected exception not thrown.');
         } catch (InputException $ie) {
             $expectedParams = [
                 [
@@ -401,6 +409,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         try {
             $this->_service->resetPassword(1, $password, $invalidToken);
+            $this->fail('Expected exception not thrown.');
         } catch (InputException $ie) {
             $expectedParams = [
                 [
@@ -428,6 +437,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerService->saveCustomer($this->_customerBuilder->create());
         try {
             $this->_service->resetPassword(4200, $password, $resetToken);
+            $this->fail('Expected exception not thrown.');
         } catch (NoSuchEntityException $nsee) {
             $expectedParams = [
                 'customerId' => '4200',
@@ -451,6 +461,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerService->saveCustomer($this->_customerBuilder->create());
         try {
             $this->_service->resetPassword(0, $password, $resetToken);
+            $this->fail('Expected exception not thrown.');
         } catch (InputException $ie) {
             $expectedParams = [
                 [
@@ -481,6 +492,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     {
         try {
             $this->_service->sendConfirmation('wrongemail@example.com');
+            $this->fail('Expected exception not thrown.');
         } catch (NoSuchEntityException $nsee) {
             $expectedParams = [
                 'email' => 'wrongemail@example.com',
@@ -497,6 +509,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     {
         try {
             $this->_service->sendConfirmation('customer@example.com');
+            $this->fail('Expected exception not thrown.');
         } catch (InputException $ie) {
             $expectedParams = [
                 [

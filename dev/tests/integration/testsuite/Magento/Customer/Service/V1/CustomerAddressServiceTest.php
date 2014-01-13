@@ -423,6 +423,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $proposedAddress = $this->_createSecondAddressBuilder()->create();
         try {
             $this->_service->saveAddresses(4200, [$proposedAddress]);
+            $this->fail('Expected exception not thrown');
         } catch (NoSuchEntityException $nsee) {
             $expectedParams = [
                 'customerId' => '4200',
@@ -437,6 +438,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $proposedAddress = $this->_createSecondAddressBuilder()->create();
         try {
             $this->_service->saveAddresses('this_is_not_a_valid_id', [$proposedAddress]);
+            $this->fail('Expected exception not thrown');
         } catch (NoSuchEntityException $nsee) {
             $expectedParams = [
                 'customerId' => 'this_is_not_a_valid_id',
