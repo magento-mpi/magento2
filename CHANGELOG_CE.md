@@ -5,6 +5,7 @@
   * Fixed incorrect link on Reset password email sent by admin if customer registered on non default website
   * Fixed DHL doesn't work on holidays
   * Fixed ability to export product
+  * Fixed 3D secure validation
 
 2.0.0.0-dev60
 =============
