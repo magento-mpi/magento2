@@ -8,9 +8,19 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <referenceBlock name="css-styles-css">
+    <!--<referenceBlock name="css-styles-css">
         <arguments>
             <argument name="file" xsi:type="string">css/styles-ee.css</argument>
+        </arguments>
+    </referenceBlock>-->
+    <referenceBlock name="css-styles-admin">
+        <arguments>
+            <argument name="file" xsi:type="string">css/admin-ee.css</argument>
+        </arguments>
+    </referenceBlock>
+    <referenceBlock name="css-styles-ie8">
+        <arguments>
+            <argument name="file" xsi:type="string">css/styles-ie8-ee.css</argument>
         </arguments>
     </referenceBlock>
 </layout>
