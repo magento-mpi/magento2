@@ -9,12 +9,12 @@
 namespace Magento\Css\PreProcessor;
 
 /**
- * Adapter model interface
+ * Css pre-processor adapter interface
  */
 interface AdapterInterface
 {
     /**
-     * @param $sourceFilePath
+     * @param string $sourceFilePath
      * @return string
      */
     public function process($sourceFilePath);

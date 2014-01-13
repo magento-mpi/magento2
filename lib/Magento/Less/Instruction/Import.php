@@ -13,7 +13,14 @@ namespace Magento\Less\Instruction;
  */
 class Import
 {
+    /**
+     * Less default import instruction
+     */
     const TYPE_LESS    = '@import';
+
+    /**
+     * Magento custom import instruction
+     */
     const TYPE_MAGENTO = '//@magento_import';
 
     /**

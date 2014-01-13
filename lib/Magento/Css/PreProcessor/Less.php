@@ -10,6 +10,9 @@ namespace Magento\Css\Model\PreProcessor;
 
 use Magento\View\Asset;
 
+/**
+ * Css pre-processor less
+ */
 class Less implements PreProcessorInterface
 {
     /**
@@ -42,6 +45,14 @@ class Less implements PreProcessorInterface
      */
     protected $importFactory;
 
+    /**
+     * @param \Magento\View\FileSystem $viewFileSystem
+     * @param \Magento\Less\FileResolver $viewFileResolver
+     * @param \Magento\Css\PreProcessor\AdapterInterface $adapter
+     * @param \Magento\Less\FileParser $parser
+     * @param \Magento\Less\FileBuilder $builder
+     * @param \Magento\Less\Instruction\ImportFactory $importFactory
+     */
     public function __construct(
         \Magento\View\FileSystem $viewFileSystem,
         \Magento\Less\FileResolver $viewFileResolver,
@@ -62,11 +73,15 @@ class Less implements PreProcessorInterface
      * @param string $filePath
      * @param array $params
      * @param \Magento\Filesystem\Directory\WriteInterface $targetDirectory
-     * @param null $sourcePath
-     * @return null|string
+     * @param null|string $sourcePath
+     * @return string
      */
-    public function process($filePath, $params, $targetDirectory, $sourcePath = null)
-    {
+    public function process(
+        $filePath,
+        $params,
+        \Magento\Filesystem\Directory\WriteInterface $targetDirectory,
+        $sourcePath = null
+    ) {
         // if css file has being already discovered/prepared by previous pre-processor
         if ($sourcePath) {
             return $sourcePath;
@@ -93,6 +108,10 @@ class Less implements PreProcessorInterface
         return $targetDirectory->getAbsolutePath($filePath);
     }
 
+    /**
+     * @param string $lessFileSourcePath
+     * @return $this
+     */
     protected function prepareFinalLessFile($lessFileSourcePath)
     {
         //TODO: Concerns about order

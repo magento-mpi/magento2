@@ -45,7 +45,6 @@ class FileParser
 
     /**
      * @param string $content
-     *
      * @return \Magento\Less\Instruction\Import[]
      */
     public function parse($content)
@@ -67,13 +66,13 @@ class FileParser
         $instructions = array();
         $lines = explode(PHP_EOL, $content);
 
-        $pattern = sprintf('(^(%s|%s)\s"(.+?)";$)',
+        $pattern = sprintf(
+            '(^(%s|%s)\s"(.+?)";$)',
             preg_quote(\Magento\Less\Instruction\Import::TYPE_LESS),
             preg_quote(\Magento\Less\Instruction\Import::TYPE_MAGENTO)
         );
 
         foreach ($lines as $line) {
-            $matches = null;
             if (preg_match($pattern, $line, $matches)) {
                 array_shift($matches);
                 $instructions[] = $matches;

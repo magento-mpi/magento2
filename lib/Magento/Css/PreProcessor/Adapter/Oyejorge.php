@@ -18,7 +18,7 @@ if (!class_exists('Less_Parser')) {
 class Oyejorge implements \Magento\Css\PreProcessor\AdapterInterface
 {
     /**
-     * @param $sourceFilePath
+     * @param string $sourceFilePath
      * @return string
      */
     public function process($sourceFilePath)

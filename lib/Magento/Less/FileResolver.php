@@ -37,7 +37,6 @@ class FileResolver
 
     /**
      * @param string $file
-     *
      * @return array
      */
     public function get($file)
