@@ -321,7 +321,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      */
     public function testWriteFile($path, $content, $extraContent)
     {
-        $directory = $this->getDirectoryInstance('writeFileDir', '0777');
+        $directory = $this->getDirectoryInstance('writeFileDir', 0777);
         $directory->writeFile($path, $content);
         $this->assertEquals($content, $directory->readFile($path));
         $directory->writeFile($path, $extraContent);
@@ -338,7 +338,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      */
     public function testWriteFileAppend($path, $content, $extraContent)
     {
-        $directory = $this->getDirectoryInstance('writeFileDir', '0777');
+        $directory = $this->getDirectoryInstance('writeFileDir', 0777);
         $directory->writeFile($path, $content, 'a+');
         $this->assertEquals($content, $directory->readFile($path));
         $directory->writeFile($path, $extraContent, 'a+');
