@@ -264,7 +264,7 @@ class Store extends \Magento\Core\Model\AbstractModel implements \Magento\Url\Sc
     protected $_coreStoreConfig;
 
     /**
-     * @var \Magento\Core\Model\Config
+     * @var \Magento\App\ReinitableConfigInterface
      */
     protected $_config;
 
@@ -290,7 +290,7 @@ class Store extends \Magento\Core\Model\AbstractModel implements \Magento\Url\Sc
      * @param \Magento\Core\Model\Resource\Config\Data $configDataResource
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\App\ReinitableConfigInterface $coreConfig
      * @param \Magento\Core\Model\Resource\Store $resource
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Session\SidResolverInterface $sidResolver
@@ -309,7 +309,7 @@ class Store extends \Magento\Core\Model\AbstractModel implements \Magento\Url\Sc
         \Magento\Core\Model\Resource\Config\Data $configDataResource,
         \Magento\Filesystem $filesystem,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Config $coreConfig,
+        \Magento\App\ReinitableConfigInterface $coreConfig,
         \Magento\Core\Model\Resource\Store $resource,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Session\SidResolverInterface $sidResolver,

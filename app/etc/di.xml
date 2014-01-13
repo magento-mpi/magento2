@@ -151,11 +151,6 @@
             <instance type="Magento\App\Cache\Type\Translate" />
         </param>
     </type>
-    <type name="Magento\Install\Model\Installer">
-        <param name="config">
-            <instance type="Magento\Core\Model\Config\Proxy" />
-        </param>
-    </type>
     <type name="Magento\Data\Structure" shared="false" />
     <type name="Magento\Core\Model\View\Design">
         <param name="storeManager">

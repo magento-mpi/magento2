@@ -83,14 +83,4 @@ class Config implements \Magento\Core\Model\ConfigInterface
     {
         return (bool)$this->getValue($path, $scope, $scopeCode);
     }
-
-    /**
-     * Reinitialize configuration
-     *
-     * @return \Magento\Core\Model\Config
-     */
-    public function reinit()
-    {
-        $this->_sectionPool->clean();
-    }
 }

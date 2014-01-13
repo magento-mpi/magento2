@@ -417,8 +417,8 @@ class Tools extends \Magento\Backend\App\Action
      */
     protected function _reinitSystemConfiguration()
     {
-        /** @var $configModel \Magento\Core\Model\Config */
-        $configModel = $this->_objectManager->get('Magento\Core\Model\Config');
+        /** @var $configModel \Magento\App\ReinitableConfigInterface */
+        $configModel = $this->_objectManager->get('Magento\App\ReinitableConfigInterface');
         return $configModel->reinit();
     }
 }

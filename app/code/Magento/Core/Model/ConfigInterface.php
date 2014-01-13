@@ -31,9 +31,4 @@ interface ConfigInterface
      * @param null|string $scopeCode
      */
     public function setValue($path, $value, $scope = 'default', $scopeCode = null);
-
-    /**
-     * Reinitialize config object
-     */
-    public function reinit();
 }
