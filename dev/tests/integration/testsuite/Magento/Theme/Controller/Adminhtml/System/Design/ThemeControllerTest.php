@@ -42,8 +42,8 @@ class ThemeControllerTest extends \Magento\Backend\Utility\Controller
         );
 
         $directoryList = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-        ->get('Magento\Filesystem\DirectoryList');
-        /** @var $directoryList \Magento\Filesystem\DirectoryList */
+        ->get('Magento\App\Filesystem\DirectoryList');
+        /** @var $directoryList \Magento\App\Filesystem\DirectoryList */
         $directoryList->addDirectory(\Magento\App\Filesystem::SYS_TMP_DIR,
             array('path' => '/'));
 

@@ -55,7 +55,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         $directoryList = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Filesystem\DirectoryList');
+            ->get('Magento\App\Filesystem\DirectoryList');
 
         $dirPath = ltrim(str_replace($directoryList->getRoot(), '', str_replace('\\', '/', __DIR__)) . '/_files', '/');
 

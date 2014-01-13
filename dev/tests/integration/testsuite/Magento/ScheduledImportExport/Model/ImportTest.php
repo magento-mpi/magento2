@@ -46,7 +46,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnSelf());
 
         $directoryList = $objectManager->create(
-            'Magento\Filesystem\DirectoryList',
+            'Magento\App\Filesystem\DirectoryList',
             array(
                 'directories' => array(
                     \Magento\App\Filesystem::VAR_DIR => array('path' => __DIR__ . '/../_files/')

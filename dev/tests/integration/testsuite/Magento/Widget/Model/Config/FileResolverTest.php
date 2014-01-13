@@ -17,7 +17,7 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
     private $_object;
 
     /**
-     * @var \Magento\Filesystem\DirectoryList
+     * @var \Magento\App\Filesystem\DirectoryList
      */
     protected $directoryList;
 
@@ -28,7 +28,7 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
         $filesystem = $objectManager->create(
             'Magento\App\Filesystem',
             array('directoryList' => $objectManager->create(
-                    'Magento\Filesystem\DirectoryList',
+                    'Magento\App\Filesystem\DirectoryList',
                     array(
                         'root' => BP,
                         'directories' => array(
@@ -63,7 +63,7 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
             'filesystem' => $filesystem
         ));
 
-        $this->directoryList = $objectManager->get('Magento\Filesystem\DirectoryList');
+        $this->directoryList = $objectManager->get('Magento\App\Filesystem\DirectoryList');
         $dirPath = ltrim(str_replace($this->directoryList->getRoot(), '', str_replace('\\', '/', __DIR__))
             . '/_files', '/');
         $this->directoryList->addDirectory(\Magento\App\Filesystem::MODULES_DIR, array('path' => $dirPath));

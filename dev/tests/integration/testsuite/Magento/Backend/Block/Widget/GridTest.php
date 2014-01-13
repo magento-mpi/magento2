@@ -71,7 +71,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
     protected function _getColumnSetMock()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $directoryList = $objectManager->create('\Magento\Filesystem\DirectoryList', array('root' => __DIR__));
+        $directoryList = $objectManager->create('\Magento\App\Filesystem\DirectoryList', array('root' => __DIR__));
         return $this->getMock('Magento\Backend\Block\Widget\Grid\ColumnSet', array(), array(
             $objectManager->create('\Magento\View\Element\Template\Context', array(
                 'filesystem' => $objectManager->create(

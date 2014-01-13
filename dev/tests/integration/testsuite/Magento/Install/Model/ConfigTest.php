@@ -42,7 +42,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             'Magento\App\Filesystem',
             array(
                 'directoryList' => $this->_objectManager->create(
-                        'Magento\Filesystem\DirectoryList',
+                        'Magento\App\Filesystem\DirectoryList',
                         array(
                             'root' => BP,
                             'directories' => array(

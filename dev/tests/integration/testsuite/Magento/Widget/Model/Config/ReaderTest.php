@@ -12,7 +12,7 @@ namespace Magento\Widget\Model\Config;
 class ReaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Filesystem\DirectoryList
+     * @var \Magento\App\Filesystem\DirectoryList
      */
     protected $directoryList;
 
@@ -26,7 +26,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        $this->directoryList = $objectManager->get('Magento\Filesystem\DirectoryList');
+        $this->directoryList = $objectManager->get('Magento\App\Filesystem\DirectoryList');
         $dirPath = ltrim(str_replace($this->directoryList->getRoot(), '', str_replace('\\', '/', __DIR__))
             . '/_files', '/');
         $this->directoryList->addDirectory(\Magento\App\Filesystem::MODULES_DIR, array('path' => $dirPath . '/code'));

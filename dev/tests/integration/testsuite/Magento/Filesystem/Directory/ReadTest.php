@@ -309,7 +309,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
         $objectManager = Bootstrap::getObjectManager();
         $directoryFactory = $objectManager->create('Magento\Filesystem\Directory\ReadFactory');
         return $directoryFactory->create($config,
-            new \Magento\Filesystem\DriverFactory($objectManager->get('Magento\Filesystem\DirectoryList')));
+            new \Magento\Filesystem\DriverFactory($objectManager->get('Magento\App\Filesystem\DirectoryList')));
     }
 
     /**

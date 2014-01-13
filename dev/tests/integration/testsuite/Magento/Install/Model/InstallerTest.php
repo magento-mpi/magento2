@@ -54,7 +54,7 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $directoryList = $objectManager->create(
-                'Magento\Filesystem\DirectoryList',
+                'Magento\App\Filesystem\DirectoryList',
                     array(
                         'root' => __DIR__,
                         'directories' => array(

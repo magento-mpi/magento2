@@ -25,7 +25,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     {
         $directoryList = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create(
-                'Magento\Filesystem\DirectoryList',
+                'Magento\App\Filesystem\DirectoryList',
                 array(
                     'root' => \Magento\App\Filesystem::ROOT_DIR,
                     'directories' => array(

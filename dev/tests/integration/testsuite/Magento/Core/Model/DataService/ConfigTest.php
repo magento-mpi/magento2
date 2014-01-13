@@ -38,7 +38,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
         $path = str_replace('\\', '/', realpath(__DIR__ . '/../DataService/LayoutTest'));
 
-        $directoryList = new \Magento\Filesystem\DirectoryList(
+        $directoryList = new \Magento\App\Filesystem\DirectoryList(
             $rootPath, array(
             \Magento\App\Filesystem::MODULES_DIR => array('path' => $path),
             \Magento\App\Filesystem::CONFIG_DIR => array('path' => $path)

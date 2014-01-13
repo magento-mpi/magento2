@@ -53,7 +53,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $directoryList = $objectManager->create(
-            'Magento\Filesystem\DirectoryList',
+            'Magento\App\Filesystem\DirectoryList',
             array(
                 'root' => self::$_tmpDir,
                 'directories' => array(

@@ -20,7 +20,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             'Magento\App\Filesystem',
             array(
                 'directoryList' => $objectManager->create(
-                    'Magento\Filesystem\DirectoryList',
+                    'Magento\App\Filesystem\DirectoryList',
                     array(
                         'root' => BP,
                         'directories' => array(

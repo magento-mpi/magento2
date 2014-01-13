@@ -11,7 +11,7 @@
 
 namespace Magento\View\Element;
 
-use Magento\Filesystem\DirectoryList;
+use Magento\App\Filesystem\DirectoryList;
 
 /**
  * @magentoAppIsolation enabled
@@ -53,8 +53,8 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
         $relativePath = $objectManager->get('Magento\App\Filesystem')
             ->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR)
             ->getRelativePath(__DIR__ . '/_files');
-        /** @var $directoryList \Magento\Filesystem\DirectoryList */
-        $directoryList = $objectManager->get('Magento\Filesystem\DirectoryList');
+        /** @var $directoryList \Magento\App\Filesystem\DirectoryList */
+        $directoryList = $objectManager->get('Magento\App\Filesystem\DirectoryList');
         $directoryList->addDirectory(\Magento\App\Filesystem::THEMES_DIR, array('path' => $relativePath));
 
         $cssUrl = $this->_block->getViewFileUrl('css/wrong.css', array(

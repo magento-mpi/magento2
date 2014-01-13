@@ -34,7 +34,7 @@ class LayoutTest extends \Magento\TestFramework\TestCase\AbstractController
             ->getAbsolutePath();
 
         $path = str_replace('\\', '/', realpath(__DIR__ . '/../DataService/LayoutTest'));
-        $directoryList = new \Magento\Filesystem\DirectoryList(
+        $directoryList = new \Magento\App\Filesystem\DirectoryList(
             $rootPath,
             array(\Magento\App\Filesystem::MODULES_DIR => array('path' => $path))
         );
