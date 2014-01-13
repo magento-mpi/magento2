@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Css\Model\PreProcessor;
+namespace Magento\View\Asset\PreProcessor;
 
 /**
  * The pre-processors which implement this interface are supposed to publish processed content to the $targetDirectory

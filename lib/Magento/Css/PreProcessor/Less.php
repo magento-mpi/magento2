@@ -13,7 +13,7 @@ use Magento\View\Asset;
 /**
  * Css pre-processor less
  */
-class Less implements PreProcessorInterface
+class Less implements \Magento\View\Asset\PreProcessor\PreProcessorInterface
 {
     /**
      * @var \Magento\View\FileSystem
