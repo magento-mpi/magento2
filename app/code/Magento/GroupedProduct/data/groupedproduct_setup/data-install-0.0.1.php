@@ -21,18 +21,26 @@ $installer->getConnection()->insertOnDuplicate($installer->getTable('catalog_pro
 /**
  * Install grouped product link attributes
  */
-$data = array(
-    array(
-        'link_type_id'                  => \Magento\GroupedProduct\Model\Resource\Product\Link::LINK_TYPE_GROUPED,
-        'product_link_attribute_code'   => 'position',
-        'data_type'                     => 'int'
-    ),
-    array(
-        'link_type_id'                  => \Magento\GroupedProduct\Model\Resource\Product\Link::LINK_TYPE_GROUPED,
-        'product_link_attribute_code'   => 'qty',
-        'data_type'                     => 'decimal'
-    )
-);
-foreach ($data as $bind) {
-    $installer->getConnection()->insertOnDuplicate($installer->getTable('catalog_product_link_attribute'), $bind);
+$select = $installer->getConnection()
+    ->select()
+    ->from(array('c' => $installer->getTable('catalog_product_link_attribute')))
+    ->where("c.link_type_id=?", \Magento\GroupedProduct\Model\Resource\Product\Link::LINK_TYPE_GROUPED);
+$result = $installer->getConnection()->fetchAll($select);
+
+if (!$result) {
+
+    $data = array(
+        array(
+            'link_type_id'                  => \Magento\GroupedProduct\Model\Resource\Product\Link::LINK_TYPE_GROUPED,
+            'product_link_attribute_code'   => 'position',
+            'data_type'                     => 'int'
+        ),
+        array(
+            'link_type_id'                  => \Magento\GroupedProduct\Model\Resource\Product\Link::LINK_TYPE_GROUPED,
+            'product_link_attribute_code'   => 'qty',
+            'data_type'                     => 'decimal'
+        )
+    );
+
+    $installer->getConnection()->insertMultiple($installer->getTable('catalog_product_link_attribute'), $data);
 }

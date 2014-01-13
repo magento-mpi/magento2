@@ -64,7 +64,8 @@
                            value="<?php echo $_item->getQty() * 1 ?>"
                            title="<?php echo __('Qty') ?>"
                            class="input-text qty"
-                           data-validate="{'validate-grouped-qty':'#super-product-table'}"/>
+                           data-validate="{'validate-grouped-qty':'#super-product-table'}"
+                           data-validate-message-box="#validate-message-box"/>
                 </div>
             <?php else: ?>
                 <p class="stock unavailable" title="<?php echo __('Availability') ?>">
@@ -85,3 +86,4 @@
     <?php endif; ?>
     </tbody>
 </table>
+<div id="validation-message-box"></div>
