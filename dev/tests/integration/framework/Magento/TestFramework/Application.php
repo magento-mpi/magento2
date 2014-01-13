@@ -196,7 +196,10 @@ class Application
             $objectManager = $this->_factory->restore($objectManager, BP, $overriddenParams);
         }
 
-        $directoryList = new \Magento\TestFramework\App\Filesystem\DirectoryList(BP);
+        $directories = isset($overriddenParams[\Magento\App\Filesystem::PARAM_APP_DIRS])
+            ? $overriddenParams[\Magento\App\Filesystem::PARAM_APP_DIRS]
+            : array();
+        $directoryList = new \Magento\TestFramework\App\Filesystem\DirectoryList(BP, $directories);
 
         $objectManager->addSharedInstance($directoryList, 'Magento\App\Filesystem\DirectoryList');
         $objectManager->addSharedInstance($directoryList, 'Magento\Filesystem\DirectoryList');
