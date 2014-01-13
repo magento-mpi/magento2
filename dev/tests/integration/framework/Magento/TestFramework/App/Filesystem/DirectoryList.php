@@ -14,14 +14,16 @@ class DirectoryList extends \Magento\App\Filesystem\DirectoryList
      *
      * @param string $code
      * @param array $directoryConfig
-     * @throws \Magento\Filesystem\FilesystemException
      */
     public function addDirectory($code, array $directoryConfig)
     {
-        try{
-            parent::addDirectory($code, $directoryConfig);
-        } catch(\Exception $e) {
-            // Ignore exception during executing tests
+        if (!isset($directoryConfig['path'])) {
+            $directoryConfig['path'] = null;
         }
+        if (!$this->isAbsolute($directoryConfig['path'])) {
+            $directoryConfig['path'] = $this->makeAbsolute($directoryConfig['path']);
+        }
+
+        $this->directories[$code] = $directoryConfig;
     }
 }
