@@ -25,9 +25,9 @@ class Profile
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\Customer\Service\V1\Dto\Customer
+     * @var int
      */
-    protected $_currentCustomer;
+    protected $_currentCustomerId;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
@@ -37,7 +37,6 @@ class Profile
      * @param \Magento\Sales\Model\Resource\Recurring\Profile\CollectionFactory $profileCollection
      * @param \Magento\Sales\Model\Recurring\ProfileFactory $recurringProfile
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Customer\Service\V1\CustomerService $customerService
      * @param array $data
      */
     public function __construct(
@@ -48,7 +47,6 @@ class Profile
         \Magento\Sales\Model\Resource\Recurring\Profile\CollectionFactory $profileCollection,
         \Magento\Sales\Model\Recurring\ProfileFactory $recurringProfile,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Customer\Service\V1\CustomerService $customerService,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -56,13 +54,11 @@ class Profile
         // @todo remove usage of REGISTRY_CURRENT_CUSTOMER in advantage of REGISTRY_CURRENT_CUSTOMER_ID
         $currentCustomer = $this->_coreRegistry->registry(CustomerController::REGISTRY_CURRENT_CUSTOMER);
         if ($currentCustomer) {
-            $currentCustomerId = $currentCustomer->getId();
+            $this->_currentCustomerId = $currentCustomer->getId();
         } else {
-            $currentCustomerId = $this->_coreRegistry->registry(CustomerController::REGISTRY_CURRENT_CUSTOMER_ID);
-        }
-
-        if ($currentCustomerId) {
-            $this->_currentCustomer = $customerService->getCustomer($currentCustomerId);
+            $this->_currentCustomerId = $this->_coreRegistry->registry(
+                CustomerController::REGISTRY_CURRENT_CUSTOMER_ID
+            );
         }
 
         parent::__construct(
@@ -113,7 +109,7 @@ class Profile
      */
     public function canShowTab()
     {
-        return (bool)$this->_currentCustomer;
+        return (bool)$this->_currentCustomerId;
     }
 
     /**
@@ -133,12 +129,11 @@ class Profile
      */
     protected function _prepareCollection()
     {
-        if (!$this->_currentCustomer) {
+        if (!$this->_currentCustomerId) {
             return $this;
         }
 
-        $collection = $this->_profileCollection->create()
-            ->addFieldToFilter('customer_id', $this->_currentCustomer->getCustomerId());
+        $collection = $this->_profileCollection->create()->addFieldToFilter('customer_id', $this->_currentCustomerId);
 
         if (!$this->getParam($this->getVarNameSort())) {
             $collection->setOrder('profile_id', 'desc');
