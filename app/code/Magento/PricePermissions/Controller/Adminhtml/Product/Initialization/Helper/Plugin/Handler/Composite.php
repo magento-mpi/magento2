@@ -34,8 +34,8 @@ class Composite implements HandlerInterface
      */
     public function handle(\Magento\Catalog\Model\Product $product)
     {
-        foreach ($this->handlers as $constructor) {
-            $constructor->handle($product);
+        foreach ($this->handlers as $handler) {
+            $handler->handle($product);
         }
     }
 } 

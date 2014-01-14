@@ -28,7 +28,7 @@ class NewObject implements HandlerInterface
      *
      * @var string
      */
-    protected $_defaultProductPriceString;
+    protected $defaultProductPriceString;
 
     /**
      * @param StoreManagerInterface $storeManager
@@ -42,7 +42,7 @@ class NewObject implements HandlerInterface
     ) {
         $this->storeManager               = $storeManager;
         $this->request                    = $request;
-        $this->_defaultProductPriceString = $pricePermData->getDefaultProductPriceString();
+        $this->defaultProductPriceString = $pricePermData->getDefaultProductPriceString();
     }
 
     /**
@@ -50,34 +50,38 @@ class NewObject implements HandlerInterface
      */
     public function handle(\Magento\Catalog\Model\Product $product)
     {
-        if ($product->isObjectNew()) {
-            // For new products set default price
-            if (!($product->getTypeId() == \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE
-                && $product->getPriceType() == \Magento\Bundle\Model\Product\Price::PRICE_TYPE_DYNAMIC)
-            ) {
-                $product->setPrice((float) $this->_defaultProductPriceString);
-                // Set default amount for Gift Card product
-                if ($product->getTypeId() == \Magento\GiftCard\Model\Catalog\Product\Type\Giftcard::TYPE_GIFTCARD
-                ) {
-                    $storeId = (int) $this->request->getParam('store', 0);
-                    $websiteId = $this->storeManager->getStore($storeId)->getWebsiteId();
-                    $product->setGiftcardAmounts(array(
-                        array(
-                            'website_id' => $websiteId,
-                            'price'      => $this->_defaultProductPriceString,
-                            'delete'     => ''
-                        )
-                    ));
-                }
-            }
-            // New products are created without recurring profiles
-            $product->setIsRecurring(false);
-            $product->unsRecurringProfile();
-            // Add MAP default values
-            $product->setMsrpEnabled(
-                \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Enabled::MSRP_ENABLE_USE_CONFIG);
-            $product->setMsrpDisplayActualPriceType(
-                \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Price::TYPE_USE_CONFIG);
+        if (!$product->isObjectNew()) {
+            return;
         }
+
+        // For new products set default price
+        if (!($product->getTypeId() == \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE
+            && $product->getPriceType() == \Magento\Bundle\Model\Product\Price::PRICE_TYPE_DYNAMIC)
+        ) {
+            $product->setPrice((float) $this->defaultProductPriceString);
+            // Set default amount for Gift Card product
+            if ($product->getTypeId() == \Magento\GiftCard\Model\Catalog\Product\Type\Giftcard::TYPE_GIFTCARD
+            ) {
+                $storeId = (int) $this->request->getParam('store', 0);
+                $websiteId = $this->storeManager->getStore($storeId)->getWebsiteId();
+                $product->setGiftcardAmounts(array(
+                    array(
+                        'website_id' => $websiteId,
+                        'price'      => $this->defaultProductPriceString,
+                        'delete'     => ''
+                    )
+                ));
+            }
+        }
+        // New products are created without recurring profiles
+        $product->setIsRecurring(false);
+        $product->unsRecurringProfile();
+        // Add MAP default values
+        $product->setMsrpEnabled(
+            \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Enabled::MSRP_ENABLE_USE_CONFIG
+        );
+        $product->setMsrpDisplayActualPriceType(
+            \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Price::TYPE_USE_CONFIG);
+
     }
 } 

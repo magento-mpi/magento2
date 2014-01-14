@@ -9,15 +9,45 @@ namespace Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\H
 
 class HandlerFactoryTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var HandlerFactory
+     */
     protected $_model;
-    
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_objectManagerMock;
+
     protected function setUp()
     {
-        $this->markTestIncomplete('Need to be implemented');
+        $this->_objectManagerMock = $this->getMock('\Magento\ObjectManager');
+        $this->_model = new HandlerFactory($this->_objectManagerMock);
     }
 
-    public function testCreate()
+    public function testCreateWithInvalidType()
     {
+        $this->setExpectedException(
+            '\InvalidArgumentException',
+            '\Magento\Object does not implement '
+            . 'Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\HandlerInterface'
+        );
+        $this->_objectManagerMock->expects($this->never())->method('create');
+        $this->_model->create('\Magento\Object');
+    }
 
+    public function testCreateWithValidType()
+    {
+        $this->_objectManagerMock->expects($this->once())
+            ->method('create')
+            ->with(
+                '\Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\Composite'
+            )->will($this->returnValue('object'));
+        $this->assertEquals(
+            'object',
+            $this->_model->create(
+                '\Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\Composite'
+            )
+        );
     }
 }
