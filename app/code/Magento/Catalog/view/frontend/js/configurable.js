@@ -217,7 +217,7 @@
             $.each(imagesArray || {}, function (k, v) {
                 result.push(v);
             });
-            var baseImage = $('[data-role=base-image-container] img');
+            var baseImage = $('[data-role=gallery-base-image-container] img');
             if (result.length === 1) {
                 baseImage.attr('src', result[0]).trigger('imageChanged', result[0]);
             } else {
