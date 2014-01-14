@@ -25,6 +25,11 @@ class Profile
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Customer\Service\V1\Dto\Customer
+     */
+    protected $_currentCustomer;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Backend\Helper\Data $backendHelper
@@ -32,6 +37,7 @@ class Profile
      * @param \Magento\Sales\Model\Resource\Recurring\Profile\CollectionFactory $profileCollection
      * @param \Magento\Sales\Model\Recurring\ProfileFactory $recurringProfile
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Customer\Service\V1\CustomerService $customerService
      * @param array $data
      */
     public function __construct(
@@ -42,9 +48,23 @@ class Profile
         \Magento\Sales\Model\Resource\Recurring\Profile\CollectionFactory $profileCollection,
         \Magento\Sales\Model\Recurring\ProfileFactory $recurringProfile,
         \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Customer\Service\V1\CustomerService $customerService,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
+
+        // @todo remove usage of REGISTRY_CURRENT_CUSTOMER in advantage of REGISTRY_CURRENT_CUSTOMER_ID
+        $currentCustomer = $this->_coreRegistry->registry(CustomerController::REGISTRY_CURRENT_CUSTOMER);
+        if ($currentCustomer) {
+            $currentCustomerId = $currentCustomer->getId();
+        } else {
+            $currentCustomerId = $this->_coreRegistry->registry(CustomerController::REGISTRY_CURRENT_CUSTOMER_ID);
+        }
+
+        if ($currentCustomerId) {
+            $this->_currentCustomer = $customerService->getCustomer($currentCustomerId);
+        }
+
         parent::__construct(
             $context,
             $urlModel,
@@ -93,19 +113,7 @@ class Profile
      */
     public function canShowTab()
     {
-        $customer = $this->_getCurrentCustomer();
-        // @todo correct after MAGETWO-19344 is done
-        return (bool)($customer instanceof \Magento\Customer\Model\Backend\Customer ? $customer->getId() : $customer);
-    }
-
-    /**
-     * Return customer DTO from registry (if it is there)
-     *
-     * @return \Magento\Customer\Service\V1\Dto\Customer|null
-     */
-    protected function _getCurrentCustomer()
-    {
-        return $this->_coreRegistry->registry(CustomerController::REGISTRY_CURRENT_CUSTOMER);
+        return (bool)$this->_currentCustomer;
     }
 
     /**
@@ -125,22 +133,19 @@ class Profile
      */
     protected function _prepareCollection()
     {
-        $collection = $this->_profileCollection->create();
-        $customer = $this->_getCurrentCustomer();
-
-        // @todo correct after MAGETWO-19344 is done
-        if ($customer instanceof \Magento\Customer\Model\Backend\Customer) {
-            $collection->addFieldToFilter('customer_id', $customer->getId());
-        } elseif ($customer instanceof \Magento\Customer\Service\V1\Dto\Customer) {
-            $collection->addFieldToFilter('customer_id', $customer->getCustomerId());
-        } else {
+        if (!$this->_currentCustomer) {
             return $this;
         }
+
+        $collection = $this->_profileCollection->create()
+            ->addFieldToFilter('customer_id', $this->_currentCustomer->getCustomerId());
 
         if (!$this->getParam($this->getVarNameSort())) {
             $collection->setOrder('profile_id', 'desc');
         }
+
         $this->setCollection($collection);
+
         return parent::_prepareCollection();
     }
 
