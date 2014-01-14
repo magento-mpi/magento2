@@ -13,7 +13,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\MultiShipping\Helper;
+namespace Magento\Multishipping\Helper;
 
 class Url extends \Magento\Core\Helper\Url
 {

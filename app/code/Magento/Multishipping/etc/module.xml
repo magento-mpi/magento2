@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <module name="Magento_MultiShipping" version="2.0.0.0" active="true">
+    <module name="Magento_Multishipping" version="2.0.0.0" active="true">
         <sequence>
             <module name="Magento_Core"/>
             <module name="Magento_Catalog"/>
