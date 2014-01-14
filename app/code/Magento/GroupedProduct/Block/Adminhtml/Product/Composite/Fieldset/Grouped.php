@@ -44,6 +44,7 @@ class Grouped
      * @param \Magento\Tax\Model\Calculation $taxCalculation
      * @param \Magento\Core\Helper\Data $coreHelper
      * @param array $data
+     * @param array $priceBlockTypes
      * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -62,7 +63,8 @@ class Grouped
         \Magento\Stdlib\ArrayUtils $arrayUtils,
         \Magento\Tax\Model\Calculation $taxCalculation,
         \Magento\Core\Helper\Data $coreHelper,
-        array $data = array()
+        array $data = array(),
+        array $priceBlockTypes = array()
     ) {
         $this->_coreHelper = $coreHelper;
         $this->_taxCalculation = $taxCalculation;
@@ -79,7 +81,8 @@ class Grouped
             $layoutHelper,
             $imageHelper,
             $arrayUtils,
-            $data
+            $data,
+            $priceBlockTypes
         );
     }
 

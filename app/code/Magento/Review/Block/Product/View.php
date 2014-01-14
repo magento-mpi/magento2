@@ -50,6 +50,7 @@ class View extends \Magento\Catalog\Block\Product\View
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
      * @param \Magento\Review\Model\Resource\Review\CollectionFactory $collectionFactory
      * @param array $data
+     * @param array $priceBlockTypes
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -73,7 +74,8 @@ class View extends \Magento\Catalog\Block\Product\View
         \Magento\Catalog\Helper\Product $productHelper,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
         \Magento\Review\Model\Resource\Review\CollectionFactory $collectionFactory,
-        array $data = array()
+        array $data = array(),
+        array $priceBlockTypes = array()
     ) {
         $this->_reviewsColFactory = $collectionFactory;
         parent::__construct(
@@ -95,7 +97,8 @@ class View extends \Magento\Catalog\Block\Product\View
             $string,
             $productHelper,
             $productTypeConfig,
-            $data
+            $data,
+            $priceBlockTypes
         );
     }
 

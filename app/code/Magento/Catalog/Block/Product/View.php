@@ -83,6 +83,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
      * @param \Magento\Catalog\Helper\Product $productHelper
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
      * @param array $data
+     * @param array $priceBlockTypes
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -105,7 +106,8 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
         \Magento\Stdlib\String $string,
         \Magento\Catalog\Helper\Product $productHelper,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
-        array $data = array()
+        array $data = array(),
+        array $priceBlockTypes = array()
     ) {
         $this->_productHelper = $productHelper;
         $this->_coreData = $coreData;
@@ -126,7 +128,8 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
             $compareProduct,
             $layoutHelper,
             $imageHelper,
-            $data
+            $data,
+            $priceBlockTypes
         );
     }
 

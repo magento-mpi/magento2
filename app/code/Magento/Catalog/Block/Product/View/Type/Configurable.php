@@ -75,6 +75,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
      * @param \Magento\Tax\Model\Calculation $taxCalculation
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param array $data
+     * @param array $priceBlockTypes
      * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -94,7 +95,8 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Tax\Model\Calculation $taxCalculation,
         \Magento\Catalog\Helper\Product $catalogProduct,
-        array $data = array()
+        array $data = array(),
+        array $priceBlockTypes = array()
     ) {
         $this->_imageHelper = $imageHelper;
         $this->_taxCalculation = $taxCalculation;
@@ -113,7 +115,8 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
             $layoutHelper,
             $imageHelper,
             $arrayUtils,
-            $data
+            $data,
+            $priceBlockTypes
         );
     }
 
