@@ -801,11 +801,6 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
                 $card->setCapturedAmount($cardAmountForCapture);
                 $cardsStorage->updateCard($card);
                 $requestedAmount = $this->_formatAmount($requestedAmount - $cardAmountForCapture);
-            } else {
-                /**
-                 * This functional is commented because partial capture is disable. See self::_canCapturePartial.
-                 */
-                //$this->_voidCardTransaction($payment, $card);
             }
         }
 
@@ -819,9 +814,10 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
      * Send capture request to gateway for capture authorized transactions of card
      *
      * @param \Magento\Payment\Model\Info $payment
-     * @param decimal $amount
+     * @param float $amount
      * @param \Magento\Object $card
      * @return \Magento\Sales\Model\Order\Payment\Transaction
+     * @throws \Magento\Core\Exception
      */
     protected function _preauthorizeCaptureCardTransaction($payment, $amount, $card)
     {
@@ -1350,9 +1346,8 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
         $uri = $this->getConfigData('cgi_url');
         $client->setUri($uri ? $uri : self::CGI_URL);
         $client->setConfig(array(
-            'maxredirects'=>0,
-            'timeout'=>30,
-            //'ssltransport' => 'tcp',
+            'maxredirects' => 0,
+            'timeout' => 30,
         ));
         foreach ($request->getData() as $key => $value) {
             $request->setData($key, str_replace(self::RESPONSE_DELIM_CHAR, '', $value));
@@ -1399,8 +1394,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
                 ->setAccNumber($r[50])
                 ->setCardType($r[51])
                 ->setRequestedAmount($r[53])
-                ->setBalanceOnCard($r[54])
-                ;
+                ->setBalanceOnCard($r[54]);
         }
         else {
              throw new \Magento\Core\Exception(
@@ -1472,8 +1466,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
             ->setCcExpYear(null)
             ->setCcSsIssue(null)
             ->setCcSsStartMonth(null)
-            ->setCcSsStartYear(null)
-            ;
+            ->setCcSsStartYear(null);
         return $this;
     }
 
@@ -1630,8 +1623,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
         $response
             ->setResponseCode((string)$responseXmlDocument->transaction->responseCode)
             ->setResponseReasonCode((string)$responseXmlDocument->transaction->responseReasonCode)
-            ->setTransactionStatus((string)$responseXmlDocument->transaction->transactionStatus)
-        ;
+            ->setTransactionStatus((string)$responseXmlDocument->transaction->transactionStatus);
         return $response;
     }
 }
