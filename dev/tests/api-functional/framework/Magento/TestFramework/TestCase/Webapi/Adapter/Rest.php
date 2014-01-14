@@ -79,11 +79,6 @@ class Rest implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
             default:
                 throw new \LogicException("HTTP method '{$httpMethod}' is not supported.");
         }
-        if (!is_array($response)) {
-            /** Array is defined as the only return type in the adapter interface */
-            $responseType = gettype($response);
-            throw new \RuntimeException("Response type is invalid. Array expected, '{$responseType}' given.");
-        }
         return $response;
     }
 

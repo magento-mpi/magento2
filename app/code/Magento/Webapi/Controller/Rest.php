@@ -139,7 +139,7 @@ class Rest implements \Magento\App\FrontControllerInterface
             $service = $this->_objectManager->get($serviceClassName);
             /** @var \Magento\Service\Entity\AbstractDto $outputData */
             $outputData = call_user_func_array([$service, $serviceMethodName], $inputParams);
-            $outputArray = $this->_getOutputArray($outputData);
+            $outputArray = $this->_processServiceOutput($outputData);
             $this->_response->prepareResponse($outputArray);
         } catch (\Exception $e) {
             $maskedException = $this->_errorProcessor->maskException($e);
@@ -149,38 +149,50 @@ class Rest implements \Magento\App\FrontControllerInterface
     }
 
     /**
-     * Converts the incoming data into an array format.
+     * Converts the incoming data into scalar or an array of scalars format.
      *
      * If the data provided is null, then an empty array is returned.  Otherwise, if the data is an object, it is
      * assumed to be a DTO and converted to an associative array with keys representing the properties of the DTO.
      * Nested DTOs are also converted.  If the data provided is itself an array, then we iterate through the contents
      * and convert each piece individually.
      *
-     * @param array|object $data A DTO or an array of DTOs to be converted into a key-value array format.
+     * @param mixed $data
+     * @return array|int|string|bool|float Scalar or array of scalars
+     */
+    protected function _processServiceOutput($data)
+    {
+        if (is_array($data)) {
+            $result = [];
+            foreach ($data as $datum) {
+                if (is_object($datum)) {
+                    $result[] = $this->_convertDtoToArray($datum);
+                } else {
+                    $result[] = $datum;
+                }
+            }
+        } else if (is_object($data)) {
+            $result = $this->_convertDtoToArray($data);
+        } else if (is_null($data)) {
+            $result = [];
+        } else {
+            /** No processing is required for scalar types */
+            $result = $data;
+        }
+        return $result;
+    }
+
+    /**
+     * Convert DTO to array.
+     *
+     * @param object $dto
      * @return array
      * @throws \InvalidArgumentException
      */
-    protected function _getOutputArray($data)
+    protected function _convertDtoToArray($dto)
     {
-        if (!is_null($data) && !array($data) && !(is_object($data) && method_exists($data, '__toArray'))) {
-            throw new \InvalidArgumentException("null, array or service DTO was expected.");
+        if (!is_object($dto) || !method_exists($dto, '__toArray')) {
+            throw new \InvalidArgumentException("All objects returned by service must implement __toArray().");
         }
-        $outputArray = array();
-        if (!is_null($data)) {
-            $outputArray = [];
-            if (is_array($data)) {
-                foreach ($data as $datum) {
-                    if (method_exists($datum, '__toArray')) {
-                        $outputArray[] = $datum->__toArray();
-                    } else {
-                        $outputArray[] = $datum;
-                    }
-                }
-            } else {
-                $outputArray = $data->__toArray();
-            }
-        }
-        return $outputArray;
+        return $dto->__toArray();
     }
-
 }

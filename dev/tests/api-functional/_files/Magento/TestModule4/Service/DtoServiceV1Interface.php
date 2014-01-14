@@ -30,4 +30,12 @@ interface DtoServiceV1Interface
      * @return \Magento\TestModule4\Service\Entity\V1\DtoResponse
      */
     public function nestedData($id, Entity\V1\NestedDtoRequest $request);
+
+    /**
+     * Test return scalar value
+     *
+     * @param int $id
+     * @return int
+     */
+    public function scalarResponse($id);
 }

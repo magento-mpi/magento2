@@ -6,14 +6,14 @@
  * @license     {license_link}
  */
 
-namespace Magento\Webapi\Controller\Soap;
+namespace Magento\Webapi\Controller\Soap\Request;
 
 /**
- * Test for \Magento\Webapi\Controller\Soap\Handler.
+ * Test for \Magento\Webapi\Controller\Soap\Request\Handler.
  */
 class HandlerTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\Webapi\Controller\Soap\Handler */
+    /** @var \Magento\Webapi\Controller\Soap\Request\Handler */
     protected $_handler;
 
     /** @var \Magento\ObjectManager */
@@ -48,7 +48,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
         $this->_helperMock = $this->getMock('Magento\Webapi\Helper\Data', [], [], '', false);
         $this->_serializerMock = $this->getMock('Magento\Webapi\Controller\ServiceArgsSerializer', [], [], '', false);
         /** Initialize SUT. */
-        $this->_handler = new \Magento\Webapi\Controller\Soap\Handler(
+        $this->_handler = new \Magento\Webapi\Controller\Soap\Request\Handler(
             $this->_requestMock,
             $this->_objectManagerMock,
             $this->_apiConfigMock,

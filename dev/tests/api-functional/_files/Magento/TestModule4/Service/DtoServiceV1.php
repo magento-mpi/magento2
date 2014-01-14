@@ -36,4 +36,15 @@ class DtoServiceV1 implements \Magento\TestModule4\Service\DtoServiceV1Interface
         $response = new Entity\V1\DtoResponseBuilder();
         return $response->setEntityId($id)->setName($request->getDetails()->getName())->create();
     }
+
+    /**
+     * Test return scalar value
+     *
+     * @param int $id
+     * @return int
+     */
+    public function scalarResponse($id)
+    {
+        return $id;
+    }
 }

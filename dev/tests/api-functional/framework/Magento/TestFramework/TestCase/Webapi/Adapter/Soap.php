@@ -9,7 +9,7 @@
 namespace Magento\TestFramework\TestCase\Webapi\Adapter;
 
 use Magento\Webapi\Model\Soap\Wsdl\ComplexTypeStrategy as WsdlDiscoveryStrategy;
-use Magento\Webapi\Controller\Soap\Handler as SoapHandler;
+use Magento\Webapi\Controller\Soap\Request\Handler as SoapHandler;
 
 /**
  * Test client for SOAP API testing.

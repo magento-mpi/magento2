@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Webapi\Controller\Soap;
+namespace Magento\Webapi\Controller\Soap\Request;
 
 use Magento\Authz\Service\AuthorizationV1Interface as AuthorizationService;
 use Magento\Webapi\Model\Soap\Config as SoapConfig;

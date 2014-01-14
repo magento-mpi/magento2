@@ -80,4 +80,16 @@ class ServiceSerializationTest extends \Magento\TestFramework\TestCase\WebapiAbs
         $this->assertEquals($itemId, $item['entity_id'], 'id field returned incorrectly');
         $this->assertEquals($name, $item['name'], 'name field returned incorrectly');
     }
+
+    public function testScalarResponse()
+    {
+        $id = 2;
+        $serviceInfo = array(
+            'rest' => array(
+                'resourcePath' => "{$this->_restResourcePath}scalar/{$id}",
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
+            )
+        );
+        $this->assertEquals($id, $this->_webApiCall($serviceInfo), 'Scalar service output is serialized incorrectly.');
+    }
 }
