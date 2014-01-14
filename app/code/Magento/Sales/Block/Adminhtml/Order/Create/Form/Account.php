@@ -23,17 +23,16 @@ class Account extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
     protected $_customerFactory;
 
     /**
-     * @var \Magento\Customer\Model\FormFactory
+     * @var \Magento\Customer\Model\Metadata\FormFactory
      */
-    protected $_customerFormFactory;
+    protected $_metadataFormFactory;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Model\Session\Quote $sessionQuote
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
      * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param \Magento\Customer\Model\FormFactory $customerFormFactory
+     * @param \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory
      * @param array $data
      */
     public function __construct(
@@ -41,12 +40,10 @@ class Account extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
         \Magento\Backend\Model\Session\Quote $sessionQuote,
         \Magento\Sales\Model\AdminOrder\Create $orderCreate,
         \Magento\Data\FormFactory $formFactory,
-        \Magento\Customer\Model\CustomerFactory $customerFactory,
-        \Magento\Customer\Model\FormFactory $customerFormFactory,
+        \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory,
         array $data = array()
     ) {
-        $this->_customerFactory = $customerFactory;
-        $this->_customerFormFactory = $customerFormFactory;
+        $this->_metadataFormFactory = $metadataFormFactory;
         parent::__construct($context, $sessionQuote, $orderCreate, $formFactory, $data);
     }
 
@@ -77,21 +74,17 @@ class Account extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
      */
     protected function _prepareForm()
     {
-        /* @var $customerModel \Magento\Customer\Model\Customer */
-        $customerModel = $this->_customerFactory->create();
-
-        /* @var $customerForm \Magento\Customer\Model\Form */
-        $customerForm   = $this->_customerFormFactory->create();
-        $customerForm->setFormCode('adminhtml_checkout')
-            ->setStore($this->getStore())
-            ->setEntity($customerModel);
+        /** @var \Magento\Customer\Model\Metadata\Form $customerForm */
+        $customerForm = $this->_metadataFormFactory->create(
+            'customer',
+            'adminhtml_checkout'
+        );
 
         // prepare customer attributes to show
-        $attributes     = array();
+        $attributes = [];
 
         // add system required attributes
         foreach ($customerForm->getSystemAttributes() as $attribute) {
-            /* @var $attribute \Magento\Customer\Model\Attribute */
             if ($attribute->getIsRequired()) {
                 $attributes[$attribute->getAttributeCode()] = $attribute;
             }

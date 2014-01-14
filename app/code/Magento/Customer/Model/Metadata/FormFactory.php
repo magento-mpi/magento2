@@ -31,9 +31,10 @@ class FormFactory
     /**
      * Create Form
      *
-     * @param $entityType
-     * @param $formCode
-     * @param $attributeValues
+     * @param string $entityType
+     * @param string $formCode
+     * @param array $attributeValues
+     * @param boolean $isAjax
      * @return \Magento\Customer\Model\Metadata\Form
      */
     public function create(

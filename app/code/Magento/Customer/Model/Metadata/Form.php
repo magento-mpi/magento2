@@ -73,6 +73,11 @@ class Form
     protected $_validator;
 
     /**
+     * @var \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata[]
+     */
+    protected $_attributes;
+
+    /**
      * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $eavMetadataService
      * @param ElementFactory $elementFactory
      * @param \Magento\App\RequestInterface $httpRequest
@@ -118,8 +123,43 @@ class Form
      */
     public function getAttributes()
     {
-        return $this->_eavMetadataService
-            ->getAttributes($this->_entityType, $this->_formCode);
+        if (!isset($this->_attributes)) {
+            $this->_attributes = $this->_eavMetadataService
+                ->getAttributes($this->_entityType, $this->_formCode);
+        }
+        return $this->_attributes;
+    }
+
+    /**
+     * Retrieve user defined attributes
+     *
+     * @return \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata[]
+     */
+    public function getUserAttributes()
+    {
+        $result = [];
+        foreach ($this->getAttributes() as $attribute) {
+            if ($attribute->getIsUserDefined()) {
+                $result[] = $attribute;
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * Retrieve system required attributes
+     *
+     * @return \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata[]
+     */
+    public function getSystemAttributes()
+    {
+        $result = [];
+        foreach ($this->getAttributes() as $attribute) {
+            if (!$attribute->getIsUserDefined()) {
+                $result[] = $attribute;
+            }
+        }
+        return $result;
     }
 
     /**

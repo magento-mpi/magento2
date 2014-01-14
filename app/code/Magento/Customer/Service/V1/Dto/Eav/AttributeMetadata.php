@@ -26,6 +26,7 @@ class AttributeMetadata extends \Magento\Service\Entity\AbstractDto
     const REQUIRED = 'is_required';
     const MULTILINE_COUNT = 'multiline_count';
     const DATA_MODEL = 'data_model';
+    const IS_USER_DEFINED = 'is_user_defined';
 
     /**
      * @return string
@@ -105,5 +106,13 @@ class AttributeMetadata extends \Magento\Service\Entity\AbstractDto
     public function getOptions()
     {
         return $this->_get(self::OPTIONS);
+    }
+
+    /**
+     * @return bool
+     */
+    public function getIsUserDefined()
+    {
+        return $this->_get(self::IS_USER_DEFINED);
     }
 }

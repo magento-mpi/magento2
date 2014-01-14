@@ -105,11 +105,25 @@ class AttributeMetadataBuilder extends \Magento\Service\Entity\AbstractDtoBuilde
     }
 
     /**
-     * @param string
+     * @param string $dataModel
      * @return AttributeMetadataBuilder
      */
     public function setDataModel($dataModel)
     {
         return $this->_set(AttributeMetadata::DATA_MODEL, $dataModel);
+    }
+
+    /**
+     * @param bool $isUserDefined
+     * @return \Magento\Service\Entity\AbstractDto
+     */
+
+    /**
+     * @param bool $isUserDefined
+     * @return AttributeMetadataBuilder
+     */
+    public function setIsUserDefined($isUserDefined)
+    {
+        return $this->_set(AttributeMetadata::IS_USER_DEFINED, $isUserDefined);
     }
 }
