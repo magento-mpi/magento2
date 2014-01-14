@@ -51,7 +51,7 @@ class CustomerService implements CustomerServiceInterface
 
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getCustomer($customerId)
     {
@@ -66,7 +66,7 @@ class CustomerService implements CustomerServiceInterface
 
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function saveCustomer(Dto\Customer $customer, $password = null)
     {
