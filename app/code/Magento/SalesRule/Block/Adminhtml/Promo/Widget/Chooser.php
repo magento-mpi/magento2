@@ -12,28 +12,23 @@ class Chooser extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * @var \Magento\SalesRule\Model\RuleFactory
      */
-    protected $salesRule;
-
-    /**
-     * @var string
-     */
-    protected $chooserPath = 'sales_rule/promo_quote/chooser';
+    protected $ruleFactory;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Backend\Helper\Data $backendHelper
-     * @param \Magento\SalesRule\Model\RuleFactory $salesRule
+     * @param \Magento\SalesRule\Model\RuleFactory $ruleFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Url $urlModel,
         \Magento\Backend\Helper\Data $backendHelper,
-        \Magento\SalesRule\Model\RuleFactory $salesRule,
+        \Magento\SalesRule\Model\RuleFactory $ruleFactory,
         array $data = array()
     ) {
-        $this->salesRule = $salesRule;
+        $this->ruleFactory = $ruleFactory;
         parent::__construct($context, $urlModel, $backendHelper, $data);
     }
 
@@ -51,11 +46,11 @@ class Chooser extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare rules collection
      *
-     * @return \Magento\Backend\Block\Widget\Grid\Extended
+     * @return Chooser
      */
     protected function _prepareCollection()
     {
-        $collection = $this->salesRule->create()->getResourceCollection();
+        $collection = $this->ruleFactory->create()->getResourceCollection();
         $this->setCollection($collection);
 
         $this->_eventManager->dispatch('adminhtml_block_promo_widget_chooser_prepare_collection', array(
@@ -74,7 +69,7 @@ class Chooser extends \Magento\Backend\Block\Widget\Grid\Extended
     public function prepareElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $uniqId = $this->mathRandom->getUniqueHash($element->getId());
-        $sourceUrl = $this->getUrl($this->chooserPath, array('uniq_id' => $uniqId));
+        $sourceUrl = $this->getUrl('sales_rule/promo_quote/chooser', array('uniq_id' => $uniqId));
 
         $chooser = $this->getLayout()->createBlock('Magento\Widget\Block\Adminhtml\Widget\Chooser')
             ->setElement($element)
@@ -84,7 +79,7 @@ class Chooser extends \Magento\Backend\Block\Widget\Grid\Extended
             ->setUniqId($uniqId);
 
         if ($element->getValue()) {
-            $rule = $this->salesRule->create()->load((int)$element->getValue());
+            $rule = $this->ruleFactory->create()->load((int)$element->getValue());
             if ($rule->getId()) {
                 $chooser->setLabel($rule->getName());
             }
@@ -118,7 +113,7 @@ class Chooser extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare columns for rules grid
      *
-     * @return \Magento\Backend\Block\Widget\Grid\Extended
+     * @return Chooser
      */
     protected function _prepareColumns()
     {
@@ -181,6 +176,6 @@ class Chooser extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function getGridUrl()
     {
-        return $this->getUrl($this->chooserPath, array('_current' => true));
+        return $this->getUrl('sales_rule/promo_quote/chooser', array('_current' => true));
     }
 }
