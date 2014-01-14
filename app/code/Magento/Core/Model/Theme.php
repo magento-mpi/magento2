@@ -13,7 +13,6 @@ namespace Magento\Core\Model;
 /**
  * Theme model class
  *
- * @method \Magento\View\Design\ThemeInterface save()
  * @method string getPackageCode()
  * @method string getParentThemePath()
  * @method string getParentId()
@@ -24,9 +23,7 @@ namespace Magento\Core\Model;
  * @method int getThemeId()
  * @method int getType()
  * @method array getAssignedStores()
- * @method \Magento\Core\Model\Resource\Theme\Collection getCollection()
  * @method \Magento\View\Design\ThemeInterface setAssignedStores(array $stores)
- * @method \Magento\View\Design\ThemeInterface addData(array $data)
  * @method \Magento\View\Design\ThemeInterface setParentId(int $id)
  * @method \Magento\View\Design\ThemeInterface setParentTheme($parentTheme)
  * @method \Magento\View\Design\ThemeInterface setPackageCode(string $packageCode)
