@@ -6,9 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Css\Model\PreProcessor;
-
-use Magento\View\Asset;
+namespace Magento\Css\PreProcessor;
 
 /**
  * Css pre-processor less
