@@ -15,5 +15,5 @@
                 <catalog_inventory>Magento\CatalogInventory\Model\Product\CopyConstructor\CatalogInventory</catalog_inventory>
             </value>
         </param>
-    </type>;
+    </type>
 </config>
