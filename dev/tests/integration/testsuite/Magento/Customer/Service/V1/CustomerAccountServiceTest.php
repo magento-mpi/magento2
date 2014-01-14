@@ -159,7 +159,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
                 [
                     'code' => InputException::INVALID_FIELD_VALUE,
                     'fieldName' => 'confirmation',
-                    'message' => 'Wrong confirmation key.',
+                    'value' => $key . $key,
                 ]
             ];
             $this->assertEquals($expectedParams, $ie->getParams());
@@ -205,7 +205,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         } catch ( InputException $ie) {
             $expectedParams = [
                 [
-                    'message' => 'Customer account is already active.',
+                    'value' => $customerModel->getId(),
                     'fieldName' => 'customerId',
                     'code' => InputException::INVALID_STATE_CHANGE,
                 ]
@@ -235,13 +235,21 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidateResetPasswordLinkTokenExpired()
     {
+        $resetToken = 'lsdj579slkj5987slkj595lkj';
+
+        $this->_customerBuilder->populateWithArray(array_merge($this->_customerService->getCustomer(1)->__toArray(), [
+            'rp_token' => $resetToken,
+            'rp_token_created_at' => '1970-01-01',
+        ]));
+        $this->_customerService->saveCustomer($this->_customerBuilder->create());
+
         try {
-            $this->_service->validateResetPasswordLinkToken(1, 'some_token');
+            $this->_service->validateResetPasswordLinkToken(1, $resetToken);
             $this->fail('Expected exception not thrown.');
         } catch (InputException $ie) {
             $expectedParams = [
                 [
-                    'message' => 'Your password reset link has expired.',
+                    'value' => $resetToken,
                     'fieldName' => 'resetPasswordLinkToken',
                     'code' => InputException::TOKEN_EXPIRED,
                 ]
@@ -257,13 +265,22 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidateResetPasswordLinkTokenInvalid()
     {
+        $resetToken = 'lsdj579slkj5987slkj595lkj';
+        $invalidToken = 0;
+
+        $this->_customerBuilder->populateWithArray(array_merge($this->_customerService->getCustomer(1)->__toArray(), [
+            'rp_token' => $resetToken,
+            'rp_token_created_at' => date('Y-m-d')
+        ]));
+        $this->_customerService->saveCustomer($this->_customerBuilder->create());
+
         try {
-            $this->_service->validateResetPasswordLinkToken(0, null);
+            $this->_service->validateResetPasswordLinkToken(1, $invalidToken);
             $this->fail('Expected exception not thrown.');
         } catch (InputException $ie) {
             $expectedParams = [
                 [
-                    'message' => 'Invalid password reset token.',
+                    'value' => $invalidToken,
                     'fieldName' => 'resetPasswordLinkToken',
                     'code' => InputException::INVALID_FIELD_VALUE,
                 ]
@@ -288,7 +305,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
                 'customerId' => '4200',
             ];
             $this->assertEquals($expectedParams, $nsee->getParams());
-            $this->assertEquals('No such entity with customerId = 4200', $nsee->getMessage());
         }
     }
 
@@ -299,12 +315,12 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     public function testValidateResetPasswordLinkTokenNull()
     {
         try {
-            $this->_service->validateResetPasswordLinkToken(null, null);
+            $this->_service->validateResetPasswordLinkToken(1, null);
             $this->fail('Expected exception not thrown.');
         } catch (InputException $ie) {
             $expectedParams = [
                 [
-                    'message' => 'Invalid password reset token.',
+                    'value' => null,
                     'fieldName' => 'resetPasswordLinkToken',
                     'code' => InputException::INVALID_FIELD_VALUE,
                 ]
@@ -372,7 +388,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $this->_customerBuilder->populateWithArray(array_merge($this->_customerService->getCustomer(1)->__toArray(), [
             'rp_token' => $resetToken,
-            'rp_token_created_at' => '1970-01-01'
+            'rp_token_created_at' => '1970-01-01',
         ]));
         $this->_customerService->saveCustomer($this->_customerBuilder->create());
 
@@ -382,7 +398,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         } catch (InputException $ie) {
             $expectedParams = [
                 [
-                    'message' => 'Your password reset link has expired.',
+                    'value' => $resetToken,
                     'fieldName' => 'resetPasswordLinkToken',
                     'code' => InputException::TOKEN_EXPIRED,
                 ]
@@ -398,7 +414,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     public function testResetPasswordTokenInvalid()
     {
         $resetToken = 'lsdj579slkj5987slkj595lkj';
-        $invalidToken = $resetToken . 'invalid';
+        $invalidToken = 0;
         $password = 'password_secret';
 
         $this->_customerBuilder->populateWithArray(array_merge($this->_customerService->getCustomer(1)->__toArray(), [
@@ -413,9 +429,9 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         } catch (InputException $ie) {
             $expectedParams = [
                 [
-                    'message' => 'Your password reset link has expired.',
+                    'value' => $invalidToken,
                     'fieldName' => 'resetPasswordLinkToken',
-                    'code' => InputException::TOKEN_EXPIRED,
+                    'code' => InputException::INVALID_FIELD_VALUE,
                 ]
             ];
             $this->assertEquals($expectedParams, $ie->getParams());
@@ -465,8 +481,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         } catch (InputException $ie) {
             $expectedParams = [
                 [
-                    'message' => 'Invalid password reset token.',
-                    'fieldName' => 'resetPasswordLinkToken',
+                    'value' => 0,
+                    'fieldName' => 'customerId',
                     'code' => InputException::INVALID_FIELD_VALUE,
                 ]
             ];
@@ -513,9 +529,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         } catch (InputException $ie) {
             $expectedParams = [
                 [
-                    'message' => 'This email does not require confirmation.',
+                    'value' => 'customer@example.com',
                     'fieldName' => 'email',
                     'code' => InputException::INVALID_STATE_CHANGE,
+                    'websiteId' => 1,
                 ]
             ];
             $this->assertEquals($expectedParams, $ie->getParams());

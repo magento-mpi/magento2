@@ -8,46 +8,52 @@
 
 namespace Magento\Customer\Service\V1;
 
+use Magento\Core\Model\StoreManagerInterface;
+use Magento\Customer\Model\Converter;
 use Magento\Customer\Model\Customer as CustomerModel;
+use Magento\Customer\Model\CustomerFactory;
+use Magento\Customer\Model\Metadata\Validator;
+use Magento\Event\ManagerInterface;
 use Magento\Exception\InputException;
 use Magento\Exception\AuthenticationException;
 use Magento\Exception\NoSuchEntityException;
+use Magento\Math\Random;
 
 /**
  * Manipulate Customer Address Entities *
  */
 class CustomerAccountService implements CustomerAccountServiceInterface
 {
-    /** @var \Magento\Customer\Model\CustomerFactory */
+    /** @var CustomerFactory */
     private $_customerFactory;
 
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var ManagerInterface
      */
     private $_eventManager = null;
 
-    /** @var \Magento\Core\Model\StoreManagerInterface */
+    /** @var StoreManagerInterface */
     private $_storeManager;
 
     /**
-     * @var \Magento\Math\Random
+     * @var Random
      */
     private $_mathRandom;
 
     /**
-     * @var \Magento\Customer\Model\Converter
+     * @var Converter
      */
     private $_converter;
 
     /**
-     * @var \Magento\Customer\Model\Metadata\Validator
+     * @var Validator
      */
     private $_validator;
 
     /**
-     * @var \Magento\Customer\Service\V1\Dto\Response\CreateCustomerAccountResponseBuilder
+     * @var Dto\Response\CreateCustomerAccountResponseBuilder
      */
     private $_createCustomerAccountResponseBuilder;
 
@@ -64,23 +70,23 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     /**
      * Constructor
      *
-     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Math\Random $mathRandom
-     * @param \Magento\Customer\Model\Converter $converter
-     * @param \Magento\Customer\Model\Metadata\Validator $validator
-     * @param \Magento\Customer\Service\V1\Dto\Response\CreateCustomerAccountResponseBuilder $createCustomerAccountResponseBuilder
+     * @param CustomerFactory $customerFactory
+     * @param ManagerInterface $eventManager
+     * @param StoreManagerInterface $storeManager
+     * @param Random $mathRandom
+     * @param Converter $converter
+     * @param Validator $validator
+     * @param Dto\Response\CreateCustomerAccountResponseBuilder $createCustomerAccountResponseBuilder
      * @param CustomerServiceInterface $customerService
      * @param CustomerAddressServiceInterface $customerAddressService
      */
     public function __construct(
-        \Magento\Customer\Model\CustomerFactory $customerFactory,
-        \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Math\Random $mathRandom,
-        \Magento\Customer\Model\Converter $converter,
-        \Magento\Customer\Model\Metadata\Validator $validator,
+        CustomerFactory $customerFactory,
+        ManagerInterface $eventManager,
+        StoreManagerInterface $storeManager,
+        Random $mathRandom,
+        Converter $converter,
+        Validator $validator,
         Dto\Response\CreateCustomerAccountResponseBuilder $createCustomerAccountResponseBuilder,
         CustomerServiceInterface $customerService,
         CustomerAddressServiceInterface $customerAddressService
@@ -112,9 +118,10 @@ class CustomerAccountService implements CustomerAccountServiceInterface
             $customer->sendNewAccountEmail('confirmation', '', $this->_storeManager->getStore()->getId());
         } else {
             throw InputException::create(
-                'email',
                 InputException::INVALID_STATE_CHANGE,
-                ['message' => 'This email does not require confirmation.']
+                'email',
+                $email,
+                ['websiteId' => $websiteId]
             );
         }
     }
@@ -131,9 +138,9 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         if ($customer->getConfirmation()) {
             if ($customer->getConfirmation() !== $key) {
                 throw InputException::create(
-                    'confirmation',
                     InputException::INVALID_FIELD_VALUE,
-                    ['message' => 'Wrong confirmation key.']
+                    'confirmation',
+                    $key
                 );
             }
 
@@ -143,9 +150,9 @@ class CustomerAccountService implements CustomerAccountServiceInterface
             $customer->sendNewAccountEmail('confirmed', '', $this->_storeManager->getStore()->getId());
         } else {
             throw InputException::create(
-                'customerId',
                 InputException::INVALID_STATE_CHANGE,
-                ['message' => 'Customer account is already active.']
+                'customerId',
+                $customerId
             );
         }
 
@@ -163,10 +170,10 @@ class CustomerAccountService implements CustomerAccountServiceInterface
             $customerModel->authenticate($username, $password);
         } catch (\Magento\Core\Exception $e) {
             switch ($e->getCode()) {
-                case \Magento\Customer\Model\Customer::EXCEPTION_EMAIL_NOT_CONFIRMED:
+                case CustomerModel::EXCEPTION_EMAIL_NOT_CONFIRMED:
                     $code = AuthenticationException::EMAIL_NOT_CONFIRMED;
                     break;
-                case \Magento\Customer\Model\Customer::EXCEPTION_INVALID_EMAIL_OR_PASSWORD:
+                case CustomerModel::EXCEPTION_INVALID_EMAIL_OR_PASSWORD:
                     $code = AuthenticationException::INVALID_EMAIL_OR_PASSWORD;
                     break;
                 default:
@@ -273,6 +280,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
             'customer'
         );
 
+        // FIXME: $customerErrors is a boolean but we are treating it as an array here
         if ($customerErrors !== true) {
             return array(
                 'error'     => -1,
@@ -298,21 +306,23 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      *
      * @param $customerId
      * @param $resetPasswordLinkToken
-     * @return \Magento\Customer\Model\Customer
-     * @throws Exception
+     * @throws \Magento\Exception\InputException
+     * @return CustomerModel
      */
     private function _validateResetPasswordToken($customerId, $resetPasswordLinkToken)
     {
-        if (!is_int($customerId)
-            || !is_string($resetPasswordLinkToken)
-            || empty($resetPasswordLinkToken)
-            || empty($customerId)
-            || $customerId < 0
-        ) {
+        if (!is_int($customerId) || empty($customerId) || $customerId < 0) {
             throw InputException::create(
-                'resetPasswordLinkToken',
                 InputException::INVALID_FIELD_VALUE,
-                ['message' => 'Invalid password reset token.']
+                'customerId',
+                $customerId
+            );
+        }
+        if (!is_string($resetPasswordLinkToken) || empty($resetPasswordLinkToken)) {
+            throw InputException::create(
+                InputException::INVALID_FIELD_VALUE,
+                'resetPasswordLinkToken',
+                $resetPasswordLinkToken
             );
         }
 
@@ -323,9 +333,9 @@ class CustomerAccountService implements CustomerAccountServiceInterface
             || $customerModel->isResetPasswordLinkTokenExpired($customerId)
         ) {
             throw InputException::create(
-                'resetPasswordLinkToken',
                 InputException::TOKEN_EXPIRED,
-                ['message' => 'Your password reset link has expired.']
+                'resetPasswordLinkToken',
+                $resetPasswordLinkToken
             );
         }
 

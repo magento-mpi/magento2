@@ -362,11 +362,13 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
             $expectedParams = [
                 [
                     'fieldName' => 'firstname',
-                    'code' => InputException::EMPTY_FIELD_REQUIRED,
+                    'value' => '',
+                    'code' => InputException::REQUIRED_FIELD,
                 ],
                 [
                     'fieldName' => 'lastname',
-                    'code' => InputException::EMPTY_FIELD_REQUIRED,
+                    'value' => '',
+                    'code' => InputException::REQUIRED_FIELD,
                 ],
                 [
                     'fieldName' => 'email',

@@ -438,11 +438,13 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
         } catch (InputException $inputException) {
             $this->assertContains([
                 'fieldName' => 'firstname',
-                'code' => InputException::EMPTY_FIELD_REQUIRED,
+                'code' => InputException::REQUIRED_FIELD,
+                'value' => null,
             ], $inputException->getParams());
             $this->assertContains([
                 'fieldName' => 'lastname',
-                'code' => InputException::EMPTY_FIELD_REQUIRED,
+                'code' => InputException::REQUIRED_FIELD,
+                'value' => null,
             ], $inputException->getParams());
             $this->assertContains([
                 'fieldName' => 'email',
@@ -451,15 +453,18 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
             ], $inputException->getParams());
             $this->assertContains([
                 'fieldName' => 'dob',
-                'code' => InputException::EMPTY_FIELD_REQUIRED,
+                'code' => InputException::REQUIRED_FIELD,
+                'value' => null,
             ], $inputException->getParams());
             $this->assertContains([
                 'fieldName' => 'taxvat',
-                'code' => InputException::EMPTY_FIELD_REQUIRED,
+                'code' => InputException::REQUIRED_FIELD,
+                'value' => null,
             ], $inputException->getParams());
             $this->assertContains([
                 'fieldName' => 'gender',
-                'code' => InputException::EMPTY_FIELD_REQUIRED,
+                'code' => InputException::REQUIRED_FIELD,
+                'value' => null,
             ], $inputException->getParams());
         }
     }

@@ -17,10 +17,12 @@ class InputExceptionTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructor()
     {
-        $inputException = InputException::create('product.quantity', InputException::INVALID_FIELD_RANGE, [
-            'minValue' => 0,
-            'value'    => -100
-        ]);
+        $inputException = InputException::create(
+            InputException::INVALID_FIELD_RANGE,
+            'quantity',
+            -100,
+            ['minValue' => 0]
+        );
 
         $this->assertSame(InputException::INPUT_EXCEPTION, $inputException->getCode());
         $this->assertStringStartsWith('One or more', $inputException->getMessage());
@@ -29,7 +31,7 @@ class InputExceptionTest extends \PHPUnit_Framework_TestCase
                 [
                     'minValue'  => 0,
                     'value'     => -100,
-                    'fieldName' => 'product.quantity',
+                    'fieldName' => 'quantity',
                     'code'      => InputException::INVALID_FIELD_RANGE,
                 ]
             ],
@@ -39,12 +41,18 @@ class InputExceptionTest extends \PHPUnit_Framework_TestCase
 
     public function testAddError()
     {
-        $inputException = InputException::create('product.weight', InputException::INVALID_FIELD_RANGE, [
-            'minValue' => 1,
-            'value'    => -100
-        ]);
+        $inputException = InputException::create(
+            InputException::INVALID_FIELD_RANGE,
+            'weight',
+            -100,
+            ['minValue' => 1]
+        );
 
-        $inputException->addError('product.name', InputException::EMPTY_FIELD_REQUIRED);
+        $inputException->addError(
+            InputException::REQUIRED_FIELD,
+            'name',
+            ''
+        );
 
         $this->assertSame(InputException::INPUT_EXCEPTION, $inputException->getCode());
         $this->assertStringStartsWith('One or more', $inputException->getMessage());
@@ -53,12 +61,12 @@ class InputExceptionTest extends \PHPUnit_Framework_TestCase
                 [
                     'minValue'  => 1,
                     'value'     => -100,
-                    'fieldName' => 'product.weight',
+                    'fieldName' => 'weight',
                     'code'      => InputException::INVALID_FIELD_RANGE,
                 ],
                 [
-                    'fieldName' => 'product.name',
-                    'code'      => InputException::EMPTY_FIELD_REQUIRED,
+                    'fieldName' => 'name',
+                    'code'      => InputException::REQUIRED_FIELD,
                 ]
             ],
             $inputException->getParams()

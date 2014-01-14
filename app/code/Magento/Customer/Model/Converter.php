@@ -68,7 +68,7 @@ class Converter
 
     /**
      * @param int $customerId
-     * @throws NoSuchEntityException If customerId is not found.
+     * @throws NoSuchEntityException If customer with customerId is not found.
      * @return Customer
      */
     public function getCustomerModel($customerId)

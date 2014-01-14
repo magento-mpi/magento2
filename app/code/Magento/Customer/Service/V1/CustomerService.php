@@ -84,7 +84,11 @@ class CustomerService implements CustomerServiceInterface
         } catch (\Magento\Customer\Exception $e) {
             switch ($e->getCode()) {
                 case CustomerModel::EXCEPTION_EMAIL_EXISTS:
-                    throw InputException::create('email', InputException::DUPLICATE_UNIQUE_VALUE_EXISTS);
+                    throw InputException::create(
+                        InputException::DUPLICATE_UNIQUE_VALUE_EXISTS,
+                        'email',
+                        $customer->getEmail()
+                    );
                 default:
                     throw $e;
             }
@@ -105,28 +109,28 @@ class CustomerService implements CustomerServiceInterface
     {
         $exception = new InputException();
         if (!\Zend_Validate::is(trim($customerModel->getFirstname()), 'NotEmpty')) {
-            $exception->addError('firstname', InputException::EMPTY_FIELD_REQUIRED);
+            $exception->addError(InputException::REQUIRED_FIELD, 'firstname', '');
         }
 
         if (!\Zend_Validate::is(trim($customerModel->getLastname()), 'NotEmpty')) {
-            $exception->addError('lastname', InputException::EMPTY_FIELD_REQUIRED);
+            $exception->addError(InputException::REQUIRED_FIELD, 'lastname', '');
         }
 
         if (!\Zend_Validate::is($customerModel->getEmail(), 'EmailAddress')) {
-            $exception->addError('email', InputException::INVALID_FIELD_VALUE, ['value' => $customerModel->getEmail()]);
+            $exception->addError(InputException::INVALID_FIELD_VALUE, 'email', $customerModel->getEmail());
         }
 
         $dob = $this->_customerMetadataService->getCustomerAttributeMetadata('dob');
         if ($dob->getIsRequired() && '' == trim($customerModel->getDob())) {
-            $exception->addError('dob', InputException::EMPTY_FIELD_REQUIRED);
+            $exception->addError(InputException::REQUIRED_FIELD, 'dob', '');
         }
         $taxvat = $this->_customerMetadataService->getCustomerAttributeMetadata('taxvat');
         if ($taxvat->getIsRequired() && '' == trim($customerModel->getTaxvat())) {
-            $exception->addError('taxvat', InputException::EMPTY_FIELD_REQUIRED);
+            $exception->addError(InputException::REQUIRED_FIELD, 'taxvat', '');
         }
         $gender = $this->_customerMetadataService->getCustomerAttributeMetadata('gender');
         if ($gender->getIsRequired() && '' == trim($customerModel->getGender())) {
-            $exception->addError('gender', InputException::EMPTY_FIELD_REQUIRED);
+            $exception->addError(InputException::REQUIRED_FIELD, 'gender', '');
         }
         if ($exception->getParams()) {
             throw $exception;

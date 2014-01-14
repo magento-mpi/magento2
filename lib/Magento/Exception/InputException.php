@@ -21,25 +21,9 @@ class InputException extends \Magento\Exception\Exception
     const INVALID_FIELD_RANGE = 'INVALID_FIELD_RANGE';
     const INVALID_FIELD_VALUE = 'INVALID_FIELD_VALUE';
     const INVALID_STATE_CHANGE = 'INVALID_STATE_CHANGE';
-    // FIXME: EMPTY_FIELD_REQUIRED is could be read to mean the field is required to be empty. Suggest: REQUIRED_FIELD
-    const EMPTY_FIELD_REQUIRED = 'REQUIRED_FIELD';
+    const REQUIRED_FIELD = 'REQUIRED_FIELD';
     const TOKEN_EXPIRED = 'TOKEN_EXPIRED';
     const DUPLICATE_UNIQUE_VALUE_EXISTS = 'DUPLICATE_UNIQUE_VALUE_EXISTS';
-
-    /**
-     * Create an input exception with the first error to be stored in params
-     *
-     * @param string $fieldName
-     * @param string $code
-     * @param array  $params
-     * @return self
-     */
-    public static function create($fieldName, $code, array $params =[])
-    {
-        $exception = new self();
-        $exception->addError($fieldName, $code, $params);
-        return $exception;
-    }
 
     /**
      * @param string $message
@@ -51,21 +35,38 @@ class InputException extends \Magento\Exception\Exception
     }
 
     /**
+     * Create an input exception with the first error to be stored in params
+     *
+     * @param string $code
+     * @param string $fieldName
+     * @param $value
+     * @param array $params
+     * @return self
+     */
+    public static function create($code, $fieldName, $value, array $params =[])
+    {
+        $exception = new self();
+        $exception->addError($code, $fieldName, $value, $params);
+        return $exception;
+    }
+
+    /**
      * Add another error to the parameters list of errors
      *
-     * @param string $fieldName
-     * @param string $code
-     * @param array  $params
-     *
+     * @param string $code Error code
+     * @param string $fieldName Fieldname with bad input
+     * @param string $value Bad input value
+     * @param array $errorData Extra error debug data
      * @return $this
      */
-    public function addError($fieldName, $code, array $params = [])
+    public function addError($code, $fieldName, $value, array $errorData = [])
     {
-        $printParams = empty($params) ? "[]\n" : print_r($params, true);
-        $this->message .= "\n{\n\tfieldName: $fieldName\n\tcode: $code\n\tparams: " . $printParams . "}\n";
-        $params['fieldName'] = $fieldName;
-        $params['code'] = $code;
-        $this->_params[] = $params;
+        $printParams = empty($errorData) ? "[]\n" : print_r($errorData, true);
+        $this->message .= "\n{\n\tcode: $code\n\t$fieldName: $value\n\tparams: $printParams }\n";
+        $errorData['fieldName'] = $fieldName;
+        $errorData['code'] = $code;
+        $errorData['value'] = $value;
+        $this->_params[] = $errorData;
         return $this;
     }
 }

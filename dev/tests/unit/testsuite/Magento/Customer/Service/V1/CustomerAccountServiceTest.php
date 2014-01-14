@@ -295,7 +295,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $this->_customerModelMock,
             array(
                 'getId' => self::ID,
-                'getConfirmation' => self::EMAIL_CONFIRMATION_KEY . 'BAD',
+                'getConfirmation' => self::EMAIL_CONFIRMATION_KEY,
             )
         );
 
@@ -312,12 +312,12 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $customerService = $this->_createService();
 
         try {
-            $customerService->activateAccount(self::ID, self::EMAIL_CONFIRMATION_KEY);
+            $customerService->activateAccount(self::ID, self::EMAIL_CONFIRMATION_KEY . 'BAD');
             $this->fail('Expected exception not thrown.');
         } catch (InputException $e) {
             $this->assertEquals(InputException::INVALID_FIELD_VALUE, $e->getParams()[0]['code']);
             $this->assertEquals('confirmation', $e->getParams()[0]['fieldName']);
-            $this->assertEquals('Wrong confirmation key.', $e->getParams()[0]['message']);
+            $this->assertEquals(self::EMAIL_CONFIRMATION_KEY . 'BAD', $e->getParams()[0]['value']);
         }
     }
 
@@ -454,7 +454,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
                 [
                     'code' => InputException::TOKEN_EXPIRED,
                     'fieldName' => 'resetPasswordLinkToken',
-                    'message' => 'Your password reset link has expired.',
+                    'value' => $resetToken,
                 ]
             ];
             $this->assertEquals($expectedParams, $e->getParams());
@@ -489,7 +489,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
                 [
                     'code' => InputException::TOKEN_EXPIRED,
                     'fieldName' => 'resetPasswordLinkToken',
-                    'message' => 'Your password reset link has expired.',
+                    'value' => $invalidToken,
                 ]
             ];
             $this->assertEquals($expectedParams, $e->getParams());
@@ -549,14 +549,14 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $customerService = $this->_createService();
 
         try {
-            $customerService->validateResetPasswordLinkToken(null, null);
+            $customerService->validateResetPasswordLinkToken(14, null);
             $this->fail('Expected exception not thrown.');
         } catch ( InputException $e) {
             $expectedParams = [
                 [
                     'code' => InputException::INVALID_FIELD_VALUE,
                     'fieldName' => 'resetPasswordLinkToken',
-                    'message' => 'Invalid password reset token.',
+                    'value' => null,
                 ]
             ];
             $this->assertEquals($expectedParams, $e->getParams());
@@ -756,7 +756,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
                 [
                     'code' => InputException::TOKEN_EXPIRED,
                     'fieldName' => 'resetPasswordLinkToken',
-                    'message' => 'Your password reset link has expired.',
+                    'value' => $resetToken,
                 ]
             ];
             $this->assertEquals($expectedParams, $e->getParams());
@@ -799,7 +799,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
                 [
                     'code' => InputException::TOKEN_EXPIRED,
                     'fieldName' => 'resetPasswordLinkToken',
-                    'message' => 'Your password reset link has expired.',
+                    'value' => $invalidToken,
                 ]
             ];
             $this->assertEquals($expectedParams, $e->getParams());
@@ -881,8 +881,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             $expectedParams = [
                 [
                     'code' => InputException::INVALID_FIELD_VALUE,
-                    'fieldName' => 'resetPasswordLinkToken',
-                    'message' => 'Invalid password reset token.',
+                    'fieldName' => 'customerId',
+                    'value' => 0,
                 ]
             ];
             $this->assertEquals($expectedParams, $e->getParams());
@@ -945,20 +945,25 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerModelMock->expects($this->once())
             ->method('getId')
             ->will($this->returnValue(55));
+        $this->_storeMock->expects($this->once())
+            ->method('getWebsiteId')
+            ->will($this->returnValue(2));
         $this->_customerModelMock->expects($this->once())
             ->method('setWebsiteId')
+            ->with(2)
             ->will($this->returnValue($this->_customerModelMock));
 
         $customerService = $this->_createService();
         try {
-            $customerService->sendConfirmation('email');
+            $customerService->sendConfirmation('email@test.com');
             $this->fail('Expected exception not thrown');
         } catch ( InputException $e) {
             $expectedParams = [
                 [
                     'code' => InputException::INVALID_STATE_CHANGE,
                     'fieldName' => 'email',
-                    'message' => 'This email does not require confirmation.',
+                    'value' => 'email@test.com',
+                    'websiteId' => 2,
                 ]
             ];
             $this->assertEquals($expectedParams, $e->getParams());
