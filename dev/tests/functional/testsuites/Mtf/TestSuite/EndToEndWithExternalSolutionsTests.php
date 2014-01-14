@@ -26,6 +26,8 @@ class EndToEndWithExternalSolutionsTests
         $suite->addTestSuite('Magento\Checkout\Test\TestCase\Guest\PaypalExpress\CheckoutOnepageTest');
         $suite->addTestSuite('Magento\Checkout\Test\TestCase\Guest\PaypalExpress\PayflowProTest');
         $suite->addTestSuite('Magento\Checkout\Test\TestCase\Guest\PaypalExpress\ProductPageTest');
+        // Guest checkout.  PayPal Standard
+        $suite->addTestSuite('Magento\Checkout\Test\TestCase\Guest\PaypalStandardTest');
         // PayPal Express
         $suite->addTestSuite('Magento\Checkout\Test\TestCase\PaypalExpress\CheckoutOnepageTest');
         // Onepage Checkout
