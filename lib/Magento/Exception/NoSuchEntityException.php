@@ -14,17 +14,17 @@ class NoSuchEntityException extends \Magento\Exception\Exception
     const NO_SUCH_ENTITY = 0;
 
     /**
-     * @param $fieldName name of the field searched upon
-     * @param $value     specific value the entity should have for it's field
-     * @return self
+     * @param string $fieldName name of the field searched upon
+     * @param string $value     specific value the entity should have for it's field
+     * @return NoSuchEntityException
      */
     public static function create($fieldName, $value) {
         return new self($fieldName, $value);
     }
 
     /**
-     * @param $fieldName name of the field searched upon
-     * @param $value     specific value the entity should have for it's field
+     * @param string $fieldName name of the field searched upon
+     * @param string $value     specific value the entity should have for it's field
      */
     public function __construct($fieldName, $value)
     {
@@ -34,9 +34,9 @@ class NoSuchEntityException extends \Magento\Exception\Exception
     }
 
     /**
-     * @param $fieldName name of the field searched upon
-     * @param $value     specific value the entity should have for it's field
-     * @return self
+     * @param string $fieldName name of the field searched upon
+     * @param string $value     specific value the entity should have for it's field
+     * @return $this
      */
     public function addField($fieldName, $value) {
         $this->message .= "\n $fieldName = $value";

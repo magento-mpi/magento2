@@ -41,7 +41,7 @@ class InputException extends \Magento\Exception\Exception
      * @param string $fieldName
      * @param $value
      * @param array $params
-     * @return self
+     * @return InputException
      */
     public static function create($code, $fieldName, $value, array $params =[])
     {
