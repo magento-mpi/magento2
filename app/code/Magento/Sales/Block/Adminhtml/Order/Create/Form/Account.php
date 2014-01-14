@@ -27,12 +27,16 @@ class Account extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
      */
     protected $_metadataFormFactory;
 
+    /** @var \Magento\Customer\Service\V1\CustomerServiceInterface */
+    protected $_customerService;
+
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Model\Session\Quote $sessionQuote
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory
+     * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
      * @param array $data
      */
     public function __construct(
@@ -41,9 +45,11 @@ class Account extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
         \Magento\Sales\Model\AdminOrder\Create $orderCreate,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory,
+        \Magento\Customer\Service\V1\CustomerServiceInterface $customerService,
         array $data = array()
     ) {
         $this->_metadataFormFactory = $metadataFormFactory;
+        $this->_customerService = $customerService;
         parent::__construct($context, $sessionQuote, $orderCreate, $formFactory, $data);
     }
 
@@ -134,7 +140,8 @@ class Account extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
      */
     public function getFormValues()
     {
-        $data = $this->getCustomer()->getData();
+        $customer = $this->_customerService->getCustomer($this->getCustomerId());
+        $data = $customer->__toArray();
         foreach ($this->getQuote()->getData() as $key => $value) {
             if (strpos($key, 'customer_') === 0) {
                 $data[substr($key, 9)] = $value;

@@ -83,4 +83,39 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $attributeValues = $addressForm->compactData($addressData);
         $this->assertEquals($this->_expected, $attributeValues);
     }
+
+    public function testGetAttributes()
+    {
+        /** @var \Magento\Customer\Model\Metadata\Form $addressForm */
+        $addressForm = $this->_formFactory->create(
+            'customer_address',
+            'customer_address_edit',
+            []
+        );
+        $attributes = $addressForm->getAttributes();
+    }
+
+    public function testGetUserAttributes()
+    {
+        /** @var \Magento\Customer\Model\Metadata\Form $addressForm */
+        $addressForm = $this->_formFactory->create(
+            'customer_address',
+            'customer_address_edit',
+            []
+        );
+        $attributes = $addressForm->getUserAttributes();
+        $this->assertEmpty($attributes);
+    }
+
+    public function testGetSystemAttributes()
+    {
+        /** @var \Magento\Customer\Model\Metadata\Form $addressForm */
+        $addressForm = $this->_formFactory->create(
+            'customer_address',
+            'customer_address_edit',
+            []
+        );
+        $attributes = $addressForm->getSystemAttributes();
+        $this->assertCount(15, $attributes);
+    }
 }
