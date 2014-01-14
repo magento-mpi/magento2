@@ -43,6 +43,9 @@ class InfoTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Block\Form\Register */
     private $_formRegister;
 
+    /** @var Info */
+    private $_block;
+
     public function setUp()
     {
         $urlBuilder = $this->getMockForAbstractClass('Magento\UrlInterface', array(), '', false);
@@ -162,9 +165,11 @@ class InfoTest extends \PHPUnit_Framework_TestCase
             array([false, true,  true],  'Mr', 'John', 'Q',  'Doe', 'Jr', 'John Q Doe Jr'),
             array([true,  false, true],  'Mr', 'John', 'Q',  'Doe', 'Jr', 'Mr John Doe Jr'),
             array([true,  true,  false], 'Mr', 'John', 'Q',  'Doe', 'Jr', 'Mr John Q Doe'),
+            array([false, false, false], 'Mr', 'John', 'Q',  'Doe', 'Jr', 'John Doe'),
             array([true,  true,  true],  null, 'John', 'Q',  'Doe', 'Jr', 'John Q Doe Jr'),
             array([true,  true,  true],  'Mr', 'John', null, 'Doe', 'Jr', 'Mr John Doe Jr'),
-            array([true,  true,  true],  'Mr', 'John', 'Q',  'Doe', null, 'Mr John Q Doe')
+            array([true,  true,  true],  'Mr', 'John', 'Q',  'Doe', null, 'Mr John Q Doe'),
+            array([true,  true,  true],  null, 'John', null, 'Doe', null, 'John Doe')
         );
     }
 
