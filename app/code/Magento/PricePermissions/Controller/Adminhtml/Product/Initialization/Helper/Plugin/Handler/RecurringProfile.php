@@ -13,11 +13,12 @@ use Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\
 class RecurringProfile implements HandlerInterface
 {
     /**
+     * Handle recurring profile data (replace it with original)
+     *
      * @param \Magento\Catalog\Model\Product $product
      */
     public function handle(\Magento\Catalog\Model\Product $product)
     {
-        // Handle recurring profile data (replace it with original)
         $originalRecurringProfile = $product->getOrigData('recurring_profile');
         $product->setRecurringProfile($originalRecurringProfile);
     }

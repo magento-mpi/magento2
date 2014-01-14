@@ -14,6 +14,7 @@ class CustomOptions implements HandlerInterface
 {
     /**
      * Handle Custom Options of Product
+     *
      * @param \Magento\Catalog\Model\Product $product
      */
     public function handle(\Magento\Catalog\Model\Product $product)
