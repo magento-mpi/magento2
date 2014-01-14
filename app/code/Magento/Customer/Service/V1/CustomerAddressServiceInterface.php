@@ -74,8 +74,7 @@ interface CustomerAddressServiceInterface
      * @param int                 $customerId
      * @param Dto\Address[] $addresses
      *
-     * @throws \Magento\Customer\Service\Entity\V1\AggregateException if there are validation errors.
-     * @throws \Magento\Customer\Service\Entity\V1\Exception If customerId is not found or other error occurs.
+     * @throws \Magento\Exception\InputException if there are validation errors.
      * @return int[] address ids
      */
     public function saveAddresses($customerId, array $addresses);

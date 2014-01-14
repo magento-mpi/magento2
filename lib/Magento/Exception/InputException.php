@@ -24,6 +24,7 @@ class InputException extends \Magento\Exception\Exception
     const REQUIRED_FIELD = 'REQUIRED_FIELD';
     const TOKEN_EXPIRED = 'TOKEN_EXPIRED';
     const DUPLICATE_UNIQUE_VALUE_EXISTS = 'DUPLICATE_UNIQUE_VALUE_EXISTS';
+    const ID_MISMATCH = 'ID_MISMATCH';
 
     /**
      * @param string $message

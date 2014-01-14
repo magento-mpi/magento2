@@ -11,6 +11,8 @@ namespace Magento\Customer\Service\V1;
 use Magento\Customer\Service\Entity\V1\AggregateException;
 use Magento\Customer\Service\Entity\V1\Exception;
 use Magento\Customer\Model\Address as CustomerAddressModel;
+use Magento\Exception\NoSuchEntityException;
+use \Magento\Exception\InputException;
 
 class CustomerAddressService implements CustomerAddressServiceInterface
 {
@@ -32,6 +34,12 @@ class CustomerAddressService implements CustomerAddressServiceInterface
      */
     private $_addressBuilder;
 
+    /**
+     * Directory data
+     *
+     * @var \Magento\Directory\Helper\Data
+     */
+    protected $_directoryData = null;
 
     /**
      * Constructor
@@ -40,17 +48,20 @@ class CustomerAddressService implements CustomerAddressServiceInterface
      * @param \Magento\Customer\Model\Converter $converter
      * @param Dto\RegionBuilder $regionBuilder
      * @param Dto\AddressBuilder $addressBuilder
+     * @param \Magento\Directory\Helper\Data $directoryData
      */
     public function __construct(
         \Magento\Customer\Model\AddressFactory $addressFactory,
         \Magento\Customer\Model\Converter $converter,
         Dto\RegionBuilder $regionBuilder,
-        Dto\AddressBuilder $addressBuilder
+        Dto\AddressBuilder $addressBuilder,
+        \Magento\Directory\Helper\Data $directoryData
     ) {
         $this->_addressFactory = $addressFactory;
         $this->_converter = $converter;
         $this->_regionBuilder = $regionBuilder;
         $this->_addressBuilder = $addressBuilder;
+        $this->_directoryData = $directoryData;
     }
 
     /**
@@ -120,10 +131,7 @@ class CustomerAddressService implements CustomerAddressServiceInterface
         $customer = $this->_converter->getCustomerModel($customerId);
         $address = $customer->getAddressById($addressId);
         if (!$address->getId()) {
-            throw new Exception(
-                'Address id ' . $addressId . ' not found',
-                Exception::CODE_ADDRESS_NOT_FOUND
-            );
+            throw NoSuchEntityException::create('addressId', $addressId);
         }
         return $this->_createAddress(
             $address,
@@ -138,24 +146,23 @@ class CustomerAddressService implements CustomerAddressServiceInterface
     public function deleteAddressFromCustomer($customerId, $addressId)
     {
         if (!$addressId) {
-            throw new Exception('Invalid addressId', Exception::CODE_INVALID_ADDRESS_ID);
+            throw InputException::create(InputException::INVALID_FIELD_VALUE, 'addressId', $addressId);
         }
 
         $address = $this->_addressFactory->create();
         $address->load($addressId);
 
         if (!$address->getId()) {
-            throw new Exception(
-                'Address id ' . $addressId . ' not found',
-                Exception::CODE_ADDRESS_NOT_FOUND
-            );
+            throw NoSuchEntityException::create('addressId', $addressId);
         }
 
         // Validate address_id <=> customer_id
         if ($address->getCustomerId() != $customerId) {
-            throw new Exception(
-                'The address does not belong to this customer',
-                Exception::CODE_CUSTOMER_ID_MISMATCH
+            throw InputException::create(
+                InputException::ID_MISMATCH,
+                'customerId',
+                $customerId,
+                ['message' => 'The address does not belong to this customer']
             );
         }
 
@@ -170,9 +177,9 @@ class CustomerAddressService implements CustomerAddressServiceInterface
         $customerModel = $this->_converter->getCustomerModel($customerId);
         $addressModels = [];
 
-        $aggregateException = new AggregateException("All validation exceptions for all addresses.",
-            Exception::CODE_VALIDATION_FAILED);
-        foreach ($addresses as $address) {
+        $inputException = new InputException();
+        for ($i = 0; $i < count($addresses); $i++) {
+            $address = $addresses[$i];
             $addressModel = null;
             if ($address->getId()) {
                 $addressModel = $customerModel->getAddressItemById($address->getId());
@@ -183,38 +190,20 @@ class CustomerAddressService implements CustomerAddressServiceInterface
             }
             $this->_updateAddressModel($addressModel, $address);
 
-            $validationErrors = $addressModel->validate();
-            if ($validationErrors !== true) {
-                $aggregateException->pushException(
-                    new Exception(
-                        'There were one or more errors validating the address with id ' . $address->getId(),
-                        Exception::CODE_VALIDATION_FAILED,
-                        new \Magento\Validator\ValidatorException([$validationErrors])
-                    )
-                );
-                continue;
+            $size = count($inputException->getParams());
+            $inputException = $this->_validate($addressModel, $inputException, "address[$i].");
+            if (count($inputException->getParams()) == $size) {
+                $addressModels[] = $addressModel;
             }
-            $addressModels[] = $addressModel;
         }
-        if ($aggregateException->hasExceptions()) {
-            throw $aggregateException;
+        if ($inputException->getParams()) {
+            throw $inputException;
         }
         $addressIds = [];
 
         foreach ($addressModels as $addressModel) {
-            try {
-                $addressModel->save();
-                $addressIds[] = $addressModel->getId();
-            } catch (\Exception $e) {
-                switch ($e->getCode()) {
-                    case \Magento\Customer\Model\Customer::EXCEPTION_EMAIL_EXISTS:
-                        $code = Exception::CODE_EMAIL_EXISTS;
-                        break;
-                    default:
-                        $code = Exception::CODE_UNKNOWN;
-                }
-                throw new Exception($e->getMessage(), $code, $e);
-            }
+            $addressModel->save();
+            $addressIds[] = $addressModel->getId();
         }
 
         return $addressIds;
@@ -255,21 +244,31 @@ class CustomerAddressService implements CustomerAddressServiceInterface
      * Create address based on model
      *
      * @param CustomerAddressModel $addressModel
-     * @param int $defaultBillingId
-     * @param int $defaultShippingId
+     * @param int                  $defaultBillingId
+     * @param int                  $defaultShippingId
+     *
      * @return Dto\Address
      */
-    private function _createAddress(CustomerAddressModel $addressModel,
-                                    $defaultBillingId, $defaultShippingId
+    private function _createAddress(
+        CustomerAddressModel $addressModel,
+        $defaultBillingId,
+        $defaultShippingId
     ) {
         $addressId = $addressModel->getId();
         $validAttributes = array_merge(
             $addressModel->getDefaultAttributeCodes(),
             [
-                'id', 'region_id', 'region', 'street', 'vat_is_valid',
-                'default_billing', 'default_shipping',
+                'id',
+                'region_id',
+                'region',
+                'street',
+                'vat_is_valid',
+                'default_billing',
+                'default_shipping',
                 //TODO: create VAT object at MAGETWO-16860
-                'vat_request_id', 'vat_request_date', 'vat_request_success'
+                'vat_request_id',
+                'vat_request_date',
+                'vat_request_success'
             ]
         );
         $addressData = [];
@@ -284,16 +283,76 @@ class CustomerAddressService implements CustomerAddressServiceInterface
             ->setRegion($addressModel->getRegion())
             ->setRegionId($addressModel->getRegionId())
             ->create();
-        $this->_addressBuilder->populateWithArray(array_merge($addressData, [
-            'street' => $addressModel->getStreet(),
-            'id' => $addressId,
-            'default_billing' => $addressId === $defaultBillingId,
-            'default_shipping' => $addressId === $defaultShippingId,
-            'customer_id' => $addressModel->getCustomerId(),
-            'region' => $region
-        ]));
+        $this->_addressBuilder->populateWithArray(
+            array_merge(
+                $addressData,
+                [
+                    'street'           => $addressModel->getStreet(),
+                    'id'               => $addressId,
+                    'default_billing'  => $addressId === $defaultBillingId,
+                    'default_shipping' => $addressId === $defaultShippingId,
+                    'customer_id'      => $addressModel->getCustomerId(),
+                    'region'           => $region
+                ]
+            )
+        );
 
         $retValue = $this->_addressBuilder->create();
         return $retValue;
+    }
+
+    /**
+     * Validate Customer Addrresss attribute values.
+     *
+     * @param CustomerAddressModel $cam       the model to validate
+     * @param InputException       $exception the exception to add errors to
+     * @param string               $prefix    the optional prefix to for field names
+     * @return InputException
+     */
+    private function _validate(CustomerAddressModel $cam, InputException $exception, $prefix = '')
+    {
+        if ($cam->getShouldIgnoreValidation()) {
+            return $exception;
+        }
+
+        if (!\Zend_Validate::is($cam->getFirstname(), 'NotEmpty')) {
+            $exception->addError(InputException::REQUIRED_FIELD, $prefix . 'firstname', null);
+        }
+
+        if (!\Zend_Validate::is($cam->getLastname(), 'NotEmpty')) {
+            $exception->addError(InputException::REQUIRED_FIELD, $prefix . 'lastname', null);
+        }
+
+        if (!\Zend_Validate::is($cam->getStreet(1), 'NotEmpty')) {
+            $exception->addError(InputException::REQUIRED_FIELD, $prefix . 'street', null);
+        }
+
+        if (!\Zend_Validate::is($cam->getCity(), 'NotEmpty')) {
+            $exception->addError(InputException::REQUIRED_FIELD, $prefix . 'city', null);
+        }
+
+        if (!\Zend_Validate::is($cam->getTelephone(), 'NotEmpty')) {
+            $exception->addError(InputException::REQUIRED_FIELD, $prefix . 'telephone', null);
+        }
+
+        $_havingOptionalZip = $this->_directoryData->getCountriesWithOptionalZip();
+        if (!in_array($cam->getCountryId(), $_havingOptionalZip)
+            && !\Zend_Validate::is($cam->getPostcode(), 'NotEmpty')
+        ) {
+            $exception->addError(InputException::REQUIRED_FIELD, $prefix . 'postcode', null);
+        }
+
+        if (!\Zend_Validate::is($cam->getCountryId(), 'NotEmpty')) {
+            $exception->addError(InputException::REQUIRED_FIELD, $prefix . 'countryId', null);
+        }
+
+        if ($cam->getCountryModel()->getRegionCollection()->getSize()
+            && !\Zend_Validate::is($cam->getRegionId(), 'NotEmpty')
+            && $this->_directoryData->isRegionRequired($cam->getCountryId())
+        ) {
+            $exception->addError(InputException::REQUIRED_FIELD, $prefix . 'regionId', null);
+        }
+
+        return $exception;
     }
 }

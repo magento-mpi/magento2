@@ -8,6 +8,9 @@
 
 namespace Magento\Customer\Service\V1;
 
+use Magento\Exception\InputException;
+use Magento\Exception\NoSuchEntityException;
+
 /**
  * \Magento\Customer\Service\V1\CustomerAddressService
  *
@@ -71,6 +74,11 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
      * @var \Magento\Customer\Service\V1\Dto\AddressBuilder
      */
     private $_addressBuilder;
+
+    /**
+     * @var \Magento\Directory\Helper\Data
+     */
+    private $_directoryData;
 
     /**
      * @var \Magento\Customer\Model\Metadata\Validator
@@ -137,6 +145,16 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(array('create'))
             ->getMock();
+
+        $this->_directoryData = $this->getMockBuilder('\Magento\Directory\Helper\Data')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getCountriesWithOptionalZip'))
+            ->getMock();
+
+        $this->_directoryData
+            ->expects($this->any())
+            ->method('getCountriesWithOptionalZip')
+            ->will($this->returnValue([]));
 
         $this->_customerModelMock
             ->expects($this->any())
@@ -591,10 +609,6 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $customerService->deleteAddressFromCustomer(1, 1);
     }
 
-    /**
-     * @expectedException \Magento\Customer\Service\Entity\V1\Exception
-     * @expectedExceptionCode \Magento\Customer\Service\Entity\V1\Exception::CODE_CUSTOMER_ID_MISMATCH
-     */
     public function testDeleteAddressFromCustomerMismatch()
     {
         // Setup address mock
@@ -608,13 +622,25 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             ->method('delete');
 
         $customerService = $this->_createService();
-        $customerService->deleteAddressFromCustomer(1, 1);
+        try {
+            $customerService->deleteAddressFromCustomer(1, 1);
+            $this->fail("Expected InputException not caught");
+        } catch (InputException $exception) {
+            $this->assertSame($exception->getCode(), \Magento\Exception\InputException::INPUT_EXCEPTION);
+            $this->assertSame(
+                $exception->getParams(),
+                [
+                    [
+                        'message'   => 'The address does not belong to this customer',
+                        'fieldName' => 'customerId',
+                        'code'      => 'ID_MISMATCH',
+                        'value'     => 1
+                    ]
+                ]
+            );
+        }
     }
 
-    /**
-     * @expectedException \Magento\Customer\Service\Entity\V1\Exception
-     * @expectedExceptionCode \Magento\Customer\Service\Entity\V1\Exception::CODE_ADDRESS_NOT_FOUND
-     */
     public function testDeleteAddressFromCustomerBadAddrId()
     {
         // Setup address mock
@@ -631,19 +657,40 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             ->method('delete');
 
         $customerService = $this->_createService();
-        $customerService->deleteAddressFromCustomer(1, 2);
+        try {
+            $customerService->deleteAddressFromCustomer(1, 2);
+            $this->fail("Expected NoSuchEntityException not caught");
+        } catch (NoSuchEntityException $exception) {
+            $this->assertSame($exception->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
+            $this->assertSame(
+                $exception->getParams(),
+                [
+                    'addressId' => 2
+                ]
+            );
+        }
     }
 
-    /**
-     * @expectedException \Magento\Customer\Service\Entity\V1\Exception
-     * @expectedExceptionCode \Magento\Customer\Service\Entity\V1\Exception::CODE_INVALID_ADDRESS_ID
-     */
     public function testDeleteAddressFromCustomerInvalidAddrId()
     {
         $customerService = $this->_createService();
-        $customerService->deleteAddressFromCustomer(1, 0);
+        try {
+            $customerService->deleteAddressFromCustomer(1, 0);
+            $this->fail("Expected InputException not caught");
+        } catch (InputException $exception) {
+            $this->assertSame($exception->getCode(), \Magento\Exception\InputException::INPUT_EXCEPTION);
+            $this->assertSame(
+                $exception->getParams(),
+                [
+                    [
+                        'fieldName' => 'addressId',
+                        'code'      => \Magento\Exception\InputException::INVALID_FIELD_VALUE,
+                        'value'     => 0
+                    ]
+                ]
+            );
+        }
     }
-
 
     public function testSaveAddressesWithValidatorException()
     {
@@ -661,13 +708,8 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getAddresses')
             ->will($this->returnValue([]));
 
-        // Setup address mock
-        $mockAddress = $this->getMockBuilder('Magento\Customer\Model\Address')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $mockAddress->expects($this->any())
-            ->method('validate')
-            ->will($this->returnValue(['some error']));
+        // Setup address mock, no first name
+        $mockAddress = $this->_createAddress(1, '');
         $this->_addressFactoryMock->expects($this->once())
             ->method('create')
             ->will($this->returnValue($mockAddress));
@@ -687,14 +729,20 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             ->setPostcode(self::POSTCODE);
         try {
             $customerService->saveAddresses(1, [$this->_addressBuilder->create()]);
-        } catch (\Magento\Customer\Service\Entity\V1\AggregateException $ae) {
-            $addressException = $ae->getExceptions()[0];
-            $this->assertInstanceOf('\Magento\Customer\Service\Entity\V1\Exception', $addressException);
-            $this->assertInstanceOf('\Magento\Validator\ValidatorException', $addressException->getPrevious());
-            $this->assertSame('some error', $addressException->getPrevious()->getMessage());
-            return;
+            $this->fail("Expected InputException not caught");
+        } catch (InputException $exception) {
+            $this->assertSame($exception->getCode(), \Magento\Exception\InputException::INPUT_EXCEPTION);
+            $this->assertSame(
+                $exception->getParams(),
+                [
+                    [
+                        'fieldName' => 'address[0].firstname',
+                        'code'      => \Magento\Exception\InputException::REQUIRED_FIELD,
+                        'value'     => null
+                    ]
+                ]
+            );
         }
-        $this->fail("Expected AggregateException not caught.");
     }
 
 
@@ -724,7 +772,8 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             $this->_addressFactoryMock,
             $this->_converter,
             new Dto\RegionBuilder(),
-            $this->_addressBuilder
+            $this->_addressBuilder,
+            $this->_directoryData
         );
         return $customerService;
     }
@@ -760,7 +809,8 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
                     'addData', 'setData', 'setCustomerId', 'setPostIndex',
                     'setFirstname', 'load', 'save', '__sleep', '__wakeup',
                     'getDefaultAttributeCodes', 'getAttributes', 'getData',
-                    'getCustomerId', 'getParentId', 'delete', 'validate'
+                    'getCustomerId', 'getParentId', 'delete', 'validate',
+                    'getCountryModel', 'getRegionCollection', 'getSize'
                 ]
             )
             ->getMock();
@@ -776,9 +826,18 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $addressMock->expects($this->any())
             ->method('getCustomerId')
             ->will($this->returnValue($customerId));
-        $addressMock->expects($this->any())
+        $addressMock->expects($this->never())
             ->method('validate')
             ->will($this->returnValue(true));
+        $addressMock->expects($this->any())
+            ->method('getCountryModel')
+            ->will($this->returnSelf());
+        $addressMock->expects($this->any())
+            ->method('getRegionCollection')
+            ->will($this->returnSelf());
+        $addressMock->expects($this->any())
+            ->method('getSize')
+            ->will($this->returnValue(0));
 
         $map = [
             ['firstname', null, $firstName],
