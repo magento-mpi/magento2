@@ -15,7 +15,7 @@
  * @package    Magento_Checkout
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Checkout\Controller\Multishipping;
+namespace Magento\Multishipping\Controller\Checkout;
 
 class Address extends \Magento\App\Action\Action
 {
