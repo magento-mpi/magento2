@@ -56,17 +56,26 @@
          * @param event
          * @private
          */
-        _contentUpdated: function(event) {
-            this.show();
+        _contentUpdated: function(e) {
+            this.show(e);
         },
 
         /**
          * Show loader
          */
-        show: function() {
+        show: function(e, ctx) {
             this._render();
             this.loaderStarted++;
             this.spinner.show();
+            if (ctx) {
+                this.spinner
+                    .css({width: ctx.outerWidth(), height: ctx.outerHeight(), position: 'absolute'})
+                    .position({
+                        my: 'top left',
+                        at: 'top left',
+                        of: ctx
+                    });
+            }
             return false;
         },
 
@@ -92,23 +101,6 @@
                 this.spinner = $.tmpl(this.options.template, this.options)/*.css(this._getCssObj())*/;
             }
             this.element.prepend(this.spinner);
-        },
-
-        /**
-         * Prepare object with css properties for loader
-         * @protected
-         */
-        _getCssObj: function() {
-            var isBodyElement = this.element.is('[data-container=body]'),
-                width = isBodyElement ? $(window).width() : this.element.outerWidth(),
-                height = isBodyElement ? $(window).height() : this.element.outerHeight(),
-                position = isBodyElement ? 'fixed' : 'relative';
-            return {
-                height: height + 'px',
-                width: width + 'px',
-                position: position,
-                'margin-bottom': '-' + height + 'px'
-            };
         },
 
         /**
