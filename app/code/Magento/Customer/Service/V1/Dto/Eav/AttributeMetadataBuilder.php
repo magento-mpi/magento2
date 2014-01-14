@@ -9,8 +9,6 @@
  */
 namespace Magento\Customer\Service\V1\Dto\Eav;
 
-use Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata;
-
 class AttributeMetadataBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
 {
     /**
@@ -73,7 +71,7 @@ class AttributeMetadataBuilder extends \Magento\Service\Entity\AbstractDtoBuilde
      */
     public function setOptions($options)
     {
-        $this->_set(AttributeMetadata::OPTIONS, $options);
+        return $this->_set(AttributeMetadata::OPTIONS, $options);
     }
 
     /**
@@ -111,6 +109,15 @@ class AttributeMetadataBuilder extends \Magento\Service\Entity\AbstractDtoBuilde
     public function setDataModel($dataModel)
     {
         return $this->_set(AttributeMetadata::DATA_MODEL, $dataModel);
+    }
+
+    /**
+     * @param $frontendClass
+     * @return AttributeMetadataBuilder
+     */
+    public function setFrontendClass($frontendClass)
+    {
+        return $this->_set(AttributeMetadata::FRONTEND_CLASS, $frontendClass);
     }
 
     /**

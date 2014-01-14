@@ -238,7 +238,7 @@ class Form
             }
             $dataModel->restoreValue($data[$attribute->getAttributeCode()]);
         }
-        return $data;;
+        return $data;
     }
 
     /**
@@ -326,5 +326,21 @@ class Form
             return $messages;
         }
         return true;
+    }
+
+    /**
+     * Return array of formatted allowed attributes values.
+     *
+     * @param string $format
+     * @return array
+     */
+    public function outputData($format = \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_TEXT)
+    {
+        $result = array();
+        foreach ($this->getAllowedAttributes() as $attribute) {
+            $dataModel = $this->_getAttributeDataModel($attribute);
+            $result[$attribute->getAttributeCode()] = $dataModel->outputValue($format);
+        }
+        return $result;
     }
 }

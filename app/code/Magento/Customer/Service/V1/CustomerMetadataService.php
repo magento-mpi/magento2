@@ -9,9 +9,7 @@
  */
 namespace Magento\Customer\Service\V1;
 
-use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 use Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata;
-use Magento\Customer\Service\V1\Dto\Eav\OptionBuilder;
 
 class CustomerMetadataService implements CustomerMetadataServiceInterface
 {
@@ -171,7 +169,8 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
             ->setIsRequired($attribute->getIsRequired())
             ->setMultilineCount($attribute->getMultilineCount())
             ->setDataModel($attribute->getDataModel())
-            ->setOptions($options);
+            ->setOptions($options)
+            ->setFrontendClass($attribute->getFrontend()->getClass());
 
         return $this->_attributeMetadataBuilder->create();
     }
