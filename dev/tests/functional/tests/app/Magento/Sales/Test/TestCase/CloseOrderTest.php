@@ -62,6 +62,9 @@ class CloseOrderTest extends Functional
             'Incorrect grand total value for the order #' . $orderId
         );
 
+        /** @var \Magento\Sales\Test\Block\Adminhtml\Order\History $orderHistoryBlock */
+        $orderHistoryBlock = Factory::getPageFactory()->getSalesOrderView()->getOrderHistoryBlock();
+
         if (!($fixture instanceof PaypalStandardOrder)) {
             $orderPage->getOrderActionsBlock()->invoice();
             $newInvoicePage->getInvoiceTotalsBlock()->setCaptureOption('Capture Online');
@@ -73,14 +76,12 @@ class CloseOrderTest extends Functional
             );
 
             $this->assertContains(
-                $grandTotal,
-                Factory::getPageFactory()->getSalesOrderView()->getOrderHistoryBlock()->getCommentsHistory(),
+                $grandTotal, $orderHistoryBlock->getCommentsHistory(),
                 'Incorrect captured amount value for the order #' . $orderId
             );
         } else {
             $this->assertContains(
-                $grandTotal,
-                Factory::getPageFactory()->getSalesOrderView()->getOrderHistoryBlock()->getPaypalStandardCommentsHistory(),
+                $grandTotal, $orderHistoryBlock->getCapturedAmount(),
                 'Incorrect captured amount value for the order #' . $orderId
             );
         }
