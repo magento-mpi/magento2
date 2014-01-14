@@ -99,7 +99,7 @@ class GuestPayPalPayflowLink extends Checkout
         $this->paymentMethod->switchData('paypal_payflow_link');
 
         $this->creditCard = Factory::getFixtureFactory()->getMagentoPaymentCc();
-        $this->creditCard->switchData('visa_payflow_link');
+        $this->creditCard->switchData('visa_payflow');
 
         $this->paypalCustomer = Factory::getFixtureFactory()->getMagentoPaypalCustomer();
         $this->paypalCustomer->switchData('customer_US');

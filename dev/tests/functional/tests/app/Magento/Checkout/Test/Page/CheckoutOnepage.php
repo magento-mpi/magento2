@@ -191,6 +191,8 @@ class CheckoutOnepage extends Page
     }
 
     /**
+     * Get Paypal Payment Advanced (payflow advanced) iframe.
+     *
      * @return \Magento\Payment\Test\Block\Form\PayflowAdvanced\Cc
      */
     public function getPayflowAdvancedCcBlock()
@@ -202,6 +204,8 @@ class CheckoutOnepage extends Page
     }
 
     /**
+     * Get Payflow Link iframe.
+     *
      * @return \Magento\Payment\Test\Block\Form\PayflowAdvanced\Cc
      */
     public function getPayflowLinkCcBlock()

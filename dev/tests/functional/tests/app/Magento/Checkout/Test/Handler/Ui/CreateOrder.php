@@ -39,7 +39,6 @@ class CreateOrder extends Ui
             $productPage->init($product);
             $productPage->open();
             $productPage->getViewBlock()->addToCart($product);
-            Factory::getPageFactory()->getCheckoutCart()->getMessageBlock()->assertSuccessMessage();
         }
 
         //Proceed to checkout
