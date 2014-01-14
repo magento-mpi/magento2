@@ -14,13 +14,13 @@ namespace Magento\Checkout\Test\Fixture;
 use Mtf\Factory\Factory;
 
 /**
- * Class GuestPaypalPayflowPro
+ * Class GuestPayPalPayflowPro
  * PayPal Payflow Pro Method
- * Guest checkout using PayPal Payflow Pro method and offline shipping method
+ * Guest checkout with taxes, PayPal Payflow Pro Edition payment method and offline shipping method
  *
  * @package Magento\Checkout\Test\Fixture
  */
-class GuestPaypalPayflowPro extends Checkout
+class GuestPayPalPayflowPro extends Checkout
 {
     /**
      * Prepare data for guest checkout with PayPal Payflow Pro Method
@@ -30,7 +30,7 @@ class GuestPaypalPayflowPro extends Checkout
         //Verification data
         $this->_data = array(
             'totals' => array(
-                'grand_total' => '$168.72'
+                'grand_total' => '$156.81'
             )
         );
     }
@@ -61,10 +61,10 @@ class GuestPaypalPayflowPro extends Checkout
         $simple->switchData('simple_required');
         $simple->persist();
         $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
-        $configurable->switchData('configurable_checkout_selection_option_label_2');
+        $configurable->switchData('configurable_required');
         $configurable->persist();
         $bundle = Factory::getFixtureFactory()->getMagentoBundleBundleFixed();
-        $bundle->switchData('bundle_fixed_selection_simple_product_percentage');
+        $bundle->switchData('bundle_required');
         $bundle->persist();
 
         $this->products = array(

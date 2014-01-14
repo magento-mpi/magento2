@@ -39,31 +39,6 @@ class ConfigurableProduct extends Product
             'config' => $defaultConfig,
             'data' => $this->buildProductVariations($defaultData),
         );
-
-        $this->_data['configurable_checkout_selection_option_label_2'] = array(
-            'config' => $defaultConfig,
-            'data' => $this->buildConfigurableCheckoutSelectionOptionLabel2($defaultData)
-        );
-    }
-
-    /**
-     * Build configurable product with the second option selected.
-     *
-     * @param array $defaultData
-     * @return array
-     */
-    protected function buildConfigurableCheckoutSelectionOptionLabel2(array $defaultData)
-    {
-        return array_merge($defaultData, array(
-            'checkout' => array(
-                'selections' => array(
-                    '0' => array(
-                        'attribute_name' => '%attribute_1_name%',
-                        'option_name' => '%attribute_1_option_label_2%'
-                    )
-                )
-            )
-        ));
     }
 
     /**
