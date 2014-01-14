@@ -183,9 +183,6 @@ class Element extends \Magento\Simplexml\Element
      */
     public function isCacheable()
     {
-        return !((boolean)count($this->xpath('//' . self::TYPE_TEMPLATE . '[@cacheable="false"]'))
-            || (boolean)count($this->xpath('//' . self::TYPE_BLOCK . '[@cacheable="false"]'))
-            || (boolean)count($this->xpath('//' . self::TYPE_RENDERER . '[@cacheable="false"]'))
-            || (boolean)count($this->xpath('//' . self::TYPE_WIDGET . '[@cacheable="false"]')));
+        return !(boolean)count($this->xpath('//' . self::TYPE_BLOCK . '[@cacheable="false"]'));
     }
 }

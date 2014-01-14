@@ -18,19 +18,19 @@
             </item>
             <item name="subtotal">
                 <renderer name="adminhtml" instance="Magento\Sales\Block\Adminhtml\Order\Create\Totals\Subtotal"/>
-                <renderer name="frontend" instance="Magento\Tax\Block\Checkout\Subtotal" cacheable="false"/>
+                <renderer name="frontend" instance="Magento\Tax\Block\Checkout\Subtotal"/>
             </item>
             <item name="shipping">
                 <renderer name="adminhtml" instance="Magento\Sales\Block\Adminhtml\Order\Create\Totals\Shipping"/>
-                <renderer name="frontend" instance="Magento\Tax\Block\Checkout\Shipping" cacheable="false"/>
+                <renderer name="frontend" instance="Magento\Tax\Block\Checkout\Shipping"/>
             </item>
             <item name="discount">
                 <renderer name="adminhtml" instance="Magento\Sales\Block\Adminhtml\Order\Create\Totals\Discount"/>
-                <renderer name="frontend" instance="Magento\Tax\Block\Checkout\Discount" cacheable="false"/>
+                <renderer name="frontend" instance="Magento\Tax\Block\Checkout\Discount"/>
             </item>
             <item name="grand_total">
                 <renderer name="adminhtml" instance="Magento\Sales\Block\Adminhtml\Order\Create\Totals\Grandtotal"/>
-                <renderer name="frontend" instance="Magento\Tax\Block\Checkout\Grandtotal" cacheable="false"/>
+                <renderer name="frontend" instance="Magento\Tax\Block\Checkout\Grandtotal"/>
             </item>
         </group>
         <group name="nominal_totals">

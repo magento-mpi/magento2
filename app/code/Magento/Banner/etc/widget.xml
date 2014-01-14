@@ -10,7 +10,7 @@
 <widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="../../../Magento/Widget/etc/widget.xsd">
     <widget id="magento_banner" class="Magento\Banner\Block\Widget\Banner"
-            placeholder_image="Magento_Banner::widget_banner.gif" cacheable="false">
+            placeholder_image="Magento_Banner::widget_banner.gif">
         <label translate="true">Banner Rotator</label>
         <description translate="true">Displays Specified or Promotion Banners</description>
         <parameters>
