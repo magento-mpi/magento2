@@ -100,18 +100,7 @@ class TypeProcessor
     }
 
     /**
-     * Retrieve mapping of complex types defined in WSDL to real data classes.
-     *
-     * @return array
-     */
-    public function getTypeToClassMap()
-    {
-        return $this->_typeToClassMap;
-    }
-
-    /**
-     * Process type name.
-     * In case parameter type is a complex type (class) - process its properties.
+     * Process type name. In case parameter type is a complex type (class) - process its properties.
      *
      * @param string $type
      * @return string

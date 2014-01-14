@@ -90,20 +90,18 @@ class Server
     }
 
     /**
-     * Handle SOAP request.
-     *
-     * @return string
+     * Handle SOAP request. Response is sent by SOAP server.
      */
     public function handle()
     {
         $rawRequestBody = file_get_contents('php://input');
         $this->_checkRequest($rawRequestBody);
         $options = array(
-            'classmap' => $this->_typeProcessor->getTypeToClassMap(),
             'encoding' => $this->getApiCharset(),
             'soap_version' => SOAP_1_2
         );
-        $this->_soapServerFactory->create($this->generateUri(true), $options)->handle($rawRequestBody);
+        $soapServer = $this->_soapServerFactory->create($this->generateUri(true), $options);
+        $soapServer->handle($rawRequestBody);
     }
 
     /**
