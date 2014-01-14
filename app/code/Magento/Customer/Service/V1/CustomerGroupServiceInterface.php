@@ -9,6 +9,8 @@
  */
 namespace Magento\Customer\Service\V1;
 
+use Magento\Exception\NoSuchEntityException;
+
 interface CustomerGroupServiceInterface
 {
     const NOT_LOGGED_IN_ID          = 0;
@@ -39,14 +41,14 @@ interface CustomerGroupServiceInterface
      * Get a customer group by group ID.
      *
      * @param int $groupId
-     * @throws \Magento\Customer\Service\Entity\V1\Exception if groupId is not found
+     * @throws NoSuchEntityException if $groupId is not found
      * @return Dto\CustomerGroup
      */
     public function getGroup($groupId);
 
     /**
      * @param int $storeId
-     *
+     * @throws NoSuchEntityException if default group for $storeId is not found
      * @return Dto\CustomerGroup
      */
     public function getDefaultGroup($storeId);
@@ -60,14 +62,15 @@ interface CustomerGroupServiceInterface
 
     /**
      * @param Dto\CustomerGroup $group
-     *
+     * @throws \Exception if something goes wrong during save
      * @return int customer group ID
      */
     public function saveGroup(Dto\CustomerGroup $group);
 
     /**
      * @param int $groupId
-     *
+     * @throws NoSuchEntityException if $groupId is not found
+     * @throws \Exception if something goes wrong during delete
      * @return null
      */
     public function deleteGroup($groupId);
