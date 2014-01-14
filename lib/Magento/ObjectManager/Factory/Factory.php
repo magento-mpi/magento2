@@ -61,11 +61,12 @@ class Factory implements \Magento\ObjectManager\Factory
     /**
      * Resolve constructor arguments
      *
-     * @param string $requestedType
+     * @param $requestedType
      * @param array $parameters
      * @param array $arguments
      * @return array
      * @throws \LogicException
+     * @throws \InvalidArgumentException
      * @throws \BadMethodCallException
      *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
