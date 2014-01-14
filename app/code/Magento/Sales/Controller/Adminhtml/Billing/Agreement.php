@@ -13,8 +13,6 @@
  */
 namespace Magento\Sales\Controller\Adminhtml\Billing;
 
-use Magento\Customer\Service\V1\CustomerServiceInterface;
-
 class Agreement extends \Magento\Backend\App\Action
 {
     /**
@@ -25,24 +23,14 @@ class Agreement extends \Magento\Backend\App\Action
     protected $_coreRegistry = null;
 
     /**
-     * Customer service
-     *
-     * @var CustomerServiceInterface
-     */
-    protected $_customerService;
-
-    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param CustomerServiceInterface $customerService
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry,
-        CustomerServiceInterface $customerService
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
-        $this->_customerService = $customerService;
         parent::__construct($context);
     }
 

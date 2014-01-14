@@ -103,7 +103,7 @@ class Agreement
     public function canShowTab()
     {
         $customer = $this->_coreRegistry->registry('current_customer');
-        return $customer !== null ? false : true;
+        return !is_null($customer);
     }
 
     /**
