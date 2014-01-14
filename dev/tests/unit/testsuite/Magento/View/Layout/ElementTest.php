@@ -44,9 +44,9 @@ class ElementTest extends \PHPUnit_Framework_TestCase
             array('<block name ="bl1"><block name="bl2" /></block>', true),
             array('<block name ="bl1"><block name="bl2" cacheable="false"/></block>', false),
             array('<block name="name" />', true),
-            array('<renderer cacheable="false" />', false),
+            array('<renderer cacheable="false" />', true),
             array('<renderer name="name" />', true),
-            array('<widget cacheable="false" />', false),
+            array('<widget cacheable="false" />', true),
             array('<widget name="name" />', true)
         );
     }
