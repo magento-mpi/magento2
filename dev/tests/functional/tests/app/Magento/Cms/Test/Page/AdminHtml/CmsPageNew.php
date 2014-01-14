@@ -33,10 +33,10 @@ class CmsPageNew extends Page
      *
      * @var string
      */
-    protected $cmsPageForm = '[id="page:main-container"]';
+    protected $cmsPageForm = 'page:main-container';
 
     /**
-     * Custom constructor
+     * Initialize page. Set page url
      */
     protected function _init()
     {
@@ -51,7 +51,7 @@ class CmsPageNew extends Page
     public function getNewCmsPageForm()
     {
         return Factory::getBlockFactory()->getMagentoCmsAdminHtmlPageEdit(
-            $this->_browser->find($this->cmsPageForm, Locator::SELECTOR_CSS)
+            $this->_browser->find($this->cmsPageForm, Locator::SELECTOR_ID)
         );
     }
 }

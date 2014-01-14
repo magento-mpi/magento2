@@ -30,18 +30,6 @@ class Edit extends FormTabs
     protected $toggleButton = "//button[@id='togglepage_content']";
 
     /**
-     * Custom tab classes for cms page form
-     *
-     * @var array
-     */
-    protected $tabClasses = array(
-        'page_tabs_main_section' =>
-        '\\Magento\\Cms\\Test\\Block\\AdminHtml\\Page\\Edit\\Tab\\Main',
-        'page_tabs_content_section' =>
-        '\\Magento\\Cms\\Test\\Block\\AdminHtml\\Page\\Edit\\Tab\\Content'
-    );
-
-    /**
      * Toggle Editor button
      *
      */

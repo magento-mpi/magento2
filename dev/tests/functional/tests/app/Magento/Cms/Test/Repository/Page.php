@@ -45,33 +45,33 @@ class Page extends AbstractRepository
         return array(
             'data' => array(
                 'fields' => array(
-                    'title' => array(
+                    'page_title' => array(
                         'value' => 'CMS Page%isolation%',
                         'group' => self::MAIN_TAB_ID
                     ),
-                    'identifier' => array(
+                    'page_identifier' => array(
                         'value' => 'identifier%isolation%',
                         'group' => self::MAIN_TAB_ID
                     ),
-                    'store_id' => array(
+                    'page_store_id' => array(
                         'value' => 'All Store Views',
                         'group' => self::MAIN_TAB_ID,
                         'input' => 'select',
                         'input_value' => '0'
                     ),
-                    'is_active' => array(
+                    'page_is_active' => array(
                         'value' => 'Published',
                         'group' => self::MAIN_TAB_ID,
                         'input' => 'select',
                         'input_value' => '1'
                     ),
-                    'under_version_control' => array(
+                    'page_under_version_control' => array(
                         'value' => 'No',
                         'group' => self::MAIN_TAB_ID,
                         'input' => 'select',
                         'input_value' => '0'
                     ),
-                    'content' => array(
+                    'page_content' => array(
                         'value' => 'Test %isolation%',
                         'group' => self::CONTENT_TAB_ID
                     )

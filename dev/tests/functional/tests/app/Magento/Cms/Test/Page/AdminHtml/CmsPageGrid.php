@@ -33,7 +33,7 @@ class CmsPageGrid extends Page
     /**
      * @var Grid
      */
-    protected $cmsPageGridBlock = '[id="page:main-container"]';
+    protected $cmsPageGridBlock = '#cmsPageGrid';
 
     /**
      * Global messages block
@@ -43,7 +43,7 @@ class CmsPageGrid extends Page
     protected $messagesBlock = '#messages .messages';
 
     /**
-     * Custom constructor
+     * Initialize page. Set page url
      */
     protected function _init()
     {
