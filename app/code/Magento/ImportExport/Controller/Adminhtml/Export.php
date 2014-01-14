@@ -76,6 +76,7 @@ class Export extends \Magento\Backend\App\Action
                 return $this->_fileFactory->create(
                     $model->getFileName(),
                     $model->export(),
+                    \Magento\Filesystem::VAR_DIR,
                     $model->getContentType()
                 );
             } catch (\Magento\Core\Exception $e) {
