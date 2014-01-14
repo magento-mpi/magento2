@@ -19,12 +19,12 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $catalogProductLink;
 
     /**
-     * @var PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $product;
     /**
@@ -43,7 +43,7 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
         $this->product = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
         $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
         $productFactoryMock = $this->getMock('Magento\Catalog\Model\ProductFactory', array(), array(), '', false);
-        $this->catalogProductLink = $this->getMock('Magento\Catalog\Model\Resource\Product\Link',
+        $this->catalogProductLink = $this->getMock('\Magento\GroupedProduct\Model\Resource\Product\Link',
             array(), array(), '', false);
         $this->_model = $this->objectHelper->getObject('Magento\GroupedProduct\Model\Product\Type\Grouped', array(
             'eventManager' => $eventManager,
@@ -128,7 +128,8 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
     {
         $link = $this->getMock('Magento\Catalog\Model\Product\Link', array(), array(), '', false);
         $this->product->expects($this->once())->method('getLinkInstance')->will($this->returnValue($link));
-        $link->expects($this->once())->method('useGroupedLinks')->will($this->returnValue($link));
+        $link->expects($this->any())->method('setLinkTypeId')
+            ->with(\Magento\GroupedProduct\Model\Resource\Product\Link::LINK_TYPE_GROUPED);
         $collection = $this->getMock(
             'Magento\Catalog\Model\Resource\Product\Link\Product\Collection',
             array('setFlag', 'setIsStrongMode', 'setProduct'),
@@ -141,13 +142,6 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
         $collection->expects($this->once())->method('setIsStrongMode')
                 ->will($this->returnValue($collection));
         $this->assertEquals($collection, $this->_model->getAssociatedProductCollection($this->product));
-    }
-
-    public function testSave()
-    {
-        $link = $this->getMock('Magento\Catalog\Model\Product\Link', array(), array(), '', false);
-        $this->product->expects($this->once())->method('getLinkInstance')->will($this->returnValue($link));
-        $this->assertEquals($this->_model, $this->_model->save($this->product));
     }
 
     public function testProcessBuyRequest()
