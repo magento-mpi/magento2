@@ -35,11 +35,9 @@ class CloseOrderTest extends Functional
      */
     public function testCloseOrder(OrderCheckout $fixture)
     {
-        if ($fixture instanceof PaypalPaymentsAdvancedOrder || $fixture instanceof PaypalPayflowLinkOrder){
+        if ($fixture instanceof PaypalPaymentsAdvancedOrder
+            || $fixture instanceof PaypalPayflowLinkOrder || $fixture instanceof PaypalStandardOrder){
             $this->markTestSkipped('Bamboo inability to run tests on instance with public IP address');
-        }
-        if ($fixture instanceof PaypalStandardOrder) {
-            $this->markTestSkipped('Test is blocked by MAGETWO-19364');
         }
 
         $fixture->persist();
@@ -64,20 +62,28 @@ class CloseOrderTest extends Functional
             'Incorrect grand total value for the order #' . $orderId
         );
 
-        $orderPage->getOrderActionsBlock()->invoice();
-        $newInvoicePage->getInvoiceTotalsBlock()->setCaptureOption('Capture Online');
-        $newInvoicePage->getInvoiceTotalsBlock()->submit();
-        $this->assertContains(
-            $orderPage->getMessagesBlock()->getSuccessMessages(),
-            'The invoice has been created.',
-            'No success message on invoice creation'
-        );
+        if (!($fixture instanceof PaypalStandardOrder)) {
+            $orderPage->getOrderActionsBlock()->invoice();
+            $newInvoicePage->getInvoiceTotalsBlock()->setCaptureOption('Capture Online');
+            $newInvoicePage->getInvoiceTotalsBlock()->submit();
+            $this->assertContains(
+                $orderPage->getMessagesBlock()->getSuccessMessages(),
+                'The invoice has been created.',
+                'No success message on invoice creation'
+            );
 
-        $this->assertContains(
-            $grandTotal,
-            Factory::getPageFactory()->getSalesOrderView()->getOrderHistoryBlock()->getCommentsHistory(),
-            'Incorrect captured amount value for the order #' . $orderId
-        );
+            $this->assertContains(
+                $grandTotal,
+                Factory::getPageFactory()->getSalesOrderView()->getOrderHistoryBlock()->getCommentsHistory(),
+                'Incorrect captured amount value for the order #' . $orderId
+            );
+        } else {
+            $this->assertContains(
+                $grandTotal,
+                Factory::getPageFactory()->getSalesOrderView()->getOrderHistoryBlock()->getPaypalStandardCommentsHistory(),
+                'Incorrect captured amount value for the order #' . $orderId
+            );
+        }
 
         $orderPage->getOrderActionsBlock()->ship();
         $newShipmentPage->getTotalsBlock()->submit();
