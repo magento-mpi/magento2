@@ -1151,6 +1151,13 @@ class Config extends AbstractRepository
                                                         'value' => 'Authorization'
                                                     )
                                                 )
+                                            ),
+                                            'settings_payflow_link_express_checkout' => array( // Basic Settings - PayPal Express Checkout
+                                                'fields' => array(
+                                                    'payment_action' => array( // Payment Action
+                                                        'value' => 'Authorization'
+                                                    )
+                                                )
                                             )
                                         )
                                     )
