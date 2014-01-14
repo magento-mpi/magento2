@@ -188,6 +188,12 @@ class Application
         $overriddenParams[\Magento\App\State::PARAM_MODE] = $this->_appMode;
         $overriddenParams = $this->_customizeParams($overriddenParams);
 
+        $overriddenDirectories = array();
+        if (isset($overriddenParams[\Magento\App\Filesystem::PARAM_APP_DIRS])) {
+            $overriddenDirectories = $overriddenParams[\Magento\App\Filesystem::PARAM_APP_DIRS];
+            unset($overriddenParams[\Magento\App\Filesystem::PARAM_APP_DIRS]);
+        }
+
         /** @var \Magento\TestFramework\ObjectManager $objectManager */
         $objectManager = Helper\Bootstrap::getObjectManager();
         if (!$objectManager) {
@@ -196,10 +202,7 @@ class Application
             $objectManager = $this->_factory->restore($objectManager, BP, $overriddenParams);
         }
 
-        $directories = isset($overriddenParams[\Magento\App\Filesystem::PARAM_APP_DIRS])
-            ? $overriddenParams[\Magento\App\Filesystem::PARAM_APP_DIRS]
-            : array();
-        $directoryList = new \Magento\TestFramework\App\Filesystem\DirectoryList(BP, $directories);
+        $directoryList = new \Magento\TestFramework\App\Filesystem\DirectoryList(BP, $overriddenDirectories);
 
         $objectManager->addSharedInstance($directoryList, 'Magento\App\Filesystem\DirectoryList');
         $objectManager->addSharedInstance($directoryList, 'Magento\Filesystem\DirectoryList');
@@ -241,10 +244,7 @@ class Application
         $directoryListConfig = $objectManager->get('Magento\App\Filesystem\DirectoryList\Configuration');
         $directoryListConfig->configure($directoryList);
 
-        $directories = isset($overriddenParams[\Magento\App\Filesystem::PARAM_APP_DIRS])
-            ? $overriddenParams[\Magento\App\Filesystem::PARAM_APP_DIRS]
-            : array();
-        foreach ($directories as $code => $configOverrides) {
+        foreach ($overriddenDirectories as $code => $configOverrides) {
             $config = array_merge($directoryList->getConfig($code), $configOverrides);
             $directoryList->addDirectory($code, $config);
         }
