@@ -36,7 +36,7 @@ class Proxy implements \Magento\App\CacheInterface
     /**
      * Create cache model
      *
-     * @return \Magento\App\CacheInterface|mixed
+     * @return \Magento\App\CacheInterface
      */
     protected function _getCache()
     {

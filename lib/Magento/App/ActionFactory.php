@@ -27,7 +27,7 @@ class ActionFactory
     /**
      * @param string $controllerName
      * @param array $arguments
-     * @return mixed
+     * @return object
      */
     public function createController($controllerName, array $arguments = array())
     {

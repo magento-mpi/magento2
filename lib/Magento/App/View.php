@@ -94,7 +94,7 @@ class View implements ViewInterface
      * @param   string|null|bool $handles
      * @param   bool $generateBlocks
      * @param   bool $generateXml
-     * @return  $this
+     * @return  self
      * @throws  \RuntimeException
      */
     public function loadLayout($handles = null, $generateBlocks = true, $generateXml = true)
@@ -152,7 +152,7 @@ class View implements ViewInterface
     /**
      * Add layout updates handles associated with the action page
      *
-     * @param array $parameters page parameters
+     * @param array|null $parameters page parameters
      * @return bool
      */
     public function addPageLayoutHandles(array $parameters = array())
@@ -278,6 +278,7 @@ class View implements ViewInterface
      * Set isLayoutLoaded flag
      *
      * @param bool $value
+     * @return void
      */
     public function setIsLayoutLoaded($value)
     {

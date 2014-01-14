@@ -19,6 +19,10 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\App\Request
      * @var string
      */
     protected $_originalPathInfo= '';
+
+    /**
+     * @var string
+     */
     protected $_requestString   = '';
 
     /**
@@ -27,12 +31,30 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\App\Request
      * @var null || array
      */
     protected $_rewritedPathInfo= null;
+
+    /**
+     * @var string
+     */
     protected $_requestedRouteName = null;
+
+    /**
+     * @var array
+     */
     protected $_routingInfo = array();
 
+    /**
+     * @var string
+     */
     protected $_route;
 
+    /**
+     * @var array
+     */
     protected $_directFrontNames;
+
+    /**
+     * @var string
+     */
     protected $_controllerModule = null;
 
     /**
@@ -203,7 +225,7 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\App\Request
      * Set route name
      *
      * @param string $route
-     * @return $this
+     * @return self
      */
     public function setRouteName($route)
     {
@@ -226,6 +248,11 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\App\Request
         return reset($pathParts);
     }
 
+    /**
+     * Retrieve route name
+     *
+     * @return string|null
+     */
     public function getRouteName()
     {
         return $this->_route;
@@ -341,7 +368,7 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\App\Request
     /**
      * Retrieve the list of all aliases
      *
-     * @return array
+     * @return array|string
      */
     public function getAliases()
     {
@@ -495,8 +522,8 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\App\Request
      * If no $key is passed, returns the entire $_FILES array.
      *
      * @param string $key
-     * @param mixed $default Default value to use if key not found
-     * @return mixed
+     * @param array $default Default value to use if key not found
+     * @return array
      */
     public function getFiles($key = null, $default = null)
     {
@@ -537,7 +564,7 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\App\Request
      * Retrieve full action name
      *
      * @param string $delimiter
-     * @return mixed|string
+     * @return string
      */
     public function getFullActionName($delimiter = '_')
     {

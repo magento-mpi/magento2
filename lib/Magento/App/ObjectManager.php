@@ -47,6 +47,7 @@ class ObjectManager extends \Magento\ObjectManager\ObjectManager
      *
      * @param \Magento\ObjectManager $objectManager
      * @throws \LogicException
+     * @return void
      */
     public static function setInstance(\Magento\ObjectManager $objectManager)
     {

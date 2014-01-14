@@ -671,6 +671,7 @@ class Object implements \ArrayAccess
      * @link http://www.php.net/manual/en/arrayaccess.offsetset.php
      * @param string $offset
      * @param mixed $value
+     * @return void
      */
     public function offsetSet($offset, $value)
     {
@@ -694,6 +695,7 @@ class Object implements \ArrayAccess
      *
      * @link http://www.php.net/manual/en/arrayaccess.offsetunset.php
      * @param string $offset
+     * @return void
      */
     public function offsetUnset($offset)
     {

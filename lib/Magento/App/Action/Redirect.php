@@ -10,6 +10,7 @@
 namespace Magento\App\Action;
 
 use \Magento\App\RequestInterface;
+use \Magento\App\ResponseInterface;
 
 class Redirect extends AbstractAction
 {
@@ -17,7 +18,7 @@ class Redirect extends AbstractAction
      * Redirect response
      *
      * @param RequestInterface $request
-     * @return \Magento\App\ResponseInterface|mixed
+     * @return ResponseInterface
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function dispatch(RequestInterface $request)

@@ -80,7 +80,7 @@ class Config
      * Retrieve connection configuration by connection name
      *
      * @param string $connectionName
-     * @return array
+     * @return array|null
      */
     public function getConnection($connectionName)
     {
@@ -113,8 +113,8 @@ class Config
      * Retrieve key
      *
      * @param string $key
-     * @param mixed $defaultValue
-     * @return array|null
+     * @param string $defaultValue
+     * @return array|string|null
      */
     public function get($key = null, $defaultValue = null)
     {
@@ -126,6 +126,8 @@ class Config
 
     /**
      * Reload local.xml
+     *
+     * @return void
      */
     public function reload()
     {

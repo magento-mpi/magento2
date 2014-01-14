@@ -61,6 +61,8 @@ class Pool implements \Iterator
 
     /**
      * Load frontend instances from the configuration, to be used for delayed initialization
+     *
+     * @return void
      */
     protected function _initialize()
     {

@@ -87,6 +87,8 @@ class Http implements \Magento\AppInterface
 
     /**
      * Execute application
+     *
+     * @return int
      */
     public function execute()
     {

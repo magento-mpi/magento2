@@ -128,6 +128,7 @@ class Action extends \Magento\App\Action\AbstractAction
      * @param string|null $controller
      * @param string|null $module
      * @param array|null $params
+     * @return void
      */
     protected function _forward($action, $controller = null, $module = null, array $params = null)
     {
@@ -150,6 +151,7 @@ class Action extends \Magento\App\Action\AbstractAction
 
         $request->setActionName($action);
         $request->setDispatched(false);
+        return void;
     }
 
     /**
