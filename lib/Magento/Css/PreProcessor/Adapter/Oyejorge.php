@@ -14,14 +14,18 @@ namespace Magento\Css\PreProcessor\Adapter;
 class Oyejorge implements \Magento\Css\PreProcessor\AdapterInterface
 {
     /**
-     * @var \Magento\Filesystem\Driver\File
+     * @var \Magento\Css\PreProcessor\LibraryLoader\Oyejorge
      */
-    protected $driverFile;
+    protected $loader;
 
+    /**
+     * @param \Magento\Css\PreProcessor\LibraryLoader\Oyejorge $loader
+     */
     public function __construct(
         \Magento\Css\PreProcessor\LibraryLoader\Oyejorge $loader
     ) {
-        $loader->load();
+        $this->loader = $loader;
+        $this->loader->load();
     }
 
     /**
