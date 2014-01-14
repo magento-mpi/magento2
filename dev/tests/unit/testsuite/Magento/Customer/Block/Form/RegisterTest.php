@@ -17,6 +17,7 @@ class RegisterTest extends \PHPUnit_Framework_TestCase
     const LOGIN_URL = 'http://localhost/index.php/customer/account/login';
     const COUNTRY_ID = 'US';
     const FORM_DATA = 'form_data';
+    const REGION_ATTRIBUTE_VALUE = 'California';
     const REGION_ID_ATTRIBUTE_CODE = 'region_id';
     const REGION_ID_ATTRIBUTE_VALUE = '12';
 
@@ -209,9 +210,9 @@ class RegisterTest extends \PHPUnit_Framework_TestCase
     public function testGetRegionByRegion()
     {
         $formData = new \Magento\Object();
-        $formData->setRegion(self::REGION_ID_ATTRIBUTE_VALUE);
+        $formData->setRegion(self::REGION_ATTRIBUTE_VALUE);
         $this->_block->setData(self::FORM_DATA, $formData);
-        $this->assertEquals(self::REGION_ID_ATTRIBUTE_VALUE, $this->_block->getRegion());
+        $this->assertSame(self::REGION_ATTRIBUTE_VALUE, $this->_block->getRegion());
     }
 
     /**
@@ -223,7 +224,7 @@ class RegisterTest extends \PHPUnit_Framework_TestCase
         $formData = new \Magento\Object();
         $formData->setRegionId(self::REGION_ID_ATTRIBUTE_VALUE);
         $this->_block->setData(self::FORM_DATA, $formData);
-        $this->assertEquals(self::REGION_ID_ATTRIBUTE_VALUE, $this->_block->getRegion());
+        $this->assertSame(self::REGION_ID_ATTRIBUTE_VALUE, $this->_block->getRegion());
     }
 
     /**

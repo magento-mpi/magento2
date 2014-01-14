@@ -151,7 +151,7 @@ class Register extends \Magento\Directory\Block\Data
     /**
      * Retrieve customer region identifier
      *
-     * @return int|null
+     * @return mixed
      */
     public function getRegion()
     {
