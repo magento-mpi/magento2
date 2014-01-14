@@ -1108,4 +1108,9 @@ return array(
     array('getDisplayMode', '\Magento\Catalog\Model\Session'),
     array('setEscapeMessageFlag', 'Magento\View\Block\Messages'),
     array('shouldEscapeMessage', 'Magento\View\Block\Messages'),
+    ['getTrackingAjaxUrl', 'Magento\Shipping\Helper\Data'],
+    ['isFreeMethod', 'Magento\Shipping\Helper\Data'],
+    ['_initOrder', 'Magento\Shipping\Controller\Tracking'],
+    ['ajaxAction', 'Magento\Shipping\Controller\Tracking'],
+    ['_getTracksCollection', 'Magento\Shipping\Controller\Tracking'],
 );
