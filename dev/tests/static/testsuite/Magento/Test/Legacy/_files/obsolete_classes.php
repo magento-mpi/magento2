@@ -1761,6 +1761,7 @@ return array(
     array('Magento\Catalog\Model\Resource\Convert'),
     array('Magento\Reminder\Model\Resource\HelperFactory'),
     array('Magento\Reminder\Model\Resource\Helper'),
+    array('Magento\CatalogRule\Block\Adminhtml\Promo\Widget\Chooser'),
     array(
         'Magento\Catalog\Model\Product\Type\Grouped\Backend',
         'Magento\GroupedProduct\Model\Product\Type\Grouped\Backend'
@@ -1799,5 +1800,5 @@ return array(
     array(
         'Magento\Catalog\Block\Product\View\Type\Grouped',
         'Magento\GroupedProduct\Block\Product\View\Type\Grouped'
-    )
+    ),
 );
