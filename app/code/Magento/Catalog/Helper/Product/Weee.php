@@ -30,7 +30,7 @@ class Weee extends \Magento\App\Helper\AbstractHelper
     public function __construct(
         \Magento\Weee\Helper\Data $weeeData
     ) {
-        $this->weeeData = $weeeData;
+        return $this->weeeData = $weeeData;
     }
 
     /**
@@ -45,7 +45,7 @@ class Weee extends \Magento\App\Helper\AbstractHelper
      */
     public function getAmount($product, $shipping = null, $billing = null, $website = null, $calculateTaxes = false)
     {
-        $this->weeeData->getAmount(
+        return $this->weeeData->getAmount(
             $product,
             $shipping = null,
             $billing = null,
@@ -63,7 +63,7 @@ class Weee extends \Magento\App\Helper\AbstractHelper
      */
     public function getAmountInclTaxes($attributes)
     {
-        $this->weeeData->getAmountInclTaxes($attributes);
+        return $this->weeeData->getAmountInclTaxes($attributes);
     }
 
     /**
@@ -74,7 +74,7 @@ class Weee extends \Magento\App\Helper\AbstractHelper
      */
     public function isTaxable($store = null)
     {
-        $this->weeeData->isTaxable($store);
+        return $this->weeeData->isTaxable($store);
     }
 
     /**
@@ -90,7 +90,7 @@ class Weee extends \Magento\App\Helper\AbstractHelper
     public function getProductWeeeAttributesForRenderer(
         $product, $shipping = null, $billing = null, $website = null, $calculateTaxes = false
     ) {
-        $this->weeeData->getProductWeeeAttributesForRenderer(
+        return $this->weeeData->getProductWeeeAttributesForRenderer(
             $product, $shipping, $billing, $website, $calculateTaxes
         );
     }
@@ -106,7 +106,7 @@ class Weee extends \Magento\App\Helper\AbstractHelper
      */
     public function typeOfDisplay($product, $compareTo = null, $zone = null, $store = null)
     {
-        $this->weeeData->typeOfDisplay($product, $compareTo, $zone, $store);
+        return $this->weeeData->typeOfDisplay($product, $compareTo, $zone, $store);
     }
 
     /**
@@ -117,7 +117,7 @@ class Weee extends \Magento\App\Helper\AbstractHelper
      */
     public function getProductWeeeAttributesForDisplay($product)
     {
-        $this->weeeData->getProductWeeeAttributesForDisplay($product);
+        return $this->weeeData->getProductWeeeAttributesForDisplay($product);
     }
 
     /**
@@ -128,7 +128,7 @@ class Weee extends \Magento\App\Helper\AbstractHelper
      */
     public function getAmountForDisplay($product)
     {
-        $this->weeeData->getAmountForDisplay($product);
+        return $this->weeeData->getAmountForDisplay($product);
     }
 
     /**
@@ -139,7 +139,7 @@ class Weee extends \Magento\App\Helper\AbstractHelper
      */
     public function getPriceDisplayType($store = null)
     {
-        $this->weeeData->getPriceDisplayType($store);
+        return $this->weeeData->getPriceDisplayType($store);
     }
 
     /**
@@ -150,6 +150,6 @@ class Weee extends \Magento\App\Helper\AbstractHelper
      */
     public function getOriginalAmount($product)
     {
-        $this->weeeData->getOriginalAmount($product);
+        return $this->weeeData->getOriginalAmount($product);
     }
 }
