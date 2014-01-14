@@ -62,6 +62,6 @@ class Oyejorge implements LoaderInterface
      */
     protected function getLibraryPath()
     {
-        return $this->directoryList->getDir(\Magento\Filesystem::LIB) . '/oyejorge/phpless/phpless/Less.php';
+        return $this->directoryList->getDir(\Magento\Filesystem::LIB) . '/oyejorge/phpless/Less.php';
     }
 }
