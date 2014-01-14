@@ -35,7 +35,7 @@ class RegisterTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Helper\Data */
     private $_customerHelper;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Block\Form\Register */
+    /** @var Register */
     private $_block;
 
     public function setUp()
@@ -277,14 +277,12 @@ class RegisterTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())->method('getCustomerFormData')->will($this->returnValue($customerFormData));
         $form = $this->getMock('Magento\Customer\Model\Metadata\Form', array(), array(), '', false);
         $request = $this->getMockForAbstractClass('Magento\App\RequestInterface', array(), '', false);
-        /** @var \Magento\Object $formData */
         $formData = $this->_block->getFormData();
         $form->expects($this->once())
             ->method('prepareRequest')->with($formData->getData())->will($this->returnValue($request));
         $form->expects($this->once())
             ->method('extractData')->with($request, null, false)->will($this->returnValue($customerFormData));
         $form->expects($this->once())->method('restoreData')->will($this->returnValue($customerFormData));
-        /** @var \Magento\Customer\Block\Form\Register $block */
         $block = $this->_block->restoreSessionData($form, null, false);
         $this->assertSame($this->_block, $block);
         $this->assertEquals($data, $block->getData(self::FORM_DATA));
