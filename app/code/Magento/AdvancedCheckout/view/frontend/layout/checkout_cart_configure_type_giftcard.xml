@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceBlock name="product.info.form.options">
-        <block class="Magento\GiftCard\Block\Catalog\Product\View\Type\Giftcard" name="product.info.giftcard" as="product_type_data" template="catalog/product/view/type/giftcard.phtml" cacheable="0">
+        <block class="Magento\GiftCard\Block\Catalog\Product\View\Type\Giftcard" name="product.info.giftcard" as="product_type_data" template="catalog/product/view/type/giftcard.phtml" cacheable="false">
             <action method="addPriceBlockType">
                 <argument name="type" xsi:type="string">giftcard</argument>
                 <argument name="block" xsi:type="string">Magento\GiftCard\Block\Catalog\Product\Price</argument>

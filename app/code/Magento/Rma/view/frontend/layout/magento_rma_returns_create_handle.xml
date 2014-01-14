@@ -12,7 +12,7 @@
         <block class="Magento\View\Element\Template" name="magento_rma_item_form_template">
             <block class="Magento\CustomAttribute\Block\Form\Renderer\Text" name="magento_rma_item_form_template_text" as="text" template="Magento_Rma::form/renderer/text.phtml"/>
             <block class="Magento\CustomAttribute\Block\Form\Renderer\Textarea" name="magento_rma_item_form_template_textarea" as="textarea" template="Magento_Rma::form/renderer/textarea.phtml"/>
-            <block class="Magento\Rma\Block\Form\Renderer\Select" name="magento_rma_item_form_template_select" as="select" template="form/renderer/select.phtml" cacheable="0"/>
+            <block class="Magento\Rma\Block\Form\Renderer\Select" name="magento_rma_item_form_template_select" as="select" template="form/renderer/select.phtml" cacheable="false"/>
             <block class="Magento\Rma\Block\Form\Renderer\Image" name="magento_rma_item_form_template_image" as="image" template="form/renderer/image.phtml"/>
         </block>
     </referenceContainer>

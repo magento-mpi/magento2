@@ -15,6 +15,6 @@
         </action>
     </referenceBlock>
     <referenceContainer name="my.account.wrapper">
-        <block class="Magento\Sales\Block\Billing\Agreements" name="customer.account.billing.agreement" template="billing/agreements.phtml" cacheable="0"/>
+        <block class="Magento\Sales\Block\Billing\Agreements" name="customer.account.billing.agreement" template="billing/agreements.phtml" cacheable="false"/>
     </referenceContainer>
 </layout>

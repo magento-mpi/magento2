@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceContainer name="left">
-        <block class="Magento\Catalog\Block\Navigation" name="catalog.leftnav" before="-" template="navigation/left.phtml" cacheable="0"/>
+        <block class="Magento\Catalog\Block\Navigation" name="catalog.leftnav" before="-" template="navigation/left.phtml"/>
     </referenceContainer>
     <referenceContainer name="breadcrumbs.container">
         <block class="Magento\Catalog\Block\Category\View" name="category.title" after="breadcrumbs" template="category/title.phtml"/>
@@ -17,7 +17,7 @@
     <referenceContainer name="content">
         <block class="Magento\Catalog\Block\Category\View" name="category.products" template="category/view.phtml">
             <block class="Magento\Catalog\Block\Product\ProductList" name="product_list" template="product/list.phtml">
-                <block class="Magento\Catalog\Block\Product\ProductList\Toolbar" name="product_list_toolbar" template="product/list/toolbar.phtml" cacheable="0">
+                <block class="Magento\Catalog\Block\Product\ProductList\Toolbar" name="product_list_toolbar" template="product/list/toolbar.phtml">
                     <block class="Magento\Theme\Block\Html\Pager" name="product_list_toolbar_pager"/>
                 </block>
                 <action method="setToolbarBlockName">

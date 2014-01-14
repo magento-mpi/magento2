@@ -36,39 +36,17 @@ class ElementTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * @dataProvider cacheableTypeDataProvider
-     */
-    public function testIsCacheableType($xml, $expected)
-    {
-        $model = new \Magento\View\Layout\Element($xml);
-        $this->assertEquals($expected, $model->isCacheableType());
-    }
-
-    public function cacheableTypeDataProvider()
-    {
-        return array(
-            array('<containter />', false),
-            array('<block />', true),
-            array('<renderer />', true),
-            array('<widget />', true),
-            array('<data />', false),
-            array('<action />', false),
-        );
-    }
-
     public function cacheableDataProvider()
     {
         return array(
-            array('<containter name="name" />', false),
-            array('<block cacheable="0" />', false),
-            array('<block cacheable="1" />', true),
+            array('<containter name="name" />', true),
+            array('<block name="name" cacheable="false" />', false),
+            array('<block name ="bl1"><block name="bl2" /></block>', true),
+            array('<block name ="bl1"><block name="bl2" cacheable="false"/></block>', false),
             array('<block name="name" />', true),
-            array('<renderer cacheable="0" />', false),
-            array('<renderer cacheable="1" />', true),
+            array('<renderer cacheable="false" />', false),
             array('<renderer name="name" />', true),
-            array('<widget cacheable="0" />', false),
-            array('<widget cacheable="1" />', true),
+            array('<widget cacheable="false" />', false),
             array('<widget name="name" />', true)
         );
     }

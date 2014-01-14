@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <container name="cachable_container1-1" label="test1" htmlTag="div" htmlId="cachable_container11" htmlClass="class11">
+        <block class="Magento\View\Element\Text" name="block-1-in-cacheable-container1">
+            <action method="setText">
+                <argument name="text" xsi:type="string">Test11</argument>
+            </action>
+        </block>
+    </container>
+</layout>

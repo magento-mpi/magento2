@@ -20,6 +20,6 @@
         </block>
     </referenceBlock>
     <referenceContainer name="content">
-        <block class="Magento\GiftRegistry\Block\Customer\Checkout" name="giftregistry.customer.checkout" template="customer/checkout/onepage.phtml" cacheable="0"/>
+        <block class="Magento\GiftRegistry\Block\Customer\Checkout" name="giftregistry.customer.checkout" template="customer/checkout/onepage.phtml" cacheable="false"/>
     </referenceContainer>
 </layout>

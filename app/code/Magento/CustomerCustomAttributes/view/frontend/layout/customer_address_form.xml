@@ -12,7 +12,7 @@
         <action method="setTemplate">
             <argument name="template" xsi:type="string">Magento_CustomerCustomAttributes::customer/address/edit.phtml</argument>
         </action>
-        <block class="Magento\CustomerCustomAttributes\Block\Form" template="form/userattributes.phtml" name="customer_form_user_attributes" cacheable="0">
+        <block class="Magento\CustomerCustomAttributes\Block\Form" template="form/userattributes.phtml" name="customer_form_user_attributes" cacheable="false">
             <action method="setFormCode">
                 <argument name="code" xsi:type="string">customer_address_edit</argument>
             </action>

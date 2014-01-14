@@ -8,5 +8,5 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <block class="Magento\Rma\Block\Returns\Tracking" name="tracking" output="1" template="return/tracking.phtml" cacheable="0"/>
+    <block class="Magento\Rma\Block\Returns\Tracking" name="tracking" output="1" template="return/tracking.phtml" cacheable="false"/>
 </layout>

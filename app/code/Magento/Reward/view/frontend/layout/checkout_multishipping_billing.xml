@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceContainer name="payment_methods_before">
-        <block class="Magento\Reward\Block\Checkout\Payment\Additional" template="checkout/multishipping/payment/additional.phtml" name="reward_points" before="-" cacheable="0"/>
+        <block class="Magento\Reward\Block\Checkout\Payment\Additional" template="checkout/multishipping/payment/additional.phtml" name="reward_points" before="-" cacheable="false"/>
     </referenceContainer>
 </layout>

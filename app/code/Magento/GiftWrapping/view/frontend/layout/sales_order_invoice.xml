@@ -12,6 +12,6 @@
         <block class="Magento\GiftWrapping\Block\Product\Info" name="giftwrapping.product.info" template="product/info.phtml"/>
     </referenceBlock>
     <referenceBlock name="invoice_totals">
-        <block class="Magento\GiftWrapping\Block\Sales\Totals" name="giftwrapping" cacheable="0"/>
+        <block class="Magento\GiftWrapping\Block\Sales\Totals" name="giftwrapping" cacheable="false"/>
     </referenceBlock>
 </layout>

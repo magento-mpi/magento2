@@ -11,7 +11,7 @@
     <section name="quote">
         <group name="totals">
             <item name="giftwrapping" instance="Magento\GiftWrapping\Model\Total\Quote\Giftwrapping" sort_order="900">
-                <renderer name="frontend" instance="Magento\GiftWrapping\Block\Checkout\Totals" cacheable="0"/>
+                <renderer name="frontend" instance="Magento\GiftWrapping\Block\Checkout\Totals" cacheable="false"/>
             </item>
             <item name="tax_giftwrapping" instance="Magento\GiftWrapping\Model\Total\Quote\Tax\Giftwrapping" sort_order="500"/>
         </group>

@@ -11,8 +11,8 @@
     <update handle="customer_account"/>
     <referenceContainer name="content">
         <block class="Magento\View\Element\Template" name="customerbalance.wrapper" template="Magento_CustomerBalance::account/wrapper.phtml">
-            <block class="Magento\CustomerBalance\Block\Account\Balance" name="balance" template="account/balance.phtml" before="-" cacheable="0"/>
-            <block class="Magento\CustomerBalance\Block\Account\History" name="history" template="account/history.phtml" after="-" cacheable="0"/>
+            <block class="Magento\CustomerBalance\Block\Account\Balance" name="balance" template="account/balance.phtml" before="-" cacheable="false"/>
+            <block class="Magento\CustomerBalance\Block\Account\History" name="history" template="account/history.phtml" after="-" cacheable="false"/>
         </block>
     </referenceContainer>
 </layout>

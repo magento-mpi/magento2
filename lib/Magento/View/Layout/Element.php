@@ -177,27 +177,15 @@ class Element extends \Magento\Simplexml\Element
     }
 
     /**
-     * Returns information is this element type allows caching
-     *
-     * @return bool
-     */
-    public function isCacheableType()
-    {
-        return in_array((string)$this->getName(), array(
-            self::TYPE_BLOCK, self::TYPE_RENDERER, self::TYPE_WIDGET
-        ));
-    }
-
-    /**
      * Returns information is this element allows caching
      *
      * @return bool
      */
     public function isCacheable()
     {
-        if ($this->isCacheableType()) {
-            return $this->getAttribute('cacheable') === "0" ? false : true;
-        }
-        return false;
+        return !((boolean)count($this->xpath('//' . self::TYPE_TEMPLATE . '[@cacheable="false"]'))
+            || (boolean)count($this->xpath('//' . self::TYPE_BLOCK . '[@cacheable="false"]'))
+            || (boolean)count($this->xpath('//' . self::TYPE_RENDERER . '[@cacheable="false"]'))
+            || (boolean)count($this->xpath('//' . self::TYPE_WIDGET . '[@cacheable="false"]')));
     }
 }

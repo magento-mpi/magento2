@@ -11,7 +11,7 @@
     <section name="section1">
         <group name="group1">
             <item name="item1" instance="instance1" sort_order="1">
-                <renderer name="renderer1" instance="instance1" cacheable="0"/>
+                <renderer name="renderer1" instance="instance1" cacheable="false"/>
             </item>
         </group>
         <group name="group2">

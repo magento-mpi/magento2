@@ -8,5 +8,5 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <block class="Magento\Core\Block\Formkey" name="formkey" template="Magento_Core::formkey.phtml" cacheable="0"/>
+    <block class="Magento\Core\Block\Formkey" name="formkey" template="Magento_Core::formkey.phtml"/>
 </layout>
