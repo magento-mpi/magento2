@@ -47,8 +47,8 @@ interface CustomerAccountServiceInterface
      *
      * @param int $customerId
      * @param string $key
-     * @throws \Magento\Customer\Service\Entity\V1\Exception If customerId is invalid, does not exist, or customer account was already active
-     * @throws \Magento\Core\Exception If there is an issue with supplied $customerId or $key
+     * @throws \Magento\Exception\InputException If customerId is invalid, key is invalid, or
+     *      customer account was already active
      * @return Dto\Customer
      */
     public function activateAccount($customerId, $key);
@@ -58,7 +58,7 @@ interface CustomerAccountServiceInterface
      *
      * @param string $username username in plain-text
      * @param string $password password in plain-text
-     * @throws \Magento\Customer\Service\Entity\V1\Exception if unable to login due to issue with username or password or others
+     * @throws \Magento\Exception\AuthenticationException if unable to authenticate
      * @return Dto\Customer
      */
     public function authenticate($username, $password);
@@ -68,7 +68,7 @@ interface CustomerAccountServiceInterface
      *
      * @param int $customerId
      * @param string $resetPasswordLinkToken
-     * @throws \Magento\Customer\Service\Entity\V1\Exception if expired or invalid
+     * @throws \Magento\Exception\InputException if token is expired or invalid
      */
     public function validateResetPasswordLinkToken($customerId, $resetPasswordLinkToken);
 
@@ -77,7 +77,7 @@ interface CustomerAccountServiceInterface
      *
      * @param string $email
      * @param int $websiteId
-     * @throws NoSuchEntityException
+     * @throws \Magento\Exception\NoSuchEntityException
      */
     public function sendPasswordResetLink($email, $websiteId);
 
@@ -95,7 +95,7 @@ interface CustomerAccountServiceInterface
      * Send Confirmation email
      *
      * @param string $email email address of customer
-     * @throws NoSuchEntityException if error occurs getting customerId
+     * @throws \Magento\Exception\NoSuchEntityException if error occurs getting customerId
      */
     public function sendConfirmation($email);
 

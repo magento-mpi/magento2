@@ -98,7 +98,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
 
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function sendConfirmation($email)
     {
@@ -120,7 +120,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function activateAccount($customerId, $key)
     {
@@ -153,7 +153,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function authenticate($username, $password)
     {
@@ -181,7 +181,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function validateResetPasswordLinkToken($customerId, $resetPasswordLinkToken)
     {
@@ -189,7 +189,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function sendPasswordResetLink($email, $websiteId)
     {
@@ -206,7 +206,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function resetPassword($customerId, $password, $resetToken)
     {
@@ -218,7 +218,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function createAccount(
         Dto\Customer $customer,
@@ -263,7 +263,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function validateCustomerData(Dto\Customer $customer, array $attributes)
     {
