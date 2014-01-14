@@ -208,8 +208,7 @@ class Profile extends \Magento\Backend\App\Action
         $customerId = (int)$this->getRequest()->getParam(self::PARAM_CUSTOMER_ID);
 
         if ($customerId) {
-            $customer = $this->_customerService->getCustomer($customerId);
-            $this->_coreRegistry->register(CustomerController::REGISTRY_CURRENT_CUSTOMER, $customer);
+            $this->_coreRegistry->register(CustomerController::REGISTRY_CURRENT_CUSTOMER_ID, $customerId);
         }
 
         $this->_view->loadLayout(false);
