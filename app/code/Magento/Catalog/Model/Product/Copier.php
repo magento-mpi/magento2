@@ -23,23 +23,15 @@ class Copier
     protected $productFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $storeManager;
-
-    /**
      * @param CopyConstructorInterface $copyConstructor
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         CopyConstructorInterface $copyConstructor,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Catalog\Model\ProductFactory $productFactory
     ) {
         $this->productFactory  = $productFactory;
         $this->copyConstructor = $copyConstructor;
-        $this->storeManager    = $storeManager;
     }
 
     /**
@@ -61,7 +53,7 @@ class Copier
         $duplicate->setCreatedAt(null);
         $duplicate->setUpdatedAt(null);
         $duplicate->setId(null);
-        $duplicate->setStoreId($this->storeManager->getStore()->getId());
+        $duplicate->setStoreId(\Magento\Core\Model\Store::DEFAULT_STORE_ID);
 
         $this->copyConstructor->build($product, $duplicate);
         $duplicate->save();

@@ -27,18 +27,12 @@ class CopierTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $storeManagerMock;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
     protected $productMock;
 
     
     protected function setUp()
     {
         $this->copyConstructorMock = $this->getMock('\Magento\Catalog\Model\Product\CopyConstructorInterface');
-        $this->storeManagerMock = $this->getMock('\Magento\Core\Model\StoreManagerInterface');
         $this->productFactoryMock = $this->getMock(
             '\Magento\Catalog\Model\ProductFactory', array('create'), array(), '', false
         );
@@ -46,7 +40,7 @@ class CopierTest extends \PHPUnit_Framework_TestCase
         $this->productMock->expects($this->any())->method('getId')->will($this->returnValue('1'));
         $this->productMock->expects($this->any())->method('getData')->will($this->returnValue('product data'));
 
-        $this->_model = new Copier($this->copyConstructorMock, $this->productFactoryMock, $this->storeManagerMock);
+        $this->_model = new Copier($this->copyConstructorMock, $this->productFactoryMock);
     }
 
     public function testCopy()
@@ -54,8 +48,6 @@ class CopierTest extends \PHPUnit_Framework_TestCase
         $this->productMock->expects($this->atLeastOnce())->method('getWebsiteIds');
         $this->productMock->expects($this->atLeastOnce())->method('getCategoryIds');
         $storeMock = $this->getMock('\Magento\Core\Model\Store', array(), array(), '', false);
-        $storeMock->expects($this->atLeastOnce())->method('getId')->will($this->returnValue('storeId'));
-        $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($storeMock));
 
         $resourceMock = $this->getMock('\Magento\Catalog\Model\Resource\Product', array(), array(), '', false);
         $optionMock = $this->getMock('\Magento\Catalog\Model\Product\Option', array(), array(), '', false);
@@ -82,7 +74,7 @@ class CopierTest extends \PHPUnit_Framework_TestCase
         $duplicateMock->expects($this->once())->method('setCreatedAt')->with(null);
         $duplicateMock->expects($this->once())->method('setUpdatedAt')->with(null);
         $duplicateMock->expects($this->once())->method('setId')->with(null);
-        $duplicateMock->expects($this->once())->method('setStoreId')->with('storeId');
+        $duplicateMock->expects($this->once())->method('setStoreId')->with(\Magento\Core\Model\Store::DEFAULT_STORE_ID);
         $duplicateMock->expects($this->once())->method('setData')->with('product data');
 
 
