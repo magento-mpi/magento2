@@ -8,15 +8,22 @@
 
 namespace Magento\Css\PreProcessor\Adapter;
 
-if (!class_exists('Less_Parser')) {
-    require_once __DIR__ . '/../../../../../lib/oyejorge/phpless/phpless/Less.php';
-}
-
 /**
  * Oyejorge adapter model
  */
 class Oyejorge implements \Magento\Css\PreProcessor\AdapterInterface
 {
+    /**
+     * @var \Magento\Filesystem\Driver\File
+     */
+    protected $driverFile;
+
+    public function __construct(
+        \Magento\Css\PreProcessor\LibraryLoader\Oyejorge $loader
+    ) {
+        $loader->load();
+    }
+
     /**
      * @param string $sourceFilePath
      * @return string
