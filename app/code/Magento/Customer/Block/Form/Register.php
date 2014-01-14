@@ -151,13 +151,13 @@ class Register extends \Magento\Directory\Block\Data
     /**
      * Retrieve customer region identifier
      *
-     * @return int
+     * @return int|null
      */
     public function getRegion()
     {
-        if (false !== ($region = $this->getFormData()->getRegion())) {
+        if (null !== ($region = $this->getFormData()->getRegion())) {
             return $region;
-        } else if (false !== ($region = $this->getFormData()->getRegionId())) {
+        } else if (null !== ($region = $this->getFormData()->getRegionId())) {
             return $region;
         }
         return null;
