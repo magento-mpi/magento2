@@ -40,9 +40,9 @@ class Tracking extends \Magento\App\Action\Action
     protected $_orderFactory;
 
     /**
-     * @var \Magento\Sales\Model\ResourceFactory
+     * @var \Magento\Shipping\Model\Resource\Order\Track\CollectionFactory
      */
-    protected $_resourceFactory;
+    protected $_trackCollectionFactory;
 
     /**
      * @param \Magento\App\Action\Context $context
@@ -50,7 +50,7 @@ class Tracking extends \Magento\App\Action\Action
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Shipping\Model\InfoFactory $shippingInfoFactory
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
-     * @param \Magento\Sales\Model\ResourceFactory $resourceFactory
+     * @param \Magento\Shipping\Model\Resource\Order\Track\CollectionFactory $trackCollectionFactory
      */
     public function __construct(
         \Magento\App\Action\Context $context,
@@ -58,13 +58,13 @@ class Tracking extends \Magento\App\Action\Action
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Shipping\Model\InfoFactory $shippingInfoFactory,
         \Magento\Sales\Model\OrderFactory $orderFactory,
-        \Magento\Sales\Model\ResourceFactory $resourceFactory
+        \Magento\Shipping\Model\Resource\Order\Track\CollectionFactory $trackCollectionFactory
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_customerSession = $customerSession;
         $this->_shippingInfoFactory = $shippingInfoFactory;
         $this->_orderFactory = $orderFactory;
-        $this->_resourceFactory = $resourceFactory;
+        $this->_trackCollectionFactory = $trackCollectionFactory;
         parent::__construct($context);
     }
 
@@ -136,8 +136,7 @@ class Tracking extends \Magento\App\Action\Action
     protected function _getTracksCollection(\Magento\Sales\Model\Order $order)
     {
         /** @var \Magento\Shipping\Model\Resource\Order\Track\Collection $tracks */
-        $tracks = $this->_resourceFactory->create('Magento\Shipping\Model\Resource\Order\Track\Collection')
-            ->setOrderFilter($order);
+        $tracks = $this->_trackCollectionFactory->create()->setOrderFilter($order);
 
         if ($order->getId()) {
             $tracks->load();

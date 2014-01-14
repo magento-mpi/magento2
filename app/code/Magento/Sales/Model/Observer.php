@@ -66,9 +66,29 @@ class Observer
     protected $_coreLocale;
 
     /**
-     * @var \Magento\Sales\Model\ResourceFactory
+     * @var Resource\Report\OrderFactory
      */
-    protected $_resourceFactory;
+    protected $_orderFactory;
+
+    /**
+     * @var \Magento\Sales\Model\Resource\Report\ShippingFactory
+     */
+    protected $_shippingFactory;
+
+    /**
+     * @var \Magento\Sales\Model\Resource\Report\InvoicedFactory
+     */
+    protected $_invoicedFactory;
+
+    /**
+     * @var \Magento\Sales\Model\Resource\Report\RefundedFactory
+     */
+    protected $_refundedFactory;
+
+    /**
+     * @var \Magento\Sales\Model\Resource\Report\BestsellersFactory
+     */
+    protected $_bestsellersFactory;
 
     /**
      * @param \Magento\Event\ManagerInterface $eventManager
@@ -78,7 +98,11 @@ class Observer
      * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\Sales\Model\Resource\Quote\CollectionFactory $quoteFactory
      * @param \Magento\Core\Model\LocaleInterface $coreLocale
-     * @param \Magento\Sales\Model\ResourceFactory $resourceFactory
+     * @param Resource\Report\OrderFactory $orderFactory
+     * @param Resource\Report\ShippingFactory $shippingFactory
+     * @param Resource\Report\InvoicedFactory $invoicedFactory
+     * @param Resource\Report\RefundedFactory $refundedFactory
+     * @param Resource\Report\BestsellersFactory $bestsellersFactory
      */
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
@@ -88,7 +112,11 @@ class Observer
         \Magento\Core\Model\Store\Config $storeConfig,
         \Magento\Sales\Model\Resource\Quote\CollectionFactory $quoteFactory,
         \Magento\Core\Model\LocaleInterface $coreLocale,
-        \Magento\Sales\Model\ResourceFactory $resourceFactory
+        \Magento\Sales\Model\Resource\Report\OrderFactory $orderFactory,
+        \Magento\Sales\Model\Resource\Report\ShippingFactory $shippingFactory,
+        \Magento\Sales\Model\Resource\Report\InvoicedFactory $invoicedFactory,
+        \Magento\Sales\Model\Resource\Report\RefundedFactory $refundedFactory,
+        \Magento\Sales\Model\Resource\Report\BestsellersFactory $bestsellersFactory
     ) {
         $this->_eventManager = $eventManager;
         $this->_customerData = $customerData;
@@ -97,7 +125,11 @@ class Observer
         $this->_storeConfig = $storeConfig;
         $this->_quoteCollectionFactory = $quoteFactory;
         $this->_coreLocale = $coreLocale;
-        $this->_resourceFactory = $resourceFactory;
+        $this->_orderFactory = $orderFactory;
+        $this->_shippingFactory = $shippingFactory;
+        $this->_invoicedFactory = $invoicedFactory;
+        $this->_refundedFactory = $refundedFactory;
+        $this->_bestsellersFactory = $bestsellersFactory;
     }
 
     /**
@@ -163,7 +195,7 @@ class Observer
         $this->_coreLocale->emulate(0);
         $currentDate = $this->_coreLocale->date();
         $date = $currentDate->subHour(25);
-        $this->_resourceFactory->create('Magento\Sales\Model\Resource\Report\Order')->aggregate($date);
+        $this->_orderFactory->create()->aggregate($date);
         $this->_coreLocale->revert();
         return $this;
     }
@@ -179,7 +211,7 @@ class Observer
         $this->_coreLocale->emulate(0);
         $currentDate = $this->_coreLocale->date();
         $date = $currentDate->subHour(25);
-        $this->_resourceFactory->create('Magento\Sales\Model\Resource\Report\Shipping')->aggregate($date);
+        $this->_shippingFactory->create()->aggregate($date);
         $this->_coreLocale->revert();
         return $this;
     }
@@ -195,7 +227,7 @@ class Observer
         $this->_coreLocale->emulate(0);
         $currentDate = $this->_coreLocale->date();
         $date = $currentDate->subHour(25);
-        $this->_resourceFactory->create('Magento\Sales\Model\Resource\Report\Invoiced')->aggregate($date);
+        $this->_invoicedFactory->create()->aggregate($date);
         $this->_coreLocale->revert();
         return $this;
     }
@@ -211,7 +243,7 @@ class Observer
         $this->_coreLocale->emulate(0);
         $currentDate = $this->_coreLocale->date();
         $date = $currentDate->subHour(25);
-        $this->_resourceFactory->create('Magento\Sales\Model\Resource\Report\Refunded')->aggregate($date);
+        $this->_refundedFactory->create()->aggregate($date);
         $this->_coreLocale->revert();
         return $this;
     }
@@ -227,7 +259,7 @@ class Observer
         $this->_coreLocale->emulate(0);
         $currentDate = $this->_coreLocale->date();
         $date = $currentDate->subHour(25);
-        $this->_resourceFactory->create('Magento\Sales\Model\Resource\Report\Bestsellers')->aggregate($date);
+        $this->_bestsellersFactory->create()->aggregate($date);
         $this->_coreLocale->revert();
         return $this;
     }

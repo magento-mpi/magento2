@@ -413,11 +413,6 @@ class Order extends \Magento\Sales\Model\AbstractModel
     protected $_storeManager;
 
     /**
-     * @var \Magento\Sales\Model\ResourceFactory
-     */
-    protected $_resourceFactory;
-
-    /**
      * @var \Magento\Sales\Model\Order\Config
      */
     protected $_orderConfig;
@@ -483,6 +478,41 @@ class Order extends \Magento\Sales\Model\AbstractModel
     protected $_carrierFactory;
 
     /**
+     * @var Resource\Order\Address\CollectionFactory
+     */
+    protected $_addressCollectionFactory;
+
+    /**
+     * @var Resource\Order\Payment\CollectionFactory
+     */
+    protected $_paymentCollectionFactory;
+
+    /**
+     * @var Resource\Order\Status\History\Collection
+     */
+    protected $_historyCollectionFactory;
+
+    /**
+     * @var Resource\Order\Invoice\CollectionFactory
+     */
+    protected $_invoiceCollectionFactory;
+
+    /**
+     * @var Resource\Order\Shipment\CollectionFactory
+     */
+    protected $_shipmentCollectionFactory;
+
+    /**
+     * @var Resource\Order\Creditmemo\CollectionFactory
+     */
+    protected $_memoCollectionFactory;
+
+    /**
+     * @var Resource\Order\Shipment\Track\CollectionFactory
+     */
+    protected $_trackCollectionFactory;
+
+    /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\LocaleInterface $coreLocale
@@ -491,20 +521,26 @@ class Order extends \Magento\Sales\Model\AbstractModel
      * @param \Magento\Sales\Helper\Data $salesData
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Sales\Model\ResourceFactory $resourceFactory
-     * @param \Magento\Sales\Model\Order\Config $orderConfig
+     * @param Order\Config $orderConfig
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Email\Model\Template\MailerFactory $templateMailerFactory
      * @param \Magento\Email\Model\InfoFactory $emailInfoFactory
-     * @param \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $orderItemCollFactory
+     * @param Resource\Order\Item\CollectionFactory $orderItemCollFactory
      * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
      * @param \Magento\Tax\Model\Calculation $taxCalculation
-     * @param \Magento\Sales\Model\Service\OrderFactory $serviceOrderFactory
+     * @param Service\OrderFactory $serviceOrderFactory
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Sales\Model\Order\Status\HistoryFactory $orderHistoryFactory
+     * @param Order\Status\HistoryFactory $orderHistoryFactory
      * @param \Magento\Tax\Model\Resource\Sales\Order\Tax\CollectionFactory $orderTaxCollFactory
-     * @param \Magento\Sales\Model\CarrierFactory $carrierFactory
+     * @param CarrierFactory $carrierFactory
+     * @param Resource\Order\Address\CollectionFactory $addressCollectionFactory
+     * @param Resource\Order\Payment\CollectionFactory $paymentCollectionFactory
+     * @param Resource\Order\Status\History\Collection $historyCollectionFactory
+     * @param Resource\Order\Invoice\CollectionFactory $invoiceCollectionFactory
+     * @param Resource\Order\Shipment\CollectionFactory $shipmentCollectionFactory
+     * @param Resource\Order\Creditmemo\CollectionFactory $memoCollectionFactory
+     * @param Resource\Order\Shipment\Track\CollectionFactory $trackCollectionFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -518,7 +554,6 @@ class Order extends \Magento\Sales\Model\AbstractModel
         \Magento\Sales\Helper\Data $salesData,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Sales\Model\ResourceFactory $resourceFactory,
         \Magento\Sales\Model\Order\Config $orderConfig,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Email\Model\Template\MailerFactory $templateMailerFactory,
@@ -532,6 +567,13 @@ class Order extends \Magento\Sales\Model\AbstractModel
         \Magento\Sales\Model\Order\Status\HistoryFactory $orderHistoryFactory,
         \Magento\Tax\Model\Resource\Sales\Order\Tax\CollectionFactory $orderTaxCollFactory,
         \Magento\Sales\Model\CarrierFactory $carrierFactory,
+        \Magento\Sales\Model\Resource\Order\Address\CollectionFactory $addressCollectionFactory,
+        \Magento\Sales\Model\Resource\Order\Payment\CollectionFactory $paymentCollectionFactory,
+        \Magento\Sales\Model\Resource\Order\Status\History\Collection $historyCollectionFactory,
+        \Magento\Sales\Model\Resource\Order\Invoice\CollectionFactory $invoiceCollectionFactory,
+        \Magento\Sales\Model\Resource\Order\Shipment\CollectionFactory $shipmentCollectionFactory,
+        \Magento\Sales\Model\Resource\Order\Creditmemo\CollectionFactory $memoCollectionFactory,
+        \Magento\Sales\Model\Resource\Order\Shipment\Track\CollectionFactory $trackCollectionFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -540,7 +582,6 @@ class Order extends \Magento\Sales\Model\AbstractModel
         $this->_salesData = $salesData;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_storeManager = $storeManager;
-        $this->_resourceFactory = $resourceFactory;
         $this->_orderConfig = $orderConfig;
         $this->_productFactory = $productFactory;
         $this->_templateMailerFactory = $templateMailerFactory;
@@ -554,6 +595,13 @@ class Order extends \Magento\Sales\Model\AbstractModel
         $this->_orderHistoryFactory = $orderHistoryFactory;
         $this->_orderTaxCollFactory = $orderTaxCollFactory;
         $this->_carrierFactory = $carrierFactory;
+        $this->_addressCollectionFactory = $addressCollectionFactory;
+        $this->_paymentCollectionFactory = $paymentCollectionFactory;
+        $this->_historyCollectionFactory = $historyCollectionFactory;
+        $this->_invoiceCollectionFactory = $invoiceCollectionFactory;
+        $this->_shipmentCollectionFactory = $shipmentCollectionFactory;
+        $this->_memoCollectionFactory = $memoCollectionFactory;
+        $this->_trackCollectionFactory = $trackCollectionFactory;
         parent::__construct($context, $registry, $coreLocale, $dateTime, $resource, $resourceCollection, $data);
     }
 
@@ -1545,7 +1593,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     public function getAddressesCollection()
     {
         if (is_null($this->_addresses)) {
-            $this->_addresses = $this->_resourceFactory->create('Magento\Sales\Model\Resource\Order\Address\Collection')
+            $this->_addresses = $this->_addressCollectionFactory->create()
                 ->setOrderFilter($this);
 
             if ($this->getId()) {
@@ -1590,7 +1638,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     public function getItemsCollection($filterByTypes = array(), $nonChildrenOnly = false)
     {
         if (is_null($this->_items)) {
-            $this->_items = $this->_resourceFactory->create('Magento\Sales\Model\Resource\Order\Item\Collection')
+            $this->_items = $this->_orderItemCollFactory->create()
                 ->setOrderFilter($this);
 
             if ($filterByTypes) {
@@ -1750,7 +1798,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     public function getPaymentsCollection()
     {
         if (is_null($this->_payments)) {
-            $this->_payments = $this->_resourceFactory->create('Magento\Sales\Model\Resource\Order\Payment\Collection')
+            $this->_payments = $this->_paymentCollectionFactory->create()
                 ->setOrderFilter($this);
 
             if ($this->getId()) {
@@ -1817,7 +1865,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     public function getStatusHistoryCollection($reload = false)
     {
         if (is_null($this->_statusHistory) || $reload) {
-            $this->_statusHistory = $this->_resourceFactory->create('Magento\Sales\Model\Resource\Order\Status\History\Collection')
+            $this->_statusHistory = $this->_historyCollectionFactory->create()
                 ->setOrderFilter($this)
                 ->setOrder('created_at', 'desc')
                 ->setOrder('entity_id', 'desc');
@@ -2041,7 +2089,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     public function getInvoiceCollection()
     {
         if (is_null($this->_invoices)) {
-            $this->_invoices = $this->_resourceFactory->create('Magento\Sales\Model\Resource\Order\Invoice\Collection')
+            $this->_invoices = $this->_invoiceCollectionFactory->create()
                 ->setOrderFilter($this);
 
             if ($this->getId()) {
@@ -2062,8 +2110,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     {
         if (empty($this->_shipments)) {
             if ($this->getId()) {
-                $this->_shipments = $this->_resourceFactory
-                    ->create('Magento\Sales\Model\Resource\Order\Shipment\Collection')
+                $this->_shipments = $this->_shipmentCollectionFactory->create()
                     ->setOrderFilter($this)
                     ->load();
             } else {
@@ -2082,7 +2129,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     {
         if (empty($this->_creditmemos)) {
             if ($this->getId()) {
-                $this->_creditmemos = $this->_resourceFactory->create('Magento\Sales\Model\Resource\Order\Creditmemo\Collection')
+                $this->_creditmemos = $this->_memoCollectionFactory->create()
                     ->setOrderFilter($this)
                     ->load();
             } else {
@@ -2100,7 +2147,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     public function getTracksCollection()
     {
         if (empty($this->_tracks)) {
-            $this->_tracks = $this->_resourceFactory->create('Magento\Sales\Model\Resource\Order\Shipment\Track\Collection')
+            $this->_tracks = $this->_trackCollectionFactory->create()
                 ->setOrderFilter($this);
 
             if ($this->getId()) {
