@@ -72,6 +72,47 @@
             </media_storage_configuration>
             <filesystem>
                 <directory>
+                    <session>
+                        <read_only>0</read_only>
+                        <path>var/session</path>
+                        <allow_create_dirs>1</allow_create_dirs>
+                        <permissions>511</permissions>
+                    </session>
+                    <media>
+                        <read_only>0</read_only>
+                        <path>pub/media</path>
+                        <uri>pub/media</uri>
+                        <permissions>511</permissions>
+                    </media>
+                    <static>
+                        <read_only>0</read_only>
+                        <path>pub/static</path>
+                        <uri>pub/static</uri>
+                        <permissions>511</permissions>
+                    </static>
+                    <pub>
+                        <read_only>0</read_only>
+                        <path>pub</path>
+                        <uri>pub</uri>
+                        <permissions>511</permissions>
+                    </pub>
+                    <pub_lib>
+                        <read_only>0</read_only>
+                        <path>pub/lib</path>
+                        <uri>pub/lib</uri>
+                        <permissions>511</permissions>
+                    </pub_lib>
+                    <view_cache>
+                        <read_only>0</read_only>
+                        <path>pub/cache</path>
+                        <uri>pub/cache</uri>
+                        <permissions>511</permissions>
+                    </view_cache>
+                    <tmp>
+                        <read_only>0</read_only>
+                        <path>var/tmp</path>
+                        <permissions>511</permissions>
+                    </tmp>
                     <design>
                         <read_only>1</read_only>
                         <path>app/design</path>

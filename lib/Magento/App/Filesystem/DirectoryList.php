@@ -22,23 +22,27 @@ class DirectoryList extends \Magento\Filesystem\DirectoryList
      * @var array
      */
     protected $directories = array(
-        Filesystem::ROOT_DIR => array('path' => ''),
-        Filesystem::APP_DIR => array('path' => 'app'),
-        Filesystem::MODULES_DIR => array('path' => 'app/code'),
-        Filesystem::CONFIG_DIR => array('path' => 'app/etc'),
-        Filesystem::LIB_DIR => array('path' => 'lib'),
+        Filesystem::ROOT_DIR => array(
+            'path' => ''
+        ),
+        Filesystem::APP_DIR => array(
+            'path' => 'app'
+        ),
+        Filesystem::MODULES_DIR => array(
+            'path' => 'app/code'
+        ),
+        Filesystem::CONFIG_DIR => array(
+            'path' => 'app/etc'
+        ),
+        Filesystem::LIB_DIR => array(
+            'path' => 'lib'
+        ),
         Filesystem::VAR_DIR => array(
             'path'              => 'var',
             'read_only'         => false,
             'allow_create_dirs' => true,
             'permissions'       => 0777
 
-        ),
-        Filesystem::TMP_DIR => array(
-            'path'              => 'var/tmp',
-            'read_only'         => false,
-            'allow_create_dirs' => true,
-            'permissions'       => 0777
         ),
         Filesystem::CACHE_DIR => array(
             'path'              => 'var/cache',
@@ -52,37 +56,18 @@ class DirectoryList extends \Magento\Filesystem\DirectoryList
             'allow_create_dirs' => true,
             'permissions'       => 0777
         ),
-        Filesystem::SESSION_DIR => array(
-            'path'              => 'var/session',
-            'read_only'         => false,
-            'allow_create_dirs' => true,
-            'permissions'       => 0777
+        Filesystem::DI_DIR => array(
+            'path' => 'var/di'
         ),
-        Filesystem::DI_DIR => array('path' => 'var/di'),
-        Filesystem::GENERATION_DIR => array('path' => 'var/generation'),
-        Filesystem::HTTP => array('path' => null),
-        Filesystem::PUB_DIR => array(
-            'path' => 'pub',
-            'uri'  => 'pub',
+        Filesystem::GENERATION_DIR => array(
+            'path' => 'var/generation'
         ),
-        Filesystem::PUB_LIB_DIR => array(
-            'path' => 'pub/lib',
-            'uri'  => 'pub/lib'
+        Filesystem::HTTP => array(
+            'path' => ''
         ),
-        Filesystem::MEDIA_DIR => array(
-            'path' => 'pub/media',
-            'uri'  => 'pub/media'
+        Filesystem::LOCALE_DIR => array(
+            'path' => ''
         ),
-        Filesystem::STATIC_VIEW_DIR => array(
-            'path' => 'pub/static',
-            'uri'  => 'pub/static',
-        ),
-        Filesystem::PUB_VIEW_CACHE_DIR => array(
-            'read_only' => false,
-            'path'      => 'pub/cache',
-            'uri'       => 'pub/cache',
-        ),
-        Filesystem::LOCALE_DIR => array('path' => ''),
         Filesystem::SYS_TMP_DIR => array(
             'path'              => '',
             'read_only'         => false,

@@ -21,12 +21,8 @@ class Verification
      * @var array
      */
     protected static $productionDirs = array(
-        Filesystem::MEDIA_DIR,
-        Filesystem::VAR_DIR,
-        Filesystem::TMP_DIR,
         Filesystem::CACHE_DIR,
         Filesystem::LOG_DIR,
-        Filesystem::SESSION_DIR,
     );
 
     /**
@@ -35,13 +31,8 @@ class Verification
      * @var array
      */
     protected static $nonProductionDirs = array(
-        Filesystem::MEDIA_DIR,
-        Filesystem::STATIC_VIEW_DIR,
-        Filesystem::VAR_DIR,
-        Filesystem::TMP_DIR,
         Filesystem::CACHE_DIR,
         Filesystem::LOG_DIR,
-        Filesystem::SESSION_DIR,
     );
 
     /**
