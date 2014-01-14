@@ -79,6 +79,9 @@ class EndToEndTests
         // Currency
         $suite->addTestSuite('Magento\Directory\Test\TestCase\CurrencyTest');
 
+        // Cms
+        $suite->addTestSuite('Magento\Cms\Test\TestCase\CreatePageTest');
+
         return $suite;
     }
 }
