@@ -14,10 +14,15 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     protected $_collection = null;
 
+    /**
+     * @var \Magento\ObjectManager
+     */
+    protected $objectManager;
+
     protected function setUp()
     {
-        $this->_collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\GiftRegistry\Model\Resource\Item\Collection');
+        $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $this->_collection = $this->objectManager->create('Magento\GiftRegistry\Model\Resource\Item\Collection');
     }
 
     public function testAddProductFilter()
@@ -42,5 +47,33 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $this->assertStringMatchesFormat(
             '%AWHERE%S(%Sitem_id%S = %S99%S)%SAND%S(%Sitem_id%S IN(%S100%S,%S101%S))%A', (string)$select
         );
+    }
+
+    /**
+     * @magentoDbIsolation enabled
+     * @magentoAppIsolation enabled
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     * @magentoDataFixture Magento/Catalog/_files/products.php
+     * @magentoDataFixture Magento/GiftRegistry/_files/resource_item_collection.php
+     */
+    public function testGiftCollection()
+    {
+        $gr      = $this->objectManager->get('Magento\Core\Model\Registry')->registry('test_gift_registry');
+        $product = $this->objectManager->get('Magento\Core\Model\Registry')->registry('test_product');
+
+        $collection = $this->objectManager->create('Magento\GiftRegistry\Model\Resource\Item\Collection');
+        $collection->addRegistryFilter($gr->getId())
+            ->addWebsiteFilter();
+
+        $this->assertTrue($collection->getSize() > 0);
+
+        $relation = $this->objectManager->create('Magento\Catalog\Model\Product\Website');
+        $relation->removeProducts(array(1), array($product->getId()));
+
+        $collection = $this->objectManager->create('Magento\GiftRegistry\Model\Resource\Item\Collection')
+            ->addRegistryFilter($gr->getId())
+            ->addWebsiteFilter();
+
+        $this->assertTrue($collection->getSize() == 0);
     }
 }
