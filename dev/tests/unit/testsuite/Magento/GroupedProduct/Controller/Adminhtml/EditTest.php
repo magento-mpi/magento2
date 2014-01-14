@@ -59,7 +59,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testPopupActionNoProductIdNoSetId()
+    public function testPopupActionNoProductId()
     {
         $storeId = 12;
         $typeId = 4;
@@ -88,7 +88,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
         $this->controller->popupAction();
     }
 
-    public function testPopupActionWithProductId()
+    public function testPopupActionWithProductIdNoSetId()
     {
         $storeId = 12;
         $typeId = 4;
