@@ -30,7 +30,10 @@ class FileParserTest extends \PHPUnit_Framework_TestCase
 
         $this->importFactory = $this->getMock(
             'Magento\Less\Instruction\ImportFactory',
-            array('create')
+            array('create'),
+            array(),
+            '',
+            false
         );
 
         $this->importFactory->expects($this->any())
