@@ -24,9 +24,9 @@ class InputExceptionTest extends \PHPUnit_Framework_TestCase
             ['minValue' => 0]
         );
 
-        $this->assertSame(InputException::INPUT_EXCEPTION, $inputException->getCode());
+        $this->assertEquals(InputException::INPUT_EXCEPTION, $inputException->getCode());
         $this->assertStringStartsWith('One or more', $inputException->getMessage());
-        $this->assertSame(
+        $this->assertEquals(
             [
                 [
                     'minValue'  => 0,
@@ -54,9 +54,9 @@ class InputExceptionTest extends \PHPUnit_Framework_TestCase
             ''
         );
 
-        $this->assertSame(InputException::INPUT_EXCEPTION, $inputException->getCode());
+        $this->assertEquals(InputException::INPUT_EXCEPTION, $inputException->getCode());
         $this->assertStringStartsWith('One or more', $inputException->getMessage());
-        $this->assertSame(
+        $this->assertEquals(
             [
                 [
                     'minValue'  => 1,
@@ -67,6 +67,7 @@ class InputExceptionTest extends \PHPUnit_Framework_TestCase
                 [
                     'fieldName' => 'name',
                     'code'      => InputException::REQUIRED_FIELD,
+                    'value'     => '',
                 ]
             ],
             $inputException->getParams()
