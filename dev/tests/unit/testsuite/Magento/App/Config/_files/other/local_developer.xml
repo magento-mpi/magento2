@@ -8,8 +8,20 @@
  */
 -->
 <config>
-    <resource>resource name2</resource>
-    <connection>connection name2</connection>
-    <other>new other value</other>
-    <new>new value</new>
+    <connection name="example_connection">
+        <dbName>overridden_db</dbName>
+    </connection>
+    <connection name="new_connection">
+        <dbName>new_db</dbName>
+    </connection>
+    <resource name="example_resource" connection="new_connection"/>
+    <resource name="new_resource" connection="example_connection"/>
+    <cache type="example_cache">
+        <backend>memcached</backend>
+    </cache>
+    <cache type="new_cache">
+        <backend>apc</backend>
+    </cache>
+    <another>Overridden Value</another>
+    <new>New Value</new>
 </config>

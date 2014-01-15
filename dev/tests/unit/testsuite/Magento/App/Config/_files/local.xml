@@ -8,7 +8,12 @@
  */
 -->
 <config>
-    <resource>resource name</resource>
-    <connection>connection name</connection>
-    <other>other value</other>
+    <connection name="example_connection">
+        <dbName>example_db</dbName>
+    </connection>
+    <resource name="example_resource" connection="example_connection"/>
+    <cache type="example_cache">
+        <backend>file</backend>
+    </cache>
+    <another>Example Value</another>
 </config>
