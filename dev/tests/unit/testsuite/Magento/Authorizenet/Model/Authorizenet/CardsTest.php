@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Paygate
+ * @package     Magento_Authorizenet
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
