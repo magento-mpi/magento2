@@ -29,8 +29,6 @@ class PriceTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-//        $methods = array('getCalculatedFinalPrice', 'getPrice', 'setFinalPrice', 'getData', 'hasCustomOptions', 'getTypeInstance',  'getCustomOption', '__wakeup');
-//        $methods = array('getId', 'getFinalPrice', '__wakeup', 'getCalculatedFinalPrice', 'getPrice', 'setFinalPrice', 'getData', 'hasCustomOptions', 'getTypeInstance',  'getCustomOption', 'getGroupPrice', 'getTierPrice', 'getStore');
         $this->productMock = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
         $this->optionMock =
            $this->getMock('Magento\Catalog\Model\Product\Option', array('getValue', '__wakeup'), array(), '', false);
