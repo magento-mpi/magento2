@@ -40,6 +40,9 @@ class PriceTest extends \PHPUnit_Framework_TestCase
             ->method('getCalculatedFinalPrice')
             ->will($this->returnValue($finalPrice));
 
+        $this->productMock->expects($this->never())
+            ->method('hasCustomOptions');
+        
         $this->assertEquals($finalPrice, $this->finalPriceModel->getFinalPrice(null, $this->productMock));
     }
 
