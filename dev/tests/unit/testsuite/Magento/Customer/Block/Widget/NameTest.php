@@ -41,7 +41,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
     /** @var  \PHPUnit_Framework_MockObject_MockObject | \Magento\Escaper */
     private $_escaper;
 
-    /** @var  \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Block\Widget\Name */
+    /** @var  Name */
     private $_block;
 
     public function setUp()
