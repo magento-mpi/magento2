@@ -8,7 +8,7 @@
 
 namespace Magento\GroupedProduct\Helper\Product\Configuration\Plugin;
 
-class Grouped 
+class Grouped
 {
     /**
      * Retrieves grouped product options list
