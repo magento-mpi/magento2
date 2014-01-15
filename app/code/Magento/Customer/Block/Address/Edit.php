@@ -94,9 +94,8 @@ class Edit extends \Magento\Directory\Block\Data
 
         // Init address object
         if ($addressId = $this->getRequest()->getParam('id')) {
-            $customerId = $this->_customerSession->getCustomerId();
             try {
-                $this->_address = $this->_addressService->getAddressById($customerId, $addressId);
+                $this->_address = $this->_addressService->getAddressById($addressId);
             } catch (\Magento\Customer\Service\Entity\V1\Exception $e) {
                 // something went wrong, but we are ignore it for now
             }

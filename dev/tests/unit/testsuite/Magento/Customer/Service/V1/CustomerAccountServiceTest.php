@@ -10,6 +10,7 @@ namespace Magento\Customer\Service\V1;
 
 use Magento\Exception\InputException;
 use Magento\Exception\NoSuchEntityException;
+use Magento\Exception\StateException;
 
 /**
  * \Magento\Customer\Service\V1\CustomerAccountService
@@ -214,7 +215,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException  \Magento\Exception\InputException
+     * @expectedException  \Magento\Exception\StateException
+     * @expectedExceptionCode \Magento\Exception\StateException::INVALID_STATE
      */
     public function testActivateAccountAlreadyActive()
     {
@@ -285,6 +287,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * @expectedException \Magento\Exception\StateException
+     * @expectedExceptionCode \Magento\Exception\StateException::INPUT_MISMATCH
+     */
     public function testActivateAccountBadKey()
     {
         $this->_customerModelMock->expects($this->any())
@@ -311,14 +317,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $customerService = $this->_createService();
 
-        try {
-            $customerService->activateAccount(self::ID, self::EMAIL_CONFIRMATION_KEY . 'BAD');
-            $this->fail('Expected exception not thrown.');
-        } catch (InputException $e) {
-            $this->assertEquals(InputException::INVALID_FIELD_VALUE, $e->getParams()[0]['code']);
-            $this->assertEquals('confirmation', $e->getParams()[0]['fieldName']);
-            $this->assertEquals(self::EMAIL_CONFIRMATION_KEY . 'BAD', $e->getParams()[0]['value']);
-        }
+        $customerService->activateAccount(self::ID, self::EMAIL_CONFIRMATION_KEY . 'BAD');
     }
 
     /**
@@ -427,6 +426,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $customerService->validateResetPasswordLinkToken(self::ID, $resetToken);
     }
 
+    /**
+     * @expectedException \Magento\Exception\StateException
+     * @expectedExceptionCode \Magento\Exception\StateException::EXPIRED
+     */
     public function testValidateResetPasswordLinkTokenExpired()
     {
         $resetToken = 'lsdj579slkj5987slkj595lkj';
@@ -446,21 +449,13 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $customerService = $this->_createService();
 
-        try {
-            $customerService->validateResetPasswordLinkToken(self::ID, $resetToken);
-            $this->fail('Expected exception not thrown.');
-        } catch ( InputException $e) {
-            $expectedParams = [
-                [
-                    'code' => InputException::TOKEN_EXPIRED,
-                    'fieldName' => 'resetPasswordLinkToken',
-                    'value' => $resetToken,
-                ]
-            ];
-            $this->assertEquals($expectedParams, $e->getParams());
-        }
+        $customerService->validateResetPasswordLinkToken(self::ID, $resetToken);
     }
 
+    /**
+     * @expectedException \Magento\Exception\StateException
+     * @expectedExceptionCode \Magento\Exception\StateException::INPUT_MISMATCH
+     */
     public function testValidateResetPasswordLinkTokenInvalid()
     {
         $resetToken = 'lsdj579slkj5987slkj595lkj';
@@ -481,19 +476,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $customerService = $this->_createService();
 
-        try {
-            $customerService->validateResetPasswordLinkToken(self::ID, $invalidToken);
-            $this->fail('Expected exception not thrown.');
-        } catch ( InputException $e) {
-            $expectedParams = [
-                [
-                    'code' => InputException::TOKEN_EXPIRED,
-                    'fieldName' => 'resetPasswordLinkToken',
-                    'value' => $invalidToken,
-                ]
-            ];
-            $this->assertEquals($expectedParams, $e->getParams());
-        }
+        $customerService->validateResetPasswordLinkToken(self::ID, $invalidToken);
     }
 
     public function testValidateResetPasswordLinkTokenWrongUser()
@@ -721,6 +704,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $customerService->resetPassword(self::ID, $password, $resetToken);
     }
 
+    /**
+     * @expectedException \Magento\Exception\StateException
+     * @expectedExceptionCode \Magento\Exception\StateException::EXPIRED
+     */
     public function testResetPasswordTokenExpired()
     {
         $resetToken = 'lsdj579slkj5987slkj595lkj';
@@ -748,21 +735,13 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $customerService = $this->_createService();
 
-        try {
-            $customerService->resetPassword(self::ID, $password, $resetToken);
-            $this->fail('Expected exception not thrown.');
-        } catch ( InputException $e) {
-            $expectedParams = [
-                [
-                    'code' => InputException::TOKEN_EXPIRED,
-                    'fieldName' => 'resetPasswordLinkToken',
-                    'value' => $resetToken,
-                ]
-            ];
-            $this->assertEquals($expectedParams, $e->getParams());
-        }
+        $customerService->resetPassword(self::ID, $password, $resetToken);
     }
 
+    /**
+     * @expectedException \Magento\Exception\StateException
+     * @expectedExceptionCode \Magento\Exception\StateException::INPUT_MISMATCH
+     */
     public function testResetPasswordTokenInvalid()
     {
         $resetToken = 'lsdj579slkj5987slkj595lkj';
@@ -791,19 +770,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         $customerService = $this->_createService();
 
-        try {
-            $customerService->resetPassword(self::ID, $password, $invalidToken);
-            $this->fail('Expected exception not thrown.');
-        } catch ( InputException $e) {
-            $expectedParams = [
-                [
-                    'code' => InputException::TOKEN_EXPIRED,
-                    'fieldName' => 'resetPasswordLinkToken',
-                    'value' => $invalidToken,
-                ]
-            ];
-            $this->assertEquals($expectedParams, $e->getParams());
-        }
+        $customerService->resetPassword(self::ID, $password, $invalidToken);
     }
 
     public function testResetPasswordTokenWrongUser()
@@ -937,6 +904,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * @expectedException \Magento\Exception\StateException
+     * @expectedExceptionCode \Magento\Exception\StateException::INVALID_STATE
+     */
     public function testSendConfirmationNotNeeded()
     {
         $this->_customerFactoryMock->expects($this->any())
@@ -954,20 +925,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->_customerModelMock));
 
         $customerService = $this->_createService();
-        try {
-            $customerService->sendConfirmation('email@test.com');
-            $this->fail('Expected exception not thrown');
-        } catch ( InputException $e) {
-            $expectedParams = [
-                [
-                    'code' => InputException::INVALID_STATE_CHANGE,
-                    'fieldName' => 'email',
-                    'value' => 'email@test.com',
-                    'websiteId' => 2,
-                ]
-            ];
-            $this->assertEquals($expectedParams, $e->getParams());
-        }
+        $customerService->sendConfirmation('email@test.com');
     }
 
 

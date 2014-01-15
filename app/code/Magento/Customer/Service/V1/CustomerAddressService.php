@@ -123,14 +123,16 @@ class CustomerAddressService implements CustomerAddressServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function getAddressById($customerId, $addressId)
+    public function getAddressById($addressId)
     {
         //TODO: use cache MAGETWO-16862
-        $customer = $this->_converter->getCustomerModel($customerId);
-        $address = $customer->getAddressById($addressId);
+        $address = $this->_addressFactory->create();
+        $address->load($addressId);
         if (!$address->getId()) {
             throw NoSuchEntityException::create('addressId', $addressId);
         }
+        $customer = $this->_converter->getCustomerModel($address->getCustomerId());
+
         return $this->_createAddress(
             $address,
             $customer->getDefaultBilling(),
@@ -141,27 +143,13 @@ class CustomerAddressService implements CustomerAddressServiceInterface
     /**
      * {@inheritdoc}
      */
-    public function deleteAddressFromCustomer($customerId, $addressId)
+    public function deleteAddress($addressId)
     {
-        if (!$addressId) {
-            throw InputException::create(InputException::INVALID_FIELD_VALUE, 'addressId', $addressId);
-        }
-
         $address = $this->_addressFactory->create();
         $address->load($addressId);
 
         if (!$address->getId()) {
             throw NoSuchEntityException::create('addressId', $addressId);
-        }
-
-        // Validate address_id <=> customer_id
-        if ($address->getCustomerId() != $customerId) {
-            throw InputException::create(
-                InputException::ID_MISMATCH,
-                'customerId',
-                $customerId,
-                ['message' => 'The address does not belong to this customer']
-            );
         }
 
         $address->delete();
@@ -301,7 +289,7 @@ class CustomerAddressService implements CustomerAddressServiceInterface
      * @param InputException       $exception the exception to add errors to
      * @param string               $prefix    the optional prefix to for field names
      * @return InputException
-     * 
+     *
      * @SuppressWarnings(PHPMD.NPathComplexity)
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */

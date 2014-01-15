@@ -23,7 +23,6 @@ class CustomerService implements CustomerServiceInterface
     /** @var array Cache of DTOs */
     private $_cache = [];
 
-
     /**
      * @var Converter
      */
@@ -78,21 +77,8 @@ class CustomerService implements CustomerServiceInterface
 
         $this->_validate($customerModel);
 
-        try {
-            $customerModel->save();
-            unset($this->_cache[$customerModel->getId()]);
-        } catch (\Magento\Customer\Exception $e) {
-            switch ($e->getCode()) {
-                case CustomerModel::EXCEPTION_EMAIL_EXISTS:
-                    throw InputException::create(
-                        InputException::DUPLICATE_UNIQUE_VALUE_EXISTS,
-                        'email',
-                        $customer->getEmail()
-                    );
-                default:
-                    throw $e;
-            }
-        }
+        $customerModel->save();
+        unset($this->_cache[$customerModel->getId()]);
 
         return $customerModel->getId();
     }

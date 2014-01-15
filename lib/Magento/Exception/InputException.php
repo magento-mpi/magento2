@@ -20,11 +20,7 @@ class InputException extends \Magento\Exception\Exception
     // These are possible code to be stored in params
     const INVALID_FIELD_RANGE = 'INVALID_FIELD_RANGE';
     const INVALID_FIELD_VALUE = 'INVALID_FIELD_VALUE';
-    const INVALID_STATE_CHANGE = 'INVALID_STATE_CHANGE';
     const REQUIRED_FIELD = 'REQUIRED_FIELD';
-    const TOKEN_EXPIRED = 'TOKEN_EXPIRED';
-    const DUPLICATE_UNIQUE_VALUE_EXISTS = 'DUPLICATE_UNIQUE_VALUE_EXISTS';
-    const ID_MISMATCH = 'ID_MISMATCH';
 
     /**
      * @param string $message

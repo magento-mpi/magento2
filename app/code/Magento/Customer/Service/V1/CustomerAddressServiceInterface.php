@@ -43,22 +43,19 @@ interface CustomerAddressServiceInterface
     /**
      * Retrieve address by id
      *
-     * @param int $customerId
      * @param int $addressId
      * @return Dto\Address
-     * @throws \Magento\Exception\NoSuchEntityException if the customer or address Id is invalid
+     * @throws \Magento\Exception\NoSuchEntityException If no address can be found for the provided id.
      */
-    public function getAddressById($customerId, $addressId);
+    public function getAddressById($addressId);
 
     /**
      * Removes an address by id.
      *
-     * @param int $customerId
      * @param int $addressId
-     * @throws \Magento\Exception\NoSuchEntityException if the customer or address Id is invalid
-     * @throws \Magento\Exception\InputException if the address does not belong to the given customer
+     * @throws \Magento\Exception\NoSuchEntityException If no address can be found for the provided id.
      */
-    public function deleteAddressFromCustomer($customerId, $addressId);
+    public function deleteAddress($addressId);
 
     /**
      * Insert and/or update a list of addresses.

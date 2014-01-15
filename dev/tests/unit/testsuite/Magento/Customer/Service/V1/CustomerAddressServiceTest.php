@@ -272,9 +272,15 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $address->__toArray());
     }
 
-    public function testGetAddressesById()
+    public function testGetAddressById()
     {
         $addressMock = $this->_createAddress(1, 'John');
+        $addressMock->expects($this->any())
+            ->method('getCustomerId')
+            ->will($this->returnValue(self::ID));
+        $this->_addressFactoryMock->expects($this->once())
+            ->method('create')
+            ->will($this->returnValue($addressMock));
         $this->_customerModelMock->expects($this->any())
             ->method('load')
             ->will($this->returnValue($this->_customerModelMock));
@@ -282,20 +288,17 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getId')
             ->will($this->returnValue(1));
         $this->_customerModelMock->expects($this->any())
-            ->method('getAddressById')
-            ->will($this->returnValue($addressMock));
-        $this->_customerModelMock->expects($this->any())
             ->method('getDefaultShipping')
             ->will($this->returnValue(1));
         $this->_customerFactoryMock->expects($this->any())
             ->method('create')
             ->will($this->returnValue($this->_customerModelMock));
 
+
         $customerService = $this->_createService();
 
-        $customerId = 1;
         $addressId = 1;
-        $address = $customerService->getAddressById($customerId, $addressId);
+        $address = $customerService->getAddressById($addressId);
 
         $expected = [
             'id' => 1,
@@ -606,39 +609,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             ->method('delete');
 
         $customerService = $this->_createService();
-        $customerService->deleteAddressFromCustomer(1, 1);
-    }
-
-    public function testDeleteAddressFromCustomerMismatch()
-    {
-        // Setup address mock
-        $mockAddress = $this->_createAddress(1, 'John', 55);
-        $this->_addressFactoryMock->expects($this->once())
-            ->method('create')
-            ->will($this->returnValue($mockAddress));
-
-        // verify delete is called on the mock address model
-        $mockAddress->expects($this->never())
-            ->method('delete');
-
-        $customerService = $this->_createService();
-        try {
-            $customerService->deleteAddressFromCustomer(1, 1);
-            $this->fail("Expected InputException not caught");
-        } catch (InputException $exception) {
-            $this->assertSame($exception->getCode(), \Magento\Exception\InputException::INPUT_EXCEPTION);
-            $this->assertSame(
-                $exception->getParams(),
-                [
-                    [
-                        'message'   => 'The address does not belong to this customer',
-                        'fieldName' => 'customerId',
-                        'code'      => 'ID_MISMATCH',
-                        'value'     => 1
-                    ]
-                ]
-            );
-        }
+        $customerService->deleteAddress(1);
     }
 
     public function testDeleteAddressFromCustomerBadAddrId()
@@ -658,7 +629,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
 
         $customerService = $this->_createService();
         try {
-            $customerService->deleteAddressFromCustomer(1, 2);
+            $customerService->deleteAddress(2);
             $this->fail("Expected NoSuchEntityException not caught");
         } catch (NoSuchEntityException $exception) {
             $this->assertSame($exception->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
@@ -666,27 +637,6 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
                 $exception->getParams(),
                 [
                     'addressId' => 2
-                ]
-            );
-        }
-    }
-
-    public function testDeleteAddressFromCustomerInvalidAddrId()
-    {
-        $customerService = $this->_createService();
-        try {
-            $customerService->deleteAddressFromCustomer(1, 0);
-            $this->fail("Expected InputException not caught");
-        } catch (InputException $exception) {
-            $this->assertSame($exception->getCode(), \Magento\Exception\InputException::INPUT_EXCEPTION);
-            $this->assertSame(
-                $exception->getParams(),
-                [
-                    [
-                        'fieldName' => 'addressId',
-                        'code'      => \Magento\Exception\InputException::INVALID_FIELD_VALUE,
-                        'value'     => 0
-                    ]
                 ]
             );
         }

@@ -247,13 +247,13 @@ class Address extends \Magento\App\Action\Action
 
         if ($addressId) {
             try {
-                $this->_addressService->deleteAddressFromCustomer(
-                    $this->_getSession()->getCustomerId(),
-                    $addressId
-                );
-                $this->messageManager->addSuccess(__('The address has been deleted.'));
-            } catch (Exception $e) {
-                $this->messageManager->addError(__($e->getMessage()));
+                $address = $this->_addressService->getAddressById($addressId);
+                if ($address->getCustomerId() === $this->_getSession()->getCustomerId()) {
+                    $this->_addressService->deleteAddress($addressId);
+                    $this->messageManager->addSuccess(__('The address has been deleted.'));
+                } else {
+                    $this->messageManager->addError(__('An error occurred while deleting the address.'));
+                }
             } catch (\Exception $other) {
                 $this->messageManager->addException($other, __('An error occurred while deleting the address.'));
             }

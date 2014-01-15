@@ -17,6 +17,7 @@ use Magento\Event\ManagerInterface;
 use Magento\Exception\InputException;
 use Magento\Exception\AuthenticationException;
 use Magento\Exception\NoSuchEntityException;
+use Magento\Exception\StateException;
 use Magento\Math\Random;
 
 /**
@@ -117,12 +118,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         if ($customer->getConfirmation()) {
             $customer->sendNewAccountEmail('confirmation', '', $this->_storeManager->getStore()->getId());
         } else {
-            throw InputException::create(
-                InputException::INVALID_STATE_CHANGE,
-                'email',
-                $email,
-                ['websiteId' => $websiteId]
-            );
+            throw new StateException('No confirmation needed.', StateException::INVALID_STATE);
         }
     }
 
@@ -137,23 +133,14 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         // check if customer is inactive
         if ($customer->getConfirmation()) {
             if ($customer->getConfirmation() !== $key) {
-                throw InputException::create(
-                    InputException::INVALID_FIELD_VALUE,
-                    'confirmation',
-                    $key
-                );
+                throw new StateException('Invalid confirmation token', StateException::INPUT_MISMATCH);
             }
-
             // activate customer
             $customer->setConfirmation(null);
             $customer->save();
             $customer->sendNewAccountEmail('confirmed', '', $this->_storeManager->getStore()->getId());
         } else {
-            throw InputException::create(
-                InputException::INVALID_STATE_CHANGE,
-                'customerId',
-                $customerId
-            );
+            throw new StateException('Account already active', StateException::INVALID_STATE);
         }
 
         return $this->_converter->createCustomerFromModel($customer);
@@ -306,8 +293,10 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      *
      * @param $customerId
      * @param $resetPasswordLinkToken
-     * @throws \Magento\Exception\InputException
      * @return CustomerModel
+     * @throws \Magento\Exception\StateException if token is expired or mismatched
+     * @throws \Magento\Exception\InputException if token or customer id is invalid
+     * @throws \Magento\Exception\NoSuchEntityException if customer doesn't exist
      */
     private function _validateResetPasswordToken($customerId, $resetPasswordLinkToken)
     {
@@ -329,14 +318,10 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $customerModel = $this->_converter->getCustomerModel($customerId);
 
         $customerToken = $customerModel->getRpToken();
-        if (strcmp($customerToken, $resetPasswordLinkToken) !== 0
-            || $customerModel->isResetPasswordLinkTokenExpired($customerId)
-        ) {
-            throw InputException::create(
-                InputException::TOKEN_EXPIRED,
-                'resetPasswordLinkToken',
-                $resetPasswordLinkToken
-            );
+        if (strcmp($customerToken, $resetPasswordLinkToken) !== 0) {
+            throw new StateException('Reset password token mismatch.', StateException::INPUT_MISMATCH);
+        } else if ($customerModel->isResetPasswordLinkTokenExpired($customerId)) {
+            throw new StateException('Reset password token expired.', StateException::EXPIRED);
         }
 
         return $customerModel;

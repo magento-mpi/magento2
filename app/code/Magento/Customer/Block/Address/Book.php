@@ -152,8 +152,7 @@ class Book extends \Magento\View\Element\Template
      */
     public function getAddressById($addressId)
     {
-        $customerId = $this->_customerSession->getCustomerId();
-        return $this->_addressService->getAddressById($customerId, $addressId);
+        return $this->_addressService->getAddressById($addressId);
     }
 
     /**

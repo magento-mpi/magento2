@@ -4,6 +4,7 @@ namespace Magento\Customer\Service\V1;
 use Magento\Customer\Service\V1;
 use Magento\Exception\InputException;
 use Magento\Exception\NoSuchEntityException;
+use Magento\Exception\StateException;
 
 /**
  * Integration test for service layer \Magento\Customer\Service\V1\CustomerAccountService
@@ -143,6 +144,9 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoDataFixture Magento/Customer/_files/inactive_customer.php
+     *
+     * @expectedException \Magento\Exception\StateException
+     * @expectedExceptionCode \Magento\Exception\StateException::INPUT_MISMATCH
      */
     public function testActivateAccountWrongKey()
     {
@@ -190,6 +194,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/Customer/_files/inactive_customer.php
      * @magentoAppArea frontend
      *
+     * @expectedException \Magento\Exception\StateException
+     * @expectedExceptionCode \Magento\Exception\StateException::INVALID_STATE
      */
     public function testActivateAccountAlreadyActive()
     {
@@ -199,19 +205,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $key = $customerModel->getConfirmation();
         $this->_service->activateAccount($customerModel->getId(), $key);
 
-        try {
-            $this->_service->activateAccount($customerModel->getId(), $key);
-            $this->fail('Expected exception not thrown.');
-        } catch ( InputException $ie) {
-            $expectedParams = [
-                [
-                    'value' => $customerModel->getId(),
-                    'fieldName' => 'customerId',
-                    'code' => InputException::INVALID_STATE_CHANGE,
-                ]
-            ];
-            $this->assertEquals($expectedParams, $ie->getParams());
-        }
+        $this->_service->activateAccount($customerModel->getId(), $key);
     }
 
 
@@ -232,6 +226,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      *
+     * @expectedException \Magento\Exception\StateException
+     * @expectedExceptionCode \Magento\Exception\StateException::EXPIRED
      */
     public function testValidateResetPasswordLinkTokenExpired()
     {
@@ -243,20 +239,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         ]));
         $this->_customerService->saveCustomer($this->_customerBuilder->create());
 
-        try {
-            $this->_service->validateResetPasswordLinkToken(1, $resetToken);
-            $this->fail('Expected exception not thrown.');
-        } catch (InputException $ie) {
-            $expectedParams = [
-                [
-                    'value' => $resetToken,
-                    'fieldName' => 'resetPasswordLinkToken',
-                    'code' => InputException::TOKEN_EXPIRED,
-                ]
-            ];
-            $this->assertEquals($expectedParams, $ie->getParams());
-        }
-
+        $this->_service->validateResetPasswordLinkToken(1, $resetToken);
     }
 
     /**
@@ -380,6 +363,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      *
+     * @expectedException \Magento\Exception\StateException
+     * @expectedExceptionCode \Magento\Exception\StateException::EXPIRED
      */
     public function testResetPasswordTokenExpired()
     {
@@ -392,19 +377,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         ]));
         $this->_customerService->saveCustomer($this->_customerBuilder->create());
 
-        try {
-            $this->_service->resetPassword(1, $password, $resetToken);
-            $this->fail('Expected exception not thrown.');
-        } catch (InputException $ie) {
-            $expectedParams = [
-                [
-                    'value' => $resetToken,
-                    'fieldName' => 'resetPasswordLinkToken',
-                    'code' => InputException::TOKEN_EXPIRED,
-                ]
-            ];
-            $this->assertEquals($expectedParams, $ie->getParams());
-        }
+        $this->_service->resetPassword(1, $password, $resetToken);
     }
 
     /**
@@ -520,22 +493,12 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
+     *
+     * @expectedException \Magento\Exception\StateException
+     * @expectedExceptionCode \Magento\Exception\StateException::INVALID_STATE
      */
     public function testSendConfirmationNotNeeded()
     {
-        try {
-            $this->_service->sendConfirmation('customer@example.com');
-            $this->fail('Expected exception not thrown.');
-        } catch (InputException $ie) {
-            $expectedParams = [
-                [
-                    'value' => 'customer@example.com',
-                    'fieldName' => 'email',
-                    'code' => InputException::INVALID_STATE_CHANGE,
-                    'websiteId' => 1,
-                ]
-            ];
-            $this->assertEquals($expectedParams, $ie->getParams());
-        }
+        $this->_service->sendConfirmation('customer@example.com');
     }
 }

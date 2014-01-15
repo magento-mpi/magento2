@@ -21,7 +21,7 @@ interface CustomerServiceInterface
      *
      * @param Dto\Customer $customer
      * @param string $password
-     * @throws \Exception If something goes wrong during save
+     * @throws \Magento\Customer\Exception If something goes wrong during save
      * @throws InputException If bad input is provided
      * @return int customer ID
      */

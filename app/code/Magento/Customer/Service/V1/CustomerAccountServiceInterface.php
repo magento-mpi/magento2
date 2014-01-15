@@ -47,8 +47,10 @@ interface CustomerAccountServiceInterface
      *
      * @param int $customerId
      * @param string $key
-     * @throws \Magento\Exception\InputException If customerId is invalid, key is invalid, or
-     *      customer account was already active
+     * @throws \Magento\Exception\InputException If customerId is invalid, key is invalid
+     * @throws \Magento\Exception\StateException
+     *      StateException::INPUT_MISMATCH if key doesn't match expected.
+     *      StateException::INVALID_STATE_CHANGE if account already active.
      * @return Dto\Customer
      */
     public function activateAccount($customerId, $key);
@@ -68,7 +70,9 @@ interface CustomerAccountServiceInterface
      *
      * @param int $customerId
      * @param string $resetPasswordLinkToken
-     * @throws \Magento\Exception\InputException if token is expired or invalid
+     * @throws \Magento\Exception\StateException if token is expired or mismatched
+     * @throws \Magento\Exception\InputException if token or customer id is invalid
+     * @throws \Magento\Exception\NoSuchEntityException if customer doesn't exist
      */
     public function validateResetPasswordLinkToken($customerId, $resetPasswordLinkToken);
 
@@ -88,6 +92,9 @@ interface CustomerAccountServiceInterface
      * @param int $customerId
      * @param string $password
      * @param string $resetToken
+     * @throws \Magento\Exception\StateException if token is expired or mismatched
+     * @throws \Magento\Exception\InputException if token or customer id is invalid
+     * @throws \Magento\Exception\NoSuchEntityException if customer doesn't exist
      */
     public function resetPassword($customerId, $password, $resetToken);
 
@@ -95,7 +102,7 @@ interface CustomerAccountServiceInterface
      * Send Confirmation email
      *
      * @param string $email email address of customer
-     * @throws \Magento\Exception\NoSuchEntityException if error occurs getting customerId
+     * @throws \Magento\Exception\NoSuchEntityException if no customer found for provided email
      */
     public function sendConfirmation($email);
 

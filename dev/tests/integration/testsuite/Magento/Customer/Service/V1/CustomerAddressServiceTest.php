@@ -90,7 +90,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     public function testSaveAddressChanges()
     {
         $customerId = 1;
-        $address = $this->_service->getAddressById($customerId, 2);
+        $address = $this->_service->getAddressById(2);
         $proposedAddressBuilder = $this->_addressBuilder->populate($address);
         $proposedAddressBuilder->setTelephone('555' . $address->getTelephone());
         $proposedAddress = $proposedAddressBuilder->create();
@@ -172,9 +172,8 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetAddressById()
     {
-        $customerId = 1;
         $addressId = 2;
-        $addresses = $this->_service->getAddressById($customerId, $addressId);
+        $addresses = $this->_service->getAddressById($addressId);
         $this->assertEquals($this->_expectedAddresses[1], $addresses);
     }
 
@@ -187,7 +186,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     public function testGetAddressByIdBadAddrId()
     {
         // Should throw the address not found excetion
-        $this->_service->getAddressById(1, 12345);
+        $this->_service->getAddressById(12345);
     }
 
     /**
@@ -454,18 +453,17 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeleteAddressFromCustomer()
     {
-        $customerId = 1;
         $addressId = 1;
         // See that customer already has an address with expected addressId
-        $addressDto = $this->_service->getAddressById($customerId, $addressId);
+        $addressDto = $this->_service->getAddressById($addressId);
         $this->assertEquals($addressDto->getId(), $addressId);
 
         // Delete the address from the customer
-        $this->_service->deleteAddressFromCustomer($customerId, $addressId);
+        $this->_service->deleteAddress($addressId);
 
         // See that address is deleted
         try {
-            $addressDto = $this->_service->getAddressById($customerId, $addressId);
+            $addressDto = $this->_service->getAddressById($addressId);
             $this->fail('Did not catch expected exception');
         } catch (Exception $e) {
             $this->assertEquals($e->getCode(), Exception::CODE_ADDRESS_NOT_FOUND);
@@ -481,7 +479,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     public function testDeleteAddressFromCustomerBadAddrId()
     {
         // Should throw the address not found exception
-        $this->_service->deleteAddressFromCustomer(1, 12345);
+        $this->_service->deleteAddress(12345);
     }
 
     /**
@@ -493,7 +491,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     public function testDeleteAddressFromCustomerAddrIdNotSet()
     {
         // Should throw the address not found exception
-        $this->_service->deleteAddressFromCustomer(1, 0);
+        $this->_service->deleteAddress(0);
     }
 
     /**
@@ -505,7 +503,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     public function testDeleteAddressFromCustomerBadCustMismatch()
     {
         // Should throw the address not found excetion
-        $this->_service->deleteAddressFromCustomer(2, 1);
+        $this->_service->deleteAddress(1);
     }
 
     /**
