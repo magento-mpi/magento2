@@ -10,10 +10,17 @@
 
 namespace Magento\Index\Block\Adminhtml\Process\Edit\Tab;
 
+use Magento\Backend\Block\Widget\Form;
+
 class Main
     extends \Magento\Backend\Block\Widget\Form\Generic
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
+    /**
+     * Prepare form
+     *
+     * @return Form
+     */
     protected function _prepareForm()
     {
         $model = $this->_coreRegistry->registry('current_index_process');
