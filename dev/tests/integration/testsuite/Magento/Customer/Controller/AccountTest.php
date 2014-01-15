@@ -98,9 +98,9 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
             ->setParam('country_id', 'US')
             ->setParam('default_billing', '1')
             ->setParam('default_shipping', '1')
-            ->setParam('is_subscribed', '1');
+            ->setParam('is_subscribed', '1')
+            ->setPost('create_address', true);
 
-        $_POST['create_address'] = true;
         $this->dispatch('customer/account/createPost');
         $this->assertRedirect($this->stringContains('customer/account/index/'));
     }

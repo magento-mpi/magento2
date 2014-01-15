@@ -31,11 +31,10 @@ class Register extends \Magento\Customer\Block\Form\Register
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory
      * @param \Magento\Module\Manager $moduleManager
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Customer\Model\AddressFactory $addressFactory
      * @param \Magento\Customer\Helper\Data $customerHelper
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(

@@ -227,7 +227,7 @@ class Config
      * Translate service interface name into service name.
      * Example:
      * <pre>
-     * - \Magento\Customer\Service\V1\CustomerServiceInterface         => customer          // $preserveVersion == false
+     * - \Magento\Customer\Service\V1\CustomerServiceInterface => customer          // $preserveVersion == false
      * - \Magento\Customer\Service\Customer\AddressV1Interface => customerAddressV1 // $preserveVersion == true
      * - \Magento\Catalog\Service\ProductV2Interface           => catalogProductV2  // $preserveVersion == true
      * </pre>

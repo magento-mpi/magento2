@@ -51,7 +51,7 @@ class Group extends \Magento\Eav\Model\Entity\Attribute\Source\Table
     public function getAllOptions()
     {
         if (!$this->_options) {
-            $groups = $this->_groupService->getGroups(FALSE);
+            $groups = $this->_groupService->getGroups(false);
             $this->_options = $this->_converter->toOptionArray($groups, 'id', 'code');
         }
         return $this->_options;

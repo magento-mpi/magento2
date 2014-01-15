@@ -9,8 +9,8 @@
  */
 
 namespace Magento\Customer\Controller;
-use Magento\App\RequestInterface;
 
+use Magento\App\RequestInterface;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 use Magento\Customer\Service\V1\Dto\Customer;
@@ -854,9 +854,9 @@ class Account extends \Magento\App\Action\Action
                 __('New password field cannot be empty.')
             );
             $this->_redirect('*/*/createpassword', array(
-                'id' => $customerId,
-                'token' => $resetPasswordToken
-            ));
+                    'id' => $customerId,
+                    'token' => $resetPasswordToken
+                ));
             return;
         }
 
@@ -871,7 +871,7 @@ class Account extends \Magento\App\Action\Action
             switch ($exception->getCode()) {
                 case ServiceException::CODE_INVALID_RESET_TOKEN:
                 case ServiceException::CODE_RESET_TOKEN_EXPIRED:
-                $this->messageManager->addError(
+                    $this->messageManager->addError(
                         __('Your password reset link has expired.')
                     );
                     $this->_redirect('*/*/');
@@ -885,9 +885,9 @@ class Account extends \Magento\App\Action\Action
         }
         $this->messageManager->addError(__('There was an error saving the new password.'));
         $this->_redirect('*/*/createpassword', array(
-            'id' => $customerId,
-            'token' => $resetPasswordToken
-        ));
+                'id' => $customerId,
+                'token' => $resetPasswordToken
+            ));
         return;
     }
 

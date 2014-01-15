@@ -9,8 +9,6 @@
  */
 namespace Magento\Customer\Service\V1\Dto;
 
-use Magento\Customer\Service\V1\Dto\Region;
-
 class Address extends \Magento\Service\Entity\AbstractDto implements Eav\EntityInterface
 {
     /**

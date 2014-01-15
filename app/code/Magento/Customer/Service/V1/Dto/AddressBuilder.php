@@ -9,8 +9,6 @@
  */
 namespace Magento\Customer\Service\V1\Dto;
 
-use Magento\Customer\Service\V1\Dto\Region;
-
 class AddressBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
 {
     protected $_regionBuilder;
