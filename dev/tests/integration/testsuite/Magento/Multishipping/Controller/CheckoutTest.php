@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Checkout\Controller;
+namespace Magento\Multishipping\Controller;
 
 /**
  * Test class for \Magento\Multishipping\Controller\Checkout
