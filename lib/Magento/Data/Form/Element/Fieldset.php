@@ -17,6 +17,8 @@
  */
 namespace Magento\Data\Form\Element;
 
+use \Magento\Data\Form\Element\AbstractElement;
+
 class Fieldset extends \Magento\Data\Form\Element\AbstractElement
 {
     /**
@@ -60,7 +62,7 @@ class Fieldset extends \Magento\Data\Form\Element\AbstractElement
     /**
      * Get Children element's array
      *
-     * @return array
+     * @return AbstractElement[]
      */
     public function getChildren()
     {
@@ -86,7 +88,7 @@ class Fieldset extends \Magento\Data\Form\Element\AbstractElement
     /**
      * Get Basic elements' array
      *
-     * @return array
+     * @return AbstractElement[]
      */
     public function getBasicChildren()
     {
@@ -110,7 +112,7 @@ class Fieldset extends \Magento\Data\Form\Element\AbstractElement
     }
 
     /**
-     * Get Number of Bacic Children
+     * Get Number of Basic Children
      *
      * @return int
      */
@@ -163,7 +165,7 @@ class Fieldset extends \Magento\Data\Form\Element\AbstractElement
     /**
      * Get SubFieldset
      *
-     * @return array
+     * @return AbstractElement[]
      */
     public function getSubFieldset()
     {
@@ -206,7 +208,7 @@ class Fieldset extends \Magento\Data\Form\Element\AbstractElement
      * @param string $type
      * @param array $config
      * @param boolean $after
-     * @return \Magento\Data\Form\Element\AbstractElement
+     * @return AbstractElement
      */
     public function addField($elementId, $type, $config, $after = false, $isAdvanced = false)
     {
@@ -221,7 +223,7 @@ class Fieldset extends \Magento\Data\Form\Element\AbstractElement
     /**
      * Return elements as html string
      *
-     * @param array $elements
+     * @param AbstractElement[] $elements
      * @return string
      */
     protected function _elementsToHtml($elements)

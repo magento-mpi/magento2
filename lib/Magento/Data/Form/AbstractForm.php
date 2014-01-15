@@ -143,7 +143,7 @@ class AbstractForm extends \Magento\Object
      * @param   string $elementId
      * @param   string $type
      * @param   array  $config
-     * @param   mixed  $after
+     * @param   bool|string|null  $after
      * @return \Magento\Data\Form\Element\AbstractElement
      */
     public function addField($elementId, $type, $config, $after = false)

@@ -89,7 +89,7 @@ class Db extends \Magento\Data\Collection
      * @param \Magento\Data\Collection\EntityFactoryInterface $entityFactory
      * @param \Magento\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param mixed $connection
+     * @param \Zend_Db_Adapter_Abstract $connection
      */
     public function __construct(
         \Magento\Data\Collection\EntityFactoryInterface $entityFactory,
@@ -344,6 +344,7 @@ class Db extends \Magento\Data\Collection
 
     /**
      * Hook for operations before rendering filters
+     * @return void
      */
     protected function _renderFiltersBefore()
     {
@@ -401,12 +402,12 @@ class Db extends \Magento\Data\Collection
         $mapper = $this->_getMapper();
 
         if (isset($mapper['fields'][$field])) {
-            $mappedFiled = $mapper['fields'][$field];
+            $mappedField = $mapper['fields'][$field];
         } else {
-            $mappedFiled = $field;
+            $mappedField = $field;
         }
 
-        return $mappedFiled;
+        return $mappedField;
     }
 
     /**
@@ -459,6 +460,12 @@ class Db extends \Magento\Data\Collection
         return $this->getConnection()->prepareSqlCondition($fieldName, $condition);
     }
 
+    /**
+     * Return the field name for the condition.
+     *
+     * @param string $fieldName
+     * @return string
+     */
     protected function _getConditionFieldName($fieldName)
     {
         return $fieldName;
@@ -683,11 +690,23 @@ class Db extends \Magento\Data\Collection
         return $this;
     }
 
+    /**
+     * Process loaded collection
+     *
+     * @return self
+     */
     protected function _afterLoad()
     {
         return $this;
     }
 
+    /**
+     * Load the data.
+     *
+     * @param bool $printQuery
+     * @param bool $logQuery
+     * @return \Magento\Data\Collection|Db
+     */
     public function loadData($printQuery = false, $logQuery = false)
     {
         return $this->load($printQuery, $logQuery);
@@ -699,7 +718,6 @@ class Db extends \Magento\Data\Collection
      * @param   bool $printQuery
      * @param   bool $logQuery
      * @param   string $sql
-     *
      * @return  \Magento\Data\Collection\Db
      */
     public function printLogQuery($printQuery = false, $logQuery = false, $sql = null)
@@ -718,6 +736,7 @@ class Db extends \Magento\Data\Collection
      * Log query
      *
      * @param string $sql
+     * @return void
      */
     protected function _logQuery($sql)
     {
@@ -783,6 +802,8 @@ class Db extends \Magento\Data\Collection
 
     /**
      * Init select
+     *
+     * @return void
      */
     protected function _initSelect()
     {
