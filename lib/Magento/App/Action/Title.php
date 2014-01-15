@@ -20,7 +20,7 @@ class Title
     /**
      * @param string $text
      * @param bool $prepend
-     * @return Title
+     * @return $this
      */
     public function add($text, $prepend = false)
     {

@@ -151,7 +151,6 @@ class Action extends \Magento\App\Action\AbstractAction
 
         $request->setActionName($action);
         $request->setDispatched(false);
-        return void;
     }
 
     /**
@@ -159,7 +158,7 @@ class Action extends \Magento\App\Action\AbstractAction
      *
      * @param   string $path
      * @param   array $arguments
-     * @return  \Magento\App\ResponseInterface
+     * @return  ResponseInterface
      */
     protected function _redirect($path, $arguments = array())
     {

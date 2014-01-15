@@ -158,7 +158,7 @@ class Resource
      *
      * @param string $tableName
      * @param string $mappedName
-     * @return \Magento\App\Resource
+     * @return $this
      */
     public function setMappedTableName($tableName, $mappedName)
     {

@@ -94,7 +94,7 @@ class View implements ViewInterface
      * @param   string|null|bool $handles
      * @param   bool $generateBlocks
      * @param   bool $generateXml
-     * @return  self
+     * @return  $this
      * @throws  \RuntimeException
      */
     public function loadLayout($handles = null, $generateBlocks = true, $generateXml = true)
@@ -139,7 +139,7 @@ class View implements ViewInterface
     /**
      * Add layout handle by full controller action name
      *
-     * @return \Magento\App\ActionInterface
+     * @return $this
      */
     public function addActionLayoutHandles()
     {
@@ -169,7 +169,7 @@ class View implements ViewInterface
     /**
      * Load layout updates
      *
-     * @return \Magento\App\View
+     * @return $this
      */
     public function loadLayoutUpdates()
     {
@@ -193,7 +193,7 @@ class View implements ViewInterface
     /**
      * Generate layout xml
      *
-     * @return \Magento\App\View
+     * @return $this
      */
     public function generateLayoutXml()
     {
@@ -210,7 +210,7 @@ class View implements ViewInterface
     /**
      * Generate layout blocks
      *
-     * @return \Magento\App\View
+     * @return $this
      */
     public function generateLayoutBlocks()
     {
@@ -244,7 +244,7 @@ class View implements ViewInterface
      * Rendering layout
      *
      * @param   string $output
-     * @return  \Magento\App\View
+     * @return  $this
      */
     public function renderLayout($output = '')
     {

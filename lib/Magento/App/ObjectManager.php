@@ -31,7 +31,7 @@ class ObjectManager extends \Magento\ObjectManager\ObjectManager
      * TODO: Temporary solution for serialization, should be removed when Serialization problem is resolved
      *
      * @deprecated
-     * @return \Magento\ObjectManager
+     * @return \Magento\App\ObjectManager
      * @throws \RuntimeException
      */
     public static function getInstance()
