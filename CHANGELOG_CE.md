@@ -7,6 +7,7 @@
   * Fixed ability to export product
   * Fixed 3D secure validation
   * Fixed session to be transfered between Magento urls
+  * Fixed Advanced search filter to properly compare numbers
 
 2.0.0.0-dev60
 =============
