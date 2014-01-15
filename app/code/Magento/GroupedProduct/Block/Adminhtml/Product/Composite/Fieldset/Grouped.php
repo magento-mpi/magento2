@@ -19,10 +19,11 @@ namespace Magento\GroupedProduct\Block\Adminhtml\Product\Composite\Fieldset;
 class Grouped
     extends \Magento\GroupedProduct\Block\Product\View\Type\Grouped
 {
+
     /**
-     * @var \Magento\Tax\Model\Calculation
+     * @var \Magento\Catalog\Helper\Product\Price
      */
-    protected $_taxCalculation;
+    protected $priceHelper;
 
     protected $_priceBlockDefaultTemplate = 'catalog/product/price.phtml';
 
@@ -44,7 +45,7 @@ class Grouped
      * @param \Magento\Theme\Helper\Layout $layoutHelper
      * @param \Magento\Catalog\Helper\Image $imageHelper
      * @param \Magento\Stdlib\ArrayUtils $arrayUtils
-     * @param \Magento\Tax\Model\Calculation $taxCalculation
+     * @param \Magento\Catalog\Helper\Product\Price $priceHelper
      * @param \Magento\Core\Helper\Data $coreHelper
      * @param array $data
      * @param array $priceBlockTypes
@@ -64,13 +65,12 @@ class Grouped
         \Magento\Theme\Helper\Layout $layoutHelper,
         \Magento\Catalog\Helper\Image $imageHelper,
         \Magento\Stdlib\ArrayUtils $arrayUtils,
-        \Magento\Tax\Model\Calculation $taxCalculation,
+        \Magento\Catalog\Helper\Product\Price $priceHelper,
         \Magento\Core\Helper\Data $coreHelper,
         array $data = array(),
         array $priceBlockTypes = array()
     ) {
         $this->_coreHelper = $coreHelper;
-        $this->_taxCalculation = $taxCalculation;
         parent::__construct(
             $context,
             $catalogConfig,
@@ -99,10 +99,7 @@ class Grouped
 
         $this->_block = 'Magento\Catalog\Block\Adminhtml\Product\Price';
         $this->_useLinkForAsLowAs = false;
-
-        if (!$this->_taxCalculation->getCustomer() && $this->_coreRegistry->registry('current_customer')) {
-            $this->_taxCalculation->setCustomer($this->_coreRegistry->registry('current_customer'));
-        }
+        $this->priceHelper->setCustomer($this->_coreRegistry->registry('current_customer'));
     }
 
     /**
