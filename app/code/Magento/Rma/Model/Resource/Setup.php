@@ -30,7 +30,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
      * @param string $resourceName
      * @param \Magento\App\CacheInterface $cache
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory
-     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Catalog\Model\Resource\SetupFactory $catalogSetupFactory
      * @param \Magento\Enterprise\Model\Resource\Setup\MigrationFactory $entMigrationFactory
      * @param string $moduleName
@@ -41,7 +41,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
         $resourceName,
         \Magento\App\CacheInterface $cache,
         \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory,
-        \Magento\Core\Model\Config $config,
+        \Magento\App\ConfigInterface $config,
         \Magento\Catalog\Model\Resource\SetupFactory $catalogSetupFactory,
         \Magento\Enterprise\Model\Resource\Setup\MigrationFactory $entMigrationFactory,
         $moduleName = 'Magento_Rma',

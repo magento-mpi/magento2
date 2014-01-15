@@ -413,7 +413,7 @@ class Tools extends \Magento\Backend\App\Action
     /**
      * Re-init system configuration
      *
-     * @return \Magento\Core\Model\Config
+     * @return \Magento\App\ReinitableConfigInterface
      */
     protected function _reinitSystemConfiguration()
     {

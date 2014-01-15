@@ -13,9 +13,7 @@ namespace Magento\Core\Model;
 class ReinitableConfig extends \Magento\Core\Model\Config implements \Magento\App\ReinitableConfigInterface
 {
     /**
-     * Reinitialize configuration
-     *
-     * @return ReinitableConfigInterface
+     * (@inheritdoc)
      */
     public function reinit()
     {

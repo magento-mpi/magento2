@@ -23,7 +23,7 @@ class DefaultRouter extends \Magento\Core\App\Router\Base
     protected $_url;
 
     /**
-     * @var \Magento\Core\Model\Config
+     * @var \Magento\App\ConfigInterface
      */
     protected $_coreConfig;
 
@@ -38,7 +38,7 @@ class DefaultRouter extends \Magento\Core\App\Router\Base
      * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\Url\SecurityInfoInterface $urlSecurityInfo
      * @param string $routerId
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\App\ConfigInterface $coreConfig
      * @param \Magento\Backend\App\ConfigInterface $backendConfig
      * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -54,7 +54,7 @@ class DefaultRouter extends \Magento\Core\App\Router\Base
         \Magento\Core\Model\Store\Config $storeConfig,
         \Magento\Url\SecurityInfoInterface $urlSecurityInfo,
         $routerId,
-        \Magento\Core\Model\Config $coreConfig,
+        \Magento\App\ConfigInterface $coreConfig,
         \Magento\Backend\App\ConfigInterface $backendConfig
     ) {
         parent::__construct(

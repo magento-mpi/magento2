@@ -51,8 +51,6 @@ class Config implements ConfigInterface
 
     /**
      * Reinitialize configuration
-     *
-     * @return \Magento\Core\Model\Config
      */
     public function reinit()
     {

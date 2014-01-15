@@ -18,6 +18,7 @@
     <preference for="Magento\Core\Model\LocaleInterface" type="Magento\Core\Model\Locale" />
     <preference for="Magento\View\Asset\MergeStrategyInterface" type="Magento\View\Asset\MergeStrategy\Direct" />
     <preference for="Magento\Core\Model\ConfigInterface" type="Magento\Core\Model\Config" />
+    <preference for="Magento\App\ConfigInterface" type="Magento\Core\Model\Config" />
     <preference for="Magento\App\ReinitableConfigInterface" type="Magento\Core\Model\ReinitableConfig" />
     <preference for="Magento\Core\Model\Config\DataInterface" type="Magento\Core\Model\Config\Data" />
     <preference for="Magento\Core\Model\Config\Storage\WriterInterface" type="Magento\Core\Model\Config\Storage\Writer\Db" />

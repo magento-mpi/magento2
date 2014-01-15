@@ -82,7 +82,7 @@ class App implements \Magento\AppInterface
     /**
      * Application configuration object
      *
-     * @var \Magento\Core\Model\Config
+     * @var \Magento\App\ConfigInterface
      */
     protected $_config;
 
@@ -175,7 +175,7 @@ class App implements \Magento\AppInterface
      * @param \Magento\App\FrontControllerInterface $frontController
      */
     public function __construct(
-        \Magento\Core\Model\Config $config,
+        \Magento\App\ConfigInterface $config,
         \Magento\App\CacheInterface $cache,
         \Magento\ObjectManager $objectManager,
         \Magento\Event\ManagerInterface $eventManager,
@@ -302,7 +302,7 @@ class App implements \Magento\AppInterface
     /**
      * Retrieve configuration object
      *
-     * @return \Magento\Core\Model\Config
+     * @return \Magento\App\ConfigInterface
      */
     public function getConfig()
     {

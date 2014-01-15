@@ -129,7 +129,7 @@ class Template extends \Magento\Core\Model\Template
      * @param \Magento\View\Url $viewUrl
      * @param \Magento\View\FileSystem $viewFileSystem
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
-     * @param \Magento\Core\Model\ConfigInterface $coreConfig
+     * @param \Magento\App\ConfigInterface $coreConfig
      * @param \Magento\Email\Model\Template\FilterFactory $emailFilterFactory
      * @param \Magento\Email\Model\Template\Config $emailConfig
      * @param array $data
@@ -146,7 +146,7 @@ class Template extends \Magento\Core\Model\Template
         \Magento\View\Url $viewUrl,
         \Magento\View\FileSystem $viewFileSystem,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
-        \Magento\Core\Model\ConfigInterface $coreConfig,
+        \Magento\App\ConfigInterface $coreConfig,
         \Magento\Email\Model\Template\FilterFactory $emailFilterFactory,
         \Magento\Email\Model\Template\Config $emailConfig,
         array $data = array()

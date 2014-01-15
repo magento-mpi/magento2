@@ -10,27 +10,12 @@
 
 namespace Magento\Core\Model;
 
-class Config implements \Magento\Core\Model\ConfigInterface
+class Config implements \Magento\App\ConfigInterface
 {
     /**
      * Config cache tag
      */
     const CACHE_TAG = 'CONFIG';
-
-    /**
-     * Default configuration scope
-     */
-    const SCOPE_DEFAULT = 'default';
-
-    /**
-     * Stores configuration scope
-     */
-    const SCOPE_STORES = 'stores';
-
-    /**
-     * Websites configuration scope
-     */
-    const SCOPE_WEBSITES = 'websites';
 
     /**
      * @var \Magento\Core\Model\Config\SectionPool

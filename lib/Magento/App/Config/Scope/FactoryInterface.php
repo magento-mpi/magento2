@@ -9,7 +9,7 @@
  */
 namespace Magento\App\Config\Scope;
 
-class FactoryInterface
+interface FactoryInterface
 {
     /**
      * Create Scope class instance

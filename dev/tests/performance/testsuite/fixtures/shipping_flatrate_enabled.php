@@ -13,7 +13,7 @@
  */
 $configData = $this->getObjectManager()->create('Magento\Core\Model\Config\Value');
 $configData->setPath('carriers/flatrate/active')
-    ->setScope(\Magento\Core\Model\Config::SCOPE_DEFAULT)
+    ->setScope(\Magento\Core\Model\ScopeInterface::SCOPE_DEFAULT)
     ->setScopeId(0)
     ->setValue(1)
     ->save();

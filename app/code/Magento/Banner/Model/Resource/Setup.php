@@ -37,7 +37,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
      * @param string $resourceName
      * @param \Magento\App\CacheInterface $cache
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory
-     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory
      * @param \Magento\Banner\Model\BannerFactory $bannerFactory
      * @param \Magento\Math\Random $mathRandom
@@ -49,7 +49,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
         $resourceName,
         \Magento\App\CacheInterface $cache,
         \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory,
-        \Magento\Core\Model\Config $config,
+        \Magento\App\ConfigInterface $config,
         \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory,
         \Magento\Banner\Model\BannerFactory $bannerFactory,
         \Magento\Math\Random $mathRandom,

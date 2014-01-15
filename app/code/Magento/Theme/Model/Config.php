@@ -79,7 +79,7 @@ class Config
      * @param string $scope
      * @return $this
      */
-    public function assignToStore($theme, array $stores = array(), $scope = \Magento\Core\Model\Config::SCOPE_STORES)
+    public function assignToStore($theme, array $stores = array(), $scope = \Magento\Core\Model\ScopeInterface::SCOPE_STORES)
     {
         $isReassigned = false;
 
@@ -175,7 +175,7 @@ class Config
     protected function _assignThemeToDefaultScope($themeId, &$isReassigned)
     {
         $configPath = \Magento\View\DesignInterface::XML_PATH_THEME_ID;
-        $this->_configWriter->save($configPath, $themeId, \Magento\Core\Model\Config::SCOPE_DEFAULT);
+        $this->_configWriter->save($configPath, $themeId, \Magento\Core\Model\ScopeInterface::SCOPE_DEFAULT);
         $isReassigned = true;
         return $this;
     }

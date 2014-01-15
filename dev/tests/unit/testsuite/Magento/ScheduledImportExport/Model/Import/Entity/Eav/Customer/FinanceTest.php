@@ -348,7 +348,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Callback method for mock object \Magento\Core\Model\Config object
+     * Callback method for mock object
      *
      * @param string $modelClass
      * @param array|object $constructArguments

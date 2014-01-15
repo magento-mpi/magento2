@@ -355,7 +355,7 @@ class Store extends \Magento\Core\Model\AbstractModel implements \Magento\Url\Sc
         $this->_coreStoreConfig = \Magento\App\ObjectManager::getInstance()
             ->get('Magento\Core\Model\Store\Config');
         $this->_config = \Magento\App\ObjectManager::getInstance()
-            ->get('Magento\Core\Model\Config');
+            ->get('Magento\App\ReinitableConfigInterface');
         $this->_cookie = \Magento\App\ObjectManager::getInstance()
             ->get('Magento\Stdlib\Cookie');
     }

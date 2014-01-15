@@ -15,7 +15,7 @@ interface ReinitableConfigInterface extends \Magento\App\ConfigInterface
     /**
      * Reinitialize config object
      *
-     * @return ReinitableConfigInterface
+     * @return \Magento\App\ReinitableConfigInterface
      */
     public function reinit();
 }

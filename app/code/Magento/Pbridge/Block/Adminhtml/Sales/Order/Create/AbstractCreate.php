@@ -64,7 +64,7 @@ class AbstractCreate
     protected $_adminhtmlSessionQuote;
 
     /**
-     * @var \Magento\Core\Model\Config
+     * @var \Magento\App\ConfigInterface
      */
     protected $_config;
 
@@ -77,7 +77,7 @@ class AbstractCreate
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Backend\Model\Session\Quote $adminhtmlSessionQuote
      * @param \Magento\Backend\Model\UrlInterface $backendUrl
-     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\App\ConfigInterface $config
      * @param array $data
      */
     public function __construct(
@@ -89,7 +89,7 @@ class AbstractCreate
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Backend\Model\Session\Quote $adminhtmlSessionQuote,
         \Magento\Backend\Model\UrlInterface $backendUrl,
-        \Magento\Core\Model\Config $config,
+        \Magento\App\ConfigInterface $config,
         array $data = array()
     ) {
         $this->_adminhtmlSessionQuote = $adminhtmlSessionQuote;

@@ -52,13 +52,6 @@ class Base extends \Magento\App\Router\AbstractRouter
     protected $_storeConfig;
 
     /**
-     * Core config
-     *
-     * @var \Magento\Core\Model\Config
-     */
-    protected $_config = null;
-
-    /**
      * @var \Magento\UrlInterface
      */
     protected $_url;

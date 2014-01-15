@@ -132,7 +132,7 @@ class StateTest extends \PHPUnit_Framework_TestCase
             )
             ->will($this->returnSelf());
 
-        $configMock = $this->getMock('Magento\Core\Model\Config', array('setNode'), array(), '', false);
+        $configMock = $this->getMock('Magento\App\ConfigInterface', array(), array(), '', false);
         $configMock->expects($this->any())
             ->method('setNode')
             ->with(

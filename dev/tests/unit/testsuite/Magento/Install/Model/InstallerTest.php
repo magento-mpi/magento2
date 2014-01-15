@@ -30,7 +30,7 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
     /**
      * Application config model
      *
-     * @var \Magento\Core\Model\ConfigInterface
+     * @var \Magento\App\ConfigInterface
      */
     protected $_config;
 

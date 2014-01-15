@@ -45,14 +45,14 @@ class Config extends \Magento\Object
     /**
      * Application config
      *
-     * @var \Magento\Core\Model\Config
+     * @var \Magento\App\ConfigInterface
      */
     protected $_appConfig;
 
     /**
      * Global factory
      *
-     * @var \Magento\Core\Model\Config
+     * @var \Magento\App\ConfigInterface
      */
     protected $_objectFactory;
 
@@ -83,7 +83,7 @@ class Config extends \Magento\Object
     protected $_storeManager;
 
     /**
-     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Backend\Model\Config\Structure $configStructure
      * @param \Magento\Core\Model\Resource\TransactionFactory $transactionFactory
@@ -93,7 +93,7 @@ class Config extends \Magento\Object
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Config $config,
+        \Magento\App\ConfigInterface $config,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Backend\Model\Config\Structure $configStructure,
         \Magento\Core\Model\Resource\TransactionFactory $transactionFactory,
