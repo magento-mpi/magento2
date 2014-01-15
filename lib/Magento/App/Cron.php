@@ -9,8 +9,7 @@
  */
 namespace Magento\App;
 
-use \Magento\Config\ScopeInterface,
-    \Magento\App\ObjectManager\ConfigLoader,
+use \Magento\App\ObjectManager\ConfigLoader,
     \Magento\Event\ManagerInterface;
 
 class Cron implements \Magento\AppInterface

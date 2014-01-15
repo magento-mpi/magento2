@@ -30,30 +30,38 @@ class Xml implements \Magento\Config\ConverterInterface
             return $output;
         }
 
-        /** @var \DOMNodeList $jobs */
-        $jobs = $source->getElementsByTagName('job');
-        /** @var \DOMElement $jobConfig */
-        foreach ($jobs as $jobConfig) {
-            $jobName = $jobConfig->getAttribute('name');
-
-            if (!$jobName) {
-                throw new \InvalidArgumentException('Attribute "name" does not exist');
+        $groups = $source->getElementsByTagName('group');
+        foreach ($groups as $group) {
+            /** @var $group \DOMElement */
+            if (!$group->hasAttribute('id')) {
+                throw new \InvalidArgumentException('Attribute "id" does not exist');
             }
-            $config = array();
-            $config['name'] = $jobName;
-            $config += $this->_convertCronConfig($jobConfig);
-
-            /** @var \DOMText $schedules */
-            foreach ($jobConfig->childNodes as $schedules) {
-                if ($schedules->nodeName == 'schedule') {
-                    if (!empty($schedules->nodeValue)) {
-                        $config['schedule'] = $schedules->nodeValue;
-                        break;
-                    }
+            /** @var \DOMElement $jobConfig */
+            foreach ($group->childNodes as $jobConfig) {
+                if ($jobConfig->nodeName != 'job') {
+                    continue;
                 }
-                continue;
+                $jobName = $jobConfig->getAttribute('name');
+
+                if (!$jobName) {
+                    throw new \InvalidArgumentException('Attribute "name" does not exist');
+                }
+                $config = array();
+                $config['name'] = $jobName;
+                $config += $this->_convertCronConfig($jobConfig);
+
+                /** @var \DOMText $schedules */
+                foreach ($jobConfig->childNodes as $schedules) {
+                    if ($schedules->nodeName == 'schedule') {
+                        if (!empty($schedules->nodeValue)) {
+                            $config['schedule'] = $schedules->nodeValue;
+                            break;
+                        }
+                    }
+                    continue;
+                }
+                $output[$group->getAttribute('id')][$jobName] = $config;
             }
-            $output[$jobName] = $config;
         }
         return $output;
     }
