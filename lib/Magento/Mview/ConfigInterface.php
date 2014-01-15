@@ -16,4 +16,13 @@ interface ConfigInterface
      * @return array
      */
     public function getAll();
+
+    /**
+     * Get config value by key
+     *
+     * @param string $key
+     * @param mixed $default
+     * @return mixed
+     */
+    public function get($key, $default = null);
 }

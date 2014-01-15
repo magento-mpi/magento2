@@ -16,7 +16,7 @@
     </view>
     <view id="view1" class="Ogogo\Class">
         <subscriptions>
-            <table name="some_other_entity" entity_column="entity_id" />
+            <table name="some_entity" entity_column="entity_id" />
             <table name="some_product_relation_other" entity_column="product_id" />
         </subscriptions>
     </view>
