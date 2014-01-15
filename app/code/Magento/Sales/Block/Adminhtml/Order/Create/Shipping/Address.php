@@ -110,7 +110,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
     /**
      * Return address object
      *
-     * @return \Magento\Customer\Model\Address
+     * @return \Magento\Sales\Model\Quote\Address
      */
     public function getAddress()
     {
