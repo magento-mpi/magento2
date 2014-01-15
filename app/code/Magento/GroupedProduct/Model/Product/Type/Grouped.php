@@ -319,63 +319,6 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
     }
 
     /**
-     * @param array $associatedProductsInfo
-     * @param \Magento\Object $buyRequest
-     * @param string $processMode
-     * @param bool $isStrictProcessMode
-     * @param \Magento\Catalog\Model\Product $product
-     * @param array $products
-     * @return string
-     */
-    protected function processAssociatedProducts(
-        &$associatedProductsInfo,
-        $buyRequest,
-        $processMode,
-        $isStrictProcessMode,
-        $product,
-        &$products
-    ) {
-        $associatedProducts = $this->getAssociatedProducts($product);
-        if ($associatedProducts || !$isStrictProcessMode) {
-            foreach ($associatedProducts as $subProduct) {
-                $subProductId = $subProduct->getId();
-                if (isset($productsInfo[$subProductId])) {
-                    $qty = $productsInfo[$subProductId];
-                    if (!empty($qty) && is_numeric($qty)) {
-
-                        $_result = $subProduct->getTypeInstance()
-                            ->_prepareProduct($buyRequest, $subProduct, $processMode);
-                        if (is_string($_result) && !is_array($_result)) {
-                            return $_result;
-                        }
-
-                        if (!isset($_result[0])) {
-                            return __('We cannot process the item.');
-                        }
-
-                        if ($isStrictProcessMode) {
-                            $_result[0]->setCartQty($qty);
-                            $_result[0]->addCustomOption('product_type', self::TYPE_CODE, $product);
-                            $_result[0]->addCustomOption('info_buyRequest',
-                                serialize(array(
-                                    'super_product_config' => array(
-                                        'product_type'  => self::TYPE_CODE,
-                                        'product_id'    => $product->getId()
-                                    )
-                                ))
-                            );
-                            $products[] = $_result[0];
-                        } else {
-                            $associatedProductsInfo[] = array($subProductId => $qty);
-                            $product->addCustomOption('associated_product_' . $subProductId, $qty);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    /**
      * Prepare product and its configuration to be added to some products list.
      * Perform standard preparation process and add logic specific to Grouped product type.
      *
@@ -383,6 +326,7 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Catalog\Model\Product $product
      * @param string $processMode
      * @return array|string
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     protected function _prepareProduct(\Magento\Object $buyRequest, $product, $processMode)
     {
@@ -392,16 +336,43 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
         if (!$isStrictProcessMode || (!empty($productsInfo) && is_array($productsInfo))) {
             $products = array();
             $associatedProductsInfo = array();
-            $errorMessage = $this->processAssociatedProducts(
-                $associatedProductsInfo,
-                $buyRequest,
-                $processMode,
-                $isStrictProcessMode,
-                $product,
-                $products
-            );
-            if (is_string($errorMessage)) {
-                return $errorMessage;
+            $associatedProducts = $this->getAssociatedProducts($product);
+            if ($associatedProducts || !$isStrictProcessMode) {
+                foreach ($associatedProducts as $subProduct) {
+                    $subProductId = $subProduct->getId();
+                    if (isset($productsInfo[$subProductId])) {
+                        $qty = $productsInfo[$subProductId];
+                        if (!empty($qty) && is_numeric($qty)) {
+
+                            $_result = $subProduct->getTypeInstance()
+                                ->_prepareProduct($buyRequest, $subProduct, $processMode);
+                            if (is_string($_result) && !is_array($_result)) {
+                                return $_result;
+                            }
+
+                            if (!isset($_result[0])) {
+                                return __('We cannot process the item.');
+                            }
+
+                            if ($isStrictProcessMode) {
+                                $_result[0]->setCartQty($qty);
+                                $_result[0]->addCustomOption('product_type', self::TYPE_CODE, $product);
+                                $_result[0]->addCustomOption('info_buyRequest',
+                                    serialize(array(
+                                        'super_product_config' => array(
+                                            'product_type'  => self::TYPE_CODE,
+                                            'product_id'    => $product->getId()
+                                        )
+                                    ))
+                                );
+                                $products[] = $_result[0];
+                            } else {
+                                $associatedProductsInfo[] = array($subProductId => $qty);
+                                $product->addCustomOption('associated_product_' . $subProductId, $qty);
+                            }
+                        }
+                    }
+                }
             }
 
             if (!$isStrictProcessMode || count($associatedProductsInfo)) {
