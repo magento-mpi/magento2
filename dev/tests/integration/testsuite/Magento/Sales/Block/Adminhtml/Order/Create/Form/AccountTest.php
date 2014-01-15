@@ -54,7 +54,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetForm()
     {
-        $expectedFields = [];
+        $expectedFields = ['group_id', 'email'];
         $form = $this->_accountBlock->getForm();
         $this->assertEquals(1, $form->getElements()->count(), "Form has invalid number of fieldsets");
         $fieldset = $form->getElements()[0];
