@@ -16,13 +16,13 @@
     </referenceBlock>
     <referenceContainer name="content">
         <block class="Magento\Multishipping\Block\Checkout\Shipping" name="checkout_shipping" template="checkout/shipping.phtml">
-            <block class="Magento\Checkout\Block\Cart\Item\Renderer" as="default" template="checkout/item/default.phtml"/>
-            <block class="Magento\Checkout\Block\Cart\Item\Renderer\Grouped" as="grouped" template="checkout/item/default.phtml"/>
-            <block class="Magento\Checkout\Block\Cart\Item\Renderer\Configurable" as="configurable" template="checkout/item/default.phtml"/>
-            <block class="Magento\Multishipping\Block\Checkout\Billing\Items" name="checkout_billing_items" template="checkout/billing/items.phtml">
-                <block class="Magento\Checkout\Block\Cart\Item\Renderer" as="default" template="checkout/item/default.phtml"/>
-                <block class="Magento\Checkout\Block\Cart\Item\Renderer\Grouped" as="grouped" template="checkout/item/default.phtml"/>
-                <block class="Magento\Checkout\Block\Cart\Item\Renderer\Configurable" as="configurable" template="checkout/item/default.phtml"/>
+            <block class="Magento\Checkout\Block\Cart\Item\Renderer" as="default" template="Magento_Multishipping::checkout/item/default.phtml"/>
+            <block class="Magento\Checkout\Block\Cart\Item\Renderer\Grouped" as="grouped" template="Magento_Multishipping::checkout/item/default.phtml"/>
+            <block class="Magento\Checkout\Block\Cart\Item\Renderer\Configurable" as="configurable" template="Magento_Multishipping::checkout/item/default.phtml"/>
+            <block class="Magento\Multishipping\Block\Checkout\Billing\Items" name="checkout_billing_items" template="Magento_Multishipping::checkout/billing/items.phtml">
+                <block class="Magento\Checkout\Block\Cart\Item\Renderer" as="default" template="Magento_Multishipping::checkout/item/default.phtml"/>
+                <block class="Magento\Checkout\Block\Cart\Item\Renderer\Grouped" as="grouped" template="Magento_Multishipping::checkout/item/default.phtml"/>
+                <block class="Magento\Checkout\Block\Cart\Item\Renderer\Configurable" as="configurable" template="Magento_Multishipping::checkout/item/default.phtml"/>
             </block>
         </block>
     </referenceContainer>

@@ -16,11 +16,11 @@
     </referenceBlock>
     <referenceContainer name="content">
         <block class="Magento\Multishipping\Block\Checkout\Overview" name="checkout_overview" template="checkout/overview.phtml">
-            <block class="Magento\Checkout\Block\Cart\Item\Renderer" as="default" template="checkout/item/default.phtml"/>
-            <block class="Magento\Checkout\Block\Cart\Item\Renderer\Grouped" as="grouped" template="checkout/item/default.phtml"/>
-            <block class="Magento\Checkout\Block\Cart\Item\Renderer\Configurable" as="configurable" template="checkout/item/default.phtml"/>
-            <block class="Magento\Checkout\Block\Cart\Item\Renderer\Grouped" as="row-grouped" template="checkout/overview/item.phtml"/>
-            <block class="Magento\Checkout\Block\Cart\Item\Renderer\Configurable" as="row-configurable" template="checkout/overview/item.phtml"/>
+            <block class="Magento\Checkout\Block\Cart\Item\Renderer" as="default" template="Magento_Multishipping::checkout/item/default.phtml"/>
+            <block class="Magento\Checkout\Block\Cart\Item\Renderer\Grouped" as="grouped" template="Magento_Multishipping::checkout/item/default.phtml"/>
+            <block class="Magento\Checkout\Block\Cart\Item\Renderer\Configurable" as="configurable" template="Magento_Multishipping::checkout/item/default.phtml"/>
+            <block class="Magento\Checkout\Block\Cart\Item\Renderer\Grouped" as="row-grouped" template="Magento_Multishipping::checkout/overview/item.phtml"/>
+            <block class="Magento\Checkout\Block\Cart\Item\Renderer\Configurable" as="row-configurable" template="Magento_Multishipping::checkout/overview/item.phtml"/>
             <block class="Magento\Multishipping\Block\Checkout\Payment\Info" name="payment_info">
                 <action method="setInfoTemplate">
                     <argument name="method" xsi:type="string"/>

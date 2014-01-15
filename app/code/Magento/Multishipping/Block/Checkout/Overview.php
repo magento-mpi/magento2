@@ -61,7 +61,7 @@ class Overview extends \Magento\Sales\Block\Items\AbstractItems
             $this->addChild(
                 $rowItemType,
                 'Magento\Checkout\Block\Cart\Item\Renderer',
-                array('template' => 'checkout/overview/item.phtml')
+                array('template' => 'Magento_Multishipping::checkout/overview/item.phtml')
             );
         }
         $headBlock = $this->getLayout()->getBlock('head');

@@ -16,9 +16,9 @@
     </referenceBlock>
     <referenceContainer name="content">
         <block class="Magento\Multishipping\Block\Checkout\Addresses" name="checkout_addresses" template="checkout/addresses.phtml">
-            <block class="Magento\Checkout\Block\Cart\Item\Renderer" as="default" template="checkout/item/default.phtml"/>
-            <block class="Magento\Checkout\Block\Cart\Item\Renderer\Grouped" as="grouped" template="checkout/item/default.phtml"/>
-            <block class="Magento\Checkout\Block\Cart\Item\Renderer\Configurable" as="configurable" template="checkout/item/default.phtml"/>
+            <block class="Magento\Checkout\Block\Cart\Item\Renderer" as="default" template="Magento_Multishipping::checkout/item/default.phtml"/>
+            <block class="Magento\Checkout\Block\Cart\Item\Renderer\Grouped" as="grouped" template="Magento_Multishipping::checkout/item/default.phtml"/>
+            <block class="Magento\Checkout\Block\Cart\Item\Renderer\Configurable" as="configurable" template="Magento_Multishipping::checkout/item/default.phtml"/>
         </block>
     </referenceContainer>
     <block class="Magento\View\Element\Template" name="additional.product.info" template="Magento_Core::template.phtml"/>
