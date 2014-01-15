@@ -15,6 +15,7 @@ class Reader extends \Magento\Config\Reader\Filesystem
      */
     protected $_idAttributes = array(
         '/config/view' => 'id',
+        '/config/view/subscriptions/table' => 'name',
     );
 
     /**

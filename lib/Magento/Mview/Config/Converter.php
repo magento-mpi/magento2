@@ -20,24 +20,24 @@ class Converter implements \Magento\Config\ConverterInterface
     {
         $output = array();
         $xpath = new \DOMXPath($source);
-        $indexers = $xpath->evaluate('/config/view');
-        /** @var $typeNode \DOMNode */
-        foreach ($indexers as $indexerNode) {
+        $views = $xpath->evaluate('/config/view');
+        /** @var $viewNode \DOMNode */
+        foreach ($views as $viewNode) {
             $data = array();
-            $indexerId = $this->_getAttributeValue($indexerNode, 'id');
-            $data['view_id'] = $indexerId;
-            $data['action_class'] = $this->_getAttributeValue($indexerNode, 'class');
+            $viewId = $this->getAttributeValue($viewNode, 'id');
+            $data['view_id'] = $viewId;
+            $data['action_class'] = $this->getAttributeValue($viewNode, 'class');
             $data['subscriptions'] = array();
 
             /** @var $childNode \DOMNode */
-            foreach ($indexerNode->childNodes as $childNode) {
+            foreach ($viewNode->childNodes as $childNode) {
                 if ($childNode->nodeType != XML_ELEMENT_NODE) {
                     continue;
                 }
 
                 $data = $this->convertChild($childNode, $data);
             }
-            $output[$indexerId] = $data;
+            $output[$viewId] = $data;
         }
         return $output;
     }
