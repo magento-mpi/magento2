@@ -86,6 +86,11 @@ class Compare extends \Magento\App\Action\Action
     protected $_storeManager;
 
     /**
+     * @var \Magento\Core\App\Action\FormKeyValidator
+     */
+    protected $_formKeyValidator;
+
+    /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Catalog\Model\Product\Compare\ItemFactory $compareItemFactory
@@ -107,7 +112,8 @@ class Compare extends \Magento\App\Action\Action
         \Magento\Log\Model\Visitor $logVisitor,
         \Magento\Catalog\Model\Product\Compare\ListCompare $catalogProductCompareList,
         \Magento\Catalog\Model\Session $catalogSession,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
     ) {
         $this->_storeManager = $storeManager;
         $this->_customerFactory = $customerFactory;
@@ -118,6 +124,7 @@ class Compare extends \Magento\App\Action\Action
         $this->_logVisitor = $logVisitor;
         $this->_catalogProductCompareList = $catalogProductCompareList;
         $this->_catalogSession = $catalogSession;
+        $this->_formKeyValidator = $formKeyValidator;
         parent::__construct($context);
     }
 
@@ -152,6 +159,11 @@ class Compare extends \Magento\App\Action\Action
      */
     public function addAction()
     {
+        if (!$this->_formKeyValidator->validate($this->getRequest())) {
+            $this->getResponse()->setRedirect($this->_redirect->getRefererUrl());
+            return;
+        }
+
         $productId = (int)$this->getRequest()->getParam('product');
         if ($productId
             && ($this->_logVisitor->getId()
@@ -165,7 +177,7 @@ class Compare extends \Magento\App\Action\Action
             if ($product->getId()/* && !$product->isSuper()*/) {
                 $this->_catalogProductCompareList->addProduct($product);
                 $productName = $this->_objectManager->get('Magento\Escaper')->escapeHtml($product->getName());
-                $this->_catalogSession->addSuccess(
+                $this->messageManager->addSuccess(
                     __('You added product %1 to the comparison list.', $productName)
                 );
                 $this->_eventManager->dispatch('catalog_product_compare_add_product', array('product'=>$product));
@@ -207,7 +219,7 @@ class Compare extends \Magento\App\Action\Action
                 if ($item->getId()) {
                     $item->delete();
                     $productName = $this->_objectManager->get('Magento\Escaper')->escapeHtml($product->getName());
-                    $this->_catalogSession->addSuccess(
+                    $this->messageManager->addSuccess(
                         __('You removed product %1 from the comparison list.', $productName)
                     );
                     $this->_eventManager->dispatch('catalog_product_compare_remove_product', array('product' => $item));
@@ -239,12 +251,12 @@ class Compare extends \Magento\App\Action\Action
 
         try {
             $items->clear();
-            $this->_catalogSession->addSuccess(__('You cleared the comparison list.'));
+            $this->messageManager->addSuccess(__('You cleared the comparison list.'));
             $this->_objectManager->get('Magento\Catalog\Helper\Product\Compare')->calculate();
         } catch (\Magento\Core\Exception $e) {
-            $this->_catalogSession->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
-            $this->_catalogSession->addException($e, __('Something went wrong  clearing the comparison list.'));
+            $this->messageManager->addException($e, __('Something went wrong  clearing the comparison list.'));
         }
 
         $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl());

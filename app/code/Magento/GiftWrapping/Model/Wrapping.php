@@ -14,17 +14,19 @@
  */
 namespace Magento\GiftWrapping\Model;
 
+use Magento\Filesystem\Directory\WriteInterface;
+
 class Wrapping extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Relative path to folder to store wrapping image to
      */
-    const IMAGE_PATH = 'wrapping';
+    const IMAGE_PATH = 'wrapping/';
 
     /**
      * Relative path to folder to store temporary wrapping image to
      */
-    const TMP_IMAGE_PATH = 'tmp/wrapping';
+    const IMAGE_TMP_PATH = 'tmp/wrapping/';
 
     /**
      * Current store id
@@ -44,9 +46,9 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
     protected $_systemStore;
 
     /**
-     * @var \Magento\App\Dir
+     * @var WriteInterface
      */
-    protected $_dir;
+    protected $_mediaDirectory;
 
     /**
      * @var \Magento\Core\Model\File\UploaderFactory
@@ -59,7 +61,7 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\File\UploaderFactory $uploaderFactory
      * @param \Magento\Core\Model\System\Store $systemStore
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\Dir $dir
+     * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -70,14 +72,14 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\File\UploaderFactory $uploaderFactory,
         \Magento\Core\Model\System\Store $systemStore,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\App\Dir $dir,
+        \Magento\Filesystem $filesystem,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
         $this->_systemStore = $systemStore;
-        $this->_dir = $dir;
+        $this->_mediaDirectory = $filesystem->getDirectoryWrite(\Magento\Filesystem::MEDIA);
         $this->_uploaderFactory = $uploaderFactory;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
@@ -105,11 +107,10 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
         }
         if ($this->hasTmpImage()) {
             $baseImageName = $this->getTmpImage();
-            $sourcePath = $this->_getTmpImageFolderAbsolutePath() . DS . $baseImageName;
-            $destPath = $this->_getImageFolderAbsolutePath() . DS . $baseImageName;
-            if (file_exists($sourcePath) && is_file($sourcePath)) {
-                copy($sourcePath, $destPath);
-                @unlink($sourcePath);
+            $sourcePath = self::IMAGE_TMP_PATH . $baseImageName;
+            $destPath = self::IMAGE_PATH . $baseImageName;
+            if ($this->_mediaDirectory->isFile($sourcePath)) {
+                $this->_mediaDirectory->renameFile($sourcePath, $destPath);
                 $this->setData('image', $baseImageName);
             }
         }
@@ -186,7 +187,7 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
     {
         //in the current version should be used instance of \Magento\Core\Model\File\Uploader
         if ($value instanceof \Magento\File\Uploader) {
-            $value->save($this->_getImageFolderAbsolutePath());
+            $value->save($this->_mediaDirectory->getAbsolutePath(self::IMAGE_PATH));
             $value = $value->getUploadedFileName();
         }
         $this->setData('image', $value);
@@ -235,7 +236,7 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
         if ($value instanceof \Magento\File\Uploader) {
             // Delete previous temporary image if exists
             $this->unsTmpImage();
-            $value->save($this->_getTmpImageFolderAbsolutePath());
+            $value->save($this->_mediaDirectory->getAbsolutePath(self::IMAGE_TMP_PATH));
             $value = $value->getUploadedFileName();
         }
         $this->setData('tmp_image', $value);
@@ -252,9 +253,9 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
     public function unsTmpImage()
     {
         if ($this->hasTmpImage()) {
-            $tmpImagePath =  $this->_getTmpImageFolderAbsolutePath() . DS . $this->getTmpImage();
-            if (file_exists($tmpImagePath) && is_file($tmpImagePath)) {
-                @unlink($tmpImagePath);
+            $tmpImagePath =  self::IMAGE_TMP_PATH . $this->getTmpImage();
+            if ($this->_mediaDirectory->isExist($tmpImagePath)) {
+                $this->_mediaDirectory->delete($tmpImagePath);
             }
             $this->unsetData('tmp_image');
         }
@@ -272,38 +273,11 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
     public function getImageUrl()
     {
         if ($this->getTmpImage()) {
-            return $this->_storeManager->getStore()
-                ->getBaseUrl('media') . self::TMP_IMAGE_PATH . '/' . $this->getTmpImage();
+            return $this->_storeManager->getStore()->getBaseUrl('media') . self::IMAGE_TMP_PATH . $this->getTmpImage();
         }
         if ($this->getImage()) {
-            return $this->_storeManager->getStore()->getBaseUrl('media') . self::IMAGE_PATH . '/' . $this->getImage();
+            return $this->_storeManager->getStore()->getBaseUrl('media') . self::IMAGE_PATH . $this->getImage();
         }
-
         return false;
-    }
-
-    /**
-     * Retrieve absolute path to folder to store wrapping image to
-     *
-     * @return string
-     */
-    protected function _getImageFolderAbsolutePath()
-    {
-        $path = $this->_dir->getDir('media') . DS . strtr(self::IMAGE_PATH, '/', DS);
-        if (!is_dir($path)) {
-            $ioAdapter = new \Magento\Io\File();
-            $ioAdapter->checkAndCreateFolder($path);
-        }
-        return $path;
-    }
-
-    /**
-     * Retrieve absolute path to folder to store temporary wrapping image to
-     *
-     * @return string
-     */
-    protected function _getTmpImageFolderAbsolutePath()
-    {
-        return $this->_dir->getDir('media') . DS . strtr(self::TMP_IMAGE_PATH, '/', DS);
     }
 }

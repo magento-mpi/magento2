@@ -30,7 +30,7 @@ class FieldsetConfigFilesTest extends \Magento\TestFramework\TestCase\AbstractCo
      */
     protected function _getConfigFilePathGlob()
     {
-        return '/*/*/*/etc/fieldset.xml';
+        return '/*/*/etc/fieldset.xml';
     }
 
     /**

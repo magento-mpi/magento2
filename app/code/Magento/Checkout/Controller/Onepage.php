@@ -37,16 +37,24 @@ class Onepage extends \Magento\Checkout\Controller\Action
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Core\App\Action\FormKeyValidator
+     */
+    protected $_formKeyValidator;
+
+    /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      */
     public function __construct(
         \Magento\App\Action\Context $context,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_formKeyValidator = $formKeyValidator;
         parent::__construct($context, $customerSession);
     }
 
@@ -54,7 +62,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
      * Dispatch request
      *
      * @param RequestInterface $request
-     * @return mixed
+     * @return \Magento\App\ResponseInterface
      * @throws \Magento\App\Action\NotFoundException
      */
     public function dispatch(RequestInterface $request)
@@ -182,7 +190,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
     public function indexAction()
     {
         if (!$this->_objectManager->get('Magento\Checkout\Helper\Data')->canOnepageCheckout()) {
-            $this->_objectManager->get('Magento\Checkout\Model\Session')->addError(__('The onepage checkout is disabled.'));
+            $this->messageManager->addError(__('The onepage checkout is disabled.'));
             $this->_redirect('checkout/cart');
             return;
         }
@@ -196,7 +204,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
                 $this->_objectManager->get('Magento\Core\Model\Store\Config')->getConfig('sales/minimum_order/error_message') :
                 __('Subtotal must exceed minimum order amount');
 
-            $this->_objectManager->get('Magento\Checkout\Model\Session')->addError($error);
+            $this->messageManager->addError($error);
             $this->_redirect('checkout/cart');
             return;
         }
@@ -207,7 +215,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
         $this->getOnepage()->initCheckout();
         $this->_view->loadLayout();
         $layout = $this->_view->getLayout();
-        $layout->initMessages('Magento\Customer\Model\Session');
+        $layout->initMessages();
         $layout->getBlock('head')->setTitle(__('Checkout'));
         $this->_view->renderLayout();
     }
@@ -266,9 +274,10 @@ class Onepage extends \Magento\Checkout\Controller\Action
 
         $session->clearQuote();
         $this->_view->loadLayout();
-        $this->_view->getLayout()->initMessages('Magento\Checkout\Model\Session');
+        $this->_view->getLayout()->initMessages();
         $this->_eventManager->dispatch(
-            'checkout_onepage_controller_success_action', array('order_ids' => array($lastOrderId))
+            'checkout_onepage_controller_success_action',
+            array('order_ids' => array($lastOrderId))
         );
         $this->_view->renderLayout();
     }
@@ -517,6 +526,11 @@ class Onepage extends \Magento\Checkout\Controller\Action
      */
     public function saveOrderAction()
     {
+        if (!$this->_formKeyValidator->validate($this->getRequest())) {
+            $this->_redirect('*/*/');
+            return;
+        }
+
         if ($this->_expireAjax()) {
             return;
         }

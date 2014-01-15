@@ -35,22 +35,18 @@ class OauthHelper
      */
     public static function getConsumerCredentials($date = null)
     {
+        $integration = self::_createIntegration('all');
         $objectManager = Bootstrap::getObjectManager();
         /** @var $oauthService \Magento\Integration\Service\OauthV1 */
         $oauthService = $objectManager->get('Magento\Integration\Service\OauthV1');
-
+        $consumer = $oauthService->loadConsumer($integration->getConsumerId());
         $url = TESTS_BASE_URL;
-        $data = array(
-            'name' => 'consumerName',
-            'callback_url' => $url,
-            'rejected_callback_url' => $url
-        );
-
+        $consumer->setCallbackUrl($url);
+        $consumer->setRejectedCallbackUrl($url);
         if (!is_null($date)) {
-            $data['created_at'] = $date;
+            $consumer->setCreatedAt($date);
         }
-
-        $consumer = $oauthService->createConsumer($data);
+        $consumer->save();
         $token = $objectManager->create('Magento\Integration\Model\Oauth\Token');
         $verifier = $token->createVerifierToken($consumer->getId())->getVerifier();
 
@@ -105,6 +101,7 @@ class OauthHelper
      *   'key' => 'ajdsjashgdkahsdlkjasldkjals', //token key
      *   'secret' => 'alsjdlaskjdlaksjdlasjkdlas', //token secret
      *   'oauth_client' => $oauthClient // OauthClient instance used to fetch the access token
+     *   'integration' => $integration // Integration instance associated with access token
      *   );
      * </pre>
      * @throws LogicException
@@ -112,31 +109,8 @@ class OauthHelper
     public static function getApiAccessCredentials($resources = null)
     {
         if (!self::$_apiCredentials) {
+            $integration = self::_createIntegration($resources);
             $objectManager = Bootstrap::getObjectManager();
-            /** @var $integrationService \Magento\Integration\Service\IntegrationV1Interface */
-            $integrationService = $objectManager->get('Magento\Integration\Service\IntegrationV1Interface');
-
-            $params = ['name' => 'Integration' . microtime()];
-
-            if ($resources === null || $resources == 'all' ) {
-                $params['all_resources'] = true;
-            } else {
-                $params['resource'] = $resources;
-            }
-
-            $integration = $integrationService->create($params);
-
-            /** Magento cache must be cleared to activate just created ACL role. */
-            $varPath = realpath('../../../var');
-            if (!$varPath) {
-                throw new LogicException("Magento cache cannot be cleared after new ACL role creation.");
-            } else {
-                $cachePath = $varPath . '/cache';
-                if (is_dir($cachePath)) {
-                    self::_rmRecursive($cachePath);
-                }
-            }
-
             /** @var \Magento\Integration\Service\OauthV1 $oauthService */
             $oauthService = $objectManager->get('Magento\Integration\Service\OauthV1');
             $oauthService->createAccessToken($integration->getConsumerId());
@@ -153,7 +127,8 @@ class OauthHelper
             self::$_apiCredentials = array(
                 'key' => $accessToken->getToken(),
                 'secret' => $accessToken->getSecret(),
-                'oauth_client' => $oAuthClient
+                'oauth_client' => $oAuthClient,
+                'integration' => $integration
             );
         }
         return self::$_apiCredentials;
@@ -171,20 +146,59 @@ class OauthHelper
      * Remove fs element with nested elements.
      *
      * @param string $dir
+     * @param bool   $doSaveRoot
      */
-    protected static function _rmRecursive($dir)
+    protected static function _rmRecursive($dir, $doSaveRoot = false)
     {
         if (is_dir($dir)) {
-            foreach (glob($dir . DIRECTORY_SEPARATOR . '*') as $object) {
+            foreach (glob($dir . '/*') as $object) {
                 if (is_dir($object)) {
                     self::_rmRecursive($object);
                 } else {
                     unlink($object);
                 }
             }
-            rmdir($dir);
+            if (!$doSaveRoot) {
+                rmdir($dir);
+            }
         } else {
             unlink($dir);
         }
+    }
+
+    /**
+     * Create integration instance.
+     *
+     * @param array $resources
+     * @return \Magento\Integration\Model\Integration
+     * @throws \Zend\Stdlib\Exception\LogicException
+     */
+    protected static function _createIntegration($resources)
+    {
+        $objectManager = Bootstrap::getObjectManager();
+        /** @var $integrationService \Magento\Integration\Service\IntegrationV1Interface */
+        $integrationService = $objectManager->get('Magento\Integration\Service\IntegrationV1Interface');
+
+        $params = ['name' => 'Integration' . microtime()];
+
+        if ($resources === null || $resources == 'all') {
+            $params['all_resources'] = true;
+        } else {
+            $params['resource'] = $resources;
+        }
+        $integration = $integrationService->create($params);
+        $integration->setStatus(\Magento\Integration\Model\Integration::STATUS_ACTIVE)->save();
+
+        /** Magento cache must be cleared to activate just created ACL role. */
+        $varPath = realpath('../../../var');
+        if (!$varPath) {
+            throw new LogicException("Magento cache cannot be cleared after new ACL role creation.");
+        } else {
+            $cachePath = $varPath . '/cache';
+            if (is_dir($cachePath)) {
+                self::_rmRecursive($cachePath, true);
+            }
+        }
+        return $integration;
     }
 }

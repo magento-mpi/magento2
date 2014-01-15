@@ -45,6 +45,7 @@ class Grid
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Rma\Model\Resource\Item\CollectionFactory $collectionFactory
      * @param \Magento\Rma\Helper\Eav $rmaEav
      * @param \Magento\Core\Model\Registry $coreRegistry
@@ -53,6 +54,7 @@ class Grid
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Url $urlModel,
+        \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Rma\Model\Resource\Item\CollectionFactory $collectionFactory,
         \Magento\Rma\Helper\Eav $rmaEav,
         \Magento\Core\Model\Registry $coreRegistry,
@@ -61,7 +63,7 @@ class Grid
         $this->_collectionFactory = $collectionFactory;
         $this->_coreRegistry = $coreRegistry;
         $this->_rmaEav = $rmaEav;
-        parent::__construct($context, $urlModel, $data);
+        parent::__construct($context, $urlModel, $backendHelper, $data);
     }
 
     /**
@@ -116,7 +118,7 @@ class Grid
     /**
      * Prepare columns
      *
-     * @return \Magento\Adminhtml\Block\Widget\Grid
+     * @return \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareColumns()
     {

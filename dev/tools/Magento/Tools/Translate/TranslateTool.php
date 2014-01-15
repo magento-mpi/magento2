@@ -672,7 +672,7 @@ class TranslateTool {
     {
         if(self::getExt($file)==='xml'){
             self::parseXml($file, $data_arr, $mod_name);
-        } elseif (stripos($file, 'Zend' . DS . 'Validate') !== false) {
+        } elseif (stripos($file, 'Zend/Validate') !== false) {
             self::parseZendValidateMessageTemplates($file, $data_arr, $mod_name);
         } else {
             self::parseTranslatingFiles($file, $data_arr, $mod_name);

@@ -14,7 +14,7 @@
 namespace Magento\CatalogEvent\Block\Adminhtml\Event;
 
 class Edit
-    extends \Magento\Adminhtml\Block\Widget\Form\Container
+    extends \Magento\Backend\Block\Widget\Form\Container
 {
     protected $_objectId = 'id';
     protected $_blockGroup = 'Magento_CatalogEvent';

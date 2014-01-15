@@ -17,7 +17,7 @@
 namespace Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Form\Renderer;
 
 class Element
-    extends \Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset\Element
+    extends \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Element
 {
     protected $_template = 'form/renderer/element.phtml';
 

@@ -41,7 +41,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_helperMock;
+    protected $_moduleManager;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -73,7 +73,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
         $this->_menuFactoryMock = $this
             ->getMock('Magento\Backend\Model\MenuFactory', array('create'), array(), '', false);
         $this->_urlModelMock = $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false);
-        $this->_helperMock = $this->getMock('Magento\Backend\Helper\Data', array(), array(), '', false);
+        $this->_moduleManager = $this->getMock('Magento\Module\Manager', array(), array(), '', false);
         $this->_validatorMock = $this->getMock('Magento\Backend\Model\Menu\Item\Validator');
         $this->_validatorMock->expects($this->any())
             ->method('validate');
@@ -86,8 +86,8 @@ class ItemTest extends \PHPUnit_Framework_TestCase
             'storeConfig'   => $this->_storeConfigMock,
             'menuFactory'   => $this->_menuFactoryMock,
             'urlModel'      => $this->_urlModelMock,
-            'helper'        => $this->_helperMock,
             'moduleList'    => $this->_moduleListMock,
+            'moduleManager' => $this->_moduleManager,
             'data'          => $this->_params
         ));
     }
@@ -148,16 +148,16 @@ class ItemTest extends \PHPUnit_Framework_TestCase
 
     public function testIsDisabledReturnsTrueIfModuleOutputIsDisabled()
     {
-        $this->_helperMock->expects($this->once())
-            ->method('isModuleOutputEnabled')
+        $this->_moduleManager->expects($this->once())
+            ->method('isOutputEnabled')
             ->will($this->returnValue(false));
         $this->assertTrue($this->_model->isDisabled());
     }
 
     public function testIsDisabledReturnsTrueIfModuleDependenciesFail()
     {
-        $this->_helperMock->expects($this->once())
-            ->method('isModuleOutputEnabled')
+        $this->_moduleManager->expects($this->once())
+            ->method('isOutputEnabled')
             ->will($this->returnValue(true));
 
         $this->_moduleListMock->expects($this->once())
@@ -169,8 +169,8 @@ class ItemTest extends \PHPUnit_Framework_TestCase
 
     public function testIsDisabledReturnsTrueIfConfigDependenciesFail()
     {
-        $this->_helperMock->expects($this->once())
-            ->method('isModuleOutputEnabled')
+        $this->_moduleManager->expects($this->once())
+            ->method('isOutputEnabled')
             ->will($this->returnValue(true));
 
         $this->_moduleListMock->expects($this->once())
@@ -182,8 +182,8 @@ class ItemTest extends \PHPUnit_Framework_TestCase
 
     public function testIsDisabledReturnsFalseIfNoDependenciesFail()
     {
-        $this->_helperMock->expects($this->once())
-            ->method('isModuleOutputEnabled')
+        $this->_moduleManager->expects($this->once())
+            ->method('isOutputEnabled')
             ->will($this->returnValue(true));
 
         $this->_moduleListMock->expects($this->once())

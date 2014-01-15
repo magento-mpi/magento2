@@ -17,7 +17,7 @@
  */
 namespace Magento\Cms\Block\Adminhtml\Page;
 
-class Grid extends \Magento\Adminhtml\Block\Widget\Grid
+class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * @var \Magento\Cms\Model\Resource\Page\CollectionFactory
@@ -37,6 +37,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Theme\Model\Layout\Source\Layout $pageLayout
      * @param \Magento\Cms\Model\Page $cmsPage
      * @param \Magento\Cms\Model\Resource\Page\CollectionFactory $collectionFactory
@@ -45,6 +46,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Url $urlModel,
+        \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Theme\Model\Layout\Source\Layout $pageLayout,
         \Magento\Cms\Model\Page $cmsPage,
         \Magento\Cms\Model\Resource\Page\CollectionFactory $collectionFactory,
@@ -53,7 +55,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
         $this->_collectionFactory = $collectionFactory;
         $this->_cmsPage = $cmsPage;
         $this->_pageLayout = $pageLayout;
-        parent::__construct($context, $urlModel, $data);
+        parent::__construct($context, $urlModel, $backendHelper, $data);
     }
 
     protected function _construct()

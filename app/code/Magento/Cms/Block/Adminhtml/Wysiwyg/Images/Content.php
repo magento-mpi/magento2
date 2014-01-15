@@ -19,7 +19,7 @@ namespace Magento\Cms\Block\Adminhtml\Wysiwyg\Images;
 
 use Magento\View\Element\Template;
 
-class Content extends \Magento\Adminhtml\Block\Widget\Container
+class Content extends \Magento\Backend\Block\Widget\Container
 {
     /**
      * @var \Magento\Json\EncoderInterface

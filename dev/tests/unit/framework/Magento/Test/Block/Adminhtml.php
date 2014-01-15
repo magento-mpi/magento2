@@ -54,9 +54,6 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
     protected  $_context;
 
     /** @var  \PHPUnit_Framework_MockObject_MockObject */
-    protected $_dirMock;
-
-    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     protected $_loggerMock;
 
     /** @var  \PHPUnit_Framework_MockObject_MockObject */
@@ -67,9 +64,6 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
 
     /** @var  \PHPUnit_Framework_MockObject_MockObject */
     protected $_storeConfigMock;
-
-    /** @var  \PHPUnit_Framework_MockObject_MockObject */
-    protected $_helperFactoryMock;
 
     /** @var  \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\StoreManager */
     protected $_storeManagerMock;
@@ -96,13 +90,11 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
         $this->_urlMock             = $this->_makeMock('Magento\UrlInterface');
         $this->_eventManagerMock    = $this->_makeMock('Magento\Event\ManagerInterface');
         $this->_controllerMock      = $this->_makeMock('Magento\App\FrontController');
-        $this->_dirMock             = $this->_makeMock('Magento\App\Dir');
         $this->_loggerMock          = $this->_makeMock('Magento\Logger');
         $this->_filesystemMock      = $this->_makeMock('Magento\Filesystem');
         $this->_cacheMock           = $this->_makeMock('Magento\App\CacheInterface');
         $this->_storeConfigMock     = $this->_makeMock('Magento\Core\Model\Store\Config');
         $this->_storeManagerMock    = $this->_makeMock('Magento\Core\Model\StoreManager');
-        $this->_helperFactoryMock   = $this->_makeMock('Magento\App\Helper\HelperFactory');
         $viewUrlMock                = $this->_makeMock('Magento\View\Url');
         $viewConfigMock             = $this->_makeMock('Magento\View\ConfigInterface');
         $viewFileSystemMock         = $this->_makeMock('Magento\View\FileSystem');
@@ -137,7 +129,6 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
             $this->_sidResolver,
             $this->_storeConfigMock,
             $this->_controllerMock,
-            $this->_helperFactoryMock,
             $viewUrlMock,
             $viewConfigMock,
             $cacheStateMock,
@@ -146,7 +137,6 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
             $escaperMock,
             $filterManagerMock,
             $this->_localeMock,
-            $this->_dirMock,
             $this->_filesystemMock,
             $viewFileSystemMock,
             $templatePoolMock,

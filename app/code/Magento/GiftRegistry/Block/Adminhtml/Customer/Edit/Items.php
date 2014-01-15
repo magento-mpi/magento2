@@ -14,7 +14,7 @@
 namespace Magento\GiftRegistry\Block\Adminhtml\Customer\Edit;
 
 class Items
-    extends \Magento\Adminhtml\Block\Widget\Grid
+    extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * @var \Magento\GiftRegistry\Model\ItemFactory
@@ -31,6 +31,7 @@ class Items
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\GiftRegistry\Model\ItemFactory $itemFactory
      * @param array $data
@@ -38,13 +39,14 @@ class Items
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Url $urlModel,
+        \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\GiftRegistry\Model\ItemFactory $itemFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->itemFactory = $itemFactory;
-        parent::__construct($context, $urlModel, $data);
+        parent::__construct($context, $urlModel, $backendHelper, $data);
     }
 
     protected function _construct()

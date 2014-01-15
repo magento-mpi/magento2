@@ -32,21 +32,27 @@ class Mage_Selenium_Helper_DataTest extends Unit_PHPUnit_TestCase
         $this->assertArrayHasKey('another_key', $dataSet);
         $this->assertEquals($dataSet['another_key'], 'another Value');
 
-        $this->assertEquals($dataSet,
-            $instance->loadTestDataSet('default' . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR
-                . 'Mage' . DIRECTORY_SEPARATOR . 'UnitTest' . DIRECTORY_SEPARATOR
-                . 'data' . DIRECTORY_SEPARATOR . 'UnitTestsData.yml',
-                'unit_test_load_data'));
-        $this->assertEquals($dataSet,
-            $instance->loadTestDataSet('default' . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR
-                . 'Mage' . DIRECTORY_SEPARATOR . 'UnitTest' . DIRECTORY_SEPARATOR . 'data'
-                . DIRECTORY_SEPARATOR . 'UnitTestsData',
-                'unit_test_load_data'));
-        $this->assertEquals($dataSet,
-            $instance->loadTestDataSet('default' . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR
-                . 'Mage' . DIRECTORY_SEPARATOR . 'UnitTest' . DIRECTORY_SEPARATOR
-                . 'data' . DIRECTORY_SEPARATOR . 'UnitTestsData.yml',
-                'unit_test_load_data'));
+        $this->assertEquals(
+            $dataSet,
+            $instance->loadTestDataSet(
+                'default' . '/core/Mage/UnitTest/data/UnitTestsData.yml',
+                'unit_test_load_data'
+            )
+        );
+        $this->assertEquals(
+            $dataSet,
+            $instance->loadTestDataSet(
+                'default/core/Mage/UnitTest/data/UnitTestsData',
+                'unit_test_load_data'
+            )
+        );
+        $this->assertEquals(
+            $dataSet,
+            $instance->loadTestDataSet(
+                'default/core/Mage/UnitTest/data/UnitTestsData.yml',
+                'unit_test_load_data'
+            )
+        );
     }
 
     /**
@@ -56,10 +62,10 @@ class Mage_Selenium_Helper_DataTest extends Unit_PHPUnit_TestCase
     {
         $instance = new Mage_Selenium_Helper_Data($this->_testConfig);
         $this->setExpectedException('RuntimeException', 'DataSet with name "unit_test_load_data" is not present in');
-        $instance->loadTestDataSet('default' . DIRECTORY_SEPARATOR . 'core' .DIRECTORY_SEPARATOR
-            . 'Mage' . DIRECTORY_SEPARATOR . 'UnitTest' . DIRECTORY_SEPARATOR
-            . 'data' . DIRECTORY_SEPARATOR . 'Empty',
-            'unit_test_load_data');
+        $instance->loadTestDataSet(
+            'default/core/Mage/UnitTest/data/Empty',
+            'unit_test_load_data'
+        );
     }
 
     /**
@@ -69,9 +75,9 @@ class Mage_Selenium_Helper_DataTest extends Unit_PHPUnit_TestCase
     {
         $instance = new Mage_Selenium_Helper_Data($this->_testConfig);
         $this->setExpectedException('RuntimeException', 'DataSet with name "not_existing_dataset" is not present');
-        $instance->loadTestDataSet('default' . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR
-            . 'Mage' . DIRECTORY_SEPARATOR . 'UnitTest' . DIRECTORY_SEPARATOR
-            . 'data' . DIRECTORY_SEPARATOR . 'UnitTestsData',
-            'not_existing_dataset');
+        $instance->loadTestDataSet(
+            'default/core/Mage/UnitTest/data/UnitTestsData',
+            'not_existing_dataset'
+        );
     }
 }

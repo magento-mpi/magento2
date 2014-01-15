@@ -108,21 +108,30 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     }
 
     /**
-     * Put websites/stores permissions data after loading admin role
+     * Assign group/website/store permissions to the admin role
      *
      * If all permissions are allowed, all possible websites / store groups / stores will be set
      * If only websites selected, all their store groups and stores will be set as well
      *
-     * @param  \Magento\Event\Observer $observer
-     * @return \Magento\AdminGws\Model\Observer
+     * @param \Magento\User\Model\Role $object
      */
-    public function addDataAfterRoleLoad($observer)
+    protected function _assignRolePermissions(\Magento\User\Model\Role $object)
     {
-        $object   = $observer->getEvent()->getObject();
         $gwsIsAll = (bool)(int)$object->getData('gws_is_all');
         $object->setGwsIsAll($gwsIsAll);
+        $notEmptyFilter = function ($el) {
+            return strlen($el) > 0;
+        };
+        if (!is_array($object->getGwsWebsites())) {
+            $object->setGwsWebsites(array_filter(explode(',', (string)$object->getGwsWebsites()), $notEmptyFilter));
+        }
+        if (!is_array($object->getGwsStoreGroups())) {
+            $object->setGwsStoreGroups(
+                array_filter(explode(',', (string)$object->getGwsStoreGroups()), $notEmptyFilter)
+            );
+        }
 
-        $storeGroupIds = array();
+        $storeGroupIds = $object->getGwsStoreGroups();
 
         // set all websites and store groups
         if ($gwsIsAll) {
@@ -130,33 +139,25 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
             foreach ($this->_getAllStoreGroups() as $storeGroup) {
                 $storeGroupIds[] = $storeGroup->getId();
             }
-            $object->setGwsStoreGroups($storeGroupIds);
         } else {
             // set selected website ids
-            $websiteIds = ($object->getData('gws_websites') != '' ?
-                    explode(',', $object->getData('gws_websites')) :
-                    array());
-            $object->setGwsWebsites($websiteIds);
-
             // set either the set store group ids or all of allowed websites
-            if ($object->getData('gws_store_groups') != '') {
-                $storeGroupIds = explode(',', $object->getData('gws_store_groups'));
-            } else {
-                if ($websiteIds) {
-                    foreach ($this->_getAllStoreGroups() as $storeGroup) {
-                        if (in_array($storeGroup->getWebsiteId(), $websiteIds)) {
-                            $storeGroupIds[] = $storeGroup->getId();
-                        }
+            if (empty($storeGroupIds)
+                && count($object->getGwsWebsites())
+            ) {
+                foreach ($this->_getAllStoreGroups() as $storeGroup) {
+                    if (in_array($storeGroup->getWebsiteId(), $object->getGwsWebsites())) {
+                        $storeGroupIds[] = $storeGroup->getId();
                     }
                 }
             }
-            $object->setGwsStoreGroups($storeGroupIds);
         }
+        $object->setGwsStoreGroups(array_values(array_unique($storeGroupIds)));
 
         // determine and set store ids
         $storeIds = array();
         foreach ($this->_storeManager->getStores() as $store) {
-            if (in_array($store->getGroupId(), $storeGroupIds)) {
+            if (in_array($store->getGroupId(), $object->getGwsStoreGroups())) {
                 $storeIds[] = $store->getId();
             }
         }
@@ -165,13 +166,32 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
         // set relevant website ids from allowed store group ids
         $relevantWebsites = array();
         foreach ($this->_getAllStoreGroups() as $storeGroup) {
-            if (in_array($storeGroup->getId(), $storeGroupIds)) {
+            if (in_array($storeGroup->getId(), $object->getGwsStoreGroups())) {
                 $relevantWebsites[] = $storeGroup->getWebsite()->getId();
             }
         }
         $object->setGwsRelevantWebsites(array_values(array_unique($relevantWebsites)));
+    }
 
-        return $this;
+    /**
+     * Assign websites/stores permissions data after loading admin role
+     *
+     * @param \Magento\Event\Observer $observer
+     */
+    public function addDataAfterRoleLoad(\Magento\Event\Observer $observer)
+    {
+        $this->_assignRolePermissions($observer->getEvent()->getObject());
+    }
+
+    /**
+     * Refresh group/website/store permissions of the current admin user's role
+     */
+    public function refreshRolePermissions()
+    {
+        $user = $this->_backendAuthSession->getUser();
+        if ($user instanceof \Magento\User\Model\User) {
+            $this->_assignRolePermissions($user->getRole());
+        }
     }
 
     /**
@@ -609,5 +629,17 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
             list($class, $method) = $callback;
         }
         $this->_objectManager->get($class)->$method($passThroughObject);
+    }
+
+    /**
+     * Update store list which is available for role
+     *
+     * @param \Magento\Event\Observer $observer
+     * @return $this \Magento\AdminGws\Model\Observer
+     */
+    public function updateRoleStores($observer)
+    {
+        $this->_role->setStoreIds(array_merge($this->_role->getStoreIds(), array($observer->getStore()->getStoreId())));
+        return $this;
     }
 }

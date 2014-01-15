@@ -101,7 +101,7 @@ class Printer
         // convert the statements to text
         $this->resolveStatements($statements);
         // Show comments that were not consumed(output) by the formatting process
-        $this->displayRemovedComments(self::$lexer->getCommentMap());
+        //$this->displayRemovedComments(self::$lexer->getCommentMap());
         // parse the resulting code to verify successful printing
         $parser->parse($this->formattedCode);
     }

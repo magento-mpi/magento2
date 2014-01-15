@@ -18,7 +18,7 @@
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\Grid\Renderer;
 
 class Html
-    extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\AbstractRenderer
+    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Return data "as is", don't escape HTML

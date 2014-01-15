@@ -10,7 +10,7 @@
 
 namespace Magento\Index\Block\Adminhtml;
 
-class Process extends \Magento\Adminhtml\Block\Widget\Grid\Container
+class Process extends \Magento\Backend\Block\Widget\Grid\Container
 {
     protected function _construct()
     {

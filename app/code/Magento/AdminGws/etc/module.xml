@@ -10,12 +10,10 @@
 <config>
     <module name="Magento_AdminGws" version="1.11.0.0" active="false">
         <sequence>
-            <module name="Magento_Adminhtml"/>
             <module name="Magento_Sales"/>
             <module name="Magento_User"/>
         </sequence>
         <depends>
-            <module name="Magento_Adminhtml"/>
             <module name="Magento_Sales"/>
             <module name="Magento_Core"/>
             <module name="Magento_Backend"/>

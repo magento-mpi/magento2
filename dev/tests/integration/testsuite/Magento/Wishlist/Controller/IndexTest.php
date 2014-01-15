@@ -18,6 +18,11 @@ class IndexTest extends \Magento\TestFramework\TestCase\AbstractController
      */
     protected $_customerSession;
 
+    /**
+     * @var \Magento\Message\ManagerInterface
+     */
+    protected $_messages;
+
     protected function setUp()
     {
         parent::setUp();
@@ -25,6 +30,10 @@ class IndexTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->_customerSession = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Customer\Model\Session', array($logger));
         $this->_customerSession->login('customer@example.com', 'password');
+
+        $this->_messages = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Message\ManagerInterface');
+
     }
 
     protected function tearDown()
@@ -64,14 +73,34 @@ class IndexTest extends \Magento\TestFramework\TestCase\AbstractController
     public function testAddActionProductNameXss()
     {
         $this->dispatch('wishlist/index/add/product/1?nocookie=1');
-        $messages = $this->_customerSession->getMessages()->getItems();
+        $messages = $this->_messages->getMessages()->getItems();
         $isProductNamePresent = false;
         foreach ($messages as $message) {
-            if (strpos($message->getCode(), '&lt;script&gt;alert(&quot;xss&quot;);&lt;/script&gt;') !== false) {
+            if (strpos($message->getText(), '&lt;script&gt;alert(&quot;xss&quot;);&lt;/script&gt;') !== false) {
                 $isProductNamePresent = true;
             }
-            $this->assertNotContains('<script>alert("xss");</script>', (string)$message->getCode());
+            $this->assertNotContains('<script>alert("xss");</script>', (string)$message->getText());
         }
         $this->assertTrue($isProductNamePresent, 'Product name was not found in session messages');
+    }
+
+    /**
+     * @magentoDataFixture Magento/Wishlist/_files/wishlist_with_product_qty_increments.php
+     */
+    public function testAllcartAction()
+    {
+        $formKey = $this->_objectManager->get('Magento\Data\Form\FormKey')->getFormKey();
+        $this->getRequest()->setParam('form_key', $formKey);
+        $this->dispatch('wishlist/index/allcart');
+
+        /** @var \Magento\Checkout\Model\Cart $cart */
+        $cart = $this->_objectManager->get('Magento\Checkout\Model\Cart');
+        $quoteCount = $cart->getQuote()->getItemsCollection()->count();
+
+        $this->assertEquals(0, $quoteCount);
+        $this->assertSessionMessages(
+            $this->contains('You can buy this product only in increments of 5 for "Simple Product".'),
+            \Magento\Message\MessageInterface::TYPE_ERROR
+        );
     }
 }

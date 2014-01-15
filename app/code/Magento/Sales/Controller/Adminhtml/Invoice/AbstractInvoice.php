@@ -97,7 +97,7 @@ class AbstractInvoice
                     $historyItem->setIsCustomerNotified(1);
                     $historyItem->save();
                 }
-                $this->_getSession()->addSuccess(__('We sent the message.'));
+                $this->messageManager->addSuccess(__('We sent the message.'));
                 $this->_redirect('sales/invoice/view', array(
                     'order_id'  => $invoice->getOrder()->getId(),
                     'invoice_id'=> $invoiceId,
@@ -114,7 +114,12 @@ class AbstractInvoice
             if ($invoice) {
                 $pdf = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Invoice')->getPdf(array($invoice));
                 $date = $this->_objectManager->get('Magento\Core\Model\Date')->date('Y-m-d_H-i-s');
-                return $this->_fileFactory->create('invoice' . $date . '.pdf', $pdf->render(), 'application/pdf');
+                return $this->_fileFactory->create(
+                    'invoice' . $date . '.pdf',
+                    $pdf->render(),
+                    \Magento\Filesystem::VAR_DIR,
+                    'application/pdf'
+                );
             }
         } else {
             $this->_forward('noroute');
@@ -137,7 +142,12 @@ class AbstractInvoice
             }
             $date = $this->_objectManager->get('Magento\Core\Model\Date')->date('Y-m-d_H-i-s');
 
-            return $this->_fileFactory->create('invoice' . $date . '.pdf', $pdf->render(), 'application/pdf');
+            return $this->_fileFactory->create(
+                'invoice' . $date . '.pdf',
+                $pdf->render(),
+                \Magento\Filesystem::VAR_DIR,
+                'application/pdf'
+            );
         }
         $this->_redirect('sales/*/');
     }

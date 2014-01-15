@@ -13,7 +13,7 @@
  */
 namespace Magento\Logging\Block\Adminhtml\Grid\Filter;
 
-class User extends \Magento\Adminhtml\Block\Widget\Grid\Column\Filter\Select
+class User extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
 {
     /**
      * @var \Magento\Logging\Model\Resource\EventFactory

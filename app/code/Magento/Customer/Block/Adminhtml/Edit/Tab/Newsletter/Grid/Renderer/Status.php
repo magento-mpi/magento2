@@ -17,7 +17,7 @@
  */
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab\Newsletter\Grid\Renderer;
 
-class Status extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\AbstractRenderer
+class Status extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
 
     protected static $_statuses;

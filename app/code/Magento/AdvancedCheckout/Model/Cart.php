@@ -57,13 +57,6 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     protected $_customer;
 
     /**
-     * List of result errors
-     *
-     * @var array
-     */
-    protected $_resultErrors = array();
-
-    /**
      * List of currently affected items skus
      *
      * @var array
@@ -121,7 +114,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     protected $messageFactory;
 
     /**
-     * @var \Magento\Adminhtml\Model\Session\Quote
+     * @var \Magento\Backend\Model\Session\Quote
      */
     protected $_sessionQuote;
 
@@ -176,8 +169,13 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     protected $_itemFailedStatus;
 
     /**
+     * @var \Magento\Message\ManagerInterface
+     */
+    protected $messageManager;
+
+    /**
      * @param \Magento\Checkout\Model\Cart $cart
-     * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
+     * @param \Magento\Backend\Model\Session\Quote $sessionQuote
      * @param \Magento\Message\Factory $messageFactory
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
@@ -189,12 +187,13 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Message\ManagerInterface $messageManager
      * @param string $itemFailedStatus
      * @param array $data
      */
     public function __construct(
         \Magento\Checkout\Model\Cart $cart,
-        \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
+        \Magento\Backend\Model\Session\Quote $sessionQuote,
         \Magento\Message\Factory $messageFactory,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\AdvancedCheckout\Helper\Data $checkoutData,
@@ -206,6 +205,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Message\ManagerInterface $messageManager,
         $itemFailedStatus = \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_SKU,
         array $data = array()
     ) {
@@ -223,6 +223,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         $this->_storeManager = $storeManager;
         $this->_locale = $locale;
         $this->_itemFailedStatus = $itemFailedStatus;
+        $this->messageManager = $messageManager;
     }
 
     /**
@@ -309,7 +310,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     /**
      * Return quote instance
      *
-     * @return \Magento\Adminhtml\Model\Session\Quote|\Magento\Sales\Model\Quote
+     * @return \Magento\Backend\Model\Session\Quote|\Magento\Sales\Model\Quote
      */
     public function getActualQuote()
     {
@@ -526,44 +527,6 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     }
 
     /**
-     * Adds error of operation either to internal array or directly to session (if set)
-     *
-     * @param string $message
-     * @return \Magento\AdvancedCheckout\Model\Cart
-     */
-    protected function _addResultError($message)
-    {
-        $session = $this->getSession();
-        if ($session) {
-            $session->addError($message);
-        } else {
-            $this->_resultErrors[] = $message;
-        }
-        return $this;
-    }
-
-    /**
-     * Returns array of errors encountered during previous operations
-     *
-     * @return array
-     */
-    protected function getResultErrors()
-    {
-        return $this->_resultErrors;
-    }
-
-    /**
-     * Clears array of operation errors, so caller will get only errors related to last operation
-     *
-     * @return \Magento\AdvancedCheckout\Model\Cart
-     */
-    protected function clearResultErrors()
-    {
-        $this->_resultErrors = array();
-        return $this;
-    }
-
-    /**
      * Add multiple products to current order quote.
      * Errors can be received via getResultErrors() or directly into session if it was set via setSession().
      *
@@ -577,7 +540,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
             try {
                 $this->addProduct($productId, $config);
             } catch (\Magento\Core\Exception $e) {
-                $this->_addResultError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 return $e;
             }
@@ -670,7 +633,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
                     }
                 }
                 if (!$wishlist) {
-                    $this->_addResultError(__("We couldn't find this wish list."));
+                    $this->messageManager->addError(__("We couldn't find this wish list."));
                     return $this;
                 }
                 $wishlist->setStore($this->getStore())
@@ -678,7 +641,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
                 if ($wishlist->getId() && $item->getProduct()->isVisibleInSiteVisibility()) {
                     $wishlistItem = $wishlist->addNewItem($item->getProduct(), $item->getBuyRequest());
                     if (is_string($wishlistItem)) {
-                        $this->_addResultError($wishlistItem);
+                        $this->messageManager->addError($wishlistItem);
                     } else if ($wishlistItem->getId()) {
                         $this->getQuote()->removeItem($item->getId());
                     }
@@ -1522,13 +1485,13 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
             $message = ($addedItemsCount == 1)
                     ? __('You added %1 product to your shopping cart.', $addedItemsCount)
                     : __('You added %1 products to your shopping cart.', $addedItemsCount);
-            $messages[] = $this->messageFactory->success($message);
+            $messages[] = $this->messageFactory->create(\Magento\Message\MessageInterface::TYPE_SUCCESS, $message);
         }
         if ($failedItemsCount) {
             $warning = ($failedItemsCount == 1)
                     ? __('%1 product requires your attention.', $failedItemsCount)
                     : __('%1 products require your attention.', $failedItemsCount);
-            $messages[] = $this->messageFactory->error($warning);
+            $messages[] = $this->messageFactory->create(\Magento\Message\MessageInterface::TYPE_ERROR, $warning);
         }
         return $messages;
     }
@@ -1655,10 +1618,10 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     /**
      * Sets session where data is going to be stored
      *
-     * @param \Magento\Core\Model\Session\AbstractSession $session
+     * @param \Magento\Session\SessionManagerInterface $session
      * @return \Magento\AdvancedCheckout\Model\Cart
      */
-    public function setSession(\Magento\Core\Model\Session\AbstractSession $session)
+    public function setSession(\Magento\Session\SessionManagerInterface $session)
     {
         $this->_getHelper()->setSession($session);
         return $this;
@@ -1667,7 +1630,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     /**
      * Returns current session used to store data about affected items
      *
-     * @return \Magento\Core\Model\Session\AbstractSession
+     * @return \Magento\Session\SessionManagerInterface
      */
     public function getSession()
     {

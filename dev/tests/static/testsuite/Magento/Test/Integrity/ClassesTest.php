@@ -41,7 +41,7 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
                 \:\:get(?:ResourceModel | BlockSingleton | Model | Singleton)?\(\s*[\'"]([a-z\d\\\\]+)[\'"]\s*[\),]
 
                 # various methods, first argument
-                | \->(?:initReport | addBlock | createBlock | setDataHelperName
+                | \->(?:initReport | addBlock | createBlock
                     | setAttributeModel | setBackendModel | setFrontendModel | setSourceModel | setModel
                 )\(\s*\'([a-z\d\\\\]+)\'\s*[\),]
 
@@ -153,13 +153,8 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
         }
         $badClasses = array();
         $badUsages = array();
-        $isBug = false;
         foreach ($classes as $class) {
             try {
-                if ('Magento\Catalog\Model\Resource\Convert' == $class) {
-                    $isBug = true;
-                    continue;
-                }
                 if (strrchr($class, '\\') == false) {
                     $badUsages[] = $class;
                     continue;
@@ -182,9 +177,6 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
         }
         if ($badUsages) {
             $this->fail("Bad usages of classes in $path: \n" . implode("\n", $badUsages));
-        }
-        if ($isBug) {
-            $this->markTestIncomplete('Bug MAGE-4763');
         }
     }
 
@@ -237,7 +229,7 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
                 foreach ($fileList as $currentFile) {
                     $absolutePath =
                         \Magento\TestFramework\Utility\Files::init()->getPathToSource() .
-                        DIRECTORY_SEPARATOR .
+                        '/' .
                         $currentFile;
                     if (is_dir($absolutePath)) {
                         $recursiveFiles =
@@ -392,7 +384,7 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
     protected function _setReferenceBlacklist()
     {
         if (!isset(self::$_referenceBlackList)) {
-            $blackList = file(__DIR__ . DIRECTORY_SEPARATOR . '_files/blacklist/reference.txt', FILE_IGNORE_NEW_LINES);
+            $blackList = file(__DIR__ . '/_files/blacklist/reference.txt', FILE_IGNORE_NEW_LINES);
             self::$_referenceBlackList = $blackList;
         }
     }

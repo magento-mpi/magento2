@@ -17,7 +17,7 @@
  */
 namespace Magento\Catalog\Block\Adminhtml\Product;
 
-class Created extends \Magento\Adminhtml\Block\Widget
+class Created extends \Magento\Backend\Block\Widget
 {
     protected $_configurableProduct;
     protected $_product;
@@ -56,7 +56,7 @@ class Created extends \Magento\Adminhtml\Block\Widget
 
     protected function _prepareLayout()
     {
-        $this->addChild('close_button', 'Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('close_button', 'Magento\Backend\Block\Widget\Button', array(
             'label'   => __('Close Window'),
             'onclick' => 'addProduct(true)'
         ));

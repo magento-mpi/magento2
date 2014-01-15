@@ -187,11 +187,11 @@ extends \Magento\Connect\Command
                 $this->doSyncPear($command, $options, $params);
             }
 
-            $packageDir = $config->magento_root . DS . \Magento\Connect\Package::PACKAGE_XML_DIR;
+            $packageDir = $config->magento_root . '/' . \Magento\Connect\Package::PACKAGE_XML_DIR;
             if (is_dir($packageDir)) {
                 $entries = scandir($packageDir);
                 foreach ((array)$entries as $entry) {
-                    $path =  $packageDir. DS .$entry;
+                    $path =  $packageDir . '/' . $entry;
                     $info = pathinfo($path);
                     if ($entry == '.' || $entry == '..' || is_dir($path) || $info['extension'] != 'xml') {
                         continue;
@@ -253,13 +253,13 @@ extends \Magento\Connect\Command
                 return $pkglist;
             }
 
-            $pearStorage = $config->magento_root . DS . $config->downloader_path . DS . self::PACKAGE_PEAR_DIR;
+            $pearStorage = $config->magento_root . '/' . $config->downloader_path . '/' . self::PACKAGE_PEAR_DIR;
             $channels = array(
                 '.channel.connect.magentocommerce.com_community',
                 '.channel.connect.magentocommerce.com_core'
             );
             foreach ($channels as $channel) {
-                $channelDirectory = $pearStorage . DS . $channel;
+                $channelDirectory = $pearStorage . '/' . $channel;
                 if (!file_exists($channelDirectory) || !is_dir($channelDirectory)) {
                     continue;
                 }
@@ -280,7 +280,7 @@ extends \Magento\Connect\Command
 
             $package = new \Magento\Connect\Package();
             foreach ($pkglist as $pkg) {
-                $pkgFilename = $pearStorage . DS . $pkg['channel'] . DS . $pkg['file'];
+                $pkgFilename = $pearStorage . '/' . $pkg['channel'] . '/' . $pkg['file'];
                 if (!file_exists($pkgFilename)) {
                     continue;
                 }
@@ -310,9 +310,9 @@ extends \Magento\Connect\Command
                             $ftpObj->chdir($ftpDir);
                         }
                     } else {
-                        $destDir = rtrim($config->magento_root, "\\/") . DS . \Magento\Connect\Package::PACKAGE_XML_DIR;
+                        $destDir = rtrim($config->magento_root, "\\/") . '/' . \Magento\Connect\Package::PACKAGE_XML_DIR;
                         $destFile = $package->getReleaseFilename() . '.xml';
-                        $dest = $destDir . DS . $destFile;
+                        $dest = $destDir . '/' . $destFile;
 
                         @mkdir($destDir, 0777, true);
                         @file_put_contents($dest, $package->getPackageXml());
@@ -343,7 +343,7 @@ extends \Magento\Connect\Command
      * @return boolean
      */
     protected function _checkPearData($config) {
-        $pearStorage = $config->magento_root . DS . $config->downloader_path  . DS . self::PACKAGE_PEAR_DIR;
+        $pearStorage = $config->magento_root . '/' . $config->downloader_path  . '/' . self::PACKAGE_PEAR_DIR;
         return (!$config->sync_pear) && file_exists($pearStorage) && is_dir($pearStorage);
     }
 

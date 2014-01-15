@@ -19,7 +19,7 @@
 namespace Magento\Reports\Block\Adminhtml\Grid\Column\Renderer;
 
 class Customer
-    extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\AbstractRenderer
+    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Renders grid column
@@ -36,7 +36,7 @@ class Customer
         }
 
         return sprintf('<a href="%s">%s</a>',
-            $this->getUrl('adminhtml/catalog_product_review', array('customerId' => $id)),
+            $this->getUrl('catalog/product_review/', array('customerId' => $id)),
             __('Show Reviews')
         );
     }

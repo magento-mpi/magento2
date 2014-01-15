@@ -34,14 +34,14 @@ class Monitor extends \Magento\Backend\Block\Template
             /** @var $layout \Magento\View\LayoutInterface */
             $layout = $this->getLayout();
             if ($layout->getBlock('salesrule.related.banners') !== false) {
-                /** @var $promoQuoteBlock \Magento\Adminhtml\Block\Widget\Tabs */
+                /** @var $promoQuoteBlock \Magento\Backend\Block\Widget\Tabs */
                 $promoQuoteBlock = $layout->getBlock('promo_quote_edit_tabs');
                 if ($promoQuoteBlock !== false) {
                     $promoQuoteBlock->removeTab('banners_section');
                     $layout->unsetElement('salesrule.related.banners');
                 }
             } elseif ($layout->getBlock('catalogrule.related.banners') !== false) {
-                /** @var $promoCatalogBlock \Magento\Adminhtml\Block\Widget\Tabs */
+                /** @var $promoCatalogBlock \Magento\Backend\Block\Widget\Tabs */
                 $promoCatalogBlock = $layout->getBlock('promo_catalog_edit_tabs');
                 if ($promoCatalogBlock !== false) {
                     $promoCatalogBlock->removeTab('banners_section');

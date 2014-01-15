@@ -1,10 +1,11 @@
-// /**
-//  * {license_notice}
-//  *
-//  * @copyright  {copyright}
-//  * @license    {license_link}
-//  */
+/**
+ * {license_notice}
+ *
+ * @copyright  {copyright}
+ * @license    {license_link}
+ */
 
+@import "vars.less";
 /*
     Header
 -------------------------------------- */
@@ -22,10 +23,6 @@
     padding: 0 20px;
 }
 
-.eq-ie8 .header {
-    background: #f5f2ea;
-}
-
 .header-inner {
     min-width: 960px;
     max-width: 1300px;
@@ -41,55 +38,56 @@
     background: url(Magento_Backend::images/logo-magento-small.png) no-repeat;
     margin: 0;
 }
-/*
-.header .logo {
-    display: inline-block;
-    width: 100px;
-    height: 27px;
-    margin: 0;
-    text-indent: -999em;
-    position: relative;
-    z-index: 1;
-}
-
-.header .logo:before,
-.header .logo:after {
-    font-family: 'admin-icons';
-    font-size: 26px;
-    content: '\e00d';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    text-indent: 0;
-    line-height: 1;
-    font-weight: normal;
-}
-
-.header .logo:before {
-    content: '\e00d';
-    color: #f37b20;
-}
-
-.header .logo:after {
-    content: '\e00e';
-    color: #fab57f;
-}
-
-.header .logo span:before {
-    font-family: 'admin-icons';
-    content: '\e00f';
-    display: block;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 28px;
-    font-size: 65px;
-    margin-top: -17px;
-    text-indent: 0;
-    line-height: 1;
-    font-weight: normal;
-    color: #000;
-}*/
+// /*
+//.header .logo {
+//    display: inline-block;
+//    width: 100px;
+//    height: 27px;
+//    margin: 0;
+//    text-indent: -999em;
+//    position: relative;
+//    z-index: 1;
+//}
+//
+//.header .logo:before,
+//.header .logo:after {
+//    font-family: 'admin-icons';
+//    font-size: 26px;
+//    content: '\e00d';
+//    position: absolute;
+//    bottom: 0;
+//    left: 0;
+//    text-indent: 0;
+//    line-height: 1;
+//    font-weight: normal;
+//}
+//
+//.header .logo:before {
+//    content: '\e00d';
+//    color: #f37b20;
+//}
+//
+//.header .logo:after {
+//    content: '\e00e';
+//    color: #fab57f;
+//}
+//
+//.header .logo span:before {
+//    font-family: 'admin-icons';
+//    content: '\e00f';
+//    display: block;
+//    position: absolute;
+//    top: 0;
+//    bottom: 0;
+//    left: 28px;
+//    font-size: 65px;
+//    margin-top: -17px;
+//    text-indent: 0;
+//    line-height: 1;
+//    font-weight: normal;
+//    color: #000;
+//}
+// */
 
 .header-panel {
     float: right;
@@ -110,10 +108,6 @@
     -moz-box-shadow: 0 2px 7px 2px rgba(0, 0, 0, 0.2);
     -webkit-box-shadow: 0 2px 7px 2px rgba(0, 0, 0, 0.2);
     box-shadow: 0 2px 7px 2px rgba(0, 0, 0, 0.2);
-}
-
-.eq-ie8 .header-panel .dropdown-menu {
-    border: 1px solid #c3bcaf;
 }
 
 .header-panel .dropdown-menu > li {
@@ -281,10 +275,6 @@
 .header-panel .notifications-icon:hover:before,
 .header-panel .notifications-icon:active:before {
     color: #b0a798;
-}
-
-.eq-ie8 .header-panel .notifications-icon:before {
-    bottom: -6px;
 }
 
 .header-panel .notifications .value {
@@ -561,7 +551,7 @@
     padding-top: 14px;
     z-index: 2;
 }
-.eq-ie8 .header-panel .notifications > .dropdown-menu > li:hover,
+
 .header-panel .notifications > .dropdown-menu > li:first-child:hover,
 .header-panel .notifications > .dropdown-menu > li.first:hover,
 .header-panel .notifications > .dropdown-menu > li:last-child:hover,
@@ -572,10 +562,6 @@
 
 .header-panel .dropdown-menu > li:hover:after {
     display: none;
-}
-
-.eq-ie8 .header-panel .dropdown-menu > li:hover:after {
-    display: block;
 }
 
 .header-panel .notifications > .dropdown-menu > li:hover .action-close {
@@ -643,9 +629,6 @@
     text-indent: 0;
 }
 
-.eq-ie8 .header-panel .notifications > .dropdown-menu .action-close {
-    filter: none;
-}
 
 .header .header-panel .notifications .dropdown-menu > li.last {
     padding: 0;
@@ -666,16 +649,8 @@
     margin: 0;
 }
 
-.eq-ie8 .header .header-panel .notifications .action-more {
-    filter: none;
-}
-
 .header .header-panel .notifications .action-more:hover {
     text-decoration: none;
-}
-
-.eq-ie8 .header .header-panel .notifications .action-more {
-    margin-bottom: -1px;
 }
 
 /*
@@ -740,12 +715,8 @@
 }
 
 .autocomplete-results {
-    left: 0 !important; /* TODO: Because of script bug in IE9 */
+    left: 0 !important; // TODO: Because of script bug in IE9
     right: 0;
-}
-
-.eq-ie8 .autocomplete-results {
-    margin-top: -10px;
 }
 
 .autocomplete-results .title {
@@ -817,10 +788,6 @@
     font-size: 18px;
     line-height: 1.7;
     text-align: center;
-}
-
-.eq-ie8 .search button[type="submit"]:before {
-    line-height: 1.3;
 }
 
 /*

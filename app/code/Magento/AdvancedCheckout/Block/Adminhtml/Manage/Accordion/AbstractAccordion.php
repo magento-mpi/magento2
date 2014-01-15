@@ -18,7 +18,7 @@
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
 
 abstract class AbstractAccordion
-    extends \Magento\Adminhtml\Block\Widget\Grid
+    extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * Collection field name for using in controls
@@ -51,6 +51,7 @@ abstract class AbstractAccordion
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Data\CollectionFactory $collectionFactory
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
@@ -58,13 +59,14 @@ abstract class AbstractAccordion
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Url $urlModel,
+        \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Data\CollectionFactory $collectionFactory,
         \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_collectionFactory = $collectionFactory;
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($context, $urlModel, $data);
+        parent::__construct($context, $urlModel, $backendHelper, $data);
     }
 
     /**
@@ -137,7 +139,7 @@ abstract class AbstractAccordion
     /**
      * Prepare Grid columns
      *
-     * @return \Magento\Adminhtml\Block\Widget\Grid
+     * @return \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareColumns()
     {

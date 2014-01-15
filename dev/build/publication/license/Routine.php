@@ -159,7 +159,7 @@ class Routine
     {
         $paths = array();
         foreach ($list as $globPattern) {
-            $path = $workingDir . DIRECTORY_SEPARATOR . $globPattern;
+            $path = $workingDir . '/' . $globPattern;
             $subPaths = glob($path, GLOB_BRACE);
             if (false === $subPaths) {
                 throw new Exception("No real paths found by glob pattern: {$path}");
@@ -187,9 +187,9 @@ class Routine
      */
     protected static function _isDirectorySkipped($directory)
     {
-        $directory = realpath($directory) . DIRECTORY_SEPARATOR;
+        $directory = realpath($directory) . '/';
         foreach (self::$skipDirectories as $skipDir) {
-            if (false !== strpos($directory, $skipDir . DIRECTORY_SEPARATOR)) {
+            if (false !== strpos($directory, $skipDir . '/')) {
                 return true;
             }
         }
@@ -291,7 +291,7 @@ class Routine
     {
         $licenseClassName = ucfirst(strtolower($license));
         if (!class_exists($licenseClassName)) {
-            $licenseClassFile = __DIR__ . DIRECTORY_SEPARATOR . $licenseClassName . '.php';
+            $licenseClassFile = __DIR__ . '/' . $licenseClassName . '.php';
             if (!file_exists($licenseClassFile) || !is_readable($licenseClassFile)) {
                 throw new Exception("Can't access license file: {$licenseClassFile}.\n");
             }
@@ -347,7 +347,7 @@ class Routine
                     $licenseInstances[$licenseType] = Routine::createLicenseInstance($licenseType);
                 }
                 Routine::updateLicense(
-                    array($workingDir . ($path ? DIRECTORY_SEPARATOR . $path : '')),
+                    array($workingDir . ($path ? '/' . $path : '')),
                     Routine::$fileTypes[$fileType],
                     $licenseInstances[$licenseType],
                     $recursive

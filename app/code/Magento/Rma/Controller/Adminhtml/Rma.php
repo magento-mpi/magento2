@@ -23,21 +23,35 @@ class Rma extends \Magento\Backend\App\Action
     protected $_coreRegistry;
 
     /**
+     * @var \Magento\Filesystem
+     */
+    protected $filesystem;
+
+    /**
+     * @var \Magento\Filesystem\Directory\Read
+     */
+    protected $readDirectory;
+
+    /**
      * @var \Magento\App\Response\Http\FileFactory
      */
     protected $_fileFactory;
 
     /**
-     * @param \Magento\Backend\App\Action\Context $context
+     * @param Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     * @param \Magento\Filesystem $filesystem
      */
     public function __construct(
         Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\App\Response\Http\FileFactory $fileFactory
+        \Magento\App\Response\Http\FileFactory $fileFactory,
+        \Magento\Filesystem $filesystem
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->filesystem = $filesystem;
+        $this->readDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::MEDIA);
         $this->_fileFactory = $fileFactory;
         parent::__construct($context);
     }
@@ -135,18 +149,16 @@ class Rma extends \Magento\Backend\App\Action
             $customerId = $this->getRequest()->getParam('customer_id');
             $this->_redirect('adminhtml/*/chooseorder', array('customer_id' => $customerId));
         } else {
-            /** @var \Magento\Backend\Model\Session $backendSession */
-            $backendSession = $this->_objectManager->get('Magento\Backend\Model\Session');
             try {
                 $this->_initCreateModel();
                 $this->_initModel();
                 if (!$this->_objectManager->get('Magento\Rma\Helper\Data')->canCreateRma($orderId, true)) {
-                    $backendSession->addError(
+                    $this->messageManager->addError(
                         __('There are no applicable items for return in this order.')
                     );
                 }
             } catch (\Magento\Core\Exception $e) {
-                $backendSession->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
                 $this->_redirect('adminhtml/*/');
                 return;
             }
@@ -182,7 +194,7 @@ class Rma extends \Magento\Backend\App\Action
                 throw new \Magento\Core\Exception(__('The wrong RMA was requested.'));
             }
         } catch (\Magento\Core\Exception $e) {
-            $this->_objectManager->get('Magento\Backend\Model\Session')->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
             $this->_redirect('adminhtml/*/');
             return;
         }
@@ -202,8 +214,6 @@ class Rma extends \Magento\Backend\App\Action
             $this->_redirect('adminhtml/*/');
             return;
         }
-        /** @var \Magento\Backend\Model\Session $backendSession */
-        $backendSession = $this->_objectManager->get('Magento\Backend\Model\Session');
         try {
             /** @var $model \Magento\Rma\Model\Rma */
             $model = $this->_initModel();
@@ -213,9 +223,9 @@ class Rma extends \Magento\Backend\App\Action
                 throw new \Magento\Core\Exception(__('We failed to save this RMA.'));
             }
             $this->_processNewRmaAdditionalInfo($saveRequest, $model);
-            $backendSession->addSuccess(__('You submitted the RMA request.'));
+            $this->messageManager->addSuccess(__('You submitted the RMA request.'));
         } catch (\Magento\Core\Exception $e) {
-            $backendSession->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
             $errorKeys = $this->_objectManager->get('Magento\Core\Model\Session')
                 ->getRmaErrorKeys();
             $controllerParams = array('order_id' => $this->_coreRegistry->registry('current_order')->getId());
@@ -225,7 +235,7 @@ class Rma extends \Magento\Backend\App\Action
             $this->_redirect('adminhtml/*/new', $controllerParams);
             return;
         } catch (\Exception $e) {
-            $backendSession->addError(__('We failed to save this RMA.'));
+            $this->messageManager->addError(__('We failed to save this RMA.'));
             $this->_objectManager->get('Magento\Logger')->logException($e);
         }
         $this->_redirect('adminhtml/*/');
@@ -301,8 +311,6 @@ class Rma extends \Magento\Backend\App\Action
             $this->saveNewAction();
             return;
         }
-        /** @var \Magento\Backend\Model\Session $backendSession */
-        $backendSession = $this->_objectManager->get('Magento\Backend\Model\Session');
         try {
             $saveRequest = $this->_filterRmaSaveRequest($this->getRequest()->getPost());
             $itemStatuses = $this->_combineItemStatuses($saveRequest['items'], $rmaId);
@@ -315,14 +323,14 @@ class Rma extends \Magento\Backend\App\Action
                 throw new \Magento\Core\Exception(__('We failed to save this RMA.'));
             }
             $model->sendAuthorizeEmail();
-            $backendSession->addSuccess(__('You saved the RMA request.'));
+            $this->messageManager->addSuccess(__('You saved the RMA request.'));
             $redirectBack = $this->getRequest()->getParam('back', false);
             if ($redirectBack) {
                 $this->_redirect('adminhtml/*/edit', array('id' => $rmaId, 'store' => $model->getStoreId()));
                 return;
             }
         } catch (\Magento\Core\Exception $e) {
-            $backendSession->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
             $errorKeys = $this->_objectManager->get('Magento\Core\Model\Session')
                 ->getRmaErrorKeys();
             $controllerParams = array('id' => $rmaId);
@@ -332,7 +340,7 @@ class Rma extends \Magento\Backend\App\Action
             $this->_redirect('adminhtml/*/edit', $controllerParams);
             return;
         } catch (\Exception $e) {
-            $backendSession->addError(__('We failed to save this RMA.'));
+            $this->messageManager->addError(__('We failed to save this RMA.'));
             $this->_objectManager->get('Magento\Logger')->logException($e);
             $this->_redirect('adminhtml/*/');
             return;
@@ -442,13 +450,13 @@ class Rma extends \Magento\Backend\App\Action
         }
         if ($countNonCloseRma) {
             if ($countCloseRma) {
-                $this->_getSession()->addError(__('%1 RMA(s) cannot be closed', $countNonCloseRma));
+                $this->messageManager->addError(__('%1 RMA(s) cannot be closed', $countNonCloseRma));
             } else {
-                $this->_getSession()->addError(__('We cannot close the RMA request(s).'));
+                $this->messageManager->addError(__('We cannot close the RMA request(s).'));
             }
         }
         if ($countCloseRma) {
-            $this->_getSession()->addSuccess(__('%1 RMA (s) have been closed.', $countCloseRma));
+            $this->messageManager->addSuccess(__('%1 RMA (s) have been closed.', $countCloseRma));
         }
 
         if ($returnRma) {
@@ -602,6 +610,7 @@ class Rma extends \Magento\Backend\App\Action
                 return $this->_fileFactory->create(
                     'rma' . $dateModel->date('Y-m-d_H-i-s') . '.pdf',
                     $pdf->render(),
+                    \Magento\Filesystem::MEDIA,
                     'application/pdf'
                 );
             }
@@ -812,57 +821,54 @@ class Rma extends \Magento\Backend\App\Action
      */
     public function viewfileAction()
     {
-        $file   = null;
+        $fileName = null;
         $plain  = false;
         if ($this->getRequest()->getParam('file')) {
             // download file
-            $file   = $this->_objectManager->get('Magento\Core\Helper\Data')
+            $fileName   = $this->_objectManager->get('Magento\Core\Helper\Data')
                 ->urlDecode($this->getRequest()->getParam('file'));
         } else if ($this->getRequest()->getParam('image')) {
             // show plain image
-            $file   = $this->_objectManager->get('Magento\Core\Helper\Data')
+            $fileName   = $this->_objectManager->get('Magento\Core\Helper\Data')
                 ->urlDecode($this->getRequest()->getParam('image'));
             $plain  = true;
         } else {
             throw new NotFoundException();
         }
-        /** @var $dirModel \Magento\App\Dir */
-        $dirModel = $this->_objectManager->get('Magento\App\Dir');
-        $path = $dirModel->getDir(\Magento\App\Dir::MEDIA) . DS . 'rma_item';
 
-        $ioFile = new \Magento\Io\File();
-        $ioFile->open(array('path' => $path));
-        $fileName   = $ioFile->getCleanPath($path . $file);
-        $path       = $ioFile->getCleanPath($path);
-
-        if (!$ioFile->fileExists($fileName) || strpos($fileName, $path) !== 0) {
+        $filePath = sprintf('rma_item/%s', $fileName);
+        if (!$this->readDirectory->isExist($filePath)) {
             throw new NotFoundException();
         }
 
         if ($plain) {
-            $contentType = $this->_getPlainImageMimeType(strtolower(pathinfo($fileName, PATHINFO_EXTENSION)));
-            $ioFile->streamOpen($fileName, 'r');
-            $contentLength = $ioFile->streamStat('size');
-            $contentModify = $ioFile->streamStat('mtime');
-
+            /** @var $readFile \Magento\Filesystem\File\Read */
+            $readFile = $this->readDirectory->openFile($filePath);
+            $contentType = $this->_getPlainImageMimeType(strtolower(pathinfo($fileName, PATHINFO_EXTENSION
+            )));
+            $fileStat = $this->readDirectory->stat($filePath);
             $this->getResponse()
                 ->setHttpResponseCode(200)
                 ->setHeader('Pragma', 'public', true)
                 ->setHeader('Content-type', $contentType, true)
-                ->setHeader('Content-Length', $contentLength)
-                ->setHeader('Last-Modified', date('r', $contentModify))
+                ->setHeader('Content-Length', $fileStat['size'])
+                ->setHeader('Last-Modified', date('r', $fileStat['mtime']))
                 ->clearBody();
             $this->getResponse()->sendHeaders();
 
-            while (false !== ($buffer = $ioFile->streamRead())) {
+            while (false !== ($buffer = $readFile->read(1024))) {
                 echo $buffer;
             }
         } else {
             $name = pathinfo($fileName, PATHINFO_BASENAME);
-            $this->_fileFactory->create($name, array(
-                'type'  => 'filename',
-                'value' => $fileName
-            ));
+            $this->_fileFactory->create(
+                $name,
+                array(
+                    'type'  => 'filename',
+                    'value' => $this->readDirectory->getAbsolutePath($filePath)
+                ),
+                \Magento\Filesystem::MEDIA
+            )->sendResponse();
         }
 
         exit();
@@ -1071,8 +1077,7 @@ class Rma extends \Magento\Backend\App\Action
             $model = $this->_initModel();
             if ($model) {
                 if ($this->_createShippingLabel($model)) {
-                    $this->_getSession()
-                        ->addSuccess(__('You created a shipping label.'));
+                    $this->messageManager->addSuccess(__('You created a shipping label.'));
                     $responseAjax->setOk(true);
                 }
                 $this->_objectManager->get('Magento\Backend\Model\Session')->getCommentText(true);
@@ -1103,7 +1108,7 @@ class Rma extends \Magento\Backend\App\Action
             $shipment = $this->_initShipment();
             if ($this->_createShippingLabel($shipment)) {
                 $shipment->save();
-                $this->_getSession()->addSuccess(__('You created a shipping label.'));
+                $this->messageManager->addSuccess(__('You created a shipping label.'));
                 $response->setOk(true);
             }
         } catch (\Magento\Core\Exception $e) {
@@ -1225,7 +1230,7 @@ class Rma extends \Magento\Backend\App\Action
                     $pdf = new \Zend_Pdf();
                     $page = $this->_createPdfPageFromImageString($labelContent);
                     if (!$page) {
-                        $this->_getSession()->addError(__("We don't recognize or support the file extension in shipment %1.", $model->getIncrementId()));
+                        $this->messageManager->addError(__("We don't recognize or support the file extension in shipment %1.", $model->getIncrementId()));
                     }
                     $pdf->pages[] = $page;
                     $pdfContent = $pdf->render();
@@ -1234,15 +1239,15 @@ class Rma extends \Magento\Backend\App\Action
                 return $this->_fileFactory->create(
                     'ShippingLabel(' . $model->getIncrementId() . ').pdf',
                     $pdfContent,
+                    \Magento\Filesystem::MEDIA,
                     'application/pdf'
                 );
             }
         } catch (\Magento\Core\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);
-            $this->_getSession()
-                ->addError(__('Something went wrong creating a shipping label.'));
+            $this->messageManager->addError(__('Something went wrong creating a shipping label.'));
        }
         $this->_redirect('adminhtml/*/edit', array(
             'id' => $this->getRequest()->getParam('id')
@@ -1271,7 +1276,9 @@ class Rma extends \Magento\Backend\App\Action
             /** @var $dateModel \Magento\Core\Model\Date */
             $dateModel = $this->_objectManager->get('Magento\Core\Model\Date');
             return $this->_fileFactory->create(
-                'packingslip' . $dateModel->date('Y-m-d_H-i-s') . '.pdf', $pdf->render(),
+                'packingslip' . $dateModel->date('Y-m-d_H-i-s') . '.pdf',
+                $pdf->render(),
+                \Magento\Filesystem::MEDIA,
                 'application/pdf'
             );
         } else {
@@ -1297,12 +1304,13 @@ class Rma extends \Magento\Backend\App\Action
         $page = new \Zend_Pdf_Page($xSize, $ySize);
 
         imageinterlace($image, 0);
-        $tmpFileName = sys_get_temp_dir() . DS . 'shipping_labels_'
-                     . uniqid(mt_rand()) . time() . '.png';
-        imagepng($image, $tmpFileName);
-        $pdfImage = \Zend_Pdf_Image::imageWithPath($tmpFileName);
+        $dir = $this->filesystem->getDirectoryWrite(\Magento\Filesystem::SYS_TMP);
+        $tmpFileName = 'shipping_labels_' . uniqid(mt_rand()) . time() . '.png';
+        $tmpFilePath = $dir->getAbsolutePath($tmpFileName);
+        imagepng($image, $tmpFilePath);
+        $pdfImage = \Zend_Pdf_Image::imageWithPath($tmpFilePath);
         $page->drawImage($pdfImage, 0, 0, $xSize, $ySize);
-        unlink($tmpFileName);
+        $dir->delete($tmpFileName);
         return $page;
     }
 

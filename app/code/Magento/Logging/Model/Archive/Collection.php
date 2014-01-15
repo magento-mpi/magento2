@@ -39,12 +39,13 @@ class Collection extends \Magento\Data\Collection\Filesystem
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logging\Model\Archive $archive,
-        \Magento\Core\Model\LocaleInterface $locale
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Filesystem $filesystem
     ) {
         parent::__construct($entityFactory);
         $basePath = $archive->getBasePath();
-        $file = new \Magento\Io\File();
-        $file->setAllowCreateFolders(true)->createDestinationDir($basePath);
+        $dir = $filesystem->getDirectoryWrite(\Magento\Filesystem::VAR_DIR);
+        $dir->create($dir->getRelativePath($basePath));
         $this->addTargetDir($basePath);
         $this->_locale = $locale;
     }

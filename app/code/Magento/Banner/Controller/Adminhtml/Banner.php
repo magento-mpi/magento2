@@ -65,8 +65,7 @@ class Banner extends \Magento\Backend\App\Action
         $model = $this->_initBanner('id');
 
         if (!$model->getId() && $bannerId) {
-            $this->_getSession()
-                ->addError(__('This banner no longer exists.'));
+            $this->messageManager->addError(__('This banner no longer exists.'));
             $this->_redirect('adminhtml/*/');
             return;
         }
@@ -99,7 +98,7 @@ class Banner extends \Magento\Backend\App\Action
             $bannerId = $this->getRequest()->getParam('id');
             $model = $this->_initBanner();
             if (!$model->getId() && $bannerId) {
-                $this->_getSession()->addError(
+                $this->messageManager->addError(
                     __('This banner does not exist.')
                 );
                 $this->_redirect('adminhtml/*/');
@@ -117,7 +116,7 @@ class Banner extends \Magento\Backend\App\Action
 
             // prepare post data
             if (isset($data['banner_catalog_rules'])) {
-                $related = $this->_objectManager->get('Magento\Adminhtml\Helper\Js')
+                $related = $this->_objectManager->get('Magento\Backend\Helper\Js')
                     ->decodeGridSerializedInput($data['banner_catalog_rules']);
                 foreach ($related as $_key => $_rid) {
                     $related[$_key] = (int)$_rid;
@@ -125,7 +124,7 @@ class Banner extends \Magento\Backend\App\Action
                 $data['banner_catalog_rules'] = $related;
             }
             if (isset($data['banner_sales_rules'])) {
-                $related = $this->_objectManager->get('Magento\Adminhtml\Helper\Js')
+                $related = $this->_objectManager->get('Magento\Backend\Helper\Js')
                     ->decodeGridSerializedInput($data['banner_sales_rules']);
                 foreach ($related as $_key => $_rid) {
                     $related[$_key] = (int)$_rid;
@@ -141,14 +140,14 @@ class Banner extends \Magento\Backend\App\Action
                 }
                 $model->save();
                 $this->_getSession()->setFormData(false);
-                $this->_getSession()->addSuccess(
+                $this->messageManager->addSuccess(
                     __('You saved the banner.')
                 );
             } catch (\Magento\Core\Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
                 $redirectBack = true;
             } catch (\Exception $e) {
-                $this->_getSession()->addError(
+                $this->messageManager->addError(
                     __('We cannot save the banner.')
                 );
                 $redirectBack = true;
@@ -177,16 +176,16 @@ class Banner extends \Magento\Backend\App\Action
                 $model->load($bannerId);
                 $model->delete();
                 // display success message
-                $this->_getSession()->addSuccess(
+                $this->messageManager->addSuccess(
                     __('The banner has been deleted.')
                 );
                 // go to grid
                 $this->_redirect('adminhtml/*/');
                 return;
             } catch (\Magento\Core\Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->_getSession()->addError(
+                $this->messageManager->addError(
                 // @codingStandardsIgnoreStart
                     __('Something went wrong deleting banner data. Please review the action log and try again.')
                 // @codingStandardsIgnoreEnd
@@ -200,7 +199,7 @@ class Banner extends \Magento\Backend\App\Action
             }
         }
         // display error message
-        $this->_getSession()->addError(
+        $this->messageManager->addError(
             __('We cannot find a banner to delete.')
         );
         // go to grid
@@ -215,7 +214,7 @@ class Banner extends \Magento\Backend\App\Action
     {
         $ids = $this->getRequest()->getParam('banner');
         if (!is_array($ids)) {
-            $this->_getSession()->addError(__('Please select a banner(s).'));
+            $this->messageManager->addError(__('Please select a banner(s).'));
         } else {
             try {
                 foreach ($ids as $id) {
@@ -223,13 +222,13 @@ class Banner extends \Magento\Backend\App\Action
                     $model->delete();
                 }
 
-                $this->_getSession()->addSuccess(
+                $this->messageManager->addSuccess(
                     __('You deleted %1 record(s).', count($ids))
                 );
             } catch (\Magento\Core\Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->_getSession()->addError(
+                $this->messageManager->addError(
                 // @codingStandardsIgnoreStart
                     __('Something went wrong mass-deleting banners. Please review the action log and try again.')
                 // @codingStandardsIgnoreEnd
@@ -294,7 +293,7 @@ class Banner extends \Magento\Backend\App\Action
         $model = $this->_initBanner('id');
 
         if (!$model->getId() && $bannerId) {
-            $this->_getSession()->addError(
+            $this->messageManager->addError(
                 __('This banner does not exist.')
             );
             $this->_redirect('adminhtml/*/');
@@ -320,7 +319,7 @@ class Banner extends \Magento\Backend\App\Action
         $model = $this->_initBanner('id');
 
         if (!$model->getId() && $bannerId) {
-            $this->_getSession()->addError(
+            $this->messageManager->addError(
                 __('This banner does not exist.')
             );
             $this->_redirect('adminhtml/*/');
@@ -346,7 +345,7 @@ class Banner extends \Magento\Backend\App\Action
         if ($ruleId) {
             $model->load($ruleId);
             if (! $model->getRuleId()) {
-                $this->_getSession()->addError(
+                $this->messageManager->addError(
                     __('This rule no longer exists.')
                 );
                 $this->_redirect('adminhtml/*');
@@ -375,7 +374,7 @@ class Banner extends \Magento\Backend\App\Action
         if ($ruleId) {
             $model->load($ruleId);
             if (! $model->getRuleId()) {
-                $this->_getSession()->addError(__('This rule no longer exists.'));
+                $this->messageManager->addError(__('This rule no longer exists.'));
                 $this->_redirect('adminhtml/*');
                 return;
             }

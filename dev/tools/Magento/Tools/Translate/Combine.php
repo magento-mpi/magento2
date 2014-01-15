@@ -16,17 +16,16 @@ Usage:
 */
 namespace Magento\Tools\Translate;
 
-define('DS', DIRECTORY_SEPARATOR);
 define('BASE_PATH', dirname(dirname(dirname(dirname(dirname(__DIR__))))));
 
 define('MESSAGE_TYPE_NOTICE', '0');
 define('MESSAGE_TYPE_WARNING', '1');
 define('MESSAGE_TYPE_ERROR', '2');
 
-define('LOCALE_PATH', BASE_PATH . DS . 'app' . DS . 'locale' . DS . '%s' . DS);
+define('LOCALE_PATH', BASE_PATH . '/app/locale/%s/');
 
-include(BASE_PATH . DS . 'lib' . DS . 'Magento' . DS . 'File' . DS . 'Csv.php');
-include(__DIR__ . DS . 'ModuleTranslations.php');
+include(BASE_PATH . '/lib/Magento/File/Csv.php');
+include(__DIR__ . '/ModuleTranslations.php');
 
 global $argv;
 
@@ -147,7 +146,7 @@ class Combine
     private function _getFilesToProcess($path)
     {
         $result = array();
-        $prefix = (substr($path, -1) == DS ? $path : $path . DS);
+        $prefix = (substr($path, -1) == '/' ? $path : $path . '/');
 
         $directory = dir($path);
         while (false !== ($file = $directory->read())) {

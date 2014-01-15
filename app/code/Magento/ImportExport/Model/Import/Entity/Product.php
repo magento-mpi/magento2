@@ -357,9 +357,9 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     protected $_uploaderFactory;
 
     /**
-     * @var \Magento\App\Dir
+     * @var \Magento\Filesystem\Directory\WriteInterface
      */
-    protected $_dir;
+    protected $_mediaDirectory;
 
     /**
      * @var \Magento\CatalogInventory\Model\Resource\Stock\ItemFactory
@@ -409,7 +409,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      * @param \Magento\Catalog\Model\Resource\Product\LinkFactory $linkFactory
      * @param \Magento\ImportExport\Model\Import\Proxy\ProductFactory $proxyProdFactory
      * @param \Magento\ImportExport\Model\Import\UploaderFactory $uploaderFactory
-     * @param \Magento\App\Dir $dir
+     * @param \Magento\Filesystem $filesystem
      * @param \Magento\CatalogInventory\Model\Resource\Stock\ItemFactory $stockResItemFac
      * @param \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory
      * @param \Magento\Core\Model\LocaleInterface $locale
@@ -440,7 +440,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         \Magento\Catalog\Model\Resource\Product\LinkFactory $linkFactory,
         \Magento\ImportExport\Model\Import\Proxy\ProductFactory $proxyProdFactory,
         \Magento\ImportExport\Model\Import\UploaderFactory $uploaderFactory,
-        \Magento\App\Dir $dir,
+        \Magento\Filesystem $filesystem,
         \Magento\CatalogInventory\Model\Resource\Stock\ItemFactory $stockResItemFac,
         \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory,
         \Magento\Core\Model\LocaleInterface $locale,
@@ -462,7 +462,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         $this->_linkFactory = $linkFactory;
         $this->_proxyProdFactory = $proxyProdFactory;
         $this->_uploaderFactory = $uploaderFactory;
-        $this->_dir = $dir;
+        $this->_mediaDirectory = $filesystem->getDirectoryWrite(\Magento\Filesystem::MEDIA);
         $this->_stockResItemFac = $stockResItemFac;
         $this->_stockItemFactory = $stockItemFactory;
         $this->_locale = $locale;
@@ -671,7 +671,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         foreach ($productTypes as $productTypeName => $productTypeConfig) {
             $params = array($this, $productTypeName);
             if (!($model = $this->_productTypeFactory->create($productTypeConfig['model'], array('params' => $params)))) {
-                throw new \Magento\Core\Exception("Entity type model '{$productTypeConfig['model']}' is not found");
+                throw new \Magento\Core\Exception(sprintf("Entity type model '%s' is not found", $productTypeConfig['model']));
             }
             if (! $model instanceof \Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType) {
                 throw new \Magento\Core\Exception(__('Entity type model must be an instance of '
@@ -1017,6 +1017,16 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                             'value'          => $storeValue
                         );
                     }
+                    /*
+                    If the store based values are not provided for a particular store,
+                    we default to the default scope values.
+                    In this case, remove all the existing store based values stored in the table.
+                    */
+                    $where = $this->_connection->quoteInto('store_id NOT IN (?)', array_keys($storeValues)) .
+                        $this->_connection->quoteInto(' AND attribute_id = ?', $attributeId) .
+                        $this->_connection->quoteInto(' AND entity_id = ?', $productId) .
+                        $this->_connection->quoteInto(' AND entity_type_id = ?', $this->_entityTypeId);
+                    $this->_connection->delete($tableName, $where);
                 }
             }
             $this->_connection->insertOnDuplicate($tableName, $tableData, array('value'));
@@ -1244,6 +1254,12 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                     }
                 }
 
+                if ($this->getBehavior() == \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND ||
+                    empty($rowData[self::COL_SKU])
+                ) {
+                    $rowData = $this->_productTypeModels[$productType]->clearEmptyData($rowData);
+                }
+
                 $rowData = $this->_productTypeModels[$productType]->prepareAttributesWithDefaultValueForSave(
                     $rowData,
                     !isset($this->_oldSku[$rowSku])
@@ -1394,20 +1410,16 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
 
             $this->_fileUploader->init();
 
-            $mediaDir = $this->_dir->getDir(\Magento\App\Dir::MEDIA);
-            if (!$mediaDir) {
-                throw new \Magento\Exception('Media directory is unavailable.');
+            $tmpPath = $this->_mediaDirectory->getAbsolutePath('import');
+            if (!$this->_fileUploader->setTmpDir($tmpPath)) {
+                throw new \Magento\Core\Exception(sprintf("File directory '%s' is not readable.", $tmpPath));
             }
-            $tmpDir = "{$mediaDir}/import";
-            if (!$this->_fileUploader->setTmpDir($tmpDir)) {
-                throw new \Magento\Core\Exception("File directory '{$tmpDir}' is not readable.");
-            }
-            $destDir = "{$mediaDir}/catalog/product";
-            if (!is_dir($destDir)) {
-                mkdir($destDir, 0777, true);
-            }
-            if (!$this->_fileUploader->setDestDir($destDir)) {
-                throw new \Magento\Core\Exception("File directory '{$destDir}' is not writable.");
+            $destinationDir = "catalog/product";
+            $destinationPath = $this->_mediaDirectory->getAbsolutePath($destinationDir);
+
+            $this->_mediaDirectory->create($destinationDir);
+            if (!$this->_fileUploader->setDestDir($destinationPath)) {
+                throw new \Magento\Core\Exception(sprintf("File directory '%s' is not writable.", $destinationPath));
             }
         }
         return $this->_fileUploader;

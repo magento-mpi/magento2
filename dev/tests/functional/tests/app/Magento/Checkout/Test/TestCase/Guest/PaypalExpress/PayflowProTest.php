@@ -25,9 +25,9 @@ use Magento\Checkout\Test\Fixture\Checkout;
 class PayflowProTest extends Functional
 {
     /**
-     * Guest checkout using PayPal Payflow Link method and offline shipping method
+     * Guest checkout using "Checkout with PayPal" button from the shopping cart and offline shipping method
      *
-     * @ZephyrId MAGETWO-12974
+     * @ZephyrId MAGETWO-12414
      */
     public function testPayflowProExpress()
     {

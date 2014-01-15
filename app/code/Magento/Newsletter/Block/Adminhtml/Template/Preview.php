@@ -17,7 +17,7 @@
  */
 namespace Magento\Newsletter\Block\Adminhtml\Template;
 
-class Preview extends \Magento\Adminhtml\Block\Widget
+class Preview extends \Magento\Backend\Block\Widget
 {
     /**
      * @var \Magento\Newsletter\Model\TemplateFactory

@@ -8,38 +8,38 @@
  * @license     {license_link}
  */
 
+namespace Magento\Downloadable\Model;
+
+use Magento\Downloadable\Model\Resource\Link as Resource;
+
 /**
  * Downloadable link model
  *
- * @method \Magento\Downloadable\Model\Resource\Link _getResource()
- * @method \Magento\Downloadable\Model\Resource\Link getResource()
+ * @method Resource _getResource()
+ * @method Resource getResource()
  * @method int getProductId()
- * @method \Magento\Downloadable\Model\Link setProductId(int $value)
+ * @method Link setProductId(int $value)
  * @method int getSortOrder()
- * @method \Magento\Downloadable\Model\Link setSortOrder(int $value)
+ * @method Link setSortOrder(int $value)
  * @method int getNumberOfDownloads()
- * @method \Magento\Downloadable\Model\Link setNumberOfDownloads(int $value)
+ * @method Link setNumberOfDownloads(int $value)
  * @method int getIsShareable()
- * @method \Magento\Downloadable\Model\Link setIsShareable(int $value)
+ * @method Link setIsShareable(int $value)
  * @method string getLinkUrl()
- * @method \Magento\Downloadable\Model\Link setLinkUrl(string $value)
+ * @method Link setLinkUrl(string $value)
  * @method string getLinkFile()
- * @method \Magento\Downloadable\Model\Link setLinkFile(string $value)
+ * @method Link setLinkFile(string $value)
  * @method string getLinkType()
- * @method \Magento\Downloadable\Model\Link setLinkType(string $value)
+ * @method Link setLinkType(string $value)
  * @method string getSampleUrl()
- * @method \Magento\Downloadable\Model\Link setSampleUrl(string $value)
+ * @method Link setSampleUrl(string $value)
  * @method string getSampleFile()
- * @method \Magento\Downloadable\Model\Link setSampleFile(string $value)
+ * @method Link setSampleFile(string $value)
  * @method string getSampleType()
- * @method \Magento\Downloadable\Model\Link setSampleType(string $value)
+ * @method Link setSampleType(string $value)
  *
- * @category    Magento
- * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Downloadable\Model;
-
 class Link extends \Magento\Core\Model\AbstractModel
 {
     const XML_PATH_LINKS_TITLE              = 'catalog/downloadable/links_title';
@@ -52,14 +52,8 @@ class Link extends \Magento\Core\Model\AbstractModel
     const LINK_SHAREABLE_CONFIG = 2;
 
     /**
-     * @var \Magento\App\Dir
-     */
-    protected $_dirModel;
-
-    /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\App\Dir $dirModel
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -67,12 +61,10 @@ class Link extends \Magento\Core\Model\AbstractModel
     public function __construct(
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
-        \Magento\App\Dir $dirModel,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_dirModel = $dirModel;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -87,19 +79,9 @@ class Link extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Return link files path
-     *
-     * @return string
-     */
-    public function getLinkDir()
-    {
-        return $this->_dirModel->getDir();
-    }
-
-    /**
      * Enter description here...
      *
-     * @return \Magento\Downloadable\Model\Link
+     * @return Link
      */
     protected function _afterSave()
     {
@@ -114,8 +96,7 @@ class Link extends \Magento\Core\Model\AbstractModel
      */
     public function getBaseTmpPath()
     {
-        return $this->_dirModel->getDir(\Magento\App\Dir::MEDIA)
-            . DS . 'downloadable' . DS . 'tmp' . DS . 'links';
+        return 'downloadable/tmp/links';
     }
 
     /**
@@ -125,7 +106,7 @@ class Link extends \Magento\Core\Model\AbstractModel
      */
     public function getBasePath()
     {
-        return $this->_dirModel->getDir(\Magento\App\Dir::MEDIA) . DS . 'downloadable' . DS . 'files' . DS . 'links';
+        return 'downloadable/files/links';
     }
 
     /**
@@ -135,7 +116,7 @@ class Link extends \Magento\Core\Model\AbstractModel
      */
     public function getBaseSampleTmpPath()
     {
-        return $this->_dirModel->getDir(\Magento\App\Dir::MEDIA) . DS . 'downloadable' . DS . 'tmp' . DS . 'link_samples';
+        return 'downloadable/tmp/link_samples';
     }
 
     /**
@@ -145,7 +126,7 @@ class Link extends \Magento\Core\Model\AbstractModel
      */
     public function getBaseSamplePath()
     {
-        return $this->_dirModel->getDir(\Magento\App\Dir::MEDIA) . DS . 'downloadable' . DS . 'files' . DS . 'link_samples';
+        return 'downloadable/files/link_samples';
     }
 
     /**

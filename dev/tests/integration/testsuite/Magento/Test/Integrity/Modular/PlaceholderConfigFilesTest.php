@@ -16,12 +16,16 @@ class PlaceholderConfigFilesTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        // List of all available placeholders.xml
-        $xmlFiles = \Magento\TestFramework\Utility\Files::init()->getConfigFiles(
-            '{*/placeholders.xml,placeholders.xml}',
-            array('wsdl.xml', 'wsdl2.xml', 'wsi.xml'),
-            false
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var $filesystem \Magento\Filesystem */
+        $filesystem = $objectManager->get('Magento\Filesystem');
+        $modulesDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::MODULES);
+        $fileIteratorFactory = $objectManager->get('Magento\Config\FileIteratorFactory');
+        $xmlFiles = $fileIteratorFactory->create(
+            $modulesDirectory,
+            $modulesDirectory->search('/*/*/etc/{*/placeholders.xml,placeholders.xml}')
         );
+
         $fileResolverMock = $this->getMock('Magento\Config\FileResolverInterface');
         $fileResolverMock->expects($this->any())
             ->method('get')

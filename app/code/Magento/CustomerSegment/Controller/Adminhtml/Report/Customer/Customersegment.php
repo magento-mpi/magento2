@@ -110,7 +110,7 @@ class Customersegment
         }
         if (!$segment->getId() && !$segment->getMassactionIds()) {
             if ($outputMessage) {
-                $this->_session->addError(__('You requested the wrong customer segment.'));
+                $this->messageManager->addError(__('You requested the wrong customer segment.'));
             }
             return false;
         }
@@ -176,7 +176,7 @@ class Customersegment
                 if ($segments) {
                     $viewModeLabel = $this->_objectManager->get('Magento\CustomerSegment\Helper\Data')
                         ->getViewModeLabel($this->_getAdminSession()->getViewMode());
-                    $this->_session->addNotice(
+                    $this->messageManager->addNotice(
                         __('Viewing combined "%1" report from segments: %2.', $viewModeLabel, implode(', ', $segments))
                     );
                 }
@@ -203,11 +203,11 @@ class Customersegment
                 if ($segment->getApplyTo() != \Magento\CustomerSegment\Model\Segment::APPLY_TO_VISITORS) {
                     $segment->matchCustomers();
                 }
-                $this->_session->addSuccess(__('Customer Segment data has been refreshed.'));
+                $this->messageManager->addSuccess(__('Customer Segment data has been refreshed.'));
                 $this->_redirect('*/*/detail', array('_current' => true));
                 return;
             } catch (\Magento\Core\Exception $e) {
-                $this->_session->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
             }
         }
         $this->_redirect('*/*/detail', array('_current' => true));
@@ -225,7 +225,11 @@ class Customersegment
             $this->_view->loadLayout();
             $content = $this->_view->getLayout()
                 ->getChildBlock('report.customersegment.detail.grid', 'grid.export');
-            $this->_fileFactory->create($fileName, $content->getExcelFile($fileName));
+            return $this->_fileFactory->create(
+                $fileName,
+                $content->getExcelFile($fileName),
+                \Magento\Filesystem::VAR_DIR
+            );
         } else {
             $this->_redirect('*/*/detail', array('_current' => true));
             return ;
@@ -243,7 +247,11 @@ class Customersegment
             $fileName = 'customersegment_customers.csv';
             $content = $this->_view->getLayout()
                 ->getChildBlock('report.customersegment.detail.grid', 'grid.export');
-            $this->_fileFactory->create($fileName, $content->getCsvFile($fileName));
+            return $this->_fileFactory->create(
+                $fileName,
+                $content->getCsvFile($fileName),
+                \Magento\Filesystem::VAR_DIR
+            );
         } else {
             $this->_redirect('*/*/detail', array('_current' => true));
             return ;

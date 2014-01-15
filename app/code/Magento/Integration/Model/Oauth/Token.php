@@ -78,6 +78,8 @@ class Token extends \Magento\Core\Model\AbstractModel
     protected $_dateTime;
 
     /**
+     * Initialize dependencies.
+     *
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Integration\Model\Oauth\Consumer\Validator\KeyLengthFactory $keyLengthFactory
@@ -89,7 +91,6 @@ class Token extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
-     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(

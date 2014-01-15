@@ -25,10 +25,16 @@ class Grid extends \Magento\Sales\Block\Recurring\Profile\View
     protected $_config;
 
     /**
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreHelper;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Sales\Model\Resource\Order\Collection $collection
      * @param \Magento\Sales\Model\Order\Config $config
+     * @param \Magento\Core\Helper\Data $coreHelper
      * @param array $data
      */
     public function __construct(
@@ -36,8 +42,10 @@ class Grid extends \Magento\Sales\Block\Recurring\Profile\View
         \Magento\Core\Model\Registry $registry,
         \Magento\Sales\Model\Resource\Order\Collection $collection,
         \Magento\Sales\Model\Order\Config $config,
+        \Magento\Core\Helper\Data $coreHelper,
         array $data = array()
     ) {
+        $this->_coreHelper = $coreHelper;
         parent::__construct($context, $registry, $data);
         $this->_orderCollection = $collection;
         $this->_config = $config;
@@ -116,7 +124,7 @@ class Grid extends \Magento\Sales\Block\Recurring\Profile\View
                 'increment_id' => $order->getIncrementId(),
                 'created_at' => $this->formatDate($order->getCreatedAt()),
                 'customer_name' => $order->getCustomerName(),
-                'base_grand_total' => $this->helper('Magento\Core\Helper\Data')->formatCurrency(
+                'base_grand_total' => $this->_coreHelper->formatCurrency(
                     $order->getBaseGrandTotal(), false
                 ),
                 'status' => $order->getStatusLabel(),

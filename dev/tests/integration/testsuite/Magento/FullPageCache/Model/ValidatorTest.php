@@ -93,6 +93,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         // manual unset cache type
         $cacheTypeList->cleanType($cacheType);
 
+
         // invoke get data dependencies method
         switch ($type) {
             case 'change':

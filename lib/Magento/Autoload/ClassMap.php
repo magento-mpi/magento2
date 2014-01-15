@@ -52,7 +52,7 @@ class ClassMap
     public function getFile($class)
     {
         if (isset($this->_map[$class])) {
-            return $this->_baseDir . DIRECTORY_SEPARATOR . $this->_map[$class];
+            return $this->_baseDir . '/' . $this->_map[$class];
         }
         return false;
     }

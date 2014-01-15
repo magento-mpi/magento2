@@ -83,7 +83,7 @@ class Items extends \Magento\Backend\Block\Widget\Form\Generic
             'class' => 'add',
         );
         return $this->getLayout()
-            ->createBlock('Magento\Adminhtml\Block\Widget\Button')
+            ->createBlock('Magento\Backend\Block\Widget\Button')
             ->setData($addButtonData)
             ->toHtml();
     }
@@ -101,7 +101,7 @@ class Items extends \Magento\Backend\Block\Widget\Form\Generic
             'class' => 'add',
         );
         return $this->getLayout()
-            ->createBlock('Magento\Adminhtml\Block\Widget\Button')
+            ->createBlock('Magento\Backend\Block\Widget\Button')
             ->setData($addButtonData)
             ->toHtml();
     }

@@ -10,7 +10,7 @@
 
 namespace Magento\Banner\Block\Adminhtml\Banner;
 
-class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
+class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
      * Core registry

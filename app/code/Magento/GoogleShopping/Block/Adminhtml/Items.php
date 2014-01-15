@@ -17,7 +17,7 @@
  */
 namespace Magento\GoogleShopping\Block\Adminhtml;
 
-class Items extends \Magento\Adminhtml\Block\Widget\Grid\Container
+class Items extends \Magento\Backend\Block\Widget\Grid\Container
 {
 
     protected $_template = 'items.phtml';

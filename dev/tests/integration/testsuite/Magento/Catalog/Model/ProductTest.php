@@ -34,13 +34,20 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
     public static function tearDownAfterClass()
     {
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var \Magento\Catalog\Model\Product\Media\Config $config */
-        $config = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Catalog\Model\Product\Media\Config');
+        $config = $objectManager->get('Magento\Catalog\Model\Product\Media\Config');
 
-        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Filesystem');
-        $filesystem->delete($config->getBaseMediaPath());
-        $filesystem->delete($config->getBaseTmpMediaPath());
+        /** @var \Magento\Filesystem\Directory\WriteInterface $mediaDirectory */
+        $mediaDirectory = $objectManager->get('Magento\Filesystem')
+            ->getDirectoryWrite(\Magento\Filesystem::MEDIA);
+
+        if ($mediaDirectory->isExist($config->getBaseMediaPath())) {
+            $mediaDirectory->delete($config->getBaseMediaPath());
+        }
+        if ($mediaDirectory->isExist($config->getBaseTmpMediaPath())) {
+            $mediaDirectory->delete($config->getBaseTmpMediaPath());
+        }
     }
 
     public function testCanAffectOptions()
@@ -102,17 +109,17 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      */
     protected function _copyFileToBaseTmpMediaPath($sourceFile)
     {
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var \Magento\Catalog\Model\Product\Media\Config $config */
-        $config = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Catalog\Model\Product\Media\Config');
-        $baseTmpMediaPath = $config->getBaseTmpMediaPath();
+        $config = $objectManager->get('Magento\Catalog\Model\Product\Media\Config');
 
-        $targetFile = $baseTmpMediaPath . DS . basename($sourceFile);
+        /** @var \Magento\Filesystem\Directory\WriteInterface $mediaDirectory */
+        $mediaDirectory = $objectManager->get('Magento\Filesystem')
+            ->getDirectoryWrite(\Magento\Filesystem::MEDIA);
 
-        /** @var \Magento\Filesystem $filesystem */
-        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Filesystem');
-        $filesystem->setIsAllowCreateDirectories(true);
-        $filesystem->copy($sourceFile, $targetFile);
+        $mediaDirectory->create($config->getBaseTmpMediaPath());
+        $targetFile = $config->getTmpMediaPath(basename($sourceFile));
+        copy($sourceFile, $mediaDirectory->getAbsolutePath($targetFile));
 
         return $targetFile;
     }
@@ -130,6 +137,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             $this->assertNotEquals($duplicate->getId(), $this->_model->getId());
             $this->assertNotEquals($duplicate->getSku(), $this->_model->getSku());
             $this->assertEquals(\Magento\Catalog\Model\Product\Status::STATUS_DISABLED, $duplicate->getStatus());
+            $this->assertEquals(\Magento\Core\Model\Store::DEFAULT_STORE_ID, $duplicate->getStoreId());
             $this->_undo($duplicate);
         } catch (\Exception $e) {
             $this->_undo($duplicate);

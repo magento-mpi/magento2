@@ -18,7 +18,7 @@
 
 namespace Magento\Reports\Block\Adminhtml\Sales;
 
-class Shipping extends \Magento\Adminhtml\Block\Widget\Grid\Container
+class Shipping extends \Magento\Backend\Block\Widget\Grid\Container
 {
 
     protected $_template = 'report/grid/container.phtml';

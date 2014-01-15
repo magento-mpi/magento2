@@ -52,17 +52,22 @@ $qtyValidationClasses = 'required-entry validate-number validate-greater-than-ze
         <script data-template="add-block" type="text/x-jQuery-tmpl">
             <div class="fields" data-mage-init="{deletableItem: {}}">
                 <div class="field sku required">
-                    <label class="label"><span><?php echo __('Sku') ?></span></label>
+                    <label for="id-items[${rowIndex}${uniqueSuffix}][sku]" class="label"><span><?php echo __('Sku') ?></span></label>
                     <div class="control">
-                        <input type="text" name="items[${rowIndex}${uniqueSuffix}][sku]"
+                        <input type="text"
+                               name="items[${rowIndex}${uniqueSuffix}][sku]"
+                               id="id-items[${rowIndex}${uniqueSuffix}][sku]"
                                data-id="${rowIndex}${uniqueSuffix}sku"
                                data-validate="{'required-if-not-specified': '#customer_sku_csv'}"/>
                     </div>
                 </div>
                 <div class="field qty required">
-                    <label class="label"><span><?php echo __('Qty') ?></span></label>
+                    <label class="label" for="id-items[${rowIndex}${uniqueSuffix}][qty]"><span><?php echo __('Qty') ?></span></label>
                     <div class="control">
-                        <input type="text" name="items[${rowIndex}${uniqueSuffix}][qty]" class="qty"
+                        <input type="number"
+                               name="items[${rowIndex}${uniqueSuffix}][qty]"
+                               id="id-items[${rowIndex}${uniqueSuffix}][qty]"
+                               class="qty"
                                maxlength="13"
                                data-validate="{'required-if-specified': '[data-id=${rowIndex}${uniqueSuffix}sku]', 'validate-greater-than-zero': true}"/>
                     </div>

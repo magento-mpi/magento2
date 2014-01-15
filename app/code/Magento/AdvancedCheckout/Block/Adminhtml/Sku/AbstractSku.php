@@ -85,13 +85,13 @@ abstract class AbstractSku extends \Magento\Backend\Block\Template
             );
         }
 
-        $this->addChild('deleteButton', 'Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('deleteButton', 'Magento\Backend\Block\Widget\Button', array(
             'label'   => '',
             'onclick' => 'addBySku.del(this)',
             'class'   => 'delete'
         ));
 
-        $this->addChild('addButton', 'Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('addButton', 'Magento\Backend\Block\Widget\Button', array(
             'label'   => 'Add',
             'onclick' => 'addBySku.add()',
             'class'   => 'add'

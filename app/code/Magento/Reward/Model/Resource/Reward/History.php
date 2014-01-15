@@ -41,36 +41,9 @@ class History extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected function _construct()
     {
         $this->_init('magento_reward_history', 'history_id');
-    }
-
-    /**
-     * Perform actions after object load
-     *
-     * @param \Magento\Object $object
-     * @return \Magento\Reward\Model\Resource\Reward\History
-     */
-    protected function _afterLoad(\Magento\Core\Model\AbstractModel $object)
-    {
-        parent::_afterLoad($object);
-        if (is_string($object->getData('additional_data'))) {
-            $object->setData('additional_data', unserialize($object->getData('additional_data')));
-        }
-        return $this;
-    }
-
-    /**
-     * Perform actions before object save
-     *
-     * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Reward\Model\Resource\Reward\History
-     */
-    public function _beforeSave(\Magento\Core\Model\AbstractModel $object)
-    {
-        parent::_beforeSave($object);
-        if (is_array($object->getData('additional_data'))) {
-            $object->setData('additional_data', serialize($object->getData('additional_data')));
-        }
-        return $this;
+        $this->_serializableFields = array(
+            'additional_data' => array(array(), array()),
+        );
     }
 
     /**

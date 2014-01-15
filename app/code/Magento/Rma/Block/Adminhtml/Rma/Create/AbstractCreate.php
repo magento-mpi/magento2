@@ -18,7 +18,7 @@
 
 namespace Magento\Rma\Block\Adminhtml\Rma\Create;
 
-abstract class AbstractCreate extends \Magento\Adminhtml\Block\Widget
+abstract class AbstractCreate extends \Magento\Backend\Block\Widget
 {
      /**
      * Core registry

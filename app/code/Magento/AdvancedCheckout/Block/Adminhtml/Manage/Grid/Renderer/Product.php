@@ -17,7 +17,7 @@
  */
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Grid\Renderer;
 
-class Product extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\Text
+class Product extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Text
 {
     /**
      * Render product name to add Configure link

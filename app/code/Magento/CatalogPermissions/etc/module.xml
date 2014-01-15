@@ -10,7 +10,6 @@
 <config>
     <module name="Magento_CatalogPermissions" version="1.11.0.0" active="false">
         <sequence>
-            <module name="Magento_Adminhtml"/>
             <module name="Magento_Catalog"/>
             <module name="Magento_CatalogSearch"/>
             <module name="Magento_Sales"/>
@@ -18,7 +17,6 @@
             <module name="Magento_WebsiteRestriction"/>
         </sequence>
         <depends>
-            <module name="Magento_Adminhtml"/>
             <module name="Magento_Backend"/>
             <module name="Magento_Catalog"/>
             <module name="Magento_Core"/>

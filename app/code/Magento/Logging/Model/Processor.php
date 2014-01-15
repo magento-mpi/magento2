@@ -94,11 +94,9 @@ class Processor
     protected $_authSession;
 
     /**
-     * Backend session
-     *
-     * @var \Magento\Backend\Model\Session
+     * @var \Magento\Message\ManagerInterface
      */
-    protected $_backendSession;
+    protected $messageManager;
 
     /**
      * Object manager
@@ -139,7 +137,7 @@ class Processor
      * @param \Magento\Logging\Model\Config $config
      * @param \Magento\Logging\Model\Handler\Models $modelsHandler
      * @param \Magento\Backend\Model\Auth\Session $authSession
-     * @param \Magento\Backend\Model\Session $backendSession
+     * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Logger $logger
      * @param \Magento\Logging\Model\Handler\ControllersFactory $handlerControllersFactory
@@ -151,7 +149,7 @@ class Processor
         \Magento\Logging\Model\Config $config,
         \Magento\Logging\Model\Handler\Models $modelsHandler,
         \Magento\Backend\Model\Auth\Session $authSession,
-        \Magento\Backend\Model\Session $backendSession,
+        \Magento\Message\ManagerInterface $messageManager,
         \Magento\ObjectManager $objectManager,
         \Magento\Logger $logger,
         \Magento\Logging\Model\Handler\ControllersFactory $handlerControllersFactory,
@@ -163,7 +161,7 @@ class Processor
         $this->_modelsHandler = $modelsHandler;
         $this->_controllersHandler = $handlerControllersFactory->create();
         $this->_authSession = $authSession;
-        $this->_backendSession = $backendSession;
+        $this->messageManager = $messageManager;
         $this->_objectManager = $objectManager;
         $this->_logger = $logger;
         $this->_eventFactory = $eventFactory;
@@ -380,7 +378,7 @@ class Processor
             $userId = $this->_authSession->getUser()->getId();
             $username = $this->_authSession->getUser()->getUsername();
         }
-        $errors = $this->_backendSession->getMessages()->getErrors();
+        $errors = $this->messageManager->getMessages()->getErrors();
         /** @var \Magento\Logging\Model\Event $loggingEvent */
         $loggingEvent = $this->_eventFactory->create()->setData(array(
             'ip'            => $this->_remoteAddress->getRemoteAddress(),

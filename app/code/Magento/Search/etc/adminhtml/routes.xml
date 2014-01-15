@@ -9,8 +9,8 @@
 -->
 <config>
     <router id="admin">
-        <route id="adminhtml">
-            <module name="Magento_Search_Adminhtml" before="Magento_Adminhtml" />
+        <route id="catalog">
+            <module name="Magento_Search" before="Magento_Catalog_Adminhtml" />
         </route>
     </router>
 </config>

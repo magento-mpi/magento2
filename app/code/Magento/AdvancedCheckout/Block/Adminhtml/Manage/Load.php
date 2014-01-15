@@ -8,28 +8,19 @@
  * @license     {license_link}
  */
 
-/**
- * Admin Checkout block for returning dynamically loaded content
- *
- * @category    Magento
- * @package     Magento_AdvancedCheckout
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage;
 
+/**
+ * Admin Checkout block for returning dynamically loaded content
+ */
 class Load extends \Magento\View\Element\Template
 {
-    /*
-     * Returns string text with response of loading some blocks
-     *
-     * @return string
-     */
     /**
      * Adminhtml js
      *
-     * @var \Magento\Adminhtml\Helper\Js
+     * @var \Magento\Backend\Helper\Js
      */
-    protected $_adminhtmlJs = null;
+    protected $_adminhtmlJs;
 
     /**
      * @var \Magento\Json\EncoderInterface
@@ -39,13 +30,13 @@ class Load extends \Magento\View\Element\Template
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Json\EncoderInterface $jsonEncoder
-     * @param \Magento\Adminhtml\Helper\Js $adminhtmlJs
+     * @param \Magento\Backend\Helper\Js $adminhtmlJs
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Json\EncoderInterface $jsonEncoder,
-        \Magento\Adminhtml\Helper\Js $adminhtmlJs,
+        \Magento\Backend\Helper\Js $adminhtmlJs,
         array $data = array()
     ) {
         $this->_jsonEncoder = $jsonEncoder;

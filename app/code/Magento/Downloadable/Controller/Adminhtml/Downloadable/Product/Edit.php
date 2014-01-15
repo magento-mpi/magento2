@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Downloadable
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,11 +9,11 @@
 /**
  * Adminhtml downloadable product edit
  *
- * @category    Magento
- * @package     Magento_Downloadable
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Downloadable\Controller\Adminhtml\Downloadable\Product;
+
+use Magento\Downloadable\Helper\Download as DownloadHelper;
 
 class Edit extends \Magento\Catalog\Controller\Adminhtml\Product
 {
@@ -44,7 +42,7 @@ class Edit extends \Magento\Catalog\Controller\Adminhtml\Product
     protected function _processDownload($resource, $resourceType)
     {
         $helper = $this->_objectManager->get('Magento\Downloadable\Helper\Download');
-        /* @var $helper \Magento\Downloadable\Helper\Download */
+        /* @var $helper DownloadHelper */
 
         $helper->setResource($resource, $resourceType);
 
@@ -57,7 +55,7 @@ class Edit extends \Magento\Catalog\Controller\Adminhtml\Product
             ->setHeader('Cache-Control', 'must-revalidate, post-check=0, pre-check=0', true)
             ->setHeader('Content-type', $contentType, true);
 
-        if ($fileSize = $helper->getFilesize()) {
+        if ($fileSize = $helper->getFileSize()) {
             $this->getResponse()
                 ->setHeader('Content-Length', $fileSize);
         }
@@ -87,20 +85,20 @@ class Edit extends \Magento\Catalog\Controller\Adminhtml\Product
         if ($link->getId()) {
             $resource = '';
             $resourceType = '';
-            if ($link->getLinkType() == \Magento\Downloadable\Helper\Download::LINK_TYPE_URL) {
+            if ($link->getLinkType() == DownloadHelper::LINK_TYPE_URL) {
                 $resource = $link->getLinkUrl();
-                $resourceType = \Magento\Downloadable\Helper\Download::LINK_TYPE_URL;
-            } elseif ($link->getLinkType() == \Magento\Downloadable\Helper\Download::LINK_TYPE_FILE) {
+                $resourceType = DownloadHelper::LINK_TYPE_URL;
+            } elseif ($link->getLinkType() == DownloadHelper::LINK_TYPE_FILE) {
                 $resource = $this->_objectManager->get('Magento\Downloadable\Helper\File')->getFilePath(
                     $this->_getLink()->getBasePath(),
                     $link->getLinkFile()
                 );
-                $resourceType = \Magento\Downloadable\Helper\Download::LINK_TYPE_FILE;
+                $resourceType = DownloadHelper::LINK_TYPE_FILE;
             }
             try {
                 $this->_processDownload($resource, $resourceType);
             } catch (\Magento\Core\Exception $e) {
-                $this->_getCustomerSession()->addError(__('Something went wrong while getting the requested content.'));
+                $this->messageManager->addError(__('Something went wrong while getting the requested content.'));
             }
         }
         exit(0);

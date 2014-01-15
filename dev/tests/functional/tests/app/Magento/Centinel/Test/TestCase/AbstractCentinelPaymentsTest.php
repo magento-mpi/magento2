@@ -67,14 +67,37 @@ abstract class AbstractCentinelPaymentsTest extends Functional
     /**
      * Submit 3D Secure Verification form
      */
-    protected function _validateCc(Checkout $fixture)
+    protected function _submitCc(Checkout $fixture)
     {
         /** @var \Magento\Checkout\Test\Page\CheckoutOnepage $checkoutOnePage */
         $checkoutOnePage = Factory::getPageFactory()->getCheckoutOnepage();
         /** @var  \Magento\Centinel\Test\Block\Authentication $centinelBlock */
         $centinelBlock = $checkoutOnePage->getCentinelAuthenticationBlock();
         $centinelBlock->verifyCard($fixture);
+    }
+
+    /**
+     * Validate Success Submitting 3D Secure Verification form
+     */
+    protected function _validateCc(Checkout $fixture)
+    {
+        $this->_submitCc($fixture);
+        /** @var \Magento\Checkout\Test\Page\CheckoutOnepage $checkoutOnePage */
+        $checkoutOnePage = Factory::getPageFactory()->getCheckoutOnepage();
         $checkoutOnePage->getReviewBlock()->waitForCardValidation();
+    }
+
+    /**
+     * Get Message after failed submit 3D Secure Verification form
+     */
+    protected function _getFailedMessage(Checkout $fixture)
+    {
+        /** @var \Magento\Checkout\Test\Page\CheckoutOnepage $checkoutOnePage */
+        $checkoutOnePage = Factory::getPageFactory()->getCheckoutOnepage();
+        $checkoutOnePage->getReviewBlock();
+        /** @var  \Magento\Centinel\Test\Block\Authentication $centinelBlock */
+        $centinelBlock = $checkoutOnePage->getCentinelAuthenticationBlock();
+        return $centinelBlock->getText();
     }
 
     /**
@@ -152,7 +175,7 @@ abstract class AbstractCentinelPaymentsTest extends Functional
         //Create Account
         $homePage->open();
         $topLinks = $homePage->getLinksBlock();
-        $topLinks->openLink('register');
+        $topLinks->openLink('Register');
 
         $createPage->getCreateForm()->create($customer);
 

@@ -51,7 +51,7 @@ class View extends \Magento\App\View
             $this->generateLayoutBlocks();
             $this->_isLayoutLoaded = true;
         }
-        $this->getLayout()->initMessages('Magento\Backend\Model\Session');
+        $this->getLayout()->initMessages();
         return $this;
     }
 

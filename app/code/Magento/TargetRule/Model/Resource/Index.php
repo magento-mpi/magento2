@@ -13,9 +13,6 @@ namespace Magento\TargetRule\Model\Resource;
 /**
  * TargetRule Product Index by Rule Product List Type Resource Model
  *
- * @category    Magento
- * @package     Magento_TargetRule
- * @author      Magento Core Team <core@magentocommerce.com>
  * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Index extends \Magento\Index\Model\Resource\AbstractResource
@@ -25,28 +22,28 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
      *
      * @var int
      */
-    protected $_bindIncrement  = 0;
+    protected $_bindIncrement = 0;
 
     /**
      * Target rule data
      *
      * @var \Magento\TargetRule\Helper\Data
      */
-    protected $_targetRuleData = null;
+    protected $_targetRuleData;
 
     /**
      * Core registry
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
     
     /**
      * Customer segment data
      *
      * @var \Magento\CustomerSegment\Helper\Data
      */
-    protected $_customerSegmentData = null;
+    protected $_customerSegmentData;
 
     /**
      * @var \Magento\Customer\Model\Session
@@ -614,28 +611,26 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
      * Remove target rule matched product index data by product id or/and rule id
      *
      * @param int $productId
-     * @param int $ruleId
+     * @param array|int|string $ruleIds
      *
      * @return \Magento\TargetRule\Model\Resource\Index
      */
-    public function removeProductIndex($productId = null, $ruleId = null)
+    public function removeProductIndex($productId = null, $ruleIds = array())
     {
-        $this->_rule->unbindRuleFromEntity($ruleId, $productId, 'product');
+        $this->_rule->unbindRuleFromEntity($ruleIds, $productId, 'product');
         return $this;
     }
 
     /**
      * Bind target rule to specified product
      *
-     * @param int $ruleId
-     * @param int $productId
-     * @param int $storeId
+     * @param \Magento\TargetRule\Model\Rule $object
      *
      * @return \Magento\TargetRule\Model\Resource\Index
      */
-    public function saveProductIndex($ruleId, $productId, $storeId)
+    public function saveProductIndex($object)
     {
-        $this->_rule->bindRuleToEntity($ruleId, $productId, 'product');
+        $this->_rule->bindRuleToEntity($object->getId(), $object->getMatchingProductIds(), 'product');
         return $this;
     }
 

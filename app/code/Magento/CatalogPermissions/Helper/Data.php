@@ -8,15 +8,11 @@
  * @license     {license_link}
  */
 
-/**
- * Base helper
- *
- * @category   Magento
- * @package    Magento_CatalogPermissions
- */
-
 namespace Magento\CatalogPermissions\Helper;
 
+/**
+ * Base helper
+ */
 class Data extends \Magento\App\Helper\AbstractHelper
 {
     const XML_PATH_GRANT_CATALOG_CATEGORY_VIEW = 'catalog/magento_catalogpermissions/grant_catalog_category_view';

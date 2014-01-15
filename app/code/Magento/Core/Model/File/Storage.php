@@ -10,6 +10,8 @@
 
 namespace Magento\Core\Model\File;
 
+use \Magento\Filesystem;
+
 /**
  * Class Storage
  */
@@ -76,9 +78,11 @@ class Storage extends \Magento\Core\Model\AbstractModel
     protected $_databaseFactory;
 
     /**
-     * @var \Magento\App\Dir
+     * Filesystem instance
+     *
+     * @var \Magento\Filesystem
      */
-    protected $_dir;
+    protected $filesystem;
 
     /**
      * @param \Magento\Core\Model\Context $context
@@ -89,7 +93,7 @@ class Storage extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\File\Storage\Flag $fileFlag
      * @param \Magento\Core\Model\File\Storage\FileFactory $fileFactory
      * @param \Magento\Core\Model\File\Storage\DatabaseFactory $databaseFactory
-     * @param \Magento\App\Dir $dir
+     * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -103,7 +107,7 @@ class Storage extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\File\Storage\Flag $fileFlag,
         \Magento\Core\Model\File\Storage\FileFactory $fileFactory,
         \Magento\Core\Model\File\Storage\DatabaseFactory $databaseFactory,
-        \Magento\App\Dir $dir,
+        \Magento\Filesystem $filesystem,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -114,7 +118,7 @@ class Storage extends \Magento\Core\Model\AbstractModel
         $this->_fileFlag = $fileFlag;
         $this->_fileFactory = $fileFactory;
         $this->_databaseFactory = $databaseFactory;
-        $this->_dir = $dir;
+        $this->filesystem = $filesystem;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -222,7 +226,7 @@ class Storage extends \Magento\Core\Model\AbstractModel
                 'source'                        => $sourceModel->getStorageName(),
                 'destination'                   => $destinationModel->getStorageName(),
                 'destination_storage_type'      => $storageDest,
-                'destination_connection_name'   => (string) $destinationModel->getConfigConnectionName(),
+                'destination_connection_name'   => (string) $destinationModel->getConnectionName(),
                 'has_errors'                    => false,
                 'timeout_reached'               => false
             );
@@ -278,7 +282,7 @@ class Storage extends \Magento\Core\Model\AbstractModel
     public function getScriptConfig()
     {
         $config = array();
-        $config['media_directory'] = $this->_dir->getDir('media');
+        $config['media_directory'] = $this->filesystem->getPath(Filesystem::MEDIA);
 
         $allowedResources = $this->_coreConfig->getValue(self::XML_PATH_MEDIA_RESOURCE_WHITELIST, 'default');
         foreach ($allowedResources as $allowedResource) {

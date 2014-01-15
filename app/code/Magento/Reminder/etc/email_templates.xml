@@ -8,5 +8,5 @@
  */
 -->
 <config>
-    <template id="magento_reminder_email_template" label="Promotion Notification/Reminder" file="promotion.html" type="html"/>
+    <template id="magento_reminder_email_template" label="Promotion Notification/Reminder" file="promotion.html" type="html" module="Magento_Reminder"/>
 </config>

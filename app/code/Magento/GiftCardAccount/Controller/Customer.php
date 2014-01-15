@@ -20,7 +20,7 @@ class Customer extends \Magento\App\Action\Action
      * this function checks if user is logged in before all other actions
      *
      * @param RequestInterface $request
-     * @return mixed
+     * @return \Magento\App\ResponseInterface
      */
     public function dispatch(RequestInterface $request)
     {
@@ -46,19 +46,19 @@ class Customer extends \Magento\App\Action\Action
                 $this->_objectManager->create('Magento\GiftCardAccount\Model\Giftcardaccount')
                     ->loadByCode($code)
                     ->setIsRedeemed(true)->redeem();
-                $this->_objectManager->get('Magento\Customer\Model\Session')->addSuccess(
+                $this->messageManager->addSuccess(
                     __('Gift Card "%1" was redeemed.', $this->_objectManager->get('Magento\Escaper')->escapeHtml($code))
                 );
             } catch (\Magento\Core\Exception $e) {
-                $this->_objectManager->get('Magento\Customer\Model\Session')->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Customer\Model\Session')->addException($e, __('We cannot redeem this gift card.'));
+                $this->messageManager->addException($e, __('We cannot redeem this gift card.'));
             }
             $this->_redirect('*/*/*');
             return;
         }
         $this->_view->loadLayout();
-        $this->_view->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $this->_view->getLayout()->initMessages();
         $this->_view->loadLayoutUpdates();
         $headBlock = $this->_view->getLayout()->getBlock('head');
         if ($headBlock) {

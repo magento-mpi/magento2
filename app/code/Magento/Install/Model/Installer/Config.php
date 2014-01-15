@@ -8,14 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Install\Model\Installer;
 
 /**
  * Config installer
- * @category   Magento
- * @package    Magento_Install
  */
-namespace Magento\Install\Model\Installer;
-
 class Config extends \Magento\Install\Model\Installer\AbstractInstaller
 {
     const TMP_INSTALL_DATE_VALUE= 'd-d-d-d-d';
@@ -26,17 +23,12 @@ class Config extends \Magento\Install\Model\Installer\AbstractInstaller
      *
      * @var string
      */
-    protected $_localConfigFile;
+    protected $_localConfigFile = 'local.xml';
 
     /**
      * @var \Magento\App\RequestInterface
      */
     protected $_request;
-
-    /**
-     * @var \Magento\App\Dir
-     */
-    protected $_dirs;
 
     protected $_configData = array();
 
@@ -46,6 +38,16 @@ class Config extends \Magento\Install\Model\Installer\AbstractInstaller
     protected $_filesystem;
 
     /**
+     * @var \Magento\Filesystem\Directory\ReadInterface
+     */
+    protected $_pubDirectory;
+
+    /**
+     * @var \Magento\Filesystem\Directory\Write
+     */
+    protected $_configDirectory;
+
+    /**
      * Store Manager
      *
      * @var \Magento\Core\Model\StoreManagerInterface
@@ -53,25 +55,31 @@ class Config extends \Magento\Install\Model\Installer\AbstractInstaller
     protected $_storeManager;
 
     /**
+     * @var \Magento\Message\ManagerInterface
+     */
+    protected $messageManager;
+
+    /**
      * @param \Magento\Install\Model\Installer $installer
      * @param \Magento\App\RequestInterface $request
-     * @param \Magento\App\Dir $dirs
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Message\ManagerInterface $messageManager
      */
     public function __construct(
         \Magento\Install\Model\Installer $installer,
         \Magento\App\RequestInterface $request,
-        \Magento\App\Dir $dirs,
         \Magento\Filesystem $filesystem,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Message\ManagerInterface $messageManager
     ) {
         parent::__construct($installer);
-        $this->_localConfigFile = $dirs->getDir(\Magento\App\Dir::CONFIG) . DIRECTORY_SEPARATOR . 'local.xml';
-        $this->_dirs = $dirs;
         $this->_request = $request;
-        $this->_filesystem = $filesystem;
         $this->_storeManager = $storeManager;
+        $this->_filesystem = $filesystem;
+        $this->_pubDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::PUB_LIB);
+        $this->_configDirectory = $filesystem->getDirectoryWrite(\Magento\Filesystem::CONFIG);
+        $this->messageManager = $messageManager;
     }
 
     public function setConfigData($data)
@@ -95,9 +103,9 @@ class Config extends \Magento\Install\Model\Installer\AbstractInstaller
         $data = $this->getConfigData();
 
         $defaults = array(
-            'root_dir' => $this->_dirs->getDir(\Magento\App\Dir::ROOT),
-            'app_dir'  => $this->_dirs->getDir(\Magento\App\Dir::APP),
-            'var_dir'  => $this->_dirs->getDir(\Magento\App\Dir::VAR_DIR),
+            'root_dir' => $this->_filesystem->getPath(\Magento\Filesystem::ROOT),
+            'app_dir'  => $this->_filesystem->getPath(\Magento\Filesystem::APP),
+            'var_dir'  => $this->_filesystem->getPath(\Magento\Filesystem::VAR_DIR),
             'base_url' => $this->_request->getDistroBaseUrl(),
         );
         foreach ($defaults as $index => $value) {
@@ -135,14 +143,13 @@ class Config extends \Magento\Install\Model\Installer\AbstractInstaller
 
         $this->_getInstaller()->getDataModel()->setConfigData($data);
 
-        $path = $this->_dirs->getDir(\Magento\App\Dir::CONFIG) . DIRECTORY_SEPARATOR . 'local.xml.template';
-        $contents = $this->_filesystem->read($path);
+        $contents = $this->_configDirectory->readFile('local.xml.template');
         foreach ($data as $index => $value) {
             $contents = str_replace('{{' . $index . '}}', '<![CDATA[' . $value . ']]>', $contents);
         }
 
-        $this->_filesystem->write($this->_localConfigFile, $contents);
-        $this->_filesystem->changePermissions($this->_localConfigFile, 0777);
+        $this->_configDirectory->writeFile($this->_localConfigFile, $contents);
+        $this->_configDirectory->changePermissions($this->_localConfigFile, 0777);
     }
 
     public function getFormData()
@@ -181,19 +188,18 @@ class Config extends \Magento\Install\Model\Installer\AbstractInstaller
     protected function _checkUrl($baseUrl)
     {
         try {
-            $pubLibDir = $this->_dirs->getDir(\Magento\App\Dir::PUB_LIB);
-            $staticFile = $this->_findFirstFileRelativePath($pubLibDir, '/.+\.(html?|js|css|gif|jpe?g|png)$/');
-            $staticUrl = $baseUrl . $this->_dirs->getUri(\Magento\App\Dir::PUB_LIB) . '/' . $staticFile;
+            $staticFile = $this->_findFirstFileRelativePath('', '/.+\.(html?|js|css|gif|jpe?g|png)$/');
+            $staticUrl = $baseUrl . $this->_filesystem->getUri(\Magento\Filesystem::PUB_LIB) . '/' . $staticFile;
             $client = new \Magento\HTTP\ZendClient($staticUrl);
             $response = $client->request('GET');
         } catch (\Exception $e){
-            $this->_getInstaller()->getDataModel()->addError(
+            $this->messageManager->addError(
                 __('The URL "%1" is not accessible.', $baseUrl)
             );
             throw $e;
         }
         if ($response->getStatus() != 200) {
-            $this->_getInstaller()->getDataModel()->addError(
+            $this->messageManager->addError(
                 __('The URL "%1" is invalid.', $baseUrl)
             );
             throw new \Magento\Core\Exception(__('Response from the server is invalid.'));
@@ -210,12 +216,9 @@ class Config extends \Magento\Install\Model\Installer\AbstractInstaller
     protected function _findFirstFileRelativePath($dir, $pattern = '/.*/')
     {
         $childDirs = array();
-        foreach (scandir($dir) as $itemName) {
-            if ($itemName == '.' || $itemName == '..') {
-                continue;
-            }
-            $itemPath = $dir . DIRECTORY_SEPARATOR . $itemName;
-            if (is_file($itemPath)) {
+        foreach ($this->_pubDirectory->read($dir) as $itemName) {
+            $itemPath = $dir . '/' . $itemName;
+            if ($this->_pubDirectory->isFile($itemPath)) {
                 if (preg_match($pattern, $itemName)) {
                     return $itemName;
                 }
@@ -235,18 +238,18 @@ class Config extends \Magento\Install\Model\Installer\AbstractInstaller
     public function replaceTmpInstallDate($date = 'now')
     {
         $stamp    = strtotime((string) $date);
-        $localXml = $this->_filesystem->read($this->_localConfigFile);
+        $localXml = $this->_configDirectory->readFile($this->_localConfigFile);
         $localXml = str_replace(self::TMP_INSTALL_DATE_VALUE, date('r', $stamp), $localXml);
-        $this->_filesystem->write($this->_localConfigFile, $localXml);
+        $this->_configDirectory->writeFile($this->_localConfigFile, $localXml);
 
         return $this;
     }
 
     public function replaceTmpEncryptKey($key)
     {
-        $localXml = $this->_filesystem->read($this->_localConfigFile);
+        $localXml = $this->_configDirectory->readFile($this->_localConfigFile);
         $localXml = str_replace(self::TMP_ENCRYPT_KEY_VALUE, $key, $localXml);
-        $this->_filesystem->write($this->_localConfigFile, $localXml);
+        $this->_configDirectory->writeFile($this->_localConfigFile, $localXml);
 
         return $this;
     }

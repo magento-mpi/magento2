@@ -264,7 +264,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
         // get static files from the js folder, no need in lookups
         foreach ($staticItems as $params => $rows) {
             foreach ($rows as $name) {
-                $items[$params][] = $mergeCallback ? $this->_dirs->getDir() . DS . 'js' . DS . $name : $baseJsUrl
+                $items[$params][] = $mergeCallback ? $this->_dirs->getDir() . '/js/' . $name : $baseJsUrl
                     . $name;
             }
         }

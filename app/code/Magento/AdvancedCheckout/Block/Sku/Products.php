@@ -40,10 +40,13 @@ class Products extends \Magento\Checkout\Block\Cart
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Catalog\Model\Resource\Url $catalogUrlBuilder
+     * @param \Magento\Checkout\Helper\Cart $cartHelper
      * @param \Magento\AdvancedCheckout\Model\Cart $cart
      * @param \Magento\Core\Helper\Url $coreUrl
      * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
@@ -51,6 +54,7 @@ class Products extends \Magento\Checkout\Block\Cart
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Catalog\Model\Resource\Url $catalogUrlBuilder,
+        \Magento\Checkout\Helper\Cart $cartHelper,
         \Magento\AdvancedCheckout\Model\Cart $cart,
         \Magento\Core\Helper\Url $coreUrl,
         \Magento\AdvancedCheckout\Helper\Data $checkoutData,
@@ -65,6 +69,7 @@ class Products extends \Magento\Checkout\Block\Cart
             $customerSession,
             $checkoutSession,
             $catalogUrlBuilder,
+            $cartHelper,
             $data
         );
     }

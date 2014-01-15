@@ -1,20 +1,208 @@
 * Fixed bugs:
+  * Fixed memory exceeding on very large image uploading
+  * Fixed category move is not changing position in case if $afterCategoryId is null
+  * Fixed admin users locked out after lognum update
+  * Fixed products from non-default website aren't shown as bundle items
+  * Fixed placing order with status Pending Payment instead of Processing when payment method Authorize.net is used
+  * Fixed PayPal Express: order can't be placed if HTTPS is used on frontend
+  * Fixed security issue with user session on registration
+  * Fixed CSRF vulnerability in checkout
+  * Fixed JavaScript static testing framework to properly handle corrupted paths in white/black lists
+  * Fixed error during Google Shopping synchronization due to invalid method call
+  * Fixed design for contextual help tooltip
+  * Fixed "Authorize.net CC" section UI on "Onepage Checkout" page
+  * Fixed UI issues on backend create and view order pages
+  * Fixed IE9 backend UI issues
+  * Fixed UI issues on "Edit Customer" backend page
+  * Fixed UI issue of placeholder for preview images on "Edit Product" page in IE9
+  * Fixed Admin Look&Feel forms UI issues
+  * Fixed Admin Look&Feel buttons UI issues
+  * Fixed product's status after a virtual product was duplicated
+  * Fixed fatal error with attribute file from customer account page in backend
+  * Fixed security issue - set `CURLOPT_SSL_VERIFYPEER` to `true` and `CURLOPT_SSL_VERIFYHOST` to 2 by default in cUrl calls
+  * Updated comments for eliminating redirect when secure url is used
+  * Fixed incorrect product duplication in multiple store view configuration
+* Consolidated a few 3rd-party JavaScript libraries under `pub/lib` directory and specified their original license notice texts
+* Service Layer Implementation:
+  * Implemented initial set of services for the Customer module
+
+2.0.0.0-dev59
+=============
+* Fixed bugs:
+  * Fixed invalid year in exception log errors
+  * Fixed the double-serialization in saving data for shipments
+  * Fixed an issue with adding a gift wrapping for multiple items
+  * Fixed shipping labels generation for DHL
+  * Fixed an issue with lost product price and weight during import
+  * Fixed a fatal error when a file reference is added to the HTML head
+  * Fixed an issue with printing orders containing downloadable product(s)
+  * Fixed an issue with the 'Same as shipping' check box not being selected on the Review Order page for PayPal Express checkout
+  * Fixed an issue with Email Templates preview showing a blank page
+  * Fixed an issue with a refund creation from the PayPal side
+  * Removed the occurrences of the non-existing Mage_Catalog_Model_Resource_Convert resource model
+  * Fixed an issue with a coupon usage after applying it with multiple addresses
+  * Fixed the Abandoned Cart emails sending
+  * Fixed an issue where users with "Reorder" permission could not perform reorder
+  * Fixed an issue with adding items from wishlist to the Shopping Cart with quantity increments enabled
+  * Fixed an issue with the catalog_url indexer incorrect rewrites history for categories
+  * Fixed an issue in saving an integration with a duplicate name
+  * Fixed an issue when a customer could see someone's else reviews on the private Account Dashboard
+  * Fixed an issue when a "New Theme" page was displayed as broken when trying to create a theme with incorrect "Version" value
+  * Fixed an issue in saving an integration with XSS injection in the required fields
+  * Fixed an issue with the Mini Shopping Cart when it contained virtual product
+  * Fixed an issue in disabling the Shopping Cart sidebar
+  * Fixed an issue when the "Adminhtml" cookie was not set when a user logged in to the backend
+  * Fixed an issue when the "Persistent_shopping_cart" cookie was not set after customer's login
+  * Fixed inability to publish products to Google Shopping
+  * Fixed inability to download or revert the backup
+  * Fixed inability to create a customer account when placing an order with a downloadable product
+* Various improvements:
+  * Disabled PHP errors, notices and warnings output in the production mode, to prevent exposing sensitive information
+
+2.0.0.0-dev58
+=============
+* Fixed bugs:
+  * Security improved for the Login, Update Cart, Add to Compare, Review, and Add entire wishlist actions on the frontend
+  * Removed warnings on category pages when Flat Catalog Category is enabled
+  * Fixed product price displayed in wrong currency after switching currency on the frontend
+  * Fixed the Save & Duplicate action in product creation
+  * Fixed big image scaling in product description
+  * Fixed admin dashboard styling issue
+  * Fixed validation message for the Quantity field on the product page in the backend
+  * Fixed the email template for sharing a Wishlist
+  * Fixed the response of the drop-down menu in the Plushe theme
+  * Fixed the missing Related Banners tab for Catalog Price Rule
+  * Fixed inability to enable the duplicated product
+  * Removed warnings on saving payment method configuration
+  * Fixed gift messages displaying on the Order View page after admin edits
+  * Fixed inability to create a new order status
+  * Fixed the behavior of the Save and Previous and the Previous buttons on the Edit Review page
+  * Fixed inability to delete a website if the number of websites is less or equal to two
+  * Fixed Export on the All Customers page
+  * Fixed inability to add products to the Shopping Cart from the Category page in Internet Explorer
+  * Fixed logo on the backend login page
+  * Fixed visual elements to indicate that Tax details can be expanded on the order creation page in the backend
+  * Fixed the CMS page preview design
+  * Fixed the newsletter template preview design
+  * Fixed the Matched Customers grid design in the Email Reminder Rules
+  * Fixed the theme version validation message displayed when creating a new theme
+  * Fixed performance degradation during installation wizard execution
+  * Fixed cron shell script
+  * Fixed user login on the frontend, when the Redirect Customer to Account Dashboard after Logging option is set to No
+  * Fixed errors in requests to shipping carrier (DHL International) when the shipping address contains letters with diacritic marks
+  * Fixed invalid account creation date
+  * Fixed displaying Product Alert links on product view page when the functionality is disabled
+  * Fixed the absence of some bundle options when configuring a bundle product in the Shopping Cart on the frontend
+  * Fixed the issue which allowed to view and cancel billing agreements belonging to another customer
+  * Fixed the content spoofing vulnerability when Solr was used
+  * Fixed a potential XSS vulnerability in customer login
+  * Fixed RSS feed for categories containing bundle product(s)
+  * Fixed inability to place an order with 3D Secure in Internet Explorer 10
+  * Fixed inability to place an order with PayPal Payflow Link and PayPal Payments Advanced
+  * Fixed integrity constraint violation in catalog URL rewrites
+  * Fixed the absence of the error when a wrong website code is specified during a website creation
+  * Fixed saving in the backend a new customer address, which contains new customer address attributes configured to be not visible on frontend
+  * Fixed USPS shipping method in the checkout
+  * Fixed placing orders with recurring profile items via PayPal Express Checkout
+  * Fixed email template creation in the backend
+  * Fixed the issue with default billing address being used instead of default shipping address during admin order creation
+  * Fixed inability to choose DB as Media Storage
+  * Fixed PHP issues found during the UI testing of the backend
+  * Fixed shipping label creation for USPS Priority Mail Shipping methods
+  * Fixed the issue which allowed to create customers with duplicate email
+  * Fixed the abstract product block error in the tier price template getter
+  * Fixed system message displaying in the backend
+  * Fixed the "404" error on customer review page
+  * Fixed autocomplete enabled on the admin login page
+  * Fixed the 3D Secure iframe
+  * Fixed the indicators of mandatory fields on the Package Extension page
+  * Fixed product image scaling on the Compare Products page
+  * Fixed product page design for products with the Fixed Product Tax attribute
+  * Removed spaces between parentheses and numbers in the Cart, Wishlist, and Compare Products blocks
+  * Fixed the message displaying the quantity for products found on the Advanced Search page
+  * Fixed incorrect caching of locale settings and URL settings during web installation
+  * Fixed inability to use a newly created store for admin user roles
+  * Fixed absence of the Advanced Search field on the frontend, when the Popular Search Terms functionality is disabled
+  * Fixed incorrect link to downloadable product(s) in the email invoice copy
+  * Fixed customs monetary value in labels/package info for international shipments
+  * Fixed importing for files with blank URL Key field on the store view level
+  * Fixed table rate error message
+  * Fixed frontend login without pre-set cookies
+  * Fixed date resetting to 1 Jan 1970 after saving a design change in the admin panel in case date format is DD/MM/YY
+  * Fixed CAPTCHA on multi-address checkout flow
+  * Fixed view files population tool
+  * Fixed DHL functionality of generation shipping labels
+  * Fixed target rule if it is applied for specific customer segment
+  * Fixed product importing that cleared price and weight
+  * Fixed fatal error when a file reference is added to HTML head
+* GitHub requests:
+  * [#122](https://github.com/magento/magento2/pull/122) -- Added support of federal units of Brazil with 27 states
+  * [#184](https://github.com/magento/magento2/issues/184) -- Removed unused blocks and methods in Magento_Wishlist module
+  * [#390](https://github.com/magento/magento2/pull/390) -- Support of alphanumeric order increment ids by the quote resource model
+* Themes update:
+  * Responsive design improvements
+* Improvements in code coverage calculation:
+  * Code coverage calculation approach for unit tests was changed from blacklist to whitelist
+
+2.0.0.0-dev57
+=============
+* Fixed bugs:
+  * Fixed [MAP]: "Click for price" link is broken on the category page
+  * Fixed tax rule search on the grid
+  * Fixed redirect on dashboard if "Search", "Reset", "Export" buttons are clicked on several pages
+  * Fixed switching user to alternate store-view when clicking on the Category (with Add Store Code to Urls="Yes" in the config)
+  * Fixed printing Order/Shipping/Credit Memo from backend
+  * Fixed 404 Error on attempt to print Shipping Label
+  * Fixed duplication of JavaScript Resources in head on frontend
+  * Fixed inconsistency with disabled states on Configurable product page in the Plushe theme
+  * Fixed 3D Secure Information absence on Admin Order Info page
+  * Fixed possibility to download or revert Backup
+  * Fixed session fixation in user registration during checkout
+  * Fixed fatal error during login to backend
+  * Fixed inline translations in the Adminhtml area
+  * Fixed partial refunds/invoices in Payflow Pro
+  * Fixed the issue with ignoring area in design emulation
+  * Fixed order placing with virtual product using Express Checkout
+  * Fixed the error during order placement with Recurring profile payment
+  * Fixed wrong redirect after customer registration during multishipping checkout
+  * Fixed inability to crate shipping labels
+  * Fixed inability to switch language, if the default language is English
+  * Fixed an issue with incorrect XML appearing in cache after some actions on the frontend
+  * Fixed product export
+  * Fixed inability to configure memcache as session save handler
+* GitHub requests:
+  * [#406](https://github.com/magento/magento2/pull/406) -- Remove cast to (int) for the varch increment_id
+  * [#425](https://github.com/magento/magento2/issues/425) -- Installation of dev53 fails
+  * [#324](https://github.com/magento/magento2/pull/324) -- ImportExport: Easier debugging
+* Modularity improvements:
+  * Removed \Magento\App\Helper\HelperFactory
+  * Removed the "helper" method from the abstract block interface
+  * Layout page type config moved to library
+  * Design loader moved to library
+  * Theme label moved to library
+  * Remaining part from Adminhtml moved to the appropriate modules. Adminhtml module has been eliminated
+  * Core Session and Cookie models decomposed and moved to library
+    * \Magento\Stdlib\Cookie library created
+    * Session Manager and Session Config interfaces provided
+    * Session save handler interface created
+    * Session storage interface created, session does not extend \Magento\Object anymore
+    * Session validator interface created
+    * Session generic wrapper moved to library
+    * Messages functionality moved from the Session model as separate component, message manager interface created
+    * Sid resolver interface created to handle session sid from request
+
+2.0.0.0-dev56
+=============
+* Fixed bugs:
   * Fixed placing order with PayPal Payments Advanced and Payflow Link
-  * Fixed losing previously assigned categories after next product save with changed category selector field
-  * Fixed losing of newly created category assignment after generation variations while create Configurable product or Gift Card
-  * Fixed inline translations in adminhtml area
-  * Partial refunds/invoices in Payflow Pro
-  * Design emulation ignores area
-  * Unable to place order with virtual product using Express Checkout
-  * Fixed the error during place an order with Recurring profile payment
-  * Fixed wrong redirection after customer registration during multishipping checkout
-  * Fixed the bug that shipping labels can't be created
+  * Fixed losing previously assigned categories after saving the product with changed category selector field
+  * Fixed losing of a newly created category assignment after variations generation during Configurable product or Gift Card creation
+  * Fixed the error in order placement with Recurring profile payment
 * GitHub requests:
   * [#299](https://github.com/magento/magento2/pull/299) -- Fix for issue Refactor Mage_Rating_Model_Resource_Rating_Collection
   * [#341](https://github.com/magento/magento2/pull/341) -- Replacing simple preg calls with less expensive alternates
-  * [#324](https://github.com/magento/magento2/pull/324) -- ImportExport: Easier debugging
 * Modularity improvements:
-  * Layout page type config moved into library
+  * Layout page type config moved to library
   * Design loader moved to library
   * Theme label moved to library
 * Themes update:
@@ -23,7 +211,13 @@
 * Integrity improvements:
   * Covered all Magento classes with argument sequence validator
   * Added arguments type duplication validator
-  
+* Implemented API Integration UX flows:
+  * Ability to create and edit API Integrations
+  * Ability to delete API integrations that were not created using configuration files
+* Removed System REST menu item and all associated UX flows:
+  * Users, Roles, and Webhook Subscriptions sub-menu items were removed
+* Removed the Webhook module until it can be refactored to use the new Authorization service
+
 2.0.0.0-dev55
 =============
 * Modularity improvements:
@@ -31,13 +225,7 @@
   * FormKey logic is moved out from Session model
   * SessionIdFlags is removed from Session model
   * Move Page logic to the Theme module and library
-* Implemented API Integration UX flows
-  * Ability to create and edit API Integrations
-  * Ability to delete API integrations that were not created using configuration files
-* Removed System REST menu item and all associated UX flows
-  * Users, Roles, and Webhook Subscriptions sub-menu items were removed
-* Removed the Webhook module
-* Created integration module UX
+* Created UX for the Integration module
 * Created authorization service (Magento_Authz module)
   * Implemented an API Authz check in the Webapi framework
 * Fixed bugs:

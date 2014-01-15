@@ -26,17 +26,29 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
     protected $_helperPool;
 
     /**
+     * @var \Magento\Data\Form\FormKey
+     */
+    protected $_formKey;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Math\Random $mathRandom
-     * @param \Magento\Wishlist\Helper\Data $wishlistData
+     * @param \Magento\Checkout\Helper\Cart $cartHelper
+     * @param \Magento\Wishlist\Helper\Data $wishlistHelper
+     * @param \Magento\Catalog\Helper\Product\Compare $compareProduct
+     * @param \Magento\Theme\Helper\Layout $layoutHelper
+     * @param \Magento\Catalog\Helper\Image $imageHelper
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Helper\Product\ConfigurationPool $helperPool
+     * @param \Magento\Data\Form\FormKey $formKey
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
@@ -45,12 +57,18 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Math\Random $mathRandom,
-        \Magento\Wishlist\Helper\Data $wishlistData,
+        \Magento\Checkout\Helper\Cart $cartHelper,
+        \Magento\Wishlist\Helper\Data $wishlistHelper,
+        \Magento\Catalog\Helper\Product\Compare $compareProduct,
+        \Magento\Theme\Helper\Layout $layoutHelper,
+        \Magento\Catalog\Helper\Image $imageHelper,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Helper\Product\ConfigurationPool $helperPool,
+        \Magento\Data\Form\FormKey $formKey,
         array $data = array()
     ) {
+        $this->_formKey = $formKey;
         $this->_helperPool = $helperPool;
         parent::__construct(
             $context,
@@ -59,7 +77,11 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
             $taxData,
             $catalogData,
             $mathRandom,
-            $wishlistData,
+            $cartHelper,
+            $wishlistHelper,
+            $compareProduct,
+            $layoutHelper,
+            $imageHelper,
             $customerSession,
             $productFactory,
             $data
@@ -204,5 +226,20 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
     {
         $qty = $this->getQty($item);
         return $qty ? $qty : 1;
+    }
+
+    /**
+     * Get add all to cart url
+     * @return string
+     */
+    public function getAddAllToCartUrl()
+    {
+        return $this->getUrl(
+            '*/*/allcart',
+            array(
+                'wishlist_id' => $this->getWishlistInstance()->getId(),
+                'form_key' => $this->_formKey->getFormKey(),
+            )
+        );
     }
 }

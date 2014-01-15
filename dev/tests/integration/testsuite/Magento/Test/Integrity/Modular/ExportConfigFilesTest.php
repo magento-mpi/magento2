@@ -16,11 +16,14 @@ class ExportConfigFilesTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        // List of all available export.xml
-        $xmlFiles = \Magento\TestFramework\Utility\Files::init()->getConfigFiles(
-            '{*/export.xml,export.xml}',
-            array('wsdl.xml', 'wsdl2.xml', 'wsi.xml'),
-            false
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var $filesystem \Magento\Filesystem */
+        $filesystem = $objectManager->get('Magento\Filesystem');
+        $modulesDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::MODULES);
+        $fileIteratorFactory = $objectManager->get('Magento\Config\FileIteratorFactory');
+        $xmlFiles = $fileIteratorFactory->create(
+            $modulesDirectory,
+            $modulesDirectory->search('/*/*/etc/{*/export.xml,export.xml}')
         );
 
         $validationStateMock = $this->getMock('Magento\Config\ValidationStateInterface');

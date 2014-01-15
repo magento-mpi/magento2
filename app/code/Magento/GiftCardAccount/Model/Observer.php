@@ -48,11 +48,9 @@ class Observer
     protected $_customerBalance = null;
 
     /**
-     * Admin Session Quote
-     *
-     * @var \Magento\Adminhtml\Model\Session\Quote
+     * @var \Magento\Message\ManagerInterface
      */
-    protected $_adminSessionQuote = null;
+    protected $messageManager;
 
     /**
      * Store Manager
@@ -67,7 +65,7 @@ class Observer
      * @param \Magento\CustomerBalance\Model\Balance $customerBalance
      * @param \Magento\GiftCardAccount\Model\History $giftCAHistory
      * @param \Magento\GiftCardAccount\Model\GiftcardaccountFactory $giftCAFactory
-     * @param \Magento\Adminhtml\Model\Session\Quote $adminSessionQuote
+     * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
@@ -76,7 +74,7 @@ class Observer
         \Magento\CustomerBalance\Model\Balance $customerBalance,
         \Magento\GiftCardAccount\Model\History $giftCAHistory,
         \Magento\GiftCardAccount\Model\GiftcardaccountFactory $giftCAFactory,
-        \Magento\Adminhtml\Model\Session\Quote $adminSessionQuote,
+        \Magento\Message\ManagerInterface $messageManager,
         \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_eventManager = $eventManager;
@@ -84,7 +82,7 @@ class Observer
         $this->_customerBalance = $customerBalance;
         $this->_giftCAHistory = $giftCAHistory;
         $this->_giftCAFactory = $giftCAFactory;
-        $this->_adminSessionQuote = $adminSessionQuote;
+        $this->messageManager = $messageManager;
         $this->_storeManager = $storeManager;
     }
 
@@ -119,7 +117,6 @@ class Observer
      * Process order place before
      *
      * @param \Magento\Event\Observer $observer
-     * @return
      */
     public function processOrderCreateBefore(\Magento\Event\Observer $observer)
     {
@@ -231,6 +228,7 @@ class Observer
      * Process post data and set usage of GC into order creation model
      *
      * @param \Magento\Event\Observer $observer
+     * @return $this
      */
     public function processOrderCreationData(\Magento\Event\Observer $observer)
     {
@@ -244,11 +242,11 @@ class Observer
                     ->loadByCode($code)
                     ->addToCart(true, $quote);
             } catch (\Magento\Core\Exception $e) {
-                $this->_adminSessionQuote->addError(
+                $this->messageManager->addError(
                     $e->getMessage()
                 );
             } catch (\Exception $e) {
-                $this->_adminSessionQuote->addException(
+                $this->messageManager->addException(
                     $e,
                     __('We cannot apply this gift card.')
                 );
@@ -263,11 +261,11 @@ class Observer
                     ->loadByCode($code)
                     ->removeFromCart(false, $quote);
             } catch (\Magento\Core\Exception $e) {
-                $this->_adminSessionQuote->addError(
+                $this->messageManager->addError(
                     $e->getMessage()
                 );
             } catch (\Exception $e) {
-                $this->_adminSessionQuote->addException(
+                $this->messageManager->addException(
                     $e,
                     __('We cannot remove this gift card.')
                 );

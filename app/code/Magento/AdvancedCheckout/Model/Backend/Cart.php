@@ -22,7 +22,7 @@ class Cart extends \Magento\AdvancedCheckout\Model\Cart
     /**
      * Return quote instance for backend area
      *
-     * @return \Magento\Adminhtml\Model\Session\Quote|\Magento\Sales\Model\Quote
+     * @return \Magento\Backend\Model\Session\Quote|\Magento\Sales\Model\Quote
      */
     public function getActualQuote()
     {
