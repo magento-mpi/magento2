@@ -43,6 +43,9 @@ class Grouped extends \Magento\Catalog\Block\Product\View\AbstractView
      */
     public function getTierPriceHtml($product = null)
     {
+        if (is_null($product)) {
+            $product = $this->getProduct();
+        }
         return $this->_getPriceBlock($product->getTypeId())
             ->setTemplate($this->getTierPriceTemplate())
             ->setProduct($product)
