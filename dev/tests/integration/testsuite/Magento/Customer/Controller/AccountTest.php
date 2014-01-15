@@ -62,6 +62,30 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      */
+    public function testCreatepasswordActionInvalidToken()
+    {
+        /** @var \Magento\Customer\Model\Customer $customer */
+        $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Customer')->load(1);
+
+        $token = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Customer\Helper\Data')
+            ->generateResetPasswordLinkToken();
+        $customer->changeResetPasswordLinkToken($token);
+
+        $this->getRequest()->setParam('token', 'INVALIDTOKEN');
+        $this->getRequest()->setParam('id', $customer->getId());
+
+        $this->dispatch('customer/account/createpassword');
+
+        // should be redirected to forgotpassword page
+        $locationHeader = $this->getResponse()->getHeader('Location');
+        $this->assertEquals(302, $this->getResponse()->getHttpResponseCode());
+        $this->assertContains('customer/account/forgotpassword', $this->getResponse()->getHeader('Location')['value']);
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     */
     public function testConfirmActionAlreadyActive()
     {
         /** @var \Magento\Customer\Model\Customer $customer */

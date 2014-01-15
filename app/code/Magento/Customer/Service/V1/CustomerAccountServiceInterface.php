@@ -103,6 +103,7 @@ interface CustomerAccountServiceInterface
      *
      * @param string $email email address of customer
      * @throws \Magento\Exception\NoSuchEntityException if no customer found for provided email
+     * @throws \Magento\Exception\StateException if confirmation is not needed
      */
     public function sendConfirmation($email);
 

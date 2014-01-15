@@ -275,7 +275,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         try {
             $customerService->activateAccount(self::ID, self::EMAIL_CONFIRMATION_KEY);
-            $this->fail("Expected NoSuchEntityException not caught");
+            $this->fail('Expected exception not thrown.');
         } catch (\Magento\Exception\NoSuchEntityException $nsee) {
             $this->assertSame($nsee->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
             $this->assertSame(
@@ -856,7 +856,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-
     public function testSendConfirmation()
     {
         $this->_customerFactoryMock->expects($this->any())
@@ -928,7 +927,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $customerService->sendConfirmation('email@test.com');
     }
 
-
     private function _setupStoreMock()
     {
         $this->_storeManagerMock =
@@ -945,7 +943,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getStore')
             ->will($this->returnValue($this->_storeMock));
     }
-
 
     /**
      * @param \PHPUnit_Framework_MockObject_MockObject $mock
