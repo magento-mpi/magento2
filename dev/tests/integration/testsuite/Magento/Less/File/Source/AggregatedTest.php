@@ -13,26 +13,37 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
      * @var \Magento\Less\File\Source\Aggregated
      */
     protected $model;
-    protected $theme;
-
-
-    public function setUp()
-    {
-        $this->theme = $this->_getThemeMock();
-        $this->model = $this->_getModelMock($this->theme);
-    }
 
     /**
+     * @magentoDataFixture Magento/Less/_files/themes.php
+     * @magentoAppIsolation enabled
+     * @magentoAppArea frontend
      * @param string $path
-     * @param \Magento\View\Layout\File[] $expectedFiles
+     * @param string $themeName
+     * @param string[] $expectedFiles
      * @dataProvider getFilesDataProvider
      */
-    public function testGetFiles($path, $expectedFiles)
+    public function testGetFiles($path, $themeName, $expectedFiles)
     {
-        $this->markTestIncomplete('Will be fixed in MAGETWO-19245');
+        \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
+            \Magento\Filesystem::PARAM_APP_DIRS => array(
+                \Magento\Filesystem::PUB_LIB => array('path' => dirname(dirname(__DIR__)) . '/_files/lib'),
+                \Magento\Filesystem::THEMES => array('path' => dirname(dirname(__DIR__)) . '/_files/design')
+            )
+        ));
 
-        $files = $this->model->getFiles($path, $this->theme);
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager->get('Magento\App\State')->setAreaCode('frontend');
 
+        $this->model = $objectManager->create('Magento\Less\File\Source\Aggregated');
+
+        /** @var \Magento\View\Design\Theme\FlyweightFactory $themeFactory */
+        $themeFactory = $objectManager->get('Magento\View\Design\Theme\FlyweightFactory');
+        $theme = $themeFactory->create($themeName);
+        if (!count($expectedFiles)) {
+            $this->setExpectedException('LogicException', 'magento_import returns empty result by path doesNotExist');
+        }
+        $files = $this->model->getFiles($theme, $path);
         $this->assertEquals(count($expectedFiles), count($files), 'Files number doesn\'t match');
 
         /** @var $file \Magento\View\Layout\File */
@@ -41,18 +52,64 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
                 $this->fail(sprintf('File "%s" is not expected but found', $file->getFilename()));
             }
         }
-
-        //var_dump($expectedFiles);
-        //exit;
     }
 
     public function getFilesDataProvider()
     {
         return array(
-            //array('*', array('library.file', 'module.file', '1.file', '2.file', '3.file')),
-            //array('library.file', array('library.file')),
-            //array('module.file', array('module.file')),
-            array('1.file', array('1.file')),
+            array(
+                '1.file',
+                'test_default',
+                array(
+                    str_replace(
+                        '\\',
+                        '/',
+                        dirname(dirname(__DIR__)) . '/_files/design/frontend/test_default/1.file'
+                    ),
+                    str_replace(
+                        '\\',
+                        '/',
+                        dirname(dirname(__DIR__)) . '/_files/design/frontend/test_default/Magento_Module/1.file'
+                    ),
+                    str_replace(
+                        '\\',
+                        '/',
+                        dirname(dirname(__DIR__)) . '/_files/design/frontend/test_parent/Magento_Second/1.file'
+                    )
+                )
+            ),
+            array(
+                '2.file',
+                'test_default',
+                array(
+                    str_replace(
+                        '\\',
+                        '/',
+                        dirname(dirname(__DIR__)) . '/_files/lib/2.file'
+                    )
+                )
+            ),
+            array(
+                'doesNotExist',
+                'test_default',
+                array()
+            ),
+            array(
+                '3',
+                'test_default',
+                array(
+                    str_replace(
+                        '\\',
+                        '/',
+                        dirname(dirname(__DIR__)) . '/_files/lib/3.less'
+                    ),
+                    str_replace(
+                        '\\',
+                        '/',
+                        dirname(dirname(__DIR__)) . '/_files/design/frontend/test_default/Magento_Third/3.less'
+                    )
+                )
+            ),
         );
     }
 
@@ -163,9 +220,7 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
                             }
                         }
                         return null;
-                    }
-                )
-            );
+            }));
 
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $model = $objectManager->create('Magento\Less\File\Source\Aggregated', array(

@@ -1102,4 +1102,5 @@ return array(
     array('getDisplayMode', '\Magento\Catalog\Model\Session'),
     array('setEscapeMessageFlag', 'Magento\View\Block\Messages'),
     array('shouldEscapeMessage', 'Magento\View\Block\Messages'),
+    array('getFileIdentifier', 'Magento\View\Layout\File\FileList', 'Magento\View\Layout\File'),
 );

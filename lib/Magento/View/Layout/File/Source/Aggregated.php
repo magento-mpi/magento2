@@ -89,7 +89,7 @@ class Aggregated implements SourceInterface
      * Return the full theme inheritance sequence, from the root theme till a specified one
      *
      * @param ThemeInterface $theme
-     * @return Theme[] Format: array([<root_theme>, ..., <parent_theme>,] <current_theme>)
+     * @return ThemeInterface[] Format: array([<root_theme>, ..., <parent_theme>,] <current_theme>)
      */
     protected function getInheritedThemes(ThemeInterface $theme)
     {

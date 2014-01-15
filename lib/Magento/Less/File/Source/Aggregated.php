@@ -8,8 +8,8 @@
 
 namespace Magento\Less\File\Source;
 
-use Magento\Less\File\SourceInterface;
-use Magento\Less\File\FileList\Factory;
+use Magento\View\Layout\File\SourceInterface;
+use Magento\View\Layout\File\FileList\Factory;
 use Magento\View\Design\ThemeInterface;
 
 /**
@@ -20,17 +20,17 @@ class Aggregated implements SourceInterface
     /**
      * @var Factory
      */
-    private $fileListFactory;
+    protected $fileListFactory;
 
     /**
      * @var SourceInterface
      */
-    private $baseFiles;
+    protected $baseFiles;
 
     /**
      * @var SourceInterface
      */
-    private $themeFiles;
+    protected $themeFiles;
 
     /**
      * @param Factory $fileListFactory
@@ -55,22 +55,26 @@ class Aggregated implements SourceInterface
      *
      * Aggregate LESS files from modules and a theme and its ancestors
      *
+     * @param \Magento\View\Design\ThemeInterface $theme
      * @param string $filePath
-     * @param ThemeInterface $theme
      * @return \Magento\View\Layout\File[]
+     * @throws \LogicException
      */
-    public function getFiles($filePath = '*', ThemeInterface $theme = null)
+    public function getFiles(ThemeInterface $theme, $filePath = '*')
     {
-        $list = $this->fileListFactory->create();
-        $list->add($this->libraryFiles->getFiles($filePath, null));
-        $list->add($this->baseFiles->getFiles($filePath, $theme));
+        $list = $this->fileListFactory->create('Magento\Less\File\FileList\Collator');
+        $list->add($this->libraryFiles->getFiles($theme, $filePath));
+        $list->add($this->baseFiles->getFiles($theme, $filePath));
 
         foreach ($this->getInheritedThemes($theme) as $currentTheme) {
-            $files = $this->themeFiles->getFiles($filePath, $currentTheme);
-            $list->override($files);
+            $files = $this->themeFiles->getFiles($currentTheme, $filePath);
+            $list->replace($files);
         }
-        
-        return $list->getAll();
+        $result = $list->getAll();
+        if (empty($result)) {
+            throw new \LogicException('magento_import returns empty result by path ' . $filePath);
+        }
+        return $result;
     }
 
     /**

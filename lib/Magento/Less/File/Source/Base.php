@@ -8,7 +8,7 @@
 
 namespace Magento\Less\File\Source;
 
-use Magento\Less\File\SourceInterface;
+use Magento\View\Layout\File\SourceInterface;
 use Magento\View\Design\ThemeInterface;
 use Magento\Filesystem;
 use Magento\Filesystem\Directory\ReadInterface;
@@ -22,7 +22,7 @@ class Base implements SourceInterface
     /**
      * @var Factory
      */
-    private $fileFactory;
+    protected $fileFactory;
 
     /**
      * @var ReadInterface
@@ -44,11 +44,11 @@ class Base implements SourceInterface
     /**
      * Retrieve files
      *
-     * @param string $filePath
      * @param ThemeInterface $theme
+     * @param string $filePath
      * @return array|\Magento\View\Layout\File[]
      */
-    public function getFiles($filePath = '*', ThemeInterface $theme = null)
+    public function getFiles(ThemeInterface $theme, $filePath = '*')
     {
         //Import module base styles
 
@@ -56,17 +56,17 @@ class Base implements SourceInterface
 
         $namespace = $module = '*';
         $area = $theme->getArea();
-        $files = $this->modulesDirectory->search("$namespace/$module/view/{$area}/less/{$filePath}");
+        $files = $this->modulesDirectory->search("$namespace/$module/view/{$area}/{$filePath}");
         $result = array();
         $filePath = strtr(preg_quote($filePath), array('\*' => '[^/]+'));
-        $pattern = "#(?<namespace>[^/]+)/(?<module>[^/]+)/view/{$area}/less/" . $filePath . "$#i";
+        $pattern = "#(?<namespace>[^/]+)/(?<module>[^/]+)/view/{$area}/" . $filePath . "$#i";
         foreach ($files as $file) {
             $filename = $this->modulesDirectory->getAbsolutePath($file);
             if (!preg_match($pattern, $filename, $matches)) {
                 continue;
             }
             $moduleFull = "{$matches['namespace']}_{$matches['module']}";
-            $result[] = $this->fileFactory->create($filename, $moduleFull);
+            $result[] = $this->fileFactory->create($filename, $moduleFull, $theme);
         }
         return $result;
     }

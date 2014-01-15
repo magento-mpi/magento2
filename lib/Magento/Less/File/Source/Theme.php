@@ -8,7 +8,7 @@
 
 namespace Magento\Less\File\Source;
 
-use Magento\Less\File\SourceInterface;
+use Magento\View\Layout\File\SourceInterface;
 use Magento\View\Design\ThemeInterface;
 use Magento\Filesystem;
 use Magento\Filesystem\Directory\ReadInterface;
@@ -22,7 +22,7 @@ class Theme implements SourceInterface
     /**
      * @var Factory
      */
-    private $fileFactory;
+    protected $fileFactory;
 
     /**
      * @var ReadInterface
@@ -44,25 +44,25 @@ class Theme implements SourceInterface
     /**
      * Retrieve files
      *
-     * @param string $filePath
      * @param ThemeInterface $theme
+     * @param string $filePath
      * @return array|\Magento\View\Layout\File[]
      */
-    public function getFiles($filePath = '*', ThemeInterface $theme = null)
+    public function getFiles(ThemeInterface $theme, $filePath = '*')
     {
         $filePath = pathinfo($filePath, PATHINFO_EXTENSION) ? $filePath : rtrim($filePath, '.') . '.less';
 
         $namespace = $module = '*';
         $themePath = $theme->getFullPath();
-        $files = $this->themesDirectory->search("{$themePath}/{$namespace}_{$module}/less/{$filePath}");
+        $files = $this->themesDirectory->search("{$themePath}/{$namespace}_{$module}/{$filePath}");
         $result = array();
-        $pattern = "#/(?<moduleName>[^/]+)/less/" . strtr(preg_quote($filePath), array('\*' => '[^/]+')) . "#i";
+        $pattern = "#/(?<moduleName>[^/]+)/" . strtr(preg_quote($filePath), array('\*' => '[^/]+')) . "#i";
         foreach ($files as $file) {
             $filename = $this->themesDirectory->getAbsolutePath($file);
             if (!preg_match($pattern, $filename, $matches)) {
                 continue;
             }
-            $result[] = $this->fileFactory->create($filename, $matches['moduleName'], null);
+            $result[] = $this->fileFactory->create($filename, $matches['moduleName'], $theme);
         }
 
         return $result;
