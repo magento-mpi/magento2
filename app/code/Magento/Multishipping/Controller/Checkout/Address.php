@@ -60,7 +60,7 @@ class Address extends \Magento\App\Action\Action
             }
 
             if ($this->_getCheckout()->getCustomerDefaultShippingAddress()) {
-                $addressForm->setBackUrl($this->_url->getUrl('*/multishipping/addresses'));
+                $addressForm->setBackUrl($this->_url->getUrl('*/checkout/addresses'));
             } else {
                 $addressForm->setBackUrl($this->_url->getUrl('*/cart/'));
             }
@@ -76,7 +76,7 @@ class Address extends \Magento\App\Action\Action
         if (count($this->_getCheckout()->getCustomer()->getAddresses()) == 1) {
             $this->_getCheckout()->reset();
         }
-        $this->_redirect('*/multishipping/addresses');
+        $this->_redirect('*/checkout/addresses');
     }
 
     public function editShippingAction()

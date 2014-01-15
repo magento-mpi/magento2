@@ -44,11 +44,11 @@ class Checkout extends \Magento\Checkout\Controller\Action
     /**
      * Retrieve checkout url helper
      *
-     * @return \Magento\Checkout\Helper\Url
+     * @return \Magento\Multishipping\Helper\Url
      */
     protected function _getHelper()
     {
-        return $this->_objectManager->get('Magento\Checkout\Helper\Url');
+        return $this->_objectManager->get('Magento\Multishipping\Helper\Url');
     }
 
     /**

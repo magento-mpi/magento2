@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceContainer name="checkout.cart.methods">
-        <block class="Magento\Multishipping\Block\Checkout\Link" name="checkout.cart.methods.multishipping" template="multishipping/link.phtml"/>
+        <block class="Magento\Multishipping\Block\Checkout\Link" name="checkout.cart.methods.multishipping" template="checkout/link.phtml"/>
     </referenceContainer>
 </layout>

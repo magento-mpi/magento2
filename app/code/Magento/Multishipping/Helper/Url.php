@@ -18,6 +18,16 @@ namespace Magento\Multishipping\Helper;
 class Url extends \Magento\Core\Helper\Url
 {
     /**
+     * Retrieve shopping cart url
+     *
+     * @return string
+     */
+    public function getCartUrl()
+    {
+        return $this->_getUrl('checkout/cart');
+    }
+
+    /**
      * Retrieve checkout url
      *
      * @return string
