@@ -209,7 +209,6 @@ class CustomerAddressService implements CustomerAddressServiceInterface
      *
      * @param CustomerAddressModel $addressModel
      * @param Dto\Address $address
-     * @return null
      */
     private function _updateAddressModel(CustomerAddressModel $addressModel, Dto\Address $address)
     {
@@ -302,6 +301,9 @@ class CustomerAddressService implements CustomerAddressServiceInterface
      * @param InputException       $exception the exception to add errors to
      * @param string               $prefix    the optional prefix to for field names
      * @return InputException
+     * 
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     private function _validate(CustomerAddressModel $customerAddressModel, InputException $exception, $prefix = '')
     {

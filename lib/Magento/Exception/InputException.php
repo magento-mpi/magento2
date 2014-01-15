@@ -40,7 +40,7 @@ class InputException extends \Magento\Exception\Exception
      *
      * @param string $code
      * @param string $fieldName
-     * @param        $value
+     * @param string $value
      * @param array  $params
      * @return InputException
      */

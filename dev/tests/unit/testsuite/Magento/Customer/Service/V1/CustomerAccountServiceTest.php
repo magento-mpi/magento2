@@ -74,12 +74,12 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     private $_validator;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerService
+     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\CustomerService
      */
     private $_customerServiceMock;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerAddressService
+     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\CustomerAddressService
      */
     private $_customerAddressServiceMock;
 
