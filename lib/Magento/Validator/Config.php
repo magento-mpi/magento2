@@ -280,7 +280,7 @@ class Config extends \Magento\Config\AbstractXml
      * Get arguments.
      *
      * @param array $children
-     * @return array|null
+     * @return \Magento\Validator\Constraint\OptionInterface[]|null
      */
     protected function _readArguments($children)
     {
@@ -310,7 +310,7 @@ class Config extends \Magento\Config\AbstractXml
      * Get callback rules.
      *
      * @param array $children
-     * @return array|null
+     * @return \Magento\Validator\Constraint\Option\Callback[]|null
      */
     protected function _readCallback($children)
     {
@@ -332,7 +332,7 @@ class Config extends \Magento\Config\AbstractXml
      * Get options array.
      *
      * @param array $children
-     * @return array|null
+     * @return \Magento\Validator\Constraint\Option|null
      */
     protected function _readOptions($children)
     {

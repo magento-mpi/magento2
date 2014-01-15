@@ -12,14 +12,15 @@ namespace Magento\Validator\Entity;
 class Properties extends \Magento\Validator\AbstractValidator
 {
     /**
-     * @var array
+     * @var string[]
      */
     protected $_readOnlyProperties = array();
 
     /**
      * Set read-only properties.
      *
-     * @param array $readOnlyProperties
+     * @param string[] $readOnlyProperties
+     * @return void
      */
     public function setReadOnlyProperties(array $readOnlyProperties)
     {
@@ -31,7 +32,7 @@ class Properties extends \Magento\Validator\AbstractValidator
      *
      * If read-only properties are set than $value mustn't have changes in them.
      *
-     * @param \Magento\Object|mixed $value
+     * @param \Magento\Object $value
      * @return bool
      * @throws \InvalidArgumentException when $value is not instanceof \Magento\Object
      */
