@@ -47,7 +47,6 @@ class Register extends \Magento\Customer\Block\Form\Register
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory,
         \Magento\Module\Manager $moduleManager,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Customer\Model\AddressFactory $addressFactory,
         \Magento\Customer\Helper\Data $customerHelper,
         \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
@@ -62,7 +61,6 @@ class Register extends \Magento\Customer\Block\Form\Register
             $countryCollFactory,
             $moduleManager,
             $customerSession,
-            $addressFactory,
             $customerHelper,
             $data
         );

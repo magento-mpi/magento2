@@ -35,13 +35,19 @@ class Account extends \Magento\Customer\Controller\Account
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Core\Model\UrlFactory $urlFactory
+     * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Customer\Model\FormFactory $formFactory
-     * @param \Magento\Customer\Model\AddressFactory $addressFactory
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
+     * @param \Magento\Core\Helper\Url $coreUrlHelper
+     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
+     * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Escaper $escaper
+     * @param \Magento\Customer\Service\V1\Dto\RegionBuilder $regionBuilder
+     * @param \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder
+     * @param \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder
      * @param \Magento\Invitation\Model\Config $config
      * @param \Magento\Invitation\Model\InvitationFactory $invitationFactory
      */
@@ -50,13 +56,19 @@ class Account extends \Magento\Customer\Controller\Account
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Core\Model\UrlFactory $urlFactory,
+        \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Customer\Model\FormFactory $formFactory,
-        \Magento\Customer\Model\AddressFactory $addressFactory,
         \Magento\Stdlib\String $string,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
+        \Magento\Core\Helper\Url $coreUrlHelper,
+        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
+        \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Escaper $escaper,
+        \Magento\Customer\Service\V1\Dto\RegionBuilder $regionBuilder,
+        \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder,
+        \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder,
         \Magento\Invitation\Model\Config $config,
         \Magento\Invitation\Model\InvitationFactory $invitationFactory
     ) {
@@ -65,13 +77,19 @@ class Account extends \Magento\Customer\Controller\Account
             $coreRegistry,
             $customerSession,
             $urlFactory,
+            $customerGroupService,
             $customerFactory,
             $formFactory,
-            $addressFactory,
             $string,
             $formKeyValidator,
+            $coreUrlHelper,
+            $customerAccountService,
+            $subscriberFactory,
             $storeManager,
-            $escaper
+            $escaper,
+            $regionBuilder,
+            $addressBuilder,
+            $customerBuilder
         );
         $this->_config = $config;
         $this->_invitationFactory = $invitationFactory;
@@ -112,8 +130,8 @@ class Account extends \Magento\Customer\Controller\Account
             $invitation = $this->_invitationFactory->create();
             $invitation
                 ->loadByInvitationCode($this->_objectManager->get('Magento\Core\Helper\Data')->urlDecode(
-                    $this->getRequest()->getParam('invitation', false)
-                ))
+                        $this->getRequest()->getParam('invitation', false)
+                    ))
                 ->makeSureCanBeAccepted();
             $this->_coreRegistry->register('current_invitation', $invitation);
         }

@@ -55,8 +55,8 @@
 
         <?php $customerAttributes = $this->getChildBlock('customer_form_user_attributes');?>
         <?php if ($customerAttributes): ?>
-            <?php $customerAttributes->setShowContainer(false);?>
-            <?php $this->restoreSessionData($customerAttributes->getForm());?>
+            <?php $customerAttributes->setEntityType('customer')->setShowContainer(false);?>
+            <?php $this->restoreSessionData($customerAttributes->getMetadataForm());?>
             <?php echo $customerAttributes->toHtml()?>
         <?php endif;?>
 
@@ -130,9 +130,9 @@
         </div>
             <?php $addressAttributes = $this->getChildBlock('customer_form_address_user_attributes');?>
             <?php if ($addressAttributes): ?>
-                <?php $addressAttributes->setEntity($this->getAddress());?>
+                <?php $addressAttributes->setEntityType('customer_address'); ?>
                 <?php $addressAttributes->setFieldIdFormat('address:%1$s')->setFieldNameFormat('address[%1$s]');?>
-                <?php $this->restoreSessionData($addressAttributes->getForm(), 'address');?>
+                <?php $this->restoreSessionData($addressAttributes->getMetadataForm(), 'address');?>
                 <?php echo $addressAttributes->setShowContainer(false)->toHtml()?>
             <?php endif;?>
         <input type="hidden" name="default_billing" value="1"/>

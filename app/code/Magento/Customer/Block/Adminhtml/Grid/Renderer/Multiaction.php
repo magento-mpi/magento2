@@ -55,7 +55,7 @@ class Multiaction
      *
      * @param  array $action
      * @param  \Magento\Object $row
-     * @return string
+     * @return bool|string
      */
     protected function _toLinkHtml($action, \Magento\Object $row)
     {
@@ -65,12 +65,10 @@ class Multiaction
             if ($product->canConfigure()) {
                 $style = '';
                 $onClick = sprintf('onclick="return %s.configureItem(%s)"', $action['control_object'], $row->getId());
+                return sprintf('<a href="%s" %s %s>%s</a>', $action['url'], $style, $onClick, $action['caption']);
             } else {
-                $style = 'style="color: #CCC;"';
-                $onClick = '';
+                return false;
             }
-
-            return sprintf('<a href="%s" %s %s>%s</a>', $action['url'], $style, $onClick, $action['caption']);
         } else {
             return parent::_toLinkHtml($action, $row);
         }

@@ -116,7 +116,7 @@ class Dob extends \Magento\Customer\Block\Widget\AbstractWidget
      */
     public function getMinDateRange()
     {
-        $rules = $this->_getAttribute('dob')->getValidateRules();
+        $rules = $this->_getAttribute('dob')->getValidationRules();
         return isset($rules[self::MIN_DATE_RANGE_KEY]) ? date("Y/m/d", $rules[self::MIN_DATE_RANGE_KEY]) : null;
     }
 
@@ -127,7 +127,7 @@ class Dob extends \Magento\Customer\Block\Widget\AbstractWidget
      */
     public function getMaxDateRange()
     {
-        $rules = $this->_getAttribute('dob')->getValidateRules();
+        $rules = $this->_getAttribute('dob')->getValidationRules();
         return isset($rules[self::MAX_DATE_RANGE_KEY]) ? date("Y/m/d", $rules[self::MAX_DATE_RANGE_KEY]) : null;
     }
 }

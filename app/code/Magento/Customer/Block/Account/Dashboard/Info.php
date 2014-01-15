@@ -8,6 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Customer\Block\Account\Dashboard;
+
+
+use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
+
 /**
  * Dashboard Customer Info
  *
@@ -15,8 +20,6 @@
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Customer\Block\Account\Dashboard;
 
 class Info extends \Magento\View\Element\Template
 {
@@ -38,26 +41,76 @@ class Info extends \Magento\View\Element\Template
     protected $_subscriberFactory;
 
     /**
+     * @var CustomerMetadataServiceInterface
+     */
+    protected $_metadataService;
+
+    /** @var  \Magento\Customer\Service\V1\CustomerServiceInterface */
+    protected $_customerService;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
+     * @param CustomerMetadataServiceInterface $metadataService
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
+        \Magento\Customer\Service\V1\CustomerServiceInterface $customerService,
+        CustomerMetadataServiceInterface $metadataService,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;
+        $this->_customerService = $customerService;
+        $this->_metadataService = $metadataService;
         $this->_subscriberFactory = $subscriberFactory;
         parent::__construct($context, $data);
     }
 
-
+    /**
+     * Returns the Magento Customer Model for this block
+     *
+     * @return \Magento\Customer\Service\V1\Dto\Customer
+     */
     public function getCustomer()
     {
-        return $this->_customerSession->getCustomer();
+        try {
+            return $this->_customerService->getCustomer($this->_customerSession->getId());
+        } catch (\Magento\Customer\Service\Entity\V1\Exception $e) {
+            return null;
+        }
+    }
+
+    /**
+     * Get the full name of a customer
+     *
+     * @return string full name
+     */
+    public function getName()
+    {
+        $name = '';
+
+        $customer = $this->getCustomer();
+
+        if ($this->_metadataService->getCustomerAttributeMetadata('prefix')->getIsVisible()
+            && $customer->getPrefix()) {
+            $name .= $customer->getPrefix() . ' ';
+        }
+        $name .= $customer->getFirstname();
+        if ($this->_metadataService->getCustomerAttributeMetadata('middlename')->getIsVisible()
+            && $customer->getMiddlename()) {
+            $name .= ' ' . $customer->getMiddlename();
+        }
+        $name .=  ' ' . $customer->getLastname();
+        if ($this->_metadataService->getCustomerAttributeMetadata('suffix')->getIsVisible()
+            && $customer->getSuffix()) {
+            $name .= ' ' . $customer->getSuffix();
+        }
+        return $name;
     }
 
     public function getChangePasswordUrl()
@@ -74,7 +127,10 @@ class Info extends \Magento\View\Element\Template
     {
         if (!$this->_subscription) {
             $this->_subscription = $this->_createSubscriber();
-            $this->_subscription->loadByCustomer($this->_customerSession->getCustomer());
+            $customer = $this->getCustomer();
+            if ($customer) {
+                $this->_subscription->loadByEmail($customer->getEmail());
+            }
         }
         return $this->_subscription;
     }

@@ -12,7 +12,7 @@ use Magento\Customer\Service\V1\Dto\Customer;
  * Class Customer
  * Uses array to hold data, setters return $this so they can be chained.
  *
- * @package Magento\Customer\Service\Entity\V1
+ * @package Magento\Customer\Service\V1\Dto
  */
 class CustomerBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
 {

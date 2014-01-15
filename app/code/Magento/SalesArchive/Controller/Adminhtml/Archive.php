@@ -315,9 +315,9 @@ class Archive extends \Magento\Backend\App\Action
         }
 
         if ($type == 'csv') {
-            return $this->_fileFactory->create($fileName, $grid->getCsvFile());
+            return $this->_fileFactory->create($fileName, $grid->getCsvFile(), \Magento\Filesystem::VAR_DIR);
         } else {
-            return $this->_fileFactory->create($fileName, $grid->getExcelFile($fileName));
+            return $this->_fileFactory->create($fileName, $grid->getExcelFile($fileName), \Magento\Filesystem::VAR_DIR);
         }
     }
 
