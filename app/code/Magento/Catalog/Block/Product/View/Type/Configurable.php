@@ -202,10 +202,11 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
         $store      = $this->getCurrentStore();
         $taxHelper  = $this->_taxData;
         $currentProduct = $this->getProduct();
+        $preConfiguredValues = null;
 
-        $preconfiguredFlag = $currentProduct->hasPreconfiguredValues();
-        if ($preconfiguredFlag) {
-            $preconfiguredValues = $currentProduct->getPreconfiguredValues();
+        $preConfiguredFlag = $currentProduct->hasPreconfiguredValues();
+        if ($preConfiguredFlag) {
+            $preConfiguredValues = $currentProduct->getPreconfiguredValues();
             $defaultValues       = array();
         }
 
@@ -249,7 +250,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
             $prices = $attribute->getPrices();
             if (is_array($prices)) {
                 foreach ($prices as $value) {
-                    if(!$this->_validateAttributeValue($attributeId, $value, $options)) {
+                    if (!$this->_validateAttributeValue($attributeId, $value, $options)) {
                         continue;
                     }
                     $currentProduct->setConfigurablePrice(
@@ -279,20 +280,20 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
                 }
             }
             /**
-             * Prepare formated values for options choose
+             * Prepare formatted values for options choose
              */
             foreach ($optionPrices as $optionPrice) {
                 foreach ($optionPrices as $additional) {
                     $this->_preparePrice(abs($additional-$optionPrice));
                 }
             }
-            if($this->_validateAttributeInfo($info)) {
+            if ($this->_validateAttributeInfo($info)) {
                 $attributes[$attributeId] = $info;
             }
 
             // Add attribute default value (if set)
-            if ($preconfiguredFlag) {
-                $configValue = $preconfiguredValues->getData('super_attribute/' . $attributeId);
+            if ($preConfiguredFlag) {
+                $configValue = $preConfiguredValues->getData('super_attribute/' . $attributeId);
                 if ($configValue) {
                     $defaultValues[$attributeId] = $configValue;
                 }
@@ -301,13 +302,13 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
 
         $this->priceHelper->setCustomer($this->_coreRegistry->registry('current_customer'));
 
-        $_request = $this->_taxCalculation->getRateRequest(false, false, false);
+        $_request = $this->priceHelper->getRateRequest(false, false, false);
         $_request->setProductClassId($currentProduct->getTaxClassId());
-        $defaultTax = $this->_taxCalculation->getRate($_request);
+        $defaultTax = $this->priceHelper->getRate($_request);
 
-        $_request = $this->_taxCalculation->getRateRequest();
+        $_request = $this->priceHelper->getRateRequest();
         $_request->setProductClassId($currentProduct->getTaxClassId());
-        $currentTax = $this->_taxCalculation->getRate($_request);
+        $currentTax = $this->priceHelper->getRate($_request);
 
         $taxConfig = array(
             'includeTax'        => $taxHelper->priceIncludesTax(),
@@ -329,7 +330,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
             'images'            => $options['images'],
         );
 
-        if ($preconfiguredFlag && !empty($defaultValues)) {
+        if ($preConfiguredFlag && !empty($defaultValues)) {
             $config['defaultValues'] = $defaultValues;
         }
 
@@ -348,7 +349,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
      */
     protected function _validateAttributeValue($attributeId, &$value, &$options)
     {
-        if(isset($options[$attributeId][$value['value_index']])) {
+        if (isset($options[$attributeId][$value['value_index']])) {
             return true;
         }
 
@@ -363,7 +364,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
      */
     protected function _validateAttributeInfo(&$info)
     {
-        if(count($info['options']) > 0) {
+        if (count($info['options']) > 0) {
             return true;
         }
         return false;
