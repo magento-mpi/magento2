@@ -36,10 +36,6 @@ class VerificationTest extends \PHPUnit_Framework_TestCase
             'developer mode' => array(
                 State::MODE_DEVELOPER,
                 array(
-                    \Magento\App\Filesystem::MEDIA_DIR => array(true, true, 'base_dir/pub/media'),
-                    \Magento\App\Filesystem::STATIC_VIEW_DIR => array(true, true, 'base_dir/pub/static'),
-                    \Magento\App\Filesystem::VAR_DIR => array(true, true, 'base_dir/var'),
-                    \Magento\App\Filesystem::TMP_DIR => array(true, true, 'base_dir/var/tmp'),
                     \Magento\App\Filesystem::CACHE_DIR => array(true, true, 'base_dir/var/cache'),
                     \Magento\App\Filesystem::LOG_DIR => array(true, true, 'base_dir/var/log'),
                     \Magento\App\Filesystem::SESSION_DIR => array(true, true, 'base_dir/var/session')
@@ -48,10 +44,6 @@ class VerificationTest extends \PHPUnit_Framework_TestCase
             'with_not_existing_dirs' => array(
                 State::MODE_DEFAULT,
                 array(
-                    \Magento\App\Filesystem::MEDIA_DIR => array(false, true, 'base_dir/pub/media'),
-                    \Magento\App\Filesystem::STATIC_VIEW_DIR => array(true, true, 'base_dir/pub/static'),
-                    \Magento\App\Filesystem::VAR_DIR => array(false, true, 'base_dir/var'),
-                    \Magento\App\Filesystem::TMP_DIR => array(true, true, 'base_dir/var/tmp'),
                     \Magento\App\Filesystem::CACHE_DIR => array(false, true, 'base_dir/var/cache'),
                     \Magento\App\Filesystem::LOG_DIR => array(true, true, 'base_dir/var/log'),
                     \Magento\App\Filesystem::SESSION_DIR => array(false, true, 'base_dir/var/session')
@@ -60,9 +52,6 @@ class VerificationTest extends \PHPUnit_Framework_TestCase
             'production mode' => array(
                 State::MODE_PRODUCTION,
                 array(
-                    \Magento\App\Filesystem::MEDIA_DIR => array(true, true, 'base_dir/pub/media'),
-                    \Magento\App\Filesystem::VAR_DIR => array(true, true, 'base_dir/var'),
-                    \Magento\App\Filesystem::TMP_DIR => array(true, true, 'base_dir/var/tmp'),
                     \Magento\App\Filesystem::CACHE_DIR => array(true, true, 'base_dir/var/cache'),
                     \Magento\App\Filesystem::LOG_DIR => array(true, true, 'base_dir/var/log'),
                     \Magento\App\Filesystem::SESSION_DIR => array(true, true, 'base_dir/var/session')
@@ -96,10 +85,6 @@ class VerificationTest extends \PHPUnit_Framework_TestCase
             'developer mode' => array(
                 State::MODE_DEVELOPER,
                 array(
-                    \Magento\App\Filesystem::MEDIA_DIR => array(true, false, 'base_dir/pub/media'),
-                    \Magento\App\Filesystem::STATIC_VIEW_DIR => array(true, true, 'base_dir/pub/static'),
-                    \Magento\App\Filesystem::VAR_DIR => array(true, false, 'base_dir/var'),
-                    \Magento\App\Filesystem::TMP_DIR => array(true, true, 'base_dir/var/tmp'),
                     \Magento\App\Filesystem::CACHE_DIR => array(true, false, 'base_dir/var/cache'),
                     \Magento\App\Filesystem::LOG_DIR => array(true, true, 'base_dir/var/log'),
                     \Magento\App\Filesystem::SESSION_DIR => array(true, false, 'base_dir/var/session')
@@ -133,10 +118,6 @@ class VerificationTest extends \PHPUnit_Framework_TestCase
             'developer mode' => array(
                 State::MODE_DEVELOPER,
                 array(
-                    \Magento\App\Filesystem::MEDIA_DIR => array(true, false, 'base_dir/pub/media', true),
-                    \Magento\App\Filesystem::STATIC_VIEW_DIR => array(true, true, 'base_dir/pub/static'),
-                    \Magento\App\Filesystem::VAR_DIR => array(true, false, 'base_dir/var'),
-                    \Magento\App\Filesystem::TMP_DIR => array(true, true, 'base_dir/var/tmp', true),
                     \Magento\App\Filesystem::CACHE_DIR => array(true, false, 'base_dir/var/cache'),
                     \Magento\App\Filesystem::LOG_DIR => array(true, true, 'base_dir/var/log'),
                     \Magento\App\Filesystem::SESSION_DIR => array(true, false, 'base_dir/var/session', true)
