@@ -9,7 +9,7 @@
  */
 namespace Magento\Core\Model\Store\Storage;
 
-use Magento\Backend\Model\Url\Proxy;
+use Magento\Backend\Model\UrlInterface\Proxy;
 use Magento\Core\Exception;
 use Magento\App\State;
 use Magento\Core\Model\Config;
@@ -137,7 +137,7 @@ class Db implements StorageInterface
     protected $_appState;
 
     /**
-     * @var \Magento\Backend\Model\Url\Proxy
+     * @var \Magento\Backend\Model\UrlInterface\Proxy
      */
     protected $_url;
 
@@ -148,7 +148,7 @@ class Db implements StorageInterface
      * @param Config $config
      * @param \Magento\Stdlib\Cookie $cookie
      * @param State $appState
-     * @param \Magento\Backend\Model\Url $url
+     * @param \Magento\Backend\Model\UrlInterface $url
      * @param $isSingleStoreAllowed
      * @param $scopeCode
      * @param $scopeType
@@ -161,7 +161,7 @@ class Db implements StorageInterface
         \Magento\Core\Model\Config $config,
         \Magento\Stdlib\Cookie $cookie,
         \Magento\App\State $appState,
-        \Magento\Backend\Model\Url $url,
+        \Magento\Backend\Model\UrlInterface $url,
         $isSingleStoreAllowed,
         $scopeCode,
         $scopeType,

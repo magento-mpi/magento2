@@ -39,15 +39,13 @@ class NavigationMode extends \Magento\Core\Model\Url
     /**
      * @param \Magento\App\Route\ConfigInterface $routeConfig
      * @param \Magento\App\RequestInterface $request
-     * @param \Magento\Core\Model\Url\SecurityInfoInterface $urlSecurityInfo
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\App $app
+     * @param \Magento\Url\SecurityInfoInterface $urlSecurityInfo
+     * @param \Magento\AppInterface $app
      * @param \Magento\Url\ScopeResolverInterface $scopeResolver
      * @param \Magento\Core\Model\Session $session
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\DesignEditor\Helper\Data $helper
      * @param \Magento\Url\RouteParamsResolverFactory $routeParamsResolver
-     * @param $areaCode
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -55,9 +53,8 @@ class NavigationMode extends \Magento\Core\Model\Url
     public function __construct(
         \Magento\App\Route\ConfigInterface $routeConfig,
         \Magento\App\RequestInterface $request,
-        \Magento\Core\Model\Url\SecurityInfoInterface $urlSecurityInfo,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\App $app,
+        \Magento\Url\SecurityInfoInterface $urlSecurityInfo,
+        \Magento\AppInterface $app,
         \Magento\Url\ScopeResolverInterface $scopeResolver,
         \Magento\Core\Model\Session $session,
         \Magento\Session\SidResolverInterface $sidResolver,

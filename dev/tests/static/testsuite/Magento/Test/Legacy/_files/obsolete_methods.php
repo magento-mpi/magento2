@@ -484,7 +484,7 @@ return array(
     array('getRowId', 'Magento\Backend\Block\Widget\Grid'),
     array('getSaveTemplateFlag', 'Magento\Newsletter\Model\Queue'),
     array('getSectionNode', 'Magento\Core\Model\Config'),
-    array('getSecure', 'Magento\Backend\Model\Url', 'isSecure'),
+    array('getSecure', 'Magento\Backend\Model\UrlInterface', 'isSecure'),
     array('getSecure', 'Magento\Core\Model\Url', 'isSecure'),
     array('getSelectionFinalPrice', 'Magento\Bundle\Model\Product\Price'),
     array('getShipId', 'Magento\Shipping\Block\Tracking\Popup'),

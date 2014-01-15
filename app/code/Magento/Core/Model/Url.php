@@ -58,25 +58,12 @@
  *
  * @category   Magento
  * @package    Magento_Core
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Core\Model;
 
-use Magento\Core\Model\App;
-use Magento\Core\Model\Session;
-
 class Url extends \Magento\Object implements \Magento\UrlInterface
 {
-    /**
-     * Default controller name
-     */
-    const DEFAULT_CONTROLLER_NAME   = 'index';
-
-    /**
-     * Default action name
-     */
-    const DEFAULT_ACTION_NAME       = 'index';
-
     /**
      * Configuration data cache
      *
@@ -119,12 +106,12 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
     /**
      * Url security info list
      *
-     * @var \Magento\Core\Model\Url\SecurityInfoInterface
+     * @var \Magento\Url\SecurityInfoInterface
      */
     protected $_urlSecurityInfo;
 
     /**
-     * @var \Magento\Core\Model\App
+     * @var \Magento\AppInterface
      */
     protected $_app;
 
@@ -158,10 +145,10 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
     /**
      * @param \Magento\App\Route\ConfigInterface $routeConfig
      * @param \Magento\App\RequestInterface $request
-     * @param Url\SecurityInfoInterface $urlSecurityInfo
-     * @param App $app
+     * @param \Magento\Url\SecurityInfoInterface $urlSecurityInfo
+     * @param \Magento\AppInterface $app
      * @param \Magento\Url\ScopeResolverInterface $scopeResolver
-     * @param Session $session
+     * @param \Magento\Session\Generic $session
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Url\RouteParamsResolverFactory $routeParamsResolver
      * @param array $data
@@ -169,10 +156,10 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
     public function __construct(
         \Magento\App\Route\ConfigInterface $routeConfig,
         \Magento\App\RequestInterface $request,
-        Url\SecurityInfoInterface $urlSecurityInfo,
-        \Magento\Core\Model\App $app,
+        \Magento\Url\SecurityInfoInterface $urlSecurityInfo,
+        \Magento\AppInterface $app,
         \Magento\Url\ScopeResolverInterface $scopeResolver,
-        \Magento\Core\Model\Session $session,
+        \Magento\Session\Generic $session,
         \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Url\RouteParamsResolverFactory $routeParamsResolver,
         array $data = array()
@@ -1141,9 +1128,9 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
     {
         if ($this->useSessionIdForUrl($match[2] == 'S' ? true : false)) {
             return $match[1]
-            . $this->_sidResolver->getSessionIdQueryParam($this->_session)
-            . '=' . $this->_session->getSessionId()
-            . (isset($match[3]) ? $match[3] : '');
+                . $this->_sidResolver->getSessionIdQueryParam($this->_session)
+                . '=' . $this->_session->getSessionId()
+                . (isset($match[3]) ? $match[3] : '');
         } else {
             if ($match[1] == '?' && isset($match[3])) {
                 return '?';
@@ -1170,7 +1157,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
         foreach ($this->_scopeResolver->getScopes() as $scope) {
             $scopeDomains[] = parse_url($scope->getBaseUrl(), PHP_URL_HOST);
             $scopeDomains[] = parse_url($scope->getBaseUrl(
-                    \Magento\UrlInterface::URL_TYPE_LINK, true), PHP_URL_HOST
+                \Magento\UrlInterface::URL_TYPE_LINK, true), PHP_URL_HOST
             );
         }
         $scopeDomains = array_unique($scopeDomains);

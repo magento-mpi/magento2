@@ -571,7 +571,7 @@ return array(
         'Magento\Backend\Model\Config\Source\Yesnocustom'
     ),
     array('Mage_Adminhtml_Model_System_Store', 'Magento\Core\Model\System\Store'),
-    array('Mage_Adminhtml_Model_Url', 'Magento\Backend\Model\Url'),
+    array('Mage_Adminhtml_Model_Url', 'Magento\Backend\Model\UrlInterface'),
     array('Mage_Adminhtml_Rss_CatalogController'),
     array('Mage_Adminhtml_Rss_OrderController'),
     array('Mage_Adminhtml_SystemController', 'Magento\Backend\Controller\Adminhtml\System'),

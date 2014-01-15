@@ -70,15 +70,12 @@ class Checkout extends \Magento\Checkout\Controller\Action
     /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Core\Model\Url $urlBuilder
      */
     public function __construct(
         \Magento\App\Action\Context $context,
-        \Magento\Customer\Model\Session $customerSession,
-        \Magento\Core\Model\Url $urlBuilder
+        \Magento\Customer\Model\Session $customerSession
     ) {
         parent::__construct($context, $customerSession);
-        $this->_urlBuilder = $urlBuilder;
     }
 
     /**

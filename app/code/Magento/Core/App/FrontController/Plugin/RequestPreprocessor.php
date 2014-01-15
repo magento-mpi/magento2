@@ -37,14 +37,14 @@ class RequestPreprocessor
     /**
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\State $appState
-     * @param \Magento\Core\Model\Url $url
+     * @param \Magento\UrlInterface $url
      * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\App\ResponseFactory $responseFactory
      */
     public function __construct(
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\State $appState,
-        \Magento\Core\Model\Url $url,
+        \Magento\UrlInterface $url,
         \Magento\Core\Model\Store\Config $storeConfig,
         \Magento\App\ResponseFactory $responseFactory
     ) {

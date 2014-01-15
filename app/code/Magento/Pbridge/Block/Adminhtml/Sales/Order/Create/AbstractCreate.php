@@ -52,7 +52,7 @@ class AbstractCreate
     /**
      * Backend url
      *
-     * @var \Magento\Backend\Model\Url
+     * @var \Magento\Backend\Model\UrlInterface
      */
     protected $_backendUrl;
 
@@ -76,7 +76,7 @@ class AbstractCreate
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Backend\Model\Session\Quote $adminhtmlSessionQuote
-     * @param \Magento\Backend\Model\Url $backendUrl
+     * @param \Magento\Backend\Model\UrlInterface $backendUrl
      * @param \Magento\Core\Model\Config $config
      * @param array $data
      */
@@ -88,7 +88,7 @@ class AbstractCreate
         \Magento\Pbridge\Helper\Data $pbridgeData,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Backend\Model\Session\Quote $adminhtmlSessionQuote,
-        \Magento\Backend\Model\Url $backendUrl,
+        \Magento\Backend\Model\UrlInterface $backendUrl,
         \Magento\Core\Model\Config $config,
         array $data = array()
     ) {

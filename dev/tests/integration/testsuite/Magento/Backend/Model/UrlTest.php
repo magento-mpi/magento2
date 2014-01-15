@@ -12,14 +12,14 @@
 namespace Magento\Backend\Model;
 
 /**
- * Test class for \Magento\Backend\Model\Url.
+ * Test class for \Magento\Backend\Model\UrlInterface.
  *
  * @magentoAppArea adminhtml
  */
 class UrlTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Backend\Model\Url
+     * @var \Magento\Backend\Model\UrlInterface
      */
     protected $_model;
 
@@ -27,11 +27,11 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Backend\Model\Url');
+            ->create('Magento\Backend\Model\UrlInterface');
     }
 
     /**
-     * @covers \Magento\Backend\Model\Url::isSecure
+     * @covers \Magento\Backend\Model\UrlInterface::isSecure
      */
     public function testIsSecure()
     {
@@ -52,7 +52,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Backend\Model\Url::setRouteParams
+     * @covers \Magento\Backend\Model\UrlInterface::setRouteParams
      */
     public function testSetRouteParams()
     {

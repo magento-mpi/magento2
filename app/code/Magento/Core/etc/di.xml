@@ -44,6 +44,7 @@
     <preference for="Magento\Session\StorageInterface" type="Magento\Session\Storage" />
     <preference for="Magento\Url\RouteParamsResolverInterface" type="Magento\Core\Model\Url\RouteParamsResolver" />
     <preference for="Magento\Url\ScopeResolverInterface" type="Magento\Core\Model\Url\ScopeResolver" />
+    <preference for="Magento\Url\SecurityInfoInterface" type="Magento\Core\Model\Url\SecurityInfo" />
     <type name="Magento\App\DefaultPath\DefaultPath">
         <param name="parts">
             <value>
@@ -83,7 +84,7 @@
             <value type="argument">Magento\Core\Model\Store::CUSTOM_ENTRY_POINT_PARAM</value>
         </param>
         <param name="url">
-            <instance type="Magento\Core\Model\Url" shared="false"/>
+            <instance type="Magento\UrlInterface" shared="false"/>
         </param>
     </type>
     <type name="Magento\Core\Model\Acl\Cache">
@@ -375,7 +376,7 @@
     </type>
     <type name="Magento\App\Helper\Context">
         <param name="urlBuilder">
-            <instance type="Magento\Core\Model\Url\Proxy" />
+            <instance type="Magento\UrlInterface\Proxy" />
         </param>
         <param name='httpRequest'>
             <instance type="Magento\App\Request\Http\Proxy" />
@@ -433,7 +434,7 @@
     </type>
     <type name="Magento\Core\Model\Store\Storage\Db">
         <param name="url">
-            <instance type="Magento\Backend\Model\Url\Proxy" />
+            <instance type="Magento\Backend\Model\UrlInterface\Proxy" />
         </param>
     </type>
     <type name="Magento\Core\Model\App">

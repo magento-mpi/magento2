@@ -1112,7 +1112,7 @@ EOT;
      */
     protected function _getEditCartUrl()
     {
-        return $this->objectManager->create('Magento\Core\Model\Url')->getUrl('googlecheckout/redirect/cart');
+        return $this->objectManager->create('Magento\UrlInterface')->getUrl('googlecheckout/redirect/cart');
     }
 
     /**
@@ -1122,7 +1122,7 @@ EOT;
      */
     protected function _getContinueShoppingUrl()
     {
-        return $this->objectManager->create('Magento\Core\Model\Url')->getUrl('googlecheckout/redirect/continue');
+        return $this->objectManager->create('Magento\UrlInterface')->getUrl('googlecheckout/redirect/continue');
     }
 
     /**
@@ -1152,7 +1152,7 @@ EOT;
      */
     protected function _getParameterizedUrl()
     {
-        return $this->objectManager->create('Magento\Core\Model\Url')->getUrl('googlecheckout/api/beacon');
+        return $this->objectManager->create('Magento\UrlInterface')->getUrl('googlecheckout/api/beacon');
     }
 
     /**

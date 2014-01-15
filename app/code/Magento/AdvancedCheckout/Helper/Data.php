@@ -185,7 +185,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\AdvancedCheckout\Model\Cart $cart
      * @param \Magento\AdvancedCheckout\Model\Resource\Product\Collection $products
-     * @param \Magento\Core\Model\Url $url
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Session\SessionManagerInterface $session
      * @param \Magento\Customer\Model\Session $customerSession
@@ -205,7 +204,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\App\Helper\Context $context,
         \Magento\AdvancedCheckout\Model\Cart $cart,
         \Magento\AdvancedCheckout\Model\Resource\Product\Collection $products,
-        \Magento\Core\Model\Url $url,
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Session\SessionManagerInterface $session,
         \Magento\Customer\Model\Session $customerSession,
@@ -223,7 +221,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
     ) {
         $this->_cart = $cart;
         $this->_products = $products;
-        $this->_url = $url;
         $this->_catalogConfig = $catalogConfig;
         $this->_session = $session;
         $this->_customerSession = $customerSession;
@@ -517,7 +514,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getAccountSkuUrl()
     {
-        return $this->_url->getUrl('magento_advancedcheckout/sku');
+        return $this->_urlBuilder->getUrl('magento_advancedcheckout/sku');
     }
 
     /**

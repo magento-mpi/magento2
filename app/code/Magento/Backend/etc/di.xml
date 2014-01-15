@@ -16,6 +16,7 @@
     <preference for="Magento\Backend\Model\Auth\Credential\StorageInterface" type="Magento\User\Model\User" />
     <preference for="Magento\Adminhtml\Helper\Data" type="Magento\Backend\Helper\Data" />
     <preference for="Magento\Backend\App\ConfigInterface" type="Magento\Backend\App\Config" />
+    <preference for="Magento\Backend\Model\UrlInterface" type="Magento\Backend\Model\Url" />
     <type name="Magento\App\AreaList">
         <param name="areas">
             <value>
@@ -46,7 +47,7 @@
     </type>
     <type name="Magento\Backend\Helper\Data">
         <param name="backendUrl">
-            <instance type="Magento\Backend\Model\Url\Proxy" />
+            <instance type="Magento\Backend\Model\UrlInterface\Proxy" />
         </param>
         <param name="auth">
             <instance type="Magento\Backend\Model\Auth\Proxy" />
@@ -64,7 +65,7 @@
     </type>
     <type name="Magento\Backend\Model\Widget\Grid\Row\UrlGenerator">
         <param name="backendUrl">
-            <instance type="Magento\Backend\Model\Url\Proxy" />
+            <instance type="Magento\Backend\Model\UrlInterface\Proxy" />
         </param>
     </type>
     <type name="\Magento\Backend\Model\Observer">

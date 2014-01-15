@@ -26,7 +26,7 @@ class Term extends \Magento\View\Element\Template
     /**
      * Url factory
      *
-     * @var \Magento\Core\Model\UrlFactory
+     * @var \Magento\UrlFactory
      */
     protected $_urlFactory;
 
@@ -40,13 +40,13 @@ class Term extends \Magento\View\Element\Template
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\CatalogSearch\Model\Resource\Query\CollectionFactory $queryCollectionFactory
-     * @param \Magento\Core\Model\UrlFactory $urlFactory
+     * @param \Magento\UrlFactory $urlFactory
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\CatalogSearch\Model\Resource\Query\CollectionFactory $queryCollectionFactory,
-        \Magento\Core\Model\UrlFactory $urlFactory,
+        \Magento\UrlFactory $urlFactory,
         array $data = array()
     ) {
         $this->_queryCollectionFactory = $queryCollectionFactory;

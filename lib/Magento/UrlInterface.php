@@ -417,4 +417,19 @@ interface UrlInterface
      * @return string
      */
     public function getRedirectUrl($url);
+
+    /**
+     * Get current scope for the url instance
+     *
+     * @return \Magento\Url\ScopeInterface
+     */
+    public function getScope();
+
+    /**
+     * Set scope entity
+     *
+     * @param mixed $params
+     * @return \Magento\Core\Model\Url
+     */
+    public function setScope($params);
 }

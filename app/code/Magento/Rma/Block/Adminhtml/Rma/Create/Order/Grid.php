@@ -28,7 +28,6 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Sales\Model\Resource\Order\Grid\CollectionFactory $gridCollFactory
      * @param \Magento\Sales\Model\Order\Config $orderConfig
@@ -36,7 +35,6 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Url $urlModel,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Sales\Model\Resource\Order\Grid\CollectionFactory $gridCollFactory,
         \Magento\Sales\Model\Order\Config $orderConfig,
@@ -44,7 +42,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     ) {
         $this->_gridCollFactory = $gridCollFactory;
         $this->_orderConfig = $orderConfig;
-        parent::__construct($context, $urlModel, $backendHelper, $data);
+        parent::__construct($context, $backendHelper, $data);
     }
 
     /**

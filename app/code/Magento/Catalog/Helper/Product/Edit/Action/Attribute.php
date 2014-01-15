@@ -55,7 +55,7 @@ class Attribute extends \Magento\Backend\Helper\Data
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\App\Route\Config $routeConfig
      * @param \Magento\AppInterface $app
-     * @param \Magento\Backend\Model\Url $backendUrl
+     * @param \Magento\Backend\Model\UrlInterface $backendUrl
      * @param \Magento\Backend\Model\Auth $auth
      * @param \Magento\Backend\App\Area\FrontNameResolver $frontNameResolver
      * @param \Magento\Math\Random $mathRandom
@@ -67,7 +67,7 @@ class Attribute extends \Magento\Backend\Helper\Data
         \Magento\App\Helper\Context $context,
         \Magento\App\Route\Config $routeConfig,
         \Magento\AppInterface $app,
-        \Magento\Backend\Model\Url $backendUrl,
+        \Magento\Backend\Model\UrlInterface $backendUrl,
         \Magento\Backend\Model\Auth $auth,
         \Magento\Backend\App\Area\FrontNameResolver $frontNameResolver,
         \Magento\Math\Random $mathRandom,

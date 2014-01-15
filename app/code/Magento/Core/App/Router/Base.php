@@ -40,7 +40,7 @@ class Base extends \Magento\App\Router\AbstractRouter
     /**
      * Url security information.
      *
-     * @var \Magento\Core\Model\Url\SecurityInfoInterface
+     * @var \Magento\Url\SecurityInfoInterface
      */
     protected $_urlSecurityInfo;
 
@@ -92,7 +92,7 @@ class Base extends \Magento\App\Router\AbstractRouter
      * @param \Magento\Core\Model\Url|\Magento\UrlInterface $url
      * @param \Magento\Core\Model\StoreManagerInterface|\Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Store\Config $storeConfig
-     * @param \Magento\Core\Model\Url\SecurityInfoInterface $urlSecurityInfo
+     * @param \Magento\Url\SecurityInfoInterface $urlSecurityInfo
      * @param $routerId
      * @throws \InvalidArgumentException
      */
@@ -105,7 +105,7 @@ class Base extends \Magento\App\Router\AbstractRouter
         \Magento\UrlInterface $url,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Store\Config $storeConfig,
-        \Magento\Core\Model\Url\SecurityInfoInterface $urlSecurityInfo,
+        \Magento\Url\SecurityInfoInterface $urlSecurityInfo,
         $routerId
     ) {
         parent::__construct($actionFactory);

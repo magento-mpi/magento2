@@ -249,7 +249,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
 
         $this->_objectManager->expects($this->at(2))
             ->method('create')
-            ->with($this->equalTo('Magento\Core\Model\Url'))
+            ->with($this->equalTo('Magento\UrlInterface'))
             ->will($this->returnValue($coreHelperMock));
 
         $this->messageManager->expects($this->once())

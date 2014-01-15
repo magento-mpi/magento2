@@ -71,7 +71,7 @@ class Inline implements \Magento\Core\Model\Translate\InlineInterface
      *
      * @param InlineParser $parser
      * @param \Magento\Core\Model\Translate $translate
-     * @param \Magento\Core\Model\Url $url
+     * @param \Magento\UrlInterface $url
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Core\Model\Translate\Inline\ConfigFactory $configFactory
      * @param \Magento\App\State $appState
@@ -79,7 +79,7 @@ class Inline implements \Magento\Core\Model\Translate\InlineInterface
     public function __construct(
         \Magento\Core\Model\Translate\InlineParser $parser,
         \Magento\Core\Model\Translate $translate,
-        \Magento\Core\Model\Url $url,
+        \Magento\UrlInterface $url,
         \Magento\View\LayoutInterface $layout,
         \Magento\Core\Model\Translate\Inline\ConfigFactory $configFactory,
         \Magento\App\State $appState

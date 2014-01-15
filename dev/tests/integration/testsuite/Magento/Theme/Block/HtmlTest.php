@@ -26,7 +26,7 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
             ->method('getConfig')
             ->will($this->returnValueMap($configData));
 
-        $securityInfoMock = $this->getMock('Magento\Core\Model\Url\SecurityInfoInterface');
+        $securityInfoMock = $this->getMock('Magento\Url\SecurityInfoInterface');
         $codeData = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
         $urlBuilder = $this->getMock(
             'Magento\Core\Model\Url',

@@ -285,7 +285,7 @@ class Store extends \Magento\Core\Model\AbstractModel implements \Magento\Url\Sc
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
      * @param \Magento\App\Cache\Type\Config $configCacheType
-     * @param \Magento\Core\Model\Url $url
+     * @param \Magento\UrlInterface $url
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Core\Model\Resource\Config\Data $configDataResource
      * @param \Magento\Filesystem $filesystem
@@ -304,7 +304,7 @@ class Store extends \Magento\Core\Model\AbstractModel implements \Magento\Url\Sc
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
         \Magento\App\Cache\Type\Config $configCacheType,
-        \Magento\Core\Model\Url $url,
+        \Magento\UrlInterface $url,
         \Magento\App\RequestInterface $request,
         \Magento\Core\Model\Resource\Config\Data $configDataResource,
         \Magento\Filesystem $filesystem,
@@ -1231,7 +1231,7 @@ class Store extends \Magento\Core\Model\AbstractModel implements \Magento\Url\Sc
     /**
      * Set url model for current store
      *
-     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\UrlInterface $urlModel
      * @return \Magento\Core\Model\Store
      */
     public function setUrlModel($urlModel)

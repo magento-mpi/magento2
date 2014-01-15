@@ -13,22 +13,12 @@ use Magento\Backend\Model\Auth;
 use Magento\Backend\Model\Menu;
 
 /**
- * Class \Magento\Backend\Model\Url
+ * Class \Magento\Backend\Model\UrlInterface
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Url extends \Magento\Core\Model\Url
+class Url extends \Magento\Core\Model\Url implements \Magento\Backend\Model\UrlInterface
 {
-    /**
-     * Secret key query param name
-     */
-    const SECRET_KEY_PARAM_NAME = 'key';
-
-    /**
-     * xpath to startup page in configuration
-     */
-    const XML_PATH_STARTUP_MENU_ITEM = 'admin/startup/menu_item_id';
-
     /**
      * Authentication session
      *
@@ -98,8 +88,8 @@ class Url extends \Magento\Core\Model\Url
     /**
      * @param \Magento\App\Route\ConfigInterface $routeConfig
      * @param \Magento\App\RequestInterface $request
-     * @param \Magento\Core\Model\Url\SecurityInfoInterface $urlSecurityInfo
-     * @param \Magento\Core\Model\App $app
+     * @param \Magento\Url\SecurityInfoInterface $urlSecurityInfo
+     * @param \Magento\AppInterface $app
      * @param \Magento\Url\ScopeResolverInterface $scopeResolver
      * @param \Magento\Core\Model\Session $session
      * @param \Magento\Session\SidResolverInterface $sidResolver
@@ -121,8 +111,8 @@ class Url extends \Magento\Core\Model\Url
     public function __construct(
         \Magento\App\Route\ConfigInterface $routeConfig,
         \Magento\App\RequestInterface $request,
-        \Magento\Core\Model\Url\SecurityInfoInterface $urlSecurityInfo,
-        \Magento\Core\Model\App $app,
+        \Magento\Url\SecurityInfoInterface $urlSecurityInfo,
+        \Magento\AppInterface $app,
         \Magento\Url\ScopeResolverInterface $scopeResolver,
         \Magento\Core\Model\Session $session,
         \Magento\Session\SidResolverInterface $sidResolver,
@@ -152,7 +142,6 @@ class Url extends \Magento\Core\Model\Url
             $data
         );
         $this->_config = $config;
-        $this->_startupMenuItemId = $coreStoreConfig->getConfig(self::XML_PATH_STARTUP_MENU_ITEM);
         $this->_backendHelper = $backendHelper;
         $this->_menuConfig = $menuConfig;
         $this->_cache = $cache;
@@ -181,7 +170,7 @@ class Url extends \Magento\Core\Model\Url
      *
      * @param array $data
      * @param bool $unsetOldParams
-     * @return \Magento\Backend\Model\Url
+     * @return \Magento\Backend\Model\UrlInterface
      */
     public function setRouteParams(array $data, $unsetOldParams = true)
     {
@@ -284,7 +273,7 @@ class Url extends \Magento\Core\Model\Url
     /**
      * Enable secret key using
      *
-     * @return \Magento\Backend\Model\Url
+     * @return \Magento\Backend\Model\UrlInterface
      */
     public function turnOnSecretKey()
     {
@@ -295,7 +284,7 @@ class Url extends \Magento\Core\Model\Url
     /**
      * Disable secret key using
      *
-     * @return \Magento\Backend\Model\Url
+     * @return \Magento\Backend\Model\UrlInterface
      */
     public function turnOffSecretKey()
     {
@@ -306,7 +295,7 @@ class Url extends \Magento\Core\Model\Url
     /**
      * Refresh admin menu cache etc.
      *
-     * @return \Magento\Backend\Model\Url
+     * @return \Magento\Backend\Model\UrlInterface
      */
     public function renewSecretUrls()
     {
@@ -320,7 +309,7 @@ class Url extends \Magento\Core\Model\Url
      */
     public function getStartupPageUrl()
     {
-        $menuItem = $this->_getMenu()->get($this->_startupMenuItemId);
+        $menuItem = $this->_getMenu()->get($this->_coreStoreConfig->getConfig(self::XML_PATH_STARTUP_MENU_ITEM));
         if (!is_null($menuItem)) {
             if ($menuItem->isAllowed() && $menuItem->getAction()) {
                 return $menuItem->getAction();
@@ -367,7 +356,7 @@ class Url extends \Magento\Core\Model\Url
      * Set custom auth session
      *
      * @param \Magento\Backend\Model\Auth\Session $session
-     * @return \Magento\Backend\Model\Url
+     * @return \Magento\Backend\Model\UrlInterface
      */
     public function setSession(\Magento\Backend\Model\Auth\Session $session)
     {

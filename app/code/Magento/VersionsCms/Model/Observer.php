@@ -54,7 +54,7 @@ class Observer
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\VersionsCms\Model\Hierarchy\NodeFactory $hierarchyNodeFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Url $coreUrl
+     * @param \Magento\UrlInterface $coreUrl
      * @param \Magento\App\ViewInterface $view
      */
     public function __construct(
@@ -62,7 +62,7 @@ class Observer
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\VersionsCms\Model\Hierarchy\NodeFactory $hierarchyNodeFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Url $coreUrl,
+        \Magento\UrlInterface $coreUrl,
         \Magento\App\ViewInterface $view
     ) {
         $this->_coreRegistry = $coreRegistry;

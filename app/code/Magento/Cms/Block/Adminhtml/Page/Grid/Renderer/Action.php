@@ -14,18 +14,18 @@ class Action
     extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
-     * @var \Magento\Core\Model\UrlFactory
+     * @var \Magento\UrlFactory
      */
     protected $_urlFactory;
 
     /**
      * @param \Magento\Backend\Block\Context $context
-     * @param \Magento\Core\Model\UrlFactory $urlFactory
+     * @param \Magento\UrlFactory $urlFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Context $context,
-        \Magento\Core\Model\UrlFactory $urlFactory,
+        \Magento\UrlFactory $urlFactory,
         array $data = array()
     ) {
         $this->_urlFactory = $urlFactory;
@@ -34,7 +34,7 @@ class Action
 
     public function render(\Magento\Object $row)
     {
-        /** @var \Magento\Core\Model\Url $urlModel */
+        /** @var \Magento\UrlInterface $urlModel */
         $urlModel = $this->_urlFactory->create()->setScope($row->getData('_first_store_id'));
         $href = $urlModel->getUrl(
             $row->getIdentifier(), array(
