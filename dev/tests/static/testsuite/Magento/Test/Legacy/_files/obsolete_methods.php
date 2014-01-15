@@ -1111,9 +1111,6 @@ return array(
     array('duplicate', '\Magento\Catalog\Model\Product', '\Magento\Catalog\Model\Product\Copier::copy'),
     array('useGroupedLinks', '\Magento\Catalog\Model\Product\Link'),
     array('saveGroupedLinks', '\Magento\Catalog\Model\Product\Link'),
-    array('saveGroupedLinks', '\Magento\Catalog\Model\Resource\Product\Link',
-        '\Magento\GroupedProduct\Model\Resource\Product::saveGroupedLinks'
-    ),
     array(
         '_initProductSave', '\Magento\Catalog\Controller\Adminhtml\Product',
         '\Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper::initialize'

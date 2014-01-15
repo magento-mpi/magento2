@@ -27,7 +27,7 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
     public function testFactory()
     {
         $product = new \Magento\Object;
-        $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_GROUPED);
+        $product->setTypeId(\Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE);
         $type = $this->_productType->factory($product);
         $this->assertInstanceOf('\Magento\GroupedProduct\Model\Product\Type\Grouped', $type);
     }
