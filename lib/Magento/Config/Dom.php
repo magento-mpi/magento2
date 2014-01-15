@@ -193,7 +193,12 @@ class Dom
     {
         $path = preg_replace('/\[@[^\]]+?\]/', '', $xPath);
         $path = preg_replace('/\/[^:]+?\:/', '/', $path);
-        return isset($this->_idAttributes[$path]) ? $this->_idAttributes[$path] : false;
+        foreach ($this->_idAttributes as $pathPattern => $id) {
+            if (preg_match("#^$pathPattern$#", $path)) {
+                return $id;
+            }
+        }
+        return false;
     }
 
     /**
