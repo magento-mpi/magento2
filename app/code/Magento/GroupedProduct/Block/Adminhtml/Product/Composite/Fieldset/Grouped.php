@@ -71,6 +71,7 @@ class Grouped
         array $priceBlockTypes = array()
     ) {
         $this->_coreHelper = $coreHelper;
+        $this->priceHelper = $priceHelper;
         parent::__construct(
             $context,
             $catalogConfig,
