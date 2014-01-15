@@ -108,7 +108,8 @@ class Items extends \Magento\Checkout\Block\Cart
                 return array();
             }
             $collection = $this->itemFactory->create()->getCollection()
-                ->addRegistryFilter($this->getEntity()->getId());
+                ->addRegistryFilter($this->getEntity()->getId())
+                ->addWebsiteFilter();
 
             $quoteItemsCollection = array();
             $quote = $this->quoteFactory->create()->setItemCount(true);
@@ -152,11 +153,11 @@ class Items extends \Magento\Checkout\Block\Cart
     /**
      * Return current gift registry entity
      *
-     * @return \Magento\GiftRegistry\Model\Resource\Item\Collection
+     * @return \Magento\GiftRegistry\Model\Entity
      */
     public function getEntity()
     {
-         if (!$this->hasEntity()) {
+        if (!$this->hasEntity()) {
             $this->setData('entity', $this->_coreRegistry->registry('current_entity'));
         }
         return $this->_getData('entity');
