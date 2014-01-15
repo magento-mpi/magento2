@@ -21,6 +21,7 @@ class Verification
      * @var array
      */
     protected static $productionDirs = array(
+        Filesystem::SESSION_DIR,
         Filesystem::CACHE_DIR,
         Filesystem::LOG_DIR,
     );
@@ -31,6 +32,7 @@ class Verification
      * @var array
      */
     protected static $nonProductionDirs = array(
+        Filesystem::SESSION_DIR,
         Filesystem::CACHE_DIR,
         Filesystem::LOG_DIR,
     );

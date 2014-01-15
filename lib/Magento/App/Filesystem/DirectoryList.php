@@ -73,7 +73,14 @@ class DirectoryList extends \Magento\Filesystem\DirectoryList
             'read_only'         => false,
             'allow_create_dirs' => true,
             'permissions'       => 0777
-        ));
+        ),
+        Filesystem::SESSION_DIR => array(
+            'path'              => 'var/session',
+            'read_only'         => false,
+            'allow_create_dirs' => true,
+            'permissions'       => 0777
+        )
+    );
 
     /**
      * @param string $root

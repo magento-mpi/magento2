@@ -132,4 +132,12 @@ class ObjectManagerFactory extends \Magento\App\ObjectManagerFactory
         return $this->_pluginList;
     }
 
+    /**
+     * Override method in while running integration tests to prevent getting Exception
+     *
+     * @param \Magento\ObjectManager $objectManager
+     */
+    protected function configureDirectories(\Magento\ObjectManager $objectManager)
+    {
+    }
 }
