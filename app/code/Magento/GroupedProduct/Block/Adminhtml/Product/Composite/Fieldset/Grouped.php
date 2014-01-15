@@ -13,6 +13,9 @@
  */
 namespace Magento\GroupedProduct\Block\Adminhtml\Product\Composite\Fieldset;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class Grouped
     extends \Magento\GroupedProduct\Block\Product\View\Type\Grouped
 {
@@ -148,7 +151,8 @@ class Grouped
      *
      * @return \Magento\GroupedProduct\Block\Product\View\Type\Grouped
      */
-    public function setPreconfiguredValue() {
+    public function setPreconfiguredValue()
+    {
         $configValues = $this->getProduct()->getPreconfiguredValues()->getSuperGroup();
         if (is_array($configValues)) {
             $associatedProducts = $this->getAssociatedProducts();
@@ -166,6 +170,9 @@ class Grouped
      *
      * @param \Magento\Catalog\Model\Product $product
      * @return bool
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @SuppressWarnings(PHPMD.BooleanGetMethodName)
      */
     public function getCanShowProductPrice($product)
     {
@@ -176,6 +183,8 @@ class Grouped
      * Checks whether block is last fieldset in popup
      *
      * @return bool
+     *
+     * @SuppressWarnings(PHPMD.BooleanGetMethodName)
      */
     public function getIsLastFieldset()
     {

@@ -12,6 +12,9 @@
 
 namespace Magento\GroupedProduct\Model\Resource\Product\Type\Grouped;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class AssociatedProductsCollection
     extends \Magento\Catalog\Model\Resource\Product\Link\Product\Collection
 {

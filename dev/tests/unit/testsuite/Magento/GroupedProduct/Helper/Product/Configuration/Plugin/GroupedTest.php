@@ -90,7 +90,8 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(\Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE));
 
         $quantityItemMock = $this->getMock(
-            'Magento\Catalog\Model\Product\Configuration\Item\ItemInterface', array('getValue', 'getProduct', 'getOptionByCode', 'getFileDownloadParams')
+            'Magento\Catalog\Model\Product\Configuration\Item\ItemInterface',
+            array('getValue', 'getProduct', 'getOptionByCode', 'getFileDownloadParams')
         );
 
         $quantityItemMock->expects($this->any())

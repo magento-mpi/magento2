@@ -11,6 +11,9 @@
  */
 namespace Magento\GroupedProduct\Model\Product\Type;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
 {
     const TYPE_CODE = 'grouped';
@@ -155,6 +158,8 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param int $parentId
      * @param bool $required
      * @return array
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getChildrenIds($parentId, $required = true)
     {
@@ -314,6 +319,55 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
     }
 
     /**
+     * @param array $associatedProducts
+     * @param \Magento\Object $buyRequest
+     * @param string $processMode
+     * @param bool $isStrictProcessMode
+     * @param \Magento\Catalog\Model\Product $product
+     * @return string
+     */
+    protected function processAssociatedProducts(
+        $associatedProducts, $buyRequest, $processMode, $isStrictProcessMode, $product
+    ) {
+        foreach ($associatedProducts as $subProduct) {
+            $subProductId = $subProduct->getId();
+            if (isset($productsInfo[$subProductId])) {
+                $qty = $productsInfo[$subProductId];
+                if (!empty($qty) && is_numeric($qty)) {
+
+                    $_result = $subProduct->getTypeInstance()
+                        ->_prepareProduct($buyRequest, $subProduct, $processMode);
+                    if (is_string($_result) && !is_array($_result)) {
+                        return $_result;
+                    }
+
+                    if (!isset($_result[0])) {
+                        return __('We cannot process the item.');
+                    }
+
+                    if ($isStrictProcessMode) {
+                        $_result[0]->setCartQty($qty);
+                        $_result[0]->addCustomOption('product_type', self::TYPE_CODE, $product);
+                        $_result[0]->addCustomOption('info_buyRequest',
+                            serialize(array(
+                                'super_product_config' => array(
+                                    'product_type'  => self::TYPE_CODE,
+                                    'product_id'    => $product->getId()
+                                )
+                            ))
+                        );
+                        $products[] = $_result[0];
+                    } else {
+                        $associatedProductsInfo[] = array($subProductId => $qty);
+                        $product->addCustomOption('associated_product_' . $subProductId, $qty);
+                    }
+                }
+            }
+        }
+
+    }
+
+    /**
      * Prepare product and its configuration to be added to some products list.
      * Perform standard preparation process and add logic specific to Grouped product type.
      *
@@ -332,40 +386,11 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
             $associatedProductsInfo = array();
             $associatedProducts = $this->getAssociatedProducts($product);
             if ($associatedProducts || !$isStrictProcessMode) {
-                foreach ($associatedProducts as $subProduct) {
-                    $subProductId = $subProduct->getId();
-                    if (isset($productsInfo[$subProductId])) {
-                        $qty = $productsInfo[$subProductId];
-                        if (!empty($qty) && is_numeric($qty)) {
-
-                            $_result = $subProduct->getTypeInstance()
-                                ->_prepareProduct($buyRequest, $subProduct, $processMode);
-                            if (is_string($_result) && !is_array($_result)) {
-                                return $_result;
-                            }
-
-                            if (!isset($_result[0])) {
-                                return __('We cannot process the item.');
-                            }
-
-                            if ($isStrictProcessMode) {
-                                $_result[0]->setCartQty($qty);
-                                $_result[0]->addCustomOption('product_type', self::TYPE_CODE, $product);
-                                $_result[0]->addCustomOption('info_buyRequest',
-                                    serialize(array(
-                                        'super_product_config' => array(
-                                            'product_type'  => self::TYPE_CODE,
-                                            'product_id'    => $product->getId()
-                                        )
-                                    ))
-                                );
-                                $products[] = $_result[0];
-                            } else {
-                                $associatedProductsInfo[] = array($subProductId => $qty);
-                                $product->addCustomOption('associated_product_' . $subProductId, $qty);
-                            }
-                        }
-                    }
+                $errorMessage = $this->processAssociatedProducts(
+                    $associatedProducts, $buyRequest, $processMode, $isStrictProcessMode, $product
+                );
+                if (is_string($errorMessage)) {
+                    return $errorMessage;
                 }
             }
 
@@ -402,6 +427,7 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param  \Magento\Catalog\Model\Product $product
      * @param  \Magento\Object $buyRequest
      * @return array
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function processBuyRequest($product, $buyRequest)
     {
@@ -427,6 +453,7 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
      * Delete data specific for Grouped product type
      *
      * @param \Magento\Catalog\Model\Product $product
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function deleteTypeSpecificData(\Magento\Catalog\Model\Product $product)
     {

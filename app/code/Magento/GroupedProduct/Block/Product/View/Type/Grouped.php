@@ -22,7 +22,8 @@ class Grouped extends \Magento\Catalog\Block\Product\View\AbstractView
      *
      * @return \Magento\GroupedProduct\Block\Product\View\Type\Grouped
      */
-    public function setPreconfiguredValue() {
+    public function setPreconfiguredValue()
+    {
         $configValues = $this->getProduct()->getPreconfiguredValues()->getSuperGroup();
         if (is_array($configValues)) {
             $associatedProducts = $this->getAssociatedProducts();
