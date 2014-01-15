@@ -9,6 +9,6 @@
 -->
 <config>
     <menu>
-        <add id="Magento_Indexer::system_index" title="New Index Management" module="Magento_Indexer" sortOrder="30" parent="Magento_Backend::system_tools" action="adminhtml/indexer/list" resource="Magento_Indexer::index"/>
+        <add id="Magento_Indexer::system_index" title="New Index Management" module="Magento_Indexer" sortOrder="30" parent="Magento_Backend::system_tools" action="indexer/indexer/list" resource="Magento_Indexer::index"/>
     </menu>
 </config>

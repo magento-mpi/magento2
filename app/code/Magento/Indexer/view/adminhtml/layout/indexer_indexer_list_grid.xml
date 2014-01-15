@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <referenceBlock name="adminhtml.indexer.grid.container">
+        <block class="Magento\Backend\Block\Widget\Grid" name="adminhtml.indexer.grid" as="grid">
+            <arguments>
+                <argument name="use_ajax" xsi:type="string">0</argument>
+                <argument name="pager_visibility" xsi:type="string">0</argument>
+                <argument name="id" xsi:type="string">gridIndexer</argument>
+                <argument name="dataSource" xsi:type="object">Magento\Indexer\Model\Resource\Indexer\Collection</argument>
+            </arguments>
+            <block class="Magento\Backend\Block\Widget\Grid\ColumnSet" as="grid.columnSet" name="adminhtml.indexer.grid.columnSet">
+                <arguments>
+                    <argument name="id" xsi:type="string">indexer_grid</argument>
+                    <argument name="filter_visibility" xsi:type="string">0</argument>
+                </arguments>
+                <block class="Magento\Backend\Block\Widget\Grid\Column" as="indexer_title">
+                    <arguments>
+                        <argument name="header" xsi:type="string" translate="true">Indexer</argument>
+                        <argument name="index" xsi:type="string">title</argument>
+                        <argument name="column_css_class" xsi:type="string">indexer-title</argument>
+                    </arguments>
+                </block>
+                <block class="Magento\Backend\Block\Widget\Grid\Column" as="indexer_description">
+                    <arguments>
+                        <argument name="header" xsi:type="string" translate="true">Description</argument>
+                        <argument name="index" xsi:type="string">description</argument>
+                        <argument name="column_css_class" xsi:type="string">indexer-description</argument>
+                    </arguments>
+                </block>
+                <block class="Magento\Backend\Block\Widget\Grid\Column" as="indexer_mode">
+                    <arguments>
+                        <argument name="header" xsi:type="string" translate="true">Mode</argument>
+                        <argument name="index" xsi:type="string">mode</argument>
+                        <argument name="column_css_class" xsi:type="string">indexer-mode</argument>
+                    </arguments>
+                </block>
+                <block class="Magento\Backend\Block\Widget\Grid\Column" as="indexer_status">
+                    <arguments>
+                        <argument name="header" xsi:type="string" translate="true">Status</argument>
+                        <argument name="index" xsi:type="string">status</argument>
+                        <argument name="column_css_class" xsi:type="string">indexer_status</argument>
+                    </arguments>
+                </block>
+            </block>
+        </block>
+    </referenceBlock>
+</layout>

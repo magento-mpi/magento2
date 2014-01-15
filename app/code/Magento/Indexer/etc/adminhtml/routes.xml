@@ -9,8 +9,8 @@
 -->
 <config>
     <router id="admin">
-        <route id="adminhtml">
-            <module name="Magento_Indexer" before="Magento_Adminhtml" />
+        <route id="indexer" frontName="indexer">
+            <module name="Magento_Indexer"/>
         </route>
     </router>
 </config>
