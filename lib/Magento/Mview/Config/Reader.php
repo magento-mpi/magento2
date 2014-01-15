@@ -11,6 +11,13 @@ namespace Magento\Mview\Config;
 class Reader extends \Magento\Config\Reader\Filesystem
 {
     /**
+     * {@inheritdoc}
+     */
+    protected $_idAttributes = array(
+        '/config/view' => 'id',
+    );
+
+    /**
      * @param \Magento\Config\FileResolverInterface $fileResolver
      * @param Converter $converter
      * @param SchemaLocator $schemaLocator

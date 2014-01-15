@@ -15,8 +15,6 @@ class Converter implements \Magento\Config\ConverterInterface
      * @param \DOMDocument $source
      * @return array
      * @throws \InvalidArgumentException
-     *
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function convert($source)
     {
@@ -37,22 +35,7 @@ class Converter implements \Magento\Config\ConverterInterface
                     continue;
                 }
 
-                switch ($childNode->nodeName) {
-                    case 'subscriptions':
-                        /** @var $subscription \DOMNode */
-                        foreach ($childNode->childNodes as $subscription) {
-                            if ($subscription->nodeType != XML_ELEMENT_NODE || $subscription->nodeName != 'table') {
-                                continue;
-                            }
-                            $name = $this->_getAttributeValue($subscription, 'name');
-                            $column = $this->_getAttributeValue($subscription, 'entity_column');
-                            $data['subscriptions'][$name] = array(
-                                'name' => $name,
-                                'column' => $column,
-                            );
-                        }
-                        break;
-                }
+                $data = $this->convertChild($childNode, $data);
             }
             $output[$indexerId] = $data;
         }
@@ -67,9 +50,37 @@ class Converter implements \Magento\Config\ConverterInterface
      * @param mixed $default
      * @return null|string
      */
-    protected function _getAttributeValue(\DOMNode $input, $attributeName, $default = null)
+    protected function getAttributeValue(\DOMNode $input, $attributeName, $default = null)
     {
         $node = $input->attributes->getNamedItem($attributeName);
         return $node ? $node->nodeValue : $default;
+    }
+
+    /**
+     * Convert child from dom to array
+     *
+     * @param \DOMNode $childNode
+     * @param array $data
+     * @return array
+     */
+    protected function convertChild(\DOMNode $childNode, $data)
+    {
+        switch ($childNode->nodeName) {
+            case 'subscriptions':
+                /** @var $subscription \DOMNode */
+                foreach ($childNode->childNodes as $subscription) {
+                    if ($subscription->nodeType != XML_ELEMENT_NODE || $subscription->nodeName != 'table') {
+                        continue;
+                    }
+                    $name = $this->getAttributeValue($subscription, 'name');
+                    $column = $this->getAttributeValue($subscription, 'entity_column');
+                    $data['subscriptions'][$name] = array(
+                        'name' => $name,
+                        'column' => $column,
+                    );
+                }
+                break;
+        }
+        return $data;
     }
 }

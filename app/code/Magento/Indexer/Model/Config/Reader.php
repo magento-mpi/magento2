@@ -11,6 +11,14 @@ namespace Magento\Indexer\Model\Config;
 class Reader extends \Magento\Config\Reader\Filesystem
 {
     /**
+     * List of id attributes for merge
+     *
+     * @var array
+     */
+    protected $_idAttributes = array(
+        '/config/indexer' => 'id',
+    );
+    /**
      * @param \Magento\Config\FileResolverInterface $fileResolver
      * @param Converter $converter
      * @param SchemaLocator $schemaLocator
