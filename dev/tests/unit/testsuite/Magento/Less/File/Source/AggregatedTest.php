@@ -16,7 +16,7 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
         $model = $this->_getModelMock();
         $theme = $this->_getThemeMock();
 
-        $result = $model->getFiles($theme);
+        $model->getFiles($theme);
     }
 
     protected function _getThemeMock()

@@ -163,7 +163,9 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
                             }
                         }
                         return null;
-            }));
+                    }
+                )
+            );
 
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $model = $objectManager->create('Magento\Less\File\Source\Aggregated', array(
