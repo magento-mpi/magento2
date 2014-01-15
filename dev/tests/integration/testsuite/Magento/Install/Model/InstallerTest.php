@@ -54,14 +54,15 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $directoryList = $objectManager->create(
-                'Magento\App\Filesystem\DirectoryList',
-                    array(
-                        'root' => __DIR__,
-                        'directories' => array(
-                            \Magento\App\Filesystem::CONFIG_DIR => array('path' => self::$_tmpDir)
-                        )
-                    )
-                );
+            'Magento\App\Filesystem\DirectoryList',
+            array(
+                'root' => __DIR__,
+                'directories' => array(
+                    \Magento\App\Filesystem::CONFIG_DIR => array('path' => self::$_tmpDir)
+                )
+            )
+        );
+        $objectManager->get('\Magento\App\Filesystem\DirectoryList\Configuration')->configure($directoryList);
         $filesystem = $objectManager->create('Magento\App\Filesystem', array('directoryList' => $directoryList));
 
         if ($emulateConfig) {

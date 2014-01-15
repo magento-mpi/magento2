@@ -61,6 +61,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                 ),
             )
         );
+        $objectManager->get('\Magento\App\Filesystem\DirectoryList\Configuration')->configure($directoryList);
         $filesystem = $objectManager->create('Magento\App\Filesystem', array('directoryList' => $directoryList));
         $model = $objectManager->create(
             'Magento\Install\Model\Installer\Config',

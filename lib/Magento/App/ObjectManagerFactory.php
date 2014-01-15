@@ -139,7 +139,7 @@ class ObjectManagerFactory
      */
     protected function configureDirectories(\Magento\ObjectManager $objectManager)
     {
-        $directoryList = $objectManager->get('\Magento\App\Filesystem\DirectoryList');
+        $directoryList = $objectManager->get('Magento\App\Filesystem\DirectoryList');
         $directoryListConfig = $objectManager->get('Magento\App\Filesystem\DirectoryList\Configuration');
         $directoryListConfig->configure($directoryList);
     }
