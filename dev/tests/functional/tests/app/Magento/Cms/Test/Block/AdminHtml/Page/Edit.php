@@ -49,6 +49,8 @@ class Edit extends FormTabs
 
     /**
      * Page Content Show/Hide Editor toggle button
+     *
+     * @return void
      */
     protected function toggleEditor()
     {

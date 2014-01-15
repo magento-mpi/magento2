@@ -28,6 +28,11 @@ class Page extends AbstractRepository
 
     /**
      * {@inheritdoc}
+     *
+     * @param mixed[] $defaultConfig
+     * @param mixed[] $defaultData
+     *
+     * @return void
      */
     public function __construct(array $defaultConfig, array $defaultData)
     {
@@ -39,6 +44,11 @@ class Page extends AbstractRepository
         $this->_data[self::PAGE] = $this->getPage();
     }
 
+    /**
+     * Cms Page test data
+     *
+     * @return mixed[]
+     */
     protected function getPage()
     {
         return array(

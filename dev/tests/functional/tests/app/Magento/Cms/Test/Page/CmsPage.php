@@ -40,6 +40,7 @@ class CmsPage extends \Mtf\Page\Page
      * Page initialization for building dynamically named Cms Page
      *
      * @param DataFixture|\Magento\Cms\Test\Fixture\Page $fixture
+     * @return void
      */
     public function init(DataFixture $fixture)
     {
