@@ -17,7 +17,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\App\Config
      */
-    protected $_configWithOverriding;
+    protected $_configOverriding;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -60,7 +60,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             array(),
             $this->_loaderMock
         );
-        $this->_configWithOverriding = new \Magento\App\Config(
+        $this->_configOverriding = new \Magento\App\Config(
             $overridingParams,
             $this->_loaderMock
         );
@@ -99,7 +99,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                 'default_overriding' => array('connection_name_overriding'),
                 'default_merging' => array('connection_name_merging')
             ),
-            $this->_configWithOverriding->getConnections()
+            $this->_configOverriding->getConnections()
         );
     }
 
@@ -118,7 +118,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                 'name_overriding' => array('default_setup_overriding'),
                 'name_merging' => array('default_setup_merging')
             ),
-            $this->_configWithOverriding->getResources()
+            $this->_configOverriding->getResources()
         );
     }
 
@@ -137,7 +137,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                 'type_overriding' => array('cache_overriding'),
                 'type_merging' => array('cache_merging'),
             ),
-            $this->_configWithOverriding->getCacheSettings()
+            $this->_configOverriding->getCacheSettings()
         );
     }
 }
