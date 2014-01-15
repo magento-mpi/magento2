@@ -9,9 +9,9 @@
 /** @var \Magento\TestFramework\Application $this */
 
 /**
- * @var \Magento\Core\Model\Config\Value $configData
+ * @var \Magento\App\Config\ValueInterface $configData
  */
-$configData = $this->getObjectManager()->create('Magento\Core\Model\Config\Value');
+$configData = $this->getObjectManager()->create('Magento\App\Config\ValueInterface');
 $configData->setPath('carriers/flatrate/active')
     ->setScope(\Magento\Core\Model\ScopeInterface::SCOPE_DEFAULT)
     ->setScopeId(0)

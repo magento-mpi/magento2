@@ -75,7 +75,7 @@ class Baseurl
             $dataCollection = $this->_configValueFactory->create()->getCollection();
             $dataCollection->addValueFilter(\Magento\Core\Model\Store::BASE_URL_PLACEHOLDER);
 
-            /** @var $data \Magento\Core\Model\Config\Value */
+            /** @var $data \Magento\App\Config\ValueInterface */
             foreach ($dataCollection as $data) {
                 if ($data->getScope() == 'stores') {
                     $code = $this->_storeManager->getStore($data->getScopeId())->getCode();

@@ -48,6 +48,7 @@
     <preference for="Magento\Json\EncoderInterface" type="Magento\Json\Encoder" />
     <preference for="Magento\Json\DecoderInterface" type="Magento\Json\Decoder" />
     <preference for="Magento\Message\ManagerInterface" type="Magento\Message\Manager" />
+    <preference for="Magento\App\Config\ValueInterface" type="Magento\Core\Model\Config\Value" />
     <type name="Magento\Message\Manager">
         <param name="session">
             <instance type="Magento\Message\Session\Proxy" />

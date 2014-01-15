@@ -13,6 +13,11 @@ namespace Magento\App\Config;
 interface ValueInterface
 {
     /**
+     * Table name
+     */
+    const ENTITY = 'core_config_data';
+
+    /**
      * Check if config data value was changed
      *
      * @return bool
@@ -33,11 +38,4 @@ interface ValueInterface
      * @return string
      */
     public function getFieldsetDataValue($key);
-
-    /**
-     * Get config data entity
-     *
-     * @return string
-     */
-    public function getEntity();
 }

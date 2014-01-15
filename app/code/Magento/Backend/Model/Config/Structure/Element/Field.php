@@ -218,7 +218,7 @@ class Field
     /**
      * Retrieve backend model
      *
-     * @return \Magento\Core\Model\Config\Value
+     * @return \Magento\App\Config\ValueInterface
      */
     public function getBackendModel()
     {

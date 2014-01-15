@@ -21,7 +21,7 @@ class Config
     protected $_configWriter;
 
     /**
-     * @var \Magento\Core\Model\Config\Value
+     * @var \Magento\App\Config\ValueInterface
      */
     protected $_configData;
 
@@ -48,7 +48,7 @@ class Config
     protected $_layoutCache;
 
     /**
-     * @param \Magento\Core\Model\Config\Value $configData
+     * @param \Magento\App\Config\ValueInterface $configData
      * @param \Magento\Core\Model\Config\Storage\WriterInterface $configWriter
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Event\ManagerInterface $eventManager
@@ -56,7 +56,7 @@ class Config
      * @param \Magento\Cache\FrontendInterface $layoutCache
      */
     public function __construct(
-        \Magento\Core\Model\Config\Value $configData,
+        \Magento\App\Config\ValueInterface $configData,
         \Magento\Core\Model\Config\Storage\WriterInterface $configWriter,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Event\ManagerInterface $eventManager,

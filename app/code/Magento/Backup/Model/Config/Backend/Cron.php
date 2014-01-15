@@ -23,7 +23,7 @@ class Cron extends \Magento\Core\Model\Config\Value
     /**
      * Config value factory
      *
-     * @var \Magento\Core\Model\Config\Value
+     * @var \Magento\Core\Model\Config\ValueFactory
      */
     protected $_configValueFactory;
 

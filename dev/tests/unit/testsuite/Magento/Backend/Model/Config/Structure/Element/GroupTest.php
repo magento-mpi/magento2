@@ -88,7 +88,7 @@ class GroupTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCloneModelCreatesCloneModel()
     {
-        $cloneModel = $this->getMock('Magento\Core\Model\Config\Value', array(), array(), '', false);
+        $cloneModel = $this->getMock('Magento\App\Config\ValueInterface', array(), array(), '', false);
         $this->_depMapperMock = $this->getMock(
             'Magento\Backend\Model\Config\Structure\Element\Dependency\Mapper', array(), array(), '', false
         );

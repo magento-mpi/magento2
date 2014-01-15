@@ -16,19 +16,18 @@ namespace Magento\Core\Model\Config;
  * @method \Magento\Core\Model\Resource\Config\Data _getResource()
  * @method \Magento\Core\Model\Resource\Config\Data getResource()
  * @method string getScope()
- * @method \Magento\Core\Model\Config\Value setScope(string $value)
+ * @method \Magento\App\Config\ValueInterface setScope(string $value)
  * @method int getScopeId()
- * @method \Magento\Core\Model\Config\Value setScopeId(int $value)
+ * @method \Magento\App\Config\ValueInterface setScopeId(int $value)
  * @method string getPath()
- * @method \Magento\Core\Model\Config\Value setPath(string $value)
+ * @method \Magento\App\Config\ValueInterface setPath(string $value)
  * @method string getValue()
- * @method \Magento\Core\Model\Config\Value setValue(string $value)
+ * @method \Magento\App\Config\ValueInterface setValue(string $value)
  *
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
-class Value extends \Magento\Core\Model\AbstractModel
+class Value extends \Magento\Core\Model\AbstractModel implements \Magento\App\Config\ValueInterface
 {
-    const ENTITY = 'core_config_data';
     /**
      * Prefix of model events names
      *

@@ -65,7 +65,7 @@ class Cron extends \Magento\Core\Model\Config\Value
         $cronExprString = join(' ', $cronExprArray);
 
         try {
-            /** @var $configValue \Magento\Core\Model\Config\Value */
+            /** @var $configValue \Magento\App\Config\ValueInterface */
             $configValue = $this->_configValueFactory->create();
             $configValue->load(self::CRON_STRING_PATH, 'path');
             $configValue->setValue($cronExprString)
