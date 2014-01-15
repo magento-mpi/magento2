@@ -27,12 +27,6 @@ class Info extends \Magento\Backend\Block\Template
      */
     protected $_coreRegistry = null;
 
-    /**
-     * Core registry
-     *
-     * @var \Magento\Customer\Model\CustomerFactory
-     */
-
     /** @var \Magento\Customer\Service\V1\CustomerServiceInterface */
     protected $_customerService;
 
