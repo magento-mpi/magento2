@@ -161,7 +161,7 @@ class Handler
     protected function _unpackDto($dto)
     {
         if (!$this->_isDto($dto)) {
-            throw new \InvalidArgumentException("DTO is expected.");
+            throw new \InvalidArgumentException("Object is expected to implement __toArray() method.");
         }
         $response = new \stdClass();
         foreach ($dto->__toArray() as $fieldName => $fieldValue) {

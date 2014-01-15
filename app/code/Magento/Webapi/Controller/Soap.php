@@ -106,7 +106,6 @@ class Soap implements \Magento\App\FrontControllerInterface
                 $consumerId = $this->_oauthService->validateAccessToken($this->_getAccessToken());
                 $this->_request->setConsumerId($consumerId);
                 $this->_soapServer->handle();
-                $this->_setResponseContentType(self::CONTENT_TYPE_SOAP_CALL);
             }
         } catch (\Exception $e) {
             $this->_prepareErrorResponse($e);
