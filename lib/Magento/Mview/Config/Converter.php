@@ -5,7 +5,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Indexer\Model\Config;
+namespace Magento\Mview\Config;
 
 class Converter implements \Magento\Config\ConverterInterface
 {
@@ -15,8 +15,6 @@ class Converter implements \Magento\Config\ConverterInterface
      * @param \DOMDocument $source
      * @return array
      * @throws \InvalidArgumentException
-     *
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function convert($source)
     {
@@ -26,14 +24,10 @@ class Converter implements \Magento\Config\ConverterInterface
         /** @var $typeNode \DOMNode */
         foreach ($indexers as $indexerNode) {
             $data = array();
-            $indexerId = $this->_getAttributeValue($indexerNode, 'id');
+            $indexerId = $this->getAttributeValue($indexerNode, 'id');
             $data['id'] = $indexerId;
-            $data['class'] = $this->_getAttributeValue($indexerNode, 'class');
-            $data['title'] = '';
-            $data['title_translate'] = '';
-            $data['description'] = '';
-            $data['description_translate'] = '';
-            $data['dependencies'] = array();
+            $data['class'] = $this->getAttributeValue($indexerNode, 'class');
+            $data['subscriptions'] = array();
 
             /** @var $childNode \DOMNode */
             foreach ($indexerNode->childNodes as $childNode) {
@@ -41,30 +35,7 @@ class Converter implements \Magento\Config\ConverterInterface
                     continue;
                 }
 
-                switch ($childNode->nodeName) {
-                    case 'title':
-                        $data['title'] = $childNode->nodeValue;
-                        $data['title_translate'] = $this->_getAttributeValue($childNode, 'translate');
-                        break;
-                    case 'description':
-                        $data['description'] = $childNode->nodeValue;
-                        $data['description_translate'] = $this->_getAttributeValue($childNode, 'translate');
-                        break;
-                    case 'depends':
-                        /** @var $dependency \DOMNode */
-                        foreach ($childNode->childNodes as $dependency) {
-                            if ($dependency->nodeType != XML_ELEMENT_NODE || $dependency->nodeName != 'table') {
-                                continue;
-                            }
-                            $name = $this->_getAttributeValue($dependency, 'name');
-                            $column = $this->_getAttributeValue($dependency, 'entity_column');
-                            $data['dependencies'][$name] = array(
-                                'name' => $name,
-                                'column' => $column,
-                            );
-                        }
-                        break;
-                }
+                $data = $this->convertChild($childNode, $data);
             }
             $output[$indexerId] = $data;
         }
@@ -79,9 +50,37 @@ class Converter implements \Magento\Config\ConverterInterface
      * @param mixed $default
      * @return null|string
      */
-    protected function _getAttributeValue(\DOMNode $input, $attributeName, $default = null)
+    protected function getAttributeValue(\DOMNode $input, $attributeName, $default = null)
     {
         $node = $input->attributes->getNamedItem($attributeName);
         return $node ? $node->nodeValue : $default;
+    }
+
+    /**
+     * Convert child from dom to array
+     *
+     * @param \DOMNode $childNode
+     * @param array $data
+     * @return array
+     */
+    protected function convertChild(\DOMNode $childNode, $data)
+    {
+        switch ($childNode->nodeName) {
+            case 'subscriptions':
+                /** @var $subscription \DOMNode */
+                foreach ($childNode->childNodes as $subscription) {
+                    if ($subscription->nodeType != XML_ELEMENT_NODE || $subscription->nodeName != 'table') {
+                        continue;
+                    }
+                    $name = $this->getAttributeValue($subscription, 'name');
+                    $column = $this->getAttributeValue($subscription, 'entity_column');
+                    $data['subscriptions'][$name] = array(
+                        'name' => $name,
+                        'column' => $column,
+                    );
+                }
+                break;
+        }
+        return $data;
     }
 }

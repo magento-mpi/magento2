@@ -22,6 +22,16 @@
             </xs:annotation>
             <xs:selector xpath="indexer" />
             <xs:field xpath="@id" />
+            <xs:field xpath="@view_id" />
+        </xs:unique>
+        <xs:unique name="uniqueViewId">
+            <xs:annotation>
+                <xs:documentation>
+                    Indexer Id must be unique.
+                </xs:documentation>
+            </xs:annotation>
+            <xs:selector xpath="indexer" />
+            <xs:field xpath="@view_id" />
         </xs:unique>
     </xs:element>
 

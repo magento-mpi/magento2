@@ -15,8 +15,6 @@ class Converter implements \Magento\Config\ConverterInterface
      * @param \DOMDocument $source
      * @return array
      * @throws \InvalidArgumentException
-     *
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function convert($source)
     {
@@ -26,10 +24,10 @@ class Converter implements \Magento\Config\ConverterInterface
         /** @var $typeNode \DOMNode */
         foreach ($indexers as $indexerNode) {
             $data = array();
-            $indexerId = $this->_getAttributeValue($indexerNode, 'id');
+            $indexerId = $this->getAttributeValue($indexerNode, 'id');
             $data['id'] = $indexerId;
-            $data['view_id'] = $this->_getAttributeValue($indexerNode, 'view_id');
-            $data['class'] = $this->_getAttributeValue($indexerNode, 'class');
+            $data['view_id'] = $this->getAttributeValue($indexerNode, 'view_id');
+            $data['class'] = $this->getAttributeValue($indexerNode, 'class');
             $data['title'] = '';
             $data['title_translate'] = '';
             $data['description'] = '';
@@ -41,16 +39,7 @@ class Converter implements \Magento\Config\ConverterInterface
                     continue;
                 }
 
-                switch ($childNode->nodeName) {
-                    case 'title':
-                        $data['title'] = $childNode->nodeValue;
-                        $data['title_translate'] = $this->_getAttributeValue($childNode, 'translate');
-                        break;
-                    case 'description':
-                        $data['description'] = $childNode->nodeValue;
-                        $data['description_translate'] = $this->_getAttributeValue($childNode, 'translate');
-                        break;
-                }
+                $data = $this->convertChild($childNode, $data);
             }
             $output[$indexerId] = $data;
         }
@@ -65,9 +54,31 @@ class Converter implements \Magento\Config\ConverterInterface
      * @param mixed $default
      * @return null|string
      */
-    protected function _getAttributeValue(\DOMNode $input, $attributeName, $default = null)
+    protected function getAttributeValue(\DOMNode $input, $attributeName, $default = null)
     {
         $node = $input->attributes->getNamedItem($attributeName);
         return $node ? $node->nodeValue : $default;
+    }
+
+    /**
+     * Convert child from dom to array
+     *
+     * @param \DOMNode $childNode
+     * @param array $data
+     * @return array
+     */
+    protected function convertChild(\DOMNode $childNode, $data)
+    {
+        switch ($childNode->nodeName) {
+            case 'title':
+                $data['title'] = $childNode->nodeValue;
+                $data['title_translate'] = $this->getAttributeValue($childNode, 'translate');
+                break;
+            case 'description':
+                $data['description'] = $childNode->nodeValue;
+                $data['description_translate'] = $this->getAttributeValue($childNode, 'translate');
+                break;
+        }
+        return $data;
     }
 }
