@@ -40,7 +40,7 @@
     <php>
         <includePath>.</includePath>
         <ini name="date.timezone" value="America/Los_Angeles"/>
-        <ini name="xdebug.max_nesting_level" value="5000"/>
+        <ini name="xdebug.max_nesting_level" value="200"/>
         <ini name="memory_limit" value="2048M"/>
         <!-- Local XML configuration file ('.dist' extension will be added, if the specified file doesn't exist) -->
         <const name="TESTS_LOCAL_CONFIG_FILE" value="etc/local-mysql.xml"/>
@@ -49,7 +49,7 @@
         <!-- Semicolon-separated 'glob' patterns, that match module declaration XML configuration files -->
         <const name="TESTS_MODULE_CONFIG_FILES" value="../../../app/etc/*/module.xml;etc/test/module.xml"/>
         <!-- Whether to cleanup the application before running tests or not -->
-        <!--<const name="TESTS_CLEANUP" value="enabled"/>-->
+        <const name="TESTS_CLEANUP" value="enabled"/>
         <!-- Memory usage and estimated leaks thresholds -->
         <!--<const name="TESTS_MEM_USAGE_LIMIT" value="1024M"/>-->
         <const name="TESTS_MEM_LEAK_LIMIT" value=""/>

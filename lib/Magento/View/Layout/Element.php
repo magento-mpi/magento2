@@ -21,7 +21,6 @@ class Element extends \Magento\Simplexml\Element
     const TYPE_DATA = 'data';
     const TYPE_BLOCK = 'block';
     const TYPE_CONTAINER = 'container';
-    const TYPE_WIDGET = 'widget';
     const TYPE_ACTION = 'action';
     const TYPE_ARGUMENTS = 'arguments';
     const TYPE_ARGUMENT = 'argument';
