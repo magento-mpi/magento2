@@ -66,7 +66,7 @@ class Helper
     {
         $productData = $this->request->getPost('product');
 
-        if ($productData) {
+        if ($productData && isset($productData['stock_data'])) {
             $productData['stock_data'] = $this->stockFilter->filter($productData['stock_data']);
         }
 
