@@ -88,6 +88,7 @@ interface CustomerAccountServiceInterface
      * @param int $customerId
      * @param string $password
      * @param string $resetToken
+     * @throws \Magento\Exception\InputException
      */
     public function resetPassword($customerId, $password, $resetToken);
 
@@ -96,6 +97,7 @@ interface CustomerAccountServiceInterface
      *
      * @param string $email email address of customer
      * @throws \Magento\Exception\NoSuchEntityException if error occurs getting customerId
+     * @throws \Magento\Exception\InvalidStateChangeException if confirmation is not needed
      */
     public function sendConfirmation($email);
 

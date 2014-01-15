@@ -214,7 +214,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException  \Magento\Exception\InputException
+     * @expectedException  \Magento\Exception\InvalidStateChangeException
      */
     public function testActivateAccountAlreadyActive()
     {
@@ -273,7 +273,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
         try {
             $customerService->activateAccount(self::ID, self::EMAIL_CONFIRMATION_KEY);
-            $this->fail("Expected NoSuchEntityException not caught");
+            $this->fail('Expected exception not thrown.');
         } catch (\Magento\Exception\NoSuchEntityException $nsee) {
             $this->assertSame($nsee->getCode(), \Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY);
             $this->assertSame(
@@ -889,7 +889,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-
     public function testSendConfirmation()
     {
         $this->_customerFactoryMock->expects($this->any())
@@ -937,7 +936,10 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testSendConfirmationNotNeeded()
+    /**
+     * @expectedException \Magento\Exception\InvalidStateChangeException
+     * @expectedExceptionMessage Confirmation not needed for this email
+     */    public function testSendConfirmationNotNeeded()
     {
         $this->_customerFactoryMock->expects($this->any())
             ->method('create')
@@ -954,22 +956,8 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->_customerModelMock));
 
         $customerService = $this->_createService();
-        try {
-            $customerService->sendConfirmation('email@test.com');
-            $this->fail('Expected exception not thrown');
-        } catch ( InputException $e) {
-            $expectedParams = [
-                [
-                    'code' => InputException::INVALID_STATE_CHANGE,
-                    'fieldName' => 'email',
-                    'value' => 'email@test.com',
-                    'websiteId' => 2,
-                ]
-            ];
-            $this->assertEquals($expectedParams, $e->getParams());
-        }
+        $customerService->sendConfirmation('email@test.com');
     }
-
 
     private function _setupStoreMock()
     {
@@ -987,7 +975,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getStore')
             ->will($this->returnValue($this->_storeMock));
     }
-
 
     /**
      * @param \PHPUnit_Framework_MockObject_MockObject $mock

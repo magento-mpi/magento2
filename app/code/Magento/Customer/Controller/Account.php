@@ -14,7 +14,9 @@ use Magento\App\RequestInterface;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 use Magento\Customer\Service\V1\Dto\Customer;
-use Magento\Customer\Service\Entity\V1\Exception as ServiceException;
+use Magento\Exception\AuthenticationException;
+use Magento\Exception\InputException;
+use Magento\Exception\InvalidStateChangeException;
 
 /**
  * Customer account controller
@@ -259,9 +261,9 @@ class Account extends \Magento\App\Action\Action
                     $customer = $this->_customerAccountService->authenticate($login['username'], $login['password']);
                     $this->_getSession()->setCustomerDtoAsLoggedIn($customer);
                     $this->_getSession()->regenerateId();
-                } catch (ServiceException $e) {
+                } catch (AuthenticationException $e) {
                     switch ($e->getCode()) {
-                        case ServiceException::CODE_EMAIL_NOT_CONFIRMED:
+                        case AuthenticationException::EMAIL_NOT_CONFIRMED:
                             $value = $this->_objectManager->get('Magento\Customer\Helper\Data')
                                 ->getEmailConfirmationUrl($login['username']);
                             $message = __(
@@ -270,7 +272,7 @@ class Account extends \Magento\App\Action\Action
                                 $value
                             );
                             break;
-                        case ServiceException::CODE_INVALID_EMAIL_OR_PASSWORD:
+                        case AuthenticationException::INVALID_EMAIL_OR_PASSWORD:
                             $message = __('Invalid login or password.');
                             break;
                         default:
@@ -426,8 +428,8 @@ class Account extends \Magento\App\Action\Action
                 $this->getResponse()->setRedirect($this->_redirect->success($url));
             }
             return;
-        } catch (ServiceException $e) {
-            if ($e->getCode() === ServiceException::CODE_EMAIL_EXISTS) {
+        } catch (InputException $e) {
+            if ($e->getParams()[0]['code'] === InputException::DUPLICATE_UNIQUE_VALUE_EXISTS) {
                 $url = $this->_createUrl()->getUrl('customer/account/forgotpassword');
                 $message = __('There is already an account with this email address. If you are sure that it is your email address, <a href="%1">click here</a> to get your password and access your account.', $url);
             } else {
@@ -628,26 +630,27 @@ class Account extends \Magento\App\Action\Action
                 throw new \Exception(__('Bad request.'));
             }
 
-            $customer = $this->_customerAccountService->activateAccount($customerId, $key);
+            try {
+                $customer = $this->_customerAccountService->activateAccount($customerId, $key);
+            } catch (InvalidStateChangeException $isce) {
+                if ($isce->getCode() == InvalidStateChangeException::ALREADY_ACTIVE) {
+                    // die happy
+                    $this->_redirect->success($this->_createUrl()->getUrl('*/*/index', array('_secure' => true)));
+                    return;
+                } else {
+                    throw $isce;
+                }
+            }
 
             // log in and send greeting email, then die happy
             $this->_getSession()->setCustomerDtoAsLoggedIn($customer);
             $successUrl = $this->_welcomeCustomer();
             $this->_redirect->success($backUrl ? $backUrl : $successUrl);
             return;
-        } catch (ServiceException $e) {
-            if ($e->getCode() == ServiceException::CODE_ACCT_ALREADY_ACTIVE) {
-                // die happy
-                $this->_redirect->success($this->_createUrl()->getUrl('*/*/index', array('_secure' => true)));
-            } else {
-                // die unhappy
-                $this->_getSession()->addError($e->getMessage());
-                $this->_redirect->error($this->_createUrl()->getUrl('*/*/index', array('_secure' => true)));
-            }
-
-            // die happy
-            $this->_redirect->success($this->_createUrl()->getUrl('*/*/index', array('_secure' => true)));
-            return;
+        } catch (InputException $e) {
+            // die unhappy
+            $this->_getSession()->addError($e->getMessage());
+            $this->_redirect->error($this->_createUrl()->getUrl('*/*/index', array('_secure' => true)));
         } catch (\Exception $e) {
             // die unhappy
             $this->messageManager->addError($e->getMessage());
@@ -700,10 +703,9 @@ class Account extends \Magento\App\Action\Action
             try {
                 $this->_customerAccountService->sendConfirmation($email);
                 $this->_getSession()->addSuccess(__('Please, check your email for confirmation key.'));
-            } catch (ServiceException $e) {
-                if ($e->getCode() == ServiceException::CODE_CONFIRMATION_NOT_NEEDED) {
-                    $this->_getSession()->addSuccess(__('This email does not require confirmation.'));
-                } else {
+            } catch (InvalidStateChangeException $e) {
+                $this->_getSession()->addSuccess(__('This email does not require confirmation.'));
+            } catch (\Magento\Exception\Exception $e) {
                     $this->_getSession()->addException($e, __('Wrong email.'));
                     $this->_redirectError(
                         $this->_createUrl()->getUrl(
@@ -712,7 +714,6 @@ class Account extends \Magento\App\Action\Action
                         )
                     );
                     return;
-                }
             }
             $this->_getSession()->setUsername($email);
             $this->_redirectSuccess($this->_createUrl()->getUrl('*/*/index', array('_secure' => true)));
@@ -762,12 +763,6 @@ class Account extends \Magento\App\Action\Action
             try {
                 $this->_customerAccountService
                     ->sendPasswordResetLink($email, $this->_storeManager->getStore()->getWebsiteId());
-            } catch (ServiceException $exception) {
-                if ($exception->getCode() !== ServiceException::CODE_EMAIL_NOT_FOUND) {
-                    $this->messageManager->addError($exception->getMessage());
-                    $this->_redirect('*/*/forgotpassword');
-                    return;
-                }
             } catch (\Exception $exception) {
                 $this->messageManager->addError($exception->getMessage());
                 $this->_redirect('*/*/forgotpassword');
@@ -812,12 +807,17 @@ class Account extends \Magento\App\Action\Action
                 ->setCustomerId($customerId)
                 ->setResetPasswordLinkToken($resetPasswordToken);
             $this->_view->renderLayout();
-        } catch (\Exception $exception) {
-            if ($exception->getCode() === ServiceException::CODE_INVALID_RESET_TOKEN) {
+        } catch (InputException $ie) {
+            if (($ie->getParams()[0]['code'] == InputException::INVALID_FIELD_VALUE) &&
+                ($ie->getParams()[0]['fieldName'] == 'resetPasswordLinkToken')) {
                 $this->messageManager->addError(__('Invalid password reset token.'));
             } else {
                 $this->messageManager->addError(__('Your password reset link has expired.'));
             }
+            $this->_redirect('*/*/forgotpassword');
+
+        } catch (\Exception $exception) {
+            $this->messageManager->addError(__('Your password reset link has expired.'));
             $this->_redirect('*/*/forgotpassword');
         }
     }
@@ -859,19 +859,18 @@ class Account extends \Magento\App\Action\Action
             );
             $this->_redirect('*/*/login');
             return;
-        } catch (ServiceException $exception) {
-            switch ($exception->getCode()) {
-                case ServiceException::CODE_INVALID_RESET_TOKEN:
-                case ServiceException::CODE_RESET_TOKEN_EXPIRED:
-                    $this->messageManager->addError(
-                        __('Your password reset link has expired.')
-                    );
-                    $this->_redirect('*/*/');
-                    break;
-                default:
-                    // Handled after the try catch block.
+        } catch (InputException $exception) {
+            // if invalid or expired password token, display expired error and redirect back to index
+            $code = $exception->getParams()[0]['code'];
+            $fieldName = $exception->getParams()[0]['fieldName'];
+            if ((($code == InputException::INVALID_FIELD_VALUE) && ($fieldName == 'resetPasswordLinkToken'))
+                || (($code == InputException::TOKEN_EXPIRED) && ($fieldName == 'resetPasswordLinkToken'))) {
+                $this->messageManager->addError(
+                    __('Your password reset link has expired.')
+                );
+                $this->_redirect('*/*/');
+                return;
             }
-            return;
         } catch (\Exception $exception) {
             // Handled after the try catch block.
         }

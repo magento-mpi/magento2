@@ -3,6 +3,7 @@
 namespace Magento\Customer\Service\V1;
 use Magento\Customer\Service\V1;
 use Magento\Exception\InputException;
+use Magento\Exception\InvalidStateChangeException;
 use Magento\Exception\NoSuchEntityException;
 
 /**
@@ -190,6 +191,9 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/Customer/_files/inactive_customer.php
      * @magentoAppArea frontend
      *
+     * @expectedException \Magento\Exception\InvalidStateChangeException
+     * @expectedExceptionCode \Magento\Exception\InvalidStateChangeException::ALREADY_ACTIVE
+     * @expectedExceptionMessage Customer account is already active.
      */
     public function testActivateAccountAlreadyActive()
     {
@@ -198,20 +202,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $customerModel->load(1);
         $key = $customerModel->getConfirmation();
         $this->_service->activateAccount($customerModel->getId(), $key);
-
-        try {
-            $this->_service->activateAccount($customerModel->getId(), $key);
-            $this->fail('Expected exception not thrown.');
-        } catch ( InputException $ie) {
-            $expectedParams = [
-                [
-                    'value' => $customerModel->getId(),
-                    'fieldName' => 'customerId',
-                    'code' => InputException::INVALID_STATE_CHANGE,
-                ]
-            ];
-            $this->assertEquals($expectedParams, $ie->getParams());
-        }
+        $this->_service->activateAccount($customerModel->getId(), $key);
     }
 
 
@@ -520,22 +511,13 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
+     *
+     * @expectedException \Magento\Exception\InvalidStateChangeException
+     * @expectedExceptionCode \Magento\Exception\InvalidStateChangeException::CONFIRMATION_NOT_NEEDED
+     * @expectedExceptionMessage Confirmation not needed for this email
      */
     public function testSendConfirmationNotNeeded()
     {
-        try {
-            $this->_service->sendConfirmation('customer@example.com');
-            $this->fail('Expected exception not thrown.');
-        } catch (InputException $ie) {
-            $expectedParams = [
-                [
-                    'value' => 'customer@example.com',
-                    'fieldName' => 'email',
-                    'code' => InputException::INVALID_STATE_CHANGE,
-                    'websiteId' => 1,
-                ]
-            ];
-            $this->assertEquals($expectedParams, $ie->getParams());
-        }
+        $this->_service->sendConfirmation('customer@example.com');
     }
 }
