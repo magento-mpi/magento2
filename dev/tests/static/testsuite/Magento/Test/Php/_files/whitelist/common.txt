@@ -66,6 +66,7 @@ app/code/Magento/Customer/Block/Account/{Authorization,Register}Link.php
 app/code/Magento/Customer/Block/Adminhtml/Edit/Tab/Account.php
 app/code/Magento/Customer/Model/Address/Config
 app/code/Magento/Customer/Model/Address/Config.php
+app/code/Magento/Customer/Service
 app/code/Magento/Directory/Model/Currency/DefaultLocator.php
 app/code/Magento/Directory/Model/Resource/Region
 app/code/Magento/Eav/Model/Cache/Type.php
@@ -131,8 +132,10 @@ lib/Magento/Backup/Db
 lib/Magento/Backup/Factory.php
 lib/Magento/Cache/Core.php
 lib/Magento/Convert
+lib/Magento/Exception
 lib/Magento/Stdlib/DateTime.php
 lib/Magento/Object.php
 lib/Magento/App
 lib/Magento/ObjectManager
+lib/Magento/Service
 lib/Magento/View
