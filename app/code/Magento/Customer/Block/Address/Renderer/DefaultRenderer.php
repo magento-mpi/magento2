@@ -50,7 +50,7 @@ class DefaultRenderer
      * @param \Magento\View\Element\Context $context
      * @param \Magento\Customer\Model\Metadata\ElementFactory $attrDataFactory
      * @param \Magento\Directory\Model\CountryFactory $countryFactory ,
-     * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface|\Magento\Customer\Service\V1\CustomerServiceInterface $metadataService
+     * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $metadataService
      * @param array $data
      */
     public function __construct(
@@ -91,7 +91,7 @@ class DefaultRenderer
     /**
      * Get a format object for a given address, based on the type set earlier.
      *
-     * @param null $addressAttributes
+     * @param string[] $addressAttributes
      * @return \Magento\Directory\Model\Country\Format
      */
     public function getFormat($addressAttributes = null)
@@ -107,11 +107,7 @@ class DefaultRenderer
     }
 
     /**
-     * Render address
-     *
-     * @param array $addressAttributes
-     * @param \Magento\Directory\Model\Country\Format $format
-     * @return string
+     * {@inheritdoc}
      */
     public function render($addressAttributes, $format = null)
     {
@@ -130,8 +126,10 @@ class DefaultRenderer
                 break;
         }
 
+        /** @var \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata[] $attributesMetadata */
         $attributesMetadata = $this->_metadataService->getAllAddressAttributeMetadata();
         $data = array();
+        /** @var \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attributeMetadata */
         foreach ($attributesMetadata as $attributeMetadata) {
             if (!$attributeMetadata->getIsVisible()) {
                 continue;

@@ -60,7 +60,6 @@ class Book extends \Magento\View\Element\Template
         $this->_addressService = $addressService;
         $this->_addressConfig = $addressConfig;
         parent::__construct($context, $data);
-        $this->addressService = $addressService;
     }
 
     protected function _prepareLayout()
