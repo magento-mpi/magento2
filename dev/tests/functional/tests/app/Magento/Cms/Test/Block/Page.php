@@ -16,6 +16,7 @@ use Mtf\Client\Element\Locator;
 
 /**
  * Class Page
+ * Cms Page block for the content on the frontend.
  *
  * @package Magento\Cms\Test\Block
  */

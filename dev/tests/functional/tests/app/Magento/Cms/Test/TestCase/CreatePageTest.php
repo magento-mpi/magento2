@@ -22,11 +22,6 @@ use Mtf\TestCase\Functional;
 class CreatePageTest extends Functional
 {
     /**
-     *  Content Tab html Id
-     */
-    const CONTENT_TAB = 'page_tabs_content_section';
-
-    /**
      * Login to backend as a precondition to test
      */
     protected function setUp()
@@ -50,8 +45,6 @@ class CreatePageTest extends Functional
         $cmsPageGridBlock->addNewCmsPage();
         $cmsPageNew = Factory::getPageFactory()->getAdminCmsPageNew();
         $cmsPageNewForm = $cmsPageNew->getNewCmsPageForm();
-        $cmsPageNewForm->openTab(self::CONTENT_TAB);
-        $cmsPageNewForm->toggleEditor();
         $cmsPageNewForm->fill($cmsPageFixture);
         $cmsPageNewForm->save();
         $message = $cmsPageGrid->getMessageBlock();

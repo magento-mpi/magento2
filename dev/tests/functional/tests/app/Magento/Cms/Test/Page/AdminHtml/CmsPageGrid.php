@@ -31,6 +31,8 @@ class CmsPageGrid extends Page
     const MCA = 'admin/cms_page';
 
     /**
+     *  Backend Cms Page grid id.
+     *
      * @var Grid
      */
     protected $cmsPageGridBlock = '#cmsPageGrid';
@@ -51,7 +53,7 @@ class CmsPageGrid extends Page
     }
 
     /**
-     * Getter for customer segment grid block
+     * Getter for cms page grid block
      *
      * @return Grid
      */
@@ -73,6 +75,5 @@ class CmsPageGrid extends Page
             $this->_browser->find($this->messagesBlock, Locator::SELECTOR_CSS)
         );
     }
-
 }
 

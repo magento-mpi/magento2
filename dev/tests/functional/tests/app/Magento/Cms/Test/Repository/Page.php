@@ -11,7 +11,6 @@
 
 namespace Magento\Cms\Test\Repository;
 
-use Mtf\Factory\Factory;
 use Mtf\Repository\AbstractRepository;
 
 /**

@@ -11,6 +11,8 @@
 
 namespace Magento\Cms\Test\Block\AdminHtml\Page;
 
+use Mtf\Fixture;
+use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\FormTabs;
 use Mtf\Client\Element\Locator;
 
@@ -22,19 +24,35 @@ use Mtf\Client\Element\Locator;
  */
 class Edit extends FormTabs
 {
+    const CONTENT_TAB = 'page_tabs_content_section';
+
     /**
-     * Product toggle button
+     * Content Editor toggle button id
      *
      * @var string
      */
-    protected $toggleButton = "//button[@id='togglepage_content']";
+    protected $toggleButton = "#togglepage_content";
 
     /**
-     * Toggle Editor button
+     * Fill the page form
      *
+     * @param Fixture $fixture
+     * @param Element $element
+     * @return FormTabs|void
      */
-    public function toggleEditor()
+    public function fill(Fixture $fixture, Element $element = null)
     {
-        $this->_rootElement->find($this->toggleButton, Locator::SELECTOR_XPATH)->click();
+        // Open "Content" tab and toggle the editor to make visible and available to interact
+        $this->toggleEditor();
+        parent::fill($fixture);
+    }
+
+    /**
+     * Page Content Show/Hide Editor toggle button
+     */
+    protected function toggleEditor()
+    {
+        parent::openTab(self::CONTENT_TAB);
+        $this->_rootElement->find($this->toggleButton, Locator::SELECTOR_CSS)->click();
     }
 }

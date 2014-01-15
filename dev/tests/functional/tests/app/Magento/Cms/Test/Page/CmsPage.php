@@ -18,7 +18,7 @@ use Magento\Cms\Test\Block\Page;
 
 /**
  * Class CmsPage
- * Home page for frontend
+ * Cms Page for the frontend
  *
  * @package Magento\Cms\Test\Page
  */
@@ -30,7 +30,7 @@ class CmsPage extends \Mtf\Page\Page
     const MCA = 'cms/page';
 
     /**
-     * frontend Cms Page class
+     * Frontend Cms Page class
      *
      * @var string
      */
@@ -40,7 +40,6 @@ class CmsPage extends \Mtf\Page\Page
      * Page initialization for building dynamically named Cms Page
      *
      * @param DataFixture|\Magento\Cms\Test\Fixture\Page $fixture
-     *
      */
     public function init(DataFixture $fixture)
     {
