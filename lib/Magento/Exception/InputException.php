@@ -40,11 +40,11 @@ class InputException extends \Magento\Exception\Exception
      *
      * @param string $code
      * @param string $fieldName
-     * @param $value
-     * @param array $params
+     * @param        $value
+     * @param array  $params
      * @return InputException
      */
-    public static function create($code, $fieldName, $value, array $params =[])
+    public static function create($code, $fieldName, $value, array $params = [])
     {
         $exception = new self();
         $exception->addError($code, $fieldName, $value, $params);
@@ -54,10 +54,10 @@ class InputException extends \Magento\Exception\Exception
     /**
      * Add another error to the parameters list of errors
      *
-     * @param string $code Error code
+     * @param string $code      Error code
      * @param string $fieldName Fieldname with bad input
-     * @param string $value Bad input value
-     * @param array $errorData Extra error debug data
+     * @param string $value     Bad input value
+     * @param array  $errorData Extra error debug data
      * @return $this
      */
     public function addError($code, $fieldName, $value, array $errorData = [])

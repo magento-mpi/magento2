@@ -8,8 +8,6 @@
 
 namespace Magento\Customer\Service\V1;
 
-use Magento\Customer\Service\Entity\V1\AggregateException;
-use Magento\Customer\Service\Entity\V1\Exception;
 use Magento\Customer\Model\Address as CustomerAddressModel;
 use Magento\Exception\NoSuchEntityException;
 use \Magento\Exception\InputException;
