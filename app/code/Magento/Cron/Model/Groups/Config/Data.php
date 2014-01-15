@@ -36,7 +36,6 @@ class Data extends \Magento\Config\Data
      */
     public function getByGroupId($groupId)
     {
-        var_dump($this->get());
         return $this->get()[$groupId];
     }
 }
