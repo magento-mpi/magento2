@@ -488,7 +488,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     protected $_paymentCollectionFactory;
 
     /**
-     * @var Resource\Order\Status\History\Collection
+     * @var Resource\Order\Status\History\CollectionFactory
      */
     protected $_historyCollectionFactory;
 
@@ -569,7 +569,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
         \Magento\Sales\Model\CarrierFactory $carrierFactory,
         \Magento\Sales\Model\Resource\Order\Address\CollectionFactory $addressCollectionFactory,
         \Magento\Sales\Model\Resource\Order\Payment\CollectionFactory $paymentCollectionFactory,
-        \Magento\Sales\Model\Resource\Order\Status\History\Collection $historyCollectionFactory,
+        \Magento\Sales\Model\Resource\Order\Status\History\CollectionFactory $historyCollectionFactory,
         \Magento\Sales\Model\Resource\Order\Invoice\CollectionFactory $invoiceCollectionFactory,
         \Magento\Sales\Model\Resource\Order\Shipment\CollectionFactory $shipmentCollectionFactory,
         \Magento\Sales\Model\Resource\Order\Creditmemo\CollectionFactory $memoCollectionFactory,
