@@ -1761,4 +1761,6 @@ return array(
     array('Magento\Catalog\Model\Resource\Convert'),
     array('Magento\Reminder\Model\Resource\HelperFactory'),
     array('Magento\Reminder\Model\Resource\Helper'),
+    array('Magento\Config\Dom\Converter\ArrayConverter'),
+    array('Magento\Acl\Resource\Config\Dom'),
 );

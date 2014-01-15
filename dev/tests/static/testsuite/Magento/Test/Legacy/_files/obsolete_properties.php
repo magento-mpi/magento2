@@ -250,4 +250,5 @@ return array(
     array('_messagesBlock', 'Magento\View\Element\AbstractBlock'),
     array('_messagesBlock', 'Magento\Connect\Helper\Data'),
     array('escapeMessageFlag', 'Magento\View\Block\Messages'),
+    array('fileIteratorFactory', 'Magento\Core\Model\Theme\Collection')
 );
