@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\App;
+namespace Magento\Core\Model;
 
 class ReinitableConfig extends \Magento\Core\Model\Config implements \Magento\App\ReinitableConfigInterface
 {

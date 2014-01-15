@@ -19,8 +19,8 @@ class ReinitableConfigTest extends \PHPUnit_Framework_TestCase
         $sectionPool = $this->getMock('\Magento\Core\Model\Config\SectionPool', ['clean'], array(), '', false);
         $sectionPool->expects($this->once())
             ->method('clean');
-        /** @var \Magento\App\ReinitableConfig $config */
-        $config = $helper->getObject('Magento\App\ReinitableConfig', ['sectionPool' => $sectionPool]);
+        /** @var \Magento\Core\Model\ReinitableConfig $config */
+        $config = $helper->getObject('Magento\Core\Model\ReinitableConfig', ['sectionPool' => $sectionPool]);
         $this->assertInstanceOf('\Magento\App\ReinitableConfigInterface', $config->reinit());
     }
 }
