@@ -9,8 +9,8 @@
  */
 
 namespace Magento\Customer\Controller;
-use Magento\App\RequestInterface;
 
+use Magento\App\RequestInterface;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 use Magento\Customer\Service\V1\Dto\Customer;
@@ -92,11 +92,6 @@ class Account extends \Magento\App\Action\Action
     protected $escaper;
 
     /**
-     * @var \Magento\Core\Helper\Url
-     */
-    protected $_coreUrlHelper;
-
-    /**
      * @var \Magento\Newsletter\Model\SubscriberFactory
      */
     protected $_subscriberFactory;
@@ -119,18 +114,17 @@ class Account extends \Magento\App\Action\Action
     /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Core\Model\UrlFactory $urlFactory
-     * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService
+     * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Customer\Model\FormFactory $formFactory
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
-     * @param \Magento\Core\Helper\Url $coreUrlHelper
-     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Escaper $escaper
+     * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService
+     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
      * @param \Magento\Customer\Service\V1\Dto\RegionBuilder $regionBuilder
      * @param \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder
      * @param \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder
@@ -138,18 +132,17 @@ class Account extends \Magento\App\Action\Action
     public function __construct(
         \Magento\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Customer\Model\Session $customerSession,
         \Magento\Core\Model\UrlFactory $urlFactory,
-        CustomerGroupServiceInterface $customerGroupService,
+        \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Customer\Model\FormFactory $formFactory,
         \Magento\Stdlib\String $string,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
-        \Magento\Core\Helper\Url $coreUrlHelper,
-        CustomerAccountServiceInterface $customerAccountService,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Escaper $escaper,
+        CustomerGroupServiceInterface $customerGroupService,
+        CustomerAccountServiceInterface $customerAccountService,
         \Magento\Customer\Service\V1\Dto\RegionBuilder $regionBuilder,
         \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder,
         \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder
@@ -164,7 +157,6 @@ class Account extends \Magento\App\Action\Action
         $this->_formKeyValidator = $formKeyValidator;
         $this->_customerAccountService = $customerAccountService;
         $this->_groupService = $customerGroupService;
-        $this->_coreUrlHelper = $coreUrlHelper;
         $this->_subscriberFactory = $subscriberFactory;
         $this->escaper = $escaper;
         $this->_regionBuilder = $regionBuilder;
@@ -854,9 +846,9 @@ class Account extends \Magento\App\Action\Action
                 __('New password field cannot be empty.')
             );
             $this->_redirect('*/*/createpassword', array(
-                'id' => $customerId,
-                'token' => $resetPasswordToken
-            ));
+                    'id' => $customerId,
+                    'token' => $resetPasswordToken
+                ));
             return;
         }
 
@@ -871,7 +863,7 @@ class Account extends \Magento\App\Action\Action
             switch ($exception->getCode()) {
                 case ServiceException::CODE_INVALID_RESET_TOKEN:
                 case ServiceException::CODE_RESET_TOKEN_EXPIRED:
-                $this->messageManager->addError(
+                    $this->messageManager->addError(
                         __('Your password reset link has expired.')
                     );
                     $this->_redirect('*/*/');
@@ -885,9 +877,9 @@ class Account extends \Magento\App\Action\Action
         }
         $this->messageManager->addError(__('There was an error saving the new password.'));
         $this->_redirect('*/*/createpassword', array(
-            'id' => $customerId,
-            'token' => $resetPasswordToken
-        ));
+                'id' => $customerId,
+                'token' => $resetPasswordToken
+            ));
         return;
     }
 
@@ -1043,21 +1035,5 @@ class Account extends \Magento\App\Action\Action
     protected function _createForm()
     {
         return $this->_formFactory->create();
-    }
-
-    /**
-     * @return \Magento\Core\Model\UrlFactory
-     */
-    protected function _getUrlFactory()
-    {
-        return $this->_urlFactory;
-    }
-
-    /**
-     * @return \Magento\Core\Helper\Url
-     */
-    protected function _getCoreUrlHelper()
-    {
-        return $this->_coreUrlHelper;
     }
 }

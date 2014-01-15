@@ -10,6 +10,8 @@
 namespace Magento\Invitation\Controller\Customer;
 use Magento\App\Action\NotFoundException;
 use Magento\App\RequestInterface;
+use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 
 /**
  * Invitation customer account frontend controller
@@ -33,18 +35,17 @@ class Account extends \Magento\Customer\Controller\Account
     /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Core\Model\UrlFactory $urlFactory
-     * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService
+     * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Customer\Model\FormFactory $formFactory
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
-     * @param \Magento\Core\Helper\Url $coreUrlHelper
-     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Escaper $escaper
+     * @param CustomerGroupServiceInterface $customerGroupService
+     * @param CustomerAccountServiceInterface $customerAccountService
      * @param \Magento\Customer\Service\V1\Dto\RegionBuilder $regionBuilder
      * @param \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder
      * @param \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder
@@ -54,18 +55,17 @@ class Account extends \Magento\Customer\Controller\Account
     public function __construct(
         \Magento\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Customer\Model\Session $customerSession,
         \Magento\Core\Model\UrlFactory $urlFactory,
-        \Magento\Customer\Service\V1\CustomerGroupServiceInterface $customerGroupService,
+        \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Customer\Model\FormFactory $formFactory,
         \Magento\Stdlib\String $string,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
-        \Magento\Core\Helper\Url $coreUrlHelper,
-        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Escaper $escaper,
+        CustomerGroupServiceInterface $customerGroupService,
+        CustomerAccountServiceInterface $customerAccountService,
         \Magento\Customer\Service\V1\Dto\RegionBuilder $regionBuilder,
         \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder,
         \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder,
@@ -75,18 +75,17 @@ class Account extends \Magento\Customer\Controller\Account
         parent::__construct(
             $context,
             $coreRegistry,
-            $customerSession,
             $urlFactory,
-            $customerGroupService,
+            $customerSession,
             $customerFactory,
             $formFactory,
             $string,
             $formKeyValidator,
-            $coreUrlHelper,
-            $customerAccountService,
             $subscriberFactory,
             $storeManager,
             $escaper,
+            $customerGroupService,
+            $customerAccountService,
             $regionBuilder,
             $addressBuilder,
             $customerBuilder

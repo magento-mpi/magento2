@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 namespace Magento\Customer\Service\V1\Dto;
-use Magento\Customer\Service\V1\Dto\Customer;
 
 /**
  * Class Customer

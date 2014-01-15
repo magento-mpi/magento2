@@ -1,19 +1,14 @@
 <?php
 /**
+ * Customer dashboard addresses section
+ *
  * {license_notice}
  *
  * @category    Magento
  * @package     Magento_Customer
+ * @author      Magento Core Team <core@magentocommerce.com>
  * @copyright   {copyright}
  * @license     {license_link}
- */
-
-/**
- * Customer dashboard addresses section
- *
- * @category   Magento
- * @package    Magento_Customer
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 
 namespace Magento\Customer\Block\Account\Dashboard;
@@ -33,7 +28,7 @@ class Address extends \Magento\View\Element\Template
     /**
      * @var \Magento\Customer\Service\V1\CustomerAddressServiceInterface
      */
-     protected $_addressService;
+    protected $_addressService;
 
     /**
      * @var \Magento\Customer\Model\Address\Config

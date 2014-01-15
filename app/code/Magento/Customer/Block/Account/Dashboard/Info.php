@@ -1,15 +1,17 @@
 <?php
 /**
+ * Dashboard Customer Info
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
+ * @category   Magento
+ * @package    Magento_Customer
+ * @author     Magento Core Team <core@magentocommerce.com>
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 namespace Magento\Customer\Block\Account\Dashboard;
-
 
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 use Magento\Exception\NoSuchEntityException;
@@ -21,7 +23,6 @@ use Magento\Exception\NoSuchEntityException;
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Info extends \Magento\View\Element\Template
 {
     /**

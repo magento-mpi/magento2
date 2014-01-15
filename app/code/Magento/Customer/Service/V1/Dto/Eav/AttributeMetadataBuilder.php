@@ -9,8 +9,6 @@
  */
 namespace Magento\Customer\Service\V1\Dto\Eav;
 
-use Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata;
-
 class AttributeMetadataBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
 {
     /**
