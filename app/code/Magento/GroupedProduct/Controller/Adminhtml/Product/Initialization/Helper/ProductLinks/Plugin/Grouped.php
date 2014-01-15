@@ -8,7 +8,7 @@
 
 namespace Magento\GroupedProduct\Controller\Adminhtml\Product\Initialization\Helper\ProductLinks\Plugin;
 
-class Grouped 
+class Grouped
 {
     /**
      * @var \Magento\App\RequestInterface
