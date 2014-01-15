@@ -72,6 +72,19 @@ class Config implements \Magento\Core\Model\ConfigInterface
     }
 
     /**
+     * Retrieve config flag
+     *
+     * @param string $path
+     * @param string $scope
+     * @param null|string $scopeCode
+     * @return bool
+     */
+    public function getFlag($path, $scope = 'default', $scopeCode = null)
+    {
+        return (bool)$this->getValue($path, $scope, $scopeCode);
+    }
+
+    /**
      * Reinitialize configuration
      *
      * @return \Magento\Core\Model\Config
