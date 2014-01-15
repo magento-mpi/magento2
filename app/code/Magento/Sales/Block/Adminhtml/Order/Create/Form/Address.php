@@ -163,8 +163,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
         $attributes = $addressForm->getAttributes();
         if (isset($attributes['street'])) {
             // TODO: Decide what to do with this call?
-            $this->_adminhtmlAddresses
-                ->processStreetAttributeFromDTO($attributes['street']);
+            //$this->_adminhtmlAddresses->processStreetAttribute($attributes['street']);
         }
         $this->_addAttributesToForm($attributes, $fieldset);
 
