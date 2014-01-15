@@ -10,10 +10,20 @@ namespace Magento\Indexer\Model\Config;
 
 class Reader extends \Magento\Config\Reader\Filesystem
 {
+    /**
+     * @param \Magento\Config\FileResolverInterface $fileResolver
+     * @param Converter $converter
+     * @param SchemaLocator $schemaLocator
+     * @param \Magento\Config\ValidationStateInterface $validationState
+     * @param string $fileName
+     * @param array $idAttributes
+     * @param string $domDocumentClass
+     * @param string $defaultScope
+     */
     public function __construct(
         \Magento\Config\FileResolverInterface $fileResolver,
-        \Magento\Config\ConverterInterface $converter,
-        \Magento\Config\SchemaLocatorInterface $schemaLocator,
+        \Magento\Indexer\Model\Config\Converter $converter,
+        \Magento\Indexer\Model\Config\SchemaLocator $schemaLocator,
         \Magento\Config\ValidationStateInterface $validationState,
         $fileName = 'indexer.xml',
         $idAttributes = array(),

@@ -11,12 +11,12 @@ namespace Magento\Indexer\Model;
 class Config extends \Magento\Config\Data implements ConfigInterface
 {
     /**
-     * @param \Magento\Config\ReaderInterface $reader
+     * @param \Magento\Indexer\Model\Config\Reader $reader
      * @param \Magento\Config\CacheInterface $cache
      * @param string $cacheId
      */
     public function __construct(
-        \Magento\Config\ReaderInterface $reader,
+        \Magento\Indexer\Model\Config\Reader $reader,
         \Magento\Config\CacheInterface $cache,
         $cacheId = 'indexer_config'
     ) {

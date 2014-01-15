@@ -34,22 +34,30 @@
         <xs:sequence>
             <xs:element name="title" type="translatableType" />
             <xs:element name="description" type="translatableType" />
-            <xs:element name="depends" type="dependsType">
-                <xs:unique name="uniqueDependsTable">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Table must be unique.
-                        </xs:documentation>
-                    </xs:annotation>
-                    <xs:selector xpath=".//table" />
-                    <xs:field xpath="@name" />
-                    <xs:field xpath="@entity_column" />
-                </xs:unique>
-            </xs:element>
         </xs:sequence>
         <xs:attribute name="id" type="xs:string" use="required" />
+        <xs:attribute name="view_id" type="viewIdType" use="required" />
         <xs:attribute name="class" type="classType" use="required" />
     </xs:complexType>
+
+    <xs:complexType name="translatableType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="translate" use="optional" fixed="true" type="xs:boolean"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:simpleType name="viewIdType">
+        <xs:annotation>
+            <xs:documentation>
+                View ID can contain only [a-zA-Z0-9_].
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[a-zA-Z0-9_]+" />
+        </xs:restriction>
+    </xs:simpleType>
 
     <xs:simpleType name="classType">
         <xs:annotation>
@@ -62,54 +70,4 @@
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:complexType name="dependsType">
-        <xs:annotation>
-            <xs:documentation>
-                Depends declaration.
-            </xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="table" type="dependsTableType" minOccurs="1" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-
-    <xs:complexType name="translatableType">
-        <xs:simpleContent>
-            <xs:extension base="xs:string">
-                <xs:attribute name="translate" use="optional" fixed="true" type="xs:boolean"/>
-            </xs:extension>
-        </xs:simpleContent>
-    </xs:complexType>
-
-    <xs:complexType name="dependsTableType">
-        <xs:annotation>
-            <xs:documentation>
-                Table declaration.
-            </xs:documentation>
-        </xs:annotation>
-        <xs:attribute name="name" type="tableNameType" use="required" />
-        <xs:attribute name="entity_column" type="entityColumnType" use="required" />
-    </xs:complexType>
-
-    <xs:simpleType name="entityColumnType">
-        <xs:annotation>
-            <xs:documentation>
-                Entity column can contain only [a-z_].
-            </xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:string">
-            <xs:pattern value="[a-z_]+" />
-        </xs:restriction>
-    </xs:simpleType>
-
-    <xs:simpleType name="tableNameType">
-        <xs:annotation>
-            <xs:documentation>
-                Table name can contain only [a-z_].
-            </xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:string">
-            <xs:pattern value="[a-z_]+" />
-        </xs:restriction>
-    </xs:simpleType>
 </xs:schema>
