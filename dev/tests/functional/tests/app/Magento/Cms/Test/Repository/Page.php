@@ -29,8 +29,8 @@ class Page extends AbstractRepository
     /**
      * {@inheritdoc}
      *
-     * @param mixed[] $defaultConfig
-     * @param mixed[] $defaultData
+     * @param array $defaultConfig
+     * @param array $defaultData
      *
      * @return void
      */
@@ -47,7 +47,7 @@ class Page extends AbstractRepository
     /**
      * Cms Page test data
      *
-     * @return mixed[]
+     * @return array
      */
     protected function getPage()
     {
