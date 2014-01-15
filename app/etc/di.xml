@@ -117,7 +117,7 @@
     </type>
     <type name="Magento\App\Cache\Frontend\Factory">
         <param name="enforcedOptions">
-            <value type="argument">Magento\Core\Model\App::PARAM_CACHE_OPTIONS</value>
+            <value type="argument">Magento\Core\Model\App::PARAM_CACHE_FORCED_OPTIONS</value>
         </param>
         <param name="decorators">
             <value>
