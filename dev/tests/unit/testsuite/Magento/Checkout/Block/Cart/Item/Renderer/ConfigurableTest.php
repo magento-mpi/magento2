@@ -19,8 +19,8 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\View\ConfigInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $_configManager;
 
-    /** @var \Magento\App\Helper\HelperFactory|\PHPUnit_Framework_MockObject_MockObject */
-    protected $_helperFactory;
+    /** @var \Magento\Catalog\Helper\Image|\PHPUnit_Framework_MockObject_MockObject */
+    protected $_imageHelper;
 
     /** @var \Magento\Core\Model\Store\Config|\PHPUnit_Framework_MockObject_MockObject */
     protected $_storeConfig;
@@ -33,13 +33,19 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
         parent::setUp();
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_configManager = $this->getMock('Magento\View\ConfigInterface', array(), array(), '', false);
-        $this->_helperFactory = $this->getMock('Magento\App\Helper\HelperFactory', array(), array(), '', false, false);
+        $this->_imageHelper = $this->getMock(
+            'Magento\Catalog\Helper\Image',
+            array('init', 'resize', '__toString'),
+            array(),
+            '',
+            false
+        );
         $this->_storeConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false, false);
         $this->_renderer = $objectManagerHelper->getObject(
             'Magento\Checkout\Block\Cart\Item\Renderer\Configurable',
             array(
                 'viewConfig' => $this->_configManager,
-                'helperFactory' => $this->_helperFactory,
+                'imageHelper' => $this->_imageHelper,
                 'storeConfig' => $this->_storeConfig,
             )
         );
@@ -73,17 +79,9 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
         );
         $childProduct->expects($this->any())->method('getThumbnail')->will($this->returnValue('/_/_/__green.gif'));
 
-        $helperImage = $this->getMock('Magento\Catalog\Helper\Image',
-            array('init', 'resize', '__toString'), array(), '', false
-        );
-        $helperImage->expects($this->any())->method('init')->will($this->returnValue($helperImage));
-        $helperImage->expects($this->any())->method('resize')->will($this->returnValue($helperImage));
-        $helperImage->expects($this->any())->method('__toString')->will($this->returnValue($url));
-
-        $this->_helperFactory->expects($this->any())
-            ->method('get')
-            ->with('Magento\Catalog\Helper\Image', array())
-            ->will($this->returnValue($helperImage));
+        $this->_imageHelper->expects($this->any())->method('init')->will($this->returnValue($this->_imageHelper));
+        $this->_imageHelper->expects($this->any())->method('resize')->will($this->returnValue($this->_imageHelper));
+        $this->_imageHelper->expects($this->any())->method('__toString')->will($this->returnValue($url));
 
         $arguments = array(
             'statusListFactory' => $this->getMock(
@@ -100,9 +98,6 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
         $item = $objectManagerHelper->getObject('Magento\Sales\Model\Quote\Item', $arguments);
         $item->setData('product', $product);
         $item->addChild($childItem);
-
-        $layout = $this->_renderer->getLayout();
-        $layout->expects($this->any())->method('helper')->will($this->returnValue($helperImage));
 
         $this->_renderer->setItem($item);
 

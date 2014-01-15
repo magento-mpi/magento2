@@ -15,8 +15,8 @@ use Magento\Checkout\Block\Cart\Item\Renderer as Renderer;
 
 class RendererTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\App\Helper\HelperFactory|\PHPUnit_Framework_MockObject_MockObject */
-    protected $_helperFactory;
+    /** @var \Magento\Catalog\Helper\Image|\PHPUnit_Framework_MockObject_MockObject */
+    protected $_imageHelper;
 
     /** @var Renderer */
     protected $_renderer;
@@ -25,10 +25,10 @@ class RendererTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_helperFactory = $this->getMock('Magento\App\Helper\HelperFactory', array(), array(), '', false);
+        $this->_imageHelper = $this->getMock('Magento\Catalog\Helper\Image', array(), array(), '', false);
         $this->_renderer = $objectManagerHelper->getObject(
             'Magento\Checkout\Block\Cart\Item\Renderer',
-            ['helperFactory' => $this->_helperFactory]
+            ['imageHelper' => $this->_imageHelper]
         );
     }
 
@@ -42,23 +42,13 @@ class RendererTest extends \PHPUnit_Framework_TestCase
     public function testGetProductThumbnail()
     {
         $productForThumbnail = $this->_initProduct();
-
-        /** @var \Magento\Catalog\Helper\Image|\PHPUnit_Framework_MockObject_MockObject $imageHelper */
-        $imageHelper = $this->getMock('Magento\Catalog\Helper\Image', array(), array(), '', false);
         /** Ensure that image helper was initialized with correct arguments */
-        $imageHelper->expects($this->once())
+        $this->_imageHelper->expects($this->once())
             ->method('init')
             ->with($productForThumbnail, 'thumbnail')
             ->will($this->returnSelf());
-
-        $this->_helperFactory
-            ->expects($this->any())
-            ->method('get')
-            ->with('Magento\Catalog\Helper\Image')
-            ->will($this->returnValue($imageHelper));
-
         $productThumbnail = $this->_renderer->getProductThumbnail();
-        $this->assertSame($imageHelper, $productThumbnail, 'Invalid product thumbnail is returned.');
+        $this->assertSame($this->_imageHelper, $productThumbnail, 'Invalid product thumbnail is returned.');
     }
 
     /**

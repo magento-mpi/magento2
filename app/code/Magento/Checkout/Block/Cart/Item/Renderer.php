@@ -59,9 +59,15 @@ class Renderer extends \Magento\View\Element\Template
     protected $messageManager;
 
     /**
+     * @var \Magento\Catalog\Helper\Image
+     */
+    protected $_imageHelper;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Catalog\Helper\Product\Configuration $productConfig
      * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Catalog\Helper\Image $imageHelper
      * @param \Magento\Core\Helper\Url $urlHelper
      * @param \Magento\Message\ManagerInterface $messageManager
      * @param array $data
@@ -70,10 +76,12 @@ class Renderer extends \Magento\View\Element\Template
         \Magento\View\Element\Template\Context $context,
         \Magento\Catalog\Helper\Product\Configuration $productConfig,
         \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Catalog\Helper\Image $imageHelper,
         \Magento\Core\Helper\Url $urlHelper,
         \Magento\Message\ManagerInterface $messageManager,
         array $data = array()
     ) {
+        $this->_imageHelper = $imageHelper;
         $this->_urlHelper = $urlHelper;
         $this->_productConfig = $productConfig;
         $this->_checkoutSession = $checkoutSession;
@@ -120,9 +128,7 @@ class Renderer extends \Magento\View\Element\Template
      */
     public function getProductThumbnail()
     {
-        /** @var \Magento\Catalog\Helper\Image $imageHelper */
-        $imageHelper = $this->helper('Magento\Catalog\Helper\Image');
-        return $imageHelper->init($this->getProductForThumbnail(), 'thumbnail');
+        return $this->_imageHelper->init($this->getProductForThumbnail(), 'thumbnail');
     }
 
     /**
@@ -206,8 +212,7 @@ class Renderer extends \Magento\View\Element\Template
 
         if ($product->isVisibleInSiteVisibility()) {
             return true;
-        }
-        else {
+        } else {
             if ($product->hasUrlDataObject()) {
                 $data = $product->getUrlDataObject();
                 if (in_array($data->getVisibility(), $product->getVisibleInSiteVisibilities())) {
