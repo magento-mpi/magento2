@@ -18,7 +18,7 @@ interface CustomerAddressServiceInterface
      *
      * @param int $customerId,
      * @return Dto\Address[]
-     * @throws \Magento\Customer\Service\Entity\V1\Exception
+     * @throws \Magento\Exception\NoSuchEntityException if the customer Id is invalid
      */
     public function getAddresses($customerId);
 
@@ -27,7 +27,7 @@ interface CustomerAddressServiceInterface
      *
      * @param int $customerId
      * @return Dto\Address
-     * @throws \Magento\Customer\Service\Entity\V1\Exception
+     * @throws \Magento\Exception\NoSuchEntityException if the customer Id is invalid
      */
     public function getDefaultBillingAddress($customerId);
 
@@ -36,7 +36,7 @@ interface CustomerAddressServiceInterface
      *
      * @param int $customerId
      * @return Dto\Address
-     * @throws \Magento\Customer\Service\Entity\V1\Exception
+     * @throws \Magento\Exception\NoSuchEntityException if the customer Id is invalid
      */
     public function getDefaultShippingAddress($customerId);
 
@@ -46,7 +46,7 @@ interface CustomerAddressServiceInterface
      * @param int $customerId
      * @param int $addressId
      * @return Dto\Address
-     * @throws \Magento\Customer\Service\Entity\V1\Exception
+     * @throws \Magento\Exception\NoSuchEntityException if the customer or address Id is invalid
      */
     public function getAddressById($customerId, $addressId);
 
@@ -55,7 +55,8 @@ interface CustomerAddressServiceInterface
      *
      * @param int $customerId
      * @param int $addressId
-     * @throws \Magento\Customer\Service\Entity\V1\Exception if the address does not belong to the given customer
+     * @throws \Magento\Exception\NoSuchEntityException if the customer or address Id is invalid
+     * @throws \Magento\Exception\InputException if the address does not belong to the given customer
      */
     public function deleteAddressFromCustomer($customerId, $addressId);
 

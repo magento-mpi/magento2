@@ -10,7 +10,7 @@ namespace Magento\Customer\Service\V1;
 
 use Magento\Customer\Model\Address as CustomerAddressModel;
 use Magento\Exception\NoSuchEntityException;
-use \Magento\Exception\InputException;
+use Magento\Exception\InputException;
 
 class CustomerAddressService implements CustomerAddressServiceInterface
 {
@@ -37,7 +37,7 @@ class CustomerAddressService implements CustomerAddressServiceInterface
      *
      * @var \Magento\Directory\Helper\Data
      */
-    protected $_directoryData = null;
+    protected $_directoryData;
 
     /**
      * Constructor
@@ -63,7 +63,7 @@ class CustomerAddressService implements CustomerAddressServiceInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getAddresses($customerId)
     {
@@ -86,7 +86,7 @@ class CustomerAddressService implements CustomerAddressServiceInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getDefaultBillingAddress($customerId)
     {
@@ -104,7 +104,7 @@ class CustomerAddressService implements CustomerAddressServiceInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getDefaultShippingAddress($customerId)
     {
@@ -121,7 +121,7 @@ class CustomerAddressService implements CustomerAddressServiceInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getAddressById($customerId, $addressId)
     {
@@ -139,7 +139,7 @@ class CustomerAddressService implements CustomerAddressServiceInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function deleteAddressFromCustomer($customerId, $addressId)
     {
@@ -168,7 +168,7 @@ class CustomerAddressService implements CustomerAddressServiceInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function saveAddresses($customerId, array $addresses)
     {
@@ -188,11 +188,8 @@ class CustomerAddressService implements CustomerAddressServiceInterface
             }
             $this->_updateAddressModel($addressModel, $address);
 
-            $size = count($inputException->getParams());
             $inputException = $this->_validate($addressModel, $inputException, "address[$i].");
-            if (count($inputException->getParams()) == $size) {
-                $addressModels[] = $addressModel;
-            }
+            $addressModels[] = $addressModel;
         }
         if ($inputException->getParams()) {
             throw $inputException;
@@ -212,7 +209,7 @@ class CustomerAddressService implements CustomerAddressServiceInterface
      *
      * @param CustomerAddressModel $addressModel
      * @param Dto\Address $address
-     * return null
+     * @return null
      */
     private function _updateAddressModel(CustomerAddressModel $addressModel, Dto\Address $address)
     {
@@ -244,7 +241,6 @@ class CustomerAddressService implements CustomerAddressServiceInterface
      * @param CustomerAddressModel $addressModel
      * @param int                  $defaultBillingId
      * @param int                  $defaultShippingId
-     *
      * @return Dto\Address
      */
     private function _createAddress(
@@ -302,51 +298,51 @@ class CustomerAddressService implements CustomerAddressServiceInterface
     /**
      * Validate Customer Addrresss attribute values.
      *
-     * @param CustomerAddressModel $cam       the model to validate
+     * @param CustomerAddressModel $customerAddressModel       the model to validate
      * @param InputException       $exception the exception to add errors to
      * @param string               $prefix    the optional prefix to for field names
      * @return InputException
      */
-    private function _validate(CustomerAddressModel $cam, InputException $exception, $prefix = '')
+    private function _validate(CustomerAddressModel $customerAddressModel, InputException $exception, $prefix = '')
     {
-        if ($cam->getShouldIgnoreValidation()) {
+        if ($customerAddressModel->getShouldIgnoreValidation()) {
             return $exception;
         }
 
-        if (!\Zend_Validate::is($cam->getFirstname(), 'NotEmpty')) {
+        if (!\Zend_Validate::is($customerAddressModel->getFirstname(), 'NotEmpty')) {
             $exception->addError(InputException::REQUIRED_FIELD, $prefix . 'firstname', null);
         }
 
-        if (!\Zend_Validate::is($cam->getLastname(), 'NotEmpty')) {
+        if (!\Zend_Validate::is($customerAddressModel->getLastname(), 'NotEmpty')) {
             $exception->addError(InputException::REQUIRED_FIELD, $prefix . 'lastname', null);
         }
 
-        if (!\Zend_Validate::is($cam->getStreet(1), 'NotEmpty')) {
+        if (!\Zend_Validate::is($customerAddressModel->getStreet(1), 'NotEmpty')) {
             $exception->addError(InputException::REQUIRED_FIELD, $prefix . 'street', null);
         }
 
-        if (!\Zend_Validate::is($cam->getCity(), 'NotEmpty')) {
+        if (!\Zend_Validate::is($customerAddressModel->getCity(), 'NotEmpty')) {
             $exception->addError(InputException::REQUIRED_FIELD, $prefix . 'city', null);
         }
 
-        if (!\Zend_Validate::is($cam->getTelephone(), 'NotEmpty')) {
+        if (!\Zend_Validate::is($customerAddressModel->getTelephone(), 'NotEmpty')) {
             $exception->addError(InputException::REQUIRED_FIELD, $prefix . 'telephone', null);
         }
 
         $_havingOptionalZip = $this->_directoryData->getCountriesWithOptionalZip();
-        if (!in_array($cam->getCountryId(), $_havingOptionalZip)
-            && !\Zend_Validate::is($cam->getPostcode(), 'NotEmpty')
+        if (!in_array($customerAddressModel->getCountryId(), $_havingOptionalZip)
+            && !\Zend_Validate::is($customerAddressModel->getPostcode(), 'NotEmpty')
         ) {
             $exception->addError(InputException::REQUIRED_FIELD, $prefix . 'postcode', null);
         }
 
-        if (!\Zend_Validate::is($cam->getCountryId(), 'NotEmpty')) {
+        if (!\Zend_Validate::is($customerAddressModel->getCountryId(), 'NotEmpty')) {
             $exception->addError(InputException::REQUIRED_FIELD, $prefix . 'countryId', null);
         }
 
-        if ($cam->getCountryModel()->getRegionCollection()->getSize()
-            && !\Zend_Validate::is($cam->getRegionId(), 'NotEmpty')
-            && $this->_directoryData->isRegionRequired($cam->getCountryId())
+        if ($customerAddressModel->getCountryModel()->getRegionCollection()->getSize()
+            && !\Zend_Validate::is($customerAddressModel->getRegionId(), 'NotEmpty')
+            && $this->_directoryData->isRegionRequired($customerAddressModel->getCountryId())
         ) {
             $exception->addError(InputException::REQUIRED_FIELD, $prefix . 'regionId', null);
         }
