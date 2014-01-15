@@ -92,11 +92,6 @@ class Account extends \Magento\App\Action\Action
     protected $escaper;
 
     /**
-     * @var \Magento\Core\Helper\Url
-     */
-    protected $_coreUrlHelper;
-
-    /**
      * @var \Magento\Newsletter\Model\SubscriberFactory
      */
     protected $_subscriberFactory;
@@ -125,7 +120,6 @@ class Account extends \Magento\App\Action\Action
      * @param \Magento\Customer\Model\FormFactory $formFactory
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
-     * @param \Magento\Core\Helper\Url $coreUrlHelper
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Escaper $escaper
@@ -144,7 +138,6 @@ class Account extends \Magento\App\Action\Action
         \Magento\Customer\Model\FormFactory $formFactory,
         \Magento\Stdlib\String $string,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
-        \Magento\Core\Helper\Url $coreUrlHelper,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Escaper $escaper,
@@ -164,7 +157,6 @@ class Account extends \Magento\App\Action\Action
         $this->_formKeyValidator = $formKeyValidator;
         $this->_customerAccountService = $customerAccountService;
         $this->_groupService = $customerGroupService;
-        $this->_coreUrlHelper = $coreUrlHelper;
         $this->_subscriberFactory = $subscriberFactory;
         $this->escaper = $escaper;
         $this->_regionBuilder = $regionBuilder;
@@ -1043,21 +1035,5 @@ class Account extends \Magento\App\Action\Action
     protected function _createForm()
     {
         return $this->_formFactory->create();
-    }
-
-    /**
-     * @return \Magento\Core\Model\UrlFactory
-     */
-    protected function _getUrlFactory()
-    {
-        return $this->_urlFactory;
-    }
-
-    /**
-     * @return \Magento\Core\Helper\Url
-     */
-    protected function _getCoreUrlHelper()
-    {
-        return $this->_coreUrlHelper;
     }
 }

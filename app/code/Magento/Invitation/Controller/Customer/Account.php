@@ -41,7 +41,6 @@ class Account extends \Magento\Customer\Controller\Account
      * @param \Magento\Customer\Model\FormFactory $formFactory
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
-     * @param \Magento\Core\Helper\Url $coreUrlHelper
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Escaper $escaper
@@ -62,7 +61,6 @@ class Account extends \Magento\Customer\Controller\Account
         \Magento\Customer\Model\FormFactory $formFactory,
         \Magento\Stdlib\String $string,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
-        \Magento\Core\Helper\Url $coreUrlHelper,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Escaper $escaper,
@@ -83,7 +81,6 @@ class Account extends \Magento\Customer\Controller\Account
             $formFactory,
             $string,
             $formKeyValidator,
-            $coreUrlHelper,
             $subscriberFactory,
             $storeManager,
             $escaper,
