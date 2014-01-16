@@ -233,7 +233,15 @@ class CustomerAccountService implements CustomerAccountServiceInterface
                     ->create();
             }
         }
-        $customerId = $this->_customerService->saveCustomer($customer, $password);
+        try {
+            $customerId = $this->_customerService->saveCustomer($customer, $password);
+        } catch (\Magento\Customer\Exception $e) {
+            if ($e->getCode() === CustomerModel::EXCEPTION_EMAIL_EXISTS) {
+                throw new StateException(StateException::INPUT_MISMATCH, 'Provided email already exists.');
+            }
+            throw $e;
+        }
+
         $this->_customerAddressService->saveAddresses($customerId, $addresses);
 
         $customerModel = $this->_converter->getCustomerModel($customerId);

@@ -31,9 +31,10 @@ interface CustomerAccountServiceInterface
      * @param string $confirmationBackUrl
      * @param string $registeredBackUrl
      * @param int $storeId
-     * @throws \Magento\Customer\Exception If something goes wrong during save
-     * @throws InputException If bad input is provided
      * @return Dto\Response\CreateCustomerAccountResponse
+     * @throws \Exception If something goes wrong during save
+     * @throws \Magento\Exception\InputException If bad input is provided
+     * @throws \Magento\Exception\StateException If the provided email is already used
      */
     public function createAccount(
         Dto\Customer $customer,
@@ -49,11 +50,11 @@ interface CustomerAccountServiceInterface
      *
      * @param int $customerId
      * @param string $key
+     * @return Dto\Customer
      * @throws \Magento\Exception\NoSuchEntityException If customer doesn't exist
      * @throws \Magento\Exception\StateException
      *      StateException::INPUT_MISMATCH if key doesn't match expected.
      *      StateException::INVALID_STATE_CHANGE if account already active.
-     * @return Dto\Customer
      */
     public function activateAccount($customerId, $key);
 
@@ -62,8 +63,8 @@ interface CustomerAccountServiceInterface
      *
      * @param string $username username in plain-text
      * @param string $password password in plain-text
-     * @throws \Magento\Exception\AuthenticationException if unable to authenticate
      * @return Dto\Customer
+     * @throws \Magento\Exception\AuthenticationException if unable to authenticate
      */
     public function authenticate($username, $password);
 
@@ -72,6 +73,7 @@ interface CustomerAccountServiceInterface
      *
      * @param int $customerId
      * @param string $resetPasswordLinkToken
+     * @return void
      * @throws \Magento\Exception\StateException if token is expired or mismatched
      * @throws \Magento\Exception\InputException if token or customer id is invalid
      * @throws \Magento\Exception\NoSuchEntityException if customer doesn't exist
@@ -83,6 +85,7 @@ interface CustomerAccountServiceInterface
      *
      * @param string $email
      * @param int $websiteId
+     * @return void
      * @throws \Magento\Exception\NoSuchEntityException
      */
     public function sendPasswordResetLink($email, $websiteId);
@@ -94,6 +97,7 @@ interface CustomerAccountServiceInterface
      * @param int $customerId
      * @param string $password
      * @param string $resetToken
+     * @return void
      * @throws \Magento\Exception\StateException if token is expired or mismatched
      * @throws \Magento\Exception\InputException if token or customer id is invalid
      * @throws \Magento\Exception\NoSuchEntityException if customer doesn't exist
@@ -104,6 +108,7 @@ interface CustomerAccountServiceInterface
      * Send Confirmation email
      *
      * @param string $email email address of customer
+     * @return void
      * @throws \Magento\Exception\NoSuchEntityException if no customer found for provided email
      * @throws \Magento\Exception\StateException if confirmation is not needed
      */

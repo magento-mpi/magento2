@@ -427,13 +427,9 @@ class Account extends \Magento\App\Action\Action
                 $this->getResponse()->setRedirect($this->_redirect->success($url));
             }
             return;
-        } catch (\Magento\Customer\Exception $e) {
-            if ($e->getParams()[0]['code'] === InputException::DUPLICATE_UNIQUE_VALUE_EXISTS) {
-                $url = $this->_createUrl()->getUrl('customer/account/forgotpassword');
-                $message = __('There is already an account with this email address. If you are sure that it is your email address, <a href="%1">click here</a> to get your password and access your account.', $url);
-            } else {
-                $message = __('Cannot save the customer.');
-            }
+        } catch (StateException $e) {
+            $url = $this->_createUrl()->getUrl('customer/account/forgotpassword');
+            $message = __('There is already an account with this email address. If you are sure that it is your email address, <a href="%1">click here</a> to get your password and access your account.', $url);
             $this->messageManager->addError($message);
         } catch (InputException $e) {
             foreach ($e->getErrors() as $error) {
