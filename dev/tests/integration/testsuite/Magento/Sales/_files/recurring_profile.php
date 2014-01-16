@@ -1,4 +1,11 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
 // Requires Magento/Sales/_files/quote.php
 // Requires Magento/Customer/_files/customer.php
 use Magento\TestFramework\Helper\Bootstrap;
