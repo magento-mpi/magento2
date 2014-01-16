@@ -95,7 +95,7 @@ class Returns extends \Magento\App\Action\Action
             $post = $this->getRequest()->getPost();
             if (($post) && !empty($post['items'])) {
                 try {
-                    /** @var $urlModel \Magento\Core\Model\Url */
+                    /** @var $urlModel \Magento\UrlInterface */
                     $urlModel = $this->_objectManager->get('Magento\UrlInterface');
                     /** @var $rmaModel \Magento\Rma\Model\Rma */
                     $rmaModel = $this->_objectManager->create('Magento\Rma\Model\Rma');

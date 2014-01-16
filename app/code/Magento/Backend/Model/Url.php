@@ -17,7 +17,7 @@ use Magento\Backend\Model\Menu;
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Url extends \Magento\Core\Model\Url implements \Magento\Backend\Model\UrlInterface
+class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
 {
     /**
      * Authentication session
@@ -90,7 +90,7 @@ class Url extends \Magento\Core\Model\Url implements \Magento\Backend\Model\UrlI
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Url\SecurityInfoInterface $urlSecurityInfo
      * @param \Magento\AppInterface $app
-     * @param \Magento\Url\ScopeResolverInterface $scopeResolver
+     * @param \Magento\Backend\Model\Url\ScopeResolver $scopeResolver
      * @param \Magento\Core\Model\Session $session
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Url\RouteParamsResolverFactory $routeParamsResolver
@@ -113,7 +113,7 @@ class Url extends \Magento\Core\Model\Url implements \Magento\Backend\Model\UrlI
         \Magento\App\RequestInterface $request,
         \Magento\Url\SecurityInfoInterface $urlSecurityInfo,
         \Magento\AppInterface $app,
-        \Magento\Url\ScopeResolverInterface $scopeResolver,
+        \Magento\Backend\Model\Url\ScopeResolver $scopeResolver,
         \Magento\Core\Model\Session $session,
         \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Url\RouteParamsResolverFactory $routeParamsResolver,

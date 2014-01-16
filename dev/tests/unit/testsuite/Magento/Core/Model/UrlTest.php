@@ -37,7 +37,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($paramsResolver));
         $this->_model = $this->_objectManager->getObject(
-            '\Magento\Core\Model\Url', array('routeParamsResolver' => $paramsResolverMock)
+            '\Magento\Url', array('routeParamsResolver' => $paramsResolverMock)
         );
     }
 
@@ -130,8 +130,8 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $requestMock->expects($this->once())->method('getScheme')->will($this->returnValue('http'));
         $requestMock->expects($this->once())->method('getHttpHost')->will($this->returnValue('example.com'));
 
-        /** @var \Magento\Core\Model\Url $model */
-        $model = $this->_objectManager->getObject('Magento\Core\Model\Url', array('request' => $requestMock));
+        /** @var \Magento\UrlInterface $model */
+        $model = $this->_objectManager->getObject('Magento\Url', array('request' => $requestMock));
         $this->assertEquals($url, $model->getCurrentUrl());
     }
 

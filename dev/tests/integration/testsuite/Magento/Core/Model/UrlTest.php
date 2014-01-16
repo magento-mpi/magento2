@@ -21,7 +21,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Url');
+            ->create('Magento\Url');
     }
 
     public function testParseUrl()

@@ -489,4 +489,9 @@
     <type name="Magento\View\Asset\MergeService">
         <plugin name="cleanMergedJsCss" type="Magento\Core\Model\Asset\Plugin\CleanMergedJsCss"/>
     </type>
+    <type name="Magento\Core\Model\Url\ScopeResolver">
+        <param name="areaCode">
+            <value>frontend</value>
+        </param>
+    </type>
 </config>

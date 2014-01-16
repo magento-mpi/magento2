@@ -60,7 +60,7 @@ class SidResolverTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
 
-        $this->urlBuilder = $this->getMockBuilder('Magento\Core\Model\Url')
+        $this->urlBuilder = $this->getMockBuilder('Magento\Url')
             ->setMethods(array('isOwnOriginUrl'))
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();

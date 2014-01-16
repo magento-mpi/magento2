@@ -231,7 +231,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
             ->method('generateResetPasswordLinkToken')
             ->will($this->returnValue($token));
 
-        $coreHelperMock = $this->getMockBuilder('Magento\Core\Model\Url')
+        $coreHelperMock = $this->getMockBuilder('Magento\Url')
             ->disableOriginalConstructor()
             ->setMethods(array('getUrl', '__wakeup'))
             ->getMock();

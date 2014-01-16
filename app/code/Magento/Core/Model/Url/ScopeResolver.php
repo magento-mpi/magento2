@@ -8,7 +8,6 @@
 
 namespace Magento\Core\Model\Url;
 
-
 class ScopeResolver implements \Magento\Url\ScopeResolverInterface
 {
     /**
@@ -17,12 +16,20 @@ class ScopeResolver implements \Magento\Url\ScopeResolverInterface
     protected $_storeManager;
 
     /**
+     * @var null|string
+     */
+    protected $_areaCode;
+
+    /**
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param string|null $areaCode
      */
     public function __construct(
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        $areaCode = null
     ) {
         $this->_storeManager = $storeManager;
+        $this->_areaCode = $areaCode;
     }
 
     /**
@@ -44,5 +51,13 @@ class ScopeResolver implements \Magento\Url\ScopeResolverInterface
     public function getScopes()
     {
         return $this->_storeManager->getStores();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAreaCode()
+    {
+        return $this->_areaCode;
     }
 }

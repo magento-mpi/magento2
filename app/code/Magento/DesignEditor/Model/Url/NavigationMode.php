@@ -13,7 +13,7 @@
  */
 namespace Magento\DesignEditor\Model\Url;
 
-class NavigationMode extends \Magento\Core\Model\Url
+class NavigationMode extends \Magento\Url
 {
     /**
      * VDE helper

@@ -24,4 +24,11 @@ interface ScopeResolverInterface {
      * @return \Magento\Url\ScopeInterface[]
      */
     public function getScopes();
+
+    /**
+     * Retrieve area code
+     *
+     * @return \Magento\Url\ScopeInterface[]
+     */
+    public function getAreaCode();
 }

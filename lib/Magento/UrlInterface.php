@@ -32,12 +32,14 @@ interface UrlInterface
     const DEFAULT_ACTION_NAME       = 'index';
 
     /**
-     * Configuration paths
+     * Rewrite request path alias
      */
-    const XML_PATH_UNSECURE_URL     = 'web/unsecure/base_url';
-    const XML_PATH_SECURE_URL       = 'web/secure/base_url';
-    const XML_PATH_SECURE_IN_ADMIN  = 'web/secure/use_in_adminhtml';
-    const XML_PATH_SECURE_IN_FRONT  = 'web/secure/use_in_frontend';
+    const REWRITE_REQUEST_PATH_ALIAS = 'rewrite_request_path';
+
+    /**
+     * Session namespace to refer in other places
+     */
+    const SESSION_NAMESPACE = 'frontend';
 
     /**
      * Initialize object data from retrieved url

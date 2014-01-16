@@ -497,7 +497,7 @@ class Store extends \Magento\Core\Model\AbstractModel implements \Magento\Url\Sc
      */
     public function getUrl($route = '', $params = array())
     {
-        /** @var $url \Magento\Core\Model\Url */
+        /** @var $url \Magento\UrlInterface */
         $url = $this->getUrlModel()
             ->setScope($this);
         if ($this->_storeManager->getStore()->getId() != $this->getId()) {

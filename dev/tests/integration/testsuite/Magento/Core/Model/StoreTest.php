@@ -39,7 +39,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
             'registry'                => $objectManager->get('Magento\Core\Model\Registry'),
             'coreFileStorageDatabase' => $objectManager->get('Magento\Core\Helper\File\Storage\Database'),
             'configCacheType'         => $objectManager->get('Magento\App\Cache\Type\Config'),
-            'url'                     => $objectManager->get('Magento\Core\Model\Url'),
+            'url'                     => $objectManager->get('Magento\Url'),
             'request'                 => $objectManager->get('Magento\App\RequestInterface'),
             'configDataResource'      => $objectManager->get('Magento\Core\Model\Resource\Config\Data'),
             'filesystem'              => $objectManager->get('Magento\Filesystem'),

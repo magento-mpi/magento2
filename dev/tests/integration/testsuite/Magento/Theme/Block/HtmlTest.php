@@ -29,7 +29,7 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
         $securityInfoMock = $this->getMock('Magento\Url\SecurityInfoInterface');
         $codeData = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
         $urlBuilder = $this->getMock(
-            'Magento\Core\Model\Url',
+            'Magento\Url',
             array('getBaseUrl'),
             array(
                 $this->getMock('Magento\App\Route\ConfigInterface'),
@@ -42,7 +42,6 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
                 $this->getMock(
                     'Magento\Url\RouteParamsResolverFactory', array(), array(), '', false
                 ),
-                null,
                 array()
             )
         );

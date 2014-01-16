@@ -172,7 +172,7 @@ class Base extends \Magento\App\Router\AbstractRouter
             $moduleFrontName = $param;
         } else {
             $moduleFrontName = $this->_defaultPath->getPart('module');
-            $request->setAlias(\Magento\Core\Model\Url\Rewrite::REWRITE_REQUEST_PATH_ALIAS, '');
+            $request->setAlias(\Magento\Url::REWRITE_REQUEST_PATH_ALIAS, '');
         }
         if (!$moduleFrontName) {
             return null;
@@ -196,7 +196,7 @@ class Base extends \Magento\App\Router\AbstractRouter
         } else {
             $controller = $this->_defaultPath->getPart('controller');
             $request->setAlias(
-                \Magento\Core\Model\Url\Rewrite::REWRITE_REQUEST_PATH_ALIAS,
+                \Magento\Url::REWRITE_REQUEST_PATH_ALIAS,
                 ltrim($request->getOriginalPathInfo(), '/')
             );
         }
@@ -396,7 +396,7 @@ class Base extends \Magento\App\Router\AbstractRouter
      */
     protected function _getCurrentSecureUrl($request)
     {
-        $alias = $request->getAlias(\Magento\Core\Model\Url\Rewrite::REWRITE_REQUEST_PATH_ALIAS);
+        $alias = $request->getAlias(\Magento\Url::REWRITE_REQUEST_PATH_ALIAS);
         if ($alias) {
             return $this->_storeManager->getStore()->getBaseUrl('link', true) . ltrim($alias, '/');
         }

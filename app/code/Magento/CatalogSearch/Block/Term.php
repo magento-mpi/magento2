@@ -103,7 +103,7 @@ class Term extends \Magento\View\Element\Template
 
     public function getSearchUrl($obj)
     {
-        /** @var $url \Magento\Core\Model\Url */
+        /** @var $url \Magento\UrlInterface */
         $url = $this->_urlFactory->create();
         /*
         * url encoding will be done in Url.php http_build_query

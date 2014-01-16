@@ -8,7 +8,6 @@
 
 namespace Magento\Core\Model\Url;
 
-
 class RouteParamsResolver  extends \Magento\Object implements \Magento\Url\RouteParamsResolverInterface
 {
     /**

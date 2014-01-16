@@ -17,7 +17,7 @@
  *
  * - relative_url: true, false
  * - type: 'link', 'skin', 'js', 'media'
- * - store: instanceof \Magento\Url\ScopeInterface
+ * - scope: instanceof \Magento\Url\ScopeInterface
  * - secure: true, false
  *
  * - scheme: 'http', 'https'
@@ -28,7 +28,7 @@
  * - base_path: '/dev/magento/'
  * - base_script: 'index.php'
  *
- * - storeview_path: 'storeview/'
+ * - scopeview_path: 'scopeview/'
  * - route_path: 'module/controller/action/param1/value1/param2/value2'
  * - route_name: 'module'
  * - controller_name: 'controller'
@@ -41,7 +41,7 @@
  *
  * URL structure:
  *
- * https://user:password@host:443/base_path/[base_script][storeview_path]route_name/controller_name/action_name/param1/value1?query_param=query_value#fragment
+ * https://user:password@host:443/base_path/[base_script][scopeview_path]route_name/controller_name/action_name/param1/value1?query_param=query_value#fragment
  *       \__________A___________/\____________________________________B_____________________________________/
  * \__________________C___________________/              \__________________D_________________/ \_____E_____/
  * \_____________F______________/                        \___________________________G______________________/
@@ -60,7 +60,7 @@
  * @package    Magento_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Core\Model;
+namespace Magento;
 
 class Url extends \Magento\Object implements \Magento\UrlInterface
 {
@@ -533,7 +533,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
     public function getRoutePath($routeParams = array())
     {
         if (!$this->hasData('route_path')) {
-            $routePath = $this->getRequest()->getAlias(Url\Rewrite::REWRITE_REQUEST_PATH_ALIAS);
+            $routePath = $this->getRequest()->getAlias(self::REWRITE_REQUEST_PATH_ALIAS);
             if (!empty($routeParams['_use_rewrite']) && ($routePath !== null)) {
                 $this->setData('route_path', $routePath);
                 return $routePath;
@@ -582,7 +582,10 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
     public function getRouteFrontName()
     {
         if (!$this->hasData('route_front_name')) {
-            $frontName = $this->_routeConfig->getRouteFrontName($this->getRouteName());
+            $frontName = $this->_routeConfig->getRouteFrontName(
+                $this->getRouteName(),
+                $this->_scopeResolver->getAreaCode()
+            );
             $this->setRouteFrontName($frontName);
         }
 
@@ -1177,7 +1180,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
     public function getRedirectUrl($url)
     {
         $this->_prepareSessionUrlWithParams($url, array(
-            'name' => \Magento\Core\App\Action\Plugin\LastUrl::SESSION_NAMESPACE
+            'name' => self::SESSION_NAMESPACE
         ));
 
         $query = $this->getQuery(false);

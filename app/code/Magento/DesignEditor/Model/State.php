@@ -21,7 +21,7 @@ class State
     const LAYOUT_NAVIGATION_CLASS_NAME = 'Magento\Core\Model\Layout';
 
     /**
-     * Url model classes that will be used instead of \Magento\Core\Model\Url in navigation vde modes
+     * Url model classes that will be used instead of \Magento\UrlInterface in navigation vde modes
      */
     const URL_MODEL_NAVIGATION_MODE_CLASS_NAME = 'Magento\DesignEditor\Model\Url\NavigationMode';
 
@@ -165,7 +165,7 @@ class State
     }
 
     /**
-     * Create url model instance that will be used instead of \Magento\Core\Model\Url in navigation mode
+     * Create url model instance that will be used instead of \Magento\UrlInterface in navigation mode
      */
     protected function _injectUrlModel($mode)
     {
