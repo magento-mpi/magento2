@@ -1,3 +1,4 @@
+* Introduced new layout block attribute - cacheable
 * Fixed bugs:
   * Fixed configurable product images display in shopping cart
   * Fixed No Collapsing for Tax Summary

@@ -15,7 +15,7 @@
     </referenceBlock>
     <update handle="customer_account"/>
     <referenceContainer name="content">
-        <block class="Magento\AdvancedCheckout\Block\Customer\Sku" name="checkout.customer.sku" template="widget/sku.phtml">
+        <block class="Magento\AdvancedCheckout\Block\Customer\Sku" name="checkout.customer.sku" template="widget/sku.phtml" cacheable="false">
             <action method="setIsTitleHidden">
                 <argument name="value" xsi:type="string">true</argument>
             </action>

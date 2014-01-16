@@ -16,6 +16,6 @@
         </action>
     </referenceBlock>
     <referenceBlock name="checkout.cart.form">
-        <block class="Magento\GiftCard\Block\Checkout\Cart\Item\Renderer" as="giftcard" template="Magento_Checkout::cart/item/default.phtml"/>
+        <block class="Magento\GiftCard\Block\Checkout\Cart\Item\Renderer" as="giftcard" template="Magento_Checkout::cart/item/default.phtml" cacheable="false"/>
     </referenceBlock>
 </layout>
