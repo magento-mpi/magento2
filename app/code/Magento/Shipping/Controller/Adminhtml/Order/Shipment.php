@@ -9,13 +9,13 @@
  */
 
 /**
- * Adminhtml sales order shipment controller
+ * Adminhtml order shipment controller
  *
  * @category   Magento
  * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Controller\Adminhtml\Order;
+namespace Magento\Shipping\Controller\Adminhtml\Order;
 
 class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShipment
 {
@@ -24,7 +24,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
 
     /**
      * @var \Magento\App\Response\Http\FileFactory
@@ -63,6 +63,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
     /**
      * Initialize shipment model instance
      *
+     * @throws \Magento\Core\Exception
      * @return \Magento\Sales\Model\Order\Shipment|bool
      */
     protected function _initShipment()
@@ -75,7 +76,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
         if ($shipmentId) {
             $shipment = $this->_objectManager->create('Magento\Sales\Model\Order\Shipment')->load($shipmentId);
         } elseif ($orderId) {
-            $order      = $this->_objectManager->create('Magento\Sales\Model\Order')->load($orderId);
+            $order = $this->_objectManager->create('Magento\Sales\Model\Order')->load($orderId);
 
             /**
              * Check order existing
@@ -123,7 +124,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
      * Save shipment and order in one transaction
      *
      * @param \Magento\Sales\Model\Order\Shipment $shipment
-     * @return \Magento\Sales\Controller\Adminhtml\Order\Shipment
+     * @return \Magento\Shipping\Controller\Adminhtml\Order\Shipment
      */
     protected function _saveShipment($shipment)
     {
@@ -162,7 +163,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
         /**
          * Clear old values for shipment qty's
          */
-        $this->_redirect('sales/*/new', array('order_id'=>$this->getRequest()->getParam('order_id')));
+        $this->_redirect('*/*/new', array('order_id' => $this->getRequest()->getParam('order_id')));
     }
 
     /**
@@ -183,7 +184,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
             $this->_setActiveMenu('Magento_Sales::sales_order');
             $this->_view->renderLayout();
         } else {
-            $this->_redirect('sales/order/view', array('order_id' => $this->getRequest()->getParam('order_id')));
+            $this->_redirect('*/order/view', array('order_id' => $this->getRequest()->getParam('order_id')));
         }
     }
 
@@ -237,10 +238,13 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
             $shipment->sendEmail(!empty($data['send_email']), $comment);
 
             $shipmentCreatedMessage = __('The shipment has been created.');
-            $labelCreatedMessage    = __('You created the shipping label.');
+            $labelCreatedMessage = __('You created the shipping label.');
 
-            $this->messageManager->addSuccess($isNeedCreateLabel ? $shipmentCreatedMessage . ' ' . $labelCreatedMessage
-                : $shipmentCreatedMessage);
+            $this->messageManager->addSuccess(
+                $isNeedCreateLabel
+                    ? $shipmentCreatedMessage . ' ' . $labelCreatedMessage
+                    : $shipmentCreatedMessage
+            );
             $this->_objectManager->get('Magento\Backend\Model\Session')->getCommentText(true);
         } catch (\Magento\Core\Exception $e) {
             if ($isNeedCreateLabel) {
@@ -248,17 +252,16 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
                 $responseAjax->setMessage($e->getMessage());
             } else {
                 $this->messageManager->addError($e->getMessage());
-                $this->_redirect('sales/*/new', array('order_id' => $this->getRequest()->getParam('order_id')));
+                $this->_redirect('*/*/new', array('order_id' => $this->getRequest()->getParam('order_id')));
             }
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);
             if ($isNeedCreateLabel) {
                 $responseAjax->setError(true);
-                $responseAjax->setMessage(
-                    __('An error occurred while creating shipping label.'));
+                $responseAjax->setMessage(__('An error occurred while creating shipping label.'));
             } else {
                 $this->messageManager->addError(__('Cannot save shipment.'));
-                $this->_redirect('sales/*/new', array('order_id' => $this->getRequest()->getParam('order_id')));
+                $this->_redirect('*/*/new', array('order_id' => $this->getRequest()->getParam('order_id')));
             }
 
         }
@@ -280,7 +283,8 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
                 $shipment->sendEmail(true)
                     ->setEmailSent(true)
                     ->save();
-                $historyItem = $this->_objectManager->create('Magento\Sales\Model\Resource\Order\Status\History\Collection')
+                $historyItem = $this->_objectManager
+                    ->create('Magento\Sales\Model\Resource\Order\Status\History\Collection')
                     ->getUnnotifiedForInstance($shipment, \Magento\Sales\Model\Order\Shipment::HISTORY_ENTITY_NAME);
                 if ($historyItem) {
                     $historyItem->setIsCustomerNotified(1);
@@ -293,9 +297,12 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
         } catch (\Exception $e) {
             $this->messageManager->addError(__('Cannot send shipment information.'));
         }
-        $this->_redirect('sales/*/view', array(
-            'shipment_id' => $this->getRequest()->getParam('shipment_id')
-        ));
+        $this->_redirect(
+            '*/*/view',
+            array(
+                'shipment_id' => $this->getRequest()->getParam('shipment_id')
+            )
+        );
     }
 
     /**
@@ -305,8 +312,8 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
     {
         try {
             $carrier = $this->getRequest()->getPost('carrier');
-            $number  = $this->getRequest()->getPost('number');
-            $title  = $this->getRequest()->getPost('title');
+            $number = $this->getRequest()->getPost('number');
+            $title = $this->getRequest()->getPost('title');
             if (empty($carrier)) {
                 throw new \Magento\Core\Exception(__('Please specify a carrier.'));
             }
@@ -352,7 +359,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
      */
     public function removeTrackAction()
     {
-        $trackId    = $this->getRequest()->getParam('track_id');
+        $trackId = $this->getRequest()->getParam('track_id');
         $track = $this->_objectManager->create('Magento\Sales\Model\Order\Shipment\Track')->load($trackId);
         if ($track->getId()) {
             try {
@@ -430,6 +437,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
      * Create shipping label for specific shipment with validation.
      *
      * @param \Magento\Sales\Model\Order\Shipment $shipment
+     * @throws \Magento\Core\Exception
      * @return bool
      */
     protected function _createShippingLabel(\Magento\Sales\Model\Order\Shipment $shipment)
@@ -463,13 +471,13 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
         $shipment->setShippingLabel($outputPdf->render());
         $carrierCode = $carrier->getCarrierCode();
         $carrierTitle = $this->_objectManager->get('Magento\Core\Model\Store\Config')
-            ->getConfig('carriers/'.$carrierCode.'/title', $shipment->getStoreId());
+            ->getConfig('carriers/' . $carrierCode . '/title', $shipment->getStoreId());
         if ($trackingNumbers) {
             foreach ($trackingNumbers as $trackingNumber) {
                 $track = $this->_objectManager->create('Magento\Sales\Model\Order\Shipment\Track')
-                        ->setNumber($trackingNumber)
-                        ->setCarrierCode($carrierCode)
-                        ->setTitle($carrierTitle);
+                    ->setNumber($trackingNumber)
+                    ->setCarrierCode($carrierCode)
+                    ->setTitle($carrierTitle);
                 $shipment->addTrack($track);
             }
         }
@@ -478,7 +486,6 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
 
     /**
      * Create shipping label action for specific shipment
-     *
      */
     public function createLabelAction()
     {
@@ -504,7 +511,6 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
 
     /**
      * Print label for one specific shipment
-     *
      */
     public function printLabelAction()
     {
@@ -520,7 +526,10 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
                     $page = $this->_createPdfPageFromImageString($labelContent);
                     if (!$page) {
                         $this->messageManager->addError(
-                            __('We don\'t recognize or support the file extension in this shipment: %1.', $shipment->getIncrementId())
+                            __(
+                                'We don\'t recognize or support the file extension in this shipment: %1.',
+                                $shipment->getIncrementId()
+                            )
                         );
                     }
                     $pdf->pages[] = $page;
@@ -539,16 +548,17 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);
             $this->messageManager->addError(__('An error occurred while creating shipping label.'));
-       }
-       $this->_redirect('sales/order_shipment/view', array(
-           'shipment_id' => $this->getRequest()->getParam('shipment_id')
-       ));
+        }
+        $this->_redirect(
+            'adminhtml/order_shipment/view',
+            array(
+                'shipment_id' => $this->getRequest()->getParam('shipment_id')
+            )
+        );
     }
 
     /**
      * Create pdf document with information about packages
-     *
-     * @return void
      */
     public function printPackageAction()
     {
@@ -623,7 +633,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
             $this->_redirect('sales/order/index');
         } else {
             $this->messageManager->addError(__('There are no shipping labels related to selected shipments.'));
-            $this->_redirect('sales/order_shipment/index');
+            $this->_redirect('adminhtml/order_shipment/index');
         }
     }
 
@@ -694,6 +704,6 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
                 ->createBlock('Magento\Sales\Block\Adminhtml\Order\Shipment\Packaging\Grid')
                 ->setIndex($this->getRequest()->getParam('index'))
                 ->toHtml()
-       );
+        );
     }
 }

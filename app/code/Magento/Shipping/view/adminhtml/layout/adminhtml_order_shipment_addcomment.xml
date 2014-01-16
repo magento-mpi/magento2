@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <block class="Magento\Sales\Block\Adminhtml\Order\Shipment\View\Comments" name="shipment_comments">
+    <block class="Magento\Shipping\Block\Adminhtml\View\Comments" name="shipment_comments">
         <block class="Magento\Sales\Block\Adminhtml\Order\Comments\View" name="order_comments" template="order/comments/view.phtml"/>
     </block>
 </layout>

@@ -65,7 +65,7 @@ class AbstractShipment extends \Magento\Backend\App\Action
     public function viewAction()
     {
         if ($shipmentId = $this->getRequest()->getParam('shipment_id')) {
-            $this->_forward('view', 'order_shipment', null, array('come_from'=>'shipment'));
+            $this->_forward('view', 'order_shipment', 'admin', array('come_from'=>'shipment'));
         } else {
             $this->_forward('noroute');
         }

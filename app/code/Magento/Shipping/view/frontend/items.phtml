@@ -7,15 +7,12 @@
  * @license     {license_link}
  */
 ?>
+<?php /** @var  $this \Magento\Shipping\Block\Items */ ?>
 <?php  $_order = $this->getOrder() ?>
 <div class="order toolbar">
     <div class="actions">
         <?php  if ($_order->getTracksCollection()->count()) : ?>
-            <a href="#"
-               data-mage-init="{popupWindow: {windowURL:'<?php echo $this->helper('Magento\Shipping\Helper\Data')->getTrackingPopupUrlBySalesModel($_order) ?>',windowName:'trackorder',width:800,height:600,top:0,left:0,resizable:1,scrollbars:1}}" title="<?php echo __('Track all shipment(s)') ?>"
-               class="action track">
-                <span><?php echo __('Track all shipments') ?></span>
-            </a>
+            <?php echo $this->getChildHtml('track-all-link') ?>
         <?php endif; ?>
         <a href="<?php echo $this->getPrintAllShipmentsUrl($_order) ?>"
            onclick="this.target='_blank'"

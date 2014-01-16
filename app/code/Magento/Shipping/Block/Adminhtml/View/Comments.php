@@ -16,7 +16,7 @@
  * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Block\Adminhtml\Order\Shipment\View;
+namespace Magento\Shipping\Block\Adminhtml\View;
 
 class Comments extends \Magento\Backend\Block\Text\ListText
 {

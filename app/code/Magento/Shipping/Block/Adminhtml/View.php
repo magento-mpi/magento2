@@ -15,7 +15,7 @@
  * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Block\Adminhtml\Order\Shipment;
+namespace Magento\Shipping\Block\Adminhtml;
 
 class View extends \Magento\Backend\Block\Widget\Form\Container
 {
@@ -42,9 +42,9 @@ class View extends \Magento\Backend\Block\Widget\Form\Container
 
     protected function _construct()
     {
-        $this->_objectId    = 'shipment_id';
-        $this->_controller  = 'adminhtml_order_shipment';
-        $this->_mode        = 'view';
+        $this->_objectId = 'shipment_id';
+//        $this->_controller = 'adminhtml_shipment';
+        $this->_mode = 'view';
 
         parent::_construct();
 
@@ -56,18 +56,22 @@ class View extends \Magento\Backend\Block\Widget\Form\Container
 
         if ($this->_authorization->isAllowed('Magento_Sales::emails')) {
             $this->_updateButton('save', 'label', __('Send Tracking Information'));
-            $this->_updateButton('save',
-                'onclick', "deleteConfirm('"
+            $this->_updateButton(
+                'save',
+                'onclick',
+                "deleteConfirm('"
                 . __('Are you sure you want to send a Shipment email to customer?')
                 . "', '" . $this->getEmailUrl() . "')"
             );
         }
 
         if ($this->getShipment()->getId()) {
-            $this->_addButton('print', array(
-                'label'     => __('Print'),
-                'class'     => 'save',
-                'onclick'   => 'setLocation(\''.$this->getPrintUrl().'\')'
+            $this->_addButton(
+                'print',
+                array(
+                    'label' => __('Print'),
+                    'class' => 'save',
+                    'onclick' => 'setLocation(\'' . $this->getPrintUrl() . '\')'
                 )
             );
         }
@@ -90,7 +94,12 @@ class View extends \Magento\Backend\Block\Widget\Form\Container
         } else {
             $emailSent = __('the shipment email is not sent');
         }
-        return __('Shipment #%1 | %3 (%2)', $this->getShipment()->getIncrementId(), $emailSent, $this->formatDate($this->getShipment()->getCreatedAtDate(), 'medium', true));
+        return __(
+            'Shipment #%1 | %3 (%2)',
+            $this->getShipment()->getIncrementId(),
+            $emailSent,
+            $this->formatDate($this->getShipment()->getCreatedAtDate(), 'medium', true)
+        );
     }
 
     public function getBackUrl()
@@ -100,26 +109,34 @@ class View extends \Magento\Backend\Block\Widget\Form\Container
             array(
                 'order_id' => $this->getShipment() ? $this->getShipment()->getOrderId() : null,
                 'active_tab' => 'order_shipments'
-        ));
+            )
+        );
     }
 
     public function getEmailUrl()
     {
-        return $this->getUrl('sales/order_shipment/email', array('shipment_id'  => $this->getShipment()->getId()));
+        return $this->getUrl('adminhtml/order_shipment/email', array('shipment_id' => $this->getShipment()->getId()));
     }
 
     public function getPrintUrl()
     {
-        return $this->getUrl('sales/*/print', array(
-            'invoice_id' => $this->getShipment()->getId()
-        ));
+        return $this->getUrl(
+            '*/*/print',
+            array(
+                'shipment_id' => $this->getShipment()->getId()
+            )
+        );
     }
 
     public function updateBackButtonUrl($flag)
     {
         if ($flag) {
             if ($this->getShipment()->getBackUrl()) {
-                return $this->_updateButton('back', 'onclick', 'setLocation(\'' . $this->getShipment()->getBackUrl() . '\')');
+                return $this->_updateButton(
+                    'back',
+                    'onclick',
+                    'setLocation(\'' . $this->getShipment()->getBackUrl() . '\')'
+                );
             }
             return $this->_updateButton('back', 'onclick', 'setLocation(\'' . $this->getUrl('sales/shipment/') . '\')');
         }

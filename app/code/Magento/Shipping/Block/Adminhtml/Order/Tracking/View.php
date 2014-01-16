@@ -36,7 +36,7 @@ class View extends \Magento\Shipping\Block\Adminhtml\Order\Tracking
      */
     public function getSubmitUrl()
     {
-        return $this->getUrl('sales/*/addTrack/', array('shipment_id'=>$this->getShipment()->getId()));
+        return $this->getUrl('adminhtml/*/addTrack/', array('shipment_id'=>$this->getShipment()->getId()));
     }
 
     /**
@@ -57,7 +57,7 @@ class View extends \Magento\Shipping\Block\Adminhtml\Order\Tracking
      */
     public function getRemoveUrl($track)
     {
-        return $this->getUrl('sales/*/removeTrack/', array(
+        return $this->getUrl('adminhtml/*/removeTrack/', array(
             'shipment_id' => $this->getShipment()->getId(),
             'track_id' => $track->getId()
         ));

@@ -15,7 +15,7 @@
  * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Block\Adminhtml\Order\Shipment\View;
+namespace Magento\Shipping\Block\Adminhtml\View;
 
 class Form extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
 {
@@ -57,7 +57,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
     public function getCreateLabelButton()
     {
         $data['shipment_id'] = $this->getShipment()->getId();
-        $url = $this->getUrl('sales/order_shipment/createLabel', $data);
+        $url = $this->getUrl('adminhtml/order_shipment/createLabel', $data);
         return $this->getLayout()
             ->createBlock('Magento\Backend\Block\Widget\Button')
             ->setData(array(
@@ -75,7 +75,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
     public function getPrintLabelButton()
     {
         $data['shipment_id'] = $this->getShipment()->getId();
-        $url = $this->getUrl('sales/order_shipment/printLabel', $data);
+        $url = $this->getUrl('adminhtml/order_shipment/printLabel', $data);
         return $this->getLayout()
             ->createBlock('Magento\Backend\Block\Widget\Button')
             ->setData(array(

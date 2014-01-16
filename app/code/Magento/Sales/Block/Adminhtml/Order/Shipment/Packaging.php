@@ -82,8 +82,8 @@ class Packaging extends \Magento\Backend\Block\Template
 
         if ($shipmentId) {
             $urlParams['shipment_id'] = $shipmentId;
-            $createLabelUrl = $this->getUrl('sales/order_shipment/createLabel', $urlParams);
-            $itemsGridUrl = $this->getUrl('sales/order_shipment/getShippingItemsGrid', $urlParams);
+            $createLabelUrl = $this->getUrl('adminhtml/order_shipment/createLabel', $urlParams);
+            $itemsGridUrl = $this->getUrl('adminhtml/order_shipment/getShippingItemsGrid', $urlParams);
             foreach ($this->getShipment()->getAllItems() as $item) {
                 $itemsQty[$item->getId()]           = $item->getQty();
                 $itemsPrice[$item->getId()]         = $item->getPrice();
@@ -94,8 +94,8 @@ class Packaging extends \Magento\Backend\Block\Template
             }
         } else if ($orderId) {
             $urlParams['order_id'] = $orderId;
-            $createLabelUrl = $this->getUrl('sales/order_shipment/save', $urlParams);
-            $itemsGridUrl = $this->getUrl('sales/order_shipment/getShippingItemsGrid', $urlParams);
+            $createLabelUrl = $this->getUrl('adminhtml/order_shipment/save', $urlParams);
+            $itemsGridUrl = $this->getUrl('adminhtml/order_shipment/getShippingItemsGrid', $urlParams);
 
             foreach ($this->getShipment()->getAllItems() as $item) {
                 $itemsQty[$item->getOrderItemId()]          = $item->getQty()*1;
@@ -286,7 +286,7 @@ class Packaging extends \Magento\Backend\Block\Template
     public function getPrintButton()
     {
         $data['shipment_id'] = $this->getShipment()->getId();
-        $url = $this->getUrl('sales/order_shipment/printPackage', $data);
+        $url = $this->getUrl('adminhtml/order_shipment/printPackage', $data);
         return $this->getLayout()
             ->createBlock('Magento\Backend\Block\Widget\Button')
             ->setData(array(

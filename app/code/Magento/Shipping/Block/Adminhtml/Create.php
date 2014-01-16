@@ -12,7 +12,7 @@
  * Adminhtml shipment create
  */
 
-namespace Magento\Sales\Block\Adminhtml\Order\Shipment;
+namespace Magento\Shipping\Block\Adminhtml;
 
 class Create extends \Magento\Backend\Block\Widget\Form\Container
 {
@@ -40,7 +40,7 @@ class Create extends \Magento\Backend\Block\Widget\Form\Container
     protected function _construct()
     {
         $this->_objectId = 'order_id';
-        $this->_controller = 'adminhtml_order_shipment';
+//        $this->_controller = 'adminhtml';
         $this->_mode = 'create';
 
         parent::_construct();

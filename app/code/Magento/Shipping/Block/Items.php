@@ -15,7 +15,7 @@
  * @package    Magento_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Block\Order\Shipment;
+namespace Magento\Shipping\Block;
 
 class Items extends \Magento\Sales\Block\Items\AbstractItems
 {

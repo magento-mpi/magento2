@@ -11,7 +11,7 @@
 /**
  * Adminhtml shipment items grid
  */
-namespace Magento\Sales\Block\Adminhtml\Order\Shipment\Create;
+namespace Magento\Shipping\Block\Adminhtml\Create;
 
 class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
 {

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <referenceBlock name="sales.order.view">
+        <block class="Magento\Shipping\Block\Tracking\Link" name="tracking-info-link" template="tracking/link.phtml">
+            <arguments>
+                <argument name="label" xsi:type="string">Track your order</argument>
+                <argument name="windowName" xsi:type="string">trackorder</argument>
+            </arguments>
+        </block>
+    </referenceBlock>
+</layout>

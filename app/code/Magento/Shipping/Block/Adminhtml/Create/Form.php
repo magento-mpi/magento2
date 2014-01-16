@@ -12,7 +12,7 @@
  * Adminhtml shipment create form
  */
 
-namespace Magento\Sales\Block\Adminhtml\Order\Shipment\Create;
+namespace Magento\Shipping\Block\Adminhtml\Create;
 
 class Form extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
 {
@@ -48,7 +48,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
 
     protected function _prepareLayout()
     {
-        $this->addChild('items', 'Magento\Sales\Block\Adminhtml\Order\Shipment\Create\Items');
+        $this->addChild('items', 'Magento\Shipping\Block\Adminhtml\Create\Items');
         return parent::_prepareLayout();
     }
 
@@ -64,6 +64,6 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
 
     public function getSaveUrl()
     {
-        return $this->getUrl('sales/*/save', array('order_id' => $this->getShipment()->getOrderId()));
+        return $this->getUrl('*/*/save', array('order_id' => $this->getShipment()->getOrderId()));
     }
 }

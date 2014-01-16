@@ -70,7 +70,7 @@
                     });
                     packaging.setLabelCreatedCallback(function(response){
                         setLocation("<?php echo $this->getUrl(
-                            'sales/order_shipment/view',
+                            'adminhtml/order_shipment/view',
                             array('shipment_id' => $this->getShipment()->getId())
                         ); ?>");
                     });
