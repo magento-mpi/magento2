@@ -27,6 +27,11 @@ class Labels extends \Magento\Shipping\Model\Shipping
     protected $_request;
 
     /**
+     * @var \magento\Shipping\Model\Carrier
+     */
+    protected $_carrier;
+
+    /**
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Shipping\Model\Config $shippingConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -36,6 +41,8 @@ class Labels extends \Magento\Shipping\Model\Shipping
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Math\Division $mathDivision
      * @param \Magento\Backend\Model\Auth\Session $authSession
+     * @param \Magento\Shipping\Model\Shipment\Request $request
+     * @param \Magento\Shipping\Model\Carrier $carrier
      */
     public function __construct(
         \Magento\Core\Model\Store\Config $coreStoreConfig,
@@ -47,10 +54,12 @@ class Labels extends \Magento\Shipping\Model\Shipping
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Math\Division $mathDivision,
         \Magento\Backend\Model\Auth\Session $authSession,
-        \Magento\Shipping\Model\Shipment\Request $request
+        \Magento\Shipping\Model\Shipment\Request $request,
+        \Magento\Shipping\Model\Carrier $carrier
     ) {
         $this->_authSession = $authSession;
         $this->_request = $request;
+        $this->_carrier = $carrier;
         parent::__construct(
             $coreStoreConfig,
             $shippingConfig,
@@ -77,7 +86,7 @@ class Labels extends \Magento\Shipping\Model\Shipping
         $address = $order->getShippingAddress();
         $shippingMethod = $order->getShippingMethod(true);
         $shipmentStoreId = $orderShipment->getStoreId();
-        $shipmentCarrier = $order->getShippingCarrier();
+        $shipmentCarrier = $this->_carrier->getShippingCarrier($order);
         $baseCurrencyCode = $this->_storeManager->getStore($shipmentStoreId)->getBaseCurrencyCode();
         if (!$shipmentCarrier) {
             throw new \Magento\Core\Exception('Invalid carrier: ' . $shippingMethod->getCarrierCode());

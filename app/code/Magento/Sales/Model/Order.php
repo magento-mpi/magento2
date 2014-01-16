@@ -1397,28 +1397,6 @@ class Order extends \Magento\Sales\Model\AbstractModel
     }
 
     /**
-     * Return model of shipping carrier
-     *
-     * @return bool|float|\Magento\Shipping\Model\Carrier\AbstractCarrier
-     */
-    public function getShippingCarrier()
-    {
-        $carrierModel = $this->getData('shipping_carrier');
-        if (is_null($carrierModel)) {
-            $carrierModel = false;
-            /**
-             * $method - carrier_method
-             */
-            $method = $this->getShippingMethod(true);
-            if ($method instanceof \Magento\Object) {
-                $carrierModel = $this->_carrierFactory->create($method->getCarrierCode());
-            }
-            $this->setData('shipping_carrier', $carrierModel);
-        }
-        return $carrierModel;
-    }
-
-    /**
      * Retrieve shipping method
      *
      * @param bool $asObject return carrier code and shipping method data as object

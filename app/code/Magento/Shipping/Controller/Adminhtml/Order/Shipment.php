@@ -565,7 +565,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
         $shipment = $this->_initShipment();
 
         if ($shipment) {
-            $pdf = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Shipment\Packaging')->getPdf($shipment);
+            $pdf = $this->_objectManager->create('Magento\Shipping\Model\Order\Pdf\Packaging')->getPdf($shipment);
             return $this->_fileFactory->create(
                 'packingslip' . $this->_objectManager->get('Magento\Core\Model\Date')->date('Y-m-d_H-i-s') . '.pdf',
                 $pdf->render(),
@@ -701,7 +701,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
         $this->_initShipment();
         return $this->getResponse()->setBody(
             $this->_view->getLayout()
-                ->createBlock('Magento\Sales\Block\Adminhtml\Order\Shipment\Packaging\Grid')
+                ->createBlock('Magento\Shipping\Block\Adminhtml\Order\Packaging\Grid')
                 ->setIndex($this->getRequest()->getParam('index'))
                 ->toHtml()
         );

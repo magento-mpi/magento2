@@ -2,25 +2,16 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Bundle
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Grid of packaging shipment
- *
- * @category    Magento
- * @package     Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-namespace Magento\Sales\Block\Adminhtml\Order\Shipment\Packaging;
+namespace Magento\Shipping\Block\Adminhtml\Order\Packaging;
 
 class Grid extends \Magento\Backend\Block\Template
 {
 
-    protected $_template = 'order/shipment/packaging/grid.phtml';
+    protected $_template = 'order/packaging/grid.phtml';
 
     /**
      * Core registry

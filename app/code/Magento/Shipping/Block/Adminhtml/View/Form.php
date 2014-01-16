@@ -20,6 +20,29 @@ namespace Magento\Shipping\Block\Adminhtml\View;
 class Form extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
 {
     /**
+     * @var \Magento\Shipping\Model\Carrier
+     */
+    protected $_carrier;
+
+    /**
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Sales\Helper\Admin $adminHelper
+     * @param \Magento\Shipping\Model\Carrier $carrier
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Sales\Helper\Admin $adminHelper,
+        \Magento\Shipping\Model\Carrier $carrier,
+        array $data = array()
+    ) {
+        $this->_carrier = $carrier;
+        parent::__construct($context, $registry, $adminHelper, $data);
+    }
+
+    /**
      * Retrieve shipment model instance
      *
      * @return \Magento\Sales\Model\Order\Shipment
@@ -108,7 +131,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
      */
     public function canCreateShippingLabel()
     {
-        $shippingCarrier = $this->getOrder()->getShippingCarrier();
+        $shippingCarrier = $this->_carrier->getShippingCarrier($this->getOrder());
         return $shippingCarrier && $shippingCarrier->isShippingLabelsAvailable();
     }
 }

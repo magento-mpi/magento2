@@ -23,10 +23,16 @@ class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
     protected $_salesData = null;
 
     /**
+     * @var \Magento\Shipping\Model\Carrier
+     */
+    protected $_carrier;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Sales\Helper\Data $salesData
+     * @param \Magento\Shipping\Model\Carrier $carrier
      * @param array $data
      */
     public function __construct(
@@ -34,9 +40,11 @@ class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Core\Model\Registry $registry,
         \Magento\Sales\Helper\Data $salesData,
+        \Magento\Shipping\Model\Carrier $carrier,
         array $data = array()
     ) {
         $this->_salesData = $salesData;
+        $this->_carrier = $carrier;
         parent::__construct($context, $productFactory, $registry, $data);
     }
 
@@ -132,7 +140,7 @@ class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
      */
     public function canCreateShippingLabel()
     {
-        $shippingCarrier = $this->getOrder()->getShippingCarrier();
+        $shippingCarrier = $this->_carrier->getShippingCarrier($this->getOrder());
         return $shippingCarrier && $shippingCarrier->isShippingLabelsAvailable();
     }
 }

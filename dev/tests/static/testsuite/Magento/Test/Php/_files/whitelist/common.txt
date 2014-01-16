@@ -120,6 +120,7 @@ app/code/Magento/SalesRule/Model/Plugin
 app/code/Magento/Shipping/Block/Adminhtml/Order/Tracking/Invoice.php
 app/code/Magento/Shipping/Model/Observer.php
 app/code/Magento/Shipping/Model/Order
+app/code/Magento/Shipping/Model/Carrier.php
 app/code/Magento/Shipping/Model/Resource/Order
 app/code/Magento/Theme
 app/code/Magento/Webapi

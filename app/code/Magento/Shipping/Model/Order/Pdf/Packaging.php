@@ -2,16 +2,11 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Sales Order Shipment PDF model
- */
-namespace Magento\Sales\Model\Order\Pdf\Shipment;
+namespace Magento\Shipping\Model\Order\Pdf;
 
 class Packaging extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
 {
@@ -120,7 +115,7 @@ class Packaging extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
      * Draw header block
      *
      * @param  \Zend_Pdf_Page $page
-     * @return \Magento\Sales\Model\Order\Pdf\Shipment\Packaging
+     * @return \Magento\Shipping\Model\Order\Pdf\Packaging
      */
     protected function _drawHeaderBlock(\Zend_Pdf_Page $page) {
         $page->setFillColor(new \Zend_Pdf_Color_GrayScale(0.5));
@@ -138,14 +133,14 @@ class Packaging extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
      * Draw packages block
      *
      * @param  \Zend_Pdf_Page $page
-     * @return \Magento\Sales\Model\Order\Pdf\Shipment\Packaging
+     * @return \Magento\Shipping\Model\Order\Pdf\Packaging
      */
     protected function _drawPackageBlock(\Zend_Pdf_Page $page)
     {
         if ($this->getPackageShippingBlock()) {
             $packaging = $this->getPackageShippingBlock();
         } else {
-            $packaging = $this->_layout->getBlockSingleton('Magento\Sales\Block\Adminhtml\Order\Shipment\Packaging');
+            $packaging = $this->_layout->getBlockSingleton('Magento\Shipping\Block\Adminhtml\Order\Packaging');
         }
         $packages = $packaging->getPackages();
 
