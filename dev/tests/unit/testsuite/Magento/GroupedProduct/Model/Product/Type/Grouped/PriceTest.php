@@ -56,8 +56,8 @@ class PriceTest extends \PHPUnit_Framework_TestCase
      * @covers Magento\GroupedProduct\Model\Product\Type\Grouped\Price::getFinalPrice
      */
     public function testGetFinalPrice(
-        array $associatedProducts, array $options, $expectedPriceCall, $expectedFinalPrice)
-    {
+        array $associatedProducts, array $options, $expectedPriceCall, $expectedFinalPrice
+    ) {
         $rawFinalPrice = 10;
         $rawPriceCheckStep = 10;
 
