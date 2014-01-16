@@ -119,6 +119,20 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     }
 
     /**
+     * Add website filter to collection
+     *
+     * @return \Magento\GiftRegistry\Model\Resource\Item\Collection
+     */
+    public function addWebsiteFilter()
+    {
+        $this->getSelect()->join(
+            array('cpw' => $this->getTable('catalog_product_website')),
+            'cpw.product_id = main_table.product_id AND cpw.website_id = e.website_id'
+        );
+        return $this;
+    }
+
+    /**
      * Add item filter to collection
      *
      * @param int|array $itemId
