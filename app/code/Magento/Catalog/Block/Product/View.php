@@ -149,7 +149,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
                 $headBlock->setTitle($title);
             }
             $keyword = $product->getMetaKeyword();
-            $currentCategory = $this->_coreRegistry->registry('current_ca7tegory');
+            $currentCategory = $this->_coreRegistry->registry('current_category');
             if ($keyword) {
                 $headBlock->setKeywords($keyword);
             } elseif ($currentCategory) {

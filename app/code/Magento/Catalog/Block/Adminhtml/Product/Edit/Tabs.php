@@ -181,7 +181,6 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
                 $this->getChildBlock('customer_options')->setGroupCode(self::ADVANCED_TAB_GROUP_CODE);
             }
 
-
             $this->addTab('related', array(
                 'label'     => __('Related Products'),
                 'url'       => $this->getUrl('catalog/*/related', array('_current' => true)),
@@ -210,7 +209,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
 
             if ($this->getChildBlock('product-alerts')) {
                 $this->addTab('product-alerts', 'product-alerts');
-                $this->getChildBlock('customer_options')->setGroupCode(self::ADVANCED_TAB_GROUP_CODE);
+                $this->getChildBlock('product-alerts')->setGroupCode(self::ADVANCED_TAB_GROUP_CODE);
             }
 
             if ($this->getRequest()->getParam('id')) {
