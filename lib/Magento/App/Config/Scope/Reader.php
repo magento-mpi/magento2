@@ -27,7 +27,7 @@ class Reader
     protected $_converter;
 
     /**
-     * @var \Magento\Config\ProcessorInterface
+     * @var \Magento\App\Config\Data\ProcessorInterface
      */
     protected $_processor;
 
@@ -45,7 +45,7 @@ class Reader
      *
      * @param \Magento\App\Config\Initial $initialConfig
      * @param \Magento\Config\ConverterInterface $converter
-     * @param \Magento\Config\Data\ProcessorInterface $processor
+     * @param \Magento\App\Config\Data\ProcessorInterface $processor
      * @param \Magento\App\Config\Scope\FactoryInterface $scopeFactory
      * @param \Magento\App\Config\Scope\HierarchyInterface $scopeHierarchy
      */
@@ -71,7 +71,7 @@ class Reader
             $config = array_replace_recursive($config, $this->_getInitialConfigData($scope));
             $config = array_replace_recursive($config, $this->_getExtendedConfigData($scope));
         }
-        return $this->_processor->process($config);
+        return $this->_processor->processValue($config);
     }
 
     /**

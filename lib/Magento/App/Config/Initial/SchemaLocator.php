@@ -1,12 +1,12 @@
 <?php
 /**
-* Logging schema locator
-*
-* {license_notice}
-*
-* @copyright {copyright}
-* @license {license_link}
-*/
+ * Logging schema locator
+ *
+ * {license_notice}
+ *
+ * @copyright {copyright}
+ * @license {license_link}
+ */
 namespace Magento\App\Config\Initial;
 
 class SchemaLocator implements \Magento\Config\SchemaLocatorInterface

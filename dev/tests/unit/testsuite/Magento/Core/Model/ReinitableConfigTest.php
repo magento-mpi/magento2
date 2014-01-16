@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Config;
+namespace Magento\Core\Model;
 
 class ReinitableConfigTest extends \PHPUnit_Framework_TestCase
 {

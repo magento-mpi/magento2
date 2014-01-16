@@ -79,8 +79,11 @@ class Config
      * @param string $scope
      * @return $this
      */
-    public function assignToStore($theme, array $stores = array(), $scope = \Magento\Core\Model\ScopeInterface::SCOPE_STORES)
-    {
+    public function assignToStore(
+        $theme,
+        array $stores = array(),
+        $scope = \Magento\Core\Model\ScopeInterface::SCOPE_STORES
+    ) {
         $isReassigned = false;
 
         $this->_unassignThemeFromStores(

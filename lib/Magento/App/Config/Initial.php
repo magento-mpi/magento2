@@ -1,12 +1,12 @@
 <?php
 /**
-* Initial configuration data container. Provides interface for reading initial config values
-*
-* {license_notice}
-*
-* @copyright {copyright}
-* @license {license_link}
-*/
+ * Initial configuration data container. Provides interface for reading initial config values
+ *
+ * {license_notice}
+ *
+ * @copyright {copyright}
+ * @license {license_link}
+ */
 namespace Magento\App\Config;
 
 class Initial

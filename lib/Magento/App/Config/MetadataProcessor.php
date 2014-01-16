@@ -1,12 +1,12 @@
 <?php
 /**
-* Configuration metadata processor
-*
-* {license_notice}
-*
-* @copyright {copyright}
-* @license {license_link}
-*/
+ * Configuration metadata processor
+ *
+ * {license_notice}
+ *
+ * @copyright {copyright}
+ * @license {license_link}
+ */
 namespace Magento\App\Config;
 
 class MetadataProcessor

@@ -28,8 +28,8 @@ class Loader implements \Magento\App\Config\LoaderInterface
      */
     public function __construct(
         \Magento\App\Config\Scope\Resolver $scopeResolver,
-        \Magento\App\Config\ScopePool $scopePool)
-    {
+        \Magento\App\Config\ScopePool $scopePool
+    ) {
         $this->_scopeResolver = $scopeResolver;
         $this->_scopePool = $scopePool;
     }

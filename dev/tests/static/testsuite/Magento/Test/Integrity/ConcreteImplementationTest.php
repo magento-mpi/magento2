@@ -41,7 +41,7 @@ class ConcreteImplementationTest extends \PHPUnit_Framework_TestCase
                 );
                 if ($result && !empty($matches[1])) {
                     $arguments = explode(',', $matches[1]);
-                    foreach($arguments as $argument) {
+                    foreach ($arguments as $argument) {
                         $type = explode(' ', trim($argument));
                         if (in_array(trim($type[0]), self::$_classesBlacklist)) {
                             $this->fail("Incorrect class dependency found in $file:" . trim($type[0]));

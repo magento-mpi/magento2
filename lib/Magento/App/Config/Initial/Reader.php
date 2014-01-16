@@ -1,12 +1,12 @@
 <?php
 /**
-* Default configuration data reader. Reads configuration data from storage
-*
-* {license_notice}
-*
-* @copyright {copyright}
-* @license {license_link}
-*/
+ * Default configuration data reader. Reads configuration data from storage
+ *
+ * {license_notice}
+ *
+ * @copyright {copyright}
+ * @license {license_link}
+ */
 namespace Magento\App\Config\Initial;
 
 class Reader
