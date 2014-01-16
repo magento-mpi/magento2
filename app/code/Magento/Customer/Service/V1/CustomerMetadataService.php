@@ -199,8 +199,8 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
             ->setInputFilter($attribute->getInputFilter())
             ->setStoreLabel($attribute->getStoreLabel())
             ->setValidationRules($attribute->getValidateRules())
-            ->setIsVisible($attribute->getIsVisible())
-            ->setIsRequired($attribute->getIsRequired())
+            ->setVisible($attribute->getIsVisible())
+            ->setRequired($attribute->getIsRequired())
             ->setMultilineCount($attribute->getMultilineCount())
             ->setDataModel($attribute->getDataModel())
             ->setOptions($options);

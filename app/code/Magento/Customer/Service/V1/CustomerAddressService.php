@@ -12,6 +12,11 @@ use Magento\Customer\Model\Address as CustomerAddressModel;
 use Magento\Exception\NoSuchEntityException;
 use Magento\Exception\InputException;
 
+/**
+ * Service related to Customer Address related functions
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class CustomerAddressService implements CustomerAddressServiceInterface
 {
     /** @var \Magento\Customer\Model\AddressFactory */

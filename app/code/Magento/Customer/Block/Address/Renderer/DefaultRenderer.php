@@ -131,7 +131,7 @@ class DefaultRenderer
         $data = array();
         /** @var \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attributeMetadata */
         foreach ($attributesMetadata as $attributeMetadata) {
-            if (!$attributeMetadata->getIsVisible()) {
+            if (!$attributeMetadata->isVisible()) {
                 continue;
             }
             $attributeCode = $attributeMetadata->getAttributeCode();

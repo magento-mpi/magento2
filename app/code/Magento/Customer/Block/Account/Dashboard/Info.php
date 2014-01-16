@@ -98,17 +98,17 @@ class Info extends \Magento\View\Element\Template
 
         $customer = $this->getCustomer();
 
-        if ($this->_metadataService->getCustomerAttributeMetadata('prefix')->getIsVisible()
+        if ($this->_metadataService->getCustomerAttributeMetadata('prefix')->isVisible()
             && $customer->getPrefix()) {
             $name .= $customer->getPrefix() . ' ';
         }
         $name .= $customer->getFirstname();
-        if ($this->_metadataService->getCustomerAttributeMetadata('middlename')->getIsVisible()
+        if ($this->_metadataService->getCustomerAttributeMetadata('middlename')->isVisible()
             && $customer->getMiddlename()) {
             $name .= ' ' . $customer->getMiddlename();
         }
         $name .=  ' ' . $customer->getLastname();
-        if ($this->_metadataService->getCustomerAttributeMetadata('suffix')->getIsVisible()
+        if ($this->_metadataService->getCustomerAttributeMetadata('suffix')->isVisible()
             && $customer->getSuffix()) {
             $name .= ' ' . $customer->getSuffix();
         }

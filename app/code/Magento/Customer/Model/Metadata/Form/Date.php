@@ -44,11 +44,11 @@ class Date extends AbstractData
             $value = $this->_value;
         }
 
-        if ($attribute->getIsRequired() && empty($value)) {
+        if ($attribute->isRequired() && empty($value)) {
             $errors[] = __('"%1" is a required value.', $label);
         }
 
-        if (!$errors && !$attribute->getIsRequired() && empty($value)) {
+        if (!$errors && !$attribute->isRequired() && empty($value)) {
             return true;
         }
 

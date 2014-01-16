@@ -21,7 +21,9 @@ use Magento\Exception\StateException;
 use Magento\Math\Random;
 
 /**
- * Manipulate Customer Address Entities *
+ *  Handle various customer account actions
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class CustomerAccountService implements CustomerAccountServiceInterface
 {
@@ -33,7 +35,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      *
      * @var ManagerInterface
      */
-    private $_eventManager = null;
+    private $_eventManager;
 
     /** @var StoreManagerInterface */
     private $_storeManager;

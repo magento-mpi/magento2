@@ -85,7 +85,7 @@ abstract class AbstractDtoBuilder
      * @param string $key
      * @param mixed $value
      *
-     * @return AbstractDto
+     * @return $this
      */
     protected function _set($key, $value)
     {

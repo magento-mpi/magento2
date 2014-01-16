@@ -87,6 +87,9 @@ class CustomerService implements CustomerServiceInterface
     /**
      * Validate customer attribute values.
      *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     *
      * @param CustomerModel $customerModel
      * @throws InputException
      * @return void
@@ -107,15 +110,15 @@ class CustomerService implements CustomerServiceInterface
         }
 
         $dob = $this->_customerMetadataService->getCustomerAttributeMetadata('dob');
-        if ($dob->getIsRequired() && '' == trim($customerModel->getDob())) {
+        if ($dob->isRequired() && '' == trim($customerModel->getDob())) {
             $exception->addError(InputException::REQUIRED_FIELD, 'dob', '');
         }
         $taxvat = $this->_customerMetadataService->getCustomerAttributeMetadata('taxvat');
-        if ($taxvat->getIsRequired() && '' == trim($customerModel->getTaxvat())) {
+        if ($taxvat->isRequired() && '' == trim($customerModel->getTaxvat())) {
             $exception->addError(InputException::REQUIRED_FIELD, 'taxvat', '');
         }
         $gender = $this->_customerMetadataService->getCustomerAttributeMetadata('gender');
-        if ($gender->getIsRequired() && '' == trim($customerModel->getGender())) {
+        if ($gender->isRequired() && '' == trim($customerModel->getGender())) {
             $exception->addError(InputException::REQUIRED_FIELD, 'gender', '');
         }
         if ($exception->getParams()) {

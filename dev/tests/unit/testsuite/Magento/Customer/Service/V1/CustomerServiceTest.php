@@ -424,7 +424,7 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $mockAttribute->expects($this->atLeastOnce())
-            ->method('getIsRequired')
+            ->method('isRequired')
             ->will($this->returnValue(true));
         $this->_customerMetadataService->expects($this->any())
             ->method('getCustomerAttributeMetadata')
