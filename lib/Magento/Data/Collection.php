@@ -22,6 +22,8 @@
  */
 namespace Magento\Data;
 
+use Magento\Object;
+
 class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\Option\ArrayInterface
 {
     const SORT_ORDER_ASC    = 'ASC';
@@ -30,7 +32,7 @@ class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\
     /**
      * Collection items
      *
-     * @var array
+     * @var Object[]
      */
     protected $_items = array();
 
@@ -51,7 +53,7 @@ class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\
     /**
      * Filters configuration
      *
-     * @var \Magento\Object[]
+     * @var Object[]
      */
     protected $_filters = array();
 
@@ -118,7 +120,7 @@ class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\
      * @param string $field
      * @param string $value
      * @param string $type and|or|string
-     * @return self
+     * @return $this
      */
     public function addFilter($field, $value, $type = 'and')
     {
@@ -183,7 +185,7 @@ class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\
      * Set collection loading status flag
      *
      * @param bool $flag
-     * @return self
+     * @return $this
      */
     protected function _setIsLoaded($flag = true)
     {
@@ -285,7 +287,7 @@ class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\
     /**
      * Retrieve collection items
      *
-     * @return \Magento\Object[]
+     * @return Object[]
      */
     public function getItems()
     {
@@ -353,7 +355,7 @@ class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\
      * Adding item to item array
      *
      * @param   \Magento\Object $item
-     * @return self
+     * @return $this
      * @throws \Exception
      */
     public function addItem(\Magento\Object $item)
@@ -377,7 +379,7 @@ class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\
      * Add item that has no id to collection
      *
      * @param \Magento\Object $item
-     * @return self
+     * @return $this
      */
     protected function _addItem($item)
     {
@@ -414,7 +416,7 @@ class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\
      * Remove item from collection by item key
      *
      * @param   mixed $key
-     * @return self
+     * @return $this
      */
     public function removeItemByKey($key)
     {
@@ -756,7 +758,7 @@ class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\
 
     /**
      * Implementation of \IteratorAggregate::getIterator()
-     * @return ArrayIterator
+     * @return \ArrayIterator
      */
     public function getIterator()
     {
@@ -779,7 +781,7 @@ class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\
      * Retrieve Flag
      *
      * @param string $flag
-     * @return bool | null
+     * @return bool|null
      */
     public function getFlag($flag)
     {
@@ -790,7 +792,7 @@ class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\
      * Set Flag
      *
      * @param string $flag
-     * @param bool | null $value
+     * @param bool|null $value
      * @return self
      */
     public function setFlag($flag, $value = null)

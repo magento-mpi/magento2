@@ -693,7 +693,7 @@ class Db extends \Magento\Data\Collection
     /**
      * Process loaded collection
      *
-     * @return self
+     * @return $this
      */
     protected function _afterLoad()
     {

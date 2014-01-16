@@ -41,8 +41,6 @@ abstract class AbstractElement extends \Magento\Data\Form\AbstractForm
     protected $_form;
 
     /**
-     * This member is not used.
-     *
      * @var
      */
     protected $_elements;
@@ -153,7 +151,7 @@ abstract class AbstractElement extends \Magento\Data\Form\AbstractForm
      * Set the Id.
      *
      * @param string|int $id
-     * @return $this|Object
+     * @return $this
      */
     public function setId($id)
     {
@@ -175,7 +173,7 @@ abstract class AbstractElement extends \Magento\Data\Form\AbstractForm
     /**
      * Get the name.
      *
-     * @return mixed|string
+     * @return mixed
      */
     public function getName()
     {
@@ -190,7 +188,6 @@ abstract class AbstractElement extends \Magento\Data\Form\AbstractForm
      * Set the type.
      *
      * @param string $type
-     *
      * @return $this
      */
     public function setType($type)
@@ -202,7 +199,6 @@ abstract class AbstractElement extends \Magento\Data\Form\AbstractForm
 
     /**
      * @param Form $form
-
      * @return $this
      */
     public function setForm($form)
@@ -215,7 +211,6 @@ abstract class AbstractElement extends \Magento\Data\Form\AbstractForm
      * Remove field
      *
      * @param string $elementId
-     *
      * @return AbstractForm
      */
     public function removeField($elementId)
@@ -400,7 +395,7 @@ abstract class AbstractElement extends \Magento\Data\Form\AbstractForm
     /**
      * Get the default html.
      *
-     * @return mixed|string
+     * @return mixed
      */
     public function getDefaultHtml()
     {
@@ -417,7 +412,7 @@ abstract class AbstractElement extends \Magento\Data\Form\AbstractForm
     /**
      * Get the html.
      *
-     * @return mixed|string
+     * @return mixed
      */
     public function getHtml()
     {
@@ -435,7 +430,7 @@ abstract class AbstractElement extends \Magento\Data\Form\AbstractForm
     /**
      * Get the html.
      *
-     * @return mixed|string
+     * @return mixed
      */
     public function toHtml()
     {
@@ -483,7 +478,7 @@ abstract class AbstractElement extends \Magento\Data\Form\AbstractForm
     /**
      * Get the container Id.
      *
-     * @return mixed|string
+     * @return mixed
      */
     public function getHtmlContainerId()
     {

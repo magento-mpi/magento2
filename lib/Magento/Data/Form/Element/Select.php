@@ -90,7 +90,7 @@ class Select extends \Magento\Data\Form\Element\AbstractElement
     }
 
     /**
-     *
+     * Format an option as Html
      *
      * @param array $option
      * @param array $selected
