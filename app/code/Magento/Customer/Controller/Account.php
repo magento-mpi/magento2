@@ -707,13 +707,13 @@ class Account extends \Magento\App\Action\Action
         if ($email) {
             try {
                 $this->_customerAccountService->sendConfirmation($email);
-                $this->_getSession()->addSuccess(__('Please, check your email for confirmation key.'));
+                $this->messageManager->addSuccess(__('Please, check your email for confirmation key.'));
             } catch (ServiceException $e) {
                 if ($e->getCode() == ServiceException::CODE_CONFIRMATION_NOT_NEEDED) {
-                    $this->_getSession()->addSuccess(__('This email does not require confirmation.'));
+                    $this->messageManager->addSuccess(__('This email does not require confirmation.'));
                 } else {
-                    $this->_getSession()->addException($e, __('Wrong email.'));
-                    $this->_redirectError(
+                    $this->messageManager->addException($e, __('Wrong email.'));
+                    $this->getResponse()->setRedirect(
                         $this->_createUrl()->getUrl(
                             '*/*/*',
                             array('email' => $email, '_secure' => true)
@@ -723,7 +723,7 @@ class Account extends \Magento\App\Action\Action
                 }
             }
             $this->_getSession()->setUsername($email);
-            $this->_redirectSuccess($this->_createUrl()->getUrl('*/*/index', array('_secure' => true)));
+            $this->getResponse()->setRedirect($this->_createUrl()->getUrl('*/*/index', array('_secure' => true)));
             return;
         }
 
@@ -871,7 +871,7 @@ class Account extends \Magento\App\Action\Action
             switch ($exception->getCode()) {
                 case ServiceException::CODE_INVALID_RESET_TOKEN:
                 case ServiceException::CODE_RESET_TOKEN_EXPIRED:
-                $this->messageManager->addError(
+	                $this->messageManager->addError(
                         __('Your password reset link has expired.')
                     );
                     $this->_redirect('*/*/');

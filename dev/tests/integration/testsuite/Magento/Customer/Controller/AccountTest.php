@@ -3,8 +3,6 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Customer
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,6 +13,7 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
+     * @magentoDataFixture Magento/Customer/_files/customer_address.php
      */
     public function testIndexAction()
     {
@@ -23,7 +22,11 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
             ->create('Magento\Customer\Model\Session', array($logger));
         $session->login('customer@example.com', 'password');
         $this->dispatch('customer/account/index');
-        $this->assertContains('<div class="block dashboard welcome">', $this->getResponse()->getBody());
+
+        $body = $this->getResponse()->getBody();
+        $this->assertContains('<div class="block dashboard welcome">', $body);
+        $this->assertContains('Firstname Lastname!', $body);
+        $this->assertContains('Green str, 67', $body);
     }
 
     public function testCreateAction()
@@ -36,6 +39,24 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->assertContains('<input type="checkbox" name="is_subscribed"', $body);
         $this->assertContains('<input type="password" name="password" id="password"', $body);
         $this->assertContains('<input type="password" name="confirmation" title="Confirm Password"', $body);
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     */
+    public function testLoginPostAction()
+    {
+        $this->getRequest()
+            ->setServer(['REQUEST_METHOD' => 'POST'])
+            ->setPost([
+                'form_key' => $this->_objectManager->get('Magento\Data\Form\FormKey')->getFormKey(),
+                'login[]' => [
+                    'username' => 'customer@example.com',
+                    'password' => 'password'
+                ]
+            ]);
+        $this->dispatch('customer/account/loginPost');
+        $this->assertRedirect();
     }
 
     /**
@@ -62,7 +83,7 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      */
-    public function testConfirmActionAlreadyActive()
+    public function testConfirmAlreadyActiveAction()
     {
         /** @var \Magento\Customer\Model\Customer $customer */
         $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
@@ -98,11 +119,15 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
             ->setParam('country_id', 'US')
             ->setParam('default_billing', '1')
             ->setParam('default_shipping', '1')
-            ->setParam('is_subscribed', '1');
-
-        $_POST['create_address'] = true;
+            ->setParam('is_subscribed', '1')
+            ->setPost('create_address', true);
         $this->dispatch('customer/account/createPost');
         $this->assertRedirect($this->stringContains('customer/account/index/'));
+
+        $this->dispatch('customer/account/index');
+        $body = $this->getResponse()->getBody();
+        $this->assertContains('firstname lastname!', $body);
+        $this->assertContains('1234 fake street', $body);
     }
 
     /**
@@ -134,4 +159,118 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
         }
         $this->assertFalse($failed, 'Action is closed');
     }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/inactive_customer.php
+     */
+    public function testInactiveUserConfirmationAction()
+    {
+        $this->getRequest()
+            ->setServer(['REQUEST_METHOD' => 'POST'])
+            ->setPost([
+                'email' => 'customer@needAconfirmation.com'
+        ]);
+
+        $this->dispatch('customer/account/confirmation');
+        $this->assertRedirect($this->stringContains('customer/account/index'));
+        $this->assertSessionMessages(
+            $this->equalTo(['Please, check your email for confirmation key.']),
+            \Magento\Message\MessageInterface::TYPE_SUCCESS
+        );
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     */
+    public function testActiveUserConfirmationAction()
+    {
+        $this->getRequest()
+            ->setServer(['REQUEST_METHOD' => 'POST'])
+            ->setPost([
+                'email' => 'customer@example.com'
+            ]);
+
+        $this->dispatch('customer/account/confirmation');
+        $this->assertRedirect($this->stringContains('customer/account/index'));
+        $this->assertSessionMessages(
+            $this->equalTo(['This email does not require confirmation.']),
+            \Magento\Message\MessageInterface::TYPE_SUCCESS
+        );
+    }
+
+    public function testForgotPasswordPostAction()
+    {
+        $email = 'customer@example.com';
+
+        $this->getRequest()
+            ->setPost([
+                'email' => $email
+            ]);
+
+        $this->dispatch('customer/account/forgotPasswordPost');
+        $this->assertRedirect($this->stringContains('customer/account/'));
+        $this->assertSessionMessages(
+            $this->equalTo(["If there is an account associated with {$email} you will receive an email with a link to reset your password."]),
+            \Magento\Message\MessageInterface::TYPE_SUCCESS
+        );
+    }
+
+    public function testForgotPasswordPostWithBadEmailAction()
+    {
+        $this->getRequest()
+            ->setPost([
+                'email' => 'bad@email'
+            ]);
+
+        $this->dispatch('customer/account/forgotPasswordPost');
+        $this->assertRedirect($this->stringContains('customer/account/forgotpassword'));
+        $this->assertSessionMessages(
+            $this->equalTo(['Please correct the email address.']),
+            \Magento\Message\MessageInterface::TYPE_ERROR
+        );
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     */
+    public function testResetPasswordPostNoTokenAction()
+    {
+        $this->getRequest()
+            ->setParam('id', 1)
+            ->setParam('token', '8ed8677e6c79e68b94e61658bd756ea5')
+            ->setPost([
+                'password' => 'new-password',
+                'confirmation' => 'new-password'
+            ]);
+
+        $this->dispatch('customer/account/resetPasswordPost');
+        $this->assertRedirect($this->stringContains('customer/account/'));
+        $this->assertSessionMessages(
+            $this->equalTo(['Your password reset link has expired.']),
+            \Magento\Message\MessageInterface::TYPE_ERROR
+        );
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer_rp_token.php
+ÊÊÊÊÊ* @magentoConfigFixture  customer/password/reset_link_expiration_period 10
+     */
+    public function testResetPasswordPostAction()
+    {
+        $this->getRequest()
+            ->setQuery('id', 1)
+            ->setQuery('token', '8ed8677e6c79e68b94e61658bd756ea5')
+            ->setPost([
+                'password' => 'new-password',
+                'confirmation' => 'new-password'
+            ]);
+
+        $this->dispatch('customer/account/resetPasswordPost');
+        $this->assertRedirect($this->stringContains('customer/account/login'));
+        $this->assertSessionMessages(
+            $this->equalTo(['Your password has been updated.']),
+            \Magento\Message\MessageInterface::TYPE_SUCCESS
+        );
+    }
+
 }
