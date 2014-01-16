@@ -10,6 +10,6 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="customer_account"/>
     <referenceContainer name="content">
-        <block class="Magento\GiftCardAccount\Block\Account\Redeem" name="redeem" template="account/redeem.phtml"/>
+        <block class="Magento\GiftCardAccount\Block\Account\Redeem" name="redeem" template="account/redeem.phtml" cacheable="false"/>
     </referenceContainer>
 </layout>

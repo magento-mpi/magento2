@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceContainer name="customer.form.register.fields.before">
-        <block class="Magento\Reward\Block\Tooltip" name="reward.tooltip.register" template="tooltip.phtml">
+        <block class="Magento\Reward\Block\Tooltip" name="reward.tooltip.register" template="tooltip.phtml" cacheable="false">
             <arguments>
                 <argument name="reward_type" xsi:type="string">Magento\Reward\Model\Action\Register</argument>
             </arguments>
@@ -17,7 +17,7 @@
                 <argument translate="true" name="message" xsi:type="string">Register on our site now and earn %1.</argument>
             </action>
         </block>
-        <block class="Magento\Reward\Block\Tooltip" name="reward.tooltip.newsletter" template="tooltip.phtml" after="reward.tooltip.register">
+        <block class="Magento\Reward\Block\Tooltip" name="reward.tooltip.newsletter" template="tooltip.phtml" after="reward.tooltip.register" cacheable="false">
             <arguments>
                 <argument name="reward_type" xsi:type="string">Magento\Reward\Model\Action\Newsletter</argument>
             </arguments>
