@@ -37,6 +37,8 @@ class CmsPageNew extends Page
 
     /**
      * Initialize page. Set page url
+     *
+     * @return void
      */
     protected function _init()
     {

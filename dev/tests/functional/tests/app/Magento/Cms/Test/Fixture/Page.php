@@ -54,7 +54,9 @@ class Page extends DataFixture
     }
 
     /**
-     * {@inheritdoc}
+     * Initialize fixture data
+     *
+     * @return void
      */
     protected function _initData()
     {

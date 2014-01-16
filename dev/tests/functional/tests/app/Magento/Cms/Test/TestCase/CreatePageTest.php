@@ -23,6 +23,8 @@ class CreatePageTest extends Functional
 {
     /**
      * Login to backend as a precondition to test
+     *
+     * @return void
      */
     protected function setUp()
     {
@@ -33,6 +35,7 @@ class CreatePageTest extends Functional
      * Creating CMS content page
      *
      * @ZephyrId MAGETWO-12399
+     * @return void
      */
     public function testCreateCmsPage()
     {

@@ -36,7 +36,9 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
     protected $previewCmsPage = "//a[contains(text(),'Preview')]";
 
     /**
-     * {@inheritdoc}
+     * Filters array mapping
+     *
+     * @var array
      */
     protected $filters = array(
         'title' => array(
@@ -46,6 +48,8 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
 
     /**
      * Add new page
+     *
+     * @return void
      */
     public function addNewCmsPage()
     {
@@ -54,6 +58,8 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
 
     /**
      * Preview page
+     *
+     * @return void
      */
     public function previewCmsPage()
     {
