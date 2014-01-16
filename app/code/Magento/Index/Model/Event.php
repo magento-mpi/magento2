@@ -126,6 +126,7 @@ class Event extends \Magento\Core\Model\AbstractModel
      * Specify namespace for old and new data
      *
      * @param string $namespace
+     * @return $this
      */
     public function setDataNamespace($namespace)
     {

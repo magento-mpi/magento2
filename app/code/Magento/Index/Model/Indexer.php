@@ -223,6 +223,8 @@ class Indexer
 
     /**
      * Reindex all processes
+     *
+     * @return void
      */
     public function reindexAll()
     {
@@ -231,6 +233,8 @@ class Indexer
 
     /**
      * Reindex only processes that are invalidated
+     *
+     * @return void
      */
     public function reindexRequired()
     {
@@ -243,6 +247,7 @@ class Indexer
      * Sub-routine for iterating collection and reindexing all processes of specified collection
      *
      * @param \Magento\Index\Model\Resource\Process\Collection $collection
+     * @return void
      */
     private function _reindexCollection(\Magento\Index\Model\Resource\Process\Collection $collection)
     {
