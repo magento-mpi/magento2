@@ -35,12 +35,22 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected $_config;
 
     /**
+     * @var \Magento\Cron\Model\ScheduleFactory
+     */
+    protected $_scheduleFactory;
+
+    /**
      * @var \Magento\Core\Model\Store\Config|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_coreStoreConfig;
 
     /** @var \Magento\Cron\Model\Resource\Schedule\Collection|\PHPUnit_Framework_MockObject_MockObject */
     protected $_collection;
+
+    /**
+     * @var \Magento\Cron\Model\Groups\Config\Data
+     */
+    protected $_cronGroupConfig;
 
     /**
      * Prepare parameters
@@ -69,9 +79,21 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_collection->expects($this->any())
             ->method('load')
             ->will($this->returnSelf());
+        $this->_scheduleFactory = $this->getMockBuilder('Magento\Cron\Model\ScheduleFactory')
+            ->setMethods(array('create'))
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_cronGroupConfig = $this->getMockBuilder('Magento\Cron\Model\Groups\Config\Data')
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $this->_observer = new \Magento\Cron\Model\Observer(
-            $this->_objectManager, $this->_app, $this->_config, $this->_coreStoreConfig
+            $this->_objectManager,
+            $this->_scheduleFactory,
+            $this->_app,
+            $this->_config,
+            $this->_cronGroupConfig,
+            $this->_coreStoreConfig
         );
     }
 
@@ -96,9 +118,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $scheduleMock->expects($this->any())->method('getCollection')->will($this->returnValue($this->_collection));
-        $this->_objectManager->expects($this->once())
+        $this->_scheduleFactory->expects($this->once())
             ->method('create')
-            ->with($this->equalTo('Magento\Cron\Model\Schedule'))
             ->will($this->returnValue($scheduleMock));
 
         $this->_observer->dispatch('');
@@ -132,9 +153,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $scheduleMock->expects($this->any())->method('getCollection')->will($this->returnValue($this->_collection));
-        $this->_objectManager->expects($this->once())
+        $this->_scheduleFactory->expects($this->once())
             ->method('create')
-            ->with($this->equalTo('Magento\Cron\Model\Schedule'))
             ->will($this->returnValue($scheduleMock));
 
         $this->_observer->dispatch('');
@@ -177,9 +197,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $scheduleMock->expects($this->any())->method('getCollection')->will($this->returnValue($this->_collection));
-        $this->_objectManager->expects($this->once())
+        $this->_scheduleFactory->expects($this->once())
             ->method('create')
-            ->with($this->equalTo('Magento\Cron\Model\Schedule'))
             ->will($this->returnValue($scheduleMock));
 
         $this->_observer->dispatch('');
@@ -235,9 +254,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $scheduleMock->expects($this->any())->method('getCollection')->will($this->returnValue($this->_collection));
-        $this->_objectManager->expects($this->once())
+        $this->_scheduleFactory->expects($this->once())
             ->method('create')
-            ->with($this->equalTo('Magento\Cron\Model\Schedule'))
             ->will($this->returnValue($scheduleMock));
 
         $this->_observer->dispatch('');
@@ -294,9 +312,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $scheduleMock->expects($this->any())->method('getCollection')->will($this->returnValue($this->_collection));
-        $this->_objectManager->expects($this->once())
+        $this->_scheduleFactory->expects($this->once())
             ->method('create')
-            ->with($this->equalTo('Magento\Cron\Model\Schedule'))
             ->will($this->returnValue($scheduleMock));
 
         $this->_observer->dispatch('');
@@ -358,11 +375,10 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $scheduleMock->expects($this->any())->method('getCollection')->will($this->returnValue($this->_collection));
-        $this->_objectManager->expects($this->at(0))
+        $this->_scheduleFactory->expects($this->once())
             ->method('create')
-            ->with($this->equalTo('Magento\Cron\Model\Schedule'))
             ->will($this->returnValue($scheduleMock));
-        $this->_objectManager->expects($this->at(1))
+        $this->_objectManager->expects($this->once())
             ->method('create')
             ->with($this->equalTo('Not_Existed_Class'))
             ->will($this->returnValue(''));
@@ -448,11 +464,10 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $scheduleMock->expects($this->any())->method('getCollection')->will($this->returnValue($this->_collection));
-        $this->_objectManager->expects($this->at(0))
+        $this->_scheduleFactory->expects($this->once)
             ->method('create')
-            ->with($this->equalTo('Magento\Cron\Model\Schedule'))
             ->will($this->returnValue($scheduleMock));
-        $this->_objectManager->expects($this->at(1))
+        $this->_objectManager->expects($this->once)
             ->method('create')
             ->with($this->equalTo('CronJob'))
             ->will($this->returnValue($testCronJob));
@@ -507,9 +522,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $scheduleMock->expects($this->any())->method('getCollection')->will($this->returnValue($this->_collection));
-        $this->_objectManager->expects($this->any())
+        $this->_scheduleFactory->expects($this->any())
             ->method('create')
-            ->with($this->equalTo('Magento\Cron\Model\Schedule'))
             ->will($this->returnValue($scheduleMock));
 
         $this->_observer->dispatch('');
@@ -589,9 +603,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->setMethods(array('getCollection', '__wakeup'))
             ->getMock();
         $scheduleMock->expects($this->any())->method('getCollection')->will($this->returnValue($this->_collection));
-        $this->_objectManager->expects($this->any())
+        $this->_scheduleFactory->expects($this->any())
             ->method('create')
-            ->with($this->equalTo('Magento\Cron\Model\Schedule'))
             ->will($this->returnValue($scheduleMock));
 
         $this->_observer->dispatch('');
@@ -630,9 +643,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $scheduleMock->expects($this->any())->method('getCollection')->will($this->returnValue($this->_collection));
-        $this->_objectManager->expects($this->at(0))
+        $this->_scheduleFactory->expects($this->once())
             ->method('create')
-            ->with($this->equalTo('Magento\Cron\Model\Schedule'))
             ->will($this->returnValue($scheduleMock));
 
         $collection = $this->getMockBuilder('Magento\Cron\Model\Resource\Schedule\Collection')
@@ -651,9 +663,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $scheduleMock->expects($this->any())->method('getCollection')->will($this->returnValue($collection));
-        $this->_objectManager->expects($this->at(1))
+        $this->_objectManager->expects($this->once())
             ->method('create')
-            ->with($this->equalTo('Magento\Cron\Model\Schedule'))
             ->will($this->returnValue($scheduleMock));
 
         $this->_observer->dispatch('');
