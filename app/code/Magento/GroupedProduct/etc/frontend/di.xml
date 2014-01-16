@@ -18,4 +18,14 @@
             </value>
         </param>
     </type>
+    <type name="Magento\Catalog\Block\Product\Price\Template">
+        <param name="priceBlockTypes">
+            <value>
+                <grouped>
+                    <block>Magento\Catalog\Block\Product\Price</block>
+                    <template>Magento_GroupedProduct::product/price.phtml</template>
+                </grouped>
+            </value>
+        </param>
+    </type>
 </config>
