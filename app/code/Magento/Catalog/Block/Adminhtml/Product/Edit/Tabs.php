@@ -176,8 +176,11 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
              * @see \Magento\Catalog\Block\Adminhtml\Product\Edit\Tabs\Configurable
              * @see \Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tabs
              */
-            $this->addTab('customer_options', 'customer_options');
-            $this->getChildBlock('customer_options')->setGroupCode(self::ADVANCED_TAB_GROUP_CODE);
+            if ($this->getChildBlock('customer_options')) {
+                $this->addTab('customer_options', 'customer_options');
+                $this->getChildBlock('customer_options')->setGroupCode(self::ADVANCED_TAB_GROUP_CODE);
+            }
+
 
             $this->addTab('related', array(
                 'label'     => __('Related Products'),
@@ -205,12 +208,14 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
                 unset($advancedGroups['design']);
             }
 
-            $this->addTab('product-alerts', 'product-alerts');
-            $this->getChildBlock('customer_options')->setGroupCode(self::ADVANCED_TAB_GROUP_CODE);
+            if ($this->getChildBlock('product-alerts')) {
+                $this->addTab('product-alerts', 'product-alerts');
+                $this->getChildBlock('customer_options')->setGroupCode(self::ADVANCED_TAB_GROUP_CODE);
+            }
 
             if ($this->getRequest()->getParam('id')) {
                 if ($this->_catalogData->isModuleEnabled('Magento_Review')) {
-                    if ($this->_authorization->isAllowed('Magento_Review::reviews_all')){
+                    if ($this->_authorization->isAllowed('Magento_Review::reviews_all')) {
                         $this->addTab('product-reviews', array(
                             'label' => __('Product Reviews'),
                             'url'   => $this->getUrl('catalog/*/reviews', array('_current' => true)),

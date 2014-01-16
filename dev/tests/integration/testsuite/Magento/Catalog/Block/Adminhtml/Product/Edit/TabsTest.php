@@ -22,7 +22,6 @@ class TabsTest extends \PHPUnit_Framework_TestCase
      */
     public function testPrepareLayout()
     {
-        $this->markTestSkipped('MAGETWO-18846');
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\App\State')->setAreaCode(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
         $objectManager->get('Magento\View\DesignInterface')
