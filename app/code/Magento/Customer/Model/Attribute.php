@@ -10,6 +10,7 @@
 
 /**
  * Customer attribute model
+ * @method int getSortOrder()
  *
  * @category   Magento
  * @package    Magento_Customer

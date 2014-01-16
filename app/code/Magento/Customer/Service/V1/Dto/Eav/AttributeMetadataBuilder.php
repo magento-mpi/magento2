@@ -133,4 +133,31 @@ class AttributeMetadataBuilder extends \Magento\Service\Entity\AbstractDtoBuilde
     {
         return $this->_set(AttributeMetadata::IS_USER_DEFINED, $isUserDefined);
     }
+
+    /**
+     * @param int $sortOrder
+     * @return AttributeMetadataBuilder
+     */
+    public function setSortOrder($sortOrder)
+    {
+        return $this->_set(AttributeMetadata::SORT_ORDER, $sortOrder);
+    }
+
+    /**
+     * @param string $frontendLabel
+     * @return AttributeMetadataBuilder
+     */
+    public function setFrontendLabel($frontendLabel)
+    {
+        return $this->_set(AttributeMetadata::FRONTEND_LABEL, $frontendLabel);
+    }
+
+    /**
+     * @param bool $isSystem
+     * @return AttributeMetadataBuilder
+     */
+    public function setIsSystem($isSystem)
+    {
+        return $this->_set(AttributeMetadata::IS_SYSTEM, $isSystem);
+    }
 }

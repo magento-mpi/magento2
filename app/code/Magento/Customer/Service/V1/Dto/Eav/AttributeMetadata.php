@@ -26,6 +26,9 @@ class AttributeMetadata extends \Magento\Service\Entity\AbstractDto
     const DATA_MODEL = 'data_model';
     const IS_USER_DEFINED = 'is_user_defined';
     const FRONTEND_CLASS = 'front_end_class';
+    const SORT_ORDER = 'sort_order';
+    const FRONTEND_LABEL = 'frontend_label';
+    const IS_SYSTEM = 'is_system';
 
     /**
      * @return string
@@ -121,5 +124,29 @@ class AttributeMetadata extends \Magento\Service\Entity\AbstractDto
     public function getIsUserDefined()
     {
         return $this->_get(self::IS_USER_DEFINED);
+    }
+
+    /**
+     * @return int
+     */
+    public function getSortOrder()
+    {
+        return $this->_get(self::SORT_ORDER);
+    }
+
+    /**
+     * @return string
+     */
+    public function getFrontendLabel()
+    {
+        return $this->_get(self::FRONTEND_LABEL);
+    }
+
+    /**
+     * @return bool
+     */
+    public function getIsSystem()
+    {
+        return $this->_get(self::IS_SYSTEM);
     }
 }

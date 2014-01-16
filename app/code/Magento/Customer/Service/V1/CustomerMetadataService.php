@@ -145,7 +145,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     }
 
     /**
-     * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute
+     * @param \Magento\Customer\Model\Attribute $attribute
      * @return AttributeMetadata
      */
     private function _createMetadataAttribute($attribute)
@@ -170,7 +170,10 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
             ->setMultilineCount($attribute->getMultilineCount())
             ->setDataModel($attribute->getDataModel())
             ->setOptions($options)
-            ->setFrontendClass($attribute->getFrontend()->getClass());
+            ->setFrontendClass($attribute->getFrontend()->getClass())
+            ->setFrontendLabel($attribute->getFrontendLabel())
+            ->setIsSystem($attribute->getIsSystem())
+            ->setSortOrder($attribute->getSortOrder());
 
         return $this->_attributeMetadataBuilder->create();
     }
