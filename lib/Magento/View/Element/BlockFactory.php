@@ -40,6 +40,7 @@ class BlockFactory
         if (!$block instanceof BlockInterface) {
             throw new \LogicException($blockName . ' does not implemented BlockInterface');
         }
+        $block->setTemplateContext($block);
         return $block;
     }
 }
