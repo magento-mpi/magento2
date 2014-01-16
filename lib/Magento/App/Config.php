@@ -53,9 +53,24 @@ class Config
         unset($stack['resource']);
         unset($stack['connection']);
         unset($stack['cache']);
-        $separator = '.';
-        $output = array();
+        $output = $this->_flattenParams($stack);
+        $output['connection'] = isset($input['connection']) ? $input['connection'] : array();
+        $output['resource'] = isset($input['resource']) ? $input['resource'] : array();
+        $output['cache'] = isset($input['cache']) ? $input['cache'] : array();
+        return $output;
+    }
 
+    /**
+     * Convert associative array of arbitrary depth to a flat associative array with concatenated key path as keys
+     *
+     * @param array $params
+     * @param string $separator
+     * @return array
+     */
+    protected function _flattenParams(array $params, $separator = '.')
+    {
+        $result = array();
+        $stack = $params;
         while ($stack) {
             list($key, $value) = each($stack);
             unset($stack[$key]);
@@ -70,12 +85,9 @@ class Config
                 $stack = $build + $stack;
                 continue;
             }
-            $output[$key] = $value;
+            $result[$key] = $value;
         }
-        $output['connection'] = isset($input['connection']) ? $input['connection'] : array();
-        $output['resource'] = isset($input['resource']) ? $input['resource'] : array();
-        $output['cache'] = isset($input['cache']) ? $input['cache'] : array();
-        return $output;
+        return $result;
     }
 
     /**
