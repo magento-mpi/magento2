@@ -12,6 +12,9 @@
   * Fixed 3D secure validation
   * Fixed session to be transfered between Magento urls
   * Fixed Advanced search filter to properly compare numbers
+  * Fixed an issue when order was sent to Paypal without defined currency
+  * Fixed an issue with 404 error when trying to return back to grid from Recurring Billing Profile
+  * Fixed an issue with synchronization with google shopping on product update caused by missed service property
 
 2.0.0.0-dev60
 =============
