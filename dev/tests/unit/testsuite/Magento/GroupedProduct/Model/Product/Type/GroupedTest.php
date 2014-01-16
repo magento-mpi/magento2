@@ -27,6 +27,12 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $product;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $catalogProductStatus;
+
     /**
      * @var \Magento\TestFramework\Helper\ObjectManager
      */
@@ -38,12 +44,14 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
         $eventManager = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false);
         $coreDataMock = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
         $fileStorageDbMock = $this->getMock('Magento\Core\Helper\File\Storage\Database', array(), array(), '', false);
-        $filesystem = $this->getMockBuilder('Magento\Filesystem')->disableOriginalConstructor()->getMock();
+        $filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
         $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
         $this->product = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
         $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
         $productFactoryMock = $this->getMock('Magento\Catalog\Model\ProductFactory', array(), array(), '', false);
         $this->catalogProductLink = $this->getMock('\Magento\GroupedProduct\Model\Resource\Product\Link',
+            array(), array(), '', false);
+        $this->catalogProductStatus = $this->getMock('\Magento\Catalog\Model\Product\Status',
             array(), array(), '', false);
         $this->_model = $this->objectHelper->getObject('Magento\GroupedProduct\Model\Product\Type\Grouped', array(
             'eventManager' => $eventManager,
@@ -54,6 +62,7 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
             'logger' => $logger,
             'productFactory' => $productFactoryMock,
             'catalogProductLink' => $this->catalogProductLink,
+            'catalogProductStatus' => $this->catalogProductStatus,
         ));
     }
 
@@ -64,23 +73,27 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
 
     public function testGetChildrenIds()
     {
+        $parentId = 12345;
         $childrenIds = array(100, 200, 300);
         $this->catalogProductLink->expects($this->once())->method('getChildrenIds')
+            ->with($parentId, \Magento\GroupedProduct\Model\Resource\Product\Link::LINK_TYPE_GROUPED)
             ->will($this->returnValue($childrenIds));
-        $this->assertEquals($childrenIds, $this->_model->getChildrenIds(12345));
+        $this->assertEquals($childrenIds, $this->_model->getChildrenIds($parentId));
     }
 
     public function testGetParentIdsByChild()
     {
+        $childId = 12345;
         $parentIds = array(100, 200, 300);
         $this->catalogProductLink->expects($this->once())->method('getParentIdsByChild')
+            ->with($childId, \Magento\GroupedProduct\Model\Resource\Product\Link::LINK_TYPE_GROUPED)
             ->will($this->returnValue($parentIds));
-        $this->assertEquals($parentIds, $this->_model->getParentIdsByChild(12345));
+        $this->assertEquals($parentIds, $this->_model->getParentIdsByChild($childId));
     }
 
     public function testGetAssociatedProducts()
     {
-        $cached = true; //non-cached case is rather difficult to cover
+        $cached = true;
         $associatedProducts = array(5, 7, 11, 13, 17);
         $this->product->expects($this->once())->method('hasData')->will($this->returnValue($cached));
         $this->product->expects($this->once())->method('getData')->will($this->returnValue($associatedProducts));
@@ -88,10 +101,10 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param $status int
-     * @param $filters array
-     * @param $result array
-     * @dataProvider addStatusProvider
+     * @param int $status
+     * @param array $filters
+     * @param array $result
+     * @dataProvider addStatusFilterDataProvider
      */
     public function testAddStatusFilter($status, $filters, $result)
     {
@@ -101,7 +114,10 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
         $this->_model->addStatusFilter($status, $this->product);
     }
 
-    public function addStatusProvider()
+    /**
+     * @return array
+     */
+    public function addStatusFilterDataProvider()
     {
         return array(
             array(1, array(), array(1)),
@@ -109,19 +125,78 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testSetSaleableStatus()
+    {
+        $key =  '_cache_instance_status_filters';
+        $saleableIds = array(300, 800, 500);
+
+        $this->catalogProductStatus->expects($this->once())->method('getSaleableStatusIds')
+            ->will($this->returnValue($saleableIds));
+        $this->product->expects($this->once())->method('setData')->with($key, $saleableIds);
+        $this->_model->setSaleableStatus($this->product);
+    }
+
     public function testGetStatusFiltersNoData()
     {
-        $result = array(1, 2);
+        $result = array(
+            \Magento\Catalog\Model\Product\Status::STATUS_ENABLED,
+            \Magento\Catalog\Model\Product\Status::STATUS_DISABLED
+        );
         $this->product->expects($this->once())->method('hasData')->will($this->returnValue(false));
         $this->assertEquals($result, $this->_model->getStatusFilters($this->product));
     }
 
     public function testGetStatusFiltersWithData()
     {
-        $result = array(1, 2);
+        $result = array(
+            \Magento\Catalog\Model\Product\Status::STATUS_ENABLED,
+            \Magento\Catalog\Model\Product\Status::STATUS_DISABLED
+        );
         $this->product->expects($this->once())->method('hasData')->will($this->returnValue(true));
         $this->product->expects($this->once())->method('getData')->will($this->returnValue($result));
         $this->assertEquals($result, $this->_model->getStatusFilters($this->product));
+    }
+
+    public function testGetAssociatedProductIdsCached()
+    {
+        $key =  '_cache_instance_associated_product_ids';
+        $cachedData = array(300, 303, 306);
+
+        $this->product->expects($this->once())->method('hasData')->with($key)->will($this->returnValue(true));
+        $this->product->expects($this->never())->method('setData');
+        $this->product->expects($this->once())->method('getData')->with($key)->will($this->returnValue($cachedData));
+
+        $this->assertEquals($cachedData, $this->_model->getAssociatedProductIds($this->product));
+    }
+
+    public function testGetAssociatedProductIdsNonCached()
+    {
+        $args = $this->objectHelper->getConstructArguments(
+            '\Magento\GroupedProduct\Model\Product\Type\Grouped',
+            array()
+        );
+
+        /** @var \Magento\GroupedProduct\Model\Product\Type\Grouped $model */
+        $model = $this->getMock(
+            '\Magento\GroupedProduct\Model\Product\Type\Grouped',
+            array('getAssociatedProducts'),
+            $args
+        );
+
+        $associatedProduct = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
+        $model->expects($this->once())->method('getAssociatedProducts')
+            ->with($this->product)->will($this->returnValue(array($associatedProduct)));
+
+        $associatedId = 9384;
+        $key =  '_cache_instance_associated_product_ids';
+        $associatedIds = array($associatedId);
+        $associatedProduct->expects($this->once())->method('getId')->will($this->returnValue($associatedId));
+
+        $this->product->expects($this->once())->method('hasData')->with($key)->will($this->returnValue(false));
+        $this->product->expects($this->once())->method('setData')->with($key, $associatedIds);
+        $this->product->expects($this->once())->method('getData')->with($key)->will($this->returnValue($associatedIds));
+
+        $this->assertEquals($associatedIds, $model->getAssociatedProductIds($this->product));
     }
 
     public function testGetAssociatedProductCollection()
@@ -144,13 +219,27 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($collection, $this->_model->getAssociatedProductCollection($this->product));
     }
 
-    public function testProcessBuyRequest()
+    /**
+     * @param array $superGroup
+     * @param array $result
+     * @dataProvider processBuyRequestDataProvider
+     */
+    public function testProcessBuyRequest($superGroup, $result)
     {
-        $basic = array(1, 2, 3);
-        $result = array('super_group' => $basic);
         $buyRequest = $this->getMock('\Magento\Object', array('getSuperGroup'), array(), '', false);
-        $buyRequest->expects($this->any())->method('getSuperGroup')->will($this->returnValue($basic));
+        $buyRequest->expects($this->any())->method('getSuperGroup')->will($this->returnValue($superGroup));
 
         $this->assertEquals($result, $this->_model->processBuyRequest($this->product, $buyRequest));
+    }
+
+    /**
+     * @return array
+     */
+    public function processBuyRequestDataProvider()
+    {
+        return array(
+            'positive' => array(array(1, 2, 3), array('super_group' => array(1, 2, 3))),
+            'negative' => array(false, array('super_group' => array())),
+        );
     }
 }

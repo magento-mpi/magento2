@@ -11,9 +11,9 @@ namespace Magento\GroupedProduct\Model\ProductTypes\Config\Converter\Plugin;
 class GroupedTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @param $config array
-     * @param $result array
-     * @dataProvider configProvider
+     * @param array $config
+     * @param array $result
+     * @dataProvider afterConvertDataProvider
      */
     public function testAfterConvert($config, $result)
     {
@@ -21,11 +21,15 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($result, $model->afterConvert($config));
     }
 
-    public function configProvider()
+    /**
+     * @return array
+     */
+    public function afterConvertDataProvider()
     {
+        $index = \Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE;
         $emptyConfig = array(1, 2, 3);
-        $config = array('grouped' => array(1));
-        $result = array('grouped' => array(1, 'is_product_set' => true));
+        $config = array($index => array(1));
+        $result = array($index => array(1, 'is_product_set' => true));
 
         return array(
             'empty config' => array($emptyConfig, $emptyConfig),
