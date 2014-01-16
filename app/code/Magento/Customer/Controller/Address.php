@@ -17,7 +17,6 @@
  */
 namespace Magento\Customer\Controller;
 
-use Magento\Customer\Service\Entity\V1\Exception;
 use Magento\App\RequestInterface;
 
 class Address extends \Magento\App\Action\Action

@@ -9,7 +9,6 @@
 namespace Magento\Customer\Service\V1;
 
 use Magento\Customer\Model\Converter;
-use Magento\Customer\Service\Entity\V1\Exception;
 use Magento\Customer\Model\Customer as CustomerModel;
 use Magento\Exception\InputException;
 use Magento\Validator\ValidatorException;

@@ -15,6 +15,7 @@ namespace Magento\Customer\Block\Address;
 
 use Magento\Customer\Service\V1\Dto\Address;
 use Magento\Customer\Service\V1\Dto\Customer;
+use Magento\Exception\NoSuchEntityException;
 
 class Edit extends \Magento\Directory\Block\Data
 {
@@ -96,7 +97,7 @@ class Edit extends \Magento\Directory\Block\Data
         if ($addressId = $this->getRequest()->getParam('id')) {
             try {
                 $this->_address = $this->_addressService->getAddressById($addressId);
-            } catch (\Magento\Customer\Service\Entity\V1\Exception $e) {
+            } catch (NoSuchEntityException $e) {
                 // something went wrong, but we are ignore it for now
             }
         }

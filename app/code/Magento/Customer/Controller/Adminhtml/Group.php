@@ -10,6 +10,8 @@
 
 namespace Magento\Customer\Controller\Adminhtml;
 
+use Magento\Exception\NoSuchEntityException;
+
 /**
  * Customer groups controller
  */
@@ -173,7 +175,7 @@ class Group extends \Magento\Backend\App\Action
                 $this->messageManager->addSuccess(__('The customer group has been deleted.'));
                 $this->getResponse()->setRedirect($this->getUrl('customer/group'));
                 return;
-            } catch (\Magento\Customer\Service\Entity\V1\Exception $e) {
+            } catch (NoSuchEntityException $e) {
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')
                     ->addError(__('The customer group no longer exists.'));
                 $this->_redirect('adminhtml/*/');
