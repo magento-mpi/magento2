@@ -10,8 +10,6 @@
 
 namespace Magento\Index\Block\Adminhtml\Process\Edit\Tab;
 
-use Magento\Backend\Block\Widget\Form;
-
 class Main
     extends \Magento\Backend\Block\Widget\Form\Generic
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
@@ -19,7 +17,7 @@ class Main
     /**
      * Prepare form
      *
-     * @return Form
+     * @return \Magento\Backend\Block\Widget\Form
      */
     protected function _prepareForm()
     {
