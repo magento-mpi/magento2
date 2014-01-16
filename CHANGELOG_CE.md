@@ -1,4 +1,5 @@
 * Fixed bugs:
+  * Fixed configurable product images display in shopping cart
   * Fixed No Collapsing for Tax Summary
   * Optimized Plushe theme css
   * Fixed attribute types for configurable product variations
