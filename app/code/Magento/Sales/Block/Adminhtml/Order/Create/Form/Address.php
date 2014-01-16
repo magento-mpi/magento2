@@ -25,13 +25,6 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
     protected $_customerFormFactory;
 
     /**
-     * Adminhtml addresses
-     *
-     * @var \Magento\Backend\Helper\Addresses
-     */
-    protected $_adminhtmlAddresses = null;
-
-    /**
      * @var \Magento\Json\EncoderInterface
      */
     protected $_jsonEncoder;
@@ -62,7 +55,6 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory
-     * @param \Magento\Backend\Helper\Addresses $adminhtmlAddresses
      * @param \Magento\Customer\Helper\Data $customerHelper
      * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
      * @param \Magento\Customer\Model\AddressFactory $addressFactory
@@ -78,7 +70,6 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
         \Magento\Core\Helper\Data $coreData,
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory,
-        \Magento\Backend\Helper\Addresses $adminhtmlAddresses,
         \Magento\Customer\Helper\Data $customerHelper,
         \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
         \Magento\Customer\Model\AddressFactory $addressFactory,
@@ -88,7 +79,6 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
         $this->_coreData = $coreData;
         $this->_jsonEncoder = $jsonEncoder;
         $this->_customerFormFactory = $customerFormFactory;
-        $this->_adminhtmlAddresses = $adminhtmlAddresses;
         $this->_addressService = $addressService;
         $this->_addressFactory = $addressFactory;
         parent::__construct($context, $sessionQuote, $orderCreate, $formFactory, $data);
@@ -144,10 +134,8 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
     /**
      * Prepare Form and add elements to form
      *
-     * TODO: Fix excessive complexity after all TODOs in the method are processed
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
-     *
      * @return \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
      */
     protected function _prepareForm()
@@ -161,10 +149,6 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
             'adminhtml_customer_address'
         );
         $attributes = $addressForm->getAttributes();
-        if (isset($attributes['street'])) {
-            // TODO: Decide what to do with this call?
-            //$this->_adminhtmlAddresses->processStreetAttribute($attributes['street']);
-        }
         $this->_addAttributesToForm($attributes, $fieldset);
 
         $prefixElement = $this->_form->getElement('prefix');

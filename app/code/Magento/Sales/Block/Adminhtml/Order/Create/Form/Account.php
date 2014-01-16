@@ -140,8 +140,12 @@ class Account extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
      */
     public function getFormValues()
     {
-        $customer = $this->_customerService->getCustomer($this->getCustomerId());
-        $data = $customer->__toArray();
+        try {
+            $customer = $this->_customerService->getCustomer($this->getCustomerId());
+        } catch (\Exception $e) {
+            /** If customer does not exist do nothing. */
+        }
+        $data = isset($customer) ? $customer->__toArray() : array();
         foreach ($this->getQuote()->getData() as $key => $value) {
             if (strpos($key, 'customer_') === 0) {
                 $data[substr($key, 9)] = $value;
