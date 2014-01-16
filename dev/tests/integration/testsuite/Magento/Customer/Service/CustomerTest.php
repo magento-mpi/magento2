@@ -49,7 +49,8 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             $this->_createdCustomer->getAddressesCollection()->delete();
             $this->_createdCustomer->delete();
         }
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\StoreManagerInterface')
             ->setCurrentStore($previousStoreId);
 
         $this->_model = null;
@@ -308,9 +309,9 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             ->load(1);
 
         $updatedCustomer = $this->_model->update($expected->getId(), $customerData);
+
         $this->assertInstanceOf('Magento\Customer\Model\Customer', $updatedCustomer);
         $this->assertFalse($updatedCustomer->isObjectNew());
-
         $actualData = $this->_customerFactory->create()
             ->load($expected->getId())->getData();
         $expectedData = array_merge($updatedCustomer->toArray(array_keys($actualData)), $customerData);
@@ -350,6 +351,24 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     */
+    public function testUpdateFirstname()
+    {
+        $customer = $this->_customerFactory->create()->load(1);
+        // This call to getAttributes will cause our test to fail if the
+        // customer fixture was using attribute set 0 instead of 1
+        $customer->getAttributes();
+
+        $updatedCustomer = $this->_model->update(1, ['firstname' => 'new_name']);
+
+        $customer = $this->_customerFactory->create()->load(1);
+
+        $this->assertEquals('new_name', $customer->getFirstname());
+        $this->assertEquals('new_name', $updatedCustomer->getFirstname());
+    }
+
+    /**
      * @param array $customerData
      * @param string $exceptionName
      * @param string $exceptionMessage
@@ -370,15 +389,24 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     public function updateExceptionsDataProvider()
     {
         return array(
-            'Invalid password' => array(array(
-                'password' => '111'
-            ), 'Magento\Eav\Model\Entity\Attribute\Exception'),
-            'Invalid name' => array(array(
-                'firstname' => null
-            ), 'Magento\Validator\ValidatorException'),
-            'Invalid email' => array(array(
-                'email' => '3434@23434'
-            ), 'Magento\Validator\ValidatorException')
+            'Invalid password' => array(
+                array(
+                    'password' => '111'
+                ),
+                'Magento\Eav\Model\Entity\Attribute\Exception'
+            ),
+            'Invalid name' => array(
+                array(
+                    'firstname' => null
+                ),
+                'Magento\Validator\ValidatorException'
+            ),
+            'Invalid email' => array(
+                array(
+                    'email' => '3434@23434'
+                ),
+                'Magento\Validator\ValidatorException'
+            )
         );
     }
 
@@ -400,9 +428,10 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $oldPasswordHash = $this->_customerFactory->create()
             ->load(1)
             ->getPasswordHash();
-        $updatedCustomer = $this->_model->update(1, array(
-            'autogenerate_password' => true,
-        ));
+        $updatedCustomer = $this->_model->update(
+            1,
+            array('autogenerate_password' => true,)
+        );
         $this->assertNotEquals($oldPasswordHash, $updatedCustomer->getPasswordHash());
     }
 
@@ -419,8 +448,11 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             ->load(1);
         $this->assertCount(2, $customer->getAddresses(), 'Not all customer addresses were created.');
         $updatedCustomer = $this->_model->update(1, array(), $addressesData);
-        $this->assertCount(count($addressesData), $updatedCustomer->getAddresses(),
-            'Customer address was not deleted.');
+        $this->assertCount(
+            count($addressesData),
+            $updatedCustomer->getAddresses(),
+            'Customer address was not deleted.'
+        );
 
         /** @var \Magento\Customer\Model\Customer $actualCustomer */
         $actualCustomer = $this->_customerFactory->create()
@@ -499,15 +531,17 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             ->load(1);
         $customerData = array('firstname' => 'Updated name');
         $customer->addData($customerData);
-        $addressData = array(array(
-            'firstname' => 'John',
-            'lastname' => 'Smith',
-            'street' => 'Green str, 67',
-            'country_id' => 'AL',
-            'city' => 'CityM',
-            'postcode' => '75477',
-            'telephone' => '3468676',
-        ));
+        $addressData = array(
+            array(
+                'firstname' => 'John',
+                'lastname' => 'Smith',
+                'street' => 'Green str, 67',
+                'country_id' => 'AL',
+                'city' => 'CityM',
+                'postcode' => '75477',
+                'telephone' => '3468676',
+            )
+        );
 
         $callbackCount = 0;
         $callback = function ($actualCustomer, $actualData, $actualAddresses) use ($customer, $customerData,
@@ -517,8 +551,10 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             // Remove updated_at as in afterSave updated_at may be changed
             $expectedCustomerData = $customer->getData();
             unset($expectedCustomerData['updated_at']);
-            \PHPUnit_Framework_Assert::assertEquals($expectedCustomerData,
-                $actualCustomer->toArray(array_keys($expectedCustomerData)));
+            \PHPUnit_Framework_Assert::assertEquals(
+                $expectedCustomerData,
+                $actualCustomer->toArray(array_keys($expectedCustomerData))
+            );
             \PHPUnit_Framework_Assert::assertEquals($customerData, $actualData);
             \PHPUnit_Framework_Assert::assertEquals($addressData, $actualAddresses);
         };
