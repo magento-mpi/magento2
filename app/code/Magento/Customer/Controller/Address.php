@@ -2,24 +2,17 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
- */
-
-/**
- * Customer address controller
- *
- * @category   Magento
- * @package    Magento_Customer
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Customer\Controller;
 
 use Magento\App\RequestInterface;
 use Magento\Exception\InputException;
 
+/**
+ * Customer address controller
+ */
 class Address extends \Magento\App\Action\Action
 {
     /**
