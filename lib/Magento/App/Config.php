@@ -112,13 +112,26 @@ class Config
     }
 
     /**
-     * Retrieve settings for cache front-ends that will override the defaults
+     * Retrieve settings for all cache front-ends configured in the system
      *
-     * @return array Format: array('<cache_frontend_id>' => array(<cache_settings>), ...)
+     * @return array Format: array('<frontend_id>' => array(<cache_settings>), ...)
      */
-    public function getCacheSettings()
+    public function getCacheFrontendSettings()
     {
-        return $this->_data['cache'];
+        return isset($this->_data['cache']['frontend']) ? $this->_data['cache']['frontend'] : array();
+    }
+
+    /**
+     * Retrieve identifier of a cache frontend, configured to be used for a cache type
+     *
+     * @param string $cacheType Cache type identifier
+     * @return string|null
+     */
+    public function getCacheTypeFrontendId($cacheType)
+    {
+        return isset($this->_data['cache']['type'][$cacheType]['frontend'])
+            ? $this->_data['cache']['type'][$cacheType]['frontend']
+            : null;
     }
 
     /**

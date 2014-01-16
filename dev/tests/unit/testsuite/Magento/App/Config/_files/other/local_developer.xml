@@ -8,20 +8,24 @@
  */
 -->
 <config>
-    <connection name="example_connection">
-        <dbName>overridden_db</dbName>
+    <connection name="connection_one">
+        <dbName>overridden_db_one</dbName>
     </connection>
-    <connection name="new_connection">
-        <dbName>new_db</dbName>
+    <connection name="connection_new">
+        <dbName>db_new</dbName>
     </connection>
-    <resource name="example_resource" connection="new_connection"/>
-    <resource name="new_resource" connection="example_connection"/>
-    <cache type="example_cache">
-        <backend>memcached</backend>
+    <resource name="resource_one" connection="connection_new"/>
+    <resource name="resource_new" connection="connection_two"/>
+    <cache>
+        <frontend name="cache_frontend_one">
+            <backend>memcached</backend>
+        </frontend>
+        <frontend name="cache_frontend_new">
+            <backend>apc</backend>
+        </frontend>
+        <type name="cache_type_one" frontend="cache_frontend_new"/>
+        <type name="cache_type_new" frontend="cache_frontend_two"/>
     </cache>
-    <cache type="new_cache">
-        <backend>apc</backend>
-    </cache>
-    <another>Overridden Value</another>
-    <new>New Value</new>
+    <arbitrary_one>Overridden Value One</arbitrary_one>
+    <arbitrary_new>Value New</arbitrary_new>
 </config>

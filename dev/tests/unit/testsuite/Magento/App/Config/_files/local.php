@@ -8,22 +8,47 @@
 
 return array(
     'connection' => array(
-        'example_connection' => array(
-            'name' => 'example_connection',
-            'dbName' => 'example_db',
+        'connection_one' => array(
+            'name' => 'connection_one',
+            'dbName' => 'db_one',
+        ),
+        'connection_two' => array(
+            'name' => 'connection_two',
+            'dbName' => 'db_two',
         ),
     ),
     'resource' => array(
-        'example_resource' => array(
-            'name' => 'example_resource',
-            'connection' => 'example_connection',
+        'resource_one' => array(
+            'name' => 'resource_one',
+            'connection' => 'connection_one',
+        ),
+        'resource_two' => array(
+            'name' => 'resource_two',
+            'connection' => 'connection_two',
         ),
     ),
     'cache' => array(
-        'example_cache' => array(
-            'type' => 'example_cache',
-            'backend' => 'file',
+        'frontend' => array(
+            'cache_frontend_one' => array(
+                'name' => 'cache_frontend_one',
+                'backend' => 'blackHole',
+            ),
+            'cache_frontend_two' => array(
+                'name' => 'cache_frontend_two',
+                'backend' => 'file',
+            ),
+        ),
+        'type' => array(
+            'cache_type_one' => array(
+                'name' => 'cache_type_one',
+                'frontend' => 'cache_frontend_one',
+            ),
+            'cache_type_two' => array(
+                'name' => 'cache_type_two',
+                'frontend' => 'cache_frontend_two',
+            ),
         ),
     ),
-    'another' => 'Example Value',
+    'arbitrary_one' => 'Value One',
+    'arbitrary_two' => 'Value Two',
 );

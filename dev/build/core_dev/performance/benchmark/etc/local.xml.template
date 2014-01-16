@@ -27,18 +27,35 @@
         <adapter>Magento\Core\Model\Resource\Type\Db\Pdo\Mysql</adapter>
         <active>1</active>
     </connection>
-    <cache type="generic">
-        <backend>Magento\Cache\Backend\Memcached</backend>
-        <backend_options>
-            <servers>
-                <server>
-                    <host>{{memcache_host}}</host>
-                    <port>{{memcache_port}}</port>
-                </server>
-            </servers>
-            <compression>0</compression>
-            <slab_size>1048576</slab_size>
-        </backend_options>
+    <cache>
+        <frontend name="default">
+            <backend>Magento\Cache\Backend\Memcached</backend>
+            <backend_options>
+                <servers>
+                    <server>
+                        <host>{{memcache_host}}</host>
+                        <port>{{memcache_port}}</port>
+                    </server>
+                </servers>
+                <compression>0</compression>
+                <slab_size>1048576</slab_size>
+            </backend_options>
+        </frontend>
+        <type name="full_page" frontend="default"/>
+        <!-- @todo Remove duplication of the FPC configuration once MAGETWO-7978 is implemented -->
+        <frontend name="full_page_cache">
+            <backend>Magento\Cache\Backend\Memcached</backend>
+            <backend_options>
+                <servers>
+                    <server>
+                        <host>{{memcache_host}}</host>
+                        <port>{{memcache_port}}</port>
+                    </server>
+                </servers>
+                <compression>0</compression>
+                <slab_size>1048576</slab_size>
+            </backend_options>
+        </frontend>
     </cache>
     <resource name="default_setup" connection="default"/>
     <session_save><![CDATA[memcache]]></session_save>

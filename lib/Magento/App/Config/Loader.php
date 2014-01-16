@@ -43,7 +43,8 @@ class Loader
     protected $_idAttributes = array(
         '/config/resource' => 'name',
         '/config/connection' => 'name',
-        '/config/cache' => 'type',
+        '/config/cache/frontend' => 'name',
+        '/config/cache/type' => 'name',
     );
 
     /**

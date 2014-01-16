@@ -12,10 +12,6 @@ return array(
             'name' => 'connection_one',
             'dbName' => 'overridden_db_one',
         ),
-        'connection_two' => array(
-            'name' => 'connection_two',
-            'dbName' => 'db_two',
-        ),
         'connection_new' => array(
             'name' => 'connection_new',
             'dbName' => 'db_new',
@@ -25,10 +21,6 @@ return array(
         'resource_one' => array(
             'name' => 'resource_one',
             'connection' => 'connection_new',
-        ),
-        'resource_two' => array(
-            'name' => 'resource_two',
-            'connection' => 'connection_two',
         ),
         'resource_new' => array(
             'name' => 'resource_new',
@@ -41,10 +33,6 @@ return array(
                 'name' => 'cache_frontend_one',
                 'backend' => 'memcached',
             ),
-            'cache_frontend_two' => array(
-                'name' => 'cache_frontend_two',
-                'backend' => 'file',
-            ),
             'cache_frontend_new' => array(
                 'name' => 'cache_frontend_new',
                 'backend' => 'apc',
@@ -55,10 +43,6 @@ return array(
                 'name' => 'cache_type_one',
                 'frontend' => 'cache_frontend_new',
             ),
-            'cache_type_two' => array(
-                'name' => 'cache_type_two',
-                'frontend' => 'cache_frontend_two',
-            ),
             'cache_type_new' => array(
                 'name' => 'cache_type_new',
                 'frontend' => 'cache_frontend_two',
@@ -66,6 +50,5 @@ return array(
         ),
     ),
     'arbitrary_one' => 'Overridden Value One',
-    'arbitrary_two' => 'Value Two',
     'arbitrary_new' => 'Value New',
 );

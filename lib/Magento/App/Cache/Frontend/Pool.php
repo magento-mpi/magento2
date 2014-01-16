@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,7 +16,7 @@ class Pool implements \Iterator
     /**
      * Frontend identifier associated with the default settings
      */
-    const DEFAULT_FRONTEND_ID = 'generic';
+    const DEFAULT_FRONTEND_ID = 'default';
 
     /**
      * @var \Magento\App\Config
@@ -38,23 +36,21 @@ class Pool implements \Iterator
     /**
      * @var array
      */
-    private $_settings;
+    private $_frontendSettings;
 
     /**
      * @param \Magento\App\Config $config
      * @param \Magento\App\Cache\Frontend\Factory $frontendFactory
-     * @param array $defaultSettings
-     * @param array $advancedSettings Format: array('<frontend_id>' => array(<cache_settings>), ...)
+     * @param array $frontendSettings Format: array('<frontend_id>' => array(<cache_settings>), ...)
      */
     public function __construct(
         \Magento\App\Config $config,
         \Magento\App\Cache\Frontend\Factory $frontendFactory,
-        array $defaultSettings = array(),
-        array $advancedSettings = array()
+        array $frontendSettings = array()
     ) {
         $this->_config = $config;
         $this->_factory = $frontendFactory;
-        $this->_settings = array(self::DEFAULT_FRONTEND_ID => $defaultSettings) + $advancedSettings;
+        $this->_frontendSettings = $frontendSettings + array(self::DEFAULT_FRONTEND_ID => array());
     }
 
     /**
@@ -74,7 +70,7 @@ class Pool implements \Iterator
     /**
      * Retrieve settings for all cache front-ends known to the system
      *
-     * @return array
+     * @return array Format: array('<frontend_id>' => array(<cache_settings>), ...)
      */
     protected function _getCacheSettings()
     {
@@ -82,7 +78,7 @@ class Pool implements \Iterator
          * Merging is intentionally implemented through array_merge() instead of array_replace_recursive()
          * to avoid "inheritance" of the default settings that become irrelevant as soon as cache storage type changes
          */
-        return array_merge($this->_settings, $this->_config->getCacheSettings());
+        return array_merge($this->_frontendSettings, $this->_config->getCacheFrontendSettings());
     }
 
     /**
@@ -133,10 +129,11 @@ class Pool implements \Iterator
     }
 
     /**
-     * Retrieve frontend instance by its unique identifier, or return NULL, if identifier is not recognized
+     * Retrieve frontend instance by its unique identifier
      *
      * @param string $identifier Cache frontend identifier
      * @return \Magento\Cache\FrontendInterface Cache frontend instance
+     * @throws \InvalidArgumentException
      */
     public function get($identifier)
     {
@@ -144,6 +141,6 @@ class Pool implements \Iterator
         if (isset($this->_instances[$identifier])) {
             return $this->_instances[$identifier];
         }
-        return null;
+        throw new \InvalidArgumentException("Cache frontend '$identifier' is not recognized.");
     }
 }

@@ -2,17 +2,15 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
+namespace Magento\App\Cache\Type;
+
 /**
  * In-memory readonly pool of cache front-ends with enforced access control, specific to cache types
  */
-namespace Magento\App\Cache\Type;
-
 class FrontendPool
 {
     /**
@@ -21,9 +19,19 @@ class FrontendPool
     private $_objectManager;
 
     /**
+     * @var \Magento\App\Config
+     */
+    private $_config;
+
+    /**
      * @var \Magento\App\Cache\Frontend\Pool
      */
     private $_frontendPool;
+
+    /**
+     * @var array
+     */
+    private $_typeFrontendMap;
 
     /**
      * @var \Magento\Cache\FrontendInterface[]
@@ -32,40 +40,61 @@ class FrontendPool
 
     /**
      * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\App\Config $config
      * @param \Magento\App\Cache\Frontend\Pool $frontendPool
+     * @param array $typeFrontendMap Format: array('<cache_type_id>' => '<cache_frontend_id>', ...)
      */
     public function __construct(
         \Magento\ObjectManager $objectManager,
-        \Magento\App\Cache\Frontend\Pool $frontendPool
+        \Magento\App\Config $config,
+        \Magento\App\Cache\Frontend\Pool $frontendPool,
+        array $typeFrontendMap = array()
     ) {
         $this->_objectManager = $objectManager;
+        $this->_config = $config;
         $this->_frontendPool = $frontendPool;
+        $this->_typeFrontendMap = $typeFrontendMap;
     }
 
     /**
-     * Retrieve cache frontend instance by its unique identifier, enforcing identifier-scoped access control
+     * Retrieve cache frontend instance by a cache type identifier, enforcing identifier-scoped access control
      *
-     * @param string $identifier Cache frontend identifier
+     * @param string $cacheType Cache type identifier
      * @return \Magento\Cache\FrontendInterface Cache frontend instance
      */
-    public function get($identifier)
+    public function get($cacheType)
     {
-        if (!isset($this->_instances[$identifier])) {
-            $frontendInstance = $this->_frontendPool->get($identifier);
-            if (!$frontendInstance) {
-                $frontendInstance = $this->_frontendPool->get(
-                    \Magento\App\Cache\Frontend\Pool::DEFAULT_FRONTEND_ID
-                );
-            }
+        if (!isset($this->_instances[$cacheType])) {
+            $frontendId = $this->_getCacheFrontendId($cacheType);
+            $frontendInstance = $this->_frontendPool->get($frontendId);
             /** @var $frontendInstance \Magento\App\Cache\Type\AccessProxy */
             $frontendInstance = $this->_objectManager->create(
                 'Magento\App\Cache\Type\AccessProxy', array(
                     'frontend' => $frontendInstance,
-                    'identifier' => $identifier,
+                    'identifier' => $cacheType,
                 )
             );
-            $this->_instances[$identifier] = $frontendInstance;
+            $this->_instances[$cacheType] = $frontendInstance;
         }
-        return $this->_instances[$identifier];
+        return $this->_instances[$cacheType];
+    }
+
+    /**
+     * Retrieve cache frontend identifier, associated with a cache type
+     *
+     * @param string $cacheType
+     * @return string
+     */
+    protected function _getCacheFrontendId($cacheType)
+    {
+        $result = $this->_config->getCacheTypeFrontendId($cacheType);
+        if (!$result) {
+            if (isset($this->_typeFrontendMap[$cacheType])) {
+                $result = $this->_typeFrontendMap[$cacheType];
+            } else {
+                $result = \Magento\App\Cache\Frontend\Pool::DEFAULT_FRONTEND_ID;
+            }
+        }
+        return $result;
     }
 }

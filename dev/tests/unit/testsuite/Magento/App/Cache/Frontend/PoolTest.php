@@ -40,17 +40,16 @@ class PoolTest extends \PHPUnit_Framework_TestCase
         $frontendFactory->expects($this->any())->method('create')->will($this->returnValueMap($frontendFactoryMap));
 
         $config = $this->getMock('Magento\App\Config', array(), array(), '', false);
-        $config->expects($this->any())->method('getCacheSettings')->will($this->returnValue(array(
+        $config->expects($this->any())->method('getCacheFrontendSettings')->will($this->returnValue(array(
             'resource2' => array('r2d1' => 'value1', 'r2d2' => 'value2'),
         )));
 
-        $defaultSettings = array('data1' => 'value1', 'data2' => 'value2');
-        $advancedSettings = array(
+        $frontendSettings = array(
+            Pool::DEFAULT_FRONTEND_ID => array('data1' => 'value1', 'data2' => 'value2'),
             'resource1' => array('r1d1' => 'value1', 'r1d2' => 'value2'),
         );
 
-        $this->_model = new \Magento\App\Cache\Frontend\Pool(
-            $config, $frontendFactory, $defaultSettings, $advancedSettings);
+        $this->_model = new \Magento\App\Cache\Frontend\Pool($config, $frontendFactory, $frontendSettings);
     }
 
     /**
@@ -69,27 +68,22 @@ class PoolTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param array $fixtureCacheConfig
-     * @param array $constructorArgs
+     * @param array $frontendSettings
      * @param array $expectedFactoryArg
-     * @param int $expectedFactoryIdx
      *
      * @dataProvider initializationParamsDataProvider
      */
     public function testInitializationParams(
-        array $fixtureCacheConfig, array $constructorArgs, array $expectedFactoryArg, $expectedFactoryIdx
+        array $fixtureCacheConfig, array $frontendSettings, array $expectedFactoryArg
     ) {
         $config = $this->getMock('Magento\App\Config', array(), array(), '', false);
-        $config->expects($this->once())->method('getCacheSettings')->will($this->returnValue($fixtureCacheConfig));
+        $config
+            ->expects($this->once())->method('getCacheFrontendSettings')->will($this->returnValue($fixtureCacheConfig));
 
         $frontendFactory = $this->getMock('Magento\App\Cache\Frontend\Factory', array(), array(), '', false);
-        $frontendFactory->expects($this->at($expectedFactoryIdx))->method('create')->with($expectedFactoryArg);
+        $frontendFactory->expects($this->at(0))->method('create')->with($expectedFactoryArg);
 
-        $constructorArgs['config'] = $config;
-        $constructorArgs['frontendFactory'] = $frontendFactory;
-        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        /** @var \Magento\App\Cache\Frontend\Pool $model */
-        $model = $objectManagerHelper->getObject('Magento\App\Cache\Frontend\Pool', $constructorArgs);
-
+        $model = new \Magento\App\Cache\Frontend\Pool($config, $frontendFactory, $frontendSettings);
         $model->current();
     }
 
@@ -98,39 +92,23 @@ class PoolTest extends \PHPUnit_Framework_TestCase
         return array(
             'default frontend, default settings' => array(
                 array(),
-                array(
-                    'defaultSettings' => array('default_option' => 'default_value'),
-                    'advancedSettings' => array(),
-                ),
+                array(Pool::DEFAULT_FRONTEND_ID => array('default_option' => 'default_value')),
                 array('default_option' => 'default_value'),
-                0,
             ),
             'default frontend, overridden settings' => array(
                 array(Pool::DEFAULT_FRONTEND_ID => array('configured_option' => 'configured_value')),
-                array(
-                    'defaultSettings' => array('ignored_option' => 'ignored_value'),
-                    'advancedSettings' => array(),
-                ),
+                array(Pool::DEFAULT_FRONTEND_ID => array('ignored_option' => 'ignored_value')),
                 array('configured_option' => 'configured_value'),
-                0,
             ),
             'custom frontend, default settings' => array(
                 array(),
-                array(
-                    'defaultSettings' => array(),
-                    'advancedSettings' => array('custom' => array('default_option' => 'default_value')),
-                ),
+                array('custom' => array('default_option' => 'default_value')),
                 array('default_option' => 'default_value'),
-                1,
             ),
             'custom frontend, overridden settings' => array(
                 array('custom' => array('configured_option' => 'configured_value')),
-                array(
-                    'defaultSettings' => array(),
-                    'advancedSettings' => array('custom' => array('ignored_option' => 'ignored_value')),
-                ),
+                array('custom' => array('ignored_option' => 'ignored_value')),
                 array('configured_option' => 'configured_value'),
-                1,
             ),
         );
     }
@@ -191,5 +169,14 @@ class PoolTest extends \PHPUnit_Framework_TestCase
         foreach ($this->_frontendInstances as $frontendId => $frontendInstance) {
             $this->assertSame($frontendInstance, $this->_model->get($frontendId));
         }
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Cache frontend 'unknown' is not recognized
+     */
+    public function testGetUnknownFrontendId()
+    {
+        $this->_model->get('unknown');
     }
 }

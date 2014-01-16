@@ -8,12 +8,24 @@
  */
 -->
 <config>
-    <connection name="example_connection">
-        <dbName>example_db</dbName>
+    <connection name="connection_one">
+        <dbName>db_one</dbName>
     </connection>
-    <resource name="example_resource" connection="example_connection"/>
-    <cache type="example_cache">
-        <backend>file</backend>
+    <connection name="connection_two">
+        <dbName>db_two</dbName>
+    </connection>
+    <resource name="resource_one" connection="connection_one"/>
+    <resource name="resource_two" connection="connection_two"/>
+    <cache>
+        <frontend name="cache_frontend_one">
+            <backend>blackHole</backend>
+        </frontend>
+        <frontend name="cache_frontend_two">
+            <backend>file</backend>
+        </frontend>
+        <type name="cache_type_one" frontend="cache_frontend_one"/>
+        <type name="cache_type_two" frontend="cache_frontend_two"/>
     </cache>
-    <another>Example Value</another>
+    <arbitrary_one>Value One</arbitrary_one>
+    <arbitrary_two>Value Two</arbitrary_two>
 </config>
