@@ -73,17 +73,22 @@ class FormTest extends \PHPUnit_Framework_TestCase
     {
         $orderDataJson = $this->_orderCreateBlock->getOrderDataJson();
         $expectedOrderDataJson = <<< ORDER_DATA_JSON
-        {"customer_id":1,
-        "addresses":{
-        "1":{"firstname":"John","lastname":"Smith","company":false,"street":"Green str, 67","city":"CityM",
-        "country_id":"US","region":{},"region_id":false,"postcode":"75477","telephone":"3468676","fax":false,
-        "vat_id":false},
-        "2":{"firstname":"John","lastname":"Smith","company":false,"street":"Black str, 48","city":"CityX",
-        "country_id":"US","region":{},"region_id":false,"postcode":"47676","telephone":"3234676","fax":false,
-        "vat_id":false}},
-        "store_id":1,
-        "currency_symbol":"$",
-        "shipping_method_reseted":true,"payment_method":null}
+        {
+            "customer_id":1,
+            "addresses":
+                {"1":
+                    {"firstname":"John","lastname":"Smith","company":false,"street":"Green str, 67","city":"CityM",
+                        "country_id":"US",
+                        "region":{"region_code":"AL","region":"Alabama","region_id":1},
+                        "region_id":false,"postcode":"75477","telephone":"3468676","fax":false,"vat_id":false},
+                 "2":
+                    {"firstname":"John","lastname":"Smith","company":false,"street":"Black str, 48","city":"CityX",
+                        "country_id":"US",
+                        "region":{"region_code":"AL","region":"Alabama","region_id":1},
+                        "region_id":false,"postcode":"47676","telephone":"3234676","fax":false,"vat_id":false}
+                 },
+             "store_id":1,"currency_symbol":"$","shipping_method_reseted":true,"payment_method":null
+         }
 ORDER_DATA_JSON;
 
         $this->assertEquals(json_decode($expectedOrderDataJson), json_decode($orderDataJson));
