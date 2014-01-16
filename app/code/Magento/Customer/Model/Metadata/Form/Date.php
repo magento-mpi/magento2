@@ -4,8 +4,6 @@
  *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Eav
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -97,14 +95,14 @@ class Date extends AbstractData
     /**
      * {@inheritdoc}
      */
-    public function outputValue($format = \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_TEXT)
+    public function outputValue($format = \Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_TEXT)
     {
         $value = $this->_value;
         if ($value) {
             switch ($format) {
-                case \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_TEXT:
-                case \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_HTML:
-                case \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_PDF:
+                case \Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_TEXT:
+                case \Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_HTML:
+                case \Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_PDF:
                     $this->_dateFilterFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM);
                     break;
             }

@@ -95,7 +95,7 @@ class Multiline extends Text
     /**
      * {@inheritdoc}
      */
-    public function outputValue($format = \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_TEXT)
+    public function outputValue($format = \Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_TEXT)
     {
         $values = $this->_value;
         if (!is_array($values)) {
@@ -103,13 +103,13 @@ class Multiline extends Text
         }
         $values = array_map(array($this, '_applyOutputFilter'), $values);
         switch ($format) {
-            case \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_ARRAY:
+            case \Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_ARRAY:
                 $output = $values;
                 break;
-            case \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_HTML:
+            case \Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_HTML:
                 $output = implode("<br />", $values);
                 break;
-            case \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_ONELINE:
+            case \Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_ONELINE:
                 $output = implode(" ", $values);
                 break;
             default:

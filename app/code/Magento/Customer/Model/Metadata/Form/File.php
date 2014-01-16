@@ -4,8 +4,6 @@
  *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Eav
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -269,12 +267,12 @@ class File extends AbstractData
     /**
      * {@inheritdoc}
      */
-    public function outputValue($format = \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_TEXT)
+    public function outputValue($format = \Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_TEXT)
     {
         $output = '';
         if ($this->_value) {
             switch ($format) {
-                case \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_JSON:
+                case \Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_JSON:
                     $output = array(
                         'value'     => $this->_value,
                         'url_key'   => $this->_coreData->urlEncode($this->_value)

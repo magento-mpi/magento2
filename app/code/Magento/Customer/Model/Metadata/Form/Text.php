@@ -4,19 +4,8 @@
  *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Eav
  * @copyright   {copyright}
  * @license     {license_link}
- */
-
-
-/**
- * EAV Entity Attribute Text Data Model
- *
- * @category    Magento
- * @package     Magento_Eav
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Customer\Model\Metadata\Form;
 
@@ -50,10 +39,7 @@ class Text extends AbstractData
     }
 
     /**
-     * Extract data from request and return value
-     *
-     * @param \Magento\App\RequestInterface $request
-     * @return array|string
+     * {@inheritdoc}
      */
     public function extractValue(\Magento\App\RequestInterface $request)
     {
@@ -62,11 +48,7 @@ class Text extends AbstractData
     }
 
     /**
-     * Validate data
-     * Return true or array of errors
-     *
-     * @param array|string $value
-     * @return boolean|array
+     * {@inheritdoc}
      */
     public function validateValue($value)
     {
@@ -112,10 +94,7 @@ class Text extends AbstractData
     }
 
     /**
-     * Export attribute value to entity model
-     *
-     * @param array|string $value
-     * @return array|string|false
+     * {@inheritdoc}
      */
     public function compactValue($value)
     {
@@ -126,10 +105,7 @@ class Text extends AbstractData
     }
 
     /**
-     * Restore attribute value from SESSION to entity model
-     *
-     * @param array|string $value
-     * @return array|string|false
+     * {@inheritdoc}
      */
     public function restoreValue($value)
     {
@@ -137,12 +113,9 @@ class Text extends AbstractData
     }
 
     /**
-     * Return formated attribute value from entity model
-     *
-     * @param string $format
-     * @return string|array
+     * {@inheritdoc}
      */
-    public function outputValue($format = \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_TEXT)
+    public function outputValue($format = \Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_TEXT)
     {
         $value = $this->_applyOutputFilter($this->_value);
 
