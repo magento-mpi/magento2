@@ -32,6 +32,7 @@ class Observer
      * Store after commit observer. Process store related indexes
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function processStoreSave(\Magento\Event\Observer $observer)
     {
@@ -47,6 +48,7 @@ class Observer
      * Store group after commit observer. Process store group related indexes
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function processStoreGroupSave(\Magento\Event\Observer $observer)
     {
@@ -62,6 +64,7 @@ class Observer
      * Website save after commit observer. Process website related indexes
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function processWebsiteSave(\Magento\Event\Observer $observer)
     {
@@ -77,6 +80,7 @@ class Observer
      * Store after commit observer. Process store related indexes
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function processStoreDelete(\Magento\Event\Observer $observer)
     {
@@ -92,6 +96,7 @@ class Observer
      * Store group after commit observer. Process store group related indexes
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function processStoreGroupDelete(\Magento\Event\Observer $observer)
     {
@@ -107,6 +112,7 @@ class Observer
      * Website save after commit observer. Process website related indexes
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function processWebsiteDelete(\Magento\Event\Observer $observer)
     {
@@ -122,6 +128,7 @@ class Observer
      * Config data after commit observer.
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function processConfigDataSave(\Magento\Event\Observer $observer)
     {

@@ -13,6 +13,9 @@
  */
 namespace Magento\Index\Model;
 
+use Magento\Event\ManagerInterface;
+use Magento\Index\Model\Resource\Process as ResourceProcess;
+
 class Indexer
 {
     /**
@@ -23,14 +26,14 @@ class Indexer
     protected $_processesCollection;
 
     /**
-     * @var \Magento\Index\Model\Resource\Process
+     * @var ResourceProcess
      */
     protected $_resourceProcess;
 
     /**
      * Core event manager proxy
      *
-     * @var \Magento\Event\ManagerInterface
+     * @var ManagerInterface
      */
     protected $_eventManager = null;
 
@@ -86,7 +89,7 @@ class Indexer
      * Get index process by specific id
      *
      * @param int $processId
-     * @return \Magento\Index\Model\Process | false
+     * @return Process | false
      */
     public function getProcessById($processId)
     {
@@ -102,7 +105,7 @@ class Indexer
      * Get index process by specific code
      *
      * @param string $code
-     * @return \Magento\Index\Model\Process | false
+     * @return Process | false
      */
     public function getProcessByCode($code)
     {
@@ -120,7 +123,7 @@ class Indexer
      *
      * @param   null | string $entity
      * @param   null | string $type
-     * @return  \Magento\Index\Model\Indexer
+     * @return  $this
      * @throws Exception
      */
     public function indexEvents($entity=null, $type=null)
@@ -141,8 +144,8 @@ class Indexer
     /**
      * Index one event by all processes
      *
-     * @param   \Magento\Index\Model\Event $event
-     * @return  \Magento\Index\Model\Indexer
+     * @param   Event $event
+     * @return  $this
      */
     public function indexEvent(\Magento\Index\Model\Event $event)
     {
@@ -153,7 +156,7 @@ class Indexer
     /**
      * Register event in each indexing process process
      *
-     * @param \Magento\Index\Model\Event $event
+     * @param Event $event
      * @return $this
      */
     public function registerEvent(\Magento\Index\Model\Event $event)
@@ -169,7 +172,7 @@ class Indexer
      * @param   string $entityType
      * @param   string $eventType
      * @param   bool $doSave
-     * @return  \Magento\Index\Model\Event
+     * @return  Event
      */
     public function logEvent(\Magento\Object $entity, $entityType, $eventType, $doSave=true)
     {
@@ -193,7 +196,7 @@ class Indexer
      * @param   \Magento\Object $entity
      * @param   string $entityType
      * @param   string $eventType
-     * @return  \Magento\Index\Model\Indexer
+     * @return  $this
      * @throws Exception
      */
     public function processEntityAction(\Magento\Object $entity, $entityType, $eventType)
@@ -256,7 +259,7 @@ class Indexer
      *
      * @param string $method
      * @param array $args
-     * @return \Magento\Index\Model\Indexer
+     * @return $this
      */
     protected function _runAll($method, $args)
     {
