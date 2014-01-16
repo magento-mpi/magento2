@@ -2,40 +2,33 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Adminhtml sales order create sidebar
- *
- * @category   Magento
- * @package    Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-
 namespace Magento\Sales\Block\Adminhtml\Order\Create;
 
+/**
+ * Adminhtml sales order create sidebar
+ */
 class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
 {
-    /**
-     * @var \Magento\Customer\Model\FormFactory
-     */
+    /** @var \Magento\Customer\Model\Metadata\FormFactory */
     protected $_customerFormFactory;
 
-    /**
-     * @var \Magento\Json\EncoderInterface
-     */
+    /** @var \Magento\Json\EncoderInterface */
     protected $_jsonEncoder;
+
+    /** @var \Magento\Customer\Service\V1\CustomerAddressServiceInterface */
+    protected $_addressService;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Backend\Model\Session\Quote $sessionQuote
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
-     * @param \Magento\Customer\Model\FormFactory $customerFormFactory
+     * @param \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory
+     * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
      * @param array $data
      */
     public function __construct(
@@ -43,11 +36,13 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
         \Magento\Backend\Model\Session\Quote $sessionQuote,
         \Magento\Sales\Model\AdminOrder\Create $orderCreate,
         \Magento\Json\EncoderInterface $jsonEncoder,
-        \Magento\Customer\Model\FormFactory $customerFormFactory,
+        \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory,
+        \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
         array $data = array()
     ) {
         $this->_jsonEncoder = $jsonEncoder;
         $this->_customerFormFactory = $customerFormFactory;
+        $this->_addressService = $addressService;
         parent::__construct($context, $sessionQuote, $orderCreate, $data);
     }
 
@@ -59,6 +54,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
 
     /**
      * Retrieve url for loading blocks
+     *
      * @return string
      */
     public function getLoadBlockUrl()
@@ -68,6 +64,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
 
     /**
      * Retrieve url for form submiting
+     *
      * @return string
      */
     public function getSaveUrl()
@@ -86,7 +83,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
 
     public function getStoreSelectorDisplay()
     {
-        $storeId    = $this->getStoreId();
+        $storeId = $this->getStoreId();
         $customerId = $this->getCustomerId();
         if (!is_null($customerId) && !$storeId) {
             return 'block';
@@ -96,7 +93,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
 
     public function getDataSelectorDisplay()
     {
-        $storeId    = $this->getStoreId();
+        $storeId = $this->getStoreId();
         $customerId = $this->getCustomerId();
         if (!is_null($customerId) && $storeId) {
             return 'block';
@@ -111,12 +108,16 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
             $data['customer_id'] = $this->getCustomerId();
             $data['addresses'] = array();
 
-            /* @var $addressForm \Magento\Customer\Model\Form */
-            $addressForm = $this->_customerFormFactory->create()
-                ->setFormCode('adminhtml_customer_address')
-                ->setStore($this->getStore());
-            foreach ($this->getCustomer()->getAddresses() as $address) {
-                $data['addresses'][$address->getId()] = $addressForm->setEntity($address)
+            /* @var $addresses \Magento\Customer\Service\V1\Dto\Address[] */
+            $addresses = $this->_addressService->getAddresses($this->getCustomerId());
+            foreach ($addresses as $addressDto) {
+                /* @var $addressForm \Magento\Customer\Model\Metadata\Form */
+                $addressForm = $this->_customerFormFactory->create(
+                    'customer_address',
+                    'adminhtml_customer_address',
+                    $addressDto->__toArray()
+                );
+                $data['addresses'][$addressDto->getId()] = $addressForm
                     ->outputData(\Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_JSON);
             }
         }

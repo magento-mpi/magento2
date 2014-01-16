@@ -1,0 +1,141 @@
+<?php
+/**
+ * Test class for \Magento\Sales\Block\Adminhtml\Order\Create\Form
+ *
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+namespace Magento\Sales\Block\Adminhtml\Order\Create;
+
+use Magento\Customer\Service\V1;
+
+/**
+ * @magentoAppArea adminhtml
+ */
+class FormTest extends \PHPUnit_Framework_TestCase
+{
+    /** @var \Magento\Sales\Block\Adminhtml\Order\Create\Form */
+    protected $_orderCreateBlock;
+
+    /**
+     * @magentoDataFixture Magento/Sales/_files/quote.php
+     */
+    protected function setUp()
+    {
+        $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+
+        $sessionMock = $this->getMockBuilder('Magento\Backend\Model\Session\Quote')
+            ->disableOriginalConstructor()
+            ->setMethods(['getCustomerId', 'getQuote', 'getStoreId', 'getStore'])
+            ->getMock();
+        $sessionMock->expects($this->any())
+            ->method('getCustomerId')
+            ->will($this->returnValue(1));
+
+        $quote = $this->_objectManager->create('Magento\Sales\Model\Quote')->load(1);
+        $sessionMock->expects($this->any())
+            ->method('getQuote')
+            ->will($this->returnValue($quote));
+
+        $sessionMock->expects($this->any())
+            ->method('getStoreId')
+            ->will($this->returnValue(1));
+
+        $storeMock = $this->getMockBuilder('\Magento\Core\Model\Store')
+            ->disableOriginalConstructor()
+            ->setMethods(['getCurrentCurrencyCode'])
+            ->getMock();
+        $storeMock->expects($this->any())
+            ->method('getCurrentCurrencyCode')
+            ->will($this->returnValue('USD'));
+        $sessionMock->expects($this->any())
+            ->method('getStore')
+            ->will($this->returnValue($storeMock));
+
+        /** @var \Magento\View\LayoutInterface $layout */
+        $layout = $this->_objectManager->get('Magento\View\LayoutInterface');
+        $this->_orderCreateBlock = $layout->createBlock(
+            'Magento\Sales\Block\Adminhtml\Order\Create\Form',
+            'order_create_block' . rand(),
+            ['sessionQuote' => $sessionMock]
+        );
+        $this->setUpMockAddress();
+        parent::setUp();
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     */
+    public function testOrderDataJson()
+    {
+        $orderDataJson = $this->_orderCreateBlock->getOrderDataJson();
+        $expectedOrderDataJson = <<< ORDER_DATA_JSON
+        {"customer_id":1,
+        "addresses":{
+        "1":{"firstname":"John","lastname":"Smith","company":false,"street":"Green str, 67","city":"CityM",
+        "country_id":"US","region":{},"region_id":false,"postcode":"75477","telephone":"3468676","fax":false,
+        "vat_id":false},
+        "2":{"firstname":"John","lastname":"Smith","company":false,"street":"Black str, 48","city":"CityX",
+        "country_id":"US","region":{},"region_id":false,"postcode":"47676","telephone":"3234676","fax":false,
+        "vat_id":false}},
+        "store_id":1,
+        "currency_symbol":"$",
+        "shipping_method_reseted":true,"payment_method":null}
+ORDER_DATA_JSON;
+
+        $this->assertEquals(json_decode($expectedOrderDataJson), json_decode($orderDataJson));
+    }
+
+    private function setUpMockAddress()
+    {
+        /** @var \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder */
+        $addressBuilder = $this->_objectManager->create('Magento\Customer\Service\V1\Dto\AddressBuilder');
+        /** @var \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService */
+        $addressService = $this->_objectManager->create('Magento\Customer\Service\V1\CustomerAddressServiceInterface');
+
+        $addressDto1 = $addressBuilder->setId(1)
+            ->setCountryId('US')
+            ->setCustomerId(1)
+            ->setDefaultBilling(true)
+            ->setDefaultShipping(true)
+            ->setPostcode('75477')
+            ->setRegion(
+                new V1\Dto\Region([
+                    'region_code' => 'AL',
+                    'region' => 'Alabama',
+                    'region_id' => 1
+                ])
+            )
+            ->setStreet(['Green str, 67'])
+            ->setTelephone('3468676')
+            ->setCity('CityM')
+            ->setFirstname('John')
+            ->setLastname('Smith')
+            ->create();
+
+        $addressDto2 = $addressBuilder->setId(2)
+            ->setCountryId('US')
+            ->setCustomerId(1)
+            ->setDefaultBilling(false)
+            ->setDefaultShipping(false)
+            ->setPostcode('47676')
+            ->setRegion(
+                new V1\Dto\Region([
+                    'region_code' => 'AL',
+                    'region' => 'Alabama',
+                    'region_id' => 1
+                ])
+            )
+            ->setStreet(['Black str, 48'])
+            ->setCity('CityX')
+            ->setTelephone('3234676')
+            ->setFirstname('John')
+            ->setLastname('Smith')
+            ->create();
+
+        $addressService->saveAddresses(1, [$addressDto1, $addressDto2]);
+    }
+}
