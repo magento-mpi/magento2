@@ -2,18 +2,16 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
  * Adminhtml customer recurring profiles tab
- *
- * @author Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Sales\Block\Adminhtml\Customer\Edit\Tab\Recurring;
+
+use Magento\Customer\Controller\Adminhtml\Index as CustomerController;
 
 class Profile
     extends \Magento\Sales\Block\Adminhtml\Recurring\Profile\Grid
@@ -25,6 +23,11 @@ class Profile
      * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
+
+    /**
+     * @var int
+     */
+    protected $_currentCustomerId;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
@@ -47,6 +50,17 @@ class Profile
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
+
+        // @todo remove usage of REGISTRY_CURRENT_CUSTOMER in advantage of REGISTRY_CURRENT_CUSTOMER_ID
+        $currentCustomer = $this->_coreRegistry->registry(CustomerController::REGISTRY_CURRENT_CUSTOMER);
+        if ($currentCustomer) {
+            $this->_currentCustomerId = $currentCustomer->getId();
+        } else {
+            $this->_currentCustomerId = $this->_coreRegistry->registry(
+                CustomerController::REGISTRY_CURRENT_CUSTOMER_ID
+            );
+        }
+
         parent::__construct(
             $context,
             $urlModel,
@@ -95,8 +109,7 @@ class Profile
      */
     public function canShowTab()
     {
-        $customer = $this->_coreRegistry->registry('current_customer');
-        return (bool)$customer->getId();
+        return (bool)$this->_currentCustomerId;
     }
 
     /**
@@ -116,12 +129,18 @@ class Profile
      */
     protected function _prepareCollection()
     {
-        $collection = $this->_profileCollection->create()
-            ->addFieldToFilter('customer_id', $this->_coreRegistry->registry('current_customer')->getId());
+        if (!$this->_currentCustomerId) {
+            return $this;
+        }
+
+        $collection = $this->_profileCollection->create()->addFieldToFilter('customer_id', $this->_currentCustomerId);
+
         if (!$this->getParam($this->getVarNameSort())) {
             $collection->setOrder('profile_id', 'desc');
         }
+
         $this->setCollection($collection);
+
         return parent::_prepareCollection();
     }
 
