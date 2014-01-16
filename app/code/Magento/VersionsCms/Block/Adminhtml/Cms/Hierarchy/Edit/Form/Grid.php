@@ -13,7 +13,7 @@
  */
 namespace Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit\Form;
 
-class Grid extends \Magento\Adminhtml\Block\Widget\Grid
+class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * @var \Magento\Cms\Model\Resource\Page\CollectionFactory
@@ -23,17 +23,19 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Cms\Model\Resource\Page\CollectionFactory $pageCollFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Url $urlModel,
+        \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Cms\Model\Resource\Page\CollectionFactory $pageCollFactory,
         array $data = array()
     ) {
         $this->_pageCollFactory = $pageCollFactory;
-        parent::__construct($context, $urlModel, $data);
+        parent::__construct($context, $urlModel, $backendHelper, $data);
     }
 
     /**

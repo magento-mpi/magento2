@@ -19,9 +19,9 @@ class Handler extends \Magento\Error\Handler
     protected $_logger;
 
     /**
-     * @var \Magento\App\Dir
+     * @var \Magento\Filesystem
      */
-    protected $_dir;
+    protected $_filesystem;
 
     /**
      * @var \Magento\App\State
@@ -30,16 +30,16 @@ class Handler extends \Magento\Error\Handler
 
     /**
      * @param \Magento\Logger $logger
-     * @param \Magento\App\Dir $dir
+     * @param \Magento\Filesystem $filesystem
      * @param \Magento\App\State $appState
      */
     public function __construct(
         \Magento\Logger $logger,
-        \Magento\App\Dir $dir,
+        \Magento\Filesystem $filesystem,
         \Magento\App\State $appState
     ) {
         $this->_logger = $logger;
-        $this->_dir = $dir;
+        $this->_filesystem = $filesystem;
         $this->_appState = $appState;
     }
 
@@ -64,7 +64,7 @@ class Handler extends \Magento\Error\Handler
                     $reportData['script_name'] = $_SERVER['SCRIPT_NAME'];
                 }
             }
-            require_once($this->_dir->getDir(\Magento\App\Dir::PUB) . DS . 'errors' . DS . 'report.php');
+            require_once($this->_filesystem->getPath(\Magento\Filesystem::PUB) . '/errors/report.php');
         }
     }
 

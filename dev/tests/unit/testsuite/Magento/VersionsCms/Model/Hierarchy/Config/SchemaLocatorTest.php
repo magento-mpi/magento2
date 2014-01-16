@@ -38,7 +38,7 @@ class SchemaLocatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetSchema()
     {
-        $expectedSchemaPath = 'some_path' . DIRECTORY_SEPARATOR . 'menu_hierarchy_merged.xsd';
+        $expectedSchemaPath = 'some_path/menu_hierarchy_merged.xsd';
         $this->assertEquals($expectedSchemaPath, $this->_model->getSchema());
     }
 
@@ -47,7 +47,7 @@ class SchemaLocatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetPerFileSchema()
     {
-        $expectedSchemaPath = 'some_path' . DIRECTORY_SEPARATOR . 'menu_hierarchy.xsd';
+        $expectedSchemaPath = 'some_path/menu_hierarchy.xsd';
         $this->assertEquals($expectedSchemaPath, $this->_model->getPerFileSchema());
     }
 }

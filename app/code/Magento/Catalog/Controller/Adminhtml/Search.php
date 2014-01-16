@@ -66,14 +66,14 @@ class Search extends \Magento\Backend\App\Action
         if ($id) {
             $model->load($id);
             if (! $model->getId()) {
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(__('This search no longer exists.'));
+                $this->messageManager->addError(__('This search no longer exists.'));
                 $this->_redirect('catalog/*');
                 return;
             }
         }
 
         // set entered data if was error when we do save
-        $data = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getPageData(true);
+        $data = $this->_objectManager->get('Magento\Backend\Model\Session')->getPageData(true);
         if (!empty($data)) {
             $model->addData($data);
         }
@@ -89,8 +89,7 @@ class Search extends \Magento\Backend\App\Action
         $this->_view->getLayout()->getBlock('adminhtml.catalog.search.edit')
             ->setData('action', $this->getUrl('catalog/search/save'));
 
-        $this
-            ->_addBreadcrumb($id ? __('Edit Search') : __('New Search'), $id ? __('Edit Search') : __('New Search'));
+        $this->_addBreadcrumb($id ? __('Edit Search') : __('New Search'), $id ? __('Edit Search') : __('New Search'));
 
         $this->_view->renderLayout();
     }
@@ -132,10 +131,11 @@ class Search extends \Magento\Backend\App\Action
                 $model->save();
 
             } catch (\Magento\Core\Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
                 $hasError = true;
             } catch (\Exception $e) {
-                $this->_getSession()->addException($e,
+                $this->messageManager->addException(
+                    $e,
                     __('Something went wrong while saving the search query.')
                 );
                 $hasError = true;
@@ -158,16 +158,16 @@ class Search extends \Magento\Backend\App\Action
                 $model = $this->_objectManager->create('Magento\CatalogSearch\Model\Query');
                 $model->setId($id);
                 $model->delete();
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(__('You deleted the search.'));
+                $this->messageManager->addSuccess(__('You deleted the search.'));
                 $this->_redirect('catalog/*/');
                 return;
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
                 $this->_redirect('catalog/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;
             }
         }
-        $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(__('We can\'t find a search term to delete.'));
+        $this->messageManager->addError(__('We can\'t find a search term to delete.'));
         $this->_redirect('catalog/*/');
     }
 
@@ -175,21 +175,18 @@ class Search extends \Magento\Backend\App\Action
     {
         $searchIds = $this->getRequest()->getParam('search');
         if (!is_array($searchIds)) {
-             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(__('Please select catalog searches.'));
+            $this->messageManager->addError(__('Please select catalog searches.'));
         } else {
             try {
                 foreach ($searchIds as $searchId) {
                     $model = $this->_objectManager->create('Magento\CatalogSearch\Model\Query')->load($searchId);
                     $model->delete();
                 }
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(
-                    __('Total of %1 record(s) were deleted', count($searchIds))
-                );
+                $this->messageManager->addSuccess(__('Total of %1 record(s) were deleted', count($searchIds)));
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
             }
         }
-
         $this->_redirect('catalog/*/index');
     }
 

@@ -50,6 +50,7 @@ Magento/Cron/Model/Config/Backend/Product
 Magento/Customer/Block/Account/Dashboard
 Magento/Customer/Block/Adminhtml/Edit/Tab
 Magento/Customer/Model/Config/Backend/Show
+Magento/Customer/Model/Metadata
 Magento/DesignEditor/Block/Adminhtml/Editor/Tools/Code
 Magento/DesignEditor/Block/Adminhtml/Theme/Selector/Tab
 Magento/DesignEditor/Model/Url
@@ -110,4 +111,4 @@ Magento/Newsletter/Block/Adminhtml/Template/Grid/Renderer
 Magento/Newsletter/Model/Template/Filter
 Magento/Newsletter/Model/Resource/Subscriber
 Magento/CatalogInventory/Model/Resource/Stock/Item
-
+lib/Magento/Filesystem/Driver

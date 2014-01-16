@@ -89,7 +89,7 @@
                             <td class="col remaining qty"><?php echo $item[2] ?></td>
                             <td class="col qty">
                                 <?php if (!$item[3]): ?>
-                                    <input id="items[${_index_}][<?php echo $bundleID ?>][checkbox][qty][<?php echo $item[0]?>]" name="items[${_index_}][items][<?php echo $item[0]?>]" size="7" data-validate="{'validate-greater-than-zero':true,required:true}" type="text" style="display:none" disabled class="input-text">
+                                    <input id="items[${_index_}][<?php echo $bundleID ?>][checkbox][qty][<?php echo $item[0]?>]" name="items[${_index_}][items][<?php echo $item[0]?>]" size="7" data-validate="{'validate-greater-than-zero':true,required:true}" type="number" style="display:none" disabled class="input-text">
                                 <?php endif; ?>
                             </td>
                         </tr>
@@ -105,7 +105,7 @@
     <div class="field qty required" id="qty_requested_block_${_index_}">
         <label for="items:qty_requested${_index_}" class="label"><span><?php echo __('Quantity To Return') ?></span></label>
         <div class="control">
-            <input type="text" class="input-text" data-validate="{'validate-greater-than-zero':true,required:true}" value="" name="items[${_index_}][qty_requested]" id="items:qty_requested${_index_}">
+            <input type="number" class="input-text" data-validate="{'validate-greater-than-zero':true,required:true}" value="" name="items[${_index_}][qty_requested]" id="items:qty_requested${_index_}">
         </div>
         <div class="note" id="remaining_quantity_block_${_index_}">
             <?php echo __('Remaining quantity') ?><span id="remaining_quantity_${_index_}" class="qty remaining"></span>

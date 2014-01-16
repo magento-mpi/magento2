@@ -55,7 +55,7 @@ class Cookie extends \Magento\Stdlib\Cookie
      *
      * @var string
      */
-    protected $_salt = null;
+    protected $_salt;
 
     /**
      * FPC cache model
@@ -106,8 +106,7 @@ class Cookie extends \Magento\Stdlib\Cookie
             $this->_salt = $this->_fpcCache->load($saltCacheId);
             if (!$this->_salt) {
                 $this->_salt = md5(microtime() . rand());
-                $this->_fpcCache->save($this->_salt, $saltCacheId,
-                    array(\Magento\FullPageCache\Model\Processor::CACHE_TAG));
+                $this->_fpcCache->save($this->_salt, $saltCacheId, array(Processor::CACHE_TAG));
             }
         }
         return $this->_salt;
@@ -129,9 +128,9 @@ class Cookie extends \Magento\Stdlib\Cookie
         $name, $value, $period = null, $path = null, $domain = null, $secure = null, $httponly = null
     ) {
         $value = md5($this->_getSalt() . $value);
-        if (null === $period) {
-            $period = $this->_customerSession->getCookieLifetime();
-        }
+        $period = $period ?: $this->_customerSession->getCookieLifetime();
+        $path = $path ?: $this->_customerSession->getCookiePath();
+        $domain = $domain ?: $this->_customerSession->getCookieDomain();
         return $this->set($name, $value, $period, $path, $domain, $secure, $httponly);
     }
 
@@ -144,32 +143,51 @@ class Cookie extends \Magento\Stdlib\Cookie
     {
         $customerId = $this->_customerSession->getCustomerId();
         $customerGroupId = $this->_customerSession->getCustomerGroupId();
-        if (!$customerId || is_null($customerGroupId)) {
+        if (!$customerId || null === $customerGroupId) {
             $customerCookies = new \Magento\Object();
             $this->_eventManager->dispatch('update_customer_cookies', array('customer_cookies' => $customerCookies));
             if (!$customerId) {
                 $customerId = $customerCookies->getCustomerId();
             }
-            if (is_null($customerGroupId)) {
+            if (null === $customerGroupId) {
                 $customerGroupId = $customerCookies->getCustomerGroupId();
             }
         }
 
-        if ($customerId && !is_null($customerGroupId)) {
+        if ($customerId && null !== $customerGroupId) {
             $this->setObscure(self::COOKIE_CUSTOMER, 'customer_' . $customerId);
             $this->setObscure(self::COOKIE_CUSTOMER_GROUP, 'customer_group_' . $customerGroupId);
             if ($this->_customerSession->isLoggedIn()) {
                 $this->setObscure(
-                    self::COOKIE_CUSTOMER_LOGGED_IN, 'customer_logged_in_' . $this->_customerSession->isLoggedIn()
+                    self::COOKIE_CUSTOMER_LOGGED_IN,
+                    'customer_logged_in_' . $this->_customerSession->isLoggedIn()
                 );
             } else {
-                $this->set(self::COOKIE_CUSTOMER_LOGGED_IN, null);
+                $this->unsetCookie(self::COOKIE_CUSTOMER_LOGGED_IN);
             }
         } else {
-            $this->set(self::COOKIE_CUSTOMER, null);
-            $this->set(self::COOKIE_CUSTOMER_GROUP, null);
-            $this->set(self::COOKIE_CUSTOMER_LOGGED_IN, null);
+            $this->unsetCookie(self::COOKIE_CUSTOMER);
+            $this->unsetCookie(self::COOKIE_CUSTOMER_GROUP);
+            $this->unsetCookie(self::COOKIE_CUSTOMER_LOGGED_IN);
         }
+        return $this;
+    }
+
+    /**
+     * Unset cookie
+     *
+     * @param string $name
+     * @return $this
+     */
+    protected function unsetCookie($name)
+    {
+        $this->set(
+            $name,
+            null,
+            null,
+            $this->_customerSession->getCookiePath(),
+            $this->_customerSession->getCookieDomain()
+        );
         return $this;
     }
 
@@ -186,8 +204,8 @@ class Cookie extends \Magento\Stdlib\Cookie
             $productIds = array($productIds);
         }
         if ($append) {
-            if (!empty($_COOKIE[\Magento\FullPageCache\Model\Container\Viewedproducts::COOKIE_NAME])) {
-                $cookieIds = $_COOKIE[\Magento\FullPageCache\Model\Container\Viewedproducts::COOKIE_NAME];
+            if (!empty($_COOKIE[Container\Viewedproducts::COOKIE_NAME])) {
+                $cookieIds = $_COOKIE[Container\Viewedproducts::COOKIE_NAME];
                 $cookieIds = explode(',', $cookieIds);
             } else {
                 $cookieIds = array();
@@ -199,7 +217,7 @@ class Cookie extends \Magento\Stdlib\Cookie
         $cookieIds = array_unique($cookieIds);
         $cookieIds = array_slice($cookieIds, 0, $countLimit);
         $cookieIds = implode(',', $cookieIds);
-        setcookie(\Magento\FullPageCache\Model\Container\Viewedproducts::COOKIE_NAME, $cookieIds, 0, '/');
+        setcookie(Container\Viewedproducts::COOKIE_NAME, $cookieIds, 0, '/');
     }
 
     /**
@@ -226,10 +244,10 @@ class Cookie extends \Magento\Stdlib\Cookie
     /**
      * Set cookie with visited category id
      *
-     * @param int $id
+     * @param int $categoryId
      */
-    public static function setCategoryViewedCookieValue($id)
+    public static function setCategoryViewedCookieValue($categoryId)
     {
-        setcookie(self::COOKIE_CATEGORY_ID, $id, 0, '/');
+        setcookie(self::COOKIE_CATEGORY_ID, $categoryId, 0, '/');
     }
 }

@@ -10,6 +10,7 @@
  */
 
 namespace Magento\Checkout\Test\TestCase\PaypalExpress;
+
 use Magento\Checkout\Test\Fixture\Checkout;
 use Mtf\Factory\Factory;
 
@@ -18,9 +19,13 @@ use Mtf\Factory\Factory;
  */
 class CheckoutOnepageTest extends \Magento\Checkout\Test\TestCase\Guest\PaypalExpress\CheckoutOnepageTest
 {
+    /**
+     * Registered checkout using PayPal Express Checkout method and offline shipping method
+     *
+     * @ZephyrId MAGETWO-12996
+     */
     public function testOnepageCheckout()
     {
-        $this->markTestSkipped('CICD-776');
         $customer = Factory::getFixtureFactory()->getMagentoCustomerCustomer();
         $customer->persist();
         $address = $customer->getDefaultBillingAddress();

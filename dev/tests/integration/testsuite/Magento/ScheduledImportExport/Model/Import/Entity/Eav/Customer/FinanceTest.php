@@ -75,10 +75,12 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         $session = $objectManager->get('Magento\Backend\Model\Auth\Session');
         $session->setUser($user);
 
+        $directory = $objectManager->create('Magento\Filesystem')->getDirectoryWrite(\Magento\Filesystem::ROOT);
+
         $pathToCsvFile = __DIR__ . '/../_files/customer_finance.csv';
         $expectedFinanceData = $this->_csvToArray(file_get_contents($pathToCsvFile));
 
-        $source = new \Magento\ImportExport\Model\Import\Source\Csv($pathToCsvFile);
+        $source = new \Magento\ImportExport\Model\Import\Source\Csv($pathToCsvFile, $directory);
         /** @var \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance $model */
         $model = $objectManager->create('Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance');
         $model->setParameters(
@@ -150,7 +152,13 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             $reward->delete();
         }
 
-        $source = new \Magento\ImportExport\Model\Import\Source\Csv(__DIR__ . '/../_files/customer_finance_delete.csv');
+        $directory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Filesystem')
+            ->getDirectoryWrite(\Magento\Filesystem::ROOT);
+        $source = new \Magento\ImportExport\Model\Import\Source\Csv(
+            __DIR__ . '/../_files/customer_finance_delete.csv',
+            $directory
+        );
         $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance');
         $model->setParameters(

@@ -49,14 +49,14 @@
 <?php endif;?>
 
 <div class="actions">
-    <div class="secondary">
-        <a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>" class="action back"><span><?php echo __('Back') ?></span></a>
-    </div>
     <div class="primary">
         <?php if ($this->canAddNewEntity()):?>
             <a href="<?php echo $this->escapeUrl($this->getAddUrl()) ?>" class="action primary add">
                 <span><?php echo __('Add New') ?></span>
             </a>
         <?php endif;?>
+    </div>
+    <div class="secondary">
+        <a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>" class="action back"><span><?php echo __('Back') ?></span></a>
     </div>
 </div>

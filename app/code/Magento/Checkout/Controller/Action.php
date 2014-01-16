@@ -49,7 +49,7 @@ abstract class Action extends \Magento\App\Action\Action
             if ((true !== $validationResult) && is_array($validationResult)) {
                 if ($addErrors) {
                     foreach ($validationResult as $error) {
-                        $this->_customerSession->addError($error);
+                        $this->messageManager->addError($error);
                     }
                 }
                 if ($redirect) {

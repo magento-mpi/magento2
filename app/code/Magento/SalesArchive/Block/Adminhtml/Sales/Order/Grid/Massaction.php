@@ -15,7 +15,7 @@
 namespace Magento\SalesArchive\Block\Adminhtml\Sales\Order\Grid;
 
 class Massaction
-    extends \Magento\Adminhtml\Block\Widget\Grid\Massaction\AbstractMassaction
+    extends \Magento\Backend\Block\Widget\Grid\Massaction\Extended
 {
     /**
      * @var \Magento\SalesArchive\Model\Config

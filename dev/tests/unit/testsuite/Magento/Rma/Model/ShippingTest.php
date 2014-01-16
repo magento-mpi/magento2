@@ -27,12 +27,14 @@ class ShippingTest extends \PHPUnit_Framework_TestCase
         $returnFactory = $this->getMock('Magento\Shipping\Model\Shipment\ReturnShipmentFactory',
             array('create'), array(), '', false);
         $rmaFactory = $this->getMock('Magento\Rma\Model\RmaFactory', array('create'), array(), '', false);
+        $filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false, false);
 
         $this->_model = $objectManagerHelper->getObject('Magento\Rma\Model\Shipping', array(
             'orderFactory'  => $orderFactory,
             'regionFactory' => $regionFactory,
             'returnFactory' => $returnFactory,
-            'rmaFactory'    => $rmaFactory
+            'rmaFactory'    => $rmaFactory,
+            'filesystem'    => $filesystem
         ));
     }
 

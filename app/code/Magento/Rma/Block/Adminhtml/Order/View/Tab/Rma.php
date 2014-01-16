@@ -27,6 +27,7 @@ class Rma
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory
      * @param \Magento\Rma\Model\RmaFactory $rmaFactory
      * @param \Magento\Core\Model\Registry $coreRegistry
@@ -35,13 +36,14 @@ class Rma
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Url $urlModel,
+        \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory,
         \Magento\Rma\Model\RmaFactory $rmaFactory,
         \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($context, $urlModel, $collectionFactory, $rmaFactory, $data);
+        parent::__construct($context, $urlModel, $backendHelper, $collectionFactory, $rmaFactory, $data);
     }
 
     public function _construct()

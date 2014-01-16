@@ -12,8 +12,8 @@
 
 # 'Orders' page
 manage_sales_orders:
-    mca: sales_order/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'sales_order/')]
+    mca: sales/order/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'sales/order/')]
     title: Orders / Operations / Sales / Magento Admin
     uimap:
         form:
@@ -479,7 +479,7 @@ create_order_for_existing_customer:
         messages: *orderMessages
 
 view_order:
-    mca: sales_order/view/order_id/%id%/
+    mca: sales/order/view/order_id/%id%/
     title: '%elementTitle% / Orders / Operations / Sales / Magento Admin'
     uimap:
         form:

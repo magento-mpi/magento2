@@ -46,7 +46,7 @@ class SanityWordsFinder extends \Magento\TestFramework\Inspection\WordsFinder
     {
         $result = array();
 
-        $entries = glob($currentDir . DIRECTORY_SEPARATOR . '*');
+        $entries = glob($currentDir . '/*');
         $initialLength = strlen($this->_baseDir);
         foreach ($entries as $entry) {
             if (is_file($entry)) {

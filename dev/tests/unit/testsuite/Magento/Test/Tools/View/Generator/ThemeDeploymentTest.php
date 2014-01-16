@@ -25,18 +25,40 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
      */
     protected $_tmpDir;
 
+    /**
+     * @var \Magento\Filesystem | \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $filesystem;
+
+    /**
+     * @var \Magento\Filesystem\Driver\File
+     */
+    protected $filesystemAdapter;
+
     protected function setUp()
     {
-        $filesystem =  new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local());
-        $dirs = new \Magento\App\Dir($filesystem->normalizePath(__DIR__ . '/../../../../../../'));
-        $this->_cssUrlResolver = new \Magento\View\Url\CssResolver($filesystem, $dirs);
-        $this->_tmpDir = TESTS_TEMP_DIR . DIRECTORY_SEPARATOR . 'tool_theme_deployment';
-        mkdir($this->_tmpDir);
+        $methods = array('getDirectoryWrite', 'getPath', '__wakeup');
+        $this->filesystem = $this->getMock('Magento\Filesystem', $methods, array(), '', false);
+        $this->filesystem->expects($this->any())
+            ->method('getPath')
+            ->with(\Magento\Filesystem::ROOT)
+            ->will($this->returnValue(str_replace('\\', '/', BP)));
+
+        $viewFilesystem = $this->getMock('Magento\View\Filesystem', array('normalizePath'), array(), '', false);
+        $viewFilesystem->expects($this->any())
+            ->method('normalizePath')
+            ->will($this->returnArgument(0));
+
+        $this->_cssUrlResolver = new \Magento\View\Url\CssResolver($this->filesystem, $viewFilesystem);
+        $this->_tmpDir = TESTS_TEMP_DIR . '/tool_theme_deployment';
+
+        $this->filesystemAdapter = new \Magento\Filesystem\Driver\File();
+        $this->filesystemAdapter->createDirectory($this->_tmpDir, 0777);
     }
 
     protected function tearDown()
     {
-        \Magento\Io\File::rmdirRecursive($this->_tmpDir);
+        $this->filesystemAdapter->deleteDirectory($this->_tmpDir);
     }
 
     /**
@@ -75,7 +97,7 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
                 $conflictPermitted,
                 $conflictForbidden,
                 'Conflicts: the following extensions are added both to permitted and forbidden lists: ' .
-                    'conflict1, conflict2',
+                'conflict1, conflict2',
             ),
         );
     }
@@ -132,7 +154,7 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
     {
         rsort($paths, SORT_STRING);
         foreach ($paths as &$path) {
-            $path = str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $path);
+            $path = str_replace(array('/', '\\'), '/', $path);
         }
         return $paths;
     }
@@ -150,7 +172,6 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
         $actualPaths = $this->_getRelativePaths($this->_tmpDir);
         $this->assertEmpty($actualPaths, 'Nothing must be copied/created in dry-run mode');
     }
-
 
     /**
      * @expectedException \Magento\Exception

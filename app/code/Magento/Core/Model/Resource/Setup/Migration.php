@@ -108,13 +108,6 @@ class Migration extends \Magento\Core\Model\Resource\Setup
     protected $_coreHelper;
 
     /**
-     * Application root absolute path
-     *
-     * @var string
-     */
-    protected $_baseDir;
-
-    /**
      * Path to map file from config
      *
      * @var string
@@ -129,21 +122,14 @@ class Migration extends \Magento\Core\Model\Resource\Setup
     protected $_compositeModules;
 
     /**
-     * @var \Magento\Filesystem
+     * @var \Magento\Filesystem\Directory\Read
      */
-    protected $_filesystem;
-
-    /**
-     * @var \Magento\App\Dir
-     */
-    protected $_dir;
+    protected $_directory;
 
     /**
      * @param \Magento\Core\Model\Resource\Setup\Context $context
      * @param string $resourceName
-     * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Helper\Data $helper
-     * @param \Magento\App\Dir $dir
      * @param string $confPathToMapFile
      * @param string $moduleName
      * @param string $connectionName
@@ -151,16 +137,13 @@ class Migration extends \Magento\Core\Model\Resource\Setup
     public function __construct(
         \Magento\Core\Model\Resource\Setup\Context $context,
         $resourceName,
-        \Magento\Filesystem $filesystem,
         \Magento\Core\Helper\Data $helper,
-        \Magento\App\Dir $dir,
         $confPathToMapFile,
         $moduleName = 'Magento_Core',
         $connectionName = ''
     ) {
-        $this->_filesystem = $filesystem;
+        $this->_directory = $context->getFilesystem()->getDirectoryRead(\Magento\Filesystem::ROOT);
         $this->_coreHelper = $helper;
-        $this->_baseDir = $dir->getDir();
         $this->_pathToMapFile = $confPathToMapFile;
         parent::__construct($context, $resourceName, $moduleName, $connectionName);
     }
@@ -629,9 +612,8 @@ class Migration extends \Magento\Core\Model\Resource\Setup
      */
     protected function _loadMap($pathToMapFile)
     {
-        $pathToMapFile = $this->_baseDir . DS . $pathToMapFile;
-        if ($this->_filesystem->isFile($pathToMapFile)) {
-            return $this->_filesystem->read($pathToMapFile);
+        if ($this->_directory->isFile($pathToMapFile)) {
+            return $this->_directory->readFile($pathToMapFile);
         }
 
         return '';

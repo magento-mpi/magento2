@@ -63,12 +63,19 @@ abstract class AbstractProductList
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\Checkout\Helper\Cart $cartHelper
+     * @param \Magento\Wishlist\Helper\Data $wishlistHelper
+     * @param \Magento\Catalog\Helper\Product\Compare $compareProduct
+     * @param \Magento\Theme\Helper\Layout $layoutHelper
+     * @param \Magento\Catalog\Helper\Image $imageHelper
      * @param \Magento\TargetRule\Model\Resource\Index $index
      * @param \Magento\TargetRule\Helper\Data $targetRuleData
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
      * @param \Magento\Catalog\Model\Product\Visibility $visibility
      * @param \Magento\TargetRule\Model\IndexFactory $indexFactory
      * @param array $data
+     * 
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
@@ -77,6 +84,11 @@ abstract class AbstractProductList
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Math\Random $mathRandom,
+        \Magento\Checkout\Helper\Cart $cartHelper,
+        \Magento\Wishlist\Helper\Data $wishlistHelper,
+        \Magento\Catalog\Helper\Product\Compare $compareProduct,
+        \Magento\Theme\Helper\Layout $layoutHelper,
+        \Magento\Catalog\Helper\Image $imageHelper,
         \Magento\TargetRule\Model\Resource\Index $index,
         \Magento\TargetRule\Helper\Data $targetRuleData,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
@@ -94,6 +106,11 @@ abstract class AbstractProductList
             $taxData,
             $catalogData,
             $mathRandom,
+            $cartHelper,
+            $wishlistHelper,
+            $compareProduct,
+            $layoutHelper,
+            $imageHelper,
             $index,
             $targetRuleData,
             $data

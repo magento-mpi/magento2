@@ -7,7 +7,8 @@
  */
 namespace Magento\Webapi\Model\Soap;
 
-use \Magento\Webapi\Model\Config\Converter;
+use Magento\Webapi\Model\Config\Converter,
+    Magento\Filesystem\Directory\ReadInterface;
 
 /**
  * Webapi Config Model for Soap.
@@ -24,11 +25,8 @@ class Config
     const KEY_ACL_RESOURCES = 'resources';
     /**#@-*/
 
-    /** @var \Magento\Filesystem */
-    protected $_filesystem;
-
-    /** @var \Magento\App\Dir */
-    protected $_dir;
+    /** @var ReadInterface */
+    protected $modulesDirectory;
 
     /** @var \Magento\Webapi\Model\Config */
     protected $_config;
@@ -62,7 +60,6 @@ class Config
      *
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Filesystem $filesystem
-     * @param \Magento\App\Dir $dir
      * @param \Magento\Webapi\Model\Config $config
      * @param \Magento\Webapi\Model\Config\ClassReflector $classReflector
      * @param \Magento\Webapi\Helper\Data $helper
@@ -70,13 +67,12 @@ class Config
     public function __construct(
         \Magento\ObjectManager $objectManager,
         \Magento\Filesystem $filesystem,
-        \Magento\App\Dir $dir,
         \Magento\Webapi\Model\Config $config,
         \Magento\Webapi\Model\Config\ClassReflector $classReflector,
         \Magento\Webapi\Helper\Data $helper
     ) {
-        $this->_filesystem = $filesystem;
-        $this->_dir = $dir;
+        // TODO: Check if Service specific XSD is already cached
+        $this->modulesDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::MODULES);
         $this->_config = $config;
         $this->_objectManager = $objectManager;
         $this->_helper = $helper;

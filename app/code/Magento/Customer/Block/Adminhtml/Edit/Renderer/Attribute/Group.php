@@ -18,7 +18,7 @@
 namespace Magento\Customer\Block\Adminhtml\Edit\Renderer\Attribute;
 
 class Group
-    extends \Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset\Element
+    extends \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Element
 {
     protected $_template = 'edit/tab/account/form/renderer/group.phtml';
 

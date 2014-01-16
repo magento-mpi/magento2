@@ -90,7 +90,7 @@ class Giftregistry extends \Magento\Backend\App\Action
         try {
             $model = $this->_initType();
         } catch (\Magento\Core\Exception $e) {
-            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
             $this->_redirect('adminhtml/*/');
             return;
         }
@@ -117,7 +117,7 @@ class Giftregistry extends \Magento\Backend\App\Action
         try {
             $model = $this->_initType();
         } catch (\Magento\Core\Exception $e) {
-            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
             $this->_redirect('adminhtml/*/');
             return;
         }
@@ -177,8 +177,7 @@ class Giftregistry extends \Magento\Backend\App\Action
                 $model = $this->_initType();
                 $model->loadPost($data);
                 $model->save();
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')
-                        ->addSuccess(__('You saved the gift registry type.'));
+                $this->messageManager->addSuccess(__('You saved the gift registry type.'));
 
                 $redirectBack = $this->getRequest()->getParam('back', false);
                 if ($redirectBack) {
@@ -186,11 +185,11 @@ class Giftregistry extends \Magento\Backend\App\Action
                     return;
                 }
             } catch (\Magento\Core\Exception $e) {
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
                 $this->_redirect('adminhtml/*/edit', array('id' => $model->getId()));
                 return;
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(__("We couldn't save this gift registry type."));
+                $this->messageManager->addError(__("We couldn't save this gift registry type."));
                 $this->_objectManager->get('Magento\Logger')->logException($e);
             }
         }
@@ -205,13 +204,13 @@ class Giftregistry extends \Magento\Backend\App\Action
         try {
             $model = $this->_initType();
             $model->delete();
-            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(__('You deleted the gift registry type.'));
+            $this->messageManager->addSuccess(__('You deleted the gift registry type.'));
         } catch (\Magento\Core\Exception $e) {
-            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
             $this->_redirect('adminhtml/*/edit', array('id' => $model->getId()));
             return;
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(__("We couldn't delete this gift registry type."));
+            $this->messageManager->addError(__("We couldn't delete this gift registry type."));
             $this->_objectManager->get('Magento\Logger')->logException($e);
         }
         $this->_redirect('adminhtml/*/');

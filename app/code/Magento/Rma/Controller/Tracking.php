@@ -173,7 +173,7 @@ class Tracking extends \Magento\App\Action\Action
                     $pdf = new \Zend_Pdf();
                     $page = $shipping->createPdfPageFromImageString($labelContent);
                     if (!$page) {
-                        $this->_getSession()->addError(__("We don't recognize or support the file extension in shipment %1.", $shipping->getIncrementId()));
+                        $this->messageManager->addError(__("We don't recognize or support the file extension in shipment %1.", $shipping->getIncrementId()));
                     }
                     $pdf->pages[] = $page;
                     $pdfContent = $pdf->render();
@@ -182,15 +182,15 @@ class Tracking extends \Magento\App\Action\Action
                 return $this->_fileResponseFactory->create(
                     'ShippingLabel(' . $rmaIncrementId . ').pdf',
                     $pdfContent,
+                    \Magento\Filesystem::VAR_DIR,
                     'application/pdf'
                 );
             }
         } catch (\Magento\Core\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);
-            $this->_getSession()
-                ->addError(__('Something went wrong creating a shipping label.'));
+            $this->messageManager->addError(__('Something went wrong creating a shipping label.'));
         }
         throw new NotFoundException();
     }
@@ -222,7 +222,10 @@ class Tracking extends \Magento\App\Action\Action
             /** @var $dateModel \Magento\Core\Model\Date */
             $dateModel = $this->_objectManager->get('Magento\Core\Model\Date');
             $this->_fileResponseFactory->create(
-                'packingslip' . $dateModel->date('Y-m-d_H-i-s') . '.pdf', $pdf->render(), 'application/pdf'
+                'packingslip' . $dateModel->date('Y-m-d_H-i-s') . '.pdf',
+                $pdf->render(),
+                \Magento\Filesystem::VAR_DIR,
+                'application/pdf'
             );
         }
     }

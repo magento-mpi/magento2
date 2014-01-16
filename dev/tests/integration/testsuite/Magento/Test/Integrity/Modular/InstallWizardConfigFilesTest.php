@@ -31,7 +31,7 @@ class InstallWizardConfigFilesTest
      */
     protected function _getConfigFilePathGlob()
     {
-        return '/*/*/*/etc/install_wizard.xml';
+        return '/*/*/etc/install_wizard.xml';
     }
 
     /**

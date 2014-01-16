@@ -28,16 +28,18 @@ class Link extends \Magento\Wishlist\Block\Link
 
     /**
      * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Wishlist\Helper\Data $wishlistHelper
      * @param \Magento\MultipleWishlist\Helper\Data $wishlistData
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
+        \Magento\Wishlist\Helper\Data $wishlistHelper,
         \Magento\MultipleWishlist\Helper\Data $wishlistData,
         array $data = array()
     ) {
         $this->_wishlistData = $wishlistData;
-        parent::__construct($context, $data);
+        parent::__construct($context, $wishlistHelper, $data);
     }
 
     /**
@@ -51,23 +53,14 @@ class Link extends \Magento\Wishlist\Block\Link
     }
 
     /**
-     * Create Button label
-     *
-     * @param int $count
      * @return string
      */
-    protected function _createLabel($count)
+    public function getLabel()
     {
         if ($this->_wishlistData->isMultipleEnabled()) {
-            if ($count > 1) {
-                return __('My Wish Lists (%1 items)', $count);
-            } else if ($count == 1) {
-                return __('My Wish Lists (%1 item)', $count);
-            } else {
-                return __('My Wish Lists');
-            }
+            return __('My Wish Lists');
         } else {
-            return parent::_createLabel($count);
+            return parent::getLabel();
         }
     }
 }

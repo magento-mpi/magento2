@@ -16,7 +16,7 @@
  */
 namespace Magento\Invitation\Block\Adminhtml\Invitation;
 
-class View extends \Magento\Adminhtml\Block\Widget\Container
+class View extends \Magento\Backend\Block\Widget\Container
 {
     /**
      * Core registry

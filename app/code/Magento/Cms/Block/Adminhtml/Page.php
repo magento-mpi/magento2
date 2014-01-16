@@ -18,7 +18,7 @@
  */
 namespace Magento\Cms\Block\Adminhtml;
 
-class Page extends \Magento\Adminhtml\Block\Widget\Grid\Container
+class Page extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * Block constructor

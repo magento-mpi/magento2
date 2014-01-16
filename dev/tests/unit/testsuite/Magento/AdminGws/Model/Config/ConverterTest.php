@@ -22,9 +22,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_model = new \Magento\AdminGws\Model\Config\Converter();
-        $this->_fixturePath = realpath(__DIR__ )
-            . DIRECTORY_SEPARATOR . '_files'
-            . DIRECTORY_SEPARATOR;
+        $this->_fixturePath = realpath(__DIR__ ) . '/_files/';
     }
 
     public function testConvert()

@@ -31,8 +31,8 @@ class SchemaLocator implements \Magento\Config\SchemaLocatorInterface
     public function __construct(\Magento\Module\Dir\Reader $moduleReader)
     {
         $etcDir = $moduleReader->getModuleDir('etc', 'Magento_VersionsCms');
-        $this->_schema =  $etcDir . DIRECTORY_SEPARATOR . 'menu_hierarchy_merged.xsd';
-        $this->_perFileSchema = $etcDir . DIRECTORY_SEPARATOR . 'menu_hierarchy.xsd';
+        $this->_schema =  $etcDir . '/menu_hierarchy_merged.xsd';
+        $this->_perFileSchema = $etcDir . '/menu_hierarchy.xsd';
     }
 
     /**

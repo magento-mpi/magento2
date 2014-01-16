@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Centinel\Model;
+
 /**
  * 3D Secure Validation Model
  */
-namespace Magento\Centinel\Model;
-
 class Service extends \Magento\Object
 {
     /**
@@ -39,18 +39,11 @@ class Service extends \Magento\Object
     );
 
     /**
-     * Is API model configured
-     *
-     * @var bool
-     */
-    protected $_isConfigured = false;
-
-    /**
-     * Validation api model
+     * Validation api model factory
      *
      * @var \Magento\Centinel\Model\Api
      */
-    protected $_api;
+    protected $_apiFactory;
 
     /**
      * Config
@@ -69,7 +62,7 @@ class Service extends \Magento\Object
     /**
      * Centinel session
      *
-     * @var \Magento\Core\Model\Session\AbstractSession
+     * @var \Magento\Session\SessionManagerInterface
      */
     protected $_centinelSession;
 
@@ -93,36 +86,28 @@ class Service extends \Magento\Object
     protected $_urlPrefix;
 
     /**
-     * @var \Magento\Data\Form\FormKey
-     */
-    protected $formKey;
-    
-    /**
      * @param \Magento\Centinel\Model\Config $config
-     * @param \Magento\Centinel\Model\Api $api
+     * @param \Magento\Centinel\Model\ApiFactory $apiFactory
      * @param \Magento\UrlInterface $url
-     * @param \Magento\Core\Model\Session\AbstractSession $centinelSession
+     * @param \Magento\Session\SessionManagerInterface $centinelSession
      * @param \Magento\Centinel\Model\StateFactory $stateFactory
-     * @param \Magento\Data\Form\FormKey $formKey
      * @param string $urlPrefix
      * @param array $data
      */
     public function __construct(
         \Magento\Centinel\Model\Config $config,
-        \Magento\Centinel\Model\Api $api,
+        \Magento\Centinel\Model\ApiFactory $apiFactory,
         \Magento\UrlInterface $url,
-        \Magento\Core\Model\Session\AbstractSession $centinelSession,
+        \Magento\Session\SessionManagerInterface $centinelSession,
         \Magento\Centinel\Model\StateFactory $stateFactory,
-        \Magento\Data\Form\FormKey $formKey,
         $urlPrefix = 'centinel/index/',
         array $data = array()
     ) {
         $this->_config = $config;
-        $this->_api = $api;
+        $this->_apiFactory = $apiFactory;
         $this->_url = $url;
         $this->_centinelSession = $centinelSession;
         $this->_stateFactory = $stateFactory;
-        $this->formKey = $formKey;
         $this->_urlPrefix = $urlPrefix;
         parent::__construct($data);
     }
@@ -166,7 +151,6 @@ class Service extends \Magento\Object
         $params = array(
             '_secure'  => true,
             '_current' => $current,
-            'form_key' => $this->formKey->getFormKey(),
             'isIframe' => true
         );
         return $this->_url->getUrl($this->_urlPrefix . $suffix, $params);
@@ -179,20 +163,16 @@ class Service extends \Magento\Object
      */
     protected function _getApi()
     {
-        if ($this->_isConfigured) {
-            return $this->_api;
-        }
-
         $config = $this->_getConfig();
-        $this->_api
+        $api = $this->_apiFactory->create();
+        $api
            ->setProcessorId($config->getProcessorId())
            ->setMerchantId($config->getMerchantId())
            ->setTransactionPwd($config->getTransactionPwd())
            ->setIsTestMode($config->getIsTestMode())
            ->setDebugFlag($config->getDebugFlag())
            ->setApiEndpointUrl($this->getCustomApiEndpointUrl());
-        $this->_isConfigured = true;
-        return $this->_api;
+        return $api;
     }
 
     /**
@@ -345,7 +325,6 @@ class Service extends \Magento\Object
     public function reset()
     {
         $this->_resetValidationState();
-        $this->_api = null;
         return $this;
     }
 

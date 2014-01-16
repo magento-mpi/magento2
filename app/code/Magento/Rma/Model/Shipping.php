@@ -91,6 +91,12 @@ class Shipping extends \Magento\Core\Model\AbstractModel
     protected $_rmaFactory;
 
     /**
+     * @var \Magento\Filesystem
+     */
+    protected $filesystem;
+
+    /**
+     * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Rma\Helper\Data $rmaData
@@ -101,7 +107,8 @@ class Shipping extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Shipping\Model\Shipment\ReturnShipmentFactory $returnFactory
      * @param \Magento\Shipping\Model\Config $shippingConfig
      * @param \Magento\Rma\Model\RmaFactory $rmaFactory
-     * @param \Magento\Rma\Model\Resource\Shipping $resource
+     * @param Resource\Shipping $resource
+     * @param \Magento\Filesystem $filesystem
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -117,8 +124,10 @@ class Shipping extends \Magento\Core\Model\AbstractModel
         \Magento\Shipping\Model\Config $shippingConfig,
         \Magento\Rma\Model\RmaFactory $rmaFactory,
         \Magento\Rma\Model\Resource\Shipping $resource,
+        \Magento\Filesystem $filesystem,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
+
     ) {
         $this->_rmaData = $rmaData;
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -127,6 +136,7 @@ class Shipping extends \Magento\Core\Model\AbstractModel
         $this->_regionFactory = $regionFactory;
         $this->_returnFactory = $returnFactory;
         $this->_shippingConfig = $shippingConfig;
+        $this->filesystem = $filesystem;
         $this->_rmaFactory = $rmaFactory;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
@@ -326,12 +336,13 @@ class Shipping extends \Magento\Core\Model\AbstractModel
         $page = new \Zend_Pdf_Page($xSize, $ySize);
 
         imageinterlace($image, 0);
-        $tmpFileName = sys_get_temp_dir() . DS . 'shipping_labels_'
-                     . uniqid(mt_rand()) . time() . '.png';
-        imagepng($image, $tmpFileName);
-        $pdfImage = \Zend_Pdf_Image::imageWithPath($tmpFileName);
+        $dir = $this->filesystem->getDirectoryWrite(\Magento\Filesystem::SYS_TMP);
+        $tmpFileName = 'shipping_labels_' . uniqid(mt_rand()) . time() . '.png';
+        $tmpFilePath = $dir->getAbsolutePath($tmpFileName);
+        imagepng($image, $tmpFilePath);
+        $pdfImage = \Zend_Pdf_Image::imageWithPath($tmpFilePath);
         $page->drawImage($pdfImage, 0, 0, $xSize, $ySize);
-        unlink($tmpFileName);
+        $dir->delete($tmpFileName);
         return $page;
     }
 

@@ -72,7 +72,7 @@ class User extends \Magento\Backend\App\AbstractAction
         if ($userId) {
             $model->load($userId);
             if (! $model->getId()) {
-                $this->_session->addError(__('This user no longer exists.'));
+                $this->messageManager->addError(__('This user no longer exists.'));
                 $this->_redirect('adminhtml/*/');
                 return;
             }
@@ -110,7 +110,7 @@ class User extends \Magento\Backend\App\AbstractAction
         /** @var $model \Magento\User\Model\User */
         $model = $this->_objectManager->create('Magento\User\Model\User')->load($userId);
         if ($userId && $model->isObjectNew()) {
-            $this->_getSession()->addError(__('This user no longer exists.'));
+            $this->messageManager->addError(__('This user no longer exists.'));
             $this->_redirect('adminhtml/*/');
             return;
         }
@@ -130,11 +130,11 @@ class User extends \Magento\Backend\App\AbstractAction
 
         try {
             $model->save();
-            $this->_getSession()->addSuccess(__('You saved the user.'));
+            $this->messageManager->addSuccess(__('You saved the user.'));
             $this->_getSession()->setUserData(false);
             $this->_redirect('adminhtml/*/');
         } catch (\Magento\Core\Exception $e) {
-            $this->_getSession()->addMessages($e->getMessages());
+            $this->messageManager->addMessages($e->getMessages());
             $this->_getSession()->setUserData($data);
             $this->_redirect('adminhtml/*/edit', array('_current' => true));
         }
@@ -163,9 +163,7 @@ class User extends \Magento\Backend\App\AbstractAction
 
         if ($userId = $this->getRequest()->getParam('user_id')) {
             if ( $currentUser->getId() == $userId ) {
-                $this->_session->addError(
-                    __('You cannot delete your own account.')
-                );
+                $this->messageManager->addError(__('You cannot delete your own account.'));
                 $this->_redirect('adminhtml/*/edit', array('user_id' => $userId));
                 return;
             }
@@ -174,17 +172,17 @@ class User extends \Magento\Backend\App\AbstractAction
                 $model = $this->_userFactory->create();
                 $model->setId($userId);
                 $model->delete();
-                $this->_session->addSuccess(__('You deleted the user.'));
+                $this->messageManager->addSuccess(__('You deleted the user.'));
                 $this->_redirect('adminhtml/*/');
                 return;
             }
             catch (\Exception $e) {
-                $this->_session->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
                 $this->_redirect('adminhtml/*/edit', array('user_id' => $this->getRequest()->getParam('user_id')));
                 return;
             }
         }
-        $this->_session->addError(__('We can\'t find a user to delete.'));
+        $this->messageManager->addError(__('We can\'t find a user to delete.'));
         $this->_redirect('adminhtml/*/');
     }
 

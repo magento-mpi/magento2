@@ -51,7 +51,7 @@ class Balance extends \Magento\Backend\Block\Template
         $customer = $this->_coreRegistry->registry('current_customer');
         $balance = $this->_balanceFactory->create();
         if ($balance->getOrphanBalancesCount($customer->getId()) > 0) {
-            return $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')->setData(array(
+            return $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')->setData(array(
                 'label'     => __('Delete Orphan Balances'),
                 'onclick'   => 'setLocation(\'' . $this->getDeleteOrphanBalancesUrl() .'\')',
                 'class'     => 'scalable delete',

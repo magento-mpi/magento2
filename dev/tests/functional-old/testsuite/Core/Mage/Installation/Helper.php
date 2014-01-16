@@ -19,9 +19,8 @@ class Core_Mage_Installation_Helper extends Mage_Selenium_AbstractHelper
     public function removeInstallData()
     {
         $basePath = $this->getConfigHelper()->getBaseUrl();
-        $localXml = rtrim($basePath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'etc'
-                    . DIRECTORY_SEPARATOR . 'local.xml';
-        $cacheDir = rtrim($basePath, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'cache';
+        $localXml = rtrim($basePath, '/') . '/app/etc/local.xml';
+        $cacheDir = rtrim($basePath, '/') . '/var/cache';
         if (file_exists($localXml)) {
             unlink($localXml);
         }
@@ -38,11 +37,11 @@ class Core_Mage_Installation_Helper extends Mage_Selenium_AbstractHelper
     protected function _rmRecursive($dir)
     {
         if (is_dir($dir)) {
-            foreach (glob($dir . DIRECTORY_SEPARATOR . '*') as $object) {
-                if (is_dir($dir . DIRECTORY_SEPARATOR . $object)) {
-                    $this->_rmRecursive($dir . DIRECTORY_SEPARATOR . $object);
+            foreach (glob($dir . '/*') as $object) {
+                if (is_dir($dir . '/' . $object)) {
+                    $this->_rmRecursive($dir . '/' . $object);
                 } else {
-                    unlink($dir . DIRECTORY_SEPARATOR . $object);
+                    unlink($dir . '/' . $object);
                 }
             }
             reset($object);

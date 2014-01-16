@@ -30,20 +30,30 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
     protected $_registryManager;
 
     /**
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreHelper;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Search\Model\Adminhtml\Search\Grid\Options $options
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Helper\Data $coreHelper
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Url $urlModel,
+        \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Search\Model\Adminhtml\Search\Grid\Options $options,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Helper\Data $coreHelper,
         array $data = array()
     ) {
-        parent::__construct($context, $urlModel, $data);
+        $this->_coreHelper = $coreHelper;
+        parent::__construct($context, $urlModel, $backendHelper, $data);
         $this->_options = $options;
         $this->_registryManager = $registry;
         $this->setDefaultFilter(array('query_id_selected' => 1));
@@ -95,7 +105,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
     {
         $queries = array_flip($this->getSelectedQueries());
         if (!empty($queries)) {
-            return $this->helper('Magento\Core\Helper\Data')->jsonEncode($queries);
+            return $this->_coreHelper->jsonEncode($queries);
         }
         return '{}';
     }

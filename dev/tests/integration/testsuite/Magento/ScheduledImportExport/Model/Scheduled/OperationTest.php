@@ -77,16 +77,14 @@ class OperationTest extends \PHPUnit_Framework_TestCase
         $fileInfo = $this->_model->getFileInfo();
 
         // Create export directory if not exist
-        $varDir = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Dir')
-            ->getDir('var');
-        $exportDir = $varDir . DS . $fileInfo['file_path'];
-        if (!is_dir($exportDir)) {
-            mkdir($exportDir, 0777);
-        }
+        /** @var \Magento\Filesystem\Directory\Write $varDir */
+        $varDir = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Filesystem')->getDirectoryWrite('var');
+        $varDir->create($fileInfo['file_path']);
 
         // Change current working directory to allow save export results
         $cwd = getcwd();
-        chdir($varDir);
+        chdir($varDir->getAbsolutePath());
 
         $this->_model->run();
 
@@ -96,7 +94,8 @@ class OperationTest extends \PHPUnit_Framework_TestCase
         $scheduledExport->setOperationType($this->_model->getOperationType());
         $scheduledExport->setRunDate($this->_model->getLastRunDate());
 
-        $filePath = $exportDir . DS . $scheduledExport->getScheduledFileName() . '.' . $fileInfo['file_format'];
+        $filePath = $varDir->getAbsolutePath($fileInfo['file_path']) . '/' . $scheduledExport->getScheduledFileName()
+            . '.' . $fileInfo['file_format'];
         $this->assertFileExists($filePath);
 
         // Restore current working directory

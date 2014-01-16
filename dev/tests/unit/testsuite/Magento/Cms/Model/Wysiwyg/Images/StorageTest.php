@@ -9,6 +9,7 @@ namespace Magento\Cms\Model\Wysiwyg\Images;
  * @license     {license_link}
  *
  * @SuppressWarnings(PHPMD.LongVariable)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class StorageTest extends \PHPUnit_Framework_TestCase
 {
@@ -41,11 +42,6 @@ class StorageTest extends \PHPUnit_Framework_TestCase
      * @var array()
      */
     protected $_resizeParameters;
-
-    /**
-     * @var \Magento\App\Dir|PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_dirMock;
 
     /**
      * @var \Magento\Cms\Model\Wysiwyg\Images\Storage\CollectionFactory|PHPUnit_Framework_MockObject_MockObject
@@ -92,7 +88,6 @@ class StorageTest extends \PHPUnit_Framework_TestCase
         $this->_imageHelperMock = $this->getMock('Magento\Cms\Helper\Wysiwyg\Images', array(), array(), '', false);
         $this->_resizeParameters = array('width' => 100, 'height' => 50);
 
-        $this->_dirMock = $this->getMock('Magento\App\Dir', array(), array(), '', false);
         $this->_storageCollectionFactoryMock = $this->getMock(
             'Magento\Cms\Model\Wysiwyg\Images\Storage\CollectionFactory');
         $this->_storageFileFactoryMock = $this->getMock('Magento\Core\Model\File\Storage\FileFactory');
@@ -102,18 +97,6 @@ class StorageTest extends \PHPUnit_Framework_TestCase
         $this->_uploaderFactoryMock = $this->getMock('Magento\Core\Model\File\UploaderFactory');
         $this->_sessionMock = $this->getMock('Magento\Backend\Model\Session', array(), array(), '', false);
         $this->_backendUrlMock = $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false);
-
-        $this->_imageHelperMock->expects($this->once())
-            ->method('getStorageRoot')
-            ->will($this->returnValue('someDirectory'));
-
-        $this->_filesystemMock->expects($this->once())
-            ->method('setWorkingDirectory')
-            ->with('someDirectory');
-
-        $this->_filesystemMock->expects($this->once())
-            ->method('setIsAllowCreateDirectories')
-            ->with(true);
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $objectManagerHelper->getObject('Magento\Cms\Model\Wysiwyg\Images\Storage', array(
@@ -125,7 +108,6 @@ class StorageTest extends \PHPUnit_Framework_TestCase
             'filesystem' => $this->_filesystemMock,
             'imageFactory' => $this->_adapterFactoryMock,
             'viewUrl' => $this->_viewUrlMock,
-            'dir' => $this->_dirMock,
             'storageCollectionFactory' => $this->_storageCollectionFactoryMock,
             'storageFileFactory' => $this->_storageFileFactoryMock,
             'storageDatabaseFactory' => $this->_storageDatabaseFactoryMock,

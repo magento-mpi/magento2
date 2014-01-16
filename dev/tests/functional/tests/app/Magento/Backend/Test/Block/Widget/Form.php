@@ -12,6 +12,7 @@
 
 namespace Magento\Backend\Test\Block\Widget;
 
+use Mtf\Factory\Factory;
 use Mtf\Fixture;
 use Mtf\Client\Element\Locator;
 use Mtf\Block\Form as FormInstance;
@@ -67,6 +68,34 @@ class Form extends FormInstance
     protected $deleteButton = '#delete-button-button';
 
     /**
+     * Backend abstract block
+     *
+     * @var string
+     */
+    protected $templateBlock = './ancestor::body';
+
+    /**
+     * Selector of element to wait for. If set by child will wait for element after action
+     *
+     * @var string
+     */
+    protected $waitForSelector;
+
+    /**
+     * Locator type of waitForSelector
+     *
+     * @var Locator
+     */
+    protected $waitForSelectorType = Locator::SELECTOR_CSS;
+
+    /**
+     * Wait for should be for visibility or not?
+     *
+     * @var boolean
+     */
+    protected $waitForSelectorVisible = true;
+
+    /**
      * Update the root form
      *
      * @param Fixture $fixture
@@ -79,6 +108,18 @@ class Form extends FormInstance
     }
 
     /**
+     * Get backend abstract block
+     *
+     * @return \Magento\Backend\Test\Block\Template
+     */
+    protected function getTemplateBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoBackendTemplate(
+            $this->_rootElement->find($this->templateBlock, Locator::SELECTOR_XPATH)
+        );
+    }
+
+    /**
      * Save the form
      *
      * @param Fixture $fixture
@@ -87,7 +128,22 @@ class Form extends FormInstance
     public function save(Fixture $fixture = null)
     {
         $this->_rootElement->find($this->saveButton, Locator::SELECTOR_CSS)->click();
+        $this->waitForElement();
         return $this;
+    }
+
+    /**
+     * Method that waits for the configured selector using class attributes.
+     */
+    protected function waitForElement()
+    {
+        if (!empty($this->waitForSelector)) {
+            if ($this->waitForSelectorVisible) {
+                $this->getTemplateBlock()->waitForElementVisible($this->waitForSelector, $this->waitForSelectorType);
+            } else {
+                $this->getTemplateBlock()->waitForElementNotVisible($this->waitForSelector, $this->waitForSelectorType);
+            }
+        }
     }
 
     /**

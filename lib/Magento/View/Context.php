@@ -13,14 +13,13 @@ use Magento\App\FrontControllerInterface;
 
 use Magento\TranslateInterface;
 use Magento\Core\Model\Store\Config as StoreConfig;
-use Magento\App\Helper\HelperFactory as FactoryHelper;
 use Magento\View\Url as ViewUrl;
 use Magento\View\ConfigInterface as ViewConfig;
 use Magento\Logger;
 use Magento\Core\Model\App;
 use Magento\App\State as AppState;
 
-use Magento\Core\Model\Session\AbstractSession;
+use Magento\Session\SessionManager;
 use Magento\App\CacheInterface as Cache;
 use Magento\App\Cache\StateInterface as CacheState;
 use Magento\UrlInterface;
@@ -68,7 +67,7 @@ class Context
     protected $design;
 
     /**
-     * @var \Magento\Core\Model\Session
+     * @var \Magento\Session\SessionManagerInterface
      */
     protected $session;
 
@@ -81,11 +80,6 @@ class Context
      * @var FrontControllerInterface
      */
     protected $frontController;
-
-    /**
-     * @var \Magento\App\Helper\HelperFactory
-     */
-    protected $helperFactory;
 
     /**
      * @var \Magento\View\Url
@@ -131,10 +125,9 @@ class Context
      * @param TranslateInterface $translator
      * @param Cache $cache
      * @param DesignInterface $design
-     * @param AbstractSession $session
+     * @param SessionManager $session
      * @param StoreConfig $storeConfig
      * @param FrontControllerInterface $frontController
-     * @param FactoryHelper $helperFactory
      * @param ViewUrl $viewUrl
      * @param ViewConfig $viewConfig
      * @param CacheState $cacheState
@@ -153,10 +146,9 @@ class Context
         TranslateInterface $translator,
         Cache $cache,
         DesignInterface $design,
-        AbstractSession $session,
+        SessionManager $session,
         StoreConfig $storeConfig,
         FrontControllerInterface $frontController,
-        FactoryHelper $helperFactory,
         ViewUrl $viewUrl,
         ViewConfig $viewConfig,
         CacheState $cacheState,
@@ -173,7 +165,6 @@ class Context
         $this->session         = $session;
         $this->storeConfig     = $storeConfig;
         $this->frontController = $frontController;
-        $this->helperFactory   = $helperFactory;
         $this->viewUrl         = $viewUrl;
         $this->viewConfig      = $viewConfig;
         $this->cacheState      = $cacheState;
@@ -215,14 +206,6 @@ class Context
     }
 
     /**
-     * @return \Magento\App\Helper\HelperFactory
-     */
-    public function getHelperFactory()
-    {
-        return $this->helperFactory;
-    }
-
-    /**
      * @return \Magento\View\LayoutInterface
      */
     public function getLayout()
@@ -239,7 +222,7 @@ class Context
     }
 
     /**
-     * @return \Magento\Core\Model\Session|\Magento\Core\Model\Session\AbstractSession
+     * @return \Magento\Session\SessionManagerInterface
      */
     public function getSession()
     {

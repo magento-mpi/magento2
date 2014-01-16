@@ -17,7 +17,6 @@
 namespace Magento\Tools\Translate;
 
 define('BASE_PATH', dirname(dirname(dirname(__DIR__))));
-define('DS', DIRECTORY_SEPARATOR);
 
 class Merge
 {
@@ -48,7 +47,7 @@ OPTIONAL PARAMETRS:
 ';
 
         $this->_checkArgs();
-        require_once(BASE_PATH . DS . 'lib' . DS . 'Magento' . DS . 'File' . DS . 'Csv.php');
+        require_once(BASE_PATH . '/lib/Magento/File/Csv.php');
         $this->_csv = new \Magento\File\Csv();
     }
 

@@ -36,17 +36,25 @@ class Lister extends \Magento\CatalogEvent\Block\Event\AbstractEvent
     protected $_eventCollectionFactory;
 
     /**
+     * @var \Magento\Catalog\Helper\Category
+     */
+    protected $_categoryHelper;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\CatalogEvent\Helper\Data $catalogEventData
      * @param \Magento\CatalogEvent\Model\Resource\Event\CollectionFactory $eventCollectionFactory
+     * @param \Magento\Catalog\Helper\Category $categoryHelper
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\CatalogEvent\Helper\Data $catalogEventData,
         \Magento\CatalogEvent\Model\Resource\Event\CollectionFactory $eventCollectionFactory,
+        \Magento\Catalog\Helper\Category $categoryHelper,
         array $data = array()
-    ) {      
+    ) {
+        $this->_categoryHelper = $categoryHelper;
         $this->_catalogEventData = $catalogEventData;
         $this->_eventCollectionFactory = $eventCollectionFactory;
         parent::__construct($context, $data);
@@ -87,7 +95,7 @@ class Lister extends \Magento\CatalogEvent\Block\Event\AbstractEvent
     {
         if ($this->_events === null) {
             $this->_events = array();
-            $categories = $this->helper('Magento\Catalog\Helper\Category')->getStoreCategories('position', true, false);
+            $categories = $this->_categoryHelper->getStoreCategories('position', true, false);
             if (($categories instanceof \Magento\Eav\Model\Entity\Collection\AbstractCollection) ||
                 ($categories instanceof \Magento\Core\Model\Resource\Db\Collection\AbstractCollection)) {
                 $allIds = $categories->getAllIds();
@@ -134,7 +142,7 @@ class Lister extends \Magento\CatalogEvent\Block\Event\AbstractEvent
      */
     public function getCategoryUrl($category)
     {
-        return $this->helper('Magento\Catalog\Helper\Category')->getCategoryUrl($category);
+        return $this->_categoryHelper->getCategoryUrl($category);
     }
 
     /**
@@ -145,7 +153,7 @@ class Lister extends \Magento\CatalogEvent\Block\Event\AbstractEvent
      */
     public function getEventImageUrl($event)
     {
-        return $this->helper('Magento\CatalogEvent\Helper\Data')->getEventImageUrl($event);
+        return $this->_catalogEventData->getEventImageUrl($event);
     }
 
     /**
@@ -157,8 +165,7 @@ class Lister extends \Magento\CatalogEvent\Block\Event\AbstractEvent
     {
         if ($this->hasData('limit') && is_numeric($this->getData('limit'))) {
             $pageSize = (int) $this->_getData('limit');
-        }
-        else {
+        } else {
             $pageSize = (int)$this->_storeConfig->getConfig('catalog/magento_catalogevent/lister_widget_limit');
         }
         return max($pageSize, 1);
@@ -173,8 +180,7 @@ class Lister extends \Magento\CatalogEvent\Block\Event\AbstractEvent
     {
         if ($this->hasData('scroll') && is_numeric($this->getData('scroll'))) {
             $scrollSize = (int) $this->_getData('scroll');
-        }
-        else {
+        } else {
             $scrollSize = (int)$this->_storeConfig->getConfig('catalog/magento_catalogevent/lister_widget_scroll');
         }
         return  min(max($scrollSize, 1), $this->getPageSize());

@@ -53,7 +53,7 @@ class History
     protected function _prepareLayout()
     {
         $onclick = "submitAndReloadArea($('rma-history-block').parentNode, '".$this->getSubmitUrl()."')";
-        $button = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
+        $button = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
             ->setData(array(
                 'label'   => __('Submit Comment'),
                 'class'   => 'save',

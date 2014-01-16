@@ -18,7 +18,7 @@
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Super\Config\Grid\Filter;
 
-class Inventory extends \Magento\Adminhtml\Block\Widget\Grid\Column\Filter\Select
+class Inventory extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
 {
 
     protected function _getOptions()

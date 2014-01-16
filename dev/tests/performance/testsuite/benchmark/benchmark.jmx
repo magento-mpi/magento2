@@ -294,7 +294,7 @@
         <hashTree>
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Category Page" enabled="true">
             <collectionProp name="Asserion.test_strings">
-              <stringProp name="1876916270">&lt;span class=&quot;base&quot;&gt;Category</stringProp>
+              <stringProp name="-653399232">&lt;title&gt;Category</stringProp>
             </collectionProp>
             <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
             <boolProp name="Assertion.assume_success">false</boolProp>
@@ -421,7 +421,7 @@
         <hashTree>
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Category Page" enabled="true">
             <collectionProp name="Asserion.test_strings">
-              <stringProp name="1876916270">&lt;span class=&quot;base&quot;&gt;Category</stringProp>
+              <stringProp name="-653399232">&lt;title&gt;Category</stringProp>
             </collectionProp>
             <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
             <boolProp name="Assertion.assume_success">false</boolProp>
@@ -871,7 +871,7 @@
           <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Assert Configurable Product Attribute Value" enabled="true">
             <stringProp name="RegexExtractor.useHeaders">false</stringProp>
             <stringProp name="RegexExtractor.refname">configurable_product_attribute_value</stringProp>
-            <stringProp name="RegexExtractor.regex">name=&quot;super_attribute\[${configurable_product_attribute_id}\]&quot;.*&lt;option\s+value=&quot;([0-9]+)&quot;</stringProp>
+            <stringProp name="RegexExtractor.regex">&quot;id&quot;:&quot;([0-9]+)&quot;,&quot;label&quot;:&quot;option</stringProp>
             <stringProp name="RegexExtractor.template">$1$</stringProp>
             <stringProp name="RegexExtractor.default">12</stringProp>
             <stringProp name="RegexExtractor.match_number">1</stringProp>
@@ -3889,7 +3889,17 @@ vars.put(&quot;configurable_product_attribute_value&quot;, JMeterUtils.getProper
           <boolProp name="HTTPSampler.monitor">false</boolProp>
           <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
         </HTTPSamplerProxy>
-        <hashTree/>
+        <hashTree>
+          <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Extract form key" enabled="true">
+            <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+            <stringProp name="RegexExtractor.refname">form_key</stringProp>
+            <stringProp name="RegexExtractor.regex">&lt;input name=&quot;form_key&quot; type=&quot;hidden&quot; value=&quot;([^&apos;&quot;]+)&quot; /&gt;</stringProp>
+            <stringProp name="RegexExtractor.template">$1$</stringProp>
+            <stringProp name="RegexExtractor.default"></stringProp>
+            <stringProp name="RegexExtractor.match_number">1</stringProp>
+          </RegexExtractor>
+          <hashTree/>
+        </hashTree>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Login" enabled="true">
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
             <collectionProp name="Arguments.arguments">
@@ -3913,6 +3923,13 @@ vars.put(&quot;configurable_product_attribute_value&quot;, JMeterUtils.getProper
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">login[password]</stringProp>
+              </elementProp>
+              <elementProp name="form_key" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">${form_key}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">form_key</stringProp>
               </elementProp>
             </collectionProp>
           </elementProp>

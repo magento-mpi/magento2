@@ -59,10 +59,10 @@ class Event extends \Magento\Backend\App\Action
     }
 
     /**
-     * Check is enabled module in config
+     * Dispatch request
      *
      * @param \Magento\App\RequestInterface $request
-     * @return $this|mixed
+     * @return \Magento\App\ResponseInterface
      */
     public function dispatch(\Magento\App\RequestInterface $request)
     {
@@ -170,7 +170,7 @@ class Event extends \Magento\Backend\App\Action
         $postData = $this->_filterPostData($this->getRequest()->getPost());
 
         if (!isset($postData['catalogevent'])) {
-            $this->_getSession()->addError(
+            $this->messageManager->addError(
                 __('Something went wrong while saving this event.')
             );
             $this->_redirect('adminhtml/*/edit', array('_current' => true));
@@ -199,7 +199,7 @@ class Event extends \Magento\Backend\App\Action
         $validateResult = $event->validate();
         if ($validateResult !== true) {
             foreach ($validateResult as $errorMessage) {
-                $this->_getSession()->addError($errorMessage);
+                $this->messageManager->addError($errorMessage);
             }
             $this->_getSession()->setEventData($event->getData());
             $this->_redirect('adminhtml/*/edit', array('_current' => true));
@@ -220,7 +220,7 @@ class Event extends \Magento\Backend\App\Action
             }
             $event->save();
 
-            $this->_getSession()->addSuccess(
+            $this->messageManager->addSuccess(
                 __('You saved the event.')
             );
             if ($this->getRequest()->getParam('back') == 'edit') {
@@ -229,7 +229,7 @@ class Event extends \Magento\Backend\App\Action
                 $this->_redirect('adminhtml/*/');
             }
         } catch (\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
             $this->_getSession()->setEventData($event->getData());
             $this->_redirect('adminhtml/*/edit', array('_current' => true));
         }
@@ -246,7 +246,7 @@ class Event extends \Magento\Backend\App\Action
         if ($event->getId()) {
             try {
                 $event->delete();
-                $this->_getSession()->addSuccess(
+                $this->messageManager->addSuccess(
                     __('You deleted the event.')
                 );
                 if ($this->getRequest()->getParam('category')) {
@@ -255,7 +255,7 @@ class Event extends \Magento\Backend\App\Action
                     $this->_redirect('adminhtml/*/');
                 }
             } catch (\Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
                 $this->_redirect('adminhtml/*/edit', array('_current' => true));
             }
         }

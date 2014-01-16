@@ -18,7 +18,7 @@
 namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer;
 
 class Action
-    extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\Action
+    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Action
 {
     /**
      * Renders column

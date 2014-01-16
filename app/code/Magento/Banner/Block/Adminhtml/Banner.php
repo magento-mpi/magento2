@@ -10,7 +10,7 @@
 
 namespace Magento\Banner\Block\Adminhtml;
 
-class Banner extends \Magento\Adminhtml\Block\Widget\Grid\Container
+class Banner extends \Magento\Backend\Block\Widget\Grid\Container
 {
 
     /**

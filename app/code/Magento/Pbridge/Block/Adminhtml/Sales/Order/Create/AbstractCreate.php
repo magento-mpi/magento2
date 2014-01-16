@@ -59,7 +59,7 @@ class AbstractCreate
     /**
      * Adminhtml session quote
      *
-     * @var \Magento\Adminhtml\Model\Session\Quote
+     * @var \Magento\Backend\Model\Session\Quote
      */
     protected $_adminhtmlSessionQuote;
 
@@ -75,7 +75,7 @@ class AbstractCreate
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
      * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param \Magento\Adminhtml\Model\Session\Quote $adminhtmlSessionQuote
+     * @param \Magento\Backend\Model\Session\Quote $adminhtmlSessionQuote
      * @param \Magento\Backend\Model\Url $backendUrl
      * @param \Magento\Core\Model\Config $config
      * @param array $data
@@ -87,7 +87,7 @@ class AbstractCreate
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Pbridge\Helper\Data $pbridgeData,
         \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\Adminhtml\Model\Session\Quote $adminhtmlSessionQuote,
+        \Magento\Backend\Model\Session\Quote $adminhtmlSessionQuote,
         \Magento\Backend\Model\Url $backendUrl,
         \Magento\Core\Model\Config $config,
         array $data = array()

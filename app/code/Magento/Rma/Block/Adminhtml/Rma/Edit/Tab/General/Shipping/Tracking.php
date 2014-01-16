@@ -105,7 +105,7 @@ class Tracking extends \Magento\Backend\Block\Template
         $onclick = "submitAndReloadArea($('shipment_tracking_info').parentNode, '".$this->getSubmitUrl()."')";
         $this->setChild(
             'save_button',
-            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
+            $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
                 ->setData(
                     array(
                         'label'   => __('Add'),

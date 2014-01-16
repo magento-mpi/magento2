@@ -10,7 +10,7 @@
 
 namespace Magento\Index\Block\Adminhtml\Process;
 
-class Grid extends \Magento\Adminhtml\Block\Widget\Grid
+class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * Process model
@@ -41,6 +41,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Index\Model\Resource\Process\CollectionFactory $factory
      * @param \Magento\Index\Model\Process $indexProcess
      * @param \Magento\Index\Model\EventRepository $eventRepository
@@ -49,12 +50,13 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Url $urlModel,
+        \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Index\Model\Resource\Process\CollectionFactory $factory,
         \Magento\Index\Model\Process $indexProcess,
         \Magento\Index\Model\EventRepository $eventRepository,
         array $data = array()
     ) {
-        parent::__construct($context, $urlModel, $data);
+        parent::__construct($context, $urlModel, $backendHelper, $data);
         $this->_eventRepository = $eventRepository;
         $this->_indexProcess = $indexProcess;
         $this->_collectionFactory = $factory;
@@ -196,7 +198,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
      *
      * @param string $value
      * @param \Magento\Index\Model\Process $row
-     * @param \Magento\Adminhtml\Block\Widget\Grid\Column $column
+     * @param \Magento\Backend\Block\Widget\Grid\Column $column
      * @param bool $isExport
      *
      * @return string
@@ -223,7 +225,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
      *
      * @param string $value
      * @param \Magento\Index\Model\Process $row
-     * @param \Magento\Adminhtml\Block\Widget\Grid\Column $column
+     * @param \Magento\Backend\Block\Widget\Grid\Column $column
      * @param bool $isExport
      *
      * @return string
@@ -247,7 +249,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
      *
      * @param string $value
      * @param \Magento\Index\Model\Process $row
-     * @param \Magento\Adminhtml\Block\Widget\Grid\Column $column
+     * @param \Magento\Backend\Block\Widget\Grid\Column $column
      * @param bool $isExport
      *
      * @return string

@@ -13,7 +13,7 @@
  */
 namespace Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab;
 
-class Customers extends \Magento\Adminhtml\Block\Widget\Grid
+class Customers extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * Customer Resource Collection
@@ -25,16 +25,18 @@ class Customers extends \Magento\Adminhtml\Block\Widget\Grid
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Reminder\Model\Resource\Customer\Collection $customerCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Url $urlModel,
+        \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Reminder\Model\Resource\Customer\Collection $customerCollection,
         array $data = array()
     ) {
-        parent::__construct($context, $urlModel, $data);
+        parent::__construct($context, $urlModel, $backendHelper, $data);
         $this->_customerCollection = $customerCollection;
     }
 

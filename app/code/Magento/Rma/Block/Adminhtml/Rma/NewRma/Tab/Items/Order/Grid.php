@@ -59,6 +59,7 @@ class Grid
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Rma\Model\Resource\ItemFactory $itemFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Rma\Helper\Data $rmaData
@@ -68,6 +69,7 @@ class Grid
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Url $urlModel,
+        \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Rma\Model\Resource\ItemFactory $itemFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Rma\Helper\Data $rmaData,
@@ -78,7 +80,7 @@ class Grid
         $this->_productFactory = $productFactory;
         $this->_rmaData = $rmaData;
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($context, $urlModel, $data);
+        parent::__construct($context, $urlModel, $backendHelper, $data);
     }
 
     /**
@@ -198,7 +200,7 @@ class Grid
     /**
      * Prepare columns
      *
-     * @return \Magento\Adminhtml\Block\Widget\Grid
+     * @return \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareColumns()
     {
@@ -317,7 +319,7 @@ class Grid
     /**
      * Setting column filters to collection
      *
-     * @param \Magento\Adminhtml\Block\Widget\Grid\Column $column
+     * @param \Magento\Backend\Block\Widget\Grid\Column $column
      * @return \Magento\Rma\Block\Adminhtml\Rma\NewRma\Tab\Items\Order\Grid
      */
     protected function _addColumnFilterToCollection($column)

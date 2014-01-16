@@ -20,7 +20,7 @@
  */
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors;
 
-abstract class AbstractErrors extends \Magento\Adminhtml\Block\Widget
+abstract class AbstractErrors extends \Magento\Backend\Block\Widget
 {
     /*
      * JS listType of the error grid
@@ -105,7 +105,7 @@ abstract class AbstractErrors extends \Magento\Adminhtml\Block\Widget
             'onclick' => 'addBySku.removeAllFailed()',
             'class'   => 'action-delete',
         );
-        return $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')->setData($buttonData)->toHtml();
+        return $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')->setData($buttonData)->toHtml();
     }
 
     /**

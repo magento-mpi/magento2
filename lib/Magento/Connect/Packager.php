@@ -170,7 +170,7 @@ class Packager
         foreach($contents as $file) {
             $fileName = basename($file);
             $filePath = dirname($file);
-            $dest = $targetPath . DIRECTORY_SEPARATOR . $filePath . DIRECTORY_SEPARATOR . $fileName;
+            $dest = $targetPath . '/' . $filePath . '/' . $fileName;
             if(@file_exists($dest)) {
                 //var_dump($dest);
                 @unlink($dest);
@@ -207,7 +207,7 @@ class Packager
         $ftpDir = $ftp->getcwd();
         $contents = $package->getContents();
         $arc = $this->getArchiver();
-        $target = dirname($file).DS.$package->getReleaseFilename();
+        $target = dirname($file) . '/' . $package->getReleaseFilename();
         @mkdir($target, 0777, true);
         $mode = $configObj->global_dir_mode;
         $tar = $arc->unpack($file, $target);
@@ -216,7 +216,7 @@ class Packager
         foreach($contents as $file) {
             $fileName = basename($file);
             $filePath = $this->convertFtpPath(dirname($file));
-            $source = $tar.DS.$file;
+            $source = $tar . '/' . $file;
             if (file_exists($source) && is_file($source)) {
                 $args = array(ltrim($file,"/"), $source);
                 if($modeDir) {
@@ -240,7 +240,7 @@ class Packager
     {
         $contents = $package->getContents();
         $arc = $this->getArchiver();
-        $target = dirname($file).DS.$package->getReleaseFilename();
+        $target = dirname($file) . '/' . $package->getReleaseFilename();
         @mkdir($target, 0777, true);
         $mode = $configObj->global_dir_mode;
         $tar = $arc->unpack($file, $target);
@@ -249,10 +249,10 @@ class Packager
         foreach($contents as $file) {
             $fileName = basename($file);
             $filePath = dirname($file);
-            $source = $tar.DS.$file;
+            $source = $tar . '/' . $file;
             $targetPath = rtrim($configObj->magento_root, "\\/");
-            @mkdir($targetPath. DS . $filePath, $modeDir, true);
-            $dest = $targetPath . DS . $filePath . DS . $fileName;
+            @mkdir($targetPath . '/' . $filePath, $modeDir, true);
+            $dest = $targetPath . '/' . $filePath . '/' . $fileName;
             if (is_file($source)) {
                 @copy($source, $dest);
                 if($modeFile) {
@@ -280,7 +280,7 @@ class Packager
         $hashContents = $p->getHashContents();
         $listModified = array();
         foreach ($hashContents as $file=>$hash) {
-            if (md5_file($configObj->magento_root . DS . $file)!==$hash) {
+            if (md5_file($configObj->magento_root . '/' . $file)!==$hash) {
                 $listModified[] = $file;
             }
         }

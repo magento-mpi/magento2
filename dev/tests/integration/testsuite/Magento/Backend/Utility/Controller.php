@@ -36,24 +36,26 @@ class Controller extends \Magento\TestFramework\TestCase\AbstractController
 
         $this->_auth = $this->_objectManager->get('Magento\Backend\Model\Auth');
         $this->_session = $this->_auth->getAuthStorage();
-        $this->_auth->login(
-            \Magento\TestFramework\Bootstrap::ADMIN_NAME,
-            \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD
+        $credentials = $this->_getAdminCredentials();
+        $this->_auth->login($credentials['user'], $credentials['password']);
+    }
+
+    /**
+     * Get credentials to login admin user
+     *
+     * @return array
+     */
+    protected function _getAdminCredentials()
+    {
+        return array(
+            'user' => \Magento\TestFramework\Bootstrap::ADMIN_NAME,
+            'password' => \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD,
         );
     }
 
     protected function tearDown()
     {
-        /** @var $checkoutSession \Magento\Checkout\Model\Session */
-        $checkoutSession = $this->_objectManager->get('Magento\Checkout\Model\Session');
-        $checkoutSession->clearStorage();
-        if (session_status() === PHP_SESSION_ACTIVE) {
-            session_destroy();
-        }
-        if (isset($_COOKIE[$checkoutSession->getName()])) {
-            unset($_COOKIE[$checkoutSession->getName()]);
-        }
-
+        $this->_auth->logout();
         $this->_auth = null;
         $this->_session = null;
         $this->_objectManager->get('Magento\Backend\Model\Url')->turnOnSecretKey();
@@ -65,11 +67,11 @@ class Controller extends \Magento\TestFramework\TestCase\AbstractController
      *
      * @param \PHPUnit_Framework_Constraint $constraint
      * @param string|null $messageType
-     * @param string $sessionModel
+     * @param string $messageManager
      */
     public function assertSessionMessages(
-        \PHPUnit_Framework_Constraint $constraint, $messageType = null, $sessionModel = 'Magento\Backend\Model\Session'
+        \PHPUnit_Framework_Constraint $constraint, $messageType = null, $messageManager = 'Magento\Message\Manager'
     ) {
-        parent::assertSessionMessages($constraint, $messageType, $sessionModel);
+        parent::assertSessionMessages($constraint, $messageType, $messageManager);
     }
 }

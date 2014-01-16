@@ -36,11 +36,9 @@ class Observer extends \Magento\Core\Model\AbstractModel
     protected $_coreStoreConfig;
 
     /**
-     * Session
-     *
-     * @var \Magento\Core\Model\Session\AbstractSession
+     * @var \Magento\Message\ManagerInterface
      */
-    protected $_session;
+    protected $messageManager;
 
     /**
      * Url model
@@ -100,7 +98,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory $itemsFactory
      * @param \Magento\Email\Model\TemplateFactory $templateFactory
      * @param \Magento\Sales\Model\Order\InvoiceFactory $invoiceFactory
-     * @param \Magento\Core\Model\Session\AbstractSession $session
+     * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\UrlInterface $urlModel
      * @param \Magento\GiftCard\Helper\Data $giftCardData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
@@ -119,7 +117,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
         \Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory $itemsFactory,
         \Magento\Email\Model\TemplateFactory $templateFactory,
         \Magento\Sales\Model\Order\InvoiceFactory $invoiceFactory,
-        \Magento\Core\Model\Session\AbstractSession $session,
+        \Magento\Message\ManagerInterface $messageManager,
         \Magento\UrlInterface $urlModel,
         \Magento\GiftCard\Helper\Data $giftCardData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
@@ -133,7 +131,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
         $this->_itemsFactory = $itemsFactory;
         $this->_templateFactory = $templateFactory;
         $this->_invoiceFactory = $invoiceFactory;
-        $this->_session = $session;
+        $this->messageManager = $messageManager;
         $this->_urlModel = $urlModel;
         $this->_giftCardData = $giftCardData;
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -337,7 +335,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
                     $url = $this->_urlModel->getUrl('adminhtml/giftcardaccount');
                     $message = __('Some gift card accounts were not created properly. You can create gift card accounts manually <a href="%1">here</a>.', $url);
 
-                    $this->_session->addError($message);
+                    $this->messageManager->addError($message);
                 }
             }
         }

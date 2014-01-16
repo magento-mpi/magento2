@@ -26,7 +26,7 @@ class AutoLoader
     public function __construct($namespace, $path)
     {
         $this->namespace = ltrim($namespace, '\\');
-        $this->path      = rtrim($path, '/\\') . DIRECTORY_SEPARATOR;
+        $this->path      = rtrim($path, '/\\') . '/';
     }
 
     /**
@@ -44,8 +44,8 @@ class AutoLoader
             $nsparts   = explode('\\', $class);
             $class     = array_pop($nsparts);
             $nsparts[] = '';
-            $path      = $this->path . implode(DIRECTORY_SEPARATOR, $nsparts);
-            $path     .= str_replace('_', DIRECTORY_SEPARATOR, $class) . '.php';
+            $path      = $this->path . implode('/', $nsparts);
+            $path     .= str_replace('_', '/', $class) . '.php';
 
             if (file_exists($path)) {
                 require $path;

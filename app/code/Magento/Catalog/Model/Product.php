@@ -190,6 +190,18 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     protected $_itemOptionFactory;
 
     /**
+     * @var \Magento\App\State
+     */
+    protected $_appState;
+
+    /**
+     * Filesystem facade
+     *
+     * @var \Magento\Filesystem
+     */
+    protected $_filesystem;
+
+    /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -211,8 +223,9 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      * @param Resource\Product $resource
      * @param Resource\Product\Collection $resourceCollection
      * @param \Magento\Data\CollectionFactory $collectionFactory
+     * @param \Magento\Filesystem $filesystem
      * @param array $data
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -237,6 +250,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         \Magento\Catalog\Model\Resource\Product $resource,
         \Magento\Catalog\Model\Resource\Product\Collection $resourceCollection,
         \Magento\Data\CollectionFactory $collectionFactory,
+        \Magento\Filesystem $filesystem,
         array $data = array()
     ) {
         $this->_itemOptionFactory = $itemOptionFactory;
@@ -255,6 +269,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         $this->_collectionFactory = $collectionFactory;
         $this->_urlModel = $url;
         $this->_linkInstance = $productLink;
+        $this->_filesystem = $filesystem;
         parent::__construct($context, $registry, $storeManager, $resource, $resourceCollection, $data);
     }
 
@@ -1085,6 +1100,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      */
     public function getMediaGalleryImages()
     {
+        $directory = $this->_filesystem->getDirectoryRead(\Magento\Filesystem::MEDIA);
         if(!$this->hasData('media_gallery_images') && is_array($this->getMediaGallery('images'))) {
             $images = $this->_collectionFactory->create();
             foreach ($this->getMediaGallery('images') as $image) {
@@ -1093,7 +1109,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
                 }
                 $image['url'] = $this->getMediaConfig()->getMediaUrl($image['file']);
                 $image['id'] = isset($image['value_id']) ? $image['value_id'] : null;
-                $image['path'] = $this->getMediaConfig()->getMediaPath($image['file']);
+                $image['path'] = $directory->getAbsolutePath($this->getMediaConfig()->getMediaPath($image['file']));
                 $images->addItem(new \Magento\Object($image));
             }
             $this->setData('media_gallery_images', $images);
@@ -1152,7 +1168,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
             ->setCreatedAt(null)
             ->setUpdatedAt(null)
             ->setId(null)
-            ->setStoreId($this->_storeManager->getStore()->getId());
+            ->setStoreId(\Magento\Core\Model\Store::DEFAULT_STORE_ID);
 
         $this->_eventManager->dispatch(
             'catalog_model_product_duplicate',

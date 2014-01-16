@@ -17,7 +17,7 @@
  */
 namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer;
 
-class Attribute extends \Magento\Adminhtml\Block\Widget\Grid\Container
+class Attribute extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * Define controller, block and labels

@@ -81,7 +81,7 @@ class Tax
     {
         $this->addChild(
             'add_button',
-            'Magento\Adminhtml\Block\Widget\Button',
+            'Magento\Backend\Block\Widget\Button',
             array(
                 'label' => __('Add Tax'),
                 'data_attribute' => array('action' => 'add-fpt-item'),
@@ -90,7 +90,7 @@ class Tax
         );
         $this->addChild(
             'delete_button',
-            'Magento\Adminhtml\Block\Widget\Button',
+            'Magento\Backend\Block\Widget\Button',
             array(
                 'label' => __('Delete Tax'),
                 'data_attribute' => array('action' => 'delete-fpt-item'),

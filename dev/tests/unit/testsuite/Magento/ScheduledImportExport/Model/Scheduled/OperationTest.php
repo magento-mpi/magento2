@@ -40,21 +40,22 @@ class OperationTest extends \PHPUnit_Framework_TestCase
      */
     public function getHistoryFilePathDataProvider()
     {
+        $dir = Operation::LOG_DIRECTORY . date('Y/m/d') . '/' . Operation::FILE_HISTORY_DIRECTORY;
         return array(
             'empty file name' => array(
                 '$fileInfo'     => array('file_format' => 'csv'),
                 '$lastRunDate'  => null,
-                '$expectedPath' => 'dir/' . $this->_date . '_export_catalog_product.csv'
+                '$expectedPath' => $dir . $this->_date . '_export_catalog_product.csv'
             ),
             'filled file name' => array(
                 '$fileInfo'     => array('file_name' => 'test.xls'),
                 '$lastRunDate'  => null,
-                '$expectedPath' => 'dir/' . $this->_date . '_export_catalog_product.xls'
+                '$expectedPath' => $dir . $this->_date . '_export_catalog_product.xls'
             ),
             'set last run date' => array(
                 '$fileInfo'     => array('file_name' => 'test.xls'),
                 '$lastRunDate'  => '11-11-11',
-                '$expectedPath' => 'dir/11-11-11_export_catalog_product.xls'
+                '$expectedPath' => $dir . '11-11-11_export_catalog_product.xls'
             )
         );
     }
@@ -80,9 +81,24 @@ class OperationTest extends \PHPUnit_Framework_TestCase
             'Magento\ScheduledImportExport\Model\Scheduled\Operation\DataFactory', array(), array(), '', false
         );
         $emailInfoFactory = $this->getMOck('Magento\Email\Model\InfoFactory', array(), array(), '', false);
+
+        $directory = $this->getMockBuilder('Magento\Filesystem\Directory\Write')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $directory->expects($this->once())
+            ->method('getAbsolutePath')
+            ->will($this->returnArgument(0));
+        $filesystem = $this->getMockBuilder('Magento\Filesystem')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $filesystem->expects($this->once())
+            ->method('getDirectoryWrite')
+            ->will($this->returnValue($directory));
+
         $params = array(
             'operationFactory' => $operationFactory,
             'emailInfoFactory' => $emailInfoFactory,
+            'filesystem' => $filesystem
         );
         $arguments = $objectManagerHelper->getConstructArguments(
             'Magento\ScheduledImportExport\Model\Scheduled\Operation', $params
@@ -93,7 +109,6 @@ class OperationTest extends \PHPUnit_Framework_TestCase
             array(
                 'getOperationType',
                 'getEntityType',
-                '_getHistoryDirPath',
                 'getFileInfo',
                 '_init'
             ),
@@ -106,9 +121,6 @@ class OperationTest extends \PHPUnit_Framework_TestCase
         $model->expects($this->once())
             ->method('getEntityType')
             ->will($this->returnValue('catalog_product'));
-        $model->expects($this->once())
-            ->method('_getHistoryDirPath')
-            ->will($this->returnValue('dir/'));
         $model->expects($this->once())
             ->method('getFileInfo')
             ->will($this->returnValue($fileInfo));

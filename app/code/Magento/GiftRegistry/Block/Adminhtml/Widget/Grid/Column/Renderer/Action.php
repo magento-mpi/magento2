@@ -14,7 +14,7 @@
 namespace Magento\GiftRegistry\Block\Adminhtml\Widget\Grid\Column\Renderer;
 
 class Action
-    extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\AbstractRenderer
+    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Render gift registry item action as select html element

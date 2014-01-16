@@ -47,6 +47,6 @@ class Customer extends \Magento\View\Element\Template
      */
     public function getCustomerName()
     {
-        return $this->_helperFactory->get('Magento_Customer_Helper_Data')->getCustomerName();
+        return $this->escapeHtml($this->_customerSession->getCustomer()->getName());
     }
 }

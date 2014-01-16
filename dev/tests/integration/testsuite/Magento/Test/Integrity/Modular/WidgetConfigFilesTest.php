@@ -30,7 +30,7 @@ class WidgetConfigFilesTest extends \Magento\TestFramework\TestCase\AbstractConf
      */
     protected function _getConfigFilePathGlob()
     {
-        return '/*/*/*/etc/widget.xml';
+        return '/*/*/etc/widget.xml';
     }
 
     /**

@@ -31,7 +31,7 @@ class Index extends \Magento\App\Action\Action
      * Dispatch request
      *
      * @param RequestInterface $request
-     * @return mixed
+     * @return \Magento\App\ResponseInterface
      * @throws \Magento\App\Action\NotFoundException
      */
     public function dispatch(RequestInterface $request)
@@ -51,8 +51,7 @@ class Index extends \Magento\App\Action\Action
         $this->_view->getLayout()->getBlock('contactForm')
             ->setFormAction($this->_objectManager->create('Magento\Core\Model\Url')->getUrl('*/*/post'));
 
-        $messageStores = array('Magento\Customer\Model\Session', 'Magento\Catalog\Model\Session');
-        $this->_view->getLayout()->initMessages($messageStores);
+        $this->_view->getLayout()->initMessages();
         $this->_view->renderLayout();
     }
 
@@ -119,7 +118,7 @@ class Index extends \Magento\App\Action\Action
 
                 $translate->setTranslateInline(true);
 
-                $this->_objectManager->get('Magento\Customer\Model\Session')->addSuccess(
+                $this->messageManager->addSuccess(
                     __('Thanks for contacting us with your comments and questions. We\'ll respond to you very soon.')
                 );
                 $this->_redirect('*/*/');
@@ -127,10 +126,7 @@ class Index extends \Magento\App\Action\Action
                 return;
             } catch (\Exception $e) {
                 $translate->setTranslateInline(true);
-
-                $this->_objectManager->get('Magento\Customer\Model\Session')->addError(
-                    __('Something went wrong submitting your request.')
-                );
+                $this->messageManager->addError(__('Something went wrong submitting your request.'));
                 $this->_redirect('*/*/');
                 return;
             }

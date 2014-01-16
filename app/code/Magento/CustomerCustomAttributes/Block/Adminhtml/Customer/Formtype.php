@@ -17,7 +17,7 @@
  */
 namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer;
 
-class Formtype extends \Magento\Adminhtml\Block\Widget\Grid\Container
+class Formtype extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * Block constructor

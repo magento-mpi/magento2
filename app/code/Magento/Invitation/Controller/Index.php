@@ -65,7 +65,7 @@ class Index extends \Magento\App\Action\Action
      * this function checks if user is logged in before all other actions
      *
      * @param RequestInterface $request
-     * @return mixed
+     * @return \Magento\App\ResponseInterface
      * @throws \Magento\App\Action\NotFoundException
      */
     public function dispatch(RequestInterface $request)
@@ -115,26 +115,23 @@ class Index extends \Magento\App\Action\Action
                         'message'  => $message
                     ))->save();
                     if ($invitation->sendInvitationEmail()) {
-                        $this->_session->addSuccess(__('You sent the invitation for %1.', $email));
+                        $this->messageManager->addSuccess(__('You sent the invitation for %1.', $email));
                         $sent++;
                     } else {
                         throw new \Exception(''); // not \Magento\Core\Exception intentionally
                     }
-
-                }
-                catch (\Magento\Core\Exception $e) {
+                } catch (\Magento\Core\Exception $e) {
                     if (\Magento\Invitation\Model\Invitation::ERROR_CUSTOMER_EXISTS === $e->getCode()) {
                         $customerExists++;
                     } else {
-                        $this->_session->addError($e->getMessage());
+                        $this->messageManager->addError($e->getMessage());
                     }
-                }
-                catch (\Exception $e) {
-                    $this->_session->addError(__('Something went wrong sending an email to %1.', $email));
+                } catch (\Exception $e) {
+                    $this->messageManager->addError(__('Something went wrong sending an email to %1.', $email));
                 }
             }
             if ($customerExists) {
-                $this->_session->addNotice(
+                $this->messageManager->addNotice(
                     __('We did not send %1 invitation(s) addressed to current customers.', $customerExists)
                 );
             }
@@ -143,7 +140,7 @@ class Index extends \Magento\App\Action\Action
         }
 
         $this->_view->loadLayout();
-        $this->_view->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $this->_view->getLayout()->initMessages();
         $this->_view->loadLayoutUpdates();
         $headBlock = $this->_view->getLayout()->getBlock('head');
         if ($headBlock) {
@@ -159,7 +156,7 @@ class Index extends \Magento\App\Action\Action
     public function indexAction()
     {
         $this->_view->loadLayout();
-        $this->_view->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $this->_view->getLayout()->initMessages();
         $this->_view->loadLayoutUpdates();
         if ($block = $this->_view->getLayout()->getBlock('invitations_list')) {
             $block->setRefererUrl($this->_redirect->getRefererUrl());

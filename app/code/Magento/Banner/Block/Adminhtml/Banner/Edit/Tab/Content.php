@@ -97,7 +97,7 @@ class Content extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Prepare Banners Content Tab form, define Editor settings
      *
-     * @return \Magento\Adminhtml\Block\Widget\Form
+     * @return \Magento\Backend\Block\Widget\Form
      */
     protected function _prepareForm()
     {

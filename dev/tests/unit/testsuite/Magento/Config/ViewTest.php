@@ -21,7 +21,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_model = new \Magento\Config\View(array(
-            __DIR__ . '/_files/view_one.xml', __DIR__ . '/_files/view_two.xml'
+            file_get_contents(__DIR__ . '/_files/view_one.xml'), file_get_contents(__DIR__ . '/_files/view_two.xml')
         ));
     }
 
@@ -56,6 +56,6 @@ class ViewTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidXml()
     {
-        new \Magento\Config\View(array(__DIR__ . '/_files/view_invalid.xml'));
+        new \Magento\Config\View(array(file_get_contents(__DIR__ . '/_files/view_invalid.xml')));
     }
 }

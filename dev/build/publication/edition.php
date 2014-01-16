@@ -39,7 +39,10 @@ try {
             $configurator = new CommunityConfigurator();
             break;
         case 'ee':
-            $configurator = new EnterpriseConfigurator($basePath, new \Magento\Io\File());
+            $configurator = new EnterpriseConfigurator(
+                $basePath,
+                new Magento\Filesystem\Driver\File()
+            );
             break;
         default:
             throw new Exception("Specified edition '{$options['edition']}' is not implemented.");

@@ -23,7 +23,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     /**
      * Quote session object
      *
-     * @var \Magento\Adminhtml\Model\Session\Quote
+     * @var \Magento\Backend\Model\Session\Quote
      */
     protected $_session;
 
@@ -139,13 +139,19 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     protected $_objectCopyService;
 
     /**
+     * @var \Magento\Message\ManagerInterface
+     */
+    protected $messageManager;
+
+    /**
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Sales\Model\Config $salesConfig
-     * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
+     * @param \Magento\Backend\Model\Session\Quote $sessionQuote
      * @param \Magento\Logger $logger
      * @param \Magento\Object\Copy $objectCopyService
+     * @param \Magento\Message\ManagerInterface $messageManager
      * @param array $data
      */
     public function __construct(
@@ -153,9 +159,10 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Sales\Model\Config $salesConfig,
-        \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
+        \Magento\Backend\Model\Session\Quote $sessionQuote,
         \Magento\Logger $logger,
         \Magento\Object\Copy $objectCopyService,
+        \Magento\Message\ManagerInterface $messageManager,
         array $data = array()
     ) {
         $this->_objectManager = $objectManager;
@@ -166,6 +173,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         $this->_objectCopyService = $objectCopyService;
         parent::__construct($data);
         $this->_session = $sessionQuote;
+        $this->messageManager = $messageManager;
     }
 
     /**
@@ -272,7 +280,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     /**
      * Retrieve session model object of quote
      *
-     * @return \Magento\Adminhtml\Model\Session\Quote
+     * @return \Magento\Backend\Model\Session\Quote
      */
     public function getSession()
     {
@@ -837,7 +845,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
             try {
                 $this->addProduct($productId, $config);
             } catch (\Magento\Core\Exception $e){
-                $this->getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e){
                 return $e;
             }
@@ -1649,7 +1657,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
 
         if (!empty($this->_errors)) {
             foreach ($this->_errors as $error) {
-                $this->getSession()->addError($error);
+                $this->messageManager->addError($error);
             }
             throw new \Magento\Core\Exception('');
         }

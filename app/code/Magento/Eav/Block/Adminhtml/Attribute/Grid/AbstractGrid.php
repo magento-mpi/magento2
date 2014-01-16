@@ -17,7 +17,7 @@
  */
 namespace Magento\Eav\Block\Adminhtml\Attribute\Grid;
 
-abstract class AbstractGrid extends \Magento\Adminhtml\Block\Widget\Grid
+abstract class AbstractGrid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * Block Module

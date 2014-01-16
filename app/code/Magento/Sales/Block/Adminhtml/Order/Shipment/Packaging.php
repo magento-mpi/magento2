@@ -218,13 +218,7 @@ class Packaging extends \Magento\Backend\Block\Template
      */
     public function getPackages()
     {
-        $packages = $this->getShipment()->getPackages();
-        if ($packages) {
-            $packages = unserialize($packages);
-        } else {
-            $packages = array();
-        }
-        return $packages;
+        return $this->getShipment()->getPackages();
     }
 
     /**
@@ -294,7 +288,7 @@ class Packaging extends \Magento\Backend\Block\Template
         $data['shipment_id'] = $this->getShipment()->getId();
         $url = $this->getUrl('sales/order_shipment/printPackage', $data);
         return $this->getLayout()
-            ->createBlock('Magento\Adminhtml\Block\Widget\Button')
+            ->createBlock('Magento\Backend\Block\Widget\Button')
             ->setData(array(
                 'label'   => __('Print'),
                 'onclick' => 'setLocation(\'' . $url . '\')'

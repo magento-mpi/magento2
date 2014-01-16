@@ -13,7 +13,7 @@
  */
 namespace Magento\Logging\Block\Adminhtml;
 
-class Log extends \Magento\Adminhtml\Block\Widget\Container
+class Log extends \Magento\Backend\Block\Widget\Container
 {
     /**
      * Header text getter

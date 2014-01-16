@@ -11,6 +11,8 @@ namespace Magento\Core\Model\Session;
 
 /**
  * Magento session configuration
+ *
+ * @method Config setSaveHandler()
  */
 class Config implements \Magento\Session\Config\ConfigInterface
 {
@@ -99,9 +101,9 @@ class Config implements \Magento\Session\Config\ConfigInterface
     protected $_appState;
 
     /**
-     * @var \Magento\App\Dir
+     * @var \Magento\Filesystem
      */
-    protected $_dir;
+    protected $_filesystem;
 
     /**
      * @param \Magento\Core\Model\Store\Config $storeConfig
@@ -109,7 +111,8 @@ class Config implements \Magento\Session\Config\ConfigInterface
      * @param \Magento\Stdlib\String $stringHelper
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\App\State $appState
-     * @param \Magento\App\Dir $dir
+     * @param \Magento\Filesystem $filesystem
+     * @param string $saveMethod
      * @param null|string $savePath
      * @param null|string $cacheLimiter
      */
@@ -119,7 +122,8 @@ class Config implements \Magento\Session\Config\ConfigInterface
         \Magento\Stdlib\String $stringHelper,
         \Magento\App\RequestInterface $request,
         \Magento\App\State $appState,
-        \Magento\App\Dir $dir,
+        \Magento\Filesystem $filesystem,
+        $saveMethod = \Magento\Session\SaveHandlerInterface::DEFAULT_HANDLER,
         $savePath = null,
         $cacheLimiter = null
     ) {
@@ -128,10 +132,12 @@ class Config implements \Magento\Session\Config\ConfigInterface
         $this->_stringHelper = $stringHelper;
         $this->_httpRequest = $request;
         $this->_appState = $appState;
-        $this->_dir = $dir;
+        $this->_filesystem = $filesystem;
+
+        $this->setSaveHandler($saveMethod === 'db' ? 'user' : $saveMethod);
 
         if (!$this->_appState->isInstalled() || !$savePath) {
-            $savePath = $this->_dir->getDir('session');
+            $savePath = $this->_filesystem->getPath('session');
         }
         $this->setSavePath($savePath);
 
@@ -152,7 +158,7 @@ class Config implements \Magento\Session\Config\ConfigInterface
         $domain = $this->_storeConfig->getConfig(self::XML_PATH_COOKIE_DOMAIN, $this->_storeManager->getStore());
         $domain = empty($domain) ? $this->_httpRequest->getHttpHost() : $domain;
         $this->setCookieDomain((string)$domain);
-        $this->setCookieSecure($this->_httpRequest->isSecure());
+
         $this->setCookieHttpOnly(
             $this->_storeConfig->getConfig(self::XML_PATH_COOKIE_HTTPONLY, $this->_storeManager->getStore())
         );
@@ -249,6 +255,8 @@ class Config implements \Magento\Session\Config\ConfigInterface
     }
 
     /**
+     * Convert config to array
+     *
      * @return array
      */
     public function toArray()
@@ -288,17 +296,9 @@ class Config implements \Magento\Session\Config\ConfigInterface
      *
      * @param string $savePath
      * @return $this
-     * @throws \InvalidArgumentException
      */
     public function setSavePath($savePath)
     {
-        if (!is_dir($savePath)) {
-            throw new \InvalidArgumentException('Invalid save_path provided; not a directory');
-        }
-        if (!is_writable($savePath)) {
-            throw new \InvalidArgumentException('Invalid save_path provided; not writable');
-        }
-
         $this->setOption('session.save_path', $savePath);
         return $this;
     }
@@ -485,38 +485,6 @@ class Config implements \Magento\Session\Config\ConfigInterface
     }
 
     /**
-     * Set remember_me_seconds
-     *
-     * @param int $rememberMeSeconds
-     * @return $this
-     * @throws \InvalidArgumentException
-     */
-    public function setRememberMeSeconds($rememberMeSeconds)
-    {
-        if (!is_numeric($rememberMeSeconds)) {
-            throw new \InvalidArgumentException('Invalid remember_me_seconds; must be numeric');
-        }
-
-        $rememberMeSeconds = (int) $rememberMeSeconds;
-        if ($rememberMeSeconds < 1) {
-            throw new \InvalidArgumentException('Invalid remember_me_seconds; must be a positive integer');
-        }
-
-        $this->options['remember_me_seconds'] = $rememberMeSeconds;
-        return $this;
-    }
-
-    /**
-     * Get remember_me_seconds
-     *
-     * @return int
-     */
-    public function getRememberMeSeconds()
-    {
-        return (int) isset($this->options['remember_me_seconds']) ? $this->options['remember_me_seconds'] : 1209600;
-    }
-
-    /**
      * Set storage option in backend configuration store
      *
      * @param string $option
@@ -561,9 +529,6 @@ class Config implements \Magento\Session\Config\ConfigInterface
         $option = strtolower($option);
 
         switch ($option) {
-            case 'remember_me_seconds':
-                // do nothing; not an INI option
-                return;
             case 'url_rewriter_tags':
                 $option = 'url_rewriter.tags';
                 break;

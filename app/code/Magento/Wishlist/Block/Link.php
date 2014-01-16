@@ -14,11 +14,37 @@ namespace Magento\Wishlist\Block;
 class Link extends \Magento\View\Element\Html\Link
 {
     /**
+     * Template name
+     *
+     * @var string
+     */
+    protected $_template = 'Magento_Wishlist::link.phtml';
+
+    /**
+     * @var \Magento\Wishlist\Helper\Data
+     */
+    protected $_wishlistHelper;
+
+    /**
+     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Wishlist\Helper\Data $wishlistHelper
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\View\Element\Template\Context $context,
+        \Magento\Wishlist\Helper\Data $wishlistHelper,
+        array $data = array()
+    ) {
+        $this->_wishlistHelper = $wishlistHelper;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * @return string
      */
     protected function _toHtml()
     {
-        if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow()) {
+        if ($this->_wishlistHelper->isAllow()) {
             return parent::_toHtml();
         }
         return '';
@@ -37,7 +63,7 @@ class Link extends \Magento\View\Element\Html\Link
      */
     public function getLabel()
     {
-        return $this->_createLabel($this->_getItemCount());
+        return __('My Wish List');
     }
 
     /**
@@ -45,7 +71,15 @@ class Link extends \Magento\View\Element\Html\Link
      */
     public function getTitle()
     {
-        return $this->_createLabel($this->_getItemCount());
+        return $this->getLabel();
+    }
+
+    /**
+     * @return string
+     */
+    public function getCounter()
+    {
+        return $this->_createCounter($this->_getItemCount());
     }
 
     /**
@@ -55,7 +89,7 @@ class Link extends \Magento\View\Element\Html\Link
      */
     protected function _getItemCount()
     {
-        return $this->helper('Magento\Wishlist\Helper\Data')->getItemCount();
+        return $this->_wishlistHelper->getItemCount();
     }
 
     /**
@@ -64,14 +98,14 @@ class Link extends \Magento\View\Element\Html\Link
      * @param int $count
      * @return string
      */
-    protected function _createLabel($count)
+    protected function _createCounter($count)
     {
         if ($count > 1) {
-            return __('My Wish List (%1 items)', $count);
+            return __('%1 items', $count);
         } else if ($count == 1) {
-            return __('My Wish List (%1 item)', $count);
+            return __('1 item');
         } else {
-            return __('My Wish List');
+            return;
         }
     }
 }

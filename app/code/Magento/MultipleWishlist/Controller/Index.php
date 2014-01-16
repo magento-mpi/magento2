@@ -58,25 +58,26 @@ class Index extends \Magento\Wishlist\Controller\Index
 
     /**
      * @param \Magento\App\Action\Context $context
+     * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Wishlist\Model\Config $wishlistConfig
      * @param \Magento\App\Response\Http\FileFactory $fileResponseFactory
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      * @param \Magento\Wishlist\Model\ItemFactory $itemFactory
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
-     * @param \Magento\Core\Model\Session\Generic $wishlistSession
+     * @param \Magento\Session\Generic $wishlistSession
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Wishlist\Model\Resource\Wishlist\CollectionFactory $wishlistCollectionFactory
      */
     public function __construct(
         \Magento\App\Action\Context $context,
+        \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Wishlist\Model\Config $wishlistConfig,
         \Magento\App\Response\Http\FileFactory $fileResponseFactory,
-        \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
         \Magento\Wishlist\Model\ItemFactory $itemFactory,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
-        \Magento\Core\Model\Session\Generic $wishlistSession,
+        \Magento\Session\Generic $wishlistSession,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Wishlist\Model\Resource\Wishlist\CollectionFactory $wishlistCollectionFactory
     ) {
@@ -85,14 +86,16 @@ class Index extends \Magento\Wishlist\Controller\Index
         $this->_wishlistSession = $wishlistSession;
         $this->_customerSession = $customerSession;
         $this->_wishlistCollectionFactory = $wishlistCollectionFactory;
-        parent::__construct($context, $coreRegistry, $wishlistConfig, $fileResponseFactory, $formKeyValidator);
+        parent::__construct(
+            $context, $formKeyValidator, $coreRegistry, $wishlistConfig, $fileResponseFactory
+        );
     }
 
     /**
      * Check if multiple wishlist is enabled on current store before all other actions
      *
      * @param RequestInterface $request
-     * @return mixed
+     * @return \Magento\App\ResponseInterface
      * @throws \Magento\App\Action\NotFoundException
      */
     public function dispatch(RequestInterface $request)
@@ -127,14 +130,14 @@ class Index extends \Magento\Wishlist\Controller\Index
         if ($name !== null) {
             try {
                 $wishlist = $this->_editWishlist($customerId, $name, $visibility);
-                $this->_getSession()->addSuccess(
+                $this->messageManager->addSuccess(
                     __('Wish List "%1" was saved.', $this->_objectManager->get('Magento\Escaper')->escapeHtml($wishlist->getName()))
                 );
                 $this->getRequest()->setParam('wishlist_id', $wishlist->getId());
             } catch (\Magento\Core\Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->_getSession()->addException(
+                $this->messageManager->addException(
                     $e,
                     __('Something went wrong creating the wish list.')
                 );
@@ -227,20 +230,20 @@ class Index extends \Magento\Wishlist\Controller\Index
         try {
             $wishlist = $this->_editWishlist($customerId, $wishlistName, $visibility, $wishlistId);
 
-            $this->_getSession()->addSuccess(
+            $this->messageManager->addSuccess(
                 __('Wish List "%1" was saved.', $this->_objectManager->get('Magento\Escaper')->escapeHtml($wishlist->getName()))
             );
         } catch (\Magento\Core\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
-            $this->_getSession()->addException(
+            $this->messageManager->addException(
                 $e,
                 __('Something went wrong creating the wish list.')
             );
         }
 
         if (!$wishlist || !$wishlist->getId()) {
-            $this->_getSession()->addError('Could not create wishlist');
+            $this->messageManager->addError('Could not create wishlist');
         }
 
         if ($this->getRequest()->isAjax()) {
@@ -280,14 +283,14 @@ class Index extends \Magento\Wishlist\Controller\Index
             }
             $wishlist->delete();
             $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
-            $this->_wishlistSession->addSuccess(
+            $this->messageManager->addSuccess(
                 __('Wish list "%1" has been deleted.', $this->_objectManager->get('Magento\Escaper')->escapeHtml($wishlist->getName()))
             );
         } catch (\Magento\Core\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $message = __('Something went wrong deleting the wish list.');
-            $this->_getSession()->addException($e, $message);
+            $this->messageManager->addException($e, $message);
         }
     }
 
@@ -345,11 +348,10 @@ class Index extends \Magento\Wishlist\Controller\Index
      */
     public function copyitemAction()
     {
-        $session = $this->_getSession();
         $requestParams = $this->getRequest()->getParams();
-        if ($session->getBeforeWishlistRequest()) {
-            $requestParams = $session->getBeforeWishlistRequest();
-            $session->unsBeforeWishlistRequest();
+        if ($this->_getSession()->getBeforeWishlistRequest()) {
+            $requestParams = $this->_getSession()->getBeforeWishlistRequest();
+            $this->_getSession()->unsBeforeWishlistRequest();
         }
 
         $wishlist = $this->_getWishlist(isset($requestParams['wishlist_id']) ? $requestParams['wishlist_id'] : null);
@@ -369,20 +371,20 @@ class Index extends \Magento\Wishlist\Controller\Index
                 $productName = $this->_objectManager->get('Magento\Escaper')->escapeHtml($item->getProduct()->getName());
 
                 $this->_copyItem($item, $wishlist, $qty);
-                $this->_getSession()->addSuccess(
+                $this->messageManager->addSuccess(
                     __('"%1" was copied to %2.', $productName, $wishlistName)
                 );
                 $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
             } catch (\InvalidArgumentException $e) {
-                $this->_getSession->addError(
+                $this->messageManager->addError(
                     __('The item was not found.')
                 );
             } catch (\DomainException $e) {
-                $this->_getSession()->addError(
+                $this->messageManager->addError(
                     __('"%1" is already present in %2.', $productName, $wishlistName)
                 );
             } catch (\Magento\Core\Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->_objectManager->get('Magento\Logger')->logException($e);
                 if ($productName) {
@@ -390,12 +392,11 @@ class Index extends \Magento\Wishlist\Controller\Index
                 } else {
                     $message = __('We could not copy the wish list item.');
                 }
-                $this->_getSession()->addError($message);
+                $this->messageManager->addError($message);
             }
         }
         $wishlist->save();
-        if ($this->_getSession()->hasBeforeWishlistUrl())
-        {
+        if ($this->_getSession()->hasBeforeWishlistUrl()) {
             $this->getResponse()->setRedirect($this->_getSession()->getBeforeWishlistUrl());
             $this->_getSession()->unsBeforeWishlistUrl();
         } else {
@@ -406,7 +407,6 @@ class Index extends \Magento\Wishlist\Controller\Index
     /**
      * Copy wishlist items to given wishlist
      *
-     * @return void
      * @throws NotFoundException
      */
     public function copyitemsAction()
@@ -445,20 +445,21 @@ class Index extends \Magento\Wishlist\Controller\Index
         $wishlist->save();
 
         if (count($notFound)) {
-            $this->_getSession()->addError(
+            $this->messageManager->addError(
                 __('%1 items were not found.', count($notFound))
             );
         }
 
         if (count($failed)) {
-            $this->_getSession()->addError(
+            $this->messageManager->addError(
                 __('We could not copy %1 items.', count($failed))
             );
         }
 
         if (count($alreadyPresent)) {
-            $names = $this->_objectManager->get('Magento\Escaper')->escapeHtml($this->_joinProductNames($alreadyPresent));
-            $this->_getSession()->addError(
+            $names = $this->_objectManager->get('Magento\Escaper')
+                ->escapeHtml($this->_joinProductNames($alreadyPresent));
+            $this->messageManager->addError(
                 __('%1 items are already present in %2: %3.', count($alreadyPresent), $wishlistName, $names)
             );
         }
@@ -466,7 +467,7 @@ class Index extends \Magento\Wishlist\Controller\Index
         if (count($copied)) {
             $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
             $names = $this->_objectManager->get('Magento\Escaper')->escapeHtml($this->_joinProductNames($copied));
-            $this->_getSession()->addSuccess(
+            $this->messageManager->addSuccess(
                 __('%1 items were copied to %2: %3.', count($copied), $wishlistName, $names)
             );
         }
@@ -541,28 +542,28 @@ class Index extends \Magento\Wishlist\Controller\Index
                 $wishlistName = $this->_objectManager->get('Magento\Escaper')->escapeHtml($wishlist->getName());
 
                 $this->_moveItem($item, $wishlist, $wishlists, $this->getRequest()->getParam('qty', null));
-                $this->_getSession()->addSuccess(
+                $this->messageManager->addSuccess(
                     __('"%1" was moved to %2.', $productName, $wishlistName)
                 );
                 $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
             } catch (\InvalidArgumentException $e) {
-                $this->_getSession()->addError(
+                $this->messageManager->addError(
                     __("An item with this ID doesn't exist.")
                 );
             } catch (\DomainException $e) {
                 if ($e->getCode() == 1) {
-                    $this->_getSession()->addError(
+                    $this->messageManager->addError(
                         __('"%1" is already present in %2.', $productName, $wishlistName)
                     );
                 } else {
-                    $this->_getSession()->addError(
+                    $this->messageManager->addError(
                         __('We cannot move "%1".', $productName)
                     );
                 }
             } catch (\Magento\Core\Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->_getSession()->addException($e,
+                $this->messageManager->addException($e,
                     __('We could not move the wish list item.')
                 );
             }
@@ -619,27 +620,27 @@ class Index extends \Magento\Wishlist\Controller\Index
         $wishlistName = $this->_objectManager->get('Magento\Escaper')->escapeHtml($wishlist->getName());
 
         if (count($notFound)) {
-            $this->_getSession()->addError(
+            $this->messageManager->addError(
                 __('%1 items were not found.', count($notFound))
             );
         }
 
         if (count($notAllowed)) {
             $names = $this->_objectManager->get('Magento\Escaper')->escapeHtml($this->_joinProductNames($notAllowed));
-            $this->_getSession()->addError(
+            $this->messageManager->addError(
                 __('%1 items cannot be moved: %2.', count($notAllowed), $names)
             );
         }
 
         if (count($alreadyPresent)) {
             $names = $this->_objectManager->get('Magento\Escaper')->escapeHtml($this->_joinProductNames($alreadyPresent));
-            $this->_getSession()->addError(
+            $this->messageManager->addError(
                 __('%1 items are already present in %2: %3.', count($alreadyPresent), $wishlistName, $names)
             );
         }
 
         if (count($failed)) {
-            $this->_getSession()->addError(
+            $this->messageManager->addError(
                 __('We could not move %1 items.', count($failed))
             );
         }
@@ -647,7 +648,7 @@ class Index extends \Magento\Wishlist\Controller\Index
         if (count($moved)) {
             $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
             $names = $this->_objectManager->get('Magento\Escaper')->escapeHtml($this->_joinProductNames($moved));
-            $this->_getSession()->addSuccess(
+            $this->messageManager->addSuccess(
                 __('%1 items were moved to %2: %3.', count($moved), $wishlistName, $names)
             );
         }

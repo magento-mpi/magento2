@@ -72,9 +72,9 @@ class Bootstrap
     /**
      * Constructor
      *
-     * @param \Magento\TestFramework\Bootstrap\Settings $settings
-     * @param \Magento\TestFramework\Bootstrap\Environment $envBootstrap
-     * @param \Magento\TestFramework\Bootstrap\DocBlock $docBlockBootstrap
+     * @param \Magento\TestFramework\Bootstrap\Settings $settings,
+     * @param \Magento\TestFramework\Bootstrap\Environment $envBootstrap,
+     * @param \Magento\TestFramework\Bootstrap\DocBlock $docBlockBootstrap,
      * @param \Magento\TestFramework\Bootstrap\Profiler $profilerBootstrap
      * @param \Magento\Shell $shell
      * @param string $tmpDir
@@ -203,7 +203,12 @@ class Bootstrap
             $this->_shell
         );
         return new \Magento\TestFramework\Application(
-            $dbInstance, $installDir, $localConfigXml, $globalConfigDir, $moduleConfigFiles, $appMode
+            $dbInstance,
+            $installDir,
+            $localConfigXml,
+            $globalConfigDir,
+            $moduleConfigFiles,
+            $appMode
         );
     }
 

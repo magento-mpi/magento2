@@ -30,7 +30,7 @@ class LoggingConfigFilesTest extends \Magento\TestFramework\TestCase\AbstractCon
      */
     protected function _getConfigFilePathGlob()
     {
-        return '/*/*/*/etc/logging.xml';
+        return '/*/*/etc/logging.xml';
     }
 
     /**

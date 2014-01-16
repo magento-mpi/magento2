@@ -8,9 +8,14 @@
  */
 -->
 <config>
-    <virtualType name="Magento\Centinel\Model\Session" type="Magento\Core\Model\Session\Generic">
-        <param name="sessionNamespace">
+    <virtualType name="Magento\Centinel\Model\Session\Storage" type="Magento\Session\Storage">
+        <param name="namespace">
             <value>centinel_validator</value>
+        </param>
+    </virtualType>
+    <virtualType name="Magento\Centinel\Model\Session" type="Magento\Session\Generic">
+        <param name="storage">
+            <instance type="Magento\Centinel\Model\Session\Storage" />
         </param>
         <param name="sessionName">
             <value>frontend</value>
@@ -21,6 +26,11 @@
             <value>
                 <centinel>/centinel/</centinel>
             </value>
+        </param>
+    </type>
+    <type name="Magento\Centinel\Model\Service">
+        <param name="centinelSession">
+            <instance type="Magento\Centinel\Model\Session" />
         </param>
     </type>
 </config>

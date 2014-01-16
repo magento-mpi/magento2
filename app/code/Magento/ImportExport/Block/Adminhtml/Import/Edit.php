@@ -17,7 +17,7 @@
  */
 namespace Magento\ImportExport\Block\Adminhtml\Import;
 
-class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
+class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
      * Internal constructor

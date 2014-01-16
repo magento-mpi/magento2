@@ -27,7 +27,7 @@ class Creditmemo
     {
         $data = $this->getRequest()->getParam('creditmemo');
         if (!$data) {
-            $data = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getFormData(true);
+            $data = $this->_objectManager->get('Magento\Backend\Model\Session')->getFormData(true);
         }
 
         if (isset($data['items'])) {
@@ -49,7 +49,7 @@ class Creditmemo
          * Check order existing
          */
         if (!$order->getId()) {
-            $this->_getSession()->addError(__('The order no longer exists.'));
+            $this->messageManager->addError(__('The order no longer exists.'));
             return false;
         }
 
@@ -57,7 +57,7 @@ class Creditmemo
          * Check creditmemo create availability
          */
         if (!$order->canCreditmemo()) {
-            $this->_getSession()->addError(__('Cannot create credit memo for the order.'));
+            $this->messageManager->addError(__('Cannot create credit memo for the order.'));
             return false;
         }
         return true;
@@ -223,7 +223,7 @@ class Creditmemo
                 $this->_title->add(__("New Memo"));
             }
 
-            if ($comment = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getCommentText(true)) {
+            if ($comment = $this->_objectManager->get('Magento\Backend\Model\Session')->getCommentText(true)) {
                 $creditmemo->setCommentText($comment);
             }
 
@@ -312,7 +312,7 @@ class Creditmemo
                 $creditmemo->getOrder()->setCustomerNoteNotify(!empty($data['send_email']));
                 $this->_saveCreditmemo($creditmemo);
                 $creditmemo->sendEmail(!empty($data['send_email']), $comment);
-                $this->_getSession()->addSuccess(__('You created the credit memo.'));
+                $this->messageManager->addSuccess(__('You created the credit memo.'));
                 $this->_getSession()->getCommentText(true);
                 $this->_redirect('sales/order/view', array('order_id' => $creditmemo->getOrderId()));
                 return;
@@ -321,11 +321,11 @@ class Creditmemo
                 return;
             }
         } catch (\Magento\Core\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
             $this->_getSession()->setFormData($data);
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);
-            $this->_getSession()->addError(__('Cannot save the credit memo.'));
+            $this->messageManager->addError(__('Cannot save the credit memo.'));
         }
         $this->_redirect('sales/*/new', array('_current' => true));
     }
@@ -340,11 +340,11 @@ class Creditmemo
             try {
                 $creditmemo->cancel();
                 $this->_saveCreditmemo($creditmemo);
-                $this->_getSession()->addSuccess(__('The credit memo has been canceled.'));
+                $this->messageManager->addSuccess(__('The credit memo has been canceled.'));
             } catch (\Magento\Core\Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->_getSession()->addError(__('You canceled the credit memo.'));
+                $this->messageManager->addError(__('You canceled the credit memo.'));
             }
             $this->_redirect('sales/*/view', array('creditmemo_id'=>$creditmemo->getId()));
         } else {
@@ -362,11 +362,11 @@ class Creditmemo
             try {
                 $creditmemo->void();
                 $this->_saveCreditmemo($creditmemo);
-                $this->_getSession()->addSuccess(__('You voided the credit memo.'));
+                $this->messageManager->addSuccess(__('You voided the credit memo.'));
             } catch (\Magento\Core\Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->_getSession()->addError(__('We can\'t void the credit memo.'));
+                $this->messageManager->addError(__('We can\'t void the credit memo.'));
             }
             $this->_redirect('sales/*/view', array('creditmemo_id'=>$creditmemo->getId()));
         } else {

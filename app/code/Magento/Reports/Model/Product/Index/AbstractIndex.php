@@ -38,7 +38,7 @@ abstract class AbstractIndex extends \Magento\Core\Model\AbstractModel
     protected $_customerSession;
 
     /**
-     * @var \Magento\Core\Model\Session\Generic
+     * @var \Magento\Session\Generic
      */
     protected $_reportSession;
 
@@ -58,7 +58,7 @@ abstract class AbstractIndex extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Log\Model\Visitor $logVisitor
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Core\Model\Session\Generic $reportSession
+     * @param \Magento\Session\Generic $reportSession
      * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -71,7 +71,7 @@ abstract class AbstractIndex extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Log\Model\Visitor $logVisitor,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Core\Model\Session\Generic $reportSession,
+        \Magento\Session\Generic $reportSession,
         \Magento\Catalog\Model\Product\Visibility $productVisibility,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
@@ -192,7 +192,7 @@ abstract class AbstractIndex extends \Magento\Core\Model\AbstractModel
     /**
      * Retrieve Reports Session instance
      *
-     * @return \Magento\Core\Model\Session\Generic
+     * @return \Magento\Session\Generic
      */
     protected function _getSession()
     {

@@ -19,21 +19,25 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     public function testRead()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        /** @var \Magento\App\Dir $dirs */
-        $dirs = $objectManager->create(
-            'Magento\App\Dir', array(
-                'baseDir' => BP,
-                'dirs' => array(
-                    \Magento\App\Dir::MODULES => __DIR__ . '/_files',
-                    \Magento\App\Dir::CONFIG => __DIR__ . '/_files'
-                )
-            )
+        /** @var \Magento\Filesystem $filesystem */
+        $filesystem = $objectManager->create(
+            'Magento\Filesystem',
+            array('directoryList' => $objectManager->create(
+                    'Magento\Filesystem\DirectoryList',
+                    array(
+                        'root' => BP,
+                        'directories' => array(
+                            \Magento\Filesystem::MODULES => array('path' => __DIR__ . '/_files'),
+                            \Magento\Filesystem::CONFIG => array('path' => __DIR__ . '/_files'),
+                        )
+                    )
+                ))
         );
 
         /** @var \Magento\Module\Declaration\FileResolver $modulesDeclarations */
         $modulesDeclarations = $objectManager->create(
             'Magento\Module\Declaration\FileResolver', array(
-                'applicationDirs' => $dirs,
+                'filesystem' => $filesystem,
             )
         );
 
@@ -55,7 +59,8 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Module\Dir\Reader $moduleReader */
         $moduleReader = $objectManager->create(
             'Magento\Module\Dir\Reader', array(
-                'moduleList' => $modulesList
+                'moduleList' => $modulesList,
+                'filesystem' => $filesystem
             )
         );
         $moduleReader->setModuleDir('Magento_Test', 'etc', __DIR__ . '/_files/Magento/Test/etc');
@@ -82,8 +87,8 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     public function testMergeCompleteAndPartial()
     {
         $fileList = array(
-            __DIR__ . '/_files/customerBalance.xml',
-            __DIR__ . '/_files/Reward.xml'
+            file_get_contents(__DIR__ . '/_files/customerBalance.xml'),
+            file_get_contents(__DIR__ . '/_files/Reward.xml')
         );
         $fileResolverMock = $this->getMockBuilder('Magento\Config\FileResolverInterface')
             ->setMethods(array('get'))

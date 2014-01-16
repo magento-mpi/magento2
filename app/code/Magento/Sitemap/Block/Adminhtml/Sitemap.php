@@ -16,7 +16,7 @@
  */
 namespace Magento\Sitemap\Block\Adminhtml;
 
-class Sitemap extends \Magento\Adminhtml\Block\Widget\Grid\Container
+class Sitemap extends \Magento\Backend\Block\Widget\Grid\Container
 {
 
     /**

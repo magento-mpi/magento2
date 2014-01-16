@@ -28,8 +28,8 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
     /** @var  \Magento\Backend\Model\Auth\Session|\PHPUnit_Framework_MockObject_MockObject */
     protected $_authSessionMock;
 
-    /** @var \Magento\Backend\Model\Session|\PHPUnit_Framework_MockObject_MockObject  */
-    protected $_backendSessionMock;
+    /** @var \Magento\Message\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject  */
+    protected $messageManager;
 
     /** @var  \Magento\ObjectManager|\PHPUnit_Framework_MockObject_MockObject */
     protected $_objectManagerMock;
@@ -76,9 +76,9 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_backendSessionMock = $this->getMockBuilder('Magento\Backend\Model\Session')
+        $this->messageManager = $this->getMockBuilder('Magento\Message\ManagerInterface')
             ->disableOriginalConstructor()
-            ->getMock();
+            ->getMockForAbstractClass();
 
         $this->_objectManagerMock = $this->getMockBuilder('Magento\ObjectManager')
             ->setMethods(array('create', 'get', 'configure', 'setFactory'))
@@ -99,7 +99,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
             'config' => $this->_configMock,
             'modelsHandler' => $this->_handlerModelsMock,
             'authSession' => $this->_authSessionMock,
-            'backendSession' => $this->_backendSessionMock,
+            'messageManager' => $this->messageManager,
             'objectManager' => $this->_objectManagerMock,
             'logger' => $this->_loggerMock,
             'handlerControllersFactory' => $handlerFactoryMock,
@@ -234,7 +234,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(false));
 
         $messages = new \Magento\Object(array('errors' => array()));
-        $this->_backendSessionMock->expects($this->once())
+        $this->messageManager->expects($this->once())
             ->method('getMessages')
             ->will($this->returnValue($messages));
 
@@ -350,7 +350,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
         $this->_setUpModelActionAfter();
 
         $messages = new \Magento\Object(array('errors' => array()));
-        $this->_backendSessionMock->expects($this->once())
+        $this->messageManager->expects($this->once())
             ->method('getMessages')
             ->will($this->returnValue($messages));
 

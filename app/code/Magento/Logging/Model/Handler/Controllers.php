@@ -42,9 +42,9 @@ class Controllers
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\Backend\Model\Session
+     * @var \Magento\Message\ManagerInterface
      */
-    protected $_session;
+    protected $messageManager;
 
     /**
      * @var \Magento\Backend\Model\Config\Structure
@@ -74,7 +74,7 @@ class Controllers
 
     /**
      * @param \Magento\Backend\Model\Config\Structure $structureConfig
-     * @param \Magento\Backend\Model\Session $session
+     * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\Logging\Helper\Data $loggingData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Helper\Product\Edit\Action\Attribute $actionAttribute
@@ -85,7 +85,7 @@ class Controllers
      */
     public function __construct(
         \Magento\Backend\Model\Config\Structure $structureConfig,
-        \Magento\Backend\Model\Session $session,
+        \Magento\Message\ManagerInterface $messageManager,
         \Magento\Logging\Helper\Data $loggingData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Helper\Product\Edit\Action\Attribute $actionAttribute,
@@ -95,7 +95,7 @@ class Controllers
         \Magento\Logging\Model\Event\ChangesFactory $eventChangesFactory
     ) {
         $this->_structureConfig = $structureConfig;
-        $this->_session = $session;
+        $this->messageManager = $messageManager;
         $this->_coreRegistry = $coreRegistry;
         $this->_loggingData = $loggingData;
         $this->_coreData = $coreData;
@@ -183,7 +183,7 @@ class Controllers
         //For each group of current section creating separated event change
         if (isset($postData['groups'])) {
             foreach ($postData['groups'] as $groupName => $groupData) {
-                foreach ($groupData['fields'] as $fieldName => $fieldValueData) {
+                foreach (isset($groupData['fields']) ? $groupData['fields'] : [] as $fieldName => $fieldValueData) {
                     //Clearing config data accordingly to collected skip fields
                     if (!in_array($fieldName, $skipEncrypted) && isset($fieldValueData['value'])) {
                         $groupFieldsData[$fieldName] = $fieldValueData['value'];
@@ -192,8 +192,8 @@ class Controllers
 
                 $processor->addEventChanges(
                     clone $change->setSourceName($groupName)
-                                 ->setOriginalData(array())
-                                 ->setResultData($groupFieldsData)
+                        ->setOriginalData(array())
+                        ->setResultData($groupFieldsData)
                 );
                 $groupFieldsData = array();
             }
@@ -245,7 +245,7 @@ class Controllers
                 $info = $this->_request->getParam('email');
             }
             $success = true;
-            $messages = $this->_session->getMessages()->getLastAddedMessage();
+            $messages = $this->messageManager->getMessages()->getLastAddedMessage();
             if ($messages) {
                 $success = 'error' != $messages->getType();
             }
@@ -377,7 +377,7 @@ class Controllers
             return false;
         }
         $success = true;
-        $messages = $this->_session->getMessages()->getLastAddedMessage();
+        $messages = $this->messageManager->getMessages()->getLastAddedMessage();
         if ($messages) {
             $success = 'error' != $messages->getType();
         }
@@ -608,11 +608,13 @@ class Controllers
             }
         }
 
-        $processor->addEventChanges($change->setSourceName('rates')
-            ->setOriginalData(array())
-            ->setResultData(array('rates' => implode(', ', $values))));
+        $processor->addEventChanges(
+            $change->setSourceName('rates')
+                ->setOriginalData(array())
+                ->setResultData(array('rates' => implode(', ', $values)))
+        );
         $success = true;
-        $messages = $this->_session->getMessages()->getLastAddedMessage();
+        $messages = $this->messageManager->getMessages()->getLastAddedMessage();
         if ($messages) {
             $success = 'error' != $messages->getType();
         }
@@ -640,7 +642,7 @@ class Controllers
         }
 
         $success = true;
-        $messages = $this->_session->getMessages()->getLastAddedMessage();
+        $messages = $this->messageManager->getMessages()->getLastAddedMessage();
         if ($messages) {
             $success = 'error' != $messages->getType();
         }
@@ -660,7 +662,7 @@ class Controllers
             return false;
         }
         $success = true;
-        $messages = $this->_session->getMessages()->getLastAddedMessage();
+        $messages = $this->messageManager->getMessages()->getLastAddedMessage();
         if ($messages) {
             $success = 'error' != $messages->getType();
         }
@@ -696,7 +698,7 @@ class Controllers
         if ($this->_request->getParam('action')) {
             $message .= ucfirst($this->_request->getParam('action')) . ' action: ';
         }
-        $message .= $this->_session->getMessages()->getLastAddedMessage()->getCode();
+        $message .= $this->messageManager->getMessages()->getLastAddedMessage()->getText();
         return $eventModel->setInfo($message);
     }
 

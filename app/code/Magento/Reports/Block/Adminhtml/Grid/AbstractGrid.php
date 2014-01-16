@@ -42,6 +42,7 @@ class AbstractGrid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Reports\Model\Resource\Report\Collection\Factory $resourceFactory
      * @param \Magento\Reports\Model\Grouped\CollectionFactory $collectionFactory
      * @param \Magento\Reports\Helper\Data $reportsData
@@ -50,6 +51,7 @@ class AbstractGrid extends \Magento\Backend\Block\Widget\Grid\Extended
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Url $urlModel,
+        \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Reports\Model\Resource\Report\Collection\Factory $resourceFactory,
         \Magento\Reports\Model\Grouped\CollectionFactory $collectionFactory,
         \Magento\Reports\Helper\Data $reportsData,
@@ -58,7 +60,7 @@ class AbstractGrid extends \Magento\Backend\Block\Widget\Grid\Extended
         $this->_resourceFactory = $resourceFactory;
         $this->_collectionFactory = $collectionFactory;
         $this->_reportsData = $reportsData;
-        parent::__construct($context, $urlModel, $data);
+        parent::__construct($context, $urlModel, $backendHelper, $data);
     }
 
     protected function _construct()

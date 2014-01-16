@@ -53,7 +53,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
     {
         $this->_shell = new \Magento\Shell();
         $basePath = \Magento\TestFramework\Utility\Files::init()->getPathToSource();
-        $basePath = str_replace(DIRECTORY_SEPARATOR, '/', $basePath);
+        $basePath = str_replace('\\', '/', $basePath);
 
         $this->_tmpDir = realpath(__DIR__) . '/tmp';
         $this->_generationDir =  $this->_tmpDir . '/generation';
@@ -77,8 +77,10 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
 
     protected function tearDown()
     {
-        $filesystem = new \Magento\Filesystem\Adapter\Local();
-        $filesystem->delete($this->_tmpDir);
+        $filesystem = new \Magento\Filesystem\Driver\File();
+        if ($filesystem->isExists($this->_tmpDir)) {
+            $filesystem->deleteDirectory($this->_tmpDir);
+        }
     }
 
     /**
@@ -99,9 +101,10 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
             if (\Magento\TestFramework\Utility\Classes::isVirtual($instanceName)) {
                 $instanceName = \Magento\TestFramework\Utility\Classes::resolveVirtualType($instanceName);
             }
-            $parameters = $parameters['parameters'];
-            if (!class_exists($instanceName)) {
-                $this->fail('Detected configuration of non existed class: ' . $instanceName);
+
+
+            if (!$this->_classExistsAsReal($instanceName)) {
+                continue;
             }
 
             $reflectionClass = new \ReflectionClass($instanceName);
@@ -111,6 +114,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
                 $this->fail('Class ' . $instanceName . ' does not have __constructor');
             }
 
+            $parameters = $parameters['parameters'];
             $classParameters = $constructor->getParameters();
             foreach ($classParameters as $classParameter) {
                 $parameterName = $classParameter->getName();
@@ -122,6 +126,24 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
                 . ' contains data for non-existed parameters: ' . implode(', ', array_keys($parameters));
             $this->assertEmpty($parameters, $message);
         }
+    }
+
+    /**
+     * Checks if class is a real one or generated Factory
+     * @param $instanceName class name
+     * @throws \PHPUnit_Framework_AssertionFailedError
+     * @return bool
+     */
+    protected function _classExistsAsReal($instanceName)
+    {
+        if (class_exists($instanceName)) {
+            return true;
+        }
+        // check for generated factory
+        if (substr($instanceName, -7) == 'Factory' && class_exists(substr($instanceName, 0, -7))) {
+            return false;
+        }
+        $this->fail('Detected configuration of non existed class: ' . $instanceName);
     }
 
     /**
@@ -242,7 +264,11 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
     public function testConstructorIntegrity()
     {
         $autoloader = new \Magento\Autoload\IncludePath();
-        $generatorIo = new \Magento\Code\Generator\Io(new \Magento\Io\File(), $autoloader, $this->_generationDir);
+        $generatorIo = new \Magento\Code\Generator\Io(
+            new \Magento\Filesystem\Driver\File(),
+            $autoloader,
+            $this->_generationDir
+        );
         $generator = new \Magento\Code\Generator(null, $autoloader, $generatorIo);
         $autoloader = new \Magento\Code\Generator\Autoloader($generator);
         spl_autoload_register(array($autoloader, 'load'));

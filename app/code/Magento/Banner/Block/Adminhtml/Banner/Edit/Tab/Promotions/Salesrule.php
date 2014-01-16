@@ -10,7 +10,7 @@
 
 namespace Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions;
 
-class Salesrule extends \Magento\Adminhtml\Block\Widget\Grid
+class Salesrule extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * Core registry
@@ -22,6 +22,7 @@ class Salesrule extends \Magento\Adminhtml\Block\Widget\Grid
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\SalesRule\Model\Resource\Rule\Collection $ruleCollection
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
@@ -29,12 +30,13 @@ class Salesrule extends \Magento\Adminhtml\Block\Widget\Grid
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Url $urlModel,
+        \Magento\Backend\Helper\Data $backendHelper,
         \Magento\SalesRule\Model\Resource\Rule\Collection $ruleCollection,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_registry = $registry;
-        parent::__construct($context, $urlModel, $data);
+        parent::__construct($context, $urlModel, $backendHelper, $data);
         $this->setCollection($ruleCollection);
     }
 
@@ -85,7 +87,7 @@ class Salesrule extends \Magento\Adminhtml\Block\Widget\Grid
     /**
      * Create grid columns
      *
-     * @return \Magento\Adminhtml\Block\Widget\Grid
+     * @return \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareColumns()
     {

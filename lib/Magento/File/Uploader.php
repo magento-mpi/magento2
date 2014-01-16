@@ -227,7 +227,7 @@ class Uploader
         if ($this->_result) {
             chmod($destinationFile, 0777);
             if ($this->_enableFilesDispersion) {
-                $fileName = str_replace(DIRECTORY_SEPARATOR, '/',
+                $fileName = str_replace('\\', '/',
                     self::_addDirSeparator($this->_dispretionPath)) . $fileName;
             }
             $this->_uploadedFileName = $fileName;
@@ -363,8 +363,8 @@ class Uploader
      */
     static protected function _addDirSeparator($dir)
     {
-        if (substr($dir, -1) != DIRECTORY_SEPARATOR) {
-            $dir .= DIRECTORY_SEPARATOR;
+        if (substr($dir, -1) != '/') {
+            $dir .= '/';
         }
         return $dir;
     }
@@ -535,7 +535,7 @@ class Uploader
             return $this;
         }
 
-        if (substr($destinationFolder, -1) == DIRECTORY_SEPARATOR) {
+        if (substr($destinationFolder, -1) == '/') {
             $destinationFolder = substr($destinationFolder, 0, -1);
         }
 
@@ -557,7 +557,7 @@ class Uploader
         if (file_exists($destinationFile)) {
             $index = 1;
             $baseName = $fileInfo['filename'] . '.' . $fileInfo['extension'];
-            while (file_exists($fileInfo['dirname'] . DIRECTORY_SEPARATOR . $baseName)) {
+            while (file_exists($fileInfo['dirname'] . '/' . $baseName)) {
                 $baseName = $fileInfo['filename'] . '_' . $index . '.' . $fileInfo['extension'];
                 $index++;
             }
@@ -581,7 +581,7 @@ class Uploader
         $dispertionPath = '';
         while (($char < 2) && ($char < strlen($fileName))) {
             if (empty($dispertionPath)) {
-                $dispertionPath = DIRECTORY_SEPARATOR
+                $dispertionPath = '/'
                     . ('.' == $fileName[$char] ? '_' : $fileName[$char]);
             } else {
                 $dispertionPath = self::_addDirSeparator($dispertionPath)

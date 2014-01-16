@@ -86,20 +86,19 @@ $> php -f translate.php -- --path ~/dev/magento/ --dups [--key "Checkout"]
 EOT
 );
 
-define('DS', DIRECTORY_SEPARATOR);
 define('PS', PATH_SEPARATOR);
 define('BASE_PATH', dirname(dirname(dirname(dirname(dirname(__DIR__))))));
 
 ini_set('include_path', ini_get('include_path')
-    . PS . BASE_PATH. DS . 'lib'
+    . '/' . BASE_PATH . '/lib'
 );
 
 require_once __DIR__ . '/config.inc.php';
 require_once __DIR__ . '/MultyGetopt.php';
-require_once BASE_PATH . DS . 'lib' . DS . 'Magento/File/CsvMulty.php';
+require_once BASE_PATH . '/lib/Magento/File/CsvMulty.php';
 require_once __DIR__ . '/DirectoryFilter.php';
 
-require_once BASE_PATH . DS . 'lib' . DS . 'Magento/Simplexml/Config.php';
-require_once BASE_PATH . DS . 'lib' . DS . 'Magento/Simplexml/Element.php';
+require_once BASE_PATH . '/lib/Magento/Simplexml/Config.php';
+require_once BASE_PATH . '/lib/Magento/Simplexml/Element.php';
 
 \Magento\Tools\Translate\TranslateTool::run($CONFIG);

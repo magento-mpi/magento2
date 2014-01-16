@@ -41,6 +41,7 @@ class Account extends \Magento\Customer\Controller\Account
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Escaper $escaper
      * @param \Magento\Invitation\Model\Config $config
      * @param \Magento\Invitation\Model\InvitationFactory $invitationFactory
      */
@@ -55,11 +56,22 @@ class Account extends \Magento\Customer\Controller\Account
         \Magento\Stdlib\String $string,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Escaper $escaper,
         \Magento\Invitation\Model\Config $config,
         \Magento\Invitation\Model\InvitationFactory $invitationFactory
     ) {
-        parent::__construct($context, $coreRegistry, $customerSession, $urlFactory, $customerFactory,
-            $formFactory, $addressFactory, $string, $formKeyValidator, $storeManager
+        parent::__construct(
+            $context,
+            $coreRegistry,
+            $customerSession,
+            $urlFactory,
+            $customerFactory,
+            $formFactory,
+            $addressFactory,
+            $string,
+            $formKeyValidator,
+            $storeManager,
+            $escaper
         );
         $this->_config = $config;
         $this->_invitationFactory = $invitationFactory;
@@ -73,14 +85,12 @@ class Account extends \Magento\Customer\Controller\Account
      * No way to logged in customers
      *
      * @param RequestInterface $request
-     * @return mixed|void
+     * @return \Magento\App\ResponseInterface
      * @throws \Magento\App\Action\NotFoundException
      */
     public function dispatch(RequestInterface $request)
     {
-        if (!preg_match('/^(create|createpost)/i', $request->getActionName())
-            || !$this->_config->isEnabledOnFront()
-        ) {
+        if (!preg_match('/^(create|createpost)/i', $request->getActionName()) || !$this->_config->isEnabledOnFront()) {
             throw new NotFoundException();
         }
         if ($this->_getSession()->isLoggedIn()) {
@@ -118,11 +128,11 @@ class Account extends \Magento\Customer\Controller\Account
         try {
             $this->_initInvitation();
             $this->_view->loadLayout();
-            $this->_view->getLayout()->initMessages('Magento\Customer\Model\Session');
+            $this->_view->getLayout()->initMessages();
             $this->_view->renderLayout();
             return;
         } catch (\Magento\Core\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
         }
         $this->_redirect('customer/account/login');
     }
@@ -158,17 +168,17 @@ class Account extends \Magento\Customer\Controller\Account
                 \Magento\Invitation\Model\Invitation::ERROR_INVALID_DATA
             );
             if (in_array($e->getCode(), $_definedErrorCodes)) {
-                $this->_getSession()->addError($e->getMessage())
+                $this->messageManager->addError($e->getMessage())
                     ->setCustomerFormData($this->getRequest()->getPost());
             } else {
                 if ($this->_objectManager->get('Magento\Customer\Helper\Data')->isRegistrationAllowed()) {
-                    $this->_getSession()->addError(
+                    $this->messageManager->addError(
                         __('Your invitation is not valid. Please create an account.')
                     );
                     $this->_redirect('customer/account/create');
                     return;
                 } else {
-                    $this->_getSession()->addError(__('Your invitation is not valid. Please contact us at %1.',
+                    $this->messageManager->addError(__('Your invitation is not valid. Please contact us at %1.',
                             $this->_objectManager->get('Magento\Core\Model\Store\Config')
                                 ->getConfig('trans_email/ident_support/email'))
                     );
@@ -177,14 +187,12 @@ class Account extends \Magento\Customer\Controller\Account
                 }
             }
         } catch (\Exception $e) {
-            $this->_getSession()->setCustomerFormData($this->getRequest()->getPost())
-                ->addException($e, __('Unable to save the customer.'));
+            $this->_getSession()->setCustomerFormData($this->getRequest()->getPost());
+            $this->messageManager->addException($e, __('Unable to save the customer.'));
         }
 
         $this->_redirect('magento_invitation/customer_account/create',
             array('_current' => true, '_secure' => true));
-
-        return $this;
     }
 
     /**
@@ -233,7 +241,7 @@ class Account extends \Magento\Customer\Controller\Account
             return;
         } catch (\Exception $e) {
             // die unhappy
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
             $this->_redirect('magento_invitation/customer_account/create',
                 array('_current' => true, '_secure' => true));
             return;
@@ -253,14 +261,14 @@ class Account extends \Magento\Customer\Controller\Account
             }
             if ($customer->getConfirmation()) {
                 $customer->sendNewAccountEmail('confirmation', '', $this->_storeManager->getStore()->getId());
-                $this->_getSession()->addSuccess(__('Please, check your email for confirmation key.'));
+                $this->messageManager->addSuccess(__('Please, check your email for confirmation key.'));
             } else {
-                $this->_getSession()->addSuccess(__('This email does not require confirmation.'));
+                $this->messageManager->addSuccess(__('This email does not require confirmation.'));
             }
             $this->_getSession()->setUsername($email);
             $this->_redirect('customer/account/');
         } catch (\Exception $e) {
-            $this->_getSession()->addException($e, __('Wrong email.'));
+            $this->messageManager->addException($e, __('Wrong email.'));
             $this->_redirect('magento_invitation/customer_account/create',
                 array('_current' => true, '_secure' => true));
         }

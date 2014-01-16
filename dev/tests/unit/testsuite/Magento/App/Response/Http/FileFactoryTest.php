@@ -17,11 +17,6 @@ class FileFactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_responseFactory;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
     protected $_fileSystemMock;
 
     /**
@@ -29,19 +24,32 @@ class FileFactoryTest extends \PHPUnit_Framework_TestCase
      */
     protected $_responseMock;
 
+    /**
+     * @var \Magento\Filesystem\Directory\WriteInterface
+     */
+    protected $_dirMock;
+
     protected function setUp()
     {
-        $this->_responseFactory = $this->getMock('Magento\App\ResponseFactory', array(), array(), '', false);
-        $this->_fileSystemMock = $this->getMock('Magento\Filesystem', array(), array(), '', false);
-        $this->_responseMock = $this->getMock('Magento\App\Response\Http', array('setHeader'), array(), '', false);
-        $this->_responseFactory
-            ->expects($this->any())
-            ->method('create')
-            ->will($this->returnValue($this->_responseMock));
+        $this->_fileSystemMock = $this->getMock(
+            'Magento\Filesystem', array('getDirectoryWrite'), array(), '', false
+        );
+        $this->_dirMock = $this->getMockBuilder('\Magento\Filesystem\Directory\Write')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->_fileSystemMock->expects($this->any())->method('getDirectoryWrite')
+            ->withAnyParameters()->will($this->returnValue($this->_dirMock));
+
+
+        $this->_fileSystemMock->expects($this->any())->method('isFile')
+            ->withAnyParameters()->will($this->returnValue(0));
+        $this->_responseMock =
+            $this->getMock('Magento\App\Response\Http', array('setHeader', 'sendHeaders'), array(), '', false);
         $this->_responseMock->expects($this->any())->method('setHeader')
             ->will($this->returnValue($this->_responseMock));
         $this->_model = new \Magento\App\Response\Http\FileFactory(
-            $this->_responseFactory,
+            $this->_responseMock,
             $this->_fileSystemMock
         );
     }
@@ -65,8 +73,7 @@ class FileFactoryTest extends \PHPUnit_Framework_TestCase
             'type' => 'filename',
             'value' => $file
         );
-        $this->_fileSystemMock->expects($this->once())->method('getFileSize')->will($this->returnValue('string'));
-        $this->_fileSystemMock->expects($this->once())->method('isFile')->with($file)->will($this->returnValue(false));
+
         $this->_model->create('fileName', $content);
     }
 }

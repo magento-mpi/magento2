@@ -14,7 +14,7 @@ namespace Magento\Usa\Model\Shipping\Carrier\Dhl;
  * DHL International (API v1.4)
  */
 class International
-    extends \Magento\Usa\Model\Shipping\Carrier\AbstractCarrier
+    extends \Magento\Usa\Model\Shipping\Carrier\Dhl\AbstractDhl
     implements \Magento\Shipping\Model\Carrier\CarrierInterface
 {
     /**
@@ -155,11 +155,6 @@ class International
     protected $_coreDate;
 
     /**
-     * @var \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\PdfFactory
-     */
-    protected $_pdfFactory;
-
-    /**
      * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
@@ -175,9 +170,21 @@ class International
     protected $mathDivision;
 
     /**
+     * Modules directory with read permissions
+     *
+     * @var \Magento\Filesystem\Directory\Read
+     */
+    protected $modulesDirectory;
+
+    /**
      * @var \Magento\Stdlib\DateTime
      */
-    protected $dateTime;
+    protected $_dateTime;
+
+    /**
+     * @var \Zend_Http_ClientFactory
+     */
+    protected $_httpClientFactory;
 
     /**
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
@@ -195,15 +202,14 @@ class International
      * @param \Magento\Directory\Helper\Data $directoryData
      * @param \Magento\Usa\Helper\Data $usaData
      * @param \Magento\Core\Model\Date $coreDate
-     * @param \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\PdfFactory $pdfFactory
      * @param \Magento\Module\Dir\Reader $configReader
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Math\Division $mathDivision
+     * @param \Magento\Filesystem $filesystem
      * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Zend_Http_ClientFactory $httpClientFactory
      * @param array $data
-     * 
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Core\Model\Store\Config $coreStoreConfig,
@@ -221,22 +227,24 @@ class International
         \Magento\Directory\Helper\Data $directoryData,
         \Magento\Usa\Helper\Data $usaData,
         \Magento\Core\Model\Date $coreDate,
-        \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\PdfFactory $pdfFactory,
         \Magento\Module\Dir\Reader $configReader,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Stdlib\String $string,
         \Magento\Math\Division $mathDivision,
+        \Magento\Filesystem $filesystem,
         \Magento\Stdlib\DateTime $dateTime,
+        \Zend_Http_ClientFactory $httpClientFactory,
         array $data = array()
     ) {
+        $this->modulesDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::MODULES);
         $this->_usaData = $usaData;
         $this->_coreDate = $coreDate;
-        $this->_pdfFactory = $pdfFactory;
         $this->_storeManager = $storeManager;
         $this->_configReader = $configReader;
         $this->string = $string;
         $this->mathDivision = $mathDivision;
-        $this->dateTime = $dateTime;
+        $this->_dateTime = $dateTime;
+        $this->_httpClientFactory = $httpClientFactory;
         parent::__construct(
             $coreStoreConfig,
             $rateErrorFactory,
@@ -353,7 +361,13 @@ class International
         return $this->_result;
     }
 
-    protected function _addParams($requestObject)
+    /**
+     * Fills request object with Dhl config parameters
+     *
+     * @param \Magento\Object $requestObject
+     * @return \Magento\Object
+     */
+    protected function _addParams(\Magento\Object $requestObject)
     {
         $request = $this->_request;
         foreach ($this->_requestVariables as $code => $objectCode) {
@@ -468,6 +482,7 @@ class International
      * Get allowed shipping methods
      *
      * @return array
+     * @throws \Magento\Core\Exception
      */
     public function getAllowedMethods()
     {
@@ -499,7 +514,7 @@ class International
     /**
      * Get configuration data of carrier
      *
-     * @param strin $type
+     * @param string $type
      * @param string $code
      * @return array|bool
      */
@@ -876,12 +891,78 @@ class International
      */
     protected function _getQuotes()
     {
+        $responseBody = '';
+        try {
+            $debugData = array();
+            for ($offset = 0; $offset <= self::UNAVAILABLE_DATE_LOOK_FORWARD; $offset++) {
+                $debugData['try-' . $offset] = array();
+                $debugPoint = &$debugData['try-' . $offset];
+
+                $requestXml = $this->_buildQuotesRequestXml();
+                $date = date(self::REQUEST_DATE_FORMAT, strtotime($this->_getShipDate() . " +$offset days"));
+                $this->_setQuotesRequestXmlDate($requestXml, $date);
+
+                $request = $requestXml->asXML();
+                $debugPoint['request'] = $request;
+                $responseBody = $this->_getCachedQuotes($request);
+                $debugPoint['from_cache'] = ($responseBody === null);
+
+                if ($debugPoint['from_cache']) {
+                    $responseBody = $this->_getQuotesFromServer($request);
+                }
+
+                $debugPoint['response'] = $responseBody;
+
+                $bodyXml = $this->_xmlElFactory->create(
+                    array('data' => $responseBody)
+                );
+                $code = $bodyXml->xpath('//GetQuoteResponse/Note/Condition/ConditionCode');
+                if (isset($code[0]) && (int)$code[0] == self::CONDITION_CODE_SERVICE_DATE_UNAVAILABLE) {
+                    $debugPoint['info'] = sprintf(
+                        __("DHL service is not available at %s date"),
+                        $date
+                    );
+                } else {
+                    break;
+                }
+
+                $this->_setCachedQuotes($request, $responseBody);
+            }
+            $this->_debug($debugData);
+        } catch (\Exception $e) {
+            $this->_errors[$e->getCode()] = $e->getMessage();
+        }
+        return $this->_parseResponse($responseBody);
+    }
+
+    /**
+     * Get shipping quotes from DHL service
+     *
+     * @param string $request
+     * @return string
+     */
+    protected function _getQuotesFromServer($request)
+    {
+        $client = $this->_httpClientFactory->create();
+        $client->setUri((string)$this->getConfigData('gateway_url'));
+        $client->setConfig(array('maxredirects' => 0, 'timeout' => 30));
+        $client->setRawData(utf8_encode($request));
+        return $client->request(\Zend_Http_Client::POST)->getBody();
+    }
+
+    /**
+     * Build qoutes request XML object
+     *
+     * @return \SimpleXMLElement
+     */
+    protected function _buildQuotesRequestXml()
+    {
         $rawRequest = $this->_rawRequest;
         $xmlStr = '<?xml version = "1.0" encoding = "UTF-8"?>'
-                . '<p:DCTRequest xmlns:p="http://www.dhl.com" xmlns:p1="http://www.dhl.com/datatypes" '
-                . 'xmlns:p2="http://www.dhl.com/DCTRequestdatatypes" '
-                . 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
-                . 'xsi:schemaLocation="http://www.dhl.com DCT-req.xsd "/>';
+            . '<p:DCTRequest xmlns:p="http://www.dhl.com" xmlns:p1="http://www.dhl.com/datatypes" '
+            . 'xmlns:p2="http://www.dhl.com/DCTRequestdatatypes" '
+            . 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
+            . 'xsi:schemaLocation="http://www.dhl.com DCT-req.xsd "/>';
         $xml = $this->_xmlElFactory->create(array('data' => $xmlStr));
         $nodeGetQuote = $xml->addChild('GetQuote', '', '');
         $nodeRequest = $nodeGetQuote->addChild('Request');
@@ -897,7 +978,7 @@ class International
 
         $nodeBkgDetails = $nodeGetQuote->addChild('BkgDetails');
         $nodeBkgDetails->addChild('PaymentCountryCode', $rawRequest->getOrigCountryId());
-        $nodeBkgDetails->addChild('Date', $this->dateTime->now(true));
+        $nodeBkgDetails->addChild('Date', $this->_dateTime->now(true));
         $nodeBkgDetails->addChild('ReadyTime', 'PT' . (int)(string)$this->getConfigData('ready_time') . 'H00M');
 
         $nodeBkgDetails->addChild('DimensionUnit', $this->_getDimensionUnit());
@@ -924,42 +1005,31 @@ class International
             $nodeDutiable->addChild('DeclaredCurrency', $baseCurrencyCode);
             $nodeDutiable->addChild('DeclaredValue', sprintf("%.2F", $rawRequest->getValue()));
         }
+        return $xml;
+    }
 
-        $request = $xml->asXML();
-        $request = utf8_encode($request);
-        $responseBody = $this->_getCachedQuotes($request);
-        if ($responseBody === null) {
-            $debugData = array('request' => $request);
-            try {
-                $client = new \Magento\HTTP\ZendClient();
-                $client->setUri((string)$this->getConfigData('gateway_url'));
-                $client->setConfig(array('maxredirects' => 0, 'timeout' => 30));
-                $client->setRawData($request);
-                $responseBody = $client->request(\Magento\HTTP\ZendClient::POST)->getBody();
-                $debugData['result'] = $responseBody;
-                $this->_setCachedQuotes($request, $responseBody);
-            } catch (\Exception $e) {
-                $this->_errors[$e->getCode()] = $e->getMessage();
-                $responseBody = '';
-            }
-            $this->_debug($debugData);
-        }
-
-        return $this->_parseResponse($responseBody);
+    /**
+     * Set pick-up date in request XML object
+     *
+     * @param \SimpleXMLElement $requestXml
+     * @param string $date
+     * @return \SimpleXMLElement
+     */
+    protected function _setQuotesRequestXmlDate(\SimpleXMLElement $requestXml, $date)
+    {
+        $requestXml->GetQuote->BkgDetails->Date = $date;
+        return $requestXml;
     }
 
     /**
      * Parse response from DHL web service
      *
      * @param string $response
-     * @return \Magento\Shipping\Model\Rate\Result
+     * @return bool|\Magento\Object|\Magento\Shipping\Model\Rate\Result|\Magento\Shipping\Model\Rate\Result\Error
+     * @throws \Magento\Core\Exception
      */
     protected function _parseResponse($response)
     {
-        $htmlTranslationTable = get_html_translation_table(HTML_ENTITIES);
-        unset($htmlTranslationTable['<'], $htmlTranslationTable['>'], $htmlTranslationTable['"']);
-        $response = str_replace(array_keys($htmlTranslationTable), array_values($htmlTranslationTable), $response);
-
         $responseError =  __('The response is in wrong format.');
 
         if (strlen(trim($response)) > 0) {
@@ -997,18 +1067,7 @@ class International
                                 $this->_addRate($quotedShipment);
                             }
                         } elseif (isset($xml->AirwayBillNumber)) {
-                            $result = new \Magento\Object();
-                            $result->setTrackingNumber((string)$xml->AirwayBillNumber);
-                            try {
-                                /* @var $pdf \Magento\Usa\Model\Shipping\Carrier\Dhl\Label\Pdf */
-                                $pdf = $this->_pdfFactory->create(
-                                    array('arguments' => array('info' => $xml, 'request' => $this->_request))
-                                );
-                                $result->setShippingLabelContent($pdf->render());
-                            } catch (\Exception $e) {
-                                throw new \Magento\Core\Exception(__($e->getMessage()));
-                            }
-                            return $result;
+                            return $this->_prepareShippingLabelContent($xml);
                         } else {
                             $this->_errors[] = $responseError;
                         }
@@ -1118,6 +1177,7 @@ class International
      * Returns dimension unit (cm or inch)
      *
      * @return string
+     * @throws \Magento\Core\Exception
      */
     protected function _getDimensionUnit()
     {
@@ -1133,6 +1193,7 @@ class International
      * Returns weight unit (kg or pound)
      *
      * @return string
+     * @throws \Magento\Core\Exception
      */
     protected function _getWeightUnit()
     {
@@ -1155,9 +1216,14 @@ class International
     protected function getCountryParams($countryCode)
     {
         if (empty($this->_countryParams)) {
-            $dhlConfigPath = $this->_configReader->getModuleDir('etc', 'Magento_Usa')  . DS . 'dhl' . DS;
-            $countriesXml = file_get_contents($dhlConfigPath . 'international' . DS . 'countries.xml');
-            $this->_countryParams = new \Magento\Simplexml\Element($countriesXml);
+            $usaEtcPath = $this->_configReader->getModuleDir('etc', 'Magento_Usa');
+            $countriesXmlPath = $this->modulesDirectory->getRelativePath(
+                $usaEtcPath  . '/dhl/international/countries.xml'
+            );
+            $countriesXml = $this->modulesDirectory->readFile($countriesXmlPath);
+            $this->_countryParams = $this->_xmlElFactory->create(
+                array('data' => $countriesXml)
+            );
         }
         if (isset($this->_countryParams->$countryCode)) {
             $countryParams = new \Magento\Object($this->_countryParams->$countryCode->asArray());
@@ -1248,6 +1314,7 @@ class International
      *
      * @param \Magento\Object $request
      * @return null
+     * @throws \Magento\Core\Exception
      */
     protected function _mapRequestToShipment(\Magento\Object $request)
     {
@@ -1302,6 +1369,7 @@ class International
      * Do rate request and handle errors
      *
      * @return \Magento\Shipping\Model\Rate\Result|\Magento\Object
+     * @throws \Magento\Core\Exception
      */
     protected function _doRequest()
     {
@@ -1446,6 +1514,8 @@ class International
         $nodeContact->addChild('PersonName', substr($rawRequest->getShipperContactPersonName(), 0, 34));
         $nodeContact->addChild('PhoneNumber', substr($rawRequest->getShipperContactPhoneNumber(), 0, 24));
 
+        $xml->addChild('LabelImageFormat', 'PDF', '');
+
         $request = $xml->asXML();
         $request = utf8_encode($request);
 
@@ -1453,7 +1523,7 @@ class International
         if ($responseBody === null) {
             $debugData = array('request' => $request);
             try {
-                $client = new \Magento\HTTP\ZendClient();
+                $client = $this->_httpClientFactory->create();
                 $client->setUri((string)$this->getConfigData('gateway_url'));
                 $client->setConfig(array('maxredirects' => 0, 'timeout' => 30));
                 $client->setRawData($request);
@@ -1674,10 +1744,6 @@ class International
         $errorTitle = __('Unable to retrieve tracking');
         $resultArr = array();
 
-        $htmlTranslationTable = get_html_translation_table(HTML_ENTITIES);
-        unset($htmlTranslationTable['<'], $htmlTranslationTable['>'], $htmlTranslationTable['"']);
-        $response = str_replace(array_keys($htmlTranslationTable), array_values($htmlTranslationTable), $response);
-
         if (strlen(trim($response)) > 0) {
             $xml = simplexml_load_string($response);
             if (!is_object($xml)) {
@@ -1778,7 +1844,8 @@ class International
      * Do request to shipment
      *
      * @param \Magento\Shipping\Model\Shipment\Request $request
-     * @return \Magento\Object
+     * @return array|\Magento\Object
+     * @throws \Magento\Core\Exception
      */
     public function requestToShipment(\Magento\Shipping\Model\Shipment\Request $request)
     {
@@ -1820,5 +1887,28 @@ class International
         }
 
         return $this->_isDomestic;
+    }
+
+    /**
+     * Prepare shipping label data
+     *
+     * @param \SimpleXMLElement $xml
+     * @return \Magento\Object
+     * @throws \Magento\Core\Exception
+     */
+    protected function _prepareShippingLabelContent(\SimpleXMLElement $xml)
+    {
+        $result = new \Magento\Object();
+        try {
+            if (!isset($xml->AirwayBillNumber) || !isset($xml->LabelImage->OutputImage)) {
+                throw new \Magento\Core\Exception('Unable to retrieve shipping label');
+            }
+            $result->setTrackingNumber((string)$xml->AirwayBillNumber);
+            $labelContent = (string)$xml->LabelImage->OutputImage;
+            $result->setShippingLabelContent(base64_decode($labelContent));
+        } catch (\Exception $e) {
+            throw new \Magento\Core\Exception(__($e->getMessage()));
+        }
+        return $result;
     }
 }

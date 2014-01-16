@@ -43,9 +43,11 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $storeManager = $this->getMock('Magento\Core\Model\StoreManagerInterface');
         $storeManager->expects($this->any())->method('getWebsite')->will($this->returnValue($website));
 
-        $this->_customerSession = $this->getMock(
-            'Magento\Customer\Model\Session', array('getCustomer'), array(), '', false
-        );
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $constructArguments = $objectManager->getConstructArguments('Magento\Customer\Model\Session',
+            array('storage' => new \Magento\Session\Storage));
+        $this->_customerSession = $this->getMock('Magento\Customer\Model\Session', array('getCustomer'),
+            $constructArguments);
 
         $this->_resource = $this->getMock(
             'Magento\CustomerSegment\Model\Resource\Customer',

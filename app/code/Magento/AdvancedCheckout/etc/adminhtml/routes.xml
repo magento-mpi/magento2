@@ -10,7 +10,7 @@
 <config>
     <router id="admin">
         <route id="checkout" frontName="checkout">
-            <module name="Magento_AdvancedCheckout_Adminhtml" before="Magento_Adminhtml" />
+            <module name="Magento_AdvancedCheckout" before="Magento_Adminhtml" />
         </route>
     </router>
 </config>

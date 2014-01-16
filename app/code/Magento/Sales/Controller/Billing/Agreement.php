@@ -13,7 +13,6 @@
  */
 namespace Magento\Sales\Controller\Billing;
 
-use Magento\App\Action\NotFoundException;
 use Magento\App\RequestInterface;
 
 class Agreement extends \Magento\App\Action\Action
@@ -53,16 +52,15 @@ class Agreement extends \Magento\App\Action\Action
     {
         $this->_title->add(__('Billing Agreements'));
         $this->_view->loadLayout();
-        $this->_view->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $this->_view->getLayout()->initMessages();
         $this->_view->renderLayout();
     }
-
 
     /**
      * Check customer authentication
      *
      * @param RequestInterface $request
-     * @return mixed
+     * @return \Magento\App\ResponseInterface
      */
     public function dispatch(RequestInterface $request)
     {
@@ -87,7 +85,7 @@ class Agreement extends \Magento\App\Action\Action
         $this->_title->add(__('Billing Agreements'));
         $this->_title->add(__('Billing Agreement # %1', $agreement->getReferenceId()));
         $this->_view->loadLayout();
-        $this->_view->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $this->_view->getLayout()->initMessages();
         $navigationBlock = $this->_view->getLayout()->getBlock('customer_account_navigation');
         if ($navigationBlock) {
             $navigationBlock->setActive('sales/billing_agreement/');
@@ -113,13 +111,12 @@ class Agreement extends \Magento\App\Action\Action
                     ->setCancelUrl($this->_objectManager->create('Magento\Core\Model\Url')
                         ->getUrl('*/*/cancelWizard', array('payment_method' => $paymentCode)));
 
-                $this->getResponse()->setRedirect($agreement->initToken());
-                return $this;
+                return $this->getResponse()->setRedirect($agreement->initToken());
             } catch (\Magento\Core\Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->_objectManager->get('Magento\Logger')->logException($e);
-                $this->_getSession()->addError(__('We couldn\'t start the billing agreement wizard.'));
+                $this->messageManager->addError(__('We couldn\'t start the billing agreement wizard.'));
             }
         }
         $this->_redirect('*/*/');
@@ -142,16 +139,16 @@ class Agreement extends \Magento\App\Action\Action
                     ->setMethodCode($paymentCode)
                     ->setCustomer($this->_objectManager->get('Magento\Customer\Model\Session')->getCustomer())
                     ->place();
-                $this->_getSession()->addSuccess(
+                $this->messageManager->addSuccess(
                     __('The billing agreement "%1" has been created.', $agreement->getReferenceId())
                 );
                 $this->_redirect('*/*/view', array('agreement' => $agreement->getId()));
                 return;
             } catch (\Magento\Core\Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->_objectManager->get('Magento\Logger')->logException($e);
-                $this->_getSession()->addError(__('We couldn\'t finish the billing agreement wizard.'));
+                $this->messageManager->addError(__('We couldn\'t finish the billing agreement wizard.'));
             }
             $this->_redirect('*/*/index');
         }
@@ -174,17 +171,20 @@ class Agreement extends \Magento\App\Action\Action
     public function cancelAction()
     {
         $agreement = $this->_initAgreement();
-        if ($agreement && $agreement->canCancel()) {
+        if (!$agreement) {
+            return;
+        }
+        if ($agreement->canCancel()) {
             try {
                 $agreement->cancel();
-                $this->_getSession()->addNotice(
+                $this->messageManager->addNotice(
                     __('The billing agreement "%1" has been canceled.', $agreement->getReferenceId())
                 );
             } catch (\Magento\Core\Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->_objectManager->get('Magento\Logger')->logException($e);
-                $this->_getSession()->addError(__('We couldn\'t cancel the billing agreement.'));
+                $this->messageManager->addError(__('We couldn\'t cancel the billing agreement.'));
             }
         }
         $this->_redirect('*/*/view', array('_current' => true));
@@ -193,22 +193,25 @@ class Agreement extends \Magento\App\Action\Action
     /**
      * Init billing agreement model from request
      *
-     * @return \Magento\Sales\Model\Billing\Agreement
+     * @return \Magento\Sales\Model\Billing\Agreement|bool
      */
     protected function _initAgreement()
     {
         $agreementId = $this->getRequest()->getParam('agreement');
         if ($agreementId) {
+            /** @var \Magento\Sales\Model\Billing\Agreement $billingAgreement */
             $billingAgreement = $this->_objectManager->create('Magento\Sales\Model\Billing\Agreement')
                 ->load($agreementId);
-            if (!$billingAgreement->getAgreementId()) {
-                $this->_getSession()->addError(__('Please specify the correct billing agreement ID and try again.'));
-                $this->_redirect('*/*/');
-                return false;
+            $currentCustomerId = $this->_getSession()->getCustomerId();
+            $agreementCustomerId = $billingAgreement->getCustomerId();
+            if ($billingAgreement->getId() && $agreementCustomerId == $currentCustomerId) {
+                $this->_coreRegistry->register('current_billing_agreement', $billingAgreement);
+                return $billingAgreement;
             }
         }
-        $this->_coreRegistry->register('current_billing_agreement', $billingAgreement);
-        return $billingAgreement;
+        $this->messageManager->addError(__('Please specify the correct billing agreement ID and try again.'));
+        $this->_redirect('*/*/');
+        return false;
     }
 
     /**

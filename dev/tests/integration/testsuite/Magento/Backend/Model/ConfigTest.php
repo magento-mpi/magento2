@@ -61,7 +61,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function saveWithSingleStoreModeEnabledDataProvider()
     {
-        return require(__DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'config_groups.php');
+        return require(__DIR__ . '/_files/config_groups.php');
     }
 
     /**
@@ -98,6 +98,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function saveDataProvider()
     {
-        return require(__DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'config_section.php');
+        return require(__DIR__ . '/_files/config_section.php');
     }
 }
