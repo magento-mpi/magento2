@@ -19,6 +19,7 @@ namespace Magento\Customer\Controller;
 
 use Magento\Customer\Service\Entity\V1\Exception;
 use Magento\App\RequestInterface;
+use Magento\Exception\InputException;
 
 class Address extends \Magento\App\Action\Action
 {
@@ -151,11 +152,14 @@ class Address extends \Magento\App\Action\Action
 
     /**
      * Process address form save
+     *
+     * @return void
      */
     public function formPostAction()
     {
         if (!$this->_formKeyValidator->validate($this->getRequest())) {
-            return $this->_redirect('*/*/');
+            $this->_redirect('*/*/');
+            return;
         }
 
         if (!$this->getRequest()->isPost()) {
@@ -171,13 +175,10 @@ class Address extends \Magento\App\Action\Action
             $url = $this->_buildUrl('*/*/index', array('_secure'=>true));
             $this->getResponse()->setRedirect($this->_redirect->success($url));
             return;
-        } catch (\Magento\Core\Exception $e) {
-            $this->messageManager->addException($e, $e->getMessage());
-        } catch (\Magento\Validator\ValidatorException $e) {
-            foreach ($e->getMessages() as $messages) {
-                foreach ($messages as $message) {
-                    $this->messageManager->addError($message);
-                }
+        } catch (InputException $e) {
+            foreach ($e->getErrors() as $error) {
+                $message = InputException::translateError($error);
+                $this->messageManager->addError($message);
             }
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('Cannot save address.'));
@@ -186,20 +187,6 @@ class Address extends \Magento\App\Action\Action
         $this->_getSession()->setAddressFormData($this->getRequest()->getPost());
         $url = $this->_buildUrl('*/*/edit', array('id' => $address->getId()));
         $this->getResponse()->setRedirect($this->_redirect->error($url));
-    }
-
-    /**
-     * Do address validation using validate methods in models
-     *
-     * @param \Magento\Customer\Model\Address $address
-     * @throws \Magento\Validator\ValidatorException
-     */
-    protected function _validateAddress($address)
-    {
-        $addressErrors = $address->validate();
-        if (is_array($addressErrors) && count($addressErrors) > 0) {
-            throw new \Magento\Validator\ValidatorException(array($addressErrors));
-        }
     }
 
     /**

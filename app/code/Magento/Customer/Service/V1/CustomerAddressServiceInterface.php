@@ -69,10 +69,11 @@ interface CustomerAddressServiceInterface
      * This doesn't support partial updates to addresses, meaning
      * that a full set of data must be provided with each Address
      *
-     * @param int                 $customerId
+     * @param int $customerId
      * @param Dto\Address[] $addresses
-     *
      * @throws \Magento\Exception\InputException if there are validation errors.
+     * @throws \Magento\Exception\NoSuchEntityException If customer with customerId is not found.
+     * @throws \Exception if there were issues during the save operation
      * @return int[] address ids
      */
     public function saveAddresses($customerId, array $addresses);

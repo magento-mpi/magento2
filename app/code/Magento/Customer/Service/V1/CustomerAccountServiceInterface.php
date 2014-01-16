@@ -31,6 +31,8 @@ interface CustomerAccountServiceInterface
      * @param string $confirmationBackUrl
      * @param string $registeredBackUrl
      * @param int $storeId
+     * @throws \Magento\Customer\Exception If something goes wrong during save
+     * @throws InputException If bad input is provided
      * @return Dto\Response\CreateCustomerAccountResponse
      */
     public function createAccount(
@@ -47,7 +49,7 @@ interface CustomerAccountServiceInterface
      *
      * @param int $customerId
      * @param string $key
-     * @throws \Magento\Exception\InputException If customerId is invalid, key is invalid
+     * @throws \Magento\Exception\NoSuchEntityException If customer doesn't exist
      * @throws \Magento\Exception\StateException
      *      StateException::INPUT_MISMATCH if key doesn't match expected.
      *      StateException::INVALID_STATE_CHANGE if account already active.

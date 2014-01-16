@@ -189,6 +189,7 @@ class CustomerAddressService implements CustomerAddressServiceInterface
         }
         $addressIds = [];
 
+        /** @var \Magento\Customer\Model\Address $addressModel */
         foreach ($addressModels as $addressModel) {
             $addressModel->save();
             $addressIds[] = $addressModel->getId();
