@@ -66,8 +66,9 @@ class Helper
     {
         $productData = $this->request->getPost('product');
 
-        if ($productData && isset($productData['stock_data'])) {
-            $productData['stock_data'] = $this->stockFilter->filter($productData['stock_data']);
+        if ($productData) {
+            $stockData = isset($productData['stock_data']) ? $productData['stock_data'] : array();
+            $productData['stock_data'] = $this->stockFilter->filter($stockData);
         }
 
         foreach (array('category_ids', 'website_ids') as $field) {

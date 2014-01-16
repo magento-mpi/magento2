@@ -229,7 +229,8 @@ class Product extends \Magento\Backend\App\Action
 
         $productData = $this->getRequest()->getPost('product');
         if ($productData) {
-            $productData['stock_data'] = $this->stockFilter->filter($productData['stock_data']);
+            $stockData = isset($productData['stock_data']) ? $productData['stock_data'] : array();
+            $productData['stock_data'] = $this->stockFilter->filter($stockData);
             $product->addData($productData);
         }
 
