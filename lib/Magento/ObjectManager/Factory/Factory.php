@@ -61,7 +61,7 @@ class Factory implements \Magento\ObjectManager\Factory
     /**
      * Resolve constructor arguments
      *
-     * @param $requestedType
+     * @param string $requestedType
      * @param array $parameters
      * @param array $arguments
      * @return array
@@ -130,6 +130,7 @@ class Factory implements \Magento\ObjectManager\Factory
      * Set object manager
      *
      * @param \Magento\ObjectManager $objectManager
+     * @return void
      */
     public function setObjectManager(\Magento\ObjectManager $objectManager)
     {
