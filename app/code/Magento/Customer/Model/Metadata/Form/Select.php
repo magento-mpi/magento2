@@ -62,12 +62,12 @@ class Select extends AbstractData
      * Export attribute value to entity model
      *
      * @param array|string $value
-     * @return string
+     * @return array|string|false
      */
     public function compactValue($value)
     {
         if ($value !== false) {
-            $value;
+            return $value;
         }
         return false;
     }

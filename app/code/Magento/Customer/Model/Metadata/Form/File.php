@@ -67,10 +67,7 @@ class File extends AbstractData
     }
 
     /**
-     * Extract data from request and return value
-     *
-     * @param \Magento\App\RequestInterface $request
-     * @return array|string
+     * {@inheritdoc}
      */
     public function extractValue(\Magento\App\RequestInterface $request)
     {
@@ -172,11 +169,7 @@ class File extends AbstractData
     }
 
     /**
-     * Validate data
-     *
-     * @param array|string $value
-     * @throws \Magento\Core\Exception
-     * @return boolean
+     * {@inheritdoc}
      */
     public function validateValue($value)
     {
@@ -215,11 +208,7 @@ class File extends AbstractData
     }
 
     /**
-     * Export attribute value to entity model
-     *
-     * @param \Magento\Core\Model\AbstractModel $entity
-     * @param array|string $value
-     * @return string
+     * {@inheritdoc}
      */
     public function compactValue($value)
     {
@@ -270,20 +259,15 @@ class File extends AbstractData
     }
 
     /**
-     * Restore attribute value from SESSION to entity model
-     *
-     * @param array|string $value
-     * @return \Magento\Customer\Model\Metadata\Form\File
+     * {@inheritdoc}
      */
     public function restoreValue($value)
     {
-        return $this;
+        return $this->_value;
     }
 
     /**
-     * Return formated attribute value from entity model
-     *
-     * @return string|array
+     * {@inheritdoc}
      */
     public function outputValue($format = \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_TEXT)
     {

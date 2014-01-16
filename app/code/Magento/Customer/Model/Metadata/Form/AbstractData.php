@@ -137,19 +137,6 @@ abstract class AbstractData
     }
 
     /**
-     * Returns entity instance
-     *
-     * @return \Magento\Customer\Service\V1\Dto\Eav\EntityInterface
-     */
-    public function getEntity()
-    {
-        if (!$this->_entity) {
-            throw new \Magento\Core\Exception(__('Entity object is undefined'));
-        }
-        return $this->_entity;
-    }
-
-    /**
      * Set array of full extracted data
      *
      * @param array $data
@@ -182,7 +169,7 @@ abstract class AbstractData
      * Apply attribute input filter to value
      *
      * @param string $value
-     * @return string
+     * @return string|bool
      */
     protected function _applyInputFilter($value)
     {
@@ -513,7 +500,7 @@ abstract class AbstractData
      *
      * @param array|string $value
      * @throws \Magento\Core\Exception
-     * @return boolean
+     * @return array/bool
      */
     abstract public function validateValue($value);
 
@@ -521,7 +508,7 @@ abstract class AbstractData
      * Export attribute value to entity model
      *
      * @param array|string $value
-     * @return string|bool
+     * @return array|string|bool
      */
     abstract public function compactValue($value);
 
@@ -529,7 +516,7 @@ abstract class AbstractData
      * Restore attribute value from SESSION to entity model
      *
      * @param array|string $value
-     * @return string|bool
+     * @return array|string|bool
      */
     abstract public function restoreValue($value);
 

@@ -15,10 +15,7 @@ namespace Magento\Customer\Model\Metadata\Form;
 class Date extends AbstractData
 {
     /**
-     * Extract data from request and return value
-     *
-     * @param \Magento\App\RequestInterface $request
-     * @return array|string
+     * {@inheritdoc}
      */
     public function extractValue(\Magento\App\RequestInterface $request)
     {
@@ -27,11 +24,7 @@ class Date extends AbstractData
     }
 
     /**
-     * Validate data
-     * Return true or array of errors
-     *
-     * @param array|string $value
-     * @return boolean|array
+     * {@inheritdoc}
      */
     public function validateValue($value)
     {
@@ -79,10 +72,7 @@ class Date extends AbstractData
     }
 
     /**
-     * Export attribute value to entity model
-     *
-     * @param array|string $value
-     * @return string
+     * {@inheritdoc}
      */
     public function compactValue($value)
     {
@@ -97,10 +87,7 @@ class Date extends AbstractData
 
 
     /**
-     * Restore attribute value from SESSION to entity model
-     *
-     * @param array|string $value
-     * @return \Magento\Eav\Model\Attribute\Data\Date
+     * {@inheritdoc}
      */
     public function restoreValue($value)
     {
@@ -108,10 +95,7 @@ class Date extends AbstractData
     }
 
     /**
-     * Return formated attribute value from entity model
-     *
-     * @param string $format
-     * @return string|array
+     * {@inheritdoc}
      */
     public function outputValue($format = \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_TEXT)
     {
