@@ -81,11 +81,17 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         $this->assertStringEndsWith('catalog/product/view/', $this->_block->getSubmitUrl($this->_product));
     }
 
-    public function testGetAddToWishlistUrl()
+    public function testGetAddToWishlistParams()
     {
+        $json = $this->_block->getAddToWishlistParams($this->_product);
+        $params = (array) json_decode($json);
+        $data = (array) $params['data'];
+        $this->assertEquals('1', $data['product']);
+        $this->assertArrayHasKey('uenc', $data);
+        $this->assertArrayHasKey('form_key', $data);
         $this->assertStringEndsWith(
-            'wishlist/index/add/product/1/',
-            $this->_block->getAddToWishlistUrl($this->_product)
+            'wishlist/index/add/',
+            $params['action']
         );
     }
 

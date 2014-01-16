@@ -36,7 +36,11 @@
                     .on('addToCart', function(event, context) {
                         $.proxy(_this._addItemsToCart($(context).parents('.cart-cell').find(_this.options.addToCartSelector)), _this);
                     })
-                    .on('click', this.options.btnRemoveSelector, $.proxy(this._confirmRemoveWishlistItem, this))
+                    .on('click', this.options.btnRemoveSelector, $.proxy(function(event) {
+                        if (this._confirmRemoveWishlistItem) {
+                            $.mage.dataPost().postData($(event.currentTarget).data('post-remove'));
+                        }
+                    }, this))
                     .on('click', this.options.addAllToCartSelector, $.proxy(this._addAllWItemsToCart, this))
                     .on('focusin focusout', this.options.commentInputType, $.proxy(this._focusComment, this));
             }
@@ -110,6 +114,34 @@
                 commentInput.value = commentInput.value === this.options.commentString ?
                     '' : this.options.commentString;
             }
+        },
+
+        /**
+         * Send data by post
+         * @private
+         * @param url
+         * @param data
+         */
+        _postData: function(url, data) {
+            var form = document.createElement("form");
+
+            form.setAttribute("method", 'post');
+            form.setAttribute("action", url);
+
+            for(var key in data) {
+                if(data.hasOwnProperty(key)) {
+                    var hiddenField = document.createElement("input");
+                    hiddenField.setAttribute("type", "hidden");
+                    hiddenField.setAttribute("name", key);
+                    hiddenField.setAttribute("value", data[key]);
+
+                    form.appendChild(hiddenField);
+                }
+            }
+
+            document.body.appendChild(form);
+
+            form.submit();
         }
     });
 

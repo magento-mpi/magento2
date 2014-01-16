@@ -156,7 +156,7 @@ class Sidebar extends \Magento\View\Element\Template
 
     public function getCompareAddUrlTemplate()
     {
-        return $this->getUrl('catalog/product_compare/add',array('product'=>'#{id}'));
+        return $this->getUrl('catalog/product_compare/add');
     }
 
     public function getCompareUrl()

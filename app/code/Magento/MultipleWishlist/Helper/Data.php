@@ -48,6 +48,7 @@ class Data extends \Magento\Wishlist\Helper\Data
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Wishlist\Model\Resource\Item\CollectionFactory $itemCollectionFactory
      * @param \Magento\Wishlist\Model\Resource\Wishlist\CollectionFactory $wishlistCollectionFactory
+     * @param \Magento\Core\Helper\PostData $postDataHelper
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
@@ -58,7 +59,8 @@ class Data extends \Magento\Wishlist\Helper\Data
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Wishlist\Model\Resource\Item\CollectionFactory $itemCollectionFactory,
-        \Magento\Wishlist\Model\Resource\Wishlist\CollectionFactory $wishlistCollectionFactory
+        \Magento\Wishlist\Model\Resource\Wishlist\CollectionFactory $wishlistCollectionFactory,
+        \Magento\Core\Helper\PostData $postDataHelper
     ) {
         $this->_itemCollectionFactory = $itemCollectionFactory;
         $this->_wishlistCollectionFactory = $wishlistCollectionFactory;
@@ -69,7 +71,8 @@ class Data extends \Magento\Wishlist\Helper\Data
             $coreStoreConfig,
             $customerSession,
             $wishlistFactory,
-            $storeManager
+            $storeManager,
+            $postDataHelper
         );
     }
 

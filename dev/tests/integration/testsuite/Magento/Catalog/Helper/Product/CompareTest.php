@@ -43,9 +43,21 @@ class CompareTest extends \PHPUnit_Framework_TestCase
         $this->_testGetProductUrl('getAddUrl', '/catalog/product_compare/add/');
     }
 
-    public function testGetAddToWishlistUrl()
+    public function testGetAddToWishlistParams()
     {
-        $this->_testGetProductUrl('getAddToWishlistUrl', '/wishlist/index/add/');
+        $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Product');
+        $product->setId(10);
+        $json = $this->_helper->getAddToWishlistParams($product);
+        $params = (array) json_decode($json);
+        $data = (array) $params['data'];
+        $this->assertEquals('10', $data['product']);
+        $this->assertArrayHasKey('uenc', $data);
+        $this->assertArrayHasKey('form_key', $data);
+        $this->assertStringEndsWith(
+            'wishlist/index/add/',
+            $params['action']
+        );
     }
 
     public function testGetAddToCartUrl()
