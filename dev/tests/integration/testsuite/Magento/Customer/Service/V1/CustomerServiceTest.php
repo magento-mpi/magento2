@@ -7,7 +7,6 @@
  */
 namespace Magento\Customer\Service\V1;
 
-use Magento\Customer\Service\Entity\V1\Exception;
 use Magento\Customer\Service\V1;
 use Magento\Exception\InputException;
 use Magento\Exception\NoSuchEntityException;
@@ -91,7 +90,7 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @param mixed $custId
      * @dataProvider invalidCustomerIdsDataProvider
-     * @expectedException Exception
+     * @expectedException Magento\Exception\NoSuchEntityException
      * @expectedExceptionMessage customerId
      */
     public function testInvalidCustomerIds($custId)
