@@ -37,6 +37,11 @@ class Multiselect extends \Magento\Data\Form\Element\AbstractElement
         $this->setSize(10);
     }
 
+    /**
+     * Get the name
+     *
+     * @return mixed
+     */
     public function getName()
     {
         $name = parent::getName();
@@ -46,6 +51,11 @@ class Multiselect extends \Magento\Data\Form\Element\AbstractElement
         return $name;
     }
 
+    /**
+     * Get the element as HTML
+     *
+     * @return string
+     */
     public function getElementHtml()
     {
         $this->addClass('select multiselect');
@@ -82,11 +92,21 @@ class Multiselect extends \Magento\Data\Form\Element\AbstractElement
         return $html;
     }
 
+    /**
+     * Get the HTML attributes
+     *
+     * @return string[]
+     */
     public function getHtmlAttributes()
     {
         return array('title', 'class', 'style', 'onclick', 'onchange', 'disabled', 'size', 'tabindex');
     }
 
+    /**
+     * Get the default HTML
+     *
+     * @return mixed
+     */
     public function getDefaultHtml()
     {
         $result = $this->getNoSpan() === true ? '' : '<span class="field-row">' . "\n";
@@ -126,11 +146,21 @@ class Multiselect extends \Magento\Data\Form\Element\AbstractElement
         return $result;
     }
 
+    /**
+     * Get the  name of the JS object
+     *
+     * @return string
+     */
     public function getJsObjectName()
     {
          return $this->getHtmlId() . 'ElementControl';
     }
 
+    /**
+     * @param array $option
+     * @param array $selected
+     * @return string
+     */
     protected function _optionToHtml($option, $selected)
     {
         $html = '<option value="'.$this->_escape($option['value']).'"';

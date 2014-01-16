@@ -38,12 +38,22 @@ class Textarea extends \Magento\Data\Form\Element\AbstractElement
         $this->setCols(15);
     }
 
+    /**
+     * Return the HTML attributes
+     *
+     * @return string[]
+     */
     public function getHtmlAttributes()
     {
         return array('title', 'class', 'style', 'onclick', 'onchange', 'rows', 'cols', 'readonly', 'disabled',
                      'onkeyup', 'tabindex');
     }
 
+    /**
+     * Return the element as HTML
+     *
+     * @return string
+     */
     public function getElementHtml()
     {
         $this->addClass('textarea');

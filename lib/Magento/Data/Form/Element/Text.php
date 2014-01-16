@@ -36,12 +36,22 @@ class Text extends \Magento\Data\Form\Element\AbstractElement
         $this->setExtType('textfield');
     }
 
+    /**
+     * Get the HTML
+     *
+     * @return mixed
+     */
     public function getHtml()
     {
         $this->addClass('input-text');
         return parent::getHtml();
     }
 
+    /**
+     * Get the attributes
+     *
+     * @return string[]
+     */
     public function getHtmlAttributes()
     {
         return array('type', 'title', 'class', 'style', 'onclick', 'onchange', 'onkeyup', 'disabled', 'readonly',
