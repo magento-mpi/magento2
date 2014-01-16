@@ -71,11 +71,6 @@ class Observer
     protected $_orderFactory;
 
     /**
-     * @var \Magento\Sales\Model\Resource\Report\ShippingFactory
-     */
-    protected $_shippingFactory;
-
-    /**
      * @var \Magento\Sales\Model\Resource\Report\InvoicedFactory
      */
     protected $_invoicedFactory;
@@ -99,7 +94,6 @@ class Observer
      * @param \Magento\Sales\Model\Resource\Quote\CollectionFactory $quoteFactory
      * @param \Magento\Core\Model\LocaleInterface $coreLocale
      * @param Resource\Report\OrderFactory $orderFactory
-     * @param Resource\Report\ShippingFactory $shippingFactory
      * @param Resource\Report\InvoicedFactory $invoicedFactory
      * @param Resource\Report\RefundedFactory $refundedFactory
      * @param Resource\Report\BestsellersFactory $bestsellersFactory
@@ -113,7 +107,6 @@ class Observer
         \Magento\Sales\Model\Resource\Quote\CollectionFactory $quoteFactory,
         \Magento\Core\Model\LocaleInterface $coreLocale,
         \Magento\Sales\Model\Resource\Report\OrderFactory $orderFactory,
-        \Magento\Sales\Model\Resource\Report\ShippingFactory $shippingFactory,
         \Magento\Sales\Model\Resource\Report\InvoicedFactory $invoicedFactory,
         \Magento\Sales\Model\Resource\Report\RefundedFactory $refundedFactory,
         \Magento\Sales\Model\Resource\Report\BestsellersFactory $bestsellersFactory
@@ -126,7 +119,6 @@ class Observer
         $this->_quoteCollectionFactory = $quoteFactory;
         $this->_coreLocale = $coreLocale;
         $this->_orderFactory = $orderFactory;
-        $this->_shippingFactory = $shippingFactory;
         $this->_invoicedFactory = $invoicedFactory;
         $this->_refundedFactory = $refundedFactory;
         $this->_bestsellersFactory = $bestsellersFactory;
@@ -196,22 +188,6 @@ class Observer
         $currentDate = $this->_coreLocale->date();
         $date = $currentDate->subHour(25);
         $this->_orderFactory->create()->aggregate($date);
-        $this->_coreLocale->revert();
-        return $this;
-    }
-
-    /**
-     * Refresh sales shipment report statistics for last day
-     *
-     * @param \Magento\Cron\Model\Schedule $schedule
-     * @return \Magento\Sales\Model\Observer
-     */
-    public function aggregateSalesReportShipmentData($schedule)
-    {
-        $this->_coreLocale->emulate(0);
-        $currentDate = $this->_coreLocale->date();
-        $date = $currentDate->subHour(25);
-        $this->_shippingFactory->create()->aggregate($date);
         $this->_coreLocale->revert();
         return $this;
     }
