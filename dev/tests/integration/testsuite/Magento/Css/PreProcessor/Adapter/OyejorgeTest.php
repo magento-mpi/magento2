@@ -13,7 +13,6 @@ namespace Magento\Css\PreProcessor\Adapter;
  */
 class OyejorgeTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var Oyejorge
      */
