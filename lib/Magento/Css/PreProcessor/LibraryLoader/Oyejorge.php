@@ -23,6 +23,10 @@ class Oyejorge implements LoaderInterface
      */
     protected $driverFile;
 
+    /**
+     * @param \Magento\Filesystem\DirectoryList $directoryList
+     * @param \Magento\Filesystem\Driver\File $driverFile
+     */
     public function __construct(
         \Magento\Filesystem\DirectoryList $directoryList,
         \Magento\Filesystem\Driver\File $driverFile

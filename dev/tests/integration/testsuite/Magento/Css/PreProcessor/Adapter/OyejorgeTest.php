@@ -27,8 +27,8 @@ class OyejorgeTest extends \PHPUnit_Framework_TestCase
 
     public function testProcess()
     {
-        $sourceFilePath = __DIR__ . '/../_files/oyejorge.less';
+        $sourceFilePath = realpath(__DIR__ . '/../_files/oyejorge.less');
         $resultCss = file_get_contents(__DIR__ . '/../_files/oyejorge.css');
-        $this->assertEquals($resultCss, $this->model->process($sourceFilePath));
+        $this->assertContains($this->model->process($sourceFilePath), $resultCss);
     }
 }
