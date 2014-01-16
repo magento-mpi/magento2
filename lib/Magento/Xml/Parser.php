@@ -12,19 +12,13 @@ namespace Magento\Xml;
 
 class Parser
 {
-    /**
-     * @var \DOMDocument|null
-     */
+    /** @var \DOMDocument|null */
     protected $_dom = null;
 
-    /**
-     * @var \DOMDocument
-     */
+    /** @var \DOMDocument */
     protected $_currentDom;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $_content = array();
 
     public function __construct()

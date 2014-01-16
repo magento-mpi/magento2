@@ -16,14 +16,10 @@ class Generator
      */
     const DEFAULT_ENTITY_ITEM_NAME = 'item';
 
-    /**
-     * @var \DOMDocument|null
-     */
+    /** @var \DOMDocument|null */
     protected $_dom = null;
 
-    /**
-     * @var \DOMDocument
-     */
+    /** @var \DOMDocument */
     protected $_currentDom;
 
     /** @var string */
@@ -134,7 +130,7 @@ class Generator
      * Set xml node name to use instead of numeric index during numeric arrays conversion.
      *
      * @param string $name
-     * @return \Magento\Xml\Generator
+     * @return $this
      */
     public function setIndexedArrayItemName($name)
     {
