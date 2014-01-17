@@ -10,6 +10,7 @@
 namespace Magento;
 
 use Magento\Filesystem\FilesystemException;
+use Magento\Filesystem\File\ReadInterface;
 
 class Filesystem
 {
@@ -249,7 +250,7 @@ class Filesystem
     /**
      * @param string $path
      * @param string $protocol
-     * @return mixed
+     * @return ReadInterface
      */
     public function getRemoteResource($path, $protocol = null)
     {

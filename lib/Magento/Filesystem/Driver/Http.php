@@ -24,7 +24,7 @@ class Http extends File
     protected $scheme = 'http';
 
     /**
-     * @param $path
+     * @param string $path
      * @return bool
      * @throws FilesystemException
      */
@@ -48,7 +48,7 @@ class Http extends File
      *
      * @param string $path
      * @return array
-     * @throws \Magento\Filesystem\FilesystemException
+     * @throws FilesystemException
      */
     public function stat($path)
     {

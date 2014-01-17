@@ -10,6 +10,8 @@
 
 namespace Magento\Filesystem;
 
+use Magento\Filesystem\DirectoryList;
+
 class DriverFactory
 {
     /**
@@ -18,11 +20,14 @@ class DriverFactory
     protected $drivers = array();
 
     /**
-     * @var \Magento\Filesystem\DirectoryList
+     * @var DirectoryList
      */
     protected $directoryList;
 
-    public function __construct(\Magento\Filesystem\DirectoryList $directoryList)
+    /**
+     * @param DirectoryList $directoryList
+     */
+    public function __construct(DirectoryList $directoryList)
     {
         $this->directoryList = $directoryList;
     }

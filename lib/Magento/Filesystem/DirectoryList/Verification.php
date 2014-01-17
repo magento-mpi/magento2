@@ -10,6 +10,7 @@
 namespace Magento\Filesystem\DirectoryList;
 
 use Magento\App\State,
+    Magento\BootstrapException,
     Magento\Filesystem,
     Magento\Filesystem\FilesystemException;
 
@@ -18,7 +19,7 @@ class Verification
     /**
      * Codes of directories to create and verify in production mode
      *
-     * @var array
+     * @var string[]
      */
     protected static $productionDirs = array(
         Filesystem::MEDIA,
@@ -32,7 +33,7 @@ class Verification
     /**
      * Codes of directories to create and verify in non-production mode
      *
-     * @var array
+     * @var string[]
      */
     protected static $nonProductionDirs = array(
         Filesystem::MEDIA,
@@ -52,7 +53,7 @@ class Verification
     /**
      * Cached list of directories to create and verify write access
      *
-     * @var array
+     * @var string[]
      */
     protected $dirsToVerify = array();
 
@@ -71,7 +72,7 @@ class Verification
      * Return list of directories, that must be verified according to the application mode
      *
      * @param State $appState
-     * @return array
+     * @return string[]
      */
     protected function _getDirsToVerify(State $appState)
     {
@@ -83,6 +84,10 @@ class Verification
 
     /**
      * Create the required directories, if they don't exist, and verify write access for existing directories
+     *
+     * @return void
+     * @throws BootstrapException
+     *
      */
     public function createAndVerifyDirectories()
     {
@@ -104,7 +109,7 @@ class Verification
 
         if ($fails) {
             $dirList = implode(', ', $fails);
-            throw new \Magento\BootstrapException(
+            throw new BootstrapException(
                 "Cannot create or verify write access: {$dirList}"
             );
         }

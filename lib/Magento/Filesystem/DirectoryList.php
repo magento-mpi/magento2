@@ -96,6 +96,7 @@ class DirectoryList
      *
      * @param string $code
      * @param array $configuration
+     * @return void
      */
     public function addDirectory($code, array $configuration)
     {
@@ -114,6 +115,7 @@ class DirectoryList
      *
      * @param string $wrapperCode
      * @param array $configuration
+     * @return void
      */
     public function addProtocol($wrapperCode, array $configuration)
     {
@@ -220,8 +222,9 @@ class DirectoryList
      * Path must be usable as a fragment of a URL path.
      * For interoperability and security purposes, no uppercase or "upper directory" paths like "." or ".."
      *
-     * @param $code
-     * @param $uri
+     * @param string $code
+     * @param string $uri
+     * @return void
      * @throws \InvalidArgumentException
      */
     private function setUri($code, $uri)
@@ -239,6 +242,7 @@ class DirectoryList
      *
      * @param string $code
      * @param string $path
+     * @return void
      */
     private function setPath($code, $path)
     {
