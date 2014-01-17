@@ -43,8 +43,7 @@ class Socket
 	 * @var array
 	 */
 	private $_headers = array();
-	
-	
+
 	/**
 	 * Fields for POST method - hash
 	 * @var array
@@ -74,8 +73,7 @@ class Socket
 	 * @var int
 	 */
 	private $_responseStatus = 0;
-	
-	
+
 	/**
 	 * Request timeout
 	 * @var int
@@ -88,22 +86,23 @@ class Socket
 	 */
 	private $_redirectCount = 0;
 
-
 	/**
 	 * Set request timeout, msec
 	 * 
-	 * @param int $value 
+	 * @param int $value
+     * @return void
 	 */
 	public function setTimeout($value)
 	{
 		$this->_timeout = (int) $value;
 	}
 
-	/**
-	 * Constructor 
-	 * @param string $host 
-	 * @param int $port
-	 */
+    /**
+     * Constructor
+     *
+     * @param string $host
+     * @param int $port
+     */
 	public function __construct($host = null, $port = 80)
 	{
 		if($host) {
@@ -116,16 +115,18 @@ class Socket
 	 *
      * @param string $host 
      * @param int $port
+     * @return void
 	 */
 	public function connect($host, $port = 80)
 	{
 		$this->_host = $host;
 		$this->_port = (int) $port;
-
 	}
 	
 	/**
 	 * Disconnect
+     *
+     * @return void
 	 */
 	public function disconnect()
 	{
@@ -136,34 +137,34 @@ class Socket
 	 * Set headers from hash
 	 
 	 * @param array $headers
+     * @return void
 	 */	
 	public function setHeaders($headers)
 	{
 		$this->_headers = $headers;
-
 	}
 	
 	/**
 	 * Add header
 	 * 
-	 * @param $name name, ex. "Location"
-	 * @param $value value ex. "http://google.com"
+	 * @param string $name name, ex. "Location"
+	 * @param string $value value ex. "http://google.com"
+     * @return void
 	 */
 	public function addHeader($name, $value)
 	{
 		$this->_headers[$name] = $value;
-
 	}
 	
 	/**
 	 * Remove specified header
 	 * 
 	 * @param string $name
+     * @return void
 	 */
 	public function removeHeader($name)
 	{
 		unset($this->_headers[$name]);
-
 	}
 
 	/**
@@ -172,6 +173,7 @@ class Socket
 	 * 
 	 * @param string $login username
 	 * @param string $pass password
+     * @return void
 	 */
 	public function setCredentials($login, $pass)
 	{
@@ -183,7 +185,8 @@ class Socket
 	 * Add cookie
 	 * 
 	 * @param string $name
-	 * @param string $value 	 
+	 * @param string $value
+     * @return void
 	 */
 	public function addCookie($name, $value)
 	{
@@ -194,6 +197,7 @@ class Socket
 	 * Remove cookie 
 	 * 
 	 * @param string $name
+     * @return void
 	 */	
 	public function removeCookie($name)
 	{
@@ -204,6 +208,7 @@ class Socket
 	 * Set cookies array
 	 * 	 
 	 * @param array $cookies
+     * @return void
 	 */
 	public function setCookies($cookies)
 	{
@@ -212,17 +217,19 @@ class Socket
 
 	/**
 	 * Clear cookies
+     *
+     * @return void
 	 */
 	public function removeCookies()
 	{
 		$this->setCookies(array());
 	}
-
 	
 	/**
 	 * Make GET request
 	 * 
 	 * @param string $uri full uri path
+     * @return void
 	 */
 	public function get($uri)
 	{	
@@ -235,8 +242,9 @@ class Socket
 	 * 
 	 * @param string $uri ex. http://google.com/index.php?a=b
 	 * @return string ex. /index.php?a=b
+     * @throws \InvalidArgumentException
 	 */
-	protected function parseUrl($uri) 
+    protected function parseUrl($uri)
 	{
 		$parts = parse_url($uri);
 		if(!empty($parts['user']) && !empty($parts['pass'])) {
@@ -265,13 +273,16 @@ class Socket
 	}
 	
 	/**
-	 * Make POST request
-	 */
-	public function post($uri, $params)
+     * Make POST request
+     *
+     * @param string $uri
+     * @param array $params
+     * @return void
+     */
+    public function post($uri, $params)
 	{
 		$this->makeRequest("POST", $this->parseUrl($uri), $params);
 	}
-
 
 	/**
 	 * Get response headers
@@ -282,7 +293,6 @@ class Socket
 	{
 		return $this->_responseHeaders;
 	}
-	
 
 	/**
 	 * Get response body
@@ -319,7 +329,6 @@ class Socket
 		}
 		return $out;
 	}
-
 
 	/**
 	 * Get cookies array with details
@@ -358,6 +367,8 @@ class Socket
 
 	/**
 	 * Process response headers
+     *
+     * @return void
 	 */
 	protected function processResponseHeaders()
 	{
@@ -389,6 +400,8 @@ class Socket
 
 	/**
 	 * Process response body
+     *
+     * @return void
 	 */
 	protected function processResponseBody()
 	{
@@ -400,9 +413,11 @@ class Socket
 	}
 
 	/**
-	 * Process response	  
-	 */
-	protected function processResponse()
+	 * Process response
+     *
+     * @return void
+     */
+    protected function processResponse()
 	{
 		$response = '';
 		$responseLine = trim(fgets($this->_sock, 1024));
@@ -419,21 +434,23 @@ class Socket
 		$this->processResponseBody();
 	}
 
-
 	/**
 	 * Process redirect
+     *
+     * @return void
 	 */
 	protected function processRedirect()
 	{
-		// TODO: implement redircets support
+		// TODO: implement redirects support
 	}
 
-	
 	/**
 	 * Get response status code
 	 * @see lib/Magento/HTTP/\Magento\HTTP\Client#getStatus()
-	 */
-	public function getStatus()
+     *
+     * @return int
+     */
+    public function getStatus()
 	{
 		return $this->_responseStatus;
 	}
@@ -443,9 +460,9 @@ class Socket
 	 * @param string $method 
 	 * @param string $uri
 	 * @param array $params
-	 * @return null
+	 * @return void
 	 */
-	protected function makeRequest($method, $uri, $params = array())
+    protected function makeRequest($method, $uri, $params = array())
 	{
 		$errno = $errstr = '';
 		$this->_sock = @fsockopen($this->_host, $this->_port, $errno, $errstr, $this->_timeout);
@@ -476,8 +493,9 @@ class Socket
 	}
 	
 	/**
-	 * Throw error excpetion
-	 * @param $string
+	 * Throw error exception
+	 * @param string $string
+     * @return void
 	 * @throws \Exception
 	 */
 	public function doError($string)
@@ -487,8 +505,7 @@ class Socket
 
 	/**
 	 * Convert headers hash to string 
-	 * @param $delimiter
-	 * @param $append
+	 * @param array $append
 	 * @return string
 	 */
 	protected function headersToString($append = array())
@@ -506,16 +523,23 @@ class Socket
 
 	/**
 	 * TODO
-	 */
-	public function setOptions($arr)
+     *
+     * @param array $arr
+     * @return void
+     */
+    public function setOptions($arr)
 	{
 		// Stub
 	}
 	
 	/**
 	 * TODO
-	 */
-	public function setOption($name, $value)
+     *
+     * @param string $name
+     * @param string $value
+     * @return void
+     */
+    public function setOption($name, $value)
 	{
 		// Stub
 	}

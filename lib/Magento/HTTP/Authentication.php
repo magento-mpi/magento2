@@ -46,7 +46,7 @@ class Authentication
      *
      * Returns plain array with 2 items: login and password respectively
      *
-     * @return array
+     * @return string[]
      */
     public function getCredentials()
     {
@@ -85,6 +85,7 @@ class Authentication
      * Set "auth failed" headers to the specified response object
      *
      * @param string $realm
+     * @return void
      */
     public function setAuthenticationFailed($realm)
     {

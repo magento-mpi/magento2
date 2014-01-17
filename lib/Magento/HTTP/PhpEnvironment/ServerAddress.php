@@ -22,6 +22,9 @@ class ServerAddress
      */
     protected $request;
 
+    /**
+     * @param \Magento\App\RequestInterface $httpRequest
+     */
     public function __construct(
         \Magento\App\RequestInterface $httpRequest
     ) {
