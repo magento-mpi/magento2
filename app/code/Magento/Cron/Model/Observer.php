@@ -68,12 +68,18 @@ class Observer
     protected $_cronGroupsConfig;
 
     /**
+     * @var \Magento\App\Console\Request
+     */
+    protected $_request;
+
+    /**
      * @param \Magento\ObjectManager $objectManager
      * @param ScheduleFactory $scheduleFactory
      * @param \Magento\Core\Model\AppInterface $app
      * @param ConfigInterface $config
      * @param Groups\Config\Data $cronGroupsConfig
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\App\Console\Request $request
      */
     public function __construct(
         \Magento\ObjectManager $objectManager,
@@ -81,7 +87,8 @@ class Observer
         \Magento\Core\Model\AppInterface $app,
         \Magento\Cron\Model\ConfigInterface $config,
         \Magento\Cron\Model\Groups\Config\Data $cronGroupsConfig,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\App\Console\Request $request
     ) {
         $this->_objectManager = $objectManager;
         $this->_scheduleFactory = $scheduleFactory;
@@ -89,6 +96,7 @@ class Observer
         $this->_config = $config;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_cronGroupsConfig = $cronGroupsConfig;
+        $this->_request = $request;
     }
 
     /**
@@ -107,6 +115,16 @@ class Observer
         /** @var $schedule \Magento\Cron\Model\Schedule */
         foreach ($jobGroupsRoot as $groupId => $jobsRoot) {
             $groupConfig = $this->_cronGroupsConfig->getByGroupId($groupId);
+            if (
+                $this->_request->getParam('group') === null && $groupConfig['use_separate_process'] == 1
+                || $this->_request->getParam('group') !== null && $this->_request->getParam('group') != $groupId
+            ) {
+                var_dump($this->_request->getParam('group'));
+                var_dump($this->_request->getParam('group') === null && $groupConfig['use_separate_process'] == 1);
+                var_dump($this->_request->getParam('group') !== null && $this->_request->getParam('group') != $groupId);
+                continue;
+            }
+            var_dump($groupId);
             foreach ($pendingJobs as $schedule) {
                 $jobConfig = isset($jobsRoot[$schedule->getJobCode()]) ? $jobsRoot[$schedule->getJobCode()] : null;
                 if (!$jobConfig) {

@@ -20,7 +20,10 @@ try {
         \Magento\Core\Model\Store::CUSTOM_ENTRY_POINT_PARAM => true
     );
     $entryPoint = new \Magento\App\EntryPoint\EntryPoint(BP, $params);
-    $entryPoint->run('Magento\App\Cron');
+    $entryPoint->run(
+        'Magento\App\Cron',
+        array('parameters' => array('group::'))
+    );
 } catch (\Exception $e) {
     print $e->getMessage() . "\n\n";
     print $e->getTraceAsString();

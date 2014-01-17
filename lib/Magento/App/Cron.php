@@ -25,15 +25,26 @@ class Cron implements \Magento\AppInterface
     protected $_state;
 
     /**
+     * @var Console\Request
+     */
+    protected $_request;
+
+    /**
      * @param ManagerInterface $eventManager
      * @param State $state
+     * @param Console\Request $request
+     * @param array $parameters
      */
     public function __construct(
         ManagerInterface $eventManager,
-        State $state
+        State $state,
+        Console\Request $request,
+        array $parameters = array()
     ) {
         $this->_eventManager = $eventManager;
         $this->_state = $state;
+        $this->_request = $request;
+        $this->_request->setParam($parameters);
     }
 
     /**
