@@ -35,6 +35,9 @@ class Radios extends \Magento\Data\Form\Element\AbstractElement
         $this->setType('radios');
     }
 
+    /**
+     * @return mixed
+     */
     public function getSeparator()
     {
         $separator = $this->getData('separator');
@@ -44,6 +47,9 @@ class Radios extends \Magento\Data\Form\Element\AbstractElement
         return $separator;
     }
 
+    /**
+     * @return string
+     */
     public function getElementHtml()
     {
         $html = '';
@@ -57,6 +63,11 @@ class Radios extends \Magento\Data\Form\Element\AbstractElement
         return $html;
     }
 
+    /**
+     * @param array $option
+     * @param string $selected
+     * @return string
+     */
     protected function _optionToHtml($option, $selected)
     {
         $html = '<input type="radio"'.$this->serialize(array('name', 'class', 'style'));

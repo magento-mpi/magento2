@@ -36,6 +36,9 @@ class Hidden extends \Magento\Data\Form\Element\AbstractElement
         $this->setExtType('hiddenfield');
     }
 
+    /**
+     * @return mixed
+     */
     public function getDefaultHtml()
     {
         $html = $this->getData('default_html');

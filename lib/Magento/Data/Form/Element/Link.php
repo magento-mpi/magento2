@@ -52,7 +52,7 @@ class Link extends \Magento\Data\Form\Element\AbstractElement
     /**
      * Prepare array of anchor attributes
      *
-     * @return array
+     * @return string[]
      */
     public function getHtmlAttributes()
     {

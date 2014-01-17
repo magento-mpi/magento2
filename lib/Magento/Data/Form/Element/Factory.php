@@ -26,7 +26,7 @@ class Factory
     /**
      * Standard library element types
      *
-     * @var array
+     * @var string[]
      */
     protected $_standardTypes = array(
         'button',

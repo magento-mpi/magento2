@@ -35,7 +35,10 @@ class Password extends \Magento\Data\Form\Element\AbstractElement
         $this->setType('password');
         $this->setExtType('textfield');
     }
-    
+
+    /**
+     * @return mixed
+     */
     public function getHtml()
     {
         $this->addClass('input-text');

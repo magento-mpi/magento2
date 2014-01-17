@@ -35,6 +35,9 @@ class Note extends \Magento\Data\Form\Element\AbstractElement
         $this->setType('note');
     }
 
+    /**
+     * @return string
+     */
     public function getElementHtml()
     {
         $html = '<div id="' . $this->getHtmlId() . '" class="control-value">' . $this->getText() . '</div>';

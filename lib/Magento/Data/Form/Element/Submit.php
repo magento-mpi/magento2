@@ -36,6 +36,9 @@ class Submit extends \Magento\Data\Form\Element\AbstractElement
         $this->setType('submit');
     }
 
+    /**
+     * @return mixed
+     */
     public function getHtml()
     {
         $this->addClass('submit');

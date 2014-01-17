@@ -36,11 +36,17 @@ class Checkbox extends \Magento\Data\Form\Element\AbstractElement
         $this->setExtType('checkbox');
     }
 
+    /**
+     * @return string[]
+     */
     public function getHtmlAttributes()
     {
         return array('type', 'title', 'class', 'style', 'checked', 'onclick', 'onchange', 'disabled', 'tabindex');
     }
 
+    /**
+     * @return string
+     */
     public function getElementHtml()
     {
         if ($checked = $this->getChecked()) {
