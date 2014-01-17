@@ -7,6 +7,8 @@
  */
 namespace Magento\Customer\Block\Account\Dashboard;
 
+use Magento\Exception\NoSuchEntityException;
+
 /**
  * Test class for \Magento\Customer\Block\Account\Dashboard\Info.
  */
@@ -102,7 +104,7 @@ class InfoTest extends \PHPUnit_Framework_TestCase
     {
         $this->_customerService
             ->expects($this->once())
-            ->method('getCustomer')->will($this->throwException(new \Magento\Customer\Service\Entity\V1\Exception()));
+            ->method('getCustomer')->will($this->throwException(new NoSuchEntityException('customerId', 1)));
         $this->assertNull($this->_block->getCustomer());
     }
 
@@ -140,7 +142,7 @@ class InfoTest extends \PHPUnit_Framework_TestCase
          */
         foreach ($isVisible as $index => $boolean) {
             $attributeMetadata
-                ->expects($this->at($index))->method('getIsVisible')->will($this->returnValue($boolean));
+                ->expects($this->at($index))->method('IsVisible')->will($this->returnValue($boolean));
         }
 
         /**
