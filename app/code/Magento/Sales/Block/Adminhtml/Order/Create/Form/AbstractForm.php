@@ -178,7 +178,11 @@ abstract class AbstractForm
                 }
 
                 if ($inputType == 'select' || $inputType == 'multiselect') {
-                    $element->setValues($attribute->getOptions());
+                    $options = array();
+                    foreach ($attribute->getOptions() as $optionDto) {
+                        $options[] = $optionDto->__toArray();
+                    }
+                    $element->setValues($options);
                 } else if ($inputType == 'date') {
                     $format = $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
                     $element->setImage($this->getViewFileUrl('images/grid-cal.gif'));
