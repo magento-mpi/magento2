@@ -14,7 +14,7 @@ class Reader extends \Magento\Config\Reader\Filesystem
     /**
      * List of id attributes for merge
      *
-     * @var array
+     * @var string[]
      */
     protected $_idAttributes = array(
         '/config/event' => 'name',

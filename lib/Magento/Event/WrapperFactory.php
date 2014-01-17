@@ -29,7 +29,7 @@ class WrapperFactory
      * Create wrapper instance
      *
      * @param array $arguments
-     * @return \Magento\Event\Observer
+     * @return mixed
      */
     public function create(array $arguments = array())
     {

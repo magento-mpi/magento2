@@ -42,6 +42,7 @@ class InvokerDefault implements \Magento\Event\InvokerInterface
      *
      * @param array $configuration
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function dispatch(array $configuration, \Magento\Event\Observer $observer)
     {
@@ -64,7 +65,7 @@ class InvokerDefault implements \Magento\Event\InvokerInterface
      * @param object $object
      * @param string $method
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Event\InvokerInterface
+     * @return $this
      * @throws \LogicException
      */
     protected function _callObserverMethod($object, $method, $observer)

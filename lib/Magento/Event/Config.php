@@ -9,17 +9,19 @@
  */
 namespace Magento\Event;
 
-class Config implements \Magento\Event\ConfigInterface
+use \Magento\Event\Config\Data;
+
+class Config implements ConfigInterface
 {
     /**
      * Modules configuration model
      *
-     * @var \Magento\Event\Config\Data
+     * @var Data
      */
     protected $_dataContainer;
 
     /**
-     * @param \Magento\Event\Config\Data $dataContainer
+     * @param Data $dataContainer
      */
     public function __construct(Config\Data $dataContainer)
     {
@@ -29,8 +31,8 @@ class Config implements \Magento\Event\ConfigInterface
     /**
      * Get observers by event name
      *
-     * @param $eventName
-     * @return array
+     * @param string $eventName
+     * @return null|array|mixed
      */
     public function getObservers($eventName)
     {

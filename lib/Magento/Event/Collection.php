@@ -18,6 +18,8 @@
  */
 namespace Magento\Event;
 
+use \Magento\Event;
+
 class Collection
 {
     /**
@@ -86,7 +88,7 @@ class Collection
      * Register an event for this collection
      *
      * @param \Magento\Event $event
-     * @return \Magento\Event\Collection
+     * @return $this
      */
     public function addEvent(\Magento\Event $event)
     {
@@ -97,11 +99,11 @@ class Collection
     /**
      * Register an observer
      * 
-     * If observer has event_name property it will be regitered for this specific event.
+     * If observer has event_name property it will be registered for this specific event.
      * If not it will be registered as global observer
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Event\Collection
+     * @return $this
      */
     public function addObserver(\Magento\Event\Observer $observer)
     {
@@ -113,15 +115,15 @@ class Collection
         }
         return $this;
     }
-    
+
     /**
      * Dispatch event name with optional data
      *
      * Will dispatch specific event and will try all global observers
-     * 
+     *
      * @param string $eventName
      * @param array $data
-     * @return \Magento\Event\Collection
+     * @return $this
      */
     public function dispatch($eventName, array $data=array())
     {

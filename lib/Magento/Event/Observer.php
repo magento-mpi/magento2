@@ -27,7 +27,7 @@ class Observer extends \Magento\Object
      * Dispatches an event to observer's callback
      *
      * @param \Magento\Event $event
-     * @return \Magento\Event\Observer
+     * @return $this
      */
     public function dispatch(\Magento\Event $event)
     {
@@ -46,31 +46,52 @@ class Observer extends \Magento\Object
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
     public function getName()
     {
         return $this->getData('name');
     }
 
+    /**
+     * @param string $data
+     * @return Object
+     */
     public function setName($data)
     {
         return $this->setData('name', $data);
     }
 
+    /**
+     * @return string
+     */
     public function getEventName()
     {
         return $this->getData('event_name');
     }
 
+    /**
+     * @param string $data
+     * @return Object
+     */
     public function setEventName($data)
     {
         return $this->setData('event_name', $data);
     }
 
+    /**
+     * @return string
+     */
     public function getCallback()
     {
         return $this->getData('callback');
     }
 
+    /**
+     * @param string $data
+     * @return Object
+     */
     public function setCallback($data)
     {
         return $this->setData('callback', $data);
@@ -86,6 +107,10 @@ class Observer extends \Magento\Object
         return $this->getData('event');
     }
 
+    /**
+     * @param mixed $data
+     * @return Object
+     */
     public function setEvent($data)
     {
         return $this->setData('event', $data);
