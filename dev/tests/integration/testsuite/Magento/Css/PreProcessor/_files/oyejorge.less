@@ -68,3 +68,9 @@ h2 {
   color: (@base-color + #003300);
   border-color: desaturate(@red, 10%);
 }
+
+@import "nested/import.less";
+
+body {
+  background-image: @body-bg-img;
+}
