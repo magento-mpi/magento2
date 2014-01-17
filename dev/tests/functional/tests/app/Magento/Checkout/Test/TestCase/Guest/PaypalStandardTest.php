@@ -17,21 +17,23 @@ use Magento\Checkout\Test\Fixture\Checkout;
 
 /**
  * Class OnepageTest
- * Test one page with PayPal Advanced payment method
+ * Test one page with PayPal Standard payment method
  *
  * @package Magento\Test\TestCase\Guest
  */
-class PaypalAdvancedTest extends Functional
+class PaypalStandardTest extends Functional
 {
     /**
-     * Guest checkout using PayPal Payments Advanced method and offline shipping method
+     * Guest checkout using PayPal Payments Standard method and offline shipping method
      *
-     * @ZephyrId MAGETWO-12991
+     * @ZephyrId MAGETWO-12964
      */
     public function testOnepageCheckout()
     {
-        $this->markTestSkipped('Bamboo inability to run tests on instance with public IP address');
-        $fixture = Factory::getFixtureFactory()->getMagentoCheckoutGuestPaypalAdvanced();
+        $this->markTestSkipped('Bamboo inability to run tests on instance without public IP address.');
+
+        /** @var Checkout $fixture */
+        $fixture = Factory::getFixtureFactory()->getMagentoCheckoutGuestPayPalStandard();
         $fixture->persist();
 
         //Ensure shopping cart is empty
@@ -53,6 +55,7 @@ class PaypalAdvancedTest extends Functional
         $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
         $checkoutCartPage->getCartBlock()->getOnepageLinkBlock()->proceedToCheckout();
 
+
         //Proceed Checkout
         /** @var \Magento\Checkout\Test\Page\CheckoutOnepage $checkoutOnePage */
         $checkoutOnePage = Factory::getPageFactory()->getCheckoutOnepage();
@@ -60,19 +63,25 @@ class PaypalAdvancedTest extends Functional
         $checkoutOnePage->getBillingBlock()->fillBilling($fixture);
         $checkoutOnePage->getShippingMethodBlock()->selectShippingMethod($fixture);
         $checkoutOnePage->getPaymentMethodsBlock()->selectPaymentMethod($fixture);
+
         $checkoutOnePage->getReviewBlock()->placeOrder();
 
-        /** @var \Magento\Payment\Test\Block\Form\PayflowAdvanced\Cc $formBlock */
-        $formBlock = $checkoutOnePage->getPayflowCcBlock();
-        $formBlock->fill($fixture);
-        $formBlock->pressContinue();
+        $paypalCustomer = $fixture->getPaypalCustomer();
+        $paypalPage = Factory::getPageFactory()->getPaypal();
+        $paypalPage->getBillingBlock()->clickLoginLink();
+        $paypalPage->getLoginBlock()->login($paypalCustomer);
+        $paypalPage->getReviewBlock()->continueCheckout();
+        $paypalPage->getMainPanelBlock()->clickReturnLink();
 
         //Verify order in Backend
+        /** @var \Magento\Checkout\Test\Page\CheckoutOnepageSuccess $successPage */
         $successPage = Factory::getPageFactory()->getCheckoutOnepageSuccess();
         $this->assertContains(
             'Your order has been received.',
             $successPage->getTitleBlock()->getTitle(),
             'Order success page was not opened.');
+
+        /** @var  string $orderId */
         $orderId = $successPage->getSuccessBlock()->getOrderId($fixture);
         $this->_verifyOrder($orderId, $fixture);
     }
@@ -95,15 +104,11 @@ class PaypalAdvancedTest extends Functional
             'Incorrect grand total value for the order #' . $orderId
         );
 
-        if ($fixture->getCommentHistory()) {
-            $expectedAuthorizedAmount = $fixture->getCommentHistory();
-        } else {
-            $expectedAuthorizedAmount = 'Authorized amount of ' . $fixture->getGrandTotal();
-        }
+        $expectedAuthorizedAmount = 'captured amount of ' . $fixture->getGrandTotal();
         $this->assertContains(
             $expectedAuthorizedAmount,
-            Factory::getPageFactory()->getSalesOrderView()->getOrderHistoryBlock()->getCommentsHistory(),
-            'Incorrect authorized amount value for the order #' . $orderId
+            Factory::getPageFactory()->getSalesOrderView()->getOrderHistoryBlock()->getCapturedAmount(),
+            'Incorrect captured amount value for the order #' . $orderId
         );
     }
 }
