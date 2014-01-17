@@ -9,14 +9,14 @@
  * @license     {license_link}
  */
 
-namespace Magento\Sales\Block\Order\Shipment;
+namespace Magento\Shipping\Block;
 
 class ItemsTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetCommentsHtml()
     {
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface');
-        $block = $layout->createBlock('Magento\Sales\Block\Order\Shipment\Items', 'block');
+        $block = $layout->createBlock('Magento\Shipping\Block\Items', 'block');
         $childBlock = $layout->addBlock('Magento\View\Element\Text', 'shipment_comments', 'block');
         $shipment = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Sales\Model\Order\Shipment');
