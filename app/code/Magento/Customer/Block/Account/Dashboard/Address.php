@@ -65,7 +65,11 @@ class Address extends \Magento\View\Element\Template
      */
     public function getCustomer()
     {
-        return $this->_customerService->getCustomer($this->_customerSession->getId());
+        try {
+            return $this->_customerService->getCustomer($this->_customerSession->getId());
+        } catch (\Magento\Exception\NoSuchEntityException $e) {
+            return null;
+        }
     }
 
     /**
@@ -75,11 +79,15 @@ class Address extends \Magento\View\Element\Template
      */
     public function getPrimaryShippingAddressHtml()
     {
-        $address = $this->_addressService->getDefaultShippingAddress($this->_customerSession->getCustomerId());
+        try {
+            $address = $this->_addressService->getDefaultShippingAddress($this->_customerSession->getCustomerId());
 
-        if ($address) {
-            return $this->_getAddressHtml($address);
-        } else {
+            if ($address) {
+                return $this->_getAddressHtml($address);
+            } else {
+                return __('You have not set a default shipping address.');
+            }
+        } catch (\Magento\Exception\NoSuchEntityException $e) {
             return __('You have not set a default shipping address.');
         }
     }
@@ -91,23 +99,35 @@ class Address extends \Magento\View\Element\Template
      */
     public function getPrimaryBillingAddressHtml()
     {
-        $address = $this->_addressService->getDefaultBillingAddress($this->_customerSession->getCustomerId());
+        try {
+            $address = $this->_addressService->getDefaultBillingAddress($this->_customerSession->getCustomerId());
 
-        if ($address) {
-            return $this->_getAddressHtml($address);
-        } else {
+            if ($address) {
+                return $this->_getAddressHtml($address);
+            } else {
+                return __('You have not set a default billing address.');
+            }
+        } catch (\Magento\Exception\NoSuchEntityException $e) {
             return __('You have not set a default billing address.');
         }
     }
 
     public function getPrimaryShippingAddressEditUrl()
     {
-        return $this->_urlBuilder->getUrl('customer/address/edit', array('id'=>$this->getCustomer()->getDefaultShipping()));
+        if (is_null($this->getCustomer())) {
+            return '';
+        } else {
+            return $this->_urlBuilder->getUrl('customer/address/edit', array('id'=>$this->getCustomer()->getDefaultShipping()));
+        }
     }
 
     public function getPrimaryBillingAddressEditUrl()
     {
-        return $this->_urlBuilder->getUrl('customer/address/edit', array('id'=>$this->getCustomer()->getDefaultBilling()));
+        if (is_null($this->getCustomer())) {
+            return '';
+        } else {
+            return $this->_urlBuilder->getUrl('customer/address/edit', array('id'=>$this->getCustomer()->getDefaultBilling()));
+        }
     }
 
     public function getAddressBookUrl()
