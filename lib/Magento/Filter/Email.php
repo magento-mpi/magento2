@@ -13,7 +13,8 @@ namespace Magento\Filter;
 class Email implements \Zend_Filter_Interface
 {
     /**
-     * {@inheritdoc}
+     * @param  mixed $value
+     * @return mixed
      */
     public function filter($value)
     {

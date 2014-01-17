@@ -11,11 +11,13 @@
 
 namespace Magento\Filter\Object;
 
+use Magento\Object;
+
 class Grid extends \Magento\Filter\Object
 {
     /**
-     * @param \Magento\Object[] $grid
-     * @return \Magento\Object[]
+     * @param Object[] $grid
+     * @return Object[]
      */
     public function filter($grid)
     {

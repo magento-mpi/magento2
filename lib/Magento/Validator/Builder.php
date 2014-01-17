@@ -9,6 +9,8 @@
  */
 namespace Magento\Validator;
 
+use Magento\Validator\Constraint\OptionInterface;
+
 class Builder
 {
     /**
@@ -324,13 +326,13 @@ class Builder
     /**
      * Apply all argument callback
      *
-     * @param \Magento\Validator\Constraint\OptionInterface[] $arguments
-     * @return \Magento\Validator\Constraint\OptionInterface[]
+     * @param OptionInterface[] $arguments
+     * @return OptionInterface[]
      */
     protected function _applyArgumentsCallback(array $arguments)
     {
         foreach ($arguments as &$argument) {
-            if ($argument instanceof \Magento\Validator\Constraint\OptionInterface) {
+            if ($argument instanceof OptionInterface) {
                 $argument = $argument->getValue();
             }
         }
