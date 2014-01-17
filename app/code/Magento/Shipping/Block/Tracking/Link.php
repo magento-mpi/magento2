@@ -28,10 +28,11 @@ class Link extends \Magento\View\Element\Html\Link
     protected $_shippingData;
 
     /**
-     * @var string;
+     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Shipping\Helper\Data $shippingData
+     * @param array $data
      */
-    protected $windowName;
-
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
@@ -40,7 +41,6 @@ class Link extends \Magento\View\Element\Html\Link
     ) {
         $this->_shippingData = $shippingData;
         $this->_coreRegistry = $registry;
-        $this->windowName = $data['windowName'];
         parent::__construct($context, $data);
     }
 
@@ -61,13 +61,5 @@ class Link extends \Magento\View\Element\Html\Link
     public function getOrder()
     {
         return $this->_coreRegistry->registry('current_order');
-    }
-
-    /**
-     * @return string
-     */
-    public function getWindowName()
-    {
-        return $this->windowName;
     }
 }
