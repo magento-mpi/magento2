@@ -10,8 +10,8 @@ namespace Magento\Customer\Model;
 
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 use Magento\Exception\NoSuchEntityException;
-use \Magento\Customer\Service\V1\Dto\Customer as CustomerDto;
-use \Magento\Customer\Service\V1\Dto\CustomerBuilder as CustomerDtoBuilder;
+use Magento\Customer\Service\V1\Dto\Customer as CustomerDto;
+use Magento\Customer\Service\V1\Dto\CustomerBuilder as CustomerDtoBuilder;
 
 /**
  * Customer Model converter.

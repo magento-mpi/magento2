@@ -1,12 +1,7 @@
 <?php
 /**
- * Dashboard Customer Info
- *
  * {license_notice}
  *
- * @category   Magento
- * @package    Magento_Customer
- * @author     Magento Core Team <core@magentocommerce.com>
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -18,10 +13,6 @@ use Magento\Exception\NoSuchEntityException;
 
 /**
  * Dashboard Customer Info
- *
- * @category   Magento
- * @package    Magento_Customer
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Info extends \Magento\View\Element\Template
 {
