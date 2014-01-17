@@ -9,8 +9,8 @@
 
 namespace Magento\Customer\Model;
 
-use Magento\Customer\Service\Entity\V1\Exception;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
+use Magento\Exception\NoSuchEntityException;
 
 /**
  * Customer Model converter.
@@ -68,23 +68,16 @@ class Converter
 
     /**
      * @param int $customerId
-     * @throws Exception If customerId is not found or other error occurs.
+     * @throws NoSuchEntityException If customer with customerId is not found.
      * @return Customer
      */
     public function getCustomerModel($customerId)
     {
-        try {
-            $customer = $this->_customerFactory->create()->load($customerId);
-        } catch (\Exception $e) {
-            throw new Exception($e->getMessage(), $e->getCode(), $e);
-        }
+        $customer = $this->_customerFactory->create()->load($customerId);
 
         if (!$customer->getId()) {
             // customer does not exist
-            throw new Exception(
-                'No customer with customerId ' . $customerId . ' exists.',
-                Exception::CODE_INVALID_CUSTOMER_ID
-            );
+            throw new NoSuchEntityException('customerId', $customerId);
         } else {
             return $customer;
         }

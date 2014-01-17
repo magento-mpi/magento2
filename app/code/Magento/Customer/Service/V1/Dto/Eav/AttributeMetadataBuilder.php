@@ -9,8 +9,6 @@
  */
 namespace Magento\Customer\Service\V1\Dto\Eav;
 
-use Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata;
-
 class AttributeMetadataBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
 {
     /**
@@ -80,7 +78,7 @@ class AttributeMetadataBuilder extends \Magento\Service\Entity\AbstractDtoBuilde
      * @param boolean $visible
      * @return AttributeMetadataBuilder
      */
-    public function setIsVisible($visible)
+    public function setVisible($visible)
     {
         return $this->_set(AttributeMetadata::VISIBLE, $visible);
     }
@@ -89,7 +87,7 @@ class AttributeMetadataBuilder extends \Magento\Service\Entity\AbstractDtoBuilde
      * @param boolean $required
      * @return AttributeMetadataBuilder
      */
-    public function setIsRequired($required)
+    public function setRequired($required)
     {
         return $this->_set(AttributeMetadata::REQUIRED, $required);
     }

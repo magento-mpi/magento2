@@ -59,6 +59,7 @@ abstract class AbstractDtoBuilder
      * Populates the fields with data from the array.
      *
      * @param array $data
+     * @return $this
      */
     public function populateWithArray(array $data)
     {
@@ -84,7 +85,7 @@ abstract class AbstractDtoBuilder
      * @param string $key
      * @param mixed $value
      *
-     * @return AbstractDto
+     * @return $this
      */
     protected function _set($key, $value)
     {

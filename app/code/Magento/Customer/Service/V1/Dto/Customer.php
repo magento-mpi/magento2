@@ -102,15 +102,6 @@ class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\Entity
     }
 
     /**
-     * @param string $confirmation
-     * @return Customer
-     */
-    public function setConfirmation($confirmation)
-    {
-        return $this->_set(self::CONFIRMATION, $confirmation);
-    }
-
-    /**
      * @return string
      */
     public function getCreatedAt()

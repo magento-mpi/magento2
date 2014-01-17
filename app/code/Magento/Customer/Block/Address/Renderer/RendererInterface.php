@@ -37,7 +37,7 @@ interface RendererInterface
     /**
      * Render address
      *
-     * @param array $addressAttributes
+     * @param string[] $addressAttributes
      * @param \Magento\Directory\Model\Country\Format $format
      * @return string
      */

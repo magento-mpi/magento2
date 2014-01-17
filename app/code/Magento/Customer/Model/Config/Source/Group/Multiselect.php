@@ -49,7 +49,7 @@ class Multiselect implements \Magento\Core\Model\Option\ArrayInterface
     public function toOptionArray()
     {
         if (!$this->_options) {
-            $groups = $this->_groupService->getGroups(FALSE);
+            $groups = $this->_groupService->getGroups(false);
             $this->_options = $this->_converter->toOptionArray($groups, 'id', 'code');
         }
         return $this->_options;

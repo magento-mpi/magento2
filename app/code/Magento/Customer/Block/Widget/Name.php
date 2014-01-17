@@ -63,7 +63,7 @@ class Name extends \Magento\Customer\Block\Widget\AbstractWidget
      */
     public function showPrefix()
     {
-        return (bool)$this->_getAttribute('prefix')->getIsVisible();
+        return (bool)$this->_getAttribute('prefix')->isVisible();
     }
 
     /**
@@ -73,7 +73,7 @@ class Name extends \Magento\Customer\Block\Widget\AbstractWidget
      */
     public function isPrefixRequired()
     {
-        return (bool)$this->_getAttribute('prefix')->getIsRequired();
+        return (bool)$this->_getAttribute('prefix')->isRequired();
     }
 
     /**
@@ -99,7 +99,7 @@ class Name extends \Magento\Customer\Block\Widget\AbstractWidget
      */
     public function showMiddlename()
     {
-        return (bool)$this->_getAttribute('middlename')->getIsVisible();
+        return (bool)$this->_getAttribute('middlename')->isVisible();
     }
 
     /**
@@ -109,7 +109,7 @@ class Name extends \Magento\Customer\Block\Widget\AbstractWidget
      */
     public function isMiddlenameRequired()
     {
-        return (bool)$this->_getAttribute('middlename')->getIsRequired();
+        return (bool)$this->_getAttribute('middlename')->isRequired();
     }
 
     /**
@@ -119,7 +119,7 @@ class Name extends \Magento\Customer\Block\Widget\AbstractWidget
      */
     public function showSuffix()
     {
-        return (bool)$this->_getAttribute('suffix')->getIsVisible();
+        return (bool)$this->_getAttribute('suffix')->isVisible();
     }
 
     /**
@@ -129,7 +129,7 @@ class Name extends \Magento\Customer\Block\Widget\AbstractWidget
      */
     public function isSuffixRequired()
     {
-        return (bool)$this->_getAttribute('suffix')->getIsRequired();
+        return (bool)$this->_getAttribute('suffix')->isRequired();
     }
 
     /**
@@ -190,9 +190,9 @@ class Name extends \Magento\Customer\Block\Widget\AbstractWidget
 
         $attribute = $this->_attributeMetadata->getAttributeMetadata('customer_address', $attributeCode);
 
-        if ($this->getForceUseCustomerRequiredAttributes() && $attribute && !$attribute->getIsRequired()) {
+        if ($this->getForceUseCustomerRequiredAttributes() && $attribute && !$attribute->isRequired()) {
             $customerAttribute = parent::_getAttribute($attributeCode);
-            if ($customerAttribute && $customerAttribute->getIsRequired()) {
+            if ($customerAttribute && $customerAttribute->isRequired()) {
                 $attribute = $customerAttribute;
             }
         }

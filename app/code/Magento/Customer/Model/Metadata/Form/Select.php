@@ -43,11 +43,11 @@ class Select extends AbstractData
             $value = $this->_value;
         }
 
-        if ($attribute->getIsRequired() && empty($value) && $value != '0') {
+        if ($attribute->isRequired() && empty($value) && $value != '0') {
             $errors[] = __('"%1" is a required value.', $label);
         }
 
-        if (!$errors && !$attribute->getIsRequired() && empty($value)) {
+        if (!$errors && !$attribute->isRequired() && empty($value)) {
             return true;
         }
 
@@ -62,12 +62,12 @@ class Select extends AbstractData
      * Export attribute value to entity model
      *
      * @param array|string $value
-     * @return string
+     * @return array|string|false
      */
     public function compactValue($value)
     {
         if ($value !== false) {
-            $value;
+            return $value;
         }
         return false;
     }

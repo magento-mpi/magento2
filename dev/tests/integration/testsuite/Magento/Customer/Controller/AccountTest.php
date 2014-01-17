@@ -62,6 +62,30 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      */
+    public function testCreatepasswordActionInvalidToken()
+    {
+        /** @var \Magento\Customer\Model\Customer $customer */
+        $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Customer')->load(1);
+
+        $token = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Customer\Helper\Data')
+            ->generateResetPasswordLinkToken();
+        $customer->changeResetPasswordLinkToken($token);
+
+        $this->getRequest()->setParam('token', 'INVALIDTOKEN');
+        $this->getRequest()->setParam('id', $customer->getId());
+
+        $this->dispatch('customer/account/createpassword');
+
+        // should be redirected to forgotpassword page
+        $response = $this->getResponse();
+        $this->assertEquals(302, $response->getHttpResponseCode());
+        $this->assertContains('customer/account/forgotpassword', $response->getHeader('Location')['value']);
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     */
     public function testConfirmActionAlreadyActive()
     {
         /** @var \Magento\Customer\Model\Customer $customer */
@@ -98,9 +122,9 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
             ->setParam('country_id', 'US')
             ->setParam('default_billing', '1')
             ->setParam('default_shipping', '1')
-            ->setParam('is_subscribed', '1');
+            ->setParam('is_subscribed', '1')
+            ->setPost('create_address', true);
 
-        $_POST['create_address'] = true;
         $this->dispatch('customer/account/createPost');
         $this->assertRedirect($this->stringContains('customer/account/index/'));
     }

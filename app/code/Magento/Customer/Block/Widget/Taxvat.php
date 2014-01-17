@@ -43,12 +43,12 @@ class Taxvat extends \Magento\Customer\Block\Widget\AbstractWidget
 
     public function isEnabled()
     {
-        return (bool)$this->_getAttribute('taxvat')->getIsVisible();
+        return (bool)$this->_getAttribute('taxvat')->isVisible();
     }
 
     public function isRequired()
     {
-        return (bool)$this->_getAttribute('taxvat')->getIsRequired();
+        return (bool)$this->_getAttribute('taxvat')->isRequired();
     }
 
     public function getCustomer()

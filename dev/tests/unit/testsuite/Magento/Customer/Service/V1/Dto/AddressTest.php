@@ -13,26 +13,7 @@ use Magento\Customer\Service\V1\Dto\AddressBuilder;
 
 class AddressTest extends \PHPUnit_Framework_TestCase
 {
-    /** Sample values for testing */
-    const ID = 14;
-    const IS_SHIPPING = true;
-    const IS_BILLING = false;
-    const COMPANY = 'Company Name';
-    const FAX = '(555) 555-5555';
-    const MIDDLENAME = 'Mid';
-    const PREFIX = 'Mr.';
-    const SUFFIX = 'Esq.';
-    const VAT_ID = 'S45';
-    const FIRSTNAME = 'Jane';
-    const LASTNAME = 'Doe';
-    const STREET_LINE_0 = '7700 W Parmer Ln';
-    const CITY = 'Austin';
-    const COUNTRY_CODE = 'US';
-    const POSTCODE = '78620';
-    const TELEPHONE = '5125125125';
-    const REGION = 'Texas';
-
-    protected $_expectedValues = [
+    private $_expectedValues = [
         'id' => 14,
         'default_shipping' => true,
         'default_billing' => false,
@@ -56,7 +37,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\Customer\Service\V1\Dto\AddressBuilder
      */
-    protected $_addressBuilder;
+    private $_addressBuilder;
 
     protected function setUp()
     {

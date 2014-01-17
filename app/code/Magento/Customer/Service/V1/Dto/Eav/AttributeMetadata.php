@@ -9,8 +9,6 @@
  */
 namespace Magento\Customer\Service\V1\Dto\Eav;
 
-use Magento\Customer\Service\V1\Dto\Eav\Option;
-
 class AttributeMetadata extends \Magento\Service\Entity\AbstractDto
 {
     /**
@@ -22,8 +20,8 @@ class AttributeMetadata extends \Magento\Service\Entity\AbstractDto
     const STORE_LABEL = 'store_label';
     const VALIDATION_RULES = 'validation_rules';
     const OPTIONS = 'options';
-    const VISIBLE = 'is_visible';
-    const REQUIRED = 'is_required';
+    const VISIBLE = 'visible';
+    const REQUIRED = 'required';
     const MULTILINE_COUNT = 'multiline_count';
     const DATA_MODEL = 'data_model';
 
@@ -78,7 +76,7 @@ class AttributeMetadata extends \Magento\Service\Entity\AbstractDto
     /**
      * @return boolean
      */
-    public function getIsVisible()
+    public function isVisible()
     {
         return $this->_get(self::VISIBLE);
     }
@@ -86,7 +84,7 @@ class AttributeMetadata extends \Magento\Service\Entity\AbstractDto
     /**
      * @return boolean
      */
-    public function getIsRequired()
+    public function isRequired()
     {
         return $this->_get(self::REQUIRED);
     }

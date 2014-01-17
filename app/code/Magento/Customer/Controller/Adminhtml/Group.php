@@ -10,6 +10,8 @@
 
 namespace Magento\Customer\Controller\Adminhtml;
 
+use Magento\Exception\NoSuchEntityException;
+
 /**
  * Customer groups controller
  */
@@ -20,12 +22,12 @@ class Group extends \Magento\Backend\App\Action
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
 
     /**
      * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
      */
-    protected $_groupService = null;
+    protected $_groupService;
     
     /**
      * @var \Magento\Customer\Service\V1\Dto\CustomerGroupBuilder
@@ -36,6 +38,7 @@ class Group extends \Magento\Backend\App\Action
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService
+     * @param \Magento\Customer\Service\V1\Dto\CustomerGroupBuilder $customerGroupBuilder
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
@@ -172,7 +175,7 @@ class Group extends \Magento\Backend\App\Action
                 $this->messageManager->addSuccess(__('The customer group has been deleted.'));
                 $this->getResponse()->setRedirect($this->getUrl('customer/group'));
                 return;
-            } catch (\Magento\Customer\Service\Entity\V1\Exception $e) {
+            } catch (NoSuchEntityException $e) {
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')
                     ->addError(__('The customer group no longer exists.'));
                 $this->_redirect('adminhtml/*/');

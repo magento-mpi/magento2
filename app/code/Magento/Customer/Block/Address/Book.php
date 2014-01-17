@@ -60,7 +60,6 @@ class Book extends \Magento\View\Element\Template
         $this->_addressService = $addressService;
         $this->_addressConfig = $addressConfig;
         parent::__construct($context, $data);
-        $this->addressService = $addressService;
     }
 
     protected function _prepareLayout()
@@ -153,8 +152,7 @@ class Book extends \Magento\View\Element\Template
      */
     public function getAddressById($addressId)
     {
-        $customerId = $this->_customerSession->getCustomerId();
-        return $this->_addressService->getAddressById($customerId, $addressId);
+        return $this->_addressService->getAddressById($addressId);
     }
 
     /**

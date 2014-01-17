@@ -1,17 +1,20 @@
 <?php
 /**
+ * Dashboard Customer Info
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
+ * @category   Magento
+ * @package    Magento_Customer
+ * @author     Magento Core Team <core@magentocommerce.com>
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 namespace Magento\Customer\Block\Account\Dashboard;
 
-
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
+use Magento\Exception\NoSuchEntityException;
 
 /**
  * Dashboard Customer Info
@@ -20,7 +23,6 @@ use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
  * @package    Magento_Customer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Info extends \Magento\View\Element\Template
 {
     /**
@@ -80,7 +82,7 @@ class Info extends \Magento\View\Element\Template
     {
         try {
             return $this->_customerService->getCustomer($this->_customerSession->getId());
-        } catch (\Magento\Customer\Service\Entity\V1\Exception $e) {
+        } catch (NoSuchEntityException $e) {
             return null;
         }
     }
@@ -96,17 +98,17 @@ class Info extends \Magento\View\Element\Template
 
         $customer = $this->getCustomer();
 
-        if ($this->_metadataService->getCustomerAttributeMetadata('prefix')->getIsVisible()
+        if ($this->_metadataService->getCustomerAttributeMetadata('prefix')->isVisible()
             && $customer->getPrefix()) {
             $name .= $customer->getPrefix() . ' ';
         }
         $name .= $customer->getFirstname();
-        if ($this->_metadataService->getCustomerAttributeMetadata('middlename')->getIsVisible()
+        if ($this->_metadataService->getCustomerAttributeMetadata('middlename')->isVisible()
             && $customer->getMiddlename()) {
             $name .= ' ' . $customer->getMiddlename();
         }
         $name .=  ' ' . $customer->getLastname();
-        if ($this->_metadataService->getCustomerAttributeMetadata('suffix')->getIsVisible()
+        if ($this->_metadataService->getCustomerAttributeMetadata('suffix')->isVisible()
             && $customer->getSuffix()) {
             $name .= ' ' . $customer->getSuffix();
         }

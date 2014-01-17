@@ -9,40 +9,43 @@
  */
 namespace Magento\Customer\Service\V1;
 
-use Magento\Customer\Service\V1\Dto\SearchCriteria;
-use Magento\Customer\Service\Entity\V1\Exception;
+use Magento\Core\Model\Store\Config as StoreConfig;
+use Magento\Customer\Model\Group as CustomerGroupModel;
+use Magento\Customer\Model\GroupFactory;
+use Magento\Customer\Model\Resource\Group\Collection;
+use Magento\Exception\NoSuchEntityException;
 
 class CustomerGroupService implements CustomerGroupServiceInterface
 {
     /**
-     * @var \Magento\Customer\Model\GroupFactory
+     * @var GroupFactory
      */
     private $_groupFactory;
 
     /**
-     * @var \Magento\Core\Model\Store\Config
+     * @var StoreConfig
      */
     private $_storeConfig;
 
     /**
-     * @var \Magento\Customer\Service\V1\Dto\SearchResultsBuilder
+     * @var Dto\SearchResultsBuilder
      */
     private $_searchResultsBuilder;
 
     /**
-     * @var \Magento\Customer\Service\V1\Dto\CustomerGroupBuilder
+     * @var Dto\CustomerGroupBuilder
      */
     private $_customerGroupBuilder;
 
     /**
-     * @param \Magento\Customer\Model\GroupFactory $groupFactory
-     * @param \Magento\Core\Model\Store\Config $storeConfig
-     * @param \Magento\Customer\Service\V1\Dto\SearchResultsBuilder $searchResultsBuilder
-     * @param \Magento\Customer\Service\V1\Dto\CustomerGroupBuilder $customerGroupBuilder
+     * @param GroupFactory $groupFactory
+     * @param StoreConfig $storeConfig
+     * @param Dto\SearchResultsBuilder $searchResultsBuilder
+     * @param Dto\CustomerGroupBuilder $customerGroupBuilder
      */
     public function __construct(
-        \Magento\Customer\Model\GroupFactory $groupFactory,
-        \Magento\Core\Model\Store\Config $storeConfig,
+        GroupFactory $groupFactory,
+        StoreConfig $storeConfig,
         Dto\SearchResultsBuilder $searchResultsBuilder,
         Dto\CustomerGroupBuilder $customerGroupBuilder
     ) {
@@ -53,12 +56,12 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getGroups($includeNotLoggedIn = true, $taxClassId = null)
     {
         $groups = array();
-        /** @var \Magento\Customer\Model\Resource\Group\Collection $collection */
+        /** @var Collection $collection */
         $collection = $this->_groupFactory->create()->getCollection();
         if (!$includeNotLoggedIn) {
             $collection->setRealGroupsFilter();
@@ -66,7 +69,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
         if (!is_null($taxClassId)) {
             $collection->addFieldToFilter('tax_class_id', $taxClassId);
         }
-        /** @var \Magento\Customer\Model\Group $group */
+        /** @var CustomerGroupModel $group */
         foreach ($collection as $group) {
             $this->_customerGroupBuilder->setId($group->getId())
                 ->setCode($group->getCode())
@@ -77,14 +80,14 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function searchGroups(SearchCriteria $searchCriteria)
+    public function searchGroups(Dto\SearchCriteria $searchCriteria)
     {
         $this->_searchResultsBuilder->setSearchCriteria($searchCriteria);
 
         $groups = array();
-        /** @var \Magento\Customer\Model\Resource\Group\Collection $collection */
+        /** @var Collection $collection */
         $collection = $this->_groupFactory->create()->getCollection();
         foreach ($searchCriteria->getFilters() as $filter) {
             $collection->addFilter($filter->getField(), $filter->getValue(), $filter->getConditionType());
@@ -102,12 +105,12 @@ class CustomerGroupService implements CustomerGroupServiceInterface
                 default:
                     break;
             }
-            $collection->addOrder($field, $direction == SearchCriteria::SORT_ASC ? 'ASC' : 'DESC');
+            $collection->addOrder($field, $direction == Dto\SearchCriteria::SORT_ASC ? 'ASC' : 'DESC');
         }
         $collection->setCurPage($searchCriteria->getCurrentPage());
         $collection->setPageSize($searchCriteria->getPageSize());
 
-        /** @var \Magento\Customer\Model\Group $group */
+        /** @var CustomerGroupModel $group */
         foreach ($collection as $group) {
             $this->_customerGroupBuilder->setId($group->getId())
                 ->setCode($group->getCode())
@@ -119,7 +122,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getGroup($groupId)
     {
@@ -127,7 +130,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
         $customerGroup->load($groupId);
         // Throw exception if a customer group does not exist
         if (is_null($customerGroup->getId())) {
-            throw new Exception(__('groupId ' . $groupId . ' does not exist.'));
+            throw NoSuchEntityException::create('groupId', $groupId);
         }
         $this->_customerGroupBuilder->setId($customerGroup->getId())
             ->setCode($customerGroup->getCode())
@@ -136,16 +139,21 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getDefaultGroup($storeId)
     {
-        $groupId = $this->_storeConfig->getConfig(\Magento\Customer\Model\Group::XML_PATH_DEFAULT_ID, $storeId);
-        return $this->getGroup($groupId);
+        $groupId = $this->_storeConfig->getConfig(CustomerGroupModel::XML_PATH_DEFAULT_ID, $storeId);
+        try {
+            return $this->getGroup($groupId);
+        } catch (NoSuchEntityException $e) {
+            $e->addField('storeId', $storeId);
+            throw $e;
+        }
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function canDelete($groupId)
     {
@@ -155,7 +163,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function saveGroup(Dto\CustomerGroup $group)
     {
@@ -170,18 +178,14 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function deleteGroup($groupId)
     {
-        try {
-            // Get group so we can throw an exception if it doesn't exist
-            $this->getGroup($groupId);
-            $customerGroup = $this->_groupFactory->create();
-            $customerGroup->setId($groupId);
-            $customerGroup->delete();
-        } catch (\Exception $e) {
-            throw new Exception($e->getMessage(), $e->getCode(), $e);
-        }
+        // Get group so we can throw an exception if it doesn't exist
+        $this->getGroup($groupId);
+        $customerGroup = $this->_groupFactory->create();
+        $customerGroup->setId($groupId);
+        $customerGroup->delete();
     }
 }
