@@ -125,18 +125,7 @@ class Write extends Read implements WriteInterface
         }
         $absolutePath = $this->driver->getAbsolutePath($this->path, $path);
         $absoluteNewPath = $targetDirectory->driver->getAbsolutePath($this->path, $newPath);
-
-        $result = false;
-        $contents = $this->driver->fileGetContents($absolutePath);
-        if (false !== $targetDirectory->writeFile($newPath, $contents)) {
-            $result = $this->driver->deleteFile($absolutePath);
-        }
-        if (false === $result) {
-            throw new FilesystemException(
-                sprintf('The "%s" path cannot be renamed into "%s"', $absolutePath, $absoluteNewPath)
-            );
-        }
-        return true;
+        return $this->driver->rename($absolutePath, $absoluteNewPath, $targetDirectory->driver);
     }
 
     /**
@@ -159,14 +148,7 @@ class Write extends Read implements WriteInterface
         $absolutePath = $this->driver->getAbsolutePath($this->path, $path);
         $absoluteDestination = $targetDirectory->getAbsolutePath($destination);
 
-        $contents = $this->driver->fileGetContents($absolutePath);
-        $result = $targetDirectory->writeFile($destination, $contents);
-        if (false === $result) {
-            throw new FilesystemException(
-                sprintf('The "%s" path cannot be renamed into "%s"', $absolutePath, $absoluteDestination)
-            );
-        }
-        return true;
+        return $this->driver->copy($absolutePath, $absoluteDestination, $targetDirectory->driver);
     }
 
     /**

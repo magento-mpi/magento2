@@ -9,9 +9,10 @@
  */
 namespace Magento\Filesystem\Driver;
 
-use Magento\Filesystem\FilesystemException;
+use Magento\Filesystem\FilesystemException,
+    Magento\Filesystem\DriverInterface;
 
-class File implements \Magento\Filesystem\DriverInterface
+class File implements DriverInterface
 {
     /**
      * @var string
@@ -260,12 +261,21 @@ class File implements \Magento\Filesystem\DriverInterface
      *
      * @param string $oldPath
      * @param string $newPath
+     * @param DriverInterface $targetDriver
      * @return bool
      * @throws FilesystemException
      */
-    public function rename($oldPath, $newPath)
+    public function rename($oldPath, $newPath, DriverInterface $targetDriver)
     {
-        $result = @rename($this->getScheme() . $oldPath, $newPath);
+        $result = false;
+        if (get_class($targetDriver) == get_class($this)) {
+            $result = @rename($this->getScheme() . $oldPath, $newPath);
+        } else {
+            $content = $this->fileGetContents($oldPath);
+            if (false !== $targetDriver->filePutContents($newPath, $content)) {
+                $result = $this->deleteFile($newPath);
+            }
+        }
         if (!$result) {
             throw new FilesystemException(
                 sprintf('The "%s" path cannot be renamed into "%s" %s',
@@ -282,12 +292,18 @@ class File implements \Magento\Filesystem\DriverInterface
      *
      * @param string $source
      * @param string $destination
+     * @param DriverInterface $targetDriver
      * @return bool
      * @throws FilesystemException
      */
-    public function copy($source, $destination)
+    public function copy($source, $destination, DriverInterface $targetDriver)
     {
-        $result = @copy($this->getScheme() . $source, $destination);
+        if (get_class($targetDriver) == get_class($this)) {
+            $result = @copy($this->getScheme() . $source, $destination);
+        } else {
+            $content = $this->fileGetContents($oldPath);
+            $result = $targetDriver->filePutContents($newPath, $content);
+        }
         if (!$result) {
             throw new FilesystemException(
                 sprintf('The file or directory "%s" cannot be copied to "%s" %s',
