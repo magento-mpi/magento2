@@ -15,6 +15,7 @@
   * Fixed an issue when order was sent to Paypal without defined currency
   * Fixed an issue with 404 error when trying to return back to grid from Recurring Billing Profile
   * Fixed an issue with synchronization with google shopping on product update caused by missed service property
+* Removed the deprecated service-calls and data source functionality
 
 2.0.0.0-dev60
 =============
