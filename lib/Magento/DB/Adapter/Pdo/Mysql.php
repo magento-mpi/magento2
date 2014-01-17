@@ -3596,12 +3596,56 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
      * Converts fetched blob into raw binary PHP data.
      * The MySQL drivers do it nice, no processing required.
      *
-     * @mixed $value
+     * @param mixed $value
      * @return mixed
      */
     public function decodeVarbinary($value)
     {
         return $value;
+    }
+
+    /**
+     * Create trigger
+     *
+     * @param \Magento\DB\Ddl\Trigger $trigger
+     * @return \Zend_Db_Statement_Pdo
+     */
+    public function createTrigger(\Magento\DB\Ddl\Trigger $trigger)
+    {
+        $triggerBody = '';
+        foreach ($trigger->getStatementList() as $statement) {
+            if (strrpos($statement, ';') <> strlen($statement)) {
+                $statement .= ';';
+            }
+            $triggerBody .= $statement;
+        }
+
+        $sql = sprintf("CREATE TRIGGER %s %s %s ON %s FOR EACH ROW\nBEGIN\n%s\nEND",
+            $trigger->getName(),
+            $trigger->getTime(),
+            $trigger->getEvent(),
+            $trigger->getTable(),
+            $triggerBody
+        );
+
+        return $this->query($sql);
+    }
+
+    /**
+     * Drop trigger from database
+     *
+     * @param string $triggerName
+     * @param string $schemaName
+     * @return bool
+     */
+    public function dropTrigger($triggerName, $schemaName = null)
+    {
+        $triggerName = ($schemaName ? $schemaName . '.' : '') . $triggerName;
+
+        $sql = 'DROP TRIGGER IF EXISTS ' . $this->quoteIdentifier($triggerName);
+        $this->query($sql);
+
+        return true;
     }
 
     /**

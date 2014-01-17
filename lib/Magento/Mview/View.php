@@ -13,7 +13,7 @@ namespace Magento\Mview;
  * @method string getActionClass()
  * @method array getSubscriptions()
  */
-class View extends \Magento\Object
+class View extends \Magento\Object implements ViewInterface
 {
     /**
      * @var string
@@ -36,6 +36,11 @@ class View extends \Magento\Object
     protected $stateFactory;
 
     /**
+     * @var View\SubscriptionFactory
+     */
+    protected $subscriptionFactory;
+
+    /**
      * @var \Magento\Mview\View\StateInterface
      */
     protected $state;
@@ -44,17 +49,23 @@ class View extends \Magento\Object
      * @param ConfigInterface $config
      * @param ActionFactory $actionFactory
      * @param View\StateFactory $stateFactory
+     * @param View\ChangelogFactory $changelogFactory
+     * @param View\SubscriptionFactory $subscriptionFactory
      * @param array $data
      */
     public function __construct(
         ConfigInterface $config,
         ActionFactory $actionFactory,
         View\StateFactory $stateFactory,
+        View\ChangelogFactory $changelogFactory,
+        View\SubscriptionFactory $subscriptionFactory,
         array $data = array()
     ) {
         $this->config = $config;
         $this->actionFactory = $actionFactory;
         $this->stateFactory = $stateFactory;
+        $this->changelogFactory = $changelogFactory;
+        $this->subscriptionFactory = $subscriptionFactory;
         parent::__construct($data);
     }
 
@@ -76,10 +87,52 @@ class View extends \Magento\Object
         return $this;
     }
 
+    /**
+     * Create subscriptions
+     *
+     * @return \Magento\Mview\ViewInterface
+     */
     public function subscribe()
     {
-        foreach ($this->getSubscriptions() as $table) {
+        // TODO: create changelog
+
+        foreach ($this->getSubscriptions() as $subscription) {
+            /** @var \Magento\Mview\View\SubscriptionInterface $subscription */
+            $subscription = $this->subscriptionFactory->create(array(
+                'view' => $this,
+                'tableName' => $subscription['name'],
+                'columnName' => $subscription['column'],
+            ));
+            $subscription->create();
         }
+
+        $this->getState()->setMode(\Magento\Mview\View\StateInterface::MODE_ENABLED);
+
+        return $this;
+    }
+
+    /**
+     * Remove subscriptions
+     *
+     * @return \Magento\Mview\ViewInterface
+     */
+    public function unsubscribe()
+    {
+        foreach ($this->getSubscriptions() as $subscription) {
+            /** @var \Magento\Mview\View\SubscriptionInterface $subscription */
+            $subscription = $this->subscriptionFactory->create(array(
+                'view' => $this,
+                'tableName' => $subscription['name'],
+                'columnName' => $subscription['column'],
+            ));
+            $subscription->remove();
+        }
+
+        // TODO: drop changelog
+
+        $this->getState()->setMode(\Magento\Mview\View\StateInterface::MODE_DISABLED);
+
+        return $this;
     }
 
     /**
@@ -138,4 +191,15 @@ class View extends \Magento\Object
         return $this->getState()->getStatus();
     }
 
+    /**
+     * Retrieve linked changelog
+     *
+     * @return View\ChangelogInterface
+     */
+    public function getChangelog()
+    {
+        return $this->changelogFactory->create(array(
+            'viewId' => $this->getViewId(),
+        ));
+    }
 }
