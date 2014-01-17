@@ -16,6 +16,8 @@ namespace Magento\Core\Helper;
 class PostData extends \Magento\App\Helper\AbstractHelper
 {
     /**
+     * Form key
+     *
      * @var \Magento\Data\Form\FormKey
      */
     protected $_formKey;
@@ -33,6 +35,8 @@ class PostData extends \Magento\App\Helper\AbstractHelper
     }
 
     /**
+     * get data for post by javascript in format acceptable to $.mage.dataPost widget
+     *
      * @param string $url
      * @param array $data
      * @return string
@@ -49,6 +53,8 @@ class PostData extends \Magento\App\Helper\AbstractHelper
     }
 
     /**
+     * Get current encoded url
+     *
      * @param string|null $url
      * @return string
      */
