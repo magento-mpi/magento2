@@ -82,7 +82,7 @@ class Zend extends \Zend\Code\Generator\ClassGenerator
      * Set class dock block
      *
      * @param array $docBlock
-     * @return \Magento\Code\Generator\CodeGenerator\Zend
+     * @return $this
      */
     public function setClassDocBlock(array $docBlock)
     {
@@ -96,7 +96,7 @@ class Zend extends \Zend\Code\Generator\ClassGenerator
      * addMethods()
      *
      * @param array $methods
-     * @return \Magento\Code\Generator\CodeGenerator\Zend
+     * @return $this
      */
     public function addMethods(array $methods)
     {
@@ -151,7 +151,7 @@ class Zend extends \Zend\Code\Generator\ClassGenerator
      * addProperties()
      *
      * @param array $properties
-     * @return \Magento\Code\Generator\CodeGenerator\Zend
+     * @return $this
      * @throws \InvalidArgumentException
      */
     public function addProperties(array $properties)
@@ -179,8 +179,8 @@ class Zend extends \Zend\Code\Generator\ClassGenerator
      * Add property from PropertyGenerator
      *
      * @param  \Zend\Code\Generator\PropertyGenerator $property
+     * @return $this
      * @throws \InvalidArgumentException
-     * @return \Magento\Code\Generator\CodeGenerator\Zend
      */
     public function addPropertyFromGenerator(\Zend\Code\Generator\PropertyGenerator $property)
     {

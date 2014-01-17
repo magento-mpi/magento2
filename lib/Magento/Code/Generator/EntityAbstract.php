@@ -18,7 +18,7 @@ abstract class EntityAbstract
     const ENTITY_TYPE = 'abstract';
 
     /**
-     * @var array
+     * @var string[]
      */
     private $_errors = array();
 
@@ -58,8 +58,8 @@ abstract class EntityAbstract
     /**
      * @param null $sourceClassName
      * @param null $resultClassName
-     * @param Io $ioObject
-     * @param CodeGenerator\CodeGeneratorInterface $classGenerator
+     * @param \Magento\Code\Generator\Io $ioObject
+     * @param \Magento\Code\Generator\CodeGenerator\CodeGeneratorInterface $classGenerator
      * @param \Magento\Autoload\IncludePath $autoLoader
      */
     public function __construct(
@@ -123,7 +123,7 @@ abstract class EntityAbstract
     /**
      * List of occurred generation errors
      *
-     * @return array
+     * @return string[]
      */
     public function getErrors()
     {
@@ -131,6 +131,8 @@ abstract class EntityAbstract
     }
 
     /**
+     * Get source class name
+     *
      * @return string
      */
     protected function _getSourceClassName()
@@ -139,6 +141,8 @@ abstract class EntityAbstract
     }
 
     /**
+     * Get fully qualified class name
+     *
      * @param string $className
      * @return string
      */
@@ -149,6 +153,8 @@ abstract class EntityAbstract
     }
 
     /**
+     * Get result class name
+     *
      * @return string
      */
     protected function _getResultClassName()
@@ -157,6 +163,8 @@ abstract class EntityAbstract
     }
 
     /**
+     * Get default result class name
+     *
      * @param string $modelClassName
      * @return string
      */
@@ -197,11 +205,13 @@ abstract class EntityAbstract
     /**
      * Returns list of methods for class generator
      *
-     * @return mixed
+     * @return array
      */
     abstract protected function _getClassMethods();
 
     /**
+     * Generate code
+     *
      * @return string
      */
     protected function _generateCode()
@@ -216,8 +226,10 @@ abstract class EntityAbstract
     }
 
     /**
+     * Add error message
+     *
      * @param string $message
-     * @return \Magento\Code\Generator\EntityAbstract
+     * @return $this
      */
     protected function _addError($message)
     {
@@ -291,7 +303,7 @@ abstract class EntityAbstract
 
     /**
      * @param string $sourceCode
-     * @return mixed
+     * @return string
      */
     protected function _fixCodeStyle($sourceCode)
     {
@@ -363,6 +375,7 @@ abstract class EntityAbstract
      *
      * @param string $sourceClassName
      * @param string $resultClassName
+     * @return void
      */
     public function init($sourceClassName, $resultClassName)
     {
