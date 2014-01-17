@@ -15,6 +15,9 @@ namespace Magento\Newsletter\Block\Adminhtml\Queue;
 
 class Edit extends \Magento\Backend\Block\Template
 {
+    /**
+     * @var string
+     */
     protected $_template = 'queue/edit.phtml';
 
     /**
@@ -65,6 +68,11 @@ class Edit extends \Magento\Backend\Block\Template
         return $this->_coreRegistry->registry('current_queue');
     }
 
+    /**
+     * Before rendering html, but after trying to load cache
+     *
+     * @return $this
+     */
     protected  function _beforeToHtml()
     {
         $this->setChild('form',
@@ -73,6 +81,11 @@ class Edit extends \Magento\Backend\Block\Template
         return parent::_beforeToHtml();
     }
 
+    /**
+     * Get the url for save
+     *
+     * @return $this
+     */
     public function getSaveUrl()
     {
         if ($this->getTemplateId()) {
@@ -83,6 +96,11 @@ class Edit extends \Magento\Backend\Block\Template
         return $this->getUrl('*/*/save', $params);
     }
 
+    /**
+     * Prepare for the layout
+     *
+     * @return $this
+     */
     protected function _prepareLayout()
     {
         // Load Wysiwyg on demand and Prepare layout
