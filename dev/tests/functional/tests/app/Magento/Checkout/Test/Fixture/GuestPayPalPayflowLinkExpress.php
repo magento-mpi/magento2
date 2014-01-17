@@ -14,14 +14,31 @@ namespace Magento\Checkout\Test\Fixture;
 use Mtf\Factory\Factory;
 
 /**
- * Guest checkout with taxes, PayPal Payflow Edition payment method and offline shipping method
+ * Guest checkout with taxes, PayPal Payflow Link Express Edition payment method and offline shipping method
  *
  * @package Magento\Checkout\Test\Fixture
  */
-class GuestPayPalAdvanced extends Checkout
+class GuestPayPalPayflowLinkExpress extends Checkout
 {
     /**
-     * Prepare for PayPal Payflow Edition
+     * Paypal customer buyer
+     *
+     * @var \Magento\Paypal\Test\Fixture\Customer
+     */
+    private $paypalCustomer;
+
+    /**
+     * Get Paypal buyer account
+     *
+     * @return \Magento\Paypal\Test\Fixture\Customer
+     */
+    public function getPaypalCustomer()
+    {
+        return $this->paypalCustomer;
+    }
+
+    /**
+     * Prepare for PayPal Payflow Link Express Edition
      */
     protected function _initData()
     {
@@ -42,7 +59,7 @@ class GuestPayPalAdvanced extends Checkout
         $this->_persistConfiguration(array(
             'flat_rate',
             'paypal_disabled_all_methods',
-            'paypal_advanced',
+            'paypal_payflow_link',
             'default_tax_config',
             'display_price',
             'display_shopping_cart'
@@ -79,9 +96,12 @@ class GuestPayPalAdvanced extends Checkout
         $this->shippingMethods->switchData('flat_rate');
 
         $this->paymentMethod = Factory::getFixtureFactory()->getMagentoPaymentMethod();
-        $this->paymentMethod->switchData('paypal_advanced');
+        $this->paymentMethod->switchData('paypal_payflow_link_express');
 
         $this->creditCard = Factory::getFixtureFactory()->getMagentoPaymentCc();
-        $this->creditCard->switchData('visa_payflow');
+        $this->creditCard->switchData('visa_direct');
+
+        $this->paypalCustomer = Factory::getFixtureFactory()->getMagentoPaypalCustomer();
+        $this->paypalCustomer->switchData('customer_US');
     }
 }
