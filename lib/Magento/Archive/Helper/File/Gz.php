@@ -14,7 +14,11 @@ namespace Magento\Archive\Helper\File;
 class Gz extends \Magento\Archive\Helper\File
 {
     /**
-     * @see \Magento\Archive\Helper\File::_open()
+     * Open gz archive file
+     *
+     * @param string $mode
+     * @return void
+     * @throws \Magento\Exception
      */
     protected function _open($mode)
     {
@@ -26,7 +30,11 @@ class Gz extends \Magento\Archive\Helper\File
     }
 
     /**
-     * @see \Magento\Archive\Helper\File::_write()
+     * Write data to gz archive
+     *
+     * @param string $data
+     * @return void
+     * @throws \Magento\Exception
      */
     protected function _write($data)
     {
@@ -38,7 +46,10 @@ class Gz extends \Magento\Archive\Helper\File
     }
 
     /**
-     * @see \Magento\Archive\Helper\File::_read()
+     * Read data from gz archive
+     *
+     * @param int $length
+     * @return string
      */
     protected function _read($length)
     {
@@ -46,7 +57,9 @@ class Gz extends \Magento\Archive\Helper\File
     }
 
     /**
-     * @see \Magento\Archive\Helper\File::_eof()
+     * Gz implementation of EOF indicator
+     *
+     * @return bool|int
      */
     protected function _eof()
     {
@@ -54,7 +67,9 @@ class Gz extends \Magento\Archive\Helper\File
     }
 
     /**
-     * @see \Magento\Archive\Helper\File::_close()
+     * Gz implementation of file closing
+     *
+     * @return void
      */
     protected function _close()
     {

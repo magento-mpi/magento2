@@ -25,7 +25,7 @@ class AbstractArchive
      * @param string $destination
      * @param string $data
      * @return boolean
-     * @throws \Magento\Exception
+     * @throws \Exception
      */
     protected function _writeFile($destination, $data)
     {
@@ -60,7 +60,7 @@ class AbstractArchive
      *
      * @param string $source
      * @param bool $withExtension
-     * @return mixed|string
+     * @return string
      */
     public function getFilename($source, $withExtension=false)
     {
