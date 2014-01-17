@@ -1643,11 +1643,21 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
         return $messageGroups;
     }
 
+    /**
+     * Check is current layout cacheable
+     *
+     * @return bool
+     */
     public function isCacheable()
     {
-        return true;
+        return false;
     }
 
+    /**
+     * Check is current layout private
+     *
+     * @return bool
+     */
     public function isPrivate()
     {
         return false;

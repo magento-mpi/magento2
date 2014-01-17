@@ -47,31 +47,22 @@ class HeaderPluginTest extends \PHPUnit_Framework_TestCase
     /**
      * data providers for response headers
      */
-    public function headersNonCachableDataProvider()
-    {
-        return array(
-            array(false, false, '10', 'no-store, no-cache, must-revalidate, max-age=0',
-                gmdate('D, d M Y H:i:s T', strtotime('-10 seconds')), 'no-cache')
-        );
-    }
-
-    /**
-     * data providers for response headers
-     */
     public function headersCachableDataProvider()
     {
         return array(
+            array(false, false, '10', 'no-store, no-cache, must-revalidate, max-age=0',
+                gmdate('D, d M Y H:i:s T', strtotime('-10 seconds')), 'no-cache'),
             array(true, false, '20', 'public, max-age=20',
-                gmdate('D, d M Y H:i:s T', strtotime('+20 seconds')), false),
+                gmdate('D, d M Y H:i:s T', strtotime('+20 seconds')), 'cache'),
             array(true, true, '30', 'private, max-age=30',
-                gmdate('D, d M Y H:i:s T', strtotime('+30 seconds')), false),
+                gmdate('D, d M Y H:i:s T', strtotime('+30 seconds')), 'cache'),
         );
     }
 
     /**
      * test response headers after dispatch, without cache
      *
-     * @dataProvider headersNonCachableDataProvider
+     * @dataProvider headersCachableDataProvider
      */
     public function testAfterDispatchNonCacheable($isCacheable, $isPrivate, $maxAge, $cacheControl, $expires, $pragma)
     {
@@ -91,33 +82,6 @@ class HeaderPluginTest extends \PHPUnit_Framework_TestCase
             ->with(
                 $this->logicalOr('cache-control', 'pragma', 'expires'),
                 $this->logicalOr($cacheControl, $pragma, $expires)
-            );
-        $this->plugin->afterDispatch($this->responseMock);
-    }
-
-    /**
-     * test response headers after dispatch, with cache
-     *
-     * @dataProvider headersCachableDataProvider
-     */
-    public function testAfterDispatchCacheable($isCacheable, $isPrivate, $maxAge, $cacheControl, $expires)
-    {
-        $this->layoutMock->expects($this->once())
-            ->method('isCacheable')
-            ->will($this->returnValue($isCacheable));
-        $this->layoutMock->expects($this->any())
-            ->method('isPrivate')
-            ->will($this->returnValue($isPrivate));
-        $this->configMock->expects($this->any())
-            ->method('getValue')
-            ->with('system/headers/max-age')
-            ->will($this->returnValue($maxAge));
-
-        $this->responseMock->expects($this->any())
-            ->method('setHeader')
-            ->with(
-                $this->logicalOr('cache-control', 'expires'),
-                $this->logicalOr($cacheControl, $expires)
             );
         $this->plugin->afterDispatch($this->responseMock);
     }

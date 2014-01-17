@@ -46,6 +46,7 @@ class HeaderPlugin
     {
         $maxAge = $this->config->getValue('system/headers/max-age');
         if ($this->layout->isCacheable()) {
+            $response->setHeader('pragma', 'cache', true);
             if($this->layout->isPrivate()) {
                 $response->setHeader('cache-control', 'private, max-age=' . $maxAge, true);
                 $response->setHeader('expires',
@@ -56,8 +57,8 @@ class HeaderPlugin
                     gmdate('D, d M Y H:i:s T', strtotime('+' . $maxAge . ' seconds')), true);
             }
         } else {
-            $response->setHeader('cache-control', 'no-store, no-cache, must-revalidate, max-age=0', true);
             $response->setHeader('pragma', 'no-cache', true);
+            $response->setHeader('cache-control', 'no-store, no-cache, must-revalidate, max-age=0', true);
             $response->setHeader('expires',
                 gmdate('D, d M Y H:i:s T', strtotime('-' . $maxAge . ' seconds')), true);
         }
