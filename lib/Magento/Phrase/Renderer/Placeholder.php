@@ -12,7 +12,7 @@ namespace Magento\Phrase\Renderer;
 class Placeholder implements \Magento\Phrase\RendererInterface
 {
     /**
-     * Render result text
+     * {@inheritdoc}
      *
      * @param string $text
      * @param array $arguments

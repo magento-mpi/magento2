@@ -13,12 +13,12 @@ namespace Magento\Autoload;
 class Simple
 {
     /**
-     * @var mixed
+     * @var object
      */
     private static $_instance;
 
     /**
-     * @return mixed
+     * @return object
      */
     public static function instance()
 	{

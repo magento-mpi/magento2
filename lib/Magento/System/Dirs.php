@@ -14,7 +14,7 @@ namespace Magento\System;
 class Dirs
 {
     /**
-     * @param mixed $dirname
+     * @param string[]|string $dirname
      * @return bool
      */
     public static function rm($dirname)

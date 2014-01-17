@@ -25,7 +25,7 @@ class ClassMap
      *     'Class_Name' => 'relative/path/to/Class/Name.php',
      * )
      *
-     * @var string[]
+     * @var array
      */
     protected $_map = array();
 

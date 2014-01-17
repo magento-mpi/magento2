@@ -29,7 +29,7 @@ class Translate implements \Magento\Phrase\RendererInterface
     }
 
     /**
-     * Render result text
+     * {@inheritdoc}
      *
      * @param string $text
      * @param array $arguments

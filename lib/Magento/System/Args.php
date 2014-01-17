@@ -45,7 +45,7 @@ class Args
 
     /**
      * Constructor
-     * array $argv, if false $GLOBALS['argv'] is taken
+     * Note: the array $argv, if false $GLOBALS['argv'] is taken
      *
      * @param bool $source
      */
