@@ -9,7 +9,7 @@
 namespace Magento\Css\PreProcessor\Adapter;
 
 /**
- * Oyejorge adapter model. Oyejorge Less.php v1.5.1
+ * Oyejorge adapter model
  */
 class Oyejorge implements \Magento\Css\PreProcessor\AdapterInterface
 {
