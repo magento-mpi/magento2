@@ -268,7 +268,8 @@ class File implements DriverInterface
     public function rename($oldPath, $newPath, DriverInterface $targetDriver = null)
     {
         $result = false;
-        if ($targetDriver && get_class($targetDriver) == get_class($this)) {
+        $targetDriver = $targetDriver ?: $this;
+        if (get_class($targetDriver) == get_class($this)) {
             $result = @rename($this->getScheme() . $oldPath, $newPath);
         } else {
             $content = $this->fileGetContents($oldPath);
@@ -298,7 +299,8 @@ class File implements DriverInterface
      */
     public function copy($source, $destination, DriverInterface $targetDriver = null)
     {
-        if ($targetDriver && get_class($targetDriver) == get_class($this)) {
+        $targetDriver = $targetDriver ?: $this;
+        if (get_class($targetDriver) == get_class($this)) {
             $result = @copy($this->getScheme() . $source, $destination);
         } else {
             $content = $this->fileGetContents($source);
