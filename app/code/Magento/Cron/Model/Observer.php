@@ -124,7 +124,7 @@ class Observer
                 var_dump($this->_request->getParam('group') !== null && $this->_request->getParam('group') != $groupId);
                 continue;
             }
-            var_dump($groupId);
+
             foreach ($pendingJobs as $schedule) {
                 $jobConfig = isset($jobsRoot[$schedule->getJobCode()]) ? $jobsRoot[$schedule->getJobCode()] : null;
                 if (!$jobConfig) {
