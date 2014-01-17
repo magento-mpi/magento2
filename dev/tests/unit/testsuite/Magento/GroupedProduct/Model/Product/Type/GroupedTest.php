@@ -31,7 +31,7 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $catalogProductStatus;
+    protected $productStatusMock;
 
     /**
      * @var \Magento\TestFramework\Helper\ObjectManager
@@ -51,7 +51,7 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
         $productFactoryMock = $this->getMock('Magento\Catalog\Model\ProductFactory', array(), array(), '', false);
         $this->catalogProductLink = $this->getMock('\Magento\GroupedProduct\Model\Resource\Product\Link',
             array(), array(), '', false);
-        $this->catalogProductStatus = $this->getMock('\Magento\Catalog\Model\Product\Status',
+        $this->productStatusMock = $this->getMock('\Magento\Catalog\Model\Product\Status',
             array(), array(), '', false);
         $this->_model = $this->objectHelper->getObject('Magento\GroupedProduct\Model\Product\Type\Grouped', array(
             'eventManager' => $eventManager,
@@ -62,7 +62,7 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
             'logger' => $logger,
             'productFactory' => $productFactoryMock,
             'catalogProductLink' => $this->catalogProductLink,
-            'catalogProductStatus' => $this->catalogProductStatus,
+            'catalogProductStatus' => $this->productStatusMock,
         ));
     }
 
@@ -111,7 +111,7 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
         $this->product->expects($this->once())->method('getData')->will($this->returnValue($filters));
         $this->product->expects($this->once())->method('setData')
             ->with('_cache_instance_status_filters', $result);
-        $this->_model->addStatusFilter($status, $this->product);
+        $this->assertEquals($this->_model, $this->_model->addStatusFilter($status, $this->product));
     }
 
     /**
@@ -130,10 +130,10 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
         $key =  '_cache_instance_status_filters';
         $saleableIds = array(300, 800, 500);
 
-        $this->catalogProductStatus->expects($this->once())->method('getSaleableStatusIds')
+        $this->productStatusMock->expects($this->once())->method('getSaleableStatusIds')
             ->will($this->returnValue($saleableIds));
         $this->product->expects($this->once())->method('setData')->with($key, $saleableIds);
-        $this->_model->setSaleableStatus($this->product);
+        $this->assertEquals($this->_model, $this->_model->setSaleableStatus($this->product));
     }
 
     public function testGetStatusFiltersNoData()
