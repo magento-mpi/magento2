@@ -44,6 +44,11 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     protected $_coreStoreConfig;
 
+    /**
+     * @var \Magento\App\Console\Request|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_request;
+
     /** @var \Magento\Cron\Model\Resource\Schedule\Collection|\PHPUnit_Framework_MockObject_MockObject */
     protected $_collection;
 
@@ -86,6 +91,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_cronGroupConfig = $this->getMockBuilder('Magento\Cron\Model\Groups\Config\Data')
             ->disableOriginalConstructor()
             ->getMock();
+        $this->_request = $this->getMockBuilder('Magento\App\Console\Request')
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $this->_observer = new \Magento\Cron\Model\Observer(
             $this->_objectManager,
@@ -93,7 +101,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             $this->_app,
             $this->_config,
             $this->_cronGroupConfig,
-            $this->_coreStoreConfig
+            $this->_coreStoreConfig,
+            $this->_request
         );
     }
 
@@ -310,6 +319,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             'schedule_lifetime' => floor(strtotime('-1 day')/60),
             'schedule_generate_every' => 15,
             'history_cleanup_every' => 15,
+            'use_separate_process' => 0,
         );
         $this->_cronGroupConfig->expects($this->once())
             ->method('getByGroupId')
@@ -357,6 +367,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             'schedule_lifetime' => floor(strtotime('-1 day')/60),
             'schedule_generate_every' => 15,
             'history_cleanup_every' => 15,
+            'use_separate_process' => 0,
         );
         $this->_cronGroupConfig->expects($this->once())
             ->method('getByGroupId')
@@ -440,6 +451,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             'schedule_lifetime' => floor(strtotime('-1 day')/60),
             'schedule_generate_every' => 15,
             'history_cleanup_every' => 15,
+            'use_separate_process' => 0,
         );
         $this->_cronGroupConfig->expects($this->once())
             ->method('getByGroupId')
@@ -541,6 +553,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             'schedule_generate_every' => 15,
             'history_cleanup_every' => 15,
             'schedule_ahead_for' => 15,
+            'use_separate_process' => 0,
         );
         $this->_cronGroupConfig->expects($this->once())
             ->method('getByGroupId')
@@ -608,6 +621,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             'schedule_generate_every' => 15,
             'history_cleanup_every' => 15,
             'schedule_ahead_for' => 15,
+            'use_separate_process' => 0,
         );
         $this->_cronGroupConfig->expects($this->once())
             ->method('getByGroupId')
@@ -712,6 +726,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             'history_cleanup_every' => 15,
             'history_failure_lifetime' => 15,
             'schedule_ahead_for' => 15,
+            'use_separate_process' => 0,
         );
         $this->_cronGroupConfig->expects($this->once())
             ->method('getByGroupId')

@@ -29,13 +29,20 @@ class CronTest extends \PHPUnit_Framework_TestCase
      */
     protected $_stateMock;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_request;
+
     protected function setUp()
     {
         $this->_eventManagerMock = $this->getMock('Magento\Event\ManagerInterface');
         $this->_stateMock = $this->getMock('Magento\App\State', array(), array(), '', false);
+        $this->_request = $this->getMock('Magento\App\Console\Request', array(), array(), '', false);
         $this->_model = new Cron(
             $this->_eventManagerMock,
-            $this->_stateMock
+            $this->_stateMock,
+            $this->_request
         );
     }
 

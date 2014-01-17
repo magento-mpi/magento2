@@ -119,9 +119,6 @@ class Observer
                 $this->_request->getParam('group') === null && $groupConfig['use_separate_process'] == 1
                 || $this->_request->getParam('group') !== null && $this->_request->getParam('group') != $groupId
             ) {
-                var_dump($this->_request->getParam('group'));
-                var_dump($this->_request->getParam('group') === null && $groupConfig['use_separate_process'] == 1);
-                var_dump($this->_request->getParam('group') !== null && $this->_request->getParam('group') != $groupId);
                 continue;
             }
 
