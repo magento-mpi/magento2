@@ -37,8 +37,7 @@ class Indexer extends \Magento\Backend\App\Action
                     /** @var \Magento\Indexer\Model\Indexer $model */
                     $model = $this->_objectManager->create('Magento\Indexer\Model\Indexer')
                         ->load($indexer_id);
-                    $model->getView()->unsubscribe();
-                    $model->getState()->save();
+                    $model->turnViewOff();
                 }
                 $this->messageManager->addSuccess(
                     __('A total of %1 indexer(s) have been turned Update on Save mode on.', count($indexerIds))
@@ -69,8 +68,7 @@ class Indexer extends \Magento\Backend\App\Action
                     /** @var \Magento\Indexer\Model\Indexer $model */
                     $model = $this->_objectManager->create('Magento\Indexer\Model\Indexer')
                         ->load($indexer_id);
-                    $model->getView()->subscribe();
-                    $model->getState()->save();
+                    $model->turnViewOn();
                 }
                 $this->messageManager->addSuccess(
                     __('A total of %1 indexer(s) have been turned Update by Schedule mode on.', count($indexerIds))

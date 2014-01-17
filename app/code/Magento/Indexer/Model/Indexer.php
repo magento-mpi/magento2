@@ -142,6 +142,28 @@ class Indexer extends \Magento\Object
     }
 
     /**
+     * Turn changelog mode of
+     *
+     * @return string
+     */
+    public function turnViewOff()
+    {
+        $this->getView()->unsubscribe();
+        $this->getState()->save();
+    }
+
+    /**
+     * Turn changelog mode on
+     *
+     * @return string
+     */
+    public function turnViewOn()
+    {
+        $this->getView()->subscribe();
+        $this->getState()->save();
+    }
+
+    /**
      * Return indexer status
      *
      * @return string
