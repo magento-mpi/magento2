@@ -1,17 +1,17 @@
 2.0.0.0-dev61
 =============
-* Introduced new layout block attribute - cacheable
+* Introduced a new layout block attribute - cacheable
 * Fixed bugs:
-  * Fixed configurable product images display in shopping cart
-  * Fixed No Collapsing for Tax Summary
-  * Optimized Plushe theme css
+  * Fixed an issue with displaying configurable product images in shopping cart
+  * Fixed an issue with Tax Summary not being displayed properly on the Order Review page
+  * Optimized the Plushe theme CSS
   * Fixed attribute types for configurable product variations
-  * Fixed incorrect link on Reset password email sent by admin if customer registered on non default website
-  * Fixed DHL doesn't work on holidays
-  * Fixed ability to export product
+  * Fixed an issue with incorrect link in the Reset Password email for customers registered on the non-default website
+  * Fixed an issue with creating orders using DHL on holiday dates
+  * Fixed product export
   * Fixed 3D secure validation
-  * Fixed session to be transfered between Magento urls
-  * Fixed Advanced search filter to properly compare numbers
+  * Fixed an issue with session being lost when a logged in user goes from store pages using secure URL to the store pages which do not use secure URL
+  * Fixed an issue with price ranges in the Advanced search
 
 2.0.0.0-dev60
 =============
