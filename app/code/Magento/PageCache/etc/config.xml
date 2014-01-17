@@ -12,6 +12,9 @@
 <config>
     <default>
         <system>
+            <headers>
+                <max-age>28800</max-age>
+            </headers>
         </system>
     </default>
 </config>
