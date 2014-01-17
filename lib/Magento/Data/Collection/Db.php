@@ -382,7 +382,6 @@ class Db extends \Magento\Data\Collection
      *
      * @param   string|array $field
      * @param   null|string|array $condition
-     *
      * @return  string
      */
     protected function _translateCondition($field, $condition)
@@ -506,7 +505,6 @@ class Db extends \Magento\Data\Collection
      * Set select distinct
      *
      * @param   bool $flag
-     *
      * @return  \Magento\Data\Collection\Db
      */
     public function distinct($flag)
@@ -530,7 +528,6 @@ class Db extends \Magento\Data\Collection
      *
      * @param   bool $printQuery
      * @param   bool $logQuery
-     *
      * @return  \Magento\Data\Collection\Db
      */
     public function load($printQuery = false, $logQuery = false)
@@ -775,7 +772,6 @@ class Db extends \Magento\Data\Collection
      * @param string $filter
      * @param string $alias
      * @param string $group default 'fields'
-     *
      * @return \Magento\Data\Collection\Db
      */
     public function addFilterToMap($filter, $alias, $group = 'fields')

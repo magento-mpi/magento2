@@ -14,7 +14,6 @@ class Schema extends \Magento\Object
 {
     /**
      * @param mixed $schema
-     *
      * @return void
      */
     public function load($schema)
@@ -31,7 +30,6 @@ class Schema extends \Magento\Object
 
     /**
      * @param mixed $rawData
-     *
      * @return DataArray
      */
     public function extract($rawData)

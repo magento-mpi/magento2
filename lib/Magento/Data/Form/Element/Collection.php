@@ -62,7 +62,6 @@ class Collection implements \ArrayAccess, \IteratorAggregate
      *
      * @param mixed $key
      * @param mixed $value
-     *
      * @return void
      */
     public function offsetSet($key, $value)
@@ -74,7 +73,6 @@ class Collection implements \ArrayAccess, \IteratorAggregate
      * Implementation of \ArrayAccess:offsetGet()
      *
      * @param mixed $key
-     *
      * @return AbstractElement
      */
     public function offsetGet($key)
@@ -86,7 +84,6 @@ class Collection implements \ArrayAccess, \IteratorAggregate
      * Implementation of \ArrayAccess:offsetUnset()
      *
      * @param mixed $key
-     *
      * @return void
      */
     public function offsetUnset($key)
@@ -98,7 +95,6 @@ class Collection implements \ArrayAccess, \IteratorAggregate
      * Implementation of \ArrayAccess:offsetExists()
      *
      * @param mixed $key
-     *
      * @return boolean
      */
     public function offsetExists($key)
@@ -112,7 +108,6 @@ class Collection implements \ArrayAccess, \IteratorAggregate
      * @todo get it straight with $after
      * @param \Magento\Data\Form\Element\AbstractElement $element
      * @param bool|string $after
-     *
      * @return \Magento\Data\Form\Element\Collection
      */
     public function add(\Magento\Data\Form\Element\AbstractElement $element, $after = false)
@@ -150,7 +145,6 @@ class Collection implements \ArrayAccess, \IteratorAggregate
      * Sort elements by values using a user-defined comparison function
      *
      * @param mixed $callback
-     *
      * @return $this
      */
     public function usort($callback)
@@ -163,7 +157,6 @@ class Collection implements \ArrayAccess, \IteratorAggregate
      * Remove element from collection
      *
      * @param mixed $elementId
-     *
      * @return $this
      */
     public function remove($elementId)
@@ -192,7 +185,6 @@ class Collection implements \ArrayAccess, \IteratorAggregate
      * Find element by ID
      *
      * @param mixed $elementId
-     *
      * @return AbstractElement
      */
     public function searchById($elementId)

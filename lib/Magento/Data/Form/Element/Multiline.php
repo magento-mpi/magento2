@@ -44,7 +44,6 @@ class Multiline extends \Magento\Data\Form\Element\AbstractElement
 
     /**
      * @param int $suffix
-     *
      * @return string
      */
     public function getLabelHtml($suffix = 0)

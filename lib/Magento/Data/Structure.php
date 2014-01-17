@@ -39,9 +39,7 @@ class Structure
      * Set elements from external source
      *
      * @param array $elements
-     *
      * @return void
-     *
      * @throws \Magento\Exception if any format issues identified
      */
     public function importElements(array $elements)
@@ -74,9 +72,7 @@ class Structure
      * Verify relations of parent-child
      *
      * @param string $elementId
-     *
      * @return void
-     *
      * @throws \Magento\Exception
      */
     protected function _assertParentRelation($elementId)
@@ -129,9 +125,7 @@ class Structure
      *
      * @param string $elementId
      * @param array $data
-     *
      * @return void
-     *
      * @throws \Magento\Exception if an element with this id already exists
      */
     public function createElement($elementId, array $data)
@@ -279,9 +273,7 @@ class Structure
      * @param string $alias
      * @param int|null $position
      * @see _insertChild() for position explanation
-     *
      * @return void
-     *
      * @throws \Magento\Exception if attempting to set parent as child to its child (recursively)
      */
     public function setAsChild($elementId, $parentId, $alias = '', $position = null)
@@ -432,7 +424,6 @@ class Structure
      * Returns in format 'id' => 'alias'
      *
      * @param string $parentId
-     *
      * @return array
      */
     public function getChildren($parentId)
@@ -445,7 +436,6 @@ class Structure
      * Get name of parent element
      *
      * @param string $childId
-     *
      * @return string|bool
      */
     public function getParentId($childId)
@@ -459,7 +449,6 @@ class Structure
      *
      * @param string $parentId
      * @param string $childId
-     *
      * @return string|bool
      */
     public function getChildAlias($parentId, $childId)
@@ -497,7 +486,6 @@ class Structure
      *
      * @param string $parentId Name of an element containing group
      * @param string $groupName
-     *
      * @return array
      */
     public function getGroupChildNames($parentId, $groupName)
@@ -565,9 +553,7 @@ class Structure
      * @param string $elementId
      * @param int|null $offset
      * @param string $alias
-     *
      * @return void
-     *
      * @throws \Magento\Exception
      */
     protected function _insertChild($targetParentId, $elementId, $offset, $alias)
@@ -606,9 +592,7 @@ class Structure
      * Check if specified element exists
      *
      * @param string $elementId
-     *
      * @return void
-     *
      * @throws \Magento\Exception if doesn't exist
      */
     private function _assertElementExists($elementId)
@@ -622,9 +606,7 @@ class Structure
      * Check if it is an array
      *
      * @param array $value
-     *
      * @return void
-     *
      * @throws \Magento\Exception
      */
     private function _assertArray($value)

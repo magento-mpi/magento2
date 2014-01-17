@@ -10,6 +10,9 @@
 
 namespace Magento\Data\Form\Element;
 
+use Magento\Data\Form\Element\Collection;
+
+
 class CollectionFactory
 {
     /**
@@ -30,8 +33,7 @@ class CollectionFactory
      * Create collection factory with specified parameters
      *
      * @param array $data
-     *
-     * @return \Magento\Data\Form\Element\Collection
+     * @return Collection
      */
     public function create(array $data = array())
     {

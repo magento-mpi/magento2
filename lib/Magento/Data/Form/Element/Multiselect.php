@@ -105,7 +105,7 @@ class Multiselect extends \Magento\Data\Form\Element\AbstractElement
     /**
      * Get the default HTML
      *
-     * @return mixed
+     * @return string
      */
     public function getDefaultHtml()
     {

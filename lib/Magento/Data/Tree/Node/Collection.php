@@ -65,7 +65,6 @@ class Collection implements \ArrayAccess, \IteratorAggregate
      *
      * @param string $key
      * @param mixed $value
-     *
      * @return void
      */
     public function offsetSet($key, $value)
@@ -76,7 +75,6 @@ class Collection implements \ArrayAccess, \IteratorAggregate
     /**
      * Implementation of \ArrayAccess:offsetGet()
      * @param string $key
-     *
      * @return mixed
      */
     public function offsetGet($key)
@@ -87,7 +85,6 @@ class Collection implements \ArrayAccess, \IteratorAggregate
     /**
      * Implementation of \ArrayAccess:offsetUnset()
      * @param string $key
-     *
      * @return void
      */
     public function offsetUnset($key)
@@ -98,7 +95,6 @@ class Collection implements \ArrayAccess, \IteratorAggregate
     /**
      * Implementation of \ArrayAccess:offsetExists()
      * @param string $key
-     *
      * @return bool
      */
     public function offsetExists($key)
@@ -109,7 +105,6 @@ class Collection implements \ArrayAccess, \IteratorAggregate
     /**
      * Adds a node to this node
      * @param Node $node
-     *
      * @return Node
      */
     public function add(\Magento\Data\Tree\Node $node)
@@ -130,7 +125,6 @@ class Collection implements \ArrayAccess, \IteratorAggregate
      * Delete
      *
      * @param Node $node
-     *
      * @return $this
      */
     public function delete($node)
@@ -153,6 +147,7 @@ class Collection implements \ArrayAccess, \IteratorAggregate
 
     /**
      * Return the last node
+     *
      * @return mixed
      */
     public function lastNode()
@@ -164,7 +159,6 @@ class Collection implements \ArrayAccess, \IteratorAggregate
      * Search by Id
      *
      * @param mixed $nodeId
-     *
      * @return null
      */
     public function searchById($nodeId)

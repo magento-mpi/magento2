@@ -174,7 +174,6 @@ class Editor extends \Magento\Data\Form\Element\Textarea
      * Return HTML button to toggling WYSIWYG
      *
      * @param bool $visible
-     *
      * @return string
      */
     protected function _getToggleButtonHtml($visible = true)
@@ -246,7 +245,6 @@ class Editor extends \Magento\Data\Form\Element\Textarea
      * Prepare button options array to create button html
      *
      * @param array $options
-     *
      * @return array
      */
     protected function _prepareButtonOptions($options)
@@ -264,7 +262,6 @@ class Editor extends \Magento\Data\Form\Element\Textarea
      * Check if plugin button options have required values
      *
      * @param array $pluginOptions
-     *
      * @return boolean
      */
     protected function _checkPluginButtonOptions($pluginOptions)
@@ -280,7 +277,6 @@ class Editor extends \Magento\Data\Form\Element\Textarea
      * with data from this element object
      *
      * @param array $options
-     *
      * @return array
      */
     protected function _prepareOptions($options)
@@ -304,7 +300,6 @@ class Editor extends \Magento\Data\Form\Element\Textarea
      * Return custom button HTML
      *
      * @param array $data Button params
-     *
      * @return string
      */
     protected function _getButtonHtml($data)
@@ -348,7 +343,6 @@ class Editor extends \Magento\Data\Form\Element\Textarea
      * Editor config retriever
      *
      * @param string $key Config var key
-     *
      * @return mixed
      */
     public function getConfig($key = null)

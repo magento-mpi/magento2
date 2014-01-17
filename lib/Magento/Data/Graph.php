@@ -185,9 +185,7 @@ class Graph
      *
      * @param string|int $node
      * @param bool $mustExist
-     *
      * @return void
-     *
      * @throws \InvalidArgumentException according to assertion rules
      */
     protected function _assertNode($node, $mustExist)

@@ -49,7 +49,6 @@ class Date extends \Magento\Data\Form\Element\AbstractElement
      * numeric values to timestamp limit
      *
      * @param int $value
-     *
      * @return int
      */
     protected function _toTimestamp($value)

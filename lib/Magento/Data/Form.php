@@ -68,7 +68,6 @@ class Form extends \Magento\Data\Form\AbstractForm
 
     /**
      * @param RendererInterface $renderer
-     *
      * @return void
      */
     public static function setElementRenderer(\Magento\Data\Form\Element\Renderer\RendererInterface $renderer = null)
@@ -78,7 +77,6 @@ class Form extends \Magento\Data\Form\AbstractForm
 
     /**
      * @param RendererInterface $renderer
-     *
      * @return void
      */
     public static function setFieldsetRenderer(\Magento\Data\Form\Element\Renderer\RendererInterface $renderer = null)
@@ -88,7 +86,6 @@ class Form extends \Magento\Data\Form\AbstractForm
 
     /**
      * @param RendererInterface $renderer
-     *
      * @return void
      */
     public static function setFieldsetElementRenderer(\Magento\Data\Form\Element\Renderer\RendererInterface $renderer = null)
@@ -158,7 +155,6 @@ class Form extends \Magento\Data\Form\AbstractForm
 
     /**
      * @param AbstractElement $element
-     *
      * @return $this
      */
     public function addElementToCollection($element)
@@ -205,7 +201,6 @@ class Form extends \Magento\Data\Form\AbstractForm
 
     /**
      * @param array $values
-     *
      * @return $this
      */
     public function setValues($values)
@@ -222,7 +217,6 @@ class Form extends \Magento\Data\Form\AbstractForm
 
     /**
      * @param array $values
-     *
      * @return $this
      */
     public function addValues($values)
@@ -279,7 +273,6 @@ class Form extends \Magento\Data\Form\AbstractForm
 
     /**
      * @param string $elementId
-     *
      * @return $this
      */
     public function removeField($elementId)

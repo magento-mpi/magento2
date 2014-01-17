@@ -144,7 +144,6 @@ class Dbp extends \Magento\Data\Tree
      * Set Select object
      *
      * @param \Magento\DB\Select $select
-     *
      * @return void
      */
     public function setDbSelect($select)
@@ -221,7 +220,6 @@ class Dbp extends \Magento\Data\Tree
      * @param string $path
      * @param Node $parentNode
      * @param int $level
-     *
      * @return void
      */
     public function addChildNodes($children, $path, $parentNode, $level = 0)
@@ -258,7 +256,6 @@ class Dbp extends \Magento\Data\Tree
      * Load node
      *
      * @param int|string $nodeId
-     *
      * @return Node
      */
     public function loadNode($nodeId)
@@ -283,7 +280,6 @@ class Dbp extends \Magento\Data\Tree
      * @param Node $node
      * @param bool $recursive
      * @param array $result
-     *
      * @return array
      */
     public function getChildren($node, $recursive = true, $result = array()) {
@@ -312,7 +308,6 @@ class Dbp extends \Magento\Data\Tree
      * @param Node $node
      * @param Node $newParent
      * @param Node $prevNode
-     *
      * @return void
      */
     public function move($node, $newParent, $prevNode = null)
@@ -367,7 +362,6 @@ class Dbp extends \Magento\Data\Tree
      *
      * @param object $category
      * @param Node $rootNode
-     *
      * @return void
      */
     public function loadEnsuredNodes($category, $rootNode)
@@ -412,7 +406,6 @@ class Dbp extends \Magento\Data\Tree
      * @param Node $parentNode
      * @param bool $withChildren
      * @param int $level
-     *
      * @return void
      */
     protected function _addChildNodes($children, $path, $parentNode, $withChildren=false, $level = 0)

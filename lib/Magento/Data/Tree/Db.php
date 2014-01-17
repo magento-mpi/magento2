@@ -128,7 +128,6 @@ class Db extends \Magento\Data\Tree
 
     /**
      * @param \Zend_Db_Select $select
-     *
      * @return void
      */
     public function setDbSelect($select)
@@ -178,7 +177,6 @@ class Db extends \Magento\Data\Tree
 
     /**
      * @param mixed $nodeId
-     *
      * @return Node
      */
     public function loadNode($nodeId)
@@ -195,7 +193,6 @@ class Db extends \Magento\Data\Tree
      * @param Node $data
      * @param Node $parentNode
      * @param Node $prevNode
-     *
      * @return Node
      */
     public function appendChild($data, $parentNode, $prevNode=null)
@@ -221,7 +218,6 @@ class Db extends \Magento\Data\Tree
      * @param \Magento\Data\Tree\Node $node
      * @param \Magento\Data\Tree\Node $parentNode
      * @param \Magento\Data\Tree\Node $prevNode
-     *
      * @return void
      */
     public function moveNodeTo($node, $parentNode, $prevNode=null)
@@ -272,7 +268,6 @@ class Db extends \Magento\Data\Tree
     /**
      * @param mixed $parentId
      * @param int $parentLevel
-     *
      * @return $this
      */
     protected function _updateChildLevels($parentId, $parentLevel)

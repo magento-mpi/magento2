@@ -123,7 +123,6 @@ class AbstractForm extends \Magento\Object
      *
      * @param \Magento\Data\Form\Element\AbstractElement $element
      * @param bool|string|null $after
-     *
      * @return \Magento\Data\Form
      */
     public function addElement(\Magento\Data\Form\Element\AbstractElement $element, $after = null)

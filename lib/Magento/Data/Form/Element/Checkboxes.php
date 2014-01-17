@@ -113,7 +113,6 @@ class Checkboxes extends \Magento\Data\Form\Element\AbstractElement
 
     /**
      * @param mixed $value
-     *
      * @return string
      */
     public function getChecked($value)
@@ -141,7 +140,6 @@ class Checkboxes extends \Magento\Data\Form\Element\AbstractElement
 
     /**
      * @param mixed $value
-     *
      * @return string
      */
     public function getDisabled($value)
@@ -164,7 +162,6 @@ class Checkboxes extends \Magento\Data\Form\Element\AbstractElement
 
     /**
      * @param mixed $value
-     *
      * @return mixed
      */
     public function getOnclick($value)
@@ -177,7 +174,6 @@ class Checkboxes extends \Magento\Data\Form\Element\AbstractElement
 
     /**
      * @param mixed $value
-     *
      * @return mixed
      */
     public function getOnchange($value)
@@ -198,7 +194,6 @@ class Checkboxes extends \Magento\Data\Form\Element\AbstractElement
 
     /**
      * @param array $option
-     *
      * @return string
      */
     protected function _optionToHtml($option)

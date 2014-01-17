@@ -209,7 +209,6 @@ class Node extends \Magento\Object
 
     /**
      * @param array $nodes
-     *
      * @return array
      */
     public function getAllChildNodes(&$nodes = array())
@@ -233,7 +232,6 @@ class Node extends \Magento\Object
      * Add child node
      *
      * @param   Node $node
-     *
      * @return  Node
      */
     public function addChild($node)
@@ -244,7 +242,6 @@ class Node extends \Magento\Object
 
     /**
      * @param Node $prevNode
-     *
      * @return $this
      */
     public function appendChild($prevNode=null)
@@ -256,7 +253,6 @@ class Node extends \Magento\Object
     /**
      * @param Node $parentNode
      * @param Node $prevNode
-     *
      * @return $this
      */
     public function moveTo($parentNode, $prevNode=null)
@@ -268,7 +264,6 @@ class Node extends \Magento\Object
     /**
      * @param Node $parentNode
      * @param Node $prevNode
-     *
      * @return $this
      */
     public function copyTo($parentNode, $prevNode=null)
@@ -279,7 +274,6 @@ class Node extends \Magento\Object
 
     /**
      * @param Node $childNode
-     *
      * @return $this
      */
     public function removeChild($childNode)
@@ -290,7 +284,6 @@ class Node extends \Magento\Object
 
     /**
      * @param array $prevNodes
-     *
      * @return array
      */
     public function getPath(&$prevNodes = array())
