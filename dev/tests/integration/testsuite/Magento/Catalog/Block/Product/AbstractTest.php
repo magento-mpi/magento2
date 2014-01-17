@@ -97,9 +97,8 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
 
     public function testGetAddToCompareUrl()
     {
-        $this->assertStringMatchesFormat(
-            '%scatalog/product_compare/add/product/1/%s',
-            $this->_block->getAddToCompareUrl($this->_product)
+        $this->assertStringMatchesFormat('%scatalog/product_compare/add/',
+            $this->_block->getAddToCompareUrl()
         );
     }
 
