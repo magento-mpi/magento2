@@ -86,6 +86,7 @@ class Filesystem extends \Magento\Data\Collection
     /**
      * Filter rendering helper variable
      *
+     * @var int
      * @see \Magento\Data\Collection::$_filter
      * @see \Magento\Data\Collection::$_isFiltersRendered
      */
@@ -95,6 +96,7 @@ class Filesystem extends \Magento\Data\Collection
     /**
      * Filter rendering helper variable
      *
+     * @var array
      * @see \Magento\Data\Collection::$_filter
      * @see \Magento\Data\Collection::$_isFiltersRendered
      */
@@ -103,6 +105,7 @@ class Filesystem extends \Magento\Data\Collection
     /**
      * Filter rendering helper variable
      *
+     * @var string
      * @see \Magento\Data\Collection::$_filter
      * @see \Magento\Data\Collection::$_isFiltersRendered
      */

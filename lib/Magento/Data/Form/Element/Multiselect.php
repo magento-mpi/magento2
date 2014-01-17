@@ -40,7 +40,7 @@ class Multiselect extends \Magento\Data\Form\Element\AbstractElement
     /**
      * Get the name
      *
-     * @return mixed
+     * @return string
      */
     public function getName()
     {

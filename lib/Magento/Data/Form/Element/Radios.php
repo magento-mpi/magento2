@@ -65,7 +65,7 @@ class Radios extends \Magento\Data\Form\Element\AbstractElement
 
     /**
      * @param array $option
-     * @param string $selected
+     * @param array $selected
      * @return string
      */
     protected function _optionToHtml($option, $selected)
