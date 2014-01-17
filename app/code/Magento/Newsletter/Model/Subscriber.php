@@ -243,7 +243,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
     /**
      * Alias for setSubscriberStatus()
      *
-     * @param int
+     * @param int $value
      * @return \Magento\Newsletter\Model\Subscriber
      */
     public function setStatus($value)
@@ -338,7 +338,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
      * Load subscriber info by customer
      *
      * @param \Magento\Customer\Model\Customer $customer
-     * @return \Magento\Newsletter\Model\Subscriber
+     * @return $this
      */
     public function loadByCustomer(\Magento\Customer\Model\Customer $customer)
     {
@@ -444,8 +444,8 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
     /**
      * Unsubscribes loaded subscription
      *
-     * @return \Magento\Newsletter\Model\Subscriber
      * @throws \Magento\Core\Exception
+     * @return $this
      */
     public function unsubscribe()
     {
@@ -463,7 +463,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
      * Saving customer subscription status
      *
      * @param   \Magento\Customer\Model\Customer $customer
-     * @return  \Magento\Newsletter\Model\Subscriber
+     * @return  $this
      */
     public function subscribeCustomer($customer)
     {
@@ -573,7 +573,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
     /**
      * Sends out confirmation email
      *
-     * @return \Magento\Newsletter\Model\Subscriber
+     * @return $this
      */
     public function sendConfirmationRequestEmail()
     {
@@ -608,7 +608,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
     /**
      * Sends out confirmation success email
      *
-     * @return \Magento\Newsletter\Model\Subscriber
+     * @return $this
      */
     public function sendConfirmationSuccessEmail()
     {
@@ -643,7 +643,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
     /**
      * Sends out unsubsciption email
      *
-     * @return \Magento\Newsletter\Model\Subscriber
+     * @return $this
      */
     public function sendUnsubscriptionEmail()
     {

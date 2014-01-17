@@ -94,6 +94,7 @@ class Subscriber extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Set error messages scope
      *
      * @param string $scope
+     * @return void
      */
     public function setMessagesScope($scope)
     {

@@ -45,6 +45,12 @@ class Observer
         $this->_queueCollectionFactory = $queueCollectionFactory;
     }
 
+    /**
+     * Subscribe cutomer handler
+     *
+     * @param \Magento\Object $observer
+     * @return \Magento\Newsletter\Model\Observer
+     */
     public function subscribeCustomer($observer)
     {
         $customer = $observer->getEvent()->getCustomer();
@@ -71,6 +77,12 @@ class Observer
         return $this;
     }
 
+    /**
+     * Customer delete handler
+     *
+     * @param \Magento\Cron\Model\Schedule $schedule
+     * @return void
+     */
     public function scheduledSend($schedule)
     {
         $countOfQueue  = 3;

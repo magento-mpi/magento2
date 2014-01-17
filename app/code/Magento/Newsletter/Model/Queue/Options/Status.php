@@ -23,7 +23,7 @@ class Status implements \Magento\Core\Model\Option\ArrayInterface
     /**
      * Return statuses option array
      *
-     * @return array
+     * @return string[]
      */
     public function toOptionArray()
     {

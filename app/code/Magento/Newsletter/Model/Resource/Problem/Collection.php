@@ -44,7 +44,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Customer\Model\Resource\Customer\CollectionFactory $customerCollectionFactory
-     * @param mixed $connection
+     * @param null|\Zend_Db_Adapter_Abstract $connection
      * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
@@ -106,6 +106,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Loads customers info to collection
      *
+     * return void
      */
     protected function _addCustomersData()
     {
