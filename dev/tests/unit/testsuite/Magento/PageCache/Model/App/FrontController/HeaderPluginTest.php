@@ -50,12 +50,9 @@ class HeaderPluginTest extends \PHPUnit_Framework_TestCase
     public function headersCachableDataProvider()
     {
         return array(
-            array(false, false, '10', 'no-store, no-cache, must-revalidate, max-age=0',
-                gmdate('D, d M Y H:i:s T', strtotime('-10 seconds')), 'no-cache'),
-            array(true, false, '20', 'public, max-age=20',
-                gmdate('D, d M Y H:i:s T', strtotime('+20 seconds')), 'cache'),
-            array(true, true, '30', 'private, max-age=30',
-                gmdate('D, d M Y H:i:s T', strtotime('+30 seconds')), 'cache'),
+            array(false, false, '10', 'no-store, no-cache, must-revalidate, max-age=0', 'no-cache'),
+            array(true, false, '20', 'public, max-age=20', 'cache'),
+            array(true, true, '30', 'private, max-age=30', 'cache'),
         );
     }
 
@@ -64,7 +61,7 @@ class HeaderPluginTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider headersCachableDataProvider
      */
-    public function testAfterDispatchCacheable($isCacheable, $isPrivate, $maxAge, $cacheControl, $expires, $pragma)
+    public function testAfterDispatchCacheable($isCacheable, $isPrivate, $maxAge, $cacheControl, $pragma)
     {
         $this->layoutMock->expects($this->once())
             ->method('isCacheable')
@@ -84,10 +81,6 @@ class HeaderPluginTest extends \PHPUnit_Framework_TestCase
         $this->responseMock->expects($this->at(1))
             ->method('setHeader')
             ->with('cache-control', $cacheControl);
-
-        $this->responseMock->expects($this->at(2))
-            ->method('setHeader')
-            ->with('expires', $expires);
 
         $this->plugin->afterDispatch($this->responseMock);
     }
