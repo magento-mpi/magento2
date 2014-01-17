@@ -70,7 +70,7 @@ class Library implements SourceInterface
         $files = $this->libraryDirectory->search($filePath);
         $list->add($this->createFiles($this->libraryDirectory, $theme, $files));
 
-        foreach ($this->getInheritedThemes($theme) as $currentTheme) {
+        foreach ($theme->getInheritedThemes() as $currentTheme) {
             $themeFullPath = $currentTheme->getFullPath();
             $files = $this->themesDirectory->search("{$themeFullPath}/{$filePath}");
             $list->replace($this->createFiles($this->themesDirectory, $theme, $files), false);
@@ -92,21 +92,5 @@ class Library implements SourceInterface
             $result[] = $this->fileFactory->create($filename, 'lib', $theme);
         }
         return $result;
-    }
-
-    /**
-     * Return the full theme inheritance sequence, from the root theme till a specified one
-     *
-     * @param ThemeInterface $theme
-     * @return ThemeInterface[] Format: array([<root_theme>, ..., <parent_theme>,] <current_theme>)
-     */
-    protected function getInheritedThemes(ThemeInterface $theme)
-    {
-        $result = array();
-        while ($theme) {
-            $result[] = $theme;
-            $theme = $theme->getParentTheme();
-        }
-        return array_reverse($result);
     }
 }

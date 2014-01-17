@@ -66,7 +66,7 @@ class Aggregated implements SourceInterface
         $list->add($this->libraryFiles->getFiles($theme, $filePath));
         $list->add($this->baseFiles->getFiles($theme, $filePath));
 
-        foreach ($this->getInheritedThemes($theme) as $currentTheme) {
+        foreach ($theme->getInheritedThemes() as $currentTheme) {
             $files = $this->themeFiles->getFiles($currentTheme, $filePath);
             $list->replace($files);
         }
@@ -76,23 +76,6 @@ class Aggregated implements SourceInterface
         }
         return $result;
     }
-
-    /**
-     * Return the full theme inheritance sequence, from the root theme till a specified one
-     *
-     * @param ThemeInterface $theme
-     * @return ThemeInterface[] Format: array([<root_theme>, ..., <parent_theme>,] <current_theme>)
-     */
-    protected function getInheritedThemes(ThemeInterface $theme)
-    {
-        $result = array();
-        while ($theme) {
-            $result[] = $theme;
-            $theme = $theme->getParentTheme();
-        }
-        return array_reverse($result);
-    }
 }
-
 
 //TODO: Current class is similar to \Magento\View\Layout\File\Source\Aggregated
