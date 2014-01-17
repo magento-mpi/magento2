@@ -1,4 +1,5 @@
 * Introduced new layout block attribute - cacheable
+* Extracted multishipping functionality from Magento\Checkout module in separated Magento\Multishipping module
 * Fixed bugs:
   * Fixed configurable product images display in shopping cart
   * Fixed No Collapsing for Tax Summary
