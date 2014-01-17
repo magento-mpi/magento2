@@ -59,7 +59,7 @@ class TaxvatTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsEnabled($isVisible, $expectedValue)
     {
-        $this->_attribute->expects($this->once())->method('getIsVisible')->will($this->returnValue($isVisible));
+        $this->_attribute->expects($this->once())->method('IsVisible')->will($this->returnValue($isVisible));
         $this->assertSame($expectedValue, $this->_block->isEnabled());
     }
 
@@ -83,7 +83,7 @@ class TaxvatTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsRequired($isRequired, $expectedValue)
     {
-        $this->_attribute->expects($this->once())->method('getIsRequired')->will($this->returnValue($isRequired));
+        $this->_attribute->expects($this->once())->method('IsRequired')->will($this->returnValue($isRequired));
         $this->assertSame($expectedValue, $this->_block->isRequired());
     }
 
@@ -106,7 +106,7 @@ class TaxvatTest extends \PHPUnit_Framework_TestCase
                 [], '', false, true, true, ['__wakeup']
             );
         /** Do not include prefix, middlename, and suffix attributes when calling Customer::getName() */
-        $abstractAttribute->expects($this->any())->method('getIsVisible')->will($this->returnValue(false));
+        $abstractAttribute->expects($this->any())->method('IsVisible')->will($this->returnValue(false));
 
         $config = $this->getMock('Magento\Eav\Model\Config', [], [], '', false);
         $config->expects($this->any())->method('getAttribute')->will($this->returnValue($abstractAttribute));

@@ -73,7 +73,7 @@ class GenderTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsEnabled($isVisible, $expectedValue)
     {
-        $this->_attribute->expects($this->once())->method('getIsVisible')->will($this->returnValue($isVisible));
+        $this->_attribute->expects($this->once())->method('IsVisible')->will($this->returnValue($isVisible));
         $this->assertSame($expectedValue, $this->_block->isEnabled());
     }
 
@@ -97,7 +97,7 @@ class GenderTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsRequired($isRequired, $expectedValue)
     {
-        $this->_attribute->expects($this->once())->method('getIsRequired')->will($this->returnValue($isRequired));
+        $this->_attribute->expects($this->once())->method('IsRequired')->will($this->returnValue($isRequired));
         $this->assertSame($expectedValue, $this->_block->isRequired());
     }
 
@@ -115,7 +115,7 @@ class GenderTest extends \PHPUnit_Framework_TestCase
     public function testGetCustomer()
     {
         /** Do not include prefix, middlename, and suffix attributes when calling Customer::getName() */
-        $this->_abstractAttribute->expects($this->any())->method('getIsVisible')->will($this->returnValue(false));
+        $this->_abstractAttribute->expects($this->any())->method('IsVisible')->will($this->returnValue(false));
 
         $config = $this->getMock('Magento\Eav\Model\Config', [], [], '', false);
         $config->expects($this->any())->method('getAttribute')->will($this->returnValue($this->_abstractAttribute));
