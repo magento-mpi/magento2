@@ -82,6 +82,6 @@ class GuestPayPalAdvanced extends Checkout
         $this->paymentMethod->switchData('paypal_advanced');
 
         $this->creditCard = Factory::getFixtureFactory()->getMagentoPaymentCc();
-        $this->creditCard->switchData('visa_payflow_advanced');
+        $this->creditCard->switchData('visa_payflow');
     }
 }

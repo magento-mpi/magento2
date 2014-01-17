@@ -15,6 +15,6 @@
         </action>
     </referenceBlock>
     <referenceContainer name="content">
-        <block class="Magento\Multishipping\Block\Checkout\Success" name="checkout_success" template="checkout/success.phtml"/>
+        <block class="Magento\Multishipping\Block\Checkout\Success" name="checkout_success" template="checkout/success.phtml" cacheable="false"/>
     </referenceContainer>
 </layout>

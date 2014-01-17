@@ -10,6 +10,6 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="multishipping_checkout"/>
     <referenceContainer name="content">
-        <block class="Magento\Multishipping\Block\Checkout\Address\Select" name="checkout_address_select" template="multishipping/address/select.phtml"/>
+        <block class="Magento\Multishipping\Block\Checkout\Address\Select" name="checkout_address_select" template="multishipping/address/select.phtml" cacheable="false"/>
     </referenceContainer>
 </layout>

@@ -28,18 +28,21 @@ class CheckoutOnepageTest extends Functional
      * Place order on frontend via one page checkout and Paypal Express checkout.
      * Shipping method used is Flat Rate
      *
-     * @ZephyrId MAGETWO-12413
+     * @param Checkout $fixture
+     *
+     * @dataProvider dataProviderPaymentMethod
+     * @ZephyrId MAGETWO-12413, MAGETWO-14359
      */
-    public function testOnepageCheckout()
-    {
+    public function testOnepageCheckout(Checkout $fixture) {
         //Data
-        $fixture = Factory::getFixtureFactory()->getMagentoCheckoutGuestPaypalExpress();
         $fixture->persist();
+
         //Steps
         $this->_addProducts($fixture);
         $this->_magentoCheckoutProcess($fixture);
         $this->_processPaypal($fixture);
         $this->_reviewOrder();
+
         //Verifying
         $this->_verifyOrder($fixture);
     }
@@ -144,5 +147,13 @@ class CheckoutOnepageTest extends Functional
             $fixture->getGrandTotal(),
             Factory::getPageFactory()->getSalesOrderView()->getOrderHistoryBlock()->getCommentsHistory(),
             'Incorrect authorized amount value for the order #' . $orderId);
+    }
+
+    public function dataProviderPaymentMethod()
+    {
+        return array(
+            array(Factory::getFixtureFactory()->getMagentoCheckoutGuestPaypalExpress()),
+            array(Factory::getFixtureFactory()->getMagentoCheckoutGuestPayPalPayflowLinkExpress())
+        );
     }
 }
