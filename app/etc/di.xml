@@ -157,14 +157,6 @@
         </param>
     </type>
     <type name="Magento\Data\Structure" shared="false" />
-    <type name="Magento\Core\Model\DataService\Path\Composite">
-        <param name="items">
-            <value>
-                <data>Magento\Core\Model\DataService\Repository</data>
-                <request>Magento\Core\Model\DataService\Path\Request</request>
-            </value>
-        </param>
-    </type>
     <type name="Magento\Core\Model\View\Design">
         <param name="storeManager">
             <instance type="Magento\Core\Model\StoreManager\Proxy" />
