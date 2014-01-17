@@ -22,7 +22,7 @@ class HttpException extends \Zend_Gdata_App_HttpException
      * Array of descriptions for Google's error codes.
      * array('code' => 'description')
      *
-     * @var string[]
+     * @var array
      */
     protected $_errors = array(
         'auth/frontend/adwords' => "Your AdWords advertisements are not running. You need to activate your AdWords account.",
@@ -80,7 +80,7 @@ class HttpException extends \Zend_Gdata_App_HttpException
     /**
      * Create object
      *
-     * @param string $message Optionally set a message
+     * @param string|\Zend_Gdata_App_HttpException $message Optionally set a message
      * @param \Zend_Http_Client_Exception $httpClientException Optionally in a Zend_Http_Client_Exception
      * @param \Zend_Http_Response $response Optionally pass in a Zend_Http_Response
      */
