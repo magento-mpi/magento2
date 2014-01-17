@@ -139,7 +139,7 @@ class AbstractWidgetTest extends \PHPUnit_Framework_TestCase
     {
         $this->_block->setData(self::KEY_FIELD_NAME_FORMAT, $format);
         $this->assertTrue(call_user_func($method, $blockFieldName = $this->_block->getFieldName($fieldName)));
-        $this->assertEquals($expectedValue, $this->_block->getFieldName($fieldName));
+        $this->assertEquals($expectedValue, $blockFieldName);
     }
 
     /**
