@@ -13,8 +13,8 @@
 <?php $_id = $_product->getId() ?>
 
 <?php $_weeeTaxAmount = 0; ?>
-<?php /** @var $weeeHelper \Magento\Catalog\Helper\Product\Weee*/ ?>
-<?php $weeeHelper = $this->helper('Magento\Catalog\Helper\Product\Weee'); ?>
+<?php /** @var $weeeHelper \Magento\Weee\Helper\Data */ ?>
+<?php $weeeHelper = $this->helper('Magento\Weee\Helper\Data'); ?>
 
 <?php
 if ($_product->getPriceType() == 1) {
