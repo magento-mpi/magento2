@@ -21,11 +21,11 @@ class Mode extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRe
         $class = '';
         $text = '';
         switch ($this->_getValue($row)) {
-            case \Magento\Indexer\Model\Indexer\State::MODE_ON_THE_FLY:
+            case \Magento\Mview\View\StateInterface::MODE_DISABLED:
                 $class = 'grid-severity-notice';
                 $text = __('Update on Save');
                 break;
-            case \Magento\Indexer\Model\Indexer\State::MODE_CHANGELOG:
+            case \Magento\Mview\View\StateInterface::MODE_ENABLED:
                 $class = 'grid-severity-major';
                 $text = __('Update by schedule');
                 break;

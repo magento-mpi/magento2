@@ -11,8 +11,6 @@ namespace Magento\Indexer\Model\Indexer;
 /**
  * @method string getIndexerId()
  * @method \Magento\Indexer\Model\Indexer\State setIndexerId(string $value)
- * @method string getMode()
- * @method \Magento\Indexer\Model\Indexer\State setMode(string $value)
  * @method string getStatus()
  * @method \Magento\Indexer\Model\Indexer\State setStatus(string $value)
  * @method string getUpdated()
@@ -20,12 +18,6 @@ namespace Magento\Indexer\Model\Indexer;
  */
 class State extends \Magento\Core\Model\AbstractModel
 {
-    /**
-     * Indexer modes
-     */
-    const MODE_ON_THE_FLY = 'onthefly';
-    const MODE_CHANGELOG = 'changelog';
-
     /**
      * Indexer statuses
      */
@@ -61,9 +53,6 @@ class State extends \Magento\Core\Model\AbstractModel
         \Magento\Indexer\Model\Resource\Indexer\State\Collection $resourceCollection,
         array $data = array()
     ) {
-        if (!isset($data['mode'])) {
-            $data['mode'] = self::MODE_ON_THE_FLY;
-        }
         if (!isset($data['status'])) {
             $data['status'] = self::STATUS_INVALID;
         }

@@ -82,7 +82,7 @@ class Indexer extends \Magento\Object
     {
         $indexer = $this->config->get($indexerId);
         if (empty($indexer) || empty($indexer['indexer_id']) || $indexer['indexer_id'] != $indexerId) {
-            throw new \InvalidArgumentException("{$indexerId} view does not exist.");
+            throw new \InvalidArgumentException("{$indexerId} indexer does not exist.");
         }
         $this->setId($indexerId);
         $this->setData($indexer);
@@ -97,7 +97,7 @@ class Indexer extends \Magento\Object
     public function getView()
     {
         if (!$this->view) {
-            $this->view = $this->viewFactory->create(array('viewId' => $this->getViewId()));
+            $this->view = $this->viewFactory->create()->load($this->getViewId());
         }
         return $this->view;
     }
@@ -120,13 +120,25 @@ class Indexer extends \Magento\Object
     }
 
     /**
+     * Set indexer state object
+     *
+     * @param Indexer\State $state
+     * @return Indexer
+     */
+    public function setState(Indexer\State $state)
+    {
+        $this->state = $state;
+        return $this;
+    }
+
+    /**
      * Return indexer mode
      *
      * @return string
      */
     public function getMode()
     {
-        return $this->getState()->getMode();
+        return $this->getView()->getMode();
     }
 
     /**
@@ -136,6 +148,11 @@ class Indexer extends \Magento\Object
      */
     public function getStatus()
     {
+        if ($this->getView()->getMode() == \Magento\Mview\View\StateInterface::MODE_ENABLED
+            && $this->getView()->getStatus() == \Magento\Mview\View\StateInterface::STATUS_WORKING
+        ) {
+            return \Magento\Indexer\Model\Indexer\State::STATUS_WORKING;
+        }
         return $this->getState()->getStatus();
     }
 

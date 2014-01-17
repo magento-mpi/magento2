@@ -8,16 +8,16 @@
  */
 -->
 <config>
-    <view id="view" class="Ogogo\Class">
+    <view id="catalog_category_product_index" class="Magento\Indexer\Model\TestIndexer">
         <subscriptions>
-            <table name="some_entity" entity_column="entity_id" />
-            <table name="some_product_relation" entity_column="product_id" />
+            <table name="catalog_category_product" entity_column="product_id" />
+            <table name="catalog_product_entity_int" entity_column="entity_id" />
         </subscriptions>
     </view>
-    <view id="view1" class="Ogogo\Class">
+    <view id="catalog_category_product_cat" class="Magento\Indexer\Model\TestIndexer">
         <subscriptions>
-            <table name="some_entity" entity_column="entity_id" />
-            <table name="some_product_relation_other" entity_column="product_id" />
+            <table name="catalog_category" entity_column="entity_id" />
+            <table name="catalog_category_entity_int" entity_column="entity_id" />
         </subscriptions>
     </view>
 </config>

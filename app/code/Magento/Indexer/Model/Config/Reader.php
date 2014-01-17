@@ -18,6 +18,7 @@ class Reader extends \Magento\Config\Reader\Filesystem
     protected $_idAttributes = array(
         '/config/indexer' => 'id',
     );
+
     /**
      * @param \Magento\Config\FileResolverInterface $fileResolver
      * @param Converter $converter

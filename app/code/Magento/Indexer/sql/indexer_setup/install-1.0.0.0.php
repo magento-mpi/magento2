@@ -24,9 +24,6 @@ $table = $installer->getConnection()
     ), 'Indexer State Id')
     ->addColumn('indexer_id', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
     ), 'Indexer Id')
-    ->addColumn('mode', \Magento\DB\Ddl\Table::TYPE_TEXT, 16, array(
-        'default' => \Magento\Indexer\Model\Indexer\State::MODE_ON_THE_FLY,
-    ), 'Indexer Mode')
     ->addColumn('status', \Magento\DB\Ddl\Table::TYPE_TEXT, 16, array(
         'default' => \Magento\Indexer\Model\Indexer\State::STATUS_INVALID,
     ), 'Indexer Status')

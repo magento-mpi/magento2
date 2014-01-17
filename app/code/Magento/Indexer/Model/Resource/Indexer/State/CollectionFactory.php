@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Indexer\Model;
+namespace Magento\Indexer\Model\Resource\Indexer\State;
 
-class IndexerFactory
+class CollectionFactory
 {
     /**
      * @var \Magento\ObjectManager
@@ -18,7 +18,7 @@ class IndexerFactory
     /**
      * @var string
      */
-    const INSTANCE_NAME = 'Magento\Indexer\Model\Indexer';
+    const INSTANCE_NAME = 'Magento\Indexer\Model\Resource\Indexer\State\Collection';
 
     /**
      * @param \Magento\ObjectManager $objectManager
@@ -32,7 +32,7 @@ class IndexerFactory
      * Create class instance with specified parameters
      *
      * @param array $data
-     * @return Indexer
+     * @return Collection
      */
     public function create(array $data = array())
     {
