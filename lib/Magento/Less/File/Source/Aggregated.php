@@ -25,6 +25,11 @@ class Aggregated implements SourceInterface
     /**
      * @var SourceInterface
      */
+    protected $libraryFiles;
+
+    /**
+     * @var SourceInterface
+     */
     protected $baseFiles;
 
     /**
@@ -77,5 +82,3 @@ class Aggregated implements SourceInterface
         return $result;
     }
 }
-
-//TODO: Current class is similar to \Magento\View\Layout\File\Source\Aggregated

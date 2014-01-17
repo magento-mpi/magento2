@@ -19,7 +19,7 @@ class FileList
     /**
      * @var File[]
      */
-    private $files = array();
+    protected $files = array();
 
     /**
      * @var CollateInterface

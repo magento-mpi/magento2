@@ -20,27 +20,27 @@ class Aggregated implements SourceInterface
     /**
      * @var Factory
      */
-    private $fileListFactory;
+    protected $fileListFactory;
 
     /**
      * @var SourceInterface
      */
-    private $baseFiles;
+    protected $baseFiles;
 
     /**
      * @var SourceInterface
      */
-    private $themeFiles;
+    protected $themeFiles;
 
     /**
      * @var SourceInterface
      */
-    private $overrideBaseFiles;
+    protected $overrideBaseFiles;
 
     /**
      * @var SourceInterface
      */
-    private $overrideThemeFiles;
+    protected $overrideThemeFiles;
 
     /**
      * @param Factory $fileListFactory

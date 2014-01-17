@@ -23,12 +23,12 @@ class CollatorTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\View\Layout\File
      */
-    private $_baseFile;
+    protected $_baseFile;
 
     /**
      * @var \Magento\View\Layout\File
      */
-    private $_themeFile;
+    protected $_themeFile;
 
     protected function setUp()
     {

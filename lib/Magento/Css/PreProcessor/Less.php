@@ -82,7 +82,7 @@ class Less implements \Magento\View\Asset\PreProcessor\PreProcessorInterface
         }
 
         $sourcePath = $this->viewFileSystem->getViewFile($filePath, $params);
-        // if css file is already exist. May compare modification time of .less and .css files here.
+        //TODO: if css file is already exist. May compare modification time of .less and .css files here.
         if ($sourcePath) {
             return $sourcePath;
         }
