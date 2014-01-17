@@ -20,6 +20,9 @@ class History
     extends \Magento\Backend\Block\Template
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
+    /**
+     * @inheritdoc
+     */
     protected $_template = 'view/tab/history.phtml';
 
     /**
@@ -53,21 +56,33 @@ class History
         $this->_historyFactory = $historyFactory;
     }
 
+    /**
+     * @return string
+     */
     public function getTabLabel()
     {
         return __('Status History');
     }
 
+    /**
+     * @return string
+     */
     public function getTabTitle()
     {
         return __('Status History');
     }
 
+    /**
+     * @return bool
+     */
     public function canShowTab()
     {
         return true;
     }
 
+    /**
+     * @return bool
+     */
     public function isHidden()
     {
         return false;

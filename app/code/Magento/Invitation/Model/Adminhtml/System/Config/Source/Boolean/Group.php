@@ -15,6 +15,9 @@ namespace Magento\Invitation\Model\Adminhtml\System\Config\Source\Boolean;
 
 class Group implements \Magento\Core\Model\Option\ArrayInterface
 {
+    /**
+     * @return array
+     */
     public function toOptionArray()
     {
         return array(

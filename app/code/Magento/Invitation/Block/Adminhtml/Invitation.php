@@ -32,6 +32,9 @@ class Invitation extends \Magento\Backend\Block\Widget\Grid\Container
         parent::_construct();
     }
 
+    /**
+     * @return string
+     */
     public function getHeaderCssClass() {
         return 'icon-head head-invitation';
     }
