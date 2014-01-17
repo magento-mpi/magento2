@@ -146,14 +146,11 @@ class Shipping extends \Magento\Sales\Block\Items\AbstractItems
      *
      * @param \Magento\Object $addressEntity
      * @return string
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getItemsBoxTextAfter(\Magento\Object $addressEntity)
     {
-        $block = $this->getChildBlock('multishipping.items.box.text.after');
-        if ($block) {
-            $block->setAddressEntity($addressEntity);
-            return $block->toHtml();
-        }
         return '';
     }
 }

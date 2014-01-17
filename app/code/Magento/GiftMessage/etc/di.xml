@@ -15,4 +15,7 @@
             </value>
         </param>
     </type>
+    <type name="Magento\Multishipping\Block\Checkout\Shipping">
+        <plugin name="getItemsBoxTextAfter" type="Magento\GiftMessage\Block\Message\Plugin\Multishipping"/>
+    </type>
 </config>
