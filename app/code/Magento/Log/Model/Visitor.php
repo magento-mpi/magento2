@@ -34,7 +34,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     protected $_skipRequestLogging = false;
 
     /**
-     * @var array
+     * @var string[]
      */
     protected $_ignoredUserAgents;
 
@@ -57,7 +57,8 @@ class Visitor extends \Magento\Core\Model\AbstractModel
      */
     protected $_ignores;
 
-    /*
+    /**
+     * @inheritdoc
      * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
@@ -112,7 +113,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
-     * @param array $ignoredUserAgents
+     * @param string[] $ignoredUserAgents
      * @param array $ignores
      * @param array $data
      */
@@ -224,6 +225,11 @@ class Visitor extends \Magento\Core\Model\AbstractModel
         return $url;
     }
 
+    /**
+     * Return First Visit data in internal format.
+     *
+     * @return string
+     */
     public function getFirstVisitAt()
     {
         if (!$this->hasData('first_visit_at')) {
@@ -232,6 +238,11 @@ class Visitor extends \Magento\Core\Model\AbstractModel
         return $this->getData('first_visit_at');
     }
 
+    /**
+     * Return Last Visit data in internal format.
+     *
+     * @return string
+     */
     public function getLastVisitAt()
     {
         if (!$this->hasData('last_visit_at')) {
@@ -325,6 +336,8 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     }
 
     /**
+     * Create binding of checkout quote
+     *
      * @param \Magento\Event\Observer $observer
      * @return $this
      */
@@ -341,6 +354,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     }
 
     /**
+     * Destroy binding of checkout quote
      * @param \Magento\Event\Observer $observer
      * @return $this
      */
@@ -355,6 +369,9 @@ class Visitor extends \Magento\Core\Model\AbstractModel
 
     /**
      * Methods for research (depends from customer online admin section)
+     *
+     * @param array $data
+     * @return $this
      */
     public function addIpData($data)
     {
@@ -364,6 +381,8 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     }
 
     /**
+     * Load customer data into $data
+     *
      * @param object $data
      * @return $this
      */
@@ -384,6 +403,8 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     }
 
     /**
+     * Load quote data into $data
+     *
      * @param object $data
      * @return $this
      */
@@ -398,6 +419,8 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     }
 
     /**
+     * Returns true if the module is required
+     *
      * @param \Magento\Event\Observer $observer
      * @return bool
      */
