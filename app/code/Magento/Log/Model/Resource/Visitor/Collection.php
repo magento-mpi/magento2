@@ -192,6 +192,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Filter visitors by specified store ids
      *
      * @param int[]|int $storeIds
+     * @return void
      */
     public function addVisitorStoreFilter($storeIds)
     {
