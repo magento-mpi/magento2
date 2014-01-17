@@ -34,6 +34,7 @@ return array(
     array('_currency', 'Magento\GoogleCheckout\Model\Api\Xml\Checkout'),
     array('_currencyNameTable'),
     array('_customEtcDir', 'Magento\Core\Model\Config'),
+    array('_customerFactory ', '\Magento\Sales\Block\Adminhtml\Billing\Agreement\View\Tab\Info'),
     array('_defaultTemplates', 'Magento\Email\Model\Template'),
     array('_designProductSettingsApplied'),
     array('_directOutput', 'Magento\Core\Model\Layout'),
