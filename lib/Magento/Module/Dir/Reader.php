@@ -11,6 +11,10 @@ namespace Magento\Module\Dir;
 
 use Magento\Filesystem\Directory\Read;
 use Magento\Filesystem;
+use Magento\Module\ModuleListInterface;
+use Magento\Module\Dir;
+use Magento\Config\FileIteratorFactory;
+use Magento\Config\FileIterator;
 
 class Reader
 {
@@ -24,14 +28,14 @@ class Reader
     /**
      * Directory registry
      *
-     * @var \Magento\Module\Dir
+     * @var Dir
      */
     protected $moduleDirs;
 
     /**
      * Modules configuration provider
      *
-     * @var \Magento\Module\ModuleListInterface
+     * @var ModuleListInterface
      */
     protected $modulesList;
 
@@ -40,12 +44,16 @@ class Reader
      */
     protected $modulesDirectory;
 
-    protected $fileIteratorFactory;
     /**
-     * @param \Magento\Module\Dir $moduleDirs
-     * @param \Magento\Module\ModuleListInterface $moduleList
+     * @var FileIteratorFactory
+     */
+    protected $fileIteratorFactory;
+
+    /**
+     * @param Dir $moduleDirs
+     * @param ModuleListInterface $moduleList
      * @param Filesystem $filesystem
-     * @param \Magento\Config\FileIteratorFactory $fileIterator
+     * @param FileIteratorFactory $fileIterator
      */
     public function __construct(
         \Magento\Module\Dir                 $moduleDirs,
@@ -62,8 +70,8 @@ class Reader
     /**
      * Go through all modules and find configuration files of active modules
      *
-     * @param $filename
-     * @return \Magento\Config\FileIterator
+     * @param string $filename
+     * @return FileIterator
      */
     public function getConfigurationFiles($filename)
     {
@@ -99,6 +107,7 @@ class Reader
      * @param string $moduleName
      * @param string $type directory type (etc, controllers, locale etc)
      * @param string $path
+     * @return void
      */
     public function setModuleDir($moduleName, $type, $path)
     {

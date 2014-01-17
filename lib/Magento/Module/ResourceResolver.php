@@ -9,10 +9,12 @@
  */
 namespace Magento\Module;
 
+use Magento\Module\Dir\Reader;
+
 class ResourceResolver implements \Magento\Module\ResourceResolverInterface
 {
     /**
-     * @var \Magento\Module\Dir\Reader
+     * @var Reader
      */
     protected $_moduleReader;
 
@@ -24,7 +26,7 @@ class ResourceResolver implements \Magento\Module\ResourceResolverInterface
     protected $_moduleResources = array();
 
     /**
-     * @param \Magento\Module\Dir\Reader $moduleReader
+     * @param Reader $moduleReader
      */
     public function __construct(Dir\Reader $moduleReader)
     {
@@ -35,7 +37,7 @@ class ResourceResolver implements \Magento\Module\ResourceResolverInterface
      * Retrieve the list of resources declared by the given module
      *
      * @param string $moduleName
-     * @return array
+     * @return string[]
      */
     public function getResourceList($moduleName)
     {
