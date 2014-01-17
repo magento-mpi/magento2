@@ -20,9 +20,9 @@ interface ConfigInterface
     /**
      * Get config value by key
      *
-     * @param string $key
-     * @param mixed $default
+     * @param string $path
+     * @param null $default
      * @return mixed
      */
-    public function get($key, $default = null);
+    public function get($path = null, $default = null);
 }

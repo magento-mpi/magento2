@@ -79,7 +79,7 @@ class View extends \Magento\Object implements ViewInterface
     public function load($viewId)
     {
         $view = $this->config->get($viewId);
-        if (empty($view) || empty($view['viewId']) || $view['viewId'] != $viewId) {
+        if (empty($view) || empty($view['view_id']) || $view['view_id'] != $viewId) {
             throw new \InvalidArgumentException("{$viewId} view does not exist.");
         }
         $this->setId($viewId);

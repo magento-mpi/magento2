@@ -30,7 +30,7 @@ $table = $installer->getConnection()
         'default' => \Magento\Mview\View\StateInterface::MODE_DISABLED,
     ), 'View Mode')
     ->addColumn('status', \Magento\DB\Ddl\Table::TYPE_TEXT, 16, array(
-        'default' => \Magento\Mview\View\StateInterface::STATUS_INVALID,
+        'default' => \Magento\Mview\View\StateInterface::STATUS_IDLE,
     ), 'View Status')
     ->addColumn('updated', \Magento\DB\Ddl\Table::TYPE_DATETIME, null, array(
     ), 'View updated time')

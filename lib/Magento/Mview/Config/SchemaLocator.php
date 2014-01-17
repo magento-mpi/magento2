@@ -25,11 +25,11 @@ class SchemaLocator implements \Magento\Config\SchemaLocatorInterface
     protected $_perFileSchema = null;
 
     /**
-     * @param \Magento\Module\Dir\Reader $moduleReader
+     * @param \Magento\Filesystem\DirectoryList $directoryList
      */
-    public function __construct(\Magento\Module\Dir\Reader $moduleReader)
+    public function __construct(\Magento\Filesystem\DirectoryList $directoryList)
     {
-        $etcDir = $moduleReader->getModuleDir('etc', 'Magento_Mview');
+        $etcDir = $directoryList->getDir(\Magento\Filesystem::LIB) . '/Magento/Mview/etc';
         $this->_schema =  $etcDir . '/mview.xsd';
         $this->_perFileSchema = $etcDir . '/mview.xsd';
     }

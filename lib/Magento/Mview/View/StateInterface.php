@@ -19,9 +19,8 @@ interface StateInterface
     /**
      * View statuses
      */
+    const STATUS_IDLE = 'idle';
     const STATUS_WORKING = 'working';
-    const STATUS_VALID = 'valid';
-    const STATUS_INVALID = 'invalid';
 
     /**
      * Fill object with state data by view ID

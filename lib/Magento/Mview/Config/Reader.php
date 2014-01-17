@@ -11,7 +11,9 @@ namespace Magento\Mview\Config;
 class Reader extends \Magento\Config\Reader\Filesystem
 {
     /**
-     * {@inheritdoc}
+     * List of id attributes for merge
+     *
+     * @var array
      */
     protected $_idAttributes = array(
         '/config/view' => 'id',

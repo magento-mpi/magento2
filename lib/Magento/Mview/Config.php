@@ -24,24 +24,12 @@ class Config extends \Magento\Config\Data implements ConfigInterface
     }
 
     /**
-     * Get indexer's config
+     * Get views configuration
      *
      * @return mixed
      */
     public function getAll()
     {
         return $this->getAll();
-    }
-
-    /**
-     * Get config value by key
-     *
-     * @param string $key
-     * @param mixed $default
-     * @return mixed
-     */
-    public function get($key, $default = null)
-    {
-        return $this->get($key, $default);
     }
 }

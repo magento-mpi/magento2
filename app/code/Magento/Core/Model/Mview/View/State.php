@@ -9,7 +9,6 @@
 namespace Magento\Core\Model\Mview\View;
 
 /**
- * @method string getViewId()
  * @method \Magento\Indexer\Model\Indexer\State setViewId(string $value)
  */
 class State extends \Magento\Core\Model\AbstractModel implements \Magento\Mview\View\StateInterface
@@ -31,22 +30,22 @@ class State extends \Magento\Core\Model\AbstractModel implements \Magento\Mview\
     /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Indexer\Model\Resource\Indexer\State $resource
-     * @param \Magento\Indexer\Model\Resource\Indexer\State\Collection $resourceCollection
+     * @param \Magento\Core\Model\Resource\Mview\View\State $resource
+     * @param \Magento\Core\Model\Resource\Mview\View\State\Collection $resourceCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Indexer\Model\Resource\Indexer\State $resource,
-        \Magento\Indexer\Model\Resource\Indexer\State\Collection $resourceCollection,
+        \Magento\Core\Model\Resource\Mview\View\State $resource,
+        \Magento\Core\Model\Resource\Mview\View\State\Collection $resourceCollection,
         array $data = array()
     ) {
         if (!isset($data['mode'])) {
             $data['mode'] = self::MODE_DISABLED;
         }
         if (!isset($data['status'])) {
-            $data['status'] = self::STATUS_INVALID;
+            $data['status'] = self::STATUS_IDLE;
         }
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
@@ -74,6 +73,16 @@ class State extends \Magento\Core\Model\AbstractModel implements \Magento\Mview\
     {
         $this->setUpdated(time());
         return parent::_beforeSave();
+    }
+
+    /**
+     * Get state view ID
+     *
+     * @return string
+     */
+    public function getViewId()
+    {
+        return $this->getData('view_id');
     }
 
     /**
