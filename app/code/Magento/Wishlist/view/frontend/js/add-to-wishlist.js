@@ -34,5 +34,5 @@
                 $(element).data('post', params);
             });
         }
-    })
+    });
 })(jQuery);
