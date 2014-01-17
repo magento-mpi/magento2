@@ -47,7 +47,7 @@ class Factory
      * Create url model new instance
      *
      * @param array $arguments
-     * @return \Magento\Core\Model\Url
+     * @return \Magento\UrlInterface
      */
     public function create(array $arguments = array())
     {

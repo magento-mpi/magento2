@@ -96,7 +96,7 @@ class Url extends \Magento\Object
     /**
      * Retrieve URL Instance
      *
-     * @return \Magento\Core\Model\Url
+     * @return \Magento\UrlInterface
      */
     public function getUrlInstance()
     {

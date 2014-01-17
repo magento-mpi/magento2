@@ -999,7 +999,7 @@ class Account extends \Magento\App\Action\Action
     }
 
     /**
-     * @return \Magento\Core\Model\Url
+     * @return \Magento\UrlInterface
      */
     protected function _createUrl()
     {

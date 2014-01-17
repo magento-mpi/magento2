@@ -1243,7 +1243,7 @@ class Store extends \Magento\Core\Model\AbstractModel implements \Magento\Url\Sc
     /**
      * Get url model by class name for current store
      *
-     * @return \Magento\Core\Model\Url
+     * @return \Magento\UrlInterface
      */
     public function getUrlModel()
     {

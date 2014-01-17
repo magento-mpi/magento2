@@ -425,7 +425,7 @@ class Session extends \Magento\Session\SessionManager
     }
 
     /**
-     * @return \Magento\Core\Model\Url
+     * @return \Magento\UrlInterface
      */
     protected function _createUrl()
     {

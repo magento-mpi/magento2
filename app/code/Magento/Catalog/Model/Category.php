@@ -231,7 +231,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
     /**
      * Retrieve URL instance
      *
-     * @return \Magento\Core\Model\Url
+     * @return \Magento\UrlInterface
      */
     public function getUrlInstance()
     {

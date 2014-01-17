@@ -124,7 +124,7 @@ class App implements \Magento\AppInterface
     /**
      * Use session in URL flag
      *
-     * @see \Magento\Core\Model\Url
+     * @see \Magento\UrlInterface
      * @var bool
      */
     protected $_useSessionInUrl = true;

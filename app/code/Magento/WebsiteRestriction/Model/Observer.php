@@ -204,7 +204,7 @@ class Observer
     /**
      * @param string $route
      * @param array $params
-     * @return \Magento\Core\Model\Url
+     * @return \Magento\UrlInterface
      */
     public function getUrl($route = '', $params = array())
     {
