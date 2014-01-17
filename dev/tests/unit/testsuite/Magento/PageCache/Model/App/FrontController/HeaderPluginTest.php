@@ -64,7 +64,7 @@ class HeaderPluginTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider headersCachableDataProvider
      */
-    public function testAfterDispatchNonCacheable($isCacheable, $isPrivate, $maxAge, $cacheControl, $expires, $pragma)
+    public function testAfterDispatchCacheable($isCacheable, $isPrivate, $maxAge, $cacheControl, $expires, $pragma)
     {
         $this->layoutMock->expects($this->once())
             ->method('isCacheable')
