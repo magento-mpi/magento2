@@ -306,4 +306,16 @@ class Data extends \Magento\App\Helper\AbstractHelper implements HelperInterface
         $output = $layout->getOutput();
         return $output;
     }
+
+    /**
+     * Get direct post rely url
+     *
+     * @param null|int|string $storeId
+     * @return string
+     */
+    public function getRelyUrl($storeId = null)
+    {
+        return $this->_storeManager->getStore($storeId)->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_LINK)
+            . 'authorizenet/directpost_payment/response';
+    }
 }
