@@ -62,7 +62,6 @@ class FormTest extends \PHPUnit_Framework_TestCase
             'order_create_block' . rand(),
             ['sessionQuote' => $sessionMock]
         );
-        $this->setUpMockAddress();
         parent::setUp();
     }
 
@@ -71,17 +70,19 @@ class FormTest extends \PHPUnit_Framework_TestCase
      */
     public function testOrderDataJson()
     {
+        /** @var array $addressIds */
+        $addressIds = $this->setUpMockAddress();
         $orderDataJson = $this->_orderCreateBlock->getOrderDataJson();
         $expectedOrderDataJson = <<< ORDER_DATA_JSON
         {
             "customer_id":1,
             "addresses":
-                {"1":
+                {"{$addressIds[0]}":
                     {"firstname":"John","lastname":"Smith","company":false,"street":"Green str, 67","city":"CityM",
                         "country_id":"US",
                         "region":{"region_code":"AL","region":"Alabama","region_id":1},
                         "region_id":false,"postcode":"75477","telephone":"3468676","fax":false,"vat_id":false},
-                 "2":
+                 "{$addressIds[1]}":
                     {"firstname":"John","lastname":"Smith","company":false,"street":"Black str, 48","city":"CityX",
                         "country_id":"US",
                         "region":{"region_code":"AL","region":"Alabama","region_id":1},
@@ -141,6 +142,6 @@ ORDER_DATA_JSON;
             ->setLastname('Smith')
             ->create();
 
-        $addressService->saveAddresses(1, [$addressDto1, $addressDto2]);
+        return $addressService->saveAddresses(1, [$addressDto1, $addressDto2]);
     }
 }
