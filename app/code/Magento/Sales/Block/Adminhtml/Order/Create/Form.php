@@ -9,7 +9,7 @@
 namespace Magento\Sales\Block\Adminhtml\Order\Create;
 
 /**
- * Adminhtml sales order create sidebar
+ * Adminhtml sales order create form block
  */
 class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
 {
@@ -107,11 +107,8 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
         if (!is_null($this->getCustomerId())) {
             $data['customer_id'] = $this->getCustomerId();
             $data['addresses'] = array();
-
-            /* @var $addresses \Magento\Customer\Service\V1\Dto\Address[] */
             $addresses = $this->_addressService->getAddresses($this->getCustomerId());
             foreach ($addresses as $addressDto) {
-                /* @var $addressForm \Magento\Customer\Model\Metadata\Form */
                 $addressForm = $this->_customerFormFactory->create(
                     'customer_address',
                     'adminhtml_customer_address',
