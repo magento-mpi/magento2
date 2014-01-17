@@ -300,7 +300,9 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
             }
         }
 
-        $this->priceHelper->setCustomer($this->_coreRegistry->registry('current_customer'));
+        if (!$this->priceHelper->getCustomer() && $this->_coreRegistry->registry('current_customer')) {
+            $this->priceHelper->setCustomer($this->_coreRegistry->registry('current_customer'));
+        }
 
         $_request = $this->priceHelper->getRateRequest(false, false, false);
         $_request->setProductClassId($currentProduct->getTaxClassId());
