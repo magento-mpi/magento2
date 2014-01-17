@@ -46,6 +46,7 @@ class Composite implements \Magento\Phrase\RendererInterface
      * Add renderer to the end of the chain
      *
      * @param string $render
+     * @return void
      */
     protected function _append($render)
     {
@@ -53,7 +54,11 @@ class Composite implements \Magento\Phrase\RendererInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Render result text
+     *
+     * @param string $text
+     * @param array $arguments
+     * @return string
      */
     public function render($text, array $arguments = array())
     {
