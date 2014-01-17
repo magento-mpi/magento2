@@ -8,8 +8,15 @@
  */
 namespace Magento\Data;
 
+use Magento\Data\DataArray;
+
 class Schema extends \Magento\Object
 {
+    /**
+     * @param mixed $schema
+     *
+     * @return void
+     */
     public function load($schema)
     {
         if (is_array($schema)) {
@@ -22,6 +29,11 @@ class Schema extends \Magento\Object
         }
     }
 
+    /**
+     * @param mixed $rawData
+     *
+     * @return DataArray
+     */
     public function extract($rawData)
     {
         $elements = $rawData;

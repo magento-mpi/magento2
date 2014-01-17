@@ -17,65 +17,101 @@
  */
 namespace Magento\Data\Tree\Node;
 
+use Magento\Data\Tree\Node;
+
 class Collection implements \ArrayAccess, \IteratorAggregate
 {
+    /**
+     * @var array
+     */
     private $_nodes;
+
+    /**
+     * @var Node
+     */
     private $_container;
-    
+
+    /**
+     * @param Node $container
+     */
     public function __construct($container) 
     {
         $this->_nodes = array();
         $this->_container = $container;
     }
-    
+
+    /**
+     * Get the nodes
+     *
+     * @return array
+     */
     public function getNodes()
     {
         return $this->_nodes;
     }
     
     /**
-    * Implementation of \IteratorAggregate::getIterator()
-    */
+     * Implementation of \IteratorAggregate::getIterator()
+     *
+     * @return \ArrayIterator
+     */
     public function getIterator()
     {
         return new \ArrayIterator($this->_nodes);
     }
 
     /**
-    * Implementation of \ArrayAccess:offsetSet()
-    */
+     * Implementation of \ArrayAccess:offsetSet()
+     *
+     * @param string $key
+     * @param mixed $value
+     *
+     * @return void
+     */
     public function offsetSet($key, $value)
     {
         $this->_nodes[$key] = $value;
     }
     
     /**
-    * Implementation of \ArrayAccess:offsetGet()
-    */
+     * Implementation of \ArrayAccess:offsetGet()
+     * @param string $key
+     *
+     * @return mixed
+     */
     public function offsetGet($key)
     {
         return $this->_nodes[$key];
     }
     
     /**
-    * Implementation of \ArrayAccess:offsetUnset()
-    */
+     * Implementation of \ArrayAccess:offsetUnset()
+     * @param string $key
+     *
+     * @return void
+     */
     public function offsetUnset($key)
     {
         unset($this->_nodes[$key]);
     }
     
     /**
-    * Implementation of \ArrayAccess:offsetExists()
-    */
+     * Implementation of \ArrayAccess:offsetExists()
+     * @param string $key
+     *
+     * @return bool
+     */
     public function offsetExists($key)
     {
         return isset($this->_nodes[$key]);
     }
     
     /**
-    * Adds a node to this node
-    */
+     * Adds a node to this node
+     * @param Node $node
+     *
+     * @return Node
+     */
     public function add(\Magento\Data\Tree\Node $node)
     {
         $node->setParent($this->_container);
@@ -89,7 +125,14 @@ class Collection implements \ArrayAccess, \IteratorAggregate
 
         return $node;
     }
-    
+
+    /**
+     * Delete
+     *
+     * @param Node $node
+     *
+     * @return $this
+     */
     public function delete($node)
     {
         if (isset($this->_nodes[$node->getId()])) {
@@ -97,17 +140,33 @@ class Collection implements \ArrayAccess, \IteratorAggregate
         }
         return $this;
     }
-    
+
+    /**
+     * Return count
+     *
+     * @return int
+     */
     public function count()
     {
         return count($this->_nodes);
     }
 
+    /**
+     * Return the last node
+     * @return mixed
+     */
     public function lastNode()
     {
         return !empty($this->_nodes) ? $this->_nodes[count($this->_nodes) - 1] : null;
     }
 
+    /**
+     * Search by Id
+     *
+     * @param mixed $nodeId
+     *
+     * @return null
+     */
     public function searchById($nodeId)
     {
         if (isset($this->_nodes[$nodeId])) {

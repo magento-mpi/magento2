@@ -47,6 +47,10 @@ class Date extends \Magento\Data\Form\Element\AbstractElement
     /**
      * If script executes on x64 system, converts large
      * numeric values to timestamp limit
+     *
+     * @param int $value
+     *
+     * @return int
      */
     protected function _toTimestamp($value)
     {

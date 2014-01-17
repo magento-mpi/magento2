@@ -34,11 +34,19 @@ class Multiline extends \Magento\Data\Form\Element\AbstractElement
         $this->setLineCount(2);
     }
 
+    /**
+     * @return string[]
+     */
     public function getHtmlAttributes()
     {
         return array('type', 'title', 'class', 'style', 'onclick', 'onchange', 'disabled', 'maxlength');
     }
 
+    /**
+     * @param int $suffix
+     *
+     * @return string
+     */
     public function getLabelHtml($suffix = 0)
     {
         return parent::getLabelHtml($suffix);
@@ -71,6 +79,9 @@ class Multiline extends \Magento\Data\Form\Element\AbstractElement
         return $html;
     }
 
+    /**
+     * @return mixed
+     */
     public function getDefaultHtml()
     {
         $html = '';

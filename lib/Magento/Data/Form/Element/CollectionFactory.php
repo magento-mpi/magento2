@@ -30,6 +30,7 @@ class CollectionFactory
      * Create collection factory with specified parameters
      *
      * @param array $data
+     *
      * @return \Magento\Data\Form\Element\Collection
      */
     public function create(array $data = array())

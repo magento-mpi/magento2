@@ -17,26 +17,29 @@
  */
 namespace Magento\Data\Tree;
 
+use Magento\Data\Tree;
+use Magento\Data\Tree\Node\Collection;
+
 class Node extends \Magento\Object
 {
     /**
      * Parent node
      *
-     * @var \Magento\Data\Tree\Node
+     * @var Node
      */
     protected $_parent;
 
     /**
      * Main tree object
      *
-     * @var \Magento\Data\Tree
+     * @var Tree
      */
     protected $_tree;
 
     /**
      * Child nodes
      *
-     * @var \Magento\Data\Tree\Node\Collection
+     * @var Collection
      */
     protected $_childNodes;
 
@@ -52,8 +55,8 @@ class Node extends \Magento\Object
      *
      * @param array $data
      * @param string $idFeild
-     * @param \Magento\Data\Tree $tree
-     * @param \Magento\Data\Tree\Node $parent
+     * @param Tree $tree
+     * @param Node $parent
      */
     public function __construct($data, $idFeild, $tree, $parent = null)
     {
@@ -99,7 +102,7 @@ class Node extends \Magento\Object
     /**
      * Set node tree object
      *
-     * @param   \Magento\Data\Tree $tree
+     * @param   Tree $tree
      * @return  this
      */
     public function setTree(\Magento\Data\Tree $tree)
@@ -111,7 +114,7 @@ class Node extends \Magento\Object
     /**
      * Retrieve node tree object
      *
-     * @return \Magento\Data\Tree
+     * @return Tree
      */
     public function getTree()
     {
@@ -121,8 +124,8 @@ class Node extends \Magento\Object
     /**
      * Set node parent
      *
-     * @param   \Magento\Data\Tree\Node $parent
-     * @return  \Magento\Data\Tree\Node
+     * @param   Node $parent
+     * @return  $this
      */
     public function setParent($parent)
     {
@@ -133,7 +136,7 @@ class Node extends \Magento\Object
     /**
      * Retrieve node parent
      *
-     * @return \Magento\Data\Tree
+     * @return Tree
      */
     public function getParent()
     {
@@ -150,18 +153,33 @@ class Node extends \Magento\Object
         return $this->_childNodes->count() > 0;
     }
 
+    /**
+     * @param mixed $level
+     *
+     * @return $this
+     */
     public function setLevel($level)
     {
         $this->setData('level', $level);
         return $this;
     }
 
+    /**
+     * @param mixed $path
+     *
+     * @return $this
+     */
     public function setPathId($path)
     {
         $this->setData('path_id', $path);
         return $this;
     }
 
+    /**
+     * @param Node $node
+     *
+     * @return void
+     */
     public function isChildOf($node)
     {
 
@@ -189,6 +207,11 @@ class Node extends \Magento\Object
         return $this->_childNodes;
     }
 
+    /**
+     * @param array $nodes
+     *
+     * @return array
+     */
     public function getAllChildNodes(&$nodes = array())
     {
         foreach ($this->_childNodes as $node) {
@@ -198,6 +221,9 @@ class Node extends \Magento\Object
         return $nodes;
     }
 
+    /**
+     * @return mixed
+     */
     public function getLastChild()
     {
         return $this->_childNodes->lastNode();
@@ -206,8 +232,9 @@ class Node extends \Magento\Object
     /**
      * Add child node
      *
-     * @param   \Magento\Data\Tree\Node $node
-     * @return  \Magento\Data\Tree\Node
+     * @param   Node $node
+     *
+     * @return  Node
      */
     public function addChild($node)
     {
@@ -215,30 +242,57 @@ class Node extends \Magento\Object
         return $this;
     }
 
+    /**
+     * @param Node $prevNode
+     *
+     * @return $this
+     */
     public function appendChild($prevNode=null)
     {
         $this->_tree->appendChild($this, $prevNode);
         return $this;
     }
 
+    /**
+     * @param Node $parentNode
+     * @param Node $prevNode
+     *
+     * @return $this
+     */
     public function moveTo($parentNode, $prevNode=null)
     {
         $this->_tree->moveNodeTo($this, $parentNode, $prevNode);
         return $this;
     }
 
+    /**
+     * @param Node $parentNode
+     * @param Node $prevNode
+     *
+     * @return $this
+     */
     public function copyTo($parentNode, $prevNode=null)
     {
         $this->_tree->copyNodeTo($this, $parentNode, $prevNode);
         return $this;
     }
 
+    /**
+     * @param Node $childNode
+     *
+     * @return $this
+     */
     public function removeChild($childNode)
     {
         $this->_childNodes->delete($childNode);
         return $this;
     }
 
+    /**
+     * @param array $prevNodes
+     *
+     * @return array
+     */
     public function getPath(&$prevNodes = array())
     {
         if ($this->_parent) {
@@ -248,11 +302,17 @@ class Node extends \Magento\Object
         return $prevNodes;
     }
 
+    /**
+     * @return mixed
+     */
     public function getIsActive()
     {
         return $this->_getData('is_active');
     }
 
+    /**
+     * @return mixed
+     */
     public function getName()
     {
         return $this->_getData('name');

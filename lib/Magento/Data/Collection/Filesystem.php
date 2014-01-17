@@ -479,7 +479,7 @@ class Filesystem extends \Magento\Data\Collection
      * Fancy field filter
      *
      * @param string $field
-     * @param mixed|array $cond
+     * @param mixed $cond
      * @param string $type 'and' | 'or'
      * @see \Magento\Data\Collection\Db::addFieldToFilter()
      * @return $this

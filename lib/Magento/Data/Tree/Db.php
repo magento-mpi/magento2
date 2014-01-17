@@ -49,13 +49,31 @@ class Db extends \Magento\Data\Tree
     protected $_select;
 
     /**
-     * Tree ctructure field names
+     * Tree ctructure field name: _idField
      *
      * @var string
      */
     protected $_idField;
+
+    /**
+     * Tree ctructure field name: _parentField
+     *
+     * @var string
+     */
     protected $_parentField;
+
+    /**
+     * Tree ctructure field name: _levelField
+     *
+     * @var string
+     */
     protected $_levelField;
+
+    /**
+     * Tree ctructure field name: _orderField
+     *
+     * @var string
+     */
     protected $_orderField;
 
     /**
@@ -100,11 +118,19 @@ class Db extends \Magento\Data\Tree
         $this->_select->from($this->_table, array_values($fields));
     }
 
+    /**
+     * @return \Zend_Db_Select
+     */
     public function getDbSelect()
     {
         return $this->_select;
     }
 
+    /**
+     * @param \Zend_Db_Select $select
+     *
+     * @return void
+     */
     public function setDbSelect($select)
     {
         $this->_select = $select;
@@ -150,6 +176,11 @@ class Db extends \Magento\Data\Tree
         return $this;
     }
 
+    /**
+     * @param mixed $nodeId
+     *
+     * @return Node
+     */
     public function loadNode($nodeId)
     {
         $select = clone $this->_select;
@@ -160,6 +191,13 @@ class Db extends \Magento\Data\Tree
         return $node;
     }
 
+    /**
+     * @param Node $data
+     * @param Node $parentNode
+     * @param Node $prevNode
+     *
+     * @return Node
+     */
     public function appendChild($data, $parentNode, $prevNode=null)
     {
         $orderSelect = $this->_conn->select();
@@ -183,6 +221,8 @@ class Db extends \Magento\Data\Tree
      * @param \Magento\Data\Tree\Node $node
      * @param \Magento\Data\Tree\Node $parentNode
      * @param \Magento\Data\Tree\Node $prevNode
+     *
+     * @return void
      */
     public function moveNodeTo($node, $parentNode, $prevNode=null)
     {
@@ -229,6 +269,12 @@ class Db extends \Magento\Data\Tree
         }
     }
 
+    /**
+     * @param mixed $parentId
+     * @param int $parentLevel
+     *
+     * @return $this
+     */
     protected function _updateChildLevels($parentId, $parentLevel)
     {
         $select = $this->_conn->select()
@@ -247,6 +293,9 @@ class Db extends \Magento\Data\Tree
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     protected function _loadFullTree()
     {
         $select = clone $this->_select;
@@ -264,6 +313,11 @@ class Db extends \Magento\Data\Tree
         return $this;
     }
 
+    /**
+     * @param Node $node
+     * @return $this
+     * @throws \Exception
+     */
     public function removeNode($node)
     {
         // For reorder old node branch

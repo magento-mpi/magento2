@@ -35,6 +35,9 @@ class Time extends \Magento\Data\Form\Element\AbstractElement
         $this->setType('time');
     }
 
+    /**
+     * @return mixed
+     */
     public function getName()
     {
         $name = parent::getName();
@@ -44,6 +47,9 @@ class Time extends \Magento\Data\Form\Element\AbstractElement
         return $name;
     }
 
+    /**
+     * @return string
+     */
     public function getElementHtml()
     {
         $this->addClass('select');

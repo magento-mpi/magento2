@@ -10,6 +10,9 @@
 
 namespace Magento\Data;
 
+use Magento\Data\Form\Element\AbstractElement;
+use Magento\Data\Form\Element\Renderer\RendererInterface;
+
 class Form extends \Magento\Data\Form\AbstractForm
 {
     /**
@@ -31,8 +34,19 @@ class Form extends \Magento\Data\Form\AbstractForm
      */
     protected $formKey;
 
+    /**
+     * @var RendererInterface
+     */
     static protected $_defaultElementRenderer;
+
+    /**
+     * @var RendererInterface
+     */
     static protected $_defaultFieldsetRenderer;
+
+    /**
+     * @var RendererInterface
+     */
     static protected $_defaultFieldsetElementRenderer;
 
     /**
@@ -52,31 +66,55 @@ class Form extends \Magento\Data\Form\AbstractForm
         $this->formKey = $formKey;
     }
 
+    /**
+     * @param RendererInterface $renderer
+     *
+     * @return void
+     */
     public static function setElementRenderer(\Magento\Data\Form\Element\Renderer\RendererInterface $renderer = null)
     {
         self::$_defaultElementRenderer = $renderer;
     }
 
+    /**
+     * @param RendererInterface $renderer
+     *
+     * @return void
+     */
     public static function setFieldsetRenderer(\Magento\Data\Form\Element\Renderer\RendererInterface $renderer = null)
     {
         self::$_defaultFieldsetRenderer = $renderer;
     }
 
+    /**
+     * @param RendererInterface $renderer
+     *
+     * @return void
+     */
     public static function setFieldsetElementRenderer(\Magento\Data\Form\Element\Renderer\RendererInterface $renderer = null)
     {
         self::$_defaultFieldsetElementRenderer = $renderer;
     }
 
+    /**
+     * @return RendererInterface
+     */
     public static function getElementRenderer()
     {
         return self::$_defaultElementRenderer;
     }
 
+    /**
+     * @return RendererInterface
+     */
     public static function getFieldsetRenderer()
     {
         return self::$_defaultFieldsetRenderer;
     }
 
+    /**
+     * @return RendererInterface
+     */
     public static function getFieldsetElementRenderer()
     {
         return self::$_defaultFieldsetElementRenderer;
@@ -84,7 +122,8 @@ class Form extends \Magento\Data\Form\AbstractForm
 
     /**
      * Return allowed HTML form attributes
-     * @return array
+     *
+     * @return string[]
      */
     public function getHtmlAttributes()
     {
@@ -94,7 +133,7 @@ class Form extends \Magento\Data\Form\AbstractForm
     /**
      * Add form element
      *
-     * @param \Magento\Data\Form\Element\AbstractElement $element
+     * @param AbstractElement $element
      * @param bool $after
      * @return \Magento\Data\Form
      */
@@ -118,7 +157,8 @@ class Form extends \Magento\Data\Form\AbstractForm
     }
 
     /**
-     * @param \Magento\Data\Form\Element\AbstractElement $element
+     * @param AbstractElement $element
+     *
      * @return $this
      */
     public function addElementToCollection($element)
@@ -153,7 +193,7 @@ class Form extends \Magento\Data\Form\AbstractForm
      * Retrieve form element by id
      *
      * @param string $elementId
-     * @return null|\Magento\Data\Form\Element\AbstractElement
+     * @return AbstractElement
      */
     public function getElement($elementId)
     {
@@ -165,6 +205,7 @@ class Form extends \Magento\Data\Form\AbstractForm
 
     /**
      * @param array $values
+     *
      * @return $this
      */
     public function setValues($values)
@@ -181,6 +222,7 @@ class Form extends \Magento\Data\Form\AbstractForm
 
     /**
      * @param array $values
+     *
      * @return $this
      */
     public function addValues($values)
@@ -237,7 +279,8 @@ class Form extends \Magento\Data\Form\AbstractForm
 
     /**
      * @param string $elementId
-     * @return $this|Form\AbstractForm
+     *
+     * @return $this
      */
     public function removeField($elementId)
     {
@@ -295,6 +338,9 @@ class Form extends \Magento\Data\Form\AbstractForm
         return $html;
     }
 
+    /**
+     * @return string
+     */
     public function getHtml()
     {
         return $this->toHtml();

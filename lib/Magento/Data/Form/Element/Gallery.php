@@ -35,6 +35,9 @@ class Gallery extends \Magento\Data\Form\Element\AbstractElement
         $this->setType('file');
     }
 
+    /**
+     * @return string
+     */
     public function getElementHtml()
     {
         $gallery = $this->getValue();
@@ -157,11 +160,17 @@ EndSCRIPT;
         return $html;
     }
 
+    /**
+     * @return mixed
+     */
     public function getName()
     {
         return $this->getData('name');
     }
 
+    /**
+     * @return mixed
+     */
     public function getParentName()
     {
         return parent::getName();

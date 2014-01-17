@@ -22,7 +22,7 @@ class Button extends \Magento\Data\Form\Element\AbstractElement
     /**
      * Additional html attributes
      *
-     * @var array
+     * @var string[]
      */
     protected $_htmlAttributes = array('data-mage-init');
 
@@ -46,7 +46,7 @@ class Button extends \Magento\Data\Form\Element\AbstractElement
     /**
      * Html attributes
      *
-     * @return array
+     * @return string[]
      */
     public function getHtmlAttributes()
     {

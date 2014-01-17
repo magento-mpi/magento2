@@ -17,6 +17,8 @@
  */
 namespace Magento\Data\Form\Element;
 
+use Magento\Data\Form\Element\AbstractElement;
+
 class Collection implements \ArrayAccess, \IteratorAggregate
 {
 
@@ -60,6 +62,8 @@ class Collection implements \ArrayAccess, \IteratorAggregate
      *
      * @param mixed $key
      * @param mixed $value
+     *
+     * @return void
      */
     public function offsetSet($key, $value)
     {
@@ -70,6 +74,8 @@ class Collection implements \ArrayAccess, \IteratorAggregate
      * Implementation of \ArrayAccess:offsetGet()
      *
      * @param mixed $key
+     *
+     * @return AbstractElement
      */
     public function offsetGet($key)
     {
@@ -80,6 +86,8 @@ class Collection implements \ArrayAccess, \IteratorAggregate
      * Implementation of \ArrayAccess:offsetUnset()
      *
      * @param mixed $key
+     *
+     * @return void
      */
     public function offsetUnset($key)
     {
@@ -90,6 +98,7 @@ class Collection implements \ArrayAccess, \IteratorAggregate
      * Implementation of \ArrayAccess:offsetExists()
      *
      * @param mixed $key
+     *
      * @return boolean
      */
     public function offsetExists($key)
@@ -141,7 +150,8 @@ class Collection implements \ArrayAccess, \IteratorAggregate
      * Sort elements by values using a user-defined comparison function
      *
      * @param mixed $callback
-     * @return \Magento\Data\Form\Element\Collection
+     *
+     * @return $this
      */
     public function usort($callback)
     {
@@ -153,7 +163,8 @@ class Collection implements \ArrayAccess, \IteratorAggregate
      * Remove element from collection
      *
      * @param mixed $elementId
-     * @return \Magento\Data\Form\Element\Collection
+     *
+     * @return $this
      */
     public function remove($elementId)
     {
@@ -181,7 +192,8 @@ class Collection implements \ArrayAccess, \IteratorAggregate
      * Find element by ID
      *
      * @param mixed $elementId
-     * @return \Magento\Data\Form\Element\AbstractElement|null
+     *
+     * @return AbstractElement
      */
     public function searchById($elementId)
     {
