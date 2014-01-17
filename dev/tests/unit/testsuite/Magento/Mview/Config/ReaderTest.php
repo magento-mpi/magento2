@@ -68,7 +68,6 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         $constraint = function (\DOMDocument $actual) use ($expectedFile) {
             try {
                 $expected = file_get_contents(__DIR__ . '/../_files/' . $expectedFile);
-                $actual->save('c:/' . $expectedFile);
                 \PHPUnit_Framework_Assert::assertXmlStringEqualsXmlString($expected, $actual->saveXML());
                 return true;
             } catch (\PHPUnit_Framework_AssertionFailedError $e) {
