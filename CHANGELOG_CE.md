@@ -1,3 +1,5 @@
+2.0.0.0-dev61
+=============
 * Introduced new layout block attribute - cacheable
 * Fixed bugs:
   * Fixed configurable product images display in shopping cart
@@ -145,10 +147,6 @@
   * Fixed date resetting to 1 Jan 1970 after saving a design change in the admin panel in case date format is DD/MM/YY
   * Fixed CAPTCHA on multi-address checkout flow
   * Fixed view files population tool
-  * Fixed DHL functionality of generation shipping labels
-  * Fixed target rule if it is applied for specific customer segment
-  * Fixed product importing that cleared price and weight
-  * Fixed fatal error when a file reference is added to HTML head
 * GitHub requests:
   * [#122](https://github.com/magento/magento2/pull/122) -- Added support of federal units of Brazil with 27 states
   * [#184](https://github.com/magento/magento2/issues/184) -- Removed unused blocks and methods in Magento_Wishlist module
