@@ -28,6 +28,13 @@ class Changelog implements ChangelogInterface
     protected $write;
 
     /**
+     * Mview State factory
+     *
+     * @var \Magento\Mview\View\StateFactory
+     */
+    protected $stateFactory;
+
+    /**
      * View Id identifier
      *
      * @var string
@@ -36,11 +43,13 @@ class Changelog implements ChangelogInterface
 
     /**
      * @param \Magento\App\Resource $resource
-     * @param string $viewId
+     * @param StateFactory $stateFactory
+     * @param $viewId
      */
-    public function __construct(\Magento\App\Resource $resource, $viewId)
+    public function __construct(\Magento\App\Resource $resource, StateFactory $stateFactory, $viewId)
     {
         $this->write = $resource->getConnection('core_write');
+        $this->stateFactory = $stateFactory;
         $this->viewId = $viewId;
         $this->checkConnection();
     }
@@ -107,7 +116,7 @@ class Changelog implements ChangelogInterface
     /**
      * Clear changelog table by version_id
      *
-     * @param $versionId
+     * @param integer $versionId
      * @return boolean
      * @throws \Exception
      */
@@ -117,7 +126,10 @@ class Changelog implements ChangelogInterface
         if (!$this->write->isTableExists($changelogTableName)) {
             throw new \Exception("Table {$changelogTableName} does not exist");
         }
-        // TODO: Write clear functionality
+
+        $this->write->delete($changelogTableName, array('version_id <= ?' => (int)$versionId));
+
+        return true;
     }
 
     /**
@@ -133,7 +145,19 @@ class Changelog implements ChangelogInterface
         if (!$this->write->isTableExists($changelogTableName)) {
             throw new \Exception("Table {$changelogTableName} does not exist");
         }
-        // TODO: Write getList functionality
+
+        /** @var StateInterface $state */
+        $state = $this->stateFactory
+            ->create()
+            ->loadByView($this->viewId);
+
+        $select = $this->write->select()
+            ->distinct(true)
+            ->from($changelogTableName, array($this->getColumnName()))
+            ->where('version_id > ?', (int)$state->getVersionId())
+            ->where('version_id <= ?', (int)$versionId);
+
+        return $this->write->fetchCol($select);
     }
 
     /**

@@ -34,15 +34,15 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             'Magento\Mview\Config\Converter', array('convert')
         );
 
-        $moduleReader = $this->getMock(
-            'Magento\Module\Dir\Reader', array('getModuleDir'), array(), '', false
+        $fsDirList = $this->getMock(
+            '\Magento\Filesystem\DirectoryList', array('getDir'), array(), '', false
         );
-        $moduleReader->expects($this->once())
-            ->method('getModuleDir')
-            ->with('etc', 'Magento_Mview')
+        $fsDirList->expects($this->once())
+            ->method('getDir')
+            ->with(\Magento\Filesystem::LIB)
             ->will($this->returnValue('stub'))
         ;
-        $schemaLocator = new \Magento\Mview\Config\SchemaLocator($moduleReader);
+        $schemaLocator = new \Magento\Mview\Config\SchemaLocator($fsDirList);
 
         $validationState = $this->getMock('Magento\Config\ValidationStateInterface');
         $validationState->expects($this->once())->method('isValidated')->will($this->returnValue(false));
