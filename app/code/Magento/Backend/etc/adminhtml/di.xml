@@ -84,18 +84,22 @@
     </type>
     <type name="Magento\App\RouterList">
         <param name="routerList">
-            <value>
-                <admin>
-                    <instance>Magento\Backend\App\Router\DefaultRouter</instance>
-                    <disable type="bool">false</disable>
-                    <sortOrder>10</sortOrder>
-                </admin>
-                <default>
-                    <instance>Magento\App\Router\DefaultRouter</instance>
-                    <disable type="bool">false</disable>
-                    <sortOrder>100</sortOrder>
-                </default>
-            </value>
+            <array>
+                <item key="admin">
+                    <array>
+                        <item key="instance"><value>Magento\Backend\App\Router\DefaultRouter</value></item>
+                        <item key="disable"><value type="bool">false</value></item>
+                        <item key="sortOrder"><value>10</value></item>
+                    </array>
+                </item>
+                <item key="default">
+                    <array>
+                        <item key="instance"><value>Magento\App\Router\DefaultRouter</value></item>
+                        <item key="disable"><value type="bool">false</value></item>
+                        <item key="sortOrder"><value>100</value></item>
+                    </array>
+                </item>
+            </array>
         </param>
     </type>
     <type name="Magento\Core\App\Action\Plugin\Session">

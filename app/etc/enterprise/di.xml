@@ -33,30 +33,36 @@
     </type>
     <type name="Magento\FullPageCache\App\FrontController\Plugin">
         <param name="requestProcessors">
-            <value>
-                <ee>
-                    <class>Magento\FullPageCache\Model\Processor</class>
-                    <sortOrder>50</sortOrder>
-                </ee>
-            </value>
+            <array>
+                <item key="ee">
+                    <array>
+                        <item key="class"><value>Magento\FullPageCache\Model\Processor</value></item>
+                        <item key="sortOrder"><value>50</value></item>
+                    </array>
+                </item>
+            </array>
         </param>
     </type>
     <type name="Magento\App\Cache\Frontend\Pool">
         <param name="frontendSettings">
-            <value>
-                <full_page_cache>
-                    <backend_options>
-                        <cache_dir>full_page_cache</cache_dir>
-                    </backend_options>
-                </full_page_cache>
-            </value>
+            <array>
+                <item key="full_page_cache">
+                    <array>
+                        <item key="backend_options">
+                            <array>
+                                <item key="cache_dir"><value>full_page_cache</value></item>
+                            </array>
+                        </item>
+                    </array>
+                </item>
+            </array>
         </param>
     </type>
     <type name="Magento\App\Cache\Type\FrontendPool">
         <param name="typeFrontendMap">
-            <value>
-                <full_page>full_page_cache</full_page>
-            </value>
+            <array>
+                <item key="full_page"><value>full_page_cache</value></item>
+            </array>
         </param>
     </type>
 </config>

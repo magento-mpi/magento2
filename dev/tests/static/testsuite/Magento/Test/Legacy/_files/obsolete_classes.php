@@ -1762,4 +1762,6 @@ return array(
     array('Magento\Reminder\Model\Resource\HelperFactory'),
     array('Magento\Reminder\Model\Resource\Helper'),
     array('Magento\CatalogRule\Block\Adminhtml\Promo\Widget\Chooser'),
+    array('Magento\Config\Dom\Converter\ArrayConverter'),
+    array('Magento\Acl\Resource\Config\Dom'),
 );

@@ -1106,4 +1106,6 @@ return array(
     array('getDisplayMode', '\Magento\Catalog\Model\Session'),
     array('setEscapeMessageFlag', 'Magento\View\Block\Messages'),
     array('shouldEscapeMessage', 'Magento\View\Block\Messages'),
+    array('_getInitialXml', 'Magento\Config\Theme'),
+    array('_getIdAttributes', 'Magento\Config\Theme'),
 );

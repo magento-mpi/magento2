@@ -10,17 +10,23 @@
 <config>
     <type name="Magento\PageCache\Model\Observer">
         <param name="allowedCache">
-            <value>
-                <cms>true</cms>
-                <catalog>
-                    <category>
-                        <view>true</view>
-                    </category>
-                    <product>
-                        <view>true</view>
-                    </product>
-                </catalog>
-            </value>
+            <array>
+                <item key="cms"><value>true</value></item>
+                <item key="catalog">
+                    <array>
+                        <item key="category">
+                            <array>
+                                <item key="view"><value>true</value></item>
+                            </array>
+                        </item>
+                        <item key="product">
+                            <array>
+                                <item key="view"><value>true</value></item>
+                            </array>
+                        </item>
+                    </array>
+                </item>
+            </array>
         </param>
     </type>
 </config>

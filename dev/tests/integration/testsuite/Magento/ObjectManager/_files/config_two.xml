@@ -24,9 +24,9 @@
             <value>someCustomValue</value>
         </param>
         <param name="customComplexValue">
-            <value transalte="three" module="Some_Module">
-                <three>three</three>
-            </value>
+            <array>
+                <item key="three"><value>three</value></item>
+            </array>
         </param>
         <plugin name="three" type="somePluginThree"/>
         <plugin name="two" type="somePluginTwo" sortOrder="20" disabled="true"/>
@@ -39,14 +39,14 @@
     </virtualType>
     <type name="Magento\Data\Collection\Db\FetchStrategy\Cache">
         <param name="cacheTags">
-            <value>
-                <const type='const'>Magento\Core\Model\Website::CACHE_TAG</const>
-                <boolFalse type='bool'>1</boolFalse>
-                <boolTrue type='int'>10</boolTrue>
-                <boolOne type='string' pattern="[0-9]*">1</boolOne>
-                <boolZero type='bool'>0</boolZero>
-                <stringPattern pattern="[a-zA-Z\-]*">Az-Value</stringPattern>
-            </value>
+            <array>
+                <item key="const"><value type="const">Magento\Core\Model\Website::CACHE_TAG</value></item>
+                <item key="boolFalse"><value type="bool">1</value></item>
+                <item key="boolTrue"><value type="int">10</value></item>
+                <item key="boolOne"><value type="string" pattern="[0-9]*">1</value></item>
+                <item key="boolZero"><value type="bool">0</value></item>
+                <item key="stringPattern"><value pattern="[a-zA-Z\-]*">Az-Value</value></item>
+            </array>
         </param>
         <param name="constParam">
             <value type='const'>Magento\Core\Model\Website::CACHE_TAG</value>
