@@ -8,7 +8,8 @@
 
 namespace Magento\Url;
 
-interface ScopeResolverInterface {
+interface ScopeResolverInterface
+{
 
     /**
      * Retrieve application scope object

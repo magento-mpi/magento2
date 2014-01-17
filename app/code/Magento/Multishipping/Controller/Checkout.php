@@ -62,12 +62,6 @@ class Checkout extends \Magento\Checkout\Controller\Action
     }
 
     /**
-     * @var \Magento\Core\Model\Url
-     */
-    protected $_urlBuilder;
-
-
-    /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      */
@@ -198,7 +192,7 @@ class Checkout extends \Magento\Checkout\Controller\Action
             $registerForm->setShowAddressFields(true)
                 ->setBackUrl($this->_getHelper()->getMSLoginUrl())
                 ->setSuccessUrl($this->_getHelper()->getMSShippingAddressSavedUrl())
-                ->setErrorUrl($this->_urlBuilder->getCurrentUrl());
+                ->setErrorUrl($this->_url->getCurrentUrl());
         }
 
         $this->_view->renderLayout();
