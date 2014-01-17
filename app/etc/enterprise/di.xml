@@ -42,13 +42,20 @@
         </param>
     </type>
     <type name="Magento\App\Cache\Frontend\Pool">
-        <param name="advancedSettings">
+        <param name="frontendSettings">
             <value>
-                <full_page>
+                <full_page_cache>
                     <backend_options>
                         <cache_dir>full_page_cache</cache_dir>
                     </backend_options>
-                </full_page>
+                </full_page_cache>
+            </value>
+        </param>
+    </type>
+    <type name="Magento\App\Cache\Type\FrontendPool">
+        <param name="typeFrontendMap">
+            <value>
+                <full_page>full_page_cache</full_page>
             </value>
         </param>
     </type>

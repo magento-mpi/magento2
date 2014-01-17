@@ -30,11 +30,7 @@ class LoaderTest extends \PHPUnit_Framework_TestCase
     {
         $this->_dirs->expects($this->once())->method('getDir')->will($this->returnValue(__DIR__ . '/_files'));
         $this->_model = new Loader($this->_dirs);
-        $expected = array(
-            'resource' => 'resource name',
-            'connection' => 'connection name',
-            'other' => 'other value',
-        );
+        $expected = require __DIR__ . '/_files/local.php';
         $this->assertEquals($expected, $this->_model->load());
     }
 
@@ -42,12 +38,7 @@ class LoaderTest extends \PHPUnit_Framework_TestCase
     {
         $this->_dirs->expects($this->once())->method('getDir')->will($this->returnValue(__DIR__ . '/_files'));
         $this->_model = new Loader($this->_dirs, 'other/local_developer.xml');
-        $expected = array(
-            'resource' => 'resource name2',
-            'connection' => 'connection name2',
-            'other' => 'new other value',
-            'new' => 'new value',
-        );
+        $expected = require __DIR__ . '/_files/other/local_developer_merged.php';
         $this->assertEquals($expected, $this->_model->load());
     }
 
