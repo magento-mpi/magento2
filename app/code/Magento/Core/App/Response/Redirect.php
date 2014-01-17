@@ -42,7 +42,7 @@ class Redirect implements \Magento\App\Response\RedirectInterface
     protected $_canUseSessionIdInParam;
 
     /**
-     * @var \Magento\Core\Model\Url
+     * @var \Magento\UrlInterface
      */
     protected $_urlBuilder;
 

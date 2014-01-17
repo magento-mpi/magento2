@@ -31,7 +31,7 @@ class Session
     protected $_cookieCheckActions;
 
     /**
-     * @var \Magento\Core\Model\Url
+     * @var \Magento\UrlInterface
      */
     protected $_url;
 

@@ -40,7 +40,7 @@ class Observer
     protected $_storeManager;
 
     /**
-     * @var \Magento\Core\Model\Url
+     * @var \Magento\UrlInterface
      */
     protected $_coreUrl;
 

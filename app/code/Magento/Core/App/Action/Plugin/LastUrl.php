@@ -24,7 +24,7 @@ class LastUrl
     protected $_session;
 
     /**
-     * @var \Magento\Core\Model\Url
+     * @var \Magento\UrlInterface
      */
     protected $_url;
 

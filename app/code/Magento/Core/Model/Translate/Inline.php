@@ -47,7 +47,7 @@ class Inline implements \Magento\Core\Model\Translate\InlineInterface
     protected $_isScriptInserted    = false;
 
     /**
-     * @var \Magento\Core\Model\Url
+     * @var \Magento\UrlInterface
      */
     protected $_url;
 

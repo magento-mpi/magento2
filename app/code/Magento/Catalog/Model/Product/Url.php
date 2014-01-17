@@ -25,7 +25,7 @@ class Url extends \Magento\Object
     /**
      * Static URL instance
      *
-     * @var \Magento\Core\Model\Url
+     * @var \Magento\UrlInterface
      */
     protected $_url;
 

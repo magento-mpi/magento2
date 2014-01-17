@@ -23,7 +23,7 @@ class Install
     protected $_response;
 
     /**
-     * @var \Magento\Core\Model\Url
+     * @var \Magento\UrlInterface
      */
     protected $_url;
 

@@ -55,7 +55,7 @@ class InlineVde implements \Magento\Core\Model\Translate\InlineInterface
     protected $_parser;
 
     /**
-     * @var \Magento\Core\Model\Url
+     * @var \Magento\UrlInterface
      */
     protected $_url;
 

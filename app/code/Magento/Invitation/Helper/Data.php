@@ -44,7 +44,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Url builder
      *
-     * @var \Magento\Core\Model\Url
+     * @var \Magento\UrlInterface
      */
     protected $_urlBuilder;
 

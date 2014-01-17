@@ -29,7 +29,7 @@ class Observer
     /**
      * URL manager
      *
-     * @var \Magento\Core\Model\Url
+     * @var \Magento\UrlInterface
      */
     protected $_urlManager;
 

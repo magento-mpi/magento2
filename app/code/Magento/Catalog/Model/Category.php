@@ -56,7 +56,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
     /**
      * URL Model instance
      *
-     * @var \Magento\Core\Model\Url
+     * @var \Magento\UrlInterface
      */
     protected $_url;
 

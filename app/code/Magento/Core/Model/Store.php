@@ -223,7 +223,7 @@ class Store extends \Magento\Core\Model\AbstractModel implements \Magento\Url\Sc
     /**
      * Url model for current store
      *
-     * @var \Magento\Core\Model\Url
+     * @var \Magento\UrlInterface
      */
     protected $_url;
 

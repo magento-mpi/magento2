@@ -124,7 +124,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_products;
 
     /**
-     * @var \Magento\Core\Model\Url
+     * @var \Magento\UrlInterface
      */
     protected $_url;
 
