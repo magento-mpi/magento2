@@ -12,7 +12,6 @@
 namespace Magento\Sales\Test\Fixture;
 
 use Mtf\Factory\Factory;
-use Magento\Checkout\Test\Fixture\Checkout;
 
 /**
  * Class PaypalExpress
@@ -20,30 +19,10 @@ use Magento\Checkout\Test\Fixture\Checkout;
  * Guest checkout using "Checkout with PayPal" button from product page and Free Shipping
  *
  * @ZephyrId MAGETWO-12415
- * @package Magento\Checkout\Test\Fixture
+ * @package Magento\Sales\Test\Fixture
  */
-class PaypalExpressOrder extends Checkout
+class PaypalExpressOrder extends OrderCheckout
 {
-    /**
-     * Order ID
-     *
-     * @var string
-     */
-    private $orderId;
-
-    /**
-     * Checkout fixture
-     *
-     * @var Checkout
-     */
-    private $checkoutFixture;
-
-    /**
-     * Product Array
-     * @var array
-     * */
-    private $additionalProducts;
-
     /**
      * Prepare data for guest checkout using "Checkout with PayPal" button on product page
      */
@@ -75,26 +54,6 @@ class PaypalExpressOrder extends Checkout
     }
 
     /**
-     * Get order grans total
-     *
-     * @return string
-     */
-    public function getGrandTotal()
-    {
-        return $this->checkoutFixture->getGrandTotal();
-    }
-
-    /**
-     * Get order id
-     *
-     * @return string
-     */
-    public function getOrderId()
-    {
-        return $this->orderId;
-    }
-
-    /**
      * @return \Magento\Customer\Test\Fixture\Address
      */
     public function getBillingAddress()
@@ -111,6 +70,7 @@ class PaypalExpressOrder extends Checkout
     }
 
     /**
+     * @param int $index
      * @return \Magento\Catalog\Test\Fixture\SimpleProduct
      */
     public function getProduct($index)
