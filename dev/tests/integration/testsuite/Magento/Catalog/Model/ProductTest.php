@@ -176,8 +176,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers \Magento\Catalog\Model\Product::isConfigurable
-     * @covers \Magento\Catalog\Model\Product::isSuperConfig
-     * @covers \Magento\Catalog\Model\Product::isSuper
      */
     public function testIsConfigurable()
     {
