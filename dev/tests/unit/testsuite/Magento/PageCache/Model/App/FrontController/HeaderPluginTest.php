@@ -77,12 +77,18 @@ class HeaderPluginTest extends \PHPUnit_Framework_TestCase
             ->with('system/headers/max-age')
             ->will($this->returnValue($maxAge));
 
-        $this->responseMock->expects($this->any())
+        $this->responseMock->expects($this->at(0))
             ->method('setHeader')
-            ->with(
-                $this->logicalOr('cache-control', 'pragma', 'expires'),
-                $this->logicalOr($cacheControl, $pragma, $expires)
-            );
+            ->with('pragma', $pragma);
+
+        $this->responseMock->expects($this->at(1))
+            ->method('setHeader')
+            ->with('cache-control', $cacheControl);
+
+        $this->responseMock->expects($this->at(2))
+            ->method('setHeader')
+            ->with('expires', $expires);
+
         $this->plugin->afterDispatch($this->responseMock);
     }
 }
