@@ -235,7 +235,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Returns options array
      *
-     * @return string[]
+     * @return array
      */
     public function toOptionArray()
     {

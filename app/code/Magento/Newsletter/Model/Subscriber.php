@@ -325,7 +325,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
     /**
      * Load subscriber data from resource model by email
      *
-     * @param $subscriberEmail
+     * @param string $subscriberEmail
      * @return $this
      */
     public function loadByEmail($subscriberEmail)

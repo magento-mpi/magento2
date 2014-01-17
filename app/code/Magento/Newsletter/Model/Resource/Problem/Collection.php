@@ -106,7 +106,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Loads customers info to collection
      *
-     * return void
+     * @return void
      */
     protected function _addCustomersData()
     {

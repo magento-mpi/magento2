@@ -65,7 +65,7 @@ class Website
     /**
      * Get options for grid filter
      *
-     * @return string[]
+     * @return array
      */
     protected function _getOptions()
     {
