@@ -1762,4 +1762,11 @@ return array(
     array('Magento\Reminder\Model\Resource\HelperFactory'),
     array('Magento\Reminder\Model\Resource\Helper'),
     array('Magento\CatalogRule\Block\Adminhtml\Promo\Widget\Chooser'),
+    array('Magento\PageCache\Block\Adminhtml\Cache\Additional'),
+    array('Magento\PageCache\Controller\Adminhtml\PageCache'),
+    array('Magento\PageCache\Model\Control\ControlInterface'),
+    array('Magento\PageCache\Model\Control\Zend'),
+    array('Magento\PageCache\Model\System\Config\Source\Controls'),
+    array('Magento\PageCache\Model\CacheControlFactory'),
+    array('Magento\PageCache\Model\Observer')
 );
