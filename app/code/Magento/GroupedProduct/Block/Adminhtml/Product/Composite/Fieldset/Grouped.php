@@ -100,7 +100,10 @@ class Grouped
 
         $this->_block = 'Magento\Catalog\Block\Adminhtml\Product\Price';
         $this->_useLinkForAsLowAs = false;
-        $this->priceHelper->setCustomer($this->_coreRegistry->registry('current_customer'));
+
+        if (!$this->priceHelper->getCustomer() && $this->_coreRegistry->registry('current_customer')) {
+            $this->priceHelper->setCustomer($this->_coreRegistry->registry('current_customer'));
+        }
     }
 
     /**

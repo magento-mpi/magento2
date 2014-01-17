@@ -84,15 +84,25 @@ class Price extends \Magento\App\Helper\AbstractHelper
     }
 
     /**
-     * Set customer to prepare tax calculation
+     * Get customer object
      *
-     * @param $customer
+     * @return bool|\Magento\Customer\Model\Customer
      */
-    public function setCustomer($customer = null)
+    public function getCustomer()
     {
-        if (!$this->taxCalculation->getCustomer() && $customer) {
-            $this->taxCalculation->setCustomer($customer);
-        }
+        return $this->taxCalculation->getCustomer();
+    }
+
+    /**
+     * Specify customer object which can be used for rate calculation
+     *
+     * @param   \Magento\Customer\Model\Customer $customer
+     * @return $this
+     */
+    public function setCustomer(\Magento\Customer\Model\Customer $customer)
+    {
+        $this->taxCalculation->setCustomer($customer);
+        return $this;
     }
 
     /**
