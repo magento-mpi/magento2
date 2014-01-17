@@ -9,6 +9,8 @@
  */
 namespace Magento\Install\App;
 
+use Magento\App\Console\Response;
+
 class Console implements \Magento\AppInterface
 {
     /**
@@ -43,12 +45,18 @@ class Console implements \Magento\AppInterface
     protected $rootDirectory;
 
     /**
+     * @var \Magento\App\Console\Response
+     */
+    protected $_response;
+
+    /**
      * @param \Magento\Install\Model\Installer\ConsoleFactory $installerFactory
      * @param Output $output
      * @param \Magento\App\State $state
      * @param \Magento\App\ObjectManager\ConfigLoader $loader
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Filesystem $filesystem
+     * @param Response $response
      * @param array $arguments
      */
     public function __construct(
@@ -58,6 +66,7 @@ class Console implements \Magento\AppInterface
         \Magento\App\ObjectManager\ConfigLoader $loader,
         \Magento\ObjectManager $objectManager,
         \Magento\Filesystem $filesystem,
+        Response $response,
         array $arguments = array()
     ) {
         $this->rootDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);
@@ -66,6 +75,7 @@ class Console implements \Magento\AppInterface
         $this->_installerFactory = $installerFactory;
         $this->_arguments = $this->_buildInitArguments($arguments);
         $this->_output = $output;
+        $this->_response = $response;
         $this->_objectManager = $objectManager;
     }
 
@@ -125,8 +135,9 @@ class Console implements \Magento\AppInterface
     }
 
     /**
-     * Execute application
-     * @return int
+     * Run application
+     *
+     * @return \Magento\App\ResponseInterface
      */
     public function execute()
     {
@@ -146,6 +157,7 @@ class Console implements \Magento\AppInterface
         } else {
             $this->_handleInstall($installer);
         }
-        return 0;
+        $this->_response->setCode(0);
+        return $this->_response;
     }
 }

@@ -9,6 +9,7 @@
  */
 namespace Magento\Index\App;
 
+use Magento\App\Console\Response;
 use Magento\AppInterface;
 
 class Indexer implements AppInterface
@@ -31,24 +32,32 @@ class Indexer implements AppInterface
     protected $_indexerFactory;
 
     /**
+     * @var \Magento\App\Console\Response
+     */
+    protected $_response;
+
+    /**
      * @param string $reportDir
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Index\Model\IndexerFactory $indexerFactory
+     * @param Response $response
      */
     public function __construct(
         $reportDir,
         \Magento\Filesystem $filesystem,
-        \Magento\Index\Model\IndexerFactory $indexerFactory
+        \Magento\Index\Model\IndexerFactory $indexerFactory,
+        Response $response
     ) {
         $this->_reportDir = $reportDir;
         $this->_filesystem = $filesystem;
         $this->_indexerFactory = $indexerFactory;
+        $this->_response = $response;
     }
 
     /**
      * Run application
      *
-     * @return int
+     * @return \Magento\App\ResponseInterface
      */
     public function execute()
     {
@@ -68,7 +77,8 @@ class Indexer implements AppInterface
                 $process->reindexEverything();
             }
         }
-        return 0;
+        $this->_response->setCode(0);
+        return $this->_response;
     }
 }
 
