@@ -97,12 +97,4 @@ class InputException extends \Magento\Exception\Exception
     {
         return $this->getParams();
     }
-
-    /**
-     * @return bool
-     */
-    public function hasErrors()
-    {
-        return !empty($this->_params);
-    }
 }

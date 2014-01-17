@@ -184,7 +184,7 @@ class CustomerAddressService implements CustomerAddressServiceInterface
             $inputException = $this->_validate($addressModel, $inputException, $i);
             $addressModels[] = $addressModel;
         }
-        if ($inputException->hasErrors()) {
+        if ($inputException->getErrors()) {
             throw $inputException;
         }
         $addressIds = [];

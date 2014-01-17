@@ -82,16 +82,15 @@ class CustomerService implements CustomerServiceInterface
         return $customerModel->getId();
     }
 
-
     /**
      * Validate customer attribute values.
-     *
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
-     * @SuppressWarnings(PHPMD.NPathComplexity)
      *
      * @param CustomerModel $customerModel
      * @throws InputException
      * @return void
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     private function _validate(CustomerModel $customerModel)
     {
@@ -120,7 +119,7 @@ class CustomerService implements CustomerServiceInterface
         if ($gender->isRequired() && '' == trim($customerModel->getGender())) {
             $exception->addError(InputException::REQUIRED_FIELD, 'gender', '');
         }
-        if ($exception->hasErrors()) {
+        if ($exception->getErrors()) {
             throw $exception;
         }
     }
