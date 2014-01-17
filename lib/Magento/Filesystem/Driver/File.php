@@ -261,11 +261,11 @@ class File implements DriverInterface
      *
      * @param string $oldPath
      * @param string $newPath
-     * @param DriverInterface $targetDriver
+     * @param DriverInterface|null $targetDriver
      * @return bool
      * @throws FilesystemException
      */
-    public function rename($oldPath, $newPath, DriverInterface $targetDriver)
+    public function rename($oldPath, $newPath, DriverInterface $targetDriver = null)
     {
         $result = false;
         if (get_class($targetDriver) == get_class($this)) {
@@ -292,17 +292,17 @@ class File implements DriverInterface
      *
      * @param string $source
      * @param string $destination
-     * @param DriverInterface $targetDriver
+     * @param DriverInterface|null $targetDriver
      * @return bool
      * @throws FilesystemException
      */
-    public function copy($source, $destination, DriverInterface $targetDriver)
+    public function copy($source, $destination, DriverInterface $targetDriver = null)
     {
-        if (get_class($targetDriver) == get_class($this)) {
+        if ($targetDriver && get_class($targetDriver) == get_class($this)) {
             $result = @copy($this->getScheme() . $source, $destination);
         } else {
-            $content = $this->fileGetContents($oldPath);
-            $result = $targetDriver->filePutContents($newPath, $content);
+            $content = $this->fileGetContents($source);
+            $result = $targetDriver->filePutContents($destination, $content);
         }
         if (!$result) {
             throw new FilesystemException(

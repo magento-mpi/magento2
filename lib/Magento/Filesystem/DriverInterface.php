@@ -130,22 +130,22 @@ interface DriverInterface
      *
      * @param string $oldPath
      * @param string $newPath
-     * @param DriverInterface $targetDriver
+     * @param DriverInterface|null $targetDriver
      * @return bool
      * @throws FilesystemException
      */
-    public function rename($oldPath, $newPath, DriverInterface $targetDriver);
+    public function rename($oldPath, $newPath, DriverInterface $targetDriver = null);
 
     /**
      * Copy source into destination
      *
      * @param string $source
      * @param string $destination
-     * @param DriverInterface $targetDriver
+     * @param DriverInterface|null $targetDriver
      * @return bool
      * @throws FilesystemException
      */
-    public function copy($source, $destination, DriverInterface $targetDriver);
+    public function copy($source, $destination, DriverInterface $targetDriver = null);
 
     /**
      * Delete file
