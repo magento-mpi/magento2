@@ -1644,13 +1644,13 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     }
 
     /**
-     * Check is current layout cacheable
+     * Check is exists non-cacheable layout elements
      *
      * @return bool
      */
-    public function isCacheable()
+    public function  isCacheable()
     {
-        return false;
+        return !(boolean)count($this->_xml->xpath('//' . Element::TYPE_BLOCK . '[@cacheable="false"]'));
     }
 
     /**
@@ -1658,8 +1658,8 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      *
      * @return bool
      */
-    public function isPrivate()
+    public function  isPrivate()
     {
-        return false;
+        return !(boolean)count($this->_xml->xpath('//' . Element::TYPE_BLOCK . '[@cache-control="private"]'));
     }
 }
