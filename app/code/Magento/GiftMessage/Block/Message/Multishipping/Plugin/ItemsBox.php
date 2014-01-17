@@ -6,11 +6,14 @@
  * @license     {license_link}
  */
 
-namespace Magento\GiftMessage\Block\Message\Plugin;
+namespace Magento\GiftMessage\Block\Message\Multishipping\Plugin;
 
 use Magento\Code\Plugin\InvocationChain;
 
-class Multishipping
+/**
+ * Multishipping items box plugin
+ */
+class ItemsBox
 {
     /**
      * Gift message helper
@@ -39,6 +42,6 @@ class Multishipping
     public function aroundGetItemsBoxTextAfter(array $arguments, InvocationChain $invocationChain)
     {
         $itemsBoxText = $invocationChain->proceed($arguments);
-        return $itemsBoxText .$this->helper->getInline('multishipping_address', $arguments[0]);
+        return $itemsBoxText . $this->helper->getInline('multishipping_address', $arguments[0]);
     }
 }
