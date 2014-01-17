@@ -12,13 +12,11 @@ return array(
         . '</indexer></config>',
     'expected' => array(
         'indexer_internal_name' => array(
-            'id' => 'indexer_internal_name',
+            'indexer_id' => 'indexer_internal_name',
             'view_id' => 'view01',
-            'class' => 'Index\Class\Name',
+            'action_class' => 'Index\Class\Name',
             'title' => 'Indexer public name',
-            'title_translate' => 'true',
             'description' => 'Indexer public description',
-            'description_translate' => 'true',
         ),
     ),
 );
