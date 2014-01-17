@@ -14,27 +14,29 @@ namespace Magento\Checkout\Test\Fixture;
 use Mtf\Factory\Factory;
 
 /**
- * Guest checkout with taxes, PayPal Payflow Edition payment method and offline shipping method
+ * Class GuestPayPalPayflowPro
+ * PayPal Payflow Pro Method
+ * Guest checkout with taxes, PayPal Payflow Pro Edition payment method and offline shipping method
  *
  * @package Magento\Checkout\Test\Fixture
  */
-class GuestPayPalPayflow extends Checkout
+class GuestPayPalPayflowPro extends Checkout
 {
     /**
-     * Prepare for PayPal Payflow Edition
+     * Prepare data for guest checkout with PayPal Payflow Pro Method
      */
     protected function _initData()
     {
+        //Verification data
         $this->_data = array(
             'totals' => array(
-                'grand_total' => '$156.81',
-                'comment_history' => 'Authorized amount of $156.81'
+                'grand_total' => '$156.81'
             )
         );
     }
 
     /**
-     * Create required data
+     * Setup fixture
      */
     public function persist()
     {
