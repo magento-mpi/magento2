@@ -20,7 +20,7 @@ namespace Magento\Newsletter\Block\Adminhtml\Problem\Grid\Filter;
 
 class Checkbox extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFilter
 {
-    /*
+    /**
      * Get the condition of grid filter checkbox
      *
      * @return array
@@ -30,7 +30,7 @@ class Checkbox extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Abstract
         return array();
     }
 
-    /*
+    /**
      * Get html code for grid filter checkbox
      *
      * @return string

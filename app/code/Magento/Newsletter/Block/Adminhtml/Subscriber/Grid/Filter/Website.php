@@ -62,7 +62,7 @@ class Website
         parent::__construct($context, $resourceHelper, $data);
     }
 
-    /*
+    /**
      * Get options for grid filter
      *
      * @return string[]
@@ -88,7 +88,7 @@ class Website
         return $this->_websiteCollection;
     }
 
-    /*
+    /**
      * Get options for grid filter
      *
      * @return null|mixed[]
