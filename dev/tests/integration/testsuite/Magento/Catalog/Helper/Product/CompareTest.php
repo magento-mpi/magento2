@@ -67,7 +67,8 @@ class CompareTest extends \PHPUnit_Framework_TestCase
 
     public function testGetRemoveUrl()
     {
-        $this->_testGetProductUrl('getRemoveUrl', '/catalog/product_compare/remove/');
+        $url = $this->_helper->getRemoveUrl();
+        $this->assertContains('/catalog/product_compare/remove/', $url);
     }
 
     public function testGetClearListUrl()
@@ -126,8 +127,6 @@ class CompareTest extends \PHPUnit_Framework_TestCase
         $product->setId(10);
         $url = $this->_helper->$method($product);
         $this->assertContains($expectedFullAction, $url);
-        $this->assertContains('/product/10/', $url);
-        $this->assertContains('/uenc/', $url);
     }
 
     /**
