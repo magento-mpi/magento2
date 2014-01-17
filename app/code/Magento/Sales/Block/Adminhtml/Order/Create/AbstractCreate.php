@@ -71,18 +71,6 @@ abstract class AbstractCreate extends \Magento\Backend\Block\Widget
     }
 
     /**
-     * Retrieve customer model object
-     *
-     * @Deprecated
-     *
-     * @return \Magento\Customer\Model\Customer
-     */
-    public function getCustomer()
-    {
-        return $this->_getSession()->getCustomer();
-    }
-
-    /**
      * Retrieve customer identifier
      *
      * @return int

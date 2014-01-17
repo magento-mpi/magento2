@@ -89,6 +89,8 @@ return array(
     array('decoratedIsOdd', null, 'getDecoratedIsOdd'),
     array('decoratedIsLast', null, 'getDecoratedIsLast'),
     array('static', 'Magento\Email\Model\Template\Filter'),
+    array('_addressForm', 'Magento\Sales\Block\Adminhtml\Order\Create\Form\Address'),
+    array('_adminhtmlAddresses', 'Magento\Sales\Block\Adminhtml\Order\Create\Form\Address'),
     array('_useAnalyticFunction'),
     array('_defaultIndexer', 'Magento\CatalogInventory\Model\Resource\Indexer\Stock'),
     array('_engine', 'Magento\CatalogSearch\Model\Resource\Fulltext'),
