@@ -92,7 +92,7 @@ class Subscriber extends \Magento\Backend\Block\Template
     /**
      * Return list of neversent queues for select
      *
-     * @return string[]
+     * @return array
      */
     public function getQueueAsOptions()
     {

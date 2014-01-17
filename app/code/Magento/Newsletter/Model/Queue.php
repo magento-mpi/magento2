@@ -348,7 +348,7 @@ class Queue extends \Magento\Core\Model\Template
     /**
      * Setter for stores of queue.
      *
-     * @param array
+     * @param array $storesIds
      * @return $this
      */
     public function setStores(array $storesIds)

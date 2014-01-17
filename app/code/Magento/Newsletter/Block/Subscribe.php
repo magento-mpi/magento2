@@ -44,7 +44,7 @@ class Subscribe extends \Magento\View\Element\Template
     /**
      * Get success message
      *
-     * return string
+     * @return string
      */
     public function getSuccessMessage()
     {
@@ -54,7 +54,7 @@ class Subscribe extends \Magento\View\Element\Template
     /**
      * Get error message
      *
-     * return string
+     * @return string
      */
     public function getErrorMessage()
     {

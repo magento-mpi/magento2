@@ -91,7 +91,7 @@ class Website
     /**
      * Get options for grid filter
      *
-     * @return null|mixed[]
+     * @return null|array
      */
     public function getCondition()
     {
