@@ -11,34 +11,27 @@ namespace Magento\Indexer\Model\Resource\Indexer;
 class Collection extends \Magento\Data\Collection
 {
     /**
+     * Item object class name
+     *
+     * @var string
+     */
+    protected $_itemObjectClass = 'Magento\Indexer\Model\Indexer';
+
+    /**
      * @var \Magento\Indexer\Model\ConfigInterface
      */
     protected $config;
 
     /**
-     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Data\Collection\EntityFactoryInterface $entityFactory
      * @param \Magento\Indexer\Model\ConfigInterface $config
      */
     public function __construct(
-        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Data\Collection\EntityFactoryInterface $entityFactory,
         \Magento\Indexer\Model\ConfigInterface $config
     ) {
         $this->config = $config;
         parent::__construct($entityFactory);
-    }
-
-    /**
-     * Get indexers
-     *
-     * @return array
-     */
-    protected function getIndexers()
-    {
-        $indexers = array();
-        foreach ($this->config->getAll() as $data) {
-            $indexers[] = new \Magento\Object($data);
-        }
-        return $indexers;
     }
 
     /**
@@ -52,8 +45,14 @@ class Collection extends \Magento\Data\Collection
      */
     public function loadData($printQuery = false, $logQuery = false)
     {
-        if (!$this->_items) {
-            $this->_items = $this->getIndexers();
+        if (!$this->isLoaded()) {
+            foreach (array_keys($this->config->getAll()) as $indexerId) {
+                /** @var \Magento\Indexer\Model\Indexer $indexer */
+                $indexer = $this->getNewEmptyItem();
+                $indexer->load($indexerId);
+                $this->_addItem($indexer);
+            }
+            $this->_setIsLoaded(true);
         }
         return $this;
     }

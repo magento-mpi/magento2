@@ -1,0 +1,151 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+namespace Magento\Indexer\Model;
+
+/**
+ * @method int getViewId()
+ * @method string getActionClass()
+ * @method array getSubscriptions()
+ */
+class Indexer extends \Magento\Object
+{
+    /**
+     * @var string
+     */
+    protected $_idFieldName = 'indexer_id';
+
+    /**
+     * @var ConfigInterface
+     */
+    protected $config;
+
+    /**
+     * @var ActionFactory
+     */
+    protected $actionFactory;
+
+    /**
+     * @var \Magento\Mview\ViewFactory
+     */
+    protected $viewFactory;
+
+    /**
+     * @var \Magento\Mview\View
+     */
+    protected $view;
+
+    /**
+     * @var \Magento\Indexer\Model\Indexer\StateFactory
+     */
+    protected $stateFactory;
+
+    /**
+     * @var \Magento\Indexer\Model\Indexer\State
+     */
+    protected $state;
+
+    /**
+     * @param ConfigInterface $config
+     * @param ActionFactory $actionFactory
+     * @param \Magento\Mview\ViewFactory $viewFactory
+     * @param Indexer\StateFactory $stateFactory
+     * @param array $data
+     */
+    public function __construct(
+        ConfigInterface $config,
+        ActionFactory $actionFactory,
+        \Magento\Mview\ViewFactory $viewFactory,
+        Indexer\StateFactory $stateFactory,
+        array $data = array()
+    ) {
+        $this->config = $config;
+        $this->actionFactory = $actionFactory;
+        $this->viewFactory = $viewFactory;
+        $this->stateFactory = $stateFactory;
+        parent::__construct($data);
+    }
+
+    /**
+     * Fill indexer data from config
+     *
+     * @param string $indexerId
+     * @return \Magento\Indexer\Model\Indexer
+     * @throws \InvalidArgumentException
+     */
+    public function load($indexerId)
+    {
+        $indexer = $this->config->get($indexerId);
+        if (empty($indexer) || empty($indexer['indexer_id']) || $indexer['indexer_id'] != $indexerId) {
+            throw new \InvalidArgumentException("{$indexerId} view does not exist.");
+        }
+        $this->setId($indexerId);
+        $this->setData($indexer);
+        return $this;
+    }
+
+    /**
+     * Return related view object
+     *
+     * @return \Magento\Mview\View
+     */
+    public function getView()
+    {
+        if (!$this->view) {
+            $this->view = $this->viewFactory->create(array('viewId' => $this->getViewId()));
+        }
+        return $this->view;
+    }
+
+    /**
+     * Return related state object
+     *
+     * @return Indexer\State
+     */
+    public function getState()
+    {
+        if (!$this->state) {
+            $this->state = $this->stateFactory->create();
+            $this->state->load($this->getId(), 'indexer_id');
+            if (!$this->state->getId()) {
+                $this->state->setIndexerId($this->getId());
+            }
+        }
+        return $this->state;
+    }
+
+    /**
+     * Return indexer mode
+     *
+     * @return string
+     */
+    public function getMode()
+    {
+        return $this->getState()->getMode();
+    }
+
+    /**
+     * Return indexer status
+     *
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->getState()->getStatus();
+    }
+
+    /**
+     * Return indexer updated time
+     *
+     * @return string
+     */
+    public function getUpdated()
+    {
+        return $this->getState()->getUpdated();
+    }
+}

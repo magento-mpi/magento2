@@ -25,13 +25,11 @@ class Converter implements \Magento\Config\ConverterInterface
         foreach ($indexers as $indexerNode) {
             $data = array();
             $indexerId = $this->getAttributeValue($indexerNode, 'id');
-            $data['id'] = $indexerId;
+            $data['indexer_id'] = $indexerId;
             $data['view_id'] = $this->getAttributeValue($indexerNode, 'view_id');
-            $data['class'] = $this->getAttributeValue($indexerNode, 'class');
+            $data['action_class'] = $this->getAttributeValue($indexerNode, 'class');
             $data['title'] = '';
-            $data['title_translate'] = '';
             $data['description'] = '';
-            $data['description_translate'] = '';
 
             /** @var $childNode \DOMNode */
             foreach ($indexerNode->childNodes as $childNode) {
@@ -71,14 +69,27 @@ class Converter implements \Magento\Config\ConverterInterface
     {
         switch ($childNode->nodeName) {
             case 'title':
-                $data['title'] = $childNode->nodeValue;
-                $data['title_translate'] = $this->getAttributeValue($childNode, 'translate');
+                $data['title'] = $this->getTranslatedNodeValue($childNode);
                 break;
             case 'description':
-                $data['description'] = $childNode->nodeValue;
-                $data['description_translate'] = $this->getAttributeValue($childNode, 'translate');
+                $data['description'] = $this->getTranslatedNodeValue($childNode);
                 break;
         }
         return $data;
+    }
+
+    /**
+     * Return node value translated if applicable
+     *
+     * @param \DOMNode $node
+     * @return string
+     */
+    protected function getTranslatedNodeValue(\DOMNode $node)
+    {
+        $value = $node->nodeValue;
+        if ($this->getAttributeValue($node, 'translate') == 'true') {
+            $value = __($value);
+        }
+        return $value;
     }
 }

@@ -5,7 +5,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Indexer\Block;
+
+namespace Magento\Indexer\Block\Backend;
 
 class Container extends \Magento\Backend\Block\Widget\Grid\Container
 {

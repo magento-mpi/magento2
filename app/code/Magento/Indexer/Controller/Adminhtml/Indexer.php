@@ -24,12 +24,67 @@ class Indexer extends \Magento\Backend\App\Action
     }
 
     /**
+     * Display processes grid action
+     */
+    public function massOnTheFlyAction()
+    {
+        $this->changeMode(\Magento\Indexer\Model\Indexer\State::MODE_ON_THE_FLY);
+    }
+
+    /**
+     * Display processes grid action
+     */
+    public function massChangelogAction()
+    {
+        $this->changeMode(\Magento\Indexer\Model\Indexer\State::MODE_CHANGELOG);
+    }
+
+    /**
+     * Display processes grid action
+     */
+    protected function changeMode($mode)
+    {
+        $indexerIds = $this->getRequest()->getParam('indexer_ids');
+        if (!is_array($indexerIds)) {
+            $this->messageManager->addError(__('Please select indexers.'));
+        } else {
+            try {
+                foreach ($indexerIds as $indexer_id) {
+                    /** @var \Magento\Indexer\Model\Indexer $model */
+                    $model = $this->_objectManager->create('Magento\Indexer\Model\Indexer')
+                        ->load($indexer_id);
+                    $model->getState()
+                        ->setMode($mode)
+                        ->save();
+                }
+                $this->messageManager->addSuccess(__('A total of %1 indexer(s)\' mode has been changed.',
+                    count($indexerIds)));
+            } catch (\Magento\Core\Exception $e) {
+                $this->messageManager->addError($e->getMessage());
+            } catch (\Exception $e) {
+                $this->messageManager->addException(
+                    $e,
+                    __("We couldn't change indexer(s)' mode because of an error.")
+                );
+            }
+        }
+        $this->_redirect('*/*/list');
+    }
+
+    /**
      * Check ACL permissions
      *
      * @return bool
      */
     protected function _isAllowed()
     {
-        return $this->_authorization->isAllowed('Magento_Indexer::index');
+        switch ($this->_request->getActionName()) {
+            case 'list':
+                return $this->_authorization->isAllowed('Magento_Indexer::index');
+            case 'massOnTheFly':
+            case 'massChangelog':
+                return $this->_authorization->isAllowed('Magento_Indexer::changeMode');
+        }
+        return false;
     }
 }
