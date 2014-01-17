@@ -24,7 +24,7 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
     public function testSendResponseDefaultBehaviour()
     {
         $this->model->terminateOnSend(false);
-        $this->assertEquals(0 ,$this->model->sendResponse());
+        $this->assertEquals(0, $this->model->sendResponse());
     }
 
     /**

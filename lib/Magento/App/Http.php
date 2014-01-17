@@ -12,6 +12,9 @@ namespace Magento\App;
 use Magento\App\ObjectManager\ConfigLoader,
     Magento\Event;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class Http implements \Magento\AppInterface
 {
     /**
