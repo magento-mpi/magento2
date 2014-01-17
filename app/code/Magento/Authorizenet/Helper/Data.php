@@ -289,4 +289,21 @@ class Data extends \Magento\App\Helper\AbstractHelper implements HelperInterface
     {
         return $payment->getOrder()->getBaseCurrency()->formatTxt($amount);
     }
+
+    /**
+     * Get payment method step html
+     *
+     * @param \Magento\App\ViewInterface $view
+     * @return string
+     */
+    public function getPaymentMethodsHtml(\Magento\App\ViewInterface $view)
+    {
+        $layout = $view->getLayout();
+        $update = $layout->getUpdate();
+        $update->load('checkout_onepage_paymentmethod');
+        $layout->generateXml();
+        $layout->generateElements();
+        $output = $layout->getOutput();
+        return $output;
+    }
 }

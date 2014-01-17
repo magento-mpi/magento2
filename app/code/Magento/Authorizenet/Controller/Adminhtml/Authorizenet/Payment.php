@@ -59,7 +59,8 @@ class Payment extends \Magento\Backend\App\Action
             }
 
             $result['success']  = true;
-            $result['update_html'] = $this->_getPaymentMethodsHtml();
+            $result['update_html'] = $this->_objectManager->get('Magento\Authorizenet\Helper\Data')
+                ->getPaymentMethodsHtml($this->_view);
         } catch (\Magento\Core\Exception $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);
             $result['error_message'] = $e->getMessage();
@@ -70,24 +71,5 @@ class Payment extends \Magento\Backend\App\Action
 
         $this->_sessionQuote->getQuote()->getPayment()->save();
         $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
-    }
-
-    /**
-     * Get payment method step html
-     *
-     * @return string
-     */
-    protected function _getPaymentMethodsHtml()
-    {
-        $layout = $this->_view->getLayout();
-
-        $update = $layout->getUpdate();
-        $update->load('checkout_onepage_paymentmethod');
-
-        $layout->generateXml();
-        $layout->generateElements();
-
-        $output = $layout->getOutput();
-        return $output;
     }
 }
