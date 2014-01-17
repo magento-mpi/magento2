@@ -20,15 +20,31 @@ namespace Magento\Pear;
 
 class Frontend
 {
+    /**
+     * @var string|resource
+     */
     protected $_logStream = null;
+
+    /**
+     * @var null
+     */
     protected $_outStream = null;
+
+    /**
+     * @var string[]
+     */
     protected $_log = array();
+
+    /**
+     * @var array
+     */
     protected $_out = array();
 
     /**
      * Enter description here...
      *
      * @param string|resource $stream 'stdout' or open php stream
+     * @return $this
      */
     public function setLogStream($stream)
     {
@@ -36,11 +52,19 @@ class Frontend
         return $this;
     }
 
+    /**
+     * @return string|resource
+     */
     public function getLogStream()
     {
         return $this->_logStream;
     }
 
+    /**
+     * @param mixed $msg
+     * @param bool $append_crlf
+     * @return void
+     */
     public function log($msg, $append_crlf = true)
     {
         if (is_null($msg) || false===$msg or ''===$msg) {
@@ -64,6 +88,11 @@ class Frontend
         }
     }
 
+    /**
+     * @param string|array $data
+     * @param string $command
+     * @return void
+     */
     public function outputData($data, $command = '_default')
     {
         $this->_out[] = array('output'=>$data, 'command'=>$command);
@@ -81,22 +110,34 @@ class Frontend
         }
     }
 
+    /**
+     * @return void
+     */
     public function userConfirm()
     {
 
     }
 
+    /**
+     * @return void
+     */
     public function clear()
     {
         $this->_log = array();
         $this->_out = array();
     }
 
+    /**
+     * @return string[]
+     */
     public function getLog()
     {
         return $this->_log;
     }
 
+    /**
+     * @return string
+     */
     public function getLogText()
     {
         $text = '';
@@ -106,6 +147,9 @@ class Frontend
         return $text;
     }
 
+    /**
+     * @return array
+     */
     public function getOutput()
     {
         return $this->_out;
