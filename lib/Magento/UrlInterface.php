@@ -431,7 +431,7 @@ interface UrlInterface
      * Set scope entity
      *
      * @param mixed $params
-     * @return \Magento\Core\Model\Url
+     * @return \Magento\UrlInterface
      */
     public function setScope($params);
 }

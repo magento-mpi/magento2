@@ -166,8 +166,8 @@ class App implements \Magento\AppInterface
     protected $_configScope;
 
     /**
-     * @param Config $config
-     * @param CacheInterface $cache
+     * @param \Magento\App\ConfigInterface $config
+     * @param \Magento\App\CacheInterface $cache
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\App\State $appState

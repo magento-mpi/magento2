@@ -10,14 +10,14 @@
  */
 
 /**
- * Test class for \Magento\Core\Model\Url
+ * Test class for \Magento\UrlInterface
  */
 namespace Magento\Core\Model;
 
 class UrlTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Url
+     * @var \Magento\UrlInterface
      */
     protected $_model;
 

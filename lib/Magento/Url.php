@@ -189,7 +189,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
      * Initialize object data from retrieved url
      *
      * @param   string $url
-     * @return  \Magento\Core\Model\Url
+     * @return  \Magento\UrlInterface
      */
     public function parseUrl($url)
     {
@@ -226,7 +226,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
      * Set use session rule
      *
      * @param bool $useSession
-     * @return \Magento\Core\Model\Url
+     * @return \Magento\UrlInterface
      */
     public function setUseSession($useSession)
     {
@@ -238,7 +238,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
      * Set route front name
      *
      * @param string $name
-     * @return \Magento\Core\Model\Url
+     * @return \Magento\UrlInterface
      */
     public function setRouteFrontName($name)
     {
@@ -318,7 +318,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
      * Set request
      *
      * @param \Magento\App\RequestInterface $request
-     * @return \Magento\Core\Model\Url
+     * @return \Magento\UrlInterface
      */
     public function setRequest(\Magento\App\RequestInterface $request)
     {
@@ -390,7 +390,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
      * Set scope entity
      *
      * @param mixed $params
-     * @return \Magento\Core\Model\Url
+     * @return \Magento\UrlInterface
      */
     public function setScope($params)
     {
@@ -448,7 +448,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
      * Set Route Parameters
      *
      * @param string $data
-     * @return \Magento\Core\Model\Url
+     * @return \Magento\UrlInterface
      */
     public function setRoutePath($data)
     {
@@ -559,7 +559,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
      * Set route name
      *
      * @param string $data
-     * @return \Magento\Core\Model\Url
+     * @return \Magento\UrlInterface
      */
     public function setRouteName($data)
     {
@@ -609,7 +609,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
      * Reset action name and route path if has change
      *
      * @param string $data
-     * @return \Magento\Core\Model\Url
+     * @return \Magento\UrlInterface
      */
     public function setControllerName($data)
     {
@@ -636,7 +636,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
      * Reseted route path if action name has change
      *
      * @param string $data
-     * @return \Magento\Core\Model\Url
+     * @return \Magento\UrlInterface
      */
     public function setActionName($data)
     {
@@ -663,7 +663,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
      *
      * @param array $data
      * @param boolean $unsetOldParams
-     * @return \Magento\Core\Model\Url
+     * @return \Magento\UrlInterface
      */
     public function setRouteParams(array $data, $unsetOldParams = true)
     {
@@ -686,7 +686,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
      *
      * @param string $key
      * @param mixed $data
-     * @return \Magento\Core\Model\Url
+     * @return \Magento\UrlInterface
      */
     public function setRouteParam($key, $data)
     {
@@ -737,7 +737,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
     /**
      * If the host was switched but session cookie won't recognize it - add session id to query
      *
-     * @return \Magento\Core\Model\Url
+     * @return \Magento\UrlInterface
      */
     public function checkCookieDomains()
     {
@@ -759,7 +759,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
     /**
      * Add session param
      *
-     * @return \Magento\Core\Model\Url
+     * @return \Magento\UrlInterface
      */
     public function addSessionParam()
     {
@@ -774,7 +774,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
      * Set URL query param(s)
      *
      * @param mixed $data
-     * @return \Magento\Core\Model\Url
+     * @return \Magento\UrlInterface
      */
     public function setQuery($data)
     {
@@ -809,7 +809,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
      * Set query Params as array
      *
      * @param array $data
-     * @return \Magento\Core\Model\Url
+     * @return \Magento\UrlInterface
      */
     public function setQueryParams(array $data)
     {
@@ -834,7 +834,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
     /**
      * Purge Query params array
      *
-     * @return \Magento\Core\Model\Url
+     * @return \Magento\UrlInterface
      */
     public function purgeQueryParams()
     {
@@ -867,7 +867,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
      *
      * @param string $key
      * @param mixed $data
-     * @return \Magento\Core\Model\Url
+     * @return \Magento\UrlInterface
      */
     public function setQueryParam($key, $data)
     {
@@ -898,7 +898,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
      * Set fragment to URL
      *
      * @param string $data
-     * @return \Magento\Core\Model\Url
+     * @return \Magento\UrlInterface
      */
     public function setFragment($data)
     {
@@ -997,7 +997,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
      *
      * @param string $url
      *
-     * @return \Magento\Core\Model\Url
+     * @return \Magento\UrlInterface
      */
     protected function _prepareSessionUrl($url)
     {
@@ -1010,7 +1010,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
      * @param string $url
      * @param array $params
      *
-     * @return \Magento\Core\Model\Url
+     * @return \Magento\UrlInterface
      */
     protected function _prepareSessionUrlWithParams($url, array $params)
     {
