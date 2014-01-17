@@ -17,15 +17,6 @@ abstract class Exception extends \Exception
     protected $_params = [];
 
     /**
-     * @param string $message
-     * @param int    $code
-     */
-    public function __construct($message, $code)
-    {
-        parent::__construct($message, $code);
-    }
-
-    /**
      * Returns the parameters detailing specifics of this Exception
      *
      * @return array

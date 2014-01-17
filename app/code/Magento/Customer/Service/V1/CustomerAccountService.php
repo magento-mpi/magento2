@@ -115,7 +115,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $websiteId = $this->_storeManager->getStore()->getWebsiteId();
         $customer->setWebsiteId($websiteId)->loadByEmail($email);
         if (!$customer->getId()) {
-            throw NoSuchEntityException::create('email', $email)->addField('websiteId', $websiteId);
+            throw (new NoSuchEntityException('email', $email))->addField('websiteId', $websiteId);
         }
         if ($customer->getConfirmation()) {
             $customer->sendNewAccountEmail('confirmation', '', $this->_storeManager->getStore()->getId());
@@ -194,7 +194,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
             ->loadByEmail($email);
 
         if (!$customer->getId()) {
-            throw NoSuchEntityException::create('email', $email)->addField('websiteId', $websiteId);
+            throw (new NoSuchEntityException('email', $email))->addField('websiteId', $websiteId);
         }
         $newPasswordToken = $this->_mathRandom->getUniqueHash();
         $customer->changeResetPasswordLinkToken($newPasswordToken);

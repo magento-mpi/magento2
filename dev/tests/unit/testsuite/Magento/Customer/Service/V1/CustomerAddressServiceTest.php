@@ -686,7 +686,8 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
                 $exception->getParams(),
                 [
                     [
-                        'fieldName' => 'address[0].firstname',
+                        'index' => 0,
+                        'fieldName' => 'firstname',
                         'code'      => \Magento\Exception\InputException::REQUIRED_FIELD,
                         'value'     => null
                     ]

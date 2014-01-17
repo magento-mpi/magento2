@@ -26,16 +26,6 @@ class NoSuchEntityException extends \Magento\Exception\Exception
 
     /**
      * @param string $fieldName name of the field searched upon
-     * @param mixed  $value     specific value the entity should have for it's field
-     * @return NoSuchEntityException
-     */
-    public static function create($fieldName, $value)
-    {
-        return new self($fieldName, $value);
-    }
-
-    /**
-     * @param string $fieldName name of the field searched upon
      * @param mixed  $value     the value of the field
      * @return $this
      */

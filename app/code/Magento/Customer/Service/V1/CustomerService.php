@@ -120,7 +120,7 @@ class CustomerService implements CustomerServiceInterface
         if ($gender->isRequired() && '' == trim($customerModel->getGender())) {
             $exception->addError(InputException::REQUIRED_FIELD, 'gender', '');
         }
-        if ($exception->getParams()) {
+        if ($exception->hasErrors()) {
             throw $exception;
         }
     }
