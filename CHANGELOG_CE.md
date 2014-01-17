@@ -1,4 +1,8 @@
+* Modules Decoupling
+  * Autorizenet is consolidated in separate module
+* Introduced new layout block attribute - cacheable
 * Fixed bugs:
+  * Fixed configurable product images display in shopping cart
   * Fixed No Collapsing for Tax Summary
   * Optimized Plushe theme css
   * Fixed attribute types for configurable product variations
@@ -7,6 +11,7 @@
   * Fixed ability to export product
   * Fixed 3D secure validation
   * Fixed session to be transfered between Magento urls
+  * Fixed Advanced search filter to properly compare numbers
 
 2.0.0.0-dev60
 =============

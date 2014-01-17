@@ -11,7 +11,7 @@
  */
 namespace Magento\Authorizenet\Model;
 
-class Directpost extends \Magento\Paygate\Model\Authorizenet
+class Directpost extends \Magento\Authorizenet\Model\Authorizenet
 {
     protected $_code  = 'authorizenet_directpost';
     protected $_formBlockType = 'Magento\Authorizenet\Block\Directpost\Form';
@@ -56,12 +56,12 @@ class Directpost extends \Magento\Paygate\Model\Authorizenet
      * @param \Magento\Module\ModuleListInterface $moduleList
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Centinel\Model\Service $centinelService
-     * @param \Magento\Paygate\Model\Authorizenet\CardsFactory $cardsFactory
-     * @param \Magento\Paygate\Model\Authorizenet\RequestFactory $requestFactory
-     * @param \Magento\Paygate\Model\Authorizenet\ResultFactory $resultFactory
+     * @param \Magento\Authorizenet\Model\Authorizenet\CardsFactory $cardsFactory
+     * @param \Magento\Authorizenet\Model\Authorizenet\RequestFactory $requestFactory
+     * @param \Magento\Authorizenet\Model\Authorizenet\ResultFactory $resultFactory
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Session\SessionManagerInterface $session
-     * @param \Magento\Paygate\Helper\Data $paygateData
+     * @param \Magento\Authorizenet\Helper\Data $authorizenetData
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Authorizenet\Model\Directpost\RequestFactory $directRequestFactory
@@ -79,12 +79,12 @@ class Directpost extends \Magento\Paygate\Model\Authorizenet
         \Magento\Module\ModuleListInterface $moduleList,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Centinel\Model\Service $centinelService,
-        \Magento\Paygate\Model\Authorizenet\CardsFactory $cardsFactory,
-        \Magento\Paygate\Model\Authorizenet\RequestFactory $requestFactory,
-        \Magento\Paygate\Model\Authorizenet\ResultFactory $resultFactory,
+        \Magento\Authorizenet\Model\Authorizenet\CardsFactory $cardsFactory,
+        \Magento\Authorizenet\Model\Authorizenet\RequestFactory $requestFactory,
+        \Magento\Authorizenet\Model\Authorizenet\ResultFactory $resultFactory,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Session\SessionManagerInterface $session,
-        \Magento\Paygate\Helper\Data $paygateData,
+        \Magento\Authorizenet\Helper\Data $authorizenetData,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Authorizenet\Model\Directpost\RequestFactory $directRequestFactory,
@@ -105,7 +105,7 @@ class Directpost extends \Magento\Paygate\Model\Authorizenet
             $resultFactory,
             $orderFactory,
             $session,
-            $paygateData,
+            $authorizenetData,
             $data
         );
         $this->_storeManager = $storeManager;
@@ -129,7 +129,7 @@ class Directpost extends \Magento\Paygate\Model\Authorizenet
      *
      * @param  \Magento\Object $payment
      * @param  decimal $amount
-     * @return \Magento\Paygate\Model\Authorizenet
+     * @return \Magento\Authorizenet\Model\Authorizenet
      * @throws \Magento\Core\Exception
      */
     public function authorize(\Magento\Object $payment, $amount)

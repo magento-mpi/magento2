@@ -43,7 +43,7 @@ class Method extends AbstractRepository
     {
         return array(
             'config' => array(
-                'payment_form_class' => '\\Magento\\Paygate\\Test\\Block\\Authorizenet\\Form\\Cc',
+                'payment_form_class' => '\\Magento\\Authorizenet\\Test\\Block\\Authorizenet\\Form\\Cc',
             ),
             'data' => array(
                 'fields' => array(
