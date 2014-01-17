@@ -15,6 +15,11 @@ namespace Magento\Logging\Model\Source;
 
 class Frequency implements \Magento\Core\Model\Option\ArrayInterface
 {
+    /**
+     * Get options as array
+     *
+     * @return array
+     */
     public function toOptionArray()
     {
         return array(

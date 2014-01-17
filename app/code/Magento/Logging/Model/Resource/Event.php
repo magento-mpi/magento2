@@ -76,6 +76,7 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Rotate logs - get from database and pump to CSV-file
      *
      * @param int $lifetime
+     * @return void
      */
     public function rotate($lifetime)
     {

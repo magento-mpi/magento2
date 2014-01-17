@@ -11,6 +11,7 @@
  */
 namespace Magento\Logging\Controller\Adminhtml;
 
+use \Magento\App\ResponseInterface;
 use Magento\Backend\App\Action;
 
 class Logging extends \Magento\Backend\App\Action
@@ -66,6 +67,8 @@ class Logging extends \Magento\Backend\App\Action
 
     /**
      * Log page
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -78,6 +81,8 @@ class Logging extends \Magento\Backend\App\Action
 
     /**
      * Log grid ajax action
+     *
+     * @return void
      */
     public function gridAction()
     {
@@ -87,6 +92,8 @@ class Logging extends \Magento\Backend\App\Action
 
     /**
      * View logging details
+     *
+     * @return void
      */
     public function detailsAction()
     {
@@ -109,6 +116,8 @@ class Logging extends \Magento\Backend\App\Action
 
     /**
      * Export log to CSV
+     *
+     * @return ResponseInterface
      */
     public function exportCsvAction()
     {
@@ -125,6 +134,8 @@ class Logging extends \Magento\Backend\App\Action
 
     /**
      * Export log to MSXML
+     *
+     * @return ResponseInterface
      */
     public function exportXmlAction()
     {
@@ -141,6 +152,8 @@ class Logging extends \Magento\Backend\App\Action
 
     /**
      * Archive page
+     *
+     * @return void
      */
     public function archiveAction()
     {
@@ -153,6 +166,8 @@ class Logging extends \Magento\Backend\App\Action
 
     /**
      * Archive grid ajax action
+     *
+     * @return void
      */
     public function archiveGridAction()
     {
@@ -162,6 +177,8 @@ class Logging extends \Magento\Backend\App\Action
 
     /**
      * Download archive file
+     *
+     * @return ResponseInterface
      */
     public function downloadAction()
     {
@@ -180,6 +197,8 @@ class Logging extends \Magento\Backend\App\Action
 
     /**
      * permissions checker
+     *
+     * @return bool
      */
     protected function _isAllowed()
     {
