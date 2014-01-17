@@ -11,34 +11,35 @@ namespace Magento\Mview\View;
 class Collection extends \Magento\Data\Collection
 {
     /**
+     * Item object class name
+     *
+     * @var string
+     */
+    protected $_itemObjectClass = 'Magento\Mview\View';
+
+    /**
      * @var \Magento\Indexer\Model\ConfigInterface
      */
     protected $config;
 
     /**
-     * @param \Magento\Mview\ViewFactory $entityFactory
-     * @param \Magento\Mview\ConfigInterface $config
+     * @var \Magento\Mview\View\State\CollectionFactory
      */
-    public function __construct(
-        \Magento\Mview\ViewFactory $entityFactory,
-        \Magento\Mview\ConfigInterface $config
-    ) {
-        $this->config = $config;
-        parent::__construct($entityFactory);
-    }
+    protected $statesFactory;
 
     /**
-     * Get views
-     *
-     * @return array
+     * @param \Magento\Data\Collection\EntityFactoryInterface $entityFactory
+     * @param \Magento\Mview\ConfigInterface $config
+     * @param State\CollectionFactory $statesFactory
      */
-    protected function getViews()
-    {
-        $views = array();
-        foreach ($this->config->getAll() as $data) {
-            $views[] = $this->_entityFactory->create($data);
-        }
-        return $views;
+    public function __construct(
+        \Magento\Data\Collection\EntityFactoryInterface $entityFactory,
+        \Magento\Mview\ConfigInterface $config,
+        \Magento\Mview\View\State\CollectionFactory $statesFactory
+    ) {
+        $this->config = $config;
+        $this->statesFactory = $statesFactory;
+        parent::__construct($entityFactory);
     }
 
     /**
@@ -52,9 +53,63 @@ class Collection extends \Magento\Data\Collection
      */
     public function loadData($printQuery = false, $logQuery = false)
     {
-        if (!$this->_items) {
-            $this->_items = $this->getViews();
+        if (!$this->isLoaded()) {
+            $states = $this->statesFactory->create();
+            foreach (array_keys($this->config->getAll()) as $viewId) {
+                /** @var \Magento\Mview\View $view */
+                $view = $this->getNewEmptyItem();
+                $view->load($viewId);
+                foreach ($states->getItems() as $state) {
+                    /** @var \Magento\Mview\View\StateInterface $state */
+                    if ($state->getViewId() == $viewId) {
+                        $view->setState($state);
+                        break;
+                    }
+                }
+                $this->_addItem($view);
+            }
+            $this->_setIsLoaded(true);
         }
         return $this;
+    }
+
+    /**
+     * Return views by given state mode
+     *
+     * @param string $mode
+     * @return \Magento\Mview\View[]
+     */
+    public function getViewsByStateMode($mode)
+    {
+        $this->load();
+
+        $result = array();
+        foreach ($this as $view) {
+            /** @var \Magento\Mview\View $view */
+            if ($view->getState()->getMode() == $mode) {
+                $result[] = $view;
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * Return views by given state status
+     *
+     * @param string $status
+     * @return \Magento\Mview\View[]
+     */
+    public function getViewsByStateStatus($status)
+    {
+        $this->load();
+
+        $result = array();
+        foreach ($this as $view) {
+            /** @var \Magento\Mview\View $view */
+            if ($view->getState()->getStatus() == $status) {
+                $result[] = $view;
+            }
+        }
+        return $result;
     }
 }
