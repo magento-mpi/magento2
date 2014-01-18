@@ -61,7 +61,7 @@ class Control extends \Zend_Gdata_App_Extension_Control
      * and eventually XML text for sending to the server upon updates, or
      * for application storage/persistence.
      *
-     * @param \DOMDocument null|$doc The \DOMDocument used to construct \DOMElements
+     * @param \DOMDocument|null $doc The \DOMDocument used to construct \DOMElements
      * @param int $majorVersion
      * @param null|int $minorVersion
      * @return \DOMElement The \DOMElement representing this element and all

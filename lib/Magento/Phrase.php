@@ -36,6 +36,7 @@ class Phrase
      * Set default Phrase renderer
      *
      * @param \Magento\Phrase\RendererInterface $renderer
+     * @return void
      */
     public static function setRenderer(\Magento\Phrase\RendererInterface $renderer)
     {

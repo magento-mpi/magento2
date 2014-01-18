@@ -61,7 +61,7 @@ class Frontend
     }
 
     /**
-     * @param mixed $msg
+     * @param string $msg
      * @param bool $append_crlf
      * @return void
      */
