@@ -84,8 +84,10 @@ class Indexer extends \Magento\Object
         if (empty($indexer) || empty($indexer['indexer_id']) || $indexer['indexer_id'] != $indexerId) {
             throw new \InvalidArgumentException("{$indexerId} indexer does not exist.");
         }
+
         $this->setId($indexerId);
         $this->setData($indexer);
+
         return $this;
     }
 
@@ -149,7 +151,6 @@ class Indexer extends \Magento\Object
     public function turnViewOff()
     {
         $this->getView()->unsubscribe();
-        $this->getState()->save();
     }
 
     /**
@@ -160,7 +161,6 @@ class Indexer extends \Magento\Object
     public function turnViewOn()
     {
         $this->getView()->subscribe();
-        $this->getState()->save();
     }
 
     /**

@@ -9,11 +9,10 @@
 namespace Magento\Mview;
 
 /**
- * @method int getViewId()
  * @method string getActionClass()
  * @method array getSubscriptions()
  */
-class View extends \Magento\Object implements ViewInterface
+class View extends \Magento\Object
 {
     /**
      * @var string
@@ -34,6 +33,11 @@ class View extends \Magento\Object implements ViewInterface
      * @var \Magento\Mview\View\StateFactory
      */
     protected $stateFactory;
+
+    /**
+     * @var View\ChangelogFactory
+     */
+    protected $changelogFactory;
 
     /**
      * @var View\SubscriptionFactory
@@ -82,31 +86,43 @@ class View extends \Magento\Object implements ViewInterface
         if (empty($view) || empty($view['view_id']) || $view['view_id'] != $viewId) {
             throw new \InvalidArgumentException("{$viewId} view does not exist.");
         }
+
         $this->setId($viewId);
         $this->setData($view);
+
         return $this;
     }
 
     /**
      * Create subscriptions
      *
-     * @return \Magento\Mview\ViewInterface
+     * @throws \Exception
+     * @return \Magento\Mview\View
      */
     public function subscribe()
     {
-        // TODO: create changelog
+        try {
+            // Create changelog table
+            $this->getChangelog()->create();
 
-        foreach ($this->getSubscriptions() as $subscription) {
-            /** @var \Magento\Mview\View\SubscriptionInterface $subscription */
-            $subscription = $this->subscriptionFactory->create(array(
-                'view' => $this,
-                'tableName' => $subscription['name'],
-                'columnName' => $subscription['column'],
-            ));
-            $subscription->create();
+            // Create subscriptions
+            foreach ($this->getSubscriptions() as $subscription) {
+                /** @var \Magento\Mview\View\SubscriptionInterface $subscription */
+                $subscription = $this->subscriptionFactory->create(array(
+                    'view' => $this,
+                    'tableName' => $subscription['name'],
+                    'columnName' => $subscription['column'],
+                ));
+                $subscription->create();
+            }
+
+            // Update view state
+            $this->getState()
+                ->setMode(\Magento\Mview\View\StateInterface::MODE_ENABLED)
+                ->save();
+        } catch (\Exception $e) {
+            throw $e;
         }
-
-        $this->getState()->setMode(\Magento\Mview\View\StateInterface::MODE_ENABLED);
 
         return $this;
     }
@@ -114,23 +130,33 @@ class View extends \Magento\Object implements ViewInterface
     /**
      * Remove subscriptions
      *
-     * @return \Magento\Mview\ViewInterface
+     * @throws \Exception
+     * @return \Magento\Mview\View
      */
     public function unsubscribe()
     {
-        foreach ($this->getSubscriptions() as $subscription) {
-            /** @var \Magento\Mview\View\SubscriptionInterface $subscription */
-            $subscription = $this->subscriptionFactory->create(array(
-                'view' => $this,
-                'tableName' => $subscription['name'],
-                'columnName' => $subscription['column'],
-            ));
-            $subscription->remove();
+        try {
+            // Remove subscriptions
+            foreach ($this->getSubscriptions() as $subscription) {
+                /** @var \Magento\Mview\View\SubscriptionInterface $subscription */
+                $subscription = $this->subscriptionFactory->create(array(
+                    'view' => $this,
+                    'tableName' => $subscription['name'],
+                    'columnName' => $subscription['column'],
+                ));
+                $subscription->remove();
+            }
+
+            // Drop changelog table
+            $this->getChangelog()->drop();
+
+            // Update view state
+            $this->getState()
+                ->setMode(\Magento\Mview\View\StateInterface::MODE_DISABLED)
+                ->save();
+        } catch (\Exception $e) {
+            throw $e;
         }
-
-        // TODO: drop changelog
-
-        $this->getState()->setMode(\Magento\Mview\View\StateInterface::MODE_DISABLED);
 
         return $this;
     }
@@ -198,8 +224,6 @@ class View extends \Magento\Object implements ViewInterface
      */
     public function getChangelog()
     {
-        return $this->changelogFactory->create(array(
-            'viewId' => $this->getViewId(),
-        ));
+        return $this->changelogFactory->create(array('viewId' => $this->getId()));
     }
 }

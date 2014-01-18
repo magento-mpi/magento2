@@ -30,6 +30,6 @@ class Config extends \Magento\Config\Data implements ConfigInterface
      */
     public function getAll()
     {
-        return $this->getAll();
+        return $this->get();
     }
 }

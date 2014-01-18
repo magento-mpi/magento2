@@ -11,18 +11,18 @@ namespace Magento\Mview\View;
 interface ChangelogInterface
 {
     /**
-     * Create changelog
+     * Create changelog table
      *
      * @return boolean
      */
     public function create();
 
     /**
-     * Remove changelog
+     * Drop changelog table
      *
      * @return boolean
      */
-    public function remove();
+    public function drop();
 
     /**
      * Clear changelog by version_id

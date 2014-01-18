@@ -46,6 +46,8 @@
     <preference for="Magento\Mview\ConfigInterface" type="Magento\Mview\Config" />
     <preference for="Magento\Mview\View\StateInterface" type="Magento\Core\Model\Mview\View\State" />
     <preference for="Magento\Mview\View\State\CollectionInterface" type="Magento\Core\Model\Resource\Mview\View\State\Collection" />
+    <preference for="Magento\Mview\View\SubscriptionInterface" type="Magento\Mview\View\Subscription" />
+    <preference for="Magento\Mview\View\ChangelogInterface" type="Magento\Mview\View\Changelog" />
     <type name="Magento\App\DefaultPath\DefaultPath">
         <param name="parts">
             <value>

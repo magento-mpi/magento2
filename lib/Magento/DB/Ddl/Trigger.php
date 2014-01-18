@@ -30,7 +30,7 @@ class Trigger
      *
      * @var array
      */
-    protected static $_listOfTimes = array(
+    protected static $listOfTimes = array(
         self::TIME_BEFORE,
         self::TIME_AFTER,
     );
@@ -40,7 +40,7 @@ class Trigger
      *
      * @var array
      */
-    protected static $_listOfEvents = array(
+    protected static $listOfEvents = array(
         self::EVENT_INSERT,
         self::EVENT_UPDATE,
         self::EVENT_DELETE,
@@ -51,45 +51,50 @@ class Trigger
      *
      * @var string
      */
-    protected $_triggerName;
+    protected $name;
 
     /**
      * Time of trigger
      *
      * @var string
      */
-    protected $_time;
+    protected $time;
 
     /**
      * Time of trigger
      *
      * @var string
      */
-    protected $_event;
+    protected $event;
 
     /**
      * Table name
      *
      * @var string
      */
-    protected $_tableName;
+    protected $tableName;
 
     /**
      * List of statements for trigger body
      *
      * @var array
      */
-    protected $_statementList = array();
+    protected $statements = array();
 
     /**
      * Set trigger name
      *
      * @param string $name
+     * @throws \InvalidArgumentException
      * @return \Magento\DB\Ddl\Trigger
      */
-    public function setName($name = '')
+    public function setName($name)
     {
-        $this->_triggerName = strtolower($name);
+        if (empty($name)) {
+            throw new \InvalidArgumentException(__('Trigger name is not defined'));
+        }
+
+        $this->name = strtolower($name);
         return $this;
     }
 
@@ -101,10 +106,10 @@ class Trigger
      */
     public function getName()
     {
-        if (is_null($this->_triggerName)) {
-            throw new \Zend_Db_Exception('Trigger name is not defined');
+        if (is_null($this->name)) {
+            throw new \Zend_Db_Exception(__('Trigger name is not defined'));
         }
-        return $this->_triggerName;
+        return $this->name;
     }
 
     /**
@@ -114,10 +119,10 @@ class Trigger
      * @throws \InvalidArgumentException
      * @return \Magento\DB\Ddl\Trigger
      */
-    public function setTime($time = '')
+    public function setTime($time)
     {
-        if (in_array($time, self::$_listOfTimes)) {
-            $this->_time = strtoupper($time);
+        if (in_array($time, self::$listOfTimes)) {
+            $this->time = strtoupper($time);
         } else {
             throw new \InvalidArgumentException(__('Unsupported time type'));
         }
@@ -132,10 +137,10 @@ class Trigger
      */
     public function getTime()
     {
-        if (is_null($this->_time)) {
-            throw new \Zend_Db_Exception('Trigger time is not defined');
+        if (is_null($this->time)) {
+            throw new \Zend_Db_Exception(__('Trigger time is not defined'));
         }
-        return $this->_time;
+        return $this->time;
     }
 
     /**
@@ -145,10 +150,10 @@ class Trigger
      * @throws \InvalidArgumentException
      * @return \Magento\DB\Ddl\Trigger
      */
-    public function setEvent($event = '')
+    public function setEvent($event)
     {
-        if (in_array($event, self::$_listOfEvents)) {
-            $this->_event = strtoupper($event);
+        if (in_array($event, self::$listOfEvents)) {
+            $this->event = strtoupper($event);
         } else {
             throw new \InvalidArgumentException(__('Unsupported event type'));
         }
@@ -163,25 +168,25 @@ class Trigger
      */
     public function getEvent()
     {
-        if (is_null($this->_event)) {
-            throw new \Zend_Db_Exception('Trigger event is not defined');
+        if (is_null($this->event)) {
+            throw new \Zend_Db_Exception(__('Trigger event is not defined'));
         }
-        return $this->_event;
+        return $this->event;
     }
 
     /**
      * Set table name
      *
-     * @param string $tableName
+     * @param string $name
      * @throws \InvalidArgumentException
      * @return \Magento\DB\Ddl\Trigger
      */
-    public function setTable($tableName = '')
+    public function setTable($name)
     {
-        if (empty($tableName)) {
+        if (empty($name)) {
             throw new \InvalidArgumentException(__('Table name is not defined'));
         }
-        $this->_tableName = strtolower($tableName);
+        $this->tableName = strtolower($name);
         return $this;
     }
 
@@ -193,21 +198,32 @@ class Trigger
      */
     public function getTable()
     {
-        if (is_null($this->_tableName)) {
-            throw new \Zend_Db_Exception('Table name is not defined');
+        if (is_null($this->tableName)) {
+            throw new \Zend_Db_Exception(__('Table name is not defined'));
         }
-        return $this->_tableName;
+        return $this->tableName;
     }
 
     /**
      * Add statement to trigger
      *
      * @param string $statement
+     * @throws \InvalidArgumentException
      * @return \Magento\DB\Ddl\Trigger
      */
     public function addStatement($statement)
     {
-        $this->_statementList[] = $statement;
+        if (empty($statement)) {
+            throw new \InvalidArgumentException(__('Statement is not defined'));
+        }
+
+        $statement = trim($statement);
+        if ((strrpos($statement, ';') + 1) <> strlen($statement)) {
+            $statement = ';';
+        }
+
+        $this->statements[] = $statement;
+
         return $this;
     }
 
@@ -216,9 +232,9 @@ class Trigger
      *
      * @return array
      */
-    public function getStatementList()
+    public function getStatements()
     {
-        return $this->_statementList;
+        return $this->statements;
     }
 
     /**
@@ -228,7 +244,7 @@ class Trigger
      */
     public static function getListOfTimes()
     {
-        return self::$_listOfTimes;
+        return self::$listOfTimes;
     }
 
     /**
@@ -238,6 +254,6 @@ class Trigger
      */
     public static function getListOfEvents()
     {
-        return self::$_listOfEvents;
+        return self::$listOfEvents;
     }
 }

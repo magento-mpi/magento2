@@ -10,17 +10,19 @@ namespace Magento\Mview\View;
 
 interface StateInterface
 {
-    /**
+    /**#@+
      * View modes
      */
     const MODE_ENABLED = 'enabled';
     const MODE_DISABLED = 'disabled';
+    /**#@-*/
 
-    /**
+    /**#@+
      * View statuses
      */
     const STATUS_IDLE = 'idle';
     const STATUS_WORKING = 'working';
+    /**#@-*/
 
     /**
      * Fill object with state data by view ID

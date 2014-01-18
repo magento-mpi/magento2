@@ -13,7 +13,7 @@ class Changelog implements ChangelogInterface
     /**
      * Suffix for changelog table
      */
-    const SUFFIX_NAME = 'cl';
+    const NAME_SUFFIX = 'cl';
 
     /**
      * Column name of changelog entity
@@ -65,6 +65,7 @@ class Changelog implements ChangelogInterface
             throw new \Exception('Write DB connection is not available');
         }
     }
+
     /**
      * Create changelog table
      *
@@ -90,24 +91,21 @@ class Changelog implements ChangelogInterface
                 'nullable'  => false,
                 'default'   => '0',
             ), 'Entity ID');
+
         $this->write->createTable($table);
 
         return true;
     }
 
     /**
-     * Remove changelog table
+     * Drop changelog table
      *
      * @return boolean
      * @throws \Exception
      */
-    public function remove()
+    public function drop()
     {
         $changelogTableName = $this->write->getTableName($this->getName());
-        if (!$this->write->isTableExists($changelogTableName)) {
-            throw new \Exception("Table {$changelogTableName} does not exist");
-        }
-
         $this->write->dropTable($changelogTableName);
 
         return true;
@@ -172,19 +170,23 @@ class Changelog implements ChangelogInterface
         if (!$this->write->isTableExists($changelogTableName)) {
             throw new \Exception("Table {$changelogTableName} does not exist");
         }
+
         $select = $this->write->select()
             ->from($changelogTableName, new \Zend_Db_Expr('MAX(`version_id`)'));
+
         return (int)$this->write->fetchOne($select);
     }
 
     /**
      * Get changlog name
      *
+     * Build a changelog name by concatenating view identifier and changelog name suffix.
+     *
      * @return string
      */
     public function getName()
     {
-        return $this->viewId . '_' . self::SUFFIX_NAME;
+        return $this->viewId . '_' . self::NAME_SUFFIX;
     }
 
     /**
@@ -196,6 +198,4 @@ class Changelog implements ChangelogInterface
     {
         return self::COLUMN_NAME;
     }
-
-
 }

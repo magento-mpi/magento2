@@ -48,10 +48,17 @@ class Subscription implements SubscriptionInterface
     protected $columnName;
 
     /**
+     * List of views linked to the same entity as the current view
+     *
+     * @var array
+     */
+    protected $linkedViews = array();
+
+    /**
      * @param \Magento\App\Resource $resource
      * @param \Magento\DB\Ddl\TriggerFactory $triggerFactory
      * @param \Magento\Mview\View\Collection $viewCollection
-     * @param \Magento\Mview\ViewInterface $view
+     * @param \Magento\Mview\View $view
      * @param string $tableName
      * @param string $columnName
      */
@@ -69,6 +76,9 @@ class Subscription implements SubscriptionInterface
         $this->view = $view;
         $this->tableName = $tableName;
         $this->columnName = $columnName;
+
+        // Force collection clear
+        $this->viewCollection->clear();
     }
 
     /**
@@ -79,28 +89,32 @@ class Subscription implements SubscriptionInterface
     public function create()
     {
         foreach (\Magento\DB\Ddl\Trigger::getListOfEvents() as $event) {
+            $triggerName = $this->getTriggerName(
+                $this->getTableName(),
+                \Magento\DB\Ddl\Trigger::TIME_AFTER,
+                $event
+            );
+
             /** @var \Magento\DB\Ddl\Trigger $trigger */
-            $trigger = $this->triggerFactory->create();
+            $trigger = $this->triggerFactory->create()
+                ->setName($triggerName)
+                ->setTime(\Magento\DB\Ddl\Trigger::TIME_AFTER)
+                ->setEvent($event)
+                ->setTable($this->getTableName());
 
-            $triggerName = $this->getTriggerName($this->getTableName(), \Magento\DB\Ddl\Trigger::TIME_AFTER, $event);
-            $trigger->setName($triggerName);
-            $trigger->setTime(\Magento\DB\Ddl\Trigger::TIME_AFTER);
-            $trigger->setEvent($event);
-            $trigger->setTable($this->getTableName());
-
-            // Add statement for current subscription
             $trigger->addStatement(
                 $this->buildStatement($event, $this->getView()->getChangelog())
             );
 
             // Add statements for linked views
             foreach ($this->getLinkedViews() as $view) {
-                /** @var \Magento\Mview\ViewInterface $view */
+                /** @var \Magento\Mview\View $view */
                 $trigger->addStatement(
                     $this->buildStatement($event, $view->getChangelog())
                 );
             }
 
+            $this->write->dropTrigger($trigger->getName());
             $this->write->createTrigger($trigger);
         }
 
@@ -115,13 +129,33 @@ class Subscription implements SubscriptionInterface
     public function remove()
     {
         foreach (\Magento\DB\Ddl\Trigger::getListOfEvents() as $event) {
+            $triggerName = $this->getTriggerName(
+                $this->getTableName(),
+                \Magento\DB\Ddl\Trigger::TIME_AFTER,
+                $event
+            );
+
             /** @var \Magento\DB\Ddl\Trigger $trigger */
-            $trigger = $this->triggerFactory->create();
+            $trigger = $this->triggerFactory->create()
+                ->setName($triggerName)
+                ->setTime(\Magento\DB\Ddl\Trigger::TIME_AFTER)
+                ->setEvent($event)
+                ->setTable($this->getTableName());
 
-            $triggerName = $this->getTriggerName($this->getTableName(), \Magento\DB\Ddl\Trigger::TIME_AFTER, $event);
-            $trigger->setName($triggerName);
+            // Add statements for linked views
+            foreach ($this->getLinkedViews() as $view) {
+                /** @var \Magento\Mview\View $view */
+                $trigger->addStatement(
+                    $this->buildStatement($event, $view->getChangelog())
+                );
+            }
 
-            $this->write->dropTrigger($trigger);
+            $this->write->dropTrigger($trigger->getName());
+
+            // Re-create trigger if trigger used by linked views
+            if ($trigger->getStatements()) {
+                $this->write->createTrigger($trigger);
+            }
         }
 
         return $this;
@@ -134,23 +168,30 @@ class Subscription implements SubscriptionInterface
      */
     protected function getLinkedViews()
     {
-        $result = array();
+        if (!$this->linkedViews) {
+            $viewList = $this->viewCollection
+                ->getViewsByStateMode(\Magento\Mview\View\StateInterface::MODE_ENABLED);
 
-        $viewList = $this->viewCollection->getViewsByStateMode(\Magento\Mview\View\StateInterface::MODE_ENABLED);
-
-        foreach ($viewList as $view) {
-            foreach ($view->getSubscriptions() as $subscription) {
-                if ($subscription['name'] != $this->getTableName()) {
+            foreach ($viewList as $view) {
+                // Skip the current view
+                if ($view->getId() == $this->getView()->getId()) {
                     continue;
                 }
-                $result[] = $view;
+                // Search in view subscriptions
+                foreach ($view->getSubscriptions() as $subscription) {
+                    if ($subscription['name'] != $this->getTableName()) {
+                        continue;
+                    }
+                    $this->linkedViews[] = $view;
+                }
             }
         }
-
-        return $result;
+        return $this->linkedViews;
     }
 
     /**
+     * Build trigger statement for INSER, UPDATE, DELETE events
+     *
      * @param string $event
      * @param \Magento\Mview\View\ChangelogInterface $changelog
      * @return string
@@ -179,9 +220,9 @@ class Subscription implements SubscriptionInterface
     }
 
     /**
-     * Retrieve fully qualified trigger name
+     * Retrieve trigger name
      *
-     * Build a trigger name by concatenating name prefix, table name,
+     * Build a trigger name by concatenating trigger name prefix, table name,
      * trigger time and trigger event.
      *
      * @param string $tableName
@@ -197,9 +238,9 @@ class Subscription implements SubscriptionInterface
     }
 
     /**
-     * Retrieve View object related to subscription
+     * Retrieve View related to subscription
      *
-     * @return \Magento\Mview\ViewInterface
+     * @return \Magento\Mview\View
      */
     public function getView()
     {
@@ -209,7 +250,7 @@ class Subscription implements SubscriptionInterface
     /**
      * Retrieve table name
      *
-     * @return mixed
+     * @return string
      */
     public function getTableName()
     {
@@ -219,7 +260,7 @@ class Subscription implements SubscriptionInterface
     /**
      * Retrieve table column name
      *
-     * @return mixed
+     * @return string
      */
     public function getColumnName()
     {

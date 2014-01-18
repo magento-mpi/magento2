@@ -11,12 +11,37 @@ namespace Magento\Mview\View;
 interface SubscriptionInterface
 {
     /**
+     * Create subsciption
+     *
      * @return \Magento\Mview\View\SubscriptionInterface
      */
     public function create();
 
     /**
-     * @return mixed
+     * Remove subscription
+     *
+     * @return \Magento\Mview\View\SubscriptionInterface
      */
     public function remove();
+
+    /**
+     * Retrieve View related to subscription
+     *
+     * @return \Magento\Mview\View
+     */
+    public function getView();
+
+    /**
+     * Retrieve table name
+     *
+     * @return string
+     */
+    public function getTableName();
+
+    /**
+     * Retrieve table column name
+     *
+     * @return string
+     */
+    public function getColumnName();
 }
