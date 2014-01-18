@@ -121,9 +121,10 @@ class Aggregation extends \Magento\Core\Model\AbstractModel
     /**
      * Save log data
      *
-     * @param  array $data
-     * @param  string $from
-     * @param  string $to
+     * @param array $data
+     * @param string $from
+     * @param string $to
+     * @return $this
      */
     private function _save($data, $from, $to)
     {
