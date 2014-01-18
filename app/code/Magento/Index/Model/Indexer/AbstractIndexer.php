@@ -17,6 +17,9 @@ namespace Magento\Index\Model\Indexer;
 abstract class AbstractIndexer extends \Magento\Core\Model\AbstractModel
     implements \Magento\Index\Model\IndexerInterface
 {
+    /**
+     * @var array
+     */
     protected $_matchedEntities = array();
 
     /**
@@ -47,6 +50,7 @@ abstract class AbstractIndexer extends \Magento\Core\Model\AbstractModel
      * Register indexer required data inside event object
      *
      * @param   \Magento\Index\Model\Event $event
+     * @return  void
      */
     abstract protected function _registerEvent(\Magento\Index\Model\Event $event);
 
@@ -54,6 +58,7 @@ abstract class AbstractIndexer extends \Magento\Core\Model\AbstractModel
      * Process event based on event state data
      *
      * @param   \Magento\Index\Model\Event $event
+     * @return  void
      */
     abstract protected function _processEvent(\Magento\Index\Model\Event $event);
 
@@ -117,6 +122,8 @@ abstract class AbstractIndexer extends \Magento\Core\Model\AbstractModel
 
     /**
      * Rebuild all index data
+     *
+     * @return  void
      */
     public function reindexAll()
     {

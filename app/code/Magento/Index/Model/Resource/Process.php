@@ -49,7 +49,7 @@ class Process extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param int $processId
      * @param int $eventId
      * @param string $status
-     * @return \Magento\Index\Model\Resource\Process
+     * @return $this
      */
     public function updateEventStatus($processId, $eventId, $status)
     {
@@ -66,7 +66,7 @@ class Process extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Register process end
      *
      * @param \Magento\Index\Model\Process $process
-     * @return \Magento\Index\Model\Resource\Process
+     * @return $this
      */
     public function endProcess(\Magento\Index\Model\Process $process)
     {
@@ -82,7 +82,7 @@ class Process extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Register process start
      *
      * @param \Magento\Index\Model\Process $process
-     * @return \Magento\Index\Model\Resource\Process
+     * @return $this
      */
     public function startProcess(\Magento\Index\Model\Process $process)
     {
@@ -98,7 +98,7 @@ class Process extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Register process fail
      *
      * @param \Magento\Index\Model\Process $process
-     * @return \Magento\Index\Model\Resource\Process
+     * @return $this
      */
     public function failProcess(\Magento\Index\Model\Process $process)
     {
@@ -116,7 +116,7 @@ class Process extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param \Magento\Index\Model\Process $process
      * @param string $status
-     * @return \Magento\Index\Model\Resource\Process
+     * @return $this
      */
     public function updateStatus($process, $status)
     {
@@ -129,7 +129,7 @@ class Process extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Updates process data
      * @param int $processId
      * @param array $data
-     * @return \Magento\Index\Model\Resource\Process
+     * @return $this
      */
     protected function _updateProcessData($processId, $data)
     {
@@ -143,7 +143,7 @@ class Process extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Update process start date
      *
      * @param \Magento\Index\Model\Process $process
-     * @return \Magento\Index\Model\Resource\Process
+     * @return $this
      */
     public function updateProcessStartDate(\Magento\Index\Model\Process $process)
     {
@@ -155,7 +155,7 @@ class Process extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Update process end date
      *
      * @param \Magento\Index\Model\Process $process
-     * @return \Magento\Index\Model\Resource\Process
+     * @return $this
      */
     public function updateProcessEndDate(\Magento\Index\Model\Process $process)
     {

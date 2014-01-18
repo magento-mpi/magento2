@@ -60,7 +60,9 @@ class Link extends \Magento\View\Element\Html\Link
     }
 
     /**
-     * @inheritdoc
+     * Render block HTML
+     *
+     * @return string
      */
     protected function _toHtml()
     {

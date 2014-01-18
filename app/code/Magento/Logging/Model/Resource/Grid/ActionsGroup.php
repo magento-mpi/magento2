@@ -25,6 +25,11 @@ class ActionsGroup implements \Magento\Core\Model\Option\ArrayInterface
         $this->_config = $config;
     }
 
+    /**
+     * Get options as array
+     *
+     * @return array
+     */
     public function toOptionArray()
     {
         return $this->_config->getLabels();

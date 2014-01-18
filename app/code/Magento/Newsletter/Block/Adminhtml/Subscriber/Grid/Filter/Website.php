@@ -16,6 +16,11 @@ namespace Magento\Newsletter\Block\Adminhtml\Subscriber\Grid\Filter;
 class Website
     extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
 {
+    /**
+     * Website collection
+     *
+     * @var \Magento\Core\Model\Resource\Website\Collection
+     */
     protected $_websiteCollection = null;
 
     /**
@@ -57,6 +62,11 @@ class Website
         parent::__construct($context, $resourceHelper, $data);
     }
 
+    /**
+     * Get options for grid filter
+     *
+     * @return array
+     */
     protected function _getOptions()
     {
         $result = $this->getCollection()->toOptionArray();
@@ -78,6 +88,11 @@ class Website
         return $this->_websiteCollection;
     }
 
+    /**
+     * Get options for grid filter
+     *
+     * @return null|array
+     */
     public function getCondition()
     {
         $id = $this->getValue();

@@ -191,7 +191,7 @@ class Queue extends \Magento\Core\Model\Template
      * Set $_data['queue_start'] based on string from backend, which based on locale.
      *
      * @param string|null $startAt start date of the mailing queue
-     * @return \Magento\Newsletter\Model\Queue
+     * @return $this
      */
     public function setQueueStartAtByString($startAt)
     {
@@ -210,7 +210,7 @@ class Queue extends \Magento\Core\Model\Template
      *
      * @param   int     $count
      * @param   array   $additionalVariables
-     * @return \Magento\Newsletter\Model\Queue
+     * @return $this
      */
     public function sendPerSubscriber($count = 20, array $additionalVariables = array())
     {
@@ -284,7 +284,7 @@ class Queue extends \Magento\Core\Model\Template
     /**
      * Finish queue: set status SENT and update finish date
      *
-     * @return \Magento\Newsletter\Model\Queue
+     * @return $this
      */
     protected function _finishQueue()
     {
@@ -314,7 +314,7 @@ class Queue extends \Magento\Core\Model\Template
      * Add subscribers to queue.
      *
      * @param array $subscriberIds
-     * @return \Magento\Newsletter\Model\Queue
+     * @return $this
      */
     public function addSubscribersToQueue(array $subscriberIds)
     {
@@ -326,7 +326,7 @@ class Queue extends \Magento\Core\Model\Template
      * Setter for save stores flag.
      *
      * @param boolean|integer|string $value
-     * @return \Magento\Newsletter\Model\Queue
+     * @return $this
      */
     public function setSaveStoresFlag($value)
     {
@@ -348,8 +348,8 @@ class Queue extends \Magento\Core\Model\Template
     /**
      * Setter for stores of queue.
      *
-     * @param array
-     * @return \Magento\Newsletter\Model\Queue
+     * @param array $storesIds
+     * @return $this
      */
     public function setStores(array $storesIds)
     {
@@ -361,7 +361,7 @@ class Queue extends \Magento\Core\Model\Template
     /**
      * Getter for stores of queue.
      *
-     * @return array
+     * @return \Magento\Core\Model\Store[]
      */
     public function getStores()
     {

@@ -33,7 +33,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Add filter by entity
      *
      * @param string | array $entity
-     * @return \Magento\Index\Model\Resource\Event\Collection
+     * @return $this
      */
     public function addEntityFilter($entity)
     {
@@ -49,7 +49,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Add filter by type
      *
      * @param string | array $type
-     * @return \Magento\Index\Model\Resource\Event\Collection
+     * @return $this
      */
     public function addTypeFilter($type)
     {
@@ -66,7 +66,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      *
      * @param int|array|\Magento\Index\Model\Process $process
      * @param string $status
-     * @return \Magento\Index\Model\Resource\Event\Collection
+     * @return $this
      */
     public function addProcessFilter($process, $status = null)
     {
@@ -92,7 +92,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Join index_process_event table to event table
      *
-     * @return \Magento\Index\Model\Resource\Event\Collection
+     * @return $this
      */
     protected function _joinProcessEventTable()
     {
@@ -109,7 +109,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Reset collection state
      *
-     * @return \Magento\Index\Model\Resource\Event\Collection
+     * @return $this
      */
     public function reset()
     {

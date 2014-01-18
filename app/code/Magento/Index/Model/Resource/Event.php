@@ -29,7 +29,7 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Check if semilar event exist before start saving data
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Index\Model\Resource\Event
+     * @return $this
      */
     protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
@@ -57,7 +57,7 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Save assigned processes
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Index\Model\Resource\Event
+     * @return $this
      */
     protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {
@@ -92,7 +92,7 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param int|array|\Magento\Index\Model\Process $process
      * @param string $status
-     * @return \Magento\Index\Model\Resource\Event
+     * @return $this
      */
     public function updateProcessEvents($process, $status = \Magento\Index\Model\Process::EVENT_STATUS_DONE)
     {

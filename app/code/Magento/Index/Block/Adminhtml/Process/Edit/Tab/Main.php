@@ -14,6 +14,11 @@ class Main
     extends \Magento\Backend\Block\Widget\Form\Generic
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
+    /**
+     * Prepare form
+     *
+     * @return \Magento\Backend\Block\Widget\Form
+     */
     protected function _prepareForm()
     {
         $model = $this->_coreRegistry->registry('current_index_process');

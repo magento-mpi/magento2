@@ -27,6 +27,9 @@ class Subscriber extends \Magento\Backend\Block\Template
      */
     protected $_queueCollection = null;
 
+    /**
+     * @var string
+     */
     protected $_template = 'subscriber/list.phtml';
 
     /**
@@ -76,6 +79,11 @@ class Subscriber extends \Magento\Backend\Block\Template
         return $this->_queueCollection;
     }
 
+    /**
+     * Get add option for queue
+     *
+     * @return mixed
+     */
     public function getShowQueueAdd()
     {
         return $this->getChildBlock('grid')->getShowQueueAdd();

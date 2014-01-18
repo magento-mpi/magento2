@@ -18,9 +18,24 @@ namespace Magento\Invitation\Block\Adminhtml\Invitation;
 
 class Add extends \Magento\Backend\Block\Widget\Form\Container
 {
+    /**
+     * @inheritdoc
+     */
     protected $_objectId = 'invitation_id';
+
+    /**
+     * @inheritdoc
+     */
     protected $_blockGroup = 'Magento_Invitation';
+
+    /**
+     * @inheritdoc
+     */
     protected $_controller = 'adminhtml_invitation';
+
+    /**
+     * @inheritdoc
+     */
     protected $_mode = 'add';
 
     /**

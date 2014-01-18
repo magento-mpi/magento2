@@ -97,6 +97,8 @@ class Queue extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Removes subscriber from queue
      *
      * @param \Magento\Newsletter\Model\Queue $queue
+     * @throws \Exception
+     * @return void
      */
     public function removeSubscribersFromQueue(\Magento\Newsletter\Model\Queue $queue)
     {

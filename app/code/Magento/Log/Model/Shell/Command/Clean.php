@@ -26,6 +26,11 @@ class Clean implements \Magento\Log\Model\Shell\CommandInterface
      */
     protected $_days;
 
+    /**
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Log\Model\LogFactory $logFactory
+     * @param int $days
+     */
     public function __construct(
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Log\Model\LogFactory $logFactory,

@@ -47,7 +47,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\Date $date
-     * @param mixed $connection
+     * @param null|\Zend_Db_Adapter_Abstract $connection
      * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
@@ -144,7 +144,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * to add specific filter or adds reguler filter
      *
      * @param string $field
-     * @param mixed $condition
+     * @param null|string|array $condition
      * @return \Magento\Newsletter\Model\Resource\Queue\Collection
      */
     public function addFieldToFilter($field, $condition = null)
@@ -161,7 +161,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Returns ids from queue_link table
      *
      * @param string $field
-     * @param mixed $condition
+     * @param null|string|array $condition
      * @return array
      */
     protected function _getIdsFromLink($field, $condition)
@@ -245,7 +245,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Filter collection by specified store ids
      *
-     * @param array|int $storeIds
+     * @param int[]|int $storeIds
      * @return \Magento\Newsletter\Model\Resource\Queue\Collection
      */
     public function addStoreFilter($storeIds)

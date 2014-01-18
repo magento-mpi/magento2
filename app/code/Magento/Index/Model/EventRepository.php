@@ -27,7 +27,7 @@ class EventRepository
     /**
      * Check whether unprocessed events exist for provided process
      *
-     * @param int|array|\Magento\Index\Model\Process $process
+     * @param int|array|Process $process
      * @return bool
      */
     public function hasUnprocessed($process)
@@ -38,7 +38,7 @@ class EventRepository
     /**
      * Retrieve list of unprocessed events
      *
-     * @param int|array|\Magento\Index\Model\Process $process
+     * @param int|array|Process $process
      * @return \Magento\Index\Model\Resource\Event\Collection
      */
     public function getUnprocessed($process)

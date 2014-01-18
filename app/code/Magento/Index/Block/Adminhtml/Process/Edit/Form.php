@@ -12,6 +12,11 @@ namespace Magento\Index\Block\Adminhtml\Process\Edit;
 
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
+    /**
+     * Prepare form
+     *
+     * @return \Magento\Backend\Block\Widget\Form
+     */
     protected function _prepareForm()
     {
         /** @var \Magento\Data\Form $form */
@@ -27,6 +32,11 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         return parent::_prepareForm();
     }
 
+    /**
+     * Get action url
+     *
+     * @return string
+     */
     public function getActionUrl()
     {
         return $this->getUrl('adminhtml/process/save');

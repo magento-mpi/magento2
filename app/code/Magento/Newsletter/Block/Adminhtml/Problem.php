@@ -20,6 +20,9 @@ namespace Magento\Newsletter\Block\Adminhtml;
 class Problem extends \Magento\Backend\Block\Template
 {
 
+    /**
+     * @var string
+     */
     protected $_template = 'problem/list.phtml';
 
     /**
@@ -49,6 +52,11 @@ class Problem extends \Magento\Backend\Block\Template
             ->addQueueInfo();
     }
 
+    /**
+     * Prepare for the newsletter block layout
+     *
+     * @return $this
+     */
     protected function _prepareLayout()
     {
         $this->setChild('deleteButton',
@@ -73,16 +81,31 @@ class Problem extends \Magento\Backend\Block\Template
         return parent::_prepareLayout();
     }
 
+    /**
+     * Get the html element for unsbuscribe button
+     *
+     * @return $string
+     */
     public function getUnsubscribeButtonHtml()
     {
         return $this->getChildHtml('unsubscribeButton');
     }
 
+    /**
+     * Get the html element for delete button
+     *
+     * @return $string
+     */
     public function getDeleteButtonHtml()
     {
         return $this->getChildHtml('deleteButton');
     }
 
+    /**
+     * Return true if the size is greater than 0
+     *
+     * @return boolean
+     */
     public function getShowButtons()
     {
         return $this->_problemCollection->getSize() > 0;

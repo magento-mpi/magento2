@@ -174,6 +174,7 @@ abstract class AbstractResource extends \Magento\Core\Model\Resource\Db\Abstract
     /**
      * Clean up temporary index table
      *
+     * @return void
      */
     public function clearTemporaryIndexTable()
     {

@@ -43,6 +43,11 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         $this->setEmptyText(__('No Templates Found'));
     }
 
+    /**
+     * Apply sorting and filtering to collection
+     *
+     * @return \Magento\Backend\Block\Widget\Grid
+     */
     protected function _prepareCollection()
     {
         $this->setCollection($this->_templateCollection->useOnlyActual());
@@ -50,6 +55,11 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         return parent::_prepareCollection();
     }
 
+    /**
+     * Prepare grid columns
+     *
+     * @return $this
+     */
     protected function _prepareColumns()
     {
         $this->addColumn('template_code',
@@ -132,6 +142,12 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         return $this;
     }
 
+    /**
+     * Get row url
+     *
+     * @param \Magento\Object $row
+     * @return string
+     */
     public function getRowUrl($row)
     {
         return $this->getUrl('*/*/edit', array('id'=>$row->getId()));
