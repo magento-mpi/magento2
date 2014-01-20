@@ -37,7 +37,7 @@ interface ChangelogInterface
      *
      * @param integer $fromVersionId
      * @param integer $toVersionId
-     * @return integer[]
+     * @return int[]
      */
     public function getList($fromVersionId, $toVersionId);
 

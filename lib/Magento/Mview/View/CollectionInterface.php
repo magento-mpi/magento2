@@ -25,4 +25,20 @@ interface CollectionInterface
      * @return \Magento\Mview\ViewInterface[]
      */
     public function getViewsByStateStatus($status);
+
+    /**
+     * Search all views by field value
+     *
+     * @param   string $column
+     * @param   mixed $value
+     * @return  \Magento\Mview\ViewInterface[]
+     */
+    public function getItemsByColumnValue($column, $value);
+
+    /**
+     * Retrieve collection views
+     *
+     * @return \Magento\Mview\ViewInterface[]
+     */
+    public function getItems();
 }

@@ -2,13 +2,13 @@
 /**
  * {license_notice}
  *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {copyright}
+ * @license   {license_link}
  */
 
-namespace Magento\Mview;
+namespace Magento\Mview\View;
 
-class ViewFactory
+class CollectionFactory
 {
     /**
      * @var \Magento\ObjectManager
@@ -18,7 +18,7 @@ class ViewFactory
     /**
      * @var string
      */
-    const INSTANCE_NAME = 'Magento\Mview\ViewInterface';
+    const INSTANCE_NAME = 'Magento\Mview\View\Collection';
 
     /**
      * @param \Magento\ObjectManager $objectManager
@@ -32,7 +32,7 @@ class ViewFactory
      * Create class instance with specified parameters
      *
      * @param array $data
-     * @return ViewInterface
+     * @return CollectionInterface
      */
     public function create(array $data = array())
     {

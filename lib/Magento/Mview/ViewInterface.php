@@ -14,7 +14,7 @@ interface ViewInterface
      * Fill view data from config
      *
      * @param string $viewId
-     * @return \Magento\Mview\ViewInterface
+     * @return ViewInterface
      * @throws \InvalidArgumentException
      */
     public function load($viewId);
@@ -23,7 +23,7 @@ interface ViewInterface
      * Create subscriptions
      *
      * @throws \Exception
-     * @return \Magento\Mview\ViewInterface
+     * @return ViewInterface
      */
     public function subscribe();
 
@@ -31,7 +31,7 @@ interface ViewInterface
      * Remove subscriptions
      *
      * @throws \Exception
-     * @return \Magento\Mview\ViewInterface
+     * @return ViewInterface
      */
     public function unsubscribe();
 
@@ -39,6 +39,11 @@ interface ViewInterface
      * @return mixed
      */
     public function update();
+
+    /**
+     * Clear precessed changelog entries
+     */
+    public function clearChangelog();
 
     /**
      * Return related state object
@@ -51,7 +56,7 @@ interface ViewInterface
      * Set view state object
      *
      * @param View\StateInterface $state
-     * @return \Magento\Mview\ViewInterface
+     * @return ViewInterface
      */
     public function setState(View\StateInterface $state);
 

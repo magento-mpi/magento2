@@ -27,6 +27,7 @@ class Converter implements \Magento\Config\ConverterInterface
             $viewId = $this->getAttributeValue($viewNode, 'id');
             $data['view_id'] = $viewId;
             $data['action_class'] = $this->getAttributeValue($viewNode, 'class');
+            $data['group'] = $this->getAttributeValue($viewNode, 'group');
             $data['subscriptions'] = array();
 
             /** @var $childNode \DOMNode */
