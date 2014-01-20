@@ -33,12 +33,13 @@ interface ChangelogInterface
     public function clear($versionId);
 
     /**
-     * Retrieve entity ids by version_id
+     * Retrieve entity ids by range [$fromVersionId..$toVersionId]
      *
-     * @param $versionId
+     * @param integer $fromVersionId
+     * @param integer $toVersionId
      * @return integer[]
      */
-    public function getList($versionId);
+    public function getList($fromVersionId, $toVersionId);
 
     /**
      * Get maximum version_id from changelog
