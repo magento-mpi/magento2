@@ -32,5 +32,5 @@
             $.tmpl(this.options.formTemplate, data).appendTo('body').hide().submit();
         }
     });
+    $(document).dataPost();
 })(jQuery);
-jQuery(document).dataPost();
