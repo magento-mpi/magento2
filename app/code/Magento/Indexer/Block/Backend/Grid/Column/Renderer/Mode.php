@@ -27,7 +27,7 @@ class Mode extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRe
                 break;
             case \Magento\Mview\View\StateInterface::MODE_ENABLED:
                 $class = 'grid-severity-major';
-                $text = __('Update by schedule');
+                $text = __('Update by Schedule');
                 break;
         }
         return '<span class="' . $class . '"><span>' . $text . '</span></span>';

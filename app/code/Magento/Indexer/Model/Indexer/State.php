@@ -10,9 +10,9 @@ namespace Magento\Indexer\Model\Indexer;
 
 /**
  * @method string getIndexerId()
- * @method \Magento\Indexer\Model\Indexer\State setIndexerId(string $value)
+ * @method \Magento\Indexer\Model\Indexer\State setIndexerId($value)
  * @method string getStatus()
- * @method \Magento\Indexer\Model\Indexer\State setStatus(string $value)
+ * @method \Magento\Indexer\Model\Indexer\State setStatus($value)
  * @method string getUpdated()
  * @method \Magento\Indexer\Model\Indexer\State setUpdated($value)
  */

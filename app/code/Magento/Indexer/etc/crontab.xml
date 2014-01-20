@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <job name="indexer_reindex_all_invalid" instance="Magento\Indexer\Model\Processor" method="reindexAllInvalid">
+        <schedule>* * * * *</schedule>
+    </job>
+    <job name="mview_update_all_indexers" instance="Magento\Mview\ProcessorInterface" method="update">
+        <schedule>* * * * *</schedule>
+    </job>
+    <job name="mview_clean_all_changelogs" instance="Magento\Mview\ProcessorInterface" method="update">
+        <schedule>0 * * * *</schedule>
+    </job>
+</config>

@@ -11,7 +11,9 @@ namespace Magento\Indexer\Model;
 /**
  * @method int getViewId()
  * @method string getActionClass()
- * @method array getSubscriptions()
+ * @method string getGroup()
+ * @method string getTitle()
+ * @method string getDescription()
  */
 class Indexer extends \Magento\Object
 {
@@ -51,10 +53,16 @@ class Indexer extends \Magento\Object
     protected $state;
 
     /**
+     * @var Indexer\CollectionFactory
+     */
+    protected $indexersFactory;
+
+    /**
      * @param ConfigInterface $config
      * @param ActionFactory $actionFactory
      * @param \Magento\Mview\ViewFactory $viewFactory
      * @param Indexer\StateFactory $stateFactory
+     * @param Indexer\CollectionFactory $indexersFactory
      * @param array $data
      */
     public function __construct(
@@ -62,12 +70,14 @@ class Indexer extends \Magento\Object
         ActionFactory $actionFactory,
         \Magento\Mview\ViewFactory $viewFactory,
         Indexer\StateFactory $stateFactory,
+        Indexer\CollectionFactory $indexersFactory,
         array $data = array()
     ) {
         $this->config = $config;
         $this->actionFactory = $actionFactory;
         $this->viewFactory = $viewFactory;
         $this->stateFactory = $stateFactory;
+        $this->indexersFactory = $indexersFactory;
         parent::__construct($data);
     }
 
@@ -151,6 +161,7 @@ class Indexer extends \Magento\Object
     public function turnViewOff()
     {
         $this->getView()->unsubscribe();
+        $this->getState()->save();
     }
 
     /**
@@ -161,6 +172,7 @@ class Indexer extends \Magento\Object
     public function turnViewOn()
     {
         $this->getView()->subscribe();
+        $this->getState()->save();
     }
 
     /**
@@ -185,6 +197,86 @@ class Indexer extends \Magento\Object
      */
     public function getUpdated()
     {
+        if ($this->getView()->getMode() == \Magento\Mview\View\StateInterface::MODE_ENABLED
+            && $this->getView()->getUpdated()
+        ) {
+            if (!$this->getState()->getUpdated()) {
+                return $this->getView()->getUpdated();
+            }
+            $indexerUpdatedDate = new \Zend_Date($this->getState()->getUpdated());
+            $viewUpdatedDate = new \Zend_Date($this->getView()->getUpdated());
+            if ($viewUpdatedDate->compare($indexerUpdatedDate) == 1) {
+                return $this->getView()->getUpdated();
+            }
+        }
         return $this->getState()->getUpdated();
+    }
+
+    /**
+     * Return indexer action instance
+     *
+     * @return ActionInterface
+     */
+    protected function getActionInstance()
+    {
+        return $this->actionFactory->get($this->getActionClass());
+    }
+
+    /**
+     * Set status for all other indexers with the same group
+     *
+     * @param string $status
+     */
+    protected function setGroupStatus($status)
+    {
+        if ($this->getGroup()) {
+            $collection = $this->indexersFactory->create();
+            foreach ($collection->getItemsByColumnValue('group', $this->getGroup()) as $indexer) {
+                /** @var Indexer $indexer */
+                if ($indexer->getId() != $this->getId()) {
+                    $indexer->getState()
+                        ->setStatus($status)
+                        ->save();
+                }
+            }
+        }
+    }
+
+    /**
+     * Regenerate full index
+     */
+    public function reindexAll()
+    {
+        if ($this->getState()->getStatus() != Indexer\State::STATUS_WORKING) {
+            $this->getState()
+                ->setStatus(Indexer\State::STATUS_WORKING)
+                ->save();
+            $this->setGroupStatus(Indexer\State::STATUS_WORKING);
+            $this->getActionInstance()->executeFull();
+            $this->getState()
+                ->setStatus(Indexer\State::STATUS_VALID)
+                ->save();
+            $this->setGroupStatus(Indexer\State::STATUS_VALID);
+        }
+    }
+
+    /**
+     * Regenerate one row in index by ID
+     *
+     * @param int $id
+     */
+    public function reindexRow($id)
+    {
+        $this->getActionInstance()->executeRow($id);
+    }
+
+    /**
+     * Regenerate rows in index by ID list
+     *
+     * @param int[] $ids
+     */
+    public function reindexList($ids)
+    {
+        $this->getActionInstance()->executeList($ids);
     }
 }

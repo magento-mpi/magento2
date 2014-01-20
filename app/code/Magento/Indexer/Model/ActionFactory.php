@@ -24,18 +24,18 @@ class ActionFactory
     }
 
     /**
-     * Create action class instance by class name
+     * Get action class instance by class name
      *
      * @param string $className
      * @throws \InvalidArgumentException
      * @return ActionInterface
      */
-    public function create($className)
+    public function get($className)
     {
-        $action = $this->objectManager->create($className);
+        $action = $this->objectManager->get($className);
         if (!($action instanceof ActionInterface)) {
             throw new \InvalidArgumentException(
-                $className . ' doesn\'t implement \Magento\Indexer\ModelActionInterface'
+                $className . ' doesn\'t implement \Magento\Indexer\Model\ActionInterface'
             );
         }
 

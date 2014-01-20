@@ -28,6 +28,7 @@ class Converter implements \Magento\Config\ConverterInterface
             $data['indexer_id'] = $indexerId;
             $data['view_id'] = $this->getAttributeValue($indexerNode, 'view_id');
             $data['action_class'] = $this->getAttributeValue($indexerNode, 'class');
+            $data['group'] = $this->getAttributeValue($indexerNode, 'group');
             $data['title'] = '';
             $data['description'] = '';
 
