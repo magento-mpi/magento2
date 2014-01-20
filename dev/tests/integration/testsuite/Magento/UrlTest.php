@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Model;
+namespace Magento;
 
 class UrlTest extends \PHPUnit_Framework_TestCase
 {
@@ -163,16 +163,6 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('http://localhost/index.php/fancy_uri',
             $this->_model->getRouteUrl('core/index/index', array('_direct' => 'fancy_uri'))
         );
-    }
-
-    public function testSetGetPurgeQueryParams()
-    {
-        $params = array('one' => 1, 'two' => 2);
-        $this->_model->setQueryParams($params);
-        $this->assertEquals($params, $this->_model->getQueryParams());
-
-        $this->_model->purgeQueryParams();
-        $this->assertEquals(array(), $this->_model->getQueryParams());
     }
 
     public function testSetGetFragment()

@@ -12,7 +12,7 @@
 /**
  * Test class for \Magento\UrlInterface
  */
-namespace Magento\Core\Model;
+namespace Magento;
 
 class UrlTest extends \PHPUnit_Framework_TestCase
 {

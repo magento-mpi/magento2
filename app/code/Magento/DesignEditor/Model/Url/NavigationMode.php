@@ -46,6 +46,7 @@ class NavigationMode extends \Magento\Url
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\DesignEditor\Helper\Data $helper
      * @param \Magento\Url\RouteParamsResolverFactory $routeParamsResolver
+     * @param \Magento\Url\QueryParamsResolverInterface $queryParamsResolver,
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -60,6 +61,7 @@ class NavigationMode extends \Magento\Url
         \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\DesignEditor\Helper\Data $helper,
         \Magento\Url\RouteParamsResolverFactory $routeParamsResolver,
+        \Magento\Url\QueryParamsResolverInterface $queryParamsResolver,
         array $data = array()
     ) {
         $this->_helper = $helper;
@@ -79,6 +81,7 @@ class NavigationMode extends \Magento\Url
             $session,
             $sidResolver,
             $routeParamsResolver,
+            $queryParamsResolver,
             $data
         );
     }

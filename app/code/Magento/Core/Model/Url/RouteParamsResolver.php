@@ -26,21 +26,29 @@ class RouteParamsResolver  extends \Magento\Object implements \Magento\Url\Route
     protected $_storeManager;
 
     /**
+     * @var \Magento\Url\QueryParamsResolverInterface
+     */
+    protected $_queryParamsResolver;
+
+    /**
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Url\QueryParamsResolverInterface $queryParamsResolver
      * @param array $data
      */
     public function __construct(
         \Magento\App\RequestInterface $request,
         \Magento\Core\Model\Store\Config $storeConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Url\QueryParamsResolverInterface $queryParamsResolver,
         array $data = array()
     ) {
         parent::__construct($data);
         $this->_request = $request;
         $this->_storeConfig = $storeConfig;
         $this->_storeManager = $storeManager;
+        $this->_queryParamsResolver = $queryParamsResolver;
     }
 
     /**
@@ -91,7 +99,7 @@ class RouteParamsResolver  extends \Magento\Object implements \Magento\Url\Route
                     $data[$key] = $value;
                 }
                 foreach ($this->_request->getQuery() as $key => $value) {
-                    $this->setQueryParam($key, $value);
+                    $this->_queryParamsResolver->setQueryParam($key, $value);
                 }
             }
             unset($data['_current']);
@@ -105,7 +113,7 @@ class RouteParamsResolver  extends \Magento\Object implements \Magento\Url\Route
             if (!$this->_storeConfig->getConfig(\Magento\Core\Model\Store::XML_PATH_STORE_IN_URL, $this->getScope())
                 && !$this->_storeManager->hasSingleStore()
             ) {
-                $this->setQueryParam('___store', $this->getScope()->getCode());
+                $this->_queryParamsResolver->setQueryParam('___store', $this->getScope()->getCode());
             }
         }
         unset($data['_scope_to_url']);

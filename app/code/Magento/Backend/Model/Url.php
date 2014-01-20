@@ -104,6 +104,7 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
      * @param \Magento\App\ConfigInterface $coreConfig
      * @param \Magento\Data\Form\FormKey $formKey
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Url\QueryParamsResolverInterface $queryParamsResolver
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -127,6 +128,7 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
         \Magento\App\ConfigInterface $coreConfig,
         \Magento\Data\Form\FormKey $formKey,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Url\QueryParamsResolverInterface $queryParamsResolver,
         array $data = array()
     ) {
         $this->_encryptor = $encryptor;
@@ -139,6 +141,7 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
             $session,
             $sidResolver,
             $routeParamsResolver,
+            $queryParamsResolver,
             $data
         );
         $this->_config = $config;
