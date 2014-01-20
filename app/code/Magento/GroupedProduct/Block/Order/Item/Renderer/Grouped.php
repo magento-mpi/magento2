@@ -1,23 +1,17 @@
 <?php
 /**
+ * Order item render block for grouped product type
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GroupedProduct\Block\Order\Item\Renderer;
 
-/**
- * Order item render block for grouped product type
- *
- * @category    Magento
- * @package     Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-namespace Magento\Sales\Block\Order\Item\Renderer;
+use Magento\Sales\Block\Order\Item\Renderer\DefaultRenderer;
 
-class Grouped extends \Magento\Sales\Block\Order\Item\Renderer\DefaultRenderer
+class Grouped extends DefaultRenderer
 {
     /**
      * Prepare item html

@@ -20,7 +20,7 @@
         <block class="Magento\Sales\Block\Order\Creditmemo" name="sales.order.creditmemo" after="sales.order.info" cacheable="false">
             <block class="Magento\Sales\Block\Order\Creditmemo\Items" name="creditmemo_items" template="order/creditmemo/items.phtml">
                 <block class="Magento\Catalog\Block\Product\Price" as="default" template="Magento_Sales::order/creditmemo/items/renderer/default.phtml"/>
-                <block class="Magento\Sales\Block\Order\Item\Renderer\Grouped" as="grouped" template="order/creditmemo/items/renderer/default.phtml"/>
+                <block class="Magento\GroupedProduct\Block\Order\Item\Renderer\Grouped" as="grouped" template="Magento_Sales::order/creditmemo/items/renderer/default.phtml"/>
                 <block class="Magento\Sales\Block\Order\Creditmemo\Totals" name="creditmemo_totals" template="order/totals.phtml">
                     <action method="setLabelProperties">
                         <argument name="value" xsi:type="string">colspan="6" class="a-right"</argument>
