@@ -90,7 +90,7 @@ class Http implements \Magento\AppInterface
     /**
      * Run application
      *
-     * @return ResponseInterfaceшт
+     * @return ResponseInterface
      */
     public function execute()
     {
@@ -104,7 +104,7 @@ class Http implements \Magento\AppInterface
             // This event gives possibility to launch something before sending output (allow cookie setting)
             $eventParams = array('request' => $this->_request, 'response' => $this->_response);
             $this->_eventManager->dispatch('controller_front_send_response_before', $eventParams);
-        } catch(\Exception $exception) {
+        } catch (\Exception $exception) {
             $message = $exception->getMessage() . "\n";
             try {
                 if ($this->_state->getMode() == State::MODE_DEVELOPER) {
@@ -123,7 +123,7 @@ class Http implements \Magento\AppInterface
                             $reportData['script_name'] = $_SERVER['SCRIPT_NAME'];
                         }
                     }
-                    require_once ($this->_filesystem->getPath(\Magento\Filesystem::PUB) . '/errors/report.php');
+                    require_once($this->_filesystem->getPath(\Magento\Filesystem::PUB) . '/errors/report.php');
                     $processor = new \Error_Processor($this->_response);
                     $processor->saveReport($reportData);
                     $this->_response = $processor->processReport();
