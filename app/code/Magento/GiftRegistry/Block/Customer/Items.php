@@ -42,6 +42,7 @@ class Items extends \Magento\Catalog\Block\Product\AbstractProduct
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\GiftRegistry\Model\ItemFactory $itemFactory
      * @param array $data
+     * @param array $priceBlockTypes
      * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -59,7 +60,8 @@ class Items extends \Magento\Catalog\Block\Product\AbstractProduct
         \Magento\Catalog\Helper\Image $imageHelper,
         \Magento\Core\Helper\Data $coreData,
         \Magento\GiftRegistry\Model\ItemFactory $itemFactory,
-        array $data = array()
+        array $data = array(),
+        array $priceBlockTypes = array()
     ) {
         $this->_coreData = $coreData;
         $this->itemFactory = $itemFactory;
@@ -75,7 +77,8 @@ class Items extends \Magento\Catalog\Block\Product\AbstractProduct
             $compareProduct,
             $layoutHelper,
             $imageHelper,
-            $data
+            $data,
+            $priceBlockTypes
         );
     }
 

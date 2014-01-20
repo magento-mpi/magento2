@@ -109,6 +109,7 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\TargetRule\Model\IndexFactory $indexFactory
      * @param array $data
+     * @param array $priceBlockTypes
      * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -133,7 +134,8 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
         \Magento\Catalog\Model\Product\LinkFactory $productLinkFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\TargetRule\Model\IndexFactory $indexFactory,
-        array $data = array()
+        array $data = array(),
+        array $priceBlockTypes = array()
     ) {
         $this->_productCollectionFactory = $productCollectionFactory;
         $this->_visibility = $visibility;
@@ -156,7 +158,8 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
             $imageHelper,
             $index,
             $targetRuleData,
-            $data
+            $data,
+            $priceBlockTypes
         );
     }
 
@@ -250,7 +253,7 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
         foreach ($this->getQuote()->getAllItems() as $quoteItem) {
             $productTypeOpt = $quoteItem->getOptionByCode('product_type');
             if ($productTypeOpt instanceof \Magento\Sales\Model\Quote\Item\Option
-                && $productTypeOpt->getValue() == \Magento\Catalog\Model\Product\Type\Grouped::TYPE_CODE
+                && $productTypeOpt->getValue() == \Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE
                 && $productTypeOpt->getProductId()
             ) {
                 $productIds[] = $productTypeOpt->getProductId();
