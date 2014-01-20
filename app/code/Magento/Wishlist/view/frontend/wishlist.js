@@ -20,7 +20,8 @@
             addToCartSelector: '.btn-cart',
             addAllToCartSelector: '.btn-add',
             commentInputType: 'textarea',
-            infoList: false
+            infoList: false,
+            confirmRemoveMessage: 'Are you sure you want to remove this product from your wishlist?'
         },
 
         /**
@@ -37,7 +38,7 @@
                         $.proxy(_this._addItemsToCart($(context).parents('.cart-cell').find(_this.options.addToCartSelector)), _this);
                     })
                     .on('click', this.options.btnRemoveSelector, $.proxy(function(event) {
-                        if (this._confirmRemoveWishlistItem) {
+                        if (this._confirmRemoveWishlistItem()) {
                             $.mage.dataPost().postData($(event.currentTarget).data('post-remove'));
                         }
                     }, this))
@@ -114,34 +115,6 @@
                 commentInput.value = commentInput.value === this.options.commentString ?
                     '' : this.options.commentString;
             }
-        },
-
-        /**
-         * Send data by post
-         * @private
-         * @param url
-         * @param data
-         */
-        _postData: function(url, data) {
-            var form = document.createElement("form");
-
-            form.setAttribute("method", 'post');
-            form.setAttribute("action", url);
-
-            for(var key in data) {
-                if(data.hasOwnProperty(key)) {
-                    var hiddenField = document.createElement("input");
-                    hiddenField.setAttribute("type", "hidden");
-                    hiddenField.setAttribute("name", key);
-                    hiddenField.setAttribute("value", data[key]);
-
-                    form.appendChild(hiddenField);
-                }
-            }
-
-            document.body.appendChild(form);
-
-            form.submit();
         }
     });
 
@@ -198,7 +171,7 @@
             });
         }
     });
-    
+
     // Extension for mage.wishlist - Add Wishlist item to Gift Registry
     $.widget('mage.wishlist', $.mage.wishlist, {
         options: {
