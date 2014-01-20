@@ -30,6 +30,7 @@ class Success extends \Magento\Checkout\Block\Multishipping\AbstractMultishippin
         array $data = array()
     ) {
         parent::__construct($context, $multishipping, $data);
+        $this->_isScopePrivate = true;
     }
 
     /**

@@ -63,6 +63,7 @@ class Available extends \Magento\Checkout\Block\Onepage\AbstractOnepage
             $regionCollFactory,
             $data
         );
+        $this->_isScopePrivate = true;
     }
 
     public function getShippingRates()

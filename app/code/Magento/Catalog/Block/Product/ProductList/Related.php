@@ -100,6 +100,7 @@ class Related extends \Magento\Catalog\Block\Product\AbstractProduct
             $imageHelper,
             $data
         );
+        $this->_isScopePrivate = true;
     }
 
     protected function _prepareData()

@@ -38,6 +38,7 @@ class Info extends \Magento\Payment\Block\Info\AbstractContainer
     ) {
         $this->_checkoutSession = $checkoutSession;
         parent::__construct($context, $paymentData, $data);
+        $this->_isScopePrivate = true;
     }
 
     /**

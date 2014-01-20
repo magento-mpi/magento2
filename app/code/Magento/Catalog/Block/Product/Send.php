@@ -74,6 +74,7 @@ class Send extends \Magento\Catalog\Block\Product\AbstractProduct
             $imageHelper,
             $data
         );
+        $this->_isScopePrivate = true;
     }
 
     /**

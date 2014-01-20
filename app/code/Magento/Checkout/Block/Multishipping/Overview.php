@@ -49,6 +49,7 @@ class Overview extends \Magento\Sales\Block\Items\AbstractItems
         $this->_taxHelper = $taxHelper;
         $this->_multishipping = $multishipping;
         parent::__construct($context, $data);
+        $this->_isScopePrivate = true;
     }
 
     /**

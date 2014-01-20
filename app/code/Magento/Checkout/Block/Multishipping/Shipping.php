@@ -47,6 +47,7 @@ class Shipping extends \Magento\Sales\Block\Items\AbstractItems
         $this->_filterGridFactory = $filterGridFactory;
         $this->_multishipping = $multishipping;
         parent::__construct($context, $data);
+        $this->_isScopePrivate = true;
     }
 
     /**

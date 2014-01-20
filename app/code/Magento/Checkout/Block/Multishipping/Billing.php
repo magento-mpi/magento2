@@ -46,6 +46,7 @@ class Billing extends \Magento\Payment\Block\Form\Container
         $this->_multishipping = $multishipping;
         $this->_checkoutSession = $checkoutSession;
         parent::__construct($context, $paymentHelper, $data);
+        $this->_isScopePrivate = true;
     }
 
     /**

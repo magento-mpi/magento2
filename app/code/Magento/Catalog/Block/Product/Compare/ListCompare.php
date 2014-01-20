@@ -153,6 +153,7 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
             $imageHelper,
             $data
         );
+        $this->_isScopePrivate = true;
     }
 
     /**

@@ -115,6 +115,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
             $arrayUtils,
             $data
         );
+        $this->_isScopePrivate = true;
     }
 
     /**
