@@ -1,22 +1,14 @@
 <?php
 /**
+ * Sales Order items name column renderer
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-
-/**
- * Sales Order items name column renderer
- *
- * @category   Magento
- * @package    Magento_Sales
- * @author     Magento Core Team <core@magentocommerce.com>
- */
-namespace Magento\Sales\Block\Adminhtml\Items\Column\Name;
+namespace Magento\GroupedProduct\Block\Adminhtml\Items\Column\Name;
 
 class Grouped extends \Magento\Sales\Block\Adminhtml\Items\Column\Name
 {
@@ -41,4 +33,3 @@ class Grouped extends \Magento\Sales\Block\Adminhtml\Items\Column\Name
         return parent::_toHtml();
     }
 }
-?>

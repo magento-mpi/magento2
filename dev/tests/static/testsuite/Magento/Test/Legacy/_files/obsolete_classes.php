@@ -1801,4 +1801,8 @@ return array(
         'Magento\Catalog\Block\Product\View\Type\Grouped',
         'Magento\GroupedProduct\Block\Product\View\Type\Grouped'
     ),
+    array(
+        'Magento\Sales\Block\Adminhtml\Items\Column\Name\Grouped',
+        'Magento\GroupedProduct\Block\Adminhtml\Items\Column\Name\Grouped'
+    ),
 );
