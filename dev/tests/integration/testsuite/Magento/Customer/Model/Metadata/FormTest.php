@@ -14,7 +14,7 @@ namespace Magento\Customer\Model\Metadata;
 class FormTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento\Customer\Model\Metadata\FormFactory
+     * @var \Magento\Customer\Model\Metadata\FormFactory
      */
     protected $_formFactory;
 
@@ -24,7 +24,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
     protected $_attributes = [];
 
     /**
-     * @var Magento\App\RequestInterface
+     * @var \Magento\App\RequestInterface
      */
     protected $_request;
 
@@ -73,7 +73,6 @@ class FormTest extends \PHPUnit_Framework_TestCase
 
     public function testCompactData()
     {
-        /** @var \Magento\Customer\Model\Metadata\Form $addressForm */
         $addressForm = $this->_formFactory->create(
             'customer_address',
             'customer_address_edit',
@@ -86,36 +85,39 @@ class FormTest extends \PHPUnit_Framework_TestCase
 
     public function testGetAttributes()
     {
-        /** @var \Magento\Customer\Model\Metadata\Form $addressForm */
+        $expectedAttributes = [
+            'prefix', 'firstname', 'middlename', 'lastname', 'suffix', 'company', 'street', 'city', 'country_id',
+            'region', 'region_id', 'postcode', 'telephone', 'fax', 'vat_id'
+        ];
         $addressForm = $this->_formFactory->create(
             'customer_address',
             'customer_address_edit',
             []
         );
-        $attributes = $addressForm->getAttributes();
-    }
-
-    public function testGetUserAttributes()
-    {
-        /** @var \Magento\Customer\Model\Metadata\Form $addressForm */
-        $addressForm = $this->_formFactory->create(
-            'customer_address',
-            'customer_address_edit',
-            []
-        );
-        $attributes = $addressForm->getUserAttributes();
-        $this->assertEmpty($attributes);
+        $this->assertEquals($expectedAttributes, array_keys($addressForm->getAttributes()));
     }
 
     public function testGetSystemAttributes()
     {
-        /** @var \Magento\Customer\Model\Metadata\Form $addressForm */
         $addressForm = $this->_formFactory->create(
             'customer_address',
             'customer_address_edit',
             []
         );
-        $attributes = $addressForm->getSystemAttributes();
-        $this->assertCount(15, $attributes);
+        $this->assertCount(15, $addressForm->getSystemAttributes());
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/attribute_user_defined.php
+     */
+    public function testGetUserAttributes()
+    {
+        $expectedAttributes = ['user_attribute'];
+        $addressForm = $this->_formFactory->create(
+            'customer_address',
+            'customer_address_edit',
+            []
+        );
+        $this->assertEquals($expectedAttributes, array_keys($addressForm->getUserAttributes()));
     }
 }

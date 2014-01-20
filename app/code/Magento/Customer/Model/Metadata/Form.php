@@ -89,6 +89,8 @@ class Form
      * @param bool $ignoreInvisible
      * @param array $filterAttributes
      * @param bool $isAjax
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $eavMetadataService,
@@ -102,7 +104,7 @@ class Form
         $ignoreInvisible = true,
         $filterAttributes = [],
         $isAjax = false
-    )  {
+    ) {
         $this->_eavMetadataService = $eavMetadataService;
         $this->_elementFactory = $elementFactory;
         $this->_attributeValues = $attributeValues;
@@ -140,7 +142,7 @@ class Form
         $result = [];
         foreach ($this->getAttributes() as $attribute) {
             if ($attribute->getIsUserDefined()) {
-                $result[] = $attribute;
+                $result[$attribute->getAttributeCode()] = $attribute;
             }
         }
         return $result;
@@ -156,7 +158,7 @@ class Form
         $result = [];
         foreach ($this->getAttributes() as $attribute) {
             if (!$attribute->getIsUserDefined()) {
-                $result[] = $attribute;
+                $result[$attribute->getAttributeCode()] = $attribute;
             }
         }
         return $result;

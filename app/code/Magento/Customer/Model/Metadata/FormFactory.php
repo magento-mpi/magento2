@@ -34,11 +34,14 @@ class FormFactory
      * @param string $entityType
      * @param string $formCode
      * @param array $attributeValues
-     * @param boolean $isAjax
+     * @param bool $isAjax
      * @return \Magento\Customer\Model\Metadata\Form
      */
     public function create(
-        $entityType, $formCode, $attributeValues = [], $isAjax = false
+        $entityType,
+        $formCode,
+        $attributeValues = [],
+        $isAjax = false
     ) {
         $params = [
             'entityType' => $entityType,

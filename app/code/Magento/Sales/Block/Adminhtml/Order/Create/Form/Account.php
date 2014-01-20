@@ -18,11 +18,6 @@ namespace Magento\Sales\Block\Adminhtml\Order\Create\Form;
 class Account extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractForm
 {
     /**
-     * @var \Magento\Customer\Model\CustomerFactory
-     */
-    protected $_customerFactory;
-
-    /**
      * @var \Magento\Customer\Model\Metadata\FormFactory
      */
     protected $_metadataFormFactory;

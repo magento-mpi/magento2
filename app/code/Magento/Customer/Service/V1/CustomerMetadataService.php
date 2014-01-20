@@ -22,9 +22,9 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     private $_cache;
 
     /**
-     * @var \Magento\Customer\Model\Resource\Form\Attribute\Collection
+     * @var \Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory
      */
-    private $_attrFormCollection;
+    private $_attrFormCollectionFactory;
 
     /**
      * @var \Magento\Core\Model\StoreManager
@@ -43,21 +43,21 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
 
     /**
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Customer\Model\Resource\Form\Attribute\Collection $attrFormCollection
+     * @param \Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory $attrFormCollectionFactory
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Customer\Service\V1\Dto\Eav\OptionBuilder $optionBuilder
      * @param \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadataBuilder $attributeMetadataBuilder
      */
     public function __construct(
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Customer\Model\Resource\Form\Attribute\Collection $attrFormCollection,
+        \Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory $attrFormCollectionFactory,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Customer\Service\V1\Dto\Eav\OptionBuilder $optionBuilder,
         \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadataBuilder $attributeMetadataBuilder
     ) {
         $this->_eavConfig = $eavConfig;
         $this->_cache = [];
-        $this->_attrFormCollection = $attrFormCollection;
+        $this->_attrFormCollectionFactory = $attrFormCollectionFactory;
         $this->_storeManager = $storeManager;
         $this->_optionBuilder = $optionBuilder;
         $this->_attributeMetadataBuilder = $attributeMetadataBuilder;
@@ -120,8 +120,8 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     public function getAttributes($entityType, $formCode)
     {
         $attributes = [];
-        $this->_loadAttributesCollection($entityType, $formCode);
-        foreach ($this->_attrFormCollection as $attribute) {
+        $attributesFormCollection = $this->_loadAttributesCollection($entityType, $formCode);
+        foreach ($attributesFormCollection as $attribute) {
             $attributes[$attribute->getAttributeCode()] = $this->_createMetadataAttribute($attribute);
         }
         return $attributes;
@@ -132,16 +132,17 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
      *
      * @param $entityType
      * @param $formCode
-     * @return null
+     * @return \Magento\Customer\Model\Resource\Form\Attribute\Collection
      */
     private function _loadAttributesCollection($entityType, $formCode)
     {
-         $this->_attrFormCollection
-            ->setStore($this->_storeManager->getStore())
+        $attributesFormCollection = $this->_attrFormCollectionFactory->create();
+        $attributesFormCollection->setStore($this->_storeManager->getStore())
             ->setEntityType($entityType)
             ->addFormCodeFilter($formCode)
-            ->setSortOrder()
-            ->load();
+            ->setSortOrder();
+
+        return $attributesFormCollection;
     }
 
     /**
@@ -173,6 +174,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
             ->setFrontendClass($attribute->getFrontend()->getClass())
             ->setFrontendLabel($attribute->getFrontendLabel())
             ->setIsSystem($attribute->getIsSystem())
+            ->setIsUserDefined($attribute->getIsUserDefined())
             ->setSortOrder($attribute->getSortOrder());
 
         return $this->_attributeMetadataBuilder->create();

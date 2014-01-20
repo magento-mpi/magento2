@@ -35,6 +35,8 @@ return array(
     array('_currencyNameTable'),
     array('_customEtcDir', 'Magento\Core\Model\Config'),
     array('_customerFactory ', '\Magento\Sales\Block\Adminhtml\Billing\Agreement\View\Tab\Info'),
+    array('_customerFactory ', '\Magento\Sales\Block\Adminhtml\Order\Create\Form\Account'),
+    array('_customerFormFactory', '\Magento\Sales\Block\Adminhtml\Order\Create\Form\Account'),
     array('_defaultTemplates', 'Magento\Email\Model\Template'),
     array('_designProductSettingsApplied'),
     array('_directOutput', 'Magento\Core\Model\Layout'),

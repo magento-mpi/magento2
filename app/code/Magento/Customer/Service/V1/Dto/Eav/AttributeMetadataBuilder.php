@@ -122,11 +122,6 @@ class AttributeMetadataBuilder extends \Magento\Service\Entity\AbstractDtoBuilde
 
     /**
      * @param bool $isUserDefined
-     * @return \Magento\Service\Entity\AbstractDto
-     */
-
-    /**
-     * @param bool $isUserDefined
      * @return AttributeMetadataBuilder
      */
     public function setIsUserDefined($isUserDefined)
