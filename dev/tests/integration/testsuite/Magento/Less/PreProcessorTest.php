@@ -41,12 +41,11 @@ class PreProcessorTest extends \PHPUnit_Framework_TestCase
     {
         /** @var $filesystem \Magento\Filesystem */
         $filesystem = $this->objectManager->get('Magento\Filesystem');
-        $targetDirectory = $filesystem->getDirectoryWrite(\Magento\Filesystem::STATIC_VIEW);
-        $cssTargetFile = $this->model->process(
-            'source.css',
-            array('area' => 'frontend', 'theme' => 'test_pre_process'),
-            $targetDirectory
-        );
-        $this->assertNotEmpty($cssTargetFile);
+        $targetDirectory = $filesystem->getDirectoryWrite(\Magento\Filesystem::TMP);
+        $designParams = array('area' => 'frontend', 'theme' => 'test_pre_process');
+        $cssTargetFile = $this->model->process('source.css', $designParams, $targetDirectory);
+        /** @var $viewFilesystem \Magento\View\FileSystem */
+        $viewFilesystem = $this->objectManager->get('Magento\View\FileSystem');
+        $this->assertFileEquals($viewFilesystem->getViewFile('source.css', $designParams), $cssTargetFile);
     }
 }

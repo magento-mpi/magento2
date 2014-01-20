@@ -8,10 +8,13 @@
 
 namespace Magento\Less;
 
+/**
+ * Interface for pre-processing less instruction
+ */
 interface PreProcessorInterface
 {
     /**
-     * Pre-processing less content to adapt magento view system
+     * Process less content to adapt magento view system
      *
      * @param string $lessContent
      * @return string of processed content

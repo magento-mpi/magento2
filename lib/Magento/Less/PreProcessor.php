@@ -11,10 +11,15 @@ namespace Magento\Less;
 use Magento\Less\PreProcessor\InstructionFactory;
 
 /**
- * LESS instruction pre-processor
+ * LESS instruction preprocessor
  */
 class PreProcessor
 {
+    /**
+     * Folder for publication preprocessed less files
+     */
+    const PUBLICATION_PREFIX_PATH = 'less';
+
     /**
      * @var \Magento\View\FileSystem
      */
@@ -31,6 +36,11 @@ class PreProcessor
     protected $instructionFactory;
 
     /**
+     * @var \Magento\Logger
+     */
+    protected $logger;
+
+    /**
      * @var array
      */
     protected $preProcessors;
@@ -39,21 +49,26 @@ class PreProcessor
      * @param \Magento\View\FileSystem $viewFileSystem
      * @param \Magento\Filesystem $filesystem
      * @param InstructionFactory $instructionFactory
+     * @param \Magento\Logger $logger
      * @param array $preProcessors
      */
     public function __construct(
         \Magento\View\FileSystem $viewFileSystem,
         \Magento\Filesystem $filesystem,
         InstructionFactory $instructionFactory,
+        \Magento\Logger $logger,
         array $preProcessors = array()
     ) {
         $this->viewFileSystem = $viewFileSystem;
         $this->filesystem = $filesystem;
         $this->instructionFactory = $instructionFactory;
+        $this->logger = $logger;
         $this->preProcessors = $preProcessors;
     }
 
     /**
+     * Instantiate instruction less preprocessors
+     *
      * @param array $params
      * @return \Magento\Less\PreProcessorInterface[]
      */
@@ -67,6 +82,8 @@ class PreProcessor
     }
 
     /**
+     * Get base directory with source of less files
+     *
      * @return \Magento\Filesystem\Directory\ReadInterface
      */
     protected function getDirectoryRead()
@@ -75,15 +92,17 @@ class PreProcessor
     }
 
     /**
+     * Get directory for publication temporary less files
+     *
      * @return \Magento\Filesystem\Directory\WriteInterface
      */
     protected function getDirectoryWrite()
     {
-        return $this->filesystem->getDirectoryWrite(\Magento\Filesystem::STATIC_VIEW);
+        return $this->filesystem->getDirectoryWrite(\Magento\Filesystem::TMP);
     }
 
     /**
-     * Return new source path for less file into temporary folder
+     * Generate new source path for less file into temporary folder
      *
      * @param string $lessFileSourcePath
      * @return string
@@ -91,20 +110,28 @@ class PreProcessor
     protected function generateNewPath($lessFileSourcePath)
     {
         $sourcePathPrefix = $this->getDirectoryRead()->getAbsolutePath();
-        $targetPathPrefix = $this->getDirectoryWrite()->getAbsolutePath();
+        $targetPathPrefix = $this->getDirectoryWrite()->getAbsolutePath() . self::PUBLICATION_PREFIX_PATH . '/';
         return str_replace($sourcePathPrefix, $targetPathPrefix, $lessFileSourcePath);
     }
 
     /**
+     * Process less content throughout all existed instruction preprocessors
+     *
      * @param string $lessFilePath
      * @param array $params
-     * @return string of saved or original pre-processed less file
+     * @return string of saved or original preprocessed less file
      */
     public function processLessInstructions($lessFilePath, $params)
     {
         $lessFileSourcePath = $this->viewFileSystem->getViewFile($lessFilePath, $params);
         $directoryRead = $this->getDirectoryRead();
-        $lessContent = $directoryRead->readFile($directoryRead->getRelativePath($lessFileSourcePath));
+        try {
+            $lessContent = $directoryRead->readFile($directoryRead->getRelativePath($lessFileSourcePath));
+        } catch (\Magento\Filesystem\FilesystemException $e) {
+            $this->logger->logException($e);
+            return '';
+        }
+
         foreach ($this->getLessPreProcessors($params) as $processor) {
             if ($processor instanceof \Magento\Less\PreProcessor\ImportInterface) {
                 $importPaths = $processor->generatePaths($lessContent)->getImportPaths();
@@ -115,12 +142,14 @@ class PreProcessor
             }
             $lessContent = $processor->process($lessContent);
         }
+
         $lessFileTargetPath = $this->generateNewPath($lessFileSourcePath);
         if (!empty($importPaths) && $lessFileSourcePath != $lessFileTargetPath) {
             $directoryWrite = $this->getDirectoryWrite();
             $directoryWrite->writeFile($directoryWrite->getRelativePath($lessFileTargetPath), $lessContent);
             return $lessFileTargetPath;
         }
+
         return $lessFileSourcePath;
     }
 }

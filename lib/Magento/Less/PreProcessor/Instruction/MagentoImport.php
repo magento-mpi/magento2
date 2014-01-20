@@ -18,7 +18,7 @@ class MagentoImport implements PreProcessorInterface
     /**
      * Pattern of @import less instruction
      */
-    const REPLACE_PATTERN = '#//@magento_import\s+[\'\"](?P<path>[^\"\']+)[\'\"]\s*?;#';
+    const REPLACE_PATTERN = '#//@magento_import\s+[\'\"](?P<path>(?![/\\\]|\w:[/\\\])[^\"\']+)[\'\"]\s*?;#';
 
     /**
      * @var \Magento\View\Layout\File\SourceInterface
@@ -31,17 +31,25 @@ class MagentoImport implements PreProcessorInterface
     protected $viewParams;
 
     /**
+     * @var \Magento\Logger
+     */
+    protected $logger;
+
+    /**
      * @param \Magento\View\Layout\File\SourceInterface $fileSource
      * @param \Magento\View\Service $viewService
+     * @param \Magento\Logger $logger
      * @param array $viewParams
      */
     public function __construct(
         \Magento\View\Layout\File\SourceInterface $fileSource,
         \Magento\View\Service $viewService,
+        \Magento\Logger $logger,
         array $viewParams = array()
     ) {
         $this->fileSource = $fileSource;
         $viewService->updateDesignParams($viewParams);
+        $this->logger = $logger;
         $this->viewParams = $viewParams;
     }
 
@@ -62,10 +70,14 @@ class MagentoImport implements PreProcessorInterface
     protected function replace($matchContent)
     {
         $importsContent = '';
-        $importFiles = $this->fileSource->getFiles($this->viewParams['themeModel'], $matchContent['path']);
-        /** @var $importFile \Magento\View\Layout\File */
-        foreach ($importFiles as $importFile) {
-            $importsContent .= "@import '{$importFile->getFilename()}';\n";
+        try {
+            $importFiles = $this->fileSource->getFiles($this->viewParams['themeModel'], $matchContent['path']);
+            /** @var $importFile \Magento\View\Layout\File */
+            foreach ($importFiles as $importFile) {
+                $importsContent .= "@import '{$importFile->getFilename()}';\n";
+            }
+        } catch(\LogicException $e) {
+            $this->logger->logException($e);
         }
         return $importsContent;
     }

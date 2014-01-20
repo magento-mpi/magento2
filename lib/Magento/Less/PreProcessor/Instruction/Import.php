@@ -18,7 +18,8 @@ class Import implements PreProcessorInterface, \Magento\Less\PreProcessor\Import
     /**
      * Pattern of @import less instruction
      */
-    const REPLACE_PATTERN = '#@import\s+(\((?P<type>\w+)\)\s+)?[\'\"](?P<path>[^\"\']+)[\'\"]\s*?(?P<media>.*?);#';
+    const REPLACE_PATTERN =
+        '#@import\s+(\((?P<type>\w+)\)\s+)?[\'\"](?P<path>(?![/\\\]|\w:[/\\\])[^\"\']+)[\'\"]\s*?(?P<media>.*?);#';
 
     /**
      * Import's path list where key is relative path and value is absolute path to the imported content
@@ -80,7 +81,7 @@ class Import implements PreProcessorInterface, \Magento\Less\PreProcessor\Import
      */
     protected function replace($matchContent)
     {
-        if (!isset($this->importPaths[$matchContent['path']])) {
+        if (empty($this->importPaths[$matchContent['path']])) {
             return '';
         }
         $typeString  = empty($matchContent['type']) ? '' : '(' . $matchContent['type'] . ') ';

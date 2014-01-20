@@ -22,18 +22,18 @@ interface ImportInterface
     public function generatePaths($lessContent);
 
     /**
-     * Set absolute path to pre-processed file
+     * Set absolute path to preprocessed file
      *
      * @param string $relativePath
      * @param string $absolutePath
-     * @return mixed
+     * @return $this
      */
     public function setImportPath($relativePath, $absolutePath);
 
     /**
      * Return relative paths of import instruction
      *
-     * @return ImportInterface[]
+     * @return string[]
      */
     public function getImportPaths();
 }
