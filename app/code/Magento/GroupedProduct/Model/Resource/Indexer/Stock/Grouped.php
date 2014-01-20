@@ -3,20 +3,20 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_CatalogInventory
+ * @package     Magento_GroupedProduct
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 
 /**
- * CatalogInventory Grouped Products Stock Status Indexer Resource Model
+ * Grouped Products Stock Status Indexer Resource Model
  *
  * @category    Magento
- * @package     Magento_CatalogInventory
+ * @package     Magento_GroupedProduct
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CatalogInventory\Model\Resource\Indexer\Stock;
+namespace Magento\GroupedProduct\Model\Resource\Indexer\Stock;
 
 class Grouped
     extends \Magento\CatalogInventory\Model\Resource\Indexer\Stock\DefaultStock
@@ -25,7 +25,7 @@ class Grouped
      * Reindex stock data for defined configurable product ids
      *
      * @param int|array $entityIds
-     * @return \Magento\CatalogInventory\Model\Resource\Indexer\Stock\Grouped
+     * @return \Magento\GroupedProduct\Model\Resource\Indexer\Stock\Grouped
      */
     public function reindexEntity($entityIds)
     {

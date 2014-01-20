@@ -11,7 +11,7 @@
     <type name="grouped" label="Grouped Product" modelInstance="Magento\GroupedProduct\Model\Product\Type\Grouped" composite='true' indexPriority="50">
         <priceModel instance="Magento\GroupedProduct\Model\Product\Type\Grouped\Price" />
         <indexerModel instance="Magento\GroupedProduct\Model\Resource\Product\Indexer\Price\Grouped" />
-        <stockIndexerModel instance="Magento\CatalogInventory\Model\Resource\Indexer\Stock\Grouped" />
+        <stockIndexerModel instance="Magento\GroupedProduct\Model\Resource\Indexer\Stock\Grouped" />
         <allowProductTypes>
             <type name="simple" />
             <type name="virtual" />
