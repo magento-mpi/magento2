@@ -29,7 +29,7 @@ class Config extends \Magento\Object
     protected $_coreStoreConfig;
 
     /**
-     * @var \Magento\Shipping\Model\Carrier\Factory
+     * @var \Magento\Shipping\Model\CarrierFactory
      */
     protected $_carrierFactory;
 
@@ -37,12 +37,12 @@ class Config extends \Magento\Object
      * Constructor
      *
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Shipping\Model\Carrier\Factory $carrierFactory
+     * @param \Magento\Shipping\Model\CarrierFactory $carrierFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Shipping\Model\Carrier\Factory $carrierFactory,
+        \Magento\Shipping\Model\CarrierFactory $carrierFactory,
         array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;

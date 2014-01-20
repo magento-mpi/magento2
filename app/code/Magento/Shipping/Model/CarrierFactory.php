@@ -8,9 +8,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Shipping\Model\Carrier;
+namespace Magento\Shipping\Model;
 
-class Factory
+class CarrierFactory
 {
     /**
      * Core store config
@@ -45,6 +45,40 @@ class Factory
     }
 
     /**
+     * Get carrier instance
+     *
+     * @param string $carrierCode
+     * @param int|null $storeId
+     * @return bool|\Magento\Shipping\Model\Carrier\AbstractCarrier
+     */
+    public function get($carrierCode, $storeId = null)
+    {
+        $className = $this->_coreStoreConfig->getConfig('carriers/' . $carrierCode . '/model', $storeId);
+        if (!$className) {
+            return false;
+        }
+
+        /**
+         * Added protection from not existing models usage.
+         * Related with module uninstall process
+         */
+        try {
+            $carrier = $this->_objectManager->get($className);
+        } catch (\Exception $e) {
+            $this->_logger->logException($e);
+            return false;
+        }
+
+        $carrier->setId($carrierCode);
+        if ($storeId) {
+            $carrier->setStore($storeId);
+        }
+        return $carrier;
+    }
+
+    /**
+     * Create carrier instance
+     *
      * @param string $carrierCode
      * @param int|null $storeId
      * @return bool|\Magento\Shipping\Model\Carrier\AbstractCarrier
@@ -75,18 +109,6 @@ class Factory
     }
 
     /**
-     * @param \Magento\Sales\Model\Order $order
-     * @return bool|mixed
-     */
-    public function getByOrder(\Magento\Sales\Model\Order $order)
-    {
-        $method = $order->getShippingMethod(true);
-        $carrierModel = $this->create($method->getCarrierCode());
-
-        return $carrierModel;
-    }
-
-    /**
      * Get carrier by its code
      *
      * @param string $carrierCode
@@ -101,6 +123,23 @@ class Factory
             return false;
         }
 
-        return $this->create($carrierCode, $storeId);
+        return $this->get($carrierCode, $storeId);
+    }
+
+    /**
+     * Create carrier by its code
+     *
+     * @param $carrierCode
+     * @return bool|Carrier\AbstractCarrier
+     */
+    public function createIfActive($carrierCode)
+    {
+        $isActive = $this->_coreStoreConfig
+            ->getConfigFlag('carriers/' . $carrierCode . '/active');
+        if (!$isActive) {
+            return false;
+        }
+
+        return $this->create($carrierCode);
     }
 }

@@ -32,7 +32,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
     protected $_fileFactory;
 
     /**
-     * @var \Magento\Shipping\Model\Carrier\Factory
+     * @var \Magento\Shipping\Model\CarrierFactory
      */
     protected $_carrierFactory;
 
@@ -40,13 +40,13 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\App\Response\Http\FileFactory $fileFactory
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Shipping\Model\Carrier\Factory $carrierFactory
+     * @param \Magento\Shipping\Model\CarrierFactory $carrierFactory
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\App\Response\Http\FileFactory $fileFactory,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Shipping\Model\Carrier\Factory $carrierFactory
+        \Magento\Shipping\Model\CarrierFactory $carrierFactory
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_fileFactory = $fileFactory;
@@ -453,7 +453,8 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
         if (!$shipment) {
             return false;
         }
-        $carrier = $this->_carrierFactory->getByOrder($shipment->getOrder());
+        $order = $shipment->getOrder();
+        $carrier = $this->_carrierFactory->create($order->getShippingMethod(true)->getCarrierCode());
         if (!$carrier->isShippingLabelsAvailable()) {
             return false;
         }

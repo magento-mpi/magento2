@@ -29,7 +29,7 @@ class Labels extends \Magento\Shipping\Model\Shipping
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Shipping\Model\Config $shippingConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Shipping\Model\Carrier\Factory $carrierFactory
+     * @param \Magento\Shipping\Model\CarrierFactory $carrierFactory
      * @param \Magento\Shipping\Model\Rate\ResultFactory $rateResultFactory
      * @param \Magento\Shipping\Model\Shipment\RequestFactory $shipmentRequestFactory
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
@@ -41,7 +41,7 @@ class Labels extends \Magento\Shipping\Model\Shipping
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Shipping\Model\Config $shippingConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Shipping\Model\Carrier\Factory $carrierFactory,
+        \Magento\Shipping\Model\CarrierFactory $carrierFactory,
         \Magento\Shipping\Model\Rate\ResultFactory $rateResultFactory,
         \Magento\Shipping\Model\Shipment\RequestFactory $shipmentRequestFactory,
         \Magento\Directory\Model\RegionFactory $regionFactory,
@@ -77,7 +77,7 @@ class Labels extends \Magento\Shipping\Model\Shipping
         $address = $order->getShippingAddress();
         $shippingMethod = $order->getShippingMethod(true);
         $shipmentStoreId = $orderShipment->getStoreId();
-        $shipmentCarrier = $this->_carrierFactory->getByOrder($order);
+        $shipmentCarrier = $this->_carrierFactory->create($order->getShippingMethod(true)->getCarrierCode());
         $baseCurrencyCode = $this->_storeManager->getStore($shipmentStoreId)->getBaseCurrencyCode();
         if (!$shipmentCarrier) {
             throw new \Magento\Core\Exception('Invalid carrier: ' . $shippingMethod->getCarrierCode());

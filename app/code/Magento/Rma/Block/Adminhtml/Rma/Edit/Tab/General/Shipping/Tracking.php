@@ -30,7 +30,7 @@ class Tracking extends \Magento\Backend\Block\Template
     protected $_rmaData;
 
     /**
-     * @var \Magento\Shipping\Model\Carrier\Factory
+     * @var \Magento\Shipping\Model\CarrierFactory
      */
     protected $_carrierFactory;
 
@@ -42,7 +42,7 @@ class Tracking extends \Magento\Backend\Block\Template
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Rma\Model\Resource\Shipping\CollectionFactory $shippingCollectionFactory
-     * @param \Magento\Shipping\Model\Carrier\Factory $carrierFactory
+     * @param \Magento\Shipping\Model\CarrierFactory $carrierFactory
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
@@ -50,7 +50,7 @@ class Tracking extends \Magento\Backend\Block\Template
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Rma\Model\Resource\Shipping\CollectionFactory $shippingCollectionFactory,
-        \Magento\Shipping\Model\Carrier\Factory $carrierFactory,
+        \Magento\Shipping\Model\CarrierFactory $carrierFactory,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Core\Model\Registry $registry,
         array $data = array()

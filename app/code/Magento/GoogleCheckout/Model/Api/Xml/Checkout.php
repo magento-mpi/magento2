@@ -77,7 +77,7 @@ class Checkout extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
     protected $_eventManager = null;
 
     /**
-     * @var \Magento\Shipping\Model\Carrier\Factory
+     * @var \Magento\Shipping\Model\CarrierFactory
      */
     protected $_carrierFactory;
 
@@ -90,7 +90,7 @@ class Checkout extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
      * @param \Magento\GoogleCheckout\Helper\Data $googleCheckoutData
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Weee\Helper\Data $weeeData
-     * @param \Magento\Shipping\Model\Carrier\Factory $carrierFactory
+     * @param \Magento\Shipping\Model\CarrierFactory $carrierFactory
      * @param array $data
      */
     public function __construct(
@@ -102,7 +102,7 @@ class Checkout extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
         \Magento\GoogleCheckout\Helper\Data $googleCheckoutData,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Weee\Helper\Data $weeeData,
-        \Magento\Shipping\Model\Carrier\Factory $carrierFactory,
+        \Magento\Shipping\Model\CarrierFactory $carrierFactory,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;

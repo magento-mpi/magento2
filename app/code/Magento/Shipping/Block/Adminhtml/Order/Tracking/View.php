@@ -15,7 +15,7 @@ namespace Magento\Shipping\Block\Adminhtml\Order\Tracking;
 class View extends \Magento\Shipping\Block\Adminhtml\Order\Tracking
 {
     /**
-     * @var \Magento\Shipping\Model\Carrier\Factory
+     * @var \Magento\Shipping\Model\CarrierFactory
      */
     protected $_carrierFactory;
 
@@ -23,14 +23,14 @@ class View extends \Magento\Shipping\Block\Adminhtml\Order\Tracking
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Shipping\Model\Config $shippingConfig
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Shipping\Model\Carrier\Factory $carrierFactory
+     * @param \Magento\Shipping\Model\CarrierFactory $carrierFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Shipping\Model\Config $shippingConfig,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Shipping\Model\Carrier\Factory $carrierFactory,
+        \Magento\Shipping\Model\CarrierFactory $carrierFactory,
         array $data = array()
     ) {
         parent::__construct($context, $shippingConfig, $registry, $data);

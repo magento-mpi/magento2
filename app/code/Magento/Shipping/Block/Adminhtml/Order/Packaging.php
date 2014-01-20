@@ -32,7 +32,7 @@ class Packaging extends \Magento\Backend\Block\Template
     protected $_jsonEncoder;
 
     /**
-     * @var \Magento\Shipping\Model\Carrier\Factory
+     * @var \Magento\Shipping\Model\CarrierFactory
      */
     protected $_carrierFactory;
 
@@ -41,7 +41,7 @@ class Packaging extends \Magento\Backend\Block\Template
      * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Usa\Model\Shipping\Carrier\Usps\Source\Size $sourceSizeModel
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Shipping\Model\Carrier\Factory $carrierFactory
+     * @param \Magento\Shipping\Model\CarrierFactory $carrierFactory
      * @param array $data
      */
     public function __construct(
@@ -49,7 +49,7 @@ class Packaging extends \Magento\Backend\Block\Template
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Usa\Model\Shipping\Carrier\Usps\Source\Size $sourceSizeModel,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Shipping\Model\Carrier\Factory $carrierFactory,
+        \Magento\Shipping\Model\CarrierFactory $carrierFactory,
         array $data = array()
     ) {
         $this->_jsonEncoder = $jsonEncoder;
@@ -139,7 +139,7 @@ class Packaging extends \Magento\Backend\Block\Template
         $order = $this->getShipment()->getOrder();
         $storeId = $this->getShipment()->getStoreId();
         $address = $order->getShippingAddress();
-        $carrier = $this->_carrierFactory->getByOrder($order);
+        $carrier = $this->_carrierFactory->create($order->getShippingMethod(true)->getCarrierCode());
         $countryShipper = $this->_storeConfig->getConfig(\Magento\Shipping\Model\Shipping::XML_PATH_STORE_COUNTRY_ID, $storeId);
         if ($carrier) {
             $params = new \Magento\Object(array(
@@ -159,7 +159,8 @@ class Packaging extends \Magento\Backend\Block\Template
      */
     protected function _getCustomizableContainers()
     {
-        $carrier = $this->_carrierFactory->getByOrder($this->getShipment()->getOrder());
+        $order = $this->getShipment()->getOrder();
+        $carrier = $this->_carrierFactory->create($order->getShippingMethod(true)->getCarrierCode());
         if ($carrier) {
             return $carrier->getCustomizableContainerTypes();
         }
@@ -174,7 +175,8 @@ class Packaging extends \Magento\Backend\Block\Template
      */
     public function getContainerTypeByCode($code)
     {
-        $carrier = $this->_carrierFactory->getByOrder($this->getShipment()->getOrder());
+        $order = $this->getShipment()->getOrder();
+        $carrier = $this->_carrierFactory->create($order->getShippingMethod(true)->getCarrierCode());
         if ($carrier) {
             $containerTypes = $carrier->getContainerTypes();
             $containerType = !empty($containerTypes[$code]) ? $containerTypes[$code] : '';
@@ -192,7 +194,8 @@ class Packaging extends \Magento\Backend\Block\Template
     public function getDeliveryConfirmationTypeByCode($code)
     {
         $countryId = $this->getShipment()->getOrder()->getShippingAddress()->getCountryId();
-        $carrier = $this->_carrierFactory->getByOrder($this->getShipment()->getOrder());
+        $order = $this->getShipment()->getOrder();
+        $carrier = $this->_carrierFactory->create($order->getShippingMethod(true)->getCarrierCode());
         if ($carrier) {
             $params = new \Magento\Object(array('country_recipient' => $countryId));
             $confirmationTypes = $carrier->getDeliveryConfirmationTypes($params);
@@ -276,7 +279,8 @@ class Packaging extends \Magento\Backend\Block\Template
     public function getDeliveryConfirmationTypes()
     {
         $countryId = $this->getShipment()->getOrder()->getShippingAddress()->getCountryId();
-        $carrier = $this->_carrierFactory->getByOrder($this->getShipment()->getOrder());
+        $order = $this->getShipment()->getOrder();
+        $carrier = $this->_carrierFactory->create($order->getShippingMethod(true)->getCarrierCode());
         $params = new \Magento\Object(array('country_recipient' => $countryId));
         if ($carrier && is_array($carrier->getDeliveryConfirmationTypes($params))) {
             return $carrier->getDeliveryConfirmationTypes($params);
@@ -307,8 +311,9 @@ class Packaging extends \Magento\Backend\Block\Template
      */
     public function isGirthAllowed()
     {
-        return $this->_carrierFactory->getByOrder($this->getShipment()->getOrder())
-            ->isGirthAllowed($this->getShipment()->getOrder()->getShippingAddress()->getCountryId());
+        $order = $this->getShipment()->getOrder();
+        $carrier = $this->_carrierFactory->create($order->getShippingMethod(true)->getCarrierCode());
+        return $carrier->isGirthAllowed($this->getShipment()->getOrder()->getShippingAddress()->getCountryId());
     }
 
     /**
@@ -321,7 +326,7 @@ class Packaging extends \Magento\Backend\Block\Template
         $order = $this->getShipment()->getOrder();
         $storeId = $this->getShipment()->getStoreId();
         $address = $order->getShippingAddress();
-        $carrier = $this->_carrierFactory->getByOrder($order);
+        $carrier = $this->_carrierFactory->create($order->getShippingMethod(true)->getCarrierCode());
         $countryShipper = $this->_storeConfig->getConfig(\Magento\Shipping\Model\Shipping::XML_PATH_STORE_COUNTRY_ID, $storeId);
         if ($carrier) {
             $params = new \Magento\Object(array(

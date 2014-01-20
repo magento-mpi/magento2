@@ -20,7 +20,7 @@ class TrackTest extends \PHPUnit_Framework_TestCase
         $carrier->expects($this->once())->method('getTrackingInfo')
             ->will($this->returnValue('trackingInfo'));
 
-        $carrierFactory = $this->getMock('\Magento\Shipping\Model\Carrier\Factory', ['create'], [], '', false);
+        $carrierFactory = $this->getMock('\Magento\Shipping\Model\CarrierFactory', ['create'], [], '', false);
         $carrierFactory->expects($this->once())->method('create')
             ->will($this->returnValue($carrier));
 

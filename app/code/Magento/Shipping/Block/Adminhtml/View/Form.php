@@ -20,7 +20,7 @@ namespace Magento\Shipping\Block\Adminhtml\View;
 class Form extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
 {
     /**
-     * @var \Magento\Shipping\Model\Carrier\Factory
+     * @var \Magento\Shipping\Model\CarrierFactory
      */
     protected $_carrierFactory;
 
@@ -28,14 +28,14 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Sales\Helper\Admin $adminHelper
-     * @param \Magento\Shipping\Model\Carrier\Factory $carrierFactory
+     * @param \Magento\Shipping\Model\CarrierFactory $carrierFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Sales\Helper\Admin $adminHelper,
-        \Magento\Shipping\Model\Carrier\Factory $carrierFactory,
+        \Magento\Shipping\Model\CarrierFactory $carrierFactory,
         array $data = array()
     ) {
         $this->_carrierFactory = $carrierFactory;
@@ -131,7 +131,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
      */
     public function canCreateShippingLabel()
     {
-        $shippingCarrier = $this->_carrierFactory->getByOrder($this->getOrder());
+        $shippingCarrier = $this->_carrierFactory->create($this->getOrder()->getShippingMethod(true)->getCarrierCode());
         return $shippingCarrier && $shippingCarrier->isShippingLabelsAvailable();
     }
 }

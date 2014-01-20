@@ -81,7 +81,7 @@ class Shipping extends \Magento\Core\Model\AbstractModel
     protected $_returnFactory;
 
     /**
-     * @var \Magento\Shipping\Model\Carrier\Factory
+     * @var \Magento\Shipping\Model\CarrierFactory
      */
     protected $_carrierFactory;
 
@@ -105,7 +105,7 @@ class Shipping extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Shipping\Model\Shipment\ReturnShipmentFactory $returnFactory
-     * @param \Magento\Shipping\Model\Carrier\Factory $carrierFactory
+     * @param \Magento\Shipping\Model\CarrierFactory $carrierFactory
      * @param \Magento\Rma\Model\RmaFactory $rmaFactory
      * @param Resource\Shipping $resource
      * @param \Magento\Filesystem $filesystem
@@ -121,7 +121,7 @@ class Shipping extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Shipping\Model\Shipment\ReturnShipmentFactory $returnFactory,
-        \Magento\Shipping\Model\Carrier\Factory $carrierFactory,
+        \Magento\Shipping\Model\CarrierFactory $carrierFactory,
         \Magento\Rma\Model\RmaFactory $rmaFactory,
         \Magento\Rma\Model\Resource\Shipping $resource,
         \Magento\Filesystem $filesystem,
