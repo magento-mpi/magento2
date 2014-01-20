@@ -128,6 +128,7 @@ class Shortcut extends \Magento\View\Element\Template
         $this->_checkoutFactory = $checkoutFactory;
         $this->mathRandom = $mathRandom;
         parent::__construct($context, $data);
+        $this->_isScopePrivate = true;
     }
 
     /**
