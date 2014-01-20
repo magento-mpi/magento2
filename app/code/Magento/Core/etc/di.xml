@@ -488,7 +488,7 @@
     <type name="Magento\View\Asset\MergeService">
         <plugin name="cleanMergedJsCss" type="Magento\Core\Model\Asset\Plugin\CleanMergedJsCss"/>
     </type>
-    <type name="Magento\Less\FileResolver">
+    <type name="Magento\Less\PreProcessor\Instruction\MagentoImport">
         <param name="fileSource">
             <instance type="Magento\Less\File\Source\Aggregated" />
         </param>
@@ -507,12 +507,12 @@
     <type name="Magento\Less\PreProcessor">
         <param name="preProcessors">
             <value>
-                <magento_import>
-                    <class>Magento\Less\PreProcessor\Instruction\MagentoImport</class>
-                </magento_import>
                 <import>
                     <class>Magento\Less\PreProcessor\Instruction\Import</class>
                 </import>
+                <magento_import>
+                    <class>Magento\Less\PreProcessor\Instruction\MagentoImport</class>
+                </magento_import>
             </value>
         </param>
     </type>

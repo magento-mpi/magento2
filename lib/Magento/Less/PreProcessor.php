@@ -54,13 +54,14 @@ class PreProcessor
     }
 
     /**
+     * @param array $params
      * @return \Magento\Less\PreProcessorInterface[]
      */
-    protected function getLessPreProcessors()
+    protected function getLessPreProcessors(array $params)
     {
         $preProcessors = [];
         foreach ($this->preProcessors as $preProcessorClass) {
-            $preProcessors[] = $this->instructionFactory->create($preProcessorClass['class']);
+            $preProcessors[] = $this->instructionFactory->create($preProcessorClass['class'], $params);
         }
         return $preProcessors;
     }
@@ -104,7 +105,7 @@ class PreProcessor
         $lessFileSourcePath = $this->viewFileSystem->getViewFile($lessFilePath, $params);
         $directoryRead = $this->getDirectoryRead();
         $lessContent = $directoryRead->readFile($directoryRead->getRelativePath($lessFileSourcePath));
-        foreach ($this->getLessPreProcessors() as $processor) {
+        foreach ($this->getLessPreProcessors($params) as $processor) {
             if ($processor instanceof \Magento\Less\PreProcessor\ImportInterface) {
                 $importPaths = $processor->generatePaths($lessContent)->getImportPaths();
                 foreach ($importPaths as $importPath) {
