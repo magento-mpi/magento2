@@ -1036,6 +1036,7 @@ return array(
     array('Magento\ImportExport\Model\Resource\Helper\Mysql4', 'Magento\ImportExport\Model\Resource\Helper'),
     array('Magento\Reports\Model\Resource\Helper\Mysql4', 'Magento\Reports\Model\Resource\Helper'),
     array('Magento\Backup\Model\Resource\Helper\Mysql4', 'Magento\Backup\Model\Resource\Helper'),
+    array('Magento\Sales\Model\CarrierFactory', 'Magento\Shipping\Model\CarrierFactory'),
     array('Magento\Sales\Model\Order\Pdf\Shipment\Packaging', 'Magento\Shipping\Model\Order\Pdf\Packaging'),
     array('Magento\Sales\Model\ResourceFactory'),
     array('Magento\Sales\Model\Resource\Helper\Mysql4', 'Magento\Sales\Model\Resource\Helper'),
