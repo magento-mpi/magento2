@@ -35,7 +35,6 @@ class Role extends \Magento\Backend\Block\Widget\Grid\Container
         $this->_headerText = __('Roles');
         $this->_addButtonLabel = __('Add New Role');
         parent::_construct();
-        $this->_isScopePrivate = true;
     }
 
     public function getCreateUrl()
