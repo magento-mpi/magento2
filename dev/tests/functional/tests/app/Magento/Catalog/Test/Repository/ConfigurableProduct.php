@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Test\Repository;
 
 use Magento\Catalog\Test\Fixture;
@@ -23,6 +22,12 @@ class ConfigurableProduct extends Product
 {
     const CONFIGURABLE = 'configurable';
 
+    const CONFIGURABLE_ADVANCED_PRICING = 'configurable_advanced_pricing';
+
+    const CONFIGURABLE_MAP = 'configurable_applied_map';
+
+    const PRODUCT_VARIATIONS = 'product_variations';
+
     /**
      * Construct
      *
@@ -33,11 +38,11 @@ class ConfigurableProduct extends Product
     {
         parent::__construct($defaultConfig, $defaultData);
         $this->_data[self::CONFIGURABLE]['data']['affect_configurable_product_attributes'] = 'Template %isolation%';
-        $this->_data['configurable_advanced_pricing'] = $this->getConfigurableAdvancedPricing();
-
-        $this->_data['product_variations'] = array(
+        $this->_data[self::CONFIGURABLE_ADVANCED_PRICING] = $this->getConfigurableAdvancedPricing();
+        $this->_data[self::CONFIGURABLE_MAP] = $this->addMapToConfigurable($this->_data[self::CONFIGURABLE]);
+        $this->_data[self::PRODUCT_VARIATIONS] = array(
             'config' => $defaultConfig,
-            'data' => $this->buildProductVariations($defaultData),
+            'data' => $this->buildProductVariations($defaultData)
         );
     }
 
@@ -51,14 +56,43 @@ class ConfigurableProduct extends Product
         $pricing = array(
             'data' => array(
                 'fields' => array(
-                    'special_price' => array(
-                        'value' => '9',
-                        'group' => Fixture\Product::GROUP_PRODUCT_PRICING
-                    )
+                    'special_price' => array('value' => '9', 'group' => ConfigurableProductFixture::GROUP_PRODUCT_PRICING)
                 )
             )
         );
         $product = array_replace_recursive($this->_data[self::CONFIGURABLE], $pricing);
+
+        return $product;
+    }
+
+    /**
+     * Add advanced pricing (MAP) to configurable product
+     *
+     * @param array $data
+     * @return array
+     */
+    protected function addMapToConfigurable(array $data)
+    {
+        $pricing = array(
+            'data' => array(
+                'fields' => array(
+                    'msrp_enabled' => array(
+                        'value' => 'Yes',
+                        'input_value' => '1',
+                        'group' => ConfigurableProductFixture::GROUP_PRODUCT_PRICING,
+                        'input' => 'select'
+                    ),
+                    'msrp_display_actual_price_type' => array(
+                        'value' => 'On Gesture',
+                        'input_value' => '1',
+                        'group' => ConfigurableProductFixture::GROUP_PRODUCT_PRICING,
+                        'input' => 'select'
+                    ),
+                    'msrp' => array('value' => '15', 'group' => ConfigurableProductFixture::GROUP_PRODUCT_PRICING)
+                )
+            )
+        );
+        $product = array_replace_recursive($data, $pricing);
 
         return $product;
     }
@@ -77,58 +111,36 @@ class ConfigurableProduct extends Product
             'configurable_attributes_data' => array(
                 'value' => array(
                     '0' => array(
-                        'label' => array(
-                            'value' => '%new_attribute_label%'
-                        ),
+                        'label' => array('value' => '%new_attribute_label%'),
                         '0' => array(
-                            'option_label' => array(
-                                'value' => '%new_attribute_option_1_label%',
-                            ),
-                            'include' => array(
-                                'value' => 'Yes',
-                            ),
+                            'option_label' => array('value' => '%new_attribute_option_1_label%'),
+                            'include' => array('value' => 'Yes')
                         ),
                         '1' => array(
-                            'option_label' => array(
-                                'value' => '%new_attribute_option_2_label%',
-                            ),
-                            'include' => array(
-                                'value' => 'Yes',
-                            ),
-                        ),
-                    ),
+                            'option_label' => array('value' => '%new_attribute_option_2_label%'),
+                            'include' => array('value' => 'Yes')
+                        )
+                    )
                 ),
-                'group' => ConfigurableProductFixture::GROUP,
+                'group' => ConfigurableProductFixture::GROUP
             ),
             'variations-matrix' => array(
                 'value' => array(
                     '0' => array(
                         'configurable_attribute' => array(
-                            '0' => array(
-                                'attribute_option' => '%new_attribute_option_1_label%',
-                            ),
+                            '0' => array('attribute_option' => '%new_attribute_option_1_label%')
                         ),
-                        'value' => array(
-                            'qty' => array(
-                                'value' => 100,
-                            ),
-                        ),
+                        'value' => array('qty' => array('value' => 100))
                     ),
                     '1' => array(
                         'configurable_attribute' => array(
-                            '0' => array(
-                                'attribute_option' => '%new_attribute_option_2_label%',
-                            ),
+                            '0' => array('attribute_option' => '%new_attribute_option_2_label%')
                         ),
-                        'value' => array(
-                            'qty' => array(
-                                'value' => 100,
-                            ),
-                        ),
-                    ),
+                        'value' => array('qty' => array('value' => 100))
+                    )
                 ),
-                'group' => ConfigurableProductFixture::GROUP,
-            ),
+                'group' => ConfigurableProductFixture::GROUP
+            )
         );
         return $data;
     }
