@@ -7,11 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+/** @var $this \Magento\GiftRegistry\Block\Product\View */
 ?>
 <?php $_product = $this->getProduct() ?>
 <?php if ($_product->isSaleable()): ?>
 <div class="box tocart giftregisty">
-    <?php if (!$_product->isGrouped()): ?>
+    <?php if ($this->shouldRenderQuantity()): ?>
         <div class="field qty">
             <label for="qty" class="label"><span><?php echo __('Qty:') ?></span></label>
             <div class="control">

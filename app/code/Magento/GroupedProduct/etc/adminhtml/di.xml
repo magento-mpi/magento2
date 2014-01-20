@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <preference for="Magento\GroupedProduct\Model\Product\Type\Grouped" type="Magento\GroupedProduct\Model\Product\Type\Grouped\Backend" />
+    <type name="Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\ProductLinks">
+        <plugin name="GroupedProduct" type="Magento\GroupedProduct\Controller\Adminhtml\Product\Initialization\Helper\ProductLinks\Plugin\Grouped" />
+    </type>
+    <type name="Magento\Catalog\Model\Product\CopyConstructor\Composite">
+        <param name="constructors">
+            <value>
+                <grouped>Magento\GroupedProduct\Model\Product\CopyConstructor\Grouped</grouped>
+            </value>
+        </param>
+    </type>
+</config>

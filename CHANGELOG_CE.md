@@ -1,3 +1,8 @@
+* Modularity improvements:
+  * Moved all Grouped Product functionality to newly created module Magento_GroupedProduct
+  * Extracted Product duplication behaviour from Product model to Product\Copier model
+  * Event "catalog_model_product_duplicate" was replaced with composite Product\Copier model
+  * Event "catalog_product_prepare_save" was replaced with controller product initialization helper that can be pluginized
 * Introduced new layout block attribute - cacheable
 * Extracted multishipping functionality from Magento\Checkout module in separated Magento\Multishipping module
 * Fixed bugs:
