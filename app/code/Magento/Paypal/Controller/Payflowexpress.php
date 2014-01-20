@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_PaypalUk
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,9 +10,9 @@
  * Express Checkout Controller
  */
 
-namespace Magento\PaypalUk\Controller;
+namespace Magento\Paypal\Controller;
 
-class Express extends \Magento\Paypal\Controller\Express\AbstractExpress
+class Payflowexpress extends \Magento\Paypal\Controller\Express\AbstractExpress
 {
     /**
      * Config mode type
@@ -35,5 +33,5 @@ class Express extends \Magento\Paypal\Controller\Express\AbstractExpress
      *
      * @var string
      */
-    protected $_checkoutType = 'Magento\PaypalUk\Model\Express\Checkout';
+    protected $_checkoutType = 'Magento\Paypal\Model\PayflowExpress\Checkout';
 }

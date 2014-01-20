@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_PaypalUk
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 
-namespace Magento\PaypalUk\Block\Express;
+namespace Magento\Paypal\Block\PayflowExpress;
 
 class Form extends \Magento\Paypal\Block\Express\Form
 {
@@ -18,5 +16,4 @@ class Form extends \Magento\Paypal\Block\Express\Form
      * @var string
      */
     protected $_methodCode = \Magento\Paypal\Model\Config::METHOD_WPP_PE_EXPRESS;
-
 }

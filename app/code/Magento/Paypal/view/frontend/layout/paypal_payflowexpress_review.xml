@@ -15,9 +15,9 @@
     </referenceBlock>
     <referenceContainer name="content">
         <block class="Magento\Paypal\Block\Express\Review" name="paypal.express.review"
-               template="Magento_PaypalUk::express/review.phtml">
-            <action method="setPaypalActionPrefix">
-                <argument name="prefix" xsi:type="string">paypaluk</argument>
+               template="payflowexpress/review.phtml">
+            <action method="setControllerPath">
+                <argument name="prefix" xsi:type="string">paypal/payflowexpress</argument>
             </action>
             <block class="Magento\Paypal\Block\Express\Review\Details" name="paypal.express.review.details" as="details"
                    template="express/review/details.phtml">

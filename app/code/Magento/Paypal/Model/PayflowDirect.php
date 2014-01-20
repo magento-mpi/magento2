@@ -2,18 +2,13 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_PaypalUk
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * PayPalUk Direct Module
- */
-namespace Magento\PaypalUk\Model;
+namespace Magento\Paypal\Model;
 
-class Direct extends \Magento\Paypal\Model\Direct
+class PayflowDirect extends \Magento\Paypal\Model\Direct
 {
     protected $_code  = \Magento\Paypal\Model\Config::METHOD_WPP_PE_DIRECT;
 
@@ -22,7 +17,7 @@ class Direct extends \Magento\Paypal\Model\Direct
      *
      * @var string
      */
-    protected $_proType = 'Magento\PaypalUk\Model\Pro';
+    protected $_proType = 'Magento\Paypal\Model\Payflow\Pro';
 
     /**
      * Return available CC types for gateway based on merchant country
@@ -62,7 +57,7 @@ class Direct extends \Magento\Paypal\Model\Direct
         $payment->setTransactionId($api->getPaypalTransactionId())->setIsTransactionClosed(0)
             ->setIsTransactionPending($api->getIsPaymentPending())
             ->setTransactionAdditionalInfo(
-                \Magento\PaypalUk\Model\Pro::TRANSPORT_PAYFLOW_TXN_ID,
+                \Magento\Paypal\Model\Payflow\Pro::TRANSPORT_PAYFLOW_TXN_ID,
                 $api->getTransactionId()
         );
         $payment->setPreparedMessage(__('Payflow PNREF: #%1.', $api->getTransactionId()));

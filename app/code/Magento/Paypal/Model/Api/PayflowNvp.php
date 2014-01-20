@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_PaypalUk
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,9 +9,9 @@
 /**
  * NVP API wrappers model
  */
-namespace Magento\PaypalUk\Model\Api;
+namespace Magento\Paypal\Model\Api;
 
-class Nvp extends \Magento\Paypal\Model\Api\Nvp
+class PayflowNvp extends \Magento\Paypal\Model\Api\Nvp
 {
     /**#@+
      * Transaction types declaration
@@ -239,7 +237,7 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
         'SHIPTOSTREET'  => 'street',
         'SHIPTOSTREET2' => 'street2',
         'SHIPTOZIP' => 'postcode',
-        'SHIPTOPHONENUM' => 'telephone', // does not supported by PaypalUk
+        'SHIPTOPHONENUM' => 'telephone', // does not supported by Payflow
     );
 
     /**
@@ -267,7 +265,7 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
     );
 
     /**
-     * Map for billing address to do request to PayPalUk
+     * Map for billing address to do request to Payflow
      *
      * @var array
      */
@@ -365,7 +363,7 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
     }
 
     /**
-     * Return PaypalUk partner based on config data
+     * Return Payflow partner based on config data
      *
      * @return string
      */
@@ -375,7 +373,7 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
     }
 
     /**
-     * Return PaypalUk user based on config data
+     * Return Payflow user based on config data
      *
      * @return string
      */
@@ -385,7 +383,7 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
     }
 
     /**
-     * Return PaypalUk password based on config data
+     * Return Payflow password based on config data
      *
      * @return string
      */
@@ -395,7 +393,7 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
     }
 
     /**
-     * Return PaypalUk vendor based on config data
+     * Return Payflow vendor based on config data
      *
      * @return string
      */
@@ -405,7 +403,7 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
     }
 
     /**
-     * Return PaypalUk tender based on config data
+     * Return Payflow tender based on config data
      *
      * @return string
      */
@@ -440,8 +438,8 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
     protected function _addMethodToRequest($methodName, $request)
     {
         $request['TRXTYPE'] = $this->_mapPaypalMethodName($methodName);
-        if (!is_null($this->_getPaypalUkActionName($methodName))) {
-            $request['ACTION'] = $this->_getPaypalUkActionName($methodName);
+        if (!is_null($this->_getPayflowActionName($methodName))) {
+            $request['ACTION'] = $this->_getPayflowActionName($methodName);
         }
         return $request;
     }
@@ -452,7 +450,7 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
      * @param string
      * @return string | null
      */
-    protected function _getPaypalUkActionName($methodName)
+    protected function _getPayflowActionName($methodName)
     {
         switch($methodName) {
             case \Magento\Paypal\Model\Api\Nvp::SET_EXPRESS_CHECKOUT:
@@ -551,7 +549,7 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
     }
 
     /**
-     * "GetTransactionDetails" method does not exists in PaypalUK
+     * "GetTransactionDetails" method does not exists in Payflow
      */
     public function callGetTransactionDetails()
     {

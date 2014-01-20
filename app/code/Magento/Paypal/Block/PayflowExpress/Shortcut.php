@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_PaypalUk
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,7 +9,7 @@
 /**
  * Paypal expess checkout shortcut link
  */
-namespace Magento\PaypalUk\Block\Express;
+namespace Magento\Paypal\Block\PayflowExpress;
 
 class Shortcut extends \Magento\Paypal\Block\Express\Shortcut
 {
@@ -27,12 +25,12 @@ class Shortcut extends \Magento\Paypal\Block\Express\Shortcut
      *
      * @var string
      */
-    protected $_startAction = 'paypaluk/express/start';
+    protected $_startAction = 'paypal/payflowexpress/start';
 
     /**
      * Express checkout model factory name
      *
      * @var string
      */
-    protected $_checkoutType = 'Magento\PaypalUk\Model\Express\Checkout';
+    protected $_checkoutType = 'Magento\Paypal\Model\PayflowExpress\Checkout';
 }

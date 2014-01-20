@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_PaypalUk
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,7 +11,7 @@
  * This model was created because right now PayPal Direct and PayPal Express payment
  * (Payflow Edition) methods cannot have same abstract
  */
-namespace Magento\PaypalUk\Model;
+namespace Magento\Paypal\Model\Payflow;
 
 class Pro extends \Magento\Paypal\Model\Pro
 {
@@ -22,7 +20,7 @@ class Pro extends \Magento\Paypal\Model\Pro
      *
      * @var string
      */
-    protected $_apiType = 'Magento\PaypalUk\Model\Api\Nvp';
+    protected $_apiType = 'Magento\Paypal\Model\Api\PayflowNvp';
 
     /**
      * Config model type
@@ -72,7 +70,7 @@ class Pro extends \Magento\Paypal\Model\Pro
     {
         if ($payment->getParentTransactionId()) {
             return $payment->getTransaction($payment->getParentTransactionId())
-                ->getAdditionalInformation(\Magento\PaypalUk\Model\Pro::TRANSPORT_PAYFLOW_TXN_ID);
+                ->getAdditionalInformation(self::TRANSPORT_PAYFLOW_TXN_ID);
         }
         return $payment->getParentTransactionId();
     }
@@ -88,7 +86,7 @@ class Pro extends \Magento\Paypal\Model\Pro
         $payment->setTransactionId($api->getPaypalTransactionId())
             ->setIsTransactionClosed(false)
             ->setTransactionAdditionalInfo(
-                \Magento\PaypalUk\Model\Pro::TRANSPORT_PAYFLOW_TXN_ID,
+                self::TRANSPORT_PAYFLOW_TXN_ID,
                 $api->getTransactionId()
         );
         $payment->setPreparedMessage(__('Payflow PNREF: #%1.', $api->getTransactionId()));
@@ -96,7 +94,7 @@ class Pro extends \Magento\Paypal\Model\Pro
     }
 
     /**
-     * Fetch transaction details info method does not exists in PaypalUK
+     * Fetch transaction details info method does not exists in Payflow
      *
      * @param \Magento\Payment\Model\Info $payment
      * @param string $transactionId
@@ -105,7 +103,7 @@ class Pro extends \Magento\Paypal\Model\Pro
      */
     public function fetchTransactionInfo(\Magento\Payment\Model\Info $payment, $transactionId)
     {
-        throw new \Magento\Core\Exception(__('Fetch transaction details method does not exists in PaypalUK'));
+        throw new \Magento\Core\Exception(__('Fetch transaction details method does not exists in Payflow'));
     }
 
     /**
@@ -121,7 +119,7 @@ class Pro extends \Magento\Paypal\Model\Pro
             ->setIsTransactionClosed(1) // refund initiated by merchant
             ->setShouldCloseParentTransaction(!$canRefundMore)
             ->setTransactionAdditionalInfo(
-                \Magento\PaypalUk\Model\Pro::TRANSPORT_PAYFLOW_TXN_ID,
+                self::TRANSPORT_PAYFLOW_TXN_ID,
                 $api->getTransactionId()
         );
         $payment->setPreparedMessage(__('Payflow PNREF: #%1.', $api->getTransactionId()));

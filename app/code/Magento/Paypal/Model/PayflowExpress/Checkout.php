@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_PaypalUk
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +10,7 @@
  * Wrapper that performs Paypal Express and Checkout communication
  * Use current Paypal Express method instance
  */
-namespace Magento\PaypalUk\Model\Express;
+namespace Magento\Paypal\Model\PayflowExpress;
 
 class Checkout extends \Magento\Paypal\Model\Express\Checkout
 {
@@ -21,7 +19,7 @@ class Checkout extends \Magento\Paypal\Model\Express\Checkout
      *
      * @var string
      */
-    protected $_apiType = 'Magento\PaypalUk\Model\Api\Nvp';
+    protected $_apiType = 'Magento\Paypal\Model\Api\PayflowNvp';
 
     /**
      * Payment method type

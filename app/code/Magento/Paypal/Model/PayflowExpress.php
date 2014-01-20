@@ -2,21 +2,16 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_PaypalUk
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * PayPalUk Express Module
- */
-namespace Magento\PaypalUk\Model;
+namespace Magento\Paypal\Model;
 
-class Express extends \Magento\Paypal\Model\Express
+class PayflowExpress extends \Magento\Paypal\Model\Express
 {
     protected $_code = \Magento\Paypal\Model\Config::METHOD_WPP_PE_EXPRESS;
-    protected $_formBlockType = 'Magento\PaypalUk\Block\Express\Form';
+    protected $_formBlockType = 'Magento\Paypal\Block\PayflowExpress\Form';
     protected $_canCreateBillingAgreement = false;
     protected $_canManageRecurringProfiles = false;
 
@@ -25,7 +20,7 @@ class Express extends \Magento\Paypal\Model\Express
      *
      * @var $_proType string
      */
-    protected $_proType = 'Magento\PaypalUk\Model\Pro';
+    protected $_proType = 'Magento\Paypal\Model\Payflow\Pro';
 
     /**
      * Express Checkout payment method instance
@@ -111,7 +106,7 @@ class Express extends \Magento\Paypal\Model\Express
                 $api->getRedirectRequired() || $api->getRedirectRequested()
             )
             ->setIsTransactionPending($api->getIsPaymentPending())
-            ->setTransactionAdditionalInfo(\Magento\PaypalUk\Model\Pro::TRANSPORT_PAYFLOW_TXN_ID,
+            ->setTransactionAdditionalInfo(\Magento\Paypal\Model\Payflow\Pro::TRANSPORT_PAYFLOW_TXN_ID,
                 $api->getTransactionId())
         ;
         $payment->setPreparedMessage(__('Payflow PNREF: #%1.', $api->getTransactionId()));
@@ -127,6 +122,6 @@ class Express extends \Magento\Paypal\Model\Express
      */
     public function getCheckoutRedirectUrl()
     {
-        return $this->_urlBuilder->getUrl('paypaluk/express/start');
+        return $this->_urlBuilder->getUrl('paypal/payflowexpress/start');
     }
 }
