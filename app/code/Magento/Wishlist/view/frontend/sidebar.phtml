@@ -39,12 +39,12 @@ $wishlistHelper = $this->helper('Magento\Wishlist\Helper\Data');
                                 <?php echo $this->getPriceHtml($product, false, '-wishlist') ?>
                                 <div class="product actions">
                                     <?php if ($product->isSaleable() && $product->isVisibleInSiteVisibility()): ?>
-                                        <?php if ($_item->getTypeInstance()->hasRequiredOptions($_item)): ?>
-                                            <div class="primary"><a href="<?php echo $this->getItemAddToCartUrl($_item) ?>" class="action tocart"><span><?php echo __('Add to Cart') ?></span></a></div>
+                                        <?php if ($product->getTypeInstance()->hasRequiredOptions($product)): ?>
+                                            <div class="primary"><a href="<?php echo $this->getItemAddToCartUrl($product) ?>" class="action tocart"><span><?php echo __('Add to Cart') ?></span></a></div>
                                         <?php else: ?>
                                             <?php
                                                 $postDataHelper = $this->helper('Magento\Core\Helper\PostData');
-                                                $postData = $postDataHelper->getPostData($this->getItemAddToCartUrl($_product), ['product' => $_product->getEntityId()])
+                                                $postData = $postDataHelper->getPostData($this->getItemAddToCartUrl($product), ['product' => $product->getEntityId()])
                                             ?>
                                             <div class="primary"><button type="button" class="action tocart" data-post='<?php echo $postData; ?>'><span><?php echo __('Add to Cart') ?></span></button></div>
                                         <?php endif; ?>
