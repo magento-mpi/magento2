@@ -106,6 +106,10 @@ class Changelog implements ChangelogInterface
     public function drop()
     {
         $changelogTableName = $this->write->getTableName($this->getName());
+        if (!$this->write->isTableExists($changelogTableName)) {
+            throw new \Exception("Table {$changelogTableName} does not exist");
+        }
+
         $this->write->dropTable($changelogTableName);
 
         return true;

@@ -79,7 +79,7 @@ class ChangelogTest extends \PHPUnit_Framework_TestCase
 
     public function testGetName()
     {
-        $this->assertEquals('ViewIdTest' . '_' . \Magento\Mview\View\Changelog::SUFFIX_NAME, $this->model->getName());
+        $this->assertEquals('ViewIdTest' . '_' . \Magento\Mview\View\Changelog::NAME_SUFFIX, $this->model->getName());
     }
 
     public function testGetColumnName()
@@ -104,7 +104,7 @@ class ChangelogTest extends \PHPUnit_Framework_TestCase
         $model->getVersion();
     }
 
-    public function testRemoveWithException()
+    public function testDropWithException()
     {
         $changelogTableName = 'viewIdtest_cl';
         $connection = $this->getMock('Magento\DB\Adapter\Pdo\Mysql', array('isTableExists'), array(), '', false);
@@ -118,7 +118,7 @@ class ChangelogTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($connection));
         $model = new \Magento\Mview\View\Changelog($resource, $this->stateFactoryMock, 'viewIdtest');
         $this->setExpectedException('Exception', "Table {$changelogTableName} does not exist");
-        $model->remove();
+        $model->drop();
     }
 
     public function testCreateWithException()
