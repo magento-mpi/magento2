@@ -130,6 +130,14 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     protected $_locale;
 
     /**
+     * The property is used to define content-scope of block. Can be private or public.
+     * If it isn't defined then application considers it as false.
+     *
+     * @var bool
+     */
+    protected $_isScopePrivate;
+
+    /**
      * @param \Magento\View\Element\Context $context
      * @param array $data
      */
