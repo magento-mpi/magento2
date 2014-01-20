@@ -94,6 +94,11 @@ class Observer
     protected $_indexerPrice;
 
     /**
+     * @var \Magento\Catalog\Model\ProductTypes\ConfigInterface
+     */
+    protected $typeConfig;
+
+    /**
      * @param \Magento\Catalog\Model\Resource\Product\Indexer\Price $indexerPrice
      * @param \Magento\CatalogInventory\Model\Resource\Indexer\Stock $resourceIndexerStock
      * @param \Magento\CatalogInventory\Model\Resource\Stock $resourceStock
@@ -104,6 +109,7 @@ class Observer
      * @param \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory
      * @param \Magento\CatalogInventory\Model\StockFactory $stockFactory
      * @param \Magento\CatalogInventory\Model\Stock\StatusFactory $stockStatusFactory
+     * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $typeConfig
      */
     public function __construct(
         \Magento\Catalog\Model\Resource\Product\Indexer\Price $indexerPrice,
@@ -115,7 +121,8 @@ class Observer
         \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
         \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory,
         \Magento\CatalogInventory\Model\StockFactory $stockFactory,
-        \Magento\CatalogInventory\Model\Stock\StatusFactory $stockStatusFactory
+        \Magento\CatalogInventory\Model\Stock\StatusFactory $stockStatusFactory,
+        \Magento\Catalog\Model\ProductTypes\ConfigInterface $typeConfig
     ) {
         $this->_indexerPrice = $indexerPrice;
         $this->_resourceIndexerStock = $resourceIndexerStock;
@@ -127,6 +134,7 @@ class Observer
         $this->_stockItemFactory = $stockItemFactory;
         $this->_stockFactory = $stockFactory;
         $this->_stockStatusFactory = $stockStatusFactory;
+        $this->typeConfig = $typeConfig;
     }
 
     /**
@@ -511,7 +519,7 @@ class Observer
             $productTypeCustomOption = $quoteItem->getProduct()->getCustomOption('product_type');
             if (!is_null($productTypeCustomOption)) {
                 // Check if product related to current item is a part of grouped product
-                if ($productTypeCustomOption->getValue() == \Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE) {
+                if ($this->typeConfig->isProductSet($productTypeCustomOption->getValue())) {
                     $stockItem->setProductName($quoteItem->getProduct()->getName());
                     $stockItem->setIsChildItem(true);
                 }
