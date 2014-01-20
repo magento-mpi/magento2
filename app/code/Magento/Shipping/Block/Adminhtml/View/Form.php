@@ -20,25 +20,25 @@ namespace Magento\Shipping\Block\Adminhtml\View;
 class Form extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
 {
     /**
-     * @var \Magento\Shipping\Model\Carrier
+     * @var \Magento\Shipping\Model\Carrier\Factory
      */
-    protected $_carrier;
+    protected $_carrierFactory;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Sales\Helper\Admin $adminHelper
-     * @param \Magento\Shipping\Model\Carrier $carrier
+     * @param \Magento\Shipping\Model\Carrier\Factory $carrierFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Sales\Helper\Admin $adminHelper,
-        \Magento\Shipping\Model\Carrier $carrier,
+        \Magento\Shipping\Model\Carrier\Factory $carrierFactory,
         array $data = array()
     ) {
-        $this->_carrier = $carrier;
+        $this->_carrierFactory = $carrierFactory;
         parent::__construct($context, $registry, $adminHelper, $data);
     }
 
@@ -131,7 +131,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
      */
     public function canCreateShippingLabel()
     {
-        $shippingCarrier = $this->_carrier->getShippingCarrier($this->getOrder());
+        $shippingCarrier = $this->_carrierFactory->getByOrder($this->getOrder());
         return $shippingCarrier && $shippingCarrier->isShippingLabelsAvailable();
     }
 }

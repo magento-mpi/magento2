@@ -15,6 +15,29 @@ namespace Magento\Shipping\Block\Adminhtml\Order\Tracking;
 class View extends \Magento\Shipping\Block\Adminhtml\Order\Tracking
 {
     /**
+     * @var \Magento\Shipping\Model\Carrier\Factory
+     */
+    protected $_carrierFactory;
+
+    /**
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Shipping\Model\Config $shippingConfig
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Shipping\Model\Carrier\Factory $carrierFactory
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Shipping\Model\Config $shippingConfig,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Shipping\Model\Carrier\Factory $carrierFactory,
+        array $data = array()
+    ) {
+        parent::__construct($context, $shippingConfig, $registry, $data);
+        $this->_carrierFactory = $carrierFactory;
+    }
+
+    /**
      * Prepares layout of block
      *
      * @return \Magento\Sales\Block\Adminhtml\Order\View\Giftmessage
@@ -65,7 +88,7 @@ class View extends \Magento\Shipping\Block\Adminhtml\Order\Tracking
 
     public function getCarrierTitle($code)
     {
-        $carrier = $this->_shippingConfig->getCarrierInstance($code);
+        $carrier = $this->_carrierFactory->create($code);
         if ($carrier) {
             return $carrier->getConfigData('title');
         } else {

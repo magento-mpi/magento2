@@ -473,11 +473,6 @@ class Order extends \Magento\Sales\Model\AbstractModel
     protected $_orderTaxCollFactory;
 
     /**
-     * @var \Magento\Sales\Model\CarrierFactory
-     */
-    protected $_carrierFactory;
-
-    /**
      * @var Resource\Order\Address\CollectionFactory
      */
     protected $_addressCollectionFactory;
@@ -533,10 +528,9 @@ class Order extends \Magento\Sales\Model\AbstractModel
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param Order\Status\HistoryFactory $orderHistoryFactory
      * @param \Magento\Tax\Model\Resource\Sales\Order\Tax\CollectionFactory $orderTaxCollFactory
-     * @param CarrierFactory $carrierFactory
      * @param Resource\Order\Address\CollectionFactory $addressCollectionFactory
      * @param Resource\Order\Payment\CollectionFactory $paymentCollectionFactory
-     * @param Resource\Order\Status\History\Collection $historyCollectionFactory
+     * @param Resource\Order\Status\History\CollectionFactory $historyCollectionFactory
      * @param Resource\Order\Invoice\CollectionFactory $invoiceCollectionFactory
      * @param Resource\Order\Shipment\CollectionFactory $shipmentCollectionFactory
      * @param Resource\Order\Creditmemo\CollectionFactory $memoCollectionFactory
@@ -566,7 +560,6 @@ class Order extends \Magento\Sales\Model\AbstractModel
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Sales\Model\Order\Status\HistoryFactory $orderHistoryFactory,
         \Magento\Tax\Model\Resource\Sales\Order\Tax\CollectionFactory $orderTaxCollFactory,
-        \Magento\Sales\Model\CarrierFactory $carrierFactory,
         \Magento\Sales\Model\Resource\Order\Address\CollectionFactory $addressCollectionFactory,
         \Magento\Sales\Model\Resource\Order\Payment\CollectionFactory $paymentCollectionFactory,
         \Magento\Sales\Model\Resource\Order\Status\History\CollectionFactory $historyCollectionFactory,
@@ -594,7 +587,6 @@ class Order extends \Magento\Sales\Model\AbstractModel
         $this->_eavConfig = $eavConfig;
         $this->_orderHistoryFactory = $orderHistoryFactory;
         $this->_orderTaxCollFactory = $orderTaxCollFactory;
-        $this->_carrierFactory = $carrierFactory;
         $this->_addressCollectionFactory = $addressCollectionFactory;
         $this->_paymentCollectionFactory = $paymentCollectionFactory;
         $this->_historyCollectionFactory = $historyCollectionFactory;

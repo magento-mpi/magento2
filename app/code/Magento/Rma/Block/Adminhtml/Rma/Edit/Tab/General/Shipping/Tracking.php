@@ -30,9 +30,9 @@ class Tracking extends \Magento\Backend\Block\Template
     protected $_rmaData;
 
     /**
-     * @var \Magento\Shipping\Model\Config
+     * @var \Magento\Shipping\Model\Carrier\Factory
      */
-    protected $_shippingConfig;
+    protected $_carrierFactory;
 
     /**
      * @var \Magento\Rma\Model\Resource\Shipping\CollectionFactory
@@ -42,7 +42,7 @@ class Tracking extends \Magento\Backend\Block\Template
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Rma\Model\Resource\Shipping\CollectionFactory $shippingCollFactory
-     * @param \Magento\Shipping\Model\Config $shippingConfig
+     * @param \Magento\Shipping\Model\Carrier\Factory $carrierFactory
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
@@ -50,13 +50,13 @@ class Tracking extends \Magento\Backend\Block\Template
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Rma\Model\Resource\Shipping\CollectionFactory $shippingCollFactory,
-        \Magento\Shipping\Model\Config $shippingConfig,
+        \Magento\Shipping\Model\Carrier\Factory $carrierFactory,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_shippingCollFactory = $shippingCollFactory;
-        $this->_shippingConfig = $shippingConfig;
+        $this->_carrierFactory = $carrierFactory;
         $this->_coreRegistry = $registry;
         $this->_rmaData = $rmaData;
         parent::__construct($context, $data);
@@ -168,7 +168,7 @@ class Tracking extends \Magento\Backend\Block\Template
      */
     public function getCarrierTitle($code)
     {
-        $carrier = $this->_shippingConfig->getCarrierInstance($code);
+        $carrier = $this->_carrierFactory->create($code);
         return $carrier ? $carrier->getConfigData('title') : __('Custom Value');
     }
 }

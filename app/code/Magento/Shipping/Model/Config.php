@@ -21,8 +21,6 @@ class Config extends \Magento\Object
     const XML_PATH_ORIGIN_CITY       = 'shipping/origin/city';
     const XML_PATH_ORIGIN_POSTCODE   = 'shipping/origin/postcode';
 
-    protected static $_carriers;
-
     /**
      * Core store config
      *
@@ -64,7 +62,7 @@ class Config extends \Magento\Object
         $config = $this->_coreStoreConfig->getConfig('carriers', $store);
         foreach (array_keys($config) as $carrierCode) {
             if ($this->_coreStoreConfig->getConfigFlag('carriers/' . $carrierCode . '/active', $store)) {
-                $carrierModel = $this->_getCarrier($carrierCode, $store);
+                $carrierModel = $this->_carrierFactory->create($carrierCode, $store);
                 if ($carrierModel) {
                     $carriers[$carrierCode] = $carrierModel;
                 }
@@ -84,37 +82,11 @@ class Config extends \Magento\Object
         $carriers = array();
         $config = $this->_coreStoreConfig->getConfig('carriers', $store);
         foreach (array_keys($config) as $carrierCode) {
-            $model = $this->_getCarrier($carrierCode, $store);
+            $model = $this->_carrierFactory->create($carrierCode, $store);
             if ($model) {
                 $carriers[$carrierCode] = $model;
             }
         }
         return $carriers;
-    }
-
-    /**
-     * Retrieve carrier model instance by carrier code
-     *
-     * @param   string $carrierCode
-     * @param   mixed $store
-     * @return  \Magento\Usa\Model\Shipping\Carrier\AbstractCarrier
-     */
-    public function getCarrierInstance($carrierCode, $store = null)
-    {
-        return $this->_getCarrier($carrierCode, $store);
-    }
-
-    /**
-     * Get carrier model object
-     *
-     * @param $carrierCode
-     * @param mixed $store
-     * @return \Magento\Shipping\Model\Carrier\AbstractCarrier
-     */
-    protected function _getCarrier($carrierCode, $store = null)
-    {
-        $carrier = $this->_carrierFactory->create($carrierCode, $store);
-        self::$_carriers[$carrierCode] = $carrier;
-        return self::$_carriers[$carrierCode];
     }
 }

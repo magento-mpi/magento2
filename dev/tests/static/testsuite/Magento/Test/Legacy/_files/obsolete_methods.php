@@ -491,7 +491,7 @@ return array(
     array('getSecure', 'Magento\Core\Model\Url', 'isSecure'),
     array('getSelectionFinalPrice', 'Magento\Bundle\Model\Product\Price'),
     array('getShipId', 'Magento\Shipping\Block\Tracking\Popup'),
-    array('getShippingCarrier', 'Magento\Shipping\Model\Carrier'),
+    array('getShippingCarrier', 'Magento\Sales\Model\Order', 'Magento\Shipping\Model\Carrier\Factory::create'),
     array('getShowTemplateHints', 'Magento\View\Element\Template'),
     array('getSortedChildBlocks', '', 'getChildNames() + $this->getLayout()->getBlock($name)'),
     array('getSortedChildren', '', 'getChildNames'),

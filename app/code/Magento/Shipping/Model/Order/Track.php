@@ -34,9 +34,9 @@ namespace Magento\Shipping\Model\Order;
 class Track extends \Magento\Sales\Model\Order\Shipment\Track
 {
     /**
-     * @var \Magento\Shipping\Model\Config
+     * @var \Magento\Shipping\Model\Carrier\Factory
      */
-    protected $_shippingConfig;
+    protected $_carrierFactory;
 
     /**
      * @param \Magento\Core\Model\Context $context
@@ -45,7 +45,7 @@ class Track extends \Magento\Sales\Model\Order\Shipment\Track
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Sales\Model\Order\ShipmentFactory $shipmentFactory
-     * @param \Magento\Shipping\Model\Config $shippingConfig
+     * @param \Magento\Shipping\Model\Carrier\Factory $carrierFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -57,7 +57,7 @@ class Track extends \Magento\Sales\Model\Order\Shipment\Track
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Sales\Model\Order\ShipmentFactory $shipmentFactory,
-        \Magento\Shipping\Model\Config $shippingConfig,
+        \Magento\Shipping\Model\Carrier\Factory $carrierFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -73,7 +73,7 @@ class Track extends \Magento\Sales\Model\Order\Shipment\Track
             $resourceCollection,
             $data
         );
-        $this->_shippingConfig = $shippingConfig;
+        $this->_carrierFactory = $carrierFactory;
     }
 
     /**
@@ -83,7 +83,7 @@ class Track extends \Magento\Sales\Model\Order\Shipment\Track
      */
     public function getNumberDetail()
     {
-        $carrierInstance = $this->_shippingConfig->getCarrierInstance($this->getCarrierCode());
+        $carrierInstance = $this->_carrierFactory->create($this->getCarrierCode());
         if (!$carrierInstance) {
             $custom = array();
             $custom['title'] = $this->getTitle();

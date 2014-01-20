@@ -23,16 +23,16 @@ class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
     protected $_salesData = null;
 
     /**
-     * @var \Magento\Shipping\Model\Carrier
+     * @var \Magento\Shipping\Model\Carrier\Factory
      */
-    protected $_carrier;
+    protected $_carrierFactory;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Sales\Helper\Data $salesData
-     * @param \Magento\Shipping\Model\Carrier $carrier
+     * @param \Magento\Shipping\Model\Carrier\Factory $carrierFactory
      * @param array $data
      */
     public function __construct(
@@ -40,11 +40,11 @@ class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Core\Model\Registry $registry,
         \Magento\Sales\Helper\Data $salesData,
-        \Magento\Shipping\Model\Carrier $carrier,
+        \Magento\Shipping\Model\Carrier\Factory $carrierFactory,
         array $data = array()
     ) {
         $this->_salesData = $salesData;
-        $this->_carrier = $carrier;
+        $this->_carrierFactory = $carrierFactory;
         parent::__construct($context, $productFactory, $registry, $data);
     }
 
@@ -140,7 +140,7 @@ class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
      */
     public function canCreateShippingLabel()
     {
-        $shippingCarrier = $this->_carrier->getShippingCarrier($this->getOrder());
+        $shippingCarrier = $this->_carrierFactory->getByOrder($this->getOrder());
         return $shippingCarrier && $shippingCarrier->isShippingLabelsAvailable();
     }
 }

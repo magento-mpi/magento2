@@ -212,7 +212,7 @@ class Shipping
     public function collectCarrierRates($carrierCode, $request)
     {
         /* @var $carrier \Magento\Shipping\Model\Carrier\AbstractCarrier */
-        $carrier = $this->getCarrierByCode($carrierCode, $request->getStoreId());
+        $carrier = $this->_carrierFactory->getIfActive($carrierCode, $request->getStoreId());
         if (!$carrier) {
             return $this;
         }
@@ -456,23 +456,5 @@ class Shipping
     {
         $this->_availabilityConfigField = $code;
         return $this;
-    }
-
-    /**
-     * Get carrier by its code
-     *
-     * @param string $carrierCode
-     * @param null|int $storeId
-     * @return bool|\Magento\Core\Model\AbstractModel
-     */
-    public function getCarrierByCode($carrierCode, $storeId = null)
-    {
-        $isActive = $this->_coreStoreConfig
-            ->getConfigFlag('carriers/' . $carrierCode . '/' . $this->_availabilityConfigField, $storeId);
-        if (!$isActive) {
-            return false;
-        }
-
-        return $this->_carrierFactory->create($carrierCode, $storeId);
     }
 }

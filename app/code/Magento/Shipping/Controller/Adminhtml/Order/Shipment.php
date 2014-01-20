@@ -32,17 +32,25 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
     protected $_fileFactory;
 
     /**
+     * @var \Magento\Shipping\Model\Carrier\Factory
+     */
+    protected $_carrierFactory;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\App\Response\Http\FileFactory $fileFactory
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Shipping\Model\Carrier\Factory $carrierFactory
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\App\Response\Http\FileFactory $fileFactory,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Shipping\Model\Carrier\Factory $carrierFactory
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_fileFactory = $fileFactory;
+        $this->_carrierFactory = $carrierFactory;
         parent::__construct($context, $fileFactory);
     }
 
@@ -445,7 +453,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
         if (!$shipment) {
             return false;
         }
-        $carrier = $shipment->getOrder()->getShippingCarrier();
+        $carrier = $this->_carrierFactory->getByOrder($shipment->getOrder());
         if (!$carrier->isShippingLabelsAvailable()) {
             return false;
         }
