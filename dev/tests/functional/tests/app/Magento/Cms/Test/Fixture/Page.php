@@ -11,7 +11,9 @@
 
 namespace Magento\Cms\Test\Fixture;
 
+use Mtf\Factory\Factory;
 use Mtf\Fixture\DataFixture;
+use Magento\Cms\Test\Repository\Page as Repository;
 
 /**
  * Class Page
@@ -22,30 +24,45 @@ use Mtf\Fixture\DataFixture;
 class Page extends DataFixture
 {
     /**
-     * {inheritdoc}
+     * Get page title
+     *
+     * @return string
+     */
+    public function getPageTitle()
+    {
+        return $this->getData('fields/page_title/value');
+    }
+
+    /**
+     * Get page identifier
+     *
+     * @return string
+     */
+    public function getPageIdentifier()
+    {
+        return $this->getData('fields/page_identifier/value');
+    }
+
+    /**
+     * Get page content
+     *
+     * @return string
+     */
+    public function getPageContent()
+    {
+        return $this->getData('fields/page_content/value');
+    }
+
+    /**
+     * Initialize fixture data
+     *
+     * @return void
      */
     protected function _initData()
     {
-        $this->_defaultConfig = array(
-            'grid_filter'      => array('page_title'),
-            'constraint'       => 'Success'
-        );
+        $this->_repository = Factory::getRepositoryFactory()->getMagentoCmsPage($this->_dataConfig, $this->_data);
 
-        $this->_data = array(
-            'fields' => array(
-                'page_title'     => array(
-                    'value' => 'CMS Page%isolation%',
-                    'group' => 'page_tabs_main_section'
-                ),
-                'page_identifier' => array(
-                    'value' => 'identifier%isolation%',
-                    'group' => 'page_tabs_main_section'
-                ),
-                'page_content_heading'  => array(
-                    'value' => 'CMS Page Head%isolation%',
-                    'group' => 'page_tabs_content_section'
-                )
-            )
-        );
+        //Default data set
+        $this->switchData(Repository::PAGE);
     }
 }
