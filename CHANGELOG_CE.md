@@ -1,5 +1,6 @@
 * Introduced new layout block attribute - cacheable
 * Fixed bugs:
+  * Fixed configurable product images display in shopping cart
   * Fixed No Collapsing for Tax Summary
   * Optimized Plushe theme css
   * Fixed attribute types for configurable product variations
@@ -9,6 +10,7 @@
   * Fixed 3D secure validation
   * Fixed session to be transfered between Magento urls
   * Fixed Advanced search filter to properly compare numbers
+* Removed the deprecated service-calls and data source functionality
 
 2.0.0.0-dev60
 =============
