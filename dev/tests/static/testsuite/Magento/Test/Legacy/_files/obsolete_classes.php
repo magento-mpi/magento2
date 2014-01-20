@@ -1805,4 +1805,8 @@ return array(
         'Magento\Sales\Block\Adminhtml\Items\Column\Name\Grouped',
         'Magento\GroupedProduct\Block\Adminhtml\Items\Column\Name\Grouped'
     ),
+    array(
+        'Magento\Sales\Model\Order\Pdf\Items\Invoice\Grouped',
+        'Magento\GroupedProduct\Model\Order\Pdf\Items\Invoice\Grouped'
+    ),
 );
