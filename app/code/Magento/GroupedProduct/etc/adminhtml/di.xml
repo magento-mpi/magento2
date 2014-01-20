@@ -12,6 +12,9 @@
     <type name="Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\ProductLinks">
         <plugin name="GroupedProduct" type="Magento\GroupedProduct\Controller\Adminhtml\Product\Initialization\Helper\ProductLinks\Plugin\Grouped" />
     </type>
+    <type name="Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\AbstractSidebar">
+        <plugin name="GroupedProduct" type="Magento\GroupedProduct\Block\Adminhtml\Order\Create\Sidebar" sortOrder="100"/>
+    </type>
     <type name="Magento\Catalog\Model\Product\CopyConstructor\Composite">
         <param name="constructors">
             <value>
