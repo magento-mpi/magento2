@@ -52,8 +52,12 @@ class Widget extends AbstractRepository
                             // Display On = All Pages
                             'page_group' => 'all_pages',
                             'all_pages' => array(
+                                'page_id' => '0',
+                                'layout_handle' => 'default',
+                                'for' => 'all',
                                 // Container = Main Content Area
-                                'block' => 'content'
+                                'block' => 'content',
+                                'template' => 'widget/block.phtml'
                             )
                         )
                     )
