@@ -80,24 +80,24 @@ abstract class AbstractCarrier extends \Magento\Object
     protected $_coreStoreConfig;
 
     /**
-     * @var \Magento\Shipping\Model\Rate\Result\ErrorFactory
+     * @var \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory
      */
     protected $_rateErrorFactory;
 
     /**
-     * @var \Magento\Shipping\Model\Rate\Result\ErrorFactory
+     * @var \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory
      */
     protected $_logAdapterFactory;
 
     /**
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Shipping\Model\Rate\Result\ErrorFactory $rateErrorFactory
+     * @param \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory
      * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Shipping\Model\Rate\Result\ErrorFactory $rateErrorFactory,
+        \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory,
         \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
         array $data = array()
     ) {
@@ -141,10 +141,10 @@ abstract class AbstractCarrier extends \Magento\Object
      * Collect and get rates
      *
      * @abstract
-     * @param \Magento\Shipping\Model\Rate\Request $request
+     * @param \Magento\Sales\Model\Quote\Address\RateRequest $request
      * @return \Magento\Shipping\Model\Rate\Result|bool|null
      */
-    abstract public function collectRates(\Magento\Shipping\Model\Rate\Request $request);
+    abstract public function collectRates(\Magento\Sales\Model\Quote\Address\RateRequest $request);
 
     /**
      * Do request to shipment
@@ -256,10 +256,10 @@ abstract class AbstractCarrier extends \Magento\Object
     }
 
     /**
-     * @param \Magento\Shipping\Model\Rate\Request $request
+     * @param \Magento\Sales\Model\Quote\Address\RateRequest $request
      * @return $this|bool|false|\Magento\Core\Model\AbstractModel
      */
-    public function checkAvailableShipCountries(\Magento\Shipping\Model\Rate\Request $request)
+    public function checkAvailableShipCountries(\Magento\Sales\Model\Quote\Address\RateRequest $request)
     {
         $speCountriesAllow = $this->getConfigData('sallowspecific');
         /*
@@ -276,7 +276,7 @@ abstract class AbstractCarrier extends \Magento\Object
              } elseif ($showMethod && (!$availableCountries || ($availableCountries
                  && !in_array($request->getDestCountryId(), $availableCountries)))
              ){
-                   /** @var \Magento\Shipping\Model\Rate\Result\Error $error */
+                   /** @var \Magento\Sales\Model\Quote\Address\RateResult\Error $error */
                    $error = $this->_rateErrorFactory->create();
                    $error->setCarrier($this->_code);
                    $error->setCarrierTitle($this->getConfigData('title'));
@@ -297,10 +297,10 @@ abstract class AbstractCarrier extends \Magento\Object
     /**
      * Processing additional validation to check is carrier applicable.
      *
-     * @param \Magento\Shipping\Model\Rate\Request $request
-     * @return \Magento\Shipping\Model\Carrier\AbstractCarrier|\Magento\Shipping\Model\Rate\Result\Error|boolean
+     * @param \Magento\Sales\Model\Quote\Address\RateRequest $request
+     * @return \Magento\Shipping\Model\Carrier\AbstractCarrier|\Magento\Sales\Model\Quote\Address\RateResult\Error|boolean
      */
-    public function proccessAdditionalValidation(\Magento\Shipping\Model\Rate\Request $request)
+    public function proccessAdditionalValidation(\Magento\Sales\Model\Quote\Address\RateRequest $request)
     {
         return $this;
     }
@@ -357,7 +357,7 @@ abstract class AbstractCarrier extends \Magento\Object
     }
 
     /**
-     * @param \Magento\Shipping\Model\Rate\Request $request
+     * @param \Magento\Sales\Model\Quote\Address\RateRequest $request
      * @return null
      */
     protected function _updateFreeMethodQuote($request)
@@ -390,12 +390,12 @@ abstract class AbstractCarrier extends \Magento\Object
 
             $result = $this->_getQuotes();
             if ($result && ($rates = $result->getAllRates()) && count($rates)>0) {
-                if ((count($rates) == 1) && ($rates[0] instanceof \Magento\Shipping\Model\Rate\Result\Method)) {
+                if ((count($rates) == 1) && ($rates[0] instanceof \Magento\Sales\Model\Quote\Address\RateResult\Method)) {
                     $price = $rates[0]->getPrice();
                 }
                 if (count($rates) > 1) {
                     foreach ($rates as $rate) {
-                        if ($rate instanceof \Magento\Shipping\Model\Rate\Result\Method
+                        if ($rate instanceof \Magento\Sales\Model\Quote\Address\RateResult\Method
                             && $rate->getMethod() == $freeMethod
                         ) {
                             $price = $rate->getPrice();

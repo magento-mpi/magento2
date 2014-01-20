@@ -2,14 +2,10 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Shipping
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
-namespace Magento\Shipping\Model\Rate;
+namespace Magento\Sales\Model\Quote\Address;
 
 abstract class AbstractRate extends \Magento\Core\Model\AbstractModel
 {

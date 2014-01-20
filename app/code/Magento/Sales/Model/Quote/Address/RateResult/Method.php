@@ -2,12 +2,10 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Shipping
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sales\Model\Quote\Address\RateResult;
 
 /**
  * Fields:
@@ -18,9 +16,7 @@
  * - price: $9.40 (cost+handling)
  * - cost: $8.00
  */
-namespace Magento\Shipping\Model\Rate\Result;
-
-class Method extends \Magento\Shipping\Model\Rate\Result\AbstractResult
+class Method extends AbstractResult
 {
     /**
      * @var \Magento\Core\Model\StoreManagerInterface
@@ -43,7 +39,7 @@ class Method extends \Magento\Shipping\Model\Rate\Result\AbstractResult
      * Round shipping carrier's method price
      *
      * @param string|float|int $price
-     * @return \Magento\Shipping\Model\Rate\Result\Method
+     * @return \Magento\Sales\Model\Quote\Address\RateResult\Method
      */
     public function setPrice($price)
     {

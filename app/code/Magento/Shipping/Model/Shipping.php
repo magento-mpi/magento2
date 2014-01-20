@@ -72,7 +72,7 @@ class Shipping
     protected $_rateResultFactory;
 
     /**
-     * @var \Magento\Shipping\Model\Rate\RequestFactory
+     * @var \Magento\Sales\Model\Quote\Address\RateRequestFactory
      */
     protected $_shipmentRequestFactory;
 
@@ -165,10 +165,10 @@ class Shipping
      * Retrieve all methods for supplied shipping data
      *
      * @todo make it ordered
-     * @param \Magento\Shipping\Model\Rate\Request $request
-     * @return \Magento\Shipping\Model\Shipping
+     * @param \Magento\Sales\Model\Quote\Address\RateRequest $request
+     * @return $this
      */
-    public function collectRates(\Magento\Shipping\Model\Rate\Request $request)
+    public function collectRates(\Magento\Sales\Model\Quote\Address\RateRequest $request)
     {
         $storeId = $request->getStoreId();
         if (!$request->getOrig()) {
@@ -206,7 +206,7 @@ class Shipping
      * Collect rates of given carrier
      *
      * @param string                           $carrierCode
-     * @param \Magento\Shipping\Model\Rate\Request $request
+     * @param \Magento\Sales\Model\Quote\Address\RateRequest $request
      * @return \Magento\Shipping\Model\Shipping
      */
     public function collectCarrierRates($carrierCode, $request)
@@ -218,7 +218,7 @@ class Shipping
         }
         $carrier->setActiveFlag($this->_availabilityConfigField);
         $result = $carrier->checkAvailableShipCountries($request);
-        if (false !== $result && !($result instanceof \Magento\Shipping\Model\Rate\Result\Error)) {
+        if (false !== $result && !($result instanceof \Magento\Sales\Model\Quote\Address\RateResult\Error)) {
             $result = $carrier->proccessAdditionalValidation($request);
         }
         /*
@@ -226,7 +226,7 @@ class Shipping
         * if the delivery country is not within specific countries
         */
         if (false !== $result){
-            if (!$result instanceof \Magento\Shipping\Model\Rate\Result\Error) {
+            if (!$result instanceof \Magento\Sales\Model\Quote\Address\RateResult\Error) {
                 if ($carrier->getConfigData('shipment_requesttype')) {
                     $packages = $this->composePackagesForCarrier($carrier, $request);
                     if (!empty($packages)) {
@@ -285,7 +285,7 @@ class Shipping
      * Devides order into items and items into parts if it's necessary
      *
      * @param \Magento\Shipping\Model\Carrier\AbstractCarrier $carrier
-     * @param \Magento\Shipping\Model\Rate\Request $request
+     * @param \Magento\Sales\Model\Quote\Address\RateRequest $request
      * @return array [int, float]
      */
     public function composePackagesForCarrier($carrier, $request)
@@ -424,7 +424,7 @@ class Shipping
      */
     public function collectRatesByAddress(\Magento\Object $address, $limitCarrier = null)
     {
-        /** @var $request \Magento\Shipping\Model\Rate\Request */
+        /** @var $request \Magento\Sales\Model\Quote\Address\RateRequest */
         $request = $this->_shipmentRequestFactory->create();
         $request->setAllItems($address->getAllItems());
         $request->setDestCountryId($address->getCountryId());

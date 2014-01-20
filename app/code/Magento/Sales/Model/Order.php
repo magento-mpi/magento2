@@ -435,7 +435,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     /**
      * @var \Magento\Sales\Model\Resource\Order\Item\CollectionFactory
      */
-    protected $_orderItemCollFactory;
+    protected $_orderItemCollectionFactory;
 
     /**
      * @var \Magento\Catalog\Model\Product\Visibility
@@ -470,7 +470,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     /**
      * @var \Magento\Tax\Model\Resource\Sales\Order\Tax\CollectionFactory
      */
-    protected $_orderTaxCollFactory;
+    protected $_orderTaxCollectionFactory;
 
     /**
      * @var Resource\Order\Address\CollectionFactory
@@ -520,14 +520,14 @@ class Order extends \Magento\Sales\Model\AbstractModel
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Email\Model\Template\MailerFactory $templateMailerFactory
      * @param \Magento\Email\Model\InfoFactory $emailInfoFactory
-     * @param Resource\Order\Item\CollectionFactory $orderItemCollFactory
+     * @param Resource\Order\Item\CollectionFactory $orderItemCollectionFactory
      * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
      * @param \Magento\Tax\Model\Calculation $taxCalculation
      * @param Service\OrderFactory $serviceOrderFactory
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param Order\Status\HistoryFactory $orderHistoryFactory
-     * @param \Magento\Tax\Model\Resource\Sales\Order\Tax\CollectionFactory $orderTaxCollFactory
+     * @param \Magento\Tax\Model\Resource\Sales\Order\Tax\CollectionFactory $orderTaxCollectionFactory
      * @param Resource\Order\Address\CollectionFactory $addressCollectionFactory
      * @param Resource\Order\Payment\CollectionFactory $paymentCollectionFactory
      * @param Resource\Order\Status\History\CollectionFactory $historyCollectionFactory
@@ -552,14 +552,14 @@ class Order extends \Magento\Sales\Model\AbstractModel
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Email\Model\Template\MailerFactory $templateMailerFactory,
         \Magento\Email\Model\InfoFactory $emailInfoFactory,
-        \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $orderItemCollFactory,
+        \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $orderItemCollectionFactory,
         \Magento\Catalog\Model\Product\Visibility $productVisibility,
         \Magento\Tax\Model\Calculation $taxCalculation,
         \Magento\Sales\Model\Service\OrderFactory $serviceOrderFactory,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Sales\Model\Order\Status\HistoryFactory $orderHistoryFactory,
-        \Magento\Tax\Model\Resource\Sales\Order\Tax\CollectionFactory $orderTaxCollFactory,
+        \Magento\Tax\Model\Resource\Sales\Order\Tax\CollectionFactory $orderTaxCollectionFactory,
         \Magento\Sales\Model\Resource\Order\Address\CollectionFactory $addressCollectionFactory,
         \Magento\Sales\Model\Resource\Order\Payment\CollectionFactory $paymentCollectionFactory,
         \Magento\Sales\Model\Resource\Order\Status\History\CollectionFactory $historyCollectionFactory,
@@ -579,14 +579,14 @@ class Order extends \Magento\Sales\Model\AbstractModel
         $this->_productFactory = $productFactory;
         $this->_templateMailerFactory = $templateMailerFactory;
         $this->_emailInfoFactory = $emailInfoFactory;
-        $this->_orderItemCollFactory = $orderItemCollFactory;
+        $this->_orderItemCollectionFactory = $orderItemCollectionFactory;
         $this->_productVisibility = $productVisibility;
         $this->_taxCalculation = $taxCalculation;
         $this->_serviceOrderFactory = $serviceOrderFactory;
         $this->_currencyFactory = $currencyFactory;
         $this->_eavConfig = $eavConfig;
         $this->_orderHistoryFactory = $orderHistoryFactory;
-        $this->_orderTaxCollFactory = $orderTaxCollFactory;
+        $this->_orderTaxCollectionFactory = $orderTaxCollectionFactory;
         $this->_addressCollectionFactory = $addressCollectionFactory;
         $this->_paymentCollectionFactory = $paymentCollectionFactory;
         $this->_historyCollectionFactory = $historyCollectionFactory;
@@ -1608,7 +1608,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     public function getItemsCollection($filterByTypes = array(), $nonChildrenOnly = false)
     {
         if (is_null($this->_items)) {
-            $this->_items = $this->_orderItemCollFactory->create()
+            $this->_items = $this->_orderItemCollectionFactory->create()
                 ->setOrderFilter($this);
 
             if ($filterByTypes) {
@@ -1658,7 +1658,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
      */
     protected function _getItemsRandomCollection($limit, $nonChildrenOnly = false)
     {
-        $collection = $this->_orderItemCollFactory->create()
+        $collection = $this->_orderItemCollectionFactory->create()
             ->setOrderFilter($this)
             ->setRandomOrder();
 
@@ -2399,7 +2399,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
 
     public function getFullTaxInfo()
     {
-        $rates = $this->_orderTaxCollFactory->create()->loadByOrder($this)->toArray();
+        $rates = $this->_orderTaxCollectionFactory->create()->loadByOrder($this)->toArray();
         return $this->_taxCalculation->reproduceProcess($rates['items']);
     }
 

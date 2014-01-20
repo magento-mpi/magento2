@@ -49,7 +49,7 @@ class Options extends \Magento\View\Element\Template
     /**
      * @var \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory
      */
-    protected $_wrappingCollFactory;
+    protected $_wrappingCollectionFactory;
 
     /**
      * @var \Magento\Core\Helper\Data
@@ -60,7 +60,7 @@ class Options extends \Magento\View\Element\Template
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
-     * @param \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollFactory
+     * @param \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollectionFactory
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Checkout\Model\CartFactory $checkoutCartFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -70,7 +70,7 @@ class Options extends \Magento\View\Element\Template
         \Magento\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\GiftWrapping\Helper\Data $giftWrappingData,
-        \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollFactory,
+        \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollectionFactory,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Checkout\Model\CartFactory $checkoutCartFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
@@ -78,7 +78,7 @@ class Options extends \Magento\View\Element\Template
     ) {
         $this->_coreData = $coreData;
         $this->_giftWrappingData = $giftWrappingData;
-        $this->_wrappingCollFactory = $wrappingCollFactory;
+        $this->_wrappingCollectionFactory = $wrappingCollectionFactory;
         $this->_checkoutSession = $checkoutSession;
         $this->_checkoutCartFactory = $checkoutCartFactory;
         $this->_productFactory = $productFactory;
@@ -94,7 +94,7 @@ class Options extends \Magento\View\Element\Template
     {
         if (is_null($this->_designCollection)) {
             $store = $this->_storeManager->getStore();
-            $this->_designCollection = $this->_wrappingCollFactory->create()
+            $this->_designCollection = $this->_wrappingCollectionFactory->create()
                 ->addStoreAttributesToResult($store->getId())
                 ->applyStatusFilter()
                 ->applyWebsiteFilter($store->getWebsiteId());

@@ -44,7 +44,7 @@ class International
     /**
      * Rate request data
      *
-     * @var \Magento\Shipping\Model\Rate\Request|null
+     * @var \Magento\Sales\Model\Quote\Address\RateRequest|null
      */
     protected $_request = null;
 
@@ -183,11 +183,11 @@ class International
 
     /**
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Shipping\Model\Rate\Result\ErrorFactory $rateErrorFactory
+     * @param \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory
      * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
      * @param \Magento\Usa\Model\Simplexml\ElementFactory $xmlElFactory
      * @param \Magento\Shipping\Model\Rate\ResultFactory $rateFactory
-     * @param \Magento\Shipping\Model\Rate\Result\MethodFactory $rateMethodFactory
+     * @param \Magento\Sales\Model\Quote\Address\RateResult\MethodFactory $rateMethodFactory
      * @param \Magento\Shipping\Model\Tracking\ResultFactory $trackFactory
      * @param \Magento\Shipping\Model\Tracking\Result\ErrorFactory $trackErrorFactory
      * @param \Magento\Shipping\Model\Tracking\Result\StatusFactory $trackStatusFactory
@@ -207,11 +207,11 @@ class International
      */
     public function __construct(
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Shipping\Model\Rate\Result\ErrorFactory $rateErrorFactory,
+        \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory,
         \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
         \Magento\Usa\Model\Simplexml\ElementFactory $xmlElFactory,
         \Magento\Shipping\Model\Rate\ResultFactory $rateFactory,
-        \Magento\Shipping\Model\Rate\Result\MethodFactory $rateMethodFactory,
+        \Magento\Sales\Model\Quote\Address\RateResult\MethodFactory $rateMethodFactory,
         \Magento\Shipping\Model\Tracking\ResultFactory $trackFactory,
         \Magento\Shipping\Model\Tracking\Result\ErrorFactory $trackErrorFactory,
         \Magento\Shipping\Model\Tracking\Result\StatusFactory $trackStatusFactory,
@@ -280,10 +280,10 @@ class International
     /**
      * Collect and get rates
      *
-     * @param \Magento\Shipping\Model\Rate\Request $request
+     * @param \Magento\Sales\Model\Quote\Address\RateRequest $request
      * @return bool|\Magento\Shipping\Model\Rate\Result|null
      */
-    public function collectRates(\Magento\Shipping\Model\Rate\Request $request)
+    public function collectRates(\Magento\Sales\Model\Quote\Address\RateRequest $request)
     {
         if (!$this->getConfigFlag($this->_activeFlag)) {
             return false;
@@ -953,7 +953,7 @@ class International
      * Parse response from DHL web service
      *
      * @param string $response
-     * @return bool|\Magento\Object|\Magento\Shipping\Model\Rate\Result|\Magento\Shipping\Model\Rate\Result\Error
+     * @return bool|\Magento\Object|\Magento\Shipping\Model\Rate\Result|\Magento\Sales\Model\Quote\Address\RateResult\Error
      * @throws \Magento\Core\Exception
      */
     protected function _parseResponse($response)
@@ -1014,7 +1014,7 @@ class International
             foreach ($this->_rates as $rate) {
                 $method = $rate['service'];
                 $data = $rate['data'];
-                /* @var $rate \Magento\Shipping\Model\Rate\Result\Method */
+                /* @var $rate \Magento\Sales\Model\Quote\Address\RateResult\Method */
                 $rate = $this->_rateMethodFactory->create();
                 $rate->setCarrier(self::CODE);
                 $rate->setCarrierTitle($this->getConfigData('title'));
@@ -1176,10 +1176,10 @@ class International
     /**
      * Processing additional validation to check is carrier applicable.
      *
-     * @param \Magento\Shipping\Model\Rate\Request $request
-     * @return \Magento\Shipping\Model\Carrier\AbstractCarrier|\Magento\Shipping\Model\Rate\Result\Error|boolean
+     * @param \Magento\Sales\Model\Quote\Address\RateRequest $request
+     * @return \Magento\Shipping\Model\Carrier\AbstractCarrier|\Magento\Sales\Model\Quote\Address\RateResult\Error|boolean
      */
-    public function proccessAdditionalValidation(\Magento\Shipping\Model\Rate\Request $request)
+    public function proccessAdditionalValidation(\Magento\Sales\Model\Quote\Address\RateRequest $request)
     {
         //Skip by item validation if there is no items in request
         if (!count($this->getAllItems($request))) {
@@ -1203,14 +1203,14 @@ class International
     /**
      * Show default error
      *
-     * @return bool|\Magento\Shipping\Model\Rate\Result\Error
+     * @return bool|\Magento\Sales\Model\Quote\Address\RateResult\Error
      */
     protected function _showError()
     {
         $showMethod = $this->getConfigData('showmethod');
 
         if ($showMethod) {
-            /* @var $error \Magento\Shipping\Model\Rate\Result\Error */
+            /* @var $error \Magento\Sales\Model\Quote\Address\RateResult\Error */
             $error = $this->_rateErrorFactory->create();
             $error->setCarrier(self::CODE);
             $error->setCarrierTitle($this->getConfigData('title'));
@@ -1471,7 +1471,7 @@ class International
      * Generation Shipment Details Node according to origin region
      *
      * @param \Magento\Usa\Model\Simplexml\Element $xml
-     * @param \Magento\Shipping\Model\Rate\Request $rawRequest
+     * @param \Magento\Sales\Model\Quote\Address\RateRequest $rawRequest
      * @param string $originRegion
      * @return void
      */

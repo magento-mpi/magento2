@@ -63,7 +63,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
-        $customerCollFactory = $this->getMock(
+        $customerCollectionFactory = $this->getMock(
             'Magento\ScheduledImportExport\Model\Resource\Customer\CollectionFactory',
             array(), array(), '', false, false
         );
@@ -80,7 +80,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                 'Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory',
                 array(), array(), '', false, false
             ),
-            $customerCollFactory,
+            $customerCollectionFactory,
             $eavCustomerFactory,
             $this->getMock('Magento\ScheduledImportExport\Helper\Data', array(), array(), '', false, false),
             $this->_getModelDependencies()

@@ -2,16 +2,11 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Shipping
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
-namespace Magento\Shipping\Model\Rate\Result;
+namespace Magento\Sales\Model\Quote\Address\RateResult;
 
 class AbstractResult extends \Magento\Object
 {
-
 }

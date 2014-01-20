@@ -2,18 +2,13 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Shipping
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sales\Model\Quote\Address\RateResult;
 
-
-namespace Magento\Shipping\Model\Rate\Result;
-
-class Error extends \Magento\Shipping\Model\Rate\Result\AbstractResult
+class Error extends AbstractResult
 {
-
     public function getErrorMessage()
     {
         if (!$this->getData('error_message')) {

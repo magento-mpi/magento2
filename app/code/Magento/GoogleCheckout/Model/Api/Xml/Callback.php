@@ -274,7 +274,7 @@ class Callback extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
                 $address->setCollectShippingRates(true)
                     ->collectShippingRates();
                 foreach ($address->getAllShippingRates() as $rate) {
-                    if ($rate instanceof \Magento\Shipping\Model\Rate\Result\Error) {
+                    if ($rate instanceof \Magento\Sales\Model\Quote\Address\RateResult\Error) {
                         continue;
                     }
                     $methodName = sprintf('%s - %s', $rate->getCarrierTitle(), $rate->getMethodTitle());

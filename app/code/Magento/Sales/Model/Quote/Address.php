@@ -211,17 +211,17 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     /**
      * @var \Magento\Sales\Model\Resource\Quote\Address\Item\CollectionFactory
      */
-    protected $_itemCollFactory;
+    protected $_itemCollectionFactory;
 
     /**
-     * @var \Magento\Shipping\Model\ShippingFactory
+     * @var \Magento\Sales\Model\Quote\Address\RateCollectorInterfaceFactory
      */
-    protected $_shippingFactory;
+    protected $_rateCollectorFactory;
 
     /**
      * @var \Magento\Sales\Model\Resource\Quote\Address\Rate\CollectionFactory
      */
-    protected $_rateCollFactory;
+    protected $_rateCollectionFactory;
 
     /**
      * @var \Magento\Sales\Model\Quote\Address\Total\CollectorFactory
@@ -244,11 +244,11 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Customer\Model\AddressFactory $addressFactory
      * @param \Magento\Sales\Model\Quote\Address\ItemFactory $addressItemFactory
-     * @param \Magento\Sales\Model\Resource\Quote\Address\Item\CollectionFactory $itemCollFactory
+     * @param \Magento\Sales\Model\Resource\Quote\Address\Item\CollectionFactory $itemCollectionFactory
      * @param \Magento\Sales\Model\Quote\Address\RateFactory $addressRateFactory
-     * @param \Magento\Shipping\Model\ShippingFactory $shippingFactory
-     * @param \Magento\Sales\Model\Resource\Quote\Address\Rate\CollectionFactory $rateCollFactory
-     * @param \Magento\Shipping\Model\Rate\RequestFactory $rateRequestFactory
+     * @param \Magento\Sales\Model\Quote\Address\RateCollectorInterface $rateCollector
+     * @param \Magento\Sales\Model\Resource\Quote\Address\Rate\CollectionFactory $rateCollectionFactory
+     * @param \Magento\Sales\Model\Quote\Address\RateRequestFactory $rateRequestFactory
      * @param \Magento\Sales\Model\Quote\Address\Total\CollectorFactory $totalCollectorFactory
      * @param \Magento\Sales\Model\Quote\Address\TotalFactory $addressTotalFactory
      * @param \Magento\Object\Copy $objectCopyService
@@ -267,11 +267,11 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Customer\Model\AddressFactory $addressFactory,
         \Magento\Sales\Model\Quote\Address\ItemFactory $addressItemFactory,
-        \Magento\Sales\Model\Resource\Quote\Address\Item\CollectionFactory $itemCollFactory,
+        \Magento\Sales\Model\Resource\Quote\Address\Item\CollectionFactory $itemCollectionFactory,
         \Magento\Sales\Model\Quote\Address\RateFactory $addressRateFactory,
-        \Magento\Shipping\Model\ShippingFactory $shippingFactory,
-        \Magento\Sales\Model\Resource\Quote\Address\Rate\CollectionFactory $rateCollFactory,
-        \Magento\Shipping\Model\Rate\RequestFactory $rateRequestFactory,
+        \Magento\Sales\Model\Quote\Address\RateCollectorInterfaceFactory $rateCollectorFactory,
+        \Magento\Sales\Model\Resource\Quote\Address\Rate\CollectionFactory $rateCollectionFactory,
+        \Magento\Sales\Model\Quote\Address\RateRequestFactory $rateRequestFactory,
         \Magento\Sales\Model\Quote\Address\Total\CollectorFactory $totalCollectorFactory,
         \Magento\Sales\Model\Quote\Address\TotalFactory $addressTotalFactory,
         \Magento\Object\Copy $objectCopyService,
@@ -282,10 +282,10 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_addressFactory = $addressFactory;
         $this->_addressItemFactory = $addressItemFactory;
-        $this->_itemCollFactory = $itemCollFactory;
+        $this->_itemCollectionFactory = $itemCollectionFactory;
         $this->_addressRateFactory = $addressRateFactory;
-        $this->_shippingFactory = $shippingFactory;
-        $this->_rateCollFactory = $rateCollFactory;
+        $this->_rateCollectorFactory = $rateCollectorFactory;
+        $this->_rateCollectionFactory = $rateCollectionFactory;
         $this->_rateRequestFactory = $rateRequestFactory;
         $this->_totalCollectorFactory = $totalCollectorFactory;
         $this->_addressTotalFactory = $addressTotalFactory;
@@ -504,7 +504,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     public function getItemsCollection()
     {
         if (null === $this->_items) {
-            $this->_items = $this->_itemCollFactory->create()->setAddressFilter($this->getId());
+            $this->_items = $this->_itemCollectionFactory->create()->setAddressFilter($this->getId());
             if ($this->getId()) {
                 foreach ($this->_items as $item) {
                     $item->setAddress($this);
@@ -800,7 +800,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     public function getShippingRatesCollection()
     {
         if (null === $this->_rates) {
-            $this->_rates = $this->_rateCollFactory->create()->setAddressFilter($this->getId());
+            $this->_rates = $this->_rateCollectionFactory->create()->setAddressFilter($this->getId());
             if ($this->getQuote()->hasNominalItems(false)) {
                 $this->_rates->setFixedOnlyFilter(true);
             }
@@ -966,7 +966,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      */
     public function requestShippingRates(\Magento\Sales\Model\Quote\Item\AbstractItem $item = null)
     {
-        /** @var $request \Magento\Shipping\Model\Rate\Request */
+        /** @var $request \Magento\Sales\Model\Quote\Address\RateRequest */
         $request = $this->_rateRequestFactory->create();
         $request->setAllItems($item ? array($item) : $this->getAllItems());
         $request->setDestCountryId($this->getCountryId());
@@ -1011,7 +1011,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
 
         $request->setBaseSubtotalInclTax($this->getBaseSubtotalInclTax());
 
-        $result = $this->_shippingFactory->create()->collectRates($request)->getResult();
+        $result = $this->_rateCollectorFactory->create()->collectRates($request)->getResult();
 
         $found = false;
         if ($result) {

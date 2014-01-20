@@ -1775,4 +1775,6 @@ return array(
     array('Magento\Catalog\Model\Resource\Convert'),
     array('Magento\Reminder\Model\Resource\HelperFactory'),
     array('Magento\Reminder\Model\Resource\Helper'),
+    ['Magento\Shipping\Model\Rate\AbstractRate', 'Magento\Sales\Model\Quote\Address\AbstractRate'],
+    ['CollFactory', 'CollectionFactory'], // no need to shorten anymore
 );
