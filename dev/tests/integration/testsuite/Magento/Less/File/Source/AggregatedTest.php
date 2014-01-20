@@ -45,7 +45,7 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
             $this->setExpectedException('LogicException', 'magento_import returns empty result by path doesNotExist');
         }
         $files = $this->model->getFiles($theme, $path);
-        $this->assertEquals(count($expectedFiles), count($files), 'Files number doesn\'t match');
+        $this->assertCount(count($expectedFiles), $files, 'Files number doesn\'t match');
 
         /** @var $file \Magento\View\Layout\File */
         foreach ($files as $file) {
