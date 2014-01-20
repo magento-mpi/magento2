@@ -27,7 +27,7 @@ interface SubscriptionInterface
     /**
      * Retrieve View related to subscription
      *
-     * @return \Magento\Mview\View
+     * @return \Magento\Mview\ViewInterface
      */
     public function getView();
 

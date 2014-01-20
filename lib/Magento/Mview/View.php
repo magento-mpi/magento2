@@ -12,7 +12,7 @@ namespace Magento\Mview;
  * @method string getActionClass()
  * @method array getSubscriptions()
  */
-class View extends \Magento\Object
+class View extends \Magento\Object implements ViewInterface
 {
     /**
      * @var string
@@ -77,7 +77,7 @@ class View extends \Magento\Object
      * Fill view data from config
      *
      * @param string $viewId
-     * @return \Magento\Mview\View
+     * @return \Magento\Mview\ViewInterface
      * @throws \InvalidArgumentException
      */
     public function load($viewId)
@@ -97,7 +97,7 @@ class View extends \Magento\Object
      * Create subscriptions
      *
      * @throws \Exception
-     * @return \Magento\Mview\View
+     * @return \Magento\Mview\ViewInterface
      */
     public function subscribe()
     {
@@ -131,7 +131,7 @@ class View extends \Magento\Object
      * Remove subscriptions
      *
      * @throws \Exception
-     * @return \Magento\Mview\View
+     * @return \Magento\Mview\ViewInterface
      */
     public function unsubscribe()
     {
@@ -189,7 +189,7 @@ class View extends \Magento\Object
      * Set view state object
      *
      * @param View\StateInterface $state
-     * @return \Magento\Mview\View
+     * @return \Magento\Mview\ViewInterface
      */
     public function setState(View\StateInterface $state)
     {

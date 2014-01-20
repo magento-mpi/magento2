@@ -58,7 +58,7 @@ class Subscription implements SubscriptionInterface
      * @param \Magento\App\Resource $resource
      * @param \Magento\DB\Ddl\TriggerFactory $triggerFactory
      * @param \Magento\Mview\View\Collection $viewCollection
-     * @param \Magento\Mview\View $view
+     * @param \Magento\Mview\ViewInterface $view
      * @param string $tableName
      * @param string $columnName
      */
@@ -108,7 +108,7 @@ class Subscription implements SubscriptionInterface
 
             // Add statements for linked views
             foreach ($this->getLinkedViews() as $view) {
-                /** @var \Magento\Mview\View $view */
+                /** @var \Magento\Mview\ViewInterface $view */
                 $trigger->addStatement(
                     $this->buildStatement($event, $view->getChangelog())
                 );
@@ -144,7 +144,7 @@ class Subscription implements SubscriptionInterface
 
             // Add statements for linked views
             foreach ($this->getLinkedViews() as $view) {
-                /** @var \Magento\Mview\View $view */
+                /** @var \Magento\Mview\ViewInterface $view */
                 $trigger->addStatement(
                     $this->buildStatement($event, $view->getChangelog())
                 );
@@ -173,6 +173,7 @@ class Subscription implements SubscriptionInterface
                 ->getViewsByStateMode(\Magento\Mview\View\StateInterface::MODE_ENABLED);
 
             foreach ($viewList as $view) {
+                /** @var \Magento\Mview\ViewInterface $view */
                 // Skip the current view
                 if ($view->getId() == $this->getView()->getId()) {
                     continue;
@@ -240,7 +241,7 @@ class Subscription implements SubscriptionInterface
     /**
      * Retrieve View related to subscription
      *
-     * @return \Magento\Mview\View
+     * @return \Magento\Mview\ViewInterface
      */
     public function getView()
     {

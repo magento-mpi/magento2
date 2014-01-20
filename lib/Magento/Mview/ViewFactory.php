@@ -18,7 +18,7 @@ class ViewFactory
     /**
      * @var string
      */
-    const INSTANCE_NAME = 'Magento\Mview\View';
+    const INSTANCE_NAME = 'Magento\Mview\ViewInterface';
 
     /**
      * @param \Magento\ObjectManager $objectManager

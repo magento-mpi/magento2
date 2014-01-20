@@ -15,7 +15,7 @@ class Collection extends \Magento\Data\Collection
      *
      * @var string
      */
-    protected $_itemObjectClass = 'Magento\Mview\View';
+    protected $_itemObjectClass = 'Magento\Mview\ViewInterface';
 
     /**
      * @var \Magento\Indexer\Model\ConfigInterface
@@ -56,7 +56,7 @@ class Collection extends \Magento\Data\Collection
         if (!$this->isLoaded()) {
             $states = $this->statesFactory->create();
             foreach (array_keys($this->config->getAll()) as $viewId) {
-                /** @var \Magento\Mview\View $view */
+                /** @var \Magento\Mview\ViewInterface $view */
                 $view = $this->getNewEmptyItem();
                 $view->load($viewId);
                 foreach ($states->getItems() as $state) {
@@ -77,7 +77,7 @@ class Collection extends \Magento\Data\Collection
      * Return views by given state mode
      *
      * @param string $mode
-     * @return \Magento\Mview\View[]
+     * @return \Magento\Mview\ViewInterface[]
      */
     public function getViewsByStateMode($mode)
     {
@@ -85,7 +85,7 @@ class Collection extends \Magento\Data\Collection
 
         $result = array();
         foreach ($this as $view) {
-            /** @var \Magento\Mview\View $view */
+            /** @var \Magento\Mview\ViewInterface $view */
             if ($view->getState()->getMode() == $mode) {
                 $result[] = $view;
             }
@@ -97,7 +97,7 @@ class Collection extends \Magento\Data\Collection
      * Return views by given state status
      *
      * @param string $status
-     * @return \Magento\Mview\View[]
+     * @return \Magento\Mview\ViewInterface[]
      */
     public function getViewsByStateStatus($status)
     {
@@ -105,7 +105,7 @@ class Collection extends \Magento\Data\Collection
 
         $result = array();
         foreach ($this as $view) {
-            /** @var \Magento\Mview\View $view */
+            /** @var \Magento\Mview\ViewInterface $view */
             if ($view->getState()->getStatus() == $status) {
                 $result[] = $view;
             }
