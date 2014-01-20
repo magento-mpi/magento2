@@ -54,7 +54,7 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage indexer_id view does not exist.
+     * @expectedExceptionMessage indexer_id indexer does not exist.
      */
     public function testLoadWithException()
     {
@@ -69,10 +69,13 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
     public function testGetView()
     {
         $indexId = 'indexer_internal_name';
-        $view = new \stdClass();
+        $view = $this->getMock('Magento\Mview\View', array('load'), array(), '', false);
+        $view->expects($this->once())
+            ->method('load')
+            ->with('view_test')
+            ->will($this->returnSelf());
         $this->viewFactoryMock->expects($this->once())
             ->method('create')
-            ->with(array('viewId' => 'view_test'))
             ->will($this->returnValue($view));
         $this->configMock->expects($this->once())
             ->method('get')
