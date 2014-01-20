@@ -209,53 +209,6 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $urlModel->getAreaFrontName();
     }
 
-    public function testGetActionPath()
-    {
-        $moduleFrontName = 'moduleFrontName';
-        $controllerName = 'controllerName';
-        $actionName = 'actionName';
-
-        $this->_model->setRouteName($moduleFrontName);
-        $this->_model->setRouteFrontName($moduleFrontName);
-        $this->_model->setControllerName($controllerName);
-        $this->_model->setActionName($actionName);
-
-        $actionPath = $this->_model->getActionPath();
-
-        $this->assertNotEmpty($actionPath);
-        $this->assertStringStartsWith($this->_areaFrontName . '/', $actionPath);
-        $this->assertStringMatchesFormat($this->_areaFrontName . '/%s/%s/%s', $actionPath);
-    }
-
-    public function testGetActionPathWhenAreaFrontNameIsEmpty()
-    {
-        $helperMock = $this->getMock('Magento\Backend\Helper\Data', array(), array(), '', false);
-        $helperMock->expects($this->once())->method('getAreaFrontName')
-            ->will($this->returnValue(''));
-
-        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $urlModel = $helper->getObject('Magento\Backend\Model\Url', array(
-            'backendHelper'   => $helperMock,
-            'authSession'     => $this->_authSessionMock,
-            'routeParamsResolver' => $this->_paramsResolverMock,
-        ));
-
-        $moduleFrontName = 'moduleFrontName';
-        $controllerName = 'controllerName';
-        $actionName = 'actionName';
-
-        $urlModel->setRouteName($moduleFrontName);
-        $urlModel->setRouteFrontName($moduleFrontName);
-        $urlModel->setControllerName($controllerName);
-        $urlModel->setActionName($actionName);
-
-        $actionPath = $urlModel->getActionPath();
-
-        $this->assertNotEmpty($actionPath);
-        $this->assertStringStartsWith($moduleFrontName . '/', $actionPath);
-        $this->assertStringMatchesFormat($moduleFrontName . '/%s/%s', $actionPath);
-    }
-
     /**
      * Check that secret key generation is based on usage of routeName passed as method param
      * Params are not equals

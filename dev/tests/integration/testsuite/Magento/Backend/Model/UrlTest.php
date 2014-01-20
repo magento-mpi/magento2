@@ -31,39 +31,6 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Backend\Model\UrlInterface::isSecure
-     */
-    public function testIsSecure()
-    {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\App\ConfigInterface')
-            ->setValue('web/secure/use_in_adminhtml', true);
-        $this->assertTrue($this->_model->isSecure());
-
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\App\ConfigInterface')
-            ->setValue('web/secure/use_in_adminhtml', false);
-        $this->assertFalse($this->_model->isSecure());
-
-        $this->_model->setData('secure_is_forced', true);
-        $this->_model->setData('secure', true);
-        $this->assertTrue($this->_model->isSecure());
-
-        $this->_model->setData('secure', false);
-        $this->assertFalse($this->_model->isSecure());
-    }
-
-    /**
-     * @covers \Magento\Backend\Model\UrlInterface::setRouteParams
-     */
-    public function testSetRouteParams()
-    {
-        $this->_model->setRouteParams(array('_nosecret' => 'any_value'));
-        $this->assertTrue($this->_model->getNoSecret());
-
-        $this->_model->setRouteParams(array());
-        $this->assertFalse($this->_model->getNoSecret());
-    }
-
-    /**
      * App isolation is enabled to protect next tests from polluted registry by getUrl()
      *
      * @magentoAppIsolation enabled

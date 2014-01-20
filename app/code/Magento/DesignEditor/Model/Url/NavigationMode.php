@@ -114,11 +114,11 @@ class NavigationMode extends \Magento\Url
     protected function _hasThemeAndMode()
     {
         if (!$this->_mode) {
-            $this->_mode = $this->getRequest()->getAlias('editorMode');
+            $this->_mode = $this->_getRequest()->getAlias('editorMode');
         }
 
         if (!$this->_themeId) {
-            $this->_themeId = $this->getRequest()->getAlias('themeId');
+            $this->_themeId = $this->_getRequest()->getAlias('themeId');
         }
         return $this;
     }

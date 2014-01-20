@@ -157,7 +157,7 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
      *
      * @return bool
      */
-    public function isSecure()
+    public function _isSecure()
     {
         if ($this->hasData('secure_is_forced')) {
             return $this->getData('secure');
@@ -172,7 +172,7 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
      * @param bool $unsetOldParams
      * @return \Magento\Backend\Model\UrlInterface
      */
-    public function setRouteParams(array $data, $unsetOldParams = true)
+    public function _setRouteParams(array $data, $unsetOldParams = true)
     {
         if (isset($data['_nosecret'])) {
             $this->setNoSecret(true);
@@ -181,7 +181,7 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
             $this->setNoSecret(false);
         }
         unset($data['_scope_to_url']);
-        return parent::setRouteParams($data, $unsetOldParams);
+        return parent::_setRouteParams($data, $unsetOldParams);
     }
 
     /**
@@ -202,9 +202,9 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
         if (!$this->useSecretKey()) {
             return $result;
         }
-        $routeName = $this->getRouteName('*');
-        $controllerName = $this->getControllerName($this->getDefaultControllerName());
-        $actionName = $this->getActionName($this->getDefaultActionName());
+        $routeName = $this->_getRouteName('*');
+        $controllerName = $this->_getControllerName($this->_getDefaultControllerName());
+        $actionName = $this->_getActionName($this->_getDefaultActionName());
         if ($cacheSecretKey) {
             $secret = array(self::SECRET_KEY_PARAM_NAME => "\${$routeName}/{$controllerName}/{$actionName}\$");
         } else {
@@ -217,8 +217,8 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
         } else {
             $routeParams = $secret;
         }
-        if (is_array($this->getRouteParams())) {
-            $routeParams = array_merge($this->getRouteParams(), $routeParams);
+        if (is_array($this->_getRouteParams())) {
+            $routeParams = array_merge($this->_getRouteParams(), $routeParams);
         }
         return parent::getUrl("{$routeName}/{$controllerName}/{$actionName}", $routeParams);
     }
@@ -234,7 +234,7 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
     public function getSecretKey($routeName = null, $controller = null, $action = null)
     {
         $salt = $this->formKey->getFormKey();
-        $request = $this->getRequest();
+        $request = $this->_getRequest();
         if (!$routeName) {
             if ($request->getBeforeForwardInfo('route_name') !== null) {
                 $routeName = $request->getBeforeForwardInfo('route_name');
@@ -393,9 +393,9 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
      *
      * @return string
      */
-    public function getActionPath()
+    public function _getActionPath()
     {
-        $path = parent::getActionPath();
+        $path = parent::_getActionPath();
         if ($path) {
             if ($this->getAreaFrontName()) {
                 $path = $this->getAreaFrontName() . '/' . $path;
@@ -409,7 +409,7 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
      *
      * @return \Magento\Core\Model\Store
      */
-    public function getScope()
+    public function _getScope()
     {
         return $this->_storeFactory->create(array('url' => $this, 'data' => array(
             'code' => 'admin',
