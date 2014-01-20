@@ -153,18 +153,4 @@ class AppTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($response, $this->_model->getResponse());
         $this->assertEmpty($this->_model->getResponse()->getHeaders());
     }
-
-    public function testSetGetUseSessionVar()
-    {
-        $this->assertFalse($this->_model->getUseSessionVar());
-        $this->_model->setUseSessionVar(true);
-        $this->assertTrue($this->_model->getUseSessionVar());
-    }
-
-    public function testSetGetUseSessionInUrl()
-    {
-        $this->assertTrue($this->_model->getUseSessionInUrl());
-        $this->_model->setUseSessionInUrl(false);
-        $this->assertFalse($this->_model->getUseSessionInUrl());
-    }
 }

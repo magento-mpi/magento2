@@ -58,11 +58,9 @@ class Url extends \Magento\Object
     protected $_storeManager;
 
     /**
-     * App model
-     *
-     * @var \Magento\Core\Model\App
+     * @var \Magento\Session\SidResolverInterface
      */
-    protected $_app;
+    protected $_sidResolver;
 
     /**
      * Construct
@@ -72,7 +70,7 @@ class Url extends \Magento\Object
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Helper\Category $catalogCategory
      * @param \Magento\Catalog\Helper\Product\Url $catalogProductUrl
-     * @param \Magento\Core\Model\App $app
+     * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param array $data
      */
     public function __construct(
@@ -81,7 +79,7 @@ class Url extends \Magento\Object
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Helper\Category $catalogCategory,
         \Magento\Catalog\Helper\Product\Url $catalogProductUrl,
-        \Magento\Core\Model\App $app,
+        \Magento\Session\SidResolverInterface $sidResolver,
         array $data = array()
     ) {
         $this->_urlRewrite = $urlRewriteFactory->create();
@@ -89,7 +87,7 @@ class Url extends \Magento\Object
         $this->_storeManager = $storeManager;
         $this->_catalogCategory = $catalogCategory;
         $this->_catalogProductUrl = $catalogProductUrl;
-        $this->_app = $app;
+        $this->_sidResolver = $sidResolver;
         parent::__construct($data);
     }
 
@@ -150,7 +148,7 @@ class Url extends \Magento\Object
     public function getProductUrl($product, $useSid = null)
     {
         if ($useSid === null) {
-            $useSid = $this->_app->getUseSessionInUrl();
+            $useSid = $this->_sidResolver->getUseSessionInUrl();
         }
 
         $params = array();

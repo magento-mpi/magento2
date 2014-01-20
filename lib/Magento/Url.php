@@ -111,11 +111,6 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
     protected $_urlSecurityInfo;
 
     /**
-     * @var \Magento\AppInterface
-     */
-    protected $_app;
-
-    /**
      * @var \Magento\Core\Model\Session
      */
     protected $_session;
@@ -151,7 +146,6 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
      * @param \Magento\App\Route\ConfigInterface $routeConfig
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Url\SecurityInfoInterface $urlSecurityInfo
-     * @param \Magento\AppInterface $app
      * @param \Magento\Url\ScopeResolverInterface $scopeResolver
      * @param \Magento\Session\Generic $session
      * @param \Magento\Session\SidResolverInterface $sidResolver
@@ -163,7 +157,6 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
         \Magento\App\Route\ConfigInterface $routeConfig,
         \Magento\App\RequestInterface $request,
         \Magento\Url\SecurityInfoInterface $urlSecurityInfo,
-        \Magento\AppInterface $app,
         \Magento\Url\ScopeResolverInterface $scopeResolver,
         \Magento\Session\Generic $session,
         \Magento\Session\SidResolverInterface $sidResolver,
@@ -174,7 +167,6 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
         $this->_request = $request;
         $this->_routeConfig = $routeConfig;
         $this->_urlSecurityInfo = $urlSecurityInfo;
-        $this->_app = $app;
         $this->_scopeResolver = $scopeResolver;
         $this->_session = $session;
         $this->_sidResolver = $sidResolver;
@@ -262,7 +254,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
     public function getUseSession()
     {
         if (is_null($this->_useSession)) {
-            $this->_useSession = $this->_app->getUseSessionInUrl();
+            $this->_useSession = $this->_sidResolver->getUseSessionInUrl();
         }
         return $this->_useSession;
     }
@@ -911,7 +903,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
             return $this;
         }
         $sessionId = $this->_session->getSessionIdForHost($url);
-        if ($this->_app->getUseSessionVar() && !$sessionId) {
+        if ($this->_sidResolver->getUseSessionVar() && !$sessionId) {
             $this->setQueryParam('___SID', $this->_isSecure() ? 'S' : 'U'); // Secure/Unsecure
         } else if ($sessionId) {
             $this->setQueryParam($this->_sidResolver->getSessionIdQueryParam($this->_session), $sessionId);
@@ -1049,7 +1041,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
     public function isOwnOriginUrl()
     {
         $scopeDomains = array();
-        $referer = parse_url($this->_app->getRequest()->getServer('HTTP_REFERER'), PHP_URL_HOST);
+        $referer = parse_url($this->_request->getServer('HTTP_REFERER'), PHP_URL_HOST);
         foreach ($this->_scopeResolver->getScopes() as $scope) {
             $scopeDomains[] = parse_url($scope->getBaseUrl(), PHP_URL_HOST);
             $scopeDomains[] = parse_url($scope->getBaseUrl(

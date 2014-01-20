@@ -140,4 +140,18 @@ class SidResolverTest extends \PHPUnit_Framework_TestCase
         );
         $this->session->setName($oldSessionName);
     }
+
+    public function testSetGetUseSessionVar()
+    {
+        $this->assertFalse($this->model->getUseSessionVar());
+        $this->model->setUseSessionVar(true);
+        $this->assertTrue($this->model->getUseSessionVar());
+    }
+
+    public function testSetGetUseSessionInUrl()
+    {
+        $this->assertTrue($this->model->getUseSessionInUrl());
+        $this->model->setUseSessionInUrl(false);
+        $this->assertFalse($this->model->getUseSessionInUrl());
+    }
 }

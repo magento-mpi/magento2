@@ -122,21 +122,6 @@ class App implements \Magento\AppInterface
     protected $_response;
 
     /**
-     * Use session in URL flag
-     *
-     * @see \Magento\UrlInterface
-     * @var bool
-     */
-    protected $_useSessionInUrl = true;
-
-    /**
-     * Use session var instead of SID for session in URL
-     *
-     * @var bool
-     */
-    protected $_useSessionVar = false;
-
-    /**
      * Object manager
      *
      * @var \Magento\ObjectManager
@@ -459,50 +444,6 @@ class App implements \Magento\AppInterface
     }
 
     /**
-     * Set use session var instead of SID for URL
-     *
-     * @param bool $var
-     * @return \Magento\Core\Model\App
-     */
-    public function setUseSessionVar($var)
-    {
-        $this->_useSessionVar = (bool)$var;
-        return $this;
-    }
-
-    /**
-     * Retrieve use flag session var instead of SID for URL
-     *
-     * @return bool
-     */
-    public function getUseSessionVar()
-    {
-        return $this->_useSessionVar;
-    }
-
-    /**
-     * Set Use session in URL flag
-     *
-     * @param bool $flag
-     * @return \Magento\Core\Model\App
-     */
-    public function setUseSessionInUrl($flag = true)
-    {
-        $this->_useSessionInUrl = (bool)$flag;
-        return $this;
-    }
-
-    /**
-     * Retrieve use session in URL flag
-     *
-     * @return bool
-     */
-    public function getUseSessionInUrl()
-    {
-        return $this->_useSessionInUrl;
-    }
-
-    /**
      * Check if developer mode is enabled
      *
      * @return bool
@@ -532,7 +473,6 @@ class App implements \Magento\AppInterface
     {
         $this->_currentEdition = $edition;
     }
-
 
     /**
      * Gets the current Magento version string
