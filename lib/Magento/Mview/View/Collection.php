@@ -8,7 +8,7 @@
 
 namespace Magento\Mview\View;
 
-class Collection extends \Magento\Data\Collection
+class Collection extends \Magento\Data\Collection implements CollectionInterface
 {
     /**
      * Item object class name
@@ -47,7 +47,7 @@ class Collection extends \Magento\Data\Collection
      *
      * @param bool $printQuery
      * @param bool $logQuery
-     * @return \Magento\Mview\View\Collection
+     * @return \Magento\Mview\View\CollectionInterface
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */

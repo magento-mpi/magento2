@@ -28,7 +28,7 @@ class Subscription implements SubscriptionInterface
     protected $triggerFactory;
 
     /**
-     * @var \Magento\Mview\View\Collection
+     * @var \Magento\Mview\View\CollectionInterface
      */
     protected $viewCollection;
 
@@ -57,7 +57,7 @@ class Subscription implements SubscriptionInterface
     /**
      * @param \Magento\App\Resource $resource
      * @param \Magento\DB\Ddl\TriggerFactory $triggerFactory
-     * @param \Magento\Mview\View\Collection $viewCollection
+     * @param \Magento\Mview\View\CollectionInterface $viewCollection
      * @param \Magento\Mview\ViewInterface $view
      * @param string $tableName
      * @param string $columnName
@@ -65,7 +65,7 @@ class Subscription implements SubscriptionInterface
     public function __construct(
         \Magento\App\Resource $resource,
         \Magento\DB\Ddl\TriggerFactory $triggerFactory,
-        \Magento\Mview\View\Collection $viewCollection,
+        \Magento\Mview\View\CollectionInterface $viewCollection,
         $view,
         $tableName,
         $columnName
