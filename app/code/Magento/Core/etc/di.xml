@@ -43,6 +43,7 @@
     <preference for="Magento\Core\Model\Translate\InlineInterface" type="Magento\Core\Model\Translate\Inline" />
     <preference for="Magento\Session\ValidatorInterface" type="Magento\Core\Model\Session\Validator" />
     <preference for="Magento\Session\StorageInterface" type="Magento\Session\Storage" />
+    <preference for="Magento\Css\PreProcessor\AdapterInterface" type="Magento\Css\PreProcessor\Adapter\Oyejorge" />
     <type name="Magento\App\DefaultPath\DefaultPath">
         <param name="parts">
             <value>
@@ -501,6 +502,18 @@
         </param>
         <param name="themeFiles">
             <instance type="Magento\Less\File\Source\Theme" />
+        </param>
+    </type>
+    <type name="Magento\Less\PreProcessor">
+        <param name="preProcessors">
+            <value>
+                <magento_import>
+                    <class>Magento\Less\PreProcessor\Instruction\MagentoImport</class>
+                </magento_import>
+                <import>
+                    <class>Magento\Less\PreProcessor\Instruction\Import</class>
+                </import>
+            </value>
         </param>
     </type>
 </config>
