@@ -3,6 +3,7 @@
   * Extracted Product duplication behaviour from Product model to Product\Copier model
   * Event "catalog_model_product_duplicate" was replaced with composite Product\Copier model
   * Event "catalog_product_prepare_save" was replaced with controller product initialization helper that can be pluginized
+  * Autorizenet is consolidated in separate module
 * Introduced new layout block attribute - cacheable
 * Fixed bugs:
   * Fixed configurable product images display in shopping cart
@@ -15,6 +16,10 @@
   * Fixed 3D secure validation
   * Fixed session to be transfered between Magento urls
   * Fixed Advanced search filter to properly compare numbers
+  * Fixed an issue when order was sent to Paypal without defined currency
+  * Fixed an issue with 404 error when trying to return back to grid from Recurring Billing Profile
+  * Fixed an issue with synchronization with google shopping on product update caused by missed service property
+  * Fixed Authorize.net Direct Post: Ability to proceed order when it was created from Backend
 * Removed the deprecated service-calls and data source functionality
 
 2.0.0.0-dev60
