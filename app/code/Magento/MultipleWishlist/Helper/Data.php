@@ -39,16 +39,16 @@ class Data extends \Magento\Wishlist\Helper\Data
     protected $_wishlistCollectionFactory;
 
     /**
-     * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Wishlist\Model\Resource\Item\CollectionFactory $itemCollectionFactory
+     * @param \Magento\App\Helper\Context                                 $context
+     * @param \Magento\Core\Helper\Data                                   $coreData
+     * @param \Magento\Core\Model\Registry                                $coreRegistry
+     * @param \Magento\Core\Model\Store\Config                            $coreStoreConfig
+     * @param \Magento\Customer\Model\Session                             $customerSession
+     * @param \Magento\Wishlist\Model\WishlistFactory                     $wishlistFactory
+     * @param \Magento\Core\Model\StoreManagerInterface                   $storeManager
+     * @param \Magento\Core\Helper\PostData                               $postDataHelper
+     * @param \Magento\Wishlist\Model\Resource\Item\CollectionFactory     $itemCollectionFactory
      * @param \Magento\Wishlist\Model\Resource\Wishlist\CollectionFactory $wishlistCollectionFactory
-     * @param \Magento\Core\Helper\PostData $postDataHelper
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
@@ -58,9 +58,9 @@ class Data extends \Magento\Wishlist\Helper\Data
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Helper\PostData $postDataHelper,
         \Magento\Wishlist\Model\Resource\Item\CollectionFactory $itemCollectionFactory,
-        \Magento\Wishlist\Model\Resource\Wishlist\CollectionFactory $wishlistCollectionFactory,
-        \Magento\Core\Helper\PostData $postDataHelper
+        \Magento\Wishlist\Model\Resource\Wishlist\CollectionFactory $wishlistCollectionFactory
     ) {
         $this->_itemCollectionFactory = $itemCollectionFactory;
         $this->_wishlistCollectionFactory = $wishlistCollectionFactory;
