@@ -1,18 +1,17 @@
 <?php
 /**
+ * Test for \Magento\Sales\Block\Billing\Agreement\View
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-namespace Magento\Sales\Block\Adminhtml\Billing\Agreement;
+namespace Magento\Sales\Block\Billing\Agreement;
 
 use \Magento\TestFramework\Helper\Bootstrap;
 
-/**
- * @magentoAppArea adminhtml
- */
 class ViewTest extends \Magento\Backend\Utility\Controller
 {
     /** @var \Magento\Sales\Block\Billing\Agreement\View */
