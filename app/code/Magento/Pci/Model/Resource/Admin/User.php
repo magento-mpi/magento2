@@ -18,7 +18,7 @@ class User extends \Magento\User\Model\Resource\User
     /**
      * Unlock specified user record(s)
      *
-     * @param array $userIds
+     * @param int|int[] $userIds
      * @return int number of affected rows
      */
     public function unlock($userIds)
@@ -36,7 +36,7 @@ class User extends \Magento\User\Model\Resource\User
     /**
      * Lock specified user record(s)
      *
-     * @param array $userIds
+     * @param int|int[] $userIds
      * @param int $exceptId
      * @param int $lifetime
      * @return int number of affected rows
@@ -60,6 +60,7 @@ class User extends \Magento\User\Model\Resource\User
      * @param \Magento\User\Model\User $user
      * @param int|false $setLockExpires
      * @param int|false $setFirstFailure
+     * @return void
      */
     public function updateFaiure($user, $setLockExpires = false, $setFirstFailure = false)
     {
@@ -119,6 +120,7 @@ class User extends \Magento\User\Model\Resource\User
      * @param \Magento\User\Model\User $user
      * @param string $passwordHash
      * @param int $lifetime
+     * @return void
      */
     public function trackPassword($user, $passwordHash, $lifetime)
     {

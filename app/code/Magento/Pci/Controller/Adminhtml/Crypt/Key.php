@@ -39,6 +39,7 @@ class Key extends \Magento\Backend\App\Action
     /**
      * Render main page with form
      *
+     * @return void
      */
     public function indexAction()
     {
@@ -60,6 +61,7 @@ class Key extends \Magento\Backend\App\Action
     /**
      * Process saving new encryption key
      *
+     * @return void
      */
     public function saveAction()
     {

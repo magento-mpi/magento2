@@ -34,6 +34,7 @@ class Observer
      * Upgrade customer password hash when customer has logged in
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function upgradeCustomerPassword($observer)
     {

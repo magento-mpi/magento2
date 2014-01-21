@@ -110,6 +110,7 @@ class Observer
      *
      * @param \Magento\Event\Observer $observer
      * @throws \Magento\Core\Exception
+     * @return void
      */
     public function adminAuthenticate($observer)
     {
@@ -220,6 +221,7 @@ class Observer
      *
      * @param \Magento\Event\Observer $observer
      * @throws \Magento\Core\Exception
+     * @return void
      */
     public function checkAdminPasswordChange($observer)
     {
@@ -256,6 +258,7 @@ class Observer
      * Save new admin password
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function trackAdminNewPassword($observer)
     {
@@ -298,6 +301,7 @@ class Observer
      * Force admin to change password
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function forceAdminPasswordChange($observer)
     {
