@@ -93,19 +93,22 @@ class CustomerGroupService implements CustomerGroupServiceInterface
             $collection->addFilter($filter->getField(), $filter->getValue(), $filter->getConditionType());
         }
         $this->_searchResultsBuilder->setTotalCount($collection->getSize());
-        foreach ($searchCriteria->getSortOrders() as $field => $direction) {
-            switch($field) {
-                case 'id' :
-                    $field = 'customer_group_id';
-                    break;
-                case 'code':
-                    $field = 'customer_group_code';
-                    break;
-                case "tax_class_id":
-                default:
-                    break;
+        $sortOrders = $searchCriteria->getSortOrders();
+        if ($sortOrders) {
+            foreach ($searchCriteria->getSortOrders() as $field => $direction) {
+                switch($field) {
+                    case 'id' :
+                        $field = 'customer_group_id';
+                        break;
+                    case 'code':
+                        $field = 'customer_group_code';
+                        break;
+                    case "tax_class_id":
+                    default:
+                        break;
+                }
+                $collection->addOrder($field, $direction == Dto\SearchCriteria::SORT_ASC ? 'ASC' : 'DESC');
             }
-            $collection->addOrder($field, $direction == Dto\SearchCriteria::SORT_ASC ? 'ASC' : 'DESC');
         }
         $collection->setCurPage($searchCriteria->getCurrentPage());
         $collection->setPageSize($searchCriteria->getPageSize());

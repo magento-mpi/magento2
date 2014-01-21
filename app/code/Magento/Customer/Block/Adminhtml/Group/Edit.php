@@ -26,8 +26,8 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
      * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
      */
     protected $_groupService = null;
+
     /**
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService
