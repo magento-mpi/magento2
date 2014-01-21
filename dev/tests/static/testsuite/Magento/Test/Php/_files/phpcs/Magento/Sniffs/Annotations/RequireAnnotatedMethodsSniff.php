@@ -1,5 +1,11 @@
 <?php
 /**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+/**
  * Sniff to detect adherance to the Magento Annotation standard for methods
  *
  * @SuppressWarnings(PHPMD)

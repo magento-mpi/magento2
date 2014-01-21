@@ -1,5 +1,11 @@
 <?php
 /**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+/**
  * Base of the annotations sniffs
  *
  * @SuppressWarnings(PHPMD)
