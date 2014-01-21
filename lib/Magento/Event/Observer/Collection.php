@@ -23,7 +23,7 @@ class Collection
     /**
      * Array of observers
      *
-     * @var \Magento\Event\Observer[]
+     * @var array
      */
     protected $_observers;
     
@@ -39,7 +39,7 @@ class Collection
     /**
      * Returns all observers in the collection
      *
-     * @return \Magento\Event\Observer[]
+     * @return array
      */
     public function getAllObservers()
     {
