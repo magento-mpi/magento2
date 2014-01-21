@@ -88,6 +88,11 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
     protected $_productCollectionFactory;
 
     /**
+     * @var \Magento\Catalog\Model\ProductTypes\ConfigInterface
+     */
+    protected $productTypeConfig;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Core\Model\Registry $registry
@@ -108,9 +113,10 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
      * @param \Magento\Catalog\Model\Product\LinkFactory $productLinkFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\TargetRule\Model\IndexFactory $indexFactory
+     * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
      * @param array $data
      * @param array $priceBlockTypes
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -134,9 +140,11 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
         \Magento\Catalog\Model\Product\LinkFactory $productLinkFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\TargetRule\Model\IndexFactory $indexFactory,
+        \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
         array $data = array(),
         array $priceBlockTypes = array()
     ) {
+        $this->productTypeConfig = $productTypeConfig;
         $this->_productCollectionFactory = $productCollectionFactory;
         $this->_visibility = $visibility;
         $this->_status = $status;
@@ -243,7 +251,7 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
 
     /**
      * Retrieve Array of product ids which have special relation with products in Cart
-     * For example simple product as part of Grouped product
+     * For example simple product as part of product type that represents product set
      *
      * @return array
      */
@@ -253,7 +261,7 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
         foreach ($this->getQuote()->getAllItems() as $quoteItem) {
             $productTypeOpt = $quoteItem->getOptionByCode('product_type');
             if ($productTypeOpt instanceof \Magento\Sales\Model\Quote\Item\Option
-                && $productTypeOpt->getValue() == \Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE
+                && $this->productTypeConfig->isProductSet($productTypeOpt->getValue())
                 && $productTypeOpt->getProductId()
             ) {
                 $productIds[] = $productTypeOpt->getProductId();
