@@ -120,7 +120,7 @@ class View extends \Magento\Backend\Block\Widget\Form\Container
     public function getPrintUrl()
     {
         return $this->getUrl(
-            '*/*/print',
+            'sales/shipment/print',
             array(
                 'shipment_id' => $this->getShipment()->getId()
             )

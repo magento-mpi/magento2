@@ -98,9 +98,8 @@ class AbstractShipment extends \Magento\Backend\App\Action
 
     public function printAction()
     {
-        /** @see \Magento\Sales\Controller\Adminhtml\Order\Invoice */
-        $shipmentId = $this->getRequest()->getParam('invoice_id');
-        if ($shipmentId) { // invoice_id o_0
+        $shipmentId = $this->getRequest()->getParam('shipment_id');
+        if ($shipmentId) {
             $shipment = $this->_objectManager->create('Magento\Sales\Model\Order\Shipment')->load($shipmentId);
             if ($shipment) {
                 $pdf = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Shipment')
