@@ -103,11 +103,11 @@ class Content extends \Zend_Gdata
     /**
      * Insert an entry
      *
-     * @param \Magento\Gdata\Gshopping\Entry $entry The Content entry to upload
+     * @param Entry $entry The Content entry to upload
      * @param boolean $dryRun Flag for the 'dry-run' parameter
      * @return Entry
      */
-    public function insertItem(\Magento\Gdata\Gshopping\Entry $entry, $dryRun = false)
+    public function insertItem(Entry $entry, $dryRun = false)
     {
         $uri = $this->_getItemsUri();
         if ($dryRun) {
@@ -120,11 +120,11 @@ class Content extends \Zend_Gdata
     /**
      * Update an entry
      *
-     * @param \Magento\Gdata\Gshopping\Entry $entry The Content entry to be updated
+     * @param Entry $entry The Content entry to be updated
      * @param boolean $dryRun Flag for the 'dry-run' parameter
      * @return Entry
      */
-    public function updateItem(\Magento\Gdata\Gshopping\Entry $entry, $dryRun = false)
+    public function updateItem(Entry $entry, $dryRun = false)
     {
         return $entry->save($dryRun);
     }
@@ -132,11 +132,11 @@ class Content extends \Zend_Gdata
     /**
      * Delete an entry
      *
-     * @param \Magento\Gdata\Gshopping\Entry $entry The Content entry to remove
+     * @param Entry $entry The Content entry to remove
      * @param boolean $dryRun Flag for the 'dry-run' parameter
      * @return $this Implements fluent interface
      */
-    public function deleteItem(\Magento\Gdata\Gshopping\Entry $entry, $dryRun = false)
+    public function deleteItem(Entry $entry, $dryRun = false)
     {
         $entry->delete($dryRun);
         return $this;
@@ -224,7 +224,7 @@ class Content extends \Zend_Gdata
         } catch (\Zend_Gdata_App_HttpException $e) {
             $debugData['response'] = $e->getResponse();
             $this->debugData($debugData);
-            throw new \Magento\Gdata\Gshopping\HttpException($e);
+            throw new HttpException($e);
         }
     }
 

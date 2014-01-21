@@ -104,7 +104,7 @@ class Entry extends \Zend_Gdata_Entry
             case "$sc:expiration_date":
             case "$sc:adult":
             case "$sc:attribute":
-                $contentAttribute = new \Magento\Gdata\Gshopping\Extension\Attribute();
+                $contentAttribute = new Attribute();
                 $contentAttribute->transferFromDOM($child);
                 $this->_contentAttributes[] = $contentAttribute;
                 break;
@@ -142,15 +142,15 @@ class Entry extends \Zend_Gdata_Entry
      */
     public function addContentAttribute($name, $text, $type = null, $unit = null)
     {
-        $this->_contentAttributes[] = new \Magento\Gdata\Gshopping\Extension\Attribute($name, $text, $type, $unit);
+        $this->_contentAttributes[] = new Attribute($name, $text, $type, $unit);
         return $this;
     }
 
     /**
      * Removes a Content attribute from the current list of Base attributes
      *
-     * @param \Zend_Gdata_Gbase_Extension_BaseAttribute $baseAttribute The attribute to be removed
-     * @return \Zend_Gdata_Gbase_Entry Provides a fluent interface
+     * @param string $name The attribute to be removed
+     * @return $this Provides a fluent interface
      */
     public function removeContentAttribute($name)
     {

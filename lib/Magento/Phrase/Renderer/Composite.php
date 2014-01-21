@@ -9,12 +9,14 @@
  */
 namespace Magento\Phrase\Renderer;
 
+use \Magento\Phrase\Renderer\Factory;
+
 class Composite implements \Magento\Phrase\RendererInterface
 {
     /**
      * Renderer factory
      *
-     * @var \Magento\Phrase\Renderer\Factory
+     * @var Factory
      */
     protected $_rendererFactory;
 
@@ -28,11 +30,11 @@ class Composite implements \Magento\Phrase\RendererInterface
     /**
      * Renderer construct
      *
-     * @param \Magento\Phrase\Renderer\Factory $rendererFactory
+     * @param Factory $rendererFactory
      * @param array $renderers
      */
     public function __construct(
-        \Magento\Phrase\Renderer\Factory $rendererFactory,
+        Factory $rendererFactory,
         array $renderers = array()
     ) {
         $this->_rendererFactory = $rendererFactory;
