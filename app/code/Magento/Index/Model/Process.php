@@ -28,6 +28,8 @@
  */
 namespace Magento\Index\Model;
 
+use Magento\Index\Model\Resource\Event\Collection;
+
 class Process extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -146,7 +148,7 @@ class Process extends \Magento\Core\Model\AbstractModel
     /**
      * Set indexer class name as data namespace for event object
      *
-     * @param   \Magento\Index\Model\Event $event
+     * @param   Event $event
      * @return  $this
      */
     protected function _setEventNamespace(\Magento\Index\Model\Event $event)
@@ -160,7 +162,7 @@ class Process extends \Magento\Core\Model\AbstractModel
     /**
      * Remove indexer namespace from event
      *
-     * @param \Magento\Index\Model\Event $event
+     * @param Event $event
      * @return $this
      */
     protected function _resetEventNamespace($event)
@@ -173,7 +175,7 @@ class Process extends \Magento\Core\Model\AbstractModel
     /**
      * Register data required by process in event object
      *
-     * @param \Magento\Index\Model\Event $event
+     * @param Event $event
      * @return $this
      */
     public function register(\Magento\Index\Model\Event $event)
@@ -274,7 +276,7 @@ class Process extends \Magento\Core\Model\AbstractModel
      * Reindex all data what this process responsible is
      * Check and using depends processes
      *
-     * @return $this
+     * @return $this|void
      */
     public function reindexEverything()
     {
@@ -302,10 +304,10 @@ class Process extends \Magento\Core\Model\AbstractModel
     /**
      * Process event with assigned indexer object
      *
-     * @param \Magento\Index\Model\Event $event
+     * @param Event $event
      * @return $this
      */
-    public function processEvent(\Magento\Index\Model\Event $event)
+    public function processEvent(Event $event)
     {
         if (!$this->matchEvent($event)) {
             return $this;
@@ -414,7 +416,7 @@ class Process extends \Magento\Core\Model\AbstractModel
     /**
      * Process all events of the collection
      *
-     * @param \Magento\Index\Model\Resource\Event\Collection $eventsCollection
+     * @param Collection $eventsCollection
      * @param bool $skipUnmatched
      * @return $this
      */
@@ -444,11 +446,11 @@ class Process extends \Magento\Core\Model\AbstractModel
     /**
      * Update status process/event association
      *
-     * @param   \Magento\Index\Model\Event $event
+     * @param   Event $event
      * @param   string $status
      * @return  $this
      */
-    public function updateEventStatus(\Magento\Index\Model\Event $event, $status)
+    public function updateEventStatus(Event $event, $status)
     {
         $this->_getResource()->updateEventStatus($this->getId(), $event->getId(), $status);
         return $this;
@@ -596,7 +598,7 @@ class Process extends \Magento\Core\Model\AbstractModel
     /**
      * Process event with locks checking
      *
-     * @param \Magento\Index\Model\Event $event
+     * @param Event $event
      * @return $this
      * @throws \Exception
      */

@@ -58,7 +58,7 @@ abstract class AbstractIndexer extends \Magento\Core\Model\AbstractModel
      * Process event based on event state data
      *
      * @param   \Magento\Index\Model\Event $event
-     * @return  void
+     * @return  $this
      */
     abstract protected function _processEvent(\Magento\Index\Model\Event $event);
 
@@ -80,7 +80,7 @@ abstract class AbstractIndexer extends \Magento\Core\Model\AbstractModel
      * Process event
      *
      * @param   \Magento\Index\Model\Event $event
-     * @return  \Magento\Index\Model\Indexer\AbstractIndexer
+     * @return  $this
      */
     public function processEvent(\Magento\Index\Model\Event $event)
     {
@@ -135,7 +135,7 @@ abstract class AbstractIndexer extends \Magento\Core\Model\AbstractModel
      * Handler name will be generated from event entity and type code
      *
      * @param   \Magento\Index\Model\Event $event
-     * @return  \Magento\Index\Model\Indexer\AbstractIndexer
+     * @return  $this
      */
     public function callEventHandler(\Magento\Index\Model\Event $event)
     {

@@ -44,17 +44,17 @@ class Storage
      * @param Filesystem $filesystem
      */
     public function __construct(
-        \Magento\Index\Model\Process\FileFactory $fileFactory,
-        \Magento\Filesystem $filesystem
+        FileFactory $fileFactory,
+        Filesystem $filesystem
     ) {
         $this->_fileFactory   = $fileFactory;
-        $this->_varDirectory = $filesystem->getDirectoryWrite(\Magento\Filesystem::VAR_DIR);
+        $this->_varDirectory = $filesystem->getDirectoryWrite(Filesystem::VAR_DIR);
     }
 
     /**
      * Get file handler by process ID
      *
-     * @param mixed $processId
+     * @param string $processId
      * @return File
      */
     public function getFile($processId)

@@ -295,7 +295,7 @@ class Event extends \Magento\Core\Model\AbstractModel
      * @deprecated since 1.6.2.0
      * @param array|string $key
      * @param null|mixed $value
-     * @return $thist
+     * @return $this
      */
     public function addOldData($key, $value = null)
     {
@@ -307,7 +307,7 @@ class Event extends \Magento\Core\Model\AbstractModel
      *
      * @param array|string $key
      * @param null|mixed $value
-     * @return this
+     * @return $this
      */
     public function addNewData($key, $value = null)
     {

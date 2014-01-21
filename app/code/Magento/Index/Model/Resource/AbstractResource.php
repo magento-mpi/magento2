@@ -17,6 +17,8 @@
  */
 namespace Magento\Index\Model\Resource;
 
+use Magento\DB\Adapter\AdapterInterface;
+
 abstract class AbstractResource extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     const IDX_SUFFIX= '_idx';
@@ -32,7 +34,7 @@ abstract class AbstractResource extends \Magento\Core\Model\Resource\Db\Abstract
     /**
      * Reindex all
      *
-     * @return \Magento\Index\Model\Resource\AbstractResource
+     * @return $this
      */
     public function reindexAll()
     {
@@ -43,7 +45,7 @@ abstract class AbstractResource extends \Magento\Core\Model\Resource\Db\Abstract
     /**
      * Get DB adapter for index data processing
      *
-     * @return \Magento\DB\Adapter\AdapterInterface
+     * @return AdapterInterface
      */
     protected function _getIndexAdapter()
     {
@@ -71,7 +73,7 @@ abstract class AbstractResource extends \Magento\Core\Model\Resource\Db\Abstract
     /**
      * Synchronize data between index storage and original storage
      *
-     * @return \Magento\Index\Model\Resource\AbstractResource
+     * @return $this
      */
     public function syncData()
     {
@@ -96,7 +98,7 @@ abstract class AbstractResource extends \Magento\Core\Model\Resource\Db\Abstract
      * @param string $sourceTable
      * @param string $destTable
      * @param bool $readToIndex data migration direction (true - read=>index, false - index=>read)
-     * @return \Magento\Index\Model\Resource\AbstractResource
+     * @return $this
      */
     public function insertFromTable($sourceTable, $destTable, $readToIndex = true)
     {
@@ -121,7 +123,7 @@ abstract class AbstractResource extends \Magento\Core\Model\Resource\Db\Abstract
      * @param string $destTable
      * @param array $columns
      * @param bool $readToIndex data migration direction (true - read=>index, false - index=>read)
-     * @return \Magento\Index\Model\Resource\AbstractResource
+     * @return $this
      */
     public function insertFromSelect($select, $destTable, array $columns, $readToIndex = true)
     {

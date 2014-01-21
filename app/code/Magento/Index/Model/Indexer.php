@@ -15,6 +15,7 @@ namespace Magento\Index\Model;
 
 use Magento\Event\ManagerInterface;
 use Magento\Index\Model\Resource\Process as ResourceProcess;
+use Magento\Index\Model\Resource\Process\Collection;
 
 class Indexer
 {
@@ -89,7 +90,7 @@ class Indexer
      * Get index process by specific id
      *
      * @param int $processId
-     * @return Process | false
+     * @return bool|Process
      */
     public function getProcessById($processId)
     {
@@ -105,7 +106,7 @@ class Indexer
      * Get index process by specific code
      *
      * @param string $code
-     * @return Process | false
+     * @return bool|Process
      */
     public function getProcessByCode($code)
     {
@@ -121,10 +122,10 @@ class Indexer
      * Indexing all pending events.
      * Events set can be limited by event entity and type
      *
-     * @param   null | string $entity
-     * @param   null | string $type
+     * @param   null|string $entity
+     * @param   null|string $type
      * @return  $this
-     * @throws Exception
+     * @throws \Exception
      */
     public function indexEvents($entity=null, $type=null)
     {
@@ -147,7 +148,7 @@ class Indexer
      * @param   Event $event
      * @return  $this
      */
-    public function indexEvent(\Magento\Index\Model\Event $event)
+    public function indexEvent(Event $event)
     {
         $this->_runAll('safeProcessEvent', array($event));
         return $this;
@@ -159,7 +160,7 @@ class Indexer
      * @param Event $event
      * @return $this
      */
-    public function registerEvent(\Magento\Index\Model\Event $event)
+    public function registerEvent(Event $event)
     {
         $this->_runAll('register', array($event));
         return $this;
@@ -197,7 +198,7 @@ class Indexer
      * @param   string $entityType
      * @param   string $eventType
      * @return  $this
-     * @throws Exception
+     * @throws \Exception
      */
     public function processEntityAction(\Magento\Object $entity, $entityType, $eventType)
     {
@@ -246,7 +247,7 @@ class Indexer
     /**
      * Sub-routine for iterating collection and reindexing all processes of specified collection
      *
-     * @param \Magento\Index\Model\Resource\Process\Collection $collection
+     * @param Collection $collection
      * @return void
      */
     private function _reindexCollection(\Magento\Index\Model\Resource\Process\Collection $collection)
@@ -264,7 +265,7 @@ class Indexer
      *
      * @param string $method
      * @param array $args
-     * @return $this
+     * @return void
      */
     protected function _runAll($method, $args)
     {

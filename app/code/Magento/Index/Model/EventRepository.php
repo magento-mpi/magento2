@@ -7,6 +7,8 @@
  */
 namespace Magento\Index\Model;
 
+use Magento\Index\Model\Resource\Event\Collection;
+
 class EventRepository
 {
     /**
@@ -39,7 +41,7 @@ class EventRepository
      * Retrieve list of unprocessed events
      *
      * @param int|array|Process $process
-     * @return \Magento\Index\Model\Resource\Event\Collection
+     * @return Collection
      */
     public function getUnprocessed($process)
     {

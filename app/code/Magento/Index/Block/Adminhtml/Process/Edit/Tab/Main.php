@@ -10,6 +10,8 @@
 
 namespace Magento\Index\Block\Adminhtml\Process\Edit\Tab;
 
+use Magento\Backend\Block\Widget\Form;
+
 class Main
     extends \Magento\Backend\Block\Widget\Form\Generic
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
@@ -17,7 +19,7 @@ class Main
     /**
      * Prepare form
      *
-     * @return \Magento\Backend\Block\Widget\Form
+     * @return Form
      */
     protected function _prepareForm()
     {
@@ -79,7 +81,7 @@ class Main
     /**
      * Returns status flag about this tab can be showen or not
      *
-     * @return true
+     * @return bool
      */
     public function canShowTab()
     {
@@ -89,7 +91,7 @@ class Main
     /**
      * Returns status flag about this tab hidden or not
      *
-     * @return true
+     * @return bool
      */
     public function isHidden()
     {
