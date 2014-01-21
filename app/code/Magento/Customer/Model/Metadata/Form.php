@@ -152,7 +152,6 @@ class Form
     public function extractData(\Magento\App\RequestInterface $request, $scope = null, $scopeOnly = true)
     {
         $data = array();
-        /** @var $attribute \Magento\Eav\Model\Attribute */
         foreach ($this->getAllowedAttributes() as $attribute) {
             $dataModel = $this->_getAttributeDataModel($attribute);
             $dataModel->setRequestScope($scope);
@@ -189,7 +188,6 @@ class Form
      */
     public function restoreData(array $data)
     {
-        /** @var $attribute \Magento\Eav\Model\Attribute */
         foreach ($this->getAllowedAttributes() as $attribute) {
             $dataModel = $this->_getAttributeDataModel($attribute);
             $dataModel->setExtractedData($data);
@@ -204,8 +202,8 @@ class Form
     /**
      * Return attribute data model by attribute
      *
-     * @param \Magento\Eav\Model\Entity\Attribute $attribute
-     * @return \Magento\Eav\Model\Attribute\Data\AbstractData
+     * @param \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute
+     * @return \Magento\Customer\Model\Metadata\Form\AbstractData
      */
     protected function _getAttributeDataModel($attribute)
     {

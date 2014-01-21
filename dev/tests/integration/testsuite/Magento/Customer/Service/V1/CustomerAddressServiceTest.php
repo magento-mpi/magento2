@@ -1,12 +1,4 @@
 <?php
-
-namespace Magento\Customer\Service\V1;
-
-use Magento\Customer\Service\Entity\V1\Exception;
-use Magento\Customer\Service\V1;
-use Magento\Exception\InputException;
-use Magento\Exception\NoSuchEntityException;
-
 /**
  * Integration test for service layer \Magento\Customer\Service\V1\CustomerAddressService
  *
@@ -14,7 +6,14 @@ use Magento\Exception\NoSuchEntityException;
  *
  * @copyright   {copyright}
  * @license     {license_link}
- *
+ */
+namespace Magento\Customer\Service\V1;
+
+use Magento\Customer\Service\V1;
+use Magento\Exception\InputException;
+use Magento\Exception\NoSuchEntityException;
+
+/**
  * @SuppressWarnings(PHPMD.TooManyMethods)
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  */
@@ -287,12 +286,14 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
                 $exception->getParams(),
                 [
                     [
-                        'fieldName' => 'address[0].firstname',
+                        'index' => 0,
+                        'fieldName' => 'firstname',
                         'code'      => 'REQUIRED_FIELD',
                         'value'     => null
                     ],
                     [
-                        'fieldName' => 'address[1].lastname',
+                        'index' => 1,
+                        'fieldName' => 'lastname',
                         'code'      => 'REQUIRED_FIELD',
                         'value'     => null
                     ]

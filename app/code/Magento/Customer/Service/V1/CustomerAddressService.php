@@ -134,7 +134,7 @@ class CustomerAddressService implements CustomerAddressServiceInterface
         $address = $this->_addressFactory->create();
         $address->load($addressId);
         if (!$address->getId()) {
-            throw NoSuchEntityException::create('addressId', $addressId);
+            throw new NoSuchEntityException('addressId', $addressId);
         }
         $customer = $this->_converter->getCustomerModel($address->getCustomerId());
 
@@ -154,7 +154,7 @@ class CustomerAddressService implements CustomerAddressServiceInterface
         $address->load($addressId);
 
         if (!$address->getId()) {
-            throw NoSuchEntityException::create('addressId', $addressId);
+            throw new NoSuchEntityException('addressId', $addressId);
         }
 
         $address->delete();
@@ -181,10 +181,10 @@ class CustomerAddressService implements CustomerAddressServiceInterface
             }
             $this->_updateAddressModel($addressModel, $address);
 
-            $inputException = $this->_validate($addressModel, $inputException, "address[$i].");
+            $inputException = $this->_validate($addressModel, $inputException, $i);
             $addressModels[] = $addressModel;
         }
-        if ($inputException->getParams()) {
+        if ($inputException->getErrors()) {
             throw $inputException;
         }
         $addressIds = [];
@@ -291,56 +291,96 @@ class CustomerAddressService implements CustomerAddressServiceInterface
     /**
      * Validate Customer Addrresss attribute values.
      *
-     * @param CustomerAddressModel $customerAddressModel       the model to validate
-     * @param InputException       $exception the exception to add errors to
-     * @param string               $prefix    the optional prefix to for field names
+     * @param CustomerAddressModel $customerAddressModel the model to validate
+     * @param InputException       $exception            the exception to add errors to
+     * @param int                  $index                the index of the address being saved
      * @return InputException
      *
      * @SuppressWarnings(PHPMD.NPathComplexity)
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
-    private function _validate(CustomerAddressModel $customerAddressModel, InputException $exception, $prefix = '')
+    private function _validate(CustomerAddressModel $customerAddressModel, InputException $exception, $index)
     {
         if ($customerAddressModel->getShouldIgnoreValidation()) {
             return $exception;
         }
 
         if (!\Zend_Validate::is($customerAddressModel->getFirstname(), 'NotEmpty')) {
-            $exception->addError(InputException::REQUIRED_FIELD, $prefix . 'firstname', null);
+            $exception->addError(
+                InputException::REQUIRED_FIELD,
+                'firstname',
+                null,
+                ['index' => $index]
+            );
         }
 
         if (!\Zend_Validate::is($customerAddressModel->getLastname(), 'NotEmpty')) {
-            $exception->addError(InputException::REQUIRED_FIELD, $prefix . 'lastname', null);
+            $exception->addError(
+                InputException::REQUIRED_FIELD,
+                'lastname',
+                null,
+                ['index' => $index]
+            );
         }
 
         if (!\Zend_Validate::is($customerAddressModel->getStreet(1), 'NotEmpty')) {
-            $exception->addError(InputException::REQUIRED_FIELD, $prefix . 'street', null);
+            $exception->addError(
+                InputException::REQUIRED_FIELD,
+                'street',
+                null,
+                ['index' => $index]
+            );
         }
 
         if (!\Zend_Validate::is($customerAddressModel->getCity(), 'NotEmpty')) {
-            $exception->addError(InputException::REQUIRED_FIELD, $prefix . 'city', null);
+            $exception->addError(
+                InputException::REQUIRED_FIELD,
+                'city',
+                null,
+                ['index' => $index]
+            );
         }
 
         if (!\Zend_Validate::is($customerAddressModel->getTelephone(), 'NotEmpty')) {
-            $exception->addError(InputException::REQUIRED_FIELD, $prefix . 'telephone', null);
+            $exception->addError(
+                InputException::REQUIRED_FIELD,
+                'telephone',
+                null,
+                ['index' => $index]
+            );
         }
 
         $_havingOptionalZip = $this->_directoryData->getCountriesWithOptionalZip();
         if (!in_array($customerAddressModel->getCountryId(), $_havingOptionalZip)
             && !\Zend_Validate::is($customerAddressModel->getPostcode(), 'NotEmpty')
         ) {
-            $exception->addError(InputException::REQUIRED_FIELD, $prefix . 'postcode', null);
+            $exception->addError(
+                InputException::REQUIRED_FIELD,
+                'postcode',
+                null,
+                ['index' => $index]
+            );
         }
 
         if (!\Zend_Validate::is($customerAddressModel->getCountryId(), 'NotEmpty')) {
-            $exception->addError(InputException::REQUIRED_FIELD, $prefix . 'countryId', null);
+            $exception->addError(
+                InputException::REQUIRED_FIELD,
+                'countryId',
+                null,
+                ['index' => $index]
+            );
         }
 
         if ($customerAddressModel->getCountryModel()->getRegionCollection()->getSize()
             && !\Zend_Validate::is($customerAddressModel->getRegionId(), 'NotEmpty')
             && $this->_directoryData->isRegionRequired($customerAddressModel->getCountryId())
         ) {
-            $exception->addError(InputException::REQUIRED_FIELD, $prefix . 'regionId', null);
+            $exception->addError(
+                InputException::REQUIRED_FIELD,
+                'regionId',
+                null,
+                ['index' => $index]
+            );
         }
 
         return $exception;

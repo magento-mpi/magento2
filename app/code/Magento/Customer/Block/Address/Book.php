@@ -88,30 +88,40 @@ class Book extends \Magento\View\Element\Template
         return $this->getUrl('customer/address/delete');
     }
 
-    public function getAddressEditUrl($address)
+    /**
+     * @param int $addressId
+     * @return string
+     */
+    public function getAddressEditUrl($addressId)
     {
-        return $this->getUrl('customer/address/edit', array('_secure'=>true, 'id' => $address->getId()));
+        return $this->getUrl('customer/address/edit', array('_secure'=>true, 'id' => $addressId));
     }
 
-    public function getPrimaryBillingAddress()
-    {
-        return $this->getCustomer()->getPrimaryBillingAddress();
-    }
-
-    public function getPrimaryShippingAddress()
-    {
-        return $this->getCustomer()->getPrimaryShippingAddress();
-    }
-
+    /**
+     * @return bool
+     */
     public function hasPrimaryAddress()
     {
-        return $this->getPrimaryBillingAddress() || $this->getPrimaryShippingAddress();
+        return $this->getDefaultBilling() || $this->getDefaultShipping();
     }
 
+    /**
+     * @return \Magento\Customer\Service\V1\Dto\Address[]|bool
+     */
     public function getAdditionalAddresses()
     {
-        $addresses = $this->getCustomer()->getAdditionalAddresses();
-        return empty($addresses) ? false : $addresses;
+        try {
+            $addresses = $this->_addressService->getAddresses($this->_customerSession->getCustomerId());
+        } catch (\Magento\Exception\NoSuchEntityException $e) {
+            return false;
+        }
+        $primaryAddressIds = [$this->getDefaultBilling(), $this->getDefaultShipping()];
+        foreach ($addresses as $address) {
+            if (!in_array($address->getId(), $primaryAddressIds)) {
+                $additional[] = $address;
+            }
+        }
+        return empty($additional) ? false : $additional;
     }
 
     /**
@@ -122,16 +132,26 @@ class Book extends \Magento\View\Element\Template
      */
     public function getAddressHtml($address)
     {
-        /** @var \Magento\Customer\Block\Address\Renderer\RendererInterface $renderer */
-        $renderer = $this->_addressConfig->getFormatByCode('html')->getRenderer();
-        return $renderer->render($address->getAttributes());
+        if (!is_null($address)) {
+            /** @var \Magento\Customer\Block\Address\Renderer\RendererInterface $renderer */
+            $renderer = $this->_addressConfig->getFormatByCode('html')->getRenderer();
+            return $renderer->render($address->getAttributes());
+        }
+        return '';
     }
 
+    /**
+     * @return \Magento\Customer\Service\V1\Dto\Customer|null
+     */
     public function getCustomer()
     {
         $customer = $this->getData('customer');
         if (is_null($customer)) {
-            $customer = $this->_customerSession->getCustomer();
+            try {
+                $customer = $this->_customerService->getCustomer($this->_customerSession->getCustomerId());
+            } catch (\Magento\Exception\NoSuchEntityException $e) {
+                return null;
+            }
             $this->setData('customer', $customer);
         }
         return $customer;
@@ -142,17 +162,25 @@ class Book extends \Magento\View\Element\Template
      */
     public function getDefaultBilling()
     {
-        $customer = $this->_customerService->getCustomer($this->_customerSession->getId());
-        return $customer->getDefaultBilling();
+        $customer = $this->getCustomer();
+        if (is_null($customer)) {
+            return null;
+        } else {
+            return $customer->getDefaultBilling();
+        }
     }
 
     /**
      * @param int $addressId
-     * @return \Magento\Customer\Service\V1\Dto\Address
+     * @return \Magento\Customer\Service\V1\Dto\Address|null
      */
     public function getAddressById($addressId)
     {
-        return $this->_addressService->getAddressById($addressId);
+        try {
+            return $this->_addressService->getAddressById($addressId);
+        } catch (\Magento\Exception\NoSuchEntityException $e) {
+            return null;
+        }
     }
 
     /**
@@ -160,7 +188,11 @@ class Book extends \Magento\View\Element\Template
      */
     public function getDefaultShipping()
     {
-        $customer = $this->_customerService->getCustomer($this->_customerSession->getId());
-        return $customer->getDefaultShipping();
+        $customer = $this->getCustomer();
+        if (is_null($customer)) {
+            return null;
+        } else {
+            return $customer->getDefaultShipping();
+        }
     }
 }

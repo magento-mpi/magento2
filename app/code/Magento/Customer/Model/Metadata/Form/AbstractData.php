@@ -4,8 +4,6 @@
  *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Eav
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -500,7 +498,7 @@ abstract class AbstractData
      *
      * @param array|string $value
      * @throws \Magento\Core\Exception
-     * @return array/bool
+     * @return array|bool
      */
     abstract public function validateValue($value);
 
@@ -526,5 +524,5 @@ abstract class AbstractData
      * @param string $format
      * @return string|array
      */
-    abstract public function outputValue($format = \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_TEXT);
+    abstract public function outputValue($format = \Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_TEXT);
 }

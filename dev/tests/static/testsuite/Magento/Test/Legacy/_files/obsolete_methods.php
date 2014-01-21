@@ -440,6 +440,8 @@ return array(
     array('getPriceFormatted', 'Magento\Customer\Block\Adminhtml\Edit\Tab\View\Sales'),
     array('getPrices', 'Magento\Bundle\Model\Product\Price', 'getTotalPrices()'),
     array('getPricesDependingOnTax', 'Magento\Bundle\Model\Product\Price', 'getTotalPrices()'),
+    array('getPrimaryBillingAddress', 'Magento\Customer\Block\Address\Book', 'getDefaultBilling'),
+    array('getPrimaryShippingAddress', 'Magento\Customer\Block\Address\Book', 'getDefaultShipping'),
     array('getPrintUrl', 'Magento\Checkout\Block\Onepage\Success'),
     array('getPrintUrl', 'Magento\Sales\Block\Order\Info'),
     array('getProduct', 'Magento\Catalog\Model\Product\Type\AbstractType'),
