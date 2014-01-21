@@ -122,19 +122,21 @@ class PhpRule implements \Magento\TestFramework\Dependency\RuleInterface
         $pattern = '/[\->:]+(?<source>getUrl\([\'"](?<router>[\w\/*]+)[\'"])/';
 
         $dependencies = array();
-        if (preg_match_all($pattern, $contents, $matches, PREG_SET_ORDER)) {
-            foreach ($matches as $item) {
-                $router = str_replace('/', '\\', $item['router']);
-                if (isset($this->_mapRouters[$router])) {
-                    $modules = $this->_mapRouters[$router];
-                    if (!in_array($currentModule, $modules)) {
-                        foreach ($modules as $module) {
-                            $dependencies[] = array(
-                                'module' => $module,
-                                'type' => \Magento\TestFramework\Dependency\RuleInterface::TYPE_HARD,
-                                'source' => $item['source'],
-                            );
-                        }
+        if (!preg_match_all($pattern, $contents, $matches, PREG_SET_ORDER)) {
+            return $dependencies;
+        }
+
+        foreach ($matches as $item) {
+            $router = str_replace('/', '\\', $item['router']);
+            if (isset($this->_mapRouters[$router])) {
+                $modules = $this->_mapRouters[$router];
+                if (!in_array($currentModule, $modules)) {
+                    foreach ($modules as $module) {
+                        $dependencies[] = array(
+                            'module' => $module,
+                            'type' => \Magento\TestFramework\Dependency\RuleInterface::TYPE_HARD,
+                            'source' => $item['source'],
+                        );
                     }
                 }
             }
@@ -158,19 +160,21 @@ class PhpRule implements \Magento\TestFramework\Dependency\RuleInterface
         $area = $this->_getAreaByFile($file, $fileType);
 
         $result = array();
-        if (preg_match_all($pattern, $contents, $matches, PREG_SET_ORDER)) {
-            foreach ($matches as $match) {
-                if (in_array($match['block'], ['root', 'content'])) {
-                    continue;
-                }
-                $check = $this->_checkDependencyLayoutBlock($currentModule, $area, $match['block']);
-                $module = isset($check['module']) ? $check['module'] : null;
-                if ($module) {
-                    $result[$module] = array(
-                        'type' => \Magento\TestFramework\Dependency\RuleInterface::TYPE_HARD,
-                        'source' => $match['source'],
-                    );
-                }
+        if (!preg_match_all($pattern, $contents, $matches, PREG_SET_ORDER)) {
+            return $result;
+        }
+
+        foreach ($matches as $match) {
+            if (in_array($match['block'], ['root', 'content'])) {
+                continue;
+            }
+            $check = $this->_checkDependencyLayoutBlock($currentModule, $area, $match['block']);
+            $module = isset($check['module']) ? $check['module'] : null;
+            if ($module) {
+                $result[$module] = array(
+                    'type' => \Magento\TestFramework\Dependency\RuleInterface::TYPE_HARD,
+                    'source' => $match['source'],
+                );
             }
         }
         return $this->_getUniqueDependencies($result);
@@ -185,7 +189,7 @@ class PhpRule implements \Magento\TestFramework\Dependency\RuleInterface
      */
     protected function _getAreaByFile($file, $fileType)
     {
-        if($fileType == 'php') {
+        if ($fileType == 'php') {
             return null;
         }
         $area = 'default';
