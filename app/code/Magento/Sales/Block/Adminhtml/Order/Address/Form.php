@@ -33,7 +33,7 @@ class Form
      * @param \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory
      * @param \Magento\Customer\Helper\Data $customerHelper
      * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
-     * @param \Magento\Customer\Model\AddressFactory $addressFactory
+     * @param \Magento\Customer\Helper\Address $addressHelper
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -48,7 +48,7 @@ class Form
         \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory,
         \Magento\Customer\Helper\Data $customerHelper,
         \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
-        \Magento\Customer\Model\AddressFactory $addressFactory,
+        \Magento\Customer\Helper\Address $addressHelper,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
@@ -63,7 +63,7 @@ class Form
             $customerFormFactory,
             $customerHelper,
             $addressService,
-            $addressFactory,
+            $addressHelper,
             $data
         );
     }
