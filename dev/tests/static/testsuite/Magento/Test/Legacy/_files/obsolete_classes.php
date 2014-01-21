@@ -1809,4 +1809,16 @@ return array(
         'Magento\Sales\Model\Order\Pdf\Items\Invoice\Grouped',
         'Magento\GroupedProduct\Model\Order\Pdf\Items\Invoice\Grouped'
     ),
+    array(
+        'Magento\Sales\Block\Order\Item\Renderer\Grouped',
+        'Magento\GroupedProduct\Block\Order\Item\Renderer\Grouped'
+    ),
+    array(
+        'Magento\ImportExport\Model\Export\Entity\Product\Type\Grouped',
+        'Magento\GroupedProduct\Model\Export\Entity\Product\Type\Grouped'
+    ),
+    array(
+        'Magento\ImportExport\Model\Import\Entity\Product\Type\Grouped',
+        'Magento\GroupedProduct\Model\Import\Entity\Product\Type\Grouped'
+    ),
 );

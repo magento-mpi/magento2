@@ -1,24 +1,18 @@
 <?php
 /**
+ * Import entity of grouped product type
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_ImportExport
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Import entity grouped product type model
- *
- * @category    Magento
- * @package     Magento_ImportExport
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-namespace Magento\ImportExport\Model\Import\Entity\Product\Type;
+namespace Magento\GroupedProduct\Model\Import\Entity\Product\Type;
 
-class Grouped
-    extends \Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType
+use Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType;
+
+class Grouped extends AbstractType
 {
     /**
      * Column names that holds values with particular meaning.
