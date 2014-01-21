@@ -518,7 +518,7 @@ class Observer
 
             $productTypeCustomOption = $quoteItem->getProduct()->getCustomOption('product_type');
             if (!is_null($productTypeCustomOption)) {
-                // Check if product related to current item is a part of grouped product
+                // Check if product related to current item is a part of product that represents product set
                 if ($this->typeConfig->isProductSet($productTypeCustomOption->getValue())) {
                     $stockItem->setProductName($quoteItem->getProduct()->getName());
                     $stockItem->setIsChildItem(true);

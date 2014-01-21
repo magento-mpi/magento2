@@ -23,6 +23,7 @@
             <module name="Magento_Tax"/>
             <module name="Magento_Backend"/>
             <module name="Magento_Bundle" type="soft"/>
+            <module name="Magento_GroupedProduct" type="soft"/>
         </depends>
     </module>
 </config>
