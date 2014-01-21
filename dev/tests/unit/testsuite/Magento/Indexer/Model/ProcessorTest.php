@@ -65,7 +65,8 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
             ->method('getAll')
             ->will($this->returnValue($indexers));
 
-        $state1Mock = $this->getMock('Magento\Indexer\Model\Indexer\State', array('getStatus'), array(), '', false);
+        $state1Mock = $this->getMock('Magento\Indexer\Model\Indexer\State',
+            array('getStatus', '__wakeup'), array(), '', false);
         $state1Mock->expects($this->once())
             ->method('getStatus')
             ->will($this->returnValue(Indexer\State::STATUS_INVALID));
@@ -77,7 +78,8 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
         $indexer1Mock->expects($this->once())
             ->method('reindexAll');
 
-        $state2Mock = $this->getMock('Magento\Indexer\Model\Indexer\State', array('getStatus'), array(), '', false);
+        $state2Mock = $this->getMock('Magento\Indexer\Model\Indexer\State',
+            array('getStatus', '__wakeup'), array(), '', false);
         $state2Mock->expects($this->once())
             ->method('getStatus')
             ->will($this->returnValue(Indexer\State::STATUS_VALID));
