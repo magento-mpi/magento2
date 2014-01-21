@@ -40,21 +40,22 @@ abstract class AbstractDto
      *
      * This only handles use cases of nested DTOs and array of DTOs
      *
-     * @return \ArrayAccess
+     * @return array
      */
     public function __toArray()
     {
-        foreach ($this->_data as $key => $value) {
-            if ($value instanceof AbstractDto) {
-                $this->_data[$key] = $value->__toArray();
+        $data = $this->_data;
+        foreach ($data as $key => $value) {
+            if (method_exists($value, '__toArray')) {
+                $data[$key] = $value->__toArray();
             } else if (is_array($value)) {
-                foreach ($value as $vKey => $vValue) {
-                    if ($vValue instanceof AbstractDto) {
-                        $this->_data[$vKey] = $vValue->__toArray();
+                foreach ($value as $nestedArrKey => $nestedArrValue) {
+                    if (method_exists($nestedArrValue, '__toArray')) {
+                        $data[$nestedArrKey] = $nestedArrValue->__toArray();
                     }
                 }
             }
         }
-        return $this->_data;
+        return $data;
     }
 }
