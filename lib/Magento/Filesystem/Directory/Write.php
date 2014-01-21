@@ -260,4 +260,14 @@ class Write extends Read implements WriteInterface
     {
         return $this->openFile($path, $mode, $protocol)->write($content);
     }
+
+    /**
+     * Get driver
+     *
+     * @return \Magento\Filesystem\DriverInterface
+     */
+    public function getDriver()
+    {
+        return $this->driver;
+    }
 }

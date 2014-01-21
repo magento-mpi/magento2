@@ -59,6 +59,7 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
      * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
      * @param \Magento\Reports\Model\Product\Index\Factory $indexFactory
      * @param array $data
+     * @param array $priceBlockTypes
      * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -76,7 +77,8 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
         \Magento\Catalog\Helper\Image $imageHelper,
         \Magento\Catalog\Model\Product\Visibility $productVisibility,
         \Magento\Reports\Model\Product\Index\Factory $indexFactory,
-        array $data = array()
+        array $data = array(),
+        array $priceBlockTypes = array()
     ) {
         parent::__construct(
             $context,
@@ -90,7 +92,8 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
             $compareProduct,
             $layoutHelper,
             $imageHelper,
-            $data
+            $data,
+            $priceBlockTypes
         );
         $this->_productVisibility = $productVisibility;
         $this->_indexFactory = $indexFactory;

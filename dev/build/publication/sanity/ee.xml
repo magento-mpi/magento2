@@ -18,6 +18,9 @@
         <word>petervarien</word>
         <word>ukpromerchant</word>
         <word>saas</word>
+        <word>Magento/License</word>
+        <word>Magento\License</word>
+        <word>Magento_License</word>
         <word>CHANGELOG</word>
     </words>
     <whitelist>
