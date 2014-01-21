@@ -90,19 +90,19 @@ class Socket
 	 * Set request timeout, msec
 	 * 
 	 * @param int $value
-     * @return void
+	 * @return void
 	 */
 	public function setTimeout($value)
 	{
 		$this->_timeout = (int) $value;
 	}
 
-    /**
-     * Constructor
-     *
-     * @param string $host
-     * @param int $port
-     */
+	/**
+	 * Constructor
+	 *
+	 * @param string $host
+	 * @param int $port
+	 */
 	public function __construct($host = null, $port = 80)
 	{
 		if($host) {
@@ -113,9 +113,9 @@ class Socket
 	/**
 	 * Set connection params
 	 *
-     * @param string $host 
-     * @param int $port
-     * @return void
+	 * @param string $host
+	 * @param int $port
+	 * @return void
 	 */
 	public function connect($host, $port = 80)
 	{
@@ -125,8 +125,8 @@ class Socket
 	
 	/**
 	 * Disconnect
-     *
-     * @return void
+	 *
+	 * @return void
 	 */
 	public function disconnect()
 	{
@@ -137,7 +137,7 @@ class Socket
 	 * Set headers from hash
 	 
 	 * @param array $headers
-     * @return void
+	 * @return void
 	 */	
 	public function setHeaders($headers)
 	{
@@ -149,7 +149,7 @@ class Socket
 	 * 
 	 * @param string $name name, ex. "Location"
 	 * @param string $value value ex. "http://google.com"
-     * @return void
+	 * @return void
 	 */
 	public function addHeader($name, $value)
 	{
@@ -160,7 +160,7 @@ class Socket
 	 * Remove specified header
 	 * 
 	 * @param string $name
-     * @return void
+	 * @return void
 	 */
 	public function removeHeader($name)
 	{
@@ -173,7 +173,7 @@ class Socket
 	 * 
 	 * @param string $login username
 	 * @param string $pass password
-     * @return void
+	 * @return void
 	 */
 	public function setCredentials($login, $pass)
 	{
@@ -186,7 +186,7 @@ class Socket
 	 * 
 	 * @param string $name
 	 * @param string $value
-     * @return void
+	 * @return void
 	 */
 	public function addCookie($name, $value)
 	{
@@ -197,7 +197,7 @@ class Socket
 	 * Remove cookie 
 	 * 
 	 * @param string $name
-     * @return void
+	 * @return void
 	 */	
 	public function removeCookie($name)
 	{
@@ -208,7 +208,7 @@ class Socket
 	 * Set cookies array
 	 * 	 
 	 * @param array $cookies
-     * @return void
+	 * @return void
 	 */
 	public function setCookies($cookies)
 	{
@@ -217,8 +217,8 @@ class Socket
 
 	/**
 	 * Clear cookies
-     *
-     * @return void
+	 *
+	 * @return void
 	 */
 	public function removeCookies()
 	{
@@ -229,7 +229,7 @@ class Socket
 	 * Make GET request
 	 * 
 	 * @param string $uri full uri path
-     * @return void
+	 * @return void
 	 */
 	public function get($uri)
 	{	
@@ -242,7 +242,7 @@ class Socket
 	 * 
 	 * @param string $uri ex. http://google.com/index.php?a=b
 	 * @return string ex. /index.php?a=b
-     * @throws \InvalidArgumentException
+	 * @throws \InvalidArgumentException
 	 */
     protected function parseUrl($uri)
 	{
@@ -273,12 +273,12 @@ class Socket
 	}
 	
 	/**
-     * Make POST request
-     *
-     * @param string $uri
-     * @param array $params
-     * @return void
-     */
+	 * Make POST request
+	 *
+	 * @param string $uri
+	 * @param array $params
+	 * @return void
+	 */
     public function post($uri, $params)
 	{
 		$this->makeRequest("POST", $this->parseUrl($uri), $params);
@@ -367,8 +367,8 @@ class Socket
 
 	/**
 	 * Process response headers
-     *
-     * @return void
+	 *
+	 * @return void
 	 */
 	protected function processResponseHeaders()
 	{
@@ -400,8 +400,8 @@ class Socket
 
 	/**
 	 * Process response body
-     *
-     * @return void
+	 *
+	 * @return void
 	 */
 	protected function processResponseBody()
 	{
@@ -414,9 +414,9 @@ class Socket
 
 	/**
 	 * Process response
-     *
-     * @return void
-     */
+	 *
+	 * @return void
+	 */
     protected function processResponse()
 	{
 		$response = '';
@@ -436,8 +436,8 @@ class Socket
 
 	/**
 	 * Process redirect
-     *
-     * @return void
+	 *
+	 * @return void
 	 */
 	protected function processRedirect()
 	{
@@ -447,9 +447,9 @@ class Socket
 	/**
 	 * Get response status code
 	 * @see lib/Magento/HTTP/\Magento\HTTP\Client#getStatus()
-     *
-     * @return int
-     */
+	 *
+	 * @return int
+	 */
     public function getStatus()
 	{
 		return $this->_responseStatus;
@@ -495,7 +495,7 @@ class Socket
 	/**
 	 * Throw error exception
 	 * @param string $string
-     * @return void
+	 * @return void
 	 * @throws \Exception
 	 */
 	public function doError($string)
@@ -523,10 +523,10 @@ class Socket
 
 	/**
 	 * TODO
-     *
-     * @param array $arr
-     * @return void
-     */
+	 *
+	 * @param array $arr
+	 * @return void
+	 */
     public function setOptions($arr)
 	{
 		// Stub
@@ -534,11 +534,11 @@ class Socket
 	
 	/**
 	 * TODO
-     *
-     * @param string $name
-     * @param string $value
-     * @return void
-     */
+	 *
+	 * @param string $name
+	 * @param string $value
+	 * @return void
+	 */
     public function setOption($name, $value)
 	{
 		// Stub

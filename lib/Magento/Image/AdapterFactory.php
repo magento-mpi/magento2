@@ -23,7 +23,7 @@ class AdapterFactory
     protected $objectManager;
 
     /**
-     * @var string[]
+     * @var array
      */
     protected $adapterMap;
 

@@ -154,7 +154,7 @@ class ArgumentsReader
     /**
      * Export variable value
      *
-     * @param mixed|array $var
+     * @param mixed $var
      * @return mixed|string
      */
     protected function _varExportMin($var)

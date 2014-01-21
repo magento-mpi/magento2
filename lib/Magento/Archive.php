@@ -17,9 +17,9 @@
  */
 namespace Magento;
 
-use \Magento\Archive\Bz;
-use \Magento\Archive\Gz;
-use \Magento\Archive\Tar;
+use Magento\Archive\Bz;
+use Magento\Archive\Gz;
+use Magento\Archive\Tar;
 
 class Archive
 {
