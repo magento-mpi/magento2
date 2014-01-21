@@ -31,7 +31,6 @@
             <module name="Magento_Eav"/>
             <module name="Magento_Tax"/>
             <module name="Magento_GiftMessage"/>
-            <module name="Magento_Usa"/>
             <module name="Magento_Reports"/>
             <module name="Magento_Weee"/>
             <module name="Magento_Rss"/>
