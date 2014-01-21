@@ -34,6 +34,7 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
      * @param \Magento\Stdlib\ArrayUtils $arrayUtils
      * @param \Magento\Customer\Model\Session $customerSession
      * @param array $data
+     * @param array $priceBlockTypes
      * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -51,7 +52,8 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
         \Magento\Catalog\Helper\Image $imageHelper,
         \Magento\Stdlib\ArrayUtils $arrayUtils,
         \Magento\Customer\Model\Session $customerSession,
-        array $data = array()
+        array $data = array(),
+        array $priceBlockTypes = array()
     ) {
         $this->_customerSession = $customerSession;
         parent::__construct(
@@ -67,7 +69,8 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
             $layoutHelper,
             $imageHelper,
             $arrayUtils,
-            $data
+            $data,
+            $priceBlockTypes
         );
     }
 

@@ -40,6 +40,7 @@ class Sidebar extends \Magento\Wishlist\Block\Customer\Sidebar
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\MultipleWishlist\Helper\Data $multipleWishlistHelper
      * @param array $data
+     * @param array $priceBlockTypes
      * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -58,7 +59,8 @@ class Sidebar extends \Magento\Wishlist\Block\Customer\Sidebar
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\MultipleWishlist\Helper\Data $multipleWishlistHelper,
-        array $data = array()
+        array $data = array(),
+        array $priceBlockTypes = array()
     ) {
         $this->_multipleWishlistHelper = $multipleWishlistHelper;
         parent::__construct(
@@ -75,7 +77,8 @@ class Sidebar extends \Magento\Wishlist\Block\Customer\Sidebar
             $imageHelper,
             $customerSession,
             $productFactory,
-            $data
+            $data,
+            $priceBlockTypes
         );
     }
 
