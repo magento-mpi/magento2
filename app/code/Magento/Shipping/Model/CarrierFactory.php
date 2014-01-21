@@ -2,15 +2,14 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Shipping
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Shipping\Model;
 
-class CarrierFactory
+use Magento\Sales\Model\Quote\Address\CarrierFactoryInterface;
+
+class CarrierFactory implements CarrierFactoryInterface
 {
     /**
      * Core store config
