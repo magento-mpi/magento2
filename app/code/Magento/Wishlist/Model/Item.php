@@ -708,7 +708,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     public function canHaveQty()
     {
         $product = $this->getProduct();
-        return $product->getTypeId() != \Magento\Catalog\Model\Product\Type\Grouped::TYPE_CODE;
+        return $product->getTypeId() != \Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE;
     }
 
     /**

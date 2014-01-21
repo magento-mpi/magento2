@@ -225,7 +225,7 @@ return array (
     'oauth_consumer' => 'Magento_Integration',
     'oauth_nonce' => 'Magento_Integration',
     'oauth_token' => 'Magento_Integration',
-    'paygate_authorizenet_debug' => 'Magento_Paygate',
+    'authorizenet_debug' => 'Magento_Authorizenet',
     'paypal_cert' => 'Magento_Paypal',
     'paypal_payment_transaction' => 'Magento_Paypal',
     'paypal_settlement_report' => 'Magento_Paypal',
