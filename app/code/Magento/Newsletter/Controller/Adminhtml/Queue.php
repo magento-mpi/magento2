@@ -325,7 +325,7 @@ class Queue extends \Magento\Backend\App\Action
     /**
      * Check if user has enough privileges
      *
-     * @return boolean
+     * @return bool
      */
     protected function _isAllowed()
     {

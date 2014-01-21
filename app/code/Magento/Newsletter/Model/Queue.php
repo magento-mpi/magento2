@@ -361,7 +361,7 @@ class Queue extends \Magento\Core\Model\Template
     /**
      * Getter for stores of queue.
      *
-     * @return \Magento\Core\Model\Store[]
+     * @return array
      */
     public function getStores()
     {

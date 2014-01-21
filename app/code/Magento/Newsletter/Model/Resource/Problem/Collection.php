@@ -72,7 +72,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Adds subscribers info
      *
-     * @return \Magento\Newsletter\Model\Resource\Problem\Collection
+     * @return $this
      */
     public function addSubscriberInfo()
     {
@@ -89,7 +89,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Adds queue info
      *
-     * @return \Magento\Newsletter\Model\Resource\Problem\Collection
+     * @return $this
      */
     public function addQueueInfo()
     {
@@ -144,7 +144,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      *
      * @param bool $printQuery
      * @param bool $logQuery
-     * @return \Magento\Newsletter\Model\Resource\Problem\Collection
+     * @return $this
      */
     public function load($printQuery = false, $logQuery = false)
     {

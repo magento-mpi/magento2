@@ -50,7 +50,7 @@ class Template extends \Magento\Backend\App\Action
     /**
      * Set title of page
      *
-     * @return \Magento\Newsletter\Controller\Adminhtml\Template
+     * @return $this
      */
     protected function _setTitle()
     {
@@ -245,7 +245,7 @@ class Template extends \Magento\Backend\App\Action
     /**
      * Preview Newsletter template
      *
-     * @return void|\Magento\Newsletter\Controller\Adminhtml\Template
+     * @return void|$this
      */
     public function previewAction()
     {

@@ -14,17 +14,17 @@
  * @method \Magento\Newsletter\Model\Resource\Subscriber _getResource()
  * @method \Magento\Newsletter\Model\Resource\Subscriber getResource()
  * @method int getStoreId()
- * @method \Magento\Newsletter\Model\Subscriber setStoreId(int $value)
+ * @method Subscriber setStoreId(int $value)
  * @method string getChangeStatusAt()
- * @method \Magento\Newsletter\Model\Subscriber setChangeStatusAt(string $value)
+ * @method Subscriber setChangeStatusAt(string $value)
  * @method int getCustomerId()
- * @method \Magento\Newsletter\Model\Subscriber setCustomerId(int $value)
+ * @method Subscriber setCustomerId(int $value)
  * @method string getSubscriberEmail()
- * @method \Magento\Newsletter\Model\Subscriber setSubscriberEmail(string $value)
+ * @method Subscriber setSubscriberEmail(string $value)
  * @method int getSubscriberStatus()
- * @method \Magento\Newsletter\Model\Subscriber setSubscriberStatus(int $value)
+ * @method Subscriber setSubscriberStatus(int $value)
  * @method string getSubscriberConfirmCode()
- * @method \Magento\Newsletter\Model\Subscriber setSubscriberConfirmCode(string $value)
+ * @method Subscriber setSubscriberConfirmCode(string $value)
  *
  * @category    Magento
  * @package     Magento_Newsletter
@@ -223,7 +223,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
      * Alias for setSubscriberConfirmCode()
      *
      * @param string $value
-     * @return \Magento\Newsletter\Model\Subscriber
+     * @return $this
      */
     public function setCode($value)
     {
@@ -244,7 +244,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
      * Alias for setSubscriberStatus()
      *
      * @param int $value
-     * @return \Magento\Newsletter\Model\Subscriber
+     * @return $this
      */
     public function setStatus($value)
     {
@@ -255,7 +255,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
      * Set the error messages scope for subscription
      *
      * @param boolean $scope
-     * @return \Magento\Newsletter\Model\Subscriber
+     * @return Subscriber
      */
 
     public function setMessagesScope($scope)
@@ -278,7 +278,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
      * Alias for setSubscriberEmail()
      *
      * @param string $value
-     * @return \Magento\Newsletter\Model\Subscriber
+     * @return $this
      */
     public function setEmail($value)
     {

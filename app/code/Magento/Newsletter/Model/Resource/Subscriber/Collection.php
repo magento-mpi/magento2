@@ -18,6 +18,8 @@
  */
 namespace Magento\Newsletter\Model\Resource\Subscriber;
 
+use Magento\Newsletter\Model\Queue as ModelQueue;
+
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
 
@@ -112,8 +114,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Set loading mode subscribers by queue
      *
-     * @param \Magento\Newsletter\Model\Queue $queue
-     * @return \Magento\Newsletter\Model\Resource\Subscriber\Collection
+     * @param ModelQueue $queue
+     * @return $this
      */
     public function useQueue(\Magento\Newsletter\Model\Queue $queue)
     {
@@ -127,7 +129,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Set using of links to only unsendet letter subscribers.
      *
-     * @return \Magento\Newsletter\Model\Resource\Subscriber\Collection
+     * @return $this
      */
     public function useOnlyUnsent()
     {
@@ -141,7 +143,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Adds customer info to select
      *
-     * @return \Magento\Newsletter\Model\Resource\Subscriber\Collection
+     * @return $this
      */
     public function showCustomerInfo()
     {
@@ -171,7 +173,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Add type field expression to select
      *
-     * @return \Magento\Newsletter\Model\Resource\Subscriber\Collection
+     * @return $this
      */
     public function addSubscriberTypeField()
     {
@@ -183,7 +185,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Sets flag for customer info loading on load
      *
-     * @return \Magento\Newsletter\Model\Resource\Subscriber\Collection
+     * @return $this
      */
     public function showStoreInfo()
     {
@@ -215,7 +217,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Load only subscribed customers
      *
-     * @return \Magento\Newsletter\Model\Resource\Subscriber\Collection
+     * @return $this
      */
     public function useOnlyCustomers()
     {
@@ -227,7 +229,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Show only with subscribed status
      *
-     * @return \Magento\Newsletter\Model\Resource\Subscriber\Collection
+     * @return $this
      */
     public function useOnlySubscribed()
     {
@@ -240,7 +242,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Filter collection by specified store ids
      *
      * @param int[]|int $storeIds
-     * @return \Magento\Newsletter\Model\Resource\Subscriber\Collection
+     * @return $this
      */
     public function addStoreFilter($storeIds)
     {

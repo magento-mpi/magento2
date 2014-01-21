@@ -17,6 +17,8 @@
  */
 namespace Magento\Newsletter\Block\Adminhtml\Template;
 
+use Magento\Backend\Block\Widget\Grid as WidgetGrid;
+
 class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
@@ -46,7 +48,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Apply sorting and filtering to collection
      *
-     * @return \Magento\Backend\Block\Widget\Grid
+     * @return WidgetGrid
      */
     protected function _prepareCollection()
     {

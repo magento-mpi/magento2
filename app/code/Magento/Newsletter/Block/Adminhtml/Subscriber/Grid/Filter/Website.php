@@ -13,13 +13,15 @@
  */
 namespace Magento\Newsletter\Block\Adminhtml\Subscriber\Grid\Filter;
 
+use Magento\Core\Model\Resource\Website\Collection;
+
 class Website
     extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
 {
     /**
      * Website collection
      *
-     * @var \Magento\Core\Model\Resource\Website\Collection
+     * @var Collection
      */
     protected $_websiteCollection = null;
 
@@ -75,7 +77,7 @@ class Website
     }
 
     /**
-     * @return \Magento\Core\Model\Resource\Website\Collection|null
+     * @return Collection|null
      */
     public function getCollection()
     {

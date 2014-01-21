@@ -18,12 +18,14 @@
 
 namespace Magento\Newsletter\Block\Adminhtml;
 
+use Magento\Newsletter\Model\Resource\Queue\Collection;
+
 class Subscriber extends \Magento\Backend\Block\Template
 {
     /**
      * Queue collection
      *
-     * @var \Magento\Newsletter\Model\Resource\Queue\Collection
+     * @var Collection
      */
     protected $_queueCollection = null;
 
@@ -54,7 +56,7 @@ class Subscriber extends \Magento\Backend\Block\Template
     /**
      * Prepares block to render
      *
-     * @return \Magento\Newsletter\Block\Adminhtml\Subscriber
+     * @return $this
      */
     protected function _beforeToHtml()
     {
@@ -64,7 +66,7 @@ class Subscriber extends \Magento\Backend\Block\Template
     /**
      * Return queue collection with loaded neversent queues
      *
-     * @return \Magento\Newsletter\Model\Resource\Queue\Collection
+     * @return Collection
      */
     public function getQueueCollection()
     {

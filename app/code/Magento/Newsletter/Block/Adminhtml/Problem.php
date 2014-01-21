@@ -17,6 +17,8 @@
  */
 namespace Magento\Newsletter\Block\Adminhtml;
 
+use Magento\Newsletter\Model\Resource\Problem\Collection;
+
 class Problem extends \Magento\Backend\Block\Template
 {
 
@@ -32,12 +34,12 @@ class Problem extends \Magento\Backend\Block\Template
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Newsletter\Model\Resource\Problem\Collection $problemCollection
+     * @param Collection $problemCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Newsletter\Model\Resource\Problem\Collection $problemCollection,
+        Collection $problemCollection,
         array $data = array()
     ) {
         $this->_problemCollection = $problemCollection;
@@ -82,7 +84,7 @@ class Problem extends \Magento\Backend\Block\Template
     }
 
     /**
-     * Get the html element for unsbuscribe button
+     * Get the html element for unsubscribe button
      *
      * @return $string
      */
@@ -104,7 +106,7 @@ class Problem extends \Magento\Backend\Block\Template
     /**
      * Return true if the size is greater than 0
      *
-     * @return boolean
+     * @return bool
      */
     public function getShowButtons()
     {

@@ -10,6 +10,8 @@
 
 namespace Magento\Newsletter\Model;
 
+use Magento\Cron\Model\Schedule;
+
 /**
  * Newsletter module observer
  *
@@ -46,10 +48,10 @@ class Observer
     }
 
     /**
-     * Subscribe cutomer handler
+     * Subscribe customer handler
      *
      * @param \Magento\Object $observer
-     * @return \Magento\Newsletter\Model\Observer
+     * @return $this
      */
     public function subscribeCustomer($observer)
     {
@@ -64,7 +66,7 @@ class Observer
      * Customer delete handler
      *
      * @param \Magento\Object $observer
-     * @return \Magento\Newsletter\Model\Observer
+     * @return $this
      */
     public function customerDeleted($observer)
     {
@@ -80,7 +82,7 @@ class Observer
     /**
      * Customer delete handler
      *
-     * @param \Magento\Cron\Model\Schedule $schedule
+     * @param Schedule $schedule
      * @return void
      */
     public function scheduledSend($schedule)
