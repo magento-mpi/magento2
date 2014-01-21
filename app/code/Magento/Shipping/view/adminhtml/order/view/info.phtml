@@ -8,8 +8,9 @@
  * @license     {license_link}
  */
 ?>
-<?php /** @var $this \Magento\Shipping\Block\Adminhtml\Order\View */ ?>
+<?php /** @var $this \Magento\Shipping\Block\Adminhtml\View */ ?>
 <?php $order = $this->getOrder() ?>
+<?php if ($order->getIsVirtual()) : return '';endif; ?>
 <div class="order-shipping-method">
     <!--Shipping Method-->
     <div class="fieldset-wrapper">
