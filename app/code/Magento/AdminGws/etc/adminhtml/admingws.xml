@@ -211,9 +211,6 @@
         <callback class="adminhtml__process__massReindex" method="blockIndexAction" />
         <callback class="adminhtml__process__reindexProcess" method="blockIndexAction" />
         <callback class="adminhtml__process__reindexAllAction" method="blockIndexAction" />
-        <callback class="adminhtml__targetrule__new" method="blockIndexAction" />
-        <callback class="adminhtml__targetrule__save" method="blockIndexAction" />
-        <callback class="adminhtml__targetrule__delete" method="blockIndexAction" />
         <callback class="adminhtml__cms_hierarchy__save" method="blockIndexAction" />
         <callback class="adminhtml__customer_group__save" method="blockCustomerGroupSave" />
         <callback class="adminhtml__tax_rule__save" method="blockTaxChange" />
