@@ -19,12 +19,6 @@ class AbstractCatalog extends \Magento\Rss\Block\AbstractBlock
     protected $_priceBlock = array();
 
     /**
-     * Stored price blocks info
-     * @var array
-     */
-    protected $_priceBlockTypes = array();
-
-    /**
      * Default values for price block and template
      * @var string
      */

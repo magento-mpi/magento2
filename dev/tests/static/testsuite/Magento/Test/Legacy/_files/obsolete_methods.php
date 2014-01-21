@@ -1150,4 +1150,5 @@ return array(
     array('copyInventoryData', 'Magento\CatalogInventory\Model\Observer',
         '\Magento\CatalogInventory\Model\Product\CopyConstructor\CatalogInventory::build'
     ),
+    array('addPriceBlockType', 'Magento\Rss\Block\Catalog\AbstractCatalog'),
 );

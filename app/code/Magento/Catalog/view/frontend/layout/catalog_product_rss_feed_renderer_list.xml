@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <referenceBlock name="catalog.category.rss.feed.renderer.list">
+    <referenceBlock name="catalog.product.rss.feed.renderer.list">
         <block class="Magento\Catalog\Block\Product\Price" name="msrp_rss" template="product/price_msrp_rss.phtml" />
     </referenceBlock>
 </layout>
