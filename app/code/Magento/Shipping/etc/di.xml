@@ -8,5 +8,5 @@
  */
 -->
 <config>
-    <preference for="Magento\Sales\Model\Quote\Address\RateCollectorInterface" type="Magento\Shipping\Model\Shipping" />
+    <preference for="Magento\Sales\Model\Quote\Address\RateCollectorInterfaceFactory" type="Magento\Shipping\Model\ShippingFactory" />
 </config>

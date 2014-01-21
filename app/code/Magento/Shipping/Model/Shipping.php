@@ -12,8 +12,9 @@
 namespace Magento\Shipping\Model;
 
 use Magento\Sales\Model\Order\Shipment;
+use Magento\Sales\Model\Quote\Address\RateCollectorInterface;
 
-class Shipping
+class Shipping implements RateCollectorInterface
 {
     /**
      * Default shipping orig for requests
