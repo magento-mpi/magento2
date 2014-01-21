@@ -758,7 +758,7 @@ class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\
 
     /**
      * Implementation of \IteratorAggregate::getIterator()
-
+     *
      * @return \ArrayIterator
      */
     public function getIterator()
