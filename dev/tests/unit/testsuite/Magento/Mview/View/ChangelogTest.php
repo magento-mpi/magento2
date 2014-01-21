@@ -35,7 +35,8 @@ class ChangelogTest extends \PHPUnit_Framework_TestCase
             ->method('getConnection')
             ->will($this->returnValue($this->connectionMock));
 
-        $this->model = new \Magento\Mview\View\Changelog($this->resourceMock, 'ViewIdTest');
+        $this->model = new \Magento\Mview\View\Changelog($this->resourceMock);
+        $this->model->setViewId('ViewIdTest');
     }
 
     public function testInstanceOf()
@@ -55,7 +56,8 @@ class ChangelogTest extends \PHPUnit_Framework_TestCase
         $resourceMock->expects($this->once())
             ->method('getConnection')
             ->will($this->returnValue(null));
-        $model = new \Magento\Mview\View\Changelog($resourceMock, 'ViewIdTest');
+        $model = new \Magento\Mview\View\Changelog($resourceMock);
+        $model->setViewId('ViewIdTest');
         $this->assertNull($model);
     }
 
@@ -81,7 +83,8 @@ class ChangelogTest extends \PHPUnit_Framework_TestCase
         $resource->expects($this->once())
             ->method('getConnection')
             ->will($this->returnValue($connection));
-        $model = new \Magento\Mview\View\Changelog($resource, 'viewIdtest');
+        $model = new \Magento\Mview\View\Changelog($resource);
+        $model->setViewId('viewIdtest');
         $this->setExpectedException('Exception', "Table {$changelogTableName} does not exist");
         $model->getVersion();
     }
@@ -98,7 +101,8 @@ class ChangelogTest extends \PHPUnit_Framework_TestCase
         $resource->expects($this->once())
             ->method('getConnection')
             ->will($this->returnValue($connection));
-        $model = new \Magento\Mview\View\Changelog($resource, 'viewIdtest');
+        $model = new \Magento\Mview\View\Changelog($resource);
+        $model->setViewId('viewIdtest');
         $this->setExpectedException('Exception', "Table {$changelogTableName} does not exist");
         $model->drop();
     }
@@ -115,7 +119,8 @@ class ChangelogTest extends \PHPUnit_Framework_TestCase
         $resource->expects($this->once())
             ->method('getConnection')
             ->will($this->returnValue($connection));
-        $model = new \Magento\Mview\View\Changelog($resource, 'viewIdtest');
+        $model = new \Magento\Mview\View\Changelog($resource);
+        $model->setViewId('viewIdtest');
         $this->setExpectedException('Exception', "Table {$changelogTableName} already exist");
         $model->create();
     }
@@ -132,7 +137,8 @@ class ChangelogTest extends \PHPUnit_Framework_TestCase
         $resource->expects($this->once())
             ->method('getConnection')
             ->will($this->returnValue($connection));
-        $model = new \Magento\Mview\View\Changelog($resource, 'viewIdtest');
+        $model = new \Magento\Mview\View\Changelog($resource);
+        $model->setViewId('viewIdtest');
         $this->setExpectedException('Exception', "Table {$changelogTableName} does not exist");
         $model->getList(mt_rand(1, 200), mt_rand(201, 400));
     }
@@ -149,7 +155,8 @@ class ChangelogTest extends \PHPUnit_Framework_TestCase
         $resource->expects($this->once())
             ->method('getConnection')
             ->will($this->returnValue($connection));
-        $model = new \Magento\Mview\View\Changelog($resource, 'viewIdtest');
+        $model = new \Magento\Mview\View\Changelog($resource);
+        $model->setViewId('viewIdtest');
         $this->setExpectedException('Exception', "Table {$changelogTableName} does not exist");
         $model->clear(mt_rand(1, 200));
     }

@@ -135,29 +135,15 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
     public function testGetStatus($mode, $status, $statusCall, $stateCall, $result)
     {
         $indexId = 'indexer_internal_name';
-//        $view = $this->getMock(
-//            'Magento\Mview\View',
-//            array('load', 'getMode', 'getStatus'),
-//            array(),
-//            '',
-//            false
-//        );
-        $this->viewMock->expects($this->once())
+        $this->viewMock->expects($statusCall ? $this->exactly(2) : $this->once())
             ->method('getId')
             ->will($this->returnValue(1));
-//        $this->viewMock->expects($this->once())
-//            ->method('load')
-//            ->with('view_test')
-//            ->will($this->returnSelf());
         $this->viewMock->expects($this->once())
             ->method('getMode')
             ->will($this->returnValue($mode));
         $this->viewMock->expects($statusCall ? $this->once() : $this->never())
             ->method('getStatus')
             ->will($this->returnValue($status));
-//        $this->viewFactoryMock->expects($this->once())
-//            ->method('create')
-//            ->will($this->returnValue($view));
 
         if ($stateCall) {
             $stateMock = $this->getMock(

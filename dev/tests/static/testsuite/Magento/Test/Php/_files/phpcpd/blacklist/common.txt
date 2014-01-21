@@ -112,3 +112,4 @@ Magento/Newsletter/Model/Template/Filter
 Magento/Newsletter/Model/Resource/Subscriber
 Magento/CatalogInventory/Model/Resource/Stock/Item
 lib/Magento/Filesystem/Driver
+Magento/Indexer/Model/
