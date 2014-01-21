@@ -10,15 +10,18 @@
 
 namespace Magento\Event;
 
-class Observer extends \Magento\Object
+use \Magento\Event;
+use \Magento\Object;
+
+class Observer extends Object
 {
     /**
      * Checks the observer's event_regex against event's name
      *
-     * @param \Magento\Event $event
+     * @param Event $event
      * @return boolean
      */
-    public function isValidFor(\Magento\Event $event)
+    public function isValidFor(Event $event)
     {
         return $this->getEventName() === $event->getName();
     }
@@ -26,10 +29,10 @@ class Observer extends \Magento\Object
     /**
      * Dispatches an event to observer's callback
      *
-     * @param \Magento\Event $event
+     * @param Event $event
      * @return $this
      */
-    public function dispatch(\Magento\Event $event)
+    public function dispatch(Event $event)
     {
         if (!$this->isValidFor($event)) {
             return $this;
@@ -56,7 +59,7 @@ class Observer extends \Magento\Object
 
     /**
      * @param string $data
-     * @return \Magento\Object
+     * @return Object
      */
     public function setName($data)
     {
@@ -73,7 +76,7 @@ class Observer extends \Magento\Object
 
     /**
      * @param string $data
-     * @return \Magento\Object
+     * @return Object
      */
     public function setEventName($data)
     {
@@ -90,7 +93,7 @@ class Observer extends \Magento\Object
 
     /**
      * @param string $data
-     * @return \Magento\Object
+     * @return Object
      */
     public function setCallback($data)
     {
@@ -100,7 +103,7 @@ class Observer extends \Magento\Object
     /**
      * Get observer event object
      *
-     * @return \Magento\Event
+     * @return Event
      */
     public function getEvent()
     {
@@ -109,7 +112,7 @@ class Observer extends \Magento\Object
 
     /**
      * @param mixed $data
-     * @return \Magento\Object
+     * @return Object
      */
     public function setEvent($data)
     {

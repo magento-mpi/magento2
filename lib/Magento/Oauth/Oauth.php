@@ -181,7 +181,7 @@ class Oauth implements OauthInterface
      * @param string $requestUrl
      * @param string $tokenSecret
      * @return void
-     * @throws \Exception
+     * @throws Exception
      */
     protected function _validateSignature($params, $consumerSecret, $httpMethod, $requestUrl, $tokenSecret = null)
     {
@@ -214,7 +214,7 @@ class Oauth implements OauthInterface
      *
      * @param string $version
      * @return void
-     * @throws \Exception
+     * @throws Exception
      */
     protected function _validateVersionParam($version)
     {
@@ -230,7 +230,7 @@ class Oauth implements OauthInterface
      * @param array $protocolParams
      * @param array $requiredParams
      * @return void
-     * @throws \Exception
+     * @throws Exception
      */
     protected function _validateProtocolParams($protocolParams, $requiredParams)
     {
@@ -277,7 +277,7 @@ class Oauth implements OauthInterface
      * @param array $protocolParams
      * @param array $requiredParams
      * @return void
-     * @throws \Exception
+     * @throws Exception
      */
     protected function _checkRequiredParams($protocolParams, $requiredParams)
     {

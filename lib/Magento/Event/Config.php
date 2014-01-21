@@ -23,7 +23,7 @@ class Config implements ConfigInterface
     /**
      * @param Data $dataContainer
      */
-    public function __construct(Config\Data $dataContainer)
+    public function __construct(Data $dataContainer)
     {
         $this->_dataContainer = $dataContainer;
     }

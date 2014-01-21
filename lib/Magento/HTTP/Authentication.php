@@ -46,7 +46,7 @@ class Authentication
      *
      * Returns plain array with 2 items: login and password respectively
      *
-     * @return string[]
+     * @return array
      */
     public function getCredentials()
     {
