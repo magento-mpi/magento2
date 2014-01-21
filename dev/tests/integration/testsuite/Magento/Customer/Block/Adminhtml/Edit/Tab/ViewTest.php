@@ -5,12 +5,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
 use Magento\Core\Model\LocaleInterface;
 use Magento\Customer\Model\Customer as CustomerModel;
 
+/**
+ * Magento\Customer\Block\Adminhtml\Edit\Tab\View
+ *
+ * @magentoAppArea adminhtml
+ */
 class ViewTest extends \PHPUnit_Framework_TestCase
 {
     const CURRENT_CUSTOMER = 'current_customer';
