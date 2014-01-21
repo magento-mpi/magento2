@@ -40,7 +40,6 @@ class Create extends \Magento\Backend\Block\Widget\Form\Container
     protected function _construct()
     {
         $this->_objectId = 'order_id';
-//        $this->_controller = 'adminhtml';
         $this->_mode = 'create';
 
         parent::_construct();

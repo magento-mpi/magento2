@@ -43,7 +43,6 @@ class View extends \Magento\Backend\Block\Widget\Form\Container
     protected function _construct()
     {
         $this->_objectId = 'shipment_id';
-//        $this->_controller = 'adminhtml_shipment';
         $this->_mode = 'view';
 
         parent::_construct();

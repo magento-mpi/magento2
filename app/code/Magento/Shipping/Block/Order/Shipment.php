@@ -11,7 +11,7 @@
 /**
  * Sales order view block
  */
-namespace Magento\Sales\Block\Order;
+namespace Magento\Shipping\Block\Order;
 
 class Shipment extends \Magento\View\Element\Template
 {

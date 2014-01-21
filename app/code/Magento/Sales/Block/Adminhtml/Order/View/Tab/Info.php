@@ -87,17 +87,6 @@ class Info
         return $this->getChildHtml('order_payment');
     }
 
-    /**
-     * @return string
-     */
-    public function getShippingHtml()
-    {
-        if (!$this->getOrder()->getIsVirtual()) {
-            return $this->getChildHtml('order_shipping_view');
-        }
-        return '';
-    }
-
     public function getViewUrl($orderId)
     {
         return $this->getUrl('sales/*/*', array('order_id'=>$orderId));

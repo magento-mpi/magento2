@@ -48,31 +48,18 @@ class CarrierFactory
      * Get carrier instance
      *
      * @param string $carrierCode
-     * @param int|null $storeId
      * @return bool|\Magento\Shipping\Model\Carrier\AbstractCarrier
      */
-    public function get($carrierCode, $storeId = null)
+    public function get($carrierCode)
     {
-        $className = $this->_coreStoreConfig->getConfig('carriers/' . $carrierCode . '/model', $storeId);
+        $className = $this->_coreStoreConfig->getConfig('carriers/' . $carrierCode . '/model');
         if (!$className) {
             return false;
         }
 
-        /**
-         * Added protection from not existing models usage.
-         * Related with module uninstall process
-         */
-        try {
-            $carrier = $this->_objectManager->get($className);
-        } catch (\Exception $e) {
-            $this->_logger->logException($e);
-            return false;
-        }
+        $carrier = $this->_objectManager->get($className);
 
         $carrier->setId($carrierCode);
-        if ($storeId) {
-            $carrier->setStore($storeId);
-        }
         return $carrier;
     }
 
@@ -90,16 +77,7 @@ class CarrierFactory
             return false;
         }
 
-        /**
-         * Added protection from not existing models usage.
-         * Related with module uninstall process
-         */
-        try {
-            $carrier = $this->_objectManager->create($className);
-        } catch (\Exception $e) {
-            $this->_logger->logException($e);
-            return false;
-        }
+        $carrier = $this->_objectManager->create($className);
 
         $carrier->setId($carrierCode);
         if ($storeId) {
@@ -112,27 +90,9 @@ class CarrierFactory
      * Get carrier by its code
      *
      * @param string $carrierCode
-     * @param null|int $storeId
      * @return bool|\Magento\Core\Model\AbstractModel
      */
-    public function getIfActive($carrierCode, $storeId = null)
-    {
-        $isActive = $this->_coreStoreConfig
-            ->getConfigFlag('carriers/' . $carrierCode . '/active', $storeId);
-        if (!$isActive) {
-            return false;
-        }
-
-        return $this->get($carrierCode, $storeId);
-    }
-
-    /**
-     * Create carrier by its code
-     *
-     * @param $carrierCode
-     * @return bool|Carrier\AbstractCarrier
-     */
-    public function createIfActive($carrierCode)
+    public function getIfActive($carrierCode)
     {
         $isActive = $this->_coreStoreConfig
             ->getConfigFlag('carriers/' . $carrierCode . '/active');
@@ -140,6 +100,24 @@ class CarrierFactory
             return false;
         }
 
-        return $this->create($carrierCode);
+        return $this->get($carrierCode);
+    }
+
+    /**
+     * Create carrier by its code
+     *
+     * @param $carrierCode
+     * @param null|int $storeId
+     * @return bool|Carrier\AbstractCarrier
+     */
+    public function createIfActive($carrierCode, $storeId = null)
+    {
+        $isActive = $this->_coreStoreConfig
+            ->getConfigFlag('carriers/' . $carrierCode . '/active', $storeId);
+        if (!$isActive) {
+            return false;
+        }
+
+        return $this->create($carrierCode, $storeId);
     }
 }
