@@ -141,7 +141,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
-     * @magentoConfigFixture current_store customer/create_account/confirm true
+     * @magentoConfigFixture default_store customer/create_account/confirm true
      */
     public function testIsConfirmedStatusConfirmationIsRequired()
     {
