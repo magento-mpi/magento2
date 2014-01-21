@@ -90,7 +90,7 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @param mixed $custId
      * @dataProvider invalidCustomerIdsDataProvider
-     * @expectedException Magento\Exception\NoSuchEntityException
+     * @expectedException \Magento\Exception\NoSuchEntityException
      * @expectedExceptionMessage customerId
      */
     public function testInvalidCustomerIds($custId)
@@ -597,5 +597,34 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
         $customer = $this->_service->getCustomer(1);
         $this->assertEquals('Firstname', $customer->getFirstname());
         $this->assertNull($customer->getAttribute('rp_token'));
+    }
+
+    /**
+     * @magentoDbIsolation enabled
+     */
+    public function testSaveCustomerNewThenUpdateFirstName()
+    {
+        $email = 'first_last@example.com';
+        $storeId = 1;
+        $firstname = 'Tester';
+        $lastname = 'McTest';
+        $groupId = 1;
+
+        $this->_customerBuilder->setStoreId($storeId)
+            ->setEmail($email)
+            ->setFirstname($firstname)
+            ->setLastname($lastname)
+            ->setGroupId($groupId);
+        $newCustomerEntity = $this->_customerBuilder->create();
+        $customerId = $this->_service->saveCustomer($newCustomerEntity, 'aPassword');
+
+        $this->_customerBuilder->populate($this->_service->getCustomer($customerId));
+        $this->_customerBuilder->setFirstname('Tested');
+        $this->_service->saveCustomer($this->_customerBuilder->create());
+
+        $customer = $this->_service->getCustomer($customerId);
+
+        $this->assertEquals('Tested', $customer->getFirstname());
+        $this->assertEquals($lastname, $customer->getLastname());
     }
 }
