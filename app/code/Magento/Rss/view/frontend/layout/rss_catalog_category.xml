@@ -8,11 +8,8 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <update handle="catalog_category_rss_feed_renderer_list" />
     <block class="Magento\Rss\Block\Catalog\Category" output="1" name="rss.catalog.category" cacheable="false">
-        <action method="addPriceBlockType">
-            <argument name="type" xsi:type="string">msrp_rss</argument>
-            <argument name="block" xsi:type="string">Magento\Catalog\Block\Product\Price</argument>
-            <argument name="template" xsi:type="string">product/price_msrp_rss.phtml</argument>
-        </action>
+        <block class="Magento\View\Element\RendererList" name="catalog.category.rss.feed.renderer.list" as="item_renderers_list" />
     </block>
 </layout>

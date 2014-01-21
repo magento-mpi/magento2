@@ -76,31 +76,26 @@ class AbstractCatalog extends \Magento\Rss\Block\AbstractBlock
     protected function _getPriceBlock($productTypeId)
     {
         if (!isset($this->_priceBlock[$productTypeId])) {
-            $block = $this->_priceBlockDefaultType;
-            if (isset($this->_priceBlockTypes[$productTypeId])) {
-                if ($this->_priceBlockTypes[$productTypeId]['block'] != '') {
-                    $block = $this->_priceBlockTypes[$productTypeId]['block'];
+            /** @var \Magento\View\Element\RendererList $rendererList */
+            $rendererList = $this->getChildBlock('item_renderers_list');
+
+            /** @var \Magento\View\Element\Template $renderer */
+            $renderer = $rendererList->getRenderer($productTypeId);
+
+            if (!$renderer) {
+                $renderer = $this->getLayout()->createBlock(
+                    $this->_priceBlockDefaultType,
+                    $productTypeId,
+                    array('data' => array('template' => $this->_priceBlockDefaultTemplate))
+                );
+            } else {
+                if (!$renderer->getTemplate()) {
+                    $renderer->setTemplate($this->_priceBlockDefaultTemplate);
                 }
             }
-            $this->_priceBlock[$productTypeId] = $this->getLayout()->createBlock($block);
+            $this->_priceBlock[$productTypeId] = $renderer;
         }
         return $this->_priceBlock[$productTypeId];
-    }
-
-    /**
-     * Return template for Price Block renderer
-     *
-     * @param string $productTypeId Catalog Product type
-     * @return string
-     */
-    protected function _getPriceBlockTemplate($productTypeId)
-    {
-        if (isset($this->_priceBlockTypes[$productTypeId])) {
-            if ($this->_priceBlockTypes[$productTypeId]['template'] != '') {
-                return $this->_priceBlockTypes[$productTypeId]['template'];
-            }
-        }
-        return $this->_priceBlockDefaultTemplate;
     }
 
     /**
@@ -119,28 +114,10 @@ class AbstractCatalog extends \Magento\Rss\Block\AbstractBlock
         }
 
         return $this->_getPriceBlock($typeId)
-            ->setTemplate($this->_getPriceBlockTemplate($typeId))
             ->setProduct($product)
             ->setDisplayMinimalPrice($displayMinimalPrice)
             ->setIdSuffix($idSuffix)
             ->setUseLinkForAsLowAs($this->_useLinkForAsLowAs)
             ->toHtml();
-    }
-
-    /**
-     * Adding customized price template for product type, used as action in layouts
-     *
-     * @param string $type Catalog Product Type
-     * @param string $block Block Type
-     * @param string $template Template
-     */
-    public function addPriceBlockType($type, $block = '', $template = '')
-    {
-        if ($type) {
-            $this->_priceBlockTypes[$type] = array(
-                'block' => $block,
-                'template' => $template
-            );
-        }
     }
 }
