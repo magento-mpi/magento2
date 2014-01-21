@@ -139,6 +139,10 @@ class AddressTest extends \PHPUnit_Framework_TestCase
                 sprintf('Unexpected field "%s" in form.', $element->getId())
             );
         }
+
+        /** @var \Magento\Data\Form\Element\Select $countryIdField */
+        $countryIdField = $fieldset->getElements()->searchById('country_id');
+        $this->assertSelectCount('option', 247, $countryIdField->getElementHtml());
     }
 
     /**
