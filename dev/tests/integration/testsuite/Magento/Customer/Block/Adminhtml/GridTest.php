@@ -8,6 +8,13 @@
 
 namespace Magento\Customer\Block\Adminhtml;
 
+use Magento\Backend\App\Area\FrontNameResolver;
+use Magento\Core\Model\LocaleInterface;
+use Magento\Customer\Service\V1\CustomerService;
+use Magento\Stdlib\DateTime;
+use Magento\TestFramework\Helper\Bootstrap;
+use Magento\View\LayoutInterface;
+
 /**
  * Magento\Customer\Block\Adminhtml\Grid
  *
@@ -15,26 +22,26 @@ namespace Magento\Customer\Block\Adminhtml;
  */
 class GridTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\View\LayoutInterface */
+    /** @var LayoutInterface */
     private $layout;
 
-    /** @var \Magento\Customer\Service\V1\CustomerService */
+    /** @var CustomerService */
     private $customerService;
 
-    /** @var \Magento\Core\Model\LocaleInterface */
+    /** @var LocaleInterface */
     private $locale;
 
 
     public function setUp()
     {
-        $this->layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+        $this->layout = Bootstrap::getObjectManager()->create(
             'Magento\Core\Model\Layout',
-            array('area' => \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE)
+            ['area' => FrontNameResolver::AREA_CODE]
         );
-        $this->customerService = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+        $this->customerService = Bootstrap::getObjectManager()->create(
             'Magento\Customer\Service\V1\CustomerService'
         );
-        $this->locale = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+        $this->locale = Bootstrap::getObjectManager()->create(
             'Magento\Core\Model\LocaleInterface'
         );
     }
@@ -46,7 +53,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCsv()
     {
-        /** @var $block \Magento\Customer\Block\Adminhtml\Grid */
+        /** @var $block Grid */
         $block = $this->layout->createBlock('Magento\Customer\Block\Adminhtml\Grid', 'block');
         $csv = $block->getCsv();
         $customer5ca = $this->formatDatetime($this->customerService->getCustomer(5)->getCreatedAt());
@@ -63,7 +70,7 @@ EOT;
 
     public function testGetCsvNoData()
     {
-        /** @var $block \Magento\Customer\Block\Adminhtml\Grid */
+        /** @var $block Grid */
         $block = $this->layout->createBlock('Magento\Customer\Block\Adminhtml\Grid', 'block');
         $csv = $block->getCsv();
 
@@ -77,8 +84,8 @@ EOT;
     private function formatDatetime($date)
     {
         $format = $this->locale->getDateTimeFormat(
-            \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM
+            LocaleInterface::FORMAT_TYPE_MEDIUM
         );
-        return $this->locale->date($date, \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT)->toString($format);
+        return $this->locale->date($date, DateTime::DATETIME_INTERNAL_FORMAT)->toString($format);
     }
 }
