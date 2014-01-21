@@ -101,13 +101,13 @@ class Address extends \Magento\View\Element\Template
     {
         try {
             $address = $this->_addressService->getDefaultBillingAddress($this->_customerSession->getCustomerId());
-
-            if ($address) {
-                return $this->_getAddressHtml($address);
-            } else {
-                return __('You have not set a default billing address.');
-            }
         } catch (\Magento\Exception\NoSuchEntityException $e) {
+            return __('You have not set a default billing address.');
+        }
+
+        if ($address) {
+            return $this->_getAddressHtml($address);
+        } else {
             return __('You have not set a default billing address.');
         }
     }
