@@ -20,6 +20,6 @@
         </arguments>
     </referenceBlock>
     <referenceContainer name="content">
-        <block class="Magento\GiftRegistry\Block\Customer\Share" name="giftregistry.customer.share" template="customer/share.phtml"/>
+        <block class="Magento\GiftRegistry\Block\Customer\Share" name="giftregistry.customer.share" template="customer/share.phtml" cacheable="false"/>
     </referenceContainer>
 </layout>

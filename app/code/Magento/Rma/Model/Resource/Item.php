@@ -35,7 +35,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
     protected $_aviableProductTypes = array(
         \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE,
         \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE,
-        \Magento\Catalog\Model\Product\Type::TYPE_GROUPED,
+        \Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE,
         \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE
     );
 
