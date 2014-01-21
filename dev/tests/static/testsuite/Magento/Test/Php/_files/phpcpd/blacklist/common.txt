@@ -16,7 +16,6 @@ lib/Magento/DB
 sql
 data
 Magento/Paypal
-Magento/Paygate
 Magento/Downloadable
 Magento/Core/Model/Resource/Helper
 Magento/Catalog/Block/Adminhtml

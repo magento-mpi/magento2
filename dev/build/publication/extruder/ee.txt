@@ -90,7 +90,6 @@ app/code/Magento/Invitation
 dev/tests/unit/testsuite/Magento/Invitation
 dev/tests/integration/testsuite/Magento/Invitation
 dev/tests/unit/testsuite/Magento/Invitation
-app/code/Magento/License
 app/code/Magento/Logging
 dev/tests/integration/testsuite/Magento/Logging
 dev/tests/unit/testsuite/Magento/Logging
