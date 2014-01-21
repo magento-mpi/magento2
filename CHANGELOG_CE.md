@@ -5,6 +5,7 @@
   * Event "catalog_product_prepare_save" was replaced with controller product initialization helper that can be pluginized
   * Autorizenet is consolidated in separate module
 * Introduced new layout block attribute - cacheable
+* Extracted multishipping functionality from Magento\Checkout module in separated Magento\Multishipping module
 * Fixed bugs:
   * Fixed configurable product images display in shopping cart
   * Fixed No Collapsing for Tax Summary
