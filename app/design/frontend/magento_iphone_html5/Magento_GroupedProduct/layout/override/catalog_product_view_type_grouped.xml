@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <referenceBlock name="product.info">
+        <block class="Magento\GroupedProduct\Block\Product\View\Type\Grouped" name="product.info.grouped" as="product_type_data" template="product/view/type/grouped.phtml">
+            <container name="product.info.grouped.extra" as="product_type_data_extra" label="Product Extra Info"/>
+        </block>
+    </referenceBlock>
+</layout>

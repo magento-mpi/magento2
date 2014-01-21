@@ -23,4 +23,12 @@ interface ConfigInterface
      * @return array
      */
     public function getAll();
+
+    /**
+     * Check whether product type is set of products
+     *
+     * @param string $typeId
+     * @return bool
+     */
+    public function isProductSet($typeId);
 }

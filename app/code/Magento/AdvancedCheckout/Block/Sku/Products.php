@@ -35,11 +35,6 @@ class Products extends \Magento\Checkout\Block\Cart
     protected $_cart;
 
     /**
-     * @var \Magento\Catalog\Helper\Image
-     */
-    protected $_imageHelper;
-
-    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Customer\Model\Session $customerSession
@@ -49,9 +44,8 @@ class Products extends \Magento\Checkout\Block\Cart
      * @param \Magento\AdvancedCheckout\Model\Cart $cart
      * @param \Magento\Core\Helper\Url $coreUrl
      * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
-     * @param \Magento\Catalog\Helper\Image $imageHelper
      * @param array $data
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -64,10 +58,8 @@ class Products extends \Magento\Checkout\Block\Cart
         \Magento\AdvancedCheckout\Model\Cart $cart,
         \Magento\Core\Helper\Url $coreUrl,
         \Magento\AdvancedCheckout\Helper\Data $checkoutData,
-        \Magento\Catalog\Helper\Image $imageHelper,
         array $data = array()
     ) {
-        $this->_imageHelper = $imageHelper;
         $this->_cart = $cart;
         $this->_coreUrl = $coreUrl;
         $this->_checkoutData = $checkoutData;
@@ -178,7 +170,6 @@ class Products extends \Magento\Checkout\Block\Cart
         /** @var $renderer \Magento\Checkout\Block\Cart\Item\Renderer */
         $renderer = $this->getItemRenderer($item->getProductType())->setQtyMode(false);
         if ($item->getProductType() == 'undefined') {
-            $renderer->overrideProductThumbnail($this->_imageHelper->init($item, 'thumbnail'));
             $renderer->setProductName('');
         }
         $renderer->setDeleteUrl(

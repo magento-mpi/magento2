@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento\Catalog\Block\Product\AbstractProduct">
+        <param name="priceBlockTypes">
+            <value>
+                <grouped>
+                    <block>Magento\Catalog\Block\Product\Price</block>
+                    <template>Magento_GroupedProduct::product/price.phtml</template>
+                </grouped>
+            </value>
+        </param>
+    </type>
+    <type name="Magento\Catalog\Block\Product\Price\Template">
+        <param name="priceBlockTypes">
+            <value>
+                <grouped>
+                    <block>Magento\Catalog\Block\Product\Price</block>
+                    <template>Magento_GroupedProduct::product/price.phtml</template>
+                </grouped>
+            </value>
+        </param>
+    </type>
+</config>
