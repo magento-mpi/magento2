@@ -152,7 +152,7 @@ abstract class AbstractCarrier extends Object implements AbstractCarrierInterfac
      * @param \Magento\Shipping\Model\Shipment\Request $request
      * @return Object
      */
-    public function requestToShipment(\Magento\Shipping\Model\Shipment\Request $request)
+    public function requestToShipment($request)
     {
         return new Object();
     }

@@ -1847,7 +1847,7 @@ class International
      * @return array|\Magento\Object
      * @throws \Magento\Core\Exception
      */
-    public function requestToShipment(\Magento\Shipping\Model\Shipment\Request $request)
+    public function requestToShipment($request)
     {
         $packages = $request->getPackages();
         if (!is_array($packages) || !$packages) {
