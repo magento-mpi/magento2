@@ -69,6 +69,7 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
             $arrayUtils,
             $data
         );
+        $this->_isScopePrivate = true;
     }
 
     public function getAmountSettingsJson($product)

@@ -57,8 +57,8 @@ class Checkout extends \Magento\View\Element\Template
         $this->customerSession = $customerSession;
         $this->typeMultiShippingFactory = $typeMultiShippingFactory;
         $this->entityFactory = $entityFactory;
-
         parent::__construct($context, $data);
+        $this->_isScopePrivate = true;
     }
 
     /**

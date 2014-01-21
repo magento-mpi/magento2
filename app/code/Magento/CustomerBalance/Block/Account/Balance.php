@@ -41,6 +41,7 @@ class Balance extends \Magento\View\Element\Template
         $this->_session = $session;
         $this->_balanceFactory = $balanceFactory;
         parent::__construct($context, $data);
+        $this->_isScopePrivate = true;
     }
 
     /**
