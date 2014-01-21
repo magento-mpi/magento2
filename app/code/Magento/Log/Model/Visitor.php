@@ -58,7 +58,6 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     protected $_ignores;
 
     /**
-     * @inheritdoc
      * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;

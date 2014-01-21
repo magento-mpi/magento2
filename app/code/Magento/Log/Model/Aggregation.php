@@ -124,7 +124,7 @@ class Aggregation extends \Magento\Core\Model\AbstractModel
      * @param array $data
      * @param string $from
      * @param string $to
-     * @return $this
+     * @return void
      */
     private function _save($data, $from, $to)
     {

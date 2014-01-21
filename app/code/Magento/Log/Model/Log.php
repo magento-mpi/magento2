@@ -73,7 +73,7 @@ class Log extends \Magento\Core\Model\AbstractModel
 
     /**
      * Return log clean time in seconds
-     * @return string|null
+     * @return null|string
      */
     public function getLogCleanTime()
     {
