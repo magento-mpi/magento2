@@ -206,7 +206,7 @@ jQuery.mage.extend('validation', 'validation',
 </div>
 <?php if ($this->isReadonly()): ?>
 <script type="text/javascript">
-$(<?= $this->getTabId(); ?>).select('input', 'select', 'textarea', 'button').each(function (item){
+$(<?= $this->getContentTabId(); ?>).select('input', 'select', 'textarea', 'button').each(function (item){
     item.disabled = true;
     if (item.tagName.toLowerCase() == 'button') {
         item.addClassName('disabled');

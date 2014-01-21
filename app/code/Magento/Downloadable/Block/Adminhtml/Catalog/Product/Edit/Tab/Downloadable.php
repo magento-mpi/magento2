@@ -132,7 +132,7 @@ class Downloadable
      *
      * @return string
      */
-    public function getTabId()
+    public function getContentTabId()
     {
         return 'tab_content_' . $this->accordionBlockId;
     }
