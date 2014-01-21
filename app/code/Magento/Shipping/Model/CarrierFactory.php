@@ -20,27 +20,19 @@ class CarrierFactory
     protected $_coreStoreConfig;
 
     /**
-     * @var \Magento\Logger
-     */
-    protected $_logger;
-
-    /**
      * @var \Magento\ObjectManager
      */
     protected $_objectManager;
 
     /**
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Logger $logger
      * @param \Magento\ObjectManager $objectManager
      */
     public function __construct(
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Logger $logger,
         \Magento\ObjectManager $objectManager
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_logger = $logger;
         $this->_objectManager = $objectManager;
     }
 
