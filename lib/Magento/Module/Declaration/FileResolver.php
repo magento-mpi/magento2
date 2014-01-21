@@ -11,7 +11,6 @@ namespace Magento\Module\Declaration;
 
 use Magento\Filesystem\Directory\ReadInterface;
 use Magento\Filesystem;
-use Magento\Config\FileIteratorFactory;
 
 class FileResolver implements \Magento\Config\FileResolverInterface
 {
@@ -39,17 +38,17 @@ class FileResolver implements \Magento\Config\FileResolverInterface
     /**
      * File iterator factory
      *
-     * @var FileIteratorFactory
+     * @var \Magento\Config\FileIteratorFactory
      */
     protected $iteratorFactory;
 
     /**
      * @param Filesystem $filesystem
-     * @param FileIteratorFactory $iteratorFactory
+     * @param \Magento\Config\FileIteratorFactory $iteratorFactory
      */
     public function __construct(
         Filesystem $filesystem,
-        FileIteratorFactory $iteratorFactory
+        \Magento\Config\FileIteratorFactory $iteratorFactory
     ) {
         $this->iteratorFactory      = $iteratorFactory;
         $this->modulesDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::MODULES);

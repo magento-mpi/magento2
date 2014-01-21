@@ -56,7 +56,7 @@ class Observer extends \Magento\Object
 
     /**
      * @param string $data
-     * @return Object
+     * @return \Magento\Object
      */
     public function setName($data)
     {
@@ -73,7 +73,7 @@ class Observer extends \Magento\Object
 
     /**
      * @param string $data
-     * @return Object
+     * @return \Magento\Object
      */
     public function setEventName($data)
     {
@@ -90,7 +90,7 @@ class Observer extends \Magento\Object
 
     /**
      * @param string $data
-     * @return Object
+     * @return \Magento\Object
      */
     public function setCallback($data)
     {
@@ -109,7 +109,7 @@ class Observer extends \Magento\Object
 
     /**
      * @param mixed $data
-     * @return Object
+     * @return \Magento\Object
      */
     public function setEvent($data)
     {
