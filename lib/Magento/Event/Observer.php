@@ -47,7 +47,7 @@ class Observer extends \Magento\Object
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getName()
     {
