@@ -80,6 +80,7 @@ class Sidebar extends \Magento\View\Element\Template
         $this->_wishListFactory = $wishListFactory;
         $this->_itemsCompareFactory = $itemsCompareFactory;
         parent::__construct($context, $data);
+        $this->_isScopePrivate = true;
     }
 
 

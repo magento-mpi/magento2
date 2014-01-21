@@ -78,6 +78,7 @@ class Register extends \Magento\Directory\Block\Data
             $countryCollFactory,
             $data
         );
+        $this->_isScopePrivate = true;
     }
 
     /**
