@@ -101,7 +101,10 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
      */
     public function getAddressCollection()
     {
-        return $this->_addressService->getAddresses($this->getCustomerId());
+        if ($this->getCustomerId()) {
+            return $this->_addressService->getAddresses($this->getCustomerId());
+        }
+        return [];
     }
 
     /**
