@@ -61,4 +61,18 @@ interface ChangelogInterface
      * @return string
      */
     public function getColumnName();
+
+    /**
+     * Set view's identifier
+     *
+     * @param string $viewId
+     */
+    public function setViewId($viewId);
+
+    /**
+     * Get view's identifier
+     *
+     * @return string
+     */
+    public function getViewId();
 }

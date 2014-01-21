@@ -25,9 +25,9 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
     protected $actionFactoryMock;
 
     /**
-     * @var \Magento\Mview\ViewFactory|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Mview\View|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $viewFactoryMock;
+    protected $viewMock;
 
     /**
      * @var \Magento\Indexer\Model\Indexer\StateFactory|\PHPUnit_Framework_MockObject_MockObject
@@ -45,7 +45,9 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
         $this->actionFactoryMock = $this->getMock(
             'Magento\Indexer\Model\ActionFactory', array('create'), array(), '', false
         );
-        $this->viewFactoryMock = $this->getMock('Magento\Mview\ViewFactory', array('create'), array(), '', false);
+        $this->viewMock = $this->getMock(
+            'Magento\Mview\View', array('load', 'getMode', 'getStatus', '__wakeup', 'getId'), array(), '', false
+        );
         $this->stateFactoryMock = $this->getMock(
             'Magento\Indexer\Model\Indexer\StateFactory', array('create'), array(), '', false
         );
@@ -55,7 +57,7 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
         $this->model = new Indexer(
             $this->configMock,
             $this->actionFactoryMock,
-            $this->viewFactoryMock,
+            $this->viewMock,
             $this->stateFactoryMock,
             $this->indexFactoryMock
         );
@@ -78,21 +80,17 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
     public function testGetView()
     {
         $indexId = 'indexer_internal_name';
-        $view = $this->getMock('Magento\Mview\View', array('load'), array(), '', false);
-        $view->expects($this->once())
+        $this->viewMock->expects($this->once())
             ->method('load')
             ->with('view_test')
             ->will($this->returnSelf());
-        $this->viewFactoryMock->expects($this->once())
-            ->method('create')
-            ->will($this->returnValue($view));
         $this->configMock->expects($this->once())
             ->method('get')
             ->with($indexId)
             ->will($this->returnValue($this->getIndexerData()));
         $this->model->load($indexId);
 
-        $this->assertEquals($view, $this->model->getView());
+        $this->assertEquals($this->viewMock, $this->model->getView());
     }
 
     public function testGetState()
@@ -137,35 +135,38 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
     public function testGetStatus($mode, $status, $statusCall, $stateCall, $result)
     {
         $indexId = 'indexer_internal_name';
-        $view = $this->getMock(
-            'Magento\Mview\View',
-            array('load', 'getMode', 'getStatus'),
-            array(),
-            '',
-            false
-        );
-        $view->expects($this->once())
-            ->method('load')
-            ->with('view_test')
-            ->will($this->returnSelf());
-        $view->expects($this->once())
+//        $view = $this->getMock(
+//            'Magento\Mview\View',
+//            array('load', 'getMode', 'getStatus'),
+//            array(),
+//            '',
+//            false
+//        );
+        $this->viewMock->expects($this->once())
+            ->method('getId')
+            ->will($this->returnValue(1));
+//        $this->viewMock->expects($this->once())
+//            ->method('load')
+//            ->with('view_test')
+//            ->will($this->returnSelf());
+        $this->viewMock->expects($this->once())
             ->method('getMode')
             ->will($this->returnValue($mode));
-        $view->expects($statusCall ? $this->once() : $this->never())
+        $this->viewMock->expects($statusCall ? $this->once() : $this->never())
             ->method('getStatus')
             ->will($this->returnValue($status));
-        $this->viewFactoryMock->expects($this->once())
-            ->method('create')
-            ->will($this->returnValue($view));
+//        $this->viewFactoryMock->expects($this->once())
+//            ->method('create')
+//            ->will($this->returnValue($view));
 
-        $stateMock = $this->getMock(
-            '\Magento\Indexer\Model\Indexer\State',
-            array('load', 'getId', 'setIndexerId', '__wakeup', 'getStatus'),
-            array(),
-            '',
-            false
-        );
         if ($stateCall) {
+            $stateMock = $this->getMock(
+                '\Magento\Indexer\Model\Indexer\State',
+                array('load', 'getId', 'setIndexerId', '__wakeup', 'getStatus'),
+                array(),
+                '',
+                false
+            );
             $stateMock->expects($this->once())
                 ->method('load')
                 ->with($indexId, 'indexer_id')

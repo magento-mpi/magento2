@@ -36,12 +36,10 @@ class Changelog implements ChangelogInterface
 
     /**
      * @param \Magento\App\Resource $resource
-     * @param $viewId
      */
-    public function __construct(\Magento\App\Resource $resource, $viewId)
+    public function __construct(\Magento\App\Resource $resource)
     {
         $this->write = $resource->getConnection('core_write');
-        $this->viewId = $viewId;
         $this->checkConnection();
     }
 
@@ -173,10 +171,14 @@ class Changelog implements ChangelogInterface
      *
      * Build a changelog name by concatenating view identifier and changelog name suffix.
      *
+     * @throws \Exception
      * @return string
      */
     public function getName()
     {
+        if (strlen($this->viewId) == 0) {
+            throw new \Exception("View's identifier is not set");
+        }
         return $this->viewId . '_' . self::NAME_SUFFIX;
     }
 
@@ -188,5 +190,23 @@ class Changelog implements ChangelogInterface
     public function getColumnName()
     {
         return self::COLUMN_NAME;
+    }
+
+    /**
+     * Set view's identifier
+     *
+     * @param string $viewId
+     */
+    public function setViewId($viewId)
+    {
+        $this->viewId = $viewId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getViewId()
+    {
+        return $this->viewId;
     }
 }

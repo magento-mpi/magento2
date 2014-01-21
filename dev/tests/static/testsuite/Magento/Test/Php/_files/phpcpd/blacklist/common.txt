@@ -94,6 +94,7 @@ lib/Magento/Archive
 lib/Magento/Connect/Channel
 lib/Magento/HTTP/Client
 lib/Magento/Acl
+lib/Magento/Mview
 lib/PEAR
 lib/phpseclib
 lib/Magento/Convert

@@ -31,17 +31,7 @@ class View extends \Magento\Object implements ViewInterface
     protected $actionFactory;
 
     /**
-     * @var \Magento\Mview\View\StateFactory
-     */
-    protected $stateFactory;
-
-    /**
-     * @var View\ChangelogFactory
-     */
-    protected $changelogFactory;
-
-    /**
-     * @var View\Changelog
+     * @var View\ChangelogInterface
      */
     protected $changelog;
 
@@ -58,23 +48,23 @@ class View extends \Magento\Object implements ViewInterface
     /**
      * @param ConfigInterface $config
      * @param ActionFactory $actionFactory
-     * @param View\StateFactory $stateFactory
-     * @param View\ChangelogFactory $changelogFactory
+     * @param View\StateInterface $state
+     * @param View\ChangelogInterface $changelog
      * @param View\SubscriptionFactory $subscriptionFactory
      * @param array $data
      */
     public function __construct(
         ConfigInterface $config,
         ActionFactory $actionFactory,
-        View\StateFactory $stateFactory,
-        View\ChangelogFactory $changelogFactory,
+        View\StateInterface $state,
+        View\ChangelogInterface $changelog,
         View\SubscriptionFactory $subscriptionFactory,
         array $data = array()
     ) {
         $this->config = $config;
         $this->actionFactory = $actionFactory;
-        $this->stateFactory = $stateFactory;
-        $this->changelogFactory = $changelogFactory;
+        $this->state = $state;
+        $this->changelog = $changelog;
         $this->subscriptionFactory = $subscriptionFactory;
         parent::__construct($data);
     }
@@ -211,8 +201,7 @@ class View extends \Magento\Object implements ViewInterface
      */
     public function getState()
     {
-        if (!$this->state) {
-            $this->state = $this->stateFactory->create();
+        if (!$this->state->getViewId()) {
             $this->state->loadByView($this->getId());
         }
         return $this->state;
@@ -267,8 +256,8 @@ class View extends \Magento\Object implements ViewInterface
      */
     public function getChangelog()
     {
-        if (!$this->changelog) {
-            $this->changelog = $this->changelogFactory->create(array('viewId' => $this->getId()));
+        if (!$this->changelog->getViewId()) {
+            $this->changelog->setViewId($this->getId());
         }
         return $this->changelog;
     }

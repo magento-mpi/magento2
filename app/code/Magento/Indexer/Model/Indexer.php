@@ -32,11 +32,6 @@ class Indexer extends \Magento\Object
     protected $actionFactory;
 
     /**
-     * @var \Magento\Mview\ViewFactory
-     */
-    protected $viewFactory;
-
-    /**
      * @var \Magento\Mview\View
      */
     protected $view;
@@ -59,7 +54,7 @@ class Indexer extends \Magento\Object
     /**
      * @param ConfigInterface $config
      * @param ActionFactory $actionFactory
-     * @param \Magento\Mview\ViewFactory $viewFactory
+     * @param \Magento\Mview\ViewInterface $view
      * @param Indexer\StateFactory $stateFactory
      * @param Indexer\CollectionFactory $indexersFactory
      * @param array $data
@@ -67,14 +62,14 @@ class Indexer extends \Magento\Object
     public function __construct(
         ConfigInterface $config,
         ActionFactory $actionFactory,
-        \Magento\Mview\ViewFactory $viewFactory,
+        \Magento\Mview\ViewInterface $view,
         Indexer\StateFactory $stateFactory,
         Indexer\CollectionFactory $indexersFactory,
         array $data = array()
     ) {
         $this->config = $config;
         $this->actionFactory = $actionFactory;
-        $this->viewFactory = $viewFactory;
+        $this->view = $view;
         $this->stateFactory = $stateFactory;
         $this->indexersFactory = $indexersFactory;
         parent::__construct($data);
@@ -107,8 +102,8 @@ class Indexer extends \Magento\Object
      */
     public function getView()
     {
-        if (!$this->view) {
-            $this->view = $this->viewFactory->create()->load($this->getViewId());
+        if (!$this->view->getId()) {
+            $this->view->load($this->getViewId());
         }
         return $this->view;
     }

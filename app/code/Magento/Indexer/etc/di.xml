@@ -9,4 +9,9 @@
 -->
 <config>
     <preference for="Magento\Indexer\Model\ConfigInterface" type="Magento\Indexer\Model\Config" />
+    <type name="Magento\Indexer\Model\Indexer">
+        <param name="view">
+            <instance type="Magento\Mview\View" shared="false"/>
+        </param>
+    </type>
 </config>
