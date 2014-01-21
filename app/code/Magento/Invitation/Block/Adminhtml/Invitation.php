@@ -33,6 +33,8 @@ class Invitation extends \Magento\Backend\Block\Widget\Grid\Container
     }
 
     /**
+     * Returns the Css class string for the container
+     *
      * @return string
      */
     public function getHeaderCssClass() {

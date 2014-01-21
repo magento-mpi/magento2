@@ -57,6 +57,8 @@ class History
     }
 
     /**
+     * Returns the Tab label
+     *
      * @return string
      */
     public function getTabLabel()
@@ -65,6 +67,8 @@ class History
     }
 
     /**
+     * Returns the Tab title
+     *
      * @return string
      */
     public function getTabTitle()
@@ -73,6 +77,8 @@ class History
     }
 
     /**
+     * Return whether the tab can be shown
+     *
      * @return bool
      */
     public function canShowTab()
@@ -81,6 +87,8 @@ class History
     }
 
     /**
+     * Return whether the tab is hidden
+     *
      * @return bool
      */
     public function isHidden()
