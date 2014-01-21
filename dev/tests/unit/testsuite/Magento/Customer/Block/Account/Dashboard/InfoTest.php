@@ -16,7 +16,7 @@ class InfoTest extends \PHPUnit_Framework_TestCase
 {
     /** Constant values used for testing */
     const CUSTOMER_ID = 1;
-    const CHANGE_PASSWORD_URL = '*/account/edit/changepass/1';
+    const CHANGE_PASSWORD_URL = 'http://localhost/index.php/account/edit/changepass/1';
     const EMAIL_ADDRESS = 'john.doe@ebay.com';
 
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\View\Element\Template\Context */
@@ -137,12 +137,12 @@ class InfoTest extends \PHPUnit_Framework_TestCase
             ->method('getCustomerAttributeMetadata')->will($this->returnValue($attributeMetadata));
 
         /**
-         * Sets the value of AttributeMetadata::getIsVisible() for the prefix at(0), middlename at(1) and
+         * Sets the value of AttributeMetadata::isVisible() for the prefix at(0), middlename at(1) and
          * suffix at(2) Customer attributes.
          */
         foreach ($isVisible as $index => $boolean) {
             $attributeMetadata
-                ->expects($this->at($index))->method('IsVisible')->will($this->returnValue($boolean));
+                ->expects($this->at($index))->method('isVisible')->will($this->returnValue($boolean));
         }
 
         /**

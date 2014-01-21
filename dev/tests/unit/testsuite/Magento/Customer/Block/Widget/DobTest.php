@@ -77,7 +77,7 @@ class DobTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsEnabled($isVisible, $expectedValue)
     {
-        $this->_attribute->expects($this->once())->method('IsVisible')->will($this->returnValue($isVisible));
+        $this->_attribute->expects($this->once())->method('isVisible')->will($this->returnValue($isVisible));
         $this->assertSame($expectedValue, $this->_block->isEnabled());
     }
 
@@ -100,7 +100,7 @@ class DobTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsRequired($isRequired, $expectedValue)
     {
-        $this->_attribute->expects($this->once())->method('IsRequired')->will($this->returnValue($isRequired));
+        $this->_attribute->expects($this->once())->method('isRequired')->will($this->returnValue($isRequired));
         $this->assertSame($expectedValue, $this->_block->isRequired());
     }
 

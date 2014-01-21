@@ -72,7 +72,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
         $this->_setUpShowAttribute(array(Customer::PREFIX => self::PREFIX));
         $this->assertTrue($this->_block->showPrefix());
 
-        $this->_attributeMetadata->expects($this->at(0))->method('IsVisible')->will($this->returnValue(false));
+        $this->_attributeMetadata->expects($this->at(0))->method('isVisible')->will($this->returnValue(false));
         $this->assertFalse($this->_block->showPrefix());
     }
 
@@ -203,11 +203,11 @@ class NameTest extends \PHPUnit_Framework_TestCase
         $isPrefixVisible, $isMiddlenameVisible, $isSuffixVisible, $expectedValue
     ) {
         $this->_attributeMetadata
-            ->expects($this->at(0))->method('IsVisible')->will($this->returnValue($isPrefixVisible));
+            ->expects($this->at(0))->method('isVisible')->will($this->returnValue($isPrefixVisible));
         $this->_attributeMetadata
-            ->expects($this->at(1))->method('IsVisible')->will($this->returnValue($isMiddlenameVisible));
+            ->expects($this->at(1))->method('isVisible')->will($this->returnValue($isMiddlenameVisible));
         $this->_attributeMetadata
-            ->expects($this->at(2))->method('IsVisible')->will($this->returnValue($isSuffixVisible));
+            ->expects($this->at(2))->method('isVisible')->will($this->returnValue($isSuffixVisible));
 
         $this->assertEquals($expectedValue, $this->_block->getContainerClassName());
     }
@@ -283,7 +283,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
          * of the at({0, 1, 2, 3, ...}), etc. calls as set and configured in a particular test.
          */
         $this->_attributeMetadata
-            ->expects($this->at(0))->method('IsVisible')->will($this->returnValue(true));
+            ->expects($this->at(0))->method('isVisible')->will($this->returnValue(true));
     }
 
     /**
@@ -300,14 +300,14 @@ class NameTest extends \PHPUnit_Framework_TestCase
         $this->_block->setObject(new \StdClass());
 
         /**
-         * The first call to getIsRequired() is false so that the second if conditional in the other code path
-         * of Name::_getAttribute() will evaluate to true, which causes the if's code block to be executed. The
-         * second getIsRequired() call causes the code in the nested if conditional to be executed. Thus, all
-         * code paths in Name::_getAttribute() will be executed. Returning true for the third getIsRequired()
+         * The first call to isRequired() is false so that the second if conditional in the other code path
+         * of Name::_getAttribute() will evaluate to true, which causes the if's code block to be executed.
+         * The second isRequired() call causes the code in the nested if conditional to be executed. Thus,
+         * all code paths in Name::_getAttribute() will be executed. Returning true for the third isRequired()
          * call causes the is*Required() method of the block to return true for the attribute.
          */
-        $this->_attributeMetadata->expects($this->at(0))->method('IsRequired')->will($this->returnValue(false));
-        $this->_attributeMetadata->expects($this->at(1))->method('IsRequired')->will($this->returnValue(true));
-        $this->_attributeMetadata->expects($this->at(2))->method('IsRequired')->will($this->returnValue(true));
+        $this->_attributeMetadata->expects($this->at(0))->method('isRequired')->will($this->returnValue(false));
+        $this->_attributeMetadata->expects($this->at(1))->method('isRequired')->will($this->returnValue(true));
+        $this->_attributeMetadata->expects($this->at(2))->method('isRequired')->will($this->returnValue(true));
     }
 }

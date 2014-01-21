@@ -18,7 +18,7 @@ class View
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
-     * @var \Magento\Log\Model\Customer
+     * @var \Magento\Customer\Model\Customer
      */
     protected $_customer;
 
@@ -81,7 +81,7 @@ class View
     }
 
     /**
-     * @return \Magento\Log\Model\Customer
+     * @return \Magento\Customer\Model\Customer
      */
     public function getCustomer()
     {
@@ -92,14 +92,33 @@ class View
     }
 
     /**
-     * @return int
+     * @param int $groupId
+     * @return \Magento\Customer\Service\V1\Dto\CustomerGroup|null
+     */
+    public function getGroup($groupId)
+    {
+        try {
+            $group = $this->_groupService->getGroup($groupId);
+        } catch (\Magento\Exception\NoSuchEntityException $e) {
+            $group = null;
+        }
+        return $group;
+    }
+
+    /**
+     * @return string|null
      */
     public function getGroupName()
     {
-        $groupId = $this->getCustomer()->getGroupId();
-        if ($groupId) {
-            return $this->_groupService->getGroup($groupId)->getCode();
+        $customer = $this->getCustomer();
+
+        if ($groupId = ($customer->getId() ? $customer->getGroupId() : null)) {
+            if ($group = $this->getGroup($groupId)) {
+                return $group->getCode();
+            }
         }
+
+        return null;
     }
 
     /**
