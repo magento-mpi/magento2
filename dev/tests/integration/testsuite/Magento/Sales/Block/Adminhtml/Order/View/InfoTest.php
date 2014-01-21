@@ -30,7 +30,7 @@ class InfoTest extends \Magento\Backend\Utility\Controller
      */
     public function testGetCustomerGroupName()
     {
-        $registry = $fileResolverMock = $this->getMockBuilder('Magento\Core\Model\Registry')
+        $registry = $this->getMockBuilder('Magento\Core\Model\Registry')
             ->disableOriginalConstructor()
             ->getMock();
 

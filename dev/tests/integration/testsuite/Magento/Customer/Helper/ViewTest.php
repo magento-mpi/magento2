@@ -47,7 +47,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     ) {
 
         $visibleAttribute = $this->getMock('Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata', [], [], '', false);
-        $visibleAttribute->expects($this->any())->method('getIsVisible')->will($this->returnValue(true));
+        $visibleAttribute->expects($this->any())->method('isVisible')->will($this->returnValue(true));
 
         $invisibleAttribute = $this->getMock(
             'Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata',
@@ -56,7 +56,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $invisibleAttribute->expects($this->any())->method('getIsVisible')->will($this->returnValue(false));
+        $invisibleAttribute->expects($this->any())->method('isVisible')->will($this->returnValue(false));
 
         $this->_customerMetadataService->expects($this->any())
             ->method('getAttributeMetadata')
