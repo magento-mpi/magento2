@@ -10,6 +10,7 @@ namespace Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\H
 
 use Magento\Core\Model\StoreManagerInterface;
 use Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\HandlerInterface;
+use Magento\Catalog\Model\Product;
 
 class NewObject implements HandlerInterface
 {
@@ -46,9 +47,10 @@ class NewObject implements HandlerInterface
     }
 
     /**
-     * @param \Magento\Catalog\Model\Product $product
+     * @param Product $product
+     * @return void
      */
-    public function handle(\Magento\Catalog\Model\Product $product)
+    public function handle(Product $product)
     {
         if (!$product->isObjectNew()) {
             return;

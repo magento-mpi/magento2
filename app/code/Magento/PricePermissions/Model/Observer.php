@@ -17,6 +17,8 @@
  */
 namespace Magento\PricePermissions\Model;
 
+use Magento\Backend\Block\Template;
+
 class Observer
 {
     /**
@@ -155,6 +157,7 @@ class Observer
      * Reinit stores only with allowed scopes
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function adminControllerPredispatch($observer)
     {
@@ -174,7 +177,8 @@ class Observer
     /**
      * Call needed function depending on block name
      *
-     * @param \Magento\Backend\Block\Template $block
+     * @param Template $block
+     * @return void
      */
     protected function _filterByBlockName($block)
     {
@@ -189,7 +193,8 @@ class Observer
     /**
      * Remove status option in massaction
      *
-     * @param \Magento\Backend\Block\Template $block
+     * @param Template $block
+     * @return void
      */
     protected function _removeStatusMassaction($block)
     {
@@ -201,7 +206,8 @@ class Observer
     /**
      * Remove price column from grid
      *
-     * @param \Magento\Backend\Block\Template $block
+     * @param Template $block
+     * @return void
      */
     protected function _removeColumnPrice($block)
     {
@@ -211,7 +217,8 @@ class Observer
     /**
      * Remove price and total columns from grid
      *
-     * @param \Magento\Backend\Block\Template $block
+     * @param Template $block
+     * @return void
      */
     protected function _removeColumnsPriceTotal($block)
     {
@@ -221,7 +228,8 @@ class Observer
     /**
      * Set read price to false
      *
-     * @param \Magento\Backend\Block\Template $block
+     * @param Template $block
+     * @return void
      */
     protected function _setCanReadPriceFalse($block)
     {
@@ -233,7 +241,8 @@ class Observer
     /**
      * Set read and edit price to false
      *
-     * @param \Magento\Backend\Block\Template $block
+     * @param Template $block
+     * @return void
      */
     protected function _setCanEditReadPriceFalse($block)
     {
@@ -246,7 +255,8 @@ class Observer
     /**
      * Set edit and read tab to false
      *
-     * @param \Magento\Backend\Block\Template $block
+     * @param Template $block
+     * @return void
      */
     protected function _setTabEditReadFalse($block)
     {
@@ -261,7 +271,8 @@ class Observer
     /**
      * Set edit and read price in child block to false
      *
-     * @param \Magento\Backend\Block\Template $block
+     * @param Template $block
+     * @return void
      */
     protected function _setOptionsEditReadFalse($block)
     {
@@ -279,7 +290,8 @@ class Observer
     /**
      * Set default product price
      *
-     * @param \Magento\Backend\Block\Template $block
+     * @param Template $block
+     * @return void
      */
     protected function _setCanEditReadDefaultPrice($block)
     {
@@ -292,7 +304,8 @@ class Observer
     /**
      * Set edit and read price to child block
      *
-     * @param \Magento\Backend\Block\Template $block
+     * @param Template $block
+     * @return void
      */
     protected function _setCanEditReadChildBlock($block)
     {
@@ -315,7 +328,8 @@ class Observer
     /**
      * Set form element value and readonly
      *
-     * @param \Magento\Backend\Block\Template $block
+     * @param Template $block
+     * @return void
      */
     protected function _setFormElementAttributes($block)
     {
@@ -341,7 +355,7 @@ class Observer
      */
     public function adminhtmlBlockHtmlBefore($observer)
     {
-        /** @var $block \Magento\Backend\Block\Template */
+        /** @var $block Template */
         $block = $observer->getBlock();
 
         $this->_filterByBlockName($block);
@@ -362,6 +376,7 @@ class Observer
      *
      * @param \Magento\Backend\Block\Widget\Grid $block
      * @param array $columns
+     * @return void
      */
     protected function _removeColumnsFromGrid($block, array $columns)
     {
