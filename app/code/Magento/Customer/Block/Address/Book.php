@@ -89,12 +89,12 @@ class Book extends \Magento\View\Element\Template
     }
 
     /**
-     * @param \Magento\Customer\Service\V1\Dto\Address $address
+     * @param int $addressId
      * @return string
      */
-    public function getAddressEditUrl($address)
+    public function getAddressEditUrl($addressId)
     {
-        return $this->getUrl('customer/address/edit', array('_secure'=>true, 'id' => $address->getId()));
+        return $this->getUrl('customer/address/edit', array('_secure'=>true, 'id' => $addressId));
     }
 
     /**
