@@ -109,7 +109,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
         $this->_directoryMock->expects($this->any())->method('getDriver')
             ->will($this->returnValue($this->_driverMock));
 
-        $this->_filesystemMock = $this->getMock('Magento\Filesystem', array('getDirectoryWrite'), array(), '', false);
+        $this->_filesystemMock = $this->getMock('Magento\App\Filesystem', array('getDirectoryWrite'), array(), '', false);
         $this->_filesystemMock->expects($this->any())
             ->method('getDirectoryWrite')
             ->with(\Magento\App\Filesystem::MEDIA_DIR)
