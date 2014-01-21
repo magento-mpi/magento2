@@ -109,10 +109,10 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getAllOptions')
             ->will($this->returnValue($allOptions));
 
-        $attributeColMock = $this->getMockBuilder('\\Magento\\Customer\\Model\\Resource\\Form\\Attribute\\Collection')
+        $attributeColMock = $this->getMockBuilder('\Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory')
             ->disableOriginalConstructor()
             ->getMock();
-        $storeManagerMock = $this->getMockBuilder('\\Magento\\Core\\Model\\StoreManager')
+        $storeManagerMock = $this->getMockBuilder('\Magento\Core\Model\StoreManager')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -148,10 +148,10 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getAllOptions')
             ->will($this->returnValue(array()));
 
-        $attributeColMock = $this->getMockBuilder('\\Magento\\Customer\\Model\\Resource\\Form\\Attribute\\Collection')
+        $attributeColMock = $this->getMockBuilder('\Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory')
             ->disableOriginalConstructor()
             ->getMock();
-        $storeManagerMock = $this->getMockBuilder('\\Magento\\Core\\Model\\StoreManager')
+        $storeManagerMock = $this->getMockBuilder('\Magento\Core\Model\StoreManager')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -179,10 +179,10 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getSource')
             ->will($this->throwException(new \Exception('exception message')));
 
-        $attributeColMock = $this->getMockBuilder('\\Magento\\Customer\\Model\\Resource\\Form\\Attribute\\Collection')
+        $attributeColMock = $this->getMockBuilder('\Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory')
             ->disableOriginalConstructor()
             ->getMock();
-        $storeManagerMock = $this->getMockBuilder('\\Magento\\Core\\Model\\StoreManager')
+        $storeManagerMock = $this->getMockBuilder('\Magento\Core\Model\StoreManager')
             ->disableOriginalConstructor()
             ->getMock();
 
