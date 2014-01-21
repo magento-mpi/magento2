@@ -41,7 +41,7 @@ class Html extends \Magento\View\Element\Template
         $this->addBodyClass($this->_request->getFullActionName('-'));
 
         if ($this->_cacheState->isEnabled(self::CACHE_GROUP)) {
-            $this->_app->setUseSessionVar(true);
+            $this->_sidResolver->setUseSessionVar(true);
         }
     }
 
@@ -198,7 +198,7 @@ class Html extends \Magento\View\Element\Template
     protected function _afterToHtml($html)
     {
         if ($this->_cacheState->isEnabled(self::CACHE_GROUP)) {
-            $this->_app->setUseSessionVar(false);
+            $this->_sidResolver->setUseSessionVar(false);
             \Magento\Profiler::start('CACHE_URL');
             $html = $this->_urlBuilder->sessionUrlVar($html);
             \Magento\Profiler::stop('CACHE_URL');
