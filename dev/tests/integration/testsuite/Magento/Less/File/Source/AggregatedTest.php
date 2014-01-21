@@ -15,6 +15,25 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
     protected $model;
 
     /**
+     * @var \Magento\ObjectManager
+     */
+    protected $objectManager;
+
+    protected function setUp()
+    {
+        \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
+            \Magento\Filesystem::PARAM_APP_DIRS => array(
+                \Magento\Filesystem::PUB_LIB => array('path' => dirname(dirname(__DIR__)) . '/_files/lib'),
+                \Magento\Filesystem::THEMES => array('path' => dirname(dirname(__DIR__)) . '/_files/design'),
+                \Magento\Filesystem::MODULES => array('path' => dirname(dirname(__DIR__)) . '/_files/code')
+            )
+        ));
+        $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $this->objectManager->get('Magento\App\State')->setAreaCode('frontend');
+        $this->model = $this->objectManager->create('Magento\Less\File\Source\Aggregated');
+    }
+
+    /**
      * @magentoDataFixture Magento/Less/_files/themes.php
      * @magentoAppIsolation enabled
      * @magentoAppArea frontend
@@ -25,21 +44,8 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetFiles($path, $themeName, $expectedFiles)
     {
-        \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
-            \Magento\Filesystem::PARAM_APP_DIRS => array(
-                \Magento\Filesystem::PUB_LIB => array('path' => dirname(dirname(__DIR__)) . '/_files/lib'),
-                \Magento\Filesystem::THEMES => array('path' => dirname(dirname(__DIR__)) . '/_files/design'),
-                \Magento\Filesystem::MODULES => array('path' => dirname(dirname(__DIR__)) . '/_files/code')
-            )
-        ));
-
-        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\App\State')->setAreaCode('frontend');
-
-        $this->model = $objectManager->create('Magento\Less\File\Source\Aggregated');
-
         /** @var \Magento\View\Design\Theme\FlyweightFactory $themeFactory */
-        $themeFactory = $objectManager->get('Magento\View\Design\Theme\FlyweightFactory');
+        $themeFactory = $this->objectManager->get('Magento\View\Design\Theme\FlyweightFactory');
         $theme = $themeFactory->create($themeName);
         if (!count($expectedFiles)) {
             $this->setExpectedException('LogicException', 'magento_import returns empty result by path doesNotExist');
@@ -55,6 +61,9 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * @return array
+     */
     public function getFilesDataProvider()
     {
         return array(
