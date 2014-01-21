@@ -38,6 +38,8 @@ require_once "PEAR/PackageFile/Generator/v2.php";*/
 
 namespace Magento\Pear;
 
+use Magento\Pear;
+
 class Package
 {
     /**
@@ -55,7 +57,7 @@ class Package
     );
 
     /**
-     * @var \Magento\Pear
+     * @var Pear
      */
     protected $_pear;
 
@@ -69,11 +71,11 @@ class Package
      */
     public function __construct()
     {
-        $this->_pear = \Magento\Pear::getInstance();
+        $this->_pear = Pear::getInstance();
     }
 
     /**
-     * @return \Magento\Pear
+     * @return Pear
      */
     public function getPear()
     {
