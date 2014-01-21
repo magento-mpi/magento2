@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Multishipping Checkout" design_abstraction="custom">
+    <update handle="page_two_columns_left"/>
+    <referenceContainer name="left">
+        <block class="Magento\Multishipping\Block\Checkout\State" name="checkout_state" template="checkout/state.phtml"/>
+    </referenceContainer>
+</layout>
