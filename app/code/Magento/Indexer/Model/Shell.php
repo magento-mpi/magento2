@@ -175,17 +175,9 @@ class Shell extends \Magento\Core\Model\AbstractShell
             $indexers = $this->parseIndexerString('all');
         }
 
-        $isGroupBuilt = array();
         foreach ($indexers as $indexer) {
             try {
-                if (!$indexer->getGroup() || !isset($isGroupBuilt[$indexer->getGroup()])
-                    || !$isGroupBuilt[$indexer->getGroup()]
-                ) {
-                    $indexer->reindexAll();
-                    if ($indexer->getGroup()) {
-                        $isGroupBuilt[$indexer->getGroup()] = true;
-                    }
-                }
+                $indexer->reindexAll();
                 echo $indexer->getTitle() . " index has been rebuilt successfully\n";
             } catch (\Magento\Core\Exception $e) {
                 echo $e->getMessage() . "\n";

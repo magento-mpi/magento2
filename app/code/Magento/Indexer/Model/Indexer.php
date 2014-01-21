@@ -11,7 +11,6 @@ namespace Magento\Indexer\Model;
 /**
  * @method int getViewId()
  * @method string getActionClass()
- * @method string getGroup()
  * @method string getTitle()
  * @method string getDescription()
  */
@@ -223,26 +222,6 @@ class Indexer extends \Magento\Object
     }
 
     /**
-     * Set status for all other indexers with the same group
-     *
-     * @param string $status
-     */
-    protected function setGroupStatus($status)
-    {
-        if ($this->getGroup()) {
-            $collection = $this->indexersFactory->create();
-            foreach ($collection->getItemsByColumnValue('group', $this->getGroup()) as $indexer) {
-                /** @var Indexer $indexer */
-                if ($indexer->getId() != $this->getId()) {
-                    $indexer->getState()
-                        ->setStatus($status)
-                        ->save();
-                }
-            }
-        }
-    }
-
-    /**
      * Regenerate full index
      */
     public function reindexAll()
@@ -251,12 +230,10 @@ class Indexer extends \Magento\Object
             $this->getState()
                 ->setStatus(Indexer\State::STATUS_WORKING)
                 ->save();
-            $this->setGroupStatus(Indexer\State::STATUS_WORKING);
             $this->getActionInstance()->executeFull();
             $this->getState()
                 ->setStatus(Indexer\State::STATUS_VALID)
                 ->save();
-            $this->setGroupStatus(Indexer\State::STATUS_VALID);
         }
     }
 

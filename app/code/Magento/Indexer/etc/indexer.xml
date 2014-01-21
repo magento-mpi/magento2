@@ -8,11 +8,11 @@
  */
 -->
 <config>
-    <indexer id="catalog_category_product_index" view_id="catalog_category_product_index" class="Magento\Indexer\Model\TestIndexer" group="catalog_category_product_index">
+    <indexer id="catalog_category_product_index" view_id="catalog_category_product_index" class="Magento\Indexer\Model\TestIndexer">
         <title translate="true">Catalog Category/Product Product Indexer</title>
         <description translate="true">Indexes category/products association on products changes</description>
     </indexer>
-    <indexer id="catalog_category_product_cat" view_id="catalog_category_product_cat" class="Magento\Indexer\Model\TestIndexer" group="catalog_category_product_index">
+    <indexer id="catalog_category_product_cat" view_id="catalog_category_product_cat" class="Magento\Indexer\Model\TestIndexer">
         <title translate="true">Catalog Category/Product Category Indexer</title>
         <description translate="true">Indexes category/products association on categories changes</description>
     </indexer>

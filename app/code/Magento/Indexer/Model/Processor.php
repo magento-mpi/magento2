@@ -26,18 +26,26 @@ class Processor
     protected $indexersFactory;
 
     /**
+     * @var \Magento\Mview\ProcessorInterface
+     */
+    protected $mviewProcessor;
+
+    /**
      * @param Config $config
      * @param IndexerFactory $indexerFactory
      * @param Indexer\CollectionFactory $indexersFactory
+     * @param \Magento\Mview\ProcessorInterface $mviewProcessor
      */
     public function __construct(
         Config $config,
         IndexerFactory $indexerFactory,
-        Indexer\CollectionFactory $indexersFactory
+        Indexer\CollectionFactory $indexersFactory,
+        \Magento\Mview\ProcessorInterface $mviewProcessor
     ) {
         $this->config = $config;
         $this->indexerFactory = $indexerFactory;
         $this->indexersFactory = $indexersFactory;
+        $this->mviewProcessor = $mviewProcessor;
     }
 
     /**
@@ -61,16 +69,24 @@ class Processor
     {
         /** @var Indexer[] $indexers */
         $indexers = $this->indexersFactory->create()->getItems();
-        $isGroupBuilt = array();
         foreach ($indexers as $indexer) {
-            if (!$indexer->getGroup() || !isset($isGroupBuilt[$indexer->getGroup()])
-                || !$isGroupBuilt[$indexer->getGroup()]
-            ) {
-                $indexer->reindexAll();
-                if ($indexer->getGroup()) {
-                    $isGroupBuilt[$indexer->getGroup()] = true;
-                }
-            }
+            $indexer->reindexAll();
         }
+    }
+
+    /**
+     * Update indexer views
+     */
+    public function updateMview()
+    {
+        $this->mviewProcessor->update('indexer');
+    }
+
+    /**
+     * Clean indexer view changelogs
+     */
+    public function clearChangelog()
+    {
+        $this->mviewProcessor->clearChangelog('indexer');
     }
 }
