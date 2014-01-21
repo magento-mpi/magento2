@@ -142,7 +142,7 @@ class Config
      * Returns nodes found by xpath expression
      *
      * @param string $xpath
-     * @return SimpleXMLElement[]|bool
+     * @return \SimpleXMLElement[]|bool
      */
     public function getXpath($xpath)
     {
