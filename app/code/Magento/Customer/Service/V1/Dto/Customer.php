@@ -49,7 +49,7 @@ class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\Entity
     const DEFAULT_SHIPPING = 'default_shipping';
 
     /**
-     * Retrieve array of all attributes, in the form of 'attribute code' => <attribute value'
+     * Retrieve array of all attributes, in the form of 'attribute code' => 'attribute value'
      *
      * @return array|\ArrayAccess|\string[]
      */

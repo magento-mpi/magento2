@@ -126,6 +126,8 @@ class Customer
     public function create(array $customerData, array $addressesData = null)
     {
         $customer = $this->_customerFactory->create();
+        // Need to set proper attribute id or future updates will cause data loss.
+        $customer->setData('attribute_set_id', 1);
         $this->_preparePasswordForSave($customer, $customerData);
         $this->_save($customer, $customerData, $addressesData);
 
