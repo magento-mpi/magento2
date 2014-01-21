@@ -19,7 +19,7 @@
 namespace Magento\Index\Model\Resource;
 
 use Magento\Core\Model\AbstractModel;
-use Magento\Index\Model\Process;
+use Magento\Index\Model\Process as ProcessModel;
 
 class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
@@ -93,7 +93,7 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Update status for events of process
      *
-     * @param int|array|Process $process
+     * @param int|array|ProcessModel $process
      * @param string $status
      * @return $this
      */
