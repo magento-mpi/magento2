@@ -194,6 +194,36 @@ return array(
         'Magento\Core\Helper\Data',
         'Magento_Core_Model_Design_Package::XML_PATH_STATIC_FILE_SIGNATURE'
     ),
+    array(
+        'XML_PATH_STORE_ADDRESS1',
+        'Magento\Shipping\Model\Shipping',
+        'Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ADDRESS1'
+    ),
+    array(
+        'XML_PATH_STORE_ADDRESS2',
+        'Magento\Shipping\Model\Shipping',
+        'Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ADDRESS2'
+    ),
+    array(
+        'XML_PATH_STORE_CITY',
+        'Magento\Shipping\Model\Shipping',
+        'Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_CITY'
+    ),
+    array(
+        'XML_PATH_STORE_REGION_ID',
+        'Magento\Shipping\Model\Shipping',
+        'Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_REGION_ID'
+    ),
+    array(
+        'XML_PATH_STORE_ZIP',
+        'Magento\Shipping\Model\Shipping',
+        'Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ZIP'
+    ),
+    array(
+        'XML_PATH_STORE_COUNTRY_ID',
+        'Magento\Shipping\Model\Shipping',
+        'Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID'
+    ),
     array('XML_PATH_TEMPLATE_EMAIL', 'Magento\Core\Model\Email\Template'),
     array(
         'XML_PATH_TEMPLATE_FILTER',
