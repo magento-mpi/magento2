@@ -18,6 +18,8 @@
  */
 namespace Magento\Index\Model\Resource\Event;
 
+use Magento\Index\Model\Process;
+
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
@@ -64,14 +66,14 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Add filter by process and status to events collection
      *
-     * @param int|array|\Magento\Index\Model\Process $process
+     * @param int|array|Process $process
      * @param string $status
      * @return $this
      */
     public function addProcessFilter($process, $status = null)
     {
         $this->_joinProcessEventTable();
-        if ($process instanceof \Magento\Index\Model\Process) {
+        if ($process instanceof Process) {
             $this->addFieldToFilter('process_event.process_id', $process->getId());
         } elseif (is_array($process) && !empty($process)) {
             $this->addFieldToFilter('process_event.process_id', array('in' => $process));

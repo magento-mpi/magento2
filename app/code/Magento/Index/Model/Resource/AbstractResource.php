@@ -18,6 +18,7 @@
 namespace Magento\Index\Model\Resource;
 
 use Magento\DB\Adapter\AdapterInterface;
+use Magento\DB\Select;
 
 abstract class AbstractResource extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
@@ -119,7 +120,7 @@ abstract class AbstractResource extends \Magento\Core\Model\Resource\Db\Abstract
      * Insert data from select statement of read adapter to
      * destination table related with index adapter
      *
-     * @param \Magento\DB\Select $select
+     * @param Select $select
      * @param string $destTable
      * @param array $columns
      * @param bool $readToIndex data migration direction (true - read=>index, false - index=>read)

@@ -421,7 +421,7 @@ class Process extends \Magento\Core\Model\AbstractModel
      * @return $this
      */
     protected function _processEventsCollection(
-        \Magento\Index\Model\Resource\Event\Collection $eventsCollection,
+        Collection $eventsCollection,
         $skipUnmatched = true
     ) {
         // We can't reload the collection because of transaction

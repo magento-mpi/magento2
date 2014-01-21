@@ -18,6 +18,8 @@
  */
 namespace Magento\Index\Model\Resource;
 
+use Magento\Index\Model\Process as ModelProcess;
+
 class Process extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -65,13 +67,13 @@ class Process extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Register process end
      *
-     * @param \Magento\Index\Model\Process $process
+     * @param ModelProcess $process
      * @return $this
      */
-    public function endProcess(\Magento\Index\Model\Process $process)
+    public function endProcess(ModelProcess $process)
     {
         $data = array(
-            'status'    => \Magento\Index\Model\Process::STATUS_PENDING,
+            'status'    => ModelProcess::STATUS_PENDING,
             'ended_at'  => $this->dateTime->formatDate(time()),
         );
         $this->_updateProcessData($process->getId(), $data);
@@ -81,13 +83,13 @@ class Process extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Register process start
      *
-     * @param \Magento\Index\Model\Process $process
+     * @param ModelProcess $process
      * @return $this
      */
-    public function startProcess(\Magento\Index\Model\Process $process)
+    public function startProcess(ModelProcess $process)
     {
         $data = array(
-            'status'        => \Magento\Index\Model\Process::STATUS_RUNNING,
+            'status'        => ModelProcess::STATUS_RUNNING,
             'started_at'    => $this->dateTime->formatDate(time()),
         );
         $this->_updateProcessData($process->getId(), $data);
@@ -97,13 +99,13 @@ class Process extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Register process fail
      *
-     * @param \Magento\Index\Model\Process $process
+     * @param ModelProcess $process
      * @return $this
      */
-    public function failProcess(\Magento\Index\Model\Process $process)
+    public function failProcess(ModelProcess $process)
     {
         $data = array(
-            'status'   => \Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX,
+            'status'   => ModelProcess::STATUS_REQUIRE_REINDEX,
             'ended_at' => $this->dateTime->formatDate(time()),
         );
         $this->_updateProcessData($process->getId(), $data);
@@ -114,7 +116,7 @@ class Process extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Update process status field
      *
      *
-     * @param \Magento\Index\Model\Process $process
+     * @param ModelProcess $process
      * @param string $status
      * @return $this
      */
@@ -142,10 +144,10 @@ class Process extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Update process start date
      *
-     * @param \Magento\Index\Model\Process $process
+     * @param ModelProcess $process
      * @return $this
      */
-    public function updateProcessStartDate(\Magento\Index\Model\Process $process)
+    public function updateProcessStartDate(ModelProcess $process)
     {
         $this->_updateProcessData($process->getId(), array('started_at' => $this->dateTime->formatDate(time())));
         return $this;
@@ -154,10 +156,10 @@ class Process extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Update process end date
      *
-     * @param \Magento\Index\Model\Process $process
+     * @param ModelProcess $process
      * @return $this
      */
-    public function updateProcessEndDate(\Magento\Index\Model\Process $process)
+    public function updateProcessEndDate(ModelProcess $process)
     {
         $this->_updateProcessData($process->getId(), array('ended_at' => $this->dateTime->formatDate(time())));
         return $this;

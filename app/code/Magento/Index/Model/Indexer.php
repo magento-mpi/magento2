@@ -50,14 +50,14 @@ class Indexer
 
     /**
      * @param \Magento\Index\Model\Resource\Process\CollectionFactory $collectionFactory
-     * @param \Magento\Index\Model\Resource\Process $resourceProcess
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param ResourceProcess $resourceProcess
+     * @param ManagerInterface $eventManager
      * @param \Magento\Index\Model\EventFactory $indexEventFactory
      */
     public function __construct(
         \Magento\Index\Model\Resource\Process\CollectionFactory $collectionFactory,
-        \Magento\Index\Model\Resource\Process $resourceProcess,
-        \Magento\Event\ManagerInterface $eventManager,
+        ResourceProcess $resourceProcess,
+        ManagerInterface $eventManager,
         \Magento\Index\Model\EventFactory $indexEventFactory
     ) {
         $this->_collectionFactory = $collectionFactory;

@@ -72,7 +72,7 @@ class Event extends \Magento\Core\Model\AbstractModel
     /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Index\Model\Indexer $indexer
+     * @param Indexer $indexer
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -81,7 +81,7 @@ class Event extends \Magento\Core\Model\AbstractModel
     public function __construct(
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Index\Model\Indexer $indexer,
+        Indexer $indexer,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,

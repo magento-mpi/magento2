@@ -10,12 +10,14 @@
 
 namespace Magento\Index\Block\Adminhtml\Process\Edit;
 
+use Magento\Backend\Block\Widget\Form as WidgetForm;
+
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Prepare form
      *
-     * @return \Magento\Backend\Block\Widget\Form
+     * @return WidgetForm
      */
     protected function _prepareForm()
     {
