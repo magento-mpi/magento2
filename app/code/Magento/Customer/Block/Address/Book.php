@@ -106,7 +106,7 @@ class Book extends \Magento\View\Element\Template
     }
 
     /**
-     * @return \Magento\Customer\Service\V1\Dto\Address|bool
+     * @return \Magento\Customer\Service\V1\Dto\Address[]|bool
      */
     public function getAdditionalAddresses()
     {
