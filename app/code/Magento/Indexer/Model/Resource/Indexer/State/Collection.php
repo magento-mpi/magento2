@@ -12,7 +12,6 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
 {
     /**
      * Collection initialization
-     *
      */
     protected function _construct()
     {

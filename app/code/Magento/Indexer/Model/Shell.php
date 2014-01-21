@@ -80,7 +80,7 @@ class Shell extends \Magento\Core\Model\AbstractShell
         $indexers = $this->parseIndexerString('all');
         foreach ($indexers as $indexer) {
             echo sprintf('%-40s', $indexer->getId());
-            echo $indexer->getTitle() . "\n";
+            echo $indexer->getTitle() . PHP_EOL;
         }
 
         return $this;
@@ -124,7 +124,7 @@ class Shell extends \Magento\Core\Model\AbstractShell
                         break;
                 }
             }
-            echo sprintf('%-50s ', $indexer->getTitle() . ':') . $status ."\n";
+            echo sprintf('%-50s ', $indexer->getTitle() . ':') . $status . PHP_EOL;
         }
 
         return $this;
@@ -148,13 +148,13 @@ class Shell extends \Magento\Core\Model\AbstractShell
         foreach ($indexers as $indexer) {
             try {
                 $indexer->$method();
-                echo $indexer->getTitle() . " indexer was successfully changed index mode\n";
+                echo $indexer->getTitle() . " indexer was successfully changed index mode" . PHP_EOL;
             } catch (\Magento\Core\Exception $e) {
-                echo $e->getMessage() . "\n";
+                echo $e->getMessage() . PHP_EOL;
                 $this->hasErrors = true;
             } catch (\Exception $e) {
-                echo $indexer->getTitle() . " indexer process unknown error:\n";
-                echo $e . "\n";
+                echo $indexer->getTitle() . " indexer process unknown error:" . PHP_EOL;
+                echo $e . PHP_EOL;
                 $this->hasErrors = true;
             }
         }
@@ -178,13 +178,13 @@ class Shell extends \Magento\Core\Model\AbstractShell
         foreach ($indexers as $indexer) {
             try {
                 $indexer->reindexAll();
-                echo $indexer->getTitle() . " index has been rebuilt successfully\n";
+                echo $indexer->getTitle() . " index has been rebuilt successfully" . PHP_EOL;
             } catch (\Magento\Core\Exception $e) {
-                echo $e->getMessage() . "\n";
+                echo $e->getMessage() . PHP_EOL;
                 $this->hasErrors = true;
             } catch (\Exception $e) {
-                echo $indexer->getTitle() . " indexer process unknown error:\n";
-                echo $e . "\n";
+                echo $indexer->getTitle() . " indexer process unknown error:" . PHP_EOL;
+                echo $e . PHP_EOL;
                 $this->hasErrors = true;
             }
         }
@@ -212,7 +212,7 @@ class Shell extends \Magento\Core\Model\AbstractShell
                     $indexer->load($code);
                     $indexers[] = $indexer;
                 } catch (\Exception $e) {
-                    echo 'Warning: Unknown indexer with code ' . trim($code) . "\n";
+                    echo 'Warning: Unknown indexer with code ' . trim($code) . PHP_EOL;
                     $this->hasErrors = true;
                 }
             }
