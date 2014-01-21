@@ -493,5 +493,15 @@ return array(
     array('UPLOAD_ROOT', 'Magento\Backend\Model\Config\Backend\Logo'),
     array('UPLOAD_ROOT', 'Magento\Backend\Model\Config\Backend\Favicon'),
     array('DIRECTORY_SEPARATOR', 'Magento\Filesystem'),
-    array('PARAM_APP_URIS', 'Magento\Filesystem')
+    array('PARAM_APP_URIS', 'Magento\Filesystem'),
+    array('MAX_QTY_VALUE', '\Magento\Catalog\Controller\Adminhtml\Product',
+        'Magento\Catalog\Controller\Adminhtml\Product\Initialization\StockDataFilter::MAX_QTY_VALUE'
+    ),
+    array('LINK_TYPE_GROUPED', '\Magento\Catalog\Model\Product\Link',
+        '\Magento\GroupedProduct\Model\Resource\Product\Link::LINK_TYPE_GROUPED'
+    ),
+    array('TYPE_GROUPED', '\Magento\Catalog\Model\Product\Type',
+        '\Magento\GroupedProduct\Model\Resource\Product\Link::LINK_TYPE_GROUPED'
+    ),
+
 );
