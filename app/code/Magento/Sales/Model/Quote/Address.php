@@ -286,7 +286,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         $this->_addressItemFactory = $addressItemFactory;
         $this->_itemCollectionFactory = $itemCollectionFactory;
         $this->_addressRateFactory = $addressRateFactory;
-        $this->_rateCollectorFactory = $rateCollectorFactory;
+        $this->_rateCollector = $rateCollector;
         $this->_rateCollectionFactory = $rateCollectionFactory;
         $this->_rateRequestFactory = $rateRequestFactory;
         $this->_totalCollectorFactory = $totalCollectorFactory;
