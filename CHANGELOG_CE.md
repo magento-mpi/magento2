@@ -21,6 +21,10 @@
   * Fixed an issue with 404 error when trying to return back to grid from Recurring Billing Profile
   * Fixed an issue with synchronization with google shopping on product update caused by missed service property
   * Fixed Authorize.net Direct Post: Ability to proceed order when it was created from Backend
+  * Fixed an issue with Global attributes available for edit on product page for restricted user
+  * Fixed an issue with Add button is available for Related Products and leads to Access Denied page - store-permittion
+  * Fixed an issue with GWS: TypeError on Product Page
+  * Fixed an issue with ImportExport: Fix notice if _attribute_set column is missing
 * Removed the deprecated service-calls and data source functionality
 
 2.0.0.0-dev60
