@@ -23,10 +23,13 @@ class Api extends \Magento\Object
     /**
      * Fields that should be replaced in debug with '***'
      *
-     * @var array
+     * @var string[]
      */
     protected $_debugReplacePrivateDataKeys = array('TransactionPwd', 'CardNumber', 'CardExpMonth', 'CardExpYear');
 
+    /**
+     * @var array
+     */
     protected static $_iso4217Currencies = array(
         'AED' => '784', 'AFN' => '971',
         'ALL' => '008', 'AMD' => '051', 'ANG' => '532', 'AOA' => '973', 'ARS' => '032', 'AUD' => '036', 'AWG' => '533',
@@ -136,9 +139,9 @@ class Api extends \Magento\Object
     /**
      * Call centinel api methods by given method name and data
      *
-     * @param $method string
-     * @param $data array
-     *
+     * @param string $method
+     * @param array $data
+     * @throws \Exception
      * @return \CentinelClient
      */
     protected function _call($method, $data)
@@ -193,6 +196,7 @@ class Api extends \Magento\Object
     /**
      * Call centinel api lookup method
      *
+     * @param \Magento\Object $data
      * @return \Magento\Centinel\Model\Api
      */
     public function callLookup($data)
@@ -231,6 +235,7 @@ class Api extends \Magento\Object
     /**
      * Call centinel api authentication method
      *
+     * @param \Magento\Object $data
      * @return \Magento\Centinel\Model\Api
      */
     public function callAuthentication($data)
@@ -256,7 +261,7 @@ class Api extends \Magento\Object
     /**
      * Log debug data to file
      *
-     * @param mixed $debugData
+     * @param array $debugData
      */
     protected function _debug($debugData)
     {

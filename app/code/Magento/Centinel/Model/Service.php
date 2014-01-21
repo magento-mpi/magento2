@@ -198,6 +198,7 @@ class Service extends \Magento\Object
     /**
      * Drop validation state model
      *
+     * @return void
      */
     protected function _resetValidationState()
     {
@@ -227,6 +228,7 @@ class Service extends \Magento\Object
      * Process lookup validation and init new validation state model
      *
      * @param \Magento\Object $data
+     * @return void
      */
     public function lookup($data)
     {
@@ -251,6 +253,8 @@ class Service extends \Magento\Object
      * Process authenticate validation
      *
      * @param \Magento\Object $data
+     * @throws \Exception
+     * @return void
      */
     public function authenticate($data)
     {
@@ -275,6 +279,7 @@ class Service extends \Magento\Object
      *
      * @param \Magento\Object $data
      * @throws \Magento\Core\Exception
+     * @return void
      */
     public function validate($data)
     {
@@ -393,9 +398,9 @@ class Service extends \Magento\Object
     /**
      * Export cmpi lookups and authentication information stored in session into array
      *
-     * @param mixed $to
-     * @param array $map
-     * @return mixed
+     * @param array|object $to
+     * @param array|bool $map
+     * @return array|object
      */
     public function exportCmpiData($to, $map = false)
     {
