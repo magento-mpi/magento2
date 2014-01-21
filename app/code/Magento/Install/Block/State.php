@@ -38,7 +38,7 @@ class State extends \Magento\View\Element\Template
         array $data = array()
     ) {
         parent::__construct($context, $data);
-
+        $this->_isScopePrivate = true;
         $this->assign('steps', $wizard->getSteps());
     }
 
