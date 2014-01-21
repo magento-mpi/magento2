@@ -191,21 +191,21 @@ class Dhl
         $origCountryId = $requestDhl->getOrigCountryId();
         if (!$origCountryId) {
             $origCountryId = $this->_coreStoreConfig->getConfig(
-                \Magento\Shipping\Model\Shipping::XML_PATH_STORE_COUNTRY_ID,
+                \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID,
                 $requestDhl->getStoreId()
             );
         }
         $origState = $requestDhl->getOrigState();
         if (!$origState) {
             $origState = $this->_coreStoreConfig->getConfig(
-                \Magento\Shipping\Model\Shipping::XML_PATH_STORE_REGION_ID,
+                \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_REGION_ID,
                 $requestDhl->getStoreId()
             );
         }
         $origCity = $requestDhl->getOrigCity();
         if (!$origCity) {
             $origCity = $this->_coreStoreConfig->getConfig(
-                \Magento\Shipping\Model\Shipping::XML_PATH_STORE_CITY,
+                \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_CITY,
                 $requestDhl->getStoreId()
             );
         }
@@ -213,7 +213,7 @@ class Dhl
         $origPostcode = $requestDhl->getOrigPostcode();
         if (!$origPostcode) {
             $origPostcode = $this->_coreStoreConfig->getConfig(
-                \Magento\Shipping\Model\Shipping::XML_PATH_STORE_ZIP,
+                \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ZIP,
                 $requestDhl->getStoreId()
             );
         }
@@ -325,7 +325,7 @@ class Dhl
             $origCountry = $request->getOrigCountry();
         } else {
             $origCountry = $this->_coreStoreConfig->getConfig(
-                \Magento\Shipping\Model\Shipping::XML_PATH_STORE_COUNTRY_ID,
+                \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID,
                 $r->getStoreId()
             );
         }
@@ -335,7 +335,7 @@ class Dhl
             $origCountryId = $request->getOrigCountryId();
         } else {
             $origCountryId = $this->_coreStoreConfig->getConfig(
-                \Magento\Shipping\Model\Shipping::XML_PATH_STORE_COUNTRY_ID,
+                \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID,
                 $r->getStoreId()
             );
         }
@@ -394,9 +394,9 @@ class Dhl
         $r->setOrigCity($request->getOrigCity());
         $r->setOrigPostal($request->getOrigPostal());
         $originStreet1 = $this->_coreStoreConfig
-            ->getConfig(\Magento\Shipping\Model\Shipping::XML_PATH_STORE_ADDRESS1, $r->getStoreId());
+            ->getConfig(\Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ADDRESS1, $r->getStoreId());
         $originStreet2 = $this->_coreStoreConfig
-            ->getConfig(\Magento\Shipping\Model\Shipping::XML_PATH_STORE_ADDRESS2, $r->getStoreId());
+            ->getConfig(\Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ADDRESS2, $r->getStoreId());
         $r->setOrigStreet($request->getOrigStreet() ? $request->getOrigStreet() : $originStreet2);
         $r->setOrigStreetLine2($request->getOrigStreetLine2());
         $r->setDestPhoneNumber($request->getDestPhoneNumber());

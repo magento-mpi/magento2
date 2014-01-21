@@ -14,16 +14,6 @@ namespace Magento\Shipping\Model;
 class Shipping
 {
     /**
-     * Store address
-     */
-    const XML_PATH_STORE_ADDRESS1     = 'shipping/origin/street_line1';
-    const XML_PATH_STORE_ADDRESS2     = 'shipping/origin/street_line2';
-    const XML_PATH_STORE_CITY         = 'shipping/origin/city';
-    const XML_PATH_STORE_REGION_ID    = 'shipping/origin/region_id';
-    const XML_PATH_STORE_ZIP          = 'shipping/origin/postcode';
-    const XML_PATH_STORE_COUNTRY_ID   = 'shipping/origin/country_id';
-
-    /**
      * Default shipping orig for requests
      *
      * @var array

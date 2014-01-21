@@ -243,7 +243,7 @@ class Ups
             $origCountry = $request->getOrigCountry();
         } else {
             $origCountry = $this->_coreStoreConfig->getConfig(
-                \Magento\Shipping\Model\Shipping::XML_PATH_STORE_COUNTRY_ID,
+                \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID,
                 $request->getStoreId()
             );
         }
@@ -254,7 +254,7 @@ class Ups
             $origRegionCode = $request->getOrigRegionCode();
         } else {
             $origRegionCode = $this->_coreStoreConfig->getConfig(
-                \Magento\Shipping\Model\Shipping::XML_PATH_STORE_REGION_ID,
+                \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_REGION_ID,
                 $request->getStoreId()
             );
         }
@@ -267,7 +267,7 @@ class Ups
             $rowRequest->setOrigPostal($request->getOrigPostcode());
         } else {
             $rowRequest->setOrigPostal($this->_coreStoreConfig->getConfig(
-                \Magento\Shipping\Model\Shipping::XML_PATH_STORE_ZIP,
+                \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ZIP,
                 $request->getStoreId()
             ));
         }
@@ -276,7 +276,7 @@ class Ups
             $rowRequest->setOrigCity($request->getOrigCity());
         } else {
             $rowRequest->setOrigCity($this->_coreStoreConfig->getConfig(
-                \Magento\Shipping\Model\Shipping::XML_PATH_STORE_CITY,
+                \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_CITY,
                 $request->getStoreId()
             ));
         }

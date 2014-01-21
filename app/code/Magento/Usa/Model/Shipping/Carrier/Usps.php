@@ -284,7 +284,7 @@ class Usps
             $r->setOrigPostal($request->getOrigPostcode());
         } else {
             $r->setOrigPostal($this->_coreStoreConfig->getConfig(
-                \Magento\Shipping\Model\Shipping::XML_PATH_STORE_ZIP,
+                \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ZIP,
                 $request->getStoreId()
             ));
         }
@@ -293,7 +293,7 @@ class Usps
             $r->setOrigCountryId($request->getOrigCountryId());
         } else {
             $r->setOrigCountryId($this->_coreStoreConfig->getConfig(
-                \Magento\Shipping\Model\Shipping::XML_PATH_STORE_COUNTRY_ID,
+                \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID,
                 $request->getStoreId()
             ));
         }
