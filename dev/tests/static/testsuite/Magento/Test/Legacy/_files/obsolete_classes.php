@@ -1826,11 +1826,13 @@ return array(
         'Magento\Catalog\Block\Product\View\Type\Grouped',
         'Magento\GroupedProduct\Block\Product\View\Type\Grouped'
     ),
-    ['Magento\Shipping\Model\Rate\AbstractRate', 'Magento\Sales\Model\Quote\Address\AbstractRate'],
     ['CollFactory', 'CollectionFactory'], // no need to shorten anymore
     ['Magento\Shipping\Model\Rate\Result\AbstractResult', 'Magento\Sales\Model\Quote\Address\RateResult\AbstractResult'],
     ['Magento\Shipping\Model\Rate\Result\Error', 'Magento\Sales\Model\Quote\Address\RateResult\Error'],
     ['Magento\Shipping\Model\Rate\Result\Method', 'Magento\Sales\Model\Quote\Address\RateResult\Method'],
-    ['Magento\Shipping\Model\Rate\AbstractRate', 'Magento\Sales\Model\Quote\Address\AbstractRate'],
+    [
+        'Magento\Shipping\Model\Rate\AbstractRate',
+        'Magento\Sales\Model\Quote\Address\Rate + Magento\Shipping\Model\CarrierFactory'
+    ],
     ['Magento\Shipping\Model\Rate\Request', 'Magento\Sales\Model\Quote\Address\RateRequest'],
 );

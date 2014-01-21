@@ -2,16 +2,15 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Shipping
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Shipping\Model\Carrier;
 
-abstract class AbstractCarrier extends \Magento\Object
+use Magento\Object;
+use Magento\Sales\Model\Quote\Address\AbstractCarrierInterface;
+
+abstract class AbstractCarrier extends Object implements AbstractCarrierInterface
 {
     /**
      * Carrier's code
@@ -151,11 +150,11 @@ abstract class AbstractCarrier extends \Magento\Object
      * Implementation must be in overridden method
      *
      * @param \Magento\Shipping\Model\Shipment\Request $request
-     * @return \Magento\Object
+     * @return Object
      */
     public function requestToShipment(\Magento\Shipping\Model\Shipment\Request $request)
     {
-        return new \Magento\Object();
+        return new Object();
     }
 
     /**
@@ -163,20 +162,20 @@ abstract class AbstractCarrier extends \Magento\Object
      * Implementation must be in overridden method
      *
      * @param $request
-     * @return \Magento\Object
+     * @return Object
      */
     public function returnOfShipment($request)
     {
-        return new \Magento\Object();
+        return new Object();
     }
 
     /**
      * Return container types of carrier
      *
-     * @param \Magento\Object|null $params
+     * @param Object|null $params
      * @return array
      */
-    public function getContainerTypes(\Magento\Object $params = null)
+    public function getContainerTypes(Object $params = null)
     {
         return array();
     }
@@ -184,10 +183,10 @@ abstract class AbstractCarrier extends \Magento\Object
     /**
      * Get allowed containers of carrier
      *
-     * @param \Magento\Object|null $params
+     * @param Object|null $params
      * @return array|bool
      */
-    protected function _getAllowedContainers(\Magento\Object $params = null)
+    protected function _getAllowedContainers(Object $params = null)
     {
         $containersAll = $this->getContainerTypesAll();
         if (empty($containersAll)) {
@@ -247,10 +246,10 @@ abstract class AbstractCarrier extends \Magento\Object
     /**
      * Return delivery confirmation types of carrier
      *
-     * @param \Magento\Object|null $params
+     * @param Object|null $params
      * @return array
      */
-    public function getDeliveryConfirmationTypes(\Magento\Object $params = null)
+    public function getDeliveryConfirmationTypes(Object $params = null)
     {
         return array();
     }
@@ -601,10 +600,10 @@ abstract class AbstractCarrier extends \Magento\Object
     /**
      * Return content types of package
      *
-     * @param \Magento\Object $params
+     * @param Object $params
      * @return array
      */
-    public function getContentTypes(\Magento\Object $params)
+    public function getContentTypes(Object $params)
     {
         return array();
     }

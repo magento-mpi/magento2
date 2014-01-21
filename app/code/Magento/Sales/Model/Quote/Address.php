@@ -214,9 +214,9 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     protected $_itemCollectionFactory;
 
     /**
-     * @var \Magento\Sales\Model\Quote\Address\RateCollectorInterfaceFactory
+     * @var \Magento\Sales\Model\Quote\Address\RateCollectorInterface
      */
-    protected $_rateCollectorFactory;
+    protected $_rateCollector;
 
     /**
      * @var \Magento\Sales\Model\Resource\Quote\Address\Rate\CollectionFactory
@@ -252,6 +252,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      * @param \Magento\Sales\Model\Quote\Address\Total\CollectorFactory $totalCollectorFactory
      * @param \Magento\Sales\Model\Quote\Address\TotalFactory $addressTotalFactory
      * @param \Magento\Object\Copy $objectCopyService
+     * @param \Magento\Sales\Model\Quote\Address\CarrierFactoryInterface $carrierFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -269,12 +270,13 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         \Magento\Sales\Model\Quote\Address\ItemFactory $addressItemFactory,
         \Magento\Sales\Model\Resource\Quote\Address\Item\CollectionFactory $itemCollectionFactory,
         \Magento\Sales\Model\Quote\Address\RateFactory $addressRateFactory,
-        \Magento\Sales\Model\Quote\Address\RateCollectorInterfaceFactory $rateCollectorFactory,
+        \Magento\Sales\Model\Quote\Address\RateCollectorInterface $rateCollector,
         \Magento\Sales\Model\Resource\Quote\Address\Rate\CollectionFactory $rateCollectionFactory,
         \Magento\Sales\Model\Quote\Address\RateRequestFactory $rateRequestFactory,
         \Magento\Sales\Model\Quote\Address\Total\CollectorFactory $totalCollectorFactory,
         \Magento\Sales\Model\Quote\Address\TotalFactory $addressTotalFactory,
         \Magento\Object\Copy $objectCopyService,
+        \Magento\Sales\Model\Quote\Address\CarrierFactoryInterface $carrierFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -290,6 +292,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         $this->_totalCollectorFactory = $totalCollectorFactory;
         $this->_addressTotalFactory = $addressTotalFactory;
         $this->_objectCopyService = $objectCopyService;
+        $this->_carrierFactory = $carrierFactory;
         parent::__construct(
             $context,
             $registry,
@@ -838,13 +841,14 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     {
         $rates = array();
         foreach ($this->getShippingRatesCollection() as $rate) {
-            if (!$rate->isDeleted() && $rate->getCarrierInstance()) {
+            if (!$rate->isDeleted() && $this->_carrierFactory->get($rate->getCarrier())) {
                 if (!isset($rates[$rate->getCarrier()])) {
                     $rates[$rate->getCarrier()] = array();
                 }
 
                 $rates[$rate->getCarrier()][] = $rate;
-                $rates[$rate->getCarrier()][0]->carrier_sort_order = $rate->getCarrierInstance()->getSortOrder();
+                $rates[$rate->getCarrier()][0]->carrier_sort_order
+                    = $this->_carrierFactory->get($rate->getCarrier())->getSortOrder();
             }
         }
         uasort($rates, array($this, '_sortRates'));
@@ -1011,7 +1015,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
 
         $request->setBaseSubtotalInclTax($this->getBaseSubtotalInclTax());
 
-        $result = $this->_rateCollectorFactory->create()->collectRates($request)->getResult();
+        $result = $this->_rateCollector->collectRates($request)->getResult();
 
         $found = false;
         if ($result) {

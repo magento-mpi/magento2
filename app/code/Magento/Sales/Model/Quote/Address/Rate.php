@@ -41,7 +41,9 @@
  */
 namespace Magento\Sales\Model\Quote\Address;
 
-class Rate extends AbstractRate
+use \Magento\Core\Model\AbstractModel;
+
+class Rate extends AbstractModel
 {
     /**
      * @var \Magento\Sales\Model\Quote\Address
