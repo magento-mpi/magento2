@@ -53,14 +53,14 @@ class Tar extends \Magento\Archive\AbstractArchive implements \Magento\Archive\A
     /**
     * Tarball data writer
     *
-    * @var \Magento\Archive\Helper\File
+    * @var File
     */
     protected $_writer;
 
     /**
     * Tarball data reader
     *
-    * @var \Magento\Archive\Helper\File
+    * @var File
     */
     protected $_reader;
 
@@ -78,7 +78,7 @@ class Tar extends \Magento\Archive\AbstractArchive implements \Magento\Archive\A
      */
     protected function _initWriter()
     {
-        $this->_writer = new \Magento\Archive\Helper\File($this->_destinationFilePath);
+        $this->_writer = new File($this->_destinationFilePath);
         $this->_writer->open('w');
 
         return $this;
@@ -102,7 +102,7 @@ class Tar extends \Magento\Archive\AbstractArchive implements \Magento\Archive\A
      */
     protected function _destroyWriter()
     {
-        if ($this->_writer instanceof \Magento\Archive\Helper\File) {
+        if ($this->_writer instanceof File) {
             $this->_writer->close();
             $this->_writer = null;
         }
@@ -131,7 +131,7 @@ class Tar extends \Magento\Archive\AbstractArchive implements \Magento\Archive\A
      */
     protected function _initReader()
     {
-        $this->_reader = new \Magento\Archive\Helper\File($this->_getCurrentFile());
+        $this->_reader = new File($this->_getCurrentFile());
         $this->_reader->open('r');
 
         return $this;
@@ -144,7 +144,7 @@ class Tar extends \Magento\Archive\AbstractArchive implements \Magento\Archive\A
      */
     protected function _destroyReader()
     {
-        if ($this->_reader instanceof \Magento\Archive\Helper\File) {
+        if ($this->_reader instanceof File) {
             $this->_reader->close();
             $this->_reader = null;
         }
@@ -327,7 +327,7 @@ class Tar extends \Magento\Archive\AbstractArchive implements \Magento\Archive\A
         $fileSize = 0;
 
         if (is_file($currentFile) && !is_link($currentFile)) {
-            $fileReader = new \Magento\Archive\Helper\File($currentFile);
+            $fileReader = new File($currentFile);
             $fileReader->open('r');
 
             while (!$fileReader->eof()) {
@@ -580,7 +580,7 @@ class Tar extends \Magento\Archive\AbstractArchive implements \Magento\Archive\A
      */
     protected function _extractAndWriteFile($fileHeader, $destination)
     {
-        $fileWriter = new \Magento\Archive\Helper\File($destination);
+        $fileWriter = new File($destination);
         $fileWriter->open('w', $fileHeader['mode']);
 
         $archiveReader = $this->_getReader();
