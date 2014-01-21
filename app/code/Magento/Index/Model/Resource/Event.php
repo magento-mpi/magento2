@@ -71,7 +71,7 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
                 $this->_getWriteAdapter()->delete($processTable);
             } else {
                 foreach ($processIds as $processId => $processStatus) {
-                    if (is_null($processStatus) || $processStatus == Process::EVENT_STATUS_DONE) {
+                    if (is_null($processStatus) || $processStatus == ProcessModel::EVENT_STATUS_DONE) {
                         $this->_getWriteAdapter()->delete($processTable, array(
                             'process_id = ?' => $processId,
                             'event_id = ?'   => $object->getId(),
@@ -97,10 +97,10 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param string $status
      * @return $this
      */
-    public function updateProcessEvents($process, $status = Process::EVENT_STATUS_DONE)
+    public function updateProcessEvents($process, $status = ProcessModel::EVENT_STATUS_DONE)
     {
         $whereCondition = '';
-        if ($process instanceof Process) {
+        if ($process instanceof ProcessModel) {
             $whereCondition = array('process_id = ?' => $process->getId());
         } elseif (is_array($process) && !empty($process)) {
             $whereCondition = array('process_id IN (?)' => $process);
