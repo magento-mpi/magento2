@@ -8,7 +8,8 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <update handle="customer_account"/>
+    <update handle="customer_account" />
+    <update handle="checkout_onepage_review_item_renderers" />
     <referenceBlock name="customer_account_navigation">
         <action method="setActive">
             <argument name="path" xsi:type="string">magento_giftregistry/index/index</argument>
@@ -21,12 +22,10 @@
     </referenceBlock>
     <referenceContainer name="content">
         <block class="Magento\GiftRegistry\Block\Items" name="giftregistry.customer.items" template="customer/items.phtml" cacheable="false">
-            <block class="Magento\Checkout\Block\Cart\Item\Renderer" as="default" template="Magento_GiftRegistry::customer/items/default.phtml" cacheable="false"/>
-            <block class="Magento\Checkout\Block\Cart\Item\Renderer" as="simple" template="Magento_GiftRegistry::customer/items/default.phtml" cacheable="false"/>
-            <block class="Magento\Checkout\Block\Cart\Item\Renderer\Grouped" as="grouped" template="Magento_GiftRegistry::customer/items/default.phtml" cacheable="false"/>
-            <block class="Magento\Checkout\Block\Cart\Item\Renderer\Configurable" as="configurable" template="Magento_GiftRegistry::customer/items/default.phtml" cacheable="false"/>
-            <block class="Magento\Bundle\Block\Checkout\Cart\Item\Renderer" as="bundle" template="Magento_GiftRegistry::customer/items/default.phtml" cacheable="false"/>
-            <block class="Magento\GiftCard\Block\Checkout\Cart\Item\Renderer" as="giftcard" template="Magento_GiftRegistry::customer/items/default.phtml" cacheable="false"/>
+            <arguments>
+                <argument name="item_renderer_template" xsi:type="string">Magento_GiftRegistry::customer/items/default.phtml</argument>
+            </arguments>
+            <block class="Magento\View\Element\RendererList" name="checkout.onepage.review.item.renderers" as="renderer.list" />
         </block>
     </referenceContainer>
 </layout>
