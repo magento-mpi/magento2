@@ -249,7 +249,7 @@ class Filesystem
 
     /**
      * @param string $path
-     * @param string $protocol
+     * @param string|null $protocol
      * @return ReadInterface
      */
     public function getRemoteResource($path, $protocol = null)

@@ -182,11 +182,11 @@ class Database extends \Zend_Cache_Backend implements \Zend_Cache_Backend_Extend
      * Note : $data is always "string" (serialization is done by the
      * core not by the backend)
      *
-     * @param  string $data            Datas to cache
-     * @param  string $id              Cache id
-     * @param  string[] $tags          Array of strings, the cache record will be tagged by each string entry
-     * @param  int   $specificLifetime If != false, set a specific lifetime for this cache record (null => infinite lifetime)
-     * @return boolean true if no problem
+     * @param string $data            Datas to cache
+     * @param string $id              Cache id
+     * @param string[] $tags          Array of strings, the cache record will be tagged by each string entry
+     * @param int|bool $specificLifetime  If != false, set a specific lifetime for this cache record (null => infinite lifetime)
+     * @return bool true if no problem
      */
     public function save($data, $id, $tags = array(), $specificLifetime = false)
     {

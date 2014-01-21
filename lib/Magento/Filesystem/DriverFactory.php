@@ -10,8 +10,6 @@
 
 namespace Magento\Filesystem;
 
-use Magento\Filesystem\DirectoryList;
-
 class DriverFactory
 {
     /**
@@ -48,8 +46,8 @@ class DriverFactory
         }
         if (!isset($this->drivers[$driverClass])) {
             $this->drivers[$driverClass] = new $driverClass($driver);
-            if (!$this->drivers[$driverClass] instanceof \Magento\Filesystem\DriverInterface) {
-                throw new \Magento\Filesystem\FilesystemException("Invalid filesystem driver class: " . $driverClass);
+            if (!$this->drivers[$driverClass] instanceof DriverInterface) {
+                throw new FilesystemException("Invalid filesystem driver class: " . $driverClass);
             }
         }
         return $this->drivers[$driverClass];

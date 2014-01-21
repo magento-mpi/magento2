@@ -108,7 +108,7 @@ abstract class AbstractDecorator extends \Zend_Cache_Backend
      * Remove a cache record
      *
      * @param string $cacheId Cache id
-     * @return bool True if no problem
+     * @return bool true if no problem
      */
     public function remove($cacheId)
     {
@@ -130,7 +130,7 @@ abstract class AbstractDecorator extends \Zend_Cache_Backend
      *
      * @param  string $mode Clean mode
      * @param  string[] $tags Array of tags
-     * @return boolean true if no problem
+     * @return bool true if no problem
      */
     public function clean($mode = \Zend_Cache::CLEANING_MODE_ALL, $tags = array())
     {

@@ -58,7 +58,6 @@ class Read implements ReadInterface
      * Open file
      *
      * @return $this
-     * @throws FilesystemException
      */
     protected function open()
     {

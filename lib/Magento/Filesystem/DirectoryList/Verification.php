@@ -9,10 +9,10 @@
  */
 namespace Magento\Filesystem\DirectoryList;
 
-use Magento\App\State,
-    Magento\BootstrapException,
-    Magento\Filesystem,
-    Magento\Filesystem\FilesystemException;
+use Magento\App\State;
+use Magento\BootstrapException;
+use Magento\Filesystem;
+use Magento\Filesystem\FilesystemException;
 
 class Verification
 {
