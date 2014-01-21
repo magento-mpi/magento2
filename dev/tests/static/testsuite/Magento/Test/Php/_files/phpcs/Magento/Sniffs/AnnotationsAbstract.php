@@ -40,6 +40,7 @@ abstract class Magento_Sniffs_AnnotationsAbstract implements PHP_CodeSniffer_Sni
     const INVALID_RETURN_VOID = 'InvalidReturnVoid';
     const INVALID_NO_RETURN = 'InvalidNoReturn';
     const INVALID_RETURN_NOT_VOID = 'InvalidReturnNotVoid';
+    const INCORRECT_INHERIT_DOC = 'IncorrectInheritDoc';
     const RETURN_INDENT = 'ReturnIndent';
     const MISSING_RETURN = 'MissingReturn';
     const RETURN_NOT_REQUIRED = 'ReturnNotRequired';
@@ -89,6 +90,7 @@ abstract class Magento_Sniffs_AnnotationsAbstract implements PHP_CodeSniffer_Sni
         self::INVALID_RETURN_VOID => self::WARNING,
         self::INVALID_NO_RETURN => self::WARNING,
         self::INVALID_RETURN_NOT_VOID => self::WARNING,
+        self::INCORRECT_INHERIT_DOC => self::WARNING,
         self::RETURN_INDENT => self::WARNING,
         self::MISSING_RETURN => self::WARNING,
         self::RETURN_NOT_REQUIRED => self::WARNING,

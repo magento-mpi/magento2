@@ -169,6 +169,15 @@ class Magento_Sniffs_Annotations_RequireAnnotatedMethodsSniff extends Magento_Sn
             $this->addMessage($error, $commentStart, self::CONTENT_AFTER_OPEN);
         }
 
+        // If the comment has an inherit doc note just move on
+        if (preg_match('/\{\@inheritdoc\}/',$commentString)) {
+            return;
+        } else if (preg_match('/\{?\@?inherit[dD]oc\}?/',$commentString)) {
+            $error = 'The incorrect inherit doc tag usage. Should be {@inheritdoc}';
+            $this->addMessage($error, $commentStart, self::INCORRECT_INHERIT_DOC);
+            return;
+        }
+
         $this->processParams($commentStart, $commentEnd);
         $this->processSees($commentStart);
         $this->processReturn($commentStart, $commentEnd);
