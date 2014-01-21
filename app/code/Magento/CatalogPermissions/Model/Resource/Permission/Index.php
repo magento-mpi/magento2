@@ -1058,7 +1058,8 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
             )
             ->where('product_id = :product_id')
             ->where('customer_group_id = :customer_group_id')
-            ->where('store_id = :store_id');
+            ->where('store_id = :store_id')
+            ->group('product_id');
         $bind = array(
             ':product_id'        => $product->getId(),
             ':customer_group_id' => $customerGroupId,
@@ -1107,7 +1108,8 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
             ->where('product_id IN(?)', $productId)
             ->where('customer_group_id = ?', $customerGroupId)
             ->where('store_id = ?', $storeId)
-            ->where('category_id IS NULL');
+            ->where('category_id IS NULL')
+            ->group('product_id');
 
         return $adapter->fetchAssoc($select);
     }

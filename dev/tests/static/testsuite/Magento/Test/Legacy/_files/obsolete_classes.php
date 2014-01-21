@@ -1776,6 +1776,46 @@ return array(
     array('Magento\Catalog\Model\Resource\Convert'),
     array('Magento\Reminder\Model\Resource\HelperFactory'),
     array('Magento\Reminder\Model\Resource\Helper'),
+    array('Magento\CatalogRule\Block\Adminhtml\Promo\Widget\Chooser'),
+    array(
+        'Magento\Catalog\Model\Product\Type\Grouped\Backend',
+        'Magento\GroupedProduct\Model\Product\Type\Grouped\Backend'
+    ),
+    array(
+        'Magento\Catalog\Model\Product\Type\Grouped\Price',
+        'Magento\GroupedProduct\Model\Product\Type\Grouped\Price'
+    ),
+    array(
+        'Magento\Catalog\Model\Resource\Product\Indexer\Price\Grouped',
+        'Magento\GroupedProduct\Model\Resource\Product\Indexer\Price\Grouped'
+    ),
+    array(
+        'Magento\Catalog\Model\Resource\Product\Type\Grouped\AssociatedProductsCollection',
+        'Magento\GroupedProduct\Model\Resource\Product\Type\Grouped\AssociatedProductsCollection'
+    ),
+    array(
+        'Magento\Catalog\Model\Product\Type\Grouped',
+        'Magento\GroupedProduct\Model\Product\Type\Grouped'
+    ),
+    array(
+        'Magento\Catalog\Block\Adminhtml\Product\Composite\Fieldset\Grouped',
+        'Magento\GroupedProduct\Block\Adminhtml\Product\Composite\Fieldset\Grouped'
+    ),
+    array(
+        'Magento\Catalog\Block\Adminhtml\Product\Edit\Tabs\Grouped',
+    ),
+    array(
+        'Magento\Catalog\Block\Product\Grouped\AssociatedProducts',
+        'Magento\GroupedProduct\Block\Product\Grouped\AssociatedProducts',
+    ),
+    array(
+        'Magento\Catalog\Block\Product\Grouped\AssociatedProducts\ListAssociatedProducts',
+        'Magento\GroupedProduct\Block\Product\Grouped\AssociatedProducts\ListAssociatedProducts'
+    ),
+    array(
+        'Magento\Catalog\Block\Product\View\Type\Grouped',
+        'Magento\GroupedProduct\Block\Product\View\Type\Grouped'
+    ),
     ['Magento\Shipping\Model\Rate\AbstractRate', 'Magento\Sales\Model\Quote\Address\AbstractRate'],
     ['CollFactory', 'CollectionFactory'], // no need to shorten anymore
 );

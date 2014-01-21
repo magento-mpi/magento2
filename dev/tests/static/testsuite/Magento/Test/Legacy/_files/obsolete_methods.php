@@ -387,6 +387,7 @@ return array(
     array('getIsEngineAvailable'),
     array('getIsGlobal', 'Magento\Eav\Model\Entity\Attribute\AbstractAttribute'),
     array('getIsInStock', 'Magento\Checkout\Block\Cart\Item\Renderer'),
+    array('getIsGrouped', 'Magento\Catalog\Block\Adminhtml\Product\Edit'),
     array('getItemRender', 'Magento\Checkout\Block\Cart\AbstractCart'),
     array('getItemRendererInfo', 'Magento\Checkout\Block\Cart\AbstractCart'),
     array('getKeyList', 'Magento\DB\Adapter\Pdo\Mysql'),
@@ -715,6 +716,10 @@ return array(
     array('shouldCustomerHaveOneBalance'),
     array('shouldShowOneBalance'),
     array('sortChildren'),
+    array('overrideProductThumbnail', 'Magento\Checkout\Block\Cart\Item\Renderer'),
+    array('_getThumbnail', 'Magento\Checkout\Block\Cart\Item\Renderer'),
+    array('getConfigurableProduct', 'Magento\Checkout\Block\Cart\Item\Renderer\Configurable'),
+    array('getProductAttributes', 'Magento\Checkout\Block\Cart\Item\Renderer\Configurable'),
     array('substDistroServerVars', 'Magento\Core\Model\Config'),
     array('superGroupGridOnlyAction', 'Magento\Catalog\Controller\Adminhtml\Product'),
     array('toOptionArray', 'Magento\Cms\Model\Resource\Page\Collection'),
@@ -1111,6 +1116,49 @@ return array(
     array('getDisplayMode', '\Magento\Catalog\Model\Session'),
     array('setEscapeMessageFlag', 'Magento\View\Block\Messages'),
     array('shouldEscapeMessage', 'Magento\View\Block\Messages'),
+    array('isSuper', '\Magento\Catalog\Model\Product'),
+    array('isSuperGroup', '\Magento\Catalog\Model\Product'),
+    array('isGrouped', '\Magento\Catalog\Model\Product'),
+    array('isSuperConfig', '\Magento\Catalog\Model\Product'),
+    array('getGroupedLinkCollection', '\Magento\Catalog\Model\Product'),
+    array('duplicate', '\Magento\Catalog\Model\Product', '\Magento\Catalog\Model\Product\Copier::copy'),
+    array('useGroupedLinks', '\Magento\Catalog\Model\Product\Link'),
+    array('saveGroupedLinks', '\Magento\Catalog\Model\Product\Link'),
+    array(
+        '_initProductSave', '\Magento\Catalog\Controller\Adminhtml\Product',
+        '\Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper::initialize'
+    ),
+    array('superGroupAction', '\Magento\Catalog\Controller\Adminhtml\Product'),
+    array('superGroupPopupAction', '\Magento\Catalog\Controller\Adminhtml\Product',
+        '\Magento\GroupedProduct\Controller\Adminhtml\Edit::popupAction'
+    ),
+    array(
+        'prepareProductSave', '\Magento\Bundle\Model\Observer',
+        '\Magento\Bundle\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Bundle::afterInitialize'
+    ),
+    array('duplicateProduct', 'Magento\Bundle\Model\Observer',
+        'Magento\Bundle\Model\Product\CopyConstructor\Bundle::build'
+    ),
+    array(
+        'prepareProductSave', '\Magento\Downloadable\Model\Observer',
+        '\Magento\Downloadable\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Downloadable::afterInitialize'
+    ),
+    array(
+        'duplicateProduct', '\Magento\Downloadable\Model\Observer',
+        '\Magento\Downloadable\Model\Product\CopyConstructor\Downloadable::build'
+    ),
+    array(
+        'catalogProductPrepareSave', '\Magento\PricePermissions\Model\Observer',
+        '\Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\PricePermissions::'
+            . 'afterInitialize'
+    ),
+    array(
+        'getGroupedOptions', '\Magento\Catalog\Helper\Product\Configuration',
+        '\Magento\GroupedProduct\Helper\Product\Configuration\Plugin\Grouped::aroundGetOptions',
+    ),
+    array('copyInventoryData', 'Magento\CatalogInventory\Model\Observer',
+        '\Magento\CatalogInventory\Model\Product\CopyConstructor\CatalogInventory::build'
+    ),
     ['getTrackingAjaxUrl', 'Magento\Shipping\Helper\Data'],
     ['isFreeMethod', 'Magento\Shipping\Helper\Data'],
     ['_initOrder', 'Magento\Shipping\Controller\Tracking'],

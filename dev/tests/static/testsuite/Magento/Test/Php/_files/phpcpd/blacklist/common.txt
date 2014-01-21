@@ -16,7 +16,6 @@ lib/Magento/DB
 sql
 data
 Magento/Paypal
-Magento/Paygate
 Magento/Downloadable
 Magento/Core/Model/Resource/Helper
 Magento/Catalog/Block/Adminhtml
@@ -50,6 +49,7 @@ Magento/Cron/Model/Config/Backend/Product
 Magento/Customer/Block/Account/Dashboard
 Magento/Customer/Block/Adminhtml/Edit/Tab
 Magento/Customer/Model/Config/Backend/Show
+Magento/Customer/Model/Metadata
 Magento/DesignEditor/Block/Adminhtml/Editor/Tools/Code
 Magento/DesignEditor/Block/Adminhtml/Theme/Selector/Tab
 Magento/DesignEditor/Model/Url

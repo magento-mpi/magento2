@@ -51,6 +51,7 @@ class Related
      * @param \Magento\TargetRule\Model\IndexFactory $indexFactory
      * @param \Magento\Checkout\Model\Cart $cart
      * @param array $data
+     * @param array $priceBlockTypes
      * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -72,7 +73,8 @@ class Related
         \Magento\Catalog\Model\Product\Visibility $visibility,
         \Magento\TargetRule\Model\IndexFactory $indexFactory,
         \Magento\Checkout\Model\Cart $cart,
-        array $data = array()
+        array $data = array(),
+        array $priceBlockTypes = array()
     ) {
         $this->_cart = $cart;
         parent::__construct(
@@ -92,7 +94,8 @@ class Related
             $productCollectionFactory,
             $visibility,
             $indexFactory,
-            $data
+            $data,
+            $priceBlockTypes
         );
     }
 
