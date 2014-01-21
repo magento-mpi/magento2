@@ -131,6 +131,7 @@ class Pbridge extends \Magento\App\Action\Action
     /**
      * Validate all agreements
      * (terms and conditions are agreed)
+     * @return void
      */
     public function validateAgreementAction()
     {

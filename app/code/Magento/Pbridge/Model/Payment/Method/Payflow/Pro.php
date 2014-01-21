@@ -28,6 +28,10 @@ class Pro extends \Magento\Paypal\Model\Payflowpro
      * @var \Magento\Pbridge\Model\Payment\Method\Pbridge
      */
     protected $_pbridgeMethodInstance = null;
+
+    /**
+     * @var bool
+     */
     protected $_canFetchTransactionInfo = false;
 
     /**
@@ -267,8 +271,11 @@ class Pro extends \Magento\Paypal\Model\Payflowpro
         $payment->addData((array)$response);
         return $this;
     }
+
     /**
      * Disable magento centinel validation for pbridge payment methods
+     *
+     * @return bool
      */
     public function getIsCentinelValidationEnabled()
     {

@@ -61,6 +61,7 @@ class Profile extends \Magento\App\Action\Action
 
     /**
      * Payment Bridge frame with Saved Payment profiles
+     * @return void
      */
     public function indexAction()
     {

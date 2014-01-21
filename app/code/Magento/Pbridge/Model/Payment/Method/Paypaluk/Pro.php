@@ -14,6 +14,8 @@
  */
 namespace Magento\Pbridge\Model\Payment\Method\Paypaluk;
 
+use Magento\Object;
+
 class Pro extends \Magento\PaypalUk\Model\Pro
 {
     /**
@@ -66,8 +68,8 @@ class Pro extends \Magento\PaypalUk\Model\Pro
      * Pbridge payment method setter
      *
      * @param \Magento\Pbridge\Model\Payment\Method\Paypal $pbridgePaymentMethod
+     * @return void
      */
-
     public function setPaymentMethod($pbridgePaymentMethod)
     {
         $this->_pbridgePaymentMethod = $pbridgePaymentMethod;
@@ -91,15 +93,15 @@ class Pro extends \Magento\PaypalUk\Model\Pro
      * Attempt to capture payment
      * Will return false if the payment is not supposed to be captured
      *
-     * @param \Magento\Object $payment
+     * @param Object $payment
      * @param float $amount
      * @return false|null
      */
-    public function capture(\Magento\Object $payment, $amount)
+    public function capture(Object $payment, $amount)
     {
         $result = $this->getPbridgeMethodInstance()->capture($payment, $amount);
         if (false !== $result) {
-            $result = new \Magento\Object($result);
+            $result = new Object($result);
             $this->_importCaptureResultToPayment($result, $payment);
         }
         return $result;
@@ -109,16 +111,16 @@ class Pro extends \Magento\PaypalUk\Model\Pro
     /**
      * Refund a capture transaction
      *
-     * @param \Magento\Object $payment
+     * @param Object $payment
      * @param float $amount
-     * @return \Magento\Object|array|null
+     * @return Object|array|null
      */
-    public function refund(\Magento\Object $payment, $amount)
+    public function refund(Object $payment, $amount)
     {
         $result = $this->getPbridgeMethodInstance()->refund($payment, $amount);
 
         if ($result) {
-            $result = new \Magento\Object($result);
+            $result = new Object($result);
             $canRefundMore = $payment->getOrder()->canCreditmemo();
             $this->_importRefundResultToPayment($result, $payment, $canRefundMore);
         }
@@ -129,26 +131,27 @@ class Pro extends \Magento\PaypalUk\Model\Pro
     /**
      * Refund a capture transaction
      *
-     * @param \Magento\Object $payment
+     * @param Object $payment
      * @return array|null
      */
-    public function void(\Magento\Object $payment)
+    public function void(Object $payment)
     {
         $result = $this->getPbridgeMethodInstance()->void($payment);
-        $this->_infoFactory->create()->importToPayment(new \Magento\Object($result), $payment);
+        $this->_infoFactory->create()->importToPayment(new Object($result), $payment);
         return $result;
     }
 
     /**
      * Cancel payment
      *
-     * @param \Magento\Object $payment
+     * @param Object $payment
+     * @return void
      */
-    public function cancel(\Magento\Object $payment)
+    public function cancel(Object $payment)
     {
         if (!$payment->getOrder()->getInvoiceCollection()->count()) {
             $result = $this->getPbridgeMethodInstance()->void($payment);
-            $this->_infoFactory->create()->importToPayment(new \Magento\Object($result), $payment);
+            $this->_infoFactory->create()->importToPayment(new Object($result), $payment);
         }
     }
 
@@ -156,10 +159,10 @@ class Pro extends \Magento\PaypalUk\Model\Pro
     /**
      * Parent transaction id getter
      *
-     * @param \Magento\Object $payment
+     * @param Object $payment
      * @return string
      */
-    protected function _getParentTransactionId(\Magento\Object $payment)
+    protected function _getParentTransactionId(Object $payment)
     {
         return $payment->getParentTransactionId();
     }
@@ -170,6 +173,7 @@ class Pro extends \Magento\PaypalUk\Model\Pro
      *
      * @param \Magento\Paypal\Model\Api\Nvp
      * @param \Magento\Sales\Model\Order\Payment
+     * @return void
      */
     protected function _importCaptureResultToPayment($api, $payment)
     {
@@ -186,6 +190,7 @@ class Pro extends \Magento\PaypalUk\Model\Pro
      * @param \Magento\Paypal\Model\Api\Nvp $api
      * @param \Magento\Sales\Model\Order\Payment $payment
      * @param bool $canRefundMore
+     * @reutrn void
      */
     protected function _importRefundResultToPayment($api, $payment, $canRefundMore)
     {
