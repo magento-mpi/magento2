@@ -8,12 +8,10 @@
 
 namespace Magento\Less\PreProcessor\Instruction;
 
-use Magento\Less\PreProcessorInterface;
-
 /**
- * Import instruction object
+ * Less @import instruction preprocessor
  */
-class Import implements PreProcessorInterface, \Magento\Less\PreProcessor\ImportInterface
+class Import extends AbstractImport
 {
     /**
      * Pattern of @import less instruction
@@ -22,54 +20,13 @@ class Import implements PreProcessorInterface, \Magento\Less\PreProcessor\Import
         '#@import\s+(\((?P<type>\w+)\)\s+)?[\'\"](?P<path>(?![/\\\]|\w:[/\\\])[^\"\']+)[\'\"]\s*?(?P<media>.*?);#';
 
     /**
-     * Import's path list where key is relative path and value is absolute path to the imported content
-     *
-     * @var array
-     */
-    protected $importPaths = [];
-
-    /**
-     * @return array of imported files of less
-     */
-    public function getImportPaths()
-    {
-        return array_keys($this->importPaths);
-    }
-
-    /**;
-     * Explode import paths
-     *
-     * @param string $lessContent
-     * @return $this
-     */
-    public function generatePaths($lessContent)
-    {
-        $matches = [];
-        preg_match_all(self::REPLACE_PATTERN, $lessContent, $matches);
-        foreach ($matches['path'] as $path) {
-            $this->importPaths[$path] = null;
-        }
-        return $this;
-    }
-
-    /**
-     * @param string $relativePath
-     * @param string $absolutePath
-     * @return $this
-     */
-    public function setImportPath($relativePath, $absolutePath)
-    {
-        if (array_key_exists($relativePath, $this->importPaths)) {
-            $this->importPaths[$relativePath] = $absolutePath;
-        }
-        return $this;
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function process($lessContent)
     {
+        $matches = [];
+        preg_match_all(self::REPLACE_PATTERN, $lessContent, $matches);
+        $this->generatePaths($matches['path']);
         return preg_replace_callback(self::REPLACE_PATTERN, array($this, 'replace'), $lessContent);
     }
 
@@ -81,10 +38,11 @@ class Import implements PreProcessorInterface, \Magento\Less\PreProcessor\Import
      */
     protected function replace($matchContent)
     {
-        if (empty($this->importPaths[$matchContent['path']])) {
+        $path = $this->preparePath($matchContent['path']);
+        if (empty($this->importPaths[$path])) {
             return '';
         }
         $typeString  = empty($matchContent['type']) ? '' : '(' . $matchContent['type'] . ') ';
-        return "@import {$typeString}'{$this->importPaths[$matchContent['path']]}';";
+        return "@import {$typeString}'{$this->importPaths[$path]}';";
     }
 }

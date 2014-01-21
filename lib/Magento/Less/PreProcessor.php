@@ -125,26 +125,16 @@ class PreProcessor
     {
         $lessFileSourcePath = $this->viewFileSystem->getViewFile($lessFilePath, $params);
         $directoryRead = $this->getDirectoryRead();
-        try {
-            $lessContent = $directoryRead->readFile($directoryRead->getRelativePath($lessFileSourcePath));
-        } catch (\Magento\Filesystem\FilesystemException $e) {
-            $this->logger->logException($e);
-            return '';
-        }
+        $lessContent = $lessSourceContent = $directoryRead->readFile(
+            $directoryRead->getRelativePath($lessFileSourcePath)
+        );
 
         foreach ($this->getLessPreProcessors($params) as $processor) {
-            if ($processor instanceof \Magento\Less\PreProcessor\ImportInterface) {
-                $importPaths = $processor->generatePaths($lessContent)->getImportPaths();
-                foreach ($importPaths as $importPath) {
-                    $lessFileTargetPath = $this->processLessInstructions($importPath, $params);
-                    $processor->setImportPath($importPath, $lessFileTargetPath);
-                }
-            }
             $lessContent = $processor->process($lessContent);
         }
 
         $lessFileTargetPath = $this->generateNewPath($lessFileSourcePath);
-        if (!empty($importPaths) && $lessFileSourcePath != $lessFileTargetPath) {
+        if ($lessFileSourcePath != $lessFileTargetPath && $lessSourceContent != $lessContent) {
             $directoryWrite = $this->getDirectoryWrite();
             $directoryWrite->writeFile($directoryWrite->getRelativePath($lessFileTargetPath), $lessContent);
             return $lessFileTargetPath;

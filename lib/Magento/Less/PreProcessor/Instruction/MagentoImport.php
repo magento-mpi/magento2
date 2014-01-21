@@ -8,12 +8,10 @@
 
 namespace Magento\Less\PreProcessor\Instruction;
 
-use Magento\Less\PreProcessorInterface;
-
 /**
- * Import instruction object
+ * Less @magento_import instruction preprocessor
  */
-class MagentoImport implements PreProcessorInterface
+class MagentoImport extends AbstractImport
 {
     /**
      * Pattern of @import less instruction
@@ -26,31 +24,22 @@ class MagentoImport implements PreProcessorInterface
     protected $fileSource;
 
     /**
-     * @var array
-     */
-    protected $viewParams;
-
-    /**
-     * @var \Magento\Logger
-     */
-    protected $logger;
-
-    /**
      * @param \Magento\View\Layout\File\SourceInterface $fileSource
      * @param \Magento\View\Service $viewService
+     * @param \Magento\Less\PreProcessor $preProcessor
      * @param \Magento\Logger $logger
      * @param array $viewParams
      */
     public function __construct(
         \Magento\View\Layout\File\SourceInterface $fileSource,
         \Magento\View\Service $viewService,
+        \Magento\Less\PreProcessor $preProcessor,
         \Magento\Logger $logger,
         array $viewParams = array()
     ) {
         $this->fileSource = $fileSource;
         $viewService->updateDesignParams($viewParams);
-        $this->logger = $logger;
-        $this->viewParams = $viewParams;
+        parent::__construct($preProcessor, $logger, $viewParams);
     }
 
     /**
@@ -58,6 +47,9 @@ class MagentoImport implements PreProcessorInterface
      */
     public function process($lessContent)
     {
+        $matches = [];
+        preg_match_all(self::REPLACE_PATTERN, $lessContent, $matches);
+        $this->generatePaths($matches['path']);
         return preg_replace_callback(self::REPLACE_PATTERN, array($this, 'replace'), $lessContent);
     }
 
