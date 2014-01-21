@@ -8,6 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <update handle="checkout_onepage_review_item_renderers" />
     <block class="Magento\Paypal\Block\Express\Review\Details" name="root" output="1"
            template="express/review/details.phtml">
         <block class="Magento\View\Element\RendererList" name="checkout.onepage.review.item.renderers" as="renderer.list" />
