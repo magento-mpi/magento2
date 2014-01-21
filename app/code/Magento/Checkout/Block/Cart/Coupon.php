@@ -27,7 +27,7 @@ class Coupon extends \Magento\Checkout\Block\Cart\AbstractCart
         \Magento\Checkout\Model\Session $checkoutSession,
         array $data = array()
     ) {
-        parent::__construct($context, $data, $customerSession, $checkoutSession);
+        parent::__construct($context, $catalogData, $customerSession, $checkoutSession, $data);
         $this->_isScopePrivate = true;
     }
 
