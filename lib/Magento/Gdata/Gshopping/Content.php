@@ -16,8 +16,6 @@
  */
 namespace Magento\Gdata\Gshopping;
 
-use Magento\Gdata\Gshopping\Entry;
-
 class Content extends \Zend_Gdata
 {
     /**
