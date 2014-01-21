@@ -59,126 +59,97 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      * @magentoDataFixture Magento/Customer/_files/customer_two_addresses.php
-     */
-    public function testGetPrimaryShippingAddressHtml()
-    {
-        $expected = "John Smith<br/>\n\nGreen str, 67<br />\n\n\n\nCityM,  Alabama, 75477<br/>\n<br/>\nT: 3468676\n\n";
-        $this->_customerSession->setCustomerId(1);
-        $html = $this->_block->getPrimaryShippingAddressHtml();
-        $this->assertEquals($expected, $html);
-    }
-
-    /**
-     * @magentoDataFixture Magento/Customer/_files/customer.php
-     */
-    public function testGetPrimaryShippingAddressHtmlNoAddress()
-    {
-        $expected = 'You have not set a default shipping address.';
-        $this->_customerSession->setCustomerId(1);
-        $html = $this->_block->getPrimaryShippingAddressHtml();
-        $this->assertEquals($expected, $html);
-    }
-
-    public function testGetPrimaryShippingAddressHtmlMissingCustomer()
-    {
-        $expected = 'You have not set a default shipping address.';
-
-        $html = $this->_block->getPrimaryShippingAddressHtml();
-        $this->assertEquals($expected, $html);
-    }
-
-    /**
-     * @magentoDataFixture Magento/Customer/_files/customer.php
-     * @magentoDataFixture Magento/Customer/_files/customer_two_addresses.php
-     */
-    public function testGetPrimaryBillingingAddressHtml()
-    {
-        $expected = "John Smith<br/>\n\nGreen str, 67<br />\n\n\n\nCityM,  Alabama, 75477<br/>\n<br/>\nT: 3468676\n\n";
-        $this->_customerSession->setCustomerId(1);
-        $html = $this->_block->getPrimaryBillingAddressHtml();
-        $this->assertEquals($expected, $html);
-    }
-
-    /**
-     * @magentoDataFixture Magento/Customer/_files/customer.php
-     */
-    public function testGetPrimaryBillingAddressHtmlNoAddress()
-    {
-        $expected = 'You have not set a default billing address.';
-        $this->_customerSession->setCustomerId(1);
-        $html = $this->_block->getPrimaryBillingAddressHtml();
-        $this->assertEquals($expected, $html);
-    }
-
-    public function testGetPrimaryBillingAddressHtmlMissingCustomer()
-    {
-        $expected = 'You have not set a default billing address.';
-
-        $html = $this->_block->getPrimaryBillingAddressHtml();
-        $this->assertEquals($expected, $html);
-    }
-
-    /**
-     * @magentoDataFixture Magento/Customer/_files/customer.php
-     * @magentoDataFixture Magento/Customer/_files/customer_two_addresses.php
-     */
-    public function testGetPrimaryShippingAddressEditUrl()
-    {
-        $expected = 'http://localhost/index.php/customer/address/edit/id/1/';
-        $this->_customerSession->setCustomerId(1);
-        $url = $this->_block->getPrimaryShippingAddressEditUrl();
-        $this->assertEquals($expected, $url);
-    }
-
-    /**
      * @magentoDataFixture Magento/Customer/_files/customer_no_address.php
+     * @dataProvider getPrimaryShippingAddressHtmlDataProvider
      */
-    public function testGetPrimaryShippingAddressEditUrlNoAddress()
+    public function testGetPrimaryShippingAddressHtml($customerId, $expected)
     {
-        // set up
-        $this->_customerSession->setCustomerId(5);
-
-        // verify
-        $url = $this->_block->getPrimaryShippingAddressEditUrl();
-        $expected = 'http://localhost/index.php/customer/address/edit/';
-        $this->assertEquals($expected, $url);
+        if (!empty($customerId)) {
+            $this->_customerSession->setCustomerId($customerId);
+        }
+        $html = $this->_block->getPrimaryShippingAddressHtml();
+        $this->assertEquals($expected, $html);
     }
 
-    public function testGetPrimaryShippingAddressEditUrlMissingCustomer()
+    public function getPrimaryShippingAddressHtmlDataProvider()
     {
-        $url = $this->_block->getPrimaryShippingAddressEditUrl();
-        $this->assertEquals('', $url);
+        return [
+            '0' => [0, 'You have not set a default shipping address.'],
+            '1' => [1, "John Smith<br/>\n\nGreen str, 67<br />\n\n\n\nCityM,  Alabama, 75477<br/>\n<br/>\nT: 3468676\n\n"],
+            '5' => [5, 'You have not set a default shipping address.'],
+        ];
     }
 
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      * @magentoDataFixture Magento/Customer/_files/customer_two_addresses.php
+     * @magentoDataFixture Magento/Customer/_files/customer_no_address.php
+     * @dataProvider getPrimaryBillingAddressHtmlDataProvider
      */
-    public function testGetPrimaryBillingAddressEditUrl()
+    public function testGetPrimaryBillingingAddressHtml($customerId, $expected)
     {
-        $expected = 'http://localhost/index.php/customer/address/edit/id/1/';
-        $this->_customerSession->setCustomerId(1);
-        $url = $this->_block->getPrimaryBillingAddressEditUrl();
-        $this->assertEquals($expected, $url);
+        if (!empty($customerId)) {
+            $this->_customerSession->setCustomerId($customerId);
+        }
+        $html = $this->_block->getPrimaryBillingAddressHtml();
+        $this->assertEquals($expected, $html);
+    }
+
+    public function getPrimaryBillingAddressHtmlDataProvider()
+    {
+        return [
+            '0' => [0, 'You have not set a default billing address.'],
+            '1' => [1, "John Smith<br/>\n\nGreen str, 67<br />\n\n\n\nCityM,  Alabama, 75477<br/>\n<br/>\nT: 3468676\n\n"],
+            '5' => [5, 'You have not set a default billing address.'],
+        ];
     }
 
     /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     * @magentoDataFixture Magento/Customer/_files/customer_two_addresses.php
      * @magentoDataFixture Magento/Customer/_files/customer_no_address.php
+     * @dataProvider getPrimaryShippingAddressEditUrlDataProvider
      */
-    public function testGetPrimaryBillingAddressEditUrlNoAddress()
+    public function testGetPrimaryShippingAddressEditUrl($customerId, $expected)
     {
-        // set up
-        $this->_customerSession->setCustomerId(5);
-
-        // verify
-        $url = $this->_block->getPrimaryBillingAddressEditUrl();
-        $expected = 'http://localhost/index.php/customer/address/edit/';
+        if (!empty($customerId)) {
+            $this->_customerSession->setCustomerId($customerId);
+        }
+        $url = $this->_block->getPrimaryShippingAddressEditUrl();
         $this->assertEquals($expected, $url);
     }
 
-    public function testGetPrimaryBillingAddressEditUrlMissingCustomer()
+    public function getPrimaryShippingAddressEditUrlDataProvider()
     {
+        return [
+            '0' => [0, ''],
+            '1' => [1, 'http://localhost/index.php/customer/address/edit/id/1/'],
+            '5' => [5, 'http://localhost/index.php/customer/address/edit/'],
+        ];
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     * @magentoDataFixture Magento/Customer/_files/customer_two_addresses.php
+     * @magentoDataFixture Magento/Customer/_files/customer_no_address.php
+     * @dataProvider getPrimaryBillingAddressEditUrlDataProvider
+     */
+    public function testGetPrimaryBillingAddressEditUrl($customerId, $expected)
+    {
+        if (!empty($customerId)) {
+            $this->_customerSession->setCustomerId($customerId);
+        }
         $url = $this->_block->getPrimaryBillingAddressEditUrl();
-        $this->assertEquals('', $url);
+        $this->assertEquals($expected, $url);
+    }
+
+
+    public function getPrimaryBillingAddressEditUrlDataProvider()
+    {
+        return [
+            '0' => [0, ''],
+            '1' => [1, 'http://localhost/index.php/customer/address/edit/id/1/'],
+            '5' => [5, 'http://localhost/index.php/customer/address/edit/'],
+        ];
     }
 }

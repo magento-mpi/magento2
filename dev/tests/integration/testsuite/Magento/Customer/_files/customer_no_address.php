@@ -15,7 +15,7 @@ $customer
     ->setId(5)
     ->setEntityTypeId(1)
     ->setAttributeSetId(1)
-    ->setEmail('customer@example.com')
+    ->setEmail('customer5@example.com')
     ->setPassword('password')
     ->setGroupId(1)
     ->setStoreId(1)

@@ -81,13 +81,13 @@ class Address extends \Magento\View\Element\Template
     {
         try {
             $address = $this->_addressService->getDefaultShippingAddress($this->_customerSession->getCustomerId());
-
-            if ($address) {
-                return $this->_getAddressHtml($address);
-            } else {
-                return __('You have not set a default shipping address.');
-            }
         } catch (\Magento\Exception\NoSuchEntityException $e) {
+            return __('You have not set a default shipping address.');
+        }
+
+        if ($address) {
+            return $this->_getAddressHtml($address);
+        } else {
             return __('You have not set a default shipping address.');
         }
     }
