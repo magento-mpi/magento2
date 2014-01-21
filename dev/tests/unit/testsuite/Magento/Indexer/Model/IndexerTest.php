@@ -216,7 +216,6 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
             'indexer_id' => 'indexer_internal_name',
             'view_id' => 'view_test',
             'class' => 'Some\Class\Name',
-            'group' => 'some_group',
             'title' => 'Indexer public name',
             'description' => 'Indexer public description',
         );
