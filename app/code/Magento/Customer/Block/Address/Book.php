@@ -132,9 +132,12 @@ class Book extends \Magento\View\Element\Template
      */
     public function getAddressHtml($address)
     {
-        /** @var \Magento\Customer\Block\Address\Renderer\RendererInterface $renderer */
-        $renderer = $this->_addressConfig->getFormatByCode('html')->getRenderer();
-        return $renderer->render($address->getAttributes());
+        if (!is_null($address)) {
+            /** @var \Magento\Customer\Block\Address\Renderer\RendererInterface $renderer */
+            $renderer = $this->_addressConfig->getFormatByCode('html')->getRenderer();
+            return $renderer->render($address->getAttributes());
+        }
+        return '';
     }
 
     /**
@@ -169,11 +172,15 @@ class Book extends \Magento\View\Element\Template
 
     /**
      * @param int $addressId
-     * @return \Magento\Customer\Service\V1\Dto\Address
+     * @return \Magento\Customer\Service\V1\Dto\Address|null
      */
     public function getAddressById($addressId)
     {
-        return $this->_addressService->getAddressById($addressId);
+        try {
+            return $this->_addressService->getAddressById($addressId);
+        } catch (\Magento\Exception\NoSuchEntityException $e) {
+            return null;
+        }
     }
 
     /**
