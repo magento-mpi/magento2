@@ -45,9 +45,9 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
     protected $_addressService;
 
     /**
-     * @var \Magento\Customer\Model\Address\Config
+     * @var \Magento\Customer\Helper\Address
      */
-    protected $_addressConfig;
+    protected $_addressHelper;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
@@ -59,7 +59,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
      * @param \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory
      * @param \Magento\Customer\Helper\Data $customerHelper
      * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
-     * @param \Magento\Customer\Model\Address\Config $addressConfig
+     * @param \Magento\Customer\Helper\Address $addressHelper
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -74,7 +74,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
         \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory,
         \Magento\Customer\Helper\Data $customerHelper,
         \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
-        \Magento\Customer\Model\Address\Config $addressConfig,
+        \Magento\Customer\Helper\Address $addressHelper,
         array $data = array()
     ) {
         $this->_customerHelper = $customerHelper;
@@ -82,7 +82,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
         $this->_jsonEncoder = $jsonEncoder;
         $this->_customerFormFactory = $customerFormFactory;
         $this->_addressService = $addressService;
-        $this->_addressConfig = $addressConfig;
+        $this->_addressHelper = $addressHelper;
         parent::__construct($context, $sessionQuote, $orderCreate, $formFactory, $data);
     }
 
@@ -258,11 +258,11 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
      */
     public function getAddressAsString($addressData)
     {
-        if(!($formatType = $this->_addressConfig->getFormatByCode('oneline'))
-            || !$formatType->getRenderer()) {
-            $result = null;
+        $formatTypeRenderer = $this->_addressHelper->getFormatTypeRenderer('oneline');
+        $result = '';
+        if ($formatTypeRenderer) {
+            $result = $formatTypeRenderer->renderArray($addressData->__toArray());
         }
-        $result = $formatType->getRenderer()->renderArray($addressData->__toArray());
         return $this->escapeHtml($result);
     }
 }

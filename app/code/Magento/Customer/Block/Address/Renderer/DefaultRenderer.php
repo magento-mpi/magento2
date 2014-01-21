@@ -224,7 +224,7 @@ class DefaultRenderer
         $attributesMetadata = $this->_customerMetadataService->getAllAddressAttributeMetadata();
         $data = array();
         foreach ($attributesMetadata as $attributeMetadata) {
-            if (!$attributeMetadata->getIsVisible()) {
+            if (!$attributeMetadata->isVisible()) {
                 continue;
             }
             $attributeCode = $attributeMetadata->getAttributeCode();
