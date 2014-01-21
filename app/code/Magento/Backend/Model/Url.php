@@ -157,7 +157,7 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
      *
      * @return bool
      */
-    public function _isSecure()
+    protected function _isSecure()
     {
         if ($this->hasData('secure_is_forced')) {
             return $this->getData('secure');
@@ -172,7 +172,7 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
      * @param bool $unsetOldParams
      * @return \Magento\Backend\Model\UrlInterface
      */
-    public function _setRouteParams(array $data, $unsetOldParams = true)
+    protected function _setRouteParams(array $data, $unsetOldParams = true)
     {
         if (isset($data['_nosecret'])) {
             $this->setNoSecret(true);
@@ -393,7 +393,7 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
      *
      * @return string
      */
-    public function _getActionPath()
+    protected function _getActionPath()
     {
         $path = parent::_getActionPath();
         if ($path) {
@@ -409,7 +409,7 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
      *
      * @return \Magento\Core\Model\Store
      */
-    public function _getScope()
+    protected function _getScope()
     {
         return $this->_storeFactory->create(array('url' => $this, 'data' => array(
             'code' => 'admin',
