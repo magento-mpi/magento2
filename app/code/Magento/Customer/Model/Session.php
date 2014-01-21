@@ -221,6 +221,7 @@ class Session extends \Magento\Session\SessionManager
      * Retrieve customer model object
      *
      * @return Customer
+     * @deprecated use getCustomerId() instead
      */
     public function getCustomer()
     {

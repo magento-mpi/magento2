@@ -38,7 +38,7 @@ abstract class AbstractDto
     /**
      * Return DTO data in array format.
      *
-     * @return \ArrayAccess
+     * @return array
      */
     public function __toArray()
     {

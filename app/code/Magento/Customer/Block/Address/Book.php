@@ -60,7 +60,6 @@ class Book extends \Magento\View\Element\Template
         $this->_addressService = $addressService;
         $this->_addressConfig = $addressConfig;
         parent::__construct($context, $data);
-        $this->addressService = $addressService;
     }
 
     protected function _prepareLayout()
@@ -89,30 +88,40 @@ class Book extends \Magento\View\Element\Template
         return $this->getUrl('customer/address/delete');
     }
 
+    /**
+     * @param \Magento\Customer\Service\V1\Dto\Address $address
+     * @return string
+     */
     public function getAddressEditUrl($address)
     {
         return $this->getUrl('customer/address/edit', array('_secure'=>true, 'id' => $address->getId()));
     }
 
-    public function getPrimaryBillingAddress()
-    {
-        return $this->getCustomer()->getPrimaryBillingAddress();
-    }
-
-    public function getPrimaryShippingAddress()
-    {
-        return $this->getCustomer()->getPrimaryShippingAddress();
-    }
-
+    /**
+     * @return bool
+     */
     public function hasPrimaryAddress()
     {
-        return $this->getPrimaryBillingAddress() || $this->getPrimaryShippingAddress();
+        return $this->getDefaultBilling() || $this->getDefaultShipping();
     }
 
+    /**
+     * @return \Magento\Customer\Service\V1\Dto\Address|bool
+     */
     public function getAdditionalAddresses()
     {
-        $addresses = $this->getCustomer()->getAdditionalAddresses();
-        return empty($addresses) ? false : $addresses;
+        try {
+            $addresses = $this->_addressService->getAddresses($this->_customerSession->getCustomerId());
+        } catch (\Magento\Exception\NoSuchEntityException $e) {
+            return false;
+        }
+        $primaryAddressIds = [$this->getDefaultBilling(), $this->getDefaultShipping()];
+        foreach ($addresses as $address) {
+            if (!in_array($address->getId(), $primaryAddressIds)) {
+                $additional[] = $address;
+            }
+        }
+        return empty($additional) ? false : $additional;
     }
 
     /**
@@ -128,11 +137,18 @@ class Book extends \Magento\View\Element\Template
         return $renderer->render($address->getAttributes());
     }
 
+    /**
+     * @return \Magento\Customer\Service\V1\Dto\Customer|null
+     */
     public function getCustomer()
     {
         $customer = $this->getData('customer');
         if (is_null($customer)) {
-            $customer = $this->_customerSession->getCustomer();
+            try {
+                $customer = $this->_customerService->getCustomer($this->_customerSession->getCustomerId());
+            } catch (\Magento\Exception\NoSuchEntityException $e) {
+                return null;
+            }
             $this->setData('customer', $customer);
         }
         return $customer;
@@ -143,8 +159,12 @@ class Book extends \Magento\View\Element\Template
      */
     public function getDefaultBilling()
     {
-        $customer = $this->_customerService->getCustomer($this->_customerSession->getId());
-        return $customer->getDefaultBilling();
+        $customer = $this->getCustomer();
+        if (is_null($customer)) {
+            return null;
+        } else {
+            return $customer->getDefaultBilling();
+        }
     }
 
     /**
@@ -153,8 +173,7 @@ class Book extends \Magento\View\Element\Template
      */
     public function getAddressById($addressId)
     {
-        $customerId = $this->_customerSession->getCustomerId();
-        return $this->_addressService->getAddressById($customerId, $addressId);
+        return $this->_addressService->getAddressById($addressId);
     }
 
     /**
@@ -162,7 +181,11 @@ class Book extends \Magento\View\Element\Template
      */
     public function getDefaultShipping()
     {
-        $customer = $this->_customerService->getCustomer($this->_customerSession->getId());
-        return $customer->getDefaultShipping();
+        $customer = $this->getCustomer();
+        if (is_null($customer)) {
+            return null;
+        } else {
+            return $customer->getDefaultShipping();
+        }
     }
 }

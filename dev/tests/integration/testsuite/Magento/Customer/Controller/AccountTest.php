@@ -55,24 +55,6 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      */
-    public function testLoginPostAction()
-    {
-        $this->getRequest()
-            ->setServer(['REQUEST_METHOD' => 'POST'])
-            ->setPost([
-                'form_key' => $this->_objectManager->get('Magento\Data\Form\FormKey')->getFormKey(),
-                'login[]' => [
-                    'username' => 'customer@example.com',
-                    'password' => 'password'
-                ]
-            ]);
-        $this->dispatch('customer/account/loginPost');
-        $this->assertRedirect();
-    }
-
-    /**
-     * @magentoDataFixture Magento/Customer/_files/customer.php
-     */
     public function testLogoutAction()
     {
         $this->_login();
@@ -104,7 +86,31 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      */
-    public function testConfirmAlreadyActiveAction()
+    public function testCreatepasswordActionInvalidToken()
+    {
+        /** @var \Magento\Customer\Model\Customer $customer */
+        $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Customer')->load(1);
+
+        $token = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Customer\Helper\Data')
+            ->generateResetPasswordLinkToken();
+        $customer->changeResetPasswordLinkToken($token);
+
+        $this->getRequest()->setParam('token', 'INVALIDTOKEN');
+        $this->getRequest()->setParam('id', $customer->getId());
+
+        $this->dispatch('customer/account/createpassword');
+
+        // should be redirected to forgotpassword page
+        $response = $this->getResponse();
+        $this->assertEquals(302, $response->getHttpResponseCode());
+        $this->assertContains('customer/account/forgotpassword', $response->getHeader('Location')['value']);
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     */
+    public function testConfirmActionAlreadyActive()
     {
         /** @var \Magento\Customer\Model\Customer $customer */
         $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
@@ -142,9 +148,52 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
             ->setParam('default_shipping', '1')
             ->setParam('is_subscribed', '1')
             ->setPost('create_address', true);
+
         $this->dispatch('customer/account/createPost');
         $this->assertRedirect($this->stringContains('customer/account/index/'));
+        $this->assertSessionMessages(
+            $this->equalTo(['Thank you for registering with Main Website Store.']),
+            \Magento\Message\MessageInterface::TYPE_SUCCESS
+        );
     }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     */
+    public function testExistingEmailCreatePostAction()
+    {
+        // Setting data for request
+        $this->getRequest()
+            ->setServer(array('REQUEST_METHOD' => 'POST'))
+            ->setParam('firstname', 'firstname')
+            ->setParam('lastname', 'lastname')
+            ->setParam('company', '')
+            ->setParam('email', 'customer@example.com')
+            ->setParam('password', 'password')
+            ->setParam('confirmation', 'password')
+            ->setParam('telephone', '5123334444')
+            ->setParam('street', array('1234 fake street', ''))
+            ->setParam('city', 'Austin')
+            ->setParam('region_id', 57)
+            ->setParam('region', '')
+            ->setParam('postcode', '78701')
+            ->setParam('country_id', 'US')
+            ->setParam('default_billing', '1')
+            ->setParam('default_shipping', '1')
+            ->setParam('is_subscribed', '1')
+            ->setPost('create_address', true);
+
+        $this->dispatch('customer/account/createPost');
+        $this->assertRedirect($this->stringContains('customer/account/create/'));
+        $this->assertSessionMessages(
+            $this->equalTo(['There is already an account with this email address. ' .
+                'If you are sure that it is your email address, ' .
+                '<a href="http://localhost/index.php/customer/account/forgotpassword/">click here</a>' .
+                ' to get your password and access your account.']),
+            \Magento\Message\MessageInterface::TYPE_ERROR
+        );
+
+}
 
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
@@ -260,7 +309,7 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->dispatch('customer/account/resetPasswordPost');
         $this->assertRedirect($this->stringContains('customer/account/'));
         $this->assertSessionMessages(
-            $this->equalTo(['Your password reset link has expired.']),
+            $this->equalTo(['There was an error saving the new password.']),
             \Magento\Message\MessageInterface::TYPE_ERROR
         );
     }

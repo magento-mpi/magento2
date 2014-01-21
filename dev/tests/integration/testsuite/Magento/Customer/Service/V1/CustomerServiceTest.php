@@ -1,16 +1,18 @@
 <?php
-
-namespace Magento\Customer\Service\V1;
-use Magento\Customer\Service\Entity\V1\Exception;
-use Magento\Customer\Service\V1;
-
 /**
- * Integration test for service layer \Magento\Customer\Service\V1\CustomerService
- *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
+ */
+namespace Magento\Customer\Service\V1;
+
+use Magento\Customer\Service\V1;
+use Magento\Exception\InputException;
+use Magento\Exception\NoSuchEntityException;
+
+/**
+ * Integration test for service layer \Magento\Customer\Service\V1\CustomerService
  *
  * @SuppressWarnings(PHPMD.TooManyMethods)
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
@@ -88,7 +90,7 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @param mixed $custId
      * @dataProvider invalidCustomerIdsDataProvider
-     * @expectedException Exception
+     * @expectedException \Magento\Exception\NoSuchEntityException
      * @expectedExceptionMessage customerId
      */
     public function testInvalidCustomerIds($custId)
@@ -136,14 +138,19 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Lastname', $customer->getLastname());
     }
 
-    /**
-     * @expectedException Exception
-     * @expectedExceptionMessage No customer with customerId 1 exists.
-     */
     public function testGetCustomerNotExist()
     {
-        // No fixture, so customer with id 1 shouldn't exist, exception should be thrown
-        $this->_service->getCustomer(1);
+        try {
+            // No fixture, so customer with id 1 shouldn't exist, exception should be thrown
+            $this->_service->getCustomer(1);
+            $this->fail('Did not throw expected exception.');
+        } catch (NoSuchEntityException $nsee) {
+            $expectedParams = [
+                'customerId' => '1',
+            ];
+            $this->assertEquals($expectedParams, $nsee->getParams());
+            $this->assertEquals('No such entity with customerId = 1', $nsee->getMessage());
+        }
     }
 
     /**
@@ -337,8 +344,6 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoDbIsolation enabled
-     * @expectedException \Magento\Validator\ValidatorException
-     * @expectedExceptionMessage Please correct this email address
      */
     public function testSaveCustomerException()
     {
@@ -351,10 +356,26 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
 
         try {
             $this->_service->saveCustomer($customerEntity);
-        } catch (Exception $e) {
-            $this->assertEquals('There were one or more errors validating the customer object.', $e->getMessage());
-            $this->assertEquals(Exception::CODE_VALIDATION_FAILED, $e->getCode());
-            throw $e->getPrevious();
+            $this->fail('Expected exception not thrown');
+        } catch (InputException $ie) {
+            $expectedParams = [
+                [
+                    'fieldName' => 'firstname',
+                    'value' => '',
+                    'code' => InputException::REQUIRED_FIELD,
+                ],
+                [
+                    'fieldName' => 'lastname',
+                    'value' => '',
+                    'code' => InputException::REQUIRED_FIELD,
+                ],
+                [
+                    'fieldName' => 'email',
+                    'value' => '',
+                    'code' => InputException::INVALID_FIELD_VALUE,
+                ],
+            ];
+            $this->assertEquals($expectedParams, $ie->getParams());
         }
     }
 
@@ -576,5 +597,34 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
         $customer = $this->_service->getCustomer(1);
         $this->assertEquals('Firstname', $customer->getFirstname());
         $this->assertNull($customer->getAttribute('rp_token'));
+    }
+
+    /**
+     * @magentoDbIsolation enabled
+     */
+    public function testSaveCustomerNewThenUpdateFirstName()
+    {
+        $email = 'first_last@example.com';
+        $storeId = 1;
+        $firstname = 'Tester';
+        $lastname = 'McTest';
+        $groupId = 1;
+
+        $this->_customerBuilder->setStoreId($storeId)
+            ->setEmail($email)
+            ->setFirstname($firstname)
+            ->setLastname($lastname)
+            ->setGroupId($groupId);
+        $newCustomerEntity = $this->_customerBuilder->create();
+        $customerId = $this->_service->saveCustomer($newCustomerEntity, 'aPassword');
+
+        $this->_customerBuilder->populate($this->_service->getCustomer($customerId));
+        $this->_customerBuilder->setFirstname('Tested');
+        $this->_service->saveCustomer($this->_customerBuilder->create());
+
+        $customer = $this->_service->getCustomer($customerId);
+
+        $this->assertEquals('Tested', $customer->getFirstname());
+        $this->assertEquals($lastname, $customer->getLastname());
     }
 }

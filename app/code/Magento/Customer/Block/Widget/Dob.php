@@ -33,12 +33,12 @@ class Dob extends \Magento\Customer\Block\Widget\AbstractWidget
 
     public function isEnabled()
     {
-        return (bool)$this->_getAttribute('dob')->getIsVisible();
+        return (bool)$this->_getAttribute('dob')->isVisible();
     }
 
     public function isRequired()
     {
-        return (bool)$this->_getAttribute('dob')->getIsRequired();
+        return (bool)$this->_getAttribute('dob')->isRequired();
     }
 
     public function setDate($date)

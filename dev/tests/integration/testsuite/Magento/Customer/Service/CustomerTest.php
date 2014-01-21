@@ -14,7 +14,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\Customer\Service\Customer
      */
-    protected $_model;
+    protected $_service;
 
     /**
      * @var \Magento\ObjectManager
@@ -35,7 +35,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     {
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_customerFactory = $this->_objectManager->get('Magento\Customer\Model\CustomerFactory');
-        $this->_model = $this->_objectManager->create('Magento\Customer\Service\Customer');
+        $this->_service = $this->_objectManager->create('Magento\Customer\Service\Customer');
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')->setAreaCode('frontend');
     }
 
@@ -53,7 +53,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             ->get('Magento\Core\Model\StoreManagerInterface')
             ->setCurrentStore($previousStoreId);
 
-        $this->_model = null;
+        $this->_service = null;
     }
 
     /**
@@ -63,7 +63,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreate($customerData)
     {
-        $this->_createdCustomer = $this->_model->create($customerData);
+        $this->_createdCustomer = $this->_service->create($customerData);
         $this->assertInstanceOf('Magento\Customer\Model\Customer', $this->_createdCustomer);
         $this->assertNotEmpty($this->_createdCustomer->getId());
 
@@ -116,6 +116,34 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param array $customerData
+     * @dataProvider createDataProvider
+     * @magentoAppArea adminhtml
+     */
+    public function testCreateUpdate($customerData)
+    {
+        $this->_createdCustomer = $this->_service->create($customerData);
+        /** @var \Magento\Customer\Model\Customer $customer */
+        $customer = $this->_customerFactory->create()->load($this->_createdCustomer->getId());
+        // This can trigger data loss if attribute id isn't set properly
+        $customer->getAttributes();
+        $this->_service->update($this->_createdCustomer->getId(), ['firstname' => 'new_name']);
+
+        $customer = $this->_customerFactory->create()->load($this->_createdCustomer->getId());
+        if (array_key_exists('sendemail', $customerData)) {
+            unset($customerData['sendemail']);
+        }
+        $expectedData = $customerData;
+        $expectedData['firstname'] = 'new_name';
+        $actualData = $customer->toArray(array_keys($customerData));
+        if (isset($expectedData['password'])) {
+            // TODO Add assertions for password if needed
+            unset($expectedData['password'], $actualData['password']);
+        }
+        $this->assertEquals($expectedData, $actualData);
+    }
+
+    /**
+     * @param array $customerData
      * @param string $exceptionName
      * @param string $exceptionText
      * @dataProvider createExceptionsDataProvider
@@ -123,7 +151,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     public function testCreateExceptions($customerData, $exceptionName, $exceptionText = '')
     {
         $this->setExpectedException($exceptionName, $exceptionText);
-        $this->_createdCustomer = $this->_model->create($customerData);
+        $this->_createdCustomer = $this->_service->create($customerData);
     }
 
     /**
@@ -183,7 +211,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             'email' => 'test' . mt_rand(1000, 9999) . '@mail.com',
         );
 
-        $this->_createdCustomer = $this->_model->create($customerData, $addressesData);
+        $this->_createdCustomer = $this->_service->create($customerData, $addressesData);
         $this->assertCount(count($addressesData), $this->_createdCustomer->getAddresses());
 
         /** @var \Magento\Customer\Model\Customer $loadedCustomer */
@@ -292,7 +320,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             'telephone' => '3468676',
         );
 
-        $this->_createdCustomer = $this->_model->create($customerData, array($addressData));
+        $this->_createdCustomer = $this->_service->create($customerData, array($addressData));
     }
 
     /**
@@ -308,7 +336,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $expected = $this->_customerFactory->create()
             ->load(1);
 
-        $updatedCustomer = $this->_model->update($expected->getId(), $customerData);
+        $updatedCustomer = $this->_service->update($expected->getId(), $customerData);
 
         $this->assertInstanceOf('Magento\Customer\Model\Customer', $updatedCustomer);
         $this->assertFalse($updatedCustomer->isObjectNew());
@@ -360,7 +388,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         // customer fixture was using attribute set 0 instead of 1
         $customer->getAttributes();
 
-        $updatedCustomer = $this->_model->update(1, ['firstname' => 'new_name']);
+        $updatedCustomer = $this->_service->update(1, ['firstname' => 'new_name']);
 
         $customer = $this->_customerFactory->create()->load(1);
 
@@ -380,7 +408,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
             ->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
         $this->setExpectedException($exceptionName, $exceptionMessage);
-        $this->_model->update(1, $customerData);
+        $this->_service->update(1, $customerData);
     }
 
     /**
@@ -416,7 +444,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdateInvalidCustomerId()
     {
-        $this->_model->update(1, array('firstname' => 'Foo'));
+        $this->_service->update(1, array('firstname' => 'Foo'));
     }
 
     /**
@@ -428,7 +456,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $oldPasswordHash = $this->_customerFactory->create()
             ->load(1)
             ->getPasswordHash();
-        $updatedCustomer = $this->_model->update(
+        $updatedCustomer = $this->_service->update(
             1,
             array('autogenerate_password' => true,)
         );
@@ -447,7 +475,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $customer = $this->_customerFactory->create()
             ->load(1);
         $this->assertCount(2, $customer->getAddresses(), 'Not all customer addresses were created.');
-        $updatedCustomer = $this->_model->update(1, array(), $addressesData);
+        $updatedCustomer = $this->_service->update(1, array(), $addressesData);
         $this->assertCount(
             count($addressesData),
             $updatedCustomer->getAddresses(),
@@ -559,9 +587,9 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             \PHPUnit_Framework_Assert::assertEquals($addressData, $actualAddresses);
         };
 
-        $this->_model->setBeforeSaveCallback($callback);
-        $this->_model->setAfterSaveCallback($callback);
-        $this->_model->update(1, $customerData, $addressData);
+        $this->_service->setBeforeSaveCallback($callback);
+        $this->_service->setAfterSaveCallback($callback);
+        $this->_service->update(1, $customerData, $addressData);
         $this->assertEquals(2, $callbackCount, 'Not all expected callbacks were called.');
     }
 
@@ -572,14 +600,14 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCustomerSetForceConfirmed($isAdminStore, $isConfirmed)
     {
-        $this->_model->setIsAdminStore($isAdminStore);
+        $this->_service->setIsAdminStore($isAdminStore);
         $customerData = array(
             'firstname' => 'ServiceTest',
             'lastname' => 'ForceConfirmed',
             'email' => 'test' . mt_rand(1000, 9999) . '@mail.com',
             'password' => '123123q'
         );
-        $this->_createdCustomer = $this->_model->create($customerData);
+        $this->_createdCustomer = $this->_service->create($customerData);
         $this->assertEquals($isConfirmed, $this->_createdCustomer->getForceConfirmed());
     }
 

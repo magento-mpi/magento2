@@ -4,8 +4,6 @@
  *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Eav
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -67,10 +65,7 @@ class File extends AbstractData
     }
 
     /**
-     * Extract data from request and return value
-     *
-     * @param \Magento\App\RequestInterface $request
-     * @return array|string
+     * {@inheritdoc}
      */
     public function extractValue(\Magento\App\RequestInterface $request)
     {
@@ -172,11 +167,7 @@ class File extends AbstractData
     }
 
     /**
-     * Validate data
-     *
-     * @param array|string $value
-     * @throws \Magento\Core\Exception
-     * @return boolean
+     * {@inheritdoc}
      */
     public function validateValue($value)
     {
@@ -195,11 +186,11 @@ class File extends AbstractData
             return true;
         }
 
-        if (!$attribute->getIsRequired() && !$toUpload) {
+        if (!$attribute->isRequired() && !$toUpload) {
             return true;
         }
 
-        if ($attribute->getIsRequired() && !$toUpload) {
+        if ($attribute->isRequired() && !$toUpload) {
             $errors[] = __('"%1" is a required value.', $label);
         }
 
@@ -215,11 +206,7 @@ class File extends AbstractData
     }
 
     /**
-     * Export attribute value to entity model
-     *
-     * @param \Magento\Core\Model\AbstractModel $entity
-     * @param array|string $value
-     * @return string
+     * {@inheritdoc}
      */
     public function compactValue($value)
     {
@@ -231,7 +218,7 @@ class File extends AbstractData
         $original  = $this->_value;
         $toDelete  = false;
         if ($original) {
-            if (!$attribute->getIsRequired() && !empty($value['delete'])) {
+            if (!$attribute->isRequired() && !empty($value['delete'])) {
                 $toDelete  = true;
             }
             if (!empty($value['tmp_name'])) {
@@ -270,27 +257,22 @@ class File extends AbstractData
     }
 
     /**
-     * Restore attribute value from SESSION to entity model
-     *
-     * @param array|string $value
-     * @return \Magento\Customer\Model\Metadata\Form\File
+     * {@inheritdoc}
      */
     public function restoreValue($value)
     {
-        return $this;
+        return $this->_value;
     }
 
     /**
-     * Return formated attribute value from entity model
-     *
-     * @return string|array
+     * {@inheritdoc}
      */
-    public function outputValue($format = \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_TEXT)
+    public function outputValue($format = \Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_TEXT)
     {
         $output = '';
         if ($this->_value) {
             switch ($format) {
-                case \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_JSON:
+                case \Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_JSON:
                     $output = array(
                         'value'     => $this->_value,
                         'url_key'   => $this->_coreData->urlEncode($this->_value)

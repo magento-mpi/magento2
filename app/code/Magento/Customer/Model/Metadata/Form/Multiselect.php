@@ -15,10 +15,7 @@ namespace Magento\Customer\Model\Metadata\Form;
 class Multiselect extends Select
 {
     /**
-     * Extract data from request and return value
-     *
-     * @param \Magento\App\RequestInterface $request
-     * @return array|string
+     * {@inheritdoc}
      */
     public function extractValue(\Magento\App\RequestInterface $request)
     {
@@ -30,10 +27,7 @@ class Multiselect extends Select
     }
 
     /**
-     * Export attribute value to entity model
-     *
-     * @param array|string $value
-     * @return \Magento\Customer\Model\Metadata\Form\Multiselect
+     * {@inheritdoc}
      */
     public function compactValue($value)
     {
@@ -44,12 +38,9 @@ class Multiselect extends Select
     }
 
     /**
-     * Return formated attribute value from entity model
-     *
-     * @param string $format
-     * @return array|string
+     * {@inheritdoc}
      */
-    public function outputValue($format = \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_TEXT)
+    public function outputValue($format = \Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_TEXT)
     {
         $values = $this->_value;
         if (!is_array($values)) {
@@ -57,9 +48,10 @@ class Multiselect extends Select
         }
 
         switch ($format) {
-            case \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_JSON:
-            case \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_ARRAY:
+            case \Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_JSON:
+            case \Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_ARRAY:
                 $output = $values;
+                break;
             default:
                 $output = array();
                 foreach ($values as $value) {
