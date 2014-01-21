@@ -32,10 +32,18 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         );
         /** @var \Magento\View\LayoutInterface $layout */
         $layout = $this->_objectManager->get('Magento\View\LayoutInterface');
+        $sessionQuoteMock = $this->getMockBuilder('Magento\Backend\Model\Session\Quote')
+            ->disableOriginalConstructor()
+            ->setMethods(['getCustomerId', 'getStore', 'getStoreId', 'getQuote'])
+            ->getMock();
+        $sessionQuoteMock->expects($this->any())
+            ->method('getCustomerId')
+            ->will($this->returnValue(1));
+
         $this->_addressBlock = $layout->createBlock(
             'Magento\Sales\Block\Adminhtml\Order\Create\Form\Address',
             'address_block' . rand(),
-            array('addressService' => $this->_addressService)
+            array('addressService' => $this->_addressService, 'sessionQuote' => $sessionQuoteMock)
         );
         parent::setUp();
     }

@@ -39,13 +39,15 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
      */
     protected $_customerHelper;
 
-    /** @var \Magento\Customer\Service\V1\CustomerAddressServiceInterface */
+    /**
+     * @var \Magento\Customer\Service\V1\CustomerAddressServiceInterface
+     */
     protected $_addressService;
 
     /**
-     * @var \Magento\Customer\Model\AddressFactory
+     * @var \Magento\Customer\Model\Address\Config
      */
-    protected $_addressFactory;
+    protected $_addressConfig;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
@@ -57,7 +59,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
      * @param \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory
      * @param \Magento\Customer\Helper\Data $customerHelper
      * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
-     * @param \Magento\Customer\Model\AddressFactory $addressFactory
+     * @param \Magento\Customer\Model\Address\Config $addressConfig
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -72,7 +74,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
         \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory,
         \Magento\Customer\Helper\Data $customerHelper,
         \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
-        \Magento\Customer\Model\AddressFactory $addressFactory,
+        \Magento\Customer\Model\Address\Config $addressConfig,
         array $data = array()
     ) {
         $this->_customerHelper = $customerHelper;
@@ -80,7 +82,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
         $this->_jsonEncoder = $jsonEncoder;
         $this->_customerFormFactory = $customerFormFactory;
         $this->_addressService = $addressService;
-        $this->_addressFactory = $addressFactory;
+        $this->_addressConfig = $addressConfig;
         parent::__construct($context, $sessionQuote, $orderCreate, $formFactory, $data);
     }
 
@@ -251,16 +253,16 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
     /**
      * Represent customer address in 'online' format.
      *
-     * @param \Magento\Customer\Service\V1\Dto\Address $addressDto
+     * @param \Magento\Customer\Service\V1\Dto\Address $addressData
      * @return string
      */
-    public function getAddressAsString($addressDto)
+    public function getAddressAsString($addressData)
     {
-        /** TODO: Eliminate address model and address factory usage */
-        /* @var $address \Magento\Customer\Model\Address */
-        $address = $this->_addressFactory->create();
-        $address->load($addressDto->getId());
-
-        return $this->escapeHtml($address->format('oneline'));
+        if(!($formatType = $this->_addressConfig->getFormatByCode('oneline'))
+            || !$formatType->getRenderer()) {
+            $result = null;
+        }
+        $result = $formatType->getRenderer()->renderArray($addressData->__toArray());
+        return $this->escapeHtml($result);
     }
 }
