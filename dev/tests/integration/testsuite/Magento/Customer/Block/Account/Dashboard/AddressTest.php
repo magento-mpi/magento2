@@ -75,7 +75,10 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     {
         return [
             '0' => [0, 'You have not set a default shipping address.'],
-            '1' => [1, "John Smith<br/>\n\nGreen str, 67<br />\n\n\n\nCityM,  Alabama, 75477<br/>\n<br/>\nT: 3468676\n\n"],
+            '1' => [
+                1,
+                "John Smith<br/>\n\nGreen str, 67<br />\n\n\n\nCityM,  Alabama, 75477<br/>\n<br/>\nT: 3468676\n\n"
+            ],
             '5' => [5, 'You have not set a default shipping address.'],
         ];
     }
@@ -99,7 +102,10 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     {
         return [
             '0' => [0, 'You have not set a default billing address.'],
-            '1' => [1, "John Smith<br/>\n\nGreen str, 67<br />\n\n\n\nCityM,  Alabama, 75477<br/>\n<br/>\nT: 3468676\n\n"],
+            '1' => [
+                1,
+                "John Smith<br/>\n\nGreen str, 67<br />\n\n\n\nCityM,  Alabama, 75477<br/>\n<br/>\nT: 3468676\n\n"
+            ],
             '5' => [5, 'You have not set a default billing address.'],
         ];
     }
