@@ -56,6 +56,7 @@ return array(
         . '<view id="view_one" class="Ogogo\Class\One" group="some_view_group"><subscriptions>'
         . '<table name="some_entity" entity_column="entity_id" />'
         . '<table name="some_entity" entity_column="entity_id" /></subscriptions></view></config>',
-        array("Element 'table': Duplicate key-sequence ['some_entity', 'entity_id'] in unique identity-constraint 'uniqueSubscriptionsTable'."),
+        array("Element 'table': Duplicate key-sequence ['some_entity', 'entity_id'] in unique identity-constraint"
+        . "'uniqueSubscriptionsTable'."),
     ),
 );
