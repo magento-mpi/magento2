@@ -11,6 +11,8 @@
 
 namespace Magento\Shipping\Model;
 
+use Magento\Sales\Model\Order\Shipment;
+
 class Shipping
 {
     /**
@@ -163,10 +165,18 @@ class Shipping
         $storeId = $request->getStoreId();
         if (!$request->getOrig()) {
             $request
-                ->setCountryId($this->_coreStoreConfig->getConfig(self::XML_PATH_STORE_COUNTRY_ID, $request->getStore()))
-                ->setRegionId($this->_coreStoreConfig->getConfig(self::XML_PATH_STORE_REGION_ID, $request->getStore()))
-                ->setCity($this->_coreStoreConfig->getConfig(self::XML_PATH_STORE_CITY, $request->getStore()))
-                ->setPostcode($this->_coreStoreConfig->getConfig(self::XML_PATH_STORE_ZIP, $request->getStore()));
+                ->setCountryId(
+                    $this->_coreStoreConfig->getConfig(Shipment::XML_PATH_STORE_COUNTRY_ID, $request->getStore())
+                )
+                ->setRegionId(
+                    $this->_coreStoreConfig->getConfig(Shipment::XML_PATH_STORE_REGION_ID, $request->getStore())
+                )
+                ->setCity(
+                    $this->_coreStoreConfig->getConfig(Shipment::XML_PATH_STORE_CITY, $request->getStore())
+                )
+                ->setPostcode(
+                    $this->_coreStoreConfig->getConfig(Shipment::XML_PATH_STORE_ZIP, $request->getStore())
+                );
         }
 
         $limitCarrier = $request->getLimitCarrier();
@@ -195,7 +205,7 @@ class Shipping
     /**
      * Collect rates of given carrier
      *
-     * @param string                           $carrierCode
+     * @param string $carrierCode
      * @param \Magento\Sales\Model\Quote\Address\RateRequest $request
      * @return \Magento\Shipping\Model\Shipping
      */
@@ -215,7 +225,7 @@ class Shipping
         * Result will be false if the admin set not to show the shipping module
         * if the delivery country is not within specific countries
         */
-        if (false !== $result){
+        if (false !== $result) {
             if (!$result instanceof \Magento\Sales\Model\Quote\Address\RateResult\Error) {
                 if ($carrier->getConfigData('shipment_requesttype')) {
                     $packages = $this->composePackagesForCarrier($carrier, $request);
