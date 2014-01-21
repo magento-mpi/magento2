@@ -11,6 +11,17 @@ namespace Magento\Customer\Controller;
 
 class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
 {
+	/**
+	 * Login the user
+	 */
+	protected function _login()
+	{
+        $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
+        $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Session', array($logger));
+        $session->login('customer@example.com', 'password');
+	}
+
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      * @magentoDataFixture Magento/Customer/_files/customer_address.php
@@ -25,7 +36,7 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
 
         $body = $this->getResponse()->getBody();
         $this->assertContains('<div class="block dashboard welcome">', $body);
-        $this->assertContains('Firstname Lastname!', $body);
+        $this->assertContains('Hello, Firstname Lastname!', $body);
         $this->assertContains('Green str, 67', $body);
     }
 
@@ -57,6 +68,16 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
             ]);
         $this->dispatch('customer/account/loginPost');
         $this->assertRedirect();
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     */
+    public function testLogoutAction()
+    {
+        $this->_login();
+        $this->dispatch('customer/account/logout');
+        $this->assertRedirect($this->stringContains('customer/account/logoutSuccess'));
     }
 
     /**
@@ -103,7 +124,7 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
     {
         // Setting data for request
         $this->getRequest()
-            ->setServer(array('REQUEST_METHOD'=>'POST'))
+            ->setServer(array('REQUEST_METHOD' => 'POST'))
             ->setParam('firstname', 'firstname')
             ->setParam('lastname', 'lastname')
             ->setParam('company', '')
@@ -123,11 +144,6 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
             ->setPost('create_address', true);
         $this->dispatch('customer/account/createPost');
         $this->assertRedirect($this->stringContains('customer/account/index/'));
-
-        $this->dispatch('customer/account/index');
-        $body = $this->getResponse()->getBody();
-        $this->assertContains('firstname lastname!', $body);
-        $this->assertContains('1234 fake street', $body);
     }
 
     /**
@@ -167,9 +183,7 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
     {
         $this->getRequest()
             ->setServer(['REQUEST_METHOD' => 'POST'])
-            ->setPost([
-                'email' => 'customer@needAconfirmation.com'
-        ]);
+            ->setPost(['email' => 'customer@needAconfirmation.com']);
 
         $this->dispatch('customer/account/confirmation');
         $this->assertRedirect($this->stringContains('customer/account/index'));
@@ -253,7 +267,7 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
 
     /**
      * @magentoDataFixture Magento/Customer/_files/customer_rp_token.php
-     * @magentoConfigFixture  customer/password/reset_link_expiration_period 10
+     * @magentoConfigFixture customer/password/reset_link_expiration_period 10
      */
     public function testResetPasswordPostAction()
     {
