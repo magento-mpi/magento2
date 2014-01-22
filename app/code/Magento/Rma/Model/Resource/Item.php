@@ -27,17 +27,6 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
      */
     protected $_attributes   = array();
 
-    /**
-     * Array of aviable items types for rma
-     *
-     * @var array
-     */
-    protected $_aviableProductTypes = array(
-        \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE,
-        \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE,
-        \Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE,
-        \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE
-    );
 
     /**
      * @var \Magento\Rma\Helper\Data
@@ -55,6 +44,11 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
     protected $_productFactory;
 
     /**
+     * @var \Magento\Rma\Model\ProductTypes
+     */
+    protected $productTypes;
+
+    /**
      * @param \Magento\App\Resource $resource
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity
@@ -64,7 +58,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $ordersFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Logger
+     * @param \Magento\Rma\Model\ProductTypes $productTypes
      * @param array $data
      */
     public function __construct(
@@ -77,11 +71,13 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $ordersFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Rma\Model\ProductTypes $productTypes,
         $data = array()
     ) {
         $this->_rmaData = $rmaData;
         $this->_ordersFactory = $ordersFactory;
         $this->_productFactory = $productFactory;
+        $this->productTypes = $productTypes;
         parent::__construct($resource, $eavConfig, $attrSetEntity, $locale, $resourceHelper, $universalFactory, $data);
     }
 
@@ -249,7 +245,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
                 array('qty_shipped', 'qty_returned')
             )
             ->addFieldToFilter('order_id', $orderId)
-            ->addFieldToFilter('product_type', array("in" => $this->_aviableProductTypes))
+            ->addFieldToFilter('product_type', array("in" => $this->productTypes->getRefundableTypes()))
             ->addFieldToFilter($expression, array("gt" => 0));
     }
 
