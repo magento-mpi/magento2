@@ -115,7 +115,7 @@ class AbstractCreditmemo extends \Magento\Backend\App\Action
             return $this->_fileFactory->create(
                 'creditmemo' . $date . '.pdf',
                 $pdf->render(),
-                \Magento\Filesystem::VAR_DIR,
+                \Magento\App\Filesystem::VAR_DIR,
                 'application/pdf'
             );
         }
@@ -135,7 +135,7 @@ class AbstractCreditmemo extends \Magento\Backend\App\Action
                 return $this->_fileFactory->create(
                     'creditmemo' . $date . '.pdf',
                     $pdf->render(),
-                    \Magento\Filesystem::VAR_DIR,
+                    \Magento\App\Filesystem::VAR_DIR,
                     'application/pdf'
                 );
             }
