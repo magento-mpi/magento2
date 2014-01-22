@@ -141,8 +141,8 @@ class Api extends \Magento\Object
      *
      * @param string $method
      * @param array $data
-     * @throws \Exception
      * @return \CentinelClient
+     * @throws \Exception
      */
     protected function _call($method, $data)
     {

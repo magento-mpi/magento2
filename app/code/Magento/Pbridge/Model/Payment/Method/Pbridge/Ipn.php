@@ -230,6 +230,7 @@ class Ipn
      * IPN workflow implementation
      * Everything should be added to order comments. In positive processing cases customer will get email notifications.
      * Admin will be notified on errors.
+     *
      * @return void
      */
     public function processIpnVerified()
@@ -345,6 +346,7 @@ class Ipn
 
     /**
      * Treat failed payment as order cancellation
+     *
      * @return void
      */
     protected function _registerPaymentFailure($explanationMessage = '')
@@ -436,6 +438,7 @@ class Ipn
 
     /**
      * Register authorization of a payment: create a non-paid invoice
+     *
      * @return void
      */
     protected function _registerPaymentAuthorization()
@@ -456,6 +459,7 @@ class Ipn
      * Process transaction voiding.
      * We just can void only authorized transaction
      * Check if transaction authorized and not captured
+     *
      * @return void
      */
     protected function _registerPaymentVoid($explanationMessage = '')

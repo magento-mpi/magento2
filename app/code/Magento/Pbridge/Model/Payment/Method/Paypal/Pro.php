@@ -113,7 +113,7 @@ class Pro extends \Magento\Paypal\Model\Pro
      *
      * @param \Magento\Object $payment
      * @param float $amount
-     * @return \Magento\Object|array|void
+     * @return \Magento\Object|array|null
      */
     public function refund(\Magento\Object $payment, $amount)
     {
@@ -133,7 +133,7 @@ class Pro extends \Magento\Paypal\Model\Pro
      * Refund a capture transaction
      *
      * @param \Magento\Object $payment
-     * @return array|void
+     * @return array|null
      */
     public function void(\Magento\Object $payment)
     {

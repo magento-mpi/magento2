@@ -98,7 +98,7 @@ class Pbridge extends \Magento\App\Action\Action
     /**
      * Review success action
      *
-     *  @return void
+     * @return void
      */
     public function successAction()
     {
@@ -109,7 +109,7 @@ class Pbridge extends \Magento\App\Action\Action
     /**
      * Review error action
      *
-     *  @return void
+     * @return void
      */
     public function errorAction()
     {
@@ -131,6 +131,7 @@ class Pbridge extends \Magento\App\Action\Action
     /**
      * Validate all agreements
      * (terms and conditions are agreed)
+     *
      * @return void
      */
     public function validateAgreementAction()

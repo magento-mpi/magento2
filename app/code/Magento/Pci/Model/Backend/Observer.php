@@ -111,8 +111,8 @@ class Observer
      * Admin locking and password hashing upgrade logic implementation
      *
      * @param EventObserver $observer
-     * @throws \Magento\Core\Exception
      * @return void
+     * @throws \Magento\Core\Exception
      */
     public function adminAuthenticate($observer)
     {
@@ -222,8 +222,8 @@ class Observer
      * The password is compared to at least last 4 previous passwords to prevent setting them again
      *
      * @param EventObserver $observer
-     * @throws \Magento\Core\Exception
      * @return void
+     * @throws \Magento\Core\Exception
      */
     public function checkAdminPasswordChange($observer)
     {
