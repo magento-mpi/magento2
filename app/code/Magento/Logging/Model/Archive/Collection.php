@@ -40,11 +40,11 @@ class Collection extends \Magento\Data\Collection\Filesystem
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logging\Model\Archive $archive,
         \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\Filesystem $filesystem
+        \Magento\App\Filesystem $filesystem
     ) {
         parent::__construct($entityFactory);
         $basePath = $archive->getBasePath();
-        $dir = $filesystem->getDirectoryWrite(\Magento\Filesystem::VAR_DIR);
+        $dir = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
         $dir->create($dir->getRelativePath($basePath));
         $this->addTargetDir($basePath);
         $this->_locale = $locale;

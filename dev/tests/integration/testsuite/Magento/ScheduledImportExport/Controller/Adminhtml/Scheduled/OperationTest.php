@@ -121,7 +121,7 @@ class OperationTest
 
         // Create export directory if not exist
         /** @var \Magento\Filesystem\Directory\Write $varDir */
-        $varDir = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Filesystem')
+        $varDir = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Filesystem')
             ->getDirectoryWrite('var');
         $varDir->create('export');
 

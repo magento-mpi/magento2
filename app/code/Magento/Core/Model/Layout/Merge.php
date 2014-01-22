@@ -108,7 +108,7 @@ class Merge implements \Magento\View\Layout\ProcessorInterface
     protected $_logger;
 
     /**
-     * @var \Magento\Filesystem
+     * @var \Magento\App\Filesystem
      */
     protected $filesystem;
 
@@ -123,7 +123,7 @@ class Merge implements \Magento\View\Layout\ProcessorInterface
      * @param \Magento\Cache\FrontendInterface $cache
      * @param \Magento\Core\Model\Layout\Update\Validator $validator
      * @param \Magento\Logger $logger
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\View\Design\ThemeInterface $theme Non-injectable theme instance
      */
     public function __construct(
@@ -135,7 +135,7 @@ class Merge implements \Magento\View\Layout\ProcessorInterface
         \Magento\Cache\FrontendInterface $cache,
         \Magento\Core\Model\Layout\Update\Validator $validator,
         \Magento\Logger $logger,
-        \Magento\Filesystem $filesystem,
+        \Magento\App\Filesystem $filesystem,
         \Magento\View\Design\ThemeInterface $theme = null
     ) {
         $this->_theme = $theme ?: $design->getDesignTheme();
@@ -585,7 +585,7 @@ class Merge implements \Magento\View\Layout\ProcessorInterface
         $layoutStr = '';
         $theme = $this->_getPhysicalTheme($this->_theme);
         $updateFiles = $this->_fileSource->getFiles($theme);
-        $dir = $this->filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);
+        $dir = $this->filesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
         $useErrors = libxml_use_internal_errors(true);
         foreach ($updateFiles as $file) {
             $filename = $dir->getRelativePath($file->getFilename());

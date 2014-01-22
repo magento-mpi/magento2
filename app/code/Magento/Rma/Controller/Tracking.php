@@ -182,7 +182,7 @@ class Tracking extends \Magento\App\Action\Action
                 return $this->_fileResponseFactory->create(
                     'ShippingLabel(' . $rmaIncrementId . ').pdf',
                     $pdfContent,
-                    \Magento\Filesystem::VAR_DIR,
+                    \Magento\App\Filesystem::VAR_DIR,
                     'application/pdf'
                 );
             }
@@ -224,7 +224,7 @@ class Tracking extends \Magento\App\Action\Action
             $this->_fileResponseFactory->create(
                 'packingslip' . $dateModel->date('Y-m-d_H-i-s') . '.pdf',
                 $pdf->render(),
-                \Magento\Filesystem::VAR_DIR,
+                \Magento\App\Filesystem::VAR_DIR,
                 'application/pdf'
             );
         }

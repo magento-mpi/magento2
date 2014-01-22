@@ -513,7 +513,7 @@ class Order extends \Magento\Backend\App\Action
                 return $this->_fileFactory->create(
                     'invoice' . $this->_objectManager->get('Magento\Core\Model\Date')->date('Y-m-d_H-i-s') . '.pdf',
                     $pdf->render(),
-                    \Magento\Filesystem::VAR_DIR,
+                    \Magento\App\Filesystem::VAR_DIR,
                     'application/pdf'
                 );
             } else {
@@ -552,7 +552,7 @@ class Order extends \Magento\Backend\App\Action
                 return $this->_fileFactory->create(
                     'packingslip' . $this->_objectManager->get('Magento\Core\Model\Date')->date('Y-m-d_H-i-s') . '.pdf',
                     $pdf->render(),
-                    \Magento\Filesystem::VAR_DIR,
+                    \Magento\App\Filesystem::VAR_DIR,
                     'application/pdf'
                 );
             } else {
@@ -591,7 +591,7 @@ class Order extends \Magento\Backend\App\Action
                 return $this->_fileFactory->create(
                     'creditmemo' . $this->_objectManager->get('Magento\Core\Model\Date')->date('Y-m-d_H-i-s') . '.pdf',
                     $pdf->render(),
-                    \Magento\Filesystem::VAR_DIR,
+                    \Magento\App\Filesystem::VAR_DIR,
                     'application/pdf'
                 );
             } else {
@@ -656,7 +656,7 @@ class Order extends \Magento\Backend\App\Action
                 return $this->_fileFactory->create(
                     'docs' . $this->_objectManager->get('Magento\Core\Model\Date')->date('Y-m-d_H-i-s') . '.pdf',
                     $pdf->render(),
-                    \Magento\Filesystem::VAR_DIR,
+                    \Magento\App\Filesystem::VAR_DIR,
                     'application/pdf'
                 );
             } else {
@@ -745,7 +745,7 @@ class Order extends \Magento\Backend\App\Action
         $fileName = 'orders.csv';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock  */
         $exportBlock = $this->_view->getLayout()->getChildBlock('sales.order.grid', 'grid.export');
-        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile(), \Magento\Filesystem::VAR_DIR);
+        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile(), \Magento\App\Filesystem::VAR_DIR);
     }
 
     /**
@@ -760,7 +760,7 @@ class Order extends \Magento\Backend\App\Action
         return $this->_fileFactory->create(
             $fileName,
             $exportBlock->getExcelFile($fileName),
-            \Magento\Filesystem::VAR_DIR
+            \Magento\App\Filesystem::VAR_DIR
         );
     }
 

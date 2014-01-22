@@ -9,7 +9,7 @@
  */
 
 /**
- * Multishipping checkout payment information data
+ * Checkout payment information data
  *
  * @category   Magento
  * @package    Magento_Checkout
