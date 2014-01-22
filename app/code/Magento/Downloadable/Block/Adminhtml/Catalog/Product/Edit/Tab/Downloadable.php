@@ -32,6 +32,13 @@ class Downloadable
     protected $_template = 'product/edit/downloadable.phtml';
 
     /**
+     * Accordion block id
+     *
+     * @var string
+     */
+    protected $accordionBlockId = 'downloadableInfo';
+
+    /**
      * Core registry
      *
      * @var \Magento\Core\Model\Registry
@@ -121,6 +128,16 @@ class Downloadable
     }
 
     /**
+     * Get downloadable tab content id
+     *
+     * @return string
+     */
+    public function getContentTabId()
+    {
+        return 'tab_content_' . $this->accordionBlockId;
+    }
+
+    /**
      * Render block HTML
      *
      * @return string
@@ -128,8 +145,7 @@ class Downloadable
     protected function _toHtml()
     {
         $accordion = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Accordion')
-            ->setId('downloadableInfo');
-
+            ->setId($this->accordionBlockId);
         $accordion->addItem('samples', array(
             'title'   => __('Samples'),
             'content' => $this->getLayout()
