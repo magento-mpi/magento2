@@ -50,6 +50,8 @@ class GridTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/Customer/_files/customer.php
      * @magentoDataFixture Magento/Customer/_files/customer_address.php
      * @magentoDataFixture Magento/Customer/_files/customer_no_address.php
+     *
+     * SuppressWarnings()
      */
     public function testGetCsv()
     {
@@ -62,9 +64,9 @@ class GridTest extends \PHPUnit_Framework_TestCase
         $expected = <<<EOT
 "ID","Name","Email","Group","Phone","ZIP","Country","State/Province","Customer Since","Web Site"
 "5","Firstname Lastname","customer5@example.com","General","","","","","$customer5ca","Main Website"
-"1","Firstname Lastname","customer@example.com","General","3468676","75477","United States","Alabama","$customer1ca","Main Website"
-
+"1","Firstname Lastname","customer@example.com","General","3468676","75477","United States","Alabama"
 EOT;
+        $expected .= ",\"$customer1ca\",\"Main Website\"\n";
         $this->assertEquals($expected, $csv);
     }
 

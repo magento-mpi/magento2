@@ -486,12 +486,10 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertNotNull($customerId);
         $savedCustomer = $this->_service->getCustomer($customerId);
         $dataInService = $savedCustomer->getAttributes();
+        $expectedDifferences = ['created_at', 'updated_at', 'email', 'is_active', 'entity_id', 'password_hash',
+            'attribute_set_id', 'confirmation'];
         foreach ($dataInModel as $key => $value) {
-            if (!in_array(
-                $key,
-                array('created_at', 'updated_at', 'email', 'is_active', 'entity_id', 'password_hash',
-                     'attribute_set_id')
-            )) {
+            if (!in_array($key, $expectedDifferences)) {
                 if (is_null($value)) {
                     $this->assertArrayNotHasKey($key, $dataInService);
                 } else {
