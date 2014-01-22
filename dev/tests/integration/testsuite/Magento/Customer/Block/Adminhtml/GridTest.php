@@ -50,8 +50,6 @@ class GridTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/Customer/_files/customer.php
      * @magentoDataFixture Magento/Customer/_files/customer_address.php
      * @magentoDataFixture Magento/Customer/_files/customer_no_address.php
-     *
-     * SuppressWarnings()
      */
     public function testGetCsv()
     {
