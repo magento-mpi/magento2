@@ -25,7 +25,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     {
         $backendConfig = $this->getMockBuilder('Magento\Backend\App\ConfigInterface')
             ->disableOriginalConstructor()
-            ->setMethods(array('getValue', 'setValue', 'reinit', 'getFlag'))
+            ->setMethods(array('getValue', 'setValue', 'reinit', 'isSetFlag'))
             ->getMock();
         $backendConfig->expects($this->any())
             ->method('getValue')

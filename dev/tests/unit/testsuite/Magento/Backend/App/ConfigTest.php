@@ -75,9 +75,9 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     /**
      * @param mixed $configValue
      * @param bool $expectedResult
-     * @dataProvider getFlagDataProvider
+     * @dataProvider isSetFlagDataProvider
      */
-    public function testGetFlag($configValue, $expectedResult)
+    public function testIsSetFlag($configValue, $expectedResult)
     {
         $path = 'some path';
         $configData = $this->getConfigDataMock('getValue');
@@ -94,7 +94,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedResult, $this->model->isSetFlag($path));
     }
 
-    public function getFlagDataProvider()
+    public function isSetFlagDataProvider()
     {
         return array(
             array(0, false),
