@@ -58,13 +58,14 @@ class GridTest extends \PHPUnit_Framework_TestCase
         $csv = $block->getCsv();
         $customer5ca = $this->formatDatetime($this->customerService->getCustomer(5)->getCreatedAt());
         $customer1ca = $this->formatDatetime($this->customerService->getCustomer(1)->getCreatedAt());
-
+        // @codingStandardsIgnoreStart
         $expected = <<<EOT
 "ID","Name","Email","Group","Phone","ZIP","Country","State/Province","Customer Since","Web Site"
 "5","Firstname Lastname","customer5@example.com","General","","","","","$customer5ca","Main Website"
-"1","Firstname Lastname","customer@example.com","General","3468676","75477","United States","Alabama"
+"1","Firstname Lastname","customer@example.com","General","3468676","75477","United States","Alabama","$customer1ca","Main Website"
+
 EOT;
-        $expected .= ",\"$customer1ca\",\"Main Website\"\n";
+        // @codingStandardsIgnoreEnd
         $this->assertEquals($expected, $csv);
     }
 

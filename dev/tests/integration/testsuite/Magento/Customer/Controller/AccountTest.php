@@ -11,16 +11,16 @@ namespace Magento\Customer\Controller;
 
 class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
 {
-	/**
-	 * Login the user
-	 */
-	protected function _login()
-	{
+    /**
+     * Login the user
+     */
+    protected function _login()
+    {
         $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
         $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Customer\Model\Session', array($logger));
         $session->login('customer@example.com', 'password');
-	}
+    }
 
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
@@ -232,8 +232,7 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
                 ' to get your password and access your account.']),
             \Magento\Message\MessageInterface::TYPE_ERROR
         );
-
-}
+    }
 
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
@@ -314,8 +313,9 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->assertRedirect($this->stringContains('customer/account/'));
         $this->assertSessionMessages(
             $this->equalTo([
-				"If there is an account associated with {$email} you will receive an email " .
-				'with a link to reset your password.']),
+                "If there is an account associated with {$email} you will receive an email " .
+                'with a link to reset your password.'
+            ]),
             \Magento\Message\MessageInterface::TYPE_SUCCESS
         );
     }
@@ -377,5 +377,4 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
             \Magento\Message\MessageInterface::TYPE_SUCCESS
         );
     }
-
 }

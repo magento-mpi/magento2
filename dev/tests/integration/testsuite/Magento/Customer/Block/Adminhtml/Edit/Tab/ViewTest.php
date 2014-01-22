@@ -139,13 +139,14 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Confirmed', $this->_block->getIsConfirmedStatus());
     }
 
-    /**
-     * @magentoDataFixture Magento/Customer/_files/customer.php
-     * @magentoConfigFixture current_store customer/create_account/confirm 1
-     */
     public function testIsConfirmedStatusConfirmationIsRequired()
     {
-        $this->_loadCustomer()->setConfirmation(true);
+        $customer = $this->getMock(
+            'Magento\Customer\Model\Customer', ['getConfirmation', 'isConfirmationRequired'], [], '', false
+        );
+        $customer->expects($this->once())->method('getConfirmation')->will($this->returnValue(true));
+        $customer->expects($this->once())->method('isConfirmationRequired')->will($this->returnValue(true));
+        $this->_coreRegistry->register(self::CURRENT_CUSTOMER, $customer);
         $this->assertEquals('Not confirmed, cannot login', $this->_block->getIsConfirmedStatus());
     }
 
