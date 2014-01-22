@@ -89,11 +89,11 @@ abstract class AbstractElement extends AbstractForm
     /**
      * Add form element
      *
-     * @param \Magento\Data\Form\Element\AbstractElement $element
+     * @param AbstractElement $element
      * @param bool $after
      * @return Form
      */
-    public function addElement(\Magento\Data\Form\Element\AbstractElement $element, $after = false)
+    public function addElement(AbstractElement $element, $after = false)
     {
         if ($this->getForm()) {
             $this->getForm()->checkElementId($element->getId());

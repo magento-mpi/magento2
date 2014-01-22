@@ -251,7 +251,7 @@ class Db extends \Magento\Data\Collection
      *
      * @param   string $field
      * @param   string $direction
-     * @return  \Magento\Data\Collection\Db
+     * @return  $this
      */
     public function setOrder($field, $direction = self::SORT_ORDER_DESC)
     {
@@ -263,7 +263,7 @@ class Db extends \Magento\Data\Collection
      *
      * @param string $field
      * @param string $direction
-     * @return \Magento\Data\Collection\Db
+     * @return $this
      */
     public function addOrder($field, $direction = self::SORT_ORDER_DESC)
     {
@@ -275,7 +275,7 @@ class Db extends \Magento\Data\Collection
      *
      * @param string $field
      * @param string $direction
-     * @return \Magento\Data\Collection\Db
+     * @return $this
      */
     public function unshiftOrder($field, $direction = self::SORT_ORDER_DESC)
     {
@@ -707,7 +707,7 @@ class Db extends \Magento\Data\Collection
      *
      * @param bool $printQuery
      * @param bool $logQuery
-     * @return \Magento\Data\Collection\Db
+     * @return $this
      */
     public function loadData($printQuery = false, $logQuery = false)
     {
