@@ -130,7 +130,7 @@ class Book extends \Magento\View\Element\Template
      * @param \Magento\Customer\Service\V1\Dto\Address $address
      * @return string
      */
-    public function getAddressHtml($address)
+    public function getAddressHtml(\Magento\Customer\Service\V1\Dto\Address $address = null)
     {
         if (!is_null($address)) {
             /** @var \Magento\Customer\Block\Address\Renderer\RendererInterface $renderer */
