@@ -15,7 +15,7 @@ namespace Magento\Sales\Block\Adminhtml\Order\Create\Form;
  */
 class AccountTest extends \PHPUnit_Framework_TestCase
 {
-   /** @var \Magento\Sales\Block\Adminhtml\Order\Create\Form\Account */
+    /** @var \Magento\Sales\Block\Adminhtml\Order\Create\Form\Account */
     protected $_accountBlock;
 
     /**
