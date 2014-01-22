@@ -15,6 +15,8 @@
 namespace Magento\Pbridge\Model\Payment\Method\Paypaluk;
 
 use Magento\Object;
+use Magento\Sales\Model\Order\Payment;
+use Magento\Paypal\Model\Api\Nvp;
 
 class Pro extends \Magento\PaypalUk\Model\Pro
 {
@@ -171,8 +173,8 @@ class Pro extends \Magento\PaypalUk\Model\Pro
     /**
      * Import capture results to payment
      *
-     * @param \Magento\Paypal\Model\Api\Nvp
-     * @param \Magento\Sales\Model\Order\Payment
+     * @param Nvp $api
+     * @param Payment $payment
      * @return void
      */
     protected function _importCaptureResultToPayment($api, $payment)
@@ -187,10 +189,10 @@ class Pro extends \Magento\PaypalUk\Model\Pro
     /**
      * Import refund results to payment
      *
-     * @param \Magento\Paypal\Model\Api\Nvp $api
-     * @param \Magento\Sales\Model\Order\Payment $payment
+     * @param Nvp $api
+     * @param Payment $payment
      * @param bool $canRefundMore
-     * @reutrn void
+     * @return void
      */
     protected function _importRefundResultToPayment($api, $payment, $canRefundMore)
     {

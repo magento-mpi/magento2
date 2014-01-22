@@ -10,6 +10,8 @@
 
 namespace Magento\Pci\Model\Resource\Admin;
 
+use Magento\User\Model\User as ModelUser;
+
 /**
  * Admin user resource model
  */
@@ -57,7 +59,7 @@ class User extends \Magento\User\Model\Resource\User
     /**
      * Increment failures count along with updating lock expire and first failure dates
      *
-     * @param \Magento\User\Model\User $user
+     * @param ModelUser $user
      * @param int|false $setLockExpires
      * @param int|false $setFirstFailure
      * @return void
@@ -80,7 +82,7 @@ class User extends \Magento\User\Model\Resource\User
     /**
      * Purge and get remaining old password hashes
      *
-     * @param \Magento\User\Model\User $user
+     * @param ModelUser $user
      * @param int $retainLimit
      * @return array
      */
@@ -117,7 +119,7 @@ class User extends \Magento\User\Model\Resource\User
     /**
      * Remember a password hash for further usage
      *
-     * @param \Magento\User\Model\User $user
+     * @param ModelUser $user
      * @param string $passwordHash
      * @param int $lifetime
      * @return void

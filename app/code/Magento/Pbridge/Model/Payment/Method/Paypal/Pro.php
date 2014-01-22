@@ -15,6 +15,8 @@
 namespace Magento\Pbridge\Model\Payment\Method\Paypal;
 
 use Magento\Object;
+use Magento\Pbridge\Model\Payment\Method\Paypal;
+use Magento\Payment\Model\Method\AbstractMethod;
 
 class Pro extends \Magento\Paypal\Model\Pro
 {
@@ -28,7 +30,7 @@ class Pro extends \Magento\Paypal\Model\Pro
     /**
      * Paypal pbridge payment method
      *
-     * @var \Magento\Pbridge\Model\Payment\Method\Paypal
+     * @var Paypal
      */
     protected $_pbridgePaymentMethod;
 
@@ -66,7 +68,7 @@ class Pro extends \Magento\Paypal\Model\Pro
     /**
      * Pbridge payment method setter
      *
-     * @param \Magento\Pbridge\Model\Payment\Method\Paypal $pbridgePaymentMethod
+     * @param Paypal $pbridgePaymentMethod
      * @return void
      */
     public function setPaymentMethod($pbridgePaymentMethod)
@@ -94,7 +96,7 @@ class Pro extends \Magento\Paypal\Model\Pro
      *
      * @param Object $payment
      * @param float $amount
-     * @return false|null
+     * @return array|bool|AbstractMethod|Object
      */
     public function capture(Object $payment, $amount)
     {
@@ -132,7 +134,7 @@ class Pro extends \Magento\Paypal\Model\Pro
      * Refund a capture transaction
      *
      * @param Object $payment
-     * @return array|null
+     * @return array|void
      */
     public function void(Object $payment)
     {

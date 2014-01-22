@@ -14,6 +14,8 @@
 namespace Magento\Pbridge\Model\Payment\Method;
 
 use Magento\Object;
+use Magento\Paypal\Model\Direct;
+use Magento\Sales\Model\Order\Payment;
 
 class Paypaluk extends \Magento\PaypalUk\Model\Direct
 {
@@ -234,7 +236,7 @@ class Paypaluk extends \Magento\PaypalUk\Model\Direct
      *
      * @param Object $payment
      * @param float $amount
-     * @return \Magento\Paypal\Model\Direct
+     * @return Direct
      */
     public function authorize(Object $payment, $amount)
     {
@@ -250,7 +252,7 @@ class Paypaluk extends \Magento\PaypalUk\Model\Direct
      *
      * @param Object $payment
      * @param float $amount
-     * @return \Magento\Paypal\Model\Direct
+     * @return Direct
      */
     public function capture(Object $payment, $amount)
     {
@@ -263,9 +265,9 @@ class Paypaluk extends \Magento\PaypalUk\Model\Direct
     /**
      * Refund capture
      *
-     * @param \Magento\Sales\Model\Order\Payment $payment
+     * @param Payment $payment
      * @param float $amount
-     * @return \Magento\Paypal\Model\Direct
+     * @return Direct
      */
     public function refund(Object $payment, $amount)
     {
@@ -276,8 +278,8 @@ class Paypaluk extends \Magento\PaypalUk\Model\Direct
     /**
      * Void payment
      *
-     * @param \Magento\Sales\Model\Order\Payment $payment
-     * @return \Magento\Paypal\Model\Direct
+     * @param Payment $payment
+     * @return Direct
      */
     public function void(Object $payment)
     {
@@ -290,7 +292,7 @@ class Paypaluk extends \Magento\PaypalUk\Model\Direct
      *
      * @param Object $api
      * @param Object $payment
-     * @param \Magento\Sales\Model\Order\Payment $payment
+     * @param Payment $payment
      */
     protected function _importResultToPayment($api, $payment)
     {

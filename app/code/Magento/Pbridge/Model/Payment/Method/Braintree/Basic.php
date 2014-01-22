@@ -14,6 +14,8 @@
 namespace Magento\Pbridge\Model\Payment\Method\Braintree;
 
 use Magento\Object;
+use Magento\Sales\Model\Order\Invoice;
+use Magento\Sales\Model\Order\Payment;
 
 class Basic extends \Magento\Pbridge\Model\Payment\Method
 {
@@ -157,8 +159,8 @@ class Basic extends \Magento\Pbridge\Model\Payment\Method
 
     /**
      * Set capture transaction ID to invoice for informational purposes
-     * @param \Magento\Sales\Model\Order\Invoice $invoice
-     * @param \Magento\Sales\Model\Order\Payment $payment
+     * @param Invoice $invoice
+     * @param Payment $payment
      * @return $this
      */
     public function processInvoice($invoice, $payment)

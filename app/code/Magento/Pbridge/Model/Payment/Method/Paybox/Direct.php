@@ -19,6 +19,7 @@
 namespace Magento\Pbridge\Model\Payment\Method\Paybox;
 
 use Magento\Object;
+use Magento\Core\Exception as CoreException;
 
 class Direct extends \Magento\Pbridge\Model\Payment\Method
 {
@@ -114,10 +115,10 @@ class Direct extends \Magento\Pbridge\Model\Payment\Method
      * @param Object $payment
      * @param float $amount
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws CoreException
      */
     public function refund(Object $payment, $amount)
     {
-        throw new \Magento\Core\Exception(__('Refund action is not available.'));
+        throw new CoreException(__('Refund action is not available.'));
     }
 }
