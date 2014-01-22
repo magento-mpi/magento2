@@ -13,7 +13,9 @@
   * Fixed Authorize.net Direct Post: Ability to proceed order when it was created from Backend
 * Removed the deprecated service-calls and data source functionality
 * AppInterface has been renamed to LauncherInterface
-
+* Removed reinit logic from Config object
+* Framework part of "URL" functionality moved out of modules
+* Framework part of "Config" functionality moved out of modules
 
 2.0.0.0-dev61
 =============
