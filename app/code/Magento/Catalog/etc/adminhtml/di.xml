@@ -58,11 +58,11 @@
     </type>
     <type name="Magento\Catalog\Model\Product\CopyConstructor\Composite">
         <param name="constructors">
-            <value>
-                <crossSell>Magento\Catalog\Model\Product\CopyConstructor\CrossSell</crossSell>
-                <upSell>Magento\Catalog\Model\Product\CopyConstructor\UpSell</upSell>
-                <related>Magento\Catalog\Model\Product\CopyConstructor\Related</related>
-            </value>
+            <array>
+                <item key="crossSell"><value>Magento\Catalog\Model\Product\CopyConstructor\CrossSell</value></item>
+                <item key="upSell"><value>Magento\Catalog\Model\Product\CopyConstructor\UpSell</value></item>
+                <item key="related"><value>Magento\Catalog\Model\Product\CopyConstructor\Related</value></item>
+            </array>
         </param>
     </type>
     <type name="Magento\Catalog\Model\Product\Copier">
