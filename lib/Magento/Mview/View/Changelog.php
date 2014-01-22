@@ -58,7 +58,6 @@ class Changelog implements ChangelogInterface
     /**
      * Create changelog table
      *
-     * @return boolean
      * @throws \Exception
      */
     public function create()
@@ -82,14 +81,11 @@ class Changelog implements ChangelogInterface
             ), 'Entity ID');
 
         $this->write->createTable($table);
-
-        return true;
     }
 
     /**
      * Drop changelog table
      *
-     * @return boolean
      * @throws \Exception
      */
     public function drop()
@@ -100,8 +96,6 @@ class Changelog implements ChangelogInterface
         }
 
         $this->write->dropTable($changelogTableName);
-
-        return true;
     }
 
     /**
@@ -126,9 +120,9 @@ class Changelog implements ChangelogInterface
     /**
      * Retrieve entity ids by range [$fromVersionId..$toVersionId]
      *
-     * @param integer $fromVersionId
-     * @param integer $toVersionId
-     * @return integer[]
+     * @param int $fromVersionId
+     * @param int $toVersionId
+     * @return int[]
      * @throws \Exception
      */
     public function getList($fromVersionId, $toVersionId)
@@ -150,7 +144,7 @@ class Changelog implements ChangelogInterface
     /**
      * Get maximum version_id from changelog
      *
-     * @return integer
+     * @return int
      * @throws \Exception
      */
     public function getVersion()

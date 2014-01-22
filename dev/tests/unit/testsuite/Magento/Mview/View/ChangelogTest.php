@@ -41,7 +41,6 @@ class ChangelogTest extends \PHPUnit_Framework_TestCase
 
     public function testInstanceOf()
     {
-
         $this->assertInstanceOf('\Magento\Mview\View\ChangelogInterface', $this->model);
     }
 
@@ -49,7 +48,6 @@ class ChangelogTest extends \PHPUnit_Framework_TestCase
      * @expectedException \Exception
      * @expectedExceptionMessage Write DB connection is not available
      */
-
     public function testCheckConnectionException()
     {
         $resourceMock = $this->getMock('Magento\App\Resource', array('getConnection'), array(), '', false, false);
