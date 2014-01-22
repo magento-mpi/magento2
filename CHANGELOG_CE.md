@@ -6,6 +6,8 @@
   * Autorizenet is consolidated in separate module
 * Introduced new layout block attribute - cacheable
 * Extracted multishipping functionality from Magento\Checkout module in separated Magento\Multishipping module
+* Oyejorge Less.php Adapter implemented
+* Less files import mechanism implemented
 * Fixed bugs:
   * Fixed an issue when order was sent to Paypal without defined currency
   * Fixed an issue with 404 error when trying to return back to grid from Recurring Billing Profile
