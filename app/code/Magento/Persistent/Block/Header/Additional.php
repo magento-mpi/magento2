@@ -39,6 +39,7 @@ class Additional extends \Magento\View\Element\Html\Link
     ) {
         $this->_persistentSession = $persistentSession;
         parent::__construct($context, $data);
+        $this->_isScopePrivate = true;
     }
 
     /*

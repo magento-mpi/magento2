@@ -72,6 +72,7 @@ class Edit extends \Magento\Directory\Block\Data
         parent::__construct(
             $context, $coreData, $jsonEncoder, $configCacheType, $regionCollFactory, $countryCollFactory, $data
         );
+        $this->_isScopePrivate = true;
     }
 
     /**

@@ -31,6 +31,7 @@ class Additional extends \Magento\View\Element\Template
     ) {
         parent::__construct($context, $data);
         $this->_checkoutSession = $checkoutSession;
+        $this->_isScopePrivate = true;
     }
 
     /**

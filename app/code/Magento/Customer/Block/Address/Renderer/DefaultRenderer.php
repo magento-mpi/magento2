@@ -56,6 +56,7 @@ class DefaultRenderer
         $this->_customerAddress = $customerAddress;
         $this->_attrDataFactory = $attrDataFactory;
         parent::__construct($context, $data);
+        $this->_isScopePrivate = true;
     }
 
     /**

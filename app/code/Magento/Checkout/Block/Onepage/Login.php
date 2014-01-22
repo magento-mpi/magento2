@@ -69,6 +69,7 @@ class Login extends \Magento\Checkout\Block\Onepage\AbstractOnepage
             $regionCollFactory,
             $data
         );
+        $this->_isScopePrivate = true;
     }
 
     protected function _construct()
