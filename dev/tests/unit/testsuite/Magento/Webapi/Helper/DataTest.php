@@ -48,13 +48,13 @@ class DataTest extends \PHPUnit_Framework_TestCase
     public function serviceNamePartsDataProvider()
     {
         return array(
-            array('Magento\Customer\Service\Customer\AddressV1Interface', false, array('Customer', 'Address')),
+            array('Magento\Customer\Service\V1\Customer\AddressInterface', false, array('Customer', 'Address')),
             array(
-                'Vendor\Customer\Service\Customer\AddressV1Interface',
+                'Vendor\Customer\Service\V1\Customer\AddressInterface',
                 true,
                 array('VendorCustomer', 'Address', 'V1')
             ),
-            array('Magento\Catalog\Service\ProductV2Interface', true, array('CatalogProduct', 'V2'))
+            array('Magento\Catalog\Service\V2\ProductInterface', true, array('CatalogProduct', 'V2'))
         );
     }
 

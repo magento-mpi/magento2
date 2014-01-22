@@ -74,7 +74,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
             $moduleNamespace = $matches[1];
             $moduleName = $matches[2];
             $moduleNamespace = ($moduleNamespace == 'Magento') ? '' : $moduleNamespace;
-            $serviceNameParts = explode('\\', trim($matches[3], '\\'));
+            $serviceNameParts = explode('\\', trim($matches[4], '\\'));
             if ($moduleName == $serviceNameParts[0]) {
                 /** Avoid duplication of words in service name */
                 $moduleName = '';
@@ -82,7 +82,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
             $parentServiceName = $moduleNamespace . $moduleName . array_shift($serviceNameParts);
             array_unshift($serviceNameParts, $parentServiceName);
             if ($preserveVersion) {
-                $serviceVersion = $matches[4];
+                $serviceVersion = $matches[3];
                 $serviceNameParts[] = $serviceVersion;
             }
             return $serviceNameParts;

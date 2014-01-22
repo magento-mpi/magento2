@@ -181,7 +181,7 @@ REQUEST_TYPE;
         <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2"/>
     </xsd:annotation>
     <xsd:sequence>
-        <xsd:element name="result" minOccurs="1" maxOccurs="1" type="tns:TestModule5EntityV1AllSoapAndRest">
+        <xsd:element name="result" minOccurs="1" maxOccurs="1" type="tns:TestModule5V1EntityAllSoapAndRest">
             <xsd:annotation>
                 <xsd:documentation></xsd:documentation>
                 <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2">
@@ -213,7 +213,7 @@ RESPONSE_TYPE;
     {
         // @codingStandardsIgnoreStart
         $referencedType = <<< RESPONSE_TYPE
-<xsd:complexType name="TestModule5EntityV1AllSoapAndRest">
+<xsd:complexType name="TestModule5V1EntityAllSoapAndRest">
     <xsd:annotation>
         <xsd:documentation>Some DTO short description. DTO long multi line description.</xsd:documentation>
         <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2"/>

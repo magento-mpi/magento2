@@ -103,12 +103,12 @@ class TypeProcessorTest extends \PHPUnit_Framework_TestCase
     public function testTranslateTypeName()
     {
         $this->assertEquals(
-            'TestModule1EntityV1Item',
-            $this->_typeProcessor->translateTypeName('\Magento\TestModule1\Service\Entity\V1\Item')
+            'TestModule1V1EntityItem',
+            $this->_typeProcessor->translateTypeName('\Magento\TestModule1\Service\V1\Entity\Item')
         );
         $this->assertEquals(
-            'TestModule3EntityV1Parameter[]',
-            $this->_typeProcessor->translateTypeName('\Magento\TestModule3\Service\Entity\V1\Parameter[]')
+            'TestModule3V1EntityParameter[]',
+            $this->_typeProcessor->translateTypeName('\Magento\TestModule3\Service\V1\Entity\Parameter[]')
         );
     }
 

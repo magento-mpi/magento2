@@ -172,8 +172,8 @@ class Soap implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
             return '';
         } else if (isset($serviceInfo['serviceInterface'])) {
             preg_match(\Magento\Webapi\Model\Config::SERVICE_CLASS_PATTERN, $serviceInfo['serviceInterface'], $matches);
-            if (isset($matches[4])) {
-                $version = $matches[4];
+            if (isset($matches[3])) {
+                $version = $matches[3];
             } else {
                 throw new \LogicException("Service interface name is invalid.");
             }
