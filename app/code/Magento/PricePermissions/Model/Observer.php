@@ -18,6 +18,7 @@
 namespace Magento\PricePermissions\Model;
 
 use Magento\Backend\Block\Template;
+use Magento\Event\Observer as EventObserver;
 
 class Observer
 {
@@ -156,7 +157,7 @@ class Observer
     /**
      * Reinit stores only with allowed scopes
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
      * @return void
      */
     public function adminControllerPredispatch($observer)
@@ -350,7 +351,7 @@ class Observer
     /**
      * Handle adminhtml_block_html_before event
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
      * @return void
      */
     public function adminhtmlBlockHtmlBefore($observer)
@@ -405,7 +406,7 @@ class Observer
     /**
      * Handle view_block_abstract_to_html_before event
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
      * @return void
      */
     public function viewBlockAbstractToHtmlBefore($observer)
@@ -449,10 +450,10 @@ class Observer
     /**
      * Handle catalog_product_load_after event
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
      * @return void
      */
-    public function catalogProductLoadAfter(\Magento\Event\Observer $observer)
+    public function catalogProductLoadAfter(EventObserver $observer)
     {
         /** @var $product \Magento\Catalog\Model\Product */
         $product = $observer->getEvent()->getDataObject();
@@ -487,10 +488,10 @@ class Observer
     /**
      * Handle catalog_product_save_before event
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
      * @return void
      */
-    public function catalogProductSaveBefore(\Magento\Event\Observer $observer)
+    public function catalogProductSaveBefore(EventObserver $observer)
     {
         /** @var $product \Magento\Catalog\Model\Product */
         $product = $observer->getEvent()->getDataObject();
@@ -502,10 +503,10 @@ class Observer
     /**
      * Handle adminhtml_catalog_product_edit_prepare_form event
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
      * @return void
      */
-    public function adminhtmlCatalogProductEditPrepareForm(\Magento\Event\Observer $observer)
+    public function adminhtmlCatalogProductEditPrepareForm(EventObserver $observer)
     {
         /** @var $product \Magento\Catalog\Model\Product */
         $product = $this->_coreRegistry->registry('product');
@@ -525,7 +526,7 @@ class Observer
     /**
      * Handle adminhtml_catalog_product_form_prepare_excluded_field_list event
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
      * @return void
      */
     public function adminhtmlCatalogProductFormPrepareExcludedFieldList($observer)
@@ -551,7 +552,7 @@ class Observer
     /**
      * Handle catalog_product_attribute_update_before event
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
      * @return void
      */
     public function catalogProductAttributeUpdateBefore($observer)
