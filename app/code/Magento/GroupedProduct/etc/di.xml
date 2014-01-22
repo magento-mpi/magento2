@@ -18,6 +18,13 @@
             </value>
         </param>
     </type>
+    <type name="Magento\Sales\Model\Quote\Item\RelatedProducts">
+        <param name="relatedProductTypes">
+            <value>
+                <grouped type="const">\Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE</grouped>
+            </value>
+        </param>
+    </type>
 </config>
 
 

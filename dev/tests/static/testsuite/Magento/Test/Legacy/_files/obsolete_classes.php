@@ -1426,6 +1426,10 @@ return array(
     array('Magento\Core\Model\Theme\FlyweightFactory', 'Magento\View\Design\Theme\FlyweightFactory'),
     array('Magento\Core\Model\Image\AdapterFactory', 'Magento\Image\AdapterFactory'),
     array('Magento\Core\Model\EntryPoint\Cron', 'Magento\App\Cron'),
+    array(
+        'Magento\Checkout\Block\Cart\Item\Renderer\Grouped',
+        'Magento\GroupedProduct\Block\Cart\Item\Renderer\Grouped'
+    ),
     array('Magento\Log\Model\EntryPoint\Shell', 'Magento\Log\App\Shell'),
     array('Magento\Index\Model\EntryPoint\Shell', 'Magento\Index\App\Shell'),
     array('Magento\Index\Model\EntryPoint\Indexer', 'Magento\Index\App\Indexer'),

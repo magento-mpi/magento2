@@ -9,9 +9,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Checkout\Block\Cart\Item\Renderer;
+namespace Magento\GroupedProduct\Block\Cart\Item\Renderer;
 
-use Magento\Checkout\Block\Cart\Item\Renderer\Grouped as Renderer;
+use Magento\GroupedProduct\Block\Cart\Item\Renderer\Grouped as Renderer;
 use \Magento\Catalog\Model\Config\Source\Product\Thumbnail as ThumbnailSource;
 
 class GroupedTest extends \PHPUnit_Framework_TestCase
@@ -28,7 +28,7 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_storeConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false, false);
         $this->_renderer = $objectManagerHelper->getObject(
-            'Magento\Checkout\Block\Cart\Item\Renderer\Grouped',
+            'Magento\GroupedProduct\Block\Cart\Item\Renderer\Grouped',
             array(
                 'storeConfig' => $this->_storeConfig,
             )
