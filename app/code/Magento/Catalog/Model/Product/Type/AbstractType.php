@@ -368,13 +368,13 @@ abstract class AbstractType
             return $options;
         }
         // try to found super product configuration
-        // (if product was buying within grouped product)
         $superProductConfig = $buyRequest->getSuperProductConfig();
         if (!empty($superProductConfig['product_id'])
             && !empty($superProductConfig['product_type'])
         ) {
             $superProductId = (int)$superProductConfig['product_id'];
             if ($superProductId) {
+                /** @var \Magento\Catalog\Model\Product $superProduct */
                 $superProduct = $this->_coreRegistry->registry('used_super_product_' . $superProductId);
                 if (!$superProduct) {
                     $superProduct = $this->_productFactory->create()->load($superProductId);
@@ -715,7 +715,7 @@ abstract class AbstractType
     }
 
     /**
-     * Check if product is composite (grouped, configurable, etc)
+     * Check if product is composite
      *
      * @param \Magento\Catalog\Model\Product $product
      * @return bool

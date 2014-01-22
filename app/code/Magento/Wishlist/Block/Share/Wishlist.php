@@ -48,6 +48,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param array $data
+     * @param array $priceBlockTypes
      * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -66,7 +67,8 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
-        array $data = array()
+        array $data = array(),
+        array $priceBlockTypes = array()
     ) {
         $this->_customerFactory = $customerFactory;
         parent::__construct(
@@ -83,7 +85,8 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
             $imageHelper,
             $customerSession,
             $productFactory,
-            $data
+            $data,
+            $priceBlockTypes
         );
     }
 

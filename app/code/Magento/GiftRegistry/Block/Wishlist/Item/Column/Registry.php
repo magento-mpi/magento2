@@ -38,6 +38,7 @@ class Registry extends \Magento\Wishlist\Block\Customer\Wishlist\Item\Column
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param array $data
+     * @param array $priceBlockTypes
      * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -56,7 +57,8 @@ class Registry extends \Magento\Wishlist\Block\Customer\Wishlist\Item\Column
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
-        array $data = array()
+        array $data = array(),
+        array $priceBlockTypes = array()
     ) {
         $this->_giftRegistryData = $giftRegistryData;
         parent::__construct(
@@ -73,7 +75,8 @@ class Registry extends \Magento\Wishlist\Block\Customer\Wishlist\Item\Column
             $imageHelper,
             $customerSession,
             $productFactory,
-            $data
+            $data,
+            $priceBlockTypes
         );
     }
 

@@ -850,7 +850,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
                 return isset($config['super_attribute']);
             case \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE:
                 return isset($config['bundle_option']);
-            case \Magento\Catalog\Model\Product\Type::TYPE_GROUPED:
+            case \Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE:
                 return isset($config['super_group']);
             case \Magento\GiftCard\Model\Catalog\Product\Type\Giftcard::TYPE_GIFTCARD:
                 return isset($config['giftcard_amount']);
@@ -1081,7 +1081,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         if ($product && $product->getId()) {
             $item['id'] = $product->getId();
 
-            $item['is_qty_disabled'] = $product->getTypeId() == \Magento\Catalog\Model\Product\Type::TYPE_GROUPED;
+            $item['is_qty_disabled'] = $product->getTypeId() == \Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE;
 
             if ($this->_isCheckout() && $product->isDisabled()) {
                 $item['is_configure_disabled'] = true;
