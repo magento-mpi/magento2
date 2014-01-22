@@ -37,6 +37,7 @@ interface RendererInterface
     /**
      * Render address
      *
+     * @deprecated All new code should use renderArray based on Metadata service
      * @param \Magento\Customer\Model\Address\AbstractAddress $address
      * @return mixed
      */
