@@ -11,7 +11,7 @@ namespace Magento\Customer\Service\V1\Dto\Eav;
 
 class AttributeMetadata extends \Magento\Service\Entity\AbstractDto
 {
-    /**
+    /**#@+
      * Constants used as keys into $_data
      */
     const ATTRIBUTE_CODE = 'attribute_code';
@@ -29,8 +29,11 @@ class AttributeMetadata extends \Magento\Service\Entity\AbstractDto
     const SORT_ORDER = 'sort_order';
     const FRONTEND_LABEL = 'frontend_label';
     const IS_SYSTEM = 'is_system';
+    /**#@-*/
 
     /**
+     * Retrieve code of the attribute.
+     *
      * @return string
      */
     public function getAttributeCode()
@@ -39,6 +42,8 @@ class AttributeMetadata extends \Magento\Service\Entity\AbstractDto
     }
 
     /**
+     * Frontend HTML for input element.
+     *
      * @return string
      */
     public function getFrontendInput()
@@ -47,6 +52,8 @@ class AttributeMetadata extends \Magento\Service\Entity\AbstractDto
     }
 
     /**
+     * Get template used for input (e.g. "date")
+     *
      * @return string
      */
     public function getInputFilter()
@@ -55,6 +62,8 @@ class AttributeMetadata extends \Magento\Service\Entity\AbstractDto
     }
 
     /**
+     * Get label of the store.
+     *
      * @return string
      */
     public function getStoreLabel()
@@ -63,6 +72,8 @@ class AttributeMetadata extends \Magento\Service\Entity\AbstractDto
     }
 
     /**
+     * Retrieve validation rules.
+     *
      * @return string
      */
     public function getValidationRules()
@@ -71,6 +82,8 @@ class AttributeMetadata extends \Magento\Service\Entity\AbstractDto
     }
 
     /**
+     * Number of lines of the attribute value.
+     *
      * @return int
      */
     public function getMultilineCount()
@@ -79,6 +92,8 @@ class AttributeMetadata extends \Magento\Service\Entity\AbstractDto
     }
 
     /**
+     * Whether attribute is visible on frontend.
+     *
      * @return boolean
      */
     public function isVisible()
@@ -87,6 +102,8 @@ class AttributeMetadata extends \Magento\Service\Entity\AbstractDto
     }
 
     /**
+     * Whether attribute is required.
+     *
      * @return boolean
      */
     public function isRequired()
@@ -95,6 +112,8 @@ class AttributeMetadata extends \Magento\Service\Entity\AbstractDto
     }
 
     /**
+     * Get data model for attribute.
+     *
      * @return string
      */
     public function getDataModel()
@@ -103,6 +122,8 @@ class AttributeMetadata extends \Magento\Service\Entity\AbstractDto
     }
 
     /**
+     * Return options of the attribute (key => value pairs for select)
+     *
      * @return Option[]
      */
     public function getOptions()
@@ -111,6 +132,8 @@ class AttributeMetadata extends \Magento\Service\Entity\AbstractDto
     }
 
     /**
+     * Get class which is used to display the attribute on frontend.
+     *
      * @return string
      */
     public function getFrontendClass()
@@ -119,6 +142,8 @@ class AttributeMetadata extends \Magento\Service\Entity\AbstractDto
     }
 
     /**
+     * Whether current attribute has been defined by a user.
+     *
      * @return bool
      */
     public function isUserDefined()
@@ -127,6 +152,8 @@ class AttributeMetadata extends \Magento\Service\Entity\AbstractDto
     }
 
     /**
+     * Get attributes sort order.
+     *
      * @return int
      */
     public function getSortOrder()
@@ -135,6 +162,8 @@ class AttributeMetadata extends \Magento\Service\Entity\AbstractDto
     }
 
     /**
+     * Get label which supposed to be displayed on frontend.
+     *
      * @return string
      */
     public function getFrontendLabel()
@@ -143,6 +172,8 @@ class AttributeMetadata extends \Magento\Service\Entity\AbstractDto
     }
 
     /**
+     * Whether this is a system attribute.
+     *
      * @return bool
      */
     public function isSystem()

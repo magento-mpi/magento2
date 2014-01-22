@@ -2,23 +2,17 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Order history block
- *
- * @category   Magento
- * @package    Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Sales\Block\Adminhtml\Order\View;
 
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
-
+use Magento\Eav\Model\AttributeDataFactory;
+/**
+ * Order history block
+ */
 class Info extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
 {
     /**
@@ -34,33 +28,17 @@ class Info extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
     protected $_groupService;
 
     /**
-     * @var \Magento\Customer\Model\GroupFactory
+     * @var \Magento\Customer\Model\Metadata\ElementFactory
      */
-    protected $_groupFactory;
-
-    /**
-     * @var \Magento\Eav\Model\AttributeDataFactory
-     */
-    protected $_attrDataFactory;
-
-    /**
-     * @var \Magento\Customer\Model\CustomerFactory
-     */
-    protected $_customerFactory;
-
-    /**
-     * @var \Magento\Eav\Model\Config
-     */
-    protected $_eavConfig;
+    protected $_metadataElementFactory;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Sales\Helper\Admin $adminHelper
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService
-     * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Eav\Model\AttributeDataFactory $attrDataFactory
      * @param CustomerMetadataServiceInterface $customerMetadataService
+     * @param \Magento\Customer\Model\Metadata\ElementFactory $elementFactory
      * @param array $data
      */
     public function __construct(
@@ -68,15 +46,13 @@ class Info extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
         \Magento\Core\Model\Registry $registry,
         \Magento\Sales\Helper\Admin $adminHelper,
         \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService,
-        \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Eav\Model\AttributeDataFactory $attrDataFactory,
         CustomerMetadataServiceInterface $customerMetadataService,
+        \Magento\Customer\Model\Metadata\ElementFactory $elementFactory,
         array $data = array()
     ) {
         $this->_groupService = $groupService;
-        $this->_eavConfig = $eavConfig;
-        $this->_attrDataFactory = $attrDataFactory;
         $this->_customerMetadataService = $customerMetadataService;
+        $this->_metadataElementFactory = $elementFactory;
         parent::__construct($context, $registry, $adminHelper, $data);
     }
 
@@ -116,6 +92,11 @@ class Info extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
         return null;
     }
 
+    /**
+     * Return name of the customer group.
+     *
+     * @return string
+     */
     public function getCustomerGroupName()
     {
         if ($this->getOrder()) {
@@ -124,17 +105,28 @@ class Info extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
                 return $this->_groupService->getGroup($customerGroupId)->getCode();
             }
         }
-        return null;
+        return '';
     }
 
+    /**
+     * Get URL to edit the customer.
+     *
+     * @return string
+     */
     public function getCustomerViewUrl()
     {
         if ($this->getOrder()->getCustomerIsGuest() || !$this->getOrder()->getCustomerId()) {
-            return false;
+            return '';
         }
         return $this->getUrl('customer/index/edit', array('id' => $this->getOrder()->getCustomerId()));
     }
 
+    /**
+     * Get order view URL.
+     *
+     * @param int $orderId
+     * @return string
+     */
     public function getViewUrl($orderId)
     {
         return $this->getUrl('sales/order/view', array('order_id'=>$orderId));
@@ -164,28 +156,25 @@ class Info extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
      */
     public function getCustomerAccountData()
     {
-        $accountData = array();
-
+        $accountData = [];
         $entityType = 'customer';
+
         foreach ($this->_customerMetadataService->getAllCustomerAttributeMetadata($entityType) as $attribute) {
+            /* @var $attribute \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata */
             if (!$attribute->isVisible() || $attribute->isSystem()) {
                 continue;
             }
             $orderKey   = sprintf('customer_%s', $attribute->getAttributeCode());
             $orderValue = $this->getOrder()->getData($orderKey);
             if ($orderValue != '') {
-                $dataModel = $this->_elementFactory->create(
-                    $attribute,
-                    isset($this->_attributeValues[$attribute->getAttributeCode()]),
-                    $this->_entityType
-                );
-                $value      = $dataModel->outputValue(\Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_HTML);
+                $metadataElement = $this->_metadataElementFactory->create($attribute, $orderValue, $entityType);
+                $value      = $metadataElement->outputValue(AttributeDataFactory::OUTPUT_FORMAT_HTML);
                 $sortOrder  = $attribute->getSortOrder() + $attribute->getIsUserDefined() ? 200 : 0;
                 $sortOrder  = $this->_prepareAccountDataSortOrder($accountData, $sortOrder);
-                $accountData[$sortOrder] = array(
+                $accountData[$sortOrder] = [
                     'label' => $attribute->getFrontendLabel(),
-                    'value' => $this->escapeHtml($value, array('br'))
-                );
+                    'value' => $this->escapeHtml($value, ['br'])
+                ];
             }
         }
 
