@@ -17,6 +17,7 @@
  */
 namespace Magento;
 
+use Magento\Exception;
 use Magento\Object;
 use Magento\Pear\Frontend;
 use Magento\Pear\Registry;
@@ -189,7 +190,7 @@ class Pear
     public function getRegistry($redirectOnChange=true)
     {
         if (!$this->_registry) {
-            $this->_registry = new \Magento\Pear\Registry($this->getPearDir() . '/php');
+            $this->_registry = new Registry($this->getPearDir() . '/php');
 
             $changed = false;
             foreach ($this->getMagentoChannels() as $channel) {
@@ -219,7 +220,7 @@ class Pear
     public function getFrontend()
     {
         if (!$this->_frontend) {
-            $this->_frontend = new \Magento\Pear\Frontend;
+            $this->_frontend = new Frontend;
         }
         return $this->_frontend;
     }
@@ -282,6 +283,7 @@ class Pear
      * @param array|Object $runParams command, options, params,
      *        comment, success_callback, failure_callback
      * @return mixed
+     * @throws Exception
      */
     public function runHtmlConsole($runParams)
     {
@@ -291,14 +293,14 @@ class Pear
         $oldLogStream = $fe->getLogStream();
         $fe->setLogStream('stdout');
 
-        if ($runParams instanceof \Magento\Object) {
+        if ($runParams instanceof Object) {
             $run = $runParams;
         } elseif (is_array($runParams)) {
-            $run = new \Magento\Object($runParams);
+            $run = new Object($runParams);
         } elseif (is_string($runParams)) {
-            $run = new \Magento\Object(array('title'=>$runParams));
+            $run = new Object(array('title'=>$runParams));
         } else {
-            throw \Magento\Exception("Invalid run parameters");
+            throw Exception("Invalid run parameters");
         }
 ?>
 <html><head><style type="text/css">
