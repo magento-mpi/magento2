@@ -10,7 +10,7 @@
 namespace Magento\Core\App\FrontController\Plugin;
 
 use Magento\Core\Model\StoreManager,
-    Magento\Filesystem;
+    Magento\App\Filesystem;
 
 class DispatchExceptionHandler
 {
@@ -22,7 +22,7 @@ class DispatchExceptionHandler
     /**
      * Filesystem instance
      *
-     * @var \Magento\Filesystem
+     * @var \Magento\App\Filesystem
      */
     protected $filesystem;
 

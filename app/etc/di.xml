@@ -251,25 +251,25 @@
                 <item key="urlLib">
                     <array>
                         <item key="key"><value type="const">Magento\Core\Model\Store::URL_TYPE_LIB</value></item>
-                        <item key="value"><value type="const">Magento\Filesystem::PUB_LIB</value></item>
+                        <item key="value"><value type="const">Magento\App\Filesystem::PUB_LIB_DIR</value></item>
                     </array>
                 </item>
                 <item key="urlMedia">
                     <array>
                         <item key="key"><value type="const">Magento\Core\Model\Store::URL_TYPE_MEDIA</value></item>
-                        <item key="value"><value type="const">Magento\Filesystem::MEDIA</value></item>
+                        <item key="value"><value type="const">Magento\App\Filesystem::MEDIA_DIR</value></item>
                     </array>
                 </item>
                 <item key="urlStatic">
                     <array>
                         <item key="key"><value type="const">Magento\Core\Model\Store::URL_TYPE_STATIC</value></item>
-                        <item key="value"><value type="const">Magento\Filesystem::STATIC_VIEW</value></item>
+                        <item key="value"><value type="const">Magento\App\Filesystem::STATIC_VIEW_DIR</value></item>
                     </array>
                 </item>
                 <item key="urlCache">
                     <array>
                         <item key="key"><value type="const">Magento\Core\Model\Store::URL_TYPE_CACHE</value></item>
-                        <item key="value"><value type="const">Magento\Filesystem::PUB_VIEW_CACHE</value></item>
+                        <item key="value"><value type="const">Magento\App\Filesystem::PUB_VIEW_CACHE_DIR</value></item>
                     </array>
                 </item>
             </array>
@@ -280,7 +280,7 @@
             <value/>
         </param>
     </type>
-    <type name="Magento\Filesystem">
+    <type name="Magento\App\Filesystem">
         <param name="fileReadFactory">
             <instance type="Magento\Filesystem\File\ReadFactory" />
         </param>

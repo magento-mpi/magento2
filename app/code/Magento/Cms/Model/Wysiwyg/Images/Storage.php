@@ -131,7 +131,7 @@ class Storage extends \Magento\Object
      * @param \Magento\Backend\Model\Url $backendUrl
      * @param \Magento\Cms\Helper\Wysiwyg\Images $cmsWysiwygImages
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\Image\AdapterFactory $imageFactory
      * @param \Magento\View\Url $viewUrl
      * @param \Magento\Cms\Model\Wysiwyg\Images\Storage\CollectionFactory $storageCollectionFactory
@@ -151,7 +151,7 @@ class Storage extends \Magento\Object
         \Magento\Backend\Model\Url $backendUrl,
         \Magento\Cms\Helper\Wysiwyg\Images $cmsWysiwygImages,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
-        \Magento\Filesystem $filesystem,
+        \Magento\App\Filesystem $filesystem,
         \Magento\Image\AdapterFactory $imageFactory,
         \Magento\View\Url $viewUrl,
         \Magento\Cms\Model\Wysiwyg\Images\Storage\CollectionFactory $storageCollectionFactory,
@@ -168,7 +168,7 @@ class Storage extends \Magento\Object
         $this->_backendUrl = $backendUrl;
         $this->_cmsWysiwygImages = $cmsWysiwygImages;
         $this->_coreFileStorageDb = $coreFileStorageDb;
-        $this->_directory = $filesystem->getDirectoryWrite(\Magento\Filesystem::MEDIA);
+        $this->_directory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::MEDIA_DIR);
         $this->_imageFactory = $imageFactory;
         $this->_viewUrl = $viewUrl;
         $this->_storageCollectionFactory = $storageCollectionFactory;

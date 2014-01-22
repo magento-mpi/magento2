@@ -8,16 +8,8 @@
  */
 -->
 <config>
-    <type name="Magento\PageCache\Model\CacheControlFactory">
-        <param name="cacheControls">
-            <array>
-                <item key="zendPageCache">
-                    <array>
-                        <item key="instance"><value>Magento\PageCache\Model\Control\Zend</value></item>
-                        <item key="label"><value>Zend Full Page Cache</value></item>
-                    </array>
-                </item>
-            </array>
-        </param>
+    <type name="Magento\App\FrontControllerInterface">
+        <plugin name="front-controller-head"
+            type="Magento\PageCache\Model\App\FrontController\HeaderPlugin" disabled="true"/>
     </type>
 </config>
