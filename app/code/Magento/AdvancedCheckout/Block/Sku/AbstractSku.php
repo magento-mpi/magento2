@@ -53,6 +53,7 @@ abstract class AbstractSku
         $this->_checkoutData = $checkoutData;
         $this->mathRandom = $mathRandom;
         parent::__construct($context, $data);
+        $this->_isScopePrivate = true;
     }
 
     /**

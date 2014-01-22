@@ -109,6 +109,7 @@ class View extends \Magento\Rma\Block\Form
         $this->_customerSession = $customerSession;
         $this->_eavConfig = $eavConfig;
         parent::__construct($context, $modelFactory, $formFactory, $eavConfig, $data);
+        $this->_isScopePrivate = true;
     }
 
     public function _construct()

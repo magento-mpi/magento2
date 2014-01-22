@@ -156,6 +156,7 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
             $data,
             $priceBlockTypes
         );
+        $this->_isScopePrivate = true;
     }
 
     /**

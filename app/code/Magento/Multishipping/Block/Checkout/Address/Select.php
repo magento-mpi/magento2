@@ -19,6 +19,20 @@ namespace Magento\Multishipping\Block\Checkout\Address;
 
 class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
 {
+    /**
+     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Checkout\Model\Type\Multishipping $multishipping
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\View\Element\Template\Context $context,
+        \Magento\Checkout\Model\Type\Multishipping $multishipping,
+        array $data = array()
+    ) {
+        parent::__construct($context, $multishipping, $data);
+        $this->_isScopePrivate = true;
+    }
+
     protected function _prepareLayout()
     {
         if ($headBlock = $this->getLayout()->getBlock('head')) {

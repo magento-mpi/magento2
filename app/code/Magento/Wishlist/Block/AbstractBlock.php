@@ -97,6 +97,7 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
             $data,
             $priceBlockTypes
         );
+        $this->_isScopePrivate = true;
     }
 
     /**

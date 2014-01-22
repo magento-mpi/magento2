@@ -63,6 +63,7 @@ class Management extends \Magento\View\Element\Template
         $this->_wishlistData = $wishlistData;
         $this->_customerSession = $customerSession;
         parent::__construct($context, $data);
+        $this->_isScopePrivate = true;
     }
 
     /**
