@@ -19,6 +19,7 @@ namespace Magento\PricePermissions\Model;
 
 use Magento\Backend\Block\Template;
 use Magento\Event\Observer as EventObserver;
+use Magento\Backend\Block\Widget\Grid;
 
 class Observer
 {
@@ -32,21 +33,21 @@ class Observer
     /**
      * Edit Product Price flag
      *
-     * @var boolean
+     * @var bool
      */
     protected $_canEditProductPrice;
 
     /**
      * Read Product Price flag
      *
-     * @var boolean
+     * @var bool
      */
     protected $_canReadProductPrice;
 
     /**
      * Edit Product Status flag
      *
-     * @var boolean
+     * @var bool
      */
     protected $_canEditProductStatus;
 
@@ -375,7 +376,7 @@ class Observer
     /**
      * Remove columns from grid
      *
-     * @param \Magento\Backend\Block\Widget\Grid $block
+     * @param Grid $block
      * @param array $columns
      * @return void
      */
@@ -391,9 +392,9 @@ class Observer
     /**
      * Remove column from grid
      *
-     * @param \Magento\Backend\Block\Widget\Grid $block
+     * @param Grid $block
      * @param string $column
-     * @return \Magento\Backend\Block\Widget\Grid|bool
+     * @return Grid|bool
      */
     protected function _removeColumnFromGrid($block, $column)
     {
