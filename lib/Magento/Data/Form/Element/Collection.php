@@ -17,6 +17,8 @@
  */
 namespace Magento\Data\Form\Element;
 
+use Magento\Data\Form;
+use Magento\Data\Form\AbstractForm;
 use Magento\Data\Form\Element\AbstractElement;
 
 class Collection implements \ArrayAccess, \IteratorAggregate
@@ -32,16 +34,16 @@ class Collection implements \ArrayAccess, \IteratorAggregate
     /**
      * Elements container
      *
-     * @var \Magento\Data\Form\AbstractForm
+     * @var AbstractForm
      */
     private $_container;
 
     /**
      * Class constructor
      *
-     * @param \Magento\Data\Form\AbstractForm $container
+     * @param AbstractForm $container
      */
-    public function __construct(\Magento\Data\Form\AbstractForm $container)
+    public function __construct(AbstractForm $container)
     {
         $this->_elements = array();
         $this->_container = $container;
@@ -106,14 +108,14 @@ class Collection implements \ArrayAccess, \IteratorAggregate
      * Add element to collection
      *
      * @todo get it straight with $after
-     * @param \Magento\Data\Form\Element\AbstractElement $element
+     * @param AbstractElement $element
      * @param bool|string $after
      * @return \Magento\Data\Form\Element\Collection
      */
-    public function add(\Magento\Data\Form\Element\AbstractElement $element, $after = false)
+    public function add(AbstractElement $element, $after = false)
     {
         // Set the Form for the node
-        if ($this->_container->getForm() instanceof \Magento\Data\Form) {
+        if ($this->_container->getForm() instanceof Form) {
             $element->setContainer($this->_container);
             $element->setForm($this->_container->getForm());
         }

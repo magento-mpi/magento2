@@ -61,7 +61,7 @@ class Graph
      *
      * @param string|int $fromNode
      * @param string|int $toNode
-     * @return \Magento\Data\Graph
+     * @return $this
      * @throws \InvalidArgumentException
      */
     public function addRelation($fromNode, $toNode)

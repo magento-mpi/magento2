@@ -143,7 +143,7 @@ class Dbp extends \Magento\Data\Tree
     /**
      * Set Select object
      *
-     * @param \Magento\DB\Select $select
+     * @param Select $select
      * @return void
      */
     public function setDbSelect($select)
@@ -164,7 +164,7 @@ class Dbp extends \Magento\Data\Tree
             $startLevel = 1;
             $parentPath = '';
 
-            if ($parentNode instanceof \Magento\Data\Tree\Node) {
+            if ($parentNode instanceof Node) {
                 $parentPath = $parentNode->getData($this->_pathField);
                 $startLevel = $parentNode->getData($this->_levelField);
             } else if (is_numeric($parentNode)) {
@@ -230,7 +230,7 @@ class Dbp extends \Magento\Data\Tree
                 if ($parentNode && $nodeId && $node = $parentNode->getChildren()->searchById($nodeId)) {
                     $node->addData($child);
                 } else {
-                    $node = new \Magento\Data\Tree\Node($child, $this->_idField, $this, $parentNode);
+                    $node = new Node($child, $this->_idField, $this, $parentNode);
                 }
 
                 //$node->setLevel(count(explode('/', $node->getData($this->_pathField)))-1);
@@ -269,7 +269,7 @@ class Dbp extends \Magento\Data\Tree
 
         $select->where("{$condField} = ?", $nodeId);
 
-        $node = new \Magento\Data\Tree\Node($this->_conn->fetchRow($select), $this->_idField, $this);
+        $node = new Node($this->_conn->fetchRow($select), $this->_idField, $this);
         $this->addNode($node);
         return $node;
     }
@@ -416,7 +416,7 @@ class Dbp extends \Magento\Data\Tree
                 if ($parentNode && $nodeId && $node = $parentNode->getChildren()->searchById($nodeId)) {
                     $node->addData($child);
                 } else {
-                    $node = new \Magento\Data\Tree\Node($child, $this->_idField, $this, $parentNode);
+                    $node = new Node($child, $this->_idField, $this, $parentNode);
                     $node->setLevel($node->getData($this->_levelField));
                     $node->setPathId($node->getData($this->_pathField));
                     $this->addNode($node, $parentNode);

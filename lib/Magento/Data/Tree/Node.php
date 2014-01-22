@@ -64,7 +64,7 @@ class Node extends \Magento\Object
         $this->setParent($parent);
         $this->setIdField($idFeild);
         $this->setData($data);
-        $this->_childNodes = new \Magento\Data\Tree\Node\Collection($this);
+        $this->_childNodes = new Collection($this);
     }
 
     /**
@@ -105,7 +105,7 @@ class Node extends \Magento\Object
      * @param   Tree $tree
      * @return  this
      */
-    public function setTree(\Magento\Data\Tree $tree)
+    public function setTree(Tree $tree)
     {
         $this->_tree = $tree;
         return $this;
@@ -200,7 +200,7 @@ class Node extends \Magento\Object
     /**
      * Retrieve node children collection
      *
-     * @return \Magento\Data\Tree\Node\Collection
+     * @return Collection
      */
     public function getChildren()
     {

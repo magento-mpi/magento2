@@ -17,6 +17,11 @@
  */
 namespace Magento\Data\Form\Element;
 
+use Magento\Data\Form\Element\CollectionFactory;
+use Magento\Data\Form\Element\Factory;
+use Magento\Escaper;
+use Magento\Stdlib\DateTime;
+
 class Date extends \Magento\Data\Form\Element\AbstractElement
 {
     /**
@@ -25,15 +30,15 @@ class Date extends \Magento\Data\Form\Element\AbstractElement
     protected $_value;
 
     /**
-     * @param \Magento\Data\Form\Element\Factory $factoryElement
-     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
-     * @param \Magento\Escaper $escaper
+     * @param Factory $factoryElement
+     * @param CollectionFactory $factoryCollection
+     * @param Escaper $escaper
      * @param array $data
      */
     public function __construct(
-        \Magento\Data\Form\Element\Factory $factoryElement,
-        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
-        \Magento\Escaper $escaper,
+        Factory $factoryElement,
+        CollectionFactory $factoryCollection,
+        Escaper $escaper,
         $data = array()
     ) {
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);
@@ -71,7 +76,7 @@ class Date extends \Magento\Data\Form\Element\AbstractElement
      * @param mixed $value
      * @param string $format
      * @param string $locale
-     * @return \Magento\Data\Form\Element\Date
+     * @return $this
      */
     public function setValue($value, $format = null, $locale = null)
     {
@@ -90,7 +95,7 @@ class Date extends \Magento\Data\Form\Element\AbstractElement
         }
         // last check, if input format was set
         if (null === $format) {
-            $format = \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT;
+            $format = DateTime::DATETIME_INTERNAL_FORMAT;
             if ($this->getInputFormat()) {
                 $format = $this->getInputFormat();
             }

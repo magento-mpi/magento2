@@ -11,14 +11,20 @@
 namespace Magento\Data;
 
 use Magento\Data\Form\Element\AbstractElement;
+use Magento\Data\Form\Element\Collection;
+use Magento\Data\Form\Element\CollectionFactory;
+use Magento\Data\Form\Element\Factory;
 use Magento\Data\Form\Element\Renderer\RendererInterface;
+use Magento\Data\Form\FormKey;
+use Magento\Profiler;
+
 
 class Form extends \Magento\Data\Form\AbstractForm
 {
     /**
      * All form elements collection
      *
-     * @var \Magento\Data\Form\Element\Collection
+     * @var Collection
      */
     protected $_allElements;
 
@@ -30,7 +36,7 @@ class Form extends \Magento\Data\Form\AbstractForm
     protected $_elementsIndex;
 
     /**
-     * @var Form\FormKey
+     * @var FormKey
      */
     protected $formKey;
 
@@ -50,15 +56,15 @@ class Form extends \Magento\Data\Form\AbstractForm
     static protected $_defaultFieldsetElementRenderer;
 
     /**
-     * @param Form\Element\Factory $factoryElement
-     * @param Form\Element\CollectionFactory $factoryCollection
-     * @param Form\FormKey $formKey
+     * @param Factory $factoryElement
+     * @param CollectionFactory $factoryCollection
+     * @param FormKey $formKey
      * @param array $data
      */
     public function __construct(
-        \Magento\Data\Form\Element\Factory $factoryElement,
-        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
-        \Magento\Data\Form\FormKey $formKey,
+        Factory $factoryElement,
+        CollectionFactory $factoryCollection,
+        FormKey $formKey,
         $data = array()
     ) {
         parent::__construct($factoryElement, $factoryCollection, $data);
@@ -70,7 +76,7 @@ class Form extends \Magento\Data\Form\AbstractForm
      * @param RendererInterface $renderer
      * @return void
      */
-    public static function setElementRenderer(\Magento\Data\Form\Element\Renderer\RendererInterface $renderer = null)
+    public static function setElementRenderer(RendererInterface $renderer = null)
     {
         self::$_defaultElementRenderer = $renderer;
     }
@@ -79,7 +85,7 @@ class Form extends \Magento\Data\Form\AbstractForm
      * @param RendererInterface $renderer
      * @return void
      */
-    public static function setFieldsetRenderer(\Magento\Data\Form\Element\Renderer\RendererInterface $renderer = null)
+    public static function setFieldsetRenderer(RendererInterface $renderer = null)
     {
         self::$_defaultFieldsetRenderer = $renderer;
     }
@@ -88,7 +94,7 @@ class Form extends \Magento\Data\Form\AbstractForm
      * @param RendererInterface $renderer
      * @return void
      */
-    public static function setFieldsetElementRenderer(\Magento\Data\Form\Element\Renderer\RendererInterface $renderer = null)
+    public static function setFieldsetElementRenderer(RendererInterface $renderer = null)
     {
         self::$_defaultFieldsetElementRenderer = $renderer;
     }
@@ -134,7 +140,7 @@ class Form extends \Magento\Data\Form\AbstractForm
      * @param bool $after
      * @return \Magento\Data\Form
      */
-    public function addElement(\Magento\Data\Form\Element\AbstractElement $element, $after = false)
+    public function addElement(AbstractElement $element, $after = false)
     {
         $this->checkElementId($element->getId());
         parent::addElement($element, $after);
@@ -306,7 +312,7 @@ class Form extends \Magento\Data\Form\AbstractForm
      */
     public function toHtml()
     {
-        \Magento\Profiler::start('form/toHtml');
+        Profiler::start('form/toHtml');
         $html = '';
         $useContainer = $this->getUseContainer();
         if ($useContainer) {
@@ -327,7 +333,7 @@ class Form extends \Magento\Data\Form\AbstractForm
         if ($useContainer) {
             $html.= '</form>';
         }
-        \Magento\Profiler::stop('form/toHtml');
+        Profiler::stop('form/toHtml');
         return $html;
     }
 

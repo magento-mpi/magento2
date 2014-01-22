@@ -16,6 +16,9 @@
  */
 namespace Magento\Data\Form\Element;
 
+use Magento\Data\Form\Element\AbstractElement;
+use Magento\ObjectManager;
+
 class Factory
 {
     /**
@@ -60,9 +63,9 @@ class Factory
     );
 
     /**
-     * @param \Magento\ObjectManager $objectManager
+     * @param ObjectManager $objectManager
      */
-    public function __construct(\Magento\ObjectManager $objectManager)
+    public function __construct(ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
     }
@@ -72,7 +75,7 @@ class Factory
      *
      * @param string $elementType Standard element type or Custom element class
      * @param array $config
-     * @return \Magento\Data\Form\Element\AbstractElement
+     * @return AbstractElement
      * @throws \InvalidArgumentException
      */
     public function create($elementType, array $config = array())
@@ -84,7 +87,7 @@ class Factory
         }
 
         $element = $this->_objectManager->create($className, $config);
-        if (!($element instanceof \Magento\Data\Form\Element\AbstractElement)) {
+        if (!($element instanceof AbstractElement)) {
             throw new \InvalidArgumentException($className
             . ' doesn\'n extend \Magento\Data\Form\Element\AbstractElement');
         }

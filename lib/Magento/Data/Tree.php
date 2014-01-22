@@ -18,7 +18,8 @@
  */
 namespace Magento\Data;
 
-use \Magento\Data\Tree\Node;
+use Magento\Data\Tree\Node;
+use Magento\Data\Tree\Node\Collection;
 
 class Tree
 {
@@ -26,7 +27,7 @@ class Tree
     /**
      * Nodes collection
      *
-     * @var \Magento\Data\Tree\Node\Collection
+     * @var Collection
      */
     protected $_nodes;
 
@@ -36,7 +37,7 @@ class Tree
      */
     public function __construct()
     {
-        $this->_nodes = new \Magento\Data\Tree\Node\Collection($this);
+        $this->_nodes = new Collection($this);
     }
 
     /**
@@ -81,10 +82,10 @@ class Tree
     {
         if (is_array($data)) {
             $node = $this->addNode(
-                new \Magento\Data\Tree\Node($data, $parentNode->getIdField(), $this),
+                new Node($data, $parentNode->getIdField(), $this),
                 $parentNode
             );
-        } elseif ($data instanceof \Magento\Data\Tree\Node) {
+        } elseif ($data instanceof Node) {
             $node = $this->addNode($data, $parentNode);
         }
         return $node;
@@ -101,7 +102,7 @@ class Tree
     {
         $this->_nodes->add($node);
         $node->setParent($parent);
-        if (!is_null($parent) && ($parent instanceof \Magento\Data\Tree\Node) ) {
+        if (!is_null($parent) && ($parent instanceof Node) ) {
             $parent->addChild($node);
         }
         return $node;
@@ -181,7 +182,7 @@ class Tree
     /**
      * Enter description here...
      *
-     * @return \Magento\Data\Tree\Node\Collection
+     * @return Collection
      */
     public function getNodes()
     {
@@ -207,7 +208,7 @@ class Tree
      */
     public function getPath($node)
     {
-        if ($node instanceof \Magento\Data\Tree\Node ) {
+        if ($node instanceof Node ) {
 
         } elseif (is_numeric($node)){
             if ($_node = $this->getNodeById($node)) {

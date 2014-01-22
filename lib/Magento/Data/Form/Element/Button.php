@@ -17,6 +17,10 @@
  */
 namespace Magento\Data\Form\Element;
 
+use Magento\Data\Form\Element\CollectionFactory;
+use Magento\Data\Form\Element\Factory;
+use Magento\Escaper;
+
 class Button extends \Magento\Data\Form\Element\AbstractElement
 {
     /**
@@ -27,15 +31,15 @@ class Button extends \Magento\Data\Form\Element\AbstractElement
     protected $_htmlAttributes = array('data-mage-init');
 
     /**
-     * @param \Magento\Data\Form\Element\Factory $factoryElement
-     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
-     * @param \Magento\Escaper $escaper
+     * @param Factory $factoryElement
+     * @param CollectionFactory $factoryCollection
+     * @param Escaper $escaper
      * @param array $data
      */
     public function __construct(
-        \Magento\Data\Form\Element\Factory $factoryElement,
-        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
-        \Magento\Escaper $escaper,
+        Factory $factoryElement,
+        CollectionFactory $factoryCollection,
+        Escaper $escaper,
         $data = array()
     ) {
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);

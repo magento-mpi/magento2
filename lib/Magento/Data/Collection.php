@@ -23,6 +23,7 @@
 namespace Magento\Data;
 
 use Magento\Object;
+use Magento\Data\Collection\EntityFactoryInterface;
 
 class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\Option\ArrayInterface
 {
@@ -102,14 +103,14 @@ class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\
     protected $_flags = array();
 
     /**
-     * @var \Magento\Data\Collection\EntityFactoryInterface
+     * @var EntityFactoryInterface
      */
     protected $_entityFactory;
 
     /**
-     * @param \Magento\Data\Collection\EntityFactoryInterface $entityFactory
+     * @param EntityFactoryInterface $entityFactory
      */
-    public function __construct(\Magento\Data\Collection\EntityFactoryInterface $entityFactory)
+    public function __construct(EntityFactoryInterface $entityFactory)
     {
         $this->_entityFactory = $entityFactory;
     }
@@ -124,7 +125,7 @@ class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\
      */
     public function addFilter($field, $value, $type = 'and')
     {
-        $filter = new \Magento\Object(); // implements ArrayAccess
+        $filter = new Object(); // implements ArrayAccess
         $filter['field']   = $field;
         $filter['value']   = $value;
         $filter['type']    = strtolower($type);
@@ -144,7 +145,7 @@ class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\
      * - array() -- get all filters
      *
      * @param string|string[] $field
-     * @return \Magento\Object|\Magento\Object[]|null
+     * @return Object|Object[]|null
      */
     public function getFilter($field)
     {
@@ -254,7 +255,7 @@ class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\
     /**
      * Retrieve collection first item
      *
-     * @return \Magento\Object
+     * @return Object
      */
     public function getFirstItem()
     {
@@ -271,7 +272,7 @@ class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\
     /**
      * Retrieve collection last item
      *
-     * @return \Magento\Object
+     * @return Object
      */
     public function getLastItem()
     {
@@ -337,7 +338,7 @@ class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\
      *
      * @param   string $column
      * @param   mixed $value
-     * @return  \Magento\Object || null
+     * @return  Object || null
      */
     public function getItemByColumnValue($column, $value)
     {
@@ -354,11 +355,11 @@ class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\
     /**
      * Adding item to item array
      *
-     * @param   \Magento\Object $item
+     * @param   Object $item
      * @return $this
      * @throws \Exception
      */
-    public function addItem(\Magento\Object $item)
+    public function addItem(Object $item)
     {
         $itemId = $this->_getItemId($item);
 
@@ -378,7 +379,7 @@ class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\
     /**
      * Add item that has no id to collection
      *
-     * @param \Magento\Object $item
+     * @param Object $item
      * @return $this
      */
     protected function _addItem($item)
@@ -390,10 +391,10 @@ class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\
     /**
      * Retrieve item id
      *
-     * @param \Magento\Object $item
+     * @param Object $item
      * @return mixed
      */
-    protected function _getItemId(\Magento\Object $item)
+    protected function _getItemId(Object $item)
     {
         return $item->getId();
     }
@@ -565,7 +566,7 @@ class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\
     /**
      * Retrieve collection empty item
      *
-     * @return \Magento\Object
+     * @return Object
      */
     public function getNewEmptyItem()
     {
@@ -745,7 +746,7 @@ class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\
      * Retrieve item by id
      *
      * @param   mixed $idValue
-     * @return  \Magento\Object
+     * @return  Object
      */
     public function getItemById($idValue)
     {

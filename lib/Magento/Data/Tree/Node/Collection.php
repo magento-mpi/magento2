@@ -17,6 +17,7 @@
  */
 namespace Magento\Data\Tree\Node;
 
+use Magento\Data\Tree;
 use Magento\Data\Tree\Node;
 
 class Collection implements \ArrayAccess, \IteratorAggregate
@@ -107,12 +108,12 @@ class Collection implements \ArrayAccess, \IteratorAggregate
      * @param Node $node
      * @return Node
      */
-    public function add(\Magento\Data\Tree\Node $node)
+    public function add(Node $node)
     {
         $node->setParent($this->_container);
 
         // Set the Tree for the node
-        if ($this->_container->getTree() instanceof \Magento\Data\Tree) {
+        if ($this->_container->getTree() instanceof Tree) {
             $node->setTree($this->_container->getTree());
         }
 

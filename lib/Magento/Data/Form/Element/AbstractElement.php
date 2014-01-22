@@ -20,7 +20,11 @@ namespace Magento\Data\Form\Element;
 
 use Magento\Data\Form;
 use Magento\Data\Form\AbstractForm;
+use Magento\Data\Form\Element\AbstractElement;
+use Magento\Data\Form\Element\CollectionFactory;
+use Magento\Data\Form\Element\Factory;
 use Magento\Data\Form\Element\Renderer\RendererInterface;
+use Magento\Escaper;
 use Magento\Object;
 
 abstract class AbstractElement extends \Magento\Data\Form\AbstractForm
@@ -58,20 +62,20 @@ abstract class AbstractElement extends \Magento\Data\Form\AbstractForm
     protected $_advanced = false;
 
     /**
-     * @var \Magento\Escaper
+     * @var Escaper
      */
     protected $_escaper;
 
     /**
-     * @param \Magento\Data\Form\Element\Factory $factoryElement
-     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
-     * @param \Magento\Escaper $escaper
+     * @param Factory $factoryElement
+     * @param CollectionFactory $factoryCollection
+     * @param Escaper $escaper
      * @param array $data
      */
     public function __construct(
-        \Magento\Data\Form\Element\Factory $factoryElement,
-        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
-        \Magento\Escaper $escaper,
+        Factory $factoryElement,
+        CollectionFactory $factoryCollection,
+        Escaper $escaper,
         $data = array()
     ) {
         $this->_escaper = $escaper;
@@ -82,11 +86,11 @@ abstract class AbstractElement extends \Magento\Data\Form\AbstractForm
     /**
      * Add form element
      *
-     * @param   \Magento\Data\Form\Element\AbstractElement $element
+     * @param   AbstractElement $element
      * @param bool $after
-     * @return  \Magento\Data\Form
+     * @return  Form
      */
-    public function addElement(\Magento\Data\Form\Element\AbstractElement $element, $after = false)
+    public function addElement(AbstractElement $element, $after = false)
     {
         if ($this->getForm()) {
             $this->getForm()->checkElementId($element->getId());
@@ -110,7 +114,7 @@ abstract class AbstractElement extends \Magento\Data\Form\AbstractForm
      * Set _advanced layout property
      *
      * @param bool $advanced
-     * @return \Magento\Data\Form\Element\AbstractElement
+     * @return AbstractElement
      */
     public function setAdvanced($advanced) {
         $this->_advanced = $advanced;
@@ -246,7 +250,7 @@ abstract class AbstractElement extends \Magento\Data\Form\AbstractForm
      * Remove CSS class
      *
      * @param string $class
-     * @return \Magento\Data\Form\Element\AbstractElement
+     * @return AbstractElement
      */
     public function removeClass($class)
     {
@@ -495,7 +499,7 @@ abstract class AbstractElement extends \Magento\Data\Form\AbstractForm
      *
      * @param string|int|array $values
      * @param bool $overwrite
-     * @return \Magento\Data\Form\Element\AbstractElement
+     * @return AbstractElement
      */
     public function addElementValues($values, $overwrite = false)
     {

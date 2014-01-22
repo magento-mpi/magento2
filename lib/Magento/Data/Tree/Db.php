@@ -20,6 +20,8 @@
  */
 namespace Magento\Data\Tree;
 
+use Magento\Data\Tree\Node;
+
 class Db extends \Magento\Data\Tree
 {
     const ID_FIELD      = 'id';
@@ -138,7 +140,7 @@ class Db extends \Magento\Data\Tree
     /**
      * Load tree
      *
-     * @param   int || \Magento\Data\Tree\Node $parentNode
+     * @param   int|Node $parentNode
      * @param   int $recursionLevel recursion level
      * @return  this
      */
@@ -148,7 +150,7 @@ class Db extends \Magento\Data\Tree
             $this->_loadFullTree();
             return $this;
         }
-        elseif ($parentNode instanceof \Magento\Data\Tree\Node) {
+        elseif ($parentNode instanceof Node) {
             $parentId = $parentNode->getId();
         }
         elseif (is_numeric($parentNode)) {
@@ -165,7 +167,7 @@ class Db extends \Magento\Data\Tree
         $select->where($condition);
         $arrNodes = $this->_conn->fetchAll($select);
         foreach ($arrNodes as $nodeInfo) {
-            $node = new \Magento\Data\Tree\Node($nodeInfo, $this->_idField, $this, $parentNode);
+            $node = new Node($nodeInfo, $this->_idField, $this, $parentNode);
             $this->addNode($node, $parentNode);
 
             if ($recursionLevel) {
@@ -184,7 +186,7 @@ class Db extends \Magento\Data\Tree
         $select = clone $this->_select;
         $condition = $this->_conn->quoteInto("$this->_table.$this->_idField=?", $nodeId);
         $select->where($condition);
-        $node = new \Magento\Data\Tree\Node($this->_conn->fetchRow($select), $this->_idField, $this);
+        $node = new Node($this->_conn->fetchRow($select), $this->_idField, $this);
         $this->addNode($node);
         return $node;
     }
@@ -215,9 +217,9 @@ class Db extends \Magento\Data\Tree
     /**
      * Move tree node
      *
-     * @param \Magento\Data\Tree\Node $node
-     * @param \Magento\Data\Tree\Node $parentNode
-     * @param \Magento\Data\Tree\Node $prevNode
+     * @param Node $node
+     * @param Node $parentNode
+     * @param Node $prevNode
      * @return void
      */
     public function moveNodeTo($node, $parentNode, $prevNode=null)
@@ -300,7 +302,7 @@ class Db extends \Magento\Data\Tree
         $arrNodes = $this->_conn->fetchAll($select);
 
         foreach ($arrNodes as $nodeInfo) {
-            $node = new \Magento\Data\Tree\Node($nodeInfo, $this->_idField, $this);
+            $node = new Node($nodeInfo, $this->_idField, $this);
             $parentNode = $this->getNodeById($nodeInfo[$this->_parentField]);
             $this->addNode($node, $parentNode);
         }
