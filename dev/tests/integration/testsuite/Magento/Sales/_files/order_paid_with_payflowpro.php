@@ -21,7 +21,7 @@ $shippingAddress->setId(null)
 
 $payment = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
     ->create('Magento\Sales\Model\Order\Payment');
-$payment->setMethod('verisign')
+$payment->setMethod('payflowpro')
     ->setCcExpMonth('5')
     ->setCcLast4('0005')
     ->setCcType('AE')

@@ -8,7 +8,7 @@
  * @license {license_link}
  */
 
-require 'order_paid_with_verisign.php';
+require 'order_paid_with_payflowpro.php';
 /** @var \Magento\Sales\Model\Order $order */
 
 $orderService = \Magento\TestFramework\ObjectManager::getInstance()->create('Magento\Sales\Model\Service\Order',

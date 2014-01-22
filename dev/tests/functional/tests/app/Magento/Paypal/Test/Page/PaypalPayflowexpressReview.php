@@ -23,12 +23,12 @@ use Magento\Paypal\Test\Block\Express;
  *
  * @package Magento\Paypal\Test\Page
  */
-class PaypalukExpressReview extends Page
+class PaypalPayflowexpressReview extends Page
 {
     /**
      * URL for customer login
      */
-    const MCA = 'paypaluk/express/review';
+    const MCA = 'paypal/payflowexpress/review';
 
     /**
      * Paypal review block

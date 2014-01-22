@@ -94,7 +94,7 @@ class Method extends AbstractRepository
             ),
             'data' => array(
                 'fields' => array(
-                    'payment_code' => 'verisign'
+                    'payment_code' => 'payflowpro'
                 ),
             )
         );
@@ -128,7 +128,7 @@ class Method extends AbstractRepository
             'config' => array(),
             'data' => array(
                 'fields' => array(
-                    'payment_code' => 'paypaluk_express'
+                    'payment_code' => 'payflow_express'
                 ),
             )
         );
