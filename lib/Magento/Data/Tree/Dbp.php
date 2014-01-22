@@ -21,7 +21,6 @@
  */
 namespace Magento\Data\Tree;
 
-use Magento\Data\Tree\Node;
 use Magento\DB\Select;
 
 class Dbp extends \Magento\Data\Tree

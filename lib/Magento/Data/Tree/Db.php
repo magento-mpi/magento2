@@ -51,28 +51,28 @@ class Db extends \Magento\Data\Tree
     protected $_select;
 
     /**
-     * Tree ctructure field name: _idField
+     * Tree structure field name: _idField
      *
      * @var string
      */
     protected $_idField;
 
     /**
-     * Tree ctructure field name: _parentField
+     * Tree structure field name: _parentField
      *
      * @var string
      */
     protected $_parentField;
 
     /**
-     * Tree ctructure field name: _levelField
+     * Tree structure field name: _levelField
      *
      * @var string
      */
     protected $_levelField;
 
     /**
-     * Tree ctructure field name: _orderField
+     * Tree structure field name: _orderField
      *
      * @var string
      */

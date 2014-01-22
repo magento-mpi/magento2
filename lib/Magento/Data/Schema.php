@@ -8,8 +8,6 @@
  */
 namespace Magento\Data;
 
-use Magento\Data\DataArray;
-
 class Schema extends \Magento\Object
 {
     /**

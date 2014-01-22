@@ -159,7 +159,7 @@ class Collection implements \ArrayAccess, \IteratorAggregate
     /**
      * Search by Id
      *
-     * @param mixed $nodeId
+     * @param string $nodeId
      * @return null
      */
     public function searchById($nodeId)
