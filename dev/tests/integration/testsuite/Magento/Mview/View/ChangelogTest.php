@@ -61,9 +61,9 @@ class ChangelogTest extends \PHPUnit_Framework_TestCase
         $model->setViewId('test_view_id_2');
         $changelogName = $this->connection->getTableName($model->getName());
         $this->assertFalse($this->connection->isTableExists($changelogName));
-        $this->assertTrue($model->create());
+        $model->create();
         $this->assertTrue($this->connection->isTableExists($changelogName));
-        $this->assertTrue($model->drop());
+        $model->drop();
         $this->assertFalse($this->connection->isTableExists($changelogName));
     }
 
@@ -75,7 +75,7 @@ class ChangelogTest extends \PHPUnit_Framework_TestCase
         $model = $this->objectManager->create('Magento\Mview\View\Changelog', array(
             'resource' => $this->resource));
         $model->setViewId('test_view_id_2');
-        $this->assertTrue($model->create());
+        $model->create();
         $this->assertEquals(0, $model->getVersion());
         $changelogName = $this->connection->getTableName($model->getName());
         $this->connection->insert(
@@ -83,7 +83,7 @@ class ChangelogTest extends \PHPUnit_Framework_TestCase
             array($model->getColumnName() => mt_rand(1, 200))
         );
         $this->assertEquals($this->connection->lastInsertId($changelogName, 'version_id'), $model->getVersion());
-        $this->assertTrue($model->drop());
+        $model->drop();
     }
 
     /**
