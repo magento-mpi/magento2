@@ -60,6 +60,7 @@ class Info extends \Magento\View\Element\Template
         $this->_checkoutData = $checkoutData;
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
+        $this->_isScopePrivate = true;
     }
 
     /**
