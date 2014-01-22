@@ -8,9 +8,7 @@
 
 namespace Magento\TestModule5\Service\V2\Entity;
 
-use Magento\TestModule5\Service\Entity\V1;
-
-class AllSoapAndRest extends V1\AllSoapAndRest
+class AllSoapAndRest extends \Magento\TestModule5\Service\V2\AllSoapAndRest
 {
     const PRICE = 'price';
 

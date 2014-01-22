@@ -34,7 +34,7 @@ class AllSoapAndRest implements AllSoapAndRestInterface
     /**
      * @inheritdoc
      */
-    public function create(\Magento\TestModule5\Service\Entity\V2\AllSoapAndRest $item)
+    public function create(\Magento\TestModule5\Service\V2\Entity\AllSoapAndRest $item)
     {
         return (new AllSoapAndRestBuilder())->populate($item)->create();
     }
@@ -42,7 +42,7 @@ class AllSoapAndRest implements AllSoapAndRestInterface
     /**
      * @inheritdoc
      */
-    public function update(\Magento\TestModule5\Service\Entity\V2\AllSoapAndRest $item)
+    public function update(\Magento\TestModule5\Service\V2\Entity\AllSoapAndRest $item)
     {
         $item->setName('Updated' . $item->getName());
         return (new AllSoapAndRestBuilder())->populate($item)->create();
