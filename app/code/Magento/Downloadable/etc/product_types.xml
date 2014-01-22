@@ -11,6 +11,9 @@
     <type name="downloadable" label="Downloadable Product" modelInstance="Magento\Downloadable\Model\Product\Type" composite="false" isQty="true" canUseQtyDecimals="false">
         <priceModel instance="Magento\Downloadable\Model\Product\Price" />
         <indexerModel instance="Magento\Downloadable\Model\Resource\Indexer\Price" />
+        <customAttributes>
+            <attribute name="refundable" value="false"/>
+        </customAttributes>
     </type>
     <type name="configurable">
         <allowProductTypes>

@@ -16,5 +16,8 @@
             <type name="simple" />
             <type name="virtual" />
         </allowProductTypes>
+        <customAttributes>
+            <attribute name="refundable" value="true"/>
+        </customAttributes>
     </type>
 </config>

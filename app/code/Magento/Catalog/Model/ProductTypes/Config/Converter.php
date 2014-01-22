@@ -74,6 +74,17 @@ class Converter implements \Magento\Config\ConverterInterface
                             $data['allowed_selection_types'][$name] = $name;
                         }
                         break;
+                    case 'customAttributes':
+                        /** @var $customAttributes DOMNode */
+                        foreach ($childNode->childNodes as $customAttributes) {
+                            if ($customAttributes->nodeType != XML_ELEMENT_NODE) {
+                                continue;
+                            }
+                            $name = $this->_getAttributeValue($customAttributes, 'name');
+                            $value = $this->_getAttributeValue($customAttributes, 'value');
+                            $data['custom_attributes'][$name] = $value;
+                        }
+                        break;
                 }
 
             }
