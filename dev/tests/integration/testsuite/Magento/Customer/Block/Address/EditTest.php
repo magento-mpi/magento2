@@ -13,7 +13,7 @@ namespace Magento\Customer\Block\Address;
  */
 class EditTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\Customer\Block\Address\Edit */
+    /** @var Edit */
     protected $_block;
 
     /** @var  \Magento\Customer\Model\Session */
@@ -66,7 +66,6 @@ class EditTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      * @magentoDataFixture Magento/Customer/_files/customer_address.php
-     * @magentoDbIsolation enabled
      */
     public function testGetRegionId()
     {
