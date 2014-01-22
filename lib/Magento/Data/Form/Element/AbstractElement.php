@@ -536,6 +536,8 @@ abstract class AbstractElement extends \Magento\Data\Form\AbstractForm
 
     /**
      * Lock element
+     *
+     * @return void
      */
     public function lock()
     {
