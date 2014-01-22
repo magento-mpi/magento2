@@ -40,6 +40,7 @@ class MviewConfigFilesTest extends \PHPUnit_Framework_TestCase
      */
     public function testIndexerConfigFile($file)
     {
+        $this->markTestIncomplete('Will enable after first indexer will be implemented');
         $domConfig = new \Magento\Config\Dom(file_get_contents($file));
         $result = $domConfig->validate($this->_schemeFile, $errors);
         $message = "Invalid XML-file: {$file}\n";
