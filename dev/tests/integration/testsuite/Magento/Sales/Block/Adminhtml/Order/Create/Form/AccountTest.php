@@ -24,27 +24,23 @@ class AccountTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-
-        $sessionMock = $this->getMockBuilder('Magento\Backend\Model\Session\Quote')
+        $quote = $this->_objectManager->create('Magento\Sales\Model\Quote')->load(1);
+        $sessionQuoteMock = $this->getMockBuilder('Magento\Backend\Model\Session\Quote')
             ->disableOriginalConstructor()
-            ->setMethods(['getCustomerId', 'getQuote'])
+            ->setMethods(['getCustomerId', 'getStore', 'getStoreId', 'getQuote'])
             ->getMock();
-        $sessionMock->expects($this->any())
+        $sessionQuoteMock->expects($this->any())
             ->method('getCustomerId')
             ->will($this->returnValue(1));
-
-        $quote = $this->_objectManager->create('Magento\Sales\Model\Quote')->load(1);
-        $sessionMock->expects($this->any())
+        $sessionQuoteMock->expects($this->any())
             ->method('getQuote')
             ->will($this->returnValue($quote));
-
-
         /** @var \Magento\View\LayoutInterface $layout */
         $layout = $this->_objectManager->get('Magento\View\LayoutInterface');
         $this->_accountBlock = $layout->createBlock(
             'Magento\Sales\Block\Adminhtml\Order\Create\Form\Account',
             'address_block' . rand(),
-            ['sessionQuote' => $sessionMock]
+            ['sessionQuote' => $sessionQuoteMock]
         );
         parent::setUp();
     }
