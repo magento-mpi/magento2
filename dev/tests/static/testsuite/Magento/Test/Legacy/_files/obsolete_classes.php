@@ -1801,4 +1801,11 @@ return array(
         'Magento\Catalog\Block\Product\View\Type\Grouped',
         'Magento\GroupedProduct\Block\Product\View\Type\Grouped'
     ),
+    array('Magento\PageCache\Block\Adminhtml\Cache\Additional'),
+    array('Magento\PageCache\Controller\Adminhtml\PageCache'),
+    array('Magento\PageCache\Model\Control\ControlInterface'),
+    array('Magento\PageCache\Model\Control\Zend'),
+    array('Magento\PageCache\Model\System\Config\Source\Controls'),
+    array('Magento\PageCache\Model\CacheControlFactory'),
+    array('Magento\PageCache\Model\Observer')
 );
