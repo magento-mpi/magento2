@@ -40,6 +40,7 @@ class Select extends \Magento\CustomAttribute\Block\Form\Renderer\Select
         $this->_itemFactory = $itemFactory;
         $this->_itemFormFactory = $itemFormFactory;
         parent::__construct($context, $data);
+        $this->_isScopePrivate = true;
     }
 
     /**

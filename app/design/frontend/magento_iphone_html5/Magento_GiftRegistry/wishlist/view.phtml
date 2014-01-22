@@ -46,7 +46,7 @@ $entityValues = $this->getEntityValues();
                                 <?php endif ?>
                             </th>
                             <td colspan="2">
-                                <a href="<?php echo $this->getItemRemoveUrl($item) ?>" title="<?php echo __('Remove Item') ?>" onclick="return confirmRemoveWishlistItem();" class="btn-remove"><?php echo __('Remove item')?></a>
+                                <a href="#" data-post-remove='<?php echo $this->getItemRemoveParams($item) ?>' title="<?php echo __('Remove Item') ?>" class="btn-remove"><?php echo __('Remove item')?></a>
                                 <h2 class="product-name"><a href="<?php echo $this->getProductUrl($item) ?>"><?php echo $this->escapeHtml($product->getName()) ?></a></h2>
 
                                 <div class="added-on"><?php echo __('Added On') ?> <span class="nobr"><?php echo $this->getFormatedDate($item->getAddedAt()) ?></span></div>

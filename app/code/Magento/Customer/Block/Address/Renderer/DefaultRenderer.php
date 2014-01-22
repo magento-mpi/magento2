@@ -79,6 +79,7 @@ class DefaultRenderer
         $this->_attributeMetadataFactory = $attributeMetadataFactory;
         $this->_customerMetadataService = $customerMetadataService;
         parent::__construct($context, $data);
+        $this->_isScopePrivate = true;
     }
 
     /**

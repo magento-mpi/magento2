@@ -89,6 +89,7 @@ class View extends \Magento\View\Element\Template
         $this->_orderConfig = $orderConfig;
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
+        $this->_isScopePrivate = true;
     }
 
     /**

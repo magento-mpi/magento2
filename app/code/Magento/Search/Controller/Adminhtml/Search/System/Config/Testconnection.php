@@ -18,12 +18,12 @@
 namespace Magento\Search\Controller\Adminhtml\Search\System\Config;
 
 use Magento\Backend\App\Action,
-    Magento\Filesystem;
+    Magento\App\Filesystem;
 
 class Testconnection extends \Magento\Backend\App\Action
 {
     /**
-     * @var \Magento\Filesystem
+     * @var \Magento\App\Filesystem
      */
     protected $filesystem;
 
@@ -52,7 +52,7 @@ class Testconnection extends \Magento\Backend\App\Action
         }
 
         $path = $host . ':' . $port . '/' . $path . '/admin/ping';
-        $httpResource = $this->filesystem->getRemoteResource($path, \Magento\Filesystem::HTTP);
+        $httpResource = $this->filesystem->getRemoteResource($path, \Magento\App\Filesystem::HTTP);
 
         if (isset($_REQUEST['timeout'])) {
             $timeout = (int)$_REQUEST['timeout'];

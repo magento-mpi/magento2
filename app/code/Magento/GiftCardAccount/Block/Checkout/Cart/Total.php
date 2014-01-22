@@ -40,6 +40,7 @@ class Total extends \Magento\Checkout\Block\Total\DefaultTotal
     ) {
         $this->_giftCardAccountData = $giftCardAccountData;
         parent::__construct($context, $catalogData, $customerSession, $checkoutSession, $salesConfig, $data);
+        $this->_isScopePrivate = true;
     }
 
     public function getQuote()

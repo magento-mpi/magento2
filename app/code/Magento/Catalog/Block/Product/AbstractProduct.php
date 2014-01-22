@@ -216,25 +216,24 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
     }
 
     /**
-     * Enter description here...
+     * Retrieve add to wishlist params
      *
      * @param \Magento\Catalog\Model\Product $product
      * @return string
      */
-    public function getAddToWishlistUrl($product)
+    public function getAddToWishlistParams($product)
     {
-        return $this->_wishlistHelper->getAddUrl($product);
+        return $this->_wishlistHelper->getAddParams($product);
     }
 
     /**
      * Retrieve Add Product to Compare Products List URL
      *
-     * @param \Magento\Catalog\Model\Product $product
      * @return string
      */
-    public function getAddToCompareUrl($product)
+    public function getAddToCompareUrl()
     {
-        return $this->_compareProduct->getAddUrl($product);
+        return $this->_compareProduct->getAddUrl();
     }
 
     /**

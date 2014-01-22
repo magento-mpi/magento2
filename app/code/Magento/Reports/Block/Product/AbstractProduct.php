@@ -97,6 +97,7 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
         );
         $this->_productVisibility = $productVisibility;
         $this->_indexFactory = $indexFactory;
+        $this->_isScopePrivate = true;
     }
 
     /**
