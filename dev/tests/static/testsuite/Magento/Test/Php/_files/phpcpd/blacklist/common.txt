@@ -94,7 +94,6 @@ lib/Magento/Archive
 lib/Magento/Connect/Channel
 lib/Magento/HTTP/Client
 lib/Magento/Acl
-lib/Magento/Mview
 lib/PEAR
 lib/phpseclib
 lib/Magento/Convert
@@ -112,4 +111,3 @@ Magento/Newsletter/Model/Template/Filter
 Magento/Newsletter/Model/Resource/Subscriber
 Magento/CatalogInventory/Model/Resource/Stock/Item
 lib/Magento/Filesystem/Driver
-Magento/Indexer/Model
