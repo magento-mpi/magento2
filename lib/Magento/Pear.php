@@ -18,7 +18,6 @@
 namespace Magento;
 
 use Magento\Exception;
-use Magento\Object;
 use Magento\Pear\Frontend;
 use Magento\Pear\Registry;
 
@@ -280,7 +279,7 @@ class Pear
     /**
      * Run PEAR command with html output console style
      *
-     * @param array|Object $runParams command, options, params,
+     * @param array|\Magento\Object $runParams command, options, params,
      *        comment, success_callback, failure_callback
      * @return mixed
      * @throws Exception
