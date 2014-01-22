@@ -14,170 +14,9 @@
  *
  * @SuppressWarnings(PHPMD)
  */
+include_once 'Helper.php';
 class Magento_Sniffs_Annotations_RequireAnnotatedMethodsSniff implements PHP_CodeSniffer_Sniff
 {
-    const AMBIGUOUS_TYPE = 'AmbiguousType';
-
-    const MISSING = 'Missing';
-
-    const WRONG_STYLE = 'WrongStyle';
-
-    const WRONG_END = 'WrongEnd';
-
-    const FAILED_PARSE = 'FailedParse';
-
-    const CONTENT_AFTER_OPEN = 'ContentAfterOpen';
-
-    const MISSING_SHORT = 'MissingShort';
-
-    const NO_DOC = 'Empty';
-
-    const SPACING_BEFORE_SHORT = 'SpacingBeforeShort';
-
-    const SPACING_BEFORE_TAGS = 'SpacingBeforeTags';
-
-    const SHORT_SINGLE_LINE = 'ShortSingleLine';
-
-    const SHORT_NOT_CAPITAL = 'ShortNotCapital';
-
-    const SPACING_AFTER = 'SpacingAfter';
-
-    const SEE_ORDER = 'SeeOrder';
-
-    const EMPTY_SEE = 'EmptySee';
-
-    const DUPLICATE_RETURN = 'DuplicateReturn';
-
-    const MISSING_PARAM_TAG = 'MissingParamTag';
-
-    const SPACING_AFTER_LONG_NAME = 'SpacingAfterLongName';
-
-    const SPACING_AFTER_LONG_TYPE = 'SpacingAfterLongType';
-
-    const MISSING_PARAM_TYPE = 'MissingParamType';
-
-    const MISSING_PARAM_NAME = 'MissingParamName';
-
-    const EXTRA_PARAM_COMMENT = 'ExtraParamComment';
-
-    const PARAM_NAME_NO_MATCH = 'ParamNameNoMatch';
-
-    const PARAM_NAME_NO_CASE_MATCH = 'ParamNameNoCaseMatch';
-
-    const INVALID_TYPE_HINT = 'InvalidTypeHint';
-
-    const INCORRECT_TYPE_HINT = 'IncorrectTypeHint';
-
-    const TYPE_HINT_MISSING = 'TypeHintMissing';
-
-    const INCORRECT_PARAM_VAR_NAME = 'IncorrectParamVarName';
-
-    const RETURN_ORDER = 'ReturnOrder';
-
-    const MISSING_RETURN_TYPE = 'MissingReturnType';
-
-    const INVALID_RETURN = 'InvalidReturn';
-
-    const INVALID_RETURN_VOID = 'InvalidReturnVoid';
-
-    const INVALID_NO_RETURN = 'InvalidNoReturn';
-
-    const INVALID_RETURN_NOT_VOID = 'InvalidReturnNotVoid';
-
-    const INCORRECT_INHERIT_DOC = 'IncorrectInheritDoc';
-
-    const RETURN_INDENT = 'ReturnIndent';
-
-    const MISSING_RETURN = 'MissingReturn';
-
-    const RETURN_NOT_REQUIRED = 'ReturnNotRequired';
-
-    const INVALID_THROWS = 'InvalidThrows';
-
-    const THROWS_NOT_CAPITAL = 'ThrowsNotCapital';
-
-    const THROWS_ORDER = 'ThrowsOrder';
-
-    const SPACING_AFTER_PARAMS = 'SpacingAfterParams';
-
-    const SPACING_BEFORE_PARAMS = 'SpacingBeforeParams';
-
-    const SPACING_BEFORE_PARAM_TYPE = 'SpacingBeforeParamType';
-
-    const ERROR = 0;
-
-    // tells phpcs to use the default level
-    const WARNING = 6;
-
-    // default level of warnings is 5
-    const INFO = 1;
-
-    protected static $reportingLevel = array(
-        self::AMBIGUOUS_TYPE => self::WARNING,
-        self::MISSING => self::WARNING,
-        self::WRONG_STYLE => self::WARNING,
-        self::WRONG_END => self::WARNING,
-        self::FAILED_PARSE => self::WARNING,
-        self::NO_DOC => self::WARNING,
-        self::CONTENT_AFTER_OPEN => self::WARNING,
-        self::MISSING_SHORT => self::WARNING,
-        self::NO_DOC => self::WARNING,
-        self::SPACING_BEFORE_SHORT => self::WARNING,
-        self::SPACING_BEFORE_TAGS => self::WARNING,
-        self::SHORT_SINGLE_LINE => self::WARNING,
-        self::SHORT_NOT_CAPITAL => self::WARNING,
-        self::SPACING_AFTER => self::WARNING,
-        self::SEE_ORDER => self::WARNING,
-        self::EMPTY_SEE => self::WARNING,
-        self::DUPLICATE_RETURN => self::WARNING,
-        self::MISSING_PARAM_TAG => self::WARNING,
-        self::SPACING_AFTER_LONG_NAME => self::WARNING,
-        self::SPACING_AFTER_LONG_TYPE => self::WARNING,
-        self::MISSING_PARAM_TYPE => self::WARNING,
-        self::MISSING_PARAM_NAME => self::WARNING,
-        self::EXTRA_PARAM_COMMENT => self::WARNING,
-        self::PARAM_NAME_NO_MATCH => self::WARNING,
-        self::PARAM_NAME_NO_CASE_MATCH => self::WARNING,
-        self::INVALID_TYPE_HINT => self::WARNING,
-        self::INCORRECT_TYPE_HINT => self::WARNING,
-        self::TYPE_HINT_MISSING => self::WARNING,
-        self::INCORRECT_PARAM_VAR_NAME => self::WARNING,
-        self::RETURN_ORDER => self::WARNING,
-        self::MISSING_RETURN_TYPE => self::WARNING,
-        self::INVALID_RETURN => self::WARNING,
-        self::INVALID_RETURN_VOID => self::WARNING,
-        self::INVALID_NO_RETURN => self::WARNING,
-        self::INVALID_RETURN_NOT_VOID => self::WARNING,
-        self::INCORRECT_INHERIT_DOC => self::WARNING,
-        self::RETURN_INDENT => self::WARNING,
-        self::MISSING_RETURN => self::WARNING,
-        self::RETURN_NOT_REQUIRED => self::WARNING,
-        self::INVALID_THROWS => self::WARNING,
-        self::THROWS_NOT_CAPITAL => self::WARNING,
-        self::THROWS_ORDER => self::WARNING,
-        self::SPACING_AFTER_PARAMS => self::WARNING,
-        self::SPACING_BEFORE_PARAMS => self::WARNING,
-        self::SPACING_BEFORE_PARAM_TYPE => self::WARNING
-    );
-
-    /** 
-     * List of allowed types
-     *
-     * @var string[]
-     */
-    protected static $allowedTypes = array(
-        'array',
-        'boolean',
-        'bool',
-        'float',
-        'integer',
-        'int',
-        'object',
-        'string',
-        'resource',
-        'callable'
-    );
-
     /**
      * The name of the method that we are currently processing.
      *
@@ -214,11 +53,11 @@ class Magento_Sniffs_Annotations_RequireAnnotatedMethodsSniff implements PHP_Cod
     protected $commentParser = null;
 
     /**
-     * The current PHP_CodeSniffer_File object we are processing.
+     * The sniff helper for stuff shared between the annotations sniffs
      *
-     * @var PHP_CodeSniffer_File
+     * @var Magento_Sniffs_Annotations_Helper
      */
-    protected $currentFile = null;
+    protected $helper = null;
 
     /**
      * Returns an array of tokens this test wants to listen for.
@@ -229,9 +68,6 @@ class Magento_Sniffs_Annotations_RequireAnnotatedMethodsSniff implements PHP_Cod
     {
         return array(T_FUNCTION);
     }
-
-    //end register()
-
 
     /**
      * Processes this test, when one of its tokens is encountered.
@@ -244,7 +80,7 @@ class Magento_Sniffs_Annotations_RequireAnnotatedMethodsSniff implements PHP_Cod
      */
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
-        $this->currentFile = $phpcsFile;
+        $this->helper = new Magento_Sniffs_Annotations_Helper($phpcsFile);
 
         $tokens = $phpcsFile->getTokens();
 
@@ -267,29 +103,25 @@ class Magento_Sniffs_Annotations_RequireAnnotatedMethodsSniff implements PHP_Cod
             $prevContent = $phpcsFile->findPrevious(PHP_CodeSniffer_Tokens::$emptyTokens, $commentEnd);
             if ($tokens[$commentEnd]['line'] === $tokens[$commentEnd]['line']) {
                 $error = 'Missing function doc comment';
-                $this->addMessage($error, $stackPtr, self::MISSING);
+                $this->helper->addMessage($error, $stackPtr, Magento_Sniffs_Annotations_Helper::MISSING);
             } else {
                 $error = 'You must use "/**" style comments for a function comment';
-                $this->addMessage($error, $stackPtr, self::WRONG_STYLE);
+                $this->helper->addMessage($error, $stackPtr, Magento_Sniffs_Annotations_Helper::WRONG_STYLE);
             }
             return;
-        } else {
-            if ($code !== T_DOC_COMMENT) {
-                $error = 'Missing function doc comment';
-                $this->addMessage($error, $stackPtr, self::MISSING);
-                return;
-            } else {
-                if (trim($tokens[$commentEnd]['content']) !== '*/') {
-                    $error = 'You must use "*/" to end a function comment; found "%s"';
-                    $this->addMessage(
-                        $error,
-                        $commentEnd,
-                        self::WRONG_END,
-                        array(trim($tokens[$commentEnd]['content']))
-                    );
-                    return;
-                }
-            }
+        } elseif ($code !== T_DOC_COMMENT) {
+            $error = 'Missing function doc comment';
+            $this->helper->addMessage($error, $stackPtr, Magento_Sniffs_Annotations_Helper::MISSING);
+            return;
+        } elseif (trim($tokens[$commentEnd]['content']) !== '*/') {
+            $error = 'You must use "*/" to end a function comment; found "%s"';
+            $this->helper->addMessage(
+                $error,
+                $commentEnd,
+                Magento_Sniffs_Annotations_Helper::WRONG_END,
+                array(trim($tokens[$commentEnd]['content']))
+            );
+            return;
         }
 
         // If there is any code between the function keyword and the doc block
@@ -301,7 +133,11 @@ class Magento_Sniffs_Annotations_RequireAnnotatedMethodsSniff implements PHP_Cod
         $ignore[] = T_FINAL;
         $prevToken = $phpcsFile->findPrevious($ignore, $stackPtr - 1, null, true);
         if ($prevToken !== $commentEnd) {
-            $this->addMessage('Missing function doc comment', $stackPtr, self::MISSING);
+            $this->helper->addMessage(
+                'Missing function doc comment',
+                $stackPtr,
+                Magento_Sniffs_Annotations_Helper::MISSING
+            );
             return;
         }
 
@@ -325,14 +161,14 @@ class Magento_Sniffs_Annotations_RequireAnnotatedMethodsSniff implements PHP_Cod
             $this->commentParser->parse();
         } catch (PHP_CodeSniffer_CommentParser_ParserException $e) {
             $line = $e->getLineWithinComment() + $commentStart;
-            $this->addMessage($e->getMessage(), $line, self::FAILED_PARSE);
+            $this->helper->addMessage($e->getMessage(), $line, Magento_Sniffs_Annotations_Helper::FAILED_PARSE);
             return;
         }
 
         $comment = $this->commentParser->getComment();
         if (is_null($comment) === true) {
             $error = 'Function doc comment is empty';
-            $this->addMessage($error, $commentStart, self::NO_DOC);
+            $this->helper->addMessage($error, $commentStart, Magento_Sniffs_Annotations_Helper::NO_DOC);
             return;
         }
 
@@ -341,18 +177,16 @@ class Magento_Sniffs_Annotations_RequireAnnotatedMethodsSniff implements PHP_Cod
         $firstLine = substr($commentString, 0, $eolPos);
         if ($firstLine !== '/**') {
             $error = 'The open comment tag must be the only content on the line';
-            $this->addMessage($error, $commentStart, self::CONTENT_AFTER_OPEN);
+            $this->helper->addMessage($error, $commentStart, Magento_Sniffs_Annotations_Helper::CONTENT_AFTER_OPEN);
         }
 
         // If the comment has an inherit doc note just move on
         if (preg_match('/\{\@inheritdoc\}/', $commentString)) {
             return;
-        } else {
-            if (preg_match('/\{?\@?inherit[dD]oc\}?/', $commentString)) {
-                $error = 'The incorrect inherit doc tag usage. Should be {@inheritdoc}';
-                $this->addMessage($error, $commentStart, self::INCORRECT_INHERIT_DOC);
-                return;
-            }
+        } elseif (preg_match('/\{?\@?inherit[dD]oc\}?/', $commentString)) {
+            $error = 'The incorrect inherit doc tag usage. Should be {@inheritdoc}';
+            $this->helper->addMessage($error, $commentStart, Magento_Sniffs_Annotations_Helper::INCORRECT_INHERIT_DOC);
+            return;
         }
 
         $this->processParams($commentStart, $commentEnd);
@@ -364,7 +198,7 @@ class Magento_Sniffs_Annotations_RequireAnnotatedMethodsSniff implements PHP_Cod
         $short = $comment->getShortComment();
         if (trim($short) === '') {
             $error = 'Missing short description in function doc comment';
-            $this->addMessage($error, $commentStart, self::MISSING_SHORT);
+            $this->helper->addMessage($error, $commentStart, Magento_Sniffs_Annotations_Helper::MISSING_SHORT);
             return;
         }
 
@@ -373,29 +207,39 @@ class Magento_Sniffs_Annotations_RequireAnnotatedMethodsSniff implements PHP_Cod
         $newlineSpan = strspn($short, $phpcsFile->eolChar);
         if ($short !== '' && $newlineSpan > 0) {
             $error = 'Extra newline(s) found before function comment short description';
-            $this->addMessage($error, $commentStart + 1, self::SPACING_BEFORE_SHORT);
+            $this->helper->addMessage(
+                $error,
+                $commentStart + 1,
+                Magento_Sniffs_Annotations_Helper::SPACING_BEFORE_SHORT
+            );
         }
 
         $newlineCount = substr_count($short, $phpcsFile->eolChar) + 1;
 
         // Exactly one blank line between short and long description.
         $long = $comment->getLongComment();
-        /* Magento Standard Allows for no long description
-           if (empty($long) === false) {
-           $between        = $comment->getWhiteSpaceBetween();
-           $newlineBetween = substr_count($between, $phpcsFile->eolChar);
-           if ($newlineBetween !== 2) {
-           $error = 'There must be exactly one blank line between descriptions in function comment';
-           $phpcsFile->addError($error, ($commentStart + $newlineCount + 1), 'SpacingBetween');
-           }
-           $newlineCount += $newlineBetween;
-           $testLong = trim($long);
-           if (preg_match('|\p{Lu}|u', $testLong[0]) === 0) {
-           $error = 'Function comment long description must start with a capital letter';
-           $phpcsFile->addError($error, ($commentStart + $newlineCount), 'LongNotCapital');
-           }
-           }//end if
-           */
+        if (empty($long) === false) {
+            $between = $comment->getWhiteSpaceBetween();
+            $newlineBetween = substr_count($between, $phpcsFile->eolChar);
+            if ($newlineBetween !== 2) {
+                $error = 'There must be exactly one blank line between descriptions in function comment';
+                $this->helper->addMessage(
+                    $error,
+                    $commentStart + $newlineCount + 1,
+                    Magento_Sniffs_Annotations_Helper::SPACING_BETWEEN
+                );
+            }
+            $newlineCount += $newlineBetween;
+            $testLong = trim($long);
+            if (preg_match('|\p{Lu}|u', $testLong[0]) === 0) {
+                $error = 'Function comment long description must start with a capital letter';
+                $this->helper->addMessage(
+                    $error,
+                    $commentStart + $newlineCount,
+                    Magento_Sniffs_Annotations_Helper::LONG_NOT_CAPITAL
+                );
+            }
+        }
 
         // Exactly one blank line before tags.
         $params = $this->commentParser->getTagOrders();
@@ -407,7 +251,11 @@ class Magento_Sniffs_Annotations_RequireAnnotatedMethodsSniff implements PHP_Cod
                     $newlineCount += substr_count($long, $phpcsFile->eolChar) - $newlineSpan + 1;
                 }
 
-                $this->addMessage($error, $commentStart + $newlineCount, self::SPACING_BEFORE_TAGS);
+                $this->helper->addMessage(
+                    $error,
+                    $commentStart + $newlineCount,
+                    Magento_Sniffs_Annotations_Helper::SPACING_BEFORE_TAGS
+                );
                 $short = rtrim($short, $phpcsFile->eolChar . ' ');
             }
         }
@@ -417,25 +265,21 @@ class Magento_Sniffs_Annotations_RequireAnnotatedMethodsSniff implements PHP_Cod
         $lastChar = $testShort[strlen($testShort) - 1];
         if (substr_count($testShort, $phpcsFile->eolChar) !== 0) {
             $error = 'Function comment short description must be on a single line';
-            $this->addMessage($error, $commentStart + 1, self::SHORT_SINGLE_LINE);
+            $this->helper->addMessage($error, $commentStart + 1, Magento_Sniffs_Annotations_Helper::SHORT_SINGLE_LINE);
         }
 
         if (preg_match('|\p{Lu}|u', $testShort[0]) === 0) {
             $error = 'Function comment short description must start with a capital letter';
-            $this->addMessage($error, $commentStart + 1, self::SHORT_NOT_CAPITAL);
+            $this->helper->addMessage($error, $commentStart + 1, Magento_Sniffs_Annotations_Helper::SHORT_NOT_CAPITAL);
         }
 
-        /* Magento standard does not require this.
-           if ($lastChar !== '.') {
-           $error = 'Function comment short description must end with a full stop';
-           $phpcsFile->addError($error, ($commentStart + 1), 'ShortFullStop');
-           }
-           */
+        if ($lastChar !== '.') {
+            $error = 'Function comment short description must end with a full stop';
+            $this->helper->addMessage($error, $commentStart + 1, Magento_Sniffs_Annotations_Helper::SHORT_FULL_STOP);
+        }
 
         // Check for unknown/deprecated tags.
-        /* Magento is not using this at the moment
-           $this->processUnknownTags($commentStart, $commentEnd);
-           */
+        // For example call: $this->processUnknownTags($commentStart, $commentEnd);
 
         // The last content should be a newline and the content before
         // that should not be blank. If there is more blank space
@@ -446,18 +290,15 @@ class Magento_Sniffs_Annotations_RequireAnnotatedMethodsSniff implements PHP_Cod
             $words[$lastPos - 1]
         ) !== '' || strpos(
             $words[$lastPos - 1],
-            $this->currentFile->eolChar
+            $this->helper->getCurrentFile()->eolChar
         ) === false || trim(
             $words[$lastPos - 2]
         ) === ''
         ) {
             $error = 'Additional blank lines found at end of function comment';
-            $this->addMessage($error, $commentEnd, self::SPACING_AFTER);
+            $this->helper->addMessage($error, $commentEnd, Magento_Sniffs_Annotations_Helper::SPACING_AFTER);
         }
     }
-
-    //end process()
-
 
     /**
      * Process the see tags.
@@ -479,22 +320,19 @@ class Magento_Sniffs_Annotations_RequireAnnotatedMethodsSniff implements PHP_Cod
                     $this->_tagIndex++;
                     if ($index[$i] !== $this->_tagIndex) {
                         $error = 'The @see tag is in the wrong order; the tag precedes @return';
-                        $this->addMessage($error, $errorPos, self::SEE_ORDER);
+                        $this->helper->addMessage($error, $errorPos, Magento_Sniffs_Annotations_Helper::SEE_ORDER);
                     }
                 }
 
                 $content = $see->getContent();
                 if (empty($content) === true) {
                     $error = 'Content missing for @see tag in function comment';
-                    $this->addMessage($error, $errorPos, self::EMPTY_SEE);
+                    $this->helper->addMessage($error, $errorPos, Magento_Sniffs_Annotations_Helper::EMPTY_SEE);
                     continue;
                 }
             }
         }
     }
-
-    //end processSees()
-
 
     /**
      * Process the return comment of this function comment.
@@ -509,7 +347,8 @@ class Magento_Sniffs_Annotations_RequireAnnotatedMethodsSniff implements PHP_Cod
         // Skip constructor and destructor.
         $className = '';
         if ($this->_classToken !== null) {
-            $className = $this->currentFile->getDeclarationName($this->_classToken);
+            $className = $this->helper->getCurrentFile()->getDeclarationName($this->_classToken);
+            return $this->helper->getCurrentFile();
             $className = strtolower(ltrim($className, '_'));
         }
 
@@ -526,7 +365,7 @@ class Magento_Sniffs_Annotations_RequireAnnotatedMethodsSniff implements PHP_Cod
 
                 if (count($index) > 1) {
                     $error = 'Only 1 @return tag is allowed in function comment';
-                    $this->addMessage($error, $errorPos, self::DUPLICATE_RETURN);
+                    $this->helper->addMessage($error, $errorPos, Magento_Sniffs_Annotations_Helper::DUPLICATE_RETURN);
                     return;
                 }
 
@@ -535,19 +374,23 @@ class Magento_Sniffs_Annotations_RequireAnnotatedMethodsSniff implements PHP_Cod
                     $this->_tagIndex++;
                     if ($index[0] !== $this->_tagIndex) {
                         $error = 'The @return tag is in the wrong order; the tag follows @see (if used)';
-                        $this->addMessage($error, $errorPos, self::RETURN_ORDER);
+                        $this->helper->addMessage($error, $errorPos, Magento_Sniffs_Annotations_Helper::RETURN_ORDER);
                     }
                 }
 
                 if (empty($content) === true) {
                     $error = 'Return type missing for @return tag in function comment';
-                    $this->addMessage($error, $errorPos, self::MISSING_RETURN_TYPE);
+                    $this->helper->addMessage(
+                        $error,
+                        $errorPos,
+                        Magento_Sniffs_Annotations_Helper::MISSING_RETURN_TYPE
+                    );
                 } else {
                     // Check return type (can be multiple, separated by '|').
                     $typeNames = explode('|', $content);
                     $suggestedNames = array();
                     foreach ($typeNames as $i => $typeName) {
-                        $suggestedName = $this->suggestType($typeName);
+                        $suggestedName = $this->helper->suggestType($typeName);
                         if (in_array($suggestedName, $suggestedNames) === false) {
                             $suggestedNames[] = $suggestedName;
                         }
@@ -557,15 +400,25 @@ class Magento_Sniffs_Annotations_RequireAnnotatedMethodsSniff implements PHP_Cod
                     if ($content !== $suggestedType) {
                         $error = 'Function return type "%s" is invalid';
                         $data = array($content);
-                        $this->addMessage($error, $errorPos, self::INVALID_RETURN, $data);
+                        $this->helper->addMessage(
+                            $error,
+                            $errorPos,
+                            Magento_Sniffs_Annotations_Helper::INVALID_RETURN,
+                            $data
+                        );
                     } elseif ($content === 'array' || $content === 'mixed') {
                         // Warn about ambiguous types ie array or mixed
                         $error = 'Ambiguous type "%s" for @return is NOT recommended';
                         $data = array($typeName);
-                        $this->addMessage($error, $errorPos, self::AMBIGUOUS_TYPE, $data);
+                        $this->helper->addMessage(
+                            $error,
+                            $errorPos,
+                            Magento_Sniffs_Annotations_Helper::AMBIGUOUS_TYPE,
+                            $data
+                        );
                     }
 
-                    $tokens = $this->currentFile->getTokens();
+                    $tokens = $this->helper->getCurrentFile()->getTokens();
 
                     // If the return type is void, make sure there is
                     // no return statement in the function.
@@ -573,7 +426,7 @@ class Magento_Sniffs_Annotations_RequireAnnotatedMethodsSniff implements PHP_Cod
                         if (isset($tokens[$this->_functionToken]['scope_closer']) === true) {
                             $endToken = $tokens[$this->_functionToken]['scope_closer'];
 
-                            $tokens = $this->currentFile->getTokens();
+                            $tokens = $this->helper->getCurrentFile()->getTokens();
                             for ($returnToken = $this->_functionToken; $returnToken < $endToken; $returnToken++) {
                                 if ($tokens[$returnToken]['code'] === T_CLOSURE) {
                                     $returnToken = $tokens[$returnToken]['scope_closer'];
@@ -588,69 +441,82 @@ class Magento_Sniffs_Annotations_RequireAnnotatedMethodsSniff implements PHP_Cod
                             if ($returnToken !== $endToken) {
                                 // If the function is not returning anything, just
                                 // exiting, then there is no problem.
-                                $semicolon = $this->currentFile->findNext(T_WHITESPACE, $returnToken + 1, null, true);
+                                $semicolon = $this->helper->getCurrentFile()->findNext(
+                                    T_WHITESPACE,
+                                    $returnToken + 1,
+                                    null,
+                                    true
+                                );
                                 if ($tokens[$semicolon]['code'] !== T_SEMICOLON) {
                                     $error = 'Function return type is void, but function contains return statement';
-                                    $this->addMessage($error, $errorPos, self::INVALID_RETURN_VOID);
+                                    $this->helper->addMessage(
+                                        $error,
+                                        $errorPos,
+                                        Magento_Sniffs_Annotations_Helper::INVALID_RETURN_VOID
+                                    );
                                 }
                             }
                         }
-                    } else {
-                        if ($content !== 'mixed') {
-                            // If return type is not void, there needs to be a
-                            // returns statement somewhere in the function that
-                            // returns something.
-                            if (isset($tokens[$this->_functionToken]['scope_closer']) === true) {
-                                $endToken = $tokens[$this->_functionToken]['scope_closer'];
-                                $returnToken = $this->currentFile->findNext(
-                                    T_RETURN,
-                                    $this->_functionToken,
-                                    $endToken
+                    } elseif ($content !== 'mixed') {
+                        // If return type is not void, there needs to be a
+                        // returns statement somewhere in the function that
+                        // returns something.
+                        if (isset($tokens[$this->_functionToken]['scope_closer']) === true) {
+                            $endToken = $tokens[$this->_functionToken]['scope_closer'];
+                            $returnToken = $this->helper->getCurrentFile()->findNext(
+                                T_RETURN,
+                                $this->_functionToken,
+                                $endToken
+                            );
+                            if ($returnToken === false) {
+                                $error = 'Function return type is not void, but function has no return statement';
+                                $this->helper->addMessage(
+                                    $error,
+                                    $errorPos,
+                                    Magento_Sniffs_Annotations_Helper::INVALID_NO_RETURN
                                 );
-                                if ($returnToken === false) {
-                                    $error = 'Function return type is not void, but function has no return statement';
-                                    $this->addMessage($error, $errorPos, self::INVALID_NO_RETURN);
-                                } else {
-                                    $semicolon = $this->currentFile->findNext(
-                                        T_WHITESPACE,
-                                        $returnToken + 1,
-                                        null,
-                                        true
+                            } else {
+                                $semicolon = $this->helper->getCurrentFile()->findNext(
+                                    T_WHITESPACE,
+                                    $returnToken + 1,
+                                    null,
+                                    true
+                                );
+                                if ($tokens[$semicolon]['code'] === T_SEMICOLON) {
+                                    $error = 'Function return type is not void, but function is returning void here';
+                                    $this->helper->addMessage(
+                                        $error,
+                                        $returnToken,
+                                        Magento_Sniffs_Annotations_Helper::INVALID_RETURN_NOT_VOID
                                     );
-                                    if ($tokens[$semicolon]['code'] === T_SEMICOLON) {
-                                        $error = 'Function return type is not void, ' .
-                                            'but function is returning void here';
-                                        $this->addMessage($error, $returnToken, self::INVALID_RETURN_NOT_VOID);
-                                    }
                                 }
                             }
                         }
                     }
-                    //end if
 
                     $spacing = substr_count($return->getWhitespaceBeforeValue(), ' ');
                     if ($spacing !== 1) {
                         $error = '@return tag indented incorrectly; expected 1 space but found %s';
                         $data = array($spacing);
-                        $this->addMessage($error, $errorPos, self::RETURN_INDENT, $data);
+                        $this->helper->addMessage(
+                            $error,
+                            $errorPos,
+                            Magento_Sniffs_Annotations_Helper::RETURN_INDENT,
+                            $data
+                        );
                     }
                 }
             } else {
                 $error = 'Missing @return tag in function comment';
-                $this->addMessage($error, $commentEnd, self::MISSING_RETURN);
+                $this->helper->addMessage($error, $commentEnd, Magento_Sniffs_Annotations_Helper::MISSING_RETURN);
             }
-        } else {
+        } elseif ($return !== null) {
             // No return tag for constructor and destructor.
-            if ($return !== null) {
-                $errorPos = $commentStart + $return->getLine();
-                $error = '@return tag is not required for constructor and destructor';
-                $this->addMessage($error, $errorPos, self::RETURN_NOT_REQUIRED);
-            }
+            $errorPos = $commentStart + $return->getLine();
+            $error = '@return tag is not required for constructor and destructor';
+            $this->helper->addMessage($error, $errorPos, Magento_Sniffs_Annotations_Helper::RETURN_NOT_REQUIRED);
         }
     }
-
-    //end processReturn()
-
 
     /**
      * Process any throw tags that this function comment has.
@@ -674,17 +540,31 @@ class Magento_Sniffs_Annotations_RequireAnnotatedMethodsSniff implements PHP_Cod
             $errorPos = $commentStart + $throw->getLine();
             if (empty($exception) === true) {
                 $error = 'Exception type and comment missing for @throws tag in function comment';
-                $this->addMessage($error, $errorPos, self::INVALID_THROWS);
+                $this->helper->addMessage($error, $errorPos, Magento_Sniffs_Annotations_Helper::INVALID_THROWS);
+            } elseif (empty($content) === true) {
+                $error = 'Comment missing for @throws tag in function comment';
+                $this->helper->addMessage($error, $errorPos, Magento_Sniffs_Annotations_Helper::EMPTY_THROWS);
             } else {
-                if (empty($content) === true) {
-                } else {
-                    // Assumes that $content is not empty.
-                    // Starts with a capital letter and ends with a fullstop.
-                    $firstChar = $content[0];
-                    if (strtoupper($firstChar) !== $firstChar) {
-                        $error = '@throws tag comment must start with a capital letter';
-                        $this->addMessage($error, $errorPos, self::THROWS_NOT_CAPITAL);
-                    }
+                // Assumes that $content is not empty.
+                // Starts with a capital letter and ends with a fullstop.
+                $firstChar = $content[0];
+                if (strtoupper($firstChar) !== $firstChar) {
+                    $error = '@throws tag comment must start with a capital letter';
+                    $this->helper->addMessage(
+                        $error,
+                        $errorPos,
+                        Magento_Sniffs_Annotations_Helper::THROWS_NOT_CAPITAL
+                    );
+                }
+
+                $lastChar = $content[strlen($content) - 1];
+                if ($lastChar !== '.') {
+                    $error = '@throws tag comment must end with a full stop';
+                    $this->helper->addMessage(
+                        $error,
+                        $errorPos,
+                        Magento_Sniffs_Annotations_Helper::THROWS_NO_FULL_STOP
+                    );
                 }
             }
 
@@ -693,14 +573,11 @@ class Magento_Sniffs_Annotations_RequireAnnotatedMethodsSniff implements PHP_Cod
                 $this->_tagIndex++;
                 if ($index[$i] !== $this->_tagIndex) {
                     $error = 'The @throws tag is in the wrong order; the tag follows @return';
-                    $this->addMessage($error, $errorPos, self::THROWS_ORDER);
+                    $this->helper->addMessage($error, $errorPos, Magento_Sniffs_Annotations_Helper::THROWS_ORDER);
                 }
             }
         }
     }
-
-    //end processThrows()
-
 
     /**
      * Process the function parameter comments.
@@ -714,23 +591,27 @@ class Magento_Sniffs_Annotations_RequireAnnotatedMethodsSniff implements PHP_Cod
      */
     protected function processParams($commentStart, $commentEnd)
     {
-        $realParams = $this->currentFile->getMethodParameters($this->_functionToken);
+        $realParams = $this->helper->getCurrentFile()->getMethodParameters($this->_functionToken);
         $params = $this->commentParser->getParams();
         $foundParams = array();
 
         if (empty($params) === false) {
 
-            if (substr_count($params[count($params) - 1]->getWhitespaceAfter(), $this->currentFile->eolChar) !== 2) {
+            if (substr_count(
+                $params[count($params) - 1]->getWhitespaceAfter(),
+                $this->helper->getCurrentFile()->eolChar
+            ) !== 2
+            ) {
                 $error = 'Last parameter comment requires a blank newline after it';
                 $errorPos = $params[count($params) - 1]->getLine() + $commentStart;
-                $this->addMessage($error, $errorPos, self::SPACING_AFTER_PARAMS);
+                $this->helper->addMessage($error, $errorPos, Magento_Sniffs_Annotations_Helper::SPACING_AFTER_PARAMS);
             }
 
             // Parameters must appear immediately after the comment.
             if ($params[0]->getOrder() !== 2) {
                 $error = 'Parameters must appear immediately after the comment';
                 $errorPos = $params[0]->getLine() + $commentStart;
-                $this->addMessage($error, $errorPos, self::SPACING_BEFORE_PARAMS);
+                $this->helper->addMessage($error, $errorPos, Magento_Sniffs_Annotations_Helper::SPACING_BEFORE_PARAMS);
             }
 
             $previousParam = null;
@@ -747,7 +628,11 @@ class Magento_Sniffs_Annotations_RequireAnnotatedMethodsSniff implements PHP_Cod
                 // Make sure that there is only one space before the var type.
                 if ($param->getWhitespaceBeforeType() !== ' ') {
                     $error = 'Expected 1 space before variable type';
-                    $this->addMessage($error, $errorPos, self::SPACING_BEFORE_PARAM_TYPE);
+                    $this->helper->addMessage(
+                        $error,
+                        $errorPos,
+                        Magento_Sniffs_Annotations_Helper::SPACING_BEFORE_PARAM_TYPE
+                    );
                 }
 
                 $spaceCount = substr_count($param->getWhitespaceBeforeVarName(), ' ');
@@ -774,31 +659,37 @@ class Magento_Sniffs_Annotations_RequireAnnotatedMethodsSniff implements PHP_Cod
                 // Variable must be one of the supported standard type.
                 $typeNames = explode('|', $param->getType());
                 foreach ($typeNames as $typeName) {
-                    $suggestedName = $this->suggestType($typeName);
+                    $suggestedName = $this->helper->suggestType($typeName);
                     if ($typeName !== $suggestedName) {
                         $error = 'Expected "%s"; found "%s" for %s at position %s';
                         $data = array($suggestedName, $typeName, $paramName, $pos);
-                        $this->addMessage($error, $errorPos, self::INCORRECT_PARAM_VAR_NAME, $data);
+                        $this->helper->addMessage(
+                            $error,
+                            $errorPos,
+                            Magento_Sniffs_Annotations_Helper::INCORRECT_PARAM_VAR_NAME,
+                            $data
+                        );
                     } elseif ($typeName === 'array' || $typeName === 'mixed') {
                         // Warn about ambiguous types ie array or mixed
                         $error = 'Ambiguous type "%s" for %s at position %s is NOT recommended';
                         $data = array($typeName, $paramName, $pos);
-                        $this->addMessage($error, $commentEnd + 2, self::AMBIGUOUS_TYPE, $data);
+                        $this->helper->addMessage(
+                            $error,
+                            $commentEnd + 2,
+                            Magento_Sniffs_Annotations_Helper::AMBIGUOUS_TYPE,
+                            $data
+                        );
                     } elseif (count($typeNames) === 1) {
                         // Check type hint for array and custom type.
                         $suggestedTypeHint = '';
                         if (strpos($suggestedName, 'array') !== false) {
                             $suggestedTypeHint = 'array';
+                        } elseif (strpos($suggestedName, 'callable') !== false) {
+                            $suggestedTypeHint = 'callable';
+                        } elseif (in_array($typeName, $this->helper->getAllowedTypes()) === false) {
+                            $suggestedTypeHint = $suggestedName;
                         } else {
-                            if (strpos($suggestedName, 'callable') !== false) {
-                                $suggestedTypeHint = 'callable';
-                            } else {
-                                if (in_array($typeName, self::$allowedTypes) === false) {
-                                    $suggestedTypeHint = $suggestedName;
-                                } else {
-                                    $suggestedTypeHint = $this->suggestType($typeName);
-                                }
-                            }
+                            $suggestedTypeHint = $this->helper->suggestType($typeName);
                         }
 
                         if ($suggestedTypeHint !== '' && isset($realParams[$pos - 1]) === true) {
@@ -806,27 +697,37 @@ class Magento_Sniffs_Annotations_RequireAnnotatedMethodsSniff implements PHP_Cod
                             if ($typeHint === '') {
                                 $error = 'Type hint "%s" missing for %s at position %s';
                                 $data = array($suggestedTypeHint, $paramName, $pos);
-                                $this->addMessage($error, $commentEnd + 2, self::TYPE_HINT_MISSING, $data);
-                            } else {
-                                if ($typeHint !== $suggestedTypeHint) {
-                                    $error = 'Expected type hint "%s"; found "%s" for %s at position %s';
-                                    $data = array($suggestedTypeHint, $typeHint, $paramName, $pos);
-                                    $this->addMessage($error, $commentEnd + 2, self::INCORRECT_TYPE_HINT, $data);
-                                }
+                                $this->helper->addMessage(
+                                    $error,
+                                    $commentEnd + 2,
+                                    Magento_Sniffs_Annotations_Helper::TYPE_HINT_MISSING,
+                                    $data
+                                );
+                            } elseif ($typeHint !== $suggestedTypeHint) {
+                                $error = 'Expected type hint "%s"; found "%s" for %s at position %s';
+                                $data = array($suggestedTypeHint, $typeHint, $paramName, $pos);
+                                $this->helper->addMessage(
+                                    $error,
+                                    $commentEnd + 2,
+                                    Magento_Sniffs_Annotations_Helper::INCORRECT_TYPE_HINT,
+                                    $data
+                                );
                             }
-                        } else {
-                            if ($suggestedTypeHint === '' && isset($realParams[$pos - 1]) === true) {
-                                $typeHint = $realParams[$pos - 1]['type_hint'];
-                                if ($typeHint !== '') {
-                                    $error = 'Unknown type hint "%s" found for %s at position %s';
-                                    $data = array($typeHint, $paramName, $pos);
-                                    $this->addMessage($error, $commentEnd + 2, self::INVALID_TYPE_HINT, $data);
-                                }
+                        } elseif ($suggestedTypeHint === '' && isset($realParams[$pos - 1]) === true) {
+                            $typeHint = $realParams[$pos - 1]['type_hint'];
+                            if ($typeHint !== '') {
+                                $error = 'Unknown type hint "%s" found for %s at position %s';
+                                $data = array($typeHint, $paramName, $pos);
+                                $this->helper->addMessage(
+                                    $error,
+                                    $commentEnd + 2,
+                                    Magento_Sniffs_Annotations_Helper::INVALID_TYPE_HINT,
+                                    $data
+                                );
                             }
                         }
                     }
                 }
-                //end foreach
 
                 // Make sure the names of the parameter comment matches the
                 // actual parameter.
@@ -840,76 +741,100 @@ class Magento_Sniffs_Annotations_RequireAnnotatedMethodsSniff implements PHP_Cod
                     }
 
                     if ($realName !== $paramName) {
-                        $code = self::PARAM_NAME_NO_MATCH;
+                        $code = Magento_Sniffs_Annotations_Helper::PARAM_NAME_NO_MATCH;
                         $data = array($paramName, $realName, $pos);
 
                         $error = 'Doc comment for var %s does not match ';
                         if (strtolower($paramName) === strtolower($realName)) {
                             $error .= 'case of ';
-                            $code = self::PARAM_NAME_NO_CASE_MATCH;
+                            $code = Magento_Sniffs_Annotations_Helper::PARAM_NAME_NO_CASE_MATCH;
                         }
 
                         $error .= 'actual variable name %s at position %s';
 
-                        $this->addMessage($error, $errorPos, $code, $data);
+                        $this->helper->addMessage($error, $errorPos, $code, $data);
                     }
-                } else {
-                    if (substr($paramName, -4) !== ',...') {
-                        // We must have an extra parameter comment.
-                        $error = 'Superfluous doc comment at position ' . $pos;
-                        $this->addMessage($error, $errorPos, self::EXTRA_PARAM_COMMENT);
-                    }
+                } elseif (substr($paramName, -4) !== ',...') {
+                    // We must have an extra parameter comment.
+                    $error = 'Superfluous doc comment at position ' . $pos;
+                    $this->helper->addMessage(
+                        $error,
+                        $errorPos,
+                        Magento_Sniffs_Annotations_Helper::EXTRA_PARAM_COMMENT
+                    );
                 }
 
                 if ($param->getVarName() === '') {
                     $error = 'Missing parameter name at position ' . $pos;
-                    $this->addMessage($error, $errorPos, self::MISSING_PARAM_NAME);
+                    $this->helper->addMessage(
+                        $error,
+                        $errorPos,
+                        Magento_Sniffs_Annotations_Helper::MISSING_PARAM_NAME
+                    );
                 }
 
                 if ($param->getType() === '') {
                     $error = 'Missing type at position ' . $pos;
-                    $this->addMessage($error, $errorPos, self::MISSING_PARAM_TYPE);
+                    $this->helper->addMessage(
+                        $error,
+                        $errorPos,
+                        Magento_Sniffs_Annotations_Helper::MISSING_PARAM_TYPE
+                    );
                 }
 
-                /* no param comments required.
-                   if ($paramComment === '') {
-                   $error = 'Missing comment for param "%s" at position %s';
-                   $data  = array(
-                   $paramName,
-                   $pos,
-                   );
-                   $this->currentFile->addError($error, $errorPos, 'MissingParamComment', $data);
-                   } else {
-                   // Param comments must start with a capital letter and
-                   // end with the full stop.
-                   $firstChar = $paramComment{0};
-                   if (preg_match('|\p{Lu}|u', $firstChar) === 0) {
-                   $error = 'Param comment must start with a capital letter';
-                   $this->currentFile->addError($error, $errorPos, 'ParamCommentNotCapital');
-                   }
-                   $lastChar = $paramComment[(strlen($paramComment) - 1)];
-                   if ($lastChar !== '.') {
-                   $error = 'Param comment must end with a full stop';
-                   $this->currentFile->addError($error, $errorPos, 'ParamCommentFullStop');
-                   }
-                   }
-                   */
+                if ($paramComment === '') {
+                    $error = 'Missing comment for param "%s" at position %s';
+                    $data = array($paramName, $pos);
+                    $this->helper->addMessage(
+                        $error,
+                        $errorPos,
+                        Magento_Sniffs_Annotations_Helper::MISSING_PARAM_COMMENT,
+                        $data
+                    );
+                } else {
+                    // Param comments must start with a capital letter and
+                    // end with the full stop.
+                    $firstChar = $paramComment[0];
+                    if (preg_match('|\p{Lu}|u', $firstChar) === 0) {
+                        $error = 'Param comment must start with a capital letter';
+                        $this->helper->addMessage(
+                            $error,
+                            $errorPos,
+                            Magento_Sniffs_Annotations_Helper::PARAM_COMMENT_NOT_CAPITAL
+                        );
+                    }
+                    $lastChar = $paramComment[strlen($paramComment) - 1];
+                    if ($lastChar !== '.') {
+                        $error = 'Param comment must end with a full stop';
+                        $this->helper->addMessage(
+                            $error,
+                            $errorPos,
+                            Magento_Sniffs_Annotations_Helper::PARAM_COMMENT_FULL_STOP
+                        );
+                    }
+                }
 
                 $previousParam = $param;
             }
-            //end foreach
 
             if ($spaceBeforeVar !== 1 && $spaceBeforeVar !== 10000 && $spaceBeforeComment !== 10000) {
                 $error = 'Expected 1 space after the longest type';
-                $this->addMessage($error, $longestType, self::SPACING_AFTER_LONG_TYPE);
+                $this->helper->addMessage(
+                    $error,
+                    $longestType,
+                    Magento_Sniffs_Annotations_Helper::SPACING_AFTER_LONG_TYPE
+                );
             }
 
             if ($spaceBeforeComment !== 1 && $spaceBeforeComment !== 10000) {
                 $error = 'Expected 1 space after the longest variable name';
-                $this->addMessage($error, $longestVar, self::SPACING_AFTER_LONG_NAME);
+                $this->helper->addMessage(
+                    $error,
+                    $longestVar,
+                    Magento_Sniffs_Annotations_Helper::SPACING_AFTER_LONG_NAME
+                );
             }
         }
-        //end if
 
         $realNames = array();
         foreach ($realParams as $realParam) {
@@ -927,96 +852,7 @@ class Magento_Sniffs_Annotations_RequireAnnotatedMethodsSniff implements PHP_Cod
 
             $error = 'Doc comment for "%s" missing';
             $data = array($neededParam);
-            $this->addMessage($error, $errorPos, self::MISSING_PARAM_TAG, $data);
+            $this->helper->addMessage($error, $errorPos, Magento_Sniffs_Annotations_Helper::MISSING_PARAM_TAG, $data);
         }
-    }
-
-    //end processParams()
-    /**
-     * This method will add the message as an error or warning depending on the configuration
-     *
-     * @param string $error    The error message.
-     * @param int    $stackPtr The stack position where the error occurred.
-     * @param string $code     A violation code unique to the sniff message.
-     * @param array  $data     Replacements for the error message.
-     * @param int    $severity The severity level for this error. A value of 0
-     */
-    protected function addMessage($message, $stackPtr, $code, $data = array(), $severity = 0)
-    {
-        //
-        // Does the $code key exist in the report level
-        if (array_key_exists($code, self::$reportingLevel)) {
-            $level = self::$reportingLevel[$code];
-            if ($level === self::WARNING || $level === self::INFO) {
-                $s = $level;
-                if ($severity !== 0) {
-                    $s = $severity;
-                }
-                $this->currentFile->addWarning($message, $stackPtr, $code, $data, $s);
-            } else {
-                $this->currentFile->addError($message, $stackPtr, $code, $data, $severity);
-            }
-        }
-    }
-
-    /**
-     * Determine if text is a class name
-     *
-     * @param string $class
-     * @return bool
-     */
-    protected function isClassName($class)
-    {
-        $return = false;
-        if (preg_match('/^\\\\?[A-Z]\\w+(?:\\\\\\w+)*?$/', $class)) {
-            $return = true;
-        }
-    }
-
-    /**
-     * Take the type and suggest the correct one.
-     *
-     * @param string $type
-     * @return string
-     */
-    protected function suggestType($type)
-    {
-        $suggestedName = null;
-        // First check to see if this type is a list of types. If so we break it up and check each
-        if (preg_match('/^.*?(?:\|.*)+$/', $type)) {
-            // Return list of all types in this string.
-            $types = explode('|', $type);
-            if (is_array($types)) {
-                // Loop over all types and call this method on each.
-                $suggestions = array();
-                foreach ($types as $t) {
-                    $suggestions[] = $this->suggestType($t);
-                }
-                // Now that we have suggestions put them back together.
-                $suggestedName = implode('|', $suggestions);
-            } else {
-                $suggestedName = 'Unknown';
-            }
-        } elseif ($this->isClassName($type)) {
-            // If this looks like a class name.
-            $suggestedName = $type;
-        } else {
-            // Only one type First check if that type is a base one.
-            $lowerVarType = strtolower($type);
-            switch ($lowerVarType) {
-                case 'boolean':
-                    $suggestedName = 'bool';
-                    break;
-                case 'integer':
-                    $suggestedName = 'int';
-                    break;
-            }
-            //end switch
-            // If no name suggested yet then call the phpcs version of this method.
-            if (empty($suggestedName)) {
-                $suggestedName = PHP_CodeSniffer::suggestType($type);
-            }
-        }
-        return $suggestedName;
     }
 }
