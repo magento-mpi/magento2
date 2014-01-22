@@ -26,6 +26,11 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
     protected $_catalogSetupFactory;
 
     /**
+     * @var \Magento\Catalog\Model\ProductTypes\ConfigInterface
+     */
+    protected $productTypeConfig;
+
+    /**
      * @param \Magento\Core\Model\Resource\Setup\Context $context
      * @param string $resourceName
      * @param \Magento\App\CacheInterface $cache
@@ -44,9 +49,11 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
         \Magento\Core\Model\Config $config,
         \Magento\Catalog\Model\Product\TypeFactory $productTypeFactory,
         \Magento\Catalog\Model\Resource\SetupFactory $catalogSetupFactory,
+        \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
         $moduleName = 'Magento_GiftWrapping',
         $connectionName = ''
     ) {
+        $this->productTypeConfig = $productTypeConfig;
         $this->_productTypeFactory = $productTypeFactory;
         $this->_catalogSetupFactory = $catalogSetupFactory;
         parent::__construct($context, $resourceName, $cache, $attrGrCollFactory, $config, $moduleName, $connectionName);
@@ -58,6 +65,23 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
     public function getProductType()
     {
         return $this->_productTypeFactory->create();
+    }
+
+    /**
+     * Get list product types that represents real product
+     *
+     * @return array
+     */
+    public function getRealProductTypes()
+    {
+        $output = array();
+        foreach ($this->productTypeConfig->getAll() as $typeKey => $config) {
+            if (!isset($config['custom_attributes']['is_real_product'])
+                || $config['customAttributes']['is_real_product'] == 'true') {
+                $output[] = $typeKey;
+            }
+        }
+        return $output;
     }
 
     /**

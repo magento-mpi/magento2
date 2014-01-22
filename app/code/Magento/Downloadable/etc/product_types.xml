@@ -13,6 +13,7 @@
         <indexerModel instance="Magento\Downloadable\Model\Resource\Indexer\Price" />
         <customAttributes>
             <attribute name="refundable" value="false"/>
+            <attribute name="is_real_product" value="false"/>
         </customAttributes>
     </type>
     <composableTypes>
