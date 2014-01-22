@@ -7,12 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+/** @var $this \Magento\Catalog\Block\Product\View */
 ?>
 <?php $_product = $this->getProduct(); ?>
 <?php $buttonTitle = __('Add to Cart'); ?>
 <?php if($_product->isSaleable()): ?>
     <div class="add-to-cart">
-        <?php if(!$_product->isGrouped()): ?>
+        <?php if ($this->shouldRenderQuantity()): ?>
         <label for="qty"><?php echo __('Qty:') ?></label>
         <input type="text" name="qty" id="qty" maxlength="12" value="" placeholder="<?php echo $this->getProductDefaultQty() * 1 ?>" title="<?php echo __('Qty') ?>" class="input-text qty" />
         <?php endif; ?>

@@ -17,7 +17,6 @@
         <param name="secureUrlList">
             <array>
                 <item key="checkout_onepage"><value>/checkout/onepage</value></item>
-                <item key="checkout_multishipping"><value>/checkout/multishipping</value></item>
             </array>
         </param>
     </type>

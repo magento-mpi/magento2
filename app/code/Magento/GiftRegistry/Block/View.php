@@ -43,6 +43,7 @@ class View extends \Magento\GiftRegistry\Block\Customer\Items
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
      * @param \Magento\GiftRegistry\Model\TypeFactory $typeFactory
      * @param array $data
+     * @param array $priceBlockTypes
      * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -62,7 +63,8 @@ class View extends \Magento\GiftRegistry\Block\Customer\Items
         \Magento\GiftRegistry\Model\ItemFactory $itemFactory,
         \Magento\Directory\Model\CountryFactory $countryFactory,
         \Magento\GiftRegistry\Model\TypeFactory $typeFactory,
-        array $data = array()
+        array $data = array(),
+        array $priceBlockTypes = array()
     ) {
         $this->countryFactory = $countryFactory;
         $this->typeFactory = $typeFactory;
@@ -80,7 +82,8 @@ class View extends \Magento\GiftRegistry\Block\Customer\Items
             $imageHelper,
             $coreData,
             $itemFactory,
-            $data
+            $data,
+            $priceBlockTypes
         );
     }
 

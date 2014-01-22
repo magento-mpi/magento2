@@ -10,7 +10,7 @@
 
 
 /**
- * Controller for onepage and multishipping checkouts
+ * Controller for onepage checkouts
  */
 namespace Magento\Checkout\Controller;
 
