@@ -124,17 +124,57 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
     }
 
     /**
-     * @magentoDataFixture Magento/Customer/_files/customer.php
+     * @magentoConfigFixture current_store customer/create_account/confirm 1
      */
-    public function testCreatePostAction()
+    public function testWithConfirmCreatePostAction()
+    {
+        // Setting data for request
+		$email = 'test2@email.com';
+        $this->getRequest()
+            ->setServer(array('REQUEST_METHOD' => 'POST'))
+            ->setParam('firstname', 'firstname2')
+            ->setParam('lastname', 'lastname2')
+            ->setParam('company', '')
+            ->setParam('email', $email)
+            ->setParam('password', 'password')
+            ->setParam('confirmation', 'password')
+            ->setParam('telephone', '5123334444')
+            ->setParam('street', array('1234 fake street', ''))
+            ->setParam('city', 'Austin')
+            ->setParam('region_id', 57)
+            ->setParam('region', '')
+            ->setParam('postcode', '78701')
+            ->setParam('country_id', 'US')
+            ->setParam('default_billing', '1')
+            ->setParam('default_shipping', '1')
+            ->setParam('is_subscribed', '1')
+            ->setPost('create_address', true);
+
+        $this->dispatch('customer/account/createPost');
+        $this->assertRedirect($this->stringContains('customer/account/index/'));
+        $this->assertSessionMessages(
+            $this->equalTo([
+				'Account confirmation is required. Please, check your email for the confirmation link. ' .
+				'To resend the confirmation email please ' .
+				'<a href="http://localhost/index.php/customer/account/confirmation/email/' .
+				$email . '/">click here</a>.'
+			]),
+            \Magento\Message\MessageInterface::TYPE_SUCCESS
+        );
+    }
+
+    /**
+     * @magentoConfigFixture current_store customer/create_account/confirm 0
+     */
+    public function testNoConfirmCreatePostAction()
     {
         // Setting data for request
         $this->getRequest()
             ->setServer(array('REQUEST_METHOD' => 'POST'))
-            ->setParam('firstname', 'firstname')
-            ->setParam('lastname', 'lastname')
+            ->setParam('firstname', 'firstname1')
+            ->setParam('lastname', 'lastname1')
             ->setParam('company', '')
-            ->setParam('email', 'test@email.com')
+            ->setParam('email', 'test1@email.com')
             ->setParam('password', 'password')
             ->setParam('confirmation', 'password')
             ->setParam('telephone', '5123334444')
@@ -273,8 +313,8 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->assertRedirect($this->stringContains('customer/account/'));
         $this->assertSessionMessages(
             $this->equalTo([
-                "If there is an account associated with {$email} " .
-                "you will receive an email with a link to reset your password."
+                "If there is an account associated with {$email} you will receive an email " .
+                'with a link to reset your password.'
             ]),
             \Magento\Message\MessageInterface::TYPE_SUCCESS
         );
