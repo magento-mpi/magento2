@@ -548,7 +548,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
                 return $this->_fileFactory->create(
                     'ShippingLabel(' . $shipment->getIncrementId() . ').pdf',
                     $pdfContent,
-                    \Magento\Filesystem::VAR_DIR,
+                    \Magento\App\Filesystem::VAR_DIR,
                     'application/pdf'
                 );
             }
@@ -568,6 +568,8 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
 
     /**
      * Create pdf document with information about packages
+     *
+     * @return \Magento\App\ResponseInterface
      */
     public function printPackageAction()
     {
@@ -578,7 +580,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
             return $this->_fileFactory->create(
                 'packingslip' . $this->_objectManager->get('Magento\Core\Model\Date')->date('Y-m-d_H-i-s') . '.pdf',
                 $pdf->render(),
-                \Magento\Filesystem::VAR_DIR,
+                \Magento\App\Filesystem::VAR_DIR,
                 'application/pdf'
             );
         } else {
@@ -632,7 +634,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
             return $this->_fileFactory->create(
                 'ShippingLabels.pdf',
                 $outputPdf->render(),
-                \Magento\Filesystem::VAR_DIR,
+                \Magento\App\Filesystem::VAR_DIR,
                 'application/pdf'
             );
         }
@@ -680,8 +682,8 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
     protected function _createPdfPageFromImageString($imageString)
     {
         /** @var \Magento\Filesystem\Directory\Write $directory */
-        $directory = $this->_objectManager->get('Magento\Filesystem')
-            ->getDirectoryWrite(\Magento\Filesystem::TMP);
+        $directory = $this->_objectManager->get('Magento\App\Filesystem')
+            ->getDirectoryWrite(\Magento\App\Filesystem::TMP_DIR);
         $image = imagecreatefromstring($imageString);
         if (!$image) {
             return false;

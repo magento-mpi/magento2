@@ -13,6 +13,20 @@ namespace Magento\Rma\Block\Returns\Tracking;
 class Popup extends \Magento\Shipping\Block\Tracking\Popup
 {
     /**
+     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\View\Element\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        array $data = array()
+    ) {
+        parent::__construct($context, $registry, $data);
+        $this->_isScopePrivate = true;
+    }
+
+    /**
      * Retrieve array of tracking info
      *
      * @return array

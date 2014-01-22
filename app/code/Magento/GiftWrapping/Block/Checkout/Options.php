@@ -83,6 +83,7 @@ class Options extends \Magento\View\Element\Template
         $this->_checkoutCartFactory = $checkoutCartFactory;
         $this->_productFactory = $productFactory;
         parent::__construct($context, $data);
+        $this->_isScopePrivate = true;
     }
 
     /**

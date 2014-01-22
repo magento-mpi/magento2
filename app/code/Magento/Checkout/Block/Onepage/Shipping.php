@@ -60,6 +60,7 @@ class Shipping extends \Magento\Checkout\Block\Onepage\AbstractOnepage
             $regionCollectionFactory,
             $data
         );
+        $this->_isScopePrivate = true;
     }
 
     /**

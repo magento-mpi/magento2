@@ -66,6 +66,7 @@ class Register extends \Magento\Customer\Block\Form\Register
             $customerHelper,
             $data
         );
+        $this->_isScopePrivate = true;
     }
 
     /**

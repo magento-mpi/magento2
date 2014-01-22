@@ -96,7 +96,7 @@ class InternationalTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $modulesDirectory->expects($this->any())->method('readFile')
             ->will($this->returnValue(file_get_contents(__DIR__ . '/_files/countries.xml')));
-        $filesystem = $this->getMockBuilder('\Magento\Filesystem')->disableOriginalConstructor()
+        $filesystem = $this->getMockBuilder('\Magento\App\Filesystem')->disableOriginalConstructor()
             ->setMethods(array('getDirectoryRead'))
             ->getMock();
         $filesystem->expects($this->any())->method('getDirectoryRead')->will($this->returnValue($modulesDirectory));

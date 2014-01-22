@@ -610,7 +610,7 @@ return array(
     array('Mage_Core_Controller_Magento_Router_Admin', 'Magento\Backend\App\Router\DefaultRouter'),
     array('Mage_Core_Model_Convert'),
     array('Mage_Core_Model_Config_Fieldset', 'Magento\Core\Model\Fieldset\Config'),
-    array('Mage_Core_Model_Config_Options', 'Magento\Filesystem'),
+    array('Mage_Core_Model_Config_Options', 'Magento\App\Filesystem'),
     array('Magento\App\Dir', 'Magento\Filesystem'),
     array('Magento\Filesystem\Adapter\Local', 'Magento\Filesystem\Driver\File'),
     array('Magento\Filesystem\Adapter\Zlib', 'Magento\Filesystem\Driver\Zlib'),
@@ -1711,7 +1711,7 @@ return array(
     ),
     array(
         'Magento\App\Dir\Verification',
-        'Magento\Filesystem\DirectoryList\Verification'
+        'Magento\App\Filesystem\DirectoryList\Verification'
     ),
     array('Magento\Core\Model\Cookie', 'Magento\Stdlib\Cookie'),
     array('Magento\Core\Model\Logger', 'Magento\Logger'),
@@ -1835,4 +1835,11 @@ return array(
         'Magento\Sales\Model\Quote\Address\Rate + Magento\Shipping\Model\CarrierFactory'
     ],
     ['Magento\Shipping\Model\Rate\Request', 'Magento\Sales\Model\Quote\Address\RateRequest'],
+    array('Magento\PageCache\Block\Adminhtml\Cache\Additional'),
+    array('Magento\PageCache\Controller\Adminhtml\PageCache'),
+    array('Magento\PageCache\Model\Control\ControlInterface'),
+    array('Magento\PageCache\Model\Control\Zend'),
+    array('Magento\PageCache\Model\System\Config\Source\Controls'),
+    array('Magento\PageCache\Model\CacheControlFactory'),
+    array('Magento\PageCache\Model\Observer'),
 );

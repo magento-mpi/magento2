@@ -124,6 +124,7 @@ class Banner
         $this->_filterProvider = $filterProvider;
         $this->_currentStoreId  = $this->_storeManager->getStore()->getId();
         $this->_currentWebsiteId  = $this->_storeManager->getWebsite()->getId();
+        $this->_isScopePrivate = true;
     }
 
     /**

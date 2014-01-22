@@ -91,7 +91,7 @@ class Shipping extends \Magento\Core\Model\AbstractModel
     protected $_rmaFactory;
 
     /**
-     * @var \Magento\Filesystem
+     * @var \Magento\App\Filesystem
      */
     protected $filesystem;
 
@@ -108,7 +108,7 @@ class Shipping extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Shipping\Model\CarrierFactory $carrierFactory
      * @param \Magento\Rma\Model\RmaFactory $rmaFactory
      * @param Resource\Shipping $resource
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -124,7 +124,7 @@ class Shipping extends \Magento\Core\Model\AbstractModel
         \Magento\Shipping\Model\CarrierFactory $carrierFactory,
         \Magento\Rma\Model\RmaFactory $rmaFactory,
         \Magento\Rma\Model\Resource\Shipping $resource,
-        \Magento\Filesystem $filesystem,
+        \Magento\App\Filesystem $filesystem,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
 
@@ -336,7 +336,7 @@ class Shipping extends \Magento\Core\Model\AbstractModel
         $page = new \Zend_Pdf_Page($xSize, $ySize);
 
         imageinterlace($image, 0);
-        $dir = $this->filesystem->getDirectoryWrite(\Magento\Filesystem::SYS_TMP);
+        $dir = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::SYS_TMP_DIR);
         $tmpFileName = 'shipping_labels_' . uniqid(mt_rand()) . time() . '.png';
         $tmpFilePath = $dir->getAbsolutePath($tmpFileName);
         imagepng($image, $tmpFilePath);
