@@ -10,7 +10,7 @@ namespace Magento\View\Design\FileResolution;
 
 use Magento\Exception;
 use Magento\App\State;
-use Magento\Filesystem;
+use Magento\App\Filesystem;
 use Magento\ObjectManager;
 
 /**
@@ -170,7 +170,7 @@ class StrategyPool
                 $mapDir = $this->filesystem->getPath(Filesystem::VAR_DIR) . '/' . self::FALLBACK_MAP_DIR;
                 $arguments = array(
                     'mapDir' => $mapDir,
-                    'baseDir' => $this->filesystem->getPath(Filesystem::ROOT),
+                    'baseDir' => $this->filesystem->getPath(Filesystem::ROOT_DIR),
                 );
                 break;
             default:

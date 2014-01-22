@@ -9,7 +9,7 @@
  */
 namespace Magento\Module;
 
-use Magento\Filesystem;
+use Magento\App\Filesystem;
 use Magento\Filesystem\Directory\ReadInterface;
 
 class Dir
@@ -32,7 +32,7 @@ class Dir
      */
     public function __construct(Filesystem $filesystem, \Magento\Stdlib\String $string)
     {
-        $this->_modulesDirectory = $filesystem->getDirectoryRead(Filesystem::MODULES);
+        $this->_modulesDirectory = $filesystem->getDirectoryRead(Filesystem::MODULES_DIR);
         $this->_string = $string;
     }
 
