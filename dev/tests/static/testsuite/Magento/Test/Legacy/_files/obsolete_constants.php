@@ -176,9 +176,6 @@ return array(
     ),
     array('XML_PATH_INDEXER_DATA', 'Magento\Index\Model\Process'),
     array('XML_PATH_INSTALL_DATE', 'Mage_Core_Model_App', 'Mage_Core_Model_Config_Primary::XML_PATH_INSTALL_DATE'),
-    array('XML_PATH_EXTERNAL_CACHE_CONTROLS', 'Magento\PageCache\Helper\Data'),
-    array('XML_PATH_EXTERNAL_CACHE_CONTROLS', 'Magento\PageCache\Model\CacheControlFactory'),
-    array('XML_PATH_EXTERNAL_CACHE_CONTROL', 'Magento\PageCache\Helper\Data'),
     array('XML_PATH_LOCALE_INHERITANCE', 'Mage_Core_Model_Translate'),
     array('XML_PATH_PRODUCT_ATTRIBUTES', 'Magento\Wishlist\Model\Config'),
     array('XML_PATH_PRODUCT_COLLECTION_ATTRIBUTES', 'Magento\Catalog\Model\Config'),
@@ -496,7 +493,7 @@ return array(
     array('UPLOAD_ROOT', 'Magento\Backend\Model\Config\Backend\Logo'),
     array('UPLOAD_ROOT', 'Magento\Backend\Model\Config\Backend\Favicon'),
     array('DIRECTORY_SEPARATOR', 'Magento\Filesystem'),
-    array('PARAM_APP_URIS', 'Magento\Filesystem'),
+    
     array('MAX_QTY_VALUE', '\Magento\Catalog\Controller\Adminhtml\Product',
         'Magento\Catalog\Controller\Adminhtml\Product\Initialization\StockDataFilter::MAX_QTY_VALUE'
     ),
@@ -507,4 +504,27 @@ return array(
         '\Magento\GroupedProduct\Model\Resource\Product\Link::LINK_TYPE_GROUPED'
     ),
 
+    array('PARAM_APP_URIS', 'Magento\Filesystem'),
+
+    array('ROOT', '\Magento\Filesystem', '\Magento\App\Filesystem::ROOT_DIR'),
+    array('APP', '\Magento\Filesystem', '\Magento\App\Filesystem::APP_DIR'),
+    array('MODULES', '\Magento\Filesystem', '\Magento\App\Filesystem::MODULES_DIR'),
+    array('THEMES', '\Magento\Filesystem', '\Magento\App\Filesystem::THEMES_DIR'),
+    array('CONFIG', '\Magento\Filesystem', '\Magento\App\Filesystem::CONFIG_DIR'),
+    array('LIB', '\Magento\Filesystem', '\Magento\App\Filesystem::LIB_DIR'),
+    array('LOCALE', '\Magento\Filesystem', '\Magento\App\Filesystem::LOCALE_DIR'),
+    array('PUB', '\Magento\Filesystem', '\Magento\App\Filesystem::PUB_DIR'),
+    array('PUB_LIB', '\Magento\Filesystem', '\Magento\App\Filesystem::PUB_LIB_DIR'),
+    array('MEDIA', '\Magento\Filesystem', '\Magento\App\Filesystem::MEDIA_DIR'),
+    array('STATIC_VIEW', '\Magento\Filesystem', '\Magento\App\Filesystem::STATIC_VIEW_DIR'),
+    array('PUB_VIEW_CACHE', '\Magento\Filesystem', '\Magento\App\Filesystem::PUB_VIEW_CACHE_DIR'),
+    array('VAR_DIR', '\Magento\Filesystem', '\Magento\App\Filesystem'),
+    array('TMP', '\Magento\Filesystem', '\Magento\App\Filesystem::TMP_DIR'),
+    array('CACHE', '\Magento\Filesystem', '\Magento\App\Filesystem::CACHE_DIR'),
+    array('LOG', '\Magento\Filesystem', '\Magento\App\Filesystem::LOG_DIR'),
+    array('SESSION', '\Magento\Filesystem', '\Magento\App\Filesystem::SESSION_DIR'),
+    array('DI', '\Magento\Filesystem', '\Magento\App\Filesystem::DI_DIR'),
+    array('GENERATION', '\Magento\Filesystem', '\Magento\App\Filesystem::GENERATION_DIR'),
+    array('UPLOAD', '\Magento\Filesystem', '\Magento\App\Filesystem::UPLOAD_DIR'),
+    array('SYS_TMP', '\Magento\Filesystem', '\Magento\App\Filesystem::SYS_TMP_DIR'),
 );

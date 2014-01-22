@@ -7,11 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Filesystem\DirectoryList;
+namespace Magento\App\Filesystem\DirectoryList;
 
 use Magento\App\State;
 use Magento\BootstrapException;
-use Magento\Filesystem;
+use Magento\App\Filesystem;
 use Magento\Filesystem\FilesystemException;
 
 class Verification
@@ -22,12 +22,9 @@ class Verification
      * @var string[]
      */
     protected static $productionDirs = array(
-        Filesystem::MEDIA,
-        Filesystem::VAR_DIR,
-        Filesystem::TMP,
-        Filesystem::CACHE,
-        Filesystem::LOG,
-        Filesystem::SESSION,
+        Filesystem::SESSION_DIR,
+        Filesystem::CACHE_DIR,
+        Filesystem::LOG_DIR,
     );
 
     /**
@@ -36,17 +33,13 @@ class Verification
      * @var string[]
      */
     protected static $nonProductionDirs = array(
-        Filesystem::MEDIA,
-        Filesystem::STATIC_VIEW,
-        Filesystem::VAR_DIR,
-        Filesystem::TMP,
-        Filesystem::CACHE,
-        Filesystem::LOG,
-        Filesystem::SESSION,
+        Filesystem::SESSION_DIR,
+        Filesystem::CACHE_DIR,
+        Filesystem::LOG_DIR,
     );
 
     /**
-     * @var \Magento\Filesystem
+     * @var \Magento\App\Filesystem
      */
     protected $filesystem;
 
@@ -63,7 +56,8 @@ class Verification
      * @param Filesystem $filesystem
      * @param State $appState
      */
-    public function __construct(Filesystem $filesystem, State $appState) {
+    public function __construct(Filesystem $filesystem, State $appState)
+    {
         $this->filesystem = $filesystem;
         $this->dirsToVerify = $this->_getDirsToVerify($appState);
     }

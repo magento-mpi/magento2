@@ -228,7 +228,7 @@ class Customersegment
             return $this->_fileFactory->create(
                 $fileName,
                 $content->getExcelFile($fileName),
-                \Magento\Filesystem::VAR_DIR
+                \Magento\App\Filesystem::VAR_DIR
             );
         } else {
             $this->_redirect('*/*/detail', array('_current' => true));
@@ -250,7 +250,7 @@ class Customersegment
             return $this->_fileFactory->create(
                 $fileName,
                 $content->getCsvFile($fileName),
-                \Magento\Filesystem::VAR_DIR
+                \Magento\App\Filesystem::VAR_DIR
             );
         } else {
             $this->_redirect('*/*/detail', array('_current' => true));

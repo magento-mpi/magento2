@@ -7,7 +7,7 @@
  */
 namespace Magento\Core\Model\Config\Initial;
 
-use Magento\Filesystem;
+use Magento\App\Filesystem;
 
 class ReaderTest extends \PHPUnit_Framework_TestCase
 {

@@ -28,11 +28,11 @@ class Archive extends \Magento\Object
     protected $directory;
 
     /**
-     * @param \Magento\Filesystem $fileSystem
+     * @param \Magento\App\Filesystem $fileSystem
      */
-    public function __construct(\Magento\Filesystem $fileSystem)
+    public function __construct(\Magento\App\Filesystem $fileSystem)
     {
-        $this->directory = $fileSystem->getDirectoryWrite(\Magento\Filesystem::VAR_DIR);
+        $this->directory = $fileSystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
     }
 
     /**
