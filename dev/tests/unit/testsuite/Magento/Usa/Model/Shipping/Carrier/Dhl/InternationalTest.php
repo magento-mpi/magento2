@@ -69,7 +69,8 @@ class InternationalTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(array('create'))
             ->getMock();
-        $rateMethod = $this->getMockBuilder('Magento\Sales\Model\Quote\Address\RateResult\Method')->disableOriginalConstructor()
+        $rateMethod = $this->getMockBuilder('Magento\Sales\Model\Quote\Address\RateResult\Method')
+            ->disableOriginalConstructor()
             ->setMethods(array('setPrice'))
             ->getMock();
         $rateMethod->expects($this->any())->method('setPrice')->will($this->returnSelf());

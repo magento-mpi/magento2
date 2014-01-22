@@ -117,7 +117,8 @@ class Packaging extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
      * @param  \Zend_Pdf_Page $page
      * @return \Magento\Shipping\Model\Order\Pdf\Packaging
      */
-    protected function _drawHeaderBlock(\Zend_Pdf_Page $page) {
+    protected function _drawHeaderBlock(\Zend_Pdf_Page $page)
+    {
         $page->setFillColor(new \Zend_Pdf_Color_GrayScale(0.5));
         $page->setLineColor(new \Zend_Pdf_Color_GrayScale(0.5));
         $page->setLineWidth(0.5);
@@ -156,7 +157,7 @@ class Packaging extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
 
             $page->setFillColor(new \Zend_Pdf_Color_GrayScale(0));
             $packageText = __('Package') . ' ' . $packageNum;
-            $page->drawText($packageText, 525, $this->y , 'UTF-8');
+            $page->drawText($packageText, 525, $this->y, 'UTF-8');
             $packageNum++;
 
             $package = new \Magento\Object($package);
@@ -165,7 +166,7 @@ class Packaging extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
 
             $typeText = __('Type') . ' : '
                 . $packaging->getContainerTypeByCode($params->getContainer());
-            $page->drawText($typeText, 35, $this->y , 'UTF-8');
+            $page->drawText($typeText, 35, $this->y, 'UTF-8');
 
             if ($params->getLength() != null) {
                 $lengthText = $params->getLength() .' '. $dimensionUnits;
@@ -173,13 +174,13 @@ class Packaging extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
                 $lengthText = '--';
             }
             $lengthText = __('Length') . ' : ' . $lengthText;
-            $page->drawText($lengthText, 200, $this->y , 'UTF-8');
+            $page->drawText($lengthText, 200, $this->y, 'UTF-8');
 
             if ($params->getDeliveryConfirmation() != null) {
                 $confirmationText = __('Signature Confirmation')
                     . ' : '
                     . $packaging->getDeliveryConfirmationTypeByCode($params->getDeliveryConfirmation());
-                $page->drawText($confirmationText, 355, $this->y , 'UTF-8');
+                $page->drawText($confirmationText, 355, $this->y, 'UTF-8');
             }
 
             $this->y = $this->y - 10;
@@ -188,7 +189,7 @@ class Packaging extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
                 $customsValueText = __('Customs Value')
                     . ' : '
                     . $packaging->displayPrice($params->getCustomsValue());
-                $page->drawText($customsValueText, 35, $this->y , 'UTF-8');
+                $page->drawText($customsValueText, 35, $this->y, 'UTF-8');
             }
             if ($params->getWidth() != null) {
                 $widthText = $params->getWidth() .' '. $dimensionUnits;
@@ -196,7 +197,7 @@ class Packaging extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
                 $widthText = '--';
             }
             $widthText = __('Width') . ' : ' . $widthText;
-            $page->drawText($widthText, 200, $this->y , 'UTF-8');
+            $page->drawText($widthText, 200, $this->y, 'UTF-8');
 
             if ($params->getContentType() != null) {
                 if ($params->getContentType() == 'OTHER') {
@@ -205,14 +206,14 @@ class Packaging extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
                     $contentsValue = $packaging->getContentTypeByCode($params->getContentType());
                 }
                 $contentsText = __('Contents') . ' : ' . $contentsValue;
-                $page->drawText($contentsText, 355, $this->y , 'UTF-8');
+                $page->drawText($contentsText, 355, $this->y, 'UTF-8');
             }
 
             $this->y = $this->y - 10;
 
             $weightText = __('Total Weight') . ' : ' . $params->getWeight() .' '
                 . $this->_usaData->getMeasureWeightName($params->getWeightUnits());
-            $page->drawText($weightText, 35, $this->y , 'UTF-8');
+            $page->drawText($weightText, 35, $this->y, 'UTF-8');
 
             if ($params->getHeight() != null) {
                 $heightText = $params->getHeight() .' '. $dimensionUnits;
@@ -220,19 +221,19 @@ class Packaging extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
                 $heightText = '--';
             }
             $heightText = __('Height') . ' : ' . $heightText;
-            $page->drawText($heightText, 200, $this->y , 'UTF-8');
+            $page->drawText($heightText, 200, $this->y, 'UTF-8');
 
             $this->y = $this->y - 10;
 
             if ($params->getSize()) {
                 $sizeText = __('Size') . ' : ' . ucfirst(strtolower($params->getSize()));
-                $page->drawText($sizeText, 35, $this->y , 'UTF-8');
+                $page->drawText($sizeText, 35, $this->y, 'UTF-8');
             }
             if ($params->getGirth() != null) {
                 $dimensionGirthUnits = $this->_usaData->getMeasureDimensionName($params->getGirthDimensionUnits());
                 $girthText = __('Girth')
                              . ' : ' . $params->getGirth() . ' ' . $dimensionGirthUnits;
-                $page->drawText($girthText, 200, $this->y , 'UTF-8');
+                $page->drawText($girthText, 200, $this->y, 'UTF-8');
             }
 
             $this->y = $this->y - 5;

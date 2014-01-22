@@ -18,14 +18,6 @@ interface AbstractCarrierInterface
     public function getConfigData($field);
 
     /**
-     * Retrieve config flag for store by field
-     *
-     * @param string $field
-     * @return bool
-     */
-    public function getConfigFlag($field);
-
-    /**
      * Collect and get rates
      *
      * @abstract
@@ -142,10 +134,10 @@ interface AbstractCarrierInterface
     public function getFinalPriceWithHandlingFee($cost);
 
     /**
-     *  Return weight in pounds
+     * Return weight in pounds
      *
-     *  @param integer Weight in someone measure
-     *  @return float Weight in pounds
+     * @param integer Weight in someone measure
+     * @return float Weight in pounds
      */
     public function convertWeightToLbs($weight);
 
@@ -178,13 +170,6 @@ interface AbstractCarrierInterface
      * @return bool
      */
     public function isZipCodeRequired($countryId = null);
-
-    /**
-     * Define if debugging is enabled
-     *
-     * @return bool
-     */
-    public function getDebugFlag();
 
     /**
      * Used to call debug method from not Payment Method context

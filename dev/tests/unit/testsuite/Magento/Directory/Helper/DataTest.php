@@ -47,8 +47,13 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
         $this->_regionCollection = $this->getMock('Magento\Directory\Model\Resource\Region\Collection', array(),
             array(), '', false);
-        $regCollectionFactory = $this->getMock('Magento\Directory\Model\Resource\Region\CollectionFactory', array('create'),
-            array(), '', false);
+        $regCollectionFactory = $this->getMock(
+            'Magento\Directory\Model\Resource\Region\CollectionFactory',
+            array('create'),
+            array(),
+            '',
+            false
+        );
         $regCollectionFactory->expects($this->any())
             ->method('create')
             ->will($this->returnValue($this->_regionCollection));

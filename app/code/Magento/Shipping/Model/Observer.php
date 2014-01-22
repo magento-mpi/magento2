@@ -31,10 +31,9 @@ class Observer
     /**
      * Refresh sales shipment report statistics for last day
      *
-     * @param \Magento\Cron\Model\Schedule $schedule
-     * @return \Magento\Sales\Model\Observer
+     * @return $this
      */
-    public function aggregateSalesReportShipmentData($schedule)
+    public function aggregateSalesReportShipmentData()
     {
         $this->_coreLocale->emulate(0);
         $currentDate = $this->_coreLocale->date();
