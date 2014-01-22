@@ -6,11 +6,16 @@
   * Autorizenet is consolidated in separate module
 * Introduced new layout block attribute - cacheable
 * Extracted multishipping functionality from Magento\Checkout module in separated Magento\Multishipping module
+* Added ability to configure certain cache frontend and associate it with multiple cache types, so avoiding duplication of cache configuration
+* Changed format of arrays definition in DI configuration to more strict and so:
+  * Covered array definitions with XSD and made whole DI configuration validated with XSD
+  * Added ability to define arrays with keys containing invalid XML characters, that was impossible when keys were represented by node names
 * Fixed bugs:
   * Fixed an issue when order was sent to Paypal without defined currency
   * Fixed an issue with 404 error when trying to return back to grid from Recurring Billing Profile
   * Fixed an issue with synchronization with google shopping on product update caused by missed service property
   * Fixed Authorize.net Direct Post: Ability to proceed order when it was created from Backend
+  * Restored ability to configure cache storage in `local.xml`
 * Removed the deprecated service-calls and data source functionality
 
 
