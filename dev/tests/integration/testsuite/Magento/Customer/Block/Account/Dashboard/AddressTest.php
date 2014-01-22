@@ -41,7 +41,8 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     public function testGetCustomer()
     {
         $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Customer\Service\V1\CustomerServiceInterface')->getCustomer(1);
+            ->get('Magento\Customer\Service\V1\CustomerServiceInterface')
+            ->getCustomer(1);
 
         $this->_customerSession->setCustomerId(1);
         $object = $this->_block->getCustomer();
