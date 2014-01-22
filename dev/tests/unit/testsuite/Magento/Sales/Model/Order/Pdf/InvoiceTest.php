@@ -36,7 +36,7 @@ class InvoiceTest extends \PHPUnit_Framework_TestCase
                     }
                 )
             );
-        $filesystemMock = $this->getMock('Magento\Filesystem', array(), array(), '', false, false);
+        $filesystemMock = $this->getMock('Magento\App\Filesystem', array(), array(), '', false, false);
         $filesystemMock->expects($this->any())
             ->method('getDirectoryRead')
             ->will($this->returnValue($directoryMock));

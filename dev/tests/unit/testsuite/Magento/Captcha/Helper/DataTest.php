@@ -20,7 +20,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
+        $this->_filesystem = $this->getMock('Magento\App\Filesystem', array(), array(), '', false);
     }
 
     protected function _getHelper($store, $config, $factory)
@@ -89,7 +89,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     {
         $this->_filesystem->expects($this->once())
             ->method('getPath')
-            ->with(\Magento\Filesystem::LIB)
+            ->with(\Magento\App\Filesystem::LIB_DIR)
             ->will($this->returnValue(TESTS_TEMP_DIR . '/lib'));
 
         $factoryMock = $this->getMock('Magento\Captcha\Model\CaptchaFactory', array(), array(), '', false);
@@ -116,7 +116,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
         $this->_filesystem->expects($this->once())
             ->method('getDirectoryWrite')
-            ->with(\Magento\Filesystem::MEDIA)
+            ->with(\Magento\App\Filesystem::MEDIA_DIR)
             ->will($this->returnValue($dirWriteMock));
 
         $dirWriteMock->expects($this->once())
