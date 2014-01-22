@@ -237,7 +237,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
             $customerId = $this->_customerService->saveCustomer($customer, $password);
         } catch (\Magento\Customer\Exception $e) {
             if ($e->getCode() === CustomerModel::EXCEPTION_EMAIL_EXISTS) {
-                throw new StateException(StateException::INPUT_MISMATCH, 'Provided email already exists.');
+                throw new StateException('Provided email already exists.', StateException::INPUT_MISMATCH);
             }
             throw $e;
         }

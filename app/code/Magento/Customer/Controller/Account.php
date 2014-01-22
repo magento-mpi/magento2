@@ -696,21 +696,21 @@ class Account extends \Magento\App\Action\Action
         if ($email) {
             try {
                 $this->_customerAccountService->sendConfirmation($email);
-                $this->_getSession()->addSuccess(__('Please, check your email for confirmation key.'));
+                $this->messageManager->addSuccess(__('Please, check your email for confirmation key.'));
             } catch (StateException $e) {
-                $this->_getSession()->addSuccess(__('This email does not require confirmation.'));
+                $this->messageManager->addSuccess(__('This email does not require confirmation.'));
             } catch (\Exception $e) {
-                    $this->_getSession()->addException($e, __('Wrong email.'));
-                    $this->_redirectError(
-                        $this->_createUrl()->getUrl(
-                            '*/*/*',
-                            array('email' => $email, '_secure' => true)
-                        )
-                    );
-                    return;
+				$this->messageManager->addException($e, __('Wrong email.'));
+				$this->getResponse()->setRedirect(
+					$this->_createUrl()->getUrl(
+						'*/*/*',
+						array('email' => $email, '_secure' => true)
+					)
+				);
+				return;
             }
             $this->_getSession()->setUsername($email);
-            $this->_redirectSuccess($this->_createUrl()->getUrl('*/*/index', array('_secure' => true)));
+            $this->getResponse()->setRedirect($this->_createUrl()->getUrl('*/*/index', array('_secure' => true)));
             return;
         }
 
