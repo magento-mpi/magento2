@@ -1,21 +1,14 @@
 <?php
 /**
+ * Sales Order Invoice Pdf grouped items renderer
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Sales Order Invoice Pdf grouped items renderer
- *
- * @category   Magento
- * @package    Magento_Sales
- * @author     Magento Core Team <core@magentocommerce.com>
- */
-namespace Magento\Sales\Model\Order\Pdf\Items\Invoice;
+namespace Magento\GroupedProduct\Model\Order\Pdf\Items\Invoice;
 
 class Grouped extends \Magento\Sales\Model\Order\Pdf\Items\Invoice\DefaultInvoice
 {
