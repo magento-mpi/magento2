@@ -19,8 +19,8 @@ class Reader extends \Magento\Config\Reader\Filesystem
         '/config/type/priceModel' => 'instance',
         '/config/type/indexerModel' => 'instance',
         '/config/type/stockIndexerModel' => 'instance',
-        '/config/type/allowProductTypes/type' => 'name',
         '/config/type/allowedSelectionTypes/type' => 'name',
+        '/config/composableTypes/type' => 'name',
     );
 
     /**

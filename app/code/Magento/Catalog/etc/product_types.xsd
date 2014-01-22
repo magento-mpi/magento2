@@ -10,20 +10,52 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="config">
         <xs:complexType>
-            <xs:sequence>
-                <xs:element name="type" type="typeDeclaration" minOccurs="1" maxOccurs="unbounded" />
-            </xs:sequence>
+            <xs:choice maxOccurs="unbounded">
+                <xs:element name="type" type="typeDeclaration" minOccurs="0" maxOccurs="unbounded">
+                    <xs:unique name="uniqueTypeName">
+                        <xs:annotation>
+                            <xs:documentation>
+                                Product type name must be unique.
+                            </xs:documentation>
+                        </xs:annotation>
+                        <xs:selector xpath="type" />
+                        <xs:field xpath="@name" />
+                    </xs:unique>
+                </xs:element>
+                <xs:element name="composableTypes" type="composableTypesDeclaration" minOccurs="0" maxOccurs="unbounded">
+                    <xs:unique name="uniquecomposableTypes">
+                        <xs:annotation>
+                            <xs:documentation>
+                                Composable type name must be unique.
+                            </xs:documentation>
+                        </xs:annotation>
+                        <xs:selector xpath="type" />
+                        <xs:field xpath="@name" />
+                    </xs:unique>
+                </xs:element>
+            </xs:choice>
         </xs:complexType>
-        <xs:unique name="uniqueTypeName">
-            <xs:annotation>
-                <xs:documentation>
-                    Product type name must be unique.
-                </xs:documentation>
-            </xs:annotation>
-            <xs:selector xpath="type" />
-            <xs:field xpath="@name" />
-        </xs:unique>
     </xs:element>
+
+    <xs:complexType name="composableTypesDeclaration">
+        <xs:annotation>
+            <xs:documentation>
+                Composable product types declaration.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="type" type="composableTypeDeclaration" minOccurs="1" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="composableTypeDeclaration">
+        <xs:annotation>
+            <xs:documentation>
+                Composable product type declaration (used to describe possible composite product items).
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="name" type="xs:string" use="required" />
+    </xs:complexType>
 
     <xs:complexType name="typeDeclaration">
         <xs:annotation>
@@ -32,17 +64,6 @@
             </xs:documentation>
         </xs:annotation>
         <xs:all minOccurs="0">
-            <xs:element name="allowProductTypes" type="allowProductTypesDeclaration" minOccurs="0">
-                <xs:unique name="uniqueAllowedTypeName">
-                    <xs:annotation>
-                        <xs:documentation>
-                            Allowed type name must be unique.
-                        </xs:documentation>
-                    </xs:annotation>
-                    <xs:selector xpath="type" />
-                    <xs:field xpath="@name" />
-                </xs:unique>
-            </xs:element>
             <xs:element name="allowedSelectionTypes" type="allowedSelectionTypesDeclaration" minOccurs="0">
                 <xs:unique name="uniqueAllowedSelectionTypeName">
                     <xs:annotation>
@@ -114,26 +135,6 @@
             </xs:documentation>
         </xs:annotation>
         <xs:attribute name="instance" type="modelName" use="required" />
-    </xs:complexType>
-
-    <xs:complexType name="allowProductTypesDeclaration">
-        <xs:annotation>
-            <xs:documentation>
-                Allowed product types declaration.
-            </xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="type" type="allowedProductTypeDeclaration" minOccurs="1" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-
-    <xs:complexType name="allowedProductTypeDeclaration">
-        <xs:annotation>
-            <xs:documentation>
-                Allowed product type declaration (used to describe possible composite product items).
-            </xs:documentation>
-        </xs:annotation>
-        <xs:attribute name="name" type="xs:string" use="required" />
     </xs:complexType>
 
     <xs:complexType name="customAttributesDeclaration">

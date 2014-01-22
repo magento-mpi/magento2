@@ -23,7 +23,7 @@ class Converter implements \Magento\Config\ConverterInterface
         $output = array();
         $xpath = new \DOMXPath($source);
         $types = $xpath->evaluate('/config/type');
-        /** @var $typeNode DOMNode */
+        /** @var $typeNode \DOMNode */
         foreach ($types as $typeNode) {
             $typeName = $this->_getAttributeValue($typeNode, 'name');
             $isComposite = $this->_getAttributeValue($typeNode, 'composite', 'false');
@@ -38,7 +38,7 @@ class Converter implements \Magento\Config\ConverterInterface
             $data['can_use_qty_decimals'] = !empty($isDecimal) && 'false' !== $isDecimal;
             $data['is_qty'] = !empty($isQty) && 'false' !== $isQty;
 
-            /** @var $childNode DOMNode */
+            /** @var $childNode \DOMNode */
             foreach ($typeNode->childNodes as $childNode) {
                 if ($childNode->nodeType != XML_ELEMENT_NODE) {
                     continue;
@@ -54,18 +54,8 @@ class Converter implements \Magento\Config\ConverterInterface
                     case 'stockIndexerModel':
                         $data['stock_indexer'] = $this->_getAttributeValue($childNode, 'instance');
                         break;
-                    case 'allowProductTypes':
-                        /** @var $allowedTypes DOMNode */
-                        foreach ($childNode->childNodes as $allowedTypes) {
-                            if ($allowedTypes->nodeType != XML_ELEMENT_NODE) {
-                                continue;
-                            }
-                            $name = $this->_getAttributeValue($allowedTypes, 'name');
-                            $data['allow_product_types'][$name] = $name;
-                        }
-                        break;
                     case 'allowedSelectionTypes':
-                        /** @var $selectionsTypes DOMNode */
+                        /** @var $selectionsTypes \DOMNode */
                         foreach ($childNode->childNodes as $selectionsTypes) {
                             if ($selectionsTypes->nodeType != XML_ELEMENT_NODE) {
                                 continue;
@@ -75,7 +65,7 @@ class Converter implements \Magento\Config\ConverterInterface
                         }
                         break;
                     case 'customAttributes':
-                        /** @var $customAttributes DOMNode */
+                        /** @var $customAttributes \DOMNode */
                         foreach ($childNode->childNodes as $customAttributes) {
                             if ($customAttributes->nodeType != XML_ELEMENT_NODE) {
                                 continue;
@@ -88,15 +78,22 @@ class Converter implements \Magento\Config\ConverterInterface
                 }
 
             }
-            $output[$typeName] = $data;
+            $output['types'][$typeName] = $data;
         }
+
+        $composableTypes = $xpath->evaluate('/config/composableTypes');
+        foreach ($composableTypes as $typeNode) {
+            $typeName = $this->_getAttributeValue($typeNode, 'name');
+            $output['composableTypes'][$typeName] = $typeName;
+        }
+
         return $output;
     }
 
     /**
      * Get attribute value
      *
-     * @param DOMNode $input
+     * @param \DOMNode $input
      * @param string $attributeName
      * @param mixed $default
      * @return null|string
