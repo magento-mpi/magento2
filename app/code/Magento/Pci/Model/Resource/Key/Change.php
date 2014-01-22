@@ -38,19 +38,19 @@ class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
 
     /**
      * @param \Magento\App\Resource $resource
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\Backend\Model\Config\Structure $structure
      * @param \Magento\Encryption\EncryptorInterface $encryptor
      */
     public function __construct(
         \Magento\App\Resource $resource,
-        \Magento\Filesystem $filesystem,
+        \Magento\App\Filesystem $filesystem,
         \Magento\Backend\Model\Config\Structure $structure,
         \Magento\Encryption\EncryptorInterface $encryptor
     ) {
         $this->_encryptor = clone $encryptor;
         parent::__construct($resource);
-        $this->_directory = $filesystem->getDirectoryWrite(\Magento\Filesystem::CONFIG);
+        $this->_directory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::CONFIG_DIR);
         $this->_structure = $structure;
     }
 

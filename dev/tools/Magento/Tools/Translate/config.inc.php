@@ -205,13 +205,6 @@ $CONFIG['translates'] = array(
         'app/design/frontend/default/modern/template/page/',
         'app/design/frontend/default/modern/layout/page.xml',
     ),
-    'Magento_PageCache' => array(
-        'app/code/Magento/PageCache/',
-        'app/design/frontend/base/default/template/pagecache/',
-        'app/design/frontend/base/default/layout/pagecache.xml',
-        'app/design/adminhtml/default/default/template/pagecache/',
-        'app/design/adminhtml/default/default/layout/pagecache.xml'
-    ),
     'Magento_Captcha' => array(
         'app/code/Magento/Captcha/',
         'app/design/frontend/base/default/template/captcha/',
@@ -578,7 +571,6 @@ $CONFIG['helpers']  = array(
     'newsletter'        => 'Magento_Newsletter',
     'ogone'             => 'Magento_Ogone',
     'page'              => 'Magento_Theme',
-    'pagecache'         => 'Magento_PageCache',
     'captcha'           => 'Magento_Captcha',
     'paybox'            => 'Magento_Paybox',
     'authorizenet'      => 'Magento_Authorizenet',

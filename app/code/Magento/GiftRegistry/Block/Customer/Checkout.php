@@ -33,7 +33,7 @@ class Checkout extends \Magento\View\Element\Template
     protected $customerSession;
 
     /**
-     * @var \Magento\Checkout\Model\Type\MultishippingFactory
+     * @var \Magento\Multishipping\Model\Checkout\Type\MultishippingFactory
      */
     protected $typeMultiShippingFactory;
 
@@ -41,7 +41,7 @@ class Checkout extends \Magento\View\Element\Template
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\Checkout\Model\Session $customerSession
-     * @param \Magento\Checkout\Model\Type\MultishippingFactory $typeMultiShippingFactory
+     * @param \Magento\Multishipping\Model\Checkout\Type\MultishippingFactory $typeMultiShippingFactory
      * @param \Magento\GiftRegistry\Model\EntityFactory $entityFactory
      * @param array $data
      */
@@ -49,7 +49,7 @@ class Checkout extends \Magento\View\Element\Template
         \Magento\View\Element\Template\Context $context,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\Checkout\Model\Session $customerSession,
-        \Magento\Checkout\Model\Type\MultishippingFactory $typeMultiShippingFactory,
+        \Magento\Multishipping\Model\Checkout\Type\MultishippingFactory $typeMultiShippingFactory,
         \Magento\GiftRegistry\Model\EntityFactory $entityFactory,
         array $data = array()
     ) {
