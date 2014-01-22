@@ -354,16 +354,9 @@
 
         _create: function() {
             this._super();
-            this.element.on('click', '[data-wishlist-add]', $.proxy(function(e) {
-                window.location.href = $(e.currentTarget).data('wishlist-add').url;
-            }, this));
-            this.element.on('click', '[data-wishlist-add-to]', $.proxy(function(e) {
-                var json = $(e.currentTarget).data('wishlist-add-to');
-                if (json.isNew) {
-                    this._addToNew(json.url);
-                } else {
-                    window.location.href = json.url;
-                }
+            this.element.on('click', '[data-post-new-wishlist]', $.proxy(function(e) {
+                var data = $(e.currentTarget).data('post-new-wishlist');
+                    this._addToNew(data);
             }, this));
             this._buildWishlistDropdown();
         },
@@ -371,11 +364,12 @@
         /**
          * Add product to new wishlist
          * @private
-         * @param url - base add to wishlist url
+         * @param data
          */
-        _addToNew: function(url) {
+        _addToNew: function(data) {
             this._callback = $.proxy(function(wishlistId) {
-                window.location.href = this._buildUrl(url, wishlistId);
+                data.wishlist_id = wishlistId;
+                $.mage.dataPost().postData(data);
             }, this);
             this._showCreateWishlist(this.options.createUrl, true);
         },
@@ -388,39 +382,28 @@
             if (this.options.wishlists.length > 0) {
                 $(this.options.wishlistLink).each($.proxy(function(index, e) {
                     var element = $(e),
-                        url = element.attr('href'),
-                        tmplData = {wishlists: [], wishlistAddUrl: url};
+                        buttonName = element.text().trim(),
+                        generalParams = element.data('post'),
+                        tmplData = {wishlists: [], generalParams: generalParams, buttonName: buttonName};
                     for (var i = 0; i < this.options.wishlists.length; i++) {
+                        var currentData = $.extend({}, generalParams.data, {wishlist_id: this.options.wishlists[i].id}),
+                            currentParams = {action: generalParams.action, data: currentData};
                         tmplData.wishlists.push({
                             name: this.options.wishlists[i].name,
-                            url: this._buildUrl(url, this.options.wishlists[i].id),
-                            isNew: false
+                            params: currentParams
                         });
                     }
                     if (this.options.canCreate) {
                         tmplData.wishlists.push({
                             newClass: 'new',
                             name: 'Create New Wish List',
-                            url: url,
-                            isNew: true
+                            params: generalParams
                         });
                     }
                     $(this.options.splitBtnTmpl).tmpl(tmplData).prependTo(element.parent());
                     element.remove();
                 }, this));
             }
-        },
-
-        /**
-         * Build url with wishlistId as query parameter
-         * @private
-         * @param url - base url to add product to wishlist
-         * @param wishlistId - wishlistId
-         * @return {String}
-         */
-        _buildUrl: function(url, wishlistId) {
-            var glue = url.indexOf('?') === -1 ? '?' : '&';
-            return url + glue + $.param({'wishlist_id': wishlistId});
         }
     });
 

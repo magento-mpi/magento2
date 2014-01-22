@@ -177,15 +177,15 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
     }
 
     /**
-     * Retrieve URL for Removing item from wishlist
+     * Retrieve params for Removing item from wishlist
      *
      * @param \Magento\Catalog\Model\Product|\Magento\Wishlist\Model\Item $item
      *
      * @return string
      */
-    public function getItemRemoveUrl($item)
+    public function getItemRemoveParams($item)
     {
-        return $this->_getHelper()->getRemoveUrl($item);
+        return $this->_getHelper()->getRemoveParams($item);
     }
 
     /**
@@ -211,14 +211,14 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
     }
 
     /**
-     * Retrieve URL for adding Product to wishlist
+     * Retrieve params for adding Product to wishlist
      *
      * @param \Magento\Catalog\Model\Product $product
      * @return string
      */
-    public function getAddToWishlistUrl($product)
+    public function getAddToWishlistParams($product)
     {
-        return $this->_getHelper()->getAddUrl($product);
+        return $this->_getHelper()->getAddParams($product);
     }
 
      /**
@@ -230,16 +230,8 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
       */
     public function getItemConfigureUrl($product)
     {
-        if ($product instanceof \Magento\Catalog\Model\Product) {
-            $id = $product->getWishlistItemId();
-        } else {
-            $id = $product->getId();
-        }
-        $params = array('id' => $id);
-
-        return $this->getUrl('wishlist/index/configure/', $params);
+        return $this->_getHelper()->getConfigureUrl($product);
     }
-
 
     /**
      * Retrieve Escaped Description for Wishlist Item
