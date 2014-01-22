@@ -21,7 +21,7 @@ class ConsoleTest extends \PHPUnit_Framework_TestCase
     protected $_installerMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Filesystem\DirectoryList\Verification
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\App\Filesystem\DirectoryList\Verification
      */
     protected $_dirVerifierMock;
 
@@ -59,7 +59,7 @@ class ConsoleTest extends \PHPUnit_Framework_TestCase
             array('create'), array(), '', false);
         $this->_installerMock = $this->getMock('Magento\Install\Model\Installer\Console', array(), array(), '', false);
         $this->_dirVerifierMock = $this->getMock(
-            'Magento\Filesystem\DirectoryList\Verification',
+            'Magento\App\Filesystem\DirectoryList\Verification',
             array(),
             array(),
             '',
@@ -89,10 +89,16 @@ class ConsoleTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $filesystem = $this->getMock('Magento\Filesystem', array('getDirectoryRead', '__wakeup'), array(), '', false);
+        $filesystem = $this->getMock(
+            'Magento\App\Filesystem',
+            array('getDirectoryRead', '__wakeup'),
+            array(),
+            '',
+            false
+        );
         $filesystem->expects($this->once())
             ->method('getDirectoryRead')
-            ->with(\Magento\Filesystem::ROOT)
+            ->with(\Magento\App\Filesystem::ROOT_DIR)
             ->will($this->returnValue($directory));
         if (isset($params['config'])) {
             $directory->expects($this->once())

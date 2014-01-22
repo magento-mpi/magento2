@@ -41,7 +41,7 @@ class MinifyService
     /**
      * Filesystem instance
      *
-     * @var \Magento\Filesystem
+     * @var \Magento\App\Filesystem
      */
     protected $_filesystem;
 
@@ -49,13 +49,13 @@ class MinifyService
      * @param ConfigInterface $config
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\App\State $appState
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
      */
     public function __construct(
         ConfigInterface $config,
         \Magento\ObjectManager $objectManager,
         \Magento\App\State $appState,
-        \Magento\Filesystem $filesystem
+        \Magento\App\Filesystem $filesystem
     ) {
         $this->config = $config;
         $this->objectManager = $objectManager;
@@ -110,7 +110,7 @@ class MinifyService
                         ->create('Magento\Code\Minifier\Strategy\Generate', $strategyParams);
             }
             $baseDir = $this->_filesystem
-                ->getDirectoryRead(\Magento\Filesystem::PUB_VIEW_CACHE)
+                ->getDirectoryRead(\Magento\App\Filesystem::PUB_VIEW_CACHE_DIR)
                 ->getAbsolutePath('minify');
 
             $this->minifiers[$contentType] = $this->objectManager->create('Magento\Code\Minifier',

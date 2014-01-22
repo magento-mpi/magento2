@@ -119,7 +119,7 @@ class Logging extends \Magento\Backend\App\Action
         return $this->_fileFactory->create(
             $fileName,
             $exportBlock->getCsvFile($fileName),
-            \Magento\Filesystem::VAR_DIR
+            \Magento\App\Filesystem::VAR_DIR
         );
     }
 
@@ -135,7 +135,7 @@ class Logging extends \Magento\Backend\App\Action
         return $this->_fileFactory->create(
             $fileName,
             $exportBlock->getExcelFile($fileName),
-            \Magento\Filesystem::VAR_DIR
+            \Magento\App\Filesystem::VAR_DIR
         );
     }
 
@@ -172,7 +172,7 @@ class Logging extends \Magento\Backend\App\Action
             return $this->_fileFactory->create(
                 $archive->getBaseName(),
                 $archive->getContents(),
-                \Magento\Filesystem::VAR_DIR,
+                \Magento\App\Filesystem::VAR_DIR,
                 $archive->getMimeType()
             );
         }

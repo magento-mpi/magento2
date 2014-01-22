@@ -22,7 +22,7 @@ class Indexer implements AppInterface
     protected $_reportDir;
 
     /**
-     * @var \Magento\Filesystem
+     * @var \Magento\App\Filesystem
      */
     protected $_filesystem;
 
@@ -38,13 +38,13 @@ class Indexer implements AppInterface
 
     /**
      * @param string $reportDir
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\Index\Model\IndexerFactory $indexerFactory
      * @param Response $response
      */
     public function __construct(
         $reportDir,
-        \Magento\Filesystem $filesystem,
+        \Magento\App\Filesystem $filesystem,
         \Magento\Index\Model\IndexerFactory $indexerFactory,
         Response $response
     ) {
@@ -62,7 +62,7 @@ class Indexer implements AppInterface
     public function execute()
     {
         /* Clean reports */
-        $directory = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem::ROOT);
+        $directory = $this->_filesystem->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR);
         $path = $directory->getRelativePath($this->_reportDir);
         if ($directory->isExist($path)) {
             $directory->delete($path);

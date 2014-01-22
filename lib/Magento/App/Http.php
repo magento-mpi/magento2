@@ -48,7 +48,7 @@ class Http implements \Magento\AppInterface
     protected $_state;
 
     /**
-     * @var \Magento\Filesystem
+     * @var \Magento\App\Filesystem
      */
     protected $_filesystem;
 
@@ -65,7 +65,7 @@ class Http implements \Magento\AppInterface
      * @param Response\Http $response
      * @param ConfigLoader $configLoader
      * @param State $state
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
      */
     public function __construct(
         \Magento\ObjectManager $objectManager,
@@ -75,7 +75,7 @@ class Http implements \Magento\AppInterface
         \Magento\App\Response\Http $response,
         ConfigLoader $configLoader,
         State $state,
-        \Magento\Filesystem $filesystem
+        \Magento\App\Filesystem $filesystem
     ) {
         $this->_objectManager = $objectManager;
         $this->_eventManager = $eventManager;
@@ -123,7 +123,7 @@ class Http implements \Magento\AppInterface
                             $reportData['script_name'] = $_SERVER['SCRIPT_NAME'];
                         }
                     }
-                    require_once($this->_filesystem->getPath(\Magento\Filesystem::PUB) . '/errors/report.php');
+                    require_once($this->_filesystem->getPath(\Magento\App\Filesystem::PUB_DIR) . '/errors/report.php');
                     $processor = new \Error_Processor($this->_response);
                     $processor->saveReport($reportData);
                     $this->_response = $processor->processReport();

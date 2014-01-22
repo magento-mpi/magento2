@@ -6,10 +6,15 @@
  * @license     {license_link}
  */
 
-namespace Magento\Filesystem\DirectoryList;
+namespace Magento\App\Filesystem\DirectoryList;
 
-use Magento\Filesystem\DirectoryList;
+use Magento\App\Filesystem,
+    Magento\Filesystem\DirectoryList;
 
+/**
+ * Class Configuration
+ * @package Magento\App\Filesystem\DirectoryList
+ */
 class Configuration
 {
     /**
