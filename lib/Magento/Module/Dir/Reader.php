@@ -56,10 +56,10 @@ class Reader
      * @param FileIteratorFactory $fileIteratorFactory
      */
     public function __construct(
-        \Magento\Module\Dir                 $moduleDirs,
-        \Magento\Module\ModuleListInterface $moduleList,
-        \Magento\App\Filesystem             $filesystem,
-        \Magento\Config\FileIteratorFactory $fileIteratorFactory
+        Dir                 $moduleDirs,
+        ModuleListInterface $moduleList,
+        Filesystem          $filesystem,
+        FileIteratorFactory $fileIteratorFactory
     ) {
         $this->moduleDirs           = $moduleDirs;
         $this->modulesList          = $moduleList;
