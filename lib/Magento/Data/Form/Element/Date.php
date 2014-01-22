@@ -17,12 +17,10 @@
  */
 namespace Magento\Data\Form\Element;
 
-use Magento\Data\Form\Element\CollectionFactory;
-use Magento\Data\Form\Element\Factory;
 use Magento\Escaper;
 use Magento\Stdlib\DateTime;
 
-class Date extends \Magento\Data\Form\Element\AbstractElement
+class Date extends AbstractElement
 {
     /**
      * @var \Zend_Date

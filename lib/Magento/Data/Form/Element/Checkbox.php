@@ -17,11 +17,9 @@
  */
 namespace Magento\Data\Form\Element;
 
-use Magento\Data\Form\Element\CollectionFactory;
-use Magento\Data\Form\Element\Factory;
 use Magento\Escaper;
 
-class Checkbox extends \Magento\Data\Form\Element\AbstractElement
+class Checkbox extends AbstractElement
 {
     /**
      * @param Factory $factoryElement
@@ -66,7 +64,7 @@ class Checkbox extends \Magento\Data\Form\Element\AbstractElement
      * Set check status of checkbox
      *
      * @param boolean $value
-     * @return \Magento\Data\Form\Element\Checkbox
+     * @return Checkbox
      */
     public function setIsChecked($value=false)
     {

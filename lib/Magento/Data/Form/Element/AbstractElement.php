@@ -20,14 +20,10 @@ namespace Magento\Data\Form\Element;
 
 use Magento\Data\Form;
 use Magento\Data\Form\AbstractForm;
-use Magento\Data\Form\Element\AbstractElement;
-use Magento\Data\Form\Element\CollectionFactory;
-use Magento\Data\Form\Element\Factory;
 use Magento\Data\Form\Element\Renderer\RendererInterface;
 use Magento\Escaper;
-use Magento\Object;
 
-abstract class AbstractElement extends \Magento\Data\Form\AbstractForm
+abstract class AbstractElement extends AbstractForm
 {
     /**
      * @var string|int
@@ -93,11 +89,11 @@ abstract class AbstractElement extends \Magento\Data\Form\AbstractForm
     /**
      * Add form element
      *
-     * @param   AbstractElement $element
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @param bool $after
-     * @return  Form
+     * @return Form
      */
-    public function addElement(AbstractElement $element, $after = false)
+    public function addElement(\Magento\Data\Form\Element\AbstractElement $element, $after = false)
     {
         if ($this->getForm()) {
             $this->getForm()->checkElementId($element->getId());
@@ -111,7 +107,7 @@ abstract class AbstractElement extends \Magento\Data\Form\AbstractForm
     /**
      * Shows whether current element belongs to Basic or Advanced form layout
      *
-     * @return  bool
+     * @return bool
      */
     public function isAdvanced() {
         return $this->_advanced;
@@ -121,7 +117,7 @@ abstract class AbstractElement extends \Magento\Data\Form\AbstractForm
      * Set _advanced layout property
      *
      * @param bool $advanced
-     * @return AbstractElement
+     * @return $this
      */
     public function setAdvanced($advanced) {
         $this->_advanced = $advanced;
@@ -257,7 +253,7 @@ abstract class AbstractElement extends \Magento\Data\Form\AbstractForm
      * Remove CSS class
      *
      * @param string $class
-     * @return AbstractElement
+     * @return $this
      */
     public function removeClass($class)
     {
@@ -509,7 +505,7 @@ abstract class AbstractElement extends \Magento\Data\Form\AbstractForm
      *
      * @param string|int|array $values
      * @param bool $overwrite
-     * @return AbstractElement
+     * @return $this
      */
     public function addElementValues($values, $overwrite = false)
     {

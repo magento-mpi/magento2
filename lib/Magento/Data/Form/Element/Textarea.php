@@ -17,11 +17,9 @@
  */
 namespace Magento\Data\Form\Element;
 
-use Magento\Data\Form\Element\CollectionFactory;
-use Magento\Data\Form\Element\Factory;
 use Magento\Escaper;
 
-class Textarea extends \Magento\Data\Form\Element\AbstractElement
+class Textarea extends AbstractElement
 {
     /**
      * @param Factory $factoryElement

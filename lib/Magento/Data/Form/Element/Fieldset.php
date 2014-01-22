@@ -18,12 +18,9 @@
 namespace Magento\Data\Form\Element;
 
 use Magento\Data\Form;
-use Magento\Data\Form\Element\AbstractElement;
-use Magento\Data\Form\Element\CollectionFactory;
-use Magento\Data\Form\Element\Factory;
 use Magento\Escaper;
 
-class Fieldset extends \Magento\Data\Form\Element\AbstractElement
+class Fieldset extends AbstractElement
 {
     /**
      * @param Factory $factoryElement

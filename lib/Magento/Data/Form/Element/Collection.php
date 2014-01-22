@@ -19,7 +19,6 @@ namespace Magento\Data\Form\Element;
 
 use Magento\Data\Form;
 use Magento\Data\Form\AbstractForm;
-use Magento\Data\Form\Element\AbstractElement;
 
 class Collection implements \ArrayAccess, \IteratorAggregate
 {
@@ -110,7 +109,7 @@ class Collection implements \ArrayAccess, \IteratorAggregate
      * @todo get it straight with $after
      * @param AbstractElement $element
      * @param bool|string $after
-     * @return \Magento\Data\Form\Element\Collection
+     * @return AbstractElement
      */
     public function add(AbstractElement $element, $after = false)
     {

@@ -18,7 +18,6 @@ use Magento\Data\Form\Element\Renderer\RendererInterface;
 use Magento\Data\Form\FormKey;
 use Magento\Profiler;
 
-
 class Form extends \Magento\Data\Form\AbstractForm
 {
     /**
@@ -138,7 +137,7 @@ class Form extends \Magento\Data\Form\AbstractForm
      *
      * @param AbstractElement $element
      * @param bool $after
-     * @return \Magento\Data\Form
+     * @return $this
      */
     public function addElement(AbstractElement $element, $after = false)
     {
@@ -243,7 +242,7 @@ class Form extends \Magento\Data\Form\AbstractForm
      * Add suffix to name of all elements
      *
      * @param string $suffix
-     * @return \Magento\Data\Form
+     * @return $this
      */
     public function addFieldNameSuffix($suffix)
     {

@@ -17,12 +17,9 @@
  */
 namespace Magento\Data\Form\Element;
 
-use Magento\Data\Form\Element\CollectionFactory;
-use Magento\Data\Form\Element\Factory;
 use Magento\Escaper;
-use Magento\Object;
 
-class Editor extends \Magento\Data\Form\Element\Textarea
+class Editor extends Textarea
 {
     /**
      * @param Factory $factoryElement
@@ -352,8 +349,8 @@ class Editor extends \Magento\Data\Form\Element\Textarea
      */
     public function getConfig($key = null)
     {
-        if ( !($this->_getData('config') instanceof Object) ) {
-            $config = new Object();
+        if ( !($this->_getData('config') instanceof \Magento\Object) ) {
+            $config = new \Magento\Object();
             $this->setConfig($config);
         }
         if ($key !== null) {

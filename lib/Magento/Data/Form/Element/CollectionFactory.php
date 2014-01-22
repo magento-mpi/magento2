@@ -10,20 +10,19 @@
 
 namespace Magento\Data\Form\Element;
 
-use Magento\Data\Form\Element\Collection;
 use Magento\ObjectManager;
 
 
 class CollectionFactory
 {
     /**
-     * @var \Magento\ObjectManager
+     * @var ObjectManager
      */
     protected $_objectManager;
 
 
     /**
-     * @param \Magento\ObjectManager $objectManager
+     * @param ObjectManager $objectManager
      */
     public function __construct(ObjectManager $objectManager)
     {

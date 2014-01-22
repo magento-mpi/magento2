@@ -103,7 +103,7 @@ class Node extends \Magento\Object
      * Set node tree object
      *
      * @param   Tree $tree
-     * @return  this
+     * @return  $this
      */
     public function setTree(Tree $tree)
     {
@@ -155,7 +155,6 @@ class Node extends \Magento\Object
 
     /**
      * @param mixed $level
-     *
      * @return $this
      */
     public function setLevel($level)
@@ -166,7 +165,6 @@ class Node extends \Magento\Object
 
     /**
      * @param mixed $path
-     *
      * @return $this
      */
     public function setPathId($path)
@@ -177,7 +175,6 @@ class Node extends \Magento\Object
 
     /**
      * @param Node $node
-     *
      * @return void
      */
     public function isChildOf($node)

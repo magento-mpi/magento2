@@ -17,11 +17,9 @@
  */
 namespace Magento\Data\Form\Element;
 
-use Magento\Data\Form\Element\CollectionFactory;
-use Magento\Data\Form\Element\Factory;
 use Magento\Escaper;
 
-class Select extends \Magento\Data\Form\Element\AbstractElement
+class Select extends AbstractElement
 {
     /**
      * @param Factory $factoryElement

@@ -16,13 +16,12 @@
  */
 namespace Magento\Data\Form\Element;
 
-use Magento\Data\Form\Element\AbstractElement;
 use Magento\ObjectManager;
 
 class Factory
 {
     /**
-     * @var \Magento\ObjectManager
+     * @var ObjectManager
      */
     protected $_objectManager;
 

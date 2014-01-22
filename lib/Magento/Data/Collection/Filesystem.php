@@ -26,7 +26,6 @@
 namespace Magento\Data\Collection;
 
 use Magento\Data\Collection;
-use Magento\Data\Collection\Db;
 
 class Filesystem extends \Magento\Data\Collection
 {
@@ -208,6 +207,7 @@ class Filesystem extends \Magento\Data\Collection
      *
      * @param string $value
      * @return $this
+     * @throws \Exception
      */
     public function addTargetDir($value)
     {
@@ -283,6 +283,7 @@ class Filesystem extends \Magento\Data\Collection
      * @param bool $printQuery
      * @param bool $logQuery
      * @return $this
+     * @throws \Exception
      */
     public function loadData($printQuery = false, $logQuery = false)
     {

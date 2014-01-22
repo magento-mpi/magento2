@@ -20,8 +20,6 @@
  */
 namespace Magento\Data\Tree;
 
-use Magento\Data\Tree\Node;
-
 class Db extends \Magento\Data\Tree
 {
     const ID_FIELD      = 'id';
@@ -91,6 +89,7 @@ class Db extends \Magento\Data\Tree
      * @param \Zend_Db_Adapter_Abstract $connection
      * @param string $table
      * @param array $fields
+     * @throws \Exception
      */
     public function __construct($connection, $table, $fields)
     {
@@ -143,6 +142,7 @@ class Db extends \Magento\Data\Tree
      * @param   int|Node $parentNode
      * @param   int $recursionLevel recursion level
      * @return  this
+     * @throws \Exception
      */
     public function load($parentNode=null, $recursionLevel=100)
     {
@@ -221,6 +221,7 @@ class Db extends \Magento\Data\Tree
      * @param Node $parentNode
      * @param Node $prevNode
      * @return void
+     * @throws \Exception
      */
     public function moveNodeTo($node, $parentNode, $prevNode=null)
     {

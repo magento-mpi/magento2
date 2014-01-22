@@ -57,7 +57,7 @@ class AbstractForm extends \Magento\Object
      * @param array $data
      */
     public function __construct(
-        \Magento\Data\Form\Element\Factory $factoryElement,
+        Factory $factoryElement,
         CollectionFactory $factoryCollection,
         $data = array()
     ) {
