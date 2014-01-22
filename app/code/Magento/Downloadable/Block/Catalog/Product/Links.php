@@ -50,6 +50,7 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
      * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Core\Helper\Data $coreData
      * @param array $data
+     * @param array $priceBlockTypes
      * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -68,7 +69,8 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
         \Magento\Tax\Model\Calculation $calculationModel,
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Core\Helper\Data $coreData,
-        array $data = array()
+        array $data = array(),
+        array $priceBlockTypes = array()
     ) {
         $this->_calculationModel = $calculationModel;
         $this->jsonEncoder = $jsonEncoder;
@@ -85,7 +87,8 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
             $compareProduct,
             $layoutHelper,
             $imageHelper,
-            $data
+            $data,
+            $priceBlockTypes
         );
         $this->_isScopePrivate = true;
     }

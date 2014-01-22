@@ -99,7 +99,7 @@ class Iframe extends \Magento\Payment\Block\Form
             $templatePath = str_replace('_', '', $paymentCode);
             $templateFile = "{$templatePath}/iframe.phtml";
 
-            $directory = $this->_filesystem->getDirectoryRead(\Magento\Filesystem::MODULES);
+            $directory = $this->_filesystem->getDirectoryRead(\Magento\App\Filesystem::MODULES_DIR);
             $file = $this->_viewFileSystem->getFilename($templateFile, array('module' => 'Magento_Paypal'));
             if ($directory->isExist($directory->getRelativePath($file))) {
                 $this->setTemplate($templateFile);

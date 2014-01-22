@@ -95,4 +95,5 @@ return array(
     array('Magento\SalesArchive\Model\Resource\Helper\Mysql4', 'Magento\SalesArchive\Model\Resource\Helper'),
     array('Magento\Search\Model\Client\Solr\Factory'),
     array('Magento\Search\Model\Client\SolrClient\Factory'),
+    array('Magento\License','Magento_License'),
 );

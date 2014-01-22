@@ -66,6 +66,7 @@ class NewProduct extends \Magento\Catalog\Block\Product\AbstractProduct
      * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
      * @param \Magento\Customer\Model\Session $customerSession
      * @param array $data
+     * @param array $priceBlockTypes
      * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -84,7 +85,8 @@ class NewProduct extends \Magento\Catalog\Block\Product\AbstractProduct
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
         \Magento\Customer\Model\Session $customerSession,
-        array $data = array()
+        array $data = array(),
+        array $priceBlockTypes = array()
     ) {
         $this->_productCollectionFactory = $productCollectionFactory;
         $this->_catalogProductVisibility = $catalogProductVisibility;
@@ -101,7 +103,8 @@ class NewProduct extends \Magento\Catalog\Block\Product\AbstractProduct
             $compareProduct,
             $layoutHelper,
             $imageHelper,
-            $data
+            $data,
+            $priceBlockTypes
         );
         $this->_isScopePrivate = true;
     }
