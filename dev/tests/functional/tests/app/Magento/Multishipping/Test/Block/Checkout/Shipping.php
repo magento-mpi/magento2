@@ -9,26 +9,26 @@
  * @license     {license_link}
  */
 
-namespace Magento\Checkout\Test\Block\Multishipping;
+namespace Magento\Multishipping\Test\Block\Checkout;
 
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
-use Magento\Checkout\Test\Fixture\Checkout;
+use Magento\Multishipping\Test\Fixture\GuestPaypalDirect;
 
 /**
  * Class Shipping
  * Mustishipping checkout shipping
  *
- * @package Magento\Checkout\Test\Block\Multishipping
+ * @package Magento\Multishipping\Test\Block\Checkout
  */
 class Shipping extends Block
 {
     /**
      * Select shipping methods
      *
-     * @param Checkout $fixture
+     * @param GuestPaypalDirect $fixture
      */
-    public function selectShippingMethod(Checkout $fixture)
+    public function selectShippingMethod(GuestPaypalDirect $fixture)
     {
         /** @var $fixture \Magento\Checkout\Test\Fixture\Checkout */
         $shippingMethods = $fixture->getShippingMethods();

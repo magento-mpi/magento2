@@ -9,17 +9,17 @@
  * @license     {license_link}
  */
 
-namespace Magento\Checkout\Test\Block\Multishipping;
+namespace Magento\Multishipping\Test\Block\Checkout;
 
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
-use Magento\Checkout\Test\Fixture\Checkout;
+use Magento\Multishipping\Test\Fixture\GuestPaypalDirect;
 
 /**
  * Class Success
  * Multishipping checkout success block
  *
- * @package Magento\Checkout\Test\Block\Multishipping
+ * @package Magento\Multishipping\Test\Block\Checkout
  */
 class Success extends Block
 {
@@ -42,10 +42,10 @@ class Success extends Block
     /**
      * Get ids for placed order
      *
-     * @param Checkout $fixture
+     * @param GuestPaypalDirect $fixture
      * @return array
      */
-    public function getOrderIds(Checkout $fixture)
+    public function getOrderIds(GuestPaypalDirect $fixture)
     {
         $orderIds = array();
         $ordersNumber = count($fixture->getShippingMethods());

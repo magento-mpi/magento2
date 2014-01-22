@@ -9,20 +9,27 @@
  * @license     {license_link}
  */
 
-namespace Magento\Checkout\Test\Fixture;
+namespace Magento\Multishipping\Test\Fixture;
 
 use Mtf\Factory\Factory;
 use Magento\Checkout\Test\Fixture\Checkout;
 
 /**
- * Class MultishippingGuestPaypalDirect
+ * Class GuestPaypalDirect
  * PayPal Payments Pro Method
  * Register on checkout to checkout with multi shipping using PayPal Payments Pro payment method
  *
- * @package Magento\Checkout\Test\Fixture
+ * @package Magento\Multishipping\Test\Fixture
  */
-class MultishippingGuestPaypalDirect extends Checkout
+class GuestPaypalDirect extends Checkout
 {
+    /**
+     * Mapping between products and shipping addresses for multishipping
+     *
+     * @var array
+     */
+    protected $bindings = array();
+
     /**
      * Data for guest multishipping checkout with Payments Pro Method
      */
@@ -37,6 +44,16 @@ class MultishippingGuestPaypalDirect extends Checkout
                 )
             )
         );
+    }
+
+    /**
+     * Get bindings for multishipping
+     *
+     * @return array
+     */
+    public function getBindings()
+    {
+        return $this->bindings;
     }
 
     /**

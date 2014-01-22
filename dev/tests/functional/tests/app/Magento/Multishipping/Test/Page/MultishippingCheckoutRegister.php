@@ -9,24 +9,24 @@
  * @license     {license_link}
  */
 
-namespace Magento\Checkout\Test\Page;
+namespace Magento\Multishipping\Test\Page;
 
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 
 /**
- * Class CheckoutMultishippingRegister
+ * class MultishippingCheckoutRegister
  * Register new customer while performing multishipping addresses checkout
  *
- * @package Magento\Checkout\Test\Page
+ * @package Magento\Multishipping\Test\Page
  */
-class CheckoutMultishippingRegister extends Page
+class MultishippingCheckoutRegister extends Page
 {
     /**
      * URL for register customer page
      */
-    const MCA = 'checkout/multishipping/register';
+    const MCA = 'multishipping/checkout/register';
 
     /**
      * Customer register block form

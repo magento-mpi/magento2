@@ -9,24 +9,24 @@
  * @license     {license_link}
  */
 
-namespace Magento\Checkout\Test\Page;
+namespace Magento\Multishipping\Test\Page;
 
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 
 /**
- * Class CheckoutMultishippingShipping
+ * class MultishippingCheckoutShipping
  * Select shipping methods page
  *
- * @package Magento\Checkout\Test\Page
+ * @package Magento\Multishipping\Test\Page
  */
-class CheckoutMultishippingShipping extends Page
+class MultishippingCheckoutShipping extends Page
 {
     /**
      * URL for shipping page
      */
-    const MCA = 'checkout/multishipping/shipping';
+    const MCA = 'multishipping/checkout/shipping';
 
     /**
      * Mustishipping checkout shipping
@@ -46,11 +46,11 @@ class CheckoutMultishippingShipping extends Page
     /**
      * Get shipping block
      *
-     * @return \Magento\Checkout\Test\Block\Multishipping\Shipping
+     * @return \Magento\Multishipping\Test\Block\Checkout\Shipping
      */
     public function getShippingBlock()
     {
-        return Factory::getBlockFactory()->getMagentoCheckoutMultishippingShipping(
+        return Factory::getBlockFactory()->getMagentoMultishippingCheckoutShipping(
             $this->_browser->find($this->shippingBlock, Locator::SELECTOR_CSS)
         );
     }

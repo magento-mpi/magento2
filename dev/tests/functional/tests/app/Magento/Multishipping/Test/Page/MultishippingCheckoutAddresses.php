@@ -9,19 +9,19 @@
  * @license     {license_link}
  */
 
-namespace Magento\Checkout\Test\Page;
+namespace Magento\Multishipping\Test\Page;
 
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 
 /**
- * Class CheckoutMultishippingAddresses
+ * class MultishippingCheckoutAddresses
  * Multishipping addresses page
  *
- * @package Magento\Checkout\Test\Page
+ * @package Magento\Multishipping\Test\Page
  */
-class CheckoutMultishippingAddresses extends Page
+class MultishippingCheckoutAddresses extends Page
 {
     /**
      * URL for multishipping addresss page
@@ -46,11 +46,11 @@ class CheckoutMultishippingAddresses extends Page
     /**
      * Get multishipping checkout choose item addresses block
      *
-     * @return \Magento\Checkout\Test\Block\Multishipping\Addresses
+     * @return \Magento\Multishipping\Test\Block\Checkout\Addresses
      */
     public function getAddressesBlock()
     {
-        return Factory::getBlockFactory()->getMagentoCheckoutMultishippingAddresses(
+        return Factory::getBlockFactory()->getMagentoMultishippingCheckoutAddresses(
             $this->_browser->find($this->addressesBlock, Locator::SELECTOR_CSS)
         );
     }

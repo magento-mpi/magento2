@@ -9,24 +9,24 @@
  * @license     {license_link}
  */
 
-namespace Magento\Checkout\Test\Page;
+namespace Magento\Multishipping\Test\Page;
 
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 
 /**
- * Class CheckoutMultishippingOverview
+ * class MultishippingCheckoutOverview
  * Review order page
  *
- * @package Magento\Checkout\Test\Page
+ * @package Magento\Multishipping\Test\Page
  */
-class CheckoutMultishippingOverview extends Page
+class MultishippingCheckoutOverview extends Page
 {
     /**
      * URL for order overview page
      */
-    const MCA = 'checkout/multishipping/overview';
+    const MCA = 'multishipping/checkout/overview';
 
     /**
      * Multishipping checkout overview block
@@ -46,11 +46,11 @@ class CheckoutMultishippingOverview extends Page
     /**
      * Get overview block
      *
-     * @return \Magento\Checkout\Test\Block\Multishipping\Overview
+     * @return \Magento\Multishipping\Test\Block\Checkout\Overview
      */
     public function getOverviewBlock()
     {
-        return Factory::getBlockFactory()->getMagentoCheckoutMultishippingOverview(
+        return Factory::getBlockFactory()->getMagentoMultishippingCheckoutOverview(
             $this->_browser->find($this->overviewBlock, Locator::SELECTOR_CSS)
         );
     }
