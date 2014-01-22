@@ -38,7 +38,8 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
                 array(
                     'root' => BP,
                     'directories' => array(
-                        \Magento\App\Filesystem::MODULES_DIR => array('path' => dirname(dirname(__DIR__)) . '/_files/code')
+                        \Magento\App\Filesystem::MODULES_DIR
+                            => array('path' => dirname(dirname(__DIR__)) . '/_files/code')
                     )
                 )
             ))

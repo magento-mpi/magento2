@@ -10,7 +10,7 @@ namespace Magento\Less\File\Source;
 
 use Magento\View\Layout\File\SourceInterface;
 use Magento\View\Design\ThemeInterface;
-use Magento\Filesystem;
+use Magento\App\Filesystem;
 use Magento\Filesystem\Directory\ReadInterface;
 use Magento\View\Layout\File\Factory;
 use Magento\View\Layout\File\FileList\Factory as FileListFactory;
@@ -51,8 +51,8 @@ class Library implements SourceInterface
         Factory $fileFactory
     ) {
         $this->fileListFactory = $fileListFactory;
-        $this->libraryDirectory = $filesystem->getDirectoryRead(Filesystem::PUB_LIB);
-        $this->themesDirectory = $filesystem->getDirectoryRead(Filesystem::THEMES);
+        $this->libraryDirectory = $filesystem->getDirectoryRead(Filesystem::PUB_LIB_DIR);
+        $this->themesDirectory = $filesystem->getDirectoryRead(Filesystem::THEMES_DIR);
         $this->fileFactory = $fileFactory;
     }
 
