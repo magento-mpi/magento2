@@ -333,7 +333,7 @@ class Giftcardaccount extends \Magento\Backend\App\Action
         return $this->_fileFactory->create(
             $fileName,
             $exportBlock->getExcelFile($fileName),
-            \Magento\Filesystem::VAR_DIR
+            \Magento\App\Filesystem::VAR_DIR
         );
     }
 
@@ -349,7 +349,7 @@ class Giftcardaccount extends \Magento\Backend\App\Action
         return $this->_fileFactory->create(
             $fileName,
             $exportBlock->getCsvFile($fileName),
-            \Magento\Filesystem::VAR_DIR
+            \Magento\App\Filesystem::VAR_DIR
         );
     }
 
