@@ -169,7 +169,7 @@ class Info extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
             if ($orderValue != '') {
                 $metadataElement = $this->_metadataElementFactory->create($attribute, $orderValue, $entityType);
                 $value      = $metadataElement->outputValue(AttributeDataFactory::OUTPUT_FORMAT_HTML);
-                $sortOrder  = $attribute->getSortOrder() + $attribute->getIsUserDefined() ? 200 : 0;
+                $sortOrder  = $attribute->getSortOrder() + $attribute->isUserDefined() ? 200 : 0;
                 $sortOrder  = $this->_prepareAccountDataSortOrder($accountData, $sortOrder);
                 $accountData[$sortOrder] = [
                     'label' => $attribute->getFrontendLabel(),
