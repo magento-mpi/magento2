@@ -57,7 +57,7 @@ class DefaultCaptcha extends \Magento\Captcha\Block\Captcha\DefaultCaptcha
     public function getRefreshUrl()
     {
         return $this->_url->getUrl('adminhtml/refresh/refresh', array(
-            '_secure' => $this->_config->getFlag('web/secure/use_in_adminhtml'),
+            '_secure' => $this->_config->isSetFlag('web/secure/use_in_adminhtml'),
             '_nosecret' => true
         ));
     }

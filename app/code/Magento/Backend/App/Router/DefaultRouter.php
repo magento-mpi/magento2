@@ -116,7 +116,7 @@ class DefaultRouter extends \Magento\Core\App\Router\Base
     protected function _shouldBeSecure($path)
     {
         return substr((string)$this->_coreConfig->getValue('web/unsecure/base_url', 'default'), 0, 5) === 'https'
-            || $this->_backendConfig->getFlag('web/secure/use_in_adminhtml')
+            || $this->_backendConfig->isSetFlag('web/secure/use_in_adminhtml')
             && substr((string)$this->_coreConfig->getValue('web/secure/base_url', 'default'), 0, 5) === 'https';
     }
 

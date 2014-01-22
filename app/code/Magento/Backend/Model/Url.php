@@ -162,7 +162,7 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
         if ($this->hasData('secure_is_forced')) {
             return $this->getData('secure');
         }
-        return $this->_config->getFlag('web/secure/use_in_adminhtml');
+        return $this->_config->isSetFlag('web/secure/use_in_adminhtml');
     }
 
     /**
@@ -267,7 +267,7 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
      */
     public function useSecretKey()
     {
-        return $this->_config->getFlag('admin/security/use_form_key') && !$this->getNoSecret();
+        return $this->_config->isSetFlag('admin/security/use_form_key') && !$this->getNoSecret();
     }
 
     /**

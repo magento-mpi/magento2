@@ -63,7 +63,7 @@ class Config implements ConfigInterface
      * @param string $path
      * @return bool
      */
-    public function getFlag($path)
+    public function isSetFlag($path)
     {
         return !!$this->_sectionPool->getSection('default', null)->getValue($path);
     }

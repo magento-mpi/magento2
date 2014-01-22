@@ -91,7 +91,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             ->method('getSection')
             ->with($this->equalTo('default'), $this->isNull())
             ->will($this->returnValue($configData));
-        $this->assertEquals($expectedResult, $this->model->getFlag($path));
+        $this->assertEquals($expectedResult, $this->model->isSetFlag($path));
     }
 
     public function getFlagDataProvider()
