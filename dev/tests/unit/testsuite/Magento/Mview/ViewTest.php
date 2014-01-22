@@ -189,6 +189,60 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $this->model->update();
     }
 
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Test exception
+     */
+    public function testUpdateWithException()
+    {
+        $currentVersionId = 3;
+        $lastVersionId = 1;
+        $listId = array(2, 3);
+        $this->stateMock->expects($this->any())
+            ->method('getViewId')
+            ->will($this->returnValue(1));
+        $this->stateMock->expects($this->once())
+            ->method('getVersionId')
+            ->will($this->returnValue($lastVersionId));
+        $this->stateMock->expects($this->never())
+            ->method('setVersionId');
+        $this->stateMock->expects($this->once())
+            ->method('getMode')
+            ->will($this->returnValue('enabled'));
+        $this->stateMock->expects($this->once())
+            ->method('getStatus')
+            ->will($this->returnValue('idle'));
+        $this->stateMock->expects($this->exactly(2))
+            ->method('setStatus')
+            ->will($this->returnSelf());
+        $this->stateMock->expects($this->exactly(2))
+            ->method('save')
+            ->will($this->returnSelf());
+
+        $this->changelogMock->expects($this->once())
+            ->method('getVersion')
+            ->will($this->returnValue($currentVersionId));
+        $this->changelogMock->expects($this->once())
+            ->method('getList')
+            ->with($lastVersionId, $currentVersionId)
+            ->will($this->returnValue($listId));
+
+        $actionMock = $this->getMock('Magento\Mview\Action', array('execute'), array(), '', false);
+        $actionMock->expects($this->once())
+            ->method('execute')
+            ->with($listId)
+            ->will($this->returnCallback(function () {
+                throw new \Exception('Test exception');
+            }));
+        $this->actionFactoryMock->expects($this->once())
+            ->method('get')
+            ->with('Some\Class\Name')
+            ->will($this->returnValue($actionMock));
+
+        $this->loadView();
+        $this->model->update();
+    }
+
     protected function loadView()
     {
         $viewId = 'view_test';

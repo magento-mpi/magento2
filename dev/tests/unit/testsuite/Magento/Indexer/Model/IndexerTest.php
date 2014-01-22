@@ -43,10 +43,14 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
     {
         $this->configMock = $this->getMock('Magento\Indexer\Model\Config', array('get'), array(), '', false);
         $this->actionFactoryMock = $this->getMock(
-            'Magento\Indexer\Model\ActionFactory', array('create'), array(), '', false
+            'Magento\Indexer\Model\ActionFactory', array('get'), array(), '', false
         );
         $this->viewMock = $this->getMock(
-            'Magento\Mview\View', array('load', 'getMode', 'getStatus', '__wakeup', 'getId'), array(), '', false
+            'Magento\Mview\View',
+            array('load', 'getMode', 'getUpdated', 'getStatus', '__wakeup', 'getId'),
+            array(),
+            '',
+            false
         );
         $this->stateFactoryMock = $this->getMock(
             'Magento\Indexer\Model\Indexer\StateFactory', array('create'), array(), '', false
@@ -84,11 +88,7 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
             ->method('load')
             ->with('view_test')
             ->will($this->returnSelf());
-        $this->configMock->expects($this->once())
-            ->method('get')
-            ->with($indexId)
-            ->will($this->returnValue($this->getIndexerData()));
-        $this->model->load($indexId);
+        $this->loadIndexer($indexId);
 
         $this->assertEquals($this->viewMock, $this->model->getView());
     }
@@ -115,11 +115,8 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
         $this->stateFactoryMock->expects($this->once())
             ->method('create')
             ->will($this->returnValue($stateMock));
-        $this->configMock->expects($this->once())
-            ->method('get')
-            ->with($indexId)
-            ->will($this->returnValue($this->getIndexerData()));
-        $this->model->load($indexId);
+
+        $this->loadIndexer($indexId);
 
         $this->assertInstanceOf('\Magento\Indexer\Model\Indexer\State', $this->model->getState());
     }
@@ -170,11 +167,7 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
                 ->will($this->returnValue($stateMock));
         }
 
-        $this->configMock->expects($this->once())
-            ->method('get')
-            ->with($indexId)
-            ->will($this->returnValue($this->getIndexerData()));
-        $this->model->load($indexId);
+        $this->loadIndexer($indexId);
 
         $this->assertEquals($result, $this->model->getStatus());
     }
@@ -194,7 +187,142 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
 
     public function testGetUpdated()
     {
-        $this->assertFalse(false);
+        $checkValue = 1;
+        $indexId = 'indexer_internal_name';
+        $this->loadIndexer($indexId);
+
+        $this->viewMock->expects($this->any())
+            ->method('getId')
+            ->will($this->returnValue(1));
+        $this->viewMock->expects($this->once())
+            ->method('getMode')
+            ->will($this->returnValue('enabled'));
+        $this->viewMock->expects($this->any())
+            ->method('getUpdated')
+            ->will($this->returnValue($checkValue));
+
+        $stateMock = $this->getMock(
+            '\Magento\Indexer\Model\Indexer\State',
+            array('load', 'getId', 'setIndexerId', '__wakeup', 'getUpdated'),
+            array(),
+            '',
+            false
+        );
+        $stateMock->expects($this->once())
+            ->method('getUpdated')
+            ->will($this->returnValue(0));
+        $this->stateFactoryMock->expects($this->once())
+            ->method('create')
+            ->will($this->returnValue($stateMock));
+
+        $this->assertEquals($checkValue, $this->model->getUpdated());
+    }
+
+    public function testReindexAll()
+    {
+        $indexId = 'indexer_internal_name';
+        $this->loadIndexer($indexId);
+
+        $stateMock = $this->getMock(
+            '\Magento\Indexer\Model\Indexer\State',
+            array('load', 'getId', 'setIndexerId', '__wakeup', 'getStatus', 'setStatus', 'save'),
+            array(),
+            '',
+            false
+        );
+        $stateMock->expects($this->once())
+            ->method('load')
+            ->with($indexId, 'indexer_id')
+            ->will($this->returnSelf());
+        $stateMock->expects($this->never())
+            ->method('setIndexerId');
+        $stateMock->expects($this->once())
+            ->method('getId')
+            ->will($this->returnValue(1));
+        $stateMock->expects($this->exactly(2))
+            ->method('setStatus')
+            ->will($this->returnSelf());
+        $stateMock->expects($this->once())
+            ->method('getStatus')
+            ->will($this->returnValue('idle'));
+        $stateMock->expects($this->exactly(2))
+            ->method('save')
+            ->will($this->returnSelf());
+        $this->stateFactoryMock->expects($this->once())
+            ->method('create')
+            ->will($this->returnValue($stateMock));
+
+        $actionMock = $this->getMock(
+            'Magento\Indexer\Model\ActionInterface',
+            array('executeFull', 'executeList', 'executeRow'),
+            array(),
+            '',
+            false
+        );
+        $this->actionFactoryMock->expects($this->once())
+            ->method('get')
+            ->with('Some\Class\Name')
+            ->will($this->returnValue($actionMock));
+
+        $this->model->reindexAll();
+    }
+
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage Test exception
+     */
+    public function testReindexAllWithException()
+    {
+        $indexId = 'indexer_internal_name';
+        $this->loadIndexer($indexId);
+
+        $stateMock = $this->getMock(
+            '\Magento\Indexer\Model\Indexer\State',
+            array('load', 'getId', 'setIndexerId', '__wakeup', 'getStatus', 'setStatus', 'save'),
+            array(),
+            '',
+            false
+        );
+        $stateMock->expects($this->once())
+            ->method('load')
+            ->with($indexId, 'indexer_id')
+            ->will($this->returnSelf());
+        $stateMock->expects($this->never())
+            ->method('setIndexerId');
+        $stateMock->expects($this->once())
+            ->method('getId')
+            ->will($this->returnValue(1));
+        $stateMock->expects($this->exactly(2))
+            ->method('setStatus')
+            ->will($this->returnSelf());
+        $stateMock->expects($this->once())
+            ->method('getStatus')
+            ->will($this->returnValue('idle'));
+        $stateMock->expects($this->exactly(2))
+            ->method('save')
+            ->will($this->returnSelf());
+        $this->stateFactoryMock->expects($this->once())
+            ->method('create')
+            ->will($this->returnValue($stateMock));
+
+        $actionMock = $this->getMock(
+            'Magento\Indexer\Model\ActionInterface',
+            array('executeFull', 'executeList', 'executeRow'),
+            array(),
+            '',
+            false
+        );
+        $actionMock->expects($this->once())
+            ->method('executeFull')
+            ->will($this->returnCallback(function () {
+                throw new \Exception('Test exception');
+            }));
+        $this->actionFactoryMock->expects($this->once())
+            ->method('get')
+            ->with('Some\Class\Name')
+            ->will($this->returnValue($actionMock));
+
+        $this->model->reindexAll();
     }
 
     protected function getIndexerData()
@@ -202,9 +330,21 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
         return array(
             'indexer_id' => 'indexer_internal_name',
             'view_id' => 'view_test',
-            'class' => 'Some\Class\Name',
+            'action_class' => 'Some\Class\Name',
             'title' => 'Indexer public name',
             'description' => 'Indexer public description',
         );
+    }
+
+    /**
+     * @param $indexId
+     */
+    protected function loadIndexer($indexId)
+    {
+        $this->configMock->expects($this->once())
+            ->method('get')
+            ->with($indexId)
+            ->will($this->returnValue($this->getIndexerData()));
+        $this->model->load($indexId);
     }
 }
