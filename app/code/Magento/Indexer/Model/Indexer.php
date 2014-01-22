@@ -218,6 +218,8 @@ class Indexer extends \Magento\Object
 
     /**
      * Regenerate full index
+     *
+     * @throws \Exception
      */
     public function reindexAll()
     {
@@ -225,10 +227,17 @@ class Indexer extends \Magento\Object
             $this->getState()
                 ->setStatus(Indexer\State::STATUS_WORKING)
                 ->save();
-            $this->getActionInstance()->executeFull();
-            $this->getState()
-                ->setStatus(Indexer\State::STATUS_VALID)
-                ->save();
+            try {
+                $this->getActionInstance()->executeFull();
+                $this->getState()
+                    ->setStatus(Indexer\State::STATUS_VALID)
+                    ->save();
+            } catch (\Exception $exception) {
+                $this->getState()
+                    ->setStatus(Indexer\State::STATUS_INVALID)
+                    ->save();
+                throw $exception;
+            }
         }
     }
 

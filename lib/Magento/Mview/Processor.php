@@ -8,8 +8,6 @@
 
 namespace Magento\Mview;
 
-use Magento\Webapi\Exception;
-
 class Processor implements ProcessorInterface
 {
     /**

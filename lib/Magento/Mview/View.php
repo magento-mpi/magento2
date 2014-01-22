@@ -163,6 +163,8 @@ class View extends \Magento\Object implements ViewInterface
 
     /**
      * Materialize view by IDs in changelog
+     *
+     * @throws \Exception
      */
     public function update()
     {
@@ -177,11 +179,18 @@ class View extends \Magento\Object implements ViewInterface
                 $this->getState()
                     ->setStatus(View\StateInterface::STATUS_WORKING)
                     ->save();
-                $action->execute($ids);
-                $this->getState()
-                    ->setVersionId($currentVersionId)
-                    ->setStatus(View\StateInterface::STATUS_IDLE)
-                    ->save();
+                try {
+                    $action->execute($ids);
+                    $this->getState()
+                        ->setVersionId($currentVersionId)
+                        ->setStatus(View\StateInterface::STATUS_IDLE)
+                        ->save();
+                } catch (\Exception $exception) {
+                    $this->getState()
+                        ->setStatus(View\StateInterface::STATUS_IDLE)
+                        ->save();
+                    throw $exception;
+                }
             }
         }
     }
