@@ -12,6 +12,7 @@
 namespace Magento\Sales\Test\Block\Adminhtml\Order;
 
 use Mtf\Block\Block;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class Actions
@@ -78,6 +79,20 @@ class Actions extends Block
     protected $ship = '#order_ship';
 
     /**
+     * 'Credit Memo' button
+     *
+     * @var string
+     */
+    protected $creditMemo = '#capture';
+
+    /**
+     * 'Refund' button
+     *
+     * @var string
+     */
+    protected $refund = '.submit-button-refund';
+
+    /**
      * Ship order
      */
     public function ship()
@@ -139,5 +154,21 @@ class Actions extends Block
     public function hold()
     {
         $this->_rootElement->find($this->hold)->click();
+    }
+
+    /**
+     * Credit memo
+     */
+    public function creditMemo()
+    {
+        $this->_rootElement->find($this->creditMemo)->click();
+    }
+
+    /**
+     * Refund order
+     */
+    public function refund()
+    {
+        $this->_rootElement->find($this->refund, Locator::SELECTOR_CSS)->click();
     }
 }
