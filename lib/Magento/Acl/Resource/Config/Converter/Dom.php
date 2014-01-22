@@ -10,7 +10,8 @@ namespace Magento\Acl\Resource\Config\Converter;
 class Dom implements \Magento\Config\ConverterInterface
 {
     /**
-     * {@inheritdoc}
+     * @param \DOMDocument $source
+     * @return array
      */
     public function convert($source)
     {
