@@ -50,7 +50,7 @@ class Indexer implements \Magento\AppInterface
     public function execute()
     {
         /* Clean reports */
-        $directory = $this->filesystem->getDirectoryWrite(\Magento\Filesystem::ROOT);
+        $directory = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR);
         $path = $directory->getRelativePath($this->reportDir);
         if ($directory->isExist($path)) {
             $directory->delete($path);
