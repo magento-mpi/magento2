@@ -25,7 +25,7 @@ class Stock extends \Magento\Data\Form\Element\Select
     protected $_qty;
 
     /**
-     * Is product composite (grouped or configurable)
+     * Is product composite
      *
      * @var bool
      */
@@ -123,7 +123,7 @@ class Stock extends \Magento\Data\Form\Element\Select
     }
 
     /**
-     * Get whether product is configurable or grouped
+     * Get whether product is composite
      *
      * @return bool
      */
