@@ -10,7 +10,7 @@
  *
  * @SuppressWarnings(PHPMD)
  */
-class Magento_Sniffs_Annotations_RequireAnnotatedMethodsSniff  implements PHP_CodeSniffer_Sniff
+class Magento_Sniffs_Annotations_RequireAnnotatedMethodsSniff implements PHP_CodeSniffer_Sniff
 {
     const AMBIGUOUS_TYPE = 'AmbiguousType';
     const MISSING = 'Missing';
@@ -288,9 +288,9 @@ class Magento_Sniffs_Annotations_RequireAnnotatedMethodsSniff  implements PHP_Co
         }
 
         // If the comment has an inherit doc note just move on
-        if (preg_match('/\{\@inheritdoc\}/',$commentString)) {
+        if (preg_match('/\{\@inheritdoc\}/', $commentString)) {
             return;
-        } else if (preg_match('/\{?\@?inherit[dD]oc\}?/',$commentString)) {
+        } else if (preg_match('/\{?\@?inherit[dD]oc\}?/', $commentString)) {
             $error = 'The incorrect inherit doc tag usage. Should be {@inheritdoc}';
             $this->addMessage($error, $commentStart, self::INCORRECT_INHERIT_DOC);
             return;
