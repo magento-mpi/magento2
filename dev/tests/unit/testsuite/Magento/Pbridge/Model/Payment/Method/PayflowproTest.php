@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Pbridge\Model\Payment\Method\Payflow;
+namespace Magento\Pbridge\Model\Payment\Method;
 
-class ProTest extends \PHPUnit_Framework_TestCase
+class PayflowproTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Pro
+     * @var Payflowpro
      */
     protected $_model;
 
@@ -30,7 +30,7 @@ class ProTest extends \PHPUnit_Framework_TestCase
             ->method('getMethodInstance')
             ->will($this->returnValue($pbridgeMethod));
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_model = $helper->getObject('Magento\Pbridge\Model\Payment\Method\Payflow\Pro', array(
+        $this->_model = $helper->getObject('Magento\Pbridge\Model\Payment\Method\Payflowpro', array(
             'paymentData' => $paymentData
         ));
     }

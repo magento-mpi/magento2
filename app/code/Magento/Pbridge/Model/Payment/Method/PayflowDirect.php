@@ -2,18 +2,16 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Pbridge
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Paypal UK Direct dummy payment method model
+ * Payflow Direct dummy payment method model
  */
 namespace Magento\Pbridge\Model\Payment\Method;
 
-class Paypaluk extends \Magento\PaypalUk\Model\Direct
+class PayflowDirect extends \Magento\Paypal\Model\PayflowDirect
 {
     /**
      * Credit card form block
@@ -34,7 +32,7 @@ class Paypaluk extends \Magento\PaypalUk\Model\Direct
      *
      * @var $_proType string
      */
-    protected $_proType = 'Magento\Pbridge\Model\Payment\Method\Paypaluk\Pro';
+    protected $_proType = 'Magento\Pbridge\Model\Payment\Method\Payflow\Pro';
 
     /**
      * Pbridge data
@@ -289,7 +287,7 @@ class Paypaluk extends \Magento\PaypalUk\Model\Direct
     {
         $payment->setTransactionId($api->getTransactionId())->setIsTransactionClosed(0)
             ->setIsTransactionPending($api->getIsPaymentPending());
-        $payflowTrxid = $api->getData(\Magento\Pbridge\Model\Payment\Method\Paypaluk\Pro::TRANSPORT_PAYFLOW_TXN_ID);
+        $payflowTrxid = $api->getData(\Magento\Pbridge\Model\Payment\Method\Payflow\Pro::TRANSPORT_PAYFLOW_TXN_ID);
         $payment->setPreparedMessage(
             __('Payflow PNREF: #%1.', $payflowTrxid)
         );
@@ -312,7 +310,7 @@ class Paypaluk extends \Magento\PaypalUk\Model\Direct
      *
      * @param int|string|\Magento\Core\Model\Store $store
      *
-     * @return \Magento\Pbridge\Model\Payment\Method\Paypaluk
+     * @return $this
      */
     public function setStore($store)
     {
