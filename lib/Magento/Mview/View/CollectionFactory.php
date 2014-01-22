@@ -18,7 +18,7 @@ class CollectionFactory
     /**
      * @var string
      */
-    const INSTANCE_NAME = 'Magento\Mview\View\Collection';
+    const INSTANCE_NAME = 'Magento\Mview\View\CollectionInterface';
 
     /**
      * @param \Magento\ObjectManager $objectManager
