@@ -25,12 +25,31 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
             \Magento\Filesystem::PARAM_APP_DIRS => array(
                 \Magento\Filesystem::PUB_LIB => array('path' => dirname(dirname(__DIR__)) . '/_files/lib'),
                 \Magento\Filesystem::THEMES => array('path' => dirname(dirname(__DIR__)) . '/_files/design'),
-                \Magento\Filesystem::MODULES => array('path' => dirname(dirname(__DIR__)) . '/_files/code')
             )
         ));
         $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->objectManager->get('Magento\App\State')->setAreaCode('frontend');
-        $this->model = $this->objectManager->create('Magento\Less\File\Source\Aggregated');
+
+        /** @var \Magento\Filesystem $filesystem */
+        $filesystem = $this->objectManager->create(
+            'Magento\Filesystem',
+            array('directoryList' => $this->objectManager->create(
+                'Magento\Filesystem\DirectoryList',
+                array(
+                    'root' => BP,
+                    'directories' => array(
+                        \Magento\Filesystem::MODULES => array('path' => dirname(dirname(__DIR__)) . '/_files/code')
+                    )
+                )
+            ))
+        );
+
+        /** @var \Magento\Less\File\Source\Base $sourceBase */
+        $sourceBase = $this->objectManager->create('Magento\Less\File\Source\Base', array('filesystem' => $filesystem));
+        $this->model = $this->objectManager->create(
+            'Magento\Less\File\Source\Aggregated',
+            array('baseFiles' => $sourceBase)
+        );
     }
 
     /**
