@@ -26,7 +26,7 @@ class CheckoutMultishippingAddresses extends Page
     /**
      * URL for multishipping addresss page
      */
-    const MCA = 'checkout/multishipping/addresses';
+    const MCA = 'multishipping/checkout/addresses';
 
     /**
      * Multishipping checkout choose item addresses block

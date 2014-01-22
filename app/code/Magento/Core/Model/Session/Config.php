@@ -101,7 +101,7 @@ class Config implements \Magento\Session\Config\ConfigInterface
     protected $_appState;
 
     /**
-     * @var \Magento\Filesystem
+     * @var \Magento\App\Filesystem
      */
     protected $_filesystem;
 
@@ -111,7 +111,7 @@ class Config implements \Magento\Session\Config\ConfigInterface
      * @param \Magento\Stdlib\String $stringHelper
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\App\State $appState
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
      * @param string $saveMethod
      * @param null|string $savePath
      * @param null|string $cacheLimiter
@@ -122,7 +122,7 @@ class Config implements \Magento\Session\Config\ConfigInterface
         \Magento\Stdlib\String $stringHelper,
         \Magento\App\RequestInterface $request,
         \Magento\App\State $appState,
-        \Magento\Filesystem $filesystem,
+        \Magento\App\Filesystem $filesystem,
         $saveMethod = \Magento\Session\SaveHandlerInterface::DEFAULT_HANDLER,
         $savePath = null,
         $cacheLimiter = null
@@ -158,7 +158,7 @@ class Config implements \Magento\Session\Config\ConfigInterface
         $domain = $this->_storeConfig->getConfig(self::XML_PATH_COOKIE_DOMAIN, $this->_storeManager->getStore());
         $domain = empty($domain) ? $this->_httpRequest->getHttpHost() : $domain;
         $this->setCookieDomain((string)$domain);
-        $this->setCookieSecure($this->_httpRequest->isSecure());
+
         $this->setCookieHttpOnly(
             $this->_storeConfig->getConfig(self::XML_PATH_COOKIE_HTTPONLY, $this->_storeManager->getStore())
         );

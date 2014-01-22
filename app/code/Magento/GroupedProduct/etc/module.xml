@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <module name="Magento_GroupedProduct" version="0.0.1" active="true">
+        <sequence>
+            <module name="Magento_Catalog" />
+            <module name="Magento_CatalogInventory" />
+        </sequence>
+        <depends>
+            <module name="Magento_Catalog" />
+            <module name="Magento_Core" />
+        </depends>
+    </module>
+</config>

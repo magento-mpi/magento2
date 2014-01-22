@@ -30,6 +30,13 @@ class History extends Block
     protected $commentHistory = '.note-list-comment';
 
     /**
+     * Captured Amount from IPN
+     *
+     * @var string
+     */
+    protected $capturedAmount = '//div[@class="note-list-comment"][contains(text(), "captured amount of")]';
+
+    /**
      * Get comments history
      *
      * @return string
@@ -37,5 +44,15 @@ class History extends Block
     public function getCommentsHistory()
     {
         return $this->_rootElement->find($this->commentHistory, Locator::SELECTOR_CSS)->getText();
+    }
+
+    /**
+     * Get the captured amount from the comments history
+     *
+     * @return string
+     */
+    public function getCapturedAmount()
+    {
+        return $this->_rootElement->find($this->capturedAmount, Locator::SELECTOR_XPATH)->getText();
     }
 }

@@ -1,31 +1,63 @@
+* Modularity improvements:
+  * Moved all Grouped Product functionality to newly created module Magento_GroupedProduct
+  * Extracted Product duplication behaviour from Product model to Product\Copier model
+  * Event "catalog_model_product_duplicate" was replaced with composite Product\Copier model
+  * Event "catalog_product_prepare_save" was replaced with controller product initialization helper that can be pluginized
+  * Autorizenet is consolidated in separate module
+* Introduced new layout block attribute - cacheable
+* Extracted multishipping functionality from Magento\Checkout module in separated Magento\Multishipping module
 * Fixed bugs:
-  * Fixed memory exceeding on very large image uploading
-  * Fixed category move is not changing position in case if $afterCategoryId is null
-  * Fixed admin users locked out after lognum update
-  * Fixed products from non-default website aren't shown as bundle items
-  * Fixed placing order with status Pending Payment instead of Processing when payment method Authorize.net is used
-  * Fixed PayPal Express: order can't be placed if HTTPS is used on frontend
-  * Fixed security issue with user session on registration
-  * Fixed CSRF vulnerability in checkout
-  * Fixed JavaScript static testing framework to properly handle corrupted paths in white/black lists
-  * Fixed error during Google Shopping synchronization due to invalid method call
-  * Fixed design for contextual help tooltip
-  * Fixed "Authorize.net CC" section UI on "Onepage Checkout" page
-  * Fixed UI issues on backend create and view order pages
-  * Fixed IE9 backend UI issues
-  * Fixed UI issues on "Edit Customer" backend page
-  * Fixed UI issue of placeholder for preview images on "Edit Product" page in IE9
-  * Fixed Admin Look&Feel forms UI issues
-  * Fixed Admin Look&Feel buttons UI issues
-  * Fixed product's status after a virtual product was duplicated
-  * Fixed fatal error with attribute file from customer account page in backend
-  * Fixed security issue - set `CURLOPT_SSL_VERIFYPEER` to `true` and `CURLOPT_SSL_VERIFYHOST` to 2 by default in cUrl calls
-  * Updated comments for eliminating redirect when secure url is used
-  * Fixed incorrect product duplication in multiple store view configuration
+  * Fixed an issue when order was sent to Paypal without defined currency
+  * Fixed an issue with 404 error when trying to return back to grid from Recurring Billing Profile
+  * Fixed an issue with synchronization with google shopping on product update caused by missed service property
+  * Fixed Authorize.net Direct Post: Ability to proceed order when it was created from Backend
   * Fixed missed image for a cron job for the abandoned cart emails
-* Consolidated a few 3rd-party JavaScript libraries under `pub/lib` directory and specified their original license notice texts
-* Service Layer Implementation:
-  * Implemented initial set of services for the Customer module
+* Removed the deprecated service-calls and data source functionality
+
+
+2.0.0.0-dev61
+=============
+* Introduced a new layout block attribute - cacheable
+* Fixed bugs:
+  * Fixed an issue with displaying configurable product images in shopping cart
+  * Fixed an issue with Tax Summary not being displayed properly on the Order Review page
+  * Optimized the Plushe theme CSS
+  * Fixed attribute types for configurable product variations
+  * Fixed an issue with incorrect link in the Reset Password email for customers registered on the non-default website
+  * Fixed an issue with creating orders using DHL on holiday dates
+  * Fixed product export
+  * Fixed 3D secure validation
+  * Fixed an issue with session being lost when a logged in user goes from store pages using secure URL to the store pages which do not use secure URL
+  * Fixed an issue with price ranges in the Advanced search
+
+2.0.0.0-dev60
+=============
+* Fixed bugs:
+  * Fixed an issue with exceeding the memory limit when uploading very big images
+  * Fixed an issue in moving a category when $afterCategoryId is null
+  * Fixed an issue when products from a non-default website were not available as bundle items
+  * Fixed an issue when orders placed via Authorize.net had the wrong statuses
+  * Fixed an issue where orders placed via PayPal Express Checkout could not be placed if HTTPS was used on the frontend
+  * Fixed a security issue with a user session during registration
+  * Removed a CSRF vulnerability in checkout
+  * Fixed an issue with JavaScript static testing framework not handling corrupted paths in white/black lists properly
+  * Fixed an issue with Google Shopping synchronization
+  * Fixed the contextual help tooltip design
+  * Fixed an issue with the Authorize.net CC section UI on the Onepage Checkout page
+  * Fixed UI issues on the order pages in the backend
+  * Fixed UI issues in the backend for IE9
+  * Fixed UI issues on the Edit Customer page in the backend
+  * Fixed a UI issue with the image preview placeholder on the Edit Product page for IE9
+  * Fixed UI issues with forms in the backend
+  * Fixed UI issues with buttons in the backend
+  * Fixed an issue with a product status after a virtual product was duplicated
+  * Fixed a fatal error with attribute file from the customer account page in the backend
+  * Fixed a security issue when CURLOPT_SSL_VERIFYPEER and CURLOPT_SSL_VERIFYHOST where used with improper values sometimes
+  * Updated the field descriptions for Secure Base URL settings in the backend
+  * Fixed an issue in product duplication for multiple store views
+  * Consolidated several 3rd-party JavaScript libraries in the pub/lib directory, and fixed license notice texts to conform to the open source license requirements
+* Service Layer implementation:
+  * Implemented the initial set of services for the Customer module
 
 2.0.0.0-dev59
 =============
