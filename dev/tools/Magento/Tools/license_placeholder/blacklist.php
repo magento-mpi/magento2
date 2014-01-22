@@ -18,7 +18,7 @@ return array(
     'dev/tests/functional-old/fixture/_testFiles/jquery_jqzoom_css_jquery.jqzoom.css',
     'dev/tests/functional-old/framework/Mage/Testlink/class-IXR.php',
     'dev/tests/integration/testsuite/Magento/Css/PreProcessor/_files',
-    'dev/tests/integration/testsuite/Magento/Less/_files',
+    'dev/tests/integration/testsuite/Magento/Less/_files/design/frontend/test_pre_process',
     'dev/tests/integration/tmp',
     'dev/tests/static/report',
     'dev/tests/static/testsuite/Magento/Test/Php/Exemplar/_files/phpcs',
