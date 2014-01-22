@@ -97,7 +97,6 @@ class Account extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
 
         // add user defined attributes
         foreach ($customerForm->getUserAttributes() as $attribute) {
-            /* @var $attribute \Magento\Customer\Model\Attribute */
             $attributes[$attribute->getAttributeCode()] = $attribute;
         }
 
