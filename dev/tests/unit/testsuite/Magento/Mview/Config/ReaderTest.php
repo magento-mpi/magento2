@@ -39,7 +39,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         );
         $fsDirList->expects($this->once())
             ->method('getDir')
-            ->with(\Magento\Filesystem::LIB)
+            ->with(\Magento\App\Filesystem::LIB_DIR)
             ->will($this->returnValue('stub'))
         ;
         $schemaLocator = new \Magento\Mview\Config\SchemaLocator($fsDirList);
