@@ -23,7 +23,7 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
             \Magento\App\Filesystem::PARAM_APP_DIRS => array(
-                \Magento\Filesystem::PUB_LIB => array('path' => dirname(dirname(__DIR__)) . '/_files/lib'),
+                \Magento\App\Filesystem::PUB_LIB_DIR => array('path' => dirname(dirname(__DIR__)) . '/_files/lib'),
                 \Magento\App\Filesystem::THEMES_DIR => array('path' => dirname(dirname(__DIR__)) . '/_files/design'),
             )
         ));
@@ -38,7 +38,7 @@ class AggregatedTest extends \PHPUnit_Framework_TestCase
                 array(
                     'root' => BP,
                     'directories' => array(
-                        \Magento\Filesystem::MODULES => array('path' => dirname(dirname(__DIR__)) . '/_files/code')
+                        \Magento\App\Filesystem::MODULES_DIR => array('path' => dirname(dirname(__DIR__)) . '/_files/code')
                     )
                 )
             ))

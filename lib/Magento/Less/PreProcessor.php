@@ -88,7 +88,7 @@ class PreProcessor
      */
     protected function getDirectoryRead()
     {
-        return $this->filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);
+        return $this->filesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
     }
 
     /**
@@ -98,7 +98,7 @@ class PreProcessor
      */
     protected function getDirectoryWrite()
     {
-        return $this->filesystem->getDirectoryWrite(\Magento\Filesystem::TMP);
+        return $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::TMP_DIR);
     }
 
     /**

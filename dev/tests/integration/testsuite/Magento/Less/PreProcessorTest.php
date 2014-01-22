@@ -23,7 +23,7 @@ class PreProcessorTest extends \PHPUnit_Framework_TestCase
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
             \Magento\App\Filesystem::PARAM_APP_DIRS => array(
-                \Magento\Filesystem::PUB_LIB => array('path' => __DIR__ . '/_files/lib'),
+                \Magento\App\Filesystem::PUB_LIB_DIR => array('path' => __DIR__ . '/_files/lib'),
                 \Magento\App\Filesystem::THEMES_DIR => array('path' => __DIR__ . '/_files/design')
             )
         ));
@@ -41,7 +41,7 @@ class PreProcessorTest extends \PHPUnit_Framework_TestCase
     {
         /** @var $filesystem \Magento\Filesystem */
         $filesystem = $this->objectManager->get('Magento\Filesystem');
-        $targetDirectory = $filesystem->getDirectoryWrite(\Magento\Filesystem::TMP);
+        $targetDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::TMP_DIR);
         $designParams = array('area' => 'frontend', 'theme' => 'test_pre_process');
         $cssTargetFile = $this->model->process('source.css', $designParams, $targetDirectory);
         /** @var $viewFilesystem \Magento\View\FileSystem */
