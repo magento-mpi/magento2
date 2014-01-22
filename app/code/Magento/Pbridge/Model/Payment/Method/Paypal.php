@@ -13,8 +13,6 @@
  */
 namespace Magento\Pbridge\Model\Payment\Method;
 
-use Magento\Object;
-
 class Paypal extends \Magento\Paypal\Model\Direct
 {
     /**
@@ -235,13 +233,13 @@ class Paypal extends \Magento\Paypal\Model\Direct
     }
 
     /**
-     * @param Object $payment
+     * @param \Magento\Object $payment
      * @param float amount
      * @return $this
      */
-    public function authorize(Object $payment, $amount)
+    public function authorize(\Magento\Object $payment, $amount)
     {
-        $result = new Object($this->getPbridgeMethodInstance()->authorize($payment, $amount));
+        $result = new \Magento\Object($this->getPbridgeMethodInstance()->authorize($payment, $amount));
         $order = $payment->getOrder();
         $result->setEmail($order->getCustomerEmail());
         $this->_importResultToPayment($result, $payment);
@@ -249,11 +247,11 @@ class Paypal extends \Magento\Paypal\Model\Direct
     }
 
     /**
-     * @param Object $payment
+     * @param \Magento\Object $payment
      * @param float amount
      * @return $this
      */
-    public function capture(Object $payment, $amount)
+    public function capture(\Magento\Object $payment, $amount)
     {
         if (false === $this->_pro->capture($payment, $amount)) {
             $this->authorize($payment, $amount);
@@ -262,22 +260,22 @@ class Paypal extends \Magento\Paypal\Model\Direct
     }
 
     /**
-     * @param Object $payment
+     * @param \Magento\Object $payment
      * @param float amount
      * @return $this
      */
-    public function refund(Object $payment, $amount)
+    public function refund(\Magento\Object $payment, $amount)
     {
         $this->_pro->refund($payment, $amount);
         return $this;
     }
 
     /**
-     * @param Object $payment
+     * @param \Magento\Object $payment
      * @param float amount
      * @return $this
      */
-    public function void(Object $payment)
+    public function void(\Magento\Object $payment)
     {
         $this->_pro->void($payment);
         return $this;

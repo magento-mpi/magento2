@@ -10,12 +10,10 @@
 
 namespace Magento\Centinel\Model;
 
-use Magento\Object;
-
 /**
  * 3D Secure Validation Model
  */
-class Service extends Object
+class Service extends \Magento\Object
 {
     /**
      * Cmpi public keys
@@ -229,7 +227,7 @@ class Service extends Object
     /**
      * Process lookup validation and init new validation state model
      *
-     * @param Object $data
+     * @param \Magento\Object $data
      * @return void
      */
     public function lookup($data)
@@ -254,7 +252,7 @@ class Service extends Object
     /**
      * Process authenticate validation
      *
-     * @param Object $data
+     * @param \Magento\Object $data
      * @return void
      * @throws \Exception
      */
@@ -279,7 +277,7 @@ class Service extends Object
      * This check is performed on payment information submission, as well as on placing order.
      * Workflow state is stored validation state model
      *
-     * @param Object $data
+     * @param \Magento\Object $data
      * @return void
      * @throws \Magento\Core\Exception
      */

@@ -18,8 +18,6 @@
  */
 namespace Magento\Pbridge\Model\Payment\Method\Eway;
 
-use Magento\Object;
-
 class Direct extends \Magento\Pbridge\Model\Payment\Method
 {
     /**
@@ -82,11 +80,11 @@ class Direct extends \Magento\Pbridge\Model\Payment\Method
     /**
      * Capturing method being executed via Payment Bridge
      *
-     * @param Object $payment
+     * @param \Magento\Object $payment
      * @param float $amount
      * @return $this
      */
-    public function capture(Object $payment, $amount)
+    public function capture(\Magento\Object $payment, $amount)
     {
         $response = $this->getPbridgeMethodInstance()->capture($payment, $amount);
         if (!$response) {

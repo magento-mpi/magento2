@@ -9,8 +9,6 @@
  */
 namespace Magento\Centinel\Model;
 
-use Magento\Object;
-
 /**
  * 3D Secure Validation Library for Payment
  */
@@ -20,7 +18,7 @@ include_once '3Dsecure/CentinelClient.php';
  * 3D Secure Validation Api
  */
 
-class Api extends Object
+class Api extends \Magento\Object
 {
     /**
      * Fields that should be replaced in debug with '***'
@@ -198,12 +196,12 @@ class Api extends Object
     /**
      * Call centinel api lookup method
      *
-     * @param Object $data
-     * @return Object
+     * @param \Magento\Object $data
+     * @return \Magento\Object
      */
     public function callLookup($data)
     {
-        $result = new Object();
+        $result = new \Magento\Object();
 
         $month = strlen($data->getCardExpMonth()) == 1 ? '0' . $data->getCardExpMonth() : $data->getCardExpMonth();
         $currencyCode = $data->getCurrencyCode();
@@ -237,12 +235,12 @@ class Api extends Object
     /**
      * Call centinel api authentication method
      *
-     * @param Object $data
-     * @return Object
+     * @param \Magento\Object $data
+     * @return \Magento\Object
      */
     public function callAuthentication($data)
     {
-        $result = new Object();
+        $result = new \Magento\Object();
 
         $clientResponse = $this->_call('cmpi_authenticate', array(
             'TransactionId' => $data->getTransactionId(),

@@ -18,8 +18,6 @@
  */
 namespace Magento\Pbridge\Model\Payment\Method;
 
-use Magento\Object;
-
 class Firstdata extends \Magento\Pbridge\Model\Payment\Method
 {
     /**
@@ -87,11 +85,11 @@ class Firstdata extends \Magento\Pbridge\Model\Payment\Method
     /**
      * Authorization method being executed via Payment Bridge
      *
-     * @param Object $payment
+     * @param \Magento\Object $payment
      * @param float $amount
      * @return $this
      */
-    public function authorize(Object $payment, $amount)
+    public function authorize(\Magento\Object $payment, $amount)
     {
         $response = $this->getPbridgeMethodInstance()->authorize($payment, $amount);
         $payment->addData((array)$response);
@@ -101,11 +99,11 @@ class Firstdata extends \Magento\Pbridge\Model\Payment\Method
     /**
      * Capturing method being executed via Payment Bridge
      *
-     * @param Object $payment
+     * @param \Magento\Object $payment
      * @param float $amount
      * @return $this
      */
-    public function capture(Object $payment, $amount)
+    public function capture(\Magento\Object $payment, $amount)
     {
         $response = $this->getPbridgeMethodInstance()->capture($payment, $amount);
         if (!$response) {
@@ -118,11 +116,11 @@ class Firstdata extends \Magento\Pbridge\Model\Payment\Method
     /**
      * Refunding method being executed via Payment Bridge
      *
-     * @param Object $payment
+     * @param \Magento\Object $payment
      * @param float $amount
      * @return $this
      */
-    public function refund(Object $payment, $amount)
+    public function refund(\Magento\Object $payment, $amount)
     {
         $response = $this->getPbridgeMethodInstance()->refund($payment, $amount);
         $payment->addData((array)$response);

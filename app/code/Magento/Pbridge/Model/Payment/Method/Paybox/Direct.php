@@ -18,7 +18,6 @@
  */
 namespace Magento\Pbridge\Model\Payment\Method\Paybox;
 
-use Magento\Object;
 use Magento\Core\Exception as CoreException;
 
 class Direct extends \Magento\Pbridge\Model\Payment\Method
@@ -81,11 +80,11 @@ class Direct extends \Magento\Pbridge\Model\Payment\Method
     /**
      * Authorization method being executed via Payment Bridge
      *
-     * @param Object $payment
+     * @param \Magento\Object $payment
      * @param float $amount
      * @return $this
      */
-    public function authorize(Object $payment, $amount)
+    public function authorize(\Magento\Object $payment, $amount)
     {
         $response = $this->getPbridgeMethodInstance()->authorize($payment, $amount);
         $payment->addData((array)$response);
@@ -95,11 +94,11 @@ class Direct extends \Magento\Pbridge\Model\Payment\Method
     /**
      * Capturing method being executed via Payment Bridge
      *
-     * @param Object $payment
+     * @param \Magento\Object $payment
      * @param float $amount
      * @return $this
      */
-    public function capture(Object $payment, $amount)
+    public function capture(\Magento\Object $payment, $amount)
     {
         $response = $this->getPbridgeMethodInstance()->capture($payment, $amount);
         if (!$response) {
@@ -112,12 +111,12 @@ class Direct extends \Magento\Pbridge\Model\Payment\Method
     /**
      * Refunding method being executed via Payment Bridge
      *
-     * @param Object $payment
+     * @param \Magento\Object $payment
      * @param float $amount
      * @return $this
      * @throws CoreException
      */
-    public function refund(Object $payment, $amount)
+    public function refund(\Magento\Object $payment, $amount)
     {
         throw new CoreException(__('Refund action is not available.'));
     }

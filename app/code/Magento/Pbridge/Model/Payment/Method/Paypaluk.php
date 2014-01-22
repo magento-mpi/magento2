@@ -13,7 +13,6 @@
  */
 namespace Magento\Pbridge\Model\Payment\Method;
 
-use Magento\Object;
 use Magento\Paypal\Model\Direct;
 use Magento\Sales\Model\Order\Payment;
 
@@ -234,13 +233,13 @@ class Paypaluk extends \Magento\PaypalUk\Model\Direct
     /**
      * Authorize payment
      *
-     * @param Object $payment
+     * @param \Magento\Object $payment
      * @param float $amount
      * @return Direct
      */
-    public function authorize(Object $payment, $amount)
+    public function authorize(\Magento\Object $payment, $amount)
     {
-        $result = new Object($this->getPbridgeMethodInstance()->authorize($payment, $amount));
+        $result = new \Magento\Object($this->getPbridgeMethodInstance()->authorize($payment, $amount));
         $order = $payment->getOrder();
         $result->setEmail($order->getCustomerEmail());
         $this->_importResultToPayment($result, $payment);
@@ -250,11 +249,11 @@ class Paypaluk extends \Magento\PaypalUk\Model\Direct
     /**
      * Capture payment
      *
-     * @param Object $payment
+     * @param \Magento\Object $payment
      * @param float $amount
      * @return Direct
      */
-    public function capture(Object $payment, $amount)
+    public function capture(\Magento\Object $payment, $amount)
     {
         if (false === $this->_pro->capture($payment, $amount)) {
             $this->authorize($payment, $amount);
@@ -269,7 +268,7 @@ class Paypaluk extends \Magento\PaypalUk\Model\Direct
      * @param float $amount
      * @return Direct
      */
-    public function refund(Object $payment, $amount)
+    public function refund(\Magento\Object $payment, $amount)
     {
         $this->_pro->refund($payment, $amount);
         return $this;
@@ -281,7 +280,7 @@ class Paypaluk extends \Magento\PaypalUk\Model\Direct
      * @param Payment $payment
      * @return Direct
      */
-    public function void(Object $payment)
+    public function void(\Magento\Object $payment)
     {
         $this->_pro->void($payment);
         return $this;
@@ -290,8 +289,8 @@ class Paypaluk extends \Magento\PaypalUk\Model\Direct
     /**
      * Import direct payment results to payment
      *
-     * @param Object $api
-     * @param Object $payment
+     * @param \Magento\Object $api
+     * @param \Magento\Object $payment
      * @param Payment $payment
      */
     protected function _importResultToPayment($api, $payment)

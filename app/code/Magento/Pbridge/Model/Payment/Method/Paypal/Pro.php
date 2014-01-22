@@ -14,7 +14,6 @@
  */
 namespace Magento\Pbridge\Model\Payment\Method\Paypal;
 
-use Magento\Object;
 use Magento\Pbridge\Model\Payment\Method\Paypal;
 use Magento\Payment\Model\Method\AbstractMethod;
 
@@ -94,15 +93,15 @@ class Pro extends \Magento\Paypal\Model\Pro
      * Attempt to capture payment
      * Will return false if the payment is not supposed to be captured
      *
-     * @param Object $payment
+     * @param \Magento\Object $payment
      * @param float $amount
-     * @return array|bool|AbstractMethod|Object
+     * @return array|bool|AbstractMethod|\Magento\Object
      */
-    public function capture(Object $payment, $amount)
+    public function capture(\Magento\Object $payment, $amount)
     {
         $result = $this->getPbridgeMethodInstance()->capture($payment, $amount);
         if (false !== $result) {
-            $result = new Object($result);
+            $result = new \Magento\Object($result);
             $this->_importCaptureResultToPayment($result, $payment);
         }
         return $result;
@@ -112,16 +111,16 @@ class Pro extends \Magento\Paypal\Model\Pro
     /**
      * Refund a capture transaction
      *
-     * @param Object $payment
+     * @param \Magento\Object $payment
      * @param float $amount
-     * @return Object|array|void
+     * @return \Magento\Object|array|void
      */
-    public function refund(Object $payment, $amount)
+    public function refund(\Magento\Object $payment, $amount)
     {
         $result = $this->getPbridgeMethodInstance()->refund($payment, $amount);
 
         if ($result) {
-            $result = new Object($result);
+            $result = new \Magento\Object($result);
             $result->setRefundTransactionId($result->getTransactionId());
             $canRefundMore = $payment->getOrder()->canCreditmemo();
             $this->_importRefundResultToPayment($result, $payment, $canRefundMore);
@@ -133,27 +132,27 @@ class Pro extends \Magento\Paypal\Model\Pro
     /**
      * Refund a capture transaction
      *
-     * @param Object $payment
+     * @param \Magento\Object $payment
      * @return array|void
      */
-    public function void(Object $payment)
+    public function void(\Magento\Object $payment)
     {
         $result = $this->getPbridgeMethodInstance()->void($payment);
-        $this->_infoFactory->create()->importToPayment(new Object($result), $payment);
+        $this->_infoFactory->create()->importToPayment(new \Magento\Object($result), $payment);
         return $result;
     }
 
     /**
      * Cancel payment
      *
-     * @param Object $payment
+     * @param \Magento\Object $payment
      * @return void
      */
-    public function cancel(Object $payment)
+    public function cancel(\Magento\Object $payment)
     {
         if (!$payment->getOrder()->getInvoiceCollection()->count()) {
             $result = $this->getPbridgeMethodInstance()->void($payment);
-            $this->_infoFactory->create()->importToPayment(new Object($result), $payment);
+            $this->_infoFactory->create()->importToPayment(new \Magento\Object($result), $payment);
         }
     }
 }

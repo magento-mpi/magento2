@@ -14,7 +14,6 @@
  */
 namespace Magento\Pbridge\Model\Payment\Method\Paypaluk;
 
-use Magento\Object;
 use Magento\Sales\Model\Order\Payment;
 use Magento\Paypal\Model\Api\Nvp;
 
@@ -95,15 +94,15 @@ class Pro extends \Magento\PaypalUk\Model\Pro
      * Attempt to capture payment
      * Will return false if the payment is not supposed to be captured
      *
-     * @param Object $payment
+     * @param \Magento\Object $payment
      * @param float $amount
      * @return false|null
      */
-    public function capture(Object $payment, $amount)
+    public function capture(\Magento\Object $payment, $amount)
     {
         $result = $this->getPbridgeMethodInstance()->capture($payment, $amount);
         if (false !== $result) {
-            $result = new Object($result);
+            $result = new \Magento\Object($result);
             $this->_importCaptureResultToPayment($result, $payment);
         }
         return $result;
@@ -113,16 +112,16 @@ class Pro extends \Magento\PaypalUk\Model\Pro
     /**
      * Refund a capture transaction
      *
-     * @param Object $payment
+     * @param \Magento\Object $payment
      * @param float $amount
-     * @return Object|array|null
+     * @return \Magento\Object|array|null
      */
-    public function refund(Object $payment, $amount)
+    public function refund(\Magento\Object $payment, $amount)
     {
         $result = $this->getPbridgeMethodInstance()->refund($payment, $amount);
 
         if ($result) {
-            $result = new Object($result);
+            $result = new \Magento\Object($result);
             $canRefundMore = $payment->getOrder()->canCreditmemo();
             $this->_importRefundResultToPayment($result, $payment, $canRefundMore);
         }
@@ -133,27 +132,27 @@ class Pro extends \Magento\PaypalUk\Model\Pro
     /**
      * Refund a capture transaction
      *
-     * @param Object $payment
+     * @param \Magento\Object $payment
      * @return array|null
      */
-    public function void(Object $payment)
+    public function void(\Magento\Object $payment)
     {
         $result = $this->getPbridgeMethodInstance()->void($payment);
-        $this->_infoFactory->create()->importToPayment(new Object($result), $payment);
+        $this->_infoFactory->create()->importToPayment(new \Magento\Object($result), $payment);
         return $result;
     }
 
     /**
      * Cancel payment
      *
-     * @param Object $payment
+     * @param \Magento\Object $payment
      * @return void
      */
-    public function cancel(Object $payment)
+    public function cancel(\Magento\Object $payment)
     {
         if (!$payment->getOrder()->getInvoiceCollection()->count()) {
             $result = $this->getPbridgeMethodInstance()->void($payment);
-            $this->_infoFactory->create()->importToPayment(new Object($result), $payment);
+            $this->_infoFactory->create()->importToPayment(new \Magento\Object($result), $payment);
         }
     }
 
@@ -161,10 +160,10 @@ class Pro extends \Magento\PaypalUk\Model\Pro
     /**
      * Parent transaction id getter
      *
-     * @param Object $payment
+     * @param \Magento\Object $payment
      * @return string
      */
-    protected function _getParentTransactionId(Object $payment)
+    protected function _getParentTransactionId(\Magento\Object $payment)
     {
         return $payment->getParentTransactionId();
     }
