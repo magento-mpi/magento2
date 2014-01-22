@@ -11,8 +11,8 @@
 namespace Magento\Data;
 
 use Magento\Data\Form\Element\AbstractElement;
-use Magento\Data\Form\Element\Collection;
-use Magento\Data\Form\Element\CollectionFactory;
+use Magento\Data\Form\Element\Collection as ElementCollection;
+use Magento\Data\Form\Element\CollectionFactory as ElementCollectionFactory;
 use Magento\Data\Form\Element\Factory;
 use Magento\Data\Form\Element\Renderer\RendererInterface;
 use Magento\Data\Form\FormKey;
@@ -24,7 +24,7 @@ class Form extends \Magento\Data\Form\AbstractForm
     /**
      * All form elements collection
      *
-     * @var Collection
+     * @var ElementCollection
      */
     protected $_allElements;
 
@@ -57,13 +57,13 @@ class Form extends \Magento\Data\Form\AbstractForm
 
     /**
      * @param Factory $factoryElement
-     * @param CollectionFactory $factoryCollection
+     * @param ElementCollectionFactory $factoryCollection
      * @param FormKey $formKey
      * @param array $data
      */
     public function __construct(
         Factory $factoryElement,
-        CollectionFactory $factoryCollection,
+        ElementCollectionFactory $factoryCollection,
         FormKey $formKey,
         $data = array()
     ) {

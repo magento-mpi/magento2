@@ -19,7 +19,7 @@
 namespace Magento\Data;
 
 use Magento\Data\Tree\Node;
-use Magento\Data\Tree\Node\Collection;
+use Magento\Data\Tree\Node\Collection as TreeNodeCollection;
 
 class Tree
 {
@@ -27,7 +27,7 @@ class Tree
     /**
      * Nodes collection
      *
-     * @var Collection
+     * @var TreeNodeCollection
      */
     protected $_nodes;
 
@@ -37,7 +37,7 @@ class Tree
      */
     public function __construct()
     {
-        $this->_nodes = new Collection($this);
+        $this->_nodes = new TreeNodeCollection($this);
     }
 
     /**
@@ -182,7 +182,7 @@ class Tree
     /**
      * Enter description here...
      *
-     * @return Collection
+     * @return TreeNodeCollection
      */
     public function getNodes()
     {
@@ -210,7 +210,7 @@ class Tree
     {
         if ($node instanceof Node ) {
 
-        } elseif (is_numeric($node)){
+        } elseif (is_numeric($node)) {
             if ($_node = $this->getNodeById($node)) {
                 return $_node->getPath();
             }
