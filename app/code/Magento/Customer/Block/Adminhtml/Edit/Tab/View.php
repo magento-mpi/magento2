@@ -95,7 +95,7 @@ class View
      * @param int $groupId
      * @return \Magento\Customer\Service\V1\Dto\CustomerGroup|null
      */
-    public function getGroup($groupId)
+    private function getGroup($groupId)
     {
         try {
             $group = $this->_groupService->getGroup($groupId);
