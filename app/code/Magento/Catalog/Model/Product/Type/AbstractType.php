@@ -91,7 +91,7 @@ abstract class AbstractType
     const OPTION_PREFIX = 'option_';
 
     /**
-     * @var \Magento\Filesystem
+     * @var \Magento\App\Filesystem
      */
     protected $_filesystem;
 
@@ -169,7 +169,7 @@ abstract class AbstractType
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDb
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Logger $logger
      * @param array $data
@@ -182,7 +182,7 @@ abstract class AbstractType
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Helper\File\Storage\Database $fileStorageDb,
-        \Magento\Filesystem $filesystem,
+        \Magento\App\Filesystem $filesystem,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Logger $logger,
         array $data = array()
@@ -368,13 +368,13 @@ abstract class AbstractType
             return $options;
         }
         // try to found super product configuration
-        // (if product was buying within grouped product)
         $superProductConfig = $buyRequest->getSuperProductConfig();
         if (!empty($superProductConfig['product_id'])
             && !empty($superProductConfig['product_type'])
         ) {
             $superProductId = (int)$superProductConfig['product_id'];
             if ($superProductId) {
+                /** @var \Magento\Catalog\Model\Product $superProduct */
                 $superProduct = $this->_coreRegistry->registry('used_super_product_' . $superProductId);
                 if (!$superProduct) {
                     $superProduct = $this->_productFactory->create()->load($superProductId);
@@ -489,7 +489,7 @@ abstract class AbstractType
                         $path = dirname($dst);
 
                         try {
-                            $this->_filesystem->getDirectoryWrite(\Magento\Filesystem::ROOT)->create($path);
+                            $this->_filesystem->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR)->create($path);
                         } catch (\Magento\Filesystem\FilesystemException $e) {
                             throw new \Magento\Core\Exception(
                                 __("We can't create writeable directory \"%1\".", $path)
@@ -715,7 +715,7 @@ abstract class AbstractType
     }
 
     /**
-     * Check if product is composite (grouped, configurable, etc)
+     * Check if product is composite
      *
      * @param \Magento\Catalog\Model\Product $product
      * @return bool

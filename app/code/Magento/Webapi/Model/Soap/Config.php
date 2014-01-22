@@ -59,20 +59,20 @@ class Config
      * Initialize dependencies.
      *
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\Webapi\Model\Config $config
      * @param \Magento\Webapi\Model\Config\ClassReflector $classReflector
      * @param \Magento\Webapi\Helper\Data $helper
      */
     public function __construct(
         \Magento\ObjectManager $objectManager,
-        \Magento\Filesystem $filesystem,
+        \Magento\App\Filesystem $filesystem,
         \Magento\Webapi\Model\Config $config,
         \Magento\Webapi\Model\Config\ClassReflector $classReflector,
         \Magento\Webapi\Helper\Data $helper
     ) {
         // TODO: Check if Service specific XSD is already cached
-        $this->modulesDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::MODULES);
+        $this->modulesDirectory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::MODULES_DIR);
         $this->_config = $config;
         $this->_objectManager = $objectManager;
         $this->_helper = $helper;

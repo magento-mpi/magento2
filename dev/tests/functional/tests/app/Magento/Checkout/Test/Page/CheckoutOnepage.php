@@ -71,16 +71,11 @@ class CheckoutOnepage extends Page
     protected $reviewBlock = '#checkout-step-review';
 
     /**
-     * Centinel card verification block
+     * iFrame body locator
      *
-     * @var \Magento\Centinel\Test\Block\Authentication
+     * @var string
      */
-    protected $centinelAuthenticationBlock = 'body';
-
-    /**
-     * @var \Magento\Centinel\Test\Block\Authentication
-     */
-    private $payflowAdvancedBlock;
+    protected $iframeBody = 'body';
 
     /**
      * 3D Secure frame locator
@@ -90,11 +85,18 @@ class CheckoutOnepage extends Page
     protected $centinelFrame = '#centinel-authenticate-iframe';
 
     /**
-     * Payflow Advanced frame locator
+     * Payflow Advanced iFrame locator
      *
      * @var $Locator
      */
-    protected $_payflowAdvancedFrame;
+    protected $payflowAdvancedFrame = "#payflow-advanced-iframe";
+
+    /**
+     * Payflow Link iFrame locator
+     *
+     * @var string
+     */
+    protected $payflowLinkFrame = "#payflow-link-iframe";
 
     /**
      * Custom constructor
@@ -184,18 +186,34 @@ class CheckoutOnepage extends Page
     {
         $this->_browser->switchToFrame(new Locator($this->centinelFrame));
         return Factory::getBlockFactory()->getMagentoCentinelAuthentication(
-            $this->_browser->find($this->centinelAuthenticationBlock, Locator::SELECTOR_CSS)
+            $this->_browser->find($this->iframeBody, Locator::SELECTOR_CSS)
         );
     }
 
     /**
-     * @return \Magento\Centinel\Test\Block\Authentication
+     * Get Paypal Payment Advanced (payflow advanced) iframe.
+     *
+     * @return \Magento\Payment\Test\Block\Form\PayflowAdvanced\Cc
      */
-    public function getPayflowCcBlock()
+    public function getPayflowAdvancedCcBlock()
     {
-        $this->_browser->switchToFrame(new Locator($this->_payflowAdvancedFrame));
+        $this->_browser->switchToFrame(new Locator($this->payflowAdvancedFrame));
         return Factory::getBlockFactory()->getMagentoPaymentFormPayflowAdvancedCc(
-            $this->_browser->find($this->payflowAdvancedBlock)
+            $this->_browser->find($this->iframeBody, Locator::SELECTOR_CSS)
         );
     }
+
+    /**
+     * Get Payflow Link iframe.
+     *
+     * @return \Magento\Payment\Test\Block\Form\PayflowAdvanced\Cc
+     */
+    public function getPayflowLinkCcBlock()
+    {
+        $this->_browser->switchToFrame(new Locator($this->payflowLinkFrame));
+        return Factory::getBlockFactory()->getMagentoPaymentFormPayflowAdvancedCc(
+            $this->_browser->find($this->iframeBody, Locator::SELECTOR_CSS)
+        );
+    }
+
 }

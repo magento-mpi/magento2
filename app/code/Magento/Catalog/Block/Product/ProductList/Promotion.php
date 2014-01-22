@@ -42,6 +42,7 @@ class Promotion extends \Magento\Catalog\Block\Product\ListProduct
      * @param \Magento\Catalog\Model\LayerFactory $layerFactory
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
      * @param array $data
+     * @param array $priceBlockTypes
      * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -61,7 +62,8 @@ class Promotion extends \Magento\Catalog\Block\Product\ListProduct
         \Magento\Catalog\Model\Layer $catalogLayer,
         \Magento\Catalog\Model\LayerFactory $layerFactory,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
-        array $data = array()
+        array $data = array(),
+        array $priceBlockTypes = array()
     ) {
         $this->_layerFactory = $layerFactory;
         $this->_productCollectionFactory = $productCollectionFactory;
@@ -79,7 +81,8 @@ class Promotion extends \Magento\Catalog\Block\Product\ListProduct
             $imageHelper,
             $categoryFactory,
             $catalogLayer,
-            $data
+            $data,
+            $priceBlockTypes
         );
     }
 
