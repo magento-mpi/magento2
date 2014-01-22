@@ -7,7 +7,7 @@
  */
 \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
     \Magento\Filesystem::PARAM_APP_DIRS => array(
-        \Magento\Filesystem::THEMES => array('path' => __DIR__ . '/design')
+        \Magento\App\Filesystem::THEMES_DIR => array('path' => __DIR__ . '/design')
     )
 ));
 $objectManger = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
