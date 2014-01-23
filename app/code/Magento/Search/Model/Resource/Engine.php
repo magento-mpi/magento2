@@ -82,7 +82,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
      *
      * @var \Magento\Search\Model\Resource\CollectionFactory
      */
-    protected $_searchCollFactory;
+    protected $_searchCollectionFactory;
 
     /**
      * @var \Magento\Search\Model\Resource\Advanced
@@ -105,7 +105,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
 
 
     public function __construct(
-        \Magento\Search\Model\Resource\CollectionFactory $searchCollFactory,
+        \Magento\Search\Model\Resource\CollectionFactory $searchCollectionFactory,
         \Magento\CatalogSearch\Model\Resource\Fulltext $catalogSearchResourceFulltext,
         \Magento\Search\Model\Resource\Index $searchResourceIndex,
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
@@ -114,7 +114,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Search\Model\Factory\Factory $searchFactory
     ) {
-        $this->_searchCollFactory = $searchCollFactory;
+        $this->_searchCollectionFactory = $searchCollectionFactory;
         $this->_catalogSearchResourceFulltext = $catalogSearchResourceFulltext;
         $this->_searchResourceIndex = $searchResourceIndex;
         $this->_catalogProductVisibility = $catalogProductVisibility;
@@ -320,7 +320,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
      */
     public function getResultCollection()
     {
-        return $this->_searchCollFactory->create()->setEngine($this);
+        return $this->_searchCollectionFactory->create()->setEngine($this);
     }
 
     /**

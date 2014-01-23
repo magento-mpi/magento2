@@ -120,16 +120,16 @@ class Media implements AppInterface
     }
 
     /**
-     * Execute application
+     * Run application
      *
-     * @return int
+     * @return \Magento\App\ResponseInterface
      */
     public function execute()
     {
         try {
             if (!$this->_applicationState->isInstalled()) {
-                $this->_response->sendNotFound();
-                return -1;
+                $this->_response->setHttpResponseCode(404);
+                return $this->_response;
             }
             if (!$this->_mediaDirectory) {
                 $config = $this->_objectManager->create(
@@ -143,29 +143,28 @@ class Media implements AppInterface
                 );
                 $isAllowed = $this->_isAllowed;
                 if (!$isAllowed($this->_relativeFileName, $allowedResources)) {
-                    $this->_response->sendNotFound();
-                    return -1;
+                    $this->_response->setHttpResponseCode(404);
+                    return $this->_response;
                 }
             }
 
             if (0 !== stripos($this->_request->getPathInfo(), $this->_mediaDirectory . '/')) {
-                $this->_response->sendNotFound();
-                return -1;
+                $this->_response->setHttpResponseCode(404);
+                return $this->_response;
             }
 
             $sync = $this->_objectManager->get('Magento\Core\Model\File\Storage\Synchronization');
             $sync->synchronize($this->_relativeFileName, $this->_request->getFilePath());
 
             if ($this->directory->isReadable($this->directory->getRelativePath($this->_request->getFilePath()))) {
-                $this->_response->sendFile($this->_request->getFilePath());
-                return 0;
+                $this->_response->setFilePath($this->_request->getFilePath());
             } else {
-                $this->_response->sendNotFound();
-                return -1;
+                $this->_response->setHttpResponseCode(404);
             }
+            return $this->_response;
         } catch (\Magento\Core\Model\Store\Exception $e) {
-            $this->_response->sendNotFound();
-            return -1;
+            $this->_response->setHttpResponseCode(404);
+            return $this->_response;
         }
     }
 }
