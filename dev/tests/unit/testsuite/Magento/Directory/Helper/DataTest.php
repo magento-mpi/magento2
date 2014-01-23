@@ -47,9 +47,14 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
         $this->_regionCollection = $this->getMock('Magento\Directory\Model\Resource\Region\Collection', array(),
             array(), '', false);
-        $regCollFactory = $this->getMock('Magento\Directory\Model\Resource\Region\CollectionFactory', array('create'),
-            array(), '', false);
-        $regCollFactory->expects($this->any())
+        $regCollectionFactory = $this->getMock(
+            'Magento\Directory\Model\Resource\Region\CollectionFactory',
+            array('create'),
+            array(),
+            '',
+            false
+        );
+        $regCollectionFactory->expects($this->any())
             ->method('create')
             ->will($this->returnValue($this->_regionCollection));
 
@@ -67,7 +72,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             'context' => $context,
             'configCacheType' => $configCacheType,
             'countryCollection' => $this->_countryCollection,
-            'regCollFactory' => $regCollFactory,
+            'regCollectionFactory' => $regCollectionFactory,
             'coreHelper' => $this->_coreHelper,
             'storeManager' => $storeManager,
             'currencyFactory' => $currencyFactory,
