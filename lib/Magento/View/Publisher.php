@@ -80,7 +80,7 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
     protected $rootDirectory;
 
     /**
-     * @var \Magento\View\Asset\PreProcessorInterface
+     * @var \Magento\View\Asset\PreProcessor\PreProcessorInterface
      */
     protected $preProcessor;
 
@@ -91,7 +91,7 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
      * @param Service $viewService
      * @param FileSystem $viewFileSystem
      * @param \Magento\Module\Dir\Reader $modulesReader
-     * @param \Magento\View\Asset\PreProcessorInterface $preProcessor
+     * @param \Magento\View\Asset\PreProcessor\PreProcessorInterface $preProcessor
      * @param bool $allowDuplication
      */
     public function __construct(
@@ -101,7 +101,7 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
         \Magento\View\Service $viewService,
         \Magento\View\FileSystem $viewFileSystem,
         \Magento\Module\Dir\Reader $modulesReader,
-        \Magento\View\Asset\PreProcessorInterface $preProcessor,
+        \Magento\View\Asset\PreProcessor\PreProcessorInterface $preProcessor,
         $allowDuplication
     ) {
         $this->_filesystem = $filesystem;
