@@ -9,24 +9,24 @@
  * @license     {license_link}
  */
 
-namespace Magento\Checkout\Test\Page;
+namespace Magento\Multishipping\Test\Page;
 
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 
 /**
- * Class CheckoutMultishippingSuccess
+ * class MultishippingCheckoutSuccess
  * Multishipping checkout success page
  *
- * @package Magento\Checkout\Test\Page
+ * @package Magento\Multishipping\Test\Page
  */
-class CheckoutMultishippingSuccess extends Page
+class MultishippingCheckoutSuccess extends Page
 {
     /**
      * URL for multishipping success page
      */
-    const MCA = 'checkout/multishipping/success';
+    const MCA = 'multishipping/checkout/success';
 
     /**
      * Custom constructor
@@ -39,11 +39,11 @@ class CheckoutMultishippingSuccess extends Page
     /**
      * Get success block
      *
-     * @return \Magento\Checkout\Test\Block\Multishipping\Success
+     * @return \Magento\Multishipping\Test\Block\Checkout\Success
      */
     public function getSuccessBlock()
     {
-        return Factory::getBlockFactory()->getMagentoCheckoutMultishippingSuccess(
+        return Factory::getBlockFactory()->getMagentoMultishippingCheckoutSuccess(
             $this->_browser->find('.multicheckout.success', Locator::SELECTOR_CSS)
         );
     }

@@ -9,24 +9,24 @@
  * @license     {license_link}
  */
 
-namespace Magento\Checkout\Test\Page;
+namespace Magento\Multishipping\Test\Page;
 
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 
 /**
- * Class CheckoutMultishippingShipping
+ * class MultishippingCheckoutShipping
  * Select payment method page
  *
- * @package Magento\Checkout\Test\Page
+ * @package Magento\Multishipping\Test\Page
  */
-class CheckoutMultishippingBilling extends Page
+class MultishippingCheckoutBilling extends Page
 {
     /**
      * URL for multishipping billing page
      */
-    const MCA = 'checkout/multishipping/billing';
+    const MCA = 'multishipping/checkout/billing';
 
     /**
      * Billing block form
@@ -46,11 +46,11 @@ class CheckoutMultishippingBilling extends Page
     /**
      * Get billing form
      *
-     * @return \Magento\Checkout\Test\Block\Multishipping\Billing
+     * @return \Magento\Multishipping\Test\Block\Checkout\Billing
      */
     public function getBillingBlock()
     {
-        return Factory::getBlockFactory()->getMagentoCheckoutMultishippingBilling(
+        return Factory::getBlockFactory()->getMagentoMultishippingCheckoutBilling(
             $this->_browser->find($this->billingBlock, Locator::SELECTOR_CSS)
         );
     }

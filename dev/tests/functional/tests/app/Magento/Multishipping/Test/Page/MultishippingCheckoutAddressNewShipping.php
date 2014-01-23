@@ -9,24 +9,24 @@
  * @license     {license_link}
  */
 
-namespace Magento\Checkout\Test\Page;
+namespace Magento\Multishipping\Test\Page;
 
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 
 /**
- * Class CheckoutMultishippingAddressNewShipping
+ * class MultishippingCheckoutAddressNewShipping
  * Create Shipping Address page
  *
- * @package Magento\Checkout\Test\Page
+ * @package Magento\Multishipping\Test\Page
  */
-class CheckoutMultishippingAddressNewShipping extends Page
+class MultishippingCheckoutAddressNewShipping extends Page
 {
     /**
      * URL for new shipping address page
      */
-    const MCA = 'checkout/multishipping_address/newShipping';
+    const MCA = 'multishipping/checkout_address/newShipping';
 
     /**
      * Form for edit customer address

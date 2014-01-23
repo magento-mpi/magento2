@@ -9,24 +9,24 @@
  * @license     {license_link}
  */
 
-namespace Magento\Checkout\Test\Page;
+namespace Magento\Multishipping\Test\Page;
 
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 
 /**
- * Class CheckoutMultishippingLogin
+ * class MultishippingCheckoutLogin
  * Multishipping login page
  *
- * @package Magento\Checkout\Test\Page
+ * @package Magento\Multishipping\Test\Page
  */
-class CheckoutMultishippingLogin extends Page
+class MultishippingCheckoutLogin extends Page
 {
     /**
      * URL for multishipping login page
      */
-    const MCA = 'checkout/multishipping/login';
+    const MCA = 'multishipping/checkout/login';
 
     /**
      * Form for customer login

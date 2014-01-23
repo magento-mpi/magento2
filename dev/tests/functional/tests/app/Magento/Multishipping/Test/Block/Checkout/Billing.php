@@ -9,19 +9,18 @@
  * @license     {license_link}
  */
 
-namespace Magento\Checkout\Test\Block\Multishipping;
+namespace Magento\Multishipping\Test\Block\Checkout;
 
 use Mtf\Block\Block;
-use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 use Magento\Payment\Test\Block\Form;
-use Magento\Checkout\Test\Fixture\Checkout;
+use Magento\Multishipping\Test\Fixture\GuestPaypalDirect;
 
 /**
  * Class Shipping
  * Multishipping billing information
  *
- * @package Magento\Checkout\Test\Block\Multishipping
+ * @package Magento\Multishipping\Test\Block\Checkout
  */
 class Billing extends Block
 {
@@ -35,9 +34,9 @@ class Billing extends Block
     /**
      * Select payment method
      *
-     * @param Checkout $fixture
+     * @param GuestPaypalDirect $fixture
      */
-    public function selectPaymentMethod(Checkout $fixture)
+    public function selectPaymentMethod(GuestPaypalDirect $fixture)
     {
         $payment = $fixture->getPaymentMethod();
         $paymentCode = $payment->getPaymentCode();

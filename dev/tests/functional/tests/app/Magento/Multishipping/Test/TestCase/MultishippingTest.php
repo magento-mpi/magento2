@@ -9,29 +9,29 @@
  * @license     {license_link}
  */
 
-namespace Magento\Checkout\Test\TestCase;
+namespace Magento\Multishipping\Test\TestCase;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\Checkout\Test\Fixture\Checkout;
+use Magento\Multishipping\Test\Fixture\GuestPaypalDirect;
 
 /**
  * Class MultishippingTest
  * Test multiple address page checkout with different configurations
  *
- * @package Magento\Checkout\Test\TestCase
+ * @package Magento\Multishipping\Test\TestCase
  */
 class MultishippingTest extends Functional
 {
     /**
      * Place order on frontend via multishipping.
      *
-     * @param Checkout $fixture
+     * @param GuestPaypalDirect $fixture
      * @dataProvider dataProviderMultishippingCheckout
      *
      * @ZephyrId MAGETWO-12836
      */
-    public function testMultishippingCheckout(Checkout $fixture)
+    public function testMultishippingCheckout(GuestPaypalDirect $fixture)
     {
         $fixture->persist();
 
@@ -51,32 +51,32 @@ class MultishippingTest extends Functional
         }
 
         //Proceed to checkout
-        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
-        $checkoutCartPage->getCartBlock()->getMultishippingLinkBlock()->multipleAddressesCheckout();
+        $checkoutCartPage = Factory::getPageFactory()->getMultishippingCheckoutCart();
+        $checkoutCartPage->getMultishippingLinkBlock()->multipleAddressesCheckout();
 
         //Register new customer
-        Factory::getPageFactory()->getCheckoutMultishippingLogin()->getLoginBlock()->registerCustomer();
-        $multishippingRegisterPage = Factory::getPageFactory()->getCheckoutMultishippingRegister();
+        Factory::getPageFactory()->getMultishippingCheckoutLogin()->getLoginBlock()->registerCustomer();
+        $multishippingRegisterPage = Factory::getPageFactory()->getMultishippingCheckoutRegister();
         $multishippingRegisterPage->getRegisterBlock()->registerCustomer($fixture->getCustomer());
 
         //Mapping products and shipping addresses
         if ($fixture->getNewShippingAddresses()) {
             foreach ($fixture->getNewShippingAddresses() as $address) {
-                Factory::getPageFactory()->getCheckoutMultishippingAddresses()->getAddressesBlock()->addNewAddress();
-                Factory::getPageFactory()->getCheckoutMultishippingAddressNewShipping()->getEditBlock()
+                Factory::getPageFactory()->getMultishippingCheckoutAddresses()->getAddressesBlock()->addNewAddress();
+                Factory::getPageFactory()->getMultishippingCheckoutAddressNewShipping()->getEditBlock()
                     ->editCustomerAddress($address);
             }
         }
-        Factory::getPageFactory()->getCheckoutMultishippingAddresses()->getAddressesBlock()->selectAddresses($fixture);
+        Factory::getPageFactory()->getMultishippingCheckoutAddresses()->getAddressesBlock()->selectAddresses($fixture);
 
         //Select shipping and payment methods
-        Factory::getPageFactory()->getCheckoutMultishippingShipping()->getShippingBlock()
+        Factory::getPageFactory()->getMultishippingCheckoutShipping()->getShippingBlock()
             ->selectShippingMethod($fixture);
-        Factory::getPageFactory()->getCheckoutMultishippingBilling()->getBillingBlock()->selectPaymentMethod($fixture);
-        Factory::getPageFactory()->getCheckoutMultishippingOverview()->getOverviewBlock()->placeOrder($fixture);
+        Factory::getPageFactory()->getMultishippingCheckoutBilling()->getBillingBlock()->selectPaymentMethod($fixture);
+        Factory::getPageFactory()->getMultishippingCheckoutOverview()->getOverviewBlock()->placeOrder($fixture);
 
         //Verify order in Backend
-        $successPage = Factory::getPageFactory()->getCheckoutMultishippingSuccess();
+        $successPage = Factory::getPageFactory()->getMultishippingCheckoutSuccess();
         $this->assertContains(
             'Your order has been received.',
             $successPage->getTitleBlock()->getTitle(),
@@ -91,7 +91,7 @@ class MultishippingTest extends Functional
     public function dataProviderMultishippingCheckout()
     {
         return array(
-            array(Factory::getFixtureFactory()->getMagentoCheckoutMultishippingGuestPaypalDirect()),
+            array(Factory::getFixtureFactory()->getMagentoMultishippingGuestPaypalDirect()),
         );
     }
 
@@ -99,9 +99,9 @@ class MultishippingTest extends Functional
      * Verify order in Backend
      *
      * @param array $orderIds
-     * @param Checkout $fixture
+     * @param GuestPaypalDirect $fixture
      */
-    protected function _verifyOrder($orderIds, Checkout $fixture)
+    protected function _verifyOrder($orderIds, GuestPaypalDirect $fixture)
     {
         Factory::getApp()->magentoBackendLoginUser();
         $grandTotals = $fixture->getGrandTotal();
