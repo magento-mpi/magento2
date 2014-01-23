@@ -30,7 +30,7 @@ class Config extends \Magento\Config\Data implements \Magento\Catalog\Model\Prod
      */
     public function getType($name)
     {
-        return $this->get('types' . $name, array());
+        return $this->get('types/' . $name, array());
     }
 
     /**
@@ -61,6 +61,6 @@ class Config extends \Magento\Config\Data implements \Magento\Catalog\Model\Prod
      */
     public function getComposableTypes()
     {
-        $this->get('composableTypes', array());
+        return $this->get('composableTypes', array());
     }
 }

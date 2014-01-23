@@ -81,7 +81,8 @@ class Converter implements \Magento\Config\ConverterInterface
             $output['types'][$typeName] = $data;
         }
 
-        $composableTypes = $xpath->evaluate('/config/composableTypes');
+        $composableTypes = $xpath->evaluate('/config/composableTypes/*');
+        $output['composableTypes'] = array();
         foreach ($composableTypes as $typeNode) {
             $typeName = $this->_getAttributeValue($typeNode, 'name');
             $output['composableTypes'][$typeName] = $typeName;
