@@ -34,7 +34,7 @@ class File extends AbstractData
     protected $_fileValidator;
 
     /**
-     * @var \Magento\Filesystem
+     * @var \Magento\App\Filesystem
      */
     protected $_fileSystem;
 
@@ -47,7 +47,7 @@ class File extends AbstractData
      * @param bool $isAjax
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\File\Validator\NotProtectedExtension $fileValidator
-     * @param \Magento\Filesystem $fileSystem
+     * @param \Magento\App\Filesystem $fileSystem
      */
     public function __construct(
         \Magento\Core\Model\LocaleInterface $locale,
@@ -58,7 +58,7 @@ class File extends AbstractData
         $isAjax = false,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\File\Validator\NotProtectedExtension $fileValidator,
-        \Magento\Filesystem $fileSystem
+        \Magento\App\Filesystem $fileSystem
     ) {
         parent::__construct($locale, $logger, $attribute, $value, $entityTypeCode, $isAjax);
         $this->_coreData = $coreData;
@@ -239,7 +239,7 @@ class File extends AbstractData
             }
         }
 
-        $path = $this->_fileSystem->getPath(\Magento\Filesystem::MEDIA) . '/' . $this->_entityTypeCode;
+        $path = $this->_fileSystem->getPath(\Magento\App\Filesystem::MEDIA_DIR) . '/' . $this->_entityTypeCode;
 
         $result = $original;
         // unlink entity file
