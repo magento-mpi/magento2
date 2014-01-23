@@ -38,18 +38,18 @@ class Status extends \Magento\Rma\Model\Rma\Source\AbstractSource
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptCollFactory
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\OptionFactory $attrOptionFactory
      * @param \Magento\Rma\Model\Item\Attribute\Source\StatusFactory $statusFactory
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptCollFactory,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory,
         \Magento\Eav\Model\Resource\Entity\Attribute\OptionFactory $attrOptionFactory,
         \Magento\Rma\Model\Item\Attribute\Source\StatusFactory $statusFactory
     ) {
         $this->_statusFactory = $statusFactory;
-        parent::__construct($coreData, $attrOptCollFactory, $attrOptionFactory);
+        parent::__construct($coreData, $attrOptionCollectionFactory, $attrOptionFactory);
     }
 
     /**

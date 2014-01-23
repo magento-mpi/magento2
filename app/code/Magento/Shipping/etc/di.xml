@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <preference for="Magento\Sales\Model\Quote\Address\RateCollectorInterface" type="Magento\Shipping\Model\Shipping" />
+    <preference for="Magento\Sales\Model\Quote\Address\CarrierFactoryInterface" type="Magento\Shipping\Model\CarrierFactory" />
+</config>

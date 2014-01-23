@@ -44,7 +44,7 @@ class International
     /**
      * Rate request data
      *
-     * @var \Magento\Shipping\Model\Rate\Request|null
+     * @var \Magento\Sales\Model\Quote\Address\RateRequest|null
      */
     protected $_request = null;
 
@@ -188,11 +188,11 @@ class International
 
     /**
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Shipping\Model\Rate\Result\ErrorFactory $rateErrorFactory
+     * @param \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory
      * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
      * @param \Magento\Usa\Model\Simplexml\ElementFactory $xmlElFactory
      * @param \Magento\Shipping\Model\Rate\ResultFactory $rateFactory
-     * @param \Magento\Shipping\Model\Rate\Result\MethodFactory $rateMethodFactory
+     * @param \Magento\Sales\Model\Quote\Address\RateResult\MethodFactory $rateMethodFactory
      * @param \Magento\Shipping\Model\Tracking\ResultFactory $trackFactory
      * @param \Magento\Shipping\Model\Tracking\Result\ErrorFactory $trackErrorFactory
      * @param \Magento\Shipping\Model\Tracking\Result\StatusFactory $trackStatusFactory
@@ -213,11 +213,11 @@ class International
      */
     public function __construct(
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Shipping\Model\Rate\Result\ErrorFactory $rateErrorFactory,
+        \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory,
         \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
         \Magento\Usa\Model\Simplexml\ElementFactory $xmlElFactory,
         \Magento\Shipping\Model\Rate\ResultFactory $rateFactory,
-        \Magento\Shipping\Model\Rate\Result\MethodFactory $rateMethodFactory,
+        \Magento\Sales\Model\Quote\Address\RateResult\MethodFactory $rateMethodFactory,
         \Magento\Shipping\Model\Tracking\ResultFactory $trackFactory,
         \Magento\Shipping\Model\Tracking\Result\ErrorFactory $trackErrorFactory,
         \Magento\Shipping\Model\Tracking\Result\StatusFactory $trackStatusFactory,
@@ -231,12 +231,12 @@ class International
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Stdlib\String $string,
         \Magento\Math\Division $mathDivision,
-        \Magento\Filesystem $filesystem,
+        \Magento\App\Filesystem $filesystem,
         \Magento\Stdlib\DateTime $dateTime,
         \Zend_Http_ClientFactory $httpClientFactory,
         array $data = array()
     ) {
-        $this->modulesDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::MODULES);
+        $this->modulesDirectory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::MODULES_DIR);
         $this->_usaData = $usaData;
         $this->_coreDate = $coreDate;
         $this->_storeManager = $storeManager;
@@ -288,10 +288,10 @@ class International
     /**
      * Collect and get rates
      *
-     * @param \Magento\Shipping\Model\Rate\Request $request
+     * @param \Magento\Sales\Model\Quote\Address\RateRequest $request
      * @return bool|\Magento\Shipping\Model\Rate\Result|null
      */
-    public function collectRates(\Magento\Shipping\Model\Rate\Request $request)
+    public function collectRates(\Magento\Sales\Model\Quote\Address\RateRequest $request)
     {
         if (!$this->getConfigFlag($this->_activeFlag)) {
             return false;
@@ -306,19 +306,19 @@ class International
         );
         $origCountryId = $this->_getDefaultValue(
             $requestDhl->getOrigCountryId(),
-            \Magento\Shipping\Model\Shipping::XML_PATH_STORE_COUNTRY_ID
+            \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID
         );
         $origState = $this->_getDefaultValue(
             $requestDhl->getOrigState(),
-            \Magento\Shipping\Model\Shipping::XML_PATH_STORE_REGION_ID
+            \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_REGION_ID
         );
         $origCity = $this->_getDefaultValue(
             $requestDhl->getOrigCity(),
-            \Magento\Shipping\Model\Shipping::XML_PATH_STORE_CITY
+            \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_CITY
         );
         $origPostcode = $this->_getDefaultValue(
             $requestDhl->getOrigPostcode(),
-            \Magento\Shipping\Model\Shipping::XML_PATH_STORE_ZIP
+            \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ZIP
         );
 
         $requestDhl->setOrigCompanyName($origCompanyName)
@@ -410,11 +410,11 @@ class International
 
         $requestObject->setOrigCountry(
                 $this->_getDefaultValue(
-                    $request->getOrigCountry(), \Magento\Shipping\Model\Shipping::XML_PATH_STORE_COUNTRY_ID)
+                    $request->getOrigCountry(), \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID)
             )
             ->setOrigCountryId(
                 $this->_getDefaultValue(
-                    $request->getOrigCountryId(), \Magento\Shipping\Model\Shipping::XML_PATH_STORE_COUNTRY_ID)
+                    $request->getOrigCountryId(), \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID)
             );
 
         $shippingWeight = $request->getPackageWeight();
@@ -438,7 +438,7 @@ class International
             ->setDestCompanyName($request->getDestCompanyName());
 
         $originStreet2 = $this->_coreStoreConfig->getConfig(
-                \Magento\Shipping\Model\Shipping::XML_PATH_STORE_ADDRESS2, $requestObject->getStoreId());
+                \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ADDRESS2, $requestObject->getStoreId());
 
         $requestObject->setOrigStreet($request->getOrigStreet() ? $request->getOrigStreet() : $originStreet2);
 
@@ -1025,7 +1025,7 @@ class International
      * Parse response from DHL web service
      *
      * @param string $response
-     * @return bool|\Magento\Object|\Magento\Shipping\Model\Rate\Result|\Magento\Shipping\Model\Rate\Result\Error
+     * @return bool|\Magento\Object|\Magento\Shipping\Model\Rate\Result|\Magento\Sales\Model\Quote\Address\RateResult\Error
      * @throws \Magento\Core\Exception
      */
     protected function _parseResponse($response)
@@ -1086,7 +1086,7 @@ class International
             foreach ($this->_rates as $rate) {
                 $method = $rate['service'];
                 $data = $rate['data'];
-                /* @var $rate \Magento\Shipping\Model\Rate\Result\Method */
+                /* @var $rate \Magento\Sales\Model\Quote\Address\RateResult\Method */
                 $rate = $this->_rateMethodFactory->create();
                 $rate->setCarrier(self::CODE);
                 $rate->setCarrierTitle($this->getConfigData('title'));
@@ -1249,10 +1249,10 @@ class International
     /**
      * Processing additional validation to check is carrier applicable.
      *
-     * @param \Magento\Shipping\Model\Rate\Request $request
-     * @return \Magento\Shipping\Model\Carrier\AbstractCarrier|\Magento\Shipping\Model\Rate\Result\Error|boolean
+     * @param \Magento\Sales\Model\Quote\Address\RateRequest $request
+     * @return \Magento\Shipping\Model\Carrier\AbstractCarrier|\Magento\Sales\Model\Quote\Address\RateResult\Error|boolean
      */
-    public function proccessAdditionalValidation(\Magento\Shipping\Model\Rate\Request $request)
+    public function proccessAdditionalValidation(\Magento\Sales\Model\Quote\Address\RateRequest $request)
     {
         //Skip by item validation if there is no items in request
         if (!count($this->getAllItems($request))) {
@@ -1260,7 +1260,7 @@ class International
         }
 
         $countryParams = $this->getCountryParams(
-            $this->_coreStoreConfig->getConfig(\Magento\Shipping\Model\Shipping::XML_PATH_STORE_COUNTRY_ID, $request->getStoreId())
+            $this->_coreStoreConfig->getConfig(\Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID, $request->getStoreId())
         );
         if (!$countryParams->getData()) {
             $this->_errors[] = __('Please, specify origin country');
@@ -1276,14 +1276,14 @@ class International
     /**
      * Show default error
      *
-     * @return bool|\Magento\Shipping\Model\Rate\Result\Error
+     * @return bool|\Magento\Sales\Model\Quote\Address\RateResult\Error
      */
     protected function _showError()
     {
         $showMethod = $this->getConfigData('showmethod');
 
         if ($showMethod) {
-            /* @var $error \Magento\Shipping\Model\Rate\Result\Error */
+            /* @var $error \Magento\Sales\Model\Quote\Address\RateResult\Error */
             $error = $this->_rateErrorFactory->create();
             $error->setCarrier(self::CODE);
             $error->setCarrierTitle($this->getConfigData('title'));
@@ -1376,7 +1376,7 @@ class International
         $rawRequest = $this->_request;
 
         $originRegion = $this->getCountryParams(
-            $this->_coreStoreConfig->getConfig(\Magento\Shipping\Model\Shipping::XML_PATH_STORE_COUNTRY_ID, $this->getStore())
+            $this->_coreStoreConfig->getConfig(\Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID, $this->getStore())
         )->getRegion();
 
         if (!$originRegion) {
@@ -1544,7 +1544,7 @@ class International
      * Generation Shipment Details Node according to origin region
      *
      * @param \Magento\Usa\Model\Simplexml\Element $xml
-     * @param \Magento\Shipping\Model\Rate\Request $rawRequest
+     * @param \Magento\Sales\Model\Quote\Address\RateRequest $rawRequest
      * @param string $originRegion
      * @return void
      */
@@ -1847,7 +1847,7 @@ class International
      * @return array|\Magento\Object
      * @throws \Magento\Core\Exception
      */
-    public function requestToShipment(\Magento\Shipping\Model\Shipment\Request $request)
+    public function requestToShipment($request)
     {
         $packages = $request->getPackages();
         if (!is_array($packages) || !$packages) {

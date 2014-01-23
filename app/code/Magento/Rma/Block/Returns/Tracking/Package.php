@@ -31,6 +31,7 @@ class Package extends \Magento\Shipping\Block\Tracking\Popup
     ) {
         $this->_rmaData = $rmaData;
         parent::__construct($context, $registry, $data);
+        $this->_isScopePrivate = true;
     }
 
     /**

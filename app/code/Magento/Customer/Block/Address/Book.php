@@ -36,6 +36,7 @@ class Book extends \Magento\View\Element\Template
     ) {
         $this->_customerSession = $customerSession;
         parent::__construct($context, $data);
+        $this->_isScopePrivate = true;
     }
 
     protected function _prepareLayout()

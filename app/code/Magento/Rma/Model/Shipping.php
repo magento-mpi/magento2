@@ -81,9 +81,9 @@ class Shipping extends \Magento\Core\Model\AbstractModel
     protected $_returnFactory;
 
     /**
-     * @var \Magento\Shipping\Model\Config
+     * @var \Magento\Shipping\Model\CarrierFactory
      */
-    protected $_shippingConfig;
+    protected $_carrierFactory;
 
     /**
      * @var \Magento\Rma\Model\RmaFactory
@@ -91,7 +91,7 @@ class Shipping extends \Magento\Core\Model\AbstractModel
     protected $_rmaFactory;
 
     /**
-     * @var \Magento\Filesystem
+     * @var \Magento\App\Filesystem
      */
     protected $filesystem;
 
@@ -105,10 +105,10 @@ class Shipping extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Shipping\Model\Shipment\ReturnShipmentFactory $returnFactory
-     * @param \Magento\Shipping\Model\Config $shippingConfig
+     * @param \Magento\Shipping\Model\CarrierFactory $carrierFactory
      * @param \Magento\Rma\Model\RmaFactory $rmaFactory
      * @param Resource\Shipping $resource
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -121,10 +121,10 @@ class Shipping extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Shipping\Model\Shipment\ReturnShipmentFactory $returnFactory,
-        \Magento\Shipping\Model\Config $shippingConfig,
+        \Magento\Shipping\Model\CarrierFactory $carrierFactory,
         \Magento\Rma\Model\RmaFactory $rmaFactory,
         \Magento\Rma\Model\Resource\Shipping $resource,
-        \Magento\Filesystem $filesystem,
+        \Magento\App\Filesystem $filesystem,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
 
@@ -135,7 +135,7 @@ class Shipping extends \Magento\Core\Model\AbstractModel
         $this->_storeManager = $storeManager;
         $this->_regionFactory = $regionFactory;
         $this->_returnFactory = $returnFactory;
-        $this->_shippingConfig = $shippingConfig;
+        $this->_carrierFactory = $carrierFactory;
         $this->filesystem = $filesystem;
         $this->_rmaFactory = $rmaFactory;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -262,7 +262,7 @@ class Shipping extends \Magento\Core\Model\AbstractModel
      */
     public function getNumberDetail()
     {
-        $carrierInstance = $this->_shippingConfig->getCarrierInstance($this->getCarrierCode());
+        $carrierInstance = $this->_carrierFactory->create($this->getCarrierCode());
         if (!$carrierInstance) {
             $custom = array();
             $custom['title']  = $this->getCarierTitle();
@@ -336,7 +336,7 @@ class Shipping extends \Magento\Core\Model\AbstractModel
         $page = new \Zend_Pdf_Page($xSize, $ySize);
 
         imageinterlace($image, 0);
-        $dir = $this->filesystem->getDirectoryWrite(\Magento\Filesystem::SYS_TMP);
+        $dir = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::SYS_TMP_DIR);
         $tmpFileName = 'shipping_labels_' . uniqid(mt_rand()) . time() . '.png';
         $tmpFilePath = $dir->getAbsolutePath($tmpFileName);
         imagepng($image, $tmpFilePath);
