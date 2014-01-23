@@ -8,5 +8,5 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <update handle="catalog_product_view_type_grouped"/>
+    <update handle="catalog_product_view_type_grouped" />
 </layout>

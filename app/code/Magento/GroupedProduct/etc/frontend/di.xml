@@ -28,4 +28,7 @@
             </value>
         </param>
     </type>
+    <type name="Magento\Catalog\Model\Product\CartConfiguration">
+        <plugin name="isProductConfigured" type="Magento\GroupedProduct\Model\Product\Cart\Configuration\Plugin\Grouped" />
+    </type>
 </config>
