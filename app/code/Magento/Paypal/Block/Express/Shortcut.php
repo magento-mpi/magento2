@@ -136,6 +136,7 @@ class Shortcut extends \Magento\View\Element\Template
         $this->mathRandom = $mathRandom;
         $this->productTypeConfig = $productTypeConfig;
         parent::__construct($context, $data);
+        $this->_isScopePrivate = true;
     }
 
     /**

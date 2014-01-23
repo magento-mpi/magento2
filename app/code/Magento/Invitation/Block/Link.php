@@ -49,6 +49,7 @@ class Link extends \Magento\View\Element\Html\Link
         $this->_customerSession = $customerSession;
         $this->_invitationConfiguration = $invitationConfiguration;
         $this->_invitationHelper = $invitationHelper;
+        $this->_isScopePrivate = true;
     }
 
     /**
