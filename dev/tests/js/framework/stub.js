@@ -1,9 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  JavaScript_unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */

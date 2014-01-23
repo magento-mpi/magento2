@@ -1,8 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    mage.gallery
- * @package     test
  * @copyright   {copyright}
  * @license     {license_link}
  */
