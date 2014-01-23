@@ -23,6 +23,7 @@
 * Request\Response workflow improvements:
   * Added Console\Response
   * All kind of applications always return Response instead of sending it
+* Updated various PHPDoc with parameter and return types
 
 2.0.0.0-dev61
 =============
