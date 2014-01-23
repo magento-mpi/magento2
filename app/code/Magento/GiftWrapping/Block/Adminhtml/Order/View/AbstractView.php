@@ -41,7 +41,7 @@ class AbstractView extends \Magento\View\Element\Template
     /**
      * @var \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory
      */
-    protected $_wrappingCollFactory;
+    protected $_wrappingCollectionFactory;
 
     /**
      * @var \Magento\Sales\Helper\Admin
@@ -52,7 +52,7 @@ class AbstractView extends \Magento\View\Element\Template
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollFactory
+     * @param \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollectionFactory
      * @param \Magento\Sales\Helper\Admin $adminHelper
      * @param array $data
      */
@@ -60,14 +60,14 @@ class AbstractView extends \Magento\View\Element\Template
         \Magento\View\Element\Template\Context $context,
         \Magento\GiftWrapping\Helper\Data $giftWrappingData,
         \Magento\Core\Model\Registry $registry,
-        \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollFactory,
+        \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollectionFactory,
         \Magento\Sales\Helper\Admin $adminHelper,
         array $data = array()
     ) {
         $this->_adminHelper = $adminHelper;
         $this->_coreRegistry = $registry;
         $this->_giftWrappingData = $giftWrappingData;
-        $this->_wrappingCollFactory = $wrappingCollFactory;
+        $this->_wrappingCollectionFactory = $wrappingCollectionFactory;
         parent::__construct($context, $data);
     }
 
@@ -100,7 +100,7 @@ class AbstractView extends \Magento\View\Element\Template
     {
         if (is_null($this->_designCollection)) {
             $store = $this->_storeManager->getStore($this->getStoreId());
-            $this->_designCollection = $this->_wrappingCollFactory->create()
+            $this->_designCollection = $this->_wrappingCollectionFactory->create()
                 ->addStoreAttributesToResult($store->getId())
                 ->applyStatusFilter()
                 ->applyWebsiteFilter($store->getWebsiteId());

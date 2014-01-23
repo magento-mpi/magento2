@@ -158,7 +158,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
     protected $_ordersFactory;
 
     /**
-     * @var \Magento\Shipping\Model\Rate\RequestFactory
+     * @var \Magento\Sales\Model\Quote\Address\RateRequestFactory
      */
     protected $_rateRequestFactory;
 
@@ -200,7 +200,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $ordersFactory
-     * @param \Magento\Shipping\Model\Rate\RequestFactory $rateRequestFactory
+     * @param \Magento\Sales\Model\Quote\Address\RateRequestFactory $rateRequestFactory
      * @param \Magento\Shipping\Model\ShippingFactory $shippingFactory
      * @param \Magento\Escaper $escaper
      * @param \Magento\Rma\Model\Resource\Rma $resource
@@ -232,7 +232,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
         \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $ordersFactory,
-        \Magento\Shipping\Model\Rate\RequestFactory $rateRequestFactory,
+        \Magento\Sales\Model\Quote\Address\RateRequestFactory $rateRequestFactory,
         \Magento\Shipping\Model\ShippingFactory $shippingFactory,
         \Magento\Escaper $escaper,
         \Magento\Rma\Model\Resource\Rma $resource,
@@ -1037,7 +1037,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
             $this->getStoreId()
         );
 
-        /** @var $request \Magento\Shipping\Model\Rate\Request */
+        /** @var $request \Magento\Sales\Model\Quote\Address\RateRequest */
         $request = $this->_rateRequestFactory->create();
         $request->setAllItems($items);
         $request->setDestCountryId($shippingDestinationInfo->getCountryId());
