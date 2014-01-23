@@ -15,6 +15,7 @@
   * Fixed Authorize.net Direct Post: Ability to proceed order when it was created from Backend
   * Fixed an issue with ImportExport: Fix notice if _attribute_set column is missing
 * Removed the deprecated service-calls and data source functionality
+* Removed deprecated EAV structure creation method from EAV setup model
 * Request\Response workflow improvements:
   * Added Console\Response
   * All kind of applications always return Response instead of sending it
