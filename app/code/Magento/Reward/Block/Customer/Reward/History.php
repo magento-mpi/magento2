@@ -69,6 +69,7 @@ class History extends \Magento\View\Element\Template
         $this->_customerSession = $customerSession;
         $this->_historyFactory = $historyFactory;
         parent::__construct($context, $data);
+        $this->_isScopePrivate = true;
     }
 
     /**

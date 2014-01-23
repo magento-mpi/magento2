@@ -1149,4 +1149,14 @@ return array(
     array('copyInventoryData', 'Magento\CatalogInventory\Model\Observer',
         '\Magento\CatalogInventory\Model\Product\CopyConstructor\CatalogInventory::build'
     ),
+    array('getAddToWishlistUrl', 'Magento\Catalog\Block\Product\AbstractProduct'),
+    array('getAddToWishlistUrl', 'Magento\Catalog\Helper\Product\Compare'),
+    array('getAddToWishlistUrl', 'Magento\Wishlist\Block\AbstractBlock'),
+    array('getAddUrlWithParams', 'Magento\Wishlist\Helper\Data'),
+    array('getMoveFromCartUrl', 'Magento\Wishlist\Helper\Data'),
+    array('getAddUrl', 'Magento\Wishlist\Helper\Data'),
+    array('getRemoveUrl', 'Magento\Wishlist\Helper\Data'),
+    array('getUpdateUrl', 'Magento\Wishlist\Helper\Data'),
+    array('getItemRemoveUrl', 'Magento\Wishlist\Block\AbstractBlock'),
+    array('_getUrlParams', 'Magento\Catalog\Helper\Product\Compare'),
 );

@@ -62,6 +62,7 @@ class Shipping extends \Magento\Checkout\Block\Cart\AbstractCart
         $this->_taxHelper = $taxHelper;
         $this->_directoryBlock = $directoryBlock;
         parent::__construct($context, $catalogData, $customerSession, $checkoutSession, $data);
+        $this->_isScopePrivate = true;
     }
 
     /**
