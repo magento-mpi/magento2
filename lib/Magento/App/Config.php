@@ -56,7 +56,7 @@ class Config implements \Magento\App\ConfigInterface
      * @param string $path
      * @return bool
      */
-    public function getFlag($path)
+    public function isSetFlag($path)
     {
         return (bool)$this->_data->getValue($path);
     }

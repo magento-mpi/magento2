@@ -64,7 +64,7 @@ class Config implements \Magento\App\ConfigInterface
      * @param null|string $scopeCode
      * @return bool
      */
-    public function getFlag($path, $scope = 'default', $scopeCode = null)
+    public function isSetFlag($path, $scope = 'default', $scopeCode = null)
     {
         return (bool)$this->getValue($path, $scope, $scopeCode);
     }
