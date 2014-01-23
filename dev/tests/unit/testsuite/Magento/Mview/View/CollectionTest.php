@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Mview\Indexer;
+namespace Magento\Mview\View;
 
 class CollectionTest extends \PHPUnit_Framework_TestCase
 {
