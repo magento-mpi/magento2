@@ -106,7 +106,7 @@ class Items extends \Magento\Sales\Block\Items\AbstractItems
             ? $this->getLayout()->getBlock($this->getRendererListName())
             : $this->getChildBlock('renderer.list');
         if (!$rendererList) {
-            throw new \RuntimeException('Renderer list fo block "' . $this->getNameInLayout() . '" is not defined');
+            throw new \RuntimeException('Renderer list for block "' . $this->getNameInLayout() . '" is not defined');
         }
         $renderer = $rendererList->getRenderer($type) ?: $rendererList->getRenderer(self::DEFAULT_TYPE);
         if (!$renderer instanceof \Magento\View\Element\BlockInterface) {
