@@ -74,11 +74,10 @@ class OnlineRefundTest extends Functional
 
         // Step 4/5: Go to "Credit Memos" tab
         $tabsWidget->openTab('sales_order_view_tabs_order_creditmemos');
-        // TODO:  Display invoice id, not order id
         $this->assertContains(
             $fixture->getGrandTotal(),
             $orderPage->getCreditMemosGrid()->getRefundAmount(),
-            'Incorrect refund amount for the invoice #' . $orderId);
+            'Incorrect refund amount for the order #' . $orderId);
         $this->assertContains(
             $orderPage->getCreditMemosGrid()->getStatus(),
             'Refunded');
