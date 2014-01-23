@@ -29,7 +29,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
      * @param \Magento\Core\Model\Resource\Setup\Context $context
      * @param string $resourceName
      * @param \Magento\App\CacheInterface $cache
-     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\GiftRegistry\Model\TypeFactory $typeFactory
      * @param string $moduleName
@@ -39,13 +39,13 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
         \Magento\Core\Model\Resource\Setup\Context $context,
         $resourceName,
         \Magento\App\CacheInterface $cache,
-        \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory,
         \Magento\Core\Model\Config $config,
         \Magento\GiftRegistry\Model\TypeFactory $typeFactory,
         $moduleName = 'Magento_GiftRegistry',
         $connectionName = ''
     ) {
         $this->_typeFactory = $typeFactory;
-        parent::__construct($context, $resourceName, $cache, $attrGrCollFactory, $config, $moduleName, $connectionName);
+        parent::__construct($context, $resourceName, $cache, $attrGroupCollectionFactory, $config, $moduleName, $connectionName);
     }
 }

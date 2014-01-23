@@ -24,20 +24,20 @@ class Group
     /**
      * @var \Magento\Customer\Model\Resource\Group\CollectionFactory
      */
-    protected $_groupCollFactory;
+    protected $_groupCollectionFactory;
 
     /**
-     * @param \Magento\Customer\Model\Resource\Group\CollectionFactory $groupCollFactory
+     * @param \Magento\Customer\Model\Resource\Group\CollectionFactory $groupCollectionFactory
      */
-    public function __construct(\Magento\Customer\Model\Resource\Group\CollectionFactory $groupCollFactory)
+    public function __construct(\Magento\Customer\Model\Resource\Group\CollectionFactory $groupCollectionFactory)
     {
-        $this->_groupCollFactory = $groupCollFactory;
+        $this->_groupCollectionFactory = $groupCollectionFactory;
     }
 
     public function toOptionArray()
     {
         if (!$this->_options) {
-            $this->_options = $this->_groupCollFactory->create()
+            $this->_options = $this->_groupCollectionFactory->create()
                 ->loadData()
                 ->toOptionArray();
         }

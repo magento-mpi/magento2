@@ -72,6 +72,7 @@ class Products extends \Magento\Checkout\Block\Cart
             $cartHelper,
             $data
         );
+        $this->_isScopePrivate = true;
     }
 
     /**

@@ -61,6 +61,7 @@ class Info extends \Magento\View\Element\Template
         $this->_customerSession = $customerSession;
         $this->_rewardFactory = $rewardFactory;
         parent::__construct($context, $data);
+        $this->_isScopePrivate = true;
     }
 
     /**
