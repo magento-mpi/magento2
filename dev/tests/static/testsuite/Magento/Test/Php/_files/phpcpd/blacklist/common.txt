@@ -73,7 +73,8 @@ Magento/Reports/Model/Resource
 Magento/Review/Block
 Magento/Rss/Block/Catalog
 Magento/Rule
-Magento/Sales/Block/Adminhtml
+Magento/Sales/Block/Adminhtml/Order
+Magento/Shipping/Block/Adminhtml/View
 Magento/Sales/Model/Resource
 Magento/Sales/Model/Quote/Address/Total
 Magento/Sales/Model/Resource/Report/Order

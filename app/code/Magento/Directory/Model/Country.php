@@ -42,14 +42,14 @@ class Country extends \Magento\Core\Model\AbstractModel
     /**
      * @var \Magento\Directory\Model\Resource\Region\CollectionFactory
      */
-    protected $_regionCollFactory;
+    protected $_regionCollectionFactory;
 
     /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Directory\Model\Country\FormatFactory $formatFactory
-     * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory
+     * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -59,7 +59,7 @@ class Country extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Directory\Model\Country\FormatFactory $formatFactory,
-        \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory,
+        \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -69,7 +69,7 @@ class Country extends \Magento\Core\Model\AbstractModel
         );
         $this->_locale = $locale;
         $this->_formatFactory = $formatFactory;
-        $this->_regionCollFactory = $regionCollFactory;
+        $this->_regionCollectionFactory = $regionCollectionFactory;
     }
 
     protected function _construct()
@@ -110,7 +110,7 @@ class Country extends \Magento\Core\Model\AbstractModel
      */
     public function getRegionCollection()
     {
-        $collection = $this->_regionCollFactory->create();
+        $collection = $this->_regionCollectionFactory->create();
         $collection->addCountryFilter($this->getId());
         return $collection;
     }

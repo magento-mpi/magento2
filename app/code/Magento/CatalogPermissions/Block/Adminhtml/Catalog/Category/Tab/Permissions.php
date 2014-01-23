@@ -33,12 +33,12 @@ class Permissions
     /**
      * @var \Magento\Customer\Model\Resource\Group\CollectionFactory
      */
-    protected $_groupCollFactory;
+    protected $_groupCollectionFactory;
 
     /**
      * @var \Magento\CatalogPermissions\Model\Resource\Permission\CollectionFactory
      */
-    protected $_permissionCollFactory;
+    protected $_permissionCollectionFactory;
 
     /**
      * @var \Magento\CatalogPermissions\Model\Permission\IndexFactory
@@ -56,8 +56,8 @@ class Permissions
      * @param \Magento\Catalog\Model\Resource\Category\Tree $categoryTree
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\CatalogPermissions\Model\Permission\IndexFactory $permIndexFactory
-     * @param \Magento\CatalogPermissions\Model\Resource\Permission\CollectionFactory $permissionCollFactory
-     * @param \Magento\Customer\Model\Resource\Group\CollectionFactory $groupCollFactory
+     * @param \Magento\CatalogPermissions\Model\Resource\Permission\CollectionFactory $permissionCollectionFactory
+     * @param \Magento\Customer\Model\Resource\Group\CollectionFactory $groupCollectionFactory
      * @param \Magento\CatalogPermissions\Helper\Data $catalogPermData
      * @param array $data
      */
@@ -67,15 +67,15 @@ class Permissions
         \Magento\Core\Model\Registry $registry,
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\CatalogPermissions\Model\Permission\IndexFactory $permIndexFactory,
-        \Magento\CatalogPermissions\Model\Resource\Permission\CollectionFactory $permissionCollFactory,
-        \Magento\Customer\Model\Resource\Group\CollectionFactory $groupCollFactory,
+        \Magento\CatalogPermissions\Model\Resource\Permission\CollectionFactory $permissionCollectionFactory,
+        \Magento\Customer\Model\Resource\Group\CollectionFactory $groupCollectionFactory,
         \Magento\CatalogPermissions\Helper\Data $catalogPermData,
         array $data = array()
     ) {
         $this->_jsonEncoder = $jsonEncoder;
         $this->_permIndexFactory = $permIndexFactory;
-        $this->_permissionCollFactory = $permissionCollFactory;
-        $this->_groupCollFactory = $groupCollFactory;
+        $this->_permissionCollectionFactory = $permissionCollectionFactory;
+        $this->_groupCollectionFactory = $groupCollectionFactory;
         $this->_catalogPermData = $catalogPermData;
         parent::__construct($context, $categoryTree, $registry, $data);
     }
@@ -143,7 +143,7 @@ class Permissions
     public function getPermissionCollection()
     {
         if (!$this->hasData('permission_collection')) {
-            $collection = $this->_permissionCollFactory->create()
+            $collection = $this->_permissionCollectionFactory->create()
                 ->addFieldToFilter('category_id', $this->getCategoryId())
                 ->setOrder('permission_id', 'asc');
             $this->setData('permisssion_collection', $collection);
@@ -183,7 +183,7 @@ class Permissions
         }
 
         $websites = $this->_storeManager->getWebsites(false);
-        $groups   = $this->_groupCollFactory->create()->getAllIds();
+        $groups   = $this->_groupCollectionFactory->create()->getAllIds();
 
         /* @var $helper \Magento\CatalogPermissions\Helper\Data */
         $helper   = $this->_catalogPermData;

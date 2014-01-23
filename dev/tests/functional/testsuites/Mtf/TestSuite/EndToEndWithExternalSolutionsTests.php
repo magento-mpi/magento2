@@ -35,7 +35,7 @@ class EndToEndWithExternalSolutionsTests
         $suite->addTestSuite('Magento\Checkout\Test\TestCase\ProductAdvancedPricingTest');
         $suite->addTestSuite('Magento\Checkout\Test\TestCase\ShippingCarrierTest');
         // Multishipping
-        $suite->addTestSuite('Magento\Checkout\Test\TestCase\MultishippingTest');
+        $suite->addTestSuite('Magento\Multishipping\Test\TestCase\MultishippingTest');
 
         // RMA
         $suite->addTestSuite('Magento\Rma\Test\TestCase\RmaTest');
