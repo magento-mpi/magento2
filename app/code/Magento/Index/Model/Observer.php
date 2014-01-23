@@ -137,7 +137,7 @@ class Observer
         $configData = $observer->getEvent()->getConfigData();
         $this->_indexer->processEntityAction(
             $configData,
-            \Magento\Core\Model\Config\Value::ENTITY,
+            \Magento\App\Config\ValueInterface::ENTITY,
             \Magento\Index\Model\Event::TYPE_SAVE
         );
     }

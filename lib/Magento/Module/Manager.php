@@ -87,7 +87,7 @@ class Manager
             if (defined($configPath)) {
                 $configPath = constant($configPath);
             }
-            return $this->_outputConfig->getFlag($configPath);
+            return $this->_outputConfig->isSetFlag($configPath);
         }
         return true;
     }

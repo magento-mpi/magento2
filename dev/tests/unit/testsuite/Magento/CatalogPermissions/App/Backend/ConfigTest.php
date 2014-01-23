@@ -13,8 +13,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     public function testIsEnabled()
     {
         $configMock = $this->getMockForAbstractClass(
-            'Magento\Core\Model\ConfigInterface',
-            array('getValue')
+            'Magento\App\ConfigInterface'
         );
         $configMock->expects($this->once())
             ->method('getValue')
