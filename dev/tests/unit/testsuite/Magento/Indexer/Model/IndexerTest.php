@@ -15,7 +15,7 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
     protected $model;
 
     /**
-     * @var \Magento\Indexer\Model\Config|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Indexer\Model\ConfigInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $configMock;
 
@@ -41,7 +41,9 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->configMock = $this->getMock('Magento\Indexer\Model\Config', array('get'), array(), '', false);
+        $this->configMock = $this->getMockForAbstractClass(
+            'Magento\Indexer\Model\ConfigInterface', array(), '', false, false, true, array('getIndexer')
+        );
         $this->actionFactoryMock = $this->getMock(
             'Magento\Indexer\Model\ActionFactory', array('get'), array(), '', false
         );
@@ -75,7 +77,7 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
     {
         $indexId = 'indexer_id';
         $this->configMock->expects($this->once())
-            ->method('get')
+            ->method('getIndexer')
             ->with($indexId)
             ->will($this->returnValue($this->getIndexerData()));
         $this->model->load($indexId);
@@ -342,7 +344,7 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
     protected function loadIndexer($indexId)
     {
         $this->configMock->expects($this->once())
-            ->method('get')
+            ->method('getIndexer')
             ->with($indexId)
             ->will($this->returnValue($this->getIndexerData()));
         $this->model->load($indexId);

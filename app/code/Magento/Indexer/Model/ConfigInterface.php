@@ -11,18 +11,17 @@ namespace Magento\Indexer\Model;
 interface ConfigInterface
 {
     /**
-     * Get indexer's config
+     * Get indexers list
      *
-     * @return array
+     * @return array[]
      */
-    public function getAll();
+    public function getIndexers();
 
     /**
-     * Get config value by key
+     * Get indexer by ID
      *
-     * @param string $path
-     * @param mixed $default
-     * @return mixed
+     * @param string $indexerId
+     * @return array
      */
-    public function get($path = null, $default = null);
+    public function getIndexer($indexerId);
 }

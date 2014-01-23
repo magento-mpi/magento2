@@ -14,4 +14,14 @@
             <instance type="Magento\Mview\View" shared="false"/>
         </param>
     </type>
+    <type name="Magento\Indexer\Model\Config">
+        <param name="configData">
+            <instance type="Magento\Indexer\Model\Config\Data\Proxy"/>
+        </param>
+    </type>
+    <type name="Magento\Indexer\Model\Config\Data">
+        <param name="stateCollection">
+            <instance type="Magento\Indexer\Model\Resource\Indexer\State\Collection" shared="false"/>
+        </param>
+    </type>
 </config>

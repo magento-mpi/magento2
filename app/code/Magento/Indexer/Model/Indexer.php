@@ -84,7 +84,7 @@ class Indexer extends \Magento\Object
      */
     public function load($indexerId)
     {
-        $indexer = $this->config->get($indexerId);
+        $indexer = $this->config->getIndexer($indexerId);
         if (empty($indexer) || empty($indexer['indexer_id']) || $indexer['indexer_id'] != $indexerId) {
             throw new \InvalidArgumentException("{$indexerId} indexer does not exist.");
         }

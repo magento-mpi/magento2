@@ -15,7 +15,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     protected $model;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Mview\Config
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Mview\ConfigInterface
      */
     protected $configMock;
 
@@ -41,14 +41,14 @@ class ViewTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->configMock = $this->getMock(
-            '\Magento\Mview\Config', array('get'), array(), '', false
+        $this->configMock = $this->getMockForAbstractClass(
+            'Magento\Mview\ConfigInterface', array(), '', false, false, true, array('getView')
         );
         $this->actionFactoryMock = $this->getMock(
-            '\Magento\Mview\ActionFactory', array('get'), array(), '', false
+            'Magento\Mview\ActionFactory', array('get'), array(), '', false
         );
         $this->stateMock = $this->getMock(
-            '\Magento\Core\Model\Mview\View\State',
+            'Magento\Core\Model\Mview\View\State',
             array('getViewId', 'loadByView', 'getVersionId', 'setVersionId',
                 'getStatus', 'setStatus', 'getMode', 'setMode', 'save', '__wakeup'),
             array(),
@@ -56,14 +56,14 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->changelogMock = $this->getMock(
-            '\Magento\Mview\View\Changelog',
+            'Magento\Mview\View\Changelog',
             array('getViewId', 'setViewId', 'create', 'drop', 'getVersion', 'getList'),
             array(),
             '',
             false
         );
         $this->subscriptionFactoryMock = $this->getMock(
-            '\Magento\Mview\View\SubscriptionFactory', array('create'), array(), '', false
+            'Magento\Mview\View\SubscriptionFactory', array('create'), array(), '', false
         );
         $this->model = new View(
             $this->configMock,
@@ -78,7 +78,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     {
         $viewId = 'view_test';
         $this->configMock->expects($this->once())
-            ->method('get')
+            ->method('getView')
             ->with($viewId)
             ->will($this->returnValue($this->getViewData()));
         $this->assertInstanceOf('Magento\Mview\View', $this->model->load($viewId));
@@ -92,7 +92,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     {
         $viewId = 'view_id';
         $this->configMock->expects($this->once())
-            ->method('get')
+            ->method('getView')
             ->with($viewId)
             ->will($this->returnValue($this->getViewData()));
         $this->model->load($viewId);
@@ -247,7 +247,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     {
         $viewId = 'view_test';
         $this->configMock->expects($this->once())
-            ->method('get')
+            ->method('getView')
             ->with($viewId)
             ->will($this->returnValue($this->getViewData()));
         $this->model->load($viewId);

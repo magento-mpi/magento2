@@ -18,7 +18,7 @@ class Collection extends \Magento\Data\Collection implements CollectionInterface
     protected $_itemObjectClass = 'Magento\Mview\ViewInterface';
 
     /**
-     * @var \Magento\Indexer\Model\ConfigInterface
+     * @var \Magento\Mview\ConfigInterface
      */
     protected $config;
 
@@ -55,7 +55,7 @@ class Collection extends \Magento\Data\Collection implements CollectionInterface
     {
         if (!$this->isLoaded()) {
             $states = $this->statesFactory->create();
-            foreach (array_keys($this->config->getAll()) as $viewId) {
+            foreach (array_keys($this->config->getViews()) as $viewId) {
                 /** @var \Magento\Mview\ViewInterface $view */
                 $view = $this->getNewEmptyItem();
                 $view->load($viewId);
