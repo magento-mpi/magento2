@@ -61,8 +61,8 @@ class ObjectManagerFactory
             $arguments,
             new \Magento\App\Arguments\Loader(
                 $directoryList,
-                isset($arguments[Config\Loader::PARAM_CUSTOM_FILE])
-                    ? $arguments[Config\Loader::PARAM_CUSTOM_FILE]
+                isset($arguments[\Magento\App\Arguments\Loader::PARAM_CUSTOM_FILE])
+                    ? $arguments[\Magento\App\Arguments\Loader::PARAM_CUSTOM_FILE]
                     : null
             )
         );
