@@ -9,7 +9,10 @@
  */
 namespace Magento\Interception;
 
-class FactoryDecorator implements \Magento\ObjectManager\Factory
+use Magento\ObjectManager;
+use Magento\ObjectManager\Factory;
+
+class FactoryDecorator implements Factory
 {
     /**
      * Configurable factory
@@ -46,10 +49,10 @@ class FactoryDecorator implements \Magento\ObjectManager\Factory
      * @param \Magento\ObjectManager $objectManager
      */
     public function __construct(
-        \Magento\ObjectManager\Factory $factory,
-        \Magento\Interception\Config $config,
-        \Magento\Interception\PluginList $pluginList,
-        \Magento\ObjectManager $objectManager
+        Factory $factory,
+        Config $config,
+        PluginList $pluginList,
+        ObjectManager $objectManager
     ) {
         $this->_factory = $factory;
         $this->_pluginList = $pluginList;
@@ -60,9 +63,10 @@ class FactoryDecorator implements \Magento\ObjectManager\Factory
     /**
      * Set object manager
      *
-     * @param \Magento\ObjectManager $objectManager
+     * @param ObjectManager $objectManager
+     * @return void
      */
-    public function setObjectManager(\Magento\ObjectManager $objectManager)
+    public function setObjectManager(ObjectManager $objectManager)
     {
         $this->_objectManager = $objectManager;
         $this->_factory->setObjectManager($objectManager);
@@ -72,6 +76,7 @@ class FactoryDecorator implements \Magento\ObjectManager\Factory
      * Set application arguments
      *
      * @param array $arguments
+     * @return void
      */
     public function setArguments($arguments)
     {
@@ -83,7 +88,7 @@ class FactoryDecorator implements \Magento\ObjectManager\Factory
      *
      * @param string $type
      * @param array $arguments
-     * @return mixed
+     * @return object
      */
     public function create($type, array $arguments = array())
     {
