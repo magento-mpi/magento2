@@ -63,8 +63,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($states));
 
         $config->expects($this->once())
-            ->method('getAll')
-            ->will($this->returnValue(array($indexerIdOne => 1, $indexerIdSecond => 2)));
+            ->method('getIndexerIds')
+            ->will($this->returnValue(array($indexerIdOne, $indexerIdSecond)));
 
         $states->expects($this->any())
             ->method('getItems')
