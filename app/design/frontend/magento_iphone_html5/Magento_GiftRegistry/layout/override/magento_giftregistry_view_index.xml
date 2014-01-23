@@ -17,7 +17,7 @@
         <block class="Magento\GiftRegistry\Block\View" name="magento.giftregistry.view" template="view.phtml" cacheable="false">
             <block class="Magento\GiftRegistry\Block\Items" name="giftregistry_items" template="view/items.phtml" cacheable="false">
                 <arguments>
-                    <argument name="item_renderer_template" xsi:type="string">Magento_GiftRegistry::view/items/default.phtml</argument>
+                    <argument name="renderer_template" xsi:type="string">Magento_GiftRegistry::view/items/default.phtml</argument>
                 </arguments>
                 <block class="Magento\Catalog\Block\Product\Price" template="product/price_msrp_item.phtml" name="enterprise.giftregistry.item.price"/>
                 <block class="Magento\View\Element\RendererList" name="checkout.onepage.review.item.renderers" as="renderer.list" />

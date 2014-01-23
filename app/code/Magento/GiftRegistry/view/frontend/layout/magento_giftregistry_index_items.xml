@@ -23,7 +23,7 @@
     <referenceContainer name="content">
         <block class="Magento\GiftRegistry\Block\Items" name="giftregistry.customer.items" template="customer/items.phtml" cacheable="false">
             <arguments>
-                <argument name="item_renderer_template" xsi:type="string">Magento_GiftRegistry::customer/items/default.phtml</argument>
+                <argument name="renderer_template" xsi:type="string">Magento_GiftRegistry::customer/items/default.phtml</argument>
             </arguments>
             <block class="Magento\View\Element\RendererList" name="checkout.onepage.review.item.renderers" as="renderer.list" />
         </block>

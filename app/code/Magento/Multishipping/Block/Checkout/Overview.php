@@ -56,14 +56,6 @@ class Overview extends \Magento\Sales\Block\Items\AbstractItems
      */
     protected function _prepareLayout()
     {
-        $rowItemType = $this->_getRowItemType(self::DEFAULT_TYPE);
-        if (!$this->getChildBlock($rowItemType)) {
-            $this->addChild(
-                $rowItemType,
-                'Magento\Checkout\Block\Cart\Item\Renderer',
-                array('template' => 'Magento_Multishipping::checkout/overview/item.phtml')
-            );
-        }
         $headBlock = $this->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(
@@ -356,22 +348,37 @@ class Overview extends \Magento\Sales\Block\Items\AbstractItems
      */
     protected function _getRowItemRenderer($type)
     {
-        $renderer = $this->getChildBlock($this->_getRowItemType($type));
-        if ($renderer instanceof \Magento\View\Element\BlockInterface) {
-            $renderer->setRenderedBlock($this);
-            return $renderer;
+        $renderer = $this->getItemRenderer($type);
+        if (!$renderer !== $this->getItemRenderer(self::DEFAULT_TYPE)) {
+            $renderer->setTemplate($this->getRowRendererTemplate());
         }
-        return parent::getItemRenderer($this->_getRowItemType(self::DEFAULT_TYPE));
+        return $renderer;
     }
 
     /**
-     * Wrap row renderers into namespace by adding 'row-' prefix
+     * Retrieve item renderer block
      *
-     * @param string $type Product type
-     * @return string
+     * @param string $type
+     * @return \Magento\View\Element\AbstractBlock
+     * @throws \RuntimeException
      */
-    protected function _getRowItemType($type)
+    public function getItemRenderer($type)
     {
-        return 'row-' . $type;
+        /** @var \Magento\View\Element\RendererList $rendererList */
+        $rendererList = $this->getRendererListName()
+            ? $this->getLayout()->getBlock($this->getRendererListName())
+            : $this->getChildBlock('renderer.list');
+        if (!$rendererList) {
+            throw new \RuntimeException('Renderer list fo block "' . $this->getNameInLayout() . '" is not defined');
+        }
+        $renderer = $rendererList->getRenderer($type) ?: $rendererList->getRenderer(self::DEFAULT_TYPE);
+        if (!$renderer instanceof \Magento\View\Element\BlockInterface) {
+            throw new \RuntimeException('Renderer for type "' . $type . '" does not exist.');
+        }
+        if ($this->getRendererTemplate()) {
+            $renderer->setTemplate($this->getRendererTemplate());
+        }
+        $renderer->setRenderedBlock($this);
+        return $renderer;
     }
 }

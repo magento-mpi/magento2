@@ -193,7 +193,6 @@ class Items extends \Magento\Checkout\Block\Cart
         return $this->getUrl('giftregistry');
     }
 
-
     /**
      * Retrieve item renderer block
      *
@@ -204,7 +203,9 @@ class Items extends \Magento\Checkout\Block\Cart
     public function getItemRenderer($type)
     {
         /** @var \Magento\View\Element\RendererList $rendererList */
-        $rendererList = $this->getChildBlock('renderer.list');
+        $rendererList = $this->getRendererListName()
+            ? $this->getLayout()->getBlock($this->getRendererListName())
+            : $this->getChildBlock('renderer.list');
         if (!$rendererList) {
             throw new \RuntimeException('Renderer list fo block "' . $this->getNameInLayout() . '" is not defined');
         }
@@ -212,7 +213,9 @@ class Items extends \Magento\Checkout\Block\Cart
         if (!$renderer instanceof \Magento\View\Element\BlockInterface) {
             throw new \RuntimeException('Renderer for type "' . $type . '" does not exist.');
         }
-        $renderer->setTemplate($this->getItemRendererTemplate());
+        if ($this->getRendererTemplate()) {
+            $renderer->setTemplate($this->getRendererTemplate());
+        }
         $renderer->setRenderedBlock($this);
         return $renderer;
     }

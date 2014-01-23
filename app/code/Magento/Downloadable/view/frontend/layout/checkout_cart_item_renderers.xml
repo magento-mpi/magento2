@@ -11,4 +11,7 @@
     <referenceBlock name="checkout.cart.item.renderers">
         <block class="Magento\Downloadable\Block\Checkout\Cart\Item\Renderer" as="downloadable" template="checkout/cart/item/default.phtml"/>
     </referenceBlock>
+    <referenceBlock name="additional.product.info">
+        <block class="Magento\View\Element\Template" name="downloadable.product.links" template="checkout/links.phtml"/>
+    </referenceBlock>
 </layout>

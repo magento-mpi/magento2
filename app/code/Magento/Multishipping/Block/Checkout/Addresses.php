@@ -177,4 +177,31 @@ class Addresses extends \Magento\Sales\Block\Items\AbstractItems
     {
         return !$this->getCheckout()->validateMinimumAmount();
     }
+
+    /**
+     * Retrieve item renderer block
+     *
+     * @param string $type
+     * @return \Magento\View\Element\AbstractBlock
+     * @throws \RuntimeException
+     */
+    public function getItemRenderer($type)
+    {
+        /** @var \Magento\View\Element\RendererList $rendererList */
+        $rendererList = $this->getRendererListName()
+            ? $this->getLayout()->getBlock($this->getRendererListName())
+            : $this->getChildBlock('renderer.list');
+        if (!$rendererList) {
+            throw new \RuntimeException('Renderer list fo block "' . $this->getNameInLayout() . '" is not defined');
+        }
+        $renderer = $rendererList->getRenderer($type) ?: $rendererList->getRenderer(self::DEFAULT_TYPE);
+        if (!$renderer instanceof \Magento\View\Element\BlockInterface) {
+            throw new \RuntimeException('Renderer for type "' . $type . '" does not exist.');
+        }
+        if ($this->getRendererTemplate()) {
+            $renderer->setTemplate($this->getRendererTemplate());
+        }
+        $renderer->setRenderedBlock($this);
+        return $renderer;
+    }
 }
