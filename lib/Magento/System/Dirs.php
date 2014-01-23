@@ -73,7 +73,7 @@ class Dirs
      * @param string $path
      * @param bool $recursive
      * @param int $mode
-     * @return bool
+     * @return true
      * @throws \Exception
      */
     public static function mkdirStrict($path, $recursive = true, $mode = 0777)
