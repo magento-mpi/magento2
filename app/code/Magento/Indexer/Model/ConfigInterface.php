@@ -25,4 +25,11 @@ interface ConfigInterface
      * @return mixed
      */
     public function get($path = null, $default = null);
+
+    /**
+     * Get list of indexer ids
+     *
+     * @return array
+     */
+    public function getIndexerIds();
 }

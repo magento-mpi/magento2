@@ -32,4 +32,12 @@ class Config extends \Magento\Config\Data implements ConfigInterface
     {
         return $this->get();
     }
+
+    /**
+     * @return array
+     */
+    public function getIndexerIds()
+    {
+        return array_keys($this->get());
+    }
 }

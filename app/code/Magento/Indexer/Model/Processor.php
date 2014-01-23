@@ -53,7 +53,7 @@ class Processor
      */
     public function reindexAllInvalid()
     {
-        foreach (array_keys($this->config->getAll()) as $indexerId) {
+        foreach ($this->config->getIndexerIds() as $indexerId) {
             $indexer = $this->indexerFactory->create();
             $indexer->load($indexerId);
             if ($indexer->getState()->getStatus() == Indexer\State::STATUS_INVALID) {
