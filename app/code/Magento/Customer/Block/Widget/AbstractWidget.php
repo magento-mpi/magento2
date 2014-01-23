@@ -78,6 +78,10 @@ class AbstractWidget extends \Magento\View\Element\Template
      */
     protected function _getAttribute($attributeCode)
     {
-        return $this->_attributeMetadata->getAttributeMetadata('customer', $attributeCode);
+        try {
+            return $this->_attributeMetadata->getAttributeMetadata('customer', $attributeCode);
+        } catch (\Magento\Exception\NoSuchEntityException $e) {
+            return null;
+        }
     }
 }

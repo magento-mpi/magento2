@@ -261,6 +261,15 @@ class NameTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testGetStoreLabelWithException()
+    {
+        $this->_attributeMetadata
+            ->expects($this->any())
+            ->method('getAttributeMetadata')
+            ->will($this->throwException(new \Magento\Exception\NoSuchEntityException('field', 'value')));
+        $this->assertSame('', $this->_block->getStoreLabel('attributeCode'));
+    }
+
     /**
      * Helper method for testing all show*() methods.
      *

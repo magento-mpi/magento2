@@ -188,7 +188,11 @@ class Name extends \Magento\Customer\Block\Widget\AbstractWidget
             return parent::_getAttribute($attributeCode);
         }
 
-        $attribute = $this->_attributeMetadata->getAttributeMetadata('customer_address', $attributeCode);
+        try {
+            $attribute = $this->_attributeMetadata->getAttributeMetadata('customer_address', $attributeCode);
+        } catch (\Magento\Exception\NoSuchEntityException $e) {
+            return null;
+        }
 
         if ($this->getForceUseCustomerRequiredAttributes() && $attribute && !$attribute->isRequired()) {
             $customerAttribute = parent::_getAttribute($attributeCode);

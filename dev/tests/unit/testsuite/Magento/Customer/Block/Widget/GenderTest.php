@@ -88,6 +88,15 @@ class GenderTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    public function testIsEnabledWithException()
+    {
+        $this->_attributeMetadata
+            ->expects($this->any())
+            ->method('getAttributeMetadata')
+            ->will($this->throwException(new \Magento\Exception\NoSuchEntityException('field', 'value')));
+        $this->assertSame(false, $this->_block->isEnabled());
+    }
+
     /**
      * @param bool $isRequired Determines whether the 'gender' attribute is required
      * @param bool $expectedValue The value we expect from Gender::isRequired()
@@ -110,6 +119,15 @@ class GenderTest extends \PHPUnit_Framework_TestCase
             [true, true],
             [false, false]
         ];
+    }
+
+    public function testIsRequiredWithException()
+    {
+        $this->_attributeMetadata
+            ->expects($this->any())
+            ->method('getAttributeMetadata')
+            ->will($this->throwException(new \Magento\Exception\NoSuchEntityException('field', 'value')));
+        $this->assertSame(false, $this->_block->isRequired());
     }
 
     public function testGetCustomer()

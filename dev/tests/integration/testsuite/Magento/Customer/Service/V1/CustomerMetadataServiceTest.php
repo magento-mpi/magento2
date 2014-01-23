@@ -24,6 +24,32 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
         $this->_service = $objectManager->create('Magento\Customer\Service\V1\CustomerMetadataServiceInterface');
     }
 
+    public function testGetAttributeMetadataNoSuchEntity()
+    {
+        try {
+            $this->_service->getAttributeMetadata('customer_address', '1');
+            $this->fail('Expected exception not thrown.');
+        } catch (\Magento\Exception\NoSuchEntityException $e) {
+            $this->assertEquals(\Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY, $e->getCode());
+            $this->assertEquals(
+                [
+                    'entityType' => 'customer_address',
+                    'attributeCode' => '1'
+                ],
+                $e->getParams()
+            );
+        }
+    }
+
+    public function testAttributeMetadataCached()
+    {
+        $firstCallMetadata = $this->_service->getAddressAttributeMetadata('firstname');
+        $secondCallMetadata = $this->_service->getAddressAttributeMetadata('firstname');
+
+        $this->assertSame($firstCallMetadata, $secondCallMetadata);
+
+    }
+
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      */
@@ -76,13 +102,21 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEmpty($expectAttrsWithVals);
     }
 
-    public function testAttributeMetadataCached()
+    public function testGetCustomerAttributeMetadataNoSuchEntity()
     {
-        $firstCallMetadata = $this->_service->getAddressAttributeMetadata('firstname');
-        $secondCallMetadata = $this->_service->getAddressAttributeMetadata('firstname');
-
-        $this->assertSame($firstCallMetadata, $secondCallMetadata);
-
+        try {
+            $this->_service->getCustomerAttributeMetadata('20');
+            $this->fail('Expected exception not thrown.');
+        } catch (\Magento\Exception\NoSuchEntityException $e) {
+            $this->assertEquals(\Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY, $e->getCode());
+            $this->assertEquals(
+                [
+                    'entityType' => 'customer',
+                    'attributeCode' => '20'
+                ],
+                $e->getParams()
+            );
+        }
     }
 
     public function testGetAddressAttributeMetadata()
@@ -93,5 +127,22 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('vat_is_valid', $vatValidMetadata->getAttributeCode());
         $this->assertEquals('text', $vatValidMetadata->getFrontendInput());
         $this->assertEquals('VAT number validity', $vatValidMetadata->getStoreLabel());
+    }
+
+    public function testGetAddressAttributeMetadataNoSuchEntity()
+    {
+        try {
+            $this->_service->getAddressAttributeMetadata('1');
+            $this->fail('Expected exception not thrown.');
+        } catch (\Magento\Exception\NoSuchEntityException $e) {
+            $this->assertEquals(\Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY, $e->getCode());
+            $this->assertEquals(
+                [
+                    'entityType' => 'customer_address',
+                    'attributeCode' => '1'
+                ],
+                $e->getParams()
+            );
+        }
     }
 }

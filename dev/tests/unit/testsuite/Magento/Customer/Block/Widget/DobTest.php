@@ -34,6 +34,9 @@ class DobTest extends \PHPUnit_Framework_TestCase
     /** @var Dob */
     private $_block;
 
+    /** @var \PHPUnit_Framework_MockObject_MockObject  */
+    private $_attributeMetadata;
+
     public function setUp()
     {
         $zendCacheCore = new \Zend_Cache_Core();
@@ -53,11 +56,11 @@ class DobTest extends \PHPUnit_Framework_TestCase
         $context->expects($this->any())->method('getLocale')->will($this->returnValue($locale));
 
         $this->_attribute = $this->getMock('Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata', [], [], '', false);
-        $attributeMetadata =
+        $this->_attributeMetadata =
             $this->getMockForAbstractClass(
                 'Magento\Customer\Service\V1\CustomerMetadataServiceInterface', [], '', false
             );
-        $attributeMetadata
+        $this->_attributeMetadata
             ->expects($this->any())->method('getAttributeMetadata')->will($this->returnValue($this->_attribute));
 
         date_default_timezone_set('America/Los_Angeles');
@@ -65,7 +68,7 @@ class DobTest extends \PHPUnit_Framework_TestCase
         $this->_block = new Dob(
             $context,
             $this->getMock('Magento\Customer\Helper\Address', [], [], '', false),
-            $attributeMetadata
+            $this->_attributeMetadata
         );
     }
 
@@ -92,6 +95,15 @@ class DobTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    public function testIsEnabledWithException()
+    {
+        $this->_attributeMetadata
+            ->expects($this->any())
+            ->method('getAttributeMetadata')
+            ->will($this->throwException(new \Magento\Exception\NoSuchEntityException('field', 'value')));
+        $this->assertSame(false, $this->_block->isEnabled());
+    }
+
     /**
      * @param bool $isRequired Determines whether the 'dob' attribute is required
      * @param bool $expectedValue The value we expect from Dob::isRequired()
@@ -102,6 +114,15 @@ class DobTest extends \PHPUnit_Framework_TestCase
     {
         $this->_attribute->expects($this->once())->method('isRequired')->will($this->returnValue($isRequired));
         $this->assertSame($expectedValue, $this->_block->isRequired());
+    }
+
+    public function testIsRequiredWithException()
+    {
+        $this->_attributeMetadata
+            ->expects($this->any())
+            ->method('getAttributeMetadata')
+            ->will($this->throwException(new \Magento\Exception\NoSuchEntityException('field', 'value')));
+        $this->assertSame(false, $this->_block->isRequired());
     }
 
     /**
@@ -256,6 +277,15 @@ class DobTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    public function testGetMinDateRangeWithException()
+    {
+        $this->_attributeMetadata
+            ->expects($this->any())
+            ->method('getAttributeMetadata')
+            ->will($this->throwException(new \Magento\Exception\NoSuchEntityException('field', 'value')));
+        $this->assertNull($this->_block->getMinDateRange());
+    }
+
     /**
      * @param array $validationRules The date Min/Max validation rules
      * @param int $expectedValue The value we expect from Dob::getMaxDateRange()
@@ -278,5 +308,14 @@ class DobTest extends \PHPUnit_Framework_TestCase
             [[Dob::MAX_DATE_RANGE_KEY => strtotime(self::MAX_DATE)], date('Y/m/d', strtotime(self::MAX_DATE))],
             [[], null]
         ];
+    }
+
+    public function testGetMaxDateRangeWithException()
+    {
+        $this->_attributeMetadata
+            ->expects($this->any())
+            ->method('getAttributeMetadata')
+            ->will($this->throwException(new \Magento\Exception\NoSuchEntityException('field', 'value')));
+        $this->assertNull($this->_block->getMaxDateRange());
     }
 }

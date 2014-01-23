@@ -11,6 +11,7 @@ namespace Magento\Customer\Service\V1;
 use Magento\Customer\Model\Converter;
 use Magento\Customer\Model\Customer as CustomerModel;
 use Magento\Exception\InputException;
+use Magento\Exception\NoSuchEntityException;
 use Magento\Validator\ValidatorException;
 
 /**
@@ -107,17 +108,29 @@ class CustomerService implements CustomerServiceInterface
             $exception->addError(InputException::INVALID_FIELD_VALUE, 'email', $customerModel->getEmail());
         }
 
-        $dob = $this->_customerMetadataService->getCustomerAttributeMetadata('dob');
-        if ($dob->isRequired() && '' == trim($customerModel->getDob())) {
-            $exception->addError(InputException::REQUIRED_FIELD, 'dob', '');
+        try {
+            $dob = $this->_customerMetadataService->getCustomerAttributeMetadata('dob');
+            if ($dob->isRequired() && '' == trim($customerModel->getDob())) {
+                $exception->addError(InputException::REQUIRED_FIELD, 'dob', '');
+            }
+        } catch (NoSuchEntityException $e) {
+            // skip
         }
-        $taxvat = $this->_customerMetadataService->getCustomerAttributeMetadata('taxvat');
-        if ($taxvat->isRequired() && '' == trim($customerModel->getTaxvat())) {
-            $exception->addError(InputException::REQUIRED_FIELD, 'taxvat', '');
+        try {
+            $taxvat = $this->_customerMetadataService->getCustomerAttributeMetadata('taxvat');
+            if ($taxvat->isRequired() && '' == trim($customerModel->getTaxvat())) {
+                $exception->addError(InputException::REQUIRED_FIELD, 'taxvat', '');
+            }
+        } catch (NoSuchEntityException $e) {
+            // skip
         }
-        $gender = $this->_customerMetadataService->getCustomerAttributeMetadata('gender');
-        if ($gender->isRequired() && '' == trim($customerModel->getGender())) {
-            $exception->addError(InputException::REQUIRED_FIELD, 'gender', '');
+        try {
+            $gender = $this->_customerMetadataService->getCustomerAttributeMetadata('gender');
+            if ($gender->isRequired() && '' == trim($customerModel->getGender())) {
+                $exception->addError(InputException::REQUIRED_FIELD, 'gender', '');
+            }
+        } catch (NoSuchEntityException $e) {
+            // skip
         }
         if ($exception->getErrors()) {
             throw $exception;

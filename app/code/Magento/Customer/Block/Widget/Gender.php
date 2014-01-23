@@ -66,7 +66,7 @@ class Gender extends \Magento\Customer\Block\Widget\AbstractWidget
      */
     public function isEnabled()
     {
-        return (bool)$this->_getAttribute('gender')->isVisible();
+        return $this->_getAttribute('gender') ? (bool)$this->_getAttribute('gender')->isVisible() : false;
     }
 
     /**
@@ -76,7 +76,7 @@ class Gender extends \Magento\Customer\Block\Widget\AbstractWidget
      */
     public function isRequired()
     {
-        return (bool)$this->_getAttribute('gender')->isRequired();
+        return $this->_getAttribute('gender') ? (bool)$this->_getAttribute('gender')->isRequired() : false;
     }
 
     /**

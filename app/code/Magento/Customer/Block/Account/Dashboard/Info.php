@@ -89,19 +89,31 @@ class Info extends \Magento\View\Element\Template
 
         $customer = $this->getCustomer();
 
-        if ($this->_metadataService->getCustomerAttributeMetadata('prefix')->isVisible()
-            && $customer->getPrefix()) {
-            $name .= $customer->getPrefix() . ' ';
+        try {
+            if ($this->_metadataService->getCustomerAttributeMetadata('prefix')->isVisible()
+                && $customer->getPrefix()) {
+                $name .= $customer->getPrefix() . ' ';
+            }
+        } catch (\Magento\Exception\NoSuchEntityException $e) {
+            // skip
         }
         $name .= $customer->getFirstname();
-        if ($this->_metadataService->getCustomerAttributeMetadata('middlename')->isVisible()
-            && $customer->getMiddlename()) {
-            $name .= ' ' . $customer->getMiddlename();
+        try {
+            if ($this->_metadataService->getCustomerAttributeMetadata('middlename')->isVisible()
+                && $customer->getMiddlename()) {
+                $name .= ' ' . $customer->getMiddlename();
+            }
+        } catch (\Magento\Exception\NoSuchEntityException $e) {
+            // skip
         }
         $name .=  ' ' . $customer->getLastname();
-        if ($this->_metadataService->getCustomerAttributeMetadata('suffix')->isVisible()
-            && $customer->getSuffix()) {
-            $name .= ' ' . $customer->getSuffix();
+        try {
+            if ($this->_metadataService->getCustomerAttributeMetadata('suffix')->isVisible()
+                && $customer->getSuffix()) {
+                $name .= ' ' . $customer->getSuffix();
+            }
+        } catch (\Magento\Exception\NoSuchEntityException $e) {
+            // skip
         }
         return $name;
     }
