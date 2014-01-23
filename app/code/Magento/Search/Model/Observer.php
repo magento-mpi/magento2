@@ -48,7 +48,7 @@ class Observer
      *
      * @var \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory
      */
-    protected $_eavEntityAttributeOptionCollFactory = null;
+    protected $_eavEntityAttributeOptionCollectionFactory = null;
 
     /**
      * Search data
@@ -86,7 +86,7 @@ class Observer
     /**
      * Construct
      *
-     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $eavEntityAttributeOptionCollFactory
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $eavEntityAttributeOptionCollectionFactory
      * @param \Magento\Search\Model\Resource\RecommendationsFactory $searchRecommendationsFactory
      * @param \Magento\Search\Model\Search\Layer $searchSearchLayer
      * @param \Magento\Search\Model\Catalog\Layer $searchCatalogLayer
@@ -98,7 +98,7 @@ class Observer
      * @param \Magento\App\RequestInterface $request
      */
     public function __construct(
-        \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $eavEntityAttributeOptionCollFactory,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $eavEntityAttributeOptionCollectionFactory,
         \Magento\Search\Model\Resource\RecommendationsFactory $searchRecommendationsFactory,
         \Magento\Search\Model\Search\Layer $searchSearchLayer,
         \Magento\Search\Model\Catalog\Layer $searchCatalogLayer,
@@ -109,7 +109,7 @@ class Observer
         \Magento\Search\Model\Source\Weight $sourceWeight,
         \Magento\App\RequestInterface $request
     ) {
-        $this->_eavEntityAttributeOptionCollFactory = $eavEntityAttributeOptionCollFactory;
+        $this->_eavEntityAttributeOptionCollectionFactory = $eavEntityAttributeOptionCollectionFactory;
         $this->_searchRecommendationsFactory = $searchRecommendationsFactory;
         $this->_searchSearchLayer = $searchSearchLayer;
         $this->_searchCatalogLayer = $searchCatalogLayer;
@@ -211,7 +211,7 @@ class Observer
                 continue;
             }
 
-            $optionCollection = $this->_eavEntityAttributeOptionCollFactory->create()
+            $optionCollection = $this->_eavEntityAttributeOptionCollectionFactory->create()
                 ->setAttributeFilter($attribute->getAttributeId())
                 ->setPositionOrder(\Magento\DB\Select::SQL_ASC, true)
                 ->load();

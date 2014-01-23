@@ -90,7 +90,7 @@ class Finance
     /**
      * @var \Magento\ScheduledImportExport\Model\Resource\Customer\CollectionFactory
      */
-    protected $_customerCollFactory;
+    protected $_customerCollectionFactory;
 
     /**
      * @var \Magento\ImportExport\Model\Export\Entity\Eav\CustomerFactory
@@ -102,7 +102,7 @@ class Finance
      * @param \Magento\Core\Model\App $app
      * @param \Magento\ImportExport\Model\Export\Factory $collectionFactory
      * @param \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory
-     * @param \Magento\ScheduledImportExport\Model\Resource\Customer\CollectionFactory $customerCollFactory
+     * @param \Magento\ScheduledImportExport\Model\Resource\Customer\CollectionFactory $customerCollectionFactory
      * @param \Magento\ImportExport\Model\Export\Entity\Eav\CustomerFactory $eavCustomerFactory
      * @param \Magento\ScheduledImportExport\Helper\Data $importExportData
      * @param array $data
@@ -112,14 +112,14 @@ class Finance
         \Magento\Core\Model\App $app,
         \Magento\ImportExport\Model\Export\Factory $collectionFactory,
         \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory,
-        \Magento\ScheduledImportExport\Model\Resource\Customer\CollectionFactory $customerCollFactory,
+        \Magento\ScheduledImportExport\Model\Resource\Customer\CollectionFactory $customerCollectionFactory,
         \Magento\ImportExport\Model\Export\Entity\Eav\CustomerFactory $eavCustomerFactory,
         \Magento\ScheduledImportExport\Helper\Data $importExportData,
         array $data = array()
     ) {
         parent::__construct($coreStoreConfig, $app, $collectionFactory, $resourceColFactory, $data);
 
-        $this->_customerCollFactory = $customerCollFactory;
+        $this->_customerCollectionFactory = $customerCollectionFactory;
         $this->_eavCustomerFactory = $eavCustomerFactory;
         $this->_importExportData = $importExportData;
 
@@ -150,7 +150,7 @@ class Finance
     protected function _getEntityCollection()
     {
         if (empty($this->_customerCollection)) {
-            $this->_customerCollection = $this->_customerCollFactory->create();
+            $this->_customerCollection = $this->_customerCollectionFactory->create();
         }
         return $this->_customerCollection;
     }

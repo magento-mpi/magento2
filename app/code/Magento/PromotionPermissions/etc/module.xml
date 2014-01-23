@@ -16,6 +16,7 @@
         <depends>
             <module name="Magento_Banner"/>
             <module name="Magento_Reminder"/>
+            <module name="Magento_CatalogRule"/>
         </depends>
     </module>
 </config>
