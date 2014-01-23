@@ -72,6 +72,7 @@ class Billing extends \Magento\Checkout\Block\Onepage\AbstractOnepage
             $regionCollFactory,
             $data
         );
+        $this->_isScopePrivate = true;
     }
 
     /**

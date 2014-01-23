@@ -79,7 +79,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
         // Create export directory if not exist
         /** @var \Magento\Filesystem\Directory\Write $varDir */
         $varDir = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Filesystem')->getDirectoryWrite('var');
+            ->get('Magento\App\Filesystem')->getDirectoryWrite('var');
         $varDir->create($fileInfo['file_path']);
 
         // Change current working directory to allow save export results

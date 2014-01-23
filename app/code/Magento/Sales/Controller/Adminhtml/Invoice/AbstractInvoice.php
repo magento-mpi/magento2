@@ -117,7 +117,7 @@ class AbstractInvoice
                 return $this->_fileFactory->create(
                     'invoice' . $date . '.pdf',
                     $pdf->render(),
-                    \Magento\Filesystem::VAR_DIR,
+                    \Magento\App\Filesystem::VAR_DIR,
                     'application/pdf'
                 );
             }
@@ -145,7 +145,7 @@ class AbstractInvoice
             return $this->_fileFactory->create(
                 'invoice' . $date . '.pdf',
                 $pdf->render(),
-                \Magento\Filesystem::VAR_DIR,
+                \Magento\App\Filesystem::VAR_DIR,
                 'application/pdf'
             );
         }

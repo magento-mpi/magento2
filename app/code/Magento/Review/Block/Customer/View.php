@@ -65,6 +65,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
      * @param \Magento\Rating\Model\RatingFactory $ratingFactory
      * @param \Magento\Customer\Model\Session $customerSession
      * @param array $data
+     * @param array $priceBlockTypes
      * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -85,7 +86,8 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
         \Magento\Rating\Model\Rating\Option\VoteFactory $voteFactory,
         \Magento\Rating\Model\RatingFactory $ratingFactory,
         \Magento\Customer\Model\Session $customerSession,
-        array $data = array()
+        array $data = array(),
+        array $priceBlockTypes = array()
     ) {
         $this->_productFactory = $productFactory;
         $this->_reviewFactory = $reviewFactory;
@@ -105,8 +107,10 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
             $compareProduct,
             $layoutHelper,
             $imageHelper,
-            $data
+            $data,
+            $priceBlockTypes
         );
+        $this->_isScopePrivate = true;
     }
 
 

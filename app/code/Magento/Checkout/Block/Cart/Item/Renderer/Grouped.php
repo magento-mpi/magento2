@@ -2,25 +2,53 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Checkout
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Shopping cart item render block
- *
- * @category    Magento
- * @package     Magento_Checkout
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Checkout\Block\Cart\Item\Renderer;
 
+use Magento\Catalog\Model\Config\Source\Product\Thumbnail as ThumbnailSource;
+
+/**
+ * Shopping cart item render block
+ */
 class Grouped extends \Magento\Checkout\Block\Cart\Item\Renderer
 {
-    const GROUPED_PRODUCT_IMAGE = 'checkout/cart/grouped_product_image';
-    const USE_PARENT_IMAGE      = 'parent';
+    /**
+     * Path in config to the setting which defines if parent or child product should be used to generate a thumbnail.
+     */
+    const CONFIG_THUMBNAIL_SOURCE = 'checkout/cart/grouped_product_image';
+
+    /**
+     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Catalog\Helper\Product\Configuration $productConfig
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Catalog\Helper\Image $imageHelper
+     * @param \Magento\Core\Helper\Url $urlHelper
+     * @param \Magento\Message\ManagerInterface $messageManager
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\View\Element\Template\Context $context,
+        \Magento\Catalog\Helper\Product\Configuration $productConfig,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Catalog\Helper\Image $imageHelper,
+        \Magento\Core\Helper\Url $urlHelper,
+        \Magento\Message\ManagerInterface $messageManager,
+        array $data = array()
+    ) {
+        parent::__construct(
+            $context,
+            $productConfig,
+            $checkoutSession,
+            $imageHelper,
+            $urlHelper,
+            $messageManager,
+            $data
+        );
+        $this->_isScopePrivate = true;
+    }
 
     /**
      * Get item grouped product
@@ -37,35 +65,21 @@ class Grouped extends \Magento\Checkout\Block\Cart\Item\Renderer
     }
 
     /**
-     * Get product thumbnail image
-     *
-     * @return \Magento\Catalog\Model\Product\Image
+     * {@inheritdoc}
      */
-    public function getProductThumbnail()
+    public function getProductForThumbnail()
     {
-        $product = $this->getProduct();
-        if (!$product->getData('thumbnail')
-            || ($product->getData('thumbnail') == 'no_selection')
-            || ($this->_storeConfig->getConfig(self::GROUPED_PRODUCT_IMAGE) == self::USE_PARENT_IMAGE)) {
+        /**
+         * Show grouped product thumbnail if it must be always shown according to the related setting in system config
+         * or if child product thumbnail is not available
+         */
+        if ($this->_storeConfig->getConfig(self::CONFIG_THUMBNAIL_SOURCE) == ThumbnailSource::OPTION_USE_PARENT_IMAGE
+            || !($this->getProduct()->getThumbnail() && $this->getProduct()->getThumbnail() != 'no_selection')
+        ) {
             $product = $this->getGroupedProduct();
+        } else {
+            $product = $this->getProduct();
         }
-        return $this->_imageHelper->init($product, 'thumbnail');
-    }
-
-    /**
-     * Prepare item html
-     *
-     * This method uses renderer for real product type
-     *
-     * @return string
-     */
-    protected function _toHtml()
-    {
-        $renderer = $this->getRenderedBlock()->getItemRenderer($this->getItem()->getRealProductType());
-        $renderer->setItem($this->getItem());
-        $renderer->overrideProductThumbnail($this->getProductThumbnail());
-        $rendererHtml = $renderer->toHtml();
-        $renderer->overrideProductThumbnail(null);
-        return $rendererHtml;
+        return $product;
     }
 }

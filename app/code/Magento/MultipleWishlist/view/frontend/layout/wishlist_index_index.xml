@@ -19,20 +19,20 @@
         </action>
     </referenceBlock>
     <referenceBlock name="customer.wishlist">
-        <block class="Magento\MultipleWishlist\Block\Customer\Wishlist\Management" name="customer.wishlist.management" as="top" template="view/management.phtml">
+        <block class="Magento\MultipleWishlist\Block\Customer\Wishlist\Management" name="customer.wishlist.management" as="top" template="view/management.phtml" cacheable="false">
         </block>
         <referenceBlock name="customer.wishlist.items">
-            <block class="Magento\MultipleWishlist\Block\Customer\Wishlist\Item\Column\Selector" name="customer.wishlist.item.selector" before="-" template="item/column/selector.phtml">
+            <block class="Magento\MultipleWishlist\Block\Customer\Wishlist\Item\Column\Selector" name="customer.wishlist.item.selector" before="-" template="item/column/selector.phtml" cacheable="false">
                 <arguments>
                     <argument name="col_class" xsi:type="string">selector</argument>
                 </arguments>
             </block>
             <referenceBlock name="customer.wishlist.item.info">
-                <block class="Magento\MultipleWishlist\Block\Customer\Wishlist\Item\Column\Management" name="customer.wishlist.item.mananagement" before="-" template="item/column/management.phtml"/>
+                <block class="Magento\MultipleWishlist\Block\Customer\Wishlist\Item\Column\Management" name="customer.wishlist.item.mananagement" before="-" template="item/column/management.phtml" cacheable="false"/>
             </referenceBlock>
         </referenceBlock>
         <referenceContainer name="customer.wishlist.buttons">
-            <block class="Magento\MultipleWishlist\Block\Customer\Wishlist\Button\Delete" name="customer.wishlist.button.delete" template="button/delete.phtml"/>
+            <block class="Magento\MultipleWishlist\Block\Customer\Wishlist\Button\Delete" name="customer.wishlist.button.delete" template="button/delete.phtml" cacheable="false"/>
         </referenceContainer>
     </referenceBlock>
 </layout>

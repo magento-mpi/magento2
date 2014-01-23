@@ -56,7 +56,7 @@ class Import extends \Magento\ImportExport\Model\Import
             $result = $this->validateSource(
                 \Magento\ImportExport\Model\Import\Adapter::findAdapterFor(
                     $sourceFile,
-                    $this->_filesystem->getDirectoryWrite(\Magento\Filesystem::SYS_TMP)
+                    $this->_filesystem->getDirectoryWrite(\Magento\App\Filesystem::SYS_TMP_DIR)
                 )
             );
         }

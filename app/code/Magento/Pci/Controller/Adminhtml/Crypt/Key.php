@@ -24,8 +24,8 @@ class Key extends \Magento\Backend\App\Action
     protected function _checkIsLocalXmlWriteable()
     {
         /** @var \Magento\Filesystem\Directory\Write $configDirectory */
-        $configDirectory = $this->_objectManager->get('Magento\Filesystem')
-            ->getDirectoryWrite(\Magento\Filesystem::CONFIG);
+        $configDirectory = $this->_objectManager->get('Magento\App\Filesystem')
+            ->getDirectoryWrite(\Magento\App\Filesystem::CONFIG_DIR);
         if (!$configDirectory->isWritable('local.xml')) {
             $this->messageManager->addError(
                 __('To enable a key change this file must be writable: %1.',

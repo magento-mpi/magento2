@@ -75,6 +75,7 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
         $this->_countryCollFactory = $countryCollFactory;
         $this->_regionCollFactory = $regionCollFactory;
         parent::__construct($context, $data);
+        $this->_isScopePrivate = true;
     }
 
     /**

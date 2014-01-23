@@ -1,5 +1,35 @@
-  * Fixed No Collapsing for Tax Summary
-  * Optimized Plushe theme css
+* Modularity improvements:
+  * Moved all Grouped Product functionality to newly created module Magento_GroupedProduct
+  * Extracted Product duplication behaviour from Product model to Product\Copier model
+  * Event "catalog_model_product_duplicate" was replaced with composite Product\Copier model
+  * Event "catalog_product_prepare_save" was replaced with controller product initialization helper that can be pluginized
+  * Autorizenet is consolidated in separate module
+* Introduced new layout block attribute - cacheable
+* Extracted multishipping functionality from Magento\Checkout module in separated Magento\Multishipping module
+* Fixed bugs:
+  * Fixed an issue when order was sent to Paypal without defined currency
+  * Fixed an issue with 404 error when trying to return back to grid from Recurring Billing Profile
+  * Fixed an issue with synchronization with google shopping on product update caused by missed service property
+  * Fixed Authorize.net Direct Post: Ability to proceed order when it was created from Backend
+* Removed the deprecated service-calls and data source functionality
+* Request\Response workflow improvements:
+  * Added Console\Response
+  * All kind of applications always return Response instead of sending it
+
+2.0.0.0-dev61
+=============
+* Introduced a new layout block attribute - cacheable
+* Fixed bugs:
+  * Fixed an issue with displaying configurable product images in shopping cart
+  * Fixed an issue with Tax Summary not being displayed properly on the Order Review page
+  * Optimized the Plushe theme CSS
+  * Fixed attribute types for configurable product variations
+  * Fixed an issue with incorrect link in the Reset Password email for customers registered on the non-default website
+  * Fixed an issue with creating orders using DHL on holiday dates
+  * Fixed product export
+  * Fixed 3D secure validation
+  * Fixed an issue with session being lost when a logged in user goes from store pages using secure URL to the store pages which do not use secure URL
+  * Fixed an issue with price ranges in the Advanced search
 
 2.0.0.0-dev60
 =============

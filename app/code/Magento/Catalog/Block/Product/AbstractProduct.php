@@ -96,7 +96,7 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
     /**
      * @var \Magento\Math\Random
      */
-    protected $mathRandom;
+    protected $_mathRandom;
 
     /**
      * @var \Magento\Checkout\Helper\Cart
@@ -136,6 +136,7 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
      * @param \Magento\Theme\Helper\Layout $layoutHelper
      * @param \Magento\Catalog\Helper\Image $imageHelper
      * @param array $data
+     * @param array $priceBlockTypes
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -151,7 +152,8 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
         \Magento\Catalog\Helper\Product\Compare $compareProduct,
         \Magento\Theme\Helper\Layout $layoutHelper,
         \Magento\Catalog\Helper\Image $imageHelper,
-        array $data = array()
+        array $data = array(),
+        array $priceBlockTypes = array()
     ) {
         $this->_imageHelper = $imageHelper;
         $this->_layoutHelper = $layoutHelper;
@@ -162,7 +164,8 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
         $this->_coreRegistry = $registry;
         $this->_taxData = $taxData;
         $this->_catalogData = $catalogData;
-        $this->mathRandom = $mathRandom;
+        $this->_mathRandom = $mathRandom;
+        $this->_priceBlockTypes = $priceBlockTypes;
         parent::__construct($context, $data);
     }
 
@@ -213,25 +216,24 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
     }
 
     /**
-     * Enter description here...
+     * Retrieve add to wishlist params
      *
      * @param \Magento\Catalog\Model\Product $product
      * @return string
      */
-    public function getAddToWishlistUrl($product)
+    public function getAddToWishlistParams($product)
     {
-        return $this->_wishlistHelper->getAddUrl($product);
+        return $this->_wishlistHelper->getAddParams($product);
     }
 
     /**
      * Retrieve Add Product to Compare Products List URL
      *
-     * @param \Magento\Catalog\Model\Product $product
      * @return string
      */
-    public function getAddToCompareUrl($product)
+    public function getAddToCompareUrl()
     {
-        return $this->_compareProduct->getAddUrl($product);
+        return $this->_compareProduct->getAddUrl();
     }
 
     /**
@@ -411,7 +413,6 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
         return $this->_getPriceBlock($product->getTypeId())
             ->setTemplate($this->getTierPriceTemplate())
             ->setProduct($product)
-            ->setInGrouped($product->isGrouped())
             ->toHtml();
     }
 
@@ -816,6 +817,6 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
      */
     public function getRandomString($length, $chars = null)
     {
-        return $this->mathRandom->getRandomString($length, $chars);
+        return $this->_mathRandom->getRandomString($length, $chars);
     }
 }

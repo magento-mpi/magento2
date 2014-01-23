@@ -35,6 +35,7 @@ class Totals extends \Magento\View\Element\Template
     ) {
         $this->_giftWrappingData = $giftWrappingData;
         parent::__construct($context, $data);
+        $this->_isScopePrivate = true;
     }
 
     /**
