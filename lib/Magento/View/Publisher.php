@@ -80,13 +80,19 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
     protected $rootDirectory;
 
     /**
+     * @var \Magento\View\Asset\PreProcessorInterface
+     */
+    protected $preProcessor;
+
+    /**
      * @param \Magento\Logger $logger
      * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\View\Url\CssResolver $cssUrlResolver
      * @param Service $viewService
      * @param FileSystem $viewFileSystem
      * @param \Magento\Module\Dir\Reader $modulesReader
-     * @param $allowDuplication
+     * @param \Magento\View\Asset\PreProcessorInterface $preProcessor
+     * @param bool $allowDuplication
      */
     public function __construct(
         \Magento\Logger $logger,
@@ -95,6 +101,7 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
         \Magento\View\Service $viewService,
         \Magento\View\FileSystem $viewFileSystem,
         \Magento\Module\Dir\Reader $modulesReader,
+        \Magento\View\Asset\PreProcessorInterface $preProcessor,
         $allowDuplication
     ) {
         $this->_filesystem = $filesystem;
@@ -105,6 +112,7 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
         $this->_modulesReader = $modulesReader;
         $this->_logger = $logger;
         $this->_allowDuplication = $allowDuplication;
+        $this->preProcessor = $preProcessor;
     }
 
     /**
@@ -150,7 +158,15 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
             throw new \Magento\Exception('Filesystem operations are not permitted for view files');
         }
 
-        $sourcePath = $this->_viewFileSystem->getViewFile($filePath, $params);
+        $targetDirectory = $this->_filesystem->getDirectoryWrite(\Magento\App\Filesystem::STATIC_VIEW_DIR);
+        // allow asset pre-processors to execute first
+        // in case if any active pre-processor has been executed and original source file being processed,
+        // new $sourcePath will be returned back
+        $sourcePath = $this->preProcessor->process($filePath, $params, $targetDirectory, null);
+        // if not so, then execute normal file resolving and publication process
+        if ($sourcePath === null) {
+            $sourcePath = $this->_viewFileSystem->getViewFile($filePath, $params);
+        }
 
         if (!$this->rootDirectory->isExist($this->rootDirectory->getRelativePath($sourcePath))) {
             throw new \Magento\Exception("Unable to locate theme file '{$sourcePath}'.");
@@ -172,15 +188,17 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
      */
     protected function _publishFile($filePath, $params, $sourcePath)
     {
-        $filePath = $this->_viewFileSystem->normalizePath($filePath);
-        $sourcePath = $this->_viewFileSystem->normalizePath($sourcePath);
+        // simplify this method since we do not work with css files content anymore
+
+        //$filePath = $this->_viewFileSystem->normalizePath($filePath);
+        //$sourcePath = $this->_viewFileSystem->normalizePath($sourcePath);
         $targetPath = $this->_buildPublishedFilePath($filePath, $params, $sourcePath);
 
         /* Validate whether file needs to be published */
-        $isCssFile = $this->_getExtension($filePath) == self::CONTENT_TYPE_CSS;
+        /*$isCssFile = $this->_getExtension($filePath) == self::CONTENT_TYPE_CSS;
         if ($isCssFile) {
             $cssContent = $this->_getPublicCssContent($sourcePath, $targetPath, $filePath, $params);
-        }
+        }*/
 
         $targetDirectory = $this->_filesystem->getDirectoryWrite(\Magento\App\Filesystem::STATIC_VIEW_DIR);
         $sourcePathRelative = $this->rootDirectory->getRelativePath($sourcePath);
@@ -189,10 +207,11 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
         $fileMTime = $this->rootDirectory->stat($sourcePathRelative)['mtime'];
         if (!$targetDirectory->isExist($targetPathRelative)
             || $fileMTime != $targetDirectory->stat($targetPathRelative)['mtime']) {
-            if (isset($cssContent)) {
+            /*if (isset($cssContent)) {
                 $targetDirectory->writeFile($targetPathRelative, $cssContent);
                 $targetDirectory->touch($targetPathRelative, $fileMTime);
-            } elseif ($this->rootDirectory->isFile($sourcePathRelative)) {
+            } else*/
+            if ($this->rootDirectory->isFile($sourcePathRelative)) {
                 $this->rootDirectory->copyFile($sourcePathRelative, $targetPathRelative, $targetDirectory);
                 $targetDirectory->touch($targetPathRelative, $fileMTime);
             } elseif (!$targetDirectory->isDirectory($targetPathRelative)) {

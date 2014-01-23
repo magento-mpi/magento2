@@ -43,6 +43,7 @@
     <preference for="Magento\Session\ValidatorInterface" type="Magento\Core\Model\Session\Validator" />
     <preference for="Magento\Session\StorageInterface" type="Magento\Session\Storage" />
     <preference for="Magento\Css\PreProcessor\AdapterInterface" type="Magento\Css\PreProcessor\Adapter\Oyejorge" />
+    <preference for="Magento\View\Asset\PreProcessorInterface" type="Magento\View\Asset\PreProcessor" />
     <type name="Magento\App\DefaultPath\DefaultPath">
         <param name="parts">
             <value>
