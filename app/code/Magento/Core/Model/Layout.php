@@ -1597,4 +1597,14 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     {
         return !(boolean)count($this->_xml->xpath('//' . Element::TYPE_BLOCK . '[@cacheable="false"]'));
     }
+
+    /**
+     * Check is current layout private
+     *
+     * @return bool
+     */
+    public function  isPrivate()
+    {
+        return !(boolean)count($this->_xml->xpath('//' . Element::TYPE_BLOCK . '[@cache-control="private"]'));
+    }
 }

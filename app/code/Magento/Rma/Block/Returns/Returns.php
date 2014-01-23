@@ -57,6 +57,7 @@ class Returns extends \Magento\View\Element\Template
         $this->_collectionFactory = $collectionFactory;
         $this->_customerSession = $customerSession;
         parent::__construct($context, $data);
+        $this->_isScopePrivate = true;
     }
 
     public function _construct()

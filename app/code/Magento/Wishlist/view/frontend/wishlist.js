@@ -20,7 +20,8 @@
             addToCartSelector: '.btn-cart',
             addAllToCartSelector: '.btn-add',
             commentInputType: 'textarea',
-            infoList: false
+            infoList: false,
+            confirmRemoveMessage: 'Are you sure you want to remove this product from your wishlist?'
         },
 
         /**
@@ -36,7 +37,11 @@
                     .on('addToCart', function(event, context) {
                         $.proxy(_this._addItemsToCart($(context).parents('.cart-cell').find(_this.options.addToCartSelector)), _this);
                     })
-                    .on('click', this.options.btnRemoveSelector, $.proxy(this._confirmRemoveWishlistItem, this))
+                    .on('click', this.options.btnRemoveSelector, $.proxy(function(event) {
+                        if (this._confirmRemoveWishlistItem()) {
+                            $.mage.dataPost().postData($(event.currentTarget).data('post-remove'));
+                        }
+                    }, this))
                     .on('click', this.options.addAllToCartSelector, $.proxy(this._addAllWItemsToCart, this))
                     .on('focusin focusout', this.options.commentInputType, $.proxy(this._focusComment, this));
             }
@@ -166,7 +171,7 @@
             });
         }
     });
-    
+
     // Extension for mage.wishlist - Add Wishlist item to Gift Registry
     $.widget('mage.wishlist', $.mage.wishlist, {
         options: {

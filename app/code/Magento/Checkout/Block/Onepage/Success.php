@@ -76,6 +76,7 @@ class Success extends \Magento\View\Element\Template
         $this->_agreementFactory = $agreementFactory;
         $this->_recurringProfileCollectionFactory = $recurringProfileCollectionFactory;
         $this->_orderConfig = $orderConfig;
+        $this->_isScopePrivate = true;
     }
 
     /**

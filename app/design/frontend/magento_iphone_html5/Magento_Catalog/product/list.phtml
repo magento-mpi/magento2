@@ -42,13 +42,13 @@
                             </div>
                         </div>
                     </a>
-                    <div class="actions" style="display:none;">
+                    <div class="actions" data-role="add-to-links" style="display:none;">
                         <ul>
                             <li><a href="<?php echo $_product->getProductUrl() ?>" class="i-view-details"><i></i><?php echo __('View Details') ?></a></li>
                             <li><a href="<?php echo $this->getUrl('catalog/product/gallery', array('id'=>$_product->getId())) ?>" class="i-view-gallery"><i></i><?php echo __('View Gallery') ?></a></li>
                             <li><a href="<?php echo $this->helper('Magento\Catalog\Helper\Product')->getEmailToFriendUrl($_product) ?>" class="i-send-friend"><i></i><?php echo __('Tell a Friend') ?></a></li>
                             <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow()) : ?>
-                                <li><a href="<?php echo $this->helper('Magento\Wishlist\Helper\Data')->getAddUrl($_product) ?>" class="i-send-wishlist"><i></i><?php echo __('Add to Wishlist') ?></a></li>
+                                <li><a href="#" data-post='<?php echo $this->helper('Magento\Wishlist\Helper\Data')->getAddParams($_product); ?>' class="i-send-wishlist"><i></i><?php echo __('Add to Wishlist') ?></a></li>
                             <?php endif; ?>
                             <li><a href="<?php echo $this->getAddToCartUrl($_product) ?>" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>'); return false;" class="i-add-to-cart"><i></i><?php echo __('Add to Cart') ?></a></li>
                         </ul>
