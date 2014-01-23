@@ -34,7 +34,9 @@
     </type>
     <type name="Magento\Sales\Model\Resource\Report\Bestsellers">
         <param name="ignoredProductTypes">
-            <grouped type="const">\Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE</grouped>
+            <value>
+                <grouped type="const">\Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE</grouped>
+            </value>
         </param>
     </type>
 </config>
