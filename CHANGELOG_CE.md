@@ -1,18 +1,22 @@
 * Modularity improvements:
   * Moved all Grouped Product functionality to newly created module Magento_GroupedProduct
+  * Moved Multishipping functionality to newly created module Magento_Multishipping
   * Extracted Product duplication behaviour from Product model to Product\Copier model
   * Event "catalog_model_product_duplicate" was replaced with composite Product\Copier model
   * Event "catalog_product_prepare_save" was replaced with controller product initialization helper that can be pluginized
-  * Autorizenet is consolidated in separate module
-* Introduced new layout block attribute - cacheable
-* Extracted multishipping functionality from Magento\Checkout module in separated Magento\Multishipping module
+  * Consolidated Autorizenet in separate module
+  * Eliminated dependency of Sales module on Shipping and Usa modules
+  * Eliminated dependency of Shipping module on Customer module
+  * Improved accuracy and quality of Module Dependency Test
 * Fixed bugs:
   * Fixed an issue when order was sent to Paypal without defined currency
   * Fixed an issue with 404 error when trying to return back to grid from Recurring Billing Profile
   * Fixed an issue with synchronization with google shopping on product update caused by missed service property
   * Fixed Authorize.net Direct Post: Ability to proceed order when it was created from Backend
+  * Fixed an issue with ImportExport: Fix notice if _attribute_set column is missing
   * Fixed an issue with insert image in WYSIWYG editor where selected folder was stored in session
 * Removed the deprecated service-calls and data source functionality
+* Removed deprecated EAV structure creation method from EAV setup model
 * Request\Response workflow improvements:
   * Added Console\Response
   * All kind of applications always return Response instead of sending it

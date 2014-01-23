@@ -317,17 +317,17 @@ class Data extends \Magento\App\Helper\AbstractHelper
         if ($this->_storeConfig->getConfigFlag(\Magento\Rma\Model\Rma::XML_PATH_USE_STORE_ADDRESS, $store)) {
             $data = array(
                 'city' => $this->_storeConfig
-                    ->getConfig(\Magento\Shipping\Model\Shipping::XML_PATH_STORE_CITY, $store),
+                    ->getConfig(\Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_CITY, $store),
                 'countryId' => $this->_storeConfig
-                    ->getConfig(\Magento\Shipping\Model\Shipping::XML_PATH_STORE_COUNTRY_ID, $store),
+                    ->getConfig(\Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID, $store),
                 'postcode' => $this->_storeConfig
-                    ->getConfig(\Magento\Shipping\Model\Shipping::XML_PATH_STORE_ZIP, $store),
+                    ->getConfig(\Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ZIP, $store),
                 'region_id' => $this->_storeConfig
-                    ->getConfig(\Magento\Shipping\Model\Shipping::XML_PATH_STORE_REGION_ID, $store),
+                    ->getConfig(\Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_REGION_ID, $store),
                 'street2' => $this->_storeConfig
-                    ->getConfig(\Magento\Shipping\Model\Shipping::XML_PATH_STORE_ADDRESS2, $store),
+                    ->getConfig(\Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ADDRESS2, $store),
                 'street1' => $this->_storeConfig
-                    ->getConfig(\Magento\Shipping\Model\Shipping::XML_PATH_STORE_ADDRESS1, $store),
+                    ->getConfig(\Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ADDRESS1, $store),
             );
         } else {
             $data = array(
