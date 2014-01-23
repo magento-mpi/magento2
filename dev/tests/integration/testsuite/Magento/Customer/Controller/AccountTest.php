@@ -124,12 +124,50 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
     }
 
     /**
+     * @magentoDbIsolation enabled
+     * @magentoAppIsolation enabled
+     * @magentoConfigFixture current_store customer/create_account/confirm 0
+     */
+    public function testNoConfirmCreatePostAction()
+    {
+        // Setting data for request
+        $this->getRequest()
+            ->setServer(array('REQUEST_METHOD' => 'POST'))
+            ->setParam('firstname', 'firstname1')
+            ->setParam('lastname', 'lastname1')
+            ->setParam('company', '')
+            ->setParam('email', 'test1@email.com')
+            ->setParam('password', 'password')
+            ->setParam('confirmation', 'password')
+            ->setParam('telephone', '5123334444')
+            ->setParam('street', array('1234 fake street', ''))
+            ->setParam('city', 'Austin')
+            ->setParam('region_id', 57)
+            ->setParam('region', '')
+            ->setParam('postcode', '78701')
+            ->setParam('country_id', 'US')
+            ->setParam('default_billing', '1')
+            ->setParam('default_shipping', '1')
+            ->setParam('is_subscribed', '0')
+            ->setPost('create_address', true);
+
+        $this->dispatch('customer/account/createPost');
+        $this->assertRedirect($this->stringContains('customer/account/index/'));
+        $this->assertSessionMessages(
+            $this->equalTo(['Thank you for registering with Main Website Store.']),
+            \Magento\Message\MessageInterface::TYPE_SUCCESS
+        );
+    }
+
+    /**
+     * @magentoDbIsolation enabled
+     * @magentoAppIsolation enabled
      * @magentoConfigFixture current_store customer/create_account/confirm 1
      */
     public function testWithConfirmCreatePostAction()
     {
         // Setting data for request
-		$email = 'test2@email.com';
+        $email = 'test2@email.com';
         $this->getRequest()
             ->setServer(array('REQUEST_METHOD' => 'POST'))
             ->setParam('firstname', 'firstname2')
@@ -154,45 +192,11 @@ class AccountTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->assertRedirect($this->stringContains('customer/account/index/'));
         $this->assertSessionMessages(
             $this->equalTo([
-				'Account confirmation is required. Please, check your email for the confirmation link. ' .
-				'To resend the confirmation email please ' .
-				'<a href="http://localhost/index.php/customer/account/confirmation/email/' .
-				$email . '/">click here</a>.'
-			]),
-            \Magento\Message\MessageInterface::TYPE_SUCCESS
-        );
-    }
-
-    /**
-     * @magentoConfigFixture current_store customer/create_account/confirm 0
-     */
-    public function testNoConfirmCreatePostAction()
-    {
-        // Setting data for request
-        $this->getRequest()
-            ->setServer(array('REQUEST_METHOD' => 'POST'))
-            ->setParam('firstname', 'firstname1')
-            ->setParam('lastname', 'lastname1')
-            ->setParam('company', '')
-            ->setParam('email', 'test1@email.com')
-            ->setParam('password', 'password')
-            ->setParam('confirmation', 'password')
-            ->setParam('telephone', '5123334444')
-            ->setParam('street', array('1234 fake street', ''))
-            ->setParam('city', 'Austin')
-            ->setParam('region_id', 57)
-            ->setParam('region', '')
-            ->setParam('postcode', '78701')
-            ->setParam('country_id', 'US')
-            ->setParam('default_billing', '1')
-            ->setParam('default_shipping', '1')
-            ->setParam('is_subscribed', '1')
-            ->setPost('create_address', true);
-
-        $this->dispatch('customer/account/createPost');
-        $this->assertRedirect($this->stringContains('customer/account/index/'));
-        $this->assertSessionMessages(
-            $this->equalTo(['Thank you for registering with Main Website Store.']),
+                'Account confirmation is required. Please, check your email for the confirmation link. ' .
+                'To resend the confirmation email please ' .
+                '<a href="http://localhost/index.php/customer/account/confirmation/email/' .
+                $email . '/">click here</a>.'
+            ]),
             \Magento\Message\MessageInterface::TYPE_SUCCESS
         );
     }
