@@ -29,6 +29,7 @@ class MviewConfigFilesTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $this->markTestIncomplete('Will enable after first indexer will be implemented');
         $this->_schemeFile = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Filesystem')
             ->getPath(\Magento\App\Filesystem::LIB_DIR) . '/Magento/Mview/etc/mview.xsd';
     }
@@ -36,7 +37,6 @@ class MviewConfigFilesTest extends \PHPUnit_Framework_TestCase
     /**
      * Test each acl configuration file
      * @param string $file
-     * @dataProvider indexerConfigFileDataProvider
      */
     public function testIndexerConfigFile($file)
     {

@@ -29,6 +29,7 @@ class NewIndexerConfigFilesTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $this->markTestIncomplete('Will enable after first indexer will be implemented');
         $this->_schemeFile = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Filesystem')
             ->getPath(\Magento\App\Filesystem::APP_DIR) . '/code/Magento/Indexer/etc/indexer.xsd';
     }
@@ -36,11 +37,9 @@ class NewIndexerConfigFilesTest extends \PHPUnit_Framework_TestCase
     /**
      * Test each acl configuration file
      * @param string $file
-     * @dataProvider indexerConfigFileDataProvider
      */
     public function testIndexerConfigFile($file)
     {
-        $this->markTestIncomplete('Will enable after first indexer will be implemented');
         $domConfig = new \Magento\Config\Dom(file_get_contents($file));
         $result = $domConfig->validate($this->_schemeFile, $errors);
         $message = "Invalid XML-file: {$file}\n";
