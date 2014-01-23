@@ -1,18 +1,11 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     js
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
-    @version 0.1.1
-    @requires jQuery
- */
-
-;(function($, document, window, undefined){
+(function($) {
     "use strict";
     $.widget('mage.zoom', {
         options: {
@@ -372,4 +365,4 @@
             });
         }
     });
-})(jQuery, document, window);
+})(jQuery);
