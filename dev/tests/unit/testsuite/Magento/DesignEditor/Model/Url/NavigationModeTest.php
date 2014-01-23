@@ -36,6 +36,11 @@ class NavigationModeTest extends \PHPUnit_Framework_TestCase
     protected $_requestMock;
 
     /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_routeParamsMock;
+
+    /**
      * @var array
      */
     protected $_testData = array('themeId' => 1, 'mode' => 'test');
@@ -52,9 +57,19 @@ class NavigationModeTest extends \PHPUnit_Framework_TestCase
                 array('editorMode', 'navigation'),
                 array('themeId', 1))));
 
+        $this->_routeParamsMock = $this->getMock(
+            'Magento\Url\RouteParamsResolverFactory', array(), array(), '', false
+        );
+        $this->_routeParamsMock->expects($this->any())
+            ->method('create')
+            ->will($this->returnValue($this->getMock(
+                'Magento\Core\Model\Url\RouteParamsResolver', array(), array(), '', false
+            )));
+
         $this->_model = $objectManagerHelper->getObject('Magento\DesignEditor\Model\Url\NavigationMode', array(
             'helper' => $this->_designHelperMock,
-            'data' => $this->_testData
+            'data' => $this->_testData,
+            'routeParamsResolver' => $this->_routeParamsMock
         ));
     }
 
@@ -93,7 +108,7 @@ class NavigationModeTest extends \PHPUnit_Framework_TestCase
             ->method('isFrontUrlSecure')
             ->will($this->returnValue(false));
 
-        $this->_model->setData('store', $store);
+        $this->_model->setData('scope', $store);
         $this->_model->setData('type', null);
         $this->_model->setData('route_front_name', self::FRONT_NAME);
 

@@ -37,7 +37,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
      * @param string $resourceName
      * @param \Magento\App\CacheInterface $cache
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory
-     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Cms\Model\PageFactory $pageFactory
      * @param string $moduleName
      * @param string $connectionName
@@ -47,7 +47,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
         $resourceName,
         \Magento\App\CacheInterface $cache,
         \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory,
-        \Magento\Core\Model\Config $config,
+        \Magento\App\ConfigInterface $config,
         \Magento\Cms\Model\PageFactory $pageFactory,
         $moduleName = 'Magento_Reward',
         $connectionName = ''

@@ -111,7 +111,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_coreStoreConfig;
 
     /**
-     * @var \Magento\Core\Model\Config
+     * @var \Magento\App\ConfigInterface
      */
     protected $_coreConfig;
 
@@ -145,7 +145,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Customer\Helper\Address $customerAddress
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\App\ConfigInterface $coreConfig
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Model\GroupFactory $groupFactory
      * @param \Magento\Customer\Model\FormFactory $formFactory
@@ -157,7 +157,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\Customer\Helper\Address $customerAddress,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Config $coreConfig,
+        \Magento\App\ConfigInterface $coreConfig,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Model\GroupFactory $groupFactory,
         \Magento\Customer\Model\FormFactory $formFactory,

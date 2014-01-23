@@ -16,7 +16,7 @@ namespace Magento\Email\Model;
 class BackendTemplate extends Template
 {
     /**
-     * @var \Magento\Core\Model\Config
+     * @var \Magento\App\ConfigInterface
      */
     protected $_coreConfig;
 
@@ -35,7 +35,7 @@ class BackendTemplate extends Template
      * @param \Magento\View\Url $viewUrl
      * @param \Magento\View\FileSystem $viewFileSystem
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\App\ConfigInterface $coreConfig
      * @param \Magento\Email\Model\Template\FilterFactory $emailFilterFactory
      * @param \Magento\Email\Model\Template\Config $emailConfig
      * @param \Magento\Backend\Model\Config\Structure $structure
@@ -53,7 +53,7 @@ class BackendTemplate extends Template
         \Magento\View\Url $viewUrl,
         \Magento\View\FileSystem $viewFileSystem,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Config $coreConfig,
+        \Magento\App\ConfigInterface $coreConfig,
         \Magento\Email\Model\Template\FilterFactory $emailFilterFactory,
         \Magento\Email\Model\Template\Config $emailConfig,
         \Magento\Backend\Model\Config\Structure $structure,
