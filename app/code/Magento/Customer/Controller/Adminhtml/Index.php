@@ -31,17 +31,51 @@ class Index extends \Magento\Backend\App\Action
     protected $_fileFactory;
 
     /**
+     * @var \Magento\Customer\Model\CustomerFactory
+     */
+    protected $_customerFactory = null;
+
+    /**
+     * @var \Magento\Customer\Model\AddressFactory
+     */
+    protected $_addressFactory = null;
+
+    /**
+     * @var callable
+     */
+    protected $_beforeSaveCallback = null;
+
+    /**
+     * @var callable
+     */
+    protected $_afterSaveCallback = null;
+
+    /**
+     * @var \Magento\Customer\Helper\Data
+     */
+    protected $_dataHelper = null;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param \Magento\Customer\Model\AddressFactory $addressFactory
+     * @param \Magento\Customer\Helper\Data $helper
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\App\Response\Http\FileFactory $fileFactory
+        \Magento\App\Response\Http\FileFactory $fileFactory,
+        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        \Magento\Customer\Model\AddressFactory $addressFactory,
+        \Magento\Customer\Helper\Data $helper
     ) {
         $this->_fileFactory = $fileFactory;
         $this->_coreRegistry = $coreRegistry;
+        $this->_customerFactory = $customerFactory;
+        $this->_addressFactory = $addressFactory;
+        $this->_dataHelper = $helper;
         parent::__construct($context);
     }
 
@@ -220,36 +254,38 @@ class Index extends \Magento\Backend\App\Action
         if ($originalRequestData) {
             try {
                 // optional fields might be set in request for future processing by observers in other modules
-                $accountData = $this->_extractCustomerData();
+                $customerData = $this->_extractCustomerData();
                 $addressesData = $this->_extractCustomerAddressData();
 
                 $request = $this->getRequest();
 
                 $eventManager = $this->_eventManager;
-                $beforeSaveCallback = function ($customer) use ($request, $eventManager) {
+                $this->_beforeSaveCallback = function ($customer) use ($request, $eventManager) {
                     $eventManager->dispatch('adminhtml_customer_prepare_save', array(
                         'customer'  => $customer,
                         'request'   => $request
                     ));
                 };
-                $afterSaveCallback = function ($customer) use ($request, $eventManager) {
+                $this->_afterSaveCallback = function ($customer) use ($request, $eventManager) {
                     $eventManager->dispatch('adminhtml_customer_save_after', array(
                         'customer' => $customer,
                         'request'  => $request
                     ));
                 };
 
-                /** @var \Magento\Customer\Service\Customer $customerService */
-                $customerService = $this->_objectManager->get('Magento\Customer\Service\Customer');
-                $customerService->setIsAdminStore(true);
-                $customerService->setBeforeSaveCallback($beforeSaveCallback);
-                $customerService->setAfterSaveCallback($afterSaveCallback);
                 if ($customerId) {
                     /** @var \Magento\Customer\Model\Customer $customer */
-                    $customer = $customerService->update($customerId, $accountData, $addressesData);
+                    $customer = $this->_loadCustomerById($customerId);
+
+                    $this->_save($customer, $customerData, $addressesData);
+                    if ($customerData) {
+                        $this->_changePassword($customer, $customerData);
+                    }
                 } else {
                     /** @var \Magento\Customer\Model\Customer $customer */
-                    $customer = $customerService->create($accountData, $addressesData);
+                    $customer = $this->_customerFactory->create();
+                    $this->_preparePasswordForSave($customer, $customerData);
+                    $this->_save($customer, $customerData, $addressesData);
                 }
 
                 $this->_objectManager->get('Magento\Core\Model\Registry')->register('current_customer', $customer);
@@ -285,6 +321,234 @@ class Index extends \Magento\Backend\App\Action
             }
         } else {
             $this->_redirect('customer/index');
+        }
+    }
+
+    /**
+     * Load customer by its ID
+     *
+     * @param int|string $customerId
+     * @return \Magento\Customer\Model\Customer
+     * @throws \Magento\Core\Exception
+     */
+    protected function _loadCustomerById($customerId)
+    {
+        $customer = $this->_customerFactory->create();
+        $customer->load($customerId);
+        if (!$customer->getId()) {
+            throw new \Magento\Core\Exception(__("The customer with the specified ID not found."));
+        }
+
+        return $customer;
+    }
+
+    /**
+     * Save customer entity. Perform supplementary business workflow actions
+     *
+     * @param \Magento\Customer\Model\Customer $customer
+     * @param array $customerData
+     * @param array|null $addressesData
+     */
+    protected function _save($customer, array $customerData, array $addressesData = null)
+    {
+        if ($customerData) {
+            $this->_setDataUsingMethods($customer, $customerData);
+        }
+        $this->_beforeSave($customer, $customerData, $addressesData);
+        $customer->save();
+        $this->_afterSave($customer, $customerData, $addressesData);
+    }
+
+    /**
+     * Sets each value from data to entity \Magento\Object using setter method.
+     *
+     * @param \Magento\Object $entity
+     * @param array $data
+     */
+    protected function _setDataUsingMethods($entity, array $data)
+    {
+        foreach ($data as $property => $value) {
+            $entity->setDataUsingMethod($property, $value);
+        }
+    }
+
+    /**
+     * Trigger before save logic
+     *
+     * @param \Magento\Customer\Model\Customer $customer
+     * @param array $customerData
+     * @param array $addressesData
+     */
+    protected function _beforeSave($customer, array $customerData, array $addressesData = null)
+    {
+        if (!is_null($addressesData)) {
+            $this->_prepareCustomerAddressesForSave($customer, $addressesData);
+        }
+        if (is_callable($this->_beforeSaveCallback)) {
+            call_user_func_array($this->_beforeSaveCallback, array($customer, $customerData, $addressesData));
+        }
+    }
+
+    /**
+     * Save customer addresses.
+     *
+     * @param \Magento\Customer\Model\Customer $customer
+     * @param array $addressesData
+     * @throws \Magento\Core\Exception
+     */
+    protected function _prepareCustomerAddressesForSave($customer, array $addressesData)
+    {
+        $hasChanges = $customer->hasDataChanges();
+        $actualAddressesIds = array();
+        foreach ($addressesData as $addressData) {
+            $addressId = null;
+            if (array_key_exists('entity_id', $addressData)) {
+                $addressId = $addressData['entity_id'];
+                unset($addressData['entity_id']);
+            }
+
+            if (null !== $addressId) {
+                $address = $customer->getAddressItemById($addressId);
+                if (!$address || !$address->getId()) {
+                    throw new \Magento\Core\Exception(
+                        __('The address with the specified ID not found.')
+                    );
+                }
+            } else {
+                $address = $this->_addressFactory->create();
+                $address->setCustomerId($customer->getId());
+                // Add customer address into addresses collection
+                $customer->addAddress($address);
+            }
+            $address->addData($addressData);
+            $hasChanges = $hasChanges || $address->hasDataChanges();
+
+            // Set post_index for detect default billing and shipping addresses
+            $address->setPostIndex($addressId);
+
+            $actualAddressesIds[] = $address->getId();
+        }
+
+        /** @var \Magento\Customer\Model\Address $address */
+        foreach ($customer->getAddressesCollection() as $address) {
+            if (!in_array($address->getId(), $actualAddressesIds)) {
+                $address->setData('_deleted', true);
+                $hasChanges = true;
+            }
+        }
+        $customer->setDataChanges($hasChanges);
+    }
+
+    /**
+     * Trigger after save logic
+     *
+     * @param \Magento\Customer\Model\Customer $customer
+     * @param array $customerData
+     * @param array $addressesData
+     */
+    protected function _afterSave($customer, array $customerData, array $addressesData = null)
+    {
+        if (is_callable($this->_afterSaveCallback)) {
+            call_user_func_array($this->_afterSaveCallback, array($customer, $customerData, $addressesData));
+        }
+        $this->_sendWelcomeEmail($customer, $customerData);
+    }
+
+    /**
+     * Send welcome email to customer
+     *
+     * @param \Magento\Customer\Model\Customer $customer
+     * @param array $customerData
+     */
+    protected function _sendWelcomeEmail($customer, array $customerData)
+    {
+        if ($customer->getWebsiteId()
+            && ($this->_isSendEmail($customerData) || $this->_isAutogeneratePassword($customerData))
+        ) {
+            $isNewCustomer = !(bool)$customer->getOrigData($customer->getIdFieldName());
+            $storeId = $customer->getSendemailStoreId();
+
+            if ($isNewCustomer) {
+                $newLinkToken = $this->_dataHelper->generateResetPasswordLinkToken();
+                $customer->changeResetPasswordLinkToken($newLinkToken);
+                $customer->sendNewAccountEmail('registered', '', $storeId);
+            } elseif (!$customer->getConfirmation()) {
+                // Confirm not confirmed customer
+                $customer->sendNewAccountEmail('confirmed', '', $storeId);
+            }
+        }
+    }
+
+    /**
+     * Retrieve send email flag
+     *
+     * @param array $customerData
+     * @return bool
+     */
+    protected function _isSendEmail(array $customerData)
+    {
+        return isset($customerData['sendemail']) && $customerData['sendemail'];
+    }
+
+    /**
+     * Check if password should be generated automatically
+     *
+     * @param array $customerData
+     * @return bool
+     */
+    protected function _isAutogeneratePassword(array $customerData)
+    {
+        return isset($customerData['autogenerate_password']) && $customerData['autogenerate_password'];
+    }
+
+    /**
+     * Change customer password
+     *
+     * @param \Magento\Customer\Model\Customer $customer
+     * @param array $customerData
+     */
+    protected function _changePassword($customer, array $customerData)
+    {
+        if (!empty($customerData['password']) || $this->_isAutogeneratePassword($customerData)) {
+            $newPassword = $this->_getCustomerPassword($customer, $customerData);
+            $customer->changePassword($newPassword);
+            $customer->sendPasswordReminderEmail();
+        }
+    }
+
+    /**
+     * Get customer password
+     *
+     * @param \Magento\Customer\Model\Customer $customer
+     * @param array $customerData
+     * @return string|null
+     */
+    protected function _getCustomerPassword($customer, array $customerData)
+    {
+        $password = null;
+
+        if ($this->_isAutogeneratePassword($customerData)) {
+            $password = $customer->generatePassword();
+        } elseif (isset($customerData['password'])) {
+            $password = $customerData['password'];
+        }
+
+        return $password;
+    }
+
+    /**
+     * Set customer password
+     *
+     * @param \Magento\Customer\Model\Customer $customer
+     * @param array $customerData
+     */
+    protected function _preparePasswordForSave($customer, array $customerData)
+    {
+        $password = $this->_getCustomerPassword($customer, $customerData);
+        if (!is_null($password)) {
+            // 'force_confirmed' should be set in admin area only
+            $customer->setForceConfirmed(true);
+            $customer->setPassword($password);
         }
     }
 
