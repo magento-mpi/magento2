@@ -231,7 +231,7 @@ class Eaccelerator extends \Zend_Cache_Backend implements \Zend_Cache_Backend_Ex
      * - mtime : timestamp of last modification time
      *
      * @param string $id cache id
-     * @return array|bool array of metadatas (false if the cache id is not found)
+     * @return array|false array of metadatas (false if the cache id is not found)
      */
     public function getMetadatas($id)
     {

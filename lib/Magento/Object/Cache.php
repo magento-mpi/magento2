@@ -264,7 +264,7 @@ class Cache
      * Cleanup objects by tags
      *
      * @param array|string $tags
-     * @return bool
+     * @return true
      */
     public function deleteByTags($tags)
     {
