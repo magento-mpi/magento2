@@ -1,8 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     js
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,7 +12,7 @@
  @TODO: - Add more effects;
  */
 
-;(function($, document, window, undefined){
+(function($){
     "use strict";
     $.widget('mage.gallery', {
         options: {
@@ -327,4 +325,4 @@
                 .prepend(this._renderControl(control));
         }
     });
-})(jQuery, document, window);
+})(jQuery);

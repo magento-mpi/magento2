@@ -1,19 +1,11 @@
 /**
  * {license_notice}
  *
- * @category    Mage
- * @package     js
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- @version 0.1.1
- @requires jQuery
-
- @TODO: - Add more effects;
- */
-;(function($, document, window, undefined) {
+(function($) {
     "use strict";
     /**
      * An auxiliary widget
@@ -63,4 +55,4 @@
                 });
         }
     });
-})(jQuery, document, window);
+})(jQuery);
