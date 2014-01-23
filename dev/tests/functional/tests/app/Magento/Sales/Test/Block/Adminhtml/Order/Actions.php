@@ -90,7 +90,14 @@ class Actions extends Block
      *
      * @var string
      */
-    protected $refund = '.submit-button-refund';
+    protected $refund = '.submit-button.refund';
+
+    /**
+     * 'Refund Offline' button
+     *
+     * @var string
+     */
+    protected $refundOffline = '.submit-button';
 
     /**
      * Ship order
@@ -170,5 +177,13 @@ class Actions extends Block
     public function refund()
     {
         $this->_rootElement->find($this->refund, Locator::SELECTOR_CSS)->click();
+    }
+
+    /**
+     * Refund offline order
+     */
+    public function refundOffline()
+    {
+        $this->_rootElement->find($this->refundOffline, Locator::SELECTOR_CSS)->click();
     }
 }

@@ -31,11 +31,18 @@ class Grid extends GridInterface
     );
 
     /**
-     * Invoice amount
+     * Amount refunded
      *
      * @var string
      */
-    protected $invoiceAmount = 'td.col-refunded.col-base_grand_total';
+    protected $amountRefunded = 'td.col-refunded.col-base_grand_total';
+
+    /**
+     * Refund status
+     *
+     * @var string
+     */
+    protected $refundStatus = 'td.col-status.col-state';
 
     /**
      * An element locator which allows to select entities in grid
@@ -51,6 +58,16 @@ class Grid extends GridInterface
      */
     public function getRefundAmount()
     {
-        return $this->_rootElement->find($this->invoiceAmount)->getText();
+        return $this->_rootElement->find($this->amountRefunded)->getText();
+    }
+
+    /**
+     * Get first status
+     *
+     * @return array|string
+     */
+    public function getStatus()
+    {
+        return $this->_rootElement->find($this->refundStatus)->getText();
     }
 }

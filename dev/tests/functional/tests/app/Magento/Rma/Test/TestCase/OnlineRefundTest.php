@@ -21,12 +21,12 @@ class OnlineRefundTest extends Functional
      * Tests providing online refunds.
      *
      * @dataProvider dataProviderOrder
-     * @ZephirId MAGETWO-12436
+     * @ZephirId MAGETWO-12436, MAGETWO-18766, MAGETWO-18774, MAGETWO-18775, MAGETWO-18777, MAGETWO-18778, MAGETWO-19986
      */
     public function testOnlineRefund(OrderCheckout $fixture)
     {
         // Allow refunds.
-        //$this->configureRma();
+        $this->configureRma();
 
         // Create an order.
         $fixture->persist();
@@ -43,34 +43,52 @@ class OnlineRefundTest extends Functional
 
         $tabsWidget = $orderPage->getFormTabsBlock();
 
-        // Step 2: Open Invoice
-        $tabsWidget->openTab('sales_order_view_tabs_order_invoices');
-        // TODO:  Need invoice id from close order curl handler.
-        //$orderPage->getInvoicesGrid()->searchAndSelect(array('id' => $invoiceId));
+        if (!($fixture instanceof PaypalStandardOrder)) {
+            // Step 2: Open Invoice
+            $tabsWidget->openTab('sales_order_view_tabs_order_invoices');
+            // TODO:  Need invoice id from close order curl handler.
+            //$orderPage->getInvoicesGrid()->searchAndSelect(array('id' => $invoiceId));
 
-        // Step 3: Click "Credit Memo" button on the Invoice Page
-        $orderPage->getOrderActionsBlock()->creditMemo();
+            // Step 3: Click "Credit Memo" button on the Invoice Page
+            $orderPage->getOrderActionsBlock()->creditMemo();
 
-        // Step 4: Submit Credit Memo
-        $creditMemoPage = Factory::getPageFactory()->getSalesOrderCreditMemoNew();
-        //$creditMemoPage->getActionsBlock()->refund();
-        $this->assertContains('You created the credit memo',
+            // Step 4: Submit Credit Memo
+            $creditMemoPage = Factory::getPageFactory()->getSalesOrderCreditMemoNew();
+            $creditMemoPage->getActionsBlock()->refund();
+        }
+        else {
+            // Step 2: Click "Credit Memo" button on the Order Page
+            $orderPage->getOrderActionsBlock()->creditMemo();
+
+            // Step 3: Submit Credit Memo
+            $creditMemoPage = Factory::getPageFactory()->getSalesOrderCreditMemoNew();
+            $creditMemoPage->getActionsBlock()->refundOffline();
+        }
+
+        $orderPage = Factory::getPageFactory()->getSalesOrder();
+        $tabsWidget = $orderPage->getFormTabsBlock();
+
+        $this->assertContains('You created the credit memo.',
             $orderPage->getMessagesBlock()->getSuccessMessages());
 
-        // Step 5: Go to "Credit Memos" tab
+        // Step 4/5: Go to "Credit Memos" tab
         $tabsWidget->openTab('sales_order_view_tabs_order_creditmemos');
         // TODO:  Display invoice id, not order id
         $this->assertContains(
             $fixture->getGrandTotal(),
             $orderPage->getCreditMemosGrid()->getRefundAmount(),
-            'Incorrect refund total value for the invoice #' . $orderId);
-
-        // Step 6: Go to Transactions tab
-        $tabsWidget->openTab('sales_order_view_tabs_order_transactions');
+            'Incorrect refund amount for the invoice #' . $orderId);
         $this->assertContains(
-            $orderPage->getTransactionsGrid()->getTransactionType(),
-            'Refund'
-        );
+            $orderPage->getCreditMemosGrid()->getStatus(),
+            'Refunded');
+
+        if (!($fixture instanceof PaypalStandardOrder)) {
+            // Step 6: Go to Transactions tab
+            $tabsWidget->openTab('sales_order_view_tabs_order_transactions');
+            $this->assertContains(
+                $orderPage->getTransactionsGrid()->getTransactionType(),
+                'Refund');
+        }
     }
 
     /**
@@ -92,12 +110,12 @@ class OnlineRefundTest extends Functional
     {
         return array(
             array(Factory::getFixtureFactory()->getMagentoSalesPaypalExpressOrder()),
-            //array(Factory::getFixtureFactory()->getMagentoSalesAuthorizeNetOrder()),
-            //array(Factory::getFixtureFactory()->getMagentoSalesPaypalPaymentsProOrder()),
-            //array(Factory::getFixtureFactory()->getMagentoSalesPaypalPaymentsAdvancedOrder()),
-            //array(Factory::getFixtureFactory()->getMagentoSalesPaypalPayflowProOrder()),
-            //array(Factory::getFixtureFactory()->getMagentoSalesPaypalStandardOrder()),
-            //array(Factory::getFixtureFactory()->getMagentoSalesPaypalPayflowLinkOrder())
+            array(Factory::getFixtureFactory()->getMagentoSalesPaypalPayflowProOrder()),
+            array(Factory::getFixtureFactory()->getMagentoSalesPaypalPaymentsProOrder()),
+            array(Factory::getFixtureFactory()->getMagentoSalesAuthorizeNetOrder()),
+            array(Factory::getFixtureFactory()->getMagentoSalesPaypalStandardOrder()),
+            array(Factory::getFixtureFactory()->getMagentoSalesPaypalPaymentsAdvancedOrder()),
+            array(Factory::getFixtureFactory()->getMagentoSalesPaypalPayflowLinkOrder())
         );
     }
 }
