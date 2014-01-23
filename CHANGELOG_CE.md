@@ -7,6 +7,7 @@
   * Consolidated Autorizenet in separate module
   * Eliminated dependency of Sales module on Shipping and Usa modules
   * Eliminated dependency of Shipping module on Customer module
+  * Improved accuracy and quality of Module Dependency Test
 * Fixed bugs:
   * Fixed an issue when order was sent to Paypal without defined currency
   * Fixed an issue with 404 error when trying to return back to grid from Recurring Billing Profile
