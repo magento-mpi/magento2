@@ -231,12 +231,12 @@ class International
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Stdlib\String $string,
         \Magento\Math\Division $mathDivision,
-        \Magento\Filesystem $filesystem,
+        \Magento\App\Filesystem $filesystem,
         \Magento\Stdlib\DateTime $dateTime,
         \Zend_Http_ClientFactory $httpClientFactory,
         array $data = array()
     ) {
-        $this->modulesDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::MODULES);
+        $this->modulesDirectory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::MODULES_DIR);
         $this->_usaData = $usaData;
         $this->_coreDate = $coreDate;
         $this->_storeManager = $storeManager;

@@ -89,7 +89,7 @@ class AbstractShipment extends \Magento\Backend\App\Action
             return $this->_fileFactory->create(
                 'packingslip' . $date . '.pdf',
                 $pdf->render(),
-                \Magento\Filesystem::VAR_DIR,
+                \Magento\App\Filesystem::VAR_DIR,
                 'application/pdf'
             );
         }
@@ -109,7 +109,7 @@ class AbstractShipment extends \Magento\Backend\App\Action
                 return $this->_fileFactory->create(
                     'packingslip' . $date . '.pdf',
                     $pdf->render(),
-                    \Magento\Filesystem::VAR_DIR,
+                    \Magento\App\Filesystem::VAR_DIR,
                     'application/pdf'
                 );
             }
