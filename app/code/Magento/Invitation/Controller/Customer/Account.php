@@ -202,7 +202,7 @@ class Account extends \Magento\Customer\Controller\Account
     /**
      * @param \Magento\Customer\Model\Customer $customer
      * @param mixed $key
-     * @return bool|null
+     * @return true|void
      * @throws \Exception
      */
     protected function _checkCustomerActive($customer, $key)

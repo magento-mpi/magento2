@@ -79,7 +79,7 @@ class History
     /**
      * Return whether the tab can be shown
      *
-     * @return bool
+     * @return true
      */
     public function canShowTab()
     {
@@ -89,7 +89,7 @@ class History
     /**
      * Return whether the tab is hidden
      *
-     * @return bool
+     * @return false
      */
     public function isHidden()
     {

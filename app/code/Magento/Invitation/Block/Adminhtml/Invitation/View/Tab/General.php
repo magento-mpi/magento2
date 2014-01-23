@@ -98,7 +98,7 @@ class General extends \Magento\Backend\Block\Template
     /**
      * Check whether tab can be showed
      *
-     * @return bool
+     * @return true
      */
     public function canShowTab()
     {
@@ -108,7 +108,7 @@ class General extends \Magento\Backend\Block\Template
     /**
      * Check whether tab is hidden
      *
-     * @return bool
+     * @return false
      */
     public function isHidden()
     {

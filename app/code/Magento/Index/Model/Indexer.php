@@ -90,7 +90,7 @@ class Indexer
      * Get index process by specific id
      *
      * @param int $processId
-     * @return bool|Process
+     * @return false|Process
      */
     public function getProcessById($processId)
     {
@@ -106,7 +106,7 @@ class Indexer
      * Get index process by specific code
      *
      * @param string $code
-     * @return bool|Process
+     * @return false|Process
      */
     public function getProcessByCode($code)
     {

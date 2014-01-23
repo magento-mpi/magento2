@@ -79,9 +79,9 @@ class Main
     }
 
     /**
-     * Returns status flag about this tab can be showen or not
+     * Returns status flag about this tab can be shown or not
      *
-     * @return bool
+     * @return true
      */
     public function canShowTab()
     {
@@ -91,7 +91,7 @@ class Main
     /**
      * Returns status flag about this tab hidden or not
      *
-     * @return bool
+     * @return false
      */
     public function isHidden()
     {
@@ -102,7 +102,7 @@ class Main
      * Check permission for passed action
      *
      * @param string $action
-     * @return bool
+     * @return true
      */
     protected function _isAllowedAction($action)
     {
