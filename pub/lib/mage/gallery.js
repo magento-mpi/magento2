@@ -19,8 +19,16 @@
     $.widget('mage.gallery', {
         options: {
             images: null,
-            sizes: null,
-            templates: null,
+            sizes: {
+                small: {
+                    width: 90,
+                    height: 90
+                },
+                medium: {
+                    width: 400,
+                    height: 400
+                }
+            },
             showThumbs: true,
             showButtons: true,
             showNotice: true,
@@ -74,13 +82,17 @@
         _serializeImages: function() {
             var images = [];
             $(this.options.selectors.thumb).each(function() {
+                var thumb = $(this);
                 var imageData = {
-                    small: $(this).data('image-small'),
-                    medium: $(this).data('image-medium'),
-                    large: $(this).data('image-large'),
-                    selected: $(this).data('image-selected')
+                    small: thumb.data('image-small'),
+                    medium: thumb.data('image-medium'),
+                    large: thumb.data('image-large')
+
                 };
                 if (imageData.small && imageData.medium && imageData.large) {
+                    if (thumb.data('image-selected')) {
+                        imageData.selected = thumb.data('image-selected');
+                    }
                     images.push(imageData);
                 }
             });
@@ -99,9 +111,6 @@
             events['click ' + this.options.selectors.thumb] = 'select';
             events['click ' + this.options.selectors.prev] = 'prev';
             events['click ' + this.options.selectors.next] = 'next';
-            events.mousedown = function() {
-                this.element.focus();
-            };
             this._on(events);
         },
 
@@ -155,15 +164,15 @@
         },
 
         /**
-         * Trigger 'galleryupdated' event after image is changed
+         * Trigger 'imageupdated' event after image is changed
          * @param {Object} e - event object
          */
         select: function(e) {
             var index = $(e.currentTarget).data('index');
             if (index !== this._getSelected()) {
                 this._select(index);
+                $(this.baseImage).trigger('imageupdated');
             }
-            this._trigger('updated', this.baseImage);
         },
 
         /**

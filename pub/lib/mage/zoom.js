@@ -197,7 +197,7 @@
                 this._delay(this.hide, this.options.hideDelay || 0);
             };
             events['mousemove ' + this.options.selectors.track] = '_move';
-            events.galleryupdated = '_onImageUpdated';
+            events.imageupdated = '_onImageUpdated';
             this._on(events);
             this._on(this.largeImage, {
                 load: '_largeImageLoaded'
