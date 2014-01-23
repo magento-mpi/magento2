@@ -24,7 +24,7 @@ class AbstractArchive
      *
      * @param string $destination
      * @param string $data
-     * @return boolean
+     * @return true
      * @throws \Exception
      */
     protected function _writeFile($destination, $data)

@@ -420,7 +420,7 @@ class ImageMagick extends \Magento\Image\Adapter\AbstractAdapter
      * Check whether the adapter can work with the image
      *
      * @throws \LogicException
-     * @return bool
+     * @return true
      */
     protected function _checkCanProcess()
     {

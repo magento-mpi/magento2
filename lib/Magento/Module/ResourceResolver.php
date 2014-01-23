@@ -28,7 +28,7 @@ class ResourceResolver implements \Magento\Module\ResourceResolverInterface
     /**
      * @param Reader $moduleReader
      */
-    public function __construct(Dir\Reader $moduleReader)
+    public function __construct(Reader $moduleReader)
     {
         $this->_moduleReader = $moduleReader;
     }
