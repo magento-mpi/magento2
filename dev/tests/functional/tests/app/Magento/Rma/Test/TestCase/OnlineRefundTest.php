@@ -14,6 +14,7 @@ namespace Magento\Rma\Test\TestCase;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
 use Magento\Sales\Test\Fixture\OrderCheckout;
+use Magento\Sales\Test\Fixture\PaypalStandardOrder;
 
 class OnlineRefundTest extends Functional
 {
