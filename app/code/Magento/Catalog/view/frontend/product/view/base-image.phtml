@@ -65,7 +65,7 @@ $thumbHeight =  $this->getVar("product_page_more_views:height") ? : $thumbWidth;
                         $attributes = ' href="#" data-mage-init="';
                         $attributes .= $this->escapeHtml(
                             $dataHelper->jsonEncode(
-                                    array(
+                                array(
                                     'popupWindow' => array(
                                         'windowURL'  => $this->getGalleryUrl($_image),
                                         'windowName' => 'gallery',
@@ -122,7 +122,6 @@ $thumbHeight =  $this->getVar("product_page_more_views:height") ? : $thumbWidth;
         </div>
         <div class="product photo thumbs" data-role="gallery-thumbs-container">
         </div>
-        <div style="clear:both"></div>
         <div class="product photo buttons" data-role="gallery-buttons-container">
         </div>
     </script>
