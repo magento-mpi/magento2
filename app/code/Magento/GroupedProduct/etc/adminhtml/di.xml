@@ -25,4 +25,11 @@
     <type name="Magento\Sales\Model\AdminOrder\Product\Quote\Initializer">
         <plugin name="sales_adminorder_quote_initializer_plugin" type="Magento\GroupedProduct\Model\Sales\AdminOrder\Product\Quote\Plugin\Initializer" sortOrder="100"/>
     </type>
+    <type name="Magento\CatalogInventory\Block\Adminhtml\Form\Field\Stock">
+        <param name="complexProductTypes">
+            <value>
+                <grouped type="const">Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE</grouped>
+            </value>
+        </param>
+    </type>
 </config>
