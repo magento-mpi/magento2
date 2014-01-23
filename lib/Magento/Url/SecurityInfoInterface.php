@@ -7,7 +7,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Core\Model\Url;
+namespace Magento\Url;
 
 interface SecurityInfoInterface
 {

@@ -27,7 +27,6 @@ class Grid
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Sales\Model\Order\CreditmemoFactory $creditmemoFactory
      * @param \Magento\Sales\Model\Resource\Order\Creditmemo\Grid\CollectionFactory $collectionFactory
@@ -36,7 +35,6 @@ class Grid
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Url $urlModel,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Sales\Model\Order\CreditmemoFactory $creditmemoFactory,
         \Magento\Sales\Model\Resource\Order\Creditmemo\Grid\CollectionFactory $collectionFactory,
@@ -44,7 +42,7 @@ class Grid
         array $data = array()
     ) {
         $this->_coreUrl = $coreUrl;
-        parent::__construct($context, $urlModel, $backendHelper, $creditmemoFactory, $collectionFactory, $data);
+        parent::__construct($context, $backendHelper, $creditmemoFactory, $collectionFactory, $data);
     }
 
     protected function _construct()

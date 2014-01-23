@@ -30,7 +30,6 @@ class Items
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\GiftRegistry\Model\ItemFactory $itemFactory
@@ -38,7 +37,6 @@ class Items
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Url $urlModel,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\GiftRegistry\Model\ItemFactory $itemFactory,
@@ -46,7 +44,7 @@ class Items
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->itemFactory = $itemFactory;
-        parent::__construct($context, $urlModel, $backendHelper, $data);
+        parent::__construct($context, $backendHelper, $data);
     }
 
     protected function _construct()

@@ -373,7 +373,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
             $this->_getUrl('*/*/*', array(
                 '_current'      => true,
                 '_use_rewrite'  => true,
-                '_store_to_url' => true,
+                '_scope_to_url' => true,
             ))
         );
 
@@ -396,7 +396,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $continueUrl  = $this->_coreData->urlEncode($this->_getUrl('*/*/*', array(
             '_current'      => true,
             '_use_rewrite'  => true,
-            '_store_to_url' => true,
+            '_scope_to_url' => true,
         )));
 
         $urlParamName = \Magento\App\Action\Action::PARAM_NAME_URL_ENCODED;
