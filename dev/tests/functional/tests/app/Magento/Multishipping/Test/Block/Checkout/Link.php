@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Checkout\Test\Block\Multishipping;
+namespace Magento\Multishipping\Test\Block\Checkout;
 
 use Mtf\Block\Block;
 
@@ -17,7 +17,7 @@ use Mtf\Block\Block;
  * Class Link
  * Multishipping cart link
  *
- * @package Magento\Checkout\Test\Block\Multishipping
+ * @package Magento\Multishipping\Test\Block\Checkout
  */
 class Link extends Block
 {

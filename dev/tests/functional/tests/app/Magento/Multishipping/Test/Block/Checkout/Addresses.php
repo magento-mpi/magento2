@@ -9,17 +9,17 @@
  * @license     {license_link}
  */
 
-namespace Magento\Checkout\Test\Block\Multishipping;
+namespace Magento\Multishipping\Test\Block\Checkout;
 
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
-use Magento\Checkout\Test\Fixture\Checkout;
+use Magento\Multishipping\Test\Fixture\GuestPaypalDirect;
 
 /**
  * Class Addresses
  * Multishipping checkout choose item addresses block
  *
- * @package Magento\Checkout\Test\Block\Multishipping
+ * @package Magento\Multishipping\Test\Block\Checkout
  */
 class Addresses extends Block
 {
@@ -48,9 +48,9 @@ class Addresses extends Block
     /**
      * Select shipping addresses for products
      *
-     * @param Checkout $fixture
+     * @param GuestPaypalDirect $fixture
      */
-    public function selectAddresses(Checkout $fixture)
+    public function selectAddresses(GuestPaypalDirect $fixture)
     {
         $products = $fixture->getBindings();
         foreach ($products as $key => $value) {
