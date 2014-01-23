@@ -15,6 +15,7 @@
         <depends>
             <module name="Magento_Core"/>
             <module name="Magento_Backend"/>
+            <module name="Magento_Email"/>
         </depends>
     </module>
 </config>

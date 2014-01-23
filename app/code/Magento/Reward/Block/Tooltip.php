@@ -57,6 +57,7 @@ class Tooltip extends \Magento\View\Element\Template
         $this->_customerSession = $customerSession;
         $this->_rewardHelper = $rewardHelper;
         $this->_rewardInstance = $rewardInstance;
+        $this->_isScopePrivate = true;
     }
 
     /**

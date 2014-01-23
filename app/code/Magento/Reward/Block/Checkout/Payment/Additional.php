@@ -63,6 +63,7 @@ class Additional extends \Magento\View\Element\Template
         $this->_rewardData = $rewardData;
         $this->_rewardFactory = $rewardFactory;
         parent::__construct($context, $data);
+        $this->_isScopePrivate = true;
     }
 
     /**

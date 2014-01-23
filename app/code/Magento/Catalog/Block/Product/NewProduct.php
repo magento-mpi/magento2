@@ -106,6 +106,7 @@ class NewProduct extends \Magento\Catalog\Block\Product\AbstractProduct
             $data,
             $priceBlockTypes
         );
+        $this->_isScopePrivate = true;
     }
 
     /**
