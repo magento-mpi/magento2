@@ -19,6 +19,7 @@
 * Removed reinit logic from Config object
 * Framework part of "URL" functionality moved out of modules
 * Framework part of "Config" functionality moved out of modules
+* Removed deprecated EAV structure creation method from EAV setup model
 * Request\Response workflow improvements:
   * Added Console\Response
   * All kind of applications always return Response instead of sending it

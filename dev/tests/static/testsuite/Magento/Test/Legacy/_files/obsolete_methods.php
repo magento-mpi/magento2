@@ -271,6 +271,7 @@ return array(
     array('countChildren', 'Magento\Core\Block\AbstractBlock'),
     array('crear'),
     array('createDirIfNotExists', '', 'mkdir()'),
+    array('createEntityTables', 'Magento\Eav\Model\Entity\Setup'),
     array('createOrderItem', 'Magento\CatalogInventory\Model\Observer'),
     array('debugRequest', 'Magento\Paypal\Model\Api\Standard'),
     array('decorateArray', 'Magento\Core\Helper\Data', 'Magento\Stdlib\ArrayUtils::decorateArray'),
