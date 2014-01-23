@@ -289,7 +289,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare grid mass actions
      *
-     * @return \Magento\Backend\Block\Widget\Grid|void
+     * @return void
      */
     protected function _prepareMassaction()
     {
