@@ -36,7 +36,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
      * @param \Magento\Core\Model\Resource\Setup\Context $context
      * @param string $resourceName
      * @param \Magento\App\CacheInterface $cache
-     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory
      * @param \Magento\Banner\Model\BannerFactory $bannerFactory
@@ -48,7 +48,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
         \Magento\Core\Model\Resource\Setup\Context $context,
         $resourceName,
         \Magento\App\CacheInterface $cache,
-        \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory,
         \Magento\App\ConfigInterface $config,
         \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory,
         \Magento\Banner\Model\BannerFactory $bannerFactory,
@@ -59,7 +59,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
         $this->_widgetFactory = $widgetFactory;
         $this->_bannerFactory = $bannerFactory;
         $this->mathRandom = $mathRandom;
-        parent::__construct($context, $resourceName, $cache, $attrGrCollFactory, $config, $moduleName, $connectionName);
+        parent::__construct($context, $resourceName, $cache, $attrGroupCollectionFactory, $config, $moduleName, $connectionName);
     }
 
     /**

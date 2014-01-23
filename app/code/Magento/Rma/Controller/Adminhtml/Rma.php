@@ -23,7 +23,7 @@ class Rma extends \Magento\Backend\App\Action
     protected $_coreRegistry;
 
     /**
-     * @var \Magento\Filesystem
+     * @var \Magento\App\Filesystem
      */
     protected $filesystem;
 
@@ -41,17 +41,17 @@ class Rma extends \Magento\Backend\App\Action
      * @param Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\App\Response\Http\FileFactory $fileFactory
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
      */
     public function __construct(
         Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\App\Response\Http\FileFactory $fileFactory,
-        \Magento\Filesystem $filesystem
+        \Magento\App\Filesystem $filesystem
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->filesystem = $filesystem;
-        $this->readDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::MEDIA);
+        $this->readDirectory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::MEDIA_DIR);
         $this->_fileFactory = $fileFactory;
         parent::__construct($context);
     }
@@ -610,7 +610,7 @@ class Rma extends \Magento\Backend\App\Action
                 return $this->_fileFactory->create(
                     'rma' . $dateModel->date('Y-m-d_H-i-s') . '.pdf',
                     $pdf->render(),
-                    \Magento\Filesystem::MEDIA,
+                    \Magento\App\Filesystem::MEDIA_DIR,
                     'application/pdf'
                 );
             }
@@ -867,7 +867,7 @@ class Rma extends \Magento\Backend\App\Action
                     'type'  => 'filename',
                     'value' => $this->readDirectory->getAbsolutePath($filePath)
                 ),
-                \Magento\Filesystem::MEDIA
+                \Magento\App\Filesystem::MEDIA_DIR
             )->sendResponse();
         }
 
@@ -1239,7 +1239,7 @@ class Rma extends \Magento\Backend\App\Action
                 return $this->_fileFactory->create(
                     'ShippingLabel(' . $model->getIncrementId() . ').pdf',
                     $pdfContent,
-                    \Magento\Filesystem::MEDIA,
+                    \Magento\App\Filesystem::MEDIA_DIR,
                     'application/pdf'
                 );
             }
@@ -1265,8 +1265,8 @@ class Rma extends \Magento\Backend\App\Action
         $shipment = $shippingModel->getShippingLabelByRma($model);
 
         if ($shipment) {
-            /** @var $orderPdf \Magento\Sales\Model\Order\Pdf\Shipment\Packaging */
-            $orderPdf = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Shipment\Packaging');
+            /** @var $orderPdf \Magento\Shipping\Model\Order\Pdf\Packaging */
+            $orderPdf = $this->_objectManager->create('Magento\Shipping\Model\Order\Pdf\Packaging');
             /** @var $block \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shippingmethod */
             $block = $this->_view->getLayout()->getBlockSingleton(
                 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shippingmethod'
@@ -1278,7 +1278,7 @@ class Rma extends \Magento\Backend\App\Action
             return $this->_fileFactory->create(
                 'packingslip' . $dateModel->date('Y-m-d_H-i-s') . '.pdf',
                 $pdf->render(),
-                \Magento\Filesystem::MEDIA,
+                \Magento\App\Filesystem::MEDIA_DIR,
                 'application/pdf'
             );
         } else {
@@ -1304,7 +1304,7 @@ class Rma extends \Magento\Backend\App\Action
         $page = new \Zend_Pdf_Page($xSize, $ySize);
 
         imageinterlace($image, 0);
-        $dir = $this->filesystem->getDirectoryWrite(\Magento\Filesystem::SYS_TMP);
+        $dir = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::SYS_TMP_DIR);
         $tmpFileName = 'shipping_labels_' . uniqid(mt_rand()) . time() . '.png';
         $tmpFilePath = $dir->getAbsolutePath($tmpFileName);
         imagepng($image, $tmpFilePath);

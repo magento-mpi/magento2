@@ -109,6 +109,7 @@ class Upsell extends \Magento\Catalog\Block\Product\AbstractProduct
             $data,
             $priceBlockTypes
         );
+        $this->_isScopePrivate = true;
     }
 
     protected function _prepareData()

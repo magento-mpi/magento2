@@ -53,6 +53,7 @@ class History extends \Magento\View\Element\Template
         $this->_customerSession = $customerSession;
         $this->_orderConfig = $orderConfig;
         parent::__construct($context, $data);
+        $this->_isScopePrivate = true;
     }
 
     protected function _construct()

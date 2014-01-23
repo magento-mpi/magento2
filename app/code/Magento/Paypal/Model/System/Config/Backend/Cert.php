@@ -37,7 +37,7 @@ class Cert extends \Magento\Core\Model\Config\Value
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Paypal\Model\CertFactory $certFactory
      * @param \Magento\Encryption\EncryptorInterface $encryptor
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -49,14 +49,14 @@ class Cert extends \Magento\Core\Model\Config\Value
         \Magento\App\ConfigInterface $config,
         \Magento\Paypal\Model\CertFactory $certFactory,
         \Magento\Encryption\EncryptorInterface $encryptor,
-        \Magento\Filesystem $filesystem,
+        \Magento\App\Filesystem $filesystem,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_certFactory = $certFactory;
         $this->_encryptor = $encryptor;
-        $this->_tmpDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::SYS_TMP);
+        $this->_tmpDirectory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::SYS_TMP_DIR);
         parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
     }
 

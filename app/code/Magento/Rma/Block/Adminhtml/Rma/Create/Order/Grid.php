@@ -24,23 +24,23 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * @var \Magento\Sales\Model\Resource\Order\Grid\CollectionFactory
      */
-    protected $_gridCollFactory;
+    protected $_gridCollectionFactory;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
-     * @param \Magento\Sales\Model\Resource\Order\Grid\CollectionFactory $gridCollFactory
+     * @param \Magento\Sales\Model\Resource\Order\Grid\CollectionFactory $gridCollectionFactory
      * @param \Magento\Sales\Model\Order\Config $orderConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
-        \Magento\Sales\Model\Resource\Order\Grid\CollectionFactory $gridCollFactory,
+        \Magento\Sales\Model\Resource\Order\Grid\CollectionFactory $gridCollectionFactory,
         \Magento\Sales\Model\Order\Config $orderConfig,
         array $data = array()
     ) {
-        $this->_gridCollFactory = $gridCollFactory;
+        $this->_gridCollectionFactory = $gridCollectionFactory;
         $this->_orderConfig = $orderConfig;
         parent::__construct($context, $backendHelper, $data);
     }
@@ -63,7 +63,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     protected function _prepareCollection()
     {
         /** @var $collection \Magento\Sales\Model\Resource\Order\Grid\Collection */
-        $collection = $this->_gridCollFactory->create()
+        $collection = $this->_gridCollectionFactory->create()
             ->setOrder('entity_id');
         $this->setCollection($collection);
         return parent::_prepareCollection();

@@ -46,7 +46,7 @@ class Database extends \Magento\App\Helper\AbstractHelper
     protected $_mediaBaseDirectory;
 
     /**
-     * @var \Magento\Filesystem
+     * @var \Magento\App\Filesystem
      */
     protected $_filesystem;
 
@@ -69,14 +69,14 @@ class Database extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Model\File\Storage\DatabaseFactory $dbStorageFactory
      * @param \Magento\Core\Model\File\Storage\File $fileStorage
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\App\ConfigInterface $config
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Core\Model\File\Storage\DatabaseFactory $dbStorageFactory,
         \Magento\Core\Model\File\Storage\File $fileStorage,
-        \Magento\Filesystem $filesystem,
+        \Magento\App\Filesystem $filesystem,
         \Magento\App\ConfigInterface $config
     ) {
         $this->_filesystem = $filesystem;
@@ -296,7 +296,7 @@ class Database extends \Magento\App\Helper\AbstractHelper
             $uniqueResultFile = $this->getUniqueFilename($path, $file);
 
             if ($uniqueResultFile !== $file) {
-                $dirWrite = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem::ROOT);
+                $dirWrite = $this->_filesystem->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR);
                 $dirWrite->renameFile($path . $file, $path . $uniqueResultFile);
             }
             $this->saveFile($path . $uniqueResultFile);
@@ -327,7 +327,7 @@ class Database extends \Magento\App\Helper\AbstractHelper
     public function getMediaBaseDir()
     {
         if (null === $this->_mediaBaseDirectory) {
-            $mediaDir = $this->_filesystem->getPath(\Magento\Filesystem::MEDIA);
+            $mediaDir = $this->_filesystem->getPath(\Magento\App\Filesystem::MEDIA_DIR);
             $this->_mediaBaseDirectory = rtrim($mediaDir, '\\/');
         }
         return $this->_mediaBaseDirectory;

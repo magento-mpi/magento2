@@ -417,10 +417,10 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
             $options = $config->getOptions();
             $currentCacheDir = $options->getCacheDir();
             $currentEtcDir = $options->getEtcDir();
-            /** @var \Magento\Filesystem $filesystem */
-            $filesystem = $objectManager->get('Magento\Filesystem');
-            $options->setCacheDir($filesystem->getPath(\Magento\Filesystem::ROOT) . '/var/cache');
-            $options->setEtcDir($filesystem->getPath(\Magento\Filesystem::ROOT) . '/app/etc');
+            /** @var \Magento\App\Filesystem $filesystem */
+            $filesystem = $objectManager->get('Magento\App\Filesystem');
+            $options->setCacheDir($filesystem->getPath(\Magento\App\Filesystem::ROOT_DIR) . '/var/cache');
+            $options->setEtcDir($filesystem->getPath(\Magento\App\Filesystem::ROOT_DIR) . '/app/etc');
 
             $this->_appCache = $objectManager->get('Magento\App\Cache');
 

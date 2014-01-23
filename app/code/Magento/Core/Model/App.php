@@ -382,9 +382,9 @@ class App implements \Magento\AppInterface
     public function cleanAllSessions()
     {
         if (session_module_name() == 'files') {
-            /** @var \Magento\Filesystem $filesystem */
-            $filesystem = $this->_objectManager->create('Magento\Filesystem');
-            $sessionDirectory = $filesystem->getDirectoryWrite(\Magento\Filesystem::SESSION);
+            /** @var \Magento\App\Filesystem $filesystem */
+            $filesystem = $this->_objectManager->create('Magento\App\Filesystem');
+            $sessionDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::SESSION_DIR);
             foreach ($sessionDirectory->read() as $path) {
                 $sessionDirectory->delete($path);
             }

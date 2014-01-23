@@ -51,7 +51,7 @@ class Versions
     /**
      * @var \Magento\VersionsCms\Model\Resource\Page\Version\CollectionFactory
      */
-    protected $_versionCollFactory;
+    protected $_versionCollectionFactory;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
@@ -60,7 +60,7 @@ class Versions
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      * @param \Magento\VersionsCms\Model\Config $cmsConfig
-     * @param \Magento\VersionsCms\Model\Resource\Page\Version\CollectionFactory $versionCollFactory
+     * @param \Magento\VersionsCms\Model\Resource\Page\Version\CollectionFactory $versionCollectionFactory
      * @param array $data
      */
     public function __construct(
@@ -70,14 +70,14 @@ class Versions
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
         \Magento\VersionsCms\Model\Config $cmsConfig,
-        \Magento\VersionsCms\Model\Resource\Page\Version\CollectionFactory $versionCollFactory,
+        \Magento\VersionsCms\Model\Resource\Page\Version\CollectionFactory $versionCollectionFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_cmsData = $cmsData;
         $this->_backendAuthSession = $backendAuthSession;
         $this->_cmsConfig = $cmsConfig;
-        $this->_versionCollFactory = $versionCollFactory;
+        $this->_versionCollectionFactory = $versionCollectionFactory;
         parent::__construct($context, $backendHelper, $data);
     }
 
@@ -99,7 +99,7 @@ class Versions
         $userId = $this->_backendAuthSession->getUser()->getId();
 
         /* var $collection \Magento\VersionsCms\Model\Resource\Page\Revision\Collection */
-        $collection = $this->_versionCollFactory->create()
+        $collection = $this->_versionCollectionFactory->create()
             ->addPageFilter($this->getPage())
             ->addVisibilityFilter($userId, $this->_cmsConfig->getAllowedAccessLevel())
             ->addUserColumn()

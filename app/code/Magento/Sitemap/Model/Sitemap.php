@@ -145,7 +145,7 @@ class Sitemap extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Escaper $escaper
      * @param \Magento\Sitemap\Helper\Data $sitemapData
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\Sitemap\Model\Resource\Catalog\CategoryFactory $categoryFactory
      * @param \Magento\Sitemap\Model\Resource\Catalog\ProductFactory $productFactory
      * @param \Magento\Sitemap\Model\Resource\Cms\PageFactory $cmsFactory
@@ -162,7 +162,7 @@ class Sitemap extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Registry $registry,
         \Magento\Escaper $escaper,
         \Magento\Sitemap\Helper\Data $sitemapData,
-        \Magento\Filesystem $filesystem,
+        \Magento\App\Filesystem $filesystem,
         \Magento\Sitemap\Model\Resource\Catalog\CategoryFactory $categoryFactory,
         \Magento\Sitemap\Model\Resource\Catalog\ProductFactory $productFactory,
         \Magento\Sitemap\Model\Resource\Cms\PageFactory $cmsFactory,
@@ -176,7 +176,7 @@ class Sitemap extends \Magento\Core\Model\AbstractModel
     ) {
         $this->_escaper = $escaper;
         $this->_sitemapData = $sitemapData;
-        $this->_directory = $filesystem->getDirectoryWrite(\Magento\Filesystem::ROOT);
+        $this->_directory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR);
         $this->_categoryFactory = $categoryFactory;
         $this->_productFactory = $productFactory;
         $this->_cmsFactory = $cmsFactory;

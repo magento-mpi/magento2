@@ -22,7 +22,7 @@ class Config implements \Magento\App\ConfigInterface
      */
     protected $_data;
 
-    public function __construct(\Magento\App\Config\Loader $loader)
+    public function __construct(\Magento\App\Arguments\Loader $loader)
     {
         $this->_loader = $loader;
         $this->_data = $loader->load();

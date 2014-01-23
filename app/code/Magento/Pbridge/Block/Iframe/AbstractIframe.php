@@ -111,6 +111,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
         $this->_pbridgeSession = $pbridgeSession;
         $this->_regionFactory = $regionFactory;
         parent::__construct($context, $data);
+        $this->_isScopePrivate = true;
     }
 
     /**

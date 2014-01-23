@@ -242,19 +242,19 @@
             <value>
                 <urlLib>
                     <key type="const">Magento\UrlInterface::URL_TYPE_LIB</key>
-                    <value type="const">Magento\Filesystem::PUB_LIB</value>
+                    <value type="const">Magento\App\Filesystem::PUB_LIB_DIR</value>
                 </urlLib>
                 <urlMedia>
                     <key type="const">Magento\UrlInterface::URL_TYPE_MEDIA</key>
-                    <value type="const">Magento\Filesystem::MEDIA</value>
+                    <value type="const">Magento\App\Filesystem::MEDIA_DIR</value>
                 </urlMedia>
                 <urlStatic>
                     <key type="const">Magento\UrlInterface::URL_TYPE_STATIC</key>
-                    <value type="const">Magento\Filesystem::STATIC_VIEW</value>
+                    <value type="const">Magento\App\Filesystem::STATIC_VIEW_DIR</value>
                 </urlStatic>
                 <urlCache>
                     <key type="const">Magento\UrlInterface::URL_TYPE_CACHE</key>
-                    <value type="const">Magento\Filesystem::PUB_VIEW_CACHE</value>
+                    <value type="const">Magento\App\Filesystem::PUB_VIEW_CACHE_DIR</value>
                 </urlCache>
             </value>
         </param>
@@ -264,7 +264,7 @@
             <value/>
         </param>
     </type>
-    <type name="Magento\Filesystem">
+    <type name="Magento\App\Filesystem">
         <param name="fileReadFactory">
             <instance type="Magento\Filesystem\File\ReadFactory" />
         </param>

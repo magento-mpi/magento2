@@ -34,6 +34,7 @@ class Link extends \Magento\View\Element\Template
     ) {
         $this->_giftRegistryData = $giftRegistryData;
         parent::__construct($context, $data);
+        $this->_isScopePrivate = true;
     }
 
     /**

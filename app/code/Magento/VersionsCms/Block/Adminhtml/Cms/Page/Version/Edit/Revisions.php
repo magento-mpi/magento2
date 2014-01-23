@@ -32,7 +32,7 @@ class Revisions
     /**
      * @var \Magento\VersionsCms\Model\Resource\Page\Revision\CollectionFactory
      */
-    protected $_revisionCollFactory;
+    protected $_revisionCollectionFactory;
 
     /**
      * @var \Magento\VersionsCms\Model\Config
@@ -44,7 +44,7 @@ class Revisions
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\VersionsCms\Helper\Data $cmsData
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\VersionsCms\Model\Resource\Page\Revision\CollectionFactory $revisionCollFactory
+     * @param \Magento\VersionsCms\Model\Resource\Page\Revision\CollectionFactory $revisionCollectionFactory
      * @param \Magento\VersionsCms\Model\Config $cmsConfig
      * @param array $data
      */
@@ -53,13 +53,13 @@ class Revisions
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\VersionsCms\Helper\Data $cmsData,
         \Magento\Core\Model\Registry $registry,
-        \Magento\VersionsCms\Model\Resource\Page\Revision\CollectionFactory $revisionCollFactory,
+        \Magento\VersionsCms\Model\Resource\Page\Revision\CollectionFactory $revisionCollectionFactory,
         \Magento\VersionsCms\Model\Config $cmsConfig,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
         $this->_cmsData = $cmsData;
-        $this->_revisionCollFactory = $revisionCollFactory;
+        $this->_revisionCollectionFactory = $revisionCollectionFactory;
         $this->_cmsConfig = $cmsConfig;
         parent::__construct($context, $backendHelper, $data);
     }
@@ -81,7 +81,7 @@ class Revisions
     protected function _prepareCollection()
     {
         /* var $collection \Magento\VersionsCms\Model\Resource\Page\Revision\Collection */
-        $collection = $this->_revisionCollFactory->create()
+        $collection = $this->_revisionCollectionFactory->create()
             ->addPageFilter($this->getPage())
             ->addVersionFilter($this->getVersion())
             ->addUserColumn()

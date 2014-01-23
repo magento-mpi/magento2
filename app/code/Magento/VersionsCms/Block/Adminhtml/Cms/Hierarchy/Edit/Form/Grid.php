@@ -18,21 +18,21 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * @var \Magento\Cms\Model\Resource\Page\CollectionFactory
      */
-    protected $_pageCollFactory;
+    protected $_pageCollectionFactory;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
-     * @param \Magento\Cms\Model\Resource\Page\CollectionFactory $pageCollFactory
+     * @param \Magento\Cms\Model\Resource\Page\CollectionFactory $pageCollectionFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
-        \Magento\Cms\Model\Resource\Page\CollectionFactory $pageCollFactory,
+        \Magento\Cms\Model\Resource\Page\CollectionFactory $pageCollectionFactory,
         array $data = array()
     ) {
-        $this->_pageCollFactory = $pageCollFactory;
+        $this->_pageCollectionFactory = $pageCollectionFactory;
         parent::__construct($context, $backendHelper, $data);
     }
 
@@ -57,7 +57,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareCollection()
     {
-        $collection = $this->_pageCollFactory->create();
+        $collection = $this->_pageCollectionFactory->create();
 
         $store = $this->_getStore();
         if ($store->getId()) {
