@@ -44,9 +44,9 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
     protected $_productFactory;
 
     /**
-     * @var \Magento\Rma\Model\ProductTypes
+     * @var \Magento\Rma\Model\RefundableList
      */
-    protected $productTypes;
+    protected $refundableList;
 
     /**
      * @param \Magento\App\Resource $resource
@@ -58,7 +58,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $ordersFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Rma\Model\ProductTypes $productTypes
+     * @param \Magento\Rma\Model\RefundableList $refundableList
      * @param array $data
      */
     public function __construct(
@@ -71,13 +71,13 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $ordersFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Rma\Model\ProductTypes $productTypes,
+        \Magento\Rma\Model\RefundableList $refundableList,
         $data = array()
     ) {
         $this->_rmaData = $rmaData;
         $this->_ordersFactory = $ordersFactory;
         $this->_productFactory = $productFactory;
-        $this->productTypes = $productTypes;
+        $this->refundableList = $refundableList;
         parent::__construct($resource, $eavConfig, $attrSetEntity, $locale, $resourceHelper, $universalFactory, $data);
     }
 
@@ -245,7 +245,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
                 array('qty_shipped', 'qty_returned')
             )
             ->addFieldToFilter('order_id', $orderId)
-            ->addFieldToFilter('product_type', array("in" => $this->productTypes->getRefundableTypes()))
+            ->addFieldToFilter('product_type', array("in" => $this->refundableList->getItem()))
             ->addFieldToFilter($expression, array("gt" => 0));
     }
 

@@ -26,9 +26,9 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
     protected $_entMigrationFactory;
 
     /**
-     * @var \Magento\Rma\Model\ProductTypes
+     * @var \Magento\Rma\Model\RefundableList
      */
-    protected $productTypes;
+    protected $refundableList;
 
     /**
      * @param \Magento\Core\Model\Resource\Setup\Context $context
@@ -38,7 +38,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Catalog\Model\Resource\SetupFactory $catalogSetupFactory
      * @param \Magento\Enterprise\Model\Resource\Setup\MigrationFactory $entMigrationFactory
-     * @param \Magento\Rma\Model\ProductTypes $productTypes
+     * @param \Magento\Rma\Model\RefundableList $refundableList
      * @param string $moduleName
      * @param string $connectionName
      */
@@ -50,13 +50,13 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
         \Magento\Core\Model\Config $config,
         \Magento\Catalog\Model\Resource\SetupFactory $catalogSetupFactory,
         \Magento\Enterprise\Model\Resource\Setup\MigrationFactory $entMigrationFactory,
-        \Magento\Rma\Model\ProductTypes $productTypes,
+        \Magento\Rma\Model\RefundableList $refundableList,
         $moduleName = 'Magento_Rma',
         $connectionName = ''
     ) {
         $this->_catalogSetupFactory = $catalogSetupFactory;
         $this->_entMigrationFactory = $entMigrationFactory;
-        $this->productTypes = $productTypes;
+        $this->refundableList = $refundableList;
         parent::__construct($context, $resourceName, $cache, $attrGrCollFactory, $config, $moduleName, $connectionName);
     }
 
@@ -86,7 +86,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
      */
     public function getRefundableProducts()
     {
-        return $this->productTypes->getRefundableTypes();
+        return $this->refundableList->getItem();
     }
 
     /**
