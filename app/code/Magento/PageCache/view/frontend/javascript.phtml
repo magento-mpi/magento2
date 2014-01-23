@@ -1,0 +1,20 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+
+<script type="text/javascript">
+    //<![CDATA[
+    (function ($) {
+        head.js("<?php echo $this->getViewFileUrl('Magento_PageCache::js/page-cache.js')?>", function () {
+            $('body').pageCache({
+                url: '<?php echo $this->getUrl('pagecache/data/private/'); ?>'
+            });
+        });
+    })(jQuery);
+    //]]>
+</script>
