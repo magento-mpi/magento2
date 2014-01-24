@@ -21,6 +21,19 @@
             <value>frontend</value>
         </param>
     </virtualType>
+    <virtualType name="Magento\Paypal\Model\PayflowSession\Storage" type="Magento\Session\Storage">
+        <param name="namespace">
+            <value>paypal_payflow</value>
+        </param>
+    </virtualType>
+    <virtualType name="Magento\Paypal\Model\PayflowSession" type="Magento\Session\Generic">
+        <param name="storage">
+            <instance type="Magento\Paypal\Model\PayflowSession\Storage" />
+        </param>
+        <param name="sessionName">
+            <value>frontend</value>
+        </param>
+    </virtualType>
     <type name="Magento\Session\Generic">
         <param name="sessionName">
             <value>frontend</value>
@@ -30,6 +43,7 @@
         <param name="secureUrlList">
             <value>
                 <paypal_express>/paypal/express</paypal_express>
+                <paypal_payflowexpress>/paypal/payflowexpress</paypal_payflowexpress>
                 <paypal_standard>/paypal/standard</paypal_standard>
                 <paypal_express_callbackshippingoptions>paypal/express/callbackshippingoptions</paypal_express_callbackshippingoptions>
             </value>

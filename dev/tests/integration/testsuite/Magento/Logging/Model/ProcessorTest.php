@@ -36,7 +36,7 @@ class ProcessorTest extends \Magento\TestFramework\TestCase\AbstractController
             ->create('Magento\Logging\Model\Event')->getCollection();
         $eventCountBefore = count($collection);
 
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\Url')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\UrlInterface')
             ->turnOffSecretKey();
 
         $this->_auth = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\Auth');

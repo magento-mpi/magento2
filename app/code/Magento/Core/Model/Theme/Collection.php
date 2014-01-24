@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Core\Model\Theme;
+
 /**
  * Theme filesystem collection
  */
-namespace Magento\Core\Model\Theme;
-
 class Collection extends \Magento\Data\Collection implements \Magento\View\Design\Theme\ListInterface
 {
     /**

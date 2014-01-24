@@ -142,11 +142,6 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
     protected $_coreStoreConfig;
 
     /**
-     * @var \Magento\Core\Model\Config
-     */
-    protected $_coreConfig;
-
-    /**
      * @var \Magento\Core\Model\Session
      */
     protected $_coreSession;

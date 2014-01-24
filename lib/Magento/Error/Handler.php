@@ -40,7 +40,8 @@ class Handler implements HandlerInterface
      * Process exception
      *
      * @param \Exception $exception
-     * @param array $params
+     * @param string[] $params
+     * @return void
      */
     public function processException(\Exception $exception, array $params = array())
     {
@@ -54,6 +55,7 @@ class Handler implements HandlerInterface
      * Show error as exception
      *
      * @param string $errorMessage
+     * @return void
      * @throws \Exception
      */
     protected function _processError($errorMessage)
