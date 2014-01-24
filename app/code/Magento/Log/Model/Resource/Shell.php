@@ -44,7 +44,7 @@ class Shell
     /**
      * Retrieves information about log tables
      *
-     * @return array
+     * @return string[]
      */
     public function getTablesInfo()
     {

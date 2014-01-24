@@ -10,12 +10,12 @@
  * @license     {license_link}
  */
 return array(
-    array('ADMIN_STORE_ID', 'Magento\Core\Model\AppInterface'),
+    array('ADMIN_STORE_ID', 'Magento\AppInterface'),
     array('BACKORDERS_BELOW'),
     array('DS'),
     array('BACKORDERS_YES'),
     array('CACHE_TAG', 'Magento\Api\Model\Config', 'Magento_Api_Model_Cache_Type::CACHE_TAG'),
-    array('CACHE_TAG', 'Magento\Core\Model\AppInterface'),
+    array('CACHE_TAG', 'Magento\AppInterface'),
     array(
         'CACHE_TAG',
         'Magento\Core\Model\Resource\Db\Collection\AbstractCollection',

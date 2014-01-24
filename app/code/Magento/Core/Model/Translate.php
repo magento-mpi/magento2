@@ -199,7 +199,7 @@ class Translate implements TranslateInterface
      * @param \Magento\Phrase\Renderer\Placeholder $placeholderRender
      * @param \Magento\Module\ModuleList $moduleList
      * @param \Magento\Module\Dir\Reader $modulesReader
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\App\ConfigInterface $coreConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Resource\Translate $translate
      * @param \Magento\Core\Model\App $app
@@ -217,7 +217,7 @@ class Translate implements TranslateInterface
         \Magento\Phrase\Renderer\Placeholder $placeholderRender,
         \Magento\Module\ModuleList $moduleList,
         \Magento\Module\Dir\Reader $modulesReader,
-        \Magento\Core\Model\Config $coreConfig,
+        \Magento\App\ConfigInterface $coreConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Resource\Translate $translate,
         \Magento\Core\Model\App $app,

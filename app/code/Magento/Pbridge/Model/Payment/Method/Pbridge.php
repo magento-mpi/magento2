@@ -339,7 +339,7 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
             ->setData('customer_email', $order->getCustomerEmail())
             ->setData('is_virtual', $order->getIsVirtual())
             ->setData('notify_url',
-                $this->_url->getUrl('magento_pbridge/PbridgeIpn/', array('_store' =>  $order->getStore()->getStoreId()))
+                $this->_url->getUrl('magento_pbridge/PbridgeIpn/', array('_scope' =>  $order->getStore()->getStoreId()))
             )
             ->setData('is_first_capture', $payment->hasFirstCaptureFlag() ? $payment->getFirstCaptureFlag() : true);
 

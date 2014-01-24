@@ -14,7 +14,7 @@ class Dom implements \Magento\Config\ConverterInterface
     /**
      * Convert configuration in DOM format to assoc array that can be used by object manager
      *
-     * @param mixed $config
+     * @param \DOMDocument $config
      * @return array
      * @throws \Exception
      * @todo this method has high cyclomatic complexity in order to avoid performance issues
