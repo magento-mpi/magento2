@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <module name="Magento_Rma" version="1.11.0.8" active="false">
+    <module name="Magento_Rma" version="1.11.0.11" active="false">
         <sequence>
             <module name="Magento_Customer"/>
             <module name="Magento_Sales"/>

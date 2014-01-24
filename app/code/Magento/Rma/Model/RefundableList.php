@@ -7,16 +7,21 @@
  */
 
 /**
- * RMA model
+ * List of refundable products model
  */
 namespace Magento\Rma\Model;
 
-class RefundableList extends \Magento\Core\Model\AbstractModel
+class RefundableList
 {
     /**
-     * @param \Magento\Catalog\Model\ProductTypes\Config $productTypesConfig
+     * @var \Magento\Catalog\Model\ProductTypes\Config
      */
-    public function __construct(\Magento\Catalog\Model\ProductTypes\Config $productTypesConfig)
+    protected $productTypesConfig;
+
+    /**
+     * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypesConfig
+     */
+    public function __construct(\Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypesConfig)
     {
         $this->productTypesConfig = $productTypesConfig;
     }
@@ -32,13 +37,11 @@ class RefundableList extends \Magento\Core\Model\AbstractModel
         $availableProductTypes = array();
 
         foreach ($all as $type) {
-            if (array_key_exists('custom_attributes', $type)
-                && array_key_exists('refundable', $type['custom_attributes'])
-                && 'true' == $type['custom_attributes']['refundable']
-            ) {
+            if (isset($type['custom_attributes']['refundable']) && $type['custom_attributes']['refundable'] == 'true') {
                 $availableProductTypes[] = $type['name'];
             }
         }
         return $availableProductTypes;
     }
 }
+

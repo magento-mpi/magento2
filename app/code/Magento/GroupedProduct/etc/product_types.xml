@@ -13,7 +13,6 @@
         <indexerModel instance="Magento\GroupedProduct\Model\Resource\Product\Indexer\Price\Grouped" />
         <stockIndexerModel instance="Magento\GroupedProduct\Model\Resource\Indexer\Stock\Grouped" />
         <customAttributes>
-            <attribute name="refundable" value="false"/>
             <attribute name="is_real_product" value="false"/>
         </customAttributes>
     </type>
