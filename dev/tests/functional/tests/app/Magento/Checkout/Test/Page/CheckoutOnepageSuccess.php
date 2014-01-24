@@ -75,6 +75,18 @@ class CheckoutOnepageSuccess extends Page
     }
 
     /**
+     * Wait until the success block is visible
+     *
+     * @return void
+     */
+    public function waitForSuccessBlockVisible()
+    {
+        Factory::getBlockFactory()->getMagentoCheckoutOnepageSuccess(
+            $this->_browser->find($this->successBlock, Locator::SELECTOR_XPATH)
+        )->waitForElementVisible($this->successBlock, Locator::SELECTOR_XPATH);
+    }
+
+    /**
      * Get page title block
      *
      * @return \Magento\Theme\Test\Block\Html\Title
