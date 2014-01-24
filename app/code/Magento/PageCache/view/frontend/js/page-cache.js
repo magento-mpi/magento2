@@ -7,6 +7,7 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true expr:true*/
+var el;
 (function ($) {
     "use strict";
     $.widget('mage.pageCache', {
@@ -20,7 +21,7 @@
         _create: function () {
             var version = $.mage.cookies.get(this.options.versionCookieName) || '';
             if (!version) {
-//                return ;
+                return ;
             }
             var blocks = this._searchBlocks(this.element.comments());
             this._ajax(blocks, version);
@@ -82,7 +83,11 @@
                             if (block.name == blockName) {
                                 var end = $(block.endElement).next();
                                 $(block.startElement).nextUntil(end).remove();
-                                $(end).before(response[blockName]);
+                                if (end.get(0)) {
+                                    $(end).before(html);
+                                } else {
+                                    $(block.endElement).parent().append(html);
+                                }
                             }
                         }
                     }
