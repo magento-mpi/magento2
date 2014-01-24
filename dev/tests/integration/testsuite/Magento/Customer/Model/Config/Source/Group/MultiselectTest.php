@@ -21,16 +21,18 @@ class MultiselectTest extends \PHPUnit_Framework_TestCase
         /** @var Multiselect $multiselect */
         $multiselect = $objectManager->get(
             'Magento\Customer\Model\Config\Source\Group\Multiselect',
-            array(
+            [
                 'groupService' => $objectManager->get('Magento\Customer\Service\V1\CustomerGroupService'),
                 'converter' => new Converter()
-        ));
+            ]
+        );
         $this->assertEquals(
             [
-                ['value' => 1,  'label' => 'General'],
-                ['value' => 2,  'label' => 'Wholesale'],
-                ['value' => 3,  'label' => 'Retailer']
+                ['value' => 1, 'label' => 'General'],
+                ['value' => 2, 'label' => 'Wholesale'],
+                ['value' => 3, 'label' => 'Retailer']
             ],
-            $multiselect->toOptionArray());
+            $multiselect->toOptionArray()
+        );
     }
 }

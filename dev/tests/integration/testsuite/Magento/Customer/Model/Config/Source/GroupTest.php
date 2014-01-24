@@ -21,17 +21,19 @@ class GroupTest extends \PHPUnit_Framework_TestCase
         /** @var Group $group */
         $group = $objectManager->get(
             'Magento\Customer\Model\Config\Source\Group',
-            array(
+            [
                 'groupService' => $objectManager->get('Magento\Customer\Service\V1\CustomerGroupService'),
                 'converter' => new Converter()
-        ));
+            ]
+        );
         $this->assertEquals(
             [
                 ['value' => '', 'label' => '-- Please Select --'],
-                ['value' => 1,  'label' => 'General'],
-                ['value' => 2,  'label' => 'Wholesale'],
-                ['value' => 3,  'label' => 'Retailer']
+                ['value' => 1, 'label' => 'General'],
+                ['value' => 2, 'label' => 'Wholesale'],
+                ['value' => 3, 'label' => 'Retailer']
             ],
-            $group->toOptionArray());
+            $group->toOptionArray()
+        );
     }
 }
