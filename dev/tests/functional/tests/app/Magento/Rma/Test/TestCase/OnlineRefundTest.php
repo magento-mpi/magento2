@@ -114,7 +114,7 @@ class OnlineRefundTest extends Functional
         return array(
             array(Factory::getFixtureFactory()->getMagentoSalesPaypalExpressOrder()),
             array(Factory::getFixtureFactory()->getMagentoSalesPaypalPayflowProOrder()),
-            (Factory::getFixtureFactory()->getMagentoSalesPaypalPaymentsProOrder()),
+            array(Factory::getFixtureFactory()->getMagentoSalesPaypalPaymentsProOrder()),
             array(Factory::getFixtureFactory()->getMagentoSalesAuthorizeNetOrder()),
             array(Factory::getFixtureFactory()->getMagentoSalesPaypalStandardOrder()),
             array(Factory::getFixtureFactory()->getMagentoSalesPaypalPaymentsAdvancedOrder()),
