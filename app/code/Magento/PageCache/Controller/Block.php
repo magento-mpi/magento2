@@ -34,7 +34,10 @@ class Block extends \Magento\App\Action\Action
         $data = array();
 
         foreach ($blocks as $blockName) {
-            $data[$blockName] = $this->_view->getLayout()->getBlock($blockName)->toHtml();
+            $blockInstance = $this->_view->getLayout()->getBlock($blockName);
+            if (is_object($blockInstance)) {
+                $data[$blockName] = $blockInstance->toHtml();
+            }
         }
 
         $this->_response->appendBody(json_encode($data));
