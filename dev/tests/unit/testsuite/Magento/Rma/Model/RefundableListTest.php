@@ -28,12 +28,12 @@ class RefundableListTest extends \PHPUnit_Framework_TestCase
 
     public function testGetItem()
     {
-        $type[0]['name'] = 'simple';
-        $type[0]['custom_attributes']['refundable'] = true;
-        $type[1]['name'] = 'grouped';
-        $type[1]['custom_attributes']['refundable'] = 'some_value';
-        $type[2]['name'] = 'some_product_name';
-        $this->configMock->expects($this->once())->method('getAll')->will($this->returnValue($type));
+        $types = array(
+            'simple' => array('name' => 'simple', 'custom_attributes' => array('refundable' => 'true')),
+            'grouped' => array('name' => 'grouped', 'custom_attributes' => array('refundable' => 'some_value')),
+            'some_product_name' => array('name' => 'some_product_name', 'custom_attributes' => array()),
+        );
+        $this->configMock->expects($this->once())->method('getAll')->will($this->returnValue($types));
         $this->assertEquals(array('simple'), $this->refundableList->getItem());
     }
 }

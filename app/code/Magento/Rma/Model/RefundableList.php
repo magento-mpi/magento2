@@ -1,20 +1,19 @@
 <?php
 /**
+ * List of refundable product types
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * List of refundable products model
- */
 namespace Magento\Rma\Model;
 
 class RefundableList
 {
     /**
-     * @var \Magento\Catalog\Model\ProductTypes\Config
+     * @var \Magento\Catalog\Model\ProductTypes\ConfigInterface
      */
     protected $productTypesConfig;
 
