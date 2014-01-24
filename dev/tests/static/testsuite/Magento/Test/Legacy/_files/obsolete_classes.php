@@ -1843,4 +1843,5 @@ return array(
     array('Magento\PageCache\Model\System\Config\Source\Controls'),
     array('Magento\PageCache\Model\CacheControlFactory'),
     array('Magento\PageCache\Model\Observer'),
+    array('Magento\Indexer\App\Shell\ErrorHandler'),
 );
