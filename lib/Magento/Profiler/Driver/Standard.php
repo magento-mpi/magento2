@@ -13,7 +13,7 @@ use Magento\Profiler;
 use Magento\Profiler\DriverInterface;
 use Magento\Profiler\Driver\Standard\OutputInterface;
 use Magento\Profiler\Driver\Standard\Stat;
-use Magento\Profiler\Driver\Standard\Output\Factory;
+use Magento\Profiler\Driver\Standard\Output\Factory as StandardOutputFactory;
 
 class Standard implements DriverInterface
 {
@@ -115,16 +115,16 @@ class Standard implements DriverInterface
      * Gets output factory from configuration or create new one
      *
      * @param array|null $config
-     * @return Factory
+     * @return StandardOutputFactory
      */
     protected function _getOutputFactory(array $config = null)
     {
         if (isset($config['outputFactory'])
-            && $config['outputFactory'] instanceof Factory
+            && $config['outputFactory'] instanceof StandardOutputFactory
         ) {
             $result = $config['outputFactory'];
         } else {
-            $result = new Factory();
+            $result = new StandardOutputFactory();
         }
         return $result;
     }
