@@ -19,9 +19,9 @@ class Pool implements \Iterator
     const DEFAULT_FRONTEND_ID = 'default';
 
     /**
-     * @var \Magento\App\Config
+     * @var \Magento\App\Arguments
      */
-    private $_config;
+    private $_arguments;
 
     /**
      * @var \Magento\App\Cache\Frontend\Factory
@@ -39,16 +39,16 @@ class Pool implements \Iterator
     private $_frontendSettings;
 
     /**
-     * @param \Magento\App\Config $config
+     * @param \Magento\App\Arguments $arguments
      * @param \Magento\App\Cache\Frontend\Factory $frontendFactory
      * @param array $frontendSettings Format: array('<frontend_id>' => array(<cache_settings>), ...)
      */
     public function __construct(
-        \Magento\App\Config $config,
+        \Magento\App\Arguments $arguments,
         \Magento\App\Cache\Frontend\Factory $frontendFactory,
         array $frontendSettings = array()
     ) {
-        $this->_config = $config;
+        $this->_arguments = $arguments;
         $this->_factory = $frontendFactory;
         $this->_frontendSettings = $frontendSettings + array(self::DEFAULT_FRONTEND_ID => array());
     }
@@ -78,7 +78,7 @@ class Pool implements \Iterator
          * Merging is intentionally implemented through array_merge() instead of array_replace_recursive()
          * to avoid "inheritance" of the default settings that become irrelevant as soon as cache storage type changes
          */
-        return array_merge($this->_frontendSettings, $this->_config->getCacheFrontendSettings());
+        return array_merge($this->_frontendSettings, $this->_arguments->getCacheFrontendSettings());
     }
 
     /**

@@ -57,7 +57,7 @@ class Role extends \Magento\Object
     /**
      * @var \Magento\Catalog\Model\Resource\Category\CollectionFactory
      */
-    protected $_categoryCollFactory;
+    protected $_categoryCollectionFactory;
 
     /**
      * @var \Magento\Core\Model\StoreManagerInterface
@@ -66,15 +66,15 @@ class Role extends \Magento\Object
 
     /**
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollFactory
+     * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollectionFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollFactory,
+        \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollectionFactory,
         array $data = array()
     ) {
-        $this->_categoryCollFactory = $categoryCollFactory;
+        $this->_categoryCollectionFactory = $categoryCollectionFactory;
         $this->_storeManager = $storeManager;
         parent::__construct($data);
     }
@@ -292,7 +292,7 @@ class Role extends \Magento\Object
                 $categoryIds[] = $this->getGroup($groupId)->getRootCategoryId();
             }
 
-            $categories = $this->_categoryCollFactory->create()
+            $categories = $this->_categoryCollectionFactory->create()
                 ->addIdFilter($categoryIds);
             foreach ($categories  as $category) {
                 $this->_allowedRootCategories[$category->getId()] = $category->getPath();

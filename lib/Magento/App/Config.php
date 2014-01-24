@@ -1,171 +1,63 @@
 <?php
 /**
- * Application deployment configuration that contain settings, values of which may vary from one installation to another
+ * Application configuration object. Used to access configuration when application is initialized and installed.
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\App;
 
-class Config
+class Config implements \Magento\App\ConfigInterface
 {
     /**
-     * Config data
-     *
-     * @var array
-     */
-    protected $_data;
-
-    /**
-     * Configuration loader
-     *
      * @var \Magento\App\Config\Loader
      */
     protected $_loader;
 
     /**
-     * Application options
-     *
-     * @var array
+     * @var \Magento\App\Config\Data
      */
-    protected $_parameters;
+    protected $_data;
 
-    /**
-     * @param array $parameters
-     * @param Config\Loader $loader
-     */
-    public function __construct(array $parameters, Config\Loader $loader)
+    public function __construct(\Magento\App\Arguments\Loader $loader)
     {
         $this->_loader = $loader;
-        $this->_parameters = $parameters;
-        $this->_data = array_replace_recursive($this->_parseParams($loader->load()), $parameters);
+        $this->_data = $loader->load();
     }
 
     /**
-     * @param array $input
-     * @return array
-     */
-    protected function _parseParams(array $input)
-    {
-        $stack = $input;
-        unset($stack['resource']);
-        unset($stack['connection']);
-        unset($stack['cache']);
-        $output = $this->_flattenParams($stack);
-        $output['connection'] = isset($input['connection']) ? $input['connection'] : array();
-        $output['resource'] = isset($input['resource']) ? $input['resource'] : array();
-        $output['cache'] = isset($input['cache']) ? $input['cache'] : array();
-        return $output;
-    }
-
-    /**
-     * Convert associative array of arbitrary depth to a flat associative array with concatenated key path as keys
+     * Retrieve config value by path
      *
-     * @param array $params
-     * @param string $separator
-     * @return array
+     * @param string $path
+     * @return mixed
      */
-    protected function _flattenParams(array $params, $separator = '.')
+    public function getValue($path = null)
     {
-        $result = array();
-        $stack = $params;
-        while ($stack) {
-            list($key, $value) = each($stack);
-            unset($stack[$key]);
-            if (is_array($value)) {
-                if (count($value)) {
-                    foreach ($value as $subKey => $node) {
-                        $build[$key . $separator . $subKey] = $node;
-                    }
-                } else {
-                    $build[$key] = null;
-                }
-                $stack = $build + $stack;
-                continue;
-            }
-            $result[$key] = $value;
-        }
-        return $result;
+        return $this->_data->getValue($path);
     }
 
     /**
-     * Retrieve connection configuration by connection name
+     * Set config value
      *
-     * @param string $connectionName
-     * @return array
+     * @param string $path
+     * @param mixed $value
      */
-    public function getConnection($connectionName)
+    public function setValue($path, $value)
     {
-        return isset($this->_data['connection'][$connectionName])
-            ? $this->_data['connection'][$connectionName]
-            : null;
+        $this->_data->setValue($path, $value);
     }
 
     /**
-     * Retrieve list of connections
+     * Retrieve config flag
      *
-     * @return array
+     * @param string $path
+     * @return bool
      */
-    public function getConnections()
+    public function isSetFlag($path)
     {
-        return isset($this->_data['connection']) ? $this->_data['connection'] : array();
-    }
-
-    /**
-     * Retrieve list of resources
-     *
-     * @return array
-     */
-    public function getResources()
-    {
-        return $this->_data['resource'];
-    }
-
-    /**
-     * Retrieve settings for all cache front-ends configured in the system
-     *
-     * @return array Format: array('<frontend_id>' => array(<cache_settings>), ...)
-     */
-    public function getCacheFrontendSettings()
-    {
-        return isset($this->_data['cache']['frontend']) ? $this->_data['cache']['frontend'] : array();
-    }
-
-    /**
-     * Retrieve identifier of a cache frontend, configured to be used for a cache type
-     *
-     * @param string $cacheType Cache type identifier
-     * @return string|null
-     */
-    public function getCacheTypeFrontendId($cacheType)
-    {
-        return isset($this->_data['cache']['type'][$cacheType]['frontend'])
-            ? $this->_data['cache']['type'][$cacheType]['frontend']
-            : null;
-    }
-
-    /**
-     * Retrieve key
-     *
-     * @param string $key
-     * @param mixed $defaultValue
-     * @return array|null
-     */
-    public function get($key = null, $defaultValue = null)
-    {
-        if ($key === null) {
-            return $this->_data;
-        }
-        return isset($this->_data[$key]) ? $this->_data[$key] : $defaultValue;
-    }
-
-    /**
-     * Reload local.xml
-     */
-    public function reload()
-    {
-        $this->_data = array_replace_recursive($this->_parseParams($this->_loader->load()), $this->_parameters);
+        return (bool)$this->_data->getValue($path);
     }
 }

@@ -19,9 +19,9 @@ class FrontendPool
     private $_objectManager;
 
     /**
-     * @var \Magento\App\Config
+     * @var \Magento\App\Arguments
      */
-    private $_config;
+    private $_arguments;
 
     /**
      * @var \Magento\App\Cache\Frontend\Pool
@@ -40,18 +40,18 @@ class FrontendPool
 
     /**
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\App\Config $config
+     * @param \Magento\App\Arguments $arguments
      * @param \Magento\App\Cache\Frontend\Pool $frontendPool
      * @param array $typeFrontendMap Format: array('<cache_type_id>' => '<cache_frontend_id>', ...)
      */
     public function __construct(
         \Magento\ObjectManager $objectManager,
-        \Magento\App\Config $config,
+        \Magento\App\Arguments $arguments,
         \Magento\App\Cache\Frontend\Pool $frontendPool,
         array $typeFrontendMap = array()
     ) {
         $this->_objectManager = $objectManager;
-        $this->_config = $config;
+        $this->_arguments = $arguments;
         $this->_frontendPool = $frontendPool;
         $this->_typeFrontendMap = $typeFrontendMap;
     }
@@ -87,7 +87,7 @@ class FrontendPool
      */
     protected function _getCacheFrontendId($cacheType)
     {
-        $result = $this->_config->getCacheTypeFrontendId($cacheType);
+        $result = $this->_arguments->getCacheTypeFrontendId($cacheType);
         if (!$result) {
             if (isset($this->_typeFrontendMap[$cacheType])) {
                 $result = $this->_typeFrontendMap[$cacheType];

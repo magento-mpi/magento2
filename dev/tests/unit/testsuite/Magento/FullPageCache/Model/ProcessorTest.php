@@ -112,7 +112,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
 
         $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
         $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
-        $coreConfig = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false);
+        $coreConfig = $this->getMock('Magento\App\ConfigInterface', array(), array(), '', false);
 
         $this->_model = $helper->getObject('Magento\FullPageCache\Model\Processor', array(
             'eventManager' => $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false),

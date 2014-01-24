@@ -22,7 +22,7 @@ foreach ($defaultTypes as $typeId => $label) {
         array('store_id' => \Magento\Core\Model\Store::DEFAULT_STORE_ID),
         array(
             'type_id = ?' => $typeId,
-            'store_id = ?' => \Magento\Core\Model\AppInterface::DISTRO_STORE_ID,
+            'store_id = ?' => \Magento\Core\Model\Store::DISTRO_STORE_ID,
             'label = ?' => $label
         )
     );

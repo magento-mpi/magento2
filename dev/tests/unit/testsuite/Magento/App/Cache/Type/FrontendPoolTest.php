@@ -20,9 +20,9 @@ class FrontendPoolTest extends \PHPUnit_Framework_TestCase
     protected $_objectManager;
 
     /**
-     * @var \Magento\App\Config|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\App\Arguments|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_config;
+    protected $_arguments;
 
     /**
      * @var \Magento\App\Cache\Frontend\Pool|\PHPUnit_Framework_MockObject_MockObject
@@ -32,9 +32,9 @@ class FrontendPoolTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_objectManager = $this->getMock('Magento\ObjectManager', array(), array(), '', false);
-        $this->_config = $this->getMock('Magento\App\Config', array(), array(), '', false);
+        $this->_arguments = $this->getMock('Magento\App\Arguments', array(), array(), '', false);
         $this->_cachePool = $this->getMock('Magento\App\Cache\Frontend\Pool', array(), array(), '', false);
-        $this->_model = new FrontendPool($this->_objectManager, $this->_config, $this->_cachePool, array(
+        $this->_model = new FrontendPool($this->_objectManager, $this->_arguments, $this->_cachePool, array(
             'fixture_cache_type' => 'fixture_frontend_id',
         ));
     }
@@ -48,7 +48,7 @@ class FrontendPoolTest extends \PHPUnit_Framework_TestCase
      */
     public function testGet($fixtureFrontendId, $inputCacheType, $expectedFrontendId)
     {
-        $this->_config
+        $this->_arguments
             ->expects($this->once())
             ->method('getCacheTypeFrontendId')
             ->with($inputCacheType)

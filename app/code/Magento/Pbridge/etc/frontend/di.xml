@@ -60,9 +60,9 @@
         </param>
     </type>
 
-    <type name="Magento\Pbridge\Model\Payment\Method\Paypaluk">
+    <type name="Magento\Pbridge\Model\Payment\Method\PayflowDirect">
         <param name="formBlock">
-            <value>Magento\Pbridge\Block\Checkout\Payment\Paypaluk</value>
+            <value>Magento\Pbridge\Block\Checkout\Payment\PayflowDirect</value>
         </param>
     </type>
 
@@ -90,9 +90,9 @@
         </param>
     </type>
 
-    <type name="Magento\Pbridge\Model\Payment\Method\Payflow\Pro">
+    <type name="Magento\Pbridge\Model\Payment\Method\Payflowpro">
         <param name="formBlock">
-            <value>Magento\Pbridge\Block\Checkout\Payment\Payflow\Pro</value>
+            <value>Magento\Pbridge\Block\Checkout\Payment\Payflowpro</value>
         </param>
     </type>
 

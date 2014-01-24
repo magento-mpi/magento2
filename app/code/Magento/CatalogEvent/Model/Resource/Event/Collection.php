@@ -35,9 +35,9 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected $_skipClosed         = false;
 
     /**
-     * @var \Magento\Core\Model\App
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
-    protected $_application;
+    protected $_storeManager;
 
     /**
      * @var \Magento\Stdlib\DateTime
@@ -49,7 +49,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * @param \Magento\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Model\App $application
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param mixed $connection
      * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
@@ -59,14 +59,14 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         \Magento\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Model\App $application,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Stdlib\DateTime $dateTime,
         $connection = null,
         \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->dateTime = $dateTime;
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
-        $this->_application = $application;
+        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -208,7 +208,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
             array('event_image' => $this->getTable('magento_catalogevent_event_image')),
             implode(' AND ', array(
                 'event_image.event_id = main_table.event_id',
-                $adapter->quoteInto('event_image.store_id = ?', $this->_application->getStore()->getId())
+                $adapter->quoteInto('event_image.store_id = ?', $this->_storeManager->getStore()->getId())
             )),
             array('image' =>
                 $adapter->getCheckSql('event_image.image IS NULL', 'event_image_default.image', 'event_image.image')

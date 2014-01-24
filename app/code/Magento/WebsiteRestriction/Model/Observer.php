@@ -48,7 +48,7 @@ class Observer
     protected $_eventManager;
 
     /**
-     * @var \Magento\Core\Model\UrlFactory
+     * @var \Magento\UrlFactory
      */
     protected $_urlFactory;
 
@@ -64,7 +64,7 @@ class Observer
      * @param \Magento\Customer\Helper\Data $customerHelper
      * @param \Magento\Core\Model\Session $session
      * @param \Magento\Core\Model\Store\Config $storeConfig
-     * @param \Magento\Core\Model\UrlFactory $urlFactory
+     * @param \Magento\UrlFactory $urlFactory
      * @param \Magento\App\ActionFlag $actionFlag
      */
     public function __construct(
@@ -74,7 +74,7 @@ class Observer
         \Magento\Customer\Helper\Data $customerHelper,
         \Magento\Core\Model\Session $session,
         \Magento\Core\Model\Store\Config $storeConfig,
-        \Magento\Core\Model\UrlFactory $urlFactory,
+        \Magento\UrlFactory $urlFactory,
         \Magento\App\ActionFlag $actionFlag
     ) {
         $this->_config = $config;
@@ -204,7 +204,7 @@ class Observer
     /**
      * @param string $route
      * @param array $params
-     * @return \Magento\Core\Model\Url
+     * @return \Magento\UrlInterface
      */
     public function getUrl($route = '', $params = array())
     {

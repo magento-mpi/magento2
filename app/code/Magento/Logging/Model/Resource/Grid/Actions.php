@@ -33,6 +33,11 @@ class Actions implements \Magento\Core\Model\Option\ArrayInterface
         $this->_resource = $resource;
     }
 
+    /**
+     * Get options as array
+     *
+     * @return array
+     */
     public function toOptionArray()
     {
         $actions = array();
