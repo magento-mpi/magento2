@@ -64,22 +64,22 @@ class RelatedProductsTest extends \PHPUnit_Framework_TestCase
     public function getRelatedProductIdsDataProvider()
     {
         return array(
-            'case1' => array(
+            array(
                 'optionValue' => 'type1',
                 'productId' => 123,
                 'expectedResult' => array(123)
             ),
-            'case2' => array(
+            array(
                 'optionValue' => 'other_type',
                 'productId' => 123,
                 'expectedResult' => array()
             ),
-            'case3' => array(
+            array(
                 'optionValue' => 'type1',
-                'productId' => false,
+                'productId' => null,
                 'expectedResult' => array()
             ),
-            'case4' => array(
+            array(
                 'optionValue' => 'other_type',
                 'productId' => false,
                 'expectedResult' => array()
