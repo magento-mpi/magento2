@@ -8,6 +8,6 @@
  */
 -->
 <config>
-    <preference for="Magento\TestModule2\Service\SubsetRestV1Interface" type="Magento\TestModule2\Service\SubsetRestV1" />
-    <preference for="Magento\TestModule2\Service\NoWebApiXmlV1Interface" type="Magento\TestModule2\Service\NoWebApiXmlV1" />
+    <preference for="Magento\TestModule2\Service\V1\SubsetRestInterface" type="Magento\TestModule2\Service\V1\SubsetRest" />
+    <preference for="Magento\TestModule2\Service\V1\NoWebApiXmlInterface" type="Magento\TestModule2\Service\V1\NoWebApiXml" />
 </config>

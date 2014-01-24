@@ -15,6 +15,8 @@
 * Request\Response workflow improvements:
   * Added Console\Response
   * All kind of applications always return Response instead of sending it
+* Refactored Web API Framework to support Data Object based service interfaces
+* Refactored controllers, blocks and templates of the Sales Module to use customer service
 
 2.0.0.0-dev61
 =============

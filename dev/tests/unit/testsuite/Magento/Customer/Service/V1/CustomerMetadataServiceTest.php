@@ -9,10 +9,6 @@
  */
 namespace Magento\Customer\Service\V1;
 
-use Magento\Customer\Service\V1\CustomerMetadataService;
-use Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata;
-use Magento\Customer\Service\V1\Dto\Eav\Option;
-
 class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
 {
     /** Sample values for testing */
@@ -21,6 +17,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
     const INPUT_FILTER = 'input filter';
     const STORE_LABEL = 'store label';
     const VALIDATE_RULES = 'validate rules';
+    const FRONTEND_CLASS = 'frontend class';
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Eav\Model\Config
@@ -53,6 +50,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
                         'getStoreLabel',
                         'getValidateRules',
                         'getSource',
+                        'getFrontend',
                         '__wakeup',
                     )
                 )
@@ -64,6 +62,16 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
                 ->disableOriginalConstructor()
                 ->getMock();
 
+        $frontendMock = $this->getMockBuilder('\Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFrontend')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getClass'))
+            ->getMock();
+
+        $frontendMock
+            ->expects($this->any())
+            ->method('getClass')
+            ->will($this->returnValue(self::FRONTEND_CLASS));
+
         $this->_mockReturnValue(
             $this->_attributeEntityMock,
             array(
@@ -72,6 +80,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
                 'getInputFilter' => self::INPUT_FILTER,
                 'getStoreLabel' => self::STORE_LABEL,
                 'getValidateRules' => self::VALIDATE_RULES,
+                'getFrontend' => $frontendMock
             )
         );
     }
@@ -100,10 +109,10 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getAllOptions')
             ->will($this->returnValue($allOptions));
 
-        $attributeColMock = $this->getMockBuilder('\\Magento\\Customer\\Model\\Resource\\Form\\Attribute\\Collection')
+        $attributeColMock = $this->getMockBuilder('\Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory')
             ->disableOriginalConstructor()
             ->getMock();
-        $storeManagerMock = $this->getMockBuilder('\\Magento\\Core\\Model\\StoreManager')
+        $storeManagerMock = $this->getMockBuilder('\Magento\Core\Model\StoreManager')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -115,11 +124,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             $optionBuilder, $attributeMetadataBuilder);
 
         $attributeMetadata = $service->getAttributeMetadata('entityCode', 'attributeId');
-        $this->assertEquals(self::ATTRIBUTE_CODE, $attributeMetadata->getAttributeCode());
-        $this->assertEquals(self::FRONTEND_INPUT, $attributeMetadata->getFrontendInput());
-        $this->assertEquals(self::INPUT_FILTER, $attributeMetadata->getInputFilter());
-        $this->assertEquals(self::STORE_LABEL, $attributeMetadata->getStoreLabel());
-        $this->assertEquals(self::VALIDATE_RULES, $attributeMetadata->getValidationRules());
+        $this->assertMetadataAttributes($attributeMetadata);
 
         $options = $attributeMetadata->getOptions();
         $this->assertNotEquals(array(), $options);
@@ -143,10 +148,10 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getAllOptions')
             ->will($this->returnValue(array()));
 
-        $attributeColMock = $this->getMockBuilder('\\Magento\\Customer\\Model\\Resource\\Form\\Attribute\\Collection')
+        $attributeColMock = $this->getMockBuilder('\Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory')
             ->disableOriginalConstructor()
             ->getMock();
-        $storeManagerMock = $this->getMockBuilder('\\Magento\\Core\\Model\\StoreManager')
+        $storeManagerMock = $this->getMockBuilder('\Magento\Core\Model\StoreManager')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -158,11 +163,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             $optionBuilder, $attributeMetadataBuilder);
 
         $attributeMetadata = $service->getAttributeMetadata('entityCode', 'attributeId');
-        $this->assertEquals(self::ATTRIBUTE_CODE, $attributeMetadata->getAttributeCode());
-        $this->assertEquals(self::FRONTEND_INPUT, $attributeMetadata->getFrontendInput());
-        $this->assertEquals(self::INPUT_FILTER, $attributeMetadata->getInputFilter());
-        $this->assertEquals(self::STORE_LABEL, $attributeMetadata->getStoreLabel());
-        $this->assertEquals(self::VALIDATE_RULES, $attributeMetadata->getValidationRules());
+        $this->assertMetadataAttributes($attributeMetadata);
 
         $options = $attributeMetadata->getOptions();
         $this->assertEquals(0, count($options));
@@ -178,10 +179,10 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getSource')
             ->will($this->throwException(new \Exception('exception message')));
 
-        $attributeColMock = $this->getMockBuilder('\\Magento\\Customer\\Model\\Resource\\Form\\Attribute\\Collection')
+        $attributeColMock = $this->getMockBuilder('\Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory')
             ->disableOriginalConstructor()
             ->getMock();
-        $storeManagerMock = $this->getMockBuilder('\\Magento\\Core\\Model\\StoreManager')
+        $storeManagerMock = $this->getMockBuilder('\Magento\Core\Model\StoreManager')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -193,11 +194,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             $optionBuilder, $attributeMetadataBuilder);
 
         $attributeMetadata = $service->getAttributeMetadata('entityCode', 'attributeId');
-        $this->assertEquals(self::ATTRIBUTE_CODE, $attributeMetadata->getAttributeCode());
-        $this->assertEquals(self::FRONTEND_INPUT, $attributeMetadata->getFrontendInput());
-        $this->assertEquals(self::INPUT_FILTER, $attributeMetadata->getInputFilter());
-        $this->assertEquals(self::STORE_LABEL, $attributeMetadata->getStoreLabel());
-        $this->assertEquals(self::VALIDATE_RULES, $attributeMetadata->getValidationRules());
+        $this->assertMetadataAttributes($attributeMetadata);
 
         $options = $attributeMetadata->getOptions();
         $this->assertEquals(0, count($options));
@@ -214,5 +211,18 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
                 ->method($method)
                 ->will($this->returnValue($value));
         }
+    }
+
+    /**
+     * @param $attributeMetadata
+     */
+    private function assertMetadataAttributes($attributeMetadata)
+    {
+        $this->assertEquals(self::ATTRIBUTE_CODE, $attributeMetadata->getAttributeCode());
+        $this->assertEquals(self::FRONTEND_INPUT, $attributeMetadata->getFrontendInput());
+        $this->assertEquals(self::INPUT_FILTER, $attributeMetadata->getInputFilter());
+        $this->assertEquals(self::STORE_LABEL, $attributeMetadata->getStoreLabel());
+        $this->assertEquals(self::VALIDATE_RULES, $attributeMetadata->getValidationRules());
+        $this->assertEquals(self::FRONTEND_CLASS, $attributeMetadata->getFrontendClass());
     }
 }
