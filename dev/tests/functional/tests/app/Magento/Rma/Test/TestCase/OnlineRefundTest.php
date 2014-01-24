@@ -32,8 +32,6 @@ class OnlineRefundTest extends Functional
         // Create an order.
         $fixture->persist();
 
-        Factory::getApp()->magentoBackendLoginUser();
-
         // Close the order.
         Factory::getApp()->magentoSalesCloseOrder($fixture);
         $orderId = $fixture->getOrderId();
@@ -48,9 +46,7 @@ class OnlineRefundTest extends Functional
         if (!($fixture instanceof PaypalStandardOrder)) {
             // Step 2: Open Invoice
             $tabsWidget->openTab('sales_order_view_tabs_order_invoices');
-            // TODO:  Need invoice id from close order curl handler.
             $orderPage->getInvoicesGrid()->clickInvoiceAmount();
-            //$orderPage->getInvoicesGrid()->searchAndSelect(array('id' => $invoiceId));
 
             // Step 3: Click "Credit Memo" button on the Invoice Page
             $orderPage->getOrderActionsBlock()->orderInvoiceCreditMemo();
@@ -61,8 +57,7 @@ class OnlineRefundTest extends Functional
         }
         else {
             // Step 2: Click "Credit Memo" button on the Order Page
-            $tabsWidget->openTab('sales_order_view_tabs_order_creditmemos');
-            $orderPage->getOrderActionsBlock()->creditMemo();
+            $orderPage->getOrderActionsBlock()->orderCreditMemo();
 
             // Step 3: Submit Credit Memo
             $creditMemoPage = Factory::getPageFactory()->getSalesOrderCreditMemoNew();

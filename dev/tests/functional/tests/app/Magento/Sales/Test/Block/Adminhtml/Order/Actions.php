@@ -79,14 +79,14 @@ class Actions extends Block
     protected $ship = '#order_ship';
 
     /**
-     * 'Credit Memo' button
+     * 'Credit Memo' button on the order page
      *
      * @var string
      */
-    protected $creditMemo = '#order_creditmemo';
+    protected $orderCreditMemo = '#order_creditmemo';
 
     /**
-     * 'Credit Memo' button on the order invoices page
+     * 'Credit Memo' button on the order invoice page
      *
      * @var string
      */
@@ -108,6 +108,8 @@ class Actions extends Block
 
     /**
      * Ship order
+     *
+     * @return void
      */
     public function ship()
     {
@@ -116,6 +118,8 @@ class Actions extends Block
 
     /**
      * Invoice order
+     *
+     * @return void
      */
     public function invoice()
     {
@@ -124,6 +128,8 @@ class Actions extends Block
 
     /**
      * Go back
+     *
+     * @return void
      */
     public function back()
     {
@@ -132,6 +138,8 @@ class Actions extends Block
 
     /**
      * Edit order
+     *
+     * @return void
      */
     public function edit()
     {
@@ -140,6 +148,8 @@ class Actions extends Block
 
     /**
      * Cancel order
+     *
+     * @return void
      */
     public function cancel()
     {
@@ -148,6 +158,8 @@ class Actions extends Block
 
     /**
      * Send email
+     *
+     * @return void
      */
     public function sendEmail()
     {
@@ -156,6 +168,8 @@ class Actions extends Block
 
     /**
      * Void order
+     *
+     * @return void
      */
     public function void()
     {
@@ -164,6 +178,8 @@ class Actions extends Block
 
     /**
      * Hold order
+     *
+     * @return void
      */
     public function hold()
     {
@@ -171,13 +187,20 @@ class Actions extends Block
     }
 
     /**
-     * Credit memo
+     * Order credit memo
+     *
+     * @return void
      */
-    public function creditMemo()
+    public function orderCreditMemo()
     {
-        $this->_rootElement->find($this->creditMemo)->click();
+        $this->_rootElement->find($this->orderCreditMemo)->click();
     }
 
+    /**
+     * Order invoice credit memo
+     *
+     * @return void
+     */
     public function orderInvoiceCreditMemo()
     {
         $this->_rootElement->find($this->orderInvoiceCreditMemo)->click();
@@ -185,6 +208,8 @@ class Actions extends Block
 
     /**
      * Refund order
+     *
+     * @return void
      */
     public function refund()
     {
@@ -193,6 +218,8 @@ class Actions extends Block
 
     /**
      * Refund offline order
+     *
+     * @return void
      */
     public function refundOffline()
     {
