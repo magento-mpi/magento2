@@ -2,19 +2,18 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
+namespace Magento\Sales\Model\Resource\Billing\Agreement;
+
+use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
+
 /**
  * Billing agreements resource collection
  */
-namespace Magento\Sales\Model\Resource\Billing\Agreement;
-
-class Collection
-    extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Mapping for fields
@@ -35,11 +34,17 @@ class Collection
     protected $_customerResource;
 
     /**
+     * @var \Magento\Eav\Helper\Data
+     */
+    protected $_eavHelper;
+
+    /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Customer\Model\Resource\Customer $customerResource
+     * @param \Magento\Eav\Helper\Data $eavHelper
      * @param mixed $connection
      * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
@@ -49,10 +54,12 @@ class Collection
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Customer\Model\Resource\Customer $customerResource,
+        \Magento\Eav\Helper\Data $eavHelper,
         $connection = null,
         \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
+        $this->_eavHelper = $eavHelper;
         $this->_customerResource = $customerResource;
     }
 
@@ -78,24 +85,30 @@ class Collection
         );
 
         $adapter  = $this->getConnection();
-        $attr     = $this->_customerResource->getAttribute('firstname');
+        $firstNameMetadata = $this->_eavHelper->getAttributeMetadata(
+            CustomerMetadataServiceInterface::ENTITY_TYPE,
+            'firstname'
+        );
         $joinExpr = 'firstname.entity_id = main_table.customer_id AND '
-            . $adapter->quoteInto('firstname.entity_type_id = ?', $this->_customerResource->getTypeId()) . ' AND '
-            . $adapter->quoteInto('firstname.attribute_id = ?', $attr->getAttributeId());
+            . $adapter->quoteInto('firstname.entity_type_id = ?', $firstNameMetadata['entity_type_id']) . ' AND '
+            . $adapter->quoteInto('firstname.attribute_id = ?', $firstNameMetadata['attribute_id']);
 
         $select->joinLeft(
-            array('firstname' => $attr->getBackend()->getTable()),
+            array('firstname' => $firstNameMetadata['attribute_table']),
             $joinExpr,
             array('customer_firstname' => 'value')
         );
 
-        $attr = $this->_customerResource->getAttribute('lastname');
+        $lastNameMetadata = $this->_eavHelper->getAttributeMetadata(
+            CustomerMetadataServiceInterface::ENTITY_TYPE,
+            'lastname'
+        );
         $joinExpr = 'lastname.entity_id = main_table.customer_id AND '
-            . $adapter->quoteInto('lastname.entity_type_id = ?', $this->_customerResource->getTypeId()) . ' AND '
-            . $adapter->quoteInto('lastname.attribute_id = ?', $attr->getAttributeId());
+            . $adapter->quoteInto('lastname.entity_type_id = ?', $lastNameMetadata['entity_type_id']) . ' AND '
+            . $adapter->quoteInto('lastname.attribute_id = ?', $lastNameMetadata['attribute_id']);
 
         $select->joinLeft(
-            array('lastname' => $attr->getBackend()->getTable()),
+            array('lastname' => $lastNameMetadata['attribute_table']),
             $joinExpr,
             array('customer_lastname' => 'value')
         );
