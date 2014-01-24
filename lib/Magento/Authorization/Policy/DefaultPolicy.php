@@ -22,7 +22,7 @@ class DefaultPolicy implements \Magento\Authorization\Policy
      * @param string $roleId
      * @param string $resourceId
      * @param string $privilege
-     * @return bool
+     * @return true
      */
     public function isAllowed($roleId, $resourceId, $privilege = null)
     {

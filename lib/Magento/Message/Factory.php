@@ -9,6 +9,7 @@
 namespace Magento\Message;
 
 use Magento\ObjectManager;
+
 /**
  * Message model factory
  */
@@ -29,7 +30,7 @@ class Factory
     /**
      * Object Manager instance
      *
-     * @var \Magento\ObjectManager
+     * @var ObjectManager
      */
     protected $objectManager;
 

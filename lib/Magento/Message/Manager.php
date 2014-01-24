@@ -32,12 +32,12 @@ class Manager implements ManagerInterface
     protected $messagesFactory;
 
     /**
-     * @var \Magento\Event\ManagerInterface
+     * @var EventManagerInterface
      */
     protected $eventManager;
 
     /**
-     * @var \Magento\Logger
+     * @var Logger
      */
     protected $logger;
 
@@ -255,7 +255,7 @@ class Manager implements ManagerInterface
             $exception->getTraceAsString()
         );
 
-        $this->logger->logFile($message, \Zend_Log::DEBUG, \Magento\Logger::LOGGER_EXCEPTION);
+        $this->logger->logFile($message, \Zend_Log::DEBUG, Logger::LOGGER_EXCEPTION);
         $this->addMessage($this->messageFactory->create(MessageInterface::TYPE_ERROR, $alternativeText), $group);
         return $this;
     }

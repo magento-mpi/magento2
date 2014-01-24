@@ -22,7 +22,7 @@ class Factory
     /**
      * Object Manager instance
      *
-     * @var \Magento\ObjectManager
+     * @var ObjectManager
      */
     protected $_objectManager = null;
 

@@ -10,6 +10,8 @@
 namespace Magento\Interception;
 
 use Magento\ObjectManager;
+use Magento\Interception\Config;
+use Magento\Interception\PluginList;
 use Magento\ObjectManager\Factory;
 
 class FactoryDecorator implements Factory
@@ -17,36 +19,36 @@ class FactoryDecorator implements Factory
     /**
      * Configurable factory
      *
-     * @var \Magento\ObjectManager\Factory
+     * @var Factory
      */
     protected $_factory;
 
     /**
      * Object manager
      *
-     * @var \Magento\ObjectManager
+     * @var ObjectManager
      */
     protected $_objectManager;
 
     /**
      * Object manager config
      *
-     * @var \Magento\Interception\Config
+     * @var Config
      */
     protected $_config;
 
     /**
      * List of plugins configured for instance
      *
-     * @var \Magento\Interception\PluginList
+     * @var PluginList
      */
     protected $_pluginList;
 
     /**
-     * @param \Magento\ObjectManager\Factory $factory
-     * @param \Magento\Interception\Config $config
-     * @param \Magento\Interception\PluginList $pluginList
-     * @param \Magento\ObjectManager $objectManager
+     * @param Factory $factory
+     * @param Config $config
+     * @param PluginList $pluginList
+     * @param ObjectManager $objectManager
      */
     public function __construct(
         Factory $factory,
