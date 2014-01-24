@@ -23,17 +23,25 @@ class HeaderPlugin
     protected $config;
 
     /**
+     * @var \Magento\PageCache\Model\Version
+     */
+    private $version;
+
+    /**
      * Constructor
      *
      * @param \Magento\Core\Model\Layout $layout
      * @param \Magento\Core\Model\ConfigInterface $config
+     * @param \Magento\PageCache\Model\Version $version
      */
     public function __construct(
         \Magento\Core\Model\Layout $layout,
-        \Magento\Core\Model\ConfigInterface $config
+        \Magento\Core\Model\ConfigInterface $config,
+        \Magento\PageCache\Model\Version $version
     ){
         $this->layout = $layout;
         $this->config = $config;
+        $this->version = $version;
     }
 
     /**
@@ -62,6 +70,7 @@ class HeaderPlugin
             $response->setHeader('expires',
                 gmdate('D, d M Y H:i:s T', strtotime('-' . $maxAge . ' seconds')), true);
         }
+        $this->version->process();
         return $response;
     }
 }
