@@ -161,7 +161,7 @@ class Database extends \Zend_Cache_Backend implements \Zend_Cache_Backend_Extend
      * Test if a cache is available or not (for the given id)
      *
      * @param  string $id cache id
-     * @return mixed|bool (a cache is not available) or "last modified" timestamp (int) of the available cache record
+     * @return mixed|false (a cache is not available) or "last modified" timestamp (int) of the available cache record
      */
     public function test($id)
     {
@@ -385,7 +385,7 @@ class Database extends \Zend_Cache_Backend implements \Zend_Cache_Backend_Extend
      * - mtime : timestamp of last modification time
      *
      * @param string $id cache id
-     * @return array|bool array of metadatas (false if the cache id is not found)
+     * @return array|false array of metadatas (false if the cache id is not found)
      */
     public function getMetadatas($id)
     {

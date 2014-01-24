@@ -3625,6 +3625,54 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
     }
 
     /**
+     * Create trigger
+     *
+     * @param \Magento\DB\Ddl\Trigger $trigger
+     * @throws \Zend_Db_Exception
+     * @return \Zend_Db_Statement_Pdo
+     */
+    public function createTrigger(\Magento\DB\Ddl\Trigger $trigger)
+    {
+        if (!$trigger->getStatements()) {
+            throw new \Zend_Db_Exception(sprintf(__('Trigger %s has not statements available'), $trigger->getName()));
+        }
+
+        $statements = implode("\n", $trigger->getStatements());
+
+        $sql = sprintf("CREATE TRIGGER %s %s %s ON %s FOR EACH ROW\nBEGIN\n%s\nEND",
+            $trigger->getName(),
+            $trigger->getTime(),
+            $trigger->getEvent(),
+            $trigger->getTable(),
+            $statements
+        );
+
+        return $this->query($sql);
+    }
+
+    /**
+     * Drop trigger from database
+     *
+     * @param string $triggerName
+     * @param string $schemaName
+     * @throws \InvalidArgumentException
+     * @return bool
+     */
+    public function dropTrigger($triggerName, $schemaName = null)
+    {
+        if (empty($triggerName)) {
+            throw new \InvalidArgumentException(__('Trigger name is not defined'));
+        }
+
+        $triggerName = ($schemaName ? $schemaName . '.' : '') . $triggerName;
+
+        $sql = 'DROP TRIGGER IF EXISTS ' . $this->quoteIdentifier($triggerName);
+        $this->query($sql);
+
+        return true;
+    }
+
+    /**
      * Check if all transactions have been committed
      *
      * @return void

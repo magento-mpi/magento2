@@ -182,7 +182,7 @@ class Ftp
     /**
      * Get current working directory
      * 
-     * @return bool|string
+     * @return false|string
      */
     public function getcwd()
     {

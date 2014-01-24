@@ -198,7 +198,7 @@ class MongoDb extends \Zend_Cache_Backend implements \Zend_Cache_Backend_Extende
      * - mtime : timestamp of last modification time
      *
      * @param string $cacheId cache id
-     * @return array|bool array of metadatas (false if the cache id is not found)
+     * @return array|false array of metadatas (false if the cache id is not found)
      */
     public function getMetadatas($cacheId)
     {

@@ -133,7 +133,7 @@ class Config
      * Get configuration node for specified full action name
      *
      * @param string $controllerAction
-     * @return array|false
+     * @return array|bool
      */
     public function getEventByFullActionName($controllerAction)
     {
@@ -148,7 +148,7 @@ class Config
     /**
      * Retrieve configuration for group of events
      *
-     * @param $groupName
+     * @param string $groupName
      * @return bool
      */
     public function getEventGroupConfig($groupName)

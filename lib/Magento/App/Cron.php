@@ -13,7 +13,7 @@ use Magento\App\Console\Response;
 use \Magento\App\ObjectManager\ConfigLoader,
     \Magento\Event\ManagerInterface;
 
-class Cron implements \Magento\AppInterface
+class Cron implements \Magento\LauncherInterface
 {
     /**
      * @var \Magento\Event\ManagerInterface
@@ -50,7 +50,7 @@ class Cron implements \Magento\AppInterface
      *
      * @return ResponseInterface
      */
-    public function execute()
+    public function launch()
     {
         $this->_state->setAreaCode('crontab');
         $this->_eventManager->dispatch('default');

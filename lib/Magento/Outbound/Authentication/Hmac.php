@@ -11,10 +11,10 @@
  */
 namespace Magento\Outbound\Authentication;
 
-use Magento\Core\Model\Store;
 use Magento\Core\Model\StoreManagerInterface;
 use Magento\Outbound\AuthenticationInterface;
 use Magento\Outbound\UserInterface;
+use Magento\UrlInterface;
 
 class Hmac implements AuthenticationInterface
 {
@@ -74,6 +74,6 @@ class Hmac implements AuthenticationInterface
     protected function _getDomain()
     {
         return parse_url($this->_storeManager->getSafeStore()
-            ->getBaseUrl(Store::URL_TYPE_WEB), PHP_URL_HOST);
+            ->getBaseUrl(UrlInterface::URL_TYPE_WEB), PHP_URL_HOST);
     }
 }
