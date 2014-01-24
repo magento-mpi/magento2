@@ -22,7 +22,7 @@ $_orderUrl = $this->helper('Magento\Authorizenet\Helper\Data')->getPlaceOrderFro
 
 <!-- IFRAME for request to Authorize.net -->
 <iframe id="directpost-iframe" data-container="authorize-net-iframe" allowtransparency="true" frameborder="0"  name="iframeDirectPost" style="display:none;width:100%;background-color:transparent" src="<?php echo $this->getViewFileUrl('blank.html') ?>"></iframe>
-<form class="form" id="co-directpost-form" action="#" method="post" data-mage-init="{directpost: {methodCode:'<?php echo $_code ?>', controller:'<?php echo $_controller ?>', orderSaveUrl:'<?php echo $_orderUrl ?>', cgiUrl:'<?php echo $_method->getCgiUrl() ?>', nativeAction:'<?php echo $this->getUrl('checkout/onepage/saveOrder', array('_secure' => $this->getRequest()->isSecure())) ?>'}, validation: []}">
+<form class="form" id="co-directpost-form" action="#" method="post" data-mage-init='{"directpost":{"methodCode":"<?php echo $_code ?>", "controller":"<?php echo $_controller ?>", "orderSaveUrl":"<?php echo $_orderUrl ?>", "cgiUrl":"<?php echo $_method->getCgiUrl() ?>", "nativeAction":"<?php echo $this->getUrl('checkout/onepage/saveOrder', array('_secure' => $this->getRequest()->isSecure())) ?>"}, "validation":[]}'>
     <fieldset class="fieldset ccard <?php echo $_code ?>" id="payment_form_<?php echo $_code ?>">
         <legend class="legend"><span><?php echo __('Credit Card Information') ?></span></legend><br />
         <div class="field required type">
