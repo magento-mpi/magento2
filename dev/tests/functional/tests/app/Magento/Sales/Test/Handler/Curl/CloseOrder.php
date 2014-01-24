@@ -28,40 +28,93 @@ use Mtf\System\Config;
 class CloseOrder extends Curl
 {
     /**
+     * @var string
+     */
+    protected $startShipmentUrl = 'admin/order_shipment/start/order_id/';
+
+    /**
+     * @var string
+     */
+    protected $submitShiptmentUrl = 'admin/order_shipment/save/order_id/';
+
+    /**
+     * @var string
+     */
+    protected $startInvoiceUrl = 'sales/order_invoice/start/order_id/';
+
+    /**
+     * @var string
+     */
+    protected $submitInvoiceUrl = 'sales/order_invoice/save/order_id/';
+
+    /**
+     * @var string
+     */
+    protected $shipmentFieldsPattern = '/shipment\[items\]\[[a-z0-9]+\]/';
+
+    /**
+     * @var string
+     */
+    protected $invoiceFieldsPattern = '/invoice\[items\]\[[a-z0-9]+\]/';
+
+    /**
+     * Executes the CURL command with a given URL and data set
+     *
+     * @param string $url
+     * @param array $data
+     * @return string $response
+     */
+    protected function _executeCurl($url, $data = array())
+    {
+        $curl = new BackendDecorator(new CurlTransport(), new Config);
+        $curl->addOption(CURLOPT_HEADER, 1);
+        $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
+        $response = $curl->read();
+        $curl->close();
+        return $response;
+    }
+
+    /**
+     * Populate the quantity fields with a value of 1
+     *
+     * @param $elements
+     * @return array
+     */
+    protected function _prepareData($elements)
+    {
+        $data = array();
+        foreach($elements as $element) {
+            foreach($element as $key) {
+                $data[$key] = '1';
+            }
+        }
+        return $data;
+    }
+
+    /**
      * Close sales order
      *
      * @param Fixture $fixture [optional]
      */
     public function execute(Fixture $fixture = null)
     {
-        //Click the Ship button
         $orderId = $fixture->getOrderId();
         $orderId = substr($orderId, 1);
         $orderId = (int)$orderId;
-        //Click Ship button and create a new shipment page
-        $url = $_ENV['app_backend_url'] . 'admin/order_shipment/start/order_id/' . $orderId;
-        $curl = new BackendDecorator(new CurlTransport(), new Config);
-        $curl->addOption(CURLOPT_HEADER, 1);
-        $curl->write(CurlInterface::POST, $url, '1.0', array(), array());
-        $response = $curl->read();
-        $curl->close();
 
-        preg_match_all('/shipment\[items\]\[[a-z0-9]+\]/', $response, $shipmentItems);
+        //Click Ship button and create a new shipment page
+        $url = $_ENV['app_backend_url'] . $this->startShipmentUrl . $orderId;
+        $data = array();
+        $response = $this->_executeCurl($url, $data);
+
+        //Get the dynamic field names
+        preg_match_all($this->shipmentFieldsPattern, $response, $shipmentItems);
 
         // Fill out the Items to ship quantities and click Submit Shipment
-        $data = array();
-        foreach($shipmentItems as $element) {
-            foreach($element as $key) {
-                $data[$key] = '1';
-            }
-        }
+        $data = $this->_prepareData($shipmentItems);
 
-        $url = $_ENV['app_backend_url'] . 'admin/order_shipment/save/order_id/' . $orderId;
-        $curl = new BackendDecorator(new CurlTransport(), new Config);
-        $curl->addOption(CURLOPT_HEADER, 1);
-        $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
-        $response = $curl->read();
-        $curl->close();
+        $url = $_ENV['app_backend_url'] . $this->submitShiptmentUrl . $orderId;
+        $response = $this->_executeCurl($url, $data);
 
         if (!strpos($response, 'data-ui-id="messages-message-success"')) {
             throw new \Exception("Submitting shipment by curl handler was not successful! Response: $response");
@@ -70,32 +123,21 @@ class CloseOrder extends Curl
         // Click Invoice button if the payment method was not PayPal Standard
         if(!($fixture instanceof \Magento\Sales\Test\Fixture\PaypalStandardOrder)) {
             //Click Invoice button and create a new invoice page
-            $url = $_ENV['app_backend_url'] . 'sales/order_invoice/start/order_id/' . $orderId;
-            $curl = new BackendDecorator(new CurlTransport(), new Config);
-            $curl->addOption(CURLOPT_HEADER, 1);
-            $curl->write(CurlInterface::POST, $url, '1.0', array(), array());
-            $response = $curl->read();
-            $curl->close();
+            $url = $_ENV['app_backend_url'] . $this->startInvoiceUrl . $orderId;
+            $data = array();
+            $this->_executeCurl($url, $data);
 
-            preg_match_all('/invoice\[items\]\[[a-z0-9]+\]/', $response, $invoiceItems);
+            //Get the dynamic field names
+            preg_match_all($this->invoiceFieldsPattern, $response, $invoiceItems);
 
             // Fill out the Items to invoice quantities and click Submit Invoice
-            $data = array();
-            foreach($invoiceItems as $element) {
-                foreach($element as $key) {
-                    $data[$key] = '1';
-                }
-            }
+            $data = $this->_prepareData($invoiceItems);
 
-            //Selectd Capture Online
+            //Select Capture Online
             $data['invoice[capture_case]'] = 'online';
 
-            $url = $_ENV['app_backend_url'] . 'sales/order_invoice/save/order_id/' . $orderId;
-            $curl = new BackendDecorator(new CurlTransport(), new Config);
-            $curl->addOption(CURLOPT_HEADER, 1);
-            $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
-            $response = $curl->read();
-            $curl->close();
+            $url = $_ENV['app_backend_url'] . $this->submitInvoiceUrl . $orderId;
+            $response = $this->_executeCurl($url, $data);
 
             if (!strpos($response, 'data-ui-id="messages-message-success"')) {
                 throw new \Exception("Submitting Invoice by curl handler was not successful! Response: $response");
