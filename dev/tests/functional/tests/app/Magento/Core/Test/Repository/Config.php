@@ -764,14 +764,14 @@ class Config extends AbstractRepository
                                     )
                                 )
                             ),
-                            'verisign' => array(
+                            'payflowpro' => array(
                                 'fields' => array(
                                     'active' => array(
                                         'value' => self::NO_VALUE
                                     )
                                 )
                             ),
-                            'paypaluk_express' => array(
+                            'payflow_express' => array(
                                 'fields' => array(
                                     'active' => array(
                                         'value' => self::NO_VALUE
@@ -1187,7 +1187,7 @@ class Config extends AbstractRepository
                         'groups' => array(
                             'paypal_payment_gateways' => array( // PayPal Payment Gateways
                                 'groups' => array(
-                                    'paypal_verisign_with_express_checkout_us' => array( // Payflow Pro (Includes Express Checkout)
+                                    'paypal_payflowpro_with_express_checkout_us' => array( // Payflow Pro (Includes Express Checkout)
                                         'groups' => array(
                                             'paypal_payflow_required' => array( // Required Paypal Settings
                                                 'groups' => array(
@@ -1243,7 +1243,7 @@ class Config extends AbstractRepository
                                     )
                                 )
                             ),
-                            'paypaluk_express' => array(
+                            'payflow_express' => array(
                                 'fields' => array(
                                     'active' => array(
                                         'value' => self::YES_VALUE
@@ -1272,7 +1272,7 @@ class Config extends AbstractRepository
                         'groups' => array(
                             'paypal_payment_gateways' => array(
                                 'groups' => array(
-                                    'paypal_verisign_with_express_checkout_us' => array(
+                                    'paypal_payflowpro_with_express_checkout_us' => array(
                                         'groups' => array(
                                             'settings_paypal_payflow' => array(
                                                 'groups' => array(
@@ -1448,7 +1448,7 @@ class Config extends AbstractRepository
                         'groups' => array(
                             'paypal_payment_gateways' => array(
                                 'groups' => array(
-                                    'paypal_verisign_with_express_checkout_us' => array(
+                                    'paypal_payflowpro_with_express_checkout_us' => array(
                                         'groups' => array(
                                             'paypal_payflow_required' => array(
                                                 'groups' => array(

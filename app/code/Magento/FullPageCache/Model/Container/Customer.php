@@ -16,7 +16,7 @@ namespace Magento\FullPageCache\Model\Container;
 class Customer extends \Magento\FullPageCache\Model\Container\AbstractContainer
 {
     /**
-     * @var \Magento\Core\Model\Config
+     * @var \Magento\App\ConfigInterface
      */
     protected $_coreConfig;
 
@@ -28,7 +28,7 @@ class Customer extends \Magento\FullPageCache\Model\Container\AbstractContainer
      * @param \Magento\FullPageCache\Helper\Url $urlHelper
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\View\LayoutInterface $layout
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\App\ConfigInterface $coreConfig
      */
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
@@ -38,7 +38,7 @@ class Customer extends \Magento\FullPageCache\Model\Container\AbstractContainer
         \Magento\FullPageCache\Helper\Url $urlHelper,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\View\LayoutInterface $layout,
-        \Magento\Core\Model\Config $coreConfig
+        \Magento\App\ConfigInterface $coreConfig
     ) {
         parent::__construct(
             $eventManager, $fpcCache, $placeholder, $coreRegistry, $urlHelper, $coreStoreConfig, $layout

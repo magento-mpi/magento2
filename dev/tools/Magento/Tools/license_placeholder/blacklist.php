@@ -17,6 +17,9 @@ return array(
     'dev/build/publication/license',
     'dev/tests/functional-old/fixture/_testFiles/jquery_jqzoom_css_jquery.jqzoom.css',
     'dev/tests/functional-old/framework/Mage/Testlink/class-IXR.php',
+    'dev/tests/integration/testsuite/Magento/Css/PreProcessor/_files',
+    'dev/tests/integration/testsuite/Magento/Less/_files/design/frontend/test_pre_process',
+    'dev/tests/integration/testsuite/Magento/Less/_files/lib/magento_import.less',
     'dev/tests/integration/tmp',
     'dev/tests/static/report',
     'dev/tests/static/testsuite/Magento/Test/Php/_files/phpcs/Magento/Sniffs/Annotations/'

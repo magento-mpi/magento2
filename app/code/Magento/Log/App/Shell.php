@@ -10,9 +10,9 @@
 namespace Magento\Log\App;
 
 use Magento\App\Console\Response;
-use Magento\AppInterface;
+use Magento\LauncherInterface;
 
-class Shell implements AppInterface
+class Shell implements LauncherInterface
 {
     /**
      * Filename of the entry point script
@@ -52,7 +52,7 @@ class Shell implements AppInterface
      *
      * @return \Magento\App\ResponseInterface
      */
-    public function execute()
+    public function launch()
     {
         /** @var $shell \Magento\Log\Model\Shell */
         $shell = $this->_shellFactory->create(array('entryPoint' => $this->_entryFileName));

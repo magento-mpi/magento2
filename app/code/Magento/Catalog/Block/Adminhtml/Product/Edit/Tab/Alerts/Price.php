@@ -34,7 +34,6 @@ class Price extends \Magento\Backend\Block\Widget\Grid\Extended
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\ProductAlert\Model\PriceFactory $priceFactory
      * @param \Magento\Catalog\Helper\Data $catalogData
@@ -42,7 +41,6 @@ class Price extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Url $urlModel,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\ProductAlert\Model\PriceFactory $priceFactory,
         \Magento\Catalog\Helper\Data $catalogData,
@@ -50,7 +48,7 @@ class Price extends \Magento\Backend\Block\Widget\Grid\Extended
     ) {
         $this->_priceFactory = $priceFactory;
         $this->_catalogData = $catalogData;
-        parent::__construct($context, $urlModel, $backendHelper, $data);
+        parent::__construct($context, $backendHelper, $data);
     }
 
     protected function _construct()

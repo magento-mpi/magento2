@@ -52,7 +52,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     protected $_response = null;
 
     /**
-     * @var \Magento\Backend\Model\Url
+     * @var \Magento\Backend\Model\UrlInterface
      */
     protected $_backendUrl;
 
@@ -83,7 +83,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
 
     /**
      * @param \Magento\AdminGws\Model\Role $role
-     * @param \Magento\Backend\Model\Url $backendUrl
+     * @param \Magento\Backend\Model\UrlInterface $backendUrl
      * @param \Magento\Backend\Model\Session $backendSession
      * @param \Magento\AdminGws\Model\Resource\CollectionsFactory $collectionsFactory
      * @param \Magento\Catalog\Model\Resource\ProductFactory $productFactoryRes
@@ -99,7 +99,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     public function __construct(
         \Magento\AdminGws\Model\Role $role,
-        \Magento\Backend\Model\Url $backendUrl,
+        \Magento\Backend\Model\UrlInterface $backendUrl,
         \Magento\Backend\Model\Session $backendSession,
         \Magento\AdminGws\Model\Resource\CollectionsFactory $collectionsFactory,
         \Magento\Catalog\Model\Resource\ProductFactory $productFactoryRes,

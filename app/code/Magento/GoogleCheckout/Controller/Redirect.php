@@ -31,7 +31,7 @@ class Redirect extends \Magento\App\Action\Action
 
         if (!$quote->hasItems()) {
             $this->getResponse()->setRedirect(
-                $this->_objectManager->create('Magento\Core\Model\Url')->getUrl('checkout/cart')
+                $this->_objectManager->create('Magento\UrlInterface')->getUrl('checkout/cart')
             );
             $api->setError(true);
         }
@@ -87,7 +87,7 @@ class Redirect extends \Magento\App\Action\Action
         $api = $this->_getApi();
 
         if ($api->getError()) {
-            $url = $this->_objectManager->create('Magento\Core\Model\Url')->getUrl('checkout/cart');
+            $url = $this->_objectManager->create('Magento\UrlInterface')->getUrl('checkout/cart');
         } else {
             $url = $api->getRedirectUrl();
         }
@@ -104,7 +104,7 @@ class Redirect extends \Magento\App\Action\Action
 
         if ($api->getError()) {
             $this->getResponse()->setRedirect(
-                $this->_objectManager->create('Magento\Core\Model\Url')->getUrl('checkout/cart')
+                $this->_objectManager->create('Magento\UrlInterface')->getUrl('checkout/cart')
             );
             return;
         } else {
