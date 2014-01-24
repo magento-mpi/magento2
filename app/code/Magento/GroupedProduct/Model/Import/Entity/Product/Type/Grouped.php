@@ -84,6 +84,8 @@ class Grouped extends AbstractType
      * Save product type specific data.
      *
      * @return \Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function saveData()
     {
@@ -167,7 +169,8 @@ class Grouped extends AbstractType
                 }
             }
             // save links and relations
-            if ($linksData['product_ids'] && $this->getBehavior() != \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND) {
+            if ($linksData['product_ids'] &&
+                $this->getBehavior() != \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND) {
                 $connection->delete(
                     $mainTable,
                     $connection->quoteInto(

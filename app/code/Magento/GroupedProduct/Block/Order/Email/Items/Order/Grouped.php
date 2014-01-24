@@ -19,7 +19,8 @@ class Grouped extends \Magento\Sales\Block\Order\Email\Items\Order\DefaultOrder
      * @return string
      */
     protected function _toHtml()
-    {   if ($this->getItem()->getOrderItem()) {
+    {
+        if ($this->getItem()->getOrderItem()) {
             $item = $this->getItem()->getOrderItem();
         } else {
             $item = $this->getItem();

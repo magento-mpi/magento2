@@ -8,7 +8,7 @@
 
 namespace Magento\GroupedProduct\Block\Adminhtml\Order\Create;
 
-class Sidebar 
+class Sidebar
 {
     /**
      * Get item qty
