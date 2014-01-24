@@ -16,8 +16,13 @@
  */
 namespace Magento\Invitation\Helper;
 
+use Magento\Invitation\Model\Invitation;
+
 class Data extends \Magento\App\Helper\AbstractHelper
 {
+    /**
+     * @inheritdoc
+     */
     protected $_isRegistrationAllowed = null;
 
     /**
@@ -44,7 +49,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Url builder
      *
-     * @var \Magento\Core\Model\Url
+     * @var \Magento\UrlInterface
      */
     protected $_urlBuilder;
 
@@ -53,27 +58,24 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Invitation\Model\Source\Invitation\Status $invitationStatus
-     * @param \Magento\Core\Model\Url $urlBuilder
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Customer\Helper\Data $customerData,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Invitation\Model\Source\Invitation\Status $invitationStatus,
-        \Magento\Core\Model\Url $urlBuilder
+        \Magento\Invitation\Model\Source\Invitation\Status $invitationStatus
     ) {
         parent::__construct($context);
         $this->_customerData = $customerData;
         $this->_coreData = $coreData;
         $this->_invitationStatus = $invitationStatus;
-        $this->_urlBuilder = $urlBuilder;
     }
 
     /**
      * Return text for invitation status
      *
-     * @param $invitation
-     * @return \Magento\Invitation\Model\Invitation
+     * @param Invitation $invitation
+     * @return Invitation
      */
     public function getInvitationStatusText($invitation)
     {
@@ -83,15 +85,15 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Return invitation url
      *
-     * @param \Magento\Invitation\Model\Invitation $invitation
+     * @param Invitation $invitation
      * @return string
      */
     public function getInvitationUrl($invitation)
     {
-        return $this->_urlBuilder->setStore($invitation->getStoreId())
+        return $this->_urlBuilder->setScope($invitation->getStoreId())
             ->getUrl('magento_invitation/customer_account/create', array(
                 'invitation' => $this->_coreData->urlEncode($invitation->getInvitationCode()),
-                '_store_to_url' => true,
+                '_scope_to_url' => true,
                 '_nosid' => true
             ));
     }

@@ -7,6 +7,9 @@
  */
 namespace Magento\Logging\Model;
 
+use \Magento\Core\Model\AbstractModel;
+use \Magento\Logging\Model\Event\Changes;
+
 class Processor
 {
     /**
@@ -174,7 +177,7 @@ class Processor
      *
      * @param string $fullActionName Full action name like 'adminhtml_catalog_product_edit'
      * @param string $actionName Action name like 'save', 'edit' etc.
-     * @return \Magento\Logging\Model\Processor
+     * @return $this
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
@@ -231,9 +234,9 @@ class Processor
      * Action model processing.
      * Get defference between data & orig_data and store in the internal modelsHandler container.
      *
-     * @param object $model
+     * @param AbstractModel $model
      * @param string $action
-     * @return \Magento\Logging\Model\Processor|false
+     * @return $this|bool
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
@@ -323,9 +326,9 @@ class Processor
     }
 
     /**
-     * Postdispatch action handler
+     * Post-dispatch action handler
      *
-     * @return \Magento\Logging\Model\Processor|false
+     * @return $this|bool
      */
     public function logAction()
     {
@@ -368,7 +371,7 @@ class Processor
     /**
      * Initialize logging event
      *
-     * @return \Magento\Logging\Model\Event
+     * @return Event
      */
     private function _initLoggingEvent()
     {
@@ -393,8 +396,10 @@ class Processor
     }
 
     /**
-     * @param \Magento\Logging\Model\Event$loggingEvent
-     * @return \Magento\Logging\Model\Processor|false
+     * Call post dispatch callback
+     *
+     * @param Event $loggingEvent
+     * @return $this|bool
      */
     private function _callPostdispatchCallback($loggingEvent)
     {
@@ -428,8 +433,8 @@ class Processor
     /**
      * Save event changes
      *
-     * @param \Magento\Logging\Model\Event $loggingEvent
-     * @return \Magento\Logging\Model\Processor|false
+     * @param Event $loggingEvent
+     * @return $this|bool
      */
     private function _saveEventChanges($loggingEvent)
     {
@@ -448,7 +453,7 @@ class Processor
     /**
      * Log "denied" action
      *
-     * @return \Magento\Logging\Model\Processor|false
+     * @return $this|bool
      */
     public function logDeniedAction()
     {
@@ -470,8 +475,8 @@ class Processor
     /**
      * Collect $model id
      *
-     * @param object $model
-     * @return null
+     * @param AbstractModel $model
+     * @return void
      */
     public function collectId($model)
     {
@@ -515,9 +520,9 @@ class Processor
      *              )
      *     )
      *
-     * @param object $model
+     * @param AbstractModel $model
      * @param array $attributes
-     * @return null
+     * @return void
      */
     public function collectAdditionalData($model, array $attributes)
     {
@@ -545,8 +550,8 @@ class Processor
     /**
      * Add new event changes
      *
-     * @param \Magento\Logging\Model\Event\Changes $eventChange
-     * @return \Magento\Logging\Model\Processor
+     * @param Changes $eventChange
+     * @return $this
      */
     public function addEventChanges($eventChange)
     {

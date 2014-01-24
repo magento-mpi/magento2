@@ -49,7 +49,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $productFactory;
 
     /**
-     * @var \Magento\Core\Model\UrlFactory
+     * @var \Magento\UrlFactory
      */
     protected $urlFactory;
 
@@ -76,7 +76,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\GiftRegistry\Model\EntityFactory $entityFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Core\Model\UrlFactory $urlFactory
+     * @param \Magento\UrlFactory $urlFactory
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Escaper $escaper
      */
@@ -86,7 +86,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\Customer\Model\Session $customerSession,
         \Magento\GiftRegistry\Model\EntityFactory $entityFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Core\Model\UrlFactory $urlFactory,
+        \Magento\UrlFactory $urlFactory,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Escaper $escaper
     ) {
@@ -266,7 +266,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getRegistryLink($entity)
     {
-        return $this->urlFactory->create()->setStore($entity->getStoreId())
+        return $this->urlFactory->create()->setScope($entity->getStoreId())
             ->getUrl('giftregistry/view/index', array('id' => $entity->getUrlKey()));
     }
 

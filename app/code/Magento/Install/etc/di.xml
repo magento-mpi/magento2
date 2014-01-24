@@ -129,7 +129,7 @@
             </value>
         </param>
     </type>
-    <type name="Magento\Backend\Model\Url">
+    <type name="Magento\Backend\Model\Url\ScopeResolver" shared="false">
         <param name="areaCode">
             <value>adminhtml</value>
         </param>

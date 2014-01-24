@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <module name="Magento_Core" version="1.6.0.15" active="true">
+    <module name="Magento_Core" version="1.6.0.16" active="true">
         <depends>
             <module name="Magento_Backend"/>
             <module name="Magento_Directory"/>
