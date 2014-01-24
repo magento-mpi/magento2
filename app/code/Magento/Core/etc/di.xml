@@ -522,14 +522,18 @@
     </type>
     <type name="Magento\Less\PreProcessor">
         <param name="preProcessors">
-            <value>
-                <import>
-                    <class>Magento\Less\PreProcessor\Instruction\Import</class>
-                </import>
-                <magento_import>
-                    <class>Magento\Less\PreProcessor\Instruction\MagentoImport</class>
-                </magento_import>
-            </value>
+            <array>
+                <item key="import">
+                    <array>
+                        <item key="class"><value>Magento\Less\PreProcessor\Instruction\Import</value></item>
+                    </array>
+                </item>
+                <item key="magento_import">
+                    <array>
+                        <item key="class"><value>Magento\Less\PreProcessor\Instruction\MagentoImport</value></item>
+                    </array>
+                </item>
+            </array>
         </param>
     </type>
 </config>
