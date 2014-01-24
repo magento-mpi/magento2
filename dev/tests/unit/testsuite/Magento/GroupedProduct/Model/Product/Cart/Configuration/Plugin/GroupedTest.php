@@ -45,7 +45,7 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
                 array($this->productMock, $config), $this->invocationChainMock));
     }
 
-    public function testAroundIsProductConfiguredWhenProductNotGrouped()
+    public function testAroundIsProductConfiguredWhenProductIsNotGrouped()
     {
         $config = array('super_group' => 'product');
         $this->productMock

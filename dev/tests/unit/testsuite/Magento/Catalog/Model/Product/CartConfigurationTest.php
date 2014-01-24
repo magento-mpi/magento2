@@ -13,7 +13,7 @@ class CartConfigurationTest extends \PHPUnit_Framework_TestCase
     /**
      * @param string $productType
      * @param array $config
-     * @param bool $expected
+     * @param boolean $expected
      * @dataProvider isProductConfiguredDataProvider
      */
     public function testIsProductConfigured($productType, $config, $expected)
