@@ -64,7 +64,7 @@ class NodeSet implements \Iterator
     }
 
     /**
-     * @return bool|int
+     * @return false|int
      */
     function next() {
         if ($this->_current > $this->_currentNode) {
