@@ -9,7 +9,7 @@
  */
 namespace Magento\Profiler\Driver;
 
-use Magento\Profiler\Driver\Standard\Output\Factory as StandardOutputFactory;
+use Magento\Profiler\Driver\Standard\Output\Factory as OutputFactory;
 use Magento\Profiler\Driver\Standard\OutputInterface;
 use Magento\Profiler\Driver\Standard\Stat;
 use Magento\Profiler\DriverInterface;
@@ -114,16 +114,16 @@ class Standard implements DriverInterface
      * Gets output factory from configuration or create new one
      *
      * @param array|null $config
-     * @return StandardOutputFactory
+     * @return OutputFactory
      */
     protected function _getOutputFactory(array $config = null)
     {
         if (isset($config['outputFactory'])
-            && $config['outputFactory'] instanceof StandardOutputFactory
+            && $config['outputFactory'] instanceof OutputFactory
         ) {
             $result = $config['outputFactory'];
         } else {
-            $result = new StandardOutputFactory();
+            $result = new OutputFactory();
         }
         return $result;
     }
