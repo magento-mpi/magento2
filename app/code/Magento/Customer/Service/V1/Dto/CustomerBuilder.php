@@ -5,18 +5,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Customer\Service\V1\Dto;
-use Magento\Customer\Service\V1\Dto\Customer;
 
 /**
- * Class Customer
- * Uses array to hold data, setters return $this so they can be chained.
+ * Class Customer. Uses array to hold data, setters return $this so they can be chained.
  *
- * @package Magento\Customer\Service\Entity\V1
+ * @method \Magento\Customer\Service\V1\Dto\Customer create() create()
  */
 class CustomerBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
 {
-
     /**
      * @param string $confirmation
      * @return CustomerBuilder

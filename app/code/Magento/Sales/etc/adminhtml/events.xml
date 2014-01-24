@@ -29,7 +29,7 @@
     <event name="payment_method_is_active">
         <observer name="sales_billing_agreement" instance="Magento\Sales\Model\Observer\Backend\BillingAgreement" method="dispatch" />
     </event>
-    <event name="customer_save_after">
+    <event name="customer_save_after_dto">
         <observer name="customer" instance="Magento\Sales\Model\Observer\Backend\CustomerQuote" method="dispatch" />
     </event>
 </config>
