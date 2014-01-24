@@ -9,6 +9,8 @@
  */
 namespace Magento\Customer\Service\V1;
 
+use Magento\Exception\NoSuchEntityException;
+
 class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Customer\Service\V1\CustomerServiceInterface */
@@ -29,8 +31,8 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
         try {
             $this->_service->getAttributeMetadata('customer_address', '1');
             $this->fail('Expected exception not thrown.');
-        } catch (\Magento\Exception\NoSuchEntityException $e) {
-            $this->assertEquals(\Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY, $e->getCode());
+        } catch (NoSuchEntityException $e) {
+            $this->assertEquals(NoSuchEntityException::NO_SUCH_ENTITY, $e->getCode());
             $this->assertEquals(
                 [
                     'entityType' => 'customer_address',
@@ -107,8 +109,8 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
         try {
             $this->_service->getCustomerAttributeMetadata('20');
             $this->fail('Expected exception not thrown.');
-        } catch (\Magento\Exception\NoSuchEntityException $e) {
-            $this->assertEquals(\Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY, $e->getCode());
+        } catch (NoSuchEntityException $e) {
+            $this->assertEquals(NoSuchEntityException::NO_SUCH_ENTITY, $e->getCode());
             $this->assertEquals(
                 [
                     'entityType' => 'customer',
@@ -134,8 +136,8 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
         try {
             $this->_service->getAddressAttributeMetadata('1');
             $this->fail('Expected exception not thrown.');
-        } catch (\Magento\Exception\NoSuchEntityException $e) {
-            $this->assertEquals(\Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY, $e->getCode());
+        } catch (NoSuchEntityException $e) {
+            $this->assertEquals(NoSuchEntityException::NO_SUCH_ENTITY, $e->getCode());
             $this->assertEquals(
                 [
                     'entityType' => 'customer_address',
