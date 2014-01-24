@@ -461,21 +461,21 @@ class Observer
     }
 
     /**
-     * Merge gift card amount into discount of PayPal checkout totals
+     * Merge gift card amount into discount of payment checkout totals
      *
      * @param \Magento\Event\Observer $observer
      */
-    public function addPaypalGiftCardItem(\Magento\Event\Observer $observer)
+    public function addPaymentGiftCardItem(\Magento\Event\Observer $observer)
     {
-        $paypalCart = $observer->getEvent()->getPaypalCart();
-        if ($paypalCart) {
-            $salesEntity = $paypalCart->getSalesEntity();
-            $value = abs($salesEntity->getBaseGiftCardsAmount());
-            if ($value > 0.0001) {
-                $paypalCart->updateTotal(\Magento\Paypal\Model\Cart::TOTAL_DISCOUNT, $value,
-                    __('Gift Card (%1)', $this->_storeManager->getStore()->convertPrice($value, true, false))
-                );
-            }
+        /** @var \Magento\Payment\Model\Cart $cart */
+        $cart = $observer->getEvent()->getCart();
+        if (!$cart) {
+            return;
+        }
+        $salesEntity = $cart->getSalesModel();
+        $value = abs($salesEntity->getBaseGiftCardsAmount());
+        if ($value > 0.0001) {
+            $cart->addDiscount((float)$value);
         }
     }
 

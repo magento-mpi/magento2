@@ -75,10 +75,10 @@ class Standard extends \Magento\Paypal\Model\Api\AbstractApi
      * @var array
      */
     protected $_lineItemTotalExportMap = array(
-        \Magento\Paypal\Model\Cart::TOTAL_SUBTOTAL => 'amount',
-        \Magento\Paypal\Model\Cart::TOTAL_DISCOUNT => 'discount_amount',
-        \Magento\Paypal\Model\Cart::TOTAL_TAX      => 'tax',
-        \Magento\Paypal\Model\Cart::TOTAL_SHIPPING => 'shipping',
+        \Magento\Payment\Model\Cart::AMOUNT_SUBTOTAL => 'amount',
+        \Magento\Payment\Model\Cart::AMOUNT_DISCOUNT => 'discount_amount',
+        \Magento\Payment\Model\Cart::AMOUNT_TAX      => 'tax',
+        \Magento\Payment\Model\Cart::AMOUNT_SHIPPING => 'shipping',
     );
 
     /**
@@ -182,7 +182,7 @@ class Standard extends \Magento\Paypal\Model\Api\AbstractApi
             return;
         }
         if ($this->getIsLineItemsEnabled()) {
-            $this->_cart->isShippingAsItem(true);
+            $this->_cart->setTransferShippingAsItem(true);
         }
         return parent::_exportLineItems($request, $i);
     }

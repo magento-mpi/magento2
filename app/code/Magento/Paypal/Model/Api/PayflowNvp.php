@@ -279,14 +279,14 @@ class PayflowNvp extends \Magento\Paypal\Model\Api\Nvp
      * @var array
      */
     protected $_lineItemTotalExportMap = array(
-        \Magento\Paypal\Model\Cart::TOTAL_TAX       => 'TAXAMT',
-        \Magento\Paypal\Model\Cart::TOTAL_SHIPPING  => 'FREIGHTAMT',
+        \Magento\Payment\Model\Cart::AMOUNT_TAX         => 'TAXAMT',
+        \Magento\Payment\Model\Cart::AMOUNT_SHIPPING    => 'FREIGHTAMT',
     );
 
     protected $_lineItemsExportRequestTotalsFormat = array(
-        'amount' => 'PAYMENTREQUEST_%d_ITEMAMT',
-        \Magento\Paypal\Model\Cart::TOTAL_TAX      => 'TAXAMT',
-        \Magento\Paypal\Model\Cart::TOTAL_SHIPPING => 'FREIGHTAMT',
+        'amount'                                            => 'PAYMENTREQUEST_%d_ITEMAMT',
+        \Magento\Payment\Model\Cart::AMOUNT_TAX         => 'TAXAMT',
+        \Magento\Payment\Model\Cart::AMOUNT_SHIPPING    => 'FREIGHTAMT',
     );
 
     protected $_lineItemExportItemsFormat = array(

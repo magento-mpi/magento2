@@ -125,6 +125,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_appState;
 
     /**
+     * @var \Magento\Paypal\Model\CartFactory
+     */
+    protected $_paypalCartFactory;
+
+    /**
      * Construct
      *
      * @param \Magento\App\Helper\Context $context
@@ -137,6 +142,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Pbridge\Model\EncryptionFactory $encryptionFactory
      * @param \Magento\Paypal\Model\CartFactory $cartFactory
      * @param \Magento\App\State $appState
+     * @param \Magento\Paypal\Model\Cart $paypalCartFactory
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
@@ -148,7 +154,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\View\LayoutInterface $layout,
         \Magento\Pbridge\Model\EncryptionFactory $encryptionFactory,
         \Magento\Paypal\Model\CartFactory $cartFactory,
-        \Magento\App\State $appState
+        \Magento\App\State $appState,
+        \Magento\Paypal\Model\Cart $paypalCartFactory
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_customerSession = $customerSession;
@@ -159,6 +166,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $this->_encryptionFactory = $encryptionFactory;
         $this->_cartFactory = $cartFactory;
         $this->_appState = $appState;
+        $this->_paypalCartFactory = $paypalCartFactory;
         parent::__construct($context);
     }
 
@@ -407,9 +415,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function prepareCart($order)
     {
-        $paypalCart = $this->_cartFactory->create(array('params' => array($order)))
-            ->isDiscountAsItem(true);
-        return array($paypalCart->getItems(true), $paypalCart->getTotals());
+        $paypalCart = $this->_paypalCartFactory->create(array('salesModel' => $order));
+        return array($paypalCart->getAllItems(), $paypalCart->getAmounts());
     }
 
     /**

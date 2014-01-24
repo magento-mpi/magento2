@@ -624,29 +624,21 @@ class Observer
     }
 
     /**
-     * Add customer balance amount to PayPal discount total
+     * Add customer balance amount to payment discount total
      *
      * @param \Magento\Event\Observer $observer
      */
-    public function addPaypalCustomerBalanceItem(\Magento\Event\Observer $observer)
+    public function addPaymentCustomerBalanceItem(\Magento\Event\Observer $observer)
     {
-        $paypalCart = $observer->getEvent()->getPaypalCart();
-        if ($paypalCart) {
-            $salesEntity = $paypalCart->getSalesEntity();
-            if ($salesEntity instanceof \Magento\Sales\Model\Quote) {
-                $balanceField = 'base_customer_bal_amount_used';
-            } elseif ($salesEntity instanceof \Magento\Sales\Model\Order) {
-                $balanceField = 'base_customer_balance_amount';
-            } else {
-                return;
-            }
-
-            $value = abs($salesEntity->getDataUsingMethod($balanceField));
-            if ($value > 0.0001) {
-                $paypalCart->updateTotal(\Magento\Paypal\Model\Cart::TOTAL_DISCOUNT, (float)$value,
-                    __('Store Credit (%1)', $this->_storeManager->getStore()->convertPrice($value, true, false))
-                );
-            }
+        /** @var $cart \Magento\Payment\Model\Cart */
+        $cart = $observer->getEvent()->getCart();
+        if (!$cart) {
+            return;
+        }
+        $adapter = $cart->getSalesModelAdapter();
+        $value = abs($adapter->getBaseCustomerBalanceAmount());
+        if ($value > 0.0001) {
+            $cart->addDiscount((float)$value);
         }
     }
 
