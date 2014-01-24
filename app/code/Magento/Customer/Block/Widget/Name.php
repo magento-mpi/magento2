@@ -63,7 +63,7 @@ class Name extends \Magento\Customer\Block\Widget\AbstractWidget
      */
     public function showPrefix()
     {
-        return (bool)$this->_getAttribute('prefix')->isVisible();
+        return $this->_isAttributeVisible('prefix');
     }
 
     /**
@@ -73,7 +73,7 @@ class Name extends \Magento\Customer\Block\Widget\AbstractWidget
      */
     public function isPrefixRequired()
     {
-        return (bool)$this->_getAttribute('prefix')->isRequired();
+        return $this->_isAttributeRequired('prefix');
     }
 
     /**
@@ -99,7 +99,7 @@ class Name extends \Magento\Customer\Block\Widget\AbstractWidget
      */
     public function showMiddlename()
     {
-        return (bool)$this->_getAttribute('middlename')->isVisible();
+        return $this->_isAttributeVisible('middlename');
     }
 
     /**
@@ -109,7 +109,7 @@ class Name extends \Magento\Customer\Block\Widget\AbstractWidget
      */
     public function isMiddlenameRequired()
     {
-        return (bool)$this->_getAttribute('middlename')->isRequired();
+        return $this->_isAttributeRequired('middlename');
     }
 
     /**
@@ -119,7 +119,7 @@ class Name extends \Magento\Customer\Block\Widget\AbstractWidget
      */
     public function showSuffix()
     {
-        return (bool)$this->_getAttribute('suffix')->isVisible();
+        return $this->_isAttributeVisible('suffix');
     }
 
     /**
@@ -129,7 +129,7 @@ class Name extends \Magento\Customer\Block\Widget\AbstractWidget
      */
     public function isSuffixRequired()
     {
-        return (bool)$this->_getAttribute('suffix')->isRequired();
+        return $this->_isAttributeRequired('suffix');
     }
 
     /**
@@ -178,7 +178,7 @@ class Name extends \Magento\Customer\Block\Widget\AbstractWidget
      * Retrieve customer or customer address attribute instance
      *
      * @param string $attributeCode
-     * @return \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata
+     * @return \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata|null
      */
     protected function _getAttribute($attributeCode)
     {
@@ -214,5 +214,25 @@ class Name extends \Magento\Customer\Block\Widget\AbstractWidget
     {
         $attribute = $this->_getAttribute($attributeCode);
         return $attribute ? __($attribute->getStoreLabel()) : '';
+    }
+
+    /**
+     * @param string $attributeCode
+     * @return bool
+     */
+    private function _isAttributeRequired($attributeCode)
+    {
+        $attributeMetadata = $this->_getAttribute($attributeCode);
+        return $attributeMetadata ? (bool)$attributeMetadata->isRequired() : false;
+    }
+
+    /**
+     * @param string $attributeCode
+     * @return bool
+     */
+    private function _isAttributeVisible($attributeCode)
+    {
+        $attributeMetadata = $this->_getAttribute($attributeCode);
+        return $attributeMetadata ? (bool)$attributeMetadata->isVisible() : false;
     }
 }

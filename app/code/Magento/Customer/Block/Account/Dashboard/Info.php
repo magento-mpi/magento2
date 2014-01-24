@@ -89,31 +89,19 @@ class Info extends \Magento\View\Element\Template
 
         $customer = $this->getCustomer();
 
-        try {
-            if ($this->_metadataService->getCustomerAttributeMetadata('prefix')->isVisible()
-                && $customer->getPrefix()) {
-                $name .= $customer->getPrefix() . ' ';
-            }
-        } catch (\Magento\Exception\NoSuchEntityException $e) {
-            // skip
+        $prefixMetadata = $this->_getAttributeMetadata('prefix');
+        if (!is_null($prefixMetadata) && $prefixMetadata->isVisible() && $customer->getPrefix()) {
+            $name .= $customer->getPrefix() . ' ';
         }
         $name .= $customer->getFirstname();
-        try {
-            if ($this->_metadataService->getCustomerAttributeMetadata('middlename')->isVisible()
-                && $customer->getMiddlename()) {
-                $name .= ' ' . $customer->getMiddlename();
-            }
-        } catch (\Magento\Exception\NoSuchEntityException $e) {
-            // skip
+        $midNameMetadata = $this->_getAttributeMetadata('middlename');
+        if (!is_null($midNameMetadata) && $midNameMetadata->isVisible() && $customer->getMiddlename()) {
+            $name .= ' ' . $customer->getMiddlename();
         }
         $name .=  ' ' . $customer->getLastname();
-        try {
-            if ($this->_metadataService->getCustomerAttributeMetadata('suffix')->isVisible()
-                && $customer->getSuffix()) {
-                $name .= ' ' . $customer->getSuffix();
-            }
-        } catch (\Magento\Exception\NoSuchEntityException $e) {
-            // skip
+        $suffixMetadata = $this->_getAttributeMetadata('suffix');
+        if (!is_null($suffixMetadata) && $suffixMetadata->isVisible() && $customer->getSuffix()) {
+            $name .= ' ' . $customer->getSuffix();
         }
         return $name;
     }
@@ -166,5 +154,18 @@ class Info extends \Magento\View\Element\Template
     protected function _createSubscriber()
     {
         return $this->_subscriberFactory->create();
+    }
+
+    /**
+     * @param $attributeCode
+     * @return \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata|null
+     */
+    protected function _getAttributeMetadata($attributeCode)
+    {
+        try {
+            return $this->_metadataService->getCustomerAttributeMetadata($attributeCode);
+        } catch (NoSuchEntityException $e) {
+            return null;
+        }
     }
 }

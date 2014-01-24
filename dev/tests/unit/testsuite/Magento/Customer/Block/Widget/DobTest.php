@@ -8,6 +8,7 @@
 namespace Magento\Customer\Block\Widget;
 
 use Magento\Core\Model\LocaleInterface;
+use Magento\Exception\NoSuchEntityException;
 
 class DobTest extends \PHPUnit_Framework_TestCase
 {
@@ -34,8 +35,8 @@ class DobTest extends \PHPUnit_Framework_TestCase
     /** @var Dob */
     private $_block;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject  */
-    private $_attributeMetadata;
+    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\CustomerMetadataServiceInterface */
+    private $_metadataService;
 
     public function setUp()
     {
@@ -56,11 +57,11 @@ class DobTest extends \PHPUnit_Framework_TestCase
         $context->expects($this->any())->method('getLocale')->will($this->returnValue($locale));
 
         $this->_attribute = $this->getMock('Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata', [], [], '', false);
-        $this->_attributeMetadata =
+        $this->_metadataService =
             $this->getMockForAbstractClass(
                 'Magento\Customer\Service\V1\CustomerMetadataServiceInterface', [], '', false
             );
-        $this->_attributeMetadata
+        $this->_metadataService
             ->expects($this->any())->method('getAttributeMetadata')->will($this->returnValue($this->_attribute));
 
         date_default_timezone_set('America/Los_Angeles');
@@ -68,7 +69,7 @@ class DobTest extends \PHPUnit_Framework_TestCase
         $this->_block = new Dob(
             $context,
             $this->getMock('Magento\Customer\Helper\Address', [], [], '', false),
-            $this->_attributeMetadata
+            $this->_metadataService
         );
     }
 
@@ -97,10 +98,10 @@ class DobTest extends \PHPUnit_Framework_TestCase
 
     public function testIsEnabledWithException()
     {
-        $this->_attributeMetadata
+        $this->_metadataService
             ->expects($this->any())
             ->method('getAttributeMetadata')
-            ->will($this->throwException(new \Magento\Exception\NoSuchEntityException('field', 'value')));
+            ->will($this->throwException(new NoSuchEntityException('field', 'value')));
         $this->assertSame(false, $this->_block->isEnabled());
     }
 
@@ -118,10 +119,10 @@ class DobTest extends \PHPUnit_Framework_TestCase
 
     public function testIsRequiredWithException()
     {
-        $this->_attributeMetadata
+        $this->_metadataService
             ->expects($this->any())
             ->method('getAttributeMetadata')
-            ->will($this->throwException(new \Magento\Exception\NoSuchEntityException('field', 'value')));
+            ->will($this->throwException(new NoSuchEntityException('field', 'value')));
         $this->assertSame(false, $this->_block->isRequired());
     }
 
@@ -279,10 +280,10 @@ class DobTest extends \PHPUnit_Framework_TestCase
 
     public function testGetMinDateRangeWithException()
     {
-        $this->_attributeMetadata
+        $this->_metadataService
             ->expects($this->any())
             ->method('getAttributeMetadata')
-            ->will($this->throwException(new \Magento\Exception\NoSuchEntityException('field', 'value')));
+            ->will($this->throwException(new NoSuchEntityException('field', 'value')));
         $this->assertNull($this->_block->getMinDateRange());
     }
 
@@ -312,10 +313,10 @@ class DobTest extends \PHPUnit_Framework_TestCase
 
     public function testGetMaxDateRangeWithException()
     {
-        $this->_attributeMetadata
+        $this->_metadataService
             ->expects($this->any())
             ->method('getAttributeMetadata')
-            ->will($this->throwException(new \Magento\Exception\NoSuchEntityException('field', 'value')));
+            ->will($this->throwException(new NoSuchEntityException('field', 'value')));
         $this->assertNull($this->_block->getMaxDateRange());
     }
 }

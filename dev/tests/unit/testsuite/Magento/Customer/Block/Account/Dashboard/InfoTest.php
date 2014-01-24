@@ -177,16 +177,13 @@ class InfoTest extends \PHPUnit_Framework_TestCase
 
     public function testGetNameWithNoSuchEntityException()
     {
-        $attributeMetadata =
-            $this->getMock('Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata', array(), array(), '', false);
-
         /**
          * Called three times, once for each attribute (i.e. prefix, middlename, and suffix)
          */
         $this->_metadataService
             ->expects($this->any())
             ->method('getCustomerAttributeMetadata')
-            ->will($this->throwException(new \Magento\Exception\NoSuchEntityException('field', 'value')));
+            ->will($this->throwException(new NoSuchEntityException('field', 'value')));
 
         /**
          * The AttributeMetadata::{getPrefix() | getMiddlename() | getSuffix()} methods are called twice,

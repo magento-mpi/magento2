@@ -7,6 +7,8 @@
  */
 namespace Magento\Customer\Block\Widget;
 
+use Magento\Exception\NoSuchEntityException;
+
 class GenderTest extends \PHPUnit_Framework_TestCase
 {
     /** Constants used in the unit tests */
@@ -93,7 +95,7 @@ class GenderTest extends \PHPUnit_Framework_TestCase
         $this->_attributeMetadata
             ->expects($this->any())
             ->method('getAttributeMetadata')
-            ->will($this->throwException(new \Magento\Exception\NoSuchEntityException('field', 'value')));
+            ->will($this->throwException(new NoSuchEntityException('field', 'value')));
         $this->assertSame(false, $this->_block->isEnabled());
     }
 
@@ -126,7 +128,7 @@ class GenderTest extends \PHPUnit_Framework_TestCase
         $this->_attributeMetadata
             ->expects($this->any())
             ->method('getAttributeMetadata')
-            ->will($this->throwException(new \Magento\Exception\NoSuchEntityException('field', 'value')));
+            ->will($this->throwException(new NoSuchEntityException('field', 'value')));
         $this->assertSame(false, $this->_block->isRequired());
     }
 

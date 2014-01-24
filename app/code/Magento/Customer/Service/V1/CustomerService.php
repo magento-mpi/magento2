@@ -108,32 +108,36 @@ class CustomerService implements CustomerServiceInterface
             $exception->addError(InputException::INVALID_FIELD_VALUE, 'email', $customerModel->getEmail());
         }
 
-        try {
-            $dob = $this->_customerMetadataService->getCustomerAttributeMetadata('dob');
-            if ($dob->isRequired() && '' == trim($customerModel->getDob())) {
-                $exception->addError(InputException::REQUIRED_FIELD, 'dob', '');
-            }
-        } catch (NoSuchEntityException $e) {
-            // skip
+        $dob = $this->_getAttributeMetadata('dob');
+        if (!is_null($dob) && $dob->isRequired() && '' == trim($customerModel->getDob())) {
+            $exception->addError(InputException::REQUIRED_FIELD, 'dob', '');
         }
-        try {
-            $taxvat = $this->_customerMetadataService->getCustomerAttributeMetadata('taxvat');
-            if ($taxvat->isRequired() && '' == trim($customerModel->getTaxvat())) {
-                $exception->addError(InputException::REQUIRED_FIELD, 'taxvat', '');
-            }
-        } catch (NoSuchEntityException $e) {
-            // skip
+
+        $taxvat = $this->_getAttributeMetadata('taxvat');
+        if (!is_null($taxvat) && $taxvat->isRequired() && '' == trim($customerModel->getTaxvat())) {
+            $exception->addError(InputException::REQUIRED_FIELD, 'taxvat', '');
         }
-        try {
-            $gender = $this->_customerMetadataService->getCustomerAttributeMetadata('gender');
-            if ($gender->isRequired() && '' == trim($customerModel->getGender())) {
-                $exception->addError(InputException::REQUIRED_FIELD, 'gender', '');
-            }
-        } catch (NoSuchEntityException $e) {
-            // skip
+
+        $gender = $this->_getAttributeMetadata('gender');
+        if (!is_null($gender) && $gender->isRequired() && '' == trim($customerModel->getGender())) {
+            $exception->addError(InputException::REQUIRED_FIELD, 'gender', '');
         }
+
         if ($exception->getErrors()) {
             throw $exception;
+        }
+    }
+
+    /**
+     * @param $attributeCode
+     * @return Dto\Eav\AttributeMetadata|null
+     */
+    protected function _getAttributeMetadata($attributeCode)
+    {
+        try {
+            return $this->_customerMetadataService->getCustomerAttributeMetadata($attributeCode);
+        } catch (NoSuchEntityException $e) {
+            return null;
         }
     }
 }

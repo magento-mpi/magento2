@@ -9,6 +9,7 @@
 namespace Magento\Customer\Block\Widget;
 
 use Magento\Customer\Service\V1\Dto\Customer;
+use Magento\Exception\NoSuchEntityException;
 
 /**
  * Test class for \Magento\Customer\Block\Widget\Name.
@@ -44,6 +45,9 @@ class NameTest extends \PHPUnit_Framework_TestCase
     /** @var  Name */
     private $_block;
 
+    /** @var  \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\CustomerMetadataServiceInterface */
+    private $_metadataService;
+
     public function setUp()
     {
         $this->_escaper = $this->getMock('Magento\Escaper', array(), array(), '', false);
@@ -51,17 +55,17 @@ class NameTest extends \PHPUnit_Framework_TestCase
         $context->expects($this->any())->method('getEscaper')->will($this->returnValue($this->_escaper));
 
         $addressHelper = $this->getMock('Magento\Customer\Helper\Address', array(), array(), '', false);
-        $metadataService = $this->getMockForAbstractClass(
+        $this->_metadataService = $this->getMockForAbstractClass(
             'Magento\Customer\Service\V1\CustomerMetadataServiceInterface', array(), '', false
         );
         $this->_customerHelper = $this->getMock('Magento\Customer\Helper\Data', array(), array(), '', false);
         $this->_attributeMetadata =
             $this->getMock('Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata', array(), array(), '', false);
-        $metadataService
+        $this->_metadataService
             ->expects($this->any())
             ->method('getAttributeMetadata')->will($this->returnValue($this->_attributeMetadata));
 
-        $this->_block = new Name($context, $addressHelper, $metadataService, $this->_customerHelper);
+        $this->_block = new Name($context, $addressHelper, $this->_metadataService, $this->_customerHelper);
     }
 
     /**
@@ -74,6 +78,40 @@ class NameTest extends \PHPUnit_Framework_TestCase
 
         $this->_attributeMetadata->expects($this->at(0))->method('isVisible')->will($this->returnValue(false));
         $this->assertFalse($this->_block->showPrefix());
+    }
+
+    public function testShowPrefixWithException()
+    {
+        $this->_metadataService
+            ->expects($this->any())
+            ->method('getAttributeMetadata')
+            ->will($this->throwException(new NoSuchEntityException('field', 'value')));
+        $this->assertFalse($this->_block->showPrefix());
+    }
+
+    /**
+     * @param $method
+     * @dataProvider methodDataProvider
+     */
+    public function testMethodWithNoSuchEntityException($method)
+    {
+        $this->_metadataService
+            ->expects($this->any())
+            ->method('getAttributeMetadata')
+            ->will($this->throwException(new NoSuchEntityException('field', 'value')));
+        $this->assertFalse($this->_block->$method());
+    }
+
+    public function methodDataProvider()
+    {
+        return [
+            'showPrefix' => ['showPrefix'],
+            'isPrefixRequired' => ['isPrefixRequired'],
+            'showMiddlename' => ['showMiddlename'],
+            'isMiddlenameRequired' => ['isMiddlenameRequired'],
+            'showSuffix' => ['showSuffix'],
+            'isSuffixRequired' => ['isSuffixRequired'],
+        ];
     }
 
     /**
@@ -263,10 +301,10 @@ class NameTest extends \PHPUnit_Framework_TestCase
 
     public function testGetStoreLabelWithException()
     {
-        $this->_attributeMetadata
+        $this->_metadataService
             ->expects($this->any())
             ->method('getAttributeMetadata')
-            ->will($this->throwException(new \Magento\Exception\NoSuchEntityException('field', 'value')));
+            ->will($this->throwException(new NoSuchEntityException('field', 'value')));
         $this->assertSame('', $this->_block->getStoreLabel('attributeCode'));
     }
 

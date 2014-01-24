@@ -74,7 +74,7 @@ class AbstractWidget extends \Magento\View\Element\Template
      * Retrieve customer attribute instance
      *
      * @param string $attributeCode
-     * @return \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata
+     * @return \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata|null
      */
     protected function _getAttribute($attributeCode)
     {

@@ -9,9 +9,7 @@
  */
 namespace Magento\Customer\Service\V1;
 
-use Magento\Customer\Service\V1\CustomerMetadataService;
-use Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata;
-use Magento\Customer\Service\V1\Dto\Eav\Option;
+use Magento\Exception\NoSuchEntityException;
 
 class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
 {
@@ -100,10 +98,10 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getAllOptions')
             ->will($this->returnValue($allOptions));
 
-        $attributeColMock = $this->getMockBuilder('\\Magento\\Customer\\Model\\Resource\\Form\\Attribute\\Collection')
+        $attributeColMock = $this->getMockBuilder('\Magento\Customer\Model\Resource\Form\Attribute\Collection')
             ->disableOriginalConstructor()
             ->getMock();
-        $storeManagerMock = $this->getMockBuilder('\\Magento\\Core\\Model\\StoreManager')
+        $storeManagerMock = $this->getMockBuilder('\Magento\Core\Model\StoreManager')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -135,10 +133,10 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getAttribute')
             ->will($this->returnValue(false));
 
-        $attributeColMock = $this->getMockBuilder('\\Magento\\Customer\\Model\\Resource\\Form\\Attribute\\Collection')
+        $attributeColMock = $this->getMockBuilder('\Magento\Customer\Model\Resource\Form\Attribute\Collection')
             ->disableOriginalConstructor()
             ->getMock();
-        $storeManagerMock = $this->getMockBuilder('\\Magento\\Core\\Model\\StoreManager')
+        $storeManagerMock = $this->getMockBuilder('\Magento\Core\Model\StoreManager')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -178,10 +176,10 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getAllOptions')
             ->will($this->returnValue(array()));
 
-        $attributeColMock = $this->getMockBuilder('\\Magento\\Customer\\Model\\Resource\\Form\\Attribute\\Collection')
+        $attributeColMock = $this->getMockBuilder('\Magento\Customer\Model\Resource\Form\Attribute\Collection')
             ->disableOriginalConstructor()
             ->getMock();
-        $storeManagerMock = $this->getMockBuilder('\\Magento\\Core\\Model\\StoreManager')
+        $storeManagerMock = $this->getMockBuilder('\Magento\Core\Model\StoreManager')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -213,10 +211,10 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getSource')
             ->will($this->throwException(new \Exception('exception message')));
 
-        $attributeColMock = $this->getMockBuilder('\\Magento\\Customer\\Model\\Resource\\Form\\Attribute\\Collection')
+        $attributeColMock = $this->getMockBuilder('\Magento\Customer\Model\Resource\Form\Attribute\Collection')
             ->disableOriginalConstructor()
             ->getMock();
-        $storeManagerMock = $this->getMockBuilder('\\Magento\\Core\\Model\\StoreManager')
+        $storeManagerMock = $this->getMockBuilder('\Magento\Core\Model\StoreManager')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -244,10 +242,10 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getAttribute')
             ->will($this->returnValue(false));
 
-        $attributeColMock = $this->getMockBuilder('\\Magento\\Customer\\Model\\Resource\\Form\\Attribute\\Collection')
+        $attributeColMock = $this->getMockBuilder('\Magento\Customer\Model\Resource\Form\Attribute\Collection')
             ->disableOriginalConstructor()
             ->getMock();
-        $storeManagerMock = $this->getMockBuilder('\\Magento\\Core\\Model\\StoreManager')
+        $storeManagerMock = $this->getMockBuilder('\Magento\Core\Model\StoreManager')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -261,8 +259,8 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
         try {
             $service->getCustomerAttributeMetadata('attributeId');
             $this->fail('Expected exception not thrown.');
-        } catch (\Magento\Exception\NoSuchEntityException $e) {
-            $this->assertEquals(\Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY, $e->getCode());
+        } catch (NoSuchEntityException $e) {
+            $this->assertEquals(NoSuchEntityException::NO_SUCH_ENTITY, $e->getCode());
             $this->assertEquals(
                 [
                     'entityType' => 'customer',
@@ -279,10 +277,10 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getAttribute')
             ->will($this->returnValue(false));
 
-        $attributeColMock = $this->getMockBuilder('\\Magento\\Customer\\Model\\Resource\\Form\\Attribute\\Collection')
+        $attributeColMock = $this->getMockBuilder('\Magento\Customer\Model\Resource\Form\Attribute\Collection')
             ->disableOriginalConstructor()
             ->getMock();
-        $storeManagerMock = $this->getMockBuilder('\\Magento\\Core\\Model\\StoreManager')
+        $storeManagerMock = $this->getMockBuilder('\Magento\Core\Model\StoreManager')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -296,8 +294,8 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
         try {
             $service->getAddressAttributeMetadata('attributeId');
             $this->fail('Expected exception not thrown.');
-        } catch (\Magento\Exception\NoSuchEntityException $e) {
-            $this->assertEquals(\Magento\Exception\NoSuchEntityException::NO_SUCH_ENTITY, $e->getCode());
+        } catch (NoSuchEntityException $e) {
+            $this->assertEquals(NoSuchEntityException::NO_SUCH_ENTITY, $e->getCode());
             $this->assertEquals(
                 [
                     'entityType' => 'customer_address',
@@ -318,11 +316,11 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getEntityAttributeCodes')
             ->will($this->returnValue(['bogus']));
 
-        $attributeColMock = $this->getMockBuilder('\\Magento\\Customer\\Model\\Resource\\Form\\Attribute\\Collection')
+        $attributeColMock = $this->getMockBuilder('\Magento\Customer\Model\Resource\Form\Attribute\Collection')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $storeManagerMock = $this->getMockBuilder('\\Magento\\Core\\Model\\StoreManager')
+        $storeManagerMock = $this->getMockBuilder('\Magento\Core\Model\StoreManager')
             ->disableOriginalConstructor()
             ->getMock();
 
