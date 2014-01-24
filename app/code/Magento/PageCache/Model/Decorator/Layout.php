@@ -66,7 +66,7 @@ class Layout extends \Magento\Core\Model\Layout
         if ($block) {
             if ($block->isScopePrivate()) {
                 $name = $block->getNameInLayout();
-                return '<!-- BLOCK ' . $name . ' -->' . '<!-- /BLOCK ' . $name . ' -->';
+                return '<!-- BLOCK ' . $name . ' -->' . $block->toHtml() . '<!-- /BLOCK ' . $name . ' -->';
             } else {
                 return $block->toHtml();
             }
