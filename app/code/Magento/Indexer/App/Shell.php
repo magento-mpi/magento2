@@ -8,7 +8,7 @@
 
 namespace Magento\Indexer\App;
 
-class Shell implements \Magento\AppInterface
+class Shell implements \Magento\LauncherInterface
 {
     /**
      * Filename of the entry point script
@@ -47,7 +47,7 @@ class Shell implements \Magento\AppInterface
      *
      * @return int
      */
-    public function execute()
+    public function launch()
     {
         /** @var $shell \Magento\Indexer\Model\Shell */
         $shell = $this->shellFactory->create(array('entryPoint' => $this->entryFileName));

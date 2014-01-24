@@ -42,9 +42,9 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testExecute()
+    public function testLaunch()
     {
         $this->processorMock->expects($this->once())->method('reindexAll');
-        $this->assertEquals('0', $this->entryPoint->execute());
+        $this->assertEquals('0', $this->entryPoint->launch());
     }
 }
