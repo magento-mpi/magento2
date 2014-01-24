@@ -53,4 +53,14 @@ class Grid extends GridInterface
     {
         return $this->_rootElement->find($this->invoiceAmount)->getText();
     }
+
+    /**
+     * Click the first invoice amount
+     *
+     * @return void
+     */
+    public function clickInvoiceAmount()
+    {
+        $this->_rootElement->find($this->invoiceAmount)->click();
+    }
 }

@@ -32,8 +32,9 @@ class OnlineRefundTest extends Functional
         // Create an order.
         $fixture->persist();
 
+        Factory::getApp()->magentoBackendLoginUser();
+
         // Close the order.
-        // TODO:  Use curl handler instead of this UI handler version.
         Factory::getApp()->magentoSalesCloseOrder($fixture);
         $orderId = $fixture->getOrderId();
 
@@ -48,6 +49,7 @@ class OnlineRefundTest extends Functional
             // Step 2: Open Invoice
             $tabsWidget->openTab('sales_order_view_tabs_order_invoices');
             // TODO:  Need invoice id from close order curl handler.
+            $orderPage->getInvoicesGrid()->clickInvoiceAmount();
             //$orderPage->getInvoicesGrid()->searchAndSelect(array('id' => $invoiceId));
 
             // Step 3: Click "Credit Memo" button on the Invoice Page
