@@ -24,7 +24,7 @@ class HeaderPluginTest extends \PHPUnit_Framework_TestCase
     protected $layoutMock;
 
     /**
-     * @var \Magento\Core\Model\ConfigInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\App\ConfigInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $configMock;
 
@@ -39,7 +39,7 @@ class HeaderPluginTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->layoutMock = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false);
-        $this->configMock = $this->getMock('Magento\Core\Model\ConfigInterface', array(), array(), '', false);
+        $this->configMock = $this->getMock('Magento\App\ConfigInterface', array(), array(), '', false);
         $this->responseMock = $this->getMock('Magento\App\Response\Http', array(), array(), '', false);
         $this->plugin = new HeaderPlugin($this->layoutMock, $this->configMock);
     }

@@ -45,14 +45,14 @@ class Config extends \Magento\Object
     /**
      * Application config
      *
-     * @var \Magento\Core\Model\Config
+     * @var \Magento\App\ConfigInterface
      */
     protected $_appConfig;
 
     /**
      * Global factory
      *
-     * @var \Magento\Core\Model\Config
+     * @var \Magento\App\ConfigInterface
      */
     protected $_objectFactory;
 
@@ -63,14 +63,7 @@ class Config extends \Magento\Object
      */
     protected $_transactionFactory;
 
-    /**
-     * Global Application
-     *
-     * @var \Magento\Core\Model\App
-     */
-    protected $_application;
-
-    /**
+     /**
      * Config data loader
      *
      * @var \Magento\Backend\Model\Config\Loader
@@ -90,8 +83,7 @@ class Config extends \Magento\Object
     protected $_storeManager;
 
     /**
-     * @param \Magento\Core\Model\App $application
-     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Backend\Model\Config\Structure $configStructure
      * @param \Magento\Core\Model\Resource\TransactionFactory $transactionFactory
@@ -101,8 +93,7 @@ class Config extends \Magento\Object
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\App $application,
-        \Magento\Core\Model\Config $config,
+        \Magento\App\ConfigInterface $config,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Backend\Model\Config\Structure $configStructure,
         \Magento\Core\Model\Resource\TransactionFactory $transactionFactory,
@@ -116,7 +107,6 @@ class Config extends \Magento\Object
         $this->_configStructure = $configStructure;
         $this->_transactionFactory = $transactionFactory;
         $this->_appConfig = $config;
-        $this->_application = $application;
         $this->_configLoader = $configLoader;
         $this->_configValueFactory = $configValueFactory;
         $this->_storeManager = $storeManager;
@@ -243,7 +233,7 @@ class Config extends \Magento\Object
                 /** @var $field \Magento\Backend\Model\Config\Structure\Element\Field */
                 $field = $this->_configStructure->getElement($groupPath . '/' . $originalFieldId);
 
-                /** @var \Magento\Core\Model\Config\Value $backendModel */
+                /** @var \Magento\App\Config\ValueInterface $backendModel */
                 $backendModel = $field->hasBackendModel() ?
                     $field->getBackendModel() :
                     $this->_configValueFactory->create();
@@ -408,18 +398,18 @@ class Config extends \Magento\Object
      * Set correct scope if isSingleStoreMode = true
      *
      * @param \Magento\Backend\Model\Config\Structure\Element\Field $fieldConfig
-     * @param \Magento\Core\Model\Config\Value $dataObject
+     * @param \Magento\App\Config\ValueInterface $dataObject
      */
     protected function _checkSingleStoreMode(
         \Magento\Backend\Model\Config\Structure\Element\Field $fieldConfig,
         $dataObject
     ) {
-        $isSingleStoreMode = $this->_application->isSingleStoreMode();
+        $isSingleStoreMode = $this->_storeManager->isSingleStoreMode();
         if (!$isSingleStoreMode) {
             return;
         }
         if (!$fieldConfig->showInDefault()) {
-            $websites = $this->_application->getWebsites();
+            $websites = $this->_storeManager->getWebsites();
             $singleStoreWebsite = array_shift($websites);
             $dataObject->setScope('websites');
             $dataObject->setWebsiteCode($singleStoreWebsite->getCode());

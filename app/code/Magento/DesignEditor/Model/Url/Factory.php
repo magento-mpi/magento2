@@ -15,7 +15,7 @@ class Factory
     /**
      * Default url model class name
      */
-    const CLASS_NAME = 'Magento\Core\Model\Url';
+    const CLASS_NAME = 'Magento\UrlInterface';
 
     /**
      * @var \Magento\ObjectManager
@@ -47,7 +47,7 @@ class Factory
      * Create url model new instance
      *
      * @param array $arguments
-     * @return \Magento\Core\Model\Url
+     * @return \Magento\UrlInterface
      */
     public function create(array $arguments = array())
     {
