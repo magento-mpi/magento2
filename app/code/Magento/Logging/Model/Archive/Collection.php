@@ -35,6 +35,7 @@ class Collection extends \Magento\Data\Collection\Filesystem
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logging\Model\Archive $archive
      * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Filesystem $filesystem
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
