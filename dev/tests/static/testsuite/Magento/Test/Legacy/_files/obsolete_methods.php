@@ -1151,4 +1151,5 @@ return array(
         '\Magento\CatalogInventory\Model\Product\CopyConstructor\CatalogInventory::build'
     ),
     array('addPriceBlockType', 'Magento\Rss\Block\Catalog\AbstractCatalog'),
+    array('getAttributeDisabledTypes', 'Magento\Catalog\Helper\Data')
 );
