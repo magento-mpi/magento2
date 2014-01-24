@@ -13,30 +13,28 @@
     <xs:element name="config">
         <xs:complexType>
             <xs:choice maxOccurs="unbounded">
-                <xs:element name="type" type="typeDeclaration" minOccurs="0" maxOccurs="unbounded">
-                    <xs:unique name="uniqueTypeName">
-                        <xs:annotation>
-                            <xs:documentation>
-                                Product type name must be unique.
-                            </xs:documentation>
-                        </xs:annotation>
-                        <xs:selector xpath="type" />
-                        <xs:field xpath="@name" />
-                    </xs:unique>
-                </xs:element>
-                <xs:element name="composableTypes" type="composableTypesDeclaration" minOccurs="0" maxOccurs="unbounded">
-                    <xs:unique name="uniquecomposableTypes">
-                        <xs:annotation>
-                            <xs:documentation>
-                                Composable type name must be unique.
-                            </xs:documentation>
-                        </xs:annotation>
-                        <xs:selector xpath="type" />
-                        <xs:field xpath="@name" />
-                    </xs:unique>
-                </xs:element>
+                <xs:element name="type" type="typeDeclaration" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element name="composableTypes" type="composableTypesDeclaration" minOccurs="0" maxOccurs="unbounded" />
             </xs:choice>
         </xs:complexType>
+        <xs:unique name="uniqueTypeName">
+            <xs:annotation>
+                <xs:documentation>
+                    Product type name must be unique.
+                </xs:documentation>
+            </xs:annotation>
+            <xs:selector xpath="type" />
+            <xs:field xpath="@name" />
+        </xs:unique>
+        <xs:unique name="uniquecomposableTypes">
+            <xs:annotation>
+                <xs:documentation>
+                    Composable type name must be unique.
+                </xs:documentation>
+            </xs:annotation>
+            <xs:selector xpath="composableTypes/type" />
+            <xs:field xpath="@name" />
+        </xs:unique>
     </xs:element>
 
     <xs:complexType name="typeDeclaration">
