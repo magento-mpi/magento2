@@ -8,10 +8,12 @@
 
 namespace Magento\Css\PreProcessor;
 
+use \Magento\View\Asset\PreProcessor\PreProcessorInterface;
+
 /**
  * Css pre-processor less
  */
-class Less implements \Magento\View\Asset\PreProcessor\PreProcessorInterface
+class Less implements PreProcessorInterface
 {
     /**
      * @var \Magento\View\FileSystem
@@ -44,22 +46,15 @@ class Less implements \Magento\View\Asset\PreProcessor\PreProcessorInterface
     }
 
     /**
+     * Process LESS file content
+     *
      * @param string $filePath
      * @param array $params
      * @param \Magento\Filesystem\Directory\WriteInterface $targetDirectory
-     * @param null|string $sourcePath
      * @return string
      */
-    public function process($filePath, $params, $targetDirectory, $sourcePath = null)
+    public function process($filePath, $params, $targetDirectory)
     {
-        // if css file has being already discovered/prepared by previous pre-processor
-        if ($sourcePath) {
-            return $sourcePath;
-        }
-
-        // TODO: if css file is already exist. May compare modification time of .less and .css files here.
-        $sourcePath = $this->viewFileSystem->getViewFile($filePath, $params);
-
         $lessFilePath = str_replace('.css', '.less', $filePath);
         $preparedLessFileSourcePath = $this->lessPreProcessor->processLessInstructions($lessFilePath, $params);
         $cssContent = $this->adapter->process($preparedLessFileSourcePath);

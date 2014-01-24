@@ -8,41 +8,73 @@
 
 namespace Magento\View\Asset\PreProcessor;
 
-use Magento\View\Asset;
+use \Magento\View\Asset\PreProcessorFactory;
 
+/**
+ * View asset pre-processor composite
+ */
 class Composite implements PreProcessorInterface
 {
     /**
+     * @var array
+     */
+    protected $preProcessorsConfig = array();
+
+    /**
      * @var PreProcessorInterface[]
      */
-    protected $preProcessors = array();
+    protected $assetTypePreProcessors = array();
 
-    public function __construct(array $preProcessors = array())
-    {
-        $this->preProcessors = $preProcessors;
+    /**
+     * @param PreProcessorFactory $preProcessorFactory
+     * @param array $preProcessorsConfig
+     */
+    public function __construct(
+        PreProcessorFactory $preProcessorFactory,
+        array $preProcessorsConfig = array()
+    ) {
+        $this->preProcessorFactory = $preProcessorFactory;
+        $this->preProcessorsConfig = $preProcessorsConfig;
     }
 
-    public function process($filePath, $params, $targetDirectory, $sourcePath = null)
+    /**
+     * Process view asset pro-processors
+     *
+     * @param string $filePath
+     * @param array $params
+     * @param \Magento\Filesystem\Directory\WriteInterface $targetDirectory
+     * @return null|string
+     */
+    public function process($filePath, $params, $targetDirectory)
     {
+        $sourcePath = null;
+
         $assetType = pathinfo($filePath, PATHINFO_EXTENSION);
 
         foreach ($this->getAssetTypePreProcessors($assetType) as $preProcessor) {
-            $sourcePath = $preProcessor->process($filePath, $params, $targetDirectory, $sourcePath);
+            $sourcePath = $preProcessor->process($filePath, $params, $targetDirectory);
         }
 
         return $sourcePath;
     }
 
     /**
+     * Get processors list for given asset type
+     *
      * @param string $assetType
      * @return PreProcessorInterface[]
      */
     protected function getAssetTypePreProcessors($assetType)
     {
-        $assetTypePreProcessors = array();
-
-        // TBI: filter pre-processors according to $assetType
-
-        return $assetTypePreProcessors ;
+        if (!isset($this->assetTypePreProcessors[$assetType])) {
+            $this->assetTypePreProcessors[$assetType] = array();
+            foreach ($this->preProcessorsConfig as $preProcessorDetails) {
+                if ($assetType === $preProcessorDetails['asset_type']) {
+                    $this->assetTypePreProcessors[$assetType] = $this->preProcessorFactory
+                        ->create($preProcessorDetails['class']);
+                }
+            }
+        }
+        return $this->assetTypePreProcessors[$assetType];
     }
 }

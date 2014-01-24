@@ -162,7 +162,7 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
         // allow asset pre-processors to execute first
         // in case if any active pre-processor has been executed and original source file being processed,
         // new $sourcePath will be returned back
-        $sourcePath = $this->preProcessor->process($filePath, $params, $targetDirectory, null);
+        $sourcePath = $this->preProcessor->process($filePath, $params, $targetDirectory);
         // if not so, then execute normal file resolving and publication process
         if ($sourcePath === null) {
             $sourcePath = $this->_viewFileSystem->getViewFile($filePath, $params);

@@ -302,6 +302,28 @@
             <value type="bool">true</value>
         </param>
     </type>
+    <type name="Magento\View\Asset\PreProcessor\Composite">
+        <param name="preProcessorsConfig">
+            <value>
+                <css_preprocessor>
+                    <class>Magento\Css\PreProcessor\Composite</class>
+                    <asset_type>css</asset_type>
+                </css_preprocessor>
+            </value>
+        </param>
+    </type>
+    <type name="Magento\Css\PreProcessor\Composite">
+        <param name="preProcessors">
+            <value>
+                <css_source_processor>
+                    <class>Magento\Css\PreProcessor\Less</class>
+                </css_source_processor>
+                <css_url_processor>
+                    <class>Magento\Css\PreProcessor\UrlResolver</class>
+                </css_url_processor>
+            </value>
+        </param>
+    </type>
     <type name="Magento\Object\Copy\Config\Reader">
         <param name="fileName">
             <value>fieldset.xml</value>
