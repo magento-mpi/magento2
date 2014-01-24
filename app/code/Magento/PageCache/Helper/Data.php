@@ -17,6 +17,10 @@
  */
 namespace Magento\PageCache\Helper;
 
+/**
+ * Class Data
+ * @package Magento\PageCache\Helper
+ */
 class Data extends \Magento\App\Helper\AbstractHelper
 {
 

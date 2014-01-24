@@ -13,7 +13,7 @@
         options: {
             url: '/',
             dataAttributeName: 'fpc',
-            versionCookieName: 'version'
+            versionCookieName: 'private_content_version'
         },
         selector: null,
         _create: function () {
