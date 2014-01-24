@@ -34,6 +34,11 @@ class HeaderPluginTest extends \PHPUnit_Framework_TestCase
     protected $responseMock;
 
     /**
+     * @var \Magento\PageCache\Model\Version|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $versionMock;
+
+    /**
      * SetUp
      */
     protected function setUp()
@@ -41,7 +46,10 @@ class HeaderPluginTest extends \PHPUnit_Framework_TestCase
         $this->layoutMock = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false);
         $this->configMock = $this->getMock('Magento\Core\Model\ConfigInterface', array(), array(), '', false);
         $this->responseMock = $this->getMock('Magento\App\Response\Http', array(), array(), '', false);
-        $this->plugin = new HeaderPlugin($this->layoutMock, $this->configMock);
+        $this->versionMock = $this->getMockBuilder('Magento\PageCache\Model\Version')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->plugin = new HeaderPlugin($this->layoutMock, $this->configMock, $this->versionMock);
     }
 
     /**
@@ -81,6 +89,7 @@ class HeaderPluginTest extends \PHPUnit_Framework_TestCase
         $this->responseMock->expects($this->at(1))
             ->method('setHeader')
             ->with('cache-control', $cacheControl);
+        $this->versionMock->expects($this->once())->method('process');
 
         $this->plugin->afterDispatch($this->responseMock);
     }
