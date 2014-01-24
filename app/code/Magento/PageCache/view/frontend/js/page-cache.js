@@ -7,7 +7,6 @@
  * @license     {license_link}
  */
 /*jshint browser:true jquery:true expr:true*/
-var el;
 (function ($) {
     "use strict";
     $.widget('mage.pageCache', {
