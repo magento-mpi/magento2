@@ -1,7 +1,5 @@
 <?php
 /**
- * EAV attribute metadata service
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -12,6 +10,11 @@ namespace Magento\Customer\Service\V1;
 use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
 use Magento\Exception\NoSuchEntityException;
 
+/**
+ * EAV attribute metadata service
+ *
+ *  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class CustomerMetadataService implements CustomerMetadataServiceInterface
 {
     /**

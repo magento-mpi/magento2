@@ -59,8 +59,13 @@ class NameTest extends \PHPUnit_Framework_TestCase
             'Magento\Customer\Service\V1\CustomerMetadataServiceInterface', array(), '', false
         );
         $this->_customerHelper = $this->getMock('Magento\Customer\Helper\Data', array(), array(), '', false);
-        $this->_attributeMetadata =
-            $this->getMock('Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata', array(), array(), '', false);
+        $this->_attributeMetadata = $this->getMock(
+            'Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->_metadataService
             ->expects($this->any())
             ->method('getAttributeMetadata')->will($this->returnValue($this->_attributeMetadata));
