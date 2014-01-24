@@ -122,7 +122,7 @@ class Rate extends \Magento\Core\Model\AbstractModel
     /**
      * Validate rate data
      *
-     * @return bool | string
+     * @return true
      */
     public function validate()
     {

@@ -151,7 +151,7 @@ class Observer
      * Update reward notifications for customer
      *
      * @param \Magento\Event\Observer $observer
-     * @return $this
+     * @return $this|null
      */
     public function saveRewardNotifications($observer)
     {

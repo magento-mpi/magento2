@@ -157,7 +157,7 @@ class Image extends \Magento\Data\Form\Element\AbstractElement
     /**
      * Return Image URL
      *
-     * @return string
+     * @return string|false
      */
     protected function _getPreviewUrl()
     {
@@ -206,7 +206,7 @@ class Image extends \Magento\Data\Form\Element\AbstractElement
      * Return escaped value
      *
      * @param int $index
-     * @return string
+     * @return string|false
      */
     public function getEscapedValue($index = null)
     {

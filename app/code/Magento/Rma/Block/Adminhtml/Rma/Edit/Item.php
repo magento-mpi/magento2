@@ -9,6 +9,8 @@
  */
 namespace Magento\Rma\Block\Adminhtml\Rma\Edit;
 
+use Magento\Rma\Model\Item as ModelItem;
+
 /**
  * User-attributes block for RMA Item  in Admin RMA edit
  */
@@ -160,7 +162,7 @@ class Item extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Add needed data (Product name) to RMA item during create process
      *
-     * @param \Magento\Rma\Model\Item $item
+     * @param ModelItem $item
      * @return void
      */
     protected function _populateItemWithProductData($item)

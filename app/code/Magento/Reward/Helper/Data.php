@@ -309,6 +309,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param int|null $storeId
      * @param string $pointsFormat
      * @param string $amountFormat
+     * @return string
      */
     public function formatReward($points, $amount = null, $storeId = null, $pointsFormat = '%s', $amountFormat = '%s')
     {

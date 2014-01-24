@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reward\Controller\Adminhtml\Reward;
 
+use Magento\App\ResponseInterface;
 
 /**
  * Reward admin rate controller
@@ -16,8 +18,6 @@
  * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reward\Controller\Adminhtml\Reward;
-
 class Rate extends \Magento\Backend\App\Action
 {
     /**
@@ -43,7 +43,7 @@ class Rate extends \Magento\Backend\App\Action
      * Check if module functionality enabled
      *
      * @param \Magento\App\RequestInterface $request
-     * @return \Magento\App\ResponseInterface
+     * @return ResponseInterface
      */
     public function dispatch(\Magento\App\RequestInterface $request)
     {
@@ -131,7 +131,7 @@ class Rate extends \Magento\Backend\App\Action
     /**
      * Save Action
      *
-     * @return void
+     * @return ResponseInterface
      */
     public function saveAction()
     {

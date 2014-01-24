@@ -11,6 +11,7 @@ namespace Magento\Reward\Controller;
 
 use Magento\App\Action\NotFoundException;
 use Magento\App\RequestInterface;
+use Magento\App\ResponseInterface;
 
 class Cart extends \Magento\App\Action\Action
 {
@@ -32,7 +33,7 @@ class Cart extends \Magento\App\Action\Action
     /**
      * Remove Reward Points payment from current quote
      *
-     * @return void
+     * @return void|ResponseInterface
      */
     public function removeAction()
     {
