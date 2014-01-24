@@ -38,6 +38,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Catalog\Model\Product\TypeFactory $productTypeFactory
      * @param \Magento\Catalog\Model\Resource\SetupFactory $catalogSetupFactory
+     * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
      * @param string $moduleName
      * @param string $connectionName
      */

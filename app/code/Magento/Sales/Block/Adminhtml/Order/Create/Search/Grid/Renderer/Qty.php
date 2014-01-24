@@ -25,6 +25,11 @@ class Qty
      */
     protected $typeConfig;
 
+    /**
+     * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $typeConfig
+     * @param array $data
+     */
     public function __construct(
         \Magento\Backend\Block\Context $context,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $typeConfig,

@@ -11,9 +11,9 @@ namespace Magento\Catalog\Model\Product;
 class CartConfigurationTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @param $productType
-     * @param $config
-     * @param $expected
+     * @param string $productType
+     * @param array $config
+     * @param bool $expected
      * @dataProvider isProductConfiguredDataProvider
      */
     public function testIsProductConfigured($productType, $config, $expected)
