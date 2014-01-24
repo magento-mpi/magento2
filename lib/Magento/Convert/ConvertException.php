@@ -33,8 +33,6 @@ class ConvertException extends Exception
     protected $_level;
 
     /**
-     * Nothing calls the accessors for position, so 'int' may not be the correct type.  But from looking at the
-     * \Exception base class, this probably has to do with line numbers or the position within a line number.
      * @var int
      */
     protected $_position;

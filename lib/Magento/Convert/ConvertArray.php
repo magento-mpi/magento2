@@ -7,6 +7,7 @@
  */
 
 namespace Magento\Convert;
+
 use Magento\Exception;
 
 /**
