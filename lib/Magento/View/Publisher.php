@@ -276,7 +276,7 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
         }
 
         return ($this->_viewService->getAppMode() == \Magento\App\State::MODE_DEVELOPER)
-        && $this->_getExtension($filePath) == self::CONTENT_TYPE_CSS;
+            && $this->_getExtension($filePath) == self::CONTENT_TYPE_CSS;
     }
 
     /**
