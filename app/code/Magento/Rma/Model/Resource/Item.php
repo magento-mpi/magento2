@@ -15,7 +15,7 @@ use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
 use Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend;
 use Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFrontend;
 use Magento\Eav\Model\Entity\Attribute\Source\AbstractSource;
-use Magento\Sales\Model\Order\Item;
+use Magento\Sales\Model\Order\Item as OrderItem;
 
 /**
  * RMA entity resource model
@@ -373,7 +373,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
     /**
      * Gets Product Name
      *
-     * @param Item $item
+     * @param OrderItem $item
      * @return string
      */
     public function getProductName($item)
