@@ -16,24 +16,19 @@ use Mtf\TestCase\Functional;
 use Magento\Sales\Test\Fixture\OrderCheckout;
 use Magento\Sales\Test\Fixture\PaypalStandardOrder;
 
-class OnlineRefundTest extends Functional
+class RefundTest extends Functional
 {
     /**
-     * Tests providing online refunds.
+     * Tests providing refunds.
      *
      * @dataProvider dataProviderOrder
      * @ZephirId MAGETWO-12436, MAGETWO-18766, MAGETWO-18774, MAGETWO-18775, MAGETWO-18777, MAGETWO-18778, MAGETWO-19986
      */
-    public function testOnlineRefund(OrderCheckout $fixture)
+    public function testRefund(OrderCheckout $fixture)
     {
-        // Allow refunds.
-        $this->configureRma();
+        // Setup preconditions
+        $this->setupPreconditions($fixture);
 
-        // Create an order.
-        $fixture->persist();
-
-        // Close the order.
-        Factory::getApp()->magentoSalesCloseOrder($fixture);
         $orderId = $fixture->getOrderId();
 
         // Step 1: Order View Page
@@ -90,13 +85,20 @@ class OnlineRefundTest extends Functional
     }
 
     /**
-     * Sets Rma configuration on application backend
+     * Sets up the preconditions for this test.
      */
-    private function configureRma()
+    private function setupPreconditions(OrderCheckout $fixture)
     {
+        // Enable returns
         $enableRma = Factory::getFixtureFactory()->getMagentoCoreConfig();
         $enableRma->switchData('enable_rma');
         $enableRma->persist();
+
+        // Create an order.
+        $fixture->persist();
+
+        // Close the order.
+        Factory::getApp()->magentoSalesCloseOrder($fixture);
     }
 
     /**
