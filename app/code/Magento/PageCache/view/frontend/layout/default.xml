@@ -8,6 +8,13 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <referenceBlock name="head">
+    <block class="Magento\Theme\Block\Html\Head\Script" name="magento-pagecache-comments-js" after="jquery-jquery-js">
+        <arguments>
+            <argument name="file" xsi:type="string">Magento_PageCache::js/comments.js</argument>
+        </arguments>
+    </block>
+    </referenceBlock>
     <referenceContainer name="content">
         <block class="Magento\View\Element\Template" template="Magento_PageCache::javascript.phtml" name="pageCache" as="pageCache"/>
     </referenceContainer>

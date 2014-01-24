@@ -6,14 +6,17 @@
  * @license     {license_link}
  */
 ?>
-
+<?php
+    $params = array(
+        'url' => $this->getUrl('page_cache/block/render/'),
+        'handles' => $this->getLayout()->getUpdate()->getHandles()
+    );
+?>
 <script type="text/javascript">
     //<![CDATA[
     (function ($) {
         head.js("<?php echo $this->getViewFileUrl('Magento_PageCache::js/page-cache.js')?>", function () {
-            $('body').pageCache({
-                url: '<?php echo $this->getUrl('pagecache/data/private/'); ?>'
-            });
+            $('body').pageCache(<?php echo json_encode($params); ?>);
         });
     })(jQuery);
     //]]>

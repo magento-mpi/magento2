@@ -12,26 +12,55 @@
     $.widget('mage.pageCache', {
         options: {
             url: '/',
-            dataAttributeName: 'fpc',
-            versionCookieName: 'private_content_version'
+            startBlockPattern: /^ BLOCK (.+) $/,
+            endBlockPattern: /^ \/BLOCK (.+) $/,
+            versionCookieName: 'private_content_version',
+            handles: []
         },
-        selector: null,
         _create: function () {
             var version = $.mage.cookies.get(this.options.versionCookieName) || '';
             if (!version) {
-                return ;
+//                return ;
             }
-            this.selector = '*[data-' + this.options.dataAttributeName + ']';
-            this._ajax(this.element.find(this.selector), version);
+            var blocks = this._searchBlocks(this.element.comments());
+            this._ajax(blocks, version);
         },
-        _ajax: function (elements, version) {
+        _searchBlocks: function (elements) {
+            var blocks = [],
+                tmp = {};
+            for (var i = 0; i < elements.length; i++) {
+                var el = elements[i],
+                    matches = this.options.startBlockPattern.exec(el.nodeValue),
+                    blockName = null;
+
+                if (matches) {
+                    blockName = matches[1];
+                    tmp[blockName] = {
+                        name: blockName,
+                        startElement: el
+                    };
+                } else {
+                    matches = this.options.endBlockPattern.exec(el.nodeValue);
+                    if (matches) {
+                        blockName = matches[1];
+                        if (tmp[blockName]) {
+                            tmp[blockName].endElement = el;
+                            blocks.push(tmp[blockName]);
+                            delete tmp[blockName];
+                        }
+                    }
+                }
+            }
+            return blocks;
+        },
+        _ajax: function (blocks, version) {
             var data = {
-                block: [],
+                blocks: [],
+                handles: this.options.handles,
                 version: version
             };
-            for (var i = 0; i < elements.length; i++) {
-                var fpc = $(elements[i]).data(this.options.dataAttributeName);
-                data.block.push(fpc);
+            for (var i = 0; i < blocks.length; i++) {
+                data.blocks.push(blocks[i].name);
             }
             if (!data) {
                 return;
@@ -41,16 +70,21 @@
                 data: data,
                 type: 'GET',
                 cache: true,
-                dataType: 'html',
+                dataType: 'json',
                 context: this,
-                success: function (data) {
-                    var elements = $(data).find(this.selector);
-                    for (var i = 0; i < elements.length; i++) {
-                        var $el = $(elements[i]),
-                            attrName = 'data-' + this.options.dataAttributeName,
-                            attr = $el.attr(attrName),
-                            selector = '*[' + attrName + '="' + attr + '"]';
-                        this.element.find(selector).html($el.html());
+                success: function (response) {
+                    for(var blockName in response) {
+                        if (!response.hasOwnProperty(blockName)) {
+                            continue;
+                        }
+                        for (var i = 0; i < blocks.length; i++) {
+                            var block = blocks[i];
+                            if (block.name == blockName) {
+                                var end = $(block.endElement).next();
+                                $(block.startElement).nextUntil(end).remove();
+                                $(end).before(response[blockName]);
+                            }
+                        }
                     }
                 }
             });
