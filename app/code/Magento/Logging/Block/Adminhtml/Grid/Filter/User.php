@@ -53,7 +53,7 @@ class User extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
     /**
      * Filter condition getter
      *
-     * @string
+     * @return string
      */
     public function getCondition()
     {

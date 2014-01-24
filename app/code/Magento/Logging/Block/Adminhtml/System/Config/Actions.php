@@ -16,6 +16,7 @@ namespace Magento\Logging\Block\Adminhtml\System\Config;
 class Actions
     extends \Magento\Backend\Block\System\Config\Form\Field
 {
+    /** @var string */
     protected $_template = 'system/config/actions.phtml';
 
     /**

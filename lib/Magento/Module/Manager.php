@@ -14,12 +14,12 @@ namespace Magento\Module;
 class Manager
 {
     /**
-     * @var \Magento\Module\Output\ConfigInterface
+     * @var ConfigInterface
      */
     private $_outputConfig;
 
     /**
-     * @var \Magento\Module\ModuleListInterface
+     * @var ModuleListInterface
      */
     private $_moduleList;
 
@@ -34,8 +34,8 @@ class Manager
      * @param array $outputConfigPaths
      */
     public function __construct(
-        \Magento\Module\Output\ConfigInterface $outputConfig,
-        \Magento\Module\ModuleListInterface $moduleList,
+        Output\ConfigInterface $outputConfig,
+        ModuleListInterface $moduleList,
         array $outputConfigPaths = array()
     ) {
         $this->_outputConfig = $outputConfig;

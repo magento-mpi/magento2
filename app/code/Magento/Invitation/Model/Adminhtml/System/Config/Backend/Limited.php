@@ -49,7 +49,7 @@ class Limited extends \Magento\Core\Model\Config\Value
      * Validating entered value if it will be 0 (unlimited)
      * throw notice and change it to old one
      *
-     * @return \Magento\Invitation\Model\Adminhtml\System\Config\Backend\Limited
+     * @return $this
      */
     protected function _beforeSave()
     {

@@ -16,8 +16,13 @@
  */
 namespace Magento\Invitation\Helper;
 
+use Magento\Invitation\Model\Invitation;
+
 class Data extends \Magento\App\Helper\AbstractHelper
 {
+    /**
+     * @inheritdoc
+     */
     protected $_isRegistrationAllowed = null;
 
     /**
@@ -69,8 +74,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Return text for invitation status
      *
-     * @param $invitation
-     * @return \Magento\Invitation\Model\Invitation
+     * @param Invitation $invitation
+     * @return Invitation
      */
     public function getInvitationStatusText($invitation)
     {
@@ -80,7 +85,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Return invitation url
      *
-     * @param \Magento\Invitation\Model\Invitation $invitation
+     * @param Invitation $invitation
      * @return string
      */
     public function getInvitationUrl($invitation)

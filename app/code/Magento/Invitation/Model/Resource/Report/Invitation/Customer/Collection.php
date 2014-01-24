@@ -26,7 +26,7 @@ class Collection
      *
      * @param \Zend_Date|string $fromDate
      * @param \Zend_Date|string $toDate
-     * @return \Magento\Invitation\Model\Resource\Report\Invitation\Customer\Collection
+     * @return $this
      */
     public function setDateRange($fromDate, $toDate)
     {
@@ -60,8 +60,8 @@ class Collection
     /**
      * Filters report by stores
      *
-     * @param array $storeIds
-     * @return \Magento\Invitation\Model\Resource\Report\Invitation\Customer\Collection
+     * @param int[] $storeIds
+     * @return $this
      */
     public function setStoreIds($storeIds)
     {
