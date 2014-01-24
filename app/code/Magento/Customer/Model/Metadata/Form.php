@@ -196,7 +196,7 @@ class Form
             }
             $dataModel->restoreValue($data[$attribute->getAttributeCode()]);
         }
-        return $data;;
+        return $data;
     }
 
     /**
