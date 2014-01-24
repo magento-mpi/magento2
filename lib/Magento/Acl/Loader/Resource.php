@@ -9,6 +9,7 @@
  */
 namespace Magento\Acl\Loader;
 
+use Magento\Acl;
 use Magento\Acl\Resource\ProviderInterface;
 use Magento\Acl\ResourceFactory;
 
@@ -43,10 +44,10 @@ class Resource implements \Magento\Acl\LoaderInterface
     /**
      * Populate ACL with resources from external storage
      *
-     * @param \Magento\Acl $acl
+     * @param Acl $acl
      * @return void
      */
-    public function populateAcl(\Magento\Acl $acl)
+    public function populateAcl(Acl $acl)
     {
         $this->_addResourceTree($acl, $this->_resourceProvider->getAclResources(), null);
     }
@@ -54,13 +55,13 @@ class Resource implements \Magento\Acl\LoaderInterface
     /**
      * Add list of nodes and their children to acl
      *
-     * @param \Magento\Acl $acl
+     * @param Acl $acl
      * @param array $resources
      * @param \Magento\Acl\Resource $parent
      * @return void
      * @throws \InvalidArgumentException
      */
-    protected function _addResourceTree(\Magento\Acl $acl, array $resources, \Magento\Acl\Resource $parent = null)
+    protected function _addResourceTree(Acl $acl, array $resources, \Magento\Acl\Resource $parent = null)
     {
         foreach ($resources as $resourceConfig) {
             if (!isset($resourceConfig['id'])) {

@@ -40,7 +40,7 @@ abstract class AbstractAdapter extends \Zend_Translate_Adapter
      * @param string $messageId
      * @param bool $original
      * @param null $locale
-     * @return bool
+     * @return false
      */
     public function isTranslated($messageId, $original = false, $locale = null)
     {
