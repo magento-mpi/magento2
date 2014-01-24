@@ -12,4 +12,5 @@
         <plugin name="front-controller-head"
             type="Magento\PageCache\Model\App\FrontController\HeaderPlugin" disabled="true"/>
     </type>
+    <preference for="Magento\View\LayoutInterface" type="Magento\PageCache\Model\Decorator\Layout" />
 </config>
