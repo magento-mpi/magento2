@@ -79,9 +79,9 @@ $whiteBorders =  $this->getVar("product_image_white_borders");
         <ul class="items thumbs">
             <?php foreach ($this->getGalleryImages() as $_image): ?>
                 <?php if ($_isOldDisplayMode) {
-                    $attributes = ' href="#" data-mage-init="{popupWindow: {windowURL:'
+                    $attributes = ' href="#" data-mage-init=\'{"popupWindow":{"windowURL":'
                         . $this->getGalleryUrl($_image)
-                        . ',windowName:\'gallery\',width:300,height:300,status:1,scrollbars:1,resizable:1}"';
+                        . ',"windowName":"gallery","width":300,"height":300,"status":1,"scrollbars":1,"resizable":1}\'';
                 } else {
                     $attributes = ' href="'
                         . $this->helper('Magento\Catalog\Helper\Image')->init($_product, 'image', $_image->getFile())
