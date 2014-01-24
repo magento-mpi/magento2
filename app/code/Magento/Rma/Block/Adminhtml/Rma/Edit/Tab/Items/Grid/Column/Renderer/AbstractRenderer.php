@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer;
 
 /**
  * Grid column widget for rendering action grid cells depending on item status
  */
-namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer;
-
 class AbstractRenderer
     extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {

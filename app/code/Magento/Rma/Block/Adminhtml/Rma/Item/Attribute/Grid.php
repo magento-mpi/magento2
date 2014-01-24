@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 
+namespace Magento\Rma\Block\Adminhtml\Rma\Item\Attribute;
 
 /**
  * RMA Item Attributes Grid Block
@@ -16,8 +17,6 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Rma\Block\Adminhtml\Rma\Item\Attribute;
-
 class Grid
     extends \Magento\Eav\Block\Adminhtml\Attribute\Grid\AbstractGrid
 {
@@ -58,7 +57,7 @@ class Grid
     /**
      * Prepare customer attributes grid collection object
      *
-     * @return \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Attribute\Grid
+     * @return $this
      */
     protected function _prepareCollection()
     {
@@ -72,7 +71,7 @@ class Grid
     /**
      * Prepare customer attributes grid columns
      *
-     * @return \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Attribute\Grid
+     * @return $this
      */
     protected function _prepareColumns()
     {

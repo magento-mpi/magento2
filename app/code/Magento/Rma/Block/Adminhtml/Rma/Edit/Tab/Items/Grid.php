@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items;
+
 /**
  * Admin RMA create order grid block
  */
-namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items;
-
 class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**

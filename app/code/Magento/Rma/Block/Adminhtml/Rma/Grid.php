@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Rma\Block\Adminhtml\Rma;
+
 /**
  * RMA Grid
  */
-namespace Magento\Rma\Block\Adminhtml\Rma;
-
 class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
@@ -198,7 +198,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Retrieve row url
      *
-     * @param $row
+     * @param \Magento\Object $row
      * @return string
      */
     public function getRowUrl($row)

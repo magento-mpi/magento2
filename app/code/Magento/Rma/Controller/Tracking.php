@@ -144,6 +144,7 @@ class Tracking extends \Magento\App\Action\Action
     /**
      * Print label for one specific shipment
      *
+     * @return void
      * @throws NotFoundException
      */
     public function printLabelAction()
@@ -198,6 +199,7 @@ class Tracking extends \Magento\App\Action\Action
     /**
      * Create pdf document with information about packages
      *
+     * @return void
      */
     public function packagePrintAction()
     {
