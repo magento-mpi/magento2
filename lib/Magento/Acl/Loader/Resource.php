@@ -10,6 +10,7 @@
 namespace Magento\Acl\Loader;
 
 use Magento\Acl;
+use Magento\Acl\Resource as AclResource;
 use Magento\Acl\Resource\ProviderInterface;
 use Magento\Acl\ResourceFactory;
 
@@ -57,17 +58,17 @@ class Resource implements \Magento\Acl\LoaderInterface
      *
      * @param Acl $acl
      * @param array $resources
-     * @param \Magento\Acl\Resource $parent
+     * @param AclResource $parent
      * @return void
      * @throws \InvalidArgumentException
      */
-    protected function _addResourceTree(Acl $acl, array $resources, \Magento\Acl\Resource $parent = null)
+    protected function _addResourceTree(Acl $acl, array $resources, AclResource $parent = null)
     {
         foreach ($resources as $resourceConfig) {
             if (!isset($resourceConfig['id'])) {
                 throw new \InvalidArgumentException('Missing ACL resource identifier');
             }
-            /** @var $resource \Magento\Acl\Resource */
+            /** @var $resource AclResource */
             $resource = $this->_resourceFactory->createResource(array('resourceId' => $resourceConfig['id']));
             $acl->addResource($resource, $parent);
             if (isset($resourceConfig['children'])) {
