@@ -402,7 +402,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
      *
      * @param string $sql
      * @param string|int $field
-     * @return false|mixed
+     * @return false|mixed|null
      */
     public function raw_fetchRow($sql, $field = null)
     {
@@ -545,7 +545,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
      * This method writes to $_bindParams, where query bind parameters are kept.
      * This method requires further normalizing, if bind array is positional.
      *
-     * @param array $matches
+     * @param string[] $matches
      * @return string
      */
     public function proccessBindCallback($matches)
@@ -695,7 +695,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
     /**
      * Split multi statement query
      *
-     * @param $sql string
+     * @param string $sql
      * @return array
      */
     protected function _splitMultiQuery($sql)
@@ -1029,7 +1029,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
      *
      * @param string $tableName
      * @param string $schemaName
-     * @return false|mixed
+     * @return mixed
      */
     public function showTableStatus($tableName, $schemaName = null)
     {
@@ -2405,7 +2405,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
      *
      * @param string $tableName
      * @param string $schemaName
-     * @return boolean
+     * @return bool
      */
     public function isTableExists($tableName, $schemaName = null)
     {
@@ -2879,7 +2879,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
      * Returns valid IFNULL expression
      *
      * @param \Zend_Db_Expr|Zend_Db_Select|string $expression
-     * @param string $value OPTIONAL. Applies when $expression is NULL
+     * @param string|int $value OPTIONAL. Applies when $expression is NULL
      * @return \Zend_Db_Expr
      */
     public function getIfNullSql($expression, $value = 0)
@@ -2920,7 +2920,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
      * Generate fragment of SQL, that combine together (concatenate) the results from data array
      * All arguments in data must be quoted
      *
-     * @param array $data
+     * @param string[] $data
      * @param string $separator concatenate with separator
      * @return \Zend_Db_Expr
      */
@@ -2947,7 +2947,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
      * (minimum-valued) argument
      * All arguments in data must be quoted
      *
-     * @param array $data
+     * @param string[] $data
      * @return \Zend_Db_Expr
      */
     public function getLeastSql(array $data)
@@ -2960,7 +2960,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
      * (maximum-valued) argument
      * All arguments in data must be quoted
      *
-     * @param array $data
+     * @param string[] $data
      * @return \Zend_Db_Expr
      */
     public function getGreatestSql(array $data)

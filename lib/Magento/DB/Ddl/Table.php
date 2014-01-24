@@ -206,8 +206,8 @@ class Table
     /**
      * Retrieve name of table
      *
-     * @throws \Zend_Db_Exception
      * @return string
+     * @throws \Zend_Db_Exception
      */
     public function getName()
     {

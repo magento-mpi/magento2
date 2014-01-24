@@ -634,14 +634,14 @@ class Tree
 
         $nodeSet = new \Magento\DB\Tree\NodeSet();
         foreach ($data as $node) {
-             $nodeSet->addNode(new \Magento\DB\Tree\Node($node, $this->getKeys()));
+             $nodeSet->addNode(new Node($node, $this->getKeys()));
         }
         return $nodeSet;
     }
 
     /**
      * @param string|int $nodeId
-     * @return \Magento\DB\Tree\Node
+     * @return Node
      */
     public function getNode($nodeId)
     {
@@ -656,6 +656,6 @@ class Tree
 
         $data = $this->_db->fetchRow($dbSelect, $data);
 
-        return new \Magento\DB\Tree\Node($data, $this->getKeys());
+        return new Node($data, $this->getKeys());
     }
 }
