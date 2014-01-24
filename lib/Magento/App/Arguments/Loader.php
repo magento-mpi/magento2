@@ -40,7 +40,12 @@ class Loader
      *
      * @var array
      */
-    protected $_idAttributes = array('/config/resource' => 'name', '/config/connection' => 'name');
+    protected $_idAttributes = array(
+        '/config/resource'       => 'name',
+        '/config/connection'     => 'name',
+        '/config/cache/frontend' => 'name',
+        '/config/cache/type'     => 'name',
+    );
 
     /**
      * @param \Magento\App\Filesystem\DirectoryList $dirList

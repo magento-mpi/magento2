@@ -78,7 +78,7 @@ return array(
     array('INIT_OPTION_RESPONSE', 'Magento\Core\Model\App'),
     array('INIT_OPTION_SCOPE_CODE', 'Magento\Core\Model\App', 'Magento_Core_Model_App::PARAM_RUN_CODE'),
     array('INIT_OPTION_SCOPE_TYPE', 'Magento\Core\Model\App', 'Magento_Core_Model_App::PARAM_RUN_TYPE'),
-    array('INIT_OPTION_URIS', 'Magento\Core\Model\App', 'Magento_Core_Model_App::PARAM_APP_URIS'),
+    array('INIT_OPTION_URIS', 'Magento\Core\Model\App'),
     array('INSTALLER_HOST_RESPONSE', 'Magento\Install\Model\Installer'),
     array(
         'LAYOUT_GENERAL_CACHE_TAG',
@@ -88,6 +88,7 @@ return array(
     array('LOCALE_CACHE_KEY', 'Magento\Backend\Block\Page\Footer'),
     array('LOCALE_CACHE_LIFETIME', 'Magento\Backend\Block\Page\Footer'),
     array('LOCALE_CACHE_TAG', 'Magento\Backend\Block\Page\Footer'),
+    array('PARAM_CACHE_OPTIONS', '\Magento\Core\Model\App', '\Magento\Core\Model\App::PARAM_CACHE_FORCED_OPTIONS'),
     array('PATH_PREFIX_CUSTOMIZATION', 'Magento\Core\Model\Theme'),
     array('PATH_PREFIX_CUSTOMIZED', 'Magento\Core\Model\Theme\Files'),
     array('PUBLIC_BASE_THEME_DIR', 'Magento\Core\Model\Design\PackageInterface'),
