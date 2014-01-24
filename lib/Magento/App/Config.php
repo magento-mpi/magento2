@@ -22,7 +22,10 @@ class Config implements \Magento\App\ConfigInterface
      */
     protected $_data;
 
-    public function __construct(\Magento\App\Arguments\Loader $loader)
+    /**
+     * @param Arguments\Loader $loader
+     */
+    public function __construct(Arguments\Loader $loader)
     {
         $this->_loader = $loader;
         $this->_data = $loader->load();
@@ -60,31 +63,5 @@ class Config implements \Magento\App\ConfigInterface
     public function isSetFlag($path)
     {
         return (bool)$this->_data->getValue($path);
-        return $this->_data['resource'];
-    }
-
-    /**
-     * Retrieve key
-     *
-     * @param string $key
-     * @param string $defaultValue
-     * @return array|string|null
-     */
-    public function get($key = null, $defaultValue = null)
-    {
-        if ($key === null) {
-            return $this->_data;
-        }
-        return isset($this->_data[$key]) ? $this->_data[$key] : $defaultValue;
-    }
-
-    /**
-     * Reload local.xml
-     *
-     * @return void
-     */
-    public function reload()
-    {
-        $this->_data = array_replace_recursive($this->_parseParams($this->_loader->load()), $this->_parameters);
     }
 }
