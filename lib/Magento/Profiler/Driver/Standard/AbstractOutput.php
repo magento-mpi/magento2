@@ -23,7 +23,11 @@ abstract class AbstractOutput implements OutputInterface
      *
      * @var array
      */
-    protected $_thresholds = array(Stat::TIME => 0.001, Stat::COUNT => 10, Stat::EMALLOC => 10000);
+    protected $_thresholds = array(
+        Stat::TIME => 0.001,
+        Stat::COUNT => 10,
+        Stat::EMALLOC => 10000,
+    );
 
     /**
      * List of columns to output
@@ -36,7 +40,7 @@ abstract class AbstractOutput implements OutputInterface
         'Avg'      => Stat::AVG,
         'Cnt'      => Stat::COUNT,
         'Emalloc'  => Stat::EMALLOC,
-        'RealMem'  => Stat::REALMEM
+        'RealMem'  => Stat::REALMEM,
     );
 
     /**
@@ -108,7 +112,7 @@ abstract class AbstractOutput implements OutputInterface
     /**
      * Render statistics column value for specified timer
      *
-     * @param int|float $value
+     * @param string|float $value
      * @param string $columnKey
      * @return string
      */
@@ -159,7 +163,7 @@ abstract class AbstractOutput implements OutputInterface
      * Timer ids will be ordered and filtered by thresholds and filter pattern.
      *
      * @param Stat $stat
-     * @return string[]
+     * @return array
      */
     protected function _getTimerIds(Stat $stat)
     {

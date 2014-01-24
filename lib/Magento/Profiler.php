@@ -69,7 +69,7 @@ class Profiler
     static private $_tagFilters = array();
 
     /**
-     * Has tag filters flag to faster checks of filters availability.
+     * Has tag filters flag for faster checks of filters availability.
      *
      * @var bool
      */
@@ -411,7 +411,7 @@ class Profiler
      * Parses driver config
      *
      * @param mixed $driverConfig
-     * @return array|bool
+     * @return array|false
      */
     protected static function _parseDriverConfig($driverConfig)
     {

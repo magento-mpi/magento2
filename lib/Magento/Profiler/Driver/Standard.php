@@ -9,11 +9,10 @@
  */
 namespace Magento\Profiler\Driver;
 
-use Magento\Profiler;
-use Magento\Profiler\DriverInterface;
+use Magento\Profiler\Driver\Standard\Output\Factory;
 use Magento\Profiler\Driver\Standard\OutputInterface;
 use Magento\Profiler\Driver\Standard\Stat;
-use Magento\Profiler\Driver\Standard\Output\Factory as StandardOutputFactory;
+use Magento\Profiler\DriverInterface;
 
 class Standard implements DriverInterface
 {
@@ -115,16 +114,16 @@ class Standard implements DriverInterface
      * Gets output factory from configuration or create new one
      *
      * @param array|null $config
-     * @return StandardOutputFactory
+     * @return Factory
      */
     protected function _getOutputFactory(array $config = null)
     {
         if (isset($config['outputFactory'])
-            && $config['outputFactory'] instanceof StandardOutputFactory
+            && $config['outputFactory'] instanceof Factory
         ) {
             $result = $config['outputFactory'];
         } else {
-            $result = new StandardOutputFactory();
+            $result = new Factory();
         }
         return $result;
     }
@@ -162,8 +161,8 @@ class Standard implements DriverInterface
      *
      * @param string $timerId
      * @param array|null $tags
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      * @return void
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function start($timerId, array $tags = null)
     {
@@ -199,7 +198,7 @@ class Standard implements DriverInterface
      */
     public function display()
     {
-        if (Profiler::isEnabled()) {
+        if (\Magento\Profiler::isEnabled()) {
             foreach ($this->_outputs as $output) {
                 $output->display($this->_stat);
             }
