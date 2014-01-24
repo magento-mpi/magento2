@@ -196,7 +196,7 @@ class Ftp extends AbstractIo
      *
      * @param string $filename
      * @param string|resource|null $dest destination file name, stream, or if null will return file contents
-     * @return string
+     * @return false|string
      */
     public function read($filename, $dest=null)
     {

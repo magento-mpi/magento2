@@ -39,7 +39,7 @@ abstract class AbstractContainer
 
     /**
      * @param string $key
-     * @param string $default
+     * @param string|null $default
      * @return array
      */
     public function getVar($key, $default=null)
@@ -92,7 +92,7 @@ abstract class AbstractContainer
     }
 
     /**
-     * @param array|null $data
+     * @param string|null $data
      * @return true
      */
     public function validateDataString($data=null)
@@ -107,7 +107,7 @@ abstract class AbstractContainer
     }
 
     /**
-     * @param array $data
+     * @param array|null $data
      * @return true
      */
     public function validateDataGrid($data=null)

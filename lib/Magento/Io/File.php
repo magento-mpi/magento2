@@ -102,7 +102,7 @@ class File extends AbstractIo
      * @param string $fileName
      * @param string $mode
      * @param int $chmod
-     * @return bool
+     * @return true
      * @throws \Exception
      */
     public function streamOpen($fileName, $mode = 'w+', $chmod = 0666)
@@ -162,7 +162,7 @@ class File extends AbstractIo
      * Binary-safe file read
      *
      * @param int $length
-     * @return string
+     * @return string|false
      */
     public function streamRead($length = 1024)
     {
@@ -180,7 +180,7 @@ class File extends AbstractIo
      *
      * @param string $delimiter
      * @param string $enclosure
-     * @return string
+     * @return string|false
      */
     public function streamReadCsv($delimiter = ',', $enclosure = '"')
     {
@@ -194,7 +194,7 @@ class File extends AbstractIo
      * Binary-safe file write
      *
      * @param string $str
-     * @return bool
+     * @return int|false
      */
     public function streamWrite($str)
     {
@@ -569,7 +569,7 @@ class File extends AbstractIo
      *
      * @param string $folder
      * @param int $mode
-     * @return bool
+     * @return true
      * @throws \Exception
      */
     public function checkAndCreateFolder($folder, $mode = 0777)
