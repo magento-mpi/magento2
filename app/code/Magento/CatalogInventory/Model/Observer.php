@@ -494,7 +494,7 @@ class Observer
             }
 
             /**
-             * When we work with subitem (as subproduct of bundle or configurable product)
+             * When we work with subitem (as subproduct of configurable product)
              */
             if ($quoteItem->getParentItem()) {
                 $rowQty = $quoteItem->getParentItem()->getQty() * $qty;
