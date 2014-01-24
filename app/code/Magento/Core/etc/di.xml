@@ -55,6 +55,7 @@
     <preference for="Magento\Mview\View\CollectionInterface" type="Magento\Mview\View\Collection" />
     <preference for="Magento\Mview\View\SubscriptionInterface" type="Magento\Mview\View\Subscription" />
     <preference for="Magento\Mview\View\ChangelogInterface" type="Magento\Mview\View\Changelog" />
+    <preference for="Magento\Css\PreProcessor\AdapterInterface" type="Magento\Css\PreProcessor\Adapter\Oyejorge" />
     <type name="Magento\App\DefaultPath\DefaultPath">
         <param name="parts">
             <value>
@@ -497,6 +498,34 @@
     <type name="Magento\Core\Model\Url\ScopeResolver">
         <param name="areaCode">
             <value>frontend</value>
+        </param>
+    </type>
+    <type name="Magento\Less\PreProcessor\Instruction\MagentoImport">
+        <param name="fileSource">
+            <instance type="Magento\Less\File\Source\Aggregated" />
+        </param>
+    </type>
+    <type name="Magento\Less\File\Source\Aggregated">
+        <param name="libraryFiles">
+            <instance type="Magento\Less\File\Source\Library" />
+        </param>
+        <param name="baseFiles">
+            <instance type="Magento\Less\File\Source\Base" />
+        </param>
+        <param name="themeFiles">
+            <instance type="Magento\Less\File\Source\Theme" />
+        </param>
+    </type>
+    <type name="Magento\Less\PreProcessor">
+        <param name="preProcessors">
+            <value>
+                <import>
+                    <class>Magento\Less\PreProcessor\Instruction\Import</class>
+                </import>
+                <magento_import>
+                    <class>Magento\Less\PreProcessor\Instruction\MagentoImport</class>
+                </magento_import>
+            </value>
         </param>
     </type>
 </config>

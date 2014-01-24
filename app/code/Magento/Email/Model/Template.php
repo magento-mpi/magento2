@@ -188,7 +188,20 @@ class Template extends \Magento\Core\Model\Template
                     ->getBaseUrl(\Magento\UrlInterface::URL_TYPE_MEDIA) . $uploadDir . '/' . $fileName;
             }
         }
-        return $this->_viewUrl->getViewFileUrl('Magento_Core::logo_email.gif');
+        return $this->getDefaultEmailLogo();
+    }
+
+    /**
+     * Get default email logo image
+     *
+     * @return string
+     */
+    public function getDefaultEmailLogo()
+    {
+        return $this->_viewUrl->getViewFileUrl(
+            'Magento_Email::logo_email.gif',
+            array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND)
+        );
     }
 
     /**

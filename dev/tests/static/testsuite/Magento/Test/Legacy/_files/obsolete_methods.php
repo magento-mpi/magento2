@@ -1174,4 +1174,5 @@ return array(
     array('getUpdateUrl', 'Magento\Wishlist\Helper\Data'),
     array('getItemRemoveUrl', 'Magento\Wishlist\Block\AbstractBlock'),
     array('_getUrlParams', 'Magento\Catalog\Helper\Product\Compare'),
+    array('getFileIdentifier', 'Magento\View\Layout\File\FileList', 'Magento\View\Layout\File'),
 );

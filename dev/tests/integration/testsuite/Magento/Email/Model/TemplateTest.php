@@ -225,4 +225,15 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
             array('name' => 'Sender Name', 'email' => 'sender@example.com'), 'recipient@example.com', 'Recipient Name'
         );
     }
+
+    /**
+     * @magentoAppIsolation enabled
+     */
+    public function testGetDefaultEmailLogo()
+    {
+        $this->assertStringEndsWith(
+            'static/frontend/magento_plushe/en_US/Magento_Email/logo_email.gif',
+            $this->_model->getDefaultEmailLogo()
+        );
+    }
 }

@@ -8,12 +8,15 @@
   * Eliminated dependency of Sales module on Shipping and Usa modules
   * Eliminated dependency of Shipping module on Customer module
   * Improved accuracy and quality of Module Dependency Test
+* Oyejorge Less.php Adapter implemented
+* Less files import mechanism implemented
 * Fixed bugs:
   * Fixed an issue when order was sent to Paypal without defined currency
   * Fixed an issue with 404 error when trying to return back to grid from Recurring Billing Profile
   * Fixed an issue with synchronization with google shopping on product update caused by missed service property
   * Fixed Authorize.net Direct Post: Ability to proceed order when it was created from Backend
   * Fixed an issue with ImportExport: Fix notice if _attribute_set column is missing
+  * Fixed missed image for a cron job for the abandoned cart emails
 * Removed the deprecated service-calls and data source functionality
 * AppInterface has been renamed to LauncherInterface
 * Removed reinit logic from Config object
