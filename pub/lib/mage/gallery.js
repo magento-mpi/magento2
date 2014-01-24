@@ -126,7 +126,7 @@
                     this[control].show();
                 }
 
-            } else if(this[control]) {
+            } else if (this[control]) {
                 this[control].hide();
             }
         },
@@ -139,7 +139,7 @@
         _setOption: function (key, value) {
             var previousValue = this.options[key];
             this._superApply(arguments);
-            if(value !== previousValue) {
+            if (value !== previousValue) {
                 switch(key) {
                     case 'showThumbs':
                         this._toggleControl('thumbs', value);
