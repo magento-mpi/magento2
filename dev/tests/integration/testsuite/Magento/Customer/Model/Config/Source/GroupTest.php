@@ -8,7 +8,6 @@
 namespace Magento\Customer\Model\Config\Source;
 
 use Magento\TestFramework\Helper\Bootstrap;
-use Magento\Convert\Object as Converter;
 
 /**
  * Class \Magento\Customer\Model\Config\Source\Group
@@ -17,15 +16,9 @@ class GroupTest extends \PHPUnit_Framework_TestCase
 {
     public function testToOptionArray()
     {
-        $objectManager = Bootstrap::getObjectManager();
         /** @var Group $group */
-        $group = $objectManager->get(
-            'Magento\Customer\Model\Config\Source\Group',
-            [
-                'groupService' => $objectManager->get('Magento\Customer\Service\V1\CustomerGroupService'),
-                'converter' => new Converter()
-            ]
-        );
+        $group = Bootstrap::getObjectManager()
+            ->get('Magento\Customer\Model\Config\Source\Group');
         $this->assertEquals(
             [
                 ['value' => '', 'label' => '-- Please Select --'],

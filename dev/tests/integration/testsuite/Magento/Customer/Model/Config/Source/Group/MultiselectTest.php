@@ -8,7 +8,6 @@
 namespace Magento\Customer\Model\Config\Source\Group;
 
 use Magento\TestFramework\Helper\Bootstrap;
-use Magento\Convert\Object as Converter;
 
 /**
  * Class \Magento\Customer\Model\Config\Source\Group\Multiselect
@@ -17,15 +16,9 @@ class MultiselectTest extends \PHPUnit_Framework_TestCase
 {
     public function testToOptionArray()
     {
-        $objectManager = Bootstrap::getObjectManager();
         /** @var Multiselect $multiselect */
-        $multiselect = $objectManager->get(
-            'Magento\Customer\Model\Config\Source\Group\Multiselect',
-            [
-                'groupService' => $objectManager->get('Magento\Customer\Service\V1\CustomerGroupService'),
-                'converter' => new Converter()
-            ]
-        );
+        $multiselect = Bootstrap::getObjectManager()
+            ->get('Magento\Customer\Model\Config\Source\Group\Multiselect');
         $this->assertEquals(
             [
                 ['value' => 1, 'label' => 'General'],
