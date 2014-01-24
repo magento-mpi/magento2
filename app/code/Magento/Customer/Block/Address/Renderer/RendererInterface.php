@@ -25,24 +25,24 @@ interface RendererInterface
      *
      * @param \Magento\Object $type
      */
-    function setType(\Magento\Object $type);
+    public function setType(\Magento\Object $type);
 
     /**
      * Retrieve format type object
      *
      * @return \Magento\Object
      */
-    function getType();
+    public function getType();
 
     /**
      * Render address
      *
      * @deprecated All new code should use renderArray based on Metadata service
-     * @param string[] $addressAttributes
-     * @param \Magento\Directory\Model\Country\Format $format
-     * @return string
+     * @param \Magento\Customer\Model\Address\AbstractAddress $address
+     * @param string|null $format
+     * @return mixed
      */
-    public function render($addressAttributes, $format = null);
+    public function render(\Magento\Customer\Model\Address\AbstractAddress $address, $format = null);
 
     /**
      * Get a format object for a given address attributes, based on the type set earlier.
