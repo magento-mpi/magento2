@@ -31,8 +31,6 @@ class CartConfigurationTest extends \PHPUnit_Framework_TestCase
             'virtual' => array('virtual', array('options' => true), true),
             'configurable' => array('configurable',array('super_attribute' => false), true),
             'bundle' => array('bundle', array('bundle_option' => 'option1'), true),
-            'giftcard' => array('giftcard', array(), false),
-            'downloadable' => array('downloadable', array('links' => 'option1'), true),
             'some_option_type' => array('some_option_type', array(), false)
         );
     }
