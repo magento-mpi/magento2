@@ -78,7 +78,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
         $output = array();
         foreach ($this->productTypeConfig->getAll() as $typeKey => $config) {
             if (!isset($config['custom_attributes']['is_real_product'])
-                || $config['customAttributes']['is_real_product'] == 'true') {
+                || $config['custom_attributes']['is_real_product'] == 'true') {
                 $output[] = $typeKey;
             }
         }

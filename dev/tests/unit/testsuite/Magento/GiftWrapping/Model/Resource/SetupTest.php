@@ -34,10 +34,9 @@ class SetupTest extends \PHPUnit_Framework_TestCase
     public function testGetRealProductTypes()
     {
         $types = array(
-            'simple' => array('customAttributes' => array('is_real_product' => 'true')),
-            'grouped' => array('customAttributes' => array('is_real_product' => 'some_value')),
-            'some_product' => array('customAttributes' => array('is_real_product' => 'some_value'),
-                'custom_attributes' => array('is_real_product' => 'true'))
+            'simple'       => array('custom_attributes' => array('is_real_product' => 'true')),
+            'grouped'      => array(),
+            'some_product' => array('custom_attributes' => array('is_real_product' => 'some_value')),
         );
         $this->typeConfigMock->expects($this->once())->method('getAll')->will($this->returnValue($types));
         $this->assertEquals(array('simple', 'grouped'), $this->giftRegistrySetup->getRealProductTypes());
