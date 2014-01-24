@@ -59,6 +59,7 @@ class PlaceOrder
      * Reduce reward points if points was used during checkout
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function dispatch(\Magento\Event\Observer $observer)
     {

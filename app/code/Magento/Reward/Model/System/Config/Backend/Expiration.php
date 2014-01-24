@@ -60,7 +60,7 @@ class Expiration extends \Magento\Core\Model\Config\Value
     /**
      * Update history expiration date to simplify frontend calculations
      *
-     * @return \Magento\Reward\Model\System\Config\Backend\Expiration
+     * @return $this
      */
     protected function _beforeSave()
     {
@@ -97,7 +97,7 @@ class Expiration extends \Magento\Core\Model\Config\Value
     /**
      * The same as _beforeSave, but executed when website config extends default values
      *
-     * @return \Magento\Reward\Model\System\Config\Backend\Expiration
+     * @return $this
      */
     protected function _beforeDelete()
     {

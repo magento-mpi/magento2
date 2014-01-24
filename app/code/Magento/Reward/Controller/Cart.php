@@ -32,6 +32,7 @@ class Cart extends \Magento\App\Action\Action
     /**
      * Remove Reward Points payment from current quote
      *
+     * @return void
      */
     public function removeAction()
     {
