@@ -97,6 +97,9 @@ class RefundTest extends Functional
         // Create an order.
         $fixture->persist();
 
+        // Log into the backend.
+        Factory::getApp()->magentoBackendLoginUser();
+
         // Close the order.
         Factory::getApp()->magentoSalesCloseOrder($fixture);
     }
