@@ -2,21 +2,7 @@
 echo "
 
 
-//below until next echo is a draft and shouldn't be taken into account
-if ( obj. ) {   ##change !backend to *cached objects
-  unset req.http.Cookie;
-}
-sub vcl_hash {
-    hash_data(req.url);
-    if (req.http.host) {
-        hash_data(req.http.host);
-    } else {
-        hash_data(server.ip);
-    }
-    return (hash);
-}
-
-## For varies
+## For varies based on accept-encoding - possibly to change to this scheme ther part below that makes everything gzipped
 if (req.http.Accept-Encoding) {
     if (req.url ~ \"\\.(jpg|png|gif|gz|tgz|bz2|tbz|mp3|ogg)$\") {
         # No point in compressing these
@@ -50,6 +36,16 @@ sub vcl_recv {
     } elsif (req.request == \"POST\"){
         return (pass);
    }
+}
+
+sub vcl_hash {
+    hash_data(req.url);
+    if (req.http.host) {
+        hash_data(req.http.host);
+    } else {
+        hash_data(server.ip);
+    }
+    return (hash);
 }
 
 ## Purge requests
@@ -124,7 +120,7 @@ if ( req.url ~ \"\\.(png|gif|jpg|css|js|ico)\" ) {
 
 ## X_MAGETNO_VARY cookie
 sub vcl_hash {
-    hash_data(req.http.cookie.)
+    hash_data(req.http.cookie.?)
 }
 
 ";
