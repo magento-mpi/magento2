@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <indexer id="indexer_internal_name_one" view_id="view_two" class="Index\Class\Name\Two">
+        <title translate="true">Indexer public name two</title>
+        <description translate="true">Indexer public description two</description>
+    </indexer>
+    <indexer id="indexer_internal_name_three" view_id="view_three" class="Index\Class\Name\Three">
+        <title translate="true">Indexer public name three</title>
+        <description translate="true">Indexer public description three</description>
+    </indexer>
+</config>

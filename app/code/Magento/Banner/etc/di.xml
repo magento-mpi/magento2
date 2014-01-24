@@ -10,20 +10,20 @@
 <config>
     <type name="Magento\Banner\Model\Config">
         <param name="bannerTypes">
-            <value>
-                <content>Content Area</content>
-                <footer>Footer</footer>
-                <header>Header</header>
-                <leftcol>Left Column</leftcol>
-                <rightcol>Right Column</rightcol>
-            </value>
+            <array>
+                <item key="content"><value>Content Area</value></item>
+                <item key="footer"><value>Footer</value></item>
+                <item key="header"><value>Header</value></item>
+                <item key="leftcol"><value>Left Column</value></item>
+                <item key="rightcol"><value>Right Column</value></item>
+            </array>
         </param>
     </type>
     <type name="Magento\Module\Updater\SetupFactory">
         <param name="resourceTypes">
-            <value>
-                <banner_setup>Magento\Banner\Model\Resource\Setup</banner_setup>
-            </value>
+            <array>
+                <item key="banner_setup"><value>Magento\Banner\Model\Resource\Setup</value></item>
+            </array>
         </param>
     </type>
 </config>

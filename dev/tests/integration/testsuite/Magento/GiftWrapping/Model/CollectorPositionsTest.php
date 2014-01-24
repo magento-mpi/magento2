@@ -25,14 +25,12 @@ class CollectorPositionsTest extends \Magento\Sales\Model\AbstractCollectorPosit
                 array(),
                 array('subtotal'),
             ),
-            /** MAGETWO-10266
             'invoice collectors' => array(
                 'giftwrapping',
-                'quote',
+                'invoice',
                 array('giftcardaccount'),
                 array('cost_total'),
             ),
-            */
             'creditmemo collectors' => array(
                 'giftwrapping',
                 'creditmemo',

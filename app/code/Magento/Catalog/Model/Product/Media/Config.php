@@ -70,7 +70,7 @@ class Config implements ConfigInterface
     public function getBaseMediaUrl()
     {
         return $this->storeManager->getStore()
-            ->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_MEDIA) . 'catalog/product';
+            ->getBaseUrl(\Magento\UrlInterface::URL_TYPE_MEDIA) . 'catalog/product';
     }
 
     /**
@@ -90,7 +90,7 @@ class Config implements ConfigInterface
     public function getBaseTmpMediaUrl()
     {
         return $this->storeManager->getStore()
-            ->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_MEDIA) . 'tmp/' . $this->getBaseMediaUrlAddition();
+            ->getBaseUrl(\Magento\UrlInterface::URL_TYPE_MEDIA) . 'tmp/' . $this->getBaseMediaUrlAddition();
     }
 
     /**

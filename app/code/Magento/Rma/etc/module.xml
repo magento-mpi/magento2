@@ -28,7 +28,9 @@
             <module name="Magento_Theme"/>
             <module name="Magento_Directory"/>
             <module name="Magento_Enterprise"/>
-            <module name="Magento_CustomerCustomAttributes" type="soft"/>
+            <module name="Magento_CustomerCustomAttributes"/>
+            <module name="Magento_Email"/>
+            <module name="Magento_GroupedProduct"/>
         </depends>
     </module>
 </config>

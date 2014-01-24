@@ -201,8 +201,6 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             'page_size'                    => 1,
             'max_data_size'                => 1,
             'bunch_size'                   => 1,
-            'website_manager'              => $websiteManager,
-            'store_manager'                => 'not_used',
             'attribute_collection'         => $attributeCollection,
             'entity_type_id'               => 1,
             'customer_storage'             => $customerStorage,
@@ -467,6 +465,10 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     protected function _getModelMock()
     {
         $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
+        $storeManager = $this->getMock('\Magento\Core\Model\StoreManager', array('getWebsites'), array(), '', false);
+        $storeManager->expects($this->once())
+            ->method('getWebsites')
+            ->will($this->returnCallback(array($this, 'getWebsites')));
 
         $modelMock = new \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address(
             $this->_coreDataMock,
@@ -475,7 +477,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\ImportExport\Model\ImportFactory', array(), array(), '', false),
             $this->getMock('Magento\ImportExport\Model\Resource\Helper', array(), array(), '', false),
             $this->getMock('Magento\App\Resource', array(), array(), '', false),
-            $this->getMock('Magento\Core\Model\App', array(), array(), '', false),
+            $storeManager,
             $this->getMock('Magento\ImportExport\Model\Export\Factory', array(), array(), '', false),
             $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false),
             $this->getMock('Magento\ImportExport\Model\Resource\Customer\StorageFactory', array(), array(), '', false),

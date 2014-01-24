@@ -22,7 +22,7 @@ class Cache
     /**
      * Cache tags to clean
      *
-     * @var array
+     * @var string[]
      */
     protected $_cacheTags = array(
         \Magento\Backend\Block\Menu::CACHE_TAGS

@@ -10,9 +10,9 @@
 <config>
     <type name="Magento\Core\Model\Url\SecurityInfo">
         <param name="secureUrlList">
-            <value>
-                <giftcard_customer>/giftcard/customer/</giftcard_customer>
-            </value>
+            <array>
+                <item key="giftcard_customer"><value>/giftcard/customer/</value></item>
+            </array>
         </param>
     </type>
 </config>

@@ -72,7 +72,7 @@ class Product extends \Magento\App\Action\Action
             $this->_actionFlag->set('', self::FLAG_NO_DISPATCH, true);
             if ($this->getRequest()->getActionName() == 'sendemail') {
                 $session->setBeforeAuthUrl($this->_objectManager
-                    ->create('Magento\Core\Model\Url')
+                    ->create('Magento\UrlInterface')
                     ->getUrl('*/*/send', array(
                         '_current' => true
                     )));
@@ -230,7 +230,7 @@ class Product extends \Magento\App\Action\Action
         $catalogSession->setSendfriendFormData($data);
 
         $url = $this->_objectManager
-            ->create('Magento\Core\Model\Url')
+            ->create('Magento\UrlInterface')
             ->getUrl('*/*/send', array('_current' => true));
         $this->getResponse()->setRedirect($this->_redirect->error($url));
     }

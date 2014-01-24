@@ -2,23 +2,26 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * In-memory readonly pool of cache front-end instances, specified in the configuration
- */
 namespace Magento\App\Cache\Frontend;
 
+/**
+ * In-memory readonly pool of all cache front-end instances known to the system
+ */
 class Pool implements \Iterator
 {
     /**
      * Frontend identifier associated with the default settings
      */
-    const DEFAULT_FRONTEND_ID = 'generic';
+    const DEFAULT_FRONTEND_ID = 'default';
+
+    /**
+     * @var \Magento\App\Arguments
+     */
+    private $_arguments;
 
     /**
      * @var \Magento\App\Cache\Frontend\Factory
@@ -31,52 +34,51 @@ class Pool implements \Iterator
     private $_instances;
 
     /**
-     * Advanced config settings
-     *
      * @var array
      */
-    private $_advancedSettings;
+    private $_frontendSettings;
 
     /**
-     * Default cache settings
-     *
-     * @var array
-     */
-    private $_defaultSettings;
-
-    /**
+     * @param \Magento\App\Arguments $arguments
      * @param \Magento\App\Cache\Frontend\Factory $frontendFactory
-     * @param array $defaultSettings
-     * @param array $advancedSettings
+     * @param array $frontendSettings Format: array('<frontend_id>' => array(<cache_settings>), ...)
      */
     public function __construct(
+        \Magento\App\Arguments $arguments,
         \Magento\App\Cache\Frontend\Factory $frontendFactory,
-        array $defaultSettings = array(),
-        array $advancedSettings = array()
+        array $frontendSettings = array()
     ) {
+        $this->_arguments = $arguments;
         $this->_factory = $frontendFactory;
-        $this->_advancedSettings = $advancedSettings;
-        $this->_defaultSettings = empty($defaultSettings) == false ? $defaultSettings : array();
+        $this->_frontendSettings = $frontendSettings + array(self::DEFAULT_FRONTEND_ID => array());
     }
 
     /**
-     * Load frontend instances from the configuration, to be used for delayed initialization
+     * Create instances of every cache frontend known to the system.
+     * Method is to be used for delayed initialization of the iterator.
      */
     protected function _initialize()
     {
         if ($this->_instances === null) {
             $this->_instances = array();
-            // default front-end
-            $this->_instances[self::DEFAULT_FRONTEND_ID] = $this->_factory->create($this->_defaultSettings);
-            // additional front-ends
-
-            if ($this->_advancedSettings) {
-                /** @var $frontendNode \Magento\Simplexml\Element */
-                foreach ($this->_advancedSettings as  $frontendId => $frontendOptions) {
-                    $this->_instances[$frontendId] = $this->_factory->create($frontendOptions);
-                }
+            foreach ($this->_getCacheSettings() as $frontendId => $frontendOptions) {
+                $this->_instances[$frontendId] = $this->_factory->create($frontendOptions);
             }
         }
+    }
+
+    /**
+     * Retrieve settings for all cache front-ends known to the system
+     *
+     * @return array Format: array('<frontend_id>' => array(<cache_settings>), ...)
+     */
+    protected function _getCacheSettings()
+    {
+        /*
+         * Merging is intentionally implemented through array_merge() instead of array_replace_recursive()
+         * to avoid "inheritance" of the default settings that become irrelevant as soon as cache storage type changes
+         */
+        return array_merge($this->_frontendSettings, $this->_arguments->getCacheFrontendSettings());
     }
 
     /**
@@ -127,10 +129,11 @@ class Pool implements \Iterator
     }
 
     /**
-     * Retrieve frontend instance by its unique identifier, or return NULL, if identifier is not recognized
+     * Retrieve frontend instance by its unique identifier
      *
      * @param string $identifier Cache frontend identifier
      * @return \Magento\Cache\FrontendInterface Cache frontend instance
+     * @throws \InvalidArgumentException
      */
     public function get($identifier)
     {
@@ -138,6 +141,6 @@ class Pool implements \Iterator
         if (isset($this->_instances[$identifier])) {
             return $this->_instances[$identifier];
         }
-        return null;
+        throw new \InvalidArgumentException("Cache frontend '$identifier' is not recognized.");
     }
 }
