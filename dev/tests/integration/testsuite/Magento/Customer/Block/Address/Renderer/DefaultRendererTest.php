@@ -31,9 +31,9 @@ class DefaultRendererTest extends \PHPUnit_Framework_TestCase
      */
     public function testRender($addressAttributes, $format, $expected)
     {
-        /** @var DefaultRenderer */
+        /** @var DefaultRenderer $renderer */
         $renderer = $this->_addressConfig->getFormatByCode($format)->getRenderer();
-        $actual = $renderer->render($addressAttributes);
+        $actual = $renderer->renderArray($addressAttributes);
         $this->assertEquals($expected, $actual);
     }
 
