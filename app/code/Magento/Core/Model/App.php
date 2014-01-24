@@ -61,9 +61,9 @@ class App implements \Magento\AppInterface
     const PARAM_ALLOWED_MODULES = 'allowed_modules';
 
     /**
-     * Caching params
+     * Caching params, that applied for all cache frontends regardless of type
      */
-    const PARAM_CACHE_OPTIONS = 'cache_options';
+    const PARAM_CACHE_FORCED_OPTIONS = 'cache_options';
 
     /**
      * Application loaded areas array

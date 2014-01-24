@@ -11,11 +11,11 @@
     <preference for="Magento\Core\Model\Resource\Setup\Migration" type="Magento\Enterprise\Model\Resource\Setup\Migration" />
     <type name="Magento\Core\Model\View\Design">
         <param name="themes">
-            <value>
-                <frontend>magento_plushe</frontend>
-                <adminhtml>magento_backend</adminhtml>
-                <install>magento_enterprise</install>
-            </value>
+            <array>
+                <item key="frontend"><value>magento_plushe</value></item>
+                <item key="adminhtml"><value>magento_backend</value></item>
+                <item key="install"><value>magento_enterprise</value></item>
+            </array>
         </param>
     </type>
     <type name="Magento\Install\Block\Begin">
@@ -25,9 +25,9 @@
     </type>
     <type name="Magento\Module\Updater\SetupFactory">
         <param name="resourceTypes">
-            <value>
-                <enterprise_setup>Magento\Enterprise\Model\Resource\Setup</enterprise_setup>
-            </value>
+            <array>
+                <item key="enterprise_setup"><value>Magento\Enterprise\Model\Resource\Setup</value></item>
+            </array>
         </param>
     </type>
 </config>

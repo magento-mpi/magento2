@@ -52,9 +52,25 @@ class Arguments
         $stack = $input;
         unset($stack['resource']);
         unset($stack['connection']);
-        $separator = '.';
-        $output = array();
+        unset($stack['cache']);
+        $output = $this->_flattenParams($stack);
+        $output['connection'] = isset($input['connection']) ? $input['connection'] : array();
+        $output['resource'] = isset($input['resource']) ? $input['resource'] : array();
+        $output['cache'] = isset($input['cache']) ? $input['cache'] : array();
+        return $output;
+    }
 
+    /**
+     * Convert associative array of arbitrary depth to a flat associative array with concatenated key path as keys
+     *
+     * @param array $params
+     * @param string $separator
+     * @return array
+     */
+    protected function _flattenParams(array $params, $separator = '.')
+    {
+        $result = array();
+        $stack = $params;
         while ($stack) {
             list($key, $value) = each($stack);
             unset($stack[$key]);
@@ -69,11 +85,9 @@ class Arguments
                 $stack = $build + $stack;
                 continue;
             }
-            $output[$key] = $value;
+            $result[$key] = $value;
         }
-        $output['connection'] = isset($input['connection']) ? $input['connection'] : array();
-        $output['resource'] = isset($input['resource']) ? $input['resource'] : array();
-        return $output;
+        return $result;
     }
 
     /**
@@ -107,6 +121,29 @@ class Arguments
     public function getResources()
     {
         return $this->_data['resource'];
+    }
+
+    /**
+     * Retrieve settings for all cache front-ends configured in the system
+     *
+     * @return array Format: array('<frontend_id>' => array(<cache_settings>), ...)
+     */
+    public function getCacheFrontendSettings()
+    {
+        return isset($this->_data['cache']['frontend']) ? $this->_data['cache']['frontend'] : array();
+    }
+
+    /**
+     * Retrieve identifier of a cache frontend, configured to be used for a cache type
+     *
+     * @param string $cacheType Cache type identifier
+     * @return string|null
+     */
+    public function getCacheTypeFrontendId($cacheType)
+    {
+        return isset($this->_data['cache']['type'][$cacheType]['frontend'])
+            ? $this->_data['cache']['type'][$cacheType]['frontend']
+            : null;
     }
 
     /**

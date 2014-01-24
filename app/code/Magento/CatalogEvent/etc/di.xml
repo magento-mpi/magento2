@@ -11,9 +11,9 @@
     <type name="Magento\CatalogEvent\Model\Event" shared="false" />
     <type name="Magento\Module\Updater\SetupFactory">
         <param name="resourceTypes">
-            <value>
-                <catalogevent_setup>Magento\CatalogEvent\Model\Resource\Setup</catalogevent_setup>
-            </value>
+            <array>
+                <item key="catalogevent_setup"><value>Magento\CatalogEvent\Model\Resource\Setup</value></item>
+            </array>
         </param>
     </type>
 </config>
