@@ -43,6 +43,9 @@ class EndToEndWithExternalSolutionsTests
         // Orders. Backend
         $suite->addTestSuite('Magento\Sales\Test\TestCase\CloseOrderTest');
 
+        // Returns
+        $suite->addTestSuite('Magento\Rma\Test\TestCase\RefundTest');
+
         // VAT
         $suite->addTestSuite('Magento\Tax\Test\TestCase\AutomaticTaxApplyingTest');
         $suite->addTestSuite('Magento\Customer\Test\TestCase\VatGroupAssignmentTest');
