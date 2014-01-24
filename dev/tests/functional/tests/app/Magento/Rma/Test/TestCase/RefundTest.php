@@ -86,6 +86,8 @@ class RefundTest extends Functional
 
     /**
      * Sets up the preconditions for this test.
+     *
+     * @param OrderCheckout $fixture
      */
     private function setupPreconditions(OrderCheckout $fixture)
     {
@@ -115,7 +117,7 @@ class RefundTest extends Functional
             array(Factory::getFixtureFactory()->getMagentoSalesPaypalExpressOrder()),
             array(Factory::getFixtureFactory()->getMagentoSalesPaypalPayflowProOrder()),
             array(Factory::getFixtureFactory()->getMagentoSalesPaypalPaymentsProOrder()),
-            array(Factory::getFixtureFactory()->getMagentoSalesAuthorizeNetOrder()),
+            //array(Factory::getFixtureFactory()->getMagentoSalesAuthorizeNetOrder()),
             array(Factory::getFixtureFactory()->getMagentoSalesPaypalStandardOrder()),
             array(Factory::getFixtureFactory()->getMagentoSalesPaypalPaymentsAdvancedOrder()),
             array(Factory::getFixtureFactory()->getMagentoSalesPaypalPayflowLinkOrder())
