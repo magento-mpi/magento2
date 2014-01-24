@@ -30,4 +30,7 @@
             <instance type="Magento\Core\Model\Url\Proxy"/>
         </param>
     </type>
+    <type name="Magento\Catalog\Model\Product\CartConfiguration">
+        <plugin name="Downloadable" type="Magento\Downloadable\Model\Product\CartConfiguration\Plugin\Downloadable" />
+    </type>
 </config>

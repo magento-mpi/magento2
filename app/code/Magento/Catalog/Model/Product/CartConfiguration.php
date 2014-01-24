@@ -31,10 +31,6 @@ class CartConfiguration
                 return isset($config['super_attribute']);
             case \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE:
                 return isset($config['bundle_option']);
-            case \Magento\GiftCard\Model\Catalog\Product\Type\Giftcard::TYPE_GIFTCARD:
-                return isset($config['giftcard_amount']);
-            case \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE:
-                return isset($config['links']);
         }
         return false;
     }

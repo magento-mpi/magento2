@@ -28,4 +28,7 @@
             </value>
         </param>
     </type>
+    <type name="Magento\Catalog\Model\Product\CartConfiguration">
+        <plugin name="GiftCard" type="Magento\GiftCard\Model\Product\CartConfiguration\Plugin\GiftCard" />
+    </type>
 </config>
