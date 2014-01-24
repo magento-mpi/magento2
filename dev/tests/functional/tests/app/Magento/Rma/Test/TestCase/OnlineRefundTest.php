@@ -53,7 +53,7 @@ class OnlineRefundTest extends Functional
             //$orderPage->getInvoicesGrid()->searchAndSelect(array('id' => $invoiceId));
 
             // Step 3: Click "Credit Memo" button on the Invoice Page
-            $orderPage->getOrderActionsBlock()->creditMemo();
+            $orderPage->getOrderActionsBlock()->orderInvoiceCreditMemo();
 
             // Step 4: Submit Credit Memo
             $creditMemoPage = Factory::getPageFactory()->getSalesOrderCreditMemoNew();
@@ -61,6 +61,7 @@ class OnlineRefundTest extends Functional
         }
         else {
             // Step 2: Click "Credit Memo" button on the Order Page
+            $tabsWidget->openTab('sales_order_view_tabs_order_creditmemos');
             $orderPage->getOrderActionsBlock()->creditMemo();
 
             // Step 3: Submit Credit Memo
@@ -113,7 +114,7 @@ class OnlineRefundTest extends Functional
         return array(
             array(Factory::getFixtureFactory()->getMagentoSalesPaypalExpressOrder()),
             array(Factory::getFixtureFactory()->getMagentoSalesPaypalPayflowProOrder()),
-            array(Factory::getFixtureFactory()->getMagentoSalesPaypalPaymentsProOrder()),
+            (Factory::getFixtureFactory()->getMagentoSalesPaypalPaymentsProOrder()),
             array(Factory::getFixtureFactory()->getMagentoSalesAuthorizeNetOrder()),
             array(Factory::getFixtureFactory()->getMagentoSalesPaypalStandardOrder()),
             array(Factory::getFixtureFactory()->getMagentoSalesPaypalPaymentsAdvancedOrder()),

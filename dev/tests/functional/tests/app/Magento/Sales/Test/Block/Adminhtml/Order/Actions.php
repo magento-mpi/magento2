@@ -83,7 +83,14 @@ class Actions extends Block
      *
      * @var string
      */
-    protected $creditMemo = '#capture';
+    protected $creditMemo = '#order_creditmemo';
+
+    /**
+     * 'Credit Memo' button on the order invoices page
+     *
+     * @var string
+     */
+    protected $orderInvoiceCreditMemo = '#capture';
 
     /**
      * 'Refund' button
@@ -169,6 +176,11 @@ class Actions extends Block
     public function creditMemo()
     {
         $this->_rootElement->find($this->creditMemo)->click();
+    }
+
+    public function orderInvoiceCreditMemo()
+    {
+        $this->_rootElement->find($this->orderInvoiceCreditMemo)->click();
     }
 
     /**
