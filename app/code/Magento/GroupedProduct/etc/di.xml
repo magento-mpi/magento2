@@ -8,9 +8,6 @@
  */
 -->
 <config>
-    <type name="Magento\Catalog\Model\ProductTypes\Config\Converter">
-        <plugin name="groupedProductType" type="Magento\GroupedProduct\Model\ProductTypes\Config\Converter\Plugin\Grouped" />
-    </type>
     <type name="Magento\Module\Updater\SetupFactory">
         <param name="resourceTypes">
             <value>

@@ -51,7 +51,7 @@ class Config extends \Magento\Config\Data implements \Magento\Catalog\Model\Prod
      */
     public function isProductSet($typeId)
     {
-        return $this->get('types/' . $typeId . '/is_product_set', false);
+        return 'true' == $this->get('types/' . $typeId . '/custom_attributes/is_product_set', false);
     }
 
     /**
