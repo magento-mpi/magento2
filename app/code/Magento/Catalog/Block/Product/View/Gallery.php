@@ -46,6 +46,7 @@ class Gallery extends \Magento\Catalog\Block\Product\View\AbstractView
 
     /**
      * Get gallery image url
+     *
      * @param \Magento\Object $image
      * @param string $type
      * @param boolean $whiteBorders
@@ -70,10 +71,12 @@ class Gallery extends \Magento\Catalog\Block\Product\View\AbstractView
 
     /**
      * Is product main image
+     *
      * @param \Magento\Object $image
      * @return bool
      */
-    public function isMainImage($image) {
+    public function isMainImage($image)
+    {
         $product = $this->getProduct();
         return $product->getImage() == $image->getFile();
     }
