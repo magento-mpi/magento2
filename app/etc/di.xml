@@ -289,4 +289,12 @@
             </value>
         </param>
     </type>
+    <type name="Magento\Mview\View">
+        <param name="state">
+            <instance type="Magento\Core\Model\Mview\View\State" shared="false"/>
+        </param>
+        <param name="changelog">
+            <instance type="Magento\Mview\View\Changelog" shared="false"/>
+        </param>
+    </type>
 </config>

@@ -24,6 +24,8 @@
   * Added Console\Response
   * All kind of applications always return Response instead of sending it
 * Updated various PHPDoc with parameter and return types
+* Indexer implementation:
+  * Implemented new indexer structure
 
 2.0.0.0-dev61
 =============
