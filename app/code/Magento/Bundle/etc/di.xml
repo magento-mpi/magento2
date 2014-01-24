@@ -25,4 +25,11 @@
             </value>
         </param>
     </type>
+    <type name="Magento\Catalog\Model\Product\CatalogPrice">
+        <param name="typePool">
+            <value>
+                <bundle>\Magento\Bundle\Model\Product\CatalogPrice</bundle>
+            </value>
+        </param>
+    </type>
 </config>

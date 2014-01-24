@@ -31,4 +31,11 @@
     <type name="Magento\Catalog\Model\Product\CartConfiguration">
         <plugin name="GiftCard" type="Magento\GiftCard\Model\Product\CartConfiguration\Plugin\GiftCard" />
     </type>
+    <type name="Magento\Catalog\Model\Product\CatalogPrice">
+        <param name="typePool">
+            <value>
+                <giftcard>\Magento\GiftCard\Model\Product\CatalogPrice</giftcard>
+            </value>
+        </param>
+    </type>
 </config>
