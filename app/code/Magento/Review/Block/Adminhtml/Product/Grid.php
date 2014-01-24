@@ -74,6 +74,9 @@ class Grid extends \Magento\Catalog\Block\Adminhtml\Product\Grid
         $this->setUseAjax(true);
     }
 
+    /**
+     * @return void
+     */
     protected function _prepareColumns()
     {
         $this->addColumn('entity_id', array(
@@ -138,16 +141,25 @@ class Grid extends \Magento\Catalog\Block\Adminhtml\Product\Grid
         }
     }
 
+    /**
+     * @return string
+     */
     public function getGridUrl()
     {
         return $this->getUrl('catalog/*/productGrid', array('_current'=>true));
     }
 
+    /**
+     * @return string
+     */
     public function getRowUrl($row)
     {
         return $this->getUrl('catalog/*/jsonProductInfo', array('id' => $row->getId()));
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareMassaction()
     {
         return $this;

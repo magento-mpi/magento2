@@ -58,7 +58,7 @@ class Rate extends \Magento\Backend\App\Action
     /**
      * Initialize layout, breadcrumbs
      *
-     * @return \Magento\Reward\Controller\Adminhtml\Reward\Rate
+     * @return $this
      */
     protected function _initAction()
     {
@@ -91,6 +91,8 @@ class Rate extends \Magento\Backend\App\Action
 
     /**
      * Index Action
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -103,6 +105,8 @@ class Rate extends \Magento\Backend\App\Action
     /**
      * New Action.
      * Forward to Edit Action
+     *
+     * @return void
      */
     public function newAction()
     {
@@ -111,6 +115,8 @@ class Rate extends \Magento\Backend\App\Action
 
     /**
      * Edit Action
+     *
+     * @return void
      */
     public function editAction()
     {
@@ -124,6 +130,8 @@ class Rate extends \Magento\Backend\App\Action
 
     /**
      * Save Action
+     *
+     * @return void
      */
     public function saveAction()
     {
@@ -153,6 +161,8 @@ class Rate extends \Magento\Backend\App\Action
 
     /**
      * Delete Action
+     *
+     * @return void
      */
     public function deleteAction()
     {
@@ -174,6 +184,7 @@ class Rate extends \Magento\Backend\App\Action
     /**
      * Validate Action
      *
+     * @return void
      */
     public function validateAction()
     {
@@ -232,7 +243,7 @@ class Rate extends \Magento\Backend\App\Action
     /**
      * Acl check for admin
      *
-     * @return boolean
+     * @return bool
      */
     protected function _isAllowed()
     {

@@ -106,7 +106,7 @@ class Additional extends \Magento\View\Element\Template
     /**
      * Return flag from quote to use reward points or not
      *
-     * @return boolean
+     * @return bool
      */
     public function useRewardPoints()
     {
