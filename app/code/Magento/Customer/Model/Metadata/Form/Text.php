@@ -43,8 +43,7 @@ class Text extends AbstractData
      */
     public function extractValue(\Magento\App\RequestInterface $request)
     {
-        $value = $this->_getRequestValue($request);
-        return $this->_applyInputFilter($value);
+        return $this->_applyInputFilter($this->_getRequestValue($request));
     }
 
     /**
@@ -61,7 +60,7 @@ class Text extends AbstractData
             $value = $this->_value;
         }
 
-        if ($attribute->isRequired() && empty($value) && $value !== '0') {
+        if ($attribute->isRequired() && empty($value)) {
             $errors[] = __('"%1" is a required value.', $label);
         }
 
@@ -98,10 +97,7 @@ class Text extends AbstractData
      */
     public function compactValue($value)
     {
-        if ($value !== false) {
-            return $value;
-        }
-        return false;
+        return $value;
     }
 
     /**
@@ -117,8 +113,6 @@ class Text extends AbstractData
      */
     public function outputValue($format = \Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_TEXT)
     {
-        $value = $this->_applyOutputFilter($this->_value);
-
-        return $value;
+        return $this->_applyOutputFilter($this->_value);
     }
 }
