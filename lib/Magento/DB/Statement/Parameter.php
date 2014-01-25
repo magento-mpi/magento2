@@ -27,6 +27,7 @@ class Parameter
 {
     /**
      * Actual parameter value
+     *
      * @var mixed
      */
     protected $_value = null;

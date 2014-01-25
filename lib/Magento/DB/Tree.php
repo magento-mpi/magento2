@@ -12,7 +12,8 @@ namespace Magento\DB;
  \Zend_Loader::loadClass('\Zend_Db_Select'); \Zend_Loader::loadClass('\Magento\DB\Tree\Node'); \Zend_Loader::loadClass('\Magento\DB\Tree\NodeSet');
 
 use Magento\DB\Tree\Node;
-use Magento\DB\Tree\TreeException;
+ use Magento\DB\Tree\NodeSet;
+ use Magento\DB\Tree\TreeException;
 
 /**
  * Magento Library
@@ -601,7 +602,7 @@ class Tree
      * @param string|int $nodeId
      * @param int $startLevel
      * @param int $endLevel
-     * @return \Magento\DB\Tree\NodeSet
+     * @return NodeSet
      */
     public function getChildren($nodeId, $startLevel = 0, $endLevel = 0)
     {
@@ -632,7 +633,7 @@ class Tree
         //echo $dbSelect->__toString();
         $data = $this->_db->fetchAll($dbSelect, $data);
 
-        $nodeSet = new \Magento\DB\Tree\NodeSet();
+        $nodeSet = new NodeSet();
         foreach ($data as $node) {
              $nodeSet->addNode(new Node($node, $this->getKeys()));
         }

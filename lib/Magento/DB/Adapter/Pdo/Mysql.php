@@ -19,6 +19,7 @@ use Magento\DB\Select;
 use Magento\DB\Statement\Parameter;
 use Magento\Debug;
 use Magento\Stdlib\DateTime;
+use Magento\Stdlib\String;
 
 class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
 {
@@ -213,7 +214,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
     protected $_queryHook = null;
 
     /**
-     * @var \Magento\Stdlib\String
+     * @var String
      */
     protected $string;
 
@@ -224,13 +225,13 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
 
     /**
      * @param Filesystem $filesystem
-     * @param \Magento\Stdlib\String $string
+     * @param String $string
      * @param DateTime $dateTime
      * @param array $config
      */
     public function __construct(
         Filesystem $filesystem,
-        \Magento\Stdlib\String $string,
+        String $string,
         DateTime $dateTime,
         array $config = array()
     ) {
@@ -314,7 +315,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
     /**
      * Convert date to DB format
      *
-     * @param   int|string|Zend_Date $date
+     * @param int|string|Zend_Date $date
      * @return \Zend_Db_Expr
      */
     public function convertDate($date)
@@ -402,7 +403,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
      *
      * @param string $sql
      * @param string|int $field
-     * @return false|mixed|null
+     * @return mixed|null
      */
     public function raw_fetchRow($sql, $field = null)
     {
@@ -2528,7 +2529,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
      * @param string $tableName
      * @param string $keyName
      * @param string $schemaName
-     * @return true|Zend_Db_Statement_Interface
+     * @return true|\Zend_Db_Statement_Interface
      */
     public function dropIndex($tableName, $keyName, $schemaName = null)
     {
@@ -2566,7 +2567,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
      * @param bool $purge            trying remove invalid data
      * @param string $schemaName
      * @param string $refSchemaName
-     * @return Zend_Db_Statement_Interface
+     * @return \Zend_Db_Statement_Interface
      */
     public function addForeignKey($fkName, $tableName, $columnName, $refTableName, $refColumnName,
         $onDelete = AdapterInterface::FK_ACTION_CASCADE,
