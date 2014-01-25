@@ -20,8 +20,8 @@ class Text extends AbstractData
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Logger $logger
      * @param \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute
-     * @param null $value
-     * @param $entityTypeCode
+     * @param mixed $value
+     * @param string $entityTypeCode
      * @param bool $isAjax
      * @param \Magento\Stdlib\String $stringHelper
      */
