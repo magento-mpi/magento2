@@ -315,7 +315,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
     /**
      * Convert date to DB format
      *
-     * @param int|string|Zend_Date $date
+     * @param int|string|\Zend_Date $date
      * @return \Zend_Db_Expr
      */
     public function convertDate($date)
@@ -326,7 +326,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
     /**
      * Convert date and time to DB format
      *
-     * @param   int|string|Zend_Date $datetime
+     * @param   int|string|\Zend_Date $datetime
      * @return \Zend_Db_Expr
      */
     public function convertDateTime($datetime)
@@ -427,7 +427,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
     /**
      * Check transaction level in case of DDL query
      *
-     * @param string|Zend_Db_Select $sql
+     * @param string|\Zend_Db_Select $sql
      * @return void
      * @throws \Zend_Db_Adapter_Exception
      */
@@ -445,7 +445,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
      * Special handling for PDO query().
      * All bind parameter names must begin with ':'.
      *
-     * @param string|Zend_Db_Select $sql The SQL statement with placeholders.
+     * @param string|\Zend_Db_Select $sql The SQL statement with placeholders.
      * @param mixed $bind An array of data or data itself to bind to the placeholders.
      * @return \Zend_Db_Statement_Pdo
      * @throws \Zend_Db_Adapter_Exception To re-throw \PDOException.
@@ -2603,7 +2603,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
     /**
      * Format Date to internal database date format
      *
-     * @param int|string|Zend_Date $date
+     * @param int|string|\Zend_Date $date
      * @param bool $includeTime
      * @return \Zend_Db_Expr
      */
@@ -2860,7 +2860,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
     /**
      * Generate fragment of SQL, that check condition and return true or false value
      *
-     * @param \Zend_Db_Expr|Zend_Db_Select|string $expression
+     * @param \Zend_Db_Expr|\Zend_Db_Select|string $expression
      * @param string $true  true value
      * @param string $false false value
      * @return \Zend_Db_Expr
@@ -2879,7 +2879,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
     /**
      * Returns valid IFNULL expression
      *
-     * @param \Zend_Db_Expr|Zend_Db_Select|string $expression
+     * @param \Zend_Db_Expr|\Zend_Db_Select|string $expression
      * @param string|int $value OPTIONAL. Applies when $expression is NULL
      * @return \Zend_Db_Expr
      */
@@ -3055,8 +3055,8 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
      * Prepare substring sql function
      *
      * @param \Zend_Db_Expr|string $stringExpression quoted field name or SQL statement
-     * @param int|string|Zend_Db_Expr $pos
-     * @param int|string|Zend_Db_Expr|null $len
+     * @param int|string|\Zend_Db_Expr $pos
+     * @param int|string|\Zend_Db_Expr|null $len
      * @return \Zend_Db_Expr
      */
     public function getSubstringSql($stringExpression, $pos, $len = null)
