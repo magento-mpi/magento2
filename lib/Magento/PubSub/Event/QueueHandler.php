@@ -11,7 +11,7 @@
  */
 namespace Magento\PubSub\Event;
 
-use Magento\PubSub\Job\FactoryInterface;
+use Magento\PubSub\Job\FactoryInterface as JobFactoryInterface;
 use Magento\PubSub\Job\QueueWriterInterface;
 use Magento\PubSub\Subscription\CollectionInterface;
 
@@ -28,7 +28,7 @@ class QueueHandler
     protected $_jobQueue;
 
     /**
-     * @var FactoryInterface
+     * @var JobFactoryInterface
      */
     protected $_jobFactory;
 
@@ -42,12 +42,12 @@ class QueueHandler
      *
      * @param QueueReaderInterface $eventQueue
      * @param QueueWriterInterface $jobQueue
-     * @param FactoryInterface $jobFactory
+     * @param JobFactoryInterface $jobFactory
      * @param CollectionInterface $subscriptionSet
      */
     public function __construct(QueueReaderInterface $eventQueue,
         QueueWriterInterface $jobQueue,
-        FactoryInterface $jobFactory,
+        JobFactoryInterface $jobFactory,
         CollectionInterface $subscriptionSet
     ) {
         $this->_eventQueue = $eventQueue;
