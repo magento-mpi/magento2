@@ -22,7 +22,10 @@ class Config implements \Magento\App\ConfigInterface
      */
     protected $_data;
 
-    public function __construct(\Magento\App\Arguments\Loader $loader)
+    /**
+     * @param Arguments\Loader $loader
+     */
+    public function __construct(Arguments\Loader $loader)
     {
         $this->_loader = $loader;
         $this->_data = $loader->load();
@@ -44,6 +47,7 @@ class Config implements \Magento\App\ConfigInterface
      *
      * @param string $path
      * @param mixed $value
+     * @return void
      */
     public function setValue($path, $value)
     {

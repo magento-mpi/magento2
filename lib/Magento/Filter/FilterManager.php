@@ -21,17 +21,12 @@ class FilterManager
     protected $objectManager;
 
     /**
-     * @var array
-     */
-    protected $filterInstances = array();
-
-    /**
      * @var FilterManager\Config
      */
     protected $config;
 
     /**
-     * @var array
+     * @var FactoryInterface[]
      */
     protected $factoryInstances;
 
@@ -112,7 +107,7 @@ class FilterManager
      *
      * @param string $filterAlias
      * @param array $arguments
-     * @return mixed
+     * @return \Zend_Filter_Interface
      */
     public function __call($filterAlias, array $arguments = array())
     {

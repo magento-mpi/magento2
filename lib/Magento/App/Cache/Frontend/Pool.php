@@ -56,6 +56,8 @@ class Pool implements \Iterator
     /**
      * Create instances of every cache frontend known to the system.
      * Method is to be used for delayed initialization of the iterator.
+     *
+     * @return void
      */
     protected function _initialize()
     {
