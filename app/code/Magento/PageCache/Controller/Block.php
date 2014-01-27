@@ -17,7 +17,7 @@ class Block extends \Magento\App\Action\Action
      */
     public function renderAction()
     {
-        if (!$this->_request->isAjax()) {
+        if (!$this->getRequest()->isAjax()) {
             $this->_forward('noroute');
             return;
         }
@@ -40,6 +40,6 @@ class Block extends \Magento\App\Action\Action
             }
         }
 
-        $this->_response->appendBody(json_encode($data));
+        $this->getResponse()->appendBody(json_encode($data));
     }
 }
