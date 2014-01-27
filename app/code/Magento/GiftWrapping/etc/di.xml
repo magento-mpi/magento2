@@ -10,9 +10,9 @@
 <config>
     <type name="Magento\Module\Updater\SetupFactory">
         <param name="resourceTypes">
-            <value>
-                <giftwrapping_setup>Magento\GiftWrapping\Model\Resource\Setup</giftwrapping_setup>
-            </value>
+            <array>
+                <item key="giftwrapping_setup"><value>Magento\GiftWrapping\Model\Resource\Setup</value></item>
+            </array>
         </param>
     </type>
 </config>
