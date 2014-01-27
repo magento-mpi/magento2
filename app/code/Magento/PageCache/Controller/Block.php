@@ -21,11 +21,8 @@ class Block extends \Magento\App\Action\Action
             $this->_forward('noroute');
             return;
         }
-        $blocks = $this->getRequest()->getParam('blocks', false);
-        $blocks = $blocks ? $blocks : array();
-
-        $handles = $this->getRequest()->getParam('handles', false);
-        $handles = $handles ? $handles : array();
+        $blocks = $this->getRequest()->getParam('blocks', array());
+        $handles = $this->getRequest()->getParam('handles', array());
 
         if (!$handles || !$blocks) {
             return;
