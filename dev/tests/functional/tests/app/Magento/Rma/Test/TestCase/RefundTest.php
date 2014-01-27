@@ -15,6 +15,7 @@ use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
 use Magento\Sales\Test\Fixture\OrderCheckout;
 use Magento\Sales\Test\Fixture\PaypalStandardOrder;
+use Magento\Sales\Test\Fixture\AuthorizeNetOrder;
 
 class RefundTest extends Functional
 {
@@ -48,7 +49,13 @@ class RefundTest extends Functional
 
             // Step 4: Submit Credit Memo
             $creditMemoPage = Factory::getPageFactory()->getSalesOrderCreditMemoNew();
-            $creditMemoPage->getActionsBlock()->refund();
+
+            if (!($fixture instanceof AuthorizeNetOrder)) {
+                $creditMemoPage->getActionsBlock()->refund();
+            }
+            else {
+                $creditMemoPage->getActionsBlock()->refundOffline();
+            }
         }
         else {
             // Step 2: Click "Credit Memo" button on the Order Page
@@ -75,7 +82,7 @@ class RefundTest extends Functional
             $orderPage->getCreditMemosGrid()->getStatus(),
             'Refunded');
 
-        if (!($fixture instanceof PaypalStandardOrder)) {
+        if (!($fixture instanceof PaypalStandardOrder) && !($fixture instanceof AuthorizeNetOrder)) {
             // Step 6: Go to Transactions tab
             $tabsWidget->openTab('sales_order_view_tabs_order_transactions');
             $this->assertContains(
@@ -117,7 +124,7 @@ class RefundTest extends Functional
             array(Factory::getFixtureFactory()->getMagentoSalesPaypalExpressOrder()),
             array(Factory::getFixtureFactory()->getMagentoSalesPaypalPayflowProOrder()),
             array(Factory::getFixtureFactory()->getMagentoSalesPaypalPaymentsProOrder()),
-            //array(Factory::getFixtureFactory()->getMagentoSalesAuthorizeNetOrder()),
+            array(Factory::getFixtureFactory()->getMagentoSalesAuthorizeNetOrder()),
             array(Factory::getFixtureFactory()->getMagentoSalesPaypalStandardOrder()),
             array(Factory::getFixtureFactory()->getMagentoSalesPaypalPaymentsAdvancedOrder()),
             array(Factory::getFixtureFactory()->getMagentoSalesPaypalPayflowLinkOrder())
