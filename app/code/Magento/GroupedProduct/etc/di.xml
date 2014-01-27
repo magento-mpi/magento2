@@ -17,23 +17,23 @@
     </type>
     <type name="Magento\Sales\Model\Quote\Item\RelatedProducts">
         <param name="relatedProductTypes">
-            <value>
-                <grouped type="const">\Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE</grouped>
-            </value>
+            <array>
+                <item key="grouped"><value type="const">\Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE</value></item>
+            </array>
         </param>
     </type>
     <type name="Magento\Catalog\Model\Product\LinkTypeProvider">
         <param name="linkTypes">
-            <value>
-                <associated type="const">Magento\GroupedProduct\Model\Resource\Product\Link::LINK_TYPE_GROUPED</associated>
-            </value>
+            <array>
+                <item key="associated"><value type="const">Magento\GroupedProduct\Model\Resource\Product\Link::LINK_TYPE_GROUPED</value></item>
+            </array>
         </param>
     </type>
     <type name="Magento\Sales\Model\Resource\Report\Bestsellers">
         <param name="ignoredProductTypes">
-            <value>
-                <grouped type="const">\Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE</grouped>
-            </value>
+            <array>
+                <item key="grouped"><value type="const">\Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE</value></item>
+            </array>
         </param>
     </type>
     <type name="Magento\Catalog\Model\Product\CatalogPrice">

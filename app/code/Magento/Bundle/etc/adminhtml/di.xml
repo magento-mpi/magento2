@@ -23,9 +23,9 @@
     </type>
     <type name="Magento\CatalogInventory\Block\Adminhtml\Form\Field\Stock">
         <param name="complexProductTypes">
-            <value>
-                <bundle type="const">Magento\Catalog\Model\Product\Type::TYPE_BUNDLE</bundle>
-            </value>
+            <array>
+                <item key="bundle"><value type="const">Magento\Catalog\Model\Product\Type::TYPE_BUNDLE</value></item>
+            </array>
         </param>
     </type>
 </config>
