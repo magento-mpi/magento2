@@ -2,22 +2,17 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
+namespace Magento\Sales\Model\AdminOrder;
+
+use Magento\Customer\Service\V1\CustomerServiceInterface;
 
 /**
  * Order create model
- *
- * @category    Magento
- * @package     Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\AdminOrder;
-
 class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartInterface
 {
     /**
@@ -144,6 +139,11 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     protected $messageManager;
 
     /**
+     * @var CustomerServiceInterface
+     */
+    protected $_customerService;
+
+    /**
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\Registry $coreRegistry
@@ -152,6 +152,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      * @param \Magento\Logger $logger
      * @param \Magento\Object\Copy $objectCopyService
      * @param \Magento\Message\ManagerInterface $messageManager
+     * @param CustomerServiceInterface $customerService
      * @param array $data
      */
     public function __construct(
@@ -163,6 +164,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         \Magento\Logger $logger,
         \Magento\Object\Copy $objectCopyService,
         \Magento\Message\ManagerInterface $messageManager,
+        CustomerServiceInterface $customerService,
         array $data = array()
     ) {
         $this->_objectManager = $objectManager;
@@ -174,6 +176,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         parent::__construct($data);
         $this->_session = $sessionQuote;
         $this->messageManager = $messageManager;
+        $this->_customerService = $customerService;
     }
 
     /**
@@ -494,10 +497,10 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
             return $this->_wishlist;
         }
 
-        if ($this->getSession()->getCustomer()->getId()) {
-            $this->_wishlist = $this->_objectManager->create('Magento\Wishlist\Model\Wishlist')->loadByCustomer(
-                $this->getSession()->getCustomer(), true
-            );
+        $customerId = (int)$this->getSession()->getCustomerId();
+        if ($customerId) {
+            $this->_wishlist = $this->_objectManager->create('Magento\Wishlist\Model\Wishlist');
+            $this->_wishlist->loadByCustomer($customerId, true);
             $this->_wishlist->setStore($this->getSession()->getStore())
                 ->setSharedStoreIds($this->getSession()->getStore()->getWebsite()->getStoreIds());
         } else {
@@ -520,11 +523,16 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
 
         $this->_cart = $this->_objectManager->create('Magento\Sales\Model\Quote');
 
-        if ($this->getSession()->getCustomer()->getId()) {
-            $this->_cart->setStore($this->getSession()->getStore())
-                ->loadByCustomer($this->getSession()->getCustomer()->getId());
+        $customerId = (int)$this->getSession()->getCustomerId();
+        if ($customerId) {
+            $this->_cart->setStore($this->getSession()->getStore())->loadByCustomer($customerId);
             if (!$this->_cart->getId()) {
-                $this->_cart->assignCustomer($this->getSession()->getCustomer());
+                $customerData = $this->_customerService->getCustomer($customerId);
+
+                // TODO: Assign to customer should be refactored in scope of MAGETWO-19931. Next line should be removed
+                $customerData = $this->_objectManager->create('Magento\Customer\Model\Customer')->load($customerId);
+
+                $this->_cart->assignCustomer($customerData);
                 $this->_cart->save();
             }
         }
@@ -542,8 +550,8 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         if (!is_null($this->_compareList)) {
             return $this->_compareList;
         }
-
-        if ($this->getSession()->getCustomer()->getId()) {
+        $customerId = (int)$this->getSession()->getCustomerId();
+        if ($customerId) {
             $this->_compareList = $this->_objectManager->create('Magento\Catalog\Model\Product\Compare\ListCompare');
         } else {
             $this->_compareList = false;
@@ -551,6 +559,11 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         return $this->_compareList;
     }
 
+    /**
+     * Retrieve current customer group ID.
+     *
+     * @return int
+     */
     public function getCustomerGroupId()
     {
         $groupId = $this->getQuote()->getCustomerGroupId();
@@ -629,15 +642,11 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
                 case 'wishlist':
                     $wishlist = null;
                     if (!isset($moveTo[1])) {
-                        $wishlist = $this->_objectManager->create('Magento\Wishlist\Model\Wishlist')->loadByCustomer(
-                            $this->getSession()->getCustomer(),
-                            true
-                        );
+                        $wishlist = $this->_objectManager->create('Magento\Wishlist\Model\Wishlist')
+                            ->loadByCustomer($this->getSession()->getCustomerId(), true);
                     } else {
                         $wishlist = $this->_objectManager->create('Magento\Wishlist\Model\Wishlist')->load($moveTo[1]);
-                        if (!$wishlist->getId()
-                            || $wishlist->getCustomerId() != $this->getSession()->getCustomerId()
-                        ) {
+                        if (!$wishlist->getId() || $wishlist->getCustomerId() != $this->getSession()->getCustomerId()) {
                             $wishlist = null;
                         }
                     }
@@ -1354,15 +1363,20 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     /**
      * Check whether we need to create new customer (for another website) during order creation
      *
-     * @param   \Magento\Core\Model\Store $store
-     * @return  boolean
+     * @param \Magento\Core\Model\Store $store
+     * @return bool
      */
     protected function _customerIsInStore($store)
     {
-        $customer = $this->getSession()->getCustomer();
-        if ($customer->getWebsiteId() == $store->getWebsiteId()) {
+        $customerId = (int)$this->getSession()->getCustomerId();
+        $customerData = $this->_customerService->getCustomer($customerId);
+        if ($customerData->getWebsiteId() == $store->getWebsiteId()) {
             return true;
         }
+
+        // TODO: is in store should be refactored in scope of MAGETWO-20030
+        /** @var \Magento\Customer\Model\Customer $customer */
+        $customer = $this->_objectManager->create('Magento\Customer\Model\Customer')->load($customerId);
         return $customer->isInStore($store);
     }
 
@@ -1409,19 +1423,26 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         if ($quote->getCustomerIsGuest()) {
             return $this;
         }
-
-        /** @var $customer \Magento\Customer\Model\Customer */
-        $customer = $this->getSession()->getCustomer();
         /** @var $store \Magento\Core\Model\Store */
         $store = $this->getSession()->getStore();
 
-        $customerIsInStore = $this->_customerIsInStore($store);
         $customerBillingAddress = null;
         $customerShippingAddress = null;
 
+        $customerId = (int)$this->getSession()->getCustomerId();
+        try {
+            $customerData = $this->_customerService->getCustomer($customerId);
+        } catch (\Exception $e) {
+            /** Customer does not exist. */
+        }
+
+        // TODO: Should be refactored in scope of MAGETWO-20031
+        /** @var \Magento\Customer\Model\Customer $customer */
+        $customer = $this->_objectManager->create('Magento\Customer\Model\Customer')->load($customerId);
+
         if ($customer->getId()) {
             // Create new customer if customer is not registered in specified store
-            if (!$customerIsInStore) {
+            if (!$this->_customerIsInStore($store)) {
                 $customer->setId(null)
                     ->setStore($store)
                     ->setDefaultBilling(null)
