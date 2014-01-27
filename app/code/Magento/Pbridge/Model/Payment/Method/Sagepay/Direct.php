@@ -37,21 +37,8 @@ class Direct extends \Magento\Pbridge\Model\Payment\Method
     protected $_canVoid                 = true;
     protected $_canUseInternal          = true;
     protected $_canUseCheckout          = true;
-    protected $_canUseForMultishipping  = true;
     protected $_canSaveCc               = false;
     protected $_isInitializeNeeded      = false;
-
-    /**
-     * Disable payment method if 3D Secure is enabled
-     * @return bool
-     */
-    public function canUseForMultishipping()
-    {
-        if ($this->_is3DSEnabled()) {
-            return false;
-        }
-        return parent::canUseForMultishipping();
-    }
 
     /**
      * Authorization method being executed via Payment Bridge

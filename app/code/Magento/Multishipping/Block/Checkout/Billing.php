@@ -30,10 +30,16 @@ class Billing extends \Magento\Payment\Block\Form\Container
     protected $_checkoutSession;
 
     /**
+     * @var \Magento\Multishipping\Model\Payment\Method\Specification\Config
+     */
+    protected $configSpecification;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Payment\Helper\Data $paymentHelper
      * @param \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping
      * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Multishipping\Model\Payment\Method\Specification\Config $configSpecification
      * @param array $data
      */
     public function __construct(
@@ -41,10 +47,12 @@ class Billing extends \Magento\Payment\Block\Form\Container
         \Magento\Payment\Helper\Data $paymentHelper,
         \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping,
         \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Multishipping\Model\Payment\Method\Specification\Config $configSpecification,
         array $data = array()
     ) {
         $this->_multishipping = $multishipping;
         $this->_checkoutSession = $checkoutSession;
+        $this->configSpecification = $configSpecification;
         parent::__construct($context, $paymentHelper, $data);
         $this->_isScopePrivate = true;
     }
@@ -72,7 +80,8 @@ class Billing extends \Magento\Payment\Block\Form\Container
      */
     protected function _canUseMethod($method)
     {
-        return $method && $method->canUseForMultishipping() && parent::_canUseMethod($method);
+        return $method && $this->configSpecification->isSatisfiedBy($method->getCode())
+            && parent::_canUseMethod($method);
     }
 
     /**

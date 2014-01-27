@@ -32,7 +32,6 @@ class Standard extends \Magento\Payment\Model\Method\AbstractMethod
 
     protected $_isInitializeNeeded      = true;
     protected $_canUseInternal          = false;
-    protected $_canUseForMultishipping  = false;
 
     /**
      * Config instance

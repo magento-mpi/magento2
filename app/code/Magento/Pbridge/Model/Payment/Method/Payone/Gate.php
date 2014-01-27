@@ -41,7 +41,6 @@ class Gate extends \Magento\Pbridge\Model\Payment\Method
     protected $_canVoid                 = false;
     protected $_canUseInternal          = true;
     protected $_canUseCheckout          = true;
-    protected $_canUseForMultishipping  = false;
     protected $_canSaveCc               = false;
 
     /**

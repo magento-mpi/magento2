@@ -38,7 +38,6 @@ class Ogone extends \Magento\Pbridge\Model\Payment\Method
     protected $_canVoid                 = true;
     protected $_canUseInternal          = true;
     protected $_canUseCheckout          = true;
-    protected $_canUseForMultishipping  = true;
     protected $_canSaveCc = false;
     protected $_canFetchTransactionInfo = true;
     protected $_canReviewPayment        = true;

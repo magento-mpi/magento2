@@ -62,6 +62,19 @@ class Converter implements \Magento\Config\ConverterInterface
                 }
             }
         }
+
+        $configs['methods'] = array();
+        /** @var \DOMNode $method */
+        foreach ($xpath->query('/payment/methods/method') as $method) {
+            $name = $method->attributes->getNamedItem('name')->nodeValue;
+            /** @var $methodSubNode \DOMNode */
+            foreach ($method->childNodes as $methodSubNode) {
+                if ($methodSubNode->nodeType != XML_ELEMENT_NODE) {
+                    continue;
+                }
+                $configs['methods'][$name][$methodSubNode->nodeName] = $methodSubNode->nodeValue;
+            }
+        }
         return $configs;
     }
 

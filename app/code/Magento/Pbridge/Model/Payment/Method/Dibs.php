@@ -35,7 +35,6 @@ class Dibs extends \Magento\Pbridge\Model\Payment\Method
     protected $_canVoid                 = true;
     protected $_canUseInternal          = true;
     protected $_canUseCheckout          = true;
-    protected $_canUseForMultishipping  = true;
     protected $_canSaveCc               = false;
 
     /**
