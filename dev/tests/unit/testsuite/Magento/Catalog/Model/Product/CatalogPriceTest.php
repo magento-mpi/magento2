@@ -37,7 +37,6 @@ class CatalogPriceTest extends \PHPUnit_Framework_TestCase
         $this->catalogPriceInterfaceMock = $this->getMock('Magento\Catalog\Model\Product\CatalogPriceInterface');
         $this->model = new \Magento\Catalog\Model\Product\CatalogPrice(
             $this->objectManagerMock,
-//            array('product_type_id' => 'value')
             array('custom_product_type' => 'CustomProduct/Model/CatalogPrice')
         );
     }
@@ -65,7 +64,7 @@ class CatalogPriceTest extends \PHPUnit_Framework_TestCase
         $this->model->getCatalogPrice($this->productMock);
     }
 
-    public function testGetCatalogRegularPriceWhenPoolContainsPriceModelForGivenProductType()
+    public function testGetCatalogRegularPriceWhenPoolDoesNotContainPriceModelForGivenProductType()
     {
         $this->productMock->expects($this->any())->method('getTypeId')->will($this->returnValue('test'));
         $this->objectManagerMock->expects($this->never())->method('get');
@@ -74,7 +73,7 @@ class CatalogPriceTest extends \PHPUnit_Framework_TestCase
         $this->model->getCatalogRegularPrice($this->productMock);
     }
 
-    public function testGetCatalogRegularPriceWhenPoolDoesNotContainPriceModelForGivenProductType()
+    public function testGetCatalogRegularPriceWhenPoolContainsPriceModelForGivenProductType()
     {
         $this->productMock->expects($this->any())
             ->method('getTypeId')->will($this->returnValue('custom_product_type'));
