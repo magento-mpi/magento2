@@ -114,7 +114,7 @@ class Dob extends \Magento\Customer\Block\Widget\AbstractWidget
     /**
      * Return minimal date range value
      *
-     * @return string
+     * @return string|null
      */
     public function getMinDateRange()
     {
@@ -131,7 +131,7 @@ class Dob extends \Magento\Customer\Block\Widget\AbstractWidget
     /**
      * Return maximal date range value
      *
-     * @return string
+     * @return string|null
      */
     public function getMaxDateRange()
     {
