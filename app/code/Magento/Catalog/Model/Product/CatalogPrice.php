@@ -64,7 +64,7 @@ class CatalogPrice implements CatalogPriceInterface
     public function getCatalogRegularPrice(\Magento\Catalog\Model\Product $product)
     {
         if (array_key_exists($product->getTypeId(), $this->priceModelPool)) {
-            $catalogPriceModel = $this->objectManager->get(${$this->priceModelPool[$product->getTypeId()]});
+            $catalogPriceModel = $this->objectManager->get($this->priceModelPool[$product->getTypeId()]);
             return $catalogPriceModel->getCatalogRegularPrice($product);
         }
 

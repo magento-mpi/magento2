@@ -63,7 +63,7 @@ class CatalogPrice implements \Magento\Catalog\Model\Product\CatalogPriceInterfa
             $subProduct->setWebsiteId($product->getWebsiteId())
                 ->setCustomerGroupId($product->getCustomerGroupId());
             if ($subProduct->isSalable()) {
-                if ($this->getCatalogPrice($subProduct) < $minPrice || $minPrice === null) {
+                if ($this->commonPriceModel->getCatalogPrice($subProduct) < $minPrice || $minPrice === null) {
                     $minPrice = $this->commonPriceModel->getCatalogPrice($subProduct);
                     $product->setTaxClassId($subProduct->getTaxClassId());
                 }
