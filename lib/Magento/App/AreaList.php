@@ -74,7 +74,7 @@ class AreaList
     /**
      * Retrieve area codes
      *
-     * @return array
+     * @return string[]
      */
     public function getCodes()
     {

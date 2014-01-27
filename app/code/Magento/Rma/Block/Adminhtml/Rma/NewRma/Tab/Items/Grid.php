@@ -44,7 +44,6 @@ class Grid
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Rma\Model\Resource\Item\CollectionFactory $collectionFactory
      * @param \Magento\Rma\Helper\Eav $rmaEav
@@ -53,7 +52,6 @@ class Grid
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Url $urlModel,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Rma\Model\Resource\Item\CollectionFactory $collectionFactory,
         \Magento\Rma\Helper\Eav $rmaEav,
@@ -63,7 +61,7 @@ class Grid
         $this->_collectionFactory = $collectionFactory;
         $this->_coreRegistry = $coreRegistry;
         $this->_rmaEav = $rmaEav;
-        parent::__construct($context, $urlModel, $backendHelper, $data);
+        parent::__construct($context, $backendHelper, $data);
     }
 
     /**

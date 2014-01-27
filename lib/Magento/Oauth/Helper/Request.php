@@ -107,10 +107,10 @@ class Request
     /**
      * Process oauth related protocol information and return as an array
      *
-     * @param $authHeaderValue
-     * @param $contentTypeHeader
-     * @param $requestBodyString
-     * @param $requestUrl
+     * @param string $authHeaderValue
+     * @param string $contentTypeHeader
+     * @param string $requestBodyString
+     * @param string $requestUrl
      * @return array
      * merged array of oauth protocols and request parameters. eg :
      * <pre>
@@ -159,8 +159,9 @@ class Request
     /**
      * Retrieve protocol parameters from query string
      *
-     * @param $protocolParams
-     * @param $queryString
+     * @param array $protocolParams
+     * @param array $queryString
+     * @return void
      */
     protected function _fetchProtocolParamsFromQuery(&$protocolParams, $queryString)
     {
@@ -185,8 +186,9 @@ class Request
     /**
      * Process header parameters for Oauth
      *
-     * @param $authHeaderValue
-     * @param $protocolParams
+     * @param string $authHeaderValue
+     * @param array $protocolParams
+     * @return void
      */
     protected function _processHeader($authHeaderValue, &$protocolParams)
     {
@@ -209,8 +211,9 @@ class Request
     /**
      * Process query string for Oauth
      *
-     * @param $protocolParams
-     * @param $queryString
+     * @param array $protocolParams
+     * @param string $queryString
+     * @return void
      */
     protected function _extractQueryStringParams(&$protocolParams, $queryString)
     {
@@ -230,7 +233,7 @@ class Request
      *
      * @param \Exception $exception
      * @param \Zend_Controller_Response_Http $response OPTIONAL If NULL - will use internal getter
-     * @return string
+     * @return array
      */
     public function prepareErrorResponse(
         \Exception $exception,

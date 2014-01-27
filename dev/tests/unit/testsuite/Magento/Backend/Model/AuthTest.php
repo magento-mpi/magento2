@@ -9,7 +9,7 @@ namespace Magento\Backend\Model;
 class AuthTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento\Backend\Model\Auth
+     * @var \Magento\Backend\Model\Auth
      */
     protected $_model;
 
@@ -36,9 +36,9 @@ class AuthTest extends \PHPUnit_Framework_TestCase
         $this->_model = new \Magento\Backend\Model\Auth(
             $this->_eventManagerMock,
             $this->getMock('\Magento\Backend\Helper\Data', array(), array(), '', false),
-            $this->_authStorageMock = $this->getMock('\Magento\Backend\Model\Auth\StorageInterface'),
+            $this->getMock('\Magento\Backend\Model\Auth\StorageInterface'),
             $this->_credentialStorage,
-            $this->_coreConfigMock = $this->getMock('\Magento\Core\Model\Config', array(), array(), '', false),
+            $this->getMock('\Magento\App\ConfigInterface', array(), array(), '', false),
             $this->_modelFactoryMock
         );
     }

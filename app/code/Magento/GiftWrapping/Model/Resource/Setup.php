@@ -29,8 +29,8 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
      * @param \Magento\Core\Model\Resource\Setup\Context $context
      * @param string $resourceName
      * @param \Magento\App\CacheInterface $cache
-     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory
-     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory
+     * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Catalog\Model\Product\TypeFactory $productTypeFactory
      * @param \Magento\Catalog\Model\Resource\SetupFactory $catalogSetupFactory
      * @param string $moduleName
@@ -40,8 +40,8 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
         \Magento\Core\Model\Resource\Setup\Context $context,
         $resourceName,
         \Magento\App\CacheInterface $cache,
-        \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory,
-        \Magento\Core\Model\Config $config,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory,
+        \Magento\App\ConfigInterface $config,
         \Magento\Catalog\Model\Product\TypeFactory $productTypeFactory,
         \Magento\Catalog\Model\Resource\SetupFactory $catalogSetupFactory,
         $moduleName = 'Magento_GiftWrapping',
@@ -49,7 +49,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
     ) {
         $this->_productTypeFactory = $productTypeFactory;
         $this->_catalogSetupFactory = $catalogSetupFactory;
-        parent::__construct($context, $resourceName, $cache, $attrGrCollFactory, $config, $moduleName, $connectionName);
+        parent::__construct($context, $resourceName, $cache, $attrGroupCollectionFactory, $config, $moduleName, $connectionName);
     }
 
     /**

@@ -15,7 +15,7 @@ class RewriteService
     protected $_rewriteFactory;
 
     /**
-     * @var \Magento\Core\Model\Config
+     * @var \Magento\App\ConfigInterface
      */
     protected $_config;
 
@@ -27,7 +27,7 @@ class RewriteService
     public function __construct(
         \Magento\App\RouterList $routerList,
         \Magento\Core\Model\Url\RewriteFactory $rewriteFactory,
-        \Magento\Core\Model\Config $config
+        \Magento\App\ConfigInterface $config
     ) {
         $this->_rewriteFactory = $rewriteFactory;
         $this->_config = $config;

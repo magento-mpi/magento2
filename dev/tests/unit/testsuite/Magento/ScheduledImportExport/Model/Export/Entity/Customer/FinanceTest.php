@@ -63,7 +63,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
-        $customerCollFactory = $this->getMock(
+        $customerCollectionFactory = $this->getMock(
             'Magento\ScheduledImportExport\Model\Resource\Customer\CollectionFactory',
             array(), array(), '', false, false
         );
@@ -72,15 +72,20 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             'Magento\ImportExport\Model\Export\Entity\Eav\CustomerFactory', array(), array(), '', false, false
         );
 
+        $storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
+        $storeManager->expects($this->exactly(2))
+            ->method('getWebsites')
+            ->will($this->returnCallback(array($this, 'getWebsites')));
+
         $this->_model = new \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance(
             $coreStoreConfig,
-            $this->getMock('Magento\Core\Model\App', array(), array(), '', false, false),
+            $storeManager,
             $this->getMock('Magento\ImportExport\Model\Export\Factory', array(), array(), '', false, false),
             $this->getMock(
                 'Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory',
                 array(), array(), '', false, false
             ),
-            $customerCollFactory,
+            $customerCollectionFactory,
             $eavCustomerFactory,
             $this->getMock('Magento\ScheduledImportExport\Helper\Data', array(), array(), '', false, false),
             $this->_getModelDependencies()
@@ -100,11 +105,6 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
     protected function _getModelDependencies()
     {
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-
-        $websiteManager = $this->getMock('stdClass', array('getWebsites'));
-        $websiteManager->expects($this->exactly(2))
-            ->method('getWebsites')
-            ->will($this->returnCallback(array($this, 'getWebsites')));
 
         $translator = $this->getMock('stdClass');
 
@@ -127,8 +127,6 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         }
 
         $data = array(
-            'website_manager'              => $websiteManager,
-            'store_manager'                => 'not_used',
             'translator'                   => $translator,
             'attribute_collection'         => $attributeCollection,
             'page_size'                    => 1,
