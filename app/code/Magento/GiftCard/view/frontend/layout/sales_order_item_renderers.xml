@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <referenceBlock name="order_items">
-        <block class="Magento\Downloadable\Block\Sales\Order\Item\Renderer\Downloadable" as="downloadable" template="sales/order/items/renderer/downloadable.phtml"/>
+    <referenceBlock name="sales.order.items.renderers">
+        <block class="Magento\GiftCard\Block\Sales\Order\Item\Renderer" as="giftcard" template="Magento_Sales::order/items/renderer/default.phtml"/>
     </referenceBlock>
 </layout>
