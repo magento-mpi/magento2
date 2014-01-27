@@ -42,33 +42,34 @@ class CatalogPrice implements \Magento\Catalog\Model\Product\CatalogPriceInterfa
      * @param null|\Magento\Core\Model\Store $store Store view
      * @param bool $inclTax
      * @return null|float
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getCatalogPrice(\Magento\Catalog\Model\Product $product, $store = null, $inclTax = false)
     {
-            // Workaround to avoid loading stock status by admin's website
-            if ($store instanceof \Magento\Core\Model\Store) {
-                $oldStore = $this->storeManager->getStore();
-                $this->storeManager->setCurrentStore($store);
-            }
-            $subProducts = $product->getTypeInstance()->getAssociatedProducts($product);
-            if ($store instanceof \Magento\Core\Model\Store) {
-                $this->storeManager->setCurrentStore($oldStore);
-            }
-            if (!count($subProducts)) {
-                return null;
-            }
-            $minPrice = null;
-            foreach ($subProducts as $subProduct) {
-                $subProduct->setWebsiteId($product->getWebsiteId())
-                    ->setCustomerGroupId($product->getCustomerGroupId());
-                if ($subProduct->isSalable()) {
-                    if ($this->getCatalogPrice($subProduct) < $minPrice || $minPrice === null) {
-                        $minPrice = $this->commonPriceModel->getCatalogPrice($subProduct);
-                        $product->setTaxClassId($subProduct->getTaxClassId());
-                    }
+        // Workaround to avoid loading stock status by admin's website
+        if ($store instanceof \Magento\Core\Model\Store) {
+            $oldStore = $this->storeManager->getStore();
+            $this->storeManager->setCurrentStore($store);
+        }
+        $subProducts = $product->getTypeInstance()->getAssociatedProducts($product);
+        if ($store instanceof \Magento\Core\Model\Store) {
+            $this->storeManager->setCurrentStore($oldStore);
+        }
+        if (!count($subProducts)) {
+            return null;
+        }
+        $minPrice = null;
+        foreach ($subProducts as $subProduct) {
+            $subProduct->setWebsiteId($product->getWebsiteId())
+                ->setCustomerGroupId($product->getCustomerGroupId());
+            if ($subProduct->isSalable()) {
+                if ($this->commonPriceModel->getCatalogPrice($subProduct) < $minPrice || $minPrice === null) {
+                    $minPrice = $this->commonPriceModel->getCatalogPrice($subProduct);
+                    $product->setTaxClassId($subProduct->getTaxClassId());
                 }
             }
-            return $minPrice;
+        }
+        return $minPrice;
     }
 
     /**

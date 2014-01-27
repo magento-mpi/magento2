@@ -32,7 +32,7 @@
         <plugin name="GiftCard" type="Magento\GiftCard\Model\Product\CartConfiguration\Plugin\GiftCard" />
     </type>
     <type name="Magento\Catalog\Model\Product\CatalogPrice">
-        <param name="typePool">
+        <param name="priceModelPool">
             <array>
                 <item key="giftcard"><value>Magento\GiftCard\Model\Product\CatalogPrice</value></item>
             </array>
