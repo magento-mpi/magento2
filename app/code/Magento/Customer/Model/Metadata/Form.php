@@ -12,6 +12,13 @@ namespace Magento\Customer\Model\Metadata;
 
 class Form
 {
+    /**#@+
+     * Values for ignoreInvisible parameter in constructor
+     */
+    const IGNORE_INVISIBLE = true;
+    const DONT_IGNORE_INVISIBLE = false;
+    /**#@-*/
+
     /**
      * @var \Magento\Customer\Service\V1\CustomerMetadataServiceInterface
      */
@@ -101,7 +108,7 @@ class Form
         $entityType,
         $formCode,
         array $attributeValues = [],
-        $ignoreInvisible = true,
+        $ignoreInvisible = self::IGNORE_INVISIBLE,
         $filterAttributes = [],
         $isAjax = false
     ) {

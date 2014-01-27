@@ -9,6 +9,8 @@
 namespace Magento\Sales\Model\AdminOrder;
 
 use Magento\Customer\Service\V1\CustomerServiceInterface;
+use Magento\Customer\Model\Metadata\Form as CustomerForm;
+use Magento\Customer\Service\V1\Dto\Customer as CustomerDto;
 
 /**
  * Order create model
@@ -79,13 +81,6 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     protected $_customerAddressForm;
 
     /**
-     * Customer Form instance
-     *
-     * @var \Magento\Customer\Model\Form
-     */
-    protected $_customerForm;
-
-    /**
      * Array of validate errors
      *
      * @var array
@@ -144,6 +139,11 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     protected $_customerService;
 
     /**
+     * @var \Magento\Customer\Model\Metadata\FormFactory
+     */
+    protected $_metadataFormFactory;
+
+    /**
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\Registry $coreRegistry
@@ -153,6 +153,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      * @param \Magento\Object\Copy $objectCopyService
      * @param \Magento\Message\ManagerInterface $messageManager
      * @param CustomerServiceInterface $customerService
+     * @param \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory
      * @param array $data
      */
     public function __construct(
@@ -165,6 +166,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         \Magento\Object\Copy $objectCopyService,
         \Magento\Message\ManagerInterface $messageManager,
         CustomerServiceInterface $customerService,
+        \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory,
         array $data = array()
     ) {
         $this->_objectManager = $objectManager;
@@ -177,6 +179,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         $this->_session = $sessionQuote;
         $this->messageManager = $messageManager;
         $this->_customerService = $customerService;
+        $this->_metadataFormFactory = $metadataFormFactory;
     }
 
     /**
@@ -1089,16 +1092,16 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     /**
      * Return Customer (Checkout) Form instance
      *
-     * @return \Magento\Customer\Model\Form
+     * @param CustomerDto $customerDto
+     * @return CustomerForm
      */
-    protected function _getCustomerForm()
+    protected function _createCustomerForm(CustomerDto $customerDto)
     {
-        if (is_null($this->_customerForm)) {
-            $this->_customerForm = $this->_objectManager->create('Magento\Customer\Model\Form')
-                ->setFormCode('adminhtml_checkout')
-                ->ignoreInvisible(false);
-        }
-        return $this->_customerForm;
+        $customerForm = $this->_metadataFormFactory->create(
+            'customer', 'adminhtml_checkout', $customerDto->__toArray(), CustomerForm::DONT_IGNORE_INVISIBLE
+        );
+
+        return $customerForm;
     }
 
     /**
@@ -1287,8 +1290,8 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     public function setAccountData($accountData)
     {
         $customer   = $this->getQuote()->getCustomer();
-        $form       = $this->_getCustomerForm();
-        $form->setEntity($customer);
+        // @todo refactor within MAGETWO-20029
+        $form       = $this->_createCustomerForm($this->_customerService->getCustomer($customer->getId()));
 
         // emulate request
         $request = $form->prepareRequest($accountData);
@@ -1383,13 +1386,12 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     /**
      * Set and validate Customer data
      *
-     * @param \Magento\Customer\Model\Customer $customer
-     * @return \Magento\Sales\Model\AdminOrder\Create
+     * @param CustomerDto $customerDto
+     * @return $this
      */
-    protected function _setCustomerData(\Magento\Customer\Model\Customer $customer)
+    protected function _setCustomerData(CustomerDto $customerDto)
     {
-        $form = $this->_getCustomerForm();
-        $form->setEntity($customer);
+        $form = $this->_createCustomerForm($customerDto);
 
         // emulate request
         $request = $form->prepareRequest(array('order' => $this->getData()));
@@ -1432,7 +1434,8 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         $customerId = (int)$this->getSession()->getCustomerId();
         // TODO: $customer usage should be refactored in scope of MAGETWO-20031. $customerData should be utilized
         try {
-            $customerData = $this->_customerService->getCustomer($customerId);
+            $customerDto = $this->_customerService->getCustomer($customerId);
+            $originalCustomerDto = $customerDto;
         } catch (\Exception $e) {
             /** Customer does not exist. */
         }
@@ -1447,7 +1450,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
                     ->setDefaultBilling(null)
                     ->setDefaultShipping(null)
                     ->setPassword($customer->generatePassword());
-                $this->_setCustomerData($customer);
+                $this->_setCustomerData($customerDto);
             }
 
             if ($this->getBillingAddress()->getSaveInAddressBook()) {
@@ -1496,7 +1499,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
                 ->setPassword($customer->generatePassword())
                 ->setStore($store);
             $customer->setEmail($this->_getNewCustomerEmail($customer));
-            $this->_setCustomerData($customer);
+            $this->_setCustomerData($customerDto);
 
             if ($this->getBillingAddress()->getSaveInAddressBook()) {
                 $customerBillingAddress->setIsDefaultBilling(true);
@@ -1519,23 +1522,18 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         }
 
         // Set quote customer data to customer
-        $this->_setCustomerData($customer);
+        $this->_setCustomerData($customerDto);
 
         // Set customer to quote and convert customer data to quote
         $quote->setCustomer($customer);
 
-        // Add user defined attributes to quote
-        $form = $this->_getCustomerForm()->setEntity($customer);
-        foreach ($form->getUserAttributes() as $attribute) {
+        foreach ($this->_createCustomerForm($customerDto)->getUserAttributes() as $attribute) {
             $quoteCode = sprintf('customer_%s', $attribute->getAttributeCode());
             $quote->setData($quoteCode, $customer->getData($attribute->getAttributeCode()));
         }
 
         if ($customer->getId()) {
-            // Restore account data for existing customer
-            $this->_getCustomerForm()
-                ->setEntity($customer)
-                ->resetEntityData();
+            $this->_createCustomerForm($originalCustomerDto);
         } else {
             $quote->setCustomerId(true);
         }
