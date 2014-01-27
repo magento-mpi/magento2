@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\Css;
 
 /**
  * Block that renders group of files
  */
-namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\Css;
-
 class Group extends \Magento\Backend\Block\Widget\Form
 {
     /**

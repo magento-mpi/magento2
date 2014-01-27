@@ -21,7 +21,7 @@ class Standard extends \Magento\Core\App\Router\Base
     /**
      * Routers that must not been matched
      *
-     * @var array
+     * @var string[]
      */
     protected $_excludedRouters = array('admin', 'vde');
 
