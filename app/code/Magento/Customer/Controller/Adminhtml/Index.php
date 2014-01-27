@@ -247,7 +247,7 @@ class Index extends \Magento\Backend\App\Action
                 $customerData = $this->_extractCustomerData();
                 $addressesData = $this->_extractCustomerAddressData();
                 $request = $this->getRequest();
-                $isExistingCustomer = ($customerId ? true : false);
+                $isExistingCustomer = (bool)$customerId;
 
                 /** @var \Magento\Customer\Model\Customer $customer */
                 $customer = null;
@@ -261,10 +261,8 @@ class Index extends \Magento\Backend\App\Action
                 }
 
                 // Before save
-                if ($customerData) {
-                    foreach ($customerData as $property => $value) {
+                foreach ($customerData as $property => $value) {
                         $customer->setDataUsingMethod($property, $value);
-                    }
                 }
                 $this->_prepareCustomerAddressesForSave($customer, $addressesData);
                 $this->_eventManager->dispatch('adminhtml_customer_prepare_save', array(
@@ -329,7 +327,7 @@ class Index extends \Magento\Backend\App\Action
      * @return \Magento\Customer\Model\Customer
      * @throws \Magento\Core\Exception
      */
-    protected function _loadCustomerById($customerId)
+    private function _loadCustomerById($customerId)
     {
         $customer = $this->_customerFactory->create();
         $customer->load($customerId);
@@ -347,12 +345,8 @@ class Index extends \Magento\Backend\App\Action
      * @param array $addressesData
      * @throws \Magento\Core\Exception
      */
-    protected function _prepareCustomerAddressesForSave($customer, array $addressesData)
+    private function _prepareCustomerAddressesForSave($customer, array $addressesData)
     {
-        if (is_null($addressesData)) {
-            return;
-        }
-
         $hasChanges = $customer->hasDataChanges();
         $actualAddressesIds = array();
         foreach ($addressesData as $addressData) {
@@ -400,7 +394,7 @@ class Index extends \Magento\Backend\App\Action
      * @param \Magento\Customer\Model\Customer $customer
      * @param array $customerData
      */
-    protected function _sendWelcomeEmail($customer, array $customerData)
+    private function _sendWelcomeEmail($customer, array $customerData)
     {
         $isSendEmail = isset($customerData['sendemail']) && $customerData['sendemail'];
 
@@ -427,7 +421,7 @@ class Index extends \Magento\Backend\App\Action
      * @param array $customerData
      * @return bool
      */
-    protected function _isAutogeneratePassword(array $customerData)
+    private function _isAutogeneratePassword(array $customerData)
     {
         return isset($customerData['autogenerate_password']) && $customerData['autogenerate_password'];
     }
@@ -438,14 +432,12 @@ class Index extends \Magento\Backend\App\Action
      * @param \Magento\Customer\Model\Customer $customer
      * @param array $customerData
      */
-    protected function _changePassword($customer, array $customerData)
+    private function _changePassword($customer, array $customerData)
     {
-        if($customerData) {
-            if (!empty($customerData['password']) || $this->_isAutogeneratePassword($customerData)) {
+        if (!empty($customerData['password']) || $this->_isAutogeneratePassword($customerData)) {
                 $newPassword = $this->_getCustomerPassword($customer, $customerData);
                 $customer->changePassword($newPassword);
                 $customer->sendPasswordReminderEmail();
-            }
         }
     }
 
@@ -456,7 +448,7 @@ class Index extends \Magento\Backend\App\Action
      * @param array $customerData
      * @return string|null
      */
-    protected function _getCustomerPassword($customer, array $customerData)
+    private function _getCustomerPassword($customer, array $customerData)
     {
         $password = null;
 
@@ -475,7 +467,7 @@ class Index extends \Magento\Backend\App\Action
      * @param \Magento\Customer\Model\Customer $customer
      * @param array $customerData
      */
-    protected function _preparePasswordForSave($customer, array $customerData)
+    private function _preparePasswordForSave($customer, array $customerData)
     {
         $password = $this->_getCustomerPassword($customer, $customerData);
         if (!is_null($password)) {
