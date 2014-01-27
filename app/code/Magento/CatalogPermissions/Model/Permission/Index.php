@@ -32,7 +32,14 @@
  */
 namespace Magento\CatalogPermissions\Model\Permission;
 
-class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
+use Magento\Catalog\Model\Product;
+use Magento\Catalog\Model\Resource\Category\Collection as CategoryCollection;
+use Magento\Catalog\Model\Resource\Category\Flat\Collection as FlatCollection;
+use Magento\Catalog\Model\Resource\Product\Collection as ProductCollection;
+use Magento\Index\Model\Event;
+use Magento\Index\Model\Indexer\AbstractIndexer;
+
+class Index extends AbstractIndexer
 {
     /**
      * Reindex products permissions event type
@@ -62,7 +69,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
     protected $_matchedEntities = array(
         self::ENTITY_PRODUCT  => array(self::EVENT_TYPE_REINDEX_PRODUCTS),
         self::ENTITY_CATEGORY => array(self::EVENT_TYPE_REINDEX_PRODUCTS),
-        self::ENTITY_CONFIG   => array(\Magento\Index\Model\Event::TYPE_SAVE),
+        self::ENTITY_CONFIG   => array(Event::TYPE_SAVE),
     );
 
     /**
@@ -81,7 +88,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
      * Reindex category permissions
      *
      * @param string $categoryPath
-     * @return \Magento\CatalogPermissions\Model\Permission\Index
+     * @return $this
      */
     public function reindex($categoryPath)
     {
@@ -93,7 +100,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
      * Reindex products permissions
      *
      * @param array|string $productIds
-     * @return \Magento\CatalogPermissions\Model\Permission\Index
+     * @return $this
      */
     public function reindexProducts($productIds = null)
     {
@@ -105,7 +112,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
      * Reindex products permissions for standalone mode
      *
      * @param array|string $productIds
-     * @return \Magento\CatalogPermissions\Model\Permission\Index
+     * @return $this
      */
     public function reindexProductsStandalone($productIds = null)
     {
@@ -129,8 +136,9 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
     /**
      * Add index to product count select in product collection
      *
-     * @param \Magento\Catalog\Model\Resource\Product\Collection $collection
-     * @return \Magento\CatalogPermissions\Model\Permission\Index
+     * @param Collection $collection
+     * @param int $customerGroupId
+     * @return $this
      */
     public function addIndexToProductCount($collection, $customerGroupId)
     {
@@ -141,10 +149,10 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
     /**
      * Add index to category collection
      *
-     * @param \Magento\Catalog\Model\Resource\Category\Collection|\Magento\Catalog\Model\Resource\Category\Flat\Collection $collection
+     * @param CategoryCollection|FlatCollection $collection
      * @param int $customerGroupId
      * @param int $websiteId
-     * @return \Magento\CatalogPermissions\Model\Permission\Index
+     * @return $this
      */
     public function addIndexToCategoryCollection($collection, $customerGroupId, $websiteId)
     {
@@ -157,7 +165,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
      *
      * @param \Magento\Object $data
      * @param int $customerGroupId
-     * @return \Magento\CatalogPermissions\Model\Permission\Index
+     * @return $this
      */
     public function applyPriceGrantToPriceIndex($data, $customerGroupId)
     {
@@ -181,8 +189,9 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
     /**
      * Add index select in product collection
      *
-     * @param \Magento\Catalog\Model\Resource\Product\Collection $collection
-     * @return \Magento\CatalogPermissions\Model\Permission\Index
+     * @param ProductCollection $collection
+     * @param int $customerGroupId
+     * @return $this
      */
     public function addIndexToProductCollection($collection, $customerGroupId)
     {
@@ -193,9 +202,9 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
      /**
      * Add permission index to product model
      *
-     * @param \Magento\Catalog\Model\Product $product
+     * @param Product $product
      * @param int $customerGroupId
-     * @return \Magento\CatalogPermissions\Model\Permission\Index
+     * @return $this
      */
     public function addIndexToProduct($product, $customerGroupId)
     {
@@ -229,9 +238,10 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
     /**
      * Register indexer required data inside event object
      *
-     * @param \Magento\Index\Model\Event $event
+     * @param Event $event
+     * @return void
      */
-    protected function _registerEvent(\Magento\Index\Model\Event $event)
+    protected function _registerEvent(Event $event)
     {
         switch ($event->getType()) {
             case self::EVENT_TYPE_REINDEX_PRODUCTS:
@@ -250,9 +260,10 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
     /**
      * Process event based on event state data
      *
-     * @param \Magento\Index\Model\Event $event
+     * @param Event $event
+     * @return void
      */
-    protected function _processEvent(\Magento\Index\Model\Event $event)
+    protected function _processEvent(Event $event)
     {
         switch ($event->getType()) {
             case self::EVENT_TYPE_REINDEX_PRODUCTS:
@@ -271,7 +282,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
                         break;
                 }
                 break;
-            case \Magento\Index\Model\Event::TYPE_SAVE:
+            case Event::TYPE_SAVE:
                 switch ($event->getEntity()) {
                     case self::ENTITY_CONFIG:
                         $this->reindexProductsStandalone();
