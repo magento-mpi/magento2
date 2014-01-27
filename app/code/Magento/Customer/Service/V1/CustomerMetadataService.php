@@ -13,7 +13,7 @@ use Magento\Exception\NoSuchEntityException;
 /**
  * EAV attribute metadata service
  *
- *  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class CustomerMetadataService implements CustomerMetadataServiceInterface
 {
