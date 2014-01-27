@@ -22,33 +22,6 @@ class Details extends \Magento\Checkout\Block\Cart\Totals
     protected $_address;
 
     /**
-     * Retrieve item renderer block
-     *
-     * @param string $type
-     * @return \Magento\View\Element\AbstractBlock
-     * @throws \RuntimeException
-     */
-    public function getItemRenderer($type)
-    {
-        /** @var \Magento\View\Element\RendererList $rendererList */
-        $rendererList = $this->getRendererListName()
-            ? $this->getLayout()->getBlock($this->getRendererListName())
-            : $this->getChildBlock('renderer.list');
-        if (!$rendererList) {
-            throw new \RuntimeException('Renderer list for block "' . $this->getNameInLayout() . '" is not defined');
-        }
-        $renderer = $rendererList->getRenderer($type) ?: $rendererList->getRenderer(self::DEFAULT_TYPE);
-        if (!$renderer instanceof \Magento\View\Element\BlockInterface) {
-            throw new \RuntimeException('Renderer for type "' . $type . '" does not exist.');
-        }
-        if ($this->getRendererTemplate()) {
-            $renderer->setTemplate($this->getRendererTemplate());
-        }
-        $renderer->setRenderedBlock($this);
-        return $renderer;
-    }
-
-    /**
      * Return review shipping address
      *
      * @return \Magento\Sales\Model\Order\Address

@@ -83,22 +83,23 @@ class AbstractCart extends \Magento\View\Element\Template
     }
 
     /**
-     * Get renderer block instance by product type code
+     * Retrieve item renderer block
      *
-     * @param  string $type
-     * @throws \RuntimeException
+     * @param string $type
      * @return \Magento\View\Element\AbstractBlock
+     * @throws \RuntimeException
      */
     public function getItemRenderer($type)
     {
-        $renderer = $this->getChildBlock($type) ?: $this->getChildBlock(self::DEFAULT_TYPE);
-        if (!$renderer instanceof \Magento\View\Element\BlockInterface) {
-            throw new \RuntimeException('Renderer for type "' . $type . '" does not exist.');
+        /** @var \Magento\View\Element\RendererList $rendererList */
+        $rendererList = $this->getRendererListName()
+            ? $this->getLayout()->getBlock($this->getRendererListName())
+            : $this->getChildBlock('renderer.list');
+        if (!$rendererList) {
+            throw new \RuntimeException('Renderer list fo block "' . $this->getNameInLayout() . '" is not defined');
         }
-        $renderer->setRenderedBlock($this);
-        return $renderer;
+        return $rendererList->getRenderer($type, self::DEFAULT_TYPE);
     }
-
 
     /**
      * Get logged in customer

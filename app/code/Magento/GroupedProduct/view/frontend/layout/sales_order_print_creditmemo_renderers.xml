@@ -8,7 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <referenceBlock name="sales.order.print.creditmemo">
+    <referenceBlock name="sales.order.print.creditmemo.renderers">
         <block class="Magento\GroupedProduct\Block\Order\Item\Renderer\Grouped" as="grouped" template="Magento_Sales::order/creditmemo/items/renderer/default.phtml"/>
     </referenceBlock>
 </layout>

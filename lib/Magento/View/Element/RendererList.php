@@ -11,13 +11,24 @@ namespace Magento\View\Element;
 class RendererList extends AbstractBlock
 {
     /**
-     * Get render by type
+     * Retrieve renderer by code
      *
      * @param string $type
+     * @param string $defalut
+     * @param string $rendererTemplate
      * @return bool|AbstractBlock
+     * @throws \RuntimeException
      */
-    public function getRenderer($type)
+    public function getRenderer($type, $defalut = null, $rendererTemplate = null)
     {
-        return $this->getChildBlock($type);
+        $renderer = $this->getChildBlock($type) ?: $this->getChildBlock($defalut);
+        if (!$renderer instanceof BlockInterface) {
+            throw new \RuntimeException('Renderer for type "' . $type . '" does not exist.');
+        }
+        $renderer->setRenderedBlock($this);
+        if ($rendererTemplate) {
+            $renderer->setTemplate($rendererTemplate);
+        }
+        return $renderer;
     }
 } 
