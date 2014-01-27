@@ -313,10 +313,23 @@ ZoomTest.prototype.testOnImageUpdated = function() {
 ZoomTest.prototype.testLargeImageLoaded = function() {
     var zoomInstance = this.zoomCreate(),
         _toggleNotice = jsunit.stub(zoomInstance, '_toggleNotice'),
-        processStopTriggered = false;
+        _getAspectRatio = jsunit.stub(zoomInstance, '_getAspectRatio'),
+        _getWhiteBordersOffset = jsunit.stub(zoomInstance, '_getWhiteBordersOffset'),
+        processStopTriggered = false,
+        image = jQuery('<p data-role="test-image" />');
 
-    zoomInstance.element.append(jQuery('<p data-role="test-image" />'));
+    _getWhiteBordersOffset.returnValue = 1;
+    zoomInstance.element.append(image);
     zoomInstance.options.selectors.image = '[data-role=test-image]';
+    zoomInstance.image = image
+    _getAspectRatio.returnCallback = function(image) {
+        if (image.is(zoomInstance.image)) {
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+
     jQuery(zoomInstance.options.selectors.image).on('processStop', function() {
         processStopTriggered = true;
     });
@@ -326,6 +339,9 @@ ZoomTest.prototype.testLargeImageLoaded = function() {
     assertNull(zoomInstance.ratio);
     assertTrue(_toggleNotice.callCount === 1);
     assertTrue(processStopTriggered);
+    assertTrue(_getAspectRatio.callCount > 0);
+    assertTrue(_getWhiteBordersOffset.callCount === 1);
+    assertEquals(zoomInstance.whiteBordersOffset, _getWhiteBordersOffset.returnValue);
 };
 ZoomTest.prototype.testRefreshLargeImage = function() {
     var zoomInstance = this.zoomCreate(),
@@ -364,9 +380,15 @@ ZoomTest.prototype.testGetZoomRatio = function() {
     var zoomRatio = zoomInstance.getZoomRatio();
 
     assertEquals(zoomRatio, (largeImageSize.width / imageSize.width));
-
     zoomInstance.ratio = 100;
     zoomRatio = zoomInstance.getZoomRatio();
-
     assertEquals(zoomRatio, zoomInstance.ratio);
+};
+ZoomTest.prototype.testGetAspectRatio = function() {
+    var zoomInstance = this.zoomCreate(),
+        aspectRatio = zoomInstance._getAspectRatio(),
+        size = {width: 200, height: 100};
+    assertNull(aspectRatio);
+    aspectRatio = zoomInstance._getAspectRatio(jQuery('<div />', size));
+    assertEquals((Math.round((size.width / size.height) * 100) / 100), aspectRatio);
 };
