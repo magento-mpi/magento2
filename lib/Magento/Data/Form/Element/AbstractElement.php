@@ -18,13 +18,36 @@
  */
 namespace Magento\Data\Form\Element;
 
-abstract class AbstractElement extends \Magento\Data\Form\AbstractForm
+use Magento\Data\Form;
+use Magento\Data\Form\AbstractForm;
+use Magento\Data\Form\Element\Renderer\RendererInterface;
+use Magento\Escaper;
+
+abstract class AbstractElement extends AbstractForm
 {
+    /**
+     * @var string|int
+     */
     protected $_id;
+
+    /**
+     * @var string
+     */
     protected $_type;
-    /** @var \Magento\Data\Form */
+
+    /**
+     * @var Form
+     */
     protected $_form;
+
+    /**
+     * @var
+     */
     protected $_elements;
+
+    /**
+     * @var RendererInterface
+     */
     protected $_renderer;
 
     /**
@@ -35,7 +58,7 @@ abstract class AbstractElement extends \Magento\Data\Form\AbstractForm
     protected $_advanced = false;
 
     /**
-     * @var \Magento\Escaper
+     * @var Escaper
      */
     protected $_escaper;
 
@@ -47,15 +70,15 @@ abstract class AbstractElement extends \Magento\Data\Form\AbstractForm
     private $lockHtmlAttribute = 'data-locked';
 
     /**
-     * @param \Magento\Data\Form\Element\Factory $factoryElement
-     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
-     * @param \Magento\Escaper $escaper
+     * @param Factory $factoryElement
+     * @param CollectionFactory $factoryCollection
+     * @param Escaper $escaper
      * @param array $data
      */
     public function __construct(
-        \Magento\Data\Form\Element\Factory $factoryElement,
-        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
-        \Magento\Escaper $escaper,
+        Factory $factoryElement,
+        CollectionFactory $factoryCollection,
+        Escaper $escaper,
         $data = array()
     ) {
         $this->_escaper = $escaper;
@@ -66,11 +89,11 @@ abstract class AbstractElement extends \Magento\Data\Form\AbstractForm
     /**
      * Add form element
      *
-     * @param   \Magento\Data\Form\Element\AbstractElement $element
+     * @param AbstractElement $element
      * @param bool $after
-     * @return  \Magento\Data\Form
+     * @return Form
      */
-    public function addElement(\Magento\Data\Form\Element\AbstractElement $element, $after = false)
+    public function addElement(AbstractElement $element, $after = false)
     {
         if ($this->getForm()) {
             $this->getForm()->checkElementId($element->getId());
@@ -84,7 +107,7 @@ abstract class AbstractElement extends \Magento\Data\Form\AbstractForm
     /**
      * Shows whether current element belongs to Basic or Advanced form layout
      *
-     * @return  bool
+     * @return bool
      */
     public function isAdvanced() {
         return $this->_advanced;
@@ -94,18 +117,28 @@ abstract class AbstractElement extends \Magento\Data\Form\AbstractForm
      * Set _advanced layout property
      *
      * @param bool $advanced
-     * @return \Magento\Data\Form\Element\AbstractElement
+     * @return $this
      */
     public function setAdvanced($advanced) {
         $this->_advanced = $advanced;
         return $this;
     }
 
+    /**
+     * Get id.
+     *
+     * @return string|int
+     */
     public function getId()
     {
         return $this->_id;
     }
 
+    /**
+     * Get type.
+     *
+     * @return string
+     */
     public function getType()
     {
         return $this->_type;
@@ -114,13 +147,19 @@ abstract class AbstractElement extends \Magento\Data\Form\AbstractForm
     /**
      * Get form
      *
-     * @return \Magento\Data\Form
+     * @return Form
      */
     public function getForm()
     {
         return $this->_form;
     }
 
+    /**
+     * Set the Id.
+     *
+     * @param string|int $id
+     * @return $this
+     */
     public function setId($id)
     {
         $this->_id = $id;
@@ -128,11 +167,21 @@ abstract class AbstractElement extends \Magento\Data\Form\AbstractForm
         return $this;
     }
 
+    /**
+     * Get the Html Id.
+     *
+     * @return string
+     */
     public function getHtmlId()
     {
         return $this->getForm()->getHtmlIdPrefix() . $this->getData('html_id') . $this->getForm()->getHtmlIdSuffix();
     }
 
+    /**
+     * Get the name.
+     *
+     * @return mixed
+     */
     public function getName()
     {
         $name = $this->getData('name');
@@ -142,6 +191,12 @@ abstract class AbstractElement extends \Magento\Data\Form\AbstractForm
         return $name;
     }
 
+    /**
+     * Set the type.
+     *
+     * @param string $type
+     * @return $this
+     */
     public function setType($type)
     {
         $this->_type = $type;
@@ -149,23 +204,44 @@ abstract class AbstractElement extends \Magento\Data\Form\AbstractForm
         return $this;
     }
 
+    /**
+     * @param Form $form
+     * @return $this
+     */
     public function setForm($form)
     {
         $this->_form = $form;
         return $this;
     }
 
+    /**
+     * Remove field
+     *
+     * @param string $elementId
+     * @return AbstractForm
+     */
     public function removeField($elementId)
     {
         $this->getForm()->removeField($elementId);
         return parent::removeField($elementId);
     }
 
+    /**
+     * Return the attributes for Html.
+     *
+     * @return string[]
+     */
     public function getHtmlAttributes()
     {
         return array('type', 'title', 'class', 'style', 'onclick', 'onchange', 'disabled', 'readonly', 'tabindex', 'placeholder');
     }
 
+    /**
+     * Add a class.
+     *
+     * @param string $class
+     * @return $this
+     */
     public function addClass($class)
     {
         $oldClass = $this->getClass();
@@ -177,7 +253,7 @@ abstract class AbstractElement extends \Magento\Data\Form\AbstractForm
      * Remove CSS class
      *
      * @param string $class
-     * @return \Magento\Data\Form\Element\AbstractElement
+     * @return $this
      */
     public function removeClass($class)
     {
@@ -189,11 +265,23 @@ abstract class AbstractElement extends \Magento\Data\Form\AbstractForm
         return $this;
     }
 
+    /**
+     * Escape a string's contents.
+     *
+     * @param string $string
+     * @return string
+     */
     protected function _escape($string)
     {
         return htmlspecialchars($string, ENT_COMPAT);
     }
 
+    /**
+     * Return the escaped value of the element specified by the given index.
+     *
+     * @param null|int|string $index
+     * @return string
+     */
     public function getEscapedValue($index=null)
     {
         $value = $this->getValue($index);
@@ -204,17 +292,32 @@ abstract class AbstractElement extends \Magento\Data\Form\AbstractForm
         return $this->_escape($value);
     }
 
-    public function setRenderer(\Magento\Data\Form\Element\Renderer\RendererInterface $renderer)
+    /**
+     * Set the renderer.
+     *
+     * @param RendererInterface $renderer
+     * @return $this
+     */
+    public function setRenderer(RendererInterface $renderer)
     {
         $this->_renderer = $renderer;
         return $this;
     }
 
+    /**
+     * Get the renderer.
+     *
+     * @return RendererInterface
+     */
     public function getRenderer()
     {
         return $this->_renderer;
     }
 
+    /**
+     * @param null|string $suffix
+     * @return string
+     */
     protected function _getUiId($suffix = null)
     {
         if ($this->_renderer instanceof \Magento\View\Element\AbstractBlock) {
@@ -224,6 +327,11 @@ abstract class AbstractElement extends \Magento\Data\Form\AbstractForm
         }
     }
 
+    /**
+     * Get the Html for the element.
+     *
+     * @return string
+     */
     public function getElementHtml()
     {
         $html = '';
@@ -242,16 +350,31 @@ abstract class AbstractElement extends \Magento\Data\Form\AbstractForm
         return $html;
     }
 
+    /**
+     * Get the before element html.
+     *
+     * @return mixed
+     */
     public function getBeforeElementHtml()
     {
         return $this->getData('before_element_html');
     }
 
+    /**
+     * Get the after element html.
+     *
+     * @return mixed
+     */
     public function getAfterElementHtml()
     {
         return $this->getData('after_element_html');
     }
 
+    /**
+     * Get the after element Javascript.
+     *
+     * @return mixed
+     */
     public function getAfterElementJs()
     {
         return $this->getData('after_element_js');
@@ -276,6 +399,11 @@ abstract class AbstractElement extends \Magento\Data\Form\AbstractForm
         return $html;
     }
 
+    /**
+     * Get the default html.
+     *
+     * @return mixed
+     */
     public function getDefaultHtml()
     {
         $html = $this->getData('default_html');
@@ -288,6 +416,11 @@ abstract class AbstractElement extends \Magento\Data\Form\AbstractForm
         return $html;
     }
 
+    /**
+     * Get the html.
+     *
+     * @return mixed
+     */
     public function getHtml()
     {
         if ($this->getRequired()) {
@@ -301,11 +434,25 @@ abstract class AbstractElement extends \Magento\Data\Form\AbstractForm
         return $html;
     }
 
+    /**
+     * Get the html.
+     *
+     * @return mixed
+     */
     public function toHtml()
     {
         return $this->getHtml();
     }
 
+    /**
+     * Serialize the element.
+     *
+     * @param string[] $attributes
+     * @param string $valueSeparator
+     * @param string $fieldSeparator
+     * @param string $quote
+     * @return string
+     */
     public function serialize($attributes = array(), $valueSeparator='=', $fieldSeparator=' ', $quote='"')
     {
         if ($this->isLocked() && !empty($attributes)) {
@@ -324,6 +471,11 @@ abstract class AbstractElement extends \Magento\Data\Form\AbstractForm
         return parent::serialize($attributes, $valueSeparator, $fieldSeparator, $quote);
     }
 
+    /**
+     * Indicates the elements readonly status.
+     *
+     * @return mixed
+     */
     public function getReadonly()
     {
         if ($this->hasData('readonly_disabled')) {
@@ -333,6 +485,11 @@ abstract class AbstractElement extends \Magento\Data\Form\AbstractForm
         return $this->_getData('readonly');
     }
 
+    /**
+     * Get the container Id.
+     *
+     * @return mixed
+     */
     public function getHtmlContainerId()
     {
         if ($this->hasData('container_id')) {
@@ -348,7 +505,7 @@ abstract class AbstractElement extends \Magento\Data\Form\AbstractForm
      *
      * @param string|int|array $values
      * @param bool $overwrite
-     * @return \Magento\Data\Form\Element\AbstractElement
+     * @return $this
      */
     public function addElementValues($values, $overwrite = false)
     {
@@ -375,6 +532,8 @@ abstract class AbstractElement extends \Magento\Data\Form\AbstractForm
 
     /**
      * Lock element
+     *
+     * @return void
      */
     public function lock()
     {

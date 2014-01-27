@@ -23,9 +23,9 @@
     </type>
     <type name="Magento\Module\Updater\SetupFactory">
         <param name="resourceTypes">
-            <value>
-                <customercustomattributes_setup>Magento\Customer\Model\Resource\Setup</customercustomattributes_setup>
-            </value>
+            <array>
+                <item key="customercustomattributes_setup"><value>Magento\Customer\Model\Resource\Setup</value></item>
+            </array>
         </param>
     </type>
 </config>

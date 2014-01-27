@@ -58,6 +58,7 @@ class Configuration
      * Add directories from configuration to Filesystem
      *
      * @param DirectoryList $directoryList
+     * @return void
      */
     public function configure(DirectoryList $directoryList)
     {

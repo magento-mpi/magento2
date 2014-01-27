@@ -23,9 +23,9 @@
     </type>
     <type name="Magento\Module\Updater\SetupFactory">
         <param name="resourceTypes">
-            <value>
-                <rma_setup>Magento\Rma\Model\Resource\Setup</rma_setup>
-            </value>
+            <array>
+                <item key="rma_setup"><value>Magento\Rma\Model\Resource\Setup</value></item>
+            </array>
         </param>
     </type>
     <type name="Magento\Rma\Model\Rma">

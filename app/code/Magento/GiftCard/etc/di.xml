@@ -23,9 +23,9 @@
     </type>
     <type name="Magento\Module\Updater\SetupFactory">
         <param name="resourceTypes">
-            <value>
-                <giftcard_setup>Magento\Catalog\Model\Resource\Setup</giftcard_setup>
-            </value>
+            <array>
+                <item key="giftcard_setup"><value>Magento\Catalog\Model\Resource\Setup</value></item>
+            </array>
         </param>
     </type>
 </config>

@@ -85,6 +85,7 @@ class TypeList implements \Magento\App\Cache\TypeListInterface
      * Save invalidated cache types
      *
      * @param array $types
+     * @return void
      */
     protected function _saveInvalidatedTypes($types)
     {
@@ -143,6 +144,7 @@ class TypeList implements \Magento\App\Cache\TypeListInterface
      * Mark specific cache type(s) as invalidated
      *
      * @param string|array $typeCode
+     * @return void
      */
     public function invalidate($typeCode)
     {
@@ -160,6 +162,7 @@ class TypeList implements \Magento\App\Cache\TypeListInterface
      * Clean cached data for specific cache type
      *
      * @param string $typeCode
+     * @return void
      */
     public function cleanType($typeCode)
     {

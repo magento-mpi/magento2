@@ -58,7 +58,7 @@ class File implements DriverInterface
      *
      * @param string $path
      * @return array
-     * @throws \Magento\Filesystem\FilesystemException
+     * @throws FilesystemException
      */
     public function stat($path)
     {
@@ -78,7 +78,7 @@ class File implements DriverInterface
      *
      * @param string $path
      * @return bool
-     * @throws \Magento\Filesystem\FilesystemException
+     * @throws FilesystemException
      */
     public function isReadable($path)
     {
@@ -98,7 +98,7 @@ class File implements DriverInterface
      *
      * @param string $path
      * @return bool
-     * @throws \Magento\Filesystem\FilesystemException
+     * @throws FilesystemException
      */
     public function isFile($path)
     {
@@ -118,7 +118,7 @@ class File implements DriverInterface
      *
      * @param string $path
      * @return bool
-     * @throws \Magento\Filesystem\FilesystemException
+     * @throws FilesystemException
      */
     public function isDirectory($path)
     {
@@ -161,7 +161,7 @@ class File implements DriverInterface
      *
      * @param string $path
      * @return bool
-     * @throws \Magento\Filesystem\FilesystemException
+     * @throws FilesystemException
      */
     public function isWritable($path)
     {
@@ -211,7 +211,7 @@ class File implements DriverInterface
      * Read directory
      *
      * @param string $path
-     * @return array
+     * @return string[]
      * @throws FilesystemException
      */
     public function readDirectory($path)
@@ -236,7 +236,7 @@ class File implements DriverInterface
      *
      * @param string $pattern
      * @param string $path
-     * @return array
+     * @return string[]
      * @throws FilesystemException
      */
     public function search($pattern, $path)
@@ -654,7 +654,7 @@ class File implements DriverInterface
     /**
      * Lock file in selected mode
      *
-     * @param $resource
+     * @param resource $resource
      * @param int $lockMode
      * @return bool
      * @throws FilesystemException
@@ -674,7 +674,7 @@ class File implements DriverInterface
     /**
      * Unlock file
      *
-     * @param $resource
+     * @param resource $resource
      * @return bool
      * @throws FilesystemException
      */
@@ -745,9 +745,9 @@ class File implements DriverInterface
     /**
      * Read directory recursively
      *
-     * @param string|null $path
-     * @return array
-     * @throws \Magento\Filesystem\FilesystemException
+     * @param string $path
+     * @return string[]
+     * @throws FilesystemException
      */
     public function readDirectoryRecursively($path = null)
     {
