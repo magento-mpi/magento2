@@ -489,7 +489,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      *
      * @params bool $cacheReload pass cached wishlist object and get new one
      * @param bool $cacheReload
-     * @return \Magento\Wishlist\Model\Wishlist
+     * @return \Magento\Wishlist\Model\Wishlist|bool Return false if customer ID is not specified
      */
     public function getCustomerWishlist($cacheReload = false)
     {
@@ -1430,13 +1430,12 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         $customerShippingAddress = null;
 
         $customerId = (int)$this->getSession()->getCustomerId();
+        // TODO: $customer usage should be refactored in scope of MAGETWO-20031. $customerData should be utilized
         try {
             $customerData = $this->_customerService->getCustomer($customerId);
         } catch (\Exception $e) {
             /** Customer does not exist. */
         }
-
-        // TODO: Should be refactored in scope of MAGETWO-20031
         /** @var \Magento\Customer\Model\Customer $customer */
         $customer = $this->_objectManager->create('Magento\Customer\Model\Customer')->load($customerId);
 

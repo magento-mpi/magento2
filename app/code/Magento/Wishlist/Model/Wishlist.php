@@ -368,7 +368,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
             $storeId = $product->hasWishlistStoreId() ? $product->getWishlistStoreId() : $product->getStoreId();
         } else {
             $productId = (int) $product;
-            if ($buyRequest->getStoreId()) {
+            if (isset($buyRequest) && $buyRequest->getStoreId()) {
                 $storeId = $buyRequest->getStoreId();
             } else {
                 $storeId = $this->_storeManager->getStore()->getId();
