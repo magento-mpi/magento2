@@ -27,9 +27,9 @@
     </type>
     <type name="Magento\Catalog\Model\Product\CatalogPrice">
         <param name="priceModelPool">
-            <value>
-                <bundle>\Magento\Bundle\Model\Product\CatalogPrice</bundle>
-            </value>
+            <array>
+                <item key="bundle"><value>\Magento\Bundle\Model\Product\CatalogPrice</value></item>
+            </array>
         </param>
     </type>
 </config>

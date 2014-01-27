@@ -38,9 +38,9 @@
     </type>
     <type name="Magento\Catalog\Model\Product\CatalogPrice">
         <param name="priceModelPool">
-            <value>
-                <grouped>\Magento\GroupedProduct\Model\Product\CatalogPrice</grouped>
-            </value>
+            <array>
+                <item key="grouped"><value>\Magento\GroupedProduct\Model\Product\CatalogPrice</value></item>
+            </array>
         </param>
     </type>
 </config>
