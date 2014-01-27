@@ -152,7 +152,7 @@
                         break;
                     case 'fullSizeMode':
                         this._initControl('baseImage');
-                        this._trigger('updated', this.baseImage);
+                        $(this.baseImage).trigger('imageupdated');
                         break;
                     case 'images' :
                         this._render();
