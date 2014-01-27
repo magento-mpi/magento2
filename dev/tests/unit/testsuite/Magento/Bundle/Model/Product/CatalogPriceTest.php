@@ -57,7 +57,7 @@ class CatalogPriceTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testGetCatalogPriceIfStoreIsNull()
+    public function testGetCatalogPriceWithCurrentStore()
     {
         $this->coreRegistryMock->expects($this->once())->method('unregister')->with('rule_data');
         $this->productMock->expects($this->once())->method('getStoreId')->will($this->returnValue('store_id'));
@@ -78,7 +78,7 @@ class CatalogPriceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(15, $this->catalogPrice->getCatalogPrice($this->productMock));
     }
 
-    public function testGetCatalogPriceIfStoreExists()
+    public function testGetCatalogPriceWithCustomStore()
     {
         $storeMock = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
         $this->coreRegistryMock->expects($this->once())->method('unregister')->with('rule_data');

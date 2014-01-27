@@ -28,7 +28,7 @@ class CatalogPriceTest extends \PHPUnit_Framework_TestCase
         $this->catalogPrice = new \Magento\GiftCard\Model\Product\CatalogPrice();
     }
 
-    public function testGetCatalogPriceIfStoreIsNull()
+    public function testGetCatalogPrice()
     {
         $priceModelMock
             = $this->getMock('Magento\Catalog\Model\Product\Type\Price', array('getMinAmount'), array(), '', false);
