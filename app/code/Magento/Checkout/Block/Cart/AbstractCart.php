@@ -68,25 +68,11 @@ class AbstractCart extends \Magento\View\Element\Template
     }
 
     /**
-     * Initialize default item renderer
-     */
-    protected function _prepareLayout()
-    {
-        if (!$this->getChildBlock(self::DEFAULT_TYPE)) {
-            $this->addChild(
-                self::DEFAULT_TYPE,
-                'Magento\Checkout\Block\Cart\Item\Renderer',
-                array('template' => 'cart/item/default.phtml')
-            );
-        }
-        return parent::_prepareLayout();
-    }
-
-    /**
      * Retrieve item renderer block
      *
      * @param string $type
-     * @return \Magento\View\Element\AbstractBlock
+     *
+     * @return \Magento\View\Element\Template
      * @throws \RuntimeException
      */
     public function getItemRenderer($type)
@@ -96,7 +82,7 @@ class AbstractCart extends \Magento\View\Element\Template
             ? $this->getLayout()->getBlock($this->getRendererListName())
             : $this->getChildBlock('renderer.list');
         if (!$rendererList) {
-            throw new \RuntimeException('Renderer list fo block "' . $this->getNameInLayout() . '" is not defined');
+            throw new \RuntimeException('Renderer list for block "' . $this->getNameInLayout() . '" is not defined');
         }
         return $rendererList->getRenderer($type, self::DEFAULT_TYPE);
     }
