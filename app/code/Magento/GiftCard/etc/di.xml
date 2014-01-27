@@ -34,7 +34,7 @@
     <type name="Magento\Catalog\Model\Product\CatalogPrice">
         <param name="priceModelPool">
             <array>
-                <item key="giftcard"><value>\Magento\GiftCard\Model\Product\CatalogPrice</value></item>
+                <item key="giftcard"><value>Magento\GiftCard\Model\Product\CatalogPrice</value></item>
             </array>
         </param>
     </type>
