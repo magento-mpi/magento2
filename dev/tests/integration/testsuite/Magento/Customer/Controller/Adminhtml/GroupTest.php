@@ -12,7 +12,6 @@ use Magento\TestFramework\Helper\Bootstrap;
 
 /**
  * @magentoAppArea adminhtml
- * @magentoDataFixture customerGroupDataFixture
  */
 class GroupTest extends \Magento\Backend\Utility\Controller
 {
@@ -21,7 +20,7 @@ class GroupTest extends \Magento\Backend\Utility\Controller
 
     protected static $_customerGroupId;
 
-    public static function customerGroupDataFixture()
+    public static function setUpBeforeClass()
     {
         /** @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService */
         $groupService = Bootstrap::getObjectManager()
@@ -33,6 +32,14 @@ class GroupTest extends \Magento\Backend\Utility\Controller
           'tax_class_id' => self::TAX_CLASS_ID
         ]);
         self::$_customerGroupId = $groupService->saveGroup($group);;
+    }
+
+    public static function tearDownAfterClass()
+    {
+        /** @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService */
+        $groupService = Bootstrap::getObjectManager()
+            ->get('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
+        $groupService->deleteGroup(self::$_customerGroupId);
     }
 
     public function testNewAction()
