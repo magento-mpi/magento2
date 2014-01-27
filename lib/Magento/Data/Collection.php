@@ -55,6 +55,23 @@ class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\
      */
     protected $_filters = array();
 
+
+    /**
+     * Filters on specific fields
+     *
+     * Each filter has the following structure
+     * <pre>
+     * [
+     *     'field'     => $field,
+     *     'condition' => $condition,
+     * ]
+     * </pre>
+     * @see addFieldToFilter() for more information on conditions
+     *
+     * @var array
+     */
+    protected $_fieldFilters = [];
+
     /**
      * Filter rendered flag
      *
@@ -167,6 +184,56 @@ class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\
                 return $filter;
             }
         }
+    }
+
+    /**
+     * Add field filter to collection
+     *
+     * If $condition integer or string - exact value will be filtered ('eq' condition)
+     *
+     * If $condition is array - one of the following structures is expected:
+     * <pre>
+     * - ["from" => $fromValue, "to" => $toValue]
+     * - ["eq" => $equalValue]
+     * - ["neq" => $notEqualValue]
+     * - ["like" => $likeValue]
+     * - ["in" => [$inValues]]
+     * - ["nin" => [$notInValues]]
+     * - ["notnull" => $valueIsNotNull]
+     * - ["null" => $valueIsNull]
+     * - ["moreq" => $moreOrEqualValue]
+     * - ["gt" => $greaterValue]
+     * - ["lt" => $lessValue]
+     * - ["gteq" => $greaterOrEqualValue]
+     * - ["lteq" => $lessOrEqualValue]
+     * - ["finset" => $valueInSet]
+     * - ["regexp" => $regularExpression]
+     * - ["seq" => $stringValue]
+     * - ["sneq" => $stringValue]
+     * </pre>
+     *
+     * If non matched - sequential parallel arrays are expected and OR conditions
+     * will be built using above mentioned structure.
+     *
+     * Example:
+     * <pre>
+     * $field = ['age', 'name'];
+     * $condition = [42, ['like' => 'Mage']];
+     * </pre>
+     * The above would find where age equal to 42 OR name like %Mage%.
+     *
+     * @param string|array $field
+     * @param null|string|int|array $condition
+     * @return $this
+     */
+    public function addFieldToFilter($field, $condition = null)
+    {
+        $this->_fieldFilters[] = [
+            'field'     => $field,
+            'condition' => $condition,
+        ];
+
+        return $this;
     }
 
     /**
