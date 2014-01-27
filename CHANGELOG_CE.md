@@ -23,6 +23,7 @@
   * Fixed an issue with ImportExport: Fix notice if _attribute_set column is missing
   * Fixed missed image for a cron job for the abandoned cart emails
   * Restored ability to configure cache storage in `local.xml`
+  * Fixed broken css\js merging functionality
 * Removed the deprecated service-calls and data source functionality
 * AppInterface has been renamed to LauncherInterface
 * Removed reinit logic from Config object
