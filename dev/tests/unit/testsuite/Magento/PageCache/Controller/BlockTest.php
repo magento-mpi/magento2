@@ -88,17 +88,17 @@ class BlockTest extends \PHPUnit_Framework_TestCase
     /**
      * Test no params: blocks, handles
      */
-    public function te1stRenderActionNoParams()
+    public function testRenderActionNoParams()
     {
         $this->requestMock->expects($this->once())->method('isAjax')->will($this->returnValue(true));
-        $this->requestMock->expects($this->at(0))
-            ->method('getParam')
-            ->with($this->equalTo('blocks'), $this->equalTo(false))
-            ->will($this->returnValue(false));
         $this->requestMock->expects($this->at(1))
             ->method('getParam')
-            ->with($this->equalTo('handles'), $this->equalTo(false))
-            ->will($this->returnValue(false));
+            ->with($this->equalTo('blocks'), $this->equalTo([]))
+            ->will($this->returnValue([]));
+        $this->requestMock->expects($this->at(2))
+            ->method('getParam')
+            ->with($this->equalTo('handles'), $this->equalTo([]))
+            ->will($this->returnValue([]));
         $result = $this->controller->renderAction();
         $this->assertNull($result);
     }
@@ -122,11 +122,11 @@ class BlockTest extends \PHPUnit_Framework_TestCase
         $this->requestMock->expects($this->once())->method('isAjax')->will($this->returnValue(true));
         $this->requestMock->expects($this->at(1))
             ->method('getParam')
-            ->with($this->equalTo('blocks'), $this->equalTo(false))
+            ->with($this->equalTo('blocks'), $this->equalTo([]))
             ->will($this->returnValue($blocks));
         $this->requestMock->expects($this->at(2))
             ->method('getParam')
-            ->with($this->equalTo('handles'), $this->equalTo(false))
+            ->with($this->equalTo('handles'), $this->equalTo([]))
             ->will($this->returnValue($handles));
         $this->viewMock->expects($this->once())
             ->method('loadLayout')
