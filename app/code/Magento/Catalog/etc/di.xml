@@ -135,11 +135,11 @@
     </type>
     <type name="Magento\Catalog\Model\Product\LinkTypeProvider">
         <param name="linkTypes">
-            <value>
-                <links_related type="const">Magento\Catalog\Model\Product\Link::LINK_TYPE_RELATED</links_related>
-                <links_crosssell type="const">Magento\Catalog\Model\Product\Link::LINK_TYPE_CROSSSELL</links_crosssell>
-                <links_upsell type="const">Magento\Catalog\Model\Product\Link::LINK_TYPE_UPSELL</links_upsell>
-            </value>
+            <array>
+                <item key="links_related"><value type="const">Magento\Catalog\Model\Product\Link::LINK_TYPE_RELATED</value></item>
+                <item key="links_crosssell"><value type="const">Magento\Catalog\Model\Product\Link::LINK_TYPE_CROSSSELL</value></item>
+                <item key="links_upsell"><value type="const">Magento\Catalog\Model\Product\Link::LINK_TYPE_UPSELL</value></item>
+            </array>
         </param>
     </type>
 </config>
