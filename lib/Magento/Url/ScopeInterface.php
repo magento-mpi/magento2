@@ -8,7 +8,7 @@
 
 namespace Magento\Url;
 
-interface ScopeInterface
+interface ScopeInterface extends \Magento\App\Config\ScopeInterface
 {
     /**
      * Retrieve base URL
@@ -18,13 +18,6 @@ interface ScopeInterface
      * @return string
      */
     public function getBaseUrl($type = '', $secure = null);
-
-    /**
-     * Retrieve scope code
-     *
-     * @return string
-     */
-    public function getCode();
 
     /**
      * Retrieve scope configuration data

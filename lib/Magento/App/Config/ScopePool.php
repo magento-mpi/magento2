@@ -60,7 +60,7 @@ class ScopePool
      * @param string $scope
      * @return \Magento\App\Config\Data
      */
-    public function getScope($scope)
+    public function getScopeByCode($scope)
     {
         if (!isset($this->_scopes[$scope])) {
             $cacheKey = $this->_cacheId . '|' . $scope;
@@ -77,7 +77,7 @@ class ScopePool
     }
 
     /**
-     * Clear all stired sections
+     * {@inheritdoc}
      */
     public function clean()
     {

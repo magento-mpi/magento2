@@ -12,10 +12,10 @@ namespace Magento\App\Config\Scope;
 interface ResolverInterface
 {
     /**
-     * Process config value
+     * Retrieve application scope code
      *
-     * @param string $value
-     * @return mixed
+     * @param null|int $scopeId
+     * @return strings
      */
-    public function processValue($value);
+    public function getScopeCode($scopeId = null);
 }

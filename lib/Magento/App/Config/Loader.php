@@ -13,7 +13,7 @@ namespace Magento\App\Config;
 class Loader implements \Magento\App\Config\LoaderInterface
 {
     /**
-     * @var \Magento\App\Config\Scope\Resolver
+     * @var \Magento\App\Config\Scope\ResolverInterface
      */
     protected $_scopeResolver;
 
@@ -23,11 +23,11 @@ class Loader implements \Magento\App\Config\LoaderInterface
     protected $_scopePool;
 
     /**
-     * @param \Magento\App\Config\Scope\Resolver $scopeResolver
+     * @param \Magento\App\Config\Scope\ResolverInterface $scopeResolver
      * @param \Magento\App\Config\ScopePool $scopePool
      */
     public function __construct(
-        \Magento\App\Config\Scope\Resolver $scopeResolver,
+        \Magento\App\Config\Scope\ResolverInterface $scopeResolver,
         \Magento\App\Config\ScopePool $scopePool
     ) {
         $this->_scopeResolver = $scopeResolver;
@@ -41,6 +41,6 @@ class Loader implements \Magento\App\Config\LoaderInterface
      */
     public function load()
     {
-        return $this->_scopePool->getScope($this->_scopeResolver->getScope());
+        return $this->_scopePool->getScopeByCode($this->_scopeResolver->getScopeCode());
     }
 }
