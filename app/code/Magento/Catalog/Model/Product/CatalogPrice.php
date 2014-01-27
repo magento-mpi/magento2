@@ -42,12 +42,17 @@ class CatalogPrice implements CatalogPriceInterface
      * @param \Magento\Catalog\Model\Product $product
      * @param null|\Magento\Core\Model\Store $store Store view
      * @param bool $inclTax
+     * @throws \UnexpectedValueException
      * @return null|float
      */
     public function getCatalogPrice(\Magento\Catalog\Model\Product $product, $store = null, $inclTax = false)
     {
         if (array_key_exists($product->getTypeId(), $this->priceModelPool)) {
             $catalogPriceModel = $this->objectManager->get($this->priceModelPool[$product->getTypeId()]);
+            if (!($catalogPriceModel instanceof \Magento\Catalog\Model\Product\CatalogPriceInterface)) {
+                throw new \UnexpectedValueException('Class ' . $this->priceModelPool[$product->getTypeId()]
+                    . ' should be an instance of \Magento\Catalog\Model\Product\CatalogPriceInterface');
+            }
             return $catalogPriceModel->getCatalogPrice($product, $store, $inclTax);
         }
 
