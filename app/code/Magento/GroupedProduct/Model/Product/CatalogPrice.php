@@ -77,6 +77,7 @@ class CatalogPrice implements \Magento\Catalog\Model\Product\CatalogPriceInterfa
      *
      * @param \Magento\Catalog\Model\Product $product
      * @return null
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getCatalogRegularPrice(\Magento\Catalog\Model\Product $product)
     {
