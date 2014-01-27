@@ -13,8 +13,14 @@
  */
 namespace Magento\Newsletter\Block\Adminhtml\Queue;
 
+use Magento\View\Element\AbstractBlock;
+use Magento\Newsletter\Model\Queue as ModelQueue;
+
 class Edit extends \Magento\Backend\Block\Template
 {
+    /**
+     * @var string
+     */
     protected $_template = 'queue/edit.phtml';
 
     /**
@@ -58,13 +64,18 @@ class Edit extends \Magento\Backend\Block\Template
     /**
      * Retrieve current Newsletter Queue Object
      *
-     * @return \Magento\Newsletter\Model\Queue
+     * @return ModelQueue
      */
     public function getQueue()
     {
         return $this->_coreRegistry->registry('current_queue');
     }
 
+    /**
+     * Before rendering html, but after trying to load cache
+     *
+     * @return AbstractBlock
+     */
     protected  function _beforeToHtml()
     {
         $this->setChild('form',
@@ -73,6 +84,11 @@ class Edit extends \Magento\Backend\Block\Template
         return parent::_beforeToHtml();
     }
 
+    /**
+     * Get the url for save
+     *
+     * @return string
+     */
     public function getSaveUrl()
     {
         if ($this->getTemplateId()) {
@@ -83,6 +99,11 @@ class Edit extends \Magento\Backend\Block\Template
         return $this->getUrl('*/*/save', $params);
     }
 
+    /**
+     * Prepare for the layout
+     *
+     * @return AbstractBlock
+     */
     protected function _prepareLayout()
     {
         // Load Wysiwyg on demand and Prepare layout
@@ -202,20 +223,20 @@ class Edit extends \Magento\Backend\Block\Template
     /**
      * Getter for availability preview mode
      *
-     * @return boolean
+     * @return bool
      */
     public function getIsPreview()
     {
         return !in_array($this->getQueue()->getQueueStatus(), array(
-            \Magento\Newsletter\Model\Queue::STATUS_NEVER,
-            \Magento\Newsletter\Model\Queue::STATUS_PAUSE
+            ModelQueue::STATUS_NEVER,
+            ModelQueue::STATUS_PAUSE
         ));
     }
 
     /**
      * Getter for single store mode check
      *
-     * @return boolean
+     * @return bool
      */
     protected function isSingleStoreMode()
     {
@@ -225,7 +246,7 @@ class Edit extends \Magento\Backend\Block\Template
     /**
      * Getter for id of current store (the only one in single-store mode and current in multi-stores mode)
      *
-     * @return boolean
+     * @return bool
      */
     protected function getStoreId()
     {
@@ -235,7 +256,7 @@ class Edit extends \Magento\Backend\Block\Template
     /**
      * Getter for check is this newsletter the plain text.
      *
-     * @return boolean
+     * @return bool
      */
     public function getIsTextType()
     {
@@ -245,19 +266,19 @@ class Edit extends \Magento\Backend\Block\Template
     /**
      * Getter for availability resume action
      *
-     * @return boolean
+     * @return bool
      */
     public function getCanResume()
     {
         return in_array($this->getQueue()->getQueueStatus(), array(
-            \Magento\Newsletter\Model\Queue::STATUS_PAUSE
+            ModelQueue::STATUS_PAUSE
         ));
     }
 
     /**
      * Getter for header text
      *
-     * @return boolean
+     * @return bool
      */
     public function getHeaderText()
     {

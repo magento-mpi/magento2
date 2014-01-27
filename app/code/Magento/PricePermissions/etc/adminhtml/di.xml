@@ -18,14 +18,14 @@
     </type>
     <type name="Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\Composite">
         <param name="handlers">
-            <value>
-                <customOptions>Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\CustomOptions</customOptions>
-                <recurringProfile>Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\RecurringProfile</recurringProfile>
-                <configurableProduct>Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\ProductType\Configurable</configurableProduct>
-                <bundleProducts>Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\ProductType\Bundle</bundleProducts>
-                <downloadableProducts>Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\ProductType\Downloadable</downloadableProducts>
-                <newObject>Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\NewObject</newObject>
-            </value>
+            <array>
+                <item key="customOptions"><value>Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\CustomOptions</value></item>
+                <item key="recurringProfile"><value>Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\RecurringProfile</value></item>
+                <item key="configurableProduct"><value>Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\ProductType\Configurable</value></item>
+                <item key="bundleProducts"><value>Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\ProductType\Bundle</value></item>
+                <item key="downloadableProducts"><value>Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\ProductType\Downloadable</value></item>
+                <item key="newObject"><value>Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\NewObject</value></item>
+            </array>
         </param>
     </type>
 </config>

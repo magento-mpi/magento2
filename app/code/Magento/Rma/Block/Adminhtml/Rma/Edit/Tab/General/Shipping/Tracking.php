@@ -30,33 +30,33 @@ class Tracking extends \Magento\Backend\Block\Template
     protected $_rmaData;
 
     /**
-     * @var \Magento\Shipping\Model\Config
+     * @var \Magento\Shipping\Model\CarrierFactory
      */
-    protected $_shippingConfig;
+    protected $_carrierFactory;
 
     /**
      * @var \Magento\Rma\Model\Resource\Shipping\CollectionFactory
      */
-    protected $_shippingCollFactory;
+    protected $_shippingCollectionFactory;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Rma\Model\Resource\Shipping\CollectionFactory $shippingCollFactory
-     * @param \Magento\Shipping\Model\Config $shippingConfig
+     * @param \Magento\Rma\Model\Resource\Shipping\CollectionFactory $shippingCollectionFactory
+     * @param \Magento\Shipping\Model\CarrierFactory $carrierFactory
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Rma\Model\Resource\Shipping\CollectionFactory $shippingCollFactory,
-        \Magento\Shipping\Model\Config $shippingConfig,
+        \Magento\Rma\Model\Resource\Shipping\CollectionFactory $shippingCollectionFactory,
+        \Magento\Shipping\Model\CarrierFactory $carrierFactory,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
-        $this->_shippingCollFactory = $shippingCollFactory;
-        $this->_shippingConfig = $shippingConfig;
+        $this->_shippingCollectionFactory = $shippingCollectionFactory;
+        $this->_carrierFactory = $carrierFactory;
         $this->_coreRegistry = $registry;
         $this->_rmaData = $rmaData;
         parent::__construct($context, $data);
@@ -89,7 +89,7 @@ class Tracking extends \Magento\Backend\Block\Template
      */
     public function getAllTracks()
     {
-        return $this->_shippingCollFactory->create()
+        return $this->_shippingCollectionFactory->create()
             ->addFieldToFilter('rma_entity_id', $this->getRma()->getId())
             ->addFieldToFilter('is_admin', array("neq" => \Magento\Rma\Model\Shipping::IS_ADMIN_STATUS_ADMIN_LABEL))
         ;
@@ -168,7 +168,7 @@ class Tracking extends \Magento\Backend\Block\Template
      */
     public function getCarrierTitle($code)
     {
-        $carrier = $this->_shippingConfig->getCarrierInstance($code);
+        $carrier = $this->_carrierFactory->create($code);
         return $carrier ? $carrier->getConfigData('title') : __('Custom Value');
     }
 }

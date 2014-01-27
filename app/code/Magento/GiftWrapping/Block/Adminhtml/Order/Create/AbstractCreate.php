@@ -35,7 +35,7 @@ class AbstractCreate
     /**
      * @var \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory
      */
-    protected $_wrappingCollFactory;
+    protected $_wrappingCollectionFactory;
 
     /**
      * @var \Magento\Core\Helper\Data
@@ -48,7 +48,7 @@ class AbstractCreate
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
-     * @param \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollFactory
+     * @param \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollectionFactory
      * @param array $data
      */
     public function __construct(
@@ -57,12 +57,12 @@ class AbstractCreate
         \Magento\Sales\Model\AdminOrder\Create $orderCreate,
         \Magento\Core\Helper\Data $coreData,
         \Magento\GiftWrapping\Helper\Data $giftWrappingData,
-        \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollFactory,
+        \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollectionFactory,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
         $this->_giftWrappingData = $giftWrappingData;
-        $this->_wrappingCollFactory = $wrappingCollFactory;
+        $this->_wrappingCollectionFactory = $wrappingCollectionFactory;
         parent::__construct($context, $sessionQuote, $orderCreate, $data);
     }
 
@@ -74,7 +74,7 @@ class AbstractCreate
     public function getDesignCollection()
     {
         if (is_null($this->_designCollection)) {
-            $this->_designCollection = $this->_wrappingCollFactory->create()
+            $this->_designCollection = $this->_wrappingCollectionFactory->create()
                 ->addStoreAttributesToResult($this->getStore()->getId())
                 ->applyStatusFilter()
                 ->applyWebsiteFilter($this->getStore()->getWebsiteId());

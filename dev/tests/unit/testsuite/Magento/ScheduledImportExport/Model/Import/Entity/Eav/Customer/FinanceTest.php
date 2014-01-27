@@ -174,6 +174,11 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             ->method('getUser')
             ->will($this->returnValue($adminUser));
 
+        $storeManager = $this->getMock('\Magento\Core\Model\StoreManager', array('getWebsites'), array(), '', false);
+        $storeManager->expects($this->once())
+            ->method('getWebsites')
+            ->will($this->returnCallback(array($this, 'getWebsites')));
+
         $this->_model = new \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance(
             $coreData,
             new \Magento\Stdlib\String,
@@ -181,7 +186,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\ImportExport\Model\ImportFactory', array(), array(), '', false),
             $this->getMock('Magento\ImportExport\Model\Resource\Helper', array(), array(), '', false),
             $this->getMock('Magento\App\Resource', array(), array(), '', false),
-            $this->getMock('Magento\Core\Model\App', array(), array(), '', false),
+            $storeManager,
             $this->getMock('Magento\ImportExport\Model\Export\Factory', array(), array(), '', false),
             $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false),
             $this->getMock('Magento\ImportExport\Model\Resource\Customer\StorageFactory', array(), array(), '', false),
@@ -220,10 +225,6 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         }
 
         $connection = $this->getMock('stdClass');
-
-        $websiteManager = $this->getMock('stdClass', array('getWebsites'));
-        $websiteManager->expects($this->once())->method('getWebsites')
-            ->will($this->returnCallback(array($this, 'getWebsites')));
 
         /** @var $customerStorage \Magento\ImportExport\Model\Resource\Customer\Storage */
         $customerStorage = $this->getMock('Magento\ImportExport\Model\Resource\Customer\Storage', array('load'),
@@ -275,8 +276,6 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             'page_size'                    => 1,
             'max_data_size'                => 1,
             'bunch_size'                   => 1,
-            'website_manager'              => $websiteManager,
-            'store_manager'                => 'not_used',
             'entity_type_id'               => 1,
             'customer_storage'             => $customerStorage,
             'object_factory'               => $objectFactory,
@@ -349,7 +348,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Callback method for mock object \Magento\Core\Model\Config object
+     * Callback method for mock object
      *
      * @param string $modelClass
      * @param array|object $constructArguments

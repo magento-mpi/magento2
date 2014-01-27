@@ -73,7 +73,7 @@ class Product extends \Magento\Core\Helper\Url
     protected $_coreStoreConfig;
 
     /**
-     * @var \Magento\Core\Model\Config
+     * @var \Magento\App\ConfigInterface
      */
     protected $_coreConfig;
 
@@ -113,7 +113,7 @@ class Product extends \Magento\Core\Helper\Url
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Catalog\Model\Attribute\Config $attributeConfig
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\App\ConfigInterface $coreConfig
      * @param string $typeSwitcherLabel
      */
     public function __construct(
@@ -126,7 +126,7 @@ class Product extends \Magento\Core\Helper\Url
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Catalog\Model\Attribute\Config $attributeConfig,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Config $coreConfig,
+        \Magento\App\ConfigInterface $coreConfig,
         $typeSwitcherLabel
     ) {
         $this->_categoryFactory = $categoryFactory;
