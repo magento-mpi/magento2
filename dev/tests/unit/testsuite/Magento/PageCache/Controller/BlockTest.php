@@ -47,6 +47,11 @@ class BlockTest extends \PHPUnit_Framework_TestCase
     protected $layoutMock;
 
     /**
+     * @var \Magento\PageCache\Helper\Data|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $helperMock;
+
+    /**
      * Set up before test
      */
     protected function setUp()
@@ -73,7 +78,11 @@ class BlockTest extends \PHPUnit_Framework_TestCase
         $contextMock->expects($this->any())->method('getResponse')->will($this->returnValue($this->responseMock));
         $contextMock->expects($this->any())->method('getView')->will($this->returnValue($this->viewMock));
 
-        $this->controller = new \Magento\PageCache\Controller\Block($contextMock);
+        $this->helperMock = $this->getMockBuilder('Magento\PageCache\Helper\Data')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->controller = new \Magento\PageCache\Controller\Block($contextMock, $this->helperMock);
     }
 
     public function testRenderActionNotAjax()
@@ -108,6 +117,7 @@ class BlockTest extends \PHPUnit_Framework_TestCase
         $blocks = array('block1', 'block2');
         $handles = array('handle1', 'handle2');
         $expectedData = array('block1' => 'data1', 'block2' => 'data2');
+        $maxAge = 10;
 
         $blockInstance1 = $this->getMockForAbstractClass(
             'Magento\View\Element\AbstractBlock', array(), '', false, true, true, array('toHtml')
@@ -143,7 +153,19 @@ class BlockTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo($blocks[1]))
             ->will($this->returnValue($blockInstance2));
 
-        $this->responseMock->expects($this->once())
+        $this->helperMock->expects($this->once())->method('getMaxAgeCache')->will($this->returnValue($maxAge));
+
+        $this->responseMock->expects($this->at(0))
+            ->method('setHeader')
+            ->with(
+                $this->equalTo('cache-control'),
+                $this->equalTo('private, max-age=' . $maxAge),
+                $this->equalTo(true)
+            );
+        $this->responseMock->expects($this->at(1))
+            ->method('setHeader')
+            ->with($this->equalTo('expires'));
+        $this->responseMock->expects($this->at(2))
             ->method('appendBody')
             ->with($this->equalTo(json_encode($expectedData)));
 
