@@ -291,6 +291,7 @@
          */
         _refreshLargeImage: function() {
             if (this.largeImage) {
+                $(this.options.selectors.image).trigger('processStart');
                 this.largeImage
                     .prop('src', this.largeImageSrc)
                     .css({top: 0, left: 0});
@@ -344,9 +345,18 @@
          * @protected
          */
         _refreshZoom: function(position, ui) {
-            var ratio = this.getZoomRatio();
             $(ui.element.element).css(position);
-            this.largeImage.css({top: -(position.top * ratio), left: -(position.left * ratio)});
+            this.largeImage.css(this._getLargeImageOffset(position));
+        },
+
+        /**
+         * @param {Object} position
+         * @return {Object}
+         * @private
+         */
+        _getLargeImageOffset: function(position) {
+            var ratio = this.getZoomRatio();
+            return {top: -(position.top * ratio), left: -(position.left * ratio)};
         },
 
         /**
@@ -363,6 +373,71 @@
                 within: this.image,
                 using: $.proxy(this._refreshZoom, this)
             });
+        }
+    });
+
+    /**
+     * Extension for zoom widget - white borders detection
+     */
+    $.widget('mage.zoom', $.mage.zoom, {
+        /**
+         * Get aspect ratio of the element
+         * @param {Object} element - jQuery collection
+         * @return {Number}
+         * @protected
+         */
+        _getAspectRatio: function(element) {
+            if (!element || !element.length) {
+                return null;
+            }
+            var width = element.width() || element.prop('width'),
+                height = element.height() || element.prop('height'),
+                aspectRatio = width / height;
+            return Math.round (aspectRatio * 100) / 100;
+        },
+
+        /**
+         * Calculate large image offset depending on enabled "white borders" functionality
+         * @return {Object}
+         * @protected
+         */
+        _getWhiteBordersOffset: function() {
+            var ratio = this.getZoomRatio(),
+                largeWidth = (this.largeImage.width() || this.largeImage.prop('width')) / ratio,
+                largeHeight = (this.largeImage.height() || this.largeImage.prop('height')) / ratio,
+                width = this.image.width() || this.image.prop('width'),
+                height = this.image.height() || this.image.prop('height'),
+                offsetLeft = (width - largeWidth) > 0 ?
+                    Math.ceil((width - largeWidth) / 2) :
+                    0,
+                offsetTop = (height - largeHeight) > 0 ?
+                    Math.ceil((height - largeHeight) / 2) :
+                    0;
+            return {
+                top: offsetTop,
+                left: offsetLeft
+            };
+        },
+
+        /**
+         * @override
+         */
+        _largeImageLoaded: function() {
+            this._super();
+            this.whiteBordersOffset = null;
+            if (this._getAspectRatio(this.image) !== this._getAspectRatio(this.largeImage)) {
+                this.whiteBordersOffset = this._getWhiteBordersOffset();
+            }
+        },
+        /**
+         * @override
+         */
+        _getLargeImageOffset: function(position) {
+            if (this.whiteBordersOffset) {
+                position.top = position.top - this.whiteBordersOffset.top;
+                position.left = position.left - this.whiteBordersOffset.left;
+            }
+            return this._superApply([position]);
         }
     });
 })(jQuery);
