@@ -10,10 +10,10 @@
 <config>
     <type name="Magento\Logging\Model\Event\Changes">
         <param name="skipFields">
-            <value>
-                <updateDate>updated_at</updateDate>
-                <formKey>form_key</formKey>
-            </value>
+            <array>
+                <item key="updateDate"><value>updated_at</value></item>
+                <item key="formKey"><value>form_key</value></item>
+            </array>
         </param>
     </type>
     <type name="Magento\App\ActionInterface">

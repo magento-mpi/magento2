@@ -13,9 +13,9 @@
     </type>
     <type name="Magento\Module\Updater\SetupFactory">
         <param name="resourceTypes">
-            <value>
-                <groupedproduct_setup>Magento\Catalog\Model\Resource\Setup</groupedproduct_setup>
-            </value>
+            <array>
+                <item key="groupedproduct_setup"><value>Magento\Catalog\Model\Resource\Setup</value></item>
+            </array>
         </param>
     </type>
 </config>

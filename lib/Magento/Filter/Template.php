@@ -37,7 +37,7 @@ class Template implements \Zend_Filter_Interface
     /**
      * Include processor
      *
-     * @var array|string|null
+     * @var callable|null
      */
     protected $_includeProcessor = null;
 
@@ -73,8 +73,8 @@ class Template implements \Zend_Filter_Interface
     /**
      * Sets the processor of includes.
      *
-     * @param array $callback it must return string
-     * @return \Magento\Filter\Template
+     * @param callable $callback it must return string
+     * @return $this
      */
     public function setIncludeProcessor(array $callback)
     {
@@ -85,7 +85,7 @@ class Template implements \Zend_Filter_Interface
     /**
      * Sets the processor of includes.
      *
-     * @return array|null
+     * @return callable|null
      */
     public function getIncludeProcessor()
     {
@@ -140,7 +140,7 @@ class Template implements \Zend_Filter_Interface
     }
 
     /**
-     * @param array $construction
+     * @param string[] $construction
      * @return string
      */
     public function varDirective($construction)
@@ -155,7 +155,7 @@ class Template implements \Zend_Filter_Interface
     }
 
     /**
-     * @param array $construction
+     * @param string[] $construction
      * @return mixed
      */
     public function includeDirective($construction)
@@ -176,7 +176,7 @@ class Template implements \Zend_Filter_Interface
     }
 
     /**
-     * @param array $construction
+     * @param string[] $construction
      * @return string
      */
     public function dependDirective($construction)
@@ -194,7 +194,7 @@ class Template implements \Zend_Filter_Interface
     }
 
     /**
-     * @param array $construction
+     * @param string[] $construction
      * @return string
      */
     public function ifDirective($construction)

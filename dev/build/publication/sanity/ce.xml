@@ -416,6 +416,11 @@
             <word>CHANGELOG</word>
         </item>
         <item>
+            <!-- This entry can be removed once the report file below is clean. -->
+            <path>dev/tests/static/report/phpcs_annotations_report.xml</path>
+            <word>CHANGELOG</word>
+        </item>
+        <item>
             <path>static_tests_no_js.xml</path>
             <word>CHANGELOG</word>
         </item>

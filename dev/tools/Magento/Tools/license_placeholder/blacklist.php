@@ -22,6 +22,8 @@ return array(
     'dev/tests/integration/testsuite/Magento/Less/_files/lib/magento_import.less',
     'dev/tests/integration/tmp',
     'dev/tests/static/report',
+    'dev/tests/static/testsuite/Magento/Test/Php/_files/phpcs/Magento/Sniffs/Annotations/'
+        . 'RequireAnnotatedMethodsSniff.php',
     'dev/tests/static/testsuite/Magento/Test/Php/Exemplar/_files/phpcs',
     'dev/tests/static/testsuite/Magento/Test/Php/Exemplar/_files/phpmd/input',
     'dev/tests/static/testsuite/Magento/Test/Php/Exemplar/_files/phpmd_ruleset.xsd',

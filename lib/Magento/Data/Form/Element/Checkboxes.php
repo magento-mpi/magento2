@@ -17,18 +17,20 @@
  */
 namespace Magento\Data\Form\Element;
 
-class Checkboxes extends \Magento\Data\Form\Element\AbstractElement
+use Magento\Escaper;
+
+class Checkboxes extends AbstractElement
 {
     /**
-     * @param \Magento\Data\Form\Element\Factory $factoryElement
-     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
-     * @param \Magento\Escaper $escaper
+     * @param Factory $factoryElement
+     * @param CollectionFactory $factoryCollection
+     * @param Escaper $escaper
      * @param array $data
      */
     public function __construct(
-        \Magento\Data\Form\Element\Factory $factoryElement,
-        \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
-        \Magento\Escaper $escaper,
+        Factory $factoryElement,
+        CollectionFactory $factoryCollection,
+        Escaper $escaper,
         $data = array()
     ) {
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);
@@ -39,7 +41,7 @@ class Checkboxes extends \Magento\Data\Form\Element\AbstractElement
     /**
      * Retrieve allow attributes
      *
-     * @return array
+     * @return string[]
      */
     public function getHtmlAttributes()
     {
@@ -111,6 +113,10 @@ class Checkboxes extends \Magento\Data\Form\Element\AbstractElement
         return $html;
     }
 
+    /**
+     * @param mixed $value
+     * @return string
+     */
     public function getChecked($value)
     {
         if ($checked = $this->getValue()) {
@@ -134,6 +140,10 @@ class Checkboxes extends \Magento\Data\Form\Element\AbstractElement
         return ;
     }
 
+    /**
+     * @param mixed $value
+     * @return string
+     */
     public function getDisabled($value)
     {
         if ($disabled = $this->getData('disabled')) {
@@ -152,6 +162,10 @@ class Checkboxes extends \Magento\Data\Form\Element\AbstractElement
         return ;
     }
 
+    /**
+     * @param mixed $value
+     * @return mixed
+     */
     public function getOnclick($value)
     {
         if ($onclick = $this->getData('onclick')) {
@@ -160,6 +174,10 @@ class Checkboxes extends \Magento\Data\Form\Element\AbstractElement
         return ;
     }
 
+    /**
+     * @param mixed $value
+     * @return mixed
+     */
     public function getOnchange($value)
     {
         if ($onchange = $this->getData('onchange')) {
@@ -176,6 +194,10 @@ class Checkboxes extends \Magento\Data\Form\Element\AbstractElement
 //        return ;
 //    }
 
+    /**
+     * @param array $option
+     * @return string
+     */
     protected function _optionToHtml($option)
     {
         $id = $this->getHtmlId().'_'.$this->_escape($option['value']);

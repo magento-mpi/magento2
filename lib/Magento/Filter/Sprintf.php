@@ -48,7 +48,7 @@ class Sprintf implements \Zend_Filter_Interface
 
     /**
      * @param string $value
-     * @return mixed|string
+     * @return string
      */
     public function filter($value)
     {

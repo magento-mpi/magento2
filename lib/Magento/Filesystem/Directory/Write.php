@@ -65,6 +65,8 @@ class Write extends Read implements WriteInterface
     /**
      * Check if directory is writable
      *
+     * @param string $path
+     * @return void
      * @throws \Magento\Filesystem\FilesystemException
      */
     protected function assertWritable($path)
@@ -79,6 +81,7 @@ class Write extends Read implements WriteInterface
      * Check if given path is exists and is file
      *
      * @param string $path
+     * @return void
      * @throws \Magento\Filesystem\FilesystemException
      */
     protected function assertIsFile($path)
