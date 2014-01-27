@@ -1869,4 +1869,5 @@ return array(
     array('Magento\PageCache\Model\Observer'),
     array('Magento\Config\Dom\Converter\ArrayConverter'),
     array('Magento\Acl\Resource\Config\Dom'),
+    array('Magento\GoogleShopping\Helper\Price', 'Magento\Catalog\Model\Product\CatalogPrice'),
 );
