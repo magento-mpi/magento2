@@ -45,7 +45,7 @@ class Shell implements \Magento\LauncherInterface
     /**
      * Run application
      *
-     * @return int
+     * @return \Magento\App\ResponseInterface
      */
     public function launch()
     {
