@@ -21,11 +21,11 @@
             <value>someCustomValue</value>
         </param>
         <param name="customComplexValue">
-            <value transalte="three" module="Some_Module">
-                <one>one</one>
-                <two>two</two>
-                <three>three</three>
-            </value>
+            <array>
+                <item key="one"><value>one</value></item>
+                <item key="two"><value>two</value></item>
+                <item key="three"><value>three</value></item>
+            </array>
         </param>
         <plugin name="one" type="somePluginOne" sortOrder="800"/>
         <plugin name="two" type="somePluginTwo" sortOrder="20" disabled="true"/>
@@ -45,10 +45,10 @@
             <value>someValue</value>
         </param>
         <param name="customComplexValue">
-            <value transalte="one,two" module="Some_Module">
-                <one>one</one>
-                <two>one</two>
-            </value>
+            <array>
+                <item key="one"><value>one</value></item>
+                <item key="two"><value>one</value></item>
+            </array>
         </param>
         <plugin name="one" type="somePluginOne" sortOrder="800" />
         <plugin name="two" type="somePluginTwo" sortOrder="20" disabled="true"/>
@@ -58,16 +58,17 @@
         <param name="cacheIdPrefix"><value><![CDATA[collection_]]></value></param>
         <param name="cacheLifetime"><value>86400</value></param>
         <param name="cacheTags">
-            <value>
-                <const type='const'>Magento\Core\Model\Website::CACHE_TAG</const>
-                <boolFalse type='bool'>1</boolFalse>
-                <boolTrue type='int'>10</boolTrue>
-                <boolOne type='string' pattern="[0-9]*">1</boolOne>
-                <boolZero type='bool'>0</boolZero>
-                <intValue type='int'>100500</intValue>
-                <nullValue type='null' />
-                <stringPattern type='string' pattern="[a-zA-Z\-]*">Az-Value</stringPattern>
-            </value>
+            <array>
+                <item key="const"><value type="const">Magento\Core\Model\Website::CACHE_TAG</value></item>
+                <item key="boolFalse"><value type="bool">1</value></item>
+                <item key="boolTrue"><value type="int">10</value></item>
+                <item key="boolOne"><value type="string" pattern="[0-9]*">1</value></item>
+                <item key="boolZero"><value type="bool">0</value></item>
+                <item key="intValue"><value type="int">100500</value></item>
+                <item key="nullValue"><value type="null"/>
+                </item>
+                <item key="stringPattern"><value type="string" pattern="[a-zA-Z\-]*">Az-Value</value></item>
+            </array>
         </param>
         <param name="constParam">
             <value type='const'>Magento\Core\Model\Website::CACHE_TAG</value>

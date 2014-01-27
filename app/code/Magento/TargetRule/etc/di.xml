@@ -20,9 +20,9 @@
     </type>
     <type name="Magento\Module\Updater\SetupFactory">
         <param name="resourceTypes">
-            <value>
-                <targetrule_setup>Magento\TargetRule\Model\Resource\Setup</targetrule_setup>
-            </value>
+            <array>
+                <item key="targetrule_setup"><value>Magento\TargetRule\Model\Resource\Setup</value></item>
+            </array>
         </param>
     </type>
 </config>

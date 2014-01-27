@@ -27,8 +27,8 @@ class Memcached
     /**
      * Constructor
      *
-     * @throws \Magento\Exception
      * @param array $options @see \Zend_Cache_Backend_Memcached::__construct()
+     * @throws \Magento\Exception
      */
     public function __construct(array $options = array())
     {
@@ -78,8 +78,8 @@ class Memcached
      *
      * @param string $data             @see \Zend_Cache_Backend_Memcached::save()
      * @param string $id               @see \Zend_Cache_Backend_Memcached::save()
-     * @param array  $tags             @see \Zend_Cache_Backend_Memcached::save()
-     * @param bool   $specificLifetime @see \Zend_Cache_Backend_Memcached::save()
+     * @param string[] $tags           @see \Zend_Cache_Backend_Memcached::save()
+     * @param bool $specificLifetime   @see \Zend_Cache_Backend_Memcached::save()
      * @return bool
      */
     public function save($data, $id, $tags = array(), $specificLifetime = false)
