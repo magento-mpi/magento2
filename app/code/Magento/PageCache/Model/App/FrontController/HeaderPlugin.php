@@ -18,7 +18,7 @@ class HeaderPlugin
     protected $layout;
 
     /**
-     * @var \Magento\Core\Model\ConfigInterface
+     * @var \Magento\App\ConfigInterface
      */
     protected $config;
 
@@ -26,11 +26,11 @@ class HeaderPlugin
      * Constructor
      *
      * @param \Magento\Core\Model\Layout $layout
-     * @param \Magento\Core\Model\ConfigInterface $config
+     * @param \Magento\App\ConfigInterface $config
      */
     public function __construct(
         \Magento\Core\Model\Layout $layout,
-        \Magento\Core\Model\ConfigInterface $config
+        \Magento\App\ConfigInterface $config
     ){
         $this->layout = $layout;
         $this->config = $config;

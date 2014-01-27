@@ -52,7 +52,6 @@ class Rcompared
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Data\CollectionFactory $collectionFactory
      * @param \Magento\Core\Model\Registry $coreRegistry
@@ -67,7 +66,6 @@ class Rcompared
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Url $urlModel,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Data\CollectionFactory $collectionFactory,
         \Magento\Core\Model\Registry $coreRegistry,
@@ -83,7 +81,7 @@ class Rcompared
         $this->_adminhtmlSales = $adminhtmlSales;
         $this->_productFactory = $productFactory;
         $this->_compareListFactory = $compareListFactory;
-        parent::__construct($context, $urlModel, $backendHelper, $collectionFactory, $coreRegistry, $data);
+        parent::__construct($context, $backendHelper, $collectionFactory, $coreRegistry, $data);
     }
 
     /**

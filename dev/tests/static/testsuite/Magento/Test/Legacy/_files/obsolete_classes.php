@@ -581,7 +581,7 @@ return array(
         'Magento\Backend\Model\Config\Source\Yesnocustom'
     ),
     array('Mage_Adminhtml_Model_System_Store', 'Magento\Core\Model\System\Store'),
-    array('Mage_Adminhtml_Model_Url', 'Magento\Backend\Model\Url'),
+    array('Mage_Adminhtml_Model_Url', 'Magento\Backend\Model\UrlInterface'),
     array('Mage_Adminhtml_Rss_CatalogController'),
     array('Mage_Adminhtml_Rss_OrderController'),
     array('Mage_Adminhtml_SystemController', 'Magento\Backend\Controller\Adminhtml\System'),
@@ -1786,6 +1786,7 @@ return array(
     array('Magento\Catalog\Model\Resource\Convert'),
     array('Magento\Reminder\Model\Resource\HelperFactory'),
     array('Magento\Reminder\Model\Resource\Helper'),
+    array('Magento\Core\Model\ConfigInterface', 'Magento\App\ConfigInterface'),
     array('Magento\CatalogRule\Block\Adminhtml\Promo\Widget\Chooser'),
     array(
         'Magento\Catalog\Model\Product\Type\Grouped\Backend',
@@ -1842,4 +1843,6 @@ return array(
     array('Magento\PageCache\Model\System\Config\Source\Controls'),
     array('Magento\PageCache\Model\CacheControlFactory'),
     array('Magento\PageCache\Model\Observer'),
+    array('Magento\Config\Dom\Converter\ArrayConverter'),
+    array('Magento\Acl\Resource\Config\Dom'),
 );

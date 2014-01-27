@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <update handle="indexer_indexer_list_grid"/>
+    <referenceContainer name="content">
+        <block class="Magento\Indexer\Block\Backend\Container" name="adminhtml.indexer.grid.container"/>
+    </referenceContainer>
+</layout>

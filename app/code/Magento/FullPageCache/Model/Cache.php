@@ -24,7 +24,7 @@ class Cache extends \Magento\App\Cache
     /**
      * @var string
      */
-    protected $_frontendIdentifier = \Magento\FullPageCache\Model\Cache\Type::TYPE_IDENTIFIER;
+    protected $_frontendIdentifier = 'full_page_cache';
 
     /**
      * @param \Magento\App\Cache\Frontend\Pool $frontendPool

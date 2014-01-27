@@ -7,49 +7,61 @@
  * @license    {license_link}
  */
 -->
-<!-- Basic configuration for Magento application framework. -->
 <config>
     <install>
-        <!-- Date of installation. Its validity indicates whether an application is installed or not. -->
         <date>{{date}}</date>
     </install>
     <crypt>
-        <!-- Cryptography key, used to encrypt sensitive informatoni. -->
         <key>{{key}}</key>
     </crypt>
     <db>
-        <!-- A prefix to use for names of Magento tables in DB. Helps to avoid table name conflicts, if other
-            applications use same database for storing their own tables. Can be empty. -->
         <table_prefix>{{db_prefix}}</table_prefix>
     </db>
     <connection name="default">
-        <!-- Endpoint to connect to DB backend. For MySQL it can be IP (e.g. 127.0.0.1), domain with
-            optional port (e.g. mysql.example.com or mysql.example.com:3306) or unix socket
-            (e.g. /var/lib/mysql/mysql.sock). -->
         <host>{{db_host}}</host>
-        <!-- MySQL unix socket as endpoint to DB backend. If used instead of '<host>', then remove
-            the latter one. -->
-        <!-- <unix_socket><![CDATA[/var/lib/mysql/mysql.sock]]></unix_socket> -->
         <username>{{db_user}}</username>
         <password>{{db_pass}}</password>
         <dbName>{{db_name}}</dbName>
-        <!-- Database statements to be executed at DB backend upon connection establishment.
-            For MySQL multiple statements can be entered, if separated with a semicolon. -->
         <initStatements>{{db_init_statements}}</initStatements>
-        <!-- DB model layer. Used to determine names of resource helpers and
-            specific installs/upgrades for a DB vendor. -->
         <model>{{db_model}}</model>
         <adapter>Magento\Core\Model\Resource\Type\Db\Pdo\Mysql</adapter>
-        <!-- Connection activation. Default connection is last level of fallback, thus
-            it must be always left active.  -->
         <active>1</active>
     </connection>
+    <cache>
+        <frontend name="default">
+            <backend>Magento\Cache\Backend\Memcached</backend>
+            <backend_options>
+                <servers>
+                    <server>
+                        <host>{{memcache_host}}</host>
+                        <port>{{memcache_port}}</port>
+                    </server>
+                </servers>
+                <compression>0</compression>
+                <slab_size>1048576</slab_size>
+            </backend_options>
+        </frontend>
+        <type name="full_page" frontend="default"/>
+        <!-- @todo Remove duplication of the FPC configuration once MAGETWO-7978 is implemented -->
+        <frontend name="full_page_cache">
+            <backend>Magento\Cache\Backend\Memcached</backend>
+            <backend_options>
+                <servers>
+                    <server>
+                        <host>{{memcache_host}}</host>
+                        <port>{{memcache_port}}</port>
+                    </server>
+                </servers>
+                <compression>0</compression>
+                <slab_size>1048576</slab_size>
+            </backend_options>
+        </frontend>
+    </cache>
     <resource name="default_setup" connection="default"/>
     <session_save><![CDATA[memcache]]></session_save>
     <session_save_path><![CDATA[tcp://{{memcache_host}}:{{memcache_port}}?persistent=1&weight=2&timeout=10&retry_interval=10]]></session_save_path>
     <session_cache_limiter><![CDATA[nocache]]></session_cache_limiter>
     <backend>
-        <!-- Routing path of a backend area. Any string like 'backend', 'admin' or whatsoever. -->
         <frontName>{{backend_frontname}}</frontName>
     </backend>
 </config>

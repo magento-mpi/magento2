@@ -17,6 +17,9 @@
 
 namespace Magento\Invitation\Controller\Adminhtml\Report;
 
+use Magento\App\ViewInterface;
+use Magento\App\ResponseInterface;
+
 class Invitation extends \Magento\Backend\App\Action
 {
     /**
@@ -49,7 +52,7 @@ class Invitation extends \Magento\Backend\App\Action
     /**
      * Init action breadcrumbs
      *
-     * @return \Magento\Invitation\Controller\Adminhtml\Report\Invitation
+     * @return $this
      */
     public function _initAction()
     {
@@ -67,6 +70,8 @@ class Invitation extends \Magento\Backend\App\Action
 
     /**
      * General report action
+     *
+     * @return ViewInterface
      */
     public function indexAction()
     {
@@ -81,6 +86,8 @@ class Invitation extends \Magento\Backend\App\Action
 
     /**
      * Export invitation general report grid to CSV format
+     *
+     * @return ResponseInterface
      */
     public function exportCsvAction()
     {
@@ -93,6 +100,8 @@ class Invitation extends \Magento\Backend\App\Action
 
     /**
      * Export invitation general report grid to Excel XML format
+     *
+     * @return ResponseInterface
      */
     public function exportExcelAction()
     {
@@ -109,6 +118,8 @@ class Invitation extends \Magento\Backend\App\Action
 
     /**
      * Report by customers action
+     *
+     * @return  ViewInterface
      */
     public function customerAction()
     {
@@ -123,6 +134,8 @@ class Invitation extends \Magento\Backend\App\Action
 
     /**
      * Export invitation customer report grid to CSV format
+     *
+     * @return ResponseInterface
      */
     public function exportCustomerCsvAction()
     {
@@ -135,6 +148,8 @@ class Invitation extends \Magento\Backend\App\Action
 
     /**
      * Export invitation customer report grid to Excel XML format
+     *
+     * @return ResponseInterface
      */
     public function exportCustomerExcelAction()
     {
@@ -151,6 +166,8 @@ class Invitation extends \Magento\Backend\App\Action
 
     /**
      * Report by order action
+     *
+     * @return ViewInterface
      */
     public function orderAction()
     {
@@ -164,6 +181,8 @@ class Invitation extends \Magento\Backend\App\Action
 
     /**
      * Export invitation order report grid to CSV format
+     *
+     * @return ResponseInterface
      */
     public function exportOrderCsvAction()
     {
@@ -176,6 +195,8 @@ class Invitation extends \Magento\Backend\App\Action
 
     /**
      * Export invitation order report grid to Excel XML format
+     *
+     * @return ResponseInterface
      */
     public function exportOrderExcelAction()
     {

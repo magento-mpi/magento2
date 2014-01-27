@@ -34,7 +34,7 @@ class Account extends \Magento\Customer\Controller\Account
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Core\Model\UrlFactory $urlFactory
+     * @param \Magento\UrlFactory $urlFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Customer\Model\FormFactory $formFactory
      * @param \Magento\Customer\Model\AddressFactory $addressFactory
@@ -49,7 +49,7 @@ class Account extends \Magento\Customer\Controller\Account
         \Magento\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Core\Model\UrlFactory $urlFactory,
+        \Magento\UrlFactory $urlFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Customer\Model\FormFactory $formFactory,
         \Magento\Customer\Model\AddressFactory $addressFactory,
@@ -122,6 +122,8 @@ class Account extends \Magento\Customer\Controller\Account
 
     /**
      * Customer register form page
+     *
+     * @return void
      */
     public function createAction()
     {
@@ -139,6 +141,8 @@ class Account extends \Magento\Customer\Controller\Account
 
     /**
      * Create customer account action
+     *
+     * @return void
      */
     public function createPostAction()
     {
@@ -198,7 +202,7 @@ class Account extends \Magento\Customer\Controller\Account
     /**
      * @param \Magento\Customer\Model\Customer $customer
      * @param mixed $key
-     * @return bool|null
+     * @return true|void
      * @throws \Exception
      */
     protected function _checkCustomerActive($customer, $key)
@@ -218,6 +222,8 @@ class Account extends \Magento\Customer\Controller\Account
 
     /**
      * Confirm customer account by id and confirmation key
+     *
+     * @return void
      */
     public function confirmAction()
     {
@@ -251,6 +257,7 @@ class Account extends \Magento\Customer\Controller\Account
     /**
      * @param \Magento\Customer\Model\Customer $customer
      * @param string $email
+     * @return void
      */
     protected function _confirmByEmail($customer, $email)
     {
