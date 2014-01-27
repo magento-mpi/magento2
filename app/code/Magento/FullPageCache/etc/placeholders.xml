@@ -26,7 +26,9 @@
     </placeholder>
     <placeholder name="cart_sidebar" code="CART_SIDEBAR" cacheLifeTime="86400">
         <container instance="Magento\FullPageCache\Model\Container\Sidebar\Cart" />
-        <block instance="Magento\Checkout\Block\Cart\Sidebar"/>
+        <block instance="Magento\Checkout\Block\Cart\Sidebar">
+            <block class="Magento\View\Element\RendererList" as="renderer.list" />
+        </block>
     </placeholder>
     <placeholder name="compare_list_sidebar" code="COMPARELIST_SIDEBAR" cacheLifeTime="86400">
         <container instance="Magento\FullPageCache\Model\Container\Sidebar\Comparelist" />

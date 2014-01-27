@@ -40,7 +40,10 @@ class AbstractItems extends \Magento\View\Element\Template
         if (!$rendererList) {
             throw new \RuntimeException('Renderer list for block "' . $this->getNameInLayout() . '" is not defined');
         }
-        return $rendererList->getRenderer($type, self::DEFAULT_TYPE, $this->getRendererTemplate());
+        $overriddenTemplates = $this->getOverriddenTemplates() ?: array();
+        $template = isset($overriddenTemplates[$type]) ? $overriddenTemplates[$type] : $this->getRendererTemplate();
+        $renderer = $rendererList->getRenderer($type, self::DEFAULT_TYPE, $template);
+        return $renderer;
     }
 
     /**
