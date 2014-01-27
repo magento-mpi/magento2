@@ -22,55 +22,19 @@ namespace Magento\PageCache\Model\Decorator;
  */
 class Layout extends \Magento\Core\Model\Layout
 {
-
     /**
      * Gets HTML of block element
      *
-     * @param string $name
+     * @param \Magento\View\Element\AbstractBlock|bool $block
      * @return string
      * @throws \Magento\Exception
      */
-    protected function _renderBlock($name)
+    protected function _renderBlock($block)
     {
-        $block = $this->getBlock($name);
-        return $this->_toHtmlWithCacheContainer($block);
-    }
-
-    /**
-     * @param $namespace
-     * @param $staticType
-     * @param $dynamicType
-     * @param $data
-     */
-    public function executeRenderer($namespace, $staticType, $dynamicType, $data = array())
-    {
-        if ($options = $this->getRendererOptions($namespace, $staticType, $dynamicType)) {
-            $dictionary = array();
-            /** @var $block \Magento\View\Element\Template */
-            $block = $this->createBlock($options['type'], '')
-                ->setData($data)
-                ->assign($dictionary)
-                ->setTemplate($options['template'])
-                ->assign($data);
-
-            echo $this->_toHtmlWithCacheContainer($block);
+        $html = parent::_renderBlock($block);
+        if ($block instanceof \Magento\View\Element\AbstractBlock && $block->isScopePrivate()) {
+            $html = sprintf('<!-- BLOCK %1$s -->%2$s<!-- /BLOCK %1$s -->', $block->getNameInLayout(), $html);
         }
-    }
-
-    /**
-     * @param \Magento\View\Element\AbstractBlock $block
-     * @return string
-     */
-    private function _toHtmlWithCacheContainer($block)
-    {
-        if ($block) {
-            if ($block->isScopePrivate()) {
-                $name = $block->getNameInLayout();
-                return '<!-- BLOCK ' . $name . ' -->' . $block->toHtml() . '<!-- /BLOCK ' . $name . ' -->';
-            } else {
-                return $block->toHtml();
-            }
-        }
-        return '';
+        return $html;
     }
 }

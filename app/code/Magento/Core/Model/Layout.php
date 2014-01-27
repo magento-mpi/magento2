@@ -1049,7 +1049,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     {
         if (!isset($this->_renderElementCache[$name]) || !$useCache) {
             if ($this->isBlock($name)) {
-                $result = $this->_renderBlock($name);
+                $result = $this->_renderBlock($this->getBlock($name));
             } else {
                 $result = $this->_renderContainer($name);
             }
@@ -1067,13 +1067,12 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     /**
      * Gets HTML of block element
      *
-     * @param string $name
+     * @param \Magento\View\Element\AbstractBlock|bool $block
      * @return string
      * @throws \Magento\Exception
      */
-    protected function _renderBlock($name)
+    protected function _renderBlock($block)
     {
-        $block = $this->getBlock($name);
         return $block ? $block->toHtml() : '';
     }
 
@@ -1553,7 +1552,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
                 ->setTemplate($options['template'])
                 ->assign($data);
 
-            echo $block->toHtml();
+            echo $this->_renderBlock($block);
         }
     }
 
