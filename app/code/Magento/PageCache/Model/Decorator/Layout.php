@@ -12,13 +12,6 @@ namespace Magento\PageCache\Model\Decorator;
 
 /**
  * Layout model
- *
- * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
- * @SuppressWarnings(PHPMD.TooManyFields)
- * @SuppressWarnings(PHPMD.ExcessivePublicCount)
- * @SuppressWarnings(PHPMD.TooManyMethods)
- * @SuppressWarnings(PHPMD.ExcessiveParameterList)
  */
 class Layout extends \Magento\Core\Model\Layout
 {
