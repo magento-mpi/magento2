@@ -25,6 +25,7 @@
   * Restored ability to configure cache storage in `local.xml`
   * Fixed broken css\js merging functionality
   * Fixed an issue with insert image in WYSIWYG editor where selected folder was stored in session
+  * Fixed an issue with CMS Page Links not being shown due to empty text in the link
 * Removed the deprecated service-calls and data source functionality
 * AppInterface has been renamed to LauncherInterface
 * Removed reinit logic from Config object
