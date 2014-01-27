@@ -18,10 +18,10 @@ interface CatalogPriceInterface
      *
      * @param \Magento\Catalog\Model\Product $product
      * @param null|\Magento\Core\Model\Store $store Store view
-     * @param \bool $inclTax
+     * @param bool $inclTax
      * @return null|float
      */
-    public function getCatalogPrice(\Magento\Catalog\Model\Product $product, $store = null, \bool $inclTax = false);
+    public function getCatalogPrice(\Magento\Catalog\Model\Product $product, $store = null, $inclTax = false);
 
     /**
      * Calculate price without discount for external catalogs if applicable

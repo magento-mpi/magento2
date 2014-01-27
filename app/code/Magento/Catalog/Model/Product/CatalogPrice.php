@@ -41,10 +41,10 @@ class CatalogPrice implements CatalogPriceInterface
      *
      * @param \Magento\Catalog\Model\Product $product
      * @param null|\Magento\Core\Model\Store $store Store view
-     * @param \bool $inclTax
+     * @param bool $inclTax
      * @return null|float
      */
-    public function getCatalogPrice(\Magento\Catalog\Model\Product $product, $store = null, \bool $inclTax = false)
+    public function getCatalogPrice(\Magento\Catalog\Model\Product $product, $store = null, $inclTax = false)
     {
         if (array_key_exists($product->getTypeId(), $this->typePool)) {
             $catalogPriceModel = $this->objectManager->get($this->typePool[$product->getTypeId()]);
