@@ -49,38 +49,23 @@ class Version
 
     public function __construct(
         \Magento\Stdlib\Cookie $cookie,
-        \Magento\App\RequestInterface $request
+        \Magento\App\Request\Http $request
     ) {
         $this->cookie = $cookie;
         $this->request = $request;
     }
 
     /**
-     * Retrieve content version.
-     * Returns false if cookie is not set
-     *
-     * @return string|bool
-     */
-    private function get()
-    {
-        return $this->cookie->get(self::COOKIE_NAME);
-    }
-
-    /**
-     * Set base private content version cookie (for new users)
+     * Increment private content version cookie (for user to pull new private content)
      */
     private function set()
     {
-        $this->cookie->set(self::COOKIE_NAME, 0, self::COOKIE_PERIOD, '/');
+        $this->cookie->set(self::COOKIE_NAME, $this->generateValue(), self::COOKIE_PERIOD, '/');
     }
 
-    /**
-     * Increment private content version cookie (for user to pull new private content)
-     */
-    private function increment()
+    private function generateValue()
     {
-        $newVersion = 1 + $this->cookie->get(self::COOKIE_NAME);
-        $this->cookie->set(self::COOKIE_NAME, $newVersion, self::COOKIE_PERIOD, '/');
+        return md5(rand() . time());
     }
 
     /**
@@ -91,12 +76,8 @@ class Version
      */
     public function process()
     {
-        if (false === $this->get()) {
-            $this->set();
-        } else {
-            if ($this->request->isPost()) {
-                $this->increment();
-            }
+        if ($this->request->isPost()) {
+                $this->set();
         }
     }
 }

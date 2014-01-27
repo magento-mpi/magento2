@@ -9,7 +9,8 @@
 <?php
     $params = array(
         'url' => $this->getUrl('page_cache/block/render/'),
-        'handles' => $this->getLayout()->getUpdate()->getHandles()
+        'handles' => $this->getLayout()->getUpdate()->getHandles(),
+        'versionCookieName' => \Magento\PageCache\Model\Version::COOKIE_NAME
     );
 ?>
 <script type="text/javascript">
