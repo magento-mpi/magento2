@@ -41,6 +41,18 @@ class Date extends \Magento\CustomAttribute\Block\Form\Renderer\AbstractRenderer
     protected $_dateRange = null;
 
     /**
+     * @param \Magento\View\Element\Template\Context $context
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\View\Element\Template\Context $context,
+        array $data = array()
+    ) {
+        parent::__construct($context, $data);
+        $this->_isScopePrivate = true;
+    }
+
+    /**
      * Returns format which will be applied for date field in javascript
      *
      * @return string

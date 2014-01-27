@@ -12,9 +12,6 @@
         <param name="cart">
             <instance type="Magento\AdvancedCheckout\Model\Cart\Proxy" />
         </param>
-        <param name="url">
-            <instance type="Magento\Core\Model\Url\Proxy" />
-        </param>
         <param name="catalogConfig">
             <instance type="Magento\Catalog\Model\Config\Proxy" />
         </param>

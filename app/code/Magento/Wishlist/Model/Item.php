@@ -113,7 +113,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * @var \Magento\Wishlist\Model\Resource\Item\Option\CollectionFactory
      */
-    protected $_wishlOptCollFactory;
+    protected $_wishlOptionCollectionFactory;
 
     /**
      * @var \Magento\Catalog\Model\ProductTypes\ConfigInterface
@@ -128,7 +128,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Model\Resource\Url $catalogUrl
      * @param Item\OptionFactory $wishlistOptFactory
-     * @param Resource\Item\Option\CollectionFactory $wishlOptCollFactory
+     * @param Resource\Item\Option\CollectionFactory $wishlOptionCollectionFactory
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -142,7 +142,7 @@ class Item extends \Magento\Core\Model\AbstractModel
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Model\Resource\Url $catalogUrl,
         \Magento\Wishlist\Model\Item\OptionFactory $wishlistOptFactory,
-        \Magento\Wishlist\Model\Resource\Item\Option\CollectionFactory $wishlOptCollFactory,
+        \Magento\Wishlist\Model\Resource\Item\Option\CollectionFactory $wishlOptionCollectionFactory,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
@@ -154,7 +154,7 @@ class Item extends \Magento\Core\Model\AbstractModel
         $this->_productFactory = $productFactory;
         $this->_catalogUrl = $catalogUrl;
         $this->_wishlistOptFactory = $wishlistOptFactory;
-        $this->_wishlOptCollFactory = $wishlOptCollFactory;
+        $this->_wishlOptionCollectionFactory = $wishlOptionCollectionFactory;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -766,7 +766,7 @@ class Item extends \Magento\Core\Model\AbstractModel
             return $this;
         }
 
-        $options = $this->_wishlOptCollFactory->create()->addItemFilter($this);
+        $options = $this->_wishlOptionCollectionFactory->create()->addItemFilter($this);
         if ($optionsFilter) {
             $options->addFieldToFilter('code', $optionsFilter);
         }

@@ -27,7 +27,6 @@ class Grid
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Sales\Model\Resource\Order\Collection\Factory $collectionFactory
      * @param \Magento\Core\Helper\Url $coreUrl
@@ -35,14 +34,13 @@ class Grid
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Url $urlModel,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Sales\Model\Resource\Order\Collection\Factory $collectionFactory,
         \Magento\Core\Helper\Url $coreUrl,
         array $data = array()
     ) {
         $this->_coreUrl = $coreUrl;
-        parent::__construct($context, $urlModel, $backendHelper, $collectionFactory, $data);
+        parent::__construct($context, $backendHelper, $collectionFactory, $data);
     }
 
     public function _construct()

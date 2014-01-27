@@ -38,10 +38,10 @@ class ImportTest extends \PHPUnit_Framework_TestCase
         $indexer = $this->getMock('Magento\Index\Model\Indexer', array(), array(), '', false);
         $this->_model = new \Magento\ScheduledImportExport\Model\Import(
             $logger,
-            $this->getMock('Magento\Filesystem', array(), array(), '', false),
+            $this->getMock('Magento\App\Filesystem', array(), array(), '', false),
             $this->getMock('Magento\Core\Model\Log\AdapterFactory', array(), array(), '', false),
             $this->getMock('Magento\ImportExport\Helper\Data', array(), array(), '', false),
-            $this->getMock('Magento\Core\Model\Config', array(), array(), '', false),
+            $this->getMock('Magento\App\ConfigInterface', array(), array(), '', false),
             $this->_importConfigMock,
             $this->getMock('Magento\ImportExport\Model\Import\Entity\Factory', array(), array(), '', false),
             $this->getMock('Magento\ImportExport\Model\Resource\Import\Data', array(), array(), '', false),

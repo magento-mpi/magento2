@@ -169,6 +169,7 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
             $data,
             $priceBlockTypes
         );
+        $this->_isScopePrivate = true;
     }
 
     /**

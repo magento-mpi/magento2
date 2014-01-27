@@ -31,7 +31,6 @@ class History
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\GiftCardAccount\Model\HistoryFactory $historyFactory
@@ -39,14 +38,13 @@ class History
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Url $urlModel,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\GiftCardAccount\Model\HistoryFactory $historyFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($context, $urlModel, $backendHelper, $data);
+        parent::__construct($context, $backendHelper, $data);
         $this->_historyFactory = $historyFactory;
     }
 

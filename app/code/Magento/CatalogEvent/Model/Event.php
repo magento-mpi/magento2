@@ -68,7 +68,7 @@ class Event extends \Magento\Core\Model\AbstractModel
     /**
      * Filesystem facade
      *
-     * @var \Magento\Filesystem
+     * @var \Magento\App\Filesystem
      */
     protected $_filesystem;
 
@@ -90,7 +90,7 @@ class Event extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\CatalogEvent\Model\Resource\Event $resource
@@ -101,7 +101,7 @@ class Event extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\Filesystem $filesystem,
+        \Magento\App\Filesystem $filesystem,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\CatalogEvent\Model\Resource\Event $resource = null,
@@ -209,7 +209,7 @@ class Event extends \Magento\Core\Model\AbstractModel
         //in the current version should be used instance of \Magento\Core\Model\File\Uploader
         if ($value instanceof \Magento\File\Uploader) {
             $value->save(
-                $this->_filesystem->getDirectoryRead(\Magento\Filesystem::MEDIA)->getAbsolutePath(self::IMAGE_PATH)
+                $this->_filesystem->getDirectoryRead(\Magento\App\Filesystem::MEDIA_DIR)->getAbsolutePath(self::IMAGE_PATH)
             );
             $value = $value->getUploadedFileName();
         }
@@ -226,7 +226,7 @@ class Event extends \Magento\Core\Model\AbstractModel
     public function getImageUrl()
     {
         if ($this->getImage()) {
-            return $this->_storeManager->getStore()->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_MEDIA) . '/'
+            return $this->_storeManager->getStore()->getBaseUrl(\Magento\UrlInterface::URL_TYPE_MEDIA) . '/'
                    . self::IMAGE_PATH . '/' . $this->getImage();
         }
 

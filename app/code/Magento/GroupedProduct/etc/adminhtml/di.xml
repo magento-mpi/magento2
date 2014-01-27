@@ -17,9 +17,9 @@
     </type>
     <type name="Magento\Catalog\Model\Product\CopyConstructor\Composite">
         <param name="constructors">
-            <value>
-                <grouped>Magento\GroupedProduct\Model\Product\CopyConstructor\Grouped</grouped>
-            </value>
+            <array>
+                <item key="grouped"><value>Magento\GroupedProduct\Model\Product\CopyConstructor\Grouped</value></item>
+            </array>
         </param>
     </type>
     <type name="Magento\Sales\Model\AdminOrder\Product\Quote\Initializer">

@@ -66,7 +66,7 @@ class Encryptor implements EncryptorInterface
      * string
      *
      * @param string $password
-     * @param mixed $salt
+     * @param bool|int|string $salt
      * @return string
      */
     public function getHash($password, $salt = false)

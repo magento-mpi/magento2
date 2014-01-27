@@ -114,7 +114,7 @@ class Item
     protected $_menuFactory;
 
     /**
-     * @var \Magento\Backend\Model\Url
+     * @var \Magento\Backend\Model\UrlInterface
      */
     protected $_urlModel;
 
@@ -152,7 +152,7 @@ class Item
      * @param \Magento\AuthorizationInterface $authorization
      * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\Backend\Model\MenuFactory $menuFactory
-     * @param \Magento\Backend\Model\Url $urlModel
+     * @param \Magento\Backend\Model\UrlInterface $urlModel
      * @param \Magento\Module\ModuleListInterface $moduleList
      * @param \Magento\Module\Manager $moduleManager
      * @param array $data
@@ -162,7 +162,7 @@ class Item
         \Magento\AuthorizationInterface $authorization,
         \Magento\Core\Model\Store\Config $storeConfig,
         \Magento\Backend\Model\MenuFactory $menuFactory,
-        \Magento\Backend\Model\Url $urlModel,
+        \Magento\Backend\Model\UrlInterface $urlModel,
         \Magento\Module\ModuleListInterface $moduleList,
         \Magento\Module\Manager $moduleManager,
         array $data = array()
@@ -475,7 +475,7 @@ class Item
         $this->_acl = $objectManager->get('Magento\AuthorizationInterface');
         $this->_storeConfig = $objectManager->get('Magento\Core\Model\Store\Config');
         $this->_menuFactory = $objectManager->get('Magento\Backend\Model\MenuFactory');
-        $this->_urlModel = $objectManager->get('Magento\Backend\Model\Url');
+        $this->_urlModel = $objectManager->get('Magento\Backend\Model\UrlInterface');
         $this->_moduleList = $objectManager->get('Magento\Module\ModuleListInterface');
         if ($this->_serializedSubmenu) {
             $this->_submenu = $this->_menuFactory->create();

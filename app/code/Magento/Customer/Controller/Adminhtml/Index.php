@@ -309,7 +309,7 @@ class Index extends \Magento\Backend\App\Action
             $newPasswordToken = $this->_objectManager->get('Magento\Customer\Helper\Data')
                 ->generateResetPasswordLinkToken();
             $customer->changeResetPasswordLinkToken($newPasswordToken);
-            $resetUrl = $this->_objectManager->create('Magento\Core\Model\Url')
+            $resetUrl = $this->_objectManager->create('Magento\UrlInterface')
                 ->getUrl('customer/account/createPassword', array(
                         '_query' => array('id' => $customer->getId(), 'token' => $newPasswordToken),
                         '_store' => $customer->getStoreId()
@@ -458,7 +458,7 @@ class Index extends \Magento\Backend\App\Action
         $fileName = 'customers.csv';
         $content = $this->_view->getLayout()->createBlock('Magento\Customer\Block\Adminhtml\Grid')->getCsvFile();
 
-        return $this->_fileFactory->create($fileName, $content, \Magento\Filesystem::VAR_DIR);
+        return $this->_fileFactory->create($fileName, $content, \Magento\App\Filesystem::VAR_DIR);
     }
 
     /**
@@ -468,7 +468,7 @@ class Index extends \Magento\Backend\App\Action
     {
         $fileName = 'customers.xml';
         $content = $this->_view->getLayout()->createBlock('Magento\Customer\Block\Adminhtml\Grid')->getExcelFile();
-        return $this->_fileFactory->create($fileName, $content, \Magento\Filesystem::VAR_DIR);
+        return $this->_fileFactory->create($fileName, $content, \Magento\App\Filesystem::VAR_DIR);
     }
 
     /**
@@ -835,9 +835,9 @@ class Index extends \Magento\Backend\App\Action
             throw new NotFoundException();
         }
 
-        /** @var \Magento\Filesystem $filesystem */
-        $filesystem = $this->_objectManager->get('Magento\Filesystem');
-        $directory = $filesystem->getDirectoryRead(\Magento\Filesystem::MEDIA);
+        /** @var \Magento\App\Filesystem $filesystem */
+        $filesystem = $this->_objectManager->get('Magento\App\Filesystem');
+        $directory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::MEDIA_DIR);
         $fileName = 'customer' . '/' . ltrim($file, '/');
         $path = $directory->getAbsolutePath($fileName);
         if (!$directory->isFile($fileName)
@@ -885,7 +885,7 @@ class Index extends \Magento\Backend\App\Action
                     'type'  => 'filename',
                     'value' => $fileName
                 ),
-                \Magento\Filesystem::MEDIA
+                \Magento\App\Filesystem::MEDIA_DIR
             )->sendResponse();
         }
 

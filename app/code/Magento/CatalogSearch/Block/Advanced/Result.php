@@ -22,7 +22,7 @@ class Result extends \Magento\View\Element\Template
     /**
      * Url factory
      *
-     * @var \Magento\Core\Model\UrlFactory
+     * @var \Magento\UrlFactory
      */
     protected $_urlFactory;
 
@@ -44,14 +44,14 @@ class Result extends \Magento\View\Element\Template
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\CatalogSearch\Model\Advanced $catalogSearchAdvanced
      * @param \Magento\Catalog\Model\Layer $catalogLayer
-     * @param \Magento\Core\Model\UrlFactory $urlFactory
+     * @param \Magento\UrlFactory $urlFactory
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\CatalogSearch\Model\Advanced $catalogSearchAdvanced,
         \Magento\Catalog\Model\Layer $catalogLayer,
-        \Magento\Core\Model\UrlFactory $urlFactory,
+        \Magento\UrlFactory $urlFactory,
         array $data = array()
     ) {
         $this->_catalogSearchAdvanced = $catalogSearchAdvanced;

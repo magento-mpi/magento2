@@ -17,6 +17,9 @@ namespace Magento\File\Transfer\Adapter;
 
 class Http
 {
+    /**
+     * @var array
+     */
     protected $_mimeTypes = array(
         'txt' => 'text/plain',
         'htm' => 'text/html',

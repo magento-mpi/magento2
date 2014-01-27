@@ -8,7 +8,7 @@
 return array(
     'preferences' => array(
         'Magento\Module\UpdaterInterface' => 'Magento\Module\Updaterter',
-        'Magento\Core\Model\AppInterface' => 'Magento\Core\Model\App\Proxy',
+        'Magento\AppInterface' => 'Magento\Core\Model\App\Proxy',
     ),
 
     'Magento\App\State' => array(
@@ -19,10 +19,10 @@ return array(
         ),
     ),
 
-    'Magento\Core\Model\Config_Modules' => array(
+    'Magento\Core\Model\Config\Modules' => array(
         'parameters' => array(
             'storage' => array(
-                'instance' => 'Magento\Core\Model\Config\Storage_Modules',
+                'instance' => 'Magento\Core\Model\Config\Storage\Modules',
                 'shared' => false
             ),
         ),
@@ -30,11 +30,11 @@ return array(
             'simple_modules_plugin' => array(
                 'sortOrder' => 10,
                 'disabled' => true,
-                'instance' => 'Magento\Core\Model\Config_Modules_Plugin',
+                'instance' => 'Magento\Core\Model\Config\Modules\Plugin',
             ),
             'simple_modules_plugin_advanced' => array(
                 'sortOrder' => 0,
-                'instance' => 'Magento\Core\Model\Config_Modules_PluginAdvanced',
+                'instance' => 'Magento\Core\Model\Config\Modules\PluginAdvanced',
             ),
             'overridden_plugin' => array(
                 'sortOrder' => 30,

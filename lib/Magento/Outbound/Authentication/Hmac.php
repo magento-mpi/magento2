@@ -68,6 +68,6 @@ class Hmac implements \Magento\Outbound\AuthenticationInterface
     protected function _getDomain()
     {
         return parse_url($this->_storeManager->getSafeStore()
-            ->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_WEB), PHP_URL_HOST);
+            ->getBaseUrl(\Magento\UrlInterface::URL_TYPE_WEB), PHP_URL_HOST);
     }
 }

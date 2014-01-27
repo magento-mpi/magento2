@@ -59,6 +59,7 @@ class AbstractCatalog extends \Magento\Rss\Block\AbstractBlock
     ) {
         $this->_catalogData = $catalogData;
         parent::__construct($context, $customerSession, $data);
+        $this->_isScopePrivate = true;
     }
 
     /**

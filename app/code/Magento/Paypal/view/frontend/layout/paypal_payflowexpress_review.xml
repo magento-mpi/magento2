@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <update handle="checkout_onepage_review_item_renderers" />
+    <referenceBlock name="root">
+        <action method="setTemplate">
+            <argument name="template" xsi:type="string">1column.phtml</argument>
+        </action>
+    </referenceBlock>
+    <referenceContainer name="content">
+        <block class="Magento\Paypal\Block\Express\Review" name="paypal.express.review"
+               template="payflowexpress/review.phtml">
+            <action method="setControllerPath">
+                <argument name="prefix" xsi:type="string">paypal/payflowexpress</argument>
+            </action>
+            <block class="Magento\Paypal\Block\Express\Review\Details" name="paypal.express.review.details" as="details"
+                   template="express/review/details.phtml">
+                <block class="Magento\View\Element\RendererList" name="checkout.onepage.review.item.renderers" as="renderer.list" />
+                <block class="Magento\Checkout\Block\Cart\Totals" name="paypal.express.review.details.totals"
+                       as="totals" template="onepage/review/totals.phtml" cacheable="false"/>
+            </block>
+            <block class="Magento\Checkout\Block\Agreements" name="paypal.express.review.details.agreements"
+                   as="agreements" template="onepage/agreements.phtml"/>
+        </block>
+    </referenceContainer>
+</layout>

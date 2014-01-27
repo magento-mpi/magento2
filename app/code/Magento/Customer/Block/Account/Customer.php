@@ -29,6 +29,7 @@ class Customer extends \Magento\View\Element\Template
     ) {
         parent::__construct($context, $data);
         $this->_customerSession = $session;
+        $this->_isScopePrivate = true;
     }
 
     /**

@@ -67,14 +67,14 @@ class Images extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Backend\Helper\Data $backendData
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Backend\Helper\Data $backendData,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Filesystem $filesystem,
+        \Magento\App\Filesystem $filesystem,
         \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         parent::__construct($context);
@@ -82,7 +82,7 @@ class Images extends \Magento\App\Helper\AbstractHelper
         $this->_coreData = $coreData;
         $this->_storeManager = $storeManager;
 
-        $this->_directory = $filesystem->getDirectoryWrite(\Magento\Filesystem::MEDIA);
+        $this->_directory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::MEDIA_DIR);
         $this->_directory->create(\Magento\Cms\Model\Wysiwyg\Config::IMAGE_DIRECTORY);
     }
 
@@ -116,7 +116,7 @@ class Images extends \Magento\App\Helper\AbstractHelper
      */
     public function getBaseUrl()
     {
-        return $this->_storeManager->getStore()->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_MEDIA);
+        return $this->_storeManager->getStore()->getBaseUrl(\Magento\UrlInterface::URL_TYPE_MEDIA);
     }
 
     /**
@@ -182,7 +182,7 @@ class Images extends \Magento\App\Helper\AbstractHelper
     public function getImageHtmlDeclaration($filename, $renderAsTag = false)
     {
         $fileurl = $this->getCurrentUrl() . $filename;
-        $mediaUrl = $this->_storeManager->getStore()->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_MEDIA);
+        $mediaUrl = $this->_storeManager->getStore()->getBaseUrl(\Magento\UrlInterface::URL_TYPE_MEDIA);
         $mediaPath = str_replace($mediaUrl, '', $fileurl);
         $directive = sprintf('{{media url="%s"}}', $mediaPath);
         if ($renderAsTag) {
@@ -243,7 +243,7 @@ class Images extends \Magento\App\Helper\AbstractHelper
         if (!$this->_currentUrl) {
             $path = $this->getCurrentPath();
             $mediaUrl = $this->_storeManager->getStore($this->_storeId)
-                ->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_MEDIA);
+                ->getBaseUrl(\Magento\UrlInterface::URL_TYPE_MEDIA);
             $this->_currentUrl = $mediaUrl . $this->_directory->getRelativePath($path) . '/';
         }
         return $this->_currentUrl;

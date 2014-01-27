@@ -35,8 +35,7 @@ class Write extends Read implements WriteInterface
      * @param \Magento\Filesystem\File\WriteFactory $fileFactory
      * @param \Magento\Filesystem\DriverInterface $driver
      */
-    public function __construct
-    (
+    public function __construct(
         array $config,
         \Magento\Filesystem\File\WriteFactory $fileFactory,
         \Magento\Filesystem\DriverInterface $driver
@@ -66,6 +65,8 @@ class Write extends Read implements WriteInterface
     /**
      * Check if directory is writable
      *
+     * @param string $path
+     * @return void
      * @throws \Magento\Filesystem\FilesystemException
      */
     protected function assertWritable($path)
@@ -80,6 +81,7 @@ class Write extends Read implements WriteInterface
      * Check if given path is exists and is file
      *
      * @param string $path
+     * @return void
      * @throws \Magento\Filesystem\FilesystemException
      */
     protected function assertIsFile($path)
@@ -125,13 +127,7 @@ class Write extends Read implements WriteInterface
         }
         $absolutePath = $this->driver->getAbsolutePath($this->path, $path);
         $absoluteNewPath = $targetDirectory->driver->getAbsolutePath($this->path, $newPath);
-        $result = $this->driver->rename($absolutePath, $absoluteNewPath);
-        if (!$result) {
-            throw new FilesystemException(
-                sprintf('The "%s" path cannot be renamed into "%s"', $absolutePath, $absoluteNewPath)
-            );
-        }
-        return $result;
+        return $this->driver->rename($absolutePath, $absoluteNewPath, $targetDirectory->driver);
     }
 
     /**
@@ -154,13 +150,7 @@ class Write extends Read implements WriteInterface
         $absolutePath = $this->driver->getAbsolutePath($this->path, $path);
         $absoluteDestination = $targetDirectory->getAbsolutePath($destination);
 
-        $result = $this->driver->copy($absolutePath, $absoluteDestination);
-        if (!$result) {
-            throw new FilesystemException(
-                sprintf('The "%s" path cannot be renamed into "%s"', $absolutePath, $absoluteDestination)
-            );
-        }
-        return $result;
+        return $this->driver->copy($absolutePath, $absoluteDestination, $targetDirectory->driver);
     }
 
     /**

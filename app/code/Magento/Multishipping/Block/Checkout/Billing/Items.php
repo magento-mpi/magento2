@@ -44,6 +44,7 @@ class Items extends \Magento\Sales\Block\Items\AbstractItems
         $this->_multishipping = $multishipping;
         $this->_checkoutSession = $checkoutSession;
         parent::__construct($context, $data);
+        $this->_isScopePrivate = true;
     }
 
     /**

@@ -30,6 +30,7 @@ class AccountLink extends \Magento\View\Element\Html\Link\Current
     ) {
         parent::__construct($context, $defaultPath, $data);
         $this->_rewardHelper = $rewardHelper;
+        $this->_isScopePrivate = true;
     }
 
     /**

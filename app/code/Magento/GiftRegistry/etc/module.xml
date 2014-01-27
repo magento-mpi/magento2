@@ -30,6 +30,8 @@
             <module name="Magento_GiftCard"/>
             <module name="Magento_Paypal"/>
             <module name="Magento_Newsletter"/>
+            <module name="Magento_Email"/>
+            <module name="Magento_Multishipping"/>
         </depends>
     </module>
 </config>

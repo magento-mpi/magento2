@@ -116,8 +116,8 @@ abstract class AbstractEmail extends \Magento\View\Element\Template
     protected function _getUrlParams()
     {
         return array(
-            '_store'        => $this->getStore(),
-            '_store_to_url' => true
+            '_scope'        => $this->getStore(),
+            '_scope_to_url' => true
         );
     }
 }
