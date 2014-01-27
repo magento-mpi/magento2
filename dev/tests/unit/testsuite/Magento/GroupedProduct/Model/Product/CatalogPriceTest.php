@@ -66,7 +66,7 @@ class CatalogPriceTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testGetCatalogPriceIfStoreIsNullAndAssocitedProductsAreNotExisted()
+    public function testGetCatalogPriceWithDefaultStoreAndWhenProductDoesNotHaveAssociatedProducts()
     {
         $this->productMock
             ->expects($this->once())
