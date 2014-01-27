@@ -21,19 +21,19 @@ class CatalogPrice implements CatalogPriceInterface
     /**
      * @var array catalog price models for different product types
      */
-    protected $typePool;
+    protected $priceModelPool;
 
     /**
      *
      * @param \Magento\App\ObjectManager $objectManager
-     * @param array $typePool
+     * @param array $priceModelPool
      */
     public function __construct(
         \Magento\App\ObjectManager $objectManager,
-        array $typePool
+        array $priceModelPool
     ) {
         $this->objectManager = $objectManager;
-        $this->typePool = $typePool;
+        $this->priceModelPool = $priceModelPool;
     }
 
     /**
@@ -46,8 +46,8 @@ class CatalogPrice implements CatalogPriceInterface
      */
     public function getCatalogPrice(\Magento\Catalog\Model\Product $product, $store = null, $inclTax = false)
     {
-        if (array_key_exists($product->getTypeId(), $this->typePool)) {
-            $catalogPriceModel = $this->objectManager->get($this->typePool[$product->getTypeId()]);
+        if (array_key_exists($product->getTypeId(), $this->priceModelPool)) {
+            $catalogPriceModel = $this->objectManager->get($this->priceModelPool[$product->getTypeId()]);
             return $catalogPriceModel->getCatalogPrice($product, $store, $inclTax);
         }
 
@@ -63,8 +63,8 @@ class CatalogPrice implements CatalogPriceInterface
      */
     public function getCatalogRegularPrice(\Magento\Catalog\Model\Product $product)
     {
-        if (array_key_exists($product->getTypeId(), $this->typePool)) {
-            $catalogPriceModel = $this->objectManager->get(${$this->typePool[$product->getTypeId()]});
+        if (array_key_exists($product->getTypeId(), $this->priceModelPool)) {
+            $catalogPriceModel = $this->objectManager->get(${$this->priceModelPool[$product->getTypeId()]});
             return $catalogPriceModel->getCatalogRegularPrice($product);
         }
 
