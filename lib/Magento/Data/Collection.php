@@ -223,10 +223,10 @@ class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\
      * The above would find where age equal to 42 OR name like %Mage%.
      *
      * @param string|array $field
-     * @param null|string|int|array $condition
+     * @param string|int|array $condition
      * @return $this
      */
-    public function addFieldToFilter($field, $condition = null)
+    public function addFieldToFilter($field, $condition)
     {
         $this->_fieldFilters[] = [
             'field'     => $field,
