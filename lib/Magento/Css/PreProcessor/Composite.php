@@ -9,6 +9,7 @@
 namespace Magento\Css\PreProcessor;
 
 use Magento\View\Asset\PreProcessor\PreProcessorInterface;
+use \Magento\View\Asset\PreProcessorFactory;
 
 /**
  * Css pre-processor composite
@@ -20,26 +21,43 @@ class Composite implements PreProcessorInterface
      */
     protected $preProcessors = array();
 
-    public function __construct(array $preProcessors = array())
-    {
+    /**
+     * @var \Magento\View\Asset\PreProcessorFactory
+     */
+    protected $preProcessorFactory;
+
+    /**
+     * @param PreProcessorFactory $preProcessorFactory
+     * @param array $preProcessors
+     */
+    public function __construct(
+        PreProcessorFactory $preProcessorFactory,
+        array $preProcessors = array()
+    ) {
+        $this->preProcessorFactory = $preProcessorFactory;
         $this->preProcessors = $this->preparePreProcessors($preProcessors);
     }
 
-    public function process($filePath, $params, $targetDirectory)
+    public function process($filePath, $params, $targetDirectory, $sourcePath = null)
     {
-        $sourcePath = null;
-
         foreach ($this->preProcessors as $preProcessor) {
-            $sourcePath = $preProcessor->process($filePath, $params, $targetDirectory);
+            $sourcePath = $preProcessor->process($filePath, $params, $targetDirectory, $sourcePath);
         }
 
         return $sourcePath;
     }
 
+    /**
+     * @param array $preProcessors
+     * @return \Magento\View\Asset\PreProcessor\PreProcessorInterface[]
+     */
     protected function preparePreProcessors($preProcessors)
     {
-        $preProcessorObjects = [];
-        // TBI: instantiate pre-processor classes
-        return $preProcessorObjects;
+        if (empty($this->preProcessors)) {
+            foreach ($preProcessors as $preProcessorClass) {
+                $this->preProcessors[] = $this->preProcessorFactory->create($preProcessorClass);
+            }
+        }
+        return $this->preProcessors;
     }
 }

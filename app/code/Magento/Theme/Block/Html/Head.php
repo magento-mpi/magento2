@@ -192,6 +192,7 @@ class Head extends \Magento\View\Element\Template
                 $result .= sprintf($template, $asset->getUrl());
             }
         } catch (\Magento\Exception $e) {
+            $this->_logger->logException($e);
             $result .= sprintf($template, $this->_getNotFoundUrl());
         }
         return $result;

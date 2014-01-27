@@ -26,6 +26,11 @@ class Composite implements PreProcessorInterface
     protected $assetTypePreProcessors = array();
 
     /**
+     * @var \Magento\View\Asset\PreProcessorFactory
+     */
+    protected $preProcessorFactory;
+
+    /**
      * @param PreProcessorFactory $preProcessorFactory
      * @param array $preProcessorsConfig
      */
@@ -43,16 +48,15 @@ class Composite implements PreProcessorInterface
      * @param string $filePath
      * @param array $params
      * @param \Magento\Filesystem\Directory\WriteInterface $targetDirectory
+     * @param null|string $sourcePath
      * @return null|string
      */
-    public function process($filePath, $params, $targetDirectory)
+    public function process($filePath, $params, $targetDirectory, $sourcePath = null)
     {
-        $sourcePath = null;
-
         $assetType = pathinfo($filePath, PATHINFO_EXTENSION);
 
         foreach ($this->getAssetTypePreProcessors($assetType) as $preProcessor) {
-            $sourcePath = $preProcessor->process($filePath, $params, $targetDirectory);
+            $sourcePath = $preProcessor->process($filePath, $params, $targetDirectory, $sourcePath);
         }
 
         return $sourcePath;
@@ -70,7 +74,7 @@ class Composite implements PreProcessorInterface
             $this->assetTypePreProcessors[$assetType] = array();
             foreach ($this->preProcessorsConfig as $preProcessorDetails) {
                 if ($assetType === $preProcessorDetails['asset_type']) {
-                    $this->assetTypePreProcessors[$assetType] = $this->preProcessorFactory
+                    $this->assetTypePreProcessors[$assetType][] = $this->preProcessorFactory
                         ->create($preProcessorDetails['class']);
                 }
             }
