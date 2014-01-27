@@ -86,6 +86,8 @@ class Grouped extends AbstractType
      * @return \Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType
      *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     public function saveData()
     {
