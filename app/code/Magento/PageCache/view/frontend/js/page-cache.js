@@ -12,8 +12,8 @@
     $.widget('mage.pageCache', {
         options: {
             url: '/',
-            startBlockPattern: /^ BLOCK (.+) $/,
-            endBlockPattern: /^ \/BLOCK (.+) $/,
+            patternPlaceholderOpen: /^ BLOCK (.+) $/,
+            patternPlaceholderClose: /^ \/BLOCK (.+) $/,
             versionCookieName: 'private_content_version',
             handles: []
         },
@@ -22,45 +22,71 @@
             if (!version) {
                 return ;
             }
-            var blocks = this._searchBlocks(this.element.comments());
-            this._ajax(blocks, version);
+            var placeholders = this._searchPlaceholders(this.element.comments());
+            this._ajax(placeholders, version);
         },
-        _searchBlocks: function (elements) {
-            var blocks = [],
+        _searchPlaceholders: function (elements) {
+            var placeholders = [],
                 tmp = {};
             for (var i = 0; i < elements.length; i++) {
                 var el = elements[i],
-                    matches = this.options.startBlockPattern.exec(el.nodeValue),
-                    blockName = null;
+                    matches = this.options.patternPlaceholderOpen.exec(el.nodeValue),
+                    name = null;
 
                 if (matches) {
-                    blockName = matches[1];
-                    tmp[blockName] = {
-                        name: blockName,
-                        startElement: el
+                    name = matches[1];
+                    tmp[name] = {
+                        name: name,
+                        openElement: el
                     };
                 } else {
-                    matches = this.options.endBlockPattern.exec(el.nodeValue);
+                    matches = this.options.patternPlaceholderClose.exec(el.nodeValue);
                     if (matches) {
-                        blockName = matches[1];
-                        if (tmp[blockName]) {
-                            tmp[blockName].endElement = el;
-                            blocks.push(tmp[blockName]);
-                            delete tmp[blockName];
+                        name = matches[1];
+                        if (tmp[name]) {
+                            tmp[name].closeElement = el;
+                            placeholders.push(tmp[name]);
+                            delete tmp[name];
                         }
                     }
                 }
             }
-            return blocks;
+            return placeholders;
         },
-        _ajax: function (blocks, version) {
+        _replacePlaceholder: function(placeholder, content) {
+            var parent = $(placeholder.openElement).parent(),
+                contents = parent.contents(),
+                startReplacing = false,
+                prevSibling = null;
+            for (var y = 0; y < contents.length; y++) {
+                var element = contents[y];
+                if (element == placeholder.openElement) {
+                    startReplacing = true;
+                }
+                if (startReplacing) {
+                    element.remove();
+                } else if (element.nodeType != 8) {
+                    //due to comment tag doesn't have siblings we try to find it manually
+                    prevSibling = element;
+                }
+                if (element == placeholder.closeElement) {
+                    break;
+                }
+            }
+            if (prevSibling) {
+                $(prevSibling).after(content);
+            } else {
+                $(parent).prepend(content);
+            }
+        },
+        _ajax: function (placeholders, version) {
             var data = {
                 blocks: [],
                 handles: this.options.handles,
                 version: version
             };
-            for (var i = 0; i < blocks.length; i++) {
-                data.blocks.push(blocks[i].name);
+            for (var i = 0; i < placeholders.length; i++) {
+                data.blocks.push(placeholders[i].name);
             }
             if (!data) {
                 return;
@@ -73,22 +99,12 @@
                 dataType: 'json',
                 context: this,
                 success: function (response) {
-                    for(var blockName in response) {
-                        if (!response.hasOwnProperty(blockName)) {
+                    for (var i = 0; i < placeholders.length; i++) {
+                        var placeholder = placeholders[i];
+                        if (!response.hasOwnProperty(placeholder.name)) {
                             continue;
                         }
-                        for (var i = 0; i < blocks.length; i++) {
-                            var block = blocks[i];
-                            if (block.name == blockName) {
-                                var end = $(block.endElement).next();
-                                $(block.startElement).nextUntil(end).remove();
-                                if (end.get(0)) {
-                                    $(end).before(response[blockName]);
-                                } else {
-                                    $(block.endElement).parent().append(response[blockName]);
-                                }
-                            }
-                        }
+                        this._replacePlaceholder(placeholder, response[placeholder.name]);
                     }
                 }
             });
