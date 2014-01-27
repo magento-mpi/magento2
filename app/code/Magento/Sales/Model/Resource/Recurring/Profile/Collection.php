@@ -25,7 +25,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      *
      * @var string
      */
-    protected $_eventPrefix    = 'sales_recurring_profile_collection';
+    protected $_eventPrefix    = 'recurring_profile_collection';
 
     /**
      * Event object

@@ -26,7 +26,7 @@ class Profile extends \Magento\Sales\Model\Resource\AbstractResource
      */
     protected function _construct()
     {
-        $this->_init('sales_recurring_profile', 'profile_id');
+        $this->_init('recurring_profile', 'profile_id');
 
         $this->_serializableFields = array(
             'profile_vendor_info'    => array(null, array()),
@@ -52,7 +52,7 @@ class Profile extends \Magento\Sales\Model\Resource\AbstractResource
         $bind    = array(':profile_id' => $object->getId());
         $select  = $adapter->select()
             ->from(
-                array('main_table' => $this->getTable('sales_recurring_profile_order')),
+                array('main_table' => $this->getTable('recurring_profile_order')),
                 array('order_id'))
             ->where('profile_id=:profile_id');
 
@@ -69,7 +69,7 @@ class Profile extends \Magento\Sales\Model\Resource\AbstractResource
     public function addOrderRelation($recurringProfileId, $orderId)
     {
         $this->_getWriteAdapter()->insert(
-            $this->getTable('sales_recurring_profile_order'), array(
+            $this->getTable('recurring_profile_order'), array(
                 'profile_id' => $recurringProfileId,
                 'order_id'   => $orderId
             )

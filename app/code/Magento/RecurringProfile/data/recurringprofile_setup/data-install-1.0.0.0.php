@@ -2,14 +2,10 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 /** @var $this \Magento\Catalog\Model\Resource\Setup */
-
 $entityTypeId = $this->getEntityTypeId(\Magento\Catalog\Model\Product::ENTITY);
 $attributeSetId = $this->getAttributeSetId($entityTypeId, 'Default');
 
@@ -20,3 +16,11 @@ $this->updateAttributeGroup($entityTypeId, $attributeSetId, $groupName, 'tab_gro
 
 $this->addAttributeToGroup($entityTypeId, $attributeSetId, $groupName, 'is_recurring');
 $this->addAttributeToGroup($entityTypeId, $attributeSetId, $groupName, 'recurring_profile');
+
+$connection = $this->getConnection();
+$adminRuleTable = $this->getTable('admin_rule');
+$connection->update(
+    $adminRuleTable,
+    array('resource_id' => 'Magento_RecurringProfile::recurring_profile'),
+    array('resource_id = ?' => 'Magento_Sales::recurring_profile')
+);

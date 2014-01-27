@@ -45,7 +45,7 @@ class Profile extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('Recurring Billing Profiles'));
         $this->_view->loadLayout();
-        $this->_setActiveMenu('Magento_Sales::sales_recurring_profile');
+        $this->_setActiveMenu('Magento_RecurringProfile::recurring_profile');
         $this->_view->renderLayout();
     }
 
@@ -58,7 +58,7 @@ class Profile extends \Magento\Backend\App\Action
             $this->_title->add(__('Recurring Billing Profiles'));
             $profile = $this->_initProfile();
             $this->_view->loadLayout();
-            $this->_setActiveMenu('Magento_Sales::sales_recurring_profile');
+            $this->_setActiveMenu('Magento_RecurringProfile::recurring_profile');
             $this->_title->add(__('Profile #%1', $profile->getReferenceId()));
             $this->_view->renderLayout();
             return;
