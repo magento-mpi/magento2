@@ -35,11 +35,11 @@ class SetupTest extends \PHPUnit_Framework_TestCase
     {
         $types = array(
             'simple'       => array('custom_attributes' => array('is_real_product' => 'true')),
-            'grouped'      => array(),
+            'simple2'      => array(),
             'some_product' => array('custom_attributes' => array('is_real_product' => 'some_value')),
         );
         $this->typeConfigMock->expects($this->once())->method('getAll')->will($this->returnValue($types));
-        $this->assertEquals(array('simple', 'grouped'), $this->giftRegistrySetup->getRealProductTypes());
+        $this->assertEquals(array('simple', 'simple2'), $this->giftRegistrySetup->getRealProductTypes());
     }
 }
 

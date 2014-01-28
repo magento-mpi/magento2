@@ -30,7 +30,7 @@ class RefundableListTest extends \PHPUnit_Framework_TestCase
     {
         $types = array(
             'simple' => array('name' => 'simple', 'custom_attributes' => array('refundable' => 'true')),
-            'grouped' => array('name' => 'grouped', 'custom_attributes' => array('refundable' => 'some_value')),
+            'simple2' => array('name' => 'simple2', 'custom_attributes' => array('refundable' => 'some_value')),
             'some_product_name' => array('name' => 'some_product_name', 'custom_attributes' => array()),
         );
         $this->configMock->expects($this->once())->method('getAll')->will($this->returnValue($types));
