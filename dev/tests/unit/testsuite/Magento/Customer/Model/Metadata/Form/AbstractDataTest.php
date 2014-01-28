@@ -14,16 +14,14 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
 {
     const MODEL = 'MODEL';
 
-    /**
-     * @var \Magento\Customer\Model\Metadata\Form\ExtendsAbstractData
-     */
+    /** @var \Magento\Customer\Model\Metadata\Form\ExtendsAbstractData */
     protected $_model;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Core\Model\LocaleInterface */
     protected $_localeMock;
-    /** @var \PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Logger */
     protected $_loggerMock;
-    /** @var \PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata */
     protected $_attributeMock;
 
     /** @var string */
@@ -45,7 +43,7 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $this->_value = 'VALUE';
-        $this->_entityTypeCode = 'I HAVE NO IDEA WHAT THIS SHOULD BE';
+        $this->_entityTypeCode = 'ENTITY_TYPE_CODE';
         $this->_isAjax = false;
 
         $this->_model = new ExtendsAbstractData(
@@ -75,12 +73,12 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
 
     public function testSetRequestScope()
     {
-        $this->assertSame($this->_model, $this->_model->setRequestScope('request_scope'));
-        $this->assertSame('request_scope', $this->_model->getRequestScope());
+        $this->assertSame($this->_model, $this->_model->setRequestScope('REQUEST_SCOPE'));
+        $this->assertSame('REQUEST_SCOPE', $this->_model->getRequestScope());
     }
 
     /**
-     * @param $bool
+     * @param bool $bool
      * @dataProvider trueFalseProvider
      */
     public function testSetRequestScopeOnly($bool)
@@ -96,16 +94,17 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
 
     public function testGetSetExtractedData()
     {
-        $data = ['key' => 'value'];
+        $data = ['KEY' => 'VALUE'];
         $this->assertSame($this->_model, $this->_model->setExtractedData($data));
         $this->assertSame($data, $this->_model->getExtractedData());
-        $this->assertSame('value', $this->_model->getExtractedData('key'));
-        $this->assertSame(null, $this->_model->getExtractedData('bad key'));
+        $this->assertSame('VALUE', $this->_model->getExtractedData('KEY'));
+        $this->assertSame(null, $this->_model->getExtractedData('BAD_KEY'));
     }
 
     /**
-     * @param $input
-     * @param $output
+     * @param bool|string $input
+     * @param bool|string $output
+     * @param bool|string $filter
      * @dataProvider applyInputFilterProvider
      */
     public function testApplyInputFilter($input, $output, $filter)
@@ -131,12 +130,14 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param $format
-     * @param $output
-     * @dataProvider dataFilterFormatProvider
+     * @param null|bool|string $format
+     * @param string           $output
+     * @dataProvider dateFilterFormatProvider
      */
     public function testDateFilterFormat($format, $output)
     {
+        // Since model is instantiated in setup, if I use it directly in the dataProvider, it will be null.
+        // I use this value to indicate the model is to be used for output
         if (self::MODEL == $output) {
             $output = $this->_model;
         }
@@ -151,7 +152,7 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($output, $actual);
     }
 
-    public function dataFilterFormatProvider()
+    public function dateFilterFormatProvider()
     {
         return [
             [null, 'Whatever I put'],
@@ -161,8 +162,9 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param $input
-     * @param $output
+     * @param bool|string $input
+     * @param bool|string $output
+     * @param bool|string $filter
      * @dataProvider applyOutputFilterProvider
      */
     public function testApplyOutputFilter($input, $output, $filter)
@@ -193,10 +195,10 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param $value
-     * @param $label
-     * @param $inputValidation
-     * @param $expectedOutput
+     * @param null|string $value
+     * @param null|string $label
+     * @param null|string $inputValidation
+     * @param bool|array  $expectedOutput
      * @dataProvider validateInputRuleProvider
      */
     public function testValidateInputRule($value, $label, $inputValidation, $expectedOutput)
@@ -270,7 +272,7 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param $ajaxRequest
+     * @param bool $ajaxRequest
      * @dataProvider trueFalseProvider
      */
     public function testGetIsAjaxRequest($ajaxRequest)
@@ -287,11 +289,11 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param $request
-     * @param $attributeCode
-     * @param $requestScope
-     * @param $requestScopeOnly
-     * @param $expectedValue
+     * @param \Magento\App\RequestInterface $request
+     * @param string                        $attributeCode
+     * @param bool|string                   $requestScope
+     * @param bool                          $requestScopeOnly
+     * @param string                        $expectedValue
      * @dataProvider getRequestValueProvider
      */
     public function testGetRequestValue($request, $attributeCode, $requestScope, $requestScopeOnly, $expectedValue)
@@ -307,7 +309,7 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
 
     public function getRequestValueProvider()
     {
-        $expectedValue = 'expected value';
+        $expectedValue = 'EXPECTED_VALUE';
         $requestMockOne = $this->getMockBuilder('\Magento\App\RequestInterface')
             ->getMock();
         $requestMockOne->expects($this->any())
@@ -319,11 +321,11 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $requestMockTwo->expects($this->at(0))
             ->method('getParam')
-            ->with('request scope')
+            ->with('REQUEST_SCOPE')
             ->will($this->returnValue(['ATTR_CODE' => $expectedValue]));
         $requestMockTwo->expects($this->at(1))
             ->method('getParam')
-            ->with('request scope')
+            ->with('REQUEST_SCOPE')
             ->will($this->returnValue([]));
 
         $requestMockThree = $this->getMockBuilder('\Magento\App\Request\Http')
@@ -331,12 +333,12 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $requestMockThree->expects($this->once())
             ->method('getParams')
-            ->will($this->returnValue(['request' => ['scope' => ['ATTR_CODE' => $expectedValue]]]));
+            ->will($this->returnValue(['REQUEST' => ['SCOPE' => ['ATTR_CODE' => $expectedValue]]]));
         return [
             [$requestMockOne, 'ATTR_CODE', false, false, $expectedValue],
-            [$requestMockTwo, 'ATTR_CODE', 'request scope', false, $expectedValue],
-            [$requestMockTwo, 'ATTR_CODE', 'request scope', false, false],
-            [$requestMockThree, 'ATTR_CODE', 'request/scope', false, $expectedValue],
+            [$requestMockTwo, 'ATTR_CODE', 'REQUEST_SCOPE', false, $expectedValue],
+            [$requestMockTwo, 'ATTR_CODE', 'REQUEST_SCOPE', false, false],
+            [$requestMockThree, 'ATTR_CODE', 'REQUEST/SCOPE', false, $expectedValue],
         ];
     }
 }
