@@ -20,6 +20,7 @@ use Magento\Core\Model\StoreManagerInterface;
 use Magento\Data\Collection\Db;
 use Magento\Core\Model\File\Uploader;
 use Magento\Stdlib\DateTime;
+use Magento\UrlInterface;
 
 /**
  * Catalog Event model
