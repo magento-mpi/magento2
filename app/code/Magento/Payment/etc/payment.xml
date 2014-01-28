@@ -43,35 +43,29 @@
         </group>
     </groups>
     <methods>
-        <method name="authorizenet_directpost">
-            <deny_multiple_address>1</deny_multiple_address>
+        <method name="banktransfer">
+            <allow_multiple_address>1</allow_multiple_address>
+            <allow_multiple_with_3dsecure>1</allow_multiple_with_3dsecure>
         </method>
-        <method name="googlecheckout">
-            <deny_multiple_address>1</deny_multiple_address>
+        <method name="cashondelivery">
+            <allow_multiple_address>1</allow_multiple_address>
+            <allow_multiple_with_3dsecure>1</allow_multiple_with_3dsecure>
         </method>
-        <method name="ogone">
-            <deny_multiple_address>1</deny_multiple_address>
+        <method name="ccsave">
+            <allow_multiple_address>1</allow_multiple_address>
+            <allow_multiple_with_3dsecure>1</allow_multiple_with_3dsecure>
         </method>
-        <method name="paypal_express">
-            <deny_multiple_address>1</deny_multiple_address>
+        <method name="checkmo">
+            <allow_multiple_address>1</allow_multiple_address>
+            <allow_multiple_with_3dsecure>1</allow_multiple_with_3dsecure>
         </method>
-        <method name="hosted_pro">
-            <deny_multiple_address>1</deny_multiple_address>
+        <method name="free">
+            <allow_multiple_address>1</allow_multiple_address>
+            <allow_multiple_with_3dsecure>1</allow_multiple_with_3dsecure>
         </method>
-        <method name="payflow_link">
-            <deny_multiple_address>1</deny_multiple_address>
-        </method>
-        <method name="paypal_standard">
-            <deny_multiple_address>1</deny_multiple_address>
-        </method>
-        <method name="firstdata">
-            <deny_multiple_address>1</deny_multiple_address>
-        </method>
-        <method name="payone_gate">
-            <deny_multiple_address>1</deny_multiple_address>
-        </method>
-        <method name="sagepay_direct">
-            <deny_multiple_address_if3dsecure>1</deny_multiple_address_if3dsecure>
+        <method name="purchaseorder">
+            <allow_multiple_address>1</allow_multiple_address>
+            <allow_multiple_with_3dsecure>1</allow_multiple_with_3dsecure>
         </method>
     </methods>
 </payment>

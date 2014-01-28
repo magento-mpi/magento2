@@ -6,7 +6,7 @@
  * @license   {license_link}
  */
 
-namespace Magento\Multishipping\Model\Payment\Method;
+namespace Magento\Payment\Model\Method;
 
 /**
  * Interface SpecificationInterface
@@ -14,7 +14,7 @@ namespace Magento\Multishipping\Model\Payment\Method;
 interface SpecificationInterface
 {
     /**
-     * Check is payment method available for multishipping
+     * Check is specification satisfied by
      *
      * @param string $paymentMethod
      * @return bool

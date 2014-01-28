@@ -61,9 +61,9 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
     protected $_quote;
 
     /**
-     * @var \Magento\Multishipping\Model\Payment\Method\Specification\Config
+     * @var \Magento\Payment\Model\Method\SpecificationInterface
      */
-    protected $configSpecification;
+    protected $paymentSpecification;
 
     /**
      * @param \Magento\Checkout\Model\Session $checkoutSession
@@ -75,7 +75,7 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
      * @param \Magento\Sales\Model\Quote\AddressFactory $addressFactory
      * @param \Magento\Sales\Model\Convert\Quote $quote
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Multishipping\Model\Payment\Method\Specification\Config $configSpecification
+     * @param \Magento\Payment\Model\Method\SpecificationInterface $paymentSpecification
      * @param array $data
      */
     public function __construct(
@@ -88,7 +88,7 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
         \Magento\Sales\Model\Quote\AddressFactory $addressFactory,
         \Magento\Sales\Model\Convert\Quote $quote,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Multishipping\Model\Payment\Method\Specification\Config $configSpecification,
+        \Magento\Payment\Model\Method\SpecificationInterface $paymentSpecification,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
@@ -97,7 +97,7 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
         $this->_addressFactory = $addressFactory;
         $this->_quote = $quote;
         $this->_storeManager = $storeManager;
-        $this->configSpecification = $configSpecification;
+        $this->paymentSpecification = $paymentSpecification;
         parent::__construct($checkoutSession, $customerSession, $orderFactory, $data);
         $this->_init();
     }
@@ -455,8 +455,8 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
         if (!isset($payment['method'])) {
             throw new \Magento\Core\Exception(__('Payment method is not defined'));
         }
-        if (!$this->configSpecification->isSatisfiedBy($payment['method'])) {
-            throw new \Magento\Core\Exception(__('The requested Payment Method is not available.'));
+        if (!$this->paymentSpecification->isSatisfiedBy($payment['method'])) {
+            throw new \Magento\Core\Exception(__('The requested Payment Method is not available for multishipping.'));
         }
         $quote = $this->getQuote();
         $quote->getPayment()->importData($payment);

@@ -30,16 +30,16 @@ class Billing extends \Magento\Payment\Block\Form\Container
     protected $_checkoutSession;
 
     /**
-     * @var \Magento\Multishipping\Model\Payment\Method\Specification\Config
+     * @var \Magento\Payment\Model\Method\SpecificationInterface
      */
-    protected $configSpecification;
+    protected $paymentSpecification;
 
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Payment\Helper\Data $paymentHelper
      * @param \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping
      * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param \Magento\Multishipping\Model\Payment\Method\Specification\Config $configSpecification
+     * @param \Magento\Payment\Model\Method\SpecificationInterface $paymentSpecification
      * @param array $data
      */
     public function __construct(
@@ -47,12 +47,12 @@ class Billing extends \Magento\Payment\Block\Form\Container
         \Magento\Payment\Helper\Data $paymentHelper,
         \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping,
         \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\Multishipping\Model\Payment\Method\Specification\Config $configSpecification,
+        \Magento\Payment\Model\Method\SpecificationInterface $paymentSpecification,
         array $data = array()
     ) {
         $this->_multishipping = $multishipping;
         $this->_checkoutSession = $checkoutSession;
-        $this->configSpecification = $configSpecification;
+        $this->paymentSpecification = $paymentSpecification;
         parent::__construct($context, $paymentHelper, $data);
         $this->_isScopePrivate = true;
     }
@@ -80,7 +80,7 @@ class Billing extends \Magento\Payment\Block\Form\Container
      */
     protected function _canUseMethod($method)
     {
-        return $method && $this->configSpecification->isSatisfiedBy($method->getCode())
+        return $method && $this->paymentSpecification->isSatisfiedBy($method->getCode())
             && parent::_canUseMethod($method);
     }
 

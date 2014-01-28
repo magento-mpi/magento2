@@ -15,4 +15,14 @@
             </array>
         </param>
     </type>
+    <type name="Magento\Multishipping\Model\Checkout\Type\Multishipping">
+        <param name="paymentSpecification">
+            <instance type="Magento\Multishipping\Model\Payment\Method\Specification\Multishipping" />
+        </param>
+    </type>
+    <type name="Magento\Multishipping\Block\Checkout\Billing">
+        <param name="paymentSpecification">
+            <instance type="Magento\Multishipping\Model\Payment\Method\Specification\Multishipping" />
+        </param>
+    </type>
 </config>
