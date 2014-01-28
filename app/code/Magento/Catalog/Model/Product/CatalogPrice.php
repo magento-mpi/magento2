@@ -7,6 +7,7 @@
  */
 
 namespace Magento\Catalog\Model\Product;
+use Magento\ObjectManager;
 
 /**
  * Price model for external catalogs
@@ -14,9 +15,9 @@ namespace Magento\Catalog\Model\Product;
 class CatalogPrice implements CatalogPriceInterface
 {
     /**
-     * @var \Magento\App\ObjectManager
+     * @var CatalogPriceFactory
      */
-    protected $objectManager;
+    protected $priceModelFactory;
 
     /**
      * @var array catalog price models for different product types
@@ -25,14 +26,14 @@ class CatalogPrice implements CatalogPriceInterface
 
     /**
      *
-     * @param \Magento\App\ObjectManager $objectManager
+     * @param CatalogPriceFactory $priceModelFactory
      * @param array $priceModelPool
      */
     public function __construct(
-        \Magento\App\ObjectManager $objectManager,
+        CatalogPriceFactory $priceModelFactory,
         array $priceModelPool
     ) {
-        $this->objectManager = $objectManager;
+        $this->priceModelFactory = $priceModelFactory;
         $this->priceModelPool = $priceModelPool;
     }
 
@@ -48,30 +49,11 @@ class CatalogPrice implements CatalogPriceInterface
     public function getCatalogPrice(\Magento\Catalog\Model\Product $product, $store = null, $inclTax = false)
     {
         if (array_key_exists($product->getTypeId(), $this->priceModelPool)) {
-            $catalogPriceModel = $this->getCustomPriceModel($this->priceModelPool[$product->getTypeId()]);
+            $catalogPriceModel = $this->priceModelFactory->create($this->priceModelPool[$product->getTypeId()]);
             return $catalogPriceModel->getCatalogPrice($product, $store, $inclTax);
         }
 
         return $product->getFinalPrice();
-    }
-
-
-    /**
-     * Provide custom price model with basic validation
-     *
-     * @param string $name
-     * @return \Magento\Catalog\Model\Product\CatalogPriceInterface
-     * @throws \UnexpectedValueException
-     */
-    protected function getCustomPriceModel($name)
-    {
-        $customPriceModel = $this->objectManager->get($name);
-        if (!($customPriceModel instanceof \Magento\Catalog\Model\Product\CatalogPriceInterface)) {
-            throw new \UnexpectedValueException('Class ' . $name
-                . ' should be an instance of \Magento\Catalog\Model\Product\CatalogPriceInterface');
-        }
-
-        return $customPriceModel;
     }
 
     /**
@@ -84,7 +66,7 @@ class CatalogPrice implements CatalogPriceInterface
     public function getCatalogRegularPrice(\Magento\Catalog\Model\Product $product)
     {
         if (array_key_exists($product->getTypeId(), $this->priceModelPool)) {
-            $catalogPriceModel = $this->getCustomPriceModel($this->priceModelPool[$product->getTypeId()]);
+            $catalogPriceModel = $this->priceModelFactory->create($this->priceModelPool[$product->getTypeId()]);
             return $catalogPriceModel->getCatalogRegularPrice($product);
         }
 
