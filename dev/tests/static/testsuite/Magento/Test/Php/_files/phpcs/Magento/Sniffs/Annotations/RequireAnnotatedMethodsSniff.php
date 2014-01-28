@@ -168,7 +168,7 @@ class Magento_Sniffs_Annotations_RequireAnnotatedMethodsSniff implements PHP_Cod
         $comment = $this->commentParser->getComment();
         if (is_null($comment) === true) {
             $error = 'Function doc comment is empty';
-            $this->helper->addMessage($error, $commentStart, Magento_Sniffs_Annotations_Helper::NO_DOC);
+            $this->helper->addMessage($error, $commentStart, Magento_Sniffs_Annotations_Helper::EMPTY_DOC);
             return;
         }
 

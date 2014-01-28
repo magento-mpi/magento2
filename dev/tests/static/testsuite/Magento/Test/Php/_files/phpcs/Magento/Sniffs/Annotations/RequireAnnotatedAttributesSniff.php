@@ -99,7 +99,7 @@ class Magento_Sniffs_Annotations_RequireAnnotatedAttributesSniff extends PHP_Cod
         $comment = $this->commentParser->getComment();
         if (is_null($comment) === true) {
             $error = 'Variable doc comment is empty';
-            $this->helper->addMessage($error, $commentStart, Magento_Sniffs_Annotations_Helper::NO_DOC);
+            $this->helper->addMessage($error, $commentStart, Magento_Sniffs_Annotations_Helper::EMPTY_DOC);
             return;
         }
 

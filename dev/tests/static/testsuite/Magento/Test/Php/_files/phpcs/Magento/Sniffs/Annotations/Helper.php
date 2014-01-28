@@ -30,7 +30,7 @@ class Magento_Sniffs_Annotations_Helper
 
     const MISSING_SHORT = 'MissingShort';
 
-    const NO_DOC = 'Empty';
+    const EMPTY_DOC = 'Empty';
 
     const SPACING_BETWEEN = 'SpacingBetween';
 
@@ -158,14 +158,13 @@ class Magento_Sniffs_Annotations_Helper
         self::MISSING => self::WARNING,
         self::WRONG_STYLE => self::WARNING,
         self::WRONG_END => self::WARNING,
-        self::FAILED_PARSE => self::WARNING,
-        self::NO_DOC => self::WARNING,
+        self::FAILED_PARSE => self::ERROR,
+        self::EMPTY_DOC => self::WARNING,
         self::CONTENT_AFTER_OPEN => self::WARNING,
         self::MISSING_SHORT => self::WARNING,
-        self::NO_DOC => self::WARNING,
-        self::SPACING_BETWEEN => self::WARNING,
+        self::SPACING_BETWEEN => self::OFF,
         self::SPACING_BEFORE_SHORT => self::WARNING,
-        self::SPACING_BEFORE_TAGS => self::WARNING,
+        self::SPACING_BEFORE_TAGS => self::INFO,
         self::SHORT_SINGLE_LINE => self::OFF,
         self::SHORT_NOT_CAPITAL => self::WARNING,
         self::SHORT_FULL_STOP => self::OFF,
@@ -175,8 +174,8 @@ class Magento_Sniffs_Annotations_Helper
         self::SEE_INDENT => self::WARNING,
         self::DUPLICATE_RETURN => self::WARNING,
         self::MISSING_PARAM_TAG => self::WARNING,
-        self::SPACING_AFTER_LONG_NAME => self::WARNING,
-        self::SPACING_AFTER_LONG_TYPE => self::WARNING,
+        self::SPACING_AFTER_LONG_NAME => self::OFF,
+        self::SPACING_AFTER_LONG_TYPE => self::OFF,
         self::MISSING_PARAM_TYPE => self::WARNING,
         self::MISSING_PARAM_NAME => self::WARNING,
         self::EXTRA_PARAM_COMMENT => self::WARNING,
@@ -184,7 +183,7 @@ class Magento_Sniffs_Annotations_Helper
         self::PARAM_NAME_NO_CASE_MATCH => self::WARNING,
         self::INVALID_TYPE_HINT => self::WARNING,
         self::INCORRECT_TYPE_HINT => self::WARNING,
-        self::TYPE_HINT_MISSING => self::WARNING,
+        self::TYPE_HINT_MISSING => self::INFO,
         self::INCORRECT_PARAM_VAR_NAME => self::WARNING,
         self::RETURN_ORDER => self::WARNING,
         self::MISSING_RETURN_TYPE => self::WARNING,
@@ -214,7 +213,7 @@ class Magento_Sniffs_Annotations_Helper
         self::MISSING_VAR => self::WARNING,
         self::MISSING_PARAM_COMMENT => self::OFF,
         self::PARAM_COMMENT_NOT_CAPITAL => self::OFF,
-        self::PARAM_COMMENT_FULL_STOP => self::OFF
+        self::PARAM_COMMENT_FULL_STOP => self::OFF,
     );
 
     /**
