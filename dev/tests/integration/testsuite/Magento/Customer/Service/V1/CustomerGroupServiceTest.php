@@ -165,19 +165,19 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param Dto\Filter[] $filters
-     * @param Dto\Search\OrGroup[] $orGroups
+     * @param Dto\Filter[] $orGroup
      * @param array $expectedResult array of expected results indexed by ID
      *
      * @dataProvider searchGroupsDataProvider
      */
-    public function testSearchGroups($filters, $orGroups, $expectedResult)
+    public function testSearchGroups($filters, $orGroup, $expectedResult)
     {
         $searchBuilder = new V1\Dto\SearchCriteriaBuilder();
         foreach ($filters as $filter) {
             $searchBuilder->addFilter($filter);
         }
-        if (!is_null($orGroups)) {
-            $searchBuilder->addOrGroup($orGroups);
+        if (!is_null($orGroup)) {
+            $searchBuilder->addOrGroup($orGroup);
         }
 
         $searchResults = $this->_groupService->searchGroups($searchBuilder->create());

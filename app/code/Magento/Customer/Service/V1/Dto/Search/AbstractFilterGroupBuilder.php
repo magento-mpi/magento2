@@ -35,7 +35,8 @@ abstract class AbstractFilterGroupBuilder extends AbstractDtoBuilder
      * @param \Magento\Customer\Service\V1\Dto\Filter[] $filters
      * @return $this
      */
-    public function setFilters($filters) {
+    public function setFilters($filters)
+    {
         return $this->_set(AbstractFilterGroup::FILTERS, $filters);
     }
 
@@ -58,7 +59,8 @@ abstract class AbstractFilterGroupBuilder extends AbstractDtoBuilder
      * @param \Magento\Customer\Service\V1\Dto\Search\FilterGroupInterface[] $groups
      * @return $this
      */
-    public function setGroups($groups) {
+    public function setGroups($groups)
+    {
         return $this->_set(AbstractFilterGroup::GROUPS, $groups);
     }
 }

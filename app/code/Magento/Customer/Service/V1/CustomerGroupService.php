@@ -16,6 +16,11 @@ use Magento\Customer\Model\Resource\Group\Collection;
 use Magento\Exception\InputException;
 use Magento\Exception\NoSuchEntityException;
 
+/**
+ * Class CustomerGroupService
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class CustomerGroupService implements CustomerGroupServiceInterface
 {
     /**
@@ -127,25 +132,49 @@ class CustomerGroupService implements CustomerGroupServiceInterface
         }
 
         foreach ($filterGroup->getFilters() as $filter) {
-            $field = $this->translateField($filter->getField());
-            $condition = $filter->getConditionType() ? $filter->getConditionType() : 'eq';
-            $collection->addFieldToFilter($field, [$condition => $filter->getValue()]);
+            $this->addFilterToCollection($collection, $filter);
         }
 
-        foreach ($filterGroup->getGroups() as $orGroup) {
-            if (strcasecmp($orGroup->getGroupType(), 'OR')) {
-                throw new InputException('The only nested groups currently supported for filters are of type OR.');
-            }
-            $fields = [];
-            $conditions = [];
-            foreach ($orGroup->getFilters() as $filter) {
-                $condition = $filter->getConditionType() ? $filter->getConditionType() : 'eq';
-                $fields[] = $this->translateField($filter->getField());
-                $conditions[] = [$condition => $filter->getValue()];
-            }
-            if ($fields) {
-                $collection->addFieldToFilter($fields, $conditions);
-            }
+        foreach ($filterGroup->getGroups() as $group) {
+            $this->addFilterGroupToCollection($collection, $group);
+        }
+    }
+
+    /**
+     * Helper function that adds a filter to the collection
+     *
+     * @param Collection $collection
+     * @param Dto\Filter $filter
+     * @return string
+     */
+    protected function addFilterToCollection(Collection $collection, Dto\Filter $filter)
+    {
+        $field = $this->translateField($filter->getField());
+        $condition = $filter->getConditionType() ? $filter->getConditionType() : 'eq';
+        $collection->addFieldToFilter($field, [$condition => $filter->getValue()]);
+    }
+
+    /**
+     * Helper function that adds a FilterGroup to the collection.
+     *
+     * @param Collection $collection
+     * @param Dto\Search\FilterGroupInterface $group
+     * @throws \Magento\Exception\InputException
+     */
+    protected function addFilterGroupToCollection(Collection $collection, Dto\Search\FilterGroupInterface $group)
+    {
+        if (strcasecmp($group->getGroupType(), 'OR')) {
+            throw new InputException('The only nested groups currently supported for filters are of type OR.');
+        }
+        $fields = [];
+        $conditions = [];
+        foreach ($group->getFilters() as $filter) {
+            $condition = $filter->getConditionType() ? $filter->getConditionType() : 'eq';
+            $fields[] = $this->translateField($filter->getField());
+            $conditions[] = [$condition => $filter->getValue()];
+        }
+        if ($fields) {
+            $collection->addFieldToFilter($fields, $conditions);
         }
     }
 
