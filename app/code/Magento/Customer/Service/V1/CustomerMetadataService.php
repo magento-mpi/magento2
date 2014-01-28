@@ -152,7 +152,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
     private function _createMetadataAttribute($attribute)
     {
         $options = [];
-        if ($attribute->isSourceModelExists()) {
+        if ($attribute->usesSource()) {
             foreach ($attribute->getSource()->getAllOptions() as $option) {
                 $options[$option['label']] = $this->_optionBuilder->setLabel($option['label'])
                     ->setValue($option['value'])

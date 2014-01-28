@@ -405,16 +405,6 @@ abstract class AbstractAttribute
     }
 
     /**
-     * Checks can attribute use source model
-     *
-     * @return bool
-     */
-    public function isSourceModelExists()
-    {
-        return $this->getSourceModel() || $this->_getDefaultSourceModel();
-    }
-
-    /**
      * Retrieve source instance
      *
      * @return \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
@@ -423,7 +413,7 @@ abstract class AbstractAttribute
     public function getSource()
     {
         if (empty($this->_source)) {
-            if (!$this->isSourceModelExists()) {
+            if (!$this->usesSource()) {
                 throw new \Magento\Eav\Exception(
                     __('Source model is not set for attribute "%2"',$this->getSourceModel(), $this->getAttributeCode())
                 );
