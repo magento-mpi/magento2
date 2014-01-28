@@ -23,7 +23,7 @@ class RefundTest extends Functional
      * Tests providing refunds.
      *
      * @dataProvider dataProviderOrder
-     * @ZephirId MAGETWO-12436, MAGETWO-18766, MAGETWO-18774, MAGETWO-18775, MAGETWO-18777, MAGETWO-18778, MAGETWO-19986
+     * @ZephirId MAGETWO-12436, MAGETWO-13061, MAGETWO-13062, MAGETWO-13063, MAGETWO-13058, MAGETWO-13059, MAGETWO-19985
      */
     public function testRefund(OrderCheckout $fixture)
     {
@@ -38,6 +38,8 @@ class RefundTest extends Functional
         $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
 
         $tabsWidget = $orderPage->getFormTabsBlock();
+        /** @var \Magento\Sales\Test\Block\Adminhtml\Order\Actions $creditMemoActionsBlock */
+        $creditMemoActionsBlock = Factory::getPageFactory()->getSalesOrderCreditMemoNew().getActionsBlock();
 
         if (!($fixture instanceof PaypalStandardOrder)) {
             // Step 2: Open Invoice
@@ -48,13 +50,10 @@ class RefundTest extends Functional
             $orderPage->getOrderActionsBlock()->orderInvoiceCreditMemo();
 
             // Step 4: Submit Credit Memo
-            $creditMemoPage = Factory::getPageFactory()->getSalesOrderCreditMemoNew();
-
             if (!($fixture instanceof AuthorizeNetOrder)) {
-                $creditMemoPage->getActionsBlock()->refund();
-            }
-            else {
-                $creditMemoPage->getActionsBlock()->refundOffline();
+                $creditMemoActionsBlock->refund();
+            } else {
+                $creditMemoActionsBlock->refundOffline();
             }
         }
         else {
@@ -62,8 +61,7 @@ class RefundTest extends Functional
             $orderPage->getOrderActionsBlock()->orderCreditMemo();
 
             // Step 3: Submit Credit Memo
-            $creditMemoPage = Factory::getPageFactory()->getSalesOrderCreditMemoNew();
-            $creditMemoPage->getActionsBlock()->refundOffline();
+            $creditMemoActionsBlock->refundOffline();
         }
 
         $orderPage = Factory::getPageFactory()->getSalesOrder();
@@ -95,6 +93,7 @@ class RefundTest extends Functional
      * Sets up the preconditions for this test.
      *
      * @param OrderCheckout $fixture
+     * @return void
      */
     private function setupPreconditions(OrderCheckout $fixture)
     {

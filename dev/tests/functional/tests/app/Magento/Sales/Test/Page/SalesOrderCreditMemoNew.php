@@ -54,5 +54,4 @@ class SalesOrderCreditMemoNew extends Page
             $this->_browser->find($this->actionsBlock, Locator::SELECTOR_CSS)
         );
     }
-
 }
