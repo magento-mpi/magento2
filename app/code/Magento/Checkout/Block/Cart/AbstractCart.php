@@ -68,6 +68,18 @@ class AbstractCart extends \Magento\View\Element\Template
     }
 
     /**
+     * Retrieve renderer list
+     *
+     * @return \Magento\View\Element\RendererList
+     */
+    protected function _getRendererList()
+    {
+        return $this->getRendererListName()
+            ? $this->getLayout()->getBlock($this->getRendererListName())
+            : $this->getChildBlock('renderer.list');
+    }
+
+    /**
      * Retrieve item renderer block
      *
      * @param string $type
@@ -77,17 +89,13 @@ class AbstractCart extends \Magento\View\Element\Template
      */
     public function getItemRenderer($type)
     {
-        /** @var \Magento\View\Element\RendererList $rendererList */
-        $rendererList = $this->getRendererListName()
-            ? $this->getLayout()->getBlock($this->getRendererListName())
-            : $this->getChildBlock('renderer.list');
+        $rendererList = $this->_getRendererList();
         if (!$rendererList) {
             throw new \RuntimeException('Renderer list for block "' . $this->getNameInLayout() . '" is not defined');
         }
         $overriddenTemplates = $this->getOverriddenTemplates() ?: array();
         $template = isset($overriddenTemplates[$type]) ? $overriddenTemplates[$type] : $this->getRendererTemplate();
-        $renderer = $rendererList->getRenderer($type, self::DEFAULT_TYPE, $template);
-        return $renderer;
+        return $rendererList->getRenderer($type, self::DEFAULT_TYPE, $template);
     }
 
     /**
