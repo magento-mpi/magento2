@@ -148,39 +148,15 @@ GalleryTest.prototype.testSerializeImages = function() {
 };
 
 GalleryTest.prototype.testBind = function() {
-    var galleryInstance = this.galleryCreate({
-            images: this.galleryImages,
-            showButtons: true,
-            showThumbs: true
-        }),
+    var galleryInstance = this.galleryCreate(),
         options = galleryInstance.options,
-        select = jsunit.stub(galleryInstance, 'select'),
-        prev = jsunit.stub(galleryInstance, 'prev'),
-        next = jsunit.stub(galleryInstance, 'next');
-
-    galleryInstance._off(galleryInstance.element, 'click');
+        _on = jsunit.stub(galleryInstance, '_on');
 
     galleryInstance._bind();
-    jQuery(options.selectors.thumb).eq(0).trigger('click');
-    assertTrue(select.callCount === 1);
-    assertTrue(select.lastCallArgs.length > 0);
-    assertTrue(jQuery.type(select.lastCallArgs[0]) === 'object');
-    assertTrue(jQuery(select.lastCallArgs[0].currentTarget).is(options.selectors.thumb));
-    assertTrue(jQuery(select.lastCallArgs[0].delegateTarget).is(galleryInstance.element));
-
-    jQuery(options.selectors.prev).trigger('click');
-    assertTrue(prev.callCount === 1);
-    assertTrue(prev.lastCallArgs.length > 0);
-    assertTrue(jQuery.type(prev.lastCallArgs[0]) === 'object');
-    assertTrue(jQuery(prev.lastCallArgs[0].currentTarget).is(options.selectors.prev));
-    assertTrue(jQuery(prev.lastCallArgs[0].delegateTarget).is(galleryInstance.element));
-
-    jQuery(options.selectors.next).trigger('click');
-    assertTrue(next.callCount === 1);
-    assertTrue(next.lastCallArgs.length > 0);
-    assertTrue(jQuery.type(next.lastCallArgs[0]) === 'object');
-    assertTrue(jQuery(next.lastCallArgs[0].currentTarget).is(options.selectors.next));
-    assertTrue(jQuery(next.lastCallArgs[0].delegateTarget).is(galleryInstance.element));
+    assertTrue(_on.callCount > 0);
+    assertTrue(_on.callArgsStack[0][0]['click ' + options.selectors.thumb] === 'select');
+    assertTrue(_on.callArgsStack[0][0]['click ' + options.selectors.prev] === 'prev');
+    assertTrue(_on.callArgsStack[0][0]['click ' + options.selectors.next] === 'next');
 };
 
 GalleryTest.prototype.testToggleControl = function() {
