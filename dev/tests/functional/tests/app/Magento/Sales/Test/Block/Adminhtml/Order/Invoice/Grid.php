@@ -51,7 +51,7 @@ class Grid extends GridInterface
      */
     public function getInvoiceAmount()
     {
-        return $this->_rootElement->find($this->invoiceAmount)->getText();
+        return $this->getInvoiceAmountElement()->getText();
     }
 
     /**
@@ -61,6 +61,14 @@ class Grid extends GridInterface
      */
     public function clickInvoiceAmount()
     {
-        $this->_rootElement->find($this->invoiceAmount)->click();
+        $this->getInvoiceAmountElement()->click();
+    }
+
+    /**
+     * @return mixed|\Mtf\Client\Element
+     */
+    private function getInvoiceAmountElement()
+    {
+        return $this->_rootElement->find($this->invoiceAmount);
     }
 }

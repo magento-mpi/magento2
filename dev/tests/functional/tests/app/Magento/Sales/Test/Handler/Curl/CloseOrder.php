@@ -82,7 +82,7 @@ class CloseOrder extends Curl
     /**
      * Populate the quantity fields with a value of 1
      *
-     * @param $elements
+     * @param array $elements
      * @return array
      */
     protected function _prepareData($elements)
@@ -100,6 +100,7 @@ class CloseOrder extends Curl
      * Close sales order
      *
      * @param Fixture $fixture [optional]
+     * @return void
      */
     public function execute(Fixture $fixture = null)
     {

@@ -46,9 +46,7 @@ class PaypalStandardOrder extends OrderCheckout
         $fixture = $this->checkoutFixture;
         $paypalCustomer = $fixture->getPaypalCustomer();
         $paypalPage = Factory::getPageFactory()->getPaypal();
-        if($paypalPage->getBillingBlock()->isVisible()) {
-            $paypalPage->getBillingBlock()->clickLoginLink();
-        }
+        $paypalPage->getBillingBlock()->clickLoginLink();
         $paypalPage->getLoginBlock()->login($paypalCustomer);
         $paypalPage->getReviewBlock()->continueCheckout();
         $paypalPage->getMainPanelBlock()->clickReturnLink();
