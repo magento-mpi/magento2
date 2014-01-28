@@ -12,17 +12,6 @@ namespace Magento\Customer\Service\V1\Dto;
 class FilterBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
 {
     /**
-     * Initializes the builder.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-
-        // special constructor to set default values
-        $this->_data['condition_type'] = 'and';
-    }
-
-    /**
      * @param string $field
      * @return FilterBuilder
      */

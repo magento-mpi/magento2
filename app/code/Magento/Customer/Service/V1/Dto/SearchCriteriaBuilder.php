@@ -9,23 +9,53 @@
  */
 namespace Magento\Customer\Service\V1\Dto;
 
-use Magento\Customer\Service\V1\Dto\Filter;
+use Magento\Customer\Service\V1\Dto\Search\OrGroupBuilder;
+use Magento\Service\Entity\AbstractDtoBuilder;
 
-class SearchCriteriaBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
+class SearchCriteriaBuilder extends AbstractDtoBuilder
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function create()
+    {
+        $this->_data['filters'] = $this->getFilterGroup()->create();
+        return parent::create();
+    }
     /**
      * @param Filter $filter
      *
      * @return SearchCriteriaBuilder
      */
-    public function addFilter($filter)
+    public function addFilter(Filter $filter)
+    {
+        $this->getFilterGroup()->addFilter($filter);
+        return $this;
+    }
+
+    /**
+     * Add an OR grouping of filters to this SearchCriteria.
+     *
+     * @param Filter[] $filters
+     */
+    public function addOrGroup($filters)
+    {
+        $orGroup = new OrGroupBuilder();
+        foreach ($filters as $filter) {
+            $orGroup->addFilter($filter);
+        }
+        $this->getFilterGroup()->addGroup($orGroup->create());
+    }
+
+    /**
+     * @return Search\AndGroupBuilder
+     */
+    private function getFilterGroup()
     {
         if (!isset($this->_data['filters'])) {
-            $this->_data['filters'] = array();
+            $this->_data['filters'] = new Search\AndGroupBuilder();
         }
-
-        $this->_data['filters'][] = $filter;
-        return $this;
+        return $this->_data['filters'];
     }
 
     /**

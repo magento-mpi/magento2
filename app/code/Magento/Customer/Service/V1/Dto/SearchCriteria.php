@@ -17,7 +17,7 @@ class SearchCriteria extends \Magento\Service\Entity\AbstractDto
     const SORT_DESC = -1;
 
     /**
-     * @return Filter[]
+     * @return \Magento\Customer\Service\V1\Dto\Search\FilterGroupInterface
      */
     public function getFilters()
     {
