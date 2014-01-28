@@ -18,9 +18,9 @@ class Less implements PreProcessorInterface
     /**#@+
      * Temporary directories prefix group
      */
-    const TMP_LESS_DIR   = 'less';
-    const TMP_ROOT_DIR   = '_view';
-    const TMP_THEME_DIR  = '_theme';
+    const TMP_VIEW_DIR   = 'view';
+    const TMP_THEME_DIR  = 'theme_';
+    /**#@-*/
 
     /**
      * @var \Magento\View\FileSystem
@@ -38,18 +38,26 @@ class Less implements PreProcessorInterface
     protected $adapter;
 
     /**
+     * @var \Magento\Logger
+     */
+    protected $logger;
+
+    /**
      * @param \Magento\View\FileSystem $viewFileSystem
      * @param \Magento\Less\PreProcessor $lessPreProcessor
      * @param AdapterInterface $adapter
+     * @param \Magento\Logger $logger
      */
     public function __construct(
         \Magento\View\FileSystem $viewFileSystem,
         \Magento\Less\PreProcessor $lessPreProcessor,
-        \Magento\Css\PreProcessor\AdapterInterface $adapter
+        \Magento\Css\PreProcessor\AdapterInterface $adapter,
+        \Magento\Logger $logger
     ) {
         $this->viewFileSystem = $viewFileSystem;
         $this->lessPreProcessor = $lessPreProcessor;
         $this->adapter = $adapter;
+        $this->logger = $logger;
     }
 
     /**
@@ -68,12 +76,21 @@ class Less implements PreProcessorInterface
             return $sourcePath;
         }
 
-        $lessFilePath = $this->replaceExtension($filePath, '.css', '.less');
-        $preparedLessFileSourcePath = $this->lessPreProcessor->processLessInstructions($lessFilePath, $params);
-        $cssContent = $this->adapter->process($preparedLessFileSourcePath);
+        $lessFilePath = $this->replaceExtension($filePath, 'css', 'less');
+        try {
+            $preparedLessFileSourcePath = $this->lessPreProcessor->processLessInstructions($lessFilePath, $params);
+        } catch (\Magento\Filesystem\FilesystemException $e) {
+            $this->logger->logException($e);
+            return $sourcePath;     // It's actually 'null'
+        }
 
-        // doesn't matter where exact file has been found, we use original file identifier
-        // see \Magento\View\Publisher::_buildPublishedFilePath() for details and make similar function
+        try {
+            $cssContent = $this->adapter->process($preparedLessFileSourcePath);
+        } catch (\Magento\Css\PreProcessor\Adapter\AdapterException $e) {
+            $this->logger->logException($e);
+            return $sourcePath;     // It's actually 'null'
+        }
+
         $tmpFilePath = $this->buildTmpFilePath($filePath, $params);
 
         $targetDirectory->writeFile($tmpFilePath, $cssContent);
@@ -81,7 +98,7 @@ class Less implements PreProcessorInterface
     }
 
     /**
-     * Build public filename for a theme file that includes area/package/theme/locale parameters
+     * Build unique file path for a view file that includes area/theme/locale/module parts
      *
      * @param string $file
      * @param array $params - 'themeModel', 'area', 'locale', 'module' keys are used
@@ -99,7 +116,7 @@ class Less implements PreProcessorInterface
         }
 
         $parts = array();
-        $parts[] = self::TMP_ROOT_DIR;
+        $parts[] = self::TMP_VIEW_DIR;
         $parts[] = $params['area'];
         if ($designPath) {
             $parts[] = $designPath;
@@ -119,12 +136,16 @@ class Less implements PreProcessorInterface
      * @param string $filePath
      * @param string $search
      * @param string $replace
-     * @return mixed
+     * @return string
      */
     protected function replaceExtension($filePath, $search, $replace)
     {
-        //TODO: Implement better way to replace file extension
+        $extension = pathinfo($filePath, PATHINFO_EXTENSION);
+        if ($extension == $search) {
+            $dotPosition = strrpos($filePath, '.');
+            $filePath = substr($filePath, 0, $dotPosition + 1) . $replace;
+        }
 
-        return $lessFilePath = str_replace($search, $replace, $filePath);
+        return $filePath;
     }
 }
