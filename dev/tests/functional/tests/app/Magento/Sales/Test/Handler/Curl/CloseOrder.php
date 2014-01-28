@@ -30,6 +30,11 @@ class CloseOrder extends Curl
     /**
      * @var string
      */
+    protected $salesOrderUrl = 'sales/order/';
+
+    /**
+     * @var string
+     */
     protected $startShipmentUrl = 'admin/order_shipment/start/order_id/';
 
     /**
@@ -98,9 +103,16 @@ class CloseOrder extends Curl
      */
     public function execute(Fixture $fixture = null)
     {
-        $orderId = $fixture->getOrderId();
-        $orderId = substr($orderId, 1);
-        $orderId = (int)$orderId;
+        //Go to the Sales Order page and find the link for the order id to pass to the url
+        $url = $_ENV['app_backend_url'] . $this->salesOrderUrl;
+        $data = array();
+        $response = $this->_executeCurl($url, $data);
+
+        $searchUrl = '#' . $_ENV['app_backend_url'] . 'sales/order/view/order_id/[0-9]+#';
+
+        preg_match($searchUrl, $response, $orderUrl);
+        preg_match('/\/(\d+)$/', $orderUrl[0], $orderIds);
+        $orderId = $orderIds[1];
 
         //Click Ship button and create a new shipment page
         $url = $_ENV['app_backend_url'] . $this->startShipmentUrl . $orderId;
