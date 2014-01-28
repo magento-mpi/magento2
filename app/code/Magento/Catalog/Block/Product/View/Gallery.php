@@ -59,22 +59,20 @@ class Gallery extends \Magento\Catalog\Block\Product\View\AbstractView
         $product = $this->getProduct();
         $img  = $this->_imageHelper->init($product, $type, $image->getFile());
         if ($whiteBorders) {
-            $img->constrainOnly(TRUE)
-                ->keepAspectRatio(TRUE)
-                ->keepFrame(FALSE);
+            $img->constrainOnly(TRUE)->keepAspectRatio(TRUE)->keepFrame(FALSE);
         }
         if ($width || $height) {
-           $img->resize($width, $height);
+            $img->resize($width, $height);
         }
         return (string)$img;
     }
 
     /**
-     * Is product main image
-     *
-     * @param \Magento\Object $image
-     * @return bool
-     */
+    * Is product main image
+    *
+    * @param \Magento\Object $image
+    * @return bool
+    */
     public function isMainImage($image)
     {
         $product = $this->getProduct();
