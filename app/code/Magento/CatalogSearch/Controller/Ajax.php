@@ -19,6 +19,9 @@ namespace Magento\CatalogSearch\Controller;
 
 class Ajax extends \Magento\App\Action\Action
 {
+    /**
+     * @return void
+     */
     public function suggestAction()
     {
         if (!$this->getRequest()->getParam('q', false)) {

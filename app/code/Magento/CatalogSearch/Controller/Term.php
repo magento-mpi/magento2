@@ -13,6 +13,7 @@ namespace Magento\CatalogSearch\Controller;
 
 use Magento\App\Action\NotFoundException;
 use Magento\App\RequestInterface;
+use Magento\App\ResponseInterface;
 
 class Term extends \Magento\App\Action\Action
 {
@@ -20,7 +21,7 @@ class Term extends \Magento\App\Action\Action
      * Dispatch request
      *
      * @param RequestInterface $request
-     * @return \Magento\App\ResponseInterface
+     * @return ResponseInterface
      */
     public function dispatch(RequestInterface $request)
     {
@@ -31,6 +32,9 @@ class Term extends \Magento\App\Action\Action
         return parent::dispatch($request);
     }
 
+    /**
+     * @return void
+     */
     public function popularAction()
     {
         $this->_view->loadLayout();
