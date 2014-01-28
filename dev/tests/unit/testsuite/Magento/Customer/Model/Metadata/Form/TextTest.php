@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Model\Metadata\Form;
 
 class TextTest extends \PHPUnit_Framework_TestCase
@@ -18,20 +17,39 @@ class TextTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Logger */
     protected $loggerMock;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Stdlib\String */
+    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata */
     protected $attributeMetadataMock;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata */
-    protected $stringHelperMock;
+    /** @var \Magento\Stdlib\String */
+    protected $stringHelper;
 
     protected function setUp()
     {
         $this->localeMock = $this->getMockBuilder('Magento\Core\Model\LocaleInterface')->getMock();
         $this->loggerMock = $this->getMockBuilder('Magento\Logger')->disableOriginalConstructor()->getMock();
-        $this->stringHelperMock = $this->getMockBuilder('Magento\Stdlib\String')->setMethods(['none'])->getMock();
+        $this->stringHelper = new \Magento\Stdlib\String();
         $this->attributeMetadataMock = $this->getMockBuilder('Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata')
             ->disableOriginalConstructor()
             ->getMock();
+    }
+
+    /**
+     * Create an instance of the class that is being tested
+     *
+     * @param string|int|bool|null $value The value undergoing testing by a given test
+     * @return Text
+     */
+    protected function getSUT($value)
+    {
+        return new Text(
+            $this->localeMock,
+            $this->loggerMock,
+            $this->attributeMetadataMock,
+            $value,
+            0,
+            false,
+            $this->stringHelper
+        );
     }
 
     /**
@@ -41,17 +59,8 @@ class TextTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidateValue($value, $expected)
     {
-        $text = new Text(
-            $this->localeMock,
-            $this->loggerMock,
-            $this->attributeMetadataMock,
-            $value,
-            0,
-            false,
-            $this->stringHelperMock);
-
-        $actual = $text->validateValue($value);
-
+        $sut = $this->getSUT($value);
+        $actual = $sut->validateValue($value);
         $this->assertEquals($expected, $actual);
     }
 
@@ -80,16 +89,8 @@ class TextTest extends \PHPUnit_Framework_TestCase
             ->method('isRequired')
             ->will($this->returnValue(true));
 
-        $text = new Text(
-            $this->localeMock,
-            $this->loggerMock,
-            $this->attributeMetadataMock,
-            $value,
-            0,
-            false,
-            $this->stringHelperMock);
-
-        $actual = $text->validateValue($value);
+        $sut = $this->getSUT($value);
+        $actual = $sut->validateValue($value);
 
         if (is_bool($actual)) {
             $this->assertEquals($expected, $actual);
@@ -124,16 +125,8 @@ class TextTest extends \PHPUnit_Framework_TestCase
             ->method('getValidationRules')
             ->will($this->returnValue(['min_text_length' => 4, 'max_text_length' => 8]));
 
-        $text = new Text(
-            $this->localeMock,
-            $this->loggerMock,
-            $this->attributeMetadataMock,
-            $value,
-            0,
-            false,
-            $this->stringHelperMock);
-
-        $actual = $text->validateValue($value);
+        $sut = $this->getSUT($value);
+        $actual = $sut->validateValue($value);
 
         if (is_bool($actual)) {
             $this->assertEquals($expected, $actual);

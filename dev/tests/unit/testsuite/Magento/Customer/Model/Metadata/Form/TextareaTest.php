@@ -9,4 +9,22 @@ namespace Magento\Customer\Model\Metadata\Form;
 
 class TextareaTest extends TextTest
 {
+    /**
+     * Create an instance of the class that is being tested
+     *
+     * @param string|int|bool|null $value The value undergoing testing by a given test
+     * @return Textarea
+     */
+    protected function getSUT($value)
+    {
+        return new Textarea(
+            $this->localeMock,
+            $this->loggerMock,
+            $this->attributeMetadataMock,
+            $value,
+            0,
+            false,
+            $this->stringHelper
+        );
+    }
 }
