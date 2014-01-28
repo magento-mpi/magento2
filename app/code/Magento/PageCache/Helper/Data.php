@@ -26,13 +26,33 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Private caching time one year
      */
-    const MAX_AGE_CACHE = 31536000;
+    const PRIVATE_MAX_AGE_CACHE = 31536000;
+
+    /**
+     * XML path to value for public max-age parameter
+     */
+    const PUBLIC_MAX_AGE_PATH = 'system/headers/public-max-age';
+
+    /**
+     * @var \Magento\Core\Model\ConfigInterface
+     */
+    protected $config;
+
+    /**
+     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Core\Model\ConfigInterface $config
+     */
+    public function __construct(\Magento\App\Helper\Context $context, \Magento\Core\Model\ConfigInterface $config)
+    {
+        parent::__construct($context);
+        $this->config = $config;
+    }
 
     /**
      * @return mixed
      */
-    public function getMaxAgeCache()
+    public function getPublicMaxAgeCache()
     {
-        return self::MAX_AGE_CACHE;
+        return $this->config->getValue(self::PUBLIC_MAX_AGE_PATH);
     }
 }

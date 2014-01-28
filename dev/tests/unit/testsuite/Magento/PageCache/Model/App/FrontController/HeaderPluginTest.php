@@ -24,11 +24,6 @@ class HeaderPluginTest extends \PHPUnit_Framework_TestCase
     protected $layoutMock;
 
     /**
-     * @var \Magento\PageCache\Helper\Data|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $helperMock;
-
-    /**
      * @var \Magento\App\Response\Http|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $responseMock;
@@ -39,13 +34,18 @@ class HeaderPluginTest extends \PHPUnit_Framework_TestCase
     protected $versionMock;
 
     /**
+     * @var \Magento\PageCache\Helper\Data|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $helperMock;
+
+    /**
      * SetUp
      */
     protected function setUp()
     {
         $this->layoutMock = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false);
-        $this->helperMock = $this->getMock('\Magento\PageCache\Helper\Data', array(), array(), '', false);
         $this->responseMock = $this->getMock('Magento\App\Response\Http', array(), array(), '', false);
+        $this->helperMock = $this->getMock('Magento\PageCache\Helper\Data', array(), array(), '', false);
         $this->versionMock = $this->getMockBuilder('Magento\PageCache\Model\Version')
             ->disableOriginalConstructor()
             ->getMock();
@@ -57,17 +57,12 @@ class HeaderPluginTest extends \PHPUnit_Framework_TestCase
      */
     public function testAfterDispatchNotCacheable()
     {
-        $maxAge = 10;
         $pragma = 'no-cache';
         $cacheControl = 'no-store, no-cache, must-revalidate, max-age=0';
 
         $this->layoutMock->expects($this->once())
             ->method('isCacheable')
             ->will($this->returnValue(false));
-
-        $this->helperMock->expects($this->any())
-            ->method('getMaxAgeCache')
-            ->will($this->returnValue($maxAge));
 
         $this->responseMock->expects($this->at(0))
             ->method('setHeader')
@@ -113,7 +108,7 @@ class HeaderPluginTest extends \PHPUnit_Framework_TestCase
      */
     public function testAfterDispatchPublicCache()
     {
-        $maxAge = 10;
+        $maxAge = 0;
         $pragma = 'cache';
         $cacheControl = 'public, max-age=' . $maxAge;
 
@@ -121,9 +116,7 @@ class HeaderPluginTest extends \PHPUnit_Framework_TestCase
             ->method('isCacheable')
             ->will($this->returnValue(true));
 
-        $this->helperMock->expects($this->any())
-            ->method('getMaxAgeCache')
-            ->will($this->returnValue($maxAge));
+        $this->helperMock->expects($this->once())->method('getPublicMaxAgeCache')->will($this->returnValue(0));
 
         $this->responseMock->expects($this->at(0))
             ->method('setHeader')

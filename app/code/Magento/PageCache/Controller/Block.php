@@ -10,25 +10,10 @@
 
 namespace Magento\PageCache\Controller;
 
-use Magento\App\Action\Context;
+use Magento\PageCache\Helper\Data;
 
 class Block extends \Magento\App\Action\Action
 {
-    /**
-     * @var \Magento\PageCache\Helper\Data
-     */
-    protected $helper;
-
-    /**
-     * @param Context $context
-     * @param \Magento\PageCache\Helper\Data $helper
-     */
-    public function __construct(\Magento\App\Action\Context $context, \Magento\PageCache\Helper\Data $helper)
-    {
-        parent::__construct($context);
-        $this->helper = $helper;
-    }
-
     /**
      * Returns block content depends on ajax request
      */
@@ -64,12 +49,10 @@ class Block extends \Magento\App\Action\Action
      */
     protected function setPrivateHeaders()
     {
-        $maxAge = $this->helper->getMaxAgeCache();
-
-        $this->getResponse()->setHeader('cache-control', 'private, max-age=' . $maxAge, true);
+        $this->getResponse()->setHeader('cache-control', 'private, max-age=' . Data::PRIVATE_MAX_AGE_CACHE, true);
         $this->getResponse()->setHeader(
             'expires',
-            gmdate('D, d M Y H:i:s T', strtotime('+' . $maxAge . ' seconds')),
+            gmdate('D, d M Y H:i:s T', strtotime('+' . Data::PRIVATE_MAX_AGE_CACHE . ' seconds')),
             true
         );
     }
