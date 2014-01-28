@@ -8,10 +8,10 @@
 
 namespace Magento\Catalog\Model\Indexer\Category\Flat;
 
-class CategoryPluginTest extends \PHPUnit_Framework_TestCase
+class ProcessorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Catalog\Model\Indexer\Category\Flat\Plugin\Category|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Catalog\Model\Indexer\Category\Flat\Processor|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $model;
 
@@ -25,16 +25,6 @@ class CategoryPluginTest extends \PHPUnit_Framework_TestCase
      */
     protected $indexerMock;
 
-    /**
-     * @var \Magento\Code\Plugin\InvocationChain|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $chainMock;
-
-    /**
-     * @var \Magento\Catalog\Model\Category|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $categoryMock;
-
     protected function setUp()
     {
         $this->configMock = $this->getMock(
@@ -47,19 +37,7 @@ class CategoryPluginTest extends \PHPUnit_Framework_TestCase
             array(), '', false
         );
 
-        $this->categoryMock = $this->getMock(
-            'Magento\Catalog\Model\Category', array('getId', 'getAffectedCategoryIds', '__wakeup'), array(), '', false
-        );
-
-        $this->chainMock = $this->getMock(
-            'Magento\Code\Plugin\InvocationChain', array('proceed'), array(), '', false
-        );
-        $this->chainMock->expects($this->once())
-            ->method('proceed')
-            ->with(array())
-            ->will($this->returnValue($this->categoryMock));
-
-        $this->model = new \Magento\Catalog\Model\Indexer\Category\Flat\Plugin\Category(
+        $this->model = new \Magento\Catalog\Model\Indexer\Category\Flat\Processor(
             $this->configMock, $this->indexerMock
         );
     }
@@ -102,12 +80,10 @@ class CategoryPluginTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($isEnabled));
     }
 
-    public function testAroundSaveWithFlatDisabled()
+    public function testReindexRowWithFlatDisabled()
     {
         $this->mockConfigIsEnabled(false);
 
-        $this->categoryMock->expects($this->never())
-            ->method('getId');
         $this->indexerMock->expects($this->never())
             ->method('getId');
         $this->indexerMock->expects($this->never())
@@ -116,46 +92,39 @@ class CategoryPluginTest extends \PHPUnit_Framework_TestCase
             ->method('getMode');
         $this->indexerMock->expects($this->never())
             ->method('reindexRow');
-        $this->model->aroundSave(array(), $this->chainMock);
+        $this->model->reindexRow(1);
     }
 
-    public function testAroundSaveWithMviewOn()
+    public function testReindexRowWithMviewOn()
     {
         $this->mockConfigIsEnabled(true);
         $this->mockGetIndexer();
         $this->mockIndexerGetMode('enabled');
 
-        $this->categoryMock->expects($this->never())
-            ->method('getId');
         $this->indexerMock->expects($this->never())
             ->method('reindexRow');
-        $this->model->aroundSave(array(), $this->chainMock);
+        $this->model->reindexRow(1);
     }
 
-    public function testAroundSaveWithMviewOff()
+    public function testReindexRowWithMviewOff()
     {
         $this->mockConfigIsEnabled(true);
         $this->mockGetIndexer();
         $this->mockIndexerGetMode('disabled');
 
-        $this->categoryMock->expects($this->once())
-            ->method('getId')
-            ->will($this->returnValue(1));
         $this->indexerMock->expects($this->at(3))
             ->method('getId')
             ->will($this->returnValue(1));
         $this->indexerMock->expects($this->once())
             ->method('reindexRow')
             ->with(1);
-        $this->model->aroundSave(array(), $this->chainMock);
+        $this->model->reindexRow(1);
     }
 
-    public function testAroundMoveWithFlatDisabled()
+    public function testReindexListWithFlatDisabled()
     {
         $this->mockConfigIsEnabled(false);
 
-        $this->categoryMock->expects($this->never())
-            ->method('getAffectedCategoryIds');
         $this->indexerMock->expects($this->never())
             ->method('getId');
         $this->indexerMock->expects($this->never())
@@ -164,50 +133,24 @@ class CategoryPluginTest extends \PHPUnit_Framework_TestCase
             ->method('getMode');
         $this->indexerMock->expects($this->never())
             ->method('reindexList');
-        $this->model->aroundMove(array(), $this->chainMock);
+        $this->model->reindexList(array(1, 2, 3));
     }
 
-    public function testAroundMoveWithoutAffectedIds()
+    public function testReindexListWithMviewOn()
     {
         $this->mockConfigIsEnabled(true);
-
-        $this->categoryMock->expects($this->once())
-            ->method('getAffectedCategoryIds')
-            ->will($this->returnValue(null));
-        $this->indexerMock->expects($this->never())
-            ->method('getId');
-        $this->indexerMock->expects($this->never())
-            ->method('load');
-        $this->indexerMock->expects($this->never())
-            ->method('getMode');
-        $this->indexerMock->expects($this->never())
-            ->method('reindexList');
-        $this->model->aroundMove(array(), $this->chainMock);
-    }
-
-    public function testAroundMoveWithMviewOn()
-    {
-        $this->mockConfigIsEnabled(true);
-
-        $this->categoryMock->expects($this->once())
-            ->method('getAffectedCategoryIds')
-            ->will($this->returnValue(array(1)));
 
         $this->mockGetIndexer();
         $this->mockIndexerGetMode('enabled');
 
         $this->indexerMock->expects($this->never())
             ->method('reindexList');
-        $this->model->aroundMove(array(), $this->chainMock);
+        $this->model->reindexList(array(1, 2, 3));
     }
 
-    public function testAroundMoveWithMviewOff()
+    public function testReindexListWithMviewOff()
     {
         $this->mockConfigIsEnabled(true);
-
-        $this->categoryMock->expects($this->once())
-            ->method('getAffectedCategoryIds')
-            ->will($this->returnValue(array(1, 2)));
 
         $this->mockGetIndexer();
         $this->mockIndexerGetMode('disabled');
@@ -217,7 +160,8 @@ class CategoryPluginTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(1));
         $this->indexerMock->expects($this->once())
             ->method('reindexList')
-            ->with(array(1, 2));
-        $this->model->aroundMove(array(), $this->chainMock);
+            ->with(array(1, 2, 3));
+
+        $this->model->reindexList(array(1, 2, 3));
     }
 }

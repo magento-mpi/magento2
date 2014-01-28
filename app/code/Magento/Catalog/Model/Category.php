@@ -115,13 +115,6 @@ class Category extends \Magento\Catalog\Model\AbstractModel
     protected $filter;
 
     /**
-     * Index indexer
-     *
-     * @var \Magento\Index\Model\Indexer
-     */
-    protected $_indexIndexer;
-
-    /**
      * Catalog config
      *
      * @var \Magento\Catalog\Model\Config
@@ -164,6 +157,11 @@ class Category extends \Magento\Catalog\Model\AbstractModel
     protected $_categoryTreeFactory;
 
     /**
+     * @var Indexer\Category\Flat\Processor
+     */
+    protected $flatProcessor;
+
+    /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -175,7 +173,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
      * @param \Magento\UrlInterface $url
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
      * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param \Magento\Index\Model\Indexer $indexIndexer
+     * @param Indexer\Category\Flat\Processor $flatProcessor
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Helper\Category\Flat $catalogCategoryFlat
      * @param \Magento\Filter\FilterManager $filter
@@ -195,7 +193,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
         \Magento\UrlInterface $url,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
         \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\Index\Model\Indexer $indexIndexer,
+        \Magento\Catalog\Model\Indexer\Category\Flat\Processor $flatProcessor,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Helper\Category\Flat $catalogCategoryFlat,
         \Magento\Filter\FilterManager $filter,
@@ -210,7 +208,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
         $this->_url = $url;
         $this->_productCollectionFactory = $productCollectionFactory;
         $this->_catalogConfig = $catalogConfig;
-        $this->_indexIndexer = $indexIndexer;
+        $this->flatProcessor = $flatProcessor;
         $this->filter = $filter;
         $this->_catalogCategoryFlat = $catalogCategoryFlat;
         $this->_treeModel = $categoryTreeResource;
@@ -338,9 +336,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
             throw $e;
         }
         $this->_eventManager->dispatch('category_move', $eventParams);
-        $this->_indexIndexer->processEntityAction(
-            $this, self::ENTITY, \Magento\Index\Model\Event::TYPE_SAVE
-        );
+        $this->flatProcessor->reindexList(array($this->getId(), $oldParentId, $parentId));
         $this->_cacheManager->clean(array(self::CACHE_TAG));
 
         return $this;
@@ -995,16 +991,22 @@ class Category extends \Magento\Catalog\Model\AbstractModel
     }
 
     /**
-     * Init indexing process after category save
+     * Add reindexCallback
      *
      * @return \Magento\Catalog\Model\Category
      */
     protected function _afterSave()
     {
         $result = parent::_afterSave();
-        $this->_indexIndexer->processEntityAction(
-            $this, self::ENTITY, \Magento\Index\Model\Event::TYPE_SAVE
-        );
+        $this->_getResource()->addCommitCallback(array($this, 'reindexCallback'));
         return $result;
+    }
+
+    /**
+     * Init indexing process after category save
+     */
+    public function reindexCallback()
+    {
+        $this->flatProcessor->reindexRow($this->getId());
     }
 }
