@@ -1149,4 +1149,6 @@ return array(
     array('copyInventoryData', 'Magento\CatalogInventory\Model\Observer',
         '\Magento\CatalogInventory\Model\Product\CopyConstructor\CatalogInventory::build'
     ),
+    array('isEnabled', '\Magento\Catalog\Helper\Category\Flat',
+        '\Magento\Catalog\Model\Indexer\Category\Flat\Config::isFlatEnabled'),
 );

@@ -129,4 +129,12 @@
             <instance type="Magento\Catalog\Model\System\Config\Source\InputtypeFactory" />
         </param>
     </type>
+    <type name="Magento\Catalog\Model\Indexer\Category\Flat\Plugin\Category">
+        <param name="indexer">
+            <instance type="Magento\Indexer\Model\Indexer" shared="false"/>
+        </param>
+    </type>
+    <type name="Magento\Catalog\Model\Category">
+        <plugin name="categoryFlatIndexer" type="Magento\Catalog\Model\Indexer\Category\Flat\Plugin\Category" />
+    </type>
 </config>

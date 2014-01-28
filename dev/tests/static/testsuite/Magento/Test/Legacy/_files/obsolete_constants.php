@@ -527,4 +527,6 @@ return array(
     array('GENERATION', '\Magento\Filesystem', '\Magento\App\Filesystem::GENERATION_DIR'),
     array('UPLOAD', '\Magento\Filesystem', '\Magento\App\Filesystem::UPLOAD_DIR'),
     array('SYS_TMP', '\Magento\Filesystem', '\Magento\App\Filesystem::SYS_TMP_DIR'),
+    array('XML_PATH_IS_ENABLED_FLAT_CATALOG_CATEGORY', '\Magento\Catalog\Helper\Category\Flat',
+        '\Magento\Catalog\Model\Indexer\Category\Flat\Config::XML_PATH_IS_ENABLED_FLAT_CATALOG_CATEGORY'),
 );

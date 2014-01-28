@@ -13,7 +13,12 @@ namespace Magento\Catalog\Model;
 /**
  * Catalog category
  *
+ * @method setAffectedProductIds(array $productIds)
  * @method array getAffectedProductIds()
+ * @method setMovedCategoryId(array $productIds)
+ * @method int metMovedCategoryId()
+ * @method setAffectedCategoryIds(array $categoryIds)
+ * @method array getAffectedCategoryIds()
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
@@ -309,15 +314,15 @@ class Category extends \Magento\Catalog\Model\AbstractModel
          * Setting affected category ids for third party engine index refresh
         */
         $this->setMovedCategoryId($this->getId());
+        $oldParentId = $this->getParentId();
 
         $eventParams = array(
             $this->_eventObject => $this,
             'parent'        => $parent,
             'category_id'   => $this->getId(),
-            'prev_parent_id'=> $this->getParentId(),
+            'prev_parent_id'=> $oldParentId,
             'parent_id'     => $parentId
         );
-        $moveComplete = false;
 
         $this->_getResource()->beginTransaction();
         try {
@@ -327,20 +332,16 @@ class Category extends \Magento\Catalog\Model\AbstractModel
             $this->_getResource()->commit();
 
             // Set data for indexer
-            $this->setAffectedCategoryIds(array($this->getId(), $this->getParentId(), $parentId));
-
-            $moveComplete = true;
+            $this->setAffectedCategoryIds(array($this->getId(), $oldParentId, $parentId));
         } catch (\Exception $e) {
             $this->_getResource()->rollBack();
             throw $e;
         }
-        if ($moveComplete) {
-            $this->_eventManager->dispatch('category_move', $eventParams);
-            $this->_indexIndexer->processEntityAction(
-                $this, self::ENTITY, \Magento\Index\Model\Event::TYPE_SAVE
-            );
-            $this->_cacheManager->clean(array(self::CACHE_TAG));
-        }
+        $this->_eventManager->dispatch('category_move', $eventParams);
+        $this->_indexIndexer->processEntityAction(
+            $this, self::ENTITY, \Magento\Index\Model\Event::TYPE_SAVE
+        );
+        $this->_cacheManager->clean(array(self::CACHE_TAG));
 
         return $this;
     }
