@@ -12,7 +12,7 @@ namespace Magento;
 interface LauncherInterface
 {
     /**
-     * @return int
+     * @return \Magento\App\ResponseInterface
      */
     public function launch();
 } 
