@@ -565,7 +565,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($jobConfig));
         $this->_config->expects($this->at(1))
             ->method('getJobs')
-            ->will($this->returnValue(array()));
+            ->will($this->returnValue(array('test_group' => array())));
 
         $this->_app->expects($this->at(0))
             ->method('loadCache')
@@ -641,14 +641,16 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->method('getJobs')
             ->will($this->returnValue($jobConfig));
         $jobs = array(
-            'job1' => array(
-                'config_path' => 'test/path'
-            ),
-            'job2' => array(
-                'schedule' => ''
-            ),
-            'job3' => array(
-                'schedule' => '* * * * *'
+            'test_group' => array(
+                'job1' => array(
+                    'config_path' => 'test/path'
+                ),
+                'job2' => array(
+                    'schedule' => ''
+                ),
+                'job3' => array(
+                    'schedule' => '* * * * *'
+                )
             )
         );
         $this->_config->expects($this->at(1))
