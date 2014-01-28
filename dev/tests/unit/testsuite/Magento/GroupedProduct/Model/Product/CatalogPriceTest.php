@@ -81,7 +81,7 @@ class CatalogPriceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(null, $this->catalogPrice->getCatalogPrice($this->productMock));
     }
 
-    public function testGetCatalogPriceIfStoreIsNullAndSubProductIsNotSalable()
+    public function testGetCatalogPriceWithDefaultStoreAndSubProductIsNotSalable()
     {
         $this->productMock
             ->expects($this->once())
@@ -109,7 +109,7 @@ class CatalogPriceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(null, $this->catalogPrice->getCatalogPrice($this->productMock));
     }
 
-    public function testGetCatalogPriceIfStoreExistsAndSubProductIsSalable()
+    public function testGetCatalogPriceWithCustomStoreAndSubProductIsSalable()
     {
         $storeMock = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
         $this->productMock
