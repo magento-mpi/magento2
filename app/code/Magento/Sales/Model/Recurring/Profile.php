@@ -149,6 +149,7 @@ class Profile extends \Magento\Payment\Model\Recurring\Profile
      * @param \Magento\Sales\Model\Order\PaymentFactory $paymentFactory
      * @param \Magento\Sales\Model\Order\ItemFactory $orderItemFactory
      * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\RecurringProfile\Model\PeriodUnits $periodUnits
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -162,6 +163,7 @@ class Profile extends \Magento\Payment\Model\Recurring\Profile
         \Magento\Sales\Model\Order\PaymentFactory $paymentFactory,
         \Magento\Sales\Model\Order\ItemFactory $orderItemFactory,
         \Magento\Math\Random $mathRandom,
+        \Magento\RecurringProfile\Model\PeriodUnits $periodUnits,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -171,7 +173,15 @@ class Profile extends \Magento\Payment\Model\Recurring\Profile
         $this->_paymentFactory = $paymentFactory;
         $this->_orderItemFactory = $orderItemFactory;
         $this->mathRandom = $mathRandom;
-        parent::__construct($context, $registry, $paymentData, $resource, $resourceCollection, $data);
+        parent::__construct(
+            $context,
+            $registry,
+            $paymentData,
+            $periodUnits,
+            $resource,
+            $resourceCollection,
+            $data
+        );
     }
 
     /**

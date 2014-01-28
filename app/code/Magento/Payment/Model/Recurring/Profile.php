@@ -14,6 +14,8 @@
  */
 namespace Magento\Payment\Model\Recurring;
 
+use Magento\RecurringProfile\Model\PeriodUnits;
+
 class Profile extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -23,17 +25,6 @@ class Profile extends \Magento\Core\Model\AbstractModel
      */
     const BUY_REQUEST_START_DATETIME = 'recurring_profile_start_datetime';
     const PRODUCT_OPTIONS_KEY = 'recurring_profile_options';
-
-    /**
-     * Period units
-     *
-     * @var string
-     */
-    const PERIOD_UNIT_DAY = 'day';
-    const PERIOD_UNIT_WEEK = 'week';
-    const PERIOD_UNIT_SEMI_MONTH = 'semi_month';
-    const PERIOD_UNIT_MONTH = 'month';
-    const PERIOD_UNIT_YEAR = 'year';
 
     /**
      * Errors collected during validation
@@ -77,9 +68,15 @@ class Profile extends \Magento\Core\Model\AbstractModel
     protected $_paymentData = null;
 
     /**
+     * @var \Magento\RecurringProfile\Model\PeriodUnits
+     */
+    protected $_periodUnits;
+
+    /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\RecurringProfile\Model\PeriodUnits $periodUnits
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -88,12 +85,14 @@ class Profile extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Payment\Helper\Data $paymentData,
+        \Magento\RecurringProfile\Model\PeriodUnits $periodUnits,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_paymentData = $paymentData;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->_periodUnits = $periodUnits;
     }
 
     /**
@@ -118,7 +117,9 @@ class Profile extends \Magento\Core\Model\AbstractModel
         }
 
         // period unit and frequency
-        if (!$this->getPeriodUnit() || !in_array($this->getPeriodUnit(), $this->getAllPeriodUnits(false), true)) {
+        if (!$this->getPeriodUnit()
+            || !in_array($this->getPeriodUnit(), array_keys($this->_periodUnits->toOptionArray()), true)
+        ) {
             $this->_errors['period_unit'][] = __('The billing period unit is not defined or wrong.');
         }
         if ($this->getPeriodFrequency() && !$this->_validatePeriodFrequency('period_unit', 'period_frequency')) {
@@ -127,7 +128,7 @@ class Profile extends \Magento\Core\Model\AbstractModel
 
         // trial period unit, trial frequency, trial period max cycles, trial billing amount
         if ($this->getTrialPeriodUnit()) {
-            if (!in_array($this->getTrialPeriodUnit(), $this->getAllPeriodUnits(false), true)) {
+            if (!in_array($this->getTrialPeriodUnit(), array_keys($this->_periodUnits->toOptionArray()), true)) {
                 $this->_errors['trial_period_unit'][] = __('The trial billing period unit is wrong.');
             }
             if (!$this->getTrialPeriodFrequency()
@@ -360,55 +361,6 @@ class Profile extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Getter for available period units
-     *
-     * @param bool $withLabels
-     * @return array
-     */
-    public function getAllPeriodUnits($withLabels = true)
-    {
-        $units = array(
-            self::PERIOD_UNIT_DAY,
-            self::PERIOD_UNIT_WEEK,
-            self::PERIOD_UNIT_SEMI_MONTH,
-            self::PERIOD_UNIT_MONTH,
-            self::PERIOD_UNIT_YEAR
-        );
-
-        if ($withLabels) {
-            $result = array();
-            foreach ($units as $unit) {
-                $result[$unit] = $this->getPeriodUnitLabel($unit);
-            }
-            return $result;
-        }
-        return $units;
-    }
-
-    /**
-     * Render label for specified period unit
-     *
-     * @param string $unit
-     * @return string
-     */
-    public function getPeriodUnitLabel($unit)
-    {
-        switch ($unit) {
-            case self::PERIOD_UNIT_DAY:
-                return __('Day');
-            case self::PERIOD_UNIT_WEEK:
-                return __('Week');
-            case self::PERIOD_UNIT_SEMI_MONTH:
-                return __('Two Weeks');
-            case self::PERIOD_UNIT_MONTH:
-                return __('Month');
-            case self::PERIOD_UNIT_YEAR:
-                return __('Year');
-        }
-        return $unit;
-    }
-
-    /**
      * Getter for field label
      *
      * @param string $field
@@ -510,7 +462,7 @@ class Profile extends \Magento\Core\Model\AbstractModel
         $value = $this->_getData($key);
         switch ($key) {
             case 'period_unit':
-                return $this->getPeriodUnitLabel($value);
+                return $this->_periodUnits->toOptionArray()[$value];
             case 'method_code':
                 if (!$this->_paymentMethods) {
                     $this->_paymentMethods = $this->_paymentData->getPaymentMethodList(false);
@@ -606,7 +558,7 @@ class Profile extends \Magento\Core\Model\AbstractModel
      */
     protected function _validatePeriodFrequency($unitKey, $frequencyKey)
     {
-        if ($this->getData($unitKey) == self::PERIOD_UNIT_SEMI_MONTH && $this->getData($frequencyKey) != 1) {
+        if ($this->getData($unitKey) == PeriodUnits::SEMI_MONTH && $this->getData($frequencyKey) != 1) {
             return false;
         }
         return true;
@@ -657,10 +609,10 @@ class Profile extends \Magento\Core\Model\AbstractModel
         if (!$period || !$frequency) {
             return $result;
         }
-        if (self::PERIOD_UNIT_SEMI_MONTH == $period) {
+        if (PeriodUnits::SEMI_MONTH == $period) {
             $frequency = '';
         }
-        $result[] = __('%1 %2 cycle.', $frequency, $this->getPeriodUnitLabel($period));
+        $result[] = __('%1 %2 cycle.', $frequency, $this->_periodUnits->toOptionArray()[$period]);
 
         $cycles = (int)$this->_getData($cyclesKey);
         if ($cycles) {

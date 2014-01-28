@@ -37,6 +37,7 @@
             <module name="Magento_CatalogInventory"/>
             <module name="Magento_Wishlist"/>
             <module name="Magento_Email"/>
+            <module name="Magento_RecurringProfile"/>
         </depends>
     </module>
 </config>

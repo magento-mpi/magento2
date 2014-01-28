@@ -53,6 +53,11 @@ class Form extends \Magento\Backend\Block\AbstractBlock
     protected $_recurringProfile;
 
     /**
+     * @var \Magento\RecurringProfile\Model\PeriodUnits
+     */
+    protected $_periodUnits;
+
+    /**
      * @param \Magento\Backend\Block\Context $context
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Sales\Model\Recurring\Profile $recurringProfile
@@ -62,11 +67,13 @@ class Form extends \Magento\Backend\Block\AbstractBlock
         \Magento\Backend\Block\Context $context,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Sales\Model\Recurring\Profile $recurringProfile,
+        \Magento\RecurringProfile\Model\PeriodUnits $periodUnits,
         array $data = array()
     ) {
         $this->_formFactory = $formFactory;
         $this->_profile = $recurringProfile;
         parent::__construct($context, $data);
+        $this->_periodUnits = $periodUnits;
     }
 
     /**
@@ -219,8 +226,9 @@ class Form extends \Magento\Backend\Block\AbstractBlock
      */
     protected function _getPeriodUnitOptions($emptyLabel)
     {
-        return array_merge(array('' => $emptyLabel),
-            $this->_profile->getAllPeriodUnits()
+        return array_merge(
+            array('' => $emptyLabel),
+            $this->_periodUnits->toOptionArray()
         );
     }
 

@@ -12,4 +12,7 @@
         <attribute name="is_recurring"/>
         <attribute name="recurring_profile"/>
     </group>
+    <group name="unassignable">
+        <attribute name="recurring_profileinit_may_fail" />
+    </group>
 </config>

@@ -1181,4 +1181,14 @@ return array(
     array('getFileIdentifier', 'Magento\View\Layout\File\FileList', 'Magento\View\Layout\File'),
     array('_getInitialXml', 'Magento\Config\Theme'),
     array('_getIdAttributes', 'Magento\Config\Theme'),
+    [
+        'getAllPeriodUnits',
+        'Magento\Payment\Model\Recurring\Profile',
+        'Magento\RecurringProfile\Model\PeriodUnits::toOptionArray'
+    ],
+    [
+        'getPeriodUnitLabel',
+        'Magento\Payment\Model\Recurring\Profile',
+        'Magento\RecurringProfile\Model\PeriodUnits::toOptionArray()[\Magento\RecurringProfile\Model\PeriodUnits::DAY]'
+    ],
 );
