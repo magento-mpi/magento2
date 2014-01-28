@@ -9,6 +9,7 @@
 namespace Magento\Sales\Model\AdminOrder;
 
 use Magento\Customer\Service\V1\CustomerServiceInterface;
+use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
 use Magento\Customer\Model\Metadata\Form as CustomerForm;
 use Magento\Customer\Service\V1\Dto\Customer as CustomerDto;
 
@@ -1105,21 +1106,6 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     }
 
     /**
-     * Return Customer Address Form instance
-     *
-     * @return \Magento\Customer\Model\Form
-     */
-    protected function _getCustomerAddressForm()
-    {
-        if (is_null($this->_customerAddressForm)) {
-            $this->_customerAddressForm = $this->_objectManager->create('Magento\Customer\Model\Form')
-                ->setFormCode('adminhtml_customer_address')
-                ->ignoreInvisible(false);
-        }
-        return $this->_customerAddressForm;
-    }
-
-    /**
      * Set and validate Quote address
      * All errors added to _errors
      *
@@ -1129,10 +1115,15 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      */
     protected function _setQuoteAddress(\Magento\Sales\Model\Quote\Address $address, array $data)
     {
-        $addressForm    = $this->_getCustomerAddressForm()
-            ->setEntity($address)
-            ->setEntityType($this->_objectManager->get('Magento\Eav\Model\Config')->getEntityType('customer_address'))
-            ->setIsAjaxRequest(!$this->getIsValidate());
+        $isAjax = !$this->getIsValidate();
+        $addressForm = $this->_metadataFormFactory->create(
+            CustomerMetadataServiceInterface::ADDRESS_ENTITY_TYPE,
+            'adminhtml_customer_address',
+            $address->getData(),
+            CustomerForm::DONT_IGNORE_INVISIBLE,
+            [],
+            $isAjax
+        );
 
         // prepare request
         // save original request structure for files
@@ -1143,8 +1134,8 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
             $requestData = array('order' => array('billing_address' => $data));
             $requestScope = 'order/billing_address';
         }
-        $request        = $addressForm->prepareRequest($requestData);
-        $addressData    = $addressForm->extractData($request, $requestScope);
+        $request = $addressForm->prepareRequest($requestData);
+        $addressData = $addressForm->extractData($request, $requestScope);
         if ($this->getIsValidate()) {
             $errors = $addressForm->validateData($addressData);
             if ($errors !== true) {
@@ -1156,28 +1147,31 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
                 foreach ($errors as $error) {
                     $this->_errors[] = $typeName . $error;
                 }
-                $addressForm->restoreData($addressData);
+                $address->setData($addressForm->restoreData($addressData));
             } else {
-                $addressForm->compactData($addressData);
+                $address->setData($addressForm->compactData($addressData));
             }
         } else {
-            $addressForm->restoreData($addressData);
+            $address->setData($addressForm->restoreData($addressData));
         }
-
         return $this;
     }
 
     public function setShippingAddress($address)
     {
         if (is_array($address)) {
-            $address['save_in_address_book'] = isset($address['save_in_address_book'])
-                && !empty($address['save_in_address_book']);
             $shippingAddress = $this->_objectManager->create('Magento\Sales\Model\Quote\Address')
                 ->setData($address)
                 ->setAddressType(\Magento\Sales\Model\Quote\Address::TYPE_SHIPPING);
             if (!$this->getQuote()->isVirtual()) {
                 $this->_setQuoteAddress($shippingAddress, $address);
             }
+            /**
+             * save_in_address_book is not a valid attribute and is filtered out by _setQuoteAddress,
+             * that is why it should be added after _setQuoteAddress call
+             */
+            $saveInAddressBook = (int)!empty($address['save_in_address_book']);
+            $shippingAddress->setData('save_in_address_book', $saveInAddressBook);
         }
         if ($address instanceof \Magento\Sales\Model\Quote\Address) {
             $shippingAddress = $address;
@@ -1216,22 +1210,27 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     public function setBillingAddress($address)
     {
         if (is_array($address)) {
-            $address['save_in_address_book'] = isset($address['save_in_address_book']) ? 1 : 0;
             $billingAddress = $this->_objectManager->create('Magento\Sales\Model\Quote\Address')
                 ->setData($address)
                 ->setAddressType(\Magento\Sales\Model\Quote\Address::TYPE_BILLING);
             $this->_setQuoteAddress($billingAddress, $address);
-        }
+            /**
+             * save_in_address_book is not a valid attribute and is filtered out by _setQuoteAddress,
+             * that is why it should be added after _setQuoteAddress call
+             */
+            $saveInAddressBook = (int)!empty($address['save_in_address_book']);
+            $billingAddress->setData('save_in_address_book', $saveInAddressBook);
 
-        if ($this->getShippingAddress()->getSameAsBilling()) {
-            $shippingAddress = clone $billingAddress;
-            $shippingAddress->setSameAsBilling(true);
-            $shippingAddress->setSaveInAddressBook(false);
-            $address['save_in_address_book'] = 0;
-            $this->setShippingAddress($address);
-        }
+            if ($this->getShippingAddress()->getSameAsBilling()) {
+                $shippingAddress = clone $billingAddress;
+                $shippingAddress->setSameAsBilling(true);
+                $shippingAddress->setSaveInAddressBook(false);
+                $address['save_in_address_book'] = 0;
+                $this->setShippingAddress($address);
+            }
 
-        $this->getQuote()->setBillingAddress($billingAddress);
+            $this->getQuote()->setBillingAddress($billingAddress);
+        }
         return $this;
     }
 

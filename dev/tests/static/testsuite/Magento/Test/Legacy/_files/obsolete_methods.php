@@ -152,6 +152,7 @@ return array(
     array('_saveCache', 'Magento\Backend\Model\Menu\Config'),
     array('_saveCache', 'Magento\Core\Model\Config'),
     array('_saveCustomerAfterOrder', 'Magento\Sales\Model\AdminOrder\Create'),
+    array('_getCustomerAddressForm', 'Magento\Sales\Model\AdminOrder\Create'),
     array('_saveCustomers', 'Magento\Sales\Model\AdminOrder\Create'),
     array('_saveSectionCache', 'Magento\Core\Model\Config'),
     array('_sendUploadResponse', 'Magento\Backend\Controller\Customer'),

@@ -282,7 +282,6 @@ class CreateTest extends \PHPUnit_Framework_TestCase
     protected function _getValidAddressData()
     {
         return [
-            'customer_address_id' => '',
             'prefix' => 'prefix',
             'firstname' => 'FirstName',
             'middlename' => 'MiddleName',

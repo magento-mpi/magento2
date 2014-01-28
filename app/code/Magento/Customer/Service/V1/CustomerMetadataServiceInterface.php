@@ -17,7 +17,8 @@ interface CustomerMetadataServiceInterface
 {
     const CUSTOMER_ATTRIBUTE_SET_ID = 1;
     const ADDRESS_ATTRIBUTE_SET_ID = 2;
-    const ENTITY_TYPE = 'customer';
+    const CUSTOMER_ENTITY_TYPE = 'customer';
+    const ADDRESS_ENTITY_TYPE = 'customer_address';
 
     /**
      * Retrieve Attribute Metadata

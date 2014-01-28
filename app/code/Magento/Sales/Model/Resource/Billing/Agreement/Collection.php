@@ -86,7 +86,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
 
         $adapter  = $this->getConnection();
         $firstNameMetadata = $this->_eavHelper->getAttributeMetadata(
-            CustomerMetadataServiceInterface::ENTITY_TYPE,
+            CustomerMetadataServiceInterface::CUSTOMER_ENTITY_TYPE,
             'firstname'
         );
         $joinExpr = 'firstname.entity_id = main_table.customer_id AND '
@@ -100,7 +100,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         );
 
         $lastNameMetadata = $this->_eavHelper->getAttributeMetadata(
-            CustomerMetadataServiceInterface::ENTITY_TYPE,
+            CustomerMetadataServiceInterface::CUSTOMER_ENTITY_TYPE,
             'lastname'
         );
         $joinExpr = 'lastname.entity_id = main_table.customer_id AND '
