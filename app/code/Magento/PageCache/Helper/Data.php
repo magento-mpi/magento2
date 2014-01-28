@@ -27,12 +27,4 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Private caching time one year
      */
     const MAX_AGE_CACHE = 31536000;
-
-    /**
-     * @return mixed
-     */
-    public function getMaxAgeCache()
-    {
-        return self::MAX_AGE_CACHE;
-    }
 }
