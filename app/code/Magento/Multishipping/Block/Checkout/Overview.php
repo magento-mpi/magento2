@@ -350,7 +350,7 @@ class Overview extends \Magento\Sales\Block\Items\AbstractItems
     protected function _getRowItemRenderer($type)
     {
         $renderer = $this->getItemRenderer($type);
-        if (!$renderer !== $this->getItemRenderer(self::DEFAULT_TYPE)) {
+        if ($renderer !== $this->getItemRenderer(self::DEFAULT_TYPE)) {
             $renderer->setTemplate($this->getRowRendererTemplate());
         }
         return $renderer;
