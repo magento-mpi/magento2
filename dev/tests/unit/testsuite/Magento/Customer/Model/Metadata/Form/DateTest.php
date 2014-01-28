@@ -57,10 +57,10 @@ class DateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param $value Value to validate
-     * @param $validation Array of more validation metadata
-     * @param $required Whether field is required
-     * @param $expected Expected output
+     * @param array|string $value Value to validate
+     * @param array $validation Array of more validation metadata
+     * @param bool $required Whether field is required
+     * @param array|bool $expected Expected output
      *
      * @dataProvider validateValueDataProvider
      */
@@ -119,8 +119,8 @@ class DateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param $value value to pass to compactValue()
-     * @param $expected expected output
+     * @param array|string $value value to pass to compactValue()
+     * @param array|string|bool $expected expected output
      *
      * @dataProvider compactAndRestoreValueDataProvider
      */
@@ -135,12 +135,14 @@ class DateTest extends \PHPUnit_Framework_TestCase
             [1, 1],
             [false, false],
             ['', null],
+            ['test', 'test'],
+            [['element1', 'element2'], ['element1', 'element2']],
         ];
     }
 
     /**
-     * @param $value Value to pass to restoreValue()
-     * @param $expected Expected output
+     * @param array|string $value Value to pass to restoreValue()
+     * @param array|string|bool $expected Expected output
      *
      * @dataProvider compactAndRestoreValueDataProvider
      */
