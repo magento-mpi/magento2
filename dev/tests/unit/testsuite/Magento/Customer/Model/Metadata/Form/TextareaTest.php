@@ -15,16 +15,16 @@ class TextareaTest extends TextTest
      * @param string|int|bool|null $value The value undergoing testing by a given test
      * @return Textarea
      */
-    protected function getSUT($value)
+    protected function _getClass($value)
     {
         return new Textarea(
-            $this->localeMock,
-            $this->loggerMock,
-            $this->attributeMetadataMock,
+            $this->_localeMock,
+            $this->_loggerMock,
+            $this->_attributeMetadataMock,
             $value,
             0,
             false,
-            $this->stringHelper
+            $this->_stringHelper
         );
     }
 }
