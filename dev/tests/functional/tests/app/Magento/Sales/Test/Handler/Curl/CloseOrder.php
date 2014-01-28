@@ -135,6 +135,9 @@ class CloseOrder extends Curl
         }
 
         // Click Invoice button if the payment method was not PayPal Standard
+        // Note:  a check can be added here for future tests that have a payment method
+        // configured that has a payment action of 'Sale' instead of 'Authorization'
+        // as clicking the Invoice button step can be skipped.
         if(!($fixture instanceof \Magento\Sales\Test\Fixture\PaypalStandardOrder)) {
             //Click Invoice button and create a new invoice page
             $url = $_ENV['app_backend_url'] . $this->startInvoiceUrl . $orderId;
