@@ -9,8 +9,7 @@
 -->
 <config>
     <type name="Magento\App\FrontControllerInterface">
-        <plugin name="front-controller-head"
-            type="Magento\PageCache\Model\App\FrontController\HeaderPlugin" disabled="true"/>
+        <plugin name="front-controller-head" type="Magento\PageCache\Model\App\FrontController\HeaderPlugin"/>
     </type>
     <preference for="Magento\View\LayoutInterface" type="Magento\PageCache\Model\Decorator\Layout" />
 </config>
