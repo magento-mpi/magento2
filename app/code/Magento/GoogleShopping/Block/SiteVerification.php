@@ -5,8 +5,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GoogleShopping\Block;
+
 use Magento\View\Element\AbstractBlock;
 
 /**

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GoogleShopping\Block\Adminhtml\Items;
 
 /**
  * Products Grid to add to Google Content
@@ -15,8 +16,6 @@
  * @package     Magento_GoogleShopping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GoogleShopping\Block\Adminhtml\Items;
-
 class Product extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
@@ -213,7 +212,7 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Get array with product ids, which was exported to Google Content
      *
-     * @return array
+     * @return int[]
      */
     protected function _getGoogleShoppingProductIds()
     {
