@@ -18,7 +18,7 @@
             handles: []
         },
         _create: function () {
-            var version = $.mage.cookies.get(this.options.versionCookieName) || '';
+            var version = $.mage.cookies.get(this.options.versionCookieName);
             if (!version) {
                 return ;
             }
@@ -53,7 +53,7 @@
             }
             return placeholders;
         },
-        _replacePlaceholder: function(placeholder, content) {
+        _replacePlaceholder: function(placeholder, html) {
             var parent = $(placeholder.openElement).parent(),
                 contents = parent.contents(),
                 startReplacing = false,
@@ -74,9 +74,9 @@
                 }
             }
             if (prevSibling) {
-                $(prevSibling).after(content);
+                $(prevSibling).after(html);
             } else {
-                $(parent).prepend(content);
+                $(parent).prepend(html);
             }
         },
         _ajax: function (placeholders, version) {
@@ -87,9 +87,6 @@
             };
             for (var i = 0; i < placeholders.length; i++) {
                 data.blocks.push(placeholders[i].name);
-            }
-            if (!data) {
-                return;
             }
             $.ajax({
                 url: this.options.url,
