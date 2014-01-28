@@ -8,17 +8,10 @@
  * @license     {license_link}
  */
 
-/**
- * Page cache data helper
- *
- * @category    Magento
- * @package     Magento_PageCache
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\PageCache\Model;
 
 /**
- * Class Data
+ * Class Version
  * @package Magento\PageCache\Model
  */
 class Version
@@ -63,6 +56,11 @@ class Version
         $this->cookie->set(self::COOKIE_NAME, $this->generateValue(), self::COOKIE_PERIOD, '/');
     }
 
+    /**
+     * Generate unique version identifier
+     *
+     * @return string
+     */
     private function generateValue()
     {
         return md5(rand() . time());
