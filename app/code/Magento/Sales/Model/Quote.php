@@ -629,6 +629,28 @@ class Quote extends \Magento\Core\Model\AbstractModel
      */
     public function getCustomerData()
     {
+        return $this->_customerData;
+    }
+
+    /**
+     * Set customer data object
+     *
+     * @param \Magento\Customer\Service\V1\Dto\Customer $customerData
+     * @return self
+     */
+    public function setCustomerData(\Magento\Customer\Service\V1\Dto\Customer $customerData)
+    {
+        $this->_customerData = $customerData;
+        return $this;
+    }
+
+    /**
+     * Retrieve customer data object
+     *
+     * @return \Magento\Customer\Service\V1\Dto\Customer
+     */
+    public function getCustomerData()
+    {
         /* @TODO: remove this code in favor of setCustomerData usage */
         $customerModel = $this->getCustomer();
         $customerData = $this->_converter->createCustomerFromModel($customerModel);
