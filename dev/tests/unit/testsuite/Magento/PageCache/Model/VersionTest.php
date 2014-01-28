@@ -17,24 +17,14 @@ namespace Magento\PageCache\Model;
 class VersionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Name of cookie that holds private content version
-     */
-    const COOKIE_NAME = 'private_content_version';
-
-    /**
-     * Ten years cookie period
-     */
-    const COOKIE_PERIOD = 315360000;
-
-    /**
-     * Cookie
+     * Cookie mock
      *
      * @var \Magento\Stdlib\Cookie|\PHPUnit_Framework_MockObject_MockObject
      */
     private $cookieMock;
 
     /**
-     * Request
+     * Request mock
      *
      * @var \Magento\App\Request\Http|\PHPUnit_Framework_MockObject_MockObject
      */
