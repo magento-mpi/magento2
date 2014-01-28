@@ -13,17 +13,15 @@ namespace Magento\Rss\Block\Catalog;
 class AbstractCatalog extends \Magento\Rss\Block\AbstractBlock
 {
     /**
+     * Block alias fallback
+     */
+    const DEFAULT_TYPE = 'default';
+
+    /**
      * Stored price block instances
      * @var array
      */
     protected $_priceBlock = array();
-
-    /**
-     * Default values for price block and template
-     * @var string
-     */
-    protected $_priceBlockDefaultTemplate = 'rss/product/price.phtml';
-    protected $_priceBlockDefaultType = 'Magento\Catalog\Block\Product\Price';
 
     /**
      * Whether to show "As low as" as a link
@@ -65,32 +63,27 @@ class AbstractCatalog extends \Magento\Rss\Block\AbstractBlock
     /**
      * Return Price Block renderer for specified product type
      *
-     * @param string $productTypeId Catalog Product type
-     * @return \Magento\View\Element\AbstractBlock
+     * @param string $type Catalog Product type
+     * @return \Magento\View\Element\Template
      */
-    protected function _getPriceBlock($productTypeId)
+    protected function _getPriceBlock($type)
     {
-        if (!isset($this->_priceBlock[$productTypeId])) {
+        if (!isset($this->_priceBlock[$type])) {
             /** @var \Magento\View\Element\RendererList $rendererList */
-            $rendererList = $this->getChildBlock('item_renderers_list');
-
-            /** @var \Magento\View\Element\Template $renderer */
-            $renderer = $rendererList->getRenderer($productTypeId);
-
-            if (!$renderer) {
-                $renderer = $this->getLayout()->createBlock(
-                    $this->_priceBlockDefaultType,
-                    $productTypeId,
-                    array('data' => array('template' => $this->_priceBlockDefaultTemplate))
+            $rendererList = $this->getRendererListName()
+                ? $this->getLayout()->getBlock($this->getRendererListName())
+                : $this->getChildBlock('renderer.list');
+            if (!$rendererList) {
+                throw new \RuntimeException(
+                    'Renderer list for block "' . $this->getNameInLayout() . '" is not defined'
                 );
-            } else {
-                if (!$renderer->getTemplate()) {
-                    $renderer->setTemplate($this->_priceBlockDefaultTemplate);
-                }
             }
-            $this->_priceBlock[$productTypeId] = $renderer;
+            $overriddenTemplates = $this->getOverriddenTemplates() ?: array();
+            $template = isset($overriddenTemplates[$type]) ? $overriddenTemplates[$type] : $this->getRendererTemplate();
+            $renderer = $rendererList->getRenderer($type, self::DEFAULT_TYPE, $template);
+            $this->_priceBlock[$type] = $renderer;
         }
-        return $this->_priceBlock[$productTypeId];
+        return $this->_priceBlock[$type];
     }
 
     /**
