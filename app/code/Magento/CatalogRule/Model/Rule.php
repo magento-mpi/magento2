@@ -10,6 +10,8 @@
 
 namespace Magento\CatalogRule\Model;
 
+use Magento\Catalog\Model\Product;
+
 /**
  * Catalog Rule data model
  *
@@ -239,7 +241,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Get catalog rule customer group Ids
      *
-     * @return array
+     * @return mixed
      */
     public function getCustomerGroupIds()
     {
@@ -267,6 +269,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * Set current date for current rule
      *
      * @param string $now
+     * @return void
      */
     public function setNow($now)
     {
@@ -310,7 +313,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Callback function for product matching
      *
-     * @param $args
+     * @param string $args
      * @return void
      */
     public function callbackValidateProduct($args)
@@ -326,7 +329,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Apply rule to product
      *
-     * @param int|\Magento\Catalog\Model\Product $product
+     * @param int|Product $product
      * @param array|null $websiteIds
      *
      * @return void
@@ -345,7 +348,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Apply all price rules, invalidate related cache and refresh price index
      *
-     * @return \Magento\CatalogRule\Model\Rule
+     * @return void
      */
     public function applyAll()
     {
@@ -361,15 +364,15 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Apply all price rules to product
      *
-     * @param  int|\Magento\Catalog\Model\Product $product
-     * @return \Magento\CatalogRule\Model\Rule
+     * @param  int|Product $product
+     * @return void
      */
     public function applyAllRulesToProduct($product)
     {
         $this->_getResource()->applyAllRulesForDateRange(null, null, $product);
         $this->_invalidateCache();
 
-        if ($product instanceof \Magento\Catalog\Model\Product) {
+        if ($product instanceof Product) {
             $productId = $product->getId();
         } else {
             $productId = $product;
@@ -378,7 +381,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         if ($productId) {
             $this->_indexer->processEntityAction(
                 new \Magento\Object(array('id' => $productId)),
-                \Magento\Catalog\Model\Product::ENTITY,
+                Product::ENTITY,
                 \Magento\Catalog\Model\Product\Indexer\Price::EVENT_TYPE_REINDEX_PRICE
             );
         }
@@ -387,11 +390,11 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Calculate price using catalog price rule of product
      *
-     * @param \Magento\Catalog\Model\Product $product
+     * @param Product $product
      * @param float $price
      * @return float|null
      */
-    public function calcProductPriceRule(\Magento\Catalog\Model\Product $product, $price)
+    public function calcProductPriceRule(Product $product, $price)
     {
         $priceRules = null;
         $productId  = $product->getId();
@@ -461,6 +464,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * Filtering products that must be checked for matching with rule
      *
      * @param  int|array $productIds
+     * @return void
      */
     public function setProductsFilter($productIds)
     {
@@ -480,7 +484,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Invalidate related cache types
      *
-     * @return \Magento\CatalogRule\Model\Rule
+     * @return $this
      */
     protected function _invalidateCache()
     {

@@ -37,7 +37,7 @@ class Collection extends \Magento\Rule\Model\Resource\Rule\Collection\AbstractCo
      * Find product attribute in conditions or actions
      *
      * @param string $attributeCode
-     * @return \Magento\CatalogRule\Model\Resource\Rule\Collection
+     * @return $this
      */
     public function addAttributeInConditionFilter($attributeCode)
     {
