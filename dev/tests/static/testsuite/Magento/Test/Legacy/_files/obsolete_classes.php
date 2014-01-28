@@ -1048,6 +1048,9 @@ return array(
     array('Magento\Backup\Model\Resource\Helper\Mysql4', 'Magento\Backup\Model\Resource\Helper'),
     array('Magento\Sales\Model\CarrierFactory', 'Magento\Shipping\Model\CarrierFactory'),
     array('Magento\Sales\Model\Order\Pdf\Shipment\Packaging', 'Magento\Shipping\Model\Order\Pdf\Packaging'),
+    array(
+        'Magento\Sales\Model\Observer\Backend\RecurringProfile\FormRenderer', 'Magento\RecurringProfile\Model\Observer'
+    ),
     array('Magento\Sales\Model\ResourceFactory'),
     array('Magento\Sales\Model\Resource\Helper\Mysql4', 'Magento\Sales\Model\Resource\Helper'),
     array('Magento\Core\Model\Resource\Helper\Mysql4', 'Magento\Core\Model\Resource\Helper'),

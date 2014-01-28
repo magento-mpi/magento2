@@ -762,7 +762,11 @@ return array(
     ),
     array(
         'prepareProductEditFormRecurringProfile', 'Magento\Sales\Model\Observer',
-        'Magento_Sales_Model_Observer_Backend_RecurringProfile_FormRenderer::render'
+        'Magento\RecurringProfile\Model\Observer::renderForm'
+    ),
+    array(
+        'prepareProductRecurringProfileOptions', 'Magento\Payment\Model\Observer',
+        'Magento\RecurringProfile\Model\Observer::prepareProductRecurringProfileOptions'
     ),
     array(
         'restrictAdminBillingAgreementUsage', 'Magento\Sales\Model\Observer',
