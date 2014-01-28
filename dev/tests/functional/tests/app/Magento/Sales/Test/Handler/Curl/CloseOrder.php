@@ -108,11 +108,11 @@ class CloseOrder extends Curl
         $data = array();
         $response = $this->_executeCurl($url, $data);
 
-        $searchUrl = '#' . $_ENV['app_backend_url'] . 'sales/order/view/order_id/[0-9]+#';
+        $searchUrl = '#href=\"' . $_ENV['app_backend_url'] . 'sales/order/view/order_id/[0-9]+/\">View#';
 
         preg_match($searchUrl, $response, $orderUrl);
-        preg_match('/\/(\d+)$/', $orderUrl[0], $orderIds);
-        $orderId = $orderIds[1];
+        $urlSubStrings = explode('/',$orderUrl[0]);
+        $orderId = $urlSubStrings[count($urlSubStrings)-2];
 
         //Click Ship button and create a new shipment page
         $url = $_ENV['app_backend_url'] . $this->startShipmentUrl . $orderId;
