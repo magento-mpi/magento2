@@ -1,6 +1,6 @@
 <?php
 /**
- * test Magento\Customer\Model\Model\Metadata\Form\Date
+ * test Magento\Customer\Model\Metadata\Form\Date
  *
  * {license_notice}
  *
