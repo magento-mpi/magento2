@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\Rma\Model\Item\Attribute\Source;
+
 /**
  * RMA Item status attribute model
  *
@@ -15,14 +17,12 @@
  * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Rma\Model\Item\Attribute\Source;
-
 class Status extends \Magento\Rma\Model\Rma\Source\Status
 {
     /**
      * Get available states keys for entities
      *
-     * @return array
+     * @return string[]
      */
     protected function _getAvailableValues()
     {

@@ -23,7 +23,7 @@ class AbstractApi extends \Magento\Object
     /**
      * Api response
      *
-     * @var $_response array
+     * @var array
      */
     protected $_response = array();
 
@@ -90,8 +90,8 @@ class AbstractApi extends \Magento\Object
      * Make a call to Payment Bridge service with given request parameters
      *
      * @param array $request
-     * @throws \Exception
      * @return bool
+     * @throws \Exception
      * @throws \Magento\Core\Exception
      */
     protected function _call(array $request)

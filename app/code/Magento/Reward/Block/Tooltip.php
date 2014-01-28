@@ -108,6 +108,8 @@ class Tooltip extends \Magento\View\Element\Template
 
     /**
      * Set various template variables
+     *
+     * @return void
      */
     protected function _prepareTemplateData()
     {

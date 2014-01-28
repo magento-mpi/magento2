@@ -59,6 +59,10 @@ class Methods extends \Magento\View\Element\Template
         }
     }
 
+    /**
+     * @param float $price
+     * @return float
+     */
     public function getShippingPrice($price)
     {
         return $this->_coreRegistry->registry('current_rma')
@@ -73,6 +77,9 @@ class Methods extends \Magento\View\Element\Template
         ;
     }
 
+    /**
+     * @return string
+     */
     public function jsonData($method)
     {
         $data = array();
