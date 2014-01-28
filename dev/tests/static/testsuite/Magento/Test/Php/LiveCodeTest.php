@@ -115,14 +115,14 @@ class LiveCodeTest extends PHPUnit_Framework_TestCase
         $warningSeverity = 5;
         $wrapper = new Wrapper();
         $codeSniffer = new CodeSniffer(
-            realpath(__DIR__ . '/_files/phpcs/Magento'),
+            realpath(__DIR__ . '/../../../../framework/Magento/ruleset.xml'),
             $reportFile,
             $wrapper
         );
         if (!$codeSniffer->canRun()) {
             $this->markTestSkipped('PHP Code Sniffer is not installed.');
         }
-        self::setupFileLists();
+        self::setupFileLists('phpcs');
         $result = $codeSniffer->run(self::$whiteList, self::$blackList, array('php', 'phtml'), $warningSeverity);
         $this->markTestIncomplete("PHP Code Sniffer has found $result error(s): See detailed report in $reportFile");
         $this->assertEquals(

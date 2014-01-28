@@ -1,4 +1,15 @@
 <?php
+namespace Magento\Sniffs\Annotations;
+
+use \PHP_CodeSniffer_Standards_AbstractVariableSniff;
+use \PHP_CodeSniffer_CommentParser_ClassCommentParser;
+use \PHP_CodeSniffer_File;
+use \PHP_CodeSniffer_CommentParser_MemberCommentParser;
+use \PHP_CodeSniffer_CommentParser_ParserException;
+use \PHP_CodeSniffer_CommentParser_CommentElement;
+
+include_once 'Helper.php';
+
 /**
  * Parses and verifies the variable doc comment.
  *
@@ -22,22 +33,162 @@
  *
  * @SuppressWarnings(PHPMD)
  */
-include_once 'Helper.php';
-class Magento_Sniffs_Annotations_RequireAnnotatedAttributesSniff extends PHP_CodeSniffer_Standards_AbstractVariableSniff
+class RequireAnnotatedAttributesSniff extends PHP_CodeSniffer_Standards_AbstractVariableSniff
 {
     /**
      * The header comment parser for the current file.
      *
-     * @var PHP_CodeSniffer_Comment_Parser_ClassCommentParser
+     * @var PHP_CodeSniffer_CommentParser_ClassCommentParser
      */
     protected $commentParser = null;
 
     /**
      * The sniff helper for stuff shared between the annotations sniffs
      *
-     * @var Magento_Sniffs_Annotations_Helper
+     * @var Helper
      */
     protected $helper = null;
+
+    /**
+     * Extract the var comment docblock
+     *
+     * @param array $tokens
+     * @param string $commentToken
+     * @param int $stackPtr  The position of the current token in the stack passed in $tokens.
+     * @return int|false
+     */
+    protected function extractVarDocBlock($tokens, $commentToken, $stackPtr) {
+        $commentEnd = $this->helper->getCurrentFile()->findPrevious($commentToken, $stackPtr - 3);
+        $break = false;
+        if ($commentEnd !== false && $tokens[$commentEnd]['code'] === T_COMMENT) {
+            $this->helper->addMessage(
+                $stackPtr,
+                Helper::WRONG_STYLE,
+                array('variable')
+            );
+            $break = true;
+        } elseif ($commentEnd === false || $tokens[$commentEnd]['code'] !== T_DOC_COMMENT) {
+            $this->helper->addMessage(
+                $stackPtr,
+                Helper::MISSING,
+                array('variable')
+            );
+            $break = true;
+        } else {
+            // Make sure the comment we have found belongs to us.
+            $commentFor = $this->helper->getCurrentFile()->findNext(
+                array(T_VARIABLE, T_CLASS, T_INTERFACE), $commentEnd + 1
+            );
+            if ($commentFor !== $stackPtr) {
+                $this->helper->addMessage(
+                    $stackPtr,
+                    Helper::MISSING,
+                    array('variable')
+                );
+                $break = true;
+            }
+        }
+        return $break ? false : $commentEnd;
+    }
+
+    /**
+     * Checks for short and long descriptions on variable definitions
+     *
+     * @param PHP_CodeSniffer_CommentParser_CommentElement $comment
+     * @param int $commentStart
+     * @return void
+     */
+    protected function checkForDescription($comment, $commentStart)
+    {
+        $short = $comment->getShortComment();
+        $long = '';
+        $newlineCount = 0;
+        if (trim($short) === '') {
+            $this->helper->addMessage($commentStart, Helper::MISSING_SHORT, array('variable'));
+            $newlineCount = 1;
+        } else {
+            // No extra newline before short description.
+            $newlineSpan = strspn($short, $this->helper->getEolChar());
+            if ($short !== '' && $newlineSpan > 0) {
+                $this->helper->addMessage(
+                    $commentStart + 1,
+                    Helper::SPACING_BEFORE_SHORT,
+                    array('variable')
+                );
+            }
+
+            $newlineCount = substr_count($short, $this->helper->getEolChar()) + 1;
+
+            // Exactly one blank line between short and long description.
+            $long = $comment->getLongComment();
+            if (empty($long) === false) {
+                $between = $comment->getWhiteSpaceBetween();
+                $newlineBetween = substr_count($between, $this->helper->getEolChar());
+                if ($newlineBetween !== 2) {
+                    $this->helper->addMessage(
+                        $commentStart + $newlineCount + 1,
+                        Helper::SPACING_BETWEEN,
+                        array('variable')
+                    );
+                }
+
+                $newlineCount += $newlineBetween;
+
+                $testLong = trim($long);
+                if (preg_match('|\p{Lu}|u', $testLong[0]) === 0) {
+                    $this->helper->addMessage(
+                        $commentStart + $newlineCount,
+                        Helper::LONG_NOT_CAPITAL,
+                        array('Variable')
+                    );
+                }
+            }
+
+            // Short description must be single line and end with a full stop.
+            $testShort = trim($short);
+            $lastChar = $testShort[strlen($testShort) - 1];
+            if (substr_count($testShort, $this->helper->getEolChar()) !== 0) {
+                $this->helper->addMessage(
+                    $commentStart + 1,
+                    Helper::SHORT_SINGLE_LINE,
+                    array('Variable')
+                );
+            }
+
+            if (preg_match('|\p{Lu}|u', $testShort[0]) === 0) {
+                $this->helper->addMessage(
+                    $commentStart + 1,
+                    Helper::SHORT_NOT_CAPITAL,
+                    array('Variable')
+                );
+            }
+
+            if ($lastChar !== '.') {
+                $this->helper->addMessage(
+                    $commentStart + 1,
+                    Helper::SHORT_FULL_STOP,
+                    array('Variable')
+                );
+            }
+        }
+        // Exactly one blank line before tags.
+        $tags = $this->commentParser->getTagOrders();
+        if (count($tags) > 1) {
+            $newlineSpan = $comment->getNewlineAfter();
+            if ($newlineSpan !== 2) {
+                if ($long !== '') {
+                    $newlineCount += substr_count($long, $this->helper->getEolChar()) - $newlineSpan + 1;
+                }
+
+                $this->helper->addMessage(
+                    $commentStart + $newlineCount,
+                    Helper::SPACING_BEFORE_TAGS,
+                    array('variable')
+                );
+                $short = rtrim($short, $this->helper->getEolChar() . ' ');
+            }
+        }
+    }
 
     /**
      * Called to process class member vars.
@@ -50,37 +201,14 @@ class Magento_Sniffs_Annotations_RequireAnnotatedAttributesSniff extends PHP_Cod
      */
     public function processMemberVar(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
-        $this->helper = new Magento_Sniffs_Annotations_Helper($phpcsFile);
+        $this->helper = new Helper($phpcsFile);
         $tokens = $phpcsFile->getTokens();
         $commentToken = array(T_COMMENT, T_DOC_COMMENT);
 
         // Extract the var comment docblock.
-        $commentEnd = $phpcsFile->findPrevious($commentToken, $stackPtr - 3);
-        if ($commentEnd !== false && $tokens[$commentEnd]['code'] === T_COMMENT) {
-            $this->helper->addMessage(
-                'You must use "/**" style comments for a variable comment',
-                $stackPtr,
-                Magento_Sniffs_Annotations_Helper::WRONG_STYLE
-            );
+        $commentEnd = $this->extractVarDocBlock($tokens, $commentToken, $stackPtr);
+        if ($commentEnd === false) {
             return;
-        } elseif ($commentEnd === false || $tokens[$commentEnd]['code'] !== T_DOC_COMMENT) {
-            $this->helper->addMessage(
-                'Missing variable doc comment',
-                $stackPtr,
-                Magento_Sniffs_Annotations_Helper::MISSING
-            );
-            return;
-        } else {
-            // Make sure the comment we have found belongs to us.
-            $commentFor = $phpcsFile->findNext(array(T_VARIABLE, T_CLASS, T_INTERFACE), $commentEnd + 1);
-            if ($commentFor !== $stackPtr) {
-                $this->helper->addMessage(
-                    'Missing variable doc comment',
-                    $stackPtr,
-                    Magento_Sniffs_Annotations_Helper::MISSING
-                );
-                return;
-            }
         }
 
         $commentStart = $phpcsFile->findPrevious(T_DOC_COMMENT, $commentEnd - 1, null, true) + 1;
@@ -92,14 +220,14 @@ class Magento_Sniffs_Annotations_RequireAnnotatedAttributesSniff extends PHP_Cod
             $this->commentParser->parse();
         } catch (PHP_CodeSniffer_CommentParser_ParserException $e) {
             $line = $e->getLineWithinComment() + $commentStart;
-            $this->helper->addMessage($e->getMessage(), $line, Magento_Sniffs_Annotations_Helper::ERROR_PARSING);
+            $data = array($e->getMessage());
+            $this->helper->addMessage($line, Helper::ERROR_PARSING, $data);
             return;
         }
 
         $comment = $this->commentParser->getComment();
         if (is_null($comment) === true) {
-            $error = 'Variable doc comment is empty';
-            $this->helper->addMessage($error, $commentStart, Magento_Sniffs_Annotations_Helper::EMPTY_DOC);
+            $this->helper->addMessage($commentStart, Helper::EMPTY_DOC, array('Variable'));
             return;
         }
 
@@ -107,119 +235,20 @@ class Magento_Sniffs_Annotations_RequireAnnotatedAttributesSniff extends PHP_Cod
         $eolPos = strpos($commentString, $phpcsFile->eolChar);
         $firstLine = substr($commentString, 0, $eolPos);
         if ($firstLine !== '/**') {
-            $error = 'The open comment tag must be the only content on the line';
-            $this->helper->addMessage($error, $commentStart, Magento_Sniffs_Annotations_Helper::CONTENT_AFTER_OPEN);
+            $this->helper->addMessage($commentStart, Helper::CONTENT_AFTER_OPEN);
         }
 
         // Check for a comment description.
-        $short = $comment->getShortComment();
-        $long = '';
-        if (trim($short) === '') {
-            $error = 'Missing short description in variable doc comment';
-            $this->helper->addMessage($error, $commentStart, Magento_Sniffs_Annotations_Helper::MISSING_SHORT);
-            $newlineCount = 1;
-        } else {
-            // No extra newline before short description.
-            $newlineCount = 0;
-            $newlineSpan = strspn($short, $phpcsFile->eolChar);
-            if ($short !== '' && $newlineSpan > 0) {
-                $error = 'Extra newline(s) found before variable comment short description';
-                $this->helper->addMessage(
-                    $error,
-                    $commentStart + 1,
-                    Magento_Sniffs_Annotations_Helper::SPACING_BEFORE_SHORT
-                );
-            }
-
-            $newlineCount = substr_count($short, $phpcsFile->eolChar) + 1;
-
-            // Exactly one blank line between short and long description.
-            $long = $comment->getLongComment();
-            if (empty($long) === false) {
-                $between = $comment->getWhiteSpaceBetween();
-                $newlineBetween = substr_count($between, $phpcsFile->eolChar);
-                if ($newlineBetween !== 2) {
-                    $error = 'There must be exactly one blank line between descriptions in variable comment';
-                    $this->helper->addMessage(
-                        $error,
-                        $commentStart + $newlineCount + 1,
-                        Magento_Sniffs_Annotations_Helper::SPACING_BETWEEN
-                    );
-                }
-
-                $newlineCount += $newlineBetween;
-
-                $testLong = trim($long);
-                if (preg_match('|\p{Lu}|u', $testLong[0]) === 0) {
-                    $error = 'Variable comment long description must start with a capital letter';
-                    $this->helper->addMessage(
-                        $error,
-                        $commentStart + $newlineCount,
-                        Magento_Sniffs_Annotations_Helper::LONG_NOT_CAPITAL
-                    );
-                }
-            }
-
-            // Short description must be single line and end with a full stop.
-            $testShort = trim($short);
-            $lastChar = $testShort[strlen($testShort) - 1];
-            if (substr_count($testShort, $phpcsFile->eolChar) !== 0) {
-                $error = 'Variable comment short description must be on a single line';
-                $this->helper->addMessage(
-                    $error,
-                    $commentStart + 1,
-                    Magento_Sniffs_Annotations_Helper::SHORT_SINGLE_LINE
-                );
-            }
-
-            if (preg_match('|\p{Lu}|u', $testShort[0]) === 0) {
-                $error = 'Variable comment short description must start with a capital letter';
-                $this->helper->addMessage(
-                    $error,
-                    $commentStart + 1,
-                    Magento_Sniffs_Annotations_Helper::SHORT_NOT_CAPITAL
-                );
-            }
-
-            if ($lastChar !== '.') {
-                $error = 'Variable comment short description must end with a full stop';
-                $this->helper->addMessage(
-                    $error,
-                    $commentStart + 1,
-                    Magento_Sniffs_Annotations_Helper::SHORT_FULL_STOP
-                );
-            }
-        }
-
-        // Exactly one blank line before tags.
-        $tags = $this->commentParser->getTagOrders();
-        if (count($tags) > 1) {
-            $newlineSpan = $comment->getNewlineAfter();
-            if ($newlineSpan !== 2) {
-                $error = 'There must be exactly one blank line before the tags in variable comment';
-                if ($long !== '') {
-                    $newlineCount += substr_count($long, $phpcsFile->eolChar) - $newlineSpan + 1;
-                }
-
-                $this->helper->addMessage(
-                    $error,
-                    $commentStart + $newlineCount,
-                    Magento_Sniffs_Annotations_Helper::SPACING_BEFORE_TAGS
-                );
-                $short = rtrim($short, $phpcsFile->eolChar . ' ');
-            }
-        }
+        $this->checkForDescription($comment, $commentStart);
 
         // Check for unknown/deprecated tags.
         $unknownTags = $this->commentParser->getUnknown();
         foreach ($unknownTags as $errorTag) {
             // Unknown tags are not parsed, do not process further.
-            $error = '@%s tag is not allowed in variable comment';
             $data = array($errorTag['tag']);
             $this->helper->addMessage(
-                $error,
                 $commentStart + $errorTag['line'],
-                Magento_Sniffs_Annotations_Helper::TAG_NOT_ALLOWED,
+                Helper::TAG_NOT_ALLOWED,
                 $data
             );
         }
@@ -242,8 +271,7 @@ class Magento_Sniffs_Annotations_RequireAnnotatedAttributesSniff extends PHP_Cod
             $words[$lastPos - 2]
         ) === ''
         ) {
-            $error = 'Additional blank lines found at end of variable comment';
-            $this->helper->addMessage($error, $commentEnd, Magento_Sniffs_Annotations_Helper::SPACING_AFTER);
+            $this->helper->addMessage($commentEnd, Helper::SPACING_AFTER, array('variable'));
         }
     }
 
@@ -264,40 +292,33 @@ class Magento_Sniffs_Annotations_RequireAnnotatedAttributesSniff extends PHP_Cod
             $index = array_keys($this->commentParser->getTagOrders(), 'var');
 
             if (count($index) > 1) {
-                $error = 'Only 1 @var tag is allowed in variable comment';
-                $this->helper->addMessage($error, $errorPos, Magento_Sniffs_Annotations_Helper::DUPLICATE_VAR);
+                $this->helper->addMessage($errorPos, Helper::DUPLICATE_VAR);
                 return;
             }
 
             if ($index[0] !== 1) {
-                $error = 'The @var tag must be the first tag in a variable comment';
-                $this->helper->addMessage($error, $errorPos, Magento_Sniffs_Annotations_Helper::VAR_ORDER);
+                $this->helper->addMessage($errorPos, Helper::VAR_ORDER);
             }
 
             $content = $var->getContent();
             if (empty($content) === true) {
-                $error = 'Var type missing for @var tag in variable comment';
-                $this->helper->addMessage($error, $errorPos, Magento_Sniffs_Annotations_Helper::MISSING_VAR_TYPE);
+                $this->helper->addMessage($errorPos, Helper::MISSING_VAR_TYPE);
                 return;
             } else {
                 $suggestedType = $this->helper->suggestType($content);
                 if ($content !== $suggestedType) {
-                    $error = 'Expected "%s"; found "%s" for @var tag in variable comment';
                     $data = array($suggestedType, $content);
                     $this->helper->addMessage(
-                        $error,
                         $errorPos,
-                        Magento_Sniffs_Annotations_Helper::INCORRECT_VAR_TYPE,
+                        Helper::INCORRECT_VAR_TYPE,
                         $data
                     );
                 } elseif ($content === 'array' || $content === 'mixed') {
                     // Warn about ambiguous types ie array or mixed
-                    $error = 'Ambiguous type "%s" for @var is NOT recommended';
-                    $data = array($content);
+                    $data = array($content,'@var');
                     $this->helper->addMessage(
-                        $error,
                         $errorPos,
-                        Magento_Sniffs_Annotations_Helper::AMBIGUOUS_TYPE,
+                        Helper::AMBIGUOUS_TYPE,
                         $data
                     );
                 }
@@ -305,13 +326,11 @@ class Magento_Sniffs_Annotations_RequireAnnotatedAttributesSniff extends PHP_Cod
 
             $spacing = substr_count($var->getWhitespaceBeforeContent(), ' ');
             if ($spacing !== 1) {
-                $error = '@var tag indented incorrectly; expected 1 space but found %s';
                 $data = array($spacing);
-                $this->helper->addMessage($error, $errorPos, Magento_Sniffs_Annotations_Helper::VAR_INDENT, $data);
+                $this->helper->addMessage($errorPos, Helper::VAR_INDENT, $data);
             }
         } else {
-            $error = 'Missing @var tag in variable comment';
-            $this->helper->addMessage($error, $commentEnd, Magento_Sniffs_Annotations_Helper::MISSING_VAR);
+            $this->helper->addMessage($commentEnd, Helper::MISSING_VAR);
         }
     }
 
@@ -330,16 +349,14 @@ class Magento_Sniffs_Annotations_RequireAnnotatedAttributesSniff extends PHP_Cod
                 $errorPos = $commentStart + $see->getLine();
                 $content = $see->getContent();
                 if (empty($content) === true) {
-                    $error = 'Content missing for @see tag in variable comment';
-                    $this->helper->addMessage($error, $errorPos, Magento_Sniffs_Annotations_Helper::EMPTY_SEE);
+                    $this->helper->addMessage($errorPos, Helper::EMPTY_SEE, array('variable'));
                     continue;
                 }
 
                 $spacing = substr_count($see->getWhitespaceBeforeContent(), ' ');
                 if ($spacing !== 1) {
-                    $error = '@see tag indented incorrectly; expected 1 spaces but found %s';
                     $data = array($spacing);
-                    $this->helper->addMessage($error, $errorPos, Magento_Sniffs_Annotations_Helper::SEE_INDENT, $data);
+                    $this->helper->addMessage($errorPos, Helper::SEE_INDENT, $data);
                 }
             }
         }
