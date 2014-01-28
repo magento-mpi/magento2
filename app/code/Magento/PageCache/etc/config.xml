@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_PageCache
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <default>
+        <system>
+            <headers>
+                <public-max-age>0</public-max-age>
+            </headers>
+        </system>
+    </default>
+</config>

@@ -49,10 +49,10 @@ class Block extends \Magento\App\Action\Action
      */
     protected function setPrivateHeaders()
     {
-        $this->getResponse()->setHeader('cache-control', 'private, max-age=' . Data::MAX_AGE_CACHE, true);
+        $this->getResponse()->setHeader('cache-control', 'private, max-age=' . Data::PRIVATE_MAX_AGE_CACHE, true);
         $this->getResponse()->setHeader(
             'expires',
-            gmdate('D, d M Y H:i:s T', strtotime('+' . Data::MAX_AGE_CACHE . ' seconds')),
+            gmdate('D, d M Y H:i:s T', strtotime('+' . Data::PRIVATE_MAX_AGE_CACHE . ' seconds')),
             true
         );
     }

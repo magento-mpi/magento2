@@ -21,10 +21,47 @@ namespace Magento\PageCache\Helper;
  */
 class DataTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var \Magento\Core\Model\Config|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $configMock;
+
+    /**
+     * @var \Magento\PageCache\Helper\Data
+     */
+    protected $helper;
+
+    /**
+     * Set up before test
+     */
+    protected function setUp()
+    {
+        $context = $this->getMockBuilder('\Magento\App\Helper\Context')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->configMock = $this->getMockBuilder('\Magento\Core\Model\Config')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->helper = new \Magento\PageCache\Helper\Data($context, $this->configMock);
+    }
+
+    public function testGetPublicMaxAgeCache()
+    {
+        $age = 0;
+        $this->configMock->expects($this->once())
+            ->method('getValue')
+            ->with($this->equalTo(\Magento\PageCache\Helper\Data::PUBLIC_MAX_AGE_PATH))
+            ->will($this->returnValue($age));
+        $data = $this->helper->getPublicMaxAgeCache();
+        $this->assertEquals($age, $data);
+    }
+
     public function testMaxAgeCache()
     {
         // one year
         $age = 365 * 24 * 60 * 60;
-        $this->assertEquals($age, \Magento\PageCache\Helper\Data::MAX_AGE_CACHE);
+        $this->assertEquals($age, \Magento\PageCache\Helper\Data::PRIVATE_MAX_AGE_CACHE);
     }
 }

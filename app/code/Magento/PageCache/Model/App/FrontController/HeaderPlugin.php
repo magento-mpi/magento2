@@ -25,16 +25,24 @@ class HeaderPlugin
     private $version;
 
     /**
+     * @var \Magento\PageCache\Helper\Data
+     */
+    private $helper;
+
+    /**
      * Constructor
      *
      * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\PageCache\Helper\Data
      * @param \Magento\PageCache\Model\Version $version
      */
     public function __construct(
         \Magento\Core\Model\Layout $layout,
+        \Magento\PageCache\Helper\Data $helper,
         \Magento\PageCache\Model\Version $version
     ){
         $this->layout = $layout;
+        $this->helper = $helper;
         $this->version = $version;
     }
 
@@ -63,10 +71,11 @@ class HeaderPlugin
      */
     protected function setPublicHeaders(\Magento\App\Response\Http $response)
     {
-        $response->setHeader('cache-control', 'public, max-age=' . Data::MAX_AGE_CACHE, true);
+        $maxAge = $this->helper->getPublicMaxAgeCache();
+        $response->setHeader('cache-control', 'public, max-age=' . $maxAge, true);
         $response->setHeader(
             'expires',
-            gmdate('D, d M Y H:i:s T', strtotime('+' . Data::MAX_AGE_CACHE . ' seconds')),
+            gmdate('D, d M Y H:i:s T', strtotime('+' . $maxAge . ' seconds')),
             true
         );
     }
@@ -80,7 +89,7 @@ class HeaderPlugin
         $response->setHeader('cache-control', 'no-store, no-cache, must-revalidate, max-age=0', true);
         $response->setHeader(
             'expires',
-            gmdate('D, d M Y H:i:s T', strtotime('-' . Data::MAX_AGE_CACHE . ' seconds')),
+            gmdate('D, d M Y H:i:s T', strtotime('-1 year')),
             true
         );
     }

@@ -34,16 +34,22 @@ class HeaderPluginTest extends \PHPUnit_Framework_TestCase
     protected $versionMock;
 
     /**
+     * @var \Magento\PageCache\Helper\Data|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $helperMock;
+
+    /**
      * SetUp
      */
     protected function setUp()
     {
         $this->layoutMock = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false);
         $this->responseMock = $this->getMock('Magento\App\Response\Http', array(), array(), '', false);
+        $this->helperMock = $this->getMock('Magento\PageCache\Helper\Data', array(), array(), '', false);
         $this->versionMock = $this->getMockBuilder('Magento\PageCache\Model\Version')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->plugin = new HeaderPlugin($this->layoutMock, $this->versionMock);
+        $this->plugin = new HeaderPlugin($this->layoutMock, $this->helperMock, $this->versionMock);
     }
 
     /**
@@ -102,13 +108,15 @@ class HeaderPluginTest extends \PHPUnit_Framework_TestCase
      */
     public function testAfterDispatchPublicCache()
     {
-        $maxAge = \Magento\PageCache\Helper\Data::MAX_AGE_CACHE;
+        $maxAge = 0;
         $pragma = 'cache';
         $cacheControl = 'public, max-age=' . $maxAge;
 
         $this->layoutMock->expects($this->once())
             ->method('isCacheable')
             ->will($this->returnValue(true));
+
+        $this->helperMock->expects($this->once())->method('getPublicMaxAgeCache')->will($this->returnValue(0));
 
         $this->responseMock->expects($this->at(0))
             ->method('setHeader')
