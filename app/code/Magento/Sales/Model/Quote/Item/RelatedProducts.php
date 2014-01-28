@@ -28,7 +28,6 @@ class RelatedProducts
 
     /**
      * Retrieve Array of product ids which have special relation with products in Cart
-     * For example simple product as part of Grouped product
      *
      * @param \Magento\Sales\Model\Quote\Item[] $quoteItems
      * @return array
