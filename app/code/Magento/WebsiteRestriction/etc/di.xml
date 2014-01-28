@@ -11,9 +11,9 @@
     <preference for="Magento\WebsiteRestriction\Model\ConfigInterface" type="Magento\WebsiteRestriction\Model\Config" />
     <type name="Magento\Module\Updater\SetupFactory">
         <param name="resourceTypes">
-            <value>
-                <websiterestriction_setup>Magento\WebsiteRestriction\Model\Resource\Setup</websiterestriction_setup>
-            </value>
+            <array>
+                <item key="websiterestriction_setup"><value>Magento\WebsiteRestriction\Model\Resource\Setup</value></item>
+            </array>
         </param>
     </type>
 </config>

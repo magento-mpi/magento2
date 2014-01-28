@@ -35,7 +35,10 @@ class Method extends AbstractRepository
         $this->_data['paypal_express'] = $this->_getPayPalExpress();
         $this->_data['paypal_direct'] = $this->_getPayPalDirect();
         $this->_data['paypal_payflow_pro'] = $this->_getPayPalPayflowPro();
+        $this->_data['paypal_payflow_link'] = $this->_getPayPalPayflowLink();
+        $this->_data['paypal_payflow_link_express'] = $this->_getPayPalPayflowLinkExpress();
         $this->_data['paypal_advanced'] = $this->_getPayPalAdvanced();
+        $this->_data['paypal_standard'] = $this->_getPayPalStandard();
         $this->_data['check_money_order'] = $this->_getCheckMoneyOrder();
     }
 
@@ -43,7 +46,7 @@ class Method extends AbstractRepository
     {
         return array(
             'config' => array(
-                'payment_form_class' => '\\Magento\\Paygate\\Test\\Block\\Authorizenet\\Form\\Cc',
+                'payment_form_class' => '\\Magento\\Authorizenet\\Test\\Block\\Authorizenet\\Form\\Cc',
             ),
             'data' => array(
                 'fields' => array(
@@ -91,7 +94,41 @@ class Method extends AbstractRepository
             ),
             'data' => array(
                 'fields' => array(
-                    'payment_code' => 'verisign'
+                    'payment_code' => 'payflowpro'
+                ),
+            )
+        );
+    }
+
+    /**
+     * Specify PayPal Payflow Link as the payment method.
+     *
+     * @return array
+     */
+    protected function _getPayPalPayflowLink()
+    {
+        return array(
+            'config' => array(),
+            'data' => array(
+                'fields' => array(
+                    'payment_code' => 'payflow_link'
+                ),
+            )
+        );
+    }
+
+    /**
+     * Provides info for PayPal Payflow Link Express Method
+     *
+     * @return array
+     */
+    protected function _getPayPalPayflowLinkExpress()
+    {
+        return array(
+            'config' => array(),
+            'data' => array(
+                'fields' => array(
+                    'payment_code' => 'payflow_express'
                 ),
             )
         );
@@ -109,6 +146,23 @@ class Method extends AbstractRepository
             'data' => array(
                 'fields' => array(
                     'payment_code' => 'payflow_advanced'
+                ),
+            )
+        );
+    }
+
+    /**
+     * Provides Credit Card Data for PayPal Standard Method
+     *
+     * @return array
+     */
+    protected function _getPayPalStandard()
+    {
+        return array(
+            'config' => array(),
+            'data' => array(
+                'fields' => array(
+                    'payment_code' => 'paypal_standard'
                 ),
             )
         );

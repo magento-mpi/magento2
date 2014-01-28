@@ -14,7 +14,7 @@
         </action>
     </referenceBlock>
     <referenceBlock name="top.links">
-        <block class="Magento\Invitation\Block\Link" name="invitation_link_top">
+        <block class="Magento\Invitation\Block\Link" name="invitation_link_top" cacheable="false">
             <arguments>
                 <argument name="label" xsi:type="string">Send Invitations</argument>
                 <argument name="id" xsi:type="string">invitation-send-link</argument>

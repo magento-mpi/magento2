@@ -20,18 +20,18 @@ class Invitee
     /**
      * Backend Url
      *
-     * @var \Magento\Backend\Model\Url
+     * @var \Magento\Backend\Model\UrlInterface
      */
     protected $_url;
 
     /**
      * @param \Magento\Backend\Block\Context $context
-     * @param \Magento\Backend\Model\Url $url
+     * @param \Magento\Backend\Model\UrlInterface $url
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Context $context,
-        \Magento\Backend\Model\Url $url,
+        \Magento\Backend\Model\UrlInterface $url,
         array $data = array()
     ) {
         parent::__construct($context, $data);

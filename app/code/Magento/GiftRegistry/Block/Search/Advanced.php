@@ -53,6 +53,7 @@ class Advanced extends \Magento\GiftRegistry\Block\Form\Element
         $this->customerSession = $customerSession;
         $this->attributeConfig = $attributeConfig;
         parent::__construct($context, $configCacheType, $country, $region, $data);
+        $this->_isScopePrivate = true;
     }
 
     /**

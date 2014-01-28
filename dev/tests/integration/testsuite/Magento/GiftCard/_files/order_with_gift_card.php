@@ -69,7 +69,7 @@ $order->addItem($orderItem)
 $order->save();
 
 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->get('Magento\Core\Model\Config')
+    ->get('Magento\App\ConfigInterface')
     ->setValue(\Magento\GiftCardAccount\Model\Pool::XML_CONFIG_POOL_SIZE, 1, 'website', 'base');
 /** @var $pool \Magento\GiftCardAccount\Model\Pool */
 $pool = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()

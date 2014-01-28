@@ -187,7 +187,6 @@
         <callback class="adminhtml__sales_order_shipment__print" method="validateSalesOrderShipmentViewAction" />
         <callback class="adminhtml__sales_order_shipment__" method="validateSalesOrderShipmentCreateAction" />
         <callback class="adminhtml__sales_order_shipment__removeTrack" method="validateSalesOrderShipmentTrackAction" />
-        <callback class="adminhtml__sales_order_shipment__viewTrack" method="validateSalesOrderShipmentTrackAction" />
         <callback class="adminhtml__checkout_agreement__edit" method="validateCheckoutAgreementEditAction" />
         <callback class="adminhtml__permissions_user__edit" method="validateAdminUserAction" />
         <callback class="adminhtml__permissions_user__save" method="validateAdminUserAction" />
@@ -211,9 +210,6 @@
         <callback class="adminhtml__process__massReindex" method="blockIndexAction" />
         <callback class="adminhtml__process__reindexProcess" method="blockIndexAction" />
         <callback class="adminhtml__process__reindexAllAction" method="blockIndexAction" />
-        <callback class="adminhtml__targetrule__new" method="blockIndexAction" />
-        <callback class="adminhtml__targetrule__save" method="blockIndexAction" />
-        <callback class="adminhtml__targetrule__delete" method="blockIndexAction" />
         <callback class="adminhtml__cms_hierarchy__save" method="blockIndexAction" />
         <callback class="adminhtml__customer_group__save" method="blockCustomerGroupSave" />
         <callback class="adminhtml__tax_rule__save" method="blockTaxChange" />

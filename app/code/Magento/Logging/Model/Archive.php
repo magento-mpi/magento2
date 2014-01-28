@@ -28,11 +28,11 @@ class Archive extends \Magento\Object
     protected $directory;
 
     /**
-     * @param \Magento\Filesystem $fileSystem
+     * @param \Magento\App\Filesystem $fileSystem
      */
-    public function __construct(\Magento\Filesystem $fileSystem)
+    public function __construct(\Magento\App\Filesystem $fileSystem)
     {
-        $this->directory = $fileSystem->getDirectoryWrite(\Magento\Filesystem::VAR_DIR);
+        $this->directory = $fileSystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
     }
 
     /**
@@ -60,7 +60,7 @@ class Archive extends \Magento\Object
      * Search the file in storage by base name and set it
      *
      * @param string $baseName
-     * @return \Magento\Logging\Model\Archive
+     * @return $this
      */
     public function loadByBaseName($baseName)
     {
@@ -82,7 +82,7 @@ class Archive extends \Magento\Object
      * Generate a full system filename from base name
      *
      * @param string $baseName
-     * @return \Magento\Logging\Model\Archive
+     * @return string
      */
     public function generateFilename($baseName)
     {

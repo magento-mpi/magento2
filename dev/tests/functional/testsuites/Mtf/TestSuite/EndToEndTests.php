@@ -36,6 +36,7 @@ class EndToEndTests
         $suite->addTestSuite('Magento\Bundle\Test\TestCase\EditBundleTest');
         // Product configuration
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\ApplyMapTest');
+        $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\ApplyMapConfigurableTest');
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\OutOfStockTest');
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\UpsellTest');
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\CrosssellTest');
@@ -77,6 +78,9 @@ class EndToEndTests
 
         // Currency
         $suite->addTestSuite('Magento\Directory\Test\TestCase\CurrencyTest');
+
+        // Cms
+        $suite->addTestSuite('Magento\Cms\Test\TestCase\CreatePageTest');
 
         return $suite;
     }

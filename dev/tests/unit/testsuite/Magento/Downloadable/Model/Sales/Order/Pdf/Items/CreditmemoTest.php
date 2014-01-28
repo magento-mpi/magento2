@@ -41,7 +41,7 @@ class CreditmemoTest extends \PHPUnit_Framework_TestCase
             'emailInfoFactory' => $this->getMock(
                 'Magento\Email\Model\InfoFactory', array(), array(), '', false
             ),
-            'orderItemCollFactory' => $this->getMock(
+            'orderItemCollectionFactory' => $this->getMock(
                 'Magento\Sales\Model\Resource\Order\Item\CollectionFactory', array(), array(), '', false
             ),
             'serviceOrderFactory' => $this->getMock(
@@ -53,7 +53,7 @@ class CreditmemoTest extends \PHPUnit_Framework_TestCase
             'orderHistoryFactory' => $this->getMock(
                 'Magento\Sales\Model\Order\Status\HistoryFactory', array(), array(), '', false
             ),
-            'orderTaxCollFactory' => $this->getMock(
+            'orderTaxCollectionFactory' => $this->getMock(
                 'Magento\Tax\Model\Resource\Sales\Order\Tax\CollectionFactory', array(), array(), '', false
             ),
         );

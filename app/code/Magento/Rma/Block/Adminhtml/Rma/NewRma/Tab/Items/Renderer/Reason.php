@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\Rma\Block\Adminhtml\Rma\NewRma\Tab\Items\Renderer;
+
 /**
  * Reason field renderer
  *
@@ -15,10 +17,11 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Rma\Block\Adminhtml\Rma\NewRma\Tab\Items\Renderer;
-
 class Reason
     extends \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Element
 {
+    /**
+     * @var string
+     */
     protected $_template = 'new/items/renderer/reason.phtml';
 }

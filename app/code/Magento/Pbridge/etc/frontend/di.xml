@@ -23,10 +23,10 @@
     </type>
     <type name="Magento\Core\Model\Url\SecurityInfo">
         <param name="secureUrlList">
-            <value>
-                <magento_pbridge_pbridge>/magento_pbridge/pbridge/</magento_pbridge_pbridge>
-                <magento_pbridge_payment_profile>/magento_pbridge/payment_profile/</magento_pbridge_payment_profile>
-            </value>
+            <array>
+                <item key="magento_pbridge_pbridge"><value>/magento_pbridge/pbridge/</value></item>
+                <item key="magento_pbridge_payment_profile"><value>/magento_pbridge/payment_profile/</value></item>
+            </array>
         </param>
     </type>
 
@@ -60,9 +60,9 @@
         </param>
     </type>
 
-    <type name="Magento\Pbridge\Model\Payment\Method\Paypaluk">
+    <type name="Magento\Pbridge\Model\Payment\Method\PayflowDirect">
         <param name="formBlock">
-            <value>Magento\Pbridge\Block\Checkout\Payment\Paypaluk</value>
+            <value>Magento\Pbridge\Block\Checkout\Payment\PayflowDirect</value>
         </param>
     </type>
 
@@ -90,9 +90,9 @@
         </param>
     </type>
 
-    <type name="Magento\Pbridge\Model\Payment\Method\Payflow\Pro">
+    <type name="Magento\Pbridge\Model\Payment\Method\Payflowpro">
         <param name="formBlock">
-            <value>Magento\Pbridge\Block\Checkout\Payment\Payflow\Pro</value>
+            <value>Magento\Pbridge\Block\Checkout\Payment\Payflowpro</value>
         </param>
     </type>
 

@@ -21,11 +21,13 @@ class EndToEndWithExternalSolutionsTests
         $suite->addTestSuite('Magento\Centinel\Test\TestCase\CentinelPaymentsValidCcTest');
         $suite->addTestSuite('Magento\Centinel\Test\TestCase\CentinelPaymentsInvalidCcTest');
         // Guest checkout
-        $suite->addTestSuite('Magento\Checkout\Test\TestCase\Guest\PaypalAdvancedTest');
+        $suite->addTestSuite('Magento\Checkout\Test\TestCase\Guest\PaypalCreditCardTest');
         // Guest checkout. PayPal Express
         $suite->addTestSuite('Magento\Checkout\Test\TestCase\Guest\PaypalExpress\CheckoutOnepageTest');
         $suite->addTestSuite('Magento\Checkout\Test\TestCase\Guest\PaypalExpress\PayflowProTest');
         $suite->addTestSuite('Magento\Checkout\Test\TestCase\Guest\PaypalExpress\ProductPageTest');
+        // Guest checkout.  PayPal Standard
+        $suite->addTestSuite('Magento\Checkout\Test\TestCase\Guest\PaypalStandardTest');
         // PayPal Express
         $suite->addTestSuite('Magento\Checkout\Test\TestCase\PaypalExpress\CheckoutOnepageTest');
         // Onepage Checkout
@@ -33,7 +35,7 @@ class EndToEndWithExternalSolutionsTests
         $suite->addTestSuite('Magento\Checkout\Test\TestCase\ProductAdvancedPricingTest');
         $suite->addTestSuite('Magento\Checkout\Test\TestCase\ShippingCarrierTest');
         // Multishipping
-        $suite->addTestSuite('Magento\Checkout\Test\TestCase\MultishippingTest');
+        $suite->addTestSuite('Magento\Multishipping\Test\TestCase\MultishippingTest');
 
         // RMA
         $suite->addTestSuite('Magento\Rma\Test\TestCase\RmaTest');

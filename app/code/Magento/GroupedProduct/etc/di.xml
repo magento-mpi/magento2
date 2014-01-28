@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento\Catalog\Model\ProductTypes\Config\Converter">
+        <plugin name="groupedProductType" type="Magento\GroupedProduct\Model\ProductTypes\Config\Converter\Plugin\Grouped" />
+    </type>
+    <type name="Magento\Module\Updater\SetupFactory">
+        <param name="resourceTypes">
+            <array>
+                <item key="groupedproduct_setup"><value>Magento\Catalog\Model\Resource\Setup</value></item>
+            </array>
+        </param>
+    </type>
+</config>
+
+

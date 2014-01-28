@@ -57,7 +57,7 @@ return array(
     array('_moduleReader', 'Magento\Backend\Model\Menu\Config'),
     array('_option', 'Magento\Captcha\Helper\Data', '_dirs'),
     array('_options', 'Magento\Core\Model\Config', 'Magento\Filesystem'),
-    array('_optionsMapping', null, '\Magento\Filesystem::getPath($nodeKey)'),
+    array('_optionsMapping', null, '\Magento\App\Filesystem::getPath($nodeKey)'),
     array('_order', 'Magento\Checkout\Block\Onepage\Success'),
     array('_order_id'),
     array('_parent', 'Magento\Core\Block\AbstractBlock'),
@@ -238,6 +238,7 @@ return array(
     array('_appState', 'Magento\View\Asset\MinifyService', 'appState'),
     array('_properties', 'Magento\View\Asset\PropertyGroup', 'properties'),
     array('_viewUrl', 'Magento\View\Asset\PublicFile', 'viewUrl'),
+    array('_productThumbnail', 'Magento\Checkout\Block\Cart\Item\Renderer'),
     array('_file', 'Magento\View\Asset\PublicFile', 'file'),
     array('_contentType', 'Magento\View\Asset\PublicFile', 'contentType'),
     array('_url', 'Magento\View\Asset\Remote', 'url'),
@@ -250,4 +251,5 @@ return array(
     array('_messagesBlock', 'Magento\View\Element\AbstractBlock'),
     array('_messagesBlock', 'Magento\Connect\Helper\Data'),
     array('escapeMessageFlag', 'Magento\View\Block\Messages'),
+    array('fileIteratorFactory', 'Magento\Core\Model\Theme\Collection')
 );
