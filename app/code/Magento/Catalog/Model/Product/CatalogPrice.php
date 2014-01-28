@@ -48,11 +48,7 @@ class CatalogPrice implements CatalogPriceInterface
     public function getCatalogPrice(\Magento\Catalog\Model\Product $product, $store = null, $inclTax = false)
     {
         if (array_key_exists($product->getTypeId(), $this->priceModelPool)) {
-            $catalogPriceModel = $this->objectManager->get($this->priceModelPool[$product->getTypeId()]);
-            if (!($catalogPriceModel instanceof \Magento\Catalog\Model\Product\CatalogPriceInterface)) {
-                throw new \UnexpectedValueException('Class ' . $this->priceModelPool[$product->getTypeId()]
-                    . ' should be an instance of \Magento\Catalog\Model\Product\CatalogPriceInterface');
-            }
+            $catalogPriceModel = $this->getCustomPriceModel($this->priceModelPool[$product->getTypeId()]);
             return $catalogPriceModel->getCatalogPrice($product, $store, $inclTax);
         }
 
@@ -61,15 +57,34 @@ class CatalogPrice implements CatalogPriceInterface
 
 
     /**
+     * Provide custom price model with basic validation
+     *
+     * @param string $name
+     * @return \Magento\Catalog\Model\Product\CatalogPriceInterface
+     * @throws \UnexpectedValueException
+     */
+    protected function getCustomPriceModel($name)
+    {
+        $customPriceModel = $this->objectManager->get($name);
+        if (!($customPriceModel instanceof \Magento\Catalog\Model\Product\CatalogPriceInterface)) {
+            throw new \UnexpectedValueException('Class ' . $name
+                . ' should be an instance of \Magento\Catalog\Model\Product\CatalogPriceInterface');
+        }
+
+        return $customPriceModel;
+    }
+
+    /**
      * Regular catalog price
      *
      * @param \Magento\Catalog\Model\Product $product
+     * @throws \UnexpectedValueException
      * @return null
      */
     public function getCatalogRegularPrice(\Magento\Catalog\Model\Product $product)
     {
         if (array_key_exists($product->getTypeId(), $this->priceModelPool)) {
-            $catalogPriceModel = $this->objectManager->get($this->priceModelPool[$product->getTypeId()]);
+            $catalogPriceModel = $this->getCustomPriceModel($this->priceModelPool[$product->getTypeId()]);
             return $catalogPriceModel->getCatalogRegularPrice($product);
         }
 
