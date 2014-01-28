@@ -154,24 +154,40 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
      */
     protected function _getPublishedFilePath($filePath, $params)
     {
+        //TODO: Do we need this? It throws exception in production mode!
         if (!$this->_viewService->isViewFileOperationAllowed()) {
             throw new \Magento\Exception('Filesystem operations are not permitted for view files');
         }
 
-        $targetDirectory = $this->_filesystem->getDirectoryWrite(\Magento\App\Filesystem::STATIC_VIEW_DIR);
-        // allow asset pre-processors to execute first
-        // in case if any active pre-processor has been executed and original source file being processed,
-        // new $sourcePath will be returned back
-        $sourcePath = $this->preProcessor->process($filePath, $params, $targetDirectory, null);
-        // if not so, then execute normal file resolving and publication process
-        if ($sourcePath === null) {
-            $sourcePath = $this->_viewFileSystem->getViewFile($filePath, $params);
+        // 1. Fallback look-up for view files. Remember it can be file of any type: CSS, LESS, JS, image
+        $sourcePath = $this->_viewFileSystem->getViewFile($filePath, $params);
+
+        // 2. If $sourcePath returned actually not exists replace it with null value.
+        if (!$this->rootDirectory->isExist($this->rootDirectory->getRelativePath($sourcePath))) {
+            $sourcePath = null;
         }
 
+        // 3. Target directory to save temporary files in. It was 'pub/static' dir, but I guess it's more correct to have it in 'var/tmp' dir.
+        $targetDirectory = $this->_filesystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
+
+        // 4. Execute asset pre-processors last
+        //      in case if $sourcePath was null, then pre-processors will be executed and original source file
+        //          will be processed, then new $sourcePath targeting pre-processed file in 'var/tmp' dir
+        //          will be returned back
+        //      in case if $sourcePath was not null then $sourcePath passed will be returned back
+        $sourcePath = $this->preProcessor->process($filePath, $params, $targetDirectory, $sourcePath);
+
+        // 5. If $sourcePath returned still doesn't exists throw Exception
         if (!$this->rootDirectory->isExist($this->rootDirectory->getRelativePath($sourcePath))) {
             throw new \Magento\Exception("Unable to locate theme file '{$sourcePath}'.");
         }
-        if (!$this->_needToProcessFile($sourcePath)) {
+
+        // 6.
+        // If $sourcePath points to file in 'pub/lib' dir - no publishing required
+        // If $sourcePath points to file with protected extension - no publishing, return unchanged
+        // If $sourcePath points to file in 'pub/static' dir - no publishing required
+        // If $sourcePath points to CSS file and developer mode is enabled - publish file
+        if (!$this->_needToPublishFile($sourcePath)) {
             return $sourcePath;
         }
 
@@ -188,8 +204,7 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
      */
     protected function _publishFile($filePath, $params, $sourcePath)
     {
-        // simplify this method since we do not work with css files content anymore
-
+        //TODO: Do we really need not normalizePath() calls below?
         //$filePath = $this->_viewFileSystem->normalizePath($filePath);
         //$sourcePath = $this->_viewFileSystem->normalizePath($sourcePath);
         $targetPath = $this->_buildPublishedFilePath($filePath, $params, $sourcePath);
@@ -203,6 +218,14 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
         $targetDirectory = $this->_filesystem->getDirectoryWrite(\Magento\App\Filesystem::STATIC_VIEW_DIR);
         $sourcePathRelative = $this->rootDirectory->getRelativePath($sourcePath);
         $targetPathRelative = $targetDirectory->getRelativePath($targetPath);
+
+        // CSS files generated out of LESS has following logic of publication:
+        //  - No sense to check 'mtime' cause $sourcePath points to file in 'var/tmp directory'
+        //  - CSS content exists and should be written
+        //  - No sense to write 'mtime' cause it's not have any value
+        //  - Any sense to check file exists in public dir?
+
+        // Is there a case when $targetPathRelative is a directory?
 
         $fileMTime = $this->rootDirectory->stat($sourcePathRelative)['mtime'];
         if (!$targetDirectory->isExist($targetPathRelative)
@@ -218,6 +241,7 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
             }
         }
 
+        //Check if data of LESS correctly written to MAP
         $this->_viewFileSystem->notifyViewFileLocationChanged($targetPath, $filePath, $params);
         return $targetPath;
     }
@@ -246,13 +270,14 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
     /**
      * Determine whether a file needs to be published
      *
-     * Js files are never processed. All other files must be processed either if they are not published already,
+     * Js files (actually all files located in 'pub/lib' dir) should not be published.
+     * All other files must be processed either if they are not published already (located in 'pub/static'),
      * or if they are css-files and we're working in developer mode.
      *
      * @param string $filePath
      * @return bool
      */
-    protected function _needToProcessFile($filePath)
+    protected function _needToPublishFile($filePath)
     {
         $jsPath = $this->_filesystem->getPath(\Magento\App\Filesystem::PUB_LIB_DIR) . '/';
         $filePath = str_replace('\\', '/', $filePath);
@@ -270,8 +295,8 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
         }
 
         $themePath = $this->_filesystem->getPath(\Magento\App\Filesystem::STATIC_VIEW_DIR) . '/';
-        if (strncmp($filePath, $themePath, strlen($themePath)) !== 0) {
-            return true;
+        if (strncmp($filePath, $themePath, strlen($themePath)) === 0) {
+            return false;
         }
 
         return ($this->_viewService->getAppMode() == \Magento\App\State::MODE_DEVELOPER)
