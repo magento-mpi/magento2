@@ -11,11 +11,12 @@
 
 namespace Magento\CatalogSearch\Controller;
 
+use Magento\App\Action\Action;
 use Magento\App\Action\NotFoundException;
 use Magento\App\RequestInterface;
 use Magento\App\ResponseInterface;
 
-class Term extends \Magento\App\Action\Action
+class Term extends Action
 {
     /**
      * Dispatch request

@@ -17,7 +17,9 @@
  */
 namespace Magento\CatalogSearch\Controller;
 
-class Ajax extends \Magento\App\Action\Action
+use Magento\App\Action\Action;
+
+class Ajax extends Action
 {
     /**
      * @return void

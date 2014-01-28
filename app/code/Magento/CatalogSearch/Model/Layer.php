@@ -14,6 +14,7 @@ use Magento\Catalog\Model\CategoryFactory;
 use Magento\Catalog\Model\Config;
 use Magento\Catalog\Model\Layer\Filter\Attribute as FilterAttribute;
 use Magento\Catalog\Model\Layer\StateFactory;
+use Magento\Catalog\Model\Layer as ModelLayer;
 use Magento\Catalog\Model\Product\Visibility;
 use Magento\Catalog\Model\Resource\Product\Attribute\Collection;
 use Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory as AttributeCollectionFactory;
@@ -26,7 +27,7 @@ use Magento\Core\Model\StoreManagerInterface;
 use Magento\Customer\Model\Session;
 use Magento\Eav\Model\Entity\Attribute;
 
-class Layer extends \Magento\Catalog\Model\Layer
+class Layer extends ModelLayer
 {
     const XML_PATH_DISPLAY_LAYER_COUNT = 'catalog/search/use_layered_navigation_count';
 

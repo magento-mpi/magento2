@@ -10,6 +10,7 @@
 
 namespace Magento\CatalogSearch\Helper;
 
+use Magento\App\Helper\AbstractHelper;
 use Magento\App\Helper\Context;
 use Magento\CatalogSearch\Model\Fulltext;
 use Magento\CatalogSearch\Model\Query;
@@ -24,7 +25,7 @@ use Magento\Stdlib\String;
 /**
  * Catalog search helper
  */
-class Data extends \Magento\App\Helper\AbstractHelper
+class Data extends AbstractHelper
 {
     /**
      * Query variable

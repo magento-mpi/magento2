@@ -13,12 +13,13 @@
  */
 namespace Magento\CatalogSearch\Controller;
 
+use Magento\App\Action\Action;
 use Magento\App\Action\Context;
 use Magento\Catalog\Model\Session;
 use Magento\CatalogSearch\Model\Query;
 use Magento\Core\Model\StoreManagerInterface;
 
-class Result extends \Magento\App\Action\Action
+class Result extends Action
 {
 
     /**
