@@ -17,6 +17,8 @@
  */
 namespace Magento\Reports\Controller\Adminhtml\Report;
 
+use \Magento\App\ResponseInterface;
+
 class Review extends \Magento\Backend\App\Action
 {
     /**
@@ -36,6 +38,11 @@ class Review extends \Magento\Backend\App\Action
         parent::__construct($context);
     }
 
+    /**
+     * Add reports and reviews breadcrumbs
+     *
+     * @return $this
+     */
     public function _initAction()
     {
         $this->_view->loadLayout();
@@ -50,6 +57,11 @@ class Review extends \Magento\Backend\App\Action
         return $this;
     }
 
+    /**
+     * Customer Reviews Report action
+     *
+     * @return void
+     */
     public function customerAction()
     {
         $this->_title->add(__('Customer Reviews Report'));
@@ -65,6 +77,8 @@ class Review extends \Magento\Backend\App\Action
 
     /**
      * Export review customer report to CSV format
+     *
+     * @return ResponseInterface
      */
     public function exportCustomerCsvAction()
     {
@@ -78,6 +92,8 @@ class Review extends \Magento\Backend\App\Action
 
     /**
      * Export review customer report to Excel XML format
+     *
+     * @return ResponseInterface
      */
     public function exportCustomerExcelAction()
     {
@@ -90,6 +106,11 @@ class Review extends \Magento\Backend\App\Action
 
     }
 
+    /**
+     * Product reviews report action
+     *
+     * @return void
+     */
     public function productAction()
     {
         $this->_title->add(__('Product Reviews Report'));
@@ -105,6 +126,8 @@ class Review extends \Magento\Backend\App\Action
 
     /**
      * Export review product report to CSV format
+     *
+     * @return ResponseInterface
      */
     public function exportProductCsvAction()
     {
@@ -118,6 +141,8 @@ class Review extends \Magento\Backend\App\Action
 
     /**
      * Export review product report to Excel XML format
+     *
+     * @return ResponseInterface
      */
     public function exportProductExcelAction()
     {
@@ -129,6 +154,11 @@ class Review extends \Magento\Backend\App\Action
         return $this->_fileFactory->create($fileName, $exportBlock->getExcelFile(), \Magento\App\Filesystem::VAR_DIR);
     }
 
+    /**
+     * Details action
+     *
+     * @return void
+     */
     public function productDetailAction()
     {
         $this->_title->add(__('Details'));
@@ -145,6 +175,8 @@ class Review extends \Magento\Backend\App\Action
 
     /**
      * Export review product detail report to CSV format
+     *
+     * @return ResponseInterface
      */
     public function exportProductDetailCsvAction()
     {
@@ -157,6 +189,8 @@ class Review extends \Magento\Backend\App\Action
 
     /**
      * Export review product detail report to ExcelXML format
+     *
+     * @return ResponseInterface
      */
     public function exportProductDetailExcelAction()
     {
@@ -167,6 +201,11 @@ class Review extends \Magento\Backend\App\Action
         return $this->_fileFactory->create($fileName, $content, \Magento\App\Filesystem::VAR_DIR);
     }
 
+    /**
+     * Determine if action is allowed for reports module
+     *
+     * @return bool
+     */
     protected function _isAllowed()
     {
         switch ($this->getRequest()->getActionName()) {

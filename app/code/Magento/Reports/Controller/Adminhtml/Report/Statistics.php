@@ -17,12 +17,15 @@
  */
 namespace Magento\Reports\Controller\Adminhtml\Report;
 
+use \Magento\Backend\Model\Auth\Session as AuthSession;
+use \Magento\Backend\Model\Session;
+
 class Statistics extends \Magento\Backend\App\Action
 {
     /**
      * Admin session model
      *
-     * @var null|\Magento\Backend\Model\Auth\Session
+     * @var null|AuthSession
      */
     protected $_adminSession = null;
 
@@ -41,6 +44,11 @@ class Statistics extends \Magento\Backend\App\Action
         parent::__construct($context);
     }
 
+    /**
+     * Add reports and statistics breadcrumbs
+     *
+     * @return $this
+     */
     public function _initAction()
     {
         $this->_view->loadLayout();
@@ -49,6 +57,12 @@ class Statistics extends \Magento\Backend\App\Action
         return $this;
     }
 
+    /**
+     * Report statistics action initialization operations
+     *
+     * @param array|\Magento\Object $blocks
+     * @return $this
+     */
     public function _initReportAction($blocks)
     {
         if (!is_array($blocks)) {
@@ -83,6 +97,7 @@ class Statistics extends \Magento\Backend\App\Action
      * Retrieve array of collection names by code specified in request
      *
      * @return array
+     * @throws \Exception
      */
     protected function _getCollectionNames()
     {
@@ -117,7 +132,7 @@ class Statistics extends \Magento\Backend\App\Action
     /**
      * Refresh statistics for last 25 hours
      *
-     * @return \Magento\Reports\Controller\Adminhtml\Report\Sales
+     * @return void
      */
     public function refreshRecentAction()
     {
@@ -146,7 +161,7 @@ class Statistics extends \Magento\Backend\App\Action
     /**
      * Refresh statistics for all period
      *
-     * @return \Magento\Reports\Controller\Adminhtml\Report\Sales
+     * @return void
      */
     public function refreshLifetimeAction()
     {
@@ -170,6 +185,11 @@ class Statistics extends \Magento\Backend\App\Action
         }
     }
 
+    /**
+     * Refresh statistics action
+     *
+     * @return void
+     */
     public function indexAction()
     {
         $this->_title->add(__('Refresh Statistics'));
@@ -180,6 +200,11 @@ class Statistics extends \Magento\Backend\App\Action
         $this->_view->renderLayout();
     }
 
+    /**
+     * Determine if action is allowed for reports module
+     *
+     * @return bool
+     */
     protected function _isAllowed()
     {
         return $this->_authorization->isAllowed('Magento_Reports::statistics');
@@ -188,7 +213,7 @@ class Statistics extends \Magento\Backend\App\Action
     /**
      * Retrieve admin session model
      *
-     * @return \Magento\Backend\Model\Auth\Session
+     * @return AuthSession|Session|mixed|null
      */
     protected function _getSession()
     {

@@ -18,12 +18,16 @@
  */
 namespace Magento\Reports\Controller\Adminhtml\Report;
 
-class Product extends \Magento\Reports\Controller\Adminhtml\Report\AbstractReport
+use \Magento\App\ResponseInterface;
+use \Magento\Backend\Block\Widget\Grid\ExportInterface;
+use \Magento\Reports\Model\Flag;
+
+class Product extends AbstractReport
 {
     /**
      * Add report/products breadcrumbs
      *
-     * @return \Magento\Reports\Controller\Adminhtml\Report\Product
+     * @return $this
      */
     public function _initAction()
     {
@@ -38,6 +42,7 @@ class Product extends \Magento\Reports\Controller\Adminhtml\Report\AbstractRepor
     /**
      * Sold Products Report Action
      *
+     * @return void
      */
     public function soldAction()
     {
@@ -54,12 +59,13 @@ class Product extends \Magento\Reports\Controller\Adminhtml\Report\AbstractRepor
     /**
      * Export Sold Products report to CSV format action
      *
+     * @return ResponseInterface
      */
     public function exportSoldCsvAction()
     {
         $this->_view->loadLayout();
         $fileName   = 'products_ordered.csv';
-        /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
+        /** @var ExportInterface $exportBlock */
         $exportBlock = $this->_view->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
         return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile());
     }
@@ -67,12 +73,13 @@ class Product extends \Magento\Reports\Controller\Adminhtml\Report\AbstractRepor
     /**
      * Export Sold Products report to XML format action
      *
+     * @return ResponseInterface
      */
     public function exportSoldExcelAction()
     {
         $this->_view->loadLayout();
         $fileName   = 'products_ordered.xml';
-        /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
+        /** @var ExportInterface $exportBlock */
         $exportBlock = $this->_view->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
         return $this->_fileFactory->create($fileName, $exportBlock->getExcelFile($fileName));
     }
@@ -80,12 +87,13 @@ class Product extends \Magento\Reports\Controller\Adminhtml\Report\AbstractRepor
     /**
      * Most viewed products
      *
+     * @return void
      */
     public function viewedAction()
     {
         $this->_title->add(__('Product Views Report'));
 
-        $this->_showLastExecutionTime(\Magento\Reports\Model\Flag::REPORT_PRODUCT_VIEWED_FLAG_CODE, 'viewed');
+        $this->_showLastExecutionTime(Flag::REPORT_PRODUCT_VIEWED_FLAG_CODE, 'viewed');
 
         $this->_initAction()
             ->_setActiveMenu('Magento_Reports::report_products_viewed')
@@ -108,6 +116,7 @@ class Product extends \Magento\Reports\Controller\Adminhtml\Report\AbstractRepor
     /**
      * Export products most viewed report to CSV format
      *
+     * @return ResponseInterface
      */
     public function exportViewedCsvAction()
     {
@@ -120,6 +129,7 @@ class Product extends \Magento\Reports\Controller\Adminhtml\Report\AbstractRepor
     /**
      * Export products most viewed report to XML format
      *
+     * @return ResponseInterface
      */
     public function exportViewedExcelAction()
     {
@@ -132,6 +142,7 @@ class Product extends \Magento\Reports\Controller\Adminhtml\Report\AbstractRepor
     /**
      * Low stock action
      *
+     * @return void
      */
     public function lowstockAction()
     {
@@ -149,6 +160,7 @@ class Product extends \Magento\Reports\Controller\Adminhtml\Report\AbstractRepor
     /**
      * Export low stock products report to CSV format
      *
+     * @return ResponseInterface
      */
     public function exportLowstockCsvAction()
     {
@@ -162,6 +174,7 @@ class Product extends \Magento\Reports\Controller\Adminhtml\Report\AbstractRepor
     /**
      * Export low stock products report to XML format
      *
+     * @return ResponseInterface
      */
     public function exportLowstockExcelAction()
     {
@@ -175,6 +188,7 @@ class Product extends \Magento\Reports\Controller\Adminhtml\Report\AbstractRepor
     /**
      * Downloads action
      *
+     * @return void
      */
     public function downloadsAction()
     {
@@ -195,6 +209,7 @@ class Product extends \Magento\Reports\Controller\Adminhtml\Report\AbstractRepor
     /**
      * Export products downloads report to CSV format
      *
+     * @return ResponseInterface
      */
     public function exportDownloadsCsvAction()
     {
@@ -209,6 +224,7 @@ class Product extends \Magento\Reports\Controller\Adminhtml\Report\AbstractRepor
     /**
      * Export products downloads report to XLS format
      *
+     * @return ResponseInterface
      */
     public function exportDownloadsExcelAction()
     {
