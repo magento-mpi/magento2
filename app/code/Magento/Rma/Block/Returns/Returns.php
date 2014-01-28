@@ -78,6 +78,9 @@ class Returns extends \Magento\View\Element\Template
         }
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
@@ -90,26 +93,41 @@ class Returns extends \Magento\View\Element\Template
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getPagerHtml()
     {
         return $this->getChildHtml('pager');
     }
 
+    /**
+     * @return string
+     */
     public function getViewUrl($return)
     {
         return $this->getUrl('*/*/view', array('entity_id' => $return->getId()));
     }
 
+    /**
+     * @return string
+     */
     public function getBackUrl()
     {
         return $this->getUrl('sales/order/history');
     }
 
+    /**
+     * @return string
+     */
     public function getReorderUrl($order)
     {
         return $this->getUrl('sales/order/reorder', array('order_id' => $order->getId()));
     }
 
+    /**
+     * @return string
+     */
     public function getPrintUrl($order)
     {
          return $this->getUrl('sales/guest/print', array('order_id' => $order->getId()));

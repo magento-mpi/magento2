@@ -32,17 +32,58 @@ class Authorizenet extends \Magento\Pbridge\Model\Payment\Method
 
     /**
      * Availability options
+     * @var bool
      */
     protected $_isGateway               = true;
+
+    /**
+     * @var bool
+     */
     protected $_canAuthorize            = true;
+
+    /**
+     * @var bool
+     */
     protected $_canCapture              = true;
+
+    /**
+     * @var bool
+     */
     protected $_canCapturePartial       = false;
+
+    /**
+     * @var bool
+     */
     protected $_canRefund               = true;
+
+    /**
+     * @var bool
+     */
     protected $_canRefundInvoicePartial = true;
+
+    /**
+     * @var bool
+     */
     protected $_canVoid                 = true;
+
+    /**
+     * @var bool
+     */
     protected $_canUseInternal          = true;
+
+    /**
+     * @var bool
+     */
     protected $_canUseCheckout          = true;
+
+    /**
+     * @var bool
+     */
     protected $_canUseForMultishipping  = true;
+
+    /**
+     * @var bool
+     */
     protected $_canSaveCc = false;
 
     /**
@@ -60,7 +101,7 @@ class Authorizenet extends \Magento\Pbridge\Model\Payment\Method
      *
      * @param \Magento\Object $payment
      * @param float $amount
-     * @return \Magento\Pbridge\Model\Payment\Method\Authorizenet
+     * @return $this
      */
     public function authorize(\Magento\Object $payment, $amount)
     {
@@ -74,7 +115,7 @@ class Authorizenet extends \Magento\Pbridge\Model\Payment\Method
      *
      * @param \Magento\Object $payment
      * @param float $amount
-     * @return \Magento\Pbridge\Model\Payment\Method\Authorizenet
+     * @return $this
      */
     public function capture(\Magento\Object $payment, $amount)
     {
@@ -91,7 +132,7 @@ class Authorizenet extends \Magento\Pbridge\Model\Payment\Method
      *
      * @param \Magento\Object $payment
      * @param float $amount
-     * @return \Magento\Pbridge\Model\Payment\Method\Authorizenet
+     * @return $this
      */
     public function refund(\Magento\Object $payment, $amount)
     {
@@ -106,7 +147,7 @@ class Authorizenet extends \Magento\Pbridge\Model\Payment\Method
      * Voiding method being executed via Payment Bridge
      *
      * @param \Magento\Object $payment
-     * @return \Magento\Pbridge\Model\Payment\Method\Authorizenet
+     * @return $this
      */
     public function void(\Magento\Object $payment)
     {
@@ -119,7 +160,7 @@ class Authorizenet extends \Magento\Pbridge\Model\Payment\Method
      * Cancel payment
      *
      * @param \Magento\Object $payment
-     * @return \Magento\Pbridge\Model\Payment\Method\Authorizenet
+     * @return $this
      */
     public function cancel(\Magento\Object $payment)
     {
@@ -130,6 +171,9 @@ class Authorizenet extends \Magento\Pbridge\Model\Payment\Method
         return $this;
     }
 
+    /**
+     * @return bool
+     */
     public function getIsCentinelValidationEnabled()
     {
         return true;

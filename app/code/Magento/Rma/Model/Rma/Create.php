@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Rma\Model\Rma;
+
 /**
  * RMA create model
  */
-namespace Magento\Rma\Model\Rma;
-
 class Create extends \Magento\Object
 {
     /**
