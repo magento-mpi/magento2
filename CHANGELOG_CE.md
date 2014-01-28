@@ -1,14 +1,5 @@
 * Modularity improvements:
-  * Moved all Grouped Product functionality to newly created module Magento_GroupedProduct
-  * Moved Multishipping functionality to newly created module Magento_Multishipping
   * Consolidated PayPal in separate module
-  * Extracted Product duplication behaviour from Product model to Product\Copier model
-  * Event "catalog_model_product_duplicate" was replaced with composite Product\Copier model
-  * Event "catalog_product_prepare_save" was replaced with controller product initialization helper that can be pluginized
-  * Consolidated Autorizenet in separate module
-  * Eliminated dependency of Sales module on Shipping and Usa modules
-  * Eliminated dependency of Shipping module on Customer module
-  * Improved accuracy and quality of Module Dependency Test
 * Oyejorge Less.php Adapter implemented
 * Less files import mechanism implemented
 * Added ability to configure certain cache frontend and associate it with multiple cache types, so avoiding duplication of cache configuration
@@ -16,25 +7,40 @@
   * Covered array definitions with XSD and made whole DI configuration validated with XSD
   * Added ability to define arrays with keys containing invalid XML characters, that was impossible when keys were represented by node names
 * Fixed bugs:
-  * Fixed an issue when order was sent to Paypal without defined currency
-  * Fixed an issue with 404 error when trying to return back to grid from Recurring Billing Profile
-  * Fixed an issue with synchronization with google shopping on product update caused by missed service property
-  * Fixed Authorize.net Direct Post: Ability to proceed order when it was created from Backend
-  * Fixed an issue with ImportExport: Fix notice if _attribute_set column is missing
   * Fixed missed image for a cron job for the abandoned cart emails
   * Restored ability to configure cache storage in `local.xml`
-* Removed the deprecated service-calls and data source functionality
+  * Fixed broken css\js merging functionality
 * AppInterface has been renamed to LauncherInterface
 * Removed reinit logic from Config object
 * Framework part of "URL" functionality moved out of modules
 * Framework part of "Config" functionality moved out of modules
 * Removed deprecated EAV structure creation method from EAV setup model
-* Request\Response workflow improvements:
-  * Added Console\Response
-  * All kind of applications always return Response instead of sending it
 * Updated various PHPDoc with parameter and return types
 * Indexer implementation:
   * Implemented new indexer structure
+
+2.0.0.0-dev62
+=============
+* Modularity improvements:
+  * Moved all Grouped Product functionality to newly created module GroupedProduct
+  * Moved Multishipping functionality to newly created module Multishipping
+  * Extracted Product duplication behavior from Product model to Product\Copier model
+  * Replaced event "catalog_model_product_duplicate" with composite Product\Copier model
+  * Replaced event "catalog_product_prepare_save" with controller product initialization helper that can be customozed via plugins
+  * Consolidated Authorize.Net functionality in single module Authorizenet
+  * Eliminated dependency of Sales module on Shipping and Usa modules
+  * Eliminated dependency of Shipping module on Customer module
+  * Improved accuracy and quality of Module Dependency Test
+* Fixed bugs:
+  * Fixed an issue when order was sent to PayPal in USD regardless of currency used during order creation
+  * Fixed an issue with 404 error when clicking any button on a Recurring Billing Profile in the backend
+  * Fixed an issue with synchronization with Google Shopping on product update caused by missed service property
+  * Fixed ability to submit order in the backend when Authorize.Net Direct Post is used
+  * Fixed an issue with notice that _attribute_set column is missing during Import/Export
+* Removed the deprecated service-calls and data source functionality
+* Request\Response workflow improvements:
+  * Added Console\Response
+  * Changed behavior of AppInterface to return ResponseInterface instead of sending it
 
 2.0.0.0-dev61
 =============
