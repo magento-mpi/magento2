@@ -68,11 +68,11 @@ class Gallery extends \Magento\Catalog\Block\Product\View\AbstractView
     }
 
     /**
-    * Is product main image
-    *
-    * @param \Magento\Object $image
-    * @return bool
-    */
+     * Is product main image
+     *
+     * @param \Magento\Object $image
+     * @return bool
+     */
     public function isMainImage($image)
     {
         $product = $this->getProduct();
