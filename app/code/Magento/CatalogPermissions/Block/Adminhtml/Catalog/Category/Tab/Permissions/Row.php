@@ -94,6 +94,9 @@ class Row extends AbstractCategory
         return $this->getCategory()->getPermissionsReadonly();
     }
 
+    /**
+     * @return string|int|null
+     */
     public function getDefaultWebsiteId()
     {
         return $this->_storeManager->getStore(true)->getWebsiteId();
@@ -154,6 +157,9 @@ class Row extends AbstractCategory
         return $this->getData('customer_group_collection');
     }
 
+    /**
+     * @return string
+     */
     public function getDeleteButtonHtml()
     {
         return $this->getChildHtml('delete_button');

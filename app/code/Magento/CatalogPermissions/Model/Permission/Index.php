@@ -136,7 +136,7 @@ class Index extends AbstractIndexer
     /**
      * Add index to product count select in product collection
      *
-     * @param Collection $collection
+     * @param ProductCollection $collection
      * @param int $customerGroupId
      * @return $this
      */
