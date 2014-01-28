@@ -9,6 +9,8 @@
  */
 namespace Magento\GoogleOptimizer\Model\Observer\Block\Category;
 
+use Magento\Event\Observer;
+
 class Tab
 {
     /**
@@ -36,9 +38,10 @@ class Tab
     /**
      * Adds Google Experiment tab to the category edit page
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
+     * @return void
      */
-    public function addGoogleExperimentTab(\Magento\Event\Observer $observer)
+    public function addGoogleExperimentTab(EventObserver $observer)
     {
         if ($this->_helper->isGoogleExperimentActive()) {
             $block = $this->_layout->createBlock(

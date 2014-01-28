@@ -16,6 +16,7 @@ class Form extends \Magento\App\Helper\AbstractHelper
      *
      * @param \Magento\Data\Form $form
      * @param \Magento\GoogleOptimizer\Model\Code|null $experimentCodeModel
+     * @return void
      */
     public function addGoogleoptimizerFields(
         \Magento\Data\Form $form,
