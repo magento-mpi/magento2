@@ -141,7 +141,7 @@ class Observer
                 $schedule->save();
             }
 
-            $this->_generate($groupConfig);
+            $this->_generate($groupConfig, $groupId);
             $this->_cleanup($groupConfig);
         }
     }
@@ -214,9 +214,10 @@ class Observer
      * Generate cron schedule
      *
      * @param array $groupConfig
+     * @param string $groupId
      * @return \Magento\Cron\Model\Observer
      */
-    protected function _generate($groupConfig)
+    protected function _generate($groupConfig, $groupId)
     {
         /**
          * check if schedule generation is needed
@@ -239,7 +240,7 @@ class Observer
          * generate global crontab jobs
          */
         $jobs = $this->_config->getJobs();
-        $this->_generateJobs($jobs, $exists, $groupConfig);
+        $this->_generateJobs($jobs, $exists, $groupConfig, $groupId);
 
         /**
          * save time schedules generation was ran with no expiration
@@ -255,9 +256,10 @@ class Observer
      * @param   $jobs
      * @param   array $exists
      * @param   array $groupConfig
+     * @param   string $groupId
      * @return  \Magento\Cron\Model\Observer
      */
-    protected function _generateJobs($jobs, $exists, $groupConfig)
+    protected function _generateJobs($jobs, $exists, $groupConfig, $groupId)
     {
         $scheduleAheadFor = (int)$groupConfig[self::XML_PATH_SCHEDULE_AHEAD_FOR];
         $scheduleAheadFor = $scheduleAheadFor * self::SECONDS_IN_MINUTE;
@@ -266,7 +268,7 @@ class Observer
          */
         $schedule = $this->_scheduleFactory->create();
 
-        foreach ($jobs as $jobCode => $jobConfig) {
+        foreach ($jobs[$groupId] as $jobCode => $jobConfig) {
             $cronExpr = null;
             if (isset($jobConfig['config_path'])) {
                 $cronExpr = $this->_coreStoreConfig->getConfig($jobConfig['config_path'], 'default');
