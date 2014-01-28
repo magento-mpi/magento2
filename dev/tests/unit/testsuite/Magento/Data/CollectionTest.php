@@ -59,4 +59,31 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     {
         $this->_model->setItemObjectClass('Incorrect_ClassName');
     }
+
+    /**
+     * @param string[] $fields
+     * @param array $conditions
+     *
+     * @expectedException \Magento\Exception
+     * @expectedExceptionMessage When passing in a field array there must be a matching condition array
+     * @dataProvider addFieldToFilterInconsistentArraysDataProvider
+     */
+    public function testAddFieldToFilterInconsistentArrays($fields, $conditions)
+    {
+        $this->_model->addFieldToFilter($fields, $conditions);
+    }
+
+    public function addFieldToFilterInconsistentArraysDataProvider()
+    {
+        return [
+            'missingCondition' => [
+                ['fieldA', 'missingCondition'],
+                [['eq' => 'A']]
+            ],
+            'missingField' => [
+                ['fieldA'],
+                [['eq' => 'A'], ['eq' => 'B']]
+            ],
+        ];
+    }
 }

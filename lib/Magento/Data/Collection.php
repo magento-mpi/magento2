@@ -224,10 +224,14 @@ class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\
      *
      * @param string|array $field
      * @param string|int|array $condition
+     * @throws \Magento\Exception if some error in the input could be detected.
      * @return $this
      */
     public function addFieldToFilter($field, $condition)
     {
+        if (is_array($field) && count($field) != count($condition)) {
+            throw new \Magento\Exception('When passing in a field array there must be a matching condition array.');
+        }
         $this->_fieldFilters[] = [
             'field'     => $field,
             'condition' => $condition,
