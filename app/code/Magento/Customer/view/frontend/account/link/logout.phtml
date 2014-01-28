@@ -1,0 +1,15 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<li>
+    <?php /** @var $this \Magento\Customer\Block\Account\AuthorizationLink */?>
+    <a data-post='<?php echo $this->getPostParams();  ?>' <?php echo $this->getLinkAttributes();  ?> >
+        <?php echo $this->escapeHtml($this->getLabel()); ?>
+    </a>
+</li>
