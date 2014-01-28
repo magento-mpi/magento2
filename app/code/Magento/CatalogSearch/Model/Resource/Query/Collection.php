@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CatalogSearch\Model\Resource\Query;
 
+use Magento\Core\Model\Store;
 
 /**
  * Catalog search query collection
@@ -16,8 +18,6 @@
  * @package     Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CatalogSearch\Model\Resource\Query;
-
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
@@ -48,7 +48,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\CatalogSearch\Model\Resource\Helper $resourceHelper
-     * @param mixed $connection
+     * @param \Zend_Db_Adapter_Abstract $connection
      * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
@@ -68,7 +68,6 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
 
     /**
      * Init model for collection
-     *
      */
     protected function _construct()
     {
@@ -78,12 +77,12 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Set Store ID for filter
      *
-     * @param mixed $store
-     * @return \Magento\CatalogSearch\Model\Resource\Query\Collection
+     * @param Store|int $store
+     * @return Collection
      */
     public function setStoreId($store)
     {
-        if ($store instanceof \Magento\Core\Model\Store) {
+        if ($store instanceof Store) {
             $store = $store->getId();
         }
         $this->_storeId = $store;
@@ -104,7 +103,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Set search query text to filter
      *
      * @param string $query
-     * @return \Magento\CatalogSearch\Model\Resource\Query\Collection
+     * @return Collection
      */
     public function setQueryFilter($query)
     {
@@ -129,7 +128,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Set Popular Search Query Filter
      *
      * @param int|array $storeIds
-     * @return \Magento\CatalogSearch\Model\Resource\Query\Collection
+     * @return Collection
      */
     public function setPopularQueryFilter($storeIds = null)
     {
@@ -161,7 +160,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Set Recent Queries Order
      *
-     * @return \Magento\CatalogSearch\Model\Resource\Query\Collection
+     * @return Collection
      */
     public function setRecentQueryFilter()
     {
@@ -173,7 +172,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Filter collection by specified store ids
      *
      * @param array|int $storeIds
-     * @return \Magento\CatalogSearch\Model\Resource\Query\Collection
+     * @return Collection
      */
     public function addStoreFilter($storeIds)
     {

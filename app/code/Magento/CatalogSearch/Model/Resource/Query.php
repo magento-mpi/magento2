@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\CatalogSearch\Model\Resource;
 
 /**
  * Catalog search query resource model
@@ -16,8 +16,6 @@
  * @package     Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CatalogSearch\Model\Resource;
-
 class Query extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**

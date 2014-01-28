@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\CatalogSearch\Model\Resource\Fulltext;
 
 /**
  * CatalogSearch Fulltext Index Engine resource model
@@ -16,8 +16,6 @@
  * @package     Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CatalogSearch\Model\Resource\Fulltext;
-
 class Engine extends \Magento\Core\Model\Resource\Db\AbstractDb
     implements \Magento\CatalogSearch\Model\Resource\EngineInterface
 {
@@ -100,7 +98,6 @@ class Engine extends \Magento\Core\Model\Resource\Db\AbstractDb
 
     /**
      * Init resource model
-     *
      */
     protected function _construct()
     {
@@ -156,7 +153,7 @@ class Engine extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Retrieve allowed visibility values for current engine
      *
-     * @return array
+     * @return int[]
      */
     public function getAllowedVisibility()
     {

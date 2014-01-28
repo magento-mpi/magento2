@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogSearch\Model\Resource;
 
 /**
@@ -175,7 +174,6 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
 
     /**
      * Init resource model
-     *
      */
     protected function _construct()
     {
@@ -195,8 +193,8 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Regenerate search index for store(s)
      *
-     * @param  int|null $storeId
-     * @param  int|array|null $productIds
+     * @param int|null $storeId
+     * @param int|array|null $productIds
      * @return \Magento\CatalogSearch\Model\Resource\Fulltext
      */
     public function rebuildIndex($storeId = null, $productIds = null)
