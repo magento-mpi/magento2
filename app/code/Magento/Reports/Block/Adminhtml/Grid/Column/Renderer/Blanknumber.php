@@ -20,6 +20,9 @@ namespace Magento\Reports\Block\Adminhtml\Grid\Column\Renderer;
 
 class Blanknumber extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Number
 {
+    /**
+     * @return string
+     */
     protected function _getValue(\Magento\Object $row)
     {
         $data = parent::_getValue($row);

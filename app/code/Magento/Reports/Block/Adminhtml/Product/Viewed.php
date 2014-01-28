@@ -20,6 +20,9 @@ namespace Magento\Reports\Block\Adminhtml\Product;
 
 class Viewed extends \Magento\Backend\Block\Widget\Grid\Container
 {
+    /**
+     * @var string
+     */
     protected $_template = 'report/grid/container.phtml';
 
     protected function _construct()

@@ -46,6 +46,9 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         $this->setId('reviews_grid');
     }
 
+    /**
+     * @return $this|\Magento\Backend\Block\Widget\Grid
+     */
     protected function _prepareCollection()
     {
         $collection = $this->_reviewsFactory->create()
@@ -58,6 +61,9 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         return $this;
     }
 
+    /**
+     * @return \Magento\Backend\Block\Widget\Grid\Extended
+     */
     protected function _prepareColumns()
     {
 

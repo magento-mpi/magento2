@@ -23,8 +23,8 @@ class Purchases
     /**
      * Renders Purchases value
      *
-     * @param   \Magento\Object $row
-     * @return  string
+     * @param \Magento\Object $row
+     * @return string
      */
     public function render(\Magento\Object $row)
     {
