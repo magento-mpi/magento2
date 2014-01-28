@@ -1,16 +1,18 @@
 <?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 
 namespace Magento\Customer\Service\V1;
+
 use Magento\Customer\Service\Entity\V1\Exception;
 use Magento\Customer\Service\V1;
 
 /**
  * Integration test for service layer \Magento\Customer\Service\CustomerV1
- *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
  *
  * @SuppressWarnings(PHPMD.TooManyMethods)
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
@@ -577,4 +579,37 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Firstname', $customer->getFirstname());
         $this->assertNull($customer->getAttribute('rp_token'));
     }
+
+    /**
+     * @magentoAppArea adminhtml
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     * @magentoAppIsolation enabled
+     */
+    public function testDeleteCustomer()
+    {
+        // _files/customer.php sets the customer id to 1
+        $this->_service->deleteCustomer(1);
+        //Trying to fetch the customer after deleting should result in exception
+        $this->setExpectedException(
+            '\Magento\Customer\Service\Entity\V1\Exception',
+            'No customer with customerId 1 exists.'
+        );
+        $this->_service->getCustomer(1);
+    }
+
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     * @magentoAppIsolation enabled
+     */
+    public function testDeleteCustomerNonSecureArea()
+    {
+        $this->setExpectedException(
+            '\Magento\Customer\Service\Entity\V1\Exception',
+            'Cannot complete this operation from non-admin area.'
+        );
+        // _files/customer.php sets the customer id to 1
+        $this->_service->deleteCustomer(1);
+    }
+
 }

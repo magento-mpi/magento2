@@ -49,9 +49,8 @@ class CustomerService implements CustomerServiceInterface
         $this->_converter = $converter;
     }
 
-
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getCustomer($customerId)
     {
@@ -64,9 +63,8 @@ class CustomerService implements CustomerServiceInterface
         return $this->_cache[$customerId];
     }
 
-
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function saveCustomer(Dto\Customer $customer, $password = null)
     {
@@ -100,5 +98,19 @@ class CustomerService implements CustomerServiceInterface
         }
 
         return $customerModel->getId();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function deleteCustomer($customerId)
+    {
+        $customerModel = $this->_converter->getCustomerModel($customerId);
+        try {
+            $customerModel->delete();
+            unset($this->_cache[$customerModel->getId()]);
+        } catch (\Exception $e) {
+            throw new Exception($e->getMessage(), Exception::CODE_UNKNOWN, $e);
+        }
     }
 }

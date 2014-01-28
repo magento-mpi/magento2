@@ -269,6 +269,11 @@ class Quote extends \Magento\Core\Model\AbstractModel
     protected $_objectCopyService;
 
     /**
+     * @var \Magento\Customer\Service\V1\Dto\Customer
+     */
+    protected $_customerData;
+
+    /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Sales\Helper\Data $salesData
@@ -602,6 +607,28 @@ class Quote extends \Magento\Core\Model\AbstractModel
             }
         }
         return $this->_customer;
+    }
+
+    /**
+     * Retrieve customer data object
+     *
+     * @return \Magento\Customer\Service\V1\Dto\Customer
+     */
+    public function getCustomerData()
+    {
+        return $this->_customerData;
+    }
+
+    /**
+     * Set customer data object
+     *
+     * @param \Magento\Customer\Service\V1\Dto\Customer $customerData
+     * @return self
+     */
+    public function setCustomerData(\Magento\Customer\Service\V1\Dto\Customer $customerData)
+    {
+        $this->_customerData = $customerData;
+        return $this;
     }
 
     /**

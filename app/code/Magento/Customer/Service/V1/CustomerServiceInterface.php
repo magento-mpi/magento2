@@ -31,4 +31,13 @@ interface CustomerServiceInterface
      */
     public function getCustomer($customerId);
 
+    /**
+     * Delete Customer
+     *
+     * @param int $customerId
+     *
+     * @return void
+     * @throws \Magento\Customer\Service\Entity\V1\Exception
+     */
+    public function deleteCustomer($customerId);
 }

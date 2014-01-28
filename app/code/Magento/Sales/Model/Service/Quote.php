@@ -2,17 +2,17 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
+namespace Magento\Sales\Model\Service;
+
+use Magento\Customer\Service\V1\CustomerServiceInterface;
+
 /**
  * Quote submit service model
  */
-namespace Magento\Sales\Model\Service;
-
 class Quote
 {
     /**
@@ -75,6 +75,11 @@ class Quote
     protected $_transactionFactory;
 
     /**
+     * @var CustomerServiceInterface
+     */
+    protected $_customerService;
+
+    /**
      * Class constructor
      *
      * @param \Magento\Event\ManagerInterface $eventManager
@@ -82,19 +87,22 @@ class Quote
      * @param \Magento\Sales\Model\Convert\QuoteFactory $convertQuoteFactory
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Core\Model\Resource\TransactionFactory $transactionFactory
+     * @param CustomerServiceInterface $customerService
      */
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Sales\Model\Quote $quote,
         \Magento\Sales\Model\Convert\QuoteFactory $convertQuoteFactory,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Core\Model\Resource\TransactionFactory $transactionFactory
+        \Magento\Core\Model\Resource\TransactionFactory $transactionFactory,
+        CustomerServiceInterface $customerService
     ) {
         $this->_eventManager = $eventManager;
         $this->_quote = $quote;
         $this->_convertor = $convertQuoteFactory->create();
         $this->_customerSession = $customerSession;
         $this->_transactionFactory = $transactionFactory;
+        $this->_customerService = $customerService;
     }
 
     /**
@@ -145,6 +153,8 @@ class Quote
         $isVirtual = $quote->isVirtual();
 
         $transaction = $this->_transactionFactory->create();
+        //TODO : Refactor to use \Magento\Sales\Model\Quote::getCustomerData once set correctly in MAGETWO-19929
+        // Use Customer service to create / rollback(using CustomerServiceInterface::deleteCustomer)
         if ($quote->getCustomerId()) {
             $transaction->addObject($quote->getCustomer());
         }
