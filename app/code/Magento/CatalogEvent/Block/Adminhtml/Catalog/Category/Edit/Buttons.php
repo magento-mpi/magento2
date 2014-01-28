@@ -11,42 +11,51 @@
  */
 namespace Magento\CatalogEvent\Block\Adminhtml\Catalog\Category\Edit;
 
-class Buttons
-    extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
+use Magento\Backend\Block\Template\Context;
+use Magento\Backend\Helper\Data as BackendHelperData;
+use Magento\Catalog\Block\Adminhtml\Category\AbstractCategory;
+use Magento\Catalog\Model\Resource\Category\Tree;
+use Magento\CatalogEvent\Helper\Data;
+use Magento\CatalogEvent\Model\Event;
+use Magento\CatalogEvent\Model\Resource\Event\Collection;
+use Magento\CatalogEvent\Model\Resource\Event\CollectionFactory;
+use Magento\Core\Model\Registry;
+
+class Buttons extends AbstractCategory
 {
     /**
      * Factory for event collections
      *
-     * @var \Magento\CatalogEvent\Model\Resource\Event\CollectionFactory
+     * @var CollectionFactory
      */
     protected $_eventCollectionFactory;
 
     /**
-     * @var \Magento\CatalogEvent\Helper\Data
+     * @var Data
      */
     protected $_catalogeventHelper;
 
     /**
-     * @var \Magento\Backend\Helper\Data
+     * @var BackendHelperData
      */
     protected $_backendHelper;
 
     /**
-     * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Catalog\Model\Resource\Category\Tree $categoryTree
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\CatalogEvent\Model\Resource\Event\CollectionFactory $eventCollectionFactory
-     * @param \Magento\CatalogEvent\Helper\Data $catalogeventHelper
-     * @param \Magento\Backend\Helper\Data $backendHelper
+     * @param Context $context
+     * @param Tree $categoryTree
+     * @param Registry $registry
+     * @param CollectionFactory $eventCollectionFactory
+     * @param Data $catalogeventHelper
+     * @param BackendHelperData $backendHelper
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
-        \Magento\Catalog\Model\Resource\Category\Tree $categoryTree,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\CatalogEvent\Model\Resource\Event\CollectionFactory $eventCollectionFactory,
-        \Magento\CatalogEvent\Helper\Data $catalogeventHelper,
-        \Magento\Backend\Helper\Data $backendHelper,
+        Context $context,
+        Tree $categoryTree,
+        Registry $registry,
+        CollectionFactory $eventCollectionFactory,
+        Data $catalogeventHelper,
+        BackendHelperData $backendHelper,
         array $data = array()
     ) {
         $this->_backendHelper = $backendHelper;
@@ -59,12 +68,12 @@ class Buttons
     /**
      * Retrieve category event
      *
-     * @return \Magento\CatalogEvent\Model\Event
+     * @return Event
      */
     public function getEvent()
     {
         if (!$this->hasData('event')) {
-            /** @var \Magento\CatalogEvent\Model\Resource\Event\Collection $collection */
+            /** @var Collection $collection */
             $collection = $this->_eventCollectionFactory->create()
                 ->addFieldToFilter('category_id', $this->getCategoryId());
 
@@ -78,7 +87,7 @@ class Buttons
     /**
      * Add buttons on category edit page
      *
-     * @return \Magento\CatalogEvent\Block\Adminhtml\Catalog\Category\Edit\Buttons
+     * @return $this
      */
     public function addButtons()
     {

@@ -11,36 +11,46 @@
  */
 namespace Magento\CatalogEvent\Block\Adminhtml\Event\Edit;
 
-class Form extends \Magento\Backend\Block\Widget\Form\Generic
+use Magento\Backend\Block\Template\Context;
+use Magento\Backend\Block\Widget\Form\Generic;
+use Magento\Backend\Helper\Data;
+use Magento\Core\Model\Registry;
+use Magento\Data\FormFactory;
+use Magento\Catalog\Model\Category;
+use Magento\Catalog\Model\CategoryFactory;
+use Magento\CatalogEvent\Model\Event;
+use Magento\Core\Model\LocaleInterface;
+
+class Form extends Generic
 {
     /**
      * Adminhtml data
      *
-     * @var \Magento\Backend\Helper\Data
+     * @var Data
      */
     protected $_adminhtmlData = null;
 
     /**
      * Category model factory
      *
-     * @var \Magento\Catalog\Model\CategoryFactory
+     * @var CategoryFactory
      */
     protected $_categoryFactory;
 
     /**
-     * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Backend\Helper\Data $adminhtmlData
-     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     * @param Context $context
+     * @param Registry $registry
+     * @param FormFactory $formFactory
+     * @param Data $adminhtmlData
+     * @param CategoryFactory $categoryFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
-        \Magento\Backend\Helper\Data $adminhtmlData,
-        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
+        Context $context,
+        Registry $registry,
+        FormFactory $formFactory,
+        Data $adminhtmlData,
+        CategoryFactory $categoryFactory,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $formFactory, $data);
@@ -79,7 +89,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Prepares event edit form
      *
-     * @return \Magento\CatalogEvent\Block\Adminhtml\Event\Edit\Form
+     * @return $this
      */
     protected function _prepareForm()
     {
@@ -105,7 +115,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
         $this->_addElementTypes($fieldset);
 
-        /** @var \Magento\Catalog\Model\Category $currentCategory */
+        /** @var Category $currentCategory */
         $currentCategory = $this->_categoryFactory->create()->load($this->getEvent()->getCategoryId());
 
         $fieldset->addField('category_name', 'note',
@@ -115,8 +125,8 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             )
         );
 
-        $dateFormat = $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
-        $timeFormat = $this->_locale->getTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
+        $dateFormat = $this->_locale->getDateFormat(LocaleInterface::FORMAT_TYPE_SHORT);
+        $timeFormat = $this->_locale->getTimeFormat(LocaleInterface::FORMAT_TYPE_SHORT);
 
         $fieldset->addField('date_start', 'date', array(
                 'label'        => __('Start Date'),
@@ -150,17 +160,17 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         );
 
         $statuses = array(
-            \Magento\CatalogEvent\Model\Event::STATUS_UPCOMING => __('Upcoming'),
-            \Magento\CatalogEvent\Model\Event::STATUS_OPEN => __('Open'),
-            \Magento\CatalogEvent\Model\Event::STATUS_CLOSED => __('Closed')
+            Event::STATUS_UPCOMING => __('Upcoming'),
+            Event::STATUS_OPEN => __('Open'),
+            Event::STATUS_CLOSED => __('Closed')
         );
 
         $fieldset->addField('display_state_array', 'checkboxes', array(
                 'label'  => __('Display Countdown Ticker On'),
                 'name'   => 'display_state[]',
                 'values' => array(
-                    \Magento\CatalogEvent\Model\Event::DISPLAY_CATEGORY_PAGE => __('Category Page'),
-                    \Magento\CatalogEvent\Model\Event::DISPLAY_PRODUCT_PAGE => __('Product Page')
+                    Event::DISPLAY_CATEGORY_PAGE => __('Category Page'),
+                    Event::DISPLAY_PRODUCT_PAGE => __('Product Page')
                 )
             ));
 
@@ -214,7 +224,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Retrieve catalog event model
      *
-     * @return \Magento\CatalogEvent\Model\Event
+     * @return Event
      */
     public function getEvent()
     {

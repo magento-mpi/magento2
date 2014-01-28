@@ -12,46 +12,55 @@
  */
 namespace Magento\CatalogEvent\Block\Event;
 
-class Lister extends \Magento\CatalogEvent\Block\Event\AbstractEvent
+use Magento\Catalog\Helper\Category as HelperCategory;
+use Magento\Catalog\Model\Category;
+use Magento\CatalogEvent\Helper\Data;
+use Magento\CatalogEvent\Model\Event;
+use Magento\CatalogEvent\Model\Resource\Event\Collection;
+use Magento\CatalogEvent\Model\Resource\Event\CollectionFactory;
+use Magento\View\Element\Template\Context;
+
+
+class Lister extends AbstractEvent
 {
     /**
      * Events list
      *
-     * @var array
+     * @var Event[]
      */
     protected $_events = null;
 
     /**
      * Catalog event data
      *
-     * @var \Magento\CatalogEvent\Helper\Data
+     * @var Data
      */
     protected $_catalogEventData;
 
     /**
      * Event collection factory
      *
-     * @var \Magento\CatalogEvent\Model\Resource\Event\CollectionFactory
+     * @var CollectionFactory
      */
     protected $_eventCollectionFactory;
 
     /**
-     * @var \Magento\Catalog\Helper\Category
+     * @var HelperCategory
      */
     protected $_categoryHelper;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\CatalogEvent\Helper\Data $catalogEventData
-     * @param \Magento\CatalogEvent\Model\Resource\Event\CollectionFactory $eventCollectionFactory
-     * @param \Magento\Catalog\Helper\Category $categoryHelper
+     * @param Context $context
+     * @param Data $catalogEventData
+     * @param CollectionFactory $eventCollectionFactory
+     * @param HelperCategory $categoryHelper
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\CatalogEvent\Helper\Data $catalogEventData,
-        \Magento\CatalogEvent\Model\Resource\Event\CollectionFactory $eventCollectionFactory,
-        \Magento\Catalog\Helper\Category $categoryHelper,
+        Context $context,
+        Data $catalogEventData,
+        CollectionFactory $eventCollectionFactory,
+        HelperCategory $categoryHelper,
         array $data = array()
     ) {
         $this->_categoryHelper = $categoryHelper;
@@ -89,7 +98,7 @@ class Lister extends \Magento\CatalogEvent\Block\Event\AbstractEvent
     /**
      * Retrieve categories with events
      *
-     * @return array
+     * @return Event[]
      */
     public function getEvents()
     {
@@ -104,7 +113,7 @@ class Lister extends \Magento\CatalogEvent\Block\Event\AbstractEvent
             }
 
             if (!empty($allIds)) {
-                /** @var \Magento\CatalogEvent\Model\Resource\Event\Collection $eventCollection */
+                /** @var Collection $eventCollection */
                 $eventCollection = $this->_eventCollectionFactory->create();
                 $eventCollection->addFieldToFilter('category_id', array('in' => $allIds))
                     ->addVisibilityFilter()
@@ -137,7 +146,7 @@ class Lister extends \Magento\CatalogEvent\Block\Event\AbstractEvent
     /**
      * Retrieve category url
      *
-     * @param \Magento\Catalog\Model\Category $category
+     * @param Category $category
      * @return string
      */
     public function getCategoryUrl($category)
@@ -148,7 +157,7 @@ class Lister extends \Magento\CatalogEvent\Block\Event\AbstractEvent
     /**
      * Retrieve catalog category image url
      *
-     * @param \Magento\CatalogEvent\Model\Event $event
+     * @param Event $event
      * @return string
      */
     public function getEventImageUrl($event)

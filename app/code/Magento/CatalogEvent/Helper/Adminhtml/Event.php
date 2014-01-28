@@ -11,12 +11,23 @@
  */
 namespace Magento\CatalogEvent\Helper\Adminhtml;
 
-class Event extends \Magento\App\Helper\AbstractHelper
+use Magento\App\Helper\AbstractHelper;
+use Magento\App\Helper\Context;
+use Magento\Data\Tree\Node;
+use Magento\Data\Tree\Node\Collection as NodeCollection;
+use Magento\Catalog\Model\Category;
+use Magento\Catalog\Model\CategoryFactory;
+use Magento\Catalog\Model\Resource\Category\Tree;
+use Magento\CatalogEvent\Model\Resource\Event\Collection;
+use Magento\CatalogEvent\Model\Resource\Event\CollectionFactory;
+
+
+class Event extends AbstractHelper
 {
     /**
      * Categories first and second level for admin
      *
-     * @var \Magento\Data\Tree\Node
+     * @var NodeCollection
      */
     protected $_categories = null;
 
@@ -30,28 +41,28 @@ class Event extends \Magento\App\Helper\AbstractHelper
     /**
      * Event collection factory
      *
-     * @var \Magento\CatalogEvent\Model\Resource\Event\CollectionFactory
+     * @var CollectionFactory
      */
     protected $_eventCollectionFactory;
 
     /**
      * Category model factory
      *
-     * @var \Magento\Catalog\Model\CategoryFactory
+     * @var CategoryFactory
      */
     protected $_categoryFactory;
 
     /**
      * Construct
      *
-     * @param \Magento\App\Helper\Context $context
-     * @param \Magento\CatalogEvent\Model\Resource\Event\CollectionFactory $factory
-     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     * @param Context $context
+     * @param CollectionFactory $factory
+     * @param CategoryFactory $categoryFactory
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
-        \Magento\CatalogEvent\Model\Resource\Event\CollectionFactory $factory,
-        \Magento\Catalog\Model\CategoryFactory $categoryFactory
+        Context $context,
+        CollectionFactory $factory,
+        CategoryFactory $categoryFactory
     ) {
         parent::__construct($context);
 
@@ -62,16 +73,16 @@ class Event extends \Magento\App\Helper\AbstractHelper
     /**
      * Return first and second level categories
      *
-     * @return \Magento\Data\Tree\Node
+     * @return NodeCollection
      */
     public function getCategories()
     {
         if ($this->_categories === null) {
-            /** @var $tree \Magento\Catalog\Model\Resource\Category\Tree */
+            /** @var $tree Tree */
             $tree = $this->_categoryFactory->create()->getTreeModel();
             $tree->load(null, 2); // Load only to second level.
             $tree->addCollectionData(null, 'position');
-            $this->_categories = $tree->getNodeById(\Magento\Catalog\Model\Category::TREE_ROOT_ID)->getChildren();
+            $this->_categories = $tree->getNodeById(Category::TREE_ROOT_ID)->getChildren();
         }
         return $this->_categories;
     }
@@ -79,6 +90,8 @@ class Event extends \Magento\App\Helper\AbstractHelper
     /**
      * Return first and second level categories for dropdown options
      *
+     * @param array $without
+     * @param bool $emptyOption
      * @return array
      */
     public function getCategoriesOptions($without = array(), $emptyOption = false)
@@ -101,11 +114,12 @@ class Event extends \Magento\App\Helper\AbstractHelper
     /**
      * Convert tree node to dropdown option
      *
+     * @param Node $node
+     * @param array $without
      * @return array
      */
-    protected function _treeNodeToOption(\Magento\Data\Tree\Node $node, $without)
+    protected function _treeNodeToOption(Node $node, $without)
     {
-
         $option = array();
         $option['label'] = $node->getName();
         if ($node->getLevel() < 2) {
@@ -124,13 +138,12 @@ class Event extends \Magento\App\Helper\AbstractHelper
     /**
      * Search category in categories tree
      *
-     * @param array $categories
+     * @param NodeCollection $categories
      * @param int $categoryId
-     * @return \Magento\Data\Tree\Node|boolean
+     * @return Node|false
      */
     public function searchInCategories($categories, $categoryId)
     {
-
         foreach ($categories as $category) {
             if ($category->getId() == $categoryId) {
                 return $category;
@@ -150,7 +163,7 @@ class Event extends \Magento\App\Helper\AbstractHelper
     {
 
         if ($this->_inEventCategoryIds === null) {
-            /** @var \Magento\CatalogEvent\Model\Resource\Event\Collection $collection */
+            /** @var Collection $collection */
             $collection = $this->_eventCollectionFactory->create();
             $this->_inEventCategoryIds = $collection->getColumnValues('category_id');
         }
