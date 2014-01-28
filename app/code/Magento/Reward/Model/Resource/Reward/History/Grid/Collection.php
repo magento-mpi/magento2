@@ -56,7 +56,7 @@ class Collection
     }
 
     /**
-     * @return \Magento\Reward\Model\Resource\Reward\History\Grid\Collection
+     * @return $this
      */
     protected function _initSelect()
     {
@@ -74,7 +74,7 @@ class Collection
      *
      * @param array|string $field
      * @param null $condition
-     * @return \Magento\Reward\Model\Resource\Reward\History\Grid\Collection
+     * @return $this
      */
     public  function addFieldToFilter($field, $condition = null)
     {

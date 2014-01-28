@@ -18,6 +18,8 @@
  */
 namespace Magento\Pbridge\Model\Payment\Method\Paybox;
 
+use Magento\Core\Exception as CoreException;
+
 class Direct extends \Magento\Pbridge\Model\Payment\Method
 {
     /**
@@ -25,15 +27,54 @@ class Direct extends \Magento\Pbridge\Model\Payment\Method
      */
     protected $_code  = 'paybox_direct';
 
+    /**
+     * @var bool
+     */
     protected $_isGateway               = true;
+
+    /**
+     * @var bool
+     */
     protected $_canAuthorize            = true;
+
+    /**
+     * @var bool
+     */
     protected $_canCapture              = true;
+
+    /**
+     * @var bool
+     */
     protected $_canCapturePartial       = false;
+
+    /**
+     * @var bool
+     */
     protected $_canRefund               = false;
+
+    /**
+     * @var bool
+     */
     protected $_canVoid                 = false;
+
+    /**
+     * @var bool
+     */
     protected $_canUseInternal          = true;
+
+    /**
+     * @var bool
+     */
     protected $_canUseCheckout          = true;
+
+    /**
+     * @var bool
+     */
     protected $_canUseForMultishipping  = true;
+
+    /**
+     * @var bool
+     */
     protected $_canSaveCc               = true;
 
     /**
@@ -41,7 +82,7 @@ class Direct extends \Magento\Pbridge\Model\Payment\Method
      *
      * @param \Magento\Object $payment
      * @param float $amount
-     * @return \Magento\Pbridge\Model\Payment\Method\Authorizenet
+     * @return $this
      */
     public function authorize(\Magento\Object $payment, $amount)
     {
@@ -55,7 +96,7 @@ class Direct extends \Magento\Pbridge\Model\Payment\Method
      *
      * @param \Magento\Object $payment
      * @param float $amount
-     * @return \Magento\Pbridge\Model\Payment\Method\Authorizenet
+     * @return $this
      */
     public function capture(\Magento\Object $payment, $amount)
     {
@@ -72,11 +113,11 @@ class Direct extends \Magento\Pbridge\Model\Payment\Method
      *
      * @param \Magento\Object $payment
      * @param float $amount
-     * @return \Magento\Pbridge\Model\Payment\Method\Authorizenet
-     * @throws \Magento\Core\Exception
+     * @return $this
+     * @throws CoreException
      */
     public function refund(\Magento\Object $payment, $amount)
     {
-        throw new \Magento\Core\Exception(__('Refund action is not available.'));
+        throw new CoreException(__('Refund action is not available.'));
     }
 }

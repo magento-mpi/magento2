@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General;
 
 /**
  * Request Details Block at RMA page
@@ -15,8 +16,6 @@
  * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General;
-
 class Returnaddress
     extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\AbstractGeneral
 {

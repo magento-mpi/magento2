@@ -25,6 +25,8 @@
  */
 namespace Magento\Reward\Model;
 
+use Magento\Core\Exception;
+
 class Reward extends \Magento\Core\Model\AbstractModel
 {
     const XML_PATH_BALANCE_UPDATE_TEMPLATE = 'magento_reward/notification/balance_update_template';
@@ -44,16 +46,31 @@ class Reward extends \Magento\Core\Model\AbstractModel
     const REWARD_ACTION_SALESRULE           = 10;
     const REWARD_ACTION_REVERT              = 11;
 
+    /**
+     * Model is loaded by customer
+     *
+     * @var bool
+     */
     protected $_modelLoadedByCustomer = false;
 
+    /**
+     * Action model
+     *
+     * @var array
+     */
     static protected $_actionModelClasses = array();
 
+    /**
+     * Rates
+     *
+     * @var array
+     */
     protected $_rates = array();
 
     /**
      * Identifies that reward balance was updated or not
      *
-     * @var boolean
+     * @var bool
      */
     protected $_rewardPointsUpdated = false;
 
@@ -176,14 +193,15 @@ class Reward extends \Magento\Core\Model\AbstractModel
      * Set action Id and action model class.
      * Check if given action Id is not integer throw exception
      *
-     * @param integer $actionId
+     * @param int $actionId
      * @param string $actionModelClass
-     * @throws \Magento\Core\Exception
+     * @return void
+     * @throws Exception
      */
     public static function setActionModelClass($actionId, $actionModelClass)
     {
         if (!is_int($actionId)) {
-            throw new \Magento\Core\Exception(__('The action ID you enter must be a numerical integer.'));
+            throw new Exception(__('The action ID you enter must be a numerical integer.'));
         }
         self::$_actionModelClasses[$actionId] = $actionModelClass;
     }
@@ -193,7 +211,7 @@ class Reward extends \Magento\Core\Model\AbstractModel
      * Load model by customer and website,
      * prepare points data
      *
-     * @return \Magento\Reward\Model\Reward
+     * @return $this
      */
     protected function _beforeSave()
     {
@@ -207,7 +225,7 @@ class Reward extends \Magento\Core\Model\AbstractModel
      * Processing object after save data.
      * Save reward history
      *
-     * @return \Magento\Reward\Model\Reward
+     * @return $this
      */
     protected function _afterSave()
     {
@@ -258,7 +276,7 @@ class Reward extends \Magento\Core\Model\AbstractModel
     /**
      * Check if can update reward
      *
-     * @return boolean
+     * @return bool
      */
     public function canUpdateRewardPoints()
     {
@@ -268,7 +286,7 @@ class Reward extends \Magento\Core\Model\AbstractModel
     /**
      * Getter
      *
-     * @return boolean
+     * @return bool
      */
     public function getRewardPointsUpdated()
     {
@@ -278,7 +296,7 @@ class Reward extends \Magento\Core\Model\AbstractModel
     /**
      * Save reward points
      *
-     * @return \Magento\Reward\Model\Reward
+     * @return $this
      * @throws \Exception
      */
     public function updateRewardPoints()
@@ -301,7 +319,7 @@ class Reward extends \Magento\Core\Model\AbstractModel
      * Set customer id
      *
      * @param \Magento\Customer\Model\Customer $customer
-     * @return \Magento\Reward\Model\Reward
+     * @return $this
      */
     public function setCustomer($customer)
     {
@@ -444,7 +462,7 @@ class Reward extends \Magento\Core\Model\AbstractModel
     /**
      * Initialize and fetch if need rate by given direction
      *
-     * @param integer $direction
+     * @param int $direction
      * @return \Magento\Reward\Model\Reward\Rate
      */
     protected function _getRateByDirection($direction)
@@ -507,7 +525,7 @@ class Reward extends \Magento\Core\Model\AbstractModel
     /**
      * Load by customer and website
      *
-     * @return \Magento\Reward\Model\Reward
+     * @return $this
      */
     public function loadByCustomer()
     {
@@ -559,7 +577,7 @@ class Reward extends \Magento\Core\Model\AbstractModel
     /**
      * Prepare points delta, get points delta from config by action
      *
-     * @return \Magento\Reward\Model\Reward
+     * @return $this
      */
     protected function _preparePointsDelta()
     {
@@ -580,7 +598,7 @@ class Reward extends \Magento\Core\Model\AbstractModel
     /**
      * Prepare points balance
      *
-     * @return \Magento\Reward\Model\Reward
+     * @return $this
      */
     protected function _preparePointsBalance()
     {
@@ -607,7 +625,7 @@ class Reward extends \Magento\Core\Model\AbstractModel
     /**
      * Prepare currency amount and currency delta
      *
-     * @return \Magento\Reward\Model\Reward
+     * @return $this
      */
     protected function _prepareCurrencyAmount()
     {
@@ -625,7 +643,7 @@ class Reward extends \Magento\Core\Model\AbstractModel
     /**
      * Convert points to currency
      *
-     * @param integer $points
+     * @param int $points
      * @return float
      */
     protected function _convertPointsToCurrency($points)
@@ -675,7 +693,7 @@ class Reward extends \Magento\Core\Model\AbstractModel
     /**
      * Send Balance Update Notification to customer if notification is enabled
      *
-     * @return \Magento\Reward\Model\Reward
+     * @return $this
      */
     public function sendBalanceUpdateNotification()
     {
@@ -727,7 +745,7 @@ class Reward extends \Magento\Core\Model\AbstractModel
      *
      * @param object $item
      * @param int $websiteId
-     * @return \Magento\Reward\Model\Reward
+     * @return $this
      * @see \Magento\Reward\Model\Resource\Reward\History\Collection::loadExpiredSoonPoints()
      */
     public function sendBalanceWarningNotification($item, $websiteId)
@@ -768,9 +786,9 @@ class Reward extends \Magento\Core\Model\AbstractModel
      * Prepare orphan points by given website id and website base currency code
      * after website was deleted
      *
-     * @param integer $websiteId
+     * @param int $websiteId
      * @param string $baseCurrencyCode
-     * @return \Magento\Reward\Model\Reward
+     * @return $this
      */
     public function prepareOrphanPoints($websiteId, $baseCurrencyCode)
     {
@@ -784,7 +802,7 @@ class Reward extends \Magento\Core\Model\AbstractModel
      * Delete orphan (points of deleted website) points by given customer
      *
      * @param \Magento\Customer\Model\Customer | integer | null $customer
-     * @return \Magento\Reward\Model\Reward
+     * @return $this
      */
     public function deleteOrphanPointsByCustomer($customer = null)
     {
@@ -804,7 +822,7 @@ class Reward extends \Magento\Core\Model\AbstractModel
      * Override setter for setting customer group id  from order
      *
      * @param mixed $entity
-     * @return \Magento\Reward\Model\Reward
+     * @return $this
      */
     public function setActionEntity($entity)
     {

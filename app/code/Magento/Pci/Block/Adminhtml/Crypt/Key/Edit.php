@@ -16,7 +16,14 @@ namespace Magento\Pci\Block\Adminhtml\Crypt\Key;
 
 class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
+    /**
+     * @var string
+     */
     protected $_blockGroup = null;
+
+    /**
+     * @var string
+     */
     protected $_controller = 'crypt_key';
 
     /**

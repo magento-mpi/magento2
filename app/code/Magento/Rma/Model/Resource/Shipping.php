@@ -8,6 +8,10 @@
  * @license     {license_link}
  */
 
+namespace Magento\Rma\Model\Resource;
+
+use Magento\Rma\Model\Rma as ModelRma;
+
 /**
  * RMA shipping resource model
  *
@@ -15,8 +19,6 @@
  * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Rma\Model\Resource;
-
 class Shipping extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -29,7 +31,7 @@ class Shipping extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Delete tracking numbers for current rma shipping label
      *
-     * @var \Magento\Rma\Model\Rma|int $rma
+     * @param ModelRma|int $rma
      * @return string
      */
     public function deleteTrackingNumbers($rma)

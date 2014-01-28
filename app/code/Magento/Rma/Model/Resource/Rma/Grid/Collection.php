@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 
+namespace Magento\Rma\Model\Resource\Rma\Grid;
 
 /**
  * RMA grid collection
@@ -16,11 +17,9 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Rma\Model\Resource\Rma\Grid;
-
 class Collection extends \Magento\Rma\Model\Resource\Rma\Collection
 {
-/**
+    /**
      * Event prefix
      *
      * @var string
