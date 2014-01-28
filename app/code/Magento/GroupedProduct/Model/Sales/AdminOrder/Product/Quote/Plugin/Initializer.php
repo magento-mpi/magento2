@@ -15,6 +15,8 @@
 namespace Magento\GroupedProduct\Model\Sales\AdminOrder\Product\Quote\Plugin;
 
 
+use Magento\GroupedProduct\Model\Product\Type\Grouped;
+
 class Initializer
 {
     /**
@@ -33,7 +35,7 @@ class Initializer
 
         $item = $invocationChain->proceed($arguments);
 
-        if ($product->getTypeId() != \Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE) {
+        if (is_string($item) && $product->getTypeId() != Grouped::TYPE_CODE) {
             $item = $quote->addProductAdvanced(
                 $product,
                 $config,
