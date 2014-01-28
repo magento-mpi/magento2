@@ -13,7 +13,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
 {
     /** Sample values for testing */
     const ATTRIBUTE_CODE = 1;
-    const FRONTEND_INPUT = 'frontend input';
+    const FRONTEND_INPUT = 'select';
     const INPUT_FILTER = 'input filter';
     const STORE_LABEL = 'store label';
     const VALIDATE_RULES = 'validate rules';
@@ -51,6 +51,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
                         'getValidateRules',
                         'getSource',
                         'getFrontend',
+                        'usesSource',
                         '__wakeup',
                     )
                 )
@@ -80,7 +81,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
                 'getInputFilter' => self::INPUT_FILTER,
                 'getStoreLabel' => self::STORE_LABEL,
                 'getValidateRules' => self::VALIDATE_RULES,
-                'getFrontend' => $frontendMock
+                'getFrontend' => $frontendMock,
             )
         );
     }
@@ -90,6 +91,10 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
         $this->_eavConfigMock->expects($this->any())
             ->method('getAttribute')
             ->will($this->returnValue($this->_attributeEntityMock));
+
+        $this->_attributeEntityMock->expects($this->any())
+            ->method('usesSource')
+            ->will($this->returnValue(true));
 
         $this->_attributeEntityMock->expects($this->any())
             ->method('getSource')
@@ -176,8 +181,8 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->_attributeEntityMock));
 
         $this->_attributeEntityMock->expects($this->any())
-            ->method('getSource')
-            ->will($this->throwException(new \Exception('exception message')));
+            ->method('usesSource')
+            ->will($this->returnValue(false));
 
         $attributeColMock = $this->getMockBuilder('\Magento\Customer\Model\Resource\Form\Attribute\CollectionFactory')
             ->disableOriginalConstructor()
