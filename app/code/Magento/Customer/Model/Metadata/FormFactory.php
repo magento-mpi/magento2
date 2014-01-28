@@ -43,7 +43,7 @@ class FormFactory
         $entityType,
         $formCode,
         array $attributeValues = [],
-        $ignoreInvisible = true,
+        $ignoreInvisible = Form::IGNORE_INVISIBLE,
         $filterAttributes = [],
         $isAjax = false
     ) {

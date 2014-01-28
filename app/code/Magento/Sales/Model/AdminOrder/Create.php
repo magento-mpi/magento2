@@ -1099,7 +1099,10 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     protected function _createCustomerForm(CustomerDto $customerDto)
     {
         $customerForm = $this->_metadataFormFactory->create(
-            'customer', 'adminhtml_checkout', $customerDto->__toArray(), CustomerForm::DONT_IGNORE_INVISIBLE
+            \Magento\Customer\Service\V1\CustomerMetadataServiceInterface::CUSTOMER_ENTITY_TYPE,
+            'adminhtml_checkout',
+            $customerDto->__toArray(),
+            CustomerForm::DONT_IGNORE_INVISIBLE
         );
 
         return $customerForm;
@@ -1288,13 +1291,14 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
 
     public function setAccountData($accountData)
     {
-        $customer   = $this->getQuote()->getCustomer();
-        // @todo refactor within MAGETWO-20029
-        $form       = $this->_createCustomerForm($this->_customerService->getCustomer($customer->getId()));
+        $customer = $this->getQuote()->getCustomer();
+        $form = $this->_createCustomerForm($this->_getCustomerDto($customer));
+        // @todo Uncomment after MAGETWO-19929
+        //$form = $this->_createCustomerForm($this->getQuote()->getCustomerData());
 
         // emulate request
         $request = $form->prepareRequest($accountData);
-        $data    = $form->extractData($request);
+        $data = $form->extractData($request);
         $form->restoreData($data);
 
         $data = array();
@@ -1431,13 +1435,14 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         $customerShippingAddress = null;
 
         $customerId = (int)$this->getSession()->getCustomerId();
-        // TODO: $customer usage should be refactored in scope of MAGETWO-20031. $customerData should be utilized
+        // TODO: $customer usage should be refactored in scope of MAGETWO-20031.
         try {
             $customerDto = $this->_customerService->getCustomer($customerId);
-            $originalCustomerDto = $customerDto;
         } catch (\Exception $e) {
-            /** Customer does not exist. */
+            $customerDto = $this->_objectManager->create('Magento\Customer\Service\V1\Dto\CustomerBuilder')->create();
         }
+
+        $originalCustomerDto = $customerDto;
         /** @var \Magento\Customer\Model\Customer $customer */
         $customer = $this->_objectManager->create('Magento\Customer\Model\Customer')->load($customerId);
 
@@ -1449,7 +1454,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
                     ->setDefaultBilling(null)
                     ->setDefaultShipping(null)
                     ->setPassword($customer->generatePassword());
-                $this->_setCustomerData($customerDto);
+                $this->_setCustomerData($this->_getCustomerDto($customer));
             }
 
             if ($this->getBillingAddress()->getSaveInAddressBook()) {
@@ -1498,7 +1503,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
                 ->setPassword($customer->generatePassword())
                 ->setStore($store);
             $customer->setEmail($this->_getNewCustomerEmail($customer));
-            $this->_setCustomerData($customerDto);
+            $this->_setCustomerData($this->_getCustomerDto($customer));
 
             if ($this->getBillingAddress()->getSaveInAddressBook()) {
                 $customerBillingAddress->setIsDefaultBilling(true);
@@ -1521,18 +1526,22 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         }
 
         // Set quote customer data to customer
-        $this->_setCustomerData($customerDto);
+        $this->_setCustomerData($this->_getCustomerDto($customer));
 
         // Set customer to quote and convert customer data to quote
         $quote->setCustomer($customer);
 
-        foreach ($this->_createCustomerForm($customerDto)->getUserAttributes() as $attribute) {
+        foreach ($this->_createCustomerForm($this->_getCustomerDto($customer))->getUserAttributes() as $attribute) {
+        // @todo Uncomment after MAGETWO-20031
+        //foreach ($this->_createCustomerForm($customerDto)->getUserAttributes() as $attribute) {
             $quoteCode = sprintf('customer_%s', $attribute->getAttributeCode());
             $quote->setData($quoteCode, $customer->getData($attribute->getAttributeCode()));
         }
 
         if ($customer->getId()) {
-            $this->_createCustomerForm($originalCustomerDto);
+            $this->_createCustomerForm($this->_getCustomerDto($customer, true));
+            // @todo Uncomment after MAGETWO-20031
+            //$this->_createCustomerForm($originalCustomerDto);
         } else {
             $quote->setCustomerId(true);
         }
@@ -1701,5 +1710,19 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
             $this->setData('account', $account);
         }
         return $email;
+    }
+
+    /**
+     * Create DTO out of customer model
+     * @todo remove after MAGETWO-19929
+     *
+     * @param \Magento\Customer\Model\Customer $customer
+     * @param bool                             $isFromOrigData
+     * @return \Magento\Customer\Service\V1\Dto\Customer
+     */
+    protected function _getCustomerDto(\Magento\Customer\Model\Customer $customer, $isFromOrigData = false)
+    {
+        return $this->_objectManager->create('Magento\Customer\Service\V1\Dto\CustomerBuilder')
+            ->populateWithArray($isFromOrigData ? $customer->getOrigData() : $customer->getData());
     }
 }
