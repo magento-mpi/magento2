@@ -9,43 +9,9 @@
  * @license     {license_link}
  */
 
-require __DIR__ . '/../../../Magento/Catalog/_files/product_simple.php';
-/** @var \Magento\Catalog\Model\Product $product */
+include (__DIR__ . '/order.php');
+include (__DIR__ . '/../../../Magento/Customer/_files/customer.php');
 
-$addressData = include(__DIR__ . '/address_data.php');
-$billingAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\Sales\Model\Order\Address', array('data' => $addressData));
-$billingAddress->setAddressType('billing');
-
-$shippingAddress = clone $billingAddress;
-$shippingAddress->setId(null)
-    ->setAddressType('shipping');
-
-$payment = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\Sales\Model\Order\Payment');
-$payment->setMethod('checkmo');
-
-/** @var \Magento\Sales\Model\Order\Item $orderItem */
-$orderItem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\Sales\Model\Order\Item');
-$orderItem->setProductId($product->getId())->setQtyOrdered(2);
-
-/** @var \Magento\Sales\Model\Order $order */
-$order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\Sales\Model\Order');
-$order->setIncrementId('100000001')
-    ->setState(\Magento\Sales\Model\Order::STATE_PROCESSING)
-    ->setSubtotal(100)
-    ->setBaseSubtotal(100)
-    ->setCustomerId(1)
-    ->setCustomerIsGuest(false)
-    ->setCustomerEmail('customer@null.com')
-    ->setBillingAddress($billingAddress)
-    ->setShippingAddress($shippingAddress)
-    ->setStoreId(
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
-            ->getStore()->getId()
-    )
-    ->addItem($orderItem)
-    ->setPayment($payment);
+$order->setCustomerId(1)
+    ->setCustomerIsGuest(false);
 $order->save();

@@ -85,8 +85,10 @@ class Sales extends \Magento\Backend\Block\Template
         $this->_currency = $this->_currencyFactory->create()
             ->load($this->_storeConfig->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE));
 
+        $customerId = $this->_coreRegistry->registry('current_customer') ?
+            $this->_coreRegistry->registry('current_customer')->getId() : 0;
         $this->_collection = $this->_collectionFactory->create()
-            ->setCustomerFilter($this->_coreRegistry->registry('current_customer')->getId())
+            ->setCustomerFilter($customerId)
             ->setOrderStateFilter(\Magento\Sales\Model\Order::STATE_CANCELED, true)
             ->load();
 

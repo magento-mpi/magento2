@@ -8,22 +8,23 @@
 
 namespace Magento\Sales\Model\Resource\Sale;
 
+use Magento\TestFramework\Helper\Bootstrap;
+
 class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @magentoDataFixture Magento/Customer/_files/customer.php
      * @magentoDataFixture Magento/Sales/_files/order_with_customer.php
      */
     public function testSetCustomerFilter()
     {
-        $_collectionModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+        $collectionModel = Bootstrap::getObjectManager()
             ->create('Magento\Sales\Model\Resource\Sale\Collection');
 
-        $this->assertEquals(1, $_collectionModel->setCustomerFilter(1)->count());
+        $this->assertEquals(1, $collectionModel->setCustomerFilter(1)->count());
 
-        $_collectionModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+        $collectionModel = Bootstrap::getObjectManager()
             ->create('Magento\Sales\Model\Resource\Sale\Collection');
 
-        $this->assertEquals(0, $_collectionModel->setCustomerFilter(2)->count());
+        $this->assertEquals(0, $collectionModel->setCustomerFilter(2)->count());
     }
 }
