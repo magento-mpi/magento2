@@ -20,7 +20,7 @@ class Text extends AbstractData
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Logger $logger
      * @param \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute
-     * @param mixed $value
+     * @param string $value
      * @param string $entityTypeCode
      * @param bool $isAjax
      * @param \Magento\Stdlib\String $stringHelper
@@ -29,7 +29,7 @@ class Text extends AbstractData
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Logger $logger,
         \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute,
-        $value = null,
+        $value,
         $entityTypeCode,
         $isAjax = false,
         \Magento\Stdlib\String $stringHelper
@@ -60,7 +60,7 @@ class Text extends AbstractData
             $value = $this->_value;
         }
 
-        if ($attribute->isRequired() && empty($value)) {
+        if ($attribute->isRequired() && empty($value) && $value !== '0') {
             $errors[] = __('"%1" is a required value.', $label);
         }
 

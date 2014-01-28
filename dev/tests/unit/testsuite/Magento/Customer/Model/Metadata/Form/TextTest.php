@@ -59,6 +59,8 @@ class TextTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'empty' => ['', true],
+            '0' => [0, true],
+            'zero' => ['0', true],
             'string' => ['some text', true],
             'number' => [123, true],
             'true' => [true, true],
@@ -91,8 +93,7 @@ class TextTest extends \PHPUnit_Framework_TestCase
 
         if (is_bool($actual)) {
             $this->assertEquals($expected, $actual);
-        }
-        else {
+        } else {
             $this->assertContains($expected, $actual);
         }
     }
@@ -103,6 +104,7 @@ class TextTest extends \PHPUnit_Framework_TestCase
             'empty' => ['', '"" is a required value.'],
             'null' => [null, '"" is a required value.'],
             '0'  => [0, true],
+            'zero'  => ['0', true],
             'string' => ['some text', true],
             'number' => [123, true],
             'true' => [true, true],
@@ -135,8 +137,7 @@ class TextTest extends \PHPUnit_Framework_TestCase
 
         if (is_bool($actual)) {
             $this->assertEquals($expected, $actual);
-        }
-        else {
+        } else {
             $this->assertContains($expected, $actual);
         }
     }
