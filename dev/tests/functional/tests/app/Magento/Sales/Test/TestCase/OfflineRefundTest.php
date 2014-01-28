@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Rma\Test\TestCase;
+namespace Magento\Sales\Test\TestCase;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
@@ -17,18 +17,18 @@ use Magento\Sales\Test\Fixture\OrderCheckout;
 use Magento\Sales\Test\Fixture\PaypalStandardOrder;
 use Magento\Sales\Test\Fixture\AuthorizeNetOrder;
 
-class RefundTest extends Functional
+class OfflineRefundTest extends RefundTest
 {
     /**
      * Tests providing refunds.
      *
      * @dataProvider dataProviderOrder
-     * @ZephirId MAGETWO-12436, MAGETWO-13061, MAGETWO-13062, MAGETWO-13063, MAGETWO-13058, MAGETWO-13059, MAGETWO-19985
+     * @ZephirId MAGETWO-13058, MAGETWO-19985
      */
     public function testRefund(OrderCheckout $fixture)
     {
         // Setup preconditions
-        $this->setupPreconditions($fixture);
+        parent::setupPreconditions($fixture);
 
         $orderId = $fixture->getOrderId();
 
@@ -39,9 +39,9 @@ class RefundTest extends Functional
 
         $tabsWidget = $orderPage->getFormTabsBlock();
         /** @var \Magento\Sales\Test\Block\Adminhtml\Order\Actions $creditMemoActionsBlock */
-        $creditMemoActionsBlock = Factory::getPageFactory()->getSalesOrderCreditMemoNew().getActionsBlock();
+        $creditMemoActionsBlock = Factory::getPageFactory()->getSalesOrderCreditMemoNew()->getActionsBlock();
 
-        if (!($fixture instanceof PaypalStandardOrder)) {
+        if ($fixture instanceof AuthorizeNetOrder) {
             // Step 2: Open Invoice
             $tabsWidget->openTab('sales_order_view_tabs_order_invoices');
             $orderPage->getInvoicesGrid()->clickInvoiceAmount();
@@ -50,11 +50,7 @@ class RefundTest extends Functional
             $orderPage->getOrderActionsBlock()->orderInvoiceCreditMemo();
 
             // Step 4: Submit Credit Memo
-            if (!($fixture instanceof AuthorizeNetOrder)) {
-                $creditMemoActionsBlock->refund();
-            } else {
-                $creditMemoActionsBlock->refundOffline();
-            }
+            $creditMemoActionsBlock->refundOffline();
         }
         else {
             // Step 2: Click "Credit Memo" button on the Order Page
@@ -79,37 +75,6 @@ class RefundTest extends Functional
         $this->assertContains(
             $orderPage->getCreditMemosGrid()->getStatus(),
             'Refunded');
-
-        if (!($fixture instanceof PaypalStandardOrder) && !($fixture instanceof AuthorizeNetOrder)) {
-            // Step 6: Go to Transactions tab
-            $tabsWidget->openTab('sales_order_view_tabs_order_transactions');
-            $this->assertContains(
-                $orderPage->getTransactionsGrid()->getTransactionType(),
-                'Refund');
-        }
-    }
-
-    /**
-     * Sets up the preconditions for this test.
-     *
-     * @param OrderCheckout $fixture
-     * @return void
-     */
-    private function setupPreconditions(OrderCheckout $fixture)
-    {
-        // Enable returns
-        $enableRma = Factory::getFixtureFactory()->getMagentoCoreConfig();
-        $enableRma->switchData('enable_rma');
-        $enableRma->persist();
-
-        // Create an order.
-        $fixture->persist();
-
-        // Log into the backend.
-        Factory::getApp()->magentoBackendLoginUser();
-
-        // Close the order.
-        Factory::getApp()->magentoSalesCloseOrder($fixture);
     }
 
     /**
@@ -120,13 +85,8 @@ class RefundTest extends Functional
     public function dataProviderOrder()
     {
         return array(
-            array(Factory::getFixtureFactory()->getMagentoSalesPaypalExpressOrder()),
-            array(Factory::getFixtureFactory()->getMagentoSalesPaypalPayflowProOrder()),
-            array(Factory::getFixtureFactory()->getMagentoSalesPaypalPaymentsProOrder()),
             array(Factory::getFixtureFactory()->getMagentoSalesAuthorizeNetOrder()),
-            array(Factory::getFixtureFactory()->getMagentoSalesPaypalStandardOrder()),
-            array(Factory::getFixtureFactory()->getMagentoSalesPaypalPaymentsAdvancedOrder()),
-            array(Factory::getFixtureFactory()->getMagentoSalesPaypalPayflowLinkOrder())
+            array(Factory::getFixtureFactory()->getMagentoSalesPaypalStandardOrder())
         );
     }
 }
