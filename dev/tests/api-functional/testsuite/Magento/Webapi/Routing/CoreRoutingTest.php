@@ -17,7 +17,7 @@ class CoreRoutingTest extends \Magento\Webapi\Routing\BaseService
     {
         $itemId = 1;
         $serviceInfo = array(
-            'serviceInterface' => 'Magento\TestModule1\Service\AllSoapAndRestV1Interface',
+            'serviceInterface' => 'Magento\TestModule1\Service\V1\AllSoapAndRestInterface',
             'method' => 'item',
             'entityId' => $itemId
         );
@@ -80,7 +80,7 @@ class CoreRoutingTest extends \Magento\Webapi\Routing\BaseService
     {
         $this->_markTestAsSoapOnly();
         $serviceInfo = array(
-            'serviceInterface' => 'Magento\TestModule3\Service\ErrorV1Interface',
+            'serviceInterface' => 'Magento\TestModule3\Service\V1\ErrorInterface',
             'method' => 'serviceException',
         );
         $this->setExpectedException(
