@@ -8,22 +8,19 @@
 
 namespace Magento\Multishipping\Model\Payment\Method\Specification;
 
-use Magento\Payment\Model\Method\SpecificationInterface;
+use Magento\Payment\Model\Method\Specification\AbstractSpecification;
 use Magento\Payment\Model\Config as PaymentConfig;
 use Magento\Core\Model\Store\ConfigInterface as StoreConfig;
 
 /**
- * Multishipping specification.
- * Check payment methods, that not allow for multishipping
+ * 3D secure specification
  */
-class Multishipping implements SpecificationInterface
+class Is3DSecure extends AbstractSpecification
 {
-    /**#@+
-     * Payment config flags
+    /**
+     * Allow multiple address with 3d secure flag
      */
-    const FLAG_ALLOW_MULTIPLE_ADDRESS = 'allow_multiple_address';
     const FLAG_ALLOW_MULTIPLE_WITH_3DSECURE = 'allow_multiple_with_3dsecure';
-    /**#@-*/
 
     /**#@+
      * 3D Secure card validation store config paths
@@ -40,59 +37,21 @@ class Multishipping implements SpecificationInterface
     protected $storeConfig;
 
     /**
-     * Payment methods info
-     *
-     * @var array
-     */
-    protected $methodsInfo = array();
-
-    /**
      * Construct
      *
      * @param PaymentConfig $paymentConfig
      * @param StoreConfig $storeConfig
      */
-    public function __construct(
-        PaymentConfig $paymentConfig,
-        StoreConfig $storeConfig
-    ) {
-        $this->methodsInfo = $paymentConfig->getMethodsInfo();
+    public function __construct(PaymentConfig $paymentConfig, StoreConfig $storeConfig)
+    {
+        parent::__construct($paymentConfig);
         $this->storeConfig = $storeConfig;
     }
 
     /**
-     * Is payment methods specification satisfied for multishipping
-     *
-     * @param string $paymentMethod
-     * @return bool
+     * {@inheritdoc}
      */
     public function isSatisfiedBy($paymentMethod)
-    {
-        if ($this->isMethodSupported($paymentMethod) && $this->is3DSecureRuleSatisfiedBy($paymentMethod)) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Is payment method supported for multishipping
-     *
-     * @param string $paymentMethod
-     * @return bool
-     */
-    protected function isMethodSupported($paymentMethod)
-    {
-        return isset($this->methodsInfo[$paymentMethod][self::FLAG_ALLOW_MULTIPLE_ADDRESS])
-            && $this->methodsInfo[$paymentMethod][self::FLAG_ALLOW_MULTIPLE_ADDRESS];
-    }
-
-    /**
-     * Is 3D Secure rule satisfied by payment method
-     *
-     * @param string $paymentMethod
-     * @return bool
-     */
-    protected function is3DSecureRuleSatisfiedBy($paymentMethod)
     {
         $is3DSecureSupported = isset($this->methodsInfo[$paymentMethod][self::FLAG_ALLOW_MULTIPLE_WITH_3DSECURE])
             && $this->methodsInfo[$paymentMethod][self::FLAG_ALLOW_MULTIPLE_WITH_3DSECURE];

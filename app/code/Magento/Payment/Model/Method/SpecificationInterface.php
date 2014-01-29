@@ -14,7 +14,7 @@ namespace Magento\Payment\Model\Method;
 interface SpecificationInterface
 {
     /**
-     * Check is specification satisfied by
+     * Check is specification satisfied by payment
      *
      * @param string $paymentMethod
      * @return bool
