@@ -18,6 +18,8 @@
  */
 namespace Magento\Eav\Model\Resource\Form;
 
+use Magento\Eav\Model\Form\Type as FormType;
+
 class Type extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -36,10 +38,10 @@ class Type extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Load an object
      *
-     * @param \Magento\Eav\Model\Form\Type $object
+     * @param FormType $object
      * @param mixed $value
      * @param string $field field to load by (defaults to model id)
-     * @return \Magento\Eav\Model\Resource\Form\Type
+     * @return $this
      */
     public function load(\Magento\Core\Model\AbstractModel $object, $value, $field = null)
     {
@@ -52,7 +54,7 @@ class Type extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Retrieve form type entity types
      *
-     * @param \Magento\Eav\Model\Form\Type $object
+     * @param FormType $object
      * @return array
      */
     public function getEntityTypes($object)
@@ -75,8 +77,8 @@ class Type extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @see \Magento\Core\Model\Resource\Db\AbstractDb#_afterSave($object)
      *
-     * @param \Magento\Eav\Model\Form\Type $object
-     * @return \Magento\Eav\Model\Resource\Form\Type
+     * @param FormType $object
+     * @return $this
      */
     protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {

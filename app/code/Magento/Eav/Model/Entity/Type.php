@@ -128,7 +128,7 @@ class Type extends \Magento\Core\Model\AbstractModel
      * Load type by code
      *
      * @param string $code
-     * @return \Magento\Eav\Model\Entity\Type
+     * @return $this
      */
     public function loadByCode($code)
     {

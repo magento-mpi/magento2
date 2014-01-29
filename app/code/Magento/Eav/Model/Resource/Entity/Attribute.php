@@ -18,6 +18,9 @@
  */
 namespace Magento\Eav\Model\Resource\Entity;
 
+use Magento\Core\Model\AbstractModel;
+use Magento\Eav\Model\Entity\Attribute as EntityAttribute;
+
 class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -73,7 +76,7 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Initialize unique fields
      *
-     * @return \Magento\Eav\Model\Resource\Entity\Attribute
+     * @return $this
      */
     protected function _initUniqueFields()
     {
@@ -88,7 +91,7 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Load all entity type attributes
      *
      * @param int $entityTypeId
-     * @return \Magento\Eav\Model\Resource\Entity\Attribute
+     * @return $this
      */
     protected function _loadTypeAttributes($entityTypeId)
     {
@@ -111,12 +114,12 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Load attribute data by attribute code
      *
-     * @param \Magento\Eav\Model\Entity\Attribute|\Magento\Core\Model\AbstractModel $object
+     * @param EntityAttribute|AbstractModel $object
      * @param int $entityTypeId
      * @param string $code
      * @return bool
      */
-    public function loadByCode(\Magento\Core\Model\AbstractModel $object, $entityTypeId, $code)
+    public function loadByCode(AbstractModel $object, $entityTypeId, $code)
     {
         $bind   = array(':entity_type_id' => $entityTypeId);
         $select = $this->_getLoadSelect('attribute_code', $code, $object)
@@ -134,10 +137,10 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Retrieve Max Sort order for attribute in group
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param AbstractModel $object
      * @return int
      */
-    private function _getMaxSortOrder(\Magento\Core\Model\AbstractModel $object)
+    private function _getMaxSortOrder(AbstractModel $object)
     {
         if (intval($object->getAttributeGroupId()) > 0) {
             $adapter = $this->_getReadAdapter();
@@ -159,10 +162,10 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Delete entity
      *
-     * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Eav\Model\Resource\Entity\Attribute
+     * @param AbstractModel $object
+     * @return $this
      */
-    public function deleteEntity(\Magento\Core\Model\AbstractModel $object)
+    public function deleteEntity(AbstractModel $object)
     {
         if (!$object->getEntityAttributeId()) {
             return $this;
@@ -178,10 +181,11 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Validate attribute data before save
      *
-     * @param \Magento\Eav\Model\Entity\Attribute|\Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Eav\Model\Resource\Entity\Attribute
+     * @param EntityAttribute|AbstractModel $object
+     * @return $this
+     * @throws \Magento\Core\Exception
      */
-    protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _beforeSave(AbstractModel $object)
     {
         $frontendLabel = $object->getFrontendLabel();
         if (is_array($frontendLabel)) {
@@ -207,10 +211,10 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Save additional attribute data after save attribute
      *
-     * @param \Magento\Eav\Model\Entity\Attribute|\Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Eav\Model\Resource\Entity\Attribute
+     * @param EntityAttribute|AbstractModel $object
+     * @return $this
      */
-    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _afterSave(AbstractModel $object)
     {
         $this->_saveStoreLabels($object)
              ->_saveAdditionalAttributeData($object)
@@ -223,10 +227,10 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Save store labels
      *
-     * @param \Magento\Eav\Model\Entity\Attribute|\Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Eav\Model\Resource\Entity\Attribute
+     * @param EntityAttribute|AbstractModel $object
+     * @return $this
      */
-    protected function _saveStoreLabels(\Magento\Core\Model\AbstractModel $object)
+    protected function _saveStoreLabels(AbstractModel $object)
     {
         $storeLabels = $object->getStoreLabels();
         if (is_array($storeLabels)) {
@@ -254,10 +258,10 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Save additional data of attribute
      *
-     * @param \Magento\Eav\Model\Entity\Attribute|\Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Eav\Model\Resource\Entity\Attribute
+     * @param EntityAttribute|AbstractModel $object
+     * @return $this
      */
-    protected function _saveAdditionalAttributeData(\Magento\Core\Model\AbstractModel $object)
+    protected function _saveAdditionalAttributeData(AbstractModel $object)
     {
         $additionalTable = $this->getAdditionalAttributeTable($object->getEntityTypeId());
         if ($additionalTable) {
@@ -281,10 +285,10 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Save in set including
      *
-     * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Eav\Model\Resource\Entity\Attribute
+     * @param AbstractModel $object
+     * @return $this
      */
-    public function saveInSetIncluding(\Magento\Core\Model\AbstractModel $object)
+    public function saveInSetIncluding(AbstractModel $object)
     {
         $attributeId = (int)$object->getId();
         $setId       = (int)$object->getAttributeSetId();
@@ -318,10 +322,10 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Save attribute options
      *
-     * @param \Magento\Eav\Model\Entity\Attribute|\Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Eav\Model\Resource\Entity\Attribute
+     * @param EntityAttribute|AbstractModel $object
+     * @return $this
      */
-    protected function _saveOption(\Magento\Core\Model\AbstractModel $object)
+    protected function _saveOption(AbstractModel $object)
     {
         $option = $object->getOption();
         if (!is_array($option)) {
@@ -343,7 +347,7 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Save changes of attribute options, return obtained default value
      *
-     * @param \Magento\Eav\Model\Entity\Attribute|\Magento\Core\Model\AbstractModel $object
+     * @param EntityAttribute|AbstractModel $object
      * @param array $option
      * @return array
      */
@@ -378,7 +382,7 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Update attribute default value
      *
-     * @param \Magento\Eav\Model\Entity\Attribute|\Magento\Core\Model\AbstractModel $object
+     * @param EntityAttribute|AbstractModel $object
      * @param int|string $optionId
      * @param int $intOptionId
      * @param array $defaultValue
@@ -398,7 +402,7 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Save attribute default value
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param AbstractModel $object
      * @param array $defaultValue
      */
     protected function _saveDefaultValue($object, $defaultValue)
@@ -413,7 +417,7 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Save option records
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param AbstractModel $object
      * @param int $optionId
      * @param array $option
      * @return int|bool
@@ -521,7 +525,7 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Retrieve Select For Flat Attribute update
      *
-     * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute
+     * @param EntityAttribute\AbstractAttribute $attribute
      * @param int $storeId
      * @return \Magento\DB\Select
      */
@@ -572,7 +576,7 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Retrieve additional attribute table name for specified entity type
      *
-     * @param integer $entityTypeId
+     * @param int $entityTypeId
      * @return string
      */
     public function getAdditionalAttributeTable($entityTypeId)
@@ -584,10 +588,10 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Load additional attribute data.
      * Load label of current active store
      *
-     * @param \Magento\Eav\Model\Entity\Attribute|\Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Eav\Model\Resource\Entity\Attribute
+     * @param EntityAttribute|AbstractModel $object
+     * @return $this
      */
-    protected function _afterLoad(\Magento\Core\Model\AbstractModel $object)
+    protected function _afterLoad(AbstractModel $object)
     {
         /** @var $entityType \Magento\Eav\Model\Entity\Type */
         $entityType = $object->getData('entity_type');
@@ -616,7 +620,7 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Retrieve store labels by given attribute id
      *
-     * @param integer $attributeId
+     * @param int $attributeId
      * @return array
      */
     public function getStoreLabelsByAttributeId($attributeId)

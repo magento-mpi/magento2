@@ -18,6 +18,8 @@
  */
 namespace Magento\Eav\Model\Resource;
 
+use Magento\Core\Model\AbstractModel;
+
 abstract class Attribute extends \Magento\Eav\Model\Resource\Entity\Attribute
 {
     /**
@@ -42,10 +44,10 @@ abstract class Attribute extends \Magento\Eav\Model\Resource\Entity\Attribute
     /**
      * Perform actions before object save
      *
-     * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Eav\Model\Resource\Attribute
+     * @param AbstractModel $object
+     * @return $this
      */
-    protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _beforeSave(AbstractModel $object)
     {
         $validateRules = $object->getData('validate_rules');
         if (is_array($validateRules)) {
@@ -59,7 +61,7 @@ abstract class Attribute extends \Magento\Eav\Model\Resource\Entity\Attribute
      *
      * @param string $field
      * @param mixed $value
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param AbstractModel $object
      * @return \Magento\DB\Select
      */
     protected function _getLoadSelect($field, $value, $object)
@@ -91,10 +93,10 @@ abstract class Attribute extends \Magento\Eav\Model\Resource\Entity\Attribute
     /**
      * Save attribute/form relations after attribute save
      *
-     * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Eav\Model\Resource\Attribute
+     * @param AbstractModel $object
+     * @return $this
      */
-    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _afterSave(AbstractModel $object)
     {
         $forms      = $object->getData('used_in_forms');
         $adapter    = $this->_getWriteAdapter();
@@ -179,10 +181,10 @@ abstract class Attribute extends \Magento\Eav\Model\Resource\Entity\Attribute
     /**
      * Return forms in which the attribute
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param AbstractModel $object
      * @return array
      */
-    public function getUsedInForms(\Magento\Core\Model\AbstractModel $object)
+    public function getUsedInForms(AbstractModel $object)
     {
         $adapter = $this->_getReadAdapter();
         $bind    = array('attribute_id' => (int)$object->getId());
