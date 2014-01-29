@@ -43,6 +43,9 @@
             </array>
         </param>
     </type>
+    <type name="Magento\Catalog\Model\Product\Type">
+        <plugin name="grouped_output" type="Magento\GroupedProduct\Model\Product\Type\Plugin" />
+    </type>
 </config>
 
 
