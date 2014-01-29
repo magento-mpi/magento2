@@ -7,13 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Review\Model\Review;
 
 /**
  * Review summary
  */
-
-namespace Magento\Review\Model\Review;
-
 class Summary extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -33,16 +31,25 @@ class Summary extends \Magento\Core\Model\AbstractModel
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
+    /**
+     * @return int
+     */
     public function getEntityPkValue()
     {
         return $this->_getData('entity_pk_value');
     }
 
+    /**
+     * @return string
+     */
     public function getRatingSummary()
     {
         return $this->_getData('rating_summary');
     }
 
+    /**
+     * @return int
+     */
     public function getReviewsCount()
     {
         return $this->_getData('reviews_count');

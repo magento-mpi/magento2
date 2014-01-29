@@ -130,7 +130,7 @@ abstract class AbstractAction extends \Magento\Object
      * Setter for $_reward
      *
      * @param \Magento\Reward\Model\Reward $reward
-     * @return \Magento\Reward\Model\Action\AbstractAction
+     * @return $this
      */
     public function setReward($reward)
     {
@@ -151,7 +151,7 @@ abstract class AbstractAction extends \Magento\Object
      * Setter for $_history
      *
      * @param \Magento\Reward\Model\Reward\History $history
-     * @return \Magento\Reward\Model\Action\AbstractAction
+     * @return $this
      */
     public function setHistory($history)
     {
@@ -172,7 +172,7 @@ abstract class AbstractAction extends \Magento\Object
      * Setter for $_entity and assign entity Id to history
      *
      * @param \Magento\Object $entity
-     * @return \Magento\Reward\Model\Action\AbstractAction
+     * @return $this
      */
     public function setEntity($entity)
     {

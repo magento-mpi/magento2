@@ -18,6 +18,8 @@
  */
 namespace Magento\Reward\Model\Resource\Reward;
 
+use Magento\Reward\Model\Reward\Rate as RewardRate;
+
 class Rate extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -32,13 +34,13 @@ class Rate extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Fetch rate customer group and website
      *
-     * @param \Magento\Reward\Model\Reward\Rate $rate
+     * @param RewardRate $rate
      * @param int $customerGroupId
      * @param int $websiteId
      * @param int $direction
-     * @return \Magento\Reward\Model\Resource\Reward\Rate
+     * @return $this
      */
-    public function fetch(\Magento\Reward\Model\Reward\Rate $rate, $customerGroupId, $websiteId, $direction)
+    public function fetch(RewardRate $rate, $customerGroupId, $websiteId, $direction)
     {
         $select = $this->_getReadAdapter()->select()
             ->from($this->getMainTable())
@@ -67,9 +69,9 @@ class Rate extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Retrieve rate data bu given params or empty array if rate with such params does not exists
      *
-     * @param integer $websiteId
-     * @param integer $customerGroupId
-     * @param integer $direction
+     * @param int $websiteId
+     * @param int $customerGroupId
+     * @param int $direction
      * @return array
      */
     public function getRateData($websiteId, $customerGroupId, $direction)

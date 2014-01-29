@@ -68,8 +68,9 @@ class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * TODO: seems not used
      *
-     * @throws \Exception
      * @param bool $safe Specifies whether wrapping re-encryption into the database transaction or not
+     * @return void
+     * @throws \Exception
      */
     public function reEncryptDatabaseValues($safe = true)
     {
@@ -136,6 +137,7 @@ class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Gather all encrypted system config values and re-encrypt them
      *
+     * @return void
      */
     protected function _reEncryptSystemConfigurationValues()
     {
@@ -167,6 +169,7 @@ class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Gather saved credit card numbers from sales order payments and re-encrypt them
      *
+     * @return void
      */
     protected function _reEncryptCreditCardNumbers()
     {

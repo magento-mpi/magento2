@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,9 +14,27 @@
 namespace Magento\Sales\Controller\Adminhtml\Recurring;
 
 use Magento\App\Action\NotFoundException;
+use Magento\Core\Exception as CoreException;
+use Magento\Customer\Controller\Adminhtml\Index as CustomerController;
 
 class Profile extends \Magento\Backend\App\Action
 {
+    /**#@+
+     * Request parameter keys
+     */
+    const PARAM_CUSTOMER_ID = 'id';
+    const PARAM_PROFILE = 'profile';
+    const PARAM_ACTION = 'action';
+    /**#@-*/
+
+    /**#@+
+     * Values for PARAM_ACTION request parameter
+     */
+    const ACTION_CANCEL = 'cancel';
+    const ACTION_SUSPEND = 'suspend';
+    const ACTION_ACTIVATE = 'activate';
+    /**#@-*/
+
     /**
      * Core registry
      *
@@ -27,14 +43,30 @@ class Profile extends \Magento\Backend\App\Action
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Customer\Service\V1\CustomerServiceInterface
+     */
+    protected $_customerService;
+
+    /**
+     * @var \Magento\Logger
+     */
+    protected $_logger;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
+     * @param \Magento\Logger $logger
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Customer\Service\V1\CustomerServiceInterface $customerService,
+        \Magento\Logger $logger
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_customerService = $customerService;
+        $this->_logger = $logger;
         parent::__construct($context);
     }
 
@@ -62,10 +94,10 @@ class Profile extends \Magento\Backend\App\Action
             $this->_title->add(__('Profile #%1', $profile->getReferenceId()));
             $this->_view->renderLayout();
             return;
-        } catch (\Magento\Core\Exception $e) {
+        } catch (CoreException $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_logger->logException($e);
         }
         $this->_redirect('sales/*/');
     }
@@ -78,10 +110,10 @@ class Profile extends \Magento\Backend\App\Action
         try {
             $this->_view->loadLayout()->renderLayout();
             return;
-        } catch (\Magento\Core\Exception $e) {
+        } catch (CoreException $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_logger->logException($e);
         }
         $this->_redirect('sales/*/');
     }
@@ -97,7 +129,7 @@ class Profile extends \Magento\Backend\App\Action
             $this->_initProfile();
             $this->_view->loadLayout()->renderLayout();
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_logger->logException($e);
             throw new NotFoundException();
         }
     }
@@ -110,27 +142,30 @@ class Profile extends \Magento\Backend\App\Action
         $profile = null;
         try {
             $profile = $this->_initProfile();
+            $action = $this->getRequest()->getParam(self::PARAM_ACTION);
 
-            switch ($this->getRequest()->getParam('action')) {
-                case 'cancel':
+            switch ($action) {
+                case self::ACTION_CANCEL:
                     $profile->cancel();
                     break;
-                case 'suspend':
+                case self::ACTION_SUSPEND:
                     $profile->suspend();
                     break;
-                case 'activate':
+                case self::ACTION_ACTIVATE:
                     $profile->activate();
                     break;
+                default:
+                    throw new \Exception(sprintf('Wrong action parameter: %s', $action));
             }
             $this->messageManager->addSuccess(__('The profile state has been updated.'));
-        } catch (\Magento\Core\Exception $e) {
+        } catch (CoreException $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We could not update the profile.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_logger->logException($e);
         }
         if ($profile) {
-            $this->_redirect('sales/*/view', array('profile' => $profile->getId()));
+            $this->_redirect('sales/*/view', array(self::PARAM_PROFILE => $profile->getId()));
         } else {
             $this->_redirect('sales/*/');
         }
@@ -151,14 +186,14 @@ class Profile extends \Magento\Backend\App\Action
             } else {
                 $this->messageManager->addNotice(__('The profile has no changes.'));
             }
-        } catch (\Magento\Core\Exception $e) {
+        } catch (CoreException $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We could not update the profile.'));
-            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_logger->logException($e);
         }
         if ($profile) {
-            $this->_redirect('sales/*/view', array('profile' => $profile->getId()));
+            $this->_redirect('sales/*/view', array(self::PARAM_PROFILE => $profile->getId()));
         } else {
             $this->_redirect('sales/*/');
         }
@@ -170,39 +205,29 @@ class Profile extends \Magento\Backend\App\Action
      */
     public function customerGridAction()
     {
-        $this->_initCustomer();
-        $this->_view->loadLayout(false);
-        $this->_view->renderLayout();
-    }
-
-    /**
-     * Initialize customer by ID specified in request
-     *
-     * @return \Magento\Sales\Controller\Adminhtml\Billing\Agreement
-     */
-    protected function _initCustomer()
-    {
-        $customerId = (int) $this->getRequest()->getParam('id');
-        $customer = $this->_objectManager->create('Magento\Customer\Model\Customer');
+        $customerId = (int)$this->getRequest()->getParam(self::PARAM_CUSTOMER_ID);
 
         if ($customerId) {
-            $customer->load($customerId);
+            $this->_coreRegistry->register(CustomerController::REGISTRY_CURRENT_CUSTOMER_ID, $customerId);
         }
 
-        $this->_coreRegistry->register('current_customer', $customer);
-        return $this;
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 
     /**
      * Load/set profile
      *
      * @return \Magento\Sales\Model\Recurring\Profile
+     * @throws \Magento\Core\Exception
      */
     protected function _initProfile()
     {
-        $profile = $this->_objectManager->create('Magento\Sales\Model\Recurring\Profile')->load($this->getRequest()->getParam('profile'));
+        /** @var \Magento\Sales\Model\Recurring\Profile $profile */
+        $profile = $this->_objectManager->create('Magento\Sales\Model\Recurring\Profile')
+            ->load($this->getRequest()->getParam(self::PARAM_PROFILE));
         if (!$profile->getId()) {
-            throw new \Magento\Core\Exception(__('The profile you specified does not exist.'));
+            throw new CoreException(__('The profile you specified does not exist.'));
         }
         $this->_coreRegistry->register('current_recurring_profile', $profile);
         return $profile;

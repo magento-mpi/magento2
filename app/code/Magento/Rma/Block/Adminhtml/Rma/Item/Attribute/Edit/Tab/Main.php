@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Rma\Block\Adminhtml\Rma\Item\Attribute\Edit\Tab;
+
 /**
  * RMA Item Attributes Edit Form
  */
-namespace Magento\Rma\Block\Adminhtml\Rma\Item\Attribute\Edit\Tab;
-
 class Main
     extends \Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
@@ -81,7 +81,7 @@ class Main
     /**
      * Adding customer form elements for edit form
      *
-     * @return \Magento\Rma\Block\Adminhtml\Rma\Item\Attribute\Edit\Tab\Main
+     * @return $this
      */
     protected function _prepareForm()
     {
@@ -301,7 +301,7 @@ class Main
     /**
      * Can show tab in tabs
      *
-     * @return boolean
+     * @return true
      */
     public function canShowTab()
     {
@@ -311,7 +311,7 @@ class Main
     /**
      * Tab is hidden
      *
-     * @return boolean
+     * @return false
      */
     public function isHidden()
     {

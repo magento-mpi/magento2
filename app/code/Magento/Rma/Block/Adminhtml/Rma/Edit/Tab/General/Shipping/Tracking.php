@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping;
+
 /**
  * Shipment tracking
  */
-namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping;
-
 class Tracking extends \Magento\Backend\Block\Template
 {
     /**

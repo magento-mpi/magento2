@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\Rma\Model\Product;
+
 /**
  * Source Model of Product's Attribute Enable RMA
  *
@@ -15,8 +17,6 @@
  * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Rma\Model\Product;
-
 class Source extends \Magento\Eav\Model\Entity\Attribute\Source\Boolean
 {
     /**
