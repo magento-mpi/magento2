@@ -52,9 +52,6 @@ class Initial
     /**
      * Get initial data by given scope
      *
-     * @return mixed
-     */
-    /**
      * @param string $scope
      * @return array
      */

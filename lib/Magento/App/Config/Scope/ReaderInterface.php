@@ -11,5 +11,8 @@ namespace Magento\App\Config\Scope;
 
 interface ReaderInterface
 {
+    /**
+     * Read configuration scope
+     */
     public function read();
 }
