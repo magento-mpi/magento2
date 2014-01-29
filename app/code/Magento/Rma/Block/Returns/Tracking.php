@@ -19,6 +19,9 @@ class Tracking extends \Magento\View\Element\Template
      */
     protected $_isRmaAvailableForPrintLabel;
 
+    /**
+     * @var string
+     */
     protected $_template = 'return/tracking.phtml';
 
     /**

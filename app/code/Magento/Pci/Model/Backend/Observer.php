@@ -15,6 +15,8 @@
  */
 namespace Magento\Pci\Model\Backend;
 
+use Magento\Event\Observer as EventObserver;
+
 class Observer
 {
     const ADMIN_USER_LOCKED = 243;
@@ -108,7 +110,8 @@ class Observer
     /**
      * Admin locking and password hashing upgrade logic implementation
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function adminAuthenticate($observer)
@@ -218,7 +221,8 @@ class Observer
      * New password must be minimum 7 chars length and include alphanumeric characters
      * The password is compared to at least last 4 previous passwords to prevent setting them again
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function checkAdminPasswordChange($observer)
@@ -255,7 +259,8 @@ class Observer
     /**
      * Save new admin password
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
+     * @return void
      */
     public function trackAdminNewPassword($observer)
     {
@@ -297,7 +302,8 @@ class Observer
     /**
      * Force admin to change password
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
+     * @return void
      */
     public function forceAdminPasswordChange($observer)
     {

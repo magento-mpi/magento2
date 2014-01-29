@@ -26,10 +26,19 @@ class Encryption extends \Magento\Encryption\Encryptor
     const CIPHER_RIJNDAEL_256 = 2;
     const CIPHER_LATEST       = 2;
 
+    /**
+     * @var int
+     */
     protected $_cipher = self::CIPHER_LATEST;
 
+    /**
+     * @var int
+     */
     protected $_keyVersion;
 
+    /**
+     * @var string[]
+     */
     protected $_keys = array();
 
     /**
@@ -132,8 +141,8 @@ class Encryption extends \Magento\Encryption\Encryptor
     /**
      * Attempt to append new key & version
      *
-     * @param  $key
-     * @return \Magento\Pci\Model\Encryption
+     * @param string $key
+     * @return $this
      */
     public function setNewKey($key)
     {
@@ -159,6 +168,8 @@ class Encryption extends \Magento\Encryption\Encryptor
      * By default initializes with latest key and crypt versions
      *
      * @param string $key
+     * @param int $cipherVersion
+     * @param bool $initVector
      * @return \Magento\Encryption\Crypt
      */
     protected function _getCrypt($key = null, $cipherVersion = null, $initVector = true)

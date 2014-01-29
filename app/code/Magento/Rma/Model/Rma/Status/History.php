@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Rma\Model\Rma\Status;
+
 /**
  * RMA model
  */
-namespace Magento\Rma\Model\Rma\Status;
-
 class History extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -120,7 +120,7 @@ class History extends \Magento\Core\Model\AbstractModel
     /**
      * Sending email with comment data
      *
-     * @return \Magento\Rma\Model\Rma\Status\History
+     * @return $this
      */
     public function sendCommentEmail()
     {
@@ -143,7 +143,7 @@ class History extends \Magento\Core\Model\AbstractModel
     /**
      * Sending email to admin with customer's comment data
      *
-     * @return \Magento\Rma\Model\Rma\Status\History
+     * @return $this
      */
     public function sendCustomerCommentEmail()
     {
@@ -162,7 +162,7 @@ class History extends \Magento\Core\Model\AbstractModel
      * @param string $rootConfig Current config root
      * @param array $sendTo mail recipient array
      * @param bool $isGuestAvailable
-     * @return \Magento\Rma\Model\Rma\Status\History
+     * @return $this
      */
     public function _sendCommentEmail($rootConfig, $sendTo, $isGuestAvailable = true)
     {

@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Item\Form\Element;
+
 /**
  * RMA Item Widget Form Textarea Element Block
  *
@@ -15,8 +17,6 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Item\Form\Element;
-
 class Textarea extends \Magento\Data\Form\Element\Textarea
 {
     /**

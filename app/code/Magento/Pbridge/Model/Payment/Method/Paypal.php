@@ -232,6 +232,11 @@ class Paypal extends \Magento\Paypal\Model\Direct
         return $this;
     }
 
+    /**
+     * @param \Magento\Object $payment
+     * @param float amount
+     * @return $this
+     */
     public function authorize(\Magento\Object $payment, $amount)
     {
         $result = new \Magento\Object($this->getPbridgeMethodInstance()->authorize($payment, $amount));
@@ -241,6 +246,11 @@ class Paypal extends \Magento\Paypal\Model\Direct
         return $this;
     }
 
+    /**
+     * @param \Magento\Object $payment
+     * @param float amount
+     * @return $this
+     */
     public function capture(\Magento\Object $payment, $amount)
     {
         if (false === $this->_pro->capture($payment, $amount)) {
@@ -249,12 +259,22 @@ class Paypal extends \Magento\Paypal\Model\Direct
         return $this;
     }
 
+    /**
+     * @param \Magento\Object $payment
+     * @param float amount
+     * @return $this
+     */
     public function refund(\Magento\Object $payment, $amount)
     {
         $this->_pro->refund($payment, $amount);
         return $this;
     }
 
+    /**
+     * @param \Magento\Object $payment
+     * @param float amount
+     * @return $this
+     */
     public function void(\Magento\Object $payment)
     {
         $this->_pro->void($payment);
@@ -263,6 +283,7 @@ class Paypal extends \Magento\Paypal\Model\Direct
 
     /**
      * Disable magento centinel validation for pbridge payment methods
+     * @return bool
      */
     public function getIsCentinelValidationEnabled()
     {

@@ -13,6 +13,9 @@
  */
 namespace Magento\Rma\Helper;
 
+use Magento\Rma\Model\Rma;
+use Magento\Rma\Model\Shipping;
+
 class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
@@ -32,7 +35,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Allowed hash keys for shipment tracking
      *
-     * @var array
+     * @var string[]
      */
     protected $_allowedHashKeys = array('rma_id', 'track_id');
 
@@ -164,7 +167,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function isEnabled()
     {
-        return $this->_storeConfig->getConfigFlag(\Magento\Rma\Model\Rma::XML_PATH_ENABLED);
+        return $this->_storeConfig->getConfigFlag(Rma::XML_PATH_ENABLED);
     }
 
     /**
@@ -272,13 +275,13 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function getReturnContactName($storeId = null)
     {
         $contactName = new \Magento\Object();
-        if ($this->_storeConfig->getConfigFlag(\Magento\Rma\Model\Rma::XML_PATH_USE_STORE_ADDRESS, $storeId)) {
+        if ($this->_storeConfig->getConfigFlag(Rma::XML_PATH_USE_STORE_ADDRESS, $storeId)) {
             $admin = $this->_authSession->getUser();
             $contactName->setFirstName($admin->getFirstname());
             $contactName->setLastName($admin->getLastname());
             $contactName->setName($admin->getName());
         } else {
-            $name = $this->_storeConfig->getConfig(\Magento\Rma\Model\Shipping::XML_PATH_CONTACT_NAME, $storeId);
+            $name = $this->_storeConfig->getConfig(Shipping::XML_PATH_CONTACT_NAME, $storeId);
             $contactName->setFirstName('');
             $contactName->setLastName($name);
             $contactName->setName($name);
@@ -314,7 +317,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
             $store = $this->_storeManager->getStore();
         }
 
-        if ($this->_storeConfig->getConfigFlag(\Magento\Rma\Model\Rma::XML_PATH_USE_STORE_ADDRESS, $store)) {
+        if ($this->_storeConfig->getConfigFlag(Rma::XML_PATH_USE_STORE_ADDRESS, $store)) {
             $data = array(
                 'city' => $this->_storeConfig
                     ->getConfig(\Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_CITY, $store),
@@ -332,17 +335,17 @@ class Data extends \Magento\App\Helper\AbstractHelper
         } else {
             $data = array(
                 'city' => $this->_storeConfig
-                    ->getConfig(\Magento\Rma\Model\Shipping::XML_PATH_CITY, $store),
+                    ->getConfig(Shipping::XML_PATH_CITY, $store),
                 'countryId' => $this->_storeConfig
-                    ->getConfig(\Magento\Rma\Model\Shipping::XML_PATH_COUNTRY_ID, $store),
+                    ->getConfig(Shipping::XML_PATH_COUNTRY_ID, $store),
                 'postcode' => $this->_storeConfig
-                    ->getConfig(\Magento\Rma\Model\Shipping::XML_PATH_ZIP, $store),
+                    ->getConfig(Shipping::XML_PATH_ZIP, $store),
                 'region_id' => $this->_storeConfig
-                    ->getConfig(\Magento\Rma\Model\Shipping::XML_PATH_REGION_ID, $store),
+                    ->getConfig(Shipping::XML_PATH_REGION_ID, $store),
                 'street2' => $this->_storeConfig
-                    ->getConfig(\Magento\Rma\Model\Shipping::XML_PATH_ADDRESS2, $store),
+                    ->getConfig(Shipping::XML_PATH_ADDRESS2, $store),
                 'street1' => $this->_storeConfig
-                    ->getConfig(\Magento\Rma\Model\Shipping::XML_PATH_ADDRESS1, $store),
+                    ->getConfig(Shipping::XML_PATH_ADDRESS1, $store),
             );
         }
 
@@ -418,7 +421,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Retrieve carrier
      *
      * @param string $code Shipping method code
-     * @param mixed $storeId
+     * @param int|int[] $storeId
      * @return bool|\Magento\Usa\Model\Shipping\Carrier\AbstractCarrier
      */
     public function getCarrier($code, $storeId = null)
@@ -443,8 +446,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Shipping package popup URL getter
      *
-     * @param $model \Magento\Rma\Model\Rma
-     * @param $action string
+     * @param Rma $model 
+     * @param string $action string
      * @return string
      */
     public function getPackagePopupUrlByRmaModel($model, $action = 'package')
@@ -463,14 +466,14 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Shipping tracking popup URL getter
      *
-     * @param $track
+     * @param Rma|Shipping $track
      * @return string
      */
     public function getTrackingPopupUrlBySalesModel($track)
     {
-        if ($track instanceof \Magento\Rma\Model\Rma) {
+        if ($track instanceof Rma) {
             return $this->_getTrackingUrl('rma_id', $track);
-        } elseif ($track instanceof \Magento\Rma\Model\Shipping) {
+        } elseif ($track instanceof Shipping) {
             return $this->_getTrackingUrl('track_id', $track, 'getEntityId');
         }
     }
@@ -479,7 +482,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Retrieve tracking url with params
      *
      * @param  string $key
-     * @param  \Magento\Rma\Model\Shipping|\Magento\Rma\Model\Rma $model
+     * @param  Shipping|Rma $model
      * @param  string $method - option
      * @return string
      */

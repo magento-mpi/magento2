@@ -19,6 +19,7 @@ class Locks extends \Magento\Backend\App\Action
     /**
      * Render page with grid
      *
+     * @return void
      */
     public function indexAction()
     {
@@ -32,6 +33,7 @@ class Locks extends \Magento\Backend\App\Action
     /**
      * Render AJAX-grid only
      *
+     * @return void
      */
     public function gridAction()
     {
@@ -42,6 +44,8 @@ class Locks extends \Magento\Backend\App\Action
 
     /**
      * Unlock specified users
+     *
+     * @return void
      */
     public function massUnlockAction()
     {
