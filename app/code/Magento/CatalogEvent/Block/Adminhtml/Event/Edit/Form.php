@@ -16,7 +16,7 @@ use Magento\Backend\Block\Widget\Form\Generic;
 use Magento\Backend\Helper\Data;
 use Magento\Core\Model\Registry;
 use Magento\Data\FormFactory;
-use Magento\Catalog\Model\Category;
+use Magento\Catalog\Model\Category as ModelCategory;
 use Magento\Catalog\Model\CategoryFactory;
 use Magento\CatalogEvent\Model\Event;
 use Magento\Core\Model\LocaleInterface;
@@ -115,7 +115,7 @@ class Form extends Generic
 
         $this->_addElementTypes($fieldset);
 
-        /** @var Category $currentCategory */
+        /** @var ModelCategory $currentCategory */
         $currentCategory = $this->_categoryFactory->create()->load($this->getEvent()->getCategoryId());
 
         $fieldset->addField('category_name', 'note',
