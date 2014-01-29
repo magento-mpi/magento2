@@ -34,7 +34,10 @@ class AccountLink extends \Magento\View\Element\Html\Link\Current
     }
 
     /**
+     * Render block HTML
+     *
      * @inheritdoc
+     * @return string
      */
     protected function _toHtml()
     {

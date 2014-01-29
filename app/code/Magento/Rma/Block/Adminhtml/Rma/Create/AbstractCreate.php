@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\Rma\Block\Adminhtml\Rma\Create;
+
 /**
  * Admin RMA create form header
  *
@@ -15,9 +17,6 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Rma\Block\Adminhtml\Rma\Create;
-
 abstract class AbstractCreate extends \Magento\Backend\Block\Widget
 {
      /**
@@ -105,6 +104,7 @@ abstract class AbstractCreate extends \Magento\Backend\Block\Widget
      * Set Customer Id
      *
      * @param int $id
+     * @return void
      */
     public function setCustomerId($id)
     {
@@ -115,6 +115,7 @@ abstract class AbstractCreate extends \Magento\Backend\Block\Widget
      * Set Order Id
      *
      * @param int $id
+     * @return void
      */
     public function setOrderId($id)
     {

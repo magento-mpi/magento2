@@ -128,6 +128,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
      * Getter.
      * Return Payment Bridge url with required parameters (such as merchant code, merchant key etc.)
      *
+     * @return string
      */
     abstract public function getSourceUrl();
 

@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\Review\Block\Adminhtml\Grid\Filter;
+
 /**
  * Adminhtml review grid filter by type
  *
@@ -15,11 +17,11 @@
  * @package    Magento_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Review\Block\Adminhtml\Grid\Filter;
-
 class Type extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
 {
+    /**
+     * @return array
+     */
     protected function _getOptions()
     {
         return array(
@@ -30,6 +32,9 @@ class Type extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
         );
     }
 
+    /**
+     * @return int
+     */
     public function getCondition()
     {
         if ($this->getValue() == 1) {

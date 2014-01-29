@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Rma\Model;
+
 /**
  * RMA Shipping Model
  */
-namespace Magento\Rma\Model;
-
 class Shipping extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -152,7 +152,7 @@ class Shipping extends \Magento\Core\Model\AbstractModel
     /**
      * Processing object before save data
      *
-     * @return \Magento\Rma\Model\Shipping
+     * @return $this
      */
     protected function _beforeSave()
     {
@@ -287,7 +287,7 @@ class Shipping extends \Magento\Core\Model\AbstractModel
     public function getProtectCode()
     {
         if ($this->getRmaEntityId()) {
-            /** @var $rma \Magento\Rma\Model\Rma */
+            /** @var $rma Rma */
             $rma = $this->_rmaFactory->create()->load($this->getRmaEntityId());
         }
         return (string)$rma->getProtectCode();
@@ -296,7 +296,7 @@ class Shipping extends \Magento\Core\Model\AbstractModel
     /**
      * Retrieves shipping label for current rma
      *
-     * @var \Magento\Rma\Model\Rma|int $rma
+     * @param Rma|int $rma
      * @return string
      */
     public function getShippingLabelByRma($rma)

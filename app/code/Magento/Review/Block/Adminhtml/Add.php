@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\Review\Block\Adminhtml;
+
 /**
  * Adminhtml add Review main block
  *
@@ -15,9 +17,6 @@
  * @package    Magento_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Review\Block\Adminhtml;
-
 class Add extends \Magento\Backend\Block\Widget\Form\Container
 {
     protected function _construct()
@@ -103,6 +102,9 @@ class Add extends \Magento\Backend\Block\Widget\Form\Container
         ';
     }
 
+    /**
+     * @return string
+     */
     public function getHeaderText()
     {
         return __('Add New Review');

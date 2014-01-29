@@ -9,15 +9,17 @@
 namespace Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler;
 
 use Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\HandlerInterface;
+use Magento\Catalog\Model\Product;
 
 class CustomOptions implements HandlerInterface
 {
     /**
      * Handle Custom Options of Product
      *
-     * @param \Magento\Catalog\Model\Product $product
+     * @param Product $product
+     * @return void
      */
-    public function handle(\Magento\Catalog\Model\Product $product)
+    public function handle(Product $product)
     {
         $originalOptionsAssoc = array();
         $originalOptions = $product->getOptions();

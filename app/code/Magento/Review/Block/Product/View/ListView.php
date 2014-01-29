@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Review\Block\Product\View;
 
 /**
  * Detailed Product Reviews
@@ -15,17 +16,24 @@
  * @package    Magento_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Review\Block\Product\View;
-
 class ListView extends \Magento\Review\Block\Product\View
 {
+    /**
+     * @var false
+     */
     protected $_forceHasOptions = false;
 
+    /**
+     * @return int
+     */
     public function getProductId()
     {
         return $this->_coreRegistry->registry('product')->getId();
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
@@ -38,6 +46,9 @@ class ListView extends \Magento\Review\Block\Product\View
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     protected function _beforeToHtml()
     {
         $this->getReviewsCollection()
@@ -46,6 +57,9 @@ class ListView extends \Magento\Review\Block\Product\View
         return parent::_beforeToHtml();
     }
 
+    /**
+     * @return string
+     */
     public function getReviewUrl($id)
     {
         return $this->getUrl('*/*/view', array('id' => $id));

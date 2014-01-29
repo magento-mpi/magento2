@@ -18,6 +18,8 @@
 * Updated various PHPDoc with parameter and return types
 * Indexer implementation:
   * Implemented new indexer structure
+* Refactored Web API Framework to support Data Object based service interfaces
+* Refactored controllers, blocks and templates of the Sales Module to use customer service
 
 2.0.0.0-dev62
 =============
