@@ -137,7 +137,11 @@ class CloseOrder extends Curl
         }
 
         // Click Invoice button if the payment action is not 'Sale'
-        $paymentAction = $fixture->getPaymentMethod()->getPaymentAction();
+        $paymentMethod = $fixture->getPaymentMethod();
+        $paymentAction = null;
+        if($paymentMethod !== null) {
+            $paymentAction = $paymentMethod->getPaymentAction();
+        }
 
         if(self::PAYMENT_ACTION_SALE !== $paymentAction) {
             //Click Invoice button and create a new invoice page
