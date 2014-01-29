@@ -1179,4 +1179,5 @@ return array(
     array('getFileIdentifier', 'Magento\View\Layout\File\FileList', 'Magento\View\Layout\File'),
     array('_getInitialXml', 'Magento\Config\Theme'),
     array('_getIdAttributes', 'Magento\Config\Theme'),
+    array('_getSession', 'Magento\CatalogSearch\Controller\Result'),
 );
