@@ -12,7 +12,7 @@ use Magento\Core\Model\Resource\Db\Collection\AbstractCollection;
 class Collection extends \Magento\CatalogRule\Model\Resource\Rule\Collection
 {
     /**
-     * @return $this|AbstractCollection
+     * @return $this
      */
     protected function _initSelect()
     {

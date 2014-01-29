@@ -329,7 +329,7 @@ class Catalog extends Action
     {
         $errorMessage = __('Unable to apply rules.');
         try {
-            /** @var $ruleJob Job */
+            /** @var Job $ruleJob */
             $ruleJob = $this->_objectManager->get('Magento\CatalogRule\Model\Rule\Job');
             $ruleJob->applyAll();
 

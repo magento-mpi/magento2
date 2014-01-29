@@ -90,7 +90,7 @@ class Sku extends \Magento\Backend\Block\Widget\Grid\Extended
 
     /**
      * @param Column $column
-     * @return $this|Grid
+     * @return $this
      */
     protected function _addColumnFilterToCollection($column)
     {

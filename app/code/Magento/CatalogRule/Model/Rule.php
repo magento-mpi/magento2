@@ -313,7 +313,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Callback function for product matching
      *
-     * @param string $args
+     * @param array $args
      * @return void
      */
     public function callbackValidateProduct($args)
