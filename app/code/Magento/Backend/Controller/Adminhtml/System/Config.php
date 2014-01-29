@@ -118,4 +118,17 @@ class Config extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
         $content = $gridBlock->getCsvFile();
         return $this->_fileFactory->create($fileName, $content, \Magento\App\Filesystem::VAR_DIR);
     }
+
+    /**
+     * Export Varnish Cofiguration as .vcl
+     * TODO:
+     *
+     * @return \Magento\App\ResponseInterface
+     */
+    public function exportVarnishConfigAction()
+    {
+        $fileName = 'varnish_configuration.vcl';
+        $content = ''; // $varnish->getVclFile();
+        return $this->_fileFactory->create($fileName, $content, \Magento\App\Filesystem::VAR_DIR);
+    }
 }

@@ -31,11 +31,8 @@ backend default {
 sub vcl_recv {
     if (req.request != \"GET\" && req.request != \"HEAD\") {
         ## Varnish should remove all cookies from cached objects
-        unset req.http.Cookie;
         return(pass);
-    } elsif (req.request == \"POST\"){
-        return (pass);
-   }
+    }
 }
 
 sub vcl_hash {
@@ -120,7 +117,7 @@ if ( req.url ~ \"\\.(png|gif|jpg|css|js|ico)\" ) {
 
 ## X_MAGETNO_VARY cookie
 sub vcl_hash {
-    hash_data(req.http.cookie.?)
+    hash_data(req.http.cookie.X_MAGENTO_VARY)
 }
 
 ";
