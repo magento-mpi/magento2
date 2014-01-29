@@ -133,7 +133,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $blockMock->expects($this->once())->method('addConfigOptions')->with(['levels_up' => 2]);
         $result = new \StdClass();
         $this->_event->expects($this->once())->method('getResult')->will($this->returnValue($result));
-        $this->_testModel->renderRecurringProfileForm($this->_observer);
+        $this->_testModel->addFieldsToProductEditForm($this->_observer);
         $this->assertEquals('htmlhtml', $result->output);
     }
 }

@@ -762,7 +762,7 @@ return array(
     ),
     array(
         'prepareProductEditFormRecurringProfile', 'Magento\Sales\Model\Observer',
-        'Magento\RecurringProfile\Model\Observer::renderForm'
+        'Magento\RecurringProfile\Model\Observer::addFieldsToProductEditForm'
     ),
     array(
         'prepareProductRecurringProfileOptions', 'Magento\Payment\Model\Observer',

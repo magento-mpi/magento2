@@ -9,6 +9,6 @@
 -->
 <config>
     <event name="catalog_product_edit_form_render_recurring">
-        <observer name="payment" instance="Magento\RecurringProfile\Model\Observer" method="renderForm" />
+        <observer name="payment" instance="Magento\RecurringProfile\Model\Observer" method="addFieldsToProductEditForm" />
     </event>
 </config>

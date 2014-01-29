@@ -115,7 +115,7 @@ class Observer
      *
      * @param \Magento\Event\Observer $observer
      */
-    public function renderRecurringProfileForm($observer)
+    public function addFieldsToProductEditForm($observer)
     {
         // replace the element of recurring payment profile field with a form
         $profileElement = $observer->getEvent()->getProductElement();
