@@ -10,6 +10,8 @@
 
 namespace Magento\Customer\Model\Metadata\Form;
 
+use Magento\Customer\Model\Metadata\ElementFactory;
+
 class FileTest extends \PHPUnit_Framework_TestCase
 {
 
@@ -42,8 +44,8 @@ class FileTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $this->_coreDataMock = $this->getMockBuilder('Magento\Core\Helper\Data')
-        ->disableOriginalConstructor()
-        ->getMock();
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->_fileValidatorMock = $this->getMockBuilder('Magento\Core\Model\File\Validator\NotProtectedExtension')
             ->disableOriginalConstructor()
             ->getMock();
@@ -59,7 +61,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param $expected
+     * @param array|bool $expected
      * @param string $attributeCode
      * @param bool $isAjax
      * @param string $delete
@@ -99,16 +101,16 @@ class FileTest extends \PHPUnit_Framework_TestCase
     public function extractValueNoRequestScopeDataProvider()
     {
         return [
-            '0' => [false, '', true],
-            '1' => [[],],
-            '2' => [['delete' => true], '', false, true],
-            '3' => [
+            'ajax' => [false, '', true],
+            'no_file' => [[],],
+            'delete' => [['delete' => true], '', false, true],
+            'file_delete' => [
                 ['attributeCodeValue', 'delete' => true],
                 'attributeCode',
                 false,
                 true
             ],
-            '4' => [
+            'file_!delete' => [
                 ['attributeCodeValue'],
                 'attributeCode',
                 false,
@@ -118,7 +120,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param $expected
+     * @param array $expected
      * @param string $requestScope
      * @param $mainScope
      * @dataProvider extractValueWithRequestScopeDataProvider
@@ -163,13 +165,13 @@ class FileTest extends \PHPUnit_Framework_TestCase
     public function extractValueWithRequestScopeDataProvider()
     {
         return [
-            '0' => [[], 'requestScope'],
-            '1' => [
+            'requestScope' => [[], 'requestScope'],
+            'mainScope' => [
                 ['fileKey' => 'attributeValue'],
                 'mainScope',
                 ['fileKey' => ['attributeCode' => 'attributeValue']],
             ],
-            '2' => [
+            'mainScope/scopeName' => [
                 ['fileKey' => 'attributeValue'],
                 'mainScope/scopeName',
                 ['fileKey' => ['scopeName' => ['attributeCode' => 'attributeValue']]],
@@ -178,8 +180,8 @@ class FileTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param $expected
-     * @param $value
+     * @param array|bool $expected
+     * @param array $value
      * @param bool $isAjax
      * @param bool $isRequired
      * @dataProvider validateValueNotToUploadDataProvider
@@ -210,16 +212,16 @@ class FileTest extends \PHPUnit_Framework_TestCase
     public function validateValueNotToUploadDataProvider()
     {
         return [
-            '0' => [true, [], true],
-            '1' => [true, ['some value']],
-            '2' => [true, ['delete' => true, 'some value'], false, false],
-            '3' => [['"attributeLabel" is a required value.'], null]
+            'emptyValue' => [true, [], true],
+            'someValue' => [true, ['some value']],
+            'delete_someValue' => [true, ['delete' => true, 'some value'], false, false],
+            'null' => [['"attributeLabel" is a required value.'], null]
         ];
     }
 
     /**
-     * @param $expected
-     * @param $value
+     * @param array $expected
+     * @param array $value
      * @param bool $isValid
      * @dataProvider validateValueToUploadDataProvider
      */
@@ -255,8 +257,8 @@ class FileTest extends \PHPUnit_Framework_TestCase
     public function validateValueToUploadDataProvider()
     {
         return [
-            '0' => [['messages'], ['tmp_name' => 'file', 'name' => 'name']],
-            '1' => [
+            'notValid' => [['messages'], ['tmp_name' => 'file', 'name' => 'name']],
+            'isValid' => [
                 ['"attributeLabel" is not a valid file.'],
                 ['tmp_name' => 'file', 'name' => 'name'],
                 true
@@ -281,8 +283,8 @@ class FileTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param $expected
-     * @param $value
+     * @param string $expected
+     * @param array $value
      * @dataProvider compactValueDataProvider
      */
     public function testCompactValue($expected, $value)
@@ -307,8 +309,8 @@ class FileTest extends \PHPUnit_Framework_TestCase
     public function compactValueDataProvider()
     {
         return [
-            '0' => ['value', []],
-            '1' => ['', ['delete' => true]],
+            'notDelete' => ['value', []],
+            'delete' => ['', ['delete' => true]],
         ];
     }
 
@@ -352,20 +354,20 @@ class FileTest extends \PHPUnit_Framework_TestCase
     public function outputValueDataProvider()
     {
         return [
-            \Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_TEXT => [
-                \Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_TEXT,
+            ElementFactory::OUTPUT_FORMAT_TEXT => [
+                ElementFactory::OUTPUT_FORMAT_TEXT,
             ],
-            \Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_ARRAY => [
-                \Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_ARRAY,
+            ElementFactory::OUTPUT_FORMAT_ARRAY => [
+                ElementFactory::OUTPUT_FORMAT_ARRAY,
             ],
-            \Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_HTML => [
-                \Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_HTML,
+            ElementFactory::OUTPUT_FORMAT_HTML => [
+                ElementFactory::OUTPUT_FORMAT_HTML,
             ],
-            \Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_ONELINE => [
-                \Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_ONELINE,
+            ElementFactory::OUTPUT_FORMAT_ONELINE => [
+                ElementFactory::OUTPUT_FORMAT_ONELINE,
             ],
-            \Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_PDF => [
-                \Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_PDF,
+            ElementFactory::OUTPUT_FORMAT_PDF => [
+                ElementFactory::OUTPUT_FORMAT_PDF,
             ],
         ];
     }
@@ -395,7 +397,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
         ];
         $this->assertSame(
             $expected,
-            $fileForm->outputValue(\Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_JSON)
+            $fileForm->outputValue(ElementFactory::OUTPUT_FORMAT_JSON)
         );
     }
 }
