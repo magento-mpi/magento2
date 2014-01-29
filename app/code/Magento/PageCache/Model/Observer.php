@@ -10,6 +10,10 @@
 
 namespace Magento\PageCache\Model;
 
+/**
+ * Class Observer
+ * @package Magento\PageCache\Model
+ */
 class Observer
 {
     /**
@@ -17,15 +21,17 @@ class Observer
      */
     public function processLayoutRenderElement(\Magento\Event\Observer $observer)
     {
+        /** @var \Magento\Core\Model\Layout $layout */
         $layout = $observer->getEvent()->getLayout();
-        $name = $observer->getEvent()->getElementName();
-        $transport = $observer->getEvent()->getTransport();
-
-        $block = $layout->getBlock($name);
-        if ($block instanceof \Magento\View\Element\AbstractBlock && $block->isScopePrivate()) {
-            $html = $transport->getData('output');
-            $html = sprintf('<!-- BLOCK %1$s -->%2$s<!-- /BLOCK %1$s -->', $block->getNameInLayout(), $html);
-            $transport->setData('output', $html);
+        if ($layout->isCacheable()) {
+            $name = $observer->getEvent()->getElementName();
+            $block = $layout->getBlock($name);
+            if ($block instanceof \Magento\View\Element\AbstractBlock && $block->isScopePrivate()) {
+                $transport = $observer->getEvent()->getTransport();
+                $html = $transport->getData('output');
+                $html = sprintf('<!-- BLOCK %1$s -->%2$s<!-- /BLOCK %1$s -->', $block->getNameInLayout(), $html);
+                $transport->setData('output', $html);
+            }
         }
     }
 }

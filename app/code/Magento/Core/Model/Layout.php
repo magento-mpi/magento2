@@ -1049,7 +1049,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     {
         if (!isset($this->_renderElementCache[$name]) || !$useCache) {
             if ($this->isBlock($name)) {
-                $result = $this->_renderBlock($this->getBlock($name));
+                $result = $this->_renderBlock($name);
             } else {
                 $result = $this->_renderContainer($name);
             }
@@ -1067,12 +1067,13 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     /**
      * Gets HTML of block element
      *
-     * @param \Magento\View\Element\AbstractBlock|bool $block
+     * @param string $name
      * @return string
      * @throws \Magento\Exception
      */
-    protected function _renderBlock($block)
+    protected function _renderBlock($name)
     {
+        $block = $this->getBlock($name);
         return $block ? $block->toHtml() : '';
     }
 
@@ -1552,7 +1553,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
                 ->setTemplate($options['template'])
                 ->assign($data);
 
-            echo $this->_renderBlock($block);
+            echo $this->_renderBlock($block->getNameInLayout());
         }
     }
 
@@ -1595,15 +1596,5 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     public function  isCacheable()
     {
         return !(boolean)count($this->_xml->xpath('//' . Element::TYPE_BLOCK . '[@cacheable="false"]'));
-    }
-
-    /**
-     * Check is current layout private
-     *
-     * @return bool
-     */
-    public function  isPrivate()
-    {
-        return !(boolean)count($this->_xml->xpath('//' . Element::TYPE_BLOCK . '[@cache-control="private"]'));
     }
 }
