@@ -1339,9 +1339,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     protected function _getBlockInstance($block, array $attributes = array())
     {
         if ($block && is_string($block)) {
-            if (class_exists($block)) {
-                $block = $this->_blockFactory->createBlock($block, $attributes);
-            }
+            $block = $this->_blockFactory->createBlock($block, $attributes);
         }
         if (!$block instanceof \Magento\View\Element\AbstractBlock) {
             throw new \Magento\Core\Exception(__('Invalid block type: %1', $block));

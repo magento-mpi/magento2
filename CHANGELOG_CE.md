@@ -1,5 +1,6 @@
 * Modularity improvements:
   * Consolidated PayPal in separate module
+  * Moved Shortcut Buttons abstraction from PayPal to Catalog
 * Oyejorge Less.php Adapter implemented
 * Less files import mechanism implemented
 * Added ability to configure certain cache frontend and associate it with multiple cache types, so avoiding duplication of cache configuration
