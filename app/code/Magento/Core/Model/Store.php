@@ -390,7 +390,7 @@ class Store extends \Magento\Core\Model\AbstractModel implements \Magento\Url\Sc
      */
     protected function _getValidationRulesBeforeSave()
     {
-        $validator = new \Magento\Validator\Composite\VarienObject();
+        $validator = new \Magento\Validator\Object();
 
         $storeLabelRule = new \Zend_Validate_NotEmpty();
         $storeLabelRule->setMessage(

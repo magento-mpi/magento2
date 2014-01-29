@@ -31,10 +31,9 @@ class FeesTest extends \PHPUnit_Framework_TestCase
 
         $this->_profile = $this->getMockBuilder('Magento\Sales\Model\Recurring\Profile')
             ->disableOriginalConstructor()
-            ->setMethods(array('setStore', 'setLocale', 'getFieldLabel', '__wakeup'))
+            ->setMethods(array('setStore', 'getFieldLabel', '__wakeup'))
             ->getMock();
         $this->_profile->expects($this->once())->method('setStore')->will($this->returnValue($this->_profile));
-        $this->_profile->expects($this->once())->method('setLocale')->will($this->returnValue($this->_profile));
 
         $registry = $this->getMockBuilder('Magento\Core\Model\Registry')
             ->disableOriginalConstructor()

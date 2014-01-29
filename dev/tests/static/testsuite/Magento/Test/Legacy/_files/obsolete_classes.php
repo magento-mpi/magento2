@@ -1849,4 +1849,5 @@ return array(
     array('Magento\Config\Dom\Converter\ArrayConverter'),
     array('Magento\Acl\Resource\Config\Dom'),
     ['Magento\Payment\Model\Recurring\Profile', 'Magento\RecurringProfile\Model\RecurringProfile'],
+    ['Magento\Validator\Composite\VarienObject', 'Magento\Validator\Object'],
 );

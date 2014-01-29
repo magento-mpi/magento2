@@ -12,9 +12,9 @@
  * Validator encapsulates multiple validation rules for \Magento\Object.
  * Able to validate both individual fields and a whole object.
  */
-namespace Magento\Validator\Composite;
+namespace Magento\Validator;
 
-class VarienObject implements \Zend_Validate_Interface
+class Object implements \Zend_Validate_Interface
 {
     /**
      * Validation rules per scope (particular fields or entire entity)
@@ -35,7 +35,7 @@ class VarienObject implements \Zend_Validate_Interface
      *
      * @param \Zend_Validate_Interface $validator
      * @param string $fieldName Field name to apply validation to, or empty value to validate entity as a whole
-     * @return \Magento\Validator\Composite\VarienObject
+     * @return \Magento\Validator\Object
      */
     public function addRule(\Zend_Validate_Interface $validator, $fieldName = '')
     {

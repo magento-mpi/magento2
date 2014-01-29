@@ -45,7 +45,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $collectionElement = $this->getMockBuilder('Magento\Sales\Model\Recurring\Profile')
             ->disableOriginalConstructor()
-            ->setMethods(array('setStore', 'setLocale', 'renderData', 'getReferenceId', '__wakeup'))
+            ->setMethods(array('setStore', 'renderData', 'getReferenceId', '__wakeup'))
             ->getMock();
         $collectionElement->expects($this->once())->method('setStore')
             ->with($store)

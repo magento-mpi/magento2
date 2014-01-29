@@ -59,7 +59,6 @@ class GridTest extends \PHPUnit_Framework_TestCase
             ->with('current_customer')
             ->will($this->returnValue($customer));
         $profile->expects($this->once())->method('setStore')->with($store)->will($this->returnValue($profile));
-        $profile->expects($this->once())->method('setLocale')->will($this->returnValue($profile));
         $storeManager = $this->getMock('Magento\Core\Model\StoreManagerInterface');
         $storeManager->expects($this->once())->method('getStore')
             ->will($this->returnValue($store));

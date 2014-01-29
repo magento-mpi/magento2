@@ -8,16 +8,16 @@
 
 namespace Magento\Validator\Composite;
 
-class VarienObjectTest extends \PHPUnit_Framework_TestCase
+class ObjectTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Validator\Composite\VarienObject
+     * @var \Magento\Validator\Object
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = new \Magento\Validator\Composite\VarienObject();
+        $this->_model = new \Magento\Validator\Object();
 
         $fieldOneExactValue = new \Zend_Validate_Identical('field_one_value');
         $fieldOneExactValue->setMessage("'field_one' does not match expected value");

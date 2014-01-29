@@ -31,10 +31,9 @@ class ReferenceTest extends \PHPUnit_Framework_TestCase
 
         $this->_profile = $this->getMockBuilder('Magento\Sales\Model\Recurring\Profile')
             ->disableOriginalConstructor()
-            ->setMethods(array('setStore', 'setLocale', 'getFieldLabel', 'renderData', '__wakeup'))
+            ->setMethods(array('setStore', 'getFieldLabel', 'renderData', '__wakeup'))
             ->getMock();
         $this->_profile->expects($this->once())->method('setStore')->will($this->returnValue($this->_profile));
-        $this->_profile->expects($this->once())->method('setLocale')->will($this->returnValue($this->_profile));
 
         $registry = $this->getMockBuilder('Magento\Core\Model\Registry')
             ->disableOriginalConstructor()
