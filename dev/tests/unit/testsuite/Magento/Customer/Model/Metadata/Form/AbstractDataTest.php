@@ -79,7 +79,7 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param bool $bool
-     * @dataProvider trueFalseProvider
+     * @dataProvider trueFalseDataProvider
      */
     public function testSetRequestScopeOnly($bool)
     {
@@ -87,7 +87,7 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($bool, $this->_model->isRequestScopeOnly());
     }
 
-    public function trueFalseProvider()
+    public function trueFalseDataProvider()
     {
         return [[true], [false]];
     }
@@ -165,7 +165,7 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
      * @param bool|string $input
      * @param bool|string $output
      * @param bool|string $filter
-     * @dataProvider applyOutputFilterProvider
+     * @dataProvider applyOutputFilterDataProvider
      */
     public function testApplyOutputFilter($input, $output, $filter)
     {
@@ -183,7 +183,7 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public function applyOutputFilterProvider()
+    public function applyOutputFilterDataProvider()
     {
         return [
             [false, false, false],
@@ -199,7 +199,7 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
      * @param null|string $label
      * @param null|string $inputValidation
      * @param bool|array  $expectedOutput
-     * @dataProvider validateInputRuleProvider
+     * @dataProvider validateInputRuleDataProvider
      */
     public function testValidateInputRule($value, $label, $inputValidation, $expectedOutput)
     {
@@ -215,7 +215,7 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedOutput, $this->_model->validateInputRule($value));
     }
 
-    public function validateInputRuleProvider()
+    public function validateInputRuleDataProvider()
     {
         return [
             [null, null, null, true],
@@ -273,7 +273,7 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param bool $ajaxRequest
-     * @dataProvider trueFalseProvider
+     * @dataProvider trueFalseDataProvider
      */
     public function testGetIsAjaxRequest($ajaxRequest)
     {
@@ -294,7 +294,7 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
      * @param bool|string                   $requestScope
      * @param bool                          $requestScopeOnly
      * @param string                        $expectedValue
-     * @dataProvider getRequestValueProvider
+     * @dataProvider getRequestValueDataProvider
      */
     public function testGetRequestValue($request, $attributeCode, $requestScope, $requestScopeOnly, $expectedValue)
     {
@@ -307,7 +307,7 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedValue, $this->_model->getRequestValue($request));
     }
 
-    public function getRequestValueProvider()
+    public function getRequestValueDataProvider()
     {
         $expectedValue = 'EXPECTED_VALUE';
         $requestMockOne = $this->getMockBuilder('\Magento\App\RequestInterface')

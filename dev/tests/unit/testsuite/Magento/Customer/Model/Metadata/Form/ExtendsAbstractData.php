@@ -85,7 +85,7 @@ class ExtendsAbstractData extends AbstractData
 
     /**
      * @param string|null|bool $format
-     * @return \Magento\Customer\Model\Metadata\Form\AbstractData|string
+     * @return AbstractData|string
      */
     public function dateFilterFormat($format)
     {
