@@ -49,9 +49,6 @@ class AuthorizationLink extends \Magento\View\Element\Html\Link
         $this->_customerHelper = $customerHelper;
         $this->_isScopePrivate = true;
         $this->_postDataHelper = $postDataHelper;
-        if ($this->_customerSession->isLoggedIn()) {
-            $this->_template = "Magento_Customer::account/link/logout.phtml";
-        }
     }
 
     /**
@@ -80,6 +77,16 @@ class AuthorizationLink extends \Magento\View\Element\Html\Link
     public function getPostParams()
     {
         return $this->_postDataHelper->getPostData($this->getHref());
+    }
+
+    /**
+     * Is logged in
+     *
+     * @return bool
+     */
+    public function isLoggedIn()
+    {
+        return $this->_customerSession->isLoggedIn();
     }
 
 }

@@ -9,7 +9,7 @@
 ?>
 <li>
     <?php /** @var $this \Magento\Customer\Block\Account\AuthorizationLink */?>
-    <a data-post='<?php echo $this->getPostParams();  ?>' <?php echo $this->getLinkAttributes();  ?> >
+    <a <?php if ($this->isLoggedIn()) {echo "data-post='" . $this->getPostParams(); } ?>' <?php echo $this->getLinkAttributes();  ?> >
         <?php echo $this->escapeHtml($this->getLabel()); ?>
     </a>
 </li>
