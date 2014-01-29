@@ -82,9 +82,8 @@ class Observer
         }
 
         /** @var \Magento\Payment\Model\Recurring\Profile $profile */
-        $profile = $this->_profileFactory->create();
-        $profile->setLocale($this->_locale)
-            ->setStore($this->_storeManager->getStore())
+        $profile = $this->_profileFactory->create(['locale' => $this->_locale]);
+        $profile->setStore($this->_storeManager->getStore())
             ->importBuyRequest($buyRequest)
             ->importProduct($product);
         if (!$profile) {
@@ -99,7 +98,7 @@ class Observer
         // duplicate as 'additional_options' to render with the product statically
         $infoOptions = array(array(
             'label' => $this->_fields->getFieldLabel('start_datetime'),
-            'value' => $profile->exportStartDatetime(true),
+            'value' => $profile->exportStartDatetime(),
         ));
 
         foreach ($profile->exportScheduleInfo() as $info) {

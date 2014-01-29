@@ -120,7 +120,7 @@ class Grid extends \Magento\Sales\Block\Recurring\Profiles
         $profiles = array();
         $store = $this->_storeManager->getStore();
         foreach ($this->_profiles as $profile) {
-            $profile->setStore($store)->setLocale($this->_locale);
+            $profile->setStore($store);
             $profiles[] = new \Magento\Object(array(
                 'reference_id' => $profile->getReferenceId(),
                 'reference_id_link_url' => $this->getUrl(

@@ -1201,4 +1201,6 @@ return array(
         'Magento\Payment\Model\Recurring\Profile',
         'Magento\RecurringProfile\Block\Fields::getFieldLabel',
     ],
+    ['_ensureLocaleAndStore', 'Magento\Payment\Model\Recurring\Profile'],
+    ['setLocale', 'Magento\Payment\Model\Recurring\Profile', 'Locale instance injected via constructor'],
 );

@@ -40,13 +40,6 @@ class Profile extends \Magento\Core\Model\AbstractModel
     protected $_methodInstance = null;
 
     /**
-     * Locale instance used for importing/exporting data
-     *
-     * @var \Magento\Core\Model\LocaleInterface
-     */
-    protected $_locale = null;
-
-    /**
      * Store instance used by locale or method instance
      *
      * @var \Magento\Core\Model\Store
@@ -78,11 +71,17 @@ class Profile extends \Magento\Core\Model\AbstractModel
     protected $_fields;
 
     /**
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param PeriodUnits $periodUnits
      * @param \Magento\RecurringProfile\Block\Fields $fields
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -93,6 +92,7 @@ class Profile extends \Magento\Core\Model\AbstractModel
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\RecurringProfile\Model\PeriodUnits $periodUnits,
         \Magento\RecurringProfile\Block\Fields $fields,
+        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -101,6 +101,7 @@ class Profile extends \Magento\Core\Model\AbstractModel
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_periodUnits = $periodUnits;
         $this->_fields = $fields;
+        $this->_locale = $locale;
     }
 
     /**
@@ -184,23 +185,19 @@ class Profile extends \Magento\Core\Model\AbstractModel
     /**
      * Getter for errors that may appear after validation
      *
-     * @param bool $isGrouped
-     * @param bool $asMessage
      * @return array
      * @throws \Magento\Core\Exception
      */
-    public function getValidationErrors($isGrouped = true, $asMessage = false)
+    public function getValidationErrors()
     {
-        if ($isGrouped && $this->_errors) {
+        if ($this->_errors) {
             $result = array();
             foreach ($this->_errors as $row) {
                 $result[] = implode(' ', $row);
             }
-            if ($asMessage) {
-                throw new \Magento\Core\Exception(__("The payment profile is invalid:\n%1.",
-                    implode("\n", $result)));
-            }
-            return $result;
+            throw new \Magento\Core\Exception(
+                __("The payment profile is invalid:\n%1.", implode("\n", $result))
+            );
         }
         return $this->_errors;
     }
@@ -229,12 +226,15 @@ class Profile extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Object $buyRequest
      * @return \Magento\Payment\Model\Recurring\Profile
      * @throws \Magento\Core\Exception
+     * @throws \Exception
      */
     public function importBuyRequest(\Magento\Object $buyRequest)
     {
         $startDate = $buyRequest->getData(self::BUY_REQUEST_START_DATETIME);
         if ($startDate) {
-            $this->_ensureLocaleAndStore();
+            if (!$this->_locale || !$this->_store) {
+                throw new \Exception('Locale and store instances must be set for this operation.');
+            }
             $dateFormat = $this->_locale->getDateTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
             $localeCode = $this->_locale->getLocaleCode();
             if (!\Zend_Date::isDate($startDate, $dateFormat, $localeCode)) {
@@ -312,7 +312,7 @@ class Profile extends \Magento\Core\Model\AbstractModel
      * @param \Zend_Date $minAllowed
      * @return \Magento\Payment\Model\Recurring\Profile
      */
-    public function setNearestStartDatetime(\Zend_Date $minAllowed = null)
+    protected function setNearestStartDatetime(\Zend_Date $minAllowed = null)
     {
         // TODO: implement proper logic with invoking payment method instance
         $date = $minAllowed;
@@ -326,34 +326,18 @@ class Profile extends \Magento\Core\Model\AbstractModel
     /**
      * Convert the start datetime (if set) to proper locale/timezone and return
      *
-     * @param bool $asString
-     * @return \Zend_Date|string
+     * @return string
      */
-    public function exportStartDatetime($asString = true)
+    public function exportStartDatetime()
     {
         $datetime = $this->getStartDatetime();
         if (!$datetime || !$this->_locale || !$this->_store) {
-            return;
+            return '';
         }
         $date = $this->_locale->storeDate($this->_store, strtotime($datetime), true);
-        if ($asString) {
-            return $date->toString(
-                $this->_locale->getDateTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT)
-            );
-        }
-        return $date;
-    }
-
-    /**
-     * Locale instance setter
-     *
-     * @param \Magento\Core\Model\LocaleInterface $locale
-     * @return \Magento\Payment\Model\Recurring\Profile
-     */
-    public function setLocale(\Magento\Core\Model\LocaleInterface $locale)
-    {
-        $this->_locale = $locale;
-        return $this;
+        return $date->toString(
+            $this->_locale->getDateTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT)
+        );
     }
 
     /**
@@ -389,7 +373,7 @@ class Profile extends \Magento\Core\Model\AbstractModel
                 }
                 break;
             case 'start_datetime':
-                return $this->exportStartDatetime(true);
+                return $this->exportStartDatetime();
         }
         return $value;
     }
@@ -441,18 +425,6 @@ class Profile extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Check that locale and store instances are set
-     *
-     * @throws \Exception
-     */
-    protected function _ensureLocaleAndStore()
-    {
-        if (!$this->_locale || !$this->_store) {
-            throw new \Exception('Locale and store instances must be set for this operation.');
-        }
-    }
-
-    /**
      * Return payment method instance
      *
      * @return \Magento\Payment\Model\Method\AbstractMethod
@@ -475,10 +447,7 @@ class Profile extends \Magento\Core\Model\AbstractModel
      */
     protected function _validatePeriodFrequency($unitKey, $frequencyKey)
     {
-        if ($this->getData($unitKey) == PeriodUnits::SEMI_MONTH && $this->getData($frequencyKey) != 1) {
-            return false;
-        }
-        return true;
+        return !($this->getData($unitKey) == PeriodUnits::SEMI_MONTH && $this->getData($frequencyKey) != 1);
     }
 
     /**
@@ -489,22 +458,11 @@ class Profile extends \Magento\Core\Model\AbstractModel
     protected function _validateBeforeSave()
     {
         if (!$this->isValid()) {
-            throw new \Magento\Core\Exception($this->getValidationErrors(true, true));
+            throw new \Magento\Core\Exception($this->getValidationErrors());
         }
         if (!$this->getInternalReferenceId()) {
             throw new \Magento\Core\Exception(__('An internal reference ID is required to save the payment profile.'));
         }
-    }
-
-    /**
-     * Validate before saving
-     *
-     * @return \Magento\Payment\Model\Recurring\Profile
-     */
-    protected function _beforeSave()
-    {
-        $this->_validateBeforeSave();
-        return parent::_beforeSave();
     }
 
     /**

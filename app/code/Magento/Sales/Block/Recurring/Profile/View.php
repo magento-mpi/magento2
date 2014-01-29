@@ -118,9 +118,7 @@ class View extends \Magento\View\Element\Template
     protected function _prepareLayout()
     {
         $this->_profile = $this->_registry->registry('current_recurring_profile')
-            ->setStore($this->_storeManager->getStore())
-            ->setLocale($this->_locale)
-        ;
+            ->setStore($this->_storeManager->getStore());
         return parent::_prepareLayout();
     }
 
