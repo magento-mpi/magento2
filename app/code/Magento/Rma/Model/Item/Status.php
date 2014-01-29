@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Rma\Model\Item;
+
 /**
  * RMA Item Status Manager
  */
-namespace Magento\Rma\Model\Item;
-
 class Status extends \Magento\Object
 {
     /**
@@ -94,7 +94,7 @@ class Status extends \Magento\Object
     /**
      * Get item status sequence - linear order on item statuses set
      *
-     * @return array
+     * @return string[]
      */
     protected function _getStatusSequence()
     {
@@ -116,7 +116,7 @@ class Status extends \Magento\Object
      * For statuses, "less" than border status, attribute becomes uneditable
      * For statuses, "equal or greater" than border status, attribute becomes editable
      *
-     * @param  $attribute
+     * @param string  $attribute
      * @return string
      */
     public function getBorderStatus($attribute)
@@ -240,7 +240,7 @@ class Status extends \Magento\Object
     /**
      * Sets status to object but not for self::STATUS_ORDER_IS_CLOSED status
      *
-     * @param  $status
+     * @param string $status
      * @return \Magento\Rma\Model\Item\Status
      */
     public function setStatus($status)

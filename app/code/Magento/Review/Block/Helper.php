@@ -8,6 +8,10 @@
  * @license     {license_link}
  */
 
+namespace Magento\Review\Block;
+
+use Magento\Catalog\Model\Product;
+
 /**
  * Review helper
  *
@@ -15,10 +19,11 @@
  * @package    Magento_Review
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Review\Block;
-
 class Helper extends \Magento\View\Element\Template
 {
+    /**
+     * @var array
+     */
     protected $_availableTemplates = array(
         'default' => 'helper/summary.phtml',
         'short'   => 'helper/summary_short.phtml'
@@ -43,6 +48,12 @@ class Helper extends \Magento\View\Element\Template
         parent::__construct($context, $data);
     }
 
+    /**
+     * @param Product $product
+     * @param string $templateType
+     * @param bool $displayIfNoReviews
+     * @return string
+     */
     public function getSummaryHtml($product, $templateType, $displayIfNoReviews)
     {
         // pick template among available
@@ -61,16 +72,25 @@ class Helper extends \Magento\View\Element\Template
         return $this->toHtml();
     }
 
+    /**
+     * @return string
+     */
     public function getRatingSummary()
     {
         return $this->getProduct()->getRatingSummary()->getRatingSummary();
     }
 
+    /**
+     * @return int
+     */
     public function getReviewsCount()
     {
         return $this->getProduct()->getRatingSummary()->getReviewsCount();
     }
 
+    /**
+     * @return string
+     */
     public function getReviewsUrl()
     {
         return $this->getUrl('review/product/list', array(
@@ -86,6 +106,7 @@ class Helper extends \Magento\View\Element\Template
      *
      * @param string $type
      * @param string $template
+     * @return void
      */
     public function addTemplate($type, $template)
     {

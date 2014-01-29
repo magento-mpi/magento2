@@ -17,7 +17,7 @@ class Factory
     protected $_objectManager;
 
     /**
-     * @var \Magento\Webapi\Controller\Soap\Handler
+     * @var \Magento\Webapi\Controller\Soap\Request\Handler
      */
     protected $_soapHandler;
 
@@ -25,11 +25,11 @@ class Factory
      * Initialize the class
      *
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\Webapi\Controller\Soap\Handler $soapHandler
+     * @param \Magento\Webapi\Controller\Soap\Request\Handler $soapHandler
      */
     public function __construct(
         \Magento\ObjectManager $objectManager,
-        \Magento\Webapi\Controller\Soap\Handler $soapHandler
+        \Magento\Webapi\Controller\Soap\Request\Handler $soapHandler
     ) {
         $this->_objectManager = $objectManager;
         $this->_soapHandler = $soapHandler;

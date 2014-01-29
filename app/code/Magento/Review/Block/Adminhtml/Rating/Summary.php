@@ -8,13 +8,18 @@
  * @license     {license_link}
  */
 
+namespace Magento\Review\Block\Adminhtml\Rating;
+
+use Magento\Rating\Model\Resource\Rating\Collection as RatingCollection;
+
 /**
  * Adminhtml summary rating stars
  */
-namespace Magento\Review\Block\Adminhtml\Rating;
-
 class Summary extends \Magento\Backend\Block\Template
 {
+    /**
+     * @var string
+     */
     protected $_template = 'Magento_Rating::rating/stars/summary.phtml';
 
     /**
@@ -61,6 +66,9 @@ class Summary extends \Magento\Backend\Block\Template
         }
     }
 
+    /**
+     * @return RatingCollection
+     */
     public function getRating()
     {
         if (!$this->getRatingCollection()) {
@@ -73,6 +81,9 @@ class Summary extends \Magento\Backend\Block\Template
         return $this->getRatingCollection();
     }
 
+    /**
+     * @return string
+     */
     public function getRatingSummary()
     {
         if (!$this->getRatingSummaryCache()) {

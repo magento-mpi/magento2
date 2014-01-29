@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Rma\Model\Resource;
+
 /**
  * Rma resource setup model
  */
-namespace Magento\Rma\Model\Resource;
-
 class Setup extends \Magento\Sales\Model\Resource\Setup
 {
     /**

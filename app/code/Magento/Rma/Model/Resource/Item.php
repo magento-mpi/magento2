@@ -8,6 +8,15 @@
  * @license     {license_link}
  */
 
+namespace Magento\Rma\Model\Resource;
+
+use Magento\Catalog\Model\Resource\AbstractResource;
+use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
+use Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend;
+use Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFrontend;
+use Magento\Eav\Model\Entity\Attribute\Source\AbstractSource;
+use Magento\Sales\Model\Order\Item as OrderItem;
+
 /**
  * RMA entity resource model
  *
@@ -15,9 +24,6 @@
  * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Rma\Model\Resource;
-
 class Item extends \Magento\Eav\Model\Entity\AbstractEntity
 {
     /**
@@ -126,14 +132,14 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
     /**
      * Check whether attribute instance (attribute, backend, frontend or source) has method and applicable
      *
-     * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute|\Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend|\Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFrontend|\Magento\Eav\Model\Entity\Attribute\Source\AbstractSource $instance
+     * @param AbstractAttribute|AbstractBackend|AbstractFrontend|AbstractSource $instance
      * @param string $method
      * @param array $args array of arguments
-     * @return boolean
+     * @return bool
      */
     protected function _isCallableAttributeInstance($instance, $method, $args)
     {
-        if ($instance instanceof \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
+        if ($instance instanceof AbstractBackend
             && ($method == 'beforeSave' || $method = 'afterSave')
         ) {
             $attributeCode = $instance->getAttribute()->getAttributeCode();
@@ -151,7 +157,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
      * @param \Magento\Object $object
      * @param integer $entityId
      * @param array|null $attributes
-     * @return \Magento\Catalog\Model\Resource\AbstractResource
+     * @return AbstractResource
      */
     public function load($object, $entityId, $attributes = array())
     {
@@ -363,7 +369,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
     /**
      * Gets Product Name
      *
-     * @param $item \Magento\Sales\Model\Order\Item
+     * @param OrderItem $item
      * @return string
      */
     public function getProductName($item)
