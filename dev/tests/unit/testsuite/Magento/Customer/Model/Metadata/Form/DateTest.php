@@ -10,28 +10,14 @@
 
 namespace Magento\Customer\Model\Metadata\Form;
 
-class DateTest extends \PHPUnit_Framework_TestCase
+class DateTest extends AbstractFormTestCase
 {
-
-    /** @var \Magento\Core\Model\LocaleInterface | \PHPUnit_Framework_MockObject_MockObject */
-    protected $localeMock;
-
-    /** @var \Magento\Logger | \PHPUnit_Framework_MockObject_MockObject */
-    protected $loggerMock;
-
-    /** @var \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata | \PHPUnit_Framework_MockObject_MockObject */
-    protected $attributeMetadataMock;
-
     /** @var \Magento\Customer\Model\Metadata\Form\Date */
     protected $date;
 
     protected function setUp()
     {
-        $this->localeMock = $this->getMockBuilder('Magento\Core\Model\LocaleInterface')->getMock();
-        $this->loggerMock = $this->getMockBuilder('Magento\Logger')->disableOriginalConstructor()->getMock();
-        $this->attributeMetadataMock = $this->getMockBuilder('Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata')
-            ->disableOriginalConstructor()
-            ->getMock();
+        parent::setUp();
         $this->attributeMetadataMock->expects($this->any())
             ->method('getAttributeCode')
             ->will($this->returnValue('date'));
