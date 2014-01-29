@@ -22,7 +22,7 @@ namespace Magento\PageCache\Helper;
 class DataTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Config|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\App\ConfigInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $configMock;
 
@@ -40,7 +40,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->configMock = $this->getMockBuilder('\Magento\Core\Model\Config')
+        $this->configMock = $this->getMockBuilder('\Magento\App\Config')
             ->disableOriginalConstructor()
             ->getMock();
 

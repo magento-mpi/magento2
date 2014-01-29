@@ -32,8 +32,8 @@ class Observer
             if ($block instanceof \Magento\View\Element\AbstractBlock && $block->isScopePrivate()) {
                 $transport = $observer->getEvent()->getTransport();
                 $output = $transport->getData('output');
-                $output = sprintf('<!-- BLOCK %1$s -->%2$s<!-- /BLOCK %1$s -->', $block->getNameInLayout(), $output);
-                $transport->setData('output', $output);
+                $html = sprintf('<!-- BLOCK %1$s -->%2$s<!-- /BLOCK %1$s -->', $block->getNameInLayout(), $output);
+                $transport->setData('output', $html);
             }
         }
     }
