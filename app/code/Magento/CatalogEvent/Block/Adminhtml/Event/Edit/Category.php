@@ -21,7 +21,6 @@ use Magento\Core\Model\Registry;
 use Magento\Data\Tree\Node;
 use Magento\Json\EncoderInterface;
 
-
 class Category extends AbstractCategory
 {
     /**

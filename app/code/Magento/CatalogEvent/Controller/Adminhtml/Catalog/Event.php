@@ -14,13 +14,13 @@ namespace Magento\CatalogEvent\Controller\Adminhtml\Catalog;
 use Magento\App\RequestInterface;
 use Magento\App\ResponseInterface;
 use Magento\Backend\App\Action;
+use Magento\Backend\App\Action\Context;
 use Magento\CatalogEvent\Model\Event as ModelEvent;
 use Magento\CatalogEvent\Model\EventFactory;
+use Magento\Core\Exception;
 use Magento\Core\Filter\DateTime;
 use Magento\Core\Model\StoreManagerInterface;
-use Magento\Backend\App\Action\Context;
 use Magento\Core\Model\Registry;
-use Magento\Core\Exception;
 
 class Event extends Action
 {
@@ -172,7 +172,7 @@ class Event extends Action
      */
     public function saveAction()
     {
-        /* @var \Magento\CatalogEvent\Model\Event $event*/
+        /* @var ModelEvent $event*/
         $event = $this->_eventFactory->create()->setStoreId($this->getRequest()->getParam('store', 0));
         $eventId = $this->getRequest()->getParam('id', false);
         if ($eventId) {

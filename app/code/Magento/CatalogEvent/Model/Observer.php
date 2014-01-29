@@ -285,7 +285,7 @@ class Observer
      * Get event for product
      *
      * @param Product $product
-     * @return Event|false
+     * @return Event|false|null
      */
     protected function _getProductEvent($product)
     {

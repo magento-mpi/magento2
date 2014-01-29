@@ -14,12 +14,12 @@ namespace Magento\CatalogEvent\Block\Adminhtml\Event\Edit;
 use Magento\Backend\Block\Template\Context;
 use Magento\Backend\Block\Widget\Form\Generic;
 use Magento\Backend\Helper\Data;
-use Magento\Core\Model\Registry;
-use Magento\Data\FormFactory;
 use Magento\Catalog\Model\Category as ModelCategory;
 use Magento\Catalog\Model\CategoryFactory;
 use Magento\CatalogEvent\Model\Event;
 use Magento\Core\Model\LocaleInterface;
+use Magento\Core\Model\Registry;
+use Magento\Data\FormFactory;
 
 class Form extends Generic
 {

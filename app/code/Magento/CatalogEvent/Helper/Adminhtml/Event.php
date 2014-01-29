@@ -13,14 +13,13 @@ namespace Magento\CatalogEvent\Helper\Adminhtml;
 
 use Magento\App\Helper\AbstractHelper;
 use Magento\App\Helper\Context;
-use Magento\Data\Tree\Node;
-use Magento\Data\Tree\Node\Collection as NodeCollection;
 use Magento\Catalog\Model\Category;
 use Magento\Catalog\Model\CategoryFactory;
 use Magento\Catalog\Model\Resource\Category\Tree;
 use Magento\CatalogEvent\Model\Resource\Event\Collection;
 use Magento\CatalogEvent\Model\Resource\Event\CollectionFactory;
-
+use Magento\Data\Tree\Node;
+use Magento\Data\Tree\Node\Collection as NodeCollection;
 
 class Event extends AbstractHelper
 {

@@ -17,8 +17,8 @@ use Magento\Core\Model\LocaleInterface;
 use Magento\Core\Model\Registry;
 use Magento\Core\Model\Store;
 use Magento\Core\Model\StoreManagerInterface;
-use Magento\Data\Collection\Db;
 use Magento\Core\Model\File\Uploader;
+use Magento\Data\Collection\Db;
 use Magento\Stdlib\DateTime;
 use Magento\UrlInterface;
 
@@ -450,7 +450,7 @@ class Event extends AbstractModel
     }
 
     /**
-     * Converts passed start time value in sotre's
+     * Converts passed start time value in store's
      * time zone to UTC time zone and sets it to object.
      *
      * @param string $value date time in store's time zone
