@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\RecurringProfile\Model;
+
 /**
  * Recurring profile observer
  */
-namespace Magento\RecurringProfile\Model;
-
 class Observer
 {
     /**
@@ -115,7 +115,7 @@ class Observer
      *
      * @param \Magento\Event\Observer $observer
      */
-    public function renderForm($observer)
+    public function renderRecurringProfileForm($observer)
     {
         // replace the element of recurring payment profile field with a form
         $profileElement = $observer->getEvent()->getProductElement();
