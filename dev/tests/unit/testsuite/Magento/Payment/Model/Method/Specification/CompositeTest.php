@@ -14,7 +14,7 @@ namespace Magento\Payment\Model\Method\Specification;
 class CompositeTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Phrase\Renderer\Factory|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Payment\Model\Method\Specification\Factory|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $factoryMock;
 
