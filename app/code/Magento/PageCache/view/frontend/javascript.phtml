@@ -6,18 +6,12 @@
  * @license     {license_link}
  */
 ?>
-<?php
-    $params = array(
-        'url' => $this->getUrl('page_cache/block/render/'),
-        'handles' => $this->getLayout()->getUpdate()->getHandles(),
-        'versionCookieName' => \Magento\PageCache\Model\Version::COOKIE_NAME
-    );
-?>
+<?php /** @var \Magento\PageCache\Block\Javascript $this */ ?>
 <script type="text/javascript">
     //<![CDATA[
     (function ($) {
         head.js("<?php echo $this->getViewFileUrl('Magento_PageCache::js/page-cache.js')?>", function () {
-            $('body').pageCache(<?php echo json_encode($params); ?>);
+            $('body').pageCache(<?php echo $this->getScriptOptions(); ?>);
         });
     })(jQuery);
     //]]>
