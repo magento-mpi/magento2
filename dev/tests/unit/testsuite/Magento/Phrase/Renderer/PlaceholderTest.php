@@ -42,29 +42,39 @@ class PlaceholderTest extends \PHPUnit_Framework_TestCase
                 'text one two'
             ],
             [
-                'text $one $two',
+                'text %one %two',
                 ['one' => 'one', 'two' => 'two'],
                 'text one two'
             ],
             [
-                '$one text $two %1',
+                '%one text %two %1',
                 ['one' => 'one', 'two' => 'two', 'three'],
                 'one text two three'
             ],
             [
-                'text %1 $two %2 %3 $five %4 %5',
+                'text %1 %two %2 %3 %five %4 %5',
                 ['one', 'two' => 'two', 'three', 'four', 'five' => 'five', 'six', 'seven'],
                 'text one two three four five six seven'
             ],
             [
-                '$one text $two text $three %1 %2',
+                '%one text %two text %three %1 %2',
                 ['two' => 'two', 'one' => 'one', 'three' => 'three', 'four', 'five'],
                 'one text two text three four five'
             ],
             [
-                '$three text $two text %1',
+                '%three text %two text %1',
                 ['two' => 'two', 'three' => 'three', 'one'],
                 'three text two text one'
+            ],
+            [
+                'text %1 text %2 text',
+                [],
+                'text %1 text %2 text'
+            ],
+            [
+                '%1 text %2',
+                ['one'],
+                'one text %2'
             ]
         ];
     }
