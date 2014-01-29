@@ -9,7 +9,7 @@
  */
 namespace Magento\GoogleOptimizer\Model\Observer\Block\Category;
 
-use Magento\Event\Observer;
+use Magento\Event\Observer as EventObserver;
 
 class Tab
 {
