@@ -281,20 +281,26 @@ class Store extends \Magento\Core\Model\AbstractModel implements \Magento\Url\Sc
     protected $_cookie;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @var \Magento\App\ResponseInterface
+     */
+    protected $response;
+
+    /**
+     * @param Context $context
+     * @param Registry $registry
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
      * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\UrlInterface $url
      * @param \Magento\App\RequestInterface $request
-     * @param \Magento\Core\Model\Resource\Config\Data $configDataResource
+     * @param Resource\Config\Data $configDataResource
      * @param \Magento\App\Filesystem $filesystem
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param Store\Config $coreStoreConfig
      * @param \Magento\App\ReinitableConfigInterface $coreConfig
-     * @param \Magento\Core\Model\Resource\Store $resource
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param Resource\Store $resource
+     * @param StoreManagerInterface $storeManager
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Stdlib\Cookie $cookie
+     * @param \Magento\App\ResponseInterface $response
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param bool $isCustomEntryPoint
      * @param array $data
@@ -314,6 +320,7 @@ class Store extends \Magento\Core\Model\AbstractModel implements \Magento\Url\Sc
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Stdlib\Cookie $cookie,
+        \Magento\App\ResponseInterface $response,
         \Magento\Data\Collection\Db $resourceCollection = null,
         $isCustomEntryPoint = false,
         array $data = array()
@@ -330,6 +337,7 @@ class Store extends \Magento\Core\Model\AbstractModel implements \Magento\Url\Sc
         $this->_storeManager = $storeManager;
         $this->_sidResolver = $sidResolver;
         $this->_cookie = $cookie;
+        $this->response = $response;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -816,8 +824,10 @@ class Store extends \Magento\Core\Model\AbstractModel implements \Magento\Url\Sc
             $path = $this->_getSession()->getCookiePath();
             if ($code == $this->getDefaultCurrency()->getCurrencyCode()) {
                 $this->_cookie->set(self::COOKIE_CURRENCY, null, null, $path);
+                $this->response->setVary(self::COOKIE_CURRENCY, null);
             } else {
                 $this->_cookie->set(self::COOKIE_CURRENCY, $code, null, $path);
+                $this->response->setVary(self::COOKIE_CURRENCY, $code);
             }
         }
         return $this;

@@ -79,6 +79,10 @@ class Session extends \Magento\Session\SessionManager
     protected $_storeManager;
 
     /**
+     * @var \Magento\App\ResponseInterface
+     */
+    protected $response;
+    /**
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Session\Config\ConfigInterface $sessionConfig
@@ -113,6 +117,7 @@ class Session extends \Magento\Session\SessionManager
         \Magento\Core\Model\Session $session,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\App\ResponseInterface $response,
         $sessionName = null,
         array $data = array()
     ) {
@@ -125,6 +130,7 @@ class Session extends \Magento\Session\SessionManager
         $this->_session = $session;
         $this->_eventManager = $eventManager;
         $this->_storeManager = $storeManager;
+        $this->response = $response;
         parent::__construct($request, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage);
         $this->start($sessionName);
         $this->_eventManager->dispatch('customer_session_init', array('customer_session' => $this));
@@ -230,11 +236,17 @@ class Session extends \Magento\Session\SessionManager
     public function getCustomerGroupId()
     {
         if ($this->storage->getData('customer_group_id')) {
+            $this->response->setVary(\Magento\Customer\Model\Customer::ENTITY,
+                $this->storage->getData('customer_group_id'));
             return $this->storage->getData('customer_group_id');
+
         }
         if ($this->isLoggedIn() && $this->getCustomer()) {
             return $this->getCustomer()->getGroupId();
+            $this->response->setVary(\Magento\Customer\Model\Customer::ENTITY,
+                $this->getCustomer()->getGroupId());
         }
+
         return \Magento\Customer\Model\Group::NOT_LOGGED_IN_ID;
     }
 

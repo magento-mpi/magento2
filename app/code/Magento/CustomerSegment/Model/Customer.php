@@ -30,6 +30,11 @@ namespace Magento\CustomerSegment\Model;
 class Customer extends \Magento\Core\Model\AbstractModel
 {
     /**
+     *  CustomerSegment vary identifier
+     */
+    const ENTITY = 'customer_segment';
+
+    /**
      * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
@@ -76,14 +81,20 @@ class Customer extends \Magento\Core\Model\AbstractModel
     protected $_storeManager;
 
     /**
+     * @var \Magento\App\ResponseInterface
+     */
+    protected $response;
+
+    /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\CustomerSegment\Model\Resource\Segment\CollectionFactory $collectionFactory
+     * @param Resource\Segment\CollectionFactory $collectionFactory
      * @param \Magento\Customer\Model\Resource\Customer $resourceCustomer
      * @param \Magento\Customer\Model\Config\Share $configShare
      * @param \Magento\Log\Model\Visitor $visitor
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\App\ResponseInterface $response
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -97,6 +108,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
         \Magento\Log\Model\Visitor $visitor,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Session $customerSession,
+        \Magento\App\ResponseInterface $response,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -107,6 +119,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
         $this->_configShare = $configShare;
         $this->_visitor = $visitor;
         $this->_customerSession = $customerSession;
+        $this->response = $response;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -286,6 +299,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
             $visitorSegmentIds[$websiteId] = $segmentIds;
         }
         $visitorSession->setCustomerSegmentIds($visitorSegmentIds);
+        $this->response->setVary(self::ENTITY, $visitorSegmentIds);
         return $this;
     }
 
@@ -311,6 +325,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
             $visitorCustomerSegmentIds[$websiteId] = $segmentsIdsForWebsite;
         }
         $visitorSession->setCustomerSegmentIds($visitorCustomerSegmentIds);
+        $this->response->setVary(self::ENTITY, $visitorCustomerSegmentIds);
         return $this;
     }
 
