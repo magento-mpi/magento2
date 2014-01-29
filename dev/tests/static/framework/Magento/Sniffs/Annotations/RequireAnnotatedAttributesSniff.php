@@ -57,7 +57,8 @@ class RequireAnnotatedAttributesSniff extends PHP_CodeSniffer_Standards_Abstract
      * @param int $stackPtr  The position of the current token in the stack passed in $tokens.
      * @return int|false
      */
-    protected function extractVarDocBlock($tokens, $commentToken, $stackPtr) {
+    protected function extractVarDocBlock($tokens, $commentToken, $stackPtr)
+    {
         $commentEnd = $this->helper->getCurrentFile()->findPrevious($commentToken, $stackPtr - 3);
         $break = false;
         if ($commentEnd !== false && $tokens[$commentEnd]['code'] === T_COMMENT) {
