@@ -260,21 +260,11 @@ class FileTest extends AbstractFormTestCase
     public function outputValueDataProvider()
     {
         return [
-            ElementFactory::OUTPUT_FORMAT_TEXT => [
-                ElementFactory::OUTPUT_FORMAT_TEXT,
-            ],
-            ElementFactory::OUTPUT_FORMAT_ARRAY => [
-                ElementFactory::OUTPUT_FORMAT_ARRAY,
-            ],
-            ElementFactory::OUTPUT_FORMAT_HTML => [
-                ElementFactory::OUTPUT_FORMAT_HTML,
-            ],
-            ElementFactory::OUTPUT_FORMAT_ONELINE => [
-                ElementFactory::OUTPUT_FORMAT_ONELINE,
-            ],
-            ElementFactory::OUTPUT_FORMAT_PDF => [
-                ElementFactory::OUTPUT_FORMAT_PDF,
-            ],
+            ElementFactory::OUTPUT_FORMAT_TEXT      => [ElementFactory::OUTPUT_FORMAT_TEXT],
+            ElementFactory::OUTPUT_FORMAT_ARRAY     => [ElementFactory::OUTPUT_FORMAT_ARRAY],
+            ElementFactory::OUTPUT_FORMAT_HTML      => [ElementFactory::OUTPUT_FORMAT_HTML],
+            ElementFactory::OUTPUT_FORMAT_ONELINE   => [ElementFactory::OUTPUT_FORMAT_ONELINE],
+            ElementFactory::OUTPUT_FORMAT_PDF       => [ElementFactory::OUTPUT_FORMAT_PDF],
         ];
     }
 
@@ -300,8 +290,8 @@ class FileTest extends AbstractFormTestCase
     /**
      * Helper for creating the unit under test.
      *
-     * @param $isAjax
-     * @param $value
+     * @param string|int|bool|null $value The value undergoing testing by a given test
+     * @param bool $isAjax
      * @return File
      */
     protected function getClass($value, $isAjax)

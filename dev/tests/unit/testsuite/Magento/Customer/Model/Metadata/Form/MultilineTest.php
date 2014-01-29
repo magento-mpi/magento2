@@ -14,7 +14,7 @@ class MultilineTest extends TextTest
      * Create an instance of the class that is being tested
      *
      * @param string|int|bool|null $value The value undergoing testing by a given test
-     * @return Textarea
+     * @return Multiline
      */
     protected function getClass($value)
     {
@@ -78,7 +78,7 @@ class MultilineTest extends TextTest
             [
                 'long lines' => [['0123456789', '0123456789'], '"" length must be equal or less than 8 characters.'],
                 'long and short' => [['0123456789', '01'], '"" length must be equal or less than 8 characters.'],
-                'short and long' => [['01', '0123456789'],'"" length must be equal or greater than 4 characters.'],
+                'short and long' => [['01', '0123456789'], '"" length must be equal or greater than 4 characters.'],
             ]
         );
     }
