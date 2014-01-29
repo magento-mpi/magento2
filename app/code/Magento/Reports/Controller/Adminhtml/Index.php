@@ -17,7 +17,7 @@
  */
 namespace Magento\Reports\Controller\Adminhtml;
 
-use \Magento\App\ResponseInterface;
+use Magento\App\ResponseInterface;
 
 class Index extends \Magento\Backend\App\Action
 {

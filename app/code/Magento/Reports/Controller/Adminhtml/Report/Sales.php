@@ -17,8 +17,8 @@
  */
 namespace Magento\Reports\Controller\Adminhtml\Report;
 
-use \Magento\App\ResponseInterface;
-use \Magento\Reports\Model\Flag;
+use Magento\App\ResponseInterface;
+use Magento\Reports\Model\Flag;
 
 class Sales extends AbstractReport
 {

@@ -17,7 +17,7 @@
  */
 namespace Magento\Reports\Controller\Adminhtml\Report;
 
-use \Magento\App\ResponseInterface;
+use Magento\App\ResponseInterface;
 
 class Review extends \Magento\Backend\App\Action
 {

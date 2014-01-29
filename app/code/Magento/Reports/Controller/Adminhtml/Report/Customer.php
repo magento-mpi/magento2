@@ -18,8 +18,8 @@
  */
 namespace Magento\Reports\Controller\Adminhtml\Report;
 
-use \Magento\App\ResponseInterface;
-use \Magento\Backend\Block\Widget\Grid\ExportInterface;
+use Magento\App\ResponseInterface;
+use Magento\Backend\Block\Widget\Grid\ExportInterface;
 
 class Customer extends \Magento\Backend\App\Action
 {

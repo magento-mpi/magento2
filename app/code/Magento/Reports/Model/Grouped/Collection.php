@@ -9,7 +9,7 @@
  */
 namespace Magento\Reports\Model\Grouped;
 
-use \Magento\Data\Collection\Db;
+use Magento\Data\Collection\Db;
 
 class Collection
     extends \Magento\Data\Collection //\Magento\Core\Model\Resource\Db\Collection\AbstractCollection
