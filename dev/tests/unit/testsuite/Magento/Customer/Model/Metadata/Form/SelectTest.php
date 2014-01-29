@@ -1,6 +1,6 @@
 <?php
 /**
- * test Magento\Customer\Model\Model\Metadata\Form\Text
+ * test Magento\Customer\Model\Model\Metadata\Form\Select
  *
  * {license_notice}
  *
@@ -18,7 +18,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Logger */
     protected $loggerMock;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Stdlib\String */
+    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata */
     protected $attributeMetadataMock;
 
     protected function setUp()
@@ -31,8 +31,8 @@ class SelectTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param mixed $value to assign to boolean
-     * @param mixed $expected text output
+     * @param string|int|bool|null $value to assign to boolean
+     * @param bool $expected text output
      * @dataProvider validateValueDataProvider
      */
     public function testValidateValue($value, $expected)
@@ -56,8 +56,8 @@ class SelectTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param mixed $value to assign to boolean
-     * @param mixed $expected text output
+     * @param string|int|bool|null $value to assign to boolean
+     * @param string|bool $expected text output
      * @dataProvider validateValueRequiredDataProvider
      */
     public function testValidateValueRequired($value, $expected)
@@ -72,8 +72,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
 
         if (is_bool($actual)) {
             $this->assertEquals($expected, $actual);
-        }
-        else {
+        } else {
             $this->assertContains($expected, $actual);
         }
     }
@@ -92,7 +91,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param mixed $value 
+     * @param string|int|bool|null $value
      * @dataProvider outputValueJsonDataProvider
      */
     public function testOutputValueJson($value)
@@ -101,7 +100,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $actual = $select->outputValue(\Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_JSON);
         $this->assertEquals($value, $actual);
     }
-    
+
     public function outputValueJsonDataProvider()
     {
         return [
@@ -109,13 +108,13 @@ class SelectTest extends \PHPUnit_Framework_TestCase
             'null' => [null],
             'number' => [15],
             'string' => ['some string'],
-            'boolean' => [true],            
+            'boolean' => [true],
         ];
     }
-    
+
     /**
-     * @param mixed $value
-     * @param mixed $expected
+     * @param string|int|bool|null $value
+     * @param string|int $expected
      * @dataProvider outputValueTextDataProvider
      */
     public function testOutputValueText($value, $expected)
@@ -128,10 +127,10 @@ class SelectTest extends \PHPUnit_Framework_TestCase
                 new \Magento\Customer\Service\V1\Dto\Eav\Option(['value' => 'some key', 'label' => 'some string']),
             ]));
         $select = new Select($this->localeMock, $this->loggerMock, $this->attributeMetadataMock, $value, 0);
-        $actual = $select->outputValue(\Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_TEXT);
+        $actual = $select->outputValue();
         $this->assertEquals($expected, $actual);
     }
-    
+
     public function outputValueTextDataProvider()
     {
         return [
@@ -139,7 +138,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
             'null' => [null, ''],
             'number' => ['fourteen', 14],
             'string' => ['some string', 'some key'],
-            'boolean' => [true, '14'],            
+            'boolean' => [true, '14'],
         ];
-    }    
+    }
 }
