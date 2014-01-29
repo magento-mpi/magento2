@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Model\Product\Attribute\Backend;
 
 /**
  * Product url key attribute backend
@@ -15,9 +16,6 @@
  * @package    Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Catalog\Model\Product\Attribute\Backend;
-
 class Urlkey extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     /**

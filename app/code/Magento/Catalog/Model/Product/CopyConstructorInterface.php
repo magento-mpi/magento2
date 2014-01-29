@@ -18,4 +18,4 @@ interface CopyConstructorInterface
      * @return void
      */
     public function build(\Magento\Catalog\Model\Product $product, \Magento\Catalog\Model\Product $duplicate);
-} 
+}

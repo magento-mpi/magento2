@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Catalog\Model\Product\Flat;
 
 /**
  * Calatog Product Flat Flag Model
@@ -16,8 +16,6 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Product\Flat;
-
 class Flag extends \Magento\Core\Model\Flag
 {
     /**

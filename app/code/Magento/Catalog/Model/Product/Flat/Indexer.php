@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Catalog\Model\Product\Flat;
 
 /**
  * Catalog Product Flat Indexer Model
@@ -35,8 +35,6 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Product\Flat;
-
 class Indexer extends \Magento\Core\Model\AbstractModel
 {
     /**

@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Product\CopyConstructor;
 
 class Related implements \Magento\Catalog\Model\Product\CopyConstructorInterface
@@ -35,4 +34,4 @@ class Related implements \Magento\Catalog\Model\Product\CopyConstructorInterface
         }
         $duplicate->setRelatedLinkData($data);
     }
-} 
+}

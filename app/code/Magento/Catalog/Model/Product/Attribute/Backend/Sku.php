@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Catalog product SKU backend attribute model
  *
@@ -37,6 +36,8 @@ class Sku extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     protected $string;
 
     /**
+     * Constructor
+     *
      * @param \Magento\Logger $logger
      * @param \Magento\Stdlib\String $string
      */

@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Catalog Compare Item Model
  *
@@ -185,8 +184,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     {
         if ($product instanceof Product) {
             $this->setProductId($product->getId());
-        }
-        else if(intval($product)) {
+        } elseif (intval($product)) {
             $this->setProductId(intval($product));
         }
 

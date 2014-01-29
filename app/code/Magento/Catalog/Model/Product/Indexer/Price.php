@@ -7,6 +7,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Model\Product\Indexer;
+
 /**
  * @method \Magento\Catalog\Model\Resource\Product\Indexer\Price _getResource()
  * @method \Magento\Catalog\Model\Resource\Product\Indexer\Price getResource()
@@ -32,8 +34,6 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Product\Indexer;
-
 class Price extends \Magento\Index\Model\Indexer\AbstractIndexer
 {
     /**

@@ -1,25 +1,42 @@
 <?php
-
-namespace Magento\Catalog\Model;
-
 /**
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
- *
+ */
+namespace Magento\Catalog\Model;
+
+/**
  * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Config extends \Magento\Eav\Model\Config
 {
     const XML_PATH_LIST_DEFAULT_SORT_BY     = 'catalog/frontend/default_sort_by';
 
+    /**
+     * @var mixed
+     */
     protected $_attributeSetsById;
+
+    /**
+     * @var mixed
+     */
     protected $_attributeSetsByName;
 
+    /**
+     * @var mixed
+     */
     protected $_attributeGroupsById;
+
+    /**
+     * @var mixed
+     */
     protected $_attributeGroupsByName;
 
+    /**
+     * @var mixed
+     */
     protected $_productTypesById;
 
     /**
@@ -43,6 +60,9 @@ class Config extends \Magento\Eav\Model\Config
      */
     protected $_usedForSortBy;
 
+    /**
+     * @var int|float|string|null
+     */
     protected $_storeId = null;
 
     /**
@@ -53,10 +73,6 @@ class Config extends \Magento\Eav\Model\Config
     protected $_coreStoreConfig;
 
     /**
-     * @param \Magento\Core\Model\App $app
-     * @param \Magento\Eav\Model\Entity\TypeFactory $entityTypeFactory
-     * @param \Magento\App\Cache\StateInterface $cacheState
-     * @param \Magento\Validator\UniversalFactory $universalFactory
      * Eav config
      *
      * @var \Magento\Eav\Model\Config
@@ -142,6 +158,7 @@ class Config extends \Magento\Eav\Model\Config
     /**
      * Initialize resource model
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -173,6 +190,9 @@ class Config extends \Magento\Eav\Model\Config
         return $this->_storeId;
     }
 
+    /**
+     * @return $this
+     */
     public function loadAttributeSets()
     {
         if ($this->_attributeSetsById) {
@@ -193,6 +213,11 @@ class Config extends \Magento\Eav\Model\Config
         return $this;
     }
 
+    /**
+     * @param string|int|float $entityTypeId
+     * @param float|int $id
+     * @return false|string
+     */
     public function getAttributeSetName($entityTypeId, $id)
     {
         if (!is_numeric($id)) {
@@ -206,6 +231,11 @@ class Config extends \Magento\Eav\Model\Config
         return isset($this->_attributeSetsById[$entityTypeId][$id]) ? $this->_attributeSetsById[$entityTypeId][$id] : false;
     }
 
+    /**
+     * @param string|int|float $entityTypeId
+     * @param string|null $name
+     * @return false|string|int
+     */
     public function getAttributeSetId($entityTypeId, $name = null)
     {
         if (is_numeric($name)) {
@@ -220,6 +250,9 @@ class Config extends \Magento\Eav\Model\Config
         return isset($this->_attributeSetsByName[$entityTypeId][$name]) ? $this->_attributeSetsByName[$entityTypeId][$name] : false;
     }
 
+    /**
+     * @return $this
+     */
     public function loadAttributeGroups()
     {
         if ($this->_attributeGroupsById) {
@@ -240,6 +273,11 @@ class Config extends \Magento\Eav\Model\Config
         return $this;
     }
 
+    /**
+     * @param float|int|string $attributeSetId
+     * @param float|int|string $id
+     * @return bool|string
+     */
     public function getAttributeGroupName($attributeSetId, $id)
     {
         if (!is_numeric($id)) {
@@ -254,6 +292,11 @@ class Config extends \Magento\Eav\Model\Config
         return isset($this->_attributeGroupsById[$attributeSetId][$id]) ? $this->_attributeGroupsById[$attributeSetId][$id] : false;
     }
 
+    /**
+     * @param float|int|string $attributeSetId
+     * @param string $name
+     * @return bool|string|int|float
+     */
     public function getAttributeGroupId($attributeSetId, $name)
     {
         if (is_numeric($name)) {
@@ -269,6 +312,9 @@ class Config extends \Magento\Eav\Model\Config
         return isset($this->_attributeGroupsByName[$attributeSetId][$name]) ? $this->_attributeGroupsByName[$attributeSetId][$name] : false;
     }
 
+    /**
+     * @return $this
+     */
     public function loadProductTypes()
     {
         if ($this->_productTypesById) {
@@ -288,6 +334,10 @@ class Config extends \Magento\Eav\Model\Config
         return $this;
     }
 
+    /**
+     * @param string $name
+     * @return false|string
+     */
     public function getProductTypeId($name)
     {
         if (is_numeric($name)) {
@@ -300,6 +350,10 @@ class Config extends \Magento\Eav\Model\Config
         return isset($this->_productTypesByName[$name]) ? $this->_productTypesByName[$name] : false;
     }
 
+    /**
+     * @param float|int|string $id
+     * @return false|string
+     */
     public function getProductTypeName($id)
     {
         if (!is_numeric($id)) {
@@ -311,6 +365,11 @@ class Config extends \Magento\Eav\Model\Config
         return isset($this->_productTypesById[$id]) ? $this->_productTypesById[$id] : false;
     }
 
+    /**
+     * @param /Magento/Object $source
+     * @param string $value
+     * @return null|mixed
+     */
     public function getSourceOptionId($source, $value)
     {
         foreach ($source->getAllOptions() as $option) {
@@ -349,7 +408,8 @@ class Config extends \Magento\Eav\Model\Config
      *
      * @return array
      */
-    public function getAttributesUsedInProductListing() {
+    public function getAttributesUsedInProductListing()
+    {
         if (is_null($this->_usedInProductListing)) {
             $this->_usedInProductListing = array();
             $entityType = \Magento\Catalog\Model\Product::ENTITY;
@@ -371,7 +431,8 @@ class Config extends \Magento\Eav\Model\Config
      *
      * @return array
      */
-    public function getAttributesUsedForSortBy() {
+    public function getAttributesUsedForSortBy()
+    {
         if (is_null($this->_usedForSortBy)) {
             $this->_usedForSortBy = array();
             $entityType     = \Magento\Catalog\Model\Product::ENTITY;
@@ -412,7 +473,8 @@ class Config extends \Magento\Eav\Model\Config
      * @param mixed $store
      * @return string
      */
-    public function getProductListDefaultSortBy($store = null) {
+    public function getProductListDefaultSortBy($store = null)
+    {
         return $this->_coreStoreConfig->getConfig(self::XML_PATH_LIST_DEFAULT_SORT_BY, $store);
     }
 }

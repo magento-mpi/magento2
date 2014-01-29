@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Product\Option\Type;
 
 /**
@@ -67,14 +66,14 @@ class Select extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
 
         if (empty($value) && $option->getIsRequire() && !$this->getSkipCheckRequiredOption()) {
             $this->setIsValid(false);
-            throw new \Magento\Core\Exception(__('Please specify the product\'s required option(s).'));
+            throw new Exception(__('Please specify the product\'s required option(s).'));
         }
         if (!$this->_isSingleSelection()) {
             $valuesCollection = $option->getOptionValuesByOptionId($value, $this->getProduct()->getStoreId())
                 ->load();
             if ($valuesCollection->count() != count($value)) {
                 $this->setIsValid(false);
-                throw new \Magento\Core\Exception(__('Please specify the product\'s required option(s).'));
+                throw new Exception(__('Please specify the product\'s required option(s).'));
             }
         }
         return $this;

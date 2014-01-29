@@ -136,7 +136,7 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 
     /**
      * @param string $key
-     * @param string &$image
+     * @param string[] &$image
      * @return string
      */
     protected function _getDefaultValue($key, &$image)
@@ -729,9 +729,9 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     /**
      * Get filename which is not duplicated with other files in media temporary and media directories
      *
-     * @param String $fileName
-     * @param String $dispretionPath
-     * @return String
+     * @param string $fileName
+     * @param string $dispretionPath
+     * @return string
      */
     protected function _getNotDuplicatedFilename($fileName, $dispretionPath)
     {

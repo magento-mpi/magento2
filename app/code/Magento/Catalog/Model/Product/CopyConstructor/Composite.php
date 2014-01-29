@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Product\CopyConstructor;
 
 use Magento\Catalog\Model\Product\CopyConstructorInterface;
@@ -42,4 +41,4 @@ class Composite implements CopyConstructorInterface
             $constructor->build($product, $duplicate);
         }
     }
-} 
+}

@@ -71,14 +71,14 @@ class Option extends AbstractModel
     protected $_options = array();
 
     /**
-     * @var array
+     * @var Option\Value[]
      */
     protected $_values = array();
 
     /**
      * Catalog product option value
      *
-     * @var \Magento\Catalog\Model\Product\Option\Value
+     * @var Option\Value
      */
     protected $_productOptionValue;
 
@@ -97,7 +97,7 @@ class Option extends AbstractModel
     /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Catalog\Model\Product\Option\Value $productOptionValue
+     * @param Option\Value $productOptionValue
      * @param \Magento\Catalog\Model\Product\Option\Type\Factory $optionFactory
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -107,7 +107,7 @@ class Option extends AbstractModel
     public function __construct(
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Catalog\Model\Product\Option\Value $productOptionValue,
+        Option\Value $productOptionValue,
         \Magento\Catalog\Model\Product\Option\Type\Factory $optionFactory,
         \Magento\Stdlib\String $string,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
@@ -142,10 +142,10 @@ class Option extends AbstractModel
     /**
      * Add value of option to values array
      *
-     * @param \Magento\Catalog\Model\Product\Option\Value $value
+     * @param Option\Value $value
      * @return $this
      */
-    public function addValue(\Magento\Catalog\Model\Product\Option\Value $value)
+    public function addValue(Option\Value $value)
     {
         $this->_values[$value->getId()] = $value;
         return $this;
@@ -155,7 +155,7 @@ class Option extends AbstractModel
      * Get value by given id
      *
      * @param int $valueId
-     * @return \Magento\Catalog\Model\Product\Option\Value
+     * @return Option\Value|null
      */
     public function getValueById($valueId)
     {
@@ -167,7 +167,7 @@ class Option extends AbstractModel
     }
 
     /**
-     * @return array
+     * @return Option\Value[]
      */
     public function getValues()
     {
@@ -177,7 +177,7 @@ class Option extends AbstractModel
     /**
      * Retrieve value instance
      *
-     * @return \Magento\Catalog\Model\Product\Option\Value
+     * @return Option\Value
      */
     public function getValueInstance()
     {
@@ -360,7 +360,8 @@ class Option extends AbstractModel
                         }
                     }
                 }
-                $this->save();            }
+                $this->save();
+            }
         }//eof foreach()
         return $this;
     }
@@ -407,7 +408,7 @@ class Option extends AbstractModel
      * Delete prices of option
      *
      * @param int $option_id
-     * @return \Magento\Catalog\Model\Product\Option
+     * @return $this
      */
     public function deletePrices($option_id)
     {
@@ -428,7 +429,7 @@ class Option extends AbstractModel
     }
 
     /**
-     * get Product Option Collection
+     * Get Product Option Collection
      *
      * @param Product $product
      * @return \Magento\Catalog\Model\Resource\Product\Option\Collection

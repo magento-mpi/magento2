@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Model\Product\Attribute\Backend;
 
 /**
  * Product attribute for enable/disable option
@@ -15,8 +16,6 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Product\Attribute\Backend;
-
 class Boolean extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     /**

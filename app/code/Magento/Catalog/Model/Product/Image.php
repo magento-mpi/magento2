@@ -852,14 +852,14 @@ class Image extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Set watermark heigth
+     * Set watermark height
      *
-     * @param int $heigth
+     * @param int $height
      * @return $this
      */
-    public function setWatermarkHeight($heigth)
+    public function setWatermarkHeight($height)
     {
-        $this->_watermarkHeigth = $heigth;
+        $this->_watermarkHeigth = $height;
         return $this;
     }
 

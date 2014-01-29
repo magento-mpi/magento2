@@ -1,9 +1,4 @@
 <?php
-
-namespace Magento\Catalog\Model\Product\Indexer;
-
-use Magento\Catalog\Helper\Product\Flat as ProductFlat;
-
 /**
  * {license_notice}
  *
@@ -11,7 +6,11 @@ use Magento\Catalog\Helper\Product\Flat as ProductFlat;
  * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
- *
+ */
+namespace Magento\Catalog\Model\Product\Indexer;
+use Magento\Catalog\Helper\Product\Flat as ProductFlat;
+
+/**
  * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Flat extends \Magento\Index\Model\Indexer\AbstractIndexer
@@ -255,8 +254,8 @@ class Flat extends \Magento\Index\Model\Indexer\AbstractIndexer
      * @param bool $before
      * @return bool
      */
-    protected function _isAttributeEnabled($attribute, $productFlatHelper, $before = true) {
-
+    protected function _isAttributeEnabled($attribute, $productFlatHelper, $before = true)
+    {
         $method = $before ? 'getOrigData': 'getData';
 
         return $attribute && (($attribute->$method('backend_type') == 'static')

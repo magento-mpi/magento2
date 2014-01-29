@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Model\Product\Option\Type;
 
 /**
  * Catalog product option date type
@@ -15,8 +16,6 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Product\Option\Type;
-
 class Date extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
 {
     /**

@@ -18,6 +18,7 @@ extends \Magento\Eav\Model\Entity\Attribute\Backend\Serialized
 {
     /**
      * Serialize or remove before saving
+     *
      * @param \Magento\Catalog\Model\Product $product
      * @return void
      */

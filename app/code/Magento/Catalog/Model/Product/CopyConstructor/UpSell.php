@@ -34,4 +34,4 @@ class UpSell implements \Magento\Catalog\Model\Product\CopyConstructorInterface
         }
         $duplicate->setUpSellLinkData($data);
     }
-} 
+}

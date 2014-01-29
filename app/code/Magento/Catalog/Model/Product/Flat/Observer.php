@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Product\Flat;
 use Magento\Event\Observer as EventObserver;
 
@@ -71,7 +70,8 @@ class Observer
      *
      * @return \Magento\Catalog\Model\Product\Flat\Indexer
      */
-    protected function _getIndexer() {
+    protected function _getIndexer()
+    {
         return $this->_catalogProductFlatIndexer;
     }
 
@@ -106,8 +106,7 @@ class Observer
         if ($enableBefore && !$enableAfter) {
             // delete attribute data from flat
             $this->_getIndexer()->prepareDataStorage();
-        }
-        else {
+        } else {
             $this->_getIndexer()->updateAttribute($attribute->getAttributeCode());
         }
 
@@ -118,6 +117,7 @@ class Observer
      * Catalog Product Status Update
      *
      * @param EventObserver $observer
+     * @param \Magento\Event\Observer $observer
      * @return $this
      */
     public function catalogProductStatusUpdate(EventObserver $observer)
@@ -156,8 +156,7 @@ class Observer
             foreach ($website->getStores() as $store) {
                 if ($observer->getEvent()->getAction() == 'remove') {
                     $this->_getIndexer()->removeProduct($productIds, $store->getId());
-                }
-                else {
+                } else {
                     $this->_getIndexer()->updateProduct($productIds, $store->getId());
                 }
             }

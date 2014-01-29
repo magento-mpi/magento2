@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Catalog\Model\Product\Media;
 
 /**
  * Catalog product media config
@@ -16,8 +16,6 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Product\Media;
-
 class Config implements ConfigInterface
 {
     /**
@@ -30,7 +28,8 @@ class Config implements ConfigInterface
     /**
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
-    public function __construct(\Magento\Core\Model\StoreManagerInterface $storeManager) {
+    public function __construct(\Magento\Core\Model\StoreManagerInterface $storeManager)
+    {
         $this->storeManager = $storeManager;
     }
 

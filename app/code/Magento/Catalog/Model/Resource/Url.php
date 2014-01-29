@@ -89,6 +89,7 @@ class Url extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Load core Url rewrite model
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -1046,7 +1047,7 @@ class Url extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param int $productId
      * @param int $storeId
-     * @return \Magento\Object
+     * @return \Magento\Object|false
      */
     public function getProduct($productId, $storeId)
     {
@@ -1074,7 +1075,7 @@ class Url extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Retrieve Product data objects in category
      *
      * @param \Magento\Object $category
-     * @param int $lastEntityId
+     * @param int &$lastEntityId
      * @return array
      */
     public function getProductsByCategory(\Magento\Object $category, &$lastEntityId)
@@ -1348,7 +1349,7 @@ class Url extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param string $requestPath
      * @param int $storeId
      * @param array &$_checkedPaths internal variable to prevent infinite loops.
-     * @return string | bool
+     * @return string|bool
      */
     public function findFinalTargetPath($requestPath, $storeId, &$_checkedPaths = array())
     {

@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Model\Product\Option\Type;
+
+use Magento\Core\Exception;
 
 /**
  * Catalog product option file type
@@ -15,10 +18,6 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Product\Option\Type;
-
-use Magento\Core\Exception;
-
 class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
 {
     /**
@@ -795,8 +794,8 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
     /**
      * Return URL for option file download
      *
-     * @param string $route
-     * @param string $params
+     * @param string|null $route
+     * @param array|null $params
      * @return string
      */
     protected function _getOptionDownloadUrl($route, $params)

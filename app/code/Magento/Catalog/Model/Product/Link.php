@@ -7,7 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Model\Product;
 
+use Magento\Catalog\Model\Resource\Product\Link\Collection;
+use Magento\Catalog\Model\Resource\Product\Link\Product\Collection as ProductCollection;
 
 /**
  * Catalog product link model
@@ -25,11 +28,6 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Product;
-
-use Magento\Catalog\Model\Resource\Product\Link\Collection;
-use Magento\Catalog\Model\Resource\Product\Link\Product\Collection as ProductCollection;
-
 class Link extends \Magento\Core\Model\AbstractModel
 {
     const LINK_TYPE_RELATED     = 1;
@@ -37,7 +35,7 @@ class Link extends \Magento\Core\Model\AbstractModel
     const LINK_TYPE_CROSSSELL   = 5;
 
     /**
-     * @var null
+     * @var mixed
      */
     protected $_attributeCollection = null;
 
@@ -166,7 +164,7 @@ class Link extends \Magento\Core\Model\AbstractModel
      * Save data for product relations
      *
      * @param   \Magento\Catalog\Model\Product $product
-     * @return  \Magento\Catalog\Model\Product\Link
+     * @return  $this
      */
     public function saveProductRelations($product)
     {

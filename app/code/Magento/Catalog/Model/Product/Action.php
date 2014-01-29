@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Catalog\Model\Product;
 
 /**
  * Catalog Product Mass Action processing model
@@ -16,8 +16,6 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Product;
-
 class Action extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -110,7 +108,7 @@ class Action extends \Magento\Core\Model\AbstractModel
     /**
      * Update websites for product action
      *
-     * allowed types:
+     * Allowed types:
      * - add
      * - remove
      *

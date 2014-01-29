@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Model\Product\Option\Type;
 
 /**
  * Catalog product option default type
@@ -15,7 +16,6 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Product\Option\Type;
 
 class DefaultType extends \Magento\Object
 {
@@ -36,7 +36,7 @@ class DefaultType extends \Magento\Object
 
 
     /**
-     * description
+     * TODO: Fill in description
      *
      * @var array
      */
@@ -88,7 +88,7 @@ class DefaultType extends \Magento\Object
     /**
      * Option Instance getter
      *
-     * @throws \Magento\Core\Exception
+     * @throws Exception
      * @return \Magento\Catalog\Model\Product\Option
      */
     public function getOption()
@@ -96,7 +96,7 @@ class DefaultType extends \Magento\Object
         if ($this->_option instanceof \Magento\Catalog\Model\Product\Option) {
             return $this->_option;
         }
-        throw new \Magento\Core\Exception(__('The option instance type in options group is incorrect.'));
+        throw new Exception(__('The option instance type in options group is incorrect.'));
     }
 
     /**
@@ -114,7 +114,7 @@ class DefaultType extends \Magento\Object
     /**
      * Product Instance getter
      *
-     * @throws \Magento\Core\Exception
+     * @throws Exception
      * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
@@ -122,14 +122,14 @@ class DefaultType extends \Magento\Object
         if ($this->_product instanceof \Magento\Catalog\Model\Product) {
             return $this->_product;
         }
-        throw new \Magento\Core\Exception(__('The product instance type in options group is incorrect.'));
+        throw new Exception(__('The product instance type in options group is incorrect.'));
     }
 
     /**
      * Getter for Configuration Item Option
      *
      * @return \Magento\Catalog\Model\Product\Configuration\Item\Option\OptionInterface
-     * @throws \Magento\Core\Exception
+     * @throws Exception
      */
     public function getConfigurationItemOption()
     {
@@ -142,14 +142,14 @@ class DefaultType extends \Magento\Object
             return $this->_getData('quote_item_option');
         }
 
-        throw new \Magento\Core\Exception(__('The configuration item option instance in options group is incorrect.'));
+        throw new Exception(__('The configuration item option instance in options group is incorrect.'));
     }
 
     /**
      * Getter for Configuration Item
      *
      * @return \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface
-     * @throws \Magento\Core\Exception
+     * @throws Exception
      */
     public function getConfigurationItem()
     {
@@ -162,21 +162,21 @@ class DefaultType extends \Magento\Object
             return $this->_getData('quote_item');
         }
 
-        throw new \Magento\Core\Exception(__('The configuration item instance in options group is incorrect.'));
+        throw new Exception(__('The configuration item instance in options group is incorrect.'));
     }
 
     /**
      * Getter for Buy Request
      *
      * @return \Magento\Object
-     * @throws \Magento\Core\Exception
+     * @throws Exception
      */
     public function getRequest()
     {
         if ($this->_getData('request') instanceof \Magento\Object) {
             return $this->_getData('request');
         }
-        throw new \Magento\Core\Exception(__('The BuyRequest instance in options group is incorrect.'));
+        throw new Exception(__('The BuyRequest instance in options group is incorrect.'));
     }
 
     /**
@@ -205,7 +205,7 @@ class DefaultType extends \Magento\Object
 
         $option = $this->getOption();
         if (!isset($values[$option->getId()]) && $option->getIsRequire() && !$this->getSkipCheckRequiredOption()) {
-            throw new \Magento\Core\Exception(__('Please specify the product\'s required option(s).'));
+            throw new Exception(__('Please specify the product\'s required option(s).'));
         } elseif (isset($values[$option->getId()])) {
             $this->setUserValue($values[$option->getId()]);
             $this->setIsValid(true);
@@ -227,15 +227,15 @@ class DefaultType extends \Magento\Object
     /**
      * Prepare option value for cart
      *
-     * @throws \Magento\Core\Exception
      * @return string|null Prepared option value
+     * @throws \Magento\Core\Exception
      */
     public function prepareForCart()
     {
         if ($this->getIsValid()) {
             return $this->getUserValue();
         }
-        throw new \Magento\Core\Exception(__('We couldn\'t add the product to the cart because of an option validation issue.'));
+        throw new Exception(__('We couldn\'t add the product to the cart because of an option validation issue.'));
     }
 
     /**

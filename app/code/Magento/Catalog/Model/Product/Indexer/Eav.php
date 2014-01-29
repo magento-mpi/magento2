@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Catalog\Model\Product\Indexer;
 
 /**
  * Catalog Product Eav Indexer Model
@@ -26,8 +26,6 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Product\Indexer;
-
 class Eav extends \Magento\Index\Model\Indexer\AbstractIndexer
 {
     /**
