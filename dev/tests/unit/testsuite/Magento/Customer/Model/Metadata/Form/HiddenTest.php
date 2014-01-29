@@ -15,16 +15,16 @@ class HiddenTest extends TextTest
      * @param string|int|bool|null $value The value undergoing testing by a given test
      * @return Hidden
      */
-    protected function _getClass($value)
+    protected function getClass($value)
     {
         return new Hidden(
-            $this->_localeMock,
-            $this->_loggerMock,
-            $this->_attributeMetadataMock,
+            $this->localeMock,
+            $this->loggerMock,
+            $this->attributeMetadataMock,
             $value,
             0,
             false,
-            $this->_stringHelper
+            $this->stringHelper
         );
     }
 }
