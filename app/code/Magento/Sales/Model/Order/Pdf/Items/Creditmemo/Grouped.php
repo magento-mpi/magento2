@@ -8,15 +8,11 @@
  * @license     {license_link}
  */
 
-/**
- * Sales Order Creditmemo Pdf grouped items renderer
- *
- * @category   Magento
- * @package    Magento_Sales
- * @author     Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Sales\Model\Order\Pdf\Items\Creditmemo;
 
+/**
+ * Sales Order Creditmemo Pdf grouped items renderer
+ */
 class Grouped extends \Magento\Sales\Model\Order\Pdf\Items\Creditmemo\DefaultCreditmemo
 {
     /**
