@@ -1196,7 +1196,7 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
         if (!$this->_cart) {
             return;
         }
-        $this->_cart->setTransferDiscountAsItem(true);
+        $this->_cart->setTransferDiscountAsItem();
         return parent::_exportLineItems($request, $i);
     }
 

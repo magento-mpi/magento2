@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Payment
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,22 +14,22 @@ namespace Magento\Payment\Model\Cart\SalesModel;
 class Factory
 {
     /**
-     * @var \Magento\Payment\Model\Cart\SalesModel\Adapter\OrderFactory
+     * @var \Magento\Payment\Model\Cart\SalesModel\OrderFactory
      */
     protected $_salesModelOrderFactory;
 
     /**
-     * @var \Magento\Payment\Model\Cart\SalesModel\Adapter\QuoteFactory
+     * @var \Magento\Payment\Model\Cart\SalesModel\QuoteFactory
      */
     protected $_salesModelQuoteFactory;
 
     /**
-     * @param \Magento\Payment\Model\Cart\SalesModel\Adapter\OrderFactory $salesModelOrderFactory
-     * @param \Magento\Payment\Model\Cart\SalesModel\Adapter\QuoteFactory $salesModelQuoteFactory
+     * @param \Magento\Payment\Model\Cart\SalesModel\OrderFactory $salesModelOrderFactory
+     * @param \Magento\Payment\Model\Cart\SalesModel\QuoteFactory $salesModelQuoteFactory
      */
     public function __construct(
-        \Magento\Payment\Model\Cart\SalesModel\Adapter\OrderFactory $salesModelOrderFactory,
-        \Magento\Payment\Model\Cart\SalesModel\Adapter\QuoteFactory $salesModelQuoteFactory
+        \Magento\Payment\Model\Cart\SalesModel\OrderFactory $salesModelOrderFactory,
+        \Magento\Payment\Model\Cart\SalesModel\QuoteFactory $salesModelQuoteFactory
     ) {
         $this->_salesModelOrderFactory = $salesModelOrderFactory;
         $this->_salesModelQuoteFactory = $salesModelQuoteFactory;
@@ -41,7 +39,7 @@ class Factory
      * Wrap sales model with Magento\Payment\Model\Cart\SalesModel\Adapter\AdapterInterface
      *
      * @param \Magento\Sales\Model\Order|\Magento\Sales\Model\Quote $salesModel
-     * @return \Magento\Payment\Model\Cart\SalesModel\Adapter\AdapterInterface
+     * @return \Magento\Payment\Model\Cart\SalesModel\SalesModelInterface
      * @throws \InvalidArgumentException
      */
     public function get($salesModel)

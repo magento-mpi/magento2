@@ -218,10 +218,8 @@ class Standard extends \Magento\Payment\Model\Method\AbstractMethod
         }
 
         // add cart totals and line items
-        /** @var $paypalCart \Magento\Payment\Model\Cart */
-        $paypalCart = $this->_cartFactory->create(array('salesModel' => $order));
-
-        $api->setPaypalCart($paypalCart)
+        $cart = $this->_cartFactory->create(array('salesModel' => $order));
+        $api->setPaypalCart($cart)
             ->setIsLineItemsEnabled($this->_config->lineItemsEnabled);
         $api->setCartSummary($this->_getAggregatedCartSummary());
         $api->setLocale($api->getLocaleCode());

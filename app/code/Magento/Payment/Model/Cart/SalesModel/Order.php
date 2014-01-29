@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Payment
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,9 +9,9 @@
 /**
  * Adapter for \Magento\Sales\Model\Order sales model
  */
-namespace Magento\Payment\Model\Cart\SalesModel\Adapter;
+namespace Magento\Payment\Model\Cart\SalesModel;
 
-class Order implements \Magento\Payment\Model\Cart\SalesModel\Adapter\AdapterInterface
+class Order implements \Magento\Payment\Model\Cart\SalesModel\SalesModelInterface
 {
     /**
      * Sales order model instance
@@ -92,13 +90,5 @@ class Order implements \Magento\Payment\Model\Cart\SalesModel\Adapter\AdapterInt
     public function getBaseDiscountAmount()
     {
         return $this->_salesModel->getBaseDiscountAmount();
-    }
-
-    /**
-     * @return float|null
-     */
-    public function getBaseCustomerBalanceAmount()
-    {
-        return $this->_salesModel->getDataUsingMethod('base_customer_balance_amount');
     }
 }

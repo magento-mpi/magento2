@@ -177,7 +177,7 @@ class Observer
     public function addPaymentGiftWrappingItem(\Magento\Event\Observer $observer)
     {
         /** @var \Magento\Payment\Model\Cart $cart */
-        $cart = $observer->getEvent()->getPaypalCart();
+        $cart = $observer->getEvent()->getCart();
         if (!$cart) {
             return;
         }

@@ -599,10 +599,8 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
         // prepare api call
         $token = $payment->getAdditionalInformation(\Magento\Paypal\Model\Express\Checkout::PAYMENT_INFO_TRANSPORT_TOKEN);
 
-        /** @var $paypalCart \Magento\Payment\Model\Cart */
-        $paypalCart = $this->_cartFactory->create(array('salesModel' => $order));
+        $cart = $this->_cartFactory->create(array('salesModel' => $order));
 
-        $parameters = array('params' => array($order));
         $api = $this->_pro->getApi()
             ->setToken($token)
             ->setPayerId($payment->
@@ -612,7 +610,7 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
             ->setNotifyUrl($this->_urlBuilder->getUrl('paypal/ipn/'))
             ->setInvNum($order->getIncrementId())
             ->setCurrencyCode($order->getBaseCurrencyCode())
-            ->setPaypalCart($paypalCart)
+            ->setPaypalCart($cart)
             ->setIsLineItemsEnabled($this->_pro->getConfig()->lineItemsEnabled);
         if ($order->getIsVirtual()) {
             $api->setAddress($order->getBillingAddress())->setSuppressShipping(true);

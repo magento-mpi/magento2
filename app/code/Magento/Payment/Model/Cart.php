@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Payment
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -27,7 +25,7 @@ class Cart
     /**
      * Sales model
      *
-     * @var \Magento\Payment\Model\Cart\SalesModel\Adapter\AdapterInterface
+     * @var \Magento\Payment\Model\Cart\SalesModel\SalesModelInterface
      */
     protected $_salesModelAdapter;
 
@@ -83,19 +81,8 @@ class Cart
         \Magento\Event\ManagerInterface $eventManager,
         $salesModel
     ) {
-        $this->_salesModelFactory = $salesModelFactory;
         $this->_eventManager = $eventManager;
         $this->_salesModelAdapter = $salesModelFactory->get($salesModel);
-    }
-
-    /**
-     * Get sales model adapter
-     *
-     * @return \Magento\Payment\Model\Cart\SalesModel\Adapter\AdapterInterface
-     */
-    public function getSalesModelAdapter()
-    {
-        return $this->_salesModelAdapter;
     }
 
     /**

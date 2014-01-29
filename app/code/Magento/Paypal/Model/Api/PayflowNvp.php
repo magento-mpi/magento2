@@ -11,6 +11,8 @@
  */
 namespace Magento\Paypal\Model\Api;
 
+use Magento\Payment\Model\Cart;
+
 class PayflowNvp extends \Magento\Paypal\Model\Api\Nvp
 {
     /**#@+
@@ -279,14 +281,14 @@ class PayflowNvp extends \Magento\Paypal\Model\Api\Nvp
      * @var array
      */
     protected $_lineItemTotalExportMap = array(
-        \Magento\Payment\Model\Cart::AMOUNT_TAX         => 'TAXAMT',
-        \Magento\Payment\Model\Cart::AMOUNT_SHIPPING    => 'FREIGHTAMT',
+        Cart::AMOUNT_TAX         => 'TAXAMT',
+        Cart::AMOUNT_SHIPPING    => 'FREIGHTAMT',
     );
 
     protected $_lineItemsExportRequestTotalsFormat = array(
-        'amount'                                            => 'PAYMENTREQUEST_%d_ITEMAMT',
-        \Magento\Payment\Model\Cart::AMOUNT_TAX         => 'TAXAMT',
-        \Magento\Payment\Model\Cart::AMOUNT_SHIPPING    => 'FREIGHTAMT',
+        'amount'                 => 'PAYMENTREQUEST_%d_ITEMAMT',
+        Cart::AMOUNT_TAX         => 'TAXAMT',
+        Cart::AMOUNT_SHIPPING    => 'FREIGHTAMT',
     );
 
     protected $_lineItemExportItemsFormat = array(

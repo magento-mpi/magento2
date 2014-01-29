@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Payment
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,9 +9,9 @@
 /**
  * Adapter for \Magento\Sales\Model\Quote sales model
  */
-namespace Magento\Payment\Model\Cart\SalesModel\Adapter;
+namespace Magento\Payment\Model\Cart\SalesModel;
 
-class Quote implements \Magento\Payment\Model\Cart\SalesModel\Adapter\AdapterInterface
+class Quote implements \Magento\Payment\Model\Cart\SalesModel\SalesModelInterface
 {
     /**
      * Sales quote model instance
@@ -99,13 +97,5 @@ class Quote implements \Magento\Payment\Model\Cart\SalesModel\Adapter\AdapterInt
     public function getBaseDiscountAmount()
     {
         return $this->_address->getBaseDiscountAmount();
-    }
-
-    /**
-     * @return float|null
-     */
-    public function getBaseCustomerBalanceAmount()
-    {
-        return $this->_salesModel->getDataUsingMethod('base_customer_bal_amount_used');
     }
 }

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Payment
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,9 +9,9 @@
 /**
  * Adapter interface for accessing sales model data
  */
-namespace Magento\Payment\Model\Cart\SalesModel\Adapter;
+namespace Magento\Payment\Model\Cart\SalesModel;
 
-interface AdapterInterface
+interface SalesModelInterface
 {
     /**
      * Return sales model entity instance
@@ -48,9 +46,4 @@ interface AdapterInterface
      * @return float|null
      */
     public function getBaseDiscountAmount();
-
-    /**
-     * @return float|null
-     */
-    public function getBaseCustomerBalanceAmount();
 }

@@ -435,13 +435,13 @@ class Checkout
         }
 
         // add line items
-        /** @var $paypalCart \Magento\Payment\Model\Cart */
-        $paypalCart = $this->_paypalCartFactory->create(array('salesModel' => $this->_quote));
-        $this->_api->setPaypalCart($paypalCart)
+        /** @var $cart \Magento\Payment\Model\Cart */
+        $cart = $this->_cartFactory->create(array('salesModel' => $this->_quote));
+        $this->_api->setPaypalCart($cart)
             ->setIsLineItemsEnabled($this->_config->lineItemsEnabled);
 
         // add shipping options if needed and line items are available
-        $cartItems = $paypalCart->getAllItems();
+        $cartItems = $cart->getAllItems();
         if ($this->_config->lineItemsEnabled && $this->_config->transferShippingOptions && !empty($cartItems)) {
             if (!$this->_quote->getIsVirtual() && !$this->_quote->hasNominalItems()) {
                 $options = $this->_prepareShippingOptions($address, true);
