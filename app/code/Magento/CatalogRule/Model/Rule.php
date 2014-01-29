@@ -210,6 +210,8 @@ class Rule extends \Magento\Rule\Model\AbstractModel
 
     /**
      * Init resource model and id field
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -221,7 +223,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Getter for rule conditions collection
      *
-     * @return \Magento\CatalogRule\Model\Rule\Condition\Combine
+     * @return \Magento\CatalogRulMagento\Backend\Block\Widget\Gride\Model\Rule\Condition\Combine
      */
     public function getConditionsInstance()
     {
@@ -241,7 +243,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Get catalog rule customer group Ids
      *
-     * @return mixed
+     * @return array|null
      */
     public function getCustomerGroupIds()
     {

@@ -153,7 +153,7 @@ class Observer
      * Apply all catalog price rules for specific product
      *
      * @param EventObserver $observer
-     * @return $this
+     * @return $this|void
      */
     public function applyAllRulesOnProduct($observer)
     {

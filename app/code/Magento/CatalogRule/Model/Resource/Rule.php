@@ -127,6 +127,8 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
 
     /**
      * Initialize main table and table id field
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -675,7 +677,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      * @param int $wId
      * @param int $gId
      * @param int $pId
-     * @return float|bool
+     * @return float|false
      */
     public function getRulePrice($date, $wId, $gId, $pId)
     {

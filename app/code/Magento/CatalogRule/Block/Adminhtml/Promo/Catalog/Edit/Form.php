@@ -22,6 +22,9 @@ use Magento\Backend\Block\Widget\Form as WidgetForm;
 
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
