@@ -165,7 +165,7 @@ class Helper
         self::FAILED_PARSE => array(self::LEVEL => self::ERROR, self::MESSAGE => '%s'),
         self::AMBIGUOUS_TYPE => array(
             self::LEVEL => self::WARNING,
-            self::MESSAGE => 'Ambiguous type "%s" for @%s is NOT recommended'
+            self::MESSAGE => 'Ambiguous type "%s" for %s is NOT recommended'
         ),
         self::MISSING => array(self::LEVEL => self::WARNING, self::MESSAGE => 'Missing %s doc comment'),
         self::WRONG_STYLE => array(
