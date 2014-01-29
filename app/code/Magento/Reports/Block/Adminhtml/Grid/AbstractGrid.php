@@ -131,9 +131,9 @@ class AbstractGrid extends \Magento\Backend\Block\Widget\Grid\Extended
      * It stands for conditional visibility of the column depending on filter field values
      * Value of visibility_filter supports (filter_field_name => filter_field_value) pairs
      *
-     * @param   string $columnId
-     * @param   array $column
-     * @return  \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
+     * @param string $columnId
+     * @param array $column
+     * @return \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
      */
     public function addColumn($columnId, $column)
     {
@@ -165,7 +165,7 @@ class AbstractGrid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Get allowed store ids array intersected with selected scope in store switcher
      *
-     * @return  array
+     * @return array
      */
     protected function _getStoreIds()
     {
@@ -310,6 +310,8 @@ class AbstractGrid extends \Magento\Backend\Block\Widget\Grid\Extended
     }
 
     /**
+     * @param mixed $storeIds
+     *
      * @return $this
      */
     public function setStoreIds($storeIds)

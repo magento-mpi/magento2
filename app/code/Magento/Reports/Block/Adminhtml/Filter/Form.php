@@ -73,6 +73,8 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * @param string $fieldId Field id
      * @param mixed $option Field option name
      * @param mixed $value Field option value
+     *
+     * @return void
      */
     public function setFieldOption($fieldId, $option, $value = null)
     {
@@ -94,7 +96,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      *
      * @param string $key
      * @param string $value
-     * @return \Magento\Reports\Block\Adminhtml\Filter\Form
+     * @return $this
      */
     public function addReportTypeOption($key, $value)
     {
@@ -182,7 +184,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     }
 
     /**
-     * Initialize form fileds values
+     * Initialize form fields values
      * Method will be called after prepareForm and can be used for field values initialization
      *
      * @return \Magento\Backend\Block\Widget\Form

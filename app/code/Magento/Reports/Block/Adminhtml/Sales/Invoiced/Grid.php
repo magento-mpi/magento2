@@ -19,6 +19,9 @@ namespace Magento\Reports\Block\Adminhtml\Sales\Invoiced;
 
 class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
 {
+    /**
+     * @var string
+     */
     protected $_columnGroupBy = 'period';
 
     protected function _construct()
@@ -27,6 +30,9 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
         $this->setCountTotals(true);
     }
 
+    /**
+     * @return string
+     */
     public function getResourceCollectionName()
     {
         return ($this->getFilterData()->getData('report_type') == 'created_at_invoice')
@@ -34,6 +40,9 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
             : 'Magento\Sales\Model\Resource\Report\Invoiced\Collection\Order';
     }
 
+    /**
+     * @return \Magento\Backend\Block\Widget\Grid\Extended
+     */
     protected function _prepareColumns()
     {
         $this->addColumn('period', array(

@@ -23,7 +23,6 @@ class Viewed
 {
     /**
      * Internal constructor
-     *
      */
     protected function _construct()
     {
