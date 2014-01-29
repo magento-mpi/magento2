@@ -39,7 +39,7 @@ class DataFactory
      * Create class instance with specified parameters
      *
      * @param array $data
-     * @return \Magento\Core\Model\Config\Data
+     * @return \Magento\App\Config\DataInterface
      */
     public function create(array $data = array())
     {

@@ -17,7 +17,7 @@ class ReinitableConfig extends \Magento\Core\Model\Config implements \Magento\Ap
      */
     public function reinit()
     {
-        $this->_sectionPool->clean();
+        $this->_scopePool->clean();
         return $this;
     }
 }

@@ -73,7 +73,7 @@ class SectionPoolTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Core\Model\Config\SectionPool::getSection
+     * @covers \Magento\Core\Model\Config\SectionPool::getScope
      */
     public function testGetSectionCached()
     {
@@ -88,12 +88,12 @@ class SectionPoolTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(new \Magento\Core\Model\Config\TestConfigClass()));
 
         $this->assertInstanceOf('Magento\Core\Model\Config\TestConfigClass',
-            $this->_model->getSection($this->_scopeType, $this->_scopeCode)
+            $this->_model->getScope($this->_scopeType, $this->_scopeCode)
         );
     }
 
     /**
-     * @covers \Magento\Core\Model\Config\SectionPool::getSection
+     * @covers \Magento\Core\Model\Config\SectionPool::getScope
      */
     public function testGetSectionNotCachedCertainScope()
     {
@@ -128,12 +128,12 @@ class SectionPoolTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf(
             'Magento\Core\Model\Config\TestConfigClass',
-            $this->_model->getSection($this->_scopeType, $this->_scopeCode)
+            $this->_model->getScope($this->_scopeType, $this->_scopeCode)
         );
     }
 
     /**
-     * @covers \Magento\Core\Model\Config\SectionPool::getSection
+     * @covers \Magento\Core\Model\Config\SectionPool::getScope
      */
     public function testGetSectionNotCachedDefaultScope()
     {
@@ -168,12 +168,12 @@ class SectionPoolTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf(
             'Magento\Core\Model\Config\TestConfigClass',
-            $this->_model->getSection('default', $this->_scopeCode)
+            $this->_model->getScope('default', $this->_scopeCode)
         );
     }
 
     /**
-     * @covers \Magento\Core\Model\Config\SectionPool::getSection
+     * @covers \Magento\Core\Model\Config\SectionPool::getScope
      */
     public function testGetSectionMemoryCache()
     {
@@ -187,8 +187,8 @@ class SectionPoolTest extends \PHPUnit_Framework_TestCase
             ->with(array('data' => $this->_configData))
             ->will($this->returnValue(new \Magento\Core\Model\Config\TestConfigClass()));
 
-        $this->_model->getSection($this->_scopeType, $this->_scopeCode);
-        $this->_model->getSection($this->_scopeType, $this->_scopeCode);
+        $this->_model->getScope($this->_scopeType, $this->_scopeCode);
+        $this->_model->getScope($this->_scopeType, $this->_scopeCode);
     }
 
     /**

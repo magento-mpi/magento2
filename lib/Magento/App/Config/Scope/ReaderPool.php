@@ -5,7 +5,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Core\Model\Config\Section;
+namespace Magento\App\Config\Scope;
 
 class ReaderPool
 {
@@ -17,14 +17,14 @@ class ReaderPool
     protected $_readers = array();
 
     /**
-     * @param \Magento\Core\Model\Config\Section\Reader\DefaultReader $default
-     * @param \Magento\Core\Model\Config\Section\Reader\Website $website
-     * @param \Magento\Core\Model\Config\Section\Reader\Store $store
+     * @param ReaderInterface $default
+     * @param ReaderInterface $website
+     * @param ReaderInterface $store
      */
     public function __construct(
-        \Magento\Core\Model\Config\Section\Reader\DefaultReader $default,
-        \Magento\Core\Model\Config\Section\Reader\Website $website,
-        \Magento\Core\Model\Config\Section\Reader\Store $store
+        \Magento\App\Config\Scope\ReaderInterface $default,
+        \Magento\App\Config\Scope\ReaderInterface $website,
+        \Magento\App\Config\Scope\ReaderInterface $store
     ) {
         $this->_readers = array(
             'default' => $default,

@@ -54,6 +54,10 @@ class Initial
      *
      * @return mixed
      */
+    /**
+     * @param string $scope
+     * @return array
+     */
     public function getData($scope)
     {
         list($scopeType, $scopeCode) = array_pad(explode('|', $scope), 2, null);

@@ -9,10 +9,10 @@
  */
 namespace Magento\Core\Model\Config\Section\Reader;
 
-class DefaultReader
+class DefaultReader implements \Magento\App\Config\Scope\ReaderInterface
 {
     /**
-     * @var \Magento\Core\Model\Config\Initial
+     * @var \Magento\App\Config\Initial
      */
     protected $_initialConfig;
 
@@ -32,13 +32,13 @@ class DefaultReader
     protected $_appState;
 
     /**
-     * @param \Magento\Core\Model\Config\Initial $initialConfig
+     * @param \Magento\App\Config\Initial $initialConfig
      * @param \Magento\Core\Model\Config\Section\Converter $converter
      * @param \Magento\Core\Model\Resource\Config\Value\Collection\ScopedFactory $collectionFactory
      * @param \Magento\App\State $appState
      */
     public function __construct(
-        \Magento\Core\Model\Config\Initial $initialConfig,
+        \Magento\App\Config\Initial $initialConfig,
         \Magento\Core\Model\Config\Section\Converter $converter,
         \Magento\Core\Model\Resource\Config\Value\Collection\ScopedFactory $collectionFactory,
         \Magento\App\State $appState
@@ -56,7 +56,7 @@ class DefaultReader
      */
     public function read()
     {
-        $config = $this->_initialConfig->getDefault();
+        $config = $this->_initialConfig->getData('default');
         if ($this->_appState->isInstalled()) {
             $collection = $this->_collectionFactory->create(array('scope' => 'default'));
             $dbDefaultConfig = array();

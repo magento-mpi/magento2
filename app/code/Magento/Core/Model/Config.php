@@ -18,16 +18,16 @@ class Config implements \Magento\App\ConfigInterface
     const CACHE_TAG = 'CONFIG';
 
     /**
-     * @var \Magento\Core\Model\Config\SectionPool
+     * @var \Magento\App\Config\ScopePool
      */
-    protected $_sectionPool;
+    protected $_scopePool;
 
     /**
-     * @param Config\SectionPool $sectionPool
+     * @param \Magento\App\Config\ScopePool $scopePool
      */
-    public function __construct(\Magento\Core\Model\Config\SectionPool $sectionPool)
+    public function __construct(\Magento\App\Config\ScopePool $scopePool)
     {
-        $this->_sectionPool = $sectionPool;
+        $this->_scopePool = $scopePool;
     }
 
     /**
@@ -40,7 +40,7 @@ class Config implements \Magento\App\ConfigInterface
      */
     public function getValue($path = null, $scope = 'default', $scopeCode = null)
     {
-        return $this->_sectionPool->getSection($scope, $scopeCode)->getValue($path);
+        return $this->_scopePool->getScope($scope, $scopeCode)->getValue($path);
     }
 
     /**
@@ -53,7 +53,7 @@ class Config implements \Magento\App\ConfigInterface
      */
     public function setValue($path, $value, $scope = 'default', $scopeCode = null)
     {
-        $this->_sectionPool->getSection($scope, $scopeCode)->setValue($path, $value);
+        $this->_scopePool->getScope($scope, $scopeCode)->setValue($path, $value);
     }
 
     /**

@@ -7,17 +7,17 @@
  */
 namespace Magento\Core\Model\Config\Section\Reader;
 
-class Store
+class Store implements \Magento\App\Config\Scope\ReaderInterface
 {
     /**
-     * @var \Magento\Core\Model\Config\Initial
+     * @var \Magento\App\Config\Initial
      */
     protected $_initialConfig;
 
     /**
-     * @var \Magento\Core\Model\Config\SectionPool
+     * @var \Magento\App\Config\ScopePool
      */
-    protected $_sectionPool;
+    protected $_scopePool;
 
     /**
      * @var \Magento\Core\Model\Config\Section\Store\Converter
@@ -40,23 +40,23 @@ class Store
     protected $_appState;
 
     /**
-     * @param \Magento\Core\Model\Config\Initial $initialConfig
-     * @param \Magento\Core\Model\Config\SectionPool $sectionPool
+     * @param \Magento\App\Config\Initial $initialConfig
+     * @param \Magento\App\Config\ScopePool $scopePool
      * @param \Magento\Core\Model\Config\Section\Store\Converter $converter
      * @param \Magento\Core\Model\Resource\Config\Value\Collection\ScopedFactory $collectionFactory
      * @param \Magento\Core\Model\StoreFactory $storeFactory
      * @param \Magento\App\State $appState
      */
     public function __construct(
-        \Magento\Core\Model\Config\Initial $initialConfig,
-        \Magento\Core\Model\Config\SectionPool $sectionPool,
+        \Magento\App\Config\Initial $initialConfig,
+        \Magento\App\Config\ScopePool $scopePool,
         \Magento\Core\Model\Config\Section\Store\Converter $converter,
         \Magento\Core\Model\Resource\Config\Value\Collection\ScopedFactory $collectionFactory,
         \Magento\Core\Model\StoreFactory $storeFactory,
         \Magento\App\State $appState
     ) {
         $this->_initialConfig = $initialConfig;
-        $this->_sectionPool = $sectionPool;
+        $this->_scopePool = $scopePool;
         $this->_converter = $converter;
         $this->_collectionFactory = $collectionFactory;
         $this->_storeFactory = $storeFactory;
@@ -69,13 +69,13 @@ class Store
      * @param string $code
      * @return array
      */
-    public function read($code)
+    public function read($code = null)
     {
         if ($this->_appState->isInstalled()) {
             $store = $this->_storeFactory->create();
             $store->load($code);
-            $websiteConfig = $this->_sectionPool->getSection('website', $store->getWebsite()->getCode())->getSource();
-            $config = array_replace_recursive($websiteConfig, $this->_initialConfig->getStore($code));
+            $websiteConfig = $this->_scopePool->getScope('website', $store->getWebsite()->getCode())->getSource();
+            $config = array_replace_recursive($websiteConfig, $this->_initialConfig->getData("sotres|{$code}"));
 
             $collection = $this->_collectionFactory->create(array('scope' => 'stores', 'scopeId' => $store->getId()));
             $dbStoreConfig = array();
@@ -84,7 +84,7 @@ class Store
             }
             $config = $this->_converter->convert($dbStoreConfig, $config);
         } else {
-            $websiteConfig = $this->_sectionPool->getSection('website', 'default')->getSource();
+            $websiteConfig = $this->_scopePool->getScope('website', 'default')->getSource();
             $config = $this->_converter->convert($websiteConfig, $this->_initialConfig->getStore($code));
         }
         return $config;

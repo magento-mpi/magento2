@@ -7,7 +7,7 @@
  */
 namespace Magento\Core\Model\Config\Data;
 
-class TestBackendModel implements \Magento\Core\Model\Config\Data\BackendModelInterface
+class TestBackendModel implements \Magento\App\Config\Data\ProcessorInterface
 {
     public function processValue($value)
     {
