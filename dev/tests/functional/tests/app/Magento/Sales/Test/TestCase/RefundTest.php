@@ -18,7 +18,7 @@ use Magento\Sales\Test\Fixture\OrderCheckout;
 class RefundTest extends Functional
 {
     /**
-     * Sets up the preconditions for this test.
+     * Sets up the preconditions for the refund tests.
      *
      * @param OrderCheckout $fixture
      * @return void

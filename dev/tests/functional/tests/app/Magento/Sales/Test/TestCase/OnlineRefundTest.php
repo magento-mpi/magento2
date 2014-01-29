@@ -20,6 +20,10 @@ class OnlineRefundTest extends RefundTest
     /**
      * Tests providing refunds.
      *
+     * @param OrderCheckout $fixture
+     *
+     * @return void
+     *
      * @dataProvider dataProviderOrder
      * @ZephirId MAGETWO-12436, MAGETWO-13061, MAGETWO-13062, MAGETWO-13063, MAGETWO-13059
      */
@@ -52,23 +56,27 @@ class OnlineRefundTest extends RefundTest
         $tabsWidget = $orderPage->getFormTabsBlock();
 
         $this->assertContains('You created the credit memo.',
-            $orderPage->getMessagesBlock()->getSuccessMessages());
+            $orderPage->getMessagesBlock()->getSuccessMessages()
+        );
 
         // Step 5: Go to "Credit Memos" tab
         $tabsWidget->openTab('sales_order_view_tabs_order_creditmemos');
         $this->assertContains(
             $fixture->getGrandTotal(),
             $orderPage->getCreditMemosGrid()->getRefundAmount(),
-            'Incorrect refund amount for the order #' . $orderId);
+            'Incorrect refund amount for the order #' . $orderId
+        );
         $this->assertContains(
             $orderPage->getCreditMemosGrid()->getStatus(),
-            'Refunded');
+            'Refunded'
+        );
 
         // Step 6: Go to Transactions tab
         $tabsWidget->openTab('sales_order_view_tabs_order_transactions');
         $this->assertContains(
             $orderPage->getTransactionsGrid()->getTransactionType(),
-            'Refund');
+            'Refund'
+        );
     }
 
     /**

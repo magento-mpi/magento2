@@ -21,6 +21,10 @@ class OfflineRefundTest extends RefundTest
     /**
      * Tests providing refunds.
      *
+     * @param OrderCheckout $fixture
+     *
+     * @return void
+     *
      * @dataProvider dataProviderOrder
      * @ZephirId MAGETWO-13058, MAGETWO-19985
      */
@@ -59,17 +63,20 @@ class OfflineRefundTest extends RefundTest
         $tabsWidget = $orderPage->getFormTabsBlock();
 
         $this->assertContains('You created the credit memo.',
-            $orderPage->getMessagesBlock()->getSuccessMessages());
+            $orderPage->getMessagesBlock()->getSuccessMessages()
+        );
 
         // Step 4/5: Go to "Credit Memos" tab
         $tabsWidget->openTab('sales_order_view_tabs_order_creditmemos');
         $this->assertContains(
             $fixture->getGrandTotal(),
             $orderPage->getCreditMemosGrid()->getRefundAmount(),
-            'Incorrect refund amount for the order #' . $orderId);
+            'Incorrect refund amount for the order #' . $orderId
+        );
         $this->assertContains(
             $orderPage->getCreditMemosGrid()->getStatus(),
-            'Refunded');
+            'Refunded'
+        );
     }
 
     /**
