@@ -506,6 +506,7 @@ class Fulltext extends AbstractIndexer
      * Rebuild all index data
      *
      * @return void
+     * @throws \Exception
      */
     public function reindexAll()
     {

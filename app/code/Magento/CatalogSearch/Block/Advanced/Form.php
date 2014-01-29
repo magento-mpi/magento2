@@ -278,7 +278,7 @@ class Form extends Template
     }
 
     /**
-     * @return BlockInterface|mixed
+     * @return BlockInterface
      */
     protected function _getSelectBlock()
     {

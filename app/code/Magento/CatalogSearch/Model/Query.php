@@ -224,7 +224,7 @@ class Query extends AbstractModel
      * Set Store Id
      *
      * @param int $storeId
-     * @return $this
+     * @return void
      */
     public function setStoreId($storeId)
     {
