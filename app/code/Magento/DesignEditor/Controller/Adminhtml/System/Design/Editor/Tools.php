@@ -10,7 +10,7 @@
 
 namespace Magento\DesignEditor\Controller\Adminhtml\System\Design\Editor;
 
-use Magento\Core\Exception
+use Magento\Core\Exception as CoreException;
 
 /**
  * Backend controller for the design editor
