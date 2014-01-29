@@ -94,7 +94,7 @@ abstract class AbstractTab
     /**
      * Can show tab in tabs
      *
-     * @return boolean
+     * @return bool
      */
     public function canShowTab()
     {
@@ -104,7 +104,7 @@ abstract class AbstractTab
     /**
      * Tab is hidden
      *
-     * @return boolean
+     * @return bool
      */
     public function isHidden()
     {

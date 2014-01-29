@@ -7,6 +7,10 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
+namespace Magento\GoogleShopping\Helper;
+
+use Magento\Catalog\Model\Product as CatalogModelProduct;
+use Magento\Core\Model\Store;
 
 /**
  * Price helper
@@ -18,8 +22,6 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GoogleShopping\Helper;
-
 class Price
 {
     /**
@@ -51,21 +53,22 @@ class Price
     /**
      * Tries to return price that looks like price in catalog
      *
-     * @param \Magento\Catalog\Model\Product $product
-     * @param null|\Magento\Core\Model\Store $store Store view
+     * @param CatalogModelProduct $product
+     * @param null|Store $store Store view
+     * @param bool $inclTax
      * @return null|float Price
      */
-    public function getCatalogPrice(\Magento\Catalog\Model\Product $product, $store = null, $inclTax = null)
+    public function getCatalogPrice(CatalogModelProduct $product, $store = null, $inclTax = null)
     {
         switch ($product->getTypeId()) {
             case \Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE:
                 // Workaround to avoid loading stock status by admin's website
-                if ($store instanceof \Magento\Core\Model\Store) {
+                if ($store instanceof Store) {
                     $oldStore = $this->_storeManager->getStore();
                     $this->_storeManager->setCurrentStore($store);
                 }
                 $subProducts = $product->getTypeInstance()->getAssociatedProducts($product);
-                if ($store instanceof \Magento\Core\Model\Store) {
+                if ($store instanceof Store) {
                     $this->_storeManager->setCurrentStore($oldStore);
                 }
                 if (!count($subProducts)) {
@@ -85,7 +88,7 @@ class Price
                 return $minPrice;
 
             case \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE:
-                if ($store instanceof \Magento\Core\Model\Store) {
+                if ($store instanceof Store) {
                     $oldStore = $this->_storeManager->getStore();
                     $this->_storeManager->setCurrentStore($store);
                 }
@@ -98,7 +101,7 @@ class Price
 
                 $minPrice = $product->getPriceModel()->getTotalPrices($product, 'min', $inclTax);
 
-                if ($store instanceof \Magento\Core\Model\Store) {
+                if ($store instanceof Store) {
                     $this->_storeManager->setCurrentStore($oldStore);
                 }
                 return $minPrice;
@@ -114,10 +117,10 @@ class Price
     /**
      * Tries calculate price without discount; if can't returns nul
      *
-     * @param \Magento\Catalog\Model\Product $product
-     * @param mixed $store
+     * @param CatalogModelProduct $product
+     * @param null|Store $store
      */
-    public function getCatalogRegularPrice(\Magento\Catalog\Model\Product $product, $store = null)
+    public function getCatalogRegularPrice(CatalogModelProduct $product, $store = null)
     {
         switch ($product->getTypeId()) {
             case \Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE:

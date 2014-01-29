@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GoogleShopping\Model\Attribute;
 
 /**
  * Availability attribute model
@@ -15,10 +16,11 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GoogleShopping\Model\Attribute;
-
 class Availability extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
 {
+    /**
+     * @var array
+     */
     protected $_googleAvailabilityMap = array(
         0 => 'out of stock',
         1 => 'in stock'
