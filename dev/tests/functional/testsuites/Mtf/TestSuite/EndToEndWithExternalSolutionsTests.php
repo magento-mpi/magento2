@@ -45,7 +45,7 @@ class EndToEndWithExternalSolutionsTests
 
         // Refunds
         //$suite->addTestSuite('Magento\Sales\Test\TestCase\OnlineRefundTest');
-        //$suite->addTestSuite('Magento\Sales\Test\TestCase\OfflineRefundTest');
+        $suite->addTestSuite('Magento\Sales\Test\TestCase\OfflineRefundTest');
 
         // VAT
         $suite->addTestSuite('Magento\Tax\Test\TestCase\AutomaticTaxApplyingTest');
