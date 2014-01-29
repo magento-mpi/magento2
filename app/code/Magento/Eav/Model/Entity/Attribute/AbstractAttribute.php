@@ -413,11 +413,6 @@ abstract class AbstractAttribute
     public function getSource()
     {
         if (empty($this->_source)) {
-            if (!$this->usesSource()) {
-                throw new \Magento\Eav\Exception(
-                    __('Source model is not set for attribute "%2"',$this->getSourceModel(), $this->getAttributeCode())
-                );
-            }
             if (!$this->getSourceModel()) {
                 $this->setSourceModel($this->_getDefaultSourceModel());
             }
