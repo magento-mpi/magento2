@@ -32,7 +32,7 @@ class Shopcart extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * storeIds setter
      *
-     * @param  array $storeIds
+     * @param array $storeIds
      * @return \Magento\Reports\Block\Adminhtml\Grid\Shopcart
      */
     public function setStoreIds($storeIds)
@@ -60,7 +60,7 @@ class Shopcart extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Get currency rate (base to given currency)
      *
-     * @param string|\Magento\Directory\Model\Currency $currencyCode
+     * @param string|\Magento\Directory\Model\Currency $toCurrency
      * @return double
      */
     public function getRate($toCurrency)

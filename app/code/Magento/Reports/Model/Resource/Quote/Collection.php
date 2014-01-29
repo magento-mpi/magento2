@@ -23,6 +23,9 @@ class Collection extends \Magento\Sales\Model\Resource\Quote\Collection
 
     const SELECT_COUNT_SQL_TYPE_CART = 1;
 
+    /**
+     * @var int
+     */
     protected $_selectCountSqlType = 0;
 
     /**
@@ -68,7 +71,7 @@ class Collection extends \Magento\Sales\Model\Resource\Quote\Collection
      * Set type for COUNT SQL select
      *
      * @param int $type
-     * @return \Magento\Reports\Model\Resource\Quote\Collection
+     * @return $this
      */
     public function setSelectCountSqlType($type)
     {
@@ -81,7 +84,7 @@ class Collection extends \Magento\Sales\Model\Resource\Quote\Collection
      *
      * @param array $storeIds
      * @param string $filter
-     * @return \Magento\Reports\Model\Resource\Quote\Collection
+     * @return $this
      */
     public function prepareForAbandonedReport($storeIds, $filter = null)
     {
@@ -101,7 +104,7 @@ class Collection extends \Magento\Sales\Model\Resource\Quote\Collection
     /**
      * Prepare select query for products in carts report
      *
-     * @return \Magento\Reports\Model\Resource\Quote\Collection
+     * @return $this
      */
     public function prepareForProductsInCarts()
     {
@@ -161,7 +164,7 @@ class Collection extends \Magento\Sales\Model\Resource\Quote\Collection
      * Add store ids to filter
      *
      * @param array $storeIds
-     * @return \Magento\Reports\Model\Resource\Quote\Collection
+     * @return $this
      */
     public function addStoreFilter($storeIds)
     {
@@ -173,7 +176,7 @@ class Collection extends \Magento\Sales\Model\Resource\Quote\Collection
      * Add customer data
      *
      * @param unknown_type $filter
-     * @return \Magento\Reports\Model\Resource\Quote\Collection
+     * @return $this
      */
     public function addCustomerData($filter = null)
     {
@@ -237,8 +240,8 @@ class Collection extends \Magento\Sales\Model\Resource\Quote\Collection
      * Add subtotals
      *
      * @param array $storeIds
-     * @param array $filter
-     * @return \Magento\Reports\Model\Resource\Quote\Collection
+     * @param null|array $filter
+     * @return $this
      */
     public function addSubtotal($storeIds = '', $filter = null)
     {
@@ -274,7 +277,7 @@ class Collection extends \Magento\Sales\Model\Resource\Quote\Collection
     /**
      * Get select count sql
      *
-     * @return unknown
+     * @return string
      */
     public function getSelectCountSql()
     {

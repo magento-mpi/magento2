@@ -48,6 +48,9 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         $this->setDefaultDir('desc');
     }
 
+    /**
+     * @return $this|\Magento\Backend\Block\Widget\Grid
+     */
     protected function _prepareCollection()
     {
 
@@ -63,6 +66,9 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         return $this;
     }
 
+    /**
+     * @return \Magento\Backend\Block\Widget\Grid\Extended
+     */
     protected function _prepareColumns()
     {
         $this->addColumn('entity_id', array(

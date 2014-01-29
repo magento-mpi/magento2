@@ -20,6 +20,9 @@ namespace Magento\Reports\Block\Adminhtml\Sales;
 
 class Refunded extends \Magento\Backend\Block\Widget\Grid\Container
 {
+    /**
+     * @var string
+     */
     protected $_template = 'report/grid/container.phtml';
 
     protected function _construct()
@@ -37,6 +40,9 @@ class Refunded extends \Magento\Backend\Block\Widget\Grid\Container
         ));
     }
 
+    /**
+     * @return string
+     */
     public function getFilterUrl()
     {
         $this->getRequest()->setParam('filter', null);

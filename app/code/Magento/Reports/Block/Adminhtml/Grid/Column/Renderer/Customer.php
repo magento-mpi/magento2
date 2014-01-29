@@ -24,8 +24,8 @@ class Customer
     /**
      * Renders grid column
      *
-     * @param   \Magento\Object $row
-     * @return  string
+     * @param \Magento\Object $row
+     * @return string
      */
     public function render(\Magento\Object $row)
     {

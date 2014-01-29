@@ -17,10 +17,15 @@
  */
 namespace Magento\Reports\Block\Adminhtml\Config\Form\Field;
 
+use Magento\Data\Form\Element\AbstractElement;
+
 class MtdStart extends \Magento\Backend\Block\System\Config\Form\Field
 {
-
-    protected function _getElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
+    /**
+     * @param AbstractElement $element
+     * @return string
+     */
+    protected function _getElementHtml(AbstractElement $element)
     {
         $_days = array();
         for ($i = 1; $i <= 31; $i++) {
