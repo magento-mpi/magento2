@@ -1,7 +1,5 @@
 <?php
 /**
- * Customer Service Address Interface
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,7 +7,12 @@
  */
 namespace Magento\Customer\Service\V1\Dto;
 
-class FilterBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
+use Magento\Service\Entity\AbstractDtoBuilder;
+
+/**
+ * Builder for Filter DTO.
+ */
+class FilterBuilder extends AbstractDtoBuilder
 {
     /**
      * @param string $field

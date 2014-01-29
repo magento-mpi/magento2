@@ -1,7 +1,5 @@
 <?php
 /**
- * Customer Service Address Interface
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -12,6 +10,9 @@ namespace Magento\Customer\Service\V1\Dto;
 use Magento\Customer\Service\V1\Dto\Search\OrGroupBuilder;
 use Magento\Service\Entity\AbstractDtoBuilder;
 
+/**
+ * Builder for SearchCriteria DTO
+ */
 class SearchCriteriaBuilder extends AbstractDtoBuilder
 {
     /**

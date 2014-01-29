@@ -12,12 +12,12 @@ use Magento\Customer\Service\V1\Dto\Filter;
 use Magento\Service\Entity\AbstractDtoBuilder;
 
 /**
- * Builder for AndGroup DTO.
+ * Abstract Builder for AbstractFilterGroup DTOs.
  */
 abstract class AbstractFilterGroupBuilder extends AbstractDtoBuilder
 {
     /**
-     * @param \Magento\Customer\Service\V1\Dto\Filter $filter
+     * @param Filter $filter
      * @return $this
      */
     public function addFilter(Filter $filter)
@@ -32,7 +32,7 @@ abstract class AbstractFilterGroupBuilder extends AbstractDtoBuilder
     }
 
     /**
-     * @param \Magento\Customer\Service\V1\Dto\Filter[] $filters
+     * @param Filter[] $filters
      * @return $this
      */
     public function setFilters($filters)
@@ -41,7 +41,7 @@ abstract class AbstractFilterGroupBuilder extends AbstractDtoBuilder
     }
 
     /**
-     * @param \Magento\Customer\Service\V1\Dto\Search\FilterGroupInterface $group
+     * @param FilterGroupInterface $group
      * @return $this
      */
     public function addGroup(FilterGroupInterface $group)
@@ -56,7 +56,7 @@ abstract class AbstractFilterGroupBuilder extends AbstractDtoBuilder
     }
 
     /**
-     * @param \Magento\Customer\Service\V1\Dto\Search\FilterGroupInterface[] $groups
+     * @param FilterGroupInterface[] $groups
      * @return $this
      */
     public function setGroups($groups)

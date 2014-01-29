@@ -7,6 +7,7 @@
  */
 namespace Magento\Customer\Service\V1\Dto\Search;
 
+use Magento\Customer\Service\V1\Dto\Filter;
 
 /**
  * Groups two or more filters together using a logical group type
@@ -16,14 +17,14 @@ interface FilterGroupInterface
     /**
      * Returns a list of filters in this group
      *
-     * @return \Magento\Customer\Service\V1\Dto\Filter[]
+     * @return Filter[]
      */
     public function getFilters();
 
     /**
      * Returns a list of filter groups in this group
      *
-     * @return \Magento\Customer\Service\V1\Dto\Search\FilterGroupInterface[]
+     * @return FilterGroupInterface[]
      */
     public function getGroups();
 

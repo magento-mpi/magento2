@@ -19,9 +19,16 @@ abstract class AbstractFilterGroup extends AbstractDto implements FilterGroupInt
     const GROUPS = 'groups';
 
     /**
-     * Returns a list of filters in this group
-     *
-     * @return \Magento\Customer\Service\V1\Dto\Filter[]
+     * {@inheritdoc}
+     */
+    public function __construct(array $data)
+    {
+        parent::__construct($data);
+        $data['group_type'] = $this->getGroupType();
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function getFilters()
     {
@@ -30,9 +37,7 @@ abstract class AbstractFilterGroup extends AbstractDto implements FilterGroupInt
     }
 
     /**
-     * Returns a list of filter groups in this group
-     *
-     * @return \Magento\Customer\Service\V1\Dto\Search\FilterGroupInterface[]
+     * {@inheritdoc}
      */
     public function getGroups()
     {
@@ -41,9 +46,7 @@ abstract class AbstractFilterGroup extends AbstractDto implements FilterGroupInt
     }
 
     /**
-     * Returns the grouping type such as 'OR' or 'AND'.
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public abstract function getGroupType();
 }
