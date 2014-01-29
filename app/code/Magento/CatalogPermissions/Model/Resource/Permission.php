@@ -23,6 +23,7 @@ class Permission extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Initialize resource
      *
+     * @return void
      */
     protected function _construct()
     {

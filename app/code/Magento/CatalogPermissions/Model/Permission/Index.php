@@ -79,6 +79,9 @@ class Index extends AbstractIndexer
      */
     protected $_isVisible = false;
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_init('Magento\CatalogPermissions\Model\Resource\Permission\Index');

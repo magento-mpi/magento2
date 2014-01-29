@@ -141,6 +141,7 @@ class Index extends AbstractResource
     /**
      * Initialize resource
      *
+     *@return void
      */
     protected function _construct()
     {
