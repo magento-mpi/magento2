@@ -31,9 +31,12 @@ class Http extends \Zend_Controller_Response_Http implements \Magento\App\Respon
 
     public function setVary($name, $value)
     {
-        if (is_array($value)) {
-            $value = serialize($value);
+        if (!empty($value)) {
+            if (is_array($value)) {
+                $value = serialize($value);
+            }
+            setcookie('VARY_' . strtoupper($name), $value);
         }
-        setcookie('VARY_' . strtoupper($name), $value);
+
     }
 }
