@@ -18,15 +18,15 @@ use Magento\Catalog\Model\Product\Type;
  * @method \Magento\CatalogInventory\Model\Resource\Stock\Status _getResource()
  * @method \Magento\CatalogInventory\Model\Resource\Stock\Status getResource()
  * @method int getProductId()
- * @method $this setProductId(int $value)
+ * @method \Magento\CatalogInventory\Model\Stock\Status setProductId(int $value)
  * @method int getWebsiteId()
- * @method $this setWebsiteId(int $value)
+ * @method \Magento\CatalogInventory\Model\Stock\Status setWebsiteId(int $value)
  * @method int getStockId()
- * @method $this setStockId(int $value)
+ * @method \Magento\CatalogInventory\Model\Stock\Status setStockId(int $value)
  * @method float getQty()
- * @method $this setQty(float $value)
+ * @method \Magento\CatalogInventory\Model\Stock\Status setQty(float $value)
  * @method int getStockStatus()
- * @method $this setStockStatus(int $value)
+ * @method \Magento\CatalogInventory\Model\Stock\Status setStockStatus(int $value)
  */
 
 class Status extends \Magento\Core\Model\AbstractModel

@@ -14,15 +14,15 @@ namespace Magento\CatalogInventory\Model\Indexer;
  *
  * @method \Magento\CatalogInventory\Model\Resource\Indexer\Stock getResource()
  * @method int getProductId()
- * @method $this setProductId(int $value)
+ * @method \Magento\CatalogInventory\Model\Indexer\Stock setProductId(int $value)
  * @method int getWebsiteId()
- * @method $this setWebsiteId(int $value)
+ * @method \Magento\CatalogInventory\Model\Indexer\Stock setWebsiteId(int $value)
  * @method int getStockId()
- * @method $this setStockId(int $value)
+ * @method \Magento\CatalogInventory\Model\Indexer\Stock setStockId(int $value)
  * @method float getQty()
- * @method $this setQty(float $value)
+ * @method \Magento\CatalogInventory\Model\Indexer\Stock setQty(float $value)
  * @method int getStockStatus()
- * @method $this setStockStatus(int $value)
+ * @method \Magento\CatalogInventory\Model\Indexer\Stock setStockStatus(int $value)
  *
  * @category    Magento
  * @package     Magento_CatalogInventory

@@ -17,7 +17,7 @@ use Magento\CatalogInventory\Model\Stock\Item;
  * @method \Magento\CatalogInventory\Model\Resource\Stock _getResource()
  * @method \Magento\CatalogInventory\Model\Resource\Stock getResource()
  * @method string getStockName()
- * @method $this setStockName(string $value)
+ * @method \Magento\CatalogInventory\Model\Stock setStockName(string $value)
  */
 
 class Stock extends \Magento\Core\Model\AbstractModel
