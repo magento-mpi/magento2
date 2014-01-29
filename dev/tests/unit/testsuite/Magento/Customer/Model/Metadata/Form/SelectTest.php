@@ -1,7 +1,5 @@
 <?php
 /**
- * test Magento\Customer\Model\Model\Metadata\Form\Select
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -10,6 +8,9 @@
 
 namespace Magento\Customer\Model\Metadata\Form;
 
+/**
+ * test Magento\Customer\Model\Metadata\Form\Select
+ */
 class SelectTest extends AbstractFormTestCase
 {
 
