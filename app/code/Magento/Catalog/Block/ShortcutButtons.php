@@ -35,26 +35,18 @@ class ShortcutButtons extends Template
     protected $_orPosition;
 
     /**
-     * @var \Magento\Event\ManagerInterface
-     */
-    protected $_eventManager;
-
-    /**
      * @param Template\Context $context
-     * @param \Magento\Event\ManagerInterface $eventManager
      * @param bool $isCatalogProduct
      * @param null|string $orPosition
      * @param array $data
      */
     public function __construct(
         Template\Context $context,
-        \Magento\Event\ManagerInterface $eventManager,
         $isCatalogProduct = false,
         $orPosition = null,
         array $data = array()
     ) {
         parent::__construct($context, $data);
-        $this->_eventManager = $eventManager;
         $this->_isCatalogProduct = $isCatalogProduct;
         $this->_orPosition = $orPosition ?: ($isCatalogProduct ? self::POSITION_BEFORE : self::POSITION_AFTER);
     }

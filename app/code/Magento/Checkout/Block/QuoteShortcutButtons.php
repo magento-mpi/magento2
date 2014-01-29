@@ -19,17 +19,15 @@ class QuoteShortcutButtons extends \Magento\Catalog\Block\ShortcutButtons
 
     /**
      * @param Template\Context $context
-     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param array $data
      */
     public function __construct(
         Template\Context $context,
-        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Checkout\Model\Session $checkoutSession,
         array $data = array()
     ) {
-        parent::__construct($context, $eventManager, false, null, $data);
+        parent::__construct($context, false, null, $data);
         $this->_checkoutSession = $checkoutSession;
     }
 
