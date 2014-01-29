@@ -35,7 +35,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             new \Magento\Object(['title' => 'Title', 'schedule' => 'schedule'])
         ]));
         $profileFactory = $this->getMock(
-            '\Magento\Payment\Model\Recurring\ProfileFactory', ['create'], [], '', false
+            '\Magento\RecurringProfile\Model\RecurringProfileFactory', ['create'], [], '', false
         );
         $profileFactory->expects($this->once())->method('create')->will($this->returnValue($profile));
         $observerMock = $this->getMock('Magento\Event\Observer', [], [], '', false);

@@ -12,11 +12,11 @@
  * Recurring payment profile
  * Extends from \Magento\Core\Abstract for a reason: to make descendants have its own resource
  */
-namespace Magento\Payment\Model\Recurring;
+namespace Magento\RecurringProfile\Model\RecurringProfile;
 
 use Magento\RecurringProfile\Model\PeriodUnits;
 
-class Profile extends \Magento\Core\Model\AbstractModel
+class RecurringProfile extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Constants for passing data through catalog
@@ -206,7 +206,7 @@ class Profile extends \Magento\Core\Model\AbstractModel
      * Setter for payment method instance
      *
      * @param \Magento\Payment\Model\Method\AbstractMethod $object
-     * @return \Magento\Payment\Model\Recurring\Profile
+     * @return \Magento\RecurringProfile\Model\RecurringProfile
      * @throws \Exception
      */
     public function setMethodInstance(\Magento\Payment\Model\Method\AbstractMethod $object)
@@ -224,7 +224,7 @@ class Profile extends \Magento\Core\Model\AbstractModel
      * Then filter data
      *
      * @param \Magento\Object $buyRequest
-     * @return \Magento\Payment\Model\Recurring\Profile
+     * @return \Magento\RecurringProfile\Model\RecurringProfile
      * @throws \Magento\Core\Exception
      * @throws \Exception
      */
@@ -252,7 +252,7 @@ class Profile extends \Magento\Core\Model\AbstractModel
      * Returns false if it cannot be imported
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @return \Magento\Payment\Model\Recurring\Profile|false
+     * @return \Magento\RecurringProfile\Model\RecurringProfile|false
      */
     public function importProduct(\Magento\Catalog\Model\Product $product)
     {
@@ -310,7 +310,7 @@ class Profile extends \Magento\Core\Model\AbstractModel
      * Determine nearest possible profile start date
      *
      * @param \Zend_Date $minAllowed
-     * @return \Magento\Payment\Model\Recurring\Profile
+     * @return \Magento\RecurringProfile\Model\RecurringProfile
      */
     protected function setNearestStartDatetime(\Zend_Date $minAllowed = null)
     {
@@ -344,7 +344,7 @@ class Profile extends \Magento\Core\Model\AbstractModel
      * Store instance setter
      *
      * @param \Magento\Core\Model\Store $store
-     * @return \Magento\Payment\Model\Recurring\Profile
+     * @return \Magento\RecurringProfile\Model\RecurringProfile
      */
     public function setStore(\Magento\Core\Model\Store $store)
     {
@@ -381,7 +381,7 @@ class Profile extends \Magento\Core\Model\AbstractModel
     /**
      * Filter self data to make sure it can be validated properly
      *
-     * @return \Magento\Payment\Model\Recurring\Profile
+     * @return \Magento\RecurringProfile\Model\RecurringProfile
      */
     protected function _filterValues()
     {

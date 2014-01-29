@@ -16,7 +16,7 @@ class Profile extends \Magento\View\Element\Template
     /**
      * Recurring profile instance
      *
-     * @var \Magento\Payment\Model\Recurring\Profile
+     * @var \Magento\RecurringProfile\Model\RecurringProfile
      */
     protected $_profile = false;
 
@@ -31,20 +31,20 @@ class Profile extends \Magento\View\Element\Template
     /**
      * Recurring profile factory
      *
-     * @var \Magento\Payment\Model\Recurring\ProfileFactory
+     * @var \Magento\RecurringProfile\Model\RecurringProfileFactory
      */
     protected $_profileFactory;
 
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Payment\Model\Recurring\ProfileFactory $profileFactory
+     * @param \Magento\RecurringProfile\Model\RecurringProfileFactory $profileFactory
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Payment\Model\Recurring\ProfileFactory $profileFactory,
+        \Magento\RecurringProfile\Model\RecurringProfileFactory $profileFactory,
         array $data = array()
     ) {
         parent::__construct($context, $data);
@@ -81,7 +81,7 @@ class Profile extends \Magento\View\Element\Template
             $calendar = $this->getLayout()
                 ->createBlock('Magento\View\Element\Html\Date')
                 ->setId('recurring_start_date')
-                ->setName(\Magento\Payment\Model\Recurring\Profile::BUY_REQUEST_START_DATETIME)
+                ->setName(\Magento\RecurringProfile\Model\RecurringProfile::BUY_REQUEST_START_DATETIME)
                 ->setClass('datetime-picker input-text')
                 ->setImage($this->getViewFileUrl('Magento_Core::calendar.gif'))
                 ->setDateFormat($this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT))

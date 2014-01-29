@@ -30,7 +30,7 @@ class Observer
     /**
      * Recurring profile factory
      *
-     * @var \Magento\Payment\Model\Recurring\ProfileFactory
+     * @var \Magento\RecurringProfile\Model\RecurringProfileFactory
      */
     protected $_profileFactory;
 
@@ -47,14 +47,14 @@ class Observer
     /**
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Payment\Model\Recurring\ProfileFactory $profileFactory
+     * @param \Magento\RecurringProfile\Model\RecurringProfileFactory $profileFactory
      * @param \Magento\View\Element\BlockFactory $blockFactory
      * @param \Magento\RecurringProfile\Block\Fields $fields
      */
     public function __construct(
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Payment\Model\Recurring\ProfileFactory $profileFactory,
+        \Magento\RecurringProfile\Model\RecurringProfileFactory $profileFactory,
         \Magento\View\Element\BlockFactory $blockFactory,
         \Magento\RecurringProfile\Block\Fields $fields
     ) {
@@ -81,7 +81,7 @@ class Observer
             return;
         }
 
-        /** @var \Magento\Payment\Model\Recurring\Profile $profile */
+        /** @var \Magento\RecurringProfile\Model\RecurringProfile $profile */
         $profile = $this->_profileFactory->create(['locale' => $this->_locale]);
         $profile->setStore($this->_storeManager->getStore())
             ->importBuyRequest($buyRequest)
@@ -91,7 +91,7 @@ class Observer
         }
 
         // add the start datetime as product custom option
-        $product->addCustomOption(\Magento\Payment\Model\Recurring\Profile::PRODUCT_OPTIONS_KEY,
+        $product->addCustomOption(\Magento\RecurringProfile\Model\RecurringProfile::PRODUCT_OPTIONS_KEY,
             serialize(array('start_datetime' => $profile->getStartDatetime()))
         );
 

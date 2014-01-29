@@ -85,7 +85,7 @@
  */
 namespace Magento\Sales\Model\Recurring;
 
-class Profile extends \Magento\Payment\Model\Recurring\Profile
+class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
 {
     /**
      * Available states
@@ -577,7 +577,7 @@ class Profile extends \Magento\Payment\Model\Recurring\Profile
     /**
      * Automatically set "unknown" state if not defined
      *
-     * @return \Magento\Payment\Model\Recurring\Profile
+     * @return \Magento\RecurringProfile\Model\RecurringProfile
      */
     protected function _filterValues()
     {

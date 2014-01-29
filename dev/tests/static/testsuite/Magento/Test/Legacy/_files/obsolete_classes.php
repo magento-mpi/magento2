@@ -1848,4 +1848,5 @@ return array(
     array('Magento\PageCache\Model\Observer'),
     array('Magento\Config\Dom\Converter\ArrayConverter'),
     array('Magento\Acl\Resource\Config\Dom'),
+    ['Magento\Payment\Model\Recurring\Profile', 'Magento\RecurringProfile\Model\RecurringProfile'],
 );

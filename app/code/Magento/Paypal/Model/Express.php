@@ -504,9 +504,9 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Validate RP data
      *
-     * @param \Magento\Payment\Model\Recurring\Profile $profile
+     * @param \Magento\RecurringProfile\Model\RecurringProfile $profile
      */
-    public function validateRecurringProfile(\Magento\Payment\Model\Recurring\Profile $profile)
+    public function validateRecurringProfile(\Magento\RecurringProfile\Model\RecurringProfile $profile)
     {
         return $this->_pro->validateRecurringProfile($profile);
     }
@@ -514,10 +514,10 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Submit RP to the gateway
      *
-     * @param \Magento\Payment\Model\Recurring\Profile $profile
+     * @param \Magento\RecurringProfile\Model\RecurringProfile $profile
      * @param \Magento\Payment\Model\Info $paymentInfo
      */
-    public function submitRecurringProfile(\Magento\Payment\Model\Recurring\Profile $profile,
+    public function submitRecurringProfile(\Magento\RecurringProfile\Model\RecurringProfile $profile,
         \Magento\Payment\Model\Info $paymentInfo
     ) {
         $token = $paymentInfo->getAdditionalInformation(
@@ -549,9 +549,9 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Update RP data
      *
-     * @param \Magento\Payment\Model\Recurring\Profile $profile
+     * @param \Magento\RecurringProfile\Model\RecurringProfile $profile
      */
-    public function updateRecurringProfile(\Magento\Payment\Model\Recurring\Profile $profile)
+    public function updateRecurringProfile(\Magento\RecurringProfile\Model\RecurringProfile $profile)
     {
         return $this->_pro->updateRecurringProfile($profile);
     }
@@ -559,9 +559,9 @@ class Express extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Manage status
      *
-     * @param \Magento\Payment\Model\Recurring\Profile $profile
+     * @param \Magento\RecurringProfile\Model\RecurringProfile $profile
      */
-    public function updateRecurringProfileStatus(\Magento\Payment\Model\Recurring\Profile $profile)
+    public function updateRecurringProfileStatus(\Magento\RecurringProfile\Model\RecurringProfile $profile)
     {
         return $this->_pro->updateRecurringProfileStatus($profile);
     }

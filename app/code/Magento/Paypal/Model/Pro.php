@@ -366,10 +366,10 @@ class Pro
     /**
      * Validate RP data
      *
-     * @param \Magento\Payment\Model\Recurring\Profile $profile
+     * @param \Magento\RecurringProfile\Model\RecurringProfile $profile
      * @throws \Magento\Core\Exception
      */
-    public function validateRecurringProfile(\Magento\Payment\Model\Recurring\Profile $profile)
+    public function validateRecurringProfile(\Magento\RecurringProfile\Model\RecurringProfile $profile)
     {
         $errors = array();
         if (strlen($profile->getSubscriberName()) > 32) { // up to 32 single-byte chars
@@ -391,11 +391,11 @@ class Pro
     /**
      * Submit RP to the gateway
      *
-     * @param \Magento\Payment\Model\Recurring\Profile $profile
+     * @param \Magento\RecurringProfile\Model\RecurringProfile $profile
      * @param \Magento\Payment\Model\Info $paymentInfo
      * @throws \Magento\Core\Exception
      */
-    public function submitRecurringProfile(\Magento\Payment\Model\Recurring\Profile $profile,
+    public function submitRecurringProfile(\Magento\RecurringProfile\Model\RecurringProfile $profile,
         \Magento\Payment\Model\Info $paymentInfo
     ) {
         $api = $this->getApi();
@@ -434,9 +434,9 @@ class Pro
     /**
      * Update RP data
      *
-     * @param \Magento\Payment\Model\Recurring\Profile $profile
+     * @param \Magento\RecurringProfile\Model\RecurringProfile $profile
      */
-    public function updateRecurringProfile(\Magento\Payment\Model\Recurring\Profile $profile)
+    public function updateRecurringProfile(\Magento\RecurringProfile\Model\RecurringProfile $profile)
     {
 
     }
@@ -444,9 +444,9 @@ class Pro
     /**
      * Manage status
      *
-     * @param \Magento\Payment\Model\Recurring\Profile $profile
+     * @param \Magento\RecurringProfile\Model\RecurringProfile $profile
      */
-    public function updateRecurringProfileStatus(\Magento\Payment\Model\Recurring\Profile $profile)
+    public function updateRecurringProfileStatus(\Magento\RecurringProfile\Model\RecurringProfile $profile)
     {
         $api = $this->getApi();
         $action = null;
