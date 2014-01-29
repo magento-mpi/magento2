@@ -61,7 +61,7 @@ class Collection extends \Magento\Data\Collection\Db
     /**
      * @var \Magento\Core\Model\Resource\Store\CollectionFactory
      */
-    protected $_storeCollFactory;
+    protected $_storeCollectionFactory;
 
     /**
      * @var \Magento\Core\Model\StoreManagerInterface
@@ -75,12 +75,12 @@ class Collection extends \Magento\Data\Collection\Db
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Sales\Model\Resource\Order $resource,
-        \Magento\Core\Model\Resource\Store\CollectionFactory $storeCollFactory,
+        \Magento\Core\Model\Resource\Store\CollectionFactory $storeCollectionFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_eventManager = $eventManager;
         $this->_orderResource = $resource;
-        $this->_storeCollFactory = $storeCollFactory;
+        $this->_storeCollectionFactory = $storeCollectionFactory;
         $this->_storeManager = $storeManager;
         parent::__construct($entityFactory, $logger, $fetchStrategy, $this->_orderResource->getReadConnection());
     }
@@ -188,7 +188,7 @@ class Collection extends \Magento\Data\Collection\Db
         $data = $this->getData();
         $this->resetData();
 
-        $stores = $this->_storeCollFactory->create()
+        $stores = $this->_storeCollectionFactory->create()
             ->setWithoutDefaultFilter()
             ->load()
             ->toOptionHash();

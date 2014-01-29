@@ -41,7 +41,7 @@ class Hierarchy
     /**
      * @var \Magento\VersionsCms\Model\Resource\Hierarchy\Node\CollectionFactory
      */
-    protected $_nodeCollFactory;
+    protected $_nodeCollectionFactory;
 
     /**
      * @var \Magento\Json\EncoderInterface
@@ -59,7 +59,7 @@ class Hierarchy
      * @param \Magento\Json\DecoderInterface $jsonDecoder
      * @param \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\VersionsCms\Model\Resource\Hierarchy\Node\CollectionFactory $nodeCollFactory
+     * @param \Magento\VersionsCms\Model\Resource\Hierarchy\Node\CollectionFactory $nodeCollectionFactory
      * @param array $data
      */
     public function __construct(
@@ -68,14 +68,14 @@ class Hierarchy
         \Magento\Json\DecoderInterface $jsonDecoder,
         \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy,
         \Magento\Core\Model\Registry $registry,
-        \Magento\VersionsCms\Model\Resource\Hierarchy\Node\CollectionFactory $nodeCollFactory,
+        \Magento\VersionsCms\Model\Resource\Hierarchy\Node\CollectionFactory $nodeCollectionFactory,
         array $data = array()
     ) {
         $this->_jsonDecoder = $jsonDecoder;
         $this->_jsonEncoder = $jsonEncoder;
         $this->_coreRegistry = $registry;
         $this->_cmsHierarchy = $cmsHierarchy;
-        $this->_nodeCollFactory = $nodeCollFactory;
+        $this->_nodeCollectionFactory = $nodeCollectionFactory;
         parent::__construct($context, $data);
     }
 
@@ -114,7 +114,7 @@ class Hierarchy
             }
 
             /** @var \Magento\VersionsCms\Model\Resource\Hierarchy\Node\Collection $collection */
-            $collection = $this->_nodeCollFactory->create()
+            $collection = $this->_nodeCollectionFactory->create()
                 ->joinCmsPage()
                 ->setOrderByLevel()
                 ->joinPageExistsNodeInfo($this->getPage());

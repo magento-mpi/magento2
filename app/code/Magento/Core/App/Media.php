@@ -10,12 +10,12 @@
 namespace Magento\Core\App;
 
 use Magento\App\State,
-    Magento\AppInterface,
+    Magento\LauncherInterface,
     Magento\ObjectManager,
     Magento\Core\Model\File\Storage\Request,
     Magento\Core\Model\File\Storage\Response;
 
-class Media implements AppInterface
+class Media implements LauncherInterface
 {
     /**
      * @var \Magento\App\State
@@ -124,7 +124,7 @@ class Media implements AppInterface
      *
      * @return \Magento\App\ResponseInterface
      */
-    public function execute()
+    public function launch()
     {
         try {
             if (!$this->_applicationState->isInstalled()) {

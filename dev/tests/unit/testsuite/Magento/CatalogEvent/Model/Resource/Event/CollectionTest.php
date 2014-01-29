@@ -93,8 +93,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             ->method('getId')
             ->will($this->returnValue(self::CURRENT_STORE_ID));
 
-        $application = $this->getMock('Magento\Core\Model\App', array('getStore'), array(), '', false);
-        $application->expects($this->once())
+        $storeManager = $this->getMock('Magento\Core\Model\StoreManager', array('getStore'), array(), '', false);
+        $storeManager->expects($this->once())
             ->method('getStore')
             ->will($this->returnValue($store));
 
@@ -150,7 +150,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $this->_collection = $this->getMock(
             'Magento\CatalogEvent\Model\Resource\Event\Collection',
             array('setModel'),
-            array($entityFactory, $logger, $fetchStrategy, $eventManager, $application, $dateTime, null, $resource)
+            array($entityFactory, $logger, $fetchStrategy, $eventManager, $storeManager, $dateTime, null, $resource)
         );
     }
 

@@ -14,7 +14,7 @@ class Converter implements \Magento\Config\ConverterInterface
     /**
      * Convert config
      *
-     * @param mixed $source
+     * @param \DOMDocument $source
      * @return array
      */
     public function convert($source)

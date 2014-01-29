@@ -14,6 +14,7 @@ dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/MenuHierarchyConf
 dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/GiftRegistryConfigFileTest.php
 ~dev/tests/static/testsuite/Magento/Test/Php/_files/phpcs/blacklist/dev_build_ce.txt
 dev/tests/unit/testsuite/Magento/VersionsCms
+dev/tests/unit/testsuite/Magento/Pci
 dev/tests/functional/tests/app/Magento/CustomerSegment
 dev/tests/functional/tests/app/Magento/Banner
 dev/tests/functional/tests/app/Magento/SalesRule/Test/TestCase/BasicPromoTest.php

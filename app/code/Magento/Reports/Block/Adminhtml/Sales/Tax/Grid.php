@@ -28,7 +28,6 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Reports\Model\Resource\Report\Collection\Factory $resourceFactory
      * @param \Magento\Reports\Model\Grouped\CollectionFactory $collectionFactory
@@ -38,7 +37,6 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Url $urlModel,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Reports\Model\Resource\Report\Collection\Factory $resourceFactory,
         \Magento\Reports\Model\Grouped\CollectionFactory $collectionFactory,
@@ -49,7 +47,6 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
         $this->_configFactory = $configFactory;
         parent::__construct(
             $context,
-            $urlModel,
             $backendHelper,
             $resourceFactory,
             $collectionFactory,

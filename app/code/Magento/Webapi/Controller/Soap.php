@@ -59,7 +59,7 @@ class Soap implements \Magento\App\FrontControllerInterface
      * @param \Magento\Webapi\Model\Soap\Server $soapServer
      * @param \Magento\Webapi\Controller\ErrorProcessor $errorProcessor
      * @param \Magento\App\State $appState
-     * @param \Magento\Core\Model\AppInterface $application
+     * @param \Magento\AppInterface $application
      * @param \Magento\Oauth\OauthInterface $oauthService
      */
     public function __construct(
@@ -69,7 +69,7 @@ class Soap implements \Magento\App\FrontControllerInterface
         \Magento\Webapi\Model\Soap\Server $soapServer,
         \Magento\Webapi\Controller\ErrorProcessor $errorProcessor,
         \Magento\App\State $appState,
-        \Magento\Core\Model\AppInterface $application,
+        \Magento\AppInterface $application,
         \Magento\Oauth\OauthInterface $oauthService
     ) {
         $this->_request = $request;

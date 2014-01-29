@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General;
 
 /**
  * Comments History Block at RMA page
  */
-namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General;
-
 class History
     extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\AbstractGeneral
 {
@@ -48,7 +47,7 @@ class History
     /**
      * Prepare child blocks
      *
-     * @return \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\History
+     * @return $this
      */
     protected function _prepareLayout()
     {

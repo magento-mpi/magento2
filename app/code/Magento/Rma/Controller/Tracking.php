@@ -46,7 +46,7 @@ class Tracking extends \Magento\App\Action\Action
      * Popup action
      * Shows tracking info if it's present, otherwise redirects to 404
      *
-     * @return null
+     * @return void
      * @throws NotFoundException
      */
     public function popupAction()
@@ -71,7 +71,7 @@ class Tracking extends \Magento\App\Action\Action
      * Popup package action
      * Shows package info if it's present, otherwise redirects to 404
      *
-     * @return null
+     * @return void
      * @throws NotFoundException
      */
     public function packageAction()
@@ -144,6 +144,7 @@ class Tracking extends \Magento\App\Action\Action
     /**
      * Print label for one specific shipment
      *
+     * @return void
      * @throws NotFoundException
      */
     public function printLabelAction()
@@ -198,6 +199,7 @@ class Tracking extends \Magento\App\Action\Action
     /**
      * Create pdf document with information about packages
      *
+     * @return void
      */
     public function packagePrintAction()
     {
@@ -212,8 +214,8 @@ class Tracking extends \Magento\App\Action\Action
         $shippingInfoModel = $this->_objectManager->create('Magento\Rma\Model\Shipping\Info');
         $shippingInfoModel->loadPackage($this->getRequest()->getParam('hash'));
         if ($shippingInfoModel) {
-            /** @var $orderPdf \Magento\Sales\Model\Order\Pdf\Shipment\Packaging */
-            $orderPdf = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Shipment\Packaging');
+            /** @var $orderPdf \Magento\Shipping\Model\Order\Pdf\Packaging */
+            $orderPdf = $this->_objectManager->create('Magento\Shipping\Model\Order\Pdf\Packaging');
             $block = $this->_view->getLayout()->getBlockSingleton(
                 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shippingmethod'
             );

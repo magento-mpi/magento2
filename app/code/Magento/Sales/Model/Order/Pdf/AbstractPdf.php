@@ -91,12 +91,6 @@ abstract class AbstractPdf extends \Magento\Object
      * @var \Magento\Filesystem\Directory\ReadInterface
      */
     protected $_rootDirectory;
-
-    /**
-     * @var \Magento\Shipping\Model\Config
-     */
-    protected $_shippingConfig;
-
     /**
      * @var \Magento\Sales\Model\Order\Pdf\Config
      */
@@ -118,7 +112,6 @@ abstract class AbstractPdf extends \Magento\Object
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Core\Model\Translate $translate
      * @param \Magento\App\Filesystem $filesystem
-     * @param \Magento\Shipping\Model\Config $shippingConfig
      * @param \Magento\Sales\Model\Order\Pdf\Config $pdfConfig
      * @param \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory
      * @param \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory
@@ -133,7 +126,6 @@ abstract class AbstractPdf extends \Magento\Object
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Core\Model\Translate $translate,
         \Magento\App\Filesystem $filesystem,
-        \Magento\Shipping\Model\Config $shippingConfig,
         \Magento\Sales\Model\Order\Pdf\Config $pdfConfig,
         \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory,
         \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory,
@@ -147,7 +139,6 @@ abstract class AbstractPdf extends \Magento\Object
         $this->_translate = $translate;
         $this->_mediaDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::MEDIA_DIR);
         $this->_rootDirectory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
-        $this->_shippingConfig = $shippingConfig;
         $this->_pdfConfig = $pdfConfig;
         $this->_pdfTotalFactory = $pdfTotalFactory;
         $this->_pdfItemsFactory = $pdfItemsFactory;
@@ -543,20 +534,9 @@ abstract class AbstractPdf extends \Magento\Object
                 $yShipments -= 20;
                 $this->_setFontRegular($page, 8);
                 foreach ($tracks as $track) {
-
-                    $carrierCode = $track->getCarrierCode();
-                    if ($carrierCode != 'custom') {
-                        $carrier = $this->_shippingConfig->getCarrierInstance($carrierCode);
-                        $carrierTitle = $carrier->getConfigData('title');
-                    } else {
-                        $carrierTitle = __('Custom Value');
-                    }
-
-                    //$truncatedCarrierTitle = substr($carrierTitle, 0, 35) . (strlen($carrierTitle) > 35 ? '...' : '');
                     $maxTitleLen = 45;
                     $endOfTitle = strlen($track->getTitle()) > $maxTitleLen ? '...' : '';
                     $truncatedTitle = substr($track->getTitle(), 0, $maxTitleLen) . $endOfTitle;
-                    //$page->drawText($truncatedCarrierTitle, 285, $yShipments, 'UTF-8');
                     $page->drawText($truncatedTitle, 292, $yShipments, 'UTF-8');
                     $page->drawText($track->getNumber(), 410, $yShipments, 'UTF-8');
                     $yShipments -= $topMargin - 5;

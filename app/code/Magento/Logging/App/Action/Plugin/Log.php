@@ -9,6 +9,7 @@
  */
 namespace Magento\Logging\App\Action\Plugin;
 
+use \Magento\App\ResponseInterface;
 use \Magento\Logging\Model\Processor;
 
 class Log
@@ -31,7 +32,7 @@ class Log
      *
      * @param array $arguments
      * @param \Magento\Code\Plugin\InvocationChain $invocationChain
-     * @return \Magento\App\ResponseInterface
+     * @return ResponseInterface
      */
     public function aroundDispatch($arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
     {

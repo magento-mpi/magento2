@@ -40,9 +40,9 @@
     </type>
     <type name="Magento\Module\Updater\SetupFactory">
         <param name="resourceTypes">
-            <value>
-                <customersegment_setup>Magento\CustomerSegment\Model\Resource\Setup</customersegment_setup>
-            </value>
+            <array>
+                <item key="customersegment_setup"><value>Magento\CustomerSegment\Model\Resource\Setup</value></item>
+            </array>
         </param>
     </type>
 </config>

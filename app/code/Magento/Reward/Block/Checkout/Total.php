@@ -11,6 +11,11 @@ namespace Magento\Reward\Block\Checkout;
 
 class Total extends \Magento\Checkout\Block\Total\DefaultTotal
 {
+    /**
+     * Totals calculation template when checkout using reward points
+     *
+     * @var string
+     */
     protected $_template = 'checkout/total.phtml';
 
     /**

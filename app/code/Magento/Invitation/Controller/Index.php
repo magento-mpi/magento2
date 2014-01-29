@@ -86,6 +86,7 @@ class Index extends \Magento\App\Action\Action
     /**
      * Send invitations from frontend
      *
+     * @return void
      */
     public function sendAction()
     {
@@ -152,6 +153,7 @@ class Index extends \Magento\App\Action\Action
     /**
      * View invitation list in 'My Account' section
      *
+     * @return void
      */
     public function indexAction()
     {

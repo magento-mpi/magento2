@@ -50,6 +50,7 @@ class Pager extends \Magento\App\Helper\AbstractHelper
      * Set storage id
      *
      * @param $storageId
+     * @return void
      */
     public function setStorageId($storageId)
     {
@@ -60,7 +61,7 @@ class Pager extends \Magento\App\Helper\AbstractHelper
      * Set items to storage
      *
      * @param array $items
-     * @return \Magento\Review\Helper\Action\Pager
+     * @return $this
      */
     public function setItems(array $items)
     {
@@ -72,6 +73,8 @@ class Pager extends \Magento\App\Helper\AbstractHelper
 
     /**
      * Load stored items
+     *
+     * @return void
      */
     protected function _loadItems()
     {
@@ -113,7 +116,6 @@ class Pager extends \Magento\App\Helper\AbstractHelper
     }
 
     /**
-     *
      *
      * @param mixed $value
      * @return int|bool

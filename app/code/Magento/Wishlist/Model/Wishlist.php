@@ -83,7 +83,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
     /**
      * @var \Magento\Wishlist\Model\Resource\Item\CollectionFactory
      */
-    protected $_wishlistCollFactory;
+    protected $_wishlistCollectionFactory;
 
     /**
      * @var \Magento\Catalog\Model\ProductFactory
@@ -115,7 +115,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Date $date
      * @param ItemFactory $wishlistItemFactory
-     * @param Resource\Item\CollectionFactory $wishlistCollFactory
+     * @param Resource\Item\CollectionFactory $wishlistCollectionFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Stdlib\DateTime $dateTime
@@ -132,7 +132,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Date $date,
         \Magento\Wishlist\Model\ItemFactory $wishlistItemFactory,
-        \Magento\Wishlist\Model\Resource\Item\CollectionFactory $wishlistCollFactory,
+        \Magento\Wishlist\Model\Resource\Item\CollectionFactory $wishlistCollectionFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Math\Random $mathRandom,
         \Magento\Stdlib\DateTime $dateTime,
@@ -145,7 +145,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
         $this->_storeManager = $storeManager;
         $this->_date = $date;
         $this->_wishlistItemFactory = $wishlistItemFactory;
-        $this->_wishlistCollFactory = $wishlistCollFactory;
+        $this->_wishlistCollectionFactory = $wishlistCollectionFactory;
         $this->_productFactory = $productFactory;
         $this->mathRandom = $mathRandom;
         $this->dateTime = $dateTime;
@@ -307,7 +307,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
     public function getItemCollection()
     {
         if (is_null($this->_itemCollection)) {
-            $this->_itemCollection = $this->_wishlistCollFactory->create()
+            $this->_itemCollection = $this->_wishlistCollectionFactory->create()
                 ->addWishlistFilter($this)
                 ->addStoreFilter($this->getSharedStoreIds())
                 ->setVisibilityFilter();
