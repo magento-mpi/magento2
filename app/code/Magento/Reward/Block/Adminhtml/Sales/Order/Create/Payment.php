@@ -70,7 +70,7 @@ class Payment extends \Magento\Backend\Block\Template
     /**
      * Check whether can use customer reward points
      *
-     * @return boolean
+     * @return bool
      */
     public function canUseRewardPoints()
     {
@@ -126,7 +126,7 @@ class Payment extends \Magento\Backend\Block\Template
     /**
      * Check if reward points applied in quote
      *
-     * @return boolean
+     * @return bool
      */
     public function useRewardPoints()
     {

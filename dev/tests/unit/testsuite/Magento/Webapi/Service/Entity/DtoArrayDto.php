@@ -1,0 +1,21 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+namespace Magento\Webapi\Service\Entity;
+
+use Magento\Service\Entity\AbstractDto;
+
+class DtoArrayDto extends AbstractDto
+{
+    /**
+     * @return \Magento\Webapi\Service\Entity\SimpleDto[]|null
+     */
+    public function getItems()
+    {
+        return $this->_get('items');
+    }
+}

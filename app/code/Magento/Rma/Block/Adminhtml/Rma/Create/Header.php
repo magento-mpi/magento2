@@ -8,13 +8,16 @@
  * @license     {license_link}
  */
 
+namespace Magento\Rma\Block\Adminhtml\Rma\Create;
+
 /**
  * Admin RMA create form header
  */
-namespace Magento\Rma\Block\Adminhtml\Rma\Create;
-
 class Header extends \Magento\Rma\Block\Adminhtml\Rma\Create\AbstractCreate
 {
+    /**
+     * @return string
+     */
     protected function _toHtml()
     {
         $customerId = $this->getCustomerId();

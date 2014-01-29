@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Review\Block\Product\View;
+
 /**
  * Product view other block
  */
-namespace Magento\Review\Block\Product\View;
-
 class Other extends \Magento\View\Element\Template
 {
     /**

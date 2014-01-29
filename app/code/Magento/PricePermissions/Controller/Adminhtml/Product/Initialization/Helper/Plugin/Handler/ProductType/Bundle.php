@@ -9,15 +9,17 @@
 namespace Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\ProductType;
 
 use Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\HandlerInterface;
+use Magento\Catalog\Model\Product;
 
 class Bundle implements HandlerInterface
 {
     /**
      * Handle selection data of bundle products
      *
-     * @param \Magento\Catalog\Model\Product $product
+     * @param Product $product
+     * @return void
      */
-    public function handle(\Magento\Catalog\Model\Product $product)
+    public function handle(Product $product)
     {
         if ($product->getTypeId() != \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
             return;

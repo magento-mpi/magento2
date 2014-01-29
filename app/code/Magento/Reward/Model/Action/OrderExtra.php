@@ -17,12 +17,14 @@
  */
 namespace Magento\Reward\Model\Action;
 
+use Magento\Sales\Model\Quote;
+
 class OrderExtra extends \Magento\Reward\Model\Action\AbstractAction
 {
     /**
      * Quote instance, required for estimating checkout reward (order subtotal - discount)
      *
-     * @var \Magento\Sales\Model\Quote
+     * @var Quote
      */
     protected $_quote = null;
 
@@ -80,10 +82,10 @@ class OrderExtra extends \Magento\Reward\Model\Action\AbstractAction
     /**
      * Quote setter
      *
-     * @param \Magento\Sales\Model\Quote $quote
-     * @return \Magento\Reward\Model\Action\OrderExtra
+     * @param Quote $quote
+     * @return $this
      */
-    public function setQuote(\Magento\Sales\Model\Quote $quote)
+    public function setQuote(Quote $quote)
     {
         $this->_quote = $quote;
         return $this;

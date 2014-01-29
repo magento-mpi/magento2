@@ -1,16 +1,20 @@
 <?php
 /**
- * Test client for SOAP API testing.
- *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\TestFramework\TestCase\Webapi\Adapter;
 
-class Soap
-    implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
+use Magento\Webapi\Model\Soap\Wsdl\ComplexTypeStrategy as WsdlDiscoveryStrategy;
+use Magento\Webapi\Controller\Soap\Request\Handler as SoapHandler;
+
+/**
+ * Test client for SOAP API testing.
+ */
+class Soap implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
 {
     const WSDL_BASE_PATH = '/soap?wsdl=1';
 
@@ -27,6 +31,11 @@ class Soap
     protected $_soapConfig;
 
     /**
+     * @var \Magento\Webapi\Helper\Data
+     */
+    protected $_helper;
+
+    /**
      * Initialize dependencies.
      */
     public function __construct()
@@ -34,6 +43,7 @@ class Soap
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_soapConfig = $objectManager->get('Magento\Webapi\Model\Soap\Config');
+        $this->_helper = $objectManager->get('Magento\Webapi\Helper\Data');
     }
 
     /**
@@ -48,6 +58,12 @@ class Soap
         $result = (is_array($soapResponse) || is_object($soapResponse))
             ? $this->_normalizeResponse($soapResponse)
             : $soapResponse;
+
+        /** Remove result wrappers */
+        $result = isset($result[SoapHandler::RESULT_NODE_NAME]) ? $result[SoapHandler::RESULT_NODE_NAME] : $result;
+        $result = isset($result[WsdlDiscoveryStrategy::ARRAY_ITEM_KEY_NAME])
+            ? $result[WsdlDiscoveryStrategy::ARRAY_ITEM_KEY_NAME]
+            : $result;
         return $result;
     }
 
@@ -87,6 +103,9 @@ class Soap
         $soapClient = new \Zend\Soap\Client($wsdlUrl);
         $soapClient->setSoapVersion(SOAP_1_2);
         $soapClient->setStreamContext($context);
+        if (TESTS_XDEBUG_ENABLED) {
+            $soapClient->setCookie('XDEBUG_SESSION', 1);
+        }
         return $soapClient;
     }
 
@@ -153,8 +172,8 @@ class Soap
             return '';
         } else if (isset($serviceInfo['serviceInterface'])) {
             preg_match(\Magento\Webapi\Model\Config::SERVICE_CLASS_PATTERN, $serviceInfo['serviceInterface'], $matches);
-            if (isset($matches[4])) {
-                $version = $matches[4];
+            if (isset($matches[3])) {
+                $version = $matches[3];
             } else {
                 throw new \LogicException("Service interface name is invalid.");
             }
@@ -178,7 +197,7 @@ class Soap
         if (isset($serviceInfo['soap']['service'])) {
             $serviceName = $serviceInfo['soap']['service'];
         } else if (isset($serviceInfo['serviceInterface'])) {
-            $serviceName = $this->_soapConfig->getServiceName($serviceInfo['serviceInterface'], false);
+            $serviceName = $this->_helper->getServiceName($serviceInfo['serviceInterface'], false);
         } else {
             throw new \LogicException("Service name cannot be identified.");
         }

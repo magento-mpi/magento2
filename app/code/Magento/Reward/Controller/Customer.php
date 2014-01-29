@@ -70,6 +70,8 @@ class Customer extends \Magento\App\Action\Action
 
     /**
      * Info Action
+     *
+     * @return void
      */
     public function infoAction()
     {
@@ -85,6 +87,8 @@ class Customer extends \Magento\App\Action\Action
 
     /**
      * Save settings
+     *
+     * @return void
      */
     public function saveSettingsAction()
     {
@@ -108,6 +112,8 @@ class Customer extends \Magento\App\Action\Action
 
     /**
      * Unsubscribe customer from update/warning balance notifications
+     *
+     * @return void
      */
     public function unsubscribeAction()
     {
