@@ -100,7 +100,7 @@ class Agreement
     public function canShowTab()
     {
         $customer = $this->_coreRegistry->registry('current_customer');
-        return (bool)$customer->getId();
+        return !is_null($customer);
     }
 
     /**
@@ -135,8 +135,12 @@ class Agreement
      */
     protected function _prepareCollection()
     {
+        $customerId = $this->_coreRegistry->registry('current_customer_id');
+        if (!$customerId) {
+            $customerId = $this->_coreRegistry->registry('current_customer')->getId();
+        }
         $collection = $this->_agreementFactory->create()
-            ->addFieldToFilter('customer_id', $this->_coreRegistry->registry('current_customer')->getId())
+            ->addFieldToFilter('customer_id', $customerId)
             ->setOrder('created_at');
         $this->setCollection($collection);
         return \Magento\Backend\Block\Widget\Grid::_prepareCollection();

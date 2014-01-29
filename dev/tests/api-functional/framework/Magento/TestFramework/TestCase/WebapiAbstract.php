@@ -153,7 +153,7 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
      * @param array $serviceInfo
      * @param array $arguments
      * @param string|null $webApiAdapterCode
-     * @return array Web API call results
+     * @return array|int|string|float|bool Web API call results
      */
     protected function _webApiCall($serviceInfo, $arguments = array(), $webApiAdapterCode = null)
     {

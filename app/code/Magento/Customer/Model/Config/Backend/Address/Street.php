@@ -9,7 +9,7 @@
  */
 
 /**
- * Customer Address Street Model
+ * Line count config model for customer address street attribute
  *
  * @method string getWebsiteCode
  */
