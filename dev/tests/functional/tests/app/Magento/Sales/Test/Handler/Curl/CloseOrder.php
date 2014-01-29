@@ -109,7 +109,7 @@ class CloseOrder extends Curl
         $data = array();
         $response = $this->_executeCurl($url, $data);
 
-        $searchUrl = '#href=\"' . $_ENV['app_backend_url'] . 'sales/order/view/order_id/[0-9]+/\">View#';
+        $searchUrl = '#sales/order/view/order_id/[0-9]+/#';
 
         preg_match($searchUrl, $response, $orderUrl);
         $urlSubStrings = explode('/',$orderUrl[0]);
