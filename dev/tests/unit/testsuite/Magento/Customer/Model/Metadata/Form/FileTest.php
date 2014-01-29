@@ -178,36 +178,48 @@ class FileTest extends AbstractFormTestCase
     /**
      * @param array $expected
      * @param array $value
-     * @param bool $isValid
+     * @param array $parameters
      * @dataProvider validateValueToUploadDataProvider
      */
-    public function testValidateValueToUpload($expected, $value, $isValid = false)
+    public function testValidateValueToUpload($expected, $value, $parameters = [])
     {
+        $parameters = array_merge(['uploaded' => true, 'valid' => true], $parameters);
         $fileForm = $this->getClass($value, false);
+        $fileForm->expects($this->any())
+            ->method('_isUploadedFile')
+            ->will($this->returnValue($parameters['uploaded']));
         $this->attributeMetadataMock->expects($this->any())
             ->method('isRequired')
             ->will($this->returnValue(false));
         $this->attributeMetadataMock->expects($this->any())
             ->method('getStoreLabel')
-            ->will($this->returnValue('attributeLabel'));
+            ->will($this->returnValue('File Input Field Label'));
 
         $this->fileValidatorMock->expects($this->any())
             ->method('getMessages')
-            ->will($this->returnValue(['messages']));
+            ->will($this->returnValue(['Validation error message.']));
         $this->fileValidatorMock->expects($this->any())
             ->method('isValid')
-            ->will($this->returnValue($isValid));
+            ->will($this->returnValue($parameters['valid']));
         $this->assertEquals($expected, $fileForm->validateValue($value));
     }
 
     public function validateValueToUploadDataProvider()
     {
         return [
-            'notValid' => [['messages'], ['tmp_name' => 'file', 'name' => 'name']],
+            'notValid' => [
+                ['Validation error message.'],
+                ['tmp_name' => 'tempName_0001.bin', 'name' => 'realFileName.bin'],
+                ['valid' => false],
+            ],
+            'notUploaded' => [
+                ['"realFileName.bin" is not a valid file.'],
+                ['tmp_name' => 'tempName_0001.bin', 'name' => 'realFileName.bin'],
+                ['uploaded' => false],
+            ],
             'isValid' => [
-                ['"attributeLabel" is not a valid file.'],
-                ['tmp_name' => 'file', 'name' => 'name'],
-                true
+                true,
+                ['tmp_name' => 'tempName_0001.txt', 'name' => 'realFileName.txt'],
             ],
         ];
     }
@@ -296,16 +308,18 @@ class FileTest extends AbstractFormTestCase
      */
     protected function getClass($value, $isAjax)
     {
-        $fileForm = new File(
-            $this->localeMock,
-            $this->loggerMock,
-            $this->attributeMetadataMock,
-            $value,
-            0,
-            $isAjax,
-            $this->coreDataMock,
-            $this->fileValidatorMock,
-            $this->fileSystemMock
+        $fileForm = $this->getMock('Magento\Customer\Model\Metadata\Form\File',
+            ['_isUploadedFile'], [
+                $this->localeMock,
+                $this->loggerMock,
+                $this->attributeMetadataMock,
+                $value,
+                0,
+                $isAjax,
+                $this->coreDataMock,
+                $this->fileValidatorMock,
+                $this->fileSystemMock
+            ]
         );
         return $fileForm;
     }

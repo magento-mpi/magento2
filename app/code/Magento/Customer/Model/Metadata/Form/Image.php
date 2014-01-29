@@ -23,12 +23,12 @@ class Image extends File
      */
     protected function _validateByRules($value)
     {
-        $label  = __($this->getAttribute()->getStoreLabel());
+        $label  = $value['name'];
         $rules  = $this->getAttribute()->getValidationRules();
 
         $imageProp = @getimagesize($value['tmp_name']);
 
-        if (!is_uploaded_file($value['tmp_name']) || !$imageProp) {
+        if (!$this->_isUploadedFile($value['tmp_name']) || !$imageProp) {
             return array(
                 __('"%1" is not a valid file.', $label)
             );

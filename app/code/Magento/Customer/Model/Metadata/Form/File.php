@@ -127,7 +127,7 @@ class File extends AbstractData
      */
     protected function _validateByRules($value)
     {
-        $label  = $this->getAttribute()->getStoreLabel();
+        $label  = $value['name'];
         $rules  = $this->getAttribute()->getValidationRules();
         $extension  = pathinfo($value['name'], PATHINFO_EXTENSION);
 
@@ -136,7 +136,7 @@ class File extends AbstractData
             $extensions = array_map('trim', $extensions);
             if (!in_array($extension, $extensions)) {
                 return array(
-                    __('"%1" is not a valid file extension.', $label)
+                    __('"%1" is not a valid file extension.', $extension)
                 );
             }
         }
@@ -148,7 +148,7 @@ class File extends AbstractData
             return $this->_fileValidator->getMessages();
         }
 
-        if (!is_uploaded_file($value['tmp_name'])) {
+        if (!$this->_isUploadedFile($value['tmp_name'])) {
             return array(
                 __('"%1" is not a valid file.', $label)
             );
@@ -164,6 +164,19 @@ class File extends AbstractData
         }
 
         return array();
+    }
+
+    /**
+     * Helper function that checks if the file was uploaded.
+     *
+     * This helper function is needed for testing.
+     *
+     * @param string $filename
+     * @return bool
+     */
+    protected function _isUploadedFile($filename)
+    {
+        return is_uploaded_file($filename);
     }
 
     /**
