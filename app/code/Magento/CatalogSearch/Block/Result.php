@@ -19,7 +19,7 @@
 namespace Magento\CatalogSearch\Block;
 
 use Magento\Catalog\Block\Product\ListProduct;
-use Magento\Catalog\Model\Layer;
+use Magento\Catalog\Model\Layer as ModelLayer;
 use Magento\CatalogSearch\Helper\Data;
 use Magento\CatalogSearch\Model\Query;
 use Magento\CatalogSearch\Model\Resource\Fulltext\Collection;
@@ -45,19 +45,19 @@ class Result extends Template
     /**
      * Catalog layer
      *
-     * @var Layer
+     * @var ModelLayer
      */
     protected $_catalogLayer;
 
     /**
      * @param Context $context
-     * @param Layer $catalogLayer
+     * @param ModelLayer $catalogLayer
      * @param Data $catalogSearchData
      * @param array $data
      */
     public function __construct(
         Context $context,
-        Layer $catalogLayer,
+        ModelLayer $catalogLayer,
         Data $catalogSearchData,
         array $data = array()
     ) {
