@@ -72,6 +72,8 @@ class Viewed extends \Magento\Sales\Model\Resource\Report\AbstractReport
 
     /**
      * Model initialization
+     *
+     * @return void
      */
     protected function _construct()
     {

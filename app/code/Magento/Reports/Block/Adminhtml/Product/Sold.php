@@ -27,6 +27,8 @@ class Sold extends \Magento\Backend\Block\Widget\Grid\Container
 
     /**
      * Initialize container block settings
+     *
+     * @return void
      */
     protected function _construct()
     {

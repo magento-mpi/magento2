@@ -35,6 +35,8 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
 
     /**
      * Init grid parameters
+     *
+     * @return void
      */
     protected function _construct()
     {

@@ -43,6 +43,8 @@ class Viewed extends \Magento\Reports\Block\Product\AbstractProduct
 
     /**
      * Added predefined ids support
+     *
+     * @return int
      */
     public function getCount()
     {

@@ -22,6 +22,8 @@ class Collection extends \Magento\Review\Model\Resource\Review\Collection
 {
     /**
      * Resource initialization
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -31,7 +33,7 @@ class Collection extends \Magento\Review\Model\Resource\Review\Collection
     /**
      * Add product filter
      *
-     * @param unknown_type $productId
+     * @param string $productId
      * @return $this
      */
     public function addProductFilter($productId)

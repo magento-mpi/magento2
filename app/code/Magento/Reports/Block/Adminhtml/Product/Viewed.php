@@ -25,6 +25,9 @@ class Viewed extends \Magento\Backend\Block\Widget\Grid\Container
      */
     protected $_template = 'report/grid/container.phtml';
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_blockGroup = 'Magento_Reports';

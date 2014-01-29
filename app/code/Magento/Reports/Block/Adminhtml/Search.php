@@ -23,6 +23,7 @@ class Search extends \Magento\Backend\Block\Widget\Grid\Container
     /**
      * Initialize Grid Container
      *
+     * @return void
      */
     protected function _construct()
     {

@@ -60,7 +60,7 @@ class Shopcart extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Get currency rate (base to given currency)
      *
-     * @param string|\Magento\Directory\Model\Currency $currencyCode
+     * @param string|\Magento\Directory\Model\Currency $toCurrency
      * @return double
      */
     public function getRate($toCurrency)

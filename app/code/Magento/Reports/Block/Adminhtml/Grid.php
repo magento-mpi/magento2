@@ -232,7 +232,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
      * Set visibility of date filter
      *
      * @param bool $visible
-     * @return bool
+     * @return void
      */
     public function setDateFilterVisibility($visible=true)
     {

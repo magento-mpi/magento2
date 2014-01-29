@@ -58,6 +58,9 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
         );
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -145,8 +148,7 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
     }
 
     /**
-     * Preparing collection
-     * Filter canceled statuses for orders in taxes
+     * Preparing collection.  Filter canceled statuses for orders in taxes
      *
      * @return \Magento\Reports\Block\Adminhtml\Sales\Tax\Grid
      */

@@ -22,6 +22,8 @@ class Collection extends \Magento\Wishlist\Model\Resource\Item\Collection
 {
     /**
      * Resource initialization
+     *
+     * @return void
      */
     public function _construct()
     {

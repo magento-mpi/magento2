@@ -76,6 +76,9 @@ class AbstractGrid extends \Magento\Backend\Block\Widget\Grid\Extended
         parent::__construct($context, $backendHelper, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -321,7 +324,7 @@ class AbstractGrid extends \Magento\Backend\Block\Widget\Grid\Extended
     }
 
     /**
-     * @return
+     * @return string
      */
     public function getCurrentCurrencyCode()
     {
@@ -336,7 +339,7 @@ class AbstractGrid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Get currency rate (base to given currency)
      *
-     * @param string|\Magento\Directory\Model\Currency $currencyCode
+     * @param string|\Magento\Directory\Model\Currency $toCurrency
      * @return double
      */
     public function getRate($toCurrency)

@@ -48,7 +48,7 @@ class Collection extends \Magento\Data\Collection
     /**
      * Get if updated
      *
-     * @param $reportCode
+     * @param string $reportCode
      * @return string|\Zend_Date
      */
     protected function _getUpdatedAt($reportCode)

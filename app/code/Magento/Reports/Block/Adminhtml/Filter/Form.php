@@ -43,8 +43,8 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Set field visibility
      *
-     * @param string Field id
-     * @param bool Field visibility
+     * @param string $fieldId
+     * @param bool $visibility
      * @return void
      */
     public function setFieldVisibility($fieldId, $visibility)
@@ -55,8 +55,8 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Get field visibility
      *
-     * @param string Field id
-     * @param bool Default field visibility
+     * @param string $fieldId
+     * @param bool $defaultVisibility
      * @return bool
      */
     public function getFieldVisibility($fieldId, $defaultVisibility = true)
