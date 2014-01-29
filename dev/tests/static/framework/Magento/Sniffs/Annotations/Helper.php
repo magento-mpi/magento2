@@ -222,7 +222,7 @@ class Helper
             self::MESSAGE => 'Content missing for @see tag in %s comment'
         ),
         self::SEE_INDENT => array(
-            self::LEVEL => self::WARNING,
+            self::LEVEL => self::OFF,
             self::MESSAGE => '@see tag indented incorrectly; expected 1 spaces but found %s'
         ),
         self::DUPLICATE_RETURN => array(
@@ -306,7 +306,7 @@ class Helper
             self::MESSAGE => 'The incorrect inherit doc tag usage. Should be {@inheritdoc}'
         ),
         self::RETURN_INDENT => array(
-            self::LEVEL => self::WARNING,
+            self::LEVEL => self::OFF,
             self::MESSAGE => '@return tag indented incorrectly; expected 1 space but found %s'
         ),
         self::MISSING_RETURN => array(
@@ -346,7 +346,7 @@ class Helper
             self::MESSAGE => 'Parameters must appear immediately after the comment'
         ),
         self::SPACING_BEFORE_PARAM_TYPE => array(
-            self::LEVEL => self::WARNING,
+            self::LEVEL => self::OFF,
             self::MESSAGE => 'Expected 1 space before variable type'
         ),
         self::LONG_NOT_CAPITAL => array(
@@ -374,7 +374,7 @@ class Helper
             self::MESSAGE => 'Expected "%s"; found "%s" for @var tag in variable comment'
         ),
         self::VAR_INDENT => array(
-            self::LEVEL => self::WARNING,
+            self::LEVEL => self::OFF,
             self::MESSAGE => '@var tag indented incorrectly; expected 1 space but found %s'
         ),
         self::MISSING_VAR => array(
@@ -502,6 +502,18 @@ class Helper
             $return = true;
         }
         return $return;
+    }
+
+    /**
+     * Determine if the text has an ambiguous type
+     *
+     * @param string $text
+     * @param array &$matches Type that was detected as ambiguous is in result.
+     * @return bool
+     */
+    public function isAmbiguous($text, &$matches = array())
+    {
+        return preg_match('/(array|mixed)/', $text, $matches);
     }
 
     /**

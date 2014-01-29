@@ -314,9 +314,9 @@ class RequireAnnotatedAttributesSniff extends PHP_CodeSniffer_Standards_Abstract
                         Helper::INCORRECT_VAR_TYPE,
                         $data
                     );
-                } elseif ($content === 'array' || $content === 'mixed') {
+                } elseif ($this->helper->isAmbiguous($content, $matches)) {
                     // Warn about ambiguous types ie array or mixed
-                    $data = array($content,'@var');
+                    $data = array($matches[1],'@var');
                     $this->helper->addMessage(
                         $errorPos,
                         Helper::AMBIGUOUS_TYPE,

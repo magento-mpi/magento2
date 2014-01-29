@@ -388,9 +388,9 @@ class RequireAnnotatedMethodsSniff implements PHP_CodeSniffer_Sniff
                             Helper::INVALID_RETURN,
                             $data
                         );
-                    } elseif ($content === 'array' || $content === 'mixed') {
+                    } elseif ($this->helper->isAmbiguous($typeName, $matches)) {
                         // Warn about ambiguous types ie array or mixed
-                        $data = array($typeName, '@return');
+                        $data = array($matches[1], '@return');
                         $this->helper->addMessage(
                             $errorPos,
                             Helper::AMBIGUOUS_TYPE,
@@ -625,9 +625,9 @@ class RequireAnnotatedMethodsSniff implements PHP_CodeSniffer_Sniff
                             Helper::INCORRECT_PARAM_VAR_NAME,
                             $data
                         );
-                    } elseif ($typeName === 'array' || $typeName === 'mixed') {
+                    } elseif ($this->helper->isAmbiguous($typeName, $matches)) {
                         // Warn about ambiguous types ie array or mixed
-                        $data = array($typeName, $paramName, ' at position '.$pos.' is NOT recommended');
+                        $data = array($matches[1], $paramName, ' at position '.$pos.' is NOT recommended');
                         $this->helper->addMessage(
                             $commentEnd + 2,
                             Helper::AMBIGUOUS_TYPE,
