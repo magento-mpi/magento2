@@ -9,6 +9,6 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceBlock name="catalog.product.rss.feed.renderer.list">
-        <block class="Magento\GiftCard\Block\Catalog\Product\Price" name="giftcard" template="rss/catalog/product/price.phtml" />
+        <block class="Magento\GiftCard\Block\Catalog\Product\Price" as="giftcard" template="rss/catalog/product/price.phtml" />
     </referenceBlock>
 </layout>
