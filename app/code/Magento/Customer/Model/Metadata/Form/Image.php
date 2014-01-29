@@ -30,7 +30,7 @@ class Image extends File
 
         if (!is_uploaded_file($value['tmp_name']) || !$imageProp) {
             return array(
-                __('"%1" is not a valid file', $label)
+                __('"%1" is not a valid file.', $label)
             );
         }
 
