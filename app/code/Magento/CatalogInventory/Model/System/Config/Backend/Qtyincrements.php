@@ -18,6 +18,9 @@ class Qtyincrements extends \Magento\Core\Model\Config\Value
 {
     /**
      * Validate data before save
+     *
+     * @return void
+     * @throws \Magento\Core\Exception
      */
     protected function _beforeSave()
     {

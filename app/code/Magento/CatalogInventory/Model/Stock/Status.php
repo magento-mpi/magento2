@@ -7,6 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\CatalogInventory\Model\Stock;
+
+use Magento\Catalog\Model\Product\Type\AbstractType;
+use Magento\Catalog\Model\Product\Type;
 
 /**
  * CatalogInventory Stock Status per website Model
@@ -14,17 +18,16 @@
  * @method \Magento\CatalogInventory\Model\Resource\Stock\Status _getResource()
  * @method \Magento\CatalogInventory\Model\Resource\Stock\Status getResource()
  * @method int getProductId()
- * @method \Magento\CatalogInventory\Model\Stock\Status setProductId(int $value)
+ * @method $this setProductId(int $value)
  * @method int getWebsiteId()
- * @method \Magento\CatalogInventory\Model\Stock\Status setWebsiteId(int $value)
+ * @method $this setWebsiteId(int $value)
  * @method int getStockId()
- * @method \Magento\CatalogInventory\Model\Stock\Status setStockId(int $value)
+ * @method $this setStockId(int $value)
  * @method float getQty()
- * @method \Magento\CatalogInventory\Model\Stock\Status setQty(float $value)
+ * @method $this setQty(float $value)
  * @method int getStockStatus()
- * @method \Magento\CatalogInventory\Model\Stock\Status setStockStatus(int $value)
+ * @method $this setStockStatus(int $value)
  */
-namespace Magento\CatalogInventory\Model\Stock;
 
 class Status extends \Magento\Core\Model\AbstractModel
 {
@@ -53,7 +56,7 @@ class Status extends \Magento\Core\Model\AbstractModel
     protected $_catalogInventoryData;
 
     /**
-     * @var \Magento\Catalog\Model\Product\Type
+     * @var Type
      */
     protected $_productType;
 
@@ -67,18 +70,18 @@ class Status extends \Magento\Core\Model\AbstractModel
     /**
      * Stock item factory
      *
-     * @var \Magento\CatalogInventory\Model\Stock\ItemFactory
+     * @var ItemFactory
      */
     protected $_stockItemFactory;
 
     /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Catalog\Model\Product\Type $productType
+     * @param Type $productType
      * @param \Magento\Catalog\Model\Product\Status $productStatus
      * @param \Magento\Catalog\Model\Product\Website $productWebsite
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory
+     * @param ItemFactory $stockItemFactory
      * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -87,11 +90,11 @@ class Status extends \Magento\Core\Model\AbstractModel
     public function __construct(
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Catalog\Model\Product\Type $productType,
+        Type $productType,
         \Magento\Catalog\Model\Product\Status $productStatus,
         \Magento\Catalog\Model\Product\Website $productWebsite,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory,
+        ItemFactory $stockItemFactory,
         \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
@@ -110,6 +113,7 @@ class Status extends \Magento\Core\Model\AbstractModel
     /**
      * Init resource model
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -139,7 +143,7 @@ class Status extends \Magento\Core\Model\AbstractModel
      * Retrieve Product Type Instance By Product Type
      *
      * @param string $productType
-     * @return \Magento\Catalog\Model\Product\Type\AbstractType
+     * @return AbstractType|false
      */
     public function getProductTypeInstance($productType)
     {
@@ -153,6 +157,7 @@ class Status extends \Magento\Core\Model\AbstractModel
     /**
      * Retrieve website models
      *
+     * @param int|null $websiteId
      * @return array
      */
     public function getWebsites($websiteId = null)
@@ -197,10 +202,10 @@ class Status extends \Magento\Core\Model\AbstractModel
     /**
      * Change Stock Item status process
      *
-     * @param \Magento\CatalogInventory\Model\Stock\Item $item
-     * @return \Magento\CatalogInventory\Model\Stock\Status
+     * @param Item $item
+     * @return $this
      */
-    public function changeItemStatus(\Magento\CatalogInventory\Model\Stock\Item $item)
+    public function changeItemStatus(Item $item)
     {
         $productId  = $item->getProductId();
         if (!$productType = $item->getProductTypeId()) {
@@ -222,7 +227,7 @@ class Status extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Catalog\Model\Product $product
      * @param int $stockId
      * @param int $stockStatus
-     * @return \Magento\CatalogInventory\Model\Stock\Status
+     * @return $this
      */
     public function assignProduct(\Magento\Catalog\Model\Product $product, $stockId = 1, $stockStatus = null)
     {
@@ -241,7 +246,7 @@ class Status extends \Magento\Core\Model\AbstractModel
      * Rebuild stock status for all products
      *
      * @param int $websiteId
-     * @return \Magento\CatalogInventory\Model\Stock\Status
+     * @return $this
      */
     public function rebuild($websiteId = null)
     {
@@ -267,7 +272,7 @@ class Status extends \Magento\Core\Model\AbstractModel
      * @param int $productId
      * @param string $productType
      * @param int $websiteId
-     * @return \Magento\CatalogInventory\Model\Stock\Status
+     * @return $this
      */
     public function updateStatus($productId, $productType = null, $websiteId = null)
     {
@@ -275,7 +280,7 @@ class Status extends \Magento\Core\Model\AbstractModel
             $productType = $this->getProductType($productId);
         }
 
-        /** @var \Magento\CatalogInventory\Model\Stock\Item $item */
+        /** @var Item $item */
         $item = $this->_stockItemFactory->create()->loadByProduct($productId);
 
         $status  = self::STATUS_IN_STOCK;
@@ -300,8 +305,7 @@ class Status extends \Magento\Core\Model\AbstractModel
      * @param int $status
      * @param int $stockId
      * @param int $websiteId
-     *
-     * @return \Magento\CatalogInventory\Model\Stock\Status
+     * @return $this
      */
     protected function _processChildren(
         $productId,
@@ -372,13 +376,13 @@ class Status extends \Magento\Core\Model\AbstractModel
      * @param int $productId
      * @param int $stockId
      * @param int $websiteId
-     * @return \Magento\CatalogInventory\Model\Stock\Status
+     * @return $this
      */
     protected function _processParents($productId, $stockId = 1, $websiteId = null)
     {
         $parentIds = array();
         foreach ($this->getProductTypeInstances() as $typeInstance) {
-            /* @var $typeInstance \Magento\Catalog\Model\Product\Type\AbstractType */
+            /* @var $typeInstance AbstractType */
             $parentIds = array_merge($parentIds, $typeInstance->getParentIdsByChild($productId));
         }
 
@@ -387,7 +391,7 @@ class Status extends \Magento\Core\Model\AbstractModel
         }
 
         $productTypes = $this->getProductsType($parentIds);
-        /** @var \Magento\CatalogInventory\Model\Stock\Item $item */
+        /** @var Item $item */
         $item = $this->_stockItemFactory->create();
 
         foreach ($parentIds as $parentId) {
@@ -417,7 +421,7 @@ class Status extends \Magento\Core\Model\AbstractModel
      * @param int $qty
      * @param int $stockId
      * @param int|null $websiteId
-     * @return \Magento\CatalogInventory\Model\Stock\Status
+     * @return $this
      */
     public function saveProductStatus($productId, $status, $qty = 0, $stockId = 1, $websiteId = null)
     {
@@ -484,7 +488,7 @@ class Status extends \Magento\Core\Model\AbstractModel
      * @param   \Magento\Catalog\Model\Resource\Product\Collection $productCollection
      * @param   int|null $websiteId
      * @param   int|null $stockId
-     * @return  \Magento\CatalogInventory\Model\Stock\Status
+     * @return  $this
      */
     public function addStockStatusToProducts($productCollection, $websiteId = null, $stockId = null)
     {
@@ -525,7 +529,7 @@ class Status extends \Magento\Core\Model\AbstractModel
      *
      * @param \Magento\DB\Select $select
      * @param \Magento\Core\Model\Website $website
-     * @return \Magento\CatalogInventory\Model\Stock\Status
+     * @return $this
      */
     public function addStockStatusToSelect(\Magento\DB\Select $select, \Magento\Core\Model\Website $website)
     {
@@ -539,7 +543,7 @@ class Status extends \Magento\Core\Model\AbstractModel
      * @param \Magento\DB\Select $select
      * @param string|Zend_Db_Expr $entityField
      * @param string|Zend_Db_Expr $websiteField
-     * @return \Magento\CatalogInventory\Model\Stock\Status
+     * @return $this
      */
     public function prepareCatalogProductIndexSelect(\Magento\DB\Select $select, $entityField, $websiteField)
     {
@@ -556,7 +560,7 @@ class Status extends \Magento\Core\Model\AbstractModel
      * Add only is in stock products filter to product collection
      *
      * @param \Magento\Catalog\Model\Resource\Product\Collection $collection
-     * @return \Magento\CatalogInventory\Model\Stock\Status
+     * @return $this
      */
     public function addIsInStockFilterToCollection($collection)
     {
