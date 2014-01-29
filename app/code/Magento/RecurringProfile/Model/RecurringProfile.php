@@ -12,7 +12,7 @@
  * Recurring payment profile
  * Extends from \Magento\Core\Abstract for a reason: to make descendants have its own resource
  */
-namespace Magento\RecurringProfile\Model\RecurringProfile;
+namespace Magento\RecurringProfile\Model;
 
 use Magento\RecurringProfile\Model\PeriodUnits;
 

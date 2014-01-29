@@ -11,7 +11,7 @@
 /**
  * Recurring profile gateway management interface
  */
-namespace Magento\RecurringProfile\Model\RecurringProfile;
+namespace Magento\Payment\Model\Recurring\Profile;
 
 interface MethodInterface
 {
