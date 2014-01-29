@@ -9,8 +9,6 @@
  */
 namespace Magento\Customer\Service\V1;
 
-use Magento\Customer\Service\V1;
-
 class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -122,7 +120,7 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateGroup()
     {
-        $group = new V1\Dto\CustomerGroup([
+        $group = new Dto\CustomerGroup([
           'id' => null,
           'code' => 'Test Group',
           'tax_class_id' => 4
@@ -138,7 +136,7 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testUpdateGroup()
     {
-        $group = new V1\Dto\CustomerGroup([
+        $group = new Dto\CustomerGroup([
           'id' => null,
           'code' => 'New Group',
           'tax_class_id' => 4
@@ -151,7 +149,7 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($group->getCode(), $newGroup->getCode());
         $this->assertEquals($group->getTaxClassId(), $newGroup->getTaxClassId());
 
-        $updates = new V1\Dto\CustomerGroup([
+        $updates = new Dto\CustomerGroup([
           'id' => $groupId,
           'code' => 'Updated Group',
           'tax_class_id' => 2
@@ -172,7 +170,7 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testSearchGroups($filters, $orGroup, $expectedResult)
     {
-        $searchBuilder = new V1\Dto\SearchCriteriaBuilder();
+        $searchBuilder = new Dto\SearchCriteriaBuilder();
         foreach ($filters as $filter) {
             $searchBuilder->addFilter($filter);
         }
@@ -194,15 +192,15 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'eq' => [
-                [(new V1\Dto\FilterBuilder())->setField('code')->setValue('General')->create()],
+                [(new Dto\FilterBuilder())->setField('code')->setValue('General')->create()],
                 null,
                 [1 => ['code' => 'General', 'tax_class_id' => 3]]
             ],
             'and' => [
                 [
-                    (new V1\Dto\FilterBuilder())->setField('code')->setValue('General')->create(),
-                    (new V1\Dto\FilterBuilder())->setField('tax_class_id')->setValue('3')->create(),
-                    (new V1\Dto\FilterBuilder())->setField('id')->setValue('1')->create(),
+                    (new Dto\FilterBuilder())->setField('code')->setValue('General')->create(),
+                    (new Dto\FilterBuilder())->setField('tax_class_id')->setValue('3')->create(),
+                    (new Dto\FilterBuilder())->setField('id')->setValue('1')->create(),
                 ],
                 [],
                 [1 => ['code' => 'General', 'tax_class_id' => 3]]
@@ -210,8 +208,8 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
             'or' => [
                 [],
                 [
-                    (new V1\Dto\FilterBuilder())->setField('code')->setValue('General')->create(),
-                    (new V1\Dto\FilterBuilder())->setField('code')->setValue('Wholesale')->create(),
+                    (new Dto\FilterBuilder())->setField('code')->setValue('General')->create(),
+                    (new Dto\FilterBuilder())->setField('code')->setValue('Wholesale')->create(),
                 ],
                 [
                     1 => ['code' => 'General', 'tax_class_id' => 3],
@@ -219,7 +217,7 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
                 ]
             ],
             'like' => [
-                [(new V1\Dto\FilterBuilder())->setField('code')->setValue('er')->setConditionType('like')->create()],
+                [(new Dto\FilterBuilder())->setField('code')->setValue('er')->setConditionType('like')->create()],
                 [],
                 [
                     1 => ['code' => 'General', 'tax_class_id' => 3],
