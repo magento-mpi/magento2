@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Rma\Model;
+
 /**
  * Factory class for \Magento\Usa\Model\Shipping\Carrier\AbstractCarrier
  */
-namespace Magento\Rma\Model;
-
 class CarrierFactory
 {
     /**

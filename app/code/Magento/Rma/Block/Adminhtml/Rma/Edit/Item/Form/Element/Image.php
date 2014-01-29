@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Item\Form\Element;
 
 /**
  * RMA Item Widget Form Image File Element Block
@@ -16,8 +16,6 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Item\Form\Element;
-
 class Image extends \Magento\Data\Form\Element\AbstractElement
 {
     /**
@@ -159,7 +157,7 @@ class Image extends \Magento\Data\Form\Element\AbstractElement
     /**
      * Return Image URL
      *
-     * @return string
+     * @return string|false
      */
     protected function _getPreviewUrl()
     {
@@ -208,7 +206,7 @@ class Image extends \Magento\Data\Form\Element\AbstractElement
      * Return escaped value
      *
      * @param int $index
-     * @return string
+     * @return string|false
      */
     public function getEscapedValue($index = null)
     {

@@ -87,6 +87,8 @@ class Info extends \Magento\View\Element\Template
 
     /**
      * Set various variables requested by template
+     *
+     * @return void
      */
     protected function _prepareTemplateData()
     {

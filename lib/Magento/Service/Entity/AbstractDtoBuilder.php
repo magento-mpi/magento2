@@ -26,7 +26,7 @@ abstract class AbstractDtoBuilder
      * Populates the fields with an existing entity.
      *
      * @param \Magento\Service\Entity\AbstractDto $prototype the prototype to base on
-     * @return $this
+     * @return AbstractDtoBuilder
      */
     public function populate(\Magento\Service\Entity\AbstractDto $prototype)
     {
@@ -59,6 +59,7 @@ abstract class AbstractDtoBuilder
      * Populates the fields with data from the array.
      *
      * @param array $data
+     * @return self
      */
     public function populateWithArray(array $data)
     {
@@ -84,7 +85,7 @@ abstract class AbstractDtoBuilder
      * @param string $key
      * @param mixed $value
      *
-     * @return AbstractDto
+     * @return self
      */
     protected function _set($key, $value)
     {

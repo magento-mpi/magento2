@@ -27,8 +27,8 @@ class Attribute extends \Zend_Gdata_App_Extension_Element
      *
      * @param string $name The name of the Content attribute
      * @param string $text The text value of the Content attribute
-     * @param string $text The type of the Content attribute
-     * @param string $unit Currennce for prices
+     * @param string $type The type of the Content attribute
+     * @param string $unit Currency for prices
      */
     public function __construct($name = null, $text = null, $type = null, $unit = null)
     {
@@ -63,7 +63,7 @@ class Attribute extends \Zend_Gdata_App_Extension_Element
     /**
      * Get the name of the attribute
      *
-     * @return attribute name The requested object.
+     * @return string|null name The requested object.
      */
     public function getName()
     {
@@ -74,9 +74,9 @@ class Attribute extends \Zend_Gdata_App_Extension_Element
     }
 
     /**
-     * Get the type of the attribute
+     * Get the currency for prices
      *
-     * @return attribute type The requested object.
+     * @return string|null attribute type The requested object.
      */
     public function getUnit()
     {
@@ -86,13 +86,19 @@ class Attribute extends \Zend_Gdata_App_Extension_Element
     /**
      * Get the type of the attribute
      *
-     * @return attribute type The requested object.
+     * @return string|null attribute type The requested object.
      */
     public function getType()
     {
         return isset($this->_extensionAttributes['type']['value']) ? $this->_extensionAttributes['type']['value'] : null;
     }
 
+    /**
+     * Set the currency for prices
+     *
+     * @param string $value
+     * @return $this
+     */
     public function setUnit($value)
     {
         $this->_extensionAttributes['unit'] = array(
@@ -103,6 +109,12 @@ class Attribute extends \Zend_Gdata_App_Extension_Element
         return $this;
     }
 
+    /**
+     * Set the type of the attribute
+     *
+     * @param string $value
+     * @return $this
+     */
     public function setType($value)
     {
         $this->_extensionAttributes['type'] = array(

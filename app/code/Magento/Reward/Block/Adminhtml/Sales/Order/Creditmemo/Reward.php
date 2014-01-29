@@ -55,7 +55,7 @@ class Reward
     /**
      * Check whether can refund reward points to customer
      *
-     * @return boolean
+     * @return bool
      */
     public function canRefundRewardPoints()
     {

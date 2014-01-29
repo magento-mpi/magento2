@@ -6,8 +6,8 @@
  * @license     {license_link}
  */
 return array(
-    '\Magento\TestModule1\Service\AllSoapAndRestV1Interface' => array(
-        'class' => '\Magento\TestModule1\Service\AllSoapAndRestV1Interface',
+    '\Magento\TestModule1\Service\V1\AllSoapAndRestInterface' => array(
+        'class' => '\Magento\TestModule1\Service\V1\AllSoapAndRestInterface',
         'methods' => array(
             'item' => array(
                 'httpMethod' => 'GET',
@@ -26,8 +26,8 @@ return array(
         ),
         'baseUrl' => '/V1/testmodule1',
     ),
-    '\Magento\TestModule1\Service\AllSoapAndRestV2Interface' => array(
-        'class' => '\Magento\TestModule1\Service\AllSoapAndRestV2Interface',
+    '\Magento\TestModule1\Service\V2\AllSoapAndRestInterface' => array(
+        'class' => '\Magento\TestModule1\Service\V2\AllSoapAndRestInterface',
         'methods' => array(
             'item' => array(
                 'httpMethod' => 'GET',
@@ -53,8 +53,8 @@ return array(
         ),
         'baseUrl' => '/V2/testmodule1',
     ),
-    '\Magento\TestModule2\Service\AllSoapAndRestV2Interface' => array(
-        'class' => '\Magento\TestModule2\Service\AllSoapAndRestV2Interface',
+    '\Magento\TestModule2\Service\V2\AllSoapAndRestInterface' => array(
+        'class' => '\Magento\TestModule2\Service\V2\AllSoapAndRestInterface',
         'methods' => array(
             'update' => array(
                 'httpMethod' => 'PUT',

@@ -24,7 +24,7 @@ class Observer
     protected $_processor;
 
     /**
-     * @var \Magento\Core\Model\Config
+     * @var \Magento\App\ConfigInterface
      */
     protected $_coreConfig;
 
@@ -73,7 +73,7 @@ class Observer
      * @param \Magento\User\Model\User $user
      * @param \Magento\Logging\Model\Event $event
      * @param \Magento\Logging\Model\Processor $processor
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\App\ConfigInterface $coreConfig
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Logging\Model\FlagFactory $flagFactory
      * @param \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
@@ -84,7 +84,7 @@ class Observer
         \Magento\User\Model\User $user,
         \Magento\Logging\Model\Event $event,
         \Magento\Logging\Model\Processor $processor,
-        \Magento\Core\Model\Config $coreConfig,
+        \Magento\App\ConfigInterface $coreConfig,
         \Magento\App\RequestInterface $request,
         \Magento\Logging\Model\FlagFactory $flagFactory,
         \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
@@ -103,7 +103,8 @@ class Observer
     /**
      * Model after save observer.
      *
-     * @param \Magento\Event\Observer
+     * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function modelSaveAfter($observer)
     {
@@ -113,7 +114,8 @@ class Observer
     /**
      * Model after delete observer.
      *
-     * @param \Magento\Event\Observer
+     * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function modelDeleteAfter($observer)
     {
@@ -123,7 +125,8 @@ class Observer
     /**
      * Model after load observer.
      *
-     * @param \Magento\Event\Observer
+     * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function modelLoadAfter($observer)
     {
@@ -133,7 +136,8 @@ class Observer
     /**
      * Log marked actions
      *
-     * @param \Magento\Event\Observer $observer
+     * @param \Magento\Event\Observer $observer $observer
+     * @return void
      */
     public function controllerPostdispatch($observer)
     {
@@ -146,6 +150,7 @@ class Observer
      * Log successful admin sign in
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function adminSessionLoginSuccess($observer)
     {
@@ -156,6 +161,7 @@ class Observer
      * Log failure of sign in
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function adminSessionLoginFailed($observer)
     {
@@ -201,6 +207,8 @@ class Observer
 
     /**
      * Cron job for logs rotation
+     *
+     * @return void
      */
     public function rotateLogs()
     {

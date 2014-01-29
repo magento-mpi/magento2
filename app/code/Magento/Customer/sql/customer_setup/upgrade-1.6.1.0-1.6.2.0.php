@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-/* @var $installer \Magento\Customer\Model\Entity\Setup */
+/* @var $installer \Magento\Customer\Model\Resource\Setup */
 $installer = $this;
 
 $disableAGCAttributeCode = 'disable_auto_group_change';

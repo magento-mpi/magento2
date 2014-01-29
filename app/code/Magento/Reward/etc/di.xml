@@ -10,16 +10,16 @@
 <config>
     <type name="Magento\Module\Manager">
         <param name="outputConfigPaths">
-            <value>
-                <Magento_Reward>Magento\Reward\Helper\Data::XML_PATH_ENABLED</Magento_Reward>
-            </value>
+            <array>
+                <item key="Magento_Reward"><value>Magento\Reward\Helper\Data::XML_PATH_ENABLED</value></item>
+            </array>
         </param>
     </type>
     <type name="Magento\Module\Updater\SetupFactory">
         <param name="resourceTypes">
-            <value>
-                <reward_setup>Magento\Reward\Model\Resource\Setup</reward_setup>
-            </value>
+            <array>
+                <item key="reward_setup"><value>Magento\Reward\Model\Resource\Setup</value></item>
+            </array>
         </param>
     </type>
 </config>

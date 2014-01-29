@@ -42,12 +42,18 @@ class Shipping extends \Magento\Checkout\Block\Cart\AbstractCart
     protected $_taxHelper;
 
     /**
+     * @var \Magento\Sales\Model\Quote\Address\CarrierFactoryInterface
+     */
+    protected $_carrierFactory;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Directory\Block\Data $directoryBlock
      * @param \Magento\Tax\Helper\Data $taxHelper
+     * @param \Magento\Sales\Model\Quote\Address\CarrierFactoryInterface $carrierFactory
      * @param array $data
      */
     public function __construct(
@@ -57,10 +63,12 @@ class Shipping extends \Magento\Checkout\Block\Cart\AbstractCart
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Directory\Block\Data $directoryBlock,
         \Magento\Tax\Helper\Data $taxHelper,
+        \Magento\Sales\Model\Quote\Address\CarrierFactoryInterface $carrierFactory,
         array $data = array()
     ) {
-        $this->_taxHelper = $taxHelper;
         $this->_directoryBlock = $directoryBlock;
+        $this->_taxHelper = $taxHelper;
+        $this->_carrierFactory = $carrierFactory;
         parent::__construct($context, $catalogData, $customerSession, $checkoutSession, $data);
         $this->_isScopePrivate = true;
     }
@@ -249,7 +257,7 @@ class Shipping extends \Magento\Checkout\Block\Cart\AbstractCart
             foreach ($this->_rates as $rateGroup) {
                 if (!empty($rateGroup)) {
                     foreach ($rateGroup as $rate) {
-                        $this->_carriers[] = $rate->getCarrierInstance();
+                        $this->_carriers[] = $this->_carrierFactory->get($rate->getCarrier());
                     }
                 }
             }

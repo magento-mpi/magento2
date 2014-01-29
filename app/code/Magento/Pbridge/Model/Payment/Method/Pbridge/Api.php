@@ -36,6 +36,10 @@ class Api extends \Magento\Pbridge\Model\Pbridge\Api\AbstractApi
         return http_build_query($request, '', '&');
     }
 
+    /**
+     * @param int $orderId
+     * @return $this
+     */
     public function validateToken($orderId)
     {
         \Magento\Profiler::start('pbridge_validate_token', array(

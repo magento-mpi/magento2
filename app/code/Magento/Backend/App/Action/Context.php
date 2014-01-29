@@ -31,7 +31,7 @@ class Context extends \Magento\App\Action\Context
     protected $_helper;
 
     /**
-     * @var \Magento\Backend\Model\Url
+     * @var \Magento\Backend\Model\UrlInterface
      */
     protected $_backendUrl;
 
@@ -74,7 +74,7 @@ class Context extends \Magento\App\Action\Context
      * @param \Magento\AuthorizationInterface $authorization
      * @param \Magento\Backend\Model\Auth $auth
      * @param \Magento\Backend\Helper\Data $helper
-     * @param \Magento\Backend\Model\Url $backendUrl
+     * @param \Magento\Backend\Model\UrlInterface $backendUrl
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      * @param \Magento\App\Action\Title $title
      * @param \Magento\Core\Model\LocaleInterface $locale
@@ -94,7 +94,7 @@ class Context extends \Magento\App\Action\Context
         \Magento\AuthorizationInterface $authorization,
         \Magento\Backend\Model\Auth $auth,
         \Magento\Backend\Helper\Data $helper,
-        \Magento\Backend\Model\Url $backendUrl,
+        \Magento\Backend\Model\UrlInterface $backendUrl,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
         \Magento\App\Action\Title $title,
         \Magento\Core\Model\LocaleInterface $locale,
@@ -140,7 +140,7 @@ class Context extends \Magento\App\Action\Context
     }
 
     /**
-     * @return \Magento\Backend\Model\Url
+     * @return \Magento\Backend\Model\UrlInterface
      */
     public function getBackendUrl()
     {

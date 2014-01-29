@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
-/**
- * RMA Item model
- */
 namespace Magento\Rma\Model;
 
+/**
+ * RMA Attribute model
+ */
 class Attribute extends \Magento\Eav\Model\Entity\Attribute
 {
     /**

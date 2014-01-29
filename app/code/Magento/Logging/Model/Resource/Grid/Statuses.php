@@ -10,6 +10,11 @@ namespace Magento\Logging\Model\Resource\Grid;
 
 class Statuses implements \Magento\Core\Model\Option\ArrayInterface
 {
+    /**
+     * Get options as array
+     *
+     * @return array
+     */
     public function toOptionArray()
     {
         return array(

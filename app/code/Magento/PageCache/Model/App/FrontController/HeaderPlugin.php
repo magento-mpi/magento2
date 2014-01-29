@@ -20,6 +20,11 @@ class HeaderPlugin
     protected $layout;
 
     /**
+     * @var \Magento\App\ConfigInterface
+     */
+    protected $config;
+    
+    /**
      * @var \Magento\PageCache\Model\Version
      */
     private $version;
@@ -33,16 +38,19 @@ class HeaderPlugin
      * Constructor
      *
      * @param \Magento\Core\Model\Layout $layout
+     * @param \Magento\App\ConfigInterface $config
      * @param \Magento\PageCache\Helper\Data
      * @param \Magento\PageCache\Model\Version $version
      */
     public function __construct(
         \Magento\Core\Model\Layout $layout,
+        \Magento\App\ConfigInterface $config,
         \Magento\PageCache\Helper\Data $helper,
         \Magento\PageCache\Model\Version $version
     ){
         $this->layout = $layout;
         $this->helper = $helper;
+        $this->config = $config;
         $this->version = $version;
     }
 

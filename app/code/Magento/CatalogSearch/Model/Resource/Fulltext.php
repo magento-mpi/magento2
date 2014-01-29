@@ -53,7 +53,7 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * @var \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory
      */
-    protected $_productAttributeCollFactory;
+    protected $_productAttributeCollectionFactory;
 
     /**
      * Catalog product status
@@ -133,7 +133,7 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param \Magento\Catalog\Model\Product\Type $catalogProductType
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Catalog\Model\Product\Status $catalogProductStatus
-     * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $productAttributeCollFactory
+     * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $productAttributeCollectionFactory
      * @param EngineProvider $engineProvider
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Filter\FilterManager $filter
@@ -148,7 +148,7 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
         \Magento\Catalog\Model\Product\Type $catalogProductType,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Catalog\Model\Product\Status $catalogProductStatus,
-        \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $productAttributeCollFactory,
+        \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $productAttributeCollectionFactory,
         \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Filter\FilterManager $filter,
@@ -161,7 +161,7 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
         $this->_catalogProductType = $catalogProductType;
         $this->_eavConfig = $eavConfig;
         $this->_catalogProductStatus = $catalogProductStatus;
-        $this->_productAttributeCollFactory = $productAttributeCollFactory;
+        $this->_productAttributeCollectionFactory = $productAttributeCollectionFactory;
         $this->_eventManager = $eventManager;
         $this->filter = $filter;
         $this->_catalogSearchData = $catalogSearchData;
@@ -528,7 +528,7 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
         if (null === $this->_searchableAttributes) {
             $this->_searchableAttributes = array();
 
-            $productAttributes = $this->_productAttributeCollFactory->create();
+            $productAttributes = $this->_productAttributeCollectionFactory->create();
 
             if ($this->_engineProvider->get() && $this->_engineProvider->get()->allowAdvancedIndex()) {
                 $productAttributes->addToIndexFilter(true);

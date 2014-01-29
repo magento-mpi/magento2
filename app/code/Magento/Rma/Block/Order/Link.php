@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Rma\Block\Order;
+
 /**
  * "Returns" link
  */
-namespace Magento\Rma\Block\Order;
-
 class Link extends \Magento\Sales\Block\Order\Link
 {
     /**
@@ -45,7 +45,8 @@ class Link extends \Magento\Sales\Block\Order\Link
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     *
      * @return string
      */
     protected function _toHtml()
@@ -58,6 +59,7 @@ class Link extends \Magento\Sales\Block\Order\Link
 
     /**
      * Get is link aviable
+     *
      * @return bool
      */
     protected function _isRmaAviable()

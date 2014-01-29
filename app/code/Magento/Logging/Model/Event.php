@@ -57,7 +57,7 @@ class Event extends \Magento\Core\Model\AbstractModel
     /**
      * Set some data automatically before saving model
      *
-     * @return \Magento\Logging\Model\Event
+     * @return $this
      */
     protected function _beforeSave()
     {

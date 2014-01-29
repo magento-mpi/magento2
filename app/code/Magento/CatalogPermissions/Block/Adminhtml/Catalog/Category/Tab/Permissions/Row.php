@@ -25,31 +25,31 @@ class Row
     /**
      * @var \Magento\Customer\Model\Resource\Group\CollectionFactory
      */
-    protected $_groupCollFactory;
+    protected $_groupCollectionFactory;
 
     /**
      * @var \Magento\Core\Model\Resource\Website\CollectionFactory
      */
-    protected $_websiteCollFactory;
+    protected $_websiteCollectionFactory;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Catalog\Model\Resource\Category\Tree $categoryTree
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\Resource\Website\CollectionFactory $websiteCollFactory
-     * @param \Magento\Customer\Model\Resource\Group\CollectionFactory $groupCollFactory
+     * @param \Magento\Core\Model\Resource\Website\CollectionFactory $websiteCollectionFactory
+     * @param \Magento\Customer\Model\Resource\Group\CollectionFactory $groupCollectionFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Catalog\Model\Resource\Category\Tree $categoryTree,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\Resource\Website\CollectionFactory $websiteCollFactory,
-        \Magento\Customer\Model\Resource\Group\CollectionFactory $groupCollFactory,
+        \Magento\Core\Model\Resource\Website\CollectionFactory $websiteCollectionFactory,
+        \Magento\Customer\Model\Resource\Group\CollectionFactory $groupCollectionFactory,
         array $data = array()
     ) {
-        $this->_websiteCollFactory = $websiteCollFactory;
-        $this->_groupCollFactory = $groupCollFactory;
+        $this->_websiteCollectionFactory = $websiteCollectionFactory;
+        $this->_groupCollectionFactory = $groupCollectionFactory;
         parent::__construct($context, $categoryTree, $registry, $data);
     }
 
@@ -124,7 +124,7 @@ class Row
     public function getWebsiteCollection()
     {
         if (!$this->hasData('website_collection')) {
-            $collection = $this->_websiteCollFactory->create();
+            $collection = $this->_websiteCollectionFactory->create();
             $this->setData('website_collection', $collection);
         }
 
@@ -139,7 +139,7 @@ class Row
     public function getCustomerGroupCollection()
     {
         if (!$this->hasData('customer_group_collection')) {
-            $collection = $this->_groupCollFactory->create();
+            $collection = $this->_groupCollectionFactory->create();
             $this->setData('customer_group_collection', $collection);
         }
 

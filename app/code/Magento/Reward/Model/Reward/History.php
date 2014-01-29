@@ -124,7 +124,7 @@ class History extends \Magento\Core\Model\AbstractModel
      * Processing object before save data.
      * Prepare history data
      *
-     * @return \Magento\Reward\Model\Reward\History
+     * @return $this
      */
     protected function _beforeSave()
     {
@@ -162,7 +162,7 @@ class History extends \Magento\Core\Model\AbstractModel
      * Setter
      *
      * @param \Magento\Reward\Model\Reward $reward
-     * @return \Magento\Reward\Model\Reward\History
+     * @return $this
      */
     public function setReward($reward)
     {
@@ -183,7 +183,7 @@ class History extends \Magento\Core\Model\AbstractModel
     /**
      * Create history data from reward object
      *
-     * @return \Magento\Reward\Model\Reward\History
+     * @return $this
      */
     public function prepareFromReward()
     {
@@ -238,7 +238,7 @@ class History extends \Magento\Core\Model\AbstractModel
      * Retrieve value of additional data's field
      *
      * @param string $key
-     * @return mixed | null
+     * @return mixed|null
      */
     public function getAdditionalDataByKey($key)
     {
@@ -253,7 +253,7 @@ class History extends \Magento\Core\Model\AbstractModel
      * Add field values to the additional data, overriding values of existing fields
      *
      * @param array $data
-     * @return \Magento\Reward\Model\Reward\History
+     * @return $this
      */
     public function addAdditionalData(array $data)
     {
@@ -300,11 +300,11 @@ class History extends \Magento\Core\Model\AbstractModel
     /**
      * Check if history update with given action, customer and entity exist
      *
-     * @param integer $customerId
-     * @param integer $action
-     * @param integer $websiteId
+     * @param int $customerId
+     * @param int $action
+     * @param int $websiteId
      * @param mixed $entity
-     * @return boolean
+     * @return bool
      */
     public function isExistHistoryUpdate($customerId, $action, $websiteId, $entity)
     {
@@ -317,7 +317,7 @@ class History extends \Magento\Core\Model\AbstractModel
      *
      * @param int $action
      * @param int $customerId
-     * @param integer $websiteId
+     * @param int $websiteId
      * @return int
      */
     public function getTotalQtyRewards($action, $customerId, $websiteId)
@@ -344,7 +344,7 @@ class History extends \Magento\Core\Model\AbstractModel
      * Spend unused points for required amount
      *
      * @param int $required Points total that required
-     * @return \Magento\Reward\Model\Reward\History
+     * @return $this
      */
     protected function _spendAvailablePoints($required)
     {

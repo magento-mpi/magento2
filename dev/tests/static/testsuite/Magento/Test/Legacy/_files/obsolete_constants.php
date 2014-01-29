@@ -10,12 +10,12 @@
  * @license     {license_link}
  */
 return array(
-    array('ADMIN_STORE_ID', 'Magento\Core\Model\AppInterface'),
+    array('ADMIN_STORE_ID', 'Magento\AppInterface'),
     array('BACKORDERS_BELOW'),
     array('DS'),
     array('BACKORDERS_YES'),
     array('CACHE_TAG', 'Magento\Api\Model\Config', 'Magento_Api_Model_Cache_Type::CACHE_TAG'),
-    array('CACHE_TAG', 'Magento\Core\Model\AppInterface'),
+    array('CACHE_TAG', 'Magento\AppInterface'),
     array(
         'CACHE_TAG',
         'Magento\Core\Model\Resource\Db\Collection\AbstractCollection',
@@ -78,7 +78,7 @@ return array(
     array('INIT_OPTION_RESPONSE', 'Magento\Core\Model\App'),
     array('INIT_OPTION_SCOPE_CODE', 'Magento\Core\Model\App', 'Magento_Core_Model_App::PARAM_RUN_CODE'),
     array('INIT_OPTION_SCOPE_TYPE', 'Magento\Core\Model\App', 'Magento_Core_Model_App::PARAM_RUN_TYPE'),
-    array('INIT_OPTION_URIS', 'Magento\Core\Model\App', 'Magento_Core_Model_App::PARAM_APP_URIS'),
+    array('INIT_OPTION_URIS', 'Magento\Core\Model\App'),
     array('INSTALLER_HOST_RESPONSE', 'Magento\Install\Model\Installer'),
     array(
         'LAYOUT_GENERAL_CACHE_TAG',
@@ -88,6 +88,7 @@ return array(
     array('LOCALE_CACHE_KEY', 'Magento\Backend\Block\Page\Footer'),
     array('LOCALE_CACHE_LIFETIME', 'Magento\Backend\Block\Page\Footer'),
     array('LOCALE_CACHE_TAG', 'Magento\Backend\Block\Page\Footer'),
+    array('PARAM_CACHE_OPTIONS', '\Magento\Core\Model\App', '\Magento\Core\Model\App::PARAM_CACHE_FORCED_OPTIONS'),
     array('PATH_PREFIX_CUSTOMIZATION', 'Magento\Core\Model\Theme'),
     array('PATH_PREFIX_CUSTOMIZED', 'Magento\Core\Model\Theme\Files'),
     array('PUBLIC_BASE_THEME_DIR', 'Magento\Core\Model\Design\PackageInterface'),
@@ -190,6 +191,36 @@ return array(
         'XML_PATH_STATIC_FILE_SIGNATURE',
         'Magento\Core\Helper\Data',
         'Magento_Core_Model_Design_Package::XML_PATH_STATIC_FILE_SIGNATURE'
+    ),
+    array(
+        'XML_PATH_STORE_ADDRESS1',
+        'Magento\Shipping\Model\Shipping',
+        'Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ADDRESS1'
+    ),
+    array(
+        'XML_PATH_STORE_ADDRESS2',
+        'Magento\Shipping\Model\Shipping',
+        'Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ADDRESS2'
+    ),
+    array(
+        'XML_PATH_STORE_CITY',
+        'Magento\Shipping\Model\Shipping',
+        'Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_CITY'
+    ),
+    array(
+        'XML_PATH_STORE_REGION_ID',
+        'Magento\Shipping\Model\Shipping',
+        'Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_REGION_ID'
+    ),
+    array(
+        'XML_PATH_STORE_ZIP',
+        'Magento\Shipping\Model\Shipping',
+        'Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ZIP'
+    ),
+    array(
+        'XML_PATH_STORE_COUNTRY_ID',
+        'Magento\Shipping\Model\Shipping',
+        'Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID'
     ),
     array('XML_PATH_TEMPLATE_EMAIL', 'Magento\Core\Model\Email\Template'),
     array(

@@ -16,7 +16,6 @@ use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
 {
-
     /**
      * @var string
      */
@@ -36,7 +35,6 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
         $this->_soapService = 'testModule1AllSoapAndRestV1';
         $this->_restResourcePath = "/{$this->_version}/testmodule1/";
     }
-
 
     /**
      *  Test get item
@@ -156,9 +154,9 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
                 'operation' => $this->_soapService . 'Update'
             )
         );
-        $requestData = array('id' => $itemId, 'name' => 'testName');
+        $requestData = ['item' => ['id' => $itemId, 'name' => 'testName']];
         $item = $this->_webApiCall($serviceInfo, $requestData);
-        $this->assertEquals('Updated' . $requestData['name'], $item['name'], 'Item update failed');
+        $this->assertEquals('Updated' . $requestData['item']['name'], $item['name'], 'Item update failed');
     }
 
     /**
