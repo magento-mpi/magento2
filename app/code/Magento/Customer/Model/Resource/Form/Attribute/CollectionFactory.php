@@ -33,6 +33,6 @@ class CollectionFactory
      */
     public function create()
     {
-        return $this->_objectManager->create('\Magento\Customer\Model\Resource\Form\Attribute\Collection');
+        return $this->_objectManager->create('Magento\Customer\Model\Resource\Form\Attribute\Collection');
     }
 }
