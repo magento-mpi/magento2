@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Index
+ * @package     Magento_PageCache
  * @copyright   {copyright}
  * @license     {license_link}
  */
