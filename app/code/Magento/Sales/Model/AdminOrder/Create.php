@@ -1722,7 +1722,14 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      */
     protected function _getCustomerDto(\Magento\Customer\Model\Customer $customer, $isFromOrigData = false)
     {
-        return $this->_objectManager->create('Magento\Customer\Service\V1\Dto\CustomerBuilder')
-            ->populateWithArray($isFromOrigData ? $customer->getOrigData() : $customer->getData())->create();
+        $data = array_merge(
+            // DTO and model has different keys for ID
+            [CustomerDto::ID => $customer->getId()], $isFromOrigData ? $customer->getOrigData() : $customer->getData()
+        );
+        /** @var \Magento\Customer\Service\V1\Dto\Customer $customerDto */
+        $customerDto = $this->_objectManager->create('Magento\Customer\Service\V1\Dto\CustomerBuilder')
+            ->populateWithArray($data)
+            ->create();
+        return $customerDto;
     }
 }
