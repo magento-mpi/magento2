@@ -157,9 +157,14 @@ class Category extends \Magento\Catalog\Model\AbstractModel
     protected $_categoryTreeFactory;
 
     /**
-     * @var Indexer\Category\Flat\Processor
+     * @var Indexer\Category\Flat\Config
      */
-    protected $flatProcessor;
+    protected $flatConfig;
+
+    /**
+     * @var \Magento\Indexer\Model\Indexer
+     */
+    protected $flatIndexer;
 
     /**
      * @param \Magento\Core\Model\Context $context
@@ -173,10 +178,10 @@ class Category extends \Magento\Catalog\Model\AbstractModel
      * @param \Magento\UrlInterface $url
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
      * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param Indexer\Category\Flat\Processor $flatProcessor
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Helper\Category\Flat $catalogCategoryFlat
      * @param \Magento\Filter\FilterManager $filter
+     * @param Indexer\Category\Flat\Config $flatConfig
+     * @param \Magento\Indexer\Model\Indexer $flatIndexer
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -193,14 +198,15 @@ class Category extends \Magento\Catalog\Model\AbstractModel
         \Magento\UrlInterface $url,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
         \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\Catalog\Model\Indexer\Category\Flat\Processor $flatProcessor,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Helper\Category\Flat $catalogCategoryFlat,
         \Magento\Filter\FilterManager $filter,
+        Indexer\Category\Flat\Config $flatConfig,
+        \Magento\Indexer\Model\Indexer $flatIndexer,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_treeModel = $categoryTreeResource;
         $this->_categoryTreeFactory = $categoryTreeFactory;
         $this->_categoryFactory = $categoryFactory;
         $this->_urlRewriteFactory = $urlRewriteFactory;
@@ -208,10 +214,11 @@ class Category extends \Magento\Catalog\Model\AbstractModel
         $this->_url = $url;
         $this->_productCollectionFactory = $productCollectionFactory;
         $this->_catalogConfig = $catalogConfig;
-        $this->flatProcessor = $flatProcessor;
-        $this->filter = $filter;
         $this->_catalogCategoryFlat = $catalogCategoryFlat;
-        $this->_treeModel = $categoryTreeResource;
+        $this->filter = $filter;
+        $this->flatConfig = $flatConfig;
+        $this->flatIndexer = $flatIndexer;
+        $this->flatIndexer->load(Indexer\Category\Flat\Config::INDEXER_ID);
         parent::__construct($context, $registry, $storeManager, $resource, $resourceCollection, $data);
     }
 
@@ -336,7 +343,11 @@ class Category extends \Magento\Catalog\Model\AbstractModel
             throw $e;
         }
         $this->_eventManager->dispatch('category_move', $eventParams);
-        $this->flatProcessor->reindexList(array($this->getId(), $oldParentId, $parentId));
+        if ($this->flatConfig->isFlatEnabled()
+            && $this->flatIndexer->getMode() == \Magento\Mview\View\StateInterface::MODE_DISABLED
+        ) {
+            $this->flatIndexer->reindexList(array($this->getId(), $oldParentId, $parentId));
+        }
         $this->_cacheManager->clean(array(self::CACHE_TAG));
 
         return $this;
@@ -998,15 +1009,19 @@ class Category extends \Magento\Catalog\Model\AbstractModel
     protected function _afterSave()
     {
         $result = parent::_afterSave();
-        $this->_getResource()->addCommitCallback(array($this, 'reindexCallback'));
+        $this->_getResource()->addCommitCallback(array($this, 'reindex'));
         return $result;
     }
 
     /**
      * Init indexing process after category save
      */
-    public function reindexCallback()
+    public function reindex()
     {
-        $this->flatProcessor->reindexRow($this->getId());
+        if ($this->flatConfig->isFlatEnabled()
+            && $this->flatIndexer->getMode() == \Magento\Mview\View\StateInterface::MODE_DISABLED
+        ) {
+            $this->flatIndexer->reindexRow($this->getId());
+        }
     }
 }
