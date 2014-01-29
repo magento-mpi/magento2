@@ -139,4 +139,21 @@
             <instance type="Magento\Indexer\Model\IndexerInterface" shared="false"/>
         </param>
     </type>
+    <type name="Magento\Core\Model\Resource\Store">
+        <plugin name="storeViewResourceAroundSave" type="Magento\Catalog\Model\Indexer\Category\Flat\Plugin\StoreView"/>
+    </type>
+    <type name="Magento\Core\Model\Resource\Store\Group">
+        <plugin name="storeGroupResourceAroundSave" type="Magento\Catalog\Model\Indexer\Category\Flat\Plugin\StoreGroup"/>
+    </type>
+    <type name="Magento\Core\Model\Resource\Website">
+        <plugin name="storeGroupResourceAroundSave" type="Magento\Catalog\Model\Indexer\Category\Flat\Plugin\Website"/>
+    </type>
+    <type name="Magento\Core\Model\Resource\Config\Data">
+        <plugin name="systemConfigSaveAround" type="Magento\Catalog\Model\Indexer\Category\Flat\Plugin\SystemConfig"/>
+    </type>
+    <type name="Magento\Catalog\Model\Indexer\Category\Flat\Plugin\AbstractStore">
+        <param name="flatResource">
+            <instance type="Magento\Catalog\Model\Resource\Category\Flat" shared="0"/>
+        </param>
+    </type>
 </config>
