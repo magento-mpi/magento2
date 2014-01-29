@@ -34,7 +34,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
             'getIncrementId', 'getCreatedAt', 'getCustomerName', 'getBaseGrandTotal', 'getStatusLabel', 'getId',
             '__wakeup'
         );
-        $collectionElement = $this->getMock('Magento\Sales\Model\Recurring\Profile', $args, array(), '', false);
+        $collectionElement = $this->getMock('Magento\RecurringProfile\Model\Profile', $args, array(), '', false);
         $collectionElement->expects($this->once())->method('getIncrementId')
             ->will($this->returnValue(1));
         $collection = $this->getMock('Magento\Sales\Model\Resource\Order\Collection', array(), array(), '', false);
@@ -48,7 +48,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($collection));
         $collection->expects($this->once())->method('getIterator')
             ->will($this->returnValue(new \ArrayIterator(array($collectionElement))));
-        $profile = $this->getMock('Magento\Sales\Model\Recurring\Profile', array(), array(), '', false);
+        $profile = $this->getMock('Magento\RecurringProfile\Model\Profile', array(), array(), '', false);
         $registry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
         $registry->expects($this->at(0))
             ->method('registry')

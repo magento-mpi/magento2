@@ -50,11 +50,11 @@ class Schedule extends \Magento\Sales\Block\Recurring\Profile\View
         foreach (array('start_datetime', 'suspension_threshold') as $key) {
             $this->_addInfo(array(
                 'label' => $this->_fields->getFieldLabel($key),
-                'value' => $this->_profile->renderData($key),
+                'value' => $this->_recurringProfile->renderData($key),
             ));
         }
 
-        foreach ($this->_profile->exportScheduleInfo() as $info) {
+        foreach ($this->_recurringProfile->exportScheduleInfo() as $info) {
             $this->_addInfo(array(
                 'label' => $info->getTitle(),
                 'value' => $info->getSchedule(),

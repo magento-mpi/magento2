@@ -42,7 +42,7 @@ class Address extends \Magento\Sales\Block\Recurring\Profile\View
 
         $this->_shouldRenderInfo = true;
         if ('shipping' == $this->getAddressType()) {
-            if ('1' == $this->_profile->getInfoValue('order_item_info', 'is_virtual')) {
+            if ('1' == $this->_recurringProfile->getInfoValue('order_item_info', 'is_virtual')) {
                 $this->getParentBlock()->unsetChild('sales.recurring.profile.view.shipping');
                 return;
             }
@@ -51,7 +51,7 @@ class Address extends \Magento\Sales\Block\Recurring\Profile\View
             $key = 'billing_address_info';
         }
         $this->setIsAddress(true);
-        $address = $this->_addressFactory->create(array('data' => $this->_profile->getData($key)));
+        $address = $this->_addressFactory->create(array('data' => $this->_recurringProfile->getData($key)));
         $this->_addInfo(array(
             'value' => preg_replace('/\\n{2,}/', "\n", $address->format('text')),
         ));

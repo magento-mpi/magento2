@@ -1176,7 +1176,7 @@
         <group name="sales_recurring_profile">
             <label translate="true">Recurring Billing Profiles</label>
             <expected_models>
-                <expected_model class="Magento\Sales\Model\Recurring\Profile" />
+                <expected_model class="Magento\RecurringProfile\Model\Profile" />
             </expected_models>
             <events>
                 <event controller_action="sales_recurring_profile_updateProfile"

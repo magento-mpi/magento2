@@ -16,9 +16,9 @@ namespace Magento\Sales\Block\Recurring\Profile;
 class View extends \Magento\View\Element\Template
 {
     /**
-     * @var \Magento\Sales\Model\Recurring\Profile
+     * @var \Magento\RecurringProfile\Model\Profile
      */
-    protected $_profile = null;
+    protected $_recurringProfile = null;
 
     /**
      * Whether the block should be used to render $_info
@@ -117,7 +117,7 @@ class View extends \Magento\View\Element\Template
      */
     protected function _prepareLayout()
     {
-        $this->_profile = $this->_registry->registry('current_recurring_profile')
+        $this->_recurringProfile = $this->_registry->registry('current_recurring_profile')
             ->setStore($this->_storeManager->getStore());
         return parent::_prepareLayout();
     }
@@ -129,7 +129,7 @@ class View extends \Magento\View\Element\Template
      */
     protected function _toHtml()
     {
-        if (!$this->_profile || $this->_shouldRenderInfo && !$this->_info) {
+        if (!$this->_recurringProfile || $this->_shouldRenderInfo && !$this->_info) {
             return '';
         }
 
@@ -141,7 +141,7 @@ class View extends \Magento\View\Element\Template
                     continue;
                 }
                 $block->setViewUrl(
-                    $this->getUrl("*/*/{$block->getViewAction()}", array('profile' => $this->_profile->getId()))
+                    $this->getUrl("*/*/{$block->getViewAction()}", array('profile' => $this->_recurringProfile->getId()))
                 );
             }
         }

@@ -56,11 +56,11 @@ class Fees extends \Magento\Sales\Block\Recurring\Profile\View
         $this->_shouldRenderInfo = true;
         $this->_addInfo(array(
             'label' => $this->_fields->getFieldLabel('currency_code'),
-            'value' => $this->_profile->getCurrencyCode()
+            'value' => $this->_recurringProfile->getCurrencyCode()
         ));
         $params = array('init_amount', 'trial_billing_amount', 'billing_amount', 'tax_amount', 'shipping_amount');
         foreach ($params as $key) {
-            $value = $this->_profile->getData($key);
+            $value = $this->_recurringProfile->getData($key);
             if ($value) {
                 $this->_addInfo(array(
                     'label' => $this->_fields->getFieldLabel($key),

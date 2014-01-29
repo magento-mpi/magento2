@@ -48,11 +48,6 @@ class Form extends \Magento\Backend\Block\AbstractBlock
     protected $_formFactory;
 
     /**
-     * @var \Magento\Sales\Model\Recurring\Profile
-     */
-    protected $_recurringProfile;
-
-    /**
      * @var \Magento\RecurringProfile\Model\PeriodUnits
      */
     protected $_periodUnits;
@@ -60,7 +55,8 @@ class Form extends \Magento\Backend\Block\AbstractBlock
     /**
      * @param \Magento\Backend\Block\Context $context
      * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Sales\Model\Recurring\Profile $recurringProfile
+     * @param \Magento\RecurringProfile\Block\Fields $recurringProfileFields
+     * @param \Magento\RecurringProfile\Model\PeriodUnits $periodUnits
      * @param array $data
      */
     public function __construct(

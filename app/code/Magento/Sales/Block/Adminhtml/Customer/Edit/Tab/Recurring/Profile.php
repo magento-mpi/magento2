@@ -30,8 +30,9 @@ class Profile
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Payment\Helper\Data $paymentData
-     * @param \Magento\Sales\Model\Resource\Recurring\Profile\CollectionFactory $profileCollection
-     * @param \Magento\Sales\Model\Recurring\ProfileFactory $recurringProfileFactory
+     * @param \Magento\RecurringProfile\Model\Resource\Profile\CollectionFactory $profileCollection
+     * @param \Magento\RecurringProfile\Model\States $recurringStates
+     * @param \Magento\RecurringProfile\Block\Fields $fields
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
@@ -39,8 +40,8 @@ class Profile
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Payment\Helper\Data $paymentData,
-        \Magento\Sales\Model\Resource\Recurring\Profile\CollectionFactory $profileCollection,
-        \Magento\Sales\Model\Recurring\ProfileFactory $recurringProfileFactory,
+        \Magento\RecurringProfile\Model\Resource\Profile\CollectionFactory $profileCollection,
+        \Magento\RecurringProfile\Model\States $recurringStates,
         \Magento\RecurringProfile\Block\Fields $fields,
         \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
@@ -51,7 +52,7 @@ class Profile
             $backendHelper,
             $paymentData,
             $profileCollection,
-            $recurringProfileFactory,
+            $recurringStates,
             $fields,
             $data
         );

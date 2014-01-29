@@ -26,14 +26,14 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     protected $_paymentData = null;
 
     /**
-     * @var \Magento\Sales\Model\Resource\Recurring\Profile\CollectionFactory
+     * @var \Magento\RecurringProfile\Model\Resource\Profile\CollectionFactory
      */
     protected $_profileCollection;
 
     /**
-     * @var \Magento\Sales\Model\Recurring\ProfileFactory
+     * @var \Magento\RecurringProfile\Model\States
      */
-    protected $_recurringProfileFactory;
+    protected $recurringStates;
 
     /**
      * @var \Magento\RecurringProfile\Block\Fields
@@ -44,8 +44,8 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Payment\Helper\Data $paymentData
-     * @param \Magento\Sales\Model\Resource\Recurring\Profile\CollectionFactory $profileCollection
-     * @param \Magento\Sales\Model\Recurring\ProfileFactory $recurringProfileFactory
+     * @param \Magento\RecurringProfile\Model\Resource\Profile\CollectionFactory $profileCollection
+     * @param \Magento\RecurringProfile\Model\States $recurringStates
      * @param \Magento\RecurringProfile\Block\Fields $fields
      * @param array $data
      */
@@ -53,14 +53,14 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Payment\Helper\Data $paymentData,
-        \Magento\Sales\Model\Resource\Recurring\Profile\CollectionFactory $profileCollection,
-        \Magento\Sales\Model\Recurring\ProfileFactory $recurringProfileFactory,
+        \Magento\RecurringProfile\Model\Resource\Profile\CollectionFactory $profileCollection,
+        \Magento\RecurringProfile\Model\States $recurringStates,
         \Magento\RecurringProfile\Block\Fields $fields,
         array $data = array()
     ) {
         $this->_paymentData = $paymentData;
         $this->_profileCollection = $profileCollection;
-        $this->_recurringProfileFactory = $recurringProfileFactory;
+        $this->recurringStates = $recurringStates;
         parent::__construct($context, $backendHelper, $data);
         $this->_fields = $fields;
     }
@@ -95,8 +95,6 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareColumns()
     {
-        $profile = $this->_recurringProfileFactory->create();
-
         $this->addColumn('reference_id', array(
             'header' => $this->_fields->getFieldLabel('reference_id'),
             'index' => 'reference_id',
@@ -118,7 +116,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
             'header' => $this->_fields->getFieldLabel('state'),
             'index' => 'state',
             'type'  => 'options',
-            'options' => $profile->getAllStates(),
+            'options' => $this->recurringStates->toOptionArray(),
             'html_decorators' => array('nobr'),
             'width' => 1,
         ));

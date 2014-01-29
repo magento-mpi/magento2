@@ -62,7 +62,7 @@ class Grid extends \Magento\Sales\Block\Recurring\Profile\View
             $this->_relatedOrders = $this->_orderCollection
                 ->addFieldToSelect($fieldsToSelect)
                 ->addFieldToFilter('customer_id', $this->_registry->registry('current_customer')->getId())
-                ->addRecurringProfilesFilter($this->_profile->getId())
+                ->addRecurringProfilesFilter($this->_recurringProfile->getId())
                 ->setOrder('entity_id', 'desc');
         }
     }

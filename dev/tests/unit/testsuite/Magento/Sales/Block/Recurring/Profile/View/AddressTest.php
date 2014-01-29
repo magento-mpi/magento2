@@ -21,7 +21,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     protected $_block;
 
     /**
-     * @var \Magento\Sales\Model\Recurring\Profile
+     * @var \Magento\RecurringProfile\Model\Profile
      */
     protected $_profile;
 
@@ -34,7 +34,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $this->_profile = $this->getMockBuilder('Magento\Sales\Model\Recurring\Profile')
+        $this->_profile = $this->getMockBuilder('Magento\RecurringProfile\Model\Profile')
             ->disableOriginalConstructor()
             ->setMethods(array('setStore', 'getData', 'getInfoValue', '__wakeup'))
             ->getMock();

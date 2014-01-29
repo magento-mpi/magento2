@@ -181,12 +181,12 @@ class Profile extends \Magento\App\Action\Action
     /**
      * Instantiate current profile and put it into registry
      *
-     * @return \Magento\Sales\Model\Recurring\Profile
+     * @return \Magento\RecurringProfile\Model\Profile
      * @throws \Magento\Core\Exception
      */
     protected function _initProfile()
     {
-        $profile = $this->_objectManager->create('Magento\Sales\Model\Recurring\Profile')
+        $profile = $this->_objectManager->create('Magento\RecurringProfile\Model\Profile')
             ->load($this->getRequest()->getParam('profile'));
         if (!$profile->getId()) {
             throw new \Magento\Core\Exception(__('We can\'t find the profile you specified.'));

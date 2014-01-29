@@ -16,7 +16,7 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sales\Model\Resource\Recurring\Profile;
+namespace Magento\RecurringProfile\Model\Resource\Profile;
 
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
@@ -25,14 +25,14 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      *
      * @var string
      */
-    protected $_eventPrefix    = 'recurring_profile_collection';
+    protected $_eventPrefix = 'recurring_profile_collection';
 
     /**
      * Event object
      *
      * @var string
      */
-    protected $_eventObject    = 'recurring_profile_collection';
+    protected $_eventObject = 'recurring_profile_collection';
 
     /**
      * Entity initialization
@@ -40,6 +40,6 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('Magento\Sales\Model\Recurring\Profile', 'Magento\Sales\Model\Resource\Recurring\Profile');
+        $this->_init('Magento\RecurringProfile\Model\Profile', 'Magento\RecurringProfile\Mode\Resource\Profile');
     }
 }

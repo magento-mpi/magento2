@@ -43,7 +43,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
         $store = $this->getMockBuilder('Magento\Core\Model\Store')
             ->disableOriginalConstructor()
             ->getMock();
-        $collectionElement = $this->getMockBuilder('Magento\Sales\Model\Recurring\Profile')
+        $collectionElement = $this->getMockBuilder('Magento\RecurringProfile\Model\Profile')
             ->disableOriginalConstructor()
             ->setMethods(array('setStore', 'renderData', 'getReferenceId', '__wakeup'))
             ->getMock();
@@ -54,7 +54,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(1));
         $collectionElement->expects($this->atLeastOnce())->method('renderData')
             ->will($this->returnValue(2));
-        $collection = $this->getMockBuilder('Magento\Sales\Model\Resource\Recurring\Profile\Collection')
+        $collection = $this->getMockBuilder('Magento\RecurringProfile\Model\Resource\Profile\Collection')
             ->disableOriginalConstructor()
             ->setMethods(array('addFieldToFilter', 'addFieldToSelect', 'setOrder'))
             ->getMock();
@@ -66,7 +66,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
         $collection->expects($this->once())->method('setOrder')
             ->will($this->returnValue(array($collectionElement)));
 
-        $profile = $this->getMockBuilder('Magento\Sales\Model\Recurring\Profile')
+        $profile = $this->getMockBuilder('Magento\RecurringProfile\Model\Profile')
             ->disableOriginalConstructor()
             ->setMethods(array('getCollection', 'getFieldLabel', '__wakeup'))
             ->getMock();

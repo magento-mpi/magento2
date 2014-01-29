@@ -196,11 +196,13 @@ class Profile extends \Magento\Backend\App\Action
     /**
      * Load/set profile
      *
-     * @return \Magento\Sales\Model\Recurring\Profile
+     * @return \Magento\RecurringProfile\Model\Profile
+     * @throws \Magento\Core\Exception
      */
     protected function _initProfile()
     {
-        $profile = $this->_objectManager->create('Magento\Sales\Model\Recurring\Profile')->load($this->getRequest()->getParam('profile'));
+        $profile = $this->_objectManager->create('Magento\RecurringProfile\Model\Profile')
+            ->load($this->getRequest()->getParam('profile'));
         if (!$profile->getId()) {
             throw new \Magento\Core\Exception(__('The profile you specified does not exist.'));
         }

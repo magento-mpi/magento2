@@ -21,14 +21,14 @@ class Grid extends \Magento\Sales\Block\Recurring\Profiles
     protected $_registry;
 
     /**
-     * @var \Magento\Sales\Model\Recurring\Profile
+     * @var \Magento\RecurringProfile\Model\Profile
      */
     protected $_recurringProfile;
 
     /**
      * Profiles collection
      *
-     * @var \Magento\Sales\Model\Resource\Recurring\Profile\Collection
+     * @var \Magento\RecurringProfile\Model\Resource\Profile\Collection
      */
     protected $_profiles = null;
 
@@ -39,19 +39,19 @@ class Grid extends \Magento\Sales\Block\Recurring\Profiles
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Sales\Model\Recurring\Profile $profile
+     * @param \Magento\RecurringProfile\Model\Profile $recurringProfile
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\RecurringProfile\Block\Fields $fields
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Sales\Model\Recurring\Profile $profile,
+        \Magento\RecurringProfile\Model\Profile $recurringProfile,
         \Magento\Core\Model\Registry $registry,
         \Magento\RecurringProfile\Block\Fields $fields,
         array $data = array()
     ) {
-        $this->_recurringProfile = $profile;
+        $this->_recurringProfile = $recurringProfile;
         $this->_registry = $registry;
         parent::__construct($context, $data);
         $this->_fields = $fields;

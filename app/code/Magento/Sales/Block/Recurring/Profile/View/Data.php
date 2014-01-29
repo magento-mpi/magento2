@@ -24,36 +24,36 @@ class Data extends \Magento\Sales\Block\Recurring\Profile\View
     {
         parent::_prepareLayout();
         $this->addData(array(
-            'reference_id' => $this->_profile->getReferenceId(),
-            'can_cancel'   => $this->_profile->canCancel(),
+            'reference_id' => $this->_recurringProfile->getReferenceId(),
+            'can_cancel'   => $this->_recurringProfile->canCancel(),
             'cancel_url'   => $this->getUrl(
                 '*/*/updateState',
                 array(
-                    'profile' => $this->_profile->getId(),
+                    'profile' => $this->_recurringProfile->getId(),
                     'action' => 'cancel'
                 )
             ),
-            'can_suspend'  => $this->_profile->canSuspend(),
+            'can_suspend'  => $this->_recurringProfile->canSuspend(),
             'suspend_url'  => $this->getUrl(
                 '*/*/updateState',
                 array(
-                    'profile' => $this->_profile->getId(),
+                    'profile' => $this->_recurringProfile->getId(),
                     'action' => 'suspend'
                 )
             ),
-            'can_activate' => $this->_profile->canActivate(),
+            'can_activate' => $this->_recurringProfile->canActivate(),
             'activate_url' => $this->getUrl(
                 '*/*/updateState',
                 array(
-                    'profile' => $this->_profile->getId(),
+                    'profile' => $this->_recurringProfile->getId(),
                     'action' => 'activate'
                 )
             ),
-            'can_update'   => $this->_profile->canFetchUpdate(),
+            'can_update'   => $this->_recurringProfile->canFetchUpdate(),
             'update_url'   => $this->getUrl(
                 '*/*/updateProfile',
                 array(
-                    'profile' => $this->_profile->getId()
+                    'profile' => $this->_recurringProfile->getId()
                 )
             ),
             'back_url'     => $this->getUrl('*/*/'),

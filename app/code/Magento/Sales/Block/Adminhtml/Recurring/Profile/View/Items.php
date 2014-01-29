@@ -33,7 +33,7 @@ class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
     /**
      * Return current recurring profile
      *
-     * @return \Magento\Sales\Model\Recurring\Profile
+     * @return \Magento\RecurringProfile\Model\Profile
      */
     public function _getRecurringProfile()
     {

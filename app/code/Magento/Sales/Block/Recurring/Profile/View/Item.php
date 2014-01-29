@@ -60,13 +60,13 @@ class Item extends \Magento\Sales\Block\Recurring\Profile\View
             'sku' => __('SKU'),
             'qty' => __('Quantity'),
         ) as $itemKey => $label) {
-            $value = $this->_profile->getInfoValue($key, $itemKey);
+            $value = $this->_recurringProfile->getInfoValue($key, $itemKey);
             if ($value) {
                 $this->_addInfo(array('label' => $label, 'value' => $value,));
             }
         }
 
-        $request = $this->_profile->getInfoValue($key, 'info_buyRequest');
+        $request = $this->_recurringProfile->getInfoValue($key, 'info_buyRequest');
         if (empty($request)) {
             return;
         }
@@ -78,7 +78,7 @@ class Item extends \Magento\Sales\Block\Recurring\Profile\View
 
         $options = $this->_option->getCollection()
             ->addIdsToFilter(array_keys($request['options']))
-            ->addTitleToResult($this->_profile->getInfoValue($key, 'store_id'))
+            ->addTitleToResult($this->_recurringProfile->getInfoValue($key, 'store_id'))
             ->addValuesToResult();
 
         foreach ($options as $option) {
@@ -97,7 +97,7 @@ class Item extends \Magento\Sales\Block\Recurring\Profile\View
                 $skipHtmlEscaping = true;
 
                 $downloadParams = array(
-                    'id'  => $this->_profile->getId(),
+                    'id'  => $this->_recurringProfile->getId(),
                     'option_id' => $option->getId(),
                     'key' => $request['options'][$option->getId()]['secret_key']
                 );

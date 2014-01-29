@@ -50,7 +50,7 @@ class Reference extends \Magento\Sales\Block\Recurring\Profile\View
         foreach (array('method_code', 'reference_id', 'schedule_description', 'state') as $key) {
             $this->_addInfo(array(
                 'label' => $this->_fields->getFieldLabel($key),
-                'value' => $this->_profile->renderData($key),
+                'value' => $this->_recurringProfile->renderData($key),
             ));
         }
     }

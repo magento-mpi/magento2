@@ -24,14 +24,14 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     protected $_layout;
 
     /**
-     * @var \Magento\Sales\Model\Recurring\Profile
+     * @var \Magento\RecurringProfile\Model\Profile
      */
     protected $_profile;
 
     protected function setUp()
     {
         $this->_profile = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Sales\Model\Recurring\Profile');
+            ->create('Magento\RecurringProfile\Model\Profile');
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Registry')->register('current_recurring_profile', $this->_profile);
