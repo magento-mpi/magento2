@@ -68,7 +68,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
     {
         $testCases = [];
 
-        $attribute = $this->getMockBuilder('\Magento\Customer\Model\Attribute')
+        $attribute = $this->getMockBuilder('\Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata')
             ->disableOriginalConstructor()
             ->getMock();
         $testCases['No data model or frontend'] = [null, $attribute, true];

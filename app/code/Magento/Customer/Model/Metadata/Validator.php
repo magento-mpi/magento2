@@ -45,6 +45,7 @@ class Validator extends \Magento\Eav\Model\Validator\Attribute\Data
 
     public function validateData($data, $attributes, $entityType)
     {
+        /** @var $attribute \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata */
         foreach ($attributes as $attribute) {
             $attributeCode = $attribute->getAttributeCode();
             if (!$attribute->getDataModel() && !$attribute->getFrontendInput()) {
