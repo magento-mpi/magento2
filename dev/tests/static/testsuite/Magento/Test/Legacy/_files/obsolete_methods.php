@@ -1191,4 +1191,14 @@ return array(
         'Magento\Payment\Model\Recurring\Profile',
         'Magento\RecurringProfile\Model\PeriodUnits::toOptionArray()[\Magento\RecurringProfile\Model\PeriodUnits::DAY]'
     ],
+    [
+        'getFieldComment',
+        'Magento\Payment\Model\Recurring\Profile',
+        'Magento\RecurringProfile\Block\Fields::getFieldComment',
+    ],
+    [
+        'getFieldLabel',
+        'Magento\Payment\Model\Recurring\Profile',
+        'Magento\RecurringProfile\Block\Fields::getFieldLabel',
+    ],
 );

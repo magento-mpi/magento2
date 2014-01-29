@@ -33,14 +33,20 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * @var \Magento\Sales\Model\Recurring\ProfileFactory
      */
-    protected $_recurringProfile;
+    protected $_recurringProfileFactory;
+
+    /**
+     * @var \Magento\RecurringProfile\Block\Fields
+     */
+    protected $_fields;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Sales\Model\Resource\Recurring\Profile\CollectionFactory $profileCollection
-     * @param \Magento\Sales\Model\Recurring\ProfileFactory $recurringProfile
+     * @param \Magento\Sales\Model\Recurring\ProfileFactory $recurringProfileFactory
+     * @param \Magento\RecurringProfile\Block\Fields $fields
      * @param array $data
      */
     public function __construct(
@@ -48,13 +54,15 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Sales\Model\Resource\Recurring\Profile\CollectionFactory $profileCollection,
-        \Magento\Sales\Model\Recurring\ProfileFactory $recurringProfile,
+        \Magento\Sales\Model\Recurring\ProfileFactory $recurringProfileFactory,
+        \Magento\RecurringProfile\Block\Fields $fields,
         array $data = array()
     ) {
         $this->_paymentData = $paymentData;
         $this->_profileCollection = $profileCollection;
-        $this->_recurringProfile = $recurringProfile;
+        $this->_recurringProfileFactory = $recurringProfileFactory;
         parent::__construct($context, $backendHelper, $data);
+        $this->_fields = $fields;
     }
 
     protected function _construct()
@@ -87,10 +95,10 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareColumns()
     {
-        $profile = $this->_recurringProfile->create();
+        $profile = $this->_recurringProfileFactory->create();
 
         $this->addColumn('reference_id', array(
-            'header' => $profile->getFieldLabel('reference_id'),
+            'header' => $this->_fields->getFieldLabel('reference_id'),
             'index' => 'reference_id',
             'html_decorators' => array('nobr'),
             'width' => 1,
@@ -107,7 +115,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         }
 
         $this->addColumn('state', array(
-            'header' => $profile->getFieldLabel('state'),
+            'header' => $this->_fields->getFieldLabel('state'),
             'index' => 'state',
             'type'  => 'options',
             'options' => $profile->getAllStates(),
@@ -116,7 +124,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         ));
 
         $this->addColumn('created_at', array(
-            'header' => $profile->getFieldLabel('created_at'),
+            'header' => $this->_fields->getFieldLabel('created_at'),
             'index' => 'created_at',
             'type' => 'datetime',
             'html_decorators' => array('nobr'),
@@ -124,7 +132,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         ));
 
         $this->addColumn('updated_at', array(
-            'header' => $profile->getFieldLabel('updated_at'),
+            'header' => $this->_fields->getFieldLabel('updated_at'),
             'index' => 'updated_at',
             'type' => 'datetime',
             'html_decorators' => array('nobr'),
@@ -136,14 +144,14 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
             $methods[$method->getCode()] = $method->getTitle();
         }
         $this->addColumn('method_code', array(
-            'header'  => $profile->getFieldLabel('method_code'),
+            'header'  => $this->_fields->getFieldLabel('method_code'),
             'index'   => 'method_code',
             'type'    => 'options',
             'options' => $methods,
         ));
 
         $this->addColumn('schedule_description', array(
-            'header' => $profile->getFieldLabel('schedule_description'),
+            'header' => $this->_fields->getFieldLabel('schedule_description'),
             'index' => 'schedule_description',
         ));
 

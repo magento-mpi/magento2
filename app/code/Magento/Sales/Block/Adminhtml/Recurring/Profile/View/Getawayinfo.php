@@ -27,17 +27,25 @@ class Getawayinfo extends \Magento\Backend\Block\Widget
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\RecurringProfile\Block\Fields
+     */
+    protected $_fields;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\RecurringProfile\Block\Fields $fields
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\RecurringProfile\Block\Fields $fields,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
+        $this->_fields = $fields;
     }
 
     /**
@@ -49,8 +57,8 @@ class Getawayinfo extends \Magento\Backend\Block\Widget
     {
         $recurringProfile = $this->_coreRegistry->registry('current_recurring_profile');
         $information = array();
-        foreach ($recurringProfile->getData() as $kay => $value) {
-            $information[$recurringProfile->getFieldLabel($kay)] = $value;
+        foreach ($recurringProfile->getData() as $key => $value) {
+            $information[$this->_fields->getFieldLabel($key)] = $value;
         }
         return $information;
     }

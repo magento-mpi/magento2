@@ -73,10 +73,16 @@ class Profile extends \Magento\Core\Model\AbstractModel
     protected $_periodUnits;
 
     /**
+     * @var \Magento\RecurringProfile\Block\Fields
+     */
+    protected $_fields;
+
+    /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Payment\Helper\Data $paymentData
-     * @param \Magento\RecurringProfile\Model\PeriodUnits $periodUnits
+     * @param PeriodUnits $periodUnits
+     * @param \Magento\RecurringProfile\Block\Fields $fields
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -86,6 +92,7 @@ class Profile extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Registry $registry,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\RecurringProfile\Model\PeriodUnits $periodUnits,
+        \Magento\RecurringProfile\Block\Fields $fields,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -93,6 +100,7 @@ class Profile extends \Magento\Core\Model\AbstractModel
         $this->_paymentData = $paymentData;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_periodUnits = $periodUnits;
+        $this->_fields = $fields;
     }
 
     /**
@@ -149,7 +157,7 @@ class Profile extends \Magento\Core\Model\AbstractModel
         }
         foreach (array('trial_billing_abount', 'shipping_amount', 'tax_amount', 'init_amount') as $key) {
             if ($this->hasData($key) && 0 >= $this->getData($key)) {
-                $this->_errors[$key][] = __('The wrong %1 is specified.', $this->getFieldLabel($key));
+                $this->_errors[$key][] = __('The wrong %1 is specified.', $this->_fields->getFieldLabel($key));
             }
         }
 
@@ -358,97 +366,6 @@ class Profile extends \Magento\Core\Model\AbstractModel
     {
         $this->_store = $store;
         return $this;
-    }
-
-    /**
-     * Getter for field label
-     *
-     * @param string $field
-     * @return string|null
-     */
-    public function getFieldLabel($field)
-    {
-        switch ($field) {
-            case 'subscriber_name':
-                return __('Subscriber Name');
-            case 'start_datetime':
-                return __('Start Date');
-            case 'internal_reference_id':
-                return __('Internal Reference ID');
-            case 'schedule_description':
-                return __('Schedule Description');
-            case 'suspension_threshold':
-                return __('Maximum Payment Failures');
-            case 'bill_failed_later':
-                return __('Auto Bill on Next Cycle');
-            case 'period_unit':
-                return __('Billing Period Unit');
-            case 'period_frequency':
-                return __('Billing Frequency');
-            case 'period_max_cycles':
-                return __('Maximum Billing Cycles');
-            case 'billing_amount':
-                return __('Billing Amount');
-            case 'trial_period_unit':
-                return __('Trial Billing Period Unit');
-            case 'trial_period_frequency':
-                return __('Trial Billing Frequency');
-            case 'trial_period_max_cycles':
-                return __('Maximum Trial Billing Cycles');
-            case 'trial_billing_amount':
-                return __('Trial Billing Amount');
-            case 'currency_code':
-                return __('Currency');
-            case 'shipping_amount':
-                return __('Shipping Amount');
-            case 'tax_amount':
-                return __('Tax Amount');
-            case 'init_amount':
-                return __('Initial Fee');
-            case 'init_may_fail':
-                return __('Allow Initial Fee Failure');
-            case 'method_code':
-                return __('Payment Method');
-            case 'reference_id':
-                return __('Payment Reference ID');
-        }
-    }
-
-    /**
-     * Getter for field comments
-     *
-     * @param string $field
-     * @return string|null
-     */
-    public function getFieldComment($field)
-    {
-        switch ($field) {
-            case 'subscriber_name':
-                return __('Full name of the person receiving the product or service '
-                    . 'paid for by the recurring payment.');
-            case 'start_datetime':
-                return __('This is the date when billing for the profile begins.');
-            case 'schedule_description':
-                return __('Enter a short description of the recurring payment. '
-                    . 'By default, this description will match the product name.');
-            case 'suspension_threshold':
-                return __('This is the number of scheduled payments '
-                    . 'that can fail before the profile is automatically suspended.');
-            case 'bill_failed_later':
-                return __('Use this to automatically bill the outstanding balance amount in the next billing cycle '
-                    . '(if there were failed payments).');
-            case 'period_unit':
-                return __('This is the unit for billing during the subscription period.');
-            case 'period_frequency':
-                return __('This is the number of billing periods that make up one billing cycle.');
-            case 'period_max_cycles':
-                return __('This is the number of billing cycles for the payment period.');
-            case 'init_amount':
-                return __('The initial, non-recurring payment amount is due immediately when the profile is created.');
-            case 'init_may_fail':
-                return __('This sets whether to suspend the payment profile if the initial fee fails or, '
-                    . 'instead, add it to the outstanding balance.');
-        }
     }
 
     /**

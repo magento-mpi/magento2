@@ -33,20 +33,28 @@ class Grid extends \Magento\Sales\Block\Recurring\Profiles
     protected $_profiles = null;
 
     /**
+     * @var \Magento\RecurringProfile\Block\Fields
+     */
+    protected $_fields;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Sales\Model\Recurring\Profile $profile
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\RecurringProfile\Block\Fields $fields
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Sales\Model\Recurring\Profile $profile,
         \Magento\Core\Model\Registry $registry,
+        \Magento\RecurringProfile\Block\Fields $fields,
         array $data = array()
     ) {
         $this->_recurringProfile = $profile;
         $this->_registry = $registry;
         parent::__construct($context, $data);
+        $this->_fields = $fields;
         $this->_isScopePrivate = true;
     }
 
@@ -80,30 +88,30 @@ class Grid extends \Magento\Sales\Block\Recurring\Profiles
         $this->setGridColumns(array(
             new \Magento\Object(array(
                 'index' => 'reference_id',
-                'title' => $this->_recurringProfile->getFieldLabel('reference_id'),
+                'title' => $this->_fields->getFieldLabel('reference_id'),
                 'is_nobr' => true,
                 'width' => 1,
             )),
             new \Magento\Object(array(
                 'index' => 'state',
-                'title' => $this->_recurringProfile->getFieldLabel('state'),
+                'title' => $this->_fields->getFieldLabel('state'),
             )),
             new \Magento\Object(array(
                 'index' => 'created_at',
-                'title' => $this->_recurringProfile->getFieldLabel('created_at'),
+                'title' => $this->_fields->getFieldLabel('created_at'),
                 'is_nobr' => true,
                 'width' => 1,
                 'is_amount' => true,
             )),
             new \Magento\Object(array(
                 'index' => 'updated_at',
-                'title' => $this->_recurringProfile->getFieldLabel('updated_at'),
+                'title' => $this->_fields->getFieldLabel('updated_at'),
                 'is_nobr' => true,
                 'width' => 1,
             )),
             new \Magento\Object(array(
                 'index' => 'method_code',
-                'title' => $this->_recurringProfile->getFieldLabel('method_code'),
+                'title' => $this->_fields->getFieldLabel('method_code'),
                 'is_nobr' => true,
                 'width' => 1,
             )),

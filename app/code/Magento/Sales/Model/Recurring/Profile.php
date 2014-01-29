@@ -164,6 +164,7 @@ class Profile extends \Magento\Payment\Model\Recurring\Profile
         \Magento\Sales\Model\Order\ItemFactory $orderItemFactory,
         \Magento\Math\Random $mathRandom,
         \Magento\RecurringProfile\Model\PeriodUnits $periodUnits,
+        \Magento\RecurringProfile\Block\Fields $fields,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -178,6 +179,7 @@ class Profile extends \Magento\Payment\Model\Recurring\Profile
             $registry,
             $paymentData,
             $periodUnits,
+            $fields,
             $resource,
             $resourceCollection,
             $data
@@ -348,7 +350,7 @@ class Profile extends \Magento\Payment\Model\Recurring\Profile
         $payment = $this->_paymentFactory->create()
             ->setMethod($this->getMethodCode());
 
-        $transferDataKays = array(
+        $transferDataKeys = array(
             'store_id',             'store_name',           'customer_id',          'customer_email',
             'customer_firstname',   'customer_lastname',    'customer_middlename',  'customer_prefix',
             'customer_suffix',      'customer_taxvat',      'customer_gender',      'customer_is_guest',
@@ -359,7 +361,7 @@ class Profile extends \Magento\Payment\Model\Recurring\Profile
         );
 
         $orderInfo = $this->getOrderInfo();
-        foreach ($transferDataKays as $key) {
+        foreach ($transferDataKeys as $key) {
             if (isset($orderInfo[$key])) {
                 $order->setData($key, $orderInfo[$key]);
             } elseif (isset($shippingInfo[$key])) {
@@ -475,44 +477,6 @@ class Profile extends \Magento\Payment\Model\Recurring\Profile
         $this->setOrderItemInfo($orderItemInfo);
 
         return $this->_filterValues();
-    }
-
-    /**
-     * Getter for sales-related field labels
-     *
-     * @param string $field
-     * @return string|null
-     */
-    public function getFieldLabel($field)
-    {
-        switch ($field) {
-            case 'order_item_id':
-                return __('Purchased Item');
-            case 'state':
-                return __('Profile State');
-            case 'created_at':
-                return __('Created');
-            case 'updated_at':
-                return __('Updated');
-            default:
-                return parent::getFieldLabel($field);
-        }
-    }
-
-    /**
-     * Getter for sales-related field comments
-     *
-     * @param string $field
-     * @return string|null
-     */
-    public function getFieldComment($field)
-    {
-        switch ($field) {
-            case 'order_item_id':
-                return __('Original order item that recurring payment profile corresponds to');
-            default:
-                return parent::getFieldComment($field);
-        }
     }
 
     /**

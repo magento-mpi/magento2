@@ -21,19 +21,27 @@ class Fees extends \Magento\Sales\Block\Recurring\Profile\View
     protected $_coreHelper;
 
     /**
+     * @var \Magento\RecurringProfile\Block\Fields
+     */
+    protected $_fields;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Helper\Data $coreHelper
+     * @param \Magento\RecurringProfile\Block\Fields $fields
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Helper\Data $coreHelper,
+        \Magento\RecurringProfile\Block\Fields $fields,
         array $data = array()
     ) {
         $this->_coreHelper = $coreHelper;
         parent::__construct($context, $registry, $data);
+        $this->_fields = $fields;
     }
 
     /**
@@ -47,7 +55,7 @@ class Fees extends \Magento\Sales\Block\Recurring\Profile\View
 
         $this->_shouldRenderInfo = true;
         $this->_addInfo(array(
-            'label' => $this->_profile->getFieldLabel('currency_code'),
+            'label' => $this->_fields->getFieldLabel('currency_code'),
             'value' => $this->_profile->getCurrencyCode()
         ));
         $params = array('init_amount', 'trial_billing_amount', 'billing_amount', 'tax_amount', 'shipping_amount');
@@ -55,7 +63,7 @@ class Fees extends \Magento\Sales\Block\Recurring\Profile\View
             $value = $this->_profile->getData($key);
             if ($value) {
                 $this->_addInfo(array(
-                    'label' => $this->_profile->getFieldLabel($key),
+                    'label' => $this->_fields->getFieldLabel($key),
                     'value' => $this->_coreHelper->formatCurrency($value, false),
                     'is_amount' => true,
                 ));

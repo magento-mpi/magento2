@@ -33,9 +33,9 @@ class Form extends \Magento\Backend\Block\AbstractBlock
     /**
      * Recurring profile instance used for getting labels and options
      *
-     * @var \Magento\Sales\Model\Recurring\Profile
+     * @var \Magento\RecurringProfile\Block\Fields
      */
-    protected $_profile;
+    protected $_recurringProfileFields;
 
     /**
      * @var \Magento\Catalog\Model\Product
@@ -66,12 +66,12 @@ class Form extends \Magento\Backend\Block\AbstractBlock
     public function __construct(
         \Magento\Backend\Block\Context $context,
         \Magento\Data\FormFactory $formFactory,
-        \Magento\Sales\Model\Recurring\Profile $recurringProfile,
+        \Magento\RecurringProfile\Block\Fields $recurringProfileFields,
         \Magento\RecurringProfile\Model\PeriodUnits $periodUnits,
         array $data = array()
     ) {
         $this->_formFactory = $formFactory;
-        $this->_profile = $recurringProfile;
+        $this->_recurringProfileFields = $recurringProfileFields;
         parent::__construct($context, $data);
         $this->_periodUnits = $periodUnits;
     }
@@ -208,8 +208,8 @@ class Form extends \Magento\Backend\Block\AbstractBlock
     {
         $options = array_merge($options, array(
             'name'     => $elementName,
-            'label'    => $this->_profile->getFieldLabel($elementName),
-            'note'     => $this->_profile->getFieldComment($elementName),
+            'label'    => $this->_recurringProfileFields->getFieldLabel($elementName),
+            'note'     => $this->_recurringProfileFields->getFieldComment($elementName),
             'disabled' => $this->_isReadOnly,
         ));
         if (in_array($elementName, array('period_unit', 'period_frequency'))) {

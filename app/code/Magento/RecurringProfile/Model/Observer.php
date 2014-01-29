@@ -40,23 +40,29 @@ class Observer
     protected $_blockFactory;
 
     /**
-     * Construct
-     *
+     * @var \Magento\RecurringProfile\Block\Fields
+     */
+    protected $_fields;
+
+    /**
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Payment\Model\Recurring\ProfileFactory $profileFactory
      * @param \Magento\View\Element\BlockFactory $blockFactory
+     * @param \Magento\RecurringProfile\Block\Fields $fields
      */
     public function __construct(
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Payment\Model\Recurring\ProfileFactory $profileFactory,
-        \Magento\View\Element\BlockFactory $blockFactory
+        \Magento\View\Element\BlockFactory $blockFactory,
+        \Magento\RecurringProfile\Block\Fields $fields
     ) {
         $this->_locale = $locale;
         $this->_storeManager = $storeManager;
         $this->_profileFactory = $profileFactory;
         $this->_blockFactory = $blockFactory;
+        $this->_fields = $fields;
     }
 
     /**
@@ -92,7 +98,7 @@ class Observer
 
         // duplicate as 'additional_options' to render with the product statically
         $infoOptions = array(array(
-            'label' => $profile->getFieldLabel('start_datetime'),
+            'label' => $this->_fields->getFieldLabel('start_datetime'),
             'value' => $profile->exportStartDatetime(true),
         ));
 
