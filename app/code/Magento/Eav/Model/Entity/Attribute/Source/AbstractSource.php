@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Eav\Model\Entity\Attribute\Source;
 
 /**
  * Entity/Attribute/Model - attribute selection source abstract
@@ -16,8 +16,6 @@
  * @package    Magento_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Eav\Model\Entity\Attribute\Source;
-
 abstract class AbstractSource
     implements \Magento\Eav\Model\Entity\Attribute\Source\SourceInterface, \Magento\Core\Model\Option\ArrayInterface
 {
@@ -78,6 +76,10 @@ abstract class AbstractSource
         return false;
     }
 
+    /**
+     * @param $value string
+     * @return null|string
+     */
     public function getOptionId($value)
     {
         foreach ($this->getAllOptions() as $option) {

@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Eav\Model;
+
+use Magento\App\RequestInterface;
 
 /**
  * EAV Entity Form Model
@@ -15,8 +18,6 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Eav\Model;
-
 abstract class Form
 {
     /**
@@ -134,7 +135,7 @@ abstract class Form
     protected $_universalFactory;
 
     /**
-     * @var \Magento\App\RequestInterface
+     * @var RequestInterface
      */
     protected $_httpRequest;
 
@@ -149,7 +150,7 @@ abstract class Form
      * @param \Magento\Module\Dir\Reader $modulesReader
      * @param \Magento\Eav\Model\AttributeDataFactory $attrDataFactory
      * @param \Magento\Validator\UniversalFactory $universalFactory
-     * @param \Magento\App\RequestInterface $httpRequest
+     * @param RequestInterface $httpRequest
      * @param \Magento\Validator\ConfigFactory $validatorConfigFactory
      *
      * @throws \Magento\Core\Exception
@@ -160,7 +161,7 @@ abstract class Form
         \Magento\Module\Dir\Reader $modulesReader,
         \Magento\Eav\Model\AttributeDataFactory $attrDataFactory,
         \Magento\Validator\UniversalFactory $universalFactory,
-        \Magento\App\RequestInterface $httpRequest,
+        RequestInterface $httpRequest,
         \Magento\Validator\ConfigFactory $validatorConfigFactory
     ) {
         if (empty($this->_moduleName)) {
@@ -193,7 +194,7 @@ abstract class Form
     /**
      * Get EAV Entity Form Attribute Collection with applied filters
      *
-     * @return \Magento\Eav\Model\Resource\Form\Attribute\Collection|mixed
+     * @return \Magento\Eav\Model\Resource\Form\Attribute\Collection
      */
     protected function _getFilteredFormAttributeCollection()
     {
@@ -411,7 +412,7 @@ abstract class Form
      * Prepare request with data and returns it
      *
      * @param array $data
-     * @return \Magento\App\RequestInterface
+     * @return RequestInterface
      */
     public function prepareRequest(array $data)
     {
@@ -426,12 +427,12 @@ abstract class Form
     /**
      * Extract data from request and return associative data array
      *
-     * @param \Magento\App\RequestInterface $request
+     * @param RequestInterface $request
      * @param string $scope the request scope
-     * @param boolean $scopeOnly search value only in scope or search value in global too
+     * @param bool $scopeOnly search value only in scope or search value in global too
      * @return array
      */
-    public function extractData(\Magento\App\RequestInterface $request, $scope = null, $scopeOnly = true)
+    public function extractData(RequestInterface $request, $scope = null, $scopeOnly = true)
     {
         $data = array();
         /** @var $attribute \Magento\Eav\Model\Attribute */
@@ -475,7 +476,7 @@ abstract class Form
      * Validate data array and return true or array of errors
      *
      * @param array $data
-     * @return boolean|array
+     * @return bool|array
      */
     public function validateData(array $data)
     {
@@ -494,7 +495,7 @@ abstract class Form
      * Compact data array to current entity
      *
      * @param array $data
-     * @return \Magento\Eav\Model\Form
+     * @return $this
      */
     public function compactData(array $data)
     {
@@ -515,7 +516,7 @@ abstract class Form
      * Restore data array from SESSION to current entity
      *
      * @param array $data
-     * @return \Magento\Eav\Model\Form
+     * @return $this
      */
     public function restoreData(array $data)
     {
@@ -609,7 +610,7 @@ abstract class Form
      * Combined getter/setter whether to omit invisible attributes during rendering/validation
      *
      * @param mixed $setValue
-     * @return bool|\Magento\Eav\Model\Form
+     * @return bool|$this
      */
     public function ignoreInvisible($setValue = null)
     {

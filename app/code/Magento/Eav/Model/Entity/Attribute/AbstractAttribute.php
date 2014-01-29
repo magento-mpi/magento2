@@ -7,17 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Eav\Model\Entity\Attribute;
 
 /**
  * Entity/Attribute/Model - attribute abstract
  *
  * @category   Magento
  * @package    Magento_Eav
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Eav\Model\Entity\Attribute;
-
 abstract class AbstractAttribute
     extends \Magento\Core\Model\AbstractModel
     implements \Magento\Eav\Model\Entity\Attribute\AttributeInterface
@@ -151,10 +149,10 @@ abstract class AbstractAttribute
     /**
      * Load attribute data by code
      *
-     * @param  mixed $entityType
+     * @param  string|int|\Magento\Eav\Model\Entity\Type $entityType
      * @param  string $code
-     * @return \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
-     * @throws \Magento\Core\Exception
+     * @return $this
+     * @throws \Magento\Eav\Exception
      */
     public function loadByCode($entityType, $code)
     {
@@ -190,7 +188,7 @@ abstract class AbstractAttribute
      * Specify attribute identifier
      *
      * @param   int $data
-     * @return  \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
+     * @return  $this
      */
     public function setAttributeId($data)
     {
@@ -208,83 +206,139 @@ abstract class AbstractAttribute
         return $this->_getData('attribute_id');
     }
 
+    /**
+     * @param string $data
+     * @return $this
+     */
     public function setAttributeCode($data)
     {
         return $this->setData('attribute_code', $data);
     }
 
+    /**
+     * @return string
+     */
     public function getAttributeCode()
     {
         return $this->_getData('attribute_code');
     }
 
+    /**
+     * @param array $data
+     * @return $this
+     */
     public function setAttributeModel($data)
     {
         return $this->setData('attribute_model', $data);
     }
 
+    /**
+     * @return array
+     */
     public function getAttributeModel()
     {
         return $this->_getData('attribute_model');
     }
 
+    /**
+     * @param string $data
+     * @return $this
+     */
     public function setBackendType($data)
     {
         return $this->setData('backend_type', $data);
     }
 
+    /**
+     * @return string
+     */
     public function getBackendType()
     {
         return $this->_getData('backend_type');
     }
 
+    /**
+     * @param string $data
+     * @return $this
+     */
     public function setBackendModel($data)
     {
         return $this->setData('backend_model', $data);
     }
 
+    /**
+     * @return string
+     */
     public function getBackendModel()
     {
         return $this->_getData('backend_model');
     }
 
+    /**
+     * @param string $data
+     * @return $this
+     */
     public function setBackendTable($data)
     {
         return $this->setData('backend_table', $data);
     }
 
+    /**
+     * @return bool
+     */
     public function getIsVisibleOnFront()
     {
         return $this->_getData('is_visible_on_front');
     }
 
+    /**
+     * @return string|int|bool|float
+     */
     public function getDefaultValue()
     {
         return $this->_getData('default_value');
     }
 
+    /**
+     * @return int
+     */
     public function getAttributeSetId()
     {
         return $this->_getData('attribute_set_id');
     }
 
+    /**
+     * @param int $id
+     * @return $this
+     */
     public function setAttributeSetId($id)
     {
         $this->_data['attribute_set_id'] = $id;
         return $this;
     }
 
+    /**
+     * @return int|string
+     */
     public function getEntityTypeId()
     {
         return $this->_getData('entity_type_id');
     }
 
+    /**
+     * @param int|string $id
+     * @return $this
+     */
     public function setEntityTypeId($id)
     {
         $this->_data['entity_type_id'] = $id;
         return $this;
     }
 
+    /**
+     * @param string $type
+     * @return $this
+     */
     public function setEntityType($type)
     {
         $this->setData('entity_type', $type);
@@ -438,21 +492,34 @@ abstract class AbstractAttribute
         return $input === 'select' || $input === 'multiselect' || $this->_getData('source_model') != '';
     }
 
+    /**
+     * @return string
+     */
     protected function _getDefaultBackendModel()
     {
         return \Magento\Eav\Model\Entity::DEFAULT_BACKEND_MODEL;
     }
 
+    /**
+     * @return string
+     */
     protected function _getDefaultFrontendModel()
     {
         return \Magento\Eav\Model\Entity::DEFAULT_FRONTEND_MODEL;
     }
 
+    /**
+     * @return string
+     */
     protected function _getDefaultSourceModel()
     {
         return $this->getEntity()->getDefaultAttributeSourceModel();
     }
 
+    /**
+     * @param array|null|bool|int|float|string $value
+     * @return bool
+     */
     public function isValueEmpty($value)
     {
         $attrType = $this->getBackend()->getType();
@@ -467,8 +534,8 @@ abstract class AbstractAttribute
     /**
      * Check if attribute in specified set
      *
-     * @param int|array $setId
-     * @return boolean
+     * @param int|int[] $setId
+     * @return bool
      */
     public function isInSet($setId)
     {

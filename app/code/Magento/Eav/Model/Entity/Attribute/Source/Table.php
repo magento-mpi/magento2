@@ -7,8 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Eav\Model\Entity\Attribute\Source;
 
 class Table extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource

@@ -18,18 +18,19 @@
  */
 namespace Magento\Eav\Model\Resource\Entity\Attribute;
 
+use Magento\Eav\Model\Entity\Type;
+
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Add attribute set info flag
      *
-     * @var boolean
+     * @var bool
      */
     protected $_addSetInfoFlag   = false;
 
     /**
      * Resource model initialization
-     *
      */
     protected function _construct()
     {
@@ -39,7 +40,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Return array of fields to load attribute values
      *
-     * @return array
+     * @return string[]
      */
     protected function _getLoadDataFields()
     {
@@ -59,7 +60,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Specify select columns which are used for load arrtibute values
      *
-     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Collection
+     * @return $this
      */
     public function useLoadDataFields()
     {
@@ -72,12 +73,12 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Specify attribute entity type filter
      *
-     * @param  \Magento\Eav\Model\Entity\Type | int $type
-     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Collection
+     * @param  Type|int $type
+     * @return $this
      */
     public function setEntityTypeFilter($type)
     {
-        if ($type instanceof \Magento\Eav\Model\Entity\Type) {
+        if ($type instanceof Type) {
             $additionalTable = $type->getAdditionalAttributeTable();
             $id = $type->getId();
         } else {
@@ -99,7 +100,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Specify attribute set filter
      *
      * @param int $setId
-     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Collection
+     * @return $this
      */
     public function setAttributeSetFilter($setId)
     {
@@ -130,7 +131,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Result will be ordered by sort_order
      *
      * @param array $setIds
-     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Collection
+     * @return $this
      */
     public function setAttributeSetsFilter(array $setIds)
     {
@@ -150,7 +151,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Filter for selecting of attributes that is in all sets
      *
      * @param array $setIds
-     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Collection
+     * @return $this
      */
     public function setInAllAttributeSetsFilter(array $setIds)
     {
@@ -179,7 +180,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Exclude attributes filter
      *
      * @param array $attributes
-     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Collection
+     * @return $this
      */
     public function setAttributesExcludeFilter($attributes)
     {
@@ -189,9 +190,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Specify exclude attribute set filter
      *
-     * @param $setId
-     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Collection
-     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Collection
+     * @param int $setId
+     * @return $this
      */
     public function setExcludeSetFilter($setId)
     {
@@ -208,7 +208,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Filter by attribute group id
      *
      * @param int $groupId
-     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Collection
+     * @return $this
      */
     public function setAttributeGroupFilter($groupId)
     {
@@ -225,7 +225,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Declare group by attribute id condition for collection select
      *
-     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Collection
+     * @return $this
      */
     public function addAttributeGrouping()
     {
@@ -236,7 +236,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Specify "is_unique" filter as true
      *
-     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Collection
+     * @return $this
      */
     public function addIsUniqueFilter()
     {
@@ -246,7 +246,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Specify "is_unique" filter as false
      *
-     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Collection
+     * @return $this
      */
     public function addIsNotUniqueFilter()
     {
@@ -256,7 +256,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Specify filter to select just attributes with options
      *
-     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Collection
+     * @return $this
      */
     public function addHasOptionsFilter()
     {
@@ -281,7 +281,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Apply filter by attribute frontend input type
      *
      * @param string $frontendInputType
-     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Collection
+     * @return $this
      */
     public function setFrontendInputTypeFilter($frontendInputType)
     {
@@ -292,7 +292,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Flag for adding information about attributes sets to result
      *
      * @param bool $flag
-     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Collection
+     * @return $this
      */
     public function addSetInfo($flag = true)
     {
@@ -303,7 +303,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Ad information about attribute sets to collection result data
      *
-     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Collection
+     * @return $this
      */
     protected function _addSetInfo()
     {
@@ -369,8 +369,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Specify collection attribute codes filter
      *
-     * @param string || array $code
-     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Collection
+     * @param string|array $code
+     * @return $this
      */
     public function setCodeFilter($code)
     {
@@ -387,8 +387,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Add store label to attribute by specified store id
      *
-     * @param integer $storeId
-     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Collection
+     * @param int $storeId
+     * @return $this
      */
     public function addStoreLabel($storeId)
     {

@@ -28,6 +28,8 @@
  */
 namespace Magento\Eav\Model\Form;
 
+use Magento\Core\Exception;
+
 class Element extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -94,16 +96,16 @@ class Element extends \Magento\Core\Model\AbstractModel
     /**
      * Validate data before save data
      *
-     * @throws \Magento\Core\Exception
-     * @return \Magento\Eav\Model\Form\Element
+     * @throws Exception
+     * @return $this
      */
     protected function _beforeSave()
     {
         if (!$this->getTypeId()) {
-            throw new \Magento\Core\Exception(__('Invalid form type.'));
+            throw new Exception(__('Invalid form type.'));
         }
         if (!$this->getAttributeId()) {
-            throw new \Magento\Core\Exception(__('Invalid EAV attribute'));
+            throw new Exception(__('Invalid EAV attribute'));
         }
 
         return parent::_beforeSave();

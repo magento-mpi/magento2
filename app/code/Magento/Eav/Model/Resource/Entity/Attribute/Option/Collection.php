@@ -75,7 +75,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Set attribute filter
      *
      * @param int $setId
-     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection
+     * @return $this
      */
     public function setAttributeFilter($setId)
     {
@@ -87,8 +87,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Add store filter to collection
      *
      * @param int $storeId
-     * @param boolean $useDefaultValue
-     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection
+     * @param bool $useDefaultValue
+     * @return $this
      */
     public function setStoreFilter($storeId = null, $useDefaultValue = true)
     {
@@ -131,7 +131,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Add option id(s) frilter to collection
      *
      * @param int|array $optionId
-     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection
+     * @return $this
      */
     public function setIdFilter($optionId)
     {
@@ -153,8 +153,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Set order by position or alphabetically by values in admin
      *
      * @param string $dir direction
-     * @param boolean $sortAlpha sort alphabetically by values in admin
-     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Option\Collection
+     * @param bool $sortAlpha sort alphabetically by values in admin
+     * @return $this
      */
     public function setPositionOrder($dir = self::SORT_ORDER_ASC, $sortAlpha = false)
     {

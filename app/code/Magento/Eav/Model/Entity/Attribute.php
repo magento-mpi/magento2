@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Eav\Model\Entity;
 
 /**
  * EAV Entity attribute model
@@ -18,8 +18,6 @@
  * @package    Magento_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Eav\Model\Entity;
-
 class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
 {
     /**
@@ -41,6 +39,10 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
     protected $_eventObject = 'attribute';
 
     const CACHE_TAG         = 'EAV_ATTRIBUTE';
+
+    /**
+     * @var string
+     */
     protected $_cacheTag    = 'EAV_ATTRIBUTE';
 
     /**
@@ -160,7 +162,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
     /**
      * Load entity_attribute_id into $this by $this->attribute_set_id
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return $this
      */
     public function loadEntityAttributeIdBySet()
     {
@@ -179,7 +181,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
     /**
      * Prepare data for save
      *
-     * @return \Magento\Eav\Model\Entity\Attribute
+     * @return $this
      */
     protected function _beforeSave()
     {
@@ -254,7 +256,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
     /**
      * Save additional data
      *
-     * @return \Magento\Eav\Model\Entity\Attribute
+     * @return $this
      */
     protected function _afterSave()
     {
@@ -357,7 +359,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
     /**
      * Return array of labels of stores
      *
-     * @return array
+     * @return string[]
      */
     public function getStoreLabels()
     {
@@ -371,6 +373,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
     /**
      * Return store label of attribute
      *
+     * @param int|null $storeId
      * @return string
      */
     public function getStoreLabel($storeId = null)

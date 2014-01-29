@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Eav\Model\Entity\Attribute\Backend;
 
 /**
  * Entity/Attribute/Model - attribute backend abstract
@@ -16,8 +16,6 @@
  * @package    Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Eav\Model\Entity\Attribute\Backend;
-
 abstract class AbstractBackend
     implements \Magento\Eav\Model\Entity\Attribute\Backend\BackendInterface
 {
