@@ -24,10 +24,13 @@ use Magento\Core\Model\Resource\Website\Collection as WebsiteCollection;
 use Magento\Core\Model\Resource\Website\CollectionFactory as WebsiteCollectionFactory;
 use Magento\Customer\Model\Resource\Group\Collection as GroupCollection;
 use Magento\Customer\Model\Resource\Group\CollectionFactory as GroupCollectionFactory;
+use Magento\View\Element\AbstractBlock;
 
 class Row extends AbstractCategory
 {
-
+    /**
+     * @var string
+     */
     protected $_template = 'catalog/category/tab/permissions/row.phtml';
 
     /**
@@ -61,6 +64,9 @@ class Row extends AbstractCategory
         parent::__construct($context, $categoryTree, $registry, $data);
     }
 
+    /**
+     * @return AbstractBlock
+     */
     protected function _prepareLayout()
     {
         $this->addChild('delete_button', 'Magento\Backend\Block\Widget\Button', array(
