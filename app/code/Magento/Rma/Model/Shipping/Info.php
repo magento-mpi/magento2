@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Rma\Model\Shipping;
+
 /**
  * RMA Shipping Info Model
  */
-namespace Magento\Rma\Model\Shipping;
-
 class Info extends \Magento\Object
 {
     /**

@@ -75,7 +75,7 @@ class Total extends \Magento\View\Element\Template
     /**
      * Initialize reward points totals
      *
-     * @return \Magento\Reward\Block\Sales\Order\Total
+     * @return $this
      */
     public function initTotals()
     {

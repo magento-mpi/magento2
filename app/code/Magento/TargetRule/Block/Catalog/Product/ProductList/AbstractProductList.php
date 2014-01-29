@@ -74,6 +74,7 @@ abstract class AbstractProductList
      * @param \Magento\Catalog\Model\Product\Visibility $visibility
      * @param \Magento\TargetRule\Model\IndexFactory $indexFactory
      * @param array $data
+     * @param array $priceBlockTypes
      * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -94,7 +95,8 @@ abstract class AbstractProductList
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
         \Magento\Catalog\Model\Product\Visibility $visibility,
         \Magento\TargetRule\Model\IndexFactory $indexFactory,
-        array $data = array()
+        array $data = array(),
+        array $priceBlockTypes = array()
     ) {
         $this->_productCollectionFactory = $productCollectionFactory;
         $this->_visibility = $visibility;
@@ -113,7 +115,8 @@ abstract class AbstractProductList
             $imageHelper,
             $index,
             $targetRuleData,
-            $data
+            $data,
+            $priceBlockTypes
         );
     }
 

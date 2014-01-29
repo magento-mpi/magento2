@@ -88,7 +88,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
         $directory->expects($this->once())
             ->method('getAbsolutePath')
             ->will($this->returnArgument(0));
-        $filesystem = $this->getMockBuilder('Magento\Filesystem')
+        $filesystem = $this->getMockBuilder('Magento\App\Filesystem')
             ->disableOriginalConstructor()
             ->getMock();
         $filesystem->expects($this->once())

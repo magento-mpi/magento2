@@ -14,7 +14,7 @@ namespace Magento\Customer\Model\Metadata;
 class FormTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento\Customer\Model\Metadata\FormFactory
+     * @var \Magento\Customer\Model\Metadata\FormFactory
      */
     protected $_formFactory;
 
@@ -24,12 +24,15 @@ class FormTest extends \PHPUnit_Framework_TestCase
     protected $_attributes = [];
 
     /**
-     * @var Magento\App\RequestInterface
+     * @var \Magento\App\RequestInterface
      */
     protected $_request;
 
     /** @var array */
     protected $_expected = [];
+
+    /** @var array */
+    protected $_requestData = [];
 
     public function setUp()
     {
@@ -82,5 +85,43 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $addressData = $addressForm->extractData($this->_request);
         $attributeValues = $addressForm->compactData($addressData);
         $this->assertEquals($this->_expected, $attributeValues);
+    }
+
+    public function testGetAttributes()
+    {
+        $expectedAttributes = [
+            'prefix', 'firstname', 'middlename', 'lastname', 'suffix', 'company', 'street', 'city', 'country_id',
+            'region', 'region_id', 'postcode', 'telephone', 'fax', 'vat_id'
+        ];
+        $addressForm = $this->_formFactory->create(
+            'customer_address',
+            'customer_address_edit',
+            []
+        );
+        $this->assertEquals($expectedAttributes, array_keys($addressForm->getAttributes()));
+    }
+
+    public function testGetSystemAttributes()
+    {
+        $addressForm = $this->_formFactory->create(
+            'customer_address',
+            'customer_address_edit',
+            []
+        );
+        $this->assertCount(15, $addressForm->getSystemAttributes());
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/attribute_user_defined.php
+     */
+    public function testGetUserAttributes()
+    {
+        $expectedAttributes = ['user_attribute'];
+        $addressForm = $this->_formFactory->create(
+            'customer_address',
+            'customer_address_edit',
+            []
+        );
+        $this->assertEquals($expectedAttributes, array_keys($addressForm->getUserAttributes()));
     }
 }

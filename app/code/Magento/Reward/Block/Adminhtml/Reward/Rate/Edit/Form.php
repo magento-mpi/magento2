@@ -64,7 +64,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Prepare form
      *
-     * @return \Magento\Reward\Block\Adminhtml\Reward\Rate\Edit\Form
+     * @return $this
      */
     protected function _prepareForm()
     {

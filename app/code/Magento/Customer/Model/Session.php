@@ -76,7 +76,7 @@ class Session extends \Magento\Session\SessionManager
     protected $_customerFactory;
 
     /**
-     * @var \Magento\Core\Model\UrlFactory
+     * @var \Magento\UrlFactory
      */
     protected $_urlFactory;
 
@@ -102,7 +102,7 @@ class Session extends \Magento\Session\SessionManager
      * @param \Magento\Customer\Helper\Data $customerData
      * @param Resource\Customer $customerResource
      * @param CustomerFactory $customerFactory
-     * @param \Magento\Core\Model\UrlFactory $urlFactory
+     * @param \Magento\UrlFactory $urlFactory
      * @param \Magento\Core\Model\Session $session
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -123,7 +123,7 @@ class Session extends \Magento\Session\SessionManager
         \Magento\Customer\Helper\Data $customerData,
         \Magento\Customer\Model\Resource\Customer $customerResource,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
-        \Magento\Core\Model\UrlFactory $urlFactory,
+        \Magento\UrlFactory $urlFactory,
         \Magento\Core\Model\Session $session,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -497,7 +497,7 @@ class Session extends \Magento\Session\SessionManager
     }
 
     /**
-     * @return \Magento\Core\Model\Url
+     * @return \Magento\UrlInterface
      */
     protected function _createUrl()
     {

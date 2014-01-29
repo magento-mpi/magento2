@@ -48,7 +48,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     protected  function _login()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\Url')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\UrlInterface')
             ->turnOffSecretKey();
         $this->_auth = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\Auth');
         $this->_auth->login(
@@ -62,7 +62,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     {
         $this->_auth->logout();
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Backend\Model\Url')->turnOnSecretKey();
+            ->get('Magento\Backend\Model\UrlInterface')->turnOnSecretKey();
     }
 
     /**
@@ -96,7 +96,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         /**
          * perform login
          */
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\Url')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\UrlInterface')
             ->turnOffSecretKey();
 
         $auth = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
@@ -109,7 +109,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
          */
         $auth->logout();
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Backend\Model\Url')->turnOnSecretKey();
+            ->get('Magento\Backend\Model\UrlInterface')->turnOnSecretKey();
 
         $this->assertFalse($this->_helper->getCurrentUserId());
     }

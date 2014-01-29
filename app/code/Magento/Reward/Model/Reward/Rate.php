@@ -110,7 +110,7 @@ class Rate extends \Magento\Core\Model\AbstractModel
      * Processing object before save data.
      * Prepare rate data
      *
-     * @return \Magento\Reward\Model\Reward\Rate
+     * @return $this
      */
     protected function _beforeSave()
     {
@@ -122,7 +122,7 @@ class Rate extends \Magento\Core\Model\AbstractModel
     /**
      * Validate rate data
      *
-     * @return boolean | string
+     * @return true
      */
     public function validate()
     {
@@ -132,7 +132,7 @@ class Rate extends \Magento\Core\Model\AbstractModel
     /**
      * Reset rate data
      *
-     * @return \Magento\Reward\Model\Reward\Rate
+     * @return $this
      */
     public function reset()
     {
@@ -144,10 +144,10 @@ class Rate extends \Magento\Core\Model\AbstractModel
      * Check if given rate data (website, customer group, direction)
      * is unique to current (already loaded) rate
      *
-     * @param integer $websiteId
-     * @param integer $customerGroupId
-     * @param integer $direction
-     * @return boolean
+     * @param int $websiteId
+     * @param int $customerGroupId
+     * @param int $direction
+     * @return bool
      */
     public function getIsRateUniqueToCurrent($websiteId, $customerGroupId, $direction)
     {
@@ -161,7 +161,7 @@ class Rate extends \Magento\Core\Model\AbstractModel
     /**
      * Prepare values in order to defined direction
      *
-     * @return \Magento\Reward\Model\Reward\Rate
+     * @return $this
      */
     protected function _prepareRateValues()
     {
@@ -178,9 +178,10 @@ class Rate extends \Magento\Core\Model\AbstractModel
     /**
      * Fetch rate by customer group and website
      *
-     * @param integer $customerGroupId
-     * @param integer $websiteId
-     * @return \Magento\Reward\Model\Reward\Rate
+     * @param int $customerGroupId
+     * @param int $websiteId
+     * @param int $direction
+     * @return $this
      */
     public function fetch($customerGroupId, $websiteId, $direction) {
         $this->setData('original_website_id', $websiteId)
@@ -192,8 +193,8 @@ class Rate extends \Magento\Core\Model\AbstractModel
     /**
      * Calculate currency amount of given points by rate
      *
-     * @param integer $points
-     * @param bool Whether to round points to integer or not
+     * @param int $points
+     * @param bool $rounded whether to round points to integer or not
      * @return float
      */
     public function calculateToCurrency($points, $rounded = true)

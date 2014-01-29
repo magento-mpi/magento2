@@ -12,7 +12,7 @@
 <config>
     <type name="Magento\GiftCard\Model\Observer">
         <param name="urlModel">
-            <instance type="Magento\Backend\Model\Url" />
+            <instance type="Magento\Backend\Model\UrlInterface" />
         </param>
     </type>
 </config>

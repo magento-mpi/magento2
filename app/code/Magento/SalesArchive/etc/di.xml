@@ -18,9 +18,9 @@
     </type>
     <type name="Magento\Module\Updater\SetupFactory">
         <param name="resourceTypes">
-            <value>
-                <salesarchive_setup>Magento\SalesArchive\Model\Resource\Setup</salesarchive_setup>
-            </value>
+            <array>
+                <item key="salesarchive_setup"><value>Magento\SalesArchive\Model\Resource\Setup</value></item>
+            </array>
         </param>
     </type>
 </config>

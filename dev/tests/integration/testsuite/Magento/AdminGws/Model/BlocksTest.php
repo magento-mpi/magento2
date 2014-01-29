@@ -20,7 +20,7 @@ class BlocksTest extends \Magento\TestFramework\TestCase\AbstractController
     {
         parent::setUp();
         /** @var $auth \Magento\Backend\Model\Auth */
-        $this->_objectManager->get('Magento\Backend\Model\Url')->turnOffSecretKey();
+        $this->_objectManager->get('Magento\Backend\Model\UrlInterface')->turnOffSecretKey();
         $auth = $this->_objectManager->get('Magento\Backend\Model\Auth');
         $auth->login('admingws_user', 'admingws_password1');
     }
@@ -30,7 +30,7 @@ class BlocksTest extends \Magento\TestFramework\TestCase\AbstractController
         /** @var $auth \Magento\Backend\Model\Auth */
         $auth = $this->_objectManager->get('Magento\Backend\Model\Auth');
         $auth->logout();
-        $this->_objectManager->get('Magento\Backend\Model\Url')->turnOnSecretKey();
+        $this->_objectManager->get('Magento\Backend\Model\UrlInterface')->turnOnSecretKey();
         parent::tearDown();
     }
 

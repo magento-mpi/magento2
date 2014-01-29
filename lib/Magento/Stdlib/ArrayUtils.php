@@ -58,10 +58,10 @@ class ArrayUtils
      * $forceSetAll true will cause to set all possible values for all elements.
      * When false (default), only non-empty values will be set.
      *
-     * @param mixed $array
+     * @param array $array
      * @param string $prefix
      * @param bool $forceSetAll
-     * @return mixed
+     * @return array
      */
     public function decorateArray($array, $prefix = 'decorated_', $forceSetAll = false)
     {
@@ -111,7 +111,7 @@ class ArrayUtils
      *
      * @param \Magento\Object $element
      * @param string $key
-     * @param mixed $value
+     * @param bool $value
      * @param bool $isSkipped
      */
     private function _decorateArrayObject($element, $key, $value, $isSkipped)

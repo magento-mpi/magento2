@@ -8,11 +8,15 @@
  * @license     {license_link}
  */
 
+namespace Magento\Rma\Model;
+
+use Magento\Rma\Model\Item;
+use Magento\Core\Model\Store;
+use Magento\Sales\Model\Order\Address;
+
 /**
  * RMA model
  */
-namespace Magento\Rma\Model;
-
 class Rma extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -158,7 +162,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
     protected $_ordersFactory;
 
     /**
-     * @var \Magento\Shipping\Model\Rate\RequestFactory
+     * @var \Magento\Sales\Model\Quote\Address\RateRequestFactory
      */
     protected $_rateRequestFactory;
 
@@ -200,7 +204,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $ordersFactory
-     * @param \Magento\Shipping\Model\Rate\RequestFactory $rateRequestFactory
+     * @param \Magento\Sales\Model\Quote\Address\RateRequestFactory $rateRequestFactory
      * @param \Magento\Shipping\Model\ShippingFactory $shippingFactory
      * @param \Magento\Escaper $escaper
      * @param \Magento\Rma\Model\Resource\Rma $resource
@@ -232,7 +236,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
         \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $ordersFactory,
-        \Magento\Shipping\Model\Rate\RequestFactory $rateRequestFactory,
+        \Magento\Sales\Model\Quote\Address\RateRequestFactory $rateRequestFactory,
         \Magento\Shipping\Model\ShippingFactory $shippingFactory,
         \Magento\Escaper $escaper,
         \Magento\Rma\Model\Resource\Rma $resource,
@@ -281,7 +285,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
     /**
      * Processing object before save data
      *
-     * @return \Magento\Core\Model\AbstractModel
+     * @return $this
      */
     protected function _beforeSave()
     {
@@ -300,7 +304,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
     /**
      * Save related items
      *
-     * @return \Magento\Rma\Model\Rma
+     * @return $this
      */
     protected function _afterSave()
     {
@@ -430,7 +434,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
      * Save Rma
      *
      * @param array $data
-     * @return bool|\Magento\Rma\Model\Rma
+     * @return bool|$this
      */
     public function saveRma($data)
     {
@@ -461,7 +465,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
     /**
      * Sending email with RMA data
      *
-     * @return \Magento\Rma\Model\Rma
+     * @return $this
      */
     public function sendNewRmaEmail()
     {
@@ -471,7 +475,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
     /**
      * Sending authorizing email with RMA data
      *
-     * @return \Magento\Rma\Model\Rma
+     * @return $this
      */
     public function sendAuthorizeEmail()
     {
@@ -485,7 +489,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
      * Sending authorizing email with RMA data
      *
      * @param string $rootConfig
-     * @return \Magento\Rma\Model\Rma
+     * @return $this
      */
     public function _sendRmaEmailWithItems($rootConfig)
     {
@@ -660,8 +664,8 @@ class Rma extends \Magento\Core\Model\AbstractModel
     /**
      * Checks Items Quantity in Return
      *
-     * @param  \Magento\Rma\Model\Item $itemModels
-     * @param  $orderId
+     * @param  Item $itemModels
+     * @param  int $orderId
      * @return array|bool
      */
     protected function _checkPost($itemModels, $orderId)
@@ -770,7 +774,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
      * Creates rma items collection by passed data
      *
      * @param array $data
-     * @return array
+     * @return Item[]
      */
     protected function _createItemsCollection($data)
     {
@@ -790,7 +794,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
                     if ($itemModel) {
                         $firstModel = $itemModel;
                     }
-                    /** @var $itemModel \Magento\Rma\Model\Item */
+                    /** @var $itemModel Item */
                     $itemModel                  = $this->_rmaItemFactory->create();
                     $subItem                    = $item;
                     unset($subItem['items']);
@@ -816,7 +820,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
                     $itemModels[] = $itemModel;
                 }
             } else {
-                /** @var $itemModel \Magento\Rma\Model\Item */
+                /** @var $itemModel Item */
                 $itemModel = $this->_rmaItemFactory->create();
                 if (isset($item['entity_id']) && $item['entity_id']) {
                     $itemModel->load($item['entity_id']);
@@ -996,7 +1000,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
                     $storeId = $item['store_id'];
                     /** @var $order \Magento\Sales\Model\Order */
                     $order = $this->_orderFactory->create()->load($item['order_id']);
-                    /** @var $address \Magento\Sales\Model\Order\Address */
+                    /** @var $address Address */
                     $address = $order->getShippingAddress();
                 }
                 /** @var $quote \Magento\Sales\Model\Quote */
@@ -1022,13 +1026,13 @@ class Rma extends \Magento\Core\Model\AbstractModel
      * Returns Shipping Rates
      *
      * @param array $items
-     * @param \Magento\Sales\Model\Order\Address|bool $address Shop address
-     * @param \Magento\Core\Model\Store $store
+     * @param Address|bool $address Shop address
+     * @param Store $store
      * @param int $subtotal
      * @param int $weight
      * @param int $qty
      *
-     * @return array|bool
+     * @return array|false
      */
     protected function _requestShippingRates($items, $address, $store, $subtotal, $weight, $qty)
     {
@@ -1037,7 +1041,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
             $this->getStoreId()
         );
 
-        /** @var $request \Magento\Shipping\Model\Rate\Request */
+        /** @var $request \Magento\Sales\Model\Quote\Address\RateRequest */
         $request = $this->_rateRequestFactory->create();
         $request->setAllItems($items);
         $request->setDestCountryId($shippingDestinationInfo->getCountryId());

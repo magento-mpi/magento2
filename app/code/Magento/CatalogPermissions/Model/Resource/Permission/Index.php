@@ -83,12 +83,12 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
     /**
      * @var \Magento\Core\Model\Resource\Website\CollectionFactory
      */
-    protected $_websiteCollFactory;
+    protected $_websiteCollectionFactory;
 
     /**
      * @var \Magento\Customer\Model\Resource\Group\CollectionFactory
      */
-    protected $_groupCollFactory;
+    protected $_groupCollectionFactory;
 
     /**
      * @var \Magento\Eav\Model\Config
@@ -98,8 +98,8 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
     /**
      * @param \Magento\App\Resource $resource
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Core\Model\Resource\Website\CollectionFactory $websiteCollFactory
-     * @param \Magento\Customer\Model\Resource\Group\CollectionFactory $groupCollFactory
+     * @param \Magento\Core\Model\Resource\Website\CollectionFactory $websiteCollectionFactory
+     * @param \Magento\Customer\Model\Resource\Group\CollectionFactory $groupCollectionFactory
      * @param \Magento\CatalogPermissions\Helper\Data $catalogPermData
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
@@ -107,15 +107,15 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
     public function __construct(
         \Magento\App\Resource $resource,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Core\Model\Resource\Website\CollectionFactory $websiteCollFactory,
-        \Magento\Customer\Model\Resource\Group\CollectionFactory $groupCollFactory,
+        \Magento\Core\Model\Resource\Website\CollectionFactory $websiteCollectionFactory,
+        \Magento\Customer\Model\Resource\Group\CollectionFactory $groupCollectionFactory,
         \Magento\CatalogPermissions\Helper\Data $catalogPermData,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_eavConfig = $eavConfig;
-        $this->_groupCollFactory = $groupCollFactory;
-        $this->_websiteCollFactory = $websiteCollFactory;
+        $this->_groupCollectionFactory = $groupCollectionFactory;
+        $this->_websiteCollectionFactory = $websiteCollectionFactory;
         $this->_catalogPermData = $catalogPermData;
         parent::__construct($resource);
         $this->_storeManager = $storeManager;
@@ -164,11 +164,11 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
             ))
             ->where('permission.category_id IN (?)', $categoryIds);
 
-        $websiteIds = $this->_websiteCollFactory->create()
+        $websiteIds = $this->_websiteCollectionFactory->create()
             ->addFieldToFilter('website_id', array('neq'=>0))
             ->getAllIds();
 
-        $customerGroupIds = $this->_groupCollFactory->create()
+        $customerGroupIds = $this->_groupCollectionFactory->create()
             ->getAllIds();
 
         $notEmptyWhere = array();
@@ -1058,7 +1058,8 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
             )
             ->where('product_id = :product_id')
             ->where('customer_group_id = :customer_group_id')
-            ->where('store_id = :store_id');
+            ->where('store_id = :store_id')
+            ->group('product_id');
         $bind = array(
             ':product_id'        => $product->getId(),
             ':customer_group_id' => $customerGroupId,
@@ -1107,7 +1108,8 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
             ->where('product_id IN(?)', $productId)
             ->where('customer_group_id = ?', $customerGroupId)
             ->where('store_id = ?', $storeId)
-            ->where('category_id IS NULL');
+            ->where('category_id IS NULL')
+            ->group('product_id');
 
         return $adapter->fetchAssoc($select);
     }

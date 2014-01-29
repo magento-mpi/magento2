@@ -48,6 +48,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
         $this->_invitationFactory = $invitationFactory;
         $this->_invitationStatus = $invitationStatus;
         parent::__construct($context, $customerSession, $subscriberFactory, $data);
+        $this->_isScopePrivate = true;
     }
 
     /**

@@ -23,7 +23,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Flag to store if customer has orphan points
      *
-     * @var boolean
+     * @var bool
      */
     protected $_customerHasOrphanPoints = false;
 
@@ -53,7 +53,6 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Reward\Helper\Data $rewardData
      * @param \Magento\Core\Model\Registry $coreRegistry
@@ -63,7 +62,6 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Url $urlModel,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Reward\Helper\Data $rewardData,
         \Magento\Core\Model\Registry $coreRegistry,
@@ -75,7 +73,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         $this->_rewardData = $rewardData;
         $this->_rewardsFactory = $rewardsFactory;
         $this->_websitesFactory = $websitesFactory;
-        parent::__construct($context, $urlModel, $backendHelper, $data);
+        parent::__construct($context, $backendHelper, $data);
     }
 
     /**
@@ -104,7 +102,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare grid collection
      *
-     * @return \Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Balance\Grid
+     * @return $this
      */
     protected function _prepareCollection()
     {
@@ -116,7 +114,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * After load collection processing
      *
-     * @return \Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Balance\Grid
+     * @return $this
      */
     protected function _afterLoadCollection()
     {
@@ -152,7 +150,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare grid columns
      *
-     * @return \Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Balance\Grid
+     * @return $this
      */
     protected function _prepareColumns()
     {

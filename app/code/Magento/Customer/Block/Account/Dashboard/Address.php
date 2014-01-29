@@ -56,6 +56,7 @@ class Address extends \Magento\View\Element\Template
         $this->_addressService = $addressService;
         $this->_addressConfig = $addressConfig;
         parent::__construct($context, $data);
+        $this->_isScopePrivate = true;
     }
 
     /**

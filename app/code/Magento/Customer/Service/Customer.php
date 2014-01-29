@@ -291,7 +291,7 @@ class Customer
      */
     protected function _isAutogeneratePassword(array $customerData)
     {
-        return isset($customerData['autogenerate_password']) && $customerData['autogenerate_password'];
+        return !empty($customerData['autogenerate_password']);
     }
 
     /**
@@ -302,7 +302,7 @@ class Customer
      */
     protected function _isSendEmail(array $customerData)
     {
-        return isset($customerData['sendemail']) && $customerData['sendemail'];
+        return !empty($customerData['sendemail']);
     }
 
     /**

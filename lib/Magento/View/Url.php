@@ -19,7 +19,7 @@ class Url
     const XML_PATH_STATIC_FILE_SIGNATURE = 'dev/static/sign';
 
     /**
-     * @var \Magento\Filesystem
+     * @var \Magento\App\Filesystem
      */
     protected $_filesystem;
 
@@ -61,7 +61,7 @@ class Url
     protected $_viewFileSystem;
 
     /**
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\UrlInterface $urlBuilder
      * @param Url\ConfigInterface $config
      * @param Service $viewService
@@ -71,7 +71,7 @@ class Url
      * @param array $fileUrlMap
      */
     public function __construct(
-        \Magento\Filesystem $filesystem,
+        \Magento\App\Filesystem $filesystem,
         \Magento\UrlInterface $urlBuilder,
         \Magento\View\Url\ConfigInterface $config,
         \Magento\View\Service $viewService,
@@ -151,7 +151,7 @@ class Url
                     ) . $relativePath;
 
                 if ($this->_isStaticFilesSigned() && $this->_viewService->isViewFileOperationAllowed()) {
-                    $directory = $this->_filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);
+                    $directory = $this->_filesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
                     $fileMTime = $directory->stat($directory->getRelativePath($publicFilePath))['mtime'];
                     $url .= '?' . $fileMTime;
                 }

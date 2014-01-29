@@ -19,10 +19,10 @@ use Mtf\Block\Block;
 
 
 /**
- * Class Authentication
+ * Class Cc
  * Card Verification frame on OnePageCheckout order review step
  *
- * @package Magento\Centinel
+ * @package Magento\Payment
  */
 class Cc extends Form
 {
@@ -58,8 +58,6 @@ class Cc extends Form
     public function fill(Fixture $fixture, Element $element = null)
     {
         /** @var $fixture \Magento\Checkout\Test\Fixture\Checkout */
-        $this->paymentCode = $fixture->getPaymentMethod()->getPaymentCode();
-        $this->_init();
         parent::fill($fixture->getCreditCard(), $element);
     }
 
@@ -68,6 +66,6 @@ class Cc extends Form
      */
     public function pressContinue()
     {
-        $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
+        $this->_rootElement->find($this->continue)->click();
     }
 }

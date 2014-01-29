@@ -62,6 +62,7 @@ class Info extends \Magento\View\Element\Template
         $this->_metadataService = $metadataService;
         $this->_subscriberFactory = $subscriberFactory;
         parent::__construct($context, $data);
+        $this->_isScopePrivate = true;
     }
 
     /**

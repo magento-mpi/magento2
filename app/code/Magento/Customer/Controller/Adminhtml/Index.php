@@ -31,6 +31,17 @@ class Index extends \Magento\Backend\App\Action
     protected $_fileFactory;
 
     /**
+     * Registry key where current customer DTO stored
+     * @todo switch to use ID instead and remove after refactoring of all occurrences
+     */
+    const REGISTRY_CURRENT_CUSTOMER = 'current_customer';
+
+    /**
+     * Registry key where current customer ID is stored
+     */
+    const REGISTRY_CURRENT_CUSTOMER_ID = 'current_customer_id';
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\App\Response\Http\FileFactory $fileFactory
@@ -62,7 +73,7 @@ class Index extends \Magento\Backend\App\Action
             $customer->load($customerId);
         }
 
-        $this->_coreRegistry->register('current_customer', $customer);
+        $this->_coreRegistry->register(self::REGISTRY_CURRENT_CUSTOMER, $customer);
         return $this;
     }
 
@@ -119,7 +130,7 @@ class Index extends \Magento\Backend\App\Action
         $this->_setActiveMenu('Magento_Customer::customer_manage');
 
         /* @var $customer \Magento\Customer\Model\Customer */
-        $customer = $this->_coreRegistry->registry('current_customer');
+        $customer = $this->_coreRegistry->registry(self::REGISTRY_CURRENT_CUSTOMER);
 
         // set entered data if was error when we do save
         $data = $this->_objectManager->get('Magento\Backend\Model\Session')->getCustomerData(true);
@@ -196,7 +207,7 @@ class Index extends \Magento\Backend\App\Action
     public function deleteAction()
     {
         $this->_initCustomer();
-        $customer = $this->_coreRegistry->registry('current_customer');
+        $customer = $this->_coreRegistry->registry(self::REGISTRY_CURRENT_CUSTOMER);
         if ($customer->getId()) {
             try {
                 $customer->delete();
@@ -252,7 +263,8 @@ class Index extends \Magento\Backend\App\Action
                     $customer = $customerService->create($accountData, $addressesData);
                 }
 
-                $this->_objectManager->get('Magento\Core\Model\Registry')->register('current_customer', $customer);
+                $this->_objectManager->get('Magento\Core\Model\Registry')
+                    ->register(self::REGISTRY_CURRENT_CUSTOMER, $customer);
                 $this->messageManager->addSuccess(__('You saved the customer.'));
 
                 $returnToEdit = (bool)$this->getRequest()->getParam('back', false);
@@ -309,9 +321,11 @@ class Index extends \Magento\Backend\App\Action
             $newPasswordToken = $this->_objectManager->get('Magento\Customer\Helper\Data')
                 ->generateResetPasswordLinkToken();
             $customer->changeResetPasswordLinkToken($newPasswordToken);
-            $resetUrl = $this->_objectManager->create('Magento\Core\Model\Url')
-                ->getUrl('customer/account/createPassword',
-                    array('_query' => array('id' => $customer->getId(), 'token' => $newPasswordToken))
+            $resetUrl = $this->_objectManager->create('Magento\UrlInterface')
+                ->getUrl('customer/account/createPassword', array(
+                        '_query' => array('id' => $customer->getId(), 'token' => $newPasswordToken),
+                        '_store' => $customer->getStoreId()
+                    )
                 );
             $customer->setResetPasswordUrl($resetUrl);
             $customer->sendPasswordReminderEmail();
@@ -456,7 +470,7 @@ class Index extends \Magento\Backend\App\Action
         $fileName = 'customers.csv';
         $content = $this->_view->getLayout()->createBlock('Magento\Customer\Block\Adminhtml\Grid')->getCsvFile();
 
-        return $this->_fileFactory->create($fileName, $content, \Magento\Filesystem::VAR_DIR);
+        return $this->_fileFactory->create($fileName, $content, \Magento\App\Filesystem::VAR_DIR);
     }
 
     /**
@@ -466,7 +480,7 @@ class Index extends \Magento\Backend\App\Action
     {
         $fileName = 'customers.xml';
         $content = $this->_view->getLayout()->createBlock('Magento\Customer\Block\Adminhtml\Grid')->getExcelFile();
-        return $this->_fileFactory->create($fileName, $content, \Magento\Filesystem::VAR_DIR);
+        return $this->_fileFactory->create($fileName, $content, \Magento\App\Filesystem::VAR_DIR);
     }
 
     /**
@@ -496,7 +510,7 @@ class Index extends \Magento\Backend\App\Action
     {
         $this->_initCustomer();
         $subscriber = $this->_objectManager->create('Magento\Newsletter\Model\Subscriber')
-            ->loadByCustomer($this->_coreRegistry->registry('current_customer'));
+            ->loadByCustomer($this->_coreRegistry->registry(self::REGISTRY_CURRENT_CUSTOMER));
 
         $this->_coreRegistry->register('subscriber', $subscriber);
         $this->_view->loadLayout()->renderLayout();
@@ -505,7 +519,7 @@ class Index extends \Magento\Backend\App\Action
     public function wishlistAction()
     {
         $this->_initCustomer();
-        $customer = $this->_coreRegistry->registry('current_customer');
+        $customer = $this->_coreRegistry->registry(self::REGISTRY_CURRENT_CUSTOMER);
         $itemId = (int)$this->getRequest()->getParam('delete');
         if ($customer->getId() && $itemId) {
             try {
@@ -550,7 +564,7 @@ class Index extends \Magento\Backend\App\Action
                 ->setWebsite(
                     $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')->getWebsite($websiteId)
                 )
-                ->loadByCustomer($this->_coreRegistry->registry('current_customer'));
+                ->loadByCustomer($this->_coreRegistry->registry(self::REGISTRY_CURRENT_CUSTOMER));
             $item = $quote->getItemById($deleteItemId);
             if ($item && $item->getId()) {
                 $quote->removeItem($deleteItemId);
@@ -596,7 +610,7 @@ class Index extends \Magento\Backend\App\Action
         $this->_initCustomer();
         $this->_view->loadLayout();
         $this->_view->getLayout()->getBlock('admin.customer.reviews')
-            ->setCustomerId($this->_coreRegistry->registry('current_customer')->getId())
+            ->setCustomerId($this->_coreRegistry->registry(self::REGISTRY_CURRENT_CUSTOMER)->getId())
             ->setUseAjax(true);
         $this->_view->renderLayout();
     }
@@ -833,9 +847,9 @@ class Index extends \Magento\Backend\App\Action
             throw new NotFoundException();
         }
 
-        /** @var \Magento\Filesystem $filesystem */
-        $filesystem = $this->_objectManager->get('Magento\Filesystem');
-        $directory = $filesystem->getDirectoryRead(\Magento\Filesystem::MEDIA);
+        /** @var \Magento\App\Filesystem $filesystem */
+        $filesystem = $this->_objectManager->get('Magento\App\Filesystem');
+        $directory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::MEDIA_DIR);
         $fileName = 'customer' . '/' . ltrim($file, '/');
         $path = $directory->getAbsolutePath($fileName);
         if (!$directory->isFile($fileName)
@@ -883,7 +897,7 @@ class Index extends \Magento\Backend\App\Action
                     'type'  => 'filename',
                     'value' => $fileName
                 ),
-                \Magento\Filesystem::MEDIA
+                \Magento\App\Filesystem::MEDIA_DIR
             )->sendResponse();
         }
 
