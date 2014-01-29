@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\DesignEditor\Helper;
+
 /**
  * Design Editor main helper
  */
-namespace Magento\DesignEditor\Helper;
-
 class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
@@ -103,7 +103,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Get available modes for Design Editor
      *
-     * @return array
+     * @return string[]
      */
     public function getAvailableModes()
     {
@@ -113,7 +113,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Returns the translation mode the current request is in (null, text, script, or alt).
      *
-     * @return mixed
+     * @return string|null
      */
     public function getTranslationMode()
     {

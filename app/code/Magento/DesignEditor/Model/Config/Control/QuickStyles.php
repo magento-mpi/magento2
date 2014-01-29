@@ -7,18 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\DesignEditor\Model\Config\Control;
 
 /**
  * Quick styles configuration
  */
-namespace Magento\DesignEditor\Model\Config\Control;
-
 class QuickStyles extends \Magento\DesignEditor\Model\Config\Control\AbstractControl
 {
     /**
      * Keys of layout params attributes
      *
-     * @var array
+     * @var string[]
      */
     protected $_controlAttributes = array('title', 'tab', 'column');
 

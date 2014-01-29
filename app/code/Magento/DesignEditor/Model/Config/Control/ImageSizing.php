@@ -7,18 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\DesignEditor\Model\Config\Control;
 
 /**
  * Image Sizing configuration
  */
-namespace Magento\DesignEditor\Model\Config\Control;
-
 class ImageSizing extends \Magento\DesignEditor\Model\Config\Control\AbstractControl
 {
     /**
      * Keys of layout params attributes
      *
-     * @var array
+     * @var string[]
      */
     protected $_controlAttributes = array('title');
 
