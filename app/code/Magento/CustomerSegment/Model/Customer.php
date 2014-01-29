@@ -299,7 +299,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
             $visitorSegmentIds[$websiteId] = $segmentIds;
         }
         $visitorSession->setCustomerSegmentIds($visitorSegmentIds);
-        $this->response->setVary(self::ENTITY, $visitorSegmentIds);
+        $this->response->setVary(self::ENTITY, array_filter($visitorSegmentIds));
         return $this;
     }
 
@@ -324,8 +324,9 @@ class Customer extends \Magento\Core\Model\AbstractModel
             }
             $visitorCustomerSegmentIds[$websiteId] = $segmentsIdsForWebsite;
         }
+
         $visitorSession->setCustomerSegmentIds($visitorCustomerSegmentIds);
-        $this->response->setVary(self::ENTITY, $visitorCustomerSegmentIds);
+        $this->response->setVary(self::ENTITY, array_filter($visitorCustomerSegmentIds));
         return $this;
     }
 

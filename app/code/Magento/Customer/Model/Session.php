@@ -236,14 +236,14 @@ class Session extends \Magento\Session\SessionManager
     public function getCustomerGroupId()
     {
         if ($this->storage->getData('customer_group_id')) {
-            $this->response->setVary(\Magento\Customer\Model\Customer::ENTITY,
+            $this->response->setVary(\Magento\Customer\Model\Group::ENTITY,
                 $this->storage->getData('customer_group_id'));
             return $this->storage->getData('customer_group_id');
 
         }
         if ($this->isLoggedIn() && $this->getCustomer()) {
             return $this->getCustomer()->getGroupId();
-            $this->response->setVary(\Magento\Customer\Model\Customer::ENTITY,
+            $this->response->setVary(\Magento\Customer\Model\Group::ENTITY,
                 $this->getCustomer()->getGroupId());
         }
 
