@@ -17,6 +17,9 @@ namespace Magento\PageCache\Model;
 class Observer
 {
     /**
+     * Add comment cache containers to private blocks
+     * Blocks are wrapped only if page is cacheable
+     *
      * @param \Magento\Event\Observer $observer
      */
     public function processLayoutRenderElement(\Magento\Event\Observer $observer)
@@ -28,9 +31,9 @@ class Observer
             $block = $layout->getBlock($name);
             if ($block instanceof \Magento\View\Element\AbstractBlock && $block->isScopePrivate()) {
                 $transport = $observer->getEvent()->getTransport();
-                $html = $transport->getData('output');
-                $html = sprintf('<!-- BLOCK %1$s -->%2$s<!-- /BLOCK %1$s -->', $block->getNameInLayout(), $html);
-                $transport->setData('output', $html);
+                $output = $transport->getData('output');
+                $output = sprintf('<!-- BLOCK %1$s -->%2$s<!-- /BLOCK %1$s -->', $block->getNameInLayout(), $output);
+                $transport->setData('output', $output);
             }
         }
     }
