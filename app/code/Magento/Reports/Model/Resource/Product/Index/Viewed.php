@@ -22,7 +22,6 @@ class Viewed extends \Magento\Reports\Model\Resource\Product\Index\AbstractIndex
 {
     /**
      * Initialize connection and main resource table
-     *
      */
     protected function _construct()
     {

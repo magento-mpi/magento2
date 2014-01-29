@@ -29,7 +29,6 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
 
     /**
      * Resource initializations
-     *
      */
     protected function _construct()
     {
@@ -40,7 +39,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Add store ids filter
      *
      * @param array $storeIds
-     * @return \Magento\Reports\Model\Resource\Event\Collection
+     * @return $this
      */
     public function addStoreFilter(array $storeIds)
     {
@@ -54,9 +53,9 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * @param int $typeId
      * @param int $subjectId
      * @param int $subtype
-     * @param int|array $ignore
+     * @param null|int|array $ignore
      * @param int $limit
-     * @return \Magento\Reports\Model\Resource\Event\Collection
+     * @return $this
      */
     public function addRecentlyFiler($typeId, $subjectId, $subtype = 0, $ignore = null, $limit = 15)
     {

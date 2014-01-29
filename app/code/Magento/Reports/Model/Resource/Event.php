@@ -48,8 +48,7 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
     }
 
     /**
-     * Initialize main table and identifier field.
-     * Set main entity table name and primary key field name.
+     * Initialize main table and identifier field. Set main entity table name and primary key field name.
      *
      * @return void
      */
@@ -65,7 +64,7 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param int $visitorId
      * @param int $customerId
      * @param array $types
-     * @return \Magento\Reports\Model\Resource\Event
+     * @return $this
      */
     public function updateCustomerType(\Magento\Reports\Model\Event $model, $visitorId, $customerId, $types = array())
     {
@@ -92,7 +91,7 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param int $eventSubjectId
      * @param int $subtype
      * @param array $skipIds
-     * @return \Magento\Reports\Model\Resource\Event
+     * @return $this
      */
     public function applyLogToCollection(\Magento\Data\Collection\Db $collection, $eventTypeId, $eventSubjectId, $subtype,
         $skipIds = array())
@@ -129,7 +128,7 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Obtain all current store ids, depending on configuration
      *
-     * @param array $predefinedStoreIds
+     * @param null|array $predefinedStoreIds
      * @return array
      */
     public function getCurrentStoreIds(array $predefinedStoreIds = null)
@@ -172,7 +171,7 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Clean report event table
      *
      * @param \Magento\Reports\Model\Event $object
-     * @return \Magento\Reports\Model\Resource\Event
+     * @return $this
      */
     public function clean(\Magento\Reports\Model\Event $object)
     {

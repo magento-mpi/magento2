@@ -22,7 +22,6 @@ class Compared extends \Magento\Reports\Model\Resource\Product\Index\AbstractInd
 {
     /**
      * Initialize connection and main resource table
-     *
      */
     protected function _construct()
     {

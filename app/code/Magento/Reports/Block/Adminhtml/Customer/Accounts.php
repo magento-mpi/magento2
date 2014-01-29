@@ -20,6 +20,9 @@ namespace Magento\Reports\Block\Adminhtml\Customer;
 
 class Accounts extends \Magento\Backend\Block\Widget\Grid\Container
 {
+    /**
+     * @var string
+     */
     protected $_blockGroup = 'Magento_Reports';
 
     protected function _construct()

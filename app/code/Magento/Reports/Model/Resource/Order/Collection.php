@@ -111,7 +111,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
      * Check range for live mode
      *
      * @param unknown_type $range
-     * @return \Magento\Reports\Model\Resource\Order\Collection
+     * @return $this
      */
     public function checkIsLive($range)
     {
@@ -122,7 +122,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
     /**
      * Retrieve is live flag for rep
      *
-     * @return boolean
+     * @return bool
      */
     public function isLive()
     {
