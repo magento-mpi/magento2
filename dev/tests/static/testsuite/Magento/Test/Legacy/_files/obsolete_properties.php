@@ -251,4 +251,8 @@ return array(
     array('_messagesBlock', 'Magento\View\Element\AbstractBlock'),
     array('_messagesBlock', 'Magento\Connect\Helper\Data'),
     array('escapeMessageFlag', 'Magento\View\Block\Messages'),
+    array('_flatResourceFactory', 'Magento\Catalog\Model\Observer'),
+    array('_catalogCategoryFlat', 'Magento\Catalog\Model\Observer'),
+    array('_catalogCategoryFlat', 'Magento\Catalog\Block\Navigation'),
+    array('_catalogCategoryFlat', 'Magento\Catalog\Model\Category'),
 );

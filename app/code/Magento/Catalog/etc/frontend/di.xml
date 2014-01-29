@@ -31,4 +31,9 @@
     <type name="Magento\Catalog\Controller\Product\Compare">
         <plugin name="sessionInitializer" type="compareProductInitSession" />
     </type>
+    <type name="Magento\Catalog\Block\Navigation">
+        <param name="flatIndexer">
+            <instance type="Magento\Indexer\Model\IndexerInterface" shared="false"/>
+        </param>
+    </type>
 </config>

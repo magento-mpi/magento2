@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -101,13 +99,6 @@ class Category extends \Magento\Catalog\Model\AbstractModel
     protected $_treeModel = null;
 
     /**
-     * Catalog category flat
-     *
-     * @var \Magento\Catalog\Helper\Category\Flat
-     */
-    protected $_catalogCategoryFlat = null;
-
-    /**
      * Core data
      *
      * @var \Magento\Filter\FilterManager
@@ -162,7 +153,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
     protected $flatConfig;
 
     /**
-     * @var \Magento\Indexer\Model\Indexer
+     * @var \Magento\Indexer\Model\IndexerInterface
      */
     protected $flatIndexer;
 
@@ -178,10 +169,9 @@ class Category extends \Magento\Catalog\Model\AbstractModel
      * @param \Magento\UrlInterface $url
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
      * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param \Magento\Catalog\Helper\Category\Flat $catalogCategoryFlat
      * @param \Magento\Filter\FilterManager $filter
      * @param Indexer\Category\Flat\Config $flatConfig
-     * @param \Magento\Indexer\Model\Indexer $flatIndexer
+     * @param \Magento\Indexer\Model\IndexerInterface $flatIndexer
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -198,10 +188,9 @@ class Category extends \Magento\Catalog\Model\AbstractModel
         \Magento\UrlInterface $url,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
         \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\Catalog\Helper\Category\Flat $catalogCategoryFlat,
         \Magento\Filter\FilterManager $filter,
         Indexer\Category\Flat\Config $flatConfig,
-        \Magento\Indexer\Model\Indexer $flatIndexer,
+        \Magento\Indexer\Model\IndexerInterface $flatIndexer,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -214,11 +203,9 @@ class Category extends \Magento\Catalog\Model\AbstractModel
         $this->_url = $url;
         $this->_productCollectionFactory = $productCollectionFactory;
         $this->_catalogConfig = $catalogConfig;
-        $this->_catalogCategoryFlat = $catalogCategoryFlat;
         $this->filter = $filter;
         $this->flatConfig = $flatConfig;
         $this->flatIndexer = $flatIndexer;
-        $this->flatIndexer->load(Indexer\Category\Flat\Config::INDEXER_ID);
         parent::__construct($context, $registry, $storeManager, $resource, $resourceCollection, $data);
     }
 
@@ -230,12 +217,26 @@ class Category extends \Magento\Catalog\Model\AbstractModel
     protected function _construct()
     {
         // If Flat Data enabled then use it but only on frontend
-        if ($this->_catalogCategoryFlat->isAvailable()) {
+        if ($this->flatConfig->isFlatEnabled()
+            && ($this->getFlatIndexer()->getStatus() == \Magento\Indexer\Model\Indexer\State::STATUS_VALID)) {
             $this->_init('Magento\Catalog\Model\Resource\Category\Flat');
             $this->_useFlatResource = true;
         } else {
             $this->_init('Magento\Catalog\Model\Resource\Category');
         }
+    }
+
+    /**
+     * Return own indexer object
+     *
+     * @return \Magento\Indexer\Model\IndexerInterface
+     */
+    protected function getFlatIndexer()
+    {
+        if (!$this->flatIndexer->getId()) {
+            $this->flatIndexer->load(Indexer\Category\Flat\Config::INDEXER_ID);
+        }
+        return $this->flatIndexer;
     }
 
     /**

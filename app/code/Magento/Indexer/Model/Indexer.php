@@ -14,7 +14,7 @@ namespace Magento\Indexer\Model;
  * @method string getTitle()
  * @method string getDescription()
  */
-class Indexer extends \Magento\Object
+class Indexer extends \Magento\Object implements IndexerInterface
 {
     /**
      * @var string
@@ -79,7 +79,7 @@ class Indexer extends \Magento\Object
      * Fill indexer data from config
      *
      * @param string $indexerId
-     * @return \Magento\Indexer\Model\Indexer
+     * @return \Magento\Indexer\Model\IndexerInterface
      * @throws \InvalidArgumentException
      */
     public function load($indexerId)
@@ -182,6 +182,23 @@ class Indexer extends \Magento\Object
             return \Magento\Indexer\Model\Indexer\State::STATUS_WORKING;
         }
         return $this->getState()->getStatus();
+    }
+
+    /**
+     * Set indexer status
+     *
+     * Set value to status column of indexer_state table.
+     *
+     * @param string $value
+     * @return Indexer
+     */
+    public function setStatus($value)
+    {
+        $this->getState()
+            ->setStatus($value)
+            ->save();
+
+        return $this;
     }
 
     /**

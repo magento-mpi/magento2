@@ -1151,4 +1151,11 @@ return array(
     ),
     array('isEnabled', '\Magento\Catalog\Helper\Category\Flat',
         '\Magento\Catalog\Model\Indexer\Category\Flat\Config::isFlatEnabled'),
+    array('categorySaveAfter', '\Magento\Catalog\Model\Observer'),
+    array('storeDelete', '\Magento\Catalog\Model\Observer'),
+    array('categoryMove', '\Magento\Catalog\Model\Observer'),
+    array('storeGroupSave', '\Magento\Catalog\Model\Observer'),
+    array('catalogProductImportAfter', '\Magento\Catalog\Model\Observer'),
+    array('storeEdit', '\Magento\Catalog\Model\Observer'),
+    array('storeAdd', '\Magento\Catalog\Model\Observer'),
 );

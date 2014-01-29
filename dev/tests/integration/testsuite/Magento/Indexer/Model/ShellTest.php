@@ -64,7 +64,7 @@ class ShellTest extends \PHPUnit_Framework_TestCase
         $indexerCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Indexer\Model\Indexer\Collection');
         foreach ($indexerCollection->getItems() as $indexer) {
-            /** @var \Magento\Indexer\Model\Indexer $indexer */
+            /** @var \Magento\Indexer\Model\IndexerInterface $indexer */
             $this->assertContains($indexer->getTitle(), $result);
         }
     }

@@ -56,7 +56,7 @@ class Collection extends \Magento\Data\Collection
         if (!$this->isLoaded()) {
             $states = $this->statesFactory->create();
             foreach (array_keys($this->config->getIndexers()) as $indexerId) {
-                /** @var \Magento\Indexer\Model\Indexer $indexer */
+                /** @var \Magento\Indexer\Model\IndexerInterface $indexer */
                 $indexer = $this->getNewEmptyItem();
                 $indexer->load($indexerId);
                 foreach ($states->getItems() as $state) {
@@ -85,7 +85,7 @@ class Collection extends \Magento\Data\Collection
 
         $result = array();
         foreach ($this as $indexer) {
-            /** @var \Magento\Indexer\Model\Indexer $indexer */
+            /** @var \Magento\Indexer\Model\IndexerInterface $indexer */
             if ($indexer->getState()->getStatus() == $status) {
                 $result[] = $indexer;
             }

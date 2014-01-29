@@ -1807,5 +1807,6 @@ return array(
     array('Magento\PageCache\Model\Control\Zend'),
     array('Magento\PageCache\Model\System\Config\Source\Controls'),
     array('Magento\PageCache\Model\CacheControlFactory'),
-    array('Magento\PageCache\Model\Observer')
+    array('Magento\PageCache\Model\Observer'),
+    array('Magento\Catalog\Block\Adminhtml\System\Config\Form\Field\Select\Flatcatalog'),
 );

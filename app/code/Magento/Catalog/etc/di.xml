@@ -129,9 +129,14 @@
             <instance type="Magento\Catalog\Model\System\Config\Source\InputtypeFactory" />
         </param>
     </type>
-    <type name="Magento\Catalog\Model\Indexer\Category\Flat\Processor">
-        <param name="indexer">
-            <instance type="Magento\Indexer\Model\Indexer" shared="false"/>
+    <type name="Magento\Catalog\Model\Category">
+        <param name="flatIndexer">
+            <instance type="Magento\Indexer\Model\IndexerInterface" shared="false"/>
+        </param>
+    </type>
+    <type name="Magento\Catalog\Model\Indexer\Category\Flat\System\Config\Mode">
+        <param name="flatIndexer">
+            <instance type="Magento\Indexer\Model\IndexerInterface" shared="false"/>
         </param>
     </type>
 </config>

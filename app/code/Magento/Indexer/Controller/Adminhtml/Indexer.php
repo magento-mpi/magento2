@@ -34,8 +34,8 @@ class Indexer extends \Magento\Backend\App\Action
         } else {
             try {
                 foreach ($indexerIds as $indexer_id) {
-                    /** @var \Magento\Indexer\Model\Indexer $model */
-                    $model = $this->_objectManager->create('Magento\Indexer\Model\Indexer')
+                    /** @var \Magento\Indexer\Model\IndexerInterface $model */
+                    $model = $this->_objectManager->create('Magento\Indexer\Model\IndexerInterface')
                         ->load($indexer_id);
                     $model->turnViewOff();
                 }
@@ -65,8 +65,8 @@ class Indexer extends \Magento\Backend\App\Action
         } else {
             try {
                 foreach ($indexerIds as $indexer_id) {
-                    /** @var \Magento\Indexer\Model\Indexer $model */
-                    $model = $this->_objectManager->create('Magento\Indexer\Model\Indexer')
+                    /** @var \Magento\Indexer\Model\IndexerInterface $model */
+                    $model = $this->_objectManager->create('Magento\Indexer\Model\IndexerInterface')
                         ->load($indexer_id);
                     $model->turnViewOn();
                 }
