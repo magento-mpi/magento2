@@ -70,8 +70,12 @@ class CreditmemoTest extends \PHPUnit_Framework_TestCase
 
         $modelConstructorArgs = $objectManager
             ->getConstructArguments('Magento\Downloadable\Model\Sales\Order\Pdf\Items\Creditmemo', array(
-                'string' => new \Magento\Stdlib\String()
+                'string' => new \Magento\Stdlib\String(),
+                'filterManager' => $filterManager
         ));
+
+        $filterManager = $this->getMock('Magento\Filter\FilterManager', array('stripTags'), array(), '', false);
+        $filterManager->expects($this->any())->method('stripTags')->will($this->returnArgument(0));
 
         $this->_model = $this->getMock(
             'Magento\Downloadable\Model\Sales\Order\Pdf\Items\Creditmemo',
