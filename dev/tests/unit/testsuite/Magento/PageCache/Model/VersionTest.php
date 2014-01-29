@@ -40,7 +40,8 @@ class VersionTest extends \PHPUnit_Framework_TestCase
     /**
      * Create cookie and request mock, version instance
      */
-    public function setUp() {
+    public function setUp()
+    {
         $this->cookieMock = $this->getMock('Magento\Stdlib\Cookie', array('set'), array(), '', false);
         $this->requestMock = $this->getMock('Magento\App\Request\Http', array('isPost'), array(), '', false);
         $this->versionInstance =  new Version($this->cookieMock, $this->requestMock);
