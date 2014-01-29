@@ -16,6 +16,6 @@
     </block>
     </referenceBlock>
     <referenceContainer name="content">
-        <block class="Magento\View\Element\Template" template="Magento_PageCache::javascript.phtml" name="pageCache" as="pageCache"/>
+        <block class="Magento\PageCache\Block\Javascript" template="Magento_PageCache::javascript.phtml" name="pageCache" as="pageCache"/>
     </referenceContainer>
 </layout>
