@@ -54,34 +54,7 @@ class MultishippingTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsSatisfiedBy($method, $is3DSecureEnabled, $result)
     {
-        $this->paymentConfig->expects($this->once())->method('getMethodsInfo')
-            ->will($this->returnValue($this->getPaymentMethodConfig()));
-
-        $this->storeConfig->expects($this->any())->method('getConfigFlag')
-            ->will($this->returnValue($is3DSecureEnabled));
-
-        $configSpecification = $this->objectManager->getObject(
-            'Magento\Multishipping\Model\Payment\Method\Specification\Multishipping',
-            array(
-                'paymentConfig' => $this->paymentConfig,
-                'coreStoreConfig' => $this->storeConfig,
-            )
-        );
-
-        $this->assertEquals($result,
-            $configSpecification->isSatisfiedBy($method),
-            sprintf('Failed payment method test: "%s"', $method)
-        );
-    }
-
-    /**
-     * Get payment methods config data
-     *
-     * @return array
-     */
-    protected function getPaymentMethodConfig()
-    {
-        return array(
+        $paymentConfig = array(
             'allow_all' => array(
                 'allow_multiple_address' => 1,
                 'allow_multiple_with_3dsecure' => 1,
@@ -94,6 +67,26 @@ class MultishippingTest extends \PHPUnit_Framework_TestCase
                 'allow_multiple_address' => 0,
                 'allow_multiple_with_3dsecure' => 1,
             ),
+        );
+
+        $this->paymentConfig->expects($this->once())->method('getMethodsInfo')
+            ->will($this->returnValue($paymentConfig));
+
+        $this->storeConfig->expects($this->any())->method('getConfigFlag')
+            ->will($this->returnValue($is3DSecureEnabled));
+
+        $configSpecification = $this->objectManager->getObject(
+            'Magento\Multishipping\Model\Payment\Method\Specification\Multishipping',
+            array(
+                'paymentConfig' => $this->paymentConfig,
+                'storeConfig' => $this->storeConfig,
+            )
+        );
+
+        $this->assertEquals(
+            $result,
+            $configSpecification->isSatisfiedBy($method),
+            sprintf('Failed payment method test: "%s"', $method)
         );
     }
 
