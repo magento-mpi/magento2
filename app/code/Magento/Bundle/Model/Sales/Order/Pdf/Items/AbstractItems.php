@@ -241,7 +241,7 @@ abstract class AbstractItems extends \Magento\Sales\Model\Order\Pdf\Items\Abstra
         if (!$this->isShipmentSeparately($item)) {
             $attributes = $this->getSelectionAttributes($item);
             if ($attributes) {
-                $result =  sprintf('%d', $attributes['qty']) . ' x ' . $result;
+                $result =  $this->filterManager->sprintf($attributes['qty'], '%d') . ' x ' . $result;
             }
         }
         if (!$this->isChildCalculated($item)) {
