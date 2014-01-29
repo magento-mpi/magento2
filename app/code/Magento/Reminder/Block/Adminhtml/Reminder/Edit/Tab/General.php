@@ -7,12 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab;
+
+use Magento\Backend\Block\Widget\Form;
 
 /**
  * Reminder rules edit form general fields
  */
-namespace Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab;
-
 class General
     extends \Magento\Backend\Block\Widget\Form\Generic
 {
@@ -44,7 +45,7 @@ class General
     /**
      * Prepare general properties form
      *
-     * @return \Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\General
+     * @return Form
      */
     protected function _prepareForm()
     {
