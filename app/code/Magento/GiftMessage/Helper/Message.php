@@ -130,7 +130,7 @@ class Message extends \Magento\Core\Helper\Data
                 return $this->_coreStoreConfig->getConfig(self::XPATH_CONFIG_GIFT_MESSAGE_ALLOW_ITEMS, $store);
             }
             if ($entity instanceof \Magento\Sales\Model\Quote) {
-                $_type = $entity->getIsMultiShipping() ? 'address_item' : 'item';
+                $_type = $entity->isMultipleShippingAddresses() ? 'address_item' : 'item';
             } else {
                 $_type = 'order_item';
             }
