@@ -34,15 +34,15 @@ class Data extends \Magento\App\Helper\AbstractHelper
     const PUBLIC_MAX_AGE_PATH = 'system/headers/public-max-age';
 
     /**
-     * @var \Magento\Core\Model\ConfigInterface
+     * @var \Magento\App\ConfigInterface
      */
     protected $config;
 
     /**
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Core\Model\ConfigInterface $config
+     * @param \Magento\App\ConfigInterface $config
      */
-    public function __construct(\Magento\App\Helper\Context $context, \Magento\Core\Model\ConfigInterface $config)
+    public function __construct(\Magento\App\Helper\Context $context, \Magento\App\ConfigInterface $config)
     {
         parent::__construct($context);
         $this->config = $config;
