@@ -10,6 +10,7 @@
   * Fixed missed image for a cron job for the abandoned cart emails
   * Restored ability to configure cache storage in `local.xml`
   * Fixed broken css\js merging functionality
+  * Fixed selection customer on order creation page
 * AppInterface has been renamed to LauncherInterface
 * Removed reinit logic from Config object
 * Framework part of "URL" functionality moved out of modules
