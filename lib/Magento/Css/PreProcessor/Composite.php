@@ -22,7 +22,7 @@ class Composite implements PreProcessorInterface
     protected $preProcessors = array();
 
     /**
-     * @var \Magento\View\Asset\PreProcessorFactory
+     * @var PreProcessorFactory
      */
     protected $preProcessorFactory;
 
@@ -35,7 +35,7 @@ class Composite implements PreProcessorInterface
         array $preProcessors = array()
     ) {
         $this->preProcessorFactory = $preProcessorFactory;
-        $this->preProcessors = $this->preparePreProcessors($preProcessors);
+        $this->preparePreProcessors($preProcessors);
     }
 
     /**
@@ -56,7 +56,7 @@ class Composite implements PreProcessorInterface
 
     /**
      * @param array $preProcessors
-     * @return \Magento\View\Asset\PreProcessor\PreProcessorInterface[]
+     * @return PreProcessorInterface[]
      */
     protected function preparePreProcessors($preProcessors)
     {
@@ -65,6 +65,6 @@ class Composite implements PreProcessorInterface
                 $this->preProcessors[] = $this->preProcessorFactory->create($preProcessorClass);
             }
         }
-        return $this->preProcessors;
+        return $this;
     }
 }
