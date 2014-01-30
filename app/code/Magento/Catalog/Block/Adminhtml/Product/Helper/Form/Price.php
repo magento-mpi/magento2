@@ -66,6 +66,9 @@ class Price extends \Magento\Data\Form\Element\Text
         $this->addClass('validate-zero-or-greater');
     }
 
+    /**
+     * @return mixed|string
+     */
     public function getAfterElementHtml()
     {
         $html = parent::getAfterElementHtml();
@@ -94,6 +97,10 @@ class Price extends \Magento\Data\Form\Element\Text
         return $html;
     }
 
+    /**
+     * @param mixed $attribute
+     * @return string
+     */
     protected function _getTaxObservingCode($attribute)
     {
         $spanId = "dynamic-tax-{$attribute->getAttributeCode()}";
@@ -102,6 +109,10 @@ class Price extends \Magento\Data\Form\Element\Text
         return $html;
     }
 
+    /**
+     * @param null|int|string $index
+     * @return null|string
+     */
     public function getEscapedValue($index=null)
     {
         $value = $this->getValue();

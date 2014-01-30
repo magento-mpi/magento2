@@ -17,8 +17,16 @@
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Widget;
 
-class Chooser extends \Magento\Backend\Block\Widget\Grid\Extended
+use Magento\Backend\Block\Widget\Grid;
+use Magento\Backend\Block\Widget\Grid\Column;
+use Magento\Backend\Block\Widget\Grid\Extended;
+use Magento\Data\Form\Element\AbstractElement;
+
+class Chooser extends Extended
 {
+    /**
+     * @var array
+     */
     protected $_selectedProducts = array();
 
     /**
@@ -79,10 +87,10 @@ class Chooser extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare chooser element HTML
      *
-     * @param \Magento\Data\Form\Element\AbstractElement $element Form Element
-     * @return \Magento\Data\Form\Element\AbstractElement
+     * @param AbstractElement $element Form Element
+     * @return AbstractElement
      */
-    public function prepareElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
+    public function prepareElementHtml(AbstractElement $element)
     {
         $uniqId = $this->mathRandom->getUniqueHash($element->getId());
         $sourceUrl = $this->getUrl('catalog/product_widget/chooser', array(
@@ -190,8 +198,8 @@ class Chooser extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Filter checked/unchecked rows in grid
      *
-     * @param \Magento\Backend\Block\Widget\Grid\Column $column
-     * @return \Magento\Catalog\Block\Adminhtml\Product\Widget\Chooser
+     * @param Column $column
+     * @return $this
      */
     protected function _addColumnFilterToCollection($column)
     {
@@ -211,7 +219,7 @@ class Chooser extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare products collection, defined collection filters (category, product type)
      *
-     * @return \Magento\Backend\Block\Widget\Grid\Extended
+     * @return Extended
      */
     protected function _prepareCollection()
     {
@@ -244,7 +252,7 @@ class Chooser extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare columns for products grid
      *
-     * @return \Magento\Backend\Block\Widget\Grid\Extended
+     * @return Extended
      */
     protected function _prepareColumns()
     {
@@ -307,7 +315,7 @@ class Chooser extends \Magento\Backend\Block\Widget\Grid\Extended
      * Setter
      *
      * @param array $selectedProducts
-     * @return \Magento\Catalog\Block\Adminhtml\Product\Widget\Chooser
+     * @return $this
      */
     public function setSelectedProducts($selectedProducts)
     {

@@ -17,6 +17,8 @@
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Attribute\Edit;
 
+use Magento\View\Element\AbstractBlock;
+
 class Tabs extends \Magento\Backend\Block\Widget\Tabs
 {
 
@@ -28,6 +30,9 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
         $this->setTitle(__('Attribute Information'));
     }
 
+    /**
+     * @return AbstractBlock
+     */
     protected function _beforeToHtml()
     {
         $this->addTab(

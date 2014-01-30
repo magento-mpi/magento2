@@ -16,6 +16,8 @@
 
 namespace Magento\Catalog\Block\Adminhtml\Product\Attribute\Set\Toolbar\Main;
 
+use Magento\Backend\Block\Widget\Form;
+
 class Filter
     extends \Magento\Backend\Block\Widget\Form\Generic
 {
@@ -42,6 +44,9 @@ class Filter
         parent::__construct($context, $registry, $formFactory, $data);
     }
 
+    /**
+     * @return Form|void
+     */
     protected function _prepareForm()
     {
         /** @var \Magento\Data\Form $form */

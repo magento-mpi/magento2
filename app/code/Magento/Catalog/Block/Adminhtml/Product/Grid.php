@@ -17,6 +17,10 @@
  */
 namespace Magento\Catalog\Block\Adminhtml\Product;
 
+use Magento\Backend\Block\Widget\Grid as WidgetGrid;
+use Magento\Catalog\Model\Product;
+use Magento\Core\Model\Store;
+
 class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
@@ -104,12 +108,18 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 
     }
 
+    /**
+     * @return Store
+     */
     protected function _getStore()
     {
         $storeId = (int) $this->getRequest()->getParam('store', 0);
         return $this->_storeManager->getStore($storeId);
     }
 
+    /**
+     * @return $this|WidgetGrid
+     */
     protected function _prepareCollection()
     {
         $store = $this->_getStore();
@@ -139,7 +149,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
                 'entity_id',
                 null,
                 'inner',
-                \Magento\Core\Model\Store::DEFAULT_STORE_ID
+                Store::DEFAULT_STORE_ID
             );
             $collection->joinAttribute(
                 'custom_name',
@@ -186,6 +196,10 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         return $this;
     }
 
+    /**
+     * @param WidgetGrid\Column $column
+     * @return WidgetGrid
+     */
     protected function _addColumnFilterToCollection($column)
     {
         if ($this->getCollection()) {
@@ -203,6 +217,9 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         return parent::_addColumnFilterToCollection($column);
     }
 
+    /**
+     * @return WidgetGrid\Extended
+     */
     protected function _prepareColumns()
     {
         $this->addColumn(
@@ -383,6 +400,9 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         return parent::_prepareColumns();
     }
 
+    /**
+     * @return $this|WidgetGrid
+     */
     protected function _prepareMassaction()
     {
         $this->setMassactionIdField('entity_id');
@@ -423,11 +443,18 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getGridUrl()
     {
         return $this->getUrl('catalog/*/grid', array('_current'=>true));
     }
 
+    /**
+     * @param Product|\Magento\Object
+     * @return string
+     */
     public function getRowUrl($row)
     {
         return $this->getUrl(

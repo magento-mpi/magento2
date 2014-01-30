@@ -17,7 +17,11 @@
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab;
 
-class Crosssell extends \Magento\Backend\Block\Widget\Grid\Extended
+use Magento\Backend\Block\Widget\Grid\Column;
+use Magento\Backend\Block\Widget\Grid\Extended;
+use Magento\Catalog\Model\Product;
+
+class Crosssell extends Extended
 {
     /**
      * Core registry
@@ -95,6 +99,7 @@ class Crosssell extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Set grid params
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -111,9 +116,9 @@ class Crosssell extends \Magento\Backend\Block\Widget\Grid\Extended
     }
 
     /**
-     * Retirve currently edited product model
+     * Retrieve currently edited product model
      *
-     * @return \Magento\Catalog\Model\Product
+     * @return Product
      */
     public function getProduct()
     {
@@ -123,8 +128,8 @@ class Crosssell extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Add filter
      *
-     * @param object $column
-     * @return \Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Crosssell
+     * @param Column $column
+     * @return $this
      */
     protected function _addColumnFilterToCollection($column)
     {
@@ -150,7 +155,7 @@ class Crosssell extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare collection
      *
-     * @return \Magento\Backend\Block\Widget\Grid\Extended
+     * @return Extended
      */
     protected function _prepareCollection()
     {
@@ -177,7 +182,7 @@ class Crosssell extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Checks when this block is readonly
      *
-     * @return boolean
+     * @return bool
      */
     public function isReadonly()
     {
@@ -187,7 +192,7 @@ class Crosssell extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Add columns to grid
      *
-     * @return \Magento\Backend\Block\Widget\Grid\Extended
+     * @return Extended
      */
     protected function _prepareColumns()
     {
@@ -292,7 +297,7 @@ class Crosssell extends \Magento\Backend\Block\Widget\Grid\Extended
     }
 
     /**
-     * Rerieve grid URL
+     * Retrieve grid URL
      *
      * @return string
      */

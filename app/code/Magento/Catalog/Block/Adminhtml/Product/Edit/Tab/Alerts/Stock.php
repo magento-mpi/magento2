@@ -18,7 +18,10 @@
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Alerts;
 
-class Stock extends \Magento\Backend\Block\Widget\Grid\Extended
+use Magento\Backend\Block\Widget\Grid;
+use \Magento\Backend\Block\Widget\Grid\Extended;
+
+class Stock extends Extended
 {
     /**
      * Catalog data
@@ -51,6 +54,9 @@ class Stock extends \Magento\Backend\Block\Widget\Grid\Extended
         parent::__construct($context, $backendHelper, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -63,6 +69,9 @@ class Stock extends \Magento\Backend\Block\Widget\Grid\Extended
         $this->setEmptyText(__('There are no customers for this alert.'));
     }
 
+    /**
+     * @return Grid
+     */
     protected function _prepareCollection()
     {
         $productId = $this->getRequest()->getParam('id');
@@ -79,6 +88,9 @@ class Stock extends \Magento\Backend\Block\Widget\Grid\Extended
         return parent::_prepareCollection();
     }
 
+    /**
+     * @return Extended
+     */
     protected function _prepareColumns()
     {
         $this->addColumn('firstname', array(
@@ -116,6 +128,9 @@ class Stock extends \Magento\Backend\Block\Widget\Grid\Extended
         return parent::_prepareColumns();
     }
 
+    /**
+     * @return string
+     */
     public function getGridUrl()
     {
         $productId = $this->getRequest()->getParam('id');

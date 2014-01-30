@@ -16,8 +16,13 @@
 
 namespace Magento\Catalog\Block\Adminhtml\Product\Attribute\Set\Main;
 
+use Magento\Backend\Block\Widget\Form;
+
 class Formattribute extends \Magento\Backend\Block\Widget\Form\Generic
 {
+    /**
+     * @return Form|void
+     */
     protected function _prepareForm()
     {
         /** @var \Magento\Data\Form $form */

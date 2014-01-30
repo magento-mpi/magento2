@@ -13,14 +13,30 @@
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Options;
 
-class Option extends \Magento\Backend\Block\Widget
+use Magento\Backend\Block\Widget;
+use Magento\Catalog\Model\Product;
+use Magento\View\Element\AbstractBlock;
+
+class Option extends Widget
 {
+    /**
+     * @var Product
+     */
     protected $_productInstance;
 
+    /**
+     * @var \Magento\Object[]
+     */
     protected $_values;
 
+    /**
+     * @var int
+     */
     protected $_itemCount = 1;
 
+    /**
+     * @var string
+     */
     protected $_template = 'catalog/product/edit/options/option.phtml';
 
     /**
@@ -36,7 +52,7 @@ class Option extends \Magento\Backend\Block\Widget
     protected $_productOptionConfig;
 
     /**
-     * @var \Magento\Catalog\Model\Product
+     * @var Product
      */
     protected $_product;
 
@@ -54,7 +70,7 @@ class Option extends \Magento\Backend\Block\Widget
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Model\Config\Source\Yesno $configYesNo
      * @param \Magento\Catalog\Model\Config\Source\Product\Options\Type $optionType
-     * @param \Magento\Catalog\Model\Product $product
+     * @param Product $product
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Catalog\Model\ProductOptions\ConfigInterface $productOptionConfig
      * @param array $data
@@ -63,7 +79,7 @@ class Option extends \Magento\Backend\Block\Widget
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Model\Config\Source\Yesno $configYesNo,
         \Magento\Catalog\Model\Config\Source\Product\Options\Type $optionType,
-        \Magento\Catalog\Model\Product $product,
+        Product $product,
         \Magento\Core\Model\Registry $registry,
         \Magento\Catalog\Model\ProductOptions\ConfigInterface $productOptionConfig,
         array $data = array()
@@ -78,6 +94,8 @@ class Option extends \Magento\Backend\Block\Widget
 
     /**
      * Class constructor
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -87,11 +105,18 @@ class Option extends \Magento\Backend\Block\Widget
         $this->setCanEditPrice(true);
     }
 
+    /**
+     * @return int
+     */
     public function getItemCount()
     {
         return $this->_itemCount;
     }
 
+    /**
+     * @param int $itemCount
+     * @return $this
+     */
     public function setItemCount($itemCount)
     {
         $this->_itemCount = max($this->_itemCount, $itemCount);
@@ -101,7 +126,7 @@ class Option extends \Magento\Backend\Block\Widget
     /**
      * Get Product
      *
-     * @return \Magento\Catalog\Model\Product
+     * @return Product
      */
     public function getProduct()
     {
@@ -117,6 +142,10 @@ class Option extends \Magento\Backend\Block\Widget
         return $this->_productInstance;
     }
 
+    /**
+     * @param Product $product
+     * @return $this
+     */
     public function setProduct($product)
     {
         $this->_productInstance = $product;
@@ -146,13 +175,16 @@ class Option extends \Magento\Backend\Block\Widget
     /**
      * Check block is readonly
      *
-     * @return boolean
+     * @return bool
      */
     public function isReadonly()
     {
         return $this->getProduct()->getOptionsReadonly();
     }
 
+    /**
+     * @return AbstractBlock
+     */
     protected function _prepareLayout()
     {
         foreach ($this->_productOptionConfig->getAll() as $option) {
@@ -162,6 +194,9 @@ class Option extends \Magento\Backend\Block\Widget
         return parent::_prepareLayout();
     }
 
+    /**
+     * @return mixed
+     */
     public function getAddButtonId()
     {
         $buttonId = $this->getLayout()
@@ -170,6 +205,9 @@ class Option extends \Magento\Backend\Block\Widget
         return $buttonId;
     }
 
+    /**
+     * @return mixed
+     */
     public function getTypeSelectHtml()
     {
         $select = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
@@ -183,6 +221,9 @@ class Option extends \Magento\Backend\Block\Widget
         return $select->getHtml();
     }
 
+    /**
+     * @return mixed
+     */
     public function getRequireSelectHtml()
     {
         $select = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
@@ -229,6 +270,9 @@ class Option extends \Magento\Backend\Block\Widget
         return $templates;
     }
 
+    /**
+     * @return \Magento\Object[]
+     */
     public function getOptionValues()
     {
         $optionsArr = $this->getProduct()->getOptions();
@@ -349,6 +393,11 @@ class Option extends \Magento\Backend\Block\Widget
         return $useDefault;
     }
 
+    /**
+     * @param float $value
+     * @param string $type
+     * @return string|void
+     */
     public function getPriceValue($value, $type)
     {
         if ($type == 'percent') {
