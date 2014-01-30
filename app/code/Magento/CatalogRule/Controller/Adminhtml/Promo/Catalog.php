@@ -43,7 +43,7 @@ class Catalog extends Action
      */
     protected $_coreRegistry = null;
 
-    /*
+    /**
      * @var \Magento\Core\Filter\Date
      */
     protected $_dateFilter;
