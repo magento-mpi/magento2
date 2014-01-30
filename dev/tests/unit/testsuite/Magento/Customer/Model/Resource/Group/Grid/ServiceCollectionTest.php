@@ -119,12 +119,29 @@ class ServiceCollectionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param string[] $fields
+     * @param array $conditions
+     *
      * @expectedException \Magento\Exception
-     * @expectedExceptionMessage When passing in a field array there must be a matching condition array.
+     * @expectedExceptionMessage When passing in a field array there must be a matching condition array
+     * @dataProvider addFieldToFilterInconsistentArraysDataProvider
      */
-    public function testAddFieldToFilterNoMatchException()
+    public function testAddFieldToFilterInconsistentArrays($fields, $conditions)
     {
-        $this->serviceCollection->addFieldToFilter(['city', 'age'], ['Austin', ['gt' => 35], 'Male']);
+        $this->_model->addFieldToFilter($fields, $conditions);
     }
 
+    public function addFieldToFilterInconsistentArraysDataProvider()
+    {
+        return [
+            'missingCondition' => [
+                ['fieldA', 'missingCondition'],
+                [['eq' => 'A']]
+            ],
+            'missingField' => [
+                ['fieldA'],
+                [['eq' => 'A'], ['eq' => 'B']]
+            ],
+        ];
+    }
 }
