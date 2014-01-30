@@ -26,6 +26,13 @@ class Ipn
     protected $_order;
 
     /**
+     * Recurring profile instance
+     *
+     * @var \Magento\RecurringProfile\Model\Profile
+     */
+    protected $_recurringProfile;
+
+    /**
      * @var \Magento\Paypal\Model\Config
      */
     protected $_config;
@@ -124,6 +131,7 @@ class Ipn
 
         try {
             if (isset($this->_request['txn_type']) && 'recurring_payment' == $this->_request['txn_type']) {
+                $this->_getRecurringProfile();
                 if ($httpAdapter) {
                     $this->_postBack($httpAdapter);
                 }
@@ -213,23 +221,25 @@ class Ipn
      */
     protected function _getRecurringProfile()
     {
-        // get proper recurring profile
-        $internalReferenceId = $this->_request['rp_invoice_id'];
-        $recurringProfile = $this->_recurringProfileFactory->create()
-            ->loadByInternalReferenceId($internalReferenceId);
-        if (!$recurringProfile->getId()) {
-            throw new \Exception(
-                sprintf('Wrong recurring profile INTERNAL_REFERENCE_ID: "%s".', $internalReferenceId)
-            );
+        if (empty($this->_recurringProfile)) {
+            // get proper recurring profile
+            $internalReferenceId = $this->_request['rp_invoice_id'];
+            $this->_recurringProfile = $this->_recurringProfileFactory->create()
+                ->loadByInternalReferenceId($internalReferenceId);
+            if (!$this->_recurringProfile->getId()) {
+                throw new \Exception(
+                    sprintf('Wrong recurring profile INTERNAL_REFERENCE_ID: "%s".', $internalReferenceId)
+                );
+            }
+            // re-initialize config with the method code and store id
+            $methodCode = $this->_recurringProfile->getMethodCode();
+            $parameters = array('params' => array($methodCode, $this->_recurringProfile->getStoreId()));
+            $this->_config = $this->_configFactory->create($parameters);
+            if (!$this->_config->isMethodActive($methodCode) || !$this->_config->isMethodAvailable()) {
+                throw new \Exception(sprintf('Method "%s" is not available.', $methodCode));
+            }
         }
-        // re-initialize config with the method code and store id
-        $methodCode = $recurringProfile->getMethodCode();
-        $parameters = array('params' => array($methodCode, $recurringProfile->getStoreId()));
-        $this->_config = $this->_configFactory->create($parameters);
-        if (!$this->_config->isMethodActive($methodCode) || !$this->_config->isMethodAvailable()) {
-            throw new \Exception(sprintf('Method "%s" is not available.', $methodCode));
-        }
-        return $recurringProfile;
+        return $this->_recurringProfile;
     }
 
     /**
@@ -437,7 +447,8 @@ class Ipn
      */
     protected function _processRecurringProfile()
     {
-        $recurringProfile = $this->_getRecurringProfile();
+        $this->_recurringProfile = null;
+        $this->_getRecurringProfile();
 
         try {
             // handle payment_status
@@ -459,7 +470,7 @@ class Ipn
             $productItemInfo->setShippingAmount($this->getRequestData('shipping'));
             $productItemInfo->setPrice($price);
 
-            $order = $recurringProfile->createOrder($productItemInfo);
+            $order = $this->_recurringProfile->createOrder($productItemInfo);
 
             $payment = $order->getPayment();
             $payment->setTransactionId($this->getRequestData('txn_id'))
@@ -467,7 +478,7 @@ class Ipn
                 ->setPreparedMessage($this->_createIpnComment(''))
                 ->setIsTransactionClosed(0);
             $order->save();
-            $recurringProfile->addOrderRelation($order->getId());
+            $this->_recurringProfile->addOrderRelation($order->getId());
             $payment->registerCaptureNotification($this->getRequestData('mc_gross'));
             $order->save();
 

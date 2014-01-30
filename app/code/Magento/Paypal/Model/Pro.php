@@ -411,9 +411,9 @@ class Pro
         $api->callCreateRecurringPaymentsProfile();
         $profile->setReferenceId($api->getRecurringProfileId());
         if ($api->getIsProfileActive()) {
-            $profile->setState(\Magento\RecurringProfile\Model\Profile::STATE_ACTIVE);
+            $profile->setState(\Magento\RecurringProfile\Model\States::STATE_ACTIVE);
         } elseif ($api->getIsProfilePending()) {
-            $profile->setState(\Magento\RecurringProfile\Model\Profile::STATE_PENDING);
+            $profile->setState(\Magento\RecurringProfile\Model\States::STATE_PENDING);
         }
     }
 
@@ -451,15 +451,15 @@ class Pro
         $api = $this->getApi();
         $action = null;
         switch ($profile->getNewState()) {
-            case \Magento\RecurringProfile\Model\Profile::STATE_CANCELED: $action = 'cancel'; break;
-            case \Magento\RecurringProfile\Model\Profile::STATE_SUSPENDED: $action = 'suspend'; break;
-            case \Magento\RecurringProfile\Model\Profile::STATE_ACTIVE: $action = 'activate'; break;
+            case \Magento\RecurringProfile\Model\States::STATE_CANCELED: $action = 'cancel'; break;
+            case \Magento\RecurringProfile\Model\States::STATE_SUSPENDED: $action = 'suspend'; break;
+            case \Magento\RecurringProfile\Model\States::STATE_ACTIVE: $action = 'activate'; break;
         }
         $state = $profile->getState();
         $api->setRecurringProfileId($profile->getReferenceId())
-            ->setIsAlreadyCanceled($state == \Magento\RecurringProfile\Model\Profile::STATE_CANCELED)
-            ->setIsAlreadySuspended($state == \Magento\RecurringProfile\Model\Profile::STATE_SUSPENDED)
-            ->setIsAlreadyActive($state == \Magento\RecurringProfile\Model\Profile::STATE_ACTIVE)
+            ->setIsAlreadyCanceled($state == \Magento\RecurringProfile\Model\States::STATE_CANCELED)
+            ->setIsAlreadySuspended($state == \Magento\RecurringProfile\Model\States::STATE_SUSPENDED)
+            ->setIsAlreadyActive($state == \Magento\RecurringProfile\Model\States::STATE_ACTIVE)
             ->setAction($action)
             ->callManageRecurringPaymentsProfileStatus()
         ;
