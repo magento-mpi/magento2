@@ -1,5 +1,7 @@
 * Modularity improvements:
   * Consolidated PayPal in separate module
+  * Resolved dependencies on Magento_GroupedProduct module
+  * Added ability to enable/disable/remove Magento_GroupedProduct module without impact on the system
 * Oyejorge Less.php Adapter implemented
 * Less files import mechanism implemented
 * Added ability to configure certain cache frontend and associate it with multiple cache types, so avoiding duplication of cache configuration
