@@ -1,6 +1,6 @@
 <?php
 /**
- * Unit test for converter \Magento\Customer\Model\Resource\Group\Grid\ServiceCollection
+ * Unit test for \Magento\Customer\Model\Resource\Group\Grid\ServiceCollection
  *
  * {license_notice}
  *
@@ -60,18 +60,31 @@ class ServiceCollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetSearchCriteria($field, $condition, $expectedFilters)
     {
-        // \Magento\Customer\Service\V1\Dto\FilterBuilder
+        // Setup the expected search criteria
         foreach ($expectedFilters as $expectedFilter) {
             $this->searchCriteriaBuilder->addFilter($expectedFilter);
         }
 
-        $expectedSearchCriteria = $this->searchCriteriaBuilder->setCurrentPage(1)->setPageSize(0)->create();
+        $customerGroupBuilder = new \Magento\Customer\Service\V1\Dto\CustomerGroupBuilder();
+        $customerGroup = $customerGroupBuilder->setCode('code')->setId('1')->create();
 
-        $this->groupServiceMock->expects($this->once()) // exactly(count($expectedFilters)))
+        $searchResultsBuilder = new \Magento\Customer\Service\V1\Dto\SearchResultsBuilder();
+        $this->searchResults = $searchResultsBuilder->setItems([$customerGroup])->setTotalCount(1)->create();
+        $expectedSearchCriteria = $this->searchCriteriaBuilder
+            ->setCurrentPage(1)
+            ->setPageSize(0)
+            ->addSortOrder('name', SearchCriteria::SORT_ASC)
+            ->create();
+
+        // Verifies that the search criteria DTO created by the serviceCollection matches expected
+        $this->groupServiceMock->expects($this->once())
             ->method('searchGroups')
             ->with($this->equalTo($expectedSearchCriteria))
             ->will($this->returnValue($this->searchResults));
+
+        // Now call service collection to load the data.  This causes it to create the search criteria DTO
         $this->serviceCollection->addFieldToFilter($field, $condition);
+        $this->serviceCollection->setOrder('name', ServiceCollection::SORT_ORDER_ASC);
         $this->serviceCollection->loadData();
     }
 
@@ -104,4 +117,14 @@ class ServiceCollectionTest extends \PHPUnit_Framework_TestCase
             ]
         ];
     }
+
+    /**
+     * @expectedException \Magento\Exception
+     * @expectedExceptionMessage When passing in a field array there must be a matching condition array.
+     */
+    public function testAddFieldToFilterNoMatchException()
+    {
+        $this->serviceCollection->addFieldToFilter(['city', 'age'], ['Austin', ['gt' => 35], 'Male']);
+    }
+
 }

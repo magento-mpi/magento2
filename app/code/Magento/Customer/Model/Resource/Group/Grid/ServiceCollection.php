@@ -49,11 +49,65 @@ class ServiceCollection extends \Magento\Data\Collection
     }
 
     /**
+     * Add field filter to collection
+     *
+     * If $condition integer or string - exact value will be filtered ('eq' condition)
+     *
+     * If $condition is array - one of the following structures is expected:
+     * <pre>
+     * - ["from" => $fromValue, "to" => $toValue]
+     * - ["eq" => $equalValue]
+     * - ["neq" => $notEqualValue]
+     * - ["like" => $likeValue]
+     * - ["in" => [$inValues]]
+     * - ["nin" => [$notInValues]]
+     * - ["notnull" => $valueIsNotNull]
+     * - ["null" => $valueIsNull]
+     * - ["moreq" => $moreOrEqualValue]
+     * - ["gt" => $greaterValue]
+     * - ["lt" => $lessValue]
+     * - ["gteq" => $greaterOrEqualValue]
+     * - ["lteq" => $lessOrEqualValue]
+     * - ["finset" => $valueInSet]
+     * - ["regexp" => $regularExpression]
+     * - ["seq" => $stringValue]
+     * - ["sneq" => $stringValue]
+     * </pre>
+     *
+     * If non matched - sequential parallel arrays are expected and OR conditions
+     * will be built using above mentioned structure.
+     *
+     * Example:
+     * <pre>
+     * $field = ['age', 'name'];
+     * $condition = [42, ['like' => 'Mage']];
+     * </pre>
+     * The above would find where age equal to 42 OR name like %Mage%.
+     *
+     * @param string|array $field
+     * @param string|int|array $condition
+     * @throws \Magento\Exception if some error in the input could be detected.
+     * @return $this
+     */
+    public function addFieldToFilter($field, $condition)
+    {
+        if (is_array($field) && count($field) != count($condition)) {
+            throw new \Magento\Exception('When passing in a field array there must be a matching condition array.');
+        }
+        $this->_fieldFilters[] = [
+            'field'     => $field,
+            'condition' => $condition,
+        ];
+
+        return $this;
+    }
+
+    /**
      * Load customer group collection data from service
      *
      * @param bool $printQuery
      * @param bool $logQuery
-     * @return  \Magento\Data\Collection
+     * @return \Magento\Data\Collection
      */
     public function loadData($printQuery = false, $logQuery = false)
     {
@@ -73,31 +127,21 @@ class ServiceCollection extends \Magento\Data\Collection
         return $this;
     }
 
-    private function addField($field, $condition)
-    {
-        $this->filterBuilder->setField($field);
-
-        if (is_array($condition)) {
-            $this->filterBuilder->setValue(reset($condition));
-            $this->filterBuilder->setConditionType(key($condition));
-        } else {
-            // not an array, just use eq as condition type and given value
-            $this->filterBuilder->setConditionType('eq');
-            $this->filterBuilder->setValue($condition);
-        }
-        $this->searchCriteriaBuilder->addFilter($this->filterBuilder->create());
-    }
-
+    /**
+     * Creates a search criteria DTO based on the array of field filters.
+     *
+     * @return SearchCriteria
+     */
     protected function getSearchCriteria()
     {
         foreach ($this->_fieldFilters as $filter) {
-            // just one field, move this to a function and call in loop if multiple
             if (!is_array($filter['field'])) {
-                $this->addField($filter['field'], $filter['condition']);
+                // just one field
+                $this->addFilterToSearchCriteria($filter['field'], $filter['condition']);
             } else {
                 // array of fields
                 foreach ($filter['field'] as $index => $field) {
-                    $this->addField($field, $filter['condition'][$index]);
+                    $this->addFilterToSearchCriteria($field, $filter['condition'][$index]);
                 }
             }
         }
@@ -110,5 +154,27 @@ class ServiceCollection extends \Magento\Data\Collection
         $this->searchCriteriaBuilder->setCurrentPage($this->_curPage);
         $this->searchCriteriaBuilder->setPageSize($this->_pageSize);
         return $this->searchCriteriaBuilder->create();
+    }
+
+    /**
+     * Creates a filter for given field/condition and adds it to the search criteria builder.
+     *
+     * @param string $field Field for new filter
+     * @param string|array $condition Condition for new filter.
+     * @return void
+     */
+    protected function addFilterToSearchCriteria($field, $condition)
+    {
+        $this->filterBuilder->setField($field);
+
+        if (is_array($condition)) {
+            $this->filterBuilder->setValue(reset($condition));
+            $this->filterBuilder->setConditionType(key($condition));
+        } else {
+            // not an array, just use eq as condition type and given value
+            $this->filterBuilder->setConditionType('eq');
+            $this->filterBuilder->setValue($condition);
+        }
+        $this->searchCriteriaBuilder->addFilter($this->filterBuilder->create());
     }
 }
