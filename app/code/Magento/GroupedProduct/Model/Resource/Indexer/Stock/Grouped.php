@@ -18,7 +18,7 @@
  */
 namespace Magento\GroupedProduct\Model\Resource\Indexer\Stock;
 
-class Grouped extends DefaultStock
+class Grouped extends \Magento\CatalogInventory\Model\Resource\Indexer\Stock\DefaultStock
 {
     /**
      * Reindex stock data for defined configurable product ids
