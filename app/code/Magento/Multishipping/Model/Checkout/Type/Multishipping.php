@@ -528,9 +528,6 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
     protected function _validate()
     {
         $quote = $this->getQuote();
-        if (!$quote->getIsMultiShipping()) {
-            throw new \Magento\Core\Exception(__('Invalid checkout type'));
-        }
 
         /** @var $paymentMethod \Magento\Payment\Model\Method\AbstractMethod */
         $paymentMethod = $quote->getPayment()->getMethodInstance();
