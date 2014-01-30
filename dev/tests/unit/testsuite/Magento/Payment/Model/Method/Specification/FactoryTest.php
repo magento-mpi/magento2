@@ -19,7 +19,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     protected $objectManagerMock;
 
     /**
-     * @var \Magento\Payment\Model\Method\Factory
+     * @var \Magento\Payment\Model\Method\Specification\Factory
      */
     protected $factory;
 
