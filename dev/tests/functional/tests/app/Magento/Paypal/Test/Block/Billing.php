@@ -35,8 +35,8 @@ class Billing extends Form
      */
     public function clickLoginLink()
     {
-        $loginLink = $this->_rootElement->find($this->loadLogin, Locator::SELECTOR_CSS);
-        if($loginLink->isVisible()) {
+        $loginLink = $this->_rootElement->find($this->loadLogin);
+        if ($loginLink->isVisible()) {
             $loginLink->click();
         }
     }
