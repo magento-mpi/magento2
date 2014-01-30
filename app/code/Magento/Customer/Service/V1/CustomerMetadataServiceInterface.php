@@ -15,10 +15,10 @@ use Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata;
  */
 interface CustomerMetadataServiceInterface
 {
-    const CUSTOMER_ATTRIBUTE_SET_ID = 1;
-    const ADDRESS_ATTRIBUTE_SET_ID = 2;
-    const CUSTOMER_ENTITY_TYPE = 'customer';
-    const ADDRESS_ENTITY_TYPE = 'customer_address';
+    const ATTRIBUTE_SET_ID_CUSTOMER = 1;
+    const ATTRIBUTE_SET_ID_ADDRESS = 2;
+    const ENTITY_TYPE_CUSTOMER = 'customer';
+    const ENTITY_TYPE_ADDRESS = 'customer_address';
 
     /**
      * Retrieve Attribute Metadata

@@ -300,7 +300,7 @@ class CustomerAddressService implements CustomerAddressServiceInterface
         $addressModel->setIsDefaultShipping($address->isDefaultShipping());
         // Need to use attribute set or future updates can cause data loss
         if (!$addressModel->getAttributeSetId()) {
-            $addressModel->setAttributeSetId(CustomerMetadataServiceInterface::ADDRESS_ATTRIBUTE_SET_ID);
+            $addressModel->setAttributeSetId(CustomerMetadataServiceInterface::ATTRIBUTE_SET_ID_ADDRESS);
         }
     }
 

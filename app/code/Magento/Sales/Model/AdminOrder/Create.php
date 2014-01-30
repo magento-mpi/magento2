@@ -1116,7 +1116,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     protected function _createCustomerForm(CustomerDto $customerDto)
     {
         $customerForm = $this->_metadataFormFactory->create(
-            \Magento\Customer\Service\V1\CustomerMetadataServiceInterface::CUSTOMER_ENTITY_TYPE,
+            \Magento\Customer\Service\V1\CustomerMetadataServiceInterface::ENTITY_TYPE_CUSTOMER,
             'adminhtml_checkout',
             $customerDto->__toArray(),
             CustomerForm::DONT_IGNORE_INVISIBLE
@@ -1137,7 +1137,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     {
         $isAjax = !$this->getIsValidate();
         $addressForm = $this->_metadataFormFactory->create(
-            CustomerMetadataServiceInterface::ADDRESS_ENTITY_TYPE,
+            CustomerMetadataServiceInterface::ENTITY_TYPE_ADDRESS,
             'adminhtml_customer_address',
             $address->getData(),
             CustomerForm::DONT_IGNORE_INVISIBLE,
@@ -1430,7 +1430,11 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     }
 
     /**
-     * Prepare quote customer
+     * Prepare customer data for order creation.
+     *
+     * Create customer if not created using data from customer form.
+     * Create customer billing/shipping address if necessary using data from customer address forms.
+     * Set customer data to quote.
      *
      * @return \Magento\Sales\Model\AdminOrder\Create
      */
@@ -1635,15 +1639,13 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
             $quote->getCustomer()->setCreatedAt($order->getCreatedAt());
             $quote->getCustomer()
                 ->save()
-                ->sendNewAccountEmail('registered', '', $quote->getStoreId());;
+                ->sendNewAccountEmail('registered', '', $quote->getStoreId());
         }
         if ($this->getSession()->getOrder()->getId()) {
             $oldOrder = $this->getSession()->getOrder();
-
-            $this->getSession()->getOrder()->setRelationChildId($order->getId());
-            $this->getSession()->getOrder()->setRelationChildRealId($order->getIncrementId());
-            $this->getSession()->getOrder()->cancel()
-                ->save();
+            $oldOrder->setRelationChildId($order->getId());
+            $oldOrder->setRelationChildRealId($order->getIncrementId());
+            $oldOrder->cancel()->save();
             $order->save();
         }
         if ($this->getSendConfirmation()) {

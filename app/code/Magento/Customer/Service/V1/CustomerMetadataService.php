@@ -192,7 +192,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
      */
     public function getAllCustomerAttributeMetadata()
     {
-        return $this->getAllAttributeSetMetadata('customer', self::CUSTOMER_ATTRIBUTE_SET_ID);
+        return $this->getAllAttributeSetMetadata('customer', self::ATTRIBUTE_SET_ID_CUSTOMER);
     }
 
     /**
@@ -208,7 +208,7 @@ class CustomerMetadataService implements CustomerMetadataServiceInterface
      */
     public function getAllAddressAttributeMetadata()
     {
-        return $this->getAllAttributeSetMetadata('customer_address', self::ADDRESS_ATTRIBUTE_SET_ID);
+        return $this->getAllAttributeSetMetadata('customer_address', self::ATTRIBUTE_SET_ID_ADDRESS);
     }
 
 
