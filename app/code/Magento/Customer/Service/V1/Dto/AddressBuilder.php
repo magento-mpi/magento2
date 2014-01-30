@@ -66,6 +66,10 @@ class AddressBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
 
         parent::populateWithArray($data);
 
+        if (isset($region) && !isset($data['region'])) {
+            $this->setRegion(new Region($region));
+        }
+
         return $this;
     }
 
