@@ -400,7 +400,7 @@ class AbstractAddress extends \Magento\Core\Model\AbstractModel
             return null;
         }
         $this->_eventManager->dispatch('customer_address_format', array('type' => $formatType, 'address' => $this));
-        return $formatType->getRenderer()->render($this->toArray());
+        return $formatType->getRenderer()->renderArray($this->toArray());
     }
 
     /**
