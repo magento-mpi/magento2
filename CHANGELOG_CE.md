@@ -1,5 +1,7 @@
 * Modularity improvements:
   * Consolidated PayPal in separate module
+  * Resolved dependencies on Magento_GroupedProduct module
+  * Added ability to enable/disable/remove Magento_GroupedProduct module without impact on the system
 * Oyejorge Less.php Adapter implemented
 * Less files import mechanism implemented
 * Added ability to configure certain cache frontend and associate it with multiple cache types, so avoiding duplication of cache configuration
@@ -23,6 +25,8 @@
   * Implemented new indexer structure
 * Refactored Web API Framework to support Data Object based service interfaces
 * Refactored controllers, blocks and templates of the Sales Module to use customer service
+* GitHub requests:
+  * [#275] (https://github.com/magento/magento2/issues/275) -- XSS Vulnerability in app/code/core/Mage/CatalogSearch/Block/Result.php
 
 2.0.0.0-dev62
 =============
