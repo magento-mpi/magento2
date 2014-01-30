@@ -10,9 +10,9 @@
   * Fixed missed image for a cron job for the abandoned cart emails
   * Restored ability to configure cache storage in `local.xml`
   * Fixed broken css\js merging functionality
+  * Fixed selection customer on order creation page
   * Fixed an issue with insert image in WYSIWYG editor where selected folder was stored in session
-  * Fixed an issue with CMS Page Links not being shown due to empty text in the link
-* Removed the deprecated service-calls and data source functionality
+  * Fixed an issue with CMS Page Links not being shown due to empty text in the link  
 * AppInterface has been renamed to LauncherInterface
 * Removed reinit logic from Config object
 * Framework part of "URL" functionality moved out of modules
@@ -21,6 +21,8 @@
 * Updated various PHPDoc with parameter and return types
 * Indexer implementation:
   * Implemented new indexer structure
+* Refactored Web API Framework to support Data Object based service interfaces
+* Refactored controllers, blocks and templates of the Sales Module to use customer service
 
 2.0.0.0-dev62
 =============

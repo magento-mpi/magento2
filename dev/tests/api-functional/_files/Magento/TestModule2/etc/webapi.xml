@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <service class="Magento\TestModule2\Service\SubsetRestV1Interface" baseUrl="/V1/testModule2SubsetRest">
+    <service class="Magento\TestModule2\Service\V1\SubsetRestInterface" baseUrl="/V1/testModule2SubsetRest">
         <rest-route httpMethod="GET" method="item" resources="Magento_TestModule2::resource1">/:id</rest-route>
         <rest-route httpMethod="GET" method="items" resources="Magento_TestModule2::resource2,Magento_TestModule2::resource3"></rest-route>
     </service>
