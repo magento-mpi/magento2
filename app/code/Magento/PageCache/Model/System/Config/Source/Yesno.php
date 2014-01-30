@@ -10,7 +10,6 @@
 
 /**
  * Used in creating options for Yes|No config value selection
- *
  */
 namespace Magento\PageCache\Model\System\Config\Source;
 
@@ -38,7 +37,7 @@ class Yesno implements \Magento\Core\Model\Option\ArrayInterface
     {
         return array(
             0 => __('No'),
-            1 => __('Yes'),
+            1 => __('Yes')
         );
     }
 } 

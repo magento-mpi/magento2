@@ -57,8 +57,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\App\Helper\Context $context,
         \Magento\PageCache\Model\CacheControlFactory $ccFactory,
         \Magento\Stdlib\Cookie $cookie,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Backend\Helper\Data $backendHelper
+        \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         parent::__construct($context);
         $this->_coreStoreConfig = $coreStoreConfig;

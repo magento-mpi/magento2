@@ -121,7 +121,6 @@ class Config extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
 
     /**
      * Export Varnish Cofiguration as .vcl
-     * TODO:
      *
      * @return \Magento\App\ResponseInterface
      */
