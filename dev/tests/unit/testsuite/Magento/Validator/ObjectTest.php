@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Validator\Composite;
+namespace Magento\Validator;
 
 class ObjectTest extends \PHPUnit_Framework_TestCase
 {

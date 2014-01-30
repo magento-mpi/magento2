@@ -132,18 +132,19 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
      * @var States
      */
     protected $states;
+
     /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Payment\Helper\Data $paymentData
+     * @param PeriodUnits $periodUnits
+     * @param \Magento\RecurringProfile\Block\Fields $fields
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Sales\Model\Order\AddressFactory $addressFactory
      * @param \Magento\Sales\Model\Order\PaymentFactory $paymentFactory
      * @param \Magento\Sales\Model\Order\ItemFactory $orderItemFactory
      * @param \Magento\Math\Random $mathRandom
-     * @param \Magento\RecurringProfile\Model\PeriodUnits $periodUnits
-     * @param \Magento\RecurringProfile\Block\Fields $fields
-     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param States $states
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -153,14 +154,14 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Payment\Helper\Data $paymentData,
+        \Magento\RecurringProfile\Model\PeriodUnits $periodUnits,
+        \Magento\RecurringProfile\Block\Fields $fields,
+        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Sales\Model\Order\AddressFactory $addressFactory,
         \Magento\Sales\Model\Order\PaymentFactory $paymentFactory,
         \Magento\Sales\Model\Order\ItemFactory $orderItemFactory,
         \Magento\Math\Random $mathRandom,
-        \Magento\RecurringProfile\Model\PeriodUnits $periodUnits,
-        \Magento\RecurringProfile\Block\Fields $fields,
-        \Magento\Core\Model\LocaleInterface $locale,
         States $states,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,

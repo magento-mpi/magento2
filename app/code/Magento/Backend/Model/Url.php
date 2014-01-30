@@ -89,21 +89,21 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
      * @param \Magento\App\Route\ConfigInterface $routeConfig
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Url\SecurityInfoInterface $urlSecurityInfo
-     * @param \Magento\Backend\Model\Url\ScopeResolver $scopeResolver
-     * @param \Magento\Core\Model\Session $session
+     * @param \Magento\Url\ScopeResolverInterface $scopeResolver
+     * @param \Magento\Session\Generic $session
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Url\RouteParamsResolverFactory $routeParamsResolver
+     * @param \Magento\Url\QueryParamsResolverInterface $queryParamsResolver
+     * @param \Magento\Encryption\EncryptorInterface $encryptor
+     * @param \Magento\Backend\App\ConfigInterface $config
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param Menu\Config $menuConfig
      * @param \Magento\App\CacheInterface $cache
      * @param Auth\Session $authSession
-     * @param \Magento\Encryption\EncryptorInterface $encryptor
-     * @param \Magento\Backend\App\ConfigInterface $config
+     * @param \Magento\Data\Form\FormKey $formKey
      * @param \Magento\Core\Model\StoreFactory $storeFactory
      * @param \Magento\App\ConfigInterface $coreConfig
-     * @param \Magento\Data\Form\FormKey $formKey
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Url\QueryParamsResolverInterface $queryParamsResolver
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -112,21 +112,21 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
         \Magento\App\Route\ConfigInterface $routeConfig,
         \Magento\App\RequestInterface $request,
         \Magento\Url\SecurityInfoInterface $urlSecurityInfo,
-        \Magento\Backend\Model\Url\ScopeResolver $scopeResolver,
-        \Magento\Core\Model\Session $session,
+        \Magento\Url\ScopeResolverInterface $scopeResolver,
+        \Magento\Session\Generic $session,
         \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Url\RouteParamsResolverFactory $routeParamsResolver,
+        \Magento\Url\QueryParamsResolverInterface $queryParamsResolver,
+        \Magento\Encryption\EncryptorInterface $encryptor,
+        \Magento\Backend\App\ConfigInterface $config,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Backend\Model\Menu\Config $menuConfig,
         \Magento\App\CacheInterface $cache,
         \Magento\Backend\Model\Auth\Session $authSession,
-        \Magento\Encryption\EncryptorInterface $encryptor,
-        \Magento\Backend\App\ConfigInterface $config,
+        \Magento\Data\Form\FormKey $formKey,
         \Magento\Core\Model\StoreFactory $storeFactory,
         \Magento\App\ConfigInterface $coreConfig,
-        \Magento\Data\Form\FormKey $formKey,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Url\QueryParamsResolverInterface $queryParamsResolver,
         array $data = array()
     ) {
         $this->_encryptor = $encryptor;

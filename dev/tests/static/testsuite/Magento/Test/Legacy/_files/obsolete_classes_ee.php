@@ -44,6 +44,12 @@ return array(
     array('Magento\CustomerSegment\Model\Resource\Helper\Mssql'),
     array('Magento\Logging\Model\Resource\Helper\Mssql'),
     array('Magento\Reminder\Model\Resource\Helper\Mssql'),
+    array('Magento\Sales\Model\Recurring\Profile', 'Magento\RecurringProfile\Model\Profile'),
+    array('Magento\Sales\Model\Resource\Recurring\Profile', 'Magento\RecurringProfile\Model\Resource\Profile'),
+    array(
+        'Magento\Sales\Model\Resource\Recurring\Profile\Collection',
+        'Magento\RecurringProfile\Model\Resource\Profile\Collection'
+    ),
     array('Magento\SalesArchive\Model\Resource\Helper\Mssql'),
     array('Magento\CustomerSegment\Model\Resource\Helper\Oracle'),
     array('Magento\Logging\Model\Resource\Helper\Oracle'),
