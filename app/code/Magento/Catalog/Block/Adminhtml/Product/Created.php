@@ -18,7 +18,6 @@
 namespace Magento\Catalog\Block\Adminhtml\Product;
 
 use Magento\Catalog\Model\Product;
-use Magento\Catalog\Model\Resource\Eav\Attribute;
 
 class Created extends \Magento\Backend\Block\Widget
 {
@@ -117,7 +116,7 @@ class Created extends \Magento\Backend\Block\Widget
     /**
      * Retrieve array of attributes
      *
-     * @return Attribute[]
+     * @return array
      */
     public function getAttributes()
     {
