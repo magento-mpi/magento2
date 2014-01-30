@@ -176,6 +176,7 @@ class View extends \Magento\Object implements ViewInterface
 
                 // Update view state
                 $this->getState()
+                    ->setVersionId(null)
                     ->setMode(View\StateInterface::MODE_DISABLED)
                     ->save();
             } catch (\Exception $e) {

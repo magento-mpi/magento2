@@ -125,6 +125,10 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             ->method('getMode')
             ->will($this->returnValue('enabled'));
         $this->stateMock->expects($this->once())
+            ->method('setVersionId')
+            ->with(null)
+            ->will($this->returnSelf());
+        $this->stateMock->expects($this->once())
             ->method('setMode')
             ->with('disabled')
             ->will($this->returnSelf());
