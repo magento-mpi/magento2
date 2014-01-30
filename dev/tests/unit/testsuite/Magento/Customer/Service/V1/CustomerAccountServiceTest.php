@@ -15,6 +15,7 @@ namespace Magento\Customer\Service\V1;
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @SuppressWarnings(PHPMD.TooManyFields)
  */
 class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
 {
