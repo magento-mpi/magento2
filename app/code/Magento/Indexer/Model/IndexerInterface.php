@@ -57,7 +57,7 @@ interface IndexerInterface
     /**
      * Return related view object
      *
-     * @return \Magento\Mview\View
+     * @return \Magento\Mview\ViewInterface
      */
     public function getView();
 
@@ -112,19 +112,9 @@ interface IndexerInterface
     public function isWorking();
 
     /**
-     * Set indexer valid
-     */
-    public function setValid();
-
-    /**
      * Set indexer invalid
      */
-    public function setInvalid();
-
-    /**
-     * Set indexer working
-     */
-    public function setWorking();
+    public function invalidate();
 
     /**
      * Return indexer status

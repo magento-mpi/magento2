@@ -26,7 +26,7 @@ class Indexer extends \Magento\Object implements IndexerInterface
     protected $actionFactory;
 
     /**
-     * @var \Magento\Mview\View
+     * @var \Magento\Mview\ViewInterface
      */
     protected $view;
 
@@ -132,7 +132,7 @@ class Indexer extends \Magento\Object implements IndexerInterface
     /**
      * Return related view object
      *
-     * @return \Magento\Mview\View
+     * @return \Magento\Mview\ViewInterface
      */
     public function getView()
     {
@@ -178,7 +178,7 @@ class Indexer extends \Magento\Object implements IndexerInterface
      */
     public function isScheduled()
     {
-        return $this->getView()->getMode() == \Magento\Mview\View\StateInterface::MODE_ENABLED;
+        return $this->getView()->isEnabled();
     }
 
     /**
@@ -203,7 +203,7 @@ class Indexer extends \Magento\Object implements IndexerInterface
      */
     public function isValid()
     {
-        return $this->getState()->getStatus() == \Magento\Indexer\Model\Indexer\State::STATUS_VALID;
+        return $this->getState()->getStatus() == Indexer\State::STATUS_VALID;
     }
 
     /**
@@ -213,7 +213,7 @@ class Indexer extends \Magento\Object implements IndexerInterface
      */
     public function isInvalid()
     {
-        return $this->getState()->getStatus() == \Magento\Indexer\Model\Indexer\State::STATUS_INVALID;
+        return $this->getState()->getStatus() == Indexer\State::STATUS_INVALID;
     }
 
     /**
@@ -223,31 +223,15 @@ class Indexer extends \Magento\Object implements IndexerInterface
      */
     public function isWorking()
     {
-        return $this->getState()->getStatus() == \Magento\Indexer\Model\Indexer\State::STATUS_VALID;
-    }
-
-    /**
-     * Set indexer valid
-     */
-    public function setValid()
-    {
-        $this->getState()->setStatus(\Magento\Indexer\Model\Indexer\State::STATUS_VALID)->save();
+        return $this->getState()->getStatus() == Indexer\State::STATUS_VALID;
     }
 
     /**
      * Set indexer invalid
      */
-    public function setInvalid()
+    public function invalidate()
     {
-        $this->getState()->setStatus(\Magento\Indexer\Model\Indexer\State::STATUS_INVALID)->save();
-    }
-
-    /**
-     * Set indexer working
-     */
-    public function setWorking()
-    {
-        $this->getState()->setStatus(\Magento\Indexer\Model\Indexer\State::STATUS_WORKING)->save();
+        $this->getState()->setStatus(Indexer\State::STATUS_INVALID)->save();
     }
 
     /**
@@ -267,9 +251,7 @@ class Indexer extends \Magento\Object implements IndexerInterface
      */
     public function getLatestUpdated()
     {
-        if ($this->getView()->getMode() == \Magento\Mview\View\StateInterface::MODE_ENABLED
-            && $this->getView()->getUpdated()
-        ) {
+        if ($this->getView()->isEnabled() && $this->getView()->getUpdated()) {
             if (!$this->getState()->getUpdated()) {
                 return $this->getView()->getUpdated();
             }
@@ -303,15 +285,20 @@ class Indexer extends \Magento\Object implements IndexerInterface
             $this->getState()
                 ->setStatus(Indexer\State::STATUS_WORKING)
                 ->save();
+            if ($this->getView()->isEnabled()) {
+                $this->getView()->suspend();
+            }
             try {
                 $this->getActionInstance()->executeFull();
                 $this->getState()
                     ->setStatus(Indexer\State::STATUS_VALID)
                     ->save();
+                $this->getView()->resume();
             } catch (\Exception $exception) {
                 $this->getState()
                     ->setStatus(Indexer\State::STATUS_INVALID)
                     ->save();
+                $this->getView()->resume();
                 throw $exception;
             }
         }

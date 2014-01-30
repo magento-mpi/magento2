@@ -217,8 +217,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
     protected function _construct()
     {
         // If Flat Data enabled then use it but only on frontend
-        if ($this->flatConfig->isFlatEnabled()
-            && ($this->getFlatIndexer()->getStatus() == \Magento\Indexer\Model\Indexer\State::STATUS_VALID)) {
+        if ($this->flatConfig->isFlatEnabled() && $this->getFlatIndexer()->isValid()) {
             $this->_init('Magento\Catalog\Model\Resource\Category\Flat');
             $this->_useFlatResource = true;
         } else {

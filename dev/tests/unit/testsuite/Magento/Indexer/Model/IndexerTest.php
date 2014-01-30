@@ -25,7 +25,7 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
     protected $actionFactoryMock;
 
     /**
-     * @var \Magento\Mview\View|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Mview\ViewInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $viewMock;
 
@@ -47,12 +47,10 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
         $this->actionFactoryMock = $this->getMock(
             'Magento\Indexer\Model\ActionFactory', array('get'), array(), '', false
         );
-        $this->viewMock = $this->getMock(
-            'Magento\Mview\View',
-            array('load', 'getMode', 'getUpdated', 'getStatus', '__wakeup', 'getId'),
-            array(),
-            '',
-            false
+        $this->viewMock = $this->getMockForAbstractClass(
+            'Magento\Mview\ViewInterface',
+            array(), '', false, false, true,
+            array('load', 'isEnabled', 'getUpdated', 'getStatus', '__wakeup', 'getId')
         );
         $this->stateFactoryMock = $this->getMock(
             'Magento\Indexer\Model\Indexer\StateFactory', array('create'), array(), '', false
@@ -133,8 +131,8 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
             ->method('getId')
             ->will($this->returnValue(1));
         $this->viewMock->expects($this->once())
-            ->method('getMode')
-            ->will($this->returnValue('enabled'));
+            ->method('isEnabled')
+            ->will($this->returnValue(true));
         $this->viewMock->expects($this->any())
             ->method('getUpdated')
             ->will($this->returnValue($checkValue));
