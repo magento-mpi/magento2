@@ -20,7 +20,7 @@ interface ClientInterface
      *
      * @param string $name
      * @param array $params
-     * @param mixed $priority
+     * @param string|null $priority
      * @param string $uniqueId
      * @return string handle
      */
@@ -29,7 +29,7 @@ interface ClientInterface
     /**
      * Retrieve task status
      *
-     * @param $taskHandle
+     * @param string $taskHandle
      * @return array (
      *     'isEnqueued' => bool
      *     'isRunning' => bool
