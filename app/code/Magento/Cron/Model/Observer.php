@@ -240,7 +240,7 @@ class Observer
          * generate global crontab jobs
          */
         $jobs = $this->_config->getJobs();
-        $this->_generateJobs($jobs, $exists, $groupConfig, $groupId);
+        $this->_generateJobs($jobs[$groupId], $exists, $groupConfig);
 
         /**
          * save time schedules generation was ran with no expiration
@@ -259,7 +259,7 @@ class Observer
      * @param   string $groupId
      * @return  \Magento\Cron\Model\Observer
      */
-    protected function _generateJobs($jobs, $exists, $groupConfig, $groupId)
+    protected function _generateJobs($jobs, $exists, $groupConfig)
     {
         $scheduleAheadFor = (int)$groupConfig[self::XML_PATH_SCHEDULE_AHEAD_FOR];
         $scheduleAheadFor = $scheduleAheadFor * self::SECONDS_IN_MINUTE;
@@ -268,7 +268,7 @@ class Observer
          */
         $schedule = $this->_scheduleFactory->create();
 
-        foreach ($jobs[$groupId] as $jobCode => $jobConfig) {
+        foreach ($jobs as $jobCode => $jobConfig) {
             $cronExpr = null;
             if (isset($jobConfig['config_path'])) {
                 $cronExpr = $this->_coreStoreConfig->getConfig($jobConfig['config_path'], 'default');
