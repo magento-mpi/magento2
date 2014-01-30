@@ -18,7 +18,7 @@ class Db implements \Magento\Config\ConverterInterface
     /**
      * Convert data
      *
-     * @param mixed $source
+     * @param array $source
      * @return array
      */
     public function convert($source)
