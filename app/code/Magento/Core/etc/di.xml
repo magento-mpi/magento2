@@ -36,10 +36,10 @@
     <preference for="Magento\View\Design\Theme\Customization\ConfigInterface" type="Magento\Core\Model\Theme\Customization\Config" />
     <preference for="Magento\View\Asset\ConfigInterface" type="Magento\Core\Model\Asset\Config" />
     <preference for="Magento\App\ViewInterface" type="Magento\App\View" />
-    <preference for="Magento\TranslateInterface" type="Magento\Core\Model\Translate" />
+    <preference for="Magento\TranslateInterface" type="Magento\Translate" />
     <preference for="Magento\App\Response\RedirectInterface" type="Magento\Core\App\Response\Redirect" />
     <preference for="Magento\Data\Collection\EntityFactoryInterface" type="Magento\Core\Model\EntityFactory" />
-    <preference for="Magento\Core\Model\Translate\InlineInterface" type="Magento\Core\Model\Translate\Inline" />
+    <preference for="Magento\Translate\InlineInterface" type="Magento\Core\Model\Translate\Inline" />
     <preference for="Magento\Session\ValidatorInterface" type="Magento\Core\Model\Session\Validator" />
     <preference for="Magento\Session\StorageInterface" type="Magento\Session\Storage" />
     <preference for="Magento\Url\RouteParamsResolverInterface" type="Magento\Core\Model\Url\RouteParamsResolver" />
@@ -55,6 +55,8 @@
     <preference for="Magento\Mview\View\SubscriptionInterface" type="Magento\Mview\View\Subscription" />
     <preference for="Magento\Mview\View\ChangelogInterface" type="Magento\Mview\View\Changelog" />
     <preference for="Magento\Css\PreProcessor\AdapterInterface" type="Magento\Css\PreProcessor\Adapter\Oyejorge" />
+    <preference for="Magento\Translate\ResourceInterface" type="Magento\Core\Model\Resource\Translate" />
+    <preference for="Magento\BaseScopeResolverInterface" type="Magento\Core\Model\BaseScopeResolver" />
     <type name="Magento\App\DefaultPath\DefaultPath">
         <param name="parts">
             <array>
@@ -248,7 +250,7 @@
     </type>
     <type name="Magento\Phrase\Renderer\Translate">
         <param name="translator">
-            <instance type="Magento\Core\Model\Translate" />
+            <instance type="Magento\Translate" />
         </param>
     </type>
     <type name="Magento\Core\Model\Translate\InlineParser">
@@ -355,7 +357,7 @@
             <value>fieldset_config</value>
         </param>
     </type>
-    <type name="Magento\Core\Model\Locale\Hierarchy\Config">
+    <type name="Magento\Locale\Hierarchy\Config">
         <param name="reader">
             <instance type="Magento\Core\Model\Locale\Hierarchy\Config\Reader" />
         </param>
@@ -474,7 +476,7 @@
     </type>
     <type name="Magento\Core\Model\App\Area">
         <param name="translator">
-            <instance type="Magento\Core\Model\Translate\Proxy" />
+            <instance type="Magento\Translate" />
         </param>
         <param name="design">
             <instance type="Magento\Core\Model\Design\Proxy" />

@@ -12,7 +12,7 @@ namespace Magento\DesignEditor\Model\Translate;
 /**
  * Inline translation specific to Vde.
  */
-class InlineVde implements \Magento\Core\Model\Translate\InlineInterface
+class InlineVde implements \Magento\Translate\InlineInterface
 {
     /**
      * data-translate-mode attribute name

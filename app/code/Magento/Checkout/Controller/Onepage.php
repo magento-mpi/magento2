@@ -130,7 +130,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
         $layout->generateXml();
         $layout->generateElements();
         $output = $layout->getOutput();
-        $this->_objectManager->get('Magento\Core\Model\Translate')->processResponseBody($output);
+        $this->_objectManager->get('Magento\TranslateInterface')->processResponseBody($output);
         return $output;
     }
 

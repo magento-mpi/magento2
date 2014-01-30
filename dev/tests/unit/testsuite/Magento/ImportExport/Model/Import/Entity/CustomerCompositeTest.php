@@ -94,7 +94,7 @@ class CustomerCompositeTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $translator = $this->getMock('Magento\Core\Model\Translate', array('isAllowed'), array(), '', false);
+        $translator = $this->getMock('Magento\TranslateInterface', array(), array(), '', false);
         $translator->expects($this->any())
             ->method('isAllowed')
             ->will($this->returnValue(false));

@@ -19,14 +19,14 @@ namespace Magento\Backend\Model\Translate;
 class InlineTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Translate\InlineInterface
+     * @var \Magento\Translate\InlineInterface
      */
     protected $_translate;
 
     protected function setUp()
     {
         $this->_translate = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Translate\InlineInterface');
+            ->create('Magento\Translate\InlineInterface');
     }
 
     /**

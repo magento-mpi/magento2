@@ -17,7 +17,7 @@ namespace Magento\Core\Model;
 class TranslateTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Translate
+     * @var \Magento\Translate
      */
     protected $_model;
 
@@ -91,7 +91,7 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
         $objectManager->addSharedInstance($this->_designModel, 'Magento\Core\Model\View\Design\Proxy');
 
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Translate');
+            ->create('Magento\Translate');
         $this->_model->init(\Magento\Core\Model\App\Area::AREA_FRONTEND);
     }
 
@@ -126,13 +126,13 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
 
     public function testGetConfig()
     {
-        $this->assertEquals('frontend', $this->_model->getConfig(\Magento\Core\Model\Translate::CONFIG_KEY_AREA));
-        $this->assertEquals('en_US', $this->_model->getConfig(\Magento\Core\Model\Translate::CONFIG_KEY_LOCALE));
-        $this->assertEquals(1, $this->_model->getConfig(\Magento\Core\Model\Translate::CONFIG_KEY_STORE));
+        $this->assertEquals('frontend', $this->_model->getConfig(\Magento\Translate::CONFIG_KEY_AREA));
+        $this->assertEquals('en_US', $this->_model->getConfig(\Magento\Translate::CONFIG_KEY_LOCALE));
+        $this->assertEquals(1, $this->_model->getConfig(\Magento\Translate::CONFIG_KEY_STORE));
         $design = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\View\DesignInterface');
         $this->assertEquals($design->getDesignTheme()->getId(),
-            $this->_model->getConfig(\Magento\Core\Model\Translate::CONFIG_KEY_DESIGN_THEME));
+            $this->_model->getConfig(\Magento\Translate::CONFIG_KEY_DESIGN_THEME));
         $this->assertNull($this->_model->getConfig('non_existing_key'));
     }
 
@@ -168,7 +168,7 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
     public function testTranslate($inputText, $expectedTranslation)
     {
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Translate');
+            ->create('Magento\Translate');
         $this->_model->init(\Magento\Core\Model\App\Area::AREA_FRONTEND);
 
         $actualTranslation = $this->_model->translate(array($inputText));

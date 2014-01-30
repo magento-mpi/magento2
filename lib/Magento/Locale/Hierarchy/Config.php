@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Locale\Hierarchy;
+namespace Magento\Locale\Hierarchy;
 
 class Config extends \Magento\Config\Data
 {

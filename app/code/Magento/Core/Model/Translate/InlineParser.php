@@ -192,7 +192,7 @@ class InlineParser
      * Parse and save edited translation
      *
      * @param array $translateParams
-     * @param \Magento\Core\Model\Translate\InlineInterface $inlineInterface
+     * @param \Magento\Translate\InlineInterface $inlineInterface
      * @return \Magento\Core\Model\Translate\InlineParser
      */
     public function processAjaxPost(array $translateParams, $inlineInterface)
@@ -257,7 +257,7 @@ class InlineParser
      * Replace html body with translation wrapping.
      *
      * @param string $body
-     * @param \Magento\Core\Model\Translate\InlineInterface $inlineInterface
+     * @param \Magento\Translate\InlineInterface $inlineInterface
      * @return string
      */
     public function processResponseBodyString($body, $inlineInterface)
@@ -337,7 +337,7 @@ class InlineParser
     /**
      * Format translation for special tags.  Adding translate mode attribute for vde requests.
      *
-     * @param \Magento\Core\Model\Translate\InlineInterface $inlineInterface
+     * @param \Magento\Translate\InlineInterface $inlineInterface
      * @param string $tagHtml
      * @param string $tagName
      * @param array $trArr
@@ -360,7 +360,7 @@ class InlineParser
     /**
      * Format translation for simple tags.  Added translate mode attribute for vde requests.
      *
-     * @param \Magento\Core\Model\Translate\InlineInterface $inlineInterface
+     * @param \Magento\Translate\InlineInterface $inlineInterface
      * @param string $tagHtml
      * @param string  $tagName
      * @param array $trArr
@@ -408,7 +408,7 @@ class InlineParser
     /**
      * Prepare tags inline translates
      *
-     * @param \Magento\Core\Model\Translate\InlineInterface $inlineInterface
+     * @param \Magento\Translate\InlineInterface $inlineInterface
      */
     private function _tagAttributes($inlineInterface)
     {
@@ -419,7 +419,7 @@ class InlineParser
      * Prepare tags inline translates for the content
      *
      * @param string $content
-     * @param \Magento\Core\Model\Translate\InlineInterface $inlineInterface
+     * @param \Magento\Translate\InlineInterface $inlineInterface
      */
     private function _prepareTagAttributesForContent(&$content, $inlineInterface)
     {
@@ -467,7 +467,7 @@ class InlineParser
     /**
      * Add data-translate-mode attribute
      *
-     * @param \Magento\Core\Model\Translate\InlineInterface $inlineInterface
+     * @param \Magento\Translate\InlineInterface $inlineInterface
      * @param string $trAttr
      * @return string
      */
@@ -498,7 +498,7 @@ class InlineParser
     /**
      * Prepare special tags
      *
-     * @param \Magento\Core\Model\Translate\InlineInterface $inlineInterface
+     * @param \Magento\Translate\InlineInterface $inlineInterface
      */
     private function _specialTags($inlineInterface)
     {
@@ -514,7 +514,7 @@ class InlineParser
      *
      * @param string $content
      * @param array $tagsList
-     * @param \Magento\Core\Model\Translate\InlineInterface $inlineInterface
+     * @param \Magento\Translate\InlineInterface $inlineInterface
      * @param string|array $formatCallback
      */
     private function _translateTags(&$content, $tagsList, $inlineInterface, $formatCallback)
@@ -597,7 +597,7 @@ class InlineParser
     /**
      * Prepare other text inline translates
      *
-     * @param \Magento\Core\Model\Translate\InlineInterface $inlineInterface
+     * @param \Magento\Translate\InlineInterface $inlineInterface
      */
     private function _otherText($inlineInterface)
     {
@@ -622,7 +622,7 @@ class InlineParser
     /**
      * Returns the html span that contains the data translate attribute including vde specific translate mode attribute
      *
-     * @param \Magento\Core\Model\Translate\InlineInterface $inlineInterface
+     * @param \Magento\Translate\InlineInterface $inlineInterface
      * @param string $data
      * @param string $text
      * @return string
@@ -641,7 +641,7 @@ class InlineParser
     /**
      * Add an additional html attribute if needed.
      *
-     * @param \Magento\Core\Model\Translate\InlineInterface $inlineInterface
+     * @param \Magento\Translate\InlineInterface $inlineInterface
      * @param mixed|string $tagName
      * @return string
      */

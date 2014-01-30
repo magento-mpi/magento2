@@ -14,7 +14,7 @@
  */
 namespace Magento\Core\Model\Translate;
 
-class Inline implements \Magento\Core\Model\Translate\InlineInterface
+class Inline implements \Magento\Translate\InlineInterface
 {
     /**
      * Regular Expression for detected and replace translate
@@ -24,7 +24,7 @@ class Inline implements \Magento\Core\Model\Translate\InlineInterface
     protected $_tokenRegex = '\{\{\{(.*?)\}\}\{\{(.*?)\}\}\{\{(.*?)\}\}\{\{(.*?)\}\}\}';
 
     /**
-     * @var \Magento\Core\Model\Translate
+     * @var \Magento\TranslateInterface
      */
     protected $_translator;
     /**
@@ -70,7 +70,7 @@ class Inline implements \Magento\Core\Model\Translate\InlineInterface
      * Initialize inline translation model
      *
      * @param InlineParser $parser
-     * @param \Magento\Core\Model\Translate $translate
+     * @param \Magento\TranslateInterface $translate
      * @param \Magento\UrlInterface $url
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Core\Model\Translate\Inline\ConfigFactory $configFactory
@@ -78,7 +78,7 @@ class Inline implements \Magento\Core\Model\Translate\InlineInterface
      */
     public function __construct(
         \Magento\Core\Model\Translate\InlineParser $parser,
-        \Magento\Core\Model\Translate $translate,
+        \Magento\TranslateInterface $translate,
         \Magento\UrlInterface $url,
         \Magento\View\LayoutInterface $layout,
         \Magento\Core\Model\Translate\Inline\ConfigFactory $configFactory,

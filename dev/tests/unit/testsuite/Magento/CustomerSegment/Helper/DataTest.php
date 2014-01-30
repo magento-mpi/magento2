@@ -36,7 +36,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $translate = function (array $args) {
             return reset($args);
         };
-        $translator = $this->getMock('Magento\Core\Model\Translate', array('translate'), array(), '', false);
+        $translator = $this->getMock('Magento\TranslateInterface', array(), array(), '', false);
         $translator->expects($this->any())->method('translate')->will($this->returnCallback($translate));
         $this->_storeConfig = $this->getMock('Magento\Core\Model\Store\Config', array('getConfig'), array(), '', false);
         $this->_segmentCollection = $this->getMock(

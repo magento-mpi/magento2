@@ -30,7 +30,7 @@ class Emulation extends \Magento\Object
     protected $_storeManager;
 
     /**
-     * @var \Magento\Core\Model\Translate
+     * @var \Magento\TranslateInterface
      */
     protected $_translate;
 
@@ -66,7 +66,7 @@ class Emulation extends \Magento\Object
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\View\DesignInterface $viewDesign
      * @param \Magento\Core\Model\Design $design
-     * @param \Magento\Core\Model\Translate $translate
+     * @param \Magento\TranslateInterface $translate
      * @param \Magento\Core\Helper\Translate $helperTranslate
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Translate\Inline\ConfigFactory $configFactory
@@ -78,7 +78,7 @@ class Emulation extends \Magento\Object
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\View\DesignInterface $viewDesign,
         \Magento\Core\Model\Design $design,
-        \Magento\Core\Model\Translate $translate,
+        \Magento\TranslateInterface $translate,
         \Magento\Core\Helper\Translate $helperTranslate,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Translate\Inline\ConfigFactory $configFactory,

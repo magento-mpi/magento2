@@ -168,7 +168,7 @@ class EditorTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getObjectManagerMap($countCustomization)
     {
-        $translate = $this->getMock('Magento\Core\Model\Translate', array(), array(), '', false);
+        $translate = $this->getMock('Magento\TranslateInterface', array(), array(), '', false);
         $translate->expects($this->any())->method('translate')
             ->will($this->returnSelf());
 
@@ -195,7 +195,7 @@ class EditorTest extends \PHPUnit_Framework_TestCase
                 'Magento\Core\Model\Resource\Theme\CollectionFactory',
                 $this->_getThemeCollectionFactory($countCustomization)
             ),
-            array('Magento\Core\Model\Translate', $translate),
+            array('Magento\TranslateInterface', $translate),
             array('Magento\App\ConfigInterface', $configMock),
             array('Magento\Event\ManagerInterface', $eventManager),
             array('Magento\Core\Model\StoreManager', $storeManager),

@@ -11,14 +11,14 @@
 /**
  * Translate factory
  */
-namespace Magento\Core\Model\Translate;
+namespace Magento\Translate;
 
 class Factory
 {
     /**
      * Default translate inline class name
      */
-    const DEFAULT_CLASS_NAME = 'Magento\Core\Model\Translate\InlineInterface';
+    const DEFAULT_CLASS_NAME = 'Magento\Translate\InlineInterface';
 
     /**
      * Object Manager
@@ -41,7 +41,7 @@ class Factory
      *
      * @param array $data
      * @param string $className
-     * @return \Magento\Core\Model\Translate\InlineInterface
+     * @return \Magento\Translate\InlineInterface
      */
     public function create(array $data = null, $className = null)
     {

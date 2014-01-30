@@ -11,7 +11,7 @@
 /**
  * Inline translation interface
  */
-namespace Magento\Core\Model\Translate;
+namespace Magento\Translate;
 
 interface InlineInterface
 {
@@ -35,7 +35,7 @@ interface InlineInterface
      *
      * @param array|string $body
      * @param mixed|bool $isJson
-     * @return \Magento\Core\Model\Translate\InlineInterface
+     * @return \Magento\Translate\InlineInterface
      */
     public function processResponseBody(&$body, $isJson);
 }

@@ -23,19 +23,19 @@ class Translate extends \Magento\App\Helper\AbstractHelper
     protected $_design;
 
     /**
-     * @var \Magento\Core\Model\Translate
+     * @var \Magento\TranslateInterface
      */
     protected $translator;
 
     /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\View\DesignInterface $design
-     * @param \Magento\Core\Model\Translate $translator
+     * @param \Magento\TranslateInterface $translator
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\View\DesignInterface $design,
-        \Magento\Core\Model\Translate $translator
+        \Magento\TranslateInterface $translator
     ) {
         $this->translator = $translator;
         $this->_design = $design;
@@ -71,7 +71,7 @@ class Translate extends \Magento\App\Helper\AbstractHelper
      * @param string $localeCode
      * @param bool $forceReload
      * @param null $area
-     * @return \Magento\Core\Model\Translate
+     * @return \Magento\TranslateInterface
      */
     public function initTranslate($localeCode, $forceReload, $area = null)
     {

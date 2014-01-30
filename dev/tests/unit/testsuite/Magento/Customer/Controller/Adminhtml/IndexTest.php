@@ -105,9 +105,8 @@ class IndexTest extends \PHPUnit_Framework_TestCase
             ->setMethods(array('getUrl'))
             ->getMock();
 
-        $translator = $this->getMockBuilder('Magento\Core\Model\Translate')
+        $translator = $this->getMockBuilder('Magento\TranslateInterface')
             ->disableOriginalConstructor()
-            ->setMethods(array('getTranslateInline', '__wakeup'))
             ->getMock();
 
         $this->messageManager = $this->getMockBuilder('Magento\Message\Manager')
