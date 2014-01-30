@@ -301,8 +301,7 @@ class Navigation extends \Magento\View\Element\Template
         }
 
         // get all children
-        if ($this->flatConfig->isFlatEnabled()
-            && ($this->getFlatIndexer()->getStatus() == \Magento\Indexer\Model\Indexer\State::STATUS_VALID)) {
+        if ($this->flatConfig->isFlatEnabled() && $this->getFlatIndexer()->isValid()) {
             $children = (array)$category->getChildrenNodes();
         } else {
             $children = $category->getChildren();

@@ -344,10 +344,8 @@ class Category extends \Magento\Catalog\Model\AbstractModel
             throw $e;
         }
         $this->_eventManager->dispatch('category_move', $eventParams);
-        if ($this->flatConfig->isFlatEnabled()
-            && $this->flatIndexer->getMode() == \Magento\Mview\View\StateInterface::MODE_DISABLED
-        ) {
-            $this->flatIndexer->reindexList(array($this->getId(), $oldParentId, $parentId));
+        if ($this->flatConfig->isFlatEnabled() && !$this->getFlatIndexer()->isScheduled()) {
+            $this->getFlatIndexer()->reindexList(array($this->getId(), $oldParentId, $parentId));
         }
         $this->_cacheManager->clean(array(self::CACHE_TAG));
 
@@ -1019,10 +1017,8 @@ class Category extends \Magento\Catalog\Model\AbstractModel
      */
     public function reindex()
     {
-        if ($this->flatConfig->isFlatEnabled()
-            && $this->flatIndexer->getMode() == \Magento\Mview\View\StateInterface::MODE_DISABLED
-        ) {
-            $this->flatIndexer->reindexRow($this->getId());
+        if ($this->flatConfig->isFlatEnabled() && !$this->getFlatIndexer()->isScheduled()) {
+            $this->getFlatIndexer()->reindexRow($this->getId());
         }
     }
 }

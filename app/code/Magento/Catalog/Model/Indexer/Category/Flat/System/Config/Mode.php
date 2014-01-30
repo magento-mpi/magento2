@@ -51,7 +51,7 @@ class Mode extends \Magento\Core\Model\Config\Value
     {
         if ($this->isValueChanged() && $this->getValue()) {
             $this->flatIndexer->load(\Magento\Catalog\Model\Indexer\Category\Flat\Config::INDEXER_ID);
-            $this->flatIndexer->setStatus(\Magento\Indexer\Model\Indexer\State::STATUS_INVALID);
+            $this->flatIndexer->setInvalid();
         }
         return $this;
     }

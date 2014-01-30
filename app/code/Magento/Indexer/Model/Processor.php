@@ -56,7 +56,7 @@ class Processor
         foreach (array_keys($this->config->getIndexers()) as $indexerId) {
             $indexer = $this->indexerFactory->create();
             $indexer->load($indexerId);
-            if ($indexer->getState()->getStatus() == Indexer\State::STATUS_INVALID) {
+            if ($indexer->isInvalid()) {
                 $indexer->reindexAll();
             }
         }
@@ -67,7 +67,7 @@ class Processor
      */
     public function reindexAll()
     {
-        /** @var Indexer[] $indexers */
+        /** @var IndexerInterface[] $indexers */
         $indexers = $this->indexersFactory->create()->getItems();
         foreach ($indexers as $indexer) {
             $indexer->reindexAll();

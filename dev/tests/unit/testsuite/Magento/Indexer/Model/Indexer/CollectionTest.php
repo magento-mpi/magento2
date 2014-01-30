@@ -55,7 +55,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
         $entityFactory->expects($this->any())
             ->method('create')
-            ->with('Magento\Indexer\Model\Indexer')
+            ->with('Magento\Indexer\Model\IndexerInterface')
             ->will($this->returnValue($indexer));
 
         $statesFactory->expects($this->once())

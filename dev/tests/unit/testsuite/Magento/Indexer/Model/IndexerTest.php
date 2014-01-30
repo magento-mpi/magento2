@@ -123,71 +123,7 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\Magento\Indexer\Model\Indexer\State', $this->model->getState());
     }
 
-    /**
-     * @param string $mode
-     * @param string $status
-     * @param bool $statusCall
-     * @param bool $stateCall
-     * @param string $result
-     * @dataProvider indexerStatusProvider
-     */
-    public function testGetStatus($mode, $status, $statusCall, $stateCall, $result)
-    {
-        $indexId = 'indexer_internal_name';
-        $this->viewMock->expects($statusCall ? $this->exactly(2) : $this->once())
-            ->method('getId')
-            ->will($this->returnValue(1));
-        $this->viewMock->expects($this->once())
-            ->method('getMode')
-            ->will($this->returnValue($mode));
-        $this->viewMock->expects($statusCall ? $this->once() : $this->never())
-            ->method('getStatus')
-            ->will($this->returnValue($status));
-
-        if ($stateCall) {
-            $stateMock = $this->getMock(
-                '\Magento\Indexer\Model\Indexer\State',
-                array('load', 'getId', 'setIndexerId', '__wakeup', 'getStatus'),
-                array(),
-                '',
-                false
-            );
-            $stateMock->expects($this->once())
-                ->method('load')
-                ->with($indexId, 'indexer_id')
-                ->will($this->returnSelf());
-            $stateMock->expects($this->never())
-                ->method('setIndexerId');
-            $stateMock->expects($this->once())
-                ->method('getId')
-                ->will($this->returnValue(1));
-            $stateMock->expects($this->once())
-                ->method('getStatus')
-                ->will($this->returnValue($status));
-            $this->stateFactoryMock->expects($this->once())
-                ->method('create')
-                ->will($this->returnValue($stateMock));
-        }
-
-        $this->loadIndexer($indexId);
-
-        $this->assertEquals($result, $this->model->getStatus());
-    }
-
-    /**
-     * @return array
-     */
-    public function indexerStatusProvider()
-    {
-        return array(
-            'enabled_working' => array('enabled', 'working', true, false, 'working'),
-            'enabled_idle'  => array('enabled', 'idle', true, true, 'idle'),
-            'disabled_working' => array('disabled', 'working', false, true, 'working'),
-            'disabled_idle' => array('disabled', 'idle', false, true, 'idle'),
-        );
-    }
-
-    public function testGetUpdated()
+    public function testGetLatestUpdated()
     {
         $checkValue = 1;
         $indexId = 'indexer_internal_name';
@@ -217,7 +153,7 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($stateMock));
 
-        $this->assertEquals($checkValue, $this->model->getUpdated());
+        $this->assertEquals($checkValue, $this->model->getLatestUpdated());
     }
 
     public function testReindexAll()

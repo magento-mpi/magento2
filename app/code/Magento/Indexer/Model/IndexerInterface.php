@@ -11,10 +11,45 @@ namespace Magento\Indexer\Model;
 interface IndexerInterface
 {
     /**
+     * Return indexer ID
+     *
+     * @return string
+     */
+    public function getId();
+
+    /**
+     * Return indexer's view ID
+     *
+     * @return string
+     */
+    public function getViewId();
+
+    /**
+     * Return indexer action class
+     *
+     * @return string
+     */
+    public function getActionClass();
+
+    /**
+     * Return indexer title
+     *
+     * @return string
+     */
+    public function getTitle();
+
+    /**
+     * Return indexer description
+     *
+     * @return string
+     */
+    public function getDescription();
+
+    /**
      * Fill indexer data from config
      *
      * @param string $indexerId
-     * @return \Magento\Indexer\Model\IndexerInterface
+     * @return IndexerInterface
      * @throws \InvalidArgumentException
      */
     public function load($indexerId);
@@ -37,16 +72,59 @@ interface IndexerInterface
      * Set indexer state object
      *
      * @param Indexer\State $state
-     * @return Indexer
+     * @return IndexerInterface
      */
     public function setState(Indexer\State $state);
 
     /**
-     * Return indexer mode
+     * Check whether indexer is run by schedule
      *
-     * @return string
+     * @return bool
      */
-    public function getMode();
+    public function isScheduled();
+
+    /**
+     * Turn scheduled mode on/off
+     *
+     * @param bool $scheduled
+     */
+    public function setScheduled($scheduled);
+
+    /**
+     * Check whether indexer is valid
+     *
+     * @return bool
+     */
+    public function isValid();
+
+    /**
+     * Check whether indexer is invalid
+     *
+     * @return bool
+     */
+    public function isInvalid();
+
+    /**
+     * Check whether indexer is working
+     *
+     * @return bool
+     */
+    public function isWorking();
+
+    /**
+     * Set indexer valid
+     */
+    public function setValid();
+
+    /**
+     * Set indexer invalid
+     */
+    public function setInvalid();
+
+    /**
+     * Set indexer working
+     */
+    public function setWorking();
 
     /**
      * Return indexer status
@@ -56,35 +134,11 @@ interface IndexerInterface
     public function getStatus();
 
     /**
-     * Set indexer status
-     *
-     * Set value to status column of indexer_state table.
-     *
-     * @param string $value
-     * @return Indexer
-     */
-    public function setStatus($value);
-
-    /**
-     * Return indexer updated time
+     * Return indexer or mview latest updated time
      *
      * @return string
      */
-    public function getUpdated();
-
-    /**
-     * Turn changelog mode of
-     *
-     * @return string
-     */
-    public function turnViewOff();
-
-    /**
-     * Turn changelog mode on
-     *
-     * @return string
-     */
-    public function turnViewOn();
+    public function getLatestUpdated();
 
     /**
      * Regenerate full index

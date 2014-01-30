@@ -15,7 +15,7 @@ class Collection extends \Magento\Data\Collection
      *
      * @var string
      */
-    protected $_itemObjectClass = 'Magento\Indexer\Model\Indexer';
+    protected $_itemObjectClass = 'Magento\Indexer\Model\IndexerInterface';
 
     /**
      * @var \Magento\Indexer\Model\ConfigInterface
@@ -71,25 +71,5 @@ class Collection extends \Magento\Data\Collection
             $this->_setIsLoaded(true);
         }
         return $this;
-    }
-
-    /**
-     * Return indexers by given state status
-     *
-     * @param string $status
-     * @return \Magento\Indexer\Model\Indexer[]
-     */
-    public function getIndexersByStateStatus($status)
-    {
-        $this->load();
-
-        $result = array();
-        foreach ($this as $indexer) {
-            /** @var \Magento\Indexer\Model\IndexerInterface $indexer */
-            if ($indexer->getState()->getStatus() == $status) {
-                $result[] = $indexer;
-            }
-        }
-        return $result;
     }
 }
