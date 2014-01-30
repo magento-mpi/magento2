@@ -10,14 +10,14 @@ namespace Magento\Catalog\Model\Indexer\Category\Flat\Plugin;
 class AbstractStore
 {
     /**
-     * @var \Magento\Indexer\Model\Indexer
+     * @var \Magento\Indexer\Model\IndexerInterface
      */
     protected $indexer;
 
     /**
-     * @var \Magento\Catalog\Model\Indexer\Category\Flat\Config
+     * @var \Magento\Catalog\Model\Indexer\Category\Flat\State
      */
-    protected $config;
+    protected $state;
 
     /**
      * Category flat resource
@@ -27,42 +27,40 @@ class AbstractStore
     protected $flatResource;
 
     /**
-     * @param \Magento\Indexer\Model\Indexer $indexer
-     * @param \Magento\Catalog\Model\Indexer\Category\Flat\Config $config
+     * @param \Magento\Indexer\Model\IndexerInterface $indexer
+     * @param \Magento\Catalog\Model\Indexer\Category\Flat\State $config
      * @param \Magento\Catalog\Model\Resource\Category\Flat $flatResource
      */
     public function __construct(
-        \Magento\Indexer\Model\Indexer $indexer,
-        \Magento\Catalog\Model\Indexer\Category\Flat\Config $config,
+        \Magento\Indexer\Model\IndexerInterface $indexer,
+        \Magento\Catalog\Model\Indexer\Category\Flat\State $config,
         \Magento\Catalog\Model\Resource\Category\Flat $flatResource
     ) {
         $this->indexer = $indexer;
-        $this->config = $config;
+        $this->state = $config;
         $this->flatResource = $flatResource;
     }
 
     /**
      * Return own indexer object
      *
-     * @return \Magento\Indexer\Model\Indexer
+     * @return \Magento\Indexer\Model\IndexerInterface
      */
     protected function getIndexer()
     {
         if (!$this->indexer->getId()) {
-            $this->indexer->load(\Magento\Catalog\Model\Indexer\Category\Flat\Config::INDEXER_ID);
+            $this->indexer->load(\Magento\Catalog\Model\Indexer\Category\Flat\State::INDEXER_ID);
         }
         return $this->indexer;
     }
 
     /**
-     * Invalidating indexer
+     * Invalidate indexer
      */
-    protected function invalidatingIndexer()
+    protected function invalidateIndexer()
     {
-        if ($this->config->isFlatEnabled()) {
-            $this->getIndexer()->getState()
-                ->setStatus(\Magento\Indexer\Model\Indexer\State::STATUS_INVALID)
-                ->save();
+        if ($this->state->isFlatEnabled()) {
+            $this->getIndexer()->invalidate();
         }
     }
 

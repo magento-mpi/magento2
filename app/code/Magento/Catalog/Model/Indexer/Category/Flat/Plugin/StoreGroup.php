@@ -21,7 +21,7 @@ class StoreGroup extends AbstractStore
         $needInvalidating = $group->dataHasChangedFor('root_category_id') && !$group->isObjectNew();
         $objectResource = $invocationChain->proceed($arguments);
         if ($needInvalidating) {
-            $this->invalidatingIndexer();
+            $this->invalidateIndexer();
         }
 
         return $objectResource;

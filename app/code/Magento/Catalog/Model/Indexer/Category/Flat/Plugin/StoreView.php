@@ -21,7 +21,7 @@ class StoreView extends AbstractStore
         $needInvalidating = $store->isObjectNew() || $store->dataHasChangedFor('group_id');
         $objectResource = $invocationChain->proceed($arguments);
         if ($needInvalidating) {
-            $this->invalidatingIndexer();
+            $this->invalidateIndexer();
         }
 
         return $objectResource;

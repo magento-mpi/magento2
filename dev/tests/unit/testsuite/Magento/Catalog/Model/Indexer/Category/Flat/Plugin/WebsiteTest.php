@@ -29,18 +29,19 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
         $this->pluginMock = $this->getMock(
             'Magento\Code\Plugin\InvocationChain', array('proceed'), array(), '', false
         );
-        $indexerMock = $this->getMock(
-            'Magento\Indexer\Model\Indexer', array('getId', 'getState'), array(), '', false
+        $indexerMock = $this->getMockForAbstractClass(
+            'Magento\Indexer\Model\IndexerInterface',
+            array(), '', false, false, true, array('getId', 'getState', '__wakeup')
         );
-        $configMock = $this->getMock(
-            'Magento\Catalog\Model\Indexer\Category\Flat\Config', array('isFlatEnabled'), array(), '', false
+        $stateMock = $this->getMock(
+            'Magento\Catalog\Model\Indexer\Category\Flat\State', array('isFlatEnabled'), array(), '', false
         );
         $this->flatResourceMock = $this->getMock(
             'Magento\Catalog\Model\Resource\Category\Flat', array('deleteStores', '__wakeup'), array(), '', false
         );
         $this->model = new Website(
             $indexerMock,
-            $configMock,
+            $stateMock,
             $this->flatResourceMock
         );
     }
