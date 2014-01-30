@@ -74,7 +74,7 @@ class Shell
         if ($this->_osInfo->isWindows()) {
             pclose(popen('start "magento background task" "' . $command . '"', 'r'));
         } else {
-            $this->execute($command .  ' > /dev/null 1>2 &');
+            $this->execute($command .  ' > /dev/null &');
         }
     }
 
