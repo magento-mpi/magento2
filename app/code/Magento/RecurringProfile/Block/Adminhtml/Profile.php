@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -20,8 +18,8 @@ class Profile extends \Magento\Backend\Block\Widget\Grid\Container
      *
      * @var string
      */
-    protected $_blockGroup = 'Magento_Sales';
-    protected $_controller = 'adminhtml_recurring_profile';
+    protected $_blockGroup = 'Magento_RecurringProfile';
+    protected $_controller = 'adminhtml_profile';
 
     /**
      * Set header text and remove "add" btn

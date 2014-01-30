@@ -118,7 +118,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ]
         );
         $map = [
-            ['Magento\Sales\Block\Adminhtml\Recurring\Profile\Edit\Form', [], $blockMock],
+            ['Magento\Sales\Block\Adminhtml\Profile\Edit\Form', [], $blockMock],
             ['Magento\Backend\Block\Widget\Form\Element\Dependence', [], $blockMock]
         ];
         $profileElement = $this->getMock('Magento\Data\Form\Element\AbstractElement', [], [], '', false);

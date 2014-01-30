@@ -14,7 +14,7 @@
         </action>
     </referenceBlock>
     <referenceContainer name="content">
-        <block class="Magento\Sales\Block\Recurring\Profile\View\Data" name="sales.recurring.profile.view" template="recurring/profile/view.phtml">
+        <block class="Magento\RecurringProfile\Block\Profile\View\Data" name="sales.recurring.profile.view" template="recurring/profile/view.phtml">
             <action method="setShouldPrepareInfoTabs">
                 <argument name="value" xsi:type="string">1</argument>
             </action>
@@ -26,19 +26,6 @@
                     <argument name="value" xsi:type="string">view</argument>
                 </action>
             </block>
-            <!-- not implemented
-            <block class="Magento\View\Element\Text" as="history" name="sales.recurring.profile.view.tab.history">
-                <action method="addToParentGroup">
-                    <argument name="value" xsi:type="string">info_tabs</argument>
-                </action>
-                <action method="setViewLabel" translate="value">
-                    <argument name="value" xsi:type="string">History</argument>
-                </action>
-                <action method="setViewAction">
-                    <argument name="value" xsi:type="string">history</argument>
-                </action>
-            </block>
-            -->
             <block class="Magento\View\Element\Text" as="related_orders" name="sales.recurring.profile.view.tab.orders" group="info_tabs">
                 <action method="setViewLabel">
                     <argument translate="true" name="value" xsi:type="string">Related Orders</argument>
@@ -47,19 +34,6 @@
                     <argument name="value" xsi:type="string">orders</argument>
                 </action>
             </block>
-            <!-- not implemented
-            <block class="Magento\View\Element\Text" as="vendor_info" name="sales.recurring.profile.view.tab.vendor">
-                <action method="addToParentGroup">
-                    <argument name="value" xsi:type="string">info_tabs</argument>
-                </action>
-                <action method="setViewLabel" translate="value">
-                    <argument name="value" xsi:type="string">Gateway Information</argument>
-                </action>
-                <action method="setViewAction">
-                    <argument name="value" xsi:type="string">vendor</argument>
-                </action>
-            </block>
-            -->
         </block>
     </referenceContainer>
 </layout>

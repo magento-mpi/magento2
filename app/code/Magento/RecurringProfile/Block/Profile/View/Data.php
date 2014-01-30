@@ -2,18 +2,16 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-namespace Magento\RecurringProfile\Block\Recurring\Profile\View;
+namespace Magento\RecurringProfile\Block\Profile\View;
 
 /**
  * Recurring profile view data
  */
-class Data extends \Magento\RecurringProfile\Block\Recurring\Profile\View
+class Data extends \Magento\RecurringProfile\Block\Profile\View
 {
     /**
      * Prepare profile data

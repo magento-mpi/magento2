@@ -121,8 +121,8 @@ class Observer
         $profileElement = $observer->getEvent()->getProductElement();
         $product = $observer->getEvent()->getProduct();
 
-        /** @var $formBlock \Magento\Sales\Block\Adminhtml\Recurring\Profile\Edit\Form */
-        $formBlock = $this->_blockFactory->createBlock('Magento\Sales\Block\Adminhtml\Recurring\Profile\Edit\Form');
+        /** @var $formBlock \Magento\RecurringProfile\Block\Adminhtml\Profile\Edit\Form */
+        $formBlock = $this->_blockFactory->createBlock('\Magento\RecurringProfile\Block\Adminhtml\Profile\Edit\Form');
         $formBlock->setNameInLayout('adminhtml_recurring_profile_edit_form');
         $formBlock->setParentElement($profileElement);
         $formBlock->setProductEntity($product);

@@ -11,6 +11,6 @@
     <menu>
         <add id="Magento_RecurringProfile::recurring_profile" title="Recurring Billing"
              module="Magento_RecurringProfile" sortOrder="80" parent="Magento_Sales::sales_operation"
-             action="sales/recurring_profile" resource="Magento_RecurringProfile::recurring_profile"/>
+             action="sales/recurringProfile" resource="Magento_RecurringProfile::recurring_profile"/>
     </menu>
 </config>

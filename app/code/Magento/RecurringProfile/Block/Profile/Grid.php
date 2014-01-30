@@ -2,18 +2,16 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-namespace Magento\RecurringProfile\Block\Recurring\Profile;
+namespace Magento\RecurringProfile\Block\Profile;
 
 /**
  * Recurring profile view grid
  */
-class Grid extends \Magento\RecurringProfile\Block\Recurring\Profiles
+class Grid extends \Magento\RecurringProfile\Block\Profiles
 {
     /**
      * @var \Magento\Core\Model\Registry
@@ -46,7 +44,7 @@ class Grid extends \Magento\RecurringProfile\Block\Recurring\Profiles
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\RecurringProfile\Model\Profile $recurringProfile,
+        \Magento\RecurringProfile\Model\RecurringProfile $recurringProfile,
         \Magento\Core\Model\Registry $registry,
         \Magento\RecurringProfile\Block\Fields $fields,
         array $data = array()
@@ -124,7 +122,7 @@ class Grid extends \Magento\RecurringProfile\Block\Recurring\Profiles
             $profiles[] = new \Magento\Object(array(
                 'reference_id' => $profile->getReferenceId(),
                 'reference_id_link_url' => $this->getUrl(
-                    'sales/recurring_profile/view/',
+                    'sales/recurringProfile/view/',
                     array('profile' => $profile->getId())
                 ),
                 'state'       => $profile->renderData('state'),

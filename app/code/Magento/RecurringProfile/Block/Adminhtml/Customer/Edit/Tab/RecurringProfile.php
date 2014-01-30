@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -16,7 +14,7 @@
 namespace Magento\RecurringProfile\Block\Adminhtml\Customer\Edit\Tab;
 
 class RecurringProfile
-    extends \Magento\Sales\Block\Adminhtml\Recurring\Profile\Grid
+    extends \Magento\Sales\Block\Adminhtml\Profile\Grid
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
@@ -142,6 +140,6 @@ class RecurringProfile
      */
     public function getGridUrl()
     {
-        return $this->getUrl('sales/recurring_profile/customerGrid', array('_current' => true));
+        return $this->getUrl('sales/recurringProfile/customerGrid', array('_current' => true));
     }
 }

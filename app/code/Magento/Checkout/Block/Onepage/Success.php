@@ -97,7 +97,7 @@ class Success extends \Magento\View\Element\Template
      */
     public function getProfileUrl(\Magento\Object $profile)
     {
-        return $this->getUrl('sales/recurring_profile/view', array('profile' => $profile->getId()));
+        return $this->getUrl('sales/recurringProfile/view', array('profile' => $profile->getId()));
     }
 
     /**

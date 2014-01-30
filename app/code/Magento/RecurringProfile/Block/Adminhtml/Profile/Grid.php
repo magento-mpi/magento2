@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -164,7 +162,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('sales/recurring_profile/view', array('profile' => $row->getId()));
+        return $this->getUrl('sales/recurringProfile/view', array('profile' => $row->getId()));
     }
 
     /**

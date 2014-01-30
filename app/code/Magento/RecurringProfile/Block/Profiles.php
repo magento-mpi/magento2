@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,7 +9,7 @@
 /**
  * Recurring profiles listing
  */
-namespace Magento\RecurringProfile\Block\Recurring;
+namespace Magento\RecurringProfile\Block;
 
 class Profiles extends \Magento\View\Element\Template
 {
@@ -31,7 +29,7 @@ class Profiles extends \Magento\View\Element\Template
     /**
      * Set back Url
      *
-     * @return \Magento\RecurringProfile\Block\Recurring\Profiles
+     * @return \Magento\RecurringProfile\Block\Profiles
      */
     protected function _beforeToHtml()
     {

@@ -2,18 +2,16 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-namespace Magento\RecurringProfile\Block\Recurring\Profile\Related\Orders;
+namespace Magento\RecurringProfile\Block\Profile\Related\Orders;
 
 /**
  * Recurring profile related orders grid
  */
-class Grid extends \Magento\RecurringProfile\Block\Recurring\Profile\View
+class Grid extends \Magento\RecurringProfile\Block\Profile\View
 {
     /**
      * @var \Magento\Sales\Model\Resource\Order\Collection

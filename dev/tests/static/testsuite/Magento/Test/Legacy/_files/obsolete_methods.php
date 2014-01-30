@@ -644,7 +644,7 @@ return array(
     array('prepareRedirect', 'Magento\Core\Controller\Varien\Exception'),
     array('prepareItemInfo', 'Magento\Sales\Block\Recurring\Profile\View'),
     array('preparePriceAlertData', 'Magento\ProductAlert\Block\Product\View'),
-    array('prepareProfilesGrid', 'Magento\Sales\Block\Recurring\Profiles'),
+    array('prepareProfilesGrid', 'Magento\Sales\Block\Recurring\Profile'),
     array('prepareReferenceInfo', 'Magento\Sales\Block\Recurring\Profile\View'),
     array('prepareRelatedOrdersFrontendGrid', 'Magento\Sales\Block\Recurring\Profile\View'),
     array('prepareScheduleInfo', 'Magento\Sales\Block\Recurring\Profile\View'),

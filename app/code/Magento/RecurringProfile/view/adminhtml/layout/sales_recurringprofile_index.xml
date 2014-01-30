@@ -8,6 +8,7 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <remove name="root"/>
-    <block class="Magento\Sales\Block\Adminhtml\Recurring\Profile\View\Tab\Orders" name="sales.recurring.profile.tab.orders" output="1"/>
+    <referenceContainer name="content">
+        <block class="Magento\RecurringProfile\Block\Adminhtml\Profile" name="sales.recurring.profile.grid.container"/>
+    </referenceContainer>
 </layout>

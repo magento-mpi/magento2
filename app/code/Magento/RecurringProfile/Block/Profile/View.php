@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,7 +9,7 @@
 /**
  * Recurring profile view
  */
-namespace Magento\RecurringProfile\Block\Recurring\Profile;
+namespace Magento\RecurringProfile\Block\Profile;
 
 class View extends \Magento\View\Element\Template
 {
