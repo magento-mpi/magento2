@@ -128,7 +128,7 @@ class ServiceCollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddFieldToFilterInconsistentArrays($fields, $conditions)
     {
-        $this->_model->addFieldToFilter($fields, $conditions);
+        $this->serviceCollection->addFieldToFilter($fields, $conditions);
     }
 
     public function addFieldToFilterInconsistentArraysDataProvider()
