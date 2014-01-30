@@ -2,11 +2,11 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+namespace Magento\Sales\Model;
 
 /**
  * Quote model
@@ -20,104 +20,102 @@
  *
  * @method \Magento\Sales\Model\Resource\Quote _getResource()
  * @method \Magento\Sales\Model\Resource\Quote getResource()
- * @method \Magento\Sales\Model\Quote setStoreId(int $value)
+ * @method Quote setStoreId(int $value)
  * @method string getCreatedAt()
- * @method \Magento\Sales\Model\Quote setCreatedAt(string $value)
+ * @method Quote setCreatedAt(string $value)
  * @method string getUpdatedAt()
- * @method \Magento\Sales\Model\Quote setUpdatedAt(string $value)
+ * @method Quote setUpdatedAt(string $value)
  * @method string getConvertedAt()
- * @method \Magento\Sales\Model\Quote setConvertedAt(string $value)
+ * @method Quote setConvertedAt(string $value)
  * @method int getIsActive()
- * @method \Magento\Sales\Model\Quote setIsActive(int $value)
- * @method \Magento\Sales\Model\Quote setIsVirtual(int $value)
+ * @method Quote setIsActive(int $value)
+ * @method Quote setIsVirtual(int $value)
  * @method int getIsMultiShipping()
- * @method \Magento\Sales\Model\Quote setIsMultiShipping(int $value)
+ * @method Quote setIsMultiShipping(int $value)
  * @method int getItemsCount()
- * @method \Magento\Sales\Model\Quote setItemsCount(int $value)
+ * @method Quote setItemsCount(int $value)
  * @method float getItemsQty()
- * @method \Magento\Sales\Model\Quote setItemsQty(float $value)
+ * @method Quote setItemsQty(float $value)
  * @method int getOrigOrderId()
- * @method \Magento\Sales\Model\Quote setOrigOrderId(int $value)
+ * @method Quote setOrigOrderId(int $value)
  * @method float getStoreToBaseRate()
- * @method \Magento\Sales\Model\Quote setStoreToBaseRate(float $value)
+ * @method Quote setStoreToBaseRate(float $value)
  * @method float getStoreToQuoteRate()
- * @method \Magento\Sales\Model\Quote setStoreToQuoteRate(float $value)
+ * @method Quote setStoreToQuoteRate(float $value)
  * @method string getBaseCurrencyCode()
- * @method \Magento\Sales\Model\Quote setBaseCurrencyCode(string $value)
+ * @method Quote setBaseCurrencyCode(string $value)
  * @method string getStoreCurrencyCode()
- * @method \Magento\Sales\Model\Quote setStoreCurrencyCode(string $value)
+ * @method Quote setStoreCurrencyCode(string $value)
  * @method string getQuoteCurrencyCode()
- * @method \Magento\Sales\Model\Quote setQuoteCurrencyCode(string $value)
+ * @method Quote setQuoteCurrencyCode(string $value)
  * @method float getGrandTotal()
- * @method \Magento\Sales\Model\Quote setGrandTotal(float $value)
+ * @method Quote setGrandTotal(float $value)
  * @method float getBaseGrandTotal()
- * @method \Magento\Sales\Model\Quote setBaseGrandTotal(float $value)
- * @method \Magento\Sales\Model\Quote setCheckoutMethod(string $value)
+ * @method Quote setBaseGrandTotal(float $value)
+ * @method Quote setCheckoutMethod(string $value)
  * @method int getCustomerId()
- * @method \Magento\Sales\Model\Quote setCustomerId(int $value)
- * @method \Magento\Sales\Model\Quote setCustomerTaxClassId(int $value)
- * @method \Magento\Sales\Model\Quote setCustomerGroupId(int $value)
+ * @method Quote setCustomerId(int $value)
+ * @method Quote setCustomerTaxClassId(int $value)
+ * @method Quote setCustomerGroupId(int $value)
  * @method string getCustomerEmail()
- * @method \Magento\Sales\Model\Quote setCustomerEmail(string $value)
+ * @method Quote setCustomerEmail(string $value)
  * @method string getCustomerPrefix()
- * @method \Magento\Sales\Model\Quote setCustomerPrefix(string $value)
+ * @method Quote setCustomerPrefix(string $value)
  * @method string getCustomerFirstname()
- * @method \Magento\Sales\Model\Quote setCustomerFirstname(string $value)
+ * @method Quote setCustomerFirstname(string $value)
  * @method string getCustomerMiddlename()
- * @method \Magento\Sales\Model\Quote setCustomerMiddlename(string $value)
+ * @method Quote setCustomerMiddlename(string $value)
  * @method string getCustomerLastname()
- * @method \Magento\Sales\Model\Quote setCustomerLastname(string $value)
+ * @method Quote setCustomerLastname(string $value)
  * @method string getCustomerSuffix()
- * @method \Magento\Sales\Model\Quote setCustomerSuffix(string $value)
+ * @method Quote setCustomerSuffix(string $value)
  * @method string getCustomerDob()
- * @method \Magento\Sales\Model\Quote setCustomerDob(string $value)
+ * @method Quote setCustomerDob(string $value)
  * @method string getCustomerNote()
- * @method \Magento\Sales\Model\Quote setCustomerNote(string $value)
+ * @method Quote setCustomerNote(string $value)
  * @method int getCustomerNoteNotify()
- * @method \Magento\Sales\Model\Quote setCustomerNoteNotify(int $value)
+ * @method Quote setCustomerNoteNotify(int $value)
  * @method int getCustomerIsGuest()
- * @method \Magento\Sales\Model\Quote setCustomerIsGuest(int $value)
+ * @method Quote setCustomerIsGuest(int $value)
  * @method string getRemoteIp()
- * @method \Magento\Sales\Model\Quote setRemoteIp(string $value)
+ * @method Quote setRemoteIp(string $value)
  * @method string getAppliedRuleIds()
- * @method \Magento\Sales\Model\Quote setAppliedRuleIds(string $value)
+ * @method Quote setAppliedRuleIds(string $value)
  * @method string getReservedOrderId()
- * @method \Magento\Sales\Model\Quote setReservedOrderId(string $value)
+ * @method Quote setReservedOrderId(string $value)
  * @method string getPasswordHash()
- * @method \Magento\Sales\Model\Quote setPasswordHash(string $value)
+ * @method Quote setPasswordHash(string $value)
  * @method string getCouponCode()
- * @method \Magento\Sales\Model\Quote setCouponCode(string $value)
+ * @method Quote setCouponCode(string $value)
  * @method string getGlobalCurrencyCode()
- * @method \Magento\Sales\Model\Quote setGlobalCurrencyCode(string $value)
+ * @method Quote setGlobalCurrencyCode(string $value)
  * @method float getBaseToGlobalRate()
- * @method \Magento\Sales\Model\Quote setBaseToGlobalRate(float $value)
+ * @method Quote setBaseToGlobalRate(float $value)
  * @method float getBaseToQuoteRate()
- * @method \Magento\Sales\Model\Quote setBaseToQuoteRate(float $value)
+ * @method Quote setBaseToQuoteRate(float $value)
  * @method string getCustomerTaxvat()
- * @method \Magento\Sales\Model\Quote setCustomerTaxvat(string $value)
+ * @method Quote setCustomerTaxvat(string $value)
  * @method string getCustomerGender()
- * @method \Magento\Sales\Model\Quote setCustomerGender(string $value)
+ * @method Quote setCustomerGender(string $value)
  * @method float getSubtotal()
- * @method \Magento\Sales\Model\Quote setSubtotal(float $value)
+ * @method Quote setSubtotal(float $value)
  * @method float getBaseSubtotal()
- * @method \Magento\Sales\Model\Quote setBaseSubtotal(float $value)
+ * @method Quote setBaseSubtotal(float $value)
  * @method float getSubtotalWithDiscount()
- * @method \Magento\Sales\Model\Quote setSubtotalWithDiscount(float $value)
+ * @method Quote setSubtotalWithDiscount(float $value)
  * @method float getBaseSubtotalWithDiscount()
- * @method \Magento\Sales\Model\Quote setBaseSubtotalWithDiscount(float $value)
+ * @method Quote setBaseSubtotalWithDiscount(float $value)
  * @method int getIsChanged()
- * @method \Magento\Sales\Model\Quote setIsChanged(int $value)
+ * @method Quote setIsChanged(int $value)
  * @method int getTriggerRecollect()
- * @method \Magento\Sales\Model\Quote setTriggerRecollect(int $value)
+ * @method Quote setTriggerRecollect(int $value)
  * @method string getExtShippingInfo()
- * @method \Magento\Sales\Model\Quote setExtShippingInfo(string $value)
+ * @method Quote setExtShippingInfo(string $value)
  * @method int getGiftMessageId()
- * @method \Magento\Sales\Model\Quote setGiftMessageId(int $value)
+ * @method Quote setGiftMessageId(int $value)
  * @method bool|null getIsPersistent()
- * @method \Magento\Sales\Model\Quote setIsPersistent(bool $value)
+ * @method Quote setIsPersistent(bool $value)
  */
-namespace Magento\Sales\Model;
-
 class Quote extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -376,7 +374,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      * Declare quote store model
      *
      * @param   \Magento\Core\Model\Store $store
-     * @return  \Magento\Sales\Model\Quote
+     * @return $this
      */
     public function setStore(\Magento\Core\Model\Store $store)
     {
@@ -405,7 +403,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     /**
      * Prepare data before save
      *
-     * @return \Magento\Sales\Model\Quote
+     * @return $this
      */
     protected function _beforeSave()
     {
@@ -458,7 +456,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     /**
      * Save related items
      *
-     * @return \Magento\Sales\Model\Quote
+     * @return $this
      */
     protected function _afterSave()
     {
@@ -482,7 +480,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      * Loading quote data by customer
      *
      * @param \Magento\Customer\Model\Customer|int $customer
-     * @return \Magento\Sales\Model\Quote
+     * @return $this
      */
     public function loadByCustomer($customer)
     {
@@ -500,7 +498,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      * Loading only active quote
      *
      * @param int $quoteId
-     * @return \Magento\Sales\Model\Quote
+     * @return $this
      */
     public function loadActive($quoteId)
     {
@@ -513,7 +511,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      * Loading quote by identifier
      *
      * @param int $quoteId
-     * @return \Magento\Sales\Model\Quote
+     * @return $this
      */
     public function loadByIdWithoutStore($quoteId)
     {
@@ -526,7 +524,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      * Assign customer model object data to quote
      *
      * @param   \Magento\Customer\Model\Customer $customer
-     * @return  \Magento\Sales\Model\Quote
+     * @return $this
      */
     public function assignCustomer(\Magento\Customer\Model\Customer $customer)
     {
@@ -539,7 +537,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      * @param  \Magento\Customer\Model\Customer    $customer
      * @param  \Magento\Sales\Model\Quote\Address  $billingAddress
      * @param  \Magento\Sales\Model\Quote\Address  $shippingAddress
-     * @return \Magento\Sales\Model\Quote
+     * @return $this
      */
     public function assignCustomerWithAddressChange(
         \Magento\Customer\Model\Customer    $customer,
@@ -579,7 +577,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      * Define customer object
      *
      * @param   \Magento\Customer\Model\Customer $customer
-     * @return  \Magento\Sales\Model\Quote
+     * @return $this
      */
     public function setCustomer(\Magento\Customer\Model\Customer $customer)
     {
@@ -816,7 +814,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     /**
      * Leave no more than one billing and one shipping address, fill them with default data
      *
-     * @return \Magento\Sales\Model\Quote
+     * @return $this
      */
     public function removeAllAddresses()
     {
@@ -865,7 +863,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
 
     /**
      * @param \Magento\Sales\Model\Quote\Address $address
-     * @return \Magento\Sales\Model\Quote
+     * @return $this
      */
     public function setBillingAddress(\Magento\Sales\Model\Quote\Address $address)
     {
@@ -883,7 +881,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      * Set shipping address
      *
      * @param \Magento\Sales\Model\Quote\Address $address
-     * @return \Magento\Sales\Model\Quote
+     * @return $this
      */
     public function setShippingAddress(\Magento\Sales\Model\Quote\Address $address)
     {
@@ -1019,7 +1017,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      * Delete quote item. If it does not have identifier then it will be only removed from collection
      *
      * @param   \Magento\Sales\Model\Quote\Item $item
-     * @return  \Magento\Sales\Model\Quote
+     * @return $this
      */
     public function deleteItem(\Magento\Sales\Model\Quote\Item $item)
     {
@@ -1049,7 +1047,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      * Remove quote item by item identifier
      *
      * @param   int $itemId
-     * @return  \Magento\Sales\Model\Quote
+     * @return $this
      */
     public function removeItem($itemId)
     {
@@ -1082,7 +1080,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     /**
      * Mark all quote items as deleted (empty quote)
      *
-     * @return \Magento\Sales\Model\Quote
+     * @return $this
      */
     public function removeAllItems()
     {
@@ -1100,7 +1098,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      * Adding new item to quote
      *
      * @param   \Magento\Sales\Model\Quote\Item $item
-     * @return  \Magento\Sales\Model\Quote
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     public function addItem(\Magento\Sales\Model\Quote\Item $item)
@@ -1508,7 +1506,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     /**
      * Collect totals
      *
-     * @return \Magento\Sales\Model\Quote
+     * @return $this
      */
     public function collectTotals()
     {
@@ -1569,7 +1567,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     /**
      * Collect items qty
      *
-     * @return \Magento\Sales\Model\Quote
+     * @return $this
      */
     protected function _collectItemsQtys()
     {
@@ -1704,7 +1702,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      * Sets flag, whether this quote has some error associated with it.
      *
      * @param bool $flag
-     * @return \Magento\Sales\Model\Quote
+     * @return $this
      */
     protected function _setHasError($flag)
     {
@@ -1718,7 +1716,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      * It's recommended to use addErrorInfo() instead - to be able to remove error statuses later.
      *
      * @param bool $flag
-     * @return \Magento\Sales\Model\Quote
+     * @return $this
      * @see addErrorInfo()
      */
     public function setHasError($flag)
@@ -1735,7 +1733,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      * Clears list of errors, associated with this quote.
      * Also automatically removes error-flag from oneself.
      *
-     * @return \Magento\Sales\Model\Quote
+     * @return $this
      */
     protected function _clearErrorInfo()
     {
@@ -1753,7 +1751,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      * @param int|null $code Error code, unique for origin, that sets it
      * @param string|null $message Error message
      * @param \Magento\Object|null $additionalData Any additional data, that caller would like to store
-     * @return \Magento\Sales\Model\Quote
+     * @return $this
      */
     public function addErrorInfo($type = 'error', $origin = null, $code = null, $message = null, $additionalData = null)
     {
@@ -1778,7 +1776,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      *
      * @param string $type An internal error type ('error', 'qty', etc.), passed then to adding messages routine
      * @param array $params
-     * @return \Magento\Sales\Model\Quote
+     * @return $this
      */
     public function removeErrorInfosByParams($type, $params)
     {
@@ -1821,7 +1819,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      *
      * @param string $type
      * @param string $text
-     * @return \Magento\Sales\Model\Quote
+     * @return $this
      */
     public function removeMessageByText($type, $text)
     {
@@ -1850,7 +1848,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     /**
      * Generate new increment order id and associate it with current quote
      *
-     * @return \Magento\Sales\Model\Quote
+     * @return $this
      */
     public function reserveOrderId()
     {
@@ -1969,10 +1967,10 @@ class Quote extends \Magento\Core\Model\AbstractModel
     /**
      * Merge quotes
      *
-     * @param   \Magento\Sales\Model\Quote $quote
-     * @return  \Magento\Sales\Model\Quote
+     * @param   Quote $quote
+     * @return $this
      */
-    public function merge(\Magento\Sales\Model\Quote $quote)
+    public function merge(Quote $quote)
     {
         $this->_eventManager->dispatch($this->_eventPrefix . '_merge_before', array(
             $this->_eventObject => $this,
@@ -2125,7 +2123,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     /**
      * Trigger collect totals after loading, if required
      *
-     * @return \Magento\Sales\Model\Quote
+     * @return $this
      */
     protected function _afterLoad()
     {
@@ -2137,7 +2135,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Return quote checkout method code
+     * return $this checkout method code
      *
      * @param boolean $originalMethod if true return defined method from beginning
      * @return string
@@ -2153,7 +2151,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     /**
      * Prevent quote from saving
      *
-     * @return \Magento\Sales\Model\Quote
+     * @return $this
      */
     public function preventSaving()
     {
@@ -2164,7 +2162,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     /**
      * Save quote with prevention checking
      *
-     * @return \Magento\Sales\Model\Quote
+     * @return $this
      */
     public function save()
     {

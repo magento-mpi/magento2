@@ -10,9 +10,10 @@ namespace Magento\Sales\Model\AdminOrder;
 
 use Magento\Customer\Service\V1\CustomerServiceInterface;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
-use \Magento\Customer\Service\V1\Dto\CustomerBuilder;
-use Magento\Customer\Model\Metadata\Form as CustomerForm;
+use Magento\Customer\Service\V1\Dto\CustomerBuilder;
+use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 use Magento\Customer\Service\V1\Dto\Customer as CustomerDto;
+use Magento\Customer\Model\Metadata\Form as CustomerForm;
 
 /**
  * Order create model
@@ -156,6 +157,11 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     protected $_customerHelper;
 
     /**
+     * @var CustomerGroupServiceInterface
+     */
+    protected $_customerGroupService;
+
+    /**
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\Registry $coreRegistry
@@ -168,6 +174,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      * @param \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory
      * @param CustomerBuilder $customerBuilder
      * @param \Magento\Customer\Helper\Data $customerHelper
+     * @param CustomerGroupServiceInterface $customerGroupService
      * @param array $data
      */
     public function __construct(
@@ -183,6 +190,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory,
         CustomerBuilder $customerBuilder,
         \Magento\Customer\Helper\Data $customerHelper,
+        CustomerGroupServiceInterface $customerGroupService,
         array $data = array()
     ) {
         $this->_objectManager = $objectManager;
@@ -197,6 +205,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         $this->_metadataFormFactory = $metadataFormFactory;
         $this->_customerBuilder = $customerBuilder;
         $this->_customerHelper = $customerHelper;
+        $this->_customerGroupService = $customerGroupService;
         parent::__construct($data);
     }
 
@@ -340,7 +349,8 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      * Initialize creation data from existing order
      *
      * @param \Magento\Sales\Model\Order $order
-     * @return \Magento\Sales\Model\AdminOrder\Create
+     * @return $this
+     * @throws \Magento\Core\Exception
      */
     public function initFromOrder(\Magento\Sales\Model\Order $order)
     {
@@ -432,6 +442,11 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         return $this;
     }
 
+    /**
+     * Copy billing address from order
+     *
+     * @param \Magento\Sales\Model\Order $order
+     */
     protected function _initBillingAddressFromOrder(\Magento\Sales\Model\Order $order)
     {
         $this->getQuote()->getBillingAddress()->setCustomerAddressId('');
@@ -443,6 +458,11 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         );
     }
 
+    /**
+     * Copy shipping address from order
+     *
+     * @param \Magento\Sales\Model\Order $order
+     */
     protected function _initShippingAddressFromOrder(\Magento\Sales\Model\Order $order)
     {
         $orderShippingAddress = $order->getShippingAddress();
@@ -601,6 +621,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      * @param   string $moveTo
      * @param   int $qty
      * @return  \Magento\Sales\Model\AdminOrder\Create
+     * @throws \Magento\Core\Exception
      */
     public function moveQuoteItem($item, $moveTo, $qty)
     {
@@ -705,6 +726,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      *
      * @param array $data
      * @return \Magento\Sales\Model\AdminOrder\Create
+     * @throws \Magento\Core\Exception
      */
     public function applySidebarData($data)
     {
@@ -810,6 +832,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      * @param   int|\Magento\Catalog\Model\Product $product
      * @param array|float|int|\Magento\Object $config
      * @return  \Magento\Sales\Model\AdminOrder\Create
+     * @throws \Magento\Core\Exception
      */
     public function addProduct($product, $config = 1)
     {
@@ -950,6 +973,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      * @param \Magento\Sales\Model\Quote\Item $item
      * @param $additionalOptions
      * @return array
+     * @throws \Magento\Core\Exception
      */
     protected function _parseOptions(\Magento\Sales\Model\Quote\Item $item, $additionalOptions)
     {
@@ -1090,6 +1114,12 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         return $newInfoOptions;
     }
 
+    /**
+     * Return valid price
+     *
+     * @param float|int $price
+     * @return int
+     */
     protected function _parseCustomPrice($price)
     {
         $price = $this->_objectManager->get('Magento\Core\Model\LocaleInterface')->getNumber($price);
@@ -1177,6 +1207,12 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         return $this;
     }
 
+    /**
+     * Set shipping address into quote
+     *
+     * @param \Magento\Sales\Model\Quote\Address|array $address
+     * @return $this
+     */
     public function setShippingAddress($address)
     {
         if (is_array($address)) {
@@ -1202,6 +1238,13 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         return $this;
     }
 
+    /**
+     * Set shipping anddress to be same as billing
+     *
+     * @param bool $flag If true - don't save in address book and actually copy data across billing and shipping
+     *                   addresses
+     * @return $this
+     */
     public function setShippingAsBilling($flag)
     {
         if ($flag) {
@@ -1227,6 +1270,12 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         return $this->getQuote()->getBillingAddress();
     }
 
+    /**
+     * Set billing address into quote
+     *
+     * @param array $address
+     * @return $this
+     */
     public function setBillingAddress($address)
     {
         if (is_array($address)) {
@@ -1254,6 +1303,12 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         return $this;
     }
 
+    /**
+     * Set shipping method
+     *
+     * @param string $method
+     * @return $this
+     */
     public function setShippingMethod($method)
     {
         $this->getShippingAddress()->setShippingMethod($method);
@@ -1261,6 +1316,11 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         return $this;
     }
 
+    /**
+     * Empty shipping method and clear shipping rates
+     *
+     * @return $this
+     */
     public function resetShippingMethod()
     {
         $this->getShippingAddress()->setShippingMethod(false);
@@ -1278,17 +1338,32 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         return $this;
     }
 
+    /**
+     * Calculate totals
+     */
     public function collectRates()
     {
         $this->getQuote()->collectTotals();
     }
 
+    /**
+     * Set payment method into quote
+     *
+     * @param string $method
+     * @return $this
+     */
     public function setPaymentMethod($method)
     {
         $this->getQuote()->getPayment()->setMethod($method);
         return $this;
     }
 
+    /**
+     * Set payment data into quote
+     *
+     * @param array $data
+     * @return $this
+     */
     public function setPaymentData($data)
     {
         if (!isset($data['method'])) {
@@ -1298,6 +1373,12 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         return $this;
     }
 
+    /**
+     * Add coupon code to the quote
+     *
+     * @param string $code
+     * @return $this
+     */
     public function applyCoupon($code)
     {
         $code = trim((string)$code);
@@ -1306,27 +1387,32 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         return $this;
     }
 
+    /**
+     * Add account data to quote
+     *
+     * @param array $accountData
+     * @return $this
+     */
     public function setAccountData($accountData)
     {
-        $customer = $this->getQuote()->getCustomer();
-        $form = $this->_createCustomerForm($this->_getCustomerDto($customer));
-        // @todo Uncomment after MAGETWO-19929
-        //$form = $this->_createCustomerForm($this->getQuote()->getCustomerData());
+        $customer = $this->_customerService->getCustomer($this->getQuote()->getCustomerId());
+        $form = $this->_createCustomerForm($customer);
 
         // emulate request
         $request = $form->prepareRequest($accountData);
         $data = $form->extractData($request);
-        $form->restoreData($data);
+        $data = $form->restoreData($data);
+        $customer = $this->_modifyCustomerDto($customer, ['account' => $data]);
+        $data = [];
 
-        $data = array();
         foreach ($form->getAttributes() as $attribute) {
             $code = sprintf('customer_%s', $attribute->getAttributeCode());
-            $data[$code] = $customer->getData($attribute->getAttributeCode());
+            $data[$code] = $customer->getAttribute($attribute->getAttributeCode());
         }
 
         if (isset($data['customer_group_id'])) {
-            $groupModel = $this->_objectManager->create('Magento\Customer\Model\Group')->load($data['customer_group_id']);
-            $data['customer_tax_class_id'] = $groupModel->getTaxClassId();
+            $customerGroup = $this->_customerGroupService->getGroup($data['customer_group_id']);
+            $data['customer_tax_class_id'] = $customerGroup->getTaxClassId();
             $this->setRecollect(true);
         }
 
@@ -1471,7 +1557,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
                     ->setDefaultBilling(null)
                     ->setDefaultShipping(null)
                     ->setPassword($customer->generatePassword());
-                $customerDto = $this->_validateCustomerData($this->_getCustomerDto($customer));
+                $customerDto = $this->_validateCustomerData($this->_convertCustomerToDto($customer));
                 // @todo Remove 3 lines after refactoring of this method
                 $data = $customerDto->__toArray();
                 unset($data[CustomerDto::ID]);
@@ -1524,7 +1610,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
                 ->setPassword($customer->generatePassword())
                 ->setStore($store);
             $customer->setEmail($this->_getNewCustomerEmail($customer));
-            $customerDto = $this->_validateCustomerData($this->_getCustomerDto($customer));
+            $customerDto = $this->_validateCustomerData($this->_convertCustomerToDto($customer));
             // @todo Remove 3 lines after refactoring of this method
             $data = $customerDto->__toArray();
             unset($data[CustomerDto::ID]);
@@ -1551,7 +1637,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         }
 
         // Set quote customer data to customer
-        $customerDto = $this->_validateCustomerData($this->_getCustomerDto($customer));
+        $customerDto = $this->_validateCustomerData($this->_convertCustomerToDto($customer));
         // @todo Remove 3 lines after refactoring of this method
         $data = $customerDto->__toArray();
         unset($data[CustomerDto::ID]);
@@ -1560,7 +1646,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         // Set customer to quote and convert customer data to quote
         $quote->setCustomer($customer);
 
-        foreach ($this->_createCustomerForm($this->_getCustomerDto($customer))->getUserAttributes() as $attribute) {
+        foreach ($this->_createCustomerForm($this->_convertCustomerToDto($customer))->getUserAttributes() as $attribute) {
         // @todo Uncomment after MAGETWO-20031
         //foreach ($this->_createCustomerForm($customerDto)->getUserAttributes() as $attribute) {
             $quoteCode = sprintf('customer_%s', $attribute->getAttributeCode());
@@ -1568,7 +1654,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         }
 
         if ($customer->getId()) {
-            $this->_createCustomerForm($this->_getCustomerDto($customer, true));
+            $this->_createCustomerForm($this->_convertCustomerToDto($customer, true));
             // @todo Uncomment after MAGETWO-20031
             //$this->_createCustomerForm($originalCustomerDto);
         } else {
@@ -1661,6 +1747,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      * Validate quote data before order creation
      *
      * @return \Magento\Sales\Model\AdminOrder\Create
+     * @throws \Magento\Core\Exception
      */
     protected function _validate()
     {
@@ -1747,18 +1834,29 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      *
      * @param \Magento\Customer\Model\Customer $customer
      * @param bool                             $isFromOrigData
-     * @return \Magento\Customer\Service\V1\Dto\Customer
+     * @return CustomerDto
      */
-    protected function _getCustomerDto(\Magento\Customer\Model\Customer $customer, $isFromOrigData = false)
+    protected function _convertCustomerToDto(\Magento\Customer\Model\Customer $customer, $isFromOrigData = false)
     {
         $data = array_merge(
             // DTO and model has different keys for ID
             [CustomerDto::ID => $customer->getId()], $isFromOrigData ? $customer->getOrigData() : $customer->getData()
         );
-        /** @var \Magento\Customer\Service\V1\Dto\Customer $customerDto */
-        $customerDto = $this->_objectManager->create('Magento\Customer\Service\V1\Dto\CustomerBuilder')
-            ->populateWithArray($data)
+
+        return $this->_customerBuilder->populateWithArray($data)->create();
+    }
+
+    /**
+     * Get data from given DTO, modify with $newData and return new DTO
+     *
+     * @param CustomerDto $customer
+     * @param array $newData
+     * @return CustomerDto
+     */
+    protected function _modifyCustomerDto(CustomerDto $customer, array $newData)
+    {
+        return $this->_customerBuilder
+            ->populateWithArray(array_merge($customer->__toArray(), $newData))
             ->create();
-        return $customerDto;
     }
 }
