@@ -27,7 +27,7 @@ class Cart
      *
      * @var \Magento\Payment\Model\Cart\SalesModel\SalesModelInterface
      */
-    protected $_salesModelAdapter;
+    protected $_salesModel;
 
     /**
      * Core event manager proxy
@@ -82,17 +82,17 @@ class Cart
         $salesModel
     ) {
         $this->_eventManager = $eventManager;
-        $this->_salesModelAdapter = $salesModelFactory->create($salesModel);
+        $this->_salesModel = $salesModelFactory->create($salesModel);
     }
 
     /**
-     * Get sales model adapter
+     * Return payment cart sales model
      *
      * @return \Magento\Payment\Model\Cart\SalesModel\SalesModelInterface
      */
     public function getSalesModel()
     {
-        return $this->_salesModelAdapter;
+        return $this->_salesModel;
     }
 
     /**
@@ -291,7 +291,7 @@ class Cart
     {
         $this->_salesModelItems = array();
 
-        foreach ($this->_salesModelAdapter->getAllItems() as $item) {
+        foreach ($this->_salesModel->getAllItems() as $item) {
             if ($item->getParentItem()) {
                 continue;
             }
@@ -300,10 +300,10 @@ class Cart
                 $item->getPrice());
         }
 
-        $this->addSubtotal($this->_salesModelAdapter->getBaseSubtotal());
-        $this->addTax($this->_salesModelAdapter->getBaseTaxAmount());
-        $this->addShipping($this->_salesModelAdapter->getBaseShippingAmount());
-        $this->addDiscount(abs($this->_salesModelAdapter->getBaseDiscountAmount()));
+        $this->addSubtotal($this->_salesModel->getBaseSubtotal());
+        $this->addTax($this->_salesModel->getBaseTaxAmount());
+        $this->addShipping($this->_salesModel->getBaseShippingAmount());
+        $this->addDiscount(abs($this->_salesModel->getBaseDiscountAmount()));
     }
 
     /**

@@ -7,7 +7,7 @@
  */
 
 /**
- * Adapter for \Magento\Sales\Model\Quote sales model
+ * Wrapper for \Magento\Sales\Model\Quote sales model
  */
 namespace Magento\Payment\Model\Cart\SalesModel;
 
@@ -33,16 +33,6 @@ class Quote implements \Magento\Payment\Model\Cart\SalesModel\SalesModelInterfac
         $this->_salesModel = $salesModel;
         $this->_address = $this->_salesModel->getIsVirtual() ?
             $this->_salesModel->getBillingAddress() : $this->_salesModel->getShippingAddress();
-    }
-
-    /**
-     * Get model which is wrapped with adapter
-     *
-     * @return \Magento\Sales\Model\Quote
-     */
-    public function getOriginalModel()
-    {
-        return $this->_salesModel;
     }
 
     /**
@@ -102,7 +92,7 @@ class Quote implements \Magento\Payment\Model\Cart\SalesModel\SalesModelInterfac
     /**
      * Wrapper for \Magento\Object getDataUsingMethod method
      *
-     * @param $key
+     * @param string $key
      * @param mixed $args
      * @return mixed
      */
@@ -118,7 +108,7 @@ class Quote implements \Magento\Payment\Model\Cart\SalesModel\SalesModelInterfac
      */
     public function getTaxContainer()
     {
-        $salesEntity = $this->getOriginalModel();
-        return $salesEntity->getIsVirtual() ? $salesEntity->getBillingAddress() : $salesEntity->getShippingAddress();
+        return $this->_salesModel->getIsVirtual()
+            ? $this->_salesModel->getBillingAddress() : $this->_salesModel->getShippingAddress();
     }
 }

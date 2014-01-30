@@ -55,7 +55,7 @@ class Cart extends \Magento\Payment\Model\Cart
     protected function _calculateCustomItemsSubtotal()
     {
         parent::_calculateCustomItemsSubtotal();
-        $this->_applyHiddenTaxWorkaround($this->_salesModelAdapter);
+        $this->_applyHiddenTaxWorkaround($this->_salesModel);
 
         $this->_validate();
     }
@@ -68,7 +68,7 @@ class Cart extends \Magento\Payment\Model\Cart
         $areItemsValid = false;
         $this->_areAmountsValid = false;
 
-        $referenceAmount = $this->_salesModelAdapter->getOriginalModel()->getBaseGrandTotal();
+        $referenceAmount = $this->_salesModel->getDataUsingMethod('base_grand_total');
 
         $itemsSubtotal = 0;
         foreach ($this->getAllItems() as $i) {
@@ -113,7 +113,7 @@ class Cart extends \Magento\Payment\Model\Cart
     {
         $this->_salesModelItems = array();
 
-        foreach ($this->_salesModelAdapter->getAllItems() as $item) {
+        foreach ($this->_salesModel->getAllItems() as $item) {
             if ($item->getParentItem()) {
                 continue;
             }
@@ -142,10 +142,10 @@ class Cart extends \Magento\Payment\Model\Cart
                 $amount);
         }
 
-        $this->addSubtotal($this->_salesModelAdapter->getBaseSubtotal());
-        $this->addTax($this->_salesModelAdapter->getBaseTaxAmount());
-        $this->addShipping($this->_salesModelAdapter->getBaseShippingAmount());
-        $this->addDiscount(abs($this->_salesModelAdapter->getBaseDiscountAmount()));
+        $this->addSubtotal($this->_salesModel->getBaseSubtotal());
+        $this->addTax($this->_salesModel->getBaseTaxAmount());
+        $this->addShipping($this->_salesModel->getBaseShippingAmount());
+        $this->addDiscount(abs($this->_salesModel->getBaseDiscountAmount()));
     }
 
     /**

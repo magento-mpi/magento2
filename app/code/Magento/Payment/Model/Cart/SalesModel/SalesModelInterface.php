@@ -7,19 +7,12 @@
  */
 
 /**
- * Adapter interface for accessing sales model data
+ * Wrapper interface for accessing sales model data
  */
 namespace Magento\Payment\Model\Cart\SalesModel;
 
 interface SalesModelInterface
 {
-    /**
-     * Return sales model entity instance
-     *
-     * @return \Magento\Sales\Model\Order|\Magento\Sales\Model\Quote
-     */
-    public function getOriginalModel();
-
     /**
      * Get all items from shopping sales model
      *
@@ -50,7 +43,7 @@ interface SalesModelInterface
     /**
      * Wrapper for \Magento\Object getDataUsingMethod method
      *
-     * @param $key
+     * @param string $key
      * @param mixed $args
      * @return mixed
      */

@@ -7,32 +7,23 @@
  */
 
 /**
- * Factory that wraps sales model with adapter interface
+ * Factory for creating payment cart sales models
  */
 namespace Magento\Payment\Model\Cart\SalesModel;
 
 class Factory
 {
     /**
-     * @var \Magento\Payment\Model\Cart\SalesModel\OrderFactory
+     * @var \Magento\ObjectManager
      */
-    protected $_salesModelOrderFactory;
+    protected $_objectManager;
 
     /**
-     * @var \Magento\Payment\Model\Cart\SalesModel\QuoteFactory
+     * @param \Magento\ObjectManager $objectManager
      */
-    protected $_salesModelQuoteFactory;
-
-    /**
-     * @param \Magento\Payment\Model\Cart\SalesModel\OrderFactory $salesModelOrderFactory
-     * @param \Magento\Payment\Model\Cart\SalesModel\QuoteFactory $salesModelQuoteFactory
-     */
-    public function __construct(
-        \Magento\Payment\Model\Cart\SalesModel\OrderFactory $salesModelOrderFactory,
-        \Magento\Payment\Model\Cart\SalesModel\QuoteFactory $salesModelQuoteFactory
-    ) {
-        $this->_salesModelOrderFactory = $salesModelOrderFactory;
-        $this->_salesModelQuoteFactory = $salesModelQuoteFactory;
+    public function __construct(\Magento\ObjectManager $objectManager)
+    {
+        $this->_objectManager = $objectManager;
     }
 
     /**
@@ -44,12 +35,12 @@ class Factory
      */
     public function create($salesModel)
     {
+        $arguments = array('salesModel' => $salesModel);
         if ($salesModel instanceof \Magento\Sales\Model\Quote) {
-            return $this->_salesModelQuoteFactory->create(array('salesModel' => $salesModel));
+            return $this->_objectManager->create('Magento\Payment\Model\Cart\SalesModel\Quote', $arguments);
         } else if ($salesModel instanceof \Magento\Sales\Model\Order) {
-            return $this->_salesModelOrderFactory->create(array('salesModel' => $salesModel));
+            return $this->_objectManager->create('Magento\Payment\Model\Cart\SalesModel\Order', $arguments);
         }
-
         throw new \InvalidArgumentException('Sales model has bad type!');
     }
 }

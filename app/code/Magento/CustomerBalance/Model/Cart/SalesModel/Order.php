@@ -16,8 +16,8 @@ class Order extends \Magento\Payment\Model\Cart\SalesModel\Order
     /**
      * Overwrite for specific data key
      *
-     * @param $key
-     * @param null $args
+     * @param string $key
+     * @param mixed $args
      * @return mixed
      */
     public function getDataUsingMethod($key, $args = null)

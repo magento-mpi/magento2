@@ -184,9 +184,10 @@ class Observer
         $totalWrapping = 0;
         $totalCard = 0;
         $salesEntity = $cart->getSalesModel();
-        foreach ($salesEntity->getOriginalModel()->getAllItems() as $item) {
-            if (!$item->getParentItem() && $item->getGwId() && $item->getGwBasePrice()) {
-                $totalWrapping += $item->getGwBasePrice();
+        foreach ($salesEntity->getAllItems() as $item) {
+            $originalItem = $item->getOriginalItem();
+            if (!$originalItem->getParentItem() && $originalItem->getGwId() && $originalItem->getGwBasePrice()) {
+                $totalWrapping += $originalItem->getGwBasePrice();
             }
         }
         if ($salesEntity->getDataUsingMethod('gw_id') && $salesEntity->getDataUsingMethod('gw_base_price')) {

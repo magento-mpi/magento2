@@ -7,7 +7,7 @@
  */
 
 /**
- * Adapter for \Magento\Sales\Model\Order sales model
+ * Wrapper for \Magento\Sales\Model\Order sales model
  */
 namespace Magento\Payment\Model\Cart\SalesModel;
 
@@ -26,16 +26,6 @@ class Order implements \Magento\Payment\Model\Cart\SalesModel\SalesModelInterfac
     public function __construct(\Magento\Sales\Model\Order $salesModel)
     {
         $this->_salesModel = $salesModel;
-    }
-
-    /**
-     * Get model which is wrapped with adapter
-     *
-     * @return \Magento\Sales\Model\Order
-     */
-    public function getOriginalModel()
-    {
-        return $this->_salesModel;
     }
 
     /**
@@ -95,7 +85,7 @@ class Order implements \Magento\Payment\Model\Cart\SalesModel\SalesModelInterfac
     /**
      * Wrapper for \Magento\Object getDataUsingMethod method
      *
-     * @param $key
+     * @param string $key
      * @param mixed $args
      * @return mixed
      */
@@ -111,6 +101,6 @@ class Order implements \Magento\Payment\Model\Cart\SalesModel\SalesModelInterfac
      */
     public function getTaxContainer()
     {
-        return $this->getOriginalModel();
+        return $this->_salesModel;
     }
 }
