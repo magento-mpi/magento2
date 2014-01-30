@@ -20,7 +20,7 @@ class Filter extends \Magento\Service\Entity\AbstractDto
     }
 
     /**
-     * @return string | array
+     * @return string | string[]
      */
     public function getValue()
     {

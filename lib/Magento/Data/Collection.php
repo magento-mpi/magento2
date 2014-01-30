@@ -55,23 +55,6 @@ class Collection implements \IteratorAggregate, \Countable, \Magento\Core\Model\
      */
     protected $_filters = array();
 
-
-    /**
-     * Filters on specific fields
-     *
-     * Each filter has the following structure
-     * <pre>
-     * [
-     *     'field'     => $field,
-     *     'condition' => $condition,
-     * ]
-     * </pre>
-     * @see addFieldToFilter() for more information on conditions
-     *
-     * @var array
-     */
-    protected $_fieldFilters = [];
-
     /**
      * Filter rendered flag
      *

@@ -16,6 +16,22 @@ use Magento\Customer\Service\V1\Dto\SearchCriteria;
 class ServiceCollection extends \Magento\Data\Collection
 {
     /**
+     * Filters on specific fields
+     *
+     * Each filter has the following structure
+     * <pre>
+     * [
+     *     'field'     => $field,
+     *     'condition' => $condition,
+     * ]
+     * </pre>
+     * @see addFieldToFilter() for more information on conditions
+     *
+     * @var array
+     */
+    protected $fieldFilters = [];
+
+    /**
      * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
      */
     protected $groupService;
@@ -94,7 +110,7 @@ class ServiceCollection extends \Magento\Data\Collection
         if (is_array($field) && count($field) != count($condition)) {
             throw new \Magento\Exception('When passing in a field array there must be a matching condition array.');
         }
-        $this->_fieldFilters[] = [
+        $this->fieldFilters[] = [
             'field'     => $field,
             'condition' => $condition,
         ];
@@ -134,7 +150,7 @@ class ServiceCollection extends \Magento\Data\Collection
      */
     protected function getSearchCriteria()
     {
-        foreach ($this->_fieldFilters as $filter) {
+        foreach ($this->fieldFilters as $filter) {
             if (!is_array($filter['field'])) {
                 // just one field
                 $this->addFilterToSearchCriteria($filter['field'], $filter['condition']);

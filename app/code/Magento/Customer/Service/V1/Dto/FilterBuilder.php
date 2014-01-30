@@ -25,7 +25,7 @@ class FilterBuilder extends AbstractDtoBuilder
     }
 
     /**
-     * @param string | array $value
+     * @param string | string[] $value
      * @return FilterBuilder
      */
     public function setValue($value)
