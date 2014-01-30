@@ -4,8 +4,6 @@
  *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -42,7 +40,7 @@ class Image extends File
 
         if (!isset($allowImageTypes[$imageProp[2]])) {
             return array(
-                __('"%1" is not a valid image format', $label)
+                __('"%1" is not a valid image format.', $label)
             );
         }
 

@@ -12,8 +12,8 @@ class ImageTest extends FileTest
     /**
      * Create an instance of the class that is being tested
      *
-     * @param $isAjax
-     * @param $value
+     * @param string|int|bool|null $value
+     * @param bool $isAjax
      * @return Image
      */
     protected function getClass($value, $isAjax)
