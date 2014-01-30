@@ -7,8 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Helper;
+
+use Magento\Catalog\Model\Product as ModelProduct;
 
 /**
  * Catalog category helper
@@ -41,6 +42,9 @@ class Product extends \Magento\Core\Helper\Url
      */
     protected $_statuses;
 
+    /**
+     * @var mixed
+     */
     protected $_priceBlock;
 
     /**
@@ -147,12 +151,12 @@ class Product extends \Magento\Core\Helper\Url
     /**
      * Retrieve product view page url
      *
-     * @param   mixed $product
-     * @return  string
+     * @param int|ModelProduct $product
+     * @return string|false
      */
     public function getProductUrl($product)
     {
-        if ($product instanceof \Magento\Catalog\Model\Product) {
+        if ($product instanceof ModelProduct) {
             return $product->getProductUrl();
         } elseif (is_numeric($product)) {
             return $this->_productFactory->create()->load($product)->getProductUrl();
@@ -163,8 +167,8 @@ class Product extends \Magento\Core\Helper\Url
     /**
      * Retrieve product price
      *
-     * @param   \Magento\Catalog\Model\Product $product
-     * @return  float
+     * @param ModelProduct $product
+     * @return float
      */
     public function getPrice($product)
     {
@@ -174,8 +178,8 @@ class Product extends \Magento\Core\Helper\Url
     /**
      * Retrieve product final price
      *
-     * @param   \Magento\Catalog\Model\Product $product
-     * @return  float
+     * @param ModelProduct $product
+     * @return float
      */
     public function getFinalPrice($product)
     {
@@ -185,7 +189,7 @@ class Product extends \Magento\Core\Helper\Url
     /**
      * Retrieve base image url
      *
-     * @param \Magento\Catalog\Model\Product|\Magento\Object $product
+     * @param ModelProduct|\Magento\Object $product
      * @return string|bool
      */
     public function getImageUrl($product)
@@ -203,7 +207,7 @@ class Product extends \Magento\Core\Helper\Url
     /**
      * Retrieve small image url
      *
-     * @param \Magento\Catalog\Model\Product|\Magento\Object $product
+     * @param ModelProduct|\Magento\Object $product
      * @return string|bool
      */
     public function getSmallImageUrl($product)
@@ -221,7 +225,7 @@ class Product extends \Magento\Core\Helper\Url
     /**
      * Retrieve thumbnail image url
      *
-     * @param \Magento\Catalog\Model\Product|\Magento\Object $product
+     * @param ModelProduct|\Magento\Object $product
      * @return string
      */
     public function getThumbnailUrl($product)
@@ -230,7 +234,7 @@ class Product extends \Magento\Core\Helper\Url
     }
 
     /**
-     * @param \Magento\Catalog\Model\Product $product
+     * @param ModelProduct $product
      * @return string
      */
     public function getEmailToFriendUrl($product)
@@ -261,7 +265,7 @@ class Product extends \Magento\Core\Helper\Url
     /**
      * Check if a product can be shown
      *
-     * @param \Magento\Catalog\Model\Product|int $product
+     * @param ModelProduct|int $product
      * @param string $where
      * @return boolean
      */
@@ -271,7 +275,7 @@ class Product extends \Magento\Core\Helper\Url
             $product = $this->_productFactory->create()->load($product);
         }
 
-        /* @var $product \Magento\Catalog\Model\Product */
+        /* @var $product ModelProduct */
 
         if (!$product->getId()) {
             return false;
@@ -303,7 +307,7 @@ class Product extends \Magento\Core\Helper\Url
     /**
      * Check if <link rel="canonical"> can be used for product
      *
-     * @param $store
+     * @param null|string|bool|int|\Magento\Core\Model\Store $store
      * @return bool
      */
     public function canUseCanonicalTag($store = null)
@@ -381,7 +385,7 @@ class Product extends \Magento\Core\Helper\Url
      * @param \Magento\App\Action\Action $controller
      * @param \Magento\Object $params
      *
-     * @return false|\Magento\Catalog\Model\Product
+     * @return false|ModelProduct
      */
     public function initProduct($productId, $controller, $params = null)
     {
@@ -449,9 +453,9 @@ class Product extends \Magento\Core\Helper\Url
      * Prepares product options by buyRequest: retrieves values and assigns them as default.
      * Also parses and adds product management related values - e.g. qty
      *
-     * @param  \Magento\Catalog\Model\Product $product
-     * @param  \Magento\Object $buyRequest
-     * @return \Magento\Catalog\Helper\Product
+     * @param ModelProduct $product
+     * @param \Magento\Object $buyRequest
+     * @return Product
      */
     public function prepareProductOptions($product, $buyRequest)
     {
@@ -485,7 +489,6 @@ class Product extends \Magento\Core\Helper\Url
             $params = new \Magento\Object($params);
         }
 
-
         // Ensure that currentConfig goes as \Magento\Object - for easier work with it later
         $currentConfig = $params->getCurrentConfig();
         if ($currentConfig) {
@@ -513,14 +516,14 @@ class Product extends \Magento\Core\Helper\Url
     /**
      * Return loaded product instance
      *
-     * @param  int|string $productId (SKU or ID)
-     * @param  int $store
-     * @param  string $identifierType
-     * @return \Magento\Catalog\Model\Product
+     * @param int|string $productId (SKU or ID)
+     * @param int $store
+     * @param string $identifierType
+     * @return ModelProduct
      */
     public function getProduct($productId, $store, $identifierType = null)
     {
-        /** @var $product \Magento\Catalog\Model\Product */
+        /** @var $product ModelProduct */
         $product = $this->_productFactory->create()->setStoreId($this->_storeManager->getStore($store)->getId());
 
         $expectedIdType = false;
@@ -553,7 +556,7 @@ class Product extends \Magento\Core\Helper\Url
      * For instance, during order creation in the backend admin has ability to add any products to order
      *
      * @param bool $skipSaleableCheck
-     * @return \Magento\Catalog\Helper\Product
+     * @return Product
      */
     public function setSkipSaleableCheck($skipSaleableCheck = false)
     {
@@ -574,12 +577,12 @@ class Product extends \Magento\Core\Helper\Url
     /**
      * Get masks for auto generation of fields
      *
-     * @return array
+     * @return mixed
      */
     public function getFieldsAutogenerationMasks()
     {
         return $this->_coreConfig
-            ->getValue(\Magento\Catalog\Helper\Product::XML_PATH_AUTO_GENERATE_MASK, 'default');
+            ->getValue(Product::XML_PATH_AUTO_GENERATE_MASK, 'default');
     }
 
     /**
