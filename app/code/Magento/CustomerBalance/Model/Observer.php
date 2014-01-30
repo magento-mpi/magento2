@@ -632,9 +632,6 @@ class Observer
     {
         /** @var $cart \Magento\Payment\Model\Cart */
         $cart = $observer->getEvent()->getCart();
-        if (!$cart) {
-            return;
-        }
         $salesEntity = $cart->getSalesModel();
         $value = abs($salesEntity->getDataUsingMethod('customer_balance_base_amount'));
         if ($value > 0.0001) {

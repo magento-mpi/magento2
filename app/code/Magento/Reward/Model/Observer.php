@@ -938,9 +938,6 @@ class Observer
     {
         /** @var \Magento\Payment\Model\Cart $cart */
         $cart = $observer->getEvent()->getCart();
-        if (!$cart) {
-            return;
-        }
         $salesEntity = $cart->getSalesModel();
         $discount = abs($salesEntity->getDataUsingMethod('base_reward_currency_amount'));
         if ($discount > 0.0001) {

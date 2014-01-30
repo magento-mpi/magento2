@@ -469,9 +469,6 @@ class Observer
     {
         /** @var \Magento\Payment\Model\Cart $cart */
         $cart = $observer->getEvent()->getCart();
-        if (!$cart) {
-            return;
-        }
         $salesEntity = $cart->getSalesModel();
         $value = abs($salesEntity->getDataUsingMethod('base_gift_cards_amount'));
         if ($value > 0.0001) {

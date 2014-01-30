@@ -178,9 +178,6 @@ class Observer
     {
         /** @var \Magento\Payment\Model\Cart $cart */
         $cart = $observer->getEvent()->getCart();
-        if (!$cart) {
-            return;
-        }
         $totalWrapping = 0;
         $totalCard = 0;
         $salesEntity = $cart->getSalesModel();
