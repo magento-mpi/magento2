@@ -223,7 +223,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Getter for rule conditions collection
      *
-     * @return \Magento\CatalogRulMagento\Backend\Block\Widget\Gride\Model\Rule\Condition\Combine
+     * @return \Magento\Rule\Model\Condition\Combine
      */
     public function getConditionsInstance()
     {
