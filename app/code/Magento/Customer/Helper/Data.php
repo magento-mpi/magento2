@@ -83,29 +83,31 @@ class Data extends \Magento\App\Helper\AbstractHelper
     const VAT_CLASS_ERROR       = 'error';
 
     /**
-     * Customer groups collection
-     *
      * @var \Magento\Customer\Model\Resource\Group\Collection
      */
     protected $_groups;
 
     /**
-     * Core data
-     *
      * @var \Magento\Core\Helper\Data
      */
     protected $_coreData;
 
     /**
-     * Customer address
-     *
      * @var \Magento\Customer\Helper\Address
      */
     protected $_customerAddress = null;
 
     /**
-     * Core store config
-     *
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @var \Magento\Customer\Model\Config\Share
+     */
+    protected $_configShare;
+
+    /**
      * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
@@ -144,6 +146,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Customer\Helper\Address $customerAddress
      * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Customer\Model\Config\Share $configShare
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\App\ConfigInterface $coreConfig
      * @param \Magento\Customer\Model\Session $customerSession
@@ -156,6 +160,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\App\Helper\Context $context,
         \Magento\Customer\Helper\Address $customerAddress,
         \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Customer\Model\Config\Share $configShare,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\App\ConfigInterface $coreConfig,
         \Magento\Customer\Model\Session $customerSession,
@@ -166,6 +172,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
     ) {
         $this->_customerAddress = $customerAddress;
         $this->_coreData = $coreData;
+        $this->_storeManager = $storeManager;
+        $this->_configShare = $configShare;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_coreConfig = $coreConfig;
         $this->_customerSession = $customerSession;
@@ -790,5 +798,38 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected function _createForm()
     {
         return $this->_formFactory->create();
+    }
+
+
+    /**
+     * Check store availability for customer given the customerId
+     *
+     * @param int $customerWebsiteId
+     * @param int $storeId
+     * @return bool
+     */
+    public function isCustomerInStore($customerWebsiteId, $storeId)
+    {
+        $ids = $this->getSharedStoreIds($customerWebsiteId);
+        return in_array($storeId, $ids);
+    }
+
+    /**
+     * Retrieve shared store ids
+     *
+     * @param int $customerWebsiteId
+     * @return array
+     */
+    public function getSharedStoreIds($customerWebsiteId)
+    {
+        $ids = array();
+        if ((bool)$this->_configShare->isWebsiteScope()) {
+            $ids = $this->_storeManager->getWebsite($customerWebsiteId)->getStoreIds();
+        } else {
+            foreach ($this->_storeManager->getStores() as $store) {
+                $ids[] = $store->getId();
+            }
+        }
+        return $ids;
     }
 }

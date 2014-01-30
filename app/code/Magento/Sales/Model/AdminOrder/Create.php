@@ -151,6 +151,11 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     protected $_customerBuilder;
 
     /**
+     * @var \Magento\Customer\Helper\Data
+     */
+    protected $_customerHelper;
+
+    /**
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\Registry $coreRegistry
@@ -162,6 +167,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      * @param CustomerServiceInterface $customerService
      * @param \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory
      * @param CustomerBuilder $customerBuilder
+     * @param \Magento\Customer\Helper\Data $customerHelper
      * @param array $data
      */
     public function __construct(
@@ -176,20 +182,22 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         CustomerServiceInterface $customerService,
         \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory,
         CustomerBuilder $customerBuilder,
+        \Magento\Customer\Helper\Data $customerHelper,
         array $data = array()
     ) {
         $this->_objectManager = $objectManager;
         $this->_eventManager = $eventManager;
         $this->_coreRegistry = $coreRegistry;
         $this->_salesConfig = $salesConfig;
+        $this->_session = $sessionQuote;
         $this->_logger = $logger;
         $this->_objectCopyService = $objectCopyService;
-        parent::__construct($data);
-        $this->_session = $sessionQuote;
         $this->messageManager = $messageManager;
         $this->_customerService = $customerService;
         $this->_metadataFormFactory = $metadataFormFactory;
         $this->_customerBuilder = $customerBuilder;
+        $this->_customerHelper = $customerHelper;
+        parent::__construct($data);
     }
 
     /**
@@ -1385,14 +1393,8 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     {
         $customerId = (int)$this->getSession()->getCustomerId();
         $customerData = $this->_customerService->getCustomer($customerId);
-        if ($customerData->getWebsiteId() == $store->getWebsiteId()) {
-            return true;
-        }
-
-        // TODO: is in store should be refactored in scope of MAGETWO-20030
-        /** @var \Magento\Customer\Model\Customer $customer */
-        $customer = $this->_objectManager->create('Magento\Customer\Model\Customer')->load($customerId);
-        return $customer->isInStore($store);
+        return $customerData->getWebsiteId() == $store->getWebsiteId() ||
+            $this->_customerHelper->isCustomerInStore($customerData->getWebsiteId(), $store->getId());
     }
 
     /**
@@ -1625,7 +1627,9 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         }
 
         $order = $service->submitOrder();
-        if ((!$quote->getCustomer()->getId() || !$quote->getCustomer()->isInStore($this->getSession()->getStore()))
+        if ((!$quote->getCustomer()->getId()
+            || !$this->_customerHelper->isCustomerInStore($quote->getCustomer()->getWebsiteId(),
+                    $this->getSession()->getStore()->getId()))
             && !$quote->getCustomerIsGuest()
         ) {
             $quote->getCustomer()->setCreatedAt($order->getCreatedAt());

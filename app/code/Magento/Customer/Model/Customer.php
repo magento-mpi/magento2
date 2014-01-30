@@ -855,24 +855,6 @@ class Customer extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Check store availability for customer
-     *
-     * @param   \Magento\Core\Model\Store | int $store
-     * @return  bool
-     */
-    public function isInStore($store)
-    {
-        if ($store instanceof \Magento\Core\Model\Store) {
-            $storeId = $store->getId();
-        } else {
-            $storeId = $store;
-        }
-
-        $availableStores = $this->getSharedStoreIds();
-        return in_array($storeId, $availableStores);
-    }
-
-    /**
      * Retrieve store where customer was created
      *
      * @return \Magento\Core\Model\Store
@@ -883,6 +865,8 @@ class Customer extends \Magento\Core\Model\AbstractModel
     }
 
     /**
+     * @deprecated Use \Magento\Customer\Helper\Data::getSharedStoreIds
+     *
      * Retrieve shared store ids
      *
      * @return array

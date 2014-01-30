@@ -58,19 +58,23 @@ class CustomerAccountService implements CustomerAccountServiceInterface
     private $_customerAddressService;
 
     /**
+     * @var \Magento\Customer\Helper\Data
+     */
+    protected $_customerHelper;
+
+    /**
      * Constructor
      *
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param \Magento\Customer\Model\AddressFactory $addressFactory
-     * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $eavMetadataService
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Customer\Model\Converter $converter
      * @param \Magento\Customer\Model\Metadata\Validator $validator
-     * @param \Magento\Customer\Service\V1\Dto\RegionBuilder $regionBuilder
-     * @param \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder
-     * @param \Magento\Customer\Service\V1\Dto\Response\CreateCustomerAccountResponseBuilder $createCustomerAccountResponseBuilder
+     * @param Dto\Response\CreateCustomerAccountResponseBuilder $createCustomerAccountResponseBuilder
+     * @param CustomerServiceInterface $customerService
+     * @param CustomerAddressServiceInterface $customerAddressService
+     * @param \Magento\Customer\Helper\Data $customerHelper
      */
     public function __construct(
         \Magento\Customer\Model\CustomerFactory $customerFactory,
@@ -81,7 +85,8 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         \Magento\Customer\Model\Metadata\Validator $validator,
         Dto\Response\CreateCustomerAccountResponseBuilder $createCustomerAccountResponseBuilder,
         CustomerServiceInterface $customerService,
-        CustomerAddressServiceInterface $customerAddressService
+        CustomerAddressServiceInterface $customerAddressService,
+        \Magento\Customer\Helper\Data $customerHelper
     ) {
         $this->_customerFactory = $customerFactory;
         $this->_eventManager = $eventManager;
@@ -92,6 +97,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $this->_createCustomerAccountResponseBuilder = $createCustomerAccountResponseBuilder;
         $this->_customerService = $customerService;
         $this->_customerAddressService = $customerAddressService;
+        $this->_customerHelper = $customerHelper;
     }
 
 
@@ -232,7 +238,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $customerId = $customer->getCustomerId();
         if ($customerId) {
             $customerModel = $this->_converter->getCustomerModel($customerId);
-            if ($customerModel->isInStore($storeId)) {
+            if ($this->_customerHelper->isCustomerInStore($customerModel->getWebsiteId(), $storeId)) {
                 return $this->_createCustomerAccountResponseBuilder->setCustomerId($customerId)
                     ->setStatus('')
                     ->create();
