@@ -73,23 +73,39 @@ class ServiceCollection extends \Magento\Data\Collection
         return $this;
     }
 
-    public function addFieldToFilter($field, $condition)
+    private function addField($field, $condition)
     {
-        // TODO this is broken until the Widget/Grid can be re-written not to have db logic in it
-        return $this;
+        $this->filterBuilder->setField($field);
+
+        if (is_array($condition)) {
+            $this->filterBuilder->setValue(reset($condition));
+            $this->filterBuilder->setConditionType(key($condition));
+        } else {
+            // not an array, just use eq as condition type and given value
+            $this->filterBuilder->setConditionType('eq');
+            $this->filterBuilder->setValue($condition);
+        }
+        $this->searchCriteriaBuilder->addFilter($this->filterBuilder->create());
     }
 
     protected function getSearchCriteria()
     {
-        foreach ($this->_filters as $filter) {
-            $this->filerBuilder->setField($filter['field'])
-                ->setValue($filter['value'])
-                ->setConditionType($filter['type']);
-            $this->searchCriteriaBuilder->addFilter($this->filterBuilder->create());
+        foreach ($this->_fieldFilters as $filter) {
+            // just one field, move this to a function and call in loop if multiple
+            if (!is_array($filter['field'])) {
+                $this->addField($filter['field'], $filter['condition']);
+            } else {
+                // array of fields
+                foreach ($filter['field'] as $index => $field) {
+                    $this->addField($field, $filter['condition'][$index]);
+                }
+            }
         }
         foreach ($this->_orders as $field => $direction) {
             $this->searchCriteriaBuilder->addSortOrder(
-                $field, $direction == 'ASC' ? SearchCriteria::SORT_ASC : SearchCriteria::SORT_DESC);
+                $field,
+                $direction == 'ASC' ? SearchCriteria::SORT_ASC : SearchCriteria::SORT_DESC
+            );
         }
         $this->searchCriteriaBuilder->setCurrentPage($this->_curPage);
         $this->searchCriteriaBuilder->setPageSize($this->_pageSize);
