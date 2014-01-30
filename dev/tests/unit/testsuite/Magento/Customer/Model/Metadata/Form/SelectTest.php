@@ -13,15 +13,31 @@ namespace Magento\Customer\Model\Metadata\Form;
  */
 class SelectTest extends AbstractFormTestCase
 {
+    /**
+     * Create an instance of the class that is being tested
+     *
+     * @param string|int|bool|null $value The value undergoing testing by a given test
+     * @return Select
+     */
+    protected function getClass($value)
+    {
+        return new Select(
+            $this->localeMock,
+            $this->loggerMock,
+            $this->attributeMetadataMock,
+            $value,
+            0
+        );
+    }
 
     /**
-     * @param string|int|bool|null $value to assign to boolean
+     * @param string|int|bool|null $value to assign to Select
      * @param bool $expected text output
      * @dataProvider validateValueDataProvider
      */
     public function testValidateValue($value, $expected)
     {
-        $select = new Select($this->localeMock, $this->loggerMock, $this->attributeMetadataMock, $value, 0);
+        $select = $this->getClass($value);
         $actual = $select->validateValue($value);
         $this->assertEquals($expected, $actual);
     }
@@ -51,7 +67,7 @@ class SelectTest extends AbstractFormTestCase
             ->method('isRequired')
             ->will($this->returnValue(true));
 
-        $select = new Select($this->localeMock, $this->loggerMock, $this->attributeMetadataMock, $value, 0);
+        $select = $this->getClass($value);
         $actual = $select->validateValue($value);
 
         if (is_bool($actual)) {
@@ -88,7 +104,7 @@ class SelectTest extends AbstractFormTestCase
                 new \Magento\Customer\Service\V1\Dto\Eav\Option(['value' => 14, 'label' => 'fourteen']),
                 new \Magento\Customer\Service\V1\Dto\Eav\Option(['value' => 'some key', 'label' => 'some string']),
             ]));
-        $select = new Select($this->localeMock, $this->loggerMock, $this->attributeMetadataMock, $value, 0);
+        $select = $this->getClass($value);
         $actual = $select->outputValue();
         $this->assertEquals($expected, $actual);
     }
