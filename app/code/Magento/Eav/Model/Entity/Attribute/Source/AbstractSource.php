@@ -95,7 +95,7 @@ abstract class AbstractSource
      *
      * @param \Magento\Eav\Model\Entity\Collection\AbstractCollection $collection
      * @param string $dir direction
-     * @return \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
+     * @return $this
      */
     public function addValueSortToCollection($collection, $dir = \Magento\Data\Collection::SORT_ORDER_DESC) {
         return $this;

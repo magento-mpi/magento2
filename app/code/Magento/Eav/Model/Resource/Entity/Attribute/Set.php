@@ -40,6 +40,7 @@ class Set extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Initialize connection
      *
+     * @return void
      */
     protected function _construct()
     {

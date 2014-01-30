@@ -251,6 +251,8 @@ abstract class AbstractEntity extends \Magento\Core\Model\Resource\AbstractResou
 
     /**
      * Resource initialization
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -1193,6 +1195,7 @@ abstract class AbstractEntity extends \Magento\Core\Model\Resource\AbstractResou
      * @param array $delete
      * @param AbstractAttribute $attribute
      * @param \Magento\Eav\Model\Entity\AbstractEntity $object
+     * @return void
      */
     private function _aggregateDeleteData(&$delete, $attribute, $object)
     {

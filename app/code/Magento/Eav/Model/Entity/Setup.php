@@ -373,6 +373,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
      * Set Default Attribute Set to Entity Type
      *
      * @param int|string $entityType
+     * @param string $attributeSet
      * @return $this
      */
     public function setDefaultSetToEntityType($entityType, $attributeSet = 'Default')
@@ -386,7 +387,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup
     /**
      * Get identifiers of all attribute sets
      *
-     * @param int|string|null $entityType
+     * @param int|string|null $entityTypeId
      * @return array
      */
     public function getAllAttributeSetIds($entityTypeId = null)
@@ -753,6 +754,8 @@ class Setup extends \Magento\Core\Model\Resource\Setup
      * Add Attribure Option
      *
      * @param array $option
+     * @return void
+     * @throws \Magento\Core\Exception
      */
     public function addAttributeOption($option)
     {

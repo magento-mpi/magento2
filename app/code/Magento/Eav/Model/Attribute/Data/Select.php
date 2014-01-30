@@ -36,7 +36,7 @@ class Select extends \Magento\Eav\Model\Attribute\Data\AbstractData
      * Return true or array of errors
      *
      * @param array|string $value
-     * @return boolean|array
+     * @return bool|array
      */
     public function validateValue($value)
     {

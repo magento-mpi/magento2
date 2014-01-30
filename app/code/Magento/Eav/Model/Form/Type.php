@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 
+namespace Magento\Eav\Model\Form;
 
 /**
  * Eav Form Type Model
@@ -28,8 +29,6 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Eav\Model\Form;
-
 class Type extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -74,6 +73,8 @@ class Type extends \Magento\Core\Model\AbstractModel
 
     /**
      * Initialize resource model
+     *
+     * @return void
      */
     protected function _construct()
     {

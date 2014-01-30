@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 
+namespace Magento\Eav\Model\Resource;
 
 /**
  * Eav Resource Config model
@@ -16,8 +17,6 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Eav\Model\Resource;
-
 class Config extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -36,6 +35,8 @@ class Config extends \Magento\Core\Model\Resource\Db\AbstractDb
 
     /**
      * Resource initialization
+     *
+     * @return void
      */
     protected function _construct()
     {

@@ -87,7 +87,7 @@ class Table extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
      * Get a text for option value
      *
      * @param string|integer $value
-     * @return string
+     * @return array|string|bool
      */
     public function getOptionText($value)
     {
@@ -123,7 +123,7 @@ class Table extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
      * @param \Magento\Eav\Model\Entity\Collection\AbstractCollection $collection
      * @param string $dir
      *
-     * @return \Magento\Eav\Model\Entity\Attribute\Source\Table
+     * @return $this
      */
     public function addValueSortToCollection($collection, $dir = \Magento\DB\Select::SQL_ASC)
     {

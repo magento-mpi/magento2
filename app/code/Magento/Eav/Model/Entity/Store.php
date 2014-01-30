@@ -31,6 +31,8 @@ class Store extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Resource initialization
+     *
+     * @return void
      */
     protected function _construct()
     {

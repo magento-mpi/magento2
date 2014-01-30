@@ -192,6 +192,7 @@ class Data extends \Magento\Validator\AbstractValidator
      *
      * @param string $code
      * @param array $messages
+     * @return void
      */
     protected function _addErrorMessages($code, array $messages)
     {

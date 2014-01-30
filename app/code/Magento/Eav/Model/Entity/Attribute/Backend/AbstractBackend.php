@@ -78,7 +78,7 @@ abstract class AbstractBackend
      * Set attribute instance
      *
      * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute
-     * @return \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
+     * @return $this
      */
     public function setAttribute($attribute)
     {
@@ -109,7 +109,7 @@ abstract class AbstractBackend
     /**
      * Check whether the attribute is a real field in the entity table
      *
-     * @return boolean
+     * @return bool
      */
     public function isStatic()
     {
@@ -160,7 +160,7 @@ abstract class AbstractBackend
      * Set value id
      *
      * @param int $valueId
-     * @return \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
+     * @return $this
      */
     public function setValueId($valueId)
     {
@@ -173,7 +173,7 @@ abstract class AbstractBackend
      *
      * @param \Magento\Object $entity
      * @param int $valueId
-     * @return \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
+     * @return $this
      */
     public function setEntityValueId($entity, $valueId)
     {
@@ -233,7 +233,7 @@ abstract class AbstractBackend
      *
      * @param \Magento\Object $object
      * @throws \Magento\Eav\Exception
-     * @return boolean
+     * @return bool
      */
     public function validate($object)
     {
@@ -266,7 +266,7 @@ abstract class AbstractBackend
      * After load method
      *
      * @param \Magento\Object $object
-     * @return \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
+     * @return $this
      */
     public function afterLoad($object)
     {
@@ -277,7 +277,7 @@ abstract class AbstractBackend
      * Before save method
      *
      * @param \Magento\Object $object
-     * @return \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
+     * @return $this
      */
     public function beforeSave($object)
     {
@@ -293,7 +293,7 @@ abstract class AbstractBackend
      * After save method
      *
      * @param \Magento\Object $object
-     * @return \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
+     * @return $this
      */
     public function afterSave($object)
     {
@@ -304,7 +304,7 @@ abstract class AbstractBackend
      * Before delete method
      *
      * @param \Magento\Object $object
-     * @return \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
+     * @return $this
      */
     public function beforeDelete($object)
     {
@@ -315,7 +315,7 @@ abstract class AbstractBackend
      * After delete method
      *
      * @param \Magento\Object $object
-     * @return \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
+     * @return $this
      */
     public function afterDelete($object)
     {

@@ -20,6 +20,7 @@ namespace Magento\Eav\Model\Resource\Entity;
 
 use Magento\Core\Model\AbstractModel;
 use Magento\Eav\Model\Entity\Attribute as EntityAttribute;
+use Magento\DB\Select;
 
 class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
@@ -67,6 +68,7 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Define main table
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -370,6 +372,7 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Check default option value presence
      *
      * @param array $values
+     * @return void
      * @throws \Magento\Core\Exception
      */
     protected function _checkDefaultOptionValue($values)
@@ -386,6 +389,7 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param int|string $optionId
      * @param int $intOptionId
      * @param array $defaultValue
+     * @return void
      */
     protected function _updateDefaultValue($object, $optionId, $intOptionId, &$defaultValue)
     {
@@ -404,6 +408,7 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param AbstractModel $object
      * @param array $defaultValue
+     * @return void
      */
     protected function _saveDefaultValue($object, $defaultValue)
     {
@@ -457,6 +462,7 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param int $optionId
      * @param array $values
+     * @return void
      */
     protected function _updateAttributeOptionValues($optionId, $values)
     {
@@ -527,7 +533,7 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param EntityAttribute\AbstractAttribute $attribute
      * @param int $storeId
-     * @return \Magento\DB\Select
+     * @return Select
      */
     public function getFlatUpdateSelect(\Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute, $storeId)
     {
@@ -545,7 +551,7 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
 
         $valueExpr = $adapter->getCheckSql('t2.value_id > 0', 't2.value', 't1.value');
 
-        /** @var $select \Magento\DB\Select */
+        /** @var $select Select */
         $select = $adapter->select()
             ->joinLeft(
                 array('t1' => $attribute->getBackend()->getTable()),

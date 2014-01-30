@@ -25,6 +25,7 @@ class Type extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Initialize connection and define main table
      *
+     * @return void
      */
     protected function _construct()
     {

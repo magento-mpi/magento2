@@ -19,6 +19,7 @@
 namespace Magento\Eav\Model\Resource;
 
 use Magento\Core\Model\AbstractModel;
+use Magento\DB\Select;
 
 abstract class Attribute extends \Magento\Eav\Model\Resource\Entity\Attribute
 {
@@ -62,7 +63,7 @@ abstract class Attribute extends \Magento\Eav\Model\Resource\Entity\Attribute
      * @param string $field
      * @param mixed $value
      * @param AbstractModel $object
-     * @return \Magento\DB\Select
+     * @return Select
      */
     protected function _getLoadSelect($field, $value, $object)
     {

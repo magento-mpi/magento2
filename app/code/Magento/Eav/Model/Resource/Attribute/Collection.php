@@ -257,7 +257,7 @@ abstract class Collection
     /**
      * Exclude system hidden attributes but include password hash
      *
-     * @return \Magento\Customer\Model\Resource\Attribute\Collection
+     * @return $this
      */
     public function addSystemHiddenFilterWithPasswordHash()
     {

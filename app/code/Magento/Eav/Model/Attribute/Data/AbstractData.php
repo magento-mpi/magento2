@@ -45,14 +45,14 @@ abstract class AbstractData
     /**
      * Scope visibility flag
      *
-     * @var boolean
+     * @var bool
      */
     protected $_requestScopeOnly    = true;
 
     /**
      * Is AJAX request flag
      *
-     * @var boolean
+     * @var bool
      */
     protected $_isAjax              = false;
 
@@ -137,8 +137,8 @@ abstract class AbstractData
      * Set scope visibility
      * Search value only in scope or search value in scope and global
      *
-     * @param boolean $flag
-     * @return \Magento\Eav\Model\Attribute\Data\AbstractData
+     * @param bool $flag
+     * @return $this
      */
     public function setRequestScopeOnly($flag)
     {
@@ -150,7 +150,7 @@ abstract class AbstractData
      * Set entity instance
      *
      * @param \Magento\Core\Model\AbstractModel $entity
-     * @return \Magento\Eav\Model\Attribute\Data\AbstractData
+     * @return $this
      */
     public function setEntity(\Magento\Core\Model\AbstractModel $entity)
     {
@@ -244,7 +244,7 @@ abstract class AbstractData
      * Get/Set/Reset date filter format
      *
      * @param string|null|false $format
-     * @return \Magento\Eav\Model\Attribute\Data\AbstractData|string
+     * @return $this|string
      */
     protected function _dateFilterFormat($format = null)
     {
@@ -284,7 +284,7 @@ abstract class AbstractData
      * Validate value by attribute input validation rule
      *
      * @param string $value
-     * @return string
+     * @return string|true
      */
     protected function _validateInputRule($value)
     {
@@ -476,8 +476,8 @@ abstract class AbstractData
     /**
      * Set is AJAX Request flag
      *
-     * @param boolean $flag
-     * @return \Magento\Eav\Model\Attribute\Data\AbstractData
+     * @param bool $flag
+     * @return $this
      */
     public function setIsAjaxRequest($flag = true)
     {
@@ -488,7 +488,7 @@ abstract class AbstractData
     /**
      * Return is AJAX Request
      *
-     * @return boolean
+     * @return bool
      */
     public function getIsAjaxRequest()
     {

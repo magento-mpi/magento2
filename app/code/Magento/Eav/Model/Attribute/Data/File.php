@@ -214,7 +214,6 @@ class File extends \Magento\Eav\Model\Attribute\Data\AbstractData
     /**
      * Export attribute value to entity model
      *
-     * @param \Magento\Core\Model\AbstractModel $entity
      * @param array|string $value
      * @return $this
      */

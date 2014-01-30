@@ -34,6 +34,8 @@ class Group extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Resource initialization
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -43,7 +45,7 @@ class Group extends \Magento\Core\Model\AbstractModel
     /**
      * Checks if current attribute group exists
      *
-     * @return boolean
+     * @return bool
      */
     public function itemExists()
     {

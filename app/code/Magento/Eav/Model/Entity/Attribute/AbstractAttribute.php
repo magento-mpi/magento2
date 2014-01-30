@@ -140,6 +140,8 @@ abstract class AbstractAttribute
 
     /**
      * Initialize resource model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -366,7 +368,7 @@ abstract class AbstractAttribute
      * Set attribute name
      *
      * @param   string $name
-     * @return  \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
+     * @return $this
      */
     public function setName($name)
     {
@@ -387,7 +389,7 @@ abstract class AbstractAttribute
      * Set attribute entity instance
      *
      * @param \Magento\Eav\Model\Entity\AbstractEntity $entity
-     * @return \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
+     * @return $this
      */
     public function setEntity($entity)
     {
@@ -561,7 +563,7 @@ abstract class AbstractAttribute
      *
      * @param int $setId
      * @param int $groupId
-     * @return boolean
+     * @return bool
      */
     public function isInGroup($setId, $groupId)
     {

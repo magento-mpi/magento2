@@ -159,6 +159,8 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
 
     /**
      * Initialize collection
+     *
+     * @return void
      */
     protected function _construct()
     {

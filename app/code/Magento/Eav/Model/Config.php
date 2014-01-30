@@ -77,7 +77,7 @@ class Config
     /**
      * Cache flag
      *
-     * @var unknown_type
+     * @var bool|null
      */
     protected $_isCacheEnabled                    = null;
 
@@ -205,7 +205,7 @@ class Config
      *
      * @param   int $id
      * @param   string $entityTypeCode
-     * @return  string
+     * @return  string|null
      */
     protected function _getAttributeReference($id, $entityTypeCode)
     {
@@ -310,8 +310,9 @@ class Config
     /**
      * Get entity type object by entity type code/identifier
      *
-     * @param   mixed $code
-     * @return  Type
+     * @param int|string $code
+     * @return Type
+     * @throws \Magento\Core\Exception
      */
     public function getEntityType($code)
     {

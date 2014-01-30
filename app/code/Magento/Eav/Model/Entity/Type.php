@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 
+namespace Magento\Eav\Model\Entity;
 
 /**
  * Entity type model
@@ -42,8 +43,6 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Eav\Model\Entity;
-
 class Type extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -118,6 +117,8 @@ class Type extends \Magento\Core\Model\AbstractModel
 
     /**
      * Resource initialization
+     *
+     * @return void
      */
     protected function _construct()
     {

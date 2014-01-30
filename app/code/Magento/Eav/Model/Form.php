@@ -93,7 +93,7 @@ abstract class Form
     /**
      * Is AJAX request flag
      *
-     * @var boolean
+     * @var bool
      */
     protected $_isAjax          = false;
 
@@ -209,7 +209,7 @@ abstract class Form
      * Set current store
      *
      * @param \Magento\Core\Model\Store|string|int $store
-     * @return \Magento\Eav\Model\Form
+     * @return $this
      */
     public function setStore($store)
     {
@@ -221,7 +221,7 @@ abstract class Form
      * Set entity instance
      *
      * @param \Magento\Core\Model\AbstractModel $entity
-     * @return \Magento\Eav\Model\Form
+     * @return $this
      */
     public function setEntity(\Magento\Core\Model\AbstractModel $entity)
     {
@@ -236,7 +236,7 @@ abstract class Form
      * Set entity type instance
      *
      * @param \Magento\Eav\Model\Entity\Type|string|int $entityType
-     * @return \Magento\Eav\Model\Form
+     * @return $this
      */
     public function setEntityType($entityType)
     {
@@ -248,7 +248,7 @@ abstract class Form
      * Set form code
      *
      * @param string $formCode
-     * @return \Magento\Eav\Model\Form
+     * @return $this
      */
     public function setFormCode($formCode)
     {
@@ -553,7 +553,7 @@ abstract class Form
     /**
      * Restore entity original data
      *
-     * @return \Magento\Eav\Model\Form
+     * @return $this
      */
     public function resetEntityData()
     {
@@ -568,8 +568,8 @@ abstract class Form
     /**
      * Set is AJAX Request flag
      *
-     * @param boolean $flag
-     * @return \Magento\Eav\Model\Form
+     * @param bool $flag
+     * @return $this
      */
     public function setIsAjaxRequest($flag = true)
     {
@@ -580,7 +580,7 @@ abstract class Form
     /**
      * Return is AJAX Request
      *
-     * @return boolean
+     * @return bool
      */
     public function getIsAjaxRequest()
     {
@@ -590,7 +590,7 @@ abstract class Form
     /**
      * Set default attribute values for new entity
      *
-     * @return \Magento\Eav\Model\Form
+     * @return $this
      */
     public function initDefaultValues()
     {
