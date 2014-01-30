@@ -9,7 +9,7 @@
 /**
  * Recurring profile info/options product view block
  */
-namespace Magento\Payment\Block\Catalog\Product\View;
+namespace Magento\RecurringProfile\Block\Catalog\Product\View;
 
 class Profile extends \Magento\View\Element\Template
 {
@@ -93,7 +93,7 @@ class Profile extends \Magento\View\Element\Template
     /**
      * Determine current product and initialize its recurring profile model
      *
-     * @return \Magento\Payment\Block\Catalog\Product\View\Profile
+     * @return \Magento\RecurringProfile\Block\Catalog\Product\View\Profile
      */
     protected function _prepareLayout()
     {
