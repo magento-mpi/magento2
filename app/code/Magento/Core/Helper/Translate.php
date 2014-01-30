@@ -23,21 +23,13 @@ class Translate extends \Magento\App\Helper\AbstractHelper
     protected $_design;
 
     /**
-     * @var \Magento\TranslateInterface
-     */
-    protected $translator;
-
-    /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\View\DesignInterface $design
-     * @param \Magento\TranslateInterface $translator
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\View\DesignInterface $design,
-        \Magento\TranslateInterface $translator
+        \Magento\View\DesignInterface $design
     ) {
-        $this->translator = $translator;
         $this->_design = $design;
         parent::__construct($context);
     }
@@ -57,7 +49,7 @@ class Translate extends \Magento\App\Helper\AbstractHelper
                 $this->_design->setArea($area);
             }
 
-            $this->translator->processAjaxPost($translate);
+            $this->_translator->processAjaxPost($translate);
             $result = $returnType == 'json' ? "{success:true}" : true;
         } catch (\Exception $e) {
             $result = $returnType == 'json' ? "{error:true,message:'" . $e->getMessage() . "'}" : false;
@@ -75,17 +67,17 @@ class Translate extends \Magento\App\Helper\AbstractHelper
      */
     public function initTranslate($localeCode, $forceReload, $area = null)
     {
-        $this->translator->setLocale($localeCode);
+        $this->_translator->setLocale($localeCode);
 
         $dispatchResult = new \Magento\Object(array(
             'inline_type' => null
         ));
         $this->_eventManager->dispatch('translate_initialization_before', array(
-            'translate_object' => $this->translator,
+            'translate_object' => $this->_translator,
             'result' => $dispatchResult
         ));
         $area = isset($area) ? $area : $this->_design->getArea();
-        $this->translator->init($area, $dispatchResult, $forceReload);
+        $this->_translator->init($area, $dispatchResult, $forceReload);
         return $this;
     }
 }
