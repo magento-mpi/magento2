@@ -75,8 +75,8 @@ class Account extends \Magento\Customer\Controller\Account
         parent::__construct(
             $context,
             $coreRegistry,
-            $urlFactory,
             $customerSession,
+            $urlFactory,
             $customerFactory,
             $formFactory,
             $string,
