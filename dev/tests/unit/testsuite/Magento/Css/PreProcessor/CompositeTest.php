@@ -6,15 +6,13 @@
  * @license     {license_link}
  */
 
-namespace Magento\View\Asset\PreProcessor;
+namespace Magento\Css\PreProcessor;
 
 use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 class CompositeTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var \Magento\View\Asset\PreProcessor\Composite
-     */
+    /** @var \Magento\Css\PreProcessor\Composite */
     protected $composite;
 
     /** @var ObjectManagerHelper */
@@ -36,21 +34,13 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param array $params
-     * @param array $preProcessorsConfig
+     * @param array $preProcessors
      * @param array $createMap
      * @param string $expectedResult
      * @dataProvider processDataProvider
      */
-    public function testProcess($params, $preProcessorsConfig, $createMap, $expectedResult)
+    public function testProcess($params, $preProcessors, $createMap, $expectedResult)
     {
-        $this->composite = $this->objectManagerHelper->getObject(
-            'Magento\View\Asset\PreProcessor\Composite',
-            [
-                'preProcessorFactory' => $this->preProcessorFactoryMock,
-                'preProcessorsConfig' => $preProcessorsConfig
-            ]
-        );
-
         $targetDir = $this->getMock($params['targetDirectory'], array(), array(), '', false);
 
         foreach ($createMap as $className) {
@@ -69,6 +59,14 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
         $this->preProcessorFactoryMock->expects($this->any())
             ->method('create')
             ->will($this->returnCallback(array($this, 'createProcessor')));
+
+        $this->composite = $this->objectManagerHelper->getObject(
+            'Magento\Css\PreProcessor\Composite',
+            [
+                'preProcessorFactory' => $this->preProcessorFactoryMock,
+                'preProcessors' => $preProcessors
+            ]
+        );
 
         $result = $this->composite->process(
             $params['filePath'],
@@ -96,73 +94,61 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
     public function processDataProvider()
     {
         return [
-            'list of processors for css' => [
-                'params' => [
-                    'filePath' => '/some/file/path.css',
-                    'params' => ['theme' => 'some_theme', 'area' => 'frontend'],
-                    'targetDirectory' => 'Magento\Filesystem\Directory\WriteInterface',
-                    'sourcePath' => 'result_source_path'
-                ],
-                'preProcessorsConfig' => [
-                    'css_preprocessor' => [
-                        'class' => 'Magento\Css\PreProcessor\Composite',
-                        'asset_type' => 'css'
-                    ],
-                    'css_preprocessor2' => [
-                        'class' => 'Magento\Css\PreProcessor\Composite2',
-                        'asset_type' => 'css'
-                    ],
-                ],
-                'createMap' => [
-                    'Magento\Css\PreProcessor\Composite',
-                    'Magento\Css\PreProcessor\Composite2'
-                ],
-                'expectedResult' => 'result_source_path'
-            ],
-            'one processor for css' => [
+            'one processor - LESS' => [
                 'params' => [
                     'filePath' => '/some/file/path_one.css',
                     'params' => ['theme' => 'some_theme', 'area' => 'frontend'],
                     'targetDirectory' => 'Magento\Filesystem\Directory\WriteInterface',
                     'sourcePath' => 'result_source_path_one'
                 ],
-                'preProcessorsConfig' => [
-                    'css_preprocessor' => [
-                        'class' => 'Magento\Css\PreProcessor\Composite',
-                        'asset_type' => 'css'
-                    ],
+                'preProcessors' => [
+                    'css_source_processor' => 'Magento\Css\PreProcessor\Less',
                 ],
                 'createMap' => [
-                    'Magento\Css\PreProcessor\Composite',
+                    'Magento\Css\PreProcessor\Less',
                 ],
                 'expectedResult' => 'result_source_path_one'
             ],
-            'one processor for css with no result' => [
+            'list of pre-processors' => [
                 'params' => [
-                    'filePath' => '/some/file/path_one.css',
+                    'filePath' => '/some/file/path.css',
+                    'params' => ['theme' => 'some_theme', 'area' => 'frontend'],
+                    'targetDirectory' => 'Magento\Filesystem\Directory\WriteInterface',
+                    'sourcePath' => 'result_source_path_two'
+                ],
+                'preProcessors' => [
+                    'css_source_processor' => 'Magento\Css\PreProcessor\Less',
+                    'css_source_processor2' => 'Magento\Css\PreProcessor\Less2',
+                ],
+                'createMap' => [
+                    'Magento\Css\PreProcessor\Less',
+                    'Magento\Css\PreProcessor\Less2',
+                ],
+                'expectedResult' => 'result_source_path_two'
+            ],
+            'no result' => [
+                'params' => [
+                    'filePath' => '/some/file/path_other.css',
                     'params' => ['theme' => 'some_theme', 'area' => 'frontend'],
                     'targetDirectory' => 'Magento\Filesystem\Directory\WriteInterface',
                     'sourcePath' => null
                 ],
-                'preProcessorsConfig' => [
-                    'css_preprocessor' => [
-                        'class' => 'Magento\Css\PreProcessor\Composite',
-                        'asset_type' => 'css'
-                    ],
+                'preProcessors' => [
+                    'css_source_processor' => 'Magento\Css\PreProcessor\Less',
                 ],
                 'createMap' => [
-                    'Magento\Css\PreProcessor\Composite',
+                    'Magento\Css\PreProcessor\Less',
                 ],
                 'expectedResult' => null
             ],
             'no processors' => [
                 'params' => [
-                    'filePath' => '/some/file/path.css',
+                    'filePath' => '/some/file/some_path.css',
                     'params' => ['theme' => 'some_theme', 'area' => 'frontend'],
                     'targetDirectory' => 'Magento\Filesystem\Directory\WriteInterface',
                     'sourcePath' => null
                 ],
-                'preProcessorsConfig' => [],
+                'preProcessors' => [],
                 'createMap' => [],
                 'expectedResult' => null
             ],
