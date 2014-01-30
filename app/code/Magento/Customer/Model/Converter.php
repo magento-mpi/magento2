@@ -103,7 +103,12 @@ class Converter
 
         $attributes = $customer->getAttributes();
         foreach ($attributes as $attributeCode => $attributeValue) {
-            $customerModel->setData($attributeCode, $attributeValue);
+            // avoid setting password through set attribute
+            if ($attributeCode == 'password') {
+                continue;
+            } else {
+                $customerModel->setData($attributeCode, $attributeValue);
+            }
         }
 
         $customerId = $customer->getCustomerId();

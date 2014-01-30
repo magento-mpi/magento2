@@ -64,7 +64,6 @@ abstract class AbstractDtoBuilder
     public function populateWithArray(array $data)
     {
         $this->_data = $data;
-
         return $this;
     }
 
