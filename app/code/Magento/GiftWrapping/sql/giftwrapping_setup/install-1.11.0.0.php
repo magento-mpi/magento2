@@ -223,9 +223,7 @@ foreach ($entityAttributesCodes as $code => $type) {
 /**
  * Add gift wrapping attributes for catalog product entity
  */
-$types = $this->getProductType()->getOptionArray();
-unset($types['virtual'], $types['downloadable'], $types['grouped']);
-$applyTo = join(',', array_keys($types));
+$applyTo = join(',', $this->getRealProductTypes());
 
 $installer = $this->getCatalogSetup();
 

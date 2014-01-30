@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <service class="Magento\TestModule5\Service\V1\AllSoapAndRestInterface" baseUrl="/V1/TestModule5">
+        <rest-route httpMethod="GET" method="item" resources="Magento_TestModule5::resource1">/:id</rest-route>
+        <rest-route httpMethod="GET" method="items" resources="Magento_TestModule5::resource2"></rest-route>
+        <rest-route httpMethod="POST" method="create" resources="Magento_TestModule5::resource3"></rest-route>
+        <rest-route httpMethod="PUT" method="update" resources="Magento_TestModule5::resource1,Magento_TestModule5::resource2">/:id</rest-route>
+    </service>
+
+    <service class="Magento\TestModule5\Service\V2\AllSoapAndRestInterface" baseUrl="/V2/TestModule5">
+        <rest-route httpMethod="GET" method="item" resources="Magento_TestModule5::resource1">/:id</rest-route>
+        <rest-route httpMethod="GET" method="items" resources="Magento_TestModule5::resource2"></rest-route>
+        <rest-route httpMethod="POST" method="create" resources="Magento_TestModule5::resource3"></rest-route>
+        <rest-route httpMethod="PUT" method="update" resources="Magento_TestModule5::resource1,Magento_TestModule5::resource2">/:id</rest-route>
+        <rest-route httpMethod="DELETE" method="delete" resources="Magento_TestModule5::resource1">/:id</rest-route>
+    </service>
+</config>

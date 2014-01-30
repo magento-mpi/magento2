@@ -8,12 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Core\Model;
+
 /**
  * Store model
  *
- * @method \Magento\Core\Model\Resource\Store _getResource()
- * @method \Magento\Core\Model\Resource\Store getResource()
- * @method \Magento\Core\Model\Store setId(string $value)
  * @method \Magento\Core\Model\Store setCode(string $value)
  * @method \Magento\Core\Model\Store setWebsiteId(int $value)
  * @method \Magento\Core\Model\Store setGroupId(int $value)
@@ -23,9 +22,7 @@
  * @method \Magento\Core\Model\Store setSortOrder(int $value)
  * @method \Magento\Core\Model\Store setIsActive(int $value)
  */
-namespace Magento\Core\Model;
-
-class Store extends \Magento\Core\Model\AbstractModel implements \Magento\Url\ScopeInterface
+class Store extends AbstractModel implements \Magento\Url\ScopeInterface
 {
     /**
      * Entity name
@@ -60,19 +57,21 @@ class Store extends \Magento\Core\Model\AbstractModel implements \Magento\Url\Sc
     const XML_PATH_UNSECURE_BASE_MEDIA_URL  = 'web/unsecure/base_media_url';
     const XML_PATH_OFFLOADER_HEADER         = 'web/secure/offloader_header';
     const XML_PATH_PRICE_SCOPE              = 'catalog/price/scope';
-    /**#@- */
+    /**#@-*/
 
-    /**
+    /**#@+
      * Price scope constants
      */
     const PRICE_SCOPE_GLOBAL              = 0;
     const PRICE_SCOPE_WEBSITE             = 1;
+    /**#@-*/
 
-    /**
+    /**#@+
      * Code constants
      */
     const DEFAULT_CODE                    = 'default';
     const ADMIN_CODE                      = 'admin';
+    /**#@-*/
 
     /**
      * Cache tag
@@ -498,8 +497,7 @@ class Store extends \Magento\Core\Model\AbstractModel implements \Magento\Url\Sc
     public function getUrl($route = '', $params = array())
     {
         /** @var $url \Magento\UrlInterface */
-        $url = $this->getUrlModel()
-            ->setScope($this);
+        $url = $this->getUrlModel()->setScope($this);
         if ($this->_storeManager->getStore()->getId() != $this->getId()) {
             $params['_scope_to_url'] = true;
         }
@@ -582,9 +580,9 @@ class Store extends \Magento\Core\Model\AbstractModel implements \Magento\Url\Sc
                     throw new \InvalidArgumentException('Invalid base url type');
             }
 
-            if (false !== strpos($url, \Magento\Core\Model\Store::BASE_URL_PLACEHOLDER)) {
+            if (false !== strpos($url, self::BASE_URL_PLACEHOLDER)) {
                 $distroBaseUrl = $this->_request->getDistroBaseUrl();
-                $url = str_replace(\Magento\Core\Model\Store::BASE_URL_PLACEHOLDER, $distroBaseUrl, $url);
+                $url = str_replace(self::BASE_URL_PLACEHOLDER, $distroBaseUrl, $url);
             }
 
             $this->_baseUrlCache[$cacheKey] = rtrim($url, '/') . '/';
@@ -640,8 +638,8 @@ class Store extends \Magento\Core\Model\AbstractModel implements \Magento\Url\Sc
         if (!$this->getConfig(self::XML_PATH_USE_REWRITES)
             && $this->_coreFileStorageDatabase->checkDbUsage()
         ) {
-            return $this->getBaseUrl(\Magento\UrlInterface::URL_TYPE_WEB, $secure) . $filesystem->getUri(\Magento\App\Filesystem::PUB_DIR)
-            . '/' . self::MEDIA_REWRITE_SCRIPT;
+            return $this->getBaseUrl(\Magento\UrlInterface::URL_TYPE_WEB, $secure)
+                . $filesystem->getUri(\Magento\App\Filesystem::PUB_DIR) . '/' . self::MEDIA_REWRITE_SCRIPT;
         }
         return false;
     }
@@ -668,8 +666,8 @@ class Store extends \Magento\Core\Model\AbstractModel implements \Magento\Url\Sc
     public function isUseStoreInUrl()
     {
         return !($this->hasDisableStoreInUrl() && $this->getDisableStoreInUrl())
-        && $this->_appState->isInstalled()
-        && $this->getConfig(self::XML_PATH_STORE_IN_URL);
+            && $this->_appState->isInstalled()
+            && $this->getConfig(self::XML_PATH_STORE_IN_URL);
     }
 
     /**
@@ -750,8 +748,8 @@ class Store extends \Magento\Core\Model\AbstractModel implements \Magento\Url\Sc
      */
     public function getBaseCurrencyCode()
     {
-        $configValue = $this->getConfig(\Magento\Core\Model\Store::XML_PATH_PRICE_SCOPE);
-        if ($configValue == \Magento\Core\Model\Store::PRICE_SCOPE_GLOBAL) {
+        $configValue = $this->getConfig(self::XML_PATH_PRICE_SCOPE);
+        if ($configValue == self::PRICE_SCOPE_GLOBAL) {
             return \Magento\App\ObjectManager::getInstance()
                 ->get('Magento\Core\Model\App')->getBaseCurrencyCode();
         } else {
@@ -767,7 +765,7 @@ class Store extends \Magento\Core\Model\AbstractModel implements \Magento\Url\Sc
     public function getBaseCurrency()
     {
         $currency = $this->getData('base_currency');
-        if (is_null($currency)) {
+        if (null === $currency) {
             $currency = \Magento\App\ObjectManager::getInstance()->create('Magento\Directory\Model\Currency')
                 ->load($this->getBaseCurrencyCode());
             $this->setData('base_currency', $currency);
@@ -794,7 +792,7 @@ class Store extends \Magento\Core\Model\AbstractModel implements \Magento\Url\Sc
     public function getDefaultCurrency()
     {
         $currency = $this->getData('default_currency');
-        if (is_null($currency)) {
+        if (null === $currency) {
             $currency = \Magento\App\ObjectManager::getInstance()->create('Magento\Directory\Model\Currency')
                 ->load($this->getDefaultCurrencyCode());
             $this->setData('default_currency', $currency);
@@ -860,7 +858,7 @@ class Store extends \Magento\Core\Model\AbstractModel implements \Magento\Url\Sc
     public function getAvailableCurrencyCodes($skipBaseNotAllowed = false)
     {
         $codes = $this->getData('available_currency_codes');
-        if (is_null($codes)) {
+        if (null === $codes) {
             $codes = explode(',', $this->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_ALLOW));
             // add base currency, if it is not in allowed currencies
             $baseCurrencyCode = $this->getBaseCurrencyCode();
@@ -1018,7 +1016,7 @@ class Store extends \Magento\Core\Model\AbstractModel implements \Magento\Url\Sc
      */
     public function getGroup()
     {
-        if (is_null($this->getGroupId())) {
+        if (null === $this->getGroupId()) {
             return false;
         }
         return $this->_storeManager->getGroup($this->getGroupId());
@@ -1077,11 +1075,7 @@ class Store extends \Magento\Core\Model\AbstractModel implements \Magento\Url\Sc
     public function getCurrentUrl($fromStore = true)
     {
         $sidQueryParam = $this->_sidResolver->getSessionIdQueryParam($this->_getSession());
-        $requestString = $this->getUrlModel()->escape(ltrim(
-            \Magento\App\ObjectManager::getInstance()
-                ->get('Magento\Core\Model\App')->getRequest()->getRequestString(),
-            '/'
-        ));
+        $requestString = $this->getUrlModel()->escape(ltrim($this->_request->getRequestString(), '/'));
 
         $storeUrl = $this->_storeManager->getStore()->isCurrentlySecure()
             ? $this->getUrl('', array('_secure' => true))
@@ -1105,8 +1099,8 @@ class Store extends \Magento\Core\Model\AbstractModel implements \Magento\Url\Sc
             unset($currQuery[$sidQueryParam]);
         }
 
-        foreach ($currQuery as $k => $v) {
-            $storeParsedQuery[$k] = $v;
+        foreach ($currQuery as $key => $value) {
+            $storeParsedQuery[$key] = $value;
         }
 
         if (!$this->isUseStoreInUrl()) {
@@ -1119,9 +1113,9 @@ class Store extends \Magento\Core\Model\AbstractModel implements \Magento\Url\Sc
         }
 
         return $storeParsedUrl['scheme'] . '://' . $storeParsedUrl['host']
-        . (isset($storeParsedUrl['port']) ? ':' . $storeParsedUrl['port'] : '')
-        . $storeParsedUrl['path'] . $requestString
-        . ($storeParsedQuery ? '?'.http_build_query($storeParsedQuery, '', '&amp;') : '');
+            . (isset($storeParsedUrl['port']) ? ':' . $storeParsedUrl['port'] : '')
+            . $storeParsedUrl['path'] . $requestString
+            . ($storeParsedQuery ? '?'.http_build_query($storeParsedQuery, '', '&amp;') : '');
     }
 
     /**
@@ -1221,7 +1215,7 @@ class Store extends \Magento\Core\Model\AbstractModel implements \Magento\Url\Sc
      */
     public function getFrontendName()
     {
-        if (is_null($this->_frontendName)) {
+        if (null === $this->_frontendName) {
             $storeGroupName = (string) $this->_coreStoreConfig->getConfig('general/store_information/name', $this);
             $this->_frontendName = (!empty($storeGroupName)) ? $storeGroupName : $this->getGroup()->getName();
         }

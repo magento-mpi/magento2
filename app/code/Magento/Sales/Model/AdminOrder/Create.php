@@ -144,6 +144,11 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     protected $messageManager;
 
     /**
+     * @var Product\Quote\Initializer
+     */
+    protected $quoteInitializer;
+
+    /**
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\Registry $coreRegistry
@@ -152,6 +157,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      * @param \Magento\Logger $logger
      * @param \Magento\Object\Copy $objectCopyService
      * @param \Magento\Message\ManagerInterface $messageManager
+     * @param Product\Quote\Initializer $quoteInitializer
      * @param array $data
      */
     public function __construct(
@@ -163,6 +169,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         \Magento\Logger $logger,
         \Magento\Object\Copy $objectCopyService,
         \Magento\Message\ManagerInterface $messageManager,
+        Product\Quote\Initializer $quoteInitializer,
         array $data = array()
     ) {
         $this->_objectManager = $objectManager;
@@ -171,6 +178,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         $this->_salesConfig = $salesConfig;
         $this->_logger = $logger;
         $this->_objectCopyService = $objectCopyService;
+        $this->quoteInitializer = $quoteInitializer;
         parent::__construct($data);
         $this->_session = $sessionQuote;
         $this->messageManager = $messageManager;
@@ -801,30 +809,10 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
             }
         }
 
-        $stockItem = $product->getStockItem();
-        if ($stockItem && $stockItem->getIsQtyDecimal()) {
-            $product->setIsQtyDecimal(1);
-        } else {
-            $config->setQty((int) $config->getQty());
-        }
+        $item = $this->quoteInitializer->init($this->getQuote(), $product, $config);
 
-        $product->setCartQty($config->getQty());
-        $item = $this->getQuote()->addProductAdvanced(
-            $product,
-            $config,
-            \Magento\Catalog\Model\Product\Type\AbstractType::PROCESS_MODE_FULL
-        );
         if (is_string($item)) {
-            if ($product->getTypeId() != \Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE) {
-                $item = $this->getQuote()->addProductAdvanced(
-                    $product,
-                    $config,
-                    \Magento\Catalog\Model\Product\Type\AbstractType::PROCESS_MODE_LITE
-                );
-            }
-            if (is_string($item)) {
-                throw new \Magento\Core\Exception($item);
-            }
+            throw new \Magento\Core\Exception($item);
         }
         $item->checkData();
 

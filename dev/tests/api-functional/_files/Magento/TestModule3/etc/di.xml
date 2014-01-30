@@ -8,5 +8,5 @@
  */
 -->
 <config>
-    <preference for="Magento\TestModule3\Service\ErrorV1Interface" type="Magento\TestModule3\Service\ErrorV1" />
+    <preference for="Magento\TestModule3\Service\V1\ErrorInterface" type="Magento\TestModule3\Service\V1\Error" />
 </config>

@@ -153,11 +153,12 @@ class View implements ViewInterface
      * Add layout updates handles associated with the action page
      *
      * @param array|null $parameters page parameters
+     * @param string|null $defaultHandle
      * @return bool
      */
-    public function addPageLayoutHandles(array $parameters = array())
+    public function addPageLayoutHandles(array $parameters = array(), $defaultHandle = null)
     {
-        $handle = $this->getDefaultLayoutHandle();
+        $handle = $defaultHandle ? $defaultHandle : $this->getDefaultLayoutHandle();
         $pageHandles = array($handle);
         foreach ($parameters as $key => $value) {
             $pageHandles[] = $handle . '_' . $key . '_' . $value;
