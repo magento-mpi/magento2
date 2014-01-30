@@ -148,14 +148,19 @@ class Category extends \Magento\Catalog\Model\AbstractModel
     protected $_categoryTreeFactory;
 
     /**
-     * @var Indexer\Category\Flat\Config
+     * @var Indexer\Category\Flat\State
      */
-    protected $flatConfig;
+    protected $flatState;
 
     /**
      * @var \Magento\Indexer\Model\IndexerInterface
      */
     protected $flatIndexer;
+
+    /**
+     * @var \Magento\Index\Model\Indexer
+     */
+    protected $indexIndexer;
 
     /**
      * @param \Magento\Core\Model\Context $context
@@ -169,8 +174,9 @@ class Category extends \Magento\Catalog\Model\AbstractModel
      * @param \Magento\UrlInterface $url
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
      * @param \Magento\Catalog\Model\Config $catalogConfig
+     * @param \Magento\Index\Model\Indexer $indexIndexer
      * @param \Magento\Filter\FilterManager $filter
-     * @param Indexer\Category\Flat\Config $flatConfig
+     * @param Indexer\Category\Flat\State $flatState
      * @param \Magento\Indexer\Model\IndexerInterface $flatIndexer
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -188,8 +194,9 @@ class Category extends \Magento\Catalog\Model\AbstractModel
         \Magento\UrlInterface $url,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
         \Magento\Catalog\Model\Config $catalogConfig,
+        \Magento\Index\Model\Indexer $indexIndexer,
         \Magento\Filter\FilterManager $filter,
-        Indexer\Category\Flat\Config $flatConfig,
+        Indexer\Category\Flat\State $flatState,
         \Magento\Indexer\Model\IndexerInterface $flatIndexer,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
@@ -203,8 +210,9 @@ class Category extends \Magento\Catalog\Model\AbstractModel
         $this->_url = $url;
         $this->_productCollectionFactory = $productCollectionFactory;
         $this->_catalogConfig = $catalogConfig;
+        $this->indexIndexer = $indexIndexer;
         $this->filter = $filter;
-        $this->flatConfig = $flatConfig;
+        $this->flatState = $flatState;
         $this->flatIndexer = $flatIndexer;
         parent::__construct($context, $registry, $storeManager, $resource, $resourceCollection, $data);
     }
@@ -216,8 +224,8 @@ class Category extends \Magento\Catalog\Model\AbstractModel
      */
     protected function _construct()
     {
-        // If Flat Data enabled then use it but only on frontend
-        if ($this->flatConfig->isFlatEnabled() && $this->getFlatIndexer()->isValid()) {
+        // If Flat Index enabled then use it but only on frontend
+        if ($this->flatState->isAvailable()) {
             $this->_init('Magento\Catalog\Model\Resource\Category\Flat');
             $this->_useFlatResource = true;
         } else {
@@ -233,7 +241,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
     protected function getFlatIndexer()
     {
         if (!$this->flatIndexer->getId()) {
-            $this->flatIndexer->load(Indexer\Category\Flat\Config::INDEXER_ID);
+            $this->flatIndexer->load(Indexer\Category\Flat\State::INDEXER_ID);
         }
         return $this->flatIndexer;
     }
@@ -343,7 +351,10 @@ class Category extends \Magento\Catalog\Model\AbstractModel
             throw $e;
         }
         $this->_eventManager->dispatch('category_move', $eventParams);
-        if ($this->flatConfig->isFlatEnabled() && !$this->getFlatIndexer()->isScheduled()) {
+        $this->indexIndexer->processEntityAction(
+            $this, self::ENTITY, \Magento\Index\Model\Event::TYPE_SAVE
+        );
+        if ($this->flatState->isFlatEnabled() && !$this->getFlatIndexer()->isScheduled()) {
             $this->getFlatIndexer()->reindexList(array($this->getId(), $oldParentId, $parentId));
         }
         $this->_cacheManager->clean(array(self::CACHE_TAG));
@@ -1008,6 +1019,9 @@ class Category extends \Magento\Catalog\Model\AbstractModel
     protected function _afterSave()
     {
         $result = parent::_afterSave();
+        $this->indexIndexer->processEntityAction(
+            $this, self::ENTITY, \Magento\Index\Model\Event::TYPE_SAVE
+        );
         $this->_getResource()->addCommitCallback(array($this, 'reindex'));
         return $result;
     }
@@ -1017,7 +1031,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
      */
     public function reindex()
     {
-        if ($this->flatConfig->isFlatEnabled() && !$this->getFlatIndexer()->isScheduled()) {
+        if ($this->flatState->isFlatEnabled() && !$this->getFlatIndexer()->isScheduled()) {
             $this->getFlatIndexer()->reindexRow($this->getId());
         }
     }

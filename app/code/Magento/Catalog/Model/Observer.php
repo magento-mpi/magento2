@@ -11,7 +11,7 @@ namespace Magento\Catalog\Model;
 class Observer
 {
     /**
-     * @var Indexer\Category\Flat\Config
+     * @var Indexer\Category\Flat\State
      */
     protected $categoryFlatConfig;
 
@@ -92,7 +92,7 @@ class Observer
      * @param \Magento\Index\Model\Indexer $indexIndexer
      * @param \Magento\Catalog\Helper\Category $catalogCategory
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param Indexer\Category\Flat\Config $categoryFlatConfig
+     * @param Indexer\Category\Flat\State $categoryFlatConfig
      * @param \Magento\Core\Model\Config $coreConfig
      * @param \Magento\Catalog\Model\Resource\ProductFactory $productResourceFactory
      */
@@ -105,7 +105,7 @@ class Observer
         \Magento\Index\Model\Indexer $indexIndexer,
         \Magento\Catalog\Helper\Category $catalogCategory,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Catalog\Model\Indexer\Category\Flat\Config $categoryFlatConfig,
+        \Magento\Catalog\Model\Indexer\Category\Flat\State $categoryFlatConfig,
         \Magento\Core\Model\Config $coreConfig,
         \Magento\Catalog\Model\Resource\ProductFactory $productResourceFactory
     ) {

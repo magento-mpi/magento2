@@ -50,8 +50,12 @@ class Mode extends \Magento\Core\Model\Config\Value
     protected function _afterSave()
     {
         if ($this->isValueChanged() && $this->getValue()) {
-            $this->flatIndexer->load(\Magento\Catalog\Model\Indexer\Category\Flat\Config::INDEXER_ID);
-            $this->flatIndexer->setInvalid();
+            $this->flatIndexer->load(\Magento\Catalog\Model\Indexer\Category\Flat\State::INDEXER_ID);
+            if ($this->getValue()) {
+                $this->flatIndexer->invalidate();
+            } else {
+                $this->flatIndexer->setScheduled(false);
+            }
         }
         return $this;
     }

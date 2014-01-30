@@ -70,14 +70,9 @@ class Navigation extends \Magento\View\Element\Template
     protected $_productCollectionFactory;
 
     /**
-     * @var \Magento\Core\Model\Config
+     * @var \Magento\Catalog\Model\Indexer\Category\Flat\State
      */
-    protected $flatConfig;
-
-    /**
-     * @var \Magento\Indexer\Model\IndexerInterface
-     */
-    protected $flatIndexer;
+    protected $flatState;
 
     /**
      * @param \Magento\View\Element\Template\Context $context
@@ -87,8 +82,7 @@ class Navigation extends \Magento\View\Element\Template
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Catalog\Helper\Category $catalogCategory
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Catalog\Model\Indexer\Category\Flat\Config $flatConfig
-     * @param \Magento\Indexer\Model\IndexerInterface $flatIndexer
+     * @param \Magento\Catalog\Model\Indexer\Category\Flat\State $flatState
      * @param array $data
      */
     public function __construct(
@@ -99,8 +93,7 @@ class Navigation extends \Magento\View\Element\Template
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Catalog\Helper\Category $catalogCategory,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Catalog\Model\Indexer\Category\Flat\Config $flatConfig,
-        \Magento\Indexer\Model\IndexerInterface $flatIndexer,
+        \Magento\Catalog\Model\Indexer\Category\Flat\State $flatState,
         array $data = array()
     ) {
         $this->_productCollectionFactory = $productCollectionFactory;
@@ -108,8 +101,7 @@ class Navigation extends \Magento\View\Element\Template
         $this->_customerSession = $customerSession;
         $this->_catalogCategory = $catalogCategory;
         $this->_registry = $registry;
-        $this->flatConfig = $flatConfig;
-        $this->flatIndexer = $flatIndexer;
+        $this->flatState = $flatState;
         $this->_categoryInstance = $categoryFactory->create();
         parent::__construct($context, $data);
     }
@@ -123,19 +115,6 @@ class Navigation extends \Magento\View\Element\Template
                 \Magento\Core\Model\Store\Group::CACHE_TAG
             ),
         ));
-    }
-
-    /**
-     * Return own indexer object
-     *
-     * @return \Magento\Indexer\Model\IndexerInterface
-     */
-    protected function getFlatIndexer()
-    {
-        if (!$this->flatIndexer->getId()) {
-            $this->flatIndexer->load(\Magento\Catalog\Model\Indexer\Category\Flat\Config::INDEXER_ID);
-        }
-        return $this->flatIndexer;
     }
 
     /**
@@ -301,7 +280,7 @@ class Navigation extends \Magento\View\Element\Template
         }
 
         // get all children
-        if ($this->flatConfig->isFlatEnabled() && $this->getFlatIndexer()->isValid()) {
+        if ($this->flatState->isAvailable()) {
             $children = (array)$category->getChildrenNodes();
         } else {
             $children = $category->getChildren();

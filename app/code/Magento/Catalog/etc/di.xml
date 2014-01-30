@@ -148,8 +148,10 @@
     <type name="Magento\Core\Model\Resource\Website">
         <plugin name="storeGroupResourceAroundSave" type="Magento\Catalog\Model\Indexer\Category\Flat\Plugin\Website"/>
     </type>
-    <type name="Magento\Core\Model\Resource\Config\Data">
-        <plugin name="systemConfigSaveAround" type="Magento\Catalog\Model\Indexer\Category\Flat\Plugin\SystemConfig"/>
+    <type name="Magento\Catalog\Model\Indexer\Category\Flat\Plugin\AbstractStore">
+        <param name="indexer">
+            <instance type="Magento\Indexer\Model\IndexerInterface" shared="false"/>
+        </param>
     </type>
     <type name="Magento\Catalog\Model\Indexer\Category\Flat\Plugin\AbstractStore">
         <param name="flatResource">
