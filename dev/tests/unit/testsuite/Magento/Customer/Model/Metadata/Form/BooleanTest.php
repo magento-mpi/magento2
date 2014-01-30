@@ -1,6 +1,6 @@
 <?php
 /**
- * test Magento\Customer\Model\Model\Metadata\Form\Boolean
+ * test Magento\Customer\Model\Metadata\Form\Boolean
  *
  * {license_notice}
  *

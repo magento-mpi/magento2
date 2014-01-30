@@ -1,6 +1,6 @@
 <?php
 /**
- * test Magento\Customer\Model\Model\Metadata\Form\Text
+ * test Magento\Customer\Model\Metadata\Form\Text
  *
  * {license_notice}
  *
