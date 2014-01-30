@@ -38,8 +38,8 @@ class DefaultInvoice extends \Magento\Sales\Model\Order\Pdf\Items\AbstractItems
         \Magento\Core\Model\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\App\Filesystem $filesystem,
-        \Magento\Stdlib\String $string,
         \Magento\Filter\FilterManager $filterManager,
+        \Magento\Stdlib\String $string,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
