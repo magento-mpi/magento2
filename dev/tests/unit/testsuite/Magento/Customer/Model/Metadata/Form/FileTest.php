@@ -20,7 +20,7 @@ class FileTest extends AbstractFormTestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Core\Model\File\Validator\NotProtectedExtension */
     protected $fileValidatorMock;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Filesystem */
+    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\App\Filesystem */
     protected $fileSystemMock;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\App\RequestInterface */
@@ -35,7 +35,7 @@ class FileTest extends AbstractFormTestCase
         $this->fileValidatorMock = $this->getMockBuilder('Magento\Core\Model\File\Validator\NotProtectedExtension')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->fileSystemMock = $this->getMockBuilder('Magento\Filesystem')
+        $this->fileSystemMock = $this->getMockBuilder('Magento\App\Filesystem')
             ->disableOriginalConstructor()
             ->getMock();
         $this->requestMock = $this->getMockBuilder('Magento\App\RequestInterface')
@@ -304,7 +304,7 @@ class FileTest extends AbstractFormTestCase
      *
      * @param string|int|bool|null $value The value undergoing testing by a given test
      * @param bool $isAjax
-     * @return File
+     * @return \PHPUnit_Framework_MockObject_MockObject | File
      */
     protected function getClass($value, $isAjax)
     {
