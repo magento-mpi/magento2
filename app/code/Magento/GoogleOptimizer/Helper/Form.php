@@ -9,7 +9,7 @@
  */
 namespace Magento\GoogleOptimizer\Helper;
 
-use Magento\GoogleOptimizer\Model\Code;
+use Magento\GoogleOptimizer\Model\Code as ModelCode;
 use Magento\Data\Form as DataForm;
 
 class Form extends \Magento\App\Helper\AbstractHelper
@@ -23,7 +23,7 @@ class Form extends \Magento\App\Helper\AbstractHelper
      */
     public function addGoogleoptimizerFields(
         DataForm $form,
-        Code $experimentCodeModel = null
+        ModelCode $experimentCodeModel = null
     ) {
         $fieldset = $form->addFieldset('googleoptimizer_fields', array(
             'legend' => __('Google Analytics Content Experiments Code'),
