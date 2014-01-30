@@ -32,7 +32,7 @@ class SiteVerification extends \Magento\View\Element\AbstractBlock
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      *
      * @return string
      */

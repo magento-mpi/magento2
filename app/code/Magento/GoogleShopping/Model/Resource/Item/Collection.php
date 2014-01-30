@@ -57,6 +57,9 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_init('Magento\GoogleShopping\Model\Item', 'Magento\GoogleShopping\Model\Resource\Item');
@@ -65,7 +68,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Init collection select
      *
-     * @return \Magento\GoogleShopping\Model\Resource\Item\Collection
+     * @return $this
      */
     protected function _initSelect()
     {

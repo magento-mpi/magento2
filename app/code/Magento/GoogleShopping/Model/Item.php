@@ -91,7 +91,9 @@ class Item extends \Magento\Core\Model\AbstractModel
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
-
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -115,7 +117,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      * Set Service Item Instance
      *
      * @param \Magento\GoogleShopping\Model\Service\Item $service
-     * @return \Magento\GoogleShopping\Model\Item
+     * @return $this
      */
     public function setServiceItem($service)
     {
@@ -137,7 +139,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      * Save item to Google Content
      *
      * @param CatalogModelProduct $product
-     * @return \Magento\GoogleShopping\Model\Item
+     * @return $this
      */
     public function insertItem(CatalogModelProduct $product)
     {
@@ -152,7 +154,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Update Item data
      *
-     * @return \Magento\GoogleShopping\Model\Item
+     * @return $this
      */
     public function updateItem()
     {
@@ -166,7 +168,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Delete Item from Google Content
      *
-     * @return \Magento\GoogleShopping\Model\Item
+     * @return $this
      */
     public function deleteItem()
     {
@@ -178,7 +180,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      * Load Item Model by Product
      *
      * @param CatalogModelProduct $product
-     * @return \Magento\GoogleShopping\Model\Item
+     * @return $this
      */
     public function loadByProduct($product)
     {

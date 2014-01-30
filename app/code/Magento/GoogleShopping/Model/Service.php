@@ -90,7 +90,7 @@ class Service extends \Magento\Object
      * @param int $storeId
      * @param string $loginToken
      * @param string $loginCaptcha
-     * @throws \Magento\Core\Exception on http connection failure
+     * @throws \Magento\Core\Exception On http connection failure
      * @return \Zend_Http_Client
      */
     public function getClient($storeId = null, $loginToken = null, $loginCaptcha = null)
@@ -126,7 +126,7 @@ class Service extends \Magento\Object
      * Set Google Content Client Instance
      *
      * @param \Zend_Http_Client $client
-     * @return \Magento\GoogleShopping\Model\Service
+     * @return $this
      */
     public function setClient($client)
     {
@@ -159,7 +159,7 @@ class Service extends \Magento\Object
      * Set Google Content Service Instance
      *
      * @param \Magento\Gdata\Gshopping\Content $service
-     * @return \Magento\GoogleShopping\Model\Service
+     * @return $this
      */
     public function setService($service)
     {

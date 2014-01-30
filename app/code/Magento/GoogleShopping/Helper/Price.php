@@ -119,6 +119,7 @@ class Price
      *
      * @param CatalogModelProduct $product
      * @param null|Store $store
+     * @return float|null
      */
     public function getCatalogRegularPrice(CatalogModelProduct $product, $store = null)
     {

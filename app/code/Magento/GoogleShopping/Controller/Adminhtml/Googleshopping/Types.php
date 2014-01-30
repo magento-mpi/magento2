@@ -57,7 +57,7 @@ class Types extends \Magento\Backend\App\Action
     /**
      * Initialize attribute set mapping object
      *
-     * @return \Magento\GoogleShopping\Controller\Adminhtml\Googleshopping\Types
+     * @return $this
      */
     protected function _initItemType()
     {
@@ -75,7 +75,7 @@ class Types extends \Magento\Backend\App\Action
     /**
      * Initialize general settings for action
      *
-     * @return  \Magento\GoogleShopping\Controller\Adminhtml\Googleshopping\Items
+     * @return $this
      */
     protected function _initAction()
     {

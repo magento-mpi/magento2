@@ -82,7 +82,7 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Before rendering html, but after trying to load cache
      *
-     * @return \Magento\GoogleShopping\Block\Adminhtml\Items\Product
+     * @return $this
      */
     protected function _beforeToHtml()
     {
@@ -97,7 +97,7 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare grid collection object
      *
-     * @return \Magento\GoogleShopping\Block\Adminhtml\Items\Product
+     * @return $this
      */
     protected function _prepareCollection()
     {
@@ -125,7 +125,7 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare grid columns
      *
-     * @return \Magento\GoogleShopping\Block\Adminhtml\Items\Product
+     * @return $this
      */
     protected function _prepareColumns()
     {
@@ -185,7 +185,7 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare grid massaction actions
      *
-     * @return \Magento\GoogleShopping\Block\Adminhtml\Items\Product
+     * @return $this
      */
     protected function _prepareMassaction()
     {
