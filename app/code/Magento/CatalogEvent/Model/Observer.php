@@ -14,9 +14,7 @@ namespace Magento\CatalogEvent\Model;
 use Magento\Catalog\Model\Category;
 use Magento\Catalog\Model\Product;
 use Magento\CatalogEvent\Helper\Data;
-use Magento\CatalogEvent\Model\Resource\EventFactory;
 use Magento\CatalogEvent\Model\Resource\Event\Collection as EventCollection;
-use Magento\CatalogEvent\Model\Resource\Event\CollectionFactory;
 use Magento\Core\Model\Registry;
 use Magento\Core\Model\StoreManagerInterface;
 use Magento\Data\Collection;
@@ -57,14 +55,14 @@ class Observer
     /**
      * Event collection factory
      *
-     * @var CollectionFactory
+     * @var \Magento\CatalogEvent\Model\Resource\Event\CollectionFactory
      */
     protected $_eventCollectionFactory;
 
     /**
      * Event model factory
      *
-     * @var EventFactory
+     * @var \Magento\CatalogEvent\Model\Resource\EventFactory
      */
     protected $_eventFactory;
 
@@ -74,15 +72,15 @@ class Observer
      * @param Data $catalogEventData
      * @param Registry $coreRegistry
      * @param StoreManagerInterface $storeManager
-     * @param CollectionFactory $eventCollectionFactory
-     * @param EventFactory $eventFactory
+     * @param \Magento\CatalogEvent\Model\Resource\Event\CollectionFactory $eventCollectionFactory
+     * @param \Magento\CatalogEvent\Model\Resource\EventFactory $eventFactory
      */
     public function __construct(
         Data $catalogEventData,
         Registry $coreRegistry,
         StoreManagerInterface $storeManager,
-        CollectionFactory $eventCollectionFactory,
-        EventFactory $eventFactory
+        \Magento\CatalogEvent\Model\Resource\Event\CollectionFactory $eventCollectionFactory,
+        \Magento\CatalogEvent\Model\Resource\EventFactory $eventFactory
     ) {
         $this->_catalogEventData = $catalogEventData;
         $this->_coreRegistry = $coreRegistry;
