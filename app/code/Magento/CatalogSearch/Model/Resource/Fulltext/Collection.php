@@ -119,7 +119,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * Add search query filter
      *
      * @param string $query
-     * @return \Magento\CatalogSearch\Model\Resource\Fulltext\Collection
+     * @return $this
      */
     public function addSearchFilter($query)
     {
@@ -142,7 +142,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      *
      * @param string $attribute
      * @param string $dir
-     * @return \Magento\CatalogSearch\Model\Resource\Fulltext\Collection
+     * @return $this
      */
     public function setOrder($attribute, $dir = 'desc')
     {
@@ -157,7 +157,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     /**
      * Stub method for campatibility with other search engines
      *
-     * @return \Magento\CatalogSearch\Model\Resource\Fulltext\Collection
+     * @return $this
      */
     public function setGeneralDefaultQuery()
     {

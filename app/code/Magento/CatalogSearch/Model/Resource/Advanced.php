@@ -51,6 +51,8 @@ class Advanced extends \Magento\Core\Model\Resource\Db\AbstractDb
 
     /**
      * Initialize connection and define catalog product table as main table
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -89,7 +91,7 @@ class Advanced extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
      * @param string|array $value
      * @param \Magento\CatalogSearch\Model\Resource\Advanced\Collection $collection
-     * @return mixed
+     * @return string|array
      */
     public function prepareCondition($attribute, $value, $collection)
     {

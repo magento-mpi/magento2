@@ -9,6 +9,8 @@
  */
 namespace Magento\CatalogSearch\Model\Resource\Advanced;
 
+use Magento\Core\Exception;
+
 /**
  * Collection Advanced
  *
@@ -99,8 +101,8 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * Add not indexable fields to search
      *
      * @param array $fields
-     * @return \Magento\CatalogSearch\Model\Resource\Advanced\Collection
-     * @throws \Magento\Core\Exception
+     * @return $this
+     * @throws Exception
      */
     public function addFieldsToFilter($fields)
     {
@@ -156,7 +158,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
                             $invalidDateMessage = __('Please specify correct data.');
                             if ($conditionValue['from']) {
                                 if (!\Zend_Date::isDate($conditionValue['from'])) {
-                                    throw new \Magento\Core\Exception($invalidDateMessage);
+                                    throw new Exception($invalidDateMessage);
                                 }
                                 if (!is_numeric($conditionValue['from'])){
                                     $conditionValue['from'] = $this->_date->gmtDate(null, $conditionValue['from']);
@@ -168,7 +170,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
                             }
                             if ($conditionValue['to']) {
                                 if (!\Zend_Date::isDate($conditionValue['to'])) {
-                                    throw new \Magento\Core\Exception($invalidDateMessage);
+                                    throw new Exception($invalidDateMessage);
                                 }
                                 if (!is_numeric($conditionValue['to'])){
                                     $conditionValue['to'] = $this->_date->gmtDate(null, $conditionValue['to']);

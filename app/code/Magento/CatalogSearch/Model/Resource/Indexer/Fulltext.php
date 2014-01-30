@@ -20,6 +20,8 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize connection and define catalog product table as main table
+     *
+     * @return void
      */
     protected function _construct()
     {

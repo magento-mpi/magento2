@@ -68,6 +68,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
 
     /**
      * Init model for collection
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -78,7 +80,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Set Store ID for filter
      *
      * @param Store|int $store
-     * @return Collection
+     * @return $this
      */
     public function setStoreId($store)
     {
@@ -103,7 +105,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Set search query text to filter
      *
      * @param string $query
-     * @return Collection
+     * @return $this
      */
     public function setQueryFilter($query)
     {
@@ -128,7 +130,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Set Popular Search Query Filter
      *
      * @param int|array $storeIds
-     * @return Collection
+     * @return $this
      */
     public function setPopularQueryFilter($storeIds = null)
     {
@@ -160,7 +162,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Set Recent Queries Order
      *
-     * @return Collection
+     * @return $this
      */
     public function setRecentQueryFilter()
     {
@@ -172,7 +174,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Filter collection by specified store ids
      *
      * @param array|int $storeIds
-     * @return Collection
+     * @return $this
      */
     public function addStoreFilter($storeIds)
     {

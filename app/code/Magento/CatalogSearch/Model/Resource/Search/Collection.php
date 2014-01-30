@@ -113,7 +113,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * Add search query filter
      *
      * @param string $query
-     * @return \Magento\CatalogSearch\Model\Resource\Search\Collection
+     * @return $this
      */
     public function addSearchFilter($query)
     {

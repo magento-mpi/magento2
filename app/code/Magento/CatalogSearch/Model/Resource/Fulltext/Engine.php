@@ -98,6 +98,8 @@ class Engine extends \Magento\Core\Model\Resource\Db\AbstractDb
 
     /**
      * Init resource model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -111,7 +113,7 @@ class Engine extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param int $storeId
      * @param array $index
      * @param string $entity 'product'|'cms'
-     * @return \Magento\CatalogSearch\Model\Resource\Fulltext\Engine
+     * @return $this
      */
     public function saveEntityIndex($entityId, $storeId, $index, $entity = 'product')
     {
@@ -129,7 +131,7 @@ class Engine extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param int $storeId
      * @param array $entityIndexes
      * @param string $entity 'product'|'cms'
-     * @return \Magento\CatalogSearch\Model\Resource\Fulltext\Engine
+     * @return $this
      */
     public function saveEntityIndexes($storeId, $entityIndexes, $entity = 'product')
     {
@@ -176,7 +178,7 @@ class Engine extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param int $storeId
      * @param int $entityId
      * @param string $entity 'product'|'cms'
-     * @return \Magento\CatalogSearch\Model\Resource\Fulltext\Engine
+     * @return $this
      */
     public function cleanIndex($storeId = null, $entityId = null, $entity = 'product')
     {

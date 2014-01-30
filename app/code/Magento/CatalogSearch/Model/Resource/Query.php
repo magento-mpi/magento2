@@ -9,6 +9,8 @@
  */
 namespace Magento\CatalogSearch\Model\Resource;
 
+use Magento\Core\Model\Resource\Db\AbstractDb;
+
 /**
  * Catalog search query resource model
  *
@@ -16,7 +18,7 @@ namespace Magento\CatalogSearch\Model\Resource;
  * @package     Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Query extends \Magento\Core\Model\Resource\Db\AbstractDb
+class Query extends AbstractDb
 {
     /**
      * Date
@@ -47,6 +49,8 @@ class Query extends \Magento\Core\Model\Resource\Db\AbstractDb
 
     /**
      * Init resource data
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -58,7 +62,7 @@ class Query extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param \Magento\Core\Model\AbstractModel $object
      * @param string $value
-     * @return \Magento\CatalogSearch\Model\Resource\Query
+     * @return $this
      */
     public function loadByQuery(\Magento\Core\Model\AbstractModel $object, $value)
     {
@@ -82,7 +86,7 @@ class Query extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param \Magento\Core\Model\AbstractModel $object
      * @param string $value
-     * @return \Magento\CatalogSearch\Model\Resource\Query
+     * @return $this
      */
     public function loadByQueryText(\Magento\Core\Model\AbstractModel $object, $value)
     {
@@ -105,7 +109,7 @@ class Query extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param \Magento\Core\Model\AbstractModel $object
      * @param int|string $value
      * @param null|string $field
-     * @return \Magento\CatalogSearch\Model\Resource\Query
+     * @return $this|AbstractDb
      */
     public function load(\Magento\Core\Model\AbstractModel $object, $value, $field = null)
     {
@@ -119,7 +123,7 @@ class Query extends \Magento\Core\Model\Resource\Db\AbstractDb
 
     /**
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\CatalogSearch\Model\Resource\Query
+     * @return $this
      */
     public function _beforeSave(\Magento\Core\Model\AbstractModel $object)
     {
