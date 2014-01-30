@@ -199,7 +199,6 @@ abstract class AbstractItems extends \Magento\Sales\Model\Order\Pdf\Items\Abstra
     public function getOrderOptions($item = null)
     {
         $result = array();
-
         $options = $this->getOrderItem()->getProductOptions();
         if ($options) {
             if (isset($options['options'])) {
@@ -241,7 +240,7 @@ abstract class AbstractItems extends \Magento\Sales\Model\Order\Pdf\Items\Abstra
         if (!$this->isShipmentSeparately($item)) {
             $attributes = $this->getSelectionAttributes($item);
             if ($attributes) {
-                $result =  $this->filterManager->sprintf($attributes['qty'], '%d') . ' x ' . $result;
+                $result =  $this->filterManager->sprintf($attributes['qty'], array('format' => '%d')) . ' x ' . $result;
             }
         }
         if (!$this->isChildCalculated($item)) {

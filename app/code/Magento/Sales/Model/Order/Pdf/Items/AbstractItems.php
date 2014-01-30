@@ -242,7 +242,7 @@ abstract class AbstractItems extends \Magento\Core\Model\AbstractModel
         $resultValue = '';
         if (is_array($value)) {
             if (isset($value['qty'])) {
-                $resultValue .= $this->filterManager->sprintf($value['qty'], '%d') . ' x ';
+                $resultValue .= $this->filterManager->sprintf($value['qty'], array('format' => '%d')) . ' x ';
             }
 
             $resultValue .= $value['title'];
