@@ -19,9 +19,9 @@ interface PreProcessorInterface
      *
      * @param string $filePath
      * @param array $params
-     * @param null|string $content
+     * @param \Magento\Filesystem\Directory\WriteInterface $targetDirectory
      * @param string|null $sourcePath
      * @return string
      */
-    public function process($filePath, $params, $content, $sourcePath = null);
+    public function process($filePath, $params, $targetDirectory, $sourcePath = null);
 }

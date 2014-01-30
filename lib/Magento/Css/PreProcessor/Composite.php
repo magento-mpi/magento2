@@ -38,6 +38,13 @@ class Composite implements PreProcessorInterface
         $this->preProcessors = $this->preparePreProcessors($preProcessors);
     }
 
+    /**
+     * @param string $filePath
+     * @param array $params
+     * @param \Magento\Filesystem\Directory\WriteInterface $targetDirectory
+     * @param null $sourcePath
+     * @return null|string
+     */
     public function process($filePath, $params, $targetDirectory, $sourcePath = null)
     {
         foreach ($this->preProcessors as $preProcessor) {
