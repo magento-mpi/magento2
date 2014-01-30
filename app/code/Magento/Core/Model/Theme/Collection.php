@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Core\Model\Theme;
+
 /**
  * Theme filesystem collection
  */
-namespace Magento\Core\Model\Theme;
-
 class Collection extends \Magento\Data\Collection implements \Magento\View\Design\Theme\ListInterface
 {
     /**
@@ -35,23 +35,15 @@ class Collection extends \Magento\Data\Collection implements \Magento\View\Desig
     protected $_targetDirs = array();
 
     /**
-     * @var \Magento\Config\FileIteratorFactory
-     */
-    protected $fileIteratorFactory;
-
-    /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Filesystem $filesystem
-     * @param \Magento\Config\FileIteratorFactory $fileIteratorFactory
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
-        \Magento\Filesystem $filesystem,
-        \Magento\Config\FileIteratorFactory $fileIteratorFactory
+        \Magento\Filesystem $filesystem
     ) {
         parent::__construct($entityFactory);
-        $this->_directory = $filesystem->getDirectoryRead(\Magento\Filesystem::THEMES);
-        $this->fileIteratorFactory = $fileIteratorFactory;
+        $this->_directory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::THEMES_DIR);
     }
 
     /**
@@ -201,12 +193,7 @@ class Collection extends \Magento\Data\Collection implements \Magento\View\Desig
     public function _prepareConfigurationData($configPath)
     {
 
-        $themeConfig = $this->_getConfigModel(
-            $this->fileIteratorFactory->create(
-                $this->_directory,
-                array($this->_directory->getRelativePath($configPath))
-            )
-        );
+        $themeConfig = $this->_getConfigModel($configPath);
         $pathData = $this->_preparePathData($configPath);
         $media = $themeConfig->getMedia();
 
@@ -273,12 +260,12 @@ class Collection extends \Magento\Data\Collection implements \Magento\View\Desig
     /**
      * Return configuration model for themes
      *
-     * @param $configPaths
+     * @param $configPath
      * @return \Magento\Config\Theme
      */
-    protected function _getConfigModel($configPaths)
+    protected function _getConfigModel($configPath)
     {
-        return new \Magento\Config\Theme($configPaths);
+        return new \Magento\Config\Theme($this->_directory->readFile($this->_directory->getRelativePath($configPath)));
     }
 
     /**

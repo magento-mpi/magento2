@@ -7,8 +7,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Test\Php;
+
 use Magento\TestFramework\Utility;
 
 /**
@@ -96,6 +96,29 @@ class LiveCodeTest extends \PHPUnit_Framework_TestCase
         }
         self::setupFileLists();
         $result = $codeSniffer->run(self::$_whiteList, self::$_blackList, array('php', 'phtml'));
+        $this->assertEquals(
+            0,
+            $result,
+            "PHP Code Sniffer has found $result error(s): See detailed report in $reportFile"
+        );
+    }
+
+    public function testAnnotationStandard()
+    {
+        $reportFile = self::$_reportDir . '/phpcs_annotations_report.xml';
+        $warningSeverity = 5;
+        $wrapper = new \Magento\TestFramework\CodingStandard\Tool\CodeSniffer\Wrapper();
+        $codeSniffer = new \Magento\TestFramework\CodingStandard\Tool\CodeSniffer(
+            realpath(__DIR__ . '/_files/phpcs/Magento'),
+            $reportFile,
+            $wrapper
+        );
+        if (!$codeSniffer->canRun()) {
+            $this->markTestSkipped('PHP Code Sniffer is not installed.');
+        }
+        self::setupFileLists();
+        $result = $codeSniffer->run(self::$_whiteList, self::$_blackList, array('php', 'phtml'), $warningSeverity);
+        $this->markTestIncomplete("PHP Code Sniffer has found $result error(s): See detailed report in $reportFile");
         $this->assertEquals(
             0,
             $result,

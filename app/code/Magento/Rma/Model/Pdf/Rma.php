@@ -7,12 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rma\Model\Pdf;
+
+use Magento\Rma\Model\Item;
 
 /**
  * Rma PDF model
  */
-namespace Magento\Rma\Model\Pdf;
-
 class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
 {
     /**
@@ -46,8 +47,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Core\Model\Translate $translate
-     * @param \Magento\Filesystem $filesystem
-     * @param \Magento\Shipping\Model\Config $shippingConfig
+     * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\Sales\Model\Order\Pdf\Config $pdfConfig
      * @param \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory
      * @param \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory
@@ -64,8 +64,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         \Magento\Stdlib\String $string,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Core\Model\Translate $translate,
-        \Magento\Filesystem $filesystem,
-        \Magento\Shipping\Model\Config $shippingConfig,
+        \Magento\App\Filesystem $filesystem,
         \Magento\Sales\Model\Order\Pdf\Config $pdfConfig,
         \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory,
         \Magento\Sales\Model\Order\Pdf\ItemsFactory $pdfItemsFactory,
@@ -85,7 +84,6 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
             $coreStoreConfig,
             $translate,
             $filesystem,
-            $shippingConfig,
             $pdfConfig,
             $pdfTotalFactory,
             $pdfItemsFactory,
@@ -273,6 +271,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
      * Add items table head
      *
      * @param \Zend_Pdf_Page $page
+     * @return void
      */
     protected function _addItemTableHead($page)
     {
@@ -335,8 +334,9 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
     /**
      * Draw one line - rma item
      *
-     * @param \Magento\Rma\Model\Item $item
+     * @param Item $item
      * @param \Zend_Pdf_Page $page
+     * @return void
      */
     protected function _drawRmaItem($item, $page)
     {
@@ -390,6 +390,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
      *
      * @param array $optionsArray
      * @param \Zend_Pdf_Page $page
+     * @return void
      */
     protected function _drawCustomOptions($optionsArray, $page)
     {
@@ -426,6 +427,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
     /**
      * Sets X coordinates for columns
      *
+     * @return void
      */
     protected function _setColumnXs()
     {

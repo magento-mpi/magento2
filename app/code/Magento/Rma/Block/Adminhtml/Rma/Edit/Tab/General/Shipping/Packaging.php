@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping;
+
 /**
  * Shipment packaging
  */
-namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping;
-
 class Packaging extends \Magento\Backend\Block\Template
 {
     /**
@@ -124,7 +124,7 @@ class Packaging extends \Magento\Backend\Block\Template
     /**
      * Return container types of carrier
      *
-     * @return array
+     * @return string[]|bool
      */
     public function getContainers()
     {
@@ -169,7 +169,7 @@ class Packaging extends \Magento\Backend\Block\Template
     /**
      * Return delivery confirmation types of current carrier
      *
-     * @return array
+     * @return array|bool
      */
     public function getDeliveryConfirmationTypes()
     {
@@ -289,7 +289,7 @@ class Packaging extends \Magento\Backend\Block\Template
     /**
      * Check size and girth parameter
      *
-     * @return array
+     * @return bool[]
      */
     public function checkSizeAndGirthParameter()
     {

@@ -18,6 +18,8 @@
  */
 namespace Magento\Reward\Helper;
 
+use Magento\Core\Model\Store;
+
 class Customer extends \Magento\App\Helper\AbstractHelper
 {
     /**
@@ -40,8 +42,8 @@ class Customer extends \Magento\App\Helper\AbstractHelper
     /**
      * Return Unsubscribe notification URL
      *
-     * @param string|boolean $notification Notification type
-     * @param int|string|\Magento\Core\Model\Store $storeId
+     * @param string|bool $notification Notification type
+     * @param int|string|Store $storeId
      * @return string
      */
     public function getUnsubscribeUrl($notification = false, $storeId = null)

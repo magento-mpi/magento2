@@ -19,6 +19,11 @@ namespace Magento\Multishipping\Block\Checkout\Address;
 
 class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
 {
+    /**
+     * @var bool
+     */
+    protected $_isScopePrivate = true;
+
     protected function _prepareLayout()
     {
         if ($headBlock = $this->getLayout()->getBlock('head')) {

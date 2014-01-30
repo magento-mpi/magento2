@@ -18,6 +18,10 @@
 
 namespace Magento\Review\Block\Customer;
 
+use Magento\Catalog\Model\Product as Product;
+use Magento\Rating\Model\Rating\Option\Vote\Collection as VoteCollection;
+use Magento\Review\Model\Review as Review;
+
 class View extends \Magento\Catalog\Block\Product\AbstractProduct
 {
     protected $_template = 'customer/view.phtml';
@@ -110,6 +114,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
             $data,
             $priceBlockTypes
         );
+        $this->_isScopePrivate = true;
     }
 
 
@@ -119,6 +124,9 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
         $this->setReviewId($this->getRequest()->getParam('id', false));
     }
 
+    /**
+     * @return Product
+     */
     public function getProductData()
     {
         if( $this->getReviewId() && !$this->getProductCacheData() ) {
@@ -130,6 +138,9 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
         return $this->getProductCacheData();
     }
 
+    /**
+     * @return Review
+     */
     public function getReviewData()
     {
         if( $this->getReviewId() && !$this->getReviewCachedData() ) {
@@ -138,11 +149,17 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
         return $this->getReviewCachedData();
     }
 
+    /**
+     * @return string
+     */
     public function getBackUrl()
     {
         return $this->getUrl('review/customer');
     }
 
+    /**
+     * @return VoteCollection
+     */
     public function getRating()
     {
         if( !$this->getRatingCollection() ) {
@@ -159,6 +176,9 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
         return $this->getRatingCollection();
     }
 
+    /**
+     * @return array
+     */
     public function getRatingSummary()
     {
         if( !$this->getRatingSummaryCache() ) {
@@ -167,6 +187,9 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
         return $this->getRatingSummaryCache();
     }
 
+    /**
+     * @return int
+     */
     public function getTotalReviews()
     {
         if( !$this->getTotalReviewsCache() ) {
@@ -175,6 +198,9 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
         return $this->getTotalReviewsCache();
     }
 
+    /**
+     * @return string
+     */
     public function dateFormat($date)
     {
         return $this->formatDate($date, \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_LONG);
@@ -183,7 +209,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
     /**
      * Check whether current customer is review owner
      *
-     * @return boolean
+     * @return bool
      */
     public function isReviewOwner()
     {

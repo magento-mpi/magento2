@@ -88,6 +88,7 @@ class Helper
      *
      * @param string $from
      * @param string $to
+     * @return void
      */
     public static function addTranslate($from, $to)
     {

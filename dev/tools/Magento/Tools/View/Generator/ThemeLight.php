@@ -8,12 +8,14 @@
  * @license    {license_link}
  */
 
+namespace Magento\Tools\View\Generator;
+
+use Magento\View\Design\ThemeInterface;
+
 /**
  * Lightweight theme that implements minimal required interface
  */
-namespace Magento\Tools\View\Generator;
-
-class ThemeLight extends \Magento\Object implements \Magento\View\Design\ThemeInterface
+class ThemeLight extends \Magento\Object implements ThemeInterface
 {
     /**
      * {@inheritdoc}
@@ -36,7 +38,7 @@ class ThemeLight extends \Magento\Object implements \Magento\View\Design\ThemeIn
      */
     public function getFullPath()
     {
-        return $this->getArea() . \Magento\View\Design\ThemeInterface::PATH_SEPARATOR . $this->getThemePath();
+        return $this->getArea() . ThemeInterface::PATH_SEPARATOR . $this->getThemePath();
     }
 
     /**
@@ -61,5 +63,13 @@ class ThemeLight extends \Magento\Object implements \Magento\View\Design\ThemeIn
     public function isPhysical()
     {
         return false;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getInheritedThemes()
+    {
+        return array();
     }
 }

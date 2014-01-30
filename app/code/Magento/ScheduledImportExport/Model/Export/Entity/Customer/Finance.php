@@ -90,7 +90,7 @@ class Finance
     /**
      * @var \Magento\ScheduledImportExport\Model\Resource\Customer\CollectionFactory
      */
-    protected $_customerCollFactory;
+    protected $_customerCollectionFactory;
 
     /**
      * @var \Magento\ImportExport\Model\Export\Entity\Eav\CustomerFactory
@@ -99,27 +99,27 @@ class Finance
 
     /**
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\App $app
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\ImportExport\Model\Export\Factory $collectionFactory
      * @param \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory
-     * @param \Magento\ScheduledImportExport\Model\Resource\Customer\CollectionFactory $customerCollFactory
+     * @param \Magento\ScheduledImportExport\Model\Resource\Customer\CollectionFactory $customerCollectionFactory
      * @param \Magento\ImportExport\Model\Export\Entity\Eav\CustomerFactory $eavCustomerFactory
      * @param \Magento\ScheduledImportExport\Helper\Data $importExportData
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\App $app,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\ImportExport\Model\Export\Factory $collectionFactory,
         \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory,
-        \Magento\ScheduledImportExport\Model\Resource\Customer\CollectionFactory $customerCollFactory,
+        \Magento\ScheduledImportExport\Model\Resource\Customer\CollectionFactory $customerCollectionFactory,
         \Magento\ImportExport\Model\Export\Entity\Eav\CustomerFactory $eavCustomerFactory,
         \Magento\ScheduledImportExport\Helper\Data $importExportData,
         array $data = array()
     ) {
-        parent::__construct($coreStoreConfig, $app, $collectionFactory, $resourceColFactory, $data);
+        parent::__construct($coreStoreConfig, $storeManager, $collectionFactory, $resourceColFactory, $data);
 
-        $this->_customerCollFactory = $customerCollFactory;
+        $this->_customerCollectionFactory = $customerCollectionFactory;
         $this->_eavCustomerFactory = $eavCustomerFactory;
         $this->_importExportData = $importExportData;
 
@@ -136,7 +136,7 @@ class Finance
     protected function _initFrontendWebsites()
     {
         /** @var $website \Magento\Core\Model\Website */
-        foreach ($this->_websiteManager->getWebsites() as $website) {
+        foreach ($this->_storeManager->getWebsites() as $website) {
             $this->_websiteIdToCode[$website->getId()] = $website->getCode();
         }
         return $this;
@@ -150,7 +150,7 @@ class Finance
     protected function _getEntityCollection()
     {
         if (empty($this->_customerCollection)) {
-            $this->_customerCollection = $this->_customerCollFactory->create();
+            $this->_customerCollection = $this->_customerCollectionFactory->create();
         }
         return $this->_customerCollection;
     }

@@ -17,6 +17,9 @@
 
 namespace Magento\Invitation\Controller\Adminhtml\Report;
 
+use Magento\App\ViewInterface;
+use Magento\App\ResponseInterface;
+
 class Invitation extends \Magento\Backend\App\Action
 {
     /**
@@ -49,7 +52,7 @@ class Invitation extends \Magento\Backend\App\Action
     /**
      * Init action breadcrumbs
      *
-     * @return \Magento\Invitation\Controller\Adminhtml\Report\Invitation
+     * @return $this
      */
     public function _initAction()
     {
@@ -67,6 +70,8 @@ class Invitation extends \Magento\Backend\App\Action
 
     /**
      * General report action
+     *
+     * @return ViewInterface
      */
     public function indexAction()
     {
@@ -81,6 +86,8 @@ class Invitation extends \Magento\Backend\App\Action
 
     /**
      * Export invitation general report grid to CSV format
+     *
+     * @return ResponseInterface
      */
     public function exportCsvAction()
     {
@@ -88,11 +95,13 @@ class Invitation extends \Magento\Backend\App\Action
         $fileName   = 'invitation_general.csv';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
         $exportBlock = $this->_view->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
-        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile(), \Magento\Filesystem::VAR_DIR);
+        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile(), \Magento\App\Filesystem::VAR_DIR);
     }
 
     /**
      * Export invitation general report grid to Excel XML format
+     *
+     * @return ResponseInterface
      */
     public function exportExcelAction()
     {
@@ -103,12 +112,14 @@ class Invitation extends \Magento\Backend\App\Action
         return $this->_fileFactory->create(
             $fileName,
             $exportBlock->getExcelFile($fileName),
-            \Magento\Filesystem::VAR_DIR
+            \Magento\App\Filesystem::VAR_DIR
         );
     }
 
     /**
      * Report by customers action
+     *
+     * @return  ViewInterface
      */
     public function customerAction()
     {
@@ -123,6 +134,8 @@ class Invitation extends \Magento\Backend\App\Action
 
     /**
      * Export invitation customer report grid to CSV format
+     *
+     * @return ResponseInterface
      */
     public function exportCustomerCsvAction()
     {
@@ -130,11 +143,13 @@ class Invitation extends \Magento\Backend\App\Action
         $fileName = 'invitation_customer.csv';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
         $exportBlock = $this->_view->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
-        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile(), \Magento\Filesystem::VAR_DIR);
+        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile(), \Magento\App\Filesystem::VAR_DIR);
     }
 
     /**
      * Export invitation customer report grid to Excel XML format
+     *
+     * @return ResponseInterface
      */
     public function exportCustomerExcelAction()
     {
@@ -145,12 +160,14 @@ class Invitation extends \Magento\Backend\App\Action
         return $this->_fileFactory->create(
             $fileName,
             $exportBlock->getExcelFile($fileName),
-            \Magento\Filesystem::VAR_DIR
+            \Magento\App\Filesystem::VAR_DIR
         );
     }
 
     /**
      * Report by order action
+     *
+     * @return ViewInterface
      */
     public function orderAction()
     {
@@ -164,6 +181,8 @@ class Invitation extends \Magento\Backend\App\Action
 
     /**
      * Export invitation order report grid to CSV format
+     *
+     * @return ResponseInterface
      */
     public function exportOrderCsvAction()
     {
@@ -171,11 +190,13 @@ class Invitation extends \Magento\Backend\App\Action
         $fileName = 'invitation_order.csv';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
         $exportBlock = $this->_view->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
-        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile(), \Magento\Filesystem::VAR_DIR);
+        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile(), \Magento\App\Filesystem::VAR_DIR);
     }
 
     /**
      * Export invitation order report grid to Excel XML format
+     *
+     * @return ResponseInterface
      */
     public function exportOrderExcelAction()
     {
@@ -186,7 +207,7 @@ class Invitation extends \Magento\Backend\App\Action
         return $this->_fileFactory->create(
             $fileName,
             $exportBlock->getExcelFile($fileName),
-            \Magento\Filesystem::VAR_DIR
+            \Magento\App\Filesystem::VAR_DIR
         );
     }
 

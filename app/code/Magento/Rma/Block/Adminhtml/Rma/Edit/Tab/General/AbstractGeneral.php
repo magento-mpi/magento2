@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General;
+
 /**
  * Abstract Fieldset block for RMA view
  *
@@ -15,8 +17,6 @@
  * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General;
-
 class AbstractGeneral extends \Magento\Backend\Block\Widget\Form
 {
     /**
@@ -84,6 +84,8 @@ class AbstractGeneral extends \Magento\Backend\Block\Widget\Form
 
     /**
      * Add fieldset with required fields
+     *
+     * @return void
      */
     protected function _addFieldset()
     {

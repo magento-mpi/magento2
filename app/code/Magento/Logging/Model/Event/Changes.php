@@ -159,6 +159,7 @@ class Changes extends \Magento\Core\Model\AbstractModel
      * Set skip fields and clear model data
      *
      * @param array $skipFields
+     * @return void
      */
     public function cleanupData($skipFields)
     {

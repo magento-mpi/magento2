@@ -30,7 +30,7 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
 
          // TODO: check Http Status = 200, cannot do yet due to missing header info returned
 
-        $this->assertEquals('a good id', $item['id'], 'Success case is correct');
+        $this->assertEquals('a good id', $item['value'], 'Success case is correct');
     }
 
     public function testNotFound()
@@ -92,20 +92,19 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
 
     public function testServiceExceptionWithParameters()
     {
-        $this->markTestSkipped("Need to fix the REST client to use the parameters in oAuth signature correctly");
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => '/V1/errortest/parameterizedserviceexception',
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
             )
         );
-        $details = array(
-            'key1' => 'value1',
-            'key2' => 'value2'
-        );
         $arguments = array(
-            'details' => $details
+            'parameters' => array(
+                array('name' => 'key1', 'value' => 'value1'),
+                array('name' => 'key2', 'value' => 'value2'),
+            )
         );
+        $expectedExceptionParameters = array('key1' => 'value1', 'key2' => 'value2');
         // \Magento\Service\Exception (with parameters)
         $this->_errorTest(
             $serviceInfo,
@@ -113,7 +112,7 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
             \Magento\Webapi\Exception::HTTP_BAD_REQUEST,
             1234,
             'Parameterized service exception',
-            $details
+            $expectedExceptionParameters
         );
     }
 
@@ -137,30 +136,6 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
             \Magento\Webapi\Exception::HTTP_INTERNAL_ERROR,
             $expectedCodes,
             $expectedMessages
-        );
-    }
-
-    public function testReturnIncompatibleDataType()
-    {
-        $serviceInfo = array(
-            'rest' => array(
-                'resourcePath' => '/V1/errortest/returnIncompatibleDataType',
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
-            ),
-        );
-        $expectedMessages = array(
-            'Internal Error. Details are available in Magento log file. Report ID: %1',
-            'The method "returnIncompatibleDataType" of service '
-            . '"Magento\TestModule3\Service\ErrorV1Interface" must return an array.'
-        );
-        // \Magento\Service\Exception
-        $this->_errorTest(
-            $serviceInfo,
-            array(),
-            \Magento\Webapi\Exception::HTTP_INTERNAL_ERROR,
-            0,
-            $expectedMessages,
-            null
         );
     }
 

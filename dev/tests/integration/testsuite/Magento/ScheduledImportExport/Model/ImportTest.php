@@ -24,10 +24,10 @@ class ImportTest extends \PHPUnit_Framework_TestCase
         // Mock the reindexAll() method, because it has DDL operations, thus breaks DB-isolating transaction
         $model = $this->getMock('Magento\ScheduledImportExport\Model\Import', array('reindexAll'), array(
             $objectManager->get('Magento\Logger'),
-            $objectManager->get('Magento\Filesystem'),
+            $objectManager->get('Magento\App\Filesystem'),
             $objectManager->get('Magento\Core\Model\Log\AdapterFactory'),
             $objectManager->get('Magento\ImportExport\Helper\Data'),
-            $objectManager->get('Magento\Core\Model\Config'),
+            $objectManager->get('Magento\App\ConfigInterface'),
             $objectManager->get('Magento\ImportExport\Model\Import\ConfigInterface'),
             $objectManager->get('Magento\ImportExport\Model\Import\Entity\Factory'),
             $objectManager->get('Magento\ImportExport\Model\Resource\Import\Data'),
@@ -46,15 +46,15 @@ class ImportTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnSelf());
 
         $directoryList = $objectManager->create(
-            'Magento\Filesystem\DirectoryList',
+            'Magento\App\Filesystem\DirectoryList',
             array(
                 'directories' => array(
-                    \Magento\Filesystem::VAR_DIR => array('path' => __DIR__ . '/../_files/')
+                    \Magento\App\Filesystem::VAR_DIR => array('path' => __DIR__ . '/../_files/')
                 ),
                 'root' => BP
             )
         );
-        $filesystem = $objectManager->create('Magento\Filesystem', array('directoryList' => $directoryList));
+        $filesystem = $objectManager->create('Magento\App\Filesystem', array('directoryList' => $directoryList));
         $operation = $objectManager->create(
             'Magento\ScheduledImportExport\Model\Scheduled\Operation',
             array('filesystem' => $filesystem)

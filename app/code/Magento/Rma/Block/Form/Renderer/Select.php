@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Rma\Block\Form\Renderer;
+
 /**
  * Rma Item Form Renderer Block for select
  */
-namespace Magento\Rma\Block\Form\Renderer;
-
 class Select extends \Magento\CustomAttribute\Block\Form\Renderer\Select
 {
     /**
@@ -40,6 +40,7 @@ class Select extends \Magento\CustomAttribute\Block\Form\Renderer\Select
         $this->_itemFactory = $itemFactory;
         $this->_itemFormFactory = $itemFormFactory;
         parent::__construct($context, $data);
+        $this->_isScopePrivate = true;
     }
 
     /**

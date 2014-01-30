@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Rma\Model;
+
 /**
  * RMA Item model
  */
-namespace Magento\Rma\Model;
-
 class Item extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -122,10 +122,10 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Declare rma instance
      *
-     * @param   \Magento\Rma\Model\Rma $rma
-     * @return  \Magento\Rma\Model\Item
+     * @param   Rma $rma
+     * @return  $this
      */
-    public function setRma(\Magento\Rma\Model\Rma $rma)
+    public function setRma(Rma $rma)
     {
         $this->_rma = $rma;
         $this->setRmaEntityId($rma->getId());
@@ -135,7 +135,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Retrieve rma instance
      *
-     * @return \Magento\Rma\Model\Rma
+     * @return Rma
      */
     public function getRma()
     {
@@ -259,7 +259,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      *
      * @param  array $itemPost
      * @param  int $key
-     * @return array
+     * @return string[]|null
      */
     public function prepareAttributes($itemPost, $key)
     {
@@ -299,7 +299,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Gets item options
      *
-     * @return array|bool
+     * @return array|false
      */
     public function getOptions()
     {

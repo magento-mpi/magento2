@@ -25,13 +25,13 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $storeConfig = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\Store\Config');
         $filesystem =  \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Filesystem');
+            ->get('Magento\App\Filesystem');
         $model = new \Magento\ScheduledImportExport\Model\Observer(
             $operationFactory, $emailInfoFactory, $templateMailer, $storeConfig, $storeManager, $filesystem
         );
         $model->scheduledLogClean('not_used', true);
 
-        $this->assertFileExists($filesystem->getPath(\Magento\Filesystem::LOG)
+        $this->assertFileExists($filesystem->getPath(\Magento\App\Filesystem::LOG_DIR)
             . '/' . \Magento\ScheduledImportExport\Model\Scheduled\Operation::LOG_DIRECTORY
         );
     }

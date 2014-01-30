@@ -10,10 +10,14 @@
 
 namespace Magento\Rma\Block\Returns;
 
+use Magento\Rma\Model\Item;
+use Magento\Rma\Model\Rma;
+
 class View extends \Magento\Rma\Block\Form
 {
     /**
      * Values for each visible attribute
+     *
      * @var array
      */
     protected $_realValueAttributes = array();
@@ -109,6 +113,7 @@ class View extends \Magento\Rma\Block\Form
         $this->_customerSession = $customerSession;
         $this->_eavConfig = $eavConfig;
         parent::__construct($context, $modelFactory, $formFactory, $eavConfig, $data);
+        $this->_isScopePrivate = true;
     }
 
     public function _construct()
@@ -137,7 +142,7 @@ class View extends \Magento\Rma\Block\Form
     /**
      * Returns attributes that static
      *
-     * @return array
+     * @return string[]
      */
     public function getAttributeFilter()
     {
@@ -153,7 +158,7 @@ class View extends \Magento\Rma\Block\Form
             break;
         }
 
-        /* @var $itemModel \Magento\Rma\Model\Item */
+        /* @var $itemModel Item */
         $itemModel = $this->_itemFactory->create();
 
         /* @var $itemForm \Magento\Rma\Model\Item\Form */
@@ -179,7 +184,7 @@ class View extends \Magento\Rma\Block\Form
      * $excludeAttr is optional array of attribute codes to
      * exclude them from additional data array
      *
-     * @param array $excludeAttr
+     * @param string[] $excludeAttr
      * @return array
      */
     protected function _getAdditionalData(array $excludeAttr = array())
@@ -221,8 +226,8 @@ class View extends \Magento\Rma\Block\Form
     /**
      * Gets attribute value by rma item id and attribute code
      *
-     * @param  $itemId
-     * @param  $attributeCode
+     * @param  int $itemId
+     * @param  string $attributeCode
      * @return string
      */
     public function getAttributeValue($itemId, $attributeCode)
@@ -238,6 +243,7 @@ class View extends \Magento\Rma\Block\Form
         }
         return $html;
     }
+
     /**
      * Gets values for each visible attribute depending on item id
      *
@@ -258,9 +264,9 @@ class View extends \Magento\Rma\Block\Form
     /**
      * Gets attribute label by rma item id and attribute code
      *
-     * @param  $itemId
-     * @param  $attributeCode
-     * @return string | bool
+     * @param  int $itemId
+     * @param  string $attributeCode
+     * @return string|false
      */
     public function getAttributeLabel($itemId, $attributeCode)
     {
@@ -278,19 +284,26 @@ class View extends \Magento\Rma\Block\Form
     /**
      * Gets item options
      *
-     * @param  $item \Magento\Rma\Model\Item
-     * @return array | bool
+     * @param  Item $item
+     * @return array|bool
      */
     public function getItemOptions($item)
     {
         return $item->getOptions();
     }
 
+    /**
+     * @param Rma $rma
+     * @return string
+     */
     public function getOrderUrl($rma)
     {
         return $this->getUrl('sales/order/view/', array('order_id' => $rma->getOrderId()));
     }
 
+    /**
+     * @return string
+     */
     public function getBackUrl()
     {
         if ($this->_customerSession->isLoggedIn()) {
@@ -300,16 +313,25 @@ class View extends \Magento\Rma\Block\Form
         }
     }
 
+    /**
+     * @return string
+     */
     public function getAddress()
     {
         return  $this->_rmaData->getReturnAddress();
     }
 
+    /**
+     * @return string
+     */
     public function getSubmitUrl()
     {
         return $this->getUrl('*/*/addComment', array('entity_id' => (int)$this->getRequest()->getParam('entity_id')));
     }
 
+    /**
+     * @return string
+     */
     public function getCustomerName()
     {
         if ($this->_customerSession->isLoggedIn()) {

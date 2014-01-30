@@ -56,15 +56,15 @@
 </script>
 <script id="split-btn-tmpl" type="text/x-jQuery-tmpl">
     <div class="split button">
-        <span data-wishlist-add='{"url":"${wishlistAddUrl}"}' class="label">${$.mage.__('Add to Wish List')}</span>
+        <span data-post='${JSON.stringify(generalParams)}' data-action="add-to-wishlist" class="label">${buttonName}</span>
         <span class="action change" title="${$.mage.__('Add to:')}" data-toggle="dropdown"><span>${$.mage.__('Add to:')}</span></span>
         <ul class="items" data-target="dropdown">
             {{each wishlists}}
             <li class="item">
                 {{if newClass}}
-                    <span class="action ${newClass}" data-wishlist-add-to='{"url":"${url}", "isNew":${isNew}}' title="${name}"><span>${name}</span></span>
+                    <span class="action ${newClass}" data-post-new-wishlist='${JSON.stringify(params)}' data-action="add-to-wishlist" title="${name}"><span>${name}</span></span>
                 {{else}}
-                    <span data-wishlist-add-to='{"url":"${url}", "isNew":${isNew}}' title="${name}">${name}</span>
+                    <span data-post='${JSON.stringify(params)}' data-action="add-to-wishlist" title="${name}">${name}</span>
                 {{/if}}
             </li>
             {{/each}}
@@ -106,7 +106,17 @@
                         }
                     }]
                 });
-                $('.product.addto.links [data-toggle="dropdown"]').dropdown({
+                $('.product.addto.links [data-toggle="dropdown"]').each().dropdown({
+                    events: [{
+                        'name': 'mouseleave',
+                        'selector': '.item.product',
+                        'action': function() {
+                            var triggerElem = $('[data-toggle="dropdown"]', this);
+                            triggerElem.hasClass('active') && triggerElem.trigger('click.toggleDropdown');
+                        }
+                    }]
+                });
+                $('.secondary.addto.links [data-toggle="dropdown"]').each().dropdown({
                     events: [{
                         'name': 'mouseleave',
                         'selector': '.item.product',

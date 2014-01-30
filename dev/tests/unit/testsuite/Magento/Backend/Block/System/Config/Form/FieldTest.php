@@ -31,7 +31,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_appModelMock;
+    protected $_storeManagerMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -40,10 +40,16 @@ class FieldTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_appModelMock = $this->getMock('Magento\Core\Model\App', array(), array(), '', false, false);
+        $this->_storeManagerMock = $this->getMock('Magento\Core\Model\StoreManager',
+            array(),
+            array(),
+            '',
+            false,
+            false
+        );
 
         $data = array(
-            'app' => $this->_appModelMock,
+            'storeManager' => $this->_storeManagerMock,
             'urlBuilder' => $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false)
         );
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
@@ -112,7 +118,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
 
     public function testRenderScopeLabel()
     {
-        $this->_appModelMock->expects($this->once())->method('isSingleStoreMode')->will($this->returnValue(false));
+        $this->_storeManagerMock->expects($this->once())->method('isSingleStoreMode')->will($this->returnValue(false));
 
         $testScopeLabel = 'test_scope_label';
         $this->_elementMock->expects($this->any())->method('getScope')->will($this->returnValue(true));
