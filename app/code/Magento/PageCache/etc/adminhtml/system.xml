@@ -37,7 +37,7 @@
                 <label>Varnish Configuration Settings</label>
                 <field id="varnish_caching" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Enable Varnish Caching</label>
-                    <source_model>Magento\PageCache\Model\System\Config\Source\Yesno</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="varnish_configuration" type="button" sortOrder="5" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Export Varnish Configuration</label>
@@ -55,7 +55,7 @@
                 </field>
                 <field id="pagecache_esi" type="select" translate="label comment" sortOrder="15" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>ESI</label>
-                    <source_model>Magento\PageCache\Model\System\Config\Source\Yesno</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
                     <comment>Cache invalidation</comment>
                     <depends>
                         <field id="varnish_caching">1</field>
@@ -77,7 +77,7 @@
                 </field>
                 <field id="pagecache_debug" type="select" translate="label comment" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Debug</label>
-                    <source_model>Magento\PageCache\Model\System\Config\Source\Yesno</source_model>
+                    <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
                     <depends>
                         <field id="varnish_caching">1</field>
                     </depends>
