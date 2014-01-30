@@ -27,8 +27,8 @@ class DefaultShipment extends \Magento\Sales\Model\Order\Pdf\Items\AbstractItems
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\App\Filesystem $filesystem
-     * @param \Magento\Stdlib\String $string
      * @param \Magento\Filter\FilterManager $filterManager
+     * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
