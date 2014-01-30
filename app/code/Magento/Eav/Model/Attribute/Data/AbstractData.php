@@ -537,7 +537,7 @@ abstract class AbstractData
      * Extract data from request and return value
      *
      * @param \Magento\App\RequestInterface $request
-     * @return array|string
+     * @return array|string|bool
      */
     abstract public function extractValue(\Magento\App\RequestInterface $request);
 
@@ -546,7 +546,7 @@ abstract class AbstractData
      *
      * @param array|string $value
      * @throws \Magento\Core\Exception
-     * @return boolean
+     * @return bool
      */
     abstract public function validateValue($value);
 

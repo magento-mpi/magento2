@@ -171,7 +171,7 @@ class Form
      */
     public function getAllowedAttributes()
     {
-        $attributes = $this->_eavMetadataService->getAttributes($this->_entityType, $this->_formCode);
+        $attributes = $this->getAttributes();
         foreach ($attributes as $attributeCode => $attribute) {
             if (
                 $this->_ignoreInvisible && !$attribute->isVisible()

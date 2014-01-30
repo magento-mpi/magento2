@@ -20,8 +20,8 @@ class Text extends AbstractData
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Logger $logger
      * @param \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute
-     * @param null $value
-     * @param $entityTypeCode
+     * @param string $value
+     * @param string $entityTypeCode
      * @param bool $isAjax
      * @param \Magento\Stdlib\String $stringHelper
      */
@@ -29,7 +29,7 @@ class Text extends AbstractData
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Logger $logger,
         \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute,
-        $value = null,
+        $value,
         $entityTypeCode,
         $isAjax = false,
         \Magento\Stdlib\String $stringHelper
@@ -43,8 +43,7 @@ class Text extends AbstractData
      */
     public function extractValue(\Magento\App\RequestInterface $request)
     {
-        $value = $this->_getRequestValue($request);
-        return $this->_applyInputFilter($value);
+        return $this->_applyInputFilter($this->_getRequestValue($request));
     }
 
     /**
@@ -98,10 +97,7 @@ class Text extends AbstractData
      */
     public function compactValue($value)
     {
-        if ($value !== false) {
-            return $value;
-        }
-        return false;
+        return $value;
     }
 
     /**
@@ -117,8 +113,6 @@ class Text extends AbstractData
      */
     public function outputValue($format = \Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_TEXT)
     {
-        $value = $this->_applyOutputFilter($this->_value);
-
-        return $value;
+        return $this->_applyOutputFilter($this->_value);
     }
 }

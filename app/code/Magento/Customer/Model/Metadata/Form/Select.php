@@ -34,7 +34,7 @@ class Select extends AbstractData
             $value = $this->_value;
         }
 
-        if ($attribute->isRequired() && empty($value) && $value != '0') {
+        if ($attribute->isRequired() && empty($value) && $value !== '0') {
             $errors[] = __('"%1" is a required value.', $label);
         }
 
@@ -54,10 +54,7 @@ class Select extends AbstractData
      */
     public function compactValue($value)
     {
-        if ($value !== false) {
-            return $value;
-        }
-        return false;
+        return $value;
     }
 
     /**
@@ -76,13 +73,12 @@ class Select extends AbstractData
      */
     protected function _getOptionText($value)
     {
-        $optionText = false;
-        foreach ($this->getAttribute()->getOptions() as $optionKey => $optionValue) {
-            if ($optionValue == $value) {
-                $optionText = $optionKey;
+        foreach ($this->getAttribute()->getOptions() as $option) {
+            if ($option->getLabel() == $value) {
+                return $option->getValue();
             }
         }
-        $output[] = $optionText;
+        return false;
     }
 
     /**
@@ -91,17 +87,10 @@ class Select extends AbstractData
     public function outputValue($format = \Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_TEXT)
     {
         $value = $this->_value;
-        switch ($format) {
-            case \Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_JSON:
-                $output = $value;
-                break;
-            default:
-                if ($value != '') {
-                    $output = $this->_getOptionText($value);
-                } else {
-                    $output = '';
-                }
-                break;
+        if ($value != '') {
+            $output = $this->_getOptionText($value);
+        } else {
+            $output = '';
         }
 
         return $output;

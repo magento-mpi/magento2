@@ -4,8 +4,6 @@
  *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -32,6 +30,10 @@ class Multiselect extends Select
     public function compactValue($value)
     {
         if (is_array($value)) {
+            foreach($value as $key => $val) {
+                $value[$key] = parent::compactValue($val);
+            }
+
             $value = implode(',', $value);
         }
         return parent::compactValue($value);
@@ -47,27 +49,16 @@ class Multiselect extends Select
             $values = explode(',', $values);
         }
 
-        switch ($format) {
-            case \Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_JSON:
-            case \Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_ARRAY:
-                $output = $values;
-                break;
-            default:
-                $output = array();
-                foreach ($values as $value) {
-                    if (!$value) {
-                        continue;
-                    }
-                    $optionText = false;
-                    foreach ($this->getAttribute()->getOptions() as $optionKey => $optionValue) {
-                        if ($optionValue == $value) {
-                            $optionText = $optionKey;
-                        }
-                    }
-                    $output[] = $optionText;
-                }
-                $output = implode(', ', $output);
-                break;
+        $output = array();
+        foreach ($values as $value) {
+            if (!$value) {
+                continue;
+            }
+            $output[] = $this->_getOptionText($value);
+        }
+
+        if ($format == \Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_TEXT) {
+            $output = implode(', ', $output);
         }
 
         return $output;
