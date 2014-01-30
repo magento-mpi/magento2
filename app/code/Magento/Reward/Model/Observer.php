@@ -938,8 +938,13 @@ class Observer
     {
         /** @var \Magento\Payment\Model\Cart $cart */
         $cart = $observer->getEvent()->getCart();
-        if ($cart && abs($cart->getSalesModel()->getBaseRewardCurrencyAmount()) > 0.0001) {
-            $cart->addDiscount((float)$cart->getSalesModel()->getBaseRewardCurrencyAmount());
+        if (!$cart) {
+            return;
+        }
+        $salesEntity = $cart->getSalesModel();
+        $discount = abs($salesEntity->getDataUsingMethod('base_reward_currency_amount'));
+        if ($discount > 0.0001) {
+            $cart->addDiscount((float)$discount);
         }
     }
 

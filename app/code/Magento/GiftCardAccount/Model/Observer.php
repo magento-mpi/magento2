@@ -473,7 +473,7 @@ class Observer
             return;
         }
         $salesEntity = $cart->getSalesModel();
-        $value = abs($salesEntity->getBaseGiftCardsAmount());
+        $value = abs($salesEntity->getDataUsingMethod('base_gift_cards_amount'));
         if ($value > 0.0001) {
             $cart->addDiscount((float)$value);
         }

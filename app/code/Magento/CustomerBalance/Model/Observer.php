@@ -635,17 +635,8 @@ class Observer
         if (!$cart) {
             return;
         }
-
         $salesEntity = $cart->getSalesModel();
-        if ($salesEntity instanceof \Magento\Sales\Model\Quote) {
-            $balanceField = 'base_customer_bal_amount_used';
-        } elseif ($salesEntity instanceof \Magento\Sales\Model\Order) {
-            $balanceField = 'base_customer_balance_amount';
-        } else {
-            return;
-        }
-
-        $value = abs($salesEntity->getDataUsingMethod($balanceField));
+        $value = abs($salesEntity->getDataUsingMethod('customer_balance_base_amount'));
         if ($value > 0.0001) {
             $cart->addDiscount((float)$value);
         }

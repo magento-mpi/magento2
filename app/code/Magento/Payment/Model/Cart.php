@@ -82,17 +82,17 @@ class Cart
         $salesModel
     ) {
         $this->_eventManager = $eventManager;
-        $this->_salesModelAdapter = $salesModelFactory->get($salesModel);
+        $this->_salesModelAdapter = $salesModelFactory->create($salesModel);
     }
 
     /**
-     * Get sales model associated with adapter
+     * Get sales model adapter
      *
-     * @return \Magento\Sales\Model\Order|\Magento\Sales\Model\Quote
+     * @return \Magento\Payment\Model\Cart\SalesModel\SalesModelInterface
      */
     public function getSalesModel()
     {
-        return $this->_salesModelAdapter->getOriginalModel();
+        return $this->_salesModelAdapter;
     }
 
     /**

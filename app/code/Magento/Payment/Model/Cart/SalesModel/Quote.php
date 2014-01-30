@@ -98,4 +98,27 @@ class Quote implements \Magento\Payment\Model\Cart\SalesModel\SalesModelInterfac
     {
         return $this->_address->getBaseDiscountAmount();
     }
+
+    /**
+     * Wrapper for \Magento\Object getDataUsingMethod method
+     *
+     * @param $key
+     * @param mixed $args
+     * @return mixed
+     */
+    public function getDataUsingMethod($key, $args = null)
+    {
+        return $this->_salesModel->getDataUsingMethod($key, $args);
+    }
+
+    /**
+     * Return object that contains tax related fields
+     *
+     * @return \Magento\Sales\Model\Quote\Address
+     */
+    public function getTaxContainer()
+    {
+        $salesEntity = $this->getOriginalModel();
+        return $salesEntity->getIsVirtual() ? $salesEntity->getBillingAddress() : $salesEntity->getShippingAddress();
+    }
 }

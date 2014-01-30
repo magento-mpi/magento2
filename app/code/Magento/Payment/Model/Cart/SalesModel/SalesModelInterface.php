@@ -46,4 +46,20 @@ interface SalesModelInterface
      * @return float|null
      */
     public function getBaseDiscountAmount();
+
+    /**
+     * Wrapper for \Magento\Object getDataUsingMethod method
+     *
+     * @param $key
+     * @param mixed $args
+     * @return mixed
+     */
+    public function getDataUsingMethod($key, $args = null);
+
+    /**
+     * Return object that contains tax related fields
+     *
+     * @return \Magento\Sales\Model\Order|\Magento\Sales\Model\Quote\Address
+     */
+    public function getTaxContainer();
 }

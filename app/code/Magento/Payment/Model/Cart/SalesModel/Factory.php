@@ -36,13 +36,13 @@ class Factory
     }
 
     /**
-     * Wrap sales model with Magento\Payment\Model\Cart\SalesModel\Adapter\AdapterInterface
+     * Wrap sales model with Magento\Payment\Model\Cart\SalesModel\SalesModelInterface
      *
      * @param \Magento\Sales\Model\Order|\Magento\Sales\Model\Quote $salesModel
      * @return \Magento\Payment\Model\Cart\SalesModel\SalesModelInterface
      * @throws \InvalidArgumentException
      */
-    public function get($salesModel)
+    public function create($salesModel)
     {
         if ($salesModel instanceof \Magento\Sales\Model\Quote) {
             return $this->_salesModelQuoteFactory->create(array('salesModel' => $salesModel));

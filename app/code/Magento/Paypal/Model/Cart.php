@@ -167,25 +167,12 @@ class Cart extends \Magento\Payment\Model\Cart
      * - run shopping cart and estimate shipping
      * - go to PayPal
      *
-     * @param \Magento\Payment\Model\Cart\SalesModel\Adapter\AdapterInterface $salesEntity
+     * @param \Magento\Payment\Model\Cart\SalesModel\SalesModelInterface $salesEntity
      */
-    protected function _applyHiddenTaxWorkaround(\Magento\Payment\Model\Cart\SalesModel\Adapter\AdapterInterface $salesEntity)
+    protected function _applyHiddenTaxWorkaround(\Magento\Payment\Model\Cart\SalesModel\SalesModelInterface $salesEntity)
     {
-        $dataContainer = $this->_getTaxContainer($salesEntity->getOriginalModel());
+        $dataContainer = $salesEntity->getTaxContainer();
         $this->addTax((float)$dataContainer->getBaseHiddenTaxAmount());
         $this->addTax((float)$dataContainer->getBaseShippingHiddenTaxAmnt());
-    }
-
-    /**
-     * @param \Magento\Sales\Model\Order|\Magento\Sales\Model\Quote $salesEntity
-     * @return \Magento\Sales\Model\Order|\Magento\Sales\Model\Quote\Address
-     */
-    protected function _getTaxContainer($salesEntity)
-    {
-        if ($salesEntity instanceof \Magento\Sales\Model\Order) {
-            return $salesEntity;
-        }
-
-        return $salesEntity->getIsVirtual() ? $salesEntity->getBillingAddress() : $salesEntity->getShippingAddress();
     }
 }

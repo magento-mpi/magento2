@@ -184,16 +184,16 @@ class Observer
         $totalWrapping = 0;
         $totalCard = 0;
         $salesEntity = $cart->getSalesModel();
-        foreach ($salesEntity->getAllItems() as $item) {
+        foreach ($salesEntity->getOriginalModel()->getAllItems() as $item) {
             if (!$item->getParentItem() && $item->getGwId() && $item->getGwBasePrice()) {
                 $totalWrapping += $item->getGwBasePrice();
             }
         }
-        if ($salesEntity->getGwId() && $salesEntity->getGwBasePrice()) {
-            $totalWrapping += $salesEntity->getGwBasePrice();
+        if ($salesEntity->getDataUsingMethod('gw_id') && $salesEntity->getDataUsingMethod('gw_base_price')) {
+            $totalWrapping += $salesEntity->getDataUsingMethod('gw_base_price');
         }
-        if ($salesEntity->getGwAddCard() && $salesEntity->getGwCardBasePrice()) {
-            $totalCard += $salesEntity->getGwCardBasePrice();
+        if ($salesEntity->getDataUsingMethod('gw_add_card') && $salesEntity->getDataUsingMethod('gw_card_base_price')) {
+            $totalCard += $salesEntity->getDataUsingMethod('gw_card_base_price');
         }
         if ($totalWrapping) {
             $cart->addCustomItem(__('Gift Wrapping'), 1, $totalWrapping);
