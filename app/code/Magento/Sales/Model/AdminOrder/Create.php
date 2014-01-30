@@ -1395,14 +1395,14 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      */
     public function setAccountData($accountData)
     {
-        $customer = $this->_customerService->getCustomer($this->getQuote()->getCustomerId());
+        $customer = $this->getQuote()->getCustomerData();
         $form = $this->_createCustomerForm($customer);
 
         // emulate request
         $request = $form->prepareRequest($accountData);
         $data = $form->extractData($request);
         $data = $form->restoreData($data);
-        $customer = $this->_modifyCustomerDto($customer, ['account' => $data]);
+        $this->getQuote()->setCustomerData($this->_modifyCustomerDto($customer, $data));
         $data = [];
 
         foreach ($form->getAttributes() as $attribute) {
