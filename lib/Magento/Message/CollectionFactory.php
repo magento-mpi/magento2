@@ -8,6 +8,8 @@
 
 namespace Magento\Message;
 
+use Magento\ObjectManager;
+
 /**
  * Message collection factory
  */
@@ -16,14 +18,14 @@ class CollectionFactory
     /**
      * Object Manager instance
      *
-     * @var \Magento\ObjectManager
+     * @var ObjectManager
      */
     protected $objectManager;
 
     /**
-     * @param \Magento\ObjectManager $objectManager
+     * @param ObjectManager $objectManager
      */
-    public function __construct(\Magento\ObjectManager $objectManager)
+    public function __construct(ObjectManager $objectManager)
     {
         $this->objectManager = $objectManager;
     }
