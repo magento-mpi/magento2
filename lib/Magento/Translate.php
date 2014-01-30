@@ -323,8 +323,8 @@ class Translate implements TranslateInterface
         /** @var \Magento\App\Cache\TypeListInterface $cacheTypeList */
         $cacheTypeList = $this->_translateFactory->create(array(), 'Magento\App\Cache\TypeListInterface');
         $cacheTypeList->invalidate(\Magento\App\Cache\Type\Translate::TYPE_IDENTIFIER);
-        /** @var $parser \Magento\Translate\InlineParser */
-        $parser = $this->_translateFactory->create(array(), 'Magento\Translate\InlineParser');
+        /** @var $parser \Magento\Core\Model\Translate\InlineParser */
+        $parser = $this->_translateFactory->create(array(), 'Magento\Core\Model\Translate\InlineParser');
         $parser->processAjaxPost($translate, $this->getInlineObject());
     }
 

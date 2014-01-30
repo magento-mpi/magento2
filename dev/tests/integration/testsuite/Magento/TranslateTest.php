@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Model;
+namespace Magento;
 
 /**
  * @magentoDataFixture Magento/Backend/controllers/_files/cache/all_types_disabled.php
@@ -33,7 +33,17 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $pathChunks = array(__DIR__, '_files', 'design', 'frontend', 'test_default', 'i18n', 'en_US.csv');
+        $pathChunks = array(
+            __DIR__,
+            'Core',
+            'Model',
+            '_files',
+            'design',
+            'frontend',
+            'test_default',
+            'i18n',
+            'en_US.csv'
+        );
 
         $this->_viewFileSystem = $this->getMock('Magento\View\FileSystem',
             array('getFilename', 'getDesignTheme'), array(), '', false);
@@ -65,9 +75,9 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
 
         /** @var $moduleReader \Magento\Module\Dir\Reader */
         $moduleReader = $objectManager->get('Magento\Module\Dir\Reader');
-        $moduleReader->setModuleDir('Magento_Core', 'i18n', __DIR__ . '/_files/Magento/Core/i18n');
+        $moduleReader->setModuleDir('Magento_Core', 'i18n', __DIR__ . '/Core/Model/_files/Magento/Core/i18n');
         $moduleReader->setModuleDir('Magento_Catalog', 'i18n',
-            __DIR__ . '/_files/Magento/Catalog/i18n');
+            __DIR__ . '/Core/Model/_files/Magento/Catalog/i18n');
 
         /** @var \Magento\Core\Model\View\Design _designModel */
         $this->_designModel = $this->getMock('Magento\Core\Model\View\Design',
@@ -122,43 +132,6 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
             'New Db Translation', $this->_model->translate(array('Fixture String')),
             'Forced load should not use cache'
         );
-    }
-
-    public function testGetConfig()
-    {
-        $this->assertEquals('frontend', $this->_model->getConfig(\Magento\Translate::CONFIG_KEY_AREA));
-        $this->assertEquals('en_US', $this->_model->getConfig(\Magento\Translate::CONFIG_KEY_LOCALE));
-        $this->assertEquals(1, $this->_model->getConfig(\Magento\Translate::CONFIG_KEY_STORE));
-        $design = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\View\DesignInterface');
-        $this->assertEquals($design->getDesignTheme()->getId(),
-            $this->_model->getConfig(\Magento\Translate::CONFIG_KEY_DESIGN_THEME));
-        $this->assertNull($this->_model->getConfig('non_existing_key'));
-    }
-
-    public function testGetData()
-    {
-        $this->markTestIncomplete('Bug MAGETWO-6986');
-        $expectedData = include(__DIR__ . '/Translate/_files/_translation_data.php');
-        $this->assertEquals($expectedData, $this->_model->getData());
-    }
-
-    public function testGetSetLocale()
-    {
-        $this->assertEquals('en_US', $this->_model->getLocale());
-        $this->_model->setLocale('ru_RU');
-        $this->assertEquals('ru_RU', $this->_model->getLocale());
-    }
-
-    public function testGetResource()
-    {
-        $this->assertInstanceOf('Magento\Core\Model\Resource\Translate', $this->_model->getResource());
-    }
-
-    public function testGetTranslate()
-    {
-        $translate = $this->_model->getTranslate();
-        $this->assertInstanceOf('Zend_Translate', $translate);
     }
 
     /**
