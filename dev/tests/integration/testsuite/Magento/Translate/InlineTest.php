@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Model\Translate;
+namespace Magento\Translate;
 
 class InlineTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Translate\Inline
+     * @var \Magento\Translate\Inline
      */
     protected $_model;
 
@@ -33,7 +33,7 @@ class InlineTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Translate\Inline');
+            ->create('Magento\Translate\Inline');
         /* Called getConfig as workaround for setConfig bug */
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
             ->getStore($this->_storeId)->getConfig('dev/translate_inline/active');

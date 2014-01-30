@@ -1,18 +1,13 @@
 <?php
 /**
+ * Inline Translation config factory
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
-/**
- * Inline Translation config factory
- */
-namespace Magento\Core\Model\Translate\Inline;
+namespace Magento\Translate\Inline;
 
 class ConfigFactory
 {
@@ -32,10 +27,10 @@ class ConfigFactory
     /**
      * Create instance of inline translate config
      *
-     * @return \Magento\Core\Model\Translate\Inline\ConfigInterface
+     * @return \Magento\Translate\Inline\ConfigInterface
      */
     public function create()
     {
-        return $this->_objectManager->create('Magento\Core\Model\Translate\Inline\Config');
+        return $this->_objectManager->create('Magento\Translate\Inline\ConfigInterface');
     }
 }

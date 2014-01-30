@@ -57,7 +57,7 @@ class Emulation extends \Magento\Object
     protected $_design;
 
     /**
-     * @var \Magento\Core\Model\Translate\Inline\ConfigFactory
+     * @var \Magento\Translate\Inline\ConfigFactory
      */
     protected $_configFactory;
 
@@ -69,7 +69,7 @@ class Emulation extends \Magento\Object
      * @param \Magento\TranslateInterface $translate
      * @param \Magento\Core\Helper\Translate $helperTranslate
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Translate\Inline\ConfigFactory $configFactory
+     * @param \Magento\Translate\Inline\ConfigFactory $configFactory
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param array $data
      */
@@ -81,7 +81,7 @@ class Emulation extends \Magento\Object
         \Magento\TranslateInterface $translate,
         \Magento\Core\Helper\Translate $helperTranslate,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Translate\Inline\ConfigFactory $configFactory,
+        \Magento\Translate\Inline\ConfigFactory $configFactory,
         \Magento\Core\Model\LocaleInterface $locale,
         array $data = array()
     ) {

@@ -2,13 +2,10 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Translate\Inline;
+namespace Magento\Translate\Inline;
 
 class ConfigFactoryTest extends \PHPUnit_Framework_TestCase
 {
@@ -19,9 +16,9 @@ class ConfigFactoryTest extends \PHPUnit_Framework_TestCase
         $objectManager
             ->expects($this->once())
             ->method('create')
-            ->with($this->equalTo('Magento\Core\Model\Translate\Inline\Config'))
+            ->with($this->equalTo('Magento\Translate\Inline\ConfigInterface'))
             ->will($this->returnValue($result));
-        $factory = new ConfigFactory($objectManager);
+        $factory = new \Magento\Translate\Inline\ConfigFactory($objectManager);
         $this->assertEquals($result, $factory->create());
     }
 }

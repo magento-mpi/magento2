@@ -1,18 +1,13 @@
 <?php
 /**
+ * Inline Translation config interface
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
-/**
- * Inline Translation config interface
- */
-namespace Magento\Core\Model\Translate\Inline;
+namespace Magento\Translate\Inline;
 
 interface ConfigInterface
 {
@@ -23,4 +18,13 @@ interface ConfigInterface
      * @return bool
      */
     public function isActive($store = null);
+
+
+    /**
+     * Check whether allowed client ip for inline translation
+     *
+     * @param mixed $store
+     * @return bool
+     */
+    public function isDevAllowed($store = null);
 }

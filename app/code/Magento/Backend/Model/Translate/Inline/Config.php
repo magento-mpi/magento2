@@ -13,7 +13,7 @@
  */
 namespace Magento\Backend\Model\Translate\Inline;
 
-class Config implements \Magento\Core\Model\Translate\Inline\ConfigInterface
+class Config implements \Magento\Translate\Inline\ConfigInterface
 {
     /**
      * @var \Magento\Backend\App\ConfigInterface
@@ -21,11 +21,20 @@ class Config implements \Magento\Core\Model\Translate\Inline\ConfigInterface
     protected $_config;
 
     /**
-     * @param \Magento\Backend\App\ConfigInterface $config
+     * @var \Magento\Core\Helper\Data
      */
-    public function __construct(\Magento\Backend\App\ConfigInterface $config)
-    {
+    protected $_helper;
+
+    /**
+     * @param \Magento\Backend\App\ConfigInterface $config
+     * @param \Magento\Core\Helper\Data $helper
+     */
+    public function __construct(
+        \Magento\Backend\App\ConfigInterface $config,
+        \Magento\Core\Helper\Data $helper
+    ) {
         $this->_config = $config;
+        $this->_helper = $helper;
     }
 
     /**
@@ -37,5 +46,16 @@ class Config implements \Magento\Core\Model\Translate\Inline\ConfigInterface
     public function isActive($store = null)
     {
         return $this->_config->isSetFlag('dev/translate_inline/active_admin');
+    }
+
+    /**
+     * Check whether allowed client ip for inline translation
+     *
+     * @param mixed $store
+     * @return bool
+     */
+    public function isDevAllowed($store = null)
+    {
+        return $this->_helper->isDevAllowed($store);
     }
 }

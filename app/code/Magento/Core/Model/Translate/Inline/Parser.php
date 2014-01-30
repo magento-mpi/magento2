@@ -12,15 +12,10 @@
  * This class is responsible for parsing content and applying necessary html element
  * wrapping and client scripts for inline translation.
  */
-namespace Magento\Core\Model\Translate;
+namespace Magento\Core\Model\Translate\Inline;
 
-class InlineParser
+class Parser implements \Magento\Translate\Inline\ParserInterface
 {
-    /**
-     * Default state for jason flag
-     */
-    const JSON_FLAG_DEFAULT_STATE = false;
-
     /**
      * data-translate html element attribute name
      */
@@ -45,7 +40,7 @@ class InlineParser
      *
      * @var bool
      */
-    protected $_isJson = self::JSON_FLAG_DEFAULT_STATE;
+    protected $_isJson = \Magento\Translate\Inline\ParserInterface::JSON_FLAG_DEFAULT_STATE;
 
     /**
      * Get max translate block in same tag
@@ -109,16 +104,6 @@ class InlineParser
     );
 
     /**
-     * @var \Magento\View\DesignInterface
-     */
-    protected $_design;
-
-    /**
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_helper;
-
-    /**
      * @var \Magento\Core\Model\Resource\Translate\String
      */
     protected $_resource;
@@ -143,49 +128,19 @@ class InlineParser
      *
      * @param \Magento\Core\Model\Resource\Translate\String $resource
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\View\DesignInterface $design
-     * @param \Magento\Core\Helper\Data $helper
      * @param \Zend_Filter_Interface $inputFilter
      * @param \Magento\App\State $appState
      */
     public function __construct(
         \Magento\Core\Model\Resource\Translate\String $resource,
-        \Magento\View\DesignInterface $design,
-        \Magento\Core\Helper\Data $helper,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Zend_Filter_Interface $inputFilter,
         \Magento\App\State $appState
     ) {
         $this->_resource = $resource;
-        $this->_design = $design;
-        $this->_helper = $helper;
         $this->_storeManager = $storeManager;
         $this->_inputFilter = $inputFilter;
         $this->_appState = $appState;
-    }
-
-    /**
-     * @return \Magento\View\DesignInterface
-     */
-    public function getDesignPackage()
-    {
-        return $this->_design;
-    }
-
-    /**
-     * @return \Magento\Core\Helper\Data
-     */
-    public function getHelper()
-    {
-        return $this->_helper;
-    }
-
-    /**
-     * @return \Magento\Core\Model\StoreManagerInterface
-     */
-    public function getStoreManager()
-    {
-        return $this->_storeManager;
     }
 
     /**
@@ -193,7 +148,7 @@ class InlineParser
      *
      * @param array $translateParams
      * @param \Magento\Translate\InlineInterface $inlineInterface
-     * @return \Magento\Core\Model\Translate\InlineParser
+     * @return $this
      */
     public function processAjaxPost(array $translateParams, $inlineInterface)
     {
@@ -295,7 +250,7 @@ class InlineParser
      * Set flag about parsed content is Json
      *
      * @param bool $flag
-     * @return \Magento\Core\Model\Translate\InlineParser
+     * @return $this
      */
     public function setIsJson($flag)
     {

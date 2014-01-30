@@ -50,7 +50,7 @@ class InlineVde implements \Magento\Translate\InlineInterface
     protected $_helper;
 
     /**
-     * @var \Magento\Core\Model\Translate\InlineParser
+     * @var \Magento\Translate\Inline\ParserInterface
      */
     protected $_parser;
 
@@ -72,19 +72,35 @@ class InlineVde implements \Magento\Translate\InlineInterface
     protected $_objectManager;
 
     /**
+     * @var \Magento\View\DesignInterface
+     */
+    protected $_design;
+
+    /**
+     * @var \Magento\BaseScopeResolverInterface
+     */
+    protected $_scopeResolver;
+
+    /**
      * Initialize inline translation model specific for vde
      *
-     * @param \Magento\Core\Model\Translate\InlineParser $parser
+     * @param \Magento\View\DesignInterface $design
+     * @param \Magento\BaseScopeResolverInterface $scopeResolver
+     * @param \Magento\Translate\Inline\ParserInterface $parser
      * @param \Magento\DesignEditor\Helper\Data $helper
      * @param \Magento\UrlInterface $url
      * @param \Magento\ObjectManager $objectManager
      */
     public function __construct(
-        \Magento\Core\Model\Translate\InlineParser $parser,
+        \Magento\View\DesignInterface $design,
+        \Magento\BaseScopeResolverInterface $scopeResolver,
+        \Magento\Translate\Inline\ParserInterface $parser,
         \Magento\DesignEditor\Helper\Data $helper,
         \Magento\UrlInterface $url,
         \Magento\ObjectManager $objectManager
     ) {
+        $this->_design = $design;
+        $this->_scopeResolver = $scopeResolver;
         $this->_parser = $parser;
         $this->_helper = $helper;
         $this->_url = $url;
@@ -145,16 +161,16 @@ class InlineVde implements \Magento\Translate\InlineInterface
             return;
         }
 
-        $store = $this->_parser->getStoreManager()->getStore();
+        $scope = $this->_scopeResolver->getScope();
         $ajaxUrl = $this->_url->getUrl('core/ajax/translate', array(
-            '_secure' => $store->isCurrentlySecure(),
+            '_secure' => $scope->isCurrentlySecure(),
             \Magento\DesignEditor\Helper\Data::TRANSLATION_MODE => $this->_helper->getTranslationMode()
         ));
 
         /** @var $block \Magento\View\Element\Template */
         $block = $this->_objectManager->create('Magento\View\Element\Template');
 
-        $block->setArea($this->_parser->getDesignPackage()->getArea());
+        $block->setArea($this->_design->getArea());
         $block->setAjaxUrl($ajaxUrl);
 
         $block->setFrameUrl($this->_getFrameUrl());

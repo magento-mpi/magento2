@@ -187,7 +187,7 @@ class EditorTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->getMock('Magento\Message\Collection', array(), array(), '', false))
         );
 
-        $inlineMock = $this->getMock('Magento\Core\Model\Translate\Inline', array(), array(), '', false);
+        $inlineMock = $this->getMock('Magento\Translate\Inline', array(), array(), '', false);
         $aclFilterMock = $this->getMock('Magento\Core\Model\Layout\Filter\Acl', array(), array(), '', false);
 
         return array(
@@ -201,7 +201,7 @@ class EditorTest extends \PHPUnit_Framework_TestCase
             array('Magento\Core\Model\StoreManager', $storeManager),
             array('Magento\AuthorizationInterface', $authMock),
             array('Magento\Backend\Model\Session', $backendSession),
-            array('Magento\Core\Model\Translate\Inline', $inlineMock),
+            array('Magento\Translate\Inline', $inlineMock),
             array('Magento\Core\Model\Layout\Filter\Acl', $aclFilterMock),
         );
     }

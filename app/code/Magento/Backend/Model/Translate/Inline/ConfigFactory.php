@@ -13,12 +13,12 @@
  */
 namespace Magento\Backend\Model\Translate\Inline;
 
-class ConfigFactory extends \Magento\Core\Model\Translate\Inline\ConfigFactory
+class ConfigFactory extends \Magento\Translate\Inline\ConfigFactory
 {
     /**
      * Create instance of inline translate config
      *
-     * @return \Magento\Core\Model\Translate\Inline\ConfigInterface
+     * @return \Magento\Translate\Inline\ConfigFactory
      */
     public function create()
     {
