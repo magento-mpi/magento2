@@ -55,8 +55,8 @@ class Address extends \Magento\Service\Entity\AbstractDto implements Eav\EntityI
 
         /** This triggers some code in _updateAddressModel in CustomerV1 Service */
         if (!is_null($this->getRegion())) {
-            $attributes['region_id'] = $this->getRegion()->getRegionId();
-            $attributes['region'] = $this->getRegion()->getRegion();
+            $attributes['region']['region_id'] = $this->getRegion()->getRegionId();
+            $attributes['region']['region'] = $this->getRegion()->getRegion();
         }
 
         return $attributes;
