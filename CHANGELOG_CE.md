@@ -23,6 +23,8 @@
   * Implemented new indexer structure
 * Refactored Web API Framework to support Data Object based service interfaces
 * Refactored controllers, blocks and templates of the Sales Module to use customer service
+* GitHub requests:
+  * [#275] (https://github.com/magento/magento2/issues/275) -- XSS Vulnerability in app/code/core/Mage/CatalogSearch/Block/Result.php
 
 2.0.0.0-dev62
 =============
