@@ -126,6 +126,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
         $customerFormMock = $this->getMock('Magento\Customer\Model\Metadata\Form', [], [], '', false);
         $customerFormMock->expects($this->any())->method('getAttributes')->will($this->returnValue($attributeMocks));
         $customerFormMock->expects($this->any())->method('extractData')->will($this->returnValue([]));
+        $customerFormMock->expects($this->any())->method('restoreData')->will($this->returnValue([]));
 
         $customerFormMock
             ->expects($this->any())
@@ -136,7 +137,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
         $customerMock->expects($this->any())->method('__toArray')->will($this->returnValue([]));
         $customerMock->expects($this->any())->method('getAttribute')->will($this->returnValueMap($attributes));
         $quoteMock = $this->getMock('Magento\Sales\Model\Quote', [], [], '', false);
-        $quoteMock->expects($this->any())->method('getCustomerId')->will($this->returnValue(self::CUSTOMER_ID));
+        $quoteMock->expects($this->any())->method('getCustomerData')->will($this->returnValue($customerMock));
 
         $quoteMock
             ->expects($this->once())
@@ -158,11 +159,6 @@ class CreateTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('getGroup')
             ->will($this->returnValue($customerGroupMock));
-
-        $this->customerServiceMock
-            ->expects($this->any())
-            ->method('getCustomer')
-            ->will($this->returnValue($customerMock));
 
         $this->adminOrderCreate->setAccountData([]);
     }
