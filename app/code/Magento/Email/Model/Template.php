@@ -196,6 +196,8 @@ class Template extends \Magento\Core\Model\Template
 
     /**
      * Initialize email template model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -450,9 +452,9 @@ class Template extends \Magento\Core\Model\Template
     /**
      * Get template code for include directive
      *
-     * @param   string $template
-     * @param   array $variables
-     * @return  string
+     * @param string $template
+     * @param array $variables
+     * @return string
      */
     public function getInclude($template, array $variables)
     {
@@ -469,10 +471,10 @@ class Template extends \Magento\Core\Model\Template
      *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
-     * @param   array|string       $email        E-mail(s)
-     * @param   array|string|null  $name         receiver name(s)
-     * @param   array              $variables    template variables
-     * @return  boolean
+     * @param array|string $email E-mail(s)
+     * @param array|string|null $name receiver name(s)
+     * @param array $variables template variables
+     * @return boolean
      **/
     public function send($email, $name = null, array $variables = array())
     {
@@ -572,14 +574,14 @@ class Template extends \Magento\Core\Model\Template
     /**
      * Send transactional email to recipient
      *
-     * @param   int|string $templateId
-     * @param   string|array $sender sender information, can be declared as part of config path
-     * @param   string $email recipient email
-     * @param   string $name recipient name
-     * @param   array $vars variables which can be used in template
-     * @param   int|null $storeId
-     * @return  $this
-     * @throws  Exception
+     * @param int|string $templateId
+     * @param string|array $sender sender information, can be declared as part of config path
+     * @param string $email recipient email
+     * @param string $name recipient name
+     * @param array $vars variables which can be used in template
+     * @param int|null $storeId
+     * @return $this
+     * @throws Exception
      */
     public function sendTransactional($templateId, $sender, $email, $name, $vars = array(), $storeId = null)
     {
@@ -620,9 +622,9 @@ class Template extends \Magento\Core\Model\Template
     /**
      * Process email subject
      *
-     * @param   array $variables
-     * @return  string
-     * @throws  \Exception
+     * @param array $variables
+     * @return string
+     * @throws \Exception
      */
     public function getProcessedTemplateSubject(array $variables)
     {

@@ -38,6 +38,8 @@ class FontPicker extends \Magento\Data\Form\Element\Select
 
     /**
      * Constructor helper
+     *
+     * @return void
      */
     public function _construct()
     {

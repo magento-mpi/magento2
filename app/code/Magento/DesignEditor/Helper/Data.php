@@ -7,8 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\DesignEditor\Helper;
+
+use Magento\App\RequestInterface;
 
 /**
  * Design Editor main helper
@@ -46,7 +47,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
 
     /**
      * @param \Magento\App\Helper\Context $context
-     * @param $frontName
+     * @param string $frontName
      * @param array $disabledCacheTypes
      */
     public function __construct(
@@ -82,10 +83,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * This method returns an indicator of whether or not the current request is for vde
      *
-     * @param \Magento\App\RequestInterface $request
+     * @param RequestInterface $request
      * @return bool
      */
-    public function isVdeRequest(\Magento\App\RequestInterface $request = null)
+    public function isVdeRequest(RequestInterface $request = null)
     {
         if (null !== $request) {
             $result = false;
@@ -123,10 +124,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Sets the translation mode for the current request (null, text, script, or alt);
      *
-     * @param \Magento\App\RequestInterface $request
-     * @return \Magento\DesignEditor\Helper\Data
+     * @param RequestInterface $request
+     * @return $this
      */
-    public function setTranslationMode(\Magento\App\RequestInterface $request)
+    public function setTranslationMode(RequestInterface $request)
     {
         $this->_translationMode = $request->getParam(self::TRANSLATION_MODE, null);
         return $this;

@@ -53,7 +53,7 @@ class Context
     /**
      * Reset checked theme
      *
-     * @return \Magento\DesignEditor\Model\State
+     * @return $this
      */
     public function reset()
     {

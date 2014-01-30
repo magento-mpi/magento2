@@ -58,7 +58,7 @@ class Buttons
      * Get current theme id
      *
      * @param int $themeId
-     * @return \Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar\Buttons
+     * @return $this
      */
     public function setThemeId($themeId)
     {

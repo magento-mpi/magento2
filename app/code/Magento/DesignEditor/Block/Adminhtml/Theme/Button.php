@@ -17,6 +17,8 @@ class Button extends \Magento\View\Element\Template
 {
     /**
      * Define block template
+     *
+     * @return void
      */
     protected function _construct()
     {

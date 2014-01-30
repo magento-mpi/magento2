@@ -76,6 +76,8 @@ abstract class AbstractComposite
 
     /**
      * Constructor helper
+     *
+     * @return void
      */
     protected function _construct()
     {

@@ -122,7 +122,7 @@ class Tools extends \Magento\Backend\App\Action
     /**
      * Upload js file
      *
-     * @reutrn void
+     * @return void
      */
     public function uploadJsAction()
     {

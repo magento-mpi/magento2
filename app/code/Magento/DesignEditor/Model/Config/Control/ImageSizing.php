@@ -27,7 +27,7 @@ class ImageSizing extends \Magento\DesignEditor\Model\Config\Control\AbstractCon
     protected $_moduleReader;
 
     /**
-     * @param $configFiles
+     * @param array $configFiles
      * @param \Magento\Module\Dir\Reader $moduleReader
      */
     public function __construct(

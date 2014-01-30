@@ -200,8 +200,7 @@ class Filter extends \Magento\Filter\Template
     }
 
     /**
-     * Getter
-     * if $_storeId is null return Design store id
+     * Getter. If $_storeId is null, return design store id.
      *
      * @return integer
      */
