@@ -57,7 +57,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
     /**
      * @param array $addresses
      * @param bool $expected
-     * @dataProvider dataProviderForTestThatQuoteHasMoreThanOneShippingAddress
+     * @dataProvider dataProviderForTestIsMultipleShippingAddresses
      */
     public function testIsMultipleShippingAddresses($addresses, $expected)
     {
