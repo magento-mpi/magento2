@@ -95,6 +95,7 @@ class Upsell extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Set grid params
      *
+     * @return void
      */
     protected function _construct()
     {

@@ -24,6 +24,9 @@ class Configure extends \Magento\Backend\Block\Widget
      */
     protected $_product;
 
+    /**
+     * @var string
+     */
     protected $_template = 'catalog/product/composite/configure.phtml';
 
     /**

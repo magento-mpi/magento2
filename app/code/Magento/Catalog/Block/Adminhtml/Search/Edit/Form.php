@@ -46,6 +46,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Init Form properties
      *
+     * @return void
      */
     protected function _construct()
     {

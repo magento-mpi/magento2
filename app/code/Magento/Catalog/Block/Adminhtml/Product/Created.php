@@ -17,9 +17,19 @@
  */
 namespace Magento\Catalog\Block\Adminhtml\Product;
 
+use Magento\Catalog\Model\Product;
+use Magento\Catalog\Model\Resource\Eav\Attribute;
+
 class Created extends \Magento\Backend\Block\Widget
 {
+    /**
+     * @var Product
+     */
     protected $_configurableProduct;
+
+    /**
+     * @var Product
+     */
     protected $_product;
 
     /**
@@ -107,7 +117,7 @@ class Created extends \Magento\Backend\Block\Widget
     /**
      * Retrieve array of attributes
      *
-     * @return array
+     * @return Attribute[]
      */
     public function getAttributes()
     {
@@ -136,7 +146,7 @@ class Created extends \Magento\Backend\Block\Widget
     /**
      * Retrieve configurable product for created/edited simple
      *
-     * @return \Magento\Catalog\Model\Product
+     * @return Product
      */
     public function getConfigurableProduct()
     {
@@ -150,7 +160,7 @@ class Created extends \Magento\Backend\Block\Widget
     /**
      * Retrieve product
      *
-     * @return \Magento\Catalog\Model\Product
+     * @return Product
      */
     public function getProduct()
     {

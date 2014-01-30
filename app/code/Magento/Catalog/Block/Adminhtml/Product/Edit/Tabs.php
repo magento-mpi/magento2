@@ -13,15 +13,22 @@
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Edit;
 
+use Magento\View\Element\AbstractBlock;
+
 class Tabs extends \Magento\Backend\Block\Widget\Tabs
 {
+
     const BASIC_TAB_GROUP_CODE = 'basic';
     const ADVANCED_TAB_GROUP_CODE = 'advanced';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $_attributeTabBlock = 'Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Attributes';
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $_template = 'Magento_Catalog::product/edit/tabs.phtml';
 
     /**
@@ -93,6 +100,9 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
         parent::__construct($context, $jsonEncoder, $authSession, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -100,6 +110,9 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
         $this->setDestElementId('product-edit-form-tabs');
     }
 
+    /**
+     * @return AbstractBlock
+     */
     protected function _prepareLayout()
     {
         $product = $this->getProduct();
@@ -282,6 +295,10 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
         return $this->_helperCatalog->getAttributeTabBlock();
     }
 
+    /**
+     * @param string $attributeTabBlock
+     * @return $this
+     */
     public function setAttributeTabBlock($attributeTabBlock)
     {
         $this->_attributeTabBlock = $attributeTabBlock;

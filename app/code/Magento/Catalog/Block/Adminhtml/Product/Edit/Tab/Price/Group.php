@@ -21,6 +21,9 @@ namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Price;
 class Group
     extends \Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Price\Group\AbstractGroup
 {
+    /**
+     * @var string
+     */
     protected $_template = 'catalog/product/edit/price/group.phtml';
 
     /**
