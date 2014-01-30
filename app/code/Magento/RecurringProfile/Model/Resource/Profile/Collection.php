@@ -2,22 +2,14 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\RecurringProfile\Model\Resource\Profile;
 
 /**
  * Recurring profile collection
- *
- * @category    Magento
- * @package     Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\RecurringProfile\Model\Resource\Profile;
-
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**

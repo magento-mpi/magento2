@@ -36,12 +36,6 @@ return array(
     array('getRequestUri', 'Magento\FullPageCache\Model\Processor\DefaultProcessor'),
     array('_getActiveEntity', 'Magento\GiftRegistry\Controller\Index'),
     array('getActiveEntity', 'Magento\GiftRegistry\Model\Entity'),
-    array(
-        'getAllStates',
-        'Magento\Sales\Model\Recurring\Profile',
-        'Magento\RecurringProfile\Model\States::toOptionArray()'
-    ),
-    array('getStateLabel', 'Magento\Sales\Model\Recurring\Profile'),
     array('_convertDateTime', 'Magento\CatalogEvent\Model\Event'),
     array('updateStatus', 'Magento\CatalogEvent\Model\Event'),
     array('getStateText', 'Magento\GiftCardAccount\Model\Giftcardaccount'),

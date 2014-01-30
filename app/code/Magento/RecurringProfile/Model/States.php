@@ -11,12 +11,12 @@ use Magento\Core\Model\Option\ArrayInterface;
 
 class States implements ArrayInterface
 {
-    const STATE_UNKNOWN = 'unknown';
-    const STATE_PENDING = 'pending';
-    const STATE_ACTIVE = 'active';
-    const STATE_SUSPENDED = 'suspended';
-    const STATE_CANCELED = 'canceled';
-    const STATE_EXPIRED = 'expired';
+    const UNKNOWN = 'unknown';
+    const PENDING = 'pending';
+    const ACTIVE = 'active';
+    const SUSPENDED = 'suspended';
+    const CANCELED = 'canceled';
+    const EXPIRED = 'expired';
 
     /**
      * @return array
@@ -24,12 +24,12 @@ class States implements ArrayInterface
     public function toOptionArray()
     {
         return array(
-            self::STATE_UNKNOWN => __('Not Initialized'),
-            self::STATE_PENDING => __('Pending'),
-            self::STATE_ACTIVE => __('Active'),
-            self::STATE_SUSPENDED => __('Suspended'),
-            self::STATE_CANCELED => __('Canceled'),
-            self::STATE_EXPIRED => __('Expired'),
+            self::UNKNOWN => __('Not Initialized'),
+            self::PENDING => __('Pending'),
+            self::ACTIVE => __('Active'),
+            self::SUSPENDED => __('Suspended'),
+            self::CANCELED => __('Canceled'),
+            self::EXPIRED => __('Expired'),
         );
     }
 }

@@ -313,6 +313,12 @@ return array(
     array('getAnonSuffix'),
     array('getAttributeDataModelFactory', 'Magento\Eav\Model\Validator\Attribute\Data'),
     array('getAttributesJson', 'Magento\Backend\Block\Catalog\Product\Edit\Tab\Super\Config', 'getAttributes'),
+    array(
+        'getAllStates',
+        'Magento\Sales\Model\Recurring\Profile',
+        'Magento\RecurringProfile\Model\States::toOptionArray()'
+    ),
+    array('getStateLabel', 'Magento\Sales\Model\Recurring\Profile'),
     array('getBaseTaxAmount', 'Magento\Sales\Model\Quote\Item\AbstractItem'),
     array('getBlockClassName', 'Magento\Core\Model\Config'),
     array('getButtonsHtml', 'Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search'),

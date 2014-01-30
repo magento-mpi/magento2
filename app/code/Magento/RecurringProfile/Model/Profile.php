@@ -2,11 +2,10 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\RecurringProfile\Model;
 
 /**
  * Sales implementation of recurring payment profiles
@@ -15,87 +14,72 @@
  * @method \Magento\RecurringProfile\Model\Resource\Profile _getResource()
  * @method \Magento\RecurringProfile\Model\Resource\Profile getResource()
  * @method string getState()
- * @method \Magento\RecurringProfile\Model\Profile setState(string $value)
+ * @method Profile setState(string $value)
  * @method int getCustomerId()
- * @method \Magento\RecurringProfile\Model\Profile setCustomerId(int $value)
+ * @method Profile setCustomerId(int $value)
  * @method int getStoreId()
- * @method \Magento\RecurringProfile\Model\Profile setStoreId(int $value)
+ * @method Profile setStoreId(int $value)
  * @method string getMethodCode()
- * @method \Magento\RecurringProfile\Model\Profile setMethodCode(string $value)
+ * @method Profile setMethodCode(string $value)
  * @method string getCreatedAt()
- * @method \Magento\RecurringProfile\Model\Profile setCreatedAt(string $value)
+ * @method Profile setCreatedAt(string $value)
  * @method string getUpdatedAt()
- * @method \Magento\RecurringProfile\Model\Profile setUpdatedAt(string $value)
+ * @method Profile setUpdatedAt(string $value)
  * @method string getReferenceId()
- * @method \Magento\RecurringProfile\Model\Profile setReferenceId(string $value)
+ * @method Profile setReferenceId(string $value)
  * @method string getSubscriberName()
- * @method \Magento\RecurringProfile\Model\Profile setSubscriberName(string $value)
+ * @method Profile setSubscriberName(string $value)
  * @method string getStartDatetime()
- * @method \Magento\RecurringProfile\Model\Profile setStartDatetime(string $value)
+ * @method Profile setStartDatetime(string $value)
  * @method string getInternalReferenceId()
- * @method \Magento\RecurringProfile\Model\Profile setInternalReferenceId(string $value)
+ * @method Profile setInternalReferenceId(string $value)
  * @method string getScheduleDescription()
- * @method \Magento\RecurringProfile\Model\Profile setScheduleDescription(string $value)
+ * @method Profile setScheduleDescription(string $value)
  * @method int getSuspensionThreshold()
- * @method \Magento\RecurringProfile\Model\Profile setSuspensionThreshold(int $value)
+ * @method Profile setSuspensionThreshold(int $value)
  * @method int getBillFailedLater()
- * @method \Magento\RecurringProfile\Model\Profile setBillFailedLater(int $value)
+ * @method Profile setBillFailedLater(int $value)
  * @method string getPeriodUnit()
- * @method \Magento\RecurringProfile\Model\Profile setPeriodUnit(string $value)
+ * @method Profile setPeriodUnit(string $value)
  * @method int getPeriodFrequency()
- * @method \Magento\RecurringProfile\Model\Profile setPeriodFrequency(int $value)
+ * @method Profile setPeriodFrequency(int $value)
  * @method int getPeriodMaxCycles()
- * @method \Magento\RecurringProfile\Model\Profile setPeriodMaxCycles(int $value)
+ * @method Profile setPeriodMaxCycles(int $value)
  * @method float getBillingAmount()
- * @method \Magento\RecurringProfile\Model\Profile setBillingAmount(float $value)
+ * @method Profile setBillingAmount(float $value)
  * @method string getTrialPeriodUnit()
- * @method \Magento\RecurringProfile\Model\Profile setTrialPeriodUnit(string $value)
+ * @method Profile setTrialPeriodUnit(string $value)
  * @method int getTrialPeriodFrequency()
- * @method \Magento\RecurringProfile\Model\Profile setTrialPeriodFrequency(int $value)
+ * @method Profile setTrialPeriodFrequency(int $value)
  * @method int getTrialPeriodMaxCycles()
- * @method \Magento\RecurringProfile\Model\Profile setTrialPeriodMaxCycles(int $value)
+ * @method Profile setTrialPeriodMaxCycles(int $value)
  * @method float getTrialBillingAmount()
- * @method \Magento\RecurringProfile\Model\Profile setTrialBillingAmount(float $value)
+ * @method Profile setTrialBillingAmount(float $value)
  * @method string getCurrencyCode()
- * @method \Magento\RecurringProfile\Model\Profile setCurrencyCode(string $value)
+ * @method Profile setCurrencyCode(string $value)
  * @method float getShippingAmount()
- * @method \Magento\RecurringProfile\Model\Profile setShippingAmount(float $value)
+ * @method Profile setShippingAmount(float $value)
  * @method float getTaxAmount()
- * @method \Magento\RecurringProfile\Model\Profile setTaxAmount(float $value)
+ * @method Profile setTaxAmount(float $value)
  * @method float getInitAmount()
- * @method \Magento\RecurringProfile\Model\Profile setInitAmount(float $value)
+ * @method Profile setInitAmount(float $value)
  * @method int getInitMayFail()
- * @method \Magento\RecurringProfile\Model\Profile setInitMayFail(int $value)
+ * @method Profile setInitMayFail(int $value)
  * @method string getOrderInfo()
- * @method \Magento\RecurringProfile\Model\Profile setOrderInfo(string $value)
+ * @method Profile setOrderInfo(string $value)
  * @method string getOrderItemInfo()
- * @method \Magento\RecurringProfile\Model\Profile setOrderItemInfo(string $value)
+ * @method Profile setOrderItemInfo(string $value)
  * @method string getBillingAddressInfo()
- * @method \Magento\RecurringProfile\Model\Profile setBillingAddressInfo(string $value)
+ * @method Profile setBillingAddressInfo(string $value)
  * @method string getShippingAddressInfo()
- * @method \Magento\RecurringProfile\Model\Profile setShippingAddressInfo(string $value)
+ * @method Profile setShippingAddressInfo(string $value)
  * @method string getProfileVendorInfo()
- * @method \Magento\RecurringProfile\Model\Profile setProfileVendorInfo(string $value)
+ * @method Profile setProfileVendorInfo(string $value)
  * @method string getAdditionalInfo()
- * @method \Magento\RecurringProfile\Model\Profile setAdditionalInfo(string $value)
- *
- * @category    Magento
- * @package     Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @method Profile setAdditionalInfo(string $value)
  */
-namespace Magento\RecurringProfile\Model;
-
 class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
 {
-    /**
-     * Payment types
-     *
-     * @var string
-     */
-    const PAYMENT_TYPE_REGULAR   = 'regular';
-    const PAYMENT_TYPE_TRIAL     = 'trial';
-    const PAYMENT_TYPE_INITIAL   = 'initial';
-
     /**
      * Allowed actions matrix
      *
@@ -222,11 +206,10 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
      */
     public function activate()
     {
-        $this->_checkWorkflow(States::STATE_ACTIVE, false);
-        $this->setNewState(States::STATE_ACTIVE);
+        $this->_checkWorkflow(States::ACTIVE, false);
+        $this->setNewState(States::ACTIVE);
         $this->getMethodInstance()->updateRecurringProfileStatus($this);
-        $this->setState(States::STATE_ACTIVE)
-            ->save();
+        $this->setState(States::ACTIVE)->save();
     }
 
     /**
@@ -236,7 +219,7 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
      */
     public function canActivate()
     {
-        return $this->_checkWorkflow(States::STATE_ACTIVE);
+        return $this->_checkWorkflow(States::ACTIVE);
     }
 
     /**
@@ -244,11 +227,10 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
      */
     public function suspend()
     {
-        $this->_checkWorkflow(States::STATE_SUSPENDED, false);
-        $this->setNewState(States::STATE_SUSPENDED);
+        $this->_checkWorkflow(States::SUSPENDED, false);
+        $this->setNewState(States::SUSPENDED);
         $this->getMethodInstance()->updateRecurringProfileStatus($this);
-        $this->setState(States::STATE_SUSPENDED)
-            ->save();
+        $this->setState(States::SUSPENDED)->save();
     }
 
     /**
@@ -258,7 +240,7 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
      */
     public function canSuspend()
     {
-        return $this->_checkWorkflow(States::STATE_SUSPENDED);
+        return $this->_checkWorkflow(States::SUSPENDED);
     }
 
     /**
@@ -266,10 +248,10 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
      */
     public function cancel()
     {
-        $this->_checkWorkflow(States::STATE_CANCELED, false);
-        $this->setNewState(States::STATE_CANCELED);
+        $this->_checkWorkflow(States::CANCELED, false);
+        $this->setNewState(States::CANCELED);
         $this->getMethodInstance()->updateRecurringProfileStatus($this);
-        $this->setState(States::STATE_CANCELED)->save();
+        $this->setState(States::CANCELED)->save();
     }
 
     /**
@@ -279,7 +261,7 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
      */
     public function canCancel()
     {
-        return $this->_checkWorkflow(States::STATE_CANCELED);
+        return $this->_checkWorkflow(States::CANCELED);
     }
 
     public function fetchUpdate()
@@ -288,15 +270,15 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
         $this->getMethodInstance()->getRecurringProfileDetails($this->getReferenceId(), $result);
 
         if ($result->getIsProfileActive()) {
-            $this->setState(States::STATE_ACTIVE);
+            $this->setState(States::ACTIVE);
         } elseif ($result->getIsProfilePending()) {
-            $this->setState(States::STATE_PENDING);
+            $this->setState(States::PENDING);
         } elseif ($result->getIsProfileCanceled()) {
-            $this->setState(States::STATE_CANCELED);
+            $this->setState(States::CANCELED);
         } elseif ($result->getIsProfileSuspended()) {
-            $this->setState(States::STATE_SUSPENDED);
+            $this->setState(States::SUSPENDED);
         } elseif ($result->getIsProfileExpired()) {
-            $this->setState(States::STATE_EXPIRED);
+            $this->setState(States::EXPIRED);
         }
     }
 
@@ -416,7 +398,7 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
      * Import quote information to the profile
      *
      * @param \Magento\Sales\Model\Quote $quote
-     * @return \Magento\RecurringProfile\Model\Profile
+     * @return Profile
      */
     public function importQuote(\Magento\Sales\Model\Quote $quote)
     {
@@ -450,7 +432,7 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
      * Import quote item information to the profile
      *
      * @param \Magento\Sales\Model\Quote\Item\AbstractItem $item
-     * @return \Magento\RecurringProfile\Model\Profile
+     * @return Profile
      */
     public function importQuoteItem(\Magento\Sales\Model\Quote\Item\AbstractItem $item)
     {
@@ -539,7 +521,7 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
         $result = parent::_filterValues();
 
         if (!$this->getState()) {
-            $this->setState(States::STATE_UNKNOWN);
+            $this->setState(States::UNKNOWN);
         }
 
         return $result;
@@ -601,7 +583,7 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
      * Add order relation to recurring profile
      *
      * @param int $orderId
-     * @return \Magento\RecurringProfile\Model\Profile
+     * @return Profile
      */
     public function addOrderRelation($orderId)
     {
@@ -624,11 +606,11 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
         }
 
         switch ($paymentType) {
-            case self::PAYMENT_TYPE_REGULAR:
+            case PaymentTypeInterface::REGULAR:
                 return $this->_getRegularItem($itemInfo);
-            case self::PAYMENT_TYPE_TRIAL:
+            case PaymentTypeInterface::TRIAL:
                 return $this->_getTrialItem($itemInfo);
-            case self::PAYMENT_TYPE_INITIAL:
+            case PaymentTypeInterface::INITIAL:
                 return $this->_getInitialItem($itemInfo);
             default:
                 new \Exception("Invalid recurring profile payment type '{$paymentType}'.");

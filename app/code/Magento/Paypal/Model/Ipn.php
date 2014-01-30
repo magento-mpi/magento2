@@ -462,9 +462,9 @@ class Ipn
             $productItemInfo = new \Magento\Object;
             $type = trim($this->getRequestData('period_type'));
             if ($type == 'Trial') {
-                $productItemInfo->setPaymentType(\Magento\RecurringProfile\Model\Profile::PAYMENT_TYPE_TRIAL);
+                $productItemInfo->setPaymentType(\Magento\RecurringProfile\Model\PaymentTypeInterface::TRIAL);
             } elseif ($type == 'Regular') {
-                $productItemInfo->setPaymentType(\Magento\RecurringProfile\Model\Profile::PAYMENT_TYPE_REGULAR);
+                $productItemInfo->setPaymentType(\Magento\RecurringProfile\Model\PaymentTypeInterface::REGULAR);
             }
             $productItemInfo->setTaxAmount($this->getRequestData('tax'));
             $productItemInfo->setShippingAmount($this->getRequestData('shipping'));

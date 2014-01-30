@@ -1848,6 +1848,12 @@ return array(
     array('Magento\PageCache\Model\Observer'),
     array('Magento\Config\Dom\Converter\ArrayConverter'),
     array('Magento\Acl\Resource\Config\Dom'),
+    array('Magento\Sales\Model\Recurring\Profile', 'Magento\RecurringProfile\Model\Profile'),
+    array('Magento\Sales\Model\Resource\Recurring\Profile', 'Magento\RecurringProfile\Model\Resource\Profile'),
+    array(
+        'Magento\Sales\Model\Resource\Recurring\Profile\Collection',
+        'Magento\RecurringProfile\Model\Resource\Profile\Collection'
+    ),
     ['Magento\Payment\Model\Recurring\Profile', 'Magento\RecurringProfile\Model\RecurringProfile'],
     ['Magento\Validator\Composite\VarienObject', 'Magento\Validator\Object'],
 );
