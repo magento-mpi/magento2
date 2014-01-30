@@ -92,24 +92,4 @@ class Collection extends \Magento\Data\Collection implements CollectionInterface
         }
         return $result;
     }
-
-    /**
-     * Return views by given state status
-     *
-     * @param string $status
-     * @return \Magento\Mview\ViewInterface[]
-     */
-    public function getViewsByStateStatus($status)
-    {
-        $this->load();
-
-        $result = array();
-        foreach ($this as $view) {
-            /** @var \Magento\Mview\ViewInterface $view */
-            if ($view->getState()->getStatus() == $status) {
-                $result[] = $view;
-            }
-        }
-        return $result;
-    }
 }

@@ -8,11 +8,6 @@
 
 namespace Magento\Mview;
 
-/**
- * @method string getActionClass()
- * @method string getGroup()
- * @method array getSubscriptions()
- */
 class View extends \Magento\Object implements ViewInterface
 {
     /**
@@ -67,6 +62,36 @@ class View extends \Magento\Object implements ViewInterface
         $this->changelog = $changelog;
         $this->subscriptionFactory = $subscriptionFactory;
         parent::__construct($data);
+    }
+
+    /**
+     * Return view action class
+     *
+     * @return string
+     */
+    public function getActionClass()
+    {
+        return $this->getData('action_class');
+    }
+
+    /**
+     * Return view group
+     *
+     * @return string
+     */
+    public function getGroup()
+    {
+        return $this->getData('group');
+    }
+
+    /**
+     * Return view subscriptions
+     *
+     * @return array
+     */
+    public function getSubscriptions()
+    {
+        return $this->getData('subscriptions');
     }
 
     /**
@@ -169,7 +194,7 @@ class View extends \Magento\Object implements ViewInterface
     public function update()
     {
         if ($this->getState()->getMode() == View\StateInterface::MODE_ENABLED
-            && $this->getState()->getStatus() != View\StateInterface::STATUS_WORKING
+            && $this->getState()->getStatus() == View\StateInterface::STATUS_IDLE
         ) {
             $currentVersionId = $this->getChangelog()->getVersion();
             $lastVersionId = $this->getState()->getVersionId();
@@ -181,17 +206,46 @@ class View extends \Magento\Object implements ViewInterface
                     ->save();
                 try {
                     $action->execute($ids);
+                    $this->getState()->loadByView($this->getId());
+                    $statusToRestore = $this->getState()->getStatus() == View\StateInterface::STATUS_SUSPENDED
+                        ? View\StateInterface::STATUS_SUSPENDED
+                        : View\StateInterface::STATUS_IDLE;
                     $this->getState()
                         ->setVersionId($currentVersionId)
-                        ->setStatus(View\StateInterface::STATUS_IDLE)
+                        ->setStatus($statusToRestore)
                         ->save();
                 } catch (\Exception $exception) {
+                    $this->getState()->loadByView($this->getId());
+                    $statusToRestore = $this->getState()->getStatus() == View\StateInterface::STATUS_SUSPENDED
+                        ? View\StateInterface::STATUS_SUSPENDED
+                        : View\StateInterface::STATUS_IDLE;
                     $this->getState()
-                        ->setStatus(View\StateInterface::STATUS_IDLE)
+                        ->setStatus($statusToRestore)
                         ->save();
                     throw $exception;
                 }
             }
+        }
+    }
+
+    /**
+     * Suspend view updates and set version ID to changelog's end
+     */
+    public function suspend()
+    {
+        $this->getState()
+            ->setVersionId($this->getChangelog()->getVersion())
+            ->setStatus(View\StateInterface::STATUS_SUSPENDED)
+            ->save();
+    }
+
+    /**
+     * Resume view updates
+     */
+    public function resume()
+    {
+        if ($this->getState()->getStatus() == View\StateInterface::STATUS_SUSPENDED) {
+            $this->getState()->setStatus(View\StateInterface::STATUS_IDLE)->save();
         }
     }
 
@@ -229,13 +283,13 @@ class View extends \Magento\Object implements ViewInterface
     }
 
     /**
-     * Return view mode
+     * Check whether view is enabled
      *
-     * @return string
+     * @return bool
      */
-    public function getMode()
+    public function isEnabled()
     {
-        return $this->getState()->getMode();
+        return $this->getState()->getMode() == View\StateInterface::MODE_ENABLED;
     }
 
     /**
@@ -246,6 +300,36 @@ class View extends \Magento\Object implements ViewInterface
     public function getStatus()
     {
         return $this->getState()->getStatus();
+    }
+
+    /**
+     * Check whether view is idle
+     *
+     * @return bool
+     */
+    public function isIdle()
+    {
+        return $this->getState()->getStatus() == \Magento\Mview\View\StateInterface::STATUS_IDLE;
+    }
+
+    /**
+     * Check whether view is working
+     *
+     * @return bool
+     */
+    public function isWorking()
+    {
+        return $this->getState()->getStatus() == \Magento\Mview\View\StateInterface::STATUS_WORKING;
+    }
+
+    /**
+     * Check whether view is suspended
+     *
+     * @return bool
+     */
+    public function isSuspended()
+    {
+        return $this->getState()->getStatus() == \Magento\Mview\View\StateInterface::STATUS_SUSPENDED;
     }
 
     /**

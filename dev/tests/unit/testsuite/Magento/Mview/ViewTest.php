@@ -157,7 +157,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $this->stateMock->expects($this->once())
             ->method('getMode')
             ->will($this->returnValue('enabled'));
-        $this->stateMock->expects($this->once())
+        $this->stateMock->expects($this->exactly(2))
             ->method('getStatus')
             ->will($this->returnValue('idle'));
         $this->stateMock->expects($this->exactly(2))
@@ -209,7 +209,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $this->stateMock->expects($this->once())
             ->method('getMode')
             ->will($this->returnValue('enabled'));
-        $this->stateMock->expects($this->once())
+        $this->stateMock->expects($this->exactly(2))
             ->method('getStatus')
             ->will($this->returnValue('idle'));
         $this->stateMock->expects($this->exactly(2))
