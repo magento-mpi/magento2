@@ -11,9 +11,8 @@
 /**
  * Recurring profiles view/management controller
  */
-namespace Magento\Sales\Controller\Recurring;
+namespace Magento\RecurringProfile\Controller;
 
-use Magento\App\Action\NotFoundException;
 use Magento\App\RequestInterface;
 
 class Profile extends \Magento\App\Action\Action
@@ -164,10 +163,6 @@ class Profile extends \Magento\App\Action\Action
             $this->_title->add(__('Profile #%1', $profile->getReferenceId()));
             $this->_view->loadLayout();
             $this->_view->getLayout()->initMessages();
-            $navigationBlock = $this->_view->getLayout()->getBlock('customer_account_navigation');
-            if ($navigationBlock) {
-                $navigationBlock->setActive('sales/recurring_profile/');
-            }
             $this->_view->renderLayout();
             return;
         } catch (\Magento\Core\Exception $e) {

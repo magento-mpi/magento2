@@ -13,7 +13,7 @@
  *
  * TODO: implement ACL restrictions
  */
-namespace Magento\Sales\Controller\Adminhtml\Recurring;
+namespace Magento\RecurringProfile\Controller\Adminhtml;
 
 use Magento\App\Action\NotFoundException;
 
