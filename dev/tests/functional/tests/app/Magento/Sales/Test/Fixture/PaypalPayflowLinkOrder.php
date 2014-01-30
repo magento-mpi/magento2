@@ -46,5 +46,7 @@ class PaypalPayflowLinkOrder extends OrderCheckout
         $formBlock = Factory::getPageFactory()->getCheckoutOnepage()->getPayflowLinkCcBlock();
         $formBlock->fill($this->checkoutFixture);
         $formBlock->pressContinue();
+        $checkoutOnePageSuccess = Factory::getPageFactory()->getCheckoutOnepageSuccess();
+        $this->orderId = $checkoutOnePageSuccess->getSuccessBlock()->getOrderId($this);
     }
 }
