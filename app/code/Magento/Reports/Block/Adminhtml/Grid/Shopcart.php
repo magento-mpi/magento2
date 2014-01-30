@@ -27,10 +27,10 @@ class Shopcart extends \Magento\Backend\Block\Widget\Grid\Extended
     protected $_storeIds            = array();
 
     /**
-     * storeIds setter
+     * StoreIds setter
      *
      * @param array $storeIds
-     * @return \Magento\Reports\Block\Adminhtml\Grid\Shopcart
+     * @return $this
      */
     public function setStoreIds($storeIds)
     {
