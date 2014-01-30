@@ -20,11 +20,6 @@ namespace Magento\PageCache\Block\System\Config\Form\Field;
 class Export extends \Magento\Backend\Block\System\Config\Form\Field
 {
     /**
-     * @var \Magento\Backend\Helper\Data
-     */
-    protected $_backendHelper;
-
-    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $helper
      * @param array $data
@@ -50,7 +45,7 @@ class Export extends \Magento\Backend\Block\System\Config\Form\Field
             'website' => $buttonBlock->getRequest()->getParam('website')
         );
 
-        $url = $this->_backendHelper->getUrl("*/*/exportVarnishConfig", $params);
+        $url = $this->getUrl("*/*/exportVarnishConfig", $params);
         $data = array(
             'id'        => 'export_varnish_configuration',
             'label'     => __('Export VCL'),
