@@ -256,7 +256,6 @@ class Observer
      * @param   $jobs
      * @param   array $exists
      * @param   array $groupConfig
-     * @param   string $groupId
      * @return  \Magento\Cron\Model\Observer
      */
     protected function _generateJobs($jobs, $exists, $groupConfig)
