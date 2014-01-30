@@ -7,12 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-namespace Magento\CatalogSearch\Block\Advanced;
-
-/**
- * Advanced search result
- */
 namespace Magento\CatalogSearch\Block\Advanced;
 
 use Magento\Catalog\Model\Layer;
@@ -23,6 +17,9 @@ use Magento\View\Element\AbstractBlock;
 use Magento\View\Element\Template;
 use Magento\View\Element\Template\Context;
 
+/**
+ * Advanced search result
+ */
 class Result extends Template
 {
     /**
