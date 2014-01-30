@@ -27,52 +27,70 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         $this->validator = new Validator($this->attrDataFactoryMock);
     }
 
-    /**
-     * @param null|\Magento\Customer\Model\Metadata\Form\AbstractData dataModel
-     * @param \Magento\Customer\Model\Attribute                       $attribute
-     * @param bool                                                    $isValid
-     * @dataProvider validateDataDataProvider
-     */
-    public function testValidateData($dataModel, $attribute, $isValid)
+    public function testValidateDataWithNoDataModel()
     {
+        $attribute = $this->getMockBuilder('\Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata')
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->attrDataFactoryMock
-            ->expects($this->any())
-            ->method('create')
-            ->withAnyParameters()
-            ->will($this->returnValue($dataModel));
-        $this->assertEquals($isValid, $this->validator->validateData([], [$attribute], 'ENTITY_TYPE'));
+            ->expects($this->never())
+            ->method('create');
+        $this->assertTrue($this->validator->validateData([], [$attribute], 'ENTITY_TYPE'));
     }
 
     /**
-     * @param null|\Magento\Customer\Model\Metadata\Form\AbstractData dataModel
-     * @param \Magento\Customer\Model\Attribute                       $attribute
-     * @param bool                                                    $isValid
-     * @dataProvider validateDataDataProvider
+     * @param bool $isValid
+     * @dataProvider trueFalseDataProvider
      */
-    public function testIsValid($dataModel, $attribute, $isValid)
+    public function testValidateData($isValid)
     {
+        $attribute = $this->getMockAttribute();
+        $this->mockDataModel($isValid, $attribute);
+        $this->assertEquals($isValid, $this->validator->validateData([], [$attribute], 'ENTITY_TYPE'));
+    }
+
+    public function testIsValidWithNoModel()
+    {
+        $attribute = $this->getMockBuilder('\Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata')
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->attrDataFactoryMock
-            ->expects($this->any())
-            ->method('create')
-            ->withAnyParameters()
-            ->will($this->returnValue($dataModel));
+            ->expects($this->never())
+            ->method('create');
         $this->validator->setAttributes([$attribute]);
         $this->validator->setEntityType('ENTITY_TYPE');
         $this->validator->setData(['something']);
-        $this->assertEquals($isValid, $this->validator->isValid('entity'));
+        $this->assertTrue($this->validator->isValid('entity'));
+        $this->validator->setData([]);
+        $this->assertTrue($this->validator->isValid(new \Magento\Object([])));
+    }
+
+    /**
+     * @param bool $isValid
+     * @dataProvider trueFalseDataProvider
+     */
+    public function testIsValid($isValid)
+    {
+        $attribute = $this->getMockAttribute();
+        $this->mockDataModel($isValid, $attribute);
+        $this->validator->setAttributes([$attribute]);
+        $this->validator->setEntityType('ENTITY_TYPE');
+        $this->validator->setData(['something']);
+        $this->assertEquals($isValid, $this->validator->isValid('ENTITY'));
         $this->validator->setData([]);
         $this->assertEquals($isValid, $this->validator->isValid(new \Magento\Object([])));
     }
 
-    public function validateDataDataProvider()
+    public function trueFalseDataProvider()
     {
-        $testCases = [];
+        return [[true], [false]];
+    }
 
-        $attribute = $this->getMockBuilder('\Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $testCases['No data model or frontend'] = [null, $attribute, true];
-
+    /**
+     * @return \PHPUnit_Framework_MockObject_MockObject | \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata
+     */
+    protected function getMockAttribute()
+    {
         $attribute = $this->getMockBuilder('\Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata')
             ->disableOriginalConstructor()
             ->setMethods(['__wakeup', 'getAttributeCode', 'getDataModel'])
@@ -82,24 +100,32 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue('ATTR_CODE'));
         $attribute->expects($this->any())
             ->method('getDataModel')
-            ->will($this->returnValue('string'));
+            ->will($this->returnValue('DATA_MODEL'));
+        return $attribute;
+    }
+
+    /**
+     * @param bool                                                   $isValid
+     * @param \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute
+     * @return void
+     */
+    protected function mockDataModel($isValid, \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute)
+    {
         $dataModel = $this->getMockBuilder('\Magento\Customer\Model\Metadata\Form\Text')
             ->disableOriginalConstructor()
             ->getMock();
         $dataModel->expects($this->any())
             ->method('validateValue')
-            ->will($this->returnValue(true));
-        $testCases['Successful Validation'] = [$dataModel, $attribute, true];
-
-        $dataModel = $this->getMockBuilder('\Magento\Customer\Model\Metadata\Form\Text')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $dataModel->expects($this->any())
-            ->method('validateValue')
-            ->will($this->returnValue(false));
-        $testCases['Failed Validation'] = [$dataModel, $attribute, false];
-
-        return $testCases;
+            ->will($this->returnValue($isValid));
+        $this->attrDataFactoryMock
+            ->expects($this->any())
+            ->method('create')
+            ->with(
+                $this->equalTo($attribute),
+                $this->equalTo('ENTITY_TYPE'),
+                $this->equalTo(null)
+            )
+            ->will($this->returnValue($dataModel));
     }
 }
  
