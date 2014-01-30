@@ -255,4 +255,12 @@ return array(
     array('_catalogCategoryFlat', 'Magento\Catalog\Model\Observer'),
     array('_catalogCategoryFlat', 'Magento\Catalog\Block\Navigation'),
     array('_catalogCategoryFlat', 'Magento\Catalog\Model\Category'),
+    array('_storesRootCategories', 'Magento\Catalog\Model\Resource\Category\Flat'),
+    array('_resourceHelper', 'Magento\Catalog\Model\Resource\Category\Flat'),
+    array('_catalogCategory', 'Magento\Catalog\Model\Resource\Category\Flat'),
+    array('_isRebuilt', 'Magento\Catalog\Model\Resource\Category\Flat'),
+    array('_isBuilt', 'Magento\Catalog\Model\Resource\Category\Flat'),
+    array('_attributeCodes', 'Magento\Catalog\Model\Resource\Category\Flat'),
+    array('_columnsSql', 'Magento\Catalog\Model\Resource\Category\Flat'),
+    array('_columns', 'Magento\Catalog\Model\Resource\Category\Flat'),
 );

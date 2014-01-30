@@ -595,7 +595,8 @@ class Category extends \Magento\Catalog\Model\AbstractModel
 
         if ($this->getParentId()) {
             $parentPath = $this->_categoryFactory->create()
-                ->load($this->getParentId())->getCategoryPath();
+                ->load($this->getParentId())
+                ->getCategoryPath();
             $path = $parentPath . '/' . $path;
         }
 
