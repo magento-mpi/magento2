@@ -49,6 +49,11 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     protected $_request;
 
+    /**
+     * @var \Magento\Shell|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_shell;
+
     /** @var \Magento\Cron\Model\Resource\Schedule\Collection|\PHPUnit_Framework_MockObject_MockObject */
     protected $_collection;
 
@@ -94,6 +99,10 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_request = $this->getMockBuilder('Magento\App\Console\Request')
             ->disableOriginalConstructor()
             ->getMock();
+        $this->_shell = $this->getMockBuilder('Magento\Shell')
+            ->disableOriginalConstructor()
+            ->setMethods(array('execute'))
+            ->getMock();
 
         $this->_observer = new \Magento\Cron\Model\Observer(
             $this->_objectManager,
@@ -102,7 +111,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             $this->_config,
             $this->_cronGroupConfig,
             $this->_coreStoreConfig,
-            $this->_request
+            $this->_request,
+            $this->_shell
         );
     }
 

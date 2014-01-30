@@ -73,6 +73,11 @@ class Observer
     protected $_request;
 
     /**
+     * @var \Magento\Shell
+     */
+    protected $_shell;
+
+    /**
      * @param \Magento\ObjectManager $objectManager
      * @param ScheduleFactory $scheduleFactory
      * @param \Magento\Core\Model\AppInterface $app
@@ -80,6 +85,7 @@ class Observer
      * @param Groups\Config\Data $cronGroupsConfig
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\App\Console\Request $request
+     * @param \Magento\Shell $shell
      */
     public function __construct(
         \Magento\ObjectManager $objectManager,
@@ -88,7 +94,8 @@ class Observer
         \Magento\Cron\Model\ConfigInterface $config,
         \Magento\Cron\Model\Groups\Config\Data $cronGroupsConfig,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\App\Console\Request $request
+        \Magento\App\Console\Request $request,
+        \Magento\Shell $shell
     ) {
         $this->_objectManager = $objectManager;
         $this->_scheduleFactory = $scheduleFactory;
@@ -97,6 +104,7 @@ class Observer
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_cronGroupsConfig = $cronGroupsConfig;
         $this->_request = $request;
+        $this->_shell = $shell;
     }
 
     /**
@@ -115,10 +123,14 @@ class Observer
         /** @var $schedule \Magento\Cron\Model\Schedule */
         foreach ($jobGroupsRoot as $groupId => $jobsRoot) {
             $groupConfig = $this->_cronGroupsConfig->getByGroupId($groupId);
-            if (
-                $this->_request->getParam('group') === null && $groupConfig['use_separate_process'] == 1
-                || $this->_request->getParam('group') !== null && $this->_request->getParam('group') != $groupId
-            ) {
+            if ($this->_request->getParam('group') === null && $groupConfig['use_separate_process'] == 1) {
+                $this->_shell->executeInBackground(
+                    PHP_BINARY . ' -f ' . BP . DIRECTORY_SEPARATOR
+                    . \Magento\Filesystem::PUB . DIRECTORY_SEPARATOR
+                    . 'cron.php -- --group=' . $groupId
+                );
+            }
+            if ($this->_request->getParam('group') !== null && $this->_request->getParam('group') != $groupId) {
                 continue;
             }
 
