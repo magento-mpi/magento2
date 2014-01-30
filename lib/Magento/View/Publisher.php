@@ -290,8 +290,8 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
         }
 
         $pubStaticDir = $this->_filesystem->getPath(\Magento\App\Filesystem::STATIC_VIEW_DIR) . '/';
-        if (strncmp($filePath, $pubStaticDir, strlen($pubStaticDir)) === 0) {
-            return true;
+        if (strncmp($filePath, $pubStaticDir, strlen($pubStaticDir)) !== 0) {
+            return false;
         }
 
         if ($this->_viewService->getAppMode() !== \Magento\App\State::MODE_DEVELOPER) {
