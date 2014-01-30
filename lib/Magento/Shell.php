@@ -72,10 +72,11 @@ class Shell
     public function executeInBackground($command)
     {
         if ($this->_osInfo->isWindows()) {
-            pclose(popen('start "magento background task" "' . $command . '"', 'r'));
+            $command = 'start "magento background task" "' . $command . '"';
         } else {
-            $this->execute($command .  ' > /dev/null &');
+            $command .=  ' > /dev/null 2>1 &';
         }
+        pclose(popen($command, 'r'));
     }
 
     /**

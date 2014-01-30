@@ -129,6 +129,7 @@ class Observer
                     . \Magento\Filesystem::PUB . DIRECTORY_SEPARATOR
                     . 'cron.php -- --group=' . $groupId
                 );
+                continue;
             }
             if ($this->_request->getParam('group') !== null && $this->_request->getParam('group') != $groupId) {
                 continue;
