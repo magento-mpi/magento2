@@ -7,21 +7,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Catalog Search Controller
- */
 namespace Magento\CatalogSearch\Controller;
 
 use Magento\App\Action\Action;
 use Magento\App\Action\Context;
 use Magento\Catalog\Model\Session;
-use Magento\CatalogSearch\Model\Query;
 use Magento\Core\Model\StoreManagerInterface;
 
+/**
+ * Catalog Search Controller
+ */
 class Result extends Action
 {
-
     /**
      * Catalog session
      *
@@ -50,23 +47,14 @@ class Result extends Action
     }
 
     /**
-     * Retrieve catalog session
-     *
-     * @return Session
-     */
-    protected function _getSession()
-    {
-        return $this->_catalogSession;
-    }
-    /**
      * Display search result
      *
      * @return void
      */
     public function indexAction()
     {
+        /* @var $query \Magento\CatalogSearch\Model\Query */
         $query = $this->_objectManager->get('Magento\CatalogSearch\Helper\Data')->getQuery();
-        /* @var $query Query */
 
         $query->setStoreId($this->_storeManager->getStore()->getId());
 
@@ -77,7 +65,7 @@ class Result extends Action
                     ->setIsProcessed(1);
             } else {
                 if ($query->getId()) {
-                    $query->setPopularity($query->getPopularity()+1);
+                    $query->setPopularity($query->getPopularity() + 1);
                 } else {
                     $query->setPopularity(1);
                 }

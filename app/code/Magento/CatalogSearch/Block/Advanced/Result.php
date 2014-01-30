@@ -8,12 +8,10 @@
  * @license     {license_link}
  */
 
+namespace Magento\CatalogSearch\Block\Advanced;
+
 /**
  * Advanced search result
- *
- * @category   Magento
- * @package    Magento_CatalogSearch
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\CatalogSearch\Block\Advanced;
 
@@ -73,50 +71,53 @@ class Result extends Template
      */
     protected function _prepareLayout()
     {
-        if ($breadcrumbs = $this->getLayout()->getBlock('breadcrumbs')) {
+        $breadcrumbs = $this->getLayout()->getBlock('breadcrumbs');
+        if ($breadcrumbs) {
             $breadcrumbs->addCrumb('home', array(
-                'label'=>__('Home'),
-                'title'=>__('Go to Home Page'),
-                'link' => $this->_storeManager->getStore()->getBaseUrl(),
+                'label' => __('Home'),
+                'title' => __('Go to Home Page'),
+                'link'  => $this->_storeManager->getStore()->getBaseUrl(),
             ))->addCrumb('search', array(
-                'label'=>__('Catalog Advanced Search'),
-                'link'=>$this->getUrl('*/*/')
+                'label' => __('Catalog Advanced Search'),
+                'link'  => $this->getUrl('*/*/')
             ))->addCrumb('search_result', array(
-                'label'=>__('Results')
+                'label' => __('Results')
             ));
         }
         return parent::_prepareLayout();
     }
 
     /**
+     * Set order options
+     *
      * @return void
      */
     public function setListOrders() {
         $category = $this->_catalogLayer->getCurrentCategory();
         /* @var $category \Magento\Catalog\Model\Category */
+        $category = $this->_catalogLayer->getCurrentCategory();
 
         $availableOrders = $category->getAvailableSortByOptions();
         unset($availableOrders['position']);
 
-        $this->getChildBlock('search_result_list')
-            ->setAvailableOrders($availableOrders);
+        $this->getChildBlock('search_result_list')->setAvailableOrders($availableOrders);
+    }
+
+    /**
+     * Set view mode options
+     *
+     * @return void
+     */
+    public function setListModes()
+    {
+        $this->getChildBlock('search_result_list')->setModes(array('grid' => __('Grid'), 'list' => __('List')));
     }
 
     /**
      * @return void
      */
-    public function setListModes() {
-        $this->getChildBlock('search_result_list')
-            ->setModes(array(
-                'grid' => __('Grid'),
-                'list' => __('List'))
-            );
-    }
-
-    /**
-     * @return void
-     */
-    public function setListCollection() {
+    public function setListCollection()
+    {
         $this->getChildBlock('search_result_list')
            ->setCollection($this->_getProductCollection());
     }
@@ -124,7 +125,8 @@ class Result extends Template
     /**
      * @return Collection
      */
-    protected function _getProductCollection(){
+    protected function _getProductCollection()
+    {
         return $this->getSearchModel()->getProductCollection();
     }
 

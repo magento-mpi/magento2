@@ -8,7 +8,6 @@
  * @license     {license_link}
  */
 
-
 namespace Magento\GiftCardAccount\Block\Checkout\Cart;
 
 class Total extends \Magento\Checkout\Block\Total\DefaultTotal
@@ -43,6 +42,11 @@ class Total extends \Magento\Checkout\Block\Total\DefaultTotal
         $this->_isScopePrivate = true;
     }
 
+    /**
+     * Get sales quoute
+     *
+     * @return \Magento\Sales\Model\Quote
+     */
     public function getQuote()
     {
         return $this->_checkoutSession->getQuote();
