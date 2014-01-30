@@ -20,34 +20,6 @@ class Full extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
     const OLD_TABLE_SUFFIX = '_old';
 
     /**
-     * Loaded
-     *
-     * @var boolean
-     */
-    protected $_loaded = false;
-
-    /**
-     * Nodes
-     *
-     * @var array
-     */
-    protected $_nodes = array();
-
-    /**
-     * Inactive categories ids
-     *
-     * @var array
-     */
-    protected $_inactiveCategoryIds = null;
-
-    /**
-     * Store flag which defines if Catalog Category Flat Data has been initialized
-     *
-     * @var bool|null
-     */
-    protected $_isBuilt = null;
-
-    /**
      * Whether table changes are allowed
      *
      * @var bool
@@ -58,22 +30,6 @@ class Full extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
      * @var \Magento\Catalog\Model\Indexer\Category\Flat\Config
      */
     protected $config;
-
-    /**
-     * @param \Magento\App\Resource $resource
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Catalog\Model\Indexer\Category\Flat\Config $config
-     * @param \Magento\Catalog\Model\Resource\Helper $resourceHelper
-     */
-    public function __construct(
-        \Magento\App\Resource $resource,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Catalog\Model\Indexer\Category\Flat\Config $config,
-        \Magento\Catalog\Model\Resource\Helper $resourceHelper
-    ) {
-        parent::__construct($resource, $storeManager, $resourceHelper);
-        $this->config = $config;
-    }
 
     /**
      * Add suffix to table name to show it is
@@ -99,26 +55,6 @@ class Full extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
     }
 
     /**
-     * Refresh all entities
-     *
-     * @return Full
-     * @throws \Magento\Core\Exception
-     */
-    public function execute()
-    {
-        if (!$this->config->isFlatEnabled()) {
-            return $this;
-        }
-
-        try {
-            $this->reindexAll();
-        } catch (Exception $e) {
-            throw new \Magento\Core\Exception($e->getMessage(), $e->getCode(), $e);
-        }
-        return $this;
-    }
-
-    /**
      * Populate category flat tables with data
      *
      * @param array $stores
@@ -134,7 +70,7 @@ class Full extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
 
             if (!isset($categories[$store->getRootCategoryId()])) {
                 $select = $this->getWriteAdapter()->select()
-                    ->from($this->getTable('catalog_category_entity'))
+                    ->from($this->getWriteAdapter()->getTableName('catalog_category_entity'))
                     ->where('path = ?', (string)$rootId)
                     ->orWhere('path = ?', "{$rootId}/{$store->getRootCategoryId()}")
                     ->orWhere('path LIKE ?', "{$rootId}/{$store->getRootCategoryId()}/%");
@@ -257,7 +193,7 @@ class Full extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
      *
      * @return Refresh
      */
-    protected function reindexAll()
+    public function reindexAll()
     {
         $this->createTables();
 
