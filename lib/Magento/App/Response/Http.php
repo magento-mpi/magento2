@@ -11,13 +11,14 @@ namespace Magento\App\Response;
 
 class Http extends \Zend_Controller_Response_Http implements \Magento\App\ResponseInterface
 {
-
     /**
      * Cookie to store page vary string
      */
     const COOKIE_VARY_STRING = 'VARY_STRING';
 
     /**
+     * Response vary identifiers
+     *
      * @var array
      */
     protected $vary;
@@ -41,10 +42,10 @@ class Http extends \Zend_Controller_Response_Http implements \Magento\App\Respon
     }
 
     /**
-     * Set vary
+     * Set vary identifier
      *
-     * @param $name
-     * @param $value
+     * @param string $name
+     * @param string|array $value
      * @return $this
      */
     public function setVary($name, $value)

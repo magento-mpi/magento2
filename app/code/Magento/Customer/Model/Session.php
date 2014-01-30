@@ -242,9 +242,9 @@ class Session extends \Magento\Session\SessionManager
 
         }
         if ($this->isLoggedIn() && $this->getCustomer()) {
-            return $this->getCustomer()->getGroupId();
             $this->response->setVary(\Magento\Customer\Model\Group::ENTITY,
                 $this->getCustomer()->getGroupId());
+            return $this->getCustomer()->getGroupId();
         }
 
         return \Magento\Customer\Model\Group::NOT_LOGGED_IN_ID;
