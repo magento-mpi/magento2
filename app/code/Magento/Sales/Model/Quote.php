@@ -271,6 +271,9 @@ class Quote extends \Magento\Core\Model\AbstractModel
      */
     protected $_customerData;
 
+    /** @var \Magento\Customer\Model\Converter */
+    protected $_converter;
+
     /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
@@ -291,6 +294,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Sales\Model\Resource\Quote\Payment\CollectionFactory $quotePaymentCollectionFactory
      * @param \Magento\Sales\Model\Recurring\ProfileFactory $recurringProfileFactory
      * @param \Magento\Object\Copy $objectCopyService
+     * @param \Magento\Customer\Model\Converter $converter
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -315,6 +319,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
         \Magento\Sales\Model\Resource\Quote\Payment\CollectionFactory $quotePaymentCollectionFactory,
         \Magento\Sales\Model\Recurring\ProfileFactory $recurringProfileFactory,
         \Magento\Object\Copy $objectCopyService,
+        \Magento\Customer\Model\Converter $converter,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -336,6 +341,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
         $this->_quotePaymentCollectionFactory = $quotePaymentCollectionFactory;
         $this->_recurringProfileFactory = $recurringProfileFactory;
         $this->_objectCopyService = $objectCopyService;
+        $this->_converter = $converter;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -484,6 +490,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      */
     public function loadByCustomer($customer)
     {
+        /* @TODO: remove this if after external usages of loadByCustomer are refactored in MAGETWO-19935 */
         if ($customer instanceof \Magento\Customer\Model\Customer) {
             $customerId = $customer->getId();
         } else {
@@ -523,27 +530,33 @@ class Quote extends \Magento\Core\Model\AbstractModel
     /**
      * Assign customer model object data to quote
      *
-     * @param   \Magento\Customer\Model\Customer $customer
+     * @param   \Magento|Customer\Service\V1\Dto\Customer|\Magento\Customer\Model\Customer $customer
      * @return $this
      */
-    public function assignCustomer(\Magento\Customer\Model\Customer $customer)
+    public function assignCustomer($customer)
     {
+        /* @TODO: refactor input type hint after external usages of assignCustomer are refactored in MAGETWO-19931 */
         return $this->assignCustomerWithAddressChange($customer);
     }
 
     /**
      * Assign customer model to quote with billing and shipping address change
      *
-     * @param  \Magento\Customer\Model\Customer    $customer
+     * @param  \Magento|Customer\Service\V1\Dto\Customer|\Magento\Customer\Model\Customer $customer
      * @param  \Magento\Sales\Model\Quote\Address  $billingAddress
      * @param  \Magento\Sales\Model\Quote\Address  $shippingAddress
      * @return $this
      */
     public function assignCustomerWithAddressChange(
-        \Magento\Customer\Model\Customer    $customer,
+        $customer,
         \Magento\Sales\Model\Quote\Address  $billingAddress  = null,
         \Magento\Sales\Model\Quote\Address  $shippingAddress = null
     ) {
+        /* @TODO: refactor this once all the usages of assignCustomerWithAddressChange are refactored MAGETWO-19932 */
+        if ($customer instanceof \Magento\Customer\Service\V1\Dto\Customer) {
+            $customer = $this->_converter->createCustomerModel($customer);
+        }
+
         if ($customer->getId()) {
             $this->setCustomer($customer);
 
@@ -581,6 +594,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      */
     public function setCustomer(\Magento\Customer\Model\Customer $customer)
     {
+        /* @TODO: Remove the method after all external usages are refactored in MAGETWO-19933 */
         $this->_customer = $customer;
         $this->setCustomerId($customer->getId());
         $this->_objectCopyService->copyFieldsetToTarget('customer_account', 'to_quote', $customer, $this);
@@ -594,6 +608,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      */
     public function getCustomer()
     {
+        /* @TODO: Remove the method after all external usages are refactored in MAGETWO-19934 */
         if (null === $this->_customer) {
             $this->_customer = $this->_customerFactory->create();
             $customerId = $this->getCustomerId();
@@ -614,7 +629,10 @@ class Quote extends \Magento\Core\Model\AbstractModel
      */
     public function getCustomerData()
     {
-        return $this->_customerData;
+        /* @TODO: remove this code in favor of setCustomerData usage */
+        $customerModel = $this->getCustomer();
+        $customerData = $this->_converter->createCustomerFromModel($customerModel);
+        return $customerData;
     }
 
     /**
@@ -625,7 +643,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      */
     public function setCustomerData(\Magento\Customer\Service\V1\Dto\Customer $customerData)
     {
-        $this->_customerData = $customerData;
+        $this->_converter->updateCustomerModel($this->getCustomer(), $customerData);
         return $this;
     }
 

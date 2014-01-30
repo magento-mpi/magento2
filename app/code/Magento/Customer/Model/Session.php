@@ -79,6 +79,16 @@ class Session extends \Magento\Session\SessionManager
     protected $_storeManager;
 
     /**
+     * @var \Magento\Customer\Service\V1\Dto\Customer
+     */
+    protected $_customerDataObject;
+
+    /**
+     * @var Converter
+     */
+    protected $_converter;
+
+    /**
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Session\Config\ConfigInterface $sessionConfig
@@ -94,6 +104,7 @@ class Session extends \Magento\Session\SessionManager
      * @param \Magento\Core\Model\Session $session
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Customer\Model\Converter $converter
      * @param null $sessionName
      * @param array $data
      */
@@ -113,6 +124,7 @@ class Session extends \Magento\Session\SessionManager
         \Magento\Core\Model\Session $session,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Customer\Model\Converter $converter,
         $sessionName = null,
         array $data = array()
     ) {
@@ -127,6 +139,7 @@ class Session extends \Magento\Session\SessionManager
         $this->_storeManager = $storeManager;
         parent::__construct($request, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage);
         $this->start($sessionName);
+        $this->_converter = $converter;
         $this->_eventManager->dispatch('customer_session_init', array('customer_session' => $this));
     }
 
@@ -182,6 +195,30 @@ class Session extends \Magento\Session\SessionManager
 
         $this->setCustomer($customer);
         return $this->_customer;
+    }
+
+    /**
+     * Returns Customer data object with the customer information
+     *
+     * @return \Magento\Customer\Service\V1\Dto\Customer
+     */
+    public function getCustomerData()
+    {
+        /* TODO refactor this after all usages of the setCustomer is refactored */
+        return $this->_converter->createCustomerFromModel($this->getCustomer());
+    }
+
+    /**
+     * Set Customer data object with the customer information
+     *
+     * @param \Magento\Customer\Service\V1\Dto\Customer $customerData
+     * @return $this
+     */
+    public function setCustomerData(\Magento\Customer\Service\V1\Dto\Customer $customerData)
+    {
+        $this->setId($customerData->getCustomerId());
+        $this->_converter->updateCustomerModel($this->getCustomer(), $customerData);
+        return $this;
     }
 
     /**

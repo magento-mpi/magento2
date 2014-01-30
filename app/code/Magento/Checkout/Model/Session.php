@@ -191,7 +191,7 @@ class Session extends \Magento\Session\SessionManager
             if (!$this->getQuoteId()) {
                 if ($this->_customerSession->isLoggedIn() || $this->_customer) {
                     $customer = ($this->_customer) ? $this->_customer : $this->_customerSession->getCustomer();
-                    $quote->loadByCustomer($customer);
+                    $quote->loadByCustomer($customer->getId());
                     $this->setQuoteId($quote->getId());
                 } else {
                     $quote->setIsCheckoutCart(true);

@@ -103,12 +103,7 @@ class Converter
 
         $attributes = $customer->getAttributes();
         foreach ($attributes as $attributeCode => $attributeValue) {
-            // avoid setting password through set attribute
-            if ($attributeCode == 'password') {
-                continue;
-            } else {
-                $customerModel->setData($attributeCode, $attributeValue);
-            }
+            $customerModel->setData($attributeCode, $attributeValue);
         }
 
         $customerId = $customer->getCustomerId();
@@ -119,10 +114,34 @@ class Converter
         // Need to use attribute set or future updates can cause data loss
         if (!$customerModel->getAttributeSetId()) {
             $customerModel->setAttributeSetId(CustomerMetadataServiceInterface::ATTRIBUTE_SET_ID_CUSTOMER);
-            return $customerModel;
         }
 
         return $customerModel;
+    }
+
+    /**
+     * Update customer model with the data from the data object
+     *
+     * @param Customer $customerModel
+     * @param \Magento\Customer\Service\V1\Dto\Customer $customerData
+     * @return void
+     */
+    public function updateCustomerModel(
+        \Magento\Customer\Model\Customer $customerModel,
+        \Magento\Customer\Service\V1\Dto\Customer $customerData
+    ) {
+        $attributes = $customerData->__toArray();
+        foreach ($attributes as $attributeCode => $attributeValue) {
+            $customerModel->setData($attributeCode, $attributeValue);
+        }
+        $customerId = $customerData->getCustomerId();
+        if ($customerId) {
+            $customerModel->setId($customerId);
+        }
+        // Need to use attribute set or future updates can cause data loss
+        if (!$customerModel->getAttributeSetId()) {
+            $customerModel->setAttributeSetId(CustomerMetadataServiceInterface::CUSTOMER_ATTRIBUTE_SET_ID);
+        }
     }
 
     /**
