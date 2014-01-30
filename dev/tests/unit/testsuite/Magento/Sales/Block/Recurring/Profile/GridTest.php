@@ -89,7 +89,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
         $block = $this->_objectManagerHelper->getObject(
             'Magento\Sales\Block\Recurring\Profile\Grid',
             array(
-                'profile' => $profile,
+                'recurringProfile' => $profile,
                 'registry' => $registry,
                 'storeManager' => $storeManager,
                 'locale' => $locale

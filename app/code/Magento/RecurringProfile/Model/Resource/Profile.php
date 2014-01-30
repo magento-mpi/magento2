@@ -16,7 +16,7 @@
  * @package     Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\RecurringProfile\Mode\Resource;
+namespace Magento\RecurringProfile\Model\Resource;
 
 class Profile extends \Magento\Sales\Model\Resource\AbstractResource
 {

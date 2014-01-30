@@ -40,6 +40,6 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     protected function _construct()
     {
-        $this->_init('Magento\RecurringProfile\Model\Profile', 'Magento\RecurringProfile\Mode\Resource\Profile');
+        $this->_init('Magento\RecurringProfile\Model\Profile', 'Magento\RecurringProfile\Model\Resource\Profile');
     }
 }

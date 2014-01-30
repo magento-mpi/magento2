@@ -12,8 +12,8 @@
  * Sales implementation of recurring payment profiles
  * Implements saving and managing profiles
  *
- * @method \Magento\RecurringProfile\Mode\Resource\Profile _getResource()
- * @method \Magento\RecurringProfile\Mode\Resource\Profile getResource()
+ * @method \Magento\RecurringProfile\Model\Resource\Profile _getResource()
+ * @method \Magento\RecurringProfile\Model\Resource\Profile getResource()
  * @method string getState()
  * @method \Magento\RecurringProfile\Model\Profile setState(string $value)
  * @method int getCustomerId()
@@ -221,10 +221,10 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
      */
     public function activate()
     {
-        $this->_checkWorkflow(self::STATE_ACTIVE, false);
-        $this->setNewState(self::STATE_ACTIVE);
+        $this->_checkWorkflow(States::STATE_ACTIVE, false);
+        $this->setNewState(States::STATE_ACTIVE);
         $this->getMethodInstance()->updateRecurringProfileStatus($this);
-        $this->setState(self::STATE_ACTIVE)
+        $this->setState(States::STATE_ACTIVE)
             ->save();
     }
 
@@ -235,7 +235,7 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
      */
     public function canActivate()
     {
-        return $this->_checkWorkflow(self::STATE_ACTIVE);
+        return $this->_checkWorkflow(States::STATE_ACTIVE);
     }
 
     /**
@@ -243,10 +243,10 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
      */
     public function suspend()
     {
-        $this->_checkWorkflow(self::STATE_SUSPENDED, false);
-        $this->setNewState(self::STATE_SUSPENDED);
+        $this->_checkWorkflow(States::STATE_SUSPENDED, false);
+        $this->setNewState(States::STATE_SUSPENDED);
         $this->getMethodInstance()->updateRecurringProfileStatus($this);
-        $this->setState(self::STATE_SUSPENDED)
+        $this->setState(States::STATE_SUSPENDED)
             ->save();
     }
 
@@ -257,7 +257,7 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
      */
     public function canSuspend()
     {
-        return $this->_checkWorkflow(self::STATE_SUSPENDED);
+        return $this->_checkWorkflow(States::STATE_SUSPENDED);
     }
 
     /**
@@ -265,10 +265,10 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
      */
     public function cancel()
     {
-        $this->_checkWorkflow(self::STATE_CANCELED, false);
-        $this->setNewState(self::STATE_CANCELED);
+        $this->_checkWorkflow(States::STATE_CANCELED, false);
+        $this->setNewState(States::STATE_CANCELED);
         $this->getMethodInstance()->updateRecurringProfileStatus($this);
-        $this->setState(self::STATE_CANCELED)->save();
+        $this->setState(States::STATE_CANCELED)->save();
     }
 
     /**
@@ -278,7 +278,7 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
      */
     public function canCancel()
     {
-        return $this->_checkWorkflow(self::STATE_CANCELED);
+        return $this->_checkWorkflow(States::STATE_CANCELED);
     }
 
     public function fetchUpdate()
@@ -287,15 +287,15 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
         $this->getMethodInstance()->getRecurringProfileDetails($this->getReferenceId(), $result);
 
         if ($result->getIsProfileActive()) {
-            $this->setState(self::STATE_ACTIVE);
+            $this->setState(States::STATE_ACTIVE);
         } elseif ($result->getIsProfilePending()) {
-            $this->setState(self::STATE_PENDING);
+            $this->setState(States::STATE_PENDING);
         } elseif ($result->getIsProfileCanceled()) {
-            $this->setState(self::STATE_CANCELED);
+            $this->setState(States::STATE_CANCELED);
         } elseif ($result->getIsProfileSuspended()) {
-            $this->setState(self::STATE_SUSPENDED);
+            $this->setState(States::STATE_SUSPENDED);
         } elseif ($result->getIsProfileExpired()) {
-            $this->setState(self::STATE_EXPIRED);
+            $this->setState(States::STATE_EXPIRED);
         }
     }
 
@@ -525,7 +525,7 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
      */
     protected function _construct()
     {
-        $this->_init('Magento\RecurringProfile\Mode\Resource\Profile');
+        $this->_init('Magento\RecurringProfile\Model\Resource\Profile');
     }
 
     /**
@@ -538,7 +538,7 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
         $result = parent::_filterValues();
 
         if (!$this->getState()) {
-            $this->setState(self::STATE_UNKNOWN);
+            $this->setState(States::STATE_UNKNOWN);
         }
 
         return $result;
