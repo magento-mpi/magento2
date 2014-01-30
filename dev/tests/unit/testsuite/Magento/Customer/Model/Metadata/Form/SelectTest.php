@@ -76,32 +76,10 @@ class SelectTest extends AbstractFormTestCase
 
     /**
      * @param string|int|bool|null $value
-     * @dataProvider outputValueJsonDataProvider
-     */
-    public function testOutputValueJson($value)
-    {
-        $select = new Select($this->localeMock, $this->loggerMock, $this->attributeMetadataMock, $value, 0);
-        $actual = $select->outputValue(\Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_JSON);
-        $this->assertEquals($value, $actual);
-    }
-
-    public function outputValueJsonDataProvider()
-    {
-        return [
-            'empty' => [''],
-            'null' => [null],
-            'number' => [15],
-            'string' => ['some string'],
-            'boolean' => [true],
-        ];
-    }
-
-    /**
-     * @param string|int|bool|null $value
      * @param string|int $expected
-     * @dataProvider outputValueTextDataProvider
+     * @dataProvider outputValueDataProvider
      */
-    public function testOutputValueText($value, $expected)
+    public function testOutputValue($value, $expected)
     {
         $this->attributeMetadataMock
             ->expects($this->any())
@@ -115,7 +93,7 @@ class SelectTest extends AbstractFormTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function outputValueTextDataProvider()
+    public function outputValueDataProvider()
     {
         return [
             'empty' => ['', ''],

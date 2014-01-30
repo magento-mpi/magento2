@@ -87,17 +87,10 @@ class Select extends AbstractData
     public function outputValue($format = \Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_TEXT)
     {
         $value = $this->_value;
-        switch ($format) {
-            case \Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_JSON:
-                $output = $value;
-                break;
-            default:
-                if ($value != '') {
-                    $output = $this->_getOptionText($value);
-                } else {
-                    $output = '';
-                }
-                break;
+        if ($value != '') {
+            $output = $this->_getOptionText($value);
+        } else {
+            $output = '';
         }
 
         return $output;
