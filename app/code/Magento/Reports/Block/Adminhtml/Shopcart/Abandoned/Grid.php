@@ -7,16 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reports\Block\Adminhtml\Shopcart\Abandoned;
 
 /**
  * Adminhtml abandoned shopping carts report grid block
  *
- * @category   Magento
- * @package    Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reports\Block\Adminhtml\Shopcart\Abandoned;
-
 class Grid extends \Magento\Reports\Block\Adminhtml\Grid\Shopcart
 {
     /**
@@ -40,6 +37,9 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\Shopcart
         parent::__construct($context, $backendHelper, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();

@@ -7,18 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Dashboard Year-To-Date Month and Day starts Field Renderer
- *
- * @category   Magento
- * @package    Magento_Reports
- * @author     Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Reports\Block\Adminhtml\Config\Form\Field;
 
 use Magento\Data\Form\Element\AbstractElement;
 
+/**
+ * Dashboard Year-To-Date Month and Day starts Field Renderer
+ *
+ * @author     Magento Core Team <core@magentocommerce.com>
+ */
 class YtdStart extends \Magento\Backend\Block\System\Config\Form\Field
 {
     /**

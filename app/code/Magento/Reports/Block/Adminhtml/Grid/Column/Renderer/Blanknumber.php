@@ -7,17 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reports\Block\Adminhtml\Grid\Column\Renderer;
 
 /**
  * Adminhtml grid item renderer number or blank line
  *
- * @category   Magento
- * @package    Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Reports\Block\Adminhtml\Grid\Column\Renderer;
-
 class Blanknumber extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Number
 {
     /**

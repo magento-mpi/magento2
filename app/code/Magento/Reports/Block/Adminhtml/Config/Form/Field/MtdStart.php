@@ -7,18 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Dashboard Month-To-Date Day starts Field Renderer
- *
- * @category   Magento
- * @package    Magento_Reports
- * @author     Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Reports\Block\Adminhtml\Config\Form\Field;
 
 use Magento\Data\Form\Element\AbstractElement;
 
+/**
+ * Dashboard Month-To-Date Day starts Field Renderer
+ *
+ * @author     Magento Core Team <core@magentocommerce.com>
+ */
 class MtdStart extends \Magento\Backend\Block\System\Config\Form\Field
 {
     /**

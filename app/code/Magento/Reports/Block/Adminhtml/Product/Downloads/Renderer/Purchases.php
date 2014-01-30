@@ -7,16 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reports\Block\Adminhtml\Product\Downloads\Renderer;
 
 /**
  * Adminhtml Product Downloads Purchases Renderer
  *
- * @category   Magento
- * @package    Magento_Reports
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reports\Block\Adminhtml\Product\Downloads\Renderer;
-
 class Purchases
     extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {

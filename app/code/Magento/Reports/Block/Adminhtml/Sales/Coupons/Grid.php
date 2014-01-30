@@ -7,16 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reports\Block\Adminhtml\Sales\Coupons;
 
 /**
  * Adminhtml coupons report grid block
  *
- * @category   Magento
- * @package    Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reports\Block\Adminhtml\Sales\Coupons;
-
 class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
 {
     /**
@@ -24,6 +21,9 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
      */
     protected $_columnGroupBy = 'period';
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();

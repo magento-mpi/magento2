@@ -7,19 +7,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reports\Block\Adminhtml\Shopcart;
 
 /**
  * Adminhtml abandoned shopping cart report page content block
  *
- * @category   Magento
- * @package    Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reports\Block\Adminhtml\Shopcart;
-
 class Abandoned extends \Magento\Backend\Block\Widget\Grid\Container
 {
-
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_blockGroup = 'Magento_Reports';

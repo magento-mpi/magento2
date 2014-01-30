@@ -7,16 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reports\Block\Adminhtml\Sales\Tax;
 
 /**
  * Adminhtml tax report grid block
  *
- * @category   Magento
- * @package    Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reports\Block\Adminhtml\Sales\Tax;
-
 class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
 {
     /**

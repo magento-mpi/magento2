@@ -7,16 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reports\Block\Adminhtml\Grid;
 
 /**
  * Adminhtml shopping carts report grid block
  *
- * @category   Magento
- * @package    Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reports\Block\Adminhtml\Grid;
-
 class Shopcart extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
