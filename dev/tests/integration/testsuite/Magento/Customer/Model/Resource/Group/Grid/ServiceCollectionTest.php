@@ -8,9 +8,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Customer\Model\Resource\Goup\Grid;
-
-use Magento\Customer\Model\Resource\Group\Grid\ServiceCollection;
+namespace Magento\Customer\Model\Resource\Group\Grid;
 
 class ServiceCollectionTest extends \PHPUnit_Framework_TestCase
 {
@@ -78,6 +76,18 @@ class ServiceCollectionTest extends \PHPUnit_Framework_TestCase
     public function testSingleFilter()
     {
         $this->collection->addFieldToFilter('code', 'NOT LOGGED IN');
+        $this->collection->loadData();
+        $items = $this->collection->getItems();
+        $this->assertEquals(1, count($items));
+
+        $this->assertEquals('NOT LOGGED IN', $items[0]->getCode());
+        $this->assertEquals('0', $items[0]->getId());
+        $this->assertEquals('3', $items[0]->getTaxClassId());
+    }
+
+    public function testSingleLikeFilter()
+    {
+        $this->collection->addFieldToFilter('code', ['like' => 'NOT%']);
         $this->collection->loadData();
         $items = $this->collection->getItems();
         $this->assertEquals(1, count($items));
