@@ -44,7 +44,7 @@ class Grid extends \Magento\RecurringProfile\Block\Profiles
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\RecurringProfile\Model\RecurringProfile $recurringProfile,
+        \Magento\RecurringProfile\Model\Profile $recurringProfile,
         \Magento\Core\Model\Registry $registry,
         \Magento\RecurringProfile\Block\Fields $fields,
         array $data = array()
