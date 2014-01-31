@@ -17,10 +17,6 @@
  */
 namespace Magento\Catalog\Block\Adminhtml\Product;
 
-use Magento\Backend\Block\Widget\Grid as WidgetGrid;
-use Magento\Catalog\Model\Product;
-use Magento\Core\Model\Store;
-
 class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
@@ -109,7 +105,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     }
 
     /**
-     * @return Store
+     * @return \Magento\Core\Model\Store
      */
     protected function _getStore()
     {
@@ -118,7 +114,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     }
 
     /**
-     * @return $this|WidgetGrid
+     * @return $this
      */
     protected function _prepareCollection()
     {
@@ -197,8 +193,8 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     }
 
     /**
-     * @param WidgetGrid\Column $column
-     * @return WidgetGrid
+     * @param \Magento\Backend\Block\Widget\Grid\Column $column
+     * @return $this
      */
     protected function _addColumnFilterToCollection($column)
     {
@@ -218,7 +214,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     }
 
     /**
-     * @return WidgetGrid\Extended
+     * @return $this
      */
     protected function _prepareColumns()
     {
@@ -401,7 +397,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     }
 
     /**
-     * @return $this|WidgetGrid
+     * @return $this
      */
     protected function _prepareMassaction()
     {
@@ -452,7 +448,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     }
 
     /**
-     * @param Product|\Magento\Object
+     * @param \Magento\Catalog\Model\Product|\Magento\Object $row
      * @return string
      */
     public function getRowUrl($row)
