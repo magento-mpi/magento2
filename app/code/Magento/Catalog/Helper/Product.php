@@ -10,6 +10,7 @@
 namespace Magento\Catalog\Helper;
 
 use Magento\Catalog\Model\Product as ModelProduct;
+use Magento\Core\Model\Store;
 
 /**
  * Catalog category helper
@@ -307,7 +308,7 @@ class Product extends \Magento\Core\Helper\Url
     /**
      * Check if <link rel="canonical"> can be used for product
      *
-     * @param null|string|bool|int|\Magento\Core\Model\Store $store
+     * @param null|string|bool|int|Store $store
      * @return bool
      */
     public function canUseCanonicalTag($store = null)

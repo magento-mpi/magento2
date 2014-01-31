@@ -5,7 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Helper\Product;
 
+use Magento\Catalog\Model\Product;
+use Magento\Customer\Model\Customer;
 
 /**
  * Collection of tax module calls
@@ -14,10 +17,6 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Helper\Product;
-
-use Magento\Customer\Model\Customer;
-
 class Price extends \Magento\App\Helper\AbstractHelper
 {
     /**
@@ -45,7 +44,7 @@ class Price extends \Magento\App\Helper\AbstractHelper
     /**
      * Get product price with all tax settings processing
      *
-     * @param \Magento\Catalog\Model\Product $_product
+     * @param Product $_product
      * @param float $_minimalPriceValue inputed product price
      * @param bool $includingTax return price include tax flag
      * @return float
