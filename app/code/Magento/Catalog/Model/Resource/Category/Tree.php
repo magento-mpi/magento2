@@ -444,6 +444,7 @@ class Tree extends \Magento\Data\Tree\Dbp
      * @param mixed $category
      * @param mixed $newParent
      * @param mixed $prevNode
+     * @return void
      */
     public function move($category, $newParent, $prevNode = null)
     {
@@ -571,7 +572,8 @@ class Tree extends \Magento\Data\Tree\Dbp
     /**
      * Replace products count with self products count, if category is non-anchor
      *
-     * @param array $data
+     * @param array &$data
+     * @return void
      */
     protected function _updateAnchorProductCount(&$data)
     {

@@ -772,7 +772,6 @@ class Product extends \Magento\Index\Model\Resource\AbstractResource
      * Rebuild all index data
      *
      * @return $this
-     * @return array array('id' => $id, 'table'=>$table)
      */
     public function reindexAll()
     {
