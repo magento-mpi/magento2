@@ -7,35 +7,39 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogSearch\Controller;
+
+use Magento\App\Action\Action;
+use Magento\App\Action\Context;
+use Magento\Catalog\Model\Session;
+use Magento\Core\Model\StoreManagerInterface;
 
 /**
  * Catalog Search Controller
  */
-class Result extends \Magento\App\Action\Action
+class Result extends Action
 {
     /**
      * Catalog session
      *
-     * @var \Magento\Catalog\Model\Session
+     * @var Session
      */
     protected $_catalogSession;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param \Magento\App\Action\Context $context
-     * @param \Magento\Catalog\Model\Session $catalogSession
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param Context $context
+     * @param Session $catalogSession
+     * @param StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\App\Action\Context $context,
-        \Magento\Catalog\Model\Session $catalogSession,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        Context $context,
+        Session $catalogSession,
+        StoreManagerInterface $storeManager
     ) {
         $this->_storeManager = $storeManager;
         $this->_catalogSession = $catalogSession;
@@ -44,6 +48,8 @@ class Result extends \Magento\App\Action\Action
 
     /**
      * Display search result
+     *
+     * @return void
      */
     public function indexAction()
     {
