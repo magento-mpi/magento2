@@ -658,6 +658,10 @@ return array(
         'Magento\Catalog\Model\Product\Type\Configurable\Price',
         'Magento\ConfigurableProduct\Model\Product\Type\Configurable\Price'
     ),
+    array(
+        'Magento\Catalog\Block\Cart\Item\Renderer\Configurable',
+        'Magento\ConfigurableProduct\Block\Cart\Item\Renderer\Configurable'
+    ),
     array('Mage_Checkout_Block_Links'),
     array('Mage_Core_Block_Flush'),
     array('Mage_Core_Block_Template_Facade'),

@@ -9,9 +9,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Checkout\Block\Cart\Item\Renderer;
+namespace Magento\ConfigurableProduct\Block\Cart\Item\Renderer;
 
-use Magento\Checkout\Block\Cart\Item\Renderer\Configurable as Renderer;
+use Magento\ConfigurableProduct\Block\Cart\Item\Renderer\Configurable as Renderer;
 use \Magento\Catalog\Model\Config\Source\Product\Thumbnail as ThumbnailSource;
 
 class ConfigurableTest extends \PHPUnit_Framework_TestCase
@@ -42,7 +42,7 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
         );
         $this->_storeConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false, false);
         $this->_renderer = $objectManagerHelper->getObject(
-            'Magento\Checkout\Block\Cart\Item\Renderer\Configurable',
+            'Magento\ConfigurableProduct\Block\Cart\Item\Renderer\Configurable',
             array(
                 'viewConfig' => $this->_configManager,
                 'imageHelper' => $this->_imageHelper,

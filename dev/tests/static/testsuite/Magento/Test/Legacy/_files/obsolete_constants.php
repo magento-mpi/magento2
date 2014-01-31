@@ -485,7 +485,7 @@ return array(
     ),
     array(
         'USE_PARENT_IMAGE',
-        'Magento\Checkout\Block\Cart\Item\Renderer\Configurable',
+        'Magento\ConfigurableProduct\Block\Cart\Item\Renderer\Configurable',
         'Magento\Catalog\Model\Config\Source\Product\Thumbnail::OPTION_USE_PARENT_IMAGE'
     ),
     array(
@@ -495,8 +495,8 @@ return array(
     ),
     array(
         'CONFIGURABLE_PRODUCT_IMAGE',
-        'Magento\Checkout\Block\Cart\Item\Renderer\Configurable',
-        'Magento\Checkout\Block\Cart\Item\Renderer\Configurable::CONFIG_THUMBNAIL_SOURCE'
+        'Magento\ConfigurableProduct\Block\Cart\Item\Renderer\Configurable',
+        'Magento\ConfigurableProduct\Block\Cart\Item\Renderer\Configurable::CONFIG_THUMBNAIL_SOURCE'
     ),
     array(
         'GROUPED_PRODUCT_IMAGE',
