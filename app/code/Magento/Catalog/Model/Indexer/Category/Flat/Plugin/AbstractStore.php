@@ -28,16 +28,16 @@ class AbstractStore
 
     /**
      * @param \Magento\Indexer\Model\IndexerInterface $indexer
-     * @param \Magento\Catalog\Model\Indexer\Category\Flat\State $config
+     * @param \Magento\Catalog\Model\Indexer\Category\Flat\State $state
      * @param \Magento\Catalog\Model\Resource\Category\Flat $flatResource
      */
     public function __construct(
         \Magento\Indexer\Model\IndexerInterface $indexer,
-        \Magento\Catalog\Model\Indexer\Category\Flat\State $config,
+        \Magento\Catalog\Model\Indexer\Category\Flat\State $state,
         \Magento\Catalog\Model\Resource\Category\Flat $flatResource
     ) {
         $this->indexer = $indexer;
-        $this->state = $config;
+        $this->state = $state;
         $this->flatResource = $flatResource;
     }
 
