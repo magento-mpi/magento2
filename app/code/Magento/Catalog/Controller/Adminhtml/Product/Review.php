@@ -41,7 +41,7 @@ class Review extends \Magento\Backend\App\Action
     }
 
     /**
-     * @return void
+     * @return void|
      */
     public function indexAction()
     {

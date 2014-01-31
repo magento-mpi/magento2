@@ -32,7 +32,7 @@ class Tree extends \Magento\Data\Tree\Dbp
     /**
      * Categories resource collection
      *
-     * @var \Magento\Catalog\Model\Resource\Category\Collection
+     * @var Collection
      */
     protected $_collection;
 
@@ -58,7 +58,7 @@ class Tree extends \Magento\Data\Tree\Dbp
     protected $_inactiveCategoryIds              = null;
 
     /**
-     * store id
+     * Store id
      *
      * @var integer
      */
@@ -133,7 +133,7 @@ class Tree extends \Magento\Data\Tree\Dbp
      * Set store id
      *
      * @param integer $storeId
-     * @return \Magento\Catalog\Model\Resource\Category\Tree
+     * @return $this
      */
     public function setStoreId($storeId)
     {
@@ -157,12 +157,12 @@ class Tree extends \Magento\Data\Tree\Dbp
     /**
      * Enter description here...
      *
-     * @param \Magento\Catalog\Model\Resource\Category\Collection $collection
+     * @param Collection $collection
      * @param boolean $sorted
      * @param array $exclude
      * @param boolean $toLoad
      * @param boolean $onlyActive
-     * @return \Magento\Catalog\Model\Resource\Category\Tree
+     * @return $this
      */
     public function addCollectionData($collection = null, $sorted = false, $exclude = array(), $toLoad = true,
         $onlyActive = false
@@ -222,8 +222,8 @@ class Tree extends \Magento\Data\Tree\Dbp
     /**
      * Add inactive categories ids
      *
-     * @param unknown_type $ids
-     * @return \Magento\Catalog\Model\Resource\Category\Tree
+     * @param mixed $ids
+     * @return $this
      */
     public function addInactiveCategoryIds($ids)
     {
@@ -237,7 +237,7 @@ class Tree extends \Magento\Data\Tree\Dbp
     /**
      * Retrieve inactive categories ids
      *
-     * @return \Magento\Catalog\Model\Resource\Category\Tree
+     * @return $this
      */
     protected function _initInactiveCategoryIds()
     {
@@ -263,7 +263,7 @@ class Tree extends \Magento\Data\Tree\Dbp
     /**
      * Return disable category ids
      *
-     * @param \Magento\Catalog\Model\Resource\Category\Collection $collection
+     * @param Collection $collection
      * @return array
      */
     protected function _getDisabledIds($collection)
@@ -321,7 +321,7 @@ class Tree extends \Magento\Data\Tree\Dbp
     /**
      * Retrieve inactive category item ids
      *
-     * @param \Magento\Catalog\Model\Resource\Category\Collection $collection
+     * @param Collection $collection
      * @param int $storeId
      * @return array
      */
@@ -372,7 +372,7 @@ class Tree extends \Magento\Data\Tree\Dbp
      * Get categories collection
      *
      * @param boolean $sorted
-     * @return \Magento\Catalog\Model\Resource\Category\Collection
+     * @return Collection
      */
     public function getCollection($sorted = false)
     {
@@ -385,7 +385,8 @@ class Tree extends \Magento\Data\Tree\Dbp
     /**
      * Clean unneeded collection
      *
-     * @param \Magento\Catalog\Model\Resource\Category\Collection|array $object
+     * @param Collection|array $object
+     * @return void
      */
     protected function _clean($object)
     {
@@ -400,8 +401,8 @@ class Tree extends \Magento\Data\Tree\Dbp
     /**
      * Enter description here...
      *
-     * @param \Magento\Catalog\Model\Resource\Category\Collection $collection
-     * @return \Magento\Catalog\Model\Resource\Category\Tree
+     * @param Collection $collection
+     * @return $this
      */
     public function setCollection($collection)
     {
@@ -416,7 +417,7 @@ class Tree extends \Magento\Data\Tree\Dbp
      * Enter description here...
      *
      * @param boolean $sorted
-     * @return \Magento\Catalog\Model\Resource\Category\Collection
+     * @return Collection
      */
     protected function _getDefaultCollection($sorted = false)
     {
@@ -440,9 +441,9 @@ class Tree extends \Magento\Data\Tree\Dbp
     /**
      * Executing parents move method and cleaning cache after it
      *
-     * @param unknown_type $category
-     * @param unknown_type $newParent
-     * @param unknown_type $prevNode
+     * @param mixed $category
+     * @param mixed $newParent
+     * @param mixed $prevNode
      */
     public function move($category, $newParent, $prevNode = null)
     {
@@ -456,7 +457,7 @@ class Tree extends \Magento\Data\Tree\Dbp
     /**
      * Move tree after
      *
-     * @return \Magento\Catalog\Model\Resource\Category\Tree
+     * @return $this
      */
     protected function _afterMove()
     {
@@ -470,7 +471,7 @@ class Tree extends \Magento\Data\Tree\Dbp
      * @param array $ids
      * @param bool $addCollectionData
      * @param bool $updateAnchorProductCount
-     * @return \Magento\Catalog\Model\Resource\Category\Tree
+     * @return $this|bool
      */
     public function loadByIds($ids, $addCollectionData = true, $updateAnchorProductCount = true)
     {

@@ -9,8 +9,6 @@
  */
 namespace Magento\Eav\Model\Entity\Collection;
 
-use Magento\DB\Select;
-
 /**
  * Entity/Attribute/Model - collection abstract
  */
@@ -193,7 +191,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
     /**
      * Init select
      *
-     * @return $this
+     * @return $this|void
      */
     protected function _initSelect()
     {
@@ -267,7 +265,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
      * Set template object for the collection
      *
      * @param   \Magento\Object $object
-     * @return  $this
+     * @return $this
      */
     public function setObject($object = null)
     {
@@ -1298,8 +1296,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
      *
      * @param   string $attributeCode
      * @param   string $joinType inner|left
-     * @return  $this
-     * @throws \Magento\Core\Exception
+     * @return $this
      * @throws \Magento\Eav\Exception
      */
     protected function _addAttributeJoin($attributeCode, $joinType = 'inner')
@@ -1386,7 +1383,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
      * @param   array $condition
      * @param   string $fieldCode
      * @param   string $fieldAlias
-     * @return  $this
+     * @return $this
      */
     protected function _joinAttributeToSelect($method, $attribute, $tableAlias, $condition, $fieldCode, $fieldAlias)
     {
