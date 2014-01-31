@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Review\Block\Customer;
 
 /**
  * Customer Reviews list block
@@ -16,8 +16,6 @@
  * @package    Magento_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Review\Block\Customer;
-
 class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
 {
     /**
@@ -51,6 +49,9 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
         $this->_isScopePrivate = true;
     }
 
+    /**
+     * @return $this
+     */
     protected function _initCollection()
     {
         $this->_collection = $this->_collectionFactory->create();
@@ -141,7 +142,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     /**
      * Format date in short format
      *
-     * @param $date
+     * @param string $date
      * @return string
      */
     public function dateFormat($date)

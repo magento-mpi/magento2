@@ -18,6 +18,8 @@
  */
 namespace Magento\Reward\Model\Resource;
 
+use Magento\Reward\Model\Reward as ModelReward;
+
 class Reward extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -32,12 +34,12 @@ class Reward extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Fetch reward by customer and website and set data to reward object
      *
-     * @param \Magento\Reward\Model\Reward $reward
-     * @param integer $customerId
-     * @param integer $websiteId
-     * @return \Magento\Reward\Model\Resource\Reward
+     * @param ModelReward $reward
+     * @param int $customerId
+     * @param int $websiteId
+     * @return $this
      */
-    public function loadByCustomerId(\Magento\Reward\Model\Reward $reward, $customerId, $websiteId)
+    public function loadByCustomerId(ModelReward $reward, $customerId, $websiteId)
     {
         $select = $this->_getReadAdapter()->select()
             ->from($this->getMainTable())
@@ -57,11 +59,11 @@ class Reward extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Perform Row-level data update
      *
-     * @param \Magento\Reward\Model\Reward $object
+     * @param ModelReward $object
      * @param array $data New data
-     * @return \Magento\Reward\Model\Resource\Reward
+     * @return $this
      */
-    public function updateRewardRow(\Magento\Reward\Model\Reward $object, $data)
+    public function updateRewardRow(ModelReward $object, $data)
     {
         if (!$object->getId() || !is_array($data)) {
             return $this;
@@ -76,9 +78,9 @@ class Reward extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Prepare orphan points by given website id and website base currency code
      * after website was deleted
      *
-     * @param integer $websiteId
+     * @param int $websiteId
      * @param string $baseCurrencyCode
-     * @return \Magento\Reward\Model\Resource\Reward
+     * @return $this
      */
     public function prepareOrphanPoints($websiteId, $baseCurrencyCode)
     {
@@ -97,7 +99,7 @@ class Reward extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Delete orphan (points of deleted website) points by given customer
      *
      * @param int $customerId
-     * @return \Magento\Reward\Model\Resource\Reward
+     * @return $this
      */
     public function deleteOrphanPointsByCustomer($customerId)
     {
@@ -115,9 +117,9 @@ class Reward extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Save salesrule reward points delta
      *
-     * @param integer $ruleId
-     * @param integer $pointsDelta
-     * @return \Magento\Reward\Model\Resource\Reward
+     * @param int $ruleId
+     * @param int $pointsDelta
+     * @return $this
      */
     public function saveRewardSalesrule($ruleId, $pointsDelta)
     {
@@ -134,7 +136,7 @@ class Reward extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Retrieve reward salesrule data by given rule Id or array of Ids
      *
-     * @param integer | array $rule
+     * @param int|array $rule
      * @return array
      */
     public function getRewardSalesrule($rule)

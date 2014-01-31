@@ -19,7 +19,7 @@ abstract class AbstractMessage implements MessageInterface
     protected $text;
 
     /**
-     * @var mixed
+     * @var string
      */
     protected $identifier;
 

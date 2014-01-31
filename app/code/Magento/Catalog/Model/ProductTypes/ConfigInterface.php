@@ -31,4 +31,11 @@ interface ConfigInterface
      * @return bool
      */
     public function isProductSet($typeId);
+
+    /**
+     * Get composable types
+     *
+     * @return array
+     */
+    public function getComposableTypes();
 }

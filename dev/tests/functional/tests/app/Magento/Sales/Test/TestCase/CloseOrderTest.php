@@ -14,8 +14,6 @@ namespace Magento\Sales\Test\TestCase;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
 use Magento\Sales\Test\Fixture\OrderCheckout;
-use Magento\Sales\Test\Fixture\PaypalPayflowLinkOrder;
-use Magento\Sales\Test\Fixture\PaypalPaymentsAdvancedOrder;
 use Magento\Sales\Test\Fixture\PaypalStandardOrder;
 
 /**
@@ -31,15 +29,11 @@ class CloseOrderTest extends Functional
      * @param OrderCheckout $fixture
      * @dataProvider dataProviderOrder
      *
-     * @ZephyrId MAGETWO-12434, MAGETWO-12833, MAGETWO-13015, MAGETWO-13019, MAGETWO-13020, MAGETWO-13018
+     * @ZephyrId MAGETWO-12434, MAGETWO-12833, MAGETWO-13014, MAGETWO-13015, MAGETWO-13019, MAGETWO-13020, MAGETWO-13018
      */
     public function testCloseOrder(OrderCheckout $fixture)
     {
-        if ($fixture instanceof PaypalPaymentsAdvancedOrder
-            || $fixture instanceof PaypalPayflowLinkOrder || $fixture instanceof PaypalStandardOrder){
-            $this->markTestSkipped('Bamboo inability to run tests on instance with public IP address');
-        }
-
+        $this->markTestSkipped('MAGETWO-20052');
         $fixture->persist();
 
         //Data

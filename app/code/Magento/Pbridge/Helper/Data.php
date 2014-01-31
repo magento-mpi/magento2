@@ -423,6 +423,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Store id setter
      *
      * @param int $storeId
+     * @return void
      */
     public function setStoreId($storeId)
     {

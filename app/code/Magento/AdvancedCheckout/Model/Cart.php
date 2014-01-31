@@ -174,6 +174,16 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     protected $messageManager;
 
     /**
+     * @var \Magento\Catalog\Model\ProductTypes\ConfigInterface
+     */
+    protected $productTypeConfig;
+
+    /**
+     * @var \Magento\Catalog\Model\Product\CartConfiguration
+     */
+    protected $productConfiguration;
+
+    /**
      * @param \Magento\Checkout\Model\Cart $cart
      * @param \Magento\Backend\Model\Session\Quote $sessionQuote
      * @param \Magento\Message\Factory $messageFactory
@@ -188,6 +198,8 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Message\ManagerInterface $messageManager
+     * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
+     * @param \Magento\Catalog\Model\Product\CartConfiguration $productConfiguration
      * @param string $itemFailedStatus
      * @param array $data
      */
@@ -206,6 +218,8 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Message\ManagerInterface $messageManager,
+        \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
+        \Magento\Catalog\Model\Product\CartConfiguration $productConfiguration,
         $itemFailedStatus = \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_SKU,
         array $data = array()
     ) {
@@ -224,6 +238,8 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         $this->_locale = $locale;
         $this->_itemFailedStatus = $itemFailedStatus;
         $this->messageManager = $messageManager;
+        $this->productTypeConfig = $productTypeConfig;
+        $this->productConfiguration = $productConfiguration;
     }
 
     /**
@@ -833,34 +849,6 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     }
 
     /**
-     * Decide whether product has been configured or not
-     *
-     * @param \Magento\Catalog\Model\Product $product
-     * @param array                      $config
-     * @return bool
-     */
-    protected function _isConfigured(\Magento\Catalog\Model\Product $product, $config)
-    {
-        // If below POST fields were submitted - this is product's options, it has been already configured
-        switch ($product->getTypeId()) {
-            case \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE:
-            case \Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL:
-                return isset($config['options']);
-            case \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE:
-                return isset($config['super_attribute']);
-            case \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE:
-                return isset($config['bundle_option']);
-            case \Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE:
-                return isset($config['super_group']);
-            case \Magento\GiftCard\Model\Catalog\Product\Type\Giftcard::TYPE_GIFTCARD:
-                return isset($config['giftcard_amount']);
-            case \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE:
-                return isset($config['links']);
-        }
-        return false;
-    }
-
-    /**
      * Load product by specified sku
      *
      * @param string $sku
@@ -940,7 +928,8 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
 
         $product = $this->_loadProductBySku($primarySku);
 
-        if ($product && $this->_shouldBeConfigured($product) && $this->_isConfigured($product, $config)) {
+        $isProductConfigured = $this->productConfiguration->isProductConfigured($product, $config);
+        if ($product && $this->_shouldBeConfigured($product) && $isProductConfigured) {
             return $product;
         }
 
@@ -1080,8 +1069,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
 
         if ($product && $product->getId()) {
             $item['id'] = $product->getId();
-
-            $item['is_qty_disabled'] = $product->getTypeId() == \Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE;
+            $item['is_qty_disabled'] = $this->productTypeConfig->isProductSet($product->getTypeId());
 
             if ($this->_isCheckout() && $product->isDisabled()) {
                 $item['is_configure_disabled'] = true;
@@ -1107,7 +1095,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
             }
 
             if ($this->_shouldBeConfigured($product)) {
-                if (!$this->_isConfigured($product, $config)) {
+                if (!$this->productConfiguration->isProductConfigured($product, $config)) {
                     $failCode = (!$this->_isFrontend() || $product->isVisibleInSiteVisibility())
                         ? \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_CONFIGURE
                         : \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_SKU;
