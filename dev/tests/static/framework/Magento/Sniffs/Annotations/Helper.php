@@ -182,8 +182,7 @@ class Helper
             self::MESSAGE => 'The open comment tag must be the only content on the line'
         ),
         self::MISSING_SHORT => array(
-            self::LEVEL => self::OFF,
-//            self::LEVEL => self::WARNING,
+            self::LEVEL => self::WARNING,
             self::MESSAGE => 'Missing short description in %s doc comment'
         ),
         self::SPACING_BETWEEN => array(
@@ -203,7 +202,7 @@ class Helper
             self::MESSAGE => '%s comment short description must be on a single line'
         ),
         self::SHORT_NOT_CAPITAL => array(
-            self::LEVEL => self::OFF,
+            self::LEVEL => self::WARNING,
             self::MESSAGE => '%s comment short description must start with a capital letter'
         ),
         self::SHORT_FULL_STOP => array(
@@ -323,7 +322,7 @@ class Helper
             self::MESSAGE => 'Exception type and comment missing for @throws tag in function comment'
         ),
         self::THROWS_NOT_CAPITAL => array(
-            self::LEVEL => self::OFF,
+            self::LEVEL => self::WARNING,
             self::MESSAGE => '@throws tag comment must start with a capital letter'
         ),
         self::THROWS_ORDER => array(
@@ -351,7 +350,7 @@ class Helper
             self::MESSAGE => 'Expected 1 space before variable type'
         ),
         self::LONG_NOT_CAPITAL => array(
-            self::LEVEL => self::OFF,
+            self::LEVEL => self::WARNING,
             self::MESSAGE => '%s comment long description must start with a capital letter'
         ),
         self::TAG_NOT_ALLOWED => array(
@@ -514,8 +513,7 @@ class Helper
      */
     public function isAmbiguous($text, &$matches = array())
     {
-//        return preg_match('/(array|mixed)/', $text, $matches);
-        return preg_match('/(mixed)/', $text, $matches);
+        return preg_match('/(array|mixed)/', $text, $matches);
     }
 
     /**
