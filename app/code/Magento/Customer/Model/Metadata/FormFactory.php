@@ -49,6 +49,6 @@ class FormFactory
             'attributeValues' => $attributeValues,
             'isAjax' => $isAjax,
         ];
-        return $this->_objectManager->create('\Magento\Customer\Model\Metadata\Form', $params);
+        return $this->_objectManager->create('Magento\Customer\Model\Metadata\Form', $params);
     }
 }
