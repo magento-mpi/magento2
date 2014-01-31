@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Eav\Block\Adminhtml\Attribute\Grid;
 
 /**
  * Product attributes grid
@@ -15,8 +16,6 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Eav\Block\Adminhtml\Attribute\Grid;
-
 abstract class AbstractGrid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
@@ -40,7 +39,7 @@ abstract class AbstractGrid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare default grid column
      *
-     * @return \Magento\Eav\Block\Adminhtml\Attribute\Grid\AbstractGrid
+     * @return $this
      */
     protected function _prepareColumns()
     {
