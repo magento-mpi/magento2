@@ -14,17 +14,17 @@ interface ConfigInterface
     /**
      * Check whether inline translation is enabled
      *
-     * @param int|null $store
+     * @param int|null $scope
      * @return bool
      */
-    public function isActive($store = null);
+    public function isActive($scope = null);
 
 
     /**
      * Check whether allowed client ip for inline translation
      *
-     * @param mixed $store
+     * @param mixed $scope
      * @return bool
      */
-    public function isDevAllowed($store = null);
+    public function isDevAllowed($scope = null);
 }

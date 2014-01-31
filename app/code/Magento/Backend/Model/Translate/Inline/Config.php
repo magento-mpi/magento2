@@ -38,24 +38,18 @@ class Config implements \Magento\Translate\Inline\ConfigInterface
     }
 
     /**
-     * Check whether inline translation is enabled
-     *
-     * @param int|null $store
-     * @return bool
+     * @inheritdoc
      */
-    public function isActive($store = null)
+    public function isActive($scope = null)
     {
         return $this->_config->isSetFlag('dev/translate_inline/active_admin');
     }
 
     /**
-     * Check whether allowed client ip for inline translation
-     *
-     * @param mixed $store
-     * @return bool
+     * @inheritdoc
      */
-    public function isDevAllowed($store = null)
+    public function isDevAllowed($scope = null)
     {
-        return $this->_helper->isDevAllowed($store);
+        return $this->_helper->isDevAllowed($scope);
     }
 }

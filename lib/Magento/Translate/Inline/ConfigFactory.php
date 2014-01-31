@@ -25,12 +25,12 @@ class ConfigFactory
     }
 
     /**
-     * Create instance of inline translate config
+     * Get instance of inline translate config
      *
      * @return \Magento\Translate\Inline\ConfigInterface
      */
-    public function create()
+    public function get()
     {
-        return $this->_objectManager->create('Magento\Translate\Inline\ConfigInterface');
+        return $this->_objectManager->get('Magento\Translate\Inline\ConfigInterface');
     }
 }

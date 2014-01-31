@@ -165,7 +165,7 @@ class Emulation extends \Magento\Object
         if (is_null($storeId)) {
             $newTranslateInline = false;
         } else {
-            $newTranslateInline = $this->_configFactory->create($area)->isActive($storeId);
+            $newTranslateInline = $this->_configFactory->get($area)->isActive($storeId);
         }
         $translateInline = $this->_translate->getTranslateInline();
         $this->_translate->setTranslateInline($newTranslateInline);

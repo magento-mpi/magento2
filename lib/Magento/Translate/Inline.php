@@ -67,6 +67,16 @@ class Inline implements \Magento\Translate\InlineInterface
     protected $_scopeResolver;
 
     /**
+     * @var string
+     */
+    protected $_templateFileName = '';
+
+    /**
+     * @var string
+     */
+    protected $_translatorRoute = '';
+
+    /**
      * Initialize inline translation model
      *
      * @param \Magento\BaseScopeResolverInterface $scopeResolver
@@ -76,6 +86,8 @@ class Inline implements \Magento\Translate\InlineInterface
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Translate\Inline\ConfigFactory $configFactory
      * @param \Magento\App\State $appState
+     * @param string $templateFileName
+     * @param string $translatorRoute
      */
     public function __construct(
         \Magento\BaseScopeResolverInterface $scopeResolver,
@@ -84,7 +96,9 @@ class Inline implements \Magento\Translate\InlineInterface
         \Magento\UrlInterface $url,
         \Magento\View\LayoutInterface $layout,
         \Magento\Translate\Inline\ConfigFactory $configFactory,
-        \Magento\App\State $appState
+        \Magento\App\State $appState,
+        $templateFileName = '',
+        $translatorRoute = ''
     ) {
         $this->_scopeResolver = $scopeResolver;
         $this->_configFactory = $configFactory;
@@ -93,6 +107,8 @@ class Inline implements \Magento\Translate\InlineInterface
         $this->_url = $url;
         $this->_layout = $layout;
         $this->_appState = $appState;
+        $this->_templateFileName = $templateFileName;
+        $this->_translatorRoute = $translatorRoute;
     }
 
     /**
@@ -108,7 +124,7 @@ class Inline implements \Magento\Translate\InlineInterface
                 $scope = $this->_scopeResolver->getScope($scope);
             }
 
-            $config = $this->_configFactory->create();
+            $config = $this->_configFactory->get();
             $this->_isAllowed = $config->isActive($scope) && $config->isDevAllowed($scope);
         }
         return $this->_translator->getTranslateInline() && $this->_isAllowed;
@@ -174,7 +190,7 @@ class Inline implements \Magento\Translate\InlineInterface
 
         $block->setAjaxUrl($this->_getAjaxUrl());
 
-        $block->setTemplate('Magento_Core::translate_inline.phtml');
+        $block->setTemplate($this->_templateFileName);
 
         $html = $block->toHtml();
 
@@ -191,7 +207,7 @@ class Inline implements \Magento\Translate\InlineInterface
     protected function _getAjaxUrl()
     {
         $scope = $this->_scopeResolver->getScope();
-        return $this->_url->getUrl('core/ajax/translate', array('_secure' => $scope->isCurrentlySecure()));
+        return $this->_url->getUrl($this->_translatorRoute, array('_secure' => $scope->isCurrentlySecure()));
     }
 
     /**

@@ -27,6 +27,9 @@
         <param name="url">
             <instance type="Magento\Backend\Model\UrlInterface" />
         </param>
+        <param name="templateFileName">
+            <value>Magento_Core::translate_inline.phtml</value>
+        </param>
     </type>
     <type name="Magento\Backend\App\Action\Context">
         <param name="helper">

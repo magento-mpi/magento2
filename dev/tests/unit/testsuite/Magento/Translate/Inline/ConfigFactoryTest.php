@@ -19,6 +19,6 @@ class ConfigFactoryTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo('Magento\Translate\Inline\ConfigInterface'))
             ->will($this->returnValue($result));
         $factory = new \Magento\Translate\Inline\ConfigFactory($objectManager);
-        $this->assertEquals($result, $factory->create());
+        $this->assertEquals($result, $factory->get());
     }
 }

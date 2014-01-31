@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +10,6 @@ namespace Magento;
 /**
  * Translate library
  *
- * @todo Remove this suppression when jira entry MAGETWO-8296 is completed.
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.TooManyFields)
  */
@@ -306,7 +303,6 @@ class Translate implements TranslateInterface
      */
     public function isAllowed($store = null)
     {
-        /** @todo see jira entry MAGETWO-8296 */
         return $this->getInlineObject()->isAllowed($store);
     }
 
