@@ -49,14 +49,14 @@
                 <field id="pagecache_esi" type="select" translate="label comment" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Enable/Disable ESI</label>
                     <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
-                    <comment>Cache invalidation</comment>
+                    <comment>Enabling/Disabling cache invalidation</comment>
                     <depends>
                         <field id="varnish_caching">1</field>
                     </depends>
                 </field>
                 <field id="pagecache_access_list" type="text" translate="label comment" sortOrder="15" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Access list</label>
-                    <comment>IPs access list that can purge Varnish configuration con for config file generation</comment>
+                    <comment>IPs access list that can purge Varnish configuration for config file generation</comment>
                     <depends>
                         <field id="varnish_caching">1</field>
                     </depends>
