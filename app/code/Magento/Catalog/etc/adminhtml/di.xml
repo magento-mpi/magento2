@@ -53,9 +53,6 @@
             <value type="bool">false</value>
         </param>
     </type>
-    <type name="Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper">
-        <plugin name="configurable" type="Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Configurable" sortOrder="50" />
-    </type>
     <type name="Magento\Catalog\Model\Product\CopyConstructor\Composite">
         <param name="constructors">
             <array>

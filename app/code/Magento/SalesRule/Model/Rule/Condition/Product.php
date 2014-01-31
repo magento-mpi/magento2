@@ -82,7 +82,7 @@ class Product extends \Magento\Rule\Model\Condition\Product\AbstractProduct
             ->setQuoteItemRowTotal($object->getBaseRowTotal());
 
         $valid = parent::validate($product);
-        if (!$valid && $product->getTypeId() == \Magento\Catalog\Model\Product\Type\Configurable::TYPE_CODE) {
+        if (!$valid && $product->getTypeId() == \Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE) {
             $children = $object->getChildren();
             $valid = $children && $this->validate($children[0]);
         }

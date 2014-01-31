@@ -20,7 +20,7 @@ namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Super;
 class Settings extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
-     * @var \Magento\Catalog\Model\Product\Type\Configurable
+     * @var \Magento\ConfigurableProduct\Model\Product\Type\Configurable
      */
     protected $_configurableType;
 
@@ -33,7 +33,7 @@ class Settings extends \Magento\Backend\Block\Widget\Form\Generic
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Catalog\Model\Product\Type\Configurable $configurableType
+     * @param \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurableType
      * @param \Magento\Core\Helper\Data $coreHelper
      * @param array $data
      */
@@ -41,7 +41,7 @@ class Settings extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
-        \Magento\Catalog\Model\Product\Type\Configurable $configurableType,
+        \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurableType,
         \Magento\Core\Helper\Data $coreHelper,
         array $data = array()
     ) {

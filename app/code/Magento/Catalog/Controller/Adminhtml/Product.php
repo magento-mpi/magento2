@@ -117,7 +117,7 @@ class Product extends \Magento\Backend\App\Action
             $attributes = $this->getRequest()->getParam('attributes');
             if (!empty($attributes)) {
                 $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE);
-                $this->_objectManager->get('Magento\Catalog\Model\Product\Type\Configurable')
+                $this->_objectManager->get('Magento\ConfigurableProduct\Model\Product\Type\Configurable')
                     ->setUsedProductAttributeIds($attributes, $product);
             } else {
                 $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE);

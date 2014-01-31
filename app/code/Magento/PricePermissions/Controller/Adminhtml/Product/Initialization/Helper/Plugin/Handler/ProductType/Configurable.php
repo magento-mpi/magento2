@@ -25,7 +25,7 @@ class Configurable implements HandlerInterface
             return;
         }
 
-        /** @var \Magento\Catalog\Model\Product\Type\Configurable $type */
+        /** @var \Magento\ConfigurableProduct\Model\Product\Type\Configurable $type */
         $type = $product->getTypeInstance();
         $originalAttributes = $type->getConfigurableAttributesAsArray($product);
         // Organize main information about original product attributes in assoc array form

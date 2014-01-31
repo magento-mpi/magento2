@@ -445,7 +445,8 @@ class Attribute extends \Magento\Backend\App\Action
     public function suggestConfigurableAttributesAction()
     {
         $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(
-            $this->_view->getLayout()->createBlock('Magento\Catalog\Block\Product\Configurable\AttributeSelector')
+            $this->_view->getLayout()
+                ->createBlock('Magento\ConfigurableProduct\Block\Product\Configurable\AttributeSelector')
                 ->getSuggestedAttributes($this->getRequest()->getParam('label_part'))
         ));
     }

@@ -28,7 +28,7 @@ class Matrix
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\Catalog\Model\Product\Type\Configurable
+     * @var \Magento\ConfigurableProduct\Model\Product\Type\Configurable
      */
     protected $_configurableType;
 
@@ -44,7 +44,7 @@ class Matrix
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Catalog\Model\Product\Type\Configurable $configurableType
+     * @param \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurableType
      * @param \Magento\Catalog\Model\Config $config
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Core\Model\Registry $coreRegistry
@@ -52,7 +52,7 @@ class Matrix
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Catalog\Model\Product\Type\Configurable $configurableType,
+        \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurableType,
         \Magento\Catalog\Model\Config $config,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Core\Model\Registry $coreRegistry,

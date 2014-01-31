@@ -29,7 +29,7 @@ class AssociatedProduct
     /**
      * Product type configurable instance
      *
-     * @var \Magento\Catalog\Model\Product\Type\Configurable
+     * @var \Magento\ConfigurableProduct\Model\Product\Type\Configurable
      */
     protected $_productType;
 
@@ -60,7 +60,7 @@ class AssociatedProduct
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Core\Model\Registry $registryManager
-     * @param \Magento\Catalog\Model\Product\Type\Configurable $productType
+     * @param \Magento\ConfigurableProduct\Model\Product\Type\Configurable $productType
      * @param \Magento\Catalog\Helper\Product\Configuration $configurationHelper
      * @param mixed $connection
      * 
@@ -86,7 +86,7 @@ class AssociatedProduct
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Core\Model\Registry $registryManager,
-        \Magento\Catalog\Model\Product\Type\Configurable $productType,
+        \Magento\ConfigurableProduct\Model\Product\Type\Configurable $productType,
         \Magento\Catalog\Helper\Product\Configuration $configurationHelper,
         $connection = null
     ) {
@@ -119,7 +119,7 @@ class AssociatedProduct
     /**
      * Get product type
      *
-     * @return \Magento\Catalog\Model\Product\Type\Configurable
+     * @return \Magento\ConfigurableProduct\Model\Product\Type\Configurable
      */
     public function getProductType()
     {

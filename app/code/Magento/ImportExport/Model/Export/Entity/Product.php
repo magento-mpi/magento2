@@ -825,7 +825,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
             )->addAttributeToFilter(
                 'type_id',
                 array(
-                    'eq'    => \Magento\Catalog\Model\Product\Type\Configurable::TYPE_CODE
+                    'eq'    => \Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE
                 )
             );
             $configurableData = array();

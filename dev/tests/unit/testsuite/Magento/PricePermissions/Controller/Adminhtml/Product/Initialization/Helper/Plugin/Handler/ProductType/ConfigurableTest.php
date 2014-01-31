@@ -36,7 +36,7 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->productTypeMock = $this->getMock(
-            '\Magento\Catalog\Model\Product\Type\Configurable', array(), array(), '', false
+            '\Magento\ConfigurableProduct\Model\Product\Type\Configurable', array(), array(), '', false
         );
         $this->productMock->expects($this->any())
             ->method('getTypeInstance')->will($this->returnValue($this->productTypeMock));

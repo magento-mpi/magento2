@@ -49,7 +49,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $product->load(1); // fixture
 
         $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Product\Type\Configurable');
+            ->create('Magento\ConfigurableProduct\Model\Product\Type\Configurable');
 
         $attributes = $model->getConfigurableAttributesAsArray($product);
         $attribute = reset($attributes);

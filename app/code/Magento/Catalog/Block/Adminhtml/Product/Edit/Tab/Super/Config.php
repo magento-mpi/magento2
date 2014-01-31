@@ -38,7 +38,7 @@ class Config
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\Catalog\Model\Product\Type\Configurable
+     * @var \Magento\ConfigurableProduct\Model\Product\Type\Configurable
      */
     protected $_configurableType;
 
@@ -50,7 +50,7 @@ class Config
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Json\EncoderInterface $jsonEncoder
-     * @param \Magento\Catalog\Model\Product\Type\Configurable $configurableType
+     * @param \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurableType
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
@@ -58,7 +58,7 @@ class Config
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Json\EncoderInterface $jsonEncoder,
-        \Magento\Catalog\Model\Product\Type\Configurable $configurableType,
+        \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurableType,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()

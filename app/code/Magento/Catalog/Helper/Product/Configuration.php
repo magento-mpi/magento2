@@ -133,7 +133,7 @@ class Configuration extends \Magento\App\Helper\AbstractHelper
     {
         $product = $item->getProduct();
         $typeId = $product->getTypeId();
-        if ($typeId != \Magento\Catalog\Model\Product\Type\Configurable::TYPE_CODE) {
+        if ($typeId != \Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE) {
              throw new \Magento\Core\Exception(__('The product type to extract configurable options is incorrect.'));
         }
         $attributes = $product->getTypeInstance()
@@ -150,7 +150,7 @@ class Configuration extends \Magento\App\Helper\AbstractHelper
     public function getOptions(\Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item)
     {
         $typeId = $item->getProduct()->getTypeId();
-        if ($typeId == \Magento\Catalog\Model\Product\Type\Configurable::TYPE_CODE) {
+        if ($typeId == \Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE) {
             return $this->getConfigurableOptions($item);
         }
         return $this->getCustomOptions($item);

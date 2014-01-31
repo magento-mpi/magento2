@@ -51,7 +51,7 @@ class Main extends \Magento\Backend\Block\Template
     protected $_groupFactory;
 
     /**
-     * @var \Magento\Catalog\Model\Resource\Product\Type\Configurable\AttributeFactory
+     * @var \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\AttributeFactory
      */
     protected $_attributeFactory;
 
@@ -65,7 +65,7 @@ class Main extends \Magento\Backend\Block\Template
      * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Eav\Model\Entity\TypeFactory $typeFactory
      * @param \Magento\Eav\Model\Entity\Attribute\GroupFactory $groupFactory
-     * @param \Magento\Catalog\Model\Resource\Product\Type\Configurable\AttributeFactory $attributeFactory
+     * @param \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\AttributeFactory $attributeFactory
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $collectionFactory
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param \Magento\Core\Model\Registry $registry
@@ -76,7 +76,7 @@ class Main extends \Magento\Backend\Block\Template
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Eav\Model\Entity\TypeFactory $typeFactory,
         \Magento\Eav\Model\Entity\Attribute\GroupFactory $groupFactory,
-        \Magento\Catalog\Model\Resource\Product\Type\Configurable\AttributeFactory $attributeFactory,
+        \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\AttributeFactory $attributeFactory,
         \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $collectionFactory,
         \Magento\Catalog\Helper\Product $catalogProduct,
         \Magento\Core\Model\Registry $registry,

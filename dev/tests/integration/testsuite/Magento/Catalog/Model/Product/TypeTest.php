@@ -49,7 +49,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
             array(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE, 'Magento\Catalog\Model\Product\Type\Simple'),
             array(\Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL, 'Magento\Catalog\Model\Product\Type\Virtual'),
             array(\Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE,
-                'Magento\Catalog\Model\Product\Type\Configurable'
+                'Magento\ConfigurableProduct\Model\Product\Type\Configurable'
             ),
             array(\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE, 'Magento\Bundle\Model\Product\Type'),
             array(\Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE,
@@ -107,7 +107,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
             array(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE, 'Magento\Catalog\Model\Product\Type\Price'),
             array(\Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL, 'Magento\Catalog\Model\Product\Type\Price'),
             array(\Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE,
-                'Magento\Catalog\Model\Product\Type\Configurable\Price'
+                'Magento\ConfigurableProduct\Model\Product\Type\Configurable\Price'
             ),
             array(\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE, 'Magento\Bundle\Model\Product\Price'),
             array(\Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE,

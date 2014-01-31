@@ -602,6 +602,62 @@ return array(
     array('Mage_Catalog_Model_Product_Limitation'),
     array('Mage_Catalog_Model_Resource_Product_Attribute_Frontend_Image'),
     array('Mage_Catalog_Model_Resource_Product_Attribute_Frontend_Tierprice'),
+    array(
+        'Magento\Catalog\Block\Adminhtml\Product\Composite\Fieldset\Configurable',
+        'Magento\ConfigurableProduct\Block\Adminhtml\Product\Composite\Fieldset\Configurable'
+    ),
+    array(
+        'Magento\Catalog\Block\Adminhtml\Product\Edit\Tabs\Configurable',
+        'Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tabs\Configurable'
+    ),
+    array(
+        'Magento\Catalog\Block\Product\Configurable\AssociatedSelector\Backend\Grid\ColumnSet',
+        'Magento\ConfigurableProduct\Block\Product\Configurable\AssociatedSelector\Backend\Grid\ColumnSet'
+    ),
+    array(
+        'Magento\Catalog\Block\Product\Configurable\AssociatedSelector\Renderer\Id',
+        'Magento\ConfigurableProduct\Block\Product\Configurable\AssociatedSelector\Renderer\Id'
+    ),
+    array(
+        'Magento\Catalog\Block\Product\Configurable\AttributeSelector',
+        'Magento\ConfigurableProduct\Block\Product\Configurable\AttributeSelector'
+    ),
+    array(
+        'Magento\Catalog\Block\Product\View\Type\Configurable',
+        'Magento\ConfigurableProduct\Block\Product\View\Type\Configurable'
+    ),
+    array(
+        'Magento\Catalog\Model\Product\Type\Configurable',
+        'Magento\ConfigurableProduct\Model\Product\Type\Configurable'
+    ),
+    array(
+        'Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute',
+        'Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute'
+    ),
+    array(
+        'Magento\Catalog\Model\Resource\Product\Type\Configurable\Product\Collection',
+        'Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Product\Collection'
+    ),
+    array(
+        'Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute\Collection',
+        'Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute\Collection'
+    ),
+    array(
+        'Magento\Catalog\Model\Product\Type\Configurable',
+        'Magento\ConfigurableProduct\Model\Product\Type\Configurable'
+    ),
+    array(
+        'Magento\Catalog\Model\Resource\Product\Type\Configurable',
+        'Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable'
+    ),
+    array(
+        'Magento\Catalog\Model\Resource\Product\Indexer\Price\Configurable',
+        'Magento\ConfigurableProduct\Model\Resource\Product\Indexer\Price\Configurable'
+    ),
+    array(
+        'Magento\Catalog\Model\Product\Type\Configurable\Price',
+        'Magento\ConfigurableProduct\Model\Product\Type\Configurable\Price'
+    ),
     array('Mage_Checkout_Block_Links'),
     array('Mage_Core_Block_Flush'),
     array('Mage_Core_Block_Template_Facade'),
