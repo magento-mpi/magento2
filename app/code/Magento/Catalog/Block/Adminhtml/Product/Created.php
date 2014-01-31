@@ -17,17 +17,15 @@
  */
 namespace Magento\Catalog\Block\Adminhtml\Product;
 
-use Magento\Catalog\Model\Product;
-
 class Created extends \Magento\Backend\Block\Widget
 {
     /**
-     * @var Product
+     * @var \Magento\Catalog\Model\Product
      */
     protected $_configurableProduct;
 
     /**
-     * @var Product
+     * @var \Magento\Catalog\Model\Product
      */
     protected $_product;
 
@@ -145,7 +143,7 @@ class Created extends \Magento\Backend\Block\Widget
     /**
      * Retrieve configurable product for created/edited simple
      *
-     * @return Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getConfigurableProduct()
     {
@@ -159,7 +157,7 @@ class Created extends \Magento\Backend\Block\Widget
     /**
      * Retrieve product
      *
-     * @return Product
+     * @return \Magento\Catalog\Model\Product
      */
     public function getProduct()
     {
