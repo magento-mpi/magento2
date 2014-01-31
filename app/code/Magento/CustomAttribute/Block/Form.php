@@ -237,7 +237,6 @@ class Form extends \Magento\View\Element\Template
      * Return EAV entity Form instance
      *
      * @return \Magento\Eav\Model\Form
-     * @deprecated use $this->getMetadataForm() instead
      */
     public function getForm()
     {
@@ -251,21 +250,6 @@ class Form extends \Magento\View\Element\Template
             $this->_form->initDefaultValues();
         }
         return $this->_form;
-    }
-
-    /**
-     * @return \Magento\Customer\Model\Metadata\Form
-     */
-    public function getMetadataForm()
-    {
-        if (is_null($this->_metadataForm)) {
-            $this->_metadataForm = $this->_metadataFormFactory->create(
-                $this->_entityType->getEntityTypeCode(),
-                $this->_formCode
-            );
-            // @todo initialize default values  MAGETWO-17600
-        }
-        return $this->_metadataForm;
     }
 
     /**

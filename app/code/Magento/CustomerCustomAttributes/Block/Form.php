@@ -54,4 +54,18 @@ class Form extends \Magento\CustomAttribute\Block\Form
      */
     protected $_formModelPath = 'Magento\Customer\Model\Form';
 
+    /**
+     * @return \Magento\Customer\Model\Metadata\Form
+     */
+    public function getMetadataForm()
+    {
+        if (is_null($this->_metadataForm)) {
+            $this->_metadataForm = $this->_metadataFormFactory->create(
+                $this->_entityType->getEntityTypeCode(),
+                $this->_formCode
+            );
+            // @todo initialize default values  MAGETWO-17600
+        }
+        return $this->_metadataForm;
+    }
 }
