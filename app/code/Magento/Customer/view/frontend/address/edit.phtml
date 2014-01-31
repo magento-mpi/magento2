@@ -52,7 +52,7 @@
                     <?php for ($_i = 1, $_n = $this->helper('Magento\Customer\Helper\Address')->getStreetLines(); $_i < $_n; $_i++): ?>
                         <div class="field additional">
                             <div class="control">
-                                <input type="text" name="street[]" value="<?php echo $this->escapeHtml($this->getStreetLine($_i)) ?>" title="<?php echo __('Street Address %1', $_i+1) ?>" id="street_<?php echo $_i+1 ?>" class="input-text <?php echo $_streetValidationClass ?>">
+                                <input type="text" name="street[]" value="<?php echo $this->escapeHtml($this->getStreetLine($_i+1)) ?>" title="<?php echo __('Street Address %1', $_i+1) ?>" id="street_<?php echo $_i+1 ?>" class="input-text <?php echo $_streetValidationClass ?>">
                             </div>
                         </div>
                     <?php endfor; ?>
