@@ -19,8 +19,6 @@
 
 namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab;
 
-use Magento\View\Element\AbstractBlock;
-
 class Alerts extends \Magento\Backend\Block\Widget\Tab
 {
     /**
@@ -29,7 +27,7 @@ class Alerts extends \Magento\Backend\Block\Widget\Tab
     protected $_template = 'catalog/product/tab/alert.phtml';
 
     /**
-     * @return AbstractBlock
+     * @return $this
      */
     protected function _prepareLayout()
     {

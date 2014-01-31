@@ -18,14 +18,13 @@
 
 namespace Magento\Catalog\Block\Adminhtml\Product\Attribute\Edit;
 
-use Magento\Backend\Block\Widget\Form as WidgetForm;
 use Magento\Backend\Block\Widget\Form\Generic;
 use Magento\Data\Form as DataForm;
 
 class Form extends Generic
 {
     /**
-     * @return WidgetForm
+     * @return $this
      */
     protected function _prepareForm()
     {

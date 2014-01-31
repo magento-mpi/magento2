@@ -18,8 +18,6 @@
 
 namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Options\Type;
 
-use Magento\View\Element\AbstractBlock;
-
 class AbstractType extends \Magento\Backend\Block\Widget
 {
     /**
@@ -47,7 +45,7 @@ class AbstractType extends \Magento\Backend\Block\Widget
     }
 
     /**
-     * @return AbstractBlock
+     * @return $this
      */
     protected function _prepareLayout()
     {

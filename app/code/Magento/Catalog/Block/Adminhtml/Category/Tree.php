@@ -20,7 +20,6 @@ namespace Magento\Catalog\Block\Adminhtml\Category;
 
 use Magento\Catalog\Model\Resource\Category\Collection;
 use Magento\Data\Tree\Node;
-use Magento\View\Element\AbstractBlock;
 
 class Tree extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
 {
@@ -92,7 +91,7 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
     }
 
     /**
-     * @return AbstractBlock
+     * @return $this
      */
     protected function _prepareLayout()
     {

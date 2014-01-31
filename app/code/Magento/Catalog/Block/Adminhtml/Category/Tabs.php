@@ -110,7 +110,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
     /**
      * Prepare Layout Content
      *
-     * @return \Magento\View\Element\AbstractBlock
+     * @return $this
      */
     protected function _prepareLayout()
     {

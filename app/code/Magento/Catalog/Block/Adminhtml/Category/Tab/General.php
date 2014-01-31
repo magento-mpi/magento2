@@ -115,7 +115,7 @@ class General extends \Magento\Catalog\Block\Adminhtml\Form
 
     /**
      * @param array|null $node
-     * @param array $options
+     * @param array &$options
      * @return array
      */
     protected function _getParentCategoryOptions($node=null, &$options=array())

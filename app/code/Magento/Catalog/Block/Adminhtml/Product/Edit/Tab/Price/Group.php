@@ -61,7 +61,7 @@ class Group
      *
      * Add "Add Group Price" button to layout
      *
-     * @return \Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Price\Group
+     * @return $this
      */
     protected function _prepareLayout()
     {

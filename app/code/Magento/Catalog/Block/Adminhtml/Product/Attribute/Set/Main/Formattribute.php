@@ -21,7 +21,7 @@ use Magento\Backend\Block\Widget\Form;
 class Formattribute extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
-     * @return Form|void
+     * @return void
      */
     protected function _prepareForm()
     {

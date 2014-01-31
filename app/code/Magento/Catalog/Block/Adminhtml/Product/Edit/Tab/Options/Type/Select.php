@@ -18,8 +18,6 @@
 
 namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Options\Type;
 
-use Magento\View\Element\AbstractBlock;
-
 class Select extends
     \Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Options\Type\AbstractType
 {
@@ -42,7 +40,7 @@ class Select extends
     }
 
     /**
-     * @return AbstractBlock
+     * @return $this
      */
     protected function _prepareLayout()
     {

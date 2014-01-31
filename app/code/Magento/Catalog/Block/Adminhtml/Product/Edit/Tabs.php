@@ -13,8 +13,6 @@
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Edit;
 
-use Magento\View\Element\AbstractBlock;
-
 class Tabs extends \Magento\Backend\Block\Widget\Tabs
 {
 
@@ -111,7 +109,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
     }
 
     /**
-     * @return AbstractBlock
+     * @return $this
      */
     protected function _prepareLayout()
     {

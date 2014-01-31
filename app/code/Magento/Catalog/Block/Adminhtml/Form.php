@@ -23,7 +23,7 @@ use Magento\View\Element\AbstractBlock;
 class Form extends Generic
 {
     /**
-     * @return AbstractBlock|void
+     * @return void
      */
     protected function _prepareLayout()
     {

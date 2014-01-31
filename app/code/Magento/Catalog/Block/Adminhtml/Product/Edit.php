@@ -92,7 +92,7 @@ class Edit extends \Magento\Backend\Block\Widget
     /**
      * Add elements in layout
      *
-     * @return \Magento\Catalog\Block\Adminhtml\Product\Edit
+     * @return $this
      */
     protected function _prepareLayout()
     {

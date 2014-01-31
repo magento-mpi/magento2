@@ -18,8 +18,6 @@
 
 namespace Magento\Catalog\Block\Adminhtml\Product\Attribute\Set\Toolbar;
 
-use Magento\View\Element\AbstractBlock;
-
 class Main extends \Magento\Backend\Block\Template
 {
     /**
@@ -28,7 +26,7 @@ class Main extends \Magento\Backend\Block\Template
     protected $_template = 'catalog/product/attribute/set/toolbar/main.phtml';
 
     /**
-     * @return AbstractBlock
+     * @return $this
      */
     protected function _prepareLayout()
     {

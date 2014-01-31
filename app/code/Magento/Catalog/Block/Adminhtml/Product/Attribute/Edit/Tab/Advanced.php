@@ -18,7 +18,6 @@
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Attribute\Edit\Tab;
 
-use Magento\Backend\Block\Widget\Form;
 use Magento\Backend\Block\Widget\Form\Generic;
 use Magento\Backend\Model\Config\Source\Yesno;
 use Magento\Eav\Helper\Data;
@@ -61,7 +60,7 @@ class Advanced extends Generic
     /**
      * Adding product form elements for editing attribute
      *
-     * @return $this|Form
+     * @return $this
      */
     protected function _prepareForm()
     {
@@ -215,7 +214,7 @@ class Advanced extends Generic
     /**
      * Initialize form fileds values
      *
-     * @return Form
+     * @return $this
      */
     protected function _initFormValues()
     {

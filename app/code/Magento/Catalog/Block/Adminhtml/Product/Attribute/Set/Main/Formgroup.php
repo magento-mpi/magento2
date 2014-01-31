@@ -45,7 +45,7 @@ class Formgroup
     }
 
     /**
-     * @return Form|void
+     * @return void
      */
     protected function _prepareForm()
     {

@@ -22,7 +22,7 @@ use Magento\Backend\Block\Widget\Form;
 class Attributes extends \Magento\Catalog\Block\Adminhtml\Form
 {
     /**
-     * @return Form|void
+     * @return void
      */
     protected function _prepareForm()
     {

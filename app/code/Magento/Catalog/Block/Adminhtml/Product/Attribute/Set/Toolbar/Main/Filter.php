@@ -45,7 +45,7 @@ class Filter
     }
 
     /**
-     * @return Form|void
+     * @return void
      */
     protected function _prepareForm()
     {

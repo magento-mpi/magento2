@@ -48,8 +48,8 @@ class Front extends Generic
     }
 
     /**
-     * @inheritdoc
-     * @return Form
+     * {@inheritdoc}
+     * @return $this
      */
     protected function _prepareForm()
     {

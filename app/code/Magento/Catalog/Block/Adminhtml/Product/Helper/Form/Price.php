@@ -60,6 +60,9 @@ class Price extends \Magento\Data\Form\Element\Text
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -67,7 +70,7 @@ class Price extends \Magento\Data\Form\Element\Text
     }
 
     /**
-     * @return mixed|string
+     * @return mixed
      */
     public function getAfterElementHtml()
     {

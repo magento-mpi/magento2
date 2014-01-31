@@ -165,7 +165,7 @@ class AbstractCategory extends \Magento\Backend\Block\Template
      * If ids are empty, default tree with depth = 2 will be returned.
      *
      * @param array $ids
-     * @return Node|mixed
+     * @return mixed
      */
     public function getRootByIds($ids)
     {

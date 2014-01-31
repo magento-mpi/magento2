@@ -18,7 +18,6 @@
 namespace Magento\Catalog\Block\Adminhtml\Category\Edit;
 
 use Magento\Backend\Block\Template;
-use Magento\View\Element\AbstractBlock;
 
 class Form extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
 {
@@ -58,7 +57,7 @@ class Form extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
     }
 
     /**
-     * @return AbstractBlock
+     * @return $this
      */
     protected function _prepareLayout()
     {

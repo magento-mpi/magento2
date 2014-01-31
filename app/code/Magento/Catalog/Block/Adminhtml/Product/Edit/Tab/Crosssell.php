@@ -192,7 +192,7 @@ class Crosssell extends Extended
     /**
      * Add columns to grid
      *
-     * @return Extended
+     * @return $this
      */
     protected function _prepareColumns()
     {

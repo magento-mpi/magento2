@@ -98,7 +98,7 @@ class Main extends \Magento\Backend\Block\Template
     /**
      * Prepare Global Layout
      *
-     * @return \Magento\Catalog\Block\Adminhtml\Product\Attribute\Set\Main
+     * @return $this
      */
     protected function _prepareLayout()
     {

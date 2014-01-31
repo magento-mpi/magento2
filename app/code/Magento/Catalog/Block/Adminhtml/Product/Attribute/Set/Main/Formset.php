@@ -41,7 +41,7 @@ class Formset
     /**
      * Prepares attribute set form
      *
-     * @return Form|void
+     * @return void
      */
     protected function _prepareForm()
     {

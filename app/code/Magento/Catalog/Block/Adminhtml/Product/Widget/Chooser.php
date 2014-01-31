@@ -76,6 +76,8 @@ class Chooser extends Extended
 
     /**
      * Block construction, prepare grid params
+     *
+     * @return void
      */
     protected function _construct()
     {

@@ -89,7 +89,7 @@ class Stock extends Extended
     }
 
     /**
-     * @return Extended
+     * @return $this
      */
     protected function _prepareColumns()
     {

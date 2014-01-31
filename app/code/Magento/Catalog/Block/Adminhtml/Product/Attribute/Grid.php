@@ -17,7 +17,6 @@
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Attribute;
 
-use Magento\Backend\Block\Widget\Grid as WidgetGrid;
 use Magento\Eav\Block\Adminhtml\Attribute\Grid\AbstractGrid;
 
 class Grid extends AbstractGrid
@@ -47,7 +46,7 @@ class Grid extends AbstractGrid
     /**
      * Prepare product attributes grid collection object
      *
-     * @return WidgetGrid
+     * @return $this
      */
     protected function _prepareCollection()
     {
@@ -61,7 +60,7 @@ class Grid extends AbstractGrid
     /**
      * Prepare product attributes grid columns
      *
-     * @return $this|AbstractGrid
+     * @return $this
      */
     protected function _prepareColumns()
     {

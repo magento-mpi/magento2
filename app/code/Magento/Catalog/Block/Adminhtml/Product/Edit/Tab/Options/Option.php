@@ -15,7 +15,6 @@ namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Options;
 
 use Magento\Backend\Block\Widget;
 use Magento\Catalog\Model\Product;
-use Magento\View\Element\AbstractBlock;
 
 class Option extends Widget
 {
@@ -183,7 +182,7 @@ class Option extends Widget
     }
 
     /**
-     * @return AbstractBlock
+     * @return $this
      */
     protected function _prepareLayout()
     {
@@ -396,7 +395,7 @@ class Option extends Widget
     /**
      * @param float $value
      * @param string $type
-     * @return string|void
+     * @return string
      */
     public function getPriceValue($value, $type)
     {

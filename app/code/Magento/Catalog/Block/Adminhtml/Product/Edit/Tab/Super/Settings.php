@@ -83,7 +83,7 @@ class Settings extends Generic
     /**
      * Prepare form before rendering HTML
      *
-     * @return Generic
+     * @return $this
      */
     protected function _prepareForm()
     {

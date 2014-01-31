@@ -43,7 +43,7 @@ class Create extends Button
     }
 
     /**
-     * @return Button
+     * @return $this
      */
     protected function _beforeToHtml()
     {
