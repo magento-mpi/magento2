@@ -20,25 +20,16 @@ class AbstractStore
     protected $state;
 
     /**
-     * Category flat resource
-     *
-     * @var \Magento\Catalog\Model\Resource\Category\Flat
-     */
-    protected $flatResource;
-
-    /**
      * @param \Magento\Indexer\Model\IndexerInterface $indexer
      * @param \Magento\Catalog\Model\Indexer\Category\Flat\State $state
      * @param \Magento\Catalog\Model\Resource\Category\Flat $flatResource
      */
     public function __construct(
         \Magento\Indexer\Model\IndexerInterface $indexer,
-        \Magento\Catalog\Model\Indexer\Category\Flat\State $state,
-        \Magento\Catalog\Model\Resource\Category\Flat $flatResource
+        \Magento\Catalog\Model\Indexer\Category\Flat\State $state
     ) {
         $this->indexer = $indexer;
         $this->state = $state;
-        $this->flatResource = $flatResource;
     }
 
     /**
@@ -71,6 +62,6 @@ class AbstractStore
      */
     protected function cleanStoreData($storeIds)
     {
-        $this->flatResource->deleteStores($storeIds);
+        //TODO need implement
     }
 }
