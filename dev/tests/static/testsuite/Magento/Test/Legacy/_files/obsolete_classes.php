@@ -1451,6 +1451,10 @@ return array(
     array('Magento\Core\Model\Theme\FlyweightFactory', 'Magento\View\Design\Theme\FlyweightFactory'),
     array('Magento\Core\Model\Image\AdapterFactory', 'Magento\Image\AdapterFactory'),
     array('Magento\Core\Model\EntryPoint\Cron', 'Magento\App\Cron'),
+    array(
+        'Magento\Checkout\Block\Cart\Item\Renderer\Grouped',
+        'Magento\GroupedProduct\Block\Cart\Item\Renderer\Grouped'
+    ),
     array('Magento\Log\Model\EntryPoint\Shell', 'Magento\Log\App\Shell'),
     array('Magento\Index\Model\EntryPoint\Shell', 'Magento\Index\App\Shell'),
     array('Magento\Index\Model\EntryPoint\Indexer', 'Magento\Index\App\Indexer'),
@@ -1827,6 +1831,26 @@ return array(
         'Magento\Catalog\Block\Product\View\Type\Grouped',
         'Magento\GroupedProduct\Block\Product\View\Type\Grouped'
     ),
+    array(
+        'Magento\Sales\Block\Adminhtml\Items\Column\Name\Grouped',
+        'Magento\GroupedProduct\Block\Adminhtml\Items\Column\Name\Grouped'
+    ),
+    array(
+        'Magento\Sales\Model\Order\Pdf\Items\Invoice\Grouped',
+        'Magento\GroupedProduct\Model\Order\Pdf\Items\Invoice\Grouped'
+    ),
+    array(
+        'Magento\Sales\Block\Order\Item\Renderer\Grouped',
+        'Magento\GroupedProduct\Block\Order\Item\Renderer\Grouped'
+    ),
+    array(
+        'Magento\ImportExport\Model\Export\Entity\Product\Type\Grouped',
+        'Magento\GroupedProduct\Model\Export\Entity\Product\Type\Grouped'
+    ),
+    array(
+        'Magento\ImportExport\Model\Import\Entity\Product\Type\Grouped',
+        'Magento\GroupedProduct\Model\Import\Entity\Product\Type\Grouped'
+    ),
     ['CollFactory', 'CollectionFactory'], // no need to shorten anymore
     ['Magento\Shipping\Model\Rate\Result\AbstractResult', 'Magento\Sales\Model\Quote\Address\RateResult\AbstractResult'],
     ['Magento\Shipping\Model\Rate\Result\Error', 'Magento\Sales\Model\Quote\Address\RateResult\Error'],
@@ -1842,7 +1866,7 @@ return array(
     array('Magento\PageCache\Model\Control\Zend'),
     array('Magento\PageCache\Model\System\Config\Source\Controls'),
     array('Magento\PageCache\Model\CacheControlFactory'),
-    array('Magento\PageCache\Model\Observer'),
     array('Magento\Config\Dom\Converter\ArrayConverter'),
     array('Magento\Acl\Resource\Config\Dom'),
+    array('Magento\GoogleShopping\Helper\Price', 'Magento\Catalog\Model\Product\CatalogPrice'),
 );
