@@ -44,36 +44,21 @@ class ServiceCollectionTest extends \PHPUnit_Framework_TestCase
             ->getObject(
                 'Magento\Customer\Model\Resource\Group\Grid\ServiceCollection',
                 [
-                'filterBuilder' => $this->filterBuilder,
-                'searchCriteriaBuilder' => $this->searchCriteriaBuilder,
-                'groupService' => $this->groupServiceMock,
+                    'filterBuilder' => $this->filterBuilder,
+                    'searchCriteriaBuilder' => $this->searchCriteriaBuilder,
+                    'groupService' => $this->groupServiceMock,
                 ]
             );
     }
 
-    /**
-     * @param string|int|array $field
-     * @param string|int|array $name
-     * @param array $expectedFilters
-     *
-     * @dataProvider getSearchCriteriaDataProvider
-     */
-    public function testGetSearchCriteria($field, $condition, $expectedFilters)
+    public function testGetSearchCriteriaImplicitEq()
     {
-        // Setup the expected search criteria
-        foreach ($expectedFilters as $expectedFilter) {
-            $this->searchCriteriaBuilder->addFilter($expectedFilter);
-        }
-
-        $customerGroupBuilder = new \Magento\Customer\Service\V1\Dto\CustomerGroupBuilder();
-        $customerGroup = $customerGroupBuilder->setCode('code')->setId('1')->create();
-
-        $searchResultsBuilder = new \Magento\Customer\Service\V1\Dto\SearchResultsBuilder();
-        $this->searchResults = $searchResultsBuilder->setItems([$customerGroup])->setTotalCount(1)->create();
+        /** @var SearchCriteria $expectedSearchCriteria */
         $expectedSearchCriteria = $this->searchCriteriaBuilder
             ->setCurrentPage(1)
             ->setPageSize(0)
             ->addSortOrder('name', SearchCriteria::SORT_ASC)
+            ->addFilter($this->filterBuilder->setField('name')->setConditionType('eq')->setValue('Magento')->create())
             ->create();
 
         // Verifies that the search criteria DTO created by the serviceCollection matches expected
@@ -83,39 +68,98 @@ class ServiceCollectionTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->searchResults));
 
         // Now call service collection to load the data.  This causes it to create the search criteria DTO
-        $this->serviceCollection->addFieldToFilter($field, $condition);
+        $this->serviceCollection->addFieldToFilter('name', 'Magento');
         $this->serviceCollection->setOrder('name', ServiceCollection::SORT_ORDER_ASC);
         $this->serviceCollection->loadData();
     }
 
-    public function getSearchCriteriaDataProvider()
+    public function testGetSearchCriteriaOneField()
     {
-        $filterBuilder = new \Magento\Customer\Service\V1\Dto\FilterBuilder();
-        return [
-            [
-                'name',
-                ['like' => 'Mage'],
-                [$filterBuilder->setField('name')->setConditionType('like')->setValue('Mage')->create()],
-            ],
-            [
-                'name',
-                'Magento',
-                [$filterBuilder->setField('name')->setConditionType('eq')->setValue('Magento')->create()],
-            ],
-            [
-                'age',
-                ['gt' => 35],
-                [$filterBuilder->setField('age')->setConditionType('gt')->setValue(35)->create()],
-            ],
-            [
-                ['city', 'age'],
-                ['Austin', ['gt' => 35] ],
+        $field = 'age';
+        $conditionType = 'gt';
+        $value = '35';
+
+        /** @var SearchCriteria $expectedSearchCriteria */
+        $expectedSearchCriteria = $this->searchCriteriaBuilder
+            ->setCurrentPage(1)
+            ->setPageSize(0)
+            ->addSortOrder('name', SearchCriteria::SORT_ASC)
+            ->addFilter(
+                $this->filterBuilder->setField($field)->setConditionType($conditionType)->setValue($value)->create()
+            )
+            ->create();
+
+        // Verifies that the search criteria DTO created by the serviceCollection matches expected
+        $this->groupServiceMock->expects($this->once())
+            ->method('searchGroups')
+            ->with($this->equalTo($expectedSearchCriteria))
+            ->will($this->returnValue($this->searchResults));
+
+        // Now call service collection to load the data.  This causes it to create the search criteria DTO
+        $this->serviceCollection->addFieldToFilter($field, [$conditionType => $value]);
+        $this->serviceCollection->setOrder('name', ServiceCollection::SORT_ORDER_ASC);
+        $this->serviceCollection->loadData();
+    }
+
+    public function testGetSearchCriteriaOr()
+    {
+        // Test ((A == 1) or (B == 1 ))
+        $fieldA = 'A';
+        $fieldB = 'B';
+        $value = 1;
+
+        /** @var SearchCriteria $expectedSearchCriteria */
+        $expectedSearchCriteria = $this->searchCriteriaBuilder
+            ->setCurrentPage(1)
+            ->setPageSize(0)
+            ->addSortOrder('name', SearchCriteria::SORT_ASC)
+            ->addOrGroup(
                 [
-                    $filterBuilder->setField('city')->setConditionType('eq')->setValue('Austin')->create(),
-                    $filterBuilder->setField('age')->setConditionType('gt')->setValue(35)->create(),
-                ],
-            ]
-        ];
+                    $this->filterBuilder->setField($fieldA)->setConditionType('eq')->setValue($value)->create(),
+                    $this->filterBuilder->setField($fieldB)->setConditionType('eq')->setValue($value)->create(),
+                ]
+            )
+            ->create();
+
+        // Verifies that the search criteria DTO created by the serviceCollection matches expected
+        $this->groupServiceMock->expects($this->once())
+            ->method('searchGroups')
+            ->with($this->equalTo($expectedSearchCriteria))
+            ->will($this->returnValue($this->searchResults));
+
+        // Now call service collection to load the data.  This causes it to create the search criteria DTO
+        $this->serviceCollection->addFieldToFilter([$fieldA, $fieldB], [$value, $value]);
+        $this->serviceCollection->setOrder('name', ServiceCollection::SORT_ORDER_ASC);
+        $this->serviceCollection->loadData();
+    }
+
+    public function testGetSearchCriteriaAnd()
+    {
+        // Test ((A > 1) and (B > 1))
+        $fieldA = 'A';
+        $fieldB = 'B';
+        $value = 1;
+
+        /** @var SearchCriteria $expectedSearchCriteria */
+        $expectedSearchCriteria = $this->searchCriteriaBuilder
+            ->setCurrentPage(1)
+            ->setPageSize(0)
+            ->addSortOrder('name', SearchCriteria::SORT_ASC)
+            ->addFilter($this->filterBuilder->setField($fieldA)->setConditionType('gt')->setValue($value)->create())
+            ->addFilter($this->filterBuilder->setField($fieldB)->setConditionType('gt')->setValue($value)->create())
+            ->create();
+
+        // Verifies that the search criteria DTO created by the serviceCollection matches expected
+        $this->groupServiceMock->expects($this->once())
+            ->method('searchGroups')
+            ->with($this->equalTo($expectedSearchCriteria))
+            ->will($this->returnValue($this->searchResults));
+
+        // Now call service collection to load the data.  This causes it to create the search criteria DTO
+        $this->serviceCollection->addFieldToFilter($fieldA, ['gt' => $value]);
+        $this->serviceCollection->addFieldToFilter($fieldB, ['gt' => $value]);
+        $this->serviceCollection->setOrder('name', ServiceCollection::SORT_ORDER_ASC);
+        $this->serviceCollection->loadData();
     }
 
     /**

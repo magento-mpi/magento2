@@ -114,7 +114,6 @@ class ServiceCollection extends \Magento\Data\Collection
             'field'     => $field,
             'condition' => $condition,
         ];
-
         return $this;
     }
 
@@ -153,12 +152,15 @@ class ServiceCollection extends \Magento\Data\Collection
         foreach ($this->fieldFilters as $filter) {
             if (!is_array($filter['field'])) {
                 // just one field
-                $this->addFilterToSearchCriteria($filter['field'], $filter['condition']);
+                $this->searchCriteriaBuilder->addFilter($this->createFilterDto($filter['field'], $filter['condition']));
             } else {
-                // array of fields
+                // array of fields, put filters in array to use 'or' group
+                /** @var Filter[] $orGroupFilters */
+                $orGroupFilters = [];
                 foreach ($filter['field'] as $index => $field) {
-                    $this->addFilterToSearchCriteria($field, $filter['condition'][$index]);
+                    $orGroupFilters[] = $this->createFilterDto($field, $filter['condition'][$index]);
                 }
+                $this->searchCriteriaBuilder->addOrGroup($orGroupFilters);
             }
         }
         foreach ($this->_orders as $field => $direction) {
@@ -173,13 +175,13 @@ class ServiceCollection extends \Magento\Data\Collection
     }
 
     /**
-     * Creates a filter for given field/condition and adds it to the search criteria builder.
+     * Creates a filter DTO for given field/condition
      *
      * @param string $field Field for new filter
      * @param string|array $condition Condition for new filter.
-     * @return void
+     * @return Filter
      */
-    protected function addFilterToSearchCriteria($field, $condition)
+    protected function createFilterDto($field, $condition)
     {
         $this->filterBuilder->setField($field);
 
@@ -191,6 +193,6 @@ class ServiceCollection extends \Magento\Data\Collection
             $this->filterBuilder->setConditionType('eq');
             $this->filterBuilder->setValue($condition);
         }
-        $this->searchCriteriaBuilder->addFilter($this->filterBuilder->create());
+        return $this->filterBuilder->create();
     }
 }

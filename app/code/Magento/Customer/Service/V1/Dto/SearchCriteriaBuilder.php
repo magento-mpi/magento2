@@ -38,6 +38,7 @@ class SearchCriteriaBuilder extends AbstractDtoBuilder
      * Add an OR grouping of filters to this SearchCriteria.
      *
      * @param Filter[] $filters
+     * @return $this
      */
     public function addOrGroup($filters)
     {
@@ -46,6 +47,7 @@ class SearchCriteriaBuilder extends AbstractDtoBuilder
             $orGroup->addFilter($filter);
         }
         $this->getFilterGroup()->addGroup($orGroup->create());
+        return $this;
     }
 
     /**
