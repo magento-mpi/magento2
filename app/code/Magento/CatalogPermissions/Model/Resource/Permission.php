@@ -23,6 +23,7 @@ class Permission extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Initialize resource
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -32,6 +33,7 @@ class Permission extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Initialize unique scope for permission
      *
+     * @return void
      */
     protected function _initUniqueFields()
     {
