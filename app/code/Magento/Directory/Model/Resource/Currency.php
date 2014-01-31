@@ -128,6 +128,7 @@ class Currency extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Saving currency rates
      *
      * @param array $rates
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function saveRates($rates)
