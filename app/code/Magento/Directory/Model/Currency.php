@@ -26,8 +26,6 @@ class Currency extends \Magento\Core\Model\AbstractModel
     const XML_PATH_CURRENCY_DEFAULT = 'currency/options/default';
     const XML_PATH_CURRENCY_BASE    = 'currency/options/base';
 
-    const ENTITY = 'currency';
-
     protected $_filter;
 
     /**

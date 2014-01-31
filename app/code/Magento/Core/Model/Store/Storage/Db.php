@@ -266,7 +266,6 @@ class Db implements StorageInterface
             $store = $this->getStore($store);
             if ($store->getWebsite()->getDefaultStore()->getId() == $store->getId()) {
                 $this->_cookie->set(Store::COOKIE_NAME, null);
-                $this->response->setVary(Store::ENTITY, null);
             } else {
                 $this->_cookie->set(Store::COOKIE_NAME, $this->_currentStore, true);
                 $this->response->setVary(Store::ENTITY, $this->_currentStore);

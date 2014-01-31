@@ -824,10 +824,8 @@ class Store extends \Magento\Core\Model\AbstractModel implements \Magento\Url\Sc
             $path = $this->_getSession()->getCookiePath();
             if ($code == $this->getDefaultCurrency()->getCurrencyCode()) {
                 $this->_cookie->set(self::COOKIE_CURRENCY, null, null, $path);
-                $this->response->setVary(self::COOKIE_CURRENCY, null);
             } else {
                 $this->_cookie->set(self::COOKIE_CURRENCY, $code, null, $path);
-                $this->response->setVary(self::COOKIE_CURRENCY, $code);
             }
         }
         return $this;
@@ -914,10 +912,23 @@ class Store extends \Magento\Core\Model\AbstractModel implements \Magento\Url\Sc
                 $this->setCurrentCurrencyCode($baseCurrency->getCode());
             }
 
-            $this->setData('current_currency', $currency);
+            $this->setCurrentCurrency($currency);
         }
 
         return $currency;
+    }
+
+    /**
+     * Set current currency
+     *
+     * @param $currency
+     * @return $this
+     */
+    public function setCurrentCurrency($currency)
+    {
+        $this->response->setVary('current_currency', $currency->getCurrencyCode());
+        $this->setData('current_currency', $currency);
+        return $this;
     }
 
     /**

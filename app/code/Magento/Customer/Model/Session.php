@@ -167,6 +167,7 @@ class Session extends \Magento\Session\SessionManager
             $customer->setConfirmation(null)->save();
             $customer->setIsJustConfirmed(true);
         }
+        $this->response->setVary('customer_group', $this->_customer->getGroupId());
         return $this;
     }
 
@@ -209,6 +210,7 @@ class Session extends \Magento\Session\SessionManager
      */
     public function getCustomerId()
     {
+
         if ($this->storage->getData('customer_id')) {
             return $this->storage->getData('customer_id');
         }
@@ -236,14 +238,9 @@ class Session extends \Magento\Session\SessionManager
     public function getCustomerGroupId()
     {
         if ($this->storage->getData('customer_group_id')) {
-            $this->response->setVary(\Magento\Customer\Model\Group::ENTITY,
-                $this->storage->getData('customer_group_id'));
             return $this->storage->getData('customer_group_id');
-
         }
         if ($this->isLoggedIn() && $this->getCustomer()) {
-            $this->response->setVary(\Magento\Customer\Model\Group::ENTITY,
-                $this->getCustomer()->getGroupId());
             return $this->getCustomer()->getGroupId();
         }
 

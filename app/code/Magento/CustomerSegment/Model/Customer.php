@@ -30,11 +30,6 @@ namespace Magento\CustomerSegment\Model;
 class Customer extends \Magento\Core\Model\AbstractModel
 {
     /**
-     *  CustomerSegment vary identifier
-     */
-    const ENTITY = 'customer_segment';
-
-    /**
      * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
@@ -299,7 +294,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
             $visitorSegmentIds[$websiteId] = $segmentIds;
         }
         $visitorSession->setCustomerSegmentIds($visitorSegmentIds);
-        $this->response->setVary(self::ENTITY, array_filter($visitorSegmentIds));
+        $this->response->setVary('customer_segment', array_filter($visitorSegmentIds));
         return $this;
     }
 
@@ -324,9 +319,8 @@ class Customer extends \Magento\Core\Model\AbstractModel
             }
             $visitorCustomerSegmentIds[$websiteId] = $segmentsIdsForWebsite;
         }
-
         $visitorSession->setCustomerSegmentIds($visitorCustomerSegmentIds);
-        $this->response->setVary(self::ENTITY, array_filter($visitorCustomerSegmentIds));
+        $this->response->setVary('customer_segment', array_filter($visitorCustomerSegmentIds));
         return $this;
     }
 

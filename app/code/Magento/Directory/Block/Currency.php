@@ -28,27 +28,19 @@ class Currency extends \Magento\View\Element\Template
     protected $_currencyFactory;
 
     /**
-     * @var \Magento\App\ResponseInterface
-     */
-    protected $response;
-
-    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Directory\Helper\Url $directoryUrl
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
-     * @param \Magento\App\ResponseInterface $response
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Directory\Helper\Url $directoryUrl,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
-        \Magento\App\ResponseInterface $response,
         array $data = array()
     ) {
         $this->_directoryUrl = $directoryUrl;
         $this->_currencyFactory = $currencyFactory;
-        $this->response = $response;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
     }
@@ -124,12 +116,11 @@ class Currency extends \Magento\View\Element\Template
     public function getCurrentCurrencyCode()
     {
         if (is_null($this->_getData('current_currency_code'))) {
+
             // do not use $this->_storeManager->getStore()->getCurrentCurrencyCode() because of probability
             // to get an invalid (without base rate) currency from code saved in session
             $this->setData('current_currency_code', $this->_storeManager->getStore()->getCurrentCurrency()->getCode());
         }
-
-        $this->response->setVary(\Magento\Directory\Model\Currency::ENTITY, $this->_getData('current_currency_code'));
         return $this->_getData('current_currency_code');
     }
 

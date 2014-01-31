@@ -14,7 +14,7 @@ class Http extends \Zend_Controller_Response_Http implements \Magento\App\Respon
     /**
      * Cookie to store page vary string
      */
-    const COOKIE_VARY_STRING = 'VARY_STRING';
+    const COOKIE_VARY_STRING = 'X-VARY-STRING';
 
     /**
      * Response vary identifiers
@@ -50,12 +50,10 @@ class Http extends \Zend_Controller_Response_Http implements \Magento\App\Respon
      */
     public function setVary($name, $value)
     {
-        if (!empty($value)) {
-            if (is_array($value)) {
-                $value = serialize($value);
-            }
-            $this->vary[$name] = $value;
+        if (is_array($value)) {
+            $value = serialize($value);
         }
+        $this->vary[$name] = $value;
         return $this;
     }
 
