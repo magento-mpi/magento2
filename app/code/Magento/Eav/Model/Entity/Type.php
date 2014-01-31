@@ -272,7 +272,7 @@ class Type extends \Magento\Core\Model\AbstractModel
     /**
      * Retrieve entity table prefix name
      *
-     * @return string
+     * @return null|string
      */
     public function getValueTablePrefix()
     {

@@ -577,7 +577,7 @@ abstract class AbstractEntity extends \Magento\Core\Model\Resource\AbstractResou
      * Retrieve configuration for all attributes
      *
      * @param null|object $object
-     * @return AbstractAttribute
+     * @return $this
      */
     public function loadAllAttributes($object = null)
     {

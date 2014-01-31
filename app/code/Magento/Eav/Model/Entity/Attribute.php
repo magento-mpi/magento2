@@ -9,6 +9,8 @@
  */
 namespace Magento\Eav\Model\Entity;
 
+use Magento\Eav\Exception;
+
 /**
  * EAV Entity attribute model
  *
@@ -182,6 +184,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
      * Prepare data for save
      *
      * @return $this
+     * @throws Exception
      */
     protected function _beforeSave()
     {
@@ -189,7 +192,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
         if (isset($this->_data['attribute_code'])
             && $this->_catalogProductFactory->create()->isReservedAttribute($this)
         ) {
-            throw new \Magento\Eav\Exception(__('The attribute code \'%1\' is reserved by system. Please try another attribute code', $this->_data['attribute_code']));
+            throw new Exception(__('The attribute code \'%1\' is reserved by system. Please try another attribute code', $this->_data['attribute_code']));
         }
 
         /**
@@ -200,7 +203,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
                               'StringLength',
                               array('max' => self::ATTRIBUTE_CODE_MAX_LENGTH))
         ) {
-            throw new \Magento\Eav\Exception(__('Maximum length of attribute code must be less than %1 symbols', self::ATTRIBUTE_CODE_MAX_LENGTH));
+            throw new Exception(__('Maximum length of attribute code must be less than %1 symbols', self::ATTRIBUTE_CODE_MAX_LENGTH));
         }
 
         $defaultValue   = $this->getDefaultValue();
@@ -210,7 +213,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
             if (!\Zend_Locale_Format::isNumber($defaultValue,
                                               array('locale' => $this->_locale->getLocaleCode()))
             ) {
-                throw new \Magento\Eav\Exception(__('Invalid default decimal value'));
+                throw new Exception(__('Invalid default decimal value'));
             }
 
             try {
@@ -219,7 +222,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
                 );
                 $this->setDefaultValue($filter->filter($defaultValue));
             } catch (\Exception $e) {
-                throw new \Magento\Eav\Exception(__('Invalid default decimal value'));
+                throw new Exception(__('Invalid default decimal value'));
             }
         }
 
@@ -239,7 +242,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
                     $defaultValue = $this->_locale->date($defaultValue, $format, null, false)->toValue();
                     $this->setDefaultValue($defaultValue);
                 } catch (\Exception $e) {
-                    throw new \Magento\Eav\Exception(__('Invalid default date'));
+                    throw new Exception(__('Invalid default date'));
                 }
             }
         }
