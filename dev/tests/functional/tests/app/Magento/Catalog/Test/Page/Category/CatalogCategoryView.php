@@ -43,6 +43,13 @@ class CatalogCategoryView extends Page
     protected $mapBlock = '#map-popup-content';
 
     /**
+     * Layered navigation block
+     *
+     * @var string
+     */
+    protected $layeredNavigationBlock = '.block.filter';
+
+    /**
      * Custom constructor
      */
     protected function _init()
@@ -71,6 +78,18 @@ class CatalogCategoryView extends Page
     {
         return Factory::getBlockFactory()->getMagentoCatalogProductPrice(
             $this->_browser->find($this->mapBlock, Locator::SELECTOR_CSS)
+        );
+    }
+
+    /**
+     * Get layered navigation block
+     *
+     * @return \Magento\Search\Test\Block\Catalog\Layer\View
+     */
+    public function getLayeredNavigationBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoLayeredNavigation(
+            $this->_browser->find($this->layeredNavigationBlock, Locator::SELECTOR_CSS)
         );
     }
 }
