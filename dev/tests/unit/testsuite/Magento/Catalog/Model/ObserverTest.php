@@ -47,7 +47,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $productFactoryMock = $this->getMock('Magento\Catalog\Model\Resource\ProductFactory', array(),
             array(), '', false);
         $coreConfig = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false);
-        $categoryFlatConfig = $this->getMock('Magento\Catalog\Model\Indexer\Category\Flat\Config', array(),
+        $categoryFlatState = $this->getMock('Magento\Catalog\Model\Indexer\Category\Flat\State', array(),
             array(), '', false);
 
         $this->_model = $this->_objectHelper->getObject('Magento\Catalog\Model\Observer', array(
@@ -56,7 +56,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             'coreConfig' => $coreConfig,
             'urlFactory' => $urlFactoryMock,
             'productResourceFactory' => $productFactoryMock,
-            'categoryFlatConfig' => $categoryFlatConfig,
+            'categoryFlatState' => $categoryFlatState,
         ));
         $this->_requestMock = $this->getMock('Magento\App\RequestInterface', array(), array(), '', false);
     }

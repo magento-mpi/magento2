@@ -92,7 +92,7 @@ class Observer
      * @param \Magento\Index\Model\Indexer $indexIndexer
      * @param \Magento\Catalog\Helper\Category $catalogCategory
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param Indexer\Category\Flat\State $categoryFlatConfig
+     * @param Indexer\Category\Flat\State $categoryFlatState
      * @param \Magento\Core\Model\Config $coreConfig
      * @param \Magento\Catalog\Model\Resource\ProductFactory $productResourceFactory
      */
@@ -105,7 +105,7 @@ class Observer
         \Magento\Index\Model\Indexer $indexIndexer,
         \Magento\Catalog\Helper\Category $catalogCategory,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Catalog\Model\Indexer\Category\Flat\State $categoryFlatConfig,
+        \Magento\Catalog\Model\Indexer\Category\Flat\State $categoryFlatState,
         \Magento\Core\Model\Config $coreConfig,
         \Magento\Catalog\Model\Resource\ProductFactory $productResourceFactory
     ) {
@@ -118,7 +118,7 @@ class Observer
         $this->_coreConfig = $coreConfig;
         $this->_catalogCategory = $catalogCategory;
         $this->_catalogData = $catalogData;
-        $this->categoryFlatConfig = $categoryFlatConfig;
+        $this->categoryFlatConfig = $categoryFlatState;
         $this->_productResourceFactory = $productResourceFactory;
     }
 
