@@ -449,9 +449,9 @@ class Index extends \Magento\Backend\App\Action
     private function _changePassword($customer, array $customerData)
     {
         if (!empty($customerData['password']) || $this->_isAutogeneratePassword($customerData)) {
-                $newPassword = $this->_getCustomerPassword($customer, $customerData);
-                $customer->changePassword($newPassword);
-                $customer->sendPasswordReminderEmail();
+            $newPassword = $this->_getCustomerPassword($customer, $customerData);
+            $customer->changePassword($newPassword);
+            $customer->sendPasswordReminderEmail();
         }
     }
 
