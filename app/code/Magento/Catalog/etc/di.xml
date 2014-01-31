@@ -158,4 +158,7 @@
             <instance type="Magento\Catalog\Model\Resource\Category\Flat" shared="0"/>
         </param>
     </type>
+    <type name="Magento\Indexer\Model\Config\Data">
+        <plugin name="indexerConfigGet" type="Magento\Catalog\Model\Indexer\Category\Flat\Plugin\IndexerConfigData"/>
+    </type>
 </config>

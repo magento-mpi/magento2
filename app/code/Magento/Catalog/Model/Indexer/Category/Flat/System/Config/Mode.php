@@ -43,13 +43,22 @@ class Mode extends \Magento\Core\Model\Config\Value
     }
 
     /**
-     * After enable flat category required reindex
+     * Set after commit callback
      *
      * @return \Magento\Catalog\Model\Indexer\Category\Flat\System\Config\Mode
      */
     protected function _afterSave()
     {
-        if ($this->isValueChanged() && $this->getValue()) {
+        $this->_getResource()->addCommitCallback(array($this, 'processValue'));
+        return $this;
+    }
+
+    /**
+     * Process flat enabled mode change
+     */
+    public function processValue()
+    {
+        if ($this->isValueChanged()) {
             $this->flatIndexer->load(\Magento\Catalog\Model\Indexer\Category\Flat\State::INDEXER_ID);
             if ($this->getValue()) {
                 $this->flatIndexer->invalidate();
@@ -57,6 +66,5 @@ class Mode extends \Magento\Core\Model\Config\Value
                 $this->flatIndexer->setScheduled(false);
             }
         }
-        return $this;
     }
 }
