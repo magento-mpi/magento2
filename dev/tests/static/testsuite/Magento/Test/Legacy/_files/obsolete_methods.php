@@ -1179,4 +1179,7 @@ return array(
     array('getFileIdentifier', 'Magento\View\Layout\File\FileList', 'Magento\View\Layout\File'),
     array('_getInitialXml', 'Magento\Config\Theme'),
     array('_getIdAttributes', 'Magento\Config\Theme'),
+    array('_getSession', 'Magento\CatalogSearch\Controller\Result'),
+    array('addPriceBlockType', 'Magento\Rss\Block\Catalog\AbstractCatalog'),
+    array('getAttributeDisabledTypes', 'Magento\Catalog\Helper\Data'),
 );

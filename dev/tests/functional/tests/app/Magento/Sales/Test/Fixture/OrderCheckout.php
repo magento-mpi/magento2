@@ -73,6 +73,16 @@ class OrderCheckout extends Checkout
     }
 
     /**
+     * Get payment method
+     *
+     * @return \Magento\Payment\Test\Fixture\Method
+     */
+    public function getPaymentMethod()
+    {
+        return $this->checkoutFixture->getPaymentMethod();
+    }
+
+    /**
      * Persists prepared data into application
      */
     public function persist()

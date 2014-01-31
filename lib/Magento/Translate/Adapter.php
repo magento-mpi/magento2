@@ -14,7 +14,7 @@
  */
 namespace Magento\Translate;
 
-class Adapter extends \Magento\Translate\AbstractAdapter
+class Adapter extends AbstractAdapter
 {
     /**
      * Translate message string.

@@ -8,13 +8,12 @@
  * @license     {license_link}
  */
 
+namespace Magento\Downloadable\Model\Sales\Order\Pdf\Items;
+
 /**
  * Order Creditmemo Downloadable Pdf Items renderer
  */
-namespace Magento\Downloadable\Model\Sales\Order\Pdf\Items;
-
-class Creditmemo
-    extends \Magento\Downloadable\Model\Sales\Order\Pdf\Items\AbstractItems
+class Creditmemo extends \Magento\Downloadable\Model\Sales\Order\Pdf\Items\AbstractItems
 {
     /**
      * @var \Magento\Stdlib\String
@@ -26,6 +25,7 @@ class Creditmemo
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Filter\FilterManager $filterManager
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Downloadable\Model\Link\PurchasedFactory $purchasedFactory
      * @param \Magento\Downloadable\Model\Resource\Link\Purchased\Item\CollectionFactory $itemsFactory
@@ -39,6 +39,7 @@ class Creditmemo
         \Magento\Core\Model\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\App\Filesystem $filesystem,
+        \Magento\Filter\FilterManager $filterManager,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Downloadable\Model\Link\PurchasedFactory $purchasedFactory,
         \Magento\Downloadable\Model\Resource\Link\Purchased\Item\CollectionFactory $itemsFactory,
@@ -53,6 +54,7 @@ class Creditmemo
             $registry,
             $taxData,
             $filesystem,
+            $filterManager,
             $coreStoreConfig,
             $purchasedFactory,
             $itemsFactory,
@@ -64,7 +66,6 @@ class Creditmemo
 
     /**
      * Draw item line
-     *
      */
     public function draw()
     {
@@ -135,22 +136,24 @@ class Creditmemo
             foreach ($options as $option) {
                 // draw options label
                 $lines[][] = array(
-                    'text' => $this->string->split(strip_tags($option['label']), 40, true, true),
+                    'text' => $this->string->split($this->filterManager->stripTags($option['label']), 40, true, true),
                     'font' => 'italic',
                     'feed' => 35
                 );
 
                 // draw options value
-                $_printValue = isset($option['print_value']) ? $option['print_value'] : strip_tags($option['value']);
+                $printValue = isset($option['print_value'])
+                    ? $option['print_value']
+                    : $this->filterManager->stripTags($option['value']);
                 $lines[][] = array(
-                    'text' => $this->string->split($_printValue, 30, true, true),
+                    'text' => $this->string->split($printValue, 30, true, true),
                     'feed' => 40
                 );
             }
         }
 
         // downloadable Items
-        $_purchasedItems = $this->getLinks()->getPurchasedItems();
+        $purchasedItems = $this->getLinks()->getPurchasedItems();
 
         // draw Links title
         $lines[][] = array(
@@ -160,9 +163,9 @@ class Creditmemo
         );
 
         // draw Links
-        foreach ($_purchasedItems as $_link) {
+        foreach ($purchasedItems as $link) {
             $lines[][] = array(
-                'text' => $this->string->split($_link->getLinkTitle(), 50, true, true),
+                'text' => $this->string->split($link->getLinkTitle(), 50, true, true),
                 'feed' => 40
             );
         }

@@ -11,17 +11,44 @@
 namespace Magento\DB;
  \Zend_Loader::loadClass('\Zend_Db_Select'); \Zend_Loader::loadClass('\Magento\DB\Tree\Node'); \Zend_Loader::loadClass('\Magento\DB\Tree\NodeSet');
 
+use Magento\DB\Tree\Node;
+use Magento\DB\Tree\NodeSet;
+use Magento\DB\Tree\TreeException;
+
 /**
  * Magento Library
  */
 require_once 'Tree/TreeException.php';
 class Tree
 {
+    /**
+     * @var string|int
+     */
     private $_id;
+
+    /**
+     * @var int
+     */
     private $_left;
+
+    /**
+     * @var int
+     */
     private $_right;
+
+    /**
+     * @var int
+     */
     private $_level;
+
+    /**
+     * @var int
+     */
     private $_pid;
+
+    /**
+     * @var array
+     */
     private $_nodesInfo = array();
 
     /**
@@ -45,11 +72,14 @@ class Tree
      */
     private $_db;
 
+    /**
+     * @var string
+     */
     private $_table;
 
     /**
      * @param array $config
-     * @throws \Magento\DB\Tree\TreeException
+     * @throws TreeException
      */
     public function __construct($config = array())
     {
@@ -66,7 +96,7 @@ class Tree
 
             // make sure it's a \Zend_Db_Adapter
             if (! $connection instanceof \Zend_Db_Adapter_Abstract) {
-                throw new \Magento\DB\Tree\TreeException('db object does not implement \Zend_Db_Adapter_Abstract');
+                throw new TreeException('db object does not implement \Zend_Db_Adapter_Abstract');
             }
 
             // save the connection
@@ -76,7 +106,7 @@ class Tree
                 $conn->setAttribute (\PDO::ATTR_EMULATE_PREPARES, true);
             }
         } else {
-            throw new \Magento\DB\Tree\TreeException('db object is not set in config');
+            throw new TreeException('db object is not set in config');
         }
 
         if (!empty($config['table'])) {
@@ -118,7 +148,7 @@ class Tree
      * set name of id field
      *
      * @param string $name
-     * @return \Magento\DB\Tree
+     * @return $this
      */
     public function setIdField($name)
     {
@@ -130,7 +160,7 @@ class Tree
      * set name of left field
      *
      * @param string $name
-     * @return \Magento\DB\Tree
+     * @return $this
      */
     public function setLeftField($name)
     {
@@ -142,7 +172,7 @@ class Tree
      * set name of right field
      *
      * @param string $name
-     * @return \Magento\DB\Tree
+     * @return $this
      */
     public function setRightField($name)
     {
@@ -154,7 +184,7 @@ class Tree
      * set name of level field
      *
      * @param string $name
-     * @return \Magento\DB\Tree
+     * @return $this
      */
     public function setLevelField($name)
     {
@@ -166,7 +196,7 @@ class Tree
      * set name of pid Field
      *
      * @param string $name
-     * @return \Magento\DB\Tree
+     * @return $this
      */
     public function setPidField($name)
     {
@@ -178,7 +208,7 @@ class Tree
      * set table name
      *
      * @param string $name
-     * @return \Magento\DB\Tree
+     * @return $this
      */
     public function setTable($name)
     {
@@ -246,8 +276,8 @@ class Tree
 
     /**
      * @param string|int $nodeId
-     * @param mixed $data
-     * @return bool|string
+     * @param array $data
+     * @return false|string
      */
     public function appendChild($nodeId, $data)
     {
@@ -315,7 +345,7 @@ class Tree
 
     /**
      * @param string|int $nodeId
-     * @return bool|\Magento\DB\Tree\Node
+     * @return bool|Node
      */
     public function removeNode($nodeId)
     {
@@ -349,7 +379,7 @@ class Tree
                     . $this->_right . ' > ' . $info[$this->_right];
                 $this->_db->query($sql);
                 $this->_db->commit();
-                return new \Magento\DB\Tree\Node($info, $this->getKeys());
+                return new Node($info, $this->getKeys());
             } catch (\Exception $e) {
                 $this->_db->rollBack();
                 echo $e->getMessage();
@@ -455,6 +485,7 @@ class Tree
      * @param string|int $eId
      * @param string|int $pId
      * @param string|int $aId
+     * @return void
      */
     public function moveNodes($eId, $pId, $aId = 0)
     {
@@ -546,6 +577,7 @@ class Tree
      * @param string $tableName
      * @param string $joinCondition
      * @param string $fields
+     * @return void
      */
     public function addTable($tableName, $joinCondition, $fields = '*')
     {
@@ -557,6 +589,7 @@ class Tree
 
     /**
      * @param \Zend_Db_Select $select
+     * @return void
      */
     protected function _addExtTablesToSelect(\Zend_Db_Select &$select)
     {
@@ -569,7 +602,7 @@ class Tree
      * @param string|int $nodeId
      * @param int $startLevel
      * @param int $endLevel
-     * @return \Magento\DB\Tree\NodeSet
+     * @return NodeSet
      */
     public function getChildren($nodeId, $startLevel = 0, $endLevel = 0)
     {
@@ -600,16 +633,16 @@ class Tree
         //echo $dbSelect->__toString();
         $data = $this->_db->fetchAll($dbSelect, $data);
 
-        $nodeSet = new \Magento\DB\Tree\NodeSet();
+        $nodeSet = new NodeSet();
         foreach ($data as $node) {
-             $nodeSet->addNode(new \Magento\DB\Tree\Node($node, $this->getKeys()));
+             $nodeSet->addNode(new Node($node, $this->getKeys()));
         }
         return $nodeSet;
     }
 
     /**
      * @param string|int $nodeId
-     * @return \Magento\DB\Tree\Node
+     * @return Node
      */
     public function getNode($nodeId)
     {
@@ -624,6 +657,6 @@ class Tree
 
         $data = $this->_db->fetchRow($dbSelect, $data);
 
-        return new \Magento\DB\Tree\Node($data, $this->getKeys());
+        return new Node($data, $this->getKeys());
     }
 }

@@ -12,6 +12,21 @@ namespace Magento\Filter;
 
 /**
  * Magento Filter Manager
+ *
+ * @method string email(string $value)
+ * @method string money(string $value, $params = array())
+ * @method string simple(string $value, $params = array())
+ * @method string object(string $value, $params = array())
+ * @method string sprintf(string $value, $params = array())
+ * @method string template(string $value, $params = array())
+ * @method string arrayFilter(string $value)
+ * @method string removeAccents(string $value, $params = array())
+ * @method string splitWords(string $value, $params = array())
+ * @method string removeTags(string $value, $params = array())
+ * @method string stripTags(string $value, $params = array())
+ * @method string truncate(string $value, $params = array())
+ * @method string encrypt(string $value, $params = array())
+ * @method string decrypt(string $value, $params = array())
  */
 class FilterManager
 {
