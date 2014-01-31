@@ -2,18 +2,13 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Sales orders grid massaction items updater
- */
 namespace Magento\Sales\Model\Billing\Agreement;
 
-class OrdersUpdater implements \Magento\Core\Model\Layout\Argument\UpdaterInterface
+class OrdersUpdater implements \Magento\View\Layout\Argument\UpdaterInterface
 {
     /**
      * @var \Magento\Core\Model\Registry

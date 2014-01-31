@@ -76,7 +76,7 @@ class Dom
         $xml, array $idAttributes = array(), $schemaFile = null, $errorFormat = self::ERROR_FORMAT_DEFAULT
     ) {
         $this->_schemaFile    = $schemaFile;
-        $this->_idAttributes  = $idAttributes;
+        $this->_idAttributes  = new \Magento\Config\Dom\NodePathConfig($idAttributes);
         $this->_errorFormat   = $errorFormat;
         $this->_dom           = $this->_initDom($xml);
         $this->_rootNamespace = $this->_dom->lookupNamespaceUri($this->_dom->namespaceURI);
@@ -174,29 +174,11 @@ class Dom
     {
         $prefix = is_null($this->_rootNamespace) ? '' : self::ROOT_NAMESPACE_PREFIX . ':';
         $path = $parentPath . '/' . $prefix . $node->tagName;
-        $idAttribute = $this->_findIdAttribute($path);
+        $idAttribute = $this->_idAttributes->getNodeInfo($path);
         if ($idAttribute && $value = $node->getAttribute($idAttribute)) {
             $path .= "[@{$idAttribute}='{$value}']";
         }
         return $path;
-    }
-
-    /**
-     * Determine whether an XPath matches registered identifiable attribute
-     *
-     * @param string $xPath
-     * @return string|false
-     */
-    protected function _findIdAttribute($xPath)
-    {
-        $path = preg_replace('/\[@[^\]]+?\]/', '', $xPath);
-        $path = preg_replace('/\/[^:]+?\:/', '/', $path);
-        foreach ($this->_idAttributes as $pathPattern => $id) {
-            if (preg_match("#^$pathPattern$#", $path)) {
-                return $id;
-            }
-        }
-        return false;
     }
 
     /**

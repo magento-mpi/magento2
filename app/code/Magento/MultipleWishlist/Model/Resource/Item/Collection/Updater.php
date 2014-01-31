@@ -2,23 +2,13 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_MultipleWishlist
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Multiple wishlist item resource collection
- *
- * @category    Magento
- * @package     Magento_MultipleWishlist
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\MultipleWishlist\Model\Resource\Item\Collection;
 
-class Updater
-    implements \Magento\Core\Model\Layout\Argument\UpdaterInterface
+class Updater implements \Magento\View\Layout\Argument\UpdaterInterface
 {
     /**
      * Wishlist data

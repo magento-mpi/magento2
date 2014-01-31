@@ -287,18 +287,46 @@
     <type name="Magento\App\FrontController">
         <plugin name="install" type="Magento\Module\FrontController\Plugin\Install" sortOrder="40"/>
     </type>
-    <type name="Magento\View\Layout\Argument\HandlerFactory">
-        <param name="handlerFactories">
+    <virtualType name="layoutArgumentInterpreterInternal" type="Magento\Data\Argument\Interpreter\Composite">
+        <param name="interpreters">
             <array>
-                <item key="object"><value>Magento\Core\Model\Layout\Argument\Handler\Object</value></item>
-                <item key="options"><value>Magento\Core\Model\Layout\Argument\Handler\Options</value></item>
-                <item key="url"><value>Magento\Core\Model\Layout\Argument\Handler\Url</value></item>
-                <item key="array"><value>Magento\Core\Model\Layout\Argument\Handler\ArrayHandler</value></item>
-                <item key="boolean"><value>Magento\Core\Model\Layout\Argument\Handler\Boolean</value></item>
-                <item key="helper"><value>Magento\Core\Model\Layout\Argument\Handler\Helper</value></item>
-                <item key="number"><value>Magento\Core\Model\Layout\Argument\Handler\Number</value></item>
-                <item key="string"><value>Magento\Core\Model\Layout\Argument\Handler\String</value></item>
+                <item key="object"><value>layoutObjectArgumentInterpreter</value></item>
+                <item key="options"><value>Magento\View\Layout\Argument\Interpreter\Options</value></item>
+                <item key="url"><value>Magento\View\Layout\Argument\Interpreter\Url</value></item>
+                <item key="array"><value>layoutArrayArgumentInterpreter</value></item>
+                <item key="boolean"><value>Magento\Data\Argument\Interpreter\Boolean</value></item>
+                <item key="helper"><value>Magento\View\Layout\Argument\Interpreter\HelperMethod</value></item>
+                <item key="number"><value>Magento\Data\Argument\Interpreter\Number</value></item>
+                <item key="string"><value>Magento\Data\Argument\Interpreter\String</value></item>
             </array>
+        </param>
+        <param name="discriminator">
+            <value>xsi:type</value>
+        </param>
+    </virtualType>
+    <virtualType name="layoutArgumentInterpreter" type="Magento\View\Layout\Argument\Interpreter\Decorator\Updater">
+        <param name="subject">
+            <instance type="layoutArgumentInterpreterInternal"/>
+        </param>
+    </virtualType>
+    <virtualType name="layoutArrayArgumentInterpreter" type="Magento\Data\Argument\Interpreter\ArrayType">
+        <param name="itemInterpreter">
+            <instance type="layoutArgumentInterpreter"/>
+        </param>
+    </virtualType>
+    <virtualType name="layoutObjectArgumentInterpreter" type="Magento\Data\Argument\Interpreter\Object">
+        <param name="expectedClass">
+            <value>Magento\Data\Collection</value>
+        </param>
+    </virtualType>
+    <type name="Magento\View\Layout\Argument\Interpreter\NamedParams">
+        <param name="paramInterpreter">
+            <instance type="Magento\Data\Argument\Interpreter\String"/>
+        </param>
+    </type>
+    <type name="Magento\Core\Model\Layout">
+        <param name="argumentInterpreter">
+            <instance type="layoutArgumentInterpreter"/>
         </param>
     </type>
     <type name="Magento\Mview\View">

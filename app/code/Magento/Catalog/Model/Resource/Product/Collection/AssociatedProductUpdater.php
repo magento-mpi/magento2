@@ -2,23 +2,13 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Associated product resource collection
- *
- * @category    Magento
- * @package     Magento_Catalog
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Catalog\Model\Resource\Product\Collection;
 
-class AssociatedProductUpdater
-    implements \Magento\Core\Model\Layout\Argument\UpdaterInterface
+class AssociatedProductUpdater implements \Magento\View\Layout\Argument\UpdaterInterface
 {
     /**
      * Stock Item instance

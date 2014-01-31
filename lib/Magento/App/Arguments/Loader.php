@@ -78,7 +78,9 @@ class Loader
             }
         }
 
-        $converter = new \Magento\Config\Converter\Dom\Flat($this->_idAttributes);
+        $converter = new \Magento\Config\Converter\Dom\Flat(
+            new \Magento\Config\Dom\NodePathConfig($this->_idAttributes)
+        );
 
         $result = $converter->convert($localConfig->getDom());
         return !empty($result['config']) ? $result['config'] : array();
