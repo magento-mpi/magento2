@@ -22,7 +22,7 @@ class Grouped
     extends \Magento\CatalogInventory\Model\Resource\Indexer\Stock\DefaultStock
 {
     /**
-     * Reindex stock data for defined configurable product ids
+     * Reindex stock data for defined product ids
      *
      * @param int|array $entityIds
      * @return \Magento\GroupedProduct\Model\Resource\Indexer\Stock\Grouped
