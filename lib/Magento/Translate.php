@@ -7,11 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento;
 
 /**
- * Translate model
+ * Translate library
  *
  * @todo Remove this suppression when jira entry MAGETWO-8296 is completed.
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -123,7 +122,7 @@ class Translate implements TranslateInterface
     /**
      * @var \Magento\Cache\FrontendInterface $cache
      */
-    private $_cache;
+    protected $_cache;
 
     /**
      * @var \Magento\View\FileSystem
@@ -239,8 +238,7 @@ class Translate implements TranslateInterface
         $area = isset($area) ? $area : $this->_appState->getAreaCode();
         $this->setConfig(array(self::CONFIG_KEY_AREA => $area));
 
-        $this->_translateInline = $this->getInlineObject($initParams)->isAllowed(
-            $area == \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE ? 'admin' : null);
+        $this->_translateInline = $this->getInlineObject($initParams)->isAllowed();
 
         if (!$forceReload) {
             $this->_data = $this->_loadCache();
@@ -688,7 +686,7 @@ class Translate implements TranslateInterface
      * @param \Magento\Object $initParams
      * @return \Magento\Translate\InlineInterface
      */
-    private function getInlineObject($initParams = null)
+    protected function getInlineObject($initParams = null)
     {
         if (null === $this->_inlineInterface) {
             if ($initParams === null) {
