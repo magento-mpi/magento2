@@ -17,6 +17,8 @@ namespace Magento\Catalog\Model\Product\Option\Type;
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
+use Magento\Core\Exception;
+
 class DefaultType extends \Magento\Object
 {
     /**
@@ -195,7 +197,7 @@ class DefaultType extends \Magento\Object
      *
      * @param array $values All product option values, i.e. array (option_id => mixed, option_id => mixed...)
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws Exception
      */
     public function validateUserValue($values)
     {
@@ -228,7 +230,7 @@ class DefaultType extends \Magento\Object
      * Prepare option value for cart
      *
      * @return string|null Prepared option value
-     * @throws \Magento\Core\Exception
+     * @throws Exception
      */
     public function prepareForCart()
     {
