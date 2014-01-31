@@ -33,9 +33,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param float $amount
-     * @dataProvider addPaymentCustomerBalanceItemDataProvider
+     * @dataProvider addPaymentGiftCardItemDataProvider
      */
-    public function testAddPaymentCustomerBalanceItem($amount)
+    public function testAddPaymentGiftCardItem($amount)
     {
         $salesModel = $this->getMockForAbstractClass('Magento\Payment\Model\Cart\SalesModel\SalesModelInterface');
         $salesModel->expects($this->once())
@@ -58,7 +58,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_model->addPaymentGiftCardItem($this->_observer);
     }
 
-    public function addPaymentCustomerBalanceItemDataProvider()
+    public function addPaymentGiftCardItemDataProvider()
     {
         return [
             [0.0],
