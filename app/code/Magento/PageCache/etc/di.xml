@@ -12,4 +12,14 @@
         <plugin name="front-controller-head"
             type="Magento\PageCache\Model\App\FrontController\HeaderPlugin" disabled="true"/>
     </type>
+    <!--<type name="Magento\Customer\Model\Session">-->
+    <type name="Magento\Session\SessionManagerInterface">
+        <plugin name="plugin-333" type="Magento\PageCache\Model\Session\VaryPlugin" />
+    </type>
+    <!--<type name="Magento\Customer\Model\Session">-->
+        <!--<plugin name="plugin-222" type="Magento\PageCache\Model\Session\VaryPlugin" />-->
+    <!--</type>-->
+    <!--<type name="Magento\Core\Model\Session">-->
+        <!--<plugin name="plugin-111" type="Magento\PageCache\Model\Session\VaryPlugin" />-->
+    <!--</type>-->
 </config>
