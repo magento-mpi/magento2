@@ -294,16 +294,6 @@ class View extends \Magento\Object implements ViewInterface
     }
 
     /**
-     * Return view status
-     *
-     * @return string
-     */
-    public function getStatus()
-    {
-        return $this->getState()->getStatus();
-    }
-
-    /**
      * Check whether view is idle
      *
      * @return bool

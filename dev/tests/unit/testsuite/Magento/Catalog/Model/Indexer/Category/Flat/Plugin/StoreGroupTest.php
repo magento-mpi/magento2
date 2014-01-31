@@ -20,11 +20,6 @@ class StoreGroupTest extends \PHPUnit_Framework_TestCase
     protected $stateMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Catalog\Model\Resource\Category\Flat
-     */
-    protected $flatResourceMock;
-
-    /**
      * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Code\Plugin\InvocationChain
      */
     protected $pluginMock;
@@ -46,13 +41,9 @@ class StoreGroupTest extends \PHPUnit_Framework_TestCase
         $this->stateMock = $this->getMock(
             'Magento\Catalog\Model\Indexer\Category\Flat\State', array('isFlatEnabled'), array(), '', false
         );
-        $this->flatResourceMock = $this->getMock(
-            'Magento\Catalog\Model\Resource\Category\Flat', array('deleteStores', '__wakeup'), array(), '', false
-        );
         $this->model = new StoreGroup(
             $this->indexerMock,
-            $this->stateMock,
-            $this->flatResourceMock
+            $this->stateMock
         );
     }
 
@@ -98,9 +89,6 @@ class StoreGroupTest extends \PHPUnit_Framework_TestCase
     public function testAroundDelete()
     {
         $storeIds = array(1,2,3);
-        $this->flatResourceMock->expects($this->once())
-            ->method('deleteStores')
-            ->with($storeIds);
         $groupMock = $this->getMock(
             'Magento\Core\Model\Store\Group', array('getStoreIds', '__wakeup'), array(), '', false
         );
@@ -114,8 +102,6 @@ class StoreGroupTest extends \PHPUnit_Framework_TestCase
 
     public function testAroundDeleteWithoutId()
     {
-        $this->flatResourceMock->expects($this->never())
-            ->method('deleteStores');
         $groupMock = $this->getMock(
             'Magento\Core\Model\Store\Group', array('getStoreIds', '__wakeup'), array(), '', false
         );

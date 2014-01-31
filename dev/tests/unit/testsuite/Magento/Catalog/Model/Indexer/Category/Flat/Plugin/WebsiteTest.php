@@ -10,11 +10,6 @@ namespace Magento\Catalog\Model\Indexer\Category\Flat\Plugin;
 class WebsiteTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Catalog\Model\Resource\Category\Flat
-     */
-    protected $flatResourceMock;
-
-    /**
      * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Code\Plugin\InvocationChain
      */
     protected $pluginMock;
@@ -36,22 +31,15 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
         $stateMock = $this->getMock(
             'Magento\Catalog\Model\Indexer\Category\Flat\State', array('isFlatEnabled'), array(), '', false
         );
-        $this->flatResourceMock = $this->getMock(
-            'Magento\Catalog\Model\Resource\Category\Flat', array('deleteStores', '__wakeup'), array(), '', false
-        );
         $this->model = new Website(
             $indexerMock,
-            $stateMock,
-            $this->flatResourceMock
+            $stateMock
         );
     }
 
     public function testAroundDelete()
     {
         $storeIds = array(1,2,3);
-        $this->flatResourceMock->expects($this->once())
-            ->method('deleteStores')
-            ->with($storeIds);
         $websiteMock = $this->getMock(
             'Magento\Core\Model\Website', array('getStoreIds', '__wakeup'), array(), '', false
         );
@@ -65,8 +53,6 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
 
     public function testAroundDeleteWithoutId()
     {
-        $this->flatResourceMock->expects($this->never())
-            ->method('deleteStores');
         $websiteMock = $this->getMock(
             'Magento\Core\Model\Website', array('getStoreIds', '__wakeup'), array(), '', false
         );
