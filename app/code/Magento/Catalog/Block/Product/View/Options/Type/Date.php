@@ -11,7 +11,6 @@
 namespace Magento\Catalog\Block\Product\View\Options\Type;
 
 use Magento\View\Element\AbstractBlock;
-use Magento\View\Element\Html\Select;
 
 /**
  * Product options text type block
@@ -194,7 +193,7 @@ class Date extends \Magento\Catalog\Block\Product\View\Options\AbstractOptions
      *
      * @param string $name Id/name of html select element
      * @param mixed $value
-     * @return Select
+     * @return mixed
      */
     protected function _getHtmlSelect($name, $value = null)
     {
