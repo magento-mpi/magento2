@@ -36,6 +36,9 @@ class Price extends \Magento\View\Element\Template
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return  array|double
+     */
     public function getPrice()
     {
         $product = $this->_coreRegistry->registry('product');

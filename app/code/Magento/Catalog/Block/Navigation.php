@@ -9,6 +9,7 @@
  */
 
 namespace Magento\Catalog\Block;
+use Magento\Catalog\Model\Category;
 
 /**
  * Catalog navigation
@@ -18,7 +19,7 @@ namespace Magento\Catalog\Block;
 class Navigation extends \Magento\View\Element\Template
 {
     /**
-     * @var \Magento\Catalog\Model\Category
+     * @var Category
      */
     protected $_categoryInstance;
 
@@ -112,7 +113,7 @@ class Navigation extends \Magento\View\Element\Template
         $this->addData(array(
             'cache_lifetime'    => false,
             'cache_tags'        => array(
-                \Magento\Catalog\Model\Category::CACHE_TAG,
+                Category::CACHE_TAG,
                 \Magento\Core\Model\Store\Group::CACHE_TAG
             ),
         ));
@@ -121,7 +122,7 @@ class Navigation extends \Magento\View\Element\Template
     /**
      * Get current category
      *
-     * @return \Magento\Catalog\Model\Category
+     * @return Category
      */
     public function getCategory()
     {
@@ -159,7 +160,7 @@ class Navigation extends \Magento\View\Element\Template
     /**
      * Get current category key
      *
-     * @return mixed
+     * @return string
      */
     public function getCurrenCategoryKey()
     {
@@ -217,12 +218,12 @@ class Navigation extends \Magento\View\Element\Template
     /**
      * Get url for category data
      *
-     * @param \Magento\Catalog\Model\Category $category
+     * @param Category $category
      * @return string
      */
     public function getCategoryUrl($category)
     {
-        if ($category instanceof \Magento\Catalog\Model\Category) {
+        if ($category instanceof Category) {
             $url = $category->getUrl();
         } else {
             $url = $this->_categoryInstance
@@ -263,14 +264,14 @@ class Navigation extends \Magento\View\Element\Template
     /**
      * Render category to html
      *
-     * @param \Magento\Catalog\Model\Category $category
-     * @param int Nesting level number
-     * @param boolean Whether ot not this item is last, affects list item class
-     * @param boolean Whether ot not this item is first, affects list item class
-     * @param boolean Whether ot not this item is outermost, affects list item class
-     * @param string Extra class of outermost list items
-     * @param string If specified wraps children list in div with this class
-     * @param boolean Whether ot not to add on* attributes to list item
+     * @param Category $category
+     * @param int $level Nesting level number
+     * @param boolean $isLast Whether ot not this item is last, affects list item class
+     * @param boolean $isFirst Whether ot not this item is first, affects list item class
+     * @param boolean $isOutermost Whether ot not this item is outermost, affects list item class
+     * @param string $outermostItemClass Extra class of outermost list items
+     * @param string $childrenWrapClass If specified wraps children list in div with this class
+     * @param boolean $noEventAttributes Whether ot not to add on* attributes to list item
      * @return string
      */
     protected function _renderCategoryMenuItemHtml($category, $level = 0, $isLast = false, $isFirst = false,
@@ -382,7 +383,7 @@ class Navigation extends \Magento\View\Element\Template
     /**
      * Enter description here...
      *
-     * @return \Magento\Catalog\Model\Category
+     * @return Category
      */
     public function getCurrentCategory()
     {
@@ -405,7 +406,7 @@ class Navigation extends \Magento\View\Element\Template
     /**
      * Enter description here...
      *
-     * @param \Magento\Catalog\Model\Category $category
+     * @param Category $category
      * @return string
      */
     public function drawOpenCategoryItem($category)
@@ -448,9 +449,9 @@ class Navigation extends \Magento\View\Element\Template
     /**
      * Render categories menu in HTML
      *
-     * @param int Level number for list item class to start from
-     * @param string Extra class of outermost list items
-     * @param string If specified wraps children list in div with this class
+     * @param int $level Level number for list item class to start from
+     * @param string $outermostItemClass Extra class of outermost list items
+     * @param string $childrenWrapClass If specified wraps children list in div with this class
      * @return string
      */
     public function renderCategoriesMenuHtml($level = 0, $outermostItemClass = '', $childrenWrapClass = '')
