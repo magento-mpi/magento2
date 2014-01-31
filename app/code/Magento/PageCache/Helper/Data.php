@@ -155,6 +155,4 @@ class Data extends \Magento\App\Helper\AbstractHelper
     {
         return $this->_coreStoreConfig->getConfig(self::XML_PATH_EXTERNAL_CACHE_LIFETIME);
     }
-
-
 }

@@ -26,19 +26,27 @@ class Config extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
     protected $_storeManager;
 
     /**
+     * @var \Magento\PageCache\Model\Config
+     */
+    protected $_pageCacheModel;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Backend\Model\Config\Structure $configStructure
      * @param \Magento\App\Response\Http\FileFactory $fileFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\PageCache\Model\Config $pcmodel
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Backend\Model\Config\Structure $configStructure,
         \Magento\App\Response\Http\FileFactory $fileFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\PageCache\Model\Config $pcmodel
     ) {
         $this->_storeManager = $storeManager;
         $this->_fileFactory = $fileFactory;
+        $this->_pageCacheModel = $pcmodel;
         parent::__construct($context, $configStructure);
     }
 
@@ -127,7 +135,7 @@ class Config extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
     public function exportVarnishConfigAction()
     {
         $fileName = 'varnish_configuration.vcl';
-        $content = ''; // $varnish->getVclFile();
+        $content = $this->_pageCacheModel->getVclFile();
         return $this->_fileFactory->create($fileName, $content, \Magento\App\Filesystem::VAR_DIR);
     }
 }

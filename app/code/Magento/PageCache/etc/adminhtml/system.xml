@@ -34,43 +34,43 @@
                 </field>
             </group>
             <group id="varnish_configuratrion_settings" translate="label" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="600">
-                <label>Varnish Configuration Settings</label>
-                <field id="varnish_caching" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
-                    <label>Enable Varnish Caching</label>
-                    <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
+                <label>Full Page Cache</label>
+                <field id="varnish_caching" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Caching Application</label>
+                    <source_model>Magento\PageCache\Model\System\Config\Source\Application</source_model>
                 </field>
-                <field id="varnish_configuration" type="button" sortOrder="5" showInDefault="1" showInWebsite="0" showInStore="0">
-                    <label>Export Varnish Configuration</label>
-                    <frontend_model>Magento\PageCache\Block\System\Config\Form\Field\Export</frontend_model>
-                    <depends>
-                        <field id="varnish_caching">1</field>
-                    </depends>
-                </field>
-                <field id="pagecache_ttl" type="text" translate="label comment" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="pagecache_ttl" type="text" translate="label comment" sortOrder="5" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>TTL for public contend</label>
-                    <comment>If you leave this empty, we'll use the default value.</comment>
+                    <comment>Cache lifetime in seconds</comment>
                     <depends>
                         <field id="varnish_caching">1</field>
                     </depends>
                 </field>
-                <field id="pagecache_esi" type="select" translate="label comment" sortOrder="15" showInDefault="1" showInWebsite="0" showInStore="0">
-                    <label>ESI</label>
+                <field id="pagecache_esi" type="select" translate="label comment" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable/Disable ESI</label>
                     <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
                     <comment>Cache invalidation</comment>
                     <depends>
                         <field id="varnish_caching">1</field>
                     </depends>
                 </field>
-                <field id="pagecache_access_list" type="text" translate="label comment" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="pagecache_access_list" type="text" translate="label comment" sortOrder="15" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Access list</label>
                     <comment>IPs access list that can purge Varnish configuration con for config file generation</comment>
                     <depends>
                         <field id="varnish_caching">1</field>
                     </depends>
                 </field>
-                <field id="pagecache_backend_host" type="text" translate="label comment" sortOrder="25" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="pagecache_backend_host" type="text" translate="label comment" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Backend host</label>
                     <comment>Specify backend host for config file generation</comment>
+                    <depends>
+                        <field id="varnish_caching">1</field>
+                    </depends>
+                </field>
+                <field id="pagecache_backend_port" type="text" translate="label comment" sortOrder="25" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Backend port</label>
+                    <comment>Specify backend port for config file generation</comment>
                     <depends>
                         <field id="varnish_caching">1</field>
                     </depends>
@@ -78,6 +78,13 @@
                 <field id="pagecache_debug" type="select" translate="label comment" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Debug</label>
                     <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="varnish_caching">1</field>
+                    </depends>
+                </field>
+                <field id="varnish_configuration" type="button" sortOrder="35" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Export Varnish Configuration</label>
+                    <frontend_model>Magento\PageCache\Block\System\Config\Form\Field\Export</frontend_model>
                     <depends>
                         <field id="varnish_caching">1</field>
                     </depends>
