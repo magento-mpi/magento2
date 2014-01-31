@@ -96,7 +96,7 @@ class FileIterator implements \Iterator, \Countable
     public function toArray()
     {
         $result = [];
-        foreach($this as $item) {
+        foreach ($this as $item) {
             $result[$this->key()] = $item;
         }
         return $result;

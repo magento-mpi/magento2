@@ -126,6 +126,8 @@ class Filesystem implements \Magento\Config\ReaderInterface
     }
 
     /**
+     * Read configuration files
+     *
      * @param array $fileList
      * @return array
      * @throws \Magento\Exception
@@ -138,11 +140,7 @@ class Filesystem implements \Magento\Config\ReaderInterface
             try {
                 if (is_null($domDocument)) {
                     $class = $this->_domDocumentClass;
-                    $domDocument = new $class(
-                        $content,
-                        $this->_idAttributes,
-                        $this->_perFileSchema
-                    );
+                    $domDocument = new $class($content, $this->_idAttributes, $this->_perFileSchema);
                 } else {
                     $domDocument->merge($content);
                 }
