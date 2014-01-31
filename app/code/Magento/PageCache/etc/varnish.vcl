@@ -1,21 +1,26 @@
+import std;
+
 backend default {
     .host = "{{ host }}";
     .port = "{{ port }}";
 }
 
 acl purge {
-    "localhost";
-    # {{ ips }}
+    {{ ips }}
 }
 
 sub vcl_recv {
+    # prevent from gzipping on backend
+    unset req.http.accept-encoding;
+
    # Cache images, styles, scripts
-   if (req.url ~ "\.(jpg|png|gif|tiff|bmp|css|js)(\?|$)") {
+   if (req.url ~ "\.(jpg|png|gif|tiff|bmp|gz|tgz|bz2|tbz|mp3|ogg|svg|swf|css|js)(\?|$)") {
        return(lookup);
    }
+
    if (req.request == "PURGE") {
        if (!client.ip ~ purge) {
-           error 405 "Not allowed.";
+           error 405 "Method not allowed";
        }
        return (lookup);
    }
@@ -23,43 +28,53 @@ sub vcl_recv {
 
 sub vcl_hash {
     if (req.http.cookie ~ "X-Magento-Vary=") {
-        set req.http.X-MAGENTO-VARY = regsub(req.http.cookie, "^.*?X-Magento-Vary=([^;]+);*.*$", "\1");
+        hash_data(regsub(req.http.cookie, "^.*?X-Magento-Vary=([^;]+);*.*$", "\1"));
     }
-    # {{ design_exceptions_code }}
+    {{ design_exceptions_code }}
 }
 
 sub vcl_hit {
     if (req.request == "PURGE") {
         purge;
-        error 200 "Purged.";
+        error 200 "Purged";
     }
 }
 
 sub vcl_miss {
     if (req.request == "PURGE") {
         purge;
-        error 200 "Purged.";
+        error 404 "Purged";
     }
-
-    # prevent from gzipping on backend
-    unset bereq.http.accept-encoding;
 }
 
 sub vcl_fetch {
-    if (req.url ~ "\.(jpg|png|gif|tiff|bmp|css|js)(\?|$)") {
+    if (req.url !~ "\.(jpg|png|gif|tiff|bmp|gz|tgz|bz2|tbz|mp3|ogg|svg|swf)(\?|$)") {
         set beresp.do_gzip = true;
     }
-    # validate if we need to cache it and prevent from setting cookie # todo
+
+    set beresp.do_esi = {{ esi }};
+
+    # set ttl from received Magento
+    set beresp.ttl = std.duration(beresp.http.X-Magento-ttl, 0s);
+
+    # validate if we need to cache it and prevent from setting cookie
     # images, css and js are cacheable by default so we have to remove cookie also
     if (beresp.ttl > 0s) {
         unset beresp.http.set-cookie;
     }
 
-    # debug purpose
-    set beresp.http.x-ttl = beresp.ttl;
-
+    # cache only successfully responses
     if (beresp.status != 200) {
+        set beresp.ttl = 0s;
         return (hit_for_pass);
+    }
+}
+
+sub vcl_deliver {
+    if (obj.hits > 0) {
+        set resp.http.X-Magento-Cache = "HIT";
+    } else {
+        set resp.http.X-Magento-Cache = "MISS";
     }
 }
 
@@ -129,11 +144,11 @@ sub vcl_fetch {
 #     if (beresp.ttl <= 0s ||
 #         beresp.http.Set-Cookie ||
 #         beresp.http.Vary == "*") {
-# 		/*
-# 		 * Mark as "Hit-For-Pass" for the next 2 minutes
-# 		 */
-# 		set beresp.ttl = 120 s;
-# 		return (hit_for_pass);
+#       /*
+#        * Mark as "Hit-For-Pass" for the next 2 minutes
+#        */
+#       set beresp.ttl = 120 s;
+#       return (hit_for_pass);
 #     }
 #     return (deliver);
 # }
