@@ -13,6 +13,23 @@ namespace Magento\Customer\Model\Metadata\Form;
 class MultiselectTest extends AbstractFormTestCase
 {
     /**
+     * Create an instance of the class that is being tested
+     *
+     * @param string|int|bool|null $value The value undergoing testing by a given test
+     * @return Multiselect
+     */
+    protected function getClass($value)
+    {
+        return new Multiselect(
+            $this->localeMock,
+            $this->loggerMock,
+            $this->attributeMetadataMock,
+            $value,
+            0
+        );
+    }
+
+    /**
      * @param string|int|bool|array $value to assign to boolean
      * @param bool $expected text output
      * @dataProvider extractValueDataProvider
@@ -26,8 +43,6 @@ class MultiselectTest extends AbstractFormTestCase
         $multiselect->expects($this->once())
             ->method('_getRequestValue')
             ->will($this->returnValue($value));
-
-        // $multiselect = new Multiselect($this->localeMock, $this->loggerMock, $this->attributeMetadataMock, $value, 0);
 
         $request = $this->getMockBuilder('Magento\App\RequestInterface')->getMock();
         $actual = $multiselect->extractValue($request);
@@ -51,7 +66,7 @@ class MultiselectTest extends AbstractFormTestCase
      */
     public function testCompactValue($value, $expected)
     {
-        $multiselect = new Multiselect($this->localeMock, $this->loggerMock, $this->attributeMetadataMock, $value, 0);
+        $multiselect = $this->getClass($value);
         $actual = $multiselect->compactValue($value);
         $this->assertEquals($expected, $actual);
     }
@@ -80,7 +95,7 @@ class MultiselectTest extends AbstractFormTestCase
                 new \Magento\Customer\Service\V1\Dto\Eav\Option(['value' => 14, 'label' => 'fourteen']),
                 new \Magento\Customer\Service\V1\Dto\Eav\Option(['value' => 'some key', 'label' => 'some string']),
             ]));
-        $multiselect = new Multiselect($this->localeMock, $this->loggerMock, $this->attributeMetadataMock, $value, 0);
+        $multiselect = $this->getClass($value);
         $actual = $multiselect->outputValue();
         $this->assertEquals($expected, $actual);
     }
@@ -110,7 +125,7 @@ class MultiselectTest extends AbstractFormTestCase
                 new \Magento\Customer\Service\V1\Dto\Eav\Option(['value' => 14, 'label' => 'fourteen']),
                 new \Magento\Customer\Service\V1\Dto\Eav\Option(['value' => 'some key', 'label' => 'some string']),
             ]));
-        $multiselect = new Multiselect($this->localeMock, $this->loggerMock, $this->attributeMetadataMock, $value, 0);
+        $multiselect = $this->getClass($value);
         $actual = $multiselect->outputValue(\Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_JSON);
         $this->assertEquals($expected, $actual);
     }

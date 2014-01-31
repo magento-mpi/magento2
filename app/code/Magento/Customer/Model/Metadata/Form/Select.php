@@ -82,7 +82,10 @@ class Select extends AbstractData
     }
 
     /**
-     * {@inheritdoc}
+     * Return formated attribute value from entity model
+     *
+     * @param string $format
+     * @return string
      */
     public function outputValue($format = \Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_TEXT)
     {
