@@ -47,7 +47,9 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     }
 
     /**
-     * @return $this|\Magento\Backend\Block\Widget\Grid
+     * Apply sorting and filtering to reports review collection
+     *
+     * @return $this
      */
     protected function _prepareCollection()
     {
@@ -62,7 +64,9 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     }
 
     /**
-     * @return \Magento\Backend\Block\Widget\Grid\Extended
+     * Initialize grid report review columns
+     *
+     * @return $this
      */
     protected function _prepareColumns()
     {

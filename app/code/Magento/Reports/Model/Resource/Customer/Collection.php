@@ -22,14 +22,14 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
     /**
      * Add order statistics flag
      *
-     * @var boolean
+     * @var bool
      */
     protected $_addOrderStatistics           = false;
 
     /**
      * Add order statistics is filter flag
      *
-     * @var boolean
+     * @var bool
      */
     protected $_addOrderStatFilter   = false;
 

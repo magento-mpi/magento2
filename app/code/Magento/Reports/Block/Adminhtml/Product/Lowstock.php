@@ -16,6 +16,9 @@ namespace Magento\Reports\Block\Adminhtml\Product;
  */
 class Lowstock extends \Magento\Backend\Block\Widget\Grid\Container
 {
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_blockGroup = 'Magento_Reports';

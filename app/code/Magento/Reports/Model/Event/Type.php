@@ -25,6 +25,9 @@ namespace Magento\Reports\Model\Event;
  */
 class Type extends \Magento\Core\Model\AbstractModel
 {
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_init('Magento\Reports\Model\Resource\Event\Type');
