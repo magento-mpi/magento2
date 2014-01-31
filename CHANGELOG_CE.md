@@ -27,6 +27,7 @@
 * Refactored controllers, blocks and templates of the Sales Module to use customer service
 * GitHub requests:
   * [#275] (https://github.com/magento/magento2/issues/275) -- XSS Vulnerability in app/code/core/Mage/CatalogSearch/Block/Result.php
+* Removed outdated Customer Service
 
 2.0.0.0-dev62
 =============
