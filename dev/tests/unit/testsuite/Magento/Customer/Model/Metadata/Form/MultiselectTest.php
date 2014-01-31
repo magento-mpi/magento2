@@ -10,6 +10,7 @@
 
 namespace Magento\Customer\Model\Metadata\Form;
 
+use Magento\Customer\Model\Metadata\ElementFactory;
 use Magento\Customer\Service\V1\Dto\Eav\Option;
 
 class MultiselectTest extends AbstractFormTestCase
@@ -106,24 +107,29 @@ class MultiselectTest extends AbstractFormTestCase
     /**
      * Test the Multiselect->outputValue() method with default TEXT format
      *
-     * @param string|int|null $value
-     * @param string|int $expected
+     * @param string|int|null|string[]|int[] $value
+     * @param string $expected
      *
      * @return void
      * @dataProvider outputValueTextDataProvider
      */
     public function testOutputValueText($value, $expected)
     {
-        $this->attributeMetadataMock
-            ->expects($this->any())
-            ->method('getOptions')
-            ->will($this->returnValue([
-                new Option(['value' => '14', 'label' => 'fourteen']),
-                new Option(['value' => 'some key', 'label' => 'some string']),
-            ]));
-        $multiselect = $this->getClass($value);
-        $actual = $multiselect->outputValue();
-        $this->assertEquals($expected, $actual);
+        $this->runOutputValueTest($value, $expected, ElementFactory::OUTPUT_FORMAT_TEXT);
+    }
+
+    /**
+     * Test the Multiselect->outputValue() method with default HTML format
+     *
+     * @param string|int|null|string[]|int[] $value
+     * @param string $expected
+     *
+     * @return void
+     * @dataProvider outputValueTextDataProvider
+     */
+    public function testOutputValueHtml($value, $expected)
+    {
+        $this->runOutputValueTest($value, $expected, ElementFactory::OUTPUT_FORMAT_HTML);
     }
 
     /**
@@ -146,24 +152,15 @@ class MultiselectTest extends AbstractFormTestCase
     /**
      * Test the Multiselect->outputValue() method with JSON format
      *
-     * @param string|int|null $value
-     * @param string|int $expected
+     * @param string|int|null|string[]|int[] $value
+     * @param string[] $expected
      *
      * @return void
      * @dataProvider outputValueJsonDataProvider
      */
     public function testOutputValueJson($value, $expected)
     {
-        $this->attributeMetadataMock
-            ->expects($this->any())
-            ->method('getOptions')
-            ->will($this->returnValue([
-                new Option(['value' => '14', 'label' => 'fourteen']),
-                new Option(['value' => 'some key', 'label' => 'some string']),
-            ]));
-        $multiselect = $this->getClass($value);
-        $actual = $multiselect->outputValue(\Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_JSON);
-        $this->assertEquals($expected, $actual);
+        $this->runOutputValueTest($value, $expected, ElementFactory::OUTPUT_FORMAT_JSON);
     }
 
     /**
@@ -176,10 +173,31 @@ class MultiselectTest extends AbstractFormTestCase
         return [
             'empty' => ['', ['']],
             'null' => [null, ['']],
-            'number' => [14, [14]],
+            'number' => [14, ['14']],
             'string' => ['some key', ['some key']],
-            'array' => [[14, 'some key'], [14, 'some key']],
-            'unknown' => [[14, 'some key', 'unknown'], [14, 'some key', 'unknown']],
+            'array' => [[14, 'some key'], ['14', 'some key']],
+            'unknown' => [[14, 'some key', 'unknown'], ['14', 'some key', 'unknown']],
         ];
+    }
+
+    /**
+     * Helper function that runs an outputValue test for a given format.
+     *
+     * @param string|int|null|string[]|int[] $value
+     * @param string|string[] $expected
+     * @param string $format
+     */
+    protected function runOutputValueTest($value, $expected, $format)
+    {
+        $this->attributeMetadataMock
+            ->expects($this->any())
+            ->method('getOptions')
+            ->will($this->returnValue([
+                new Option(['value' => '14', 'label' => 'fourteen']),
+                new Option(['value' => 'some key', 'label' => 'some string']),
+            ]));
+        $multiselect = $this->getClass($value);
+        $actual = $multiselect->outputValue($format);
+        $this->assertEquals($expected, $actual);
     }
 }

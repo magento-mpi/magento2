@@ -64,9 +64,7 @@ class Multiselect extends Select
             $output[] = $this->_getOptionText($value);
         }
 
-        if ($format == ElementFactory::OUTPUT_FORMAT_TEXT) {
-            $output = implode(', ', $output);
-        }
+        $output = implode(', ', $output);
 
         return $output;
     }
