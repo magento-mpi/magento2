@@ -102,8 +102,6 @@ class StoreGroupTest extends \PHPUnit_Framework_TestCase
 
     public function testAroundDeleteWithoutId()
     {
-        $this->flatResourceMock->expects($this->never())
-            ->method('deleteStores');
         $groupMock = $this->getMock(
             'Magento\Core\Model\Store\Group', array('getStoreIds', '__wakeup'), array(), '', false
         );
