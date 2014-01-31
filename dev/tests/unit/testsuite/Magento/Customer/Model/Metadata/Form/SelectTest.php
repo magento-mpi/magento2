@@ -7,6 +7,7 @@
  */
 
 namespace Magento\Customer\Model\Metadata\Form;
+use Magento\Customer\Service\V1\Dto\Eav\Option;
 
 /**
  * test Magento\Customer\Model\Metadata\Form\Select
@@ -101,8 +102,9 @@ class SelectTest extends AbstractFormTestCase
             ->expects($this->any())
             ->method('getOptions')
             ->will($this->returnValue([
-                new \Magento\Customer\Service\V1\Dto\Eav\Option(['value' => 14, 'label' => 'fourteen']),
-                new \Magento\Customer\Service\V1\Dto\Eav\Option(['value' => 'some key', 'label' => 'some string']),
+                new Option(['value' => '14', 'label' => 'fourteen']),
+                new Option(['value' => 'some key', 'label' => 'some string']),
+                new Option(['value' => 'true', 'label' => 'True']),
             ]));
         $select = $this->getClass($value);
         $actual = $select->outputValue();
@@ -114,9 +116,11 @@ class SelectTest extends AbstractFormTestCase
         return [
             'empty' => ['', ''],
             'null' => [null, ''],
-            'number' => ['fourteen', 14],
-            'string' => ['some string', 'some key'],
-            'boolean' => [true, '14'],
+            'number' => [14, 'fourteen'],
+            'string' => ['some key', 'some string'],
+            'boolean' => [true, ''],
+            'unknown' => ['unknownKey', ''],
+            'true' => ['true', 'True'],
         ];
     }
 }

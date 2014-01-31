@@ -10,12 +10,15 @@
 
 namespace Magento\Customer\Model\Metadata\Form;
 
+use Magento\App\RequestInterface;
+use Magento\Customer\Model\Metadata\ElementFactory;
+
 class Multiselect extends Select
 {
     /**
      * {@inheritdoc}
      */
-    public function extractValue(\Magento\App\RequestInterface $request)
+    public function extractValue(RequestInterface $request)
     {
         $values = $this->_getRequestValue($request);
         if ($values !== false && !is_array($values)) {
@@ -42,14 +45,18 @@ class Multiselect extends Select
     /**
      * {@inheritdoc}
      */
-    public function outputValue($format = \Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_TEXT)
+    public function outputValue($format = ElementFactory::OUTPUT_FORMAT_TEXT)
     {
         $values = $this->_value;
         if (!is_array($values)) {
             $values = explode(',', $values);
         }
 
-        $output = array();
+        if (ElementFactory::OUTPUT_FORMAT_ARRAY === $format || ElementFactory::OUTPUT_FORMAT_JSON === $format) {
+            return $values;
+        }
+
+        $output = [];
         foreach ($values as $value) {
             if (!$value) {
                 continue;
@@ -57,9 +64,7 @@ class Multiselect extends Select
             $output[] = $this->_getOptionText($value);
         }
 
-        if ($format == \Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_TEXT) {
-            $output = implode(', ', $output);
-        }
+        $output = implode(', ', $output);
 
         return $output;
     }

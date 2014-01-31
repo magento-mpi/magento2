@@ -73,9 +73,6 @@ class ShippingCarrierTest extends Functional
         $addressDataSet,
         $currencyRateDataSet = null
     ) {
-        if ($shippingMethodConfig == 'shipping_carrier_usps') {
-            $this->markTestIncomplete('MAGETWO-15586');
-        }
         $this->performPreConditions(
             $shippingMethodConfig,
             $shippingMethodCheckout,

@@ -9,7 +9,11 @@
  */
 namespace Magento\Profiler\Driver\Standard\Output;
 
-class Firebug extends \Magento\Profiler\Driver\Standard\AbstractOutput
+use Magento\Profiler;
+use Magento\Profiler\Driver\Standard\AbstractOutput;
+use Magento\Profiler\Driver\Standard\Stat;
+
+class Firebug extends AbstractOutput
 {
     /**
      * @var \Zend_Controller_Request_Abstract
@@ -35,9 +39,10 @@ class Firebug extends \Magento\Profiler\Driver\Standard\AbstractOutput
     /**
      * Display profiling results and flush output buffer
      *
-     * @param \Magento\Profiler\Driver\Standard\Stat $stat
+     * @param Stat $stat
+     * @return void
      */
-    public function display(\Magento\Profiler\Driver\Standard\Stat $stat)
+    public function display(Stat $stat)
     {
         $firebugMessage = new \Zend_Wildfire_Plugin_FirePhp_TableMessage($this->_renderCaption());
         $firebugMessage->setHeader(array_keys($this->_columns));
@@ -74,7 +79,7 @@ class Firebug extends \Magento\Profiler\Driver\Standard\AbstractOutput
      */
     protected function _renderTimerId($timerId)
     {
-        $nestingSep = preg_quote(\Magento\Profiler::NESTING_SEPARATOR, '/');
+        $nestingSep = preg_quote(Profiler::NESTING_SEPARATOR, '/');
         return preg_replace('/.+?' . $nestingSep . '/', '. ', $timerId);
     }
 
@@ -82,6 +87,7 @@ class Firebug extends \Magento\Profiler\Driver\Standard\AbstractOutput
      * Request setter
      *
      * @param \Zend_Controller_Request_Abstract $request
+     * @return void
      */
     public function setRequest(\Zend_Controller_Request_Abstract $request)
     {
@@ -105,6 +111,7 @@ class Firebug extends \Magento\Profiler\Driver\Standard\AbstractOutput
      * Response setter
      *
      * @param \Zend_Controller_Response_Abstract $response
+     * @return void
      */
     public function setResponse(\Zend_Controller_Response_Abstract $response)
     {

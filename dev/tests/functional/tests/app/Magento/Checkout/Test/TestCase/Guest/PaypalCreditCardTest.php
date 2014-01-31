@@ -37,7 +37,6 @@ class PaypalCreditCardTest extends Functional
      */
     public function testOnepageCheckout(Checkout $fixture, $formBlockFunction)
     {
-        $this->markTestSkipped('Bamboo inability to run tests on instance with public IP address');
         $fixture->persist();
 
         //Ensure shopping cart is empty
