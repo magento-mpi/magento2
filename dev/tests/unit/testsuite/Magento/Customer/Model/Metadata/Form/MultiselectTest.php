@@ -18,6 +18,7 @@ class MultiselectTest extends AbstractFormTestCase
      * Create an instance of the class that is being tested
      *
      * @param string|int|bool|null $value The value undergoing testing by a given test
+     *
      * @return Multiselect
      */
     protected function getClass($value)
@@ -32,12 +33,17 @@ class MultiselectTest extends AbstractFormTestCase
     }
 
     /**
+     * Test the Multiselect->extractValue() method
+     *
      * @param string|int|bool|array $value to assign to boolean
      * @param bool $expected text output
+     *
+     * @return void
      * @dataProvider extractValueDataProvider
      */
     public function testExtractValue($value, $expected)
     {
+        /** @var \PHPUnit_Framework_MockObject_MockObject | Multiselect $multiselect */
         $multiselect = $this->getMockBuilder('Magento\Customer\Model\Metadata\Form\Multiselect')
             ->disableOriginalConstructor()
             ->setMethods(['_getRequestValue'])
@@ -51,6 +57,11 @@ class MultiselectTest extends AbstractFormTestCase
         $this->assertEquals($expected, $actual);
     }
 
+    /**
+     * Data provider for testExtractValue()
+     *
+     * @return array(array)
+     */
     public function extractValueDataProvider()
     {
         return [
@@ -62,8 +73,12 @@ class MultiselectTest extends AbstractFormTestCase
     }
 
     /**
+     * Test the Multiselect->compactValue() method
+     *
      * @param string|int|bool|array $value to assign to boolean
      * @param bool $expected text output
+     *
+     * @return void
      * @dataProvider compactValueDataProvider
      */
     public function testCompactValue($value, $expected)
@@ -73,6 +88,11 @@ class MultiselectTest extends AbstractFormTestCase
         $this->assertEquals($expected, $actual);
     }
 
+    /**
+     * Data provider for testCompactValue()
+     *
+     * @return array(array)
+     */
     public function compactValueDataProvider()
     {
         return [
@@ -84,8 +104,12 @@ class MultiselectTest extends AbstractFormTestCase
     }
 
     /**
+     * Test the Multiselect->outputValue() method with default TEXT format
+     *
      * @param string|int|null $value
      * @param string|int $expected
+     *
+     * @return void
      * @dataProvider outputValueTextDataProvider
      */
     public function testOutputValueText($value, $expected)
@@ -102,6 +126,11 @@ class MultiselectTest extends AbstractFormTestCase
         $this->assertEquals($expected, $actual);
     }
 
+    /**
+     * Data provider for testOutputValueText()
+     *
+     * @return array(array)
+     */
     public function outputValueTextDataProvider()
     {
         return [
@@ -115,8 +144,12 @@ class MultiselectTest extends AbstractFormTestCase
     }
 
     /**
+     * Test the Multiselect->outputValue() method with JSON format
+     *
      * @param string|int|null $value
      * @param string|int $expected
+     *
+     * @return void
      * @dataProvider outputValueJsonDataProvider
      */
     public function testOutputValueJson($value, $expected)
@@ -133,6 +166,11 @@ class MultiselectTest extends AbstractFormTestCase
         $this->assertEquals($expected, $actual);
     }
 
+    /**
+     * Data provider for testOutputValueJson()
+     *
+     * @return array(array)
+     */
     public function outputValueJsonDataProvider()
     {
         return [
