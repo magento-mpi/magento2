@@ -16,30 +16,36 @@
  */
 namespace Magento\CatalogPermissions\Model\Adminhtml\System\Config\Source\Customer;
 
-class Group
-    implements \Magento\Core\Model\Option\ArrayInterface
+use Magento\Core\Model\Option\ArrayInterface;
+use Magento\Customer\Model\Resource\Group\CollectionFactory;
+
+class Group implements ArrayInterface
 {
+    /**
+     * @var array
+     */
     protected $_options;
 
     /**
-     * @var \Magento\Customer\Model\Resource\Group\CollectionFactory
+     * @var CollectionFactory
      */
     protected $_groupCollectionFactory;
 
     /**
-     * @param \Magento\Customer\Model\Resource\Group\CollectionFactory $groupCollectionFactory
+     * @param CollectionFactory $groupCollectionFactory
      */
-    public function __construct(\Magento\Customer\Model\Resource\Group\CollectionFactory $groupCollectionFactory)
+    public function __construct(CollectionFactory $groupCollectionFactory)
     {
         $this->_groupCollectionFactory = $groupCollectionFactory;
     }
 
+    /**
+     * @return array
+     */
     public function toOptionArray()
     {
         if (!$this->_options) {
-            $this->_options = $this->_groupCollectionFactory->create()
-                ->loadData()
-                ->toOptionArray();
+            $this->_options = $this->_groupCollectionFactory->create()->loadData()->toOptionArray();
         }
         return $this->_options;
     }

@@ -13,28 +13,43 @@
  */
 namespace Magento\CatalogEvent\Block\Adminhtml\Event;
 
-class Edit
-    extends \Magento\Backend\Block\Widget\Form\Container
+use Magento\Backend\Block\Template\Context;
+use Magento\Backend\Block\Widget\Form\Container;
+use Magento\CatalogEvent\Model\Event;
+use Magento\Core\Model\Registry;
+
+class Edit extends Container
 {
+    /**
+     * @var string
+     */
     protected $_objectId = 'id';
+
+    /**
+     * @var string
+     */
     protected $_blockGroup = 'Magento_CatalogEvent';
+
+    /**
+     * @var string
+     */
     protected $_controller = 'adminhtml_event';
 
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var Registry
      */
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param Context $context
+     * @param Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        Context $context,
+        Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -44,7 +59,7 @@ class Edit
     /**
      * Prepare catalog event form or category selector
      *
-     * @return \Magento\CatalogEvent\Block\Adminhtml\Event\Edit
+     * @return $this
      */
     protected function _prepareLayout()
     {
@@ -139,7 +154,7 @@ class Edit
     /**
      * Retrieve catalog event model
      *
-     * @return \Magento\CatalogEvent\Model\Event
+     * @return Event
      */
     public function getEvent()
     {

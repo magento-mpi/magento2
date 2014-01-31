@@ -53,7 +53,7 @@ class Managestock
     /**
      * After change Catalog Inventory Manage value process
      *
-     * @return \Magento\CatalogInventory\Model\Config\Backend\Managestock
+     * @return $this
      */
     protected function _afterSave()
     {
