@@ -1,3 +1,5 @@
+2.0.0.0-dev63
+=============
 * Modularity improvements:
   * Consolidated PayPal in separate module
   * Resolved dependencies on Magento_GroupedProduct module
