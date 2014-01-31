@@ -311,7 +311,6 @@ GalleryTest.prototype.testRender = function() {
         _renderWrapper = jsunit.stub(galleryInstance, '_renderWrapper');
 
     galleryInstance._render();
-    assertTrue(_renderWrapper.callCount === 1);
     assertTrue(_initControl.callCount === 1);
     assertTrue(_initControl.lastCallArgs.length > 0);
     assertTrue(_initControl.lastCallArgs[0] === 'baseImage');

@@ -9,7 +9,7 @@
 /**
  * Product media data template
  *
- * @var $this \Magento\Catalog\Block\Product\View\BaseImage
+ * @var $this \Magento\Catalog\Block\Product\View\Gallery
  */
 ?>
 <?php
@@ -103,7 +103,7 @@ $thumbHeight =  $this->getVar("product_page_more_views:height") ? : $thumbWidth;
             <li class="item thumb">
                 <a title="${img.title}" data-index="${index}" data-role="gallery-thumb" href="#">
                         <span style="position:relative; z-index:1; display:block; width:${size.width}px; height:${size.height}px;" class="img">
-                            <img alt="${img.title}" src="${img.small}" itemprop="image">
+                            <img alt="${img.title}" src="${img.small}" itemprop="image" width="${size.width}">
                         </span>
                 </a>
             </li>

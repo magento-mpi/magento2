@@ -68,6 +68,8 @@
             if (!this.options.images) {
                 this.options.images = this._serializeImages();
             }
+            this.element.empty();
+            this.element.append(this._renderWrapper());
             this._render();
             this._bind();
         },
@@ -220,12 +222,14 @@
          * @protected
          */
         _render: function() {
-            this.element.empty();
-            this.element.append(this._renderWrapper());
+            if (!this._findSelected()) {
+                this.selected = 0;
+            }
             if (this.options.showNotice) {
                 this._initControl('notice');
             }
             this._initControl('baseImage');
+            this.baseImage.trigger('imageupdated');
             if (this.options.showThumbs) {
                 this._initControl('thumbs');
             }
