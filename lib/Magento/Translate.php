@@ -36,9 +36,9 @@ class Translate implements TranslateInterface
     const CONFIG_KEY_LOCALE = 'locale';
 
     /**
-     * Configuration store key
+     * Configuration scope key
      */
-    const CONFIG_KEY_STORE  = 'store';
+    const CONFIG_KEY_SCOPE  = 'scope';
 
     /**
      * Configuration theme key
@@ -171,6 +171,17 @@ class Translate implements TranslateInterface
      */
     protected $directory;
 
+
+    /**
+     * @var \Magento\App\Cache\TypeListInterface
+     */
+    protected $_appCache;
+
+    /**
+     * @var \Magento\Translate\Inline\ParserInterface
+     */
+    protected $_inlineParser;
+
     /**
      * @param \Magento\View\DesignInterface $viewDesign
      * @param \Magento\Locale\Hierarchy\Config $config
@@ -180,12 +191,13 @@ class Translate implements TranslateInterface
      * @param \Magento\Phrase\Renderer\Placeholder $placeholderRender
      * @param \Magento\Module\ModuleList $moduleList
      * @param \Magento\Module\Dir\Reader $modulesReader
-     * @param \Magento\App\ConfigInterface $coreConfig
      * @param \Magento\BaseScopeResolverInterface $scopeResolver
      * @param \Magento\Translate\ResourceInterface $translate
      * @param \Magento\AppInterface $app
      * @param \Magento\App\State $appState
      * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\App\Cache\TypeListInterface $appCache
+     * @param \Magento\Translate\Inline\ParserInterface $inlineParser
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -198,12 +210,13 @@ class Translate implements TranslateInterface
         \Magento\Phrase\Renderer\Placeholder $placeholderRender,
         \Magento\Module\ModuleList $moduleList,
         \Magento\Module\Dir\Reader $modulesReader,
-        \Magento\App\ConfigInterface $coreConfig,
         \Magento\BaseScopeResolverInterface $scopeResolver,
         \Magento\Translate\ResourceInterface $translate,
         \Magento\AppInterface $app,
         \Magento\App\State $appState,
-        \Magento\App\Filesystem $filesystem
+        \Magento\App\Filesystem $filesystem,
+        \Magento\App\Cache\TypeListInterface $appCache,
+        \Magento\Translate\Inline\ParserInterface $inlineParser
     ) {
         $this->_viewDesign = $viewDesign;
         $this->_localeHierarchy = $config->getHierarchy();
@@ -213,13 +226,14 @@ class Translate implements TranslateInterface
         $this->_placeholderRender = $placeholderRender;
         $this->_moduleList = $moduleList;
         $this->_modulesReader = $modulesReader;
-        $this->_coreConfig = $coreConfig;
         $this->_scopeResolver = $scopeResolver;
         $this->_translateResource = $translate;
         $this->_app = $app;
         $this->_appState = $appState;
         $this->filesystem = $filesystem;
         $this->directory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
+        $this->_appCache = $appCache;
+        $this->_inlineParser = $inlineParser;
     }
 
     /**
@@ -272,8 +286,8 @@ class Translate implements TranslateInterface
         if (!isset($this->_config[self::CONFIG_KEY_LOCALE])) {
             $this->_config[self::CONFIG_KEY_LOCALE] = $this->getLocale();
         }
-        if (!isset($this->_config[self::CONFIG_KEY_STORE])) {
-            $this->_config[self::CONFIG_KEY_STORE] = $this->_scopeResolver->getScope()->getCode();
+        if (!isset($this->_config[self::CONFIG_KEY_SCOPE])) {
+            $this->_config[self::CONFIG_KEY_SCOPE] = $this->_scopeResolver->getScope()->getCode();
         }
         if (!isset($this->_config[self::CONFIG_KEY_DESIGN_THEME])) {
             $this->_config[self::CONFIG_KEY_DESIGN_THEME] = $this->_viewDesign->getDesignTheme()->getId();
@@ -298,12 +312,12 @@ class Translate implements TranslateInterface
     /**
      * Determine if translation is enabled and allowed.
      *
-     * @param mixed $store
+     * @param mixed $scope
      * @return bool
      */
-    public function isAllowed($store = null)
+    public function isAllowed($scope = null)
     {
-        return $this->getInlineObject()->isAllowed($store);
+        return $this->getInlineObject()->isAllowed($scope);
     }
 
     /**
@@ -314,12 +328,8 @@ class Translate implements TranslateInterface
      */
     public function processAjaxPost($translate)
     {
-        /** @var \Magento\App\Cache\TypeListInterface $cacheTypeList */
-        $cacheTypeList = $this->_translateFactory->create(array(), 'Magento\App\Cache\TypeListInterface');
-        $cacheTypeList->invalidate(\Magento\App\Cache\Type\Translate::TYPE_IDENTIFIER);
-        /** @var $parser \Magento\Translate\Inline\ParserInterface */
-        $parser = $this->_translateFactory->create(array(), 'Magento\Translate\Inline\ParserInterface');
-        $parser->processAjaxPost($translate, $this->getInlineObject());
+        $this->_appCache->invalidate(\Magento\App\Cache\Type\Translate::TYPE_IDENTIFIER);
+        $this->_inlineParser->processAjaxPost($translate, $this->getInlineObject());
     }
 
     /**
@@ -437,7 +447,7 @@ class Translate implements TranslateInterface
     }
 
     /**
-     * Loading current store translation from DB
+     * Loading current translation from DB
      *
      * @param boolean $forceReload
      * @return \Magento\TranslateInterface
@@ -447,7 +457,7 @@ class Translate implements TranslateInterface
         $requiredLocaleList = $this->_composeRequiredLocaleList($this->getLocale());
         foreach ($requiredLocaleList as $locale) {
             $arr = $this->_translateResource->getTranslationArray(null, $locale);
-            $this->_addData($arr, $this->getConfig(self::CONFIG_KEY_STORE), $forceReload);
+            $this->_addData($arr, $this->getConfig(self::CONFIG_KEY_SCOPE), $forceReload);
         }
         return $this;
     }
@@ -622,8 +632,8 @@ class Translate implements TranslateInterface
             if (isset($this->_config[self::CONFIG_KEY_AREA])) {
                 $this->_cacheId .= '_' . $this->_config[self::CONFIG_KEY_AREA];
             }
-            if (isset($this->_config[self::CONFIG_KEY_STORE])) {
-                $this->_cacheId .= '_' . $this->_config[self::CONFIG_KEY_STORE];
+            if (isset($this->_config[self::CONFIG_KEY_SCOPE])) {
+                $this->_cacheId .= '_' . $this->_config[self::CONFIG_KEY_SCOPE];
             }
             if (isset($this->_config[self::CONFIG_KEY_DESIGN_THEME])) {
                 $this->_cacheId .= '_' . $this->_config[self::CONFIG_KEY_DESIGN_THEME];

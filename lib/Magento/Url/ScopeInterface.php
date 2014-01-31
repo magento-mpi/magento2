@@ -8,7 +8,7 @@
 
 namespace Magento\Url;
 
-interface ScopeInterface extends \Magento\App\Config\ScopeInterface
+interface ScopeInterface extends \Magento\BaseScopeInterface
 {
     /**
      * Retrieve base URL

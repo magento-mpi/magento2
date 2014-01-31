@@ -5,9 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\App\Config;
+namespace Magento;
 
-interface ScopeInterface
+interface BaseScopeInterface
 {
     /**
      * Retrieve scope code

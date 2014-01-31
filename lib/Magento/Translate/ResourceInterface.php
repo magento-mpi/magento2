@@ -13,9 +13,9 @@ interface ResourceInterface
     /**
      * Retrieve translation array for store / locale code
      *
-     * @param int $storeId
-     * @param string|Zend_Locale $locale
+     * @param int $scope
+     * @param string $locale
      * @return array
      */
-    public function getTranslationArray($storeId = null, $locale = null);
+    public function getTranslationArray($scope = null, $locale = null);
 }

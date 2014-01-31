@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Core
+ * @package     Magento
  * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -52,19 +52,10 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
             ->method('getFilename')
             ->will($this->returnValue(implode('/', $pathChunks)));
 
-        $theme = $this->getMock('Magento\Core\Model\Theme', array('getId', 'getCollection'), array(), '', false);
+        $theme = $this->getMock('\Magento\View\Design\ThemeInterface', array());
         $theme->expects($this->any())
             ->method('getId')
             ->will($this->returnValue(10));
-
-        $collection = $this->getMock('Magento\Core\Model\Theme', array('getThemeByFullPath'), array(), '', false);
-        $collection->expects($this->any())
-            ->method('getThemeByFullPath')
-            ->will($this->returnValue($theme));
-
-        $theme->expects($this->any())
-            ->method('getCollection')
-            ->will($this->returnValue($collection));
 
         $this->_viewFileSystem->expects($this->any())
             ->method('getDesignTheme')

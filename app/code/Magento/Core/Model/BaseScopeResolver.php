@@ -30,7 +30,7 @@ class BaseScopeResolver implements \Magento\BaseScopeResolverInterface
     public function getScope($scopeId = null)
     {
         $scope = $this->_storeManager->getStore($scopeId);
-        if (!($scope instanceof \Magento\App\Config\ScopeInterface)) {
+        if (!($scope instanceof \Magento\BaseScopeInterface)) {
             throw new \Magento\Exception('Invalid scope object');
         }
 

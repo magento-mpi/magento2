@@ -27,12 +27,12 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
         $appStateMock->expects($this->any())
             ->method('getAreaCode')
             ->will($this->returnValue($area));
-        $scopeMock = $this->getMock('\Magento\App\Config\ScopeInterface');
+        $scopeMock = $this->getMock('\Magento\BaseScopeInterface');
         $scopeResolverMock = $this->getMock('\Magento\BaseScopeResolverInterface');
         $scopeResolverMock->expects($this->once())
             ->method('getScope')
             ->will($this->returnValue($scopeMock));
-        $themeMock = $this->getMock('Design\ThemeInterface', array('getId'));
+        $themeMock = $this->getMock('\Magento\View\Design\ThemeInterface', array());
         $themeMock->expects($this->once())
             ->method('getId')
             ->will($this->returnValue(1));

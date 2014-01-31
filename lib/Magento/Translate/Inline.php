@@ -120,7 +120,7 @@ class Inline implements \Magento\Translate\InlineInterface
     public function isAllowed($scope = null)
     {
         if (is_null($this->_isAllowed)) {
-            if (!$scope instanceof \Magento\App\Config\ScopeInterface) {
+            if (!$scope instanceof \Magento\BaseScopeInterface) {
                 $scope = $this->_scopeResolver->getScope($scope);
             }
 

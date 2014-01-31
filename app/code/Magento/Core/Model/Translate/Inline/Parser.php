@@ -104,9 +104,9 @@ class Parser implements \Magento\Translate\Inline\ParserInterface
     );
 
     /**
-     * @var \Magento\Core\Model\Resource\Translate\String
+     * @var \Magento\Core\Model\Resource\Translate\StringFactory
      */
-    protected $_resource;
+    protected $_resourceFactory;
 
     /**
      * @var \Magento\Core\Model\StoreManagerInterface
@@ -126,18 +126,18 @@ class Parser implements \Magento\Translate\Inline\ParserInterface
     /**
      * Initialize base inline translation model
      *
-     * @param \Magento\Core\Model\Resource\Translate\String $resource
+     * @param \Magento\Core\Model\Resource\Translate\StringFactory $resource
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Zend_Filter_Interface $inputFilter
      * @param \Magento\App\State $appState
      */
     public function __construct(
-        \Magento\Core\Model\Resource\Translate\String $resource,
+        \Magento\Core\Model\Resource\Translate\StringFactory $resource,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Zend_Filter_Interface $inputFilter,
         \Magento\App\State $appState
     ) {
-        $this->_resource = $resource;
+        $this->_resourceFactory = $resource;
         $this->_storeManager = $storeManager;
         $this->_inputFilter = $inputFilter;
         $this->_appState = $appState;
@@ -162,16 +162,18 @@ class Parser implements \Magento\Translate\Inline\ParserInterface
         /** @var $validStoreId int */
         $validStoreId = $this->_storeManager->getStore()->getId();
 
+        /** @var $resource \Magento\Core\Model\Resource\Translate\String */
+        $resource = $this->_resourceFactory->create();
         foreach ($translateParams as $param) {
             if ($this->_appState->getAreaCode() == \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE) {
                 $storeId = 0;
             } else if (empty($param['perstore'])) {
-                $this->_resource->deleteTranslate($param['original'], null, false);
+                $resource->deleteTranslate($param['original'], null, false);
                 $storeId = 0;
             } else {
                 $storeId = $validStoreId;
             }
-            $this->_resource->saveTranslate($param['original'], $param['custom'], null, $storeId);
+            $resource->saveTranslate($param['original'], $param['custom'], null, $storeId);
         }
         return $this;
     }

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -41,6 +39,7 @@ class Factory
      *
      * @param array $data
      * @param string $className
+     * @throws \InvalidArgumentException
      * @return \Magento\Translate\InlineInterface
      */
     public function create(array $data = null, $className = null)
@@ -48,6 +47,10 @@ class Factory
         if ($className === null) {
             $className = self::DEFAULT_CLASS_NAME;
         }
-        return $this->_objectManager->get($className, $data);
+        $model = $this->_objectManager->get($className, $data);
+        if (!$model instanceof \Magento\Translate\InlineInterface) {
+            throw new \InvalidArgumentException('Invalid inline translate model: ' . $className);
+        }
+        return $model;
     }
 }

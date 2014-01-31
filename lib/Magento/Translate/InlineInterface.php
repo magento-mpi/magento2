@@ -14,8 +14,8 @@ interface InlineInterface
     /**
      * Returns additional html attribute if needed by client.
      *
-     * @param mixed|string $tagName
-     * @return mixed|string
+     * @param mixed $tagName
+     * @return mixed
      */
     public function getAdditionalHtmlAttribute($tagName = null);
 
@@ -30,7 +30,7 @@ interface InlineInterface
      * Replace translation templates with HTML fragments
      *
      * @param array|string $body
-     * @param mixed|bool $isJson
+     * @param bool $isJson
      * @return \Magento\Translate\InlineInterface
      */
     public function processResponseBody(&$body, $isJson);

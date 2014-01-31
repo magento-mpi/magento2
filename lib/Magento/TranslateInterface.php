@@ -22,10 +22,10 @@ interface TranslateInterface
     /**
      * Determine if translation is enabled and allowed.
      *
-     * @param mixed $store
+     * @param mixed $scope
      * @return bool
      */
-    public function isAllowed($store = null);
+    public function isAllowed($scope = null);
 
     /**
      * Initialization translation data
