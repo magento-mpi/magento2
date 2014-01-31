@@ -172,7 +172,7 @@ class Upsell extends \Magento\Catalog\Block\Product\AbstractProduct
     }
 
     /**
-     * @return AbstractBlock
+     * @return $this
      */
     protected function _beforeToHtml()
     {

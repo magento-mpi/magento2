@@ -45,7 +45,7 @@ class Gallery extends \Magento\View\Element\Template
     }
 
     /**
-     * @return AbstractBlock
+     * @return $this
      */
     protected function _prepareLayout()
     {

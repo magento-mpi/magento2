@@ -7,8 +7,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Block\Product\ProductList;
+
 use Magento\Catalog\Model\Resource\Product\Collection;
 use Magento\View\Element\AbstractBlock;
 
@@ -145,7 +145,7 @@ class Related extends \Magento\Catalog\Block\Product\AbstractProduct
     }
 
     /**
-     * @return AbstractBlock
+     * @return $this
      */
     protected function _beforeToHtml()
     {

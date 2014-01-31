@@ -191,7 +191,7 @@ class ListProduct extends \Magento\Catalog\Block\Product\AbstractProduct
     /**
      * Need use as _prepareLayout - but problem in declaring collection from
      * another block (was problem with search result)
-     * @return AbstractBlock
+     * @return $this
      */
     protected function _beforeToHtml()
     {
