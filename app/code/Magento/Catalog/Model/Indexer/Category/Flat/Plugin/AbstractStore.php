@@ -22,7 +22,6 @@ class AbstractStore
     /**
      * @param \Magento\Indexer\Model\IndexerInterface $indexer
      * @param \Magento\Catalog\Model\Indexer\Category\Flat\State $state
-     * @param \Magento\Catalog\Model\Resource\Category\Flat $flatResource
      */
     public function __construct(
         \Magento\Indexer\Model\IndexerInterface $indexer,
@@ -62,6 +61,6 @@ class AbstractStore
      */
     protected function cleanStoreData($storeIds)
     {
-        //TODO need implement
+        // TODO: need implement
     }
 }

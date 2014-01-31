@@ -51,7 +51,7 @@ abstract class AbstractFlatState
     }
 
     /**
-     * Check if Catalog Category Flat Data is enabled
+     * Check if Flat Index is enabled
      *
      * @return bool
      */
