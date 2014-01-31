@@ -21,7 +21,7 @@ class AbstractAction
      *
      * @var array
      */
-    protected $attributeCodes = array();
+    protected $attributeCodes = null;
 
     /**
      * @var \Magento\App\Resource
@@ -64,7 +64,7 @@ class AbstractAction
     }
 
     /**
-     * Revtieve list of colums for flat structure
+     * Retrieve list of columns for flat structure
      *
      * @return array
      */
@@ -130,10 +130,10 @@ class AbstractAction
 
         $table = $this->getWriteAdapter()
             ->newTable($tableName)
-            ->setComment(sprintf('Can\'t create table (%s)', $tableName));
+            ->setComment(sprintf("Catalog Category Flat", $tableName));
 
         //Adding columns
-        if ($this->_columnsSql === null) {
+        if ($this->columnsSql === null) {
             foreach ($this->getColumns() as $fieldName => $fieldProp) {
                 $default = $fieldProp['default'];
                 if ($fieldProp['type'][0] == \Magento\DB\Ddl\Table::TYPE_TIMESTAMP
@@ -460,7 +460,7 @@ class AbstractAction
                 $this->getWriteAdapter()->getForeignKeyName(
                     $tableName,
                     'entity_id',
-                    $this->getWriteAdapter()->getTableName('catalog_category'),
+                    $this->getWriteAdapter()->getTableName('catalog_category_entity'),
                     'entity_id'
                 )
             );
@@ -478,7 +478,7 @@ class AbstractAction
     protected function prepareValuesToInsert($data)
     {
         $values = array();
-        foreach (array_keys($this->_columns) as $column) {
+        foreach (array_keys($this->getColumns()) as $column) {
             if (isset($data[$column])) {
                 $values[$column] = $data[$column];
             } else {

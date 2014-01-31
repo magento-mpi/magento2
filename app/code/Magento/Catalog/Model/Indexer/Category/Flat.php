@@ -11,13 +11,35 @@ namespace Magento\Catalog\Model\Indexer\Category;
 class Flat implements \Magento\Indexer\Model\ActionInterface, \Magento\Mview\ActionInterface
 {
     /**
+     * @var \Magento\Catalog\Model\Indexer\Category\Flat\Action\FullFactory
+     */
+    protected $fullActionFactory;
+
+    /**
+     * @var \Magento\Catalog\Model\Indexer\Category\Flat\Action\RowsFactory
+     */
+    protected $rowsActionFactory;
+
+    /**
+     * @param Flat\Action\FullFactory $fullActionFactory
+     * @param Flat\Action\RowsFactory $rowsActionFactory
+     */
+    public function __construct(
+        Flat\Action\FullFactory $fullActionFactory,
+        Flat\Action\RowsFactory $rowsActionFactory
+    ) {
+        $this->fullActionFactory = $fullActionFactory;
+        $this->rowsActionFactory = $rowsActionFactory;
+    }
+
+    /**
      * Execute materialization on ids entities
      *
      * @param int[] $ids
      */
     public function execute($ids)
     {
-        // TODO: Implement execute() method.
+        $this->rowsActionFactory->create()->reindex($ids);
     }
 
     /**
@@ -25,7 +47,7 @@ class Flat implements \Magento\Indexer\Model\ActionInterface, \Magento\Mview\Act
      */
     public function executeFull()
     {
-        // TODO: Implement executeFull() method.
+        $this->fullActionFactory->create()->reindexAll();
     }
 
     /**
@@ -35,7 +57,7 @@ class Flat implements \Magento\Indexer\Model\ActionInterface, \Magento\Mview\Act
      */
     public function executeList($ids)
     {
-        // TODO: Implement executeList() method.
+        $this->rowsActionFactory->create()->reindex($ids);
     }
 
     /**
@@ -45,6 +67,6 @@ class Flat implements \Magento\Indexer\Model\ActionInterface, \Magento\Mview\Act
      */
     public function executeRow($id)
     {
-        // TODO: Implement executeRow() method.
+        $this->rowsActionFactory->create()->reindex(array($id));
     }
 }

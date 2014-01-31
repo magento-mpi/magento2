@@ -141,6 +141,7 @@ class Full extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
         foreach ($stores as $store) {
             $this->createTable($store->getId());
         }
+
         return $this;
     }
 
@@ -172,7 +173,6 @@ class Full extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
                 'newName' => $activeTableName
             );
 
-            /** @TODO Need to realize method renameTablesBatch() */
             foreach ($tablesToRename as $tableToRename) {
                 $this->getWriteAdapter()->renameTable($tableToRename['oldName'], $tableToRename['newName']);
             }
