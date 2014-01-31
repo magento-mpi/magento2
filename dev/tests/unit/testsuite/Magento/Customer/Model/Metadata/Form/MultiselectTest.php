@@ -10,6 +10,8 @@
 
 namespace Magento\Customer\Model\Metadata\Form;
 
+use Magento\Customer\Service\V1\Dto\Eav\Option;
+
 class MultiselectTest extends AbstractFormTestCase
 {
     /**
@@ -92,8 +94,8 @@ class MultiselectTest extends AbstractFormTestCase
             ->expects($this->any())
             ->method('getOptions')
             ->will($this->returnValue([
-                new \Magento\Customer\Service\V1\Dto\Eav\Option(['value' => 14, 'label' => 'fourteen']),
-                new \Magento\Customer\Service\V1\Dto\Eav\Option(['value' => 'some key', 'label' => 'some string']),
+                new Option(['value' => '14', 'label' => 'fourteen']),
+                new Option(['value' => 'some key', 'label' => 'some string']),
             ]));
         $multiselect = $this->getClass($value);
         $actual = $multiselect->outputValue();
@@ -105,9 +107,10 @@ class MultiselectTest extends AbstractFormTestCase
         return [
             'empty' => ['', ''],
             'null' => [null, ''],
-            'number' => ['fourteen', 14],
-            'string' => ['some string', 'some key'],
-            'array' => [['fourteen', 'some string'], '14, some key']
+            'number' => [14, 'fourteen'],
+            'string' => ['some key', 'some string'],
+            'array' => [[14, 'some key'], 'fourteen, some string'],
+            'unknown' => [[14, 'some key', 'unknown'], 'fourteen, some string, '],
         ];
     }
 
@@ -122,8 +125,8 @@ class MultiselectTest extends AbstractFormTestCase
             ->expects($this->any())
             ->method('getOptions')
             ->will($this->returnValue([
-                new \Magento\Customer\Service\V1\Dto\Eav\Option(['value' => 14, 'label' => 'fourteen']),
-                new \Magento\Customer\Service\V1\Dto\Eav\Option(['value' => 'some key', 'label' => 'some string']),
+                new Option(['value' => '14', 'label' => 'fourteen']),
+                new Option(['value' => 'some key', 'label' => 'some string']),
             ]));
         $multiselect = $this->getClass($value);
         $actual = $multiselect->outputValue(\Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_JSON);
@@ -133,11 +136,12 @@ class MultiselectTest extends AbstractFormTestCase
     public function outputValueJsonDataProvider()
     {
         return [
-            'empty' => ['', []],
-            'null' => [null, []],
-            'number' => ['fourteen', [14]],
-            'string' => ['some string', ['some key']],
-            'array' => [['fourteen', 'some string'], [14, 'some key']]
+            'empty' => ['', ['']],
+            'null' => [null, ['']],
+            'number' => [14, [14]],
+            'string' => ['some key', ['some key']],
+            'array' => [[14, 'some key'], [14, 'some key']],
+            'unknown' => [[14, 'some key', 'unknown'], [14, 'some key', 'unknown']],
         ];
     }
 }

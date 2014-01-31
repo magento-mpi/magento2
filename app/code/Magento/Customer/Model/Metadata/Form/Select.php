@@ -10,12 +10,15 @@
 
 namespace Magento\Customer\Model\Metadata\Form;
 
+use Magento\App\RequestInterface;
+use Magento\Customer\Model\Metadata\ElementFactory;
+
 class Select extends AbstractData
 {
     /**
      * {@inheritdoc}
      */
-    public function extractValue(\Magento\App\RequestInterface $request)
+    public function extractValue(RequestInterface $request)
     {
         return $this->_getRequestValue($request);
     }
@@ -68,14 +71,14 @@ class Select extends AbstractData
     /**
      * Return a text for option value
      *
-     * @param int $value
+     * @param string|int $value
      * @return string
      */
     protected function _getOptionText($value)
     {
         foreach ($this->getAttribute()->getOptions() as $option) {
-            if ($option->getLabel() == $value) {
-                return $option->getValue();
+            if ($option->getValue() == $value && !is_bool($value)) {
+                return $option->getLabel();
             }
         }
         return false;
@@ -87,10 +90,12 @@ class Select extends AbstractData
      * @param string $format
      * @return string
      */
-    public function outputValue($format = \Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_TEXT)
+    public function outputValue($format = ElementFactory::OUTPUT_FORMAT_TEXT)
     {
         $value = $this->_value;
-        if ($value != '') {
+        if ($format === ElementFactory::OUTPUT_FORMAT_JSON) {
+            $output = $value;
+        } elseif ($value != '') {
             $output = $this->_getOptionText($value);
         } else {
             $output = '';
