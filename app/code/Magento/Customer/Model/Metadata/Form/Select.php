@@ -81,7 +81,7 @@ class Select extends AbstractData
                 return $option->getLabel();
             }
         }
-        return false;
+        return '';
     }
 
     /**
