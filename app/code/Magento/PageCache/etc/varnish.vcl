@@ -13,6 +13,29 @@ sub vcl_recv {
     # prevent from gzipping on backend
     unset req.http.accept-encoding;
 
+    if (req.restarts == 0) {
+        if (req.http.x-forwarded-for) {
+            set req.http.X-Forwarded-For =
+            req.http.X-Forwarded-For + ", " + client.ip;
+        } else {
+            set req.http.X-Forwarded-For = client.ip;
+        }
+    }
+    if (req.request != "GET" &&
+        req.request != "HEAD" &&
+        req.request != "PUT" &&
+        req.request != "POST" &&
+        req.request != "TRACE" &&
+        req.request != "OPTIONS" &&
+        req.request != "DELETE") {
+          /* Non-RFC2616 or CONNECT which is weird. */
+          return (pipe);
+    }
+    if (req.request != "GET" && req.request != "HEAD") {
+        /* We only deal with GET and HEAD by default */
+        return (pass);
+   }
+
    # Cache images, styles, scripts
    if (req.url ~ "\.(jpg|png|gif|tiff|bmp|gz|tgz|bz2|tbz|mp3|ogg|svg|swf|css|js)(\?|$)") {
        return(lookup);
@@ -24,6 +47,7 @@ sub vcl_recv {
        }
        return (lookup);
    }
+   return (lookup);
 }
 
 sub vcl_hash {
