@@ -8,7 +8,7 @@
 
 namespace Magento\Catalog\Model\Indexer\Category\Flat;
 
-class State extends \Magento\Catalog\Model\Indexer\FlatStateAbstract
+class State extends \Magento\Catalog\Model\Indexer\AbstractFlatState
 {
     /**
      * Indexer ID in configuration
