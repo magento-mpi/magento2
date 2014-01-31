@@ -82,6 +82,9 @@ class EndToEndTests
         // Cms
         $suite->addTestSuite('Magento\Cms\Test\TestCase\CreatePageTest');
 
+        //Layered navigation
+        $suite->addTestSuite('Magento\Catalog\Test\TestCase\Layer\FilterProductListTest');
+
         return $suite;
     }
 }
