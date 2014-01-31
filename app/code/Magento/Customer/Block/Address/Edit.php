@@ -180,6 +180,16 @@ class Edit extends \Magento\Directory\Block\Data
         return $this->_address;
     }
 
+    /**
+     * @param int $lineNumber
+     * @return string
+     */
+    public function getStreetLine($lineNumber)
+    {
+        $street = $this->_address->getStreet();
+        return isset($street[$lineNumber-1]) ? $street[$lineNumber-1] : '';
+    }
+
     public function getCountryId()
     {
         if ($countryId = $this->getAddress()->getCountryId()) {
