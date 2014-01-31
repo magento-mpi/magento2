@@ -733,8 +733,8 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     /**
      * Get product tier price by qty
      *
-     * @param   double $qty
-     * @return  double
+     * @param   float $qty
+     * @return  float|array
      */
     public function getTierPrice($qty=null)
     {
@@ -1593,8 +1593,8 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      *
      * @param   string $code    Option code
      * @param   mixed  $value   Value of the option
-     * @param   int    $product Product ID
-     * @return  \Magento\Catalog\Model\Product
+     * @param   int|Product    $product Product ID
+     * @return  $this
      */
     public function addCustomOption($code, $value, $product=null)
     {

@@ -76,7 +76,7 @@ class Price extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
      * Rewrite for redefine attribute scope
      *
      * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
-     * @return \Magento\Catalog\Model\Product\Attribute\Backend\Price
+     * @return $this
      */
     public function setAttribute($attribute)
     {
@@ -89,7 +89,7 @@ class Price extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
      * Redefine Attribute scope
      *
      * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
-     * @return \Magento\Catalog\Model\Product\Attribute\Backend\Price
+     * @return $this
      */
     public function setScope($attribute)
     {
@@ -106,7 +106,7 @@ class Price extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
      * After Save Attribute manipulation
      *
      * @param \Magento\Catalog\Model\Product $object
-     * @return \Magento\Catalog\Model\Product\Attribute\Backend\Price
+     * @return $this
      */
     public function afterSave($object)
     {

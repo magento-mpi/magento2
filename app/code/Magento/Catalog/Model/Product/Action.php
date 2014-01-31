@@ -60,6 +60,7 @@ class Action extends \Magento\Core\Model\AbstractModel
     /**
      * Initialize resource model
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -82,7 +83,7 @@ class Action extends \Magento\Core\Model\AbstractModel
      * @param array $productIds
      * @param array $attrData
      * @param int $storeId
-     * @return \Magento\Catalog\Model\Product\Action
+     * @return $this
      */
     public function updateAttributes($productIds, $attrData, $storeId)
     {
@@ -116,6 +117,7 @@ class Action extends \Magento\Core\Model\AbstractModel
      * @param array $productIds
      * @param array $websiteIds
      * @param string $type
+     * @return void
      */
     public function updateWebsites($productIds, $websiteIds, $type)
     {

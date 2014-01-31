@@ -20,7 +20,7 @@ class Composite implements CopyConstructorInterface
 
     /**
      * @param CopyConstructorFactory $factory
-     * @param array $constructors
+     * @param string[] $constructors
      */
     public function __construct(CopyConstructorFactory $factory, array $constructors = array())
     {
@@ -34,6 +34,7 @@ class Composite implements CopyConstructorInterface
      *
      * @param \Magento\Catalog\Model\Product $product
      * @param \Magento\Catalog\Model\Product $duplicate
+     * @return void
      */
     public function build(\Magento\Catalog\Model\Product $product, \Magento\Catalog\Model\Product $duplicate)
     {

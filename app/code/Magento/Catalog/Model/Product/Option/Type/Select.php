@@ -16,7 +16,7 @@ namespace Magento\Catalog\Model\Product\Option\Type;
 class Select extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
 {
     /**
-     * @var mixed
+     * @var string|array
      */
     protected $_formattedOptionValue;
 
@@ -54,9 +54,9 @@ class Select extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
     /**
      * Validate user input for option
      *
-     * @throws \Magento\Core\Exception
      * @param array $values All product option values, i.e. array (option_id => mixed, option_id => mixed...)
-     * @return \Magento\Catalog\Model\Product\Option\Type\DefaultType
+     * @return $this
+     * @throws \Magento\Core\Exception
      */
     public function validateUserValue($values)
     {
@@ -84,7 +84,7 @@ class Select extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
      * Prepare option value for cart
      *
      * @throws \Magento\Core\Exception
-     * @return mixed Prepared option value
+     * @return string|null Prepared option value
      */
     public function prepareForCart()
     {
@@ -207,7 +207,7 @@ class Select extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
      * Prepare option value for info buy request
      *
      * @param string $optionValue
-     * @return mixed
+     * @return string
      */
     public function prepareOptionValueForRequest($optionValue)
     {
@@ -282,7 +282,7 @@ class Select extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
 
         if (!$this->_isSingleSelection()) {
             $skus = array();
-            foreach(explode(',', $optionValue) as $value) {
+            foreach (explode(',', $optionValue) as $value) {
                 $optionSku = $option->getValueById($value);
                 if ($optionSku) {
                     $skus[] = $optionSku->getSku();

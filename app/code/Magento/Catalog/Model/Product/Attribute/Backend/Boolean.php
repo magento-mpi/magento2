@@ -23,7 +23,7 @@ class Boolean extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBacken
      * Set attribute default value if value empty
      *
      * @param \Magento\Object $object
-     * @return \Magento\Catalog\Model\Product\Attribute\Backend\Boolean
+     * @return $this
      */
     public function beforeSave($object)
     {

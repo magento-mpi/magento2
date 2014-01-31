@@ -38,7 +38,7 @@ class DefaultType extends \Magento\Object
     /**
      * description
      *
-     * @var    mixed
+     * @var array
      */
     protected $_productOptions = array();
 
@@ -77,7 +77,7 @@ class DefaultType extends \Magento\Object
      * Option Instance setter
      *
      * @param \Magento\Catalog\Model\Product\Option $option
-     * @return \Magento\Catalog\Model\Product\Option\Type\DefaultType
+     * @return $this
      */
     public function setOption($option)
     {
@@ -103,7 +103,7 @@ class DefaultType extends \Magento\Object
      * Product Instance setter
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @return \Magento\Catalog\Model\Product\Option\Type\DefaultType
+     * @return $this
      */
     public function setProduct($product)
     {
@@ -193,9 +193,9 @@ class DefaultType extends \Magento\Object
     /**
      * Validate user input for option
      *
-     * @throws \Magento\Core\Exception
      * @param array $values All product option values, i.e. array (option_id => mixed, option_id => mixed...)
-     * @return \Magento\Catalog\Model\Product\Option\Type\DefaultType
+     * @return $this
+     * @throws \Magento\Core\Exception
      */
     public function validateUserValue($values)
     {
@@ -228,7 +228,7 @@ class DefaultType extends \Magento\Object
      * Prepare option value for cart
      *
      * @throws \Magento\Core\Exception
-     * @return mixed Prepared option value
+     * @return string|null Prepared option value
      */
     public function prepareForCart()
     {
@@ -309,7 +309,7 @@ class DefaultType extends \Magento\Object
      * Prepare option value for info buy request
      *
      * @param string $optionValue
-     * @return mixed
+     * @return string|null
      */
     public function prepareOptionValueForRequest($optionValue)
     {

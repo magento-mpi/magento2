@@ -27,12 +27,18 @@
  */
 namespace Magento\Catalog\Model\Product;
 
+use Magento\Catalog\Model\Resource\Product\Link\Collection;
+use Magento\Catalog\Model\Resource\Product\Link\Product\Collection as ProductCollection;
+
 class Link extends \Magento\Core\Model\AbstractModel
 {
     const LINK_TYPE_RELATED     = 1;
     const LINK_TYPE_UPSELL      = 4;
     const LINK_TYPE_CROSSSELL   = 5;
 
+    /**
+     * @var null
+     */
     protected $_attributeCollection = null;
 
     /**
@@ -74,18 +80,26 @@ class Link extends \Magento\Core\Model\AbstractModel
 
     /**
      * Initialize resource
+     *
+     * @return void
      */
     protected function _construct()
     {
         $this->_init('Magento\Catalog\Model\Resource\Product\Link');
     }
 
+    /**
+     * @return $this
+     */
     public function useRelatedLinks()
     {
         $this->setLinkTypeId(self::LINK_TYPE_RELATED);
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function useUpSellLinks()
     {
         $this->setLinkTypeId(self::LINK_TYPE_UPSELL);
@@ -93,7 +107,7 @@ class Link extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * @return \Magento\Catalog\Model\Product\Link
+     * @return $this
      */
     public function useCrossSellLinks()
     {
@@ -114,6 +128,8 @@ class Link extends \Magento\Core\Model\AbstractModel
 
     /**
      * Retrieve linked product collection
+     *
+     * @return ProductCollection
      */
     public function getProductCollection()
     {
@@ -124,6 +140,8 @@ class Link extends \Magento\Core\Model\AbstractModel
 
     /**
      * Retrieve link collection
+     *
+     * @return Collection
      */
     public function getLinkCollection()
     {
@@ -132,6 +150,10 @@ class Link extends \Magento\Core\Model\AbstractModel
         return $collection;
     }
 
+    /**
+     * @param int $type
+     * @return array
+     */
     public function getAttributes($type=null)
     {
         if (is_null($type)) {

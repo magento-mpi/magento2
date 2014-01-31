@@ -37,6 +37,9 @@ class Layout extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
         $this->_pageSourceLayout = $pageSourceLayout;
     }
 
+    /**
+     * @return array
+     */
     public function getAllOptions()
     {
         if (!$this->_options) {

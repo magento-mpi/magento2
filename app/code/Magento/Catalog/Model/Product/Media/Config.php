@@ -112,7 +112,7 @@ class Config implements ConfigInterface
     }
 
     /**
-     * @param $file
+     * @param string $file
      * @return string
      */
     public function getTmpMediaUrl($file)
@@ -144,7 +144,7 @@ class Config implements ConfigInterface
     }
 
     /**
-     * @param $file
+     * @param string $file
      * @return string
      */
     public function getTmpMediaPath($file)
@@ -153,7 +153,7 @@ class Config implements ConfigInterface
     }
 
     /**
-     * @param $file
+     * @param string $file
      * @return string
      */
     protected function _prepareFile($file)

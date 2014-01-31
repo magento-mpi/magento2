@@ -18,6 +18,8 @@
  */
 namespace Magento\Catalog\Model\Product\Attribute\Backend;
 
+use Magento\Catalog\Model\Product;
+
 class Sku extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     /**
@@ -49,7 +51,7 @@ class Sku extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     /**
      * Validate SKU
      *
-     * @param \Magento\Catalog\Model\Product $object
+     * @param Product $object
      * @throws \Magento\Core\Exception
      * @return bool
      */
@@ -72,7 +74,8 @@ class Sku extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     /**
      * Generate and set unique SKU to product
      *
-     * @param $object \Magento\Catalog\Model\Product
+     * @param Product $object
+     * @return void
      */
     protected function _generateUniqueSku($object)
     {
@@ -93,8 +96,8 @@ class Sku extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     /**
      * Make SKU unique before save
      *
-     * @param \Magento\Object $object
-     * @return \Magento\Catalog\Model\Product\Attribute\Backend\Sku
+     * @param Product $object
+     * @return $this
      */
     public function beforeSave($object)
     {
@@ -106,7 +109,7 @@ class Sku extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
      * Return increment needed for SKU uniqueness
      *
      * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute
-     * @param \Magento\Catalog\Model\Product $object
+     * @param Product $object
      * @return int
      */
     protected function _getLastSimilarAttributeValueIncrement($attribute, $object)
