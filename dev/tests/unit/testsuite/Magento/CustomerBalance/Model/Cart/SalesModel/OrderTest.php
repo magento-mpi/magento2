@@ -28,7 +28,7 @@ class OrderTest extends \Magento\Payment\Model\Cart\SalesModel\OrderTest
             ->expects($this->exactly(2))
             ->method('getDataUsingMethod')
             ->with($this->anything(), 'any args')
-            ->will($this->returnCallback(function ($key, $args) {
+            ->will($this->returnCallback(function ($key) {
                 return $key == 'base_customer_balance_amount' ? 'customer_balance result' : 'some value';
             }));
         $this->assertEquals('some value', $this->_model->getDataUsingMethod('any key', 'any args'));
