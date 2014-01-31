@@ -50,7 +50,7 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
         $this->viewMock = $this->getMockForAbstractClass(
             'Magento\Mview\ViewInterface',
             array(), '', false, false, true,
-            array('load', 'isEnabled', 'getUpdated', 'getStatus', '__wakeup', 'getId')
+            array('load', 'isEnabled', 'getUpdated', 'getStatus', '__wakeup', 'getId', 'suspend', 'resume')
         );
         $this->stateFactoryMock = $this->getMock(
             'Magento\Indexer\Model\Indexer\StateFactory', array('create'), array(), '', false
@@ -188,6 +188,14 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($stateMock));
 
+        $this->viewMock->expects($this->once())
+            ->method('isEnabled')
+            ->will($this->returnValue(true));
+        $this->viewMock->expects($this->once())
+            ->method('suspend');
+        $this->viewMock->expects($this->once())
+            ->method('resume');
+
         $actionMock = $this->getMock(
             'Magento\Indexer\Model\ActionInterface',
             array('executeFull', 'executeList', 'executeRow'),
@@ -240,6 +248,14 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
         $this->stateFactoryMock->expects($this->once())
             ->method('create')
             ->will($this->returnValue($stateMock));
+
+        $this->viewMock->expects($this->once())
+            ->method('isEnabled')
+            ->will($this->returnValue(false));
+        $this->viewMock->expects($this->never())
+            ->method('suspend');
+        $this->viewMock->expects($this->once())
+            ->method('resume');
 
         $actionMock = $this->getMock(
             'Magento\Indexer\Model\ActionInterface',
