@@ -17,23 +17,38 @@ namespace Magento\Core\Block;
 
 class Switcher extends \Magento\View\Element\Template
 {
+    /**
+     * @var bool
+     */
     protected $_storeInUrl;
 
+    /**
+     * @return int|null|string
+     */
     public function getCurrentWebsiteId()
     {
         return $this->_storeManager->getStore()->getWebsiteId();
     }
 
+    /**
+     * @return int|null|string
+     */
     public function getCurrentGroupId()
     {
         return $this->_storeManager->getStore()->getGroupId();
     }
 
+    /**
+     * @return int
+     */
     public function getCurrentStoreId()
     {
         return $this->_storeManager->getStore()->getId();
     }
 
+    /**
+     * @return array
+     */
     public function getRawGroups()
     {
         if (!$this->hasData('raw_groups')) {
@@ -48,6 +63,9 @@ class Switcher extends \Magento\View\Element\Template
         return $this->getData('raw_groups');
     }
 
+    /**
+     * @return array
+     */
     public function getRawStores()
     {
         if (!$this->hasData('raw_stores')) {
@@ -79,7 +97,7 @@ class Switcher extends \Magento\View\Element\Template
     /**
      * Retrieve list of store groups with default urls set
      *
-     * @return array
+     * @return \Magento\Core\Model\Store\Group[]
      */
     public function getGroups()
     {
@@ -111,6 +129,9 @@ class Switcher extends \Magento\View\Element\Template
         return $this->getData('groups');
     }
 
+    /**
+     * @return \Magento\Core\Model\Store[]
+     */
     public function getStores()
     {
         if (!$this->getData('stores')) {
@@ -127,11 +148,17 @@ class Switcher extends \Magento\View\Element\Template
         return $this->getData('stores');
     }
 
+    /**
+     * @return string
+     */
     public function getCurrentStoreCode()
     {
         return $this->_storeManager->getStore()->getCode();
     }
 
+    /**
+     * @return bool
+     */
     public function isStoreInUrl()
     {
         if (is_null($this->_storeInUrl)) {
