@@ -1498,7 +1498,8 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         $data    = $form->extractData($request, 'order/account');
         if ($this->getIsValidate()) {
             $errors = $form->validateData($data);
-            if ($errors !== true) {
+            //TODO: Just need a single expression in If once the TODO in above function validateData is resolved
+            if ($errors !== true || !empty($errors)) {
                 foreach ($errors as $error) {
                     $this->_errors[] = $error;
                 }

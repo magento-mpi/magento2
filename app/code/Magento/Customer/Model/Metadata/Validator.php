@@ -54,7 +54,7 @@ class Validator extends \Magento\Eav\Model\Validator\Attribute\Data
                 $data[$attributeCode] = null;
             }
             $dataModel = $this->_attrDataFactory->create(
-                $attribute, $entityType, $data[$attributeCode]
+                $attribute, $data[$attributeCode], $entityType
             );
             $dataModel->setExtractedData($data);
             $result = $dataModel->validateValue($data[$attributeCode]);
