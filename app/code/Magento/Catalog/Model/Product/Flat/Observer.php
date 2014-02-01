@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 namespace Magento\Catalog\Model\Product\Flat;
+
 use Magento\Event\Observer as EventObserver;
 
 /**
@@ -117,7 +118,6 @@ class Observer
      * Catalog Product Status Update
      *
      * @param EventObserver $observer
-     * @param \Magento\Event\Observer $observer
      * @return $this
      */
     public function catalogProductStatusUpdate(EventObserver $observer)

@@ -36,8 +36,6 @@ class Sku extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     protected $string;
 
     /**
-     * Constructor
-     *
      * @param \Magento\Logger $logger
      * @param \Magento\Stdlib\String $string
      */

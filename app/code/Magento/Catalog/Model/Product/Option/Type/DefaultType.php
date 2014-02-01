@@ -9,6 +9,8 @@
  */
 namespace Magento\Catalog\Model\Product\Option\Type;
 
+use Magento\Core\Exception;
+
 /**
  * Catalog product option default type
  *
@@ -16,9 +18,6 @@ namespace Magento\Catalog\Model\Product\Option\Type;
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-
-use Magento\Core\Exception;
-
 class DefaultType extends \Magento\Object
 {
     /**

@@ -7,8 +7,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Category\Attribute\Source;
+
 use Magento\Cms\Model\Resource\Block\CollectionFactory;
 
 /**

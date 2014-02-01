@@ -389,9 +389,9 @@ class Category extends \Magento\Catalog\Model\AbstractModel
     /**
      * Retrieve all customer attributes
      *
-     * TODO: Use with Flat Resource
      * @param bool $noDesignAttributes
      * @return array
+     * @todo Use with Flat Resource
      */
     public function getAttributes($noDesignAttributes = false)
     {

@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Model\Product\Compare;
+
+use Magento\Catalog\Model\Product;
 
 /**
  * Catalog Compare Item Model
@@ -23,10 +26,6 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Product\Compare;
-
-use Magento\Catalog\Model\Product;
-
 class Item extends \Magento\Core\Model\AbstractModel
 {
 

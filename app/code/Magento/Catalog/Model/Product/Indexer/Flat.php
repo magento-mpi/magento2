@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 namespace Magento\Catalog\Model\Product\Indexer;
+
 use Magento\Catalog\Helper\Product\Flat as ProductFlat;
 
 /**
