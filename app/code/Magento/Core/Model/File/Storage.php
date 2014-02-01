@@ -125,11 +125,12 @@ class Storage extends \Magento\Core\Model\AbstractModel
     /**
      * Show if there were errors while synchronize process
      *
-     * @param $sourceModel
-     * @param $destinationModel
+     * @param \Magento\Core\Model\AbstractModel $sourceModel
+     * @param \Magento\Core\Model\AbstractModel $destinationModel
      * @return bool
      */
-    protected function _synchronizeHasErrors($sourceModel, $destinationModel) {
+    protected function _synchronizeHasErrors($sourceModel, $destinationModel)
+    {
         if (!$sourceModel || !$destinationModel) {
             return true;
         }
@@ -193,7 +194,7 @@ class Storage extends \Magento\Core\Model\AbstractModel
      * )
      *
      * @param  array $storage
-     * @return \Magento\Core\Model\File\Storage
+     * @return $this
      */
     public function synchronize($storage)
     {
