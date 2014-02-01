@@ -46,7 +46,7 @@ class End extends \Magento\Install\Block\AbstractBlock
      * @param \Magento\Session\Generic $session
      * @param \Magento\App\ConfigInterface $coreConfig
      * @param \Magento\AdminNotification\Model\Survey $survey
-     * @param $cryptKey
+     * @param string $cryptKey
      * @param array $data
      */
     public function __construct(
@@ -56,7 +56,7 @@ class End extends \Magento\Install\Block\AbstractBlock
         \Magento\Session\Generic $session,
         \Magento\App\ConfigInterface $coreConfig,
         \Magento\AdminNotification\Model\Survey $survey,
-        $cryptKey,
+        string $cryptKey,
         array $data = array()
     ) {
         $this->_cryptKey = $cryptKey;

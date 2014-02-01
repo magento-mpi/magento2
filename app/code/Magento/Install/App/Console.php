@@ -55,8 +55,8 @@ class Console implements \Magento\LauncherInterface
      * @param \Magento\App\State $state
      * @param \Magento\App\ObjectManager\ConfigLoader $loader
      * @param \Magento\ObjectManager $objectManager
-     * @param Response $response
      * @param \Magento\App\Filesystem $filesystem
+     * @param Response $response
      * @param array $arguments
      */
     public function __construct(
@@ -107,6 +107,7 @@ class Console implements \Magento\LauncherInterface
      * Install/Uninstall application
      *
      * @param \Magento\Install\Model\Installer\Console $installer
+     * @return void
      */
     protected function _handleInstall(\Magento\Install\Model\Installer\Console $installer)
     {
