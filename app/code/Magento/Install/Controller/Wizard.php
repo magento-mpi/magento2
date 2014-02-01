@@ -7,15 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Install\Controller;
+
+use Magento\App\RequestInterface;
 
 /**
  * Installation wizard controller
  */
-namespace Magento\Install\Controller;
-
-use Magento\App\Action\NotFoundException;
-use Magento\App\RequestInterface;
-
 class Wizard extends \Magento\Install\Controller\Action
 {
     /**

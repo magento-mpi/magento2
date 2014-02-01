@@ -56,7 +56,7 @@ class End extends \Magento\Install\Block\AbstractBlock
         \Magento\Session\Generic $session,
         \Magento\App\ConfigInterface $coreConfig,
         \Magento\AdminNotification\Model\Survey $survey,
-        string $cryptKey,
+        $cryptKey,
         array $data = array()
     ) {
         $this->_cryptKey = $cryptKey;
