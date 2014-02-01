@@ -172,7 +172,7 @@ class Date extends \Magento\Catalog\Block\Product\View\Options\AbstractOptions
      * @param string $name Id/name of html select element
      * @param int $from  Start position
      * @param int $to    End position
-     * @param int $value Value selected
+     * @param int|null $value Value selected
      * @return string Formatted Html
      */
     protected function _getSelectFromToHtml($name, $from, $to, $value = null)
@@ -192,7 +192,7 @@ class Date extends \Magento\Catalog\Block\Product\View\Options\AbstractOptions
      * HTML select element
      *
      * @param string $name Id/name of html select element
-     * @param mixed $value
+     * @param int|null $value
      * @return mixed
      */
     protected function _getHtmlSelect($name, $value = null)

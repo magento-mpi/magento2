@@ -37,7 +37,7 @@ class Price extends \Magento\View\Element\Template
     }
 
     /**
-     * @return  array|double
+     * @return  array|float
      */
     public function getPrice()
     {
