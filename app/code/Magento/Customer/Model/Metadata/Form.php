@@ -327,9 +327,7 @@ class Form
     public function validateData(array $data)
     {
         $validator = $this->_getValidator($data);
-        //TODO : Do we need this hard-coded value invocation?
-        // Compare with previous \Magento\Eav\Model\Form::validateData
-        if (!$validator->isValid(false)) {
+        if (!$validator->isValid($this->_attributeValues)) {
             $messages = array();
             foreach ($validator->getMessages() as $errorMessages) {
                 $messages = array_merge($messages, (array)$errorMessages);

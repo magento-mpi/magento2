@@ -1498,7 +1498,6 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         $data    = $form->extractData($request, 'order/account');
         if ($this->getIsValidate()) {
             $errors = $form->validateData($data);
-            //TODO: Just need a single expression in If once the TODO in above function validateData is resolved
             if (!empty($errors)) {
                 foreach ($errors as $error) {
                     $this->_errors[] = $error;
@@ -1558,7 +1557,8 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
                     ->setDefaultBilling(null)
                     ->setDefaultShipping(null)
                     ->setPassword($customer->generatePassword());
-                $customerDto = $this->_validateCustomerData($this->_convertCustomerToDto($customer));
+                $customerDto = $this->_convertCustomerToDto($customer);
+                $this->_validateCustomerData($customerDto);
                 // @todo Remove 3 lines after refactoring of this method
                 $data = $customerDto->__toArray();
                 unset($data[CustomerDto::ID]);
@@ -1611,7 +1611,8 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
                 ->setPassword($customer->generatePassword())
                 ->setStore($store);
             $customer->setEmail($this->_getNewCustomerEmail($customer));
-            $customerDto = $this->_validateCustomerData($this->_convertCustomerToDto($customer));
+            $customerDto = $this->_convertCustomerToDto($customer);
+            $this->_validateCustomerData($customerDto);
             // @todo Remove 3 lines after refactoring of this method
             $data = $customerDto->__toArray();
             unset($data[CustomerDto::ID]);
@@ -1638,7 +1639,8 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         }
 
         // Set quote customer data to customer
-        $customerDto = $this->_validateCustomerData($this->_convertCustomerToDto($customer));
+        $customerDto = $this->_convertCustomerToDto($customer);
+        $this->_validateCustomerData($customerDto);
         // @todo Remove 3 lines after refactoring of this method
         $data = $customerDto->__toArray();
         unset($data[CustomerDto::ID]);

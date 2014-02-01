@@ -19,6 +19,11 @@ class Validator extends \Magento\Eav\Model\Validator\Attribute\Data
     protected $_entityType;
 
     /**
+     * @var array
+     */
+    protected $_entity;
+
+    /**
      * @param \Magento\Customer\Model\Metadata\ElementFactory $attrDataFactory
      */
     public function __construct(\Magento\Customer\Model\Metadata\ElementFactory $attrDataFactory)
@@ -29,18 +34,17 @@ class Validator extends \Magento\Eav\Model\Validator\Attribute\Data
     /**
      * Validate EAV model attributes with data models
      *
-     * @param \Magento\Core\Model\AbstractModel $entity
+     * @param \Magento\Object | array $entity
      * @return bool
      */
     public function isValid($entity)
     {
-        $data = array();
-        if ($this->_data) {
-            $data = $this->_data;
-        } elseif ($entity instanceof \Magento\Object) {
-            $data = $entity->getData();
+        if ($entity instanceof \Magento\Object) {
+            $this->_entity = $entity->getData();
+        } else {
+            $this->_entity = $entity;
         }
-        $this->validateData($data, $this->_attributes, $this->_entityType);
+        $this->validateData($this->_data, $this->_attributes, $this->_entityType);
     }
 
     public function validateData($data, $attributes, $entityType)
@@ -57,7 +61,9 @@ class Validator extends \Magento\Eav\Model\Validator\Attribute\Data
                 $attribute, $data[$attributeCode], $entityType
             );
             $dataModel->setExtractedData($data);
-            $result = $dataModel->validateValue($data[$attributeCode]);
+            $value = empty($data[$attributeCode]) && isset($this->_entity[$attributeCode])
+                ? $this->_entity[$attributeCode] : $data[$attributeCode];
+            $result = $dataModel->validateValue($value);
             if (true !== $result) {
                 $this->_addErrorMessages($attributeCode, (array)$result);
             }
