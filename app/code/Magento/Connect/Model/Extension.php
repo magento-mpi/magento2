@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Connect\Model;
 
 /**
@@ -78,7 +77,6 @@ class Extension extends \Magento\Object
         $this->writeDirectory   = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
         $this->logger           = $logger;
         parent::__construct($data);
-
     }
 
     /**
@@ -98,7 +96,7 @@ class Extension extends \Magento\Object
      * Set package object
      *
      * @return \Magento\Connect\Model\Extension
-     * @throws \Magento\Core\Exception
+     * @throws $this
      */
     public function generatePackageXml()
     {
@@ -120,7 +118,7 @@ class Extension extends \Magento\Object
     /**
      * Set general information.
      *
-     * @return \Magento\Connect\Model\Extension
+     * @return $this
      */
     protected function _setPackage()
     {
@@ -136,7 +134,7 @@ class Extension extends \Magento\Object
     /**
      * Set release information
      *
-     * @return \Magento\Connect\Model\Extension
+     * @return $this
      */
     protected function _setRelease()
     {
@@ -152,7 +150,7 @@ class Extension extends \Magento\Object
     /**
      * Set authors
      *
-     * @return \Magento\Connect\Model\Extension
+     * @return $this
      */
     protected function _setAuthors()
     {
@@ -189,7 +187,7 @@ class Extension extends \Magento\Object
     /**
      * Set php, php extensions, another packages dependencies
      *
-     * @return \Magento\Connect\Model\Extension
+     * @return $this
      */
     protected function _setDependencies()
     {
@@ -232,7 +230,7 @@ class Extension extends \Magento\Object
     /**
      * Set contents. Add file or entire directory.
      *
-     * @return \Magento\Connect\Model\Extension
+     * @return $this
      */
     protected function _setContents()
     {
