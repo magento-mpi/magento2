@@ -10,7 +10,7 @@ namespace Magento\Backend\App;
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Config\SectionPool|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Core\Model\Config\ScopePool|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $sectionPool;
 
@@ -22,7 +22,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->sectionPool = $this->getMock(
-            'Magento\Core\Model\Config\SectionPool',
+            'Magento\Core\Model\Config\ScopePool',
             array('getSection', 'clean'),
             array(),
             '',

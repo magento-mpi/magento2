@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Config\Section\Processor;
+namespace Magento\Core\Model\Config\Scope\Processor;
 
 class Placeholder
 {

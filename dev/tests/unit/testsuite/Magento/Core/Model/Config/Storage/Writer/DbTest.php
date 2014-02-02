@@ -8,14 +8,14 @@
  */
 
 /**
- * Test class for \Magento\Core\Model\Config\Storage\Writer\Db
+ * Test class for \Magento\Core\Model\Config\Storage\Db
  */
 namespace Magento\Core\Model\Config\Storage\Writer;
 
 class DbTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Config\Storage\Writer\Db
+     * @var \Magento\Core\Model\Config\Storage\Db
      */
     protected $_model;
 
@@ -28,7 +28,7 @@ class DbTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_resourceMock = $this->getMock('Magento\Core\Model\Resource\Config', array(), array(), '', false, false);
-        $this->_model = new \Magento\Core\Model\Config\Storage\Writer\Db($this->_resourceMock);
+        $this->_model = new \Magento\Core\Model\Config\Storage\Db($this->_resourceMock);
     }
 
     protected function tearDown()

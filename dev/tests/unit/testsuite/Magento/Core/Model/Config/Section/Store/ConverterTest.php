@@ -5,11 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Config\Section\Store;
+namespace Magento\Core\Model\Config\Scope\Store;
 
 class ConverterTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var  \Magento\Core\Model\Config\Section\Store\Converter */
+    /** @var  \Magento\Core\Model\Config\Scope\Store\Converter */
     protected $_model;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject */
@@ -17,9 +17,9 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_processorMock = $this->getMock('Magento\Core\Model\Config\Section\Processor\Placeholder',
+        $this->_processorMock = $this->getMock('Magento\Core\Model\Config\Scope\Processor\Placeholder',
             array(), array(), '', false);
-        $this->_model = new \Magento\Core\Model\Config\Section\Store\Converter($this->_processorMock);
+        $this->_model = new \Magento\Core\Model\Config\Scope\Store\Converter($this->_processorMock);
     }
 
     public function testConvert()

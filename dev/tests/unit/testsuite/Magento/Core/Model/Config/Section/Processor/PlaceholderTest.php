@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Config\Section\Processor;
+namespace Magento\Core\Model\Config\Scope\Processor;
 
 class PlaceholderTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Config\Section\Processor\Placeholder
+     * @var \Magento\Core\Model\Config\Scope\Processor\Placeholder
      */
     protected $_model;
 
@@ -25,7 +25,7 @@ class PlaceholderTest extends \PHPUnit_Framework_TestCase
         $this->_requestMock->expects($this->any())
             ->method('getDistroBaseUrl')
             ->will($this->returnValue('http://localhost/'));
-        $this->_model = new \Magento\Core\Model\Config\Section\Processor\Placeholder($this->_requestMock);
+        $this->_model = new \Magento\Core\Model\Config\Scope\Processor\Placeholder($this->_requestMock);
     }
 
     public function testProcess()

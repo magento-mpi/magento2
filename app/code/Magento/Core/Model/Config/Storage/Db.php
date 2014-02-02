@@ -7,9 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Config\Storage\Writer;
+namespace Magento\Core\Model\Config\Storage;
 
-class Db implements \Magento\Core\Model\Config\Storage\WriterInterface
+class Db implements \Magento\App\Config\Storage\WriterInterface
 {
     /**
      * Resource model of config data

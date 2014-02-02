@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Config\Section\Reader;
+namespace Magento\Core\Model\Config\Scope\Reader;
 
 class WebsiteTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Config\Section\Reader\Website
+     * @var \Magento\Core\Model\Config\Scope\Reader\Website
      */
     protected $_model;
 
@@ -42,7 +42,7 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_initialConfigMock = $this->getMock('Magento\Core\Model\Config\Initial', array(), array(), '', false);
-        $this->_sectionPullMock = $this->getMock('Magento\Core\Model\Config\SectionPool', array(), array(), '', false);
+        $this->_sectionPullMock = $this->getMock('Magento\Core\Model\Config\ScopePool', array(), array(), '', false);
         $this->_collectionFactory = $this->getMock(
             'Magento\Core\Model\Resource\Config\Value\Collection\ScopedFactory',
             array('create'),
@@ -61,10 +61,10 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
             ->method('isInstalled')
             ->will($this->returnValue(true));
 
-        $this->_model = new \Magento\Core\Model\Config\Section\Reader\Website(
+        $this->_model = new \Magento\Core\Model\Config\Scope\Reader\Website(
             $this->_initialConfigMock,
             $this->_sectionPullMock,
-            new \Magento\Core\Model\Config\Section\Converter(),
+            new \Magento\Core\Model\Config\Scope\Converter(),
             $this->_collectionFactory,
             $websiteFactoryMock,
             $this->_appStateMock

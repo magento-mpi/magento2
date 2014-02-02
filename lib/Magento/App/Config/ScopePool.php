@@ -12,7 +12,7 @@ class ScopePool
     const CACHE_TAG = 'config_scopes';
 
     /**
-     * @var \Magento\App\Config\Scope\ReaderPool
+     * @var \Magento\App\Config\Scope\ReaderPoolInterface
      */
     protected $_readerPool;
 
@@ -37,13 +37,13 @@ class ScopePool
     protected $_scopes = array();
 
     /**
-     * @param \Magento\App\Config\Scope\ReaderPool $readerPool
+     * @param \Magento\App\Config\Scope\ReaderPoolInterface $readerPool
      * @param \Magento\App\Config\DataFactory $dataFactory
      * @param \Magento\Cache\FrontendInterface $cache
      * @param string $cacheId
      */
     public function __construct(
-        \Magento\App\Config\Scope\ReaderPool $readerPool,
+        \Magento\App\Config\Scope\ReaderPoolInterface $readerPool,
         \Magento\App\Config\DataFactory $dataFactory,
         \Magento\Cache\FrontendInterface $cache,
         $cacheId = 'default_config_cache'

@@ -16,7 +16,7 @@ namespace Magento\Theme\Model;
 class Config
 {
     /**
-     * @var \Magento\Core\Model\Config\Storage\WriterInterface
+     * @var \Magento\App\Config\Storage\WriterInterface
      */
     protected $_configWriter;
 
@@ -49,7 +49,7 @@ class Config
 
     /**
      * @param \Magento\App\Config\ValueInterface $configData
-     * @param \Magento\Core\Model\Config\Storage\WriterInterface $configWriter
+     * @param \Magento\App\Config\Storage\WriterInterface $configWriter
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Cache\FrontendInterface $configCache
@@ -57,7 +57,7 @@ class Config
      */
     public function __construct(
         \Magento\App\Config\ValueInterface $configData,
-        \Magento\Core\Model\Config\Storage\WriterInterface $configWriter,
+        \Magento\App\Config\Storage\WriterInterface $configWriter,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Cache\FrontendInterface $configCache,

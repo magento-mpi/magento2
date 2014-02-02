@@ -1,13 +1,13 @@
 <?php
 /**
  * {license_notice}
- * 
+ *
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Core\Model\Config\Section\Reader;
+namespace Magento\Core\Model\Config\Scope\Reader;
 
-class Website implements \Magento\App\Config\Scope\ReaderInterface
+class Store implements \Magento\App\Config\Scope\ReaderInterface
 {
     /**
      * @var \Magento\App\Config\Initial
@@ -20,7 +20,7 @@ class Website implements \Magento\App\Config\Scope\ReaderInterface
     protected $_scopePool;
 
     /**
-     * @var \Magento\Core\Model\Config\Section\Converter
+     * @var \Magento\Core\Model\Config\Scope\Store\Converter
      */
     protected $_converter;
 
@@ -30,9 +30,9 @@ class Website implements \Magento\App\Config\Scope\ReaderInterface
     protected $_collectionFactory;
 
     /**
-     * @var \Magento\Core\Model\WebsiteFactory
+     * @var \Magento\Core\Model\StoreFactory
      */
-    protected $_websiteFactory;
+    protected $_storeFactory;
 
     /**
      * @var \Magento\App\State
@@ -42,24 +42,24 @@ class Website implements \Magento\App\Config\Scope\ReaderInterface
     /**
      * @param \Magento\App\Config\Initial $initialConfig
      * @param \Magento\App\Config\ScopePool $scopePool
-     * @param \Magento\Core\Model\Config\Section\Converter $converter
+     * @param \Magento\Core\Model\Config\Scope\Store\Converter $converter
      * @param \Magento\Core\Model\Resource\Config\Value\Collection\ScopedFactory $collectionFactory
-     * @param \Magento\Core\Model\WebsiteFactory $websiteFactory
+     * @param \Magento\Core\Model\StoreFactory $storeFactory
      * @param \Magento\App\State $appState
      */
     public function __construct(
         \Magento\App\Config\Initial $initialConfig,
         \Magento\App\Config\ScopePool $scopePool,
-        \Magento\Core\Model\Config\Section\Converter $converter,
+        \Magento\Core\Model\Config\Scope\Store\Converter $converter,
         \Magento\Core\Model\Resource\Config\Value\Collection\ScopedFactory $collectionFactory,
-        \Magento\Core\Model\WebsiteFactory $websiteFactory,
+        \Magento\Core\Model\StoreFactory $storeFactory,
         \Magento\App\State $appState
     ) {
         $this->_initialConfig = $initialConfig;
         $this->_scopePool = $scopePool;
         $this->_converter = $converter;
         $this->_collectionFactory = $collectionFactory;
-        $this->_websiteFactory = $websiteFactory;
+        $this->_storeFactory = $storeFactory;
         $this->_appState = $appState;
     }
 
@@ -71,27 +71,24 @@ class Website implements \Magento\App\Config\Scope\ReaderInterface
      */
     public function read($code = null)
     {
-        $config = array_replace_recursive(
-            $this->_scopePool->getScope(\Magento\BaseScopeInterface::SCOPE_DEFAULT)->getSource(),
-            $this->_initialConfig->getData("websites|{$code}")
-        );
-
         if ($this->_appState->isInstalled()) {
-            $website = $this->_websiteFactory->create();
-            $website->load($code);
-            $collection = $this->_collectionFactory->create(array(
-                'scope' => 'websites', 'scopeId' => $website->getId())
-            );
-            $dbWebsiteConfig = array();
-            foreach ($collection as $configValue) {
-                $dbWebsiteConfig[$configValue->getPath()] = $configValue->getValue();
-            }
-            $dbWebsiteConfig = $this->_converter->convert($dbWebsiteConfig);
+            $store = $this->_storeFactory->create();
+            $store->load($code);
+            $websiteConfig = $this->_scopePool->getScope('website', $store->getWebsite()->getCode())->getSource();
+            $config = array_replace_recursive($websiteConfig, $this->_initialConfig->getData("sotres|{$code}"));
 
-            if (count($dbWebsiteConfig)) {
-                $config = array_replace_recursive($config, $dbWebsiteConfig);
+            $collection = $this->_collectionFactory->create(array('scope' => 'stores', 'scopeId' => $store->getId()));
+            $dbStoreConfig = array();
+            foreach ($collection as $item) {
+                $dbStoreConfig[$item->getPath()] = $item->getValue();
             }
+            $config = $this->_converter->convert($dbStoreConfig, $config);
+        } else {
+            $websiteConfig = $this->_scopePool
+                ->getScope('website', \Magento\BaseScopeInterface::SCOPE_DEFAULT)
+                ->getSource();
+            $config = $this->_converter->convert($websiteConfig, $this->_initialConfig->getData("stores|{$code}"));
         }
         return $config;
     }
-}
+} 

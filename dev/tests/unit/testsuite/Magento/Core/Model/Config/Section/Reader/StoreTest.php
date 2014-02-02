@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Config\Section\Reader;
+namespace Magento\Core\Model\Config\Scope\Reader;
 
 class StoreTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Config\Section\Reader\Store
+     * @var \Magento\Core\Model\Config\Scope\Reader\Store
      */
     protected $_model;
 
@@ -41,7 +41,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_sectionPullMock = $this->getMock('Magento\Core\Model\Config\SectionPool', array(), array(), '', false);
+        $this->_sectionPullMock = $this->getMock('Magento\Core\Model\Config\ScopePool', array(), array(), '', false);
         $this->_initialConfigMock = $this->getMock('Magento\Core\Model\Config\Initial', array(), array(), '', false);
         $this->_collectionFactory = $this->getMock(
             'Magento\Core\Model\Resource\Config\Value\Collection\ScopedFactory',
@@ -62,7 +62,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(true));
 
         $placeholderProcessor = $this->getMock(
-            'Magento\Core\Model\Config\Section\Processor\Placeholder',
+            'Magento\Core\Model\Config\Scope\Processor\Placeholder',
             array(),
             array(),
             '',
@@ -71,10 +71,10 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         $placeholderProcessor->expects($this->any())
             ->method('process')
             ->will($this->returnArgument(0));
-        $this->_model = new \Magento\Core\Model\Config\Section\Reader\Store(
+        $this->_model = new \Magento\Core\Model\Config\Scope\Reader\Store(
             $this->_initialConfigMock,
             $this->_sectionPullMock,
-            new \Magento\Core\Model\Config\Section\Store\Converter($placeholderProcessor),
+            new \Magento\Core\Model\Config\Scope\Store\Converter($placeholderProcessor),
             $this->_collectionFactory,
             $storeFactoryMock,
             $this->_appStateMock

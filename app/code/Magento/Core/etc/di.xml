@@ -19,7 +19,8 @@
     <preference for="Magento\Core\Model\DataService\ConfigInterface" type="Magento\Core\Model\DataService\Config" />
     <preference for="Magento\App\ConfigInterface" type="Magento\App\Config" />
     <preference for="Magento\App\ReinitableConfigInterface" type="Magento\App\ReinitableConfig" />
-    <preference for="Magento\Core\Model\Config\Storage\WriterInterface" type="Magento\Core\Model\Config\Storage\Writer\Db" />
+    <preference for="Magento\App\Config\Scope\ReaderPoolInterface" type="Magento\Core\Model\Config\Scope\ReaderPool" />
+    <preference for="Magento\App\Config\Storage\WriterInterface" type="Magento\Core\Model\Config\Storage\Db" />
     <preference for="Magento\PubSub\Event\QueueWriterInterface" type="Magento\PubSub\Event\QueueWriter" />
     <preference for="Magento\PubSub\Event\FactoryInterface" type="Magento\PubSub\Event\Factory" />
     <preference for="Magento\View\Design\Theme\FileInterface" type="Magento\Core\Model\Theme\File" />
@@ -273,12 +274,12 @@
             <instance type="Magento\App\Cache\Type\Config" />
         </param>
     </type>
-    <type name="Magento\Core\Model\Config\Section\Reader\Website">
+    <type name="Magento\Core\Model\Config\Scope\Reader\Website">
         <param name="scopePool">
             <instance type="Magento\App\Config\ScopePool\Proxy" />
         </param>
     </type>
-    <type name="Magento\Core\Model\Config\Section\Reader\Store">
+    <type name="Magento\Core\Model\Config\Scope\Reader\Store">
         <param name="scopePool">
             <instance type="Magento\App\Config\ScopePool\Proxy" />
         </param>
@@ -293,15 +294,15 @@
             <instance type="Magento\App\Config\Initial\Converter" />
         </param>
     </type>
-    <type name="Magento\App\Config\Scope\ReaderPool">
+    <type name="Magento\Core\Model\Config\Scope\ReaderPool">
         <param name="default">
-            <instance type="Magento\Core\Model\Config\Section\Reader\DefaultReader" />
+            <instance type="Magento\Core\Model\Config\Scope\Reader\DefaultReader" />
         </param>
         <param name="website">
-            <instance type="Magento\Core\Model\Config\Section\Reader\Website" />
+            <instance type="Magento\Core\Model\Config\Scope\Reader\Website" />
         </param>
         <param name="store">
-            <instance type="Magento\Core\Model\Config\Section\Reader\Store" />
+            <instance type="Magento\Core\Model\Config\Scope\Reader\Store" />
         </param>
     </type>
     <type name="Magento\Core\App\Router\Base">
@@ -411,7 +412,7 @@
             <instance type="Magento\Core\Helper\Data\Proxy" />
         </param>
     </type>
-    <type name="Magento\Core\Model\Config\Section\Processor\Placeholder">
+    <type name="Magento\Core\Model\Config\Scope\Processor\Placeholder">
         <param name="request">
             <instance type="Magento\App\Request\Http\Proxy" />
         </param>

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Config\Section;
+namespace Magento\Core\Model\Config\Scope;
 
 class Converter implements \Magento\Config\ConverterInterface
 {

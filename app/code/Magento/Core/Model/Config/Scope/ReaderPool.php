@@ -5,9 +5,9 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\App\Config\Scope;
+namespace Magento\Core\Model\Config\Scope;
 
-class ReaderPool
+class ReaderPool implements \Magento\App\Config\Scope\ReaderPoolInterface
 {
     /**
      * List of readers
@@ -36,13 +36,13 @@ class ReaderPool
     }
 
     /**
-     * Retrieve reader by scope
+     * Retrieve reader by scope type
      *
-     * @param string $scope
+     * @param string $scopeType
      * @return mixed
      */
-    public function getReader($scope)
+    public function getReader($scopeType)
     {
-        return $this->_readers[$scope];
+        return $this->_readers[$scopeType];
     }
 } 

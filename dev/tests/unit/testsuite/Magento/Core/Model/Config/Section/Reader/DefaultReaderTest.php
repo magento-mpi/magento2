@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Config\Section\Reader;
+namespace Magento\Core\Model\Config\Scope\Reader;
 
 class DefaultReaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Config\Section\Reader\DefaultReader
+     * @var \Magento\Core\Model\Config\Scope\Reader\DefaultReader
      */
     protected $_model;
 
@@ -43,9 +43,9 @@ class DefaultReaderTest extends \PHPUnit_Framework_TestCase
         $this->_appStateMock->expects($this->any())
             ->method('isInstalled')
             ->will($this->returnValue(true));
-        $this->_model = new \Magento\Core\Model\Config\Section\Reader\DefaultReader(
+        $this->_model = new \Magento\Core\Model\Config\Scope\Reader\DefaultReader(
             $this->_initialConfigMock,
-            new \Magento\Core\Model\Config\Section\Converter(),
+            new \Magento\Core\Model\Config\Scope\Converter(),
             $this->_collectionFactory,
             $this->_appStateMock
         );

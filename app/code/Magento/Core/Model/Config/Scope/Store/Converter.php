@@ -7,19 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Config\Section\Store;
+namespace Magento\Core\Model\Config\Scope\Store;
 
-class Converter extends \Magento\Core\Model\Config\Section\Converter
+class Converter extends \Magento\Core\Model\Config\Scope\Converter
 {
     /**
-     * @var \Magento\Core\Model\Config\Section\Processor\Placeholder
+     * @var \Magento\Core\Model\Config\Scope\Processor\Placeholder
      */
     protected $_processor;
 
     /**
-     * @param \Magento\Core\Model\Config\Section\Processor\Placeholder $processor
+     * @param \Magento\Core\Model\Config\Scope\Processor\Placeholder $processor
      */
-    public function __construct(\Magento\Core\Model\Config\Section\Processor\Placeholder $processor)
+    public function __construct(\Magento\Core\Model\Config\Scope\Processor\Placeholder $processor)
     {
         $this->_processor = $processor;
     }

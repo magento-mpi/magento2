@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Config\Storage;
+namespace  Magento\App\Config\Storage;
 
 interface WriterInterface
 {
