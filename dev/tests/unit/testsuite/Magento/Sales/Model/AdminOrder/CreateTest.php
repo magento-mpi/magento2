@@ -10,6 +10,9 @@ namespace Magento\Sales\Model\AdminOrder;
 
 use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class CreateTest extends \PHPUnit_Framework_TestCase
 {
     const CUSTOMER_ID = 1;

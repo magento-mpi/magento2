@@ -12,7 +12,6 @@ use Magento\TestFramework\Helper\Bootstrap;
 
 /**
  * @magentoAppArea adminhtml
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class CreateTest extends \PHPUnit_Framework_TestCase
 {
