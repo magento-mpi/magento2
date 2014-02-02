@@ -71,7 +71,7 @@ class ScopePool
                 $data = unserialize($data);
             } else {
                 $reader = $this->_readerPool->getReader($scopeType);
-                if ($scopeType === 'default') {
+                if ($scopeType === \Magento\BaseScopeInterface::SCOPE_DEFAULT) {
                     $data = $reader->read();
                 } else {
                     $data = $reader->read($scopeCode);

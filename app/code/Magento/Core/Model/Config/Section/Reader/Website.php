@@ -72,7 +72,8 @@ class Website implements \Magento\App\Config\Scope\ReaderInterface
     public function read($code = null)
     {
         $config = array_replace_recursive(
-            $this->_scopePool->getScope('default')->getSource(), $this->_initialConfig->getData("websites|{$code}")
+            $this->_scopePool->getScope(\Magento\BaseScopeInterface::SCOPE_DEFAULT)->getSource(),
+            $this->_initialConfig->getData("websites|{$code}")
         );
 
         if ($this->_appState->isInstalled()) {

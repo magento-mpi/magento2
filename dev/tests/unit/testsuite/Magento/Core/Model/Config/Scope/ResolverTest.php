@@ -31,8 +31,8 @@ class ResolverTest extends \PHPUnit_Framework_TestCase
 
     public function testGetScopeCode()
     {
-        /** @var \Magento\App\Config\ScopeInterface|PHPUnit_Framework_MockObject_MockObject */
-        $scope = $this->getMock('\Magento\App\Config\ScopeInterface');
+        /** @var \Magento\BaseScopeInterface|PHPUnit_Framework_MockObject_MockObject */
+        $scope = $this->getMock('\Magento\BaseScopeInterface');
         $scope->expects($this->once())
             ->method('getCode')
             ->will($this->returnValue('scopeCode'));

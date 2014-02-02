@@ -17,8 +17,8 @@
     <preference for="Magento\Session\SessionManagerInterface" type="Magento\Core\Model\Session" />
     <preference for="Magento\Core\Model\LocaleInterface" type="Magento\Core\Model\Locale" />
     <preference for="Magento\Core\Model\DataService\ConfigInterface" type="Magento\Core\Model\DataService\Config" />
-    <preference for="Magento\App\ConfigInterface" type="Magento\Core\Model\Config" />
-    <preference for="Magento\App\ReinitableConfigInterface" type="Magento\Core\Model\ReinitableConfig" />
+    <preference for="Magento\App\ConfigInterface" type="Magento\App\Config" />
+    <preference for="Magento\App\ReinitableConfigInterface" type="Magento\App\ReinitableConfig" />
     <preference for="Magento\Core\Model\Config\Storage\WriterInterface" type="Magento\Core\Model\Config\Storage\Writer\Db" />
     <preference for="Magento\PubSub\Event\QueueWriterInterface" type="Magento\PubSub\Event\QueueWriter" />
     <preference for="Magento\PubSub\Event\FactoryInterface" type="Magento\PubSub\Event\Factory" />

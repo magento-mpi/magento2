@@ -10,6 +10,11 @@ namespace Magento;
 interface BaseScopeInterface
 {
     /**
+     * Default scope type
+     */
+    const SCOPE_DEFAULT = 'default';
+
+    /**
      * Retrieve scope code
      *
      * @return string

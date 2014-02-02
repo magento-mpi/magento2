@@ -56,9 +56,11 @@ class DefaultReader implements \Magento\App\Config\Scope\ReaderInterface
      */
     public function read()
     {
-        $config = $this->_initialConfig->getData('default');
+        $config = $this->_initialConfig->getData(\Magento\BaseScopeInterface::SCOPE_DEFAULT);
         if ($this->_appState->isInstalled()) {
-            $collection = $this->_collectionFactory->create(array('scope' => 'default'));
+            $collection = $this->_collectionFactory->create(
+                array('scope' => \Magento\BaseScopeInterface::SCOPE_DEFAULT)
+            );
             $dbDefaultConfig = array();
             foreach ($collection as $item) {
                 $dbDefaultConfig[$item->getPath()] = $item->getValue();
