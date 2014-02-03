@@ -1,14 +1,16 @@
 <?php
 /**
- * Factory of WSDL builders.
- *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Webapi\Model\Soap\Wsdl;
 
+/**
+ * Factory of WSDL builders.
+ */
 class Factory
 {
     /**

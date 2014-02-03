@@ -27,7 +27,7 @@ class Object
      * Convert input data into an array and return the resulting array.
      * The resulting array should not contain any objects.
      *
-     * @param mixed $data input data
+     * @param array $data input data
      * @return array Data converted to an array
      */
     public function convertDataToArray($data)
@@ -91,7 +91,6 @@ class Object
      * @param array $items
      * @param string|callable $idField
      * @param string|callable $valueField
-     *
      * @return array
      */
     public function toOptionArray(array $items, $idField, $valueField)
@@ -114,7 +113,6 @@ class Object
      * @param array $items
      * @param string|callable $idField
      * @param string|callable $valueField
-     *
      * @return array
      */
     public function toOptionHash(array $items, $idField, $valueField)
@@ -135,7 +133,6 @@ class Object
      *
      * @param mixed $item
      * @param string|callable $field
-     *
      * @return mixed
      */
     protected function _invokeGetter($item, $field)

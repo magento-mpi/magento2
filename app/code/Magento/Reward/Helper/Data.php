@@ -21,20 +21,74 @@ namespace Magento\Reward\Helper;
 class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
-     * XML configuration paths
+     * XML configuration paths - section general
+     *
+     * @var string
      */
     const XML_PATH_SECTION_GENERAL = 'magento_reward/general/';
+
+    /**
+     * XML configuration paths - section points
+     *
+     * @var string
+     */
     const XML_PATH_SECTION_POINTS = 'magento_reward/points/';
+
+    /**
+     * XML configuration paths - section notifications
+     *
+     * @var string
+     */
     const XML_PATH_SECTION_NOTIFICATIONS = 'magento_reward/notification/';
+
+    /**
+     * XML configuration paths - path enabled
+     *
+     * @var string
+     */
     const XML_PATH_ENABLED = 'magento_reward/general/is_enabled';
+
+    /**
+     * XML configuration paths - landing page
+     *
+     * @var string
+     */
     const XML_PATH_LANDING_PAGE = 'magento_reward/general/landing_page';
+
+    /**
+     * XML configuration paths - auto refund
+     *
+     * @var string
+     */
     const XML_PATH_AUTO_REFUND = 'magento_reward/general/refund_automatically';
 
+    /**
+     * XML configuration paths - permission balance
+     *
+     * @var string
+     */
     const XML_PATH_PERMISSION_BALANCE = 'Magento_Reward::reward_balance';
+
+    /**
+     * XML configuration paths - permission affect
+     *
+     * @var string
+     */
     const XML_PATH_PERMISSION_AFFECT = 'Magento_Reward::reward_spend';
 
+    /**
+     * @var array
+     */
     protected $_expiryConfig;
+
+    /**
+     * @var bool $_hasRates
+     */
     protected $_hasRates = true;
+
+    /**
+     * @var null
+     */
     protected $_ratesArray = null;
 
     /**
@@ -89,8 +143,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Setter for hasRates flag
      *
-     * @param boolean $flag
-     * @return \Magento\Reward\Helper\Data
+     * @param bool $flag
+     * @return $this
      */
     public function setHasRates($flag)
     {
@@ -101,7 +155,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Getter for hasRates flag
      *
-     * @return boolean
+     * @return bool
      */
     public function getHasRates()
     {
@@ -111,7 +165,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Check whether reward module is enabled in system config
      *
-     * @return boolean
+     * @return bool
      */
     public function isEnabled()
     {
@@ -121,8 +175,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Check whether reward module is enabled in system config on front per website
      *
-     * @param integer $websiteId
-     * @return boolean
+     * @param int $websiteId
+     * @return bool
      */
     public function isEnabledOnFront($websiteId = null)
     {
@@ -135,8 +189,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Check whether reward points can be gained for spending money
      *
-     * @param integer $websiteId
-     * @return boolean
+     * @param int $websiteId
+     * @return bool
      */
     public function isOrderAllowed($websiteId = null)
     {
@@ -151,8 +205,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
      *
      * @param string $section
      * @param string $field
-     * @param integer $websiteId
-     * @return mixed
+     * @param int $websiteId
+     * @return string
      */
     public function getConfigValue($section, $field, $websiteId = null)
     {
@@ -164,8 +218,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Retrieve config value from General section
      *
      * @param string $field
-     * @param integer $websiteId
-     * @return mixed
+     * @param int $websiteId
+     * @return string
      */
     public function getGeneralConfig($field, $websiteId = null)
     {
@@ -176,8 +230,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Retrieve config value from Points section
      *
      * @param string $field
-     * @param integer $websiteId
-     * @return mixed
+     * @param int $websiteId
+     * @return string
      */
     public function getPointsConfig($field, $websiteId = null)
     {
@@ -188,8 +242,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Retrieve config value from Notification section
      *
      * @param string $field
-     * @param integer $websiteId
-     * @return mixed
+     * @param int $websiteId
+     * @return string
      */
     public function getNotificationConfig($field, $websiteId = null)
     {
@@ -222,7 +276,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Format (add + or - sign) before given points count
      *
-     * @param integer $points
+     * @param int $points
      * @return string
      */
     public function formatPointsDelta($points)
@@ -255,6 +309,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param int|null $storeId
      * @param string $pointsFormat
      * @param string $amountFormat
+     * @return string
      */
     public function formatReward($points, $amount = null, $storeId = null, $pointsFormat = '%s', $amountFormat = '%s')
     {
@@ -352,7 +407,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param int $points
      * @param int $websiteId
      * @param int $customerGroupId
-     * return string|null
+     * @return string|null
      */
     public function getRateFromRatesArray($points, $websiteId, $customerGroupId)
     {
@@ -382,7 +437,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Check if automatically refund is enabled
      *
-     * @return boolean
+     * @return bool
      */
     public function isAutoRefundEnabled()
     {

@@ -38,6 +38,8 @@ class Reward extends \Magento\Backend\App\Action
 
     /**
      * History Ajax Action
+     *
+     * @return void
      */
     public function historyAction()
     {
@@ -48,6 +50,8 @@ class Reward extends \Magento\Backend\App\Action
     /**
      * History Grid Ajax Action
      *
+     * @return void
+     *
      */
     public function historyGridAction()
     {
@@ -57,6 +61,8 @@ class Reward extends \Magento\Backend\App\Action
 
     /**
      *  Delete orphan points Action
+     *
+     * @return void
      */
     public function deleteOrphanPointsAction()
     {
@@ -76,7 +82,7 @@ class Reward extends \Magento\Backend\App\Action
     /**
      * Acl check for admin
      *
-     * @return boolean
+     * @return bool
      */
     protected function _isAllowed()
     {

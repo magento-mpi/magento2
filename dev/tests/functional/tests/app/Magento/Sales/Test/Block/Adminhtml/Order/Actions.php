@@ -12,6 +12,7 @@
 namespace Magento\Sales\Test\Block\Adminhtml\Order;
 
 use Mtf\Block\Block;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class Actions
@@ -78,7 +79,37 @@ class Actions extends Block
     protected $ship = '#order_ship';
 
     /**
+     * 'Credit Memo' button on the order page
+     *
+     * @var string
+     */
+    protected $orderCreditMemo = '#order_creditmemo';
+
+    /**
+     * 'Credit Memo' button on the order invoice page
+     *
+     * @var string
+     */
+    protected $orderInvoiceCreditMemo = '#capture';
+
+    /**
+     * 'Refund' button
+     *
+     * @var string
+     */
+    protected $refund = '.submit-button.refund';
+
+    /**
+     * 'Refund Offline' button
+     *
+     * @var string
+     */
+    protected $refundOffline = '.submit-button';
+
+    /**
      * Ship order
+     *
+     * @return void
      */
     public function ship()
     {
@@ -87,6 +118,8 @@ class Actions extends Block
 
     /**
      * Invoice order
+     *
+     * @return void
      */
     public function invoice()
     {
@@ -95,6 +128,8 @@ class Actions extends Block
 
     /**
      * Go back
+     *
+     * @return void
      */
     public function back()
     {
@@ -103,6 +138,8 @@ class Actions extends Block
 
     /**
      * Edit order
+     *
+     * @return void
      */
     public function edit()
     {
@@ -111,6 +148,8 @@ class Actions extends Block
 
     /**
      * Cancel order
+     *
+     * @return void
      */
     public function cancel()
     {
@@ -119,6 +158,8 @@ class Actions extends Block
 
     /**
      * Send email
+     *
+     * @return void
      */
     public function sendEmail()
     {
@@ -127,6 +168,8 @@ class Actions extends Block
 
     /**
      * Void order
+     *
+     * @return void
      */
     public function void()
     {
@@ -135,9 +178,51 @@ class Actions extends Block
 
     /**
      * Hold order
+     *
+     * @return void
      */
     public function hold()
     {
         $this->_rootElement->find($this->hold)->click();
+    }
+
+    /**
+     * Order credit memo
+     *
+     * @return void
+     */
+    public function orderCreditMemo()
+    {
+        $this->_rootElement->find($this->orderCreditMemo)->click();
+    }
+
+    /**
+     * Order invoice credit memo
+     *
+     * @return void
+     */
+    public function orderInvoiceCreditMemo()
+    {
+        $this->_rootElement->find($this->orderInvoiceCreditMemo)->click();
+    }
+
+    /**
+     * Refund order
+     *
+     * @return void
+     */
+    public function refund()
+    {
+        $this->_rootElement->find($this->refund, Locator::SELECTOR_CSS)->click();
+    }
+
+    /**
+     * Refund offline order
+     *
+     * @return void
+     */
+    public function refundOffline()
+    {
+        $this->_rootElement->find($this->refundOffline, Locator::SELECTOR_CSS)->click();
     }
 }

@@ -30,7 +30,7 @@ class Config extends \Magento\Config\Data implements \Magento\Catalog\Model\Prod
      */
     public function getType($name)
     {
-        return $this->get($name, array());
+        return $this->get('types/' . $name, array());
     }
 
     /**
@@ -40,7 +40,7 @@ class Config extends \Magento\Config\Data implements \Magento\Catalog\Model\Prod
      */
     public function getAll()
     {
-        return $this->get();
+        return $this->get('types');
     }
 
     /**
@@ -51,6 +51,16 @@ class Config extends \Magento\Config\Data implements \Magento\Catalog\Model\Prod
      */
     public function isProductSet($typeId)
     {
-        return $this->get($typeId . '/is_product_set', false);
+        return 'true' == $this->get('types/' . $typeId . '/custom_attributes/is_product_set', false);
+    }
+
+    /**
+     * Get composable types
+     *
+     * @return array
+     */
+    public function getComposableTypes()
+    {
+        return $this->get('composableTypes', array());
     }
 }

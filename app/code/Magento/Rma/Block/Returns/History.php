@@ -52,6 +52,9 @@ class History extends \Magento\View\Element\Template
         $this->setReturns($returns);
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
@@ -64,16 +67,25 @@ class History extends \Magento\View\Element\Template
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getPagerHtml()
     {
         return $this->getChildHtml('pager');
     }
 
+    /**
+     * @return string
+     */
     public function getViewUrl($return)
     {
         return $this->getUrl('*/*/view', array('entity_id' => $return->getId()));
     }
 
+    /**
+     * @return string
+     */
     public function getBackUrl()
     {
         return $this->getUrl('customer/account/');

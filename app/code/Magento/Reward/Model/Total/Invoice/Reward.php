@@ -18,15 +18,17 @@
  */
 namespace Magento\Reward\Model\Total\Invoice;
 
+use Magento\Sales\Model\Order\Invoice;
+
 class Reward extends \Magento\Sales\Model\Order\Invoice\Total\AbstractTotal
 {
     /**
      * Collect reward total for invoice
      *
-     * @param \Magento\Sales\Model\Order\Invoice $invoice
-     * @return \Magento\Reward\Model\Total\Invoice\Reward
+     * @param Invoice $invoice
+     * @return $this
      */
-    public function collect(\Magento\Sales\Model\Order\Invoice $invoice)
+    public function collect(Invoice $invoice)
     {
         $order = $invoice->getOrder();
         $rewardCurrecnyAmountLeft = $order->getRewardCurrencyAmount() - $order->getRwrdCurrencyAmountInvoiced();

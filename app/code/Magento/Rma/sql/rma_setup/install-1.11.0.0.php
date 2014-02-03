@@ -702,11 +702,7 @@ $installer->addAttribute(\Magento\Catalog\Model\Product::ENTITY, 'is_returnable'
     'comparable'        => false,
     'visible_on_front'  => false,
     'unique'            => false,
-    'apply_to'          =>
-        \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE . ',' .
-        \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE . ',' .
-        \Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE . ',' .
-        \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE,
+    'apply_to'          => implode($this->getRefundableProducts(), ','),
     'is_configurable'   => false,
     'input_renderer'    => 'Magento\Rma\Block\Adminhtml\Product\Renderer',
 ));
@@ -730,11 +726,7 @@ $installer->addAttribute(\Magento\Catalog\Model\Product::ENTITY, 'use_config_is_
     'comparable'        => false,
     'visible_on_front'  => false,
     'unique'            => false,
-    'apply_to'          =>
-        \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE . ',' .
-        \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE . ',' .
-        \Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE . ',' .
-        \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE,
+    'apply_to'          => implode($this->getRefundableProducts(), ','),
     'is_configurable'   => false
 ));
 

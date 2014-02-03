@@ -131,6 +131,8 @@ return array(
     array('_needToAddDummy'),
     array('_needToAddDummyForShipment'),
     array('_outTemplate', 'Magento\Backend\App\AbstractAction'),
+    array('getCustomer', 'Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate', 'getCustomerId'),
+    array('_getAddressForm', 'Magento\Sales\Block\Adminhtml\Order\Create\Form\Address'),
     array('_parseDescription', 'Magento\Sales\Model\Order\Pdf\Items\AbstractItems'),
     array('_parsePackageTheme', 'Magento\Widget\Model\Widget\Instance'),
     array('_parseXmlTrackingResponse', 'Magento\Usa\Model\Shipping\Carrier\Fedex'),
@@ -1209,4 +1211,7 @@ return array(
     ],
     ['_ensureLocaleAndStore', 'Magento\Payment\Model\Recurring\Profile'],
     ['setLocale', 'Magento\Payment\Model\Recurring\Profile', 'Locale instance injected via constructor'],
+    array('_getSession', 'Magento\CatalogSearch\Controller\Result'),
+    array('addPriceBlockType', 'Magento\Rss\Block\Catalog\AbstractCatalog'),
+    array('getAttributeDisabledTypes', 'Magento\Catalog\Helper\Data'),
 );

@@ -27,16 +27,59 @@ class Firstdata extends \Magento\Pbridge\Model\Payment\Method
      */
     protected $_code = 'firstdata';
 
+    /**
+     * @var bool
+     */
     protected $_isGateway               = true;
+
+    /**
+     * @var bool
+     */
     protected $_canAuthorize            = true;
+
+    /**
+     * @var bool
+     */
     protected $_canCapture              = true;
+
+    /**
+     * @var bool
+     */
     protected $_canCapturePartial       = false;
+
+    /**
+     * @var bool
+     */
     protected $_canRefund               = true;
+
+    /**
+     * @var bool
+     */
     protected $_canRefundInvoicePartial = false;
+
+    /**
+     * @var bool
+     */
     protected $_canVoid                 = false;
+
+    /**
+     * @var bool
+     */
     protected $_canUseInternal          = true;
+
+    /**
+     * @var bool
+     */
     protected $_canUseCheckout          = true;
+
+    /**
+     * @var bool
+     */
     protected $_canUseForMultishipping  = false;
+
+    /**
+     * @var bool
+     */
     protected $_canSaveCc               = false;
 
     /**
@@ -44,7 +87,7 @@ class Firstdata extends \Magento\Pbridge\Model\Payment\Method
      *
      * @param \Magento\Object $payment
      * @param float $amount
-     * @return \Magento\Pbridge\Model\Payment\Method\Authorizenet
+     * @return $this
      */
     public function authorize(\Magento\Object $payment, $amount)
     {
@@ -58,7 +101,7 @@ class Firstdata extends \Magento\Pbridge\Model\Payment\Method
      *
      * @param \Magento\Object $payment
      * @param float $amount
-     * @return \Magento\Pbridge\Model\Payment\Method\Authorizenet
+     * @return $this
      */
     public function capture(\Magento\Object $payment, $amount)
     {
@@ -75,7 +118,7 @@ class Firstdata extends \Magento\Pbridge\Model\Payment\Method
      *
      * @param \Magento\Object $payment
      * @param float $amount
-     * @return \Magento\Pbridge\Model\Payment\Method\Authorizenet
+     * @return $this
      */
     public function refund(\Magento\Object $payment, $amount)
     {

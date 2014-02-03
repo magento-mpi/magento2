@@ -50,10 +50,10 @@ class FileResolver implements \Magento\Config\FileResolverInterface
         Filesystem $filesystem,
         \Magento\Config\FileIteratorFactory $iteratorFactory
     ) {
-        $this->iteratorFactory      = $iteratorFactory;
+        $this->iteratorFactory  = $iteratorFactory;
         $this->modulesDirectory = $filesystem->getDirectoryRead(Filesystem::MODULES_DIR);
         $this->configDirectory  = $filesystem->getDirectoryRead(Filesystem::CONFIG_DIR);
-        $this->rootDirectory     = $filesystem->getDirectoryRead(Filesystem::ROOT_DIR);
+        $this->rootDirectory    = $filesystem->getDirectoryRead(Filesystem::ROOT_DIR);
     }
 
     /**
@@ -63,7 +63,7 @@ class FileResolver implements \Magento\Config\FileResolverInterface
     public function get($filename, $scope)
     {
         $moduleDir = $this->modulesDirectory->getAbsolutePath();
-        $configDir =  $this->configDirectory->getAbsolutePath();
+        $configDir = $this->configDirectory->getAbsolutePath();
 
         $mageScopePath = $moduleDir . '/Magento';
         $output = array(

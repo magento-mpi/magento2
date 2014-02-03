@@ -51,6 +51,7 @@ class Onepage extends \Magento\Checkout\Block\Onepage\AbstractOnepage
         );
         $this->_isScopePrivate = true;
     }
+
     /**
      * Get 'one step checkout' step data
      *
