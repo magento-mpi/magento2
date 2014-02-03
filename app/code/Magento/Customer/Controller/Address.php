@@ -177,7 +177,7 @@ class Address extends \Magento\App\Action\Action
         }
 
         $this->_getSession()->setAddressFormData($this->getRequest()->getPost());
-        $url = $this->_buildUrl('*/*/edit', array('id' => $address->getId()));
+        $url = $this->_buildUrl('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
         $this->getResponse()->setRedirect($this->_redirect->error($url));
     }
 
@@ -188,12 +188,10 @@ class Address extends \Magento\App\Action\Action
      */
     protected function _extractAddress()
     {
-        $customerId = $this->_getSession()->getCustomerId();
-
         $addressId = $this->getRequest()->getParam('id');
         $existingAddressData = [];
         if ($addressId) {
-            $existingAddress = $this->_addressService->getAddressById($customerId, $addressId);
+            $existingAddress = $this->_addressService->getAddressById($addressId);
             if ($existingAddress->getId()) {
                 $existingAddressData = $existingAddress->__toArray();
             }
@@ -207,14 +205,12 @@ class Address extends \Magento\App\Action\Action
         );
         $addressData = $addressForm->extractData($this->getRequest());
         $attributeValues = $addressForm->compactData($addressData);
-        $region = $this->_regionBuilder->setRegionCode('')
-            ->setRegion($attributeValues['region'])
-            ->setRegionId($attributeValues['region_id'])
-            ->create();
+        $region = [
+            'region_id' => $attributeValues['region_id'],
+        ];
         unset($attributeValues['region'], $attributeValues['region_id']);
-
+        $attributeValues['region'] = $region;
         return $this->_addressBuilder->populateWithArray(array_merge($existingAddressData, $attributeValues))
-            ->setRegion($region)
             ->setDefaultBilling($this->getRequest()->getParam('default_billing', false))
             ->setDefaultShipping($this->getRequest()->getParam('default_shipping', false))
             ->create();

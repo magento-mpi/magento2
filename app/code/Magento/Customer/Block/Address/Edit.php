@@ -117,6 +117,11 @@ class Edit extends \Magento\Directory\Block\Data
         }
 
         if ($postedData = $this->_customerSession->getAddressFormData(true)) {
+            if (!empty($postedData['region_id'])) {
+                $postedData['region'] = [
+                    'region_id' => $postedData['region_id'],
+                ];
+            }
             $this->_address = $this->_addressBuilder
                 ->populateWithArray(array_merge($this->_address->__toArray(), $postedData))
                 ->create();
@@ -226,16 +231,12 @@ class Edit extends \Magento\Directory\Block\Data
 
     public function isDefaultBilling()
     {
-        $defaultBilling = $this->_addressService
-            ->getDefaultBillingAddress($this->_customerSession->getCustomerId());
-        return $this->getAddress()->getId() && $this->getAddress()->getId() == $defaultBilling;
+        return $this->getAddress()->isDefaultBilling();
     }
 
     public function isDefaultShipping()
     {
-        $defaultShipping = $this->_addressService
-            ->getDefaultShippingAddress($this->_customerSession->getCustomerId());
-        return $this->getAddress()->getId() && $this->getAddress()->getId() == $defaultShipping;
+        return $this->getAddress()->isDefaultShipping();
     }
 
     /**
