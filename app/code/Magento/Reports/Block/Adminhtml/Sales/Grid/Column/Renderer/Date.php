@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reports\Block\Adminhtml\Sales\Grid\Column\Renderer;
 
 /**
  * Adminhtml grid item renderer date
  */
-namespace Magento\Reports\Block\Adminhtml\Sales\Grid\Column\Renderer;
-
 class Date
     extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Date
 {

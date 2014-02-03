@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sendfriend\Block;
 
 /**
  * Email to a Friend Block
@@ -16,8 +16,6 @@
  * @package     Magento_Sendfriend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sendfriend\Block;
-
 class Send extends \Magento\View\Element\Template
 {
     /**
@@ -134,7 +132,7 @@ class Send extends \Magento\View\Element\Template
      * Set Form data array
      *
      * @param array $data
-     * @return \Magento\Sendfriend\Block\Send
+     * @return $this
      */
     public function setFormData($data)
     {

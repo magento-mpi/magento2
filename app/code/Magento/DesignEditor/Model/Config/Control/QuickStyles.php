@@ -7,33 +7,34 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\DesignEditor\Model\Config\Control;
+
+use Magento\Module\Dir\Reader;
 
 /**
  * Quick styles configuration
  */
-namespace Magento\DesignEditor\Model\Config\Control;
-
 class QuickStyles extends \Magento\DesignEditor\Model\Config\Control\AbstractControl
 {
     /**
      * Keys of layout params attributes
      *
-     * @var array
+     * @var string[]
      */
     protected $_controlAttributes = array('title', 'tab', 'column');
 
     /**
-     * @var \Magento\Module\Dir\Reader
+     * @var Reader
      */
     protected $_moduleReader;
 
     /**
-     * @param $configFiles
+     * @param array $configFiles
      * @param \Magento\Module\Dir\Reader $moduleReader
      */
     public function __construct(
         $configFiles,
-        \Magento\Module\Dir\Reader $moduleReader
+        Reader $moduleReader
     ) {
         $this->_moduleReader = $moduleReader;
         parent::__construct($configFiles);

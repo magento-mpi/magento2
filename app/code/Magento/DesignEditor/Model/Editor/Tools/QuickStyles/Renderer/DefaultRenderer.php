@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer;
+
 /**
  * Default css renderer
  */
-namespace Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer;
-
 class DefaultRenderer
     extends \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\AbstractRenderer
 {

@@ -17,6 +17,8 @@
  */
 namespace Magento\Reports\Controller\Adminhtml\Report;
 
+use Magento\App\ResponseInterface;
+
 class Shopcart extends \Magento\Backend\App\Action
 {
     /**
@@ -36,6 +38,11 @@ class Shopcart extends \Magento\Backend\App\Action
         parent::__construct($context);
     }
 
+    /**
+     * Add reports and shopping cart breadcrumbs
+     *
+     * @return $this
+     */
     public function _initAction()
     {
         $this->_view->loadLayout();
@@ -44,6 +51,11 @@ class Shopcart extends \Magento\Backend\App\Action
         return $this;
     }
 
+    /**
+     * Customer shopping carts action
+     *
+     * @return void
+     */
     public function customerAction()
     {
         $this->_title->add(__('Customer Shopping Carts'));
@@ -61,6 +73,8 @@ class Shopcart extends \Magento\Backend\App\Action
 
     /**
      * Export shopcart customer report to CSV format
+     *
+     * @return ResponseInterface
      */
     public function exportCustomerCsvAction()
     {
@@ -73,6 +87,8 @@ class Shopcart extends \Magento\Backend\App\Action
 
     /**
      * Export shopcart customer report to Excel XML format
+     *
+     * @return ResponseInterface
      */
     public function exportCustomerExcelAction()
     {
@@ -83,6 +99,11 @@ class Shopcart extends \Magento\Backend\App\Action
         return $this->_fileFactory->create($fileName, $content);
     }
 
+    /**
+     * Products in carts action
+     *
+     * @return void
+     */
     public function productAction()
     {
         $this->_title->add(__('Products in Carts'));
@@ -98,6 +119,8 @@ class Shopcart extends \Magento\Backend\App\Action
 
     /**
      * Export products report grid to CSV format
+     *
+     * @return ResponseInterface
      */
     public function exportProductCsvAction()
     {
@@ -110,6 +133,8 @@ class Shopcart extends \Magento\Backend\App\Action
 
     /**
      * Export products report to Excel XML format
+     *
+     * @return ResponseInterface
      */
     public function exportProductExcelAction()
     {
@@ -120,6 +145,11 @@ class Shopcart extends \Magento\Backend\App\Action
         return $this->_fileFactory->create($fileName, $content);
     }
 
+    /**
+     * Abandoned carts action
+     *
+     * @return void
+     */
     public function abandonedAction()
     {
         $this->_title->add(__('Abandoned Carts'));
@@ -135,6 +165,8 @@ class Shopcart extends \Magento\Backend\App\Action
 
     /**
      * Export abandoned carts report grid to CSV format
+     *
+     * @return ResponseInterface
      */
     public function exportAbandonedCsvAction()
     {
@@ -147,6 +179,8 @@ class Shopcart extends \Magento\Backend\App\Action
 
     /**
      * Export abandoned carts report to Excel XML format
+     *
+     * @return ResponseInterface
      */
     public function exportAbandonedExcelAction()
     {
@@ -157,6 +191,11 @@ class Shopcart extends \Magento\Backend\App\Action
         return $this->_fileFactory->create($fileName, $content);
     }
 
+    /**
+     * Determine if action is allowed for reports module
+     *
+     * @return bool
+     */
     protected function _isAllowed()
     {
         switch ($this->getRequest()->getActionName()) {
