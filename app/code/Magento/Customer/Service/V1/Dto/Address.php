@@ -13,13 +13,23 @@ use Magento\Customer\Service\V1\Dto\Region;
 
 class Address extends \Magento\Service\Entity\AbstractDto implements Eav\EntityInterface
 {
+    const ADDRESS_TYPE_BILLING = 'billing';
+    const ADDRESS_TYPE_SHIPPING = 'shipping';
 
     const KEY_COUNTRY_ID = 'country_id';
+    const KEY_DEFAULT_BILLING = 'default_billing';
+    const KEY_DEFAULT_SHIPPING = 'default_shipping';
 
     /**
      * @var array
      */
-    private static $_nonAttributes = ['id', 'customer_id', 'region', 'default_billing', 'default_shipping'];
+    private static $_nonAttributes = [
+        'id',
+        'customer_id',
+        'region',
+        self::KEY_DEFAULT_BILLING,
+        self::KEY_DEFAULT_SHIPPING
+    ];
 
     /**
      * @return int|null
@@ -34,7 +44,7 @@ class Address extends \Magento\Service\Entity\AbstractDto implements Eav\EntityI
      */
     public function isDefaultShipping()
     {
-        return $this->_get('default_shipping');
+        return $this->_get(self::KEY_DEFAULT_SHIPPING);
     }
 
     /**
@@ -42,7 +52,7 @@ class Address extends \Magento\Service\Entity\AbstractDto implements Eav\EntityI
      */
     public function isDefaultBilling()
     {
-        return $this->_get('default_billing');
+        return $this->_get(self::KEY_DEFAULT_BILLING);
     }
 
     /**

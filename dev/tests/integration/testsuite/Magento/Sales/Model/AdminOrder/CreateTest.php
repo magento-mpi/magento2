@@ -11,6 +11,7 @@ namespace Magento\Sales\Model\AdminOrder;
 use Magento\TestFramework\Helper\Bootstrap;
 
 /**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @magentoAppArea adminhtml
  */
 class CreateTest extends \PHPUnit_Framework_TestCase

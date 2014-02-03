@@ -629,28 +629,6 @@ class Quote extends \Magento\Core\Model\AbstractModel
      */
     public function getCustomerData()
     {
-        return $this->_customerData;
-    }
-
-    /**
-     * Set customer data object
-     *
-     * @param \Magento\Customer\Service\V1\Dto\Customer $customerData
-     * @return self
-     */
-    public function setCustomerData(\Magento\Customer\Service\V1\Dto\Customer $customerData)
-    {
-        $this->_customerData = $customerData;
-        return $this;
-    }
-
-    /**
-     * Retrieve customer data object
-     *
-     * @return \Magento\Customer\Service\V1\Dto\Customer
-     */
-    public function getCustomerData()
-    {
         /* @TODO: remove this code in favor of setCustomerData usage */
         $customerModel = $this->getCustomer();
         $customerData = $this->_converter->createCustomerFromModel($customerModel);
@@ -665,7 +643,19 @@ class Quote extends \Magento\Core\Model\AbstractModel
      */
     public function setCustomerData(\Magento\Customer\Service\V1\Dto\Customer $customerData)
     {
-        $this->_converter->updateCustomerModel($this->getCustomer(), $customerData);
+        $customer = $this->_customerFactory->create();
+        $customer->setData(
+            array_merge(
+                $customerData->__toArray(),
+                [\Magento\Customer\Service\V1\Dto\Customer::ID => $customerData->getCustomerId()]
+            )
+        );
+        $this->setCustomer($customer);
+        /**
+         * TODO: Implementation above was added instead of commented implementation
+         * which does not comply with setCustomer() implementation. Should be finalized in MAGETWO-19929
+         */
+        // $this->_converter->updateCustomerModel($this->getCustomer(), $customerData);
         return $this;
     }
 

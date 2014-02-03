@@ -501,6 +501,17 @@ class Data extends \Magento\App\Helper\AbstractHelper
     }
 
     /**
+     * Generate customer password.
+     *
+     * @param int $length
+     * @return string
+     */
+    public function generatePassword($length = 6)
+    {
+        return $this->mathRandom->getRandomString($length);
+    }
+
+    /**
      * Generate unique token for reset password confirmation link
      *
      * @return string

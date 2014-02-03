@@ -10,10 +10,13 @@ namespace Magento\Sales\Model\AdminOrder;
 
 use Magento\Customer\Service\V1\CustomerServiceInterface;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
+use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
+use Magento\Customer\Service\V1\Dto\AddressBuilder as CustomerAddressBuilder;
 use Magento\Customer\Service\V1\Dto\CustomerBuilder;
 use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 use Magento\Customer\Service\V1\Dto\Customer as CustomerDto;
 use Magento\Customer\Model\Metadata\Form as CustomerForm;
+use Magento\Customer\Service\V1\Dto\Address as CustomerAddressDto;
 
 /**
  * Order create model
@@ -142,6 +145,16 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     protected $_customerService;
 
     /**
+     * @var CustomerAddressServiceInterface
+     */
+    protected $_customerAddressService;
+
+    /**
+     * @var CustomerAddressBuilder
+     */
+    protected $_customerAddressBuilder;
+
+    /**
      * @var \Magento\Customer\Model\Metadata\FormFactory
      */
     protected $_metadataFormFactory;
@@ -171,6 +184,8 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      * @param \Magento\Object\Copy $objectCopyService
      * @param \Magento\Message\ManagerInterface $messageManager
      * @param CustomerServiceInterface $customerService
+     * @param CustomerAddressServiceInterface $customerAddressService
+     * @param CustomerAddressBuilder $customerAddressBuilder
      * @param \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory
      * @param CustomerBuilder $customerBuilder
      * @param \Magento\Customer\Helper\Data $customerHelper
@@ -187,6 +202,8 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         \Magento\Object\Copy $objectCopyService,
         \Magento\Message\ManagerInterface $messageManager,
         CustomerServiceInterface $customerService,
+        CustomerAddressServiceInterface $customerAddressService,
+        CustomerAddressBuilder $customerAddressBuilder,
         \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory,
         CustomerBuilder $customerBuilder,
         \Magento\Customer\Helper\Data $customerHelper,
@@ -202,6 +219,8 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         $this->_objectCopyService = $objectCopyService;
         $this->messageManager = $messageManager;
         $this->_customerService = $customerService;
+        $this->_customerAddressService = $customerAddressService;
+        $this->_customerAddressBuilder = $customerAddressBuilder;
         $this->_metadataFormFactory = $metadataFormFactory;
         $this->_customerBuilder = $customerBuilder;
         $this->_customerHelper = $customerHelper;
@@ -1487,12 +1506,10 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      * Set and validate Customer data
      *
      * @param CustomerDto $customerDto
-     * @return CustomerDto
      */
     protected function _validateCustomerData(CustomerDto $customerDto)
     {
         $form = $this->_createCustomerForm($customerDto);
-
         // emulate request
         $request = $form->prepareRequest(array('order' => $this->getData()));
         $data = $form->extractData($request, 'order/account');
@@ -1509,6 +1526,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         } else {
             $form->restoreData($data);
         }
+        $this->_generateValidationException();
     }
 
     /**
@@ -1522,145 +1540,138 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      */
     public function _prepareCustomer()
     {
-        /** @var $quote \Magento\Sales\Model\Quote */
-        $quote = $this->getQuote();
-        if ($quote->getCustomerIsGuest()) {
+        if ($this->getQuote()->getCustomerIsGuest()) {
             return $this;
         }
         /** @var $store \Magento\Core\Model\Store */
         $store = $this->getSession()->getStore();
-
-        $customerBillingAddress = null;
-        $customerShippingAddress = null;
-
-        $customerId = (int)$this->getSession()->getCustomerId();
-        // TODO: $customer usage should be refactored in scope of MAGETWO-20031.
-        try {
-            $customerDto = $this->_customerService->getCustomer($customerId);
-        } catch (\Exception $e) {
-            $customerDto = $this->_objectManager->create('Magento\Customer\Service\V1\Dto\CustomerBuilder')->create();
-        }
-
-        $originalCustomerDto = $customerDto;
-        /** @var \Magento\Customer\Model\Customer $customer */
-        $customer = $this->_objectManager->create('Magento\Customer\Model\Customer')->load($customerId);
-
-        if ($customer->getId()) {
-            // Create new customer if customer is not registered in specified store
-            if (!$this->_customerIsInStore($store)) {
-                $customer->setId(null)
-                    ->setStore($store)
-                    ->setDefaultBilling(null)
-                    ->setDefaultShipping(null)
-                    ->setPassword($customer->generatePassword());
-                $customerDto = $this->_convertCustomerToDto($customer);
-                $this->_validateCustomerData($customerDto);
-                // @todo Remove 3 lines after refactoring of this method
-                $data = $customerDto->__toArray();
-                unset($data[CustomerDto::ID]);
-                $customer->setData($data);
-            }
-
-            if ($this->getBillingAddress()->getSaveInAddressBook()) {
-                /** @var $customerBillingAddress \Magento\Customer\Model\Address */
-                $customerBillingAddress = $this->getBillingAddress()->exportCustomerAddress();
-                $customerAddressId = $this->getBillingAddress()->getCustomerAddressId();
-                if ($customerAddressId && $customer->getId()) {
-                    $customer->getAddressItemById($customerAddressId)->addData($customerBillingAddress->getData());
-                } else {
-                    $customer->addAddress($customerBillingAddress);
-                }
-            }
-
-            if (!$this->getQuote()->isVirtual() && $this->getShippingAddress()->getSaveInAddressBook()) {
-                /** @var $customerShippingAddress \Magento\Customer\Model\Address */
-                $customerShippingAddress = $this->getShippingAddress()->exportCustomerAddress();
-                $customerAddressId = $this->getShippingAddress()->getCustomerAddressId();
-                if ($customerAddressId && $customer->getId()) {
-                    $customer->getAddressItemById($customerAddressId)->addData($customerShippingAddress->getData());
-                } elseif (!empty($customerAddressId)
-                    && $customerBillingAddress !== null
-                    && $this->getBillingAddress()->getCustomerAddressId() == $customerAddressId
-                ) {
-                    $customerBillingAddress->setIsDefaultShipping(true);
-                } else {
-                    $customer->addAddress($customerShippingAddress);
-                }
-            }
-
-            if (is_null($customer->getDefaultBilling()) && $customerBillingAddress) {
-                $customerBillingAddress->setIsDefaultBilling(true);
-            }
-
-            if (is_null($customer->getDefaultShipping())) {
-                if ($this->getShippingAddress()->getSameAsBilling() && $customerBillingAddress) {
-                    $customerBillingAddress->setIsDefaultShipping(true);
-                } elseif ($customerShippingAddress) {
-                    $customerShippingAddress->setIsDefaultShipping(true);
-                }
-            }
-        } else {
-            // Prepare new customer
+        $customerDto = $this->getQuote()->getCustomerData();
+        if ($customerDto->getCustomerId() && !$this->_customerIsInStore($store)) {
+            /** Create a new customer record if it is not available in the specified store */
+            $customerData = array_merge($customerDto->__toArray(), [CustomerDto::STORE_ID => $store->getId()]);
+            /** Refresh customer DTO after its persistence */
+            $customerDto = $this->_createCustomer($customerData);
+        } else if (!$customerDto->getCustomerId()) {
+            /** Create new customer */
+            // TODO: exportCustomerAddress() should return $customerBillingAddressDto
+            // TODO: after MAGETWO-19791 implementation
             /** @var $customerBillingAddress \Magento\Customer\Model\Address */
             $customerBillingAddress = $this->getBillingAddress()->exportCustomerAddress();
-            $customer->addData($customerBillingAddress->getData())
-                ->setPassword($customer->generatePassword())
-                ->setStore($store);
-            $customer->setEmail($this->_getNewCustomerEmail($customer));
-            $customerDto = $this->_convertCustomerToDto($customer);
-            $this->_validateCustomerData($customerDto);
-            // @todo Remove 3 lines after refactoring of this method
-            $data = $customerDto->__toArray();
-            unset($data[CustomerDto::ID]);
-            $customer->setData($data);
 
-            if ($this->getBillingAddress()->getSaveInAddressBook()) {
-                $customerBillingAddress->setIsDefaultBilling(true);
-                $customer->addAddress($customerBillingAddress);
-            }
+            $customerData = array_merge(
+                $customerDto->__toArray(),
+                $customerBillingAddress->getData(), // TODO: Use $customerBillingAddressDto->__toArray() (MAGETWO-19791)
+                [CustomerDto::STORE_ID => $store->getId(), CustomerDto::EMAIL => $this->_getNewCustomerEmail()]
+            );
+            /** Refresh customer DTO after its persistence */
+            $customerDto = $this->_createCustomer($customerData);
+        }
+        /** Persist customer addresses if necessary */
+        if ($this->getBillingAddress()->getSaveInAddressBook()) {
+            $this->_saveCustomerAddress($customerDto, $this->getBillingAddress());
+        }
+        if (!$this->getQuote()->isVirtual() && $this->getShippingAddress()->getSaveInAddressBook()) {
+            $this->_saveCustomerAddress($customerDto, $this->getShippingAddress());
+        }
+        $this->getQuote()->setCustomerData($customerDto);
 
-            /** @var $shippingAddress \Magento\Sales\Model\Quote\Address */
-            $shippingAddress = $this->getShippingAddress();
-            if (!$this->getQuote()->isVirtual()
-                && !$shippingAddress->getSameAsBilling()
-                && $shippingAddress->getSaveInAddressBook()
-            ) {
-                /** @var $customerShippingAddress \Magento\Customer\Model\Address */
-                $customerShippingAddress = $shippingAddress->exportCustomerAddress();
-                $customerShippingAddress->setIsDefaultShipping(true);
-                $customer->addAddress($customerShippingAddress);
-            } else {
-                $customerBillingAddress->setIsDefaultShipping(true);
+        $customerData = $customerDto->__toArray();
+        foreach ($this->_createCustomerForm($customerDto)->getUserAttributes() as $attribute) {
+            if (isset($customerData[$attribute->getAttributeCode()])) {
+                $quoteCode = sprintf('customer_%s', $attribute->getAttributeCode());
+                $this->getQuote()->setData($quoteCode, $customerData[$attribute->getAttributeCode()]);
             }
         }
-
-        // Set quote customer data to customer
-        $customerDto = $this->_convertCustomerToDto($customer);
-        $this->_validateCustomerData($customerDto);
-        // @todo Remove 3 lines after refactoring of this method
-        $data = $customerDto->__toArray();
-        unset($data[CustomerDto::ID]);
-        $customer->setData($data);
-
-        // Set customer to quote and convert customer data to quote
-        $quote->setCustomer($customer);
-
-        foreach ($this->_createCustomerForm($this->_convertCustomerToDto($customer))->getUserAttributes() as $attribute) {
-        // @todo Uncomment after MAGETWO-20031
-        //foreach ($this->_createCustomerForm($customerDto)->getUserAttributes() as $attribute) {
-            $quoteCode = sprintf('customer_%s', $attribute->getAttributeCode());
-            $quote->setData($quoteCode, $customer->getData($attribute->getAttributeCode()));
-        }
-
-        if ($customer->getId()) {
-            $this->_createCustomerForm($this->_convertCustomerToDto($customer, true));
-            // @todo Uncomment after MAGETWO-20031
-            //$this->_createCustomerForm($originalCustomerDto);
-        } else {
-            $quote->setCustomerId(true);
-        }
-
         return $this;
+    }
+
+    /**
+     * Create new customer.
+     *
+     * @param array $customerData
+     * @return CustomerDto Created customer data
+     */
+    protected function _createCustomer($customerData)
+    {
+        /** Unset customer ID to ensure that new customer will be created */
+        $customerData[CustomerDto::ID] = null;
+        $customerDto = $this->_customerBuilder->populateWithArray($customerData)->create();
+        $this->_validateCustomerData($customerDto);
+        $customerId = $this->_customerService->saveCustomer($customerDto, $this->_customerHelper->generatePassword());
+        return $this->_customerService->getCustomer($customerId);
+    }
+
+    /**
+     * Persist provided quote customer address to database and associate it with the specified customer.
+     *
+     * @param CustomerDto $customerDto
+     * @param \Magento\Sales\Model\Quote\Address $quoteCustomerAddress
+     * @return int Customer address ID
+     * @throws \InvalidArgumentException
+     */
+    protected function _saveCustomerAddress($customerDto, $quoteCustomerAddress)
+    {
+        $customerId = $customerDto->getCustomerId();
+        if (!$customerId) {
+            throw new \InvalidArgumentException('Customer ID is not set.');
+        }
+        // TODO: exportCustomerAddress() should return $customerBillingAddressDto
+        // TODO: after MAGETWO-19791 implementation
+        /** @var $customerAddress \Magento\Customer\Model\Address */
+        $customerAddress = $quoteCustomerAddress->exportCustomerAddress();
+        $customerAddress->setCustomerId($customerId);
+        $customerAddress->save();
+        $customerAddressDto = $this->_customerAddressService->getAddressById(
+            $customerAddress->getCustomerId(),
+            $customerAddress->getId()
+        );
+
+        /** Customer address data may be updated and will be persisted */
+        $customerAddressData = $customerAddressDto->__toArray();
+        $quoteAddressId = $quoteCustomerAddress->getCustomerAddressId();
+        $addressType = $quoteCustomerAddress->getAddressType();
+        if ($quoteAddressId) {
+            /** Update existing address */
+            $existingAddressDto = $this->_customerAddressService->getAddressById($customerId, $quoteAddressId);
+            /** Update customer address data */
+            $customerAddressData = array_merge($existingAddressDto->__toArray(), $customerAddressData);
+        } else if ($addressType == CustomerAddressDto::ADDRESS_TYPE_SHIPPING ) {
+            try {
+                $billingAddressDto = $this->_customerAddressService->getDefaultBillingAddress($customerId);
+            } catch (\Exception $e) {
+                /** Billing address does not exist. */
+            }
+            $isShippingAsBilling = $quoteCustomerAddress->getSameAsBilling()
+                || (!empty($quoteAddressId) && ($this->getBillingAddress()->getCustomerAddressId() == $quoteAddressId));
+            if (isset($billingAddressDto) && $isShippingAsBilling) {
+                /** Set existing billing address as default shipping */
+                $customerAddressData = array_merge(
+                    $billingAddressDto->__toArray(),
+                    [CustomerAddressDto::KEY_DEFAULT_SHIPPING => true]
+                );
+            }
+        }
+
+        switch ($addressType) {
+            case CustomerAddressDto::ADDRESS_TYPE_BILLING:
+                if (is_null($customerDto->getDefaultBilling())) {
+                    $customerAddressData[CustomerAddressDto::KEY_DEFAULT_BILLING] = true;
+                }
+                break;
+            case CustomerAddressDto::ADDRESS_TYPE_SHIPPING:
+                if (is_null($customerDto->getDefaultShipping())) {
+                    $customerAddressData[CustomerAddressDto::KEY_DEFAULT_SHIPPING] = true;
+                }
+                break;
+            default:
+                throw new \InvalidArgumentException('Customer address type is invalid.');
+        }
+
+        /** Update customer address DTO */
+        $customerAddressDto = $this->_customerAddressBuilder->populateWithArray($customerAddressData)->create();
+        /** Create new address or update existing one depending on customer address DTO */
+        $addressIds = $this->_customerAddressService->saveAddresses($customerId, [$customerAddressDto]);
+        return $addressIds[0];
     }
 
     /**
@@ -1796,30 +1807,23 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
                 }
             }
         }
-
-        if (!empty($this->_errors)) {
-            foreach ($this->_errors as $error) {
-                $this->messageManager->addError($error);
-            }
-            throw new \Magento\Core\Exception('');
-        }
+        $this->_generateValidationException();
         return $this;
     }
 
     /**
-     * Retrieve new customer email
+     * Retrieve or generate new customer email.
      *
-     * @param   \Magento\Customer\Model\Customer $customer
-     * @return  string
+     * @return string
      */
-    protected function _getNewCustomerEmail($customer)
+    protected function _getNewCustomerEmail()
     {
         $email = $this->getData('account/email');
         if (empty($email)) {
             $host = $this->getSession()
                 ->getStore()
                 ->getConfig(\Magento\Customer\Model\Customer::XML_PATH_DEFAULT_EMAIL_DOMAIN);
-            $account = $customer->getIncrementId() ? $customer->getIncrementId() : time();
+            $account = time();
             $email = $account.'@'. $host;
             $account = $this->getData('account');
             $account['email'] = $email;
@@ -1858,5 +1862,21 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         return $this->_customerBuilder
             ->populateWithArray(array_merge($customer->__toArray(), $newData))
             ->create();
+    }
+
+    /**
+     * Generate validation exception if any errors were found before this method invocation.
+     *
+     * @throws \Magento\Core\Exception
+     */
+    protected function _generateValidationException()
+    {
+        if (!empty($this->_errors)) {
+            foreach ($this->_errors as $error) {
+                $this->messageManager->addError($error);
+            }
+            throw new \Magento\Core\Exception('');
+        }
+        return $this;
     }
 }
