@@ -1598,7 +1598,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      *
      * @return bool
      */
-    public function  isCacheable()
+    public function isCacheable()
     {
         return !(boolean)count($this->_xml->xpath('//' . Element::TYPE_BLOCK . '[@cacheable="false"]'));
     }
@@ -1617,9 +1617,11 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      * Mark layout as private
      *
      * @param bool $isPrivate
+     * @return Layout
      */
-    public function setIsPrivate($isPrivate)
+    public function setIsPrivate($isPrivate = true)
     {
         $this->isPrivate = (bool) $isPrivate;
+        return $this;
     }
 }

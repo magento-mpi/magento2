@@ -40,7 +40,7 @@ class Block extends \Magento\App\Action\Action
             }
         }
 
-        $layout->setIsPrivate(true);
+        $layout->setIsPrivate();
 
         $this->getResponse()->appendBody(json_encode($data));
     }
