@@ -9,8 +9,12 @@
  */
 namespace Magento\Module\Dir;
 
-use Magento\Filesystem\Directory\Read;
 use Magento\App\Filesystem;
+use Magento\Config\FileIterator;
+use Magento\Config\FileIteratorFactory;
+use Magento\Filesystem\Directory\Read;
+use Magento\Module\ModuleListInterface;
+use Magento\Module\Dir;
 
 class Reader
 {
@@ -24,14 +28,14 @@ class Reader
     /**
      * Directory registry
      *
-     * @var \Magento\Module\Dir
+     * @var Dir
      */
     protected $moduleDirs;
 
     /**
      * Modules configuration provider
      *
-     * @var \Magento\Module\ModuleListInterface
+     * @var ModuleListInterface
      */
     protected $modulesList;
 
@@ -40,19 +44,22 @@ class Reader
      */
     protected $modulesDirectory;
 
+    /**
+     * @var FileIteratorFactory
+     */
     protected $fileIteratorFactory;
 
     /**
-     * @param \Magento\Module\Dir $moduleDirs
-     * @param \Magento\Module\ModuleListInterface $moduleList
+     * @param Dir $moduleDirs
+     * @param ModuleListInterface $moduleList
      * @param Filesystem $filesystem
-     * @param \Magento\Config\FileIteratorFactory $fileIteratorFactory
+     * @param FileIteratorFactory $fileIteratorFactory
      */
     public function __construct(
-        \Magento\Module\Dir                 $moduleDirs,
-        \Magento\Module\ModuleListInterface $moduleList,
-        \Magento\App\Filesystem             $filesystem,
-        \Magento\Config\FileIteratorFactory $fileIteratorFactory
+        Dir                 $moduleDirs,
+        ModuleListInterface $moduleList,
+        Filesystem          $filesystem,
+        FileIteratorFactory $fileIteratorFactory
     ) {
         $this->moduleDirs           = $moduleDirs;
         $this->modulesList          = $moduleList;
@@ -63,8 +70,8 @@ class Reader
     /**
      * Go through all modules and find configuration files of active modules
      *
-     * @param $filename
-     * @return \Magento\Config\FileIterator
+     * @param string $filename
+     * @return FileIterator
      */
     public function getConfigurationFiles($filename)
     {
@@ -100,6 +107,7 @@ class Reader
      * @param string $moduleName
      * @param string $type directory type (etc, controllers, locale etc)
      * @param string $path
+     * @return void
      */
     public function setModuleDir($moduleName, $type, $path)
     {

@@ -107,7 +107,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Retrieve inventory item options (used in config)
      *
-     * @return array
+     * @return string[]
      */
     public function getConfigItemOptions()
     {
@@ -136,6 +136,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
 
     /**
      * Check if creditmemo items auto return option is enabled
+     *
      * @return bool
      */
     public function isAutoReturnEnabled()

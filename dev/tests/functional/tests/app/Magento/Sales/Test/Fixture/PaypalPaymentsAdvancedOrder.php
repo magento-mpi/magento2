@@ -46,5 +46,7 @@ class PaypalPaymentsAdvancedOrder extends OrderCheckout
         $formBlock = Factory::getPageFactory()->getCheckoutOnepage()->getPayflowAdvancedCcBlock();
         $formBlock->fill($this->checkoutFixture);
         $formBlock->pressContinue();
+        $checkoutOnePageSuccess = Factory::getPageFactory()->getCheckoutOnepageSuccess();
+        $this->orderId = $checkoutOnePageSuccess->getSuccessBlock()->getOrderId($this);
     }
 }

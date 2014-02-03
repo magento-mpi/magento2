@@ -59,7 +59,7 @@ class Observer
     protected $_backendAuthSession;
 
     /**
-     * @var \Magento\Backend\Model\Url
+     * @var \Magento\Backend\Model\UrlInterface
      */
     protected $_backendUrl;
 
@@ -86,7 +86,7 @@ class Observer
     /**
      * @var \Magento\VersionsCms\Model\Resource\Page\Version\CollectionFactory
      */
-    protected $_versionCollFactory;
+    protected $_versionCollectionFactory;
 
     /**
      * @var \Magento\Core\Model\Resource\Iterator
@@ -96,7 +96,7 @@ class Observer
     /**
      * @var \Magento\Widget\Model\Resource\Widget\Instance\CollectionFactory
      */
-    protected $_widgetCollFactory;
+    protected $_widgetCollectionFactory;
 
     /**
      * @var \Magento\VersionsCms\Model\Resource\Hierarchy\Node
@@ -121,14 +121,14 @@ class Observer
      * @param \Magento\AuthorizationInterface $authorization
      * @param \Magento\Backend\Model\Config\Source\Yesno $sourceYesno
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
-     * @param \Magento\Backend\Model\Url $backendUrl
+     * @param \Magento\Backend\Model\UrlInterface $backendUrl
      * @param \Magento\VersionsCms\Model\Page\RevisionFactory $revisionFactory
      * @param \Magento\VersionsCms\Model\Hierarchy\NodeFactory $hierarchyNodeFactory
      * @param \Magento\VersionsCms\Model\Hierarchy\Node $hierarchyNode
      * @param \Magento\VersionsCms\Model\Page\VersionFactory $pageVersionFactory
-     * @param \Magento\VersionsCms\Model\Resource\Page\Version\CollectionFactory $versionCollFactory
+     * @param \Magento\VersionsCms\Model\Resource\Page\Version\CollectionFactory $versionCollectionFactory
      * @param \Magento\Core\Model\Resource\Iterator $resourceIterator
-     * @param \Magento\Widget\Model\Resource\Widget\Instance\CollectionFactory $widgetCollFactory
+     * @param \Magento\Widget\Model\Resource\Widget\Instance\CollectionFactory $widgetCollectionFactory
      * @param \Magento\VersionsCms\Model\Resource\Hierarchy\Node $hierarchyNodeResource
      * @param \Magento\VersionsCms\Model\Resource\Increment $cmsIncrement
      * @param \Magento\App\RequestInterface $httpRequest
@@ -143,14 +143,14 @@ class Observer
         \Magento\AuthorizationInterface $authorization,
         \Magento\Backend\Model\Config\Source\Yesno $sourceYesno,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
-        \Magento\Backend\Model\Url $backendUrl,
+        \Magento\Backend\Model\UrlInterface $backendUrl,
         \Magento\VersionsCms\Model\Page\RevisionFactory $revisionFactory,
         \Magento\VersionsCms\Model\Hierarchy\NodeFactory $hierarchyNodeFactory,
         \Magento\VersionsCms\Model\Hierarchy\Node $hierarchyNode,
         \Magento\VersionsCms\Model\Page\VersionFactory $pageVersionFactory,
-        \Magento\VersionsCms\Model\Resource\Page\Version\CollectionFactory $versionCollFactory,
+        \Magento\VersionsCms\Model\Resource\Page\Version\CollectionFactory $versionCollectionFactory,
         \Magento\Core\Model\Resource\Iterator $resourceIterator,
-        \Magento\Widget\Model\Resource\Widget\Instance\CollectionFactory $widgetCollFactory,
+        \Magento\Widget\Model\Resource\Widget\Instance\CollectionFactory $widgetCollectionFactory,
         \Magento\VersionsCms\Model\Resource\Hierarchy\Node $hierarchyNodeResource,
         \Magento\VersionsCms\Model\Resource\Increment $cmsIncrement,
         \Magento\App\RequestInterface $httpRequest
@@ -167,9 +167,9 @@ class Observer
         $this->_hierarchyNodeFactory = $hierarchyNodeFactory;
         $this->_hierarchyNode = $hierarchyNode;
         $this->_pageVersionFactory = $pageVersionFactory;
-        $this->_versionCollFactory = $versionCollFactory;
+        $this->_versionCollectionFactory = $versionCollectionFactory;
         $this->_resourceIterator = $resourceIterator;
-        $this->_widgetCollFactory = $widgetCollFactory;
+        $this->_widgetCollectionFactory = $widgetCollectionFactory;
         $this->_hierarchyNodeResource = $hierarchyNodeResource;
         $this->_cmsIncrement = $cmsIncrement;
         $this->_httpRequest = $httpRequest;
@@ -386,7 +386,7 @@ class Observer
     public function adminUserDeleteAfter()
     {
         /** @var \Magento\VersionsCms\Model\Resource\Page\Version\Collection $collection */
-        $collection = $this->_versionCollFactory->create()
+        $collection = $this->_versionCollectionFactory->create()
             ->addAccessLevelFilter(\Magento\VersionsCms\Model\Page\Version::ACCESS_LEVEL_PRIVATE)
             ->addUserIdFilter();
 
@@ -444,7 +444,7 @@ class Observer
         $this->_hierarchyNodeFactory->create()->deleteByScope($storeScope, $storeId);
 
         /** @var \Magento\Widget\Model\Resource\Widget\Instance\Collection $widgets */
-        $widgets = $this->_widgetCollFactory->create()
+        $widgets = $this->_widgetCollectionFactory->create()
                 ->addStoreFilter(array($storeId, false))
                 ->addFieldToFilter('instance_type', 'Magento\VersionsCms\Block\Widget\Node');
 

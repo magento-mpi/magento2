@@ -19,6 +19,9 @@ class Tracking extends \Magento\View\Element\Template
      */
     protected $_isRmaAvailableForPrintLabel;
 
+    /**
+     * @var string
+     */
     protected $_template = 'return/tracking.phtml';
 
     /**
@@ -40,6 +43,7 @@ class Tracking extends \Magento\View\Element\Template
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
+        $this->_isScopePrivate = true;
     }
 
     /**

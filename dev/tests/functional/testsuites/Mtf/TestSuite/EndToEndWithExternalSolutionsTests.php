@@ -35,13 +35,17 @@ class EndToEndWithExternalSolutionsTests
         $suite->addTestSuite('Magento\Checkout\Test\TestCase\ProductAdvancedPricingTest');
         $suite->addTestSuite('Magento\Checkout\Test\TestCase\ShippingCarrierTest');
         // Multishipping
-        $suite->addTestSuite('Magento\Checkout\Test\TestCase\MultishippingTest');
+        $suite->addTestSuite('Magento\Multishipping\Test\TestCase\MultishippingTest');
 
         // RMA
         $suite->addTestSuite('Magento\Rma\Test\TestCase\RmaTest');
 
         // Orders. Backend
         $suite->addTestSuite('Magento\Sales\Test\TestCase\CloseOrderTest');
+
+        // Refunds
+        $suite->addTestSuite('Magento\Sales\Test\TestCase\OnlineRefundTest');
+        $suite->addTestSuite('Magento\Sales\Test\TestCase\OfflineRefundTest');
 
         // VAT
         $suite->addTestSuite('Magento\Tax\Test\TestCase\AutomaticTaxApplyingTest');

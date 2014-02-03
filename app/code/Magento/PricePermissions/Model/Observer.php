@@ -17,6 +17,10 @@
  */
 namespace Magento\PricePermissions\Model;
 
+use Magento\Backend\Block\Template;
+use Magento\Event\Observer as EventObserver;
+use Magento\Backend\Block\Widget\Grid;
+
 class Observer
 {
     /**
@@ -29,21 +33,21 @@ class Observer
     /**
      * Edit Product Price flag
      *
-     * @var boolean
+     * @var bool
      */
     protected $_canEditProductPrice;
 
     /**
      * Read Product Price flag
      *
-     * @var boolean
+     * @var bool
      */
     protected $_canReadProductPrice;
 
     /**
      * Edit Product Status flag
      *
-     * @var boolean
+     * @var bool
      */
     protected $_canEditProductStatus;
 
@@ -154,7 +158,8 @@ class Observer
     /**
      * Reinit stores only with allowed scopes
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
+     * @return void
      */
     public function adminControllerPredispatch($observer)
     {
@@ -174,7 +179,8 @@ class Observer
     /**
      * Call needed function depending on block name
      *
-     * @param \Magento\Backend\Block\Template $block
+     * @param Template $block
+     * @return void
      */
     protected function _filterByBlockName($block)
     {
@@ -189,7 +195,8 @@ class Observer
     /**
      * Remove status option in massaction
      *
-     * @param \Magento\Backend\Block\Template $block
+     * @param Template $block
+     * @return void
      */
     protected function _removeStatusMassaction($block)
     {
@@ -201,7 +208,8 @@ class Observer
     /**
      * Remove price column from grid
      *
-     * @param \Magento\Backend\Block\Template $block
+     * @param Template $block
+     * @return void
      */
     protected function _removeColumnPrice($block)
     {
@@ -211,7 +219,8 @@ class Observer
     /**
      * Remove price and total columns from grid
      *
-     * @param \Magento\Backend\Block\Template $block
+     * @param Template $block
+     * @return void
      */
     protected function _removeColumnsPriceTotal($block)
     {
@@ -221,7 +230,8 @@ class Observer
     /**
      * Set read price to false
      *
-     * @param \Magento\Backend\Block\Template $block
+     * @param Template $block
+     * @return void
      */
     protected function _setCanReadPriceFalse($block)
     {
@@ -233,7 +243,8 @@ class Observer
     /**
      * Set read and edit price to false
      *
-     * @param \Magento\Backend\Block\Template $block
+     * @param Template $block
+     * @return void
      */
     protected function _setCanEditReadPriceFalse($block)
     {
@@ -246,7 +257,8 @@ class Observer
     /**
      * Set edit and read tab to false
      *
-     * @param \Magento\Backend\Block\Template $block
+     * @param Template $block
+     * @return void
      */
     protected function _setTabEditReadFalse($block)
     {
@@ -261,7 +273,8 @@ class Observer
     /**
      * Set edit and read price in child block to false
      *
-     * @param \Magento\Backend\Block\Template $block
+     * @param Template $block
+     * @return void
      */
     protected function _setOptionsEditReadFalse($block)
     {
@@ -279,7 +292,8 @@ class Observer
     /**
      * Set default product price
      *
-     * @param \Magento\Backend\Block\Template $block
+     * @param Template $block
+     * @return void
      */
     protected function _setCanEditReadDefaultPrice($block)
     {
@@ -292,7 +306,8 @@ class Observer
     /**
      * Set edit and read price to child block
      *
-     * @param \Magento\Backend\Block\Template $block
+     * @param Template $block
+     * @return void
      */
     protected function _setCanEditReadChildBlock($block)
     {
@@ -315,7 +330,8 @@ class Observer
     /**
      * Set form element value and readonly
      *
-     * @param \Magento\Backend\Block\Template $block
+     * @param Template $block
+     * @return void
      */
     protected function _setFormElementAttributes($block)
     {
@@ -336,12 +352,12 @@ class Observer
     /**
      * Handle adminhtml_block_html_before event
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
      * @return void
      */
     public function adminhtmlBlockHtmlBefore($observer)
     {
-        /** @var $block \Magento\Backend\Block\Template */
+        /** @var $block Template */
         $block = $observer->getBlock();
 
         $this->_filterByBlockName($block);
@@ -360,8 +376,9 @@ class Observer
     /**
      * Remove columns from grid
      *
-     * @param \Magento\Backend\Block\Widget\Grid $block
+     * @param Grid $block
      * @param array $columns
+     * @return void
      */
     protected function _removeColumnsFromGrid($block, array $columns)
     {
@@ -375,9 +392,9 @@ class Observer
     /**
      * Remove column from grid
      *
-     * @param \Magento\Backend\Block\Widget\Grid $block
+     * @param Grid $block
      * @param string $column
-     * @return \Magento\Backend\Block\Widget\Grid|bool
+     * @return Grid|bool
      */
     protected function _removeColumnFromGrid($block, $column)
     {
@@ -390,7 +407,7 @@ class Observer
     /**
      * Handle view_block_abstract_to_html_before event
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
      * @return void
      */
     public function viewBlockAbstractToHtmlBefore($observer)
@@ -434,10 +451,10 @@ class Observer
     /**
      * Handle catalog_product_load_after event
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
      * @return void
      */
-    public function catalogProductLoadAfter(\Magento\Event\Observer $observer)
+    public function catalogProductLoadAfter(EventObserver $observer)
     {
         /** @var $product \Magento\Catalog\Model\Product */
         $product = $observer->getEvent()->getDataObject();
@@ -472,10 +489,10 @@ class Observer
     /**
      * Handle catalog_product_save_before event
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
      * @return void
      */
-    public function catalogProductSaveBefore(\Magento\Event\Observer $observer)
+    public function catalogProductSaveBefore(EventObserver $observer)
     {
         /** @var $product \Magento\Catalog\Model\Product */
         $product = $observer->getEvent()->getDataObject();
@@ -487,10 +504,10 @@ class Observer
     /**
      * Handle adminhtml_catalog_product_edit_prepare_form event
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
      * @return void
      */
-    public function adminhtmlCatalogProductEditPrepareForm(\Magento\Event\Observer $observer)
+    public function adminhtmlCatalogProductEditPrepareForm(EventObserver $observer)
     {
         /** @var $product \Magento\Catalog\Model\Product */
         $product = $this->_coreRegistry->registry('product');
@@ -510,7 +527,7 @@ class Observer
     /**
      * Handle adminhtml_catalog_product_form_prepare_excluded_field_list event
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
      * @return void
      */
     public function adminhtmlCatalogProductFormPrepareExcludedFieldList($observer)
@@ -536,7 +553,7 @@ class Observer
     /**
      * Handle catalog_product_attribute_update_before event
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
      * @return void
      */
     public function catalogProductAttributeUpdateBefore($observer)

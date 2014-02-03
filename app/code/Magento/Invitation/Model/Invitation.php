@@ -53,9 +53,19 @@ class Invitation extends \Magento\Core\Model\AbstractModel
     const ERROR_INVALID_DATA    = 2;
     const ERROR_CUSTOMER_EXISTS = 3;
 
+    /**
+     * @inheritdoc
+     */
     private static $_customerExistsLookup = array();
 
+    /**
+     * @inheritdoc
+     */
     protected $_eventPrefix = 'magento_invitation';
+
+    /**
+     * @inheritdoc
+     */
     protected $_eventObject = 'invitation';
 
     /**
@@ -176,7 +186,7 @@ class Invitation extends \Magento\Core\Model\AbstractModel
      * Load invitation by an encrypted code
      *
      * @param string $code
-     * @return \Magento\Invitation\Model\Invitation
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     public function loadByInvitationCode($code)
@@ -197,7 +207,7 @@ class Invitation extends \Magento\Core\Model\AbstractModel
      * Model before save
      *
      * @throws \Magento\Core\Exception
-     * @return \Magento\Invitation\Model\Invitation
+     * @return $this
      */
     protected function _beforeSave()
     {
@@ -240,7 +250,7 @@ class Invitation extends \Magento\Core\Model\AbstractModel
     /**
      * Update status history after save
      *
-     * @return \Magento\Invitation\Model\Invitation
+     * @return $this
      */
     protected function _afterSave()
     {
@@ -315,6 +325,7 @@ class Invitation extends \Magento\Core\Model\AbstractModel
     /**
      * Check whether invitation can be sent
      *
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function makeSureCanBeSent()
@@ -340,6 +351,7 @@ class Invitation extends \Magento\Core\Model\AbstractModel
      *
      * @param string $email
      * @param string $websiteId
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function makeSureCustomerNotExists($email = null, $websiteId = null)
@@ -375,6 +387,7 @@ class Invitation extends \Magento\Core\Model\AbstractModel
      * Check whether this invitation can be accepted
      *
      * @param int|string $websiteId
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function makeSureCanBeAccepted($websiteId = null)
@@ -437,7 +450,7 @@ class Invitation extends \Magento\Core\Model\AbstractModel
     /**
      * Cancel the invitation
      *
-     * @return \Magento\Invitation\Model\Invitation
+     * @return $this
      */
     public function cancel()
     {
@@ -452,7 +465,7 @@ class Invitation extends \Magento\Core\Model\AbstractModel
      *
      * @param int|string $websiteId
      * @param int $referralId
-     * @return \Magento\Invitation\Model\Invitation
+     * @return $this
      */
     public function accept($websiteId, $referralId)
     {
@@ -490,7 +503,7 @@ class Invitation extends \Magento\Core\Model\AbstractModel
      *
      * Returns true or array of errors
      *
-     * @return mixed
+     * @return string[]|bool
      */
     public function validate()
     {

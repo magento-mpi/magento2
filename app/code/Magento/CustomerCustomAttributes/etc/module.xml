@@ -20,6 +20,8 @@
             <module name="Magento_Core"/>
             <module name="Magento_CustomAttribute"/>
             <module name="Magento_Backend"/>
+            <module name="Magento_Directory"/>
+            <module name="Magento_Checkout"/>
         </depends>
     </module>
 </config>

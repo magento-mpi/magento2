@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Rma\Block\Adminhtml\Rma\NewRma\Tab\Items\Order;
+
 /**
  * Admin RMA create order grid block
  */
-namespace Magento\Rma\Block\Adminhtml\Rma\NewRma\Tab\Items\Order;
-
 class Grid
     extends \Magento\Backend\Block\Widget\Grid\Extended
 {
@@ -58,7 +58,6 @@ class Grid
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Rma\Model\Resource\ItemFactory $itemFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -68,7 +67,6 @@ class Grid
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Url $urlModel,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Rma\Model\Resource\ItemFactory $itemFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
@@ -80,7 +78,7 @@ class Grid
         $this->_productFactory = $productFactory;
         $this->_rmaData = $rmaData;
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($context, $urlModel, $backendHelper, $data);
+        parent::__construct($context, $backendHelper, $data);
     }
 
     /**
@@ -98,7 +96,7 @@ class Grid
     /**
      * Prepare grid collection object
      *
-     * @return \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid
+     * @return $this
      */
     protected function _prepareCollection()
     {
@@ -116,7 +114,7 @@ class Grid
      * Filter items collection due to RMA needs. Remove forbidden items, non-applicable
      * bundles (and their children) and configurables
      *
-     * @return \Magento\Rma\Block\Adminhtml\Rma\NewRma\Tab\Items\Order\Grid
+     * @return $this
      */
     protected function _afterLoadCollection()
     {
@@ -200,7 +198,7 @@ class Grid
     /**
      * Prepare columns
      *
-     * @return \Magento\Backend\Block\Widget\Grid\Extended
+     * @return $this
      */
     protected function _prepareColumns()
     {
@@ -299,7 +297,7 @@ class Grid
     /**
      * List of selected products
      *
-     * @return array
+     * @return int[]
      */
     protected function _getSelectedProducts()
     {
@@ -320,7 +318,7 @@ class Grid
      * Setting column filters to collection
      *
      * @param \Magento\Backend\Block\Widget\Grid\Column $column
-     * @return \Magento\Rma\Block\Adminhtml\Rma\NewRma\Tab\Items\Order\Grid
+     * @return $this
      */
     protected function _addColumnFilterToCollection($column)
     {

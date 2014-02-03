@@ -122,9 +122,9 @@ class MediaTest extends \PHPUnit_Framework_TestCase
     public function testProcessRequestDoesNothingIfApplicationIsNotInstalled()
     {
         $this->_appState->expects($this->once())->method('isInstalled')->will($this->returnValue(false));
-        $this->_responseMock->expects($this->once())->method('sendNotFound');
+        $this->_responseMock->expects($this->once())->method('setHttpResponseCode')->with(404);
         $this->_requestMock->expects($this->never())->method('getPathInfo');
-        $this->assertEquals(-1, $this->_model->execute());
+        $this->assertEquals($this->_responseMock, $this->_model->launch());
     }
 
     public function testProcessRequestCreatesConfigFileMediaDirectoryIsNotProvided()
@@ -146,8 +146,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
             ->with('Magento\Core\Model\File\Storage\Config')
             ->will($this->returnValue($this->_configMock));
         $this->_configMock->expects($this->once())->method('save');
-        $this->assertEquals(-1, $this->_model->execute());
-
+        $this->assertEquals($this->_responseMock, $this->_model->launch());
     }
 
     public function testProcessRequestReturnsNotFoundResponseIfResourceIsNotAllowed()
@@ -168,13 +167,13 @@ class MediaTest extends \PHPUnit_Framework_TestCase
             $this->filesystemMock
         );
         $this->_appState->expects($this->once())->method('isInstalled')->will($this->returnValue(true));
-        $this->_responseMock->expects($this->once())->method('sendNotFound');
+        $this->_responseMock->expects($this->once())->method('setHttpResponseCode')->with(404);
         $this->_requestMock->expects($this->once())->method('getPathInfo');
         $this->_objectManagerMock->expects($this->once())->method('create')
             ->with('Magento\Core\Model\File\Storage\Config')
             ->will($this->returnValue($this->_configMock));
         $this->_configMock->expects($this->once())->method('getAllowedResources')->will($this->returnValue(false));
-        $this->assertEquals(-1, $this->_model->execute());
+        $this->assertEquals($this->_responseMock, $this->_model->launch());
 
     }
 
@@ -183,9 +182,9 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         $this->_appState->expects($this->once())->method('isInstalled')->will($this->returnValue(true));
         $this->_configMock->expects($this->never())->method('save');
         $this->_requestMock->expects($this->once())->method('getPathInfo');
-        $this->_responseMock->expects($this->once())->method('sendNotFound');
+        $this->_responseMock->expects($this->once())->method('setHttpResponseCode')->with(404);
         $this->_requestMock->expects($this->never())->method('getFilePath');
-        $this->assertEquals(-1, $this->_model->execute());
+        $this->assertEquals($this->_responseMock, $this->_model->launch());
     }
 
     public function testProcessRequestReturnsFileIfItsProperlySynchronized()
@@ -210,12 +209,9 @@ class MediaTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(true));
         $this->_responseMock
             ->expects($this->once())
-            ->method('sendFile')
+            ->method('setFilePath')
             ->with($filePath);
-        $this->_responseMock
-            ->expects($this->never())
-            ->method('sendNotFound');
-        $this->assertEquals(0, $this->_model->execute());
+        $this->assertEquals($this->_responseMock, $this->_model->launch());
     }
 
     public function testProcessRequestReturnsNotFoundIfFileIsNotSynchronized()
@@ -226,8 +222,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         $this->_sync->expects($this->once())->method('synchronize');
         $this->_requestMock->expects($this->any())
             ->method('getFilePath')->will($this->returnValue('non_existing_file_name'));
-        $this->_responseMock->expects($this->never())->method('sendFile');
-        $this->_responseMock->expects($this->once())->method('sendNotFound');
-        $this->assertEquals(-1, $this->_model->execute());
+        $this->_responseMock->expects($this->once())->method('setHttpResponseCode')->with(404);
+        $this->assertEquals($this->_responseMock, $this->_model->launch());
     }
 }

@@ -27,7 +27,10 @@ class WrapperFactory
      */
     protected $directoryList;
 
-    public function __construct(\Magento\Filesystem\DirectoryList $directoryList)
+    /**
+     * @param DirectoryList $directoryList
+     */
+    public function __construct(DirectoryList $directoryList)
     {
         $this->directoryList = $directoryList;
     }
@@ -37,8 +40,9 @@ class WrapperFactory
      *
      * @param string $protocolCode
      * @param DriverInterface $driver
+     * @return WrapperInterface
      */
-    public function get($protocolCode, \Magento\Filesystem\DriverInterface $driver)
+    public function get($protocolCode, DriverInterface $driver)
     {
         $wrapperClass = $this->directoryList->getProtocolConfig($protocolCode)['driver'];
 

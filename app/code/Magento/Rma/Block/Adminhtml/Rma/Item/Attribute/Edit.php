@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 
+namespace Magento\Rma\Block\Adminhtml\Rma\Item\Attribute;
 
 /**
  * RMA Item Attributes Edit container
@@ -16,8 +17,6 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Rma\Block\Adminhtml\Rma\Item\Attribute;
-
 class Edit
     extends \Magento\Backend\Block\Widget\Form\Container
 {

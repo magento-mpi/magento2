@@ -85,7 +85,7 @@ abstract class AbstractData
      *
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Logger $logger
-     */    
+     */
     public function __construct(
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Logger $logger
@@ -567,7 +567,7 @@ abstract class AbstractData
     abstract public function restoreValue($value);
 
     /**
-     * Return formated attribute value from entity model
+     * Return formatted attribute value from entity model
      *
      * @param string $format
      * @return string|array

@@ -77,6 +77,11 @@ class Checkout extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
     protected $_eventManager = null;
 
     /**
+     * @var \Magento\Shipping\Model\CarrierFactory
+     */
+    protected $_carrierFactory;
+
+    /**
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Core\Model\Translate $translator
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
@@ -85,6 +90,7 @@ class Checkout extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
      * @param \Magento\GoogleCheckout\Helper\Data $googleCheckoutData
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Weee\Helper\Data $weeeData
+     * @param \Magento\Shipping\Model\CarrierFactory $carrierFactory
      * @param array $data
      */
     public function __construct(
@@ -96,6 +102,7 @@ class Checkout extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
         \Magento\GoogleCheckout\Helper\Data $googleCheckoutData,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Weee\Helper\Data $weeeData,
+        \Magento\Shipping\Model\CarrierFactory $carrierFactory,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
@@ -103,6 +110,7 @@ class Checkout extends \Magento\GoogleCheckout\Model\Api\Xml\AbstractXml
         $this->_googleCheckoutData = $googleCheckoutData;
         $this->_taxData = $taxData;
         $this->_weeeData = $weeeData;
+        $this->_carrierFactory = $carrierFactory;
         parent::__construct($objectManager, $translator, $coreStoreConfig, $data);
     }
 
@@ -720,7 +728,6 @@ EOT;
         $xml           = '';
         $methods       = unserialize($methods);
         $taxHelper     = $this->_taxData;
-        $shippingModel = $this->objectManager->create('Magento\Shipping\Model\Shipping');
 
         foreach ($methods['method'] as $i => $method) {
             if (!$i || !$method) {
@@ -728,7 +735,7 @@ EOT;
             }
             list($carrierCode, $methodCode) = explode('/', $method);
             if ($carrierCode) {
-                $carrier = $shippingModel->getCarrierByCode($carrierCode);
+                $carrier = $this->_carrierFactory->getIfActive($carrierCode);
                 if ($carrier) {
                     $allowedMethods = $carrier->getAllowedMethods();
 
@@ -1112,7 +1119,7 @@ EOT;
      */
     protected function _getEditCartUrl()
     {
-        return $this->objectManager->create('Magento\Core\Model\Url')->getUrl('googlecheckout/redirect/cart');
+        return $this->objectManager->create('Magento\UrlInterface')->getUrl('googlecheckout/redirect/cart');
     }
 
     /**
@@ -1122,7 +1129,7 @@ EOT;
      */
     protected function _getContinueShoppingUrl()
     {
-        return $this->objectManager->create('Magento\Core\Model\Url')->getUrl('googlecheckout/redirect/continue');
+        return $this->objectManager->create('Magento\UrlInterface')->getUrl('googlecheckout/redirect/continue');
     }
 
     /**
@@ -1152,7 +1159,7 @@ EOT;
      */
     protected function _getParameterizedUrl()
     {
-        return $this->objectManager->create('Magento\Core\Model\Url')->getUrl('googlecheckout/api/beacon');
+        return $this->objectManager->create('Magento\UrlInterface')->getUrl('googlecheckout/api/beacon');
     }
 
     /**

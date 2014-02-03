@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\CatalogSearch\Model\Resource;
 
 /**
  * Advanced Catalog Search resource model
@@ -16,8 +16,6 @@
  * @package     Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CatalogSearch\Model\Resource;
-
 class Advanced extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -54,6 +52,7 @@ class Advanced extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Initialize connection and define catalog product table as main table
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -92,7 +91,7 @@ class Advanced extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
      * @param string|array $value
      * @param \Magento\CatalogSearch\Model\Resource\Advanced\Collection $collection
-     * @return mixed
+     * @return string|array
      */
     public function prepareCondition($attribute, $value, $collection)
     {

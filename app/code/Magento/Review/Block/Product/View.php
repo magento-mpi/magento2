@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Review\Block\Product;
+
+use Magento\Review\Model\Resource\Review\Collection as ReviewCollection;
 
 /**
  * Product Reviews Page
@@ -15,12 +18,10 @@
  * @package    Magento_Review
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Review\Block\Product;
-
 class View extends \Magento\Catalog\Block\Product\View
 {
     /**
-     * @var \Magento\Review\Model\Resource\Review\Collection
+     * @var ReviewCollection
      */
     protected $_reviewsCollection;
 
@@ -139,6 +140,9 @@ class View extends \Magento\Catalog\Block\Product\View
             ;
     }
 
+    /**
+     * @return ReviewCollection
+     */
     public function getReviewsCollection()
     {
         if (null === $this->_reviewsCollection) {

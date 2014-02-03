@@ -1553,7 +1553,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
                 ->setTemplate($options['template'])
                 ->assign($data);
 
-            echo $block->toHtml();
+            echo $this->_renderBlock($block->getNameInLayout());
         }
     }
 

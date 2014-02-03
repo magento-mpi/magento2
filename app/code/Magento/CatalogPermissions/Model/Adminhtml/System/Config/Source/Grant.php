@@ -16,7 +16,10 @@
  */
 namespace Magento\CatalogPermissions\Model\Adminhtml\System\Config\Source;
 
-class Grant implements \Magento\Core\Model\Option\ArrayInterface
+use Magento\CatalogPermissions\Helper\Data;
+use Magento\Core\Model\Option\ArrayInterface;
+
+class Grant implements ArrayInterface
 {
     /**
      * Retrieve Options Array
@@ -26,9 +29,9 @@ class Grant implements \Magento\Core\Model\Option\ArrayInterface
     public function toOptionArray()
     {
         return array(
-            \Magento\CatalogPermissions\Helper\Data::GRANT_ALL            => __('Yes, for Everyone'),
-            \Magento\CatalogPermissions\Helper\Data::GRANT_CUSTOMER_GROUP => __('Yes, for Specified Customer Groups'),
-            \Magento\CatalogPermissions\Helper\Data::GRANT_NONE           => __('No')
+            Data::GRANT_ALL => __('Yes, for Everyone'),
+            Data::GRANT_CUSTOMER_GROUP => __('Yes, for Specified Customer Groups'),
+            Data::GRANT_NONE => __('No')
         );
     }
 }

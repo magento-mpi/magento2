@@ -15,7 +15,7 @@ class Config extends \Magento\Config\Data\Scoped
     /**
      * Scope priority loading scheme
      *
-     * @var array
+     * @var string[]
      */
     protected $_scopePriorityScheme = array('global');
 

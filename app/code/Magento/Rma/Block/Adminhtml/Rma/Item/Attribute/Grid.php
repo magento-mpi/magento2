@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 
+namespace Magento\Rma\Block\Adminhtml\Rma\Item\Attribute;
 
 /**
  * RMA Item Attributes Grid Block
@@ -16,8 +17,6 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Rma\Block\Adminhtml\Rma\Item\Attribute;
-
 class Grid
     extends \Magento\Eav\Block\Adminhtml\Attribute\Grid\AbstractGrid
 {
@@ -28,20 +27,18 @@ class Grid
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Rma\Model\Resource\Item\Attribute\CollectionFactory $collectionFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Url $urlModel,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Rma\Model\Resource\Item\Attribute\CollectionFactory $collectionFactory,
         array $data = array()
     ) {
         $this->_collectionFactory = $collectionFactory;
-        parent::__construct($context, $urlModel, $backendHelper, $data);
+        parent::__construct($context, $backendHelper, $data);
     }
 
     /**
@@ -58,7 +55,7 @@ class Grid
     /**
      * Prepare customer attributes grid collection object
      *
-     * @return \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Attribute\Grid
+     * @return $this
      */
     protected function _prepareCollection()
     {
@@ -72,7 +69,7 @@ class Grid
     /**
      * Prepare customer attributes grid columns
      *
-     * @return \Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Attribute\Grid
+     * @return $this
      */
     protected function _prepareColumns()
     {

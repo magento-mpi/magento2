@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Rma\Model\Resource;
+
 /**
  * Rma resource setup model
  */
-namespace Magento\Rma\Model\Resource;
-
 class Setup extends \Magento\Sales\Model\Resource\Setup
 {
     /**
@@ -26,13 +26,19 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
     protected $_entMigrationFactory;
 
     /**
+     * @var \Magento\Rma\Model\RefundableList
+     */
+    protected $refundableList;
+
+    /**
      * @param \Magento\Core\Model\Resource\Setup\Context $context
      * @param string $resourceName
      * @param \Magento\App\CacheInterface $cache
-     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory
-     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory
+     * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Catalog\Model\Resource\SetupFactory $catalogSetupFactory
      * @param \Magento\Enterprise\Model\Resource\Setup\MigrationFactory $entMigrationFactory
+     * @param \Magento\Rma\Model\RefundableList $refundableList
      * @param string $moduleName
      * @param string $connectionName
      */
@@ -40,16 +46,20 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
         \Magento\Core\Model\Resource\Setup\Context $context,
         $resourceName,
         \Magento\App\CacheInterface $cache,
-        \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory,
-        \Magento\Core\Model\Config $config,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory,
+        \Magento\App\ConfigInterface $config,
         \Magento\Catalog\Model\Resource\SetupFactory $catalogSetupFactory,
         \Magento\Enterprise\Model\Resource\Setup\MigrationFactory $entMigrationFactory,
+        \Magento\Rma\Model\RefundableList $refundableList,
         $moduleName = 'Magento_Rma',
         $connectionName = ''
     ) {
         $this->_catalogSetupFactory = $catalogSetupFactory;
         $this->_entMigrationFactory = $entMigrationFactory;
-        parent::__construct($context, $resourceName, $cache, $attrGrCollFactory, $config, $moduleName, $connectionName);
+        $this->refundableList = $refundableList;
+        parent::__construct(
+            $context, $resourceName, $cache, $attrGroupCollectionFactory, $config, $moduleName, $connectionName
+        );
     }
 
     /**
@@ -71,6 +81,14 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
             'sort_order'                => $this->_getValue($attr, 'position', 0)
         ));
         return $data;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRefundableProducts()
+    {
+        return $this->refundableList->getItem();
     }
 
     /**

@@ -40,6 +40,8 @@ class Permission extends \Magento\Core\Model\AbstractModel
 
     /**
      * Initialize model
+     *
+     * @return void
      */
     protected function _construct()
     {
