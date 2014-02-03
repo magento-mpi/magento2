@@ -1495,24 +1495,20 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
 
         // emulate request
         $request = $form->prepareRequest(array('order' => $this->getData()));
-        $data    = $form->extractData($request, 'order/account');
+        $data = $form->extractData($request, 'order/account');
         if ($this->getIsValidate()) {
             $errors = $form->validateData($data);
             if (!empty($errors)) {
                 foreach ($errors as $error) {
                     $this->_errors[] = $error;
                 }
-                $data = $form->restoreData($data);
+                $form->restoreData($data);
             } else {
-                $data = $form->compactData($data);
+                $form->compactData($data);
             }
         } else {
-            $data = $form->restoreData($data);
+            $form->restoreData($data);
         }
-
-        return $this->_customerBuilder
-            ->populateWithArray(array_merge([CustomerDto::ID => $customerDto->getCustomerId()], $data))
-            ->create();
     }
 
     /**
@@ -1720,8 +1716,9 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         }
 
         $order = $service->submitOrder();
-        if ((!$quote->getCustomer()->getId()
-            || !$this->_customerHelper->isCustomerInStore($quote->getCustomer()->getWebsiteId(),
+        $customer = $quote->getCustomerData();
+        if ((!$customer->getCustomerId()
+            || !$this->_customerHelper->isCustomerInStore($customer->getWebsiteId(),
                     $this->getSession()->getStore()->getId()))
             && !$quote->getCustomerIsGuest()
         ) {
