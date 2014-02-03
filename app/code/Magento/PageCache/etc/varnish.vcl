@@ -64,7 +64,7 @@ sub vcl_fetch {
         set beresp.do_gzip = true;
     }
 
-    set beresp.do_esi = {{ esi }};
+    set beresp.do_esi = true;
 
     # set ttl from received Magento
     set beresp.ttl = std.duration(beresp.http.X-Magento-ttl, 0s);

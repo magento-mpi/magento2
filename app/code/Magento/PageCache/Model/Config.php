@@ -115,7 +115,7 @@ class Config extends \Magento\Object
         $this->_replacement = array(
             $this->_coreStoreConfig->getConfig(self::XML_VARNISH_PAGECACHE_BACKEND_HOST),
             $this->_coreStoreConfig->getConfig(self::XML_VARNISH_PAGECACHE_BACKEND_PORT),
-            $this->_getIps(),
+            $this->_getAccessList(),
             'get_design_exceptions_code'
         );
     }
@@ -130,7 +130,7 @@ class Config extends \Magento\Object
      *
      * @return string
      */
-    protected function _getIps()
+    protected function _getAccessList()
     {
         $accessList = $this->_coreStoreConfig->getConfig(self::XML_VARNISH_PAGECACHE_ACCESS_LIST);
         if (!is_null($accessList)) {
