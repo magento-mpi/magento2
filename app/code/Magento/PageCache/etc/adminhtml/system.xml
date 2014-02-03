@@ -18,28 +18,28 @@
                     <label>Caching Application</label>
                     <source_model>Magento\PageCache\Model\System\Config\Source\Application</source_model>
                 </field>
-                <field id="pagecache_ttl" type="text" translate="label comment" sortOrder="5" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="ttl" type="text" translate="label comment" sortOrder="5" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>TTL for public content</label>
                     <comment>Public content lifetime in seconds</comment>
                     <depends>
                         <field id="caching_application">1</field>
                     </depends>
                 </field>
-                <field id="pagecache_access_list" type="text" translate="label comment" sortOrder="15" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="access_list" type="text" translate="label comment" sortOrder="15" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Access list</label>
                     <comment>IPs access list separated with ',' that can purge Varnish configuration for config file generation</comment>
                     <depends>
                         <field id="caching_application">1</field>
                     </depends>
                 </field>
-                <field id="pagecache_backend_host" type="text" translate="label comment" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="backend_host" type="text" translate="label comment" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Backend host</label>
                     <comment>Specify backend host for config file generation</comment>
                     <depends>
                         <field id="caching_application">1</field>
                     </depends>
                 </field>
-                <field id="pagecache_backend_port" type="text" translate="label comment" sortOrder="25" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="backend_port" type="text" translate="label comment" sortOrder="25" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Backend port</label>
                     <comment>Specify backend port for config file generation</comment>
                     <depends>

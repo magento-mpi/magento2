@@ -31,11 +31,11 @@ class Config extends \Magento\Object
     /**#@+
      * XML path to Varnish settings
      */
-    const XML_VARNISH_PAGECACHE_TTL  = 'system/varnish_configuration_settings/pagecache_ttl';
-    const XML_VARNISH_PAGECACHE_DEBUG = 'system/varnish_configuration_settings/pagecache_debug';
-    const XML_VARNISH_PAGECACHE_ACCESS_LIST = 'system/varnish_configuration_settings/pagecache_access_list';
-    const XML_VARNISH_PAGECACHE_BACKEND_PORT = 'system/varnish_configuration_settings/pagecache_backend_port';
-    const XML_VARNISH_PAGECACHE_BACKEND_HOST = 'system/varnish_configuration_settings/pagecache_backend_host';
+    const XML_VARNISH_TTL = 'system/varnish_configuration_settings/ttl';
+    const XML_VARNISH_DEBUG = 'system/varnish_configuration_settings/debug';
+    const XML_VARNISH_ACCESS_LIST = 'system/varnish_configuration_settings/access_list';
+    const XML_VARNISH_BACKEND_PORT = 'system/varnish_configuration_settings/backend_port';
+    const XML_VARNISH_BACKEND_HOST = 'system/varnish_configuration_settings/backend_host';
     /**#@-*/
 
     /**
@@ -109,8 +109,8 @@ class Config extends \Magento\Object
         );
 
         $this->_replacement = array(
-            $this->_coreStoreConfig->getConfig(self::XML_VARNISH_PAGECACHE_BACKEND_HOST),
-            $this->_coreStoreConfig->getConfig(self::XML_VARNISH_PAGECACHE_BACKEND_PORT),
+            $this->_coreStoreConfig->getConfig(self::XML_VARNISH_BACKEND_HOST),
+            $this->_coreStoreConfig->getConfig(self::XML_VARNISH_BACKEND_PORT),
             $this->_getAccessList(),
             'get_design_exceptions_code'
         );
@@ -124,13 +124,13 @@ class Config extends \Magento\Object
      *  "127.0.0.1";
      *  "127.0.0.2";
      *
-     * @return string
+     * @return mixed|null|string
      */
     protected function _getAccessList()
     {
-        $accessList = $this->_coreStoreConfig->getConfig(self::XML_VARNISH_PAGECACHE_ACCESS_LIST);
+        $accessList = $this->_coreStoreConfig->getConfig(self::XML_VARNISH_ACCESS_LIST);
         if (!is_null($accessList)) {
-            $ipsArray = explode(', ', $this->_coreStoreConfig->getConfig(self::XML_VARNISH_PAGECACHE_ACCESS_LIST));
+            $ipsArray = explode(', ',$accessList);
             $accessList = implode('; ', array_map(
                 function ($listElement) {
                     return '"' . $listElement . '"';
@@ -138,5 +138,7 @@ class Config extends \Magento\Object
                 $ipsArray));
             return $accessList;
         }
+
+        return null;
     }
 }
