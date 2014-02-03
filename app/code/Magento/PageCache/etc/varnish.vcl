@@ -5,7 +5,7 @@ backend default {
     .port = "{{ port }}";
 }
 
-acl purge {
+acl ban {
     {{ ips }}
 }
 
@@ -21,6 +21,15 @@ sub vcl_recv {
             set req.http.X-Forwarded-For = client.ip;
         }
     }
+
+    if (req.request == "BAN") {
+        if (client.ip !~ ban) {
+            error 405 "Method not allowed";
+        }
+        ban("req.url ~ " + req.url);
+        error 200 "Banned";
+    }
+
     if (req.request != "GET" &&
         req.request != "HEAD" &&
         req.request != "PUT" &&
@@ -31,23 +40,16 @@ sub vcl_recv {
           /* Non-RFC2616 or CONNECT which is weird. */
           return (pipe);
     }
+    # We only deal with GET and HEAD by default
     if (req.request != "GET" && req.request != "HEAD") {
-        /* We only deal with GET and HEAD by default */
         return (pass);
-   }
+    }
 
-   # Cache images, styles, scripts
-   if (req.url ~ "\.(jpg|png|gif|tiff|bmp|gz|tgz|bz2|tbz|mp3|ogg|svg|swf|css|js)(\?|$)") {
-       return(lookup);
-   }
-
-   if (req.request == "PURGE") {
-       if (!client.ip ~ purge) {
-           error 405 "Method not allowed";
-       }
-       return (lookup);
-   }
-   return (lookup);
+    # Cache images, styles, scripts
+    if (req.url ~ "\.(jpg|png|gif|tiff|bmp|gz|tgz|bz2|tbz|mp3|ogg|svg|swf|css|js)(\?|$)") {
+        return (lookup);
+    }
+    return (lookup);
 }
 
 sub vcl_hash {
@@ -55,20 +57,6 @@ sub vcl_hash {
         hash_data(regsub(req.http.cookie, "^.*?X-Magento-Vary=([^;]+);*.*$", "\1"));
     }
     {{ design_exceptions_code }}
-}
-
-sub vcl_hit {
-    if (req.request == "PURGE") {
-        purge;
-        error 200 "Purged";
-    }
-}
-
-sub vcl_miss {
-    if (req.request == "PURGE") {
-        purge;
-        error 404 "Purged";
-    }
 }
 
 sub vcl_fetch {
@@ -83,7 +71,7 @@ sub vcl_fetch {
 
     # validate if we need to cache it and prevent from setting cookie
     # images, css and js are cacheable by default so we have to remove cookie also
-    if (beresp.ttl > 0s) {
+    if (beresp.ttl > 0s && (req.request == "GET" || req.request == "HEAD")) {
         unset beresp.http.set-cookie;
     }
 
