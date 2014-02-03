@@ -207,6 +207,7 @@ class Address extends \Magento\App\Action\Action
         $attributeValues = $addressForm->compactData($addressData);
         $region = [
             'region_id' => $attributeValues['region_id'],
+            'region' => $attributeValues['region'],
         ];
         unset($attributeValues['region'], $attributeValues['region_id']);
         $attributeValues['region'] = $region;

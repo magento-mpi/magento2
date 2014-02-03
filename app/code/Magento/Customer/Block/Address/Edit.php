@@ -117,9 +117,10 @@ class Edit extends \Magento\Directory\Block\Data
         }
 
         if ($postedData = $this->_customerSession->getAddressFormData(true)) {
-            if (!empty($postedData['region_id'])) {
+            if (!empty($postedData['region_id']) || !empty($postedData['region'])) {
                 $postedData['region'] = [
                     'region_id' => $postedData['region_id'],
+                    'region' => $postedData['region'],
                 ];
             }
             $this->_address = $this->_addressBuilder
@@ -203,6 +204,21 @@ class Edit extends \Magento\Directory\Block\Data
         return parent::getCountryId();
     }
 
+    /**
+     * Return the name of the region for the address being edited
+     *
+     * @return string region name
+     */
+    public function getRegion()
+    {
+        return $this->getAddress()->getRegion()->getRegion();
+    }
+
+    /**
+     * Return the id of the region being edited
+     *
+     * @return int region id
+     */
     public function getRegionId()
     {
         return $this->getAddress()->getRegion()->getRegionId();
@@ -231,12 +247,12 @@ class Edit extends \Magento\Directory\Block\Data
 
     public function isDefaultBilling()
     {
-        return $this->getAddress()->isDefaultBilling();
+        return (bool)$this->getAddress()->isDefaultBilling();
     }
 
     public function isDefaultShipping()
     {
-        return $this->getAddress()->isDefaultShipping();
+        return (bool)$this->getAddress()->isDefaultShipping();
     }
 
     /**
