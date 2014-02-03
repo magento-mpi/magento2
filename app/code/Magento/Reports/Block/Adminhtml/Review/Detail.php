@@ -39,6 +39,9 @@ class Detail extends \Magento\Backend\Block\Widget\Grid\Container
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_blockGroup = 'Magento_Reports';

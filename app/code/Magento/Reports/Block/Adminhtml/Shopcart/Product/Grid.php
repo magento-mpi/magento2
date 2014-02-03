@@ -40,12 +40,18 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\Shopcart
         parent::__construct($context, $backendHelper, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
         $this->setId('gridProducts');
     }
 
+    /**
+     * @return \Magento\Backend\Block\Widget\Grid
+     */
     protected function _prepareCollection()
     {
         /** @var $collection \Magento\Reports\Model\Resource\Quote\Collection */
@@ -56,6 +62,9 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\Shopcart
         return parent::_prepareCollection();
     }
 
+    /**
+     * @return \Magento\Backend\Block\Widget\Grid\Extended
+     */
     protected function _prepareColumns()
     {
         $this->addColumn('entity_id', array(
@@ -110,6 +119,11 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\Shopcart
         return parent::_prepareColumns();
     }
 
+    /**
+     * @param \Magento\Object $row
+     *
+     * @return string
+     */
     public function getRowUrl($row)
     {
         return $this->getUrl('catalog/product/edit', array('id'=>$row->getEntityId()));

@@ -19,8 +19,14 @@ namespace Magento\Reports\Block\Adminhtml\Sales\Coupons;
 
 class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
 {
+    /**
+     * @var string
+     */
     protected $_columnGroupBy = 'period';
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -28,6 +34,9 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
         $this->setCountSubTotals(true);
     }
 
+    /**
+     * @return string
+     */
     public function getResourceCollectionName()
     {
         if (($this->getFilterData()->getData('report_type') == 'updated_at_order')) {
@@ -37,6 +46,9 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
         }
     }
 
+    /**
+     * @return \Magento\Backend\Block\Widget\Grid\Extended
+     */
     protected function _prepareColumns()
     {
         $this->addColumn('period', array(

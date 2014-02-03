@@ -35,6 +35,8 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
 
     /**
      * Init grid parameters
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -109,7 +111,7 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
      *
      * @param \Magento\Reports\Model\Resource\Report\Collection\AbstractCollection $collection
      * @param \Magento\Object $filterData
-     * @return \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
+     * @return $this
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function _addOrderStatusFilter($collection, $filterData)

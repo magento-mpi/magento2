@@ -40,12 +40,18 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         parent::__construct($context, $backendHelper, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
         $this->setId('reviews_grid');
     }
 
+    /**
+     * @return $this|\Magento\Backend\Block\Widget\Grid
+     */
     protected function _prepareCollection()
     {
         $collection = $this->_reviewsFactory->create()
@@ -58,9 +64,11 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         return $this;
     }
 
+    /**
+     * @return \Magento\Backend\Block\Widget\Grid\Extended
+     */
     protected function _prepareColumns()
     {
-
         $this->addColumn('nickname', array(
             'header'    =>__('Customer'),
             'width'     =>'100px',

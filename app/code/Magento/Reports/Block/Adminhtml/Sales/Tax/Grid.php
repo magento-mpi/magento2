@@ -19,6 +19,9 @@ namespace Magento\Reports\Block\Adminhtml\Sales\Tax;
 
 class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
 {
+    /**
+     * @var string
+     */
     protected $_columnGroupBy = 'period';
 
     /**
@@ -55,6 +58,9 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
         );
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -62,6 +68,9 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
         $this->setCountSubTotals(true);
     }
 
+    /**
+     * @return string
+     */
     public function getResourceCollectionName()
     {
         return ($this->getFilterData()->getData('report_type') == 'updated_at_order')
@@ -69,6 +78,9 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
             : 'Magento\Tax\Model\Resource\Report\Collection';
     }
 
+    /**
+     * @return \Magento\Backend\Block\Widget\Grid\Extended
+     */
     protected function _prepareColumns()
     {
         $this->addColumn('period', array(

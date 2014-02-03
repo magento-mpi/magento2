@@ -40,12 +40,18 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\Shopcart
         parent::__construct($context, $backendHelper, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
         $this->setId('grid');
     }
 
+    /**
+     * @return \Magento\Backend\Block\Widget\Grid
+     */
     protected function _prepareCollection()
     {
         //TODO: add full name logic
@@ -57,11 +63,17 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\Shopcart
         return parent::_prepareCollection();
     }
 
+    /**
+     * @return \Magento\Backend\Block\Widget\Grid|void
+     */
     protected function _afterLoadCollection()
     {
         $this->getCollection()->addCartInfo();
     }
 
+    /**
+     * @return \Magento\Backend\Block\Widget\Grid\Extended
+     */
     protected function _prepareColumns()
     {
         $this->addColumn('entity_id', array(
@@ -110,5 +122,4 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\Shopcart
 
         return parent::_prepareColumns();
     }
-
 }

@@ -20,7 +20,9 @@ namespace Magento\Reports\Block\Adminhtml\Review;
 
 class Customer extends \Magento\Backend\Block\Widget\Grid\Container
 {
-
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_blockGroup = 'Magento_Reports';
@@ -29,5 +31,4 @@ class Customer extends \Magento\Backend\Block\Widget\Grid\Container
         parent::_construct();
         $this->_removeButton('add');
     }
-
 }

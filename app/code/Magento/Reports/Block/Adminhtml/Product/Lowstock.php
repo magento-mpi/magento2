@@ -20,6 +20,9 @@ namespace Magento\Reports\Block\Adminhtml\Product;
 
 class Lowstock extends \Magento\Backend\Block\Widget\Grid\Container
 {
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_blockGroup = 'Magento_Reports';
@@ -29,6 +32,9 @@ class Lowstock extends \Magento\Backend\Block\Widget\Grid\Container
         $this->_removeButton('add');
     }
 
+    /**
+     * @return \Magento\View\Element\AbstractBlock
+     */
     protected function _prepareLayout()
     {
         $this->setChild('store_switcher',
@@ -41,6 +47,9 @@ class Lowstock extends \Magento\Backend\Block\Widget\Grid\Container
         return parent::_prepareLayout();
     }
 
+    /**
+     * @return string
+     */
     public function getStoreSwitcherHtml()
     {
         if ($this->_storeManager->isSingleStoreMode()) {
@@ -49,6 +58,9 @@ class Lowstock extends \Magento\Backend\Block\Widget\Grid\Container
         return $this->getChildHtml('store_switcher');
     }
 
+    /**
+     * @return string
+     */
     public function getGridHtml()
     {
         return $this->getStoreSwitcherHtml() . parent::getGridHtml();

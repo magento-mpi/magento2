@@ -20,11 +20,15 @@ namespace Magento\Reports\Block\Adminhtml\Product;
 
 class Sold extends \Magento\Backend\Block\Widget\Grid\Container
 {
+    /**
+     * @var string
+     */
     protected $_blockGroup = 'Magento_Reports';
 
     /**
      * Initialize container block settings
      *
+     * @return void
      */
     protected function _construct()
     {

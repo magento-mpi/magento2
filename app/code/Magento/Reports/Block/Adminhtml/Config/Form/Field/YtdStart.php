@@ -19,6 +19,10 @@ namespace Magento\Reports\Block\Adminhtml\Config\Form\Field;
 
 class YtdStart extends \Magento\Backend\Block\System\Config\Form\Field
 {
+    /**
+     * @param \Magento\Data\Form\Element\AbstractElement $element
+     * @return string
+     */
     protected function _getElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
     {
         $_months = array();

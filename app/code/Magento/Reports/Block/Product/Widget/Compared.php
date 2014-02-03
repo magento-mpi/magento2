@@ -24,6 +24,7 @@ class Compared
     /**
      * Internal constructor
      *
+     * @return void
      */
     protected function _construct()
     {

@@ -19,14 +19,39 @@ namespace Magento\Reports\Block\Adminhtml;
 
 class Wishlist extends \Magento\Backend\Block\Template
 {
-
+    /**
+     * @var int
+     */
     public $wishlists_count;
+
+    /**
+     * @var int
+     */
     public $items_bought;
+
+    /**
+     * @var int
+     */
     public $shared_count;
+
+    /**
+     * @var int
+     */
     public $referrals_count;
+
+    /**
+     * @var int
+     */
     public $conversions_count;
+
+    /**
+     * @var int
+     */
     public $customer_with_wishlist;
 
+    /**
+     * @var string
+     */
     protected $_template = 'report/wishlist.phtml';
 
     /**
@@ -50,6 +75,9 @@ class Wishlist extends \Magento\Backend\Block\Template
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return $this
+     */
     public function _beforeToHtml()
     {
         $this->setChild(

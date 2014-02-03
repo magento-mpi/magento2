@@ -19,14 +19,23 @@ namespace Magento\Reports\Block\Adminhtml\Sales\Sales;
 
 class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
 {
+    /**
+     * @var string
+     */
     protected $_columnGroupBy = 'period';
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
         $this->setCountTotals(true);
     }
 
+    /**
+     * @return string
+     */
     public function getResourceCollectionName()
     {
         return ($this->getFilterData()->getData('report_type') == 'updated_at_order')
@@ -34,6 +43,9 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
             : 'Magento\Sales\Model\Resource\Report\Order\Collection';
     }
 
+    /**
+     * @return \Magento\Backend\Block\Widget\Grid\Extended
+     */
     protected function _prepareColumns()
     {
         $this->addColumn('period', array(

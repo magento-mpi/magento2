@@ -20,6 +20,9 @@ namespace Magento\Reports\Block\Adminhtml\Product;
 
 class Downloads extends \Magento\Backend\Block\Widget\Grid\Container
 {
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_blockGroup = 'Magento_Reports';
@@ -29,6 +32,9 @@ class Downloads extends \Magento\Backend\Block\Widget\Grid\Container
         $this->_removeButton('add');
     }
 
+    /**
+     * @return \Magento\View\Element\AbstractBlock
+     */
     protected function _prepareLayout()
     {
         $this->setChild('store_switcher',
@@ -40,6 +46,9 @@ class Downloads extends \Magento\Backend\Block\Widget\Grid\Container
         return parent::_prepareLayout();
     }
 
+    /**
+     * @return string
+     */
     public function getStoreSwitcherHtml()
     {
         if (!$this->_storeManager->isSingleStoreMode()) {
@@ -48,6 +57,9 @@ class Downloads extends \Magento\Backend\Block\Widget\Grid\Container
         return '';
     }
 
+    /**
+     * @return string
+     */
     public function getGridHtml()
     {
         return $this->getStoreSwitcherHtml() . parent::getGridHtml();

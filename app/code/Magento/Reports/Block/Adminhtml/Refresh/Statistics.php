@@ -19,8 +19,10 @@ namespace Magento\Reports\Block\Adminhtml\Refresh;
 
 class Statistics extends \Magento\Backend\Block\Widget\Grid\Container
 {
-    /*
+    /**
      * Modify Header and remove button "Add"
+     *
+     * @return void
      */
     protected function _construct()
     {
