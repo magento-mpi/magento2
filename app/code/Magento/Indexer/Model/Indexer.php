@@ -223,7 +223,7 @@ class Indexer extends \Magento\Object implements IndexerInterface
      */
     public function isWorking()
     {
-        return $this->getState()->getStatus() == Indexer\State::STATUS_VALID;
+        return $this->getState()->getStatus() == Indexer\State::STATUS_WORKING;
     }
 
     /**

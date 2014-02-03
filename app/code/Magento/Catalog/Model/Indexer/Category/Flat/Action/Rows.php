@@ -31,12 +31,26 @@ class Rows extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
     }
 
     /**
+     * Return index table name
+     *
+     * @param \Magento\Core\Model\Store $store
+     * @param bool $useTempTable
+     * @return string
+     */
+    protected function getTableName(\Magento\Core\Model\Store $store, $useTempTable)
+    {
+        $tableName = $this->getMainStoreTable($store->getId());
+        return $useTempTable ? $this->addTemporaryTableSuffix($tableName) : $tableName;
+    }
+
+    /**
      * Refresh entities index
      *
-     * @param array $entityIds
+     * @param int[] $entityIds
+     * @param bool $useTempTable
      * @return Rows
      */
-    public function reindex($entityIds = array())
+    public function reindex(array $entityIds = array(), $useTempTable = false)
     {
         $stores = $this->storeManager->getStores();
 
@@ -45,12 +59,12 @@ class Rows extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
 
         /* @var $store \Magento\Core\Model\Store */
         foreach ($stores as $store) {
-            if (!$this->getWriteAdapter()->isTableExists($this->getMainStoreTable($store->getId()))) {
-                $tableName = $this->getMainStoreTable($store->getId());
-                $table     = $this->getFlatTableStructure($tableName);
-                $this->dropOldForeignKeys($tableName);
-                $this->getWriteAdapter()->createTable($table);
+            $tableName = $this->getTableName($store, $useTempTable);
+
+            if (!$this->getWriteAdapter()->isTableExists($tableName)) {
+                continue;
             }
+
             /** @TODO Do something with chunks */
             $categoriesIdsChunks = array_chunk($entityIds, 500);
             foreach ($categoriesIdsChunks as $categoriesIdsChunk) {
@@ -80,13 +94,13 @@ class Rows extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
                         $updateFields[$key] = $key;
                     }
                     $this->getWriteAdapter()->insertOnDuplicate(
-                        $this->getMainStoreTable($store->getId()),
+                        $tableName,
                         $row,
                         $updateFields
                     );
                 }
             }
-            $this->deleteNonStoreCategories($store);
+            $this->deleteNonStoreCategories($store, $useTempTable);
         }
 
         /** @TODO evant catalog_category_flat_partial_reindex was here */
@@ -98,9 +112,9 @@ class Rows extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
      * Delete non stores categories
      *
      * @param \Magento\Core\Model\Store $store
-     * @return void
+     * @param bool $useTempTable
      */
-    protected function deleteNonStoreCategories($store)
+    protected function deleteNonStoreCategories(\Magento\Core\Model\Store $store, $useTempTable)
     {
         $rootId = \Magento\Catalog\Model\Category::TREE_ROOT_ID;
 
@@ -108,8 +122,9 @@ class Rows extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
         $rootCatIdExpr = $this->getWriteAdapter()->quote("{$rootId}/{$store->getRootCategoryId()}");
         $catIdExpr = $this->getWriteAdapter()->quote("{$rootId}/{$store->getRootCategoryId()}/%");
 
+        /** @var \Magento\DB\Select $select */
         $select = $this->getWriteAdapter()->select()
-            ->from(array('cf' => $this->getMainStoreTable($store->getId())))
+            ->from(array('cf' => $this->getTableName($store, $useTempTable)))
             ->joinLeft(
                 array('ce' => $this->getWriteAdapter()->getTableName('catalog_category_entity')),
                 'cf.path = ce.path',

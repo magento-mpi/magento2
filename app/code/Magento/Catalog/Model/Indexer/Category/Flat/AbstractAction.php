@@ -10,6 +10,11 @@ namespace Magento\Catalog\Model\Indexer\Category\Flat;
 class AbstractAction
 {
     /**
+     * Suffix for table to show it is temporary
+     */
+    const TEMPORARY_TABLE_SUFFIX = '_tmp';
+
+    /**
      * Columns sql
      *
      * @var array
@@ -61,6 +66,17 @@ class AbstractAction
         $this->storeManager = $storeManager;
         $this->resourceHelper = $resourceHelper;
         $this->columns = array_merge($this->getStaticColumns(), $this->getEavColumns());
+    }
+
+    /**
+     * Add suffix to table name to show it is temporary
+     *
+     * @param string $tableName
+     * @return string
+     */
+    protected function addTemporaryTableSuffix($tableName)
+    {
+        return $tableName . self::TEMPORARY_TABLE_SUFFIX;
     }
 
     /**

@@ -10,11 +10,6 @@ namespace Magento\Catalog\Model\Indexer\Category\Flat\Action;
 class Full extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
 {
     /**
-     * Suffix for table to show it is temporary
-     */
-    const TEMPORARY_TABLE_SUFFIX = '_tmp';
-
-    /**
      * Suffix for table to show it is old
      */
     const OLD_TABLE_SUFFIX = '_old';
@@ -30,18 +25,6 @@ class Full extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
      * @var \Magento\Catalog\Model\Indexer\Category\Flat\Config
      */
     protected $config;
-
-    /**
-     * Add suffix to table name to show it is
-     * temporary
-     *
-     * @param string $tableName
-     * @return string
-     */
-    protected function addTemporaryTableSuffix($tableName)
-    {
-        return $tableName . self::TEMPORARY_TABLE_SUFFIX;
-    }
 
     /**
      * Add suffix to table name to show it is old
