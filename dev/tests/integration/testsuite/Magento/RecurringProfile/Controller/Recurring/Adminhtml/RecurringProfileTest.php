@@ -5,9 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Sales\Controller\Adminhtml\Recurring;
+namespace Magento\RecurringProfile\Controller\Adminhtml;
 
-class ProfileTest extends \Magento\Backend\Utility\Controller
+class RecurringProfileTest extends \Magento\Backend\Utility\Controller
 {
     /**
      * @magentoDataFixture Magento/Sales/_files/quote.php
@@ -16,7 +16,7 @@ class ProfileTest extends \Magento\Backend\Utility\Controller
      */
     public function testCustomerGridAction()
     {
-        $this->getRequest()->setParam(Profile::PARAM_CUSTOMER_ID, 1);
+        $this->getRequest()->setParam(RecurringProfile::PARAM_CUSTOMER_ID, 1);
         $this->dispatch('backend/sales/recurring_profile/customerGrid');
         $this->assertContains(FIXTURE_RECURRING_PROFILE_SCHEDULE_DESCRIPTION, $this->getResponse()->getBody());
     }
