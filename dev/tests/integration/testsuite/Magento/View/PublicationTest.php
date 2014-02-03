@@ -33,7 +33,6 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        //$this->markTestSkipped();
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\App\State')->setAreaCode('frontend');
         $this->_viewService = $objectManager->create('Magento\View\Service');
@@ -242,7 +241,9 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         $this->assertFileExists($expectedFile);
 
         // as soon as the files are published, they must have the same mtime as originals
-        $this->assertEquals(filemtime($originalFile), filemtime($expectedFile),
+        $this->assertEquals(
+            filemtime($originalFile),
+            filemtime($expectedFile),
             "These files mtime must be equal: {$originalFile} / {$expectedFile}"
         );
     }
@@ -268,6 +269,53 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
                 $designParams,
                 'frontend/test_default/en_US/Magento_Theme/favicon.ico',
             ),
+        );
+    }
+
+    /**
+     * @param string $file
+     * @param array $designParams
+     * @param string $expectedFile
+     * @param string $contentFile
+     * @magentoDataFixture Magento/Core/Model/_files/design/themes.php
+     * @magentoAppIsolation enabled
+     * @dataProvider getPublicFilePathLessDataProvider
+     */
+    public function testGetPublicFilePathLess($file, $designParams, $expectedFile, $contentFile)
+    {
+        $this->_initTestTheme();
+
+        $expectedFile = $this->_viewService->getPublicDir() . '/' . $expectedFile;
+
+        // test doesn't make sense if the original file doesn't exist or the target file already exists
+        $originalFile = $this->_fileSystem->getViewFile($file, $designParams);
+        $this->assertFileNotExists($originalFile);
+
+        // getViewUrl() will trigger publication in development mode
+        $this->assertFileNotExists($expectedFile, 'Please verify isolation from previous test(s).');
+        $this->_viewUrl->getViewFileUrl($file, $designParams);
+        $this->assertFileExists($expectedFile);
+
+        $this->assertEquals(
+            trim(file_get_contents($this->_fileSystem->getViewFile($contentFile, $designParams))),
+            file_get_contents($expectedFile)
+        );
+    }
+
+    public function getPublicFilePathLessDataProvider()
+    {
+        $designParams = array(
+            'area'    => 'frontend',
+            'theme'   => 'test_default',
+            'locale'  => 'en_US'
+        );
+        return array(
+            'view file' => array(
+                'source.css',
+                $designParams,
+                'frontend/test_default/en_US/source.css',
+                'result_source.css'
+            )
         );
     }
 
@@ -555,10 +603,10 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
                 \Magento\App\Filesystem::THEMES_DIR => array('path' => dirname(__DIR__) . '/Core/Model/_files/design/')
             )
         ));
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')->setAreaCode('frontend');
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager->get('Magento\App\State')->setAreaCode('frontend');
 
         if ($allowDuplication !== null) {
-            $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
             $publisher = $objectManager->create(
                 'Magento\View\Publisher',
                 array('allowDuplication' => $allowDuplication)
@@ -567,16 +615,12 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         }
 
         // Reinit model with new directories
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\View\DesignInterface');
+        $this->_model = $objectManager->get('Magento\View\DesignInterface');
         $this->_model->setDesignTheme('test_default');
 
-        $this->_viewService = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\View\Service');
-        $this->_fileSystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\View\FileSystem');
-        $this->_viewUrl = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\View\Url');
+        $this->_viewService = $objectManager->create('Magento\View\Service');
+        $this->_fileSystem = $objectManager->create('Magento\View\FileSystem');
+        $this->_viewUrl = $objectManager->create('Magento\View\Url');
     }
 
     /**
