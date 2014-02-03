@@ -63,4 +63,23 @@ class Config extends \Magento\Config\Data implements \Magento\Catalog\Model\Prod
     {
         return $this->get('composableTypes', array());
     }
+
+    /**
+     * Get available products
+     *
+     * @param string $customAttributeName
+     * @param string $value
+     * @return array
+     */
+    public function filter($customAttributeName, $value = 'true')
+    {
+        $availableProductTypes = array();
+        foreach ($this->getAll() as $type) {
+            if (!isset($type['custom_attributes'][$customAttributeName])
+                || $type['custom_attributes'][$customAttributeName] == $value) {
+                $availableProductTypes[] = $type['name'];
+            }
+        }
+        return $availableProductTypes;
+    }
 }

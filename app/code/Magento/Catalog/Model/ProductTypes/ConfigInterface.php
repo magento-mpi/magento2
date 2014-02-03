@@ -38,4 +38,14 @@ interface ConfigInterface
      * @return array
      */
     public function getComposableTypes();
+
+
+    /**
+     * Get product types
+     *
+     * @param string $customAttributeName
+     * @param string $value
+     * @return array
+     */
+    public function filter($customAttributeName, $value);
 }

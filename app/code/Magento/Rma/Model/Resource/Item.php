@@ -50,7 +50,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
     protected $_productFactory;
 
     /**
-     * @var \Magento\Catalog\Model\AvailableProductList
+     * @var \Magento\Catalog\Model\ProductTypes\ConfigInterface
      */
     protected $refundableList;
 
@@ -70,7 +70,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
      * @param \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $ordersFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Sales\Model\Order\Admin\Item $adminOrderItem
-     * @param \Magento\Catalog\Model\AvailableProductList $refundableList
+     * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $refundableList
      * @param array $data
      */
     public function __construct(
@@ -83,7 +83,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $ordersFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Catalog\Model\AvailableProductList $refundableList,
+        \Magento\Catalog\Model\ProductTypes\ConfigInterface $refundableList,
         \Magento\Sales\Model\Order\Admin\Item $adminOrderItem,
         $data = array()
     ) {
@@ -259,7 +259,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
                 array('qty_shipped', 'qty_returned')
             )
             ->addFieldToFilter('order_id', $orderId)
-            ->addFieldToFilter('product_type', array("in" => $this->refundableList->getItem('refundable')))
+            ->addFieldToFilter('product_type', array("in" => $this->refundableList->filter('refundable')))
             ->addFieldToFilter($expression, array("gt" => 0));
     }
 

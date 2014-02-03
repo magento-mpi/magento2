@@ -31,7 +31,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
     protected $productTypeConfig;
 
     /**
-     * @var \Magento\Catalog\Model\AvailableProductList
+     * @var \Magento\Catalog\Model\ProductTypes\ConfigInterface
      */
     protected $realProductList;
 
@@ -43,7 +43,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Catalog\Model\Product\TypeFactory $productTypeFactory
      * @param \Magento\Catalog\Model\Resource\SetupFactory $catalogSetupFactory
-     * @param \Magento\Catalog\Model\AvailableProductList $realProductList
+     * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $realProductList
      * @param string $moduleName
      * @param string $connectionName
      */
@@ -55,7 +55,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
         \Magento\App\ConfigInterface $config,
         \Magento\Catalog\Model\Product\TypeFactory $productTypeFactory,
         \Magento\Catalog\Model\Resource\SetupFactory $catalogSetupFactory,
-        \Magento\Catalog\Model\AvailableProductList $realProductList,
+        \Magento\Catalog\Model\ProductTypes\ConfigInterface $realProductList,
         $moduleName = 'Magento_GiftWrapping',
         $connectionName = ''
     ) {
@@ -80,7 +80,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
      */
     public function getRealProductTypes()
     {
-        return $this->realProductList->getItem('is_real_product');
+        return $this->realProductList->filter('is_real_product');
     }
 
     /**

@@ -26,7 +26,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
     protected $_entMigrationFactory;
 
     /**
-     * @var \Magento\Rma\Model\RefundableList
+     * @var \Magento\Catalog\Model\ProductTypes\ConfigInterface
      */
     protected $refundableList;
 
@@ -38,7 +38,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Catalog\Model\Resource\SetupFactory $catalogSetupFactory
      * @param \Magento\Enterprise\Model\Resource\Setup\MigrationFactory $entMigrationFactory
-     * @param \Magento\Rma\Model\RefundableList $refundableList
+     * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $refundableList
      * @param string $moduleName
      * @param string $connectionName
      */
@@ -50,7 +50,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
         \Magento\App\ConfigInterface $config,
         \Magento\Catalog\Model\Resource\SetupFactory $catalogSetupFactory,
         \Magento\Enterprise\Model\Resource\Setup\MigrationFactory $entMigrationFactory,
-        \Magento\Catalog\Model\AvailableProductList $refundableList,
+        \Magento\Catalog\Model\ProductTypes\ConfigInterface $refundableList,
         $moduleName = 'Magento_Rma',
         $connectionName = ''
     ) {
@@ -91,7 +91,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
     public function getRefundableProducts()
     {
         return array_diff(
-            $this->refundableList->getItem('refundable'), $this->refundableList->getItem('is_product_set')
+            $this->refundableList->filter('refundable'), $this->refundableList->filter('is_product_set')
         );
     }
 
