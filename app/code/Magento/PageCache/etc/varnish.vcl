@@ -26,7 +26,10 @@ sub vcl_recv {
         if (client.ip !~ ban) {
             error 405 "Method not allowed";
         }
-        ban("req.url ~ " + req.url);
+        if (!req.http.X-Magento-Tags-Pattern) {
+            error 400 "X-Magento-Tags-Pattern header required";
+        }
+        ban("obj.http.X-Magento-Tags ~ " + req.http.X-Magento-Tags-Pattern);
         error 200 "Banned";
     }
 
@@ -88,6 +91,7 @@ sub vcl_deliver {
     } else {
         set resp.http.X-Magento-Cache = "MISS";
     }
+    unset resp.http.X-Magento-Tags;
 }
 
 #sub vcl_recv {
