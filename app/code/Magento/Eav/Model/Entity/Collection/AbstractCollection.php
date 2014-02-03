@@ -191,7 +191,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
     /**
      * Init select
      *
-     * @return $this|void
+     * @return $this
      */
     protected function _initSelect()
     {

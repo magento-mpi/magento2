@@ -619,7 +619,7 @@ class Product extends \Magento\Index\Model\Resource\AbstractResource
     }
 
     /**
-     * Add product association with root store category for products which are not assigned to any another category
+     * Add product association with root store category for products which are not assigned to another category
      *
      * @param int | array $productIds
      * @return $this
