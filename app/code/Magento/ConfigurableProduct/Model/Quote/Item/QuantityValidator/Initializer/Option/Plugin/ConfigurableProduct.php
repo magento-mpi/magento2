@@ -17,7 +17,7 @@ class ConfigurableProduct
      *
      * @param array $arguments
      *
-     * @return void
+     * @return array
      */
     public function beforeInitialize(array $arguments)
     {
@@ -31,5 +31,7 @@ class ConfigurableProduct
         if ($quoteItem->getProductType() == \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE) {
             $stockItem->setProductName($quoteItem->getName());
         }
+
+        return $arguments;
     }
 } 
