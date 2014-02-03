@@ -90,7 +90,9 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
      */
     public function getRefundableProducts()
     {
-        return $this->refundableList->getItem('refundable');
+        return array_diff(
+            $this->refundableList->getItem('refundable'), $this->refundableList->getItem('is_product_set')
+        );
     }
 
     /**
