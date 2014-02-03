@@ -222,12 +222,16 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
         $sourcePathRelative = $this->rootDirectory->getRelativePath($sourcePath);
         $targetPathRelative = $targetDirectory->getRelativePath($targetPath);
 
+        if ($this->_getExtension($filePath) == self::CONTENT_TYPE_CSS) {
+            $cssContent = $this->_getPublicCssContent($sourcePath, $targetPath, $filePath, $params);
+        }
+
         $fileMTime = $this->rootDirectory->stat($sourcePathRelative)['mtime'];
+
         if (!$targetDirectory->isExist($targetPathRelative)
             || $fileMTime != $targetDirectory->stat($targetPathRelative)['mtime']
         ) {
-            if ($this->_getExtension($filePath) == self::CONTENT_TYPE_CSS) {
-                $cssContent = $this->_getPublicCssContent($sourcePath, $targetPath, $filePath, $params);
+            if (isset($cssContent)) {
                 $targetDirectory->writeFile($targetPathRelative, $cssContent);
                 $targetDirectory->touch($targetPathRelative, $fileMTime);
             } elseif ($this->rootDirectory->isFile($sourcePathRelative)) {
