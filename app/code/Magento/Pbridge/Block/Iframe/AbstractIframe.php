@@ -111,6 +111,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
         $this->_pbridgeSession = $pbridgeSession;
         $this->_regionFactory = $regionFactory;
         parent::__construct($context, $data);
+        $this->_isScopePrivate = true;
     }
 
     /**
@@ -127,6 +128,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
      * Getter.
      * Return Payment Bridge url with required parameters (such as merchant code, merchant key etc.)
      *
+     * @return string
      */
     abstract public function getSourceUrl();
 
@@ -255,7 +257,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
      */
     protected function _prepareCssElements(array $staticItems, array $skinItems, $mergeCallback = null)
     {
-        $baseJsUrl = $this->_storeManager->getStore()->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_JS);
+        $baseJsUrl = $this->_storeManager->getStore()->getBaseUrl(\Magento\UrlInterface::URL_TYPE_JS);
         $items = array();
         if ($mergeCallback && !is_callable($mergeCallback)) {
             $mergeCallback = null;

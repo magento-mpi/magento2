@@ -88,5 +88,14 @@ class EditTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->_block->isDefaultBilling());
     }
 
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     * @magentoDataFixture Magento/Customer/_files/customer_address.php
+     */
+    public function testGetStreetLine()
+    {
+        $this->assertEquals('Green str, 67', $this->_block->getStreetLine(1));
+        $this->assertEquals('', $this->_block->getStreetLine(2));
+    }
 }
  

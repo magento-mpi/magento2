@@ -60,6 +60,7 @@ class Book extends \Magento\View\Element\Template
         $this->_addressService = $addressService;
         $this->_addressConfig = $addressConfig;
         parent::__construct($context, $data);
+        $this->_isScopePrivate = true;
     }
 
     protected function _prepareLayout()
@@ -135,7 +136,7 @@ class Book extends \Magento\View\Element\Template
         if (!is_null($address)) {
             /** @var \Magento\Customer\Block\Address\Renderer\RendererInterface $renderer */
             $renderer = $this->_addressConfig->getFormatByCode('html')->getRenderer();
-            return $renderer->render($address->getAttributes());
+            return $renderer->renderArray($address->getAttributes());
         }
         return '';
     }

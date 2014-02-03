@@ -46,6 +46,7 @@ class View extends \Magento\Wishlist\Block\Customer\Wishlist
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\Module\Manager $moduleManager
      * @param array $data
+     * @param array $priceBlockTypes
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -67,7 +68,8 @@ class View extends \Magento\Wishlist\Block\Customer\Wishlist
         \Magento\Data\Form\FormKey $formKey,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\Module\Manager $moduleManager,
-        array $data = array()
+        array $data = array(),
+        array $priceBlockTypes = array()
     ) {
         $this->_moduleManager = $moduleManager;
         $this->_giftRegistryData = $giftRegistryData;
@@ -87,7 +89,8 @@ class View extends \Magento\Wishlist\Block\Customer\Wishlist
             $productFactory,
             $helperPool,
             $formKey,
-            $data
+            $data,
+            $priceBlockTypes
         );
     }
 

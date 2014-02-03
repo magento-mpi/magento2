@@ -112,7 +112,7 @@ class Observer
      * Update reward points for customer, send notification
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Reward\Model\Observer
+     * @return $this
      */
     public function saveRewardPoints($observer)
     {
@@ -151,7 +151,7 @@ class Observer
      * Update reward notifications for customer
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Reward\Model\Observer
+     * @return $this|null
      */
     public function saveRewardNotifications($observer)
     {
@@ -180,7 +180,7 @@ class Observer
      * Update reward points after customer register
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Reward\Model\Observer
+     * @return $this
      */
     public function customerRegister($observer)
     {
@@ -217,7 +217,7 @@ class Observer
      * Update points balance after review submit
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Reward\Model\Observer
+     * @return $this
      */
     public function reviewSubmit($observer)
     {
@@ -243,7 +243,7 @@ class Observer
      * Update points balance after first successful subscribtion
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Reward\Model\Observer
+     * @return $this
      */
     public function customerSubscribed($observer)
     {
@@ -272,7 +272,7 @@ class Observer
      * Update points balance after customer registered by invitation
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Reward\Model\Observer
+     * @return $this
      */
     public function invitationToCustomer($observer)
     {
@@ -299,7 +299,7 @@ class Observer
      * Update points balance after order becomes completed
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Reward\Model\Observer
+     * @return $this
      */
     public function orderCompleted($observer)
     {
@@ -353,7 +353,7 @@ class Observer
      * Update inviter points balance after referral's order completed
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Reward\Model\Observer
+     * @return $this
      */
     protected function _invitationToOrder($observer)
     {
@@ -384,7 +384,7 @@ class Observer
      * Set flag to reset reward points totals
      *
      * @param \Magento\Event\Observer $observer
-     * @@return \Magento\Reward\Model\Observer
+     * @@return $this
      */
     public function quoteCollectTotalsBefore(\Magento\Event\Observer $observer)
     {
@@ -397,7 +397,7 @@ class Observer
      * Set use reward points flag to new quote
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Reward\Model\Observer
+     * @return $this
      */
     public function quoteMergeAfter($observer)
     {
@@ -414,7 +414,7 @@ class Observer
      * Payment data import in checkout process
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Reward\Model\Observer
+     * @return $this
      */
     public function paymentDataImport(\Magento\Event\Observer $observer)
     {
@@ -433,7 +433,7 @@ class Observer
      * if customer has enough points to cover grand total
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Reward\Model\Observer
+     * @return $this
      */
     public function preparePaymentMethod($observer)
     {
@@ -465,7 +465,7 @@ class Observer
      * Payment data import in admin order create process
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Reward\Model\Observer
+     * @return $this
      */
     public function processOrderCreationData(\Magento\Event\Observer $observer)
     {
@@ -487,8 +487,8 @@ class Observer
      *
      * @param \Magento\Sales\Model\Quote $quote
      * @param \Magento\Object $payment
-     * @param boolean $useRewardPoints
-     * @return \Magento\Reward\Model\Observer
+     * @param bool $useRewardPoints
+     * @return $this
      */
     protected function _paymentDataImport($quote, $payment, $useRewardPoints)
     {
@@ -526,7 +526,7 @@ class Observer
      * Revert authorized reward points amount for order
      *
      * @param   \Magento\Sales\Model\Order $order
-     * @return  \Magento\Reward\Model\Observer
+     * @return $this
      */
     protected function _revertRewardPointsForOrder(\Magento\Sales\Model\Order $order)
     {
@@ -548,7 +548,7 @@ class Observer
      * Revert reward points if order was not placed
      *
      * @param   \Magento\Event\Observer $observer
-     * @return  \Magento\Reward\Model\Observer
+     * @return $this
      */
     public function revertRewardPoints(\Magento\Event\Observer $observer)
     {
@@ -565,7 +565,7 @@ class Observer
      * Revert authorized reward points amounts for all orders
      *
      * @param   \Magento\Event\Observer $observer
-     * @return  \Magento\Reward\Model\Observer
+     * @return $this
      */
     public function revertRewardPointsForAllOrders(\Magento\Event\Observer $observer)
     {
@@ -582,7 +582,7 @@ class Observer
      * Set forced can creditmemo flag if refunded amount less then invoiced amount of reward points
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Reward\Model\Observer
+     * @return $this
      */
     public function orderLoadAfter(\Magento\Event\Observer $observer)
     {
@@ -605,7 +605,7 @@ class Observer
      * Set invoiced reward amount to order after invoice register
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Reward\Model\Observer
+     * @return $this
      */
     public function invoiceRegister(\Magento\Event\Observer $observer)
     {
@@ -628,7 +628,7 @@ class Observer
      * Update inviter balance if possible
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Reward\Model\Observer
+     * @return $this
      */
     public function invoicePay(\Magento\Event\Observer $observer)
     {
@@ -645,7 +645,7 @@ class Observer
      * Set reward points balance to refund before creditmemo register
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Reward\Model\Observer
+     * @return $this
      */
     public function setRewardPointsBalanceToRefund(\Magento\Event\Observer $observer)
     {
@@ -666,7 +666,7 @@ class Observer
      * Clear forced can creditmemo if whole reward amount was refunded
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Reward\Model\Observer
+     * @return $this
      */
     public function creditmemoRefund(\Magento\Event\Observer $observer)
     {
@@ -685,7 +685,7 @@ class Observer
      * Set refunded reward amount order and update reward points balance if need
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Reward\Model\Observer
+     * @return $this
      */
     public function creditmemoSaveAfter(\Magento\Event\Observer $observer)
     {
@@ -731,7 +731,7 @@ class Observer
     /**
      * Send scheduled low balance warning notifications
      *
-     * @return \Magento\Reward\Model\Observer
+     * @return $this
      */
     public function scheduledBalanceExpireNotification()
     {
@@ -772,7 +772,7 @@ class Observer
     /**
      * Make points expired
      *
-     * @return \Magento\Reward\Model\Observer
+     * @return $this
      */
     public function scheduledPointsExpiration()
     {
@@ -795,7 +795,7 @@ class Observer
      * Prepare orphan points of customers after website was deleted
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Reward\Model\Observer
+     * @return $this
      */
     public function prepareCustomerOrphanPoints(\Magento\Event\Observer $observer)
     {
@@ -810,7 +810,7 @@ class Observer
      * Prepare salesrule form. Add field to specify reward points delta
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Reward\Model\Observer
+     * @return $this
      */
     public function prepareSalesruleForm(\Magento\Event\Observer $observer)
     {
@@ -831,7 +831,7 @@ class Observer
      * Set reward points delta to salesrule model after it loaded
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Reward\Model\Observer
+     * @return $this
      */
     public function loadRewardSalesruleData(\Magento\Event\Observer $observer)
     {
@@ -854,7 +854,7 @@ class Observer
      * Save reward points delta for salesrule
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Reward\Model\Observer
+     * @return $this
      */
     public function saveRewardSalesruleData(\Magento\Event\Observer $observer)
     {
@@ -872,7 +872,7 @@ class Observer
      * Update customer reward points balance by points from applied sales rules
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Reward\Model\Observer
+     * @return $this
      */
     public function applyRewardSalesrulePoints(\Magento\Event\Observer $observer)
     {
@@ -902,7 +902,7 @@ class Observer
      * If not all rates found, we should disable reward points on frontend
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Reward\Model\Observer
+     * @return $this
      */
     public function checkRates(\Magento\Event\Observer $observer)
     {
@@ -933,6 +933,7 @@ class Observer
      * Add reward amount to PayPal discount total
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function addPaypalRewardItem(\Magento\Event\Observer $observer)
     {
@@ -951,7 +952,7 @@ class Observer
      * Return reward points
      *
      * @param   \Magento\Event\Observer $observer
-     * @return  \Magento\Reward\Model\Observer
+     * @return $this
      */
     public function returnRewardPoints(\Magento\Event\Observer $observer)
     {

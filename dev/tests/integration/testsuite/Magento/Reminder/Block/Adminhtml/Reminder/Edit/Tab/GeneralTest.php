@@ -44,5 +44,8 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
             $this->assertNotNull($element);
             $this->assertNotEmpty($element->getDateFormat());
         }
+        $element = $form->getElement('salesrule_id');
+        $this->assertNotNull($element);
+        $this->assertRegExp('#http://[a-z\./sales_rule/promo_quote/chooser/.*]#', $element->getAfterElementHtml());
     }
 }

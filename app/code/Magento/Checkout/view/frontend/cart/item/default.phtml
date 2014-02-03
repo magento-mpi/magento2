@@ -19,7 +19,7 @@ $canApplyMsrp = $this->helper('Magento\Catalog\Helper\Data')->canApplyMsrp($_ite
         <?php else:?>
             <span class="product photo">
         <?php endif;?>
-        <?php echo $this->getLayout()->createBlock('Magento\Catalog\Block\Product\Image')->init($_item->getProduct(), 'cart_page_product_thumbnail')->toHtml(); ?>
+        <?php echo $this->getLayout()->createBlock('Magento\Catalog\Block\Product\Image')->init($this->getProductForThumbnail(), 'cart_page_product_thumbnail')->toHtml(); ?>
         <?php if ($this->hasProductUrl()):?></a><?php else: ?></span><?php endif; ?>
         <div class="product details">
             <strong class="product name">
@@ -280,7 +280,7 @@ $canApplyMsrp = $this->helper('Magento\Catalog\Helper\Data')->canApplyMsrp($_ite
 
             <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllowInCart()) : ?>
                 <?php if ($isVisibleProduct): ?>
-                <a href="<?php echo $this->helper('Magento\Wishlist\Helper\Data')->getMoveFromCartUrl($_item->getId()); ?>" class="use-ajax action towishlist">
+                <a href="#" data-post='<?php echo $this->helper('Magento\Wishlist\Helper\Data')->getMoveFromCartParams($_item->getId()); ?>' class="use-ajax action towishlist">
                     <span><?php echo __('Move to Wishlist'); ?></span>
                 </a>
                 <?php endif ?>

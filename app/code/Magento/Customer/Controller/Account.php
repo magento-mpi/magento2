@@ -57,7 +57,7 @@ class Account extends \Magento\App\Action\Action
     protected $_session;
 
     /**
-     * @var \Magento\Core\Model\UrlFactory
+     * @var \Magento\UrlFactory
      */
     protected $_urlFactory;
 
@@ -117,8 +117,8 @@ class Account extends \Magento\App\Action\Action
     /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Core\Model\UrlFactory $urlFactory
      * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\UrlFactory $urlFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Customer\Model\FormFactory $formFactory
      * @param \Magento\Stdlib\String $string
@@ -135,8 +135,8 @@ class Account extends \Magento\App\Action\Action
     public function __construct(
         \Magento\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Core\Model\UrlFactory $urlFactory,
         \Magento\Customer\Model\Session $customerSession,
+        \Magento\UrlFactory $urlFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Customer\Model\FormFactory $formFactory,
         \Magento\Stdlib\String $string,
@@ -760,7 +760,7 @@ class Account extends \Magento\App\Action\Action
             } catch (NoSuchEntityException $e) {
                 // Do nothing, we don't want anyone to use this action to determine which email accounts are registered.
             } catch (\Exception $exception) {
-                $this->messageManager->addException($e, __('Unable to send password reset email.'));
+                $this->messageManager->addException($exception, __('Unable to send password reset email.'));
                 $this->_redirect('*/*/forgotpassword');
                 return;
             }
@@ -987,7 +987,7 @@ class Account extends \Magento\App\Action\Action
     }
 
     /**
-     * @return \Magento\Core\Model\Url
+     * @return \Magento\UrlInterface
      */
     protected function _createUrl()
     {

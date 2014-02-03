@@ -17,6 +17,6 @@
         </action>
     </referenceBlock>
     <referenceContainer name="checkout.onepage.review.info.items.after">
-        <block class="Magento\Pbridge\Block\Checkout\Payment\Review\Container" name="pbridge.checkout.payment.review.iframe" template="Magento_Pbridge::checkout/review/iframe.phtml"/>
+        <block class="Magento\Pbridge\Block\Checkout\Payment\Review\Container" name="pbridge.checkout.payment.review.iframe" template="Magento_Pbridge::checkout/review/iframe.phtml" cacheable="false"/>
     </referenceContainer>
 </layout>

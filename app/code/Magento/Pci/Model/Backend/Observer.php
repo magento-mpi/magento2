@@ -15,6 +15,8 @@
  */
 namespace Magento\Pci\Model\Backend;
 
+use Magento\Event\Observer as EventObserver;
+
 class Observer
 {
     const ADMIN_USER_LOCKED = 243;
@@ -35,7 +37,7 @@ class Observer
      */
     protected $_userResource;
     /**
-     * @var \Magento\Backend\Model\Url
+     * @var \Magento\Backend\Model\UrlInterface
      */
     protected $_url;
 
@@ -73,7 +75,7 @@ class Observer
      * @param \Magento\AuthorizationInterface $authorization
      * @param \Magento\Backend\App\ConfigInterface $backendConfig
      * @param \Magento\Pci\Model\Resource\Admin\User $userResource
-     * @param \Magento\Backend\Model\Url $url
+     * @param \Magento\Backend\Model\UrlInterface $url
      * @param \Magento\Backend\Model\Session $session
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\User\Model\UserFactory $userFactory
@@ -85,7 +87,7 @@ class Observer
         \Magento\AuthorizationInterface $authorization,
         \Magento\Backend\App\ConfigInterface $backendConfig,
         \Magento\Pci\Model\Resource\Admin\User $userResource,
-        \Magento\Backend\Model\Url $url,
+        \Magento\Backend\Model\UrlInterface $url,
         \Magento\Backend\Model\Session $session,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\User\Model\UserFactory $userFactory,
@@ -108,7 +110,8 @@ class Observer
     /**
      * Admin locking and password hashing upgrade logic implementation
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function adminAuthenticate($observer)
@@ -218,7 +221,8 @@ class Observer
      * New password must be minimum 7 chars length and include alphanumeric characters
      * The password is compared to at least last 4 previous passwords to prevent setting them again
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function checkAdminPasswordChange($observer)
@@ -255,7 +259,8 @@ class Observer
     /**
      * Save new admin password
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
+     * @return void
      */
     public function trackAdminNewPassword($observer)
     {
@@ -297,7 +302,8 @@ class Observer
     /**
      * Force admin to change password
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
+     * @return void
      */
     public function forceAdminPasswordChange($observer)
     {

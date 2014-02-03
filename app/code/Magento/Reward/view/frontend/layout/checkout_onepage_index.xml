@@ -9,10 +9,10 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceBlock name="checkout.onepage.payment.methods_additional">
-        <block class="Magento\Reward\Block\Checkout\Payment\Additional" template="checkout/onepage/payment/additional.phtml" name="reward.points" before="-"/>
+        <block class="Magento\Reward\Block\Checkout\Payment\Additional" template="checkout/onepage/payment/additional.phtml" name="reward.points" before="-" cacheable="false"/>
     </referenceBlock>
     <referenceContainer name="checkout.onepage.login.before">
-        <block class="Magento\Reward\Block\Tooltip\Checkout" name="reward.tooltip.checkout" template="tooltip.phtml">
+        <block class="Magento\Reward\Block\Tooltip\Checkout" name="reward.tooltip.checkout" template="tooltip.phtml" cacheable="false">
             <arguments>
                 <argument name="reward_type" xsi:type="string">Magento\Reward\Model\Action\OrderExtra</argument>
             </arguments>
@@ -28,7 +28,7 @@
         </block>
     </referenceContainer>
     <referenceContainer name="checkout.onepage.login.before">
-        <block class="Magento\Reward\Block\Tooltip\Checkout" name="reward.tooltip.checkout.salesrule" template="tooltip.phtml">
+        <block class="Magento\Reward\Block\Tooltip\Checkout" name="reward.tooltip.checkout.salesrule" template="tooltip.phtml" cacheable="false">
             <arguments>
                 <argument name="reward_type" xsi:type="string">Magento\Reward\Model\Action\Salesrule</argument>
             </arguments>

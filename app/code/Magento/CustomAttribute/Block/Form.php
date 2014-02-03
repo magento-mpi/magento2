@@ -62,10 +62,6 @@ class Form extends \Magento\View\Element\Template
      */
     protected $_form;
 
-
-    /** @var \Magento\Customer\Model\Metadata\Form */
-    protected $_metadataForm;
-
     /**
      * EAV Entity Model
      *
@@ -87,9 +83,6 @@ class Form extends \Magento\View\Element\Template
      */
     protected $_fieldNameFormat = '%1$s';
 
-    /** @var \Magento\Customer\Model\Metadata\FormFactory  */
-    protected $_metadataFormFactory;
-
     /**
      * @var \Magento\Core\Model\Factory
      */
@@ -107,7 +100,6 @@ class Form extends \Magento\View\Element\Template
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory
      * @param \Magento\Core\Model\Factory $modelFactory
      * @param \Magento\Eav\Model\Form\Factory $formFactory
      * @param \Magento\Eav\Model\Config $eavConfig
@@ -115,13 +107,11 @@ class Form extends \Magento\View\Element\Template
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory,
         \Magento\Core\Model\Factory $modelFactory,
         \Magento\Eav\Model\Form\Factory $formFactory,
         \Magento\Eav\Model\Config $eavConfig,
         array $data = array()
     ) {
-        $this->_metadataFormFactory = $metadataFormFactory;
         $this->_modelFactory = $modelFactory;
         $this->_formFactory = $formFactory;
         $this->_eavConfig = $eavConfig;
@@ -237,7 +227,6 @@ class Form extends \Magento\View\Element\Template
      * Return EAV entity Form instance
      *
      * @return \Magento\Eav\Model\Form
-     * @deprecated use $this->getMetadataForm() instead
      */
     public function getForm()
     {
@@ -251,21 +240,6 @@ class Form extends \Magento\View\Element\Template
             $this->_form->initDefaultValues();
         }
         return $this->_form;
-    }
-
-    /**
-     * @return \Magento\Customer\Model\Metadata\Form
-     */
-    public function getMetadataForm()
-    {
-        if (is_null($this->_metadataForm)) {
-            $this->_metadataForm = $this->_metadataFormFactory->create(
-                $this->_entityType->getEntityTypeCode(),
-                $this->_formCode
-            );
-            // @todo initialize default values  MAGETWO-17600
-        }
-        return $this->_metadataForm;
     }
 
     /**

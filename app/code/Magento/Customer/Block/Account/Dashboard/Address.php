@@ -56,6 +56,7 @@ class Address extends \Magento\View\Element\Template
         $this->_addressService = $addressService;
         $this->_addressConfig = $addressConfig;
         parent::__construct($context, $data);
+        $this->_isScopePrivate = true;
     }
 
     /**
@@ -145,7 +146,7 @@ class Address extends \Magento\View\Element\Template
     {
         /** @var \Magento\Customer\Block\Address\Renderer\RendererInterface $renderer */
         $renderer = $this->_addressConfig->getFormatByCode('html')->getRenderer();
-        return $renderer->render($address->getAttributes());
+        return $renderer->renderArray($address->getAttributes());
     }
 }
 

@@ -9,6 +9,9 @@
  */
 namespace Magento\Module;
 
+use Magento\Config\CacheInterface;
+use Magento\Module\Declaration\Reader\Filesystem;
+
 class ModuleList implements \Magento\Module\ModuleListInterface
 {
     /**
@@ -26,13 +29,13 @@ class ModuleList implements \Magento\Module\ModuleListInterface
     protected $_scope = 'global';
 
     /**
-     * @param \Magento\Module\Declaration\Reader\Filesystem $reader
-     * @param \Magento\Config\CacheInterface $cache
+     * @param Filesystem $reader
+     * @param CacheInterface $cache
      * @param string $cacheId
      */
     public function __construct(
-        Declaration\Reader\Filesystem $reader,
-        \Magento\Config\CacheInterface $cache,
+        Filesystem $reader,
+        CacheInterface $cache,
         $cacheId = 'modules_declaration_cache'
     ) {
         $data = $cache->load($this->_scope . '::' .  $cacheId);

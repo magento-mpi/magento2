@@ -10,12 +10,15 @@
 
 namespace Magento\Customer\Model\Metadata\Form;
 
+use Magento\App\RequestInterface;
+use Magento\Customer\Model\Metadata\ElementFactory;
+
 class Select extends AbstractData
 {
     /**
      * {@inheritdoc}
      */
-    public function extractValue(\Magento\App\RequestInterface $request)
+    public function extractValue(RequestInterface $request)
     {
         return $this->_getRequestValue($request);
     }
@@ -34,7 +37,7 @@ class Select extends AbstractData
             $value = $this->_value;
         }
 
-        if ($attribute->isRequired() && empty($value) && $value != '0') {
+        if ($attribute->isRequired() && empty($value) && $value !== '0') {
             $errors[] = __('"%1" is a required value.', $label);
         }
 
@@ -54,10 +57,7 @@ class Select extends AbstractData
      */
     public function compactValue($value)
     {
-        if ($value !== false) {
-            return $value;
-        }
-        return false;
+        return $value;
     }
 
     /**
@@ -71,37 +71,34 @@ class Select extends AbstractData
     /**
      * Return a text for option value
      *
-     * @param int $value
+     * @param string|int $value
      * @return string
      */
     protected function _getOptionText($value)
     {
-        $optionText = false;
-        foreach ($this->getAttribute()->getOptions() as $optionKey => $optionValue) {
-            if ($optionValue == $value) {
-                $optionText = $optionKey;
+        foreach ($this->getAttribute()->getOptions() as $option) {
+            if ($option->getValue() == $value && !is_bool($value)) {
+                return $option->getLabel();
             }
         }
-        $output[] = $optionText;
+        return '';
     }
 
     /**
-     * {@inheritdoc}
+     * Return formated attribute value from entity model
+     *
+     * @param string $format
+     * @return string
      */
-    public function outputValue($format = \Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_TEXT)
+    public function outputValue($format = ElementFactory::OUTPUT_FORMAT_TEXT)
     {
         $value = $this->_value;
-        switch ($format) {
-            case \Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_JSON:
-                $output = $value;
-                break;
-            default:
-                if ($value != '') {
-                    $output = $this->_getOptionText($value);
-                } else {
-                    $output = '';
-                }
-                break;
+        if ($format === ElementFactory::OUTPUT_FORMAT_JSON) {
+            $output = $value;
+        } elseif ($value != '') {
+            $output = $this->_getOptionText($value);
+        } else {
+            $output = '';
         }
 
         return $output;

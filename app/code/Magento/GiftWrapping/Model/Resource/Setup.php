@@ -26,13 +26,19 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
     protected $_catalogSetupFactory;
 
     /**
+     * @var \Magento\Catalog\Model\ProductTypes\ConfigInterface
+     */
+    protected $productTypeConfig;
+
+    /**
      * @param \Magento\Core\Model\Resource\Setup\Context $context
      * @param string $resourceName
      * @param \Magento\App\CacheInterface $cache
-     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory
-     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory
+     * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Catalog\Model\Product\TypeFactory $productTypeFactory
      * @param \Magento\Catalog\Model\Resource\SetupFactory $catalogSetupFactory
+     * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
      * @param string $moduleName
      * @param string $connectionName
      */
@@ -40,16 +46,18 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
         \Magento\Core\Model\Resource\Setup\Context $context,
         $resourceName,
         \Magento\App\CacheInterface $cache,
-        \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory,
-        \Magento\Core\Model\Config $config,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory,
+        \Magento\App\ConfigInterface $config,
         \Magento\Catalog\Model\Product\TypeFactory $productTypeFactory,
         \Magento\Catalog\Model\Resource\SetupFactory $catalogSetupFactory,
+        \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
         $moduleName = 'Magento_GiftWrapping',
         $connectionName = ''
     ) {
+        $this->productTypeConfig = $productTypeConfig;
         $this->_productTypeFactory = $productTypeFactory;
         $this->_catalogSetupFactory = $catalogSetupFactory;
-        parent::__construct($context, $resourceName, $cache, $attrGrCollFactory, $config, $moduleName, $connectionName);
+        parent::__construct($context, $resourceName, $cache, $attrGroupCollectionFactory, $config, $moduleName, $connectionName);
     }
 
     /**
@@ -58,6 +66,23 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
     public function getProductType()
     {
         return $this->_productTypeFactory->create();
+    }
+
+    /**
+     * Get list product types that represents real product
+     *
+     * @return array
+     */
+    public function getRealProductTypes()
+    {
+        $output = array();
+        foreach ($this->productTypeConfig->getAll() as $typeKey => $config) {
+            if (!isset($config['custom_attributes']['is_real_product'])
+                || $config['custom_attributes']['is_real_product'] == 'true') {
+                $output[] = $typeKey;
+            }
+        }
+        return $output;
     }
 
     /**

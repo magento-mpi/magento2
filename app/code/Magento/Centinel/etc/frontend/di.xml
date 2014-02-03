@@ -23,9 +23,14 @@
     </virtualType>
     <type name="Magento\Core\Model\Url\SecurityInfo">
         <param name="secureUrlList">
-            <value>
-                <centinel>/centinel/</centinel>
-            </value>
+            <array>
+                <item key="centinel"><value>/centinel/</value></item>
+            </array>
+        </param>
+    </type>
+    <type name="Magento\Centinel\Model\Service">
+        <param name="centinelSession">
+            <instance type="Magento\Centinel\Model\Session" />
         </param>
     </type>
 </config>

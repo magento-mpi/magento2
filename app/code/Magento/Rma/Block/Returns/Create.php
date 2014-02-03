@@ -7,8 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Rma\Block\Returns;
+
+use Magento\Sales\Model\Order\Item;
+use Magento\Rma\Model\Item\Attribute;
 
 class Create extends \Magento\Rma\Block\Form
 {
@@ -38,7 +40,6 @@ class Create extends \Magento\Rma\Block\Form
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory
      * @param \Magento\Core\Model\Factory $modelFactory
      * @param \Magento\Eav\Model\Form\Factory $formFactory
      * @param \Magento\Eav\Model\Config $eavConfig
@@ -50,7 +51,6 @@ class Create extends \Magento\Rma\Block\Form
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory,
         \Magento\Core\Model\Factory $modelFactory,
         \Magento\Eav\Model\Form\Factory $formFactory,
         \Magento\Eav\Model\Config $eavConfig,
@@ -64,7 +64,7 @@ class Create extends \Magento\Rma\Block\Form
         $this->_rmaData = $rmaData;
         $this->_itemFactory = $itemFactory;
         $this->_itemFormFactory = $itemFormFactory;
-        parent::__construct($context, $metadataFormFactory, $modelFactory, $formFactory, $eavConfig, $data);
+        parent::__construct($context, $modelFactory, $formFactory, $eavConfig, $data);
     }
 
     public function _construct()
@@ -95,7 +95,7 @@ class Create extends \Magento\Rma\Block\Form
     /**
      * Retrieves item qty available for return
      *
-     * @param  $item | \Magento\Sales\Model\Order\Item
+     * @param  Item $item
      * @return int
      */
     public function getAvailableQty($item)
@@ -107,13 +107,13 @@ class Create extends \Magento\Rma\Block\Form
         return $return;
     }
 
-
-
+    /**
+     * @return string
+     */
     public function getBackUrl()
     {
         return $this->_urlBuilder->getUrl('sales/order/history');
     }
-
 
     /**
      * Prepare rma item attributes
@@ -136,7 +136,7 @@ class Create extends \Magento\Rma\Block\Form
 
         // add system required attributes
         foreach ($itemForm->getSystemAttributes() as $attribute) {
-            /* @var $attribute \Magento\Rma\Model\Item\Attribute */
+            /* @var $attribute Attribute */
             if ($attribute->getIsVisible()) {
                 $attributes[$attribute->getAttributeCode()] = $attribute;
             }
@@ -144,7 +144,7 @@ class Create extends \Magento\Rma\Block\Form
 
         // add user defined attributes
         foreach ($itemForm->getUserAttributes() as $attribute) {
-            /* @var $attribute \Magento\Rma\Model\Item\Attribute */
+            /* @var $attribute Attribute */
             if ($attribute->getIsVisible()) {
                 $attributes[$attribute->getAttributeCode()] = $attribute;
             }
@@ -175,12 +175,12 @@ class Create extends \Magento\Rma\Block\Form
      * Compares sort order of attributes, returns -1, 0 or 1 if $a sort
      * order is less, equal or greater than $b sort order respectively.
      *
-     * @param $a \Magento\Rma\Model\Item\Attribute
-     * @param $b \Magento\Rma\Model\Item\Attribute
+     * @param Attribute $a
+     * @param Attribute $b
      *
      * @return int
      */
-    protected function _compareSortOrder(\Magento\Rma\Model\Item\Attribute $a, \Magento\Rma\Model\Item\Attribute $b)
+    protected function _compareSortOrder(Attribute $a, Attribute $b)
     {
         $diff = $a->getSortOrder() - $b->getSortOrder();
         return $diff ? ($diff > 0 ? 1 : -1) : 0;

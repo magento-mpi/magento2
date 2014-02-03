@@ -18,7 +18,7 @@
     </placeholder>
     <placeholder name="catalog_navigation" code="CATALOG_NAVIGATION" cacheLifeTime="86400">
         <container instance="Magento\FullPageCache\Model\Container\Catalognavigation" />
-        <block instance="Magento\Catalog\Block\Navigation" name="catalog.topnav" />
+        <block instance="Magento\Catalog\Block\Navigation" name="catalog.topnav"/>
     </placeholder>
     <placeholder name="catalog_breadcrumbs" code="PAGE_BREADCRUMBS" cacheLifeTime="86400">
         <container instance="Magento\FullPageCache\Model\Container\Breadcrumbs" />
@@ -58,11 +58,11 @@
     </placeholder>
     <placeholder name="wishlist" code="WISHLIST" cacheLifeTime="86400">
         <container instance="Magento\FullPageCache\Model\Container\Wishlist" />
-        <block instance="Magento\Wishlist\Block\Customer\Sidebar" />
+        <block instance="Magento\Wishlist\Block\Customer\Sidebar"/>
     </placeholder>
     <placeholder name="orders" code="ORDERS" cacheLifeTime="86400">
         <container instance="Magento\FullPageCache\Model\Container\Orders" />
-        <block instance="Magento\Sales\Block\Reorder\Sidebar" />
+        <block instance="Magento\Sales\Block\Reorder\Sidebar"/>
     </placeholder>
     <placeholder name="wishlist_links" code="WISHLISTLINKS" cacheLifeTime="86400">
         <container instance="Magento\FullPageCache\Model\Container\Wishlistlinks" />
@@ -70,7 +70,7 @@
     </placeholder>
     <placeholder name="widget_magento_banner" code="WIDGET_ENTERPRISE_BANNER" cacheLifeTime="86400">
         <container instance="Magento\FullPageCache\Model\Container\Banner" />
-        <block instance="Magento\Banner\Block\Widget\Banner" />
+        <block instance="Magento\Banner\Block\Widget\Banner"/>
     </placeholder>
     <placeholder name="catalog_product_item_related" code="CATALOG_PRODUCT_ITEM_RELATED" cacheLifeTime="86400">
         <container instance="Magento\FullPageCache\Model\Container\CatalogProductItem" />
@@ -82,10 +82,10 @@
     </placeholder>
     <placeholder name="catalog_product_list_related" code="CATALOG_PRODUCT_LIST_RELATED" cacheLifeTime="86400">
         <container instance="Magento\FullPageCache\Model\Container\CatalogProductList" />
-        <block instance="Magento\Catalog\Block\Product\ProductList\Related" name="catalog.product.related" />
+        <block instance="Magento\Catalog\Block\Product\ProductList\Related" name="catalog.product.related"/>
     </placeholder>
     <placeholder name="catalog_product_list_upsell" code="CATALOG_PRODUCT_LIST_UPSELL" cacheLifeTime="86400">
         <container instance="Magento\FullPageCache\Model\Container\CatalogProductList" />
-        <block instance="Magento\Catalog\Block\Product\ProductList\Upsell" name="product.info.upsell" />
+        <block instance="Magento\Catalog\Block\Product\ProductList\Upsell" name="product.info.upsell"/>
     </placeholder>
 </config>

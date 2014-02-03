@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento\Module\Updater\SetupFactory">
+        <param name="resourceTypes">
+            <array>
+                <item key="groupedproduct_setup"><value>Magento\Catalog\Model\Resource\Setup</value></item>
+            </array>
+        </param>
+    </type>
+    <type name="Magento\Sales\Model\Quote\Item\RelatedProducts">
+        <param name="relatedProductTypes">
+            <array>
+                <item key="grouped"><value type="const">\Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE</value></item>
+            </array>
+        </param>
+    </type>
+    <type name="Magento\Catalog\Model\Product\LinkTypeProvider">
+        <param name="linkTypes">
+            <array>
+                <item key="associated"><value type="const">Magento\GroupedProduct\Model\Resource\Product\Link::LINK_TYPE_GROUPED</value></item>
+            </array>
+        </param>
+    </type>
+    <type name="Magento\Sales\Model\Resource\Report\Bestsellers">
+        <param name="ignoredProductTypes">
+            <array>
+                <item key="grouped"><value type="const">\Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE</value></item>
+            </array>
+        </param>
+    </type>
+    <type name="Magento\Catalog\Model\Product\CatalogPrice">
+        <param name="priceModelPool">
+            <array>
+                <item key="grouped"><value>Magento\GroupedProduct\Model\Product\CatalogPrice</value></item>
+            </array>
+        </param>
+    </type>
+    <type name="Magento\Catalog\Model\Product\Type">
+        <plugin name="grouped_output" type="Magento\GroupedProduct\Model\Product\Type\Plugin" />
+    </type>
+    <type name="Magento\Catalog\Model\Product\CartConfiguration">
+        <plugin name="isProductConfigured" type="Magento\GroupedProduct\Model\Product\Cart\Configuration\Plugin\Grouped" />
+    </type>
+</config>
+
+

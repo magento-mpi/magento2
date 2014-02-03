@@ -36,7 +36,6 @@ $installer->addAttribute(\Magento\Catalog\Model\Product::ENTITY, 'is_returnable'
     'apply_to'          =>
         \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE . ',' .
         \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE . ',' .
-        \Magento\Catalog\Model\Product\Type::TYPE_GROUPED . ',' .
         \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE,
     'is_configurable'   => false,
     'input_renderer'    => 'Magento\Rma\Block\Adminhtml\Product\Renderer',

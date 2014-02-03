@@ -23,10 +23,10 @@
     </virtualType>
     <type name="Magento\Centinel\Model\Service">
         <param name="url">
-            <instance type="Magento\Backend\Model\Url" />
+            <instance type="Magento\Backend\Model\UrlInterface" />
         </param>
         <param name="centinelSession">
-            <instance type="Magento\Core\Model\Session" />
+            <instance type="Magento\Centinel\Model\Session" />
         </param>
         <param name="urlPrefix">
             <value>adminhtml/centinel_index/</value>

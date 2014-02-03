@@ -8,6 +8,15 @@
  * @license     {license_link}
  */
 
+namespace Magento\Rma\Model\Resource;
+
+use Magento\Catalog\Model\Resource\AbstractResource;
+use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
+use Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend;
+use Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFrontend;
+use Magento\Eav\Model\Entity\Attribute\Source\AbstractSource;
+use Magento\Sales\Model\Order\Item as OrderItem;
+
 /**
  * RMA entity resource model
  *
@@ -15,9 +24,6 @@
  * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Rma\Model\Resource;
-
 class Item extends \Magento\Eav\Model\Entity\AbstractEntity
 {
     /**
@@ -27,17 +33,6 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
      */
     protected $_attributes   = array();
 
-    /**
-     * Array of aviable items types for rma
-     *
-     * @var array
-     */
-    protected $_aviableProductTypes = array(
-        \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE,
-        \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE,
-        \Magento\Catalog\Model\Product\Type::TYPE_GROUPED,
-        \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE
-    );
 
     /**
      * @var \Magento\Rma\Helper\Data
@@ -55,6 +50,11 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
     protected $_productFactory;
 
     /**
+     * @var \Magento\Rma\Model\RefundableList
+     */
+    protected $refundableList;
+
+    /**
      * @param \Magento\App\Resource $resource
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity
@@ -64,7 +64,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $ordersFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Logger
+     * @param \Magento\Rma\Model\RefundableList $refundableList
      * @param array $data
      */
     public function __construct(
@@ -77,11 +77,13 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $ordersFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Rma\Model\RefundableList $refundableList,
         $data = array()
     ) {
         $this->_rmaData = $rmaData;
         $this->_ordersFactory = $ordersFactory;
         $this->_productFactory = $productFactory;
+        $this->refundableList = $refundableList;
         parent::__construct($resource, $eavConfig, $attrSetEntity, $locale, $resourceHelper, $universalFactory, $data);
     }
 
@@ -130,14 +132,14 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
     /**
      * Check whether attribute instance (attribute, backend, frontend or source) has method and applicable
      *
-     * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute|\Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend|\Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFrontend|\Magento\Eav\Model\Entity\Attribute\Source\AbstractSource $instance
+     * @param AbstractAttribute|AbstractBackend|AbstractFrontend|AbstractSource $instance
      * @param string $method
      * @param array $args array of arguments
-     * @return boolean
+     * @return bool
      */
     protected function _isCallableAttributeInstance($instance, $method, $args)
     {
-        if ($instance instanceof \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
+        if ($instance instanceof AbstractBackend
             && ($method == 'beforeSave' || $method = 'afterSave')
         ) {
             $attributeCode = $instance->getAttribute()->getAttributeCode();
@@ -155,7 +157,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
      * @param \Magento\Object $object
      * @param integer $entityId
      * @param array|null $attributes
-     * @return \Magento\Catalog\Model\Resource\AbstractResource
+     * @return AbstractResource
      */
     public function load($object, $entityId, $attributes = array())
     {
@@ -249,7 +251,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
                 array('qty_shipped', 'qty_returned')
             )
             ->addFieldToFilter('order_id', $orderId)
-            ->addFieldToFilter('product_type', array("in" => $this->_aviableProductTypes))
+            ->addFieldToFilter('product_type', array("in" => $this->refundableList->getItem()))
             ->addFieldToFilter($expression, array("gt" => 0));
     }
 
@@ -367,7 +369,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
     /**
      * Gets Product Name
      *
-     * @param $item \Magento\Sales\Model\Order\Item
+     * @param OrderItem $item
      * @return string
      */
     public function getProductName($item)

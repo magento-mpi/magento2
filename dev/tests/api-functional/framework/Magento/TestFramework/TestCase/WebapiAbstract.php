@@ -153,7 +153,7 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
      * @param array $serviceInfo
      * @param array $arguments
      * @param string|null $webApiAdapterCode
-     * @return array Web API call results
+     * @return array|int|string|float|bool Web API call results
      */
     protected function _webApiCall($serviceInfo, $arguments = array(), $webApiAdapterCode = null)
     {
@@ -412,15 +412,15 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
         if (null === $this->_appCache) {
             //set application path
             $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-            /** @var \Magento\Core\Model\Config $config */
-            $config = $objectManager->get('Magento\Core\Model\Config');
+            /** @var \Magento\App\ConfigInterface $config */
+            $config = $objectManager->get('Magento\App\ConfigInterface');
             $options = $config->getOptions();
             $currentCacheDir = $options->getCacheDir();
             $currentEtcDir = $options->getEtcDir();
-            /** @var \Magento\Filesystem $filesystem */
-            $filesystem = $objectManager->get('Magento\Filesystem');
-            $options->setCacheDir($filesystem->getPath(\Magento\Filesystem::ROOT) . '/var/cache');
-            $options->setEtcDir($filesystem->getPath(\Magento\Filesystem::ROOT) . '/app/etc');
+            /** @var \Magento\App\Filesystem $filesystem */
+            $filesystem = $objectManager->get('Magento\App\Filesystem');
+            $options->setCacheDir($filesystem->getPath(\Magento\App\Filesystem::ROOT_DIR) . '/var/cache');
+            $options->setEtcDir($filesystem->getPath(\Magento\App\Filesystem::ROOT_DIR) . '/app/etc');
 
             $this->_appCache = $objectManager->get('Magento\App\Cache');
 
@@ -477,14 +477,14 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
             ->save();
 
         if ($restore && !isset($this->_origConfigValues[$path])) {
-            $this->_origConfigValues[$path] = (string) $objectManager->get('Magento\Core\Model\Config')
+            $this->_origConfigValues[$path] = (string) $objectManager->get('Magento\App\ConfigInterface')
                 ->getNode($path, 'default');
         }
 
         //refresh local cache
         if ($cleanAppCache) {
             if ($updateLocalConfig) {
-                $objectManager->get('Magento\Core\Model\Config')->reinit();
+                $objectManager->get('Magento\App\ReinitableConfigInterface')->reinit();
                 $objectManager->get('Magento\Core\Model\StoreManagerInterface')->reinitStores();
             }
 

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rma\Block\Adminhtml\Rma\NewRma\Tab;
 
 /**
  * Items Tab in Edit RMA form
@@ -15,8 +16,6 @@
  * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Rma\Block\Adminhtml\Rma\NewRma\Tab;
-
 class Items extends \Magento\Backend\Block\Widget\Form\Generic
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
@@ -109,7 +108,7 @@ class Items extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Prepare form before rendering HTML
      *
-     * @return \Magento\Rma\Block\Adminhtml\Rma\NewRma\Tab\Items
+     * @return $this
      */
     protected function _prepareForm()
     {

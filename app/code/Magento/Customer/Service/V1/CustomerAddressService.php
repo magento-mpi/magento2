@@ -266,10 +266,6 @@ class CustomerAddressService implements CustomerAddressServiceInterface
             }
         }
 
-        $region = $this->_regionBuilder->setRegionCode($addressModel->getRegionCode())
-            ->setRegion($addressModel->getRegion())
-            ->setRegionId($addressModel->getRegionId())
-            ->create();
         $this->_addressBuilder->populateWithArray(
             array_merge(
                 $addressData,
@@ -279,7 +275,11 @@ class CustomerAddressService implements CustomerAddressServiceInterface
                     'default_billing'  => $addressId === $defaultBillingId,
                     'default_shipping' => $addressId === $defaultShippingId,
                     'customer_id'      => $addressModel->getCustomerId(),
-                    'region'           => $region
+                    'region'           => [
+                        'region_code' => $addressModel->getRegionCode(),
+                        'region' => $addressModel->getRegion(),
+                        'region_id' => $addressModel->getRegionId(),
+                    ],
                 ]
             )
         );

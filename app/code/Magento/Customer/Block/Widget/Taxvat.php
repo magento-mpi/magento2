@@ -33,6 +33,7 @@ class Taxvat extends \Magento\Customer\Block\Widget\AbstractWidget
     ) {
         $this->_customerSession = $customerSession;
         parent::__construct($context, $addressHelper, $attributeMetadata, $data);
+        $this->_isScopePrivate = true;
     }
 
     public function _construct()

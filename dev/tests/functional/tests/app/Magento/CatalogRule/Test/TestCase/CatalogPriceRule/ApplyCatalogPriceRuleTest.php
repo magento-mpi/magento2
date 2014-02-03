@@ -41,7 +41,6 @@ class ApplyCatalogPriceRuleTest extends Functional
      */
     public function testApplyCatalogPriceRule()
     {
-        $this->markTestSkipped('Bug MAGETWO-18631 - Banner not showing is blocking this test.');
         // Create Simple Product
         $simple = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
         $simple->switchData(SimpleProduct::BASE);
@@ -76,6 +75,12 @@ class ApplyCatalogPriceRuleTest extends Functional
         // Update Banner with related Catalog Price Rule
         $banner->relateCatalogPriceRule($catalogPriceRuleId);
         $banner->persist();
+
+        //Flush cache
+        $cachePage = Factory::getPageFactory()->getAdminCache();
+        $cachePage->open();
+        $cachePage->getActionsBlock()->flushMagentoCache();
+        $cachePage->getMessagesBlock()->assertSuccessMessage();
 
         // Verify applied catalog price rules
         $this->verifyPriceRules($products);

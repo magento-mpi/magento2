@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <view id="view_one" class="Ogogo\Class\One">
+        <subscriptions>
+            <table name="some_entity" entity_column="entity_id" />
+            <table name="some_product_relation" entity_column="product_id" />
+        </subscriptions>
+    </view>
+    <view id="view_two" class="Ogogo\Class\Two">
+        <subscriptions>
+            <table name="some_entity" entity_column="entity_id" />
+            <table name="some_product_relation_other" entity_column="product_id" />
+        </subscriptions>
+    </view>
+    <view id="view_three" class="Ogogo\Class\Three">
+        <subscriptions>
+            <table name="some_entity" entity_column="entity_id" />
+            <table name="some_product_relation" entity_column="product_id" />
+        </subscriptions>
+    </view>
+</config>

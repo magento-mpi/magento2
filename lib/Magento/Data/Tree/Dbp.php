@@ -21,6 +21,8 @@
  */
 namespace Magento\Data\Tree;
 
+use Magento\DB\Select;
+
 class Dbp extends \Magento\Data\Tree
 {
 
@@ -43,6 +45,11 @@ class Dbp extends \Magento\Data\Tree
      */
     protected $_table;
 
+    /**
+     * Indicates if loaded
+     *
+     * @var bool
+     */
     protected $_loaded = false;
 
     /**
@@ -53,13 +60,31 @@ class Dbp extends \Magento\Data\Tree
     protected $_select;
 
     /**
-     * Tree ctructure field names
+     * Tree structure field: id
      *
      * @var string
      */
     protected $_idField;
+
+    /**
+     * Tree structure field: path
+     *
+     * @var string
+     */
     protected $_pathField;
+
+    /**
+     * Tree structure field: order
+     *
+     * @var string
+     */
     protected $_orderField;
+
+    /**
+     * Tree structure field: level
+     *
+     * @var string
+     */
     protected $_levelField;
 
     /**
@@ -107,7 +132,7 @@ class Dbp extends \Magento\Data\Tree
     /**
      * Retrieve current select object
      *
-     * @return \Magento\DB\Select
+     * @return Select
      */
     public function getDbSelect()
     {
@@ -117,7 +142,8 @@ class Dbp extends \Magento\Data\Tree
     /**
      * Set Select object
      *
-     * @param \Magento\DB\Select $select
+     * @param Select $select
+     * @return void
      */
     public function setDbSelect($select)
     {
@@ -127,8 +153,9 @@ class Dbp extends \Magento\Data\Tree
     /**
      * Load tree
      *
-     * @param   int|\Magento\Data\Tree\Node $parentNode
-     * @return  \Magento\Data\Tree\Dbp
+     * @param   int|Node $parentNode
+     * @param   int $recursionLevel
+     * @return  $this
      */
     public function load($parentNode=null, $recursionLevel = 0)
     {
@@ -136,7 +163,7 @@ class Dbp extends \Magento\Data\Tree
             $startLevel = 1;
             $parentPath = '';
 
-            if ($parentNode instanceof \Magento\Data\Tree\Node) {
+            if ($parentNode instanceof Node) {
                 $parentPath = $parentNode->getData($this->_pathField);
                 $startLevel = $parentNode->getData($this->_levelField);
             } else if (is_numeric($parentNode)) {
@@ -185,6 +212,15 @@ class Dbp extends \Magento\Data\Tree
         return $this;
     }
 
+    /**
+     * Add child nodes
+     *
+     * @param array $children
+     * @param string $path
+     * @param Node $parentNode
+     * @param int $level
+     * @return void
+     */
     public function addChildNodes($children, $path, $parentNode, $level = 0)
     {
         if (isset($children[$path])) {
@@ -193,7 +229,7 @@ class Dbp extends \Magento\Data\Tree
                 if ($parentNode && $nodeId && $node = $parentNode->getChildren()->searchById($nodeId)) {
                     $node->addData($child);
                 } else {
-                    $node = new \Magento\Data\Tree\Node($child, $this->_idField, $this, $parentNode);
+                    $node = new Node($child, $this->_idField, $this, $parentNode);
                 }
 
                 //$node->setLevel(count(explode('/', $node->getData($this->_pathField)))-1);
@@ -216,10 +252,10 @@ class Dbp extends \Magento\Data\Tree
     }
 
     /**
-     * Enter description here...
+     * Load node
      *
      * @param int|string $nodeId
-     * @return \Magento\Data\Tree\Node
+     * @return Node
      */
     public function loadNode($nodeId)
     {
@@ -232,11 +268,19 @@ class Dbp extends \Magento\Data\Tree
 
         $select->where("{$condField} = ?", $nodeId);
 
-        $node = new \Magento\Data\Tree\Node($this->_conn->fetchRow($select), $this->_idField, $this);
+        $node = new Node($this->_conn->fetchRow($select), $this->_idField, $this);
         $this->addNode($node);
         return $node;
     }
 
+    /**
+     * Get children
+     *
+     * @param Node $node
+     * @param bool $recursive
+     * @param array $result
+     * @return array
+     */
     public function getChildren($node, $recursive = true, $result = array()) {
         if (is_numeric($node)) {
             $node = $this->getNodeById($node);
@@ -260,9 +304,10 @@ class Dbp extends \Magento\Data\Tree
      * Move tree node
      *
      * @todo Use adapter for generate conditions
-     * @param \Magento\Data\Tree\Node $node
-     * @param \Magento\Data\Tree\Node $newParent
-     * @param \Magento\Data\Tree\Node $prevNode
+     * @param Node $node
+     * @param Node $newParent
+     * @param Node $prevNode
+     * @return void
      */
     public function move($node, $newParent, $prevNode = null)
     {
@@ -311,6 +356,13 @@ class Dbp extends \Magento\Data\Tree
         }
     }
 
+    /**
+     * Load ensured nodes
+     *
+     * @param object $category
+     * @param Node $rootNode
+     * @return void
+     */
     public function loadEnsuredNodes($category, $rootNode)
     {
         $pathIds = $category->getPathIds();
@@ -345,6 +397,16 @@ class Dbp extends \Magento\Data\Tree
         }
     }
 
+    /**
+     * Add child nodes
+     *
+     * @param array $children
+     * @param string $path
+     * @param Node $parentNode
+     * @param bool $withChildren
+     * @param int $level
+     * @return void
+     */
     protected function _addChildNodes($children, $path, $parentNode, $withChildren=false, $level = 0)
     {
         if (isset($children[$path])) {
@@ -353,7 +415,7 @@ class Dbp extends \Magento\Data\Tree
                 if ($parentNode && $nodeId && $node = $parentNode->getChildren()->searchById($nodeId)) {
                     $node->addData($child);
                 } else {
-                    $node = new \Magento\Data\Tree\Node($child, $this->_idField, $this, $parentNode);
+                    $node = new Node($child, $this->_idField, $this, $parentNode);
                     $node->setLevel($node->getData($this->_levelField));
                     $node->setPathId($node->getData($this->_pathField));
                     $this->addNode($node, $parentNode);

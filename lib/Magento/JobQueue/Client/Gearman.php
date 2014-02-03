@@ -19,10 +19,11 @@ class Gearman implements \Magento\JobQueue\ClientInterface
     protected $_adaptedClient;
 
     /**
-     * @param \Magento\JobQueue\Client\ConfigInterface $config
+     * @param ConfigInterface $config
      * @param \GearmanClient $adaptedClient
+     * @throws \InvalidArgumentException
      */
-    public function __construct(\Magento\JobQueue\Client\ConfigInterface $config, $adaptedClient = null)
+    public function __construct(ConfigInterface $config, $adaptedClient = null)
     {
         if ($adaptedClient && !($adaptedClient instanceof \GearmanClient)) {
             throw new \InvalidArgumentException('adaptedClient must be instance of GearmanClient');
@@ -37,7 +38,7 @@ class Gearman implements \Magento\JobQueue\ClientInterface
      *
      * @param string $name
      * @param array $params
-     * @param mixed $priority
+     * @param string|null $priority
      * @param string $uniqueId
      * @return string
      */
@@ -61,7 +62,7 @@ class Gearman implements \Magento\JobQueue\ClientInterface
     /**
      * Retrieve task status
      *
-     * @param $taskHandle
+     * @param string $taskHandle
      * @return array (
      *     'isEnqueued' => bool
      *     'isRunning' => bool

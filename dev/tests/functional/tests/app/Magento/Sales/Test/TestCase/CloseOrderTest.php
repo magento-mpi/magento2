@@ -13,34 +13,38 @@ namespace Magento\Sales\Test\TestCase;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Mtf\Fixture\DataFixture;
+use Magento\Sales\Test\Fixture\OrderCheckout;
+use Magento\Sales\Test\Fixture\PaypalStandardOrder;
 
 /**
- * Class CancelOrderTest
- * Test cancel order
+ * Class CloseOrderTest
  *
  * @package Magento\Sales\Test\TestCase\
  */
 class CloseOrderTest extends Functional
 {
     /**
-     * Cancel order placed by PayPal Express from product page
+     * Test the closing of sales order for various payment methods.
      *
-     * @ZephyrId MAGETWO-12434
-     * 
+     * @param OrderCheckout $fixture
      * @dataProvider dataProviderOrder
-     * @param DataFixture $fixture
+     *
+     * @ZephyrId MAGETWO-12434, MAGETWO-12833, MAGETWO-13014, MAGETWO-13015, MAGETWO-13019, MAGETWO-13020, MAGETWO-13018
      */
-    public function testPayPalExpress(DataFixture $fixture)
+    public function testCloseOrder(OrderCheckout $fixture)
     {
+        $this->markTestSkipped('MAGETWO-20052');
         $fixture->persist();
+
         //Data
         $orderId = $fixture->getOrderId();
         $grandTotal = $fixture->getGrandTotal();
+
         //Pages
-        $orderPage = Factory::getPageFactory()->getSalesOrder();
-        $newInvoicePage = Factory::getPageFactory()->getSalesOrderInvoiceNew();
-        $newShipmentPage = Factory::getPageFactory()->getSalesOrderShipmentNew();
+        $pageFactory = Factory::getPageFactory();
+        $orderPage = $pageFactory->getSalesOrder();
+        $newInvoicePage = $pageFactory->getSalesOrderInvoiceNew();
+        $newShipmentPage = $pageFactory->getSalesOrderShipmentNew();
 
         //Steps
         Factory::getApp()->magentoBackendLoginUser();
@@ -52,20 +56,29 @@ class CloseOrderTest extends Functional
             'Incorrect grand total value for the order #' . $orderId
         );
 
-        $orderPage->getOrderActionsBlock()->invoice();
-        $newInvoicePage->getInvoiceTotalsBlock()->setCaptureOption('Capture Online');
-        $newInvoicePage->getInvoiceTotalsBlock()->submit();
-        $this->assertContains(
-            $orderPage->getMessagesBlock()->getSuccessMessages(),
-            'The invoice has been created.',
-            'No success message on invoice creation'
-        );
+        /** @var \Magento\Sales\Test\Block\Adminhtml\Order\History $orderHistoryBlock */
+        $orderHistoryBlock = Factory::getPageFactory()->getSalesOrderView()->getOrderHistoryBlock();
 
-        $this->assertContains(
-            $grandTotal,
-            Factory::getPageFactory()->getSalesOrderView()->getOrderHistoryBlock()->getCommentsHistory(),
-            'Incorrect captured amount value for the order #' . $orderId
-        );
+        if (!($fixture instanceof PaypalStandardOrder)) {
+            $orderPage->getOrderActionsBlock()->invoice();
+            $newInvoicePage->getInvoiceTotalsBlock()->setCaptureOption('Capture Online');
+            $newInvoicePage->getInvoiceTotalsBlock()->submit();
+            $this->assertContains(
+                $orderPage->getMessagesBlock()->getSuccessMessages(),
+                'The invoice has been created.',
+                'No success message on invoice creation'
+            );
+
+            $this->assertContains(
+                $grandTotal, $orderHistoryBlock->getCommentsHistory(),
+                'Incorrect captured amount value for the order #' . $orderId
+            );
+        } else {
+            $this->assertContains(
+                $grandTotal, $orderHistoryBlock->getCapturedAmount(),
+                'Incorrect captured amount value for the order #' . $orderId
+            );
+        }
 
         $orderPage->getOrderActionsBlock()->ship();
         $newShipmentPage->getTotalsBlock()->submit();
@@ -98,14 +111,20 @@ class CloseOrderTest extends Functional
     }
 
     /**
-     * Data provider for testPayPalExpress
+     * Data providers for creating an order
      *
      * @return array
      */
     public function dataProviderOrder()
     {
         return array(
-            array(Factory::getFixtureFactory()->getMagentoSalesPaypalExpressOrder())
+            array(Factory::getFixtureFactory()->getMagentoSalesPaypalExpressOrder()),
+            array(Factory::getFixtureFactory()->getMagentoSalesAuthorizeNetOrder()),
+            array(Factory::getFixtureFactory()->getMagentoSalesPaypalPaymentsProOrder()),
+            array(Factory::getFixtureFactory()->getMagentoSalesPaypalPaymentsAdvancedOrder()),
+            array(Factory::getFixtureFactory()->getMagentoSalesPaypalPayflowProOrder()),
+            array(Factory::getFixtureFactory()->getMagentoSalesPaypalStandardOrder()),
+            array(Factory::getFixtureFactory()->getMagentoSalesPaypalPayflowLinkOrder())
         );
     }
 }

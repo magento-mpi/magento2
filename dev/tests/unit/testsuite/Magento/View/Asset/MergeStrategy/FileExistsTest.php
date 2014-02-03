@@ -33,6 +33,11 @@ class FileExistsTest extends \PHPUnit_Framework_TestCase
     /**
      * @var string
      */
+    protected $_mergedFileAbs = 'absolutePath/destination_file.js';
+
+    /**
+     * @var string
+     */
     protected $_mergedFile = 'destination_file.js';
 
     /**
@@ -43,7 +48,7 @@ class FileExistsTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_filesystem = $this->getMock(
-            'Magento\Filesystem',
+            'Magento\App\Filesystem',
             array('getDirectoryWrite', 'getDirectoryRead'),
             array(),
             '',
@@ -54,6 +59,17 @@ class FileExistsTest extends \PHPUnit_Framework_TestCase
             ->method('getDirectoryRead')
             ->will($this->returnValue($this->_directory));
         $this->_strategy = $this->getMock('Magento\View\Asset\MergeStrategyInterface');
+
+        $this->_directory->expects($this->any())
+            ->method('getRelativePath')
+            ->will(
+                $this->returnCallback(
+                    function ($path) {
+                        $parts = explode('/', $path);
+                        return end($parts);
+                    }
+                )
+            );
 
         $this->_object = new \Magento\View\Asset\MergeStrategy\FileExists(
             $this->_strategy,
@@ -69,9 +85,10 @@ class FileExistsTest extends \PHPUnit_Framework_TestCase
 
         $this->_directory->expects($this->once())
             ->method('isExist')
+            ->with($this->equalTo($this->_mergedFile))
             ->will($this->returnValue(true));
 
-        $this->_object->mergeFiles($this->_filesArray, $this->_mergedFile, 'contentType');
+        $this->_object->mergeFiles($this->_filesArray, $this->_mergedFileAbs, 'contentType');
     }
 
     public function testMergeFilesFileDoesNotExist()
@@ -79,12 +96,13 @@ class FileExistsTest extends \PHPUnit_Framework_TestCase
         $this->_strategy
             ->expects($this->once())
             ->method('mergeFiles')
-            ->with($this->_filesArray, $this->_mergedFile, 'contentType');
+            ->with($this->_filesArray, $this->_mergedFileAbs, 'contentType');
 
         $this->_directory->expects($this->once())
             ->method('isExist')
+            ->with($this->equalTo($this->_mergedFile))
             ->will($this->returnValue(false));
 
-        $this->_object->mergeFiles($this->_filesArray, $this->_mergedFile, 'contentType');
+        $this->_object->mergeFiles($this->_filesArray, $this->_mergedFileAbs, 'contentType');
     }
 }

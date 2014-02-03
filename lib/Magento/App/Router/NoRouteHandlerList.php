@@ -14,7 +14,7 @@ class NoRouteHandlerList
     /**
      * No route handlers instances
      *
-     * @var array
+     * @var NoRouteHandlerInterface[]
      */
     protected $_handlers;
 
@@ -43,7 +43,7 @@ class NoRouteHandlerList
     /**
      * Get noRoute handlers
      *
-     * @return array
+     * @return NoRouteHandlerInterface[]
      */
     public function getHandlers()
     {

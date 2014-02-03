@@ -24,6 +24,8 @@ abstract class AbstractTokenizer
 
     /**
      * String for tokenize
+     *
+     * @var string
      */
     protected $_string;
 
@@ -74,6 +76,9 @@ abstract class AbstractTokenizer
 
     /**
      * Set string for tokenize
+     *
+     * @param string $value
+     * @return void
      */
     public function setString($value)
     {
@@ -83,6 +88,8 @@ abstract class AbstractTokenizer
 
     /**
      * Move char index to begin of string
+     *
+     * @return void
      */
     public function reset()
     {
@@ -98,6 +105,11 @@ abstract class AbstractTokenizer
         return trim($this->char()) != $this->char();
     }
 
+    /**
+     * Tokenize string
+     *
+     * @return array
+     */
     abstract public function tokenize();
 
 }

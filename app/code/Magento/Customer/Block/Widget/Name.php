@@ -35,6 +35,7 @@ class Name extends \Magento\Customer\Block\Widget\AbstractWidget
     ) {
         $this->_customerHelper = $customerHelper;
         parent::__construct($context, $addressHelper, $attributeMetadata, $data);
+        $this->_isScopePrivate = true;
     }
 
     public function _construct()

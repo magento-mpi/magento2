@@ -73,6 +73,11 @@ class Form
     protected $_validator;
 
     /**
+     * @var \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata[]
+     */
+    protected $_attributes;
+
+    /**
      * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $eavMetadataService
      * @param ElementFactory $elementFactory
      * @param \Magento\App\RequestInterface $httpRequest
@@ -84,6 +89,8 @@ class Form
      * @param bool $ignoreInvisible
      * @param array $filterAttributes
      * @param bool $isAjax
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $eavMetadataService,
@@ -118,8 +125,43 @@ class Form
      */
     public function getAttributes()
     {
-        return $this->_eavMetadataService
-            ->getAttributes($this->_entityType, $this->_formCode);
+        if (!isset($this->_attributes)) {
+            $this->_attributes = $this->_eavMetadataService
+                ->getAttributes($this->_entityType, $this->_formCode);
+        }
+        return $this->_attributes;
+    }
+
+    /**
+     * Retrieve user defined attributes
+     *
+     * @return \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata[]
+     */
+    public function getUserAttributes()
+    {
+        $result = [];
+        foreach ($this->getAttributes() as $attribute) {
+            if ($attribute->isUserDefined()) {
+                $result[$attribute->getAttributeCode()] = $attribute;
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * Retrieve system required attributes
+     *
+     * @return \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata[]
+     */
+    public function getSystemAttributes()
+    {
+        $result = [];
+        foreach ($this->getAttributes() as $attribute) {
+            if (!$attribute->isUserDefined()) {
+                $result[$attribute->getAttributeCode()] = $attribute;
+            }
+        }
+        return $result;
     }
 
     /**
@@ -129,7 +171,7 @@ class Form
      */
     public function getAllowedAttributes()
     {
-        $attributes = $this->_eavMetadataService->getAttributes($this->_entityType, $this->_formCode);
+        $attributes = $this->getAttributes();
         foreach ($attributes as $attributeCode => $attribute) {
             if (
                 $this->_ignoreInvisible && !$attribute->isVisible()
@@ -196,14 +238,14 @@ class Form
             }
             $dataModel->restoreValue($data[$attribute->getAttributeCode()]);
         }
-        return $data;;
+        return $data;
     }
 
     /**
      * Return attribute data model by attribute
      *
      * @param \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute
-     * @return \Magento\Customer\Model\Metadata\Form\AbstractData
+     * @return \Magento\Eav\Model\Attribute\Data\AbstractData
      */
     protected function _getAttributeDataModel($attribute)
     {
@@ -284,5 +326,21 @@ class Form
             return $messages;
         }
         return true;
+    }
+
+    /**
+     * Return array of formatted allowed attributes values.
+     *
+     * @param string $format
+     * @return array
+     */
+    public function outputData($format = \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_TEXT)
+    {
+        $result = array();
+        foreach ($this->getAllowedAttributes() as $attribute) {
+            $dataModel = $this->_getAttributeDataModel($attribute);
+            $result[$attribute->getAttributeCode()] = $dataModel->outputValue($format);
+        }
+        return $result;
     }
 }

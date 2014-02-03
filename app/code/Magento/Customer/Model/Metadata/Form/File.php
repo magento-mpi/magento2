@@ -32,7 +32,7 @@ class File extends AbstractData
     protected $_fileValidator;
 
     /**
-     * @var \Magento\Filesystem
+     * @var \Magento\App\Filesystem
      */
     protected $_fileSystem;
 
@@ -45,7 +45,7 @@ class File extends AbstractData
      * @param bool $isAjax
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\File\Validator\NotProtectedExtension $fileValidator
-     * @param \Magento\Filesystem $fileSystem
+     * @param \Magento\App\Filesystem $fileSystem
      */
     public function __construct(
         \Magento\Core\Model\LocaleInterface $locale,
@@ -56,7 +56,7 @@ class File extends AbstractData
         $isAjax = false,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\File\Validator\NotProtectedExtension $fileValidator,
-        \Magento\Filesystem $fileSystem
+        \Magento\App\Filesystem $fileSystem
     ) {
         parent::__construct($locale, $logger, $attribute, $value, $entityTypeCode, $isAjax);
         $this->_coreData = $coreData;
@@ -127,7 +127,7 @@ class File extends AbstractData
      */
     protected function _validateByRules($value)
     {
-        $label  = $this->getAttribute()->getStoreLabel();
+        $label  = $value['name'];
         $rules  = $this->getAttribute()->getValidationRules();
         $extension  = pathinfo($value['name'], PATHINFO_EXTENSION);
 
@@ -136,7 +136,7 @@ class File extends AbstractData
             $extensions = array_map('trim', $extensions);
             if (!in_array($extension, $extensions)) {
                 return array(
-                    __('"%1" is not a valid file extension.', $label)
+                    __('"%1" is not a valid file extension.', $extension)
                 );
             }
         }
@@ -148,7 +148,7 @@ class File extends AbstractData
             return $this->_fileValidator->getMessages();
         }
 
-        if (!is_uploaded_file($value['tmp_name'])) {
+        if (!$this->_isUploadedFile($value['tmp_name'])) {
             return array(
                 __('"%1" is not a valid file.', $label)
             );
@@ -164,6 +164,19 @@ class File extends AbstractData
         }
 
         return array();
+    }
+
+    /**
+     * Helper function that checks if the file was uploaded.
+     *
+     * This helper function is needed for testing.
+     *
+     * @param string $filename
+     * @return bool
+     */
+    protected function _isUploadedFile($filename)
+    {
+        return is_uploaded_file($filename);
     }
 
     /**
@@ -226,7 +239,7 @@ class File extends AbstractData
             }
         }
 
-        $path = $this->_fileSystem->getPath(\Magento\Filesystem::MEDIA) . '/' . $this->_entityTypeCode;
+        $path = $this->_fileSystem->getPath(\Magento\App\Filesystem::MEDIA_DIR) . '/' . $this->_entityTypeCode;
 
         $result = $original;
         // unlink entity file

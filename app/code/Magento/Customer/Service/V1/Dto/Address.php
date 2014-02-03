@@ -11,6 +11,9 @@ namespace Magento\Customer\Service\V1\Dto;
 
 class Address extends \Magento\Service\Entity\AbstractDto implements Eav\EntityInterface
 {
+
+    const KEY_COUNTRY_ID = 'country_id';
+
     /**
      * @var array
      */
@@ -52,8 +55,8 @@ class Address extends \Magento\Service\Entity\AbstractDto implements Eav\EntityI
 
         /** This triggers some code in _updateAddressModel in CustomerV1 Service */
         if (!is_null($this->getRegion())) {
-            $attributes['region_id'] = $this->getRegion()->getRegionId();
-            $attributes['region'] = $this->getRegion()->getRegion();
+            $attributes['region']['region_id'] = $this->getRegion()->getRegionId();
+            $attributes['region']['region'] = $this->getRegion()->getRegion();
         }
 
         return $attributes;
@@ -86,7 +89,7 @@ class Address extends \Magento\Service\Entity\AbstractDto implements Eav\EntityI
      */
     public function getCountryId()
     {
-        return $this->_get('country_id');
+        return $this->_get(self::KEY_COUNTRY_ID);
     }
 
     /**

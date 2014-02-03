@@ -11,6 +11,7 @@
 namespace Magento\Invitation\Controller\Adminhtml;
 
 use Magento\Backend\App\Action;
+use Magento\App\Action\AbstractAction;
 
 class Index extends \Magento\Backend\App\Action
 {
@@ -63,6 +64,8 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Invitation list
+     *
+     * @retun void
      */
     public function indexAction()
     {
@@ -93,6 +96,8 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Invitation view action
+     *
+     * @return AbstractAction
      */
     public function viewAction()
     {
@@ -108,7 +113,9 @@ class Index extends \Magento\Backend\App\Action
     }
 
     /**
-     * Create new invitatoin form
+     * Create new invitation form
+     *
+     * @return void
      */
     public function newAction()
     {
@@ -119,6 +126,8 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Create & send new invitations
+     *
+     * @return AbstractAction
      */
     public function saveAction()
     {
@@ -195,6 +204,8 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Edit invitation's information
+     *
+     * @return AbstractAction
      */
     public function saveInvitationAction()
     {
@@ -230,6 +241,7 @@ class Index extends \Magento\Backend\App\Action
     /**
      * Action for mass-resending invitations
      *
+     * @return AbstractAction
      * @throws \Magento\Core\Exception
      */
     public function massResendAction()
@@ -288,6 +300,7 @@ class Index extends \Magento\Backend\App\Action
     /**
      * Action for mass-cancelling invitations
      *
+     * @return AbstractAction
      * @throws \Magento\Core\Exception
      */
     public function massCancelAction()

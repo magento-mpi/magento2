@@ -31,9 +31,9 @@ class DefaultRendererTest extends \PHPUnit_Framework_TestCase
      */
     public function testRender($addressAttributes, $format, $expected)
     {
-        /** @var DefaultRenderer */
+        /** @var DefaultRenderer $renderer */
         $renderer = $this->_addressConfig->getFormatByCode($format)->getRenderer();
-        $actual = $renderer->render($addressAttributes);
+        $actual = $renderer->renderArray($addressAttributes);
         $this->assertEquals($expected, $actual);
     }
 
@@ -45,8 +45,10 @@ class DefaultRendererTest extends \PHPUnit_Framework_TestCase
             'firstname' => 'John',
             'lastname' => 'Smith',
             'postcode' => '75477',
-            'region' => 'Alabama',
-            'region_id' => '1',
+            'region' => [
+                'region' => 'Alabama',
+                'region_id' => '1',
+            ],
             'street' => ['Green str, 67'],
             'telephone' => '3468676',
         ];

@@ -90,7 +90,6 @@ app/code/Magento/Invitation
 dev/tests/unit/testsuite/Magento/Invitation
 dev/tests/integration/testsuite/Magento/Invitation
 dev/tests/unit/testsuite/Magento/Invitation
-app/code/Magento/License
 app/code/Magento/Logging
 dev/tests/integration/testsuite/Magento/Logging
 dev/tests/unit/testsuite/Magento/Logging
@@ -100,6 +99,7 @@ dev/tests/unit/testsuite/Magento/Pbridge
 dev/tests/integration/testsuite/Magento/Pbridge
 app/code/Magento/Pci
 dev/tests/integration/testsuite/Magento/Pci
+dev/tests/unit/testsuite/Magento/Pci
 app/code/Magento/PricePermissions
 dev/tests/unit/testsuite/Magento/PricePermissions
 dev/tests/integration/testsuite/Magento/PricePermissions
@@ -144,7 +144,7 @@ app/code/Magento/MultipleWishlist
 dev/tests/integration/testsuite/Magento/MultipleWishlist
 dev/tests/unit/testsuite/Magento/WebsiteRestriction
 dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/LoggingConfigFilesTest.php
-dev/tests/static/framework/Magento/TestFramework/Dependency/_files/tables_ee.php
+dev/tests/static/testsuite/Magento/Test/Integrity/_files/dependency_test/tables_ee.php
 dev/tests/static/testsuite/Magento/Test/Integrity/Magento/Reward/LayoutTest.php
 dev/tools/xml/logging.xslt
 dev/tools/xml/transform_logging.php

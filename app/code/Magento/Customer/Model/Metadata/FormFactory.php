@@ -4,8 +4,6 @@
  *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -27,17 +25,20 @@ class FormFactory
         $this->_objectManager = $objectManager;
     }
 
-
     /**
      * Create Form
      *
-     * @param $entityType
-     * @param $formCode
-     * @param $attributeValues
+     * @param string $entityType
+     * @param string $formCode
+     * @param array $attributeValues
+     * @param bool $isAjax
      * @return \Magento\Customer\Model\Metadata\Form
      */
     public function create(
-        $entityType, $formCode, $attributeValues = [], $isAjax = false
+        $entityType,
+        $formCode,
+        $attributeValues = [],
+        $isAjax = false
     ) {
         $params = [
             'entityType' => $entityType,
@@ -45,6 +46,6 @@ class FormFactory
             'attributeValues' => $attributeValues,
             'isAjax' => $isAjax,
         ];
-        return $this->_objectManager->create('\Magento\Customer\Model\Metadata\Form', $params);
+        return $this->_objectManager->create('Magento\Customer\Model\Metadata\Form', $params);
     }
 }

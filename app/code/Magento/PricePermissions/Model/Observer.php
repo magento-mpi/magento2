@@ -17,6 +17,10 @@
  */
 namespace Magento\PricePermissions\Model;
 
+use Magento\Backend\Block\Template;
+use Magento\Event\Observer as EventObserver;
+use Magento\Backend\Block\Widget\Grid;
+
 class Observer
 {
     /**
@@ -29,21 +33,21 @@ class Observer
     /**
      * Edit Product Price flag
      *
-     * @var boolean
+     * @var bool
      */
     protected $_canEditProductPrice;
 
     /**
      * Read Product Price flag
      *
-     * @var boolean
+     * @var bool
      */
     protected $_canReadProductPrice;
 
     /**
      * Edit Product Status flag
      *
-     * @var boolean
+     * @var bool
      */
     protected $_canEditProductStatus;
 
@@ -154,7 +158,8 @@ class Observer
     /**
      * Reinit stores only with allowed scopes
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
+     * @return void
      */
     public function adminControllerPredispatch($observer)
     {
@@ -174,7 +179,8 @@ class Observer
     /**
      * Call needed function depending on block name
      *
-     * @param \Magento\Backend\Block\Template $block
+     * @param Template $block
+     * @return void
      */
     protected function _filterByBlockName($block)
     {
@@ -189,7 +195,8 @@ class Observer
     /**
      * Remove status option in massaction
      *
-     * @param \Magento\Backend\Block\Template $block
+     * @param Template $block
+     * @return void
      */
     protected function _removeStatusMassaction($block)
     {
@@ -201,7 +208,8 @@ class Observer
     /**
      * Remove price column from grid
      *
-     * @param \Magento\Backend\Block\Template $block
+     * @param Template $block
+     * @return void
      */
     protected function _removeColumnPrice($block)
     {
@@ -211,7 +219,8 @@ class Observer
     /**
      * Remove price and total columns from grid
      *
-     * @param \Magento\Backend\Block\Template $block
+     * @param Template $block
+     * @return void
      */
     protected function _removeColumnsPriceTotal($block)
     {
@@ -221,7 +230,8 @@ class Observer
     /**
      * Set read price to false
      *
-     * @param \Magento\Backend\Block\Template $block
+     * @param Template $block
+     * @return void
      */
     protected function _setCanReadPriceFalse($block)
     {
@@ -233,7 +243,8 @@ class Observer
     /**
      * Set read and edit price to false
      *
-     * @param \Magento\Backend\Block\Template $block
+     * @param Template $block
+     * @return void
      */
     protected function _setCanEditReadPriceFalse($block)
     {
@@ -246,7 +257,8 @@ class Observer
     /**
      * Set edit and read tab to false
      *
-     * @param \Magento\Backend\Block\Template $block
+     * @param Template $block
+     * @return void
      */
     protected function _setTabEditReadFalse($block)
     {
@@ -261,7 +273,8 @@ class Observer
     /**
      * Set edit and read price in child block to false
      *
-     * @param \Magento\Backend\Block\Template $block
+     * @param Template $block
+     * @return void
      */
     protected function _setOptionsEditReadFalse($block)
     {
@@ -279,7 +292,8 @@ class Observer
     /**
      * Set default product price
      *
-     * @param \Magento\Backend\Block\Template $block
+     * @param Template $block
+     * @return void
      */
     protected function _setCanEditReadDefaultPrice($block)
     {
@@ -292,7 +306,8 @@ class Observer
     /**
      * Set edit and read price to child block
      *
-     * @param \Magento\Backend\Block\Template $block
+     * @param Template $block
+     * @return void
      */
     protected function _setCanEditReadChildBlock($block)
     {
@@ -315,7 +330,8 @@ class Observer
     /**
      * Set form element value and readonly
      *
-     * @param \Magento\Backend\Block\Template $block
+     * @param Template $block
+     * @return void
      */
     protected function _setFormElementAttributes($block)
     {
@@ -336,12 +352,12 @@ class Observer
     /**
      * Handle adminhtml_block_html_before event
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
      * @return void
      */
     public function adminhtmlBlockHtmlBefore($observer)
     {
-        /** @var $block \Magento\Backend\Block\Template */
+        /** @var $block Template */
         $block = $observer->getBlock();
 
         $this->_filterByBlockName($block);
@@ -360,8 +376,9 @@ class Observer
     /**
      * Remove columns from grid
      *
-     * @param \Magento\Backend\Block\Widget\Grid $block
+     * @param Grid $block
      * @param array $columns
+     * @return void
      */
     protected function _removeColumnsFromGrid($block, array $columns)
     {
@@ -375,9 +392,9 @@ class Observer
     /**
      * Remove column from grid
      *
-     * @param \Magento\Backend\Block\Widget\Grid $block
+     * @param Grid $block
      * @param string $column
-     * @return \Magento\Backend\Block\Widget\Grid|bool
+     * @return Grid|bool
      */
     protected function _removeColumnFromGrid($block, $column)
     {
@@ -390,7 +407,7 @@ class Observer
     /**
      * Handle view_block_abstract_to_html_before event
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
      * @return void
      */
     public function viewBlockAbstractToHtmlBefore($observer)
@@ -434,10 +451,10 @@ class Observer
     /**
      * Handle catalog_product_load_after event
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
      * @return void
      */
-    public function catalogProductLoadAfter(\Magento\Event\Observer $observer)
+    public function catalogProductLoadAfter(EventObserver $observer)
     {
         /** @var $product \Magento\Catalog\Model\Product */
         $product = $observer->getEvent()->getDataObject();
@@ -472,10 +489,10 @@ class Observer
     /**
      * Handle catalog_product_save_before event
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
      * @return void
      */
-    public function catalogProductSaveBefore(\Magento\Event\Observer $observer)
+    public function catalogProductSaveBefore(EventObserver $observer)
     {
         /** @var $product \Magento\Catalog\Model\Product */
         $product = $observer->getEvent()->getDataObject();
@@ -487,10 +504,10 @@ class Observer
     /**
      * Handle adminhtml_catalog_product_edit_prepare_form event
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
      * @return void
      */
-    public function adminhtmlCatalogProductEditPrepareForm(\Magento\Event\Observer $observer)
+    public function adminhtmlCatalogProductEditPrepareForm(EventObserver $observer)
     {
         /** @var $product \Magento\Catalog\Model\Product */
         $product = $this->_coreRegistry->registry('product');
@@ -508,241 +525,9 @@ class Observer
     }
 
     /**
-     * Handle catalog_product_before_save event
-     *
-     * Handle important product data before saving a product
-     *
-     * @param \Magento\Event\Observer $observer
-     * @return void
-     */
-    public function catalogProductPrepareSave($observer)
-    {
-        /** @var $product \Magento\Catalog\Model\Product */
-        $product = $observer->getEvent()->getProduct();
-
-        if (!$this->_canEditProductPrice) {
-            // Handle Custom Options of Product
-            $originalOptions = $product->getOptions();
-            $options = $product->getData('product_options');
-            if (is_array($options)) {
-
-                $originalOptionsAssoc = array();
-                if (is_array($originalOptions)) {
-
-                    foreach ($originalOptions as $originalOption) {
-                        /** @var $originalOption \Magento\Catalog\Model\Product\Option */
-                        $originalOptionAssoc = array();
-                        $originalOptionAssoc['id'] = $originalOption->getOptionId();
-                        $originalOptionAssoc['option_id'] = $originalOption->getOptionId();
-                        $originalOptionAssoc['type'] = $originalOption->getType();
-                        $originalOptionGroup = $originalOption->getGroupByType();
-                        if ($originalOptionGroup != \Magento\Catalog\Model\Product\Option::OPTION_GROUP_SELECT) {
-                            $originalOptionAssoc['price'] = $originalOption->getPrice();
-                            $originalOptionAssoc['price_type'] = $originalOption->getPriceType();
-                        } else {
-                            $originalOptionAssoc['values'] = array();
-                            foreach ($originalOption->getValues() as $value) {
-                                /** @var $value \Magento\Catalog\Model\Product\Option\Value */
-                                $originalOptionAssoc['values'][$value->getOptionTypeId()] = array(
-                                    'price' => $value->getPrice(),
-                                    'price_type' => $value->getPriceType()
-                                );
-                            }
-                        }
-                        $originalOptionsAssoc[$originalOption->getOptionId()] = $originalOptionAssoc;
-                    }
-                }
-
-                foreach ($options as $optionId => &$option) {
-                    // For old options
-                    if (isset($originalOptionsAssoc[$optionId])
-                        && $originalOptionsAssoc[$optionId]['type'] == $option['type']
-                    ) {
-                        if (!isset($option['values'])) {
-                            $option['price'] = $originalOptionsAssoc[$optionId]['price'];
-                            $option['price_type'] = $originalOptionsAssoc[$optionId]['price_type'];
-                        } elseif (is_array($option['values'])) {
-                            foreach ($option['values'] as &$value) {
-                                if (isset($originalOptionsAssoc[$optionId]['values'][$value['option_type_id']])) {
-                                    $originalValue =
-                                        $originalOptionsAssoc[$optionId]['values'][$value['option_type_id']];
-                                    $value['price'] = $originalValue['price'];
-                                    $value['price_type'] = $originalValue['price_type'];
-                                } else {
-                                    // Set zero price for new selections of old custom option
-                                    $value['price'] = '0';
-                                    $value['price_type'] = 0;
-                                }
-                            }
-                        }
-                        // Set price to zero and price type to fixed for new options
-                    } else {
-                        if (!isset($option['values'])) {
-                            $option['price'] = '0';
-                            $option['price_type'] = 0;
-                        } elseif (is_array($option['values'])) {
-                            foreach ($option['values'] as &$value) {
-                                $value['price'] = '0';
-                                $value['price_type'] = 0;
-                            }
-                        }
-                    }
-                }
-                $product->setData('product_options', $options);
-            }
-
-            // Handle recurring profile data (replace it with original)
-            $originalRecurringProfile = $product->getOrigData('recurring_profile');
-            $product->setRecurringProfile($originalRecurringProfile);
-
-            // Handle data received from Associated Products tab of configurable product
-            if ($product->getTypeId() == \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE) {
-                $originalAttributes = $product->getTypeInstance()
-                    ->getConfigurableAttributesAsArray($product);
-                // Organize main information about original product attributes in assoc array form
-                $originalAttributesMainInfo = array();
-                if (is_array($originalAttributes)) {
-                    foreach ($originalAttributes as $originalAttribute) {
-                        $originalAttributesMainInfo[$originalAttribute['id']] = array();
-                        foreach ($originalAttribute['values'] as $value) {
-                            $originalAttributesMainInfo[$originalAttribute['id']][$value['value_index']] = array(
-                                'is_percent'    => $value['is_percent'],
-                                'pricing_value' => $value['pricing_value']
-                            );
-                        }
-                    }
-                }
-                $attributeData = $product->getConfigurableAttributesData();
-                if (is_array($attributeData)) {
-                    foreach ($attributeData as &$data) {
-                        $id = $data['id'];
-                        foreach ($data['values'] as &$value) {
-                            $valueIndex = $value['value_index'];
-                            if (isset($originalAttributesMainInfo[$id][$valueIndex])) {
-                                $value['pricing_value'] =
-                                    $originalAttributesMainInfo[$id][$valueIndex]['pricing_value'];
-                                $value['is_percent'] = $originalAttributesMainInfo[$id][$valueIndex]['is_percent'];
-                            } else {
-                                $value['pricing_value'] = 0;
-                                $value['is_percent'] = 0;
-                            }
-                        }
-                    }
-                    $product->setConfigurableAttributesData($attributeData);
-                }
-            }
-
-            // Handle seletion data of bundle products
-            if ($product->getTypeId() == \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
-                $bundleSelectionsData = $product->getBundleSelectionsData();
-                if (is_array($bundleSelectionsData)) {
-                    // Retrieve original selections data
-                    $product->getTypeInstance()->setStoreFilter($product->getStoreId(), $product);
-
-                    $optionCollection = $product->getTypeInstance()->getOptionsCollection($product);
-                    $selectionCollection = $product->getTypeInstance()->getSelectionsCollection(
-                        $product->getTypeInstance()->getOptionsIds($product),
-                        $product
-                    );
-
-                    $origBundleOptions = $optionCollection->appendSelections($selectionCollection);
-                    $origBundleOptionsAssoc = array();
-                    foreach ($origBundleOptions as $origBundleOption) {
-                        $optionId = $origBundleOption->getOptionId();
-                        $origBundleOptionsAssoc[$optionId] = array();
-                        if ($origBundleOption->getSelections()) {
-                            foreach ($origBundleOption->getSelections() as $selection) {
-                                $selectionProductId = $selection->getProductId();
-                                $origBundleOptionsAssoc[$optionId][$selectionProductId] = array(
-                                    'selection_price_type' => $selection->getSelectionPriceType(),
-                                    'selection_price_value' => $selection->getSelectionPriceValue()
-                                );
-                            }
-                        }
-                    }
-                    // Keep previous price and price type for selections
-                    foreach ($bundleSelectionsData as &$bundleOptionSelections) {
-                        foreach ($bundleOptionSelections as &$bundleOptionSelection) {
-                            if (!isset($bundleOptionSelection['option_id'])
-                                || !isset($bundleOptionSelection['product_id'])
-                            ) {
-                                continue;
-                            }
-                            $optionId = $bundleOptionSelection['option_id'];
-                            $selectionProductId = $bundleOptionSelection['product_id'];
-                            $isDeleted = $bundleOptionSelection['delete'];
-                            if (isset($origBundleOptionsAssoc[$optionId][$selectionProductId]) && !$isDeleted) {
-                                $bundleOptionSelection['selection_price_type'] =
-                                    $origBundleOptionsAssoc[$optionId][$selectionProductId]['selection_price_type'];
-                                $bundleOptionSelection['selection_price_value'] =
-                                    $origBundleOptionsAssoc[$optionId][$selectionProductId]['selection_price_value'];
-                            } else {
-                                // Set zero price for new bundle selections and options
-                                $bundleOptionSelection['selection_price_type'] = 0;
-                                $bundleOptionSelection['selection_price_value'] = 0;
-                            }
-                        }
-                    }
-                    $product->setData('bundle_selections_data', $bundleSelectionsData);
-                }
-            }
-
-            // Handle data received from Downloadable Links tab of downloadable products
-            if ($product->getTypeId() == \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE) {
-
-                $downloadableData = $product->getDownloadableData();
-                if (is_array($downloadableData) && isset($downloadableData['link'])) {
-                    $originalLinks = $product->getTypeInstance()->getLinks($product);
-                    foreach ($downloadableData['link'] as $id => &$downloadableDataItem) {
-                        $linkId = $downloadableDataItem['link_id'];
-                        if (isset($originalLinks[$linkId]) && !$downloadableDataItem['is_delete']) {
-                            $originalLink = $originalLinks[$linkId];
-                            $downloadableDataItem['price'] = $originalLink->getPrice();
-                        } else {
-                            // Set zero price for new links
-                            $downloadableDataItem['price'] = 0;
-                        }
-                    }
-                    $product->setDownloadableData($downloadableData);
-                }
-            }
-
-            if ($product->isObjectNew()) {
-                // For new products set default price
-                if (!($product->getTypeId() == \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE
-                    && $product->getPriceType() == \Magento\Bundle\Model\Product\Price::PRICE_TYPE_DYNAMIC)
-                ) {
-                    $product->setPrice((float) $this->_defaultProductPriceString);
-                    // Set default amount for Gift Card product
-                    if ($product->getTypeId() == \Magento\GiftCard\Model\Catalog\Product\Type\Giftcard::TYPE_GIFTCARD
-                    ) {
-                        $storeId = (int) $this->_request->getParam('store', 0);
-                        $websiteId = $this->_storeManager->getStore($storeId)->getWebsiteId();
-                        $product->setGiftcardAmounts(array(
-                            array(
-                                'website_id' => $websiteId,
-                                'price'      => $this->_defaultProductPriceString,
-                                'delete'     => ''
-                            )
-                        ));
-                    }
-                }
-                // New products are created without recurring profiles
-                $product->setIsRecurring(false);
-                $product->unsRecurringProfile();
-                // Add MAP default values
-                $product->setMsrpEnabled(
-                    \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Enabled::MSRP_ENABLE_USE_CONFIG);
-                $product->setMsrpDisplayActualPriceType(
-                    \Magento\Catalog\Model\Product\Attribute\Source\Msrp\Type\Price::TYPE_USE_CONFIG);
-            }
-        }
-    }
-
-    /**
      * Handle adminhtml_catalog_product_form_prepare_excluded_field_list event
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
      * @return void
      */
     public function adminhtmlCatalogProductFormPrepareExcludedFieldList($observer)
@@ -768,7 +553,7 @@ class Observer
     /**
      * Handle catalog_product_attribute_update_before event
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
      * @return void
      */
     public function catalogProductAttributeUpdateBefore($observer)

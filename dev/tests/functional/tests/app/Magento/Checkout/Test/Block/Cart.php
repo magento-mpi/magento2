@@ -34,13 +34,6 @@ class Cart extends Block
     protected $onepageLinkBlock = '.action.primary.checkout';
 
     /**
-     * Multishipping cart link block
-     *
-     * @var string
-     */
-    protected $multishippingLinkBlock = '.action.multicheckout';
-
-    /**
      * 'Clear Shopping Cart' button
      *
      * @var string
@@ -112,18 +105,6 @@ class Cart extends Block
     {
         return Factory::getBlockFactory()->getMagentoCheckoutOnepageLink(
             $this->_rootElement->find($this->onepageLinkBlock, Locator::SELECTOR_CSS)
-        );
-    }
-
-    /**
-     * Get multishipping cart link block
-     *
-     * @return \Magento\Checkout\Test\Block\Multishipping\Link
-     */
-    public function getMultishippingLinkBlock()
-    {
-        return Factory::getBlockFactory()->getMagentoCheckoutMultishippingLink(
-            $this->_rootElement->find($this->multishippingLinkBlock, Locator::SELECTOR_CSS)
         );
     }
 
