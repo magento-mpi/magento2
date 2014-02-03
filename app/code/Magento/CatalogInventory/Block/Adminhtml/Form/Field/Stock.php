@@ -39,12 +39,11 @@ class Stock extends \Magento\Data\Form\Element\Select
     protected $_factoryText;
 
     /**
-     * List of product types that treated as complex and
-     * has no quantity option if taken without their children
+     * Disabler conditions
      *
      * @var array
      */
-    protected $complexProductTypes;
+    protected $disablerConditions;
 
     /**
      * @param \Magento\Data\Form\Element\Factory $factoryElement
@@ -52,6 +51,7 @@ class Stock extends \Magento\Data\Form\Element\Select
      * @param \Magento\Escaper $escaper
      * @param \Magento\Data\Form\Element\TextFactory $factoryText
      * @param array $complexProductTypes
+     * @param array $disablerConditions
      * @param array $data
      */
     public function __construct(
@@ -60,11 +60,18 @@ class Stock extends \Magento\Data\Form\Element\Select
         \Magento\Escaper $escaper,
         \Magento\Data\Form\Element\TextFactory $factoryText,
         array $complexProductTypes = array(),
+        array $disablerConditions = array(),
         array $data = array()
     ) {
         $this->_factoryText = $factoryText;
         $this->_qty = isset($data['qty']) ? $data['qty'] : $this->_createQtyElement();
-        $this->complexProductTypes = $complexProductTypes;
+
+        $defaultConditions = array(
+            '$.inArray(productType, ' . json_encode(array_values($complexProductTypes)) . ') >= 0',
+            'hasVariation'
+        );
+        $this->disablerConditions = array_merge($disablerConditions, $defaultConditions);
+
         unset($data['qty']);
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);
         $this->setName($data['name']);
@@ -174,6 +181,7 @@ class Stock extends \Magento\Data\Form\Element\Select
      */
     protected function _getJs($quantityFieldId, $inStockFieldId)
     {
+        $disablerConditions = implode(' || ', $this->disablerConditions);
         // @codingStandardsIgnoreStart
         return "
             <script>
@@ -185,12 +193,8 @@ class Stock extends \Magento\Data\Form\Element\Select
                         useConfigManageStockField = $('#inventory_use_config_manage_stock');
 
                     var disabler = function(event) {
-                        var complexProductTypes = " . json_encode(array_values($this->complexProductTypes)) . ";
                         var hasVariation = $('[data-panel=product-variations]').is('.opened');
-                        if ((productType == 'configurable' && hasVariation)
-                            || $.inArray(productType, complexProductTypes) >= 0
-                            || hasVariation
-                        ) {
+                        if ({$disablerConditions}) {
                             return;
                         }
                         var manageStockValue = (qty.val() === '') ? 0 : 1;

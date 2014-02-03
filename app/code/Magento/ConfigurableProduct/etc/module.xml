@@ -11,9 +11,11 @@
     <module name="Magento_ConfigurableProduct" version="1.0.0.0" active="true">
         <sequence>
             <module name="Magento_Catalog"/>
+            <module name="Magento_CatalogInventory"/>
         </sequence>
         <depends>
             <module name="Magento_Catalog"/>
+            <module name="Magento_CatalogInventory"/>
         </depends>
     </module>
 </config>

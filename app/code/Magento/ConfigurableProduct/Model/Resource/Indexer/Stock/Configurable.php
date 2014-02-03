@@ -1,31 +1,22 @@
 <?php
 /**
+ * CatalogInventory Configurable Products Stock Status Indexer Resource Model
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_CatalogInventory
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
+namespace Magento\ConfigurableProduct\Model\Resource\Indexer\Stock;
 
-/**
- * CatalogInventory Configurable Products Stock Status Indexer Resource Model
- *
- * @category    Magento
- * @package     Magento_CatalogInventory
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-namespace Magento\CatalogInventory\Model\Resource\Indexer\Stock;
-
-class Configurable
-    extends \Magento\CatalogInventory\Model\Resource\Indexer\Stock\DefaultStock
+class Configurable extends \Magento\CatalogInventory\Model\Resource\Indexer\Stock\DefaultStock
 {
     /**
      * Reindex stock data for defined configurable product ids
      *
      * @param int|array $entityIds
-     * @return \Magento\CatalogInventory\Model\Resource\Indexer\Stock\Configurable
+     * @return \Magento\ConfigurableProduct\Model\Resource\Indexer\Stock\Configurable
      */
     public function reindexEntity($entityIds)
     {

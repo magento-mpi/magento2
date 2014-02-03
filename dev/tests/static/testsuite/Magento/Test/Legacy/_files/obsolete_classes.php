@@ -1929,4 +1929,12 @@ return array(
     array('Magento\Config\Dom\Converter\ArrayConverter'),
     array('Magento\Acl\Resource\Config\Dom'),
     array('Magento\GoogleShopping\Helper\Price', 'Magento\Catalog\Model\Product\CatalogPrice'),
+    array(
+        'Magento\CatalogInventory\Block\Stockqty\Type\Configurable',
+        'Magento\ConfigurableProduct\Block\Stockqty\Type\Configurable'
+    ),
+    array(
+        'Magento\CatalogInventory\Model\Resource\Indexer\Stock\Configurable',
+        'Magento\ConfigurableProduct\Model\Resource\Indexer\Stock\Configurable'
+    ),
 );
