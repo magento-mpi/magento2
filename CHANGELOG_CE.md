@@ -14,7 +14,8 @@
   * Fixed broken css\js merging functionality
   * Fixed selection customer on order creation page
   * Fixed an issue with insert image in WYSIWYG editor where selected folder was stored in session
-  * Fixed an issue with CMS Page Links not being shown due to empty text in the link  
+  * Fixed an issue with CMS Page Links not being shown due to empty text in the link
+  * Fixed an issue with custom options where option price couldn't be updated after switching scope from default values to default store view
 * AppInterface has been renamed to LauncherInterface
 * Removed reinit logic from Config object
 * Framework part of "URL" functionality moved out of modules
