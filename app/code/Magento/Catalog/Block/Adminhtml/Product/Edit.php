@@ -151,11 +151,6 @@ class Edit extends \Magento\Backend\Block\Widget
         return $this->getChildHtml('delete_button');
     }
 
-    public function getDuplicateButtonHtml()
-    {
-        return $this->getChildHtml('duplicate_button');
-    }
-
     /**
      * Get Save Split Button html
      *
@@ -222,19 +217,6 @@ class Edit extends \Magento\Backend\Block\Widget
             return $set->getAttributeSetName();
         }
         return '';
-    }
-
-    public function getIsConfigured()
-    {
-        $result = true;
-
-        $product = $this->getProduct();
-        if ($product->isConfigurable()) {
-            $superAttributes = $product->getTypeInstance()->getUsedProductAttributeIds($product);
-            $result = !empty($superAttributes);
-        }
-
-        return $result;
     }
 
     public function getSelectedTabId()
