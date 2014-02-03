@@ -115,7 +115,7 @@ class Emulation extends \Magento\Object
             $area = \Magento\Core\Model\App\Area::AREA_FRONTEND;
         }
         $initialTranslateInline = $emulateStoreInlineTranslation
-            ? $this->_emulateInlineTranslation($storeId, $area)
+            ? $this->_emulateInlineTranslation($storeId)
             : $this->_emulateInlineTranslation();
         $initialDesign = $this->_emulateDesign($storeId, $area);
         // Current store needs to be changed right before locale change and after design change
@@ -156,16 +156,15 @@ class Emulation extends \Magento\Object
      * Function disables inline translation if $storeId is null
      *
      * @param integer|null $storeId
-     * @param string $area
      *
      * @return boolean initial inline translation state
      */
-    protected function _emulateInlineTranslation($storeId = null, $area = \Magento\Core\Model\App\Area::AREA_FRONTEND)
+    protected function _emulateInlineTranslation($storeId = null)
     {
         if (is_null($storeId)) {
             $newTranslateInline = false;
         } else {
-            $newTranslateInline = $this->_configFactory->get($area)->isActive($storeId);
+            $newTranslateInline = $this->_configFactory->get()->isActive($storeId);
         }
         $translateInline = $this->_translate->getTranslateInline();
         $this->_translate->setTranslateInline($newTranslateInline);

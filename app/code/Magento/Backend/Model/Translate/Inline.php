@@ -32,7 +32,7 @@ class Inline extends \Magento\Translate\Inline
      * @param bool $isJson
      * @return $this
      */
-    public function processResponseBody(&$body, $isJson)
+    public function processResponseBody(&$body, $isJson = false)
     {
         if (!$this->isAllowed()) {
             $this->_stripInlineTranslations($body);

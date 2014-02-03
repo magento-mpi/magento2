@@ -13,7 +13,7 @@ namespace Magento;
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.TooManyFields)
  */
-class Translate implements TranslateInterface
+class Translate implements \Magento\TranslateInterface
 {
     /**
      * CSV separator
@@ -171,17 +171,6 @@ class Translate implements TranslateInterface
      */
     protected $directory;
 
-
-    /**
-     * @var \Magento\App\Cache\TypeListInterface
-     */
-    protected $_appCache;
-
-    /**
-     * @var \Magento\Translate\Inline\ParserInterface
-     */
-    protected $_inlineParser;
-
     /**
      * @param \Magento\View\DesignInterface $viewDesign
      * @param \Magento\Locale\Hierarchy\Config $config
@@ -196,8 +185,6 @@ class Translate implements TranslateInterface
      * @param \Magento\AppInterface $app
      * @param \Magento\App\State $appState
      * @param \Magento\App\Filesystem $filesystem
-     * @param \Magento\App\Cache\TypeListInterface $appCache
-     * @param \Magento\Translate\Inline\ParserInterface $inlineParser
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -214,9 +201,7 @@ class Translate implements TranslateInterface
         \Magento\Translate\ResourceInterface $translate,
         \Magento\AppInterface $app,
         \Magento\App\State $appState,
-        \Magento\App\Filesystem $filesystem,
-        \Magento\App\Cache\TypeListInterface $appCache,
-        \Magento\Translate\Inline\ParserInterface $inlineParser
+        \Magento\App\Filesystem $filesystem
     ) {
         $this->_viewDesign = $viewDesign;
         $this->_localeHierarchy = $config->getHierarchy();
@@ -232,8 +217,6 @@ class Translate implements TranslateInterface
         $this->_appState = $appState;
         $this->filesystem = $filesystem;
         $this->directory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
-        $this->_appCache = $appCache;
-        $this->_inlineParser = $inlineParser;
     }
 
     /**
@@ -321,29 +304,6 @@ class Translate implements TranslateInterface
     }
 
     /**
-     * Parse and save edited translate
-     *
-     * @param array $translate
-     * @return \Magento\Translate\InlineInterface
-     */
-    public function processAjaxPost($translate)
-    {
-        $this->_appCache->invalidate(\Magento\App\Cache\Type\Translate::TYPE_IDENTIFIER);
-        $this->_inlineParser->processAjaxPost($translate, $this->getInlineObject());
-    }
-
-    /**
-     * Replace translation templates with HTML fragments
-     *
-     * @param array|string $body
-     * @param bool $isJson
-     * @return \Magento\Translate\InlineInterface
-     */
-    public function processResponseBody(&$body, $isJson = false) {
-        return $this->getInlineObject()->processResponseBody($body, $isJson);
-    }
-
-    /**
      * Load data from module translation files
      *
      * @param string $moduleName
@@ -425,8 +385,9 @@ class Translate implements TranslateInterface
     /**
      * Load current theme translation
      *
-     * @param boolean $forceReload
-     * @return \Magento\TranslateInterface
+     * @param bool $forceReload
+     * @param string $area
+     * @return $this
      */
     protected function _loadThemeTranslation($forceReload = false, $area = null)
     {
@@ -480,6 +441,7 @@ class Translate implements TranslateInterface
      * Retrieve translation file for theme
      *
      * @param string $locale
+     * @param string $area
      * @return string
      */
     protected function _getThemeTranslationFile($locale, $area = null)

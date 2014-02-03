@@ -23,14 +23,34 @@ class Translate extends \Magento\App\Helper\AbstractHelper
     protected $_design;
 
     /**
+     * Inline translate
+     *
+     * @var \Magento\Translate\Inline\ParserInterface
+     */
+    protected $_inlineParser;
+
+    /**
+     * Translate library
+     *
+     * @var \Magento\Translate
+     */
+    protected $_translator;
+
+    /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\View\DesignInterface $design
+     * @param \Magento\Translate\Inline\ParserInterface $inlineParser
+     * @param \Magento\Translate $translate
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\View\DesignInterface $design
+        \Magento\View\DesignInterface $design,
+        \Magento\Translate\Inline\ParserInterface $inlineParser,
+        \Magento\Translate $translate
     ) {
         $this->_design = $design;
+        $this->_inlineParser = $inlineParser;
+        $this->_translator = $translate;
         parent::__construct($context);
     }
 
@@ -49,7 +69,7 @@ class Translate extends \Magento\App\Helper\AbstractHelper
                 $this->_design->setArea($area);
             }
 
-            $this->_translator->processAjaxPost($translate);
+            $this->_inlineParser->processAjaxPost($translate);
             $result = $returnType == 'json' ? "{success:true}" : true;
         } catch (\Exception $e) {
             $result = $returnType == 'json' ? "{error:true,message:'" . $e->getMessage() . "'}" : false;

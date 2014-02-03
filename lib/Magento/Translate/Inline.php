@@ -30,9 +30,9 @@ class Inline implements \Magento\Translate\InlineInterface
     protected $_isAllowed;
 
     /**
-     * @var \Magento\Translate\Inline\ParserInterface
+     * @var \Magento\Translate\Inline\ParserFactory
      */
-    protected $_parser;
+    protected $_parserFactory;
 
     /**
      * Flag about inserted styles and scripts for inline translates
@@ -80,7 +80,7 @@ class Inline implements \Magento\Translate\InlineInterface
      * Initialize inline translation model
      *
      * @param \Magento\BaseScopeResolverInterface $scopeResolver
-     * @param \Magento\Translate\Inline\ParserInterface $parser
+     * @param \Magento\Translate\Inline\ParserFactory $parserFactory
      * @param \Magento\TranslateInterface $translate
      * @param \Magento\UrlInterface $url
      * @param \Magento\View\LayoutInterface $layout
@@ -91,7 +91,7 @@ class Inline implements \Magento\Translate\InlineInterface
      */
     public function __construct(
         \Magento\BaseScopeResolverInterface $scopeResolver,
-        \Magento\Translate\Inline\ParserInterface $parser,
+        \Magento\Translate\Inline\ParserFactory $parserFactory,
         \Magento\TranslateInterface $translate,
         \Magento\UrlInterface $url,
         \Magento\View\LayoutInterface $layout,
@@ -102,7 +102,7 @@ class Inline implements \Magento\Translate\InlineInterface
     ) {
         $this->_scopeResolver = $scopeResolver;
         $this->_configFactory = $configFactory;
-        $this->_parser = $parser;
+        $this->_parserFactory = $parserFactory;
         $this->_translator = $translate;
         $this->_url = $url;
         $this->_layout = $layout;
@@ -145,9 +145,10 @@ class Inline implements \Magento\Translate\InlineInterface
      * @param bool $isJson
      * @return $this
      */
-    public function processResponseBody(&$body, $isJson)
+    public function processResponseBody(&$body, $isJson = false)
     {
-        $this->_parser->setIsJson($isJson);
+        $parser = $this->_parserFactory->get();
+        $parser->setIsJson($isJson);
         if (!$this->isAllowed()) {
             return $this;
         }
@@ -157,11 +158,11 @@ class Inline implements \Magento\Translate\InlineInterface
                 $this->processResponseBody($part, $isJson);
             }
         } elseif (is_string($body)) {
-            $content = $this->_parser->processResponseBodyString($body, $this);
+            $content = $parser->processResponseBodyString($body, $this);
             $this->_insertInlineScriptsHtml($content);
-            $body = $this->_parser->getContent();
+            $body = $parser->getContent();
         }
-        $this->_parser->setIsJson(\Magento\Translate\Inline\ParserInterface::JSON_FLAG_DEFAULT_STATE);
+        $parser->setIsJson(\Magento\Translate\Inline\ParserInterface::JSON_FLAG_DEFAULT_STATE);
         return $this;
     }
 
@@ -194,7 +195,7 @@ class Inline implements \Magento\Translate\InlineInterface
 
         $html = $block->toHtml();
 
-        $this->_parser->setContent(str_ireplace('</body>', $html . '</body>', $content));
+        $this->_parserFactory->get()->setContent(str_ireplace('</body>', $html . '</body>', $content));
 
         $this->_isScriptInserted = true;
     }

@@ -124,37 +124,53 @@ class Parser implements \Magento\Translate\Inline\ParserInterface
     protected $_appState;
 
     /**
+     * @var \Magento\Translate\InlineInterface
+     */
+    protected $_translateInline;
+
+    /**
+     * @var \Magento\App\Cache\TypeListInterface
+     */
+    protected $_appCache;
+
+    /**
      * Initialize base inline translation model
      *
      * @param \Magento\Core\Model\Resource\Translate\StringFactory $resource
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Zend_Filter_Interface $inputFilter
      * @param \Magento\App\State $appState
+     * @param \Magento\App\Cache\TypeListInterface $appCache,
+     * @param \Magento\Translate\InlineInterface $translateInline
      */
     public function __construct(
         \Magento\Core\Model\Resource\Translate\StringFactory $resource,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Zend_Filter_Interface $inputFilter,
-        \Magento\App\State $appState
+        \Magento\App\State $appState,
+        \Magento\App\Cache\TypeListInterface $appCache,
+        \Magento\Translate\InlineInterface $translateInline
     ) {
         $this->_resourceFactory = $resource;
         $this->_storeManager = $storeManager;
         $this->_inputFilter = $inputFilter;
         $this->_appState = $appState;
+        $this->_appCache = $appCache;
+        $this->_translateInline = $translateInline;
     }
 
     /**
      * Parse and save edited translation
      *
      * @param array $translateParams
-     * @param \Magento\Translate\InlineInterface $inlineInterface
      * @return $this
      */
-    public function processAjaxPost(array $translateParams, $inlineInterface)
+    public function processAjaxPost(array $translateParams)
     {
-        if (!$inlineInterface->isAllowed()) {
+        if (!$this->_translateInline->isAllowed()) {
             return $this;
         }
+        $this->_appCache->invalidate(\Magento\App\Cache\Type\Translate::TYPE_IDENTIFIER);
 
         $this->_validateTranslationParams($translateParams);
         $this->_filterTranslationParams($translateParams, array('custom'));
@@ -214,16 +230,15 @@ class Parser implements \Magento\Translate\Inline\ParserInterface
      * Replace html body with translation wrapping.
      *
      * @param string $body
-     * @param \Magento\Translate\InlineInterface $inlineInterface
      * @return string
      */
-    public function processResponseBodyString($body, $inlineInterface)
+    public function processResponseBodyString($body)
     {
         $this->_content = $body;
 
-        $this->_specialTags($inlineInterface);
-        $this->_tagAttributes($inlineInterface);
-        $this->_otherText($inlineInterface);
+        $this->_specialTags();
+        $this->_tagAttributes();
+        $this->_otherText();
 
         return $this->_content;
     }
@@ -294,17 +309,16 @@ class Parser implements \Magento\Translate\Inline\ParserInterface
     /**
      * Format translation for special tags.  Adding translate mode attribute for vde requests.
      *
-     * @param \Magento\Translate\InlineInterface $inlineInterface
      * @param string $tagHtml
      * @param string $tagName
      * @param array $trArr
      * @return string
      */
-    protected function _applySpecialTagsFormat($inlineInterface, $tagHtml, $tagName, $trArr)
+    protected function _applySpecialTagsFormat($tagHtml, $tagName, $trArr)
     {
         $specialTags = $tagHtml . '<span class="translate-inline-' . $tagName . '" '
             . $this->_getHtmlAttribute(self::DATA_TRANSLATE, htmlspecialchars('[' . join(',', $trArr) . ']'));
-        $additionalAttr = $this->_getAdditionalHtmlAttribute($inlineInterface, $tagName);
+        $additionalAttr = $this->_getAdditionalHtmlAttribute($tagName);
         if ($additionalAttr !== null) {
             $specialTags .= ' ' . $additionalAttr . '>';
         } else {
@@ -317,17 +331,16 @@ class Parser implements \Magento\Translate\Inline\ParserInterface
     /**
      * Format translation for simple tags.  Added translate mode attribute for vde requests.
      *
-     * @param \Magento\Translate\InlineInterface $inlineInterface
      * @param string $tagHtml
      * @param string  $tagName
      * @param array $trArr
      * @return string
      */
-    protected function _applySimpleTagsFormat($inlineInterface, $tagHtml, $tagName, $trArr)
+    protected function _applySimpleTagsFormat($tagHtml, $tagName, $trArr)
     {
         $simpleTags = substr($tagHtml, 0, strlen($tagName) + 1) . ' '
             . $this->_getHtmlAttribute(self::DATA_TRANSLATE, htmlspecialchars('[' . join(',', $trArr) . ']'));
-        $additionalAttr = $this->_getAdditionalHtmlAttribute($inlineInterface, $tagName);
+        $additionalAttr = $this->_getAdditionalHtmlAttribute($tagName);
         if ($additionalAttr !== null) {
             $simpleTags .= ' ' . $additionalAttr;
         }
@@ -364,21 +377,18 @@ class Parser implements \Magento\Translate\Inline\ParserInterface
 
     /**
      * Prepare tags inline translates
-     *
-     * @param \Magento\Translate\InlineInterface $inlineInterface
      */
-    private function _tagAttributes($inlineInterface)
+    private function _tagAttributes()
     {
-        $this->_prepareTagAttributesForContent($this->_content, $inlineInterface);
+        $this->_prepareTagAttributesForContent($this->_content);
     }
 
     /**
      * Prepare tags inline translates for the content
      *
      * @param string $content
-     * @param \Magento\Translate\InlineInterface $inlineInterface
      */
-    private function _prepareTagAttributesForContent(&$content, $inlineInterface)
+    private function _prepareTagAttributesForContent(&$content)
     {
         $quoteHtml = $this->_getHtmlQuote();
         $tagMatch   = array();
@@ -400,7 +410,7 @@ class Parser implements \Magento\Translate\Inline\ParserInterface
                     $trAttr  = ' ' . $this->_getHtmlAttribute(self::DATA_TRANSLATE,
                         htmlspecialchars('[' . join(',', $trArr) . ']'));
                 }
-                $trAttr = $this->_addTranslateAttribute($inlineInterface, $trAttr);
+                $trAttr = $this->_addTranslateAttribute($trAttr);
 
                 $tagHtml = substr_replace($tagHtml, $trAttr, strlen($tagMatch[1][0]) + 1, 1);
                 $content = substr_replace($content, $tagHtml, $tagMatch[0][1], strlen($tagMatch[0][0]));
@@ -424,14 +434,13 @@ class Parser implements \Magento\Translate\Inline\ParserInterface
     /**
      * Add data-translate-mode attribute
      *
-     * @param \Magento\Translate\InlineInterface $inlineInterface
      * @param string $trAttr
      * @return string
      */
-    private function _addTranslateAttribute($inlineInterface, $trAttr)
+    private function _addTranslateAttribute($trAttr)
     {
         $translateAttr = $trAttr;
-        $additionalAttr = $this->_getAdditionalHtmlAttribute($inlineInterface);
+        $additionalAttr = $this->_getAdditionalHtmlAttribute();
         if ($additionalAttr !== null) {
             $translateAttr .= ' ' . $additionalAttr . ' ';
         }
@@ -454,16 +463,11 @@ class Parser implements \Magento\Translate\Inline\ParserInterface
 
     /**
      * Prepare special tags
-     *
-     * @param \Magento\Translate\InlineInterface $inlineInterface
      */
-    private function _specialTags($inlineInterface)
+    private function _specialTags()
     {
-        $this->_translateTags($this->_content, $this->_allowedTagsGlobal,
-            $inlineInterface, '_applySpecialTagsFormat');
-
-        $this->_translateTags($this->_content, $this->_allowedTagsSimple,
-            $inlineInterface, '_applySimpleTagsFormat');
+        $this->_translateTags($this->_content, $this->_allowedTagsGlobal, '_applySpecialTagsFormat');
+        $this->_translateTags($this->_content, $this->_allowedTagsSimple, '_applySimpleTagsFormat');
     }
 
     /**
@@ -471,10 +475,9 @@ class Parser implements \Magento\Translate\Inline\ParserInterface
      *
      * @param string $content
      * @param array $tagsList
-     * @param \Magento\Translate\InlineInterface $inlineInterface
      * @param string|array $formatCallback
      */
-    private function _translateTags(&$content, $tagsList, $inlineInterface, $formatCallback)
+    private function _translateTags(&$content, $tagsList, $formatCallback)
     {
         $nextTag = 0;
 
@@ -514,7 +517,7 @@ class Parser implements \Magento\Translate\Inline\ParserInterface
 
             if (!empty($trArr)) {
                 $trArr = array_unique($trArr);
-                $tagHtml = call_user_func(array($this, $formatCallback), $inlineInterface, $tagHtml, $tagName, $trArr);
+                $tagHtml = call_user_func(array($this, $formatCallback), $tagHtml, $tagName, $trArr);
                 $tagClosurePos = $tagMatch[0][1] + strlen($tagHtml);
                 $content = substr_replace($content, $tagHtml, $tagMatch[0][1], $tagLength);
             }
@@ -553,10 +556,8 @@ class Parser implements \Magento\Translate\Inline\ParserInterface
 
     /**
      * Prepare other text inline translates
-     *
-     * @param \Magento\Translate\InlineInterface $inlineInterface
      */
-    private function _otherText($inlineInterface)
+    private function _otherText()
     {
         $next = 0;
         $matches = array();
@@ -569,7 +570,7 @@ class Parser implements \Magento\Translate\Inline\ParserInterface
                 'scope' => $matches[4][0],
             ));
 
-            $spanHtml = $this->_getDataTranslateSpan($inlineInterface,
+            $spanHtml = $this->_getDataTranslateSpan(
                 htmlspecialchars('[' . $translateProperties . ']'), $matches[1][0]);
             $this->_content = substr_replace($this->_content, $spanHtml, $matches[0][1], strlen($matches[0][0]));
             $next = $matches[0][1] + strlen($spanHtml) - 1;
@@ -579,15 +580,14 @@ class Parser implements \Magento\Translate\Inline\ParserInterface
     /**
      * Returns the html span that contains the data translate attribute including vde specific translate mode attribute
      *
-     * @param \Magento\Translate\InlineInterface $inlineInterface
      * @param string $data
      * @param string $text
      * @return string
      */
-    protected function _getDataTranslateSpan($inlineInterface, $data, $text)
+    protected function _getDataTranslateSpan($data, $text)
     {
         $translateSpan = '<span '. $this->_getHtmlAttribute(self::DATA_TRANSLATE, $data);
-        $additionalAttr = $this->_getAdditionalHtmlAttribute($inlineInterface);
+        $additionalAttr = $this->_getAdditionalHtmlAttribute();
         if ($additionalAttr !== null) {
             $translateSpan .= ' ' . $additionalAttr;
         }
@@ -598,12 +598,11 @@ class Parser implements \Magento\Translate\Inline\ParserInterface
     /**
      * Add an additional html attribute if needed.
      *
-     * @param \Magento\Translate\InlineInterface $inlineInterface
      * @param mixed|string $tagName
      * @return string
      */
-    protected function _getAdditionalHtmlAttribute($inlineInterface, $tagName = null)
+    protected function _getAdditionalHtmlAttribute($tagName = null)
     {
-        return $inlineInterface->getAdditionalHtmlAttribute($tagName);
+        return $this->_translateInline->getAdditionalHtmlAttribute($tagName);
     }
 }

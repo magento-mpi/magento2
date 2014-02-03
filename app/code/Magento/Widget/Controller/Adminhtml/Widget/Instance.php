@@ -38,9 +38,9 @@ class Instance extends \Magento\Backend\App\Action
     protected $mathRandom;
 
     /**
-     * @var \Magento\TranslateInterface
+     * @var \Magento\Translate\InlineInterface
      */
-    protected $_translator;
+    protected $_translateInline;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
@@ -48,7 +48,7 @@ class Instance extends \Magento\Backend\App\Action
      * @param \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory
      * @param \Magento\Logger $logger
      * @param \Magento\Math\Random $mathRandom
-     * @param \Magento\TranslateInterface $translator
+     * @param \Magento\Translate\InlineInterface $translateInline
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
@@ -56,9 +56,9 @@ class Instance extends \Magento\Backend\App\Action
         \Magento\Widget\Model\Widget\InstanceFactory $widgetFactory,
         \Magento\Logger $logger,
         \Magento\Math\Random $mathRandom,
-        \Magento\TranslateInterface $translator
+        \Magento\Translate\InlineInterface $translateInline
     ) {
-        $this->_translator = $translator;
+        $this->_translateInline = $translateInline;
         $this->_coreRegistry = $coreRegistry;
         $this->_widgetFactory = $widgetFactory;
         $this->_logger = $logger;
@@ -167,7 +167,7 @@ class Instance extends \Magento\Backend\App\Action
      */
     protected function setBody($body)
     {
-        $this->_translator->processResponseBody($body);
+        $this->_translateInline->processResponseBody($body);
 
         $this->getResponse()->setBody($body);
     }

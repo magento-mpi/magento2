@@ -86,7 +86,7 @@ class InlineVde implements \Magento\Translate\InlineInterface
      *
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\BaseScopeResolverInterface $scopeResolver
-     * @param \Magento\Translate\Inline\ParserInterface $parser
+     * @param \Magento\Translate\Inline\ParserFactory $parserFactory
      * @param \Magento\DesignEditor\Helper\Data $helper
      * @param \Magento\UrlInterface $url
      * @param \Magento\ObjectManager $objectManager
@@ -94,14 +94,14 @@ class InlineVde implements \Magento\Translate\InlineInterface
     public function __construct(
         \Magento\View\DesignInterface $design,
         \Magento\BaseScopeResolverInterface $scopeResolver,
-        \Magento\Translate\Inline\ParserInterface $parser,
+        \Magento\Translate\Inline\ParserFactory $parserFactory,
         \Magento\DesignEditor\Helper\Data $helper,
         \Magento\UrlInterface $url,
         \Magento\ObjectManager $objectManager
     ) {
         $this->_design = $design;
         $this->_scopeResolver = $scopeResolver;
-        $this->_parser = $parser;
+        $this->_parser = $parserFactory->create(array('translateInline' => $this));
         $this->_helper = $helper;
         $this->_url = $url;
         $this->_objectManager = $objectManager;
@@ -124,7 +124,7 @@ class InlineVde implements \Magento\Translate\InlineInterface
      * @param bool $isJson
      * @return $this
      */
-    public function processResponseBody(&$body, $isJson)
+    public function processResponseBody(&$body, $isJson = false)
     {
         if (is_array($body)) {
             foreach ($body as &$part) {

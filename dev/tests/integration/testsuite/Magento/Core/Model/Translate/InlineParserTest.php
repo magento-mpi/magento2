@@ -29,8 +29,11 @@ class InlineParserTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        /** @var $inline \Magento\Translate\Inline */
+        $inline = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Translate\Inline');
         $this->_inlineParser = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Translate\Inline\Parser');
+            ->create('Magento\Core\Model\Translate\Inline\Parser', array('translateInline' => $inline));
         /* Called getConfig as workaround for setConfig bug */
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
             ->getStore($this->_storeId)->getConfig('dev/translate_inline/active');
@@ -47,10 +50,7 @@ class InlineParserTest extends \PHPUnit_Framework_TestCase
         if ($isPerStore !== null) {
             $inputArray[0]['perstore'] = $isPerStore;
         }
-        /** @var $inline \Magento\Translate\Inline */
-        $inline = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Translate\Inline');
-        $this->_inlineParser->processAjaxPost($inputArray, $inline);
+        $this->_inlineParser->processAjaxPost($inputArray);
 
         $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Core\Model\Translate\String');

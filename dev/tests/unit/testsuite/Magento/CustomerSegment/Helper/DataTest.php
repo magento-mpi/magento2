@@ -33,17 +33,11 @@ class DataTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_formKeyMock = $this->getMock('Magento\Data\Form\FormKey', array(), array(), '', false);
-        $translate = function (array $args) {
-            return reset($args);
-        };
-        $translator = $this->getMock('Magento\TranslateInterface', array(), array(), '', false);
-        $translator->expects($this->any())->method('translate')->will($this->returnCallback($translate));
         $this->_storeConfig = $this->getMock('Magento\Core\Model\Store\Config', array('getConfig'), array(), '', false);
         $this->_segmentCollection = $this->getMock(
             'Magento\CustomerSegment\Model\Resource\Segment\Collection', array('toOptionArray'), array(), '', false
         );
         $helperContext = $this->getMock('Magento\App\Helper\Context', array(), array(), '', false);
-        $helperContext->expects($this->any())->method('getTranslator')->will($this->returnValue($translator));
         $this->_helper = new \Magento\CustomerSegment\Helper\Data(
             $helperContext,
             $this->_storeConfig,

@@ -45,21 +45,6 @@ interface TranslateInterface
     public function getTranslateInline();
 
     /**
-     * Parse and save edited translate
-     *
-     * @param array $translate
-     */
-    public function processAjaxPost($translate);
-
-    /**
-     * Replace translation templates with HTML fragments
-     *
-     * @param array|string $body
-     * @param bool $isJson
-     */
-    public function processResponseBody(&$body, $isJson = false);
-
-    /**
      * Set Translate inline mode
      *
      * @param bool $flag

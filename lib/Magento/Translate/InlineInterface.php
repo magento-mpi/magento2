@@ -33,5 +33,5 @@ interface InlineInterface
      * @param bool $isJson
      * @return \Magento\Translate\InlineInterface
      */
-    public function processResponseBody(&$body, $isJson);
+    public function processResponseBody(&$body, $isJson = false);
 }

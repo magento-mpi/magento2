@@ -18,19 +18,17 @@ interface ParserInterface
      * Parse and save edited translation
      *
      * @param array $translateParams
-     * @param \Magento\Translate\InlineInterface $inlineInterface
      * @return $this
      */
-    public function processAjaxPost(array $translateParams, $inlineInterface);
+    public function processAjaxPost(array $translateParams);
 
     /**
      * Replace html body with translation wrapping.
      *
      * @param string $body
-     * @param \Magento\Translate\InlineInterface $inlineInterface
      * @return string
      */
-    public function processResponseBodyString($body, $inlineInterface);
+    public function processResponseBodyString($body);
 
     /**
      * Returns the body content that is being parsed.
