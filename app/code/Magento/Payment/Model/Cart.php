@@ -83,6 +83,7 @@ class Cart
     ) {
         $this->_eventManager = $eventManager;
         $this->_salesModel = $salesModelFactory->create($salesModel);
+        $this->_resetAmounts();
     }
 
     /**
@@ -271,12 +272,7 @@ class Cart
         $this->_salesModelItems = array();
         $this->_customItems = array();
 
-        $this->_amounts = array(
-            self::AMOUNT_DISCOUNT => 0,
-            self::AMOUNT_SHIPPING => 0,
-            self::AMOUNT_SUBTOTAL => 0,
-            self::AMOUNT_TAX      => 0
-        );
+        $this->_resetAmounts();
 
         $this->_eventManager->dispatch('payment_cart_collect_items_and_amounts', array('cart' => $this));
 
@@ -319,11 +315,6 @@ class Cart
         if (!empty($this->_transferFlags[self::AMOUNT_SHIPPING]) && $this->getShipping()) {
             $this->addCustomItem(__('Shipping'), 1, $this->getShipping());
             $this->setShipping(0);
-        }
-
-        if (!empty($this->_transferFlags[self::AMOUNT_TAX])  && $this->getTax()) {
-            $this->addCustomItem(__('Tax'), 1, $this->getTax());
-            $this->setTax(0);
         }
 
         foreach ($this->_customItems as $item) {
@@ -392,5 +383,18 @@ class Cart
         }
 
         return $item;
+    }
+
+    /**
+     * Set all amount types to zero
+     */
+    protected function _resetAmounts()
+    {
+        $this->_amounts = array(
+            self::AMOUNT_DISCOUNT => 0,
+            self::AMOUNT_SHIPPING => 0,
+            self::AMOUNT_SUBTOTAL => 0,
+            self::AMOUNT_TAX      => 0
+        );
     }
 }
