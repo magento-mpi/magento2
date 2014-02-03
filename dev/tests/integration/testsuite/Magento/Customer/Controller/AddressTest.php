@@ -9,6 +9,8 @@
 
 namespace Magento\Customer\Controller;
 
+use Magento\TestFramework\Helper\Bootstrap;
+
 class AddressTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     protected function setUp()
@@ -16,7 +18,7 @@ class AddressTest extends \Magento\TestFramework\TestCase\AbstractController
         parent::setUp();
 
         $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
-        $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+        $session = Bootstrap::getObjectManager()
             ->create('Magento\Customer\Model\Session', array($logger));
         $session->login('customer@example.com', 'password');
     }
@@ -50,12 +52,12 @@ class AddressTest extends \Magento\TestFramework\TestCase\AbstractController
 
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
-     * @magentoDataFixture Magento/Customer/_files/customer_address.php
+     * @magentoDataFixture Magento/Customer/_files/customer_two_addresses.php
      */
     public function testFormPostAction()
     {
         $this->getRequest()
-            ->setParam('id', 1)
+            ->setParam('id', 2)
             ->setServer(['REQUEST_METHOD' => 'POST'])
             ->setPost([
                 'form_key' => $this->_objectManager->get('Magento\Data\Form\FormKey')->getFormKey(),
@@ -64,12 +66,11 @@ class AddressTest extends \Magento\TestFramework\TestCase\AbstractController
                 'company' => 'Ebay',
                 'telephone' => '1112223333',
                 'fax' => '2223334444',
-                'street' => ['1234 Monterey Rd'],
-                'city' => 'San Jose',
-                'region_id' => '12',
-                'region' => 'California',
+                'street' => ['1234 Monterey Rd', 'Apt 13'],
+                'city' => 'Kyiv',
+                'region' => 'Kiev',
                 'postcode' => '55555',
-                'country_id' => 'US',
+                'country_id' => 'UA',
                 'success_url' => '',
                 'error_url' => ''
             ]);
@@ -81,6 +82,13 @@ class AddressTest extends \Magento\TestFramework\TestCase\AbstractController
             $this->equalTo(['The address has been saved.']),
             \Magento\Message\MessageInterface::TYPE_SUCCESS
         );
+        /** @var \Magento\Customer\Service\V1\CustomerAddressService $addressService */
+        $addressService = Bootstrap::getObjectManager()->create('Magento\Customer\Service\V1\CustomerAddressService');
+        $address = $addressService->getAddressById(2);
+
+        $this->assertEquals('UA', $address->getCountryId());
+        $this->assertEquals('Kyiv', $address->getCity());
+        $this->assertEquals('Kiev', $address->getRegion()->getRegion());
     }
 
     /**
