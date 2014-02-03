@@ -241,16 +241,10 @@ class Product extends \Magento\Backend\App\Action
         if ($this->getRequest()->getParam('popup')) {
             $this->_view->loadLayout('popup');
         } else {
-            $_additionalLayoutPart = '';
-            if ($product->getTypeId() == \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE
-                && !($product->getTypeInstance()->getUsedProductAttributeIds($product))
-            ) {
-                $_additionalLayoutPart = '_new';
-            }
             $this->_view->loadLayout(array(
                 'default',
                 strtolower($this->_request->getFullActionName()),
-                'catalog_product_' . $product->getTypeId() . $_additionalLayoutPart
+                'catalog_product_' . $product->getTypeId()
             ));
             $this->_setActiveMenu('Magento_Catalog::catalog_products');
         }
@@ -285,17 +279,10 @@ class Product extends \Magento\Backend\App\Action
 
         $this->_eventManager->dispatch('catalog_product_edit_action', array('product' => $product));
 
-        $additionalLayoutPart = '';
-        if ($product->getTypeId() == \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE
-           && !($product->getTypeInstance()->getUsedProductAttributeIds($product))
-        ) {
-            $additionalLayoutPart = '_new';
-        }
-
         $this->_view->loadLayout(array(
             'default',
             strtolower($this->_request->getFullActionName()),
-            'catalog_product_'.$product->getTypeId() . $additionalLayoutPart
+            'catalog_product_'.$product->getTypeId()
         ));
 
         $this->_setActiveMenu('Magento_Catalog::catalog_products');

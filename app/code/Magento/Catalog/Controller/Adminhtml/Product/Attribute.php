@@ -440,18 +440,6 @@ class Attribute extends \Magento\Backend\App\Action
     }
 
     /**
-     * Search for attributes by part of attribute's label in admin store
-     */
-    public function suggestConfigurableAttributesAction()
-    {
-        $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(
-            $this->_view->getLayout()
-                ->createBlock('Magento\ConfigurableProduct\Block\Product\Configurable\AttributeSelector')
-                ->getSuggestedAttributes($this->getRequest()->getParam('label_part'))
-        ));
-    }
-
-    /**
      * ACL check
      *
      * @return bool

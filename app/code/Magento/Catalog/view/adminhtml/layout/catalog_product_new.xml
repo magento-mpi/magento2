@@ -126,7 +126,5 @@
     <referenceContainer name="js">
         <block class="Magento\Catalog\Block\Adminhtml\Product\Edit\Js" name="catalog_product_js" template="catalog/product/js.phtml"/>
         <block class="Magento\View\Element\Template" template="Magento_Catalog::catalog/wysiwyg/js.phtml"/>
-        <block class="Magento\ConfigurableProduct\Block\Product\Configurable\AttributeSelector" template="Magento_Catalog::product/configurable/attribute-selector/js.phtml"/>
-        <block class="Magento\ConfigurableProduct\Block\Product\Configurable\AttributeSelector" template="Magento_Catalog::product/configurable/affected-attribute-set-selector/js.phtml"/>
     </referenceContainer>
 </layout>
