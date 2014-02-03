@@ -289,7 +289,7 @@ class Source extends AbstractEav
     /**
      * Retrieve temporary source index table name
      *
-     * @param string $table
+     * @param string|null $table
      * @return string
      */
     public function getIdxTable($table = null)

@@ -666,7 +666,7 @@ class Price extends \Magento\Index\Model\Resource\AbstractResource
     /**
      * Retrieve temporary index table name
      *
-     * @param string $table
+     * @param string|null $table
      * @return string
      */
     public function getIdxTable($table = null)

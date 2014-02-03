@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 namespace Magento\Catalog\Model\Resource\Product\Attribute\Backend;
+
 use Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend;
 
 /**
