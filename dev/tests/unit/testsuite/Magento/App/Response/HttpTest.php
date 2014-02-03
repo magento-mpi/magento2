@@ -40,8 +40,11 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
     public function testGetVaryString()
     {
-        $expected = sha1(serialize(array('some-vary-key' => 'some-vary-value')));
+        $vary = array('some-vary-key' => 'some-vary-value');
+        ksort($vary);
+        $expected = sha1(serialize($vary));
         $this->_model->setVary('some-vary-key', 'some-vary-value');
+
         $this->assertEquals($expected, $this->_model->getVaryString());
     }
 }

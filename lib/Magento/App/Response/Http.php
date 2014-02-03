@@ -53,7 +53,6 @@ class Http extends \Zend_Controller_Response_Http implements \Magento\App\Respon
         if (is_array($value)) {
             $value = serialize($value);
         }
-        sort($this->vary);
         $this->vary[$name] = $value;
         return $this;
     }
@@ -77,6 +76,7 @@ class Http extends \Zend_Controller_Response_Http implements \Magento\App\Respon
      */
     public function getVaryString()
     {
+        ksort($this->vary);
         return sha1(serialize($this->vary));
     }
 }
