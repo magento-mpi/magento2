@@ -9,6 +9,8 @@
 
 namespace Magento\View;
 
+use Magento\App\Filesystem as Filesystem;
+
 class PublicationTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -33,7 +35,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->markTestSkipped();
+        //$this->markTestSkipped();
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\App\State')->setAreaCode('frontend');
         $this->_viewService = $objectManager->create('Magento\View\Service');
@@ -44,9 +46,9 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
 
     protected function tearDown()
     {
-        /** @var \Magento\App\Filesystem $filesystem */
+        /** @var Filesystem $filesystem */
         $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\App\Filesystem');
-        $publicDir = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::STATIC_VIEW_DIR);
+        $publicDir = $filesystem->getDirectoryWrite(Filesystem::STATIC_VIEW_DIR);
         $publicDir->delete('adminhtml');
         $publicDir->delete('frontend');
         $this->_model = null;
@@ -57,9 +59,9 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetPublicDir()
     {
-        /** @var $filesystem \Magento\App\Filesystem */
+        /** @var $filesystem Filesystem */
         $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Filesystem');
-        $expectedPublicDir = $filesystem->getPath(\Magento\App\Filesystem::STATIC_VIEW_DIR);
+        $expectedPublicDir = $filesystem->getPath(Filesystem::STATIC_VIEW_DIR);
         $this->assertEquals($expectedPublicDir, $this->_viewService->getPublicDir());
     }
 
@@ -423,25 +425,19 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
     protected function _testPublishResourcesAndCssWhenChangedCss($expectedPublished)
     {
         $appInstallDir = \Magento\TestFramework\Helper\Bootstrap::getInstance()->getAppInstallDir();
-        \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
-            \Magento\App\Filesystem::PARAM_APP_DIRS => array(
-                \Magento\App\Filesystem::THEMES_DIR => array('path' => "$appInstallDir/media_for_change"),
-            )
-        ));
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')->setAreaCode('frontend');
 
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\View\DesignInterface');
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager->get('Magento\App\State')->setAreaCode('frontend');
+
+        $this->_model = $objectManager->get('Magento\View\DesignInterface');
         $this->_model->setDesignTheme('test_default');
 
-        $this->_viewService = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\View\Service');
-        $this->_fileSystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\View\FileSystem');
-        $this->_viewUrl = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\View\Url');
+        $this->_viewService = $objectManager->create('Magento\View\Service');
+        $this->_fileSystem = $objectManager->create('Magento\View\FileSystem');
+        $this->_viewUrl = $objectManager->create('Magento\View\Url');
 
         $themePath = $this->_model->getDesignTheme()->getFullPath();
+        
         $fixtureViewPath = "$appInstallDir/media_for_change/$themePath/";
         $publishedPath = $this->_viewService->getPublicDir() . "/$themePath/en_US/";
 
@@ -480,8 +476,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testPublishChangedResourcesWhenUnchangedCssDevMode()
     {
-        $mode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')
-            ->getMode();
+        $mode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')->getMode();
         if ($mode != \Magento\App\State::MODE_DEVELOPER) {
             $this->markTestSkipped('Valid in developer mode only');
         }
@@ -515,22 +510,20 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
     {
         $appInstallDir = \Magento\TestFramework\Helper\Bootstrap::getInstance()->getAppInstallDir();
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
-            \Magento\App\Filesystem::PARAM_APP_DIRS => array(
-                \Magento\App\Filesystem::THEMES_DIR => array('path' => "$appInstallDir/media_for_change"),
+            Filesystem::PARAM_APP_DIRS => array(
+                Filesystem::THEMES_DIR => array('path' => "$appInstallDir/media_for_change"),
             )
         ));
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')->setAreaCode('frontend');
 
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\View\DesignInterface');
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager->get('Magento\App\State')->setAreaCode('frontend');
+
+        $this->_model = $objectManager->get('Magento\View\DesignInterface');
         $this->_model->setDesignTheme('test_default');
 
-        $this->_viewService = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\View\Service');
-        $this->_fileSystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\View\FileSystem');
-        $this->_viewUrl = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\View\Url');
+        $this->_viewService = $objectManager->create('Magento\View\Service');
+        $this->_fileSystem = $objectManager->create('Magento\View\FileSystem');
+        $this->_viewUrl = $objectManager->create('Magento\View\Url');
 
         $themePath = $this->_model->getDesignTheme()->getFullPath();
         $fixtureViewPath = "$appInstallDir/media_for_change/$themePath/";
@@ -563,8 +556,8 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
     protected function _initTestTheme($allowDuplication = null)
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
-            \Magento\App\Filesystem::PARAM_APP_DIRS => array(
-                \Magento\App\Filesystem::THEMES_DIR => array('path' => dirname(__DIR__) . '/Core/Model/_files/design/')
+            Filesystem::PARAM_APP_DIRS => array(
+                Filesystem::THEMES_DIR => array('path' => dirname(__DIR__) . '/Core/Model/_files/design/')
             )
         ));
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')->setAreaCode('frontend');
@@ -600,8 +593,8 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
     public function testCssWithBase64Data()
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
-            \Magento\App\Filesystem::PARAM_APP_DIRS => array(
-                \Magento\App\Filesystem::THEMES_DIR => array('path' => dirname(__DIR__) . '/Core/Model/_files/design/')
+            Filesystem::PARAM_APP_DIRS => array(
+                Filesystem::THEMES_DIR => array('path' => dirname(__DIR__) . '/Core/Model/_files/design/')
             )
         ));
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')->loadAreaPart(
@@ -659,7 +652,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
     {
         $filePath = 'mage/mage.js';
         $expectedFile = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Filesystem')
-                ->getPath(\Magento\App\Filesystem::PUB_LIB_DIR) . '/' . $filePath;
+                ->getPath(Filesystem::PUB_LIB_DIR) . '/' . $filePath;
         $this->assertFileExists($expectedFile, 'Please verify existence of public library file');
 
         $actualFile = $this->_viewUrl->getViewFilePublicPath($filePath);

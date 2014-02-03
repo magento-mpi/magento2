@@ -27,10 +27,18 @@ foreach ($files as $file) {
     touch($themeDir . '/' . $file, $mTime);
 }
 
+
+$appInstallDir = \Magento\TestFramework\Helper\Bootstrap::getInstance()->getAppInstallDir();
+\Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
+    \Magento\App\Filesystem::PARAM_APP_DIRS => array(
+        \Magento\App\Filesystem::THEMES_DIR => array('path' => "$appInstallDir/media_for_change"),
+    )
+));
+
 /** @var $registration \Magento\Core\Model\Theme\Registration */
 $registration = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
     ->create('Magento\Core\Model\Theme\Registration');
 $registration->register(
-    $designDir,
+    //$designDir,
     '*/*/theme.xml'
 );

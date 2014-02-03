@@ -184,11 +184,10 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
         $sourcePath = $this->preProcessor->process($filePath, $params, $targetDirectory, $sourcePath);
 
         // 5. If $sourcePath returned still doesn't exists throw Exception
-        if (null === $sourcePath
-            ||
-            !$this->rootDirectory->isExist($this->rootDirectory->getRelativePath($sourcePath))
+        if ($sourcePath === null
+            || !$this->rootDirectory->isExist($this->rootDirectory->getRelativePath($sourcePath))
         ) {
-            throw new \Magento\Exception("Unable to locate theme file '{$sourcePath}'.");
+            throw new \Magento\Exception("Unable to locate theme file '{$filePath}'.");
         }
 
         /**
