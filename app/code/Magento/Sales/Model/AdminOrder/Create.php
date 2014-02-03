@@ -1421,7 +1421,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         $request = $form->prepareRequest($accountData);
         $data = $form->extractData($request);
         $data = $form->restoreData($data);
-        $this->getQuote()->setCustomerData($this->_modifyCustomerDto($customer, $data));
+        $this->getQuote()->updateCustomerData($this->_modifyCustomerDto($customer, $data));
         $data = [];
 
         foreach ($form->getAttributes() as $attribute) {
@@ -1573,7 +1573,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         if (!$this->getQuote()->isVirtual() && $this->getShippingAddress()->getSaveInAddressBook()) {
             $this->_saveCustomerAddress($customerDto, $this->getShippingAddress());
         }
-        $this->getQuote()->setCustomerData($customerDto);
+        $this->getQuote()->updateCustomerData($customerDto);
 
         $customerData = $customerDto->__toArray();
         foreach ($this->_createCustomerForm($customerDto)->getUserAttributes() as $attribute) {
@@ -1830,24 +1830,6 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
             $this->setData('account', $account);
         }
         return $email;
-    }
-
-    /**
-     * Create DTO out of customer model
-     * @todo remove after MAGETWO-19929
-     *
-     * @param \Magento\Customer\Model\Customer $customer
-     * @param bool                             $isFromOrigData
-     * @return CustomerDto
-     */
-    protected function _convertCustomerToDto(\Magento\Customer\Model\Customer $customer, $isFromOrigData = false)
-    {
-        $data = array_merge(
-            // DTO and model has different keys for ID
-            [CustomerDto::ID => $customer->getId()], $isFromOrigData ? $customer->getOrigData() : $customer->getData()
-        );
-
-        return $this->_customerBuilder->populateWithArray($data)->create();
     }
 
     /**

@@ -639,7 +639,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      * Set customer data object
      *
      * @param \Magento\Customer\Service\V1\Dto\Customer $customerData
-     * @return self
+     * @return $this
      */
     public function setCustomerData(\Magento\Customer\Service\V1\Dto\Customer $customerData)
     {
@@ -651,11 +651,21 @@ class Quote extends \Magento\Core\Model\AbstractModel
             )
         );
         $this->setCustomer($customer);
-        /**
-         * TODO: Implementation above was added instead of commented implementation
-         * which does not comply with setCustomer() implementation. Should be finalized in MAGETWO-19929
-         */
-        // $this->_converter->updateCustomerModel($this->getCustomer(), $customerData);
+        return $this;
+    }
+
+    /**
+     * Update customer data object
+     *
+     * @param \Magento\Customer\Service\V1\Dto\Customer $customerData
+     * @return $this
+     */
+    public function updateCustomerData(\Magento\Customer\Service\V1\Dto\Customer $customerData)
+    {
+        $customer = $this->getCustomer();
+        /* @TODO: remove this code in favor of customer DTO usage */
+        $this->_converter->updateCustomerModel($this->getCustomer(), $customerData);
+        $this->setCustomer($customer);
         return $this;
     }
 

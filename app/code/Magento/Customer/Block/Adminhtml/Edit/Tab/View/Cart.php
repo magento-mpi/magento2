@@ -79,7 +79,9 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
         if ($this->getWebsiteId()) {
             $quote->setWebsite($this->_storeManager->getWebsite($this->getWebsiteId()));
         }
-        $quote->loadByCustomer($this->_coreRegistry->registry('current_customer')->getId());
+        $currentCustomer = $this->_coreRegistry->registry('current_customer');
+        $customerId = !is_null($currentCustomer) ? $currentCustomer->getId() : null;
+        $quote->loadByCustomer($customerId);
 
         if ($quote) {
             $collection = $quote->getItemsCollection(false);

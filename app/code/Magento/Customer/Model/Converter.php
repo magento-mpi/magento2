@@ -143,7 +143,7 @@ class Converter
         if ($customerId) {
             $customerModel->setId($customerId);
         }
-        // Need to use attribute set or future updates can cause data loss
+        // Need to use attribute set or future calls to customerModel::save can cause data loss
         if (!$customerModel->getAttributeSetId()) {
             $customerModel->setAttributeSetId(CustomerMetadataServiceInterface::ATTRIBUTE_SET_ID_CUSTOMER);
         }

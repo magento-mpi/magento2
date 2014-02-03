@@ -84,7 +84,7 @@ class Session extends \Magento\Session\SessionManager
     protected $_customerDataObject;
 
     /**
-     * @var Converter
+     * @var \Magento\Customer\Model\Converter
      */
     protected $_converter;
 
