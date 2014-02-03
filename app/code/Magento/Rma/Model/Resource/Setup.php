@@ -50,7 +50,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
         \Magento\App\ConfigInterface $config,
         \Magento\Catalog\Model\Resource\SetupFactory $catalogSetupFactory,
         \Magento\Enterprise\Model\Resource\Setup\MigrationFactory $entMigrationFactory,
-        \Magento\Rma\Model\RefundableList $refundableList,
+        \Magento\Catalog\Model\AvailableProductList $refundableList,
         $moduleName = 'Magento_Rma',
         $connectionName = ''
     ) {
@@ -84,11 +84,13 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
     }
 
     /**
+     * Get refundable product types
+     *
      * @return array
      */
     public function getRefundableProducts()
     {
-        return $this->refundableList->getItem();
+        return $this->refundableList->getItem('refundable');
     }
 
     /**

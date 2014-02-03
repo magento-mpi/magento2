@@ -16,9 +16,9 @@
     <type name="virtual" label="Virtual Product" modelInstance="Magento\Catalog\Model\Product\Type\Virtual" indexPriority="20">
         <customAttributes>
             <attribute name="is_real_product" value="false"/>
+            <attribute name="refundable" value="false"/>
         </customAttributes>
     </type>
-
     <composableTypes>
         <type name="simple" />
         <type name="virtual" />

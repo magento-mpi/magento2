@@ -1,21 +1,24 @@
 <?php
 /**
- * List of refundable product types
- *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-namespace Magento\Rma\Model;
+namespace Magento\Catalog\Model;
 
-class RefundableList
+class AvailableProductList
 {
     /**
      * @var \Magento\Catalog\Model\ProductTypes\ConfigInterface
      */
     protected $productTypesConfig;
+
+    /**
+     * @var string
+     */
+    protected $customAttributeName;
 
     /**
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypesConfig
@@ -26,21 +29,21 @@ class RefundableList
     }
 
     /**
-     * Get refundable product types
+     * Get available types
+     *
+     * @param string $customAttributeName
      *
      * @return array
      */
-    public function getItem()
+    public function getItem($customAttributeName)
     {
-        $all = $this->productTypesConfig->getAll();
         $availableProductTypes = array();
-
-        foreach ($all as $type) {
-            if (isset($type['custom_attributes']['refundable']) && $type['custom_attributes']['refundable'] == 'true') {
+        foreach ($this->productTypesConfig->getAll() as $type) {
+            if (!isset($type['custom_attributes'][$customAttributeName])
+                || $type['custom_attributes'][$customAttributeName] == 'true') {
                 $availableProductTypes[] = $type['name'];
             }
         }
         return $availableProductTypes;
     }
 }
-

@@ -157,7 +157,7 @@ class Subtotal extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
     }
 
     /**
-     * Caclulate item price and row total with configured rounding level
+     * Caclulate item price and row total with customized rounding level
      *
      * @param \Magento\Sales\Model\Quote\Address $address
      * @param \Magento\Sales\Model\Quote\Item\AbstractItem $item

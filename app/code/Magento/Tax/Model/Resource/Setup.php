@@ -21,12 +21,18 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
     protected $_setupFactory;
 
     /**
+     * @var \Magento\Catalog\Model\AvailableProductList
+     */
+    protected $taxableList;
+
+    /**
      * @param \Magento\Core\Model\Resource\Setup\Context $context
      * @param string $resourceName
      * @param \Magento\App\CacheInterface $cache
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Catalog\Model\Resource\SetupFactory $setupFactory
+     * @param \Magento\Catalog\Model\AvailableProductList $taxableList
      * @param string $moduleName
      * @param string $connectionName
      */
@@ -37,10 +43,12 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
         \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory,
         \Magento\App\ConfigInterface $config,
         \Magento\Catalog\Model\Resource\SetupFactory $setupFactory,
+        \Magento\Catalog\Model\AvailableProductList $taxableList,
         $moduleName = 'Magento_Tax',
         $connectionName = ''
     ) {
         $this->_setupFactory = $setupFactory;
+        $this->taxableList = $taxableList;
         parent::__construct($context, $resourceName, $cache, $attrGroupCollectionFactory, $config, $moduleName, $connectionName);
     }
 
@@ -65,5 +73,15 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
     public function getCatalogResourceSetup(array $data = array())
     {
         return $this->_setupFactory->create($data);
+    }
+
+    /**
+     * Get taxable product types
+     *
+     * @return array
+     */
+    public function getTaxableItems()
+    {
+        return $this->taxableList->getItem('taxable');
     }
 }
