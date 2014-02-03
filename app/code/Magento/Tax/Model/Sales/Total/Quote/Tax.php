@@ -72,6 +72,10 @@ class Tax extends AbstractTotal
 
     /**
      * Class constructor
+     *
+     * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\Tax\Model\Calculation $calculation
+     * @param \Magento\Tax\Model\Config $taxConfig
      */
     public function __construct(
         \Magento\Tax\Helper\Data $taxData,
@@ -743,11 +747,12 @@ class Tax extends AbstractTotal
     /**
      * Collect applied tax rates information on address level
      *
-     * @param   Address $address
-     * @param   array $applied
-     * @param   float $amount
-     * @param   float $baseAmount
-     * @param   float $rate
+     * @param Address $address
+     * @param array $applied
+     * @param float $amount
+     * @param float $baseAmount
+     * @param float $rate
+     * @return void
      */
     protected function _saveAppliedTaxes(Address $address, $applied, $amount, $baseAmount, $rate)
     {
