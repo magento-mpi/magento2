@@ -225,7 +225,7 @@ class Translate implements \Magento\TranslateInterface
      * @param string $area
      * @param \Magento\Object $initParams
      * @param bool $forceReload
-     * @return \Magento\TranslateInterface
+     * @return $this
      */
     public function init($area = null, $initParams = null, $forceReload = false)
     {
@@ -261,7 +261,7 @@ class Translate implements \Magento\TranslateInterface
      * Initialize configuration
      *
      * @param   array $config
-     * @return  \Magento\TranslateInterface
+     * @return  $this
      */
     protected function setConfig($config)
     {
@@ -307,7 +307,7 @@ class Translate implements \Magento\TranslateInterface
      * Load data from module translation files
      *
      * @param string $moduleName
-     * @return \Magento\TranslateInterface
+     * @return $this
      */
     protected function _loadModuleTranslation($moduleName)
     {
@@ -340,7 +340,7 @@ class Translate implements \Magento\TranslateInterface
      * @param array $data
      * @param string|bool $scope
      * @param boolean $forceReload
-     * @return \Magento\TranslateInterface
+     * @return $this
      */
     protected function _addData($data, $scope = false, $forceReload = false)
     {
@@ -386,7 +386,7 @@ class Translate implements \Magento\TranslateInterface
      * Load current theme translation
      *
      * @param bool $forceReload
-     * @param string $area
+     * @param string|null $area
      * @return $this
      */
     protected function _loadThemeTranslation($forceReload = false, $area = null)
@@ -410,8 +410,8 @@ class Translate implements \Magento\TranslateInterface
     /**
      * Loading current translation from DB
      *
-     * @param boolean $forceReload
-     * @return \Magento\TranslateInterface
+     * @param bool $forceReload
+     * @return $this
      */
     protected function _loadDbTranslation($forceReload = false)
     {
