@@ -12,8 +12,8 @@ use Magento\TestFramework\Helper\Bootstrap;
 
 define('FIXTURE_RECURRING_PROFILE_SCHEDULE_DESCRIPTION', 'fixture-recurring-profile-schedule');
 
-/** @var Magento\Sales\Model\Recurring\Profile $profile */
-$profile = Bootstrap::getObjectManager()->create('Magento\Sales\Model\Recurring\Profile');
+/** @var Magento\RecurringProfile\Model\Profile $profile */
+$profile = Bootstrap::getObjectManager()->create('Magento\RecurringProfile\Model\Profile');
 $profile
     ->setQuote(Bootstrap::getObjectManager()->create('Magento\Sales\Model\Quote')->load(1))
     ->setPeriodUnit('year')
