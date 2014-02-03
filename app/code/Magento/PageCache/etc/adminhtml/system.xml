@@ -40,16 +40,8 @@
                     <source_model>Magento\PageCache\Model\System\Config\Source\Application</source_model>
                 </field>
                 <field id="pagecache_ttl" type="text" translate="label comment" sortOrder="5" showInDefault="1" showInWebsite="0" showInStore="0">
-                    <label>TTL for public contend</label>
-                    <comment>Cache lifetime in seconds</comment>
-                    <depends>
-                        <field id="varnish_caching">1</field>
-                    </depends>
-                </field>
-                <field id="pagecache_esi" type="select" translate="label comment" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
-                    <label>Enable/Disable ESI</label>
-                    <source_model>Magento\Backend\Model\Config\Source\Yesno</source_model>
-                    <comment>Enabling/Disabling cache invalidation</comment>
+                    <label>TTL for public content</label>
+                    <comment>Public content lifetime in seconds</comment>
                     <depends>
                         <field id="varnish_caching">1</field>
                     </depends>

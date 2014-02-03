@@ -48,11 +48,11 @@ class Export extends \Magento\Backend\Block\System\Config\Form\Field
             'website' => $buttonBlock->getRequest()->getParam('website')
         );
 
-        $url = $this->getUrl("*/*/exportVarnishConfig", $params);
+        $url = $this->getUrl("*/PageCache/exportVarnishConfig", $params);
         $data = array(
             'id'        => 'export_varnish_configuration',
             'label'     => __('Export VCL'),
-            'onclick'   => "setLocation('" . $url . "varnish_configuration.vcl' )"
+            'onclick'   => "setLocation('" . $url . "varnish.vcl' )"
         );
 
         $html = $buttonBlock->setData($data)->toHtml();
