@@ -62,7 +62,7 @@ class Agreement extends \Magento\Payment\Block\Form
             return $data;
         }
         $collection = $this->_agreementFactory->create()->getAvailableCustomerBillingAgreements(
-            $quote->getCustomer()->getId()
+            $quote->getCustomerId()
         );
 
         foreach ($collection as $item) {
