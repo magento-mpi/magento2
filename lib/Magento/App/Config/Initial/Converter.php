@@ -12,15 +12,11 @@ namespace Magento\App\Config\Initial;
 class Converter implements \Magento\Config\ConverterInterface
 {
     /**
-     * Node path to process
+     * Node pathes to process
      *
      * @var array
      */
-    protected $_nodeMap = array(
-        'default'  => '/config/default',
-        'stores'   => '/config/stores',
-        'websites' => '/config/websites',
-    );
+    protected $_nodeMap = array();
 
     /**
      * @var array
@@ -32,7 +28,7 @@ class Converter implements \Magento\Config\ConverterInterface
      */
     public function __construct(array $nodeMap = array())
     {
-        $this->_nodeMap = array_merge($this->_nodeMap, $nodeMap);
+        $this->_nodeMap = $nodeMap;
     }
 
     /**

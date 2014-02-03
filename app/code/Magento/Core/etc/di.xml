@@ -569,4 +569,13 @@
             </array>
         </param>
     </type>
+    <type name="Magento\App\Config\Initial\Converter">
+        <param name="nodeMap">
+            <value>
+                <default>/config/default</default>
+                <stores>/config/stores</stores>
+                <websites>/config/websites</websites>
+            </value>
+        </param>
+    </type>
 </config>

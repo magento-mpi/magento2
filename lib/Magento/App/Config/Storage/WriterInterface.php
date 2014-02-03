@@ -18,7 +18,7 @@ interface WriterInterface
      * @param   string $scope
      * @param   int $scopeId
      */
-    public function delete($path, $scope = \Magento\Core\Model\Store::DEFAULT_CODE, $scopeId = 0);
+    public function delete($path, $scope = \Magento\BaseScopeInterface::SCOPE_DEFAULT, $scopeId = 0);
 
     /**
      * Save config value to storage
@@ -28,5 +28,5 @@ interface WriterInterface
      * @param string $scope
      * @param int $scopeId
      */
-    public function save($path, $value, $scope = \Magento\Core\Model\Store::DEFAULT_CODE, $scopeId = 0);
+    public function save($path, $value, $scope = \Magento\BaseScopeInterface::SCOPE_DEFAULT, $scopeId = 0);
 }
