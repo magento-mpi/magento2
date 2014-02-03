@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\DesignEditor\Model\Editor\Tools\Controls;
 
 /**
  * Configuration of controls
  */
-namespace Magento\DesignEditor\Model\Editor\Tools\Controls;
-
 class Configuration
 {
     /**
@@ -148,7 +147,7 @@ class Configuration
     /**
      * Prepare list of control links
      *
-     * @param array $controls
+     * @param array &$controls
      * @return \Magento\DesignEditor\Model\Editor\Tools\Controls\Configuration
      */
     protected function _prepareControlList(array &$controls)

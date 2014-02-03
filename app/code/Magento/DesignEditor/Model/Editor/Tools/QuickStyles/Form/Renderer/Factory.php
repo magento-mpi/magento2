@@ -7,17 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Renderer;
+
+use Magento\Data\Form\Element\Renderer\RendererInterface;
 
 /**
  * Block that renders JS tab
  *
  * @method \Magento\View\Design\ThemeInterface getTheme()
  * @method setTheme($theme)
- *
- */
-namespace Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Renderer;
-
-/**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Factory
@@ -69,8 +67,8 @@ class Factory
     /**
      * Storage of renderers that could be shared between elements
      *
-     * @see self::create()
      * @var array
+     * @see self::create()
      */
     protected $_sharedRenderers = array();
 
@@ -87,7 +85,7 @@ class Factory
      *
      * @param string $elementClassName
      * @param string $rendererName
-     * @return \Magento\Data\Form\Element\Renderer\RendererInterface
+     * @return RendererInterface
      * @throws \Magento\Core\Exception
      */
     public function create($elementClassName, $rendererName)
@@ -109,6 +107,10 @@ class Factory
      *   If Renderer01 used to render Element01 that should render some other Element02 using same Renderer01 it will
      *   cause an error. Cause internal Renderer01 property '_element' will be overwritten with Element02 during
      *   reuse of renderer and then will not be restored.
+     *
+     * @param string $elementClassName
+     * @param string $rendererName
+     * @return RendererInterface
      */
     public function getSharedInstance($elementClassName, $rendererName = null)
     {

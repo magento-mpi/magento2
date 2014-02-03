@@ -7,12 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\DesignEditor\Model;
+
+use Magento\Event\Observer as EventObserver;
 
 /**
  * Observer for design editor module
  */
-namespace Magento\DesignEditor\Model;
-
 class Observer
 {
     /**
@@ -41,9 +42,10 @@ class Observer
      * Remove non-VDE JavaScript assets in design mode
      * Applicable in combination with enabled 'vde_design_mode' flag for 'head' block
      *
-     * @param \Magento\Event\Observer $event
+     * @param EventObserver $event
+     * @return void
      */
-    public function clearJs(\Magento\Event\Observer $event)
+    public function clearJs(EventObserver $event)
     {
         /** @var $layout \Magento\View\LayoutInterface */
         $layout = $event->getEvent()->getLayout();
@@ -75,7 +77,8 @@ class Observer
     /**
      * Save quick styles
      *
-     * @param \Magento\Event\Observer $event
+     * @param EventObserver $event
+     * @return void
      */
     public function saveQuickStyles($event)
     {
@@ -101,7 +104,8 @@ class Observer
     /**
      * Save time stamp of last change
      *
-     * @param \Magento\Event\Observer $event
+     * @param EventObserver $event
+     * @return void
      */
     public function saveChangeTime($event)
     {
@@ -119,10 +123,10 @@ class Observer
     /**
      * Determine if the vde specific translation class should be used.
      *
-     * @param  \Magento\Event\Observer $observer
+     * @param  EventObserver $observer
      * @return \Magento\DesignEditor\Model\Observer
      */
-    public function initializeTranslation(\Magento\Event\Observer $observer)
+    public function initializeTranslation(EventObserver $observer)
     {
         if ($this->_helper->isVdeRequest()) {
             // Request is for vde.  Override the translation class.

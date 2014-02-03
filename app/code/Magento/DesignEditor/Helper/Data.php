@@ -7,12 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\DesignEditor\Helper;
+
+use Magento\App\Helper\Context;
 
 /**
  * Design Editor main helper
  */
-namespace Magento\DesignEditor\Helper;
-
 class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
@@ -45,12 +46,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_translationMode;
 
     /**
-     * @param \Magento\App\Helper\Context $context
-     * @param $frontName
+     * @param Context $context
+     * @param string $frontName
      * @param array $disabledCacheTypes
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
+        Context $context,
         $frontName,
         array $disabledCacheTypes = array()
     ) {
@@ -124,7 +125,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Sets the translation mode for the current request (null, text, script, or alt);
      *
      * @param \Magento\App\RequestInterface $request
-     * @return \Magento\DesignEditor\Helper\Data
+     * @return $this
      */
     public function setTranslationMode(\Magento\App\RequestInterface $request)
     {

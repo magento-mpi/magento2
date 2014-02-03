@@ -44,6 +44,8 @@ class Editor extends \Magento\Backend\App\Action
 
     /**
      * Display the design editor launcher page
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -54,6 +56,8 @@ class Editor extends \Magento\Backend\App\Action
 
     /**
      * Ajax loading available themes
+     *
+     * @return void
      */
     public function loadThemeListAction()
     {
@@ -86,6 +90,8 @@ class Editor extends \Magento\Backend\App\Action
 
     /**
      * Activate the design editor in the session and redirect to the frontend of the selected store
+     *
+     * @return void
      */
     public function launchAction()
     {
@@ -136,6 +142,8 @@ class Editor extends \Magento\Backend\App\Action
 
     /**
      * Assign theme to list of store views
+     *
+     * @return void
      */
     public function assignThemeToStoreAction()
     {
@@ -183,6 +191,8 @@ class Editor extends \Magento\Backend\App\Action
 
     /**
      * Rename title action
+     *
+     * @return void
      */
     public function quickEditAction()
     {
@@ -212,6 +222,8 @@ class Editor extends \Magento\Backend\App\Action
 
     /**
      * Display available theme list. Only when no customized themes
+     *
+     * @return void
      */
     public function firstEntranceAction()
     {
@@ -222,6 +234,8 @@ class Editor extends \Magento\Backend\App\Action
 
     /**
      * Apply changes from 'staging' theme to 'virtual' theme
+     *
+     * @return void
      */
     public function saveAction()
     {
@@ -250,6 +264,8 @@ class Editor extends \Magento\Backend\App\Action
 
     /**
      * Duplicate theme action
+     *
+     * @return void
      */
     public function duplicateAction()
     {
@@ -285,6 +301,7 @@ class Editor extends \Magento\Backend\App\Action
     /**
      * Revert 'staging' theme to the state of 'physical' or 'virtual'
      *
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function revertAction()
@@ -334,6 +351,8 @@ class Editor extends \Magento\Backend\App\Action
 
     /**
      * Set page title
+     *
+     * @return void
      */
     protected function _setTitle()
     {
@@ -373,7 +392,7 @@ class Editor extends \Magento\Backend\App\Action
      *
      * @param \Magento\View\Design\ThemeInterface $theme
      * @param string $mode
-     * @return \Magento\DesignEditor\Controller\Adminhtml\System\Design\Editor
+     * @return $this
      */
     protected function _configureToolsBlocks($theme, $mode)
     {
@@ -401,7 +420,7 @@ class Editor extends \Magento\Backend\App\Action
      * @param \Magento\View\Design\ThemeInterface $theme
      * @param \Magento\View\Design\ThemeInterface $editableTheme
      * @param string $mode
-     * @return \Magento\DesignEditor\Controller\Adminhtml\System\Design\Editor
+     * @return $this
      */
     protected function _configureToolbarBlocks($theme, $editableTheme, $mode)
     {
@@ -431,7 +450,7 @@ class Editor extends \Magento\Backend\App\Action
      *
      * @param \Magento\View\Design\ThemeInterface $editableTheme
      * @param string $mode
-     * @return \Magento\DesignEditor\Controller\Adminhtml\System\Design\Editor
+     * @return $this
      */
     protected function _configureEditorBlock($editableTheme, $mode)
     {
@@ -460,6 +479,8 @@ class Editor extends \Magento\Backend\App\Action
 
     /**
      * Load layout
+     *
+     * @return void
      */
     protected function _renderStoreDesigner()
     {

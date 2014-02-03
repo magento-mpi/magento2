@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\DesignEditor\Controller\Adminhtml\System\Design\Editor;
 
 /**
@@ -31,7 +30,9 @@ class Tools extends \Magento\Backend\App\Action
     }
 
     /**
-     *  Upload custom CSS action
+     * Upload custom CSS action
+     *
+     * @return void
      */
     public function uploadAction()
     {
@@ -66,6 +67,8 @@ class Tools extends \Magento\Backend\App\Action
 
     /**
      * Save custom css file
+     *
+     * @return void
      */
     public function saveCssContentAction()
     {
@@ -96,6 +99,8 @@ class Tools extends \Magento\Backend\App\Action
 
     /**
      * Ajax list of existing javascript files
+     *
+     * @return void
      */
     public function jsListAction()
     {
@@ -113,6 +118,8 @@ class Tools extends \Magento\Backend\App\Action
 
     /**
      * Upload js file
+     *
+     * @return void
      */
     public function uploadJsAction()
     {
@@ -143,6 +150,8 @@ class Tools extends \Magento\Backend\App\Action
 
     /**
      * Delete custom file action
+     *
+     * @return void
      */
     public function deleteCustomFilesAction()
     {
@@ -160,6 +169,8 @@ class Tools extends \Magento\Backend\App\Action
 
     /**
      * Reorder js file
+     *
+     * @return void
      */
     public function reorderJsAction()
     {
@@ -183,6 +194,8 @@ class Tools extends \Magento\Backend\App\Action
 
     /**
      * Save image sizes
+     *
+     * @return void
      */
     public function saveImageSizingAction()
     {
@@ -216,6 +229,8 @@ class Tools extends \Magento\Backend\App\Action
 
     /**
      * Upload quick style image
+     *
+     * @return void
      */
     public function uploadQuickStyleImageAction()
     {
@@ -253,6 +268,8 @@ class Tools extends \Magento\Backend\App\Action
 
     /**
      * Remove quick style image
+     *
+     * @return void
      */
     public function removeQuickStyleImageAction()
     {
@@ -293,6 +310,7 @@ class Tools extends \Magento\Backend\App\Action
     /**
      * Upload store logo
      *
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function uploadStoreLogoAction()
@@ -338,6 +356,7 @@ class Tools extends \Magento\Backend\App\Action
     /**
      * Remove store logo
      *
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function removeStoreLogoAction()
@@ -382,6 +401,8 @@ class Tools extends \Magento\Backend\App\Action
 
     /**
      * Save quick styles data
+     *
+     * @return void
      */
     public function saveQuickStylesAction()
     {

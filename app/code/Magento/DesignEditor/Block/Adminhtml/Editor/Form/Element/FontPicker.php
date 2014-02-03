@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element;
 
 /**
  * Form element renderer to display font picker element for VDE
@@ -15,8 +16,6 @@
  * @method \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\FontPicker setOptions(array $options)
  * @method \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\FontPicker setCssClass($class)
  */
-namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element;
-
 class FontPicker extends \Magento\Data\Form\Element\Select
 {
     /**
@@ -38,6 +37,8 @@ class FontPicker extends \Magento\Data\Form\Element\Select
 
     /**
      * Constructor helper
+     *
+     * @return void
      */
     public function _construct()
     {

@@ -7,14 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Tabs;
 
 /**
  * Block that renders tabs
  *
  * @method bool getIsActive()
  */
-namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Tabs;
-
 abstract class AbstractTabs extends \Magento\View\Element\Template
 {
     /**
@@ -28,12 +27,12 @@ abstract class AbstractTabs extends \Magento\View\Element\Template
     const TAB_BODY_BLOCK_ALIAS = 'tab_body';
 
     /**
-     * Tab HTML identifier
+     * @var string Tab HTML identifier
      */
     protected $_htmlId;
 
     /**
-     * Tab HTML title
+     * @var string Tab HTML title
      */
     protected $_title;
 

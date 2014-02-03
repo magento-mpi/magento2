@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form;
 
 /**
  * VDE area model
  */
-namespace Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form;
-
 class Builder
 {
     /**
@@ -169,6 +168,7 @@ class Builder
      *
      * @param array $columns
      * @param string $tab
+     * @return void
      */
     protected function _populateColumns($columns, $tab)
     {
@@ -226,6 +226,7 @@ class Builder
      * Add custom element types
      *
      * @param \Magento\Data\Form $form
+     * @return void
      */
     protected function _addElementTypes($form)
     {

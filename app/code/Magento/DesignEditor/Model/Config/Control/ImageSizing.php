@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\DesignEditor\Model\Config\Control;
 
 /**
  * Image Sizing configuration
  */
-namespace Magento\DesignEditor\Model\Config\Control;
-
 class ImageSizing extends \Magento\DesignEditor\Model\Config\Control\AbstractControl
 {
     /**
@@ -28,7 +27,7 @@ class ImageSizing extends \Magento\DesignEditor\Model\Config\Control\AbstractCon
     protected $_moduleReader;
 
     /**
-     * @param $configFiles
+     * @param array $configFiles
      * @param \Magento\Module\Dir\Reader $moduleReader
      */
     public function __construct(

@@ -7,14 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element;
 
 /**
  * Column renderer to Quick Styles panel in VDE
  *
  * @method \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Column setClass($class)
  */
-namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element;
-
 class Column
     extends \Magento\Data\Form\Element\Fieldset
     implements \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\ContainerInterface
@@ -36,6 +35,8 @@ class Column
 
     /**
      * Constructor helper
+     *
+     * @return void
      */
     public function _construct()
     {

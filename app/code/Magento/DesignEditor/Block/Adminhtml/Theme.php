@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\DesignEditor\Block\Adminhtml;
 
 /**
  * Design editor theme
@@ -14,8 +15,6 @@
  * @method \Magento\DesignEditor\Block\Adminhtml\Theme setTheme(\Magento\View\Design\ThemeInterface $theme)
  * @method \Magento\View\Design\ThemeInterface getTheme()
  */
-namespace Magento\DesignEditor\Block\Adminhtml;
-
 class Theme extends \Magento\Backend\Block\Template
 {
     /**
