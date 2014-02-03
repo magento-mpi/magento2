@@ -64,9 +64,9 @@ class Attribute extends \Magento\Core\Model\AbstractModel
     protected $_gsProduct = null;
 
     /**
-     * @var \Magento\GoogleShopping\Helper\Price|null
+     * @var \Magento\Catalog\Model\Product\CatalogPrice
      */
-    protected $_gsPrice = null;
+    protected $catalogPrice;
 
     /**
      * Product factory
@@ -81,7 +81,7 @@ class Attribute extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\GoogleShopping\Helper\Data $gsData
      * @param \Magento\GoogleShopping\Helper\Product $gsProduct
-     * @param \Magento\GoogleShopping\Helper\Price $gsPrice
+     * @param \Magento\Catalog\Model\Product\CatalogPrice $catalogPrice
      * @param \Magento\GoogleShopping\Model\Resource\Attribute $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -92,7 +92,7 @@ class Attribute extends \Magento\Core\Model\AbstractModel
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\GoogleShopping\Helper\Data $gsData,
         \Magento\GoogleShopping\Helper\Product $gsProduct,
-        \Magento\GoogleShopping\Helper\Price $gsPrice,
+        \Magento\Catalog\Model\Product\CatalogPrice $catalogPrice,
         \Magento\GoogleShopping\Model\Resource\Attribute $resource,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -100,7 +100,7 @@ class Attribute extends \Magento\Core\Model\AbstractModel
         $this->_productFactory = $productFactory;
         $this->_gsData = $gsData;
         $this->_gsProduct = $gsProduct;
-        $this->_gsPrice = $gsPrice;
+        $this->catalogPrice = $catalogPrice;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
 
     }

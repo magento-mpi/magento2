@@ -1553,7 +1553,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
                 ->setTemplate($options['template'])
                 ->assign($data);
 
-            echo $block->toHtml();
+            echo $this->_renderBlock($block->getNameInLayout());
         }
     }
 
@@ -1596,15 +1596,5 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     public function  isCacheable()
     {
         return !(boolean)count($this->_xml->xpath('//' . Element::TYPE_BLOCK . '[@cacheable="false"]'));
-    }
-
-    /**
-     * Check is current layout private
-     *
-     * @return bool
-     */
-    public function  isPrivate()
-    {
-        return !(boolean)count($this->_xml->xpath('//' . Element::TYPE_BLOCK . '[@cache-control="private"]'));
     }
 }

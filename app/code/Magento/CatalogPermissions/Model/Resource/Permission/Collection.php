@@ -24,6 +24,7 @@ class Collection
     /**
      * Initialize collection
      *
+     * @return void
      */
     protected function _construct()
     {

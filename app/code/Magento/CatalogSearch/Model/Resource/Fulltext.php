@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogSearch\Model\Resource;
 
 /**
@@ -176,6 +175,7 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Init resource model
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -195,9 +195,9 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Regenerate search index for store(s)
      *
-     * @param  int|null $storeId
-     * @param  int|array|null $productIds
-     * @return \Magento\CatalogSearch\Model\Resource\Fulltext
+     * @param int|null $storeId
+     * @param int|array|null $productIds
+     * @return $this
      */
     public function rebuildIndex($storeId = null, $productIds = null)
     {
@@ -218,7 +218,7 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param int $storeId Store View Id
      * @param int|array $productIds Product Entity Id
-     * @return \Magento\CatalogSearch\Model\Resource\Fulltext
+     * @return $this
      */
     protected function _rebuildStoreIndex($storeId, $productIds = null)
     {
@@ -365,7 +365,7 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param null|int $storeId
      * @param null|array $productIds
-     * @return \Magento\CatalogSearch\Model\Resource\Fulltext
+     * @return $this
      */
     public function resetSearchResults($storeId = null, $productIds = null)
     {
@@ -421,7 +421,7 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param int $storeId Store View Id
      * @param int $productId Product Entity Id
-     * @return \Magento\CatalogSearch\Model\Resource\Fulltext
+     * @return $this
      */
     public function cleanIndex($storeId = null, $productId = null)
     {
@@ -438,7 +438,7 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param \Magento\CatalogSearch\Model\Fulltext $object
      * @param string $queryText
      * @param \Magento\CatalogSearch\Model\Query $query
-     * @return \Magento\CatalogSearch\Model\Resource\Fulltext
+     * @return $this
      */
     public function prepareResult($object, $queryText, $query)
     {
@@ -675,7 +675,7 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param int $productId Product Entity Id
      * @param string $typeId Super Product Link Type
-     * @return array
+     * @return array|null
      */
     protected function _getProductChildIds($productId, $typeId)
     {
@@ -734,14 +734,12 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
             if (isset($productData[$attributeCode])) {
                 $value = $this->_getAttributeValue($attribute->getId(), $productData[$attributeCode], $storeId);
                 if ($value) {
-                    //For grouped products
                     if (isset($index[$attributeCode])) {
                         if (!is_array($index[$attributeCode])) {
                             $index[$attributeCode] = array($index[$attributeCode]);
                         }
                         $index[$attributeCode][] = $value;
                     } else {
-                        //For other types of products
                         $index[$attributeCode] = $value;
                     }
                 }
@@ -848,7 +846,7 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param int $productId
      * @param int $storeId
      * @param string $index
-     * @return \Magento\CatalogSearch\Model\Resource\Fulltext
+     * @return $this
      */
     protected function _saveProductIndex($productId, $storeId, $index)
     {
@@ -864,7 +862,7 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param int $storeId
      * @param array $productIndexes
-     * @return \Magento\CatalogSearch\Model\Resource\Fulltext
+     * @return $this
      */
     protected function _saveProductIndexes($storeId, $productIndexes)
     {
@@ -880,7 +878,7 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param int $storeId
      * @param string $date
-     * @return string
+     * @return string|null
      */
     protected function _getStoreDate($storeId, $date = null)
     {
@@ -912,11 +910,11 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Update category products indexes
      *
-     * deprecated after 1.6.2.0
+     * @deprecated after 1.6.2.0
      *
      * @param array $productIds
      * @param array $categoryIds
-     * @return \Magento\CatalogSearch\Model\Resource\Fulltext
+     * @return $this
      */
     public function updateCategoryIndex($productIds, $categoryIds)
     {
