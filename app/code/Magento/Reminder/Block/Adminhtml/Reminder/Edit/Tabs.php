@@ -19,6 +19,8 @@ class Tabs
 
     /**
      * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 

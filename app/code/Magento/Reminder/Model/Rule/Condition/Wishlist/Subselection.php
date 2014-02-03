@@ -63,7 +63,7 @@ class Subselection
     /**
      * Prepare operator select options
      *
-     * @return \Magento\Reminder\Model\Rule\Condition\Wishlist\Subselection
+     * @return $this
      */
     public function loadOperatorOptions()
     {
@@ -90,7 +90,7 @@ class Subselection
     /**
      * Build query for matching wishlist items
      *
-     * @param $customer
+     * @param int|Zend_Db_Expr $customer
      * @param int|Zend_Db_Expr $website
      * @return \Magento\DB\Select
      */

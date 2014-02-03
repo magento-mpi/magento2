@@ -22,6 +22,8 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
 {
     /**
      * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
@@ -77,7 +79,7 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
     /**
      * Instantiate select to get matched customers
      *
-     * @return \Magento\Reminder\Model\Resource\Customer\Collection
+     * @return $this
      */
     protected function _initSelect()
     {

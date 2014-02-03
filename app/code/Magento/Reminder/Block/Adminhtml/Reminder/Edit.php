@@ -17,6 +17,8 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
      * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
     
@@ -49,6 +51,8 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
      * Add standard buttons
      * Add "Run Now" button
      * Add "Save and Continue" button
+     *
+     * @return void
      */
     protected function _construct()
     {

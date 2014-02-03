@@ -63,7 +63,7 @@ class AbstractCondition extends \Magento\Rule\Model\Condition\AbstractCondition
     /**
      * Generate customer condition string
      *
-     * @param $customer
+     * @param int|\Zend_Db_Expr $customer
      * @param string $fieldName
      * @return string
      */
@@ -76,9 +76,9 @@ class AbstractCondition extends \Magento\Rule\Model\Condition\AbstractCondition
      * Limit select by website with joining to store table
      *
      * @param \Zend_Db_Select $select
-     * @param int | \Zend_Db_Expr $website
+     * @param int|\Zend_Db_Expr $website
      * @param string $storeIdField
-     * @return \Magento\Reminder\Model\Condition\AbstractCondition
+     * @return $this
      */
     protected function _limitByStoreWebsite(\Zend_Db_Select $select, $website, $storeIdField)
     {

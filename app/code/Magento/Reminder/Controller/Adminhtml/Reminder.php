@@ -19,6 +19,8 @@ class Reminder extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
+     *
+     * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
@@ -114,6 +116,8 @@ class Reminder extends \Magento\Backend\App\Action
 
     /**
      * Create new rule
+     *
+     * @return void
      */
     public function newAction()
     {
@@ -123,6 +127,8 @@ class Reminder extends \Magento\Backend\App\Action
 
     /**
      * Edit reminder rule
+     *
+     * @return void
      */
     public function editAction()
     {
@@ -162,6 +168,8 @@ class Reminder extends \Magento\Backend\App\Action
 
     /**
      * Add new condition
+     *
+     * @return void
      */
     public function newConditionHtmlAction()
     {
@@ -189,6 +197,8 @@ class Reminder extends \Magento\Backend\App\Action
 
     /**
      * Save reminder rule
+     *
+     * @return void
      */
     public function saveAction()
     {
@@ -247,6 +257,8 @@ class Reminder extends \Magento\Backend\App\Action
 
     /**
      * Delete reminder rule
+     *
+     * @return void
      */
     public function deleteAction()
     {
@@ -268,6 +280,8 @@ class Reminder extends \Magento\Backend\App\Action
 
     /**
      * Match reminder rule and send emails for matched customers
+     *
+     * @return void
      */
     public function runAction()
     {
@@ -286,6 +300,8 @@ class Reminder extends \Magento\Backend\App\Action
 
     /**
      *  Customer grid ajax action
+     *
+     * @return void
      */
     public function customerGridAction()
     {

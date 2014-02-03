@@ -78,8 +78,8 @@ class Sku
     /**
      * Get SQL select
      *
-     * @param $customer
-     * @param int | \Zend_Db_Expr $website
+     * @param int|\Zend_Db_Expr $customer
+     * @param int|\Zend_Db_Expr $website
      * @return \Magento\DB\Select
      */
     public function getConditionsSql($customer, $website)

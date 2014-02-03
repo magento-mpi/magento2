@@ -67,7 +67,7 @@ class Couponcode
     /**
      * Init list of available values
      *
-     * @return \Magento\Reminder\Model\Rule\Condition\Cart\Couponcode
+     * @return $this
      */
     public function loadValueOptions()
     {
@@ -81,8 +81,8 @@ class Couponcode
     /**
      * Get SQL select
      *
-     * @param $customer
-     * @param int | \Zend_Db_Expr $website
+     * @param int|\Zend_Db_Expr $customer
+     * @param int|\Zend_Db_Expr $website
      * @return \Magento\DB\Select
      */
     public function getConditionsSql($customer, $website)

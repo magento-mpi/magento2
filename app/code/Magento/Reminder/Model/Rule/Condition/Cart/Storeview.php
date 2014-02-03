@@ -67,7 +67,7 @@ class Storeview
     /**
      * Initialize value select options
      *
-     * @return \Magento\Reminder\Model\Rule\Condition\Cart\Storeview
+     * @return $this
      */
     public function loadValueOptions()
     {
@@ -98,7 +98,7 @@ class Storeview
     /**
      * Prepare operator select options
      *
-     * @return \Magento\Reminder\Model\Rule\Condition\Wishlist\Storeview
+     * @return $this
      */
     public function loadOperatorOptions()
     {
@@ -113,8 +113,8 @@ class Storeview
     /**
      * Get SQL select
      *
-     * @param $customer
-     * @param int | \Zend_Db_Expr $website
+     * @param int|\Zend_Db_Expr $customer
+     * @param int|\Zend_Db_Expr $website
      * @return \Magento\DB\Select
      */
     public function getConditionsSql($customer, $website)

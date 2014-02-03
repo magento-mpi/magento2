@@ -51,7 +51,7 @@ class Amount
     /**
      * Init available options list
      *
-     * @return \Magento\Reminder\Model\Rule\Condition\Cart\Amount
+     * @return $this
      */
     public function loadAttributeOptions()
     {
@@ -77,8 +77,8 @@ class Amount
     /**
      * Build condition limitations sql string for specific website
      *
-     * @param $customer
-     * @param int | \Zend_Db_Expr $website
+     * @param int|\Zend_Db_Expr $customer
+     * @param int|\Zend_Db_Expr $website
      * @return \Magento\DB\Select
      * @throws \Magento\Core\Exception
      */

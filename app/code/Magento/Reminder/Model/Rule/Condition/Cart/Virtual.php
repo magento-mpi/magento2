@@ -66,7 +66,7 @@ class Virtual extends \Magento\Reminder\Model\Condition\AbstractCondition
     /**
      * Init list of available values
      *
-     * @return \Magento\Reminder\Model\Rule\Condition\Cart\Virtual
+     * @return $this
      */
     public function loadValueOptions()
     {
@@ -80,8 +80,8 @@ class Virtual extends \Magento\Reminder\Model\Condition\AbstractCondition
     /**
      * Get SQL select
      *
-     * @param $customer
-     * @param int | \Zend_Db_Expr $website
+     * @param int|\Zend_Db_Expr $customer
+     * @param int|\Zend_Db_Expr $website
      * @return \Magento\DB\Select
      */
     public function getConditionsSql($customer, $website)

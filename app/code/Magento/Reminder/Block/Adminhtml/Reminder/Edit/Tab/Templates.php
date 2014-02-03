@@ -16,7 +16,7 @@ namespace Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab;
 class Templates
     extends \Magento\Backend\Block\Widget\Form\Generic
 {
-        /**
+    /**
      * Email Template Factory
      *
      * @var \Magento\Backend\Model\Config\Source\Email\TemplateFactory

@@ -62,8 +62,8 @@ class Totalquantity
     /**
      * Get SQL select for matching shopping cart products count
      *
-     * @param $customer
-     * @param int|Zend_Db_Expr $website
+     * @param int|\Zend_Db_Expr $customer
+     * @param int|\Zend_Db_Expr $website
      * @return \Magento\DB\Select
      */
     public function getConditionsSql($customer, $website)

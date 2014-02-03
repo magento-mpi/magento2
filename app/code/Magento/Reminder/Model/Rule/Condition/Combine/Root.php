@@ -43,8 +43,8 @@ class Root
     /**
      * Prepare base select with limitation by customer
      *
-     * @param   null | array | int | \Magento\Customer\Model\Customer $customer
-     * @param   int | \Zend_Db_Expr $website
+     * @param   null|array|int|\Magento\Customer\Model\Customer $customer
+     * @param   int|\Zend_Db_Expr $website
      * @return  \Magento\DB\Select
      */
     protected function _prepareConditionsSql($customer, $website)
@@ -71,10 +71,10 @@ class Root
 
     /**
      * Get SQL select.
-     * Rewrited for cover root conditions combination with additional condition by customer
+     * Rewritten for cover root conditions combination with additional condition by customer
      *
-     * @param   \Magento\Customer\Model\Customer | \Zend_Db_Select | \Zend_Db_Expr $customer
-     * @param   int | \Zend_Db_Expr $website
+     * @param   \Magento\Customer\Model\Customer|\Zend_Db_Select|\Zend_Db_Expr $customer
+     * @param   int|\Zend_Db_Expr $website
      * @return  \Magento\DB\Select
      */
     public function getConditionsSql($customer, $website)

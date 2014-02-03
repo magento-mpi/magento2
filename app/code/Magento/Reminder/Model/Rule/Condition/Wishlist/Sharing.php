@@ -67,7 +67,7 @@ class Sharing
     /**
      * Init list of available values
      *
-     * @return \Magento\Reminder\Model\Rule\Condition\Wishlist\Sharing
+     * @return $this
      */
     public function loadValueOptions()
     {
@@ -81,7 +81,7 @@ class Sharing
     /**
      * Get SQL select
      *
-     * @param $customer
+     * @param int|Zend_Db_Expr $customer
      * @param int|Zend_Db_Expr $website
      * @return \Magento\DB\Select
      */

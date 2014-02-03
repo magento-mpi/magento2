@@ -46,6 +46,8 @@ class Rule extends \Magento\Rule\Model\AbstractModel
 
     /**
      * Store template data defined per store view, will be used in email templates as variables
+     *
+     * @var array
      */
     protected $_storeData = array();
 

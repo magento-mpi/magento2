@@ -40,6 +40,8 @@ class Customers extends \Magento\Backend\Block\Widget\Grid\Extended
 
     /**
      * Intialize grid
+     *
+     * @return void
      */
     protected function _construct()
     {

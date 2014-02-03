@@ -83,7 +83,7 @@ class Wishlist extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
     /**
      * Override parent method
      *
-     * @return \Magento\Reminder\Model\Rule\Condition\Wishlist
+     * @return $this
      */
     public function loadValueOptions()
     {
@@ -94,7 +94,7 @@ class Wishlist extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
     /**
      * Prepare operator select options
      *
-     * @return \Magento\Reminder\Model\Rule\Condition\Wishlist
+     * @return $this
      */
     public function loadOperatorOptions()
     {
@@ -132,8 +132,8 @@ class Wishlist extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
     /**
      * Get condition SQL select
      *
-     * @param $customer
-     * @param $website
+     * @param int|\Zend_Db_Expr $customer
+     * @param int|\Zend_Db_Expr $website
      * @return \Magento\DB\Select
      * @throws \Magento\Core\Exception
      */
@@ -175,8 +175,8 @@ class Wishlist extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
     /**
      * Get base SQL select
      *
-     * @param $customer
-     * @param $website
+     * @param int|\Zend_Db_Expr $customer
+     * @param int|\Zend_Db_Expr $website
      * @return \Magento\DB\Select
      */
     public function getConditionsSql($customer, $website)

@@ -160,7 +160,7 @@ class Attributes
      *
      * @param string $fieldName base query field name
      * @param bool $requireValid strict validation flag
-     * @param $website
+     * @param int|\Zend_Db_Expr $website
      * @return string
      */
     public function getSubfilterSql($fieldName, $requireValid, $website)

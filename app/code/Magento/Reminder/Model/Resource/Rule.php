@@ -31,9 +31,9 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     /**
      * Rule websites table name
      *
-     * @deprecated after 1.11.2.0
-     *
      * @var string
+     *
+     * @deprecated after 1.11.2.0
      */
     protected $_websiteTable;
 
@@ -74,7 +74,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      * Add website ids to rule data after load
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Reminder\Model\Resource\Rule
+     * @return $this
      */
     protected function _afterLoad(\Magento\Core\Model\AbstractModel $object)
     {
@@ -89,7 +89,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      * Save store templates data.
      *
      * @param \Magento\Core\Model\AbstractModel $rule
-     * @return \Magento\Reminder\Model\Resource\Rule
+     * @return $this
      */
     protected function _afterSave(\Magento\Core\Model\AbstractModel $rule)
     {
@@ -113,7 +113,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      * Save store templates
      *
      * @param \Magento\Reminder\Model\Rule $rule
-     * @return \Magento\Reminder\Model\Resource\Rule
+     * @return $this
      * @throws \Exception
      */
     protected function _saveStoreData($rule)
@@ -217,7 +217,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      *
      * @param int $ruleId
      *
-     * @return \Magento\Reminder\Model\Resource\Rule
+     * @return $this
      */
     public function deactivateMatchedCustomers($ruleId)
     {
@@ -237,7 +237,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      * @param \Magento\SalesRule\Model\Rule $salesRule
      * @param int $websiteId
      * @param int $threshold
-     * @return \Magento\Reminder\Model\Resource\Rule
+     * @return $this
      * @throws \Exception
      */
     public function saveMatchedCustomers($rule, $salesRule, $websiteId, $threshold = null)
@@ -361,7 +361,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      * @param int $ruleId
      * @param int $customerId
      *
-     * @return \Magento\Reminder\Model\Resource\Rule
+     * @return $this
      */
     public function addNotificationLog($ruleId, $customerId)
     {
@@ -382,7 +382,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      * @param int $ruleId
      * @param int $customerId
      *
-     * @return \Magento\Reminder\Model\Resource\Rule
+     * @return $this
      */
     public function updateFailedEmailsCounter($ruleId, $customerId)
     {
@@ -416,7 +416,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      * Detaches sales rule from all Email Remainder Rules that uses it
      *
      * @param int $salesRuleId
-     * @return \Magento\Reminder\Model\Resource\Rule
+     * @return $this
      */
     public function detachSalesRule($salesRuleId)
     {
@@ -499,18 +499,14 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
         return $condition;
     }
 
-
-
-
-
     /**
      * Quote parameters into condition string
      *
-     * @deprecated since 1.10.0.0 - please use quoteInto of current adapter
-     *
      * @param string $string
-     * @param string | array $param
+     * @param string|array $param
      * @return string
+     *
+     * @deprecated since 1.10.0.0 - please use quoteInto of current adapter
      */
     public function quoteInto($string, $param)
     {
@@ -520,9 +516,10 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     /**
      * Save customer data by matched customer coupons
      *
-     * @deprecated after 1.11.2.0
-     *
      * @param array $data
+     * @return void
+     *
+     * @deprecated after 1.11.2.0
      */
     protected function _saveMatchedCustomerData($data)
     {
@@ -535,10 +532,10 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     /**
      * Save all website ids associated to rule
      *
-     * @deprecated after 1.11.2.0 use $this->bindRuleToEntity() instead
-     *
      * @param \Magento\Reminder\Model\Rule $rule
-     * @return \Magento\Reminder\Model\Resource\Rule
+     * @return $this
+     *
+     * @deprecated after 1.11.2.0 use $this->bindRuleToEntity() instead
      */
     protected function _saveWebsiteIds($rule)
     {
@@ -556,9 +553,9 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     /**
      * Get empty select object
      *
-     * @deprecated after 1.11.2.0
-     *
      * @return \Magento\DB\Select
+     *
+     * @deprecated after 1.11.2.0
      */
     public function createSelect()
     {
