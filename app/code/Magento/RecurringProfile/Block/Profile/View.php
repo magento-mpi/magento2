@@ -139,7 +139,10 @@ class View extends \Magento\View\Element\Template
                     continue;
                 }
                 $block->setViewUrl(
-                    $this->getUrl("*/*/{$block->getViewAction()}", array('profile' => $this->_recurringProfile->getId()))
+                    $this->getUrl(
+                        "*/*/{$block->getViewAction()}",
+                        array('profile' => $this->_recurringProfile->getId())
+                    )
                 );
             }
         }

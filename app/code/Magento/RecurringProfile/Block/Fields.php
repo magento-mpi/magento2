@@ -19,6 +19,7 @@ class Fields extends \Magento\Backend\Block\AbstractBlock
      *
      * @param string $field
      * @return string|null
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function getFieldLabel($field)
     {
@@ -81,6 +82,7 @@ class Fields extends \Magento\Backend\Block\AbstractBlock
      *
      * @param string $field
      * @return string|null
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function getFieldComment($field)
     {
@@ -88,19 +90,26 @@ class Fields extends \Magento\Backend\Block\AbstractBlock
             case 'order_item_id':
                 return __('Original order item that recurring payment profile corresponds to');
             case 'subscriber_name':
-                return __('Full name of the person receiving the product or service '
-                    . 'paid for by the recurring payment.');
+                return __(
+                    'Full name of the person receiving the product or service paid for by the recurring payment.'
+                );
             case 'start_datetime':
                 return __('This is the date when billing for the profile begins.');
             case 'schedule_description':
-                return __('Enter a short description of the recurring payment. '
-                    . 'By default, this description will match the product name.');
+                return __(
+                    'Enter a short description of the recurring payment. '
+                        . 'By default, this description will match the product name.'
+                );
             case 'suspension_threshold':
-                return __('This is the number of scheduled payments '
-                    . 'that can fail before the profile is automatically suspended.');
+                return __(
+                    'This is the number of scheduled payments '
+                        . 'that can fail before the profile is automatically suspended.'
+                );
             case 'bill_failed_later':
-                return __('Use this to automatically bill the outstanding balance amount in the next billing cycle '
-                    . '(if there were failed payments).');
+                return __(
+                    'Use this to automatically bill the outstanding balance amount in the next billing cycle '
+                        . '(if there were failed payments).'
+                );
             case 'period_unit':
                 return __('This is the unit for billing during the subscription period.');
             case 'period_frequency':
@@ -110,8 +119,10 @@ class Fields extends \Magento\Backend\Block\AbstractBlock
             case 'init_amount':
                 return __('The initial, non-recurring payment amount is due immediately when the profile is created.');
             case 'init_may_fail':
-                return __('This sets whether to suspend the payment profile if the initial fee fails or, '
-                    . 'instead, add it to the outstanding balance.');
+                return __(
+                    'This sets whether to suspend the payment profile if the initial fee fails or, '
+                        . 'instead, add it to the outstanding balance.'
+                );
         }
     }
 }

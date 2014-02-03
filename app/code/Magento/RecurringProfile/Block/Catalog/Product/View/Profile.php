@@ -27,7 +27,6 @@ class Profile extends \Magento\View\Element\Template
      */
     protected $_registry = null;
 
-
     /**
      * Recurring profile factory
      *

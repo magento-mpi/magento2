@@ -226,12 +226,15 @@ class Form extends \Magento\Backend\Block\AbstractBlock
      */
     protected function _addField($formOrFieldset, $elementName, $options = array(), $type = 'text')
     {
-        $options = array_merge($options, array(
-            'name'     => $elementName,
-            'label'    => $this->_recurringProfileFields->getFieldLabel($elementName),
-            'note'     => $this->_recurringProfileFields->getFieldComment($elementName),
-            'disabled' => $this->_isReadOnly,
-        ));
+        $options = array_merge(
+            $options,
+            array(
+                'name' => $elementName,
+                'label' => $this->_recurringProfileFields->getFieldLabel($elementName),
+                'note' => $this->_recurringProfileFields->getFieldComment($elementName),
+                'disabled' => $this->_isReadOnly,
+            )
+        );
         if (in_array($elementName, array('period_unit', 'period_frequency'))) {
             $options['required'] = true;
         }
@@ -268,6 +271,7 @@ class Form extends \Magento\Backend\Block\AbstractBlock
      * Get readonly flag
      *
      * @return boolean
+     * @SuppressWarnings(PHPMD.BooleanGetMethodName)
      */
     public function getIsReadonly()
     {

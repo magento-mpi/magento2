@@ -34,7 +34,6 @@ class Schedule extends \Magento\RecurringProfile\Block\Profile\View
         $this->_fields = $fields;
     }
 
-
     /**
      * Prepare schedule info
      *

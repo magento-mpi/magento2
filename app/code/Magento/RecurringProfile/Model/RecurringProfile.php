@@ -2,18 +2,16 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Payment
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\RecurringProfile\Model;
 
 /**
  * Recurring payment profile
  * Extends from \Magento\Core\Abstract for a reason: to make descendants have its own resource
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-namespace Magento\RecurringProfile\Model;
-
 class RecurringProfile extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -107,6 +105,8 @@ class RecurringProfile extends \Magento\Core\Model\AbstractModel
      * Returns true if valid.
      *
      * @return bool
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     public function isValid()
     {
@@ -139,7 +139,8 @@ class RecurringProfile extends \Magento\Core\Model\AbstractModel
                 $this->_errors['trial_period_unit'][] = __('The trial billing period unit is wrong.');
             }
             if (!$this->getTrialPeriodFrequency()
-                || !$this->_validatePeriodFrequency('trial_period_unit', 'trial_period_frequency')) {
+                || !$this->_validatePeriodFrequency('trial_period_unit', 'trial_period_frequency')
+            ) {
                 $this->_errors['trial_period_frequency'][] = __('The trial period frequency is wrong.');
             }
             if (!$this->getTrialPeriodMaxCycles()) {
@@ -290,14 +291,14 @@ class RecurringProfile extends \Magento\Core\Model\AbstractModel
     {
         $result = array(
             new \Magento\Object(array(
-                'title'    => __('Billing Period'),
+                'title' => __('Billing Period'),
                 'schedule' => $this->_renderSchedule('period_unit', 'period_frequency', 'period_max_cycles'),
             ))
         );
         $trial = $this->_renderSchedule('trial_period_unit', 'trial_period_frequency', 'trial_period_max_cycles');
         if ($trial) {
             $result[] = new \Magento\Object(array(
-                'title'    => __('Trial Period'),
+                'title' => __('Trial Period'),
                 'schedule' => $trial,
             ));
         }
@@ -380,6 +381,7 @@ class RecurringProfile extends \Magento\Core\Model\AbstractModel
      * Filter self data to make sure it can be validated properly
      *
      * @return \Magento\RecurringProfile\Model\RecurringProfile
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     protected function _filterValues()
     {
@@ -391,9 +393,18 @@ class RecurringProfile extends \Magento\Core\Model\AbstractModel
         }
 
         // unset redundant values, if empty
-        foreach (array('schedule_description',
-            'suspension_threshold', 'bill_failed_later', 'period_frequency', 'period_max_cycles', 'reference_id',
-            'trial_period_unit', 'trial_period_frequency', 'trial_period_max_cycles', 'init_may_fail') as $key) {
+        foreach (array(
+                     'schedule_description',
+                     'suspension_threshold',
+                     'bill_failed_later',
+                     'period_frequency',
+                     'period_max_cycles',
+                     'reference_id',
+                     'trial_period_unit',
+                     'trial_period_frequency',
+                     'trial_period_max_cycles',
+                     'init_may_fail'
+                 ) as $key) {
             if ($this->hasData($key) && (!$this->getData($key) || '0' == $this->getData($key))) {
                 $this->unsetData($key);
             }
@@ -401,7 +412,12 @@ class RecurringProfile extends \Magento\Core\Model\AbstractModel
 
         // cast amounts
         foreach (array(
-            'billing_amount', 'trial_billing_amount', 'shipping_amount', 'tax_amount', 'init_amount') as $key) {
+                     'billing_amount',
+                     'trial_billing_amount',
+                     'shipping_amount',
+                     'tax_amount',
+                     'init_amount'
+                 ) as $key) {
             if ($this->hasData($key)) {
                 if (!$this->getData($key) || 0 == $this->getData($key)) {
                     $this->unsetData($key);

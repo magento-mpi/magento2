@@ -34,7 +34,6 @@ class Reference extends \Magento\RecurringProfile\Block\Profile\View
         $this->_fields = $fields;
     }
 
-
     /**
      * Prepare reference info
      *

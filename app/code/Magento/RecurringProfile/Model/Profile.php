@@ -77,6 +77,7 @@ namespace Magento\RecurringProfile\Model;
  * @method Profile setProfileVendorInfo(string $value)
  * @method string getAdditionalInfo()
  * @method Profile setAdditionalInfo(string $value)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
 {
@@ -133,6 +134,7 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Core\Model\Context $context,
@@ -534,12 +536,12 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
     {
         if (null === $this->_workflow) {
             $this->_workflow = array(
-                'unknown'   => array('pending', 'active', 'suspended', 'canceled'),
-                'pending'   => array('active', 'canceled'),
-                'active'    => array('suspended', 'canceled'),
+                'unknown' => array('pending', 'active', 'suspended', 'canceled'),
+                'pending' => array('active', 'canceled'),
+                'active' => array('suspended', 'canceled'),
                 'suspended' => array('active', 'canceled'),
-                'canceled'  => array(),
-                'expired'   => array(),
+                'canceled' => array(),
+                'expired' => array(),
             );
         }
     }
