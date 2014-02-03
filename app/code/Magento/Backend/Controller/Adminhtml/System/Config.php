@@ -16,19 +16,9 @@ namespace Magento\Backend\Controller\Adminhtml\System;
 class Config extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
 {
     /**
-     * @var \Magento\App\Response\Http\FileFactory
-     */
-    protected $_fileFactory;
-
-    /**
      * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
-
-    /**
-     * @var \Magento\PageCache\Model\Config
-     */
-    protected $_pageCacheModel;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
@@ -124,18 +114,6 @@ class Config extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
         }
         $gridBlock->setWebsiteId($website->getId())->setConditionName($conditionName);
         $content = $gridBlock->getCsvFile();
-        return $this->_fileFactory->create($fileName, $content, \Magento\App\Filesystem::VAR_DIR);
-    }
-
-    /**
-     * Export Varnish Cofiguration as .vcl
-     *
-     * @return \Magento\App\ResponseInterface
-     */
-    public function exportVarnishConfigAction()
-    {
-        $fileName = 'varnish_configuration.vcl';
-        $content = $this->_pageCacheModel->getVclFile();
         return $this->_fileFactory->create($fileName, $content, \Magento\App\Filesystem::VAR_DIR);
     }
 }
