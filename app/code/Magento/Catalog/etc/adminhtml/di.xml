@@ -45,7 +45,7 @@
             <value type="bool">false</value>
         </param>
     </type>
-    <type name="Magento\Catalog\Model\Indexer\FlatStateAbstract">
+    <type name="Magento\Catalog\Model\Indexer\AbstractFlatState">
         <param name="isAvailable">
             <value type="bool">false</value>
         </param>

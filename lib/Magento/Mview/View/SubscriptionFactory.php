@@ -16,11 +16,6 @@ class SubscriptionFactory
     protected $objectManager;
 
     /**
-     * @var string
-     */
-    const INSTANCE_NAME = 'Magento\Mview\View\SubscriptionInterface';
-
-    /**
      * @param \Magento\ObjectManager $objectManager
      */
     public function __construct(\Magento\ObjectManager $objectManager)
@@ -36,6 +31,6 @@ class SubscriptionFactory
      */
     public function create(array $data = array())
     {
-        return $this->objectManager->create(self::INSTANCE_NAME, $data);
+        return $this->objectManager->create('Magento\Mview\View\SubscriptionInterface', $data);
     }
 }

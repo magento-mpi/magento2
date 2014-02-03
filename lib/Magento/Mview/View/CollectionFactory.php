@@ -16,11 +16,6 @@ class CollectionFactory
     protected $objectManager;
 
     /**
-     * @var string
-     */
-    const INSTANCE_NAME = 'Magento\Mview\View\CollectionInterface';
-
-    /**
      * @param \Magento\ObjectManager $objectManager
      */
     public function __construct(\Magento\ObjectManager $objectManager)
@@ -36,6 +31,6 @@ class CollectionFactory
      */
     public function create(array $data = array())
     {
-        return $this->objectManager->create(self::INSTANCE_NAME, $data);
+        return $this->objectManager->create('Magento\Mview\View\CollectionInterface', $data);
     }
 }

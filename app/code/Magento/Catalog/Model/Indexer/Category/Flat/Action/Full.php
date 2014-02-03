@@ -191,7 +191,7 @@ class Full extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
     /**
      * Transactional rebuild flat data from eav
      *
-     * @return Refresh
+     * @return Full
      */
     public function reindexAll()
     {
