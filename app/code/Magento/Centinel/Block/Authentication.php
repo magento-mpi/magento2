@@ -31,9 +31,9 @@ class Authentication extends \Magento\View\Element\Template
 
     /**
      * Flag - authentication start mode
-     * @see self::setAuthenticationStartMode
      *
      * @var bool
+     * @see self::setAuthenticationStartMode
      */
     protected $_authenticationStartMode = false;
 

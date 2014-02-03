@@ -81,6 +81,8 @@ class Service extends \Magento\Object
     protected $_validationState;
 
     /**
+     * Url prefix
+     *
      * @var string
      */
     protected $_urlPrefix;

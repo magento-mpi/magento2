@@ -65,7 +65,7 @@ class Observer extends \Magento\Object
      * Add cmpi data to info block
      *
      * @param \Magento\Object $observer
-     * @return \Magento\Centinel\Model\Observer
+     * @return void|$this
      */
     public function paymentInfoBlockPrepareSpecificInformation($observer)
     {

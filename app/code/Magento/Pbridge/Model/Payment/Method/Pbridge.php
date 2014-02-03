@@ -7,18 +7,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Pbridge\Model\Payment\Method;
 
+use Magento\Core\Exception;
+use Magento\Payment\Model\Method\AbstractMethod;
+use Magento\Sales\Model\Order\Payment;
 
 /**
  * Pbridge payment method model
  *
- * @category    Magento
- * @package     Magento_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Pbridge\Model\Payment\Method;
-
-class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
+class Pbridge extends AbstractMethod
 {
     /**
      * Config path for system default country
@@ -35,7 +35,7 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Payment method instance wrapped by Payment Bridge
      *
-     * @var \Magento\Payment\Model\Method\AbstractMethod
+     * @var AbstractMethod
      */
     protected $_originalMethodInstance = null;
 
@@ -192,7 +192,7 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
      * Assign data to info model instance
      *
      * @param  mixed $data
-     * @return \Magento\Payment\Model\Info
+     * @return $this
      */
     public function assignData($data)
     {
@@ -206,8 +206,8 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
             }
         } else {
             $pbridgeData = $data->getData('pbridge_data');
-            $data->setData('cc_last4',$pbridgeData['cc_last4']);
-            $data->setData('cc_type',$pbridgeData['cc_type']);
+            $data->setData('cc_last4', $pbridgeData['cc_last4']);
+            $data->setData('cc_type', $pbridgeData['cc_type']);
             $data->unsetData('pbridge_data');
         }
 
@@ -221,7 +221,7 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
      * Save Payment Bridge response into the Info instance additional data storage
      *
      * @param array $data
-     * @return \Magento\Pbridge\Model\Payment\Method\Pbridge
+     * @return $this
      */
     public function setPbridgeResponse($data)
     {
@@ -255,8 +255,8 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Setter
      *
-     * @param \Magento\Payment\Model\Method\AbstractMethod $methodInstance
-     * @return \Magento\Pbridge\Model\Payment\Method\Pbridge
+     * @param AbstractMethod $methodInstance
+     * @return $this
      */
     public function setOriginalMethodInstance($methodInstance)
     {
@@ -268,7 +268,7 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
      * Getter.
      * Retrieve the wrapped payment method instance
      *
-     * @return \Magento\Payment\Model\Method\AbstractMethod
+     * @return AbstractMethod
      */
     public function getOriginalMethodInstance()
     {
@@ -305,14 +305,16 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
     }
 
     /**
-     * @return \Magento\Pbridge\Model\Payment\Method\Pbridge
-     * @throws \Magento\Core\Exception
+     * Validate response
+     *
+     * @return $this
+     * @throws Exception
      */
     public function validate()
     {
         parent::validate();
         if (!$this->getPbridgeResponse('token')) {
-            throw new \Magento\Core\Exception(__("We can't find the Payment Bridge authentication data."));
+            throw new Exception(__("We can't find the Payment Bridge authentication data."));
         }
         return $this;
     }
@@ -320,9 +322,9 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Authorize
      *
-     * @param   \Magento\Object $payment
-     * @param   float $amount
-     * @return  array
+     * @param \Magento\Object $payment
+     * @param float $amount
+     * @return array
      */
     public function authorize(\Magento\Object $payment, $amount)
     {
@@ -377,8 +379,8 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Cancel payment
      *
-     * @param   \Magento\Object $payment
-     * @return  \Magento\Pbridge\Model\Payment\Method\Pbridge
+     * @param \Magento\Object $payment
+     * @return $this
      */
     public function cancel(\Magento\Object $payment)
     {
@@ -389,9 +391,9 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Capture payment
      *
-     * @param   \Magento\Object $payment
-     * @param   float $amount
-     * @return  array
+     * @param \Magento\Object $payment
+     * @param float $amount
+     * @return array
      */
     public function capture(\Magento\Object $payment, $amount)
     {
@@ -430,10 +432,10 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Refund money
      *
-     * @param   \Magento\Object $payment
-     * @param   float $amount
-     * @return  array
-     * @throws \Magento\Core\Exception
+     * @param \Magento\Object $payment
+     * @param float $amount
+     * @return array
+     * @throws Exception
      */
     public function refund(\Magento\Object $payment, $amount)
     {
@@ -469,7 +471,7 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
             return $api->getResponse();
 
         } else {
-            throw new \Magento\Core\Exception(
+            throw new Exception(
                 __("We can't issue a refund transaction because the capture transaction does not exist. "));
         }
     }
@@ -477,9 +479,9 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Void payment
      *
-     * @param   \Magento\Object $payment
-     * @return  array
-     * @throws \Magento\Core\Exception
+     * @param \Magento\Object $payment
+     * @return array
+     * @throws Exception
      */
     public function void(\Magento\Object $payment)
     {
@@ -493,7 +495,7 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
             $this->_getApi()->doVoid($request);
 
         } else {
-            throw new \Magento\Core\Exception(__('You need an authorization transaction to void.'));
+            throw new Exception(__('You need an authorization transaction to void.'));
         }
         return $this->_getApi()->getResponse();
     }
@@ -564,10 +566,11 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
      * Transfer API results to payment.
      * Api response must be compatible with payment response expectation
      *
-     * @param \Magento\Sales\Model\Order\Payment $payment
+     * @param Payment $payment
      * @param array $apiResponse
+     * @return void
      */
-    protected function _importResultToPayment(\Magento\Sales\Model\Order\Payment $payment, $apiResponse)
+    protected function _importResultToPayment(Payment $payment, $apiResponse)
     {
         if (!empty($apiResponse['gateway_transaction_id'])) {
             $payment->setPreparedMessage(
@@ -604,7 +607,7 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
     {
         $orderId = null;
         $paymentInfo = $this->getInfoInstance();
-        if ($paymentInfo instanceof \Magento\Sales\Model\Order\Payment) {
+        if ($paymentInfo instanceof Payment) {
             $orderId = $paymentInfo->getOrder()->getIncrementId();
         } else {
             if (!$paymentInfo->getQuote()->getReservedOrderId()) {

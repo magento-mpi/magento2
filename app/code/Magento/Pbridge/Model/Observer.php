@@ -7,20 +7,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Pbridge\Model;
 
 /**
  * Pbridge observer
  *
- * @category    Magento
- * @package     Magento_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Pbridge\Model;
-
 class Observer
 {
     /**
+     * Cache type configuration
+     *
      * @var \Magento\App\Cache\Type\Config
      */
     protected $_configCacheType;

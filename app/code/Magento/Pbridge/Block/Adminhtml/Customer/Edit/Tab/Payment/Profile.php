@@ -7,17 +7,15 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
+namespace Magento\Pbridge\Block\Adminhtml\Customer\Edit\Tab\Payment;
 
+use Magento\Core\Model\Registry;
 
 /**
  * Customer Account Payment Profiles form block
  *
- * @category    Magento
- * @package     Magento_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Pbridge\Block\Adminhtml\Customer\Edit\Tab\Payment;
-
 class Profile
     extends \Magento\Pbridge\Block\Iframe\AbstractIframe
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
@@ -44,6 +42,8 @@ class Profile
 
     /**
      * Core registry
+     *
+     * @var Registry|null
      */
     protected $_coreRegistry = null;
 
@@ -53,7 +53,7 @@ class Profile
      * @param \Magento\Pbridge\Model\Session $pbridgeSession
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
-     * @param \Magento\Core\Model\Registry $registry
+     * @param Registry $registry
      * @param array $data
      */
     public function __construct(
@@ -62,7 +62,7 @@ class Profile
         \Magento\Pbridge\Model\Session $pbridgeSession,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Pbridge\Helper\Data $pbridgeData,
-        \Magento\Core\Model\Registry $registry,
+        Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;

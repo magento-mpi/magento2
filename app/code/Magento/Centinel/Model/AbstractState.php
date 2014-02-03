@@ -51,11 +51,11 @@ abstract class AbstractState extends \Magento\Object
      * Otherwise it will return value of the attribute specified by $key
      *
      * $index parameter is ignored
-     * @see \Magento\Session\SessionManager::getData()
      *
      * @param string $key
      * @param string|int $index
      * @return mixed
+     * @see \Magento\Session\SessionManager::getData()
      */
     public function getData($key='', $index=null)
     {
@@ -65,7 +65,7 @@ abstract class AbstractState extends \Magento\Object
     /**
      * Overwrite data in the object.
      *
-     * $key can be string or array.
+     * Parameter $key can be string or array.
      * If $key is string, the attribute value will be overwritten by $value
      *
      * If $key is an array, it will overwrite all the data in the object.

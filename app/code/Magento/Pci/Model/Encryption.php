@@ -7,14 +7,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Pci\Model;
+
+use Magento\Core\Exception;
+use Magento\Encryption\Crypt;
 
 /**
  * More sophisticated encryption model, that can:
  * - generate/check hashes of different versions
  * - use different encryption ciphers
  */
-namespace Magento\Pci\Model;
-
 class Encryption extends \Magento\Encryption\Encryptor
 {
     const HASH_VERSION_MD5    = 0;
@@ -27,16 +29,22 @@ class Encryption extends \Magento\Encryption\Encryptor
     const CIPHER_LATEST       = 2;
 
     /**
+     * Indicate cipher
+     *
      * @var int
      */
     protected $_cipher = self::CIPHER_LATEST;
 
     /**
+     * Version of encryption key
+     *
      * @var int
      */
     protected $_keyVersion;
 
     /**
+     * Array of encryption keys
+     *
      * @var string[]
      */
     protected $_keys = array();
@@ -64,7 +72,7 @@ class Encryption extends \Magento\Encryption\Encryptor
      *
      * @param int $version
      * @return int
-     * @throws \Exception
+     * @throws Exception
      */
     public function validateCipher($version)
     {
@@ -72,7 +80,7 @@ class Encryption extends \Magento\Encryption\Encryptor
 
         $version = (int)$version;
         if (!in_array($version, $types, true)) {
-            throw new \Magento\Core\Exception(__('Not supported cipher version'));
+            throw new Exception(__('Not supported cipher version'));
         }
         return $version;
     }
@@ -170,7 +178,7 @@ class Encryption extends \Magento\Encryption\Encryptor
      * @param string $key
      * @param int $cipherVersion
      * @param bool $initVector
-     * @return \Magento\Encryption\Crypt
+     * @return Crypt
      */
     protected function _getCrypt($key = null, $cipherVersion = null, $initVector = true)
     {
@@ -197,7 +205,7 @@ class Encryption extends \Magento\Encryption\Encryptor
             $mode   = MCRYPT_MODE_ECB;
         }
 
-        return new \Magento\Encryption\Crypt($key, $cipher, $mode, $initVector);
+        return new Crypt($key, $cipher, $mode, $initVector);
     }
 
     /**
@@ -273,7 +281,8 @@ class Encryption extends \Magento\Encryption\Encryptor
      * Validate an encryption key
      *
      * @param string $key
-     * @return unknown
+     * @return Crypt
+     * @throws \Exception
      */
     public function validateKey($key)
     {

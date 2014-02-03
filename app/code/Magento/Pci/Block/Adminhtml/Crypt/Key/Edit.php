@@ -7,21 +7,24 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Pci\Block\Adminhtml\Crypt\Key;
 
 /**
  * Encryption key change edit page block
  *
  */
-namespace Magento\Pci\Block\Adminhtml\Crypt\Key;
-
 class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
-     * @var string
+     * Block module name
+     *
+     * @var string|null
      */
     protected $_blockGroup = null;
 
     /**
+     * Controller name
+     *
      * @var string
      */
     protected $_controller = 'crypt_key';
@@ -29,6 +32,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     /**
      * Instantiate save button
      *
+     * @return void
      */
     protected function _construct()
     {

@@ -37,11 +37,15 @@ class Config
     protected $_coreStoreConfig;
 
     /**
+     * Core config interface
+     *
      * @var \Magento\App\ConfigInterface
      */
     protected $_coreConfig;
 
     /**
+     * Encryptor interface
+     *
      * @var \Magento\Encryption\EncryptorInterface
      */
     protected $_encryptor;

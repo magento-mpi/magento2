@@ -7,17 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Pbridge\Helper;
 
+use Magento\Core\Model\Store;
+use Magento\Pbridge\Model\Encryption;
+use Magento\Sales\Model\Quote;
 
 /**
  * Pbridge helper
  *
- * @category    Magento
- * @package     Magento_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Pbridge\Helper;
-
 class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
@@ -37,29 +37,28 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Payment Bridge payment methods available for the current merchant
      *
-     * $var array
+     * @var array
      */
     protected $_pbridgeAvailableMethods = array();
 
     /**
-     * Payment Bridge payment methods available for the current merchant
-     * and usable for current conditions
+     * Payment Bridge payment methods available for the current merchant and usable for current conditions
      *
-     * $var array
+     * @var array
      */
     protected $_pbridgeUsableMethods = array();
 
     /**
      * Encryptor model
      *
-     * @var \Magento\Pbridge\Model\Encryption
+     * @var Encryption|null
      */
     protected $_encryptor = null;
 
     /**
      * Store id
      *
-     * @var unknown_type
+     * @var int|null
      */
     protected $_storeId = null;
 
@@ -120,6 +119,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_cartFactory;
 
     /**
+     * Application state
+     *
      * @var \Magento\App\State
      */
     protected $_appState;
@@ -165,7 +166,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Check if Payment Bridge Magento Module is enabled in configuration
      *
-     * @param \Magento\Core\Model\Store $store
+     * @param Store $store
      * @return bool
      */
     public function isEnabled($store = null)
@@ -176,7 +177,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Check if Payment Bridge supports Payment Profiles
      *
-     * @param \Magento\Core\Model\Store $store
+     * @param Store|null $store
      * @return bool
      */
     public function arePaymentProfilesEnables($store = null)
@@ -189,8 +190,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Check if enough config paramters to use Pbridge module
      *
-     * @param \Magento\Core\Model\Store | integer $store
-     * @return boolean
+     * @param Store|int|null $store
+     * @return bool
      */
     public function isAvailable($store = null)
     {
@@ -202,12 +203,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Getter
      *
-     * @param \Magento\Sales\Model\Quote $quote
-     * @return \Magento\Sales\Model\Quote | null
+     * @param Quote|null $quote
+     * @return Quote|null
      */
     protected function _getQuote($quote = null)
     {
-        if ($quote && $quote instanceof \Magento\Sales\Model\Quote) {
+        if ($quote && $quote instanceof Quote) {
             return $quote;
         }
         return $this->_checkoutSession->getQuote();
@@ -286,7 +287,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Return payment Bridge request URL to display gateway form
      *
      * @param array $params OPTIONAL
-     * @param \Magento\Sales\Model\Quote $quote
+     * @param Quote|null $quote
      * @return string
      */
     public function getGatewayFormUrl(array $params = array(), $quote = null)
@@ -347,7 +348,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Return a modified encryptor
      *
-     * @return \Magento\Pbridge\Model\Encryption
+     * @return Encryption
      */
     public function getEncryptor()
     {
