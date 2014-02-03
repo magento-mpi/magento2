@@ -10,9 +10,9 @@
 #
 #---
 menu:
-#    dashboard: ~
+    dashboard: ~
     sales:
-#     Operations group
+    #Operations group
         manage_sales_orders: ~
         manage_sales_invoices: ~
         manage_sales_shipments: ~
@@ -21,70 +21,59 @@ menu:
         manage_sales_billing_agreements: ~
         manage_sales_transactions: ~
         manage_sales_recurring_profile: ~
-
     products:
-#     Inventory group
+    #Inventory group
         manage_products: ~
         manage_categories: ~
-#     Google Content group
+    #Google Content group
         google_content_manage_attributes: ~
-#            Problem with page MCA: googleshopping_items/index/store/1/
-#            google_content_manage_items: ~
-
+        #google_content_manage_items: ~
     customers:
-       manage_customers: ~
-       online_customers: ~
-       manage_customer_segments: ~
-
+        manage_customers: ~
+        online_customers: ~
+        manage_customer_segments: ~
     marketing:
-#     Promotion group
+    #Promotion group
         manage_catalog_price_rules: ~
         manage_product_rules: ~
         manage_shopping_cart_price_rules: ~
         manage_gift_card_account: ~
-#     Private Sales group
+    #Private Sales group
         manage_catalog_events: ~
         manage_invitations: ~
-#     Communications group
+    #Communications group
         system_email_template: ~
         newsletter_templates: ~
         newsletter_queue: ~
         newsletter_subscribers: ~
         manage_automated_email_reminder_rules: ~
-#     SEO & Search group
+    #SEO & Search group
         search_terms: ~
         url_rewrite_management: ~
         xml_sitemap: ~
-#     User Content group
+    #User Content group
         manage_all_reviews: ~
-#        all_tags: ~
-
     content:
-#     Elements group
+    #Elements group
         manage_cms_pages: ~
         manage_pages_hierarchy: ~
         manage_cms_static_blocks: ~
         manage_cms_banners: ~
         manage_cms_widgets: ~
-#     Design group
+    #Design group
         design_editor_selector: ~
         theme_list: ~
         system_design: ~
-
     reports:
-#     Marketing group
+    #Marketing group
         report_shopcart_product: ~
         report_shopcart_abandoned: ~
         report_search: ~
         newsletter_problem_reports: ~
-#     Reviews group
+    #Reviews group
         report_review_customer: ~
         report_review_product: ~
-#     Tags group
-#        report_tag_customer: ~
-#        report_tag_product: ~
-#        report_tag_popular: ~
-#     Sales group
+    #Sales group
         reports_sales_sales: ~
         report_sales_tax: ~
         report_sales_invoiced: ~
@@ -92,70 +81,68 @@ menu:
         report_sales_refunded: ~
         report_sales_coupons: ~
         paypal_reports: ~
-#     Customers group
+    #Customers group
         report_customer_totals: ~
         report_customer_orders: ~
         report_customer_accounts: ~
         customer_wishlist_report: ~
         customer_segment_report: ~
-#     Products group
+    #Products group
         report_product_viewed: ~
         report_sales_bestsellers: ~
         report_product_lowstock: ~
         report_product_sold: ~
         report_product_downloads: ~
-#     Private Sales group
+    #Private Sales group
         reports_invitations_general: ~
         reports_invitations_customers: ~
         invitations_order_conversion_rate: ~
-#     Statistics group
+    #Statistics group
         report_statistics: ~
-
     stores:
-#     Settings group
+    #Settings group
         manage_stores: ~
         system_configuration: ~
         manage_sales_checkout_terms_conditions: ~
         order_statuses: ~
-#     Taxes group
+    #Taxes group
         manage_tax_rule: ~
         manage_tax_zones_and_rates: ~
-#     Currency
+    #Currency
         system_currency: ~
         system_currencysymbol: ~
-#     Attributes group
+    #Attributes group
         manage_customer_attributes: ~
         manage_customer_address_attributes: ~
         manage_attributes: ~
         manage_attribute_sets: ~
         manage_rma_items_attribute: ~
         manage_ratings: ~
-#     Other Settings group
+    #Other Settings group
         manage_customer_groups: ~
         manage_reward_rates: ~
         manage_gift_wrapping: ~
         manage_gift_registry: ~
-
     system:
-#     Data Transfer group
+    #Data Transfer group
         import: ~
         export: ~
         manage_import_export_tax_rates: ~
         scheduled_import_export: ~
-#     Magento Connect group
+    #Magento Connect group
         system_package_extentions: ~
-#     Tools group
+    #Tools group
         cache_storage_management: ~
         index_management: ~
         system_backup: ~
-#     Permissions group
+    #Permissions group
         manage_admin_users: ~
         permissions_locked_users: ~
         manage_roles: ~
-#     Action Log group
+    #Action Log group
         admin_action_log_report: ~
         admin_action_log_archive: ~
-#     Other Settings group
+    #Other Settings group
         notification: ~
         system_custom_variables: ~
         manage_encryption_key: ~

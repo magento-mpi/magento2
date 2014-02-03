@@ -18,10 +18,6 @@
  */
 class Core_Mage_Customer_CreateTest extends Mage_Selenium_TestCase
 {
-    /**
-     * <p>Preconditions:</p>
-     * <p>Navigate to System -> Manage Customers</p>
-     */
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
@@ -35,14 +31,18 @@ class Core_Mage_Customer_CreateTest extends Mage_Selenium_TestCase
      */
     public function navigation()
     {
-        $this->assertTrue($this->buttonIsPresent('add_new_customer'),
-            'There is no "Add New Customer" button on the page');
+        $this->assertTrue(
+            $this->buttonIsPresent('add_new_customer'),
+            'There is no "Add New Customer" button on the page'
+        );
         $this->clickButton('add_new_customer');
         $this->assertTrue($this->checkCurrentPage('create_customer'), $this->getParsedMessages());
         $this->assertTrue($this->buttonIsPresent('back'), 'There is no "Back" button on the page');
         $this->assertTrue($this->buttonIsPresent('save_customer'), 'There is no "Save" button on the page');
-        $this->assertTrue($this->buttonIsPresent('save_and_continue_edit'),
-            'There is no "Save and Continue Edit" button on the page');
+        $this->assertTrue(
+            $this->buttonIsPresent('save_and_continue_edit'),
+            'There is no "Save and Continue Edit" button on the page'
+        );
         $this->assertTrue($this->buttonIsPresent('reset'), 'There is no "Reset" button on the page');
     }
 
@@ -124,13 +124,14 @@ class Core_Mage_Customer_CreateTest extends Mage_Selenium_TestCase
     public function withSpecialCharactersExceptEmail()
     {
         //Data
-        $userData = $this->loadDataSet('Customers', 'generic_customer_account',
-            array('prefix'         => $this->generate('string', 32, ':punct:'),
-                  'first_name'     => $this->generate('string', 32, ':punct:'),
-                  'middle_name'    => $this->generate('string', 32, ':punct:'),
-                  'last_name'      => $this->generate('string', 32, ':punct:'),
-                  'suffix'         => $this->generate('string', 32, ':punct:'),
-                  'tax_vat_number' => $this->generate('string', 32, ':punct:')));
+        $userData = $this->loadDataSet('Customers', 'generic_customer_account', array(
+            'prefix' => $this->generate('string', 32, ':punct:'),
+            'first_name' => $this->generate('string', 32, ':punct:'),
+            'middle_name' => $this->generate('string', 32, ':punct:'),
+            'last_name' => $this->generate('string', 32, ':punct:'),
+            'suffix' => $this->generate('string', 32, ':punct:'),
+            'tax_vat_number' => $this->generate('string', 32, ':punct:')
+        ));
         $searchData = $this->loadDataSet('Customers', 'search_customer', array('email' => $userData['email']));
         //Steps
         $this->customerHelper()->createCustomer($userData);
@@ -140,7 +141,10 @@ class Core_Mage_Customer_CreateTest extends Mage_Selenium_TestCase
         $this->customerHelper()->openCustomer($searchData);
         $this->openTab('account_information');
         //Verifying
-        $this->assertTrue($this->verifyForm($userData, 'account_information'), $this->getParsedMessages());
+        $this->assertTrue(
+            $this->verifyForm($userData, 'account_information', array('associate_to_website')),
+            $this->getParsedMessages()
+        );
     }
 
     /**
@@ -153,13 +157,15 @@ class Core_Mage_Customer_CreateTest extends Mage_Selenium_TestCase
     public function withLongValues()
     {
         //Data
-        $longValues = array('prefix'         => $this->generate('string', 255, ':alnum:'),
-                            'first_name'     => $this->generate('string', 255, ':alnum:'),
-                            'middle_name'    => $this->generate('string', 255, ':alnum:'),
-                            'last_name'      => $this->generate('string', 255, ':alnum:'),
-                            'suffix'         => $this->generate('string', 255, ':alnum:'),
-                            'email'          => $this->generate('email', 128, 'valid'),
-                            'tax_vat_number' => $this->generate('string', 255, ':alnum:'));
+        $longValues = array(
+            'prefix' => $this->generate('string', 255, ':alnum:'),
+            'first_name' => $this->generate('string', 255, ':alnum:'),
+            'middle_name' => $this->generate('string', 255, ':alnum:'),
+            'last_name' => $this->generate('string', 255, ':alnum:'),
+            'suffix' => $this->generate('string', 255, ':alnum:'),
+            'email' => $this->generate('email', 128, 'valid'),
+            'tax_vat_number' => $this->generate('string', 255, ':alnum:')
+        );
         $userData = $this->loadDataSet('Customers', 'generic_customer_account', $longValues);
         $searchData = $this->loadDataSet('Customers', 'search_customer', array('email' => $userData['email']));
         //Steps
@@ -170,7 +176,10 @@ class Core_Mage_Customer_CreateTest extends Mage_Selenium_TestCase
         $this->customerHelper()->openCustomer($searchData);
         $this->openTab('account_information');
         //Verifying
-        $this->assertTrue($this->verifyForm($userData, 'account_information'), $this->getParsedMessages());
+        $this->assertTrue(
+            $this->verifyForm($userData, 'account_information', array('associate_to_website')),
+            $this->getParsedMessages()
+        );
     }
 
     /**
@@ -200,44 +209,6 @@ class Core_Mage_Customer_CreateTest extends Mage_Selenium_TestCase
             array('test@invalidDomain'),
             array('te@st@unknown-domain.com')
         );
-    }
-
-    /**
-     * <p>Create customer. Use a value for 'Password' field the length of which less than 6 characters.</p>
-     *
-     * @test
-     * @depends withRequiredFieldsOnly
-     * @TestlinkId TL-MAGE-3584
-     */
-    public function withInvalidPassword()
-    {
-        $this->markTestSkipped('Password field was removed from create customer form: MAGETWO-9619');
-        //Data
-        $userData = $this->loadDataSet('Customers', 'generic_customer_account',
-            array('password' => $this->generate('string', 5, ':alnum:')));
-        //Steps
-        $this->customerHelper()->createCustomer($userData);
-        //Verifying
-        $this->assertMessagePresent('error', 'password_too_short');
-    }
-
-    /**
-     * <p>Create customer with auto-generated password</p>
-     *
-     * @test
-     * @depends withRequiredFieldsOnly
-     * @TestlinkId TL-MAGE-3581
-     */
-    public function withAutoGeneratedPassword()
-    {
-        $this->markTestIncomplete('BUG: error message The minimum password length is 6');
-        //Data
-        $userData = $this->loadDataSet('Customers', 'generic_customer_account',
-            array('password' => '%noValue%', 'auto_generated_password' => 'Yes'));
-        //Steps
-        $this->customerHelper()->createCustomer($userData);
-        //Verifying
-        $this->assertMessagePresent('success', 'success_saved_customer');
     }
 
     /**

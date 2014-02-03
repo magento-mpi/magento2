@@ -55,7 +55,7 @@ class Cache extends \Magento\Backend\App\Action
         $this->_title->add(__('Cache Management'));
 
         $this->_view->loadLayout();
-        $this->_setActiveMenu('Magento_Adminhtml::system_cache');
+        $this->_setActiveMenu('Magento_Backend::system_cache');
         $this->_view->renderLayout();
     }
 

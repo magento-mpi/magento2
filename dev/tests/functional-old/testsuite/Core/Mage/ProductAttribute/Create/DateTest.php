@@ -76,8 +76,8 @@ class Core_Mage_ProductAttribute_Create_DateTest extends Mage_Selenium_TestCase
      */
     public function withAttributeCodeThatAlreadyExists(array $attrData)
     {
-        //Steps
         $this->markTestIncomplete('MAGETWO-8909');
+        //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
         $this->assertMessagePresent('error', 'exists_attribute_code');

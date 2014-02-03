@@ -180,7 +180,6 @@ configuration_menu_default:
         currency: ~
         log_cleaning: ~
         notifications: ~
-        external_full_page_cache_settings: ~
         storage_configuration_for_media: ~
     advanced_advanced:
         disable_modules_output: ~
@@ -270,7 +269,7 @@ configuration_menu_website:
         name_and_address_options: ~
         login_options: ~
         address_templates: ~
-        customer_captcha: ~        
+        customer_captcha: ~
     customers_wishlist:
         general_options_wishlist: ~
         share_options: ~

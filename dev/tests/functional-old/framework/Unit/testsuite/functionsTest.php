@@ -3,11 +3,8 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  functional_tests
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {copyright}
+ * @license {license_link}
  */
 class FunctionsTest extends Unit_PHPUnit_TestCase
 {
@@ -21,8 +18,7 @@ class FunctionsTest extends Unit_PHPUnit_TestCase
     }
 
     /**
-     * @covers array_replace_recursive
-     *
+     * @covers       array_replace_recursive
      * @dataProvider arrayReplaceRecursiveDataProvider
      * @test
      */
@@ -36,11 +32,17 @@ class FunctionsTest extends Unit_PHPUnit_TestCase
     public function arrayReplaceRecursiveDataProvider()
     {
         return array(
-            array(array('browser' => array('default' => array('browser' => 'chrome')),
-                        'applications' => array('magento-ce')),
-                  array('browser' => array('default' => array('browser' => 'firefox'), 'firefox')),
-                  array('browser' => array('default' => array('browser' => 'firefox'), 'firefox'),
-                        'applications' => array('magento-ce')))
+            array(
+                array(
+                    'browser' => array('default' => array('browser' => 'chrome')),
+                    'applications' => array('magento-ce')
+                ),
+                array('browser' => array('default' => array('browser' => 'firefox'), 'firefox')),
+                array(
+                    'browser' => array('default' => array('browser' => 'firefox'), 'firefox'),
+                    'applications' => array('magento-ce')
+                )
+            )
         );
     }
 }

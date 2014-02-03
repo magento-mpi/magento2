@@ -22,12 +22,22 @@ class Enterprise_Mage_WebsiteRestrictions_WebsitesRestrictionsTest extends Mage_
         $this->navigate('system_configuration');
     }
 
+    protected function tearDownAfterTest()
+    {
+        if ($this->controlIsVisible(self::UIMAP_TYPE_FIELDSET, 'customer_menu')) {
+            if (!$this->isControlExpanded(self::UIMAP_TYPE_FIELDSET, 'customer_menu')) {
+                $this->clickControl(self::FIELD_TYPE_LINK, 'expand_customer_menu', false);
+            }
+            $this->clickControl(self::FIELD_TYPE_LINK, 'log_out');
+        }
+    }
+
     protected function tearDownAfterTestClass()
     {
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('WebsiteRestrictions/disable_website_restrictions');
-        $this->clearInvalidedCache();
+        $this->flushCache();
     }
 
     /**
@@ -35,6 +45,7 @@ class Enterprise_Mage_WebsiteRestrictions_WebsitesRestrictionsTest extends Mage_
      *
      * @test
      * @TestlinkId TL-MAGE-5519
+     * @skipTearDown
      */
     public function navigationTest()
     {
@@ -67,7 +78,7 @@ class Enterprise_Mage_WebsiteRestrictions_WebsitesRestrictionsTest extends Mage_
         $checkoutData = $this->loadDataSet('OnePageCheckout', 'signedin_flatrate_checkmoney',
             array('general_name' => $simple['general_name']));
         //Preconditions
-        $this->frontend('customer_login');
+        $this->frontend();
         $this->customerHelper()->registerCustomer($userData);
         $this->assertMessagePresent('success', 'success_registration');
         $this->logoutCustomer();
@@ -75,27 +86,17 @@ class Enterprise_Mage_WebsiteRestrictions_WebsitesRestrictionsTest extends Mage_
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('WebsiteRestrictions/login_only_to_login_form');
         $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
-        $this->clearInvalidedCache();
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
         $this->assertMessagePresent('success', 'success_saved_product');
+        $this->flushCache();
         //Steps
         $this->frontend('home_page', false);
         $this->validatePage('customer_login');
-        $this->fillFieldset($loginData, 'log_in_customer');
-        $this->clickButton('login', false);
-        $this->waitForElement(array(
-            $this->_getMessageXpath('general_error'),
-            $this->_getMessageXpath('general_validation'),
-            $this->_getControlXpath('link', 'log_out')
-        ));
-        $this->validatePage();
-        $this->assertTrue($this->controlIsPresent('link', 'log_out'), 'Customer is not logged in.');
+        $this->customerHelper()->frontLoginCustomer($loginData);
         $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
         //Verification
         $this->assertMessagePresent('success', 'success_checkout');
-        //Postcondition
-        $this->clickControl('link', 'log_out');
     }
 
     /**
@@ -109,11 +110,11 @@ class Enterprise_Mage_WebsiteRestrictions_WebsitesRestrictionsTest extends Mage_
     {
         //Preconditions
         $this->systemConfigurationHelper()->configure('WebsiteRestrictions/website_closed_response_200');
-        $this->clearInvalidedCache();
+        $this->flushCache();
         //Steps
         $this->frontend('home_page', false);
         $this->websiteRestrictionsHelper()->validateFrontendHttpCode('home_page', '200');
-        $this->assertEquals('503 Service Unavailable', $this->title(), "Open wrong page");
+        $this->assertEquals('503 Service Unavailable', $this->title(), 'Wrong page is opened');
     }
 
     /**
@@ -127,11 +128,11 @@ class Enterprise_Mage_WebsiteRestrictions_WebsitesRestrictionsTest extends Mage_
     {
         //Preconditions
         $this->systemConfigurationHelper()->configure('WebsiteRestrictions/website_closed_response_503');
-        $this->clearInvalidedCache();
+        $this->flushCache();
         //Steps
         $this->frontend('home_page', false);
         $this->websiteRestrictionsHelper()->validateFrontendHttpCode('home_page', '503');
-        $this->assertEquals('503 Service Unavailable', $this->title(), "Open wrong page");
+        $this->assertEquals('503 Service Unavailable', $this->title(), 'Wrong page is opened');
     }
 
     /**
@@ -145,7 +146,7 @@ class Enterprise_Mage_WebsiteRestrictions_WebsitesRestrictionsTest extends Mage_
     {
         //Steps
         $this->systemConfigurationHelper()->configure('WebsiteRestrictions/login_only_to_login_form');
-        $this->clearInvalidedCache();
+        $this->flushCache();
         $this->frontend('home_page', false);
         //Verification
         $this->validatePage('customer_login');
@@ -163,10 +164,10 @@ class Enterprise_Mage_WebsiteRestrictions_WebsitesRestrictionsTest extends Mage_
     {
         //Steps
         $this->systemConfigurationHelper()->configure('WebsiteRestrictions/login_only_to_landing_page');
-        $this->clearInvalidedCache();
+        $this->flushCache();
         $this->frontend('home_page', false);
         //Verification
-        $this->assertEquals('About Us', $this->title(), "Open wrong page ");
+        $this->validatePage('about_us');
     }
 
     /**
@@ -180,12 +181,12 @@ class Enterprise_Mage_WebsiteRestrictions_WebsitesRestrictionsTest extends Mage_
     {
         //Steps
         $this->systemConfigurationHelper()->configure('WebsiteRestrictions/login_only_to_login_form');
-        $this->clearInvalidedCache();
+        $this->flushCache();
         $this->frontend('home_page', false);
         $this->validatePage('customer_login');
         $this->clickControl('link', 'forgot_password');
         //Verification
-        $this->validatePage('forgot_customer_password');
+        $this->assertTrue($this->checkCurrentPage('forgot_customer_password'), $this->getParsedMessages());
     }
 
     /**
@@ -201,15 +202,13 @@ class Enterprise_Mage_WebsiteRestrictions_WebsitesRestrictionsTest extends Mage_
         $user = $this->loadDataSet('Customers', 'customer_account_register');
         //Steps
         $this->systemConfigurationHelper()->configure('WebsiteRestrictions/login_and_register_to_login_form');
-        $this->clearInvalidedCache();
+        $this->flushCache();
         $this->frontend('home_page', false);
         $this->validatePage('customer_login');
         $this->customerHelper()->registerCustomer($user);
         //Verifying
         $this->assertMessagePresent('success', 'success_registration');
-        $this->validatePage('customer_account');
-        //Postcondition
-        $this->clickControl('link', 'log_out');
+        $this->assertTrue($this->checkCurrentPage('customer_account'), $this->getParsedMessages());
     }
 
     /**
@@ -223,7 +222,7 @@ class Enterprise_Mage_WebsiteRestrictions_WebsitesRestrictionsTest extends Mage_
     {
         //Precondition
         $this->systemConfigurationHelper()->configure('WebsiteRestrictions/login_only_to_login_form');
-        $this->clearInvalidedCache();
+        $this->flushCache();
         //Steps
         $this->frontend('register_account', false);
         //Verifying

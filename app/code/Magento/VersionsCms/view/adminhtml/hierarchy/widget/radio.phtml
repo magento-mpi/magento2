@@ -88,9 +88,9 @@ $parameters = $this->getParameters();
 
     function addClassEnable(storeId)
     {
-        $('options_<?php echo $uniqueHash; ?>_'+storeId+'anchor_text').enable();
-        $('options_<?php echo $uniqueHash; ?>_'+storeId+'title').enable();
-        $('<?php echo $uniqueId; ?>_'+storeId+'value').enable();
+        $('options_<?php echo $uniqueHash; ?>_'+storeId+'anchor_text').up('div.field').show();
+        $('options_<?php echo $uniqueHash; ?>_'+storeId+'title').up('div.field').show();
+        $('<?php echo $uniqueId; ?>_'+storeId+'value').up('div.field').show();
 
         $('<?php echo $uniqueId; ?>_'+storeId+'value').addClassName('required-entry');
     }
@@ -102,9 +102,9 @@ $parameters = $this->getParameters();
             div.hide();
         });
         storesArray.each(function(valId){
-            $('options_<?php echo $uniqueHash; ?>_'+valId+'anchor_text').disable();
-            $('options_<?php echo $uniqueHash; ?>_'+valId+'title').disable()
-            $('<?php echo $uniqueId; ?>_'+valId+'value').disable();
+            $('options_<?php echo $uniqueHash; ?>_'+valId+'anchor_text').up('div.field').hide();
+            $('options_<?php echo $uniqueHash; ?>_'+valId+'title').up('div.field').hide();
+            $('<?php echo $uniqueId; ?>_'+valId+'value').up('div.field').hide();
 
             $('<?php echo $uniqueId; ?>_'+valId+'value').removeClassName('required-entry');
         });
@@ -144,17 +144,10 @@ $parameters = $this->getParameters();
             top: new Element('div', {id: 'real_<?php echo $uniqueHash; ?>_real'}).update($('<?php echo $uniqueHash; ?>_new').innerHTML)
         });
         $('<?php echo $uniqueHash; ?>_new').remove();
-        $('options_<?php echo $uniqueHash; ?>_anchor_text').up('table').setStyle({
-            display: 'none'
-        });
-        $('<?php echo $uniqueId; ?>label').remove();
-        $('options_<?php echo $uniqueHash; ?>_title').remove();
-        $('options_<?php echo $uniqueHash; ?>_anchor_text').remove();
-        $('chooseroptions_<?php echo $uniqueHash; ?>_node_id').remove();
-        $('note_options_<?php echo $uniqueHash; ?>_anchor_text').remove();
-        $('<?php echo $uniqueId; ?>advice-container').remove();
-        $('<?php echo $uniqueId; ?>control').remove();
-        $('<?php echo $uniqueId; ?>value').remove();
+        $('options_<?php echo $uniqueHash; ?>_title').up('div.field').remove();
+        $('options_<?php echo $uniqueHash; ?>_anchor_text').up('div.field').remove();
+        $('<?php echo $uniqueId; ?>control').up('div.field').remove();
+        $('<?php echo $uniqueId; ?>advice-container').up('div.field').remove();
     }
 
     document.observe('dom:loaded', function() {
