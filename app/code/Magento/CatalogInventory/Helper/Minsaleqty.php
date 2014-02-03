@@ -13,6 +13,8 @@
  */
 namespace Magento\CatalogInventory\Helper;
 
+use Magento\Core\Model\Store;
+
 class Minsaleqty
 {
     /**
@@ -42,7 +44,7 @@ class Minsaleqty
     /**
      * Retrieve fixed qty value
      *
-     * @param mixed $qty
+     * @param int|float|string|null $qty
      * @return float|null
      */
     protected function _fixQty($qty)
@@ -53,7 +55,7 @@ class Minsaleqty
     /**
      * Generate a storable representation of a value
      *
-     * @param mixed $value
+     * @param int|float|string|array $value
      * @return string
      */
     protected function _serializeValue($value)
@@ -80,7 +82,7 @@ class Minsaleqty
     /**
      * Create a value from a storable representation
      *
-     * @param mixed $value
+     * @param int|float|string $value
      * @return array
      */
     protected function _unserializeValue($value)
@@ -99,7 +101,7 @@ class Minsaleqty
     /**
      * Check whether value is in form retrieved by _encodeArrayFieldValue()
      *
-     * @param mixed
+     * @param string|array $value
      * @return bool
      */
     protected function _isEncodedArrayFieldValue($value)
@@ -119,7 +121,7 @@ class Minsaleqty
     /**
      * Encode value to be used in \Magento\Backend\Block\System\Config\Form\Field\FieldArray\AbstractFieldArray
      *
-     * @param array
+     * @param array $value
      * @return array
      */
     protected function _encodeArrayFieldValue(array $value)
@@ -138,7 +140,7 @@ class Minsaleqty
     /**
      * Decode value from used in \Magento\Backend\Block\System\Config\Form\Field\FieldArray\AbstractFieldArray
      *
-     * @param array
+     * @param array $value
      * @return array
      */
     protected function _decodeArrayFieldValue(array $value)
@@ -160,7 +162,7 @@ class Minsaleqty
      * Retrieve min_sale_qty value from config
      *
      * @param int $customerGroupId
-     * @param mixed $store
+     * @param null|string|bool|int|Store $store
      * @return float|null
      */
     public function getConfigValue($customerGroupId, $store = null)
@@ -185,7 +187,7 @@ class Minsaleqty
     /**
      * Make value readable by \Magento\Backend\Block\System\Config\Form\Field\FieldArray\AbstractFieldArray
      *
-     * @param mixed $value
+     * @param string|array $value
      * @return array
      */
     public function makeArrayFieldValue($value)
@@ -200,7 +202,7 @@ class Minsaleqty
     /**
      * Make value ready for store
      *
-     * @param mixed $value
+     * @param string|array $value
      * @return string
      */
     public function makeStorableArrayFieldValue($value)

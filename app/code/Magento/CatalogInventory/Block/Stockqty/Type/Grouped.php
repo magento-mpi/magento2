@@ -10,7 +10,7 @@
 
 
 /**
- * Product stock qty block for configurable product type
+ * Product stock qty block for grouped product type
  *
  * @category   Magento
  * @package    Magento_CatalogInventory
@@ -20,7 +20,7 @@ namespace Magento\CatalogInventory\Block\Stockqty\Type;
 
 use Magento\Catalog\Model\Product;
 
-class Configurable extends \Magento\CatalogInventory\Block\Stockqty\Composite
+class Grouped extends \Magento\CatalogInventory\Block\Stockqty\Composite
 {
     /**
      * Retrieve child products
@@ -30,6 +30,6 @@ class Configurable extends \Magento\CatalogInventory\Block\Stockqty\Composite
     protected function _getChildProducts()
     {
         return $this->getProduct()->getTypeInstance()
-            ->getUsedProducts($this->getProduct());
+            ->getAssociatedProducts($this->getProduct());
     }
 }
