@@ -55,6 +55,11 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
     protected $refundableList;
 
     /**
+     * @var \Magento\Sales\Model\Order\Admin\Item
+     */
+    protected $adminOrderItem;
+
+    /**
      * @param \Magento\App\Resource $resource
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Eav\Model\Entity\Attribute\Set $attrSetEntity
@@ -65,6 +70,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
      * @param \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $ordersFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Rma\Model\RefundableList $refundableList
+     * @param \Magento\Sales\Model\Order\Admin\Item $adminOrderItem
      * @param array $data
      */
     public function __construct(
@@ -78,8 +84,10 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
         \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $ordersFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Rma\Model\RefundableList $refundableList,
+        \Magento\Sales\Model\Order\Admin\Item $adminOrderItem,
         $data = array()
     ) {
+        $this->adminOrderItem = $adminOrderItem;
         $this->_rmaData = $rmaData;
         $this->_ordersFactory = $ordersFactory;
         $this->_productFactory = $productFactory;
@@ -301,7 +309,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
             /* checks enable on product level */
             $product->reset();
             $product->setStoreId($item->getStoreId());
-            $product->load($item->getProductId());
+            $product->load($this->adminOrderItem->getProductId($item));
 
             if (!$this->_rmaData->canReturnProduct($product, $item->getStoreId())) {
                 $allowed = false;
@@ -323,6 +331,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
         }
 
         $bundle = false;
+        /** @var \Magento\Sales\Model\Order\Item $item */
         foreach ($orderItemsCollection as $item) {
             if (isset($parent[$item->getId()]['child'])
                 && ($parent[$item->getId()]['child'] === false || $parent[$item->getId()]['self'] == false)
@@ -348,16 +357,6 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
             ) {
                 $orderItemsCollection->removeItemByKey($item->getId());
                 continue;
-            }
-
-            if ($item->getProductType() == \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE) {
-                $productOptions     = $item->getProductOptions();
-                $product->reset();
-                $product->load($product->getIdBySku($productOptions['simple_sku']));
-                if (!$this->_rmaData->canReturnProduct($product, $item->getStoreId())) {
-                    $orderItemsCollection->removeItemByKey($item->getId());
-                    continue;
-                }
             }
 
             $item->setName($this->getProductName($item));

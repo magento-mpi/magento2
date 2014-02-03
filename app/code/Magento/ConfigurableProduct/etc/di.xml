@@ -9,9 +9,12 @@
 -->
 <config>
     <type name="Magento\CatalogInventory\Model\Quote\Item\QuantityValidator\Initializer\Option">
-        <plugin name="ConfigurableProduct" type="Magento\ConfigurableProduct\Model\Quote\Item\QuantityValidator\Initializer\Option\Plugin\ConfigurableProduct" />
+        <plugin name="configurable_product" type="Magento\ConfigurableProduct\Model\Quote\Item\QuantityValidator\Initializer\Option\Plugin\ConfigurableProduct" />
     </type>
     <type name="Magento\Catalog\Model\Product\CartConfiguration">
         <plugin name="configurable_product" type="Magento\ConfigurableProduct\Model\Product\CartConfiguration\Plugin\Configurable" />
+    </type>
+    <type name="Magento\Sales\Model\Order\Admin\Item">
+        <plugin name="configurable_product" type="Magento\ConfigurableProduct\Model\Order\Admin\Item\Plugin\Configurable"/>
     </type>
 </config>
