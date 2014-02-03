@@ -1,3 +1,7 @@
+* Fixed bugs:
+  * Fixed an issue with insert image in WYSIWYG editor where selected folder was stored in session
+  * Fixed an issue with CMS Page Links not being shown due to empty text in the link 
+
 2.0.0.0-dev63
 =============
 * Modularity improvements:

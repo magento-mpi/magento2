@@ -13,6 +13,8 @@
  */
 namespace Magento\CatalogInventory\Block\Adminhtml\Form\Field;
 
+use Magento\Data\Form;
+
 class Stock extends \Magento\Data\Form\Element\Select
 {
     const QUANTITY_FIELD_HTML_ID = 'qty';
@@ -98,8 +100,8 @@ class Stock extends \Magento\Data\Form\Element\Select
     /**
      * Set form to quantity element in addition to current element
      *
-     * @param $form
-     * @return \Magento\Data\Form
+     * @param Form $form
+     * @return Form
      */
     public function setForm($form)
     {
@@ -110,8 +112,8 @@ class Stock extends \Magento\Data\Form\Element\Select
     /**
      * Set value to quantity element in addition to current element
      *
-     * @param $value
-     * @return \Magento\Data\Form\Element\Select
+     * @param array|string $value
+     * @return $this
      */
     public function setValue($value)
     {
@@ -126,6 +128,7 @@ class Stock extends \Magento\Data\Form\Element\Select
      * Set name to quantity element in addition to current element
      *
      * @param string $name
+     * @return void
      */
     public function setName($name)
     {
@@ -149,7 +152,7 @@ class Stock extends \Magento\Data\Form\Element\Select
     /**
      * Disable fields depending on product type
      *
-     * @return \Magento\CatalogInventory\Block\Adminhtml\Form\Field\Stock
+     * @return $this
      */
     protected function _disableFields()
     {
@@ -168,8 +171,8 @@ class Stock extends \Magento\Data\Form\Element\Select
     /**
      * Get js for quantity and in stock synchronisation
      *
-     * @param $quantityFieldId
-     * @param $inStockFieldId
+     * @param string $quantityFieldId
+     * @param string $inStockFieldId
      * @return string
      */
     protected function _getJs($quantityFieldId, $inStockFieldId)

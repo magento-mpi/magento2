@@ -15,6 +15,7 @@ class CatalogInventory implements \Magento\Catalog\Model\Product\CopyConstructor
      *
      * @param \Magento\Catalog\Model\Product $product
      * @param \Magento\Catalog\Model\Product $duplicate
+     * @return void
      */
     public function build(\Magento\Catalog\Model\Product $product, \Magento\Catalog\Model\Product $duplicate)
     {

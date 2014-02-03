@@ -82,7 +82,8 @@ $parameters = $this->getParameters();
     var changeHierarchyArray = [];
     function changeHierarchy()
     {
-        changeHierarchyArray = $('store_ids') ? $F('store_ids') : storesArray;
+        var selector = $('page_store_id') ? 'page_store_id' : 'store_ids';
+        changeHierarchyArray = $(selector) && 'object' == typeof $F(selector) ? $F(selector) : storesArray;
         showHierarchy();
     }
 
@@ -140,24 +141,22 @@ $parameters = $this->getParameters();
 
     function hideOldHierarchy()
     {
-        $('options_<?php echo $uniqueHash; ?>').insert({
-            top: new Element('div', {id: 'real_<?php echo $uniqueHash; ?>_real'}).update($('<?php echo $uniqueHash; ?>_new').innerHTML)
+        // Copy cms hierarchy content out of generic widget content
+        $('html-body').insert({
+            top: new Element('div', {id: 'tempnew_<?php echo $uniqueHash; ?>_tempnew'}).update($('<?php echo $uniqueHash; ?>_new').innerHTML)
         });
-        $('<?php echo $uniqueHash; ?>_new').remove();
-        $('options_<?php echo $uniqueHash; ?>_anchor_text').up('table').setStyle({
-            display: 'none'
+        // Remove generic widget content that is not relevant for cms hierarchy widget
+        var fieldsetElement = $('options_<?php echo $uniqueHash; ?>');
+        fieldsetElement.update("");
+        // Insert cms hierarchy specific content into fieldset
+        var tempNewElement = $('tempnew_<?php echo $uniqueHash; ?>_tempnew');
+        fieldsetElement.insert({
+            top: new Element('div', {id: 'real_<?php echo $uniqueHash; ?>_real'}).update(tempNewElement.innerHTML)
         });
-        $('<?php echo $uniqueId; ?>label').remove();
-        $('options_<?php echo $uniqueHash; ?>_title').remove();
-        $('options_<?php echo $uniqueHash; ?>_anchor_text').remove();
-        $('chooseroptions_<?php echo $uniqueHash; ?>_node_id').remove();
-        $('note_options_<?php echo $uniqueHash; ?>_anchor_text').remove();
-        $('<?php echo $uniqueId; ?>advice-container').remove();
-        $('<?php echo $uniqueId; ?>control').remove();
-        $('<?php echo $uniqueId; ?>value').remove();
+        tempNewElement.remove();
     }
 
-    document.observe('dom:loaded', function() {
+    var onLoadCallback = function() {
         $('<?php echo $uniqueHash; ?>_0').insert({after:$('individual_<?php echo $uniqueHash; ?>').up()});
         hideOldHierarchy();
 
@@ -176,6 +175,12 @@ $parameters = $this->getParameters();
         $('general_<?php echo $uniqueHash; ?>').observe('click', showHierarchy);
         $('individual_<?php echo $uniqueHash; ?>').observe('click', showHierarchy);
         showHierarchy();
-    });
+    };
+
+    if (document.loaded) {
+        onLoadCallback();
+    } else {
+        document.observe('dom:loaded', onLoadCallback);
+    }
 //]]>
 </script>
