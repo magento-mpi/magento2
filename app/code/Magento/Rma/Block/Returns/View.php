@@ -75,7 +75,6 @@ class View extends \Magento\Rma\Block\Form
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory
      * @param \Magento\Core\Model\Factory $modelFactory
      * @param \Magento\Eav\Model\Form\Factory $formFactory
      * @param \Magento\Eav\Model\Config $eavConfig
@@ -91,7 +90,6 @@ class View extends \Magento\Rma\Block\Form
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory,
         \Magento\Core\Model\Factory $modelFactory,
         \Magento\Eav\Model\Form\Factory $formFactory,
         \Magento\Eav\Model\Config $eavConfig,
@@ -114,7 +112,7 @@ class View extends \Magento\Rma\Block\Form
         $this->_itemFormFactory = $itemFormFactory;
         $this->_customerSession = $customerSession;
         $this->_eavConfig = $eavConfig;
-        parent::__construct($context, $metadataFormFactory, $modelFactory, $formFactory, $eavConfig, $data);
+        parent::__construct($context, $modelFactory, $formFactory, $eavConfig, $data);
     }
 
     public function _construct()

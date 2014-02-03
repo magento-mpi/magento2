@@ -62,10 +62,6 @@ class Form extends \Magento\View\Element\Template
      */
     protected $_form;
 
-
-    /** @var \Magento\Customer\Model\Metadata\Form */
-    protected $_metadataForm;
-
     /**
      * EAV Entity Model
      *
@@ -87,9 +83,6 @@ class Form extends \Magento\View\Element\Template
      */
     protected $_fieldNameFormat = '%1$s';
 
-    /** @var \Magento\Customer\Model\Metadata\FormFactory  */
-    protected $_metadataFormFactory;
-
     /**
      * @var \Magento\Core\Model\Factory
      */
@@ -107,21 +100,19 @@ class Form extends \Magento\View\Element\Template
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory
      * @param \Magento\Core\Model\Factory $modelFactory
      * @param \Magento\Eav\Model\Form\Factory $formFactory
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param array $data
+     * @internal param \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory,
         \Magento\Core\Model\Factory $modelFactory,
         \Magento\Eav\Model\Form\Factory $formFactory,
         \Magento\Eav\Model\Config $eavConfig,
         array $data = array()
     ) {
-        $this->_metadataFormFactory = $metadataFormFactory;
         $this->_modelFactory = $modelFactory;
         $this->_formFactory = $formFactory;
         $this->_eavConfig = $eavConfig;

@@ -20,6 +20,12 @@ namespace Magento\CustomerCustomAttributes\Block;
 
 class Form extends \Magento\CustomAttribute\Block\Form
 {
+    /** @var \Magento\Customer\Model\Metadata\Form */
+    protected $_metadataForm;
+
+    /** @var \Magento\Customer\Model\Metadata\FormFactory  */
+    protected $_metadataFormFactory;
+
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory,
@@ -36,7 +42,8 @@ class Form extends \Magento\CustomAttribute\Block\Form
         \Magento\Eav\Model\Config $eavConfig,
         array $data = array()
     ) {
-        parent::__construct($context, $metadataFormFactory, $modelFactory, $formFactory, $eavConfig, $data);
+        parent::__construct($context, $modelFactory, $formFactory, $eavConfig, $data);
+        $this->_metadataFormFactory = $metadataFormFactory;
         $this->_isScopePrivate = true;
     }
 

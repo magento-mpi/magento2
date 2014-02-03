@@ -66,7 +66,7 @@ class Create extends \Magento\Rma\Block\Form
         $this->_rmaData = $rmaData;
         $this->_itemFactory = $itemFactory;
         $this->_itemFormFactory = $itemFormFactory;
-        parent::__construct($context, $metadataFormFactory, $modelFactory, $formFactory, $eavConfig, $data);
+        parent::__construct($context, $modelFactory, $formFactory, $eavConfig, $data);
     }
 
     public function _construct()
