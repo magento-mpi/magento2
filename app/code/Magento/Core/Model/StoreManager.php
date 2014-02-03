@@ -64,7 +64,7 @@ class StoreManager implements \Magento\Core\Model\StoreManagerInterface
     protected $_helper;
 
     /**
-     * @param Store\StorageFactory $factory
+     * @param \Magento\Core\Model\Store\StorageFactory $factory
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Core\Helper\Data $helper
      * @param string $scopeCode
@@ -125,6 +125,7 @@ class StoreManager implements \Magento\Core\Model\StoreManagerInterface
      * Set current default store
      *
      * @param string $store
+     * @return void
      */
     public function setCurrentStore($store)
     {
@@ -133,6 +134,7 @@ class StoreManager implements \Magento\Core\Model\StoreManagerInterface
     }
 
     /**
+     * @return void
      * @throws \Magento\Core\Model\Store\Exception
      */
     public function throwStoreException()
@@ -144,6 +146,7 @@ class StoreManager implements \Magento\Core\Model\StoreManagerInterface
      * Allow or disallow single store mode
      *
      * @param bool $value
+     * @return void
      */
     public function setIsSingleStoreModeAllowed($value)
     {
@@ -221,6 +224,7 @@ class StoreManager implements \Magento\Core\Model\StoreManagerInterface
 
     /**
      * Reinitialize store list
+     * @return void
      */
     public function reinitStores()
     {
@@ -267,6 +271,7 @@ class StoreManager implements \Magento\Core\Model\StoreManagerInterface
      *  Unset website by id from app cache
      *
      * @param null|bool|int|string|\Magento\Core\Model\Website $websiteId
+     * @return void
      */
     public function clearWebsiteCache($websiteId = null)
     {

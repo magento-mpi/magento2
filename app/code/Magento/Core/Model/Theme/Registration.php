@@ -172,7 +172,7 @@ class Registration
     public function checkPhysicalThemes()
     {
         $themes = $this->_collectionFactory->create()->addTypeFilter(ThemeInterface::TYPE_PHYSICAL);
-        /** @var $theme \ThemeInterface */
+        /** @var $theme ThemeInterface */
         foreach ($themes as $theme) {
             if (!$this->_themeCollection->hasTheme($theme)) {
                 $theme->setType(ThemeInterface::TYPE_VIRTUAL)->save();

@@ -341,6 +341,9 @@ class Store extends AbstractModel
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
+    /**
+     * @return array
+     */
     public function __sleep()
     {
         $properties = parent::__sleep();
@@ -354,6 +357,7 @@ class Store extends AbstractModel
 
     /**
      * Init not serializable fields
+     * @return void
      */
     public function __wakeup()
     {
@@ -370,6 +374,8 @@ class Store extends AbstractModel
 
     /**
      * Initialize object
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -477,6 +483,7 @@ class Store extends AbstractModel
      * Set relation to the website
      *
      * @param \Magento\Core\Model\Website $website
+     * @return void
      */
     public function setWebsite(\Magento\Core\Model\Website $website)
     {
@@ -943,10 +950,10 @@ class Store extends AbstractModel
     /**
      * Convert price from default currency to current currency
      *
-     * @param   double $price
-     * @param   boolean $format             Format price to currency format
-     * @param   boolean $includeContainer   Enclose into <span class="price"><span>
-     * @return  double
+     * @param   float $price
+     * @param   bool $format             Format price to currency format
+     * @param   bool $includeContainer   Enclose into <span class="price"><span>
+     * @return  float
      */
     public function convertPrice($price, $format = false, $includeContainer = true)
     {
@@ -965,8 +972,8 @@ class Store extends AbstractModel
     /**
      * Round price
      *
-     * @param mixed $price
-     * @return double
+     * @param float $price
+     * @return float
      */
     public function roundPrice($price)
     {
@@ -976,7 +983,7 @@ class Store extends AbstractModel
     /**
      * Format price with currency filter (taking rate into consideration)
      *
-     * @param   double $price
+     * @param   float $price
      * @param   bool $includeContainer
      * @return  string
      */
@@ -1025,6 +1032,7 @@ class Store extends AbstractModel
      * Set group model for store
      *
      * @param \Magento\Core\Model\Store\Group $group
+     * @return void
      */
     public function setGroup($group)
     {
@@ -1165,7 +1173,7 @@ class Store extends AbstractModel
      *
      * Register indexing event before delete store
      *
-     * @return \Magento\Core\Model\Store
+     * @return $this
      */
     protected function _beforeDelete()
     {
@@ -1177,9 +1185,9 @@ class Store extends AbstractModel
     }
 
     /**
-     * rewrite in order to clear configuration cache
+     * Rewrite in order to clear configuration cache
      *
-     * @return \Magento\Core\Model\Store
+     * @return $this
      */
     protected function _afterDelete()
     {
@@ -1191,7 +1199,7 @@ class Store extends AbstractModel
     /**
      * Init indexing process after store delete commit
      *
-     * @return \Magento\Core\Model\Store
+     * @return $this
      */
     protected function _afterDeleteCommit()
     {
@@ -1204,7 +1212,7 @@ class Store extends AbstractModel
     /**
      * Reinit and reset Config Data
      *
-     * @return \Magento\Core\Model\Store
+     * @return $this
      */
     public function resetConfig()
     {
@@ -1248,7 +1256,7 @@ class Store extends AbstractModel
      * Set url model for current store
      *
      * @param \Magento\UrlInterface $urlModel
-     * @return \Magento\Core\Model\Store
+     * @return $this
      */
     public function setUrlModel($urlModel)
     {

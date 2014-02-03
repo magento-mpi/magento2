@@ -127,7 +127,7 @@ class Group extends \Magento\Core\Model\AbstractModel
 
 
     /**
-     * init model
+     * Init model
      *
      * @return void
      */
@@ -139,6 +139,7 @@ class Group extends \Magento\Core\Model\AbstractModel
     /**
      * Load store collection and set internal data
      *
+     * @return void
      */
     protected function _loadStores()
     {
@@ -159,6 +160,7 @@ class Group extends \Magento\Core\Model\AbstractModel
      * Set website stores
      *
      * @param array $stores
+     * @return void
      */
     public function setStores($stores)
     {
