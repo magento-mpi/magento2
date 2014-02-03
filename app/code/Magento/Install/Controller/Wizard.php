@@ -10,6 +10,7 @@
 namespace Magento\Install\Controller;
 
 use Magento\App\RequestInterface;
+use Magento\App\ResponseInterface;
 
 /**
  * Installation wizard controller
