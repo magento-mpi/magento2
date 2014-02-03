@@ -37,6 +37,7 @@ class Tab
      * Adds Google Experiment tab to the category edit page
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function addGoogleExperimentTab(\Magento\Event\Observer $observer)
     {

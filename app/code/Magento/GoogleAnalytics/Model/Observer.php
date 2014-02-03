@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\GoogleAnalytics\Model;
 
 /**
  * Google Analytics module observer
@@ -15,8 +15,6 @@
  * @category   Magento
  * @package    Magento_GoogleAnalytics
  */
-namespace Magento\GoogleAnalytics\Model;
-
 class Observer
 {
     /**
@@ -61,6 +59,7 @@ class Observer
      * Add order information into GA block to render on checkout success pages
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function setGoogleAnalyticsOnOrderSuccessPageView(\Magento\Event\Observer $observer)
     {
@@ -83,6 +82,7 @@ class Observer
      * This method assumes that the observer instance is run as a "singleton"
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function injectAnalyticsInGoogleCheckoutLink(\Magento\Event\Observer $observer)
     {

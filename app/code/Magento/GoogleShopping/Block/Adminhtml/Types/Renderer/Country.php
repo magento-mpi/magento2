@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\GoogleShopping\Block\Adminhtml\Types\Renderer;
 
 /**
  * Adminhtml Google Content Item Type Country Renderer
@@ -16,8 +16,6 @@
  * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GoogleShopping\Block\Adminhtml\Types\Renderer;
-
 class Country
     extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {

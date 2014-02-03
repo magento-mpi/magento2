@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GoogleShopping\Controller\Adminhtml\Googleshopping;
 
 /**
  * GoogleShopping Products selection grid controller
@@ -15,12 +16,12 @@
  * @package     Magento_GoogleShopping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GoogleShopping\Controller\Adminhtml\Googleshopping;
-
 class Selection extends \Magento\Backend\App\Action
 {
     /**
      * Search result grid with available products for Google Content
+     *
+     * @return void
      */
     public function searchAction()
     {
@@ -35,6 +36,8 @@ class Selection extends \Magento\Backend\App\Action
 
     /**
      * Grid with available products for Google Content
+     *
+     * @return void
      */
     public function gridAction()
     {

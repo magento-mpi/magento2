@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GoogleShopping\Model;
 
 /**
  * Attributes Model
@@ -15,8 +16,6 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GoogleShopping\Model;
-
 class Attribute extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -105,6 +104,9 @@ class Attribute extends \Magento\Core\Model\AbstractModel
 
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_init('Magento\GoogleShopping\Model\Resource\Attribute');
@@ -142,7 +144,6 @@ class Attribute extends \Magento\Core\Model\AbstractModel
      * Check if attribute allowed
      *
      * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute
-     * @param array $attributes
      * @return boolean
      */
     protected function _isAllowedAttribute($attribute)

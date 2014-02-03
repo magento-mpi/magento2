@@ -20,6 +20,7 @@ class Save extends \Magento\GoogleOptimizer\Model\Observer\AbstractSave
      * Init entity
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     protected function _initEntity($observer)
     {

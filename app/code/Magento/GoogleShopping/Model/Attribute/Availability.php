@@ -19,6 +19,9 @@ namespace Magento\GoogleShopping\Model\Attribute;
 
 class Availability extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
 {
+    /**
+     * @var array
+     */
     protected $_googleAvailabilityMap = array(
         0 => 'out of stock',
         1 => 'in stock'

@@ -7,6 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GoogleShopping\Model\Attribute;
+
+use Magento\Catalog\Model\Product;
+use Magento\Gdata\Gshopping\Entry;
 
 /**
  * Price attribute model
@@ -15,8 +19,6 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GoogleShopping\Model\Attribute;
-
 class Price extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
 {
     /**
@@ -62,7 +64,6 @@ class Price extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\GoogleShopping\Model\Config $config
-     * @param \Magento\Catalog\Model\Product\CatalogPrice $catalogPrice
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -102,9 +103,9 @@ class Price extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
     /**
      * Set current attribute to entry (for specified product)
      *
-     * @param \Magento\Catalog\Model\Product $product
-     * @param \Magento\Gdata\Gshopping\Entry $entry
-     * @return \Magento\Gdata\Gshopping\Entry
+     * @param Product $product
+     * @param Entry $entry
+     * @return Entry
      */
     public function convertAttribute($product, $entry)
     {
@@ -188,12 +189,12 @@ class Price extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
     /**
      * Custom setter for 'price' attribute
      *
-     * @param \Magento\Gdata\Gshopping\Entry $entry
-     * @param string $attribute Google Content attribute name
+     * @param Entry $entry
+     * @param Product $product
+     * @param string $targetCountry
      * @param mixed $value Fload price value
-     * @param string $type Google Content attribute type
      * @param string $name Google Content attribute name
-     * @return \Magento\Gdata\Gshopping\Entry
+     * @return Entry
      */
     protected function _setAttributePrice($entry, $product, $targetCountry, $value, $name = 'price')
     {
