@@ -78,7 +78,7 @@ class PageCache extends \Magento\Backend\App\Action
     }
 
     /**
-     * Export Varnish Cofiguration as .vcl
+     * Export Varnish Configuration as .vcl
      *
      * @return \Magento\App\ResponseInterface
      */

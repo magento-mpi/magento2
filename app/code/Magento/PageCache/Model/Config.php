@@ -9,8 +9,8 @@
  */
 
 /**
- * PageCache config model
- * Used get PageCache configuration
+ * Model is responsible for replacing default vcl template
+ * file configuration with user-defined from configuration
  *
  * @category   Magento
  * @package    Magento_PageCache
@@ -21,7 +21,11 @@ namespace Magento\PageCache\Model;
 
 use Magento\App\Filesystem;
 
-
+/**
+ * Class Config
+ *
+ * @package Magento\PageCache\Model
+ */
 class Config extends \Magento\Object
 {
     /**#@+
@@ -54,13 +58,6 @@ class Config extends \Magento\Object
     protected $_coreStoreConfig;
 
     /**
-     * Filesystem instance
-     *
-     * @var Filesystem
-     */
-    protected $_filesystem;
-
-    /**
      * Path to save temporary .vcl configuration
      *
      * @var string
@@ -75,10 +72,9 @@ class Config extends \Magento\Object
     public function __construct(
         \Magento\App\Filesystem $filesystem,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        array $data = array())
-    {
-        $this->_filesystem = $filesystem;
-        $this->_modulesDirectory = $this->_filesystem->getDirectoryRead(\Magento\App\Filesystem::MODULES_DIR);
+        array $data = array()
+    ){
+        $this->_modulesDirectory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::MODULES_DIR);
         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($data);
     }
