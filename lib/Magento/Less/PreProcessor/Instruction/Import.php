@@ -9,6 +9,7 @@
 namespace Magento\Less\PreProcessor\Instruction;
 
 use Magento\Less\PreProcessorInterface;
+use Magento\Less\PreProcessor;
 
 /**
  * Less @import instruction preprocessor
@@ -32,23 +33,23 @@ class Import implements PreProcessorInterface
     protected $relatedFile;
 
     /**
-     * @var \Magento\Logger
+     * @var PreProcessor\ErrorHandlerInterface
      */
-    protected $logger;
+    protected $errorHandler;
 
     /**
-     * @param \Magento\Less\PreProcessor $preProcessor
+     * @param PreProcessor $preProcessor
+     * @param PreProcessor\ErrorHandlerInterface $errorHandler
      * @param \Magento\View\RelatedFile $relatedFile
-     * @param \Magento\Logger $logger
      */
     public function __construct(
-        \Magento\Less\PreProcessor $preProcessor,
-        \Magento\View\RelatedFile $relatedFile,
-        \Magento\Logger $logger
+        PreProcessor $preProcessor,
+        PreProcessor\ErrorHandlerInterface $errorHandler,
+        \Magento\View\RelatedFile $relatedFile
     ) {
         $this->preProcessor = $preProcessor;
+        $this->errorHandler = $errorHandler;
         $this->relatedFile = $relatedFile;
-        $this->logger = $logger;
     }
 
     /**
@@ -75,7 +76,7 @@ class Import implements PreProcessorInterface
                     $viewParams
                 );
             } catch (\Magento\Filesystem\FilesystemException $e) {
-                $this->logger->logException($e);
+                $this->errorHandler->processException($e);
             }
         }
         return $importPaths;
@@ -120,6 +121,7 @@ class Import implements PreProcessorInterface
             return '';
         }
         $typeString  = empty($matchContent['type']) ? '' : '(' . $matchContent['type'] . ') ';
-        return "@import {$typeString}'{$importPaths[$path]}';";
+        $mediaString  = empty($matchContent['media']) ? '' : ' ' . $matchContent['media'];
+        return "@import {$typeString}'{$importPaths[$path]}'{$mediaString};";
     }
 }

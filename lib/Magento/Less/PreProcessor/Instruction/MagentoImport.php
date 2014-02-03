@@ -8,6 +8,7 @@
 
 namespace Magento\Less\PreProcessor\Instruction;
 
+use Magento\Less\PreProcessor;
 use Magento\Less\PreProcessorInterface;
 
 /**
@@ -26,38 +27,31 @@ class MagentoImport implements PreProcessorInterface
     protected $fileSource;
 
     /**
+     * @var PreProcessor\ErrorHandlerInterface
+     */
+    protected $errorHandler;
+
+    /**
      * @var \Magento\View\RelatedFile
      */
     protected $relatedFile;
-
-    /**
-     * @var \Magento\Logger
-     */
-    protected $logger;
 
     /**
      * @var \Magento\View\Service
      */
     protected $viewService;
 
-    /**
-     * @param \Magento\View\Layout\File\SourceInterface $fileSource
-     * @param \Magento\View\Service $viewService
-     * @param \Magento\Less\PreProcessor $preProcessor
-     * @param \Magento\View\RelatedFile $relatedFile
-     * @param \Magento\Logger $logger
-     */
+
     public function __construct(
         \Magento\View\Layout\File\SourceInterface $fileSource,
         \Magento\View\Service $viewService,
-        \Magento\Less\PreProcessor $preProcessor,
         \Magento\View\RelatedFile $relatedFile,
-        \Magento\Logger $logger
+        PreProcessor\ErrorHandlerInterface $errorHandler
     ) {
         $this->fileSource = $fileSource;
         $this->viewService = $viewService;
         $this->relatedFile = $relatedFile;
-        $this->logger = $logger;
+        $this->errorHandler = $errorHandler;
     }
 
     /**
@@ -95,8 +89,8 @@ class MagentoImport implements PreProcessorInterface
             foreach ($importFiles as $importFile) {
                 $importsContent .= "@import '{$importFile->getFilename()}';\n";
             }
-        } catch (\LogicException $e) {
-            $this->logger->logException($e);
+        } catch(\LogicException $e) {
+            $this->errorHandler->processException($e);
         }
         return $importsContent;
     }
