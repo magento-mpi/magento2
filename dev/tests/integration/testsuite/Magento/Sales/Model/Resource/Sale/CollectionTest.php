@@ -17,14 +17,9 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetCustomerFilter()
     {
-        $collectionModel = Bootstrap::getObjectManager()
-            ->create('Magento\Sales\Model\Resource\Sale\Collection');
-
+        $collectionModel = Bootstrap::getObjectManager()->create('Magento\Sales\Model\Resource\Sale\Collection');
         $this->assertEquals(1, $collectionModel->setCustomerFilter(1)->count());
-
-        $collectionModel = Bootstrap::getObjectManager()
-            ->create('Magento\Sales\Model\Resource\Sale\Collection');
-
+        $collectionModel = Bootstrap::getObjectManager()->create('Magento\Sales\Model\Resource\Sale\Collection');
         $this->assertEquals(0, $collectionModel->setCustomerFilter(2)->count());
     }
 }
