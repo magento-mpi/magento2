@@ -270,10 +270,10 @@ class Collection extends \Magento\Data\Collection implements \Magento\View\Desig
     /**
      * Retrieve item id
      *
-     * @param ThemeInterface $item
+     * @param \Magento\Object $item
      * @return string
      */
-    protected function _getItemId(ThemeInterface $item)
+    protected function _getItemId(\Magento\Object $item)
     {
         return $item->getFullPath();
     }
