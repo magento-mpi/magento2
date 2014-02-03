@@ -48,14 +48,14 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
         $order->loadByIncrementId($model->getLastOrderId());
 
         $this->assertNotEmpty($quote->getShippingAddress()->getCustomerAddressId(),
-            'Quote shipping CustomerAddressId should not be ampty');
+            'Quote shipping CustomerAddressId should not be empty');
         $this->assertNotEmpty($quote->getBillingAddress()->getCustomerAddressId(),
-            'Quote billing CustomerAddressId should not be ampty');
+            'Quote billing CustomerAddressId should not be empty');
 
         $this->assertNotEmpty($order->getShippingAddress()->getCustomerAddressId(),
-            'Order shipping CustomerAddressId should not be ampty');
+            'Order shipping CustomerAddressId should not be empty');
         $this->assertNotEmpty($order->getBillingAddress()->getCustomerAddressId(),
-            'Order billing CustomerAddressId should not be ampty');
+            'Order billing CustomerAddressId should not be empty');
     }
 
 

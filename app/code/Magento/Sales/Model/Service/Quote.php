@@ -156,9 +156,9 @@ class Quote
         //TODO : Refactor to use \Magento\Sales\Model\Quote::getCustomerData once set correctly in MAGETWO-19929
         // Use Customer service to create / rollback(using CustomerServiceInterface::deleteCustomer)
         // TODO: At the moment customer DTO does not contain some fields required for customer save, e.g. City
-        // if ($quote->getCustomerId()) {
-        //     $transaction->addObject($quote->getCustomer());
-        // }
+        if ($quote->getCustomerId() && !$quote->getCustomerData()->getCustomerId()) {
+            $transaction->addObject($quote->getCustomer());
+        }
         $transaction->addObject($quote);
 
         $quote->reserveOrderId();
