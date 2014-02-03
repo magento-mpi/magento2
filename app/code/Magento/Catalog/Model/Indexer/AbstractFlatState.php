@@ -43,7 +43,7 @@ abstract class AbstractFlatState
     public function __construct(
         \Magento\Core\Model\Store\ConfigInterface $storeConfig,
         \Magento\Indexer\Model\IndexerInterface $flatIndexer,
-        $isAvailable = true
+        $isAvailable = false
     ) {
         $this->storeConfig = $storeConfig;
         $this->flatIndexer = $flatIndexer;
