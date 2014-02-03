@@ -61,6 +61,11 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
     protected $_quote;
 
     /**
+     * @var \Magento\Payment\Model\Method\SpecificationInterface
+     */
+    protected $paymentSpecification;
+
+    /**
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
@@ -70,6 +75,7 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
      * @param \Magento\Sales\Model\Quote\AddressFactory $addressFactory
      * @param \Magento\Sales\Model\Convert\Quote $quote
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Payment\Model\Method\SpecificationInterface $paymentSpecification
      * @param array $data
      */
     public function __construct(
@@ -82,6 +88,7 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
         \Magento\Sales\Model\Quote\AddressFactory $addressFactory,
         \Magento\Sales\Model\Convert\Quote $quote,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Payment\Model\Method\SpecificationInterface $paymentSpecification,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
@@ -90,6 +97,7 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
         $this->_addressFactory = $addressFactory;
         $this->_quote = $quote;
         $this->_storeManager = $storeManager;
+        $this->paymentSpecification = $paymentSpecification;
         parent::__construct($checkoutSession, $customerSession, $orderFactory, $data);
         $this->_init();
     }
@@ -446,6 +454,9 @@ class Multishipping extends \Magento\Checkout\Model\Type\AbstractType
     {
         if (!isset($payment['method'])) {
             throw new \Magento\Core\Exception(__('Payment method is not defined'));
+        }
+        if (!$this->paymentSpecification->isSatisfiedBy($payment['method'])) {
+            throw new \Magento\Core\Exception(__('The requested Payment Method is not available for multishipping.'));
         }
         $quote = $this->getQuote();
         $quote->getPayment()->importData($payment);

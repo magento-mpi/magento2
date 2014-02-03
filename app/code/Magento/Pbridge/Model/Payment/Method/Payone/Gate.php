@@ -80,11 +80,6 @@ class Gate extends \Magento\Pbridge\Model\Payment\Method
     /**
      * @var bool
      */
-    protected $_canUseForMultishipping  = false;
-
-    /**
-     * @var bool
-     */
     protected $_canSaveCc               = false;
 
     /**
