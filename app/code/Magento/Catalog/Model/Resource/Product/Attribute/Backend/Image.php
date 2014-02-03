@@ -7,7 +7,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Catalog\Model\Resource\Product\Attribute\Backend;
+use Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend;
 
 /**
  * Product image attribute backend
@@ -16,10 +17,7 @@
  * @package     Magento_Catalog
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Model\Resource\Product\Attribute\Backend;
-
-class Image
-    extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
+class Image extends AbstractBackend
 {
     /**
      * Filesystem facade
@@ -54,7 +52,7 @@ class Image
      * After save
      *
      * @param \Magento\Object $object
-     * @return \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Image
+     * @return $this|void
      */
     public function afterSave($object)
     {
