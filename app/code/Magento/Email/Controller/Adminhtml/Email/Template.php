@@ -137,7 +137,7 @@ class Template extends \Magento\Backend\App\Action
             }
 
             if ($request->getParam('_change_type_flag')) {
-                $template->setTemplateType(\Magento\Email\Model\Template::TYPE_TEXT);
+                $template->setTemplateType(\Magento\App\TemplateTypesInterface::TYPE_TEXT);
                 $template->setTemplateStyles('');
             }
 

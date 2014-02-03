@@ -61,29 +61,78 @@ class TransportBuilder
     protected $message;
 
     /**
+     * Sender resolver
+     *
+     * @var \Magento\Mail\Template\SenderResolverInterface
+     */
+    protected $_senderResolver;
+
+    /**
      * @param FactoryInterface $templateFactory
      * @param \Magento\Mail\Message $message
+     * @param \Magento\Mail\Template\SenderResolverInterface $senderResolver
      * @param \Magento\ObjectManager $objectManager
      */
     public function __construct(
         \Magento\Mail\Template\FactoryInterface $templateFactory,
         \Magento\Mail\Message $message,
+        \Magento\Mail\Template\SenderResolverInterface $senderResolver,
         \Magento\ObjectManager $objectManager
     ) {
         $this->templateFactory = $templateFactory;
         $this->message = $message;
         $this->objectManager = $objectManager;
+        $this->_senderResolver = $senderResolver;
     }
 
     /**
      * Add cc address
      *
      * @param array|string $address
+     * @param string $name
      * @return $this
      */
-    public function addCc($address)
+    public function addCc($address, $name = '')
     {
-        $this->message->addCc($address);
+        $this->message->addCc($address, $name);
+        return $this;
+    }
+
+    /**
+     * Add to address
+     *
+     * @param array|string $address
+     * @param string $name
+     * @return $this
+     */
+    public function addTo($address, $name = '')
+    {
+        $this->message->addTo($address, $name);
+        return $this;
+    }
+
+    /**
+     * Add bcc address
+     *
+     * @param array|string $address
+     * @return $this
+     */
+    public function addBcc($address)
+    {
+        $this->message->addBcc($address);
+        return $this;
+    }
+
+    /**
+     * Add bcc address
+     *
+     * @param string $email
+     * @param string|null $name
+     * @return $this
+     */
+    public function setReplyTo($email, $name = null)
+    {
+        $this->message->setReplyTo($email, $name);
         return $this;
     }
 
@@ -95,7 +144,8 @@ class TransportBuilder
      */
     public function setFrom($from)
     {
-        $this->message->setFrom($from);
+        $result = $this->_senderResolver->resolve($from);
+        $this->message->setFrom($result['email'], $result['name']);
         return $this;
     }
 
@@ -146,15 +196,14 @@ class TransportBuilder
             ->setVars($this->templateVars)
             ->setOptions($this->templateOptions);
         $types = array(
-            \Magento\Mail\Template\TemplateInterface::TYPE_TEXT => \Magento\Mail\MessageInterface::TYPE_TEXT,
-            \Magento\Mail\Template\TemplateInterface::TYPE_HTML => \Magento\Mail\MessageInterface::TYPE_HTML,
+            \Magento\App\TemplateTypesInterface::TYPE_TEXT => \Magento\Mail\MessageInterface::TYPE_TEXT,
+            \Magento\App\TemplateTypesInterface::TYPE_HTML => \Magento\Mail\MessageInterface::TYPE_HTML,
         );
 
         $this->message->setMessageType($types[$template->getType()])
             ->setBody($template->processTemplate())
             ->setSubject($template->getSubject());
 
-        return $this->objectManager->create('\Magento\Mail\TransportInterface', array('message' => $this->message));
-
+        return $this->objectManager->create('Magento\Mail\TransportInterface', array('message' => $this->message));
     }
 }

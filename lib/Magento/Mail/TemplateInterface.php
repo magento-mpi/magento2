@@ -7,16 +7,10 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Mail\Template;
+namespace Magento\Mail;
 
-interface TemplateInterface
+interface TemplateInterface extends \Magento\App\TemplateTypesInterface
 {
-    /**
-     * Types of template
-     */
-    const TYPE_TEXT = 1;
-    const TYPE_HTML = 2;
-
     /**
      * Get processed template
      *
@@ -32,19 +26,12 @@ interface TemplateInterface
     public function getSubject();
 
     /**
-     * Get Type
-     *
-     * @return int
-     */
-    public function getType();
-
-    /**
      * Set template variables
      *
      * @param array $vars
      * @return $this
      */
-    public function setVars($vars);
+    public function setVars(array $vars);
 
     /**
      * Set template options
@@ -52,5 +39,5 @@ interface TemplateInterface
      * @param array $options
      * @return $this
      */
-    public function setOptions($options);
+    public function setOptions(array $options);
 }

@@ -18,14 +18,8 @@
  */
 namespace Magento\Core\Model;
 
-abstract class Template extends \Magento\Core\Model\AbstractModel
+abstract class Template extends \Magento\Core\Model\AbstractModel implements \Magento\App\TemplateTypesInterface
 {
-    /**
-     * Types of template
-     */
-    const TYPE_TEXT = 1;
-    const TYPE_HTML = 2;
-
     /**
      * Default design area for emulation
      */
