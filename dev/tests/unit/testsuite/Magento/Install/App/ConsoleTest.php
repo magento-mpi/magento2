@@ -48,6 +48,11 @@ class ConsoleTest extends \PHPUnit_Framework_TestCase
      */
     protected $_objectManagerMock;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_responseMock;
+
     protected function setUp()
     {
         $this->_instFactoryMock = $this->getMock('\Magento\Install\Model\Installer\ConsoleFactory',
@@ -105,8 +110,16 @@ class ConsoleTest extends \PHPUnit_Framework_TestCase
                 ->with($params['config'])
                 ->will($this->returnValue(true));
         }
-        return new \Magento\Install\App\Console($this->_instFactoryMock, $this->_outputMock,
-            $this->_appStateMock, $this->_configLoaderMock, $this->_objectManagerMock, $filesystem, $params
+        $this->_responseMock = $this->getMock('Magento\App\Console\Response', array(), array(), '', false);
+        return new \Magento\Install\App\Console(
+            $this->_instFactoryMock,
+            $this->_outputMock,
+            $this->_appStateMock,
+            $this->_configLoaderMock,
+            $this->_objectManagerMock,
+            $filesystem,
+            $this->_responseMock,
+            $params
         );
     }
 
@@ -116,7 +129,7 @@ class ConsoleTest extends \PHPUnit_Framework_TestCase
      * @param string $testValue
      * @dataProvider executeShowsRequestedDataProvider
      */
-    public function testExecuteShowsRequestedData($param, $method, $testValue)
+    public function testLaunchShowsRequestedData($param, $method, $testValue)
     {
         $model = $this->_createModel(array($param => true));
         $this->_installerMock
@@ -124,7 +137,7 @@ class ConsoleTest extends \PHPUnit_Framework_TestCase
             ->method($method)
             ->will($this->returnValue($testValue));
         $this->_outputMock->expects($this->once())->method('export')->with($testValue);
-        $model->execute();
+        $this->assertEquals($this->_responseMock, $model->launch());
     }
 
     public function executeShowsRequestedDataProvider()
@@ -141,7 +154,7 @@ class ConsoleTest extends \PHPUnit_Framework_TestCase
     {
         $model = $this->_createModel(array());
         $this->_outputMock->expects($this->once())->method('success')->with($this->stringContains('successfully'));
-        $model->execute();
+        $this->assertEquals($this->_responseMock, $model->launch());
     }
 
     public function testInstallReportsEncryptionKey()
@@ -149,7 +162,7 @@ class ConsoleTest extends \PHPUnit_Framework_TestCase
         $model = $this->_createModel(array());
         $this->_installerMock->expects($this->once())->method('install')->will($this->returnValue('enc_key'));
         $this->_outputMock->expects($this->once())->method('success')->with($this->stringContains('enc_key'));
-        $model->execute();
+        $this->assertEquals($this->_responseMock, $model->launch());
     }
 
     public function testUninstallReportsSuccess()
@@ -157,7 +170,7 @@ class ConsoleTest extends \PHPUnit_Framework_TestCase
         $model = $this->_createModel(array('uninstall' => true));
         $this->_installerMock->expects($this->once())->method('uninstall')->will($this->returnValue(true));
         $this->_outputMock->expects($this->once())->method('success')->with($this->stringContains('Uninstalled'));
-        $model->execute();
+        $this->assertEquals($this->_responseMock, $model->launch());
     }
 
     public function testUninstallReportsIgnoreIfApplicationIsNotInstalled()
@@ -165,7 +178,7 @@ class ConsoleTest extends \PHPUnit_Framework_TestCase
         $model = $this->_createModel(array('uninstall' => true));
         $this->_installerMock->expects($this->once())->method('uninstall')->will($this->returnValue(false));
         $this->_outputMock->expects($this->once())->method('success')->with($this->stringContains('non-installed'));
-        $model->execute();
+        $this->assertEquals($this->_responseMock, $model->launch());
     }
 
     public function testExecuteReportsErrors()
@@ -174,13 +187,13 @@ class ConsoleTest extends \PHPUnit_Framework_TestCase
         $this->_installerMock->expects($this->once())->method('hasErrors')->will($this->returnValue(true));
         $this->_installerMock->expects($this->once())->method('getErrors')->will($this->returnValue(array('error1')));
         $this->_outputMock->expects($this->once())->method('error')->with($this->stringContains('error1'));
-        $model->execute();
+        $this->assertEquals($this->_responseMock, $model->launch());
     }
 
     public function testExecuteLoadsExtraConfig()
     {
         $model = $this->_createModel(array('config' => realpath(__DIR__ . '/_files/config.php')));
         $this->_installerMock->expects($this->once())->method('uninstall')->will($this->returnValue(true));
-        $model->execute();
+        $this->assertEquals($this->_responseMock, $model->launch());
     }
 }

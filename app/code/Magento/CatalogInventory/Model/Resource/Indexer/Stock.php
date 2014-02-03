@@ -29,7 +29,7 @@ class Stock extends \Magento\Catalog\Model\Resource\Product\Indexer\AbstractInde
     protected $_indexers = array();
 
     /**
-     * @var \Magento\CatalogInventory\Model\Resource\Indexer\StockFactory
+     * @var StockFactory
      */
     protected $_indexerFactory;
 
@@ -41,13 +41,13 @@ class Stock extends \Magento\Catalog\Model\Resource\Product\Indexer\AbstractInde
     /**
      * @param \Magento\App\Resource $resource
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\CatalogInventory\Model\Resource\Indexer\StockFactory $indexerFactory
+     * @param StockFactory $indexerFactory
      * @param \Magento\Catalog\Model\Product\Type $productType
      */
     public function __construct(
         \Magento\App\Resource $resource,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\CatalogInventory\Model\Resource\Indexer\StockFactory $indexerFactory,
+        StockFactory $indexerFactory,
         \Magento\Catalog\Model\Product\Type $productType
     ) {
         $this->_indexerFactory = $indexerFactory;
@@ -58,6 +58,7 @@ class Stock extends \Magento\Catalog\Model\Resource\Product\Indexer\AbstractInde
     /**
      * Initialize connection and define main table
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -68,7 +69,7 @@ class Stock extends \Magento\Catalog\Model\Resource\Product\Indexer\AbstractInde
      * Process stock item save action
      *
      * @param \Magento\Index\Model\Event $event
-     * @return \Magento\CatalogInventory\Model\Resource\Indexer\Stock
+     * @return $this
      */
     public function cataloginventoryStockItemSave(\Magento\Index\Model\Event $event)
     {
@@ -86,9 +87,9 @@ class Stock extends \Magento\Catalog\Model\Resource\Product\Indexer\AbstractInde
     /**
      * Refresh stock index for specific product ids
      *
-     * @param array $productIds
+     * @param int|array $productIds
      * @throws \Exception
-     * @return \Magento\CatalogInventory\Model\Resource\Indexer\Stock
+     * @return $this
      */
     public function reindexProducts($productIds)
     {
@@ -136,7 +137,7 @@ class Stock extends \Magento\Catalog\Model\Resource\Product\Indexer\AbstractInde
      *
      * @param \Magento\Index\Model\Event $event
      * @throws \Exception
-     * @return \Magento\CatalogInventory\Model\Resource\Indexer\Stock
+     * @return $this
      */
     public function catalogProductDelete(\Magento\Index\Model\Event $event)
     {
@@ -172,7 +173,7 @@ class Stock extends \Magento\Catalog\Model\Resource\Product\Indexer\AbstractInde
      *
      * @param \Magento\Index\Model\Event $event
      * @throws \Exception
-     * @return \Magento\CatalogInventory\Model\Resource\Indexer\Stock
+     * @return $this
      */
     public function catalogProductMassAction(\Magento\Index\Model\Event $event)
     {
@@ -245,7 +246,7 @@ class Stock extends \Magento\Catalog\Model\Resource\Product\Indexer\AbstractInde
      * Rebuild all index data
      *
      * @throws \Exception
-     * @return \Magento\CatalogInventory\Model\Resource\Indexer\Stock
+     * @return $this
      */
     public function reindexAll()
     {

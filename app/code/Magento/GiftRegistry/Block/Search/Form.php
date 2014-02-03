@@ -45,6 +45,7 @@ class Form extends \Magento\View\Element\Template
         parent::__construct($context, $data);
         $this->customerSession = $customerSession;
         $this->typeFactory = $typeFactory;
+        $this->_isScopePrivate = true;
     }
 
     /**

@@ -10,9 +10,9 @@
 <config>
     <type name="Magento\Widget\Model\Widget\Instance">
         <param name="relatedCacheTypes">
-            <value>
-                <fullPageCache>full_page</fullPageCache>
-            </value>
+            <array>
+                <item key="fullPageCache"><value>full_page</value></item>
+            </array>
         </param>
     </type>
 </config>

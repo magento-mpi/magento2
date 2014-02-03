@@ -51,6 +51,7 @@ class Creditmemo extends \Magento\Sales\Block\Order\Creditmemo\Items
         $this->_paymentHelper = $paymentHelper;
         $this->_customerSession = $customerSession;
         parent::__construct($context, $registry, $data);
+        $this->_isScopePrivate = true;
     }
 
     protected function _prepareLayout()

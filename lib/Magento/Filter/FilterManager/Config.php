@@ -16,7 +16,7 @@ namespace Magento\Filter\FilterManager;
 class Config implements ConfigInterface
 {
     /**
-     * @var array
+     * @var string[]
      */
     protected $factories = array(
         'Magento\Filter\Factory',
@@ -24,7 +24,7 @@ class Config implements ConfigInterface
     );
 
     /**
-     * @param array $factories
+     * @param string[] $factories
      */
     public function __construct(array $factories = array())
     {

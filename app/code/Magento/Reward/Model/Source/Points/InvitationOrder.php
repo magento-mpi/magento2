@@ -16,6 +16,9 @@ namespace Magento\Reward\Model\Source\Points;
 
 class InvitationOrder implements \Magento\Core\Model\Option\ArrayInterface
 {
+    /**
+     * @return array
+     */
     public function toOptionArray()
     {
         return array(

@@ -26,7 +26,7 @@ class Collection
      *
      * @param \Zend_Date|string $fromDate
      * @param \Zend_Date|string $toDate
-     * @return \Magento\Invitation\Model\Resource\Report\Invitation\Collection
+     * @return $this
      */
     public function setDateRange($fromDate, $toDate)
     {
@@ -69,7 +69,7 @@ class Collection
     /**
      * Join custom fields
      *
-     * @return \Magento\Invitation\Model\Resource\Report\Invitation\Collection
+     * @return $this
      */
     protected function _joinFields()
     {
@@ -79,8 +79,8 @@ class Collection
     /**
      * Filters report by stores
      *
-     * @param array $storeIds
-     * @return \Magento\Invitation\Model\Resource\Report\Invitation\Collection
+     * @param int[] $storeIds
+     * @return $this
      */
     public function setStoreIds($storeIds)
     {

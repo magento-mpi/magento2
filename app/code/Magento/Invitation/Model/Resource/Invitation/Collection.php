@@ -44,7 +44,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Instantiate select object
      *
-     * @return \Magento\Invitation\Model\Resource\Invitation\Collection
+     * @return $this
      */
     protected function _initSelect()
     {
@@ -59,7 +59,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Load collection where customer id equals passed parameter
      *
      * @param int $id
-     * @return \Magento\Invitation\Model\Resource\Invitation\Collection
+     * @return $this
      */
     public function loadByCustomerId($id)
     {
@@ -70,8 +70,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Filter by specified store ids
      *
-     * @param array|int $storeIds
-     * @return \Magento\Invitation\Model\Resource\Invitation\Collection
+     * @param int[]|int $storeIds
+     * @return $this
      */
     public function addStoreFilter($storeIds)
     {
@@ -82,7 +82,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Join website ID
      *
-     * @return \Magento\Invitation\Model\Resource\Invitation\Collection
+     * @return $this
      */
     public function addWebsiteInformation()
     {
@@ -98,7 +98,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Join referrals information (email)
      *
-     * @return \Magento\Invitation\Model\Resource\Invitation\Collection
+     * @return $this
      */
     public function addInviteeInformation()
     {
@@ -112,7 +112,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Filter collection by items that can be sent
      *
-     * @return \Magento\Invitation\Model\Resource\Invitation\Collection
+     * @return $this
      */
     public function addCanBeSentFilter()
     {
@@ -122,7 +122,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Filter collection by items that can be cancelled
      *
-     * @return \Magento\Invitation\Model\Resource\Invitation\Collection
+     * @return $this
      */
     public function addCanBeCanceledFilter()
     {

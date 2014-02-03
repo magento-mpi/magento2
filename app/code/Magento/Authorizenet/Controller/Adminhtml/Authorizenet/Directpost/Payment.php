@@ -119,7 +119,7 @@ class Payment
                     $requestToAuthorizenet->setOrderSendConfirmation($sendConfirmationFlag);
                     $requestToAuthorizenet->setStoreId($this->_getOrderCreateModel()->getQuote()->getStoreId());
 
-                    $adminUrl = $this->_objectManager->get('Magento\Backend\Model\Url');
+                    $adminUrl = $this->_objectManager->get('Magento\Backend\Model\UrlInterface');
                     if ($adminUrl->useSecretKey()) {
                         $requestToAuthorizenet->setKey(
                             $adminUrl->getSecretKey('adminhtml', 'authorizenet_directpost_payment', 'redirect')
@@ -145,7 +145,7 @@ class Payment
                 $result['success'] = 0;
                 $result['error'] = 1;
                 $result['redirect'] = $this->_objectManager
-                    ->get('Magento\Backend\Model\Url')
+                    ->get('Magento\Backend\Model\UrlInterface')
                     ->getUrl('sales/order_create/');
             }
 

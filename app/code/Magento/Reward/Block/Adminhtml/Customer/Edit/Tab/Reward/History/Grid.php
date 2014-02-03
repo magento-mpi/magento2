@@ -15,7 +15,7 @@ class Grid
     /**
      * Prepare grid collection object
      *
-     * @return \Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\History\Grid
+     * @return $this
      */
     protected function _prepareCollection()
     {

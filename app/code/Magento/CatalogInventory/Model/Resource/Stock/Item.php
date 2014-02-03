@@ -42,6 +42,7 @@ class Item extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Define main table and initialize connection
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -53,7 +54,7 @@ class Item extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param \Magento\CatalogInventory\Model\Stock\Item $item
      * @param int $productId
-     * @return \Magento\CatalogInventory\Model\Resource\Stock\Item
+     * @return $this
      */
     public function loadByProductId(\Magento\CatalogInventory\Model\Stock\Item $item, $productId)
     {
@@ -71,7 +72,7 @@ class Item extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Retrieve select object and join it to product entity table to get type ids
      *
      * @param string $field
-     * @param mixed $value
+     * @param int $value
      * @param \Magento\CatalogInventory\Model\Stock\Item $object
      * @return \Magento\DB\Select
      */
@@ -90,7 +91,7 @@ class Item extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param \Magento\Catalog\Model\Resource\Product\Collection $productCollection
      * @param array $columns
-     * @return \Magento\CatalogInventory\Model\Resource\Stock\Item
+     * @return $this
      */
     public function addCatalogInventoryToProductCollection($productCollection, $columns = null)
     {
@@ -119,7 +120,7 @@ class Item extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Use qty correction for qty column update
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param \Magento\Object $object
      * @param string $table
      * @return array
      */

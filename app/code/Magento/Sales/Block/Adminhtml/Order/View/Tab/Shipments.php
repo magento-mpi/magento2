@@ -31,7 +31,6 @@ class Shipments
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Sales\Model\Resource\Order\Collection\Factory $collectionFactory
      * @param \Magento\Core\Model\Registry $coreRegistry
@@ -39,7 +38,6 @@ class Shipments
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Url $urlModel,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Sales\Model\Resource\Order\Collection\Factory $collectionFactory,
         \Magento\Core\Model\Registry $coreRegistry,
@@ -47,7 +45,7 @@ class Shipments
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_collectionFactory = $collectionFactory;
-        parent::__construct($context, $urlModel, $backendHelper, $data);
+        parent::__construct($context, $backendHelper, $data);
     }
 
     protected function _construct()
@@ -129,7 +127,7 @@ class Shipments
     public function getRowUrl($row)
     {
         return $this->getUrl(
-            '*/order_shipment/view',
+            'adminhtml/order_shipment/view',
             array(
                 'shipment_id'=> $row->getId(),
                 'order_id'  => $row->getOrderId()

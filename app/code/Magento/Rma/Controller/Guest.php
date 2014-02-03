@@ -33,6 +33,8 @@ class Guest extends \Magento\App\Action\Action
 
     /**
      * View all returns
+     *
+     * @return void
      */
     public function returnsAction()
     {
@@ -63,6 +65,8 @@ class Guest extends \Magento\App\Action\Action
 
     /**
      * View concrete rma
+     *
+     * @return void
      */
     public function viewAction()
     {
@@ -114,6 +118,8 @@ class Guest extends \Magento\App\Action\Action
 
     /**
      * Customer create new return
+     *
+     * @return void
      */
     public function createAction()
     {
@@ -131,8 +137,8 @@ class Guest extends \Magento\App\Action\Action
         $coreDate = $this->_objectManager->get('Magento\Core\Model\Date');
         if (($post) && !empty($post['items'])) {
             try {
-                /** @var $urlModel \Magento\Core\Model\Url */
-                $urlModel = $this->_objectManager->get('Magento\Core\Model\Url');
+                /** @var $urlModel \Magento\UrlInterface */
+                $urlModel = $this->_objectManager->get('Magento\UrlInterface');
                 /** @var $rmaModel \Magento\Rma\Model\Rma */
                 $rmaModel = $this->_objectManager->create('Magento\Rma\Model\Rma');
                 $rmaData = array(
@@ -206,6 +212,8 @@ class Guest extends \Magento\App\Action\Action
 
     /**
      * Add RMA comment action
+     *
+     * @return void
      */
     public function addCommentAction()
     {
@@ -249,8 +257,11 @@ class Guest extends \Magento\App\Action\Action
         }
         return;
     }
+
     /**
      * Add Tracking Number action
+     *
+     * @return void
      */
     public function addLabelAction()
     {
@@ -310,8 +321,11 @@ class Guest extends \Magento\App\Action\Action
         $this->_view->renderLayout();
         return;
     }
+
     /**
      * Delete Tracking Number action
+     *
+     * @return void
      */
     public function delLabelAction()
     {

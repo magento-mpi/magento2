@@ -17,6 +17,9 @@
  */
 namespace Magento\CatalogRule\Block\Adminhtml\Promo\Widget\Chooser;
 
+use Magento\Backend\Block\Widget\Grid;
+use Magento\Backend\Block\Widget\Grid\Column;
+
 class Sku extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
@@ -41,7 +44,6 @@ class Sku extends \Magento\Backend\Block\Widget\Grid\Extended
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Catalog\Model\ProductFactory $catalogProduct
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $eavAttSetCollection
@@ -51,7 +53,6 @@ class Sku extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Url $urlModel,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Catalog\Model\ProductFactory $catalogProduct,
         \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $eavAttSetCollection,
@@ -63,9 +64,12 @@ class Sku extends \Magento\Backend\Block\Widget\Grid\Extended
         $this->_cpCollection = $cpCollection;
         $this->_eavAttSetCollection = $eavAttSetCollection;
         $this->_catalogProduct = $catalogProduct;
-        parent::__construct($context, $urlModel, $backendHelper, $data);
+        parent::__construct($context, $backendHelper, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -87,6 +91,10 @@ class Sku extends \Magento\Backend\Block\Widget\Grid\Extended
         }
     }
 
+    /**
+     * @param Column $column
+     * @return $this
+     */
     protected function _addColumnFilterToCollection($column)
     {
         // Set custom filter for in product flag
@@ -109,7 +117,7 @@ class Sku extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare Catalog Product Collection for attribute SKU in Promo Conditions SKU chooser
      *
-     * @return \Magento\CatalogRule\Block\Adminhtml\Promo\Widget\Chooser\Sku
+     * @return $this
      */
     protected function _prepareCollection()
     {
@@ -125,7 +133,7 @@ class Sku extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Define Cooser Grid Columns and filters
      *
-     * @return \Magento\CatalogRule\Block\Adminhtml\Promo\Widget\Chooser\Sku
+     * @return $this
      */
     protected function _prepareColumns()
     {
@@ -184,6 +192,9 @@ class Sku extends \Magento\Backend\Block\Widget\Grid\Extended
         return parent::_prepareColumns();
     }
 
+    /**
+     * @return string
+     */
     public function getGridUrl()
     {
         return $this->getUrl('catalog_rule/*/chooser', array(
@@ -193,6 +204,9 @@ class Sku extends \Magento\Backend\Block\Widget\Grid\Extended
         ));
     }
 
+    /**
+     * @return mixed
+     */
     protected function _getSelectedProducts()
     {
         $products = $this->getRequest()->getPost('selected', array());

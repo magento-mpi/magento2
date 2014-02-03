@@ -7,6 +7,8 @@
  */
 namespace Magento\Reward\Model\Observer;
 
+use Magento\Event\Observer;
+
 class PlaceOrder
 {
     /**
@@ -58,9 +60,10 @@ class PlaceOrder
     /**
      * Reduce reward points if points was used during checkout
      *
-     * @param \Magento\Event\Observer $observer
+     * @param Observer $observer
+     * @return void
      */
-    public function dispatch(\Magento\Event\Observer $observer)
+    public function dispatch(Observer $observer)
     {
         if (false == $this->_restriction->isAllowed()) {
             return;

@@ -17,6 +17,9 @@
  */
 namespace Magento\Data\Form\Element;
 
+use Magento\Data\Form;
+use Magento\Data\Form\AbstractForm;
+
 class Collection implements \ArrayAccess, \IteratorAggregate
 {
 
@@ -30,16 +33,16 @@ class Collection implements \ArrayAccess, \IteratorAggregate
     /**
      * Elements container
      *
-     * @var \Magento\Data\Form\AbstractForm
+     * @var AbstractForm
      */
     private $_container;
 
     /**
      * Class constructor
      *
-     * @param \Magento\Data\Form\AbstractForm $container
+     * @param AbstractForm $container
      */
-    public function __construct(\Magento\Data\Form\AbstractForm $container)
+    public function __construct(AbstractForm $container)
     {
         $this->_elements = array();
         $this->_container = $container;
@@ -60,6 +63,7 @@ class Collection implements \ArrayAccess, \IteratorAggregate
      *
      * @param mixed $key
      * @param mixed $value
+     * @return void
      */
     public function offsetSet($key, $value)
     {
@@ -70,6 +74,7 @@ class Collection implements \ArrayAccess, \IteratorAggregate
      * Implementation of \ArrayAccess:offsetGet()
      *
      * @param mixed $key
+     * @return AbstractElement
      */
     public function offsetGet($key)
     {
@@ -80,6 +85,7 @@ class Collection implements \ArrayAccess, \IteratorAggregate
      * Implementation of \ArrayAccess:offsetUnset()
      *
      * @param mixed $key
+     * @return void
      */
     public function offsetUnset($key)
     {
@@ -101,15 +107,14 @@ class Collection implements \ArrayAccess, \IteratorAggregate
      * Add element to collection
      *
      * @todo get it straight with $after
-     * @param \Magento\Data\Form\Element\AbstractElement $element
+     * @param AbstractElement $element
      * @param bool|string $after
-     *
-     * @return \Magento\Data\Form\Element\Collection
+     * @return AbstractElement
      */
-    public function add(\Magento\Data\Form\Element\AbstractElement $element, $after = false)
+    public function add(AbstractElement $element, $after = false)
     {
         // Set the Form for the node
-        if ($this->_container->getForm() instanceof \Magento\Data\Form) {
+        if ($this->_container->getForm() instanceof Form) {
             $element->setContainer($this->_container);
             $element->setForm($this->_container->getForm());
         }
@@ -141,7 +146,7 @@ class Collection implements \ArrayAccess, \IteratorAggregate
      * Sort elements by values using a user-defined comparison function
      *
      * @param mixed $callback
-     * @return \Magento\Data\Form\Element\Collection
+     * @return $this
      */
     public function usort($callback)
     {
@@ -153,7 +158,7 @@ class Collection implements \ArrayAccess, \IteratorAggregate
      * Remove element from collection
      *
      * @param mixed $elementId
-     * @return \Magento\Data\Form\Element\Collection
+     * @return $this
      */
     public function remove($elementId)
     {
@@ -181,7 +186,7 @@ class Collection implements \ArrayAccess, \IteratorAggregate
      * Find element by ID
      *
      * @param mixed $elementId
-     * @return \Magento\Data\Form\Element\AbstractElement|null
+     * @return AbstractElement
      */
     public function searchById($elementId)
     {

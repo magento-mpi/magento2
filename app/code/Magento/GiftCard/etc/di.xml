@@ -23,9 +23,19 @@
     </type>
     <type name="Magento\Module\Updater\SetupFactory">
         <param name="resourceTypes">
-            <value>
-                <giftcard_setup>Magento\Catalog\Model\Resource\Setup</giftcard_setup>
-            </value>
+            <array>
+                <item key="giftcard_setup"><value>Magento\Catalog\Model\Resource\Setup</value></item>
+            </array>
+        </param>
+    </type>
+    <type name="Magento\Catalog\Model\Product\CartConfiguration">
+        <plugin name="GiftCard" type="Magento\GiftCard\Model\Product\CartConfiguration\Plugin\GiftCard" />
+    </type>
+    <type name="Magento\Catalog\Model\Product\CatalogPrice">
+        <param name="priceModelPool">
+            <array>
+                <item key="giftcard"><value>Magento\GiftCard\Model\Product\CatalogPrice</value></item>
+            </array>
         </param>
     </type>
 </config>

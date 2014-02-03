@@ -42,6 +42,7 @@ class Currency extends \Magento\View\Element\Template
         $this->_directoryUrl = $directoryUrl;
         $this->_currencyFactory = $currencyFactory;
         parent::__construct($context, $data);
+        $this->_isScopePrivate = true;
     }
 
     /**

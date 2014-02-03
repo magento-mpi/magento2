@@ -111,7 +111,7 @@ class Controllers
      * @param array $config
      * @param \Magento\Logging\Model\Event $eventModel
      * @param \Magento\Logging\Model\Processor $processorModel
-     * @return \Magento\Logging\Model\Event
+     * @return bool
      */
     public function postDispatchGeneric($config, $eventModel, $processorModel)
     {

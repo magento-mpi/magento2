@@ -21,9 +21,8 @@ namespace Magento\Invitation\Model\Resource\Report\Invitation\Order\Initial;
 class Collection
     extends \Magento\Reports\Model\Resource\Report\Collection
 {
-    /*
-     * Report sub-collection class name
-     * @var string
+    /**
+     * @inheritdoc
      */
     protected $_reportCollection = 'Magento\Invitation\Model\Resource\Report\Invitation\Order\Collection';
 }

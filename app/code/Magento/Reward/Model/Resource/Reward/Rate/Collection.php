@@ -32,8 +32,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Add filter by website id
      *
-     * @param integer|array $websiteId
-     * @return \Magento\Reward\Model\Resource\Reward\Rate\Collection
+     * @param int|array $websiteId
+     * @return $this
      */
     public function addWebsiteFilter($websiteId)
     {

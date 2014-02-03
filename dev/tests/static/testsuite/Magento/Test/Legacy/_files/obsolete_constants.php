@@ -10,12 +10,12 @@
  * @license     {license_link}
  */
 return array(
-    array('ADMIN_STORE_ID', 'Magento\Core\Model\AppInterface'),
+    array('ADMIN_STORE_ID', 'Magento\AppInterface'),
     array('BACKORDERS_BELOW'),
     array('DS'),
     array('BACKORDERS_YES'),
     array('CACHE_TAG', 'Magento\Api\Model\Config', 'Magento_Api_Model_Cache_Type::CACHE_TAG'),
-    array('CACHE_TAG', 'Magento\Core\Model\AppInterface'),
+    array('CACHE_TAG', 'Magento\AppInterface'),
     array(
         'CACHE_TAG',
         'Magento\Core\Model\Resource\Db\Collection\AbstractCollection',
@@ -78,7 +78,7 @@ return array(
     array('INIT_OPTION_RESPONSE', 'Magento\Core\Model\App'),
     array('INIT_OPTION_SCOPE_CODE', 'Magento\Core\Model\App', 'Magento_Core_Model_App::PARAM_RUN_CODE'),
     array('INIT_OPTION_SCOPE_TYPE', 'Magento\Core\Model\App', 'Magento_Core_Model_App::PARAM_RUN_TYPE'),
-    array('INIT_OPTION_URIS', 'Magento\Core\Model\App', 'Magento_Core_Model_App::PARAM_APP_URIS'),
+    array('INIT_OPTION_URIS', 'Magento\Core\Model\App'),
     array('INSTALLER_HOST_RESPONSE', 'Magento\Install\Model\Installer'),
     array(
         'LAYOUT_GENERAL_CACHE_TAG',
@@ -88,6 +88,7 @@ return array(
     array('LOCALE_CACHE_KEY', 'Magento\Backend\Block\Page\Footer'),
     array('LOCALE_CACHE_LIFETIME', 'Magento\Backend\Block\Page\Footer'),
     array('LOCALE_CACHE_TAG', 'Magento\Backend\Block\Page\Footer'),
+    array('PARAM_CACHE_OPTIONS', '\Magento\Core\Model\App', '\Magento\Core\Model\App::PARAM_CACHE_FORCED_OPTIONS'),
     array('PATH_PREFIX_CUSTOMIZATION', 'Magento\Core\Model\Theme'),
     array('PATH_PREFIX_CUSTOMIZED', 'Magento\Core\Model\Theme\Files'),
     array('PUBLIC_BASE_THEME_DIR', 'Magento\Core\Model\Design\PackageInterface'),
@@ -176,9 +177,6 @@ return array(
     ),
     array('XML_PATH_INDEXER_DATA', 'Magento\Index\Model\Process'),
     array('XML_PATH_INSTALL_DATE', 'Mage_Core_Model_App', 'Mage_Core_Model_Config_Primary::XML_PATH_INSTALL_DATE'),
-    array('XML_PATH_EXTERNAL_CACHE_CONTROLS', 'Magento\PageCache\Helper\Data'),
-    array('XML_PATH_EXTERNAL_CACHE_CONTROLS', 'Magento\PageCache\Model\CacheControlFactory'),
-    array('XML_PATH_EXTERNAL_CACHE_CONTROL', 'Magento\PageCache\Helper\Data'),
     array('XML_PATH_LOCALE_INHERITANCE', 'Mage_Core_Model_Translate'),
     array('XML_PATH_PRODUCT_ATTRIBUTES', 'Magento\Wishlist\Model\Config'),
     array('XML_PATH_PRODUCT_COLLECTION_ATTRIBUTES', 'Magento\Catalog\Model\Config'),
@@ -193,6 +191,36 @@ return array(
         'XML_PATH_STATIC_FILE_SIGNATURE',
         'Magento\Core\Helper\Data',
         'Magento_Core_Model_Design_Package::XML_PATH_STATIC_FILE_SIGNATURE'
+    ),
+    array(
+        'XML_PATH_STORE_ADDRESS1',
+        'Magento\Shipping\Model\Shipping',
+        'Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ADDRESS1'
+    ),
+    array(
+        'XML_PATH_STORE_ADDRESS2',
+        'Magento\Shipping\Model\Shipping',
+        'Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ADDRESS2'
+    ),
+    array(
+        'XML_PATH_STORE_CITY',
+        'Magento\Shipping\Model\Shipping',
+        'Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_CITY'
+    ),
+    array(
+        'XML_PATH_STORE_REGION_ID',
+        'Magento\Shipping\Model\Shipping',
+        'Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_REGION_ID'
+    ),
+    array(
+        'XML_PATH_STORE_ZIP',
+        'Magento\Shipping\Model\Shipping',
+        'Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ZIP'
+    ),
+    array(
+        'XML_PATH_STORE_COUNTRY_ID',
+        'Magento\Shipping\Model\Shipping',
+        'Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID'
     ),
     array('XML_PATH_TEMPLATE_EMAIL', 'Magento\Core\Model\Email\Template'),
     array(
@@ -462,7 +490,7 @@ return array(
     ),
     array(
         'USE_PARENT_IMAGE',
-        'Magento\Checkout\Block\Cart\Item\Renderer\Grouped',
+        'Magento\GroupedProduct\Block\Cart\Item\Renderer\Grouped',
         'Magento\Catalog\Model\Config\Source\Product\Thumbnail::OPTION_USE_PARENT_IMAGE'
     ),
     array(
@@ -472,8 +500,8 @@ return array(
     ),
     array(
         'GROUPED_PRODUCT_IMAGE',
-        'Magento\Checkout\Block\Cart\Item\Renderer\Grouped',
-        'Magento\Checkout\Block\Cart\Item\Renderer\Grouped::CONFIG_THUMBNAIL_SOURCE'
+        'Magento\GroupedProduct\Block\Cart\Item\Renderer\Grouped',
+        'Magento\GroupedProduct\Block\Cart\Item\Renderer\Grouped::CONFIG_THUMBNAIL_SOURCE'
     ),
     array('TYPE_BLOCK', '\Magento\Core\Model\Layout', '\Magento\View\Layout\Element'),
     array('TYPE_CONTAINER', '\Magento\Core\Model\Layout', '\Magento\View\Layout\Element'),

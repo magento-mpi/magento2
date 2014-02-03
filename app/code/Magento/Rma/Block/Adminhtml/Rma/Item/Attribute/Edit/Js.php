@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 
+namespace Magento\Rma\Block\Adminhtml\Rma\Item\Attribute\Edit;
 
 /**
  * RMA Items Attributes Edit JavaScript Block
@@ -16,8 +17,6 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Rma\Block\Adminhtml\Rma\Item\Attribute\Edit;
-
 class Js
     extends \Magento\Backend\Block\Template
 {
