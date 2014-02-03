@@ -9,10 +9,12 @@
  */
 namespace Magento\Connect\Structures;
 
+use Magento\Connect\Structures\Node;
+
 class Graph
 {
     /**
-     * @var \Magento\Connect\Structures\Graph_Node[]
+     * @var Node[]
      */
     protected $_nodes = array();
 
@@ -53,7 +55,7 @@ class Graph
     /**
      * Add node to list
      *
-     * @param \Magento\Connect\Structures\Graph_Node &$newNode
+     * @param Node &$newNode
      * @return void
      * @throws \Exception
      */
@@ -73,7 +75,7 @@ class Graph
 
     /**
      * Remove a Node from the Graph
-     * @param  \Magento\Connect\Structures\Graph_Node &$node
+     * @param  Node &$node
      * @return void
      */
     public function removeNode(&$node)
@@ -84,7 +86,7 @@ class Graph
     /**
      * Return set of nodes
      *
-     * @return \Magento\Connect\Structures\Graph_Node[]
+     * @return Node[]
      */
     public function &getNodes()
     {
@@ -108,7 +110,7 @@ class Graph
      * This is a variant of Graph::inDegree which does
      * not count nodes marked as visited.
      *
-     * @param \Magento\Connect\Structures\Graph_Node &$node
+     * @param Node &$node
      * @param string $metadataKey
      * @return integer
      */
