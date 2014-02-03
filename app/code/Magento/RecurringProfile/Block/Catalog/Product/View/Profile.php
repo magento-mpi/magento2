@@ -88,6 +88,7 @@ class Profile extends \Magento\View\Element\Template
                 ->setTimeFormat($this->_locale->getTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT));
             return $calendar->getHtml();
         }
+        return '';
     }
 
     /**

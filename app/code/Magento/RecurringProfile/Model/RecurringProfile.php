@@ -14,8 +14,6 @@
  */
 namespace Magento\RecurringProfile\Model;
 
-use Magento\RecurringProfile\Model\PeriodUnits;
-
 class RecurringProfile extends \Magento\Core\Model\AbstractModel
 {
     /**

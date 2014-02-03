@@ -11,6 +11,9 @@ use Magento\Core\Model\Option\ArrayInterface;
 
 class States implements ArrayInterface
 {
+    /**
+     * @var string
+     */
     const UNKNOWN = 'unknown';
     const PENDING = 'pending';
     const ACTIVE = 'active';

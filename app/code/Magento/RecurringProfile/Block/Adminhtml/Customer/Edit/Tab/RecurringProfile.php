@@ -14,7 +14,7 @@
 namespace Magento\RecurringProfile\Block\Adminhtml\Customer\Edit\Tab;
 
 class RecurringProfile
-    extends \Magento\Sales\Block\Adminhtml\Profile\Grid
+    extends \Magento\RecurringProfile\Block\Adminhtml\Profile\Grid
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
@@ -110,7 +110,7 @@ class RecurringProfile
     /**
      * Prepare collection for grid
      *
-     * @return \Magento\Sales\Block\Adminhtml\Customer\Edit\Tab\Recurring\Profile
+     * @return $this
      */
     protected function _prepareCollection()
     {
