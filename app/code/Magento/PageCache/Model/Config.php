@@ -31,11 +31,11 @@ class Config extends \Magento\Object
     /**#@+
      * XML path to Varnish settings
      */
-    const XML_VARNISH_PAGECACHE_TTL  = 'system/varnish_configuratrion_settings/pagecache_ttl';
-    const XML_VARNISH_PAGECACHE_DEBUG = 'system/varnish_configuratrion_settings/pagecache_debug';
-    const XML_VARNISH_PAGECACHE_ACCESS_LIST = 'system/varnish_configuratrion_settings/pagecache_access_list';
-    const XML_VARNISH_PAGECACHE_BACKEND_PORT = 'system/varnish_configuratrion_settings/pagecache_backend_port';
-    const XML_VARNISH_PAGECACHE_BACKEND_HOST = 'system/varnish_configuratrion_settings/pagecache_backend_host';
+    const XML_VARNISH_PAGECACHE_TTL  = 'system/varnish_configuration_settings/pagecache_ttl';
+    const XML_VARNISH_PAGECACHE_DEBUG = 'system/varnish_configuration_settings/pagecache_debug';
+    const XML_VARNISH_PAGECACHE_ACCESS_LIST = 'system/varnish_configuration_settings/pagecache_access_list';
+    const XML_VARNISH_PAGECACHE_BACKEND_PORT = 'system/varnish_configuration_settings/pagecache_backend_port';
+    const XML_VARNISH_PAGECACHE_BACKEND_HOST = 'system/varnish_configuration_settings/pagecache_backend_host';
     /**#@-*/
 
     /**

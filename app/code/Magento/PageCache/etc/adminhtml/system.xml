@@ -12,7 +12,7 @@
 <config>
     <system>
         <section id="system">
-            <group id="varnish_configuratrion_settings" translate="label" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="600">
+            <group id="varnish_configuration_settings" translate="label" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="600">
                 <label>Full Page Cache</label>
                 <field id="varnish_caching" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Caching Application</label>
