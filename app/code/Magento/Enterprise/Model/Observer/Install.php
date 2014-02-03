@@ -7,13 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Enterprise\Model\Observer;
 
 /**
  * Installer observer
  *
  */
-namespace Magento\Enterprise\Model\Observer;
-
 class Install
 {
     /**
@@ -34,6 +33,7 @@ class Install
      * Set Enterprise design theme and flag to hide iframe
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function setDesignTheme($observer)
     {
