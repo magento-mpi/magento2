@@ -13,6 +13,11 @@
  */
 namespace Magento\PageCache\Model\System\Config\Source;
 
+/**
+ * Class Application
+ *
+ * @package Magento\PageCache\Model\System\Config\Source
+ */
 class Application implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
