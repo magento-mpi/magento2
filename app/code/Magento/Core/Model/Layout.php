@@ -192,6 +192,11 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     protected $messageManager;
 
     /**
+     * @var bool
+     */
+    protected $isPrivate;
+
+    /**
      * @param \Magento\View\Layout\ProcessorFactory $processorFactory
      * @param Resource\Theme\CollectionFactory $themeFactory
      * @param \Magento\Logger $logger
@@ -1596,5 +1601,25 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     public function  isCacheable()
     {
         return !(boolean)count($this->_xml->xpath('//' . Element::TYPE_BLOCK . '[@cacheable="false"]'));
+    }
+
+    /**
+     * Check is exists non-cacheable layout elements
+     *
+     * @return bool
+     */
+    public function isPrivate()
+    {
+        return $this->isPrivate;
+    }
+
+    /**
+     * Mark layout as private
+     *
+     * @param bool $isPrivate
+     */
+    public function setIsPrivate($isPrivate)
+    {
+        $this->isPrivate = (bool) $isPrivate;
     }
 }

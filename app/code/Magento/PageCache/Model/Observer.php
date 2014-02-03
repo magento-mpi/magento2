@@ -26,7 +26,7 @@ class Observer
     {
         /** @var \Magento\Core\Model\Layout $layout */
         $layout = $observer->getEvent()->getLayout();
-        if ($layout->isCacheable()) {
+        //if ($layout->isCacheable()) {
             $name = $observer->getEvent()->getElementName();
             $block = $layout->getBlock($name);
             if ($block instanceof \Magento\View\Element\AbstractBlock && $block->isScopePrivate()) {
@@ -35,6 +35,6 @@ class Observer
                 $html = sprintf('<!-- BLOCK %1$s -->%2$s<!-- /BLOCK %1$s -->', $block->getNameInLayout(), $output);
                 $transport->setData('output', $html);
             }
-        }
+       // }
     }
 }
