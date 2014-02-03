@@ -76,7 +76,10 @@ class Http extends \Zend_Controller_Response_Http implements \Magento\App\Respon
      */
     public function getVaryString()
     {
-        ksort($this->vary);
+        if (!empty($this->vary)) {
+            ksort($this->vary);
+        }
+
         return sha1(serialize($this->vary));
     }
 }
