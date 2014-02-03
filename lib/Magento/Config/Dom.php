@@ -41,6 +41,13 @@ class Dom
     protected $_idAttributes;
 
     /**
+     * Name of attribute that specifies type of argument node
+     *
+     * @var string|null
+     */
+    protected $_typeAttributeName;
+
+    /**
      * Schema validation file
      *
      * @var string
@@ -69,14 +76,20 @@ class Dom
      *
      * @param string $xml
      * @param array $idAttributes
+     * @param string $typeAttribute
      * @param string $schemaFile
      * @param string $errorFormat
      */
     public function __construct(
-        $xml, array $idAttributes = array(), $schemaFile = null, $errorFormat = self::ERROR_FORMAT_DEFAULT
+        $xml,
+        array $idAttributes = array(),
+        $typeAttribute = null,
+        $schemaFile = null,
+        $errorFormat = self::ERROR_FORMAT_DEFAULT
     ) {
         $this->_schemaFile    = $schemaFile;
         $this->_idAttributes  = new \Magento\Config\Dom\NodePathConfig($idAttributes);
+        $this->_typeAttributeName = $typeAttribute;
         $this->_errorFormat   = $errorFormat;
         $this->_dom           = $this->_initDom($xml);
         $this->_rootNamespace = $this->_dom->lookupNamespaceUri($this->_dom->namespaceURI);
@@ -113,6 +126,19 @@ class Dom
 
         /* Update matched node attributes and value */
         if ($matchedNode) {
+
+            //different node type
+            if ($this->_typeAttributeName
+                && $node->hasAttribute($this->_typeAttributeName)
+                && $matchedNode->hasAttribute($this->_typeAttributeName)
+                && ($node->getAttribute($this->_typeAttributeName)
+                    !== $matchedNode->getAttribute($this->_typeAttributeName))) {
+                $parentMatchedNode = $this->_getMatchedNode($parentPath);
+                $newNode = $this->_dom->importNode($node, true);
+                $parentMatchedNode->replaceChild($newNode, $matchedNode);
+                return;
+            }
+
             $this->_mergeAttributes($matchedNode, $node);
             if (!$node->hasChildNodes()) {
                 return;

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<root>
+    <item id="id1" type="lecture">
+        <item name="title">Lecture 1</item>
+        <item name="video">Link to Video 1</item>
+    </item>
+    <item id="id2" type="lecture">
+        <item name="title">Lecture 2</item>
+        <item name="video">Link to Video 2</item>
+    </item>
+</root>
