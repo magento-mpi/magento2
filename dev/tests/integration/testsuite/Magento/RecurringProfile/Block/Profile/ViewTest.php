@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Sales\Block\Recurring\Profile;
+namespace Magento\RecurringProfile\Block\Profile;
 
 class ViewTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Sales\Block\Recurring\Profile\View
+     * @var \Magento\RecurringProfile\Block\Profile\View
      */
     protected $_block;
 
@@ -38,7 +38,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
 
         $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\View\LayoutInterface');
-        $this->_block = $this->_layout->createBlock('Magento\Sales\Block\Recurring\Profile\View', 'block');
+        $this->_block = $this->_layout->createBlock('Magento\RecurringProfile\Block\Profile\View', 'block');
     }
 
     protected function tearDown()
