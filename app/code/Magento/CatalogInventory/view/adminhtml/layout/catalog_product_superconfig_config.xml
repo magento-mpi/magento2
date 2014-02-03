@@ -11,7 +11,7 @@
     <referenceBlock name="admin.product.edit.tab.super.config.grid">
         <arguments>
             <argument name="dataSource" xsi:type="object">
-                <updater>Magento\Catalog\Model\Resource\Product\Collection\AssociatedProductUpdater</updater>
+                <updater>Magento\ConfigurableProduct\Model\Resource\Product\Collection\AssociatedProductUpdater</updater>
             </argument>
         </arguments>
         <referenceBlock name="admin.product.edit.tab.super.config.grid.columnSet">

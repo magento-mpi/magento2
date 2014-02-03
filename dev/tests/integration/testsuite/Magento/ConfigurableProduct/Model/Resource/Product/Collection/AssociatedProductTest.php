@@ -2,14 +2,11 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Model\Resource\Product\Collection;
+namespace Magento\ConfigurableProduct\Model\Resource\Product\Collection;
 
 class AssociatedProductTest extends \PHPUnit_Framework_TestCase
 {
@@ -27,7 +24,7 @@ class AssociatedProductTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Registry')->register('current_product', $product);
         $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Resource\Product\Collection\AssociatedProduct');
+            ->create('Magento\ConfigurableProduct\Model\Resource\Product\Collection\AssociatedProduct');
         $collectionProduct = $collection->getFirstItem();
         $this->assertEquals($product->getName(), $collectionProduct->getName());
         $this->assertEquals($product->getSku(), $collectionProduct->getSku());
@@ -50,7 +47,7 @@ class AssociatedProductTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Registry')->register('current_product', $product);
         $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Resource\Product\Collection\AssociatedProduct');
+            ->create('Magento\ConfigurableProduct\Model\Resource\Product\Collection\AssociatedProduct');
         $this->assertEmpty($collection->count());
     }
 }

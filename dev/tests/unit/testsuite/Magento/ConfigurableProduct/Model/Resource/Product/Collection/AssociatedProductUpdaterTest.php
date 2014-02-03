@@ -2,14 +2,11 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Model\Resource\Product\Collection;
+namespace Magento\ConfigurableProduct\Model\Resource\Product\Collection;
 
 class AssociatedProductUpdaterTest extends \PHPUnit_Framework_TestCase
 {
@@ -33,7 +30,9 @@ class AssociatedProductUpdaterTest extends \PHPUnit_Framework_TestCase
             ->method('addCatalogInventoryToProductCollection')
             ->with($collection, $inventory);
 
-        $model = new \Magento\Catalog\Model\Resource\Product\Collection\AssociatedProductUpdater($stockItem);
+        $model = new \Magento\ConfigurableProduct\Model\Resource\Product\Collection\AssociatedProductUpdater(
+            $stockItem
+        );
         $model->update($collection);
     }
 }
