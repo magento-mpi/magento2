@@ -57,7 +57,6 @@
                         <argument name="header" xsi:type="string" translate="true">Listed</argument>
                         <argument name="index" xsi:type="string">is_listed</argument>
                         <argument name="type" xsi:type="string">options</argument>
-                        <argument name="type" xsi:type="string">options</argument>
                         <argument name="options" xsi:type="array">
                             <item name="yes" xsi:type="array">
                                 <item name="value" xsi:type="string">1</item>

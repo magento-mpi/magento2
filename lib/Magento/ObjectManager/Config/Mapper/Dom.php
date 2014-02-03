@@ -200,7 +200,7 @@ class Dom implements \Magento\Config\ConverterInterface
         if ($valueNodeType && 'null' == $valueNodeType->nodeValue) {
             return null;
         }
-        
+
         /** @var \DOMNode $node */
         foreach ($valueNode->childNodes as $node) {
             if ($node->nodeType == XML_ELEMENT_NODE) {
