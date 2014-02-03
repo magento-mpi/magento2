@@ -37,6 +37,9 @@ class Xml implements \Magento\Config\ConverterInterface
                 throw new \InvalidArgumentException('Attribute "id" does not exist');
             }
             foreach ($group->childNodes as $child) {
+                if (!($child instanceof \DOMElement)) {
+                    continue;
+                }
                 /** @var $group \DOMElement */
                 $output[$group->getAttribute('id')][$child->nodeName] = $child->nodeValue;
             }
