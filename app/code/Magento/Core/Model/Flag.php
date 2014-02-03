@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Core\Model;
 
 /**
  * Core Flag model
@@ -25,8 +25,6 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Core\Model;
-
 class Flag extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -40,6 +38,7 @@ class Flag extends \Magento\Core\Model\AbstractModel
      * Init resource model
      * Set flag_code if it is specified in arguments
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -85,7 +84,7 @@ class Flag extends \Magento\Core\Model\AbstractModel
      * Set flag data
      *
      * @param mixed $value
-     * @return \Magento\Core\Model\Flag
+     * @return $this
      */
     public function setFlagData($value)
     {
@@ -96,7 +95,7 @@ class Flag extends \Magento\Core\Model\AbstractModel
      * load self (load by flag code)
      *
      * @throws \Magento\Core\Exception
-     * @return \Magento\Core\Model\Flag
+     * @return $this
      */
     public function loadSelf()
     {

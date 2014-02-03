@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Core\Model;
 
 /**
  * Custom variable model
@@ -22,8 +23,6 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Core\Model;
-
 class Variable extends \Magento\Core\Model\AbstractModel
 {
     const TYPE_TEXT = 'text';

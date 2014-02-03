@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Core\Model;
 
 /**
  * Template model class
@@ -16,8 +16,6 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Core\Model;
-
 abstract class Template extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -166,7 +164,7 @@ abstract class Template extends \Magento\Core\Model\AbstractModel
      * Initialize design information for template processing
      *
      * @param array $config
-     * @return \Magento\Core\Model\Template
+     * @return $this
      * @throws \Magento\Exception
      */
     public function setDesignConfig(array $config)
@@ -184,6 +182,7 @@ abstract class Template extends \Magento\Core\Model\AbstractModel
      *
      * @param int|string $storeId
      * @param string $area
+     * @return void
      */
     public function emulateDesign($storeId, $area=self::DEFAULT_DESIGN_AREA)
     {
@@ -202,6 +201,7 @@ abstract class Template extends \Magento\Core\Model\AbstractModel
     /**
      * Revert to last design config, used before emulation
      *
+     * @return void
      */
     public function revertDesign()
     {

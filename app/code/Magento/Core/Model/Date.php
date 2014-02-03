@@ -14,6 +14,8 @@
  */
 namespace Magento\Core\Model;
 
+use Magento\Core\Model\LocaleInterface;
+
 class Date
 {
     /**
@@ -24,14 +26,14 @@ class Date
     private $_offset = 0;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var LocaleInterface
      */
     protected $_locale;
 
     /**
      * @param LocaleInterface $locale
      */
-    public function __construct(\Magento\Core\Model\LocaleInterface $locale)
+    public function __construct(LocaleInterface $locale)
     {
         $this->_locale = $locale;
         $this->_offset = $this->calculateOffset($locale->getConfigTimezone());
@@ -40,7 +42,7 @@ class Date
     /**
      * Calculates timezone offset
      *
-     * @param  string $timezone
+     * @param  string|null $timezone
      * @return int offset between timezone and gmt
      */
     public function calculateOffset($timezone = null)

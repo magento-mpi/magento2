@@ -43,7 +43,7 @@ interface LocaleInterface
      * Set default locale code
      *
      * @param   string $locale
-     * @return  \Magento\Core\Model\LocaleInterface
+     * @return  $this
      */
     public function setDefaultLocale($locale);
 
@@ -58,7 +58,7 @@ interface LocaleInterface
      * Set locale
      *
      * @param   string $locale
-     * @return  \Magento\Core\Model\LocaleInterface
+     * @return  $this
      */
     public function setLocale($locale = null);
 
@@ -94,7 +94,7 @@ interface LocaleInterface
      * Specify current locale code
      *
      * @param   string $code
-     * @return  \Magento\Core\Model\LocaleInterface
+     * @return  $this
      */
     public function setLocaleCode($code);
 
@@ -138,14 +138,14 @@ interface LocaleInterface
     /**
      * Retrieve currency option list
      *
-     * @return unknown
+     * @return array
      */
     public function getOptionCurrencies();
 
     /**
      * Retrieve all currency option list
      *
-     * @return unknown
+     * @return array
      */
     public function getOptionAllCurrencies();
 
@@ -159,7 +159,7 @@ interface LocaleInterface
     /**
      * Retrieve array of allowed currencies
      *
-     * @return unknown
+     * @return array
      */
     public function getAllowCurrencies();
 
@@ -277,12 +277,14 @@ interface LocaleInterface
      * Event is not dispatched.
      *
      * @param int $storeId
+     * @return void
      */
     public function emulate($storeId);
 
     /**
      * Get last locale, used before last emulation
      *
+     * @return void
      */
     public function revert();
 
@@ -335,7 +337,7 @@ interface LocaleInterface
     /**
      * Format date using current locale options and time zone.
      *
-     * @param Zend_Date|null $date
+     * @param \Zend_Date|null $date
      * @param string $format
      * @param bool $showTime
      * @return string
@@ -347,7 +349,7 @@ interface LocaleInterface
     /**
      * Format time using current locale options
      *
-     * @param Zend_Date|null $time
+     * @param \Zend_Date|null $time
      * @param string $format
      * @param bool $showDate
      * @return string

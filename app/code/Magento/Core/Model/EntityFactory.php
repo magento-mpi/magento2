@@ -1,11 +1,10 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model;
 
 class EntityFactory implements \Magento\Data\Collection\EntityFactoryInterface
@@ -30,7 +29,7 @@ class EntityFactory implements \Magento\Data\Collection\EntityFactoryInterface
     /**
      * Create class instance with specified parameters
      *
-     * @param $className
+     * @param string $className
      * @param array $data
      * @throws \LogicException
      * @return \Magento\Object

@@ -136,6 +136,7 @@ class StoreManager implements \Magento\Core\Model\StoreManagerInterface
     /**
      * @return void
      * @throws \Magento\Core\Model\Store\Exception
+     * @return void
      */
     public function throwStoreException()
     {
@@ -224,6 +225,7 @@ class StoreManager implements \Magento\Core\Model\StoreManagerInterface
 
     /**
      * Reinitialize store list
+     *
      * @return void
      */
     public function reinitStores()

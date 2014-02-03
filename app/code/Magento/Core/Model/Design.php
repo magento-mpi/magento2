@@ -7,8 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model;
+use Magento\Core\Model\Context;
+use Magento\Core\Model\LocaleInterface;
+use Magento\Core\Model\Registry;
+use Magento\Core\Model\Resource\AbstractResource;
 
 /**
  * Design settings change model
@@ -48,7 +51,7 @@ class Design extends \Magento\Core\Model\AbstractModel
     protected $_cacheTag = self::CACHE_TAG;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var LocaleInterface
      */
     protected $_locale;
 
@@ -62,16 +65,16 @@ class Design extends \Magento\Core\Model\AbstractModel
      * @param Registry $registry
      * @param LocaleInterface $locale
      * @param \Magento\Stdlib\DateTime $dateTime
-     * @param Resource\AbstractResource $resource
+     * @param AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\LocaleInterface $locale,
+        Context $context,
+        Registry $registry,
+        LocaleInterface $locale,
         \Magento\Stdlib\DateTime $dateTime,
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -82,6 +85,8 @@ class Design extends \Magento\Core\Model\AbstractModel
 
     /**
      * Initialize resource model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -93,7 +98,7 @@ class Design extends \Magento\Core\Model\AbstractModel
      *
      * @param string $storeId
      * @param string|null $date
-     * @return \Magento\Core\Model\Design
+     * @return $this
      */
     public function loadChange($storeId, $date = null)
     {
@@ -124,7 +129,7 @@ class Design extends \Magento\Core\Model\AbstractModel
      * Apply design change from self data into specified design package instance
      *
      * @param \Magento\View\DesignInterface $packageInto
-     * @return \Magento\Core\Model\Design
+     * @return $this
      */
     public function changeDesign(\Magento\View\DesignInterface $packageInto)
     {

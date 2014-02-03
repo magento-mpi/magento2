@@ -7,6 +7,8 @@
  */
 namespace Magento;
 
+use Magento\TranslateInterface;
+
 /**
  * Translate library
  *
@@ -498,7 +500,7 @@ class Translate implements \Magento\TranslateInterface
      * Set locale
      *
      * @param string $locale
-     * @return \Magento\TranslateInterface
+     * @return $this
      */
     public function setLocale($locale)
     {
@@ -560,7 +562,7 @@ class Translate implements \Magento\TranslateInterface
      * Set Translate inline mode
      *
      * @param bool $flag
-     * @return \Magento\TranslateInterface
+     * @return $this
      */
     public function setTranslateInline($flag = false)
     {
@@ -621,7 +623,7 @@ class Translate implements \Magento\TranslateInterface
     /**
      * Saving data cache
      *
-     * @return \Magento\TranslateInterface
+     * @return $this
      */
     protected function _saveCache()
     {

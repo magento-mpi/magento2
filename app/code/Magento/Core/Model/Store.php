@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model;
 
 /**
@@ -357,6 +356,7 @@ class Store extends AbstractModel
 
     /**
      * Init not serializable fields
+     *
      * @return void
      */
     public function __wakeup()
@@ -428,7 +428,7 @@ class Store extends AbstractModel
      *
      * @param   mixed $key
      * @param   string $field
-     * @return  \Magento\Core\Model\Store
+     * @return  $this
      */
     public function load($key, $field = null)
     {
@@ -471,7 +471,7 @@ class Store extends AbstractModel
      *
      * @param string $path
      * @param mixed $value
-     * @return \Magento\Core\Model\Store
+     * @return $this
      */
     public function setConfig($path, $value)
     {
