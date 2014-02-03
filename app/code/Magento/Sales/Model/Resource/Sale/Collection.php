@@ -118,7 +118,7 @@ class Collection extends \Magento\Data\Collection\Db
     public function setOrderStateFilter($state, $exclude = false)
     {
         $this->_orderStateCondition = ($exclude) ? 'NOT IN' : 'IN';
-        $this->_state     = (!is_array($state)) ? array($state) : $state;
+        $this->_state = (!is_array($state)) ? array($state) : $state;
         return $this;
     }
 
