@@ -77,7 +77,7 @@ abstract class AbstractDb extends \Magento\Core\Model\Resource\AbstractResource
     /**
      * Use is object new method for save of object
      *
-     * @var boolean
+     * @var bool
      */
     protected $_useIsObjectNew       = false;
 
@@ -171,7 +171,7 @@ abstract class AbstractDb extends \Magento\Core\Model\Resource\AbstractResource
      *
      * @param string|array $connections
      * @param string|array|null $tables
-     * @return \Magento\Core\Model\Resource\AbstractResource
+     * @return $this
      */
     protected function _setResource($connections, $tables = null)
     {
@@ -273,7 +273,7 @@ abstract class AbstractDb extends \Magento\Core\Model\Resource\AbstractResource
      * Get connection by resource name
      *
      * @param string $resourceName
-     * @return \Magento\DB\Adapter\AdapterInterface|bool
+     * @return \Magento\DB\Adapter\AdapterInterface|false
      */
     protected function _getConnection($resourceName)
     {
@@ -292,7 +292,7 @@ abstract class AbstractDb extends \Magento\Core\Model\Resource\AbstractResource
     /**
      * Retrieve connection for read data
      *
-     * @return \Magento\DB\Adapter\AdapterInterface
+     * @return \Magento\DB\Adapter\AdapterInterface|false
      */
     protected function _getReadAdapter()
     {
@@ -307,7 +307,7 @@ abstract class AbstractDb extends \Magento\Core\Model\Resource\AbstractResource
     /**
      * Retrieve connection for write data
      *
-     * @return \Magento\DB\Adapter\AdapterInterface
+     * @return \Magento\DB\Adapter\AdapterInterface|false
      */
     protected function _getWriteAdapter()
     {
@@ -317,7 +317,7 @@ abstract class AbstractDb extends \Magento\Core\Model\Resource\AbstractResource
     /**
      * Temporary resolving collection compatibility
      *
-     * @return \Magento\DB\Adapter\AdapterInterface
+     * @return \Magento\DB\Adapter\AdapterInterface|false
      */
     public function getReadConnection()
     {
@@ -528,7 +528,7 @@ abstract class AbstractDb extends \Magento\Core\Model\Resource\AbstractResource
      * has really changed comparing with origData
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return boolean
+     * @return bool
      */
     public function hasDataChanged($object)
     {

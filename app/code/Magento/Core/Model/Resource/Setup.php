@@ -37,6 +37,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
      * @var \Magento\DB\Adapter\Pdo\Mysql
      */
     protected $_connection = null;
+
     /**
      * Tables cache array
      *
@@ -115,8 +116,8 @@ class Setup implements \Magento\Module\Updater\SetupInterface
 
     /**
      * @param \Magento\Core\Model\Resource\Setup\Context $context
-     * @param $resourceName
-     * @param $moduleName
+     * @param string $resourceName
+     * @param string $moduleName
      * @param string $connectionName
      */
     public function __construct(
@@ -158,7 +159,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
      *
      * @param string $tableName
      * @param string $realTableName
-     * @return \Magento\Core\Model\Resource\Setup
+     * @return $this
      */
     public function setTable($tableName, $realTableName)
     {
@@ -199,7 +200,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
     /**
      * Apply data updates to the system after upgrading.
      *
-     * @return \Magento\Core\Model\Resource\Setup
+     * @return $this
      */
     public function applyDataUpdates()
     {
@@ -219,7 +220,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
     /**
      * Apply module resource install, upgrade and data scripts
      *
-     * @return \Magento\Core\Model\Resource\Setup|bool
+     * @return $this|true
      */
     public function applyUpdates()
     {
@@ -251,7 +252,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
      * Run data install scripts
      *
      * @param string $newVersion
-     * @return \Magento\Core\Model\Resource\Setup
+     * @return $this
      */
     protected function _installData($newVersion)
     {
@@ -267,7 +268,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
      *
      * @param string $oldVersion
      * @param string $newVersion
-     * @return \Magento\Core\Model\Resource\Setup
+     * @return $this
      */
     protected function _upgradeData($oldVersion, $newVersion)
     {
@@ -281,7 +282,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
      * Run resource installation file
      *
      * @param string $newVersion
-     * @return \Magento\Core\Model\Resource\Setup
+     * @return $this
      */
     protected function _installResourceDb($newVersion)
     {
@@ -297,7 +298,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
      *
      * @param string $oldVersion
      * @param string $newVersion
-     * @return \Magento\Core\Model\Resource\Setup
+     * @return $this
      */
     protected function _upgradeResourceDb($oldVersion, $newVersion)
     {
@@ -312,7 +313,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
      *
      * @param string $newVersion
      * @param string $oldVersion
-     * @return \Magento\Core\Model\Resource\Setup
+     * @return $this
      */
     protected function _rollbackResourceDb($newVersion, $oldVersion)
     {
@@ -324,7 +325,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
      * Uninstall resource
      *
      * @param string $version existing resource version
-     * @return \Magento\Core\Model\Resource\Setup
+     * @return $this
      */
     protected function _uninstallResourceDb($version)
     {
@@ -411,7 +412,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
      *
      * @param string $actionType
      * @param string $version
-     * @return \Magento\Core\Model\Resource\Setup
+     * @return $this
      */
     protected function _setResourceVersion($actionType, $version)
     {
@@ -436,7 +437,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
      * @param string $actionType
      * @param string $fromVersion
      * @param string $toVersion
-     * @return bool|string
+     * @return false|string
      * @throws \Magento\Exception
      */
     protected function _modifyResourceDb($actionType, $fromVersion, $toVersion)
@@ -580,7 +581,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
      * @param string $field
      * @param string $parentField
      * @param string|integer $parentId
-     * @return mixed|boolean
+     * @return mixed|false
      */
     public function getTableRow($table, $idField, $rowId, $field = null, $parentField = null, $parentId = 0)
     {
@@ -615,7 +616,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
      * @param string|int $rowId
      * @param null|string $parentField
      * @param int|string $parentId
-     * @return \Magento\Core\Model\Resource\Setup
+     * @return $this
      */
     public function deleteTableRow($table, $idField, $rowId, $parentField = null, $parentId = 0)
     {
@@ -645,7 +646,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
      * @param mixed|null $value
      * @param string $parentField
      * @param string|integer $parentId
-     * @return \Magento\Eav\Model\Entity\Setup
+     * @return $this
      */
     public function updateTableRow($table, $idField, $rowId, $field, $value = null, $parentField = null, $parentId = 0)
     {
@@ -693,7 +694,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
      * @param string $value
      * @param int|string $scope
      * @param int $scopeId
-     * @return \Magento\Core\Model\Resource\Setup
+     * @return $this
      */
     public function setConfigData($path, $value, $scope = \Magento\Core\Model\Store::DEFAULT_CODE, $scopeId = 0)
     {
@@ -716,7 +717,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
      *
      * @param string $path
      * @param string $scope (default|stores|websites|config)
-     * @return \Magento\Core\Model\Resource\Setup
+     * @return $this
      */
     public function deleteConfigData($path, $scope = null)
     {
@@ -732,7 +733,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
      * Run plain SQL query(ies)
      *
      * @param string $sql
-     * @return \Magento\Core\Model\Resource\Setup
+     * @return $this
      */
     public function run($sql)
     {
@@ -743,7 +744,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
     /**
      * Prepare database before install/upgrade
      *
-     * @return \Magento\Core\Model\Resource\Setup
+     * @return $this
      */
     public function startSetup()
     {
@@ -754,7 +755,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
     /**
      * Prepare database after install/upgrade
      *
-     * @return \Magento\Core\Model\Resource\Setup
+     * @return $this
      */
     public function endSetup()
     {
@@ -792,7 +793,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
     /**
      * Check call afterApplyAllUpdates method for setup class
      *
-     * @return boolean
+     * @return bool
      */
     public function getCallAfterApplyAllUpdates()
     {
@@ -803,7 +804,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
      * Run each time after applying of all updates,
      * if setup model setted $_callAfterApplyAllUpdates flag to true
      *
-     * @return \Magento\Core\Model\Resource\Setup
+     * @return $this
      */
     public function afterApplyAllUpdates()
     {

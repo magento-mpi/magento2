@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\Resource\File\Storage;
 
 /**
@@ -26,7 +25,7 @@ abstract class AbstractStorage extends \Magento\Core\Model\Resource\Db\AbstractD
      * Sets name of connection the resource will use
      *
      * @param string $name
-     * @return \Magento\Core\Model\Resource\File\Storage\AbstractStorage
+     * @return $this
      */
     public function setConnectionName($name)
     {

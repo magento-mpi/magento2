@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Core\Model\Resource;
 
 /**
  * Translation resource model
@@ -16,8 +16,6 @@
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Core\Model\Resource;
-
 class Translate extends \Magento\Core\Model\Resource\Db\AbstractDb implements \Magento\Translate\ResourceInterface
 {
     /**
@@ -48,7 +46,6 @@ class Translate extends \Magento\Core\Model\Resource\Db\AbstractDb implements \M
 
     /**
      * Define main table
-     *
      */
     protected function _construct()
     {
@@ -95,7 +92,7 @@ class Translate extends \Magento\Core\Model\Resource\Db\AbstractDb implements \M
      * Retrieve translations array by strings
      *
      * @param array $strings
-     * @param int_type $storeId
+     * @param int $storeId
      * @return array
      */
     public function getTranslationArrayByStrings(array $strings, $storeId = null)

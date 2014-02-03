@@ -355,7 +355,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
      * Removes field from select
      *
      * @param string|null $field
-     * @param boolean $isAlias Alias identifier
+     * @param bool $isAlias Alias identifier
      * @return $this
      */
     public function removeFieldFromSelect($field, $isAlias = false)
@@ -422,7 +422,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
      * Get model instance
      *
      * @param array $args
-     * @return \Magento\Object
+     * @return string
      */
     public function getModelName($args = array())
     {
@@ -542,7 +542,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
     /**
      * Set reset items data changed flag
      *
-     * @param boolean $flag
+     * @param bool $flag
      * @return $this
      */
     public function setResetItemsDataChanged($flag)
