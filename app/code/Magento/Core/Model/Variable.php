@@ -29,6 +29,9 @@ class Variable extends \Magento\Core\Model\AbstractModel
     const TYPE_TEXT = 'text';
     const TYPE_HTML = 'html';
 
+    /**
+     * @var int
+     */
     protected $_storeId = 0;
 
     /**

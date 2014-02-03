@@ -454,8 +454,8 @@ class Translate implements \Magento\TranslateInterface
     /**
      * Retrieve data from file
      *
-     * @param   string $file
-     * @return  array
+     * @param string $file
+     * @return array
      */
     protected function _getFileData($file)
     {

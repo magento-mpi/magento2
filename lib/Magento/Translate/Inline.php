@@ -182,6 +182,7 @@ class Inline implements \Magento\Translate\InlineInterface
     /**
      * Create block to render script and html with added inline translation content.
      *
+     * @param string $content
      * @return void
      */
     protected function _insertInlineScriptsHtml($content)
