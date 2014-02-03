@@ -66,10 +66,29 @@ class Template extends \Magento\Core\Model\Template
      */
     const XML_PATH_SYSTEM_SMTP_DISABLE = 'system/smtp/disable';
 
+    /**
+     * @var \Magento\Filter\Template
+     */
     protected $_templateFilter;
+
+    /**
+     * @var bool
+     */
     protected $_preprocessFlag = false;
+
+    /**
+     * @var array
+     */
     protected $_bcc = array();
+
+    /**
+     * @var string
+     */
     protected $_returnPath = '';
+
+    /**
+     * @var string
+     */
     protected $_replyTo = '';
 
     /**
@@ -163,6 +182,8 @@ class Template extends \Magento\Core\Model\Template
 
     /**
      * Initialize email template model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -170,8 +191,7 @@ class Template extends \Magento\Core\Model\Template
     }
 
     /**
-     * Return logo URL for emails
-     * Take logo from theme if custom logo is undefined
+     * Return logo URL for emails. Take logo from theme if custom logo is undefined
      *
      * @param  \Magento\Core\Model\Store|int|string $store
      * @return string
@@ -261,7 +281,7 @@ class Template extends \Magento\Core\Model\Template
      * Load template by code
      *
      * @param   string $templateCode
-     * @return   \Magento\Email\Model\Template
+     * @return  $this
      */
     public function loadByCode($templateCode)
     {
@@ -273,7 +293,7 @@ class Template extends \Magento\Core\Model\Template
      * Load default email template
      *
      * @param string $templateId
-     * @return \Magento\Email\Model\Template
+     * @return $this
      */
     public function loadDefault($templateId)
     {
@@ -314,7 +334,7 @@ class Template extends \Magento\Core\Model\Template
     /**
      * Return template id
      *
-     * return int|null
+     * @return int|null
      */
     public function getId()
     {
@@ -325,7 +345,7 @@ class Template extends \Magento\Core\Model\Template
      * Set id of template
      *
      * @param int $value
-     * @return \Magento\Email\Model\Template
+     * @return $this
      */
     public function setId($value)
     {
@@ -440,7 +460,7 @@ class Template extends \Magento\Core\Model\Template
      * @param   array|string|null  $name         receiver name(s)
      * @param   array              $variables    template variables
      * @return  boolean
-     **/
+     */
     public function send($email, $name = null, array $variables = array())
     {
         if (!$this->isValidForSend()) {

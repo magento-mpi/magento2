@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Email\Model\Template;
 
 /**
  * Email Template Mailer Model
@@ -15,15 +16,13 @@
  * @package     Magento_Email
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Email\Model\Template;
-
 class Mailer extends \Magento\Object
 {
     /**
      * List of email infos
-     * @see \Magento\Email\Model\Info
      *
      * @var array
+     * @see \Magento\Email\Model\Info
      */
     protected $_emailInfos = array();
 
