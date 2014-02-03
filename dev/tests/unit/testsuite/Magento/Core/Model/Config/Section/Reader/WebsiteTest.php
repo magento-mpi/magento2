@@ -64,7 +64,7 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
         $this->_model = new \Magento\Core\Model\Config\Scope\Reader\Website(
             $this->_initialConfigMock,
             $this->_sectionPullMock,
-            new \Magento\Core\Model\Config\Scope\Converter(),
+            new \Magento\App\Config\Scope\Converter(),
             $this->_collectionFactory,
             $websiteFactoryMock,
             $this->_appStateMock

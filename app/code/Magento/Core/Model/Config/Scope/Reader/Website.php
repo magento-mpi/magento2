@@ -20,7 +20,7 @@ class Website implements \Magento\App\Config\Scope\ReaderInterface
     protected $_scopePool;
 
     /**
-     * @var \Magento\Core\Model\Config\Scope\Converter
+     * @var \Magento\App\Config\Scope\Converter
      */
     protected $_converter;
 
@@ -42,7 +42,7 @@ class Website implements \Magento\App\Config\Scope\ReaderInterface
     /**
      * @param \Magento\App\Config\Initial $initialConfig
      * @param \Magento\App\Config\ScopePool $scopePool
-     * @param \Magento\Core\Model\Config\Scope\Converter $converter
+     * @param \Magento\App\Config\Scope\Converter $converter
      * @param \Magento\Core\Model\Resource\Config\Value\Collection\ScopedFactory $collectionFactory
      * @param \Magento\Core\Model\WebsiteFactory $websiteFactory
      * @param \Magento\App\State $appState
@@ -50,7 +50,7 @@ class Website implements \Magento\App\Config\Scope\ReaderInterface
     public function __construct(
         \Magento\App\Config\Initial $initialConfig,
         \Magento\App\Config\ScopePool $scopePool,
-        \Magento\Core\Model\Config\Scope\Converter $converter,
+        \Magento\App\Config\Scope\Converter $converter,
         \Magento\Core\Model\Resource\Config\Value\Collection\ScopedFactory $collectionFactory,
         \Magento\Core\Model\WebsiteFactory $websiteFactory,
         \Magento\App\State $appState

@@ -10,13 +10,13 @@ namespace Magento\Core\Model\Config\Scope;
 class ConverterTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Config\Scope\Converter
+     * @var \Magento\App\Config\Scope\Converter
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = new \Magento\Core\Model\Config\Scope\Converter();
+        $this->_model = new \Magento\App\Config\Scope\Converter();
     }
 
     public function testConvert()

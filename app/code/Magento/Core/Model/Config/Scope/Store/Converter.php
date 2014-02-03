@@ -9,7 +9,7 @@
  */
 namespace Magento\Core\Model\Config\Scope\Store;
 
-class Converter extends \Magento\Core\Model\Config\Scope\Converter
+class Converter extends \Magento\App\Config\Scope\Converter
 {
     /**
      * @var \Magento\Core\Model\Config\Scope\Processor\Placeholder

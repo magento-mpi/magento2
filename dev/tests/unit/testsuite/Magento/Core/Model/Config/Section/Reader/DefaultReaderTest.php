@@ -45,7 +45,7 @@ class DefaultReaderTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(true));
         $this->_model = new \Magento\Core\Model\Config\Scope\Reader\DefaultReader(
             $this->_initialConfigMock,
-            new \Magento\Core\Model\Config\Scope\Converter(),
+            new \Magento\App\Config\Scope\Converter(),
             $this->_collectionFactory,
             $this->_appStateMock
         );

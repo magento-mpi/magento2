@@ -1,13 +1,13 @@
 <?php
 /**
- * DB configuration data converter. Converts associative array to tree array
+ * Configuration data converter. Converts associative array to tree array
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Config\Scope;
+namespace Magento\App\Config\Scope;
 
 class Converter implements \Magento\Config\ConverterInterface
 {
