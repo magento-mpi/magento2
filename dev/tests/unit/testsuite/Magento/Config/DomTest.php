@@ -133,7 +133,7 @@ class DomTest extends \PHPUnit_Framework_TestCase
         $xml = '<root><unknown_node/></root>';
         $errorFormat = 'Error: `%message%`';
         $expectedErrors = array("Error: `Element 'unknown_node': This element is not expected. Expected is ( node ).`");
-        $dom = new \Magento\Config\Dom($xml, array(), null, $errorFormat);
+        $dom = new \Magento\Config\Dom($xml, array(), null, null, $errorFormat);
         $actualResult = $dom->validate(__DIR__ . '/_files/sample.xsd', $actualErrors);
         $this->assertFalse($actualResult);
         $this->assertEquals($expectedErrors, $actualErrors);
@@ -147,7 +147,7 @@ class DomTest extends \PHPUnit_Framework_TestCase
     {
         $xml = '<root><unknown_node/></root>';
         $errorFormat = '%message%,%unknown%';
-        $dom = new \Magento\Config\Dom($xml, array(), null, $errorFormat);
+        $dom = new \Magento\Config\Dom($xml, array(), null, null, $errorFormat);
         $dom->validate(__DIR__ . '/_files/sample.xsd');
     }
 }

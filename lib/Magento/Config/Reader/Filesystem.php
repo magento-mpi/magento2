@@ -141,6 +141,7 @@ class Filesystem implements \Magento\Config\ReaderInterface
                     $domDocument = new $class(
                         $content,
                         $this->_idAttributes,
+                        null,
                         $this->_perFileSchema
                     );
                 } else {

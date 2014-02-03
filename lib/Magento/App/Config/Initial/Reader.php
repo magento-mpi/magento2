@@ -103,6 +103,7 @@ class Reader
                     $domDocument = new $class(
                         file_get_contents($file),
                         array(),
+                        null,
                         $this->_schemaFile
                     );
                 } else {
