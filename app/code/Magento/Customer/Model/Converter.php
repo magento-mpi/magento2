@@ -137,7 +137,7 @@ class Converter
     ) {
         $attributes = $customerData->__toArray();
         foreach ($attributes as $attributeCode => $attributeValue) {
-            $customerModel->setData($attributeCode, $attributeValue);
+            $customerModel->setDataUsingMethod($attributeCode, $attributeValue);
         }
         $customerId = $customerData->getCustomerId();
         if ($customerId) {
@@ -154,19 +154,24 @@ class Converter
      *
      * @param \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder
      * @param \Magento\Customer\Model\Customer $customerModel
+     * @return void
      */
     protected function _convertAttributesFromModel($customerBuilder, $customerModel)
     {
         $attributes = [];
+        $systemAttributes = ['entity_type_id', 'attribute_set_id'];
         foreach ($customerModel->getAttributes() as $attribute) {
             $attrCode = $attribute->getAttributeCode();
-            $value = $customerModel->getData($attrCode);
-            if (null == $value) {
+            $value = $customerModel->getDataUsingMethod($attrCode);
+            if (null === $value || in_array($attrCode, $systemAttributes)) {
                 continue;
             }
-            $attributes[$attrCode] = $value;
+            if ($attrCode == 'entity_id') {
+                $attributes[\Magento\Customer\Service\V1\Dto\Customer::ID] = $value;
+            } else {
+                $attributes[$attrCode] = $value;
+            }
         }
-
         $customerBuilder->populateWithArray($attributes);
     }
 

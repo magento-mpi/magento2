@@ -631,8 +631,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     {
         /* @TODO: remove this code in favor of setCustomerData usage */
         $customerModel = $this->getCustomer();
-        $customerData = $this->_converter->createCustomerFromModel($customerModel);
-        return $customerData;
+        return $this->_converter->createCustomerFromModel($customerModel);
     }
 
     /**
@@ -644,12 +643,8 @@ class Quote extends \Magento\Core\Model\AbstractModel
     public function setCustomerData(\Magento\Customer\Service\V1\Dto\Customer $customerData)
     {
         $customer = $this->_customerFactory->create();
-        $customer->setData(
-            array_merge(
-                $customerData->__toArray(),
-                [\Magento\Customer\Service\V1\Dto\Customer::ID => $customerData->getCustomerId()]
-            )
-        );
+        $customer->setData($customerData->__toArray());
+        $customer->setId($customerData->getCustomerId());
         $this->setCustomer($customer);
         return $this;
     }
@@ -664,7 +659,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     {
         $customer = $this->getCustomer();
         /* @TODO: remove this code in favor of customer DTO usage */
-        $this->_converter->updateCustomerModel($this->getCustomer(), $customerData);
+        $this->_converter->updateCustomerModel($customer, $customerData);
         $this->setCustomer($customer);
         return $this;
     }

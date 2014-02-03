@@ -206,7 +206,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Data\Collection\Db $resourceCollection
-     * @param CustomerDtoBuilder
+     * @param CustomerDtoBuilder $customerDtoBuilder
      * @param array $data
      */
     public function __construct(
