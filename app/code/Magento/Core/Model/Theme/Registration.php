@@ -11,7 +11,6 @@ namespace Magento\Core\Model\Theme;
 
 use Magento\App\Filesystem;
 use Magento\Core\Exception;
-use Magento\Core\Model\Resource\Theme\CollectionFactory;
 use \Magento\View\Design\ThemeInterface;
 
 /**
@@ -20,7 +19,7 @@ use \Magento\View\Design\ThemeInterface;
 class Registration
 {
     /**
-     * @var CollectionFactory
+     * @var \Magento\Core\Model\Resource\Theme\CollectionFactory
      */
     protected $_collectionFactory;
 
@@ -59,12 +58,12 @@ class Registration
     /**
      * Initialize dependencies
      *
-     * @param CollectionFactory $collectionFactory
+     * @param \Magento\Core\Model\Resource\Theme\CollectionFactory $collectionFactory
      * @param Collection $filesystemCollection
      * @param Filesystem $filesystem
      */
     public function __construct(
-        CollectionFactory $collectionFactory,
+        \Magento\Core\Model\Resource\Theme\CollectionFactory $collectionFactory,
         Collection $filesystemCollection,
         Filesystem $filesystem
     ) {
