@@ -104,7 +104,6 @@ class Form extends \Magento\View\Element\Template
      * @param \Magento\Eav\Model\Form\Factory $formFactory
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param array $data
-     * @internal param \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
