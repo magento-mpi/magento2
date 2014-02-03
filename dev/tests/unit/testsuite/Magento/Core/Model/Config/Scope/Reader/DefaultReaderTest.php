@@ -31,7 +31,7 @@ class DefaultReaderTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_initialConfigMock = $this->getMock('Magento\Core\Model\Config\Initial', array(), array(), '', false);
+        $this->_initialConfigMock = $this->getMock('Magento\App\Config\Initial', array(), array(), '', false);
         $this->_collectionFactory = $this->getMock(
             'Magento\Core\Model\Resource\Config\Value\Collection\ScopedFactory',
             array('create'),
@@ -54,7 +54,8 @@ class DefaultReaderTest extends \PHPUnit_Framework_TestCase
     public function testRead()
     {
         $this->_initialConfigMock->expects($this->any())
-            ->method('getDefault')
+            ->method('getData')
+            ->with(\Magento\BaseScopeInterface::SCOPE_DEFAULT)
             ->will($this->returnValue(array(
                 'config' => array('key1' => 'default_value1', 'key2' => 'default_value2'),
             )));

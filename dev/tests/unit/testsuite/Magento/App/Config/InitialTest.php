@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Config;
+namespace Magento\App\Config;
 
 class InitialTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Config\Initial
+     * @var \Magento\App\Config\Initial
      */
     protected $_model;
 
@@ -27,7 +27,7 @@ class InitialTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_initialReaderMock = $this->getMock(
-            'Magento\Core\Model\Config\Initial\Reader', array(), array(), '', false
+            'Magento\App\Config\Initial\Reader', array(), array(), '', false
         );
         $this->_configCacheMock = $this->getMock('Magento\App\Cache\Type\Config', array(), array(), '', false);
         $serializedData = serialize(array(
@@ -49,25 +49,27 @@ class InitialTest extends \PHPUnit_Framework_TestCase
             ->with('initial_config')
             ->will($this->returnValue($serializedData));
 
-        $this->_model = new \Magento\Core\Model\Config\Initial($this->_initialReaderMock, $this->_configCacheMock);
+        $this->_model = new \Magento\App\Config\Initial($this->_initialReaderMock, $this->_configCacheMock);
     }
 
-    public function testGetDefault()
+    /**
+     * @dataProvider getDataDataProvider
+     *
+     * @param string $scope
+     * @param array $expectedResult
+     */
+    public function testGetData($scope, $expectedResult)
     {
-        $expectedResult = array('key' => 'default_value');
-        $this->assertEquals($expectedResult, $this->_model->getDefault());
+        $this->assertEquals($expectedResult, $this->_model->getData($scope));
     }
 
-    public function testGetStore()
+    public function getDataDataProvider()
     {
-        $expectedResult = array('key' => 'store_value');
-        $this->assertEquals($expectedResult, $this->_model->getStore('default'));
-    }
-
-    public function testGetWebsite()
-    {
-        $expectedResult = array('key' => 'website_value');
-        $this->assertEquals($expectedResult, $this->_model->getWebsite('default'));
+        return array(
+            array('default', array('key' => 'default_value')),
+            array('stores|default', array('key' => 'store_value')),
+            array('websites|default', array('key' => 'website_value')),
+        );
     }
 
     public function testGetMetadata()

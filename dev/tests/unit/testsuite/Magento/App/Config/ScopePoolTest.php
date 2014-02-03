@@ -16,6 +16,11 @@ class ScopePoolTest extends \PHPUnit_Framework_TestCase
     protected $_reader;
 
     /**
+     * @var \Magento\App\Config\Scope\ReaderPoolInterface|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_readerPool;
+
+    /**
      * @var \Magento\App\Config\DataFactory|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_dataFactory;
@@ -32,15 +37,14 @@ class ScopePoolTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_reader = $this->getMockBuilder('\Magento\App\Config\Scope\Reader')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->_readerPool = $this->getMockForAbstractClass('\Magento\App\Config\Scope\ReaderPoolInterface');
+        $this->_reader = $this->getMockForAbstractClass('\Magento\App\Config\Scope\ReaderInterface');
         $this->_dataFactory = $this->getMockBuilder('\Magento\App\Config\DataFactory')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_cache = $this->getMock('\Magento\Cache\FrontendInterface');
         $this->_object = $helper->getObject('\Magento\App\Config\ScopePool', array(
-            'reader' => $this->_reader,
+            'readerPool' => $this->_readerPool,
             'dataFactory' => $this->_dataFactory,
             'cache' => $this->_cache,
             'cacheId' => 'test_cache_id'
@@ -48,16 +52,21 @@ class ScopePoolTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider getScopeByCodeDataProvider
+     * @dataProvider getScopeDataProvider
      *
+     * @param string $scopeType
      * @param string $scope
      * @param array $data
      * @param string|null $cachedData
      */
-    public function testGetScopeByCode($scope, array $data, $cachedData)
+    public function testGetScope($scopeType, $scope, array $data, $cachedData)
     {
-        $cacheKey = "test_cache_id|$scope";
+        $cacheKey = "test_cache_id|$scopeType|$scope";
 
+        $this->_readerPool->expects($this->any())
+            ->method('getReader')
+            ->with($scopeType)
+            ->will($this->returnValue($this->_reader));
         $this->_cache->expects($this->once())
             ->method('load')
             ->with($cacheKey)
@@ -78,17 +87,17 @@ class ScopePoolTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->with(array('data' => $data))
             ->will($this->returnValue($configData));
-        $this->assertInstanceOf('\Magento\App\Config\Data', $this->_object->getScopeByCode($scope));
+        $this->assertInstanceOf('\Magento\App\Config\DataInterface', $this->_object->getScope($scopeType, $scope));
 
         // second call to check caching
-        $this->assertInstanceOf('\Magento\App\Config\Data', $this->_object->getScopeByCode($scope));
+        $this->assertInstanceOf('\Magento\App\Config\DataInterface', $this->_object->getScope($scopeType, $scope));
     }
 
-    public function getScopeByCodeDataProvider()
+    public function getScopeDataProvider()
     {
         return array(
-            array('testScope', array('key' => 'value'), null),
-            array('testScope', array('key' => 'value'), serialize(array('key' => 'value'))),
+            array('scopeType1', 'testScope', array('key' => 'value'), null),
+            array('scopeType2', 'testScope', array('key' => 'value'), serialize(array('key' => 'value'))),
         );
     }
 

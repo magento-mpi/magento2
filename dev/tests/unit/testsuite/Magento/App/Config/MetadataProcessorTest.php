@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Config;
+namespace Magento\App\Config;
 
 class MetadataProcessorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Config\MetadataProcessor
+     * @var \Magento\App\Config\MetadataProcessor
      */
     protected $_model;
 
@@ -32,15 +32,15 @@ class MetadataProcessorTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_modelPoolMock = $this->getMock(
-            'Magento\Core\Model\Config\Data\BackendModelPool', array(), array(), '', false);
-        $this->_initialConfigMock = $this->getMock('Magento\Core\Model\Config\Initial', array(), array(), '', false);
-        $this->_backendModelMock = $this->getMock('Magento\Core\Model\Config\Data\BackendModelInterface');
+            'Magento\App\Config\Data\ProcessorFactory', array(), array(), '', false);
+        $this->_initialConfigMock = $this->getMock('Magento\App\Config\Initial', array(), array(), '', false);
+        $this->_backendModelMock = $this->getMock('Magento\App\Config\Data\ProcessorInterface');
         $this->_initialConfigMock->expects($this->any())
             ->method('getMetadata')
             ->will($this->returnValue(array(
                 'some/config/path' => array('backendModel' => 'Custom_Backend_Model'),
             )));
-        $this->_model = new \Magento\Core\Model\Config\MetadataProcessor(
+        $this->_model = new \Magento\App\Config\MetadataProcessor(
             $this->_modelPoolMock,
             $this->_initialConfigMock
         );

@@ -5,14 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Config\Initial;
+namespace Magento\App\Config\Initial;
 
 use Magento\App\Filesystem;
 
 class ReaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Config\Initial\Reader
+     * @var \Magento\App\Config\Initial\Reader
      */
     protected $_model;
 
@@ -22,7 +22,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     protected $_fileResolverMock;
 
     /**
-     * @var \Magento\Core\Model\Config\Initial\Converter|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\App\Config\Initial\Converter|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_converterMock;
 
@@ -40,9 +40,9 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     {
         $this->_filePath = __DIR__ . '/_files/';
         $this->_fileResolverMock = $this->getMock('Magento\Config\FileResolverInterface');
-        $this->_converterMock = $this->getMock('Magento\Core\Model\Config\Initial\Converter');
+        $this->_converterMock = $this->getMock('Magento\App\Config\Initial\Converter');
         $schemaLocatorMock =
-            $this->getMock('Magento\Core\Model\Config\Initial\SchemaLocator', array(), array(), '', false);
+            $this->getMock('Magento\App\Config\Initial\SchemaLocator', array(), array(), '', false);
         $validationStateMock = $this->getMock('Magento\Config\ValidationStateInterface');
         $validationStateMock->expects($this->once())->method('isValidated')->will($this->returnValue(true));
         $schemaFile = $this->_filePath . 'config.xsd';
@@ -52,7 +52,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             array('readFile', 'getRelativePath'),
             array(), '', false
         );
-        $this->_model = new \Magento\Core\Model\Config\Initial\Reader(
+        $this->_model = new \Magento\App\Config\Initial\Reader(
             $this->_fileResolverMock,
             $this->_converterMock,
             $schemaLocatorMock,
@@ -61,7 +61,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Core\Model\Config\Initial\Reader::read
+     * @covers \Magento\App\Config\Initial\Reader::read
      */
     public function testReadNoFiles()
     {
@@ -79,7 +79,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Core\Model\Config\Initial\Reader::read
+     * @covers \Magento\App\Config\Initial\Reader::read
      */
     public function testReadValidConfig()
     {

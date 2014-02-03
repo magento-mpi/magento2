@@ -5,18 +5,23 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Config\Initial;
+namespace Magento\App\Config\Initial;
 
 class ConverterTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Config\Initial\Converter
+     * @var \Magento\App\Config\Initial\Converter
      */
     protected $_model;
 
     protected function setUp()
     {
-        $this->_model = new \Magento\Core\Model\Config\Initial\Converter();
+        $nodeMap = array(
+            'default' => '/config/default',
+            'stores' => '/config/stores',
+            'websites' => '/config/websites',
+        );
+        $this->_model = new \Magento\App\Config\Initial\Converter($nodeMap);
     }
 
     public function testConvert()

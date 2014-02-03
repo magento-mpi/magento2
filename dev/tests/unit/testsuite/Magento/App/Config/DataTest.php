@@ -5,24 +5,24 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Config;
+namespace Magento\App\Config;
 
 class DataTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Config\Data
+     * @var \Magento\App\Config\Data
      */
     protected $_model;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\App\Config\MetadataProcessor|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_metaDataProcessor;
 
     protected function setUp()
     {
         $this->_metaDataProcessor = $this->getMock(
-            'Magento\Core\Model\Config\MetadataProcessor',
+            'Magento\App\Config\MetadataProcessor',
             array(),
             array(),
             '',
@@ -31,7 +31,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $this->_metaDataProcessor->expects($this->any())
             ->method('process')
             ->will($this->returnArgument(0));
-        $this->_model = new \Magento\Core\Model\Config\Data($this->_metaDataProcessor, array());
+        $this->_model = new \Magento\App\Config\Data($this->_metaDataProcessor, array());
     }
 
     /**
@@ -61,7 +61,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     public function testGetData()
     {
-        $model = new \Magento\Core\Model\Config\Data(
+        $model = new \Magento\App\Config\Data(
             $this->_metaDataProcessor,
             array(
                 'test' => array(

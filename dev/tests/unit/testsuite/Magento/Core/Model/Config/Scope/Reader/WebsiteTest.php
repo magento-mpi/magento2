@@ -20,9 +20,9 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
     protected $_initialConfigMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\App\Config\ScopePool|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_sectionPullMock;
+    protected $_scopePullMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -41,8 +41,8 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_initialConfigMock = $this->getMock('Magento\Core\Model\Config\Initial', array(), array(), '', false);
-        $this->_sectionPullMock = $this->getMock('Magento\Core\Model\Config\ScopePool', array(), array(), '', false);
+        $this->_initialConfigMock = $this->getMock('Magento\App\Config\Initial', array(), array(), '', false);
+        $this->_scopePullMock = $this->getMock('Magento\App\Config\ScopePool', array(), array(), '', false);
         $this->_collectionFactory = $this->getMock(
             'Magento\Core\Model\Resource\Config\Value\Collection\ScopedFactory',
             array('create'),
@@ -63,7 +63,7 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
 
         $this->_model = new \Magento\Core\Model\Config\Scope\Reader\Website(
             $this->_initialConfigMock,
-            $this->_sectionPullMock,
+            $this->_scopePullMock,
             new \Magento\App\Config\Scope\Converter(),
             $this->_collectionFactory,
             $websiteFactoryMock,
@@ -76,25 +76,25 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
         $websiteCode = 'default';
         $websiteId = 1;
 
-        $sectionMock = $this->getMock('Magento\Core\Model\Config\Data', array(), array(), '', false);
-        $sectionMock->expects($this->any())
+        $dataMock = $this->getMock('Magento\App\Config\Data', array(), array(), '', false);
+        $dataMock->expects($this->any())
             ->method('getValue')
             ->will($this->returnValue(array(
             'config' => array('key0' => 'default_value0', 'key1' => 'default_value1'),
         )));
-        $sectionMock->expects($this->once())
+        $dataMock->expects($this->once())
             ->method('getSource')
             ->will($this->returnValue(array(
             'config' => array('key0' => 'default_value0', 'key1' => 'default_value1'),
         )));
-        $this->_sectionPullMock->expects($this->once())
-            ->method('getSection')
+        $this->_scopePullMock->expects($this->once())
+            ->method('getScope')
             ->with('default', null)
-            ->will($this->returnValue($sectionMock));
+            ->will($this->returnValue($dataMock));
 
         $this->_initialConfigMock->expects($this->any())
-            ->method('getWebsite')
-            ->with($websiteCode)
+            ->method('getData')
+            ->with("websites|{$websiteCode}")
             ->will($this->returnValue(array(
                 'config' => array('key1' => 'website_value1', 'key2' => 'website_value2'),
             )));

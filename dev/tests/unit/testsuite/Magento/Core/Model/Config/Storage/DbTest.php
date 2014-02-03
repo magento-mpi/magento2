@@ -10,7 +10,7 @@
 /**
  * Test class for \Magento\Core\Model\Config\Storage\Db
  */
-namespace Magento\Core\Model\Config\Storage\Writer;
+namespace Magento\Core\Model\Config\Storage;
 
 class DbTest extends \PHPUnit_Framework_TestCase
 {
