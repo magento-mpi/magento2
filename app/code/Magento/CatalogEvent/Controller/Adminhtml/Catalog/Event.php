@@ -11,45 +11,56 @@
  */
 namespace Magento\CatalogEvent\Controller\Adminhtml\Catalog;
 
-class Event extends \Magento\Backend\App\Action
+use Magento\App\RequestInterface;
+use Magento\App\ResponseInterface;
+use Magento\Backend\App\Action;
+use Magento\Backend\App\Action\Context;
+use Magento\CatalogEvent\Model\Event as ModelEvent;
+use Magento\CatalogEvent\Model\EventFactory;
+use Magento\Core\Exception;
+use Magento\Core\Filter\DateTime;
+use Magento\Core\Model\StoreManagerInterface;
+use Magento\Core\Model\Registry;
+
+class Event extends Action
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var Registry
      */
     protected $_coreRegistry;
 
     /**
      * Event model factory
      *
-     * @var \Magento\CatalogEvent\Model\EventFactory
+     * @var EventFactory
      */
     protected $_eventFactory;
 
     /**
-     * @var \Magento\Core\Filter\DateTime
+     * @var DateTime
      */
     protected $_dateTimeFilter;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\CatalogEvent\Model\EventFactory $eventFactory
-     * @param \Magento\Core\Filter\DateTime $dateTimeFilter
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param Context $context
+     * @param Registry $coreRegistry
+     * @param EventFactory $eventFactory
+     * @param DateTime $dateTimeFilter
+     * @param StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\CatalogEvent\Model\EventFactory $eventFactory,
-        \Magento\Core\Filter\DateTime $dateTimeFilter,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        Context $context,
+        Registry $coreRegistry,
+        EventFactory $eventFactory,
+        DateTime $dateTimeFilter,
+        StoreManagerInterface $storeManager
     ) {
         $this->_storeManager = $storeManager;
         $this->_coreRegistry = $coreRegistry;
@@ -61,10 +72,10 @@ class Event extends \Magento\Backend\App\Action
     /**
      * Dispatch request
      *
-     * @param \Magento\App\RequestInterface $request
-     * @return \Magento\App\ResponseInterface
+     * @param RequestInterface $request
+     * @return ResponseInterface
      */
-    public function dispatch(\Magento\App\RequestInterface $request)
+    public function dispatch(RequestInterface $request)
     {
         if (!$this->_objectManager->get('Magento\CatalogEvent\Helper\Data')->isEnabled()) {
             if ($this->getRequest()->getActionName() != 'noroute') {
@@ -78,7 +89,7 @@ class Event extends \Magento\Backend\App\Action
     /**
      * Init action breadcrumbs and active menu
      *
-     * @return \Magento\CatalogEvent\Controller\Adminhtml\Catalog\Event
+     * @return $this
      */
     public function _initAction()
     {
@@ -113,12 +124,14 @@ class Event extends \Magento\Backend\App\Action
 
     /**
      * Edit event action
+     *
+     * @return void
      */
     public function editAction()
     {
         $this->_title->add(__('Events'));
 
-        /** @var \Magento\CatalogEvent\Model\Event $event */
+        /** @var ModelEvent $event */
         $event = $this->_eventFactory->create()
             ->setStoreId($this->getRequest()->getParam('store', 0));
         $eventId = $this->getRequest()->getParam('id', false);
@@ -154,11 +167,12 @@ class Event extends \Magento\Backend\App\Action
     /**
      * Save action
      *
-     * @throws \Magento\Core\Exception
+     * @return void
+     * @throws Exception
      */
     public function saveAction()
     {
-        /* @var \Magento\CatalogEvent\Model\Event $event*/
+        /* @var ModelEvent $event*/
         $event = $this->_eventFactory->create()->setStoreId($this->getRequest()->getParam('store', 0));
         $eventId = $this->getRequest()->getParam('id', false);
         if ($eventId) {
@@ -215,7 +229,7 @@ class Event extends \Magento\Backend\App\Action
                 try {
                     $event->setImage($uploader);
                 } catch (\Exception $e) {
-                    throw new \Magento\Core\Exception(__('We did not upload your image.'));
+                    throw new Exception(__('We did not upload your image.'));
                 }
             }
             $event->save();
@@ -237,10 +251,12 @@ class Event extends \Magento\Backend\App\Action
 
     /**
      * Delete action
+     *
+     * @return void
      */
     public function deleteAction()
     {
-        /** @var \Magento\CatalogEvent\Model\Event $event */
+        /** @var ModelEvent $event */
         $event = $this->_eventFactory->create();
         $event->load($this->getRequest()->getParam('id', false));
         if ($event->getId()) {
@@ -263,6 +279,8 @@ class Event extends \Magento\Backend\App\Action
 
     /**
      * Ajax categories tree loader action
+     *
+     * @return void
      */
     public function categoriesJsonAction()
     {
@@ -276,7 +294,7 @@ class Event extends \Magento\Backend\App\Action
     /**
      * Acl check for admin
      *
-     * @return boolean
+     * @return bool
      */
     protected function _isAllowed()
     {
