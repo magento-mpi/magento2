@@ -36,11 +36,11 @@ class HandlerFactory
 
         if (!is_subclass_of(
             $instance,
-            '\Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\HandlerInterface')
+            '\Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\HandlerInterface')
         ) {
             throw new \InvalidArgumentException(
                 $instance . ' does not implement '
-                 . 'Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\HandlerInterface'
+                 . 'Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\HandlerInterface'
             );
         }
 

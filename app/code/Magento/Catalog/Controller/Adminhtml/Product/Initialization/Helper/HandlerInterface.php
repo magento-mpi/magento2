@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin;
+namespace Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper;
 
 interface HandlerInterface
 {

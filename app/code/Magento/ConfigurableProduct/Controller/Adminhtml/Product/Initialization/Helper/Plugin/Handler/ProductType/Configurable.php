@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\ProductType;
+namespace Magento\ConfigurableProduct\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\ProductType;
 
-use Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\HandlerInterface;
+use Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\HandlerInterface;
 use Magento\Catalog\Model\Product;
 
 class Configurable implements HandlerInterface
@@ -21,7 +21,7 @@ class Configurable implements HandlerInterface
      */
     public function handle(Product $product)
     {
-        if ($product->getTypeId() != \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE) {
+        if ($product->getTypeId() != \Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE) {
             return;
         }
 

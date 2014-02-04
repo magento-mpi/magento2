@@ -9,7 +9,7 @@
 namespace Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler;
 
 use Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\HandlerFactory;
-use Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\HandlerInterface;
+use Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\HandlerInterface;
 use Magento\Catalog\Model\Product;
 
 class Composite implements HandlerInterface

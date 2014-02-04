@@ -17,7 +17,7 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
         );
 
         $constructorMock = $this->getMock(
-            '\Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\HandlerInterface'
+            '\Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\HandlerInterface'
         );
 
         $factoryMock->expects($this->exactly(2))
