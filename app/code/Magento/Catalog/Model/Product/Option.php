@@ -71,7 +71,7 @@ class Option extends AbstractModel
     protected $_options = array();
 
     /**
-     * @var Option\Value[]
+     * @var array
      */
     protected $_values = array();
 
