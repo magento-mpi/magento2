@@ -8,7 +8,7 @@
 
 namespace Magento\Css\PreProcessor\Cache\Import\Map;
 
-use \Magento\App\Filesystem;
+use Magento\App\Filesystem;
 
 /**
  * Storage for import cache
