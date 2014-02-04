@@ -76,20 +76,20 @@ class Dom
      *
      * @param string $xml
      * @param array $idAttributes
-     * @param string $typeAttribute
+     * @param string $typeAttributeName
      * @param string $schemaFile
      * @param string $errorFormat
      */
     public function __construct(
         $xml,
         array $idAttributes = array(),
-        $typeAttribute = null,
+        $typeAttributeName = null,
         $schemaFile = null,
         $errorFormat = self::ERROR_FORMAT_DEFAULT
     ) {
         $this->_schemaFile    = $schemaFile;
         $this->_idAttributes  = new \Magento\Config\Dom\NodePathConfig($idAttributes);
-        $this->_typeAttributeName = $typeAttribute;
+        $this->_typeAttributeName = $typeAttributeName;
         $this->_errorFormat   = $errorFormat;
         $this->_dom           = $this->_initDom($xml);
         $this->_rootNamespace = $this->_dom->lookupNamespaceUri($this->_dom->namespaceURI);

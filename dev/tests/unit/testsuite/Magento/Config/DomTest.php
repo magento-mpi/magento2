@@ -75,13 +75,13 @@ class DomTest extends \PHPUnit_Framework_TestCase
                 'types_merged.xml',
             ),
             array(
-                'types_custom_name.xml', 'types_custom_name_new.xml',
+                'attributes.xml', 'attributes_new.xml',
                 array(
                     '/root/item' => 'id',
-                    '/root/item/item' => 'name',
+                    '/root/item/subitem' => 'id',
                 ),
-                'type',
-                'types_custom_name_merged.xml',
+                'xsi:type',
+                'attributes_merged.xml',
             ),
         );
     }
