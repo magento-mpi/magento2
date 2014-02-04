@@ -108,8 +108,6 @@ class BlockTest extends \PHPUnit_Framework_TestCase
         $blocks = array('block1', 'block2');
         $handles = array('handle1', 'handle2');
         $expectedData = array('block1' => 'data1', 'block2' => 'data2');
-        // one year
-        $maxAge = 365 * 24 * 60 * 60;
 
         $blockInstance1 = $this->getMockForAbstractClass(
             'Magento\View\Element\AbstractBlock', array(), '', false, true, true, array('toHtml')
