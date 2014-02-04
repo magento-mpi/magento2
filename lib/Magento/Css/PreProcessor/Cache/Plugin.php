@@ -8,8 +8,8 @@
 
 namespace Magento\Css\PreProcessor\Cache;
 
-use \Magento\Filesystem;
-use \Magento\Css\PreProcessor\Cache;
+use Magento\Filesystem;
+use Magento\Css\PreProcessor\Cache;
 
 /**
  * Plugin for less caching
@@ -65,7 +65,7 @@ class Plugin
         try {
             $result = $invocationChain->proceed($arguments);
             $this->cacheManager->saveCache($result);
-        } catch (\Magento\Filesystem\FilesystemException $e) {
+        } catch (Filesystem\FilesystemException $e) {
             $this->logger->logException($e);
             return null;
         }
