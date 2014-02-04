@@ -122,7 +122,7 @@ extends \Magento\Connect\Frontend
     }
 
     /**
-     * @param array$data
+     * @param array $data
      * @return void
      */
     public function outputListChannels($data)
@@ -179,7 +179,7 @@ extends \Magento\Connect\Frontend
     /**
      * Output package dependencies
      *
-     * @param $data
+     * @param array $data
      * @return void
      */
     public function outputPackageDeps($data)
@@ -194,7 +194,7 @@ extends \Magento\Connect\Frontend
     /**
      * Ouptut channel packages
      *
-     * @param $data
+     * @param array $data
      * @return void
      */
     public function outputChannelsPackages($data)
