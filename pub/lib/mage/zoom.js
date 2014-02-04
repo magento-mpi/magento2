@@ -280,6 +280,21 @@
          * @protected
          */
         _largeImageLoaded: function() {
+            // Clone large image, in order to calculate the actual size of the hidden large image
+            var largeImageClone = this.largeImage
+                    .clone()
+                    .appendTo('body')
+                    .show()
+                    .css({
+                        position: 'absolute',
+                        top: -10000,
+                        visibility: 'hidden'
+                    });
+            this.largeImageSize = {
+                width: largeImageClone.width() || largeImageClone.prop('width'),
+                height: largeImageClone.height() || largeImageClone.prop('height')
+            }
+            largeImageClone.remove();
             this.ratio = null;
             this._toggleNotice();
             $(this.options.selectors.image).trigger('processStop');
@@ -317,9 +332,8 @@
          */
         getZoomRatio: function() {
             if(this.ratio === null || typeof(this.ratio) === 'undefined') {
-                var largeWidth = this.largeImage.width() || this.largeImage.prop('width'),
-                    imageWidth = $(this.image).width();
-                return largeWidth / imageWidth;
+                    var imageWidth = $(this.image).width() || $(this.image).prop('width');
+                return this.largeImageSize.width / imageWidth;
             }
             return this.ratio;
         },
@@ -403,8 +417,8 @@
          */
         _getWhiteBordersOffset: function() {
             var ratio = this.getZoomRatio(),
-                largeWidth = (this.largeImage.width() || this.largeImage.prop('width')) / ratio,
-                largeHeight = (this.largeImage.height() || this.largeImage.prop('height')) / ratio,
+                largeWidth = this.largeImageSize.width / ratio,
+                largeHeight = this.largeImageSize.height / ratio,
                 width = this.image.width() || this.image.prop('width'),
                 height = this.image.height() || this.image.prop('height'),
                 offsetLeft = (width - largeWidth) > 0 ?

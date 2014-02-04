@@ -376,7 +376,7 @@ ZoomTest.prototype.testGetZoomRatio = function() {
 
     zoomInstance.ratio = null;
     zoomInstance.image = jQuery('<img />', imageSize);
-    zoomInstance.largeImage = jQuery('<img />', largeImageSize);
+    zoomInstance.largeImageSize = largeImageSize;
     var zoomRatio = zoomInstance.getZoomRatio();
 
     assertEquals(zoomRatio, (largeImageSize.width / imageSize.width));
