@@ -14,7 +14,7 @@
         </action>
     </referenceBlock>
     <referenceContainer name="my.account.wrapper">
-        <block class="Magento\Sales\Block\Recurring\Profile\View\Data" name="sales.recurring.profile.view" template="recurring/profile/view.phtml">
+        <block class="Magento\RecurringProfile\Block\Profile\View\Data" name="sales.recurring.profile.view" template="recurring/profile/view.phtml">
             <action method="setShouldPrepareInfoTabs">
                 <argument name="value" xsi:type="string">1</argument>
             </action>
