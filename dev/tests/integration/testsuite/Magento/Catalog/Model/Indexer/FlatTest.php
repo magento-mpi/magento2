@@ -1,97 +1,70 @@
 <?php
 /**
  * {license_notice}
- *   
- * @copyright   {copyright}
- * @license     {license_link}
+ *
+ * @copyright {copyright}
+ * @license   {license_link}
  */
-namespace Magento\Catalog\Model\Indexer;
 
-/**
- * @magentoDbIsolation enabled
- * @magentoAppIsolation enabled
- */
+namespace Magento\Catalog\Model\Indexer\Category;
+
 class FlatTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Catalog\Model\Indexer\Category\Flat
+     * @var int
      */
-    protected $model;
+    protected $categoryOneId = 3;
 
     /**
-     * @var \Magento\Indexer\Model\Indexer
+     * @var int
      */
-    protected $indexer;
-
-    protected static $categoryIds = array();
-
-    protected function setUp()
-    {
-        $this->model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Indexer\Category\Flat');
-        $this->indexer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Indexer\Model\Indexer');
-    }
+    protected $categoryTwoId = 4;
 
     /**
-     * @magentoAppArea adminhtml
+     * @var int
      */
-    public function testExecuteFullWithoutChanges()
-    {
-        $this->indexer->load(\Magento\Catalog\Model\Indexer\Category\Flat\State::INDEXER_ID)
-            ->setScheduled(true);
-        $this->indexer->getState()
-            ->setStatus(\Magento\Indexer\Model\Indexer\State::STATUS_VALID)
-            ->save();
-        $this->model->executeFull();
-        $this->createCategory();
-        /** @var \Magento\Catalog\Model\Resource\Category\Flat $flatResource */
-        $flatResource = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Resource\Category\Flat');
-        $categoryId = reset(self::$categoryIds);
-        $categoryChild = $flatResource->getCategories($categoryId);
-        $this->assertEquals(array(), array_keys($categoryChild));
-    }
+    protected $totalCategories;
 
     /**
      * @magentoConfigFixture current_store catalog/frontend/flat_catalog_category true
+     * @magentoAppArea frontend
      */
-    public function testExecuteFullWithNewCategories()
+    public function testExecuteFull()
     {
-        $this->model->executeFull();
-        $categoryId = reset(self::$categoryIds);
+        /** @var  $indexer \Magento\Indexer\Model\IndexerInterface */
+        $indexer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Indexer\Model\Indexer');
+        $indexer->load('catalog_category_flat');
+        $indexer->reindexAll();
+
+        $this->assertTrue($indexer->isValid());
+
         /** @var \Magento\Catalog\Model\Category $category */
         $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Category')
-            ->load($categoryId);
+            ->create('Magento\Catalog\Model\Category');
+
         $this->assertInstanceOf('Magento\Catalog\Model\Resource\Category\Flat', $category->getResource());
-        $result = $category->getResource()->getAllChildren($category);
-        $this->assertEquals(self::$categoryIds, $result);
+
+        $result = $category->getResource()->getCategories(1);
+        $this->assertNotEmpty($result);
     }
 
     /**
-     * @magentoAppArea adminhtml
-     */
-    public function testCleanupFull()
-    {
-        $this->clearCategories();
-    }
-
-    /**
+     * This test is required for testExecuteRow and testExecuteList
+     *
      * @magentoConfigFixture current_store catalog/frontend/flat_catalog_category true
-     * @magentoDataFixture Magento/Catalog/_files/flat_list_categories.php
      */
-    public function testExecuteList()
-    {
-        $this->assertFalse(false);
-    }
-
-    protected function createCategory()
+    public function testAddCategories()
     {
         /** @var \Magento\Catalog\Model\Category $category */
         $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Catalog\Model\Category');
-        $category->setName(uniqid('Category First '))
+
+        $allIds = $category->getCollection()->getAllIds();
+        $this->totalCategories = count($allIds);
+
+        $category->setId($this->categoryOneId)
+            ->setName('Category One')
             ->setParentId(2)
             ->setLevel(2)
             ->setAvailableSortBy('name')
@@ -99,47 +72,67 @@ class FlatTest extends \PHPUnit_Framework_TestCase
             ->setIsActive(true)
             ->setPosition(1)
             ->save();
-        $category->setPath('1/2/' . $category->getId())->save();
-        self::$categoryIds[] = $category->getId();
 
-        $categoryNew = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+        $category->setPath('1/2/' . $this->categoryOneId)
+            ->save();
+
+        /** @var \Magento\Catalog\Model\Category $category */
+        $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Catalog\Model\Category');
-        $categoryNew->setName(uniqid('Category Second '))
-            ->setParentId($category->getId())
-            ->setLevel(3)
+
+        $category->setId($this->categoryTwoId)
+            ->setName('Category Two')
+            ->setParentId($this->categoryOneId)
+            ->setLevel(2)
             ->setAvailableSortBy('name')
             ->setDefaultSortBy('name')
             ->setIsActive(true)
             ->setPosition(1)
             ->save();
-        $categoryNew->setPath($category->getPath() . '/' . $categoryNew->getId())->save();
-        self::$categoryIds[] = $categoryNew->getId();
 
-        $categoryNew = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Catalog\Model\Category');
-        $categoryNew->setName(uniqid('Category Third '))
-            ->setParentId($category->getId())
-            ->setLevel(3)
-            ->setAvailableSortBy('name')
-            ->setDefaultSortBy('name')
-            ->setIsActive(true)
-            ->setPosition(2)
+        $category->setPath('1/2/3/' . $this->categoryTwoId)
             ->save();
-        $categoryNew->setPath($category->getPath() . '/' . $categoryNew->getId())->save();
-        self::$categoryIds[] = $categoryNew->getId();
+
+        $result = $category->getCollection()->getItems();
+
+        $this->assertTrue(is_array($result));
+
+        $this->assertEquals('1/2/' . $this->categoryOneId, $result[$this->categoryOneId]->getPath());
+        $this->assertEquals('1/2/3/' . $this->categoryTwoId, $result[$this->categoryTwoId]->getPath());
     }
 
-    protected function clearCategories()
+    /**
+     * @magentoConfigFixture current_store catalog/frontend/flat_catalog_category true
+     * @magentoAppArea frontend
+     */
+    public function testExecuteRow()
     {
-        self::$categoryIds = array_reverse(self::$categoryIds);
-        foreach (self::$categoryIds as $categoryId) {
-            /** @var \Magento\Catalog\Model\Category $category */
-            $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                ->create('Magento\Catalog\Model\Category')
-                ->load($categoryId);
-            $category->delete();
-        }
+        /** @var \Magento\Catalog\Model\Category $category */
+        $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Category');
 
-        self::$categoryIds = array();
+        $this->assertInstanceOf('Magento\Catalog\Model\Resource\Category\Flat', $category->getResource());
+
+        $result = $category->getResource()->getCategories(2);
+        $this->assertCount(1, $result);
+
+        $this->assertArrayHasKey($this->categoryOneId, $result);
     }
+
+//    /**
+//     * @magentoConfigFixture current_store catalog/frontend/flat_catalog_category true
+//     */
+//    public function testMoveCategory()
+//    {
+//        /** @var \Magento\Catalog\Model\Category $category */
+//        $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+//            ->create('Magento\Catalog\Model\Category');
+//
+//        $this->assertEquals($category->getParentId(), 3);
+//
+//        $category->move(2, 3);
+//
+//        $this->assertEquals($category->getParentId(), 3);
+//    }
+
 }
