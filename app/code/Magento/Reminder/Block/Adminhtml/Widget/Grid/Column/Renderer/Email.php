@@ -7,20 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reminder\Block\Adminhtml\Widget\Grid\Column\Renderer;
 
 /**
  * Column renderer for customer email
  */
-namespace Magento\Reminder\Block\Adminhtml\Widget\Grid\Column\Renderer;
-
 class Email
     extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Render customer email as mailto link
      *
-     * @param   \Magento\Object $row
-     * @return  string
+     * @param \Magento\Object $row
+     * @return string
      */
     protected function _getValue(\Magento\Object $row)
     {

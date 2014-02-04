@@ -14,48 +14,57 @@
  */
 namespace Magento\CatalogSearch\Block;
 
-class Layer extends \Magento\Catalog\Block\Layer\View
+use Magento\Catalog\Block\Layer\View;
+use Magento\CatalogSearch\Helper\Data;
+use Magento\CatalogSearch\Model\Layer as ModelLayer;
+use Magento\CatalogSearch\Model\Resource\EngineProvider;
+use Magento\Core\Model\Registry;
+use Magento\View\Element\Template\Context;
+
+class Layer extends View
 {
     /**
-     * @var \Magento\CatalogSearch\Model\Resource\EngineProvider
+     * Engine Provider
+     *
+     * @var EngineProvider
      */
     protected $_engineProvider;
 
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var Registry
      */
     protected $_coreRegistry = null;
     
     /**
      * Catalog search data
      *
-     * @var \Magento\CatalogSearch\Helper\Data
+     * @var Data
      */
     protected $_catalogSearchData = null;
 
     /**
      * Catalog search layer
      *
-     * @var \Magento\CatalogSearch\Model\Layer
+     * @var ModelLayer
      */
     protected $_catalogSearchLayer;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\CatalogSearch\Model\Layer $catalogLayer
-     * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
-     * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
-     * @param \Magento\Core\Model\Registry $registry
+     * @param Context $context
+     * @param ModelLayer $catalogLayer
+     * @param EngineProvider $engineProvider
+     * @param Data $catalogSearchData
+     * @param Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\CatalogSearch\Model\Layer $catalogLayer,
-        \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
-        \Magento\CatalogSearch\Helper\Data $catalogSearchData,
-        \Magento\Core\Model\Registry $registry,
+        Context $context,
+        ModelLayer $catalogLayer,
+        EngineProvider $engineProvider,
+        Data $catalogSearchData,
+        Registry $registry,
         array $data = array()
     ) {
         $this->_engineProvider = $engineProvider;
@@ -75,6 +84,8 @@ class Layer extends \Magento\Catalog\Block\Layer\View
 
     /**
      * Initialize blocks names
+     *
+     * @return void
      */
     protected function _initBlocks()
     {
@@ -95,7 +106,7 @@ class Layer extends \Magento\Catalog\Block\Layer\View
             return false;
         }
         $availableResCount = (int)$this->_storeManager->getStore()
-            ->getConfig(\Magento\CatalogSearch\Model\Layer::XML_PATH_DISPLAY_LAYER_COUNT);
+            ->getConfig(ModelLayer::XML_PATH_DISPLAY_LAYER_COUNT);
 
         if (!$availableResCount
             || ($availableResCount > $this->getLayer()->getProductCollection()->getSize())

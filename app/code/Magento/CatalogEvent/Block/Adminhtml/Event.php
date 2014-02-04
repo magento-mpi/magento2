@@ -18,7 +18,9 @@
 
 namespace Magento\CatalogEvent\Block\Adminhtml;
 
-class Event extends \Magento\Backend\Block\Widget\Grid\Container
+use Magento\Backend\Block\Widget\Grid\Container;
+
+class Event extends Container
 {
     public function _construct()
     {
@@ -29,6 +31,9 @@ class Event extends \Magento\Backend\Block\Widget\Grid\Container
         parent::_construct();
     }
 
+    /**
+     * @return string
+     */
     public function getHeaderCssClass() {
         return 'icon-head head-catalogevent';
     }
