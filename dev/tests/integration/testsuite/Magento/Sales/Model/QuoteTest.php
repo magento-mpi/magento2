@@ -44,12 +44,14 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         $customerBuilder = new \Magento\Customer\Service\V1\Dto\CustomerBuilder();
         $expected = $this->_getCustomerDataArray();
         $customerBuilder->populateWithArray($expected);
-        $customerDataSaved = $customerBuilder->create();
-        $this->assertEquals($expected, $customerDataSaved->__toArray());
-        $quote->setCustomerData($customerDataSaved);
+
+        $customerDataSet = $customerBuilder->create();
+        $this->assertEquals($expected, $customerDataSet->__toArray());
+        $quote->setCustomerData($customerDataSet);
+
         $customerDataRetrieved = $quote->getCustomerData();
         $this->assertEquals($expected, $customerDataRetrieved->__toArray());
-        $this->assertEquals('qa@magento.com', $quote->getCustomerEmail());
+        $this->assertEquals('qa@example.com', $quote->getCustomerEmail());
     }
 
     public function testUpdateCustomerData()
@@ -60,19 +62,20 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
 
         $customerBuilder = new \Magento\Customer\Service\V1\Dto\CustomerBuilder();
         $expected = $this->_getCustomerDataArray();
-        $customerBuilder->populateWithArray($expected);
-        $customerDataSaved = $customerBuilder->create();
-        $this->assertEquals($expected, $customerDataSaved->__toArray());
-        $quote->setCustomerData($customerDataSaved);
 
-        $expected[\Magento\Customer\Service\V1\Dto\Customer::EMAIL] = 'test@test.com';
+        $customerBuilder->populateWithArray($expected);
+        $customerDataSet = $customerBuilder->create();
+        $this->assertEquals($expected, $customerDataSet->__toArray());
+        $quote->setCustomerData($customerDataSet);
+
+        $expected[\Magento\Customer\Service\V1\Dto\Customer::EMAIL] = 'test@example.com';
         $customerBuilder->populateWithArray($expected);
         $customerDataUpdated = $customerBuilder->create();
 
         $quote->updateCustomerData($customerDataUpdated);
         $customerDataRetrieved = $quote->getCustomerData();
         $this->assertEquals($expected, $customerDataRetrieved->__toArray());
-        $this->assertEquals('test@test.com', $quote->getCustomerEmail());
+        $this->assertEquals('test@example.com', $quote->getCustomerEmail());
     }
 
     protected function _getCustomerDataArray()
@@ -85,7 +88,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
             \Magento\Customer\Service\V1\Dto\Customer::DEFAULT_BILLING => 'test',
             \Magento\Customer\Service\V1\Dto\Customer::DEFAULT_SHIPPING => 'test',
             \Magento\Customer\Service\V1\Dto\Customer::DOB => '2/3/2014',
-            \Magento\Customer\Service\V1\Dto\Customer::EMAIL => 'qa@magento.com',
+            \Magento\Customer\Service\V1\Dto\Customer::EMAIL => 'qa@example.com',
             \Magento\Customer\Service\V1\Dto\Customer::FIRSTNAME => 'Joe',
             \Magento\Customer\Service\V1\Dto\Customer::GENDER => 'Male',
             \Magento\Customer\Service\V1\Dto\Customer::GROUP_ID

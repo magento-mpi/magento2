@@ -410,7 +410,6 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
             'firstname',
             'lastname',
             'email',
-            'entity_id',
             'password_hash',
         );
         sort($expectedInBefore);
@@ -421,7 +420,6 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
             'firstname',
             'lastname',
             'email',
-            'entity_id',
             'created_in',
             'password_hash',
         );
@@ -470,7 +468,7 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
         foreach ($dataInModel as $key => $value) {
             if (!in_array(
                 $key,
-                array('created_at', 'updated_at', 'email', 'is_active', 'entity_id', 'password_hash',
+                array('created_at', 'updated_at', 'email', 'entity_id', 'entity_type_id', 'is_active', 'password_hash',
                      'attribute_set_id')
             )) {
                 if (is_null($value)) {
@@ -483,7 +481,6 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayNotHasKey('is_active', $dataInService);
         $this->assertNotNull($dataInService['created_at']);
         $this->assertNotNull($dataInService['updated_at']);
-        $this->assertNotNull($dataInService['entity_id']);
         $this->assertNotNull($dataInService['password_hash']);
         $this->assertEquals($email2, $dataInService['email']);
     }

@@ -530,7 +530,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     /**
      * Assign customer model object data to quote
      *
-     * @param   \Magento|Customer\Service\V1\Dto\Customer|\Magento\Customer\Model\Customer $customer
+     * @param   \Magento\Customer\Service\V1\Dto\Customer|\Magento\Customer\Model\Customer $customer
      * @return $this
      */
     public function assignCustomer($customer)
@@ -542,7 +542,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     /**
      * Assign customer model to quote with billing and shipping address change
      *
-     * @param  \Magento|Customer\Service\V1\Dto\Customer|\Magento\Customer\Model\Customer $customer
+     * @param  \Magento\Customer\Service\V1\Dto\Customer|\Magento\Customer\Model\Customer $customer
      * @param  \Magento\Sales\Model\Quote\Address  $billingAddress
      * @param  \Magento\Sales\Model\Quote\Address  $shippingAddress
      * @return $this
