@@ -649,6 +649,7 @@ return array(
     array('preprocess', 'Magento\Newsletter\Model\Template'),
     array('processBeacon'),
     array('processBeforeVoid', 'Magento\Payment\Model\Method\AbstractMethod'),
+    array('canUseForMultishipping', 'Magento\Payment\Model\Method\AbstractMethod'),
     array('processRequest', 'Magento\App\Cache'),
     array('processSubst', 'Magento\Core\Model\Store'),
     array('productEventAggregate'),
