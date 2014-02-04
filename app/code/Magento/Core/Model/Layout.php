@@ -194,7 +194,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     /**
      * @var bool
      */
-    protected $isPrivate;
+    protected $isPrivate = false;
 
     /**
      * @param \Magento\View\Layout\ProcessorFactory $processorFactory
