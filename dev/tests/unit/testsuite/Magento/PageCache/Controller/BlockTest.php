@@ -145,17 +145,7 @@ class BlockTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo($blocks[1]))
             ->will($this->returnValue($blockInstance2));
 
-        $this->responseMock->expects($this->at(0))
-            ->method('setHeader')
-            ->with(
-                $this->equalTo('cache-control'),
-                $this->equalTo('private, max-age=' . $maxAge),
-                $this->equalTo(true)
-            );
-        $this->responseMock->expects($this->at(1))
-            ->method('setHeader')
-            ->with($this->equalTo('expires'));
-        $this->responseMock->expects($this->at(2))
+        $this->responseMock->expects($this->once())
             ->method('appendBody')
             ->with($this->equalTo(json_encode($expectedData)));
 
