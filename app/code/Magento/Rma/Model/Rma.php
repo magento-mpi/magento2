@@ -72,9 +72,9 @@ class Rma extends \Magento\Core\Model\AbstractModel
     protected $_session;
 
     /**
-     * @var \Magento\Email\Model\TemplateFactory
+     * @var \Magento\Mail\Template\TransportBuilder
      */
-    protected $_templateFactory;
+    protected $_transportBuilder;
 
     /**
      * @var \Magento\TranslateInterface
@@ -186,7 +186,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Registry $registry
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Core\Model\Session $session
-     * @param \Magento\Email\Model\TemplateFactory $templateFactory
+     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\TranslateInterface $translate
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Config $eavConfig
@@ -218,7 +218,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
         \Magento\Registry $registry,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Core\Model\Session $session,
-        \Magento\Email\Model\TemplateFactory $templateFactory,
+        \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\TranslateInterface $translate,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Config $eavConfig,
@@ -247,7 +247,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
     ) {
         $this->_rmaData = $rmaData;
         $this->_session = $session;
-        $this->_templateFactory = $templateFactory;
+        $this->_transportBuilder = $transportBuilder;
         $this->_translate = $translate;
         $this->_storeManager = $storeManager;
         $this->_eavConfig = $eavConfig;
@@ -499,15 +499,8 @@ class Rma extends \Magento\Core\Model\AbstractModel
         }
 
         $this->_translate->setTranslateInline(false);
-        $mailTemplate = $this->_templateFactory->create();
-        /* @var $mailTemplate \Magento\Email\Model\Template */
         $copyTo = $this->_rmaConfig->getCopyTo();
         $copyMethod = $this->_rmaConfig->getCopyMethod();
-        if ($copyTo && $copyMethod == 'bcc') {
-            foreach ($copyTo as $email) {
-                $mailTemplate->addBcc($email);
-            }
-        }
 
         if ($this->getOrder()->getCustomerIsGuest()) {
             $template = $this->_rmaConfig->getGuestTemplate();
@@ -525,9 +518,9 @@ class Rma extends \Magento\Core\Model\AbstractModel
         );
         if ($this->getCustomerCustomEmail()) {
             $sendTo[] = array(
-                            'email' => $this->getCustomerCustomEmail(),
-                            'name'  => $customerName
-                        );
+                'email' => $this->getCustomerCustomEmail(),
+                'name'  => $customerName
+            );
         }
         if ($copyTo && $copyMethod == 'copy') {
             foreach ($copyTo as $email) {
@@ -542,25 +535,33 @@ class Rma extends \Magento\Core\Model\AbstractModel
             'html', array(), $this->getStoreId()
         );
 
-        foreach ($sendTo as $recipient) {
-            $mailTemplate->setDesignConfig(array(
-                'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
-                'store' => $this->getStoreId()
-            ))
-                ->sendTransactional(
-                    $template,
-                    $this->_rmaConfig->getIdentity(),
-                    $recipient['email'],
-                    $recipient['name'],
-                    array(
-                        'rma'               => $this,
-                        'order'             => $this->getOrder(),
-                        'return_address'    => $returnAddress,
-                        //We cannot use $this->_items as items collection, because some items might not be loaded now
-                        'item_collection'   => $this->getItemsForDisplay(),
-                    )
-                );
+        $bcc = array();
+        if ($copyTo && $copyMethod == 'bcc') {
+            $bcc = $copyTo;
         }
+
+        foreach ($sendTo as $recipient) {
+            $transport = $this->_transportBuilder
+                ->setTemplateIdentifier($template)
+                ->setTemplateOptions(array(
+                    'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+                    'store' => $this->getStoreId()
+                ))
+                ->setTemplateVars(array(
+                    'rma'               => $this,
+                    'order'             => $this->getOrder(),
+                    'return_address'    => $returnAddress,
+                    //We cannot use $this->_items as items collection, because some items might not be loaded now
+                    'item_collection'   => $this->getItemsForDisplay(),
+                ))
+                ->setFrom($this->_rmaConfig->getIdentity())
+                ->addTo($recipient['email'], $recipient['name'])
+                ->addBcc($bcc)
+                ->getTransport();
+
+            $transport->sendMessage();
+        }
+
         $this->setEmailSent(true);
         $this->_translate->setTranslateInline(true);
 

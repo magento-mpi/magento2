@@ -204,6 +204,26 @@ class TransportBuilder
             ->setBody($template->processTemplate())
             ->setSubject($template->getSubject());
 
-        return $this->objectManager->create('Magento\Mail\TransportInterface', array('message' => $this->message));
+        $result = $this->objectManager->create('Magento\Mail\TransportInterface', array(
+            'message' => clone $this->message
+        ));
+
+        $this->reset();
+
+        return $result;
+    }
+
+    /**
+     * Reset object state
+     *
+     * @return $this
+     */
+    protected function reset()
+    {
+        $this->message = $this->objectManager->create('\Magento\Mail\Message');
+        $this->templateIdentifier = null;
+        $this->templateVars = null;
+        $this->templateOptions = null;
+        return $this;
     }
 }

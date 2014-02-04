@@ -62,14 +62,14 @@ class History extends \Magento\Core\Model\AbstractModel
     protected $_storeManager;
 
     /**
-     * @var \Magento\Email\Model\TemplateFactory
+     * @var \Magento\Mail\Template\TransportBuilder
      */
-    protected $_templateFactory;
+    protected $_transportBuilder;
 
     /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
-     * @param \Magento\Email\Model\TemplateFactory $templateFactory
+     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
@@ -80,7 +80,7 @@ class History extends \Magento\Core\Model\AbstractModel
     public function __construct(
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
-        \Magento\Email\Model\TemplateFactory $templateFactory,
+        \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\View\DesignInterface $design,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
@@ -88,7 +88,7 @@ class History extends \Magento\Core\Model\AbstractModel
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_templateFactory = $templateFactory;
+        $this->_transportBuilder = $transportBuilder;
         $this->_design = $design;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_storeManager = $storeManager;
@@ -187,22 +187,31 @@ class History extends \Magento\Core\Model\AbstractModel
         $this->setIsCustomerNotified(false);
         if ($this->getBalanceModel()->getNotifyByEmail()) {
             $storeId = $this->getBalanceModel()->getStoreId();
-            $email = $this->_templateFactory->create()
-                ->setDesignConfig(array('store' => $storeId, 'area' => $this->_design->getArea()));
             $customer = $this->getBalanceModel()->getCustomer();
-            $email->sendTransactional(
-                $this->_coreStoreConfig->getConfig('customer/magento_customerbalance/email_template', $storeId),
-                $this->_coreStoreConfig->getConfig('customer/magento_customerbalance/email_identity', $storeId),
-                $customer->getEmail(), $customer->getName(),
-                array(
+
+            $transport = $this->_transportBuilder
+                ->setTemplateIdentifier(
+                    $this->_coreStoreConfig->getConfig('customer/magento_customerbalance/email_template', $storeId)
+                )
+                ->setTemplateOptions(array(
+                    'area' => $this->_design->getArea(),
+                    'store' => $storeId
+                ))
+                ->setTemplateVars(array(
                     'balance' => $this->_storeManager->getWebsite($this->getBalanceModel()->getWebsiteId())
                         ->getBaseCurrency()->format($this->getBalanceModel()->getAmount(), array(), false),
                     'name'    => $customer->getName(),
-            ));
-            if ($email->getSentSuccess()) {
-                $this->getResource()->markAsSent($this->getId());
-                $this->setIsCustomerNotified(true);
-            }
+                    'store'    => $this->_storeManager->getStore($storeId),
+                ))
+                ->setFrom(
+                    $this->_coreStoreConfig->getConfig('customer/magento_customerbalance/email_identity', $storeId)
+                )
+                ->addTo($customer->getEmail(), $customer->getName())
+                ->getTransport();
+
+            $transport->sendMessage();
+            $this->getResource()->markAsSent($this->getId());
+            $this->setIsCustomerNotified(true);
         }
 
         return $this;

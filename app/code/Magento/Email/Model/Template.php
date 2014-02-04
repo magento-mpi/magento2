@@ -652,8 +652,6 @@ class Template extends \Magento\Core\Model\Template implements  \Magento\Mail\Te
      */
     public function processTemplate()
     {
-        $storeId = $this->getDesignConfig()->getStore();
-
         $templateId = $this->getId();
         if (is_numeric($templateId)) {
             $this->load($templateId);
@@ -665,14 +663,8 @@ class Template extends \Magento\Core\Model\Template implements  \Magento\Mail\Te
             throw new \Magento\Mail\Exception(__('Invalid transactional email code: %1', $templateId));
         }
 
-        $variables = $this->_getVars();
-
-        if (!isset($variables['store'])) {
-            $vars['store'] = $this->_storeManager->getStore($storeId);
-        }
-
         $this->setUseAbsoluteLinks(true);
-        $text = $this->getProcessedTemplate($variables, true);
+        $text = $this->getProcessedTemplate($this->_getVars(), true);
         return $text;
     }
 

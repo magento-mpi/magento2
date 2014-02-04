@@ -93,11 +93,9 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
     protected $_customerBalance = null;
 
     /**
-     * Core email template
-     *
-     * @var \Magento\Email\Model\Template
+     * @var \Magento\Mail\Template\TransportBuilder
      */
-    protected $_coreEmailTemplate = null;
+    protected $_transportBuilder;
 
     /**
      * Locale
@@ -140,7 +138,7 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
      * @param \Magento\GiftCardAccount\Helper\Data $giftCardAccountData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\GiftCardAccount\Model\Resource\Giftcardaccount $resource
-     * @param \Magento\Email\Model\Template $coreEmailTemplate
+     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder,
      * @param \Magento\CustomerBalance\Model\Balance $customerBalance
      * @param \Magento\Core\Model\Date $coreDate
      * @param \Magento\Core\Model\LocaleInterface $locale
@@ -157,7 +155,7 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
         \Magento\GiftCardAccount\Helper\Data $giftCardAccountData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\GiftCardAccount\Model\Resource\Giftcardaccount $resource,
-        \Magento\Email\Model\Template $coreEmailTemplate,
+        \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\CustomerBalance\Model\Balance $customerBalance,
         \Magento\Core\Model\Date $coreDate,
         \Magento\Core\Model\LocaleInterface $locale,
@@ -171,7 +169,7 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_giftCardAccountData = $giftCardAccountData;
         $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_coreEmailTemplate = $coreEmailTemplate;
+        $this->_transportBuilder = $transportBuilder;
         $this->_customerBalance = $customerBalance;
         $this->_coreDate = $coreDate;
         $this->_storeManager = $storeManager;
@@ -587,26 +585,33 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
 
         $balance = $this->_locale->currency($recipientStore->getBaseCurrencyCode())->toCurrency($balance);
 
-        $email = $this->_coreEmailTemplate->setDesignConfig(array('store' => $storeId));
-        $email->sendTransactional(
-            $this->_coreStoreConfig->getConfig('giftcard/giftcardaccount_email/template', $storeId),
-            $this->_coreStoreConfig->getConfig('giftcard/giftcardaccount_email/identity', $storeId),
-            $recipientEmail,
-            $recipientName,
-            array(
+        $transport = $this->_transportBuilder
+            ->setTemplateIdentifier(
+                $this->_coreStoreConfig->getConfig('giftcard/giftcardaccount_email/template', $storeId)
+            )
+            ->setTemplateOptions(array(
+                'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+                'store' => $storeId
+            ))
+            ->setTemplateVars(array(
                 'name'          => $recipientName,
                 'code'          => $code,
                 'balance'       => $balance,
                 'store'         => $recipientStore,
                 'store_name'    => $recipientStore->getName(),
-            )
-        );
+            ))
+            ->setFrom($this->_coreStoreConfig->getConfig('giftcard/giftcardaccount_email/identity', $storeId))
+            ->addTo($recipientEmail, $recipientName)
+            ->getTransport();
 
-        $this->setEmailSent(false);
-        if ($email->getSentSuccess()) {
+
+        try {
+            $transport->sendMessage();
             $this->setEmailSent(true)
                 ->setHistoryAction(\Magento\GiftCardAccount\Model\History::ACTION_SENT)
                 ->save();
+        } catch (\Magento\Mail\Exception $e) {
+            $this->setEmailSent(false);
         }
     }
 

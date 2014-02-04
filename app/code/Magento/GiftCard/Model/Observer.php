@@ -55,11 +55,9 @@ class Observer extends \Magento\Core\Model\AbstractModel
     protected $_invoiceFactory;
 
     /**
-     * Template factory
-     *
-     * @var \Magento\Email\Model\TemplateFactory
+     * @var \Magento\Mail\Template\TransportBuilder
      */
-    protected $_templateFactory;
+    protected $_transportBuilder;
 
     /**
      * Invoice items collection factory
@@ -96,7 +94,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory $itemsFactory
-     * @param \Magento\Email\Model\TemplateFactory $templateFactory
+     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder,
      * @param \Magento\Sales\Model\Order\InvoiceFactory $invoiceFactory
      * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\UrlInterface $urlModel
@@ -115,7 +113,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
         \Magento\View\LayoutInterface $layout,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory $itemsFactory,
-        \Magento\Email\Model\TemplateFactory $templateFactory,
+        \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Sales\Model\Order\InvoiceFactory $invoiceFactory,
         \Magento\Message\ManagerInterface $messageManager,
         \Magento\UrlInterface $urlModel,
@@ -129,7 +127,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
         $this->_layout = $layout;
         $this->_locale = $locale;
         $this->_itemsFactory = $itemsFactory;
-        $this->_templateFactory = $templateFactory;
+        $this->_transportBuilder = $transportBuilder;
         $this->_invoiceFactory = $invoiceFactory;
         $this->messageManager = $messageManager;
         $this->_urlModel = $urlModel;
@@ -307,25 +305,25 @@ class Observer extends \Magento\Core\Model\AbstractModel
                             'is_redeemable'          => $isRedeemable,
                         );
 
-                        $email = $this->_emailTemplateModel ?: $this->_templateFactory->create();
-                        $email->setDesignConfig(array(
-                            'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
-                            'store' => $item->getOrder()->getStoreId(),
-                        ));
-                        $email->sendTransactional(
-                            $item->getProductOptionByCode('giftcard_email_template'),
-                            $this->_coreStoreConfig->getConfig(
+                        $transport = $this->_transportBuilder
+                            ->setTemplateIdentifier($item->getProductOptionByCode('giftcard_email_template'))
+                            ->setTemplateOptions(array(
+                                'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+                                'store' => $item->getOrder()->getStoreId(),
+                            ))
+                            ->setTemplateVars($templateData)
+                            ->setFrom($this->_coreStoreConfig->getConfig(
                                 \Magento\GiftCard\Model\Giftcard::XML_PATH_EMAIL_IDENTITY,
                                 $item->getOrder()->getStoreId()
-                            ),
-                            $item->getProductOptionByCode('giftcard_recipient_email'),
-                            $item->getProductOptionByCode('giftcard_recipient_name'),
-                            $templateData
-                        );
+                            ))
+                            ->addTo(
+                                $item->getProductOptionByCode('giftcard_recipient_email'),
+                                $item->getProductOptionByCode('giftcard_recipient_name')
+                            )
+                            ->getTransport();
 
-                        if ($email->getSentSuccess()) {
-                            $options['email_sent'] = 1;
-                        }
+                        $transport->sendMessage();
+                        $options['email_sent'] = 1;
                     }
                     $options['giftcard_created_codes'] = $codes;
                     $item->setProductOptions($options);

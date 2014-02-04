@@ -36,9 +36,9 @@ class History extends \Magento\Core\Model\AbstractModel
     protected $_translate;
 
     /**
-     * @var \Magento\Email\Model\TemplateFactory
+     * @var \Magento\Mail\Template\TransportBuilder
      */
-    protected $_templateFactory;
+    protected $_transportBuilder;
 
     /**
      * @var \Magento\Core\Model\Date
@@ -52,7 +52,7 @@ class History extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Rma\Model\RmaFactory $rmaFactory
      * @param \Magento\Rma\Model\Config $rmaConfig
      * @param \Magento\TranslateInterface $translate
-     * @param \Magento\Email\Model\TemplateFactory $templateFactory
+     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder,
      * @param \Magento\Core\Model\Date $date
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -65,7 +65,7 @@ class History extends \Magento\Core\Model\AbstractModel
         \Magento\Rma\Model\RmaFactory $rmaFactory,
         \Magento\Rma\Model\Config $rmaConfig,
         \Magento\TranslateInterface $translate,
-        \Magento\Email\Model\TemplateFactory $templateFactory,
+        \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Core\Model\Date $date,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
@@ -75,7 +75,7 @@ class History extends \Magento\Core\Model\AbstractModel
         $this->_rmaFactory = $rmaFactory;
         $this->_rmaConfig = $rmaConfig;
         $this->_translate = $translate;
-        $this->_templateFactory = $templateFactory;
+        $this->_transportBuilder = $transportBuilder;
         $this->_date = $date;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
@@ -175,15 +175,8 @@ class History extends \Magento\Core\Model\AbstractModel
         $comment = $this->getComment();
 
         $this->_translate->setTranslateInline(false);
-        /** @var $mailTemplate \Magento\Email\Model\Template */
-        $mailTemplate = $this->_templateFactory->create();
         $copyTo = $this->_rmaConfig->getCopyTo();
         $copyMethod = $this->_rmaConfig->getCopyMethod();
-        if ($copyTo && $copyMethod == 'bcc') {
-            foreach ($copyTo as $email) {
-                $mailTemplate->addBcc($email);
-            }
-        }
 
         if ($isGuestAvailable && $order->getCustomerIsGuest()) {
             $template = $this->_rmaConfig->getGuestTemplate();
@@ -200,22 +193,29 @@ class History extends \Magento\Core\Model\AbstractModel
             }
         }
 
+        $bcc = array();
+        if ($copyTo && $copyMethod == 'bcc') {
+            $bcc = $copyTo;
+        }
+
         foreach ($sendTo as $recipient) {
-            $mailTemplate->setDesignConfig(array(
-                'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
-                'store' => $this->getStoreId()
-            ))
-                ->sendTransactional(
-                    $template,
-                    $this->_rmaConfig->getIdentity(),
-                    $recipient['email'],
-                    $recipient['name'],
-                    array(
-                        'rma'       => $this->getRma(),
-                        'order'     => $this->getRma()->getOrder(),
-                        'comment'   => $comment
-                    )
-                );
+            $transport = $this->_transportBuilder
+                ->setTemplateIdentifier($template)
+                ->setTemplateOptions(array(
+                    'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+                    'store' => $this->getStoreId()
+                ))
+                ->setTemplateVars(array(
+                    'rma'       => $this->getRma(),
+                    'order'     => $this->getRma()->getOrder(),
+                    'comment'   => $comment
+                ))
+                ->setFrom($this->_rmaConfig->getIdentity())
+                ->addTo($recipient['email'], $recipient['name'])
+                ->addBcc($bcc)
+                ->getTransport();
+
+            $transport->sendMessage();
         }
         $this->setEmailSent(true);
         $this->_translate->setTranslateInline(true);
