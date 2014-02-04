@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\Sales\Model\Quote;
+
 /**
  * Sales Quote address model
  *
@@ -118,8 +120,6 @@
  * @method float getBaseShippingInclTax()
  * @method \Magento\Sales\Model\Quote\Address setBaseShippingInclTax(float $value)
  */
-namespace Magento\Sales\Model\Quote;
-
 class Address extends \Magento\Customer\Model\Address\AbstractAddress
 {
     const RATES_FETCH = 1;
@@ -438,7 +438,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         $this->_objectCopyService->copyFieldsetToTarget('customer_address', 'to_quote_address', $address, $this);
         $email = null;
         if ($address->hasEmail()) {
-            $email =  $address->getEmail();
+            $email = $address->getEmail();
         } elseif ($address->getCustomer()) {
             $email = $address->getCustomer()->getEmail();
         }

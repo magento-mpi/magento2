@@ -24,6 +24,9 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Customer\Model\Customer $customer */
     protected $_customer;
 
+    /** @var \Magento\Sales\Model\Quote\Address */
+    protected $_address;
+
     /**
      * Initialize quote and customer fixtures
      */
@@ -38,6 +41,11 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $this->_customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Customer\Model\Customer');
         $this->_customer->load(1);
+
+        /** @var \Magento\Sales\Model\Order\Address $address */
+        $this->_address = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Quote\Address');
+        $this->_address->load(1);
     }
 
     /**
@@ -158,5 +166,83 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             array(true),
             array(false),
         );
+    }
+
+    /**
+     * Import customer address to quote address
+     */
+    public function testImportCustomerAddress()
+    {
+        $street = 'Street1';
+        $email = 'test_email@example.com';
+
+        /** @var \Magento\Customer\Model\Address $customerAddress */
+        $customerAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Address');
+
+        $customerAddress->setStreet($street);
+        $customerAddress->setEmail($email);
+        $this->_address->importCustomerAddress($customerAddress);
+
+        $this->assertEquals($street, $this->_address->getStreet1(), 'Expected street does not exists');
+        $this->assertEquals($email, $customerAddress->getEmail(), 'Expected email does not exists');
+    }
+
+    /**
+     * Import customer address to quote address
+     */
+    public function testImportCustomerAddressWithCustomer()
+    {
+        $customerIdFromFixture = 1;
+        $customerEmailFromFixture = 'customer@example.com';
+        /** @var \Magento\Customer\Model\Address $customerAddress */
+        $customerAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Address');
+
+        /** @var \Magento\Customer\Model\Customer $customer */
+        $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Customer');
+
+        $customer->load($customerIdFromFixture);
+        $customerAddress->setCustomerId($customer->getId());
+        $this->_address->importCustomerAddress($customerAddress);
+
+        $this->assertEquals($customerEmailFromFixture, $this->_address->getEmail(), 'Expected email does not exists');
+    }
+
+    /**
+     * Export customer address from quote address
+     */
+    public function testExportCustomerAddress()
+    {
+        $street = 'Street1';
+        $email = 'test_email@example.com';
+
+        $this->_address->setStreet($street);
+        $this->_address->setEmail($email);
+
+        $customerAddress = $this->_address->exportCustomerAddress();
+        $this->assertEquals($street, $customerAddress->getStreet1(), 'Expected street does not exists');
+        $this->assertEquals($email, $customerAddress->getEmail(), 'Expected email does not exists');
+    }
+
+    /**
+     * Import order address to quote address
+     */
+    public function testImportOrderAddress()
+    {
+        $street = 'Street1';
+        $email = 'test_email@example.com';
+
+        /** @var \Magento\Sales\Model\Order\Address $orderAddress */
+        $orderAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Order\Address');
+
+        $orderAddress->setStreet($street);
+        $orderAddress->setEmail($email);
+        $this->_address->importOrderAddress($orderAddress);
+
+        $this->assertEquals($street, $this->_address->getStreet1(), 'Expected street does not exists');
+        $this->assertEquals($email, $orderAddress->getEmail(), 'Expected email does not exists');
     }
 }
