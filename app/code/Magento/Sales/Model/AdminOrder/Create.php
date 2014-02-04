@@ -179,7 +179,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Sales\Model\Config $salesConfig
-     * @param \Magento\Backend\Model\Session\Quote $sessionQuote
+     * @param \Magento\Backend\Model\Session\Quote $quoteSession
      * @param \Magento\Logger $logger
      * @param \Magento\Object\Copy $objectCopyService
      * @param \Magento\Message\ManagerInterface $messageManager
@@ -197,7 +197,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Sales\Model\Config $salesConfig,
-        \Magento\Backend\Model\Session\Quote $sessionQuote,
+        \Magento\Backend\Model\Session\Quote $quoteSession,
         \Magento\Logger $logger,
         \Magento\Object\Copy $objectCopyService,
         \Magento\Message\ManagerInterface $messageManager,
@@ -214,7 +214,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         $this->_eventManager = $eventManager;
         $this->_coreRegistry = $coreRegistry;
         $this->_salesConfig = $salesConfig;
-        $this->_session = $sessionQuote;
+        $this->_session = $quoteSession;
         $this->_logger = $logger;
         $this->_objectCopyService = $objectCopyService;
         $this->messageManager = $messageManager;

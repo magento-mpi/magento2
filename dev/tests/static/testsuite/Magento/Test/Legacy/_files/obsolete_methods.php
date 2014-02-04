@@ -157,6 +157,7 @@ return array(
     array('_saveCustomers', 'Magento\Sales\Model\AdminOrder\Create'),
     array('_saveSectionCache', 'Magento\Core\Model\Config'),
     array('_sendUploadResponse', 'Magento\Backend\Controller\Customer'),
+    array('isInStore', 'Magento\Customer\Model\Customer'),
     array('_sendUploadResponse', 'Magento\Newsletter\Controller\Adminhtml\Subscriber'),
     array('_setAttribteValue'),
     array('_shouldSkipProcessUpdates', 'Magento\Core\Model\App'),

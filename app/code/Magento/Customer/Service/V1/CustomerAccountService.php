@@ -10,7 +10,9 @@ namespace Magento\Customer\Service\V1;
 use Magento\Customer\Service\Entity\V1\Exception;
 
 /**
- * Manipulate Customer Address Entities *
+ * Manipulate Customer Address Entities
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class CustomerAccountService implements CustomerAccountServiceInterface
 {
@@ -75,6 +77,8 @@ class CustomerAccountService implements CustomerAccountServiceInterface
      * @param CustomerServiceInterface $customerService
      * @param CustomerAddressServiceInterface $customerAddressService
      * @param \Magento\Customer\Helper\Data $customerHelper
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Customer\Model\CustomerFactory $customerFactory,
