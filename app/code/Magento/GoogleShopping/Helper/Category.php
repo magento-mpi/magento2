@@ -7,6 +7,7 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
+namespace Magento\GoogleShopping\Helper;
 
 /**
  * Google Product Category helper
@@ -15,8 +16,6 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GoogleShopping\Helper;
-
 class Category
 {
     const CATEGORY_APPAREL  = 'Apparel &amp; Accessories';
@@ -31,7 +30,8 @@ class Category
     /**
      * Retrieve list of Google Product Categories
      *
-     * @return array
+     * @param bool $addOther
+     * @return string[]
      */
     public function getCategories($addOther = true)
     {

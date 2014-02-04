@@ -53,7 +53,7 @@ class Helper extends \Magento\Core\Model\Resource\Helper
      * @param string $column
      * @param string $mainTable
      * @param string $aggregationTable
-     * @return \Magento\Core\Model\Resource\Helper
+     * @return $this
      */
     public function updateReportRatingPos($type, $column, $mainTable, $aggregationTable)
     {

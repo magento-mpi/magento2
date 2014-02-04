@@ -7,20 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reports\Block\Adminhtml\Refresh;
 
 /**
  * Report Refresh statistic container
  *
- * @category   Magento
- * @package    Magento_Reports
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reports\Block\Adminhtml\Refresh;
-
 class Statistics extends \Magento\Backend\Block\Widget\Grid\Container
 {
-    /*
+    /**
      * Modify Header and remove button "Add"
+     *
+     * @return void
      */
     protected function _construct()
     {

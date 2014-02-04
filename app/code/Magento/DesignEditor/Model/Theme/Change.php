@@ -7,16 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\DesignEditor\Model\Theme;
 
 /**
  * Design editor theme change
  */
-namespace Magento\DesignEditor\Model\Theme;
-
 class Change extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Theme model initialization
+     *
+     * @return void
      */
     protected function _construct()
     {
