@@ -80,6 +80,11 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
     protected $rootDirectory;
 
     /**
+     * @var RelatedFile
+     */
+    protected $relatedFile;
+
+    /**
      * @var \Magento\View\Asset\PreProcessor\PreProcessorInterface
      */
     protected $preProcessor;
@@ -91,6 +96,7 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
      * @param Service $viewService
      * @param FileSystem $viewFileSystem
      * @param \Magento\Module\Dir\Reader $modulesReader
+     * @param RelatedFile $relatedFile
      * @param \Magento\View\Asset\PreProcessor\PreProcessorInterface $preProcessor
      * @param bool $allowDuplication
      */
@@ -101,6 +107,7 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
         \Magento\View\Service $viewService,
         \Magento\View\FileSystem $viewFileSystem,
         \Magento\Module\Dir\Reader $modulesReader,
+        RelatedFile $relatedFile,
         \Magento\View\Asset\PreProcessor\PreProcessorInterface $preProcessor,
         $allowDuplication
     ) {
@@ -112,6 +119,7 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
         $this->_modulesReader = $modulesReader;
         $this->_logger = $logger;
         $this->_allowDuplication = $allowDuplication;
+        $this->relatedFile = $relatedFile;
         $this->preProcessor = $preProcessor;
     }
 
@@ -138,7 +146,7 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
      */
     protected function _publishRelatedViewFile($fileId, $parentFilePath, $parentFileName, $params)
     {
-        $relativeFilePath = $this->_getRelatedViewFile($fileId, $parentFilePath, $parentFileName, $params);
+        $relativeFilePath = $this->relatedFile->buildPath($fileId, $parentFilePath, $parentFileName, $params);
         return $this->_getPublishedFilePath($relativeFilePath, $params);
     }
 
@@ -402,38 +410,5 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
     protected function _buildPublicViewFilename($file)
     {
         return $this->_viewService->getPublicDir() . '/' . $file;
-    }
-
-    /**
-     * Get relative $fileUrl based on information about parent file path and name.
-     *
-     * @param string $fileId URL to the file that was extracted from $parentFilePath
-     * @param string $parentFilePath path to the file
-     * @param string $parentFileName original file name identifier that was requested for processing
-     * @param array $params theme/module parameters array
-     * @return string
-     */
-    protected function _getRelatedViewFile($fileId, $parentFilePath, $parentFileName, &$params)
-    {
-        if (strpos($fileId, \Magento\View\Service::SCOPE_SEPARATOR)) {
-            $filePath = $this->_viewService->extractScope($this->_viewFileSystem->normalizePath($fileId), $params);
-        } else {
-            /* Check if module file overridden on theme level based on _module property and file path */
-            $themesPath = $this->_filesystem->getPath(\Magento\App\Filesystem::THEMES_DIR);
-            if ($params['module'] && strpos($parentFilePath, $themesPath) === 0) {
-                /* Add module directory to relative URL */
-                $filePath = dirname($params['module'] . '/' . $parentFileName)
-                    . '/' . $fileId;
-                if (strpos($filePath, $params['module']) === 0) {
-                    $filePath = ltrim(str_replace($params['module'], '', $filePath), '/');
-                } else {
-                    $params['module'] = false;
-                }
-            } else {
-                $filePath = dirname($parentFileName) . '/' . $fileId;
-            }
-        }
-
-        return $filePath;
     }
 }

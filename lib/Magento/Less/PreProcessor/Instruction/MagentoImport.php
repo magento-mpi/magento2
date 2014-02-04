@@ -26,59 +26,76 @@ class MagentoImport implements PreProcessorInterface
     protected $fileSource;
 
     /**
+     * @var \Magento\View\RelatedFile
+     */
+    protected $relatedFile;
+
+    /**
      * @var \Magento\Logger
      */
     protected $logger;
 
     /**
-     * @var array
+     * @var \Magento\View\Service
      */
-    protected $viewParams;
+    protected $viewService;
 
     /**
      * @param \Magento\View\Layout\File\SourceInterface $fileSource
      * @param \Magento\View\Service $viewService
      * @param \Magento\Less\PreProcessor $preProcessor
+     * @param \Magento\View\RelatedFile $relatedFile
      * @param \Magento\Logger $logger
-     * @param array $viewParams
      */
     public function __construct(
         \Magento\View\Layout\File\SourceInterface $fileSource,
         \Magento\View\Service $viewService,
         \Magento\Less\PreProcessor $preProcessor,
-        \Magento\Logger $logger,
-        array $viewParams = array()
+        \Magento\View\RelatedFile $relatedFile,
+        \Magento\Logger $logger
     ) {
         $this->fileSource = $fileSource;
-        $viewService->updateDesignParams($viewParams);
+        $this->viewService = $viewService;
+        $this->relatedFile = $relatedFile;
         $this->logger = $logger;
-        $this->viewParams = $viewParams;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function process($lessContent)
+    public function process($lessContent, array $viewParams, array $paths = [])
     {
-        return preg_replace_callback(self::REPLACE_PATTERN, array($this, 'replace'), $lessContent);
+        $this->viewService->updateDesignParams($viewParams);
+        $replaceCallback = function ($matchContent) use ($viewParams, $paths) {
+            return $this->replace($matchContent, $viewParams, $paths);
+        };
+        return preg_replace_callback(self::REPLACE_PATTERN, $replaceCallback, $lessContent);
     }
 
     /**
      * Replace @magento_import to @import less instructions
      *
      * @param array $matchContent
+     * @param array $viewParams
+     * @param array $paths
      * @return string
      */
-    protected function replace($matchContent)
+    protected function replace($matchContent, $viewParams, $paths)
     {
         $importsContent = '';
         try {
-            $importFiles = $this->fileSource->getFiles($this->viewParams['themeModel'], $matchContent['path']);
+            $resolvedPath = $this->relatedFile->buildPath(
+                $matchContent['path'],
+                $paths['parentAbsolutePath'],
+                $paths['parentPath'],
+                $viewParams
+            );
+            $importFiles = $this->fileSource->getFiles($viewParams['themeModel'], $resolvedPath);
             /** @var $importFile \Magento\View\Layout\File */
             foreach ($importFiles as $importFile) {
                 $importsContent .= "@import '{$importFile->getFilename()}';\n";
             }
-        } catch(\LogicException $e) {
+        } catch (\LogicException $e) {
             $this->logger->logException($e);
         }
         return $importsContent;

@@ -46,7 +46,7 @@ class PreProcessorTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\View\Service $viewService */
         $viewService = $this->objectManager->get('Magento\View\Service');
         $viewService->updateDesignParams($designParams);
-        $cssTargetFile = $this->model->process('source.css', $designParams, $targetDirectory);
+        $cssTargetFile = $this->model->process('source/source.css', $designParams, $targetDirectory);
         /** @var $viewFilesystem \Magento\View\FileSystem */
         $viewFilesystem = $this->objectManager->get('Magento\View\FileSystem');
         $this->assertFileEquals($viewFilesystem->getViewFile('source.css', $designParams), $cssTargetFile);

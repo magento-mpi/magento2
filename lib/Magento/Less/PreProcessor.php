@@ -69,14 +69,13 @@ class PreProcessor
     /**
      * Instantiate instruction less preprocessors
      *
-     * @param array $params
      * @return \Magento\Less\PreProcessorInterface[]
      */
-    protected function getLessPreProcessors(array $params)
+    protected function getLessPreProcessors()
     {
         $preProcessors = [];
         foreach ($this->preProcessors as $preProcessorClass) {
-            $preProcessors[] = $this->instructionFactory->create($preProcessorClass['class'], $params);
+            $preProcessors[] = $this->instructionFactory->get($preProcessorClass['class']);
         }
         return $preProcessors;
     }
@@ -118,19 +117,23 @@ class PreProcessor
      * Process less content throughout all existed instruction preprocessors
      *
      * @param string $lessFilePath
-     * @param array $params
+     * @param array $viewParams
      * @return string of saved or original preprocessed less file
      */
-    public function processLessInstructions($lessFilePath, $params)
+    public function processLessInstructions($lessFilePath, $viewParams)
     {
-        $lessFileSourcePath = $this->viewFileSystem->getViewFile($lessFilePath, $params);
+        $lessFileSourcePath = $this->viewFileSystem->getViewFile($lessFilePath, $viewParams);
         $directoryRead = $this->getDirectoryRead();
         $lessContent = $lessSourceContent = $directoryRead->readFile(
             $directoryRead->getRelativePath($lessFileSourcePath)
         );
 
-        foreach ($this->getLessPreProcessors($params) as $processor) {
-            $lessContent = $processor->process($lessContent);
+        foreach ($this->getLessPreProcessors() as $processor) {
+            $lessContent = $processor->process(
+                $lessContent,
+                $viewParams,
+                ['parentPath' => $lessFilePath, 'parentAbsolutePath' => $lessFileSourcePath]
+            );
         }
 
         $lessFileTargetPath = $this->generateNewPath($lessFileSourcePath);

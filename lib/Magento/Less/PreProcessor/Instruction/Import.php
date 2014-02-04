@@ -22,16 +22,14 @@ class Import implements PreProcessorInterface
         '#@import\s+(\((?P<type>\w+)\)\s+)?[\'\"](?P<path>(?![/\\\]|\w:[/\\\])[^\"\']+)[\'\"]\s*?(?P<media>.*?);#';
 
     /**
-     * Import's path list where key is relative path and value is absolute path to the imported content
-     *
-     * @var array
-     */
-    protected $importPaths = [];
-
-    /**
      * @var \Magento\Less\PreProcessor
      */
     protected $preProcessor;
+
+    /**
+     * @var \Magento\View\RelatedFile
+     */
+    protected $relatedFile;
 
     /**
      * @var \Magento\Logger
@@ -39,42 +37,48 @@ class Import implements PreProcessorInterface
     protected $logger;
 
     /**
-     * @var array
-     */
-    protected $viewParams;
-
-    /**
      * @param \Magento\Less\PreProcessor $preProcessor
+     * @param \Magento\View\RelatedFile $relatedFile
      * @param \Magento\Logger $logger
-     * @param array $viewParams
      */
     public function __construct(
         \Magento\Less\PreProcessor $preProcessor,
-        \Magento\Logger $logger,
-        array $viewParams = array()
+        \Magento\View\RelatedFile $relatedFile,
+        \Magento\Logger $logger
     ) {
         $this->preProcessor = $preProcessor;
+        $this->relatedFile = $relatedFile;
         $this->logger = $logger;
-        $this->viewParams = $viewParams;
     }
 
     /**
      * Explode import paths
      *
-     * @param array $importPaths
-     * @return $this
+     * @param array $matchedPaths
+     * @param array $viewParams
+     * @param array $params
+     * @return array
      */
-    protected function generatePaths($importPaths)
+    protected function generatePaths($matchedPaths, $viewParams, array $params)
     {
-        foreach ($importPaths as $path) {
-            $path = $this->preparePath($path);
+        $importPaths = array();
+        foreach ($matchedPaths as $path) {
+            $resolvedPath = $this->relatedFile->buildPath(
+                $this->preparePath($path),
+                $params['parentAbsolutePath'],
+                $params['parentPath'],
+                $viewParams
+            );
             try {
-                $this->importPaths[$path] = $this->preProcessor->processLessInstructions($path, $this->viewParams);
+                $importPaths[$path] = $this->preProcessor->processLessInstructions(
+                    $resolvedPath,
+                    $viewParams
+                );
             } catch (\Magento\Filesystem\FilesystemException $e) {
                 $this->logger->logException($e);
             }
         }
-        return $this;
+        return $importPaths;
     }
 
     /**
@@ -91,27 +95,31 @@ class Import implements PreProcessorInterface
     /**
      * {@inheritdoc}
      */
-    public function process($lessContent)
+    public function process($lessContent, array $viewParams, array $params = [])
     {
         $matches = [];
         preg_match_all(self::REPLACE_PATTERN, $lessContent, $matches);
-        $this->generatePaths($matches['path']);
-        return preg_replace_callback(self::REPLACE_PATTERN, array($this, 'replace'), $lessContent);
+        $importPaths = $this->generatePaths($matches['path'], $viewParams, $params);
+        $replaceCallback = function ($matchContent) use ($importPaths) {
+            return $this->replace($matchContent, $importPaths);
+        };
+        return preg_replace_callback(self::REPLACE_PATTERN, $replaceCallback, $lessContent);
     }
 
     /**
      * Replace import path to file
      *
      * @param array $matchContent
+     * @param $importPaths
      * @return string
      */
-    protected function replace($matchContent)
+    protected function replace($matchContent, $importPaths)
     {
-        $path = $this->preparePath($matchContent['path']);
-        if (empty($this->importPaths[$path])) {
+        $path = $matchContent['path'];
+        if (empty($importPaths[$path])) {
             return '';
         }
         $typeString  = empty($matchContent['type']) ? '' : '(' . $matchContent['type'] . ') ';
-        return "@import {$typeString}'{$this->importPaths[$path]}';";
+        return "@import {$typeString}'{$importPaths[$path]}';";
     }
 }
