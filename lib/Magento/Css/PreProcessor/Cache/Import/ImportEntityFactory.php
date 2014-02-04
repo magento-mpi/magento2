@@ -41,7 +41,7 @@ class ImportEntityFactory
         );
 
         if (!$importEntity instanceof \Magento\Css\PreProcessor\Cache\Import\ImportEntityInterface) {
-            throw new \Exception(
+            throw new \InvalidArgumentException(
                 'Import Entity does not implement \Magento\Css\PreProcessor\Cache\Import\ImportEntityInterface'
             );
         }

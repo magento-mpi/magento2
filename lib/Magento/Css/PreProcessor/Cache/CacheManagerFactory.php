@@ -41,7 +41,7 @@ class CacheManagerFactory
         );
 
         if (!$cacheManager instanceof \Magento\Css\PreProcessor\Cache\CacheManagerInterface) {
-            throw new \Exception(
+            throw new \InvalidArgumentException(
                 'Cache Manager does not implement \Magento\Css\PreProcessor\Cache\CacheManagerInterface'
             );
         }
