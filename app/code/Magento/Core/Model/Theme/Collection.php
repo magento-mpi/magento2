@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 namespace Magento\Core\Model\Theme;
+
 use Magento\View\Design\ThemeInterface;
 
 /**

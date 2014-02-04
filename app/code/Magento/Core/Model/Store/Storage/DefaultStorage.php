@@ -188,7 +188,7 @@ class DefaultStorage implements \Magento\Core\Model\Store\StorageInterface
     /**
      * Retrieve default store for default group and website
      *
-     * @return null
+     * @return \Magento\Core\Model\Store|null
      */
     public function getDefaultStoreView()
     {
@@ -209,7 +209,7 @@ class DefaultStorage implements \Magento\Core\Model\Store\StorageInterface
     /**
      * Get either default or any store view
      *
-     * @return null
+     * @return \Magento\Core\Model\Store|null
      */
     public function getAnyStoreView()
     {

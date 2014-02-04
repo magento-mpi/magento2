@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 namespace Magento\Core\Model\Theme;
+
 use Magento\Core\Model\AbstractModel;
 use Magento\View\Design\Theme\FileInterface;
 use \Magento\View\Design\Theme\Customization\FileInterface as CustomizationFileInterface;

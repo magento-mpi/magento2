@@ -61,8 +61,8 @@ class Validator implements ValidatorInterface
      * Validate session
      *
      * @param SessionManagerInterface $session
-     * @throws Exception
      * @return void
+     * @throws Exception
      */
     public function validate(SessionManagerInterface $session)
     {

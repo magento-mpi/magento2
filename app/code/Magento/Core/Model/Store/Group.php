@@ -159,7 +159,7 @@ class Group extends \Magento\Core\Model\AbstractModel
     /**
      * Set website stores
      *
-     * @param array $stores
+     * @param \Magento\Core\Model\Store[] $stores
      * @return void
      */
     public function setStores($stores)
