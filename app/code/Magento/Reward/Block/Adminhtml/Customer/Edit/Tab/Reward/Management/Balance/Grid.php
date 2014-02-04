@@ -23,7 +23,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Flag to store if customer has orphan points
      *
-     * @var boolean
+     * @var bool
      */
     protected $_customerHasOrphanPoints = false;
 
@@ -102,7 +102,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare grid collection
      *
-     * @return \Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Balance\Grid
+     * @return $this
      */
     protected function _prepareCollection()
     {
@@ -114,7 +114,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * After load collection processing
      *
-     * @return \Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Balance\Grid
+     * @return $this
      */
     protected function _afterLoadCollection()
     {
@@ -150,7 +150,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare grid columns
      *
-     * @return \Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management\Balance\Grid
+     * @return $this
      */
     protected function _prepareColumns()
     {

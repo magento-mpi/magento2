@@ -69,9 +69,9 @@
     </type>
     <type name="Magento\Session\SaveHandlerFactory">
         <param name="handlers">
-            <value>
-                <db>Magento\Session\SaveHandler\DbTable</db>
-            </value>
+            <array>
+                <item key="db"><value>Magento\Session\SaveHandler\DbTable</value></item>
+            </array>
         </param>
     </type>
     <preference for="Magento\Module\Output\ConfigInterface" type="Magento\Core\Model\Module\Output\Config" />
@@ -118,17 +118,21 @@
     </type>
     <type name="Magento\App\Cache\Frontend\Factory">
         <param name="enforcedOptions">
-            <value type="argument">Magento\Core\Model\App::PARAM_CACHE_OPTIONS</value>
+            <value type="argument">Magento\Core\Model\App::PARAM_CACHE_FORCED_OPTIONS</value>
         </param>
         <param name="decorators">
-            <value>
-                <tag>
-                    <class>Magento\Cache\Frontend\Decorator\TagScope</class>
-                    <parameters>
-                        <tag>MAGE</tag>
-                    </parameters>
-                </tag>
-            </value>
+            <array>
+                <item key="tag">
+                    <array>
+                        <item key="class"><value>Magento\Cache\Frontend\Decorator\TagScope</value></item>
+                        <item key="parameters">
+                            <array>
+                                <item key="tag"><value>MAGE</value></item>
+                            </array>
+                        </item>
+                    </array>
+                </item>
+            </array>
         </param>
         <param name="resource">
             <instance type="Magento\App\Resource\Proxy" />
@@ -201,9 +205,9 @@
             <value>plugin-list</value>
         </param>
         <param name="scopePriorityScheme">
-            <value>
-                <first>global</first>
-            </value>
+            <array>
+                <item key="first"><value>global</value></item>
+            </array>
         </param>
     </type>
     <type name="Magento\App\Resource">
@@ -239,24 +243,32 @@
     </type>
     <type name="Magento\View\Url">
         <param name="fileUrlMap">
-            <value>
-                <urlLib>
-                    <key type="const">Magento\UrlInterface::URL_TYPE_LIB</key>
-                    <value type="const">Magento\App\Filesystem::PUB_LIB_DIR</value>
-                </urlLib>
-                <urlMedia>
-                    <key type="const">Magento\UrlInterface::URL_TYPE_MEDIA</key>
-                    <value type="const">Magento\App\Filesystem::MEDIA_DIR</value>
-                </urlMedia>
-                <urlStatic>
-                    <key type="const">Magento\UrlInterface::URL_TYPE_STATIC</key>
-                    <value type="const">Magento\App\Filesystem::STATIC_VIEW_DIR</value>
-                </urlStatic>
-                <urlCache>
-                    <key type="const">Magento\UrlInterface::URL_TYPE_CACHE</key>
-                    <value type="const">Magento\App\Filesystem::PUB_VIEW_CACHE_DIR</value>
-                </urlCache>
-            </value>
+            <array>
+                <item key="urlLib">
+                    <array>
+                        <item key="key"><value type="const">Magento\UrlInterface::URL_TYPE_LIB</value></item>
+                        <item key="value"><value type="const">Magento\App\Filesystem::PUB_LIB_DIR</value></item>
+                    </array>
+                </item>
+                <item key="urlMedia">
+                    <array>
+                        <item key="key"><value type="const">Magento\UrlInterface::URL_TYPE_MEDIA</value></item>
+                        <item key="value"><value type="const">Magento\App\Filesystem::MEDIA_DIR</value></item>
+                    </array>
+                </item>
+                <item key="urlStatic">
+                    <array>
+                        <item key="key"><value type="const">Magento\UrlInterface::URL_TYPE_STATIC</value></item>
+                        <item key="value"><value type="const">Magento\App\Filesystem::STATIC_VIEW_DIR</value></item>
+                    </array>
+                </item>
+                <item key="urlCache">
+                    <array>
+                        <item key="key"><value type="const">Magento\UrlInterface::URL_TYPE_CACHE</value></item>
+                        <item key="value"><value type="const">Magento\App\Filesystem::PUB_VIEW_CACHE_DIR</value></item>
+                    </array>
+                </item>
+            </array>
         </param>
     </type>
     <type name="Magento\HTTP\PhpEnvironment\RemoteAddress">
@@ -277,16 +289,24 @@
     </type>
     <type name="Magento\View\Layout\Argument\HandlerFactory">
         <param name="handlerFactories">
-            <value>
-                <object>Magento\Core\Model\Layout\Argument\Handler\Object</object>
-                <options>Magento\Core\Model\Layout\Argument\Handler\Options</options>
-                <url>Magento\Core\Model\Layout\Argument\Handler\Url</url>
-                <array>Magento\Core\Model\Layout\Argument\Handler\ArrayHandler</array>
-                <boolean>Magento\Core\Model\Layout\Argument\Handler\Boolean</boolean>
-                <helper>Magento\Core\Model\Layout\Argument\Handler\Helper</helper>
-                <number>Magento\Core\Model\Layout\Argument\Handler\Number</number>
-                <string>Magento\Core\Model\Layout\Argument\Handler\String</string>
-            </value>
+            <array>
+                <item key="object"><value>Magento\Core\Model\Layout\Argument\Handler\Object</value></item>
+                <item key="options"><value>Magento\Core\Model\Layout\Argument\Handler\Options</value></item>
+                <item key="url"><value>Magento\Core\Model\Layout\Argument\Handler\Url</value></item>
+                <item key="array"><value>Magento\Core\Model\Layout\Argument\Handler\ArrayHandler</value></item>
+                <item key="boolean"><value>Magento\Core\Model\Layout\Argument\Handler\Boolean</value></item>
+                <item key="helper"><value>Magento\Core\Model\Layout\Argument\Handler\Helper</value></item>
+                <item key="number"><value>Magento\Core\Model\Layout\Argument\Handler\Number</value></item>
+                <item key="string"><value>Magento\Core\Model\Layout\Argument\Handler\String</value></item>
+            </array>
+        </param>
+    </type>
+    <type name="Magento\Mview\View">
+        <param name="state">
+            <instance type="Magento\Core\Model\Mview\View\State" shared="false"/>
+        </param>
+        <param name="changelog">
+            <instance type="Magento\Mview\View\Changelog" shared="false"/>
         </param>
     </type>
 </config>

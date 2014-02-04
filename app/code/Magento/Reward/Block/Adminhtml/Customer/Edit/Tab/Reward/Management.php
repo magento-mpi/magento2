@@ -22,12 +22,17 @@ class Management
     extends \Magento\Backend\Block\Template
 {
 
+    /**
+     * Reward management template
+     *
+     * @var string
+     */
     protected $_template = 'customer/edit/management.phtml';
 
     /**
      * Prepare layout
      *
-     * @return \Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management
+     * @return $this
      */
     protected function _prepareLayout()
     {

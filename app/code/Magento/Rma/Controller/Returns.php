@@ -52,6 +52,8 @@ class Returns extends \Magento\App\Action\Action
 
     /**
      * Customer returns history
+     *
+     * @return false|null
      */
     public function historyAction()
     {
@@ -73,6 +75,8 @@ class Returns extends \Magento\App\Action\Action
 
     /**
      * Customer create new return
+     *
+     * @return void
      */
     public function createAction()
     {
@@ -217,6 +221,8 @@ class Returns extends \Magento\App\Action\Action
 
     /**
      * RMA view page
+     *
+     * @return void
      */
     public function viewAction()
     {
@@ -241,6 +247,8 @@ class Returns extends \Magento\App\Action\Action
 
     /**
      * View RMA for Order
+     *
+     * @return false|null
      */
     public function returnsAction()
     {
@@ -276,6 +284,8 @@ class Returns extends \Magento\App\Action\Action
 
     /**
      * Add RMA comment action
+     *
+     * @return void
      */
     public function addCommentAction()
     {
@@ -324,6 +334,8 @@ class Returns extends \Magento\App\Action\Action
     
     /**
      * Add Tracking Number action
+     *
+     * @return void
      */
     public function addLabelAction()
     {
@@ -384,8 +396,11 @@ class Returns extends \Magento\App\Action\Action
         $this->_view->renderLayout();
         return;
     }
+
     /**
      * Delete Tracking Number action
+     *
+     * @return void
      */
     public function delLabelAction()
     {

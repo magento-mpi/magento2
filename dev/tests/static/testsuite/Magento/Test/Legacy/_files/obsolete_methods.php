@@ -131,6 +131,8 @@ return array(
     array('_needToAddDummy'),
     array('_needToAddDummyForShipment'),
     array('_outTemplate', 'Magento\Backend\App\AbstractAction'),
+    array('getCustomer', 'Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate', 'getCustomerId'),
+    array('_getAddressForm', 'Magento\Sales\Block\Adminhtml\Order\Create\Form\Address'),
     array('_parseDescription', 'Magento\Sales\Model\Order\Pdf\Items\AbstractItems'),
     array('_parsePackageTheme', 'Magento\Widget\Model\Widget\Instance'),
     array('_parseXmlTrackingResponse', 'Magento\Usa\Model\Shipping\Carrier\Fedex'),
@@ -1175,4 +1177,9 @@ return array(
     array('getItemRemoveUrl', 'Magento\Wishlist\Block\AbstractBlock'),
     array('_getUrlParams', 'Magento\Catalog\Helper\Product\Compare'),
     array('getFileIdentifier', 'Magento\View\Layout\File\FileList', 'Magento\View\Layout\File'),
+    array('_getInitialXml', 'Magento\Config\Theme'),
+    array('_getIdAttributes', 'Magento\Config\Theme'),
+    array('_getSession', 'Magento\CatalogSearch\Controller\Result'),
+    array('addPriceBlockType', 'Magento\Rss\Block\Catalog\AbstractCatalog'),
+    array('getAttributeDisabledTypes', 'Magento\Catalog\Helper\Data'),
 );

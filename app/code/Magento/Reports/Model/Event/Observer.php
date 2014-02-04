@@ -7,17 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Reports\Model\Event;
 
 /**
  * Reports Event observer model
- *
- * @category   Magento
- * @package    Magento_Reports
- * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reports\Model\Event;
-
 class Observer
 {
     /**
@@ -105,7 +99,7 @@ class Observer
      * Customer login action
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Reports\Model\Event\Observer
+     * @return $this
      */
     public function customerLogin(\Magento\Event\Observer $observer)
     {
@@ -134,7 +128,7 @@ class Observer
      * Customer logout processing
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Reports\Model\Event\Observer
+     * @return $this
      */
     public function customerLogout(\Magento\Event\Observer $observer)
     {
@@ -153,7 +147,7 @@ class Observer
      * View Catalog Product action
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Reports\Model\Event\Observer
+     * @return Observer
      */
     public function catalogProductView(\Magento\Event\Observer $observer)
     {
@@ -172,7 +166,7 @@ class Observer
      * Send Product link to friends action
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Reports\Model\Event\Observer
+     * @return Observer
      */
     public function sendfriendProduct(\Magento\Event\Observer $observer)
     {
@@ -187,7 +181,7 @@ class Observer
      * Reset count of compared products cache
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Reports\Model\Event\Observer
+     * @return $this
      */
     public function catalogProductCompareRemoveProduct(\Magento\Event\Observer $observer)
     {
@@ -204,7 +198,7 @@ class Observer
      * Reset count of compared products cache
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Reports\Model\Event\Observer
+     * @return $this
      */
     public function catalogProductCompareClear(\Magento\Event\Observer $observer)
     {
@@ -221,7 +215,7 @@ class Observer
      * Reset count of compared products cache
      *
      * @param \Magento\Event\Observer $observer
-     * @return unknown
+     * @return Observer
      */
     public function catalogProductCompareAddProduct(\Magento\Event\Observer $observer)
     {
@@ -240,7 +234,7 @@ class Observer
      * Add product to shopping cart action
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Reports\Model\Event\Observer
+     * @return $this
      */
     public function checkoutCartAddProduct(\Magento\Event\Observer $observer)
     {
@@ -256,7 +250,7 @@ class Observer
      * Add product to wishlist action
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Reports\Model\Event\Observer
+     * @return Observer
      */
     public function wishlistAddProduct(\Magento\Event\Observer $observer)
     {
@@ -269,7 +263,7 @@ class Observer
      * Share customer wishlist action
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Reports\Model\Event\Observer
+     * @return Observer
      */
     public function wishlistShare(\Magento\Event\Observer $observer)
     {

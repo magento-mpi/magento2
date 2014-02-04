@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GoogleShopping\Model;
 
 /**
  * Google Content Config model
@@ -15,8 +16,6 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GoogleShopping\Model;
-
 class Config extends \Magento\Object
 {
     /**
@@ -263,7 +262,7 @@ class Config extends \Magento\Object
     /**
      * Get array of base attribute names
      *
-     * @return array
+     * @return string[]
      */
     public function getBaseAttributes()
     {

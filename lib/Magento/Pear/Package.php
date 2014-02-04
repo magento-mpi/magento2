@@ -38,8 +38,13 @@ require_once "PEAR/PackageFile/Generator/v2.php";*/
 
 namespace Magento\Pear;
 
+use Magento\Pear;
+
 class Package
 {
+    /**
+     * @var array
+     */
     protected $_data = array(
         'options' => array(
             'baseinstalldir'=>'',
@@ -51,24 +56,46 @@ class Package
         'release' => array(),
     );
 
+    /**
+     * @var Pear
+     */
     protected $_pear;
+
+    /**
+     * @var PEAR_PackageFileManager2
+     */
     protected $_pfm;
 
+    /**
+     * Constructor
+     */
     public function __construct()
     {
-        $this->_pear = \Magento\Pear::getInstance();
+        $this->_pear = Pear::getInstance();
     }
 
+    /**
+     * @return Pear
+     */
     public function getPear()
     {
         return $this->_pear;
     }
 
+    /**
+     * @param string $key
+     * @return mixed
+     */
     public function getPearConfig($key)
     {
         return $this->getPear()->getConfig()->get($key);
     }
 
+    /**
+     * @param string $key
+     * @param array $data
+     * @return $this
+     */
     public function set($key, $data)
     {
         if (''===$key) {
@@ -92,6 +119,10 @@ class Package
         return $this;
     }
 
+    /**
+     * @param string $key
+     * @return array|null
+     */
     public function get($key)
     {
         if (''===$key) {
@@ -117,6 +148,10 @@ class Package
         return $data;
     }
 
+    /**
+     * @param PEAR_PackageFileManager2 $pfm
+     * @return $this
+     */
     public function setPfm($pfm)
     {
         $this->_pfm = $pfm;
@@ -126,8 +161,9 @@ class Package
     /**
      * Get PackageFileManager2 instance
      *
-     * @param string|PEAR_PackageFile_v1 $package
-     * @return PEAR_PackageFileManager2|PEAR_Error
+     * @param string|null $package
+     * @return PEAR_PackageFileManager2
+     * @throws PEAR_Exception
      */
     public function getPfm($package=null)
     {
@@ -149,6 +185,9 @@ class Package
         return $this->_pfm;
     }
 
+    /**
+     * @return $this
+     */
     public function clearPackage()
     {
         $pfm = $this->getPfm();
@@ -159,6 +198,10 @@ class Package
         return $this;
     }
 
+    /**
+     * @param bool $make
+     * @return $this
+     */
     public function generatePackage($make=false)
     {
         PEAR::setErrorHandling(PEAR_ERROR_DIE);
@@ -189,6 +232,9 @@ class Package
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function defineData()
     {
         $this->set('options/outputdirectory', $this->getPear()->getPearDir() . '/output');
@@ -198,11 +244,17 @@ class Package
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function definePackage()
     {
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function defineRelease()
     {
         return $this;

@@ -46,7 +46,7 @@ class Tracking extends \Magento\App\Action\Action
      * Popup action
      * Shows tracking info if it's present, otherwise redirects to 404
      *
-     * @return null
+     * @return void
      * @throws NotFoundException
      */
     public function popupAction()
@@ -71,7 +71,7 @@ class Tracking extends \Magento\App\Action\Action
      * Popup package action
      * Shows package info if it's present, otherwise redirects to 404
      *
-     * @return null
+     * @return void
      * @throws NotFoundException
      */
     public function packageAction()
@@ -144,6 +144,7 @@ class Tracking extends \Magento\App\Action\Action
     /**
      * Print label for one specific shipment
      *
+     * @return void
      * @throws NotFoundException
      */
     public function printLabelAction()
@@ -198,6 +199,7 @@ class Tracking extends \Magento\App\Action\Action
     /**
      * Create pdf document with information about packages
      *
+     * @return void
      */
     public function packagePrintAction()
     {

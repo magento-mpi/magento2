@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reports\Model;
 
 /**
  * Configuration for reports
  */
-namespace Magento\Reports\Model;
-
 class Config extends \Magento\Object
 {
     /**
@@ -40,6 +39,11 @@ class Config extends \Magento\Object
         $this->_storeManager = $storeManager;
     }
 
+    /**
+     * Return reports global configuration
+     *
+     * @return string
+     */
     public function getGlobalConfig()
     {
         $dom = new \DOMDocument();
@@ -53,6 +57,11 @@ class Config extends \Magento\Object
         return $dom->saveXML();
     }
 
+    /**
+     * Return reports language
+     *
+     * @return string
+     */
     public function getLanguage()
     {
         return file_get_contents(
@@ -60,6 +69,11 @@ class Config extends \Magento\Object
         );
     }
 
+    /**
+     * Return reports dashboard
+     *
+     * @return string
+     */
     public function getDashboard()
     {
         return file_get_contents(

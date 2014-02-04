@@ -56,7 +56,7 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * List of address fields
      *
-     * @var array
+     * @var string[]
      */
     protected $_addressFileds = array(
         'prefix', 'firstname', 'middlename', 'lastname', 'suffix',
@@ -237,7 +237,7 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Retrieve Payment Bridge response from the Info instance additional data storage
      *
-     * @param string $key
+     * @param string|null $key
      * @return mixed
      */
     public function getPbridgeResponse($key = null)

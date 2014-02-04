@@ -24,6 +24,7 @@ return array(
     'dev/tests/integration/testsuite/Magento/Core/Model/_files/design/frontend/test_default/source.less',
     'dev/tests/integration/tmp',
     'dev/tests/static/report',
+    'dev/tests/static/framework/Magento/Sniffs/Annotations',
     'dev/tests/static/testsuite/Magento/Test/Php/Exemplar/_files/phpcs',
     'dev/tests/static/testsuite/Magento/Test/Php/Exemplar/_files/phpmd/input',
     'dev/tests/static/testsuite/Magento/Test/Php/Exemplar/_files/phpmd_ruleset.xsd',

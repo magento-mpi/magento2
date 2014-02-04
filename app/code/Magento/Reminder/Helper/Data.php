@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reminder\Helper;
 
 /**
  * Reminder rules data helper
  */
-namespace Magento\Reminder\Helper;
-
 class Data extends \Magento\App\Helper\AbstractHelper
 {
     const XML_PATH_ENABLED = 'promo/magento_reminder/enabled';

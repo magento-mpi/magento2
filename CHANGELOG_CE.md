@@ -1,32 +1,61 @@
+* Fixed bugs:
+  * Fixed an issue with insert image in WYSIWYG editor where selected folder was stored in session
+  * Fixed an issue with CMS Page Links not being shown due to empty text in the link 
+* Updated various PHPDoc with parameter and return types
+
+2.0.0.0-dev63
+=============
 * Modularity improvements:
-  * Moved all Grouped Product functionality to newly created module Magento_GroupedProduct
-  * Moved Multishipping functionality to newly created module Magento_Multishipping
-  * Extracted Product duplication behaviour from Product model to Product\Copier model
-  * Event "catalog_model_product_duplicate" was replaced with composite Product\Copier model
-  * Event "catalog_product_prepare_save" was replaced with controller product initialization helper that can be pluginized
-  * Consolidated Autorizenet in separate module
+  * Consolidated all PayPal-related logic in a separate module
+  * Resolved dependencies on the Magento_GroupedProduct module
+  * Added the ability to enable/disable/remove the Magento_GroupedProduct module without impact on the system
+* Implemented the Oyejorge Less.php adapter
+* Implemented the Less files importing mechanism
+* Added the ability to configure certain cache frontend, and associate it to multiple cache types, thus avoiding the duplication of cache configuration
+* Implemented the more strict format of array definition in the DI configuration:
+  * Covered array definitions with XSD, and made the whole DI configuration validated with XSD
+  * Added the ability to define arrays with keys containing invalid XML characters, that was impossible when keys were represented by the node names
+* Fixed bugs:
+  * Fixed an issue with missed image for a cron job for the abandoned cart emails
+  * Restored the ability to configure cache storage in `local.xml`
+  * Fixed an issue with the css\js merging functionality
+  * Fixed an issue with customer selection on the order creation page
+* AppInterface renamed to LauncherInterface
+* Removed the reinit logic from the Config object
+* Framework part of the "URL" functionality removed from modules
+* Framework part of the "Config" functionality removed from modules
+* Removed the deprecated EAV structure creation method from the EAV setup model
+* Updated various PHPDoc with parameter and return types
+* Indexer implementation:
+  * Implemented a new indexer structure
+* Refactored Web API Framework to support the Data Object based service interfaces
+* Refactored controllers, blocks and templates of the Sales module to use Customer service
+* GitHub requests:
+  * [#275] (https://github.com/magento/magento2/issues/275) -- XSS Vulnerability in app/code/core/Mage/CatalogSearch/Block/Result.php
+* Removed the outdated Customer service
+
+2.0.0.0-dev62
+=============
+* Modularity improvements:
+  * Moved all Grouped Product functionality to newly created module GroupedProduct
+  * Moved Multishipping functionality to newly created module Multishipping
+  * Extracted Product duplication behavior from Product model to Product\Copier model
+  * Replaced event "catalog_model_product_duplicate" with composite Product\Copier model
+  * Replaced event "catalog_product_prepare_save" with controller product initialization helper that can be customozed via plugins
+  * Consolidated Authorize.Net functionality in single module Authorizenet
   * Eliminated dependency of Sales module on Shipping and Usa modules
   * Eliminated dependency of Shipping module on Customer module
   * Improved accuracy and quality of Module Dependency Test
-* Oyejorge Less.php Adapter implemented
-* Less files import mechanism implemented
 * Fixed bugs:
-  * Fixed an issue when order was sent to Paypal without defined currency
-  * Fixed an issue with 404 error when trying to return back to grid from Recurring Billing Profile
-  * Fixed an issue with synchronization with google shopping on product update caused by missed service property
-  * Fixed Authorize.net Direct Post: Ability to proceed order when it was created from Backend
-  * Fixed an issue with ImportExport: Fix notice if _attribute_set column is missing
-  * Fixed missed image for a cron job for the abandoned cart emails
+  * Fixed an issue when order was sent to PayPal in USD regardless of currency used during order creation
+  * Fixed an issue with 404 error when clicking any button on a Recurring Billing Profile in the backend
+  * Fixed an issue with synchronization with Google Shopping on product update caused by missed service property
+  * Fixed ability to submit order in the backend when Authorize.Net Direct Post is used
+  * Fixed an issue with notice that _attribute_set column is missing during Import/Export
 * Removed the deprecated service-calls and data source functionality
-* AppInterface has been renamed to LauncherInterface
-* Removed reinit logic from Config object
-* Framework part of "URL" functionality moved out of modules
-* Framework part of "Config" functionality moved out of modules
-* Removed deprecated EAV structure creation method from EAV setup model
 * Request\Response workflow improvements:
   * Added Console\Response
-  * All kind of applications always return Response instead of sending it
-* Updated various PHPDoc with parameter and return types
+  * Changed behavior of AppInterface to return ResponseInterface instead of sending it
 
 2.0.0.0-dev61
 =============

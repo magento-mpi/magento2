@@ -110,7 +110,7 @@ class Collection
     /**
      * Init collection select
      *
-     * @return \Magento\Reports\Model\Resource\Report\Product\Viewed\Collection
+     * @return $this
      */
     protected function _initSelect()
     {
@@ -175,7 +175,7 @@ class Collection
      * Set ids for store restrictions
      *
      * @param  array $storeIds
-     * @return \Magento\Reports\Model\Resource\Report\Product\Viewed\Collection
+     * @return $this
      */
     public function addStoreRestrictions($storeIds)
     {
@@ -197,10 +197,10 @@ class Collection
     }
 
     /**
-     * Redeclare parent method for applying filters after parent method
-     * but before adding unions and calculating totals
+     * Re-declare parent method for applying filters after parent method, but before adding unions and calculating
+     * totals
      *
-     * @return \Magento\Reports\Model\Resource\Report\Product\Viewed\Collection
+     * @return $this|\Magento\Core\Model\Resource\Db\Collection\AbstractCollection
      */
     protected function _beforeLoad()
     {

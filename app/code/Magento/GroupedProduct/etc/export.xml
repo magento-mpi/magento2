@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <productType name="grouped" model="Magento\GroupedProduct\Model\Export\Entity\Product\Type\Grouped" />
+</config>

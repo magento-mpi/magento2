@@ -8,6 +8,6 @@
  */
 -->
 <config>
-    <preference for="Magento\TestModule1\Service\AllSoapAndRestV1Interface" type="Magento\TestModule1\Service\AllSoapAndRestV1" />
-    <preference for="Magento\TestModule1\Service\AllSoapAndRestV2Interface" type="Magento\TestModule1\Service\AllSoapAndRestV2" />
+    <preference for="Magento\TestModule1\Service\V1\AllSoapAndRestInterface" type="Magento\TestModule1\Service\V1\AllSoapAndRest" />
+    <preference for="Magento\TestModule1\Service\V2\AllSoapAndRestInterface" type="Magento\TestModule1\Service\V2\AllSoapAndRest" />
 </config>

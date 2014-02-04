@@ -15,6 +15,8 @@
  */
 namespace Magento\Pci\Model;
 
+use Magento\Event\Observer as EventObserver;
+
 class Observer
 {
     /**
@@ -33,14 +35,15 @@ class Observer
     /**
      * Upgrade customer password hash when customer has logged in
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
+     * @return void
      */
     public function upgradeCustomerPassword($observer)
     {
         $password = $observer->getEvent()->getPassword();
         $model    = $observer->getEvent()->getModel();
-        if (!$this->_encryptor->validateHashByVersion($password, $model->getPassword())) {
-            $model->changePassword($password, false);
+        if (!$this->_encryptor->validateHashByVersion($password, $model->getPasswordHash())) {
+            $model->changePassword($password);
         }
     }
 }

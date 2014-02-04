@@ -7,11 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\DesignEditor\Model\Translate;
+
 /**
  * Inline translation specific to Vde.
  */
-namespace Magento\DesignEditor\Model\Translate;
-
 class InlineVde implements \Magento\Core\Model\Translate\InlineInterface
 {
     /**
@@ -104,9 +104,9 @@ class InlineVde implements \Magento\Core\Model\Translate\InlineInterface
     /**
      * Replace VDE specific translation templates with HTML fragments
      *
-     * @param array|string $body
+     * @param string[]|string $body
      * @param bool $isJson
-     * @return \Magento\DesignEditor\Model\Translate\InlineVde
+     * @return $this
      */
     public function processResponseBody(&$body, $isJson)
     {
@@ -126,7 +126,7 @@ class InlineVde implements \Magento\Core\Model\Translate\InlineInterface
      * Returns the translation mode html attribute needed by vde to specify which translation mode the
      * element represents.
      *
-     * @param mixed|string $tagName
+     * @param string|null $tagName
      * @return string
      */
     public function getAdditionalHtmlAttribute($tagName = null)
@@ -136,6 +136,8 @@ class InlineVde implements \Magento\Core\Model\Translate\InlineInterface
 
     /**
      * Create block to render script and html with added inline translation content specific for vde.
+     *
+     * @return void
      */
     private function _insertInlineScriptsHtml($content)
     {

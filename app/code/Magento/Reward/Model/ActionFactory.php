@@ -10,6 +10,8 @@
 
 namespace Magento\Reward\Model;
 
+use Magento\Reward\Model\Action\AbstractAction;
+
 class ActionFactory
 {
     /**
@@ -28,9 +30,9 @@ class ActionFactory
     /**
      * Create new action object
      *
-     * @param $type
+     * @param string $type
      * @param array $data
-     * @return \Magento\Reward\Model\Action\AbstractAction
+     * @return AbstractAction
      */
     public function create($type, array $data = array())
     {

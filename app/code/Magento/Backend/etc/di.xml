@@ -19,12 +19,14 @@
     <preference for="Magento\Backend\Model\UrlInterface" type="Magento\Backend\Model\Url" />
     <type name="Magento\App\AreaList">
         <param name="areas">
-            <value>
-                <adminhtml>
-                    <frontNameResolver>Magento\Backend\App\Area\FrontNameResolver</frontNameResolver>
-                    <router>admin</router>
-                </adminhtml>
-            </value>
+            <array>
+                <item key="adminhtml">
+                    <array>
+                        <item key="frontNameResolver"><value>Magento\Backend\App\Area\FrontNameResolver</value></item>
+                        <item key="router"><value>admin</value></item>
+                    </array>
+                </item>
+            </array>
         </param>
     </type>
     <type name="Magento\Backend\App\Router\DefaultRouter">
@@ -55,12 +57,14 @@
     </type>
     <type name="Magento\App\Router\NoRouteHandlerList">
         <param name="handlerClassesList">
-            <value>
-                <backend>
-                    <instance>Magento\Backend\App\Router\NoRouteHandler</instance>
-                    <sortOrder>10</sortOrder>
-                </backend>
-            </value>
+            <array>
+                <item key="backend">
+                    <array>
+                        <item key="instance"><value>Magento\Backend\App\Router\NoRouteHandler</value></item>
+                        <item key="sortOrder"><value>10</value></item>
+                    </array>
+                </item>
+            </array>
         </param>
     </type>
     <type name="Magento\Backend\Model\Widget\Grid\Row\UrlGenerator">
@@ -121,20 +125,26 @@
     </type>
     <type name="Magento\Backend\Controller\Adminhtml\Index">
         <param name="searchModules">
-            <value>
-                <products>
-                    <class>Magento\Backend\Model\Search\Catalog</class>
-                    <acl>Magento_Catalog::catalog</acl>
-                </products>
-                <customers>
-                    <class>Magento\Backend\Model\Search\Customer</class>
-                    <acl>Magento_Customer::customer</acl>
-                </customers>
-                <sales>
-                    <class>Magento\Backend\Model\Search\Order</class>
-                    <acl>Magento_Sales::sales</acl>
-                </sales>
-            </value>
+            <array>
+                <item key="products">
+                    <array>
+                        <item key="class"><value>Magento\Backend\Model\Search\Catalog</value></item>
+                        <item key="acl"><value>Magento_Catalog::catalog</value></item>
+                    </array>
+                </item>
+                <item key="customers">
+                    <array>
+                        <item key="class"><value>Magento\Backend\Model\Search\Customer</value></item>
+                        <item key="acl"><value>Magento_Customer::customer</value></item>
+                    </array>
+                </item>
+                <item key="sales">
+                    <array>
+                        <item key="class"><value>Magento\Backend\Model\Search\Order</value></item>
+                        <item key="acl"><value>Magento_Sales::sales</value></item>
+                    </array>
+                </item>
+            </array>
         </param>
     </type>
     <virtualType name="Magento\Backend\Model\Auth\Session\Storage" type="Magento\Session\Storage">

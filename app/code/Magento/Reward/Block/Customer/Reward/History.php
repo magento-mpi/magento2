@@ -190,7 +190,7 @@ class History extends \Magento\View\Element\Template
     /**
      * Instantiate Pagination
      *
-     * @return \Magento\Reward\Block\Customer\Reward\History
+     * @return $this
      */
     protected function _prepareLayout()
     {

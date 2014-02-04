@@ -8,12 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Rma\Block\Adminhtml\Rma\Create\Order;
+
 /**
  * Admin RMA create order grid block
  */
-
-namespace Magento\Rma\Block\Adminhtml\Rma\Create\Order;
-
 class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
@@ -138,7 +137,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Retrieve row url
      *
-     * @param $row
+     * @param \Magento\Object $row
      * @return string
      */
     public function getRowUrl($row)

@@ -22,6 +22,8 @@ class Store extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Resource initialization
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -34,7 +36,7 @@ class Store extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param \Magento\Object $object
      * @param int $entityTypeId
      * @param int $storeId
-     * @return boolean
+     * @return bool
      */
     public function loadByEntityStore(\Magento\Core\Model\AbstractModel $object, $entityTypeId, $storeId)
     {
