@@ -142,4 +142,12 @@
             </array>
         </param>
     </type>
+    <type name="Magento\Catalog\Model\Product\TypeTransitionManager">
+        <param name="compatibleTypes">
+            <array>
+                <item key="simple"><value type="const">Magento\Catalog\Model\Product\Type::TYPE_SIMPLE</value></item>
+                <item key="virtual"><value type="const">Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL</value></item>
+            </array>
+        </param>
+    </type>
 </config>

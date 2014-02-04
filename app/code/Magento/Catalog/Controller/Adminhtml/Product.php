@@ -56,12 +56,18 @@ class Product extends \Magento\Backend\App\Action
     protected $productCopier;
 
     /**
+     * @var \Magento\Catalog\Model\Product\TypeTransitionManager
+     */
+    protected $productTypeManager;
+
+    /**
      * @param Action\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Filter\Date $dateFilter
      * @param Product\Initialization\Helper $initializationHelper
      * @param Product\Initialization\StockDataFilter $stockFilter
      * @param \Magento\Catalog\Model\Product\Copier $productCopier
+     * @param \Magento\Catalog\Model\Product\TypeTransitionManager $productTypeManager
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
@@ -69,13 +75,15 @@ class Product extends \Magento\Backend\App\Action
         \Magento\Core\Filter\Date $dateFilter,
         \Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper $initializationHelper,
         \Magento\Catalog\Controller\Adminhtml\Product\Initialization\StockDataFilter $stockFilter,
-        \Magento\Catalog\Model\Product\Copier $productCopier
+        \Magento\Catalog\Model\Product\Copier $productCopier,
+        \Magento\Catalog\Model\Product\TypeTransitionManager $productTypeManager
     ) {
         $this->stockFilter = $stockFilter;
         $this->initializationHelper = $initializationHelper;
         $this->registry = $registry;
         $this->_dateFilter = $dateFilter;
         $this->productCopier = $productCopier;
+        $this->productTypeManager = $productTypeManager;
         parent::__construct($context);
     }
 
@@ -685,10 +693,7 @@ class Product extends \Magento\Backend\App\Action
         $data = $this->getRequest()->getPost();
         if ($data) {
             $product = $this->initializationHelper->initialize($this->_initProduct());
-            $this->_eventManager->dispatch(
-                'catalog_product_transition_product_type',
-                array('product' => $product, 'request' => $this->getRequest())
-            );
+            $this->productTypeManager->processProduct($product);
 
             try {
                 if (isset($data['product'][$product->getIdFieldName()])) {

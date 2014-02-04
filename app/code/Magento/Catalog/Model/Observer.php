@@ -40,7 +40,7 @@ class Observer
      * @var \Magento\Catalog\Helper\Category
      */
     protected $_catalogCategory = null;
-    
+
     /**
      * @var \Magento\App\ReinitableConfigInterface
      */
@@ -375,30 +375,5 @@ class Observer
 
         $categoryPathIds = explode(',', $currentCategory->getPathInStore());
         return in_array($category->getId(), $categoryPathIds);
-    }
-
-    /**
-     * Change product type on the fly depending on selected options
-     *
-     * @param \Magento\Event\Observer $observer
-     */
-    public function transitionProductType(\Magento\Event\Observer $observer)
-    {
-        $switchableTypes = array(
-            \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE,
-            \Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL,
-            \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE,
-        );
-        $product = $observer->getProduct();
-        $attributes = $observer->getRequest()->getParam('attributes');
-        if (!empty($attributes)) {
-            $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE);
-        } elseif (in_array($product->getTypeId(), $switchableTypes)) {
-            $product->setTypeInstance(null);
-            $product->setTypeId($product->hasIsVirtual()
-                ? \Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL
-                : \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE
-            );
-        }
     }
 }

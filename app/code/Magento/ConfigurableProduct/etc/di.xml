@@ -17,4 +17,12 @@
     <type name="Magento\Sales\Model\Order\Admin\Item">
         <plugin name="configurable_product" type="Magento\ConfigurableProduct\Model\Order\Admin\Item\Plugin\Configurable"/>
     </type>
+    <type name="Magento\Catalog\Model\Product\TypeTransitionManager">
+        <plugin name="configurable_product_transition" type="Magento\ConfigurableProduct\Model\Product\TypeTransitionManager\Plugin\Configurable" />
+        <param name="compatibleTypes">
+            <array>
+                <item key="configurable"><value type="const">Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE</value></item>
+            </array>
+        </param>
+    </type>
 </config>
