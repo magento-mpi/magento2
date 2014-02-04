@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Model\Indexer\Category;
+namespace Magento\Catalog\Model\Indexer;
 
 /**
  * @magentoDbIsolation enabled
