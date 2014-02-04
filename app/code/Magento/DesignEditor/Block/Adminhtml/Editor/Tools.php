@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\DesignEditor\Block\Adminhtml\Editor;
 
 /**
  * Block that renders VDE tools panel
@@ -14,8 +15,6 @@
  * @method string getMode()
  * @method \Magento\DesignEditor\Block\Adminhtml\Editor\Tools setMode($mode)
  */
-namespace Magento\DesignEditor\Block\Adminhtml\Editor;
-
 class Tools extends \Magento\Backend\Block\Template
 {
     /**
@@ -88,7 +87,7 @@ class Tools extends \Magento\Backend\Block\Template
     /**
      * Get tabs html
      *
-     * @return array
+     * @return string[]
      */
     public function getTabContents()
     {
@@ -102,7 +101,7 @@ class Tools extends \Magento\Backend\Block\Template
     /**
      * Get tabs handles
      *
-     * @return array
+     * @return string[]
      */
     public function getTabHandles()
     {

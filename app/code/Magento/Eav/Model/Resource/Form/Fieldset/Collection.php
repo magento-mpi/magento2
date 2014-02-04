@@ -18,6 +18,8 @@
  */
 namespace Magento\Eav\Model\Resource\Form\Fieldset;
 
+use Magento\Eav\Model\Form\Type;
+
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
@@ -57,6 +59,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Initialize collection model
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -66,12 +69,12 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Add Form Type filter to collection
      *
-     * @param \Magento\Eav\Model\Form\Type|int $type
-     * @return \Magento\Eav\Model\Resource\Form\Fieldset\Collection
+     * @param Type|int $type
+     * @return $this
      */
     public function addTypeFilter($type)
     {
-        if ($type instanceof \Magento\Eav\Model\Form\Type) {
+        if ($type instanceof Type) {
             $type = $type->getId();
         }
 
@@ -81,7 +84,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Set order by fieldset sort order
      *
-     * @return \Magento\Eav\Model\Resource\Form\Fieldset\Collection
+     * @return $this
      */
     public function setSortOrder()
     {
@@ -106,7 +109,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Set store scope ID
      *
      * @param int $storeId
-     * @return \Magento\Eav\Model\Resource\Form\Fieldset\Collection
+     * @return $this
      */
     public function setStoreId($storeId)
     {
@@ -117,7 +120,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Initialize select object
      *
-     * @return \Magento\Eav\Model\Resource\Form\Fieldset\Collection
+     * @return $this
      */
     protected function _initSelect()
     {

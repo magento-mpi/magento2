@@ -7,22 +7,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Reminder\Model\Resource\Reminder;
 
 /**
  * Reminder data grid collection
  *
- * @category    Enterise
- * @package     Enterpise_Reminder
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reminder\Model\Resource\Reminder;
-
 class Collection
     extends \Magento\Reminder\Model\Resource\Rule\Collection
 {
     /**
-     * @return \Magento\Reminder\Model\Resource\Reminder\Collection|\Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+     * Initialize reminder rule collection select
+     *
+     * @return $this
      */
     protected function _initSelect()
     {

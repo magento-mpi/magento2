@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\DesignEditor\Model\Url;
 
 /**
  * Navigation mode design editor url model
  */
-namespace Magento\DesignEditor\Model\Url;
-
 class NavigationMode extends \Magento\Url
 {
     /**

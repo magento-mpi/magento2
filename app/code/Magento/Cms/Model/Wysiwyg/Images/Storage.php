@@ -10,6 +10,8 @@
 
 namespace Magento\Cms\Model\Wysiwyg\Images;
 
+use Magento\Cms\Helper\Wysiwyg\Images;
+
 /**
  * Wysiwyg Images model
  *
@@ -638,6 +640,16 @@ class Storage extends \Magento\Object
     public function getResizeHeight()
     {
         return $this->_resizeParameters['height'];
+    }
+
+    /**
+     * Get cms wysiwyg images helper
+     *
+     * @return Images|null
+     */
+    public function getCmsWysiwygImages()
+    {
+        return $this->_cmsWysiwygImages;
     }
 
     /**
