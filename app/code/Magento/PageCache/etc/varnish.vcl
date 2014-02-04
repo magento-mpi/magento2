@@ -48,6 +48,10 @@ sub vcl_recv {
         return (pass);
     }
 
+    if (req.url ~ "\.(css|js|jpg|png|gif|tiff|bmp|gz|tgz|bz2|tbz|mp3|ogg|svg|swf)(\?|$)") {
+         unset req.http.Cookie;
+    }
+
     return (lookup);
 }
 
@@ -61,12 +65,12 @@ sub vcl_hash {
 sub vcl_fetch {
     if (req.url !~ "\.(jpg|png|gif|tiff|bmp|gz|tgz|bz2|tbz|mp3|ogg|svg|swf)(\?|$)") {
         set beresp.do_gzip = true;
+        if (req.url !~ "\.(css|js)) {
+            # set ttl from received Magento
+            set beresp.ttl = std.duration(beresp.http.X-Magento-ttl + "s", 0s);
+            set beresp.do_esi = true;
+        }
     }
-
-    set beresp.do_esi = true;
-
-    # set ttl from received Magento
-    set beresp.ttl = std.duration(beresp.http.X-Magento-ttl, 0s);
 
     # validate if we need to cache it and prevent from setting cookie
     # images, css and js are cacheable by default so we have to remove cookie also
