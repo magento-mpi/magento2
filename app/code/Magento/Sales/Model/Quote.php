@@ -650,6 +650,33 @@ class Quote extends \Magento\Core\Model\AbstractModel
     }
 
     /**
+     * TODO: Will be refactored to use Customer Model
+     * Retrieve customer address data object
+     *
+     * @return \Magento\Customer\Service\V1\Dto\Address[]
+     */
+    public function getCustomerAddressData()
+    {
+        return $this->addressData;
+    }
+
+    /**
+     * TODO: Will be refactored to use Customer Model
+     * Set customer address data object
+     *
+     * @param \Magento\Customer\Service\V1\Dto\Address $addressData
+     * @return $this
+     */
+    public function setCustomerAddressData(\Magento\Customer\Service\V1\Dto\Address $addressData)
+    {
+        if (!is_array($this->addressData)) {
+            $this->addressData = [];
+        }
+        $this->addressData[] = $addressData;
+        return $this->addressData;
+    }
+
+    /**
      * Update customer data object
      *
      * @param \Magento\Customer\Service\V1\Dto\Customer $customerData
