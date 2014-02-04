@@ -322,7 +322,7 @@
          */
         getZoomRatio: function() {
             if(this.ratio === null || typeof(this.ratio) === 'undefined') {
-                    var imageWidth = $(this.image).width() || $(this.image).prop('width');
+                var imageWidth = $(this.image).width() || $(this.image).prop('width');
                 return this.largeImageSize.width / imageWidth;
             }
             return this.ratio;
