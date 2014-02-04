@@ -92,7 +92,7 @@ class Translate extends \Magento\Core\Model\Resource\Db\AbstractDb implements \M
      * Retrieve translations array by strings
      *
      * @param array $strings
-     * @param int $storeId
+     * @param int|null $storeId
      * @return array
      */
     public function getTranslationArrayByStrings(array $strings, $storeId = null)

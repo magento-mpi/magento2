@@ -578,10 +578,10 @@ class Setup implements \Magento\Module\Updater\SetupInterface
      * @param string $table
      * @param string $idField
      * @param string|integer $rowId
-     * @param string $field
-     * @param string $parentField
+     * @param string|null $field
+     * @param string|null $parentField
      * @param string|integer $parentId
-     * @return mixed|false
+     * @return mixed
      */
     public function getTableRow($table, $idField, $rowId, $field = null, $parentField = null, $parentId = 0)
     {
