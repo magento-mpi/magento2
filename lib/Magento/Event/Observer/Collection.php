@@ -29,7 +29,6 @@ class Collection
     
     /**
      * Initializes observers
-     *
      */
     public function __construct()
     {
