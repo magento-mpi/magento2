@@ -25,32 +25,32 @@ namespace Magento\Tax\Model\Calculation;
 class Rule extends \Magento\Core\Model\AbstractModel
 {
     /**
-     * @var null
+     * @var mixed
      */
     protected $_ctcs = null;
 
     /**
-     * @var null
+     * @var mixed
      */
     protected $_ptcs = null;
 
     /**
-     * @var null
+     * @var mixed
      */
     protected $_rates = null;
 
     /**
-     * @var null
+     * @var mixed
      */
     protected $_ctcModel = null;
 
     /**
-     * @var null
+     * @var mixed
      */
     protected $_ptcModel = null;
 
     /**
-     * @var null
+     * @var mixed
      */
     protected $_rateModel = null;
 

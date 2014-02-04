@@ -214,7 +214,7 @@ class Rate extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * @return mixed|null
+     * @return mixed
      */
     public function getTitleModel()
     {
@@ -225,7 +225,7 @@ class Rate extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * @return mixed|null
+     * @return mixed
      */
     public function getTitles()
     {

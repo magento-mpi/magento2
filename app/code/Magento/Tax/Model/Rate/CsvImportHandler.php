@@ -119,10 +119,10 @@ class CsvImportHandler
     /**
      * Filter file fields (i.e. unset invalid fields)
      *
-     * @param string[] $fileFields
+     * @param array $fileFields
      * @return string[] filtered fields
      */
-    protected function _filterFileFields($fileFields)
+    protected function _filterFileFields(array $fileFields)
     {
         $filteredFields = $this->getRequiredCsvFields();
         $requiredFieldsNum = count($this->getRequiredCsvFields());

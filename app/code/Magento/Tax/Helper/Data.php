@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 namespace Magento\Tax\Helper;
+
 use Magento\Core\Model\Store;
 use Magento\Customer\Model\Address;
 
@@ -417,7 +418,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Check if need display tax column in for shopping cart/order items
      *
-     * @param null $store
+     * @param null|string|bool|int|Store $store
      * @return bool
      */
     public function displayTaxColumn($store = null)

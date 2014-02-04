@@ -9,6 +9,7 @@
  */
 
 namespace Magento\Tax\Model;
+
 use Magento\Core\Model\Store;
 
 /**
