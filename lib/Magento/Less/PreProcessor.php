@@ -144,7 +144,7 @@ class PreProcessor
         }
 
         if ($lessSourceContent != $lessContent) {
-            $lessFileTargetPath = $this->saveLessFile($lessFileSourcePath, $lessSourceContent);
+            $lessFileTargetPath = $this->saveLessFile($lessFileSourcePath, $lessContent);
         }
         return $lessFileTargetPath;
     }

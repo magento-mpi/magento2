@@ -41,7 +41,12 @@ class MagentoImport implements PreProcessorInterface
      */
     protected $viewService;
 
-
+    /**
+     * @param \Magento\View\Layout\File\SourceInterface $fileSource
+     * @param \Magento\View\Service $viewService
+     * @param \Magento\View\RelatedFile $relatedFile
+     * @param PreProcessor\ErrorHandlerInterface $errorHandler
+     */
     public function __construct(
         \Magento\View\Layout\File\SourceInterface $fileSource,
         \Magento\View\Service $viewService,
