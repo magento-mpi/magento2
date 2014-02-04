@@ -29,14 +29,24 @@ class ImportEntityFactory
     /**
      * @param string $filePath
      * @param array $params
-     * @return \Magento\Css\PreProcessor\Cache\Import\ImportEntity
+     * @return \Magento\Css\PreProcessor\Cache\Import\ImportEntityInterface
+     * @throws \Exception
      */
     public function create($filePath, $params)
     {
-        return $this->objectManager->create(
+        /** @var \Magento\Css\PreProcessor\Cache\Import\ImportEntityInterface $importEntity */
+        $importEntity = $this->objectManager->create(
             'Magento\Css\PreProcessor\Cache\Import\ImportEntity',
             array('filePath' => $filePath, 'params' => $params)
         );
+
+        if (!$importEntity instanceof \Magento\Css\PreProcessor\Cache\Import\ImportEntityInterface) {
+            throw new \Exception(
+                'Import Entity does not implement \Magento\Css\PreProcessor\Cache\Import\ImportEntityInterface'
+            );
+        }
+
+        return $importEntity;
     }
 }
 

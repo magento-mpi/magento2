@@ -59,7 +59,7 @@ class Storage
     public function save($key, $data)
     {
         $mapFileName = $this->getMapFilePath($key);
-        $this->mapsDirectory->writeFile($mapFileName, $data, 'w+');
+        $this->mapsDirectory->writeFile($mapFileName, $data);
         return $this;
     }
 

@@ -30,12 +30,22 @@ class CacheManagerFactory
      * @param string $filePath
      * @param array $params
      * @return \Magento\Css\PreProcessor\Cache\CacheManager
+     * @throws \Exception
      */
     public function create($filePath, array $params)
     {
-        return $this->objectManager->create(
+        /** @var \Magento\Css\PreProcessor\Cache\CacheManagerInterface $cacheManager */
+        $cacheManager = $this->objectManager->create(
             'Magento\Css\PreProcessor\Cache\CacheManager',
             array('filePath' => $filePath, 'params' => $params)
         );
+
+        if (!$cacheManager instanceof \Magento\Css\PreProcessor\Cache\CacheManagerInterface) {
+            throw new \Exception(
+                'Cache Manager does not implement \Magento\Css\PreProcessor\Cache\CacheManagerInterface'
+            );
+        }
+
+        return $cacheManager;
     }
 }

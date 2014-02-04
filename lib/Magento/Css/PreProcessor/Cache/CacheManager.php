@@ -14,7 +14,7 @@ use \Magento\Filesystem;
 /**
  * Less cache manager
  */
-class CacheManager
+class CacheManager implements CacheManagerInterface
 {
     /**
      * @var array
@@ -130,7 +130,6 @@ class CacheManager
     /**
      * @param string $filePath
      * @param array $params
-     * @throws \LogicException
      */
     public function addEntityToCache($filePath, $params)
     {
@@ -154,6 +153,6 @@ class CacheManager
      */
     protected function prepareSaveData($cachedFile)
     {
-        return serialize(['cached_file' => $cachedFile, 'imports' => $this->importEntities ]);
+        return serialize(['cached_file' => $cachedFile, 'imports' => $this->importEntities]);
     }
 }

@@ -10,7 +10,10 @@ namespace Magento\Css\PreProcessor\Cache\Import;
 
 use \Magento\Filesystem;
 
-class ImportEntity implements \Serializable
+/**
+ * Import entity
+ */
+class ImportEntity implements ImportEntityInterface
 {
     /**
      * @var \Magento\Filesystem\Directory\ReadInterface

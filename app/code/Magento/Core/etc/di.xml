@@ -528,11 +528,9 @@
             <instance type="Magento\Less\File\Source\Theme" />
         </param>
     </type>
-
     <type name="Magento\Css\PreProcessor\Less">
         <plugin name="process_less" type="Magento\Css\PreProcessor\Cache\Plugin" sortOrder="10"/>
     </type>
-
     <type name="Magento\Less\PreProcessor">
         <plugin name="process_less_instructions" type="Magento\Css\PreProcessor\Cache\Plugin" sortOrder="10"/>
         <param name="preProcessors">

@@ -46,7 +46,7 @@ class Plugin
     /**
      * @param array $arguments
      * @param \Magento\Code\Plugin\InvocationChain $invocationChain
-     * @return mixed|null
+     * @return string|null
      */
     public function aroundProcess(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
     {
@@ -73,8 +73,8 @@ class Plugin
     }
 
     /**
-     * @param $lessFilePath
-     * @param $params
+     * @param string $lessFilePath
+     * @param array $params
      * @return $this
      */
     protected function initializeCacheManager($lessFilePath, $params)
