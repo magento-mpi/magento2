@@ -194,9 +194,6 @@
             <word>GiftRegistry</word>
             <word>GiftWrapping</word>
             <word>Invitation</word>
-            <word>Magento/License</word>
-            <word>Magento\License</word>
-            <word>Magento_License</word>
             <word>Magento/Logging</word>
             <word>Magento\Logging</word>
             <word>Magento_Logging</word>
@@ -389,6 +386,38 @@
         <item>
             <!-- Skip all words in CE check as currently this testsuites are used only for EE -->
             <path>dev/tests/functional/testsuites/</path>
+        </item>
+        <item>
+            <path>app/code/Magento/Core/etc/di.xml</path>
+            <word>CHANGELOG</word>
+        </item>
+        <item>
+            <path>app/code/Magento/Indexer</path>
+            <word>CHANGELOG</word>
+        </item>
+        <item>
+            <path>app/etc/di.xml</path>
+            <word>CHANGELOG</word>
+        </item>
+        <item>
+            <path>dev/tests/integration/testsuite/Magento/Mview</path>
+            <word>CHANGELOG</word>
+        </item>
+        <item>
+            <path>dev/tests/unit/testsuite/Magento/Mview</path>
+            <word>CHANGELOG</word>
+        </item>
+        <item>
+            <path>lib/Magento/Mview</path>
+            <word>CHANGELOG</word>
+        </item>
+        <item>
+            <path>dev/tests/static/report/phpcs_psr2_report.xml</path>
+            <word>CHANGELOG</word>
+        </item>
+        <item>
+            <path>static_tests_no_js.xml</path>
+            <word>CHANGELOG</word>
         </item>
     </whitelist>
 </config>

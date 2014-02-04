@@ -35,7 +35,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
     protected $_aviableProductTypes = array(
         \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE,
         \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE,
-        \Magento\Catalog\Model\Product\Type::TYPE_GROUPED,
+        \Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE,
         \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE
     );
 
@@ -64,6 +64,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $ordersFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Logger
      * @param array $data
      */
     public function __construct(
@@ -75,12 +76,12 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
         \Magento\Validator\UniversalFactory $universalFactory,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $ordersFactory,
-        \Magento\Catalog\Model\ProductFactory $productFactory,        
+        \Magento\Catalog\Model\ProductFactory $productFactory,
         $data = array()
     ) {
         $this->_rmaData = $rmaData;
         $this->_ordersFactory = $ordersFactory;
-        $this->_productFactory = $productFactory;        
+        $this->_productFactory = $productFactory;
         parent::__construct($resource, $eavConfig, $attrSetEntity, $locale, $resourceHelper, $universalFactory, $data);
     }
 

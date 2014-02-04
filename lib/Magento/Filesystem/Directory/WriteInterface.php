@@ -97,4 +97,11 @@ interface WriteInterface extends ReadInterface
      * @throws \Magento\Filesystem\FilesystemException
      */
     public function writeFile($path, $content, $mode = null);
+
+    /**
+     * Get driver
+     *
+     * @return \Magento\Filesystem\DriverInterface
+     */
+    public function getDriver();
 }

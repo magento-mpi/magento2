@@ -1,8 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    EE
- * @package     EE_refrence
  * @copyright   {copyright}
  * @license     {license_link}
  */

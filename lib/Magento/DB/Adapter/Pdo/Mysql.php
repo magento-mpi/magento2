@@ -127,7 +127,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
     /**
      * Filesystem class
      *
-     * @var \Magento\Filesystem
+     * @var \Magento\App\Filesystem
      */
     protected $_filesystem;
 
@@ -212,13 +212,13 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
     protected $dateTime;
 
     /**
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param array $config
      */
     public function __construct(
-        \Magento\Filesystem $filesystem,
+        \Magento\App\Filesystem $filesystem,
         \Magento\Stdlib\String $string,
         \Magento\Stdlib\DateTime $dateTime,
         array $config = array()
@@ -1403,7 +1403,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
     {
         $str = '## ' . date('Y-m-d H:i:s') . "\r\n" . $str;
 
-        $stream = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem::ROOT)->openFile($this->_debugFile, 'a');
+        $stream = $this->_filesystem->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR)->openFile($this->_debugFile, 'a');
         $stream->lock();
         $stream->write($str);
         $stream->unlock();
@@ -3596,12 +3596,60 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
      * Converts fetched blob into raw binary PHP data.
      * The MySQL drivers do it nice, no processing required.
      *
-     * @mixed $value
+     * @param mixed $value
      * @return mixed
      */
     public function decodeVarbinary($value)
     {
         return $value;
+    }
+
+    /**
+     * Create trigger
+     *
+     * @param \Magento\DB\Ddl\Trigger $trigger
+     * @throws \Zend_Db_Exception
+     * @return \Zend_Db_Statement_Pdo
+     */
+    public function createTrigger(\Magento\DB\Ddl\Trigger $trigger)
+    {
+        if (!$trigger->getStatements()) {
+            throw new \Zend_Db_Exception(sprintf(__('Trigger %s has not statements available'), $trigger->getName()));
+        }
+
+        $statements = implode("\n", $trigger->getStatements());
+
+        $sql = sprintf("CREATE TRIGGER %s %s %s ON %s FOR EACH ROW\nBEGIN\n%s\nEND",
+            $trigger->getName(),
+            $trigger->getTime(),
+            $trigger->getEvent(),
+            $trigger->getTable(),
+            $statements
+        );
+
+        return $this->query($sql);
+    }
+
+    /**
+     * Drop trigger from database
+     *
+     * @param string $triggerName
+     * @param string $schemaName
+     * @throws \InvalidArgumentException
+     * @return bool
+     */
+    public function dropTrigger($triggerName, $schemaName = null)
+    {
+        if (empty($triggerName)) {
+            throw new \InvalidArgumentException(__('Trigger name is not defined'));
+        }
+
+        $triggerName = ($schemaName ? $schemaName . '.' : '') . $triggerName;
+
+        $sql = 'DROP TRIGGER IF EXISTS ' . $this->quoteIdentifier($triggerName);
+        $this->query($sql);
+
+        return true;
     }
 
     /**

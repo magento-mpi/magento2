@@ -170,7 +170,7 @@ class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
         $this->_setFieldset($attributes, $fieldset);
 
         $regionElement = $form->getElement('region');
-        $regionElement->setRequired(true);
+
         if ($regionElement) {
             $regionElement->setRenderer($this->_regionFactory->create());
         }

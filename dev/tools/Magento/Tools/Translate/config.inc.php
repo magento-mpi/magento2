@@ -205,13 +205,6 @@ $CONFIG['translates'] = array(
         'app/design/frontend/default/modern/template/page/',
         'app/design/frontend/default/modern/layout/page.xml',
     ),
-    'Magento_PageCache' => array(
-        'app/code/Magento/PageCache/',
-        'app/design/frontend/base/default/template/pagecache/',
-        'app/design/frontend/base/default/layout/pagecache.xml',
-        'app/design/adminhtml/default/default/template/pagecache/',
-        'app/design/adminhtml/default/default/layout/pagecache.xml'
-    ),
     'Magento_Captcha' => array(
         'app/code/Magento/Captcha/',
         'app/design/frontend/base/default/template/captcha/',
@@ -225,8 +218,8 @@ $CONFIG['translates'] = array(
         'app/design/frontend/base/default/layout/paybox.xml',
         'app/design/adminhtml/default/default/template/paybox/',
     ),
-    'Magento_Paygate' => array(
-        'app/code/Magento/Paygate/',
+    'Magento_Authorizenet' => array(
+        'app/code/Magento/Authorizenet/',
     ),
     'Magento_Payment' => array(
         'app/code/Magento/Payment/',
@@ -434,11 +427,6 @@ $CONFIG['translates'] = array(
         'app/design/frontend/enterprise/default/layout/invitation.xml',
         'app/design/frontend/enterprise/default/template/invitation/'
     ),
-    'Magento_License' => array(
-        'app/code/Magento/License/',
-        'app/design/adminhtml/default/default/layout/enterprise/license.xml',
-        'app/design/adminhtml/default/default/template/enterprise/license/',
-    ),
     'Magento_Logging' => array(
         'app/code/Magento/Logging/',
         'app/design/adminhtml/default/default/layout/enterprise/logging.xml',
@@ -583,10 +571,9 @@ $CONFIG['helpers']  = array(
     'newsletter'        => 'Magento_Newsletter',
     'ogone'             => 'Magento_Ogone',
     'page'              => 'Magento_Theme',
-    'pagecache'         => 'Magento_PageCache',
     'captcha'           => 'Magento_Captcha',
     'paybox'            => 'Magento_Paybox',
-    'paygate'           => 'Magento_Paygate',
+    'authorizenet'      => 'Magento_Authorizenet',
     'payment'           => 'Magento_Payment',
     'paypal'            => 'Magento_Paypal',
     'paypaluk'          => 'Magento_PaypalUk',
@@ -626,7 +613,6 @@ $CONFIG['helpers']  = array(
     'magento_giftwrapping'       => 'Magento_GiftWrapping',
     'magento_scheduledimportexport'       => 'Magento_ScheduledImportExport',
     'magento_invitation'         => 'Magento_Invitation',
-    'magento_license'            => 'Magento_License',
     'magento_logging'            => 'Magento_Logging',
     'magento_fullpagecache'          => 'Magento_FullPageCache',
     'magento_pbridge'            => 'Magento_Pbridge',

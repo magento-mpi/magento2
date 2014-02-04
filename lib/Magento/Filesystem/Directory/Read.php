@@ -116,6 +116,23 @@ class Read implements ReadInterface
     }
 
     /**
+     * Read recursively
+     *
+     * @param null $path
+     * @return array
+     */
+    public function readRecursively($path = null)
+    {
+        $result = array();
+        $paths = $this->driver->readDirectoryRecursively($this->driver->getAbsolutePath($this->path, $path));
+        /** @var \FilesystemIterator $file */
+        foreach ($paths as $file) {
+            $result[] = $this->getRelativePath($file);
+        }
+        sort($result);
+        return $result;
+    }
+    /**
      * Search all entries for given regex pattern
      *
      * @param string $pattern
@@ -226,18 +243,5 @@ class Read implements ReadInterface
     public function isDirectory($path)
     {
         return $this->driver->isDirectory($this->driver->getAbsolutePath($this->path, $path));
-    }
-
-    /**
-     * Checks is directory contains path
-     * Utility method.
-     *
-     * @param string $path
-     * @param string $directory
-     * @return bool
-     */
-    public function isPathInDirectory($path, $directory)
-    {
-        return $this->driver->isPathInDirectory($path, $directory);
     }
 }

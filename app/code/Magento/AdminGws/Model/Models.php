@@ -22,6 +22,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * @var \Magento\AdminGws\Helper\Data
      */
     protected $_adminGwsData = null;
+
     /**
      * Catalog category factory
      *

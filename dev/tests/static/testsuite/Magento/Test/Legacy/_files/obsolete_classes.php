@@ -600,7 +600,7 @@ return array(
     array('Mage_Core_Controller_Magento_Router_Admin', 'Magento\Backend\App\Router\DefaultRouter'),
     array('Mage_Core_Model_Convert'),
     array('Mage_Core_Model_Config_Fieldset', 'Magento\Core\Model\Fieldset\Config'),
-    array('Mage_Core_Model_Config_Options', 'Magento\Filesystem'),
+    array('Mage_Core_Model_Config_Options', 'Magento\App\Filesystem'),
     array('Magento\App\Dir', 'Magento\Filesystem'),
     array('Magento\Filesystem\Adapter\Local', 'Magento\Filesystem\Driver\File'),
     array('Magento\Filesystem\Adapter\Zlib', 'Magento\Filesystem\Driver\Zlib'),
@@ -1686,7 +1686,7 @@ return array(
     ),
     array(
         'Magento\App\Dir\Verification',
-        'Magento\Filesystem\DirectoryList\Verification'
+        'Magento\App\Filesystem\DirectoryList\Verification'
     ),
     array('Magento\Core\Model\Cookie', 'Magento\Stdlib\Cookie'),
     array('Magento\Core\Model\Logger', 'Magento\Logger'),
@@ -1761,4 +1761,54 @@ return array(
     array('Magento\Catalog\Model\Resource\Convert'),
     array('Magento\Reminder\Model\Resource\HelperFactory'),
     array('Magento\Reminder\Model\Resource\Helper'),
+    array('Magento\CatalogRule\Block\Adminhtml\Promo\Widget\Chooser'),
+    array(
+        'Magento\Catalog\Model\Product\Type\Grouped\Backend',
+        'Magento\GroupedProduct\Model\Product\Type\Grouped\Backend'
+    ),
+    array(
+        'Magento\Catalog\Model\Product\Type\Grouped\Price',
+        'Magento\GroupedProduct\Model\Product\Type\Grouped\Price'
+    ),
+    array(
+        'Magento\Catalog\Model\Resource\Product\Indexer\Price\Grouped',
+        'Magento\GroupedProduct\Model\Resource\Product\Indexer\Price\Grouped'
+    ),
+    array(
+        'Magento\Catalog\Model\Resource\Product\Type\Grouped\AssociatedProductsCollection',
+        'Magento\GroupedProduct\Model\Resource\Product\Type\Grouped\AssociatedProductsCollection'
+    ),
+    array(
+        'Magento\Catalog\Model\Product\Type\Grouped',
+        'Magento\GroupedProduct\Model\Product\Type\Grouped'
+    ),
+    array(
+        'Magento\Catalog\Block\Adminhtml\Product\Composite\Fieldset\Grouped',
+        'Magento\GroupedProduct\Block\Adminhtml\Product\Composite\Fieldset\Grouped'
+    ),
+    array(
+        'Magento\Catalog\Block\Adminhtml\Product\Edit\Tabs\Grouped',
+    ),
+    array(
+        'Magento\Catalog\Block\Product\Grouped\AssociatedProducts',
+        'Magento\GroupedProduct\Block\Product\Grouped\AssociatedProducts',
+    ),
+    array(
+        'Magento\Catalog\Block\Product\Grouped\AssociatedProducts\ListAssociatedProducts',
+        'Magento\GroupedProduct\Block\Product\Grouped\AssociatedProducts\ListAssociatedProducts'
+    ),
+    array(
+        'Magento\Catalog\Block\Product\View\Type\Grouped',
+        'Magento\GroupedProduct\Block\Product\View\Type\Grouped'
+    ),
+    array('Magento\PageCache\Block\Adminhtml\Cache\Additional'),
+    array('Magento\PageCache\Controller\Adminhtml\PageCache'),
+    array('Magento\PageCache\Model\Control\ControlInterface'),
+    array('Magento\PageCache\Model\Control\Zend'),
+    array('Magento\PageCache\Model\System\Config\Source\Controls'),
+    array('Magento\PageCache\Model\CacheControlFactory'),
+    array('Magento\PageCache\Model\Observer'),
+    array('Magento\Catalog\Block\Adminhtml\System\Config\Form\Field\Select\Flatcatalog'),
+    array('Magento\Catalog\Helper\Category\Flat'),
+    array('Magento\Catalog\Model\Category\Indexer\Flat'),
 );

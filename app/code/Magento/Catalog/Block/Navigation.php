@@ -17,7 +17,10 @@ namespace Magento\Catalog\Block;
  */
 class Navigation extends \Magento\View\Element\Template
 {
-    protected $_categoryInstance = null;
+    /**
+     * @var \Magento\Catalog\Model\Category
+     */
+    protected $_categoryInstance;
 
     /**
      * Current category key
@@ -38,14 +41,7 @@ class Navigation extends \Magento\View\Element\Template
      *
      * @var \Magento\Catalog\Helper\Category
      */
-    protected $_catalogCategory = null;
-
-    /**
-     * Catalog category flat
-     *
-     * @var \Magento\Catalog\Helper\Category\Flat
-     */
-    protected $_catalogCategoryFlat = null;
+    protected $_catalogCategory;
 
     /**
      * @var \Magento\Core\Model\Registry
@@ -74,14 +70,19 @@ class Navigation extends \Magento\View\Element\Template
     protected $_productCollectionFactory;
 
     /**
+     * @var \Magento\Catalog\Model\Indexer\Category\Flat\State
+     */
+    protected $flatState;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
      * @param \Magento\Catalog\Model\Layer $catalogLayer
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Catalog\Helper\Category\Flat $catalogCategoryFlat
      * @param \Magento\Catalog\Helper\Category $catalogCategory
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Catalog\Model\Indexer\Category\Flat\State $flatState
      * @param array $data
      */
     public function __construct(
@@ -90,17 +91,17 @@ class Navigation extends \Magento\View\Element\Template
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
         \Magento\Catalog\Model\Layer $catalogLayer,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Catalog\Helper\Category\Flat $catalogCategoryFlat,
         \Magento\Catalog\Helper\Category $catalogCategory,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Catalog\Model\Indexer\Category\Flat\State $flatState,
         array $data = array()
     ) {
         $this->_productCollectionFactory = $productCollectionFactory;
         $this->_catalogLayer = $catalogLayer;
         $this->_customerSession = $customerSession;
-        $this->_catalogCategoryFlat = $catalogCategoryFlat;
         $this->_catalogCategory = $catalogCategory;
         $this->_registry = $registry;
+        $this->flatState = $flatState;
         $this->_categoryInstance = $categoryFactory->create();
         parent::__construct($context, $data);
     }
@@ -180,8 +181,7 @@ class Navigation extends \Magento\View\Element\Template
      */
     public function getStoreCategories()
     {
-        $helper = $this->_catalogCategory;
-        return $helper->getStoreCategories();
+        return $this->_catalogCategory->getStoreCategories();
     }
 
     /**
@@ -251,7 +251,7 @@ class Navigation extends \Magento\View\Element\Template
         }
 
         $position = array();
-        for($i = 0; $i <= $level; $i++) {
+        for ($i = 0; $i <= $level; $i++) {
             if (isset($this->_itemLevelPositions[$i])) {
                 $position[] = $this->_itemLevelPositions[$i];
             }
@@ -273,22 +273,18 @@ class Navigation extends \Magento\View\Element\Template
      * @return string
      */
     protected function _renderCategoryMenuItemHtml($category, $level = 0, $isLast = false, $isFirst = false,
-        $isOutermost = false, $outermostItemClass = '', $childrenWrapClass = '', $noEventAttributes = false)
-    {
+        $isOutermost = false, $outermostItemClass = '', $childrenWrapClass = '', $noEventAttributes = false
+    ) {
         if (!$category->getIsActive()) {
             return '';
         }
-        $html = array();
 
         // get all children
-        if ($this->_catalogCategoryFlat->isAvailable()) {
+        if ($this->flatState->isAvailable()) {
             $children = (array)$category->getChildrenNodes();
-            $childrenCount = count($children);
         } else {
             $children = $category->getChildren();
-            $childrenCount = $children->count();
         }
-        $hasChildren = ($children && $childrenCount);
 
         // select active children
         $activeChildren = array();
@@ -297,6 +293,7 @@ class Navigation extends \Magento\View\Element\Template
                 $activeChildren[] = $child;
             }
         }
+
         $activeChildrenCount = count($activeChildren);
         $hasActiveChildren = ($activeChildrenCount > 0);
 
@@ -307,6 +304,7 @@ class Navigation extends \Magento\View\Element\Template
         if ($this->isCategoryActive($category)) {
             $classes[] = 'active';
         }
+
         $linkClass = '';
         if ($isOutermost && $outermostItemClass) {
             $classes[] = $outermostItemClass;
@@ -338,6 +336,8 @@ class Navigation extends \Magento\View\Element\Template
             $htmlLi .= ' ' . $attrName . '="' . str_replace('"', '\"', $attrValue) . '"';
         }
         $htmlLi .= '>';
+
+        $html = array();
         $html[] = $htmlLi;
 
         $html[] = '<a href="'.$this->getCategoryUrl($category).'"'.$linkClass.'>';
@@ -407,7 +407,8 @@ class Navigation extends \Magento\View\Element\Template
      * @param \Magento\Catalog\Model\Category $category
      * @return string
      */
-    public function drawOpenCategoryItem($category) {
+    public function drawOpenCategoryItem($category)
+    {
         $html = '';
         if (!$category->getIsActive()) {
             return $html;
@@ -484,5 +485,4 @@ class Navigation extends \Magento\View\Element\Template
 
         return $html;
     }
-
 }

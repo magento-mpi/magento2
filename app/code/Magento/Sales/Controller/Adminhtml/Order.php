@@ -126,7 +126,18 @@ class Order extends \Magento\Backend\App\Action
 
         $order = $this->_initOrder();
         if ($order) {
-            $this->_initAction();
+            try {
+                $this->_initAction();
+            } catch (\Magento\App\Action\Exception $e) {
+                $this->messageManager->addError($e->getMessage());
+                $this->_redirect('sales/order/index');
+                return;
+            } catch(\Exception $e) {
+                $this->_objectManager->get('Magento\Logger')->logException($e);
+                $this->messageManager->addError(__('Exception occurred during order load'));
+                $this->_redirect('sales/order/index');
+                return;
+            }
             $this->_title->add(sprintf("#%s", $order->getRealOrderId()));
             $this->_view->renderLayout();
         }
@@ -502,7 +513,7 @@ class Order extends \Magento\Backend\App\Action
                 return $this->_fileFactory->create(
                     'invoice' . $this->_objectManager->get('Magento\Core\Model\Date')->date('Y-m-d_H-i-s') . '.pdf',
                     $pdf->render(),
-                    \Magento\Filesystem::VAR_DIR,
+                    \Magento\App\Filesystem::VAR_DIR,
                     'application/pdf'
                 );
             } else {
@@ -541,7 +552,7 @@ class Order extends \Magento\Backend\App\Action
                 return $this->_fileFactory->create(
                     'packingslip' . $this->_objectManager->get('Magento\Core\Model\Date')->date('Y-m-d_H-i-s') . '.pdf',
                     $pdf->render(),
-                    \Magento\Filesystem::VAR_DIR,
+                    \Magento\App\Filesystem::VAR_DIR,
                     'application/pdf'
                 );
             } else {
@@ -580,7 +591,7 @@ class Order extends \Magento\Backend\App\Action
                 return $this->_fileFactory->create(
                     'creditmemo' . $this->_objectManager->get('Magento\Core\Model\Date')->date('Y-m-d_H-i-s') . '.pdf',
                     $pdf->render(),
-                    \Magento\Filesystem::VAR_DIR,
+                    \Magento\App\Filesystem::VAR_DIR,
                     'application/pdf'
                 );
             } else {
@@ -645,7 +656,7 @@ class Order extends \Magento\Backend\App\Action
                 return $this->_fileFactory->create(
                     'docs' . $this->_objectManager->get('Magento\Core\Model\Date')->date('Y-m-d_H-i-s') . '.pdf',
                     $pdf->render(),
-                    \Magento\Filesystem::VAR_DIR,
+                    \Magento\App\Filesystem::VAR_DIR,
                     'application/pdf'
                 );
             } else {
@@ -734,7 +745,7 @@ class Order extends \Magento\Backend\App\Action
         $fileName = 'orders.csv';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock  */
         $exportBlock = $this->_view->getLayout()->getChildBlock('sales.order.grid', 'grid.export');
-        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile(), \Magento\Filesystem::VAR_DIR);
+        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile(), \Magento\App\Filesystem::VAR_DIR);
     }
 
     /**
@@ -749,7 +760,7 @@ class Order extends \Magento\Backend\App\Action
         return $this->_fileFactory->create(
             $fileName,
             $exportBlock->getExcelFile($fileName),
-            \Magento\Filesystem::VAR_DIR
+            \Magento\App\Filesystem::VAR_DIR
         );
     }
 

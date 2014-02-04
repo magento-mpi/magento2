@@ -17,7 +17,6 @@
     <preference for="Magento\Session\SessionManagerInterface" type="Magento\Core\Model\Session" />
     <preference for="Magento\Core\Model\LocaleInterface" type="Magento\Core\Model\Locale" />
     <preference for="Magento\View\Asset\MergeStrategyInterface" type="Magento\View\Asset\MergeStrategy\Direct" />
-    <preference for="Magento\Core\Model\DataService\ConfigInterface" type="Magento\Core\Model\DataService\Config" />
     <preference for="Magento\Core\Model\ConfigInterface" type="Magento\Core\Model\Config" />
     <preference for="Magento\Core\Model\Config\DataInterface" type="Magento\Core\Model\Config\Data" />
     <preference for="Magento\Core\Model\Config\Storage\WriterInterface" type="Magento\Core\Model\Config\Storage\Writer\Db" />
@@ -43,6 +42,8 @@
     <preference for="Magento\Core\Model\Translate\InlineInterface" type="Magento\Core\Model\Translate\Inline" />
     <preference for="Magento\Session\ValidatorInterface" type="Magento\Core\Model\Session\Validator" />
     <preference for="Magento\Session\StorageInterface" type="Magento\Session\Storage" />
+    <preference for="Magento\Mview\View\StateInterface" type="Magento\Core\Model\Mview\View\State" />
+    <preference for="Magento\Mview\View\State\CollectionInterface" type="Magento\Core\Model\Resource\Mview\View\State\Collection" />
     <type name="Magento\App\DefaultPath\DefaultPath">
         <param name="parts">
             <value>

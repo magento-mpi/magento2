@@ -276,16 +276,20 @@ class Session extends \Magento\Session\SessionManager
 
         if ($customer->authenticate($username, $password)) {
             $this->setCustomerAsLoggedIn($customer);
-            $this->regenerateId();
             return true;
         }
         return false;
     }
 
+    /**
+     * @param \Magento\Customer\Model\Customer $customer
+     * @return $this
+     */
     public function setCustomerAsLoggedIn($customer)
     {
         $this->setCustomer($customer);
         $this->_eventManager->dispatch('customer_login', array('customer' => $customer));
+        $this->regenerateId();
         return $this;
     }
 
@@ -300,7 +304,6 @@ class Session extends \Magento\Session\SessionManager
         $customer = $this->_createCustomer()->load($customerId);
         if ($customer->getId()) {
             $this->setCustomerAsLoggedIn($customer);
-            $this->regenerateId();
             return true;
         }
         return false;

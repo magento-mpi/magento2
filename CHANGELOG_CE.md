@@ -1,31 +1,95 @@
+* Modularity improvements:
+  * Moved all Grouped Product functionality to newly created module Magento_GroupedProduct
+  * Extracted Product duplication behaviour from Product model to Product\Copier model
+  * Event "catalog_model_product_duplicate" was replaced with composite Product\Copier model
+  * Event "catalog_product_prepare_save" was replaced with controller product initialization helper that can be pluginized
+  * Autorizenet is consolidated in separate module
+* Introduced new layout block attribute - cacheable
+* Extracted multishipping functionality from Magento\Checkout module in separated Magento\Multishipping module
 * Fixed bugs:
-  * Fixed security issue - set `CURLOPT_SSL_VERIFYPEER` to `true` and `CURLOPT_SSL_VERIFYHOST` to 2 by default in cUrl calls
-  * Fixed shipment with packages data corrupted functionality
-  * Fixed unavailability to add gift wrapping for multiple items
-  * Fixed DHL functionality of generation shipping labels
-  * Fixed target rule if it is applied for specific customer segment
-  * Fixed product importing that cleared price and weight
-  * Fixed fatal error when a file reference is added to HTML head
-  * Fixed fatal error on page if print order for Downloadable product
-  * Fixed 'Same as shipping' checkbox to be selected after returning from PayPal side
-  * Fixed preview of Email Templates shows blank page
-  * Fixed no possibility to create refund from Paypal side.
-  * Fixed occurrences of non-existent resource model Mage_Catalog_Model_Resource_Convert
-  * Fixed wrong count of coupon's usage after applying it with multiple addresses
-  * Fixed Abandoned cart emails are not sending out
-  * Fixed User with "Reorder" permission cannot make reorder
-  * Fixed Community bugathon - Item clone is added to cart via wishlist if "Qty Increments" is enabled
-  * Fixed catalog_url indexer incorrect rewrites history for categories
-  * Fixed Fatal error on attempt to save integration with duplicate name
-  * Fixed Customer can see someone's else reviews on private Account Dashboard
-  * Fixed "New Theme" page is displayed broken while trying to create Theme with incorrectly "Version" field filled
-  * Fixed Admin has no possibility to save integration with XSS injection inside required fields
-  * Fixed Mini Shopping Cart is displayed broken if contains virtual product
-  * Fixed Disabling "Display Shopping Cart Sidebar" doesn't work
-  * Fixed Adminhtml cookie isn't set on backend
-  * Fixed Persistent_shopping_cart cookie isn't set after customer's login
-  * Fixed impossibility to publish products to Google Shopping
-  * Fixed inability to download or revert backup
+  * Fixed an issue when order was sent to Paypal without defined currency
+  * Fixed an issue with 404 error when trying to return back to grid from Recurring Billing Profile
+  * Fixed an issue with synchronization with google shopping on product update caused by missed service property
+  * Fixed Authorize.net Direct Post: Ability to proceed order when it was created from Backend
+* Removed the deprecated service-calls and data source functionality
+
+
+2.0.0.0-dev61
+=============
+* Introduced a new layout block attribute - cacheable
+* Fixed bugs:
+  * Fixed an issue with displaying configurable product images in shopping cart
+  * Fixed an issue with Tax Summary not being displayed properly on the Order Review page
+  * Optimized the Plushe theme CSS
+  * Fixed attribute types for configurable product variations
+  * Fixed an issue with incorrect link in the Reset Password email for customers registered on the non-default website
+  * Fixed an issue with creating orders using DHL on holiday dates
+  * Fixed product export
+  * Fixed 3D secure validation
+  * Fixed an issue with session being lost when a logged in user goes from store pages using secure URL to the store pages which do not use secure URL
+  * Fixed an issue with price ranges in the Advanced search
+
+2.0.0.0-dev60
+=============
+* Fixed bugs:
+  * Fixed an issue with exceeding the memory limit when uploading very big images
+  * Fixed an issue in moving a category when $afterCategoryId is null
+  * Fixed an issue when products from a non-default website were not available as bundle items
+  * Fixed an issue when orders placed via Authorize.net had the wrong statuses
+  * Fixed an issue where orders placed via PayPal Express Checkout could not be placed if HTTPS was used on the frontend
+  * Fixed a security issue with a user session during registration
+  * Removed a CSRF vulnerability in checkout
+  * Fixed an issue with JavaScript static testing framework not handling corrupted paths in white/black lists properly
+  * Fixed an issue with Google Shopping synchronization
+  * Fixed the contextual help tooltip design
+  * Fixed an issue with the Authorize.net CC section UI on the Onepage Checkout page
+  * Fixed UI issues on the order pages in the backend
+  * Fixed UI issues in the backend for IE9
+  * Fixed UI issues on the Edit Customer page in the backend
+  * Fixed a UI issue with the image preview placeholder on the Edit Product page for IE9
+  * Fixed UI issues with forms in the backend
+  * Fixed UI issues with buttons in the backend
+  * Fixed an issue with a product status after a virtual product was duplicated
+  * Fixed a fatal error with attribute file from the customer account page in the backend
+  * Fixed a security issue when CURLOPT_SSL_VERIFYPEER and CURLOPT_SSL_VERIFYHOST where used with improper values sometimes
+  * Updated the field descriptions for Secure Base URL settings in the backend
+  * Fixed an issue in product duplication for multiple store views
+  * Consolidated several 3rd-party JavaScript libraries in the pub/lib directory, and fixed license notice texts to conform to the open source license requirements
+* Service Layer implementation:
+  * Implemented the initial set of services for the Customer module
+
+2.0.0.0-dev59
+=============
+* Fixed bugs:
+  * Fixed invalid year in exception log errors
+  * Fixed the double-serialization in saving data for shipments
+  * Fixed an issue with adding a gift wrapping for multiple items
+  * Fixed shipping labels generation for DHL
+  * Fixed an issue with lost product price and weight during import
+  * Fixed a fatal error when a file reference is added to the HTML head
+  * Fixed an issue with printing orders containing downloadable product(s)
+  * Fixed an issue with the 'Same as shipping' check box not being selected on the Review Order page for PayPal Express checkout
+  * Fixed an issue with Email Templates preview showing a blank page
+  * Fixed an issue with a refund creation from the PayPal side
+  * Removed the occurrences of the non-existing Mage_Catalog_Model_Resource_Convert resource model
+  * Fixed an issue with a coupon usage after applying it with multiple addresses
+  * Fixed the Abandoned Cart emails sending
+  * Fixed an issue where users with "Reorder" permission could not perform reorder
+  * Fixed an issue with adding items from wishlist to the Shopping Cart with quantity increments enabled
+  * Fixed an issue with the catalog_url indexer incorrect rewrites history for categories
+  * Fixed an issue in saving an integration with a duplicate name
+  * Fixed an issue when a customer could see someone's else reviews on the private Account Dashboard
+  * Fixed an issue when a "New Theme" page was displayed as broken when trying to create a theme with incorrect "Version" value
+  * Fixed an issue in saving an integration with XSS injection in the required fields
+  * Fixed an issue with the Mini Shopping Cart when it contained virtual product
+  * Fixed an issue in disabling the Shopping Cart sidebar
+  * Fixed an issue when the "Adminhtml" cookie was not set when a user logged in to the backend
+  * Fixed an issue when the "Persistent_shopping_cart" cookie was not set after customer's login
+  * Fixed inability to publish products to Google Shopping
+  * Fixed inability to download or revert the backup
+  * Fixed inability to create a customer account when placing an order with a downloadable product
+* Various improvements:
+  * Disabled PHP errors, notices and warnings output in the production mode, to prevent exposing sensitive information
 
 2.0.0.0-dev58
 =============
