@@ -33,7 +33,7 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
         $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectmanager();
         $this->viewFileSystem = $this->objectManager->get('Magento\View\FileSystem');
         $this->filesystem = $this->objectManager->get('Magento\App\Filesystem');
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->configure(array(
+        $this->objectManager->configure(array(
             'preferences' => array('Magento\Core\Model\Theme' => 'Magento\Core\Model\Theme\Data')
         ));
     }
@@ -65,7 +65,6 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
               * @param string $area
               * @param string $themeId
               * @param string $file
-              * @throws \PHPUnit_Framework_AssertionFailedError|\Exception
               */
              function ($file, $area) use ($lessPreProcessor, $directoryRead, $theme) {
                  $fileInfo = pathinfo($file);
@@ -98,7 +97,6 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
              * @param string $area
              * @param string $themeId
              * @param string $file
-             * @throws \PHPUnit_Framework_AssertionFailedError|\Exception
              */
             function ($file, $area, $themeId) {
                 $params = array('area' => $area, 'themeId' => $themeId);
