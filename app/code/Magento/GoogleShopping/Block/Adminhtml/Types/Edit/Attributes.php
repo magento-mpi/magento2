@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GoogleShopping\Block\Adminhtml\Types\Edit;
 
 /**
  * Attributes box for Google Content attributes mapping
@@ -15,12 +16,12 @@
  * @package     Magento_GoogleShopping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GoogleShopping\Block\Adminhtml\Types\Edit;
-
 class Attributes
     extends \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Element
 {
-
+    /**
+     * @var string
+     */
     protected $_template = 'types/edit/attributes.phtml';
 
     /**
@@ -144,7 +145,7 @@ class Attributes
     /**
      * Build HTML select element of attribute set attributes
      *
-     * @param boolean $escapeJsQuotes
+     * @param bool $escapeJsQuotes
      * @return string
      */
     public function getAttributesSelectHtml($escapeJsQuotes = false)
@@ -181,7 +182,7 @@ class Attributes
      * Skip attributes not needed for Google Content
      *
      * @param int $setId
-     * @param boolean $escapeJsQuotes
+     * @param bool $escapeJsQuotes
      * @return array
      */
     public function _getAttributes($setId, $escapeJsQuotes = false)

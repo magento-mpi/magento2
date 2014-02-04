@@ -126,6 +126,8 @@ class Filesystem implements \Magento\Config\ReaderInterface
     }
 
     /**
+     * Read configuration files
+     *
      * @param array $fileList
      * @return array
      * @throws \Magento\Exception
