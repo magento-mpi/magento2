@@ -118,9 +118,14 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_appState;
 
     /**
-     * @var \Magento\Paypal\Model\CartFactory
+     * @var \Magento\Payment\Model\CartFactory
      */
     protected $_cartFactory;
+
+    /**
+     * @var \Magento\Paypal\Model\CartFactory
+     */
+    protected $_paypalCartFactory;
 
     /**
      * Construct
@@ -134,7 +139,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Pbridge\Model\EncryptionFactory $encryptionFactory
      * @param \Magento\App\State $appState
-     * @param \Magento\Paypal\Model\CartFactory $cartFactory
+     * @param \Magento\Payment\Model\CartFactory $cartFactory
+     * @param \Magento\Paypal\Model\CartFactory $paypalCartFactory
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
@@ -146,7 +152,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\View\LayoutInterface $layout,
         \Magento\Pbridge\Model\EncryptionFactory $encryptionFactory,
         \Magento\App\State $appState,
-        \Magento\Paypal\Model\CartFactory $cartFactory
+        \Magento\Payment\Model\CartFactory $cartFactory,
+        \Magento\Paypal\Model\CartFactory $paypalCartFactory
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_customerSession = $customerSession;
@@ -157,6 +164,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $this->_encryptionFactory = $encryptionFactory;
         $this->_appState = $appState;
         $this->_cartFactory = $cartFactory;
+        $this->_paypalCartFactory = $paypalCartFactory;
         parent::__construct($context);
     }
 
@@ -405,8 +413,35 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function prepareCart($order)
     {
-        $cart = $this->_cartFactory->create(array('salesModel' => $order));
-        return array($cart->getAllItems(), $cart->getAmounts());
+        return $this->_prepareCart($this->_cartFactory->create(array('salesModel' => $order)));
+    }
+
+    /**
+     * Prepare PayPal cart from order
+     *
+     * @param \Magento\Core\Model\AbstractModel $order
+     * @return array
+     */
+    public function preparePaypalCart($order)
+    {
+        return $this->_prepareCart($this->_paypalCartFactory->create(array('salesModel' => $order)));
+    }
+
+    /**
+     * Prepare cart line items
+     *
+     * @param \Magento\Payment\Model\Cart $cart
+     */
+    protected function _prepareCart(\Magento\Payment\Model\Cart $cart)
+    {
+        $items = $cart->getAllItems();
+
+        $result = array();
+        foreach ($items as $item) {
+            $result['items'][] = $item->getData();
+        }
+
+        return array_merge($result, $cart->getAmounts());
     }
 
     /**
