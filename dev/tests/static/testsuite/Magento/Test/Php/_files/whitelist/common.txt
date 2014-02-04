@@ -41,7 +41,6 @@ app/code/Magento/Core/Model/Config
 app/code/Magento/Core/Model/Design.php
 app/code/Magento/Core/Model/Layout/Factory.php
 app/code/Magento/Core/Model/Layout/Update.php
-app/code/Magento/Core/Model/Layout/Argument
 app/code/Magento/Core/Model/Locale/Validator.php
 app/code/Magento/Core/Model/LocaleInterface.php
 app/code/Magento/Core/Model/Resource/Theme
@@ -137,6 +136,7 @@ lib/Magento/Convert
 lib/Magento/Stdlib/DateTime.php
 lib/Magento/Object.php
 lib/Magento/App
+lib/Magento/Data/Argument
 lib/Magento/ObjectManager
 lib/Magento/Url/SecurityInfoInterface.php
 lib/Magento/View
