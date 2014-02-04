@@ -51,7 +51,7 @@ class Console implements \Magento\LauncherInterface
 
     /**
      * @param \Magento\Install\Model\Installer\ConsoleFactory $installerFactory
-     * @param Output $output
+     * @param \Magento\Install\App\Output $output
      * @param \Magento\App\State $state
      * @param \Magento\App\ObjectManager\ConfigLoader $loader
      * @param \Magento\ObjectManager $objectManager

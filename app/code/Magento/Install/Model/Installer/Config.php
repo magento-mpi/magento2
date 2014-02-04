@@ -266,7 +266,7 @@ class Config extends \Magento\Install\Model\Installer\AbstractInstaller
     }
 
     /**
-     * @param $key
+     * @param string $key
      * @return $this
      */
     public function replaceTmpEncryptKey($key)
