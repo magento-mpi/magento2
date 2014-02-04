@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Invitation\Helper;
+
+use Magento\Invitation\Model\Invitation;
 
 /**
  * Invitation data helper
@@ -14,14 +17,10 @@
  * @category   Magento
  * @package    Magento_Invitation
  */
-namespace Magento\Invitation\Helper;
-
-use Magento\Invitation\Model\Invitation;
-
 class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
-     * @inheritdoc
+     * @var bool
      */
     protected $_isRegistrationAllowed = null;
 

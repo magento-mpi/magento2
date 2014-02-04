@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 namespace Magento\Invitation\Controller\Customer;
+
 use Magento\App\Action\NotFoundException;
 use Magento\App\RequestInterface;
 
