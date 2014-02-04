@@ -10,12 +10,13 @@
 
 namespace Magento\Core\Model\File;
 
-use \Magento\App\Filesystem;
+use Magento\App\Filesystem;
+use Magento\Core\Model\AbstractModel;
 
 /**
  * Class Storage
  */
-class Storage extends \Magento\Core\Model\AbstractModel
+class Storage extends AbstractModel
 {
     /**
      * Storage systems ids
@@ -125,8 +126,8 @@ class Storage extends \Magento\Core\Model\AbstractModel
     /**
      * Show if there were errors while synchronize process
      *
-     * @param \Magento\Core\Model\AbstractModel $sourceModel
-     * @param \Magento\Core\Model\AbstractModel $destinationModel
+     * @param AbstractModel $sourceModel
+     * @param AbstractModel $destinationModel
      * @return bool
      */
     protected function _synchronizeHasErrors($sourceModel, $destinationModel)
@@ -159,7 +160,7 @@ class Storage extends \Magento\Core\Model\AbstractModel
      *
      * @param  int|null $storage
      * @param  array $params
-     * @return \Magento\Core\Model\AbstractModel|bool
+     * @return AbstractModel|bool
      */
     public function getStorageModel($storage = null, $params = array())
     {

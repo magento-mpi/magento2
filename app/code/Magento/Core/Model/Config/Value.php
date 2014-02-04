@@ -21,8 +21,8 @@ namespace Magento\Core\Model\Config;
  * @method \Magento\App\Config\ValueInterface setScopeId(int $value)
  * @method string getPath()
  * @method \Magento\App\Config\ValueInterface setPath(string $value)
- * @method array getValue()
- * @method \Magento\App\Config\ValueInterface setValue(array $value)
+ * @method string getValue()
+ * @method \Magento\App\Config\ValueInterface setValue(string $value)
  *
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
