@@ -47,7 +47,7 @@ class Full extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
         foreach ($stores as $store) {
             if (!isset($categories[$store->getRootCategoryId()])) {
                 $select = $this->getWriteAdapter()->select()
-                    ->from($this->getWriteAdapter()->getTableName('catalog_category_entity'))
+                    ->from($this->getWriteAdapter()->getTableName($this->getTableName('catalog_category_entity')))
                     ->where('path = ?', (string)$rootId)
                     ->orWhere('path = ?', "{$rootId}/{$store->getRootCategoryId()}")
                     ->orWhere('path LIKE ?', "{$rootId}/{$store->getRootCategoryId()}/%");

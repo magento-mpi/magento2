@@ -94,7 +94,7 @@ class AbstractAction
         }
 
         $suffix = sprintf('store_%d', $storeId);
-        $table = $this->getWriteAdapter()->getTableName('catalog_category_flat_' . $suffix);
+        $table = $this->getWriteAdapter()->getTableName($this->getTableName('catalog_category_flat_' . $suffix));
 
         return $table;
     }
@@ -201,7 +201,7 @@ class AbstractAction
         $columns = array();
         $columnsToSkip = array('entity_type_id', 'attribute_set_id');
         $describe = $this->getReadAdapter()->describeTable(
-            $this->getReadAdapter()->getTableName('catalog_category_entity')
+            $this->getReadAdapter()->getTableName($this->getTableName('catalog_category_entity'))
         );
 
         foreach ($describe as $column) {
@@ -340,16 +340,17 @@ class AbstractAction
     {
         if ($this->attributeCodes === null) {
             $select = $this->getReadAdapter()->select()
-                ->from($this->getReadAdapter()->getTableName('eav_entity_type'), array())
+                ->from($this->getReadAdapter()->getTableName($this->getTableName('eav_entity_type')), array())
                 ->join(
-                    $this->getReadAdapter()->getTableName('eav_attribute'),
-                    $this->getReadAdapter()->getTableName('eav_attribute')
+                    $this->getReadAdapter()->getTableName($this->getTableName('eav_attribute')),
+                    $this->getReadAdapter()->getTableName($this->getTableName('eav_attribute'))
                     . '.entity_type_id = '
-                    . $this->getReadAdapter()->getTableName('eav_entity_type') . '.entity_type_id',
-                    $this->getReadAdapter()->getTableName('eav_attribute').'.*'
+                    . $this->getReadAdapter()->getTableName($this->getTableName('eav_entity_type')) . '.entity_type_id',
+                    $this->getReadAdapter()->getTableName($this->getTableName('eav_attribute')).'.*'
                 )
                 ->where(
-                    $this->getReadAdapter()->getTableName('eav_entity_type') . '.entity_type_code = ?',
+                    $this->getReadAdapter()
+                        ->getTableName($this->getTableName('eav_entity_type')) . '.entity_type_code = ?',
                     \Magento\Catalog\Model\Category::ENTITY
                 );
             $this->attributeCodes = array();
@@ -412,11 +413,13 @@ class AbstractAction
     {
         $select = $this->getReadAdapter()->select()
             ->from(
-                array('def' => $this->getReadAdapter()->getTableName('catalog_category_entity_' . $type)),
+                array('def' => $this->getReadAdapter()
+                        ->getTableName($this->getTableName('catalog_category_entity_' . $type))),
                 array('entity_id', 'attribute_id')
             )
             ->joinLeft(
-                array('store' => $this->getReadAdapter()->getTableName('catalog_category_entity_' . $type)),
+                array('store' => $this->getReadAdapter()
+                        ->getTableName($this->getTableName('catalog_category_entity_' . $type))),
                 'store.entity_id = def.entity_id AND store.attribute_id = def.attribute_id '
                 . 'AND store.store_id = ' . $storeId,
                 array('value' => $this->getReadAdapter()->getCheckSql(
@@ -448,5 +451,16 @@ class AbstractAction
             }
         }
         return $values;
+    }
+
+    /**
+     * Get table name
+     *
+     * @param string $name
+     * @return string
+     */
+    protected function getTableName($name)
+    {
+        return $this->resource->getTableName($name);
     }
 }

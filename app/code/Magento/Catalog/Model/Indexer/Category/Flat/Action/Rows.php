@@ -37,7 +37,7 @@ class Rows extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
      * @param bool $useTempTable
      * @return string
      */
-    protected function getTableName(\Magento\Core\Model\Store $store, $useTempTable)
+    protected function getTableNameByStore(\Magento\Core\Model\Store $store, $useTempTable)
     {
         $tableName = $this->getMainStoreTable($store->getId());
         return $useTempTable ? $this->addTemporaryTableSuffix($tableName) : $tableName;
@@ -59,7 +59,7 @@ class Rows extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
 
         /* @var $store \Magento\Core\Model\Store */
         foreach ($stores as $store) {
-            $tableName = $this->getTableName($store, $useTempTable);
+            $tableName = $this->getTableNameByStore($store, $useTempTable);
 
             if (!$this->getWriteAdapter()->isTableExists($tableName)) {
                 continue;
@@ -122,9 +122,9 @@ class Rows extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
 
         /** @var \Magento\DB\Select $select */
         $select = $this->getWriteAdapter()->select()
-            ->from(array('cf' => $this->getTableName($store, $useTempTable)))
+            ->from(array('cf' => $this->getTableNameByStore($store, $useTempTable)))
             ->joinLeft(
-                array('ce' => $this->getWriteAdapter()->getTableName('catalog_category_entity')),
+                array('ce' => $this->getWriteAdapter()->getTableName($this->getTableName('catalog_category_entity'))),
                 'cf.path = ce.path',
                 array()
             )
@@ -151,7 +151,10 @@ class Rows extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
         $catIdExpr = $this->getReadAdapter()->quote("{$rootId}/{$store->getRootCategoryId()}/%");
 
         $select = $this->getReadAdapter()->select()
-            ->from($this->getReadAdapter()->getTableName('catalog_category_entity'), array('entity_id'))
+            ->from(
+                $this->getReadAdapter()->getTableName($this->getTableName('catalog_category_entity')),
+                array('entity_id')
+            )
             ->where("path = {$rootIdExpr} OR path = {$rootCatIdExpr} OR path like {$catIdExpr}")
             ->where('entity_id IN (?)', $ids);
 
