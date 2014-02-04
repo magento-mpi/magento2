@@ -38,6 +38,8 @@ class Template extends \Magento\Backend\App\Action
     }
 
     /**
+     * Index action
+     *
      * @return void
      */
     public function indexAction()
@@ -56,6 +58,8 @@ class Template extends \Magento\Backend\App\Action
     }
 
     /**
+     * Grid action
+     *
      * @return void
      */
     public function gridAction()
@@ -102,6 +106,8 @@ class Template extends \Magento\Backend\App\Action
     }
 
     /**
+     * Save transactional email action
+     *
      * @return void
      */
     public function saveAction()
@@ -148,6 +154,8 @@ class Template extends \Magento\Backend\App\Action
     }
 
     /**
+     * Delete transactional email action
+     *
      * @return void
      */
     public function deleteAction()
@@ -183,6 +191,8 @@ class Template extends \Magento\Backend\App\Action
     }
 
     /**
+     * Preview transactional email action
+     *
      * @return void
      */
     public function previewAction()
@@ -241,6 +251,8 @@ class Template extends \Magento\Backend\App\Action
     }
 
     /**
+     * Check if user has enough privileges
+     *
      * @return bool
      */
     protected function _isAllowed()

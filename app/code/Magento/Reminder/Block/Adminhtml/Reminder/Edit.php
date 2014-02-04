@@ -7,18 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reminder\Block\Adminhtml\Reminder;
+
+use Magento\Core\Model\Registry;
 
 /**
  * Reminder rule edit form block
  */
-namespace Magento\Reminder\Block\Adminhtml\Reminder;
-
 class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var Registry|null
      */
     protected $_coreRegistry = null;
     
@@ -30,15 +31,17 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     protected $_reminderData = null;
 
     /**
+     * Constructor
+     *
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Reminder\Helper\Data $reminderData
-     * @param \Magento\Core\Model\Registry $registry
+     * @param Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Reminder\Helper\Data $reminderData,
-        \Magento\Core\Model\Registry $registry,
+        Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -48,6 +51,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
 
     /**
      * Initialize form
+     *
      * Add standard buttons
      * Add "Run Now" button
      * Add "Save and Continue" button

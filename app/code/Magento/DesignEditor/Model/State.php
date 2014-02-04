@@ -138,7 +138,7 @@ class State
     /**
      * Reset VDE state data
      *
-     * @return \Magento\DesignEditor\Model\State
+     * @return $this
      */
     public function reset()
     {

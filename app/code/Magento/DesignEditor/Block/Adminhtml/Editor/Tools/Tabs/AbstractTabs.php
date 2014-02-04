@@ -59,7 +59,7 @@ abstract class AbstractTabs extends \Magento\View\Element\Template
     /**
      * Get tabs html
      *
-     * @return array
+     * @return string[]
      */
     public function getTabContents()
     {
@@ -78,7 +78,7 @@ abstract class AbstractTabs extends \Magento\View\Element\Template
     /**
      * Get tabs handles
      *
-     * @return array
+     * @return string[]
      */
     public function getTabHandles()
     {

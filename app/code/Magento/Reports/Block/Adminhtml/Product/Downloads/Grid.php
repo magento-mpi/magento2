@@ -7,16 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reports\Block\Adminhtml\Product\Downloads;
 
 /**
  * Adminhtml product downloads report grid
  *
- * @category   Magento
- * @package    Magento_Reports
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reports\Block\Adminhtml\Product\Downloads;
-
 class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**

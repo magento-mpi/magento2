@@ -19,6 +19,8 @@ namespace Magento\Email\Block\Adminhtml\Template\Grid\Filter;
 class Type extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
 {
     /**
+     * Email template types
+     *
      * @var array
      */
     protected static $_types = array(
@@ -28,6 +30,8 @@ class Type extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
     );
 
     /**
+     * Get options
+     *
      * @return array
      */
     protected function _getOptions()
@@ -41,7 +45,9 @@ class Type extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
     }
 
     /**
-     * @return array
+     * Get condition
+     *
+     * @return array|null
      */
     public function getCondition()
     {

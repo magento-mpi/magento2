@@ -7,12 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reminder\Model\Rule\Condition\Cart;
+
+use Magento\DB\Select;
 
 /**
  * Virtual cart condition
  */
-namespace Magento\Reminder\Model\Rule\Condition\Cart;
-
 class Virtual extends \Magento\Reminder\Model\Condition\AbstractCondition
 {
     /**
@@ -80,9 +81,9 @@ class Virtual extends \Magento\Reminder\Model\Condition\AbstractCondition
     /**
      * Get SQL select
      *
-     * @param int|\Zend_Db_Expr $customer
+     * @param null|int|\Zend_Db_Expr $customer
      * @param int|\Zend_Db_Expr $website
-     * @return \Magento\DB\Select
+     * @return Select
      */
     public function getConditionsSql($customer, $website)
     {

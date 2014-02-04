@@ -7,13 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GoogleShopping\Block\Adminhtml\Types;
 
 /**
  * Adminhtml Google Content Types Mapping form block
  */
-
-namespace Magento\GoogleShopping\Block\Adminhtml\Types;
-
 class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**

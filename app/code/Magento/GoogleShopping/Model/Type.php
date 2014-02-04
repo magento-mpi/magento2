@@ -9,7 +9,7 @@
  */
 namespace Magento\GoogleShopping\Model;
 
-use Magento\Catalog\Model\Product;
+use Magento\Catalog\Model\Product as CatalogModelProduct;
 use Magento\Gdata\Gshopping\Entry;
 
 /**
@@ -115,7 +115,7 @@ class Type extends \Magento\Core\Model\AbstractModel
     /**
      * Prepare Entry data and attributes before saving in Google Content
      *
-     * @param Product $entry
+     * @param CatalogModelProduct $entry
      * @param Entry $entry
      * @return Entry
      */
@@ -137,10 +137,10 @@ class Type extends \Magento\Core\Model\AbstractModel
     /**
      * Return Product attribute values array
      *
-     * @param Product $product
+     * @param CatalogModelProduct $product
      * @return array Product attribute values
      */
-    protected function _getAttributesMapByProduct(Product $product)
+    protected function _getAttributesMapByProduct(CatalogModelProduct $product)
     {
         $result = array();
         $group = $this->_config->getAttributeGroupsFlat();
@@ -237,7 +237,7 @@ class Type extends \Magento\Core\Model\AbstractModel
      * Remove attributes which were removed from mapping.
      *
      * @param Entry $entry
-     * @param array $existAttributes
+     * @param string[] $existAttributes
      * @return Entry
      */
     protected function _removeNonexistentAttributes($entry, $existAttributes)

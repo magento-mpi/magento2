@@ -10,6 +10,10 @@
 
 namespace Magento\Reminder\Model\Resource;
 
+use Magento\Core\Model\AbstractModel;
+use Magento\Reminder\Model\Rule as ModelRule;
+use Magento\SalesRule\Model\Rule as SalesRule;
+
 /**
  * Reminder Rule resource model
  */
@@ -73,10 +77,10 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     /**
      * Add website ids to rule data after load
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param AbstractModel $object
      * @return $this
      */
-    protected function _afterLoad(\Magento\Core\Model\AbstractModel $object)
+    protected function _afterLoad(AbstractModel $object)
     {
         $object->setData('website_ids', (array)$this->getWebsiteIds($object->getId()));
 
@@ -85,13 +89,12 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     }
 
     /**
-     * Bind reminder rule to and website(s).
-     * Save store templates data.
+     * Bind reminder rule to and website(s).  Save store templates data.
      *
-     * @param \Magento\Core\Model\AbstractModel $rule
+     * @param AbstractModel $rule
      * @return $this
      */
-    protected function _afterSave(\Magento\Core\Model\AbstractModel $rule)
+    protected function _afterSave(AbstractModel $rule)
     {
         if ($rule->hasWebsiteIds()) {
             $websiteIds = $rule->getWebsiteIds();
@@ -112,7 +115,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     /**
      * Save store templates
      *
-     * @param \Magento\Reminder\Model\Rule $rule
+     * @param ModelRule $rule
      * @return $this
      * @throws \Exception
      */
@@ -160,7 +163,6 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      * Get store templates data assigned to reminder rule
      *
      * @param int $ruleId
-     *
      * @return array
      */
     public function getStoreData($ruleId)
@@ -176,11 +178,11 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
 
     /**
      * Get store templates data (labels and descriptions) assigned to reminder rule.
+     *
      * If labels and descriptions are not specified it will be replaced with default values.
      *
      * @param int $ruleId
      * @param int $storeId
-     *
      * @return array
      */
     public function getStoreTemplateData($ruleId, $storeId)
@@ -216,7 +218,6 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      * Deactivate already matched customers before new matching process
      *
      * @param int $ruleId
-     *
      * @return $this
      */
     public function deactivateMatchedCustomers($ruleId)
@@ -231,10 +232,11 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
 
     /**
      * Try to associate reminder rule with matched customers.
+     *
      * If customer was added earlier, update is_active column.
      *
-     * @param \Magento\Reminder\Model\Rule $rule
-     * @param \Magento\SalesRule\Model\Rule $salesRule
+     * @param ModelRule $rule
+     * @param SalesRule $salesRule
      * @param int $websiteId
      * @param int $threshold
      * @return $this
@@ -301,11 +303,11 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
 
     /**
      * Retrieve list of customers for notification process.
+     *
      * This process can be initialized by system cron or by admin for particular rule
      *
      * @param int|null $limit
      * @param int|null $ruleId
-     *
      * @return array
      */
     public function getCustomersForNotification($limit = null, $ruleId = null)
@@ -360,7 +362,6 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      *
      * @param int $ruleId
      * @param int $customerId
-     *
      * @return $this
      */
     public function addNotificationLog($ruleId, $customerId)
@@ -381,7 +382,6 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      *
      * @param int $ruleId
      * @param int $customerId
-     *
      * @return $this
      */
     public function updateFailedEmailsCounter($ruleId, $customerId)
@@ -397,8 +397,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      * Retrieve count of reminder rules assigned to specified sales rule.
      *
      * @param int $salesRuleId
-     *
-     * @return int
+     * @return string
      */
     public function getAssignedRulesCount($salesRuleId)
     {
@@ -433,7 +432,6 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      * Get comparison condition for rule condition operator which will be used in SQL query
      *
      * @param string $operator
-     *
      * @return string
      * @throws \Magento\Core\Exception
      */
@@ -466,7 +464,6 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      * @param string $field
      * @param string $operator
      * @param mixed $value
-     *
      * @return string
      */
     public function createConditionSql($field, $operator, $value)

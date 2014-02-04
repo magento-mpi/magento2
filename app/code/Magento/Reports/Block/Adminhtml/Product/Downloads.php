@@ -7,17 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reports\Block\Adminhtml\Product;
 
 /**
  * Adminhtml product downloads report
  *
- * @category   Magento
- * @package    Magento_Reports
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Reports\Block\Adminhtml\Product;
-
 class Downloads extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**

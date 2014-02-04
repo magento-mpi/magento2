@@ -19,8 +19,10 @@ namespace Magento\Email\Block\Adminhtml\Template\Grid\Renderer;
 class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Action
 {
     /**
+     * Render grid column
+     *
      * @param \Magento\Object $row
-     * @return $this
+     * @return string
      */
     public function render(\Magento\Object $row)
     {
@@ -38,6 +40,8 @@ class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Action
     }
 
     /**
+     * Get escaped value
+     *
      * @param string $value
      * @return string
      */
@@ -47,6 +51,8 @@ class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Action
     }
 
     /**
+     * Convert actions to html
+     *
      * @param array $actions
      * @return string
      */

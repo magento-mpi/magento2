@@ -7,23 +7,21 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reminder\Model\Resource\Customer;
 
+use Magento\Core\Model\Registry;
 
 /**
  * Resource collection of customers matched by reminder rule
  *
- * @category    Magento
- * @package     Magento_Reminder
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reminder\Model\Resource\Customer;
-
 class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var Registry|null
      */
     protected $_coreRegistry = null;
 
@@ -38,7 +36,7 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
      * @param \Magento\Validator\UniversalFactory $universalFactory
      * @param \Magento\Object\Copy\Config $fieldsetConfig
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param Registry $coreRegistry
      * @param mixed $connection
      * @param string $modelName
      * 
@@ -55,7 +53,7 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
         \Magento\Validator\UniversalFactory $universalFactory,
         \Magento\Object\Copy\Config $fieldsetConfig,
-        \Magento\Core\Model\Registry $coreRegistry,
+        Registry $coreRegistry,
         $connection = null,
         $modelName = self::CUSTOMER_MODEL_NAME
     ) {

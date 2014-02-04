@@ -8,11 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Reminder\Model\Rule\Condition\Wishlist;
+
+use Magento\DB\Select;
+
 /**
  * Wishlist subselection condition
  */
-namespace Magento\Reminder\Model\Rule\Condition\Wishlist;
-
 class Subselection
     extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
 {
@@ -90,9 +92,9 @@ class Subselection
     /**
      * Build query for matching wishlist items
      *
-     * @param int|Zend_Db_Expr $customer
+     * @param null|int|\Zend_Db_Expr $customer
      * @param int|Zend_Db_Expr $website
-     * @return \Magento\DB\Select
+     * @return Select
      */
     protected function _prepareConditionsSql($customer, $website)
     {
@@ -126,7 +128,7 @@ class Subselection
     }
 
     /**
-     * Get field names map for subfilter conditions
+     * Get field names map for sub-filter conditions
      *
      * @return array
      */

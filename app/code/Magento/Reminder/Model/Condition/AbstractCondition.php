@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reminder\Model\Condition;
 
 /**
  * Abstract class for rule condition
  */
-namespace Magento\Reminder\Model\Condition;
-
 class AbstractCondition extends \Magento\Rule\Model\Condition\AbstractCondition
 {
     /**
@@ -38,7 +37,8 @@ class AbstractCondition extends \Magento\Rule\Model\Condition\AbstractCondition
 
     /**
      * Customize default operator input by type mapper for some types
-     * @return array
+     *
+     * @return array|null
      */
     public function getDefaultOperatorInputByType()
     {
@@ -63,7 +63,7 @@ class AbstractCondition extends \Magento\Rule\Model\Condition\AbstractCondition
     /**
      * Generate customer condition string
      *
-     * @param int|\Zend_Db_Expr $customer
+     * @param null|int|\Zend_Db_Expr $customer
      * @param string $fieldName
      * @return string
      */

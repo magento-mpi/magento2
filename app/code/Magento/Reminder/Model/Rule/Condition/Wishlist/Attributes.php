@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reminder\Model\Rule\Condition\Wishlist;
 
 /**
  * Product attribute value condition
  */
-namespace Magento\Reminder\Model\Rule\Condition\Wishlist;
-
 class Attributes
     extends \Magento\Rule\Model\Condition\Product\AbstractProduct
 {
@@ -59,6 +58,7 @@ class Attributes
 
     /**
      * Customize default operator input by type mapper for some types
+     *
      * @return array
      */
     public function getDefaultOperatorInputByType()

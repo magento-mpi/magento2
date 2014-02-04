@@ -128,7 +128,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      *
      * @param string $state
      * @param string $zip
-     * @return array
+     * @return string[]
      */
     protected function _parseRegions($state, $zip)
     {
@@ -139,7 +139,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      * Retrieve array of regions characterized by provided zip code
      *
      * @param string $zip
-     * @return array
+     * @return string[]
      */
     protected function _parseZip($zip)
     {

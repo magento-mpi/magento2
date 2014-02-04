@@ -9,6 +9,8 @@
  */
 namespace Magento\GoogleOptimizer\Model\Observer;
 
+use Magento\Event\Observer;
+
 abstract class AbstractSave
 {
     /**
@@ -49,8 +51,8 @@ abstract class AbstractSave
     /**
      * Save script after saving entity
      *
-     * @param \Magento\Event\Observer $observer
-     * @return \Magento\GoogleOptimizer\Model\Observer\Category\Save
+     * @param Observer $observer
+     * @return $this
      * @throws \InvalidArgumentException
      */
     public function saveGoogleExperimentScript($observer)
@@ -67,7 +69,7 @@ abstract class AbstractSave
     /**
      * Init entity
      *
-     * @param \Magento\Event\Observer $observer
+     * @param Observer $observer
      * @return void
      */
     abstract protected function _initEntity($observer);

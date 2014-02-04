@@ -49,7 +49,7 @@ class Notice extends \Magento\Backend\Block\Template
     /**
      * Preparing block layout
      *
-     * @return \Magento\Reminder\Block\Adminhtml\Promo\Notice
+     * @return $this
      */
     protected function _prepareLayout()
     {

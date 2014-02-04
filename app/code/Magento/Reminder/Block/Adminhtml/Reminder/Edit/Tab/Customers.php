@@ -7,13 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab;
+
+use Magento\Backend\Block\Widget\Grid;
+use Magento\Backend\Block\Widget\Grid\Extended as GridExtended;
 
 /**
  * Matched rule customer grid block
  */
-namespace Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab;
-
-class Customers extends \Magento\Backend\Block\Widget\Grid\Extended
+class Customers extends GridExtended
 {
     /**
      * Customer Resource Collection
@@ -39,7 +41,7 @@ class Customers extends \Magento\Backend\Block\Widget\Grid\Extended
     }
 
     /**
-     * Intialize grid
+     * Initialize grid
      *
      * @return void
      */
@@ -55,7 +57,7 @@ class Customers extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Instantiate and prepare collection
      *
-     * @return \Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\Customers
+     * @return Grid
      */
     protected function _prepareCollection()
     {
@@ -67,7 +69,7 @@ class Customers extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare columns for grid
      *
-     * @return \Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\Customers
+     * @return GridExtended
      */
     protected function _prepareColumns()
     {

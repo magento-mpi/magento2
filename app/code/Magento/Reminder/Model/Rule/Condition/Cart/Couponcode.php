@@ -8,11 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Reminder\Model\Rule\Condition\Cart;
+
+use Magento\DB\Select;
+
 /**
  * Cart coupon code condition
  */
-namespace Magento\Reminder\Model\Rule\Condition\Cart;
-
 class Couponcode
     extends \Magento\Reminder\Model\Condition\AbstractCondition
 {
@@ -81,9 +83,9 @@ class Couponcode
     /**
      * Get SQL select
      *
-     * @param int|\Zend_Db_Expr $customer
+     * @param null|int|\Zend_Db_Expr $customer
      * @param int|\Zend_Db_Expr $website
-     * @return \Magento\DB\Select
+     * @return Select
      */
     public function getConditionsSql($customer, $website)
     {

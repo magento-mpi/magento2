@@ -7,16 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reports\Block\Adminhtml\Filter;
 
 /**
  * Adminhtml report filter form
  *
- * @category   Magento
- * @package    Magento_Reports
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reports\Block\Adminhtml\Filter;
-
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
@@ -185,7 +182,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     }
 
     /**
-     * Initialize form fileds values
+     * Initialize form fields values
      * Method will be called after prepareForm and can be used for field values initialization
      *
      * @return \Magento\Backend\Block\Widget\Form

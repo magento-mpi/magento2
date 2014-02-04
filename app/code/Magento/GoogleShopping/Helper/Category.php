@@ -31,7 +31,7 @@ class Category
      * Retrieve list of Google Product Categories
      *
      * @param bool $addOther
-     * @return array
+     * @return string[]
      */
     public function getCategories($addOther = true)
     {

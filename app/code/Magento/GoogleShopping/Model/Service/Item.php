@@ -71,7 +71,7 @@ class Item extends \Magento\GoogleShopping\Model\Service
      * Insert Item into Google Content
      *
      * @param \Magento\GoogleShopping\Model\Item $item
-     * @return \Magento\GoogleShopping\Model\Service\Item
+     * @return $this
      */
     public function insert($item)
     {
@@ -98,7 +98,7 @@ class Item extends \Magento\GoogleShopping\Model\Service
      * Update Item data in Google Content
      *
      * @param \Magento\GoogleShopping\Model\Item $item
-     * @return \Magento\GoogleShopping\Model\Service\Item
+     * @return $this
      */
     public function update($item)
     {
@@ -120,7 +120,7 @@ class Item extends \Magento\GoogleShopping\Model\Service
      * Delete Item from Google Content
      *
      * @param \Magento\GoogleShopping\Model\Item $item
-     * @return \Magento\GoogleShopping\Model\Service\Item
+     * @return $this
      */
     public function delete($item)
     {

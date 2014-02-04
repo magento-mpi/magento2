@@ -9,6 +9,8 @@
  */
 namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element;
 
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element;
+
 /**
  * Form element renderer to display font picker element for VDE
  *
@@ -26,7 +28,7 @@ class FontPicker extends \Magento\Data\Form\Element\Select
     /**
      * Default options which can be limited further by element's 'options' data
      *
-     * @var array
+     * @var string[]
      */
     protected $_defaultOptions = array(
         'Arial, Helvetica, sans-serif',

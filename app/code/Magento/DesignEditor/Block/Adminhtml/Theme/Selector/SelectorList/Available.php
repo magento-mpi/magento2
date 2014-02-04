@@ -9,6 +9,8 @@
  */
 namespace Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList;
 
+namespace Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList;
+
 /**
  * Available theme list
  *

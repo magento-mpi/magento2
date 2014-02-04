@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GoogleAnalytics\Helper;
 
+use Magento\Core\Model\Store;
 
 /**
  * GoogleAnalytics data helper
@@ -15,8 +17,6 @@
  * @category   Magento
  * @package    Magento_GoogleAnalytics
  */
-namespace Magento\GoogleAnalytics\Helper;
-
 class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
@@ -47,7 +47,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Whether GA is ready to use
      *
-     * @param mixed $store
+     * @param null|string|bool|int|Store $store
      * @return bool
      */
     public function isGoogleAnalyticsAvailable($store = null)

@@ -21,7 +21,7 @@ class Attribute extends \Magento\Core\Model\AbstractModel
     /**
      * Default ignored attribute codes
      *
-     * @var array
+     * @var string[]
      */
     protected $_ignoredAttributeCodes = array(
         'custom_design',
@@ -48,7 +48,7 @@ class Attribute extends \Magento\Core\Model\AbstractModel
     /**
      * Default ignored attribute types
      *
-     * @var array
+     * @var string[]
      */
     protected $_ignoredAttributeTypes = array('hidden', 'media_image', 'image', 'gallery');
 
@@ -101,7 +101,6 @@ class Attribute extends \Magento\Core\Model\AbstractModel
         $this->_gsProduct = $gsProduct;
         $this->catalogPrice = $catalogPrice;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
-
     }
 
     /**
@@ -144,7 +143,7 @@ class Attribute extends \Magento\Core\Model\AbstractModel
      * Check if attribute allowed
      *
      * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute
-     * @return boolean
+     * @return bool
      */
     protected function _isAllowedAttribute($attribute)
     {

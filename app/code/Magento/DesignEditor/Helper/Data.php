@@ -10,6 +10,7 @@
 namespace Magento\DesignEditor\Helper;
 
 use Magento\App\Helper\Context;
+use Magento\App\RequestInterface;
 
 /**
  * Design Editor main helper
@@ -83,10 +84,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * This method returns an indicator of whether or not the current request is for vde
      *
-     * @param \Magento\App\RequestInterface $request
+     * @param RequestInterface $request
      * @return bool
      */
-    public function isVdeRequest(\Magento\App\RequestInterface $request = null)
+    public function isVdeRequest(RequestInterface $request = null)
     {
         if (null !== $request) {
             $result = false;
@@ -104,7 +105,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Get available modes for Design Editor
      *
-     * @return array
+     * @return string[]
      */
     public function getAvailableModes()
     {
@@ -114,7 +115,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Returns the translation mode the current request is in (null, text, script, or alt).
      *
-     * @return mixed
+     * @return string|null
      */
     public function getTranslationMode()
     {
@@ -124,10 +125,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Sets the translation mode for the current request (null, text, script, or alt);
      *
-     * @param \Magento\App\RequestInterface $request
+     * @param RequestInterface $request
      * @return $this
      */
-    public function setTranslationMode(\Magento\App\RequestInterface $request)
+    public function setTranslationMode(RequestInterface $request)
     {
         $this->_translationMode = $request->getParam(self::TRANSLATION_MODE, null);
         return $this;

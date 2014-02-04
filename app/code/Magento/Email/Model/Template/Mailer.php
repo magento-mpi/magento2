@@ -9,6 +9,8 @@
  */
 namespace Magento\Email\Model\Template;
 
+use Magento\Email\Model\Info;
+
 /**
  * Email Template Mailer Model
  *
@@ -22,7 +24,7 @@ class Mailer extends \Magento\Object
      * List of email infos
      *
      * @var array
-     * @see \Magento\Email\Model\Info
+     * @see Info
      */
     protected $_emailInfos = array();
 
@@ -48,10 +50,10 @@ class Mailer extends \Magento\Object
     /**
      * Add new email info to corresponding list
      *
-     * @param \Magento\Email\Model\Info $emailInfo
-     * @return \Magento\Email\Model\Template\Mailer
+     * @param Info $emailInfo
+     * @return $this
      */
-    public function addEmailInfo(\Magento\Email\Model\Info $emailInfo)
+    public function addEmailInfo(Info $emailInfo)
     {
         $this->_emailInfos[] = $emailInfo;
         return $this;

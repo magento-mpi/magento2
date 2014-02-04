@@ -7,16 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reports\Block\Adminhtml\Review\Detail;
 
 /**
  * Adminhtml report reviews product grid block
  *
- * @category   Magento
- * @package    Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reports\Block\Adminhtml\Review\Detail;
-
 class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
@@ -50,7 +47,9 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     }
 
     /**
-     * @return $this|\Magento\Backend\Block\Widget\Grid
+     * Apply sorting and filtering to reports review collection
+     *
+     * @return $this
      */
     protected function _prepareCollection()
     {
@@ -65,7 +64,9 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     }
 
     /**
-     * @return \Magento\Backend\Block\Widget\Grid\Extended
+     * Initialize grid report review columns
+     *
+     * @return $this
      */
     protected function _prepareColumns()
     {

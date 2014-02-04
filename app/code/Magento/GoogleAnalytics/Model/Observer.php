@@ -9,6 +9,8 @@
  */
 namespace Magento\GoogleAnalytics\Model;
 
+use Magento\Event\Observer as EventObserver;
+
 /**
  * Google Analytics module observer
  *
@@ -58,10 +60,10 @@ class Observer
     /**
      * Add order information into GA block to render on checkout success pages
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
      * @return void
      */
-    public function setGoogleAnalyticsOnOrderSuccessPageView(\Magento\Event\Observer $observer)
+    public function setGoogleAnalyticsOnOrderSuccessPageView(EventObserver $observer)
     {
         $orderIds = $observer->getEvent()->getOrderIds();
         if (empty($orderIds) || !is_array($orderIds)) {
@@ -81,10 +83,10 @@ class Observer
      * There should be no tracking if there is no GA available
      * This method assumes that the observer instance is run as a "singleton"
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
      * @return void
      */
-    public function injectAnalyticsInGoogleCheckoutLink(\Magento\Event\Observer $observer)
+    public function injectAnalyticsInGoogleCheckoutLink(EventObserver $observer)
     {
         $block = $observer->getEvent()->getBlock();
         if (!$block || !$this->_googleAnalyticsData->isGoogleAnalyticsAvailable()) {

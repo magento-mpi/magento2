@@ -7,17 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reports\Block\Adminhtml\Customer;
 
 /**
  * Backend customers by totals report content block
  *
- * @category   Magento
- * @package    Magento_Reports
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Reports\Block\Adminhtml\Customer;
-
 class Totals extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**

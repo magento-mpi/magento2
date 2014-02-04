@@ -9,6 +9,8 @@
  */
 namespace Magento\DesignEditor\Block\Adminhtml\Theme;
 
+namespace Magento\DesignEditor\Block\Adminhtml\Theme;
+
 /**
  * Button widget
  */

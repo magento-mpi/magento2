@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reminder\Model;
 
 /**
  * Reminder Rule data model
@@ -38,8 +39,6 @@
  * @package     Magento_Reminder
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reminder\Model;
-
 class Rule extends \Magento\Rule\Model\AbstractModel
 {
     const XML_PATH_EMAIL_TEMPLATE  = 'magento_reminder_email_template';
@@ -168,7 +167,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Set template, label and description data per store
      *
-     * @return \Magento\Reminder\Model\Rule
+     * @return $this
      */
     protected function _afterLoad()
     {
@@ -190,7 +189,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Set aggregated conditions SQL and reset sales rule Id if applicable
      *
-     * @return \Magento\Reminder\Model\Rule
+     * @return $this
      */
     protected function _beforeSave()
     {
@@ -229,7 +228,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Send reminder emails
      *
-     * @return \Magento\Reminder\Model\Rule
+     * @return $this
      */
     public function sendReminderEmails()
     {
@@ -296,7 +295,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Match customers for current rule and assign coupons
      *
-     * @return \Magento\Reminder\Model\Observer
+     * @return $this
      */
     protected function _matchCustomers()
     {
@@ -331,7 +330,6 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      *
      * @param int $ruleId
      * @param int $storeId
-     *
      * @return array|false
      */
     public function getStoreData($ruleId, $storeId)
@@ -355,7 +353,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * Detaches Sales Rule from all Email Remainder Rules that uses it
      *
      * @param int $salesRuleId
-     * @return \Magento\Reminder\Model\Rule
+     * @return $this
      */
     public function detachSalesRule($salesRuleId)
     {
@@ -365,6 +363,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
 
     /**
      * Retrieve active from date.
+     *
      * Implemented for backwards compatibility with old property called "active_from"
      *
      * @return string
@@ -376,6 +375,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
 
     /**
      * Retrieve active to date.
+     *
      * Implemented for backwards compatibility with old property called "active_to"
      *
      * @return string

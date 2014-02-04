@@ -10,6 +10,9 @@
 
 namespace Magento\Reminder\Model\Rule\Condition;
 
+use Magento\DB\Select;
+use Magento\Core\Exception;
+
 /**
  * Customer wishlist conditions combine
  */
@@ -109,7 +112,7 @@ class Wishlist extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
     /**
      * Return required validation
      *
-     * @return true
+     * @return bool
      */
     protected function _getRequiredValidation()
     {
@@ -132,10 +135,10 @@ class Wishlist extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
     /**
      * Get condition SQL select
      *
-     * @param int|\Zend_Db_Expr $customer
+     * @param null|int|\Zend_Db_Expr $customer
      * @param int|\Zend_Db_Expr $website
-     * @return \Magento\DB\Select
-     * @throws \Magento\Core\Exception
+     * @return Select
+     * @throws Exception
      */
     protected function _prepareConditionsSql($customer, $website)
     {
@@ -175,9 +178,9 @@ class Wishlist extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
     /**
      * Get base SQL select
      *
-     * @param int|\Zend_Db_Expr $customer
+     * @param null|int|\Zend_Db_Expr $customer
      * @param int|\Zend_Db_Expr $website
-     * @return \Magento\DB\Select
+     * @return Select
      */
     public function getConditionsSql($customer, $website)
     {

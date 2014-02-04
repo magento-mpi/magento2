@@ -49,7 +49,7 @@ class Column
     /**
      * Add element types that can be added to 'column' element
      *
-     * @return \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Column
+     * @return $this
      */
     protected function _addElementTypes()
     {
@@ -74,7 +74,7 @@ class Column
 
     /**
      * @param \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Renderer\Factory $factory
-     * @return \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Column
+     * @return $this
      */
     public function setRendererFactory($factory)
     {
@@ -96,7 +96,7 @@ class Column
 
     /**
      * @param \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Element\Factory $factory
-     * @return \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Column
+     * @return $this
      */
     public function setElementsFactory($factory)
     {

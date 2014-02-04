@@ -9,6 +9,8 @@
  */
 namespace Magento\DesignEditor\Controller\Adminhtml\System\Design\Editor;
 
+use Magento\Core\Exception as CoreException;
+
 /**
  * Backend controller for the design editor
  *
@@ -55,7 +57,7 @@ class Tools extends \Magento\Backend\App\Action
                 'message' => __('You updated the custom.css file.'),
                 'content' => $cssFileData['content']
             );
-        } catch (\Magento\Core\Exception $e) {
+        } catch (CoreException $e) {
             $response = array('error' => true, 'message' => $e->getMessage());
             $this->_objectManager->get('Magento\Logger')->logException($e);
         } catch (\Exception $e) {
@@ -87,7 +89,7 @@ class Tools extends \Magento\Backend\App\Action
                 'filename' => $customCss->getFileName(),
                 'message'  => __('You updated the %1 file.', $customCss->getFileName())
             );
-        } catch (\Magento\Core\Exception $e) {
+        } catch (CoreException $e) {
             $response = array('error' => true, 'message' => $e->getMessage());
             $this->_objectManager->get('Magento\Logger')->logException($e);
         } catch (\Exception $e) {
@@ -138,7 +140,7 @@ class Tools extends \Magento\Backend\App\Action
             $jsFile->save();
             $this->_forward('jsList');
             return;
-        } catch (\Magento\Core\Exception $e) {
+        } catch (CoreException $e) {
             $response = array('error' => true, 'message' => $e->getMessage());
             $this->_objectManager->get('Magento\Logger')->logException($e);
         } catch (\Exception $e) {
@@ -182,7 +184,7 @@ class Tools extends \Magento\Backend\App\Action
                 \Magento\View\Design\Theme\Customization\File\Js::TYPE, $reorderJsFiles
             );
             $result = array('success' => true);
-        } catch (\Magento\Core\Exception $e) {
+        } catch (CoreException $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
             $this->_objectManager->get('Magento\Logger')->logException($e);
         } catch (\Exception $e) {
@@ -216,7 +218,7 @@ class Tools extends \Magento\Backend\App\Action
             $imageSizing = $imageSizingValidator->validate($configuration->getAllControlsData(), $imageSizing);
             $configuration->saveData($imageSizing);
             $result = array('success' => true, 'message' => __('We saved the image sizes.'));
-        } catch (\Magento\Core\Exception $e) {
+        } catch (CoreException $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
             $this->_objectManager->get('Magento\Logger')->logException($e);
         } catch (\Exception $e) {
@@ -253,7 +255,7 @@ class Tools extends \Magento\Backend\App\Action
             $configuration->saveData(array($keys[0] => $result['css_path']));
 
             $response = array('error' => false, 'content' => $result);
-        } catch (\Magento\Core\Exception $e) {
+        } catch (CoreException $e) {
             $this->messageManager->addError($e->getMessage());
             $response = array('error' => true, 'message' => $e->getMessage());
             $this->_objectManager->get('Magento\Logger')->logException($e);
@@ -295,7 +297,7 @@ class Tools extends \Magento\Backend\App\Action
             $configuration->saveData(array($elementName => ''));
 
             $response = array('error' => false, 'content' => $result);
-        } catch (\Magento\Core\Exception $e) {
+        } catch (CoreException $e) {
             $response = array('error' => true, 'message' => $e->getMessage());
             $this->_objectManager->get('Magento\Logger')->logException($e);
         } catch (\Exception $e) {
@@ -311,7 +313,7 @@ class Tools extends \Magento\Backend\App\Action
      * Upload store logo
      *
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws CoreException
      */
     public function uploadStoreLogoAction()
     {
@@ -321,7 +323,7 @@ class Tools extends \Magento\Backend\App\Action
             /** @var $theme \Magento\View\Design\ThemeInterface */
             $theme = $this->_objectManager->create('Magento\View\Design\ThemeInterface');
             if (!$theme->load($themeId)->getId() || !$theme->isEditable()) {
-                throw new \Magento\Core\Exception(
+                throw new CoreException(
                     __('The file can\'t be found or edited.')
                 );
             }
@@ -331,7 +333,7 @@ class Tools extends \Magento\Backend\App\Action
             $store = $this->_objectManager->get('Magento\Core\Model\Store')->load($storeId);
 
             if (!$customizationConfig->isThemeAssignedToStore($theme, $store)) {
-                throw new \Magento\Core\Exception(__('This theme is not assigned to a store view #%1.',
+                throw new CoreException(__('This theme is not assigned to a store view #%1.',
                     $theme->getId()));
             }
             /** @var $storeLogo \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\LogoUploader */
@@ -341,7 +343,7 @@ class Tools extends \Magento\Backend\App\Action
             $this->_reinitSystemConfiguration();
 
             $response = array('error' => false, 'content' => array('name' => basename($storeLogo->getValue())));
-        } catch (\Magento\Core\Exception $e) {
+        } catch (CoreException $e) {
             $response = array('error' => true, 'message' => $e->getMessage());
             $this->_objectManager->get('Magento\Logger')->logException($e);
         } catch (\Exception $e) {
@@ -357,7 +359,7 @@ class Tools extends \Magento\Backend\App\Action
      * Remove store logo
      *
      * @return void
-     * @throws \Magento\Core\Exception
+     * @throws CoreException
      */
     public function removeStoreLogoAction()
     {
@@ -367,7 +369,7 @@ class Tools extends \Magento\Backend\App\Action
             /** @var $theme \Magento\View\Design\ThemeInterface */
             $theme = $this->_objectManager->create('Magento\View\Design\ThemeInterface');
             if (!$theme->load($themeId)->getId() || !$theme->isEditable()) {
-                throw new \Magento\Core\Exception(
+                throw new CoreException(
                     __('The file can\'t be found or edited.')
                 );
             }
@@ -377,7 +379,7 @@ class Tools extends \Magento\Backend\App\Action
             $store = $this->_objectManager->get('Magento\Core\Model\Store')->load($storeId);
 
             if (!$customizationConfig->isThemeAssignedToStore($theme, $store)) {
-                throw new \Magento\Core\Exception(__('This theme is not assigned to a store view #%1.',
+                throw new CoreException(__('This theme is not assigned to a store view #%1.',
                     $theme->getId()));
             }
 
@@ -387,7 +389,7 @@ class Tools extends \Magento\Backend\App\Action
 
             $this->_reinitSystemConfiguration();
             $response = array('error' => false, 'content' => array());
-        } catch (\Magento\Core\Exception $e) {
+        } catch (CoreException $e) {
             $response = array('error' => true, 'message' => $e->getMessage());
             $this->_objectManager->get('Magento\Logger')->logException($e);
         } catch (\Exception $e) {
@@ -419,7 +421,7 @@ class Tools extends \Magento\Backend\App\Action
             );
             $configuration->saveData(array($controlId => $controlValue));
             $response = array('success' => true);
-        } catch (\Magento\Core\Exception $e) {
+        } catch (CoreException $e) {
             $response = array('error' => true, 'message' => $e->getMessage());
             $this->_objectManager->get('Magento\Logger')->logException($e);
         } catch (\Exception $e) {

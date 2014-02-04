@@ -44,7 +44,7 @@ abstract class AbstractIndex extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Update Customer from visitor (Customer logged in)
      *
      * @param \Magento\Reports\Model\Product\Index\AbstractIndex $object
-     * @return \Magento\Reports\Model\Resource\Product\Index\AbstractIndex
+     * @return $this
      */
     public function updateCustomerFromVisitor(\Magento\Reports\Model\Product\Index\AbstractIndex $object)
     {
@@ -103,7 +103,7 @@ abstract class AbstractIndex extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Purge visitor data by customer (logout)
      *
      * @param \Magento\Reports\Model\Product\Index\AbstractIndex $object
-     * @return \Magento\Reports\Model\Resource\Product\Index\AbstractIndex
+     * @return $this
      */
     public function purgeVisitorByCustomer(\Magento\Reports\Model\Product\Index\AbstractIndex $object)
     {
@@ -124,8 +124,8 @@ abstract class AbstractIndex extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Save Product Index data (forced save)
      *
-     * @param \Magento\Reports\Model\Product\Index\AbstractIndex $object
-     * @return \Magento\Reports\Model\Resource\Product\Index\AbstractIndex
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return $this|\Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function save(\Magento\Core\Model\AbstractModel  $object)
     {
@@ -158,7 +158,7 @@ abstract class AbstractIndex extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Clean index (visitor)
      *
-     * @return \Magento\Reports\Model\Resource\Product\Index\AbstractIndex
+     * @return $this
      */
     public function clean()
     {
@@ -189,10 +189,9 @@ abstract class AbstractIndex extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Add information about product ids to visitor/customer
      *
-     *
      * @param \Magento\Object|\Magento\Reports\Model\Product\Index\AbstractIndex $object
      * @param array $productIds
-     * @return \Magento\Reports\Model\Resource\Product\Index\AbstractIndex
+     * @return $this
      */
     public function registerIds(\Magento\Object $object, $productIds)
     {

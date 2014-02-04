@@ -104,7 +104,7 @@ class InlineVde implements \Magento\Core\Model\Translate\InlineInterface
     /**
      * Replace VDE specific translation templates with HTML fragments
      *
-     * @param array|string &$body
+     * @param string[]|string &$body
      * @param bool $isJson
      * @return $this
      */
@@ -126,7 +126,7 @@ class InlineVde implements \Magento\Core\Model\Translate\InlineInterface
      * Returns the translation mode html attribute needed by vde to specify which translation mode the
      * element represents.
      *
-     * @param mixed|string $tagName
+     * @param string|null $tagName
      * @return string
      */
     public function getAdditionalHtmlAttribute($tagName = null)

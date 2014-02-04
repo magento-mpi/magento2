@@ -7,17 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reports\Block\Adminhtml\Shopcart;
 
 /**
  * Adminhtml Shopping cart customers report page content block
  *
- * @category   Magento
- * @package    Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Reports\Block\Adminhtml\Shopcart;
-
 class Customer extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**

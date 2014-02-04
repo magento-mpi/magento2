@@ -7,20 +7,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reminder\Controller\Adminhtml;
+
+use Magento\Backend\App\Action;
+use Magento\Core\Model\Registry;
 
 /**
  * Reminder grid and edit controller
  */
-namespace Magento\Reminder\Controller\Adminhtml;
-
-use Magento\Backend\App\Action;
-
 class Reminder extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var Registry|null
      */
     protected $_coreRegistry = null;
 
@@ -45,14 +45,14 @@ class Reminder extends \Magento\Backend\App\Action
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param Registry $coreRegistry
      * @param \Magento\Reminder\Model\RuleFactory $ruleFactory
      * @param \Magento\Reminder\Model\Rule\ConditionFactory $conditionFactory
      * @param \Magento\Core\Filter\Date $dateFilter
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry,
+        Registry $coreRegistry,
         \Magento\Reminder\Model\RuleFactory $ruleFactory,
         \Magento\Reminder\Model\Rule\ConditionFactory $conditionFactory,
         \Magento\Core\Filter\Date $dateFilter
@@ -67,7 +67,7 @@ class Reminder extends \Magento\Backend\App\Action
     /**
      * Init active menu and set breadcrumb
      *
-     * @return \Magento\Reminder\Controller\Adminhtml\Reminder
+     * @return $this
      */
     protected function _initAction()
     {

@@ -86,6 +86,8 @@ class Edit extends \Magento\Backend\Block\Widget
     }
 
     /**
+     * Prepare layout
+     *
      * @return $this
      */
     protected function _prepareLayout()
@@ -223,6 +225,8 @@ class Edit extends \Magento\Backend\Block\Widget
     }
 
     /**
+     * Get the html element for back button
+     *
      * @return string
      */
     public function getBackButtonHtml()
@@ -231,6 +235,8 @@ class Edit extends \Magento\Backend\Block\Widget
     }
 
     /**
+     * Get the html element for toggle button
+     *
      * @return string
      */
     public function getToggleButtonHtml()
@@ -239,6 +245,8 @@ class Edit extends \Magento\Backend\Block\Widget
     }
 
     /**
+     * Get the html element for reset button
+     *
      * @return string
      */
     public function getResetButtonHtml()
@@ -247,6 +255,8 @@ class Edit extends \Magento\Backend\Block\Widget
     }
 
     /**
+     * Get the html element for to plain button
+     *
      * @return string
      */
     public function getToPlainButtonHtml()
@@ -255,6 +265,8 @@ class Edit extends \Magento\Backend\Block\Widget
     }
 
     /**
+     * Get the 'to html' button
+     *
      * @return string
      */
     public function getToHtmlButtonHtml()
@@ -263,6 +275,8 @@ class Edit extends \Magento\Backend\Block\Widget
     }
 
     /**
+     * Get the html element for save button
+     *
      * @return string
      */
     public function getSaveButtonHtml()
@@ -271,6 +285,8 @@ class Edit extends \Magento\Backend\Block\Widget
     }
 
     /**
+     * Get the html element for preview button
+     *
      * @return string
      */
     public function getPreviewButtonHtml()
@@ -279,6 +295,8 @@ class Edit extends \Magento\Backend\Block\Widget
     }
 
     /**
+     * Get the html element for delete button
+     *
      * @return string
      */
     public function getDeleteButtonHtml()
@@ -287,6 +305,8 @@ class Edit extends \Magento\Backend\Block\Widget
     }
 
     /**
+     * Get the html element for load button
+     *
      * @return string
      */
     public function getLoadButtonHtml()
@@ -348,6 +368,8 @@ class Edit extends \Magento\Backend\Block\Widget
     }
 
     /**
+     * Return true if template type is text; return false otherwise
+     *
      * @return bool
      */
     public function isTextType()

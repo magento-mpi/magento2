@@ -9,7 +9,7 @@
  */
 namespace Magento\GoogleShopping\Model;
 
-use Magento\Catalog\Model\Product;
+use Magento\Catalog\Model\Product as CatalogModelProduct;
 
 /**
  * Google Content Item Types Model
@@ -91,7 +91,6 @@ class Item extends \Magento\Core\Model\AbstractModel
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
-
     /**
      * @return void
      */
@@ -139,10 +138,10 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Save item to Google Content
      *
-     * @param Product $product
+     * @param CatalogModelProduct $product
      * @return $this
      */
-    public function insertItem(Product $product)
+    public function insertItem(CatalogModelProduct $product)
     {
         $this->setProduct($product);
         $this->getServiceItem()
@@ -180,7 +179,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Load Item Model by Product
      *
-     * @param Product $product
+     * @param CatalogModelProduct $product
      * @return $this
      */
     public function loadByProduct($product)
@@ -217,7 +216,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Product Getter. Load product if not exist.
      *
-     * @return Product
+     * @return CatalogModelProduct
      */
     public function getProduct()
     {
@@ -232,10 +231,10 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Product Setter.
      *
-     * @param Product $product
+     * @param CatalogModelProduct $product
      * @return $this
      */
-    public function setProduct(Product $product)
+    public function setProduct(CatalogModelProduct $product)
     {
         $this->setData('product', $product);
         $this->setProductId($product->getId());

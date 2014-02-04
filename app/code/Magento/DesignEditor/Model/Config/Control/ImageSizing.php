@@ -17,7 +17,7 @@ class ImageSizing extends \Magento\DesignEditor\Model\Config\Control\AbstractCon
     /**
      * Keys of layout params attributes
      *
-     * @var array
+     * @var string[]
      */
     protected $_controlAttributes = array('title');
 

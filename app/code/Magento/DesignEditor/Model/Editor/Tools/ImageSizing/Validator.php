@@ -47,7 +47,7 @@ class Validator
     /**
      * List of allowed filed control types
      *
-     * @var array
+     * @var string[]
      */
     protected $_allowedTypes = array(
         self::FIELD_WHITE_BORDER,

@@ -7,23 +7,22 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reports\Block\Adminhtml\Config\Form\Field;
+
+use Magento\Data\Form\Element\AbstractElement;
 
 /**
  * Dashboard Year-To-Date Month and Day starts Field Renderer
  *
- * @category   Magento
- * @package    Magento_Reports
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reports\Block\Adminhtml\Config\Form\Field;
-
 class YtdStart extends \Magento\Backend\Block\System\Config\Form\Field
 {
     /**
-     * @param \Magento\Data\Form\Element\AbstractElement $element
+     * @param AbstractElement $element
      * @return string
      */
-    protected function _getElementHtml(\Magento\Data\Form\Element\AbstractElement $element)
+    protected function _getElementHtml(AbstractElement $element)
     {
         $_months = array();
         for ($i = 1; $i <= 12; $i++) {

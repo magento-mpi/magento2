@@ -9,6 +9,8 @@
  */
 namespace Magento\Sendfriend\Model;
 
+use Magento\Core\Exception as CoreException;
+
 /**
  * SendFriend Log
  *
@@ -42,7 +44,7 @@ class Sendfriend extends \Magento\Core\Model\AbstractModel
     /**
      * Sender data array
      *
-     * @var array
+     * @var \Magento\Object|array
      */
     protected $_sender  = array();
 
@@ -153,6 +155,7 @@ class Sendfriend extends \Magento\Core\Model\AbstractModel
 
     /**
      * @return $this
+     * @throws CoreException
      */
     public function send()
     {
@@ -210,7 +213,7 @@ class Sendfriend extends \Magento\Core\Model\AbstractModel
     /**
      * Validate Form data
      *
-     * @return bool|array
+     * @return bool|string[]
      */
     public function validate()
     {
@@ -407,7 +410,7 @@ class Sendfriend extends \Magento\Core\Model\AbstractModel
      * Set Sender Information array
      *
      * @param array $sender
-     * @return \Magento\Sendfriend\Model\Sendfriend
+     * @return $this
      */
     public function setSender($sender)
     {

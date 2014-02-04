@@ -124,7 +124,7 @@ class Observer
      * Determine if the vde specific translation class should be used.
      *
      * @param  EventObserver $observer
-     * @return \Magento\DesignEditor\Model\Observer
+     * @return $this
      */
     public function initializeTranslation(EventObserver $observer)
     {

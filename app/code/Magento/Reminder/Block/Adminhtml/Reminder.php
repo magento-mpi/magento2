@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reminder\Block\Adminhtml;
 
 /**
  * Reminder Adminhtml Block
  */
-namespace Magento\Reminder\Block\Adminhtml;
-
 class Reminder extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**

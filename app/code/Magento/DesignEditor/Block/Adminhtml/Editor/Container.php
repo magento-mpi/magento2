@@ -52,7 +52,7 @@ class Container extends \Magento\Backend\Block\Widget\Container
     /**
      * @param string $url
      *
-     * @return \Magento\DesignEditor\Block\Adminhtml\Editor\Container
+     * @return $this
      */
     public function setFrameUrl($url)
     {

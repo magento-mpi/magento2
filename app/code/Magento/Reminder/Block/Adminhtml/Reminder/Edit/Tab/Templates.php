@@ -7,12 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab;
+
+use Magento\Backend\Block\Widget\Form;
 
 /**
  * Reminder rules edit form email templates and labels fields
  */
-namespace Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab;
-
 class Templates
     extends \Magento\Backend\Block\Widget\Form\Generic
 {
@@ -44,7 +45,7 @@ class Templates
     /**
      * Prepare general properties form
      *
-     * @return \Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\Templates
+     * @return Form
      */
     protected function _prepareForm()
     {

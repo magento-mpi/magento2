@@ -7,12 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Cart items SKU subselection condition
- */
 namespace Magento\Reminder\Model\Rule\Condition\Cart;
 
+use Magento\DB\Select;
+
+/**
+ * Cart items SKU sub-selection condition
+ */
 class Sku
     extends \Magento\Reminder\Model\Condition\AbstractCondition
 {
@@ -67,7 +68,7 @@ class Sku
     /**
      * Initialize value select options
      *
-     * @return \Magento\Reminder\Model\Rule\Condition\Cart\Sku
+     * @return $this
      */
     public function loadValueOptions()
     {
@@ -78,9 +79,9 @@ class Sku
     /**
      * Get SQL select
      *
-     * @param int|\Zend_Db_Expr $customer
+     * @param null|int|\Zend_Db_Expr $customer
      * @param int|\Zend_Db_Expr $website
-     * @return \Magento\DB\Select
+     * @return Select
      */
     public function getConditionsSql($customer, $website)
     {
