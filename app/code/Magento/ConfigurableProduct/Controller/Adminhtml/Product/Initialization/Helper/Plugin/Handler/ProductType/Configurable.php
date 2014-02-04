@@ -44,7 +44,7 @@ class Configurable implements HandlerInterface
         $attributeData = $product->getConfigurableAttributesData();
         if (is_array($attributeData)) {
             foreach ($attributeData as &$data) {
-                $id = $data['id'];
+                $id = $data['attribute_id'];
                 foreach ($data['values'] as &$value) {
                     $valueIndex = $value['value_index'];
                     if (isset($originalAttributesMainInfo[$id][$valueIndex])) {
