@@ -26,6 +26,10 @@ class Object implements InterpreterInterface
      */
     private $expectedClass;
 
+    /**
+     * @param ObjectManager $objectManager
+     * @param null $expectedClass
+     */
     public function __construct(ObjectManager $objectManager, $expectedClass = null)
     {
         $this->objectManager = $objectManager;

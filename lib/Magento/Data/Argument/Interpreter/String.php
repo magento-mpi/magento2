@@ -8,7 +8,6 @@
 
 namespace Magento\Data\Argument\Interpreter;
 
-use Magento\ObjectManager;
 use Magento\Data\Argument\InterpreterInterface;
 
 /**
@@ -16,19 +15,6 @@ use Magento\Data\Argument\InterpreterInterface;
  */
 class String implements InterpreterInterface
 {
-    /**
-     * @var ObjectManager
-     */
-    private $objectManager;
-
-    /**
-     * @param ObjectManager $objectManager
-     */
-    public function __construct(ObjectManager $objectManager)
-    {
-        $this->objectManager = $objectManager;
-    }
-
     /**
      * {@inheritdoc}
      * @return string
