@@ -1,10 +1,10 @@
 <?php
 /**
-* {license_notice}
-*
-* @copyright   {copyright}
-* @license     {license_link}
-*/
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
 namespace Magento\Catalog\Model\Indexer\Category\Flat\Action;
 
 class Full extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
@@ -22,11 +22,6 @@ class Full extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
     protected $allowTableChanges = true;
 
     /**
-     * @var \Magento\Catalog\Model\Indexer\Category\Flat\Config
-     */
-    protected $config;
-
-    /**
      * Add suffix to table name to show it is old
      *
      * @param string $tableName
@@ -40,17 +35,16 @@ class Full extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
     /**
      * Populate category flat tables with data
      *
-     * @param array $stores
+     * @param \Magento\Core\Model\Store[] $stores
      * @return Full
      */
-    protected function populateFlatTables($stores)
+    protected function populateFlatTables(array $stores)
     {
         $rootId = \Magento\Catalog\Model\Category::TREE_ROOT_ID;
         $categories = array();
         $categoriesIds = array();
         /* @var $store \Magento\Core\Model\Store */
         foreach ($stores as $store) {
-
             if (!isset($categories[$store->getRootCategoryId()])) {
                 $select = $this->getWriteAdapter()->select()
                     ->from($this->getWriteAdapter()->getTableName('catalog_category_entity'))
@@ -110,10 +104,10 @@ class Full extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
      * Create category flat tables and add attributes as fields.
      * Tables are created only if DDL operations are allowed
      *
-     * @param array $stores if empty, create tables for all stores of the application
+     * @param \Magento\Core\Model\Store[] $stores if empty, create tables for all stores of the application
      * @return Full
      */
-    protected function createTables($stores = array())
+    protected function createTables(array $stores = array())
     {
         if ($this->getWriteAdapter()->getTransactionLevel() > 0) {
             return $this;
@@ -121,6 +115,7 @@ class Full extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
         if (empty($stores)) {
             $stores = $this->storeManager->getStores();
         }
+        /* @var $store \Magento\Core\Model\Store */
         foreach ($stores as $store) {
             $this->createTable($store->getId());
         }
@@ -131,12 +126,12 @@ class Full extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
     /**
      * Switch table (temporary becomes active, old active will be dropped)
      *
-     * @param array $stores
+     * @param \Magento\Core\Model\Store[] $stores
      * @return Full
      */
-    protected function switchTables($stores)
+    protected function switchTables(array $stores = array())
     {
-        /** @var $store Mage_Core_Model_Store */
+        /** @var $store \Magento\Core\Model\Store */
         foreach ($stores as $store) {
             $activeTableName = $this->getMainStoreTable($store->getId());
             $temporaryTableName = $this->addTemporaryTableSuffix($this->getMainStoreTable($store->getId()));

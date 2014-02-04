@@ -26,8 +26,8 @@ class Rows extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
         \Magento\Catalog\Model\Resource\Helper $resourceHelper,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory
     ) {
-        parent::__construct($resource, $storeManager, $resourceHelper);
         $this->categoryFactory = $categoryFactory;
+        parent::__construct($resource, $storeManager, $resourceHelper);
     }
 
     /**
@@ -103,8 +103,6 @@ class Rows extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
             $this->deleteNonStoreCategories($store, $useTempTable);
         }
 
-        /** @TODO evant catalog_category_flat_partial_reindex was here */
-
         return $this;
     }
 
@@ -140,11 +138,11 @@ class Rows extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
     /**
      * Filter category ids by store
      *
-     * @param array $ids
+     * @param int[] $ids
      * @param \Magento\Core\Model\Store $store
-     * @return array
+     * @return int[]
      */
-    protected function filterIdsByStore($ids, $store)
+    protected function filterIdsByStore(array $ids, $store)
     {
         $rootId = \Magento\Catalog\Model\Category::TREE_ROOT_ID;
 

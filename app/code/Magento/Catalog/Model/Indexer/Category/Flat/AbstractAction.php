@@ -15,18 +15,11 @@ class AbstractAction
     const TEMPORARY_TABLE_SUFFIX = '_tmp';
 
     /**
-     * Columns sql
-     *
-     * @var array
-     */
-    protected $columnsSql = null;
-
-    /**
      * Attribute codes
      *
      * @var array
      */
-    protected $attributeCodes = null;
+    protected $attributeCodes;
 
     /**
      * @var \Magento\App\Resource
@@ -149,26 +142,24 @@ class AbstractAction
             ->setComment(sprintf("Catalog Category Flat", $tableName));
 
         //Adding columns
-        if ($this->columnsSql === null) {
-            foreach ($this->getColumns() as $fieldName => $fieldProp) {
-                $default = $fieldProp['default'];
-                if ($fieldProp['type'][0] == \Magento\DB\Ddl\Table::TYPE_TIMESTAMP
-                    && $default == 'CURRENT_TIMESTAMP') {
-                    $default = \Magento\DB\Ddl\Table::TIMESTAMP_INIT;
-                }
-                $table->addColumn(
-                    $fieldName,
-                    $fieldProp['type'][0],
-                    $fieldProp['type'][1],
-                    array(
-                        'nullable' => $fieldProp['nullable'],
-                        'unsigned' => $fieldProp['unsigned'],
-                        'default'  => $default,
-                        'primary'  => isset($fieldProp['primary']) ? $fieldProp['primary'] : false,
-                    ),
-                    ($fieldProp['comment'] != '') ? $fieldProp['comment'] : ucwords(str_replace('_', ' ', $fieldName))
-                );
+        foreach ($this->getColumns() as $fieldName => $fieldProp) {
+            $default = $fieldProp['default'];
+            if ($fieldProp['type'][0] == \Magento\DB\Ddl\Table::TYPE_TIMESTAMP
+                && $default == 'CURRENT_TIMESTAMP') {
+                $default = \Magento\DB\Ddl\Table::TIMESTAMP_INIT;
             }
+            $table->addColumn(
+                $fieldName,
+                $fieldProp['type'][0],
+                $fieldProp['type'][1],
+                array(
+                    'nullable' => $fieldProp['nullable'],
+                    'unsigned' => $fieldProp['unsigned'],
+                    'default'  => $default,
+                    'primary'  => isset($fieldProp['primary']) ? $fieldProp['primary'] : false,
+                ),
+                ($fieldProp['comment'] != '') ? $fieldProp['comment'] : ucwords(str_replace('_', ' ', $fieldName))
+            );
         }
 
         // Adding indexes
@@ -386,6 +377,7 @@ class AbstractAction
                 $this->attributeCodes[$attribute['attribute_id']] = $attribute;
             }
         }
+
         return $this->attributeCodes;
     }
 
