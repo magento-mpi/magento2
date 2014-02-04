@@ -15,6 +15,9 @@
  */
 namespace Magento\Core\Block;
 
+use Magento\Core\Model\Store\Group;
+use Magento\Core\Model\Store;
+
 class Switcher extends \Magento\View\Element\Template
 {
     /**
@@ -72,7 +75,7 @@ class Switcher extends \Magento\View\Element\Template
             $websiteStores = $this->_storeManager->getWebsite()->getStores();
             $stores = array();
             foreach ($websiteStores as $store) {
-                /* @var $store \Magento\Core\Model\Store */
+                /* @var $store Store */
                 if (!$store->getIsActive()) {
                     continue;
                 }
@@ -97,7 +100,7 @@ class Switcher extends \Magento\View\Element\Template
     /**
      * Retrieve list of store groups with default urls set
      *
-     * @return \Magento\Core\Model\Store\Group[]
+     * @return Group[]
      */
     public function getGroups()
     {
@@ -108,7 +111,7 @@ class Switcher extends \Magento\View\Element\Template
             $groups = array();
             $localeCode = $this->_storeConfig->getConfig('general/locale/code');
             foreach ($rawGroups as $group) {
-                /* @var $group \Magento\Core\Model\Store\Group */
+                /* @var $group Group */
                 if (!isset($rawStores[$group->getId()])) {
                     continue;
                 }
@@ -130,7 +133,7 @@ class Switcher extends \Magento\View\Element\Template
     }
 
     /**
-     * @return \Magento\Core\Model\Store[]
+     * @return Store[]
      */
     public function getStores()
     {

@@ -26,7 +26,7 @@ class Session
     protected $_cookie;
 
     /**
-     * @var array
+     * @var string[]
      */
     protected $_cookieCheckActions;
 
@@ -64,7 +64,7 @@ class Session
      * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param string $sessionNamespace
-     * @param array $cookieCheckActions
+     * @param string[] $cookieCheckActions
      */
     public function __construct(
         \Magento\App\ActionFlag $flag,
