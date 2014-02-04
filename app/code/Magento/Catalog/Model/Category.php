@@ -1035,4 +1035,14 @@ class Category extends \Magento\Catalog\Model\AbstractModel
             $this->getFlatIndexer()->reindexRow($this->getId());
         }
     }
+
+    /**
+     * Init indexing process after category delete
+     *
+     * @return \Magento\Core\Model\AbstractModel
+     */
+    protected function _afterDeleteCommit()
+    {
+        $this->reindex();
+    }
 }

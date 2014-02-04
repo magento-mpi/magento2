@@ -91,10 +91,8 @@ class Full extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
     protected function createTable($store)
     {
         $temporaryTable = $this->addTemporaryTableSuffix($this->getMainStoreTable($store));
-        $activeTable    = $this->getMainStoreTable($store);
-        $table  = $this->getFlatTableStructure($temporaryTable, $activeTable);
+        $table  = $this->getFlatTableStructure($temporaryTable);
         $this->getWriteAdapter()->dropTable($temporaryTable);
-        $this->dropOldForeignKeys($activeTable);
         $this->getWriteAdapter()->createTable($table);
 
         return $this;

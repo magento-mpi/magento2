@@ -128,15 +128,10 @@ class AbstractAction
      * Return structure for flat catalog table
      *
      * @param $tableName
-     * @param string|null $constraintsPrefix
      * @return \Magento\DB\Ddl\Table
      */
-    protected function getFlatTableStructure($tableName, $constraintsPrefix = null)
+    protected function getFlatTableStructure($tableName)
     {
-        if (!$constraintsPrefix) {
-            $constraintsPrefix = $tableName;
-        }
-
         $table = $this->getWriteAdapter()
             ->newTable($tableName)
             ->setComment(sprintf("Catalog Category Flat", $tableName));
@@ -191,21 +186,6 @@ class AbstractAction
             ),
             array('level'),
             array('type' => 'index')
-        );
-
-        // Adding foreign keys
-        $table->addForeignKey(
-            $this->getWriteAdapter()->getForeignKeyName(
-                $constraintsPrefix,
-                'entity_id',
-                $this->getWriteAdapter()->getTableName('catalog_category_entity'),
-                'entity_id'
-            ),
-            'entity_id',
-            $this->getWriteAdapter()->getTableName('catalog_category_entity'),
-            'entity_id',
-            \Magento\DB\Ddl\Table::ACTION_CASCADE,
-            \Magento\DB\Ddl\Table::ACTION_CASCADE
         );
 
         return $table;
@@ -449,32 +429,6 @@ class AbstractAction
             ->where('def.store_id IN (?)', array(\Magento\Core\Model\Store::DEFAULT_STORE_ID, $storeId));
 
         return $this->getReadAdapter()->fetchAll($select);
-    }
-
-    /**
-     * Drop foreign keys from current active table
-     * to avoid keys name duplication during new table
-     * creation
-     *
-     * @param string $tableName
-     * @return AbstractAction
-     */
-    protected function dropOldForeignKeys($tableName)
-    {
-        if ($this->getWriteAdapter()->isTableExists($tableName)) {
-
-            $this->getWriteAdapter()->dropForeignKey(
-                $tableName,
-                $this->getWriteAdapter()->getForeignKeyName(
-                    $tableName,
-                    'entity_id',
-                    $this->getWriteAdapter()->getTableName('catalog_category_entity'),
-                    'entity_id'
-                )
-            );
-        }
-
-        return $this;
     }
 
     /**
