@@ -67,10 +67,7 @@ class HeaderPlugin
             return $response;
         }
         if ($this->layout->isCacheable()) {
-            $response->setHeader('pragma', 'cache', true);
-            if(!$response->getHeader('cache-control')) {
-                $this->setPublicHeaders($response);
-            }
+            $this->setPublicHeaders($response);
         } else {
             $this->setNocacheHeaders($response);
         }
