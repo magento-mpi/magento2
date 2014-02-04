@@ -31,7 +31,7 @@ class Converter
      */
     public function afterConvert(array $result)
     {
-        if (isset($result['data']['default']['system']['cron'])) {
+        if (isset($result['data']['default']['system'])) {
             $result['data']['default']['system']['cron'] = $this->groupsConfig->get();
         }
         return $result;
