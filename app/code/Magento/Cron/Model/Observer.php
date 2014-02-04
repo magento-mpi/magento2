@@ -170,7 +170,7 @@ class Observer
     protected function _runJob($scheduledTime, $currentTime, $jobConfig, $schedule, $groupId)
     {
         $scheduleLifetime = (int)$this->_coreStoreConfig->getConfig(
-            'system/cron' . $groupId . self::XML_PATH_SCHEDULE_LIFETIME,
+            'system/cron/' . $groupId . '/' . self::XML_PATH_SCHEDULE_LIFETIME,
             'default'
         );
         $scheduleLifetime = $scheduleLifetime * self::SECONDS_IN_MINUTE;
@@ -236,7 +236,7 @@ class Observer
          */
         $lastRun = (int)$this->_app->loadCache(self::CACHE_KEY_LAST_SCHEDULE_GENERATE_AT);
         $rawSchedulePeriod = (int)$this->_coreStoreConfig->getConfig(
-            'system/cron/' . $groupId . self::XML_PATH_SCHEDULE_GENERATE_EVERY,
+            'system/cron/' . $groupId . '/' . self::XML_PATH_SCHEDULE_GENERATE_EVERY,
             'default'
         );
         $schedulePeriod = $rawSchedulePeriod * self::SECONDS_IN_MINUTE;
@@ -276,7 +276,7 @@ class Observer
     protected function _generateJobs($jobs, $exists, $groupId)
     {
         $scheduleAheadFor = (int)$this->_coreStoreConfig->getConfig(
-            'system/cron/' . $groupId . self::XML_PATH_SCHEDULE_AHEAD_FOR,
+            'system/cron/' . $groupId . '/' . self::XML_PATH_SCHEDULE_AHEAD_FOR,
             'default'
         );
         $scheduleAheadFor = $scheduleAheadFor * self::SECONDS_IN_MINUTE;
@@ -330,7 +330,7 @@ class Observer
         // check if history cleanup is needed
         $lastCleanup = (int)$this->_app->loadCache(self::CACHE_KEY_LAST_HISTORY_CLEANUP_AT);
         $historyCleanUp = (int)$this->_coreStoreConfig->getConfig(
-            'system/cron/' . $groupId . self::XML_PATH_HISTORY_CLEANUP_EVERY,
+            'system/cron/' . $groupId . '/' . self::XML_PATH_HISTORY_CLEANUP_EVERY,
             'default'
         );
         if ($lastCleanup > time() - $historyCleanUp * self::SECONDS_IN_MINUTE) {
@@ -348,11 +348,11 @@ class Observer
             )))->load();
 
         $historySuccess = (int)$this->_coreStoreConfig->getConfig(
-            'system/cron/' . $groupId . self::XML_PATH_HISTORY_SUCCESS,
+            'system/cron/' . $groupId . '/' . self::XML_PATH_HISTORY_SUCCESS,
             'default'
         );
         $historyFailure = (int)$this->_coreStoreConfig->getConfig(
-            'system/cron/' . $groupId . self::XML_PATH_HISTORY_FAILURE,
+            'system/cron/' . $groupId . '/' . self::XML_PATH_HISTORY_FAILURE,
             'default'
         );
         $historyLifetimes = array(
