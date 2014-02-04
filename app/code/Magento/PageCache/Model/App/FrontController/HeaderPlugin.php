@@ -81,6 +81,8 @@ class HeaderPlugin
     protected function setPublicHeaders(\Magento\App\Response\Http $response)
     {
         $maxAge = $this->helper->getPublicMaxAgeCache();
+        $ttl = $this->config->getValue(\Magento\PageCache\Model\Config::XML_VARNISH_PAGECACHE_TTL) . 's';
+        $response->setHeader('X-Magento-ttl', $ttl, true);
         $response->setHeader('pragma', 'cache', true);
         $response->setHeader('cache-control', 'public, max-age=' . $maxAge, true);
         $response->setHeader(
