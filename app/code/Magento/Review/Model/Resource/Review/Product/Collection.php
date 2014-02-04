@@ -14,8 +14,6 @@ use \Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
 /**
  * Review Product Collection
  *
- * @category    Magento
- * @package     Magento_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
@@ -49,11 +47,15 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     protected $_storesIds           = array();
 
     /**
+     * Rating model
+     *
      * @var \Magento\Rating\Model\RatingFactory
      */
     protected $_ratingFactory;
 
     /**
+     * Rating option vote model
+     *
      * @var \Magento\Rating\Model\Rating\Option\VoteFactory
      */
     protected $_voteFactory;
@@ -133,6 +135,8 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
 
     /**
      * Define module
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -143,7 +147,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     }
 
     /**
-     * init select
+     * Initialize select
      *
      * @return $this
      */
@@ -209,7 +213,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     /**
      * Applies all store filters in one place to prevent multiple joins in select
      *
-     * @param null|Zend_Db_Select $select
+     * @param null|\Zend_Db_Select $select
      * @return $this
      */
     protected function _applyStoresFilterToSelect(\Zend_Db_Select $select = null)

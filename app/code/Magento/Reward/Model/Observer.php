@@ -7,17 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Reward\Model;
 
 /**
  * Reward observer
  *
- * @category    Magento
- * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reward\Model;
-
 class Observer
 {
     /**
@@ -35,36 +31,48 @@ class Observer
     protected $_coreData = null;
 
     /**
+     * Core model store manager interface
+     *
      * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
+     * Reward factory
+     *
      * @var \Magento\Reward\Model\RewardFactory
      */
     protected $_rewardFactory;
 
     /**
+     * Core model store configuration
+     *
      * @var \Magento\Core\Model\Store\Config
      */
     protected $_storeConfig;
 
     /**
+     * Reward history collection
+     *
      * @var \Magento\Reward\Model\Resource\Reward\History\CollectionFactory
      */
     protected $_historyCollectionFactory;
 
     /**
+     * Reward history factory
+     *
      * @var \Magento\Reward\Model\Resource\Reward\HistoryFactory
      */
     protected $_historyItemFactory;
 
     /**
+     * Reward factory
      * @var \Magento\Reward\Model\Resource\RewardFactory
      */
     protected $_rewardResourceFactory;
 
     /**
+     * Reward rate factory
      * @var \Magento\Reward\Model\Reward\RateFactory
      */
     protected $_rateFactory;
@@ -112,7 +120,7 @@ class Observer
      * Update reward points for customer, send notification
      *
      * @param \Magento\Event\Observer $observer
-     * @return $this
+     * @return $this|void
      */
     public function saveRewardPoints($observer)
     {
@@ -350,7 +358,7 @@ class Observer
     }
 
     /**
-     * Update inviter points balance after referral's order completed
+     * Update invitation points balance after referral's order completed
      *
      * @param \Magento\Event\Observer $observer
      * @return $this
@@ -384,7 +392,7 @@ class Observer
      * Set flag to reset reward points totals
      *
      * @param \Magento\Event\Observer $observer
-     * @@return $this
+     * @return $this
      */
     public function quoteCollectTotalsBefore(\Magento\Event\Observer $observer)
     {
@@ -521,11 +529,10 @@ class Observer
         return $this;
     }
 
-
     /**
      * Revert authorized reward points amount for order
      *
-     * @param   \Magento\Sales\Model\Order $order
+     * @param \Magento\Sales\Model\Order $order
      * @return $this
      */
     protected function _revertRewardPointsForOrder(\Magento\Sales\Model\Order $order)
@@ -547,7 +554,7 @@ class Observer
     /**
      * Revert reward points if order was not placed
      *
-     * @param   \Magento\Event\Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return $this
      */
     public function revertRewardPoints(\Magento\Event\Observer $observer)
@@ -564,7 +571,7 @@ class Observer
     /**
      * Revert authorized reward points amounts for all orders
      *
-     * @param   \Magento\Event\Observer $observer
+     * @param \Magento\Event\Observer $observer
      * @return $this
      */
     public function revertRewardPointsForAllOrders(\Magento\Event\Observer $observer)
@@ -973,6 +980,8 @@ class Observer
     }
 
     /**
+     * Get reward model
+     *
      * @return \Magento\Reward\Model\Reward
      */
     protected function _getRewardModel()

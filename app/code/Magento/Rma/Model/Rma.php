@@ -25,7 +25,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
     const XML_PATH_SECTION_RMA       = 'sales/magento_rma/';
     const XML_PATH_ENABLED           = 'sales/magento_rma/enabled';
     const XML_PATH_USE_STORE_ADDRESS = 'sales/magento_rma/use_store_address';
-     /**
+    /**
      * Rma Instance
      *
      * @var \Magento\Rma\Model\Rma
@@ -47,136 +47,190 @@ class Rma extends \Magento\Core\Model\AbstractModel
     protected $_order;
 
     /**
+     * Rma shipping collection
+     *
      * @var \Magento\Rma\Model\Resource\Shipping\Collection
      */
     protected $_trackingNumbers;
 
     /**
+     * Rma shipping model
+     *
      * @var \Magento\Rma\Model\Shipping
      */
     protected $_shippingLabel;
 
     /**
+     * Rma data
+     *
      * @var \Magento\Rma\Helper\Data
      */
     protected $_rmaData;
 
     /**
+     * Core locale interface
+     *
      * @var \Magento\Core\Model\LocaleInterface
      */
     protected $locale;
 
     /**
+     * Core session model
+     *
      * @var \Magento\Core\Model\Session
      */
     protected $_session;
 
     /**
+     * Email template factory
+     *
      * @var \Magento\Email\Model\TemplateFactory
      */
     protected $_templateFactory;
 
     /**
+     * Core translate model
+     *
      * @var \Magento\Core\Model\Translate
      */
     protected $_translate;
 
     /**
+     * Core store manager interface
+     *
      * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
+     * Eav configuration model
+     *
      * @var \Magento\Eav\Model\Config
      */
     protected $_eavConfig;
 
     /**
+     * Rma configuration model
+     *
      * @var \Magento\Rma\Model\Config
      */
     protected $_rmaConfig;
 
     /**
+     * Rma item factory
+     *
      * @var \Magento\Rma\Model\ItemFactory
      */
     protected $_rmaItemFactory;
 
     /**
+     * Rma item attribute status factory
+     *
      * @var \Magento\Rma\Model\Item\Attribute\Source\StatusFactory
      */
     protected $_attrSourceFactory;
 
     /**
+     * Rma grid factory
+     *
      * @var \Magento\Rma\Model\GridFactory
      */
     protected $_rmaGridFactory;
 
     /**
+     * Rma status history factory
+     *
      * @var \Magento\Rma\Model\Rma\Status\HistoryFactory
      */
     protected $_historyFactory;
 
     /**
+     * Rma source status factory
+     *
      * @var \Magento\Rma\Model\Rma\Source\StatusFactory
      */
     protected $_statusFactory;
 
     /**
+     * Rma item factory
+     *
      * @var \Magento\Rma\Model\Resource\ItemFactory
      */
     protected $_itemFactory;
 
     /**
+     * Rma item collection factory
+     *
      * @var \Magento\Rma\Model\Resource\Item\CollectionFactory
      */
     protected $_itemsFactory;
 
     /**
+     * Rma shipping collection factory
+     *
      * @var \Magento\Rma\Model\Resource\Shipping\CollectionFactory
      */
     protected $_rmaShippingFactory;
 
     /**
+     * Sales quote factory
+     *
      * @var \Magento\Sales\Model\QuoteFactory
      */
     protected $_quoteFactory;
 
     /**
+     * Sales quote address rate factory
+     *
      * @var \Magento\Sales\Model\Quote\Address\RateFactory
      */
     protected $_quoteRateFactory;
 
     /**
+     * Sales quote item factory
+     *
      * @var \Magento\Sales\Model\Quote\ItemFactory
      */
     protected $_quoteItemFactory;
 
     /**
+     * Sales order factory
+     *
      * @var \Magento\Sales\Model\OrderFactory
      */
     protected $_orderFactory;
 
     /**
+     * Sales order item collection factory
+     *
      * @var \Magento\Sales\Model\Resource\Order\Item\CollectionFactory
      */
     protected $_ordersFactory;
 
     /**
+     * Sales quote address rate request factory
+     *
      * @var \Magento\Sales\Model\Quote\Address\RateRequestFactory
      */
     protected $_rateRequestFactory;
 
     /**
+     * Shipping factory
+     *
      * @var \Magento\Shipping\Model\ShippingFactory
      */
     protected $_shippingFactory;
 
     /**
+     * Escaper
+     *
      * @var \Magento\Escaper
      */
     protected $_escaper;
 
     /**
+     * Message manager
+     *
      * @var \Magento\Message\ManagerInterface
      */
     protected $messageManager;
@@ -275,6 +329,8 @@ class Rma extends \Magento\Core\Model\AbstractModel
 
     /**
      * Init resource model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -570,7 +626,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
     /**
      * Prepares Item's data
      *
-     * @param  $item
+     * @param array $item
      * @return array
      */
     protected function _preparePost($item)

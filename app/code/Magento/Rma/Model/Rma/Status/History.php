@@ -16,31 +16,43 @@ namespace Magento\Rma\Model\Rma\Status;
 class History extends \Magento\Core\Model\AbstractModel
 {
     /**
+     * Core store manager interface
+     *
      * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
+     * Rma factory
+     *
      * @var \Magento\Rma\Model\RmaFactory
      */
     protected $_rmaFactory;
 
     /**
+     * Rma configuration
+     *
      * @var \Magento\Rma\Model\Config
      */
     protected $_rmaConfig;
 
     /**
+     * Core translate model
+     *
      * @var \Magento\Core\Model\Translate
      */
     protected $_translate;
 
     /**
+     * Email template factory
+     *
      * @var \Magento\Email\Model\TemplateFactory
      */
     protected $_templateFactory;
 
     /**
+     * Core date model
+     *
      * @var \Magento\Core\Model\Date
      */
     protected $_date;
@@ -82,6 +94,8 @@ class History extends \Magento\Core\Model\AbstractModel
 
     /**
      * Initialize resource model
+     *
+     * @return void
      */
     protected function _construct()
     {

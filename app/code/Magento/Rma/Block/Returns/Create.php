@@ -29,11 +29,15 @@ class Create extends \Magento\Rma\Block\Form
     protected $_coreRegistry = null;
 
     /**
+     * Rma item factory
+     *
      * @var \Magento\Rma\Model\ItemFactory
      */
     protected $_itemFactory;
 
     /**
+     * Rma item form factory
+     *
      * @var \Magento\Rma\Model\Item\FormFactory
      */
     protected $_itemFormFactory;
@@ -68,6 +72,11 @@ class Create extends \Magento\Rma\Block\Form
         $this->_isScopePrivate = true;
     }
 
+    /**
+     * Initialize current order
+     *
+     * @return void
+     */
     public function _construct()
     {
         $order = $this->_coreRegistry->registry('current_order');
