@@ -39,21 +39,22 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      * @var \Magento\Event
      */
     protected $_event;
-    
+
     protected function setUp()
     {
         $this->_blockFactory = $this->getMock(
             'Magento\View\Element\BlockFactory', ['createBlock'], [], '', false
         );
         $this->_observer = $this->getMock('Magento\Event\Observer', [], [], '', false);
-        $this->_fieldsBlock = $this->getMock('\Magento\RecurringProfile\Block\Fields', ['getFieldLabel'], [], '', false);
+        $this->_fieldsBlock = $this->getMock(
+            '\Magento\RecurringProfile\Block\Fields', ['getFieldLabel'], [], '', false
+        );
         $this->_profileFactory = $this->getMock(
             '\Magento\RecurringProfile\Model\RecurringProfileFactory', ['create'], [], '', false
         );
 
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        /** @var \Magento\RecurringProfile\Model\Observer $this->_testModel */
         $this->_testModel = $helper->getObject('Magento\RecurringProfile\Model\Observer', [
             'blockFactory' => $this->_blockFactory,
             'profileFactory' => $this->_profileFactory,
@@ -72,7 +73,11 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $profile = $this->getMock(
             'Magento\Object',
             [
-                'setStory', 'importBuyRequest', 'importProduct', 'exportStartDatetime', 'exportScheduleInfo',
+                'setStory',
+                'importBuyRequest',
+                'importProduct',
+                'exportStartDatetime',
+                'exportScheduleInfo',
                 'getFieldLabel'
             ],
             [],
@@ -82,9 +87,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $profile->expects($this->once())->method('exportStartDatetime')->will($this->returnValue('date'));
         $profile->expects($this->any())->method('setStore')->will($this->returnValue($profile));
         $profile->expects($this->once())->method('importBuyRequest')->will($this->returnValue($profile));
-        $profile->expects($this->once())->method('exportScheduleInfo')->will($this->returnValue([
-            new \Magento\Object(['title' => 'Title', 'schedule' => 'schedule'])
-        ]));
+        $profile->expects($this->once())->method('exportScheduleInfo')
+            ->will($this->returnValue([new \Magento\Object(['title' => 'Title', 'schedule' => 'schedule'])]));
 
         $this->_fieldsBlock->expects($this->once())->method('getFieldLabel')->will($this->returnValue('Field Label'));
 
