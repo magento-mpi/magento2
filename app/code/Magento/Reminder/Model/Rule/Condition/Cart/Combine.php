@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reminder\Model\Rule\Condition\Cart;
 
 /**
  * Rule conditions container
  */
-namespace Magento\Reminder\Model\Rule\Condition\Cart;
-
 class Combine
     extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
 {

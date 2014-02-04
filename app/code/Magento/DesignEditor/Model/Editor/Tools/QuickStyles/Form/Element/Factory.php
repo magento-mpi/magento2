@@ -7,8 +7,6 @@
  * @copyright  {copyright}
  * @license    {license_link}
  */
-
-
 namespace Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Element;
 
 class Factory

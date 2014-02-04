@@ -7,12 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reminder\Model\Rule\Condition\Wishlist;
+
+use Magento\DB\Select;
 
 /**
  * Wishlist items quantity condition
  */
-namespace Magento\Reminder\Model\Rule\Condition\Wishlist;
-
 class Quantity
     extends \Magento\Reminder\Model\Condition\AbstractCondition
 {
@@ -62,9 +63,9 @@ class Quantity
     /**
      * Get SQL select
      *
-     * @param $customer
-     * @param int | \Zend_Db_Expr $website
-     * @return \Magento\DB\Select
+     * @param null|int|\Zend_Db_Expr $customer
+     * @param int|\Zend_Db_Expr $website
+     * @return Select
      */
     public function getConditionsSql($customer, $website)
     {

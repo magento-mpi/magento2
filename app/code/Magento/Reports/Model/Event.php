@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reports\Model;
 
 /**
  * Events model
@@ -30,8 +31,6 @@
  * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reports\Model;
-
 class Event extends \Magento\Core\Model\AbstractModel
 {
     const EVENT_PRODUCT_VIEW    = 1;
@@ -77,6 +76,7 @@ class Event extends \Magento\Core\Model\AbstractModel
     /**
      * Initialize resource
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -86,7 +86,7 @@ class Event extends \Magento\Core\Model\AbstractModel
     /**
      * Before Event save process
      *
-     * @return \Magento\Reports\Model\Event
+     * @return $this
      */
     protected function _beforeSave()
     {
@@ -101,7 +101,7 @@ class Event extends \Magento\Core\Model\AbstractModel
      * @param int $visitorId
      * @param int $customerId
      * @param array $types
-     * @return \Magento\Reports\Model\Event
+     * @return $this
      */
     public function updateCustomerType($visitorId, $customerId, $types = null)
     {
@@ -123,7 +123,7 @@ class Event extends \Magento\Core\Model\AbstractModel
     /**
      * Clean events (visitors)
      *
-     * @return \Magento\Reports\Model\Event
+     * @return $this
      */
     public function clean()
     {

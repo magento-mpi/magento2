@@ -7,18 +7,17 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\DesignEditor\Model\Config\Control;
 
 /**
  * Controls configuration
  */
-namespace Magento\DesignEditor\Model\Config\Control;
-
 abstract class AbstractControl extends \Magento\Config\AbstractXml
 {
     /**
      * Keys of layout params attributes
      *
-     * @var array
+     * @var string[]
      */
     protected $_controlAttributes = array();
 

@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer;
 
 /**
  * Color-picker form element renderer
  */
-namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer;
-
 class BackgroundUploader
     extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer
 {

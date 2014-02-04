@@ -5,8 +5,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\GoogleShopping\Block;
+
 use Magento\View\Element\AbstractBlock;
 
 /**
@@ -32,7 +32,7 @@ class SiteVerification extends \Magento\View\Element\AbstractBlock
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      *
      * @return string
      */

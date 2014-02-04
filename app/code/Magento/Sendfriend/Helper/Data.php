@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Sendfriend\Helper;
 
 /**
  * Sendfriend Data Helper
@@ -16,8 +16,6 @@
  * @package     Magento_Sendfriend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sendfriend\Helper;
-
 class Data extends \Magento\App\Helper\AbstractHelper
 {
     const XML_PATH_ENABLED          = 'sendfriend/email/enabled';

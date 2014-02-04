@@ -168,8 +168,14 @@ class Radio extends \Magento\Backend\Block\Template
     public function getParameters()
     {
         if (empty($this->_params)) {
+            $this->_params = array();
             $widget = $this->_coreRegistry->registry('current_widget_instance');
-            $this->_params = $widget ? $widget->getWidgetParameters() : array();
+            $block = $this->getLayout()->getBlock('wysiwyg_widget.options');
+            if ($widget) {
+                $this->_params = $widget->getWidgetParameters();
+            } elseif ($block) {
+                $this->_params = $block->getWidgetValues();
+            }
         }
         return $this->_params;
     }
