@@ -13,7 +13,6 @@
  */
 namespace Magento\Install\Model;
 
-use Magento\Install\Model\Config;
 use Magento\UrlInterface;
 
 class Wizard
