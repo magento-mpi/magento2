@@ -95,8 +95,8 @@ class Extension extends \Magento\Object
     /**
      * Set package object
      *
-     * @return \Magento\Connect\Model\Extension
-     * @throws $this
+     * @return $this
+     * @throws \Magento\Core\Exception
      */
     public function generatePackageXml()
     {
