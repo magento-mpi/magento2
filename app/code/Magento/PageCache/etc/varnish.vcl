@@ -48,10 +48,6 @@ sub vcl_recv {
         return (pass);
     }
 
-    # Cache images, styles, scripts
-    if (req.url ~ "\.(jpg|png|gif|tiff|bmp|gz|tgz|bz2|tbz|mp3|ogg|svg|swf|css|js)(\?|$)") {
-        return (lookup);
-    }
     return (lookup);
 }
 
