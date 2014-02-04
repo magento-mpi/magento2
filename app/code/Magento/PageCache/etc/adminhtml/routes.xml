@@ -9,7 +9,7 @@
 -->
 <config>
     <router id="admin">
-        <route id="PageCache" frontName="PageCache">
+        <route id="adminhtml">
             <module name="Magento_PageCache" before="Magento_Adminhtml" />
         </route>
     </router>

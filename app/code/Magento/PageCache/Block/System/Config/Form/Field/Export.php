@@ -52,7 +52,7 @@ class Export extends \Magento\Backend\Block\System\Config\Form\Field
         $data = array(
             'id'        => 'export_varnish_configuration',
             'label'     => __('Export VCL'),
-            'onclick'   => "setLocation('" . $url . ' )"'
+            'onclick'   => "setLocation('" . $url . "')"
         );
 
         $html = $buttonBlock->setData($data)->toHtml();
