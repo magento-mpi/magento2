@@ -68,7 +68,7 @@ extends \Magento\Connect\Command
      * @param string $command
      * @param array $options
      * @param string[] $params
-     * @return void|array
+     * @return void
      */
     public function doPackageDependencies($command, $options, $params)
     {
