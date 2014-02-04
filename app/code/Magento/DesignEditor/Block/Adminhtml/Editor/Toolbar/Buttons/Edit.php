@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar\Buttons;
 
 /**
  * Edit button block
  */
-namespace Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar\Buttons;
-
 class Edit
     extends \Magento\Backend\Block\Widget\Button\SplitButton
 {
@@ -86,7 +85,7 @@ class Edit
     /**
      * Whether button is disabled
      *
-     * @return mixed
+     * @return bool
      */
     public function getDisabled()
     {

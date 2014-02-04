@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools;
 
 /**
  * Block that renders Code tab (or Advanced tab)
  */
-namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools;
-
 class Code
     extends \Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Tabs\AbstractTabs
 {

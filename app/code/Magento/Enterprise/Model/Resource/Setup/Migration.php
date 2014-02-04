@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Enterprise\Model\Resource\Setup;
 
 /**
  * Resource setup model with methods needed for migration process between Magento versions in Enterprise edition
  */
-namespace Magento\Enterprise\Model\Resource\Setup;
-
 class Migration extends \Magento\Core\Model\Resource\Setup\Migration
 {
     /**

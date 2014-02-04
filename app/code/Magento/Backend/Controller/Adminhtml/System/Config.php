@@ -16,6 +16,11 @@ namespace Magento\Backend\Controller\Adminhtml\System;
 class Config extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
 {
     /**
+     * @var \Magento\App\Response\Http\FileFactory
+     */
+    protected $_fileFactory;
+
+    /**
      * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
