@@ -589,7 +589,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
             if (!$this->_cart->getId()) {
                 $customerData = $this->_customerService->getCustomer($customerId);
 
-                // TODO: Assign to customer should be refactored in scope of MAGETWO-19931. Next line should be removed
+                // TODO: Next line should be removed when assignCustomer() is refactored in scope of MAGETWO-19931.
                 $customerData = $this->_objectManager->create('Magento\Customer\Model\Customer')->load($customerId);
 
                 $this->_cart->assignCustomer($customerData);

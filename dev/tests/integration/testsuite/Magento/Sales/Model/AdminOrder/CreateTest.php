@@ -452,6 +452,58 @@ class CreateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @magentoAppIsolation enabled
+     * @magentoDataFixture Magento/Sales/_files/quote.php
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     */
+    public function testGetCustomerCartExistingCart()
+    {
+        $fixtureCustomerId = 1;
+
+        /** Preconditions */
+        /** @var \Magento\Backend\Model\Session\Quote $session */
+        $session = Bootstrap::getObjectManager()->create('Magento\Backend\Model\Session\Quote');
+        $session->setCustomerId($fixtureCustomerId);
+        /** @var $quoteFixture \Magento\Sales\Model\Quote */
+        $quoteFixture = Bootstrap::getObjectManager()->create('Magento\Sales\Model\Quote');
+        $quoteFixture->load('test01', 'reserved_order_id');
+        $quoteFixture->setCustomerIsGuest(false)->setCustomerId($fixtureCustomerId)->save();
+
+        /** SUT execution */
+        $customerQuote = $this->_model->getCustomerCart();
+        $this->assertEquals($quoteFixture->getId(), $customerQuote->getId(), 'Quote ID is invalid.');
+
+        /** Try to load quote once again to ensure that caching works correctly */
+        $customerQuoteFromCache = $this->_model->getCustomerCart();
+        $this->assertSame($customerQuote, $customerQuoteFromCache, 'Customer quote caching does not work correctly.');
+    }
+
+    /**
+     * @magentoAppIsolation enabled
+     * @magentoDbIsolation enabled
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     */
+    public function testGetCustomerCartNewCart()
+    {
+        $customerIdFromFixture = 1;
+        $customerEmailFromFixture = 'customer@example.com';
+
+        /** Preconditions */
+        /** @var \Magento\Backend\Model\Session\Quote $session */
+        $session = Bootstrap::getObjectManager()->create('Magento\Backend\Model\Session\Quote');
+        $session->setCustomerId($customerIdFromFixture);
+
+        /** SUT execution */
+        $customerQuote = $this->_model->getCustomerCart();
+        $this->assertNotEmpty($customerQuote->getId(), 'Quote ID is invalid.');
+        $this->assertEquals(
+            $customerEmailFromFixture,
+            $customerQuote->getCustomerEmail(),
+            'Customer data is preserved incorrectly in a newly quote.'
+        );
+    }
+
+    /**
      * Prepare preconditions for createOrder method invocation.
      *
      * @param int $productIdFromFixture
