@@ -1937,4 +1937,12 @@ return array(
         'Magento\CatalogInventory\Model\Resource\Indexer\Stock\Configurable',
         'Magento\ConfigurableProduct\Model\Resource\Indexer\Stock\Configurable'
     ),
+    array(
+        'Magento\ImportExport\Model\Export\Entity\Product\Type\Configurable',
+        'Magento\ConfigurableProduct\Model\Export\Entity\Product\Type\Configurable'
+    ),
+    array(
+        'Magento\ImportExport\Model\Import\Entity\Product\Type\Configurable',
+        'Magento\ConfigurableProduct\Model\Import\Entity\Product\Type\Configurable'
+    ),
 );

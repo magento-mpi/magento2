@@ -72,7 +72,7 @@ abstract class AbstractType
     protected $_entityModel;
 
     /**
-     * Product type (simple, configurable, etc.).
+     * Product type (simple, etc.).
      *
      * @var string
      */

@@ -1,5 +1,7 @@
 <?php
 /**
+ * Import entity configurable product type model
+ *
  * {license_notice}
  *
  * @category    Magento
@@ -8,14 +10,7 @@
  * @license     {license_link}
  */
 
-/**
- * Import entity configurable product type model
- *
- * @category    Magento
- * @package     Magento_ImportExport
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-namespace Magento\ImportExport\Model\Import\Entity\Product\Type;
+namespace Magento\ConfigurableProduct\Model\Import\Entity\Product\Type;
 
 class Configurable
     extends \Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType

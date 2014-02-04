@@ -37,7 +37,7 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 /**
- * Add unique key for parent-child pairs which makes easier configurable products import
+ * Add unique key for parent-child pairs which makes easier pre configure products import
  */
 $installer->getConnection()->addIndex(
     $installer->getTable('catalog_product_super_link'),
