@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 namespace Magento\Connect\Loader;
+
 use Magento\Connect\Ftp as ConnectFtp;
 
 /**

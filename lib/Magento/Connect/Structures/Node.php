@@ -197,7 +197,7 @@ class Node
      * Test whether this node has an arc to the target node
      * Returns true if the two nodes are connected
      *
-     * @param array &$target
+     * @param Node &$target
      * @return boolean
      */
     public function connectsTo(&$target)
