@@ -103,7 +103,6 @@
         </block>
         <block class="Magento\Catalog\Block\Adminhtml\Product\Edit\AttributeSet" name="attribute-set-info" template="Magento_Catalog::catalog/product/edit/attribute_set.phtml"/>
         <block class="Magento\Catalog\Block\Adminhtml\Product\Edit\NewCategory" name="new-category" template="Magento_Catalog::catalog/product/edit/category/new/form.phtml"/>
-        <block class="Magento\View\Element\Template" name="affected-attribute-set-form" template="Magento_Catalog::product/configurable/affected-attribute-set-selector/form.phtml"/>
     </referenceContainer>
     <referenceContainer name="left">
         <block class="Magento\Catalog\Block\Adminhtml\Product\Edit\Tabs" name="product_tabs">

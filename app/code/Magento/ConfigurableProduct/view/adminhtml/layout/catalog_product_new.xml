@@ -12,4 +12,7 @@
         <block class="Magento\ConfigurableProduct\Block\Product\Configurable\AttributeSelector" template="product/configurable/attribute-selector/js.phtml"/>
         <block class="Magento\ConfigurableProduct\Block\Product\Configurable\AttributeSelector" template="product/configurable/affected-attribute-set-selector/js.phtml"/>
     </referenceContainer>
+    <referenceContainer name="content">
+        <block class="Magento\View\Element\Template" name="affected-attribute-set-form" template="Magento_ConfigurableProduct::product/configurable/affected-attribute-set-selector/form.phtml"/>
+    </referenceContainer>
 </layout>
