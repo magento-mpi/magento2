@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GoogleShopping\Block\Adminhtml\Items;
 
 /**
  * Products Grid to add to Google Content
@@ -15,8 +16,6 @@
  * @package     Magento_GoogleShopping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GoogleShopping\Block\Adminhtml\Items;
-
 class Product extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
@@ -49,7 +48,6 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Extended
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\GoogleShopping\Model\Resource\Item\CollectionFactory $itemCollectionFactory
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $eavCollectionFactory
@@ -59,7 +57,6 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Url $urlModel,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\GoogleShopping\Model\Resource\Item\CollectionFactory $itemCollectionFactory,
         \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $eavCollectionFactory,
@@ -71,7 +68,7 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Extended
         $this->_eavCollectionFactory = $eavCollectionFactory;
         $this->_productType = $productType;
         $this->_productFactory = $productFactory;
-        parent::__construct($context, $urlModel, $backendHelper, $data);
+        parent::__construct($context, $backendHelper, $data);
     }
 
     protected function _construct()
@@ -85,7 +82,7 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Before rendering html, but after trying to load cache
      *
-     * @return \Magento\GoogleShopping\Block\Adminhtml\Items\Product
+     * @return $this
      */
     protected function _beforeToHtml()
     {
@@ -100,7 +97,7 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare grid collection object
      *
-     * @return \Magento\GoogleShopping\Block\Adminhtml\Items\Product
+     * @return $this
      */
     protected function _prepareCollection()
     {
@@ -128,7 +125,7 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare grid columns
      *
-     * @return \Magento\GoogleShopping\Block\Adminhtml\Items\Product
+     * @return $this
      */
     protected function _prepareColumns()
     {
@@ -188,7 +185,7 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare grid massaction actions
      *
-     * @return \Magento\GoogleShopping\Block\Adminhtml\Items\Product
+     * @return $this
      */
     protected function _prepareMassaction()
     {
@@ -215,7 +212,7 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Get array with product ids, which was exported to Google Content
      *
-     * @return array
+     * @return int[]
      */
     protected function _getGoogleShoppingProductIds()
     {

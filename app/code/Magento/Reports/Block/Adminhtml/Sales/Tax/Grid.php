@@ -7,18 +7,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reports\Block\Adminhtml\Sales\Tax;
 
 /**
  * Adminhtml tax report grid block
  *
- * @category   Magento
- * @package    Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reports\Block\Adminhtml\Sales\Tax;
-
 class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
 {
+    /**
+     * @var string
+     */
     protected $_columnGroupBy = 'period';
 
     /**
@@ -28,7 +28,6 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Reports\Model\Resource\Report\Collection\Factory $resourceFactory
      * @param \Magento\Reports\Model\Grouped\CollectionFactory $collectionFactory
@@ -38,7 +37,6 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Url $urlModel,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Reports\Model\Resource\Report\Collection\Factory $resourceFactory,
         \Magento\Reports\Model\Grouped\CollectionFactory $collectionFactory,
@@ -49,7 +47,6 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
         $this->_configFactory = $configFactory;
         parent::__construct(
             $context,
-            $urlModel,
             $backendHelper,
             $resourceFactory,
             $collectionFactory,
@@ -58,6 +55,9 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
         );
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -65,6 +65,9 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
         $this->setCountSubTotals(true);
     }
 
+    /**
+     * @return string
+     */
     public function getResourceCollectionName()
     {
         return ($this->getFilterData()->getData('report_type') == 'updated_at_order')
@@ -72,6 +75,9 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
             : 'Magento\Tax\Model\Resource\Report\Collection';
     }
 
+    /**
+     * @return \Magento\Backend\Block\Widget\Grid\Extended
+     */
     protected function _prepareColumns()
     {
         $this->addColumn('period', array(
@@ -139,8 +145,7 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
     }
 
     /**
-     * Preparing collection
-     * Filter canceled statuses for orders in taxes
+     * Preparing collection.  Filter canceled statuses for orders in taxes
      *
      * @return \Magento\Reports\Block\Adminhtml\Sales\Tax\Grid
      */

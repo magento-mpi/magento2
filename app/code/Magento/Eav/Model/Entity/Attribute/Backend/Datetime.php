@@ -7,8 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Eav\Model\Entity\Attribute\Backend;
+
+use Magento\Eav\Exception as EavException;
 
 class Datetime extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
@@ -36,8 +37,8 @@ class Datetime extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBacke
      * necessary for further process, else date string
      *
      * @param \Magento\Object $object
-     * @throws \Magento\Eav\Exception
-     * @return \Magento\Eav\Model\Entity\Attribute\Backend\Datetime
+     * @throws EavException
+     * @return $this
      */
     public function beforeSave($object)
     {
@@ -47,7 +48,7 @@ class Datetime extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBacke
             try {
                 $value = $this->formatDate($object->getData($attributeName));
             } catch (\Exception $e) {
-                throw new \Magento\Eav\Exception(__('Invalid date'));
+                throw new EavException(__('Invalid date'));
             }
 
             if (is_null($value)) {
@@ -67,8 +68,8 @@ class Datetime extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBacke
      * string format used from input fields (all date input fields need apply locale settings)
      * int value can be declared in code (this meen whot we use valid date)
      *
-     * @param   string | int $date
-     * @return  string
+     * @param string|int $date
+     * @return string
      */
     public function formatDate($date)
     {

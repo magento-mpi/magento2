@@ -7,13 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab;
+
+use Magento\Backend\Block\Widget\Grid;
+use Magento\Backend\Block\Widget\Grid\Extended as GridExtended;
 
 /**
  * Matched rule customer grid block
  */
-namespace Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab;
-
-class Customers extends \Magento\Backend\Block\Widget\Grid\Extended
+class Customers extends GridExtended
 {
     /**
      * Customer Resource Collection
@@ -24,24 +26,24 @@ class Customers extends \Magento\Backend\Block\Widget\Grid\Extended
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Reminder\Model\Resource\Customer\Collection $customerCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Url $urlModel,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Reminder\Model\Resource\Customer\Collection $customerCollection,
         array $data = array()
     ) {
-        parent::__construct($context, $urlModel, $backendHelper, $data);
+        parent::__construct($context, $backendHelper, $data);
         $this->_customerCollection = $customerCollection;
     }
 
     /**
-     * Intialize grid
+     * Initialize grid
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -55,7 +57,7 @@ class Customers extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Instantiate and prepare collection
      *
-     * @return \Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\Customers
+     * @return Grid
      */
     protected function _prepareCollection()
     {
@@ -67,7 +69,7 @@ class Customers extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare columns for grid
      *
-     * @return \Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\Customers
+     * @return GridExtended
      */
     protected function _prepareColumns()
     {

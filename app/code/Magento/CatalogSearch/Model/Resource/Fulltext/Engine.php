@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\CatalogSearch\Model\Resource\Fulltext;
 
 /**
  * CatalogSearch Fulltext Index Engine resource model
@@ -16,8 +16,6 @@
  * @package     Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CatalogSearch\Model\Resource\Fulltext;
-
 class Engine extends \Magento\Core\Model\Resource\Db\AbstractDb
     implements \Magento\CatalogSearch\Model\Resource\EngineInterface
 {
@@ -33,14 +31,14 @@ class Engine extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @var \Magento\CatalogSearch\Model\Resource\Fulltext\CollectionFactory
      */
-    protected $_catalogSearchFulltextCollFactory;
+    protected $_catalogSearchFulltextCollectionFactory;
 
     /**
      * Catalog search advanced coll factory
      *
      * @var \Magento\CatalogSearch\Model\Resource\Advanced\CollectionFactory
      */
-    protected $_catalogSearchAdvancedCollFactory;
+    protected $_catalogSearchAdvancedCollectionFactory;
 
     /**
      * @var \Magento\CatalogSearch\Model\Resource\Advanced
@@ -70,8 +68,8 @@ class Engine extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Construct
      *
      * @param \Magento\App\Resource $resource
-     * @param \Magento\CatalogSearch\Model\Resource\Advanced\CollectionFactory $catalogSearchAdvancedCollFactory
-     * @param \Magento\CatalogSearch\Model\Resource\Fulltext\CollectionFactory $catalogSearchFulltextCollFactory
+     * @param \Magento\CatalogSearch\Model\Resource\Advanced\CollectionFactory $catalogSearchAdvancedCollectionFactory
+     * @param \Magento\CatalogSearch\Model\Resource\Fulltext\CollectionFactory $catalogSearchFulltextCollectionFactory
      * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
      * @param \Magento\CatalogSearch\Model\Resource\Advanced $searchResource
      * @param \Magento\CatalogSearch\Model\Resource\Advanced\Collection $searchResourceCollection
@@ -80,16 +78,16 @@ class Engine extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function __construct(
         \Magento\App\Resource $resource,
-        \Magento\CatalogSearch\Model\Resource\Advanced\CollectionFactory $catalogSearchAdvancedCollFactory,
-        \Magento\CatalogSearch\Model\Resource\Fulltext\CollectionFactory $catalogSearchFulltextCollFactory,
+        \Magento\CatalogSearch\Model\Resource\Advanced\CollectionFactory $catalogSearchAdvancedCollectionFactory,
+        \Magento\CatalogSearch\Model\Resource\Fulltext\CollectionFactory $catalogSearchFulltextCollectionFactory,
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
         \Magento\CatalogSearch\Model\Resource\Advanced $searchResource,
         \Magento\CatalogSearch\Model\Resource\Advanced\Collection $searchResourceCollection,
         \Magento\CatalogSearch\Helper\Data $catalogSearchData,
         \Magento\CatalogSearch\Model\Resource\Helper $resourceHelper
     ) {
-        $this->_catalogSearchAdvancedCollFactory = $catalogSearchAdvancedCollFactory;
-        $this->_catalogSearchFulltextCollFactory = $catalogSearchFulltextCollFactory;
+        $this->_catalogSearchAdvancedCollectionFactory = $catalogSearchAdvancedCollectionFactory;
+        $this->_catalogSearchFulltextCollectionFactory = $catalogSearchFulltextCollectionFactory;
         $this->_catalogProductVisibility = $catalogProductVisibility;
         $this->_searchResource = $searchResource;
         $this->_searchResourceCollection = $searchResourceCollection;
@@ -101,6 +99,7 @@ class Engine extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Init resource model
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -114,7 +113,7 @@ class Engine extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param int $storeId
      * @param array $index
      * @param string $entity 'product'|'cms'
-     * @return \Magento\CatalogSearch\Model\Resource\Fulltext\Engine
+     * @return $this
      */
     public function saveEntityIndex($entityId, $storeId, $index, $entity = 'product')
     {
@@ -132,7 +131,7 @@ class Engine extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param int $storeId
      * @param array $entityIndexes
      * @param string $entity 'product'|'cms'
-     * @return \Magento\CatalogSearch\Model\Resource\Fulltext\Engine
+     * @return $this
      */
     public function saveEntityIndexes($storeId, $entityIndexes, $entity = 'product')
     {
@@ -156,7 +155,7 @@ class Engine extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Retrieve allowed visibility values for current engine
      *
-     * @return array
+     * @return int[]
      */
     public function getAllowedVisibility()
     {
@@ -179,7 +178,7 @@ class Engine extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param int $storeId
      * @param int $entityId
      * @param string $entity 'product'|'cms'
-     * @return \Magento\CatalogSearch\Model\Resource\Fulltext\Engine
+     * @return $this
      */
     public function cleanIndex($storeId = null, $entityId = null, $entity = 'product')
     {
@@ -239,7 +238,7 @@ class Engine extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function getResultCollection()
     {
-        return $this->_catalogSearchFulltextCollFactory->create();
+        return $this->_catalogSearchFulltextCollectionFactory->create();
     }
 
     /**
@@ -249,7 +248,7 @@ class Engine extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function getAdvancedResultCollection()
     {
-        return $this->_catalogSearchAdvancedCollFactory->create();
+        return $this->_catalogSearchAdvancedCollectionFactory->create();
     }
 
     /**

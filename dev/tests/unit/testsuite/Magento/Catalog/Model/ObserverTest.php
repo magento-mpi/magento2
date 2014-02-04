@@ -46,10 +46,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $urlFactoryMock = $this->getMock('Magento\Catalog\Model\UrlFactory', array(), array(), '', false);
         $productFactoryMock = $this->getMock('Magento\Catalog\Model\Resource\ProductFactory', array(),
             array(), '', false);
-        $coreConfig = $this->getMock('Magento\Core\Model\Config', array(), array(), '', false);
         $categoryFlatState = $this->getMock('Magento\Catalog\Model\Indexer\Category\Flat\State', array(),
             array(), '', false);
-
+        $coreConfig = $this->getMock('Magento\App\ReinitableConfigInterface', array(), array(), '', false);
         $this->_model = $this->_objectHelper->getObject('Magento\Catalog\Model\Observer', array(
             'catalogCategory' => $catalogCategory,
             'catalogData' => $catalogData,

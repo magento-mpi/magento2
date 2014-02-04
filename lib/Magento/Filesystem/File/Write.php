@@ -12,7 +12,6 @@ namespace Magento\Filesystem\File;
 
 use Magento\Filesystem\DriverInterface;
 use Magento\Filesystem\FilesystemException;
-use Magento\Webapi\Exception;
 
 class Write extends Read implements WriteInterface
 {
@@ -32,6 +31,7 @@ class Write extends Read implements WriteInterface
     /**
      * Assert file existence for proper mode
      *
+     * @return void
      * @throws \Magento\Filesystem\FilesystemException
      */
     protected function assertValid()

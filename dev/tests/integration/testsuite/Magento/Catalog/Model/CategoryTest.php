@@ -51,16 +51,16 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        /** @var $application \Magento\Core\Model\App */
-        $application  = self::$_objectManager->get('Magento\Core\Model\App');
-        $this->_store = $application->getStore();
+        /** @var $storeManager \Magento\Core\Model\StoreManagerInterface */
+        $storeManager  = self::$_objectManager->get('Magento\Core\Model\StoreManagerInterface');
+        $this->_store = $storeManager->getStore();
         $this->_model = self::$_objectManager->create('Magento\Catalog\Model\Category');
     }
 
     public function testGetUrlInstance()
     {
         $instance = $this->_model->getUrlInstance();
-        $this->assertInstanceOf('Magento\Core\Model\Url', $instance);
+        $this->assertInstanceOf('Magento\Url', $instance);
         $this->assertSame($instance, $this->_model->getUrlInstance());
     }
 

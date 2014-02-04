@@ -30,7 +30,7 @@ class WriteFactory
     /**
      * Create a readable file.
      *
-     * @param $path
+     * @param string $path
      * @param string|null $protocol
      * @param DriverInterface $directoryDriver [optional]
      * @param string $mode

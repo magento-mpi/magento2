@@ -8,7 +8,7 @@
 
 namespace Magento\Indexer\App;
 
-class Indexer implements \Magento\AppInterface
+class Indexer implements \Magento\LauncherInterface
 {
     /**
      * Report directory
@@ -23,31 +23,34 @@ class Indexer implements \Magento\AppInterface
     protected $filesystem;
 
     /**
-     * @var \Magento\Index\Model\IndexerFactory
+     * @var \Magento\App\Console\Response
      */
-    protected $_indexerFactory;
+    protected $response;
 
     /**
-     * @param string $reportDir
+     * @param $reportDir
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Indexer\Model\Processor $processor
+     * @param \Magento\App\Console\Response $response
      */
     public function __construct(
         $reportDir,
         \Magento\Filesystem $filesystem,
-        \Magento\Indexer\Model\Processor $processor
+        \Magento\Indexer\Model\Processor $processor,
+        \Magento\App\Console\Response $response
     ) {
         $this->reportDir = $reportDir;
         $this->filesystem = $filesystem;
         $this->processor = $processor;
+        $this->response = $response;
     }
 
     /**
      * Run application
      *
-     * @return int
+     * @return \Magento\App\ResponseInterface
      */
-    public function execute()
+    public function launch()
     {
         /* Clean reports */
         $directory = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR);
@@ -58,7 +61,8 @@ class Indexer implements \Magento\AppInterface
 
         /* Regenerate all indexers */
         $this->processor->reindexAll();
+        $this->response->setCode(0);
 
-        return 0;
+        return $this->response;
     }
 }

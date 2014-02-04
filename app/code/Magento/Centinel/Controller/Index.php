@@ -38,6 +38,7 @@ class Index extends \Magento\App\Action\Action
     /**
      * Process autentication start action
      *
+     * @return void
      */
     public function authenticationStartAction()
     {
@@ -51,6 +52,7 @@ class Index extends \Magento\App\Action\Action
     /**
      * Process autentication complete action
      *
+     * @return void
      */
     public function authenticationCompleteAction()
     {

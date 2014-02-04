@@ -24,21 +24,20 @@ class ShellTest extends \PHPUnit_Framework_TestCase
      */
     protected $errorHandlerMock;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\App\Console\Response
+     */
+    protected $responseMock;
+
     protected function setUp()
     {
         $this->shellFactoryMock = $this->getMock('Magento\Indexer\Model\ShellFactory',
             array('create'), array(), '', false);
-        $this->errorHandlerMock = $this->getMock(
-            'Magento\Indexer\App\Shell\ErrorHandler',
-            array(),
-            array(),
-            '',
-            false
-        );
+        $this->responseMock = $this->getMock('Magento\App\Console\Response', array(), array(), '', false);
         $this->entryPoint = new \Magento\Indexer\App\Shell(
             'indexer.php',
             $this->shellFactoryMock,
-            $this->errorHandlerMock
+            $this->responseMock
         );
     }
 
@@ -54,17 +53,16 @@ class ShellTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($shellHasErrors));
         $shell->expects($this->once())
             ->method('run');
-        if ($shellHasErrors) {
-            $this->errorHandlerMock->expects($this->once())
-                ->method('terminate')
-                ->with(1);
-        }
+        $this->responseMock->expects($this->once())
+            ->method('setCode')
+            ->with($shellHasErrors ? -1 : 0)
+            ->will($this->returnSelf());
         $this->shellFactoryMock->expects($this->any())
             ->method('create')
             ->will($this->returnValue($shell)
             );
 
-        $this->entryPoint->execute();
+        $this->entryPoint->launch();
     }
 
     /**

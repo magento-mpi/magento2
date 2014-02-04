@@ -18,40 +18,56 @@
  */
 namespace Magento\CatalogPermissions\Model\Resource\Permission;
 
-class Index extends \Magento\Index\Model\Resource\AbstractResource
+use Magento\Catalog\Model\Product;
+use Magento\Catalog\Model\Product\Link;
+use Magento\Catalog\Model\Resource\Category\Collection as CategoryCollection;
+use Magento\Catalog\Model\Resource\Category\Flat\Collection as FlatCollection;
+use Magento\Catalog\Model\Resource\Product\Collection as ProductCollection;
+use Magento\CatalogPermissions\Helper\Data;
+use Magento\CatalogPermissions\Model\Permission;
+use Magento\Core\Model\Resource\Website\CollectionFactory as WebsiteCollectionFactory;
+use Magento\Core\Model\Store;
+use Magento\Core\Model\Store\Config;
+use Magento\Core\Model\StoreManagerInterface;
+use Magento\Customer\Model\Resource\Group\CollectionFactory as GroupCollectionFactory;
+use Magento\Eav\Model\Config as EavModelConfig;
+use Magento\Eav\Model\Entity\Attribute;
+use Magento\Index\Model\Resource\AbstractResource;
+
+class Index extends AbstractResource
 {
     const XML_PATH_GRANT_BASE = 'catalog/magento_catalogpermissions/';
 
     /**
      * Store ids
      *
-     * @var arrray
+     * @var int[]
      */
-    protected $_storeIds           = array();
+    protected $_storeIds = array();
 
     /**
      * Data for insert
      *
      * @var array
      */
-    protected $_insertData         = array();
+    protected $_insertData = array();
 
     /**
      * Table fields for insert
      *
-     * @var array
+     * @var string[]
      */
-    protected $_tableFields        = array();
+    protected $_tableFields = array();
 
     /**
      * Permission cache
      *
      * @var array
      */
-    protected $_permissionCache    = array();
+    protected $_permissionCache = array();
 
     /**
-     * Inheritance of grant appling in categories tree
+     * Inheritance of grant applying in categories tree
      *
      * @var array
      */
@@ -64,58 +80,58 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
     /**
      * Catalog permissions data
      *
-     * @var \Magento\CatalogPermissions\Helper\Data
+     * @var Data
      */
     protected $_catalogPermData = null;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\Config
+     * @var Config
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var \Magento\Core\Model\Resource\Website\CollectionFactory
+     * @var WebsiteCollectionFactory
      */
-    protected $_websiteCollFactory;
+    protected $_websiteCollectionFactory;
 
     /**
-     * @var \Magento\Customer\Model\Resource\Group\CollectionFactory
+     * @var GroupCollectionFactory
      */
-    protected $_groupCollFactory;
+    protected $_groupCollectionFactory;
 
     /**
-     * @var \Magento\Eav\Model\Config
+     * @var EavModelConfig
      */
     protected $_eavConfig;
 
     /**
      * @param \Magento\App\Resource $resource
-     * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Core\Model\Resource\Website\CollectionFactory $websiteCollFactory
-     * @param \Magento\Customer\Model\Resource\Group\CollectionFactory $groupCollFactory
-     * @param \Magento\CatalogPermissions\Helper\Data $catalogPermData
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param EavModelConfig $eavConfig
+     * @param WebsiteCollectionFactory $websiteCollectionFactory
+     * @param GroupCollectionFactory $groupCollectionFactory
+     * @param Data $catalogPermData
+     * @param StoreManagerInterface $storeManager
+     * @param Config $coreStoreConfig
      */
     public function __construct(
         \Magento\App\Resource $resource,
-        \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Core\Model\Resource\Website\CollectionFactory $websiteCollFactory,
-        \Magento\Customer\Model\Resource\Group\CollectionFactory $groupCollFactory,
-        \Magento\CatalogPermissions\Helper\Data $catalogPermData,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        EavModelConfig $eavConfig,
+        WebsiteCollectionFactory $websiteCollectionFactory,
+        GroupCollectionFactory $groupCollectionFactory,
+        Data $catalogPermData,
+        StoreManagerInterface $storeManager,
+        Config $coreStoreConfig
     ) {
         $this->_eavConfig = $eavConfig;
-        $this->_groupCollFactory = $groupCollFactory;
-        $this->_websiteCollFactory = $websiteCollFactory;
+        $this->_groupCollectionFactory = $groupCollectionFactory;
+        $this->_websiteCollectionFactory = $websiteCollectionFactory;
         $this->_catalogPermData = $catalogPermData;
         parent::__construct($resource);
         $this->_storeManager = $storeManager;
@@ -125,6 +141,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
     /**
      * Initialize resource
      *
+     *@return void
      */
     protected function _construct()
     {
@@ -135,7 +152,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
      * Reindex category permissions
      *
      * @param string|null $categoryPath
-     * @return \Magento\CatalogPermissions\Model\Resource\Permission\Index
+     * @return $this
      */
     public function reindex($categoryPath = null)
     {
@@ -164,11 +181,11 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
             ))
             ->where('permission.category_id IN (?)', $categoryIds);
 
-        $websiteIds = $this->_websiteCollFactory->create()
+        $websiteIds = $this->_websiteCollectionFactory->create()
             ->addFieldToFilter('website_id', array('neq'=>0))
             ->getAllIds();
 
-        $customerGroupIds = $this->_groupCollFactory->create()
+        $customerGroupIds = $this->_groupCollectionFactory->create()
             ->getAllIds();
 
         $notEmptyWhere = array();
@@ -176,7 +193,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
         foreach (array_keys($this->_grantsInheritance) as $grant) {
             $notEmptyWhere[] = $readAdapter->quoteInto(
                 'permission.' . $grant . ' != ?',
-                \Magento\CatalogPermissions\Model\Permission::PERMISSION_PARENT
+                Permission::PERMISSION_PARENT
             );
         }
 
@@ -256,7 +273,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
 
         $this->_beginInsert('magento_catalogpermissions_index', $fields);
 
-        $permissionDeny = \Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY;
+        $permissionDeny = Permission::PERMISSION_DENY;
         foreach ($categoryPath as $categoryId => $path) {
             $this->_inheritCategoryPermission($path);
             if (isset($this->_permissionCache[$path])) {
@@ -297,14 +314,14 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
     /**
      * Reindex products permissions
      *
-     * @param array|string $productIds
-     * @return \Magento\CatalogPermissions\Model\Resource\Permission\Index
+     * @param string[]|string|null $productIds
+     * @return $this
      */
     public function reindexProducts($productIds = null)
     {
         $readAdapter = $this->_getReadAdapter();
         $writeAdapter = $this->_getWriteAdapter();
-        /* @var $isActive \Magento\Eav\Model\Entity\Attribute */
+        /* @var $isActive Attribute */
         $isActive = $this->_eavConfig->getAttribute('catalog_category', 'is_active');
 
         $selectCategory = $readAdapter->select()
@@ -348,21 +365,21 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
         $exprCatalogCategoryView = $readAdapter->getCheckSql(
             $readAdapter->quoteInto(
                 'permission_index.grant_catalog_category_view = ?',
-                \Magento\CatalogPermissions\Model\Permission::PERMISSION_PARENT),
+                Permission::PERMISSION_PARENT),
             'NULL',
             'permission_index.grant_catalog_category_view');
 
         $exprCatalogProductPrice = $readAdapter->getCheckSql(
             $readAdapter->quoteInto(
                 'permission_index.grant_catalog_product_price = ?',
-                \Magento\CatalogPermissions\Model\Permission::PERMISSION_PARENT),
+                Permission::PERMISSION_PARENT),
             'NULL',
             'permission_index.grant_catalog_product_price');
 
         $exprCheckoutItems = $readAdapter->getCheckSql(
             $readAdapter->quoteInto(
                 'permission_index.grant_checkout_items = ?',
-                \Magento\CatalogPermissions\Model\Permission::PERMISSION_PARENT),
+                Permission::PERMISSION_PARENT),
             'NULL',
             'permission_index.grant_checkout_items');
 
@@ -394,21 +411,21 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
         $exprCatalogCategoryView = $readAdapter->getCheckSql(
             $readAdapter->quoteInto(
                 'permission_index_product.grant_catalog_category_view = ?',
-                \Magento\CatalogPermissions\Model\Permission::PERMISSION_PARENT),
+                Permission::PERMISSION_PARENT),
             'NULL',
             'permission_index_product.grant_catalog_category_view');
 
         $exprCatalogProductPrice = $readAdapter->getCheckSql(
             $readAdapter->quoteInto(
                 'permission_index_product.grant_catalog_product_price = ?',
-                \Magento\CatalogPermissions\Model\Permission::PERMISSION_PARENT),
+                Permission::PERMISSION_PARENT),
             'NULL',
             'permission_index_product.grant_catalog_product_price');
 
         $exprCheckoutItems = $readAdapter->getCheckSql(
             $readAdapter->quoteInto(
                 'permission_index_product.grant_checkout_items = ?',
-                \Magento\CatalogPermissions\Model\Permission::PERMISSION_PARENT),
+                Permission::PERMISSION_PARENT),
             'NULL',
             'permission_index_product.grant_checkout_items');
 
@@ -481,8 +498,8 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
     /**
      * Reindex products permissions for standalone mode
      *
-     * @param array|string $productIds
-     * @return \Magento\CatalogPermissions\Model\Resource\Permission\Index
+     * @param string[]|string|null $productIds
+     * @return $this
      */
     public function reindexProductsStandalone($productIds = null)
     {
@@ -532,7 +549,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
         $exprCatalogCategoryView = $readAdapter->getCheckSql(
             $readAdapter->quoteInto(
                 'permission_index_product.grant_catalog_category_view = ?',
-                \Magento\CatalogPermissions\Model\Permission::PERMISSION_PARENT),
+                Permission::PERMISSION_PARENT),
             'NULL',
             'permission_index_product.grant_catalog_category_view');
 
@@ -540,14 +557,14 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
         $exprCatalogProductPrice = $readAdapter->getCheckSql(
             $readAdapter->quoteInto(
                 'permission_index_product.grant_catalog_product_price = ?',
-                \Magento\CatalogPermissions\Model\Permission::PERMISSION_PARENT),
+                Permission::PERMISSION_PARENT),
             'NULL',
             'permission_index_product.grant_catalog_product_price');
 
         $exprCheckoutItems = $readAdapter->getCheckSql(
             $readAdapter->quoteInto(
                 'permission_index_product.grant_checkout_items = ?',
-                \Magento\CatalogPermissions\Model\Permission::PERMISSION_PARENT),
+                Permission::PERMISSION_PARENT),
             'NULL',
             'permission_index_product.grant_checkout_items');
 
@@ -598,7 +615,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
         $writeAdapter->query($selectConfig->insertFromSelect($this->getTable('magento_catalogpermissions_index_product'), $fields));
         $writeAdapter->query($selectStandalone->insertFromSelect($this->getTable('magento_catalogpermissions_index_product'), $fields));
         // Fix inherited permissions
-        $deny = (int) \Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY;
+        $deny = (int) Permission::PERMISSION_DENY;
 
         $data = array(
             'grant_catalog_product_price' => $readAdapter->getCheckSql(
@@ -644,18 +661,18 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
                         // Case per customer group
                         $condition = $readAdapter->quoteInto($tableAlias . '.store_id = ?', $storeId)
                         . ' AND ' . $readAdapter->quoteInto($tableAlias . '.customer_group_id = ?', (int) $groupId);
-                        $conditions[$condition] = \Magento\CatalogPermissions\Model\Permission::PERMISSION_ALLOW;
+                        $conditions[$condition] = Permission::PERMISSION_ALLOW;
                     }
                 }
 
                 $condition = $readAdapter->quoteInto($tableAlias . '.store_id = ?', $storeId);
-                $conditions[$condition] = \Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY;
+                $conditions[$condition] = Permission::PERMISSION_DENY;
             } else {
                 $condition = $readAdapter->quoteInto($tableAlias . '.store_id = ?', $storeId);
                 $conditions[$condition] = (
                     $config ?
-                    \Magento\CatalogPermissions\Model\Permission::PERMISSION_ALLOW :
-                    \Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY
+                    Permission::PERMISSION_ALLOW :
+                    Permission::PERMISSION_DENY
                 );
             }
         }
@@ -675,13 +692,13 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
     /**
      * Retrieve store ids
      *
-     * @return array
+     * @return int[]
      */
     protected function _getStoreIds()
     {
         if (empty($this->_storeIds)) {
             $this->_storeIds = array();
-            /** @var $store \Magento\Core\Model\Store */
+            /** @var $store Store */
             foreach ($this->_storeManager->getStores(true) as $store) {
                 $this->_storeIds[] = (int)$store->getId();
             }
@@ -694,7 +711,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
      * Inherit category permission from it's parent
      *
      * @param string $path
-     * @return \Magento\CatalogPermissions\Model\Resource\Permission\Index
+     * @return $this
      */
     protected function _inheritCategoryPermission($path)
     {
@@ -704,7 +721,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
             $parentPath = '';
         }
 
-        $permissionParent = \Magento\CatalogPermissions\Model\Permission::PERMISSION_PARENT;
+        $permissionParent = Permission::PERMISSION_PARENT;
 
         if (isset($this->_permissionCache[$path])) {
             foreach (array_keys($this->_permissionCache[$path]) as $uniqKey) {
@@ -757,7 +774,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
     /**
      * Retrieve permission index for category or categories with specified customer group and website id
      *
-     * @param int|array $categoryId
+     * @param int|int[] $categoryId
      * @param int $customerGroupId
      * @param int $websiteId
      * @return array
@@ -805,9 +822,9 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
             $bind[':website_id'] = $websiteId;
         }
         if (!$this->_catalogPermData->isAllowedCategoryView()) {
-            $bind[':grant_catalog_category_view'] = \Magento\CatalogPermissions\Model\Permission::PERMISSION_ALLOW;
+            $bind[':grant_catalog_category_view'] = Permission::PERMISSION_ALLOW;
         } else {
-            $bind[':grant_catalog_category_view'] = \Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY;
+            $bind[':grant_catalog_category_view'] = Permission::PERMISSION_DENY;
         }
 
         $restrictedCatIds = $adapter->fetchCol($select, $bind);
@@ -831,7 +848,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
      *
      * @param \Magento\Object $data
      * @param int $customerGroupId
-     * @return \Magento\CatalogPermissions\Model\Resource\Permission\Index
+     * @return $this
      */
     public function applyPriceGrantToPriceIndex($data, $customerGroupId)
     {
@@ -853,12 +870,12 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
         if (!$this->_catalogPermData->isAllowedProductPrice()) {
             $select->where(
                 'permission_index_product.grant_catalog_product_price = ?',
-                \Magento\CatalogPermissions\Model\Permission::PERMISSION_ALLOW);
+                Permission::PERMISSION_ALLOW);
         } else {
             $select->where(
                 'permission_index_product.grant_catalog_product_price != ?'
                 . ' OR permission_index_product.grant_catalog_product_price IS NULL',
-                \Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY);
+                Permission::PERMISSION_DENY);
         }
 
         return $this;
@@ -867,9 +884,9 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
     /**
      * Add index to product count select in product collection
      *
-     * @param \Magento\Catalog\Model\Resource\Product\Collection $collection
+     * @param ProductCollection $collection
      * @param int $customerGroupId
-     * @return \Magento\CatalogPermissions\Model\Resource\Permission\Index
+     * @return $this
      */
     public function addIndexToProductCount($collection, $customerGroupId)
     {
@@ -893,12 +910,12 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
         if (!$this->_catalogPermData->isAllowedCategoryView()) {
             $collection->getProductCountSelect()
                 ->where('permission_index_product_count.grant_catalog_category_view = ?',
-                    \Magento\CatalogPermissions\Model\Permission::PERMISSION_ALLOW);
+                    Permission::PERMISSION_ALLOW);
         } else {
             $collection->getProductCountSelect()
                 ->where('permission_index_product_count.grant_catalog_category_view != ?'
                     . ' OR permission_index_product_count.grant_catalog_category_view IS NULL',
-                    \Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY);
+                    Permission::PERMISSION_DENY);
         }
 
         return $this;
@@ -907,15 +924,15 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
     /**
      * Add index to category collection
      *
-     * @param \Magento\Catalog\Model\Resource\Category\Collection|\Magento\Catalog\Model\Resource\Category\Flat\Collection $collection
+     * @param CategoryCollection|FlatCollection $collection
      * @param int $customerGroupId
      * @param int $websiteId
-     * @return \Magento\CatalogPermissions\Model\Resource\Permission\Index
+     * @return $this
      */
     public function addIndexToCategoryCollection($collection, $customerGroupId, $websiteId)
     {
         $adapter = $this->_getReadAdapter();
-        if ($collection instanceof \Magento\Catalog\Model\Resource\Category\Flat\Collection) {
+        if ($collection instanceof FlatCollection) {
             $tableAlias = 'main_table';
         } else {
             $tableAlias = 'e';
@@ -932,12 +949,12 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
         if (!$this->_catalogPermData->isAllowedCategoryView()) {
             $collection->getSelect()
                 ->where('permission_index.grant_catalog_category_view = ?',
-                    \Magento\CatalogPermissions\Model\Permission::PERMISSION_ALLOW);
+                    Permission::PERMISSION_ALLOW);
         } else {
             $collection->getSelect()
                 ->where('permission_index.grant_catalog_category_view != ?'
                     . ' OR permission_index.grant_catalog_category_view IS NULL',
-                    \Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY);
+                    Permission::PERMISSION_DENY);
         }
 
         return $this;
@@ -946,9 +963,9 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
     /**
      * Add index select in product collection
      *
-     * @param \Magento\Catalog\Model\Resource\Product\Collection $collection
+     * @param ProductCollection $collection
      * @param int $customerGroupId
-     * @return \Magento\CatalogPermissions\Model\Resource\Permission\Index
+     * @return $this
      */
     public function addIndexToProductCollection($collection, $customerGroupId)
     {
@@ -986,12 +1003,12 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
             if (!$this->_catalogPermData->isAllowedCategoryView()) {
                 $collection->getSelect()
                     ->where('permission_index_product.grant_catalog_category_view = ?',
-                        \Magento\CatalogPermissions\Model\Permission::PERMISSION_ALLOW);
+                        Permission::PERMISSION_ALLOW);
             } else {
                 $collection->getSelect()
                     ->where('permission_index_product.grant_catalog_category_view != ?'
                         . ' OR permission_index_product.grant_catalog_category_view IS NULL',
-                        \Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY);
+                        Permission::PERMISSION_DENY);
             }
 
             /*
@@ -1000,8 +1017,8 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
             if (method_exists($collection, 'getLinkModel')) {
                 $linkTypeId = $collection->getLinkModel()->getLinkTypeId();
                 $linkTypeIds = array(
-                    \Magento\Catalog\Model\Product\Link::LINK_TYPE_CROSSSELL,
-                    \Magento\Catalog\Model\Product\Link::LINK_TYPE_UPSELL
+                    Link::LINK_TYPE_CROSSSELL,
+                    Link::LINK_TYPE_UPSELL
                 );
 
                 /*
@@ -1013,23 +1030,23 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
                     if (!$this->_catalogPermData->isAllowedProductPrice()) {
                         $collection->getSelect()
                             ->where('permission_index_product.grant_catalog_product_price = ?',
-                                \Magento\CatalogPermissions\Model\Permission::PERMISSION_ALLOW);
+                                Permission::PERMISSION_ALLOW);
                     } else {
                         $collection->getSelect()
                             ->where('permission_index_product.grant_catalog_product_price != ?'
                                 . ' OR permission_index_product.grant_catalog_product_price IS NULL',
-                                \Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY);
+                                Permission::PERMISSION_DENY);
                     }
 
                     if (!$this->_catalogPermData->isAllowedCheckoutItems()) {
                         $collection->getSelect()
                             ->where('permission_index_product.grant_checkout_items = ?',
-                                \Magento\CatalogPermissions\Model\Permission::PERMISSION_ALLOW);
+                                Permission::PERMISSION_ALLOW);
                     } else {
                         $collection->getSelect()
                             ->where('permission_index_product.grant_checkout_items != ?'
                                 . ' OR permission_index_product.grant_checkout_items IS NULL',
-                                \Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY);
+                                Permission::PERMISSION_DENY);
                     }
                 }
             }
@@ -1041,9 +1058,9 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
     /**
      * Add permission index to product model
      *
-     * @param \Magento\Catalog\Model\Product $product
+     * @param Product $product
      * @param int $customerGroupId
-     * @return \Magento\CatalogPermissions\Model\Resource\Permission\Index
+     * @return $this
      */
     public function addIndexToProduct($product, $customerGroupId)
     {
@@ -1084,7 +1101,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
     /**
      * Get permission index for products
      *
-     * @param int|array $productId
+     * @param int|int[] $productId
      * @param int $customerGroupId
      * @param int $storeId
      * @return array
@@ -1118,8 +1135,8 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
      * Prepare base information for data insert
      *
      * @param string $table
-     * @param array $fields
-     * @return \Magento\CatalogPermissions\Model\Resource\Permission\Index
+     * @param string[] $fields
+     * @return $this
      */
     protected function _beginInsert($table, $fields)
     {
@@ -1132,7 +1149,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
      *
      * @param string $table
      * @param bool $forced
-     * @return \Magento\CatalogPermissions\Model\Resource\Permission\Index
+     * @return $this
      */
     protected function _commitInsert($table, $forced = true)
     {
@@ -1154,7 +1171,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
      *
      * @param string $table
      * @param array $data
-     * @return \Magento\CatalogPermissions\Model\Resource\Permission\Index
+     * @return $this
      */
     protected function _insert($table, $data)
     {
@@ -1166,7 +1183,8 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
     /**
      * Reindex all
      *
-     * @return \Magento\CatalogPermissions\Model\Resource\Permission\Index
+     * @throws \Exception
+     * @return $this
      */
     public function reindexAll()
     {

@@ -545,7 +545,7 @@ class Sitemap extends \Magento\Core\Model\AbstractModel
      * @param string $type
      * @return string
      */
-    protected function _getStoreBaseUrl($type = \Magento\Core\Model\Store::URL_TYPE_LINK)
+    protected function _getStoreBaseUrl($type = \Magento\UrlInterface::URL_TYPE_LINK)
     {
         return rtrim($this->_storeManager->getStore($this->getStoreId())->getBaseUrl($type), '/') . '/';
     }
@@ -557,7 +557,7 @@ class Sitemap extends \Magento\Core\Model\AbstractModel
      * @param string $type
      * @return string
      */
-    protected function _getUrl($url, $type = \Magento\Core\Model\Store::URL_TYPE_LINK)
+    protected function _getUrl($url, $type = \Magento\UrlInterface::URL_TYPE_LINK)
     {
         return $this->_getStoreBaseUrl($type) . ltrim($url, '/');
     }
@@ -570,7 +570,7 @@ class Sitemap extends \Magento\Core\Model\AbstractModel
      */
     protected function _getMediaUrl($url)
     {
-        return $this->_getUrl($url, \Magento\Core\Model\Store::URL_TYPE_MEDIA);
+        return $this->_getUrl($url, \Magento\UrlInterface::URL_TYPE_MEDIA);
     }
 
     /**
@@ -613,7 +613,7 @@ class Sitemap extends \Magento\Core\Model\AbstractModel
             $storeDomain = rtrim($url . '/' . $installationFolder, '/');
         } else {
             //case when documentRoot contains symlink to basedir
-            $url = $this->_getStoreBaseUrl(\Magento\Core\Model\Store::URL_TYPE_WEB);
+            $url = $this->_getStoreBaseUrl(\Magento\UrlInterface::URL_TYPE_WEB);
             $storeDomain = rtrim($url, '/');
         }
 

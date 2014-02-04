@@ -56,7 +56,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**#@-*/
 
     /**
-     * @var \Magento\Core\Model\Config
+     * @var \Magento\App\ConfigInterface
      */
     protected $_config;
 
@@ -72,13 +72,13 @@ class Data extends \Magento\App\Helper\AbstractHelper
 
     /**
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Core\Model\Store\ConfigInterface $storeConfig
      * @param \Magento\Core\Model\Registry $registry
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\Core\Model\Config $config,
+        \Magento\App\ConfigInterface $config,
         \Magento\Core\Model\Store\ConfigInterface $storeConfig,
         \Magento\Core\Model\Registry $registry
     ) {
@@ -106,7 +106,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Retrieve language codes from config
      *
-     * @return array
+     * @return string[]
      */
     public function getLanguageCodes()
     {

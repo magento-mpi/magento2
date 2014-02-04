@@ -9,6 +9,9 @@
  */
 namespace Magento;
 
+use Magento\Profiler\DriverInterface;
+use Magento\Profiler\Driver\Factory;
+
 class Profiler
 {
     /**
@@ -26,7 +29,7 @@ class Profiler
     /**
      * Nesting path that represents namespace to resolve timer names
      *
-     * @var array
+     * @var string[]
      */
     static private $_currentPath = array();
 
@@ -47,7 +50,7 @@ class Profiler
     /**
      * Collection for profiler drivers.
      *
-     * @var array
+     * @var DriverInterface[]
      */
     static private $_drivers = array();
 
@@ -66,7 +69,7 @@ class Profiler
     static private $_tagFilters = array();
 
     /**
-     * Has tag filters flag to faster checks of filters availability.
+     * Has tag filters flag for faster checks of filters availability.
      *
      * @var bool
      */
@@ -76,6 +79,7 @@ class Profiler
      * Set default tags
      *
      * @param array $tags
+     * @return void
      */
     public static function setDefaultTags(array $tags)
     {
@@ -87,6 +91,7 @@ class Profiler
      *
      * @param string $tagName
      * @param string $tagValue
+     * @return void
      */
     public static function addTagFilter($tagName, $tagValue)
     {
@@ -124,9 +129,10 @@ class Profiler
     /**
      * Add profiler driver.
      *
-     * @param \Magento\Profiler\DriverInterface $driver
+     * @param DriverInterface $driver
+     * @return void
      */
-    public static function add(\Magento\Profiler\DriverInterface $driver)
+    public static function add(DriverInterface $driver)
     {
         self::$_drivers[] = $driver;
         self::enable();
@@ -168,6 +174,8 @@ class Profiler
      * Enable profiling.
      *
      * Any call to profiler does nothing until profiler is enabled.
+     *
+     * @return void
      */
     public static function enable()
     {
@@ -178,6 +186,8 @@ class Profiler
      * Disable profiling.
      *
      * Any call to profiler is silently ignored while profiler is disabled.
+     *
+     * @return void
      */
     public static function disable()
     {
@@ -198,6 +208,7 @@ class Profiler
      * Clear collected statistics for specified timer or for whole profiler if timer id is omitted
      *
      * @param string|null $timerName
+     * @return void
      * @throws \InvalidArgumentException
      */
     public static function clear($timerName = null)
@@ -206,7 +217,7 @@ class Profiler
             throw new \InvalidArgumentException('Timer name must not contain a nesting separator.');
         }
         $timerId = self::_getTimerId($timerName);
-        /** @var \Magento\Profiler\DriverInterface $driver */
+        /** @var DriverInterface $driver */
         foreach (self::$_drivers as $driver) {
             $driver->clear($timerId);
         }
@@ -214,6 +225,8 @@ class Profiler
 
     /**
      * Reset profiler to initial state
+     *
+     * @return void
      */
     public static function reset()
     {
@@ -233,6 +246,7 @@ class Profiler
      *
      * @param string $timerName
      * @param array|null $tags
+     * @return void
      * @throws \InvalidArgumentException
      */
     public static function start($timerName, array $tags = null)
@@ -251,7 +265,7 @@ class Profiler
         }
 
         $timerId = self::_getTimerId($timerName);
-        /** @var \Magento\Profiler\DriverInterface $driver */
+        /** @var DriverInterface $driver */
         foreach (self::$_drivers as $driver) {
             $driver->start($timerId, $tags);
         }
@@ -268,6 +282,7 @@ class Profiler
      * Only the latest started timer can be stopped.
      *
      * @param string|null $timerName
+     * @return void
      * @throws \InvalidArgumentException
      */
     public static function stop($timerName = null)
@@ -294,7 +309,7 @@ class Profiler
 
         for ($i = 0; $i < $timersToStop; $i++) {
             $timerId = self::_getTimerId();
-            /** @var \Magento\Profiler\DriverInterface $driver */
+            /** @var DriverInterface $driver */
             foreach (self::$_drivers as $driver) {
                 $driver->stop($timerId);
             }
@@ -309,7 +324,8 @@ class Profiler
      *
      * @param array|string $config
      * @param string $baseDir
-     * @param boolean $isAjax
+     * @param bool $isAjax
+     * @return void
      */
     public static function applyConfig($config, $baseDir, $isAjax = false)
     {
@@ -329,7 +345,7 @@ class Profiler
      *
      * @param array|string $profilerConfig
      * @param string $baseDir
-     * @param boolean $isAjax
+     * @param bool $isAjax
      * @return array
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
@@ -353,7 +369,7 @@ class Profiler
         $driverConfigs = (array) (isset($config['drivers']) ? $config['drivers'] : array());
         $driverFactory = isset($config['driverFactory'])
             ? $config['driverFactory']
-            : new \Magento\Profiler\Driver\Factory();
+            : new Factory();
         $tagFilters = (array) (isset($config['tagFilters']) ? $config['tagFilters'] : array());
 
         $result = array(
@@ -395,7 +411,7 @@ class Profiler
      * Parses driver config
      *
      * @param mixed $driverConfig
-     * @return array|bool
+     * @return array|false
      */
     protected static function _parseDriverConfig($driverConfig)
     {

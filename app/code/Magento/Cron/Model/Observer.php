@@ -75,7 +75,7 @@ class Observer
     /**
      * @param \Magento\ObjectManager $objectManager
      * @param ScheduleFactory $scheduleFactory
-     * @param \Magento\Core\Model\AppInterface $app
+     * @param \Magento\AppInterface $app
      * @param ConfigInterface $config
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\App\Console\Request $request
@@ -84,7 +84,7 @@ class Observer
     public function __construct(
         \Magento\ObjectManager $objectManager,
         \Magento\Cron\Model\ScheduleFactory $scheduleFactory,
-        \Magento\Core\Model\AppInterface $app,
+        \Magento\AppInterface $app,
         \Magento\Cron\Model\ConfigInterface $config,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\App\Console\Request $request,

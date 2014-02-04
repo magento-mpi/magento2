@@ -156,24 +156,23 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
             $data,
             $priceBlockTypes
         );
+        $this->_isScopePrivate = true;
     }
 
     /**
-     * Retrieve url for adding product to wishlist with params
+     * Get add to wishlist params
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @return string
+     * @return array
      */
-    public function getAddToWishlistUrl($product)
+    public function getAddToWishlistParams($product)
     {
         $continueUrl    = $this->_coreData->urlEncode($this->getUrl('customer/account'));
         $urlParamName   = \Magento\App\Action\Action::PARAM_NAME_URL_ENCODED;
 
-        $params = array(
-            $urlParamName   => $continueUrl
-        );
+        $continueUrlParams = array($urlParamName => $continueUrl);
 
-        return $this->_wishlistHelper->getAddUrlWithParams($product, $params);
+        return $this->_wishlistHelper->getAddParams($product, $continueUrlParams);
     }
 
     /**

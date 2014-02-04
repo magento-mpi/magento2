@@ -30,7 +30,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     /**
      * Add downloads summary grouping by product
      *
-     * @return \Magento\Reports\Model\Resource\Product\Downloads\Collection
+     * @return $this
      */
     public function addSummary()
     {
@@ -66,7 +66,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      *
      * @param string $attribute
      * @param string $dir
-     * @return \Magento\Reports\Model\Resource\Product\Downloads\Collection
+     * @return $this
      */
     public function setOrder($attribute, $dir = self::SORT_ORDER_DESC)
     {
@@ -82,8 +82,8 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * Add filtering
      *
      * @param string $field
-     * @param string $condition
-     * @return \Magento\Reports\Model\Resource\Product\Downloads\Collection
+     * @param null|string $condition
+     * @return $this
      */
     public function addFieldToFilter($field, $condition = null)
     {

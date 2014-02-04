@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\DesignEditor\Model\Editor\Tools\QuickStyles;
 
 /**
  * Quick style CSS renderer
  */
-namespace Magento\DesignEditor\Model\Editor\Tools\QuickStyles;
-
 class Renderer
 {
     /**
@@ -50,7 +49,7 @@ class Renderer
      *
      * @param array $data
      * @param string $content
-     * @return \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer
+     * @return $this
      */
     protected function _rendererCssRecursively($data, &$content)
     {

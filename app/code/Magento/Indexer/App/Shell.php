@@ -8,7 +8,7 @@
 
 namespace Magento\Indexer\App;
 
-class Shell implements \Magento\AppInterface
+class Shell implements \Magento\LauncherInterface
 {
     /**
      * Filename of the entry point script
@@ -18,9 +18,9 @@ class Shell implements \Magento\AppInterface
     protected $entryFileName;
 
     /**
-     * @var \Magento\Indexer\App\Shell\ErrorHandler
+     * @var \Magento\App\Console\Response
      */
-    protected $errorHandler;
+    protected $response;
 
     /**
      * @var \Magento\Indexer\Model\ShellFactory
@@ -28,33 +28,35 @@ class Shell implements \Magento\AppInterface
     protected $shellFactory;
 
     /**
-     * @param string $entryFileName
+     * @param $entryFileName
      * @param \Magento\Indexer\Model\ShellFactory $shellFactory
-     * @param Shell\ErrorHandler $errorHandler
+     * @param \Magento\App\Console\Response $response
      */
     public function __construct(
         $entryFileName,
         \Magento\Indexer\Model\ShellFactory $shellFactory,
-        Shell\ErrorHandler $errorHandler
+        \Magento\App\Console\Response $response
     ) {
         $this->entryFileName = $entryFileName;
         $this->shellFactory = $shellFactory;
-        $this->errorHandler = $errorHandler;
+        $this->response = $response;
     }
 
     /**
      * Run application
      *
-     * @return int
+     * @return \Magento\App\ResponseInterface
      */
-    public function execute()
+    public function launch()
     {
         /** @var $shell \Magento\Indexer\Model\Shell */
         $shell = $this->shellFactory->create(array('entryPoint' => $this->entryFileName));
         $shell->run();
         if ($shell->hasErrors()) {
-            $this->errorHandler->terminate(1);
+            $this->response->setCode(-1);
+        } else {
+            $this->response->setCode(0);
         }
-        return 0;
+        return $this->response;
     }
 }

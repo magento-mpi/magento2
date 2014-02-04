@@ -81,13 +81,6 @@ class Checkout extends DataFixture
     protected $creditCard;
 
     /**
-     * Mapping between products and shipping addresses for multishipping
-     *
-     * @var array
-     */
-    protected $bindings = array();
-
-    /**
      * {inheritdoc}
      */
     protected function _initData()
@@ -156,16 +149,6 @@ class Checkout extends DataFixture
     public function getNewShippingAddresses()
     {
         return $this->newShippingAddresses;
-    }
-
-    /**
-     * Get bindings for multishipping
-     *
-     * @return array
-     */
-    public function getBindings()
-    {
-        return $this->bindings;
     }
 
     /**

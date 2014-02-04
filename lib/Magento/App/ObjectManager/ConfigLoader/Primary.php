@@ -43,7 +43,7 @@ class Primary
     public function load()
     {
         $reader = new \Magento\ObjectManager\Config\Reader\Dom(
-            new \Magento\App\Config\FileResolver\Primary(
+            new \Magento\App\Arguments\FileResolver\Primary(
                 new \Magento\App\Filesystem(
                     $this->_directoryList,
                     new \Magento\Filesystem\Directory\ReadFactory(),
@@ -53,7 +53,7 @@ class Primary
             ),
             new \Magento\ObjectManager\Config\Mapper\Dom(),
             new \Magento\ObjectManager\Config\SchemaLocator(),
-            new \Magento\App\Config\ValidationState($this->_appMode)
+            new \Magento\App\Arguments\ValidationState($this->_appMode)
         );
 
         return $reader->read('primary');

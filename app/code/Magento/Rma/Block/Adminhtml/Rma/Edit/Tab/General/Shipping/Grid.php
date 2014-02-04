@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping;
+
 /**
  * Grid of packaging shipment
  *
@@ -15,8 +17,6 @@
  * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping;
-
 class Grid extends \Magento\Backend\Block\Template
 {
     /**
@@ -53,7 +53,7 @@ class Grid extends \Magento\Backend\Block\Template
     /**
      * Return collection of shipment items
      *
-     * @return array
+     * @return array|bool
      */
     public function getCollection()
     {

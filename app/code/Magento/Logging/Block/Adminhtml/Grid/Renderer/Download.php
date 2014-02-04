@@ -24,7 +24,7 @@ class Download
      *
      * @param \Magento\Object $row
      *
-     * @return mixed
+     * @return string
      */
     public function _getValue(\Magento\Object $row)
     {

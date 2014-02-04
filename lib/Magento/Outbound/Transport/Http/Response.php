@@ -19,7 +19,7 @@ class Response
     protected $_response;
 
     /**
-     * @param $string response string from an http request
+     * @param string $string response from an http request
      */
     public function __construct($string)
     {

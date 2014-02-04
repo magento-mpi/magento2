@@ -89,6 +89,7 @@ class Attribute extends \Magento\Backend\App\Action
     /**
      * Attributes grid
      *
+     * @return void
      */
     public function indexAction()
     {
@@ -100,6 +101,7 @@ class Attribute extends \Magento\Backend\App\Action
     /**
      * Create new attribute action
      *
+     * @return void
      */
     public function newAction()
     {
@@ -110,6 +112,7 @@ class Attribute extends \Magento\Backend\App\Action
     /**
      * Edit attribute action
      *
+     * @return void
      */
     public function editAction()
     {
@@ -157,6 +160,7 @@ class Attribute extends \Magento\Backend\App\Action
     /**
      * Validate attribute action
      *
+     * @return void
      */
     public function validateAction()
     {
@@ -184,6 +188,7 @@ class Attribute extends \Magento\Backend\App\Action
     /**
      * Save attribute action
      *
+     * @return void
      */
     public function saveAction()
     {
@@ -300,6 +305,7 @@ class Attribute extends \Magento\Backend\App\Action
     /**
      * Delete attribute action
      *
+     * @return void
      */
     public function deleteAction()
     {

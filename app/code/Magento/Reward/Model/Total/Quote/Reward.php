@@ -18,6 +18,8 @@
  */
 namespace Magento\Reward\Model\Total\Quote;
 
+use Magento\Sales\Model\Quote\Address;
+
 class Reward extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
     /**
@@ -48,10 +50,10 @@ class Reward extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
     /**
      * Collect reward totals
      *
-     * @param \Magento\Sales\Model\Quote\Address $address
-     * @return \Magento\Reward\Model\Total\Quote\Reward
+     * @param Address $address
+     * @return $this
      */
-    public function collect(\Magento\Sales\Model\Quote\Address $address)
+    public function collect(Address $address)
     {
         /* @var $quote \Magento\Sales\Model\Quote */
         $quote = $address->getQuote();
@@ -114,10 +116,10 @@ class Reward extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
     /**
      * Retrieve reward total data and set it to quote address
      *
-     * @param \Magento\Sales\Model\Quote\Address $address
-     * @return \Magento\Reward\Model\Total\Quote\Reward
+     * @param Address $address
+     * @return $this
      */
-    public function fetch(\Magento\Sales\Model\Quote\Address $address)
+    public function fetch(Address $address)
     {
         $websiteId = $address->getQuote()->getStore()->getWebsiteId();
         if (!$this->_rewardData->isEnabledOnFront($websiteId)) {

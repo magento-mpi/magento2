@@ -30,7 +30,7 @@ class Observer
     protected $_catalogCategory;
     
     /**
-     * @var \Magento\Core\Model\Config
+     * @var \Magento\App\ReinitableConfigInterface
      */
     protected $_coreConfig;
 
@@ -93,7 +93,7 @@ class Observer
      * @param \Magento\Catalog\Helper\Category $catalogCategory
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param Indexer\Category\Flat\State $categoryFlatState
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\App\ReinitableConfigInterface $coreConfig
      * @param \Magento\Catalog\Model\Resource\ProductFactory $productResourceFactory
      */
     public function __construct(
@@ -106,7 +106,7 @@ class Observer
         \Magento\Catalog\Helper\Category $catalogCategory,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Catalog\Model\Indexer\Category\Flat\State $categoryFlatState,
-        \Magento\Core\Model\Config $coreConfig,
+        \Magento\App\ReinitableConfigInterface $coreConfig,
         \Magento\Catalog\Model\Resource\ProductFactory $productResourceFactory
     ) {
         $this->_urlFactory = $urlFactory;

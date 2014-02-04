@@ -17,6 +17,10 @@
  */
 namespace Magento;
 
+use Magento\Exception;
+use Magento\Pear\Frontend;
+use Magento\Pear\Registry;
+
 // Looks like PEAR is being developed without E_NOTICE (1.7.0RC1)
 error_reporting(E_ALL & ~E_NOTICE);
 
@@ -51,23 +55,45 @@ require_once __DIR__ . "/Pear/Package.php";
 require_once dirname(__FILE__) . "/Pear/Package.php";
 class Pear
 {
+    /**
+     * @var array
+     */
     protected $_config;
 
+    /**
+     * @var Registry
+     */
     protected $_registry;
 
+    /**
+     * @var Frontend
+     */
     protected $_frontend;
 
+    /**
+     * @var array
+     */
     protected $_cmdCache = array();
 
+    /**
+     * @var Pear
+     */
     static protected $_instance;
 
+    /**
+     * @var bool
+     */
     static public $reloadOnRegistryUpdate = true;
 
+    
     public function __construct()
     {
         $this->getConfig();
     }
 
+    /**
+     * @return Pear
+     */
     public function getInstance()
     {
         if (!self::$_instance) {
@@ -76,21 +102,34 @@ class Pear
         return self::$_instance;
     }
 
+    /**
+     * @param string $pkg
+     * @return bool
+     */
     public function isSystemPackage($pkg)
     {
         return in_array($pkg, array('Archive_Tar', 'Console_Getopt', 'PEAR', 'Structures_Graph'));
     }
 
+    /**
+     * @return string
+     */
     public function getBaseDir()
     {
         return dirname(dirname(__DIR__));
     }
 
+    /**
+     * @return string
+     */
     public function getPearDir()
     {
         return $this->getBaseDir() . '/downloader/pearlib';
     }
 
+    /**
+     * @return array
+     */
     public function getConfig()
     {
         if (!$this->_config) {
@@ -135,15 +174,22 @@ class Pear
         return $this->_config;
     }
 
+    /**
+     * @return string[]
+     */
     public function getMagentoChannels()
     {
         return array('connect.magentocommerce.com/core', 'connect.magentocommerce.com/community');
     }
 
+    /**
+     * @param bool $redirectOnChange
+     * @return Registry
+     */
     public function getRegistry($redirectOnChange=true)
     {
         if (!$this->_registry) {
-            $this->_registry = new \Magento\Pear\Registry($this->getPearDir() . '/php');
+            $this->_registry = new Registry($this->getPearDir() . '/php');
 
             $changed = false;
             foreach ($this->getMagentoChannels() as $channel) {
@@ -167,24 +213,39 @@ class Pear
         return $this->_registry;
     }
 
+    /**
+     * @return Frontend
+     */
     public function getFrontend()
     {
         if (!$this->_frontend) {
-            $this->_frontend = new \Magento\Pear\Frontend;
+            $this->_frontend = new Frontend;
         }
         return $this->_frontend;
     }
 
+    /**
+     * @return string[]
+     */
     public function getLog()
     {
         return $this->getFrontend()->getLog();
     }
 
+    /**
+     * @return array
+     */
     public function getOutput()
     {
         return $this->getFrontend()->getOutput();
     }
 
+    /**
+     * @param string $command
+     * @param array $options
+     * @param array $params
+     * @return mixed
+     */
     public function run($command, $options=array(), $params=array())
     {
         @set_time_limit(0);
@@ -204,6 +265,10 @@ class Pear
         return $result;
     }
 
+    /**
+     * @param string $uri
+     * @return $this
+     */
     public function setRemoteConfig($uri) #$host, $user, $password, $path='', $port=null)
     {
         #$uri = 'ftp://' . $user . ':' . $password . '@' . $host . (is_numeric($port) ? ':' . $port : '') . '/' . trim($path, '/') . '/';
@@ -216,6 +281,8 @@ class Pear
      *
      * @param array|\Magento\Object $runParams command, options, params,
      *        comment, success_callback, failure_callback
+     * @return mixed
+     * @throws Exception
      */
     public function runHtmlConsole($runParams)
     {
@@ -225,14 +292,14 @@ class Pear
         $oldLogStream = $fe->getLogStream();
         $fe->setLogStream('stdout');
 
-        if ($runParams instanceof \Magento\Object) {
+        if ($runParams instanceof Object) {
             $run = $runParams;
         } elseif (is_array($runParams)) {
-            $run = new \Magento\Object($runParams);
+            $run = new Object($runParams);
         } elseif (is_string($runParams)) {
-            $run = new \Magento\Object(array('title'=>$runParams));
+            $run = new Object(array('title'=>$runParams));
         } else {
-            throw \Magento\Exception("Invalid run parameters");
+            throw Exception("Invalid run parameters");
         }
 ?>
 <html><head><style type="text/css">

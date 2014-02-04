@@ -64,7 +64,7 @@ class Session extends \Magento\Session\SessionManager
     protected $_customerFactory;
 
     /**
-     * @var \Magento\Core\Model\UrlFactory
+     * @var \Magento\UrlFactory
      */
     protected $_urlFactory;
 
@@ -79,6 +79,10 @@ class Session extends \Magento\Session\SessionManager
     protected $_storeManager;
 
     /**
+     * @var \Magento\App\ResponseInterface
+     */
+    protected $response;
+    /**
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Session\Config\ConfigInterface $sessionConfig
@@ -90,7 +94,7 @@ class Session extends \Magento\Session\SessionManager
      * @param \Magento\Customer\Helper\Data $customerData
      * @param Resource\Customer $customerResource
      * @param CustomerFactory $customerFactory
-     * @param \Magento\Core\Model\UrlFactory $urlFactory
+     * @param \Magento\UrlFactory $urlFactory
      * @param \Magento\Core\Model\Session $session
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -109,10 +113,11 @@ class Session extends \Magento\Session\SessionManager
         \Magento\Customer\Helper\Data $customerData,
         \Magento\Customer\Model\Resource\Customer $customerResource,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
-        \Magento\Core\Model\UrlFactory $urlFactory,
+        \Magento\UrlFactory $urlFactory,
         \Magento\Core\Model\Session $session,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\App\ResponseInterface $response,
         $sessionName = null,
         array $data = array()
     ) {
@@ -125,6 +130,7 @@ class Session extends \Magento\Session\SessionManager
         $this->_session = $session;
         $this->_eventManager = $eventManager;
         $this->_storeManager = $storeManager;
+        $this->response = $response;
         parent::__construct($request, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage);
         $this->start($sessionName);
         $this->_eventManager->dispatch('customer_session_init', array('customer_session' => $this));
@@ -161,6 +167,7 @@ class Session extends \Magento\Session\SessionManager
             $customer->setConfirmation(null)->save();
             $customer->setIsJustConfirmed(true);
         }
+        $this->response->setVary('customer_group', $this->_customer->getGroupId());
         return $this;
     }
 
@@ -203,6 +210,7 @@ class Session extends \Magento\Session\SessionManager
      */
     public function getCustomerId()
     {
+
         if ($this->storage->getData('customer_id')) {
             return $this->storage->getData('customer_id');
         }
@@ -235,6 +243,7 @@ class Session extends \Magento\Session\SessionManager
         if ($this->isLoggedIn() && $this->getCustomer()) {
             return $this->getCustomer()->getGroupId();
         }
+
         return \Magento\Customer\Model\Group::NOT_LOGGED_IN_ID;
     }
 
@@ -425,7 +434,7 @@ class Session extends \Magento\Session\SessionManager
     }
 
     /**
-     * @return \Magento\Core\Model\Url
+     * @return \Magento\UrlInterface
      */
     protected function _createUrl()
     {

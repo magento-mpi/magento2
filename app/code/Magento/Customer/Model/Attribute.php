@@ -8,15 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Customer\Model;
+
 /**
  * Customer attribute model
  *
- * @category   Magento
- * @package    Magento_Customer
- * @author     Magento Core Team <core@magentocommerce.com>
+ * @method int getSortOrder()
  */
-namespace Magento\Customer\Model;
-
 class Attribute extends \Magento\Eav\Model\Attribute
 {
     /**

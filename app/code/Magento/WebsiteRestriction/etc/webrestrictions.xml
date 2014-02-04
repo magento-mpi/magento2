@@ -23,8 +23,6 @@
     <action path="paypal_ipn_express" type="generic" />
     <action path="paypal_ipn_direct" type="generic" />
     <action path="paypal_ipn_index" type="generic" />
-    <action path="paypaluk_ipn_express" type="generic" />
-    <action path="paypaluk_ipn_direct" type="generic" />
     <action path="paypal_payflow_silentPost" type="generic" />
     <action path="paypal_payflowadvanced_silentPost" type="generic" />
     <action path="googlecheckout_api_index" type="generic" />

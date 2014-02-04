@@ -16,29 +16,42 @@
  */
 namespace Magento\CatalogPermissions\Block\Adminhtml\Catalog\Category\Tab;
 
-class Permissions
-    extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
-{
+use Magento\Backend\Block\Template\Context;
+use Magento\Backend\Block\Widget\Tab\TabInterface;
+use Magento\Catalog\Block\Adminhtml\Category\AbstractCategory;
+use Magento\Catalog\Model\Resource\Category\Tree;
+use Magento\CatalogPermissions\Block\Adminhtml\Catalog\Category\Tab\Permissions as TabPermissions;
+use Magento\CatalogPermissions\Helper\Data;
+use Magento\CatalogPermissions\Model\Permission;
+use Magento\CatalogPermissions\Model\Resource\Permission\Collection as PermissionCollection;
+use Magento\Core\Model\Registry;
+use Magento\Core\Model\Website;
+use Magento\Customer\Model\Resource\Group\CollectionFactory as GroupCollectionFactory;
+use Magento\Json\EncoderInterface;
 
+class Permissions extends AbstractCategory implements TabInterface
+{
+    /**
+     * @var string
+     */
     protected $_template = 'catalog/category/tab/permissions.phtml';
 
     /**
      * Catalog permissions data
      *
-     * @var \Magento\CatalogPermissions\Helper\Data
+     * @var Data
      */
     protected $_catalogPermData = null;
 
     /**
-     * @var \Magento\Customer\Model\Resource\Group\CollectionFactory
+     * @var GroupCollectionFactory
      */
-    protected $_groupCollFactory;
+    protected $_groupCollectionFactory;
 
     /**
      * @var \Magento\CatalogPermissions\Model\Resource\Permission\CollectionFactory
      */
-    protected $_permissionCollFactory;
+    protected $_permissionCollectionFactory;
 
     /**
      * @var \Magento\CatalogPermissions\Model\Permission\IndexFactory
@@ -46,36 +59,36 @@ class Permissions
     protected $_permIndexFactory;
 
     /**
-     * @var \Magento\Json\EncoderInterface
+     * @var EncoderInterface
      */
     protected $_jsonEncoder;
 
     /**
-     * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
-     * @param \Magento\Catalog\Model\Resource\Category\Tree $categoryTree
-     * @param \Magento\Core\Model\Registry $registry
+     * @param Context $context
+     * @param EncoderInterface $jsonEncoder
+     * @param Tree $categoryTree
+     * @param Registry $registry
      * @param \Magento\CatalogPermissions\Model\Permission\IndexFactory $permIndexFactory
-     * @param \Magento\CatalogPermissions\Model\Resource\Permission\CollectionFactory $permissionCollFactory
-     * @param \Magento\Customer\Model\Resource\Group\CollectionFactory $groupCollFactory
-     * @param \Magento\CatalogPermissions\Helper\Data $catalogPermData
+     * @param \Magento\CatalogPermissions\Model\Resource\Permission\CollectionFactory $permissionCollectionFactory
+     * @param GroupCollectionFactory $groupCollectionFactory
+     * @param Data $catalogPermData
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
-        \Magento\Catalog\Model\Resource\Category\Tree $categoryTree,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Json\EncoderInterface $jsonEncoder,
+        Context $context,
+        Tree $categoryTree,
+        Registry $registry,
+        EncoderInterface $jsonEncoder,
         \Magento\CatalogPermissions\Model\Permission\IndexFactory $permIndexFactory,
-        \Magento\CatalogPermissions\Model\Resource\Permission\CollectionFactory $permissionCollFactory,
-        \Magento\Customer\Model\Resource\Group\CollectionFactory $groupCollFactory,
-        \Magento\CatalogPermissions\Helper\Data $catalogPermData,
+        \Magento\CatalogPermissions\Model\Resource\Permission\CollectionFactory $permissionCollectionFactory,
+        GroupCollectionFactory $groupCollectionFactory,
+        Data $catalogPermData,
         array $data = array()
     ) {
         $this->_jsonEncoder = $jsonEncoder;
         $this->_permIndexFactory = $permIndexFactory;
-        $this->_permissionCollFactory = $permissionCollFactory;
-        $this->_groupCollFactory = $groupCollFactory;
+        $this->_permissionCollectionFactory = $permissionCollectionFactory;
+        $this->_groupCollectionFactory = $groupCollectionFactory;
         $this->_catalogPermData = $catalogPermData;
         parent::__construct($context, $categoryTree, $registry, $data);
     }
@@ -83,7 +96,7 @@ class Permissions
     /**
      * Prepare layout
      *
-     * @return \Magento\CatalogPermissions\Block\Adminhtml\Catalog\Category\Tab\Permissions
+     * @return TabPermissions
      */
     protected function _prepareLayout()
     {
@@ -109,7 +122,7 @@ class Permissions
         $config = array(
             'row' => $this->getChildHtml('row'),
             'duplicate_message' => __('You already have a permission with this scope.'),
-            'permissions'  => array()
+            'permissions' => array()
         );
 
         if ($this->getCategoryId()) {
@@ -118,9 +131,9 @@ class Permissions
             }
         }
 
-        $config['single_mode']  = $this->_storeManager->hasSingleStore();
-        $config['website_id']   = $this->_storeManager->getStore(true)->getWebsiteId();
-        $config['parent_vals']  = $this->getParentPermissions();
+        $config['single_mode'] = $this->_storeManager->hasSingleStore();
+        $config['website_id'] = $this->_storeManager->getStore(true)->getWebsiteId();
+        $config['parent_vals'] = $this->getParentPermissions();
 
         $config['use_parent_allow'] = __('(Allow)');
         $config['use_parent_deny'] = __('(Deny)');
@@ -138,12 +151,12 @@ class Permissions
     /**
      * Retrieve permission collection
      *
-     * @return \Magento\CatalogPermissions\Model\Resource\Permission\Collection
+     * @return PermissionCollection
      */
     public function getPermissionCollection()
     {
         if (!$this->hasData('permission_collection')) {
-            $collection = $this->_permissionCollFactory->create()
+            $collection = $this->_permissionCollectionFactory->create()
                 ->addFieldToFilter('category_id', $this->getCategoryId())
                 ->setOrder('permission_id', 'asc');
             $this->setData('permisssion_collection', $collection);
@@ -175,26 +188,26 @@ class Permissions
             foreach ($index as $row) {
                 $permissionKey = $row['website_id'] . '_' . $row['customer_group_id'];
                 $permissions[$permissionKey] = array(
-                    'category'  => $row['grant_catalog_category_view'],
-                    'product'   => $row['grant_catalog_product_price'],
-                    'checkout'  => $row['grant_checkout_items']
+                    'category' => $row['grant_catalog_category_view'],
+                    'product' => $row['grant_catalog_product_price'],
+                    'checkout' => $row['grant_checkout_items']
                 );
             }
         }
 
         $websites = $this->_storeManager->getWebsites(false);
-        $groups   = $this->_groupCollFactory->create()->getAllIds();
+        $groups   = $this->_groupCollectionFactory->create()->getAllIds();
 
-        /* @var $helper \Magento\CatalogPermissions\Helper\Data */
+        /* @var $helper Data */
         $helper   = $this->_catalogPermData;
 
-        $parent = (string)\Magento\CatalogPermissions\Model\Permission::PERMISSION_PARENT;
-        $allow  = (string)\Magento\CatalogPermissions\Model\Permission::PERMISSION_ALLOW;
-        $deny   = (string)\Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY;
+        $parent = (string)Permission::PERMISSION_PARENT;
+        $allow = (string)Permission::PERMISSION_ALLOW;
+        $deny = (string)Permission::PERMISSION_DENY;
 
         foreach ($groups as $groupId) {
             foreach ($websites as $website) {
-                /* @var $website \Magento\Core\Model\Website */
+                /* @var $website Website */
                 $websiteId = $website->getId();
 
                 $store = $website->getDefaultStore();
@@ -205,17 +218,17 @@ class Permissions
                 $permissionKey = $websiteId . '_' . $groupId;
                 if (!isset($permissions[$permissionKey])) {
                     $permissions[$permissionKey] = array(
-                        'category'  => $category ? $allow : $deny,
-                        'product'   => $product ? $allow : $deny,
-                        'checkout'  => $checkout ? $allow : $deny
+                        'category' => $category ? $allow : $deny,
+                        'product' => $product ? $allow : $deny,
+                        'checkout' => $checkout ? $allow : $deny
                     );
                 } else {
                     // validate and rewrite parent values for exists data
                     $data = $permissions[$permissionKey];
                     $permissions[$permissionKey] = array(
-                        'category'  => $data['category'] == $parent ? ($category ? $allow : $deny) : $data['category'],
-                        'product'   => $data['product'] == $parent ? ($checkout ? $allow : $deny) : $data['product'],
-                        'checkout'  => $data['checkout'] == $parent ? ($product ? $allow : $deny) : $data['checkout'],
+                        'category' => $data['category'] == $parent ? ($category ? $allow : $deny) : $data['category'],
+                        'product' => $data['product'] == $parent ? ($checkout ? $allow : $deny) : $data['product'],
+                        'checkout' => $data['checkout'] == $parent ? ($product ? $allow : $deny) : $data['checkout'],
                     );
                 }
             }
@@ -247,7 +260,7 @@ class Permissions
     /**
      * Tab visibility
      *
-     * @return boolean
+     * @return bool
      */
     public function canShowTab()
     {
@@ -262,7 +275,7 @@ class Permissions
     /**
      * Tab visibility
      *
-     * @return boolean
+     * @return bool
      */
     public function isHidden()
     {
@@ -282,7 +295,7 @@ class Permissions
     /**
      * Check is block readonly
      *
-     * @return boolean
+     * @return bool
      */
     public function isReadonly()
     {

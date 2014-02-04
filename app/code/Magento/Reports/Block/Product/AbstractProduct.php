@@ -7,17 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reports\Block\Product;
 
 
 /**
  * Reports Recently Products Abstract Block
  *
- * @category   Magento
- * @package    Magento_Reports
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reports\Block\Product;
-
 abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractProduct
 {
     /**
@@ -97,6 +94,7 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
         );
         $this->_productVisibility = $productVisibility;
         $this->_indexFactory = $indexFactory;
+        $this->_isScopePrivate = true;
     }
 
     /**

@@ -16,43 +16,57 @@
  */
 namespace Magento\CatalogPermissions\Block\Adminhtml\Catalog\Category\Tab\Permissions;
 
-class Row
-    extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
-{
+use Magento\Backend\Block\Template\Context;
+use Magento\Catalog\Block\Adminhtml\Category\AbstractCategory;
+use Magento\Core\Model\Registry;
+use Magento\Catalog\Model\Resource\Category\Tree;
+use Magento\Core\Model\Resource\Website\Collection as WebsiteCollection;
+use Magento\Core\Model\Resource\Website\CollectionFactory as WebsiteCollectionFactory;
+use Magento\Customer\Model\Resource\Group\Collection as GroupCollection;
+use Magento\Customer\Model\Resource\Group\CollectionFactory as GroupCollectionFactory;
+use Magento\View\Element\AbstractBlock;
 
+class Row extends AbstractCategory
+{
+    /**
+     * @var string
+     */
     protected $_template = 'catalog/category/tab/permissions/row.phtml';
 
     /**
-     * @var \Magento\Customer\Model\Resource\Group\CollectionFactory
+     * @var GroupCollectionFactory
      */
-    protected $_groupCollFactory;
+    protected $_groupCollectionFactory;
 
     /**
-     * @var \Magento\Core\Model\Resource\Website\CollectionFactory
+     * @var WebsiteCollectionFactory
      */
-    protected $_websiteCollFactory;
+    protected $_websiteCollectionFactory;
 
     /**
-     * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Catalog\Model\Resource\Category\Tree $categoryTree
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\Resource\Website\CollectionFactory $websiteCollFactory
-     * @param \Magento\Customer\Model\Resource\Group\CollectionFactory $groupCollFactory
+     * @param Context $context
+     * @param Tree $categoryTree
+     * @param Registry $registry
+     * @param WebsiteCollectionFactory $websiteCollectionFactory
+     * @param GroupCollectionFactory $groupCollectionFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
-        \Magento\Catalog\Model\Resource\Category\Tree $categoryTree,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\Resource\Website\CollectionFactory $websiteCollFactory,
-        \Magento\Customer\Model\Resource\Group\CollectionFactory $groupCollFactory,
+        Context $context,
+        Tree $categoryTree,
+        Registry $registry,
+        WebsiteCollectionFactory $websiteCollectionFactory,
+        GroupCollectionFactory $groupCollectionFactory,
         array $data = array()
     ) {
-        $this->_websiteCollFactory = $websiteCollFactory;
-        $this->_groupCollFactory = $groupCollFactory;
+        $this->_websiteCollectionFactory = $websiteCollectionFactory;
+        $this->_groupCollectionFactory = $groupCollectionFactory;
         parent::__construct($context, $categoryTree, $registry, $data);
     }
 
+    /**
+     * @return AbstractBlock
+     */
     protected function _prepareLayout()
     {
         $this->addChild('delete_button', 'Magento\Backend\Block\Widget\Button', array(
@@ -69,7 +83,7 @@ class Row
     /**
      * Check edit by websites
      *
-     * @return boolean
+     * @return bool
      */
     public function canEditWebsites()
     {
@@ -79,13 +93,16 @@ class Row
     /**
      * Check is block readonly
      *
-     * @return boolean
+     * @return bool
      */
     public function isReadonly()
     {
         return $this->getCategory()->getPermissionsReadonly();
     }
 
+    /**
+     * @return string|int|null
+     */
     public function getDefaultWebsiteId()
     {
         return $this->_storeManager->getStore(true)->getWebsiteId();
@@ -119,12 +136,12 @@ class Row
     /**
      * Retrieve websites collection
      *
-     * @return \Magento\Core\Model\Resource\Website\Collection
+     * @return WebsiteCollection
      */
     public function getWebsiteCollection()
     {
         if (!$this->hasData('website_collection')) {
-            $collection = $this->_websiteCollFactory->create();
+            $collection = $this->_websiteCollectionFactory->create();
             $this->setData('website_collection', $collection);
         }
 
@@ -134,18 +151,21 @@ class Row
     /**
      * Retrieve customer group collection
      *
-     * @return \Magento\Customer\Model\Resource\Group\Collection
+     * @return GroupCollection
      */
     public function getCustomerGroupCollection()
     {
         if (!$this->hasData('customer_group_collection')) {
-            $collection = $this->_groupCollFactory->create();
+            $collection = $this->_groupCollectionFactory->create();
             $this->setData('customer_group_collection', $collection);
         }
 
         return $this->getData('customer_group_collection');
     }
 
+    /**
+     * @return string
+     */
     public function getDeleteButtonHtml()
     {
         return $this->getChildHtml('delete_button');

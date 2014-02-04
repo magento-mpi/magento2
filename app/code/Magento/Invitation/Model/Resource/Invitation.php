@@ -38,6 +38,7 @@ class Invitation extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param int $inviterId
      * @param int $referralId
+     * @return void
      */
     public function trackReferral($inviterId, $referralId)
     {
