@@ -43,6 +43,9 @@ class LayoutFilesTest extends \PHPUnit_Framework_TestCase
         foreach ($argumentNodes as $argumentNode) {
             try {
                 $argumentData = $this->_argParser->parse($argumentNode);
+                if ($this->isSkippedArgument($argumentData)) {
+                    continue;
+                }
                 $this->_argInterpreter->evaluate($argumentData);
             } catch (\Exception $e) {
                 $this->fail($e->getMessage());
@@ -64,5 +67,41 @@ class LayoutFilesTest extends \PHPUnit_Framework_TestCase
             }
         }
         return $data;
+    }
+
+    /**
+     * Whether an argument should be skipped, because it cannot be evaluated in the testing environment
+     *
+     * @param array $argumentData
+     * @return bool
+     */
+    protected function isSkippedArgument(array $argumentData)
+    {
+        unset($argumentData['name']);
+
+        $isUpdater = isset($argumentData['updater']);
+        unset($argumentData['updater']);
+
+        // Arguments, evaluation of which causes a run-time error, because of unsafe assumptions to the environment
+        $ignoredArguments = array(
+            array('xsi:type' => 'object',
+                'value' => 'Magento\GroupedProduct\Model\Resource\Product\Type\Grouped\AssociatedProductsCollection'),
+            array('xsi:type' => 'object',
+                'value' => 'Magento\Catalog\Model\Resource\Product\Collection\AssociatedProduct'),
+            array('xsi:type' => 'object', 'value' => 'Magento\Search\Model\Resource\Search\Grid\Collection'),
+            array('xsi:type' => 'object', 'value' => 'Magento\Wishlist\Model\Resource\Item\Collection\Grid'),
+            array('xsi:type' => 'object',
+                'value' => 'Magento\CustomerSegment\Model\Resource\Segment\Report\Detail\Collection'),
+            array('xsi:type' => 'helper', 'helper' => 'Magento\Pbridge\Helper\Data::getReviewButtonTemplate'),
+            array('xsi:type' => 'options', 'model' => 'Magento\Search\Model\Adminhtml\Search\Grid\Options'),
+            array('xsi:type' => 'options', 'model' => 'Magento\Logging\Model\Resource\Grid\ActionsGroup'),
+            array('xsi:type' => 'options', 'model' => 'Magento\Logging\Model\Resource\Grid\Actions'),
+        );
+        $isIgnoredArgument = in_array($argumentData, $ignoredArguments, true);
+
+        unset($argumentData['xsi:type']);
+        $hasValue = !empty($argumentData);
+
+        return $isIgnoredArgument || ($isUpdater && !$hasValue);
     }
 }
