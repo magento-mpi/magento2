@@ -1044,5 +1044,6 @@ class Category extends \Magento\Catalog\Model\AbstractModel
     protected function _afterDeleteCommit()
     {
         $this->reindex();
+        $result = parent::_afterDeleteCommit();
     }
 }
