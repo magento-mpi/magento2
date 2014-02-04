@@ -9,8 +9,6 @@
  */
 namespace Magento\Core\Model;
 
-use Magento\App\CacheInterface;
-
 /**
  * Application model
  *
@@ -74,7 +72,7 @@ class App implements \Magento\AppInterface
     /**
      * Application location object
      *
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var LocaleInterface
      */
     protected $_locale;
 
@@ -254,7 +252,7 @@ class App implements \Magento\AppInterface
     /**
      * Retrieve application locale object
      *
-     * @return \Magento\Core\Model\LocaleInterface
+     * @return LocaleInterface
      */
     public function getLocale()
     {
@@ -328,7 +326,7 @@ class App implements \Magento\AppInterface
      * Loading cache data
      *
      * @param   string $cacheId
-     * @return  mixed
+     * @return  string
      */
     public function loadCache($cacheId)
     {

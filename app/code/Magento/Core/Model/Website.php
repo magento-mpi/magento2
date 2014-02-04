@@ -115,7 +115,7 @@ class Website extends \Magento\Core\Model\AbstractModel
     /**
      * Website default store
      *
-     * @var \Magento\Core\Model\Store
+     * @var Store
      */
     protected $_defaultStore;
 
@@ -137,7 +137,7 @@ class Website extends \Magento\Core\Model\AbstractModel
     protected $_configDataResource;
 
     /**
-     * @var \Magento\Core\Model\StoreFactory
+     * @var StoreFactory
      */
     protected $_storeFactory;
 
@@ -147,17 +147,17 @@ class Website extends \Magento\Core\Model\AbstractModel
     protected $_storeGroupFactory;
 
     /**
-     * @var \Magento\Core\Model\WebsiteFactory
+     * @var WebsiteFactory
      */
     protected $_websiteFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @var \Magento\Core\Model\App
+     * @var App
      */
     protected $_app;
 
@@ -563,7 +563,7 @@ class Website extends \Magento\Core\Model\AbstractModel
     /**
      * Retrieve Default Website Store or null
      *
-     * @return \Magento\Core\Model\Store
+     * @return Store
      */
     public function getDefaultStore()
     {

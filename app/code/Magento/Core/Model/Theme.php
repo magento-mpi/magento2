@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model;
 
 use Magento\View\Design\ThemeInterface;
@@ -38,7 +37,7 @@ use Magento\View\Design\ThemeInterface;
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Theme extends \Magento\Core\Model\AbstractModel implements ThemeInterface
+class Theme extends AbstractModel implements ThemeInterface
 {
     /**
      * Filename of view configuration
@@ -229,7 +228,7 @@ class Theme extends \Magento\Core\Model\AbstractModel implements ThemeInterface
     /**
      * Retrieve theme instance representing the latest changes to a theme
      *
-     * @return \Magento\Core\Model\Theme|null
+     * @return Theme|null
      */
     public function getStagingVersion()
     {
@@ -325,7 +324,7 @@ class Theme extends \Magento\Core\Model\AbstractModel implements ThemeInterface
     /**
      * Validate theme data
      *
-     * @return \Magento\Core\Model\Theme
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     protected function _validate()
@@ -340,7 +339,7 @@ class Theme extends \Magento\Core\Model\AbstractModel implements ThemeInterface
     /**
      * Before theme save
      *
-     * @return \Magento\Core\Model\Theme
+     * @return $this
      */
     protected function _beforeSave()
     {

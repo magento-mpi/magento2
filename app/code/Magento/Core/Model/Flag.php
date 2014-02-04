@@ -25,7 +25,7 @@ namespace Magento\Core\Model;
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Flag extends \Magento\Core\Model\AbstractModel
+class Flag extends AbstractModel
 {
     /**
      * Flag code
@@ -52,7 +52,7 @@ class Flag extends \Magento\Core\Model\AbstractModel
      * Processing object before save data
      *
      * @throws \Magento\Core\Exception
-     * @return \Magento\Core\Model\Flag
+     * @return $this
      */
     protected function _beforeSave()
     {

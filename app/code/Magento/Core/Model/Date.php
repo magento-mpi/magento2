@@ -14,8 +14,6 @@
  */
 namespace Magento\Core\Model;
 
-use Magento\Core\Model\LocaleInterface;
-
 class Date
 {
     /**

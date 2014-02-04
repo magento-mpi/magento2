@@ -325,7 +325,7 @@ class Translate implements \Magento\TranslateInterface
      * Compose the list of locales which are required to translate text entity based on given locale
      *
      * @param string $locale
-     * @return array
+     * @return string[]
      */
     protected function _composeRequiredLocaleList($locale)
     {
@@ -443,7 +443,7 @@ class Translate implements \Magento\TranslateInterface
      * Retrieve translation file for theme
      *
      * @param string $locale
-     * @param string $area
+     * @param string|null $area
      * @return string
      */
     protected function _getThemeTranslationFile($locale, $area = null)

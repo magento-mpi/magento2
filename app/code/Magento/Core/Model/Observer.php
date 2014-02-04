@@ -23,7 +23,7 @@ class Observer
     private $_cacheFrontendPool;
 
     /**
-     * @var \Magento\Core\Model\Theme
+     * @var Theme
      */
     private $_currentTheme;
 

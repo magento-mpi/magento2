@@ -8,9 +8,7 @@
  * @license     {license_link}
  */
 namespace Magento\Core\Model;
-use Magento\Core\Model\Context;
-use Magento\Core\Model\LocaleInterface;
-use Magento\Core\Model\Registry;
+
 use Magento\Core\Model\Resource\AbstractResource;
 
 /**
@@ -27,7 +25,7 @@ use Magento\Core\Model\Resource\AbstractResource;
  * @method string getDateTo()
  * @method \Magento\Core\Model\Design setDateTo(string $value)
  */
-class Design extends \Magento\Core\Model\AbstractModel
+class Design extends AbstractModel
 {
     /**
      * Cache tag

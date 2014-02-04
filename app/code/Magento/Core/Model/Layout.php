@@ -9,7 +9,6 @@
  */
 namespace Magento\Core\Model;
 
-use Magento\View\Element\BlockFactory;
 use Magento\View\Layout\Element;
 
 /**
@@ -280,7 +279,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      * Retrieve instance of a theme currently used in an area
      *
      * @param string $area
-     * @return \Magento\Core\Model\Theme
+     * @return Theme
      */
     protected function _getThemeInstance($area)
     {
@@ -324,7 +323,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     /**
      * Layout xml generation
      *
-     * @return \Magento\Core\Model\Layout
+     * @return $this
      */
     public function generateXml()
     {
@@ -1002,7 +1001,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      *
      * @param string $parentName
      * @param string $alias
-     * @return \Magento\Core\Model\Layout
+     * @return $this
      */
     public function unsetChild($parentName, $alias)
     {

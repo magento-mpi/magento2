@@ -16,7 +16,7 @@ namespace Magento\Core\Model;
  * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-abstract class Template extends \Magento\Core\Model\AbstractModel
+abstract class Template extends AbstractModel
 {
     /**
      * Types of template
@@ -46,9 +46,9 @@ abstract class Template extends \Magento\Core\Model\AbstractModel
 
     /**
      * Initial environment information
-     * @see self::_applyDesignConfig()
      *
      * @var \Magento\Object|null
+     * @see self::_applyDesignConfig()
      */
     protected $_initialEnvironmentInfo = null;
 
@@ -79,7 +79,7 @@ abstract class Template extends \Magento\Core\Model\AbstractModel
     protected $_appEmulation;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -110,7 +110,7 @@ abstract class Template extends \Magento\Core\Model\AbstractModel
     /**
      * Applying of design config
      *
-     * @return \Magento\Core\Model\Template
+     * @return $this
      */
     protected function _applyDesignConfig()
     {
@@ -127,7 +127,7 @@ abstract class Template extends \Magento\Core\Model\AbstractModel
     /**
      * Revert design settings to previous
      *
-     * @return \Magento\Core\Model\Template
+     * @return $this
      */
     protected function _cancelDesignConfig()
     {

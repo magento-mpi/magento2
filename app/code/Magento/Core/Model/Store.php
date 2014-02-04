@@ -9,6 +9,8 @@
  */
 namespace Magento\Core\Model;
 
+use Magento\Directory\Model\Currency\Filter;
+
 /**
  * Store model
  *
@@ -341,7 +343,7 @@ class Store extends AbstractModel
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     public function __sleep()
     {
@@ -482,10 +484,10 @@ class Store extends AbstractModel
     /**
      * Set relation to the website
      *
-     * @param \Magento\Core\Model\Website $website
+     * @param Website $website
      * @return void
      */
-    public function setWebsite(\Magento\Core\Model\Website $website)
+    public function setWebsite(Website $website)
     {
         $this->setWebsiteId($website->getId());
     }
@@ -493,7 +495,7 @@ class Store extends AbstractModel
     /**
      * Retrieve store website
      *
-     * @return \Magento\Core\Model\Website|bool
+     * @return Website|bool
      */
     public function getWebsite()
     {
@@ -998,7 +1000,7 @@ class Store extends AbstractModel
     /**
      * Get store price filter
      *
-     * @return \Magento\Filter\Sprintf
+     * @return Filter|\Magento\Filter\Sprintf
      */
     public function getPriceFilter()
     {

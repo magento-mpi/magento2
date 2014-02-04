@@ -13,7 +13,7 @@ namespace Magento\Core\Model;
 /**
  * Locale model
  */
-class Locale implements \Magento\Core\Model\LocaleInterface
+class Locale implements LocaleInterface
 {
     /**
      * Default locale code
@@ -73,7 +73,7 @@ class Locale implements \Magento\Core\Model\LocaleInterface
     protected $_appState;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -83,7 +83,7 @@ class Locale implements \Magento\Core\Model\LocaleInterface
     protected $_config;
 
     /**
-     * @var \Magento\Core\Model\App
+     * @var App
      */
     protected $_app;
 
@@ -93,7 +93,7 @@ class Locale implements \Magento\Core\Model\LocaleInterface
     protected $dateTime;
 
     /**
-     * @var \Magento\Core\Model\Date
+     * @var Date
      */
     protected $_dateModel;
 
@@ -252,7 +252,7 @@ class Locale implements \Magento\Core\Model\LocaleInterface
      * Specify current locale code
      *
      * @param   string $code
-     * @return  \Magento\Core\Model\LocaleInterface
+     * @return  LocaleInterface
      */
     public function setLocaleCode($code)
     {
@@ -549,7 +549,7 @@ class Locale implements \Magento\Core\Model\LocaleInterface
     /**
      * Create \Zend_Date object with date converted to store timezone and store Locale
      *
-     * @param   null|string|bool|int|\Magento\Core\Model\Store $store Information about store
+     * @param   null|string|bool|int|Store $store Information about store
      * @param   string|integer|\Zend_Date|array|null $date date in UTC
      * @param   boolean $includeTime flag for including time to date
      * @return  \Zend_Date
@@ -641,7 +641,7 @@ class Locale implements \Magento\Core\Model\LocaleInterface
      * to UTC time zone. Date can be passed in format of store's locale
      * or in format which was passed as parameter.
      *
-     * @param null|string|bool|int|\Magento\Core\Model\Store $store Information about store
+     * @param null|string|bool|int|Store $store Information about store
      * @param string|integer|\Zend_Date|array|null $date date in store's timezone
      * @param boolean $includeTime flag for including time to date
      * @param null|string $format
@@ -659,7 +659,7 @@ class Locale implements \Magento\Core\Model\LocaleInterface
      * Get store timestamp
      * Timestamp will be built with store timezone settings
      *
-     * @param   null|string|bool|int|\Magento\Core\Model\Store $store
+     * @param   null|string|bool|int|Store $store
      * @return  int
      */
     public function storeTimeStamp($store=null)
@@ -765,7 +765,7 @@ class Locale implements \Magento\Core\Model\LocaleInterface
         $symbols = \Zend_Locale_Data::getList($this->getLocaleCode(), 'symbols');
 
         $pos = strpos($format, ';');
-        if ($pos !== false){
+        if ($pos !== false) {
             $format = substr($format, 0, $pos);
         }
         $format = preg_replace("/[^0\#\.,]/", "", $format);
@@ -779,7 +779,7 @@ class Locale implements \Magento\Core\Model\LocaleInterface
         $requiredPrecision = $totalPrecision;
         $t = substr($format, $decimalPoint);
         $pos = strpos($t, '#');
-        if ($pos !== false){
+        if ($pos !== false) {
             $requiredPrecision = strlen($t) - $pos - $totalPrecision;
         }
 
@@ -873,7 +873,7 @@ class Locale implements \Magento\Core\Model\LocaleInterface
      * Returns the localized country name
      *
      * @param  string $value Name to get detailed information about
-     * @return array
+     * @return string|false
      */
     public function getCountryTranslation($value)
     {
@@ -893,7 +893,7 @@ class Locale implements \Magento\Core\Model\LocaleInterface
     /**
      * Checks if current date of the given store (in the store timezone) is within the range
      *
-     * @param int|string|\Magento\Core\Model\Store $store
+     * @param int|string|Store $store
      * @param string|null $dateFrom
      * @param string|null $dateTo
      * @return bool

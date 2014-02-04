@@ -65,7 +65,7 @@ abstract class AbstractModel extends \Magento\Object
      *
      * When you use true - all cache will be clean
      *
-     * @var string|array|true
+     * @var string|array|bool
      */
     protected $_cacheTag = false;
 
@@ -107,7 +107,7 @@ abstract class AbstractModel extends \Magento\Object
     protected $_cacheManager;
 
     /**
-     * @var \Magento\Core\Model\Registry
+     * @var Registry
      */
     protected $_coreRegistry;
 
@@ -173,7 +173,7 @@ abstract class AbstractModel extends \Magento\Object
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     public function __sleep()
     {
@@ -513,7 +513,7 @@ abstract class AbstractModel extends \Magento\Object
      * Get list of cache tags applied to model object.
      * Return false if cache tags are not supported by model
      *
-     * @return array|bool
+     * @return array|false
      */
     public function getCacheTags()
     {
@@ -539,7 +539,7 @@ abstract class AbstractModel extends \Magento\Object
     /**
      * Get cache tags associated with object id
      *
-     * @return array
+     * @return string[]|false
      */
     public function getCacheIdTags()
     {

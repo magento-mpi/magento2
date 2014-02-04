@@ -1802,7 +1802,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     /**
      * Get cache tags associated with object id
      *
-     * @return array
+     * @return string[]
      */
     public function getCacheIdTags()
     {
