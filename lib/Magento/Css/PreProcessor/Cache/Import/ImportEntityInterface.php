@@ -13,7 +13,7 @@ use \Magento\Filesystem;
 /**
  * Import entity interface
  */
-interface ImportEntityInterface extends \Serializable
+interface ImportEntityInterface
 {
     /**
      * @return string

@@ -8,7 +8,7 @@
 
 namespace Magento\Css\PreProcessor\Cache\Import;
 
-use \Magento\Filesystem;
+use Magento\Filesystem;
 
 /**
  * Import entity
@@ -90,33 +90,20 @@ class ImportEntity implements ImportEntityInterface
     }
 
     /**
-     * @return string
+     * @return array
      */
-    public function serialize()
+    public function __sleep()
     {
-        return serialize(
-            array(
-                'originalFile' => $this->getOriginalFile(),
-                'originalMtime' => $this->getOriginalMtime(),
-            )
-        );
+        return array('originalFile', 'originalMtime');
     }
 
     /**
-     * @param string $serialized
-     * @return $this
+     * @return void
      */
-    public function unserialize($serialized)
+    public function __wakeup()
     {
-        $data = unserialize($serialized);
-
         $filesystem = \Magento\App\ObjectManager::getInstance()->get('Magento\Filesystem');
         $this->initRootDir($filesystem);
-
-        $this->originalFile = $data['originalFile'];
-        $this->originalMtime = $data['originalMtime'];
-
-        return $this;
     }
 
     /**

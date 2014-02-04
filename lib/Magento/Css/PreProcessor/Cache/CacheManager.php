@@ -9,7 +9,7 @@
 namespace Magento\Css\PreProcessor\Cache;
 
 use Magento\Exception;
-use \Magento\Filesystem;
+use Magento\Filesystem;
 
 /**
  * Less cache manager
@@ -48,8 +48,8 @@ class CacheManager implements CacheManagerInterface
      * @param array $params
      */
     public function __construct(
-        \Magento\Css\PreProcessor\Cache\Import\Map\Storage $storage,
-        \Magento\Css\PreProcessor\Cache\Import\ImportEntityFactory $importEntityFactory,
+        Import\Map\Storage $storage,
+        Import\ImportEntityFactory $importEntityFactory,
         $filePath,
         $params
     ) {
@@ -98,7 +98,7 @@ class CacheManager implements CacheManagerInterface
             return false;
         }
 
-        /** @var \Magento\Css\PreProcessor\Cache\Import\ImportEntity $entity */
+        /** @var Import\ImportEntity $entity */
         foreach ($this->importEntities as $entity) {
             if (!$entity->isValid()) {
                 return false;
@@ -130,11 +130,13 @@ class CacheManager implements CacheManagerInterface
     /**
      * @param string $filePath
      * @param array $params
+     * @return $this
      */
     public function addEntityToCache($filePath, $params)
     {
         $fileKey = $this->prepareKey($filePath, $params);
         $this->importEntities[$fileKey] = $this->importEntityFactory->create($filePath, $params);
+        return $this;
     }
 
     /**
