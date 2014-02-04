@@ -35,6 +35,7 @@ class Config
     const XML_VARNISH_PAGECACHE_ACCESS_LIST = 'system/varnish_configuration_settings/access_list';
     const XML_VARNISH_PAGECACHE_BACKEND_PORT = 'system/varnish_configuration_settings/backend_port';
     const XML_VARNISH_PAGECACHE_BACKEND_HOST = 'system/varnish_configuration_settings/backend_host';
+    const XML_VARNISH_PAGECACHE_DESIGN_THEME_REGEX = 'design/theme/ua_regexp';
     /**#@-*/
 
     /**
@@ -105,15 +106,13 @@ class Config
         $accessList = $this->_coreStoreConfig->getConfig(self::XML_VARNISH_PAGECACHE_ACCESS_LIST);
         if (!empty($accessList)) {
             $ips = explode(', ', $accessList);
-            if (is_array($ips)) {
-                foreach ($ips as $ip) {
-                    if(!preg_match('/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\z/', $ip)) {
-                        continue;
-                    }
-                    $result[] = sprintf($tpl, $ip);
+            foreach ($ips as $ip) {
+                if(!preg_match('/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\z/', $ip)) {
+                    continue;
                 }
-                return implode("\n", $result);
+                $result[] = sprintf($tpl, $ip);
             }
+            return implode("\n", $result);
         }
         return $result;
     }
@@ -133,7 +132,7 @@ class Config
              . "        hash_data(\"%s\");\n"
              . "    }";
 
-        $expressions = $this->_coreStoreConfig->getConfig('design/theme/ua_regexp');
+        $expressions = $this->_coreStoreConfig->getConfig(self::XML_VARNISH_PAGECACHE_DESIGN_THEME_REGEX);
         if ($expressions) {
             $rules = array_values(unserialize($expressions));
             foreach ($rules as $i => $rule) {
