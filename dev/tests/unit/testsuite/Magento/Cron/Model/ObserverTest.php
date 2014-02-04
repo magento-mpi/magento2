@@ -93,9 +93,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->setMethods(array('create'))
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_cronGroupConfig = $this->getMockBuilder('Magento\Cron\Model\Groups\Config\Data')
-            ->disableOriginalConstructor()
-            ->getMock();
         $this->_request = $this->getMockBuilder('Magento\App\Console\Request')
             ->disableOriginalConstructor()
             ->getMock();
@@ -109,7 +106,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             $this->_scheduleFactory,
             $this->_app,
             $this->_config,
-            $this->_cronGroupConfig,
             $this->_coreStoreConfig,
             $this->_request,
             $this->_shell
@@ -325,16 +321,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
                 ),
             ),
         );
-        $groupConfig = array(
-            'schedule_lifetime' => floor(strtotime('-1 day')/60),
-            'schedule_generate_every' => 15,
-            'history_cleanup_every' => 15,
-            'use_separate_process' => 0,
-        );
-        $this->_cronGroupConfig->expects($this->once())
-            ->method('getByGroupId')
-            ->with('test_group')
-            ->will($this->returnValue($groupConfig));
 
         $this->_config->expects($this->once())
             ->method('getJobs')
@@ -373,16 +359,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
                 ),
             ),
         );
-        $groupConfig = array(
-            'schedule_lifetime' => floor(strtotime('-1 day')/60),
-            'schedule_generate_every' => 15,
-            'history_cleanup_every' => 15,
-            'use_separate_process' => 0,
-        );
-        $this->_cronGroupConfig->expects($this->once())
-            ->method('getByGroupId')
-            ->with('test_group')
-            ->will($this->returnValue($groupConfig));
 
         $exceptionMessage = 'Invalid callback: Not_Existed_Class::notExistedMethod can\'t be called';
 
@@ -456,17 +432,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
                 ),
             ),
         );
-
-        $groupConfig = array(
-            'schedule_lifetime' => floor(strtotime('-1 day')/60),
-            'schedule_generate_every' => 15,
-            'history_cleanup_every' => 15,
-            'use_separate_process' => 0,
-        );
-        $this->_cronGroupConfig->expects($this->once())
-            ->method('getByGroupId')
-            ->with('test_group')
-            ->will($this->returnValue($groupConfig));
 
         $scheduleMethods = array(
             'getJobCode',
@@ -558,18 +523,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ),
         );
 
-        $groupConfig = array(
-            'schedule_lifetime' => floor(strtotime('-1 day')/60),
-            'schedule_generate_every' => 15,
-            'history_cleanup_every' => 15,
-            'schedule_ahead_for' => 15,
-            'use_separate_process' => 0,
-        );
-        $this->_cronGroupConfig->expects($this->once())
-            ->method('getByGroupId')
-            ->with('test_group')
-            ->will($this->returnValue($groupConfig));
-
         $this->_config->expects($this->at(0))
             ->method('getJobs')
             ->will($this->returnValue($jobConfig));
@@ -626,18 +579,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     public function testDispatchGenerate()
     {
-        $groupConfig = array(
-            'schedule_lifetime' => floor(strtotime('-1 day')/60),
-            'schedule_generate_every' => 15,
-            'history_cleanup_every' => 15,
-            'schedule_ahead_for' => 15,
-            'use_separate_process' => 0,
-        );
-        $this->_cronGroupConfig->expects($this->once())
-            ->method('getByGroupId')
-            ->with('test_group')
-            ->will($this->returnValue($groupConfig));
-
         $jobConfig = array(
             'test_group' => array(
                 'test_job1' => array(
@@ -731,20 +672,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     public function testDispatchCleanup()
     {
-        $groupConfig = array(
-            'schedule_lifetime' => floor(strtotime('-1 day')/60),
-            'schedule_generate_every' => 15,
-            'history_success_lifetime' => 15,
-            'history_cleanup_every' => 15,
-            'history_failure_lifetime' => 15,
-            'schedule_ahead_for' => 15,
-            'use_separate_process' => 0,
-        );
-        $this->_cronGroupConfig->expects($this->once())
-            ->method('getByGroupId')
-            ->with('test_group')
-            ->will($this->returnValue($groupConfig));
-
         $jobConfig = array(
             'test_group' => array(
                 'test_job1' => array(
