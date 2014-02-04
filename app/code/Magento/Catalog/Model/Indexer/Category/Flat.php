@@ -28,16 +28,16 @@ class Flat implements \Magento\Indexer\Model\ActionInterface, \Magento\Mview\Act
     /**
      * @param Flat\Action\FullFactory $fullActionFactory
      * @param Flat\Action\RowsFactory $rowsActionFactory
-     * @param \Magento\Indexer\Model\IndexerInterface $flatIndexer
+     * @param \Magento\Indexer\Model\IndexerInterface $indexer
      */
     public function __construct(
         Flat\Action\FullFactory $fullActionFactory,
         Flat\Action\RowsFactory $rowsActionFactory,
-        \Magento\Indexer\Model\IndexerInterface $flatIndexer
+        \Magento\Indexer\Model\IndexerInterface $indexer
     ) {
         $this->fullActionFactory = $fullActionFactory;
         $this->rowsActionFactory = $rowsActionFactory;
-        $this->indexer = $flatIndexer;
+        $this->indexer = $indexer;
     }
 
     /**
