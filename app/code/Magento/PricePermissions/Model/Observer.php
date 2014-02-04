@@ -78,7 +78,6 @@ class Observer
         '_setCanEditReadPriceFalse' => array(
             'catalog.product.edit.tab.downloadable.links',
             'adminhtml.catalog.product.bundle.edit.tab.attributes.price'),
-        '_setTabEditReadFalse' => array('product_tabs'),
         '_setOptionsEditReadFalse' => array('admin.product.options'),
         '_setCanEditReadDefaultPrice' => array('adminhtml.catalog.product.bundle.edit.tab.attributes.price'),
         '_setCanEditReadChildBlock' => array('adminhtml.catalog.product.edit.tab.bundle.option'),
@@ -255,22 +254,6 @@ class Observer
     }
 
     /**
-     * Set edit and read tab to false
-     *
-     * @param Template $block
-     * @return void
-     */
-    protected function _setTabEditReadFalse($block)
-    {
-        if (!$this->_canEditProductPrice) {
-            $block->setTabData('configurable', 'can_edit_price', false);
-        }
-        if (!$this->_canReadProductPrice) {
-            $block->setTabData('configurable', 'can_read_price', false);
-        }
-    }
-
-    /**
      * Set edit and read price in child block to false
      *
      * @param Template $block
@@ -335,7 +318,7 @@ class Observer
      */
     protected function _setFormElementAttributes($block)
     {
-        // Handle quick creation of simple product in configurable product
+        // Handle quick creation of simple product in products with variations
         /** @var $form \Magento\Data\Form */
         $form = $block->getForm();
         if (!is_null($form)) {
