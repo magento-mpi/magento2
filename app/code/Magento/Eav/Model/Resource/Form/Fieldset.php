@@ -19,7 +19,7 @@
 namespace Magento\Eav\Model\Resource\Form;
 
 use Magento\Core\Model\AbstractModel;
-use Magento\Eav\Model\Form\Fieldset;
+use Magento\Eav\Model\Form\Fieldset as FormFieldset;
 use Magento\DB\Select;
 
 class Fieldset extends \Magento\Core\Model\Resource\Db\AbstractDb
@@ -41,7 +41,7 @@ class Fieldset extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * After save (save labels)
      *
-     * @param Fieldset|AbstractModel $object
+     * @param FormFieldset|AbstractModel $object
      * @return $this
      */
     protected function _afterSave(AbstractModel $object)
@@ -108,7 +108,7 @@ class Fieldset extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Retrieve fieldset labels for stores
      *
-     * @param Fieldset $object
+     * @param FormFieldset $object
      * @return array
      */
     public function getLabels($object)
@@ -131,7 +131,7 @@ class Fieldset extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param string $field
      * @param mixed $value
-     * @param Fieldset $object
+     * @param FormFieldset $object
      * @return Select
      */
     protected function _getLoadSelect($field, $value, $object)
