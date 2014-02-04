@@ -280,21 +280,11 @@
          * @protected
          */
         _largeImageLoaded: function() {
-            // Clone large image, in order to calculate the actual size of the hidden large image
-            var largeImageClone = this.largeImage
-                    .clone()
-                    .appendTo('body')
-                    .show()
-                    .css({
-                        position: 'absolute',
-                        top: -10000,
-                        visibility: 'hidden'
-                    });
+            this.largeImage.css({width: 'auto', height: 'auto'});
             this.largeImageSize = {
-                width: largeImageClone.width() || largeImageClone.prop('width'),
-                height: largeImageClone.height() || largeImageClone.prop('height')
+                width: this.largeImage.width() || this.largeImage.get(0).naturalWidth,
+                height: this.largeImage.height() || this.largeImage.get(0).naturalHeight
             };
-            largeImageClone.remove();
             this.ratio = null;
             this._toggleNotice();
             $(this.options.selectors.image).trigger('processStop');
