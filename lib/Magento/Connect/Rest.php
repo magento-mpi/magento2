@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 namespace Magento\Connect;
+use Magento\Connect\Channel\VO;
 
 /**
  * Class to work with remote REST interface
@@ -125,7 +126,8 @@ class Rest
     /**
      * Get channels list of URI
      *
-     * @return Channel\VO
+     * @return VO
+     * @throws \Exception
      */
     public function getChannelInfo()
     {
@@ -138,7 +140,7 @@ class Rest
         $out = $parser->loadXML($out)->xmlToArray();
 
         // TODO: add channel validator
-        $vo = new Channel\VO();
+        $vo = new VO();
         $vo->fromArray($out['channel']);
         if(!$vo->validate()) {
             throw new \Exception("Invalid channel.xml file");

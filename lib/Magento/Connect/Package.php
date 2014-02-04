@@ -9,6 +9,8 @@
  */
 namespace Magento\Connect;
 
+use Magento\Connect\Package\Target;
+
 /**
  * Class to work with Magento Connect packages
  *
@@ -108,7 +110,7 @@ class Package
     /**
     * Object with target
     *
-    * @var Package\Target
+    * @var Target
     */
     protected $_target = null;
 
@@ -399,23 +401,23 @@ END;
     /**
     * Retrieve Target object
     *
-    * @return Package\Target
+    * @return Target
     */
     protected function getTarget()
     {
-        if (!$this->_target instanceof Package\Target) {
-            $this->_target = new Package\Target();
+        if (!$this->_target instanceof Target) {
+            $this->_target = new Target();
         }
         return $this->_target;
     }
 
     /**
-     * @param Package\Target $arg
+     * @param Target $arg
      * @return void
      */
     public function setTarget($arg)
     {
-        if ($arg instanceof Package\Target) {
+        if ($arg instanceof Target) {
             $this->_target = $arg;
         }
     }

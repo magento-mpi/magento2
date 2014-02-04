@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 namespace Magento\Connect;
+
 use Magento\HTTP\IClient;
 
 /**

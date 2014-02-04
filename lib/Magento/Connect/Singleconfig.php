@@ -118,7 +118,8 @@ class Singleconfig
 
     /**
      * Load cache from file
-     * @param string $file
+     *
+     * @param string|false $file
      * @return void
      */
     public function load($file = false)

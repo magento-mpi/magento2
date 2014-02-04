@@ -10,7 +10,9 @@
 namespace Magento\Connect;
 
 class Config implements \Iterator
-{const HEADER = "::ConnectConfig::v::1.0::";
+{
+    const HEADER = "::ConnectConfig::v::1.0::";
+
     const DEFAULT_DOWNLOADER_PATH = "downloader";
 
     const DEFAULT_CACHE_PATH = ".cache";
