@@ -6,7 +6,7 @@ backend default {
 }
 
 acl ban {
-    {{ ips }}
+{{ ips }}
 }
 
 sub vcl_recv {
