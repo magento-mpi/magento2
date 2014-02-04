@@ -26,6 +26,8 @@
  */
 namespace Magento\Eav\Model\Entity\Attribute;
 
+use Magento\Eav\Model\Entity\Type;
+
 class Set extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -93,6 +95,7 @@ class Set extends \Magento\Core\Model\AbstractModel
     /**
      * Initialize resource model
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -103,7 +106,7 @@ class Set extends \Magento\Core\Model\AbstractModel
      * Init attribute set from skeleton (another attribute set)
      *
      * @param int $skeletonId
-     * @return \Magento\Eav\Model\Entity\Attribute\Set
+     * @return $this
      */
     public function initFromSkeleton($skeletonId)
     {
@@ -146,7 +149,7 @@ class Set extends \Magento\Core\Model\AbstractModel
      * Collect data for save
      *
      * @param array $data
-     * @return \Magento\Eav\Model\Entity\Attribute\Set
+     * @return $this
      */
     public function organizeData($data)
     {
@@ -243,10 +246,10 @@ class Set extends \Magento\Core\Model\AbstractModel
     /**
      * Add set info to attributes
      *
-     * @param string|\Magento\Eav\Model\Entity\Type $entityType
+     * @param string|Type $entityType
      * @param array $attributes
      * @param int $setId
-     * @return \Magento\Eav\Model\Entity\Attribute\Set
+     * @return $this
      */
     public function addSetInfo($entityType, array $attributes, $setId = null)
     {

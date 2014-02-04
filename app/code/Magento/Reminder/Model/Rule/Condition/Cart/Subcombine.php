@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reminder\Model\Rule\Condition\Cart;
 
 /**
  * Rule conditions cart items subselection container
  */
-namespace Magento\Reminder\Model\Rule\Condition\Cart;
-
 class Subcombine
     extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
 {

@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer;
+
 /**
  * Quick style renderer factory
  */
-namespace Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer;
-
 class Factory
 {
     /**
