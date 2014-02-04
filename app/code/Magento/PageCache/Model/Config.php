@@ -26,31 +26,16 @@ use Magento\App\Filesystem;
  *
  * @package Magento\PageCache\Model
  */
-class Config extends \Magento\Object
+class Config
 {
     /**#@+
      * XML path to Varnish settings
      */
-    const XML_VARNISH_TTL = 'system/varnish_configuration_settings/ttl';
-    const XML_VARNISH_DEBUG = 'system/varnish_configuration_settings/debug';
-    const XML_VARNISH_ACCESS_LIST = 'system/varnish_configuration_settings/access_list';
-    const XML_VARNISH_BACKEND_PORT = 'system/varnish_configuration_settings/backend_port';
-    const XML_VARNISH_BACKEND_HOST = 'system/varnish_configuration_settings/backend_host';
+    const XML_VARNISH_PAGECACHE_TTL = 'system/varnish_configuration_settings/pagecache_ttl';
+    const XML_VARNISH_PAGECACHE_ACCESS_LIST = 'system/varnish_configuration_settings/pagecache_access_list';
+    const XML_VARNISH_PAGECACHE_BACKEND_PORT = 'system/varnish_configuration_settings/pagecache_backend_port';
+    const XML_VARNISH_PAGECACHE_BACKEND_HOST = 'system/varnish_configuration_settings/pagecache_backend_host';
     /**#@-*/
-
-    /**
-     * Placeholders to replace
-     *
-     * @var array
-     */
-    protected $_placeholders = array();
-
-    /**
-     * Config data
-     *
-     * @var array
-     */
-    protected $_replacement = array();
 
     /**
      * @var \Magento\Core\Model\Store\Config
@@ -71,12 +56,10 @@ class Config extends \Magento\Object
 
     public function __construct(
         \Magento\App\Filesystem $filesystem,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        array $data = array()
-    ){
+        \Magento\Core\Model\Store\Config $coreStoreConfig
+    ) {
         $this->_modulesDirectory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::MODULES_DIR);
         $this->_coreStoreConfig = $coreStoreConfig;
-        parent::__construct($data);
     }
 
     /**
@@ -86,12 +69,8 @@ class Config extends \Magento\Object
      */
     public function getVclFile()
     {
-        $this->_prepareVclData();
-
         $data = $this->_modulesDirectory->readFile($this->_path);
-        $data = str_replace($this->_placeholders, $this->_replacement, $data);
-
-        return $data;
+        return strtr($data, $this->_getReplacements());
     }
 
     /**
@@ -99,20 +78,13 @@ class Config extends \Magento\Object
      *
      * @return array
      */
-    protected function _prepareVclData()
+    protected function _getReplacements()
     {
-        $this->_placeholders = array(
-            '{{ host }}',
-            '{{ port }}',
-            '{{ ips }}',
-            '{{ design_exceptions_code }}'
-        );
-
-        $this->_replacement = array(
-            $this->_coreStoreConfig->getConfig(self::XML_VARNISH_BACKEND_HOST),
-            $this->_coreStoreConfig->getConfig(self::XML_VARNISH_BACKEND_PORT),
-            $this->_getAccessList(),
-            'get_design_exceptions_code'
+        return array(
+            '{{ host }}' => $this->_coreStoreConfig->getConfig(self::XML_VARNISH_PAGECACHE_BACKEND_HOST),
+            '{{ port }}' => $this->_coreStoreConfig->getConfig(self::XML_VARNISH_PAGECACHE_BACKEND_PORT),
+            '{{ ips }}' => $this->_getAccessList(),
+            '{{ design_exceptions_code }}' => $this->_getDesignExceptions()
         );
     }
 
@@ -128,17 +100,45 @@ class Config extends \Magento\Object
      */
     protected function _getAccessList()
     {
-        $accessList = $this->_coreStoreConfig->getConfig(self::XML_VARNISH_ACCESS_LIST);
-        if (!is_null($accessList)) {
-            $ipsArray = explode(', ',$accessList);
-            $accessList = implode('; ', array_map(
-                function ($listElement) {
-                    return '"' . $listElement . '"';
-                },
-                $ipsArray));
-            return $accessList;
+        $result = array();
+        $tpl = "    \"%s\";";
+        $ips = explode(', ', $this->_coreStoreConfig->getConfig(self::XML_VARNISH_PAGECACHE_ACCESS_LIST));
+        foreach ($ips as $ip) {
+            $result[] = sprintf($tpl, $ip);
         }
+        return implode("\n", $result);
+    }
 
-        return null;
+    /**
+     * Get regexs for design exceptions
+     * Different browser user-agents may use different themes
+     * Varnish supports regex with internal modifiers only so
+     * we have to convert "/pattern/iU" into "(?Ui)pattern"
+     *
+     * @return string
+     */
+    protected function _getDesignExceptions()
+    {
+        $result = '';
+        $tpl = "%s (req.http.user-agent ~ \"%s\") {\n"
+             . "        hash_data(\"%s\");\n"
+             . "    }";
+
+        $expressions = $this->_coreStoreConfig->getConfig('design/theme/ua_regexp');
+        if ($expressions) {
+            $rules = array_values(unserialize($expressions));
+            foreach ($rules as $i => $rule) {
+                if (preg_match('/^[\W]{1}(.*)[\W]{1}(\w+)?$/', $rule['regexp'], $matches)) {
+                    if (!empty($matches[2])) {
+                        $pattern = sprintf("(?%s)%s", $matches[2], $matches[1]);
+                    } else {
+                        $pattern = $matches[1];
+                    }
+                    $if = ($i == 0) ? 'if' : ' elsif';
+                    $result .= sprintf($tpl, $if, $pattern, $rule['value']);
+                }
+            }
+        }
+        return $result;
     }
 }
