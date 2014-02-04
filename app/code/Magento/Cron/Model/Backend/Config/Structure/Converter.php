@@ -12,16 +12,29 @@ namespace Magento\Cron\Model\Backend\Config\Structure;
 
 class Converter
 {
+    /**
+     * @var \Magento\Cron\Model\Groups\Config\Data
+     */
     protected $groupsConfig;
 
+    /**
+     * @param \Magento\Cron\Model\Groups\Config\Data $groupsConfig
+     */
     public function __construct(\Magento\Cron\Model\Groups\Config\Data $groupsConfig)
     {
         $this->groupsConfig = $groupsConfig;
     }
 
+    /**
+     * @param array $result
+     * @return array
+     */
     public function afterConvert(array $result)
     {
         $groupIterator = 0;
+        if (!isset($result['config']['system']['sections']['system']['children']['cron']['children']['template'])) {
+            return $result;
+        }
         foreach ($this->groupsConfig->get() as $group => $fields) {
             $template = $result['config']['system']['sections']['system']['children']['cron']['children']['template'];
             $template['id'] = $group;

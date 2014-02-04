@@ -12,16 +12,28 @@ namespace Magento\Cron\Model\System\Config\Initial;
 
 class Converter
 {
+    /**
+     * @var \Magento\Cron\Model\Groups\Config\Data
+     */
     protected $groupsConfig;
 
+    /**
+     * @param \Magento\Cron\Model\Groups\Config\Data $groupsConfig
+     */
     public function __construct(\Magento\Cron\Model\Groups\Config\Data $groupsConfig)
     {
         $this->groupsConfig = $groupsConfig;
     }
 
+    /**
+     * @param array $result
+     * @return array
+     */
     public function afterConvert(array $result)
     {
-        $result['data']['default']['system']['cron'] = $this->groupsConfig->get();
+        if (isset($result['data']['default']['system']['cron'])) {
+            $result['data']['default']['system']['cron'] = $this->groupsConfig->get();
+        }
         return $result;
     }
 }
