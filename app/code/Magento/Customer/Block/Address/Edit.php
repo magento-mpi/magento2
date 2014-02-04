@@ -211,7 +211,8 @@ class Edit extends \Magento\Directory\Block\Data
      */
     public function getRegion()
     {
-        return $this->getAddress()->getRegion()->getRegion();
+        $region = $this->getAddress()->getRegion();
+        return is_null($region) ? '' : $region->getRegion();
     }
 
     /**
@@ -221,7 +222,8 @@ class Edit extends \Magento\Directory\Block\Data
      */
     public function getRegionId()
     {
-        return $this->getAddress()->getRegion()->getRegionId();
+        $region = $this->getAddress()->getRegion();
+        return is_null($region) ? 0 : $region->getRegionId();
     }
 
     public function getCustomerAddressCount()

@@ -77,7 +77,7 @@ class Address extends \Magento\Service\Entity\AbstractDto implements Eav\EntityI
     }
 
     /**
-     * @return Region
+     * @return Region|null
      */
     public function getRegion()
     {
