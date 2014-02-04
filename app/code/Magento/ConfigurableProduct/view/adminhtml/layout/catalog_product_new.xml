@@ -13,6 +13,3 @@
         <block class="Magento\ConfigurableProduct\Block\Product\Configurable\AttributeSelector" template="product/configurable/affected-attribute-set-selector/js.phtml"/>
     </referenceContainer>
 </layout>
-
-
-
