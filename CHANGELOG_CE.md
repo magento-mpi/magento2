@@ -33,6 +33,8 @@
 * GitHub requests:
   * [#275] (https://github.com/magento/magento2/issues/275) -- XSS Vulnerability in app/code/core/Mage/CatalogSearch/Block/Result.php
 * Removed the outdated Customer service
+* Move Quote Multishipping specifics logic to Multishipping module
+* Resolve dependencies between Payment and Multishipping modules
 
 2.0.0.0-dev62
 =============

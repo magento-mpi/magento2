@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GoogleShopping\Block\Adminhtml\Items;
 
 /**
  * Products Grid to add to Google Content
@@ -15,8 +16,6 @@
  * @package     Magento_GoogleShopping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GoogleShopping\Block\Adminhtml\Items;
-
 class Product extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
@@ -83,7 +82,7 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Before rendering html, but after trying to load cache
      *
-     * @return \Magento\GoogleShopping\Block\Adminhtml\Items\Product
+     * @return $this
      */
     protected function _beforeToHtml()
     {
@@ -98,7 +97,7 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare grid collection object
      *
-     * @return \Magento\GoogleShopping\Block\Adminhtml\Items\Product
+     * @return $this
      */
     protected function _prepareCollection()
     {
@@ -126,7 +125,7 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare grid columns
      *
-     * @return \Magento\GoogleShopping\Block\Adminhtml\Items\Product
+     * @return $this
      */
     protected function _prepareColumns()
     {
@@ -186,7 +185,7 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare grid massaction actions
      *
-     * @return \Magento\GoogleShopping\Block\Adminhtml\Items\Product
+     * @return $this
      */
     protected function _prepareMassaction()
     {
@@ -213,7 +212,7 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Get array with product ids, which was exported to Google Content
      *
-     * @return array
+     * @return int[]
      */
     protected function _getGoogleShoppingProductIds()
     {

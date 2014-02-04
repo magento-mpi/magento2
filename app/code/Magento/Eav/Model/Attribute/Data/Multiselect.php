@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Eav\Model\Attribute\Data;
 
+use Magento\App\RequestInterface;
 
 /**
  * EAV Entity Attribute Multiply select Data Model
@@ -16,17 +18,15 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Eav\Model\Attribute\Data;
-
 class Multiselect extends \Magento\Eav\Model\Attribute\Data\Select
 {
     /**
      * Extract data from request and return value
      *
-     * @param \Magento\App\RequestInterface $request
+     * @param RequestInterface $request
      * @return array|string
      */
-    public function extractValue(\Magento\App\RequestInterface $request)
+    public function extractValue(RequestInterface $request)
     {
         $values = $this->_getRequestValue($request);
         if ($values !== false && !is_array($values)) {
@@ -39,7 +39,7 @@ class Multiselect extends \Magento\Eav\Model\Attribute\Data\Select
      * Export attribute value to entity model
      *
      * @param array|string $value
-     * @return \Magento\Eav\Model\Attribute\Data\Multiselect
+     * @return $this
      */
     public function compactValue($value)
     {
