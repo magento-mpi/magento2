@@ -183,11 +183,9 @@ class CartTest extends \PHPUnit_Framework_TestCase
         }
         $result = $this->_model->getAmounts();
         $expectedSubtotal += $this->_model->getTax();
-        if (!$transferShipping) {
-            $expectedSubtotal += $values['base_shipping_amount'];
-        }
+        $expectedSubtotal += $values['base_shipping_amount'];
         if (!$transferDiscount) {
-            $expectedSubtotal -= $values['base_discount_amount'];
+            $expectedSubtotal -= $this->_model->getDiscount();
         }
         $this->assertEquals([Cart::AMOUNT_SUBTOTAL => $expectedSubtotal], $result);
     }
