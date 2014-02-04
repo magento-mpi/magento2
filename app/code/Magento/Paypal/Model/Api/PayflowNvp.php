@@ -680,7 +680,7 @@ class PayflowNvp extends \Magento\Paypal\Model\Api\Nvp
             return;
         }
 
-        $this->_cart->isDiscountAsItem(true);
+        $this->_cart->setTransferDiscountAsItem();
 
         // always add cart totals, even if line items are not requested
         if ($this->_lineItemTotalExportMap) {

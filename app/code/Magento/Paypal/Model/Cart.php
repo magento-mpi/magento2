@@ -33,11 +33,11 @@ class Cart extends \Magento\Payment\Model\Cart
         if (!$this->_areAmountsValid) {
             $subtotal = $this->getSubtotal() + $this->getTax();
 
-            if (!empty($this->_transferFlags[self::AMOUNT_SHIPPING])) {
+            if (empty($this->_transferFlags[self::AMOUNT_SHIPPING])) {
                 $subtotal += $this->getShipping();
             }
 
-            if (!empty($this->_transferFlags[self::AMOUNT_DISCOUNT])) {
+            if (empty($this->_transferFlags[self::AMOUNT_DISCOUNT])) {
                 $subtotal -= $this->getDiscount();
             }
 
