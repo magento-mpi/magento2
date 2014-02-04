@@ -7,17 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reports\Block\Adminhtml\Review;
 
 /**
  * Adminhtml report review product blocks content block
  *
- * @category   Magento
- * @package    Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Reports\Block\Adminhtml\Review;
-
 class Detail extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
@@ -39,6 +35,9 @@ class Detail extends \Magento\Backend\Block\Widget\Grid\Container
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_blockGroup = 'Magento_Reports';

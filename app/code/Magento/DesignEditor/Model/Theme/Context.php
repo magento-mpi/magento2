@@ -7,12 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\DesignEditor\Model\Theme;
+
+use Magento\Core\Exception as CoreException;
 
 /**
  * Design editor theme context
  */
-namespace Magento\DesignEditor\Model\Theme;
-
 class Context
 {
     /**
@@ -52,7 +53,7 @@ class Context
     /**
      * Reset checked theme
      *
-     * @return \Magento\DesignEditor\Model\State
+     * @return $this
      */
     public function reset()
     {
@@ -65,16 +66,16 @@ class Context
      *
      * @param int $themeId
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws CoreException
      */
     public function setEditableThemeById($themeId)
     {
         $this->_theme = $this->_themeFactory->create();
         if (!$this->_theme->load($themeId)->getId()) {
-            throw new \Magento\Core\Exception(__('We can\'t find theme "%1".', $themeId));
+            throw new CoreException(__('We can\'t find theme "%1".', $themeId));
         }
         if ($this->_theme->getType() === \Magento\View\Design\ThemeInterface::TYPE_STAGING) {
-            throw new \Magento\Core\Exception(__('Wrong theme type set as editable'));
+            throw new CoreException(__('Wrong theme type set as editable'));
         }
         return $this;
     }
@@ -83,12 +84,12 @@ class Context
      * Get current editable theme
      *
      * @return \Magento\Core\Model\Theme
-     * @throws \Magento\Core\Exception
+     * @throws CoreException
      */
     public function getEditableTheme()
     {
         if (null === $this->_theme) {
-            throw new \Magento\Core\Exception(__('Theme has not been set'));
+            throw new CoreException(__('Theme has not been set'));
         }
         return $this->_theme;
     }
@@ -97,14 +98,14 @@ class Context
      * Get staging theme
      *
      * @return \Magento\Core\Model\Theme
-     * @throws \Magento\Core\Exception
+     * @throws CoreException
      */
     public function getStagingTheme()
     {
         if (null === $this->_stagingTheme) {
             $editableTheme = $this->getEditableTheme();
             if (!$editableTheme->isVirtual()) {
-                throw new \Magento\Core\Exception(
+                throw new CoreException(
                     __('Theme "%1" is not editable.', $editableTheme->getThemeTitle())
                 );
             }

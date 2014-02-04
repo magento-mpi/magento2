@@ -27,6 +27,8 @@ class Group extends \Magento\Core\Model\Resource\Db\AbstractDb
 
     /**
      * Resource initialization
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -37,7 +39,7 @@ class Group extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Checks if attribute group exists
      *
      * @param \Magento\Eav\Model\Entity\Attribute\Group $object
-     * @return boolean
+     * @return bool
      */
     public function itemExists($object)
     {

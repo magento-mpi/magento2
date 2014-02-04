@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\CatalogSearch\Model\Resource\Indexer;
 
 /**
  * CatalogSearch fulltext indexer resource model
@@ -16,12 +16,12 @@
  * @package     Magento_CatalogSearch
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CatalogSearch\Model\Resource\Indexer;
-
 class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize connection and define catalog product table as main table
+     *
+     * @return void
      */
     protected function _construct()
     {
