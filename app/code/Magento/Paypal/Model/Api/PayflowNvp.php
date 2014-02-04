@@ -11,6 +11,8 @@
  */
 namespace Magento\Paypal\Model\Api;
 
+use Magento\Payment\Model\Cart;
+
 class PayflowNvp extends \Magento\Paypal\Model\Api\Nvp
 {
     /**#@+
@@ -279,14 +281,14 @@ class PayflowNvp extends \Magento\Paypal\Model\Api\Nvp
      * @var array
      */
     protected $_lineItemTotalExportMap = array(
-        \Magento\Paypal\Model\Cart::TOTAL_TAX       => 'TAXAMT',
-        \Magento\Paypal\Model\Cart::TOTAL_SHIPPING  => 'FREIGHTAMT',
+        Cart::AMOUNT_TAX         => 'TAXAMT',
+        Cart::AMOUNT_SHIPPING    => 'FREIGHTAMT',
     );
 
     protected $_lineItemsExportRequestTotalsFormat = array(
-        'amount' => 'PAYMENTREQUEST_%d_ITEMAMT',
-        \Magento\Paypal\Model\Cart::TOTAL_TAX      => 'TAXAMT',
-        \Magento\Paypal\Model\Cart::TOTAL_SHIPPING => 'FREIGHTAMT',
+        'amount'                 => 'PAYMENTREQUEST_%d_ITEMAMT',
+        Cart::AMOUNT_TAX         => 'TAXAMT',
+        Cart::AMOUNT_SHIPPING    => 'FREIGHTAMT',
     );
 
     protected $_lineItemExportItemsFormat = array(
@@ -678,7 +680,7 @@ class PayflowNvp extends \Magento\Paypal\Model\Api\Nvp
             return;
         }
 
-        $this->_cart->isDiscountAsItem(true);
+        $this->_cart->setTransferDiscountAsItem();
 
         // always add cart totals, even if line items are not requested
         if ($this->_lineItemTotalExportMap) {
