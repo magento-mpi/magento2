@@ -424,7 +424,7 @@ class Merge implements \Magento\View\Layout\ProcessorInterface
      * Add updates for the specified handle
      *
      * @param string $handle
-     * @return true
+     * @return bool
      */
     protected function _fetchPackageLayoutUpdates($handle)
     {
