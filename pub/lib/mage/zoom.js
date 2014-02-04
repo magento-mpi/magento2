@@ -293,7 +293,7 @@
             this.largeImageSize = {
                 width: largeImageClone.width() || largeImageClone.prop('width'),
                 height: largeImageClone.height() || largeImageClone.prop('height')
-            }
+            };
             largeImageClone.remove();
             this.ratio = null;
             this._toggleNotice();
