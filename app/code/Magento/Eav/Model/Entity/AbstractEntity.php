@@ -66,7 +66,7 @@ abstract class AbstractEntity extends \Magento\Core\Model\Resource\AbstractResou
     protected $_attributesByCode            = array();
 
     /**
-     * 2-dimentional array by table name and attribute name
+     * Two-dimensional array by table name and attribute name
      *
      * @var array
      */
@@ -1210,7 +1210,7 @@ abstract class AbstractEntity extends \Magento\Core\Model\Resource\AbstractResou
     /**
      * Prepare entity object data for save
      *
-     * result array structure:
+     * Result array structure:
      * array (
      *  'newObject', 'entityRow', 'insert', 'update', 'delete'
      * )

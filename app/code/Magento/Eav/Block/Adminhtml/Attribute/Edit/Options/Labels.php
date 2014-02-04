@@ -19,11 +19,13 @@ namespace Magento\Eav\Block\Adminhtml\Attribute\Edit\Options;
 
 class Labels extends \Magento\Backend\Block\Template
 {
-    /** @var \Magento\Core\Model\Registry */
+    /**
+     * @var \Magento\Core\Model\Registry
+     */
     protected $_registry;
 
     /**
-     * @inheritdoc
+     * @var string
      */
     protected $_template = 'Magento_Catalog::catalog/product/attribute/labels.phtml';
 

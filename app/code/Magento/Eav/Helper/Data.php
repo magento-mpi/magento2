@@ -17,11 +17,19 @@ class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * XML path to input types validator data in config
+     *
+     * @var string
      */
     const XML_PATH_VALIDATOR_DATA_INPUT_TYPES = 'general/validator_data/input_types';
 
+    /**
+     * @var array
+     */
     protected $_attributesLockedFields = array();
 
+    /**
+     * @var array
+     */
     protected $_entityTypeFrontendClasses = array();
 
     /**

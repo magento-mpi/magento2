@@ -33,7 +33,7 @@ class AttributeFactory
     }
 
     /**
-     * create new Eav attribute instance
+     * Create new Eav attribute instance
      *
      * @param string $className
      * @param array $arguments

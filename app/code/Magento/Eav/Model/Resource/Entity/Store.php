@@ -18,6 +18,9 @@
  */
 namespace Magento\Eav\Model\Resource\Entity;
 
+use Magento\Core\Model\AbstractModel;
+use Magento\Object;
+
 class Store extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -33,12 +36,12 @@ class Store extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Load an object by entity type and store
      *
-     * @param \Magento\Object $object
+     * @param Object|AbstractModel $object
      * @param int $entityTypeId
      * @param int $storeId
      * @return bool
      */
-    public function loadByEntityStore(\Magento\Core\Model\AbstractModel $object, $entityTypeId, $storeId)
+    public function loadByEntityStore(AbstractModel $object, $entityTypeId, $storeId)
     {
         $adapter = $this->_getWriteAdapter();
         $bind    = array(
