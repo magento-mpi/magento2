@@ -98,11 +98,6 @@ class Quote
     protected $_customerAddressBuilder;
 
     /**
-     * @var \Magento\Customer\Helper\Data
-     */
-    protected $_customerHelper;
-
-    /**
      * Class constructor
      *
      * @param \Magento\Event\ManagerInterface $eventManager
@@ -114,7 +109,6 @@ class Quote
      * @param CustomerAccountServiceInterface $customerAccountService
      * @param CustomerAddressServiceInterface $customerAddressService
      * @param AddressBuilder $customerAddressBuilder
-     * @param \Magento\Customer\Helper\Data $customerHelper
      */
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
@@ -125,8 +119,7 @@ class Quote
         CustomerServiceInterface $customerService,
         CustomerAccountServiceInterface $customerAccountService,
         CustomerAddressServiceInterface $customerAddressService,
-        AddressBuilder $customerAddressBuilder,
-        \Magento\Customer\Helper\Data $customerHelper
+        AddressBuilder $customerAddressBuilder
     ) {
         $this->_eventManager = $eventManager;
         $this->_quote = $quote;
@@ -137,7 +130,6 @@ class Quote
         $this->_customerAccountService = $customerAccountService;
         $this->_customerAddressService = $customerAddressService;
         $this->_customerAddressBuilder = $customerAddressBuilder;
-        $this->_customerHelper = $customerHelper;
     }
 
     /**
@@ -304,11 +296,10 @@ class Quote
                 $this->_customerService->saveCustomer($customerDto);
                 $this->_customerAddressService->saveAddresses($customerDto->getCustomerId(), $addresses);
             } else { //for new customers
-                $password = $this->_customerHelper->generatePassword();
                 $createCustomerResponse = $this->_customerAccountService->createAccount(
                     $customerDto,
                     $addresses,
-                    $password,
+                    null,
                     '',
                     '',
                     $quote->getStoreId()

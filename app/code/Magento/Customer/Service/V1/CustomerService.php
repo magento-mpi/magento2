@@ -72,6 +72,8 @@ class CustomerService implements CustomerServiceInterface
 
         if ($password) {
             $customerModel->setPassword($password);
+        } elseif (!$customerModel->getId()) {
+            $customerModel->setPassword($customerModel->generatePassword());
         }
 
         $validationErrors = $customerModel->validate();
