@@ -7,6 +7,7 @@
 * Move Quote Multishipping specifics logic to Multishipping module
 * Resolve dependencies between Payment and Multishipping modules
 * Update Customer Service Exception handling and add tests
+* Add usage of Customer Service to Customer Module, replacing some direct usage of Customer Model
 
 2.0.0.0-dev63
 =============
