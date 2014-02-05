@@ -6,6 +6,11 @@
 * Updated various PHPDoc with parameter and return types
 * Move Quote Multishipping specifics logic to Multishipping module
 * Resolve dependencies between Payment and Multishipping modules
+* Move Recurring profile functionality into separate module
+* GitHub requests:
+ * [#377] (https://github.com/magento/magento2/issues/377) Remove and avoid javascript eval() calls 
+ * [#319] (https://github.com/magento/magento2/issues/319) No message was displayed when product added to shopping cart.
+
 
 -2.0.0.0-dev63
 -=============
