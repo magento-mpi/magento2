@@ -61,28 +61,27 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
         $theme->setArea('frontend');
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
-             /**
-              * @param string $area
-              * @param string $themeId
-              * @param string $file
-              */
-             function ($file, $area) use ($lessPreProcessor, $directoryRead, $theme) {
-                 $fileInfo = pathinfo($file);
-                 if ($fileInfo['extension'] == 'css') {
-                     $lessFile = "{$fileInfo['dirname']}/{$fileInfo['filename']}.less";
-                     $params = array('area' => $area, 'themeModel' => $theme);
-                     $cssSourceFile = $this->viewFileSystem->getViewFile($file, $params);
-                     $lessSourceFile = $this->viewFileSystem->getViewFile($lessFile, $params);
-                     if ($directoryRead->isExist($directoryRead->getRelativePath($cssSourceFile))
-                         && $directoryRead->isExist($directoryRead->getRelativePath($lessSourceFile))
-                     ) {
-                         $this->fail("Duplicate files: '{$lessSourceFile}', '{$cssSourceFile}'");
-                     } elseif ($directoryRead->isExist($directoryRead->getRelativePath($lessSourceFile))) {
-                         $this->assertFileExists($lessPreProcessor->processLessInstructions($lessFile, $params));
-                     }
-                 }
-             },
-             $this->viewFilesFromThemesDataProvider([$theme])
+            /**
+             * @param string $file
+             * @param string $area
+             */
+            function ($file, $area) use ($lessPreProcessor, $directoryRead, $theme) {
+                $fileInfo = pathinfo($file);
+                if ($fileInfo['extension'] == 'css') {
+                    $lessFile = "{$fileInfo['dirname']}/{$fileInfo['filename']}.less";
+                    $params = array('area' => $area, 'themeModel' => $theme);
+                    $cssSourceFile = $this->viewFileSystem->getViewFile($file, $params);
+                    $lessSourceFile = $this->viewFileSystem->getViewFile($lessFile, $params);
+                    if ($directoryRead->isExist($directoryRead->getRelativePath($cssSourceFile))
+                        && $directoryRead->isExist($directoryRead->getRelativePath($lessSourceFile))
+                    ) {
+                        $this->fail("Duplicate files: '{$lessSourceFile}', '{$cssSourceFile}'");
+                    } elseif ($directoryRead->isExist($directoryRead->getRelativePath($lessSourceFile))) {
+                        $this->assertFileExists($lessPreProcessor->processLessInstructions($lessFile, $params));
+                    }
+                }
+            },
+            $this->viewFilesFromThemesDataProvider([$theme])
         );
     }
 
@@ -94,9 +93,9 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
             /**
+             * @param string $file
              * @param string $area
              * @param string $themeId
-             * @param string $file
              */
             function ($file, $area, $themeId) {
                 $params = array('area' => $area, 'themeId' => $themeId);
