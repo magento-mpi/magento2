@@ -327,7 +327,7 @@ class Service extends \Magento\Object
     /**
      * Reset validation state and drop api object
      *
-     * @return \Magento\Centinel\Model\Service
+     * @return $this
      */
     public function reset()
     {

@@ -9,8 +9,6 @@
  */
 namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element;
 
-namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element;
-
 /**
  * Form element renderer to display font picker element for VDE
  *

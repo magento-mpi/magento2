@@ -69,7 +69,7 @@ class Config
      * Set store to congif model
      *
      * @param int|\Magento\Core\Model\Store $store
-     * @return \Magento\Centinel\Model\Config
+     * @return $this
      */
     public function setStore($store)
     {

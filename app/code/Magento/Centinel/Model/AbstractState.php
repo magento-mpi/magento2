@@ -84,7 +84,7 @@ abstract class AbstractState extends \Magento\Object
      * Save lookup result in state model
      *
      * @param \Magento\Object $result
-     * @return \Magento\Centinel\Model\AbstractState
+     * @return $this
      */
     public function setLookupResult($result)
     {
@@ -98,7 +98,7 @@ abstract class AbstractState extends \Magento\Object
      * Save authenticate result in state model
      *
      * @param \Magento\Object $result
-     * @return \Magento\Centinel\Model\AbstractState
+     * @return $this
      */
     public function setAuthenticateResult($result)
     {

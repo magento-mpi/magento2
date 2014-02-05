@@ -116,7 +116,7 @@ class Observer extends \Magento\Object
      * Reset validation data
      *
      * @param \Magento\Object $observer
-     * @return \Magento\Centinel\Model\Observer
+     * @return $this
      */
     public function checkoutSubmitAllAfter($observer)
     {
