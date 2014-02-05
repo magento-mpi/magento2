@@ -7,16 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Captcha\Model;
 
 /**
  * Captcha Observer
  *
- * @category    Magento
- * @package     Magento_Captcha
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Captcha\Model;
-
 class Observer
 {
     /**
@@ -98,7 +95,7 @@ class Observer
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Captcha\Model\Resource\LogFactory $resLogFactory,
+        Resource\LogFactory $resLogFactory,
         \Magento\Session\SessionManagerInterface $session,
         \Magento\Checkout\Model\Type\Onepage $typeOnepage,
         \Magento\Core\Helper\Data $coreData,
@@ -149,6 +146,7 @@ class Observer
      * Check CAPTCHA on Contact Us page
      *
      * @param \Magento\Event\Observer $observer
+     * @return void
      */
     public function checkContactUsForm($observer)
     {
