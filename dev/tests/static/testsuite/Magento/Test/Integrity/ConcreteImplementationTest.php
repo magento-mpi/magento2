@@ -34,7 +34,7 @@ class ConcreteImplementationTest extends \PHPUnit_Framework_TestCase
             function ($file) {
                 $content = file_get_contents($file);
 
-                if(strpos($content, "namespace Magento\Core") !== false) {
+                if (strpos($content, "namespace Magento\Core") !== false) {
                     return;
                 }
 
