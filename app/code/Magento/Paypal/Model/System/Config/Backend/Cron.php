@@ -12,7 +12,7 @@ namespace Magento\Paypal\Model\System\Config\Backend;
 
 class Cron extends \Magento\Core\Model\Config\Value
 {
-    const CRON_STRING_PATH = 'crontab/jobs/paypal_fetch_settlement_reports/schedule/cron_expr';
+    const CRON_STRING_PATH = 'crontab/default/jobs/paypal_fetch_settlement_reports/schedule/cron_expr';
     const CRON_MODEL_PATH_INTERVAL = 'paypal/fetch_reports/schedule';
 
     /**
@@ -24,7 +24,7 @@ class Cron extends \Magento\Core\Model\Config\Value
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\ConfigInterface $config
+     * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\Config\ValueFactory $configValueFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -34,7 +34,7 @@ class Cron extends \Magento\Core\Model\Config\Value
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\App\ConfigInterface $config,
+        \Magento\Core\Model\Config $config,
         \Magento\Core\Model\Config\ValueFactory $configValueFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
