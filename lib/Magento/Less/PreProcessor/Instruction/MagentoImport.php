@@ -94,7 +94,7 @@ class MagentoImport implements PreProcessorInterface
             foreach ($importFiles as $importFile) {
                 $importsContent .= "@import '{$importFile->getFilename()}';\n";
             }
-        } catch(\LogicException $e) {
+        } catch (\LogicException $e) {
             $this->errorHandler->processException($e);
         }
         return $importsContent;

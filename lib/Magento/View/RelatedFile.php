@@ -70,6 +70,6 @@ class RelatedFile
             }
         }
 
-        return $filePath;
+        return $this->viewFileSystem->normalizePath($filePath);
     }
 }
