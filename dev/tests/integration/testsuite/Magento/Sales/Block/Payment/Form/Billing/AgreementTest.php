@@ -45,5 +45,6 @@ class AgreementTest extends \PHPUnit_Framework_TestCase
     {
         $billingAgreements = $this->_block->getBillingAgreements();
         $this->assertEquals(1, count($billingAgreements));
+        $this->assertEquals('REF-ID-TEST-678', array_shift($billingAgreements));
     }
 }
