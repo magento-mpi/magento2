@@ -208,14 +208,15 @@ class AbstractAction
             if (in_array($column['COLUMN_NAME'], $columnsToSkip)) {
                 continue;
             }
-            $_is_unsigned = '';
+            $isUnsigned = '';
+            $options = null;
             $ddlType = $this->resourceHelper->getDdlTypeByColumnType($column['DATA_TYPE']);
             $column['DEFAULT'] = trim($column['DEFAULT'], "' ");
             switch ($ddlType) {
                 case \Magento\DB\Ddl\Table::TYPE_SMALLINT:
                 case \Magento\DB\Ddl\Table::TYPE_INTEGER:
                 case \Magento\DB\Ddl\Table::TYPE_BIGINT:
-                    $_is_unsigned = (bool)$column['UNSIGNED'];
+                    $isUnsigned = (bool)$column['UNSIGNED'];
                     if ($column['DEFAULT'] === '') {
                         $column['DEFAULT'] = null;
                     }
@@ -229,27 +230,27 @@ class AbstractAction
                 // fall-through intentional
                 case \Magento\DB\Ddl\Table::TYPE_DECIMAL:
                     $options = $column['PRECISION'] . ',' . $column['SCALE'];
-                    $_is_unsigned = null;
+                    $isUnsigned = null;
                     if ($column['DEFAULT'] === '') {
                         $column['DEFAULT'] = null;
                     }
                     break;
                 case \Magento\DB\Ddl\Table::TYPE_TEXT:
                     $options = $column['LENGTH'];
-                    $_is_unsigned = null;
+                    $isUnsigned = null;
                     break;
                 case \Magento\DB\Ddl\Table::TYPE_TIMESTAMP:
                     $options = null;
-                    $_is_unsigned = null;
+                    $isUnsigned = null;
                     break;
                 case \Magento\DB\Ddl\Table::TYPE_DATETIME:
-                    $_is_unsigned = null;
+                    $isUnsigned = null;
                     break;
 
             }
             $columns[$column['COLUMN_NAME']] = array(
                 'type' => array($ddlType, $options),
-                'unsigned' => $_is_unsigned,
+                'unsigned' => $isUnsigned,
                 'nullable' => $column['NULLABLE'],
                 'default' => ($column['DEFAULT'] === null ? false : $column['DEFAULT']),
                 'comment' => $column['COLUMN_NAME']
@@ -344,8 +345,9 @@ class AbstractAction
                 ->join(
                     $this->getReadAdapter()->getTableName($this->getTableName('eav_attribute')),
                     $this->getReadAdapter()->getTableName($this->getTableName('eav_attribute'))
-                    . '.entity_type_id = '
-                    . $this->getReadAdapter()->getTableName($this->getTableName('eav_entity_type')) . '.entity_type_id',
+                        . '.entity_type_id = '
+                        . $this->getReadAdapter()->getTableName($this->getTableName('eav_entity_type'))
+                        . '.entity_type_id',
                     $this->getReadAdapter()->getTableName($this->getTableName('eav_attribute')).'.*'
                 )
                 ->where(

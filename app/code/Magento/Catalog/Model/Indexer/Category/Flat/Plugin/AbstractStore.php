@@ -58,6 +58,7 @@ class AbstractStore
      * Cleaning a data after removing store
      *
      * @param $storeIds
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function cleanStoreData($storeIds)
     {
