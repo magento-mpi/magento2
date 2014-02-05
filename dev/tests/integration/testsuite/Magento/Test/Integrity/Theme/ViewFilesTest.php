@@ -43,10 +43,11 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
      */
     public function testViewLessFilesPreProcessing()
     {
-        $errorHandlerMock = $this->getMock('Magento\Less\PreProcessor\ErrorHandlerInterface', array('processException'));
+        $errorHandlerMock = $this->getMock('Magento\Less\PreProcessor\ErrorHandlerInterface',
+            array('processException'));
         $this->objectManager->addSharedInstance($errorHandlerMock, 'Magento\Less\PreProcessor\ErrorHandler');
         $errorHandlerMock->expects($this->any())->method('processException')->will($this->returnCallback(
-            function($exception) {
+            function ($exception) {
                 /** @var $exception \Exception */
                 $this->fail($exception->getMessage());
             }
@@ -216,7 +217,7 @@ class ViewFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrity
      * Collect view files declarations into layout
      *
      * @param \Magento\Core\Model\Theme $theme
-     * @param array $files
+     * @param array &$files
      */
     protected function _collectViewLayoutDeclarations($theme, &$files)
     {
