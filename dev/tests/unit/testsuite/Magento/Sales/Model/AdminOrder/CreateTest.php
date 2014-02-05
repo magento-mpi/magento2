@@ -94,7 +94,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
                 'eventManager' => $this->eventManagerMock,
                 'coreRegistry' => $this->registryMock,
                 'salesConfig' => $this->configMock,
-                'sessionQuote' => $this->sessionQuoteMock,
+                'quoteSession' => $this->sessionQuoteMock,
                 'logger' => $this->loggerMock,
                 'objectCopyService' => $this->copyMock,
                 'messageManager' => $this->messageManagerMock,

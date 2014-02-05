@@ -10,6 +10,8 @@
 
 namespace Magento\Sales\Model\Quote;
 
+use Magento\Customer\Service\V1\Dto\AddressBuilder as CustomerAddressBuilder;
+
 /**
  * Sales Quote address model
  *
@@ -234,6 +236,11 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     protected $_addressTotalFactory;
 
     /**
+     * @var CustomerAddressBuilder
+     */
+    protected $_customerAddressBuilder;
+
+    /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Directory\Helper\Data $directoryData
@@ -253,6 +260,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      * @param \Magento\Sales\Model\Quote\Address\TotalFactory $addressTotalFactory
      * @param \Magento\Object\Copy $objectCopyService
      * @param \Magento\Sales\Model\Quote\Address\CarrierFactoryInterface $carrierFactory
+     * @param CustomerAddressBuilder $customerAddressBuilder
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -277,6 +285,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         \Magento\Sales\Model\Quote\Address\TotalFactory $addressTotalFactory,
         \Magento\Object\Copy $objectCopyService,
         \Magento\Sales\Model\Quote\Address\CarrierFactoryInterface $carrierFactory,
+        CustomerAddressBuilder $customerAddressBuilder,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -293,6 +302,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         $this->_addressTotalFactory = $addressTotalFactory;
         $this->_objectCopyService = $objectCopyService;
         $this->_carrierFactory = $carrierFactory;
+        $this->_customerAddressBuilder = $customerAddressBuilder;
         parent::__construct(
             $context,
             $registry,
@@ -460,6 +470,21 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
             'sales_convert_quote_address', 'to_customer_address', $this, $address
         );
         return $address;
+    }
+
+    /**
+     * Export data to customer address Dto
+     *
+     * @return \Magento\Customer\Service\V1\Dto\Address
+     */
+    public function exportCustomerAddressData()
+    {
+        $customerAddressData = $this->_objectCopyService->getDataFromFieldset(
+            'sales_convert_quote_address',
+            'to_customer_address',
+            $this
+        );
+        return $this->_customerAddressBuilder->populateWithArray($customerAddressData)->create();
     }
 
     /**

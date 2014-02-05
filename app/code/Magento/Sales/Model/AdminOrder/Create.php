@@ -1550,28 +1550,24 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
             /** Create a new customer record if it is not available in the specified store */
             $customerData = array_merge($customerDto->__toArray(), [CustomerDto::STORE_ID => $store->getId()]);
             /** Refresh customer DTO after its persistence */
-            $customerDto = $this->_createCustomer($customerData);
+            $customerDto = $this->_setupCustomer($customerData);
         } else if (!$customerDto->getCustomerId()) {
             /** Create new customer */
-            // TODO: exportCustomerAddress() should return $customerBillingAddressDto
-            // TODO: after MAGETWO-19791 implementation
-            /** @var $customerBillingAddress \Magento\Customer\Model\Address */
-            $customerBillingAddress = $this->getBillingAddress()->exportCustomerAddress();
-
+            $customerBillingAddress = $this->getBillingAddress()->exportCustomerAddressData();
             $customerData = array_merge(
                 $customerDto->__toArray(),
-                $customerBillingAddress->getData(), // TODO: Use $customerBillingAddressDto->__toArray() (MAGETWO-19791)
+                $customerBillingAddress->__toArray(),
                 [CustomerDto::STORE_ID => $store->getId(), CustomerDto::EMAIL => $this->_getNewCustomerEmail()]
             );
             /** Refresh customer DTO after its persistence */
-            $customerDto = $this->_createCustomer($customerData);
+            $customerDto = $this->_setupCustomer($customerData);
         }
         /** Persist customer addresses if necessary */
         if ($this->getBillingAddress()->getSaveInAddressBook()) {
-            $this->_saveCustomerAddress($customerDto, $this->getBillingAddress());
+            $this->_setupCustomerAddress($customerDto, $this->getBillingAddress());
         }
         if (!$this->getQuote()->isVirtual() && $this->getShippingAddress()->getSaveInAddressBook()) {
-            $this->_saveCustomerAddress($customerDto, $this->getShippingAddress());
+            $this->_setupCustomerAddress($customerDto, $this->getShippingAddress());
         }
         $this->getQuote()->updateCustomerData($customerDto);
 
@@ -1591,42 +1587,28 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      * @param array $customerData
      * @return CustomerDto Created customer data
      */
-    protected function _createCustomer($customerData)
+    protected function _setupCustomer($customerData)
     {
         /** Unset customer ID to ensure that new customer will be created */
         $customerData[CustomerDto::ID] = null;
         $customerDto = $this->_customerBuilder->populateWithArray($customerData)->create();
         $this->_validateCustomerData($customerDto);
-        $customerId = $this->_customerService->saveCustomer($customerDto, $this->_customerHelper->generatePassword());
-        return $this->_customerService->getCustomer($customerId);
+        return $customerDto;
     }
 
     /**
-     * Persist provided quote customer address to database and associate it with the specified customer.
+     * Create customerAddressDto and save it in the Model\Quote so that it can be used to persist later.
      *
      * @param CustomerDto $customerDto
      * @param \Magento\Sales\Model\Quote\Address $quoteCustomerAddress
-     * @return int Customer address ID
      * @throws \InvalidArgumentException
      */
-    protected function _saveCustomerAddress($customerDto, $quoteCustomerAddress)
+    protected function _setupCustomerAddress($customerDto, $quoteCustomerAddress)
     {
+        // Possible that customerId is null for new customers
         $customerId = $customerDto->getCustomerId();
-        if (!$customerId) {
-            throw new \InvalidArgumentException('Customer ID is not set.');
-        }
-        // TODO: exportCustomerAddress() should return $customerBillingAddressDto
-        // TODO: after MAGETWO-19791 implementation
-        /** @var $customerAddress \Magento\Customer\Model\Address */
-        $customerAddress = $quoteCustomerAddress->exportCustomerAddress();
-        $customerAddress->setCustomerId($customerId);
-        $customerAddress->save();
-        $customerAddressDto = $this->_customerAddressService->getAddressById(
-            $customerAddress->getCustomerId(),
-            $customerAddress->getId()
-        );
-
-        /** Customer address data may be updated and will be persisted */
+        $quoteCustomerAddress->setCustomerId($customerId);
+        $customerAddressDto = $quoteCustomerAddress->exportCustomerAddressData();
         $customerAddressData = $customerAddressDto->__toArray();
         $quoteAddressId = $quoteCustomerAddress->getCustomerAddressId();
         $addressType = $quoteCustomerAddress->getAddressType();
@@ -1641,8 +1623,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
             } catch (\Exception $e) {
                 /** Billing address does not exist. */
             }
-            $isShippingAsBilling = $quoteCustomerAddress->getSameAsBilling()
-                || (!empty($quoteAddressId) && ($this->getBillingAddress()->getCustomerAddressId() == $quoteAddressId));
+            $isShippingAsBilling = $quoteCustomerAddress->getSameAsBilling();
             if (isset($billingAddressDto) && $isShippingAsBilling) {
                 /** Set existing billing address as default shipping */
                 $customerAddressData = array_merge(
@@ -1669,9 +1650,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
 
         /** Update customer address DTO */
         $customerAddressDto = $this->_customerAddressBuilder->populateWithArray($customerAddressData)->create();
-        /** Create new address or update existing one depending on customer address DTO */
-        $addressIds = $this->_customerAddressService->saveAddresses($customerId, [$customerAddressDto]);
-        return $addressIds[0];
+        $this->getQuote()->setCustomerAddressData($customerAddressDto);
     }
 
     /**
@@ -1726,18 +1705,8 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
             $service->setOrderData($orderData);
         }
 
-        $order = $service->submitOrder();
-        $customer = $quote->getCustomerData();
-        if ((!$customer->getCustomerId()
-            || !$this->_customerHelper->isCustomerInStore($customer->getWebsiteId(),
-                    $this->getSession()->getStore()->getId()))
-            && !$quote->getCustomerIsGuest()
-        ) {
-            $quote->getCustomer()->setCreatedAt($order->getCreatedAt());
-            $quote->getCustomer()
-                ->save()
-                ->sendNewAccountEmail('registered', '', $quote->getStoreId());
-        }
+        $order = $service->submitOrderWithDto();
+        //TODO : MAGETWO-20628 will introduce a new api to send email for customer registered in different store
         if ($this->getSession()->getOrder()->getId()) {
             $oldOrder = $this->getSession()->getOrder();
             $oldOrder->setRelationChildId($order->getId());
