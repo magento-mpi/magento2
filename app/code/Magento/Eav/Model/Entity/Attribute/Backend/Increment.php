@@ -22,7 +22,7 @@ class Increment extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBack
      * Set new increment id
      *
      * @param \Magento\Object $object
-     * @return \Magento\Eav\Model\Entity\Attribute\Backend\Increment
+     * @return $this
      */
     public function beforeSave($object)
     {

@@ -18,7 +18,7 @@ class Serialized extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBac
      * Serialize before saving
      *
      * @param \Magento\Object $object
-     * @return \Magento\Eav\Model\Entity\Attribute\Backend\Serialized
+     * @return $this
      */
     public function beforeSave($object)
     {
@@ -35,7 +35,7 @@ class Serialized extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBac
      * Unserialize after saving
      *
      * @param \Magento\Object $object
-     * @return \Magento\Eav\Model\Entity\Attribute\Backend\Serialized
+     * @return $this
      */
     public function afterSave($object)
     {
@@ -48,7 +48,7 @@ class Serialized extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBac
      * Unserialize after loading
      *
      * @param \Magento\Object $object
-     * @return \Magento\Eav\Model\Entity\Attribute\Backend\Serialized
+     * @return $this
      */
     public function afterLoad($object)
     {
@@ -61,7 +61,7 @@ class Serialized extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBac
      * Try to unserialize the attribute value
      *
      * @param \Magento\Object $object
-     * @return \Magento\Eav\Model\Entity\Attribute\Backend\Serialized
+     * @return $this
      */
     protected function _unserialize(\Magento\Object $object)
     {
