@@ -65,7 +65,7 @@ sub vcl_hash {
 sub vcl_fetch {
     if (req.url !~ "\.(jpg|png|gif|tiff|bmp|gz|tgz|bz2|tbz|mp3|ogg|svg|swf)(\?|$)") {
         set beresp.do_gzip = true;
-        if (req.url !~ "\.(css|js)) {
+        if (req.url !~ "\.(css|js)(\?|$)") {
             # set ttl from received Magento
             set beresp.ttl = std.duration(beresp.http.X-Magento-ttl + "s", 0s);
             set beresp.do_esi = true;
