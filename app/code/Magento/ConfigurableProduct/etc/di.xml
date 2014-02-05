@@ -25,4 +25,11 @@
             </array>
         </param>
     </type>
+    <type name="Magento\Sales\Model\Resource\Report\Bestsellers">
+        <param name="ignoredProductTypes">
+            <array>
+                <item key="configurable"><value type="const">\Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE</value></item>
+            </array>
+        </param>
+    </type>
 </config>

@@ -122,6 +122,11 @@ class AbstractItems extends \Magento\Backend\Block\Template
         return $this->_columnRenders[$column];
     }
 
+    public function getItem()
+    {
+        return $this->_getData('item');//->getOrderItem();
+    }
+
     /**
      * Retrieve rendered item html content
      *
