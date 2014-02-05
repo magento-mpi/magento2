@@ -99,7 +99,11 @@ class ImportEntityTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($mtime, $this->importEntity->getOriginalMtime());
     }
 
-    public function testIsValid()
+    /**
+     * @param bool $isFile
+     * @dataProvider isValidDataProvider
+     */
+    public function testIsValid($isFile)
     {
         $mtime = rand();
         $relativePath = '/some/relative/path/to/file3.less';
@@ -107,8 +111,19 @@ class ImportEntityTest extends \PHPUnit_Framework_TestCase
         $this->rootDirectory->expects($this->once())
             ->method('isFile')
             ->with($this->equalTo($relativePath))
-            ->will($this->returnValue(true));
-        $this->assertEquals(true, $this->importEntity->isValid());
+            ->will($this->returnValue($isFile));
+        $this->assertEquals($isFile, $this->importEntity->isValid());
+    }
+
+    /**
+     * @return array
+     */
+    public function isValidDataProvider()
+    {
+        return [
+            [true],
+            [false]
+        ];
     }
 
     public function test__sleep()
