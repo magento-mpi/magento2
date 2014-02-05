@@ -1873,7 +1873,7 @@ return array(
     array('Magento\Core\Model\Layout\Argument\Handler\String', 'Magento\Data\Argument\Interpreter\String'),
     array('Magento\Core\Model\Layout\Argument\Handler\Number', 'Magento\Data\Argument\Interpreter\Number'),
     array('Magento\Core\Model\Layout\Argument\Handler\Boolean', 'Magento\Data\Argument\Interpreter\Boolean'),
-    array('Magento\Core\Model\Layout\Argument\Handler\Object', 'Magento\Data\Argument\Interpreter\Object'),
+    array('Magento\Core\Model\Layout\Argument\Handler\Object', 'Magento\View\Layout\Argument\Interpreter\Object'),
     array('Magento\Core\Model\Layout\Argument\Handler\Options', 'Magento\View\Layout\Argument\Interpreter\Options'),
     array('Magento\Core\Model\Layout\Argument\Handler\Url', 'Magento\View\Layout\Argument\Interpreter\Url'),
     array('Magento\Core\Model\Layout\Argument\Handler\Helper', 'Magento\View\Layout\Argument\Interpreter\HelperMethod'),

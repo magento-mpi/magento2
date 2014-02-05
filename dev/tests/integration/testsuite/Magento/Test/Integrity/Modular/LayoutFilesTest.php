@@ -85,23 +85,24 @@ class LayoutFilesTest extends \PHPUnit_Framework_TestCase
         unset($argumentData['updater']);
 
         // Arguments, evaluation of which causes a run-time error, because of unsafe assumptions to the environment
+        $typeAttr = \Magento\Core\Model\Layout\Merge::TYPE_ATTRIBUTE;
         $ignoredArguments = array(
-            array('xsi:type' => 'object',
+            array($typeAttr => 'object',
                 'value' => 'Magento\GroupedProduct\Model\Resource\Product\Type\Grouped\AssociatedProductsCollection'),
-            array('xsi:type' => 'object',
+            array($typeAttr => 'object',
                 'value' => 'Magento\Catalog\Model\Resource\Product\Collection\AssociatedProduct'),
-            array('xsi:type' => 'object', 'value' => 'Magento\Search\Model\Resource\Search\Grid\Collection'),
-            array('xsi:type' => 'object', 'value' => 'Magento\Wishlist\Model\Resource\Item\Collection\Grid'),
-            array('xsi:type' => 'object',
+            array($typeAttr => 'object', 'value' => 'Magento\Search\Model\Resource\Search\Grid\Collection'),
+            array($typeAttr => 'object', 'value' => 'Magento\Wishlist\Model\Resource\Item\Collection\Grid'),
+            array($typeAttr => 'object',
                 'value' => 'Magento\CustomerSegment\Model\Resource\Segment\Report\Detail\Collection'),
-            array('xsi:type' => 'helper', 'helper' => 'Magento\Pbridge\Helper\Data::getReviewButtonTemplate'),
-            array('xsi:type' => 'options', 'model' => 'Magento\Search\Model\Adminhtml\Search\Grid\Options'),
-            array('xsi:type' => 'options', 'model' => 'Magento\Logging\Model\Resource\Grid\ActionsGroup'),
-            array('xsi:type' => 'options', 'model' => 'Magento\Logging\Model\Resource\Grid\Actions'),
+            array($typeAttr => 'helper', 'helper' => 'Magento\Pbridge\Helper\Data::getReviewButtonTemplate'),
+            array($typeAttr => 'options', 'model' => 'Magento\Search\Model\Adminhtml\Search\Grid\Options'),
+            array($typeAttr => 'options', 'model' => 'Magento\Logging\Model\Resource\Grid\ActionsGroup'),
+            array($typeAttr => 'options', 'model' => 'Magento\Logging\Model\Resource\Grid\Actions'),
         );
         $isIgnoredArgument = in_array($argumentData, $ignoredArguments, true);
 
-        unset($argumentData['xsi:type']);
+        unset($argumentData[$typeAttr]);
         $hasValue = !empty($argumentData);
 
         return $isIgnoredArgument || ($isUpdater && !$hasValue);

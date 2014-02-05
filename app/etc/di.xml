@@ -301,7 +301,7 @@
             </array>
         </param>
         <param name="discriminator">
-            <value>xsi:type</value>
+            <value type="const">Magento\Core\Model\Layout\Merge::TYPE_ATTRIBUTE</value>
         </param>
     </virtualType>
     <virtualType name="layoutArgumentInterpreter" type="Magento\View\Layout\Argument\Interpreter\Decorator\Updater">
@@ -314,7 +314,7 @@
             <instance type="layoutArgumentInterpreter"/>
         </param>
     </virtualType>
-    <virtualType name="layoutObjectArgumentInterpreter" type="Magento\Data\Argument\Interpreter\Object">
+    <virtualType name="layoutObjectArgumentInterpreter" type="Magento\View\Layout\Argument\Interpreter\Object">
         <param name="expectedClass">
             <value>Magento\Data\Collection</value>
         </param>

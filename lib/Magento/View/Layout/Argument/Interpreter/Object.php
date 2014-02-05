@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Data\Argument\Interpreter;
+namespace Magento\View\Layout\Argument\Interpreter;
 
 use Magento\ObjectManager;
 use Magento\Data\Argument\InterpreterInterface;
@@ -28,7 +28,7 @@ class Object implements InterpreterInterface
 
     /**
      * @param ObjectManager $objectManager
-     * @param null $expectedClass
+     * @param string|null $expectedClass
      */
     public function __construct(ObjectManager $objectManager, $expectedClass = null)
     {
