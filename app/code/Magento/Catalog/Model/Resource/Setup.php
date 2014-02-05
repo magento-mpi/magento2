@@ -512,7 +512,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'visible_in_advanced_search' => true,
                         'used_in_product_listing'    => true,
                         'used_for_sort_by'           => true,
-                        'apply_to'                   => 'simple,configurable,virtual',
+                        'apply_to'                   => 'simple,virtual',
                         'group'                      => 'Prices',
                     ),
                     'special_price'      => array(
@@ -524,7 +524,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'sort_order'                 => 2,
                         'global'                     => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE,
                         'used_in_product_listing'    => true,
-                        'apply_to'                   => 'simple,configurable,virtual',
+                        'apply_to'                   => 'simple,virtual',
                         'group'                      => 'Prices',
                     ),
                     'special_from_date'  => array(
@@ -536,7 +536,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'sort_order'                 => 3,
                         'global'                     => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE,
                         'used_in_product_listing'    => true,
-                        'apply_to'                   => 'simple,configurable,virtual',
+                        'apply_to'                   => 'simple,virtual',
                         'group'                      => 'Prices',
                     ),
                     'special_to_date'    => array(
@@ -548,7 +548,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'sort_order'                 => 4,
                         'global'                     => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE,
                         'used_in_product_listing'    => true,
-                        'apply_to'                   => 'simple,configurable,virtual',
+                        'apply_to'                   => 'simple,virtual',
                         'group'                      => 'Prices',
                     ),
                     'cost'               => array(
@@ -666,7 +666,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'required'                   => false,
                         'sort_order'                 => 6,
                         'global'                     => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE,
-                        'apply_to'                   => 'simple,configurable,virtual',
+                        'apply_to'                   => 'simple,virtual',
                         'group'                      => 'Prices',
                     ),
                     'tier_price'         => array(
@@ -677,7 +677,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'required'                   => false,
                         'sort_order'                 => 6,
                         'global'                     => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE,
-                        'apply_to'                   => 'simple,configurable,virtual',
+                        'apply_to'                   => 'simple,virtual',
                         'group'                      => 'Prices',
                     ),
                     'color'              => array(
@@ -755,7 +755,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'sort_order'                 => 7,
                         'global'                     => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
                         'visible'                    => false,
-                        'apply_to'                   => 'simple,configurable,virtual',
+                        'apply_to'                   => 'simple,virtual',
                         'group'                      => 'Prices',
                     ),
                     'is_recurring'       => array(

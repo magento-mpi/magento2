@@ -32,4 +32,11 @@
             </array>
         </param>
     </type>
+    <type name="Magento\Module\Updater\SetupFactory">
+        <param name="resourceTypes">
+            <array>
+                <item key="configurableproduct_setup"><value>Magento\Catalog\Model\Resource\Setup</value></item>
+            </array>
+        </param>
+    </type>
 </config>

@@ -27,6 +27,6 @@ $installer->addAttribute(\Magento\Catalog\Model\Product::ENTITY, 'country_of_man
     'comparable'        => false,
     'visible_on_front'  => false,
     'unique'            => false,
-    'apply_to'          => 'simple,configurable,bundle',
+    'apply_to'          => 'simple,bundle',
     'is_configurable'   => false,
 ));
