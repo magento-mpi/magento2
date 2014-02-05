@@ -11,6 +11,7 @@ namespace Magento\Cron\Model;
 
 /**
  * Class \Magento\Cron\Model\ObserverTest
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class ObserverTest extends \PHPUnit_Framework_TestCase
 {
