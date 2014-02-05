@@ -208,7 +208,9 @@
     </type>
     <type name="Magento\Phrase\Renderer\Composite">
         <arguments>
-            <argument name="renderers" xsi:type="object">Magento\Phrase\Renderer\Translate</argument>
+            <argument name="renderers" xsi:type="array">
+                <item name="translation" xsi:type="object">Magento\Phrase\Renderer\Translate</item>
+            </argument>
         </arguments>
     </type>
     <type name="Magento\Phrase\Renderer\Translate">

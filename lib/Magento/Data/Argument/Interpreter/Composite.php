@@ -17,12 +17,7 @@ use Magento\Data\Argument\InterpreterInterface;
 class Composite implements InterpreterInterface
 {
     /**
-     * @var ObjectManager
-     */
-    private $objectManager;
-
-    /**
-     * @var array Format: array('<name>' => '<class>', ...)
+     * @var InterpreterInterface[] Format: array('<name>' => <instance>, ...)
      */
     private $interpreters;
 
@@ -34,21 +29,19 @@ class Composite implements InterpreterInterface
     private $discriminator;
 
     /**
-     * @var InterpreterInterface[]
-     */
-    private $instances = array();
-
-    /**
-     * @param ObjectManager $objectManager
-     * @param array $interpreters
+     * @param InterpreterInterface[] $interpreters
      * @param $discriminator
+     * @throws \InvalidArgumentException
      */
-    public function __construct(
-        ObjectManager $objectManager,
-        array $interpreters,
-        $discriminator
-    ) {
-        $this->objectManager = $objectManager;
+    public function __construct(array $interpreters, $discriminator)
+    {
+        foreach ($interpreters as $interpreterName => $interpreterInstance) {
+            if (!($interpreterInstance instanceof InterpreterInterface)) {
+                throw new \InvalidArgumentException(
+                    "Interpreter named '$interpreterName' is expected to be an argument interpreter instance."
+                );
+            }
+        }
         $this->interpreters = $interpreters;
         $this->discriminator = $discriminator;
     }
@@ -71,29 +64,32 @@ class Composite implements InterpreterInterface
     }
 
     /**
+     * Register interpreter instance under a given unique name
+     *
+     * @param string $name
+     * @param InterpreterInterface $instance
+     * @throws \InvalidArgumentException
+     */
+    public function addInterpreter($name, InterpreterInterface $instance)
+    {
+        if (isset($this->interpreters[$name])) {
+            throw new \InvalidArgumentException("Argument interpreter named '$name' has already been defined.");
+        }
+        $this->interpreters[$name] = $instance;
+    }
+
+    /**
      * Retrieve interpreter instance by its unique name
      *
      * @param string $name
      * @return InterpreterInterface
      * @throws \InvalidArgumentException
-     * @throws \UnexpectedValueException
      */
     protected function getInterpreter($name)
     {
         if (!isset($this->interpreters[$name])) {
-            throw new \InvalidArgumentException("No argument parser is defined for value type '$name'.");
+            throw new \InvalidArgumentException("Argument interpreter named '$name' has not been defined.");
         }
-        if (!isset($this->instances[$name])) {
-            $interpreterClass = $this->interpreters[$name];
-            /** @var $result InterpreterInterface */
-            $result = $this->objectManager->create($interpreterClass);
-            if (!($result instanceof InterpreterInterface)) {
-                throw new \UnexpectedValueException(sprintf(
-                    'Argument parser instance is expected, got %s instead.', get_class($result)
-                ));
-            }
-            $this->instances[$name] = $result;
-        }
-        return $this->instances[$name];
+        return $this->interpreters[$name];
     }
 }

@@ -51,7 +51,9 @@ class Primary
                 ),
                 new \Magento\Config\FileIteratorFactory()
             ),
-            new \Magento\ObjectManager\Config\Mapper\Dom(),
+            new \Magento\ObjectManager\Config\Mapper\Dom(
+                new \Magento\ObjectManager\Config\Mapper\ArgumentParser
+            ),
             new \Magento\ObjectManager\Config\SchemaLocator(),
             new \Magento\App\Arguments\ValidationState($this->_appMode)
         );

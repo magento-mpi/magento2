@@ -47,6 +47,8 @@ class LayoutFilesTest extends \PHPUnit_Framework_TestCase
                     continue;
                 }
                 $this->_argInterpreter->evaluate($argumentData);
+            } catch (\Magento\Data\Argument\MissingOptionalValueException $e) {
+                // Argument value is missing in the testing environment, but it's optional, so no big deal
             } catch (\Exception $e) {
                 $this->fail($e->getMessage());
             }

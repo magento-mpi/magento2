@@ -87,7 +87,12 @@ class ObjectManagerFactory
             $diConfig->extend($configData);
         }
 
-        $factory = new \Magento\ObjectManager\Factory\Factory($diConfig, null, $definitions, $options->get());
+        $creationStack = new \Magento\ObjectManager\Factory\CreationStack();
+        $argObjectFactory = new \Magento\ObjectManager\Config\Argument\ObjectFactory($diConfig);
+        $argInterpreter = $this->createArgumentInterpreter($argObjectFactory, $options);
+        $factory = new \Magento\ObjectManager\Factory\Factory(
+            $diConfig, $creationStack, $argInterpreter, $argObjectFactory, $definitions
+        );
 
         $className = $this->_locatorClassName;
         /** @var \Magento\ObjectManager $objectManager */
@@ -97,6 +102,7 @@ class ObjectManagerFactory
             'Magento\Filesystem\DirectoryList' => $directoryList
         ));
 
+        $argObjectFactory->setObjectManager($objectManager);
         \Magento\App\ObjectManager::setInstance($objectManager);
 
         /** @var \Magento\App\Filesystem\DirectoryList\Verification $verification */
@@ -132,6 +138,34 @@ class ObjectManagerFactory
         $this->configureDirectories($objectManager);
 
         return $objectManager;
+    }
+
+    /**
+     * Return newly created instance on an argument interpreter, suitable for processing DI arguments
+     *
+     * @param \Magento\ObjectManager\Config\Argument\ObjectFactory $objectFactory
+     * @param \Magento\App\Arguments $appArguments
+     * @return \Magento\Data\Argument\InterpreterInterface
+     */
+    protected function createArgumentInterpreter(
+        \Magento\ObjectManager\Config\Argument\ObjectFactory $objectFactory,
+        \Magento\App\Arguments $appArguments
+    ) {
+        $result = new \Magento\Data\Argument\Interpreter\Composite(
+            array(
+                'boolean' => new \Magento\Data\Argument\Interpreter\Boolean(),
+                'string' => new \Magento\Data\Argument\Interpreter\String(),
+                'number' => new \Magento\Data\Argument\Interpreter\Number(),
+                'null' => new \Magento\Data\Argument\Interpreter\NullType(),
+                'const' => new \Magento\Data\Argument\Interpreter\Constant(),
+                'object' => new \Magento\ObjectManager\Config\Argument\Interpreter\Object($objectFactory),
+                'init_parameter' => new \Magento\App\Arguments\ArgumentInterpreter($appArguments),
+            ),
+            \Magento\ObjectManager\Config\Reader\Dom::TYPE_ATTRIBUTE
+        );
+        // Add interpreters that reference the composite
+        $result->addInterpreter('array', new \Magento\Data\Argument\Interpreter\ArrayType($result));
+        return $result;
     }
 
     /**

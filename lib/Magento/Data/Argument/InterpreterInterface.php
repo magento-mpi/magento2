@@ -18,6 +18,9 @@ interface InterpreterInterface
      *
      * @param array $data
      * @return mixed
+     * @throws \InvalidArgumentException
+     * @throws \UnexpectedValueException
+     * @throws MissingOptionalValueException
      */
     public function evaluate(array $data);
 }

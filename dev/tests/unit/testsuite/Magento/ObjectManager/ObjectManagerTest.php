@@ -111,9 +111,9 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
                 'Magento\Test\Di\DiParent' => 'Magento\Test\Di\Child'
             ),
             'Magento\Test\Di\Aggregate\AggregateParent' => array(
-                'parameters' => array(
-                    'child' => array('instance' => 'Magento\Test\Di\Child\A'),
-                    'scalar' => 'scalarValue'
+                'arguments' => array(
+                    'child' => array('xsi:type' => 'object', 'value' => 'Magento\Test\Di\Child\A'),
+                    'scalar' => array('xsi:type' => 'string', 'value' => 'scalarValue')
                 )
             )
         ));
@@ -176,8 +176,8 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
                 'shared' => 0
             ),
             'Magento\Test\Di\Aggregate\AggregateParent' => array(
-                'parameters' => array(
-                    'scalar' => 'scalarValue'
+                'arguments' => array(
+                    'scalar' => array('xsi:type' => 'string', 'value' => 'scalarValue')
                 )
             )
         ));
@@ -232,10 +232,10 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
             ),
             'customChildType' => array(
                 'type' => 'Magento\Test\Di\Aggregate\Child',
-                'parameters' => array(
-                    'scalar' => 'configuredScalar',
-                    'secondScalar' => 'configuredSecondScalar',
-                    'secondOptionalScalar' => 'configuredOptionalScalar'
+                'arguments' => array(
+                    'scalar' => array('xsi:type' => 'configuredScalar'),
+                    'secondScalar' => array('xsi:type' => 'string', 'value' => 'configuredSecondScalar'),
+                    'secondOptionalScalar' => array('xsi:type' => 'string', 'value' => 'configuredOptionalScalar')
                 )
             )
         ));
@@ -253,10 +253,10 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
         $this->_object->configure(array(
             'customChildType' => array(
                 'type' => 'Magento\Test\Di\Aggregate\Child',
-                'parameters' => array(
-                    'interface' => array('instance' => 'Magento\Test\Di\DiParent'),
-                    'scalar' => 'configuredScalar',
-                    'secondScalar' => 'configuredSecondScalar',
+                'arguments' => array(
+                    'interface' => array('xsi:type' => 'object', 'value' => 'Magento\Test\Di\DiParent'),
+                    'scalar' => array('xsi:type' => 'string', 'value' => 'configuredScalar'),
+                    'secondScalar' => array('xsi:type' => 'string', 'value' => 'configuredSecondScalar'),
                 )
             )
         ));
@@ -267,8 +267,9 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
 
         $this->_object->configure(array(
             'customChildType' => array(
-                'parameters' => array(
-                    'interface' => array('instance' => 'Magento\Test\Di\DiParent', 'shared' => false),
+                'arguments' => array(
+                    'interface'
+                        => array('xsi:type' => 'object', 'value' => 'Magento\Test\Di\DiParent', 'shared' => false),
                 )
             )
         ));
@@ -283,10 +284,10 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
         $this->_object->configure(array(
             'customChildType' => array(
                 'type' => 'Magento\Test\Di\Aggregate\Child',
-                'parameters' => array(
-                    'interface' => array('instance' => 'Magento\Test\Di\DiParent'),
-                    'scalar' => 'configuredScalar',
-                    'secondScalar' => 'configuredSecondScalar',
+                'arguments' => array(
+                    'interface' => array('xsi:type' => 'object', 'value' => 'Magento\Test\Di\DiParent'),
+                    'scalar' => array('xsi:type' => 'string', 'value' => 'configuredScalar'),
+                    'secondScalar' => array('xsi:type' => 'string', 'value' => 'configuredSecondScalar'),
                 )
             )
         ));
@@ -314,10 +315,10 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
             ),
             'customChildType' => array(
                 'type' => 'Magento\Test\Di\Aggregate\Child',
-                'parameters' => array(
-                    'interface' => array('instance' => 'Magento\Test\Di\DiParent'),
-                    'scalar' => 'configuredScalar',
-                    'secondScalar' => 'configuredSecondScalar',
+                'arguments' => array(
+                    'interface' => array('xsi:type' => 'object', 'value' => 'Magento\Test\Di\DiParent'),
+                    'scalar' => array('xsi:type' => 'string', 'value' => 'configuredScalar'),
+                    'secondScalar' => array('xsi:type' => 'string', 'value' => 'configuredSecondScalar'),
                 )
             )
         ));
@@ -328,8 +329,9 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
 
         $this->_object->configure(array(
             'customChildType' => array(
-                'parameters' => array(
-                    'interface' => array('instance' => 'Magento\Test\Di\DiParent', 'shared' => true),
+                'arguments' => array(
+                    'interface'
+                        => array('xsi:type' => 'object', 'value' => 'Magento\Test\Di\DiParent', 'shared' => true),
                 )
             )
         ));
@@ -346,9 +348,9 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
                 'Magento\Test\Di\DiInterface' => 'Magento\Test\Di\DiParent',
             ),
             'Magento\Test\Di\Aggregate\AggregateParent' => array(
-                'parameters' => array(
-                    'scalar' => array('argument' => 'one'),
-                    'optionalScalar' => array('argument' => 'two')
+                'arguments' => array(
+                    'scalar' => array('xsi:type' => 'init_parameter', 'value' => 'one'),
+                    'optionalScalar' => array('xsi:type' => 'init_parameter', 'value' => 'two')
                 )
             )
         ));
@@ -362,15 +364,15 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
     {
         $this->_object->configure(array(
             'Magento\Test\Di\Aggregate\AggregateParent' => array(
-                'parameters' => array(
-                    'interface' => array('instance' => 'Magento\Test\Di\DiParent'),
-                    'scalar' => array('argument' => 'one'),
-                    'optionalScalar' => 'parentOptionalScalar'
+                'arguments' => array(
+                    'interface' => array('xsi:type' => 'object', 'value' => 'Magento\Test\Di\DiParent'),
+                    'scalar' => array('xsi:type' => 'init_parameter', 'value' => 'one'),
+                    'optionalScalar' => array('xsi:type' => 'string', 'value' => 'parentOptionalScalar')
                 )
             ),
             'Magento\Test\Di\Aggregate\Child' => array(
-                'parameters' => array(
-                    'secondScalar' => 'childSecondScalar',
+                'arguments' => array(
+                    'secondScalar' => array('xsi:type' => 'string', 'value' => 'childSecondScalar'),
                 )
             )
         ));
@@ -387,18 +389,18 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
     {
         $this->_object->configure(array(
             'Magento\Test\Di\Aggregate\AggregateParent' => array(
-                'parameters' => array(
-                    'interface' => array('instance' => 'Magento\Test\Di\DiParent'),
-                    'scalar' => array('argument' => 'one'),
-                    'optionalScalar' => 'parentOptionalScalar'
+                'arguments' => array(
+                    'interface' => array('xsi:type' => 'object', 'value' => 'Magento\Test\Di\DiParent'),
+                    'scalar' => array('xsi:type' => 'init_parameter', 'value' => 'one'),
+                    'optionalScalar' => array('xsi:type' => 'string', 'value' => 'parentOptionalScalar')
                 )
             ),
             'Magento\Test\Di\Aggregate\Child' => array(
-                'parameters' => array(
-                    'interface' => array('instance' => 'Magento\Test\Di\Child'),
-                    'scalar' => array('argument' => 'two'),
-                    'secondScalar' => 'childSecondScalar',
-                    'optionalScalar' => 'childOptionalScalar'
+                'arguments' => array(
+                    'interface' => array('xsi:type' => 'object', 'value' => 'Magento\Test\Di\Child'),
+                    'scalar' => array('xsi:type' => 'init_parameter', 'value' => 'two'),
+                    'secondScalar' => array('xsi:type' => 'string', 'value' => 'childSecondScalar'),
+                    'optionalScalar' => array('xsi:type' => 'string', 'value' => 'childOptionalScalar')
                 )
             )
         ));
