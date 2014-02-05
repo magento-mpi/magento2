@@ -33,14 +33,14 @@ class ImportEntity implements ImportEntityInterface
     /**
      * @param Filesystem $filesystem
      * @param \Magento\View\FileSystem $viewFileSystem
-     * @param $filePath
-     * @param $params
+     * @param string $filePath
+     * @param array $params
      */
     public function __construct(
         Filesystem $filesystem,
         \Magento\View\FileSystem $viewFileSystem,
         $filePath,
-        $params
+        array $params
     ) {
         $this->initRootDir($filesystem);
 
@@ -94,7 +94,7 @@ class ImportEntity implements ImportEntityInterface
      */
     public function __sleep()
     {
-        return array('originalFile', 'originalMtime');
+        return ['originalFile', 'originalMtime'];
     }
 
     /**
@@ -112,7 +112,7 @@ class ImportEntity implements ImportEntityInterface
      */
     protected function initRootDir(\Magento\Filesystem $filesystem)
     {
-        $this->rootDirectory = $filesystem->getDirectoryRead('base');
+        $this->rootDirectory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::ROOT_DIR);
         return $this;
     }
 }
