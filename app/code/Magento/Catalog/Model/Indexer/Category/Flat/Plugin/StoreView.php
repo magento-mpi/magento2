@@ -26,22 +26,4 @@ class StoreView extends AbstractStore
 
         return $objectResource;
     }
-
-    /**
-     * @param array $arguments
-     * @param \Magento\Code\Plugin\InvocationChain $invocationChain
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
-     */
-    public function aroundDelete(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
-    {
-        /** @var \Magento\Core\Model\Store $store */
-        $store = $arguments[0];
-        $storeId = $store->getId();
-        $objectResource = $invocationChain->proceed($arguments);
-        if ($storeId) {
-            $this->cleanStoreData(array($storeId));
-        }
-
-        return $objectResource;
-    }
 }

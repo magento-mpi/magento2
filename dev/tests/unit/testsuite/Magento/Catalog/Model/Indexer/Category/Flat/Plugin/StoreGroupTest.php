@@ -86,33 +86,6 @@ class StoreGroupTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->model->aroundSave($arguments, $this->pluginMock));
     }
 
-    public function testAroundDelete()
-    {
-        $storeIds = array(1,2,3);
-        $groupMock = $this->getMock(
-            'Magento\Core\Model\Store\Group', array('getStoreIds', '__wakeup'), array(), '', false
-        );
-        $groupMock->expects($this->once())
-            ->method('getStoreIds')
-            ->will($this->returnValue($storeIds));
-        $arguments = array($groupMock);
-        $this->mockPluginProceed($arguments);
-        $this->assertFalse($this->model->aroundDelete($arguments, $this->pluginMock));
-    }
-
-    public function testAroundDeleteWithoutId()
-    {
-        $groupMock = $this->getMock(
-            'Magento\Core\Model\Store\Group', array('getStoreIds', '__wakeup'), array(), '', false
-        );
-        $groupMock->expects($this->once())
-            ->method('getStoreIds')
-            ->will($this->returnValue(array()));
-        $arguments = array($groupMock);
-        $this->mockPluginProceed($arguments);
-        $this->assertFalse($this->model->aroundDelete($arguments, $this->pluginMock));
-    }
-
     /**
      * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\Indexer\Model\Indexer\State
      */

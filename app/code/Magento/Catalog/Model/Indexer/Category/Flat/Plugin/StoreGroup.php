@@ -26,22 +26,4 @@ class StoreGroup extends AbstractStore
 
         return $objectResource;
     }
-
-    /**
-     * @param array $arguments
-     * @param \Magento\Code\Plugin\InvocationChain $invocationChain
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
-     */
-    public function aroundDelete(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
-    {
-        /** @var \Magento\Core\Model\Store\Group $group */
-        $group = $arguments[0];
-        $storeIds = $group->getStoreIds();
-        $objectResource = $invocationChain->proceed($arguments);
-        if (count($storeIds) > 0) {
-            $this->cleanStoreData($storeIds);
-        }
-
-        return $objectResource;
-    }
 }

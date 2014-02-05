@@ -91,33 +91,6 @@ class StoreViewTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->model->aroundSave($arguments, $this->pluginMock));
     }
 
-    public function testAroundDelete()
-    {
-        $storeId = 111;
-        $storeMock = $this->getMock(
-            'Magento\Core\Model\Store', array('getId', '__wakeup'), array(), '', false
-        );
-        $storeMock->expects($this->once())
-            ->method('getId')
-            ->will($this->returnValue($storeId));
-        $arguments = array($storeMock);
-        $this->mockPluginProceed($arguments);
-        $this->assertFalse($this->model->aroundDelete($arguments, $this->pluginMock));
-    }
-
-    public function testAroundDeleteWithoutId()
-    {
-        $storeMock = $this->getMock(
-            'Magento\Core\Model\Store', array('getId', '__wakeup'), array(), '', false
-        );
-        $storeMock->expects($this->once())
-            ->method('getId')
-            ->will($this->returnValue(null));
-        $arguments = array($storeMock);
-        $this->mockPluginProceed($arguments);
-        $this->assertFalse($this->model->aroundDelete($arguments, $this->pluginMock));
-    }
-
     /**
      * @return \PHPUnit_Framework_MockObject_MockObject|\Magento\Indexer\Model\Indexer\State
      */

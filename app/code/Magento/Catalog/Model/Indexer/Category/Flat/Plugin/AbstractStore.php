@@ -53,15 +53,4 @@ class AbstractStore
             $this->getIndexer()->invalidate();
         }
     }
-
-    /**
-     * Cleaning a data after removing store
-     *
-     * @param $storeIds
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    protected function cleanStoreData($storeIds)
-    {
-        // TODO: need implement
-    }
 }
