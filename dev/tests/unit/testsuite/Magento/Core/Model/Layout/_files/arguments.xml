@@ -46,5 +46,8 @@
             </argument>
             <argument name="testComplexObject" xsi:type="object"><updater>Magento_Test_Updater</updater>Magento\Core\Model\Layout\Argument\Handler\TestObject</argument>
         </arguments>
+        <action method="testAction">
+            <argument name="string" xsi:type="string">string</argument>
+        </action>
     </block>
 </layout>

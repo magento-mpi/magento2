@@ -21,7 +21,7 @@
         <xs:complexType name="object">
             <xs:complexContent>
                 <xs:extension base="object">
-                    <xs:attribute name="shared" use="optional" fixed="true"/>
+                    <xs:attribute name="shared" use="optional" type="xs:boolean"/>
                 </xs:extension>
             </xs:complexContent>
         </xs:complexType>

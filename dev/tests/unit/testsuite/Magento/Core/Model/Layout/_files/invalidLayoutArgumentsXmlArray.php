@@ -102,4 +102,16 @@ return array(
             </block>
         </layout>',
         array("Element 'forbidden': This element is not expected.")),
+    'action with doubled arguments' => array(
+            '<?xml version="1.0"?><layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <block class="Magento\Test\Block" name="test.block">
+                    <action method="testAction">
+                        <argument name="string" xsi:type="string">string1</argument>
+                        <argument name="string" xsi:type="string">string2</argument>
+                    </action>
+                </block>
+            </layout>',
+        array(
+            "Element 'argument': Duplicate key-sequence ['string'] in key identity-constraint 'actionArgumentName'."
+        )),
 );

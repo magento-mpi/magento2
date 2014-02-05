@@ -12,6 +12,7 @@
 <arguments xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <argument name="string " xsi:type="string">String</argument>
     <argument name="string with translate" xsi:type="string" translate="true">String with translate</argument>
+    <argument name="string with translate false (for overriding)" xsi:type="string" translate="false">String with translate false</argument>
     <argument name="boolean true" xsi:type="boolean">true</argument>
     <argument name="boolean false" xsi:type="boolean">false</argument>
     <argument name="boolean 0" xsi:type="boolean">0</argument>

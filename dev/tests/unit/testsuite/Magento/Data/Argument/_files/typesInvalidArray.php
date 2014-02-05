@@ -36,9 +36,9 @@ return array(
     'forbidden translate attribute value for string' => array(
         '<?xml version="1.0"?><arguments xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
         <argument name="a" xsi:type="string" translate="forbidden">v</argument></arguments>',
-        array("Element 'argument', attribute 'translate': The value 'forbidden' does not match the fixed value "
-                . "constraint 'true'.")),
-    'attribute translate only for string' => array(
+        array("Element 'argument', attribute 'translate': 'forbidden' is not a valid value of the atomic type "
+                . "'xs:boolean'.")),
+    'attribute translate for non-string' => array(
         '<?xml version="1.0"?><arguments xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
         <argument name="a" xsi:type="boolean" translate="true">true</argument></arguments>',
         array("Element 'argument', attribute 'translate': The attribute 'translate' is not allowed.")),

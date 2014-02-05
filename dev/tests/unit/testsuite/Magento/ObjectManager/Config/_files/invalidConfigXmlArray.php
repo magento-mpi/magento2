@@ -37,20 +37,21 @@ return array(
     'type_with_forbidden_attribute' => array(
         '<?xml version="1.0"?><config><type name="Some_Name" forbidden="text"/></config>',
         array("Element 'type', attribute 'forbidden': The attribute 'forbidden' is not allowed.")),
-    'type_shared_attribute_with_invalid_value' => array(
-        '<?xml version="1.0"?><config><type name="Some_Name" shared="test"/></config>',
-        array("Element 'type', attribute 'shared': 'test' is not a valid value of the atomic type 'xs:boolean'.")),
-    'type_param_instance_with_invalid_shared_value' => array(
+    'type_shared_attribute_with_forbidden_value' => array(
+        '<?xml version="1.0"?><config><type name="Some_Name" shared="forbidden"/></config>',
+        array("Element 'type', attribute 'shared': 'forbidden' is not a valid value of the atomic type 'xs:boolean'.")),
+    'type_object_with_forbidden_shared_value' => array(
         '<?xml version="1.0"?>
         <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <type name="Some_Name">
                 <arguments>
-                    <argument name="Param_name" xsi:type="object" shared="string">Object</argument>
+                    <argument name="Param_name" xsi:type="object" shared="forbidden">Object</argument>
                 </arguments>
             </type>
         </config>',
-        array("Element 'argument', attribute 'shared': The value 'string' does not match the fixed value constraint "
-            . "'true'.")),
+        array(
+            "Element 'argument', attribute 'shared': 'forbidden' is not a valid value of the atomic type 'xs:boolean'."
+        )),
     'type_instance_with_forbidden_attribute' => array(
         '<?xml version="1.0"?>
         <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -92,9 +93,9 @@ return array(
     'virtualtype_without_required_name_attribute' => array(
         '<?xml version="1.0"?><config><virtualType /></config>',
         array("Element 'virtualType': The attribute 'name' is required but missing.")),
-    'virtualtype_with_invalid_shared_attribute_value' => array(
-        '<?xml version="1.0"?><config><virtualType name="virtual_name" shared="string"/></config>',
-        array("Element 'virtualType', attribute 'shared': 'string' is not a valid value of the atomic "
+    'virtualtype_with_forbidden_shared_attribute_value' => array(
+        '<?xml version="1.0"?><config><virtualType name="virtual_name" shared="forbidden"/></config>',
+        array("Element 'virtualType', attribute 'shared': 'forbidden' is not a valid value of the atomic "
             . "type 'xs:boolean'.")),
     'virtualtype_with_forbidden_attribute' => array(
         '<?xml version="1.0"?><config><virtualType name="virtual_name" forbidden="text"/></config>',
