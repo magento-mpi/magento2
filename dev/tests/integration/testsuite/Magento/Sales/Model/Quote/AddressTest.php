@@ -11,6 +11,8 @@
 
 namespace Magento\Sales\Model\Quote;
 
+use Magento\TestFramework\Helper\Bootstrap;
+
 /**
  * @magentoDataFixture Magento/Customer/_files/customer.php
  * @magentoDataFixture Magento/Customer/_files/customer_two_addresses.php
@@ -171,59 +173,61 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     /**
      * Import customer address to quote address
      */
-    public function testImportCustomerAddress()
+    public function testImportCustomerAddressData()
     {
-        $street = 'Street1';
-        $email = 'test_email@example.com';
+        $street = ['Street1'];
+        $city = 'TestCity';
 
-        /** @var \Magento\Customer\Model\Address $customerAddress */
-        $customerAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Customer\Model\Address');
+        /** @var \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder */
+        $addressBuilder = Bootstrap::getObjectManager()->create('Magento\Customer\Service\V1\Dto\AddressBuilder');
+        $addressBuilderDto = $addressBuilder
+            ->setCity($city)
+            ->setStreet($street)
+            ->create();
 
-        $customerAddress->setStreet($street);
-        $customerAddress->setEmail($email);
-        $this->_address->importCustomerAddress($customerAddress);
+        $this->_address->importCustomerAddressData($addressBuilderDto);
 
-        $this->assertEquals($street, $this->_address->getStreet1(), 'Expected street does not exists');
-        $this->assertEquals($email, $customerAddress->getEmail(), 'Expected email does not exists');
+        $this->assertEquals($street, $this->_address->getStreet(), 'Imported street is invalid.');
+        $this->assertEquals($city, $this->_address->getCity(), 'Imported city is invalid.');
     }
 
     /**
      * Import customer address to quote address
      */
-    public function testImportCustomerAddressWithCustomer()
+    public function testImportCustomerAddressDataWithCustomer()
     {
         $customerIdFromFixture = 1;
         $customerEmailFromFixture = 'customer@example.com';
-        /** @var \Magento\Customer\Model\Address $customerAddress */
-        $customerAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Customer\Model\Address');
+        $city = 'TestCity';
 
-        /** @var \Magento\Customer\Model\Customer $customer */
-        $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Customer\Model\Customer');
+        /** @var \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder */
+        $addressBuilder = Bootstrap::getObjectManager()->create('Magento\Customer\Service\V1\Dto\AddressBuilder');
+        $addressBuilderDto = $addressBuilder
+            ->setCustomerId($customerIdFromFixture)
+            ->setCity($city)
+            ->create();
 
-        $customer->load($customerIdFromFixture);
-        $customerAddress->setCustomerId($customer->getId());
-        $this->_address->importCustomerAddress($customerAddress);
+        $this->_address->importCustomerAddressData($addressBuilderDto);
 
-        $this->assertEquals($customerEmailFromFixture, $this->_address->getEmail(), 'Expected email does not exists');
+        $this->assertEquals($customerEmailFromFixture, $this->_address->getEmail(), 'Email was imported incorrectly.');
+        $this->assertEquals($city, $this->_address->getCity(), 'City was imported incorrectly.');
     }
 
     /**
      * Export customer address from quote address
      */
-    public function testExportCustomerAddress()
+    public function testExportCustomerAddressData()
     {
-        $street = 'Street1';
-        $email = 'test_email@example.com';
+        $street = ['Street1'];
+        $company = 'TestCompany';
 
         $this->_address->setStreet($street);
-        $this->_address->setEmail($email);
+        $this->_address->setCompany($company);
 
-        $customerAddress = $this->_address->exportCustomerAddress();
-        $this->assertEquals($street, $customerAddress->getStreet1(), 'Expected street does not exists');
-        $this->assertEquals($email, $customerAddress->getEmail(), 'Expected email does not exists');
+        $customerAddress = $this->_address->exportCustomerAddressData();
+
+        $this->assertEquals($street, $customerAddress->getStreet(), 'Street was exported incorrectly.');
+        $this->assertEquals($company, $customerAddress->getCompany(), 'Company was exported incorrectly.');
     }
 
     /**

@@ -10,6 +10,7 @@
 
 namespace Magento\Sales\Model\Quote;
 
+use Magento\Customer\Service\V1\CustomerServiceInterface;
 use Magento\Customer\Service\V1\Dto\AddressBuilder as CustomerAddressBuilder;
 
 /**
@@ -27,8 +28,12 @@ use Magento\Customer\Service\V1\Dto\AddressBuilder as CustomerAddressBuilder;
  * @method \Magento\Sales\Model\Quote\Address setCustomerId(int $value)
  * @method int getSaveInAddressBook()
  * @method \Magento\Sales\Model\Quote\Address setSaveInAddressBook(int $value)
- * @method int getCustomerAddressId()
- * @method \Magento\Sales\Model\Quote\Address setCustomerAddressId(int $value)
+ * @method \int getCustomerAddressId()
+ * @method \Magento\Sales\Model\Quote\Address setCustomerAddressId(\int $value)
+ * @method \Magento\Customer\Model\Address getCustomerAddress()
+ * @method \Magento\Sales\Model\Quote\Address setCustomerAddress(\Magento\Customer\Model\Address $value)
+ * @method \Magento\Customer\Service\V1\Dto\Address getCustomerAddressData()
+ * @method \Magento\Sales\Model\Quote\Address setCustomerAddressData(\Magento\Customer\Service\V1\Dto\Address $value)
  * @method string getAddressType()
  * @method \Magento\Sales\Model\Quote\Address setAddressType(string $value)
  * @method string getEmail()
@@ -236,6 +241,11 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     protected $_addressTotalFactory;
 
     /**
+     * @var CustomerServiceInterface
+     */
+    protected $_customerService;
+
+    /**
      * @var CustomerAddressBuilder
      */
     protected $_customerAddressBuilder;
@@ -261,6 +271,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      * @param \Magento\Object\Copy $objectCopyService
      * @param \Magento\Sales\Model\Quote\Address\CarrierFactoryInterface $carrierFactory
      * @param CustomerAddressBuilder $customerAddressBuilder
+     * @param CustomerServiceInterface $customerService
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -286,6 +297,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         \Magento\Object\Copy $objectCopyService,
         \Magento\Sales\Model\Quote\Address\CarrierFactoryInterface $carrierFactory,
         CustomerAddressBuilder $customerAddressBuilder,
+        CustomerServiceInterface $customerService,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -303,6 +315,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         $this->_objectCopyService = $objectCopyService;
         $this->_carrierFactory = $carrierFactory;
         $this->_customerAddressBuilder = $customerAddressBuilder;
+        $this->_customerService = $customerService;
         parent::__construct(
             $context,
             $registry,
@@ -353,8 +366,14 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
             /**
              * Init customer address id if customer address is assigned
              */
+            /**
+             * TODO: Should be refactored in scope of other stories,
+             * when dependant methods are refactored and getCustomerAddressData() is introduced to work with DTO
+             */
             if ($this->getCustomerAddress()) {
                 $this->setCustomerAddressId($this->getCustomerAddress()->getId());
+            } elseif ($this->getCustomerAddressData()) {
+                $this->setCustomerAddressId($this->getCustomerAddressData()->getId());
             }
 
             if (!$this->getId()) {
@@ -391,10 +410,10 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      */
     protected function _isDefaultShippingNullOrSameAsBillingAddress()
     {
-        $customer = $this->getQuote()->getCustomer();
-        return !$customer->getDefaultShippingAddress()
-            || $customer->getDefaultBillingAddress() && $customer->getDefaultShippingAddress()
-                && $customer->getDefaultBillingAddress()->getId() == $customer->getDefaultShippingAddress()->getId();
+        $customerData = $this->getQuote()->getCustomerData();
+        $isShippingSameAsBilling = $customerData->getDefaultBilling() && $customerData->getDefaultShipping()
+            && ($customerData->getDefaultBilling() == $customerData->getDefaultShipping());
+        return !$customerData->getDefaultShipping() || $isShippingSameAsBilling;
     }
 
     /**
@@ -440,11 +459,13 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     /**
      * Import quote address data from customer address object
      *
-     * @param   \Magento\Customer\Model\Address $address
-     * @return  \Magento\Sales\Model\Quote\Address
+     * @deprecated Use \Magento\Sales\Model\Quote\Address::importCustomerAddressData() instead
+     * @param \Magento\Customer\Model\Address $address
+     * @return \Magento\Sales\Model\Quote\Address
      */
     public function importCustomerAddress(\Magento\Customer\Model\Address $address)
     {
+        // TODO: Remove this method when all dependencies are refactored to use importCustomerAddressData()
         $this->_objectCopyService->copyFieldsetToTarget('customer_address', 'to_quote_address', $address, $this);
         $email = null;
         if ($address->hasEmail()) {
@@ -459,12 +480,35 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     }
 
     /**
+     * Import quote address data from customer address DTO.
+     *
+     * @param \Magento\Customer\Service\V1\Dto\Address $address
+     * @return \Magento\Sales\Model\Quote\Address
+     */
+    public function importCustomerAddressData(\Magento\Customer\Service\V1\Dto\Address $address)
+    {
+        $this->_objectCopyService->copyFieldsetToTarget(
+            'customer_address',
+            'to_quote_address',
+            $address->__toArray(),
+            $this
+        );
+        if ($address->getCustomerId()) {
+            $customer = $this->_customerService->getCustomer($address->getCustomerId());
+            $this->setEmail($customer->getEmail());
+        }
+        return $this;
+    }
+
+    /**
      * Export data to customer address object
      *
+     * @deprecated Use \Magento\Sales\Model\Quote\Address::exportCustomerAddressData() instead
      * @return \Magento\Customer\Model\Address
      */
     public function exportCustomerAddress()
     {
+        // TODO: Remove this method when all dependencies are refactored to use exportCustomerAddressData()
         $address = $this->_addressFactory->create();
         $this->_objectCopyService->copyFieldsetToTarget(
             'sales_convert_quote_address', 'to_customer_address', $this, $address
@@ -473,7 +517,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     }
 
     /**
-     * Export data to customer address Dto
+     * Export data to customer address DTO.
      *
      * @return \Magento\Customer\Service\V1\Dto\Address
      */

@@ -1553,10 +1553,10 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
             $customerDto = $this->_setupCustomer($customerData);
         } else if (!$customerDto->getCustomerId()) {
             /** Create new customer */
-            $customerBillingAddress = $this->getBillingAddress()->exportCustomerAddressData();
+            $customerBillingAddressDto = $this->getBillingAddress()->exportCustomerAddressData();
             $customerData = array_merge(
                 $customerDto->__toArray(),
-                $customerBillingAddress->__toArray(),
+                $customerBillingAddressDto->__toArray(),
                 [CustomerDto::STORE_ID => $store->getId(), CustomerDto::EMAIL => $this->_getNewCustomerEmail()]
             );
             /** Refresh customer DTO after its persistence */
