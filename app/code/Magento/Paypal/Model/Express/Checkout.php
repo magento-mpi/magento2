@@ -111,7 +111,7 @@ class Checkout
     /**
      * Billing agreement that might be created during order placing
      *
-     * @var \Magento\Sales\Model\Billing\Agreement
+     * @var \Magento\Paypal\Model\Billing\Agreement
      */
     protected $_billingAgreement;
 
@@ -194,7 +194,7 @@ class Checkout
     protected $_serviceQuoteFactory;
 
     /**
-     * @var \Magento\Sales\Model\Billing\AgreementFactory
+     * @var \Magento\Paypal\Model\Billing\AgreementFactory
      */
     protected $_agreementFactory;
 
@@ -207,6 +207,11 @@ class Checkout
      * @var \Magento\Object\Copy
      */
     protected $_objectCopyService;
+
+    /**
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $_checkoutSession;
 
     /**
      * Set config, session and quote instances
@@ -225,9 +230,10 @@ class Checkout
      * @param \Magento\Core\Model\Log\AdapterFactory $logFactory
      * @param \Magento\Checkout\Model\Type\OnepageFactory $onepageFactory
      * @param \Magento\Sales\Model\Service\QuoteFactory $serviceQuoteFactory
-     * @param \Magento\Sales\Model\Billing\AgreementFactory $agreementFactory
+     * @param \Magento\Paypal\Model\Billing\AgreementFactory $agreementFactory
      * @param \Magento\Paypal\Model\Api\Type\Factory $apiTypeFactory
      * @param \Magento\Object\Copy $objectCopyService
+     * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param array $params
      * @throws \Exception
      */
@@ -246,9 +252,10 @@ class Checkout
         \Magento\Core\Model\Log\AdapterFactory $logFactory,
         \Magento\Checkout\Model\Type\OnepageFactory $onepageFactory,
         \Magento\Sales\Model\Service\QuoteFactory $serviceQuoteFactory,
-        \Magento\Sales\Model\Billing\AgreementFactory $agreementFactory,
+        \Magento\Paypal\Model\Billing\AgreementFactory $agreementFactory,
         \Magento\Paypal\Model\Api\Type\Factory $apiTypeFactory,
         \Magento\Object\Copy $objectCopyService,
+        \Magento\Checkout\Model\Session $checkoutSession,
         $params = array()
     ) {
         $this->_customerData = $customerData;
@@ -268,6 +275,7 @@ class Checkout
         $this->_agreementFactory = $agreementFactory;
         $this->_apiTypeFactory = $apiTypeFactory;
         $this->_objectCopyService = $objectCopyService;
+        $this->_checkoutSession = $checkoutSession;
 
         if (isset($params['config']) && $params['config'] instanceof \Magento\Paypal\Model\Config) {
             $this->_config = $params['config'];
@@ -700,7 +708,7 @@ class Checkout
         if (!$order) {
             return;
         }
-        $this->_billingAgreement = $order->getPayment()->getBillingAgreement();
+        $this->_billingAgreement = $this->_checkoutSession->getBillingAgreement();
 
         // commence redirecting to finish payment, if paypal requires it
         if ($order->getPayment()->getAdditionalInformation(
@@ -763,7 +771,7 @@ class Checkout
     /**
      * Get created billing agreement
      *
-     * @return \Magento\Sales\Model\Billing\Agreement|null
+     * @return \Magento\Paypal\Model\Billing\Agreement|null
      */
     public function getBillingAgreement()
     {

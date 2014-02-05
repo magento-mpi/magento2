@@ -1,0 +1,64 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+/**
+ * Orders grid massaction items updater
+ */
+namespace Magento\Paypal\Model\Billing\Agreement;
+
+class OrdersUpdater implements \Magento\Core\Model\Layout\Argument\UpdaterInterface
+{
+    /**
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_registryManager;
+
+    /**
+     * @var \Magento\Paypal\Model\Resource\Billing\Agreement
+     */
+    protected $_agreementResource;
+
+    /**
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Paypal\Model\Resource\Billing\Agreement $agreementResource
+     * @param array $data
+     * @throws \InvalidArgumentException
+     */
+    public function __construct(
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Paypal\Model\Resource\Billing\Agreement $agreementResource,
+        array $data = array()
+    ) {
+        $this->_registryManager = isset($data['registry']) ? $data['registry'] : $coreRegistry;
+        $this->_agreementResource = $agreementResource;
+
+        if (false === ($this->_registryManager instanceof \Magento\Core\Model\Registry)) {
+            throw new \InvalidArgumentException('registry object has to be an instance of \Magento\Core\Model\Registry');
+        }
+    }
+
+    /**
+     * Add billing agreement filter
+     *
+     * @param mixed $argument
+     * @throws \DomainException
+     * @return mixed
+     * @throws \DomainException
+     */
+    public function update($argument)
+    {
+        $billingAgreement = $this->_registryManager->registry('current_billing_agreement');
+
+        if (!$billingAgreement) {
+            throw new \DomainException('Undefined billing agreement object');
+        }
+
+        $this->_agreementResource->addOrdersFilter($argument, $billingAgreement->getId());
+        return $argument;
+    }
+}

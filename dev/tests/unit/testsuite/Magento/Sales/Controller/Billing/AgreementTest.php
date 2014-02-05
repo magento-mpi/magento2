@@ -41,7 +41,7 @@ class AgreementTest extends \PHPUnit_Framework_TestCase
     protected $_messageManager;
 
     /**
-     * @var \Magento\Sales\Model\Billing\Agreement|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Paypal\Model\Billing\Agreement|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_agreement;
 

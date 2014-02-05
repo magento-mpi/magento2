@@ -28,19 +28,19 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_coreData;
 
     /**
-     * @var \Magento\Sales\Model\Billing\AgreementFactory
+     * @var \Magento\Paypal\Model\Billing\AgreementFactory
      */
     protected $_agreementFactory;
 
     /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Sales\Model\Billing\AgreementFactory $agreementFactory
+     * @param \Magento\Paypal\Model\Billing\AgreementFactory $agreementFactory
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Sales\Model\Billing\AgreementFactory $agreementFactory
+        \Magento\Paypal\Model\Billing\AgreementFactory $agreementFactory
     ) {
         $this->_coreData = $coreData;
         $this->_agreementFactory = $agreementFactory;

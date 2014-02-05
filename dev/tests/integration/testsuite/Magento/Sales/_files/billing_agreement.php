@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/** @var \Magento\Sales\Model\Billing\Agreement $billingAgreement */
+/** @var \Magento\Paypal\Model\Billing\Agreement $billingAgreement */
 $billingAgreement = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
     ->create('Magento\Sales\Model\Billing\Agreement')
     ->setAgreementLabel('TEST')

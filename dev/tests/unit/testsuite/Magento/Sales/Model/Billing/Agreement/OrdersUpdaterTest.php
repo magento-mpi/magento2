@@ -14,7 +14,7 @@ namespace Magento\Sales\Model\Billing\Agreement;
 class OrdersUpdaterTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Sales\Model\Billing\Agreement\OrdersUpdater
+     * @var \Magento\Paypal\Model\Billing\Agreement\OrdersUpdater
      */
     protected $_object;
 
@@ -59,11 +59,11 @@ class OrdersUpdaterTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->_object = new \Magento\Sales\Model\Billing\Agreement\OrdersUpdater($this->_registryMock);
+        $this->_object = new \Magento\Paypal\Model\Billing\Agreement\OrdersUpdater($this->_registryMock);
     }
 
     /**
-     * @covers \Magento\Sales\Model\Billing\Agreement\OrdersUpdater::update
+     * @covers \Magento\Paypal\Model\Billing\Agreement\OrdersUpdater::update
      */
     public function testUpdate()
     {
@@ -82,7 +82,7 @@ class OrdersUpdaterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Sales\Model\Billing\Agreement\OrdersUpdater::update
+     * @covers \Magento\Paypal\Model\Billing\Agreement\OrdersUpdater::update
      * @expectedException \DomainException
      */
     public function testUpdateWhenBillingAgreementIsNotSet()

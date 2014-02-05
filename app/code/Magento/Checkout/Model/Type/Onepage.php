@@ -829,12 +829,6 @@ class Onepage
             $this->_checkoutSession->setLastOrderId($order->getId())
                 ->setRedirectUrl($redirectUrl)
                 ->setLastRealOrderId($order->getIncrementId());
-
-            // as well a billing agreement can be created
-            $agreement = $order->getPayment()->getBillingAgreement();
-            if ($agreement) {
-                $this->_checkoutSession->setLastBillingAgreementId($agreement->getId());
-            }
         }
 
         // add recurring profiles information to the session

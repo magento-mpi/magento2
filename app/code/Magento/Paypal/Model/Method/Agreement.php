@@ -66,7 +66,7 @@ class Agreement extends \Magento\Sales\Model\Payment\Method\Billing\AbstractAgre
      * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory
-     * @param \Magento\Sales\Model\Billing\AgreementFactory $agreementFactory
+     * @param \Magento\Paypal\Model\Billing\AgreementFactory $agreementFactory
      * @param \Magento\UrlInterface $urlBuilder
      * @param \Magento\Paypal\Model\CartFactory $cartFactory
      * @param array $data
@@ -78,7 +78,7 @@ class Agreement extends \Magento\Sales\Model\Payment\Method\Billing\AbstractAgre
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
-        \Magento\Sales\Model\Billing\AgreementFactory $agreementFactory,
+        \Magento\Paypal\Model\Billing\AgreementFactory $agreementFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory,
         \Magento\UrlInterface $urlBuilder,
@@ -196,7 +196,7 @@ class Agreement extends \Magento\Sales\Model\Payment\Method\Billing\AbstractAgre
             $api->callUpdateBillingAgreement();
         } catch (\Magento\Core\Exception $e) {
             // when BA was already canceled, just pretend that the operation succeeded
-            if (!(\Magento\Sales\Model\Billing\Agreement::STATUS_CANCELED == $targetStatus
+            if (!(\Magento\Paypal\Model\Billing\Agreement::STATUS_CANCELED == $targetStatus
                 && $api->getIsBillingAgreementAlreadyCancelled())) {
                 throw $e;
             }
@@ -325,7 +325,7 @@ class Agreement extends \Magento\Sales\Model\Payment\Method\Billing\AbstractAgre
     protected function _placeOrder(\Magento\Sales\Model\Order\Payment $payment, $amount)
     {
         $order = $payment->getOrder();
-        /** @var \Magento\Sales\Model\Billing\Agreement $billingAgreement */
+        /** @var \Magento\Paypal\Model\Billing\Agreement $billingAgreement */
         $billingAgreement = $this->_agreementFactory->create()->load(
             $payment->getAdditionalInformation(
                 \Magento\Sales\Model\Payment\Method\Billing\AbstractAgreement::TRANSPORT_BILLING_AGREEMENT_ID

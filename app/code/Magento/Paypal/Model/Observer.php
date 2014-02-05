@@ -52,12 +52,30 @@ class Observer
     protected $_view;
 
     /**
+     * @var \Magento\AuthorizationInterface
+     */
+    protected $_authorization;
+
+    /**
+     * @var \Magento\Paypal\Model\Billing\AgreementFactory
+     */
+    protected $_agreementFactory;
+
+    /**
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $_checkoutSession;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Paypal\Helper\Hss $paypalHss
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Logger $logger
      * @param Report\SettlementFactory $settlementFactory
      * @param \Magento\App\ViewInterface $view
+     * @param \Magento\AuthorizationInterface $authorization
+     * @param \Magento\Paypal\Model\Billing\AgreementFactory $agreementFactory
+     * @param \Magento\Checkout\Model\Session $checkoutSession
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
@@ -65,7 +83,10 @@ class Observer
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Logger $logger,
         \Magento\Paypal\Model\Report\SettlementFactory $settlementFactory,
-        \Magento\App\ViewInterface $view
+        \Magento\App\ViewInterface $view,
+        \Magento\AuthorizationInterface $authorization,
+        \Magento\Paypal\Model\Billing\AgreementFactory $agreementFactory,
+        \Magento\Checkout\Model\Session $checkoutSession
     ) {
         $this->_coreData = $coreData;
         $this->_paypalHss = $paypalHss;
@@ -73,6 +94,9 @@ class Observer
         $this->_logger = $logger;
         $this->_settlementFactory = $settlementFactory;
         $this->_view = $view;
+        $this->_authorization = $authorization;
+        $this->_agreementFactory = $agreementFactory;
+        $this->_checkoutSession = $checkoutSession;
     }
 
     /**
@@ -158,5 +182,44 @@ class Observer
         }
 
         return $this;
+    }
+
+    /**
+     * Block admin ability to use customer billing agreements
+     *
+     * @param \Magento\Event\Observer $observer
+     */
+    public function restrictAdminBillingAgreementUsage($observer)
+    {
+        $event = $observer->getEvent();
+        $methodInstance = $event->getMethodInstance();
+        if ($methodInstance instanceof \Magento\Paypal\Model\Payment\Method\Billing\AbstractAgreement
+            && false == $this->_authorization->isAllowed('Magento_Paypal::use')
+        ) {
+            $event->getResult()->isAvailable = false;
+        }
+    }
+
+    /**
+     * @param \Magento\Event\Observer $observer
+     */
+    public function addBillingAgreementToSession(\Magento\Event\Observer $observer)
+    {
+        /** @var \Magento\Sales\Model\Order\Payment $orderPayment */
+        $orderPayment = $observer->getEvent()->getPayment();
+        if ($orderPayment->getBillingAgreementData()) {
+            $order = $orderPayment->getOrder();
+            $agreement = $this->_agreementFactory->create()->importOrderPayment($orderPayment);
+            if ($agreement->isValid()) {
+                $message = __('Created billing agreement #%1.', $agreement->getReferenceId());
+                $order->addRelatedObject($agreement);
+                $this->_checkoutSession->setBillingAgreement($agreement);
+                $this->_checkoutSession->setLastBillingAgreementId($agreement->getId());
+            } else {
+                $message = __('We couldn\'t create a billing agreement for this order.');
+            }
+            $comment = $order->addStatusHistoryComment($message);
+            $order->addRelatedObject($comment);
+        }
     }
 }

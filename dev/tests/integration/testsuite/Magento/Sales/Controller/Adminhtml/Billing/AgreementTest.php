@@ -42,7 +42,7 @@ class AgreementTest extends \Magento\Backend\Utility\Controller
      */
     public function testCustomerInfoTabs()
     {
-        /** @var \Magento\Sales\Model\Resource\Billing\Agreement\Collection $billingAgreementCollection */
+        /** @var \Magento\Paypal\Model\Resource\Billing\Agreement\Collection $billingAgreementCollection */
         $billingAgreementCollection = Bootstrap::getObjectManager()
             ->create('Magento\Sales\Model\Resource\Billing\Agreement\Collection');
         $agreementId = $billingAgreementCollection->getFirstItem()->getId();

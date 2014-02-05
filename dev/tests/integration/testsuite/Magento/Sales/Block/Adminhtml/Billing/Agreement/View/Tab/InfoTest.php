@@ -19,7 +19,7 @@ class InfoTest extends \Magento\Backend\Utility\Controller
      */
     public function testCustomerGridAction()
     {
-        /** @var \Magento\Sales\Model\Resource\Billing\Agreement\Collection $billingAgreementCollection */
+        /** @var \Magento\Paypal\Model\Resource\Billing\Agreement\Collection $billingAgreementCollection */
         $billingAgreementCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Sales\Model\Resource\Billing\Agreement\Collection')
             ->load();
