@@ -767,12 +767,6 @@ class Product extends \Magento\Backend\App\Action
                 'id'       => $productId,
                 '_current' => true
             ));
-        } elseif ($this->getRequest()->getParam('popup')) {
-            $this->_redirect('catalog/*/created', array(
-                '_current' => true,
-                'id'       => $productId,
-                'edit'     => $isEdit
-            ));
         } else {
             $this->_redirect('catalog/*/', array('store'=>$storeId));
         }
@@ -819,15 +813,6 @@ class Product extends \Magento\Backend\App\Action
         $this->_initProduct();
         $this->_addContent(
             $this->_view->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Attribute\NewAttribute\Product\Created')
-        );
-        $this->_view->renderLayout();
-    }
-
-    public function createdAction()
-    {
-        $this->_view->loadLayout('popup');
-        $this->_addContent(
-            $this->_view->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Created')
         );
         $this->_view->renderLayout();
     }
