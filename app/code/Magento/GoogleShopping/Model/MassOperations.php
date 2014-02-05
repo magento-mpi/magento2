@@ -12,8 +12,6 @@ namespace Magento\GoogleShopping\Model;
 use Magento\Core\Exception as CoreException;
 use Magento\GoogleShopping\Model\Resource\Item\Collection as ItemCollection;
 
-namespace Magento\GoogleShopping\Model;
-
 /**
  * Controller for mass opertions with items
  *
@@ -24,11 +22,15 @@ namespace Magento\GoogleShopping\Model;
 class MassOperations
 {
     /**
+     * GoogleShopping data
+     *
      * @var \Magento\GoogleShopping\Helper\Data
      */
     protected $_gleShoppingData = null;
 
     /**
+     * GoogleShopping category
+     *
      * @var \Magento\GoogleShopping\Helper\Category|null
      */
     protected $_gleShoppingCategory = null;
@@ -122,6 +124,8 @@ class MassOperations
     protected $_flag;
 
     /**
+     * Logger
+     *
      * @var \Magento\Logger
      */
     protected $_logger;
@@ -130,7 +134,7 @@ class MassOperations
      * Set process locking flag.
      *
      * @param \Magento\GoogleShopping\Model\Flag $flag
-     * @return \Magento\GoogleShopping\Model\MassOperations
+     * @return $this
      */
     public function setFlag(\Magento\GoogleShopping\Model\Flag $flag)
     {
@@ -143,9 +147,8 @@ class MassOperations
      *
      * @param int[] $productIds
      * @param int $storeId
-     * @throws \Zend_Gdata_App_CaptchaRequiredException
-     * @throws CoreException
      * @return $this
+     * @throws \Exception|\Zend_Gdata_App_CaptchaRequiredException
      */
     public function addProducts($productIds, $storeId)
     {
@@ -215,9 +218,8 @@ class MassOperations
      * Update Google Content items.
      *
      * @param int[]|ItemCollection $items
-     * @throws \Zend_Gdata_App_CaptchaRequiredException
-     * @throws CoreException
      * @return $this
+     * @throws \Exception|\Zend_Gdata_App_CaptchaRequiredException
      */
     public function synchronizeItems($items)
     {
@@ -290,8 +292,8 @@ class MassOperations
      * Remove Google Content items.
      *
      * @param int[]|ItemCollection $items
-     * @throws \Zend_Gdata_App_CaptchaRequiredException
      * @return $this
+     * @throws \Exception|\Zend_Gdata_App_CaptchaRequiredException
      */
     public function deleteItems($items)
     {
