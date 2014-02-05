@@ -72,7 +72,7 @@ class Shell
     public function executeInBackground($command)
     {
         if ($this->_osInfo->isWindows()) {
-            $command = 'start "magento background task" "' . $command . '"';
+            $command = 'start /B "magento background task" ' . $command;
         } else {
             $command .=  ' > /dev/null 2>1 &';
         }

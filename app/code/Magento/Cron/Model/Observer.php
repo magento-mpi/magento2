@@ -122,7 +122,7 @@ class Observer
                 ) == 1
             ) {
                 $this->_shell->executeInBackground(
-                    PHP_BINARY . ' -f ' . BP . DIRECTORY_SEPARATOR
+                    '"' . PHP_BINARY . '" -f ' . BP . DIRECTORY_SEPARATOR
                     . \Magento\App\Filesystem::PUB_DIR . DIRECTORY_SEPARATOR
                     . 'cron.php -- --group=' . $groupId
                 );

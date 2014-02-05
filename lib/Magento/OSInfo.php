@@ -37,6 +37,6 @@ class OSInfo
      */
     public function isWindows()
     {
-        return $this->os == 'Windows';
+        return strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
     }
 }
