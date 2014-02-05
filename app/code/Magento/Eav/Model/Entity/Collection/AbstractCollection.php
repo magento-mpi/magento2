@@ -9,6 +9,8 @@
  */
 namespace Magento\Eav\Model\Entity\Collection;
 
+use Magento\DB\Select;
+
 /**
  * Entity/Attribute/Model - collection abstract
  */
