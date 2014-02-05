@@ -56,7 +56,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param $content
+     * @param array $content
      * @dataProvider contentProvider
      */
     public function testCacheGeneration($content)
@@ -71,7 +71,6 @@ class CacheTest extends \PHPUnit_Framework_TestCase
          */
         foreach ($content as $testData) {
             $cachedContent = $this->processLess($designParams, $testData['content'], $testData['mtime']);
-            //die('123');
             $this->assertContains($testData['expected'], $cachedContent);
         }
     }
