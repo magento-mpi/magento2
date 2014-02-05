@@ -8,7 +8,6 @@
 
 namespace Magento\View\Layout\Argument\Interpreter;
 
-use Magento\ObjectManager;
 use Magento\Data\Argument\InterpreterInterface;
 
 /**
@@ -17,11 +16,6 @@ use Magento\Data\Argument\InterpreterInterface;
 class NamedParams implements InterpreterInterface
 {
     /**
-     * @var ObjectManager
-     */
-    private $objectManager;
-
-    /**
      * Interpreter of individual parameter
      *
      * @var InterpreterInterface
@@ -29,12 +23,10 @@ class NamedParams implements InterpreterInterface
     private $paramInterpreter;
 
     /**
-     * @param ObjectManager $objectManager
      * @param InterpreterInterface $paramInterpreter
      */
-    public function __construct(ObjectManager $objectManager, InterpreterInterface $paramInterpreter)
+    public function __construct(InterpreterInterface $paramInterpreter)
     {
-        $this->objectManager = $objectManager;
         $this->paramInterpreter = $paramInterpreter;
     }
 
