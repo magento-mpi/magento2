@@ -2198,7 +2198,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * return checkout method code
+     * Return checkout method code
      *
      * @param boolean $originalMethod if true return defined method from beginning
      * @return string

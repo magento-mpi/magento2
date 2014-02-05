@@ -57,6 +57,7 @@ class Agreement extends \Magento\Payment\Block\Form
     public function getBillingAgreements()
     {
         $data = array();
+        /** @var \Magento\Sales\Model\Quote $quote */
         $quote = $this->getParentBlock()->getQuote();
         if (!$quote || !$quote->getCustomerId()) {
             return $data;
