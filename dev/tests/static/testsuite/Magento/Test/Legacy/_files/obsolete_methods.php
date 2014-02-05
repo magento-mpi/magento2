@@ -720,6 +720,7 @@ return array(
     array('overrideProductThumbnail', 'Magento\Checkout\Block\Cart\Item\Renderer'),
     array('_getThumbnail', 'Magento\Checkout\Block\Cart\Item\Renderer'),
     array('getConfigurableProduct', 'Magento\ConfigurableProduct\Block\Cart\Item\Renderer\Configurable'),
+    array('getConfigurableOptions', 'Magento\Catalog\Helper\Product\Configuration'),
     array('getProductAttributes', 'Magento\ConfigurableProduct\Block\Cart\Item\Renderer\Configurable'),
     array('substDistroServerVars', 'Magento\Core\Model\Config'),
     array('superGroupGridOnlyAction', 'Magento\Catalog\Controller\Adminhtml\Product'),

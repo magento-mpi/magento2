@@ -74,13 +74,13 @@ class Configurable extends \Magento\Checkout\Block\Cart\Item\Renderer
     }
 
     /**
-     * Get list of all otions for product
+     * Get list of all options for product
      *
      * @return array
      */
     public function getOptionList()
     {
-        return $this->_productConfig->getConfigurableOptions($this->getItem());
+        return $this->_productConfig->getOptions($this->getItem());
     }
 
     /**

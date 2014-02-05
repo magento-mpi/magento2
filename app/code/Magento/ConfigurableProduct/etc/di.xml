@@ -9,16 +9,19 @@
 -->
 <config>
     <type name="Magento\CatalogInventory\Model\Quote\Item\QuantityValidator\Initializer\Option">
-        <plugin name="configurable_product" type="Magento\ConfigurableProduct\Model\Quote\Item\QuantityValidator\Initializer\Option\Plugin\ConfigurableProduct" />
+        <plugin name="configurable_product" type="Magento\ConfigurableProduct\Model\Quote\Item\QuantityValidator\Initializer\Option\Plugin\ConfigurableProduct" sortOrder="50" />
     </type>
     <type name="Magento\Catalog\Model\Product\CartConfiguration">
-        <plugin name="configurable_product" type="Magento\ConfigurableProduct\Model\Product\CartConfiguration\Plugin\Configurable" />
+        <plugin name="configurable_product" type="Magento\ConfigurableProduct\Model\Product\CartConfiguration\Plugin\Configurable" sortOrder="50" />
     </type>
     <type name="Magento\Sales\Model\Order\Admin\Item">
-        <plugin name="configurable_product" type="Magento\ConfigurableProduct\Model\Order\Admin\Item\Plugin\Configurable"/>
+        <plugin name="configurable_product" type="Magento\ConfigurableProduct\Model\Order\Admin\Item\Plugin\Configurable" sortOrder="50" />
+    </type>
+    <type name="Magento\Catalog\Helper\Product\Configuration">
+        <plugin name="confiburable_product" type="Magento\ConfigurableProduct\Helper\Product\Configuration\Plugin" sortOrder="50" />
     </type>
     <type name="Magento\Catalog\Model\Product\TypeTransitionManager">
-        <plugin name="configurable_product_transition" type="Magento\ConfigurableProduct\Model\Product\TypeTransitionManager\Plugin\Configurable" />
+        <plugin name="configurable_product_transition" type="Magento\ConfigurableProduct\Model\Product\TypeTransitionManager\Plugin\Configurable" sortOrder="50" />
         <param name="compatibleTypes">
             <array>
                 <item key="configurable"><value type="const">Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE</value></item>
