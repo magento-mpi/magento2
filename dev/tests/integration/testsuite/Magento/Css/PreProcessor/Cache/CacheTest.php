@@ -56,6 +56,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param $content
      * @dataProvider contentProvider
      */
     public function testCacheGeneration($content)
@@ -70,6 +71,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
          */
         foreach ($content as $testData) {
             $cachedContent = $this->processLess($designParams, $testData['content'], $testData['mtime']);
+            //die('123');
             $this->assertContains($testData['expected'], $cachedContent);
         }
     }
@@ -86,7 +88,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
             $this->tmpDirectory->create(self::LIB_SUB_DIR);
         }
 
-        $this->tmpDirectory->writeFile(self::LIB_SUB_DIR . '/mail.less', '@import "test_import.less";');
+        $this->tmpDirectory->writeFile(self::LIB_SUB_DIR . '/test_main.less', '@import "test_import.less";');
         $this->tmpDirectory->writeFile(self::LIB_SUB_DIR . '/test_import.less', $content);
         $this->tmpDirectory->touch(self::LIB_SUB_DIR . '/test_import.less', $mtime);
 
