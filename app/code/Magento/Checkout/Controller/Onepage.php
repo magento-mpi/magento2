@@ -70,10 +70,10 @@ class Onepage extends \Magento\Checkout\Controller\Action
         $this->_request = $request;
         $this->_preDispatchValidateCustomer();
 
-        $checkoutSessionQuote = $this->_objectManager->get('Magento\Checkout\Model\Session')->getQuote();
-        if ($checkoutSessionQuote->getIsMultiShipping()) {
-            $checkoutSessionQuote->setIsMultiShipping(false);
-            $checkoutSessionQuote->removeAllAddresses();
+        /** @var \Magento\Sales\Model\Quote $quote */
+        $quote = $this->_objectManager->get('Magento\Checkout\Model\Session')->getQuote();
+        if ($quote->isMultipleShippingAddresses()) {
+            $quote->removeAllAddresses();
         }
 
         if (!$this->_canShowForUnregisteredUsers()) {
@@ -102,7 +102,6 @@ class Onepage extends \Magento\Checkout\Controller\Action
     {
         if (!$this->getOnepage()->getQuote()->hasItems()
             || $this->getOnepage()->getQuote()->getHasError()
-            || $this->getOnepage()->getQuote()->getIsMultiShipping()
         ) {
             $this->_ajaxRedirectResponse();
             return true;

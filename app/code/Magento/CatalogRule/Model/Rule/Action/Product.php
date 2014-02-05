@@ -13,6 +13,9 @@ namespace Magento\CatalogRule\Model\Rule\Action;
 
 class Product extends \Magento\Rule\Model\Action\AbstractAction
 {
+    /**
+     * @return $this
+     */
     public function loadAttributeOptions()
     {
         $this->setAttributeOption(array(
@@ -21,6 +24,9 @@ class Product extends \Magento\Rule\Model\Action\AbstractAction
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function loadOperatorOptions()
     {
         $this->setOperatorOption(array(
@@ -32,6 +38,9 @@ class Product extends \Magento\Rule\Model\Action\AbstractAction
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function asHtml()
     {
         $html = $this->getTypeElement()->getHtml().__("Update product's %1 %2: %3", $this->getAttributeElement()->getHtml(), $this->getOperatorElement()->getHtml(), $this->getValueElement()->getHtml());

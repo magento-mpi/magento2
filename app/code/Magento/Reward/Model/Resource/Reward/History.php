@@ -18,6 +18,8 @@
  */
 namespace Magento\Reward\Model\Resource\Reward;
 
+use Magento\Reward\Model\Reward\History as ModelRewardHistory;
+
 class History extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -49,11 +51,11 @@ class History extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Check if history update with given action, customer and entity exist
      *
-     * @param integer $customerId
-     * @param integer $action
-     * @param integer $websiteId
+     * @param int $customerId
+     * @param int $action
+     * @param int $websiteId
      * @param mixed $entity
-     * @return boolean
+     * @return bool
      */
     public function isExistHistoryUpdate($customerId, $action, $websiteId, $entity)
     {
@@ -81,7 +83,7 @@ class History extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param int $action
      * @param int $customerId
-     * @param integer $websiteId
+     * @param int $websiteId
      * @return int
      */
     public function getTotalQtyRewards($action, $customerId, $websiteId)
@@ -106,9 +108,9 @@ class History extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Retrieve actual history records that have unused points, i.e. points_delta-points_used > 0
      * Update points_used field for non-used points
      *
-     * @param \Magento\Reward\Model\Reward\History $history
+     * @param ModelRewardHistory $history
      * @param int $required Points total that required
-     * @return \Magento\Reward\Model\Resource\Reward\History
+     * @return $this
      */
     public function useAvailablePoints($history, $required)
     {
@@ -194,7 +196,7 @@ class History extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param int $websiteId
      * @param string $expiryType Expiry calculation (static or dynamic)
      * @param int $limit Limitation for records expired selection
-     * @return \Magento\Reward\Model\Resource\Reward\History
+     * @return $this
      */
     public function expirePoints($websiteId, $expiryType, $limit)
     {
@@ -271,7 +273,7 @@ class History extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Mark history records as notification was sent to customer (about points expiration)
      *
      * @param array $ids
-     * @return \Magento\Reward\Model\Resource\Reward\History
+     * @return $this
      */
     public function markAsNotified($ids)
     {
@@ -285,11 +287,11 @@ class History extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Perform Row-level data update
      *
-     * @param \Magento\Reward\Model\Reward\History $object
+     * @param ModelRewardHistory $object
      * @param array $data New data
-     * @return \Magento\Reward\Model\Resource\Reward\History
+     * @return $this
      */
-    public function updateHistoryRow(\Magento\Reward\Model\Reward\History $object, $data)
+    public function updateHistoryRow(ModelRewardHistory $object, $data)
     {
         if (!$object->getId() || !is_array($data)) {
             return $this;

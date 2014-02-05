@@ -76,7 +76,7 @@ class Reward
     /**
      * Check if can show tab
      *
-     * @return boolean
+     * @return bool
      */
     public function canShowTab()
     {
@@ -89,7 +89,7 @@ class Reward
     /**
      * Check if tab hidden
      *
-     * @return boolean
+     * @return bool
      */
     public function isHidden()
     {
@@ -100,7 +100,7 @@ class Reward
      * Prepare layout.
      * Add accordion items
      *
-     * @return \Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward
+     * @return $this
      */
     protected function _prepareLayout()
     {

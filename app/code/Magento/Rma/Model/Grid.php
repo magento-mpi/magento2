@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Rma\Model;
+
 /**
  * RMA model
  */
-namespace Magento\Rma\Model;
-
 class Grid extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -52,7 +52,7 @@ class Grid extends \Magento\Core\Model\AbstractModel
     /**
      * Get available states keys for items
      *
-     * @return array
+     * @return string[]
      */
     protected function _getAvailableStates()
     {

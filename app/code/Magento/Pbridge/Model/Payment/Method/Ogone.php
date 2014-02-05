@@ -30,17 +30,60 @@ class Ogone extends \Magento\Pbridge\Model\Payment\Method
      * Availability options
      */
     protected $_isGateway               = true;
+
+    /**
+     * @var bool
+     */
     protected $_canAuthorize            = true;
+
+    /**
+     * @var bool
+     */
     protected $_canCapture              = true;
+
+    /**
+     * @var bool
+     */
     protected $_canCapturePartial       = true;
+
+    /**
+     * @var bool
+     */
     protected $_canRefund               = true;
+
+    /**
+     * @var bool
+     */
     protected $_canRefundInvoicePartial = true;
+
+    /**
+     * @var bool
+     */
     protected $_canVoid                 = true;
+
+    /**
+     * @var bool
+     */
     protected $_canUseInternal          = true;
+
+    /**
+     * @var bool
+     */
     protected $_canUseCheckout          = true;
-    protected $_canUseForMultishipping  = true;
+
+    /**
+     * @var bool
+     */
     protected $_canSaveCc = false;
+
+    /**
+     * @var bool
+     */
     protected $_canFetchTransactionInfo = true;
+
+    /**
+     * @var bool
+     */
     protected $_canReviewPayment        = true;
 
     /**
@@ -48,7 +91,7 @@ class Ogone extends \Magento\Pbridge\Model\Payment\Method
      *
      * @param \Magento\Object $payment
      * @param float $amount
-     * @return \Magento\Pbridge\Model\Payment\Method\Ogone
+     * @return $this
      */
     public function authorize(\Magento\Object $payment, $amount)
     {
@@ -62,7 +105,7 @@ class Ogone extends \Magento\Pbridge\Model\Payment\Method
      *
      * @param \Magento\Object $payment
      * @param float $amount
-     * @return \Magento\Pbridge\Model\Payment\Method\Ogone
+     * @return $this
      */
     public function capture(\Magento\Object $payment, $amount)
     {
@@ -80,7 +123,7 @@ class Ogone extends \Magento\Pbridge\Model\Payment\Method
      *
      * @param \Magento\Object $payment
      * @param float $amount
-     * @return \Magento\Pbridge\Model\Payment\Method\Ogone
+     * @return $this
      */
     public function refund(\Magento\Object $payment, $amount)
     {
@@ -94,7 +137,7 @@ class Ogone extends \Magento\Pbridge\Model\Payment\Method
      * Voiding method being executed via Payment Bridge
      *
      * @param \Magento\Object $payment
-     * @return \Magento\Pbridge\Model\Payment\Method\Ogone
+     * @return $this
      */
     public function void(\Magento\Object $payment)
     {
@@ -107,7 +150,7 @@ class Ogone extends \Magento\Pbridge\Model\Payment\Method
      * Cancel payment
      *
      * @param \Magento\Object $payment
-     * @return \Magento\Pbridge\Model\Payment\Method\Ogone
+     * @return $this
      */
     public function cancel(\Magento\Object $payment)
     {

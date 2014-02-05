@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Rma\Model\Item;
+
 /**
  * RMA Item Form Model
  */
-namespace Magento\Rma\Model\Item;
-
 class Form extends \Magento\Eav\Model\Form
 {
     /**
@@ -80,7 +80,7 @@ class Form extends \Magento\Eav\Model\Form
      * Validate data array and return true or array of errors
      *
      * @param array $data
-     * @return boolean|array
+     * @return bool|array
      */
     public function validateData(array $data)
     {

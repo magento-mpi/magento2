@@ -7,12 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rma\Block\Adminhtml\Rma\Edit;
+
+use Magento\Rma\Model\Item as ModelItem;
 
 /**
  * User-attributes block for RMA Item  in Admin RMA edit
  */
-namespace Magento\Rma\Block\Adminhtml\Rma\Edit;
-
 class Item extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
@@ -59,7 +60,7 @@ class Item extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Preparing form - container, which contains all attributes
      *
-     * @return \Magento\Rma\Block\Adminhtml\Rma\Edit\Item
+     * @return $this
      */
     public function initForm()
     {
@@ -118,7 +119,7 @@ class Item extends \Magento\Backend\Block\Widget\Form\Generic
      *
      * You can redefine this method in child classes for changin layout
      *
-     * @return \Magento\View\Element\AbstractBlock
+     * @return $this
      */
     protected function _prepareLayout()
     {
@@ -161,7 +162,8 @@ class Item extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Add needed data (Product name) to RMA item during create process
      *
-     * @param \Magento\Rma\Model\Item $item
+     * @param ModelItem $item
+     * @return void
      */
     protected function _populateItemWithProductData($item)
     {

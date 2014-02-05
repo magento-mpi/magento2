@@ -9,19 +9,24 @@
  */
 namespace Magento\Profiler\Driver;
 
-class Standard implements \Magento\Profiler\DriverInterface
+use Magento\Profiler\Driver\Standard\Output\Factory as OutputFactory;
+use Magento\Profiler\Driver\Standard\OutputInterface;
+use Magento\Profiler\Driver\Standard\Stat;
+use Magento\Profiler\DriverInterface;
+
+class Standard implements DriverInterface
 {
     /**
      * Storage for timers statistics
      *
-     * @var \Magento\Profiler\Driver\Standard\Stat
+     * @var Stat
      */
     protected $_stat;
 
     /**
      * List of profiler driver outputs
      *
-     * @var \Magento\Profiler\Driver\Standard\OutputInterface[]
+     * @var OutputInterface[]
      */
     protected $_outputs = array();
 
@@ -41,6 +46,7 @@ class Standard implements \Magento\Profiler\DriverInterface
      * Init outputs by configuration
      *
      * @param array|null $config
+     * @return void
      */
     protected function _initOutputs(array $config = null)
     {
@@ -108,16 +114,16 @@ class Standard implements \Magento\Profiler\DriverInterface
      * Gets output factory from configuration or create new one
      *
      * @param array|null $config
-     * @return \Magento\Profiler\Driver\Standard\Output\Factory
+     * @return OutputFactory
      */
     protected function _getOutputFactory(array $config = null)
     {
         if (isset($config['outputFactory'])
-            && $config['outputFactory'] instanceof \Magento\Profiler\Driver\Standard\Output\Factory
+            && $config['outputFactory'] instanceof OutputFactory
         ) {
             $result = $config['outputFactory'];
         } else {
-            $result = new \Magento\Profiler\Driver\Standard\Output\Factory();
+            $result = new OutputFactory();
         }
         return $result;
     }
@@ -126,15 +132,16 @@ class Standard implements \Magento\Profiler\DriverInterface
      * Init timers statistics object from configuration or create new one
      *
      * @param array $config|null
+     * @return void
      */
     protected function _initStat(array $config = null)
     {
         if (isset($config['stat'])
-            && $config['stat'] instanceof \Magento\Profiler\Driver\Standard\Stat
+            && $config['stat'] instanceof Stat
         ) {
             $this->_stat = $config['stat'];
         } else {
-            $this->_stat = new \Magento\Profiler\Driver\Standard\Stat();
+            $this->_stat = new Stat();
         }
     }
 
@@ -142,6 +149,7 @@ class Standard implements \Magento\Profiler\DriverInterface
      * Clear collected statistics for specified timer or for whole profiler if timer id is omitted
      *
      * @param string|null $timerId
+     * @return void
      */
     public function clear($timerId = null)
     {
@@ -153,6 +161,7 @@ class Standard implements \Magento\Profiler\DriverInterface
      *
      * @param string $timerId
      * @param array|null $tags
+     * @return void
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function start($timerId, array $tags = null)
@@ -164,6 +173,7 @@ class Standard implements \Magento\Profiler\DriverInterface
      * Stop recording statistics for specified timer.
      *
      * @param string $timerId
+     * @return void
      */
     public function stop($timerId)
     {
@@ -173,15 +183,18 @@ class Standard implements \Magento\Profiler\DriverInterface
     /**
      * Register profiler output instance to display profiling result at the end of execution
      *
-     * @param \Magento\Profiler\Driver\Standard\OutputInterface $output
+     * @param OutputInterface $output
+     * @return void
      */
-    public function registerOutput(\Magento\Profiler\Driver\Standard\OutputInterface $output)
+    public function registerOutput(OutputInterface $output)
     {
         $this->_outputs[] = $output;
     }
 
     /**
      * Display collected statistics with registered outputs
+     *
+     * @return void
      */
     public function display()
     {

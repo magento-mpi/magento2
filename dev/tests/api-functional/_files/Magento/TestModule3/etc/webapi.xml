@@ -8,11 +8,11 @@
  */
 -->
 <config>
-    <service class="Magento\TestModule3\Service\ErrorV1Interface" baseUrl="/V1/errortest">
+    <service class="Magento\TestModule3\Service\V1\ErrorInterface" baseUrl="/V1/errortest">
         <rest-route httpMethod="GET" method="success" resources="Magento_TestModule3::resource1">/success</rest-route>
         <rest-route httpMethod="GET" method="resourceNotFoundException" resources="Magento_TestModule3::resource1">/notfound</rest-route>
         <rest-route httpMethod="GET" method="serviceException" resources="Magento_TestModule3::resource1">/serviceexception</rest-route>
-        <rest-route httpMethod="GET" method="parameterizedServiceException" resources="Magento_TestModule3::resource1">/parameterizedserviceexception</rest-route>
+        <rest-route httpMethod="POST" method="parameterizedServiceException" resources="Magento_TestModule3::resource1">/parameterizedserviceexception</rest-route>
         <rest-route httpMethod="GET" method="authorizationException" resources="Magento_TestModule3::resource1">/unauthorized</rest-route>
         <rest-route httpMethod="GET" method="otherException" resources="Magento_TestModule3::resource1">/otherexception</rest-route>
         <rest-route httpMethod="GET" method="returnIncompatibleDataType" resources="Magento_TestModule3::resource1">/returnIncompatibleDataType</rest-route>

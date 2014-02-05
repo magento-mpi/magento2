@@ -7,12 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rma\Block\Adminhtml\Rma\NewRma\Tab\Items;
+
+use Magento\Catalog\Model\Product;
 
 /**
  * Admin RMA create order grid block
  */
-namespace Magento\Rma\Block\Adminhtml\Rma\NewRma\Tab\Items;
-
 class Grid
     extends \Magento\Backend\Block\Widget\Grid\Extended
 {
@@ -309,8 +310,8 @@ class Grid
     /**
      * Return row url for js event handlers
      *
-     * @param \Magento\Catalog\Model\Product|\Magento\Object
-     * @return string
+     * @param Product|\Magento\Object $item
+     * @return string|null
      */
     public function getRowUrl($item)
     {

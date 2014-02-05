@@ -68,8 +68,9 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     }
 
     /**
-     * rate validation URL getter
+     * Get validation url
      *
+     * @return string
      */
     public function getValidationUrl()
     {

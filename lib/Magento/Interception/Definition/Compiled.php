@@ -9,7 +9,9 @@
  */
 namespace Magento\Interception\Definition;
 
-class Compiled implements \Magento\Interception\Definition
+use Magento\Interception\Definition;
+
+class Compiled implements Definition
 {
     /**
      * List of plugin definitions
@@ -30,7 +32,7 @@ class Compiled implements \Magento\Interception\Definition
      * Retrieve list of methods
      *
      * @param string $type
-     * @return array
+     * @return string[]
      */
     public function getMethodList($type)
     {

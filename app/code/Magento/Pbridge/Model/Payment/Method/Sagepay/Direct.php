@@ -26,39 +26,66 @@ class Direct extends \Magento\Pbridge\Model\Payment\Method
     protected $_code  = 'sagepay_direct';
 
     /**
-     * Payment options
+     * @var bool
      */
     protected $_isGateway               = true;
-    protected $_canAuthorize            = true;
-    protected $_canCapture              = true;
-    protected $_canCapturePartial       = true;
-    protected $_canRefund               = true;
-    protected $_canRefundInvoicePartial = true;
-    protected $_canVoid                 = true;
-    protected $_canUseInternal          = true;
-    protected $_canUseCheckout          = true;
-    protected $_canUseForMultishipping  = true;
-    protected $_canSaveCc               = false;
-    protected $_isInitializeNeeded      = false;
 
     /**
-     * Disable payment method if 3D Secure is enabled
-     * @return bool
+     * @var bool
      */
-    public function canUseForMultishipping()
-    {
-        if ($this->_is3DSEnabled()) {
-            return false;
-        }
-        return parent::canUseForMultishipping();
-    }
+    protected $_canAuthorize            = true;
+
+    /**
+     * @var bool
+     */
+    protected $_canCapture              = true;
+
+    /**
+     * @var bool
+     */
+    protected $_canCapturePartial       = true;
+
+    /**
+     * @var bool
+     */
+    protected $_canRefund               = true;
+
+    /**
+     * @var bool
+     */
+    protected $_canRefundInvoicePartial = true;
+
+    /**
+     * @var bool
+     */
+    protected $_canVoid                 = true;
+
+    /**
+     * @var bool
+     */
+    protected $_canUseInternal          = true;
+
+    /**
+     * @var bool
+     */
+    protected $_canUseCheckout          = true;
+
+    /**
+     * @var bool
+     */
+    protected $_canSaveCc               = false;
+
+    /**
+     * @var bool
+     */
+    protected $_isInitializeNeeded      = false;
 
     /**
      * Authorization method being executed via Payment Bridge
      *
      * @param \Magento\Object $payment
      * @param float $amount
-     * @return \Magento\Pbridge\Model\Payment\Method\Sagepay\Direct
+     * @return $this
      */
     public function authorize(\Magento\Object $payment, $amount)
     {
@@ -73,7 +100,7 @@ class Direct extends \Magento\Pbridge\Model\Payment\Method
      *
      * @param \Magento\Object $payment
      * @param float $amount
-     * @return \Magento\Pbridge\Model\Payment\Method\Sagepay\Direct
+     * @return $this
      */
     public function capture(\Magento\Object $payment, $amount)
     {
@@ -91,7 +118,7 @@ class Direct extends \Magento\Pbridge\Model\Payment\Method
      *
      * @param \Magento\Object $payment
      * @param float $amount
-     * @return \Magento\Pbridge\Model\Payment\Method\Sagepay\Direct
+     * @return $this
      */
     public function refund(\Magento\Object $payment, $amount)
     {
@@ -104,7 +131,7 @@ class Direct extends \Magento\Pbridge\Model\Payment\Method
      * Voiding method being executed via Payment Bridge
      *
      * @param \Magento\Object $payment
-     * @return \Magento\Pbridge\Model\Payment\Method\Sagepay\Direct
+     * @return $this
      */
     public function void(\Magento\Object $payment)
     {
@@ -117,7 +144,7 @@ class Direct extends \Magento\Pbridge\Model\Payment\Method
      * Cancel payment
      *
      * @param \Magento\Object $payment
-     * @return \Magento\Pbridge\Model\Payment\Method\Sagepay\Direct
+     * @return $this
      */
     public function cancel(\Magento\Object $payment)
     {

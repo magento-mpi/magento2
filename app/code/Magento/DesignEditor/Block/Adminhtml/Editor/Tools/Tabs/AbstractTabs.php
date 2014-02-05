@@ -7,14 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Tabs;
 
 /**
  * Block that renders tabs
  *
  * @method bool getIsActive()
  */
-namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Tabs;
-
 abstract class AbstractTabs extends \Magento\View\Element\Template
 {
     /**
@@ -60,7 +59,7 @@ abstract class AbstractTabs extends \Magento\View\Element\Template
     /**
      * Get tabs html
      *
-     * @return array
+     * @return string[]
      */
     public function getTabContents()
     {
@@ -79,7 +78,7 @@ abstract class AbstractTabs extends \Magento\View\Element\Template
     /**
      * Get tabs handles
      *
-     * @return array
+     * @return string[]
      */
     public function getTabHandles()
     {
