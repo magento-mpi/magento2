@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Log\Model\Resource;
 
 /**
  * Log Resource Model
@@ -16,8 +16,6 @@
  * @package     Magento_Log
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Log\Model\Resource;
-
 class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -58,6 +56,7 @@ class Log extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Init Resource model and connection
      *
+     * @return void
      */
     protected function _construct()
     {

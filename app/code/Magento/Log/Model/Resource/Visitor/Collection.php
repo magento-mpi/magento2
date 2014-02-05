@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Log\Model\Resource\Visitor;
 
 /**
  * Visitor log collection
@@ -16,9 +16,6 @@
  * @package     Magento_Log
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Log\Model\Resource\Visitor;
-
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
@@ -99,6 +96,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
 
     /**
      * Collection resource initialization
+     *
+     * @return void
      */
     protected function _construct()
     {

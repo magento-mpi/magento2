@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Log\Model;
 
 /**
  * Customer log model
@@ -28,8 +29,6 @@
  * @package     Magento_Log
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Log\Model;
-
 class Customer extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -59,6 +58,8 @@ class Customer extends \Magento\Core\Model\AbstractModel
 
     /**
      * Define resource model
+     *
+     * @return void
      */
     protected function _construct()
     {

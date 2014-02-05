@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Log\Model\Resource\Visitor\Online;
 
 /**
  * Log Online visitors collection
@@ -16,12 +16,10 @@
  * @package     Magento_Log
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Log\Model\Resource\Visitor\Online;
-
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
-     * joined fields array
+     * Joined fields array
      *
      * @var array
      */
@@ -57,6 +55,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Initialize collection model
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -138,11 +137,11 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      *     array('attribute'=>'lastname', 'like'=>'test%'),
      * )
      *
-     * @see self::_getConditionSql for $condition
-     *
      * @param string $field
      * @param null|string|array $condition
      * @return \Magento\Eav\Model\Entity\Collection\AbstractCollection
+     *
+     * @see self::_getConditionSql for $condition
      */
     public function addFieldToFilter($field, $condition = null)
     {

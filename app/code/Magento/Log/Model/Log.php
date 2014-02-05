@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Log\Model;
 
 /**
  * Log Model
@@ -29,8 +29,6 @@
  * @package     Magento_Log
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Log\Model;
-
 class Log extends \Magento\Core\Model\AbstractModel
 {
     const XML_LOG_CLEAN_DAYS    = 'system/log/clean_after_day';
@@ -65,6 +63,7 @@ class Log extends \Magento\Core\Model\AbstractModel
     /**
      * Init Resource Model
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -73,6 +72,7 @@ class Log extends \Magento\Core\Model\AbstractModel
 
     /**
      * Return log clean time in seconds
+     *
      * @return null|string
      */
     public function getLogCleanTime()
