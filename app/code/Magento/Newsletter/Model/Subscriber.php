@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Newsletter\Model;
 
 /**
  * Subscriber model
@@ -30,8 +31,6 @@
  * @package     Magento_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Newsletter\Model;
-
 class Subscriber extends \Magento\Core\Model\AbstractModel
 {
     const STATUS_SUBSCRIBED     = 1;
@@ -162,6 +161,8 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
 
     /**
      * Initialize resource model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -255,7 +256,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
      * Set the error messages scope for subscription
      *
      * @param boolean $scope
-     * @return Subscriber
+     * @return $this
      */
 
     public function setMessagesScope($scope)

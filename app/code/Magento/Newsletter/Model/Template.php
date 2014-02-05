@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Newsletter\Model;
 
 /**
  * Template model
@@ -38,8 +39,6 @@
  * @package     Magento_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Newsletter\Model;
-
 class Template extends \Magento\Core\Model\Template
 {
 
@@ -135,6 +134,7 @@ class Template extends \Magento\Core\Model\Template
     /**
      * Initialize resource model
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -144,7 +144,7 @@ class Template extends \Magento\Core\Model\Template
     /**
      * Validate Newsletter template
      *
-     * @return bool
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function validate()
