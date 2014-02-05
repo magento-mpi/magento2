@@ -143,7 +143,7 @@ class Banner
     /**
      * Retrieve converted to an array and filtered parameter "banner_ids"
      *
-     * @return array
+     * @return array|null
      */
     public function getBannerIds()
     {
@@ -427,7 +427,9 @@ class Banner
     /**
      * Sets rendered param information
      *
-     * @return \Magento\Banner\Block\Widget\Banner
+     * @param mixed $key
+     * @param mixed $value
+     * @return $this
      */
     protected function _setRenderedParam($key, $value)
     {
