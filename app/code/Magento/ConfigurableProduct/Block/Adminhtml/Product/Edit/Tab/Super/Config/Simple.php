@@ -10,12 +10,8 @@
 
 /**
  * Quick simple product creation
- *
- * @category   Magento
- * @package    Magento_Catalog
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Super\Config;
+namespace Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Config;
 
 class Simple
     extends \Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Attributes

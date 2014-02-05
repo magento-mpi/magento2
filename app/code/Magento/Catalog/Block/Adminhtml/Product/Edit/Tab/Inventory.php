@@ -109,11 +109,6 @@ class Inventory extends \Magento\Backend\Block\Widget
         return $this->getProduct()->getStockItem();
     }
 
-    public function isConfigurable()
-    {
-        return $this->getProduct()->isConfigurable();
-    }
-
     public function getFieldValue($field)
     {
         if ($this->getStockItem()) {

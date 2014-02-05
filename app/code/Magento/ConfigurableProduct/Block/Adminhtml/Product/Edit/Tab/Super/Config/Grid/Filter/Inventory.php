@@ -11,12 +11,8 @@
 
 /**
  * Configurable product associated products in stock filter
- *
- * @category   Magento
- * @package    Magento_Catalog
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Super\Config\Grid\Filter;
+namespace Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Config\Grid\Filter;
 
 class Inventory extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
 {

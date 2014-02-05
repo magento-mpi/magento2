@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
- /** @var $this \Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Super\Config */
+ /** @var $this \Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Config */
+
+use \Magento\ConfigurableProduct\Model\Product\Type\Configurable;
 ?>
 <div class="entry-edit form-inline" id="<?php echo $this->getId() ?>">
     <div class="fieldset-wrapper collapsable-wrapper" id="<?php echo $this->getId() ?>-wrapper" data-panel="product-variations">
@@ -52,7 +54,7 @@ jQuery(function($) {
         qtyField = $('#qty'),
         currentProductTemplateControl = $('#product-template-suggest-container .actions-split > .action-toggle'),
         attributesInput = $("input[name='attributes[]']", variationsContainer),
-        hasVariations = <?php echo ($this->getProduct()->isConfigurable() || $this->getRequest()->has('attributes')) ? 'true' : 'false' ?>,
+        hasVariations = <?php echo ($this->getProduct()->getTypeId() == Configurable::TYPE_CODE || $this->getRequest()->has('attributes')) ? 'true' : 'false' ?>,
         isLocked = function (element) {
             return element.is('[data-locked]');
         },

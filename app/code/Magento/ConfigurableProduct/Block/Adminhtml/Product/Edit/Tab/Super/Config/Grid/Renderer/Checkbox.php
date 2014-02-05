@@ -10,13 +10,9 @@
 
 /**
  * Adminhtml catalog super product link grid checkbox renderer
- *
- * @category   Magento
- * @package    Magento_Catalog
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Super\Config\Grid\Renderer;
+namespace Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Config\Grid\Renderer;
 
 class Checkbox extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Checkbox
 {

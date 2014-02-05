@@ -10,12 +10,10 @@
 
 /**
  * Create Configurable product Settings Tab Block
- *
- * @category   Magento
- * @package    Magento_Catalog
- * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Super;
+namespace Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super;
+
+use \Magento\ConfigurableProduct\Model\Product\Type\Configurable;
 
 class Settings extends \Magento\Backend\Block\Widget\Form\Generic
 {
@@ -80,7 +78,7 @@ class Settings extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Prepare form before rendering HTML
      *
-     * @return \Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Super\Settings
+     * @return \Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Settings
      */
     protected function _prepareForm()
     {
@@ -96,7 +94,7 @@ class Settings extends \Magento\Backend\Block\Widget\Form\Generic
         ));
 
         $product = $this->getProduct();
-        $usedAttributes = $product->isConfigurable()
+        $usedAttributes = $product->getTypeId() == Configurable::TYPE_CODE
             ? $this->_configurableType->getUsedProductAttributes($product)
             : array();
         foreach ($usedAttributes as $attribute) {

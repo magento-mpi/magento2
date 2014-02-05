@@ -16,11 +16,11 @@
         </action>
     </referenceBlock>
     <referenceContainer name="product-type-tabs">
-        <block class="Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Super\Config" name="admin.product.edit.tab.super.config.grid.container">
-            <block class="Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Super\Config" template="Magento_Catalog::catalog/product/edit/super/generator.phtml" name="product-variations-generator" as="generator">
-                <block class="Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Super\Config" template="Magento_Catalog::catalog/product/edit/super/attribute-js-template.phtml" as="template"/>
-                <block class="Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Super\Config\Attribute" template="Magento_Catalog::catalog/product/edit/super/attribute-template.phtml" as="attribute-renderer"/>
-                <block class="Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Super\Config\Matrix" template="Magento_Catalog::catalog/product/edit/super/matrix.phtml" as="matrix"/>
+        <block class="Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Config" name="admin.product.edit.tab.super.config.grid.container">
+            <block class="Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Config" template="Magento_Catalog::catalog/product/edit/super/generator.phtml" name="product-variations-generator" as="generator">
+                <block class="Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Config" template="Magento_Catalog::catalog/product/edit/super/attribute-js-template.phtml" as="template"/>
+                <block class="Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Config\Attribute" template="Magento_Catalog::catalog/product/edit/super/attribute-template.phtml" as="attribute-renderer"/>
+                <block class="Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Config\Matrix" template="Magento_Catalog::catalog/product/edit/super/matrix.phtml" as="matrix"/>
             </block>
         </block>
     </referenceContainer>

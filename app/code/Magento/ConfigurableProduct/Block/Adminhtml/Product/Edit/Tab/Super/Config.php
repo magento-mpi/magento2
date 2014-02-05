@@ -10,12 +10,10 @@
 
 /**
  * Adminhtml catalog super product configurable tab
- *
- * @category   Magento
- * @package    Magento_Catalog
- * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Super;
+namespace Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super;
+
+use \Magento\ConfigurableProduct\Model\Product\Type\Configurable;
 
 class Config
     extends \Magento\Backend\Block\Widget
@@ -127,7 +125,7 @@ class Config
     /**
      * Prepare Layout data
      *
-     * @return \Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Super\Config
+     * @return \Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Config
      */
     protected function _prepareLayout()
     {
@@ -136,7 +134,8 @@ class Config
             'class' => 'add',
             'onclick' => 'superProduct.createEmptyProduct()'
         ));
-        $this->addChild('super_settings', 'Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Super\Settings');
+        $this->addChild('super_settings',
+            'Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Settings');
 
         $this->addChild(
             'generate',
@@ -428,7 +427,7 @@ class Config
      */
     public function getSelectedAttributes()
     {
-        return $this->getProduct()->isConfigurable()
+        return $this->getProduct()->getTypeId() == Configurable::TYPE_CODE
             ? array_filter($this->_configurableType->getUsedProductAttributes($this->getProduct()))
             : array();
     }
