@@ -6,7 +6,7 @@
  * @license   {license_link}
  */
 
-namespace Magento\Catalog\Model\Indexer\Category;
+namespace Magento\Catalog\Model\Indexer;
 
 class FlatTest extends \PHPUnit_Framework_TestCase
 {
