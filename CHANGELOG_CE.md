@@ -1,10 +1,18 @@
+* Caching improvements:
+  * Added new mechanism to identify page content uniquely (hash-key for cache storage)
 * Fixed bugs:
   * Fixed an issue with insert image in WYSIWYG editor where selected folder was stored in session
   * Fixed an issue with CMS Page Links not being shown due to empty text in the link
   * Fixed an issue with custom options where option price couldn't be updated after switching scope from default values to default store view
+* Updated various PHPDoc with parameter and return types
+* Move Quote Multishipping specifics logic to Multishipping module
+* Resolve dependencies between Payment and Multishipping modules
+* Framework part of the "Translate" functionality removed from modules
+* Implemented E-mail template architecture in libraries
+* Applied unified approach of scope usage for "Config" functionality
 
-2.0.0.0-dev63
-=============
+-2.0.0.0-dev63
+-=============
 * Modularity improvements:
   * Consolidated all PayPal-related logic in a separate module
   * Resolved dependencies on the Magento_GroupedProduct module
