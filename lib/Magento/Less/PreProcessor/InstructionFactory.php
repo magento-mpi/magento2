@@ -37,9 +37,9 @@ class InstructionFactory
      * @return \Magento\Less\PreProcessorInterface
      * @throws \InvalidArgumentException
      */
-    public function get($className)
+    public function create($className)
     {
-        $preProcessor = $this->_objectManager->get($className);
+        $preProcessor = $this->_objectManager->create($className);
         if (!$preProcessor instanceof \Magento\Less\PreProcessorInterface) {
             throw new \InvalidArgumentException(
                 "{$className} aren't instance of \\Magento\\Less\\PreProcessorInterface"
