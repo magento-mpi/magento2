@@ -211,7 +211,7 @@ class LayoutRule implements \Magento\TestFramework\Dependency\RuleInterface
      */
     protected function _caseLayoutHandle($currentModule, $file, &$contents)
     {
-        $xml = @simplexml_load_string($contents);
+        $xml = simplexml_load_string($contents);
         if (!$xml) {
             return array();
         }
@@ -249,7 +249,7 @@ class LayoutRule implements \Magento\TestFramework\Dependency\RuleInterface
      */
     protected function _caseLayoutHandleParent($currentModule, $file, &$contents)
     {
-        $xml = @simplexml_load_string($contents);
+        $xml = simplexml_load_string($contents);
         if (!$xml) {
             return array();
         }
@@ -287,7 +287,7 @@ class LayoutRule implements \Magento\TestFramework\Dependency\RuleInterface
      */
     protected function _caseLayoutHandleUpdate($currentModule, $file, &$contents)
     {
-        $xml = @simplexml_load_string($contents);
+        $xml = simplexml_load_string($contents);
         if (!$xml) {
             return array();
         }
@@ -325,7 +325,7 @@ class LayoutRule implements \Magento\TestFramework\Dependency\RuleInterface
      */
     protected function _caseLayoutReference($currentModule, $file, &$contents)
     {
-        $xml = @simplexml_load_string($contents);
+        $xml = simplexml_load_string($contents);
         if (!$xml) {
             return array();
         }

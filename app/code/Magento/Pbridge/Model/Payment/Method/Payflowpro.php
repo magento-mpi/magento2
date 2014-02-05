@@ -212,6 +212,7 @@ class Payflowpro extends \Magento\Paypal\Model\Payflowpro
      */
     public function authorize(\Magento\Object $payment, $amount)
     {
+        $payment->setCart($this->_pbridgeData->preparePaypalCart($payment->getOrder()));
         $response = $this->getPbridgeMethodInstance()->authorize($payment, $amount);
         $payment->addData((array)$response);
         $payment->setIsTransactionClosed(0);
@@ -231,6 +232,7 @@ class Payflowpro extends \Magento\Paypal\Model\Payflowpro
         $payment->setFirstCaptureFlag(!$this->getInfoInstance()->hasAmountPaid());
         $response = $this->getPbridgeMethodInstance()->capture($payment, $amount);
         if (!$response) {
+            $payment->setCart($this->_pbridgeData->preparePaypalCart($payment->getOrder()));
             $response = $this->getPbridgeMethodInstance()->authorize($payment, $amount);
         }
         $payment->addData((array)$response);
