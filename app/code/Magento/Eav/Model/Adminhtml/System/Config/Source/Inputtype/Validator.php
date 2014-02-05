@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype;
 
 /**
  * Validator for check input type value
@@ -15,8 +16,6 @@
  * @package    Magento_Eav
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype;
-
 class Validator extends \Zend_Validate_InArray
 {
 

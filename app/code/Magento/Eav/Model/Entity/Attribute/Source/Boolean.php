@@ -7,8 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Eav\Model\Entity\Attribute\Source;
 
 class Boolean extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource

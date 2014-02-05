@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Eav\Model\Resource\Entity;
 
 /**
  * EAV entity type resource model
@@ -16,8 +16,6 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Eav\Model\Resource\Entity;
-
 class Type extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**

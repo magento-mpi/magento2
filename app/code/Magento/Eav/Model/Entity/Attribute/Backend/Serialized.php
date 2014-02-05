@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Eav\Model\Entity\Attribute\Backend;
 
 /**
  * "Serialized" attribute backend
  */
-namespace Magento\Eav\Model\Entity\Attribute\Backend;
-
 class Serialized extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
     /**

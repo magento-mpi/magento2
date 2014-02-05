@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Eav\Model\Resource\Entity\Attribute;
 
 /**
  * Entity attribute option resource model
@@ -16,8 +16,6 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Eav\Model\Resource\Entity\Attribute;
-
 class Option extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**

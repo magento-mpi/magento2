@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Eav\Helper;
 
 /**
  * Eav data helper
  */
-namespace Magento\Eav\Helper;
-
 class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
