@@ -19,4 +19,4 @@ $configData->setPath('carriers/flatrate/active')
     ->save();
 
 $this->getObjectManager()->get('Magento\App\CacheInterface')
-    ->clean(array(\Magento\Core\Model\Config::CACHE_TAG));
+    ->clean(array(\Magento\App\Config::CACHE_TAG));
