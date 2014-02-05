@@ -1,3 +1,5 @@
+* Modularity improvements:
+  * Abstract cart logic moved from Paypal module
 * Caching improvements:
   * Added new mechanism to identify page content uniquely (hash-key for cache storage)
 * Fixed bugs:
@@ -6,6 +8,10 @@
 * Updated various PHPDoc with parameter and return types
 * Move Quote Multishipping specifics logic to Multishipping module
 * Resolve dependencies between Payment and Multishipping modules
+* Framework part of the "Translate" functionality removed from modules
+* Implemented E-mail template architecture in libraries
+* Applied unified approach of scope usage for "Config" functionality
+* Fixed Dependency static test
 * Update Customer Service Exception handling and add tests
 * Add usage of Customer Service to Customer Module, replacing some direct usage of Customer Model
 

@@ -18,7 +18,7 @@
     </type>
     <type name="Magento\Rma\Model\Rma\Status\History">
         <param name="translate">
-            <instance type="Magento\Core\Model\Translate\Proxy" />
+            <instance type="Magento\Translate" />
         </param>
     </type>
     <type name="Magento\Module\Updater\SetupFactory">
@@ -30,7 +30,7 @@
     </type>
     <type name="Magento\Rma\Model\Rma">
         <param name="translate">
-            <instance type="Magento\Core\Model\Translate\Proxy" />
+            <instance type="Magento\Translate" />
         </param>
     </type>
 </config>
