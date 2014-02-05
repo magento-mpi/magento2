@@ -7,17 +7,17 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <type name="Magento\Eav\Model\Resource\Helper">
-        <param name="modulePrefix">
-            <value>eav</value>
-        </param>
+        <arguments>
+            <argument name="modulePrefix" xsi:type="string">eav</argument>
+        </arguments>
     </type>
     <type name="Magento\Module\Updater\SetupFactory">
-        <param name="resourceTypes">
-            <array>
-                <item key="eav_setup"><value>Magento\Eav\Model\Entity\Setup</value></item>
-            </array>
-        </param>
+        <arguments>
+            <argument name="resourceTypes" xsi:type="array">
+                <item name="eav_setup" xsi:type="string">Magento\Eav\Model\Entity\Setup</item>
+            </argument>
+        </arguments>
     </type>
 </config>

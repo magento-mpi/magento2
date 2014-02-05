@@ -7,7 +7,7 @@
  * @license    {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <preference for="Magento\AppInterface" type="Magento\Core\Model\App\Proxy" />
     <preference for="Magento\Core\Model\Config\InvalidatorInterface" type="Magento\Core\Model\Config\Invalidator\Proxy" />
     <preference for="Magento\App\CacheInterface" type="Magento\App\Cache\Proxy" />
@@ -15,8 +15,8 @@
         <plugin name="tag" type="Magento\App\Cache\TagPlugin" />
     </virtualType>
     <type name="Magento\SomeModule\Model\Test">
-        <param name="proxy">
-            <instance type="\Magento\SomeModule\Model\Element\Proxy" />
-        </param>
+        <arguments>
+            <argument name="proxy" xsi:type="object">\Magento\SomeModule\Model\Element\Proxy</argument>
+        </arguments>
     </type>
 </config>

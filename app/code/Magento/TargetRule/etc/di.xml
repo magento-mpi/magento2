@@ -7,22 +7,22 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <type name="Magento\TargetRule\Model\Index">
-        <param name="session">
-            <instance type="Magento\Customer\Model\Session\Proxy" />
-        </param>
+        <arguments>
+            <argument name="session" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
+        </arguments>
     </type>
     <type name="Magento\TargetRule\Model\Resource\Index">
-        <param name="session">
-            <instance type="Magento\Customer\Model\Session\Proxy" />
-        </param>
+        <arguments>
+            <argument name="session" xsi:type="object">Magento\Customer\Model\Session\Proxy</argument>
+        </arguments>
     </type>
     <type name="Magento\Module\Updater\SetupFactory">
-        <param name="resourceTypes">
-            <array>
-                <item key="targetrule_setup"><value>Magento\TargetRule\Model\Resource\Setup</value></item>
-            </array>
-        </param>
+        <arguments>
+            <argument name="resourceTypes" xsi:type="array">
+                <item name="targetrule_setup" xsi:type="string">Magento\TargetRule\Model\Resource\Setup</item>
+            </argument>
+        </arguments>
     </type>
 </config>

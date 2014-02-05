@@ -7,26 +7,26 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <type name="Magento\Catalog\Model\Session">
-        <param name="sessionName">
-            <value>frontend</value>
-        </param>
+        <arguments>
+            <argument name="sessionName" xsi:type="string">frontend</argument>
+        </arguments>
     </type>
     <type name="Magento\Catalog\Model\Resource\Category\Collection">
-        <param name="fetchStrategy">
-            <instance type="Magento\Data\Collection\Db\FetchStrategy\Cache" />
-        </param>
+        <arguments>
+            <argument name="fetchStrategy" xsi:type="object">Magento\Data\Collection\Db\FetchStrategy\Cache</argument>
+        </arguments>
     </type>
     <type name="Magento\Sales\Model\Convert\Quote">
         <plugin name="copy_quote_files_to_order" type="Magento\Catalog\Model\Plugin\QuoteItemProductOption"/>
     </type>
     <virtualType name="compareProductInitSession" type="Magento\Core\App\Action\Plugin\Session">
-        <param name="cookieCheckActions">
-            <array>
-                <item key="compareProductAdd"><value>add</value></item>
-            </array>
-        </param>
+        <arguments>
+            <argument name="cookieCheckActions" xsi:type="array">
+                <item name="compareProductAdd" xsi:type="string">add</item>
+            </argument>
+        </arguments>
     </virtualType>
     <type name="Magento\Catalog\Controller\Product\Compare">
         <plugin name="sessionInitializer" type="compareProductInitSession" />

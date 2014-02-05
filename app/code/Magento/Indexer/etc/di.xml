@@ -7,11 +7,11 @@
  * @license     {license_link}
  */
 -->
-<config>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <preference for="Magento\Indexer\Model\ConfigInterface" type="Magento\Indexer\Model\Config" />
     <type name="Magento\Indexer\Model\Indexer">
-        <param name="view">
-            <instance type="Magento\Mview\View" shared="false"/>
-        </param>
+        <arguments>
+            <argument name="view" xsi:type="object" shared="false">Magento\Mview\View</argument>
+        </arguments>
     </type>
 </config>
