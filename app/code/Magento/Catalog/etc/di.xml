@@ -144,9 +144,6 @@
     <type name="Magento\Core\Model\Resource\Store\Group">
         <plugin name="storeGroupResourceAroundSave" type="Magento\Catalog\Model\Indexer\Category\Flat\Plugin\StoreGroup"/>
     </type>
-    <type name="Magento\Core\Model\Resource\Website">
-        <plugin name="storeGroupResourceAroundSave" type="Magento\Catalog\Model\Indexer\Category\Flat\Plugin\Website"/>
-    </type>
     <type name="Magento\Catalog\Model\Indexer\Category\Flat\Plugin\AbstractStore">
         <param name="indexer">
             <instance type="Magento\Indexer\Model\IndexerInterface" shared="false"/>
