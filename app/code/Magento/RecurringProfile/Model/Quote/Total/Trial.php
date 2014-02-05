@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,7 +9,7 @@
 /**
  * Total model for recurring profile trial payment
  */
-namespace Magento\Sales\Model\Quote\Address\Total\Nominal\Recurring;
+namespace Magento\RecurringProfile\Model\Quote\Total;
 
 class Trial
     extends \Magento\Sales\Model\Quote\Address\Total\Nominal\AbstractRecurring

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,7 +9,7 @@
 /**
  * Total model for recurring profiles
  */
-namespace Magento\Sales\Model\Quote\Address\Total\Nominal;
+namespace Magento\RecurringProfile\Model\Quote\Total;
 
 abstract class AbstractRecurring
     extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal

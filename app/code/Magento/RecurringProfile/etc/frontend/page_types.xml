@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page_types>
+    <type id="recurringprofile_index" label="Recurring Profile"/>
+    <type id="recurringprofile_view" label="Recurring Profile View"/>
+</page_types>
