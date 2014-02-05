@@ -661,15 +661,16 @@ class Quote extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * TODO: Will be refactored to use Customer Model
      * Set customer address data object
+     *
+     * TODO: Temporary implementation. Will be refactored in MAGETWO-20630 to use Customer Model
      *
      * @param \Magento\Customer\Service\V1\Dto\Address $addressData
      * @return $this
      */
     public function setCustomerAddressData(\Magento\Customer\Service\V1\Dto\Address $addressData)
     {
-        if (!is_array($this->addressData)) {
+        if (!isset($this->addressData)) {
             $this->addressData = [];
         }
         $this->addressData[] = $addressData;
