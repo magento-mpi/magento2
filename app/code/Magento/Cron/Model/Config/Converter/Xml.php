@@ -48,18 +48,9 @@ class Xml implements \Magento\Config\ConverterInterface
                 }
                 $config = array();
                 $config['name'] = $jobName;
-                $config += $this->_convertCronConfig($jobConfig);
+                $config += $this->convertCronConfig($jobConfig);
+                $config += $this->convertCronSchedule($jobConfig);
 
-                /** @var \DOMText $schedules */
-                foreach ($jobConfig->childNodes as $schedules) {
-                    if ($schedules->nodeName == 'schedule') {
-                        if (!empty($schedules->nodeValue)) {
-                            $config['schedule'] = $schedules->nodeValue;
-                            break;
-                        }
-                    }
-                    continue;
-                }
                 $output[$group->getAttribute('id')][$jobName] = $config;
             }
         }
@@ -73,7 +64,7 @@ class Xml implements \Magento\Config\ConverterInterface
      * @return array
      * @throws \InvalidArgumentException
      */
-    protected function _convertCronConfig($jobConfig)
+    protected function convertCronConfig(\DOMElement $jobConfig)
     {
         $instanceName = $jobConfig->getAttribute('instance');
         $methodName = $jobConfig->getAttribute('method');
@@ -84,6 +75,30 @@ class Xml implements \Magento\Config\ConverterInterface
         if (!isset($methodName)) {
             throw new \InvalidArgumentException('Attribute "method" does not exist');
         }
+
         return array('instance' => $instanceName, 'method' => $methodName);
+    }
+
+    /**
+     * Convert schedule cron configurations
+     *
+     * @param $jobConfig
+     * @return array
+     */
+    protected function convertCronSchedule(\DOMElement $jobConfig)
+    {
+        $result = array();
+        /** @var \DOMText $schedules */
+        foreach ($jobConfig->childNodes as $schedules) {
+            if ($schedules->nodeName == 'schedule') {
+                if (!empty($schedules->nodeValue)) {
+                    $result['schedule'] = $schedules->nodeValue;
+                    break;
+                }
+            }
+            continue;
+        }
+
+        return $result;
     }
 }

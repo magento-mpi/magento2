@@ -118,21 +118,4 @@ class FlatTest extends \PHPUnit_Framework_TestCase
 
         $this->assertArrayHasKey($this->categoryOneId, $result);
     }
-
-//    /**
-//     * @magentoConfigFixture current_store catalog/frontend/flat_catalog_category true
-//     */
-//    public function testMoveCategory()
-//    {
-//        /** @var \Magento\Catalog\Model\Category $category */
-//        $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-//            ->create('Magento\Catalog\Model\Category');
-//
-//        $this->assertEquals($category->getParentId(), 3);
-//
-//        $category->move(2, 3);
-//
-//        $this->assertEquals($category->getParentId(), 3);
-//    }
-
 }
