@@ -765,6 +765,7 @@
 "This operation requires an existing transaction object.","Deze handeling vereist een bestaand transactie object"
 "This order contains (%s) items and therefore cannot be edited through the admin interface at this time, if you wish to continue editing the (%s) items will be removed, the order will be canceled and a new order will be placed.","Deze order bevat (%s) items en kan daarom op dit moment niet bewerkt worden met de admin interface, als u door wilt gaan met bewerken worden de (%s) items verwijderd, de bestelling zal geannuleerd worden en een nieuwe bestelling zal worden geplaatst."
 "This order no longer exists.","Deze bestelling bestaat niet meer."
+"This product does not have any configurable options","Dit product heeft geen configureerbare opties"
 "This profile state cannot be changed to ""%s"".","De profielstaat kan niet veranderd worden naar ""%s""."
 "This will create an offline refund. To create an online refund, open an invoice and create credit memo for it. Do you wish to proceed?","Dit zal een offline teruggaaf maken. Om een online teruggaaf te maken opent u een factuur en maakt u daar een credietmemo voor. Wilt u doorgaan?"
 "Tier Pricing","Niveau Prijsstelling"

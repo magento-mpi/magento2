@@ -765,6 +765,7 @@
 "This operation requires an existing transaction object.","Esta operação requer um objeto existente de transação."
 "This order contains (%s) items and therefore cannot be edited through the admin interface at this time, if you wish to continue editing the (%s) items will be removed, the order will be canceled and a new order will be placed.","Esta ordem contém (%s) itens e portanto não podem ser editados através da interface de administração neste momento, se você quiser continuar a editar os (%s) itens serão removidos, a ordem será cancelada e uma nova ordem será colocada."
 "This order no longer exists.","Esta ordem não existe mais."
+"This product does not have any configurable options","Este produto não tem quaisquer opções configuráveis"
 "This profile state cannot be changed to ""%s"".","Este estado de perfil não pode ser alterado para ""%s""."
 "This will create an offline refund. To create an online refund, open an invoice and create credit memo for it. Do you wish to proceed?","Isso irá criar um reembolso offline. Para criar um reembolso online, abra uma fatura e crie uma nota de crédito para ela. Você deseja continuar?"
 "Tier Pricing","Preços por Nível"
