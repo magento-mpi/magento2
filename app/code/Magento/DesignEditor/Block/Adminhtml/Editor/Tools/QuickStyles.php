@@ -17,15 +17,11 @@ class QuickStyles
 {
     /**
      * @var string Tab HTML identifier
-     *
-     * @var string
      */
     protected $_htmlId = 'vde-tab-quick-styles';
 
     /**
      * @var string Tab HTML title
-     *
-     * @var string
      */
     protected $_title = 'Quick Styles';
 
