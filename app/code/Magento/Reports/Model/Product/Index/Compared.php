@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Reports\Model\Product\Index;
 
 /**
  * Catalog Compared Product Index Model
@@ -26,8 +26,6 @@
  * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reports\Model\Product\Index;
-
 class Compared extends \Magento\Reports\Model\Product\Index\AbstractIndex
 {
     /**
@@ -90,6 +88,8 @@ class Compared extends \Magento\Reports\Model\Product\Index\AbstractIndex
 
     /**
      * Initialize resource model
+     *
+     * @return void
      */
     protected function _construct()
     {

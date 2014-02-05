@@ -17,7 +17,7 @@ class Factory
     protected $_objectManager;
 
     /**
-     * @var \Magento\Core\Model\Translate
+     * @var \Magento\TranslateInterface
      */
     protected $_translator;
 
@@ -33,12 +33,12 @@ class Factory
      *
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Module\Dir\Reader $moduleReader
-     * @param \Magento\Core\Model\Translate $translator
+     * @param \Magento\TranslateInterface $translator
      */
     public function __construct(
         \Magento\ObjectManager $objectManager,
         \Magento\Module\Dir\Reader $moduleReader,
-        \Magento\Core\Model\Translate $translator
+        \Magento\TranslateInterface $translator
     ) {
         $this->_objectManager = $objectManager;
         $this->_translator = $translator;
@@ -54,9 +54,9 @@ class Factory
     {
         $translateAdapter = $this->_translator;
         $objectManager = $this->_objectManager;
-        // Pass translations to \Magento\Core\Model\Translate from validators
+        // Pass translations to \Magento\TranslateInterface from validators
         $translatorCallback = function () use ($translateAdapter, $objectManager) {
-            /** @var \Magento\Core\Model\Translate $translateAdapter */
+            /** @var \Magento\TranslateInterface $translateAdapter */
             return $translateAdapter->translate(func_get_args());
         };
         /** @var \Magento\Translate\Adapter $translator */

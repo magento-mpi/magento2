@@ -7,12 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab;
+
+use Magento\Backend\Block\Widget\Form;
 
 /**
  * Reminder rules edit form conditions
  */
-namespace Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab;
-
 class Conditions
     extends \Magento\Backend\Block\Widget\Form\Generic
 {
@@ -54,7 +55,7 @@ class Conditions
     /**
      * Prepare conditions form
      *
-     * @return \Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\Conditions
+     * @return Form
      */
     protected function _prepareForm()
     {

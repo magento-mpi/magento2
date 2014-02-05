@@ -91,6 +91,10 @@ class Session extends \Magento\Session\SessionManager
     protected $_storeManager;
 
     /**
+     * @var \Magento\App\ResponseInterface
+     */
+    protected $response;
+    /**
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Session\Config\ConfigInterface $sessionConfig
@@ -127,6 +131,7 @@ class Session extends \Magento\Session\SessionManager
         \Magento\Core\Model\Session $session,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\App\ResponseInterface $response,
         \Magento\Customer\Service\V1\CustomerServiceInterface $customerService,
         \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService,
         $sessionName = null,
@@ -143,6 +148,7 @@ class Session extends \Magento\Session\SessionManager
         $this->_customerAccountService = $customerAccountService;
         $this->_eventManager = $eventManager;
         $this->_storeManager = $storeManager;
+        $this->response = $response;
         parent::__construct($request, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage);
         $this->start($sessionName);
         $this->_eventManager->dispatch('customer_session_init', array('customer_session' => $this));
@@ -170,6 +176,7 @@ class Session extends \Magento\Session\SessionManager
         if ($customer === null) {
             $this->setCustomerId(null);
         } else {
+            $this->response->setVary('customer_group', $customer->getGroupId());
             $this->setCustomerId($customer->getCustomerId());
         }
         return $this;
@@ -208,12 +215,13 @@ class Session extends \Magento\Session\SessionManager
         if ($customerModel === null) {
             $this->setCustomerId(null);
         } else {
+            $this->response->setVary('customer_group', $customerModel->getGroupId());
             $this->setCustomerId($customerModel->getId());
             if ((!$customerModel->isConfirmationRequired()) && $customerModel->getConfirmation()) {
                 $customerModel->setConfirmation(null)->save();
             }
         }
-
+        
         return $this;
     }
 
@@ -251,6 +259,7 @@ class Session extends \Magento\Session\SessionManager
      */
     public function getCustomerId()
     {
+
         if ($this->storage->getData('customer_id')) {
             return $this->storage->getData('customer_id');
         }
@@ -295,7 +304,7 @@ class Session extends \Magento\Session\SessionManager
             $this->setCustomerGroupId($customerGroupId);
             return $customerGroupId;
         }
-        return \Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID;
+        return \Magento\Customer\Model\Group::NOT_LOGGED_IN_ID;
     }
 
     /**

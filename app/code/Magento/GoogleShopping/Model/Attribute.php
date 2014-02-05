@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GoogleShopping\Model;
 
 /**
  * Attributes Model
@@ -15,14 +16,12 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GoogleShopping\Model;
-
 class Attribute extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Default ignored attribute codes
      *
-     * @var array
+     * @var string[]
      */
     protected $_ignoredAttributeCodes = array(
         'custom_design',
@@ -49,7 +48,7 @@ class Attribute extends \Magento\Core\Model\AbstractModel
     /**
      * Default ignored attribute types
      *
-     * @var array
+     * @var string[]
      */
     protected $_ignoredAttributeTypes = array('hidden', 'media_image', 'image', 'gallery');
 
@@ -102,9 +101,11 @@ class Attribute extends \Magento\Core\Model\AbstractModel
         $this->_gsProduct = $gsProduct;
         $this->catalogPrice = $catalogPrice;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
-
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_init('Magento\GoogleShopping\Model\Resource\Attribute');
@@ -142,8 +143,7 @@ class Attribute extends \Magento\Core\Model\AbstractModel
      * Check if attribute allowed
      *
      * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute
-     * @param array $attributes
-     * @return boolean
+     * @return bool
      */
     protected function _isAllowedAttribute($attribute)
     {

@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reminder\Block\Adminhtml\Widget\Grid\Column\Renderer;
 
 /**
  * Column renderer for customer id
  */
-namespace Magento\Reminder\Block\Adminhtml\Widget\Grid\Column\Renderer;
-
 class Id
     extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
@@ -40,8 +39,8 @@ class Id
     /**
      * Render customer id linked to its account edit page
      *
-     * @param   \Magento\Object $row
-     * @return  string
+     * @param \Magento\Object $row
+     * @return string
      */
     protected function _getValue(\Magento\Object $row)
     {

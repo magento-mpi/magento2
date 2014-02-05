@@ -8,6 +8,8 @@
  */
 -->
 <config>
+    <preference for="Magento\Payment\Model\Cart\SalesModel\Order" type="Magento\CustomerBalance\Model\Cart\SalesModel\Order" />
+    <preference for="Magento\Payment\Model\Cart\SalesModel\Quote" type="Magento\CustomerBalance\Model\Cart\SalesModel\Quote" />
     <type name="Magento\Module\Manager">
         <param name="outputConfigPaths">
             <array>

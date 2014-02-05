@@ -8,11 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Reminder\Model\Rule\Condition\Cart;
+
+use Magento\DB\Select;
+
 /**
  * Cart items quantity condition
  */
-namespace Magento\Reminder\Model\Rule\Condition\Cart;
-
 class Itemsquantity
     extends \Magento\Reminder\Model\Condition\AbstractCondition
 {
@@ -62,9 +64,9 @@ class Itemsquantity
     /**
      * Get SQL select for matching shopping cart items count
      *
-     * @param $customer
-     * @param int | \Zend_Db_Expr $website
-     * @return \Magento\DB\Select
+     * @param null|int|\Zend_Db_Expr $customer
+     * @param int|\Zend_Db_Expr $website
+     * @return Select
      */
     public function getConditionsSql($customer, $website)
     {
