@@ -18,6 +18,7 @@
 namespace Magento\Catalog\Controller\Adminhtml;
 
 use Magento\Backend\App\Action;
+use Magento\Catalog\Model\Product\Validator;
 
 class Product extends \Magento\Backend\App\Action
 {
@@ -66,6 +67,11 @@ class Product extends \Magento\Backend\App\Action
     protected $productTypeManager;
 
     /**
+     * @var \Magento\Catalog\Model\Product\Validator
+     */
+    protected $productValidator;
+
+    /**
      * @param Action\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Filter\Date $dateFilter
@@ -73,6 +79,7 @@ class Product extends \Magento\Backend\App\Action
      * @param Product\Initialization\StockDataFilter $stockFilter
      * @param \Magento\Catalog\Model\Product\Copier $productCopier
      * @param Product\Builder $productBuilder
+     * @param Validator $productValidator
      * @param \Magento\Catalog\Model\Product\TypeTransitionManager $productTypeManager
      */
     public function __construct(
@@ -83,6 +90,7 @@ class Product extends \Magento\Backend\App\Action
         \Magento\Catalog\Controller\Adminhtml\Product\Initialization\StockDataFilter $stockFilter,
         \Magento\Catalog\Model\Product\Copier $productCopier,
         Product\Builder $productBuilder,
+        Validator $productValidator,
         \Magento\Catalog\Model\Product\TypeTransitionManager $productTypeManager
     ) {
         $this->stockFilter = $stockFilter;
@@ -91,6 +99,7 @@ class Product extends \Magento\Backend\App\Action
         $this->_dateFilter = $dateFilter;
         $this->productCopier = $productCopier;
         $this->productBuilder = $productBuilder;
+        $this->productValidator = $productValidator;
         $this->productTypeManager = $productTypeManager;
         parent::__construct($context);
     }
@@ -469,16 +478,7 @@ class Product extends \Magento\Backend\App\Action
             $resource->getAttribute('custom_design_from')
                 ->setMaxValue($product->getCustomDesignTo());
 
-            $variationProducts = (array)$this->getRequest()->getPost('variations-matrix');
-            if ($variationProducts) {
-                $validationResult = $this->_validateProductVariations($product, $variationProducts);
-                if (!empty($validationResult)) {
-                    $response->setError(true)
-                        ->setMessage(__('Some product variations fields are not valid.'))
-                        ->setAttributes($validationResult);
-                }
-            }
-            $product->validate();
+            $this->productValidator->validate($product, $this->getRequest(), $response);
         } catch (\Magento\Eav\Model\Entity\Attribute\Exception $e) {
             $response->setError(true);
             $response->setAttribute($e->getAttributeCode());
@@ -494,51 +494,6 @@ class Product extends \Magento\Backend\App\Action
         }
 
         $this->getResponse()->setBody($response->toJson());
-    }
-
-    /**
-     * Product variations attributes validation
-     *
-     * @param \Magento\Catalog\Model\Product $parentProduct
-     * @param array $products
-     *
-     * @return array
-     */
-    protected function _validateProductVariations($parentProduct, array $products)
-    {
-        $this->_eventManager->dispatch(
-            'catalog_product_validate_variations_before',
-            array('product' => $parentProduct, 'variations' => $products)
-        );
-        $validationResult = array();
-        foreach ($products as $productData) {
-            /** @var \Magento\Catalog\Model\Product $product */
-            $product = $this->_objectManager->create('Magento\Catalog\Model\Product');
-            $product->setData('_edit_mode', true);
-            $storeId = $this->getRequest()->getParam('store');
-            if ($storeId) {
-                $product->setStoreId($storeId);
-            }
-            $product->setAttributeSetId($parentProduct->getAttributeSetId());
-
-            $product->addData($productData);
-            $product->setCollectExceptionMessages(true);
-            $configurableAttribute = $this->_objectManager->get('Magento\Core\Helper\Data')
-                ->jsonDecode($productData['configurable_attribute']);
-            $configurableAttribute = implode('-', $configurableAttribute);
-
-            $errorAttributes = $product->validate();
-            if (is_array($errorAttributes)) {
-                foreach ($errorAttributes as $attributeCode => $result) {
-                    if (is_string($result)) {
-                        $key = 'variations-matrix-' . $configurableAttribute . '-' . $attributeCode;
-                        $validationResult[$key] = $result;
-                    }
-                }
-            }
-        }
-
-        return $validationResult;
     }
 
     /**

@@ -6,11 +6,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\ConfigurableProduct\Controller\Adminhtml\Product\GenerateVariations;
+namespace Magento\ConfigurableProduct\Controller\Adminhtml\Product;
 
 use Magento\Backend\App\Action;
 use Magento\Catalog\Controller\Adminhtml\Product;
 use Magento\Catalog\Model\Resource\Eav\AttributeFactory;
+
 class GenerateVariations extends Action
 {
     /**
@@ -29,13 +30,13 @@ class GenerateVariations extends Action
     protected $attributeFactory;
 
     /**
-     * @param Context $context
+     * @param Action\Context $context
      * @param Product\Initialization\Helper $initializationHelper
      * @param Product\Builder $productBuilder
      * @param AttributeFactory $attributeFactory
      */
     public function __construct(
-        Context $context,
+        Action\Context $context,
         Product\Initialization\Helper $initializationHelper,
         Product\Builder $productBuilder,
         AttributeFactory $attributeFactory
@@ -44,6 +45,16 @@ class GenerateVariations extends Action
         $this->productBuilder = $productBuilder;
         $this->attributeFactory = $attributeFactory;
         parent::__construct($context);
+    }
+
+    /**
+     * Check for is allowed
+     *
+     * @return boolean
+     */
+    protected function _isAllowed()
+    {
+        return $this->_authorization->isAllowed('Magento_Catalog::products');
     }
 
     /**

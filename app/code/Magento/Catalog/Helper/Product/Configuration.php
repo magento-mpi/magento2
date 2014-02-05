@@ -19,11 +19,6 @@ class Configuration extends \Magento\App\Helper\AbstractHelper
     implements \Magento\Catalog\Helper\Product\Configuration\ConfigurationInterface
 {
     /**
-     * @var \Magento\Catalog\Model\ProductTypes\ConfigInterface
-     */
-    protected $_config;
-
-    /**
      * Filter manager
      *
      * @var \Magento\Filter\FilterManager
@@ -49,19 +44,16 @@ class Configuration extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory
      * @param \Magento\Filter\FilterManager $filter
-     * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $config
      * @param \Magento\Stdlib\String $string
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory,
         \Magento\Filter\FilterManager $filter,
-        \Magento\Catalog\Model\ProductTypes\ConfigInterface $config,
         \Magento\Stdlib\String $string
     ) {
         $this->_productOptionFactory = $productOptionFactory;
         $this->filter = $filter;
-        $this->_config = $config;
         $this->string = $string;
         parent::__construct($context);
     }
@@ -241,15 +233,5 @@ class Configuration extends \Magento\App\Helper\AbstractHelper
         }
 
         return $result;
-    }
-
-    /**
-     * Get allowed product types for configurable product
-     *
-     * @return array
-     */
-    public function getConfigurableAllowedTypes()
-    {
-        return $this->_config->getComposableTypes();
     }
 }

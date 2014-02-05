@@ -35,11 +35,11 @@ class Plugin
     }
 
     /**
-     * @param InvocationChain $invocationChain
      * @param array $arguments
+     * @param InvocationChain $invocationChain
      * @return \Magento\Catalog\Model\Product
      */
-    public function aroundBuild(InvocationChain $invocationChain, array $arguments)
+    public function aroundBuild(array $arguments, InvocationChain $invocationChain)
     {
         /** @var \Magento\Catalog\Model\Product $product */
         $product = $invocationChain->proceed($arguments);

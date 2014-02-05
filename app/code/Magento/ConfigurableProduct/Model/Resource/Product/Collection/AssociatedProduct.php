@@ -32,11 +32,11 @@ class AssociatedProduct
     protected $_productType;
 
     /**
-     * Configuration helper instance
+     * Product type configuration
      *
-     * @var \Magento\Catalog\Helper\Product\Configuration
+     * @var \Magento\Catalog\Model\ProductTypes\ConfigInterface
      */
-    protected $_configurationHelper;
+    protected $_productTypeConfig;
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
@@ -59,7 +59,7 @@ class AssociatedProduct
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Core\Model\Registry $registryManager
      * @param \Magento\ConfigurableProduct\Model\Product\Type\Configurable $productType
-     * @param \Magento\Catalog\Helper\Product\Configuration $configurationHelper
+     * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
      * @param mixed $connection
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -85,12 +85,12 @@ class AssociatedProduct
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Core\Model\Registry $registryManager,
         \Magento\ConfigurableProduct\Model\Product\Type\Configurable $productType,
-        \Magento\Catalog\Helper\Product\Configuration $configurationHelper,
+        \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
         $connection = null
     ) {
         $this->_registryManager = $registryManager;
         $this->_productType = $productType;
-        $this->_configurationHelper = $configurationHelper;
+        $this->_productTypeConfig = $productTypeConfig;
         parent::__construct(
             $entityFactory,
             $logger,
@@ -141,7 +141,7 @@ class AssociatedProduct
     {
         parent::_initSelect();
 
-        $allowedProductTypes = $this->_configurationHelper->getConfigurableAllowedTypes();
+        $allowedProductTypes = $this->_productTypeConfig->getComposableTypes();
 
         $this->addAttributeToSelect('name')
             ->addAttributeToSelect('price')
