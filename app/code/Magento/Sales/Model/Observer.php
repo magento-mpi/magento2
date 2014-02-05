@@ -314,28 +314,6 @@ class Observer
     }
 
     /**
-     * Retrieve customer address (default billing or default shipping) ID on which tax calculation must be based
-     *
-     * @param \Magento\Customer\Model\Customer $customer
-     * @param \Magento\Core\Model\Store|string|int|null $store
-     * @return int|string
-     */
-    protected function _getVatRequiredCustomerAddress(\Magento\Customer\Model\Customer $customer, $store = null)
-    {
-        $configAddressType = $this->_customerAddress->getTaxCalculationAddressType($store);
-        $requiredAddress = null;
-        switch ($configAddressType) {
-            case \Magento\Customer\Model\Address\AbstractAddress::TYPE_SHIPPING:
-                $requiredAddress = $customer->getDefaultShipping();
-                break;
-            default:
-                $requiredAddress = $customer->getDefaultBilling();
-                break;
-        }
-        return $requiredAddress;
-    }
-
-    /**
      * Restore initial customer group ID in quote if needed on collect_totals_after event of quote address
      *
      * @param \Magento\Event\Observer $observer
