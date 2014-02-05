@@ -109,7 +109,7 @@ class Group extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Set any group default if old one was removed
      *
      * @param integer $attributeSetId
-     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Group
+     * @return $this
      */
     public function updateDefaultGroup($attributeSetId)
     {

@@ -114,7 +114,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Set current store to collection
      *
      * @param \Magento\Core\Model\Store|string|int $store
-     * @return \Magento\Eav\Model\Resource\Form\Attribute\Collection
+     * @return $this
      */
     public function setStore($store)
     {
@@ -139,7 +139,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Set entity type instance to collection
      *
      * @param \Magento\Eav\Model\Entity\Type|string|int $entityType
-     * @return \Magento\Eav\Model\Resource\Form\Attribute\Collection
+     * @return $this
      */
     public function setEntityType($entityType)
     {
@@ -164,7 +164,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Add Form Code filter to collection
      *
      * @param string $code
-     * @return \Magento\Eav\Model\Resource\Form\Attribute\Collection
+     * @return $this
      */
     public function addFormCodeFilter($code)
     {
@@ -175,7 +175,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Set order by attribute sort order
      *
      * @param string $direction
-     * @return \Magento\Eav\Model\Resource\Form\Attribute\Collection
+     * @return $this
      */
     public function setSortOrder($direction = self::SORT_ORDER_ASC)
     {
@@ -186,7 +186,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Add joins to select
      *
-     * @return \Magento\Eav\Model\Resource\Form\Attribute\Collection
+     * @return $this
      */
     protected function _beforeLoad()
     {

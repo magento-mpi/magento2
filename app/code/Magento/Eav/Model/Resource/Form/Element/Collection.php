@@ -77,7 +77,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Set order by element sort order
      *
-     * @return \Magento\Eav\Model\Resource\Form\Element\Collection
+     * @return $this
      */
     public function setSortOrder()
     {
@@ -89,7 +89,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Join attribute data
      *
-     * @return \Magento\Eav\Model\Resource\Form\Element\Collection
+     * @return $this
      */
     protected function _joinAttributeData()
     {

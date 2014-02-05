@@ -32,7 +32,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Set Attribute Set Filter
      *
      * @param int $setId
-     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Group\Collection
+     * @return $this
      */
     public function setAttributeSetFilter($setId)
     {
@@ -45,7 +45,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Set sort order
      *
      * @param string $direction
-     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Group\Collection
+     * @return $this
      */
     public function setSortOrder($direction = self::SORT_ORDER_ASC)
     {

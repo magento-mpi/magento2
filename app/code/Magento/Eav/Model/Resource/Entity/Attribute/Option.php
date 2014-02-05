@@ -34,7 +34,7 @@ class Option extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param \Magento\Eav\Model\Entity\Collection\AbstractCollection $collection
      * @param \Magento\Eav\Model\Entity\Attribute $attribute
      * @param \Zend_Db_Expr $valueExpr
-     * @return \Magento\Eav\Model\Resource\Entity\Attribute\Option
+     * @return $this
      */
     public function addOptionValueToCollection($collection, $attribute, $valueExpr)
     {

@@ -33,7 +33,7 @@ class Type extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param \Magento\Core\Model\AbstractModel $object
      * @param string $code
-     * @return \Magento\Eav\Model\Resource\Entity\Type
+     * @return $this
      */
     public function loadByCode($object, $code)
     {
