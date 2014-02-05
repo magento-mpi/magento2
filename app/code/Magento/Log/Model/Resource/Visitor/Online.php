@@ -48,6 +48,7 @@ class Online extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param \Magento\Log\Model\Visitor\Online $object
      * @return $this
+     * @throws \Exception
      */
     public function prepare(\Magento\Log\Model\Visitor\Online $object)
     {

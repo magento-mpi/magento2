@@ -83,7 +83,7 @@ class Log extends \Magento\Core\Model\AbstractModel
     /**
      * Clean Logs
      *
-     * @return \Magento\Log\Model\Log
+     * @return $this
      */
     public function clean()
     {
