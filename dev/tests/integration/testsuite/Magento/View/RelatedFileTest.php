@@ -54,7 +54,7 @@ class RelatedFileTest extends \PHPUnit_Framework_TestCase
                     'params' => ['module' => false]
                 ),
                 'expected' => array(
-                    'path' => 'css/../directory/file.css',
+                    'path' => 'directory/file.css',
                     'params' => ['module' => false]
                 )
             ),
@@ -66,7 +66,7 @@ class RelatedFileTest extends \PHPUnit_Framework_TestCase
                     'params' => ['module' => 'Magento_Theme']
                 ),
                 'expected' => array(
-                    'path' => 'css/../some_dir/file.css',
+                    'path' => 'some_dir/file.css',
                     'params' => ['module' => 'Magento_Theme']
                 )
             ),
