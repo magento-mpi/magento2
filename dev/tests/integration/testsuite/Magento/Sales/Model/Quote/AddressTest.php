@@ -16,7 +16,7 @@ use Magento\TestFramework\Helper\Bootstrap;
 /**
  * @magentoDataFixture Magento/Customer/_files/customer.php
  * @magentoDataFixture Magento/Customer/_files/customer_two_addresses.php
- * @magentoDataFixture Magento/Sales/_files/quote.php
+ * @magentoDataFixture Magento/Sales/_files/quote_with_customer.php
  */
 class AddressTest extends \PHPUnit_Framework_TestCase
 {
@@ -248,5 +248,29 @@ class AddressTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($street, $this->_address->getStreet1(), 'Expected street does not exists');
         $this->assertEquals($email, $orderAddress->getEmail(), 'Expected email does not exists');
+    }
+
+    public function testPopulateBeforeSaveData()
+    {
+        /** Preconditions */
+        $customerId = 1;
+        $customerAddressId = 1;
+
+        $this->_address->setQuote($this->_quote);
+        $this->assertNotEquals($customerId, $this->_address->getCustomerId(),
+            "Precondition failed: Customer ID was not set.");
+        $this->assertNotEquals(1, $this->_address->getQuoteId(), "Precondition failed: Quote ID was not set.");
+        $this->assertNotEquals($customerAddressId, $this->_address->getCustomerAddressId(),
+            "Precondition failed: Customer address ID was not set.");
+
+        /** @var \Magento\Customer\Model\Address $customerAddress */
+        $customerAddress = Bootstrap::getObjectManager()->create('Magento\Customer\Model\Address');
+        $customerAddress->setId($customerAddressId);
+        $this->_address->setCustomerAddress($customerAddress);
+        $this->_address->save();
+
+        $this->assertEquals($customerId, $this->_address->getCustomerId());
+        $this->assertEquals($this->_quote->getId(), $this->_address->getQuoteId());
+        $this->assertEquals($customerAddressId, $this->_address->getCustomerAddressId());
     }
 }
