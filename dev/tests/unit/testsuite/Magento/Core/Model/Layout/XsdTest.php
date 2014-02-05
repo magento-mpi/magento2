@@ -5,15 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\ObjectManager\Config;
+namespace Magento\Core\Model\Layout;
 
 class XsdTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var \Magento\ObjectManager\Config\SchemaLocator
-     */
-    protected $_schemaLocator;
-
     /**
      * Path to xsd schema file
      * @var string
@@ -27,8 +22,7 @@ class XsdTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_schemaLocator = new \Magento\ObjectManager\Config\SchemaLocator();
-        $this->_xsdSchema = $this->_schemaLocator->getSchema();
+        $this->_xsdSchema = BP . '/app/code/Magento/Core/etc/layout_single.xsd';
         $this->_xsdValidator = new \Magento\TestFramework\Utility\XsdValidator();
     }
 
@@ -50,12 +44,12 @@ class XsdTest extends \PHPUnit_Framework_TestCase
      */
     public function schemaCorrectlyIdentifiesInvalidXmlDataProvider()
     {
-        return include(__DIR__ . '/_files/invalidConfigXmlArray.php');
+        return include(__DIR__ . '/_files/invalidLayoutArgumentsXmlArray.php');
     }
 
     public function testSchemaCorrectlyIdentifiesValidXml()
     {
-        $xmlString = file_get_contents(__DIR__ . '/_files/valid_config.xml');
+        $xmlString = file_get_contents(__DIR__ . '/_files/arguments.xml');
         $actualResult = $this->_xsdValidator->validate($this->_xsdSchema, $xmlString);
 
         $this->assertEmpty($actualResult, join("\n", $actualResult));

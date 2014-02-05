@@ -11,6 +11,9 @@
     <preference for="Some_For_Name" type="Some_Type_Name" />
     <virtualType name="" type="" shared="true">
         <arguments>
+            <argument name="object" xsi:type="object" shared="true">Object</argument>
+            <argument name="init_parameter" xsi:type="init_parameter">INIT_PARAMETER</argument>
+            <argument name="const" xsi:type="const">CONST</argument>
             <argument name="single_array" xsi:type="array">
                 <item name="key1 unique for single array" xsi:type="string">value</item>
                 <item name="Different symbols 1~!@#$%^&amp;*()_+-=`[]\{}|;':,./&lt;&gt;?" xsi:type="string">2</item>
@@ -33,7 +36,11 @@
     <type name="Some_Type_name">
         <plugin name="plugin_name" type="Type_Test_Value"/>
         <arguments>
-            <argument name="text_value" xsi:type="object">Instance_test_name</argument>
+            <argument name="object" xsi:type="object">Object</argument>
+            <argument name="object_shared" xsi:type="object" shared="true">Object</argument>
+            <argument name="object_shared_false" xsi:type="object" shared="false">Object</argument>
+            <argument name="init_parameter" xsi:type="init_parameter">INIT_PARAMETER</argument>
+            <argument name="const" xsi:type="const">CONST</argument>
             <argument name="single_array" xsi:type="array">
                 <item name="key1 unique for single array" xsi:type="string">value</item>
                 <item name="Different symbols 1~!@#$%^&amp;*()_+-=`[]\{}|;':,./&lt;&gt;?" xsi:type="object">Instance_test_name</item>
