@@ -1549,6 +1549,9 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         if ($customerDto->getCustomerId() && !$this->_customerIsInStore($store)) {
             /** Create a new customer record if it is not available in the specified store */
             $customerData = array_merge($customerDto->__toArray(), [CustomerDto::STORE_ID => $store->getId()]);
+            /** Unset customer ID to ensure that new customer will be created */
+            $customerData[CustomerDto::ID] = null;
+            $customerData[CustomerDto::CREATED_AT] = null;
             /** Refresh customer DTO after its persistence */
             $customerDto = $this->_setupCustomer($customerData);
         } else if (!$customerDto->getCustomerId()) {
@@ -1589,8 +1592,6 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      */
     protected function _setupCustomer($customerData)
     {
-        /** Unset customer ID to ensure that new customer will be created */
-        $customerData[CustomerDto::ID] = null;
         $customerDto = $this->_customerBuilder->populateWithArray($customerData)->create();
         $this->_validateCustomerData($customerDto);
         return $customerDto;
@@ -1706,7 +1707,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         }
 
         $order = $service->submitOrderWithDto();
-        //TODO : MAGETWO-20628 will introduce a new api to send email for customer registered in different store
+
         if ($this->getSession()->getOrder()->getId()) {
             $oldOrder = $this->getSession()->getOrder();
             $oldOrder->setRelationChildId($order->getId());

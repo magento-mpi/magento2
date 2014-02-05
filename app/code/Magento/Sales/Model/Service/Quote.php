@@ -189,10 +189,7 @@ class Quote
         $isVirtual = $quote->isVirtual();
 
         $transaction = $this->_transactionFactory->create();
-        //TODO : Refactor to use \Magento\Sales\Model\Quote::getCustomerData once set correctly in MAGETWO-19929
-        // Use Customer service to create / rollback(using CustomerServiceInterface::deleteCustomer)
-        // TODO: At the moment customer DTO does not contain some fields required for customer save, e.g. City
-        if ($quote->getCustomerId() && !$quote->getCustomerData()->getCustomerId()) {
+        if ($quote->getCustomerId()) {
             $transaction->addObject($quote->getCustomer());
         }
         $transaction->addObject($quote);
@@ -237,20 +234,20 @@ class Quote
          * We can use configuration data for declare new order status
          */
         $this->_eventManager->dispatch('checkout_type_onepage_save_order', array(
-                'order' => $order,
-                'quote' => $quote
-            ));
+            'order' => $order,
+            'quote' => $quote
+        ));
         $this->_eventManager->dispatch('sales_model_service_quote_submit_before', array(
-                'order' => $order,
-                'quote' => $quote
-            ));
+            'order' => $order,
+            'quote' => $quote
+        ));
         try {
             $transaction->save();
             $this->_inactivateQuote();
             $this->_eventManager->dispatch('sales_model_service_quote_submit_success', array(
-                    'order' => $order,
-                    'quote' => $quote
-                ));
+                'order' => $order,
+                'quote' => $quote
+            ));
         } catch (\Exception $e) {
             if (!$this->_customerSession->isLoggedIn()) {
                 // reset customer ID's on exception, because customer not saved
@@ -335,13 +332,14 @@ class Quote
             $order = $this->_convertor->addressToOrder($quote->getShippingAddress());
         }
         $order->setBillingAddress($this->_convertor->addressToOrderAddress($quote->getBillingAddress()));
-        if ($quote->getBillingAddress()->getCustomerAddress()) {
-            $order->getBillingAddress()->setCustomerAddress($quote->getBillingAddress()->getCustomerAddress());
+        if ($quote->getBillingAddress()->getCustomerAddressData()) {
+            $order->getBillingAddress()->setCustomerAddressData($quote->getBillingAddress()->getCustomerAddressData());
         }
         if (!$isVirtual) {
             $order->setShippingAddress($this->_convertor->addressToOrderAddress($quote->getShippingAddress()));
-            if ($quote->getShippingAddress()->getCustomerAddress()) {
-                $order->getShippingAddress()->setCustomerAddress($quote->getShippingAddress()->getCustomerAddress());
+            if ($quote->getShippingAddress()->getCustomerAddressData()) {
+                $order->getShippingAddress()->setCustomerAddressData(
+                    $quote->getShippingAddress()->getCustomerAddressData());
             }
         }
         $order->setPayment($this->_convertor->paymentToOrderPayment($quote->getPayment()));
@@ -383,10 +381,16 @@ class Quote
                 'quote' => $quote
             ));
         } catch (\Exception $e) {
-            if ($orgCustomerDto) {
-                //Restore original customer data
+            if ($orgCustomerDto) { //Restore original customer data if existing customer was updated
                 $this->_customerService->saveCustomer($orgCustomerDto);
                 $this->_customerAddressService->saveAddresses($customerDto->getCustomerId(), $orgAddresses);
+            } else { // Delete if new customer created
+                $this->_customerService->deleteCustomer($customerDto->getCustomerId());
+                foreach ($addresses as $address) {
+                    $this->_customerAddressService->deleteAddressFromCustomer(
+                        $customerDto->getCustomerId(),
+                        $address->getId());
+                }
             }
 
             //reset order ID's on exception, because order not saved
