@@ -23,10 +23,6 @@ class Validator
      */
     public function validate(Product $product, RequestInterface $request, \Magento\Object $response)
     {
-        $result = $product->validate();
-        if (is_array($result) && count($result)) {
-            $response->setError(true);
-            $response->setMessage('Product validation failed');
-        }
+        return $product->validate();
     }
-} 
+}
