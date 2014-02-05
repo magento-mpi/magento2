@@ -6,6 +6,9 @@
 * Updated various PHPDoc with parameter and return types
 * Move Quote Multishipping specifics logic to Multishipping module
 * Resolve dependencies between Payment and Multishipping modules
+* Framework part of the "Translate" functionality removed from modules
+* Implemented E-mail template architecture in libraries
+* Applied unified approach of scope usage for "Config" functionality
 
 -2.0.0.0-dev63
 -=============

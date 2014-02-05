@@ -571,11 +571,11 @@
     </type>
     <type name="Magento\App\Config\Initial\Converter">
         <param name="nodeMap">
-            <value>
-                <default>/config/default</default>
-                <stores>/config/stores</stores>
-                <websites>/config/websites</websites>
-            </value>
+            <array>
+                <item key="default"><value>/config/default</value></item>
+                <item key="stores"><value>/config/stores</value></item>
+                <item key="websites"><value>/config/websites</value></item>
+            </array>
         </param>
     </type>
 </config>
