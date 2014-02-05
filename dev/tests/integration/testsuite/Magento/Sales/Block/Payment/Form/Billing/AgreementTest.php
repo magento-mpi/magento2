@@ -17,9 +17,9 @@ class AgreementTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $quote = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Sales\Model\Quote')
-            ->load(1);
-
+        $quote = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Resource\Quote\Collection')
+            ->getFirstItem();
         /** @var \Magento\View\LayoutInterface $layout */
         $layout = $this->getMockBuilder('Magento\View\LayoutInterface')
             ->disableOriginalConstructor()

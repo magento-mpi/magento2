@@ -1,0 +1,84 @@
+<?php
+/**
+ * Test for Magento\Sales\Model\Payment\Method\Billing\AbstractAgreement
+ *
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Sales
+ * @subpackage  integration_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+namespace Magento\Sales\Model\Payment\Method\Billing;
+
+class AbstractAgreementTest extends \PHPUnit_Framework_TestCase
+{
+    /** @var \Magento\Paypal\Model\Method\Agreement */
+    protected $_model;
+
+
+    protected function setUp()
+    {
+        $config = $this->getMockBuilder('\Magento\Paypal\Model\Config')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $config->expects($this->any())
+            ->method('isMethodAvailable')
+            ->will($this->returnValue(true));
+        $proMock = $this->getMockBuilder('Magento\Paypal\Model\Pro')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $proMock->expects($this->any())
+            ->method('getConfig')
+            ->will($this->returnValue($config));
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Paypal\Model\Method\Agreement', ['data' => [$proMock]]);
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     * @magentoDataFixture Magento/Sales/_files/quote_with_customer.php
+     * @magentoDataFixture Magento/Sales/_files/billing_agreement.php
+     * @magentoDbIsolation enabled
+     */
+    public function testIsActive()
+    {
+        $quote = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Resource\Quote\Collection')
+            ->getFirstItem();
+        $this->assertTrue($this->_model->isAvailable($quote));
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     * @magentoDataFixture Magento/Sales/_files/quote_with_customer.php
+     * @magentoDataFixture Magento/Sales/_files/billing_agreement.php
+     * @magentoDbIsolation enabled
+     */
+    public function testAssignData()
+    {
+        /** @var \Magento\Sales\Model\Resource\Quote\Collection $collection */
+        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Resource\Quote\Collection');
+        /** @var |Magento\Sales\Model\Quote $quote */
+        $quote = $collection->getFirstItem();
+        $info = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Payment\Model\Info')
+            ->setQuote($quote);
+        $this->_model->setData('info_instance', $info);
+        $billingAgreement = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Sales\Model\Resource\Billing\Agreement\Collection')
+            ->getFirstItem();
+        $data = [
+            \Magento\Sales\Model\Payment\Method\Billing\AbstractAgreement::TRANSPORT_BILLING_AGREEMENT_ID =>
+                $billingAgreement->getId()
+        ];
+        $this->_model->assignData($data);
+        $this->assertEquals(
+            'REF-ID-TEST-678',
+            $info->getAdditionalInformation(
+                \Magento\Sales\Model\Payment\Method\Billing\AbstractAgreement::PAYMENT_INFO_REFERENCE_ID)
+        );
+    }
+}
