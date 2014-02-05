@@ -9,8 +9,6 @@
  */
 namespace Magento\DesignEditor\Controller\Adminhtml\System\Design\Editor;
 
-namespace Magento\DesignEditor\Controller\Adminhtml\System\Design\Editor;
-
 /**
  * Files controller
  */
