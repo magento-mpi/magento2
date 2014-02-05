@@ -25,11 +25,6 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
      */
     protected $_blockFactoryMock;
 
-    /**
-     * @var  \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_blockMock;
-
     protected function setUp()
     {
         $this->_structureMock = $this->getMockBuilder('Magento\Data\Structure')
@@ -40,10 +35,6 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
             ->setMethods(array('createBlock'))
             ->disableOriginalConstructor()
             ->getMock();
-
-        $this->_blockMock = $this->getMockBuilder('Magento\View\Element\AbstractBlock')
-            ->disableOriginalConstructor()
-            ->getMockForAbstractClass();
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $objectManagerHelper->getObject(
@@ -66,9 +57,12 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateBlockSuccess()
     {
+        $blockMock = $this->getMockBuilder('Magento\View\Element\AbstractBlock')
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
         $this->_blockFactoryMock->expects($this->once())
             ->method('createBlock')
-            ->will($this->returnValue($this->_blockMock));
+            ->will($this->returnValue($blockMock));
 
         $this->_model->createBlock('type', 'blockname', array());
         $this->assertInstanceOf('Magento\View\Element\AbstractBlock', $this->_model->getBlock('blockname'));

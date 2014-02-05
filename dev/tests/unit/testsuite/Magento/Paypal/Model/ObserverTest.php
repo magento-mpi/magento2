@@ -21,35 +21,21 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected $_observer;
 
     /**
+     * @var \Magento\Object
+     */
+    protected $_event;
+
+    /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_shortcutButtonsMock;
 
     protected function setUp()
     {
-        $this->_observer = new \Magento\Event\Observer();
-
-        $layoutMock = $this->getMockBuilder('Magento\Core\Model\Layout')
-            ->setMethods(array('createBlock'))
-            ->disableOriginalConstructor()
-            ->getMock();
-        $layoutMock->expects($this->any())
-            ->method('createBlock')
-            ->will($this->returnCallback(array($this, 'createBlock')));
-
-        $this->_shortcutButtonsMock = $this->getMockBuilder('Magento\Catalog\Block\ShortcutButtons')
-            ->setMethods(array('getLayout', 'addShortcut'))
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->_shortcutButtonsMock->expects($this->any())
-            ->method('getLayout')
-            ->will($this->returnValue($layoutMock));
-
-        $event = new \Magento\Object();
-        $event->setContainer($this->_shortcutButtonsMock);
+        $this->_event = new \Magento\Object();
 
         $this->_observer = new \Magento\Event\Observer();
-        $this->_observer->setEvent($event);
+        $this->_observer->setEvent($this->_event);
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $objectManagerHelper->getObject('Magento\Paypal\Model\Observer');
@@ -57,31 +43,50 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
     public function testAddPaypalShortcuts()
     {
-        $this->_shortcutButtonsMock->expects($this->any())
+        $layoutMock = $this->getMockBuilder('Magento\Core\Model\Layout')
+            ->setMethods(array('createBlock'))
+            ->disableOriginalConstructor()
+            ->getMock();
+        $blocks = array(
+            'Magento\Paypal\Block\Express\Shortcut',
+            'Magento\Paypal\Block\PayflowExpress\Shortcut'
+        );
+
+        foreach ($blocks as $atPosition => $blockName) {
+            $block = $this->getMockBuilder($blockName)
+                ->setMethods(null)
+                ->disableOriginalConstructor()
+                ->getMock();
+
+            $layoutMock->expects($this->at($atPosition))
+                ->method('createBlock')
+                ->with($blockName)
+                ->will($this->returnValue($block));
+        }
+
+        $shortcutButtonsMock = $this->getMockBuilder('Magento\Catalog\Block\ShortcutButtons')
+            ->setMethods(array('getLayout', 'addShortcut'))
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $shortcutButtonsMock->expects($this->at(0))
+            ->method('getLayout')
+            ->will($this->returnValue($layoutMock));
+        $shortcutButtonsMock->expects($this->at(1))
             ->method('addShortcut')
-            ->with($this->callback(
-                function($shortcutObj) {
-                    return $shortcutObj instanceof \Magento\View\Element\Template\;
-                }
-            ));
+            ->with($this->isInstanceOf('Magento\Paypal\Block\Express\Shortcut'));
+
+        $shortcutButtonsMock->expects($this->at(2))
+            ->method('getLayout')
+            ->will($this->returnValue($layoutMock));
+        $shortcutButtonsMock->expects($this->at(3))
+            ->method('addShortcut')
+            ->with($this->isInstanceOf('Magento\Paypal\Block\PayflowExpress\Shortcut'));
+
+
+        $this->_event->setContainer($shortcutButtonsMock);
         $this->_model->addPaypalShortcuts($this->_observer);
     }
 
-    /**
-     * Emulates Layout createBlock function for Paypal Observer
-     *
-     * @param string $block
-     * @param string $name
-     * @param array $args
-     * @return \PHPUnit_Framework_MockObject_MockObject
-     */
-    public function createBlock($block, $name, $args)
-    {
-        $block = $this->getMockBuilder($block)
-            ->setMethods(null)
-            ->disableOriginalConstructor()
-            ->getMock();
-        return $block;
-    }
 }
  
