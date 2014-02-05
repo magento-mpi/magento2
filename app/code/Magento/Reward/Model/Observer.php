@@ -942,16 +942,14 @@ class Observer
      * @param \Magento\Event\Observer $observer
      * @return void
      */
-    public function addPaypalRewardItem(\Magento\Event\Observer $observer)
+    public function addPaymentRewardItem(\Magento\Event\Observer $observer)
     {
-        $paypalCart = $observer->getEvent()->getPaypalCart();
-        if ($paypalCart && abs($paypalCart->getSalesEntity()->getBaseRewardCurrencyAmount()) > 0.0001) {
-            $salesEntity = $paypalCart->getSalesEntity();
-            $paypalCart->updateTotal(
-                \Magento\Paypal\Model\Cart::TOTAL_DISCOUNT,
-                (float)$salesEntity->getBaseRewardCurrencyAmount(),
-                $this->_rewardData->formatReward($salesEntity->getRewardPointsBalance())
-            );
+        /** @var \Magento\Payment\Model\Cart $cart */
+        $cart = $observer->getEvent()->getCart();
+        $salesEntity = $cart->getSalesModel();
+        $discount = abs($salesEntity->getDataUsingMethod('base_reward_currency_amount'));
+        if ($discount > 0.0001) {
+            $cart->addDiscount((float)$discount);
         }
     }
 

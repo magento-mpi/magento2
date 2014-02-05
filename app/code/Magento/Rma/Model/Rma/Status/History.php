@@ -37,9 +37,7 @@ class History extends \Magento\Core\Model\AbstractModel
     protected $_rmaConfig;
 
     /**
-     * Core translate model
-     *
-     * @var \Magento\Core\Model\Translate
+     * @var \Magento\TranslateInterface
      */
     protected $_translate;
 
@@ -63,7 +61,7 @@ class History extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Rma\Model\RmaFactory $rmaFactory
      * @param \Magento\Rma\Model\Config $rmaConfig
-     * @param \Magento\Core\Model\Translate $translate
+     * @param \Magento\TranslateInterface $translate
      * @param \Magento\Email\Model\TemplateFactory $templateFactory
      * @param \Magento\Core\Model\Date $date
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -76,7 +74,7 @@ class History extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Rma\Model\RmaFactory $rmaFactory,
         \Magento\Rma\Model\Config $rmaConfig,
-        \Magento\Core\Model\Translate $translate,
+        \Magento\TranslateInterface $translate,
         \Magento\Email\Model\TemplateFactory $templateFactory,
         \Magento\Core\Model\Date $date,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
