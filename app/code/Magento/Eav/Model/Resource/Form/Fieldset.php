@@ -7,7 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Eav\Model\Resource\Form;
 
+use Magento\Core\Model\AbstractModel;
+use Magento\Eav\Model\Form\Fieldset as FormFieldset;
+use Magento\DB\Select;
 
 /**
  * Eav Form Fieldset Resource Model
@@ -16,12 +20,6 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Eav\Model\Resource\Form;
-
-use Magento\Core\Model\AbstractModel;
-use Magento\Eav\Model\Form\Fieldset as FormFieldset;
-use Magento\DB\Select;
-
 class Fieldset extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**

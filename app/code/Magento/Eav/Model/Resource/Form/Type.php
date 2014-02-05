@@ -7,7 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Eav\Model\Resource\Form;
 
+use Magento\Eav\Model\Form\Type as FormType;
+use Magento\Core\Model\AbstractModel;
 
 /**
  * Eav Form Type Resource Model
@@ -16,11 +19,6 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Eav\Model\Resource\Form;
-
-use Magento\Eav\Model\Form\Type as FormType;
-use Magento\Core\Model\AbstractModel;
-
 class Type extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**

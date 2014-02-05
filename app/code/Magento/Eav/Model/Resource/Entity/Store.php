@@ -7,7 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Eav\Model\Resource\Entity;
 
+use Magento\Core\Model\AbstractModel;
+use Magento\Object;
 
 /**
  * Eav Entity store resource model
@@ -16,11 +19,6 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Eav\Model\Resource\Entity;
-
-use Magento\Core\Model\AbstractModel;
-use Magento\Object;
-
 class Store extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**

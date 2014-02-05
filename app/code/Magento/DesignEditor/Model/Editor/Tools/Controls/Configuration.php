@@ -164,7 +164,7 @@ class Configuration
     /**
      * Load data item values and default values from the view configuration
      *
-     * @param array $control
+     * @param array &$control
      * @param string $paramName
      * @param \Magento\Config\View $viewConfiguration
      * @return $this

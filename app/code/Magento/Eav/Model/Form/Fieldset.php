@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Eav\Model\Form;
 
 /**
  * Eav Form Fieldset Model
@@ -24,8 +24,6 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Eav\Model\Form;
-
 class Fieldset extends \Magento\Core\Model\AbstractModel
 {
     /**
