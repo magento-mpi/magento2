@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reports\Model\Event;
 
 /**
  * Event type model
@@ -22,11 +23,11 @@
  * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Reports\Model\Event;
-
 class Type extends \Magento\Core\Model\AbstractModel
 {
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_init('Magento\Reports\Model\Resource\Event\Type');

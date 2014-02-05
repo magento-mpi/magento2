@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer;
 
 /**
  * Quick style abstract renderer
  */
-namespace Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer;
-
 abstract class AbstractRenderer
 {
     /**

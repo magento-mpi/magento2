@@ -18,26 +18,26 @@ class PageCache extends \Magento\Backend\App\Action
     /**
      * @var \Magento\App\Response\Http\FileFactory
      */
-    protected $_fileFactory;
+    protected $fileFactory;
 
     /**
      * @var \Magento\PageCache\Model\Config
      */
-    protected $_pageCacheModel;
+    protected $config;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\App\Response\Http\FileFactory $fileFactory
-     * @param \Magento\PageCache\Model\Config $pageCacheModel
+     * @param \Magento\PageCache\Model\Config $config
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\App\Response\Http\FileFactory $fileFactory,
-        \Magento\PageCache\Model\Config $pageCacheModel
+        \Magento\PageCache\Model\Config $config
     ){
         parent::__construct($context);
-        $this->_pageCacheModel = $pageCacheModel;
-        $this->_fileFactory = $fileFactory;
+        $this->config = $config;
+        $this->fileFactory = $fileFactory;
     }
 
     /**
@@ -48,7 +48,7 @@ class PageCache extends \Magento\Backend\App\Action
     public function exportVarnishConfigAction()
     {
         $fileName = 'varnish.vcl';
-        $content = $this->_pageCacheModel->getVclFile();
-        return $this->_fileFactory->create($fileName, $content, \Magento\App\Filesystem::VAR_DIR);
+        $content = $this->config->getVclFile();
+        return $this->fileFactory->create($fileName, $content, \Magento\App\Filesystem::VAR_DIR);
     }
 }

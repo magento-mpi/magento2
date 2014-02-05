@@ -7,16 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reports\Block\Adminhtml\Product\Lowstock;
 
 /**
  * Adminhtml low stock products report grid block
  *
- * @category   Magento
- * @package    Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reports\Block\Adminhtml\Product\Lowstock;
-
 class Grid extends \Magento\Backend\Block\Widget\Grid
 {
     /**

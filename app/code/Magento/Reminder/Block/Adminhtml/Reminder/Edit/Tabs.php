@@ -7,33 +7,38 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reminder\Block\Adminhtml\Reminder\Edit;
+
+use Magento\Core\Model\Registry;
 
 /**
  * Reminder rules edit tabs block
  */
-namespace Magento\Reminder\Block\Adminhtml\Reminder\Edit;
-
 class Tabs
     extends \Magento\Backend\Block\Widget\Tabs
 {
 
     /**
      * Core registry
+     *
+     * @var Registry|null
      */
     protected $_coreRegistry = null;
 
     /**
+     * Constructor
+     *
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Backend\Model\Auth\Session $authSession
-     * @param \Magento\Core\Model\Registry $registry
+     * @param Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Backend\Model\Auth\Session $authSession,
-        \Magento\Core\Model\Registry $registry,
+        Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
@@ -41,7 +46,7 @@ class Tabs
     }
 
     /**
-     * Intialize form
+     * Initialize form
      *
      * @return void
      */
