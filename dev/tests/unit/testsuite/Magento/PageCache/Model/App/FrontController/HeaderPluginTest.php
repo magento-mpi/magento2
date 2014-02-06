@@ -128,6 +128,12 @@ class HeaderPluginTest extends \PHPUnit_Framework_TestCase
         $maxAge = 0;
         $pragma = 'cache';
         $cacheControl = 'public, max-age=' . $maxAge;
+        $ttl = 120;
+
+        $this->configMock->expects($this->once())
+            ->method('getValue')
+            ->with($this->equalTo(\Magento\PageCache\Model\Config::XML_VARNISH_PAGECACHE_TTL))
+            ->will($this->returnValue(120));
 
         $this->layoutMock->expects($this->once())
             ->method('isPrivate')
@@ -141,11 +147,14 @@ class HeaderPluginTest extends \PHPUnit_Framework_TestCase
 
         $this->responseMock->expects($this->at(0))
             ->method('setHeader')
-            ->with($this->equalTo('pragma'), $this->equalTo($pragma), $this->equalTo(true));
+            ->with($this->equalTo('X-Magento-ttl'), $this->equalTo($ttl), $this->equalTo(true));
         $this->responseMock->expects($this->at(1))
             ->method('setHeader')
-            ->with($this->equalTo('cache-control'), $this->equalTo($cacheControl), $this->equalTo(true));
+            ->with($this->equalTo('pragma'), $this->equalTo($pragma), $this->equalTo(true));
         $this->responseMock->expects($this->at(2))
+            ->method('setHeader')
+            ->with($this->equalTo('cache-control'), $this->equalTo($cacheControl), $this->equalTo(true));
+        $this->responseMock->expects($this->at(3))
             ->method('setHeader')
             ->with($this->equalTo('expires'));
 
