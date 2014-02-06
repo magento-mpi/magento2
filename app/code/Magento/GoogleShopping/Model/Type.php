@@ -104,7 +104,7 @@ class Type extends \Magento\Core\Model\AbstractModel
      *
      * @param int $attributeSetId Attribute Set
      * @param string $targetCountry Two-letters country ISO code
-     * @return \Magento\GoogleShopping\Model\Type
+     * @return $this
      */
     public function loadByAttributeSetId($attributeSetId, $targetCountry)
     {

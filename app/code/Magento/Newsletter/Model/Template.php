@@ -180,7 +180,7 @@ class Template extends \Magento\Core\Model\Template
     /**
      * Processing object before save data
      *
-     * @return \Magento\Newsletter\Model\Template
+     * @return $this
      */
     protected function _beforeSave()
     {
@@ -192,7 +192,7 @@ class Template extends \Magento\Core\Model\Template
      * Load template by code
      *
      * @param string $templateCode
-     * @return \Magento\Newsletter\Model\Template
+     * @return $this
      */
     public function loadByCode($templateCode)
     {

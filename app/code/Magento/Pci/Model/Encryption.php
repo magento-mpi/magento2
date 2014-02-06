@@ -138,7 +138,7 @@ class Encryption extends \Magento\Encryption\Encryptor
      * Set cipher to be used for encryption/decryption
      *
      * @param int $version
-     * @return \Magento\Pci\Model\Encryption
+     * @return $this
      */
 //    public function setCipher($version = self::CIPHER_LATEST)
 //    {

@@ -105,7 +105,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Add fieldset with general report fields
      *
-     * @return \Magento\Reports\Block\Adminhtml\Filter\Form
+     * @return $this
      */
     protected function _prepareForm()
     {

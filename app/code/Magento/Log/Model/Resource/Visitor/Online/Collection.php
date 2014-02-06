@@ -65,7 +65,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Add Customer data to collection
      *
-     * @return \Magento\Log\Model\Resource\Visitor\Online\Collection
+     * @return $this
      */
     public function addCustomerData()
     {

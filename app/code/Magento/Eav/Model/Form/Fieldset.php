@@ -92,7 +92,7 @@ class Fieldset extends \Magento\Core\Model\AbstractModel
      * Validate data before save data
      *
      * @throws \Magento\Core\Exception
-     * @return \Magento\Eav\Model\Form\Fieldset
+     * @return $this
      */
     protected function _beforeSave()
     {
@@ -124,7 +124,7 @@ class Fieldset extends \Magento\Core\Model\AbstractModel
      * Input array where key - store_id and value = label
      *
      * @param array $labels
-     * @return \Magento\Eav\Model\Form\Fieldset
+     * @return $this
      */
     public function setLabels(array $labels)
     {
@@ -136,7 +136,7 @@ class Fieldset extends \Magento\Core\Model\AbstractModel
      *
      * @param int $storeId
      * @param string $label
-     * @return \Magento\Eav\Model\Form\Fieldset
+     * @return $this
      */
     public function setStoreLabel($storeId, $label)
     {

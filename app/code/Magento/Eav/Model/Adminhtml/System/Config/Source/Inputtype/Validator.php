@@ -67,7 +67,7 @@ class Validator extends \Zend_Validate_InArray
      * Add input type to haystack
      *
      * @param string $type
-     * @return \Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\Validator
+     * @return $this
      */
     public function addInputType($type)
     {

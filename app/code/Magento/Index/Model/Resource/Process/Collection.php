@@ -31,7 +31,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Add count of unprocessed events to process collection
      *
-     * @return \Magento\Index\Model\Resource\Process\Collection
+     * @return $this
      */
     public function addEventsStats()
     {

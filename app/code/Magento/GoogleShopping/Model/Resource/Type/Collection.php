@@ -29,7 +29,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Init collection select
      *
-     * @return \Magento\GoogleShopping\Model\Resource\Type\Collection
+     * @return $this
      */
     protected function _initSelect()
     {
@@ -53,7 +53,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Add total count of Items for each type
      *
-     * @return \Magento\GoogleShopping\Model\Resource\Type\Collection
+     * @return $this
      */
     public function addItemsCount()
     {
@@ -70,7 +70,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Add country ISO filter to collection
      *
      * @param string $iso Two-letter country ISO code
-     * @return \Magento\GoogleShopping\Model\Resource\Type\Collection
+     * @return $this
      */
     public function addCountryFilter($iso)
     {
@@ -81,7 +81,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Join Attribute Set data
      *
-     * @return \Magento\GoogleShopping\Model\Resource\Type\Collection
+     * @return $this
      */
     protected function _joinAttributeSet()
     {

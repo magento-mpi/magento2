@@ -19,7 +19,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Add form fields
      *
-     * @return \Magento\Pci\Block\Adminhtml\Crypt\Key\Form
+     * @return $this
      */
     protected function _prepareForm()
     {

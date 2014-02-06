@@ -71,7 +71,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
      * Load last log by customer id
      *
      * @param \Magento\Customer\Model\Customer|int $customer
-     * @return \Magento\Log\Model\Customer
+     * @return $this
      */
     public function loadByCustomer($customer)
     {

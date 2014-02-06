@@ -206,7 +206,7 @@ class Paypal extends \Magento\Paypal\Model\Direct
     /**
      * Prepare info instance for save
      *
-     * @return \Magento\Pbridge\Model\Payment\Method\Paypal
+     * @return $this
      */
     public function prepareSave()
     {
@@ -223,7 +223,7 @@ class Paypal extends \Magento\Paypal\Model\Direct
     /**
      * Validate payment method information object
      *
-     * @return \Magento\Pbridge\Model\Payment\Method\Paypal
+     * @return $this
      */
     public function validate()
     {

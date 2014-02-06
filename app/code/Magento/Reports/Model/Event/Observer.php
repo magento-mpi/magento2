@@ -76,7 +76,7 @@ class Observer
      * @param int $objectId
      * @param int $subjectId
      * @param int $subtype
-     * @return \Magento\Reports\Model\Event\Observer
+     * @return $this
      */
     protected function _event($eventTypeId, $objectId, $subjectId = null, $subtype = 0)
     {

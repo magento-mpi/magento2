@@ -48,7 +48,7 @@ class Observer extends \Magento\Object
      * Set cmpi data to payment
      *
      * @param \Magento\Object $observer
-     * @return \Magento\Centinel\Model\Observer
+     * @return $this
      */
     public function salesEventConvertQuoteToOrder($observer)
     {
@@ -96,7 +96,7 @@ class Observer extends \Magento\Object
      * Add centinel logo block into payment form
      *
      * @param \Magento\Object $observer
-     * @return \Magento\Centinel\Model\Observer
+     * @return $this
      */
     public function paymentFormBlockToHtmlBefore($observer)
     {

@@ -116,7 +116,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Filter for customers only
      *
-     * @return \Magento\Log\Model\Resource\Visitor\Collection
+     * @return $this
      */
     public function showCustomersOnly()
     {

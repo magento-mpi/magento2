@@ -26,7 +26,7 @@ abstract class AbstractState extends \Magento\Object
      * Setter for storage data model
      *
      * @param \Magento\Object $dataStorageModel
-     * @return \Magento\Centinel\Model\AbstractState
+     * @return $this
      */
     public function setDataStorage($dataStorageModel)
     {
@@ -72,7 +72,7 @@ abstract class AbstractState extends \Magento\Object
      *
      * @param string|array $key
      * @param mixed $value
-     * @return \Magento\Centinel\Model\AbstractState
+     * @return $this
      */
     public function setData($key, $value=null)
     {

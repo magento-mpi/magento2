@@ -136,7 +136,7 @@ class AbstractGrid extends \Magento\Backend\Block\Widget\Grid\Extended
      *
      * @param string $columnId
      * @param array $column
-     * @return \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
+     * @return $this
      */
     public function addColumn($columnId, $column)
     {

@@ -68,7 +68,7 @@ class Observer
      * Check payment methods availability
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Pbridge\Model\Observer
+     * @return $this
      */
     public function isPaymentMethodAvailable(\Magento\Event\Observer $observer)
     {
@@ -88,7 +88,7 @@ class Observer
     /**
      * Update Payment Profiles functionality switcher
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Pbridge\Model\Observer
+     * @return $this
      */
     public function updatePaymentProfileStatus(\Magento\Event\Observer $observer)
     {

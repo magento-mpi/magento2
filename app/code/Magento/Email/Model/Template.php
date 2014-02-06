@@ -731,7 +731,7 @@ class Template extends \Magento\Core\Model\Template
      * Validate email template code
      *
      * @throws Exception
-     * @return \Magento\Email\Model\Template
+     * @return $this
      */
     protected function _beforeSave()
     {

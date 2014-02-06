@@ -50,7 +50,7 @@ class Template extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param \Magento\Newsletter\Model\Template $object
      * @param string $templateCode
-     * @return \Magento\Newsletter\Model\Resource\Template
+     * @return $this
      */
     public function loadByCode(\Magento\Newsletter\Model\Template $object, $templateCode)
     {
@@ -125,7 +125,7 @@ class Template extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Perform actions before object save
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\Newsletter\Model\Resource\Template
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     protected function _beforeSave(\Magento\Core\Model\AbstractModel $object)
