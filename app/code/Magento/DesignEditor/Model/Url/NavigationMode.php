@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\DesignEditor\Model\Url;
 
 /**
  * Navigation mode design editor url model
  */
-namespace Magento\DesignEditor\Model\Url;
-
 class NavigationMode extends \Magento\Url
 {
     /**
@@ -43,12 +42,10 @@ class NavigationMode extends \Magento\Url
      * @param \Magento\Url\ScopeResolverInterface $scopeResolver
      * @param \Magento\Core\Model\Session $session
      * @param \Magento\Session\SidResolverInterface $sidResolver
-     * @param \Magento\DesignEditor\Helper\Data $helper
      * @param \Magento\Url\RouteParamsResolverFactory $routeParamsResolver
-     * @param \Magento\Url\QueryParamsResolverInterface $queryParamsResolver,
+     * @param \Magento\Url\QueryParamsResolverInterface $queryParamsResolver
+     * @param \Magento\DesignEditor\Helper\Data $helper
      * @param array $data
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\App\Route\ConfigInterface $routeConfig,
@@ -57,9 +54,9 @@ class NavigationMode extends \Magento\Url
         \Magento\Url\ScopeResolverInterface $scopeResolver,
         \Magento\Core\Model\Session $session,
         \Magento\Session\SidResolverInterface $sidResolver,
-        \Magento\DesignEditor\Helper\Data $helper,
         \Magento\Url\RouteParamsResolverFactory $routeParamsResolver,
         \Magento\Url\QueryParamsResolverInterface $queryParamsResolver,
+        \Magento\DesignEditor\Helper\Data $helper,
         array $data = array()
     ) {
         $this->_helper = $helper;

@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<payment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="../../../Magento/Payment/etc/payment.xsd">
+    <methods>
+        <method name="pbridge_authorizenet">
+            <allow_multiple_address>1</allow_multiple_address>
+            <allow_multiple_with_3dsecure>1</allow_multiple_with_3dsecure>
+        </method>
+        <method name="pbridge_paypal_direct">
+            <allow_multiple_address>1</allow_multiple_address>
+            <allow_multiple_with_3dsecure>1</allow_multiple_with_3dsecure>
+        </method>
+        <method name="pbridge_payflow_direct">
+            <allow_multiple_address>1</allow_multiple_address>
+            <allow_multiple_with_3dsecure>1</allow_multiple_with_3dsecure>
+        </method>
+        <method name="pbridge_payflowpro">
+            <allow_multiple_address>1</allow_multiple_address>
+            <allow_multiple_with_3dsecure>1</allow_multiple_with_3dsecure>
+        </method>
+        <method name="braintree_basic">
+            <allow_multiple_address>1</allow_multiple_address>
+            <allow_multiple_with_3dsecure>1</allow_multiple_with_3dsecure>
+        </method>
+        <method name="cybersource_soap">
+            <allow_multiple_address>1</allow_multiple_address>
+            <allow_multiple_with_3dsecure>1</allow_multiple_with_3dsecure>
+        </method>
+        <method name="dibs">
+            <allow_multiple_address>1</allow_multiple_address>
+            <allow_multiple_with_3dsecure>1</allow_multiple_with_3dsecure>
+        </method>
+        <method name="eway_direct">
+            <allow_multiple_address>1</allow_multiple_address>
+            <allow_multiple_with_3dsecure>1</allow_multiple_with_3dsecure>
+        </method>
+        <method name="pbridge_ogone_direct">
+            <allow_multiple_address>1</allow_multiple_address>
+            <allow_multiple_with_3dsecure>1</allow_multiple_with_3dsecure>
+        </method>
+        <method name="paybox_direct">
+            <allow_multiple_address>1</allow_multiple_address>
+            <allow_multiple_with_3dsecure>1</allow_multiple_with_3dsecure>
+        </method>
+        <method name="pbridge">
+            <allow_multiple_address>1</allow_multiple_address>
+            <allow_multiple_with_3dsecure>1</allow_multiple_with_3dsecure>
+        </method>
+        <method name="psigate_basic">
+            <allow_multiple_address>1</allow_multiple_address>
+            <allow_multiple_with_3dsecure>1</allow_multiple_with_3dsecure>
+        </method>
+        <method name="worldpay_direct">
+            <allow_multiple_address>1</allow_multiple_address>
+            <allow_multiple_with_3dsecure>1</allow_multiple_with_3dsecure>
+        </method>
+        <method name="sagepay_direct">
+            <allow_multiple_address>1</allow_multiple_address>
+        </method>
+    </methods>
+</payment>

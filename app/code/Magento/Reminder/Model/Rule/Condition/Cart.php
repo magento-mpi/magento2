@@ -10,6 +10,9 @@
 
 namespace Magento\Reminder\Model\Rule\Condition;
 
+use Magento\DB\Select;
+use Magento\Core\Exception;
+
 /**
  * Customer cart conditions combine
  */
@@ -81,7 +84,7 @@ class Cart extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
     /**
      * Override parent method
      *
-     * @return \Magento\Reminder\Model\Rule\Condition\Cart
+     * @return $this
      */
     public function loadValueOptions()
     {
@@ -92,7 +95,7 @@ class Cart extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
     /**
      * Prepare operator select options
      *
-     * @return \Magento\Reminder\Model\Rule\Condition\Cart
+     * @return $this
      */
     public function loadOperatorOptions()
     {
@@ -130,10 +133,10 @@ class Cart extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
     /**
      * Get condition SQL select
      *
-     * @param   int|Zend_Db_Expr $customer
-     * @param   int|Zend_Db_Expr $website
-     * @return  \Magento\DB\Select
-     * @throws \Magento\Core\Exception
+     * @param null|int|Zend_Db_Expr $customer
+     * @param int|Zend_Db_Expr $website
+     * @return Select
+     * @throws Exception
      */
     protected function _prepareConditionsSql($customer, $website)
     {
@@ -172,9 +175,9 @@ class Cart extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
     /**
      * Get base SQL select
      *
-     * @param   int|Zend_Db_Expr $customer
-     * @param   int|Zend_Db_Expr $website
-     * @return  \Magento\DB\Select
+     * @param null|int|Zend_Db_Expr $customer
+     * @param int|Zend_Db_Expr $website
+     * @return Select
      */
     public function getConditionsSql($customer, $website)
     {

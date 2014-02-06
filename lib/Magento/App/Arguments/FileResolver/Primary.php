@@ -9,10 +9,6 @@
  */
 namespace Magento\App\Arguments\FileResolver;
 
-/***
- * @SuppressWarnings(PHPMD.UnusedFormalParameter)
- */
-
 class Primary implements \Magento\Config\FileResolverInterface
 {
     /**
@@ -43,8 +39,10 @@ class Primary implements \Magento\Config\FileResolverInterface
         $this->configDirectory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::CONFIG_DIR);
         $this->iteratorFactory = $iteratorFactory;
     }
+
     /**
      * @inheritdoc
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function get($filename, $scope)
     {

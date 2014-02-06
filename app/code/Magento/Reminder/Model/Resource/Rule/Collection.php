@@ -7,17 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Reminder\Model\Resource\Rule;
 
 /**
  * Reminder rules resource collection model
  *
- * @category    Magento
- * @package     Magento_Reminder
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reminder\Model\Resource\Rule;
-
 class Collection extends \Magento\Rule\Model\Resource\Rule\Collection\AbstractCollection
 {
     /**
@@ -35,6 +31,8 @@ class Collection extends \Magento\Rule\Model\Resource\Rule\Collection\AbstractCo
 
     /**
      * Set resource model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -46,8 +44,7 @@ class Collection extends \Magento\Rule\Model\Resource\Rule\Collection\AbstractCo
      * Limit rules collection by date columns
      *
      * @param string $date
-     *
-     * @return \Magento\Reminder\Model\Resource\Rule\Collection
+     * @return $this
      */
     public function addDateFilter($date)
     {
@@ -62,7 +59,7 @@ class Collection extends \Magento\Rule\Model\Resource\Rule\Collection\AbstractCo
      * Limit rules collection by separate rule
      *
      * @param int $value
-     * @return \Magento\Reminder\Model\Resource\Rule\Collection
+     * @return $this
      */
     public function addRuleFilter($value)
     {

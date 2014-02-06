@@ -58,6 +58,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Resource initialization
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -77,7 +78,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     }
 
     /**
-     * retrieve wishlist table name
+     * Retrieve wishlist table name
      *
      * @return string
      */

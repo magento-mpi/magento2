@@ -649,6 +649,7 @@ return array(
     array('preprocess', 'Magento\Newsletter\Model\Template'),
     array('processBeacon'),
     array('processBeforeVoid', 'Magento\Payment\Model\Method\AbstractMethod'),
+    array('canUseForMultishipping', 'Magento\Payment\Model\Method\AbstractMethod'),
     array('processRequest', 'Magento\App\Cache'),
     array('processSubst', 'Magento\Core\Model\Store'),
     array('productEventAggregate'),
@@ -1179,4 +1180,7 @@ return array(
     array('getFileIdentifier', 'Magento\View\Layout\File\FileList', 'Magento\View\Layout\File'),
     array('_getInitialXml', 'Magento\Config\Theme'),
     array('_getIdAttributes', 'Magento\Config\Theme'),
+    array('_getSession', 'Magento\CatalogSearch\Controller\Result'),
+    array('addPriceBlockType', 'Magento\Rss\Block\Catalog\AbstractCatalog'),
+    array('getAttributeDisabledTypes', 'Magento\Catalog\Helper\Data'),
 );

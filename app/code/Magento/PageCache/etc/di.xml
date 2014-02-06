@@ -9,8 +9,7 @@
 -->
 <config>
     <type name="Magento\App\FrontControllerInterface">
-        <plugin name="front-controller-head"
-            type="Magento\PageCache\Model\App\FrontController\HeaderPlugin" disabled="true"/>
+        <plugin name="front-controller-head" type="Magento\PageCache\Model\App\FrontController\HeaderPlugin"/>
     </type>
     <!--<type name="Magento\Customer\Model\Session">-->
     <type name="Magento\Session\SessionManagerInterface">

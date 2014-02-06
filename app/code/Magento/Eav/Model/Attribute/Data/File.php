@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Eav\Model\Attribute\Data;
+
+use Magento\App\RequestInterface;
 
 /**
  * EAV Entity Attribute File Data Model
@@ -15,8 +18,6 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Eav\Model\Attribute\Data;
-
 class File extends \Magento\Eav\Model\Attribute\Data\AbstractData
 {
     /**
@@ -66,10 +67,10 @@ class File extends \Magento\Eav\Model\Attribute\Data\AbstractData
     /**
      * Extract data from request and return value
      *
-     * @param \Magento\App\RequestInterface $request
-     * @return array|string
+     * @param RequestInterface $request
+     * @return array|string|bool
      */
-    public function extractValue(\Magento\App\RequestInterface $request)
+    public function extractValue(RequestInterface $request)
     {
         if ($this->getIsAjaxRequest()) {
             return false;
@@ -125,7 +126,7 @@ class File extends \Magento\Eav\Model\Attribute\Data\AbstractData
      * Return array of errors
      *
      * @param array $value
-     * @return array
+     * @return string[]
      */
     protected function _validateByRules($value)
     {
@@ -172,8 +173,7 @@ class File extends \Magento\Eav\Model\Attribute\Data\AbstractData
      * Validate data
      *
      * @param array|string $value
-     * @throws \Magento\Core\Exception
-     * @return boolean
+     * @return bool
      */
     public function validateValue($value)
     {
@@ -214,9 +214,8 @@ class File extends \Magento\Eav\Model\Attribute\Data\AbstractData
     /**
      * Export attribute value to entity model
      *
-     * @param \Magento\Core\Model\AbstractModel $entity
      * @param array|string $value
-     * @return \Magento\Eav\Model\Attribute\Data\File
+     * @return $this
      */
     public function compactValue($value)
     {
@@ -268,7 +267,7 @@ class File extends \Magento\Eav\Model\Attribute\Data\AbstractData
      * Restore attribute value from SESSION to entity model
      *
      * @param array|string $value
-     * @return \Magento\Eav\Model\Attribute\Data\File
+     * @return $this
      */
     public function restoreValue($value)
     {
@@ -278,6 +277,7 @@ class File extends \Magento\Eav\Model\Attribute\Data\AbstractData
     /**
      * Return formated attribute value from entity model
      *
+     * @param string $format
      * @return string|array
      */
     public function outputValue($format = \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_TEXT)

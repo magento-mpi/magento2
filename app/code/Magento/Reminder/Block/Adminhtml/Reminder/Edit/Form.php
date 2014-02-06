@@ -7,17 +7,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reminder\Block\Adminhtml\Reminder\Edit;
+
+use Magento\Backend\Block\Widget\Form as WidgetForm;
 
 /**
  * Reminder rules edit form block
  */
-namespace Magento\Reminder\Block\Adminhtml\Reminder\Edit;
-
 class Form
     extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
-     * Intialize form
+     * Initialize form
      *
      * @return void
      */
@@ -31,7 +32,7 @@ class Form
     /**
      * Prepare edit form
      *
-     * @return \Magento\Reminder\Block\Adminhtml\Reminder\Edit\Form
+     * @return WidgetForm
      */
     protected function _prepareForm()
     {
