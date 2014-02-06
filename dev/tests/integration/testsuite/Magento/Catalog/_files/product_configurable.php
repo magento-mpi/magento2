@@ -95,7 +95,7 @@ foreach ($options as $option) {
 /** @var $product \Magento\Catalog\Model\Product */
 $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
     ->create('Magento\Catalog\Model\Product');
-$product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE)
+$product->setTypeId(\Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE)
     ->setId(1)
     ->setAttributeSetId($installer->getAttributeSetId('catalog_product', 'Default'))
     ->setWebsiteIds(array(1))

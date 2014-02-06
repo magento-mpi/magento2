@@ -278,7 +278,7 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
 
         $bind = array(
             'attribute_set_id' => $setId,
-            'type_id'          => \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE,
+            'type_id'          => \Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE,
         );
 
         return $adapter->fetchCol($select, $bind);

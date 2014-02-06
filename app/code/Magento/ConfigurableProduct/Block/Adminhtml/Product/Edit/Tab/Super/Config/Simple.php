@@ -79,7 +79,10 @@ class Simple
             if (($attribute->getIsRequired()
                 && $attribute->getApplyTo()
                 // If not applied to configurable
-                && !in_array(\Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE, $attribute->getApplyTo())
+                && !in_array(
+                    \Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE,
+                    $attribute->getApplyTo()
+                )
                 // If not used in configurable
                 && !in_array($attribute->getId(),
                     $this->getProduct()->getTypeInstance()->getUsedProductAttributeIds($this->getProduct()))

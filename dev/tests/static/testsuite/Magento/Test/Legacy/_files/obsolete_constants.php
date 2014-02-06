@@ -524,7 +524,7 @@ return array(
     array('UPLOAD_ROOT', 'Magento\Backend\Model\Config\Backend\Logo'),
     array('UPLOAD_ROOT', 'Magento\Backend\Model\Config\Backend\Favicon'),
     array('DIRECTORY_SEPARATOR', 'Magento\Filesystem'),
-    
+
     array('MAX_QTY_VALUE', '\Magento\Catalog\Controller\Adminhtml\Product',
         'Magento\Catalog\Controller\Adminhtml\Product\Initialization\StockDataFilter::MAX_QTY_VALUE'
     ),
@@ -558,4 +558,9 @@ return array(
     array('GENERATION', '\Magento\Filesystem', '\Magento\App\Filesystem::GENERATION_DIR'),
     array('UPLOAD', '\Magento\Filesystem', '\Magento\App\Filesystem::UPLOAD_DIR'),
     array('SYS_TMP', '\Magento\Filesystem', '\Magento\App\Filesystem::SYS_TMP_DIR'),
+    array(
+        'TYPE_CONFIGURABLE',
+        '\Magento\Catalog\Model\Product\Type',
+        '\Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE'
+    ),
 );

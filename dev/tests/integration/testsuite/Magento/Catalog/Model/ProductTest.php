@@ -180,7 +180,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     public function testIsConfigurable()
     {
         $this->assertFalse($this->_model->isConfigurable());
-        $this->_model->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE);
+        $this->_model->setTypeId(\Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE);
         $this->assertTrue($this->_model->isConfigurable());
     }
 
@@ -298,7 +298,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         /** @var $model \Magento\Catalog\Model\Product */
         $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Catalog\Model\Product',
-            array('data' => array('type_id' => \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE))
+            array('data' => array('type_id' => \Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE))
         );
         $this->assertTrue($model->isComposite());
     }

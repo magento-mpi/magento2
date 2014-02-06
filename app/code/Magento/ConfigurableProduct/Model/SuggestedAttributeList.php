@@ -58,7 +58,7 @@ class SuggestedAttributeList
         $types = array(
             \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE,
             \Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL,
-            \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE,
+            \Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE,
         );
         foreach ($collection->getItems() as $id => $attribute) {
             /** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */

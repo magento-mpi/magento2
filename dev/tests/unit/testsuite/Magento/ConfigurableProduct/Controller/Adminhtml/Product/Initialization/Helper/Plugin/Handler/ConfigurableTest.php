@@ -55,7 +55,7 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
     public function testHandleWithoutOriginalProductAttributes()
     {
         $this->productMock->expects($this->once())->method('getTypeId')
-            ->will($this->returnValue(\Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE));
+            ->will($this->returnValue(\Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE));
         $this->productTypeMock->expects($this->once())
             ->method('getConfigurableAttributesAsArray')
             ->with($this->productMock)
@@ -97,7 +97,7 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->productMock->expects($this->once())->method('getTypeId')
-            ->will($this->returnValue(\Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE));
+            ->will($this->returnValue(\Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE));
         $this->productTypeMock->expects($this->once())
             ->method('getConfigurableAttributesAsArray')
             ->with($this->productMock)

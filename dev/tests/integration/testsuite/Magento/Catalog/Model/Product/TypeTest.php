@@ -48,7 +48,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
             array(null, 'Magento\Catalog\Model\Product\Type\Simple'),
             array(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE, 'Magento\Catalog\Model\Product\Type\Simple'),
             array(\Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL, 'Magento\Catalog\Model\Product\Type\Virtual'),
-            array(\Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE,
+            array(\Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE,
                 'Magento\ConfigurableProduct\Model\Product\Type\Configurable'
             ),
             array(\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE, 'Magento\Bundle\Model\Product\Type'),
@@ -83,7 +83,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
             array(null),
             array(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE),
             array(\Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL),
-            array(\Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE),
+            array(\Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE),
             array(\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE),
             array(\Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE)
         );
@@ -106,7 +106,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
             array(null, 'Magento\Catalog\Model\Product\Type\Price'),
             array(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE, 'Magento\Catalog\Model\Product\Type\Price'),
             array(\Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL, 'Magento\Catalog\Model\Product\Type\Price'),
-            array(\Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE,
+            array(\Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE,
                 'Magento\ConfigurableProduct\Model\Product\Type\Configurable\Price'
             ),
             array(\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE, 'Magento\Bundle\Model\Product\Price'),
@@ -121,7 +121,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         $options = $this->_productType->getOptionArray();
         $this->assertArrayHasKey(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE, $options);
         $this->assertArrayHasKey(\Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL, $options);
-        $this->assertArrayHasKey(\Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE, $options);
+        $this->assertArrayHasKey(\Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE, $options);
         $this->assertArrayHasKey(\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE, $options);
         $this->assertArrayHasKey(\Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE, $options);
     }
@@ -161,7 +161,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         return array(
             array(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE),
             array(\Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL),
-            array(\Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE),
+            array(\Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE),
             array(\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE),
             array(\Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE),
         );
@@ -172,7 +172,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         $types = $this->_productType->getTypes();
         $this->assertArrayHasKey(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE, $types);
         $this->assertArrayHasKey(\Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL, $types);
-        $this->assertArrayHasKey(\Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE, $types);
+        $this->assertArrayHasKey(\Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE, $types);
         $this->assertArrayHasKey(\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE, $types);
         $this->assertArrayHasKey(\Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE, $types);
         foreach ($types as $type) {
@@ -187,7 +187,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
     {
         $types = $this->_productType->getCompositeTypes();
         $this->assertInternalType('array', $types);
-        $this->assertContains(\Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE, $types);
+        $this->assertContains(\Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE, $types);
         $this->assertContains(\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE, $types);
     }
 
@@ -231,7 +231,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         }
         $this->assertContains(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE, $types);
         $this->assertContains(\Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL, $types);
-        $this->assertContains(\Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE, $types);
+        $this->assertContains(\Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE, $types);
         $this->assertContains(\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE, $types);
         $this->assertContains(\Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE, $types);
         return $types;

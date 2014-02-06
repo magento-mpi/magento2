@@ -8,7 +8,7 @@
 
 namespace Magento\ConfigurableProduct\Model\Order\Admin\Item\Plugin;
 
-class Configurable 
+class Configurable
 {
     /**
      * @var \Magento\Catalog\Model\ProductFactory
@@ -36,7 +36,7 @@ class Configurable
         /** @var \Magento\Sales\Model\Order\Item $item */
         list($item) = $arguments;
 
-        if ($item->getProductType() == \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE) {
+        if ($item->getProductType() == \Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE) {
             $productOptions = $item->getProductOptions();
             return $productOptions['simple_sku'];
         }
@@ -57,7 +57,7 @@ class Configurable
         /** @var \Magento\Sales\Model\Order\Item $item */
         list($item) = $arguments;
 
-        if ($item->getProductType() == \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE) {
+        if ($item->getProductType() == \Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE) {
             $productOptions = $item->getProductOptions();
             return $productOptions['simple_name'];
         }
@@ -78,11 +78,11 @@ class Configurable
         /** @var \Magento\Sales\Model\Order\Item $item */
         list($item) = $arguments;
 
-        if ($item->getProductType() == \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE) {
+        if ($item->getProductType() == \Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE) {
             $productOptions     = $item->getProductOptions();
             $product = $this->productFactory->create();
             return $product->getIdBySku($productOptions['simple_sku']);
         }
         return $invocationChain->proceed($arguments);
     }
-} 
+}

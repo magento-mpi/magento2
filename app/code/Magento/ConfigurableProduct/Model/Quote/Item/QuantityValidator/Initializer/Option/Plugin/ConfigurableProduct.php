@@ -10,7 +10,7 @@
 
 namespace Magento\ConfigurableProduct\Model\Quote\Item\QuantityValidator\Initializer\Option\Plugin;
 
-class ConfigurableProduct 
+class ConfigurableProduct
 {
     /**
      * Initialize stock item for configurable product type
@@ -28,10 +28,10 @@ class ConfigurableProduct
         /* @var $stockItem \Magento\CatalogInventory\Model\Stock\Item */
         $stockItem = $option->getProduct()->getStockItem();
 
-        if ($quoteItem->getProductType() == \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE) {
+        if ($quoteItem->getProductType() == \Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE) {
             $stockItem->setProductName($quoteItem->getName());
         }
 
         return $arguments;
     }
-} 
+}

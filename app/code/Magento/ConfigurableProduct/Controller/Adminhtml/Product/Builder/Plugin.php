@@ -49,7 +49,7 @@ class Plugin
         if ($request->has('attributes')) {
             $attributes = $request->getParam('attributes');
             if (!empty($attributes)) {
-                $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE);
+                $product->setTypeId(\Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE);
                 $this->configurableType->setUsedProductAttributeIds($attributes, $product);
             } else {
                 $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE);
@@ -95,4 +95,4 @@ class Plugin
 
         return $product;
     }
-} 
+}
