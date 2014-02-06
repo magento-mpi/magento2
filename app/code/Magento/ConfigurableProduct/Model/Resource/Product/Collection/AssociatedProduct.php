@@ -151,7 +151,17 @@ class AssociatedProduct
             ->addFieldToFilter('type_id', $allowedProductTypes)
             ->addFieldToFilter('entity_id', array('neq' => $this->getProduct()->getId()))
             ->addFilterByRequiredOptions()
-            ->joinAttribute('name', 'catalog_product/name', 'entity_id', null, 'inner');
+            ->joinAttribute('name', 'catalog_product/name', 'entity_id', null, 'inner')
+            ->joinTable(
+                array('cisi' => 'cataloginventory_stock_item'),
+                'product_id=entity_id',
+                array(
+                    'qty' => 'qty',
+                    'inventory_in_stock' => 'is_in_stock',
+                ),
+                null,
+                'left'
+            );
 
         return $this;
     }

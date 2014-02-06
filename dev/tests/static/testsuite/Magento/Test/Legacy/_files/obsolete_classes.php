@@ -1946,8 +1946,5 @@ return array(
         'Magento\Catalog\Model\Resource\Product\Collection\AssociatedProduct',
         'Magento\ConfigurableProduct\Model\Resource\Product\Collection\AssociatedProduct'
     ),
-    array(
-        'Magento\Catalog\Model\Resource\Product\Collection\AssociatedProductUpdater',
-        'Magento\ConfigurableProduct\Model\Resource\Product\Collection\AssociatedProductUpdater'
-    ),
+    array('Magento\Catalog\Model\Resource\Product\Collection\AssociatedProductUpdater'),
 );
