@@ -16,6 +16,11 @@ use \Magento\App\ObjectManager\ConfigLoader,
 class Cron implements \Magento\LauncherInterface
 {
     /**
+     * @var \Magento\Event\ManagerInterface
+     */
+    protected $_eventManager;
+
+    /**
      * @var State
      */
     protected $_state;
