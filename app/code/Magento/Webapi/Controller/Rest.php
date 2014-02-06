@@ -10,7 +10,7 @@ namespace Magento\Webapi\Controller;
 
 use Magento\Authz\Service\AuthorizationV1Interface as AuthorizationService;
 use Magento\Webapi\Controller\Rest\Request as RestRequest;
-use Magento\Webapi\Controller\Rest\Response;
+use Magento\Webapi\Controller\Rest\Response as RestResponse;
 use Magento\Webapi\Controller\Rest\Router;
 
 /**
@@ -28,7 +28,7 @@ class Rest implements \Magento\App\FrontControllerInterface
     /** @var RestRequest */
     protected $_request;
 
-    /** @var Response */
+    /** @var RestResponse */
     protected $_response;
 
     /** @var \Magento\ObjectManager */
@@ -56,7 +56,7 @@ class Rest implements \Magento\App\FrontControllerInterface
      * Initialize dependencies.
      *
      * @param RestRequest $request
-     * @param Response $response
+     * @param RestResponse $response
      * @param Router $router
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\App\State $appState
@@ -71,7 +71,7 @@ class Rest implements \Magento\App\FrontControllerInterface
      */
     public function __construct(
         RestRequest $request,
-        Response $response,
+        RestResponse $response,
         Router $router,
         \Magento\ObjectManager $objectManager,
         \Magento\App\State $appState,
