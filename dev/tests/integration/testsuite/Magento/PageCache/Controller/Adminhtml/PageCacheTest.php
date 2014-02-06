@@ -15,7 +15,6 @@ use Magento\TestFramework\Bootstrap;
 
 /**
  * @magentoAppArea adminhtml
- * @SuppressWarnings
  */
 class PageCacheTest extends \Magento\TestFramework\TestCase\AbstractController
 {
