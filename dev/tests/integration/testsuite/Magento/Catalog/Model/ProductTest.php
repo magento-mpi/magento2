@@ -281,18 +281,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array('sku' => 'sku', 'name' => 'name'), $this->_model->getData());
     }
 
-    public function testIsComposite()
-    {
-        $this->assertFalse($this->_model->isComposite());
-
-        /** @var $model \Magento\Catalog\Model\Product */
-        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Catalog\Model\Product',
-            array('data' => array('type_id' => \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE))
-        );
-        $this->assertTrue($model->isComposite());
-    }
-
     /**
      * @param bool $isUserDefined
      * @param string $code
