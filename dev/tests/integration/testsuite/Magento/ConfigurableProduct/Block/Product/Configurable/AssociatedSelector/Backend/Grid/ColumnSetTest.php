@@ -17,7 +17,7 @@ class ColumnSetTest
      *
      * @magentoAppArea adminhtml
      * @magentoAppIsolation enabled
-     * @magentoDataFixture Magento/Catalog/_files/product_configurable.php
+     * @magentoDataFixture Magento/ConfigurableProduct/_files/product_configurable.php
      */
     public function testPrepareSelect()
     {

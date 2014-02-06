@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Super;
+namespace Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super;
 
 class SettingsTest extends \PHPUnit_Framework_TestCase
 {
@@ -42,9 +42,9 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
         $context = $objectManager->create('Magento\Backend\Block\Template\Context', array('urlBuilder' => $urlModel));
         /** @var $layout \Magento\Core\Model\Layout */
         $layout = $objectManager->get('Magento\View\LayoutInterface');
-        /** @var $block \Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Super\Settings */
+        /** @var $block \Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Settings */
         $block = $layout->createBlock(
-            'Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Super\Settings',
+            'Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Settings',
             'block',
             array(
                'context' => $context

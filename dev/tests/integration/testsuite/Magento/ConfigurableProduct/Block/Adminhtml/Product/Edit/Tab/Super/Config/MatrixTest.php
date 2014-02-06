@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Super\Config;
+namespace Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Config;
 
 /**
  * @magentoAppArea adminhtml
@@ -18,7 +18,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @magentoAppIsolation enabled
-     * @magentoDataFixture Magento/Catalog/_files/product_configurable.php
+     * @magentoDataFixture Magento/ConfigurableProduct/_files/product_configurable.php
      */
     public function testGetVariations()
     {
@@ -37,7 +37,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
                 'test_configurable'
             );
         $attributeOptions = $usedAttribute->getSource()->getAllOptions(false);
-        /** @var $block \Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Super\Config_Matrix */
+        /** @var $block \Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Config\Matrix */
         $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
             ->createBlock(preg_replace('/Test$/', '', __CLASS__));
 

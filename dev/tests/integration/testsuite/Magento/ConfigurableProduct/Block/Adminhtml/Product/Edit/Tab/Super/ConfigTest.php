@@ -2,14 +2,11 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
- * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Super;
+namespace Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super;
 
 /**
  * @magentoAppArea adminhtml
@@ -25,15 +22,15 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Core\Model\Registry')
             ->register('current_product', $objectManager->create('Magento\Catalog\Model\Product'));
-        /** @var $block \Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Super\Config */
+        /** @var $block \Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Config */
         $block = $objectManager->get('Magento\View\LayoutInterface')
-            ->createBlock('Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Super\Config');
+            ->createBlock('Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Config');
         $this->assertEquals(array(), $block->getSelectedAttributes());
     }
 
     /**
      * @magentoAppIsolation enabled
-     * @magentoDataFixture Magento/Catalog/_files/product_configurable.php
+     * @magentoDataFixture Magento/ConfigurableProduct/_files/product_configurable.php
      */
     public function testGetSelectedAttributesForConfigurableProductType()
     {
@@ -47,9 +44,9 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                 ->getEntityType('catalog_product')->getId(),
             'test_configurable'
         );
-        /** @var $block \Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Super\Config */
+        /** @var $block \Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Config */
         $block = $objectManager->get('Magento\View\LayoutInterface')
-            ->createBlock('Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Super\Config');
+            ->createBlock('Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Config');
         $selectedAttributes = $block->getSelectedAttributes();
         $this->assertEquals(array($usedAttribute->getId()), array_keys($selectedAttributes));
         $selectedAttribute = reset($selectedAttributes);

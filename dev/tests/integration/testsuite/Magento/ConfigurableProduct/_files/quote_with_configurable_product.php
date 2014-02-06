@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-require __DIR__ . '/../../../Magento/Catalog/_files/product_configurable.php';
+require 'product_configurable.php';
 /** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
 
 /** @var $product \Magento\Catalog\Model\Product */

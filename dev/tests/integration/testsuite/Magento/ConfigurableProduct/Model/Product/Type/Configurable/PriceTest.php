@@ -11,7 +11,7 @@ namespace Magento\ConfigurableProduct\Model\Product\Type\Configurable;
 class PriceTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @magentoDataFixture Magento/Catalog/_files/product_configurable.php
+     * @magentoDataFixture Magento/ConfigurableProduct/_files/product_configurable.php
      */
     public function testGetFinalPrice()
     {
