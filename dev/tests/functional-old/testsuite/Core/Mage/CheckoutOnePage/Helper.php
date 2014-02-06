@@ -51,7 +51,8 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_AbstractHelper
     {
         $errorMessageXpath = $this->getBasicXpathMessagesExcludeCurrent('error');
         $waitConditions = array(
-            $this->_getMessageXpath('success_checkout'), $errorMessageXpath,
+            $this->_getMessageXpath('success_checkout'),
+            $errorMessageXpath,
             $this->_getMessageXpath('general_validation'),
             $this->_getControlXpath('pageelement', 'andp_iframe')
         );
@@ -87,8 +88,8 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_AbstractHelper
         $shipping = (isset($orderData['shipping_address_data'])) ? $orderData['shipping_address_data'] : array();
         $shipMethod = (isset($orderData['shipping_data'])) ? $orderData['shipping_data'] : array();
         $payMethod = (isset($orderData['payment_data'])) ? $orderData['payment_data'] : array();
-        $checkProd = (isset($checkoutData['validate_prod_data'])) ? $checkoutData['validate_prod_data'] : array();
-        $checkTotal = (isset($checkoutData['validate_total_data'])) ? $checkoutData['validate_total_data'] : array();
+        $checkProd = (isset($orderData['validate_prod_data'])) ? $orderData['validate_prod_data'] : array();
+        $checkTotal = (isset($orderData['validate_total_data'])) ? $orderData['validate_total_data'] : array();
 
         return array($products, $customer, $billing, $shipping, $shipMethod, $payMethod, $checkProd, $checkTotal);
     }
@@ -228,18 +229,22 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_AbstractHelper
         if ($this->controlIsVisible('message', 'ship_method_unavailable')
             || $this->controlIsVisible('message', 'no_shipping')
         ) {
-            $this->skipTestWithScreenshot('Shipping Service "' . $shipMethod['shipping_service']
-                . '" is currently unavailable.');
+            $this->skipTestWithScreenshot(
+                'Shipping Service "' . $shipMethod['shipping_service'] . '" is currently unavailable.'
+            );
         } elseif ($this->controlIsPresent('field', 'ship_service_name')) {
-            if ($this->controlIsPresent('radiobutton', 'ship_method')) {
+            if ($this->controlIsVisible('radiobutton', 'ship_method')) {
                 $this->fillRadiobutton('ship_method', 'Yes');
             } elseif (!$this->controlIsPresent('radiobutton', 'one_method_selected')) {
-                $this->addVerificationMessage('Shipping Method "' . $shipMethod['shipping_method'] . '" for "'
-                    . $shipMethod['shipping_service'] . '" is currently unavailable');
+                $this->addVerificationMessage(
+                    'Shipping Method "' . $shipMethod['shipping_method'] . '" for "'
+                        . $shipMethod['shipping_service'] . '" is currently unavailable'
+                );
             }
         } else {
-            $this->skipTestWithScreenshot($shipMethod['shipping_service']
-                . ': This shipping method is currently not displayed');
+            $this->skipTestWithScreenshot(
+                $shipMethod['shipping_service'] . ': This shipping method is currently not displayed'
+            );
         }
         if ($giftOptions) {
             $this->frontAddGiftOptions($giftOptions);
@@ -254,17 +259,50 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_AbstractHelper
      */
     public function frontAddGiftOptions(array $giftOptions)
     {
-        if (array_key_exists('entire_order', $giftOptions)) {
-            $this->fillForm($giftOptions['entire_order']);
-        }
-        if (array_key_exists('individual_items', $giftOptions)) {
-            $this->fillCheckbox('gift_option_for_item', 'Yes');
-            foreach ($giftOptions['individual_items'] as $data) {
-                if (isset($data['product_name'])) {
-                    $this->addParameter('productName', $data['product_name']);
-                    $this->fillForm($data);
-                }
+        $this->assertTrue(
+            $this->controlIsPresent('checkbox', 'add_gift_options'),
+            'You can not add gift option for this order'
+        );
+        $this->fillCheckbox('add_gift_options', 'Yes');
+        if (isset($giftOptions['individual_items'])) {
+            foreach ($giftOptions['individual_items'] as $item) {
+                $this->_addGiftOptionsForItem($item);
             }
+        }
+        if (isset($giftOptions['entire_order'])) {
+            $this->_addGiftOptionsForOrder($giftOptions['entire_order']);
+        }
+    }
+
+    /**
+     * Add gift options for order
+     * @param array $forOrder
+     */
+    protected function _addGiftOptionsForOrder(array $forOrder)
+    {
+        if (isset($forOrder['gift_message'])) {
+            $this->fillCheckbox('gift_option_for_order', 'Yes');
+            if (!$this->isControlExpanded('link', 'add_order_gift_message')) {
+                $this->clickControl('link', 'add_order_gift_message', false);
+            }
+            $this->fillFieldset($forOrder['gift_message'], 'shipping_method');
+        }
+    }
+
+    /**
+     * Add gift options for one product
+     *
+     * @param array $oneItemData
+     */
+    protected function _addGiftOptionsForItem(array $oneItemData)
+    {
+        $this->addParameter('productName', $oneItemData['product_name']);
+        if (isset($oneItemData['gift_message'])) {
+            $this->fillCheckbox('gift_option_for_item', 'Yes');
+            if (!$this->isControlExpanded('link', 'add_item_gift_message')) {
+                $this->clickControl('link', 'add_item_gift_message', false);
+            }
+            $this->fillFieldset($oneItemData['gift_message'], 'shipping_method');
         }
     }
 
@@ -293,15 +331,9 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_AbstractHelper
      */
     public function frontValidate3dSecure($password = '1234')
     {
-        $this->addParameter('elementXpath', $this->_getControlXpath('fieldset', '3d_secure_card_validation'));
-        if (!$this->controlIsVisible('pageelement', 'element_not_disabled_style')) {
+        if (!$this->controlIsVisible('fieldset', '3d_secure_card_validation')) {
             return;
         }
-        $waitCondition = array(
-            $this->_getControlXpath('button', '3d_continue'),
-            $this->_getControlXpath('pageelement', 'incorrect_password'),
-            $this->_getControlXpath('pageelement', 'element_with_disabled_style')
-        );
         if (!$this->controlIsVisible('pageelement', '3d_secure_iframe')) {
             $this->skipTestWithScreenshot('3D Secure frame is not loaded(maybe wrong card)');
         }
@@ -309,15 +341,29 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_AbstractHelper
         $this->waitForControl('button', '3d_submit', 10);
         $this->fillField('3d_password', $password);
         $this->clickButton('3d_submit', false);
+        if ($this->alertIsPresent()) {
+            $this->acceptAlert();
+        }
         $this->frame(null);
         try {
-            $this->waitForElement($waitCondition);
+            $this->waitForControlNotVisible('fieldset', '3d_secure_card_validation', 30);
         } catch (RuntimeException $e) {
-            $this->markTestIncomplete('BUG: centinel-authenticate-block is visible'); //@TODO
-        }
-        if ($this->controlIsVisible('button', '3d_continue')) {
-            $this->clickButton('3d_continue', false);
-            $this->waitForElement($this->_getControlXpath('pageelement', 'element_with_disabled_style'));
+            $this->frame('centinel-authenticate-iframe');
+            $this->assertFalse(
+                $this->controlIsVisible('pageelement', 'verification_failed'),
+                'The card has failed verification with the issuer bank.'
+            );
+            $this->assertFalse(
+                $this->controlIsVisible('pageelement', 'verification_cannot_processed'),
+                'Verification cannot be processed'
+            );
+            $this->assertFalse($this->controlIsVisible('pageelement', 'incorrect_password'), 'Incorrect password');
+            if ($this->controlIsVisible('button', '3d_continue')) {
+                $this->clickButton('3d_continue', false);
+                $this->frame(null);
+                $this->waitForControlNotVisible('fieldset', '3d_secure_card_validation', 30);
+            }
+            $this->frame(null);
         }
     }
 
@@ -426,8 +472,13 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_AbstractHelper
         }
         if ($billing) {
             $skipBilling = array(
-                'billing_address_choice', 'billing_email', 'ship_to_this_address', 'billing_street_address_2',
-                'ship_to_different_address', 'billing_password', 'billing_confirm_password'
+                'billing_address_choice',
+                'billing_email',
+                'ship_to_this_address',
+                'billing_street_address_2',
+                'ship_to_different_address',
+                'billing_password',
+                'billing_confirm_password'
             );
             if (isset($shipping['use_billing_address']) && $shipping['use_billing_address'] == 'Yes') {
                 foreach ($billing as $key => $value) {
@@ -439,8 +490,12 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_AbstractHelper
             $this->frontVerifyTypedAddress($billing, $skipBilling, 'billing');
         }
         if ($shipping) {
-            $skipShipping = array('shipping_street_address_2', 'shipping_address_choice',
-                'shipping_save_in_address_book', 'use_billing_address');
+            $skipShipping = array(
+                'shipping_street_address_2',
+                'shipping_address_choice',
+                'shipping_save_in_address_book',
+                'use_billing_address'
+            );
             $this->frontVerifyTypedAddress($shipping, $skipShipping, 'shipping');
         }
         if ($shipMethod && isset($shipMethod['shipping_service']) && isset($shipMethod['shipping_method'])) {
@@ -454,12 +509,11 @@ class Core_Mage_CheckoutOnePage_Helper extends Mage_Selenium_AbstractHelper
             }
         }
         if ($payMethod && isset($payMethod['payment_method'])) {
-            $actualPayment = ($this->controlIsPresent('field', 'payment_method_checkout_credit_card'))
-                ? $this->getControlAttribute('field', 'payment_method_checkout_credit_card', 'text')
-                : $this->getControlAttribute('field', 'payment_method_checkout', 'text');
+            $actualPayment = $this->getControlAttribute('field', 'payment_method_checkout', 'text');
             if (strcmp($actualPayment, $payMethod['payment_method']) != 0) {
-                $this->addVerificationMessage('Payment method should be: ' . $payMethod['payment_method']
-                    . ' but now ' . $actualPayment);
+                $this->addVerificationMessage(
+                    'Payment method should be: ' . $payMethod['payment_method'] . ' but now ' . $actualPayment
+                );
             }
         }
         if ($checkProd && $checkTotal) {

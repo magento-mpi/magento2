@@ -31,7 +31,7 @@ class Core_Mage_Vde_ToolbarTest extends Mage_Selenium_TestCase
 
     protected function tearDownAfterTest()
     {
-          $this->selectWindow('null');
+          $this->window(null);
     }
 
     /**
@@ -46,7 +46,7 @@ class Core_Mage_Vde_ToolbarTest extends Mage_Selenium_TestCase
         $this->vdeHelper()->selectPageHandle('OAuth authorization for customer');
         //verify iframe content
         $this->addParameter('wrappedPage', 'oauth-authorize-index');
-        $this->selectFrame('vde_container_frame');
+        $this->frame('vde_container_frame');
         $this->assertTrue($this->controlIsPresent('field', 'body'));
     }
 
@@ -61,13 +61,13 @@ class Core_Mage_Vde_ToolbarTest extends Mage_Selenium_TestCase
         $this->admin('vde_design');
         // Verify that highlight is enabled and applied by default
         $this->assertTrue($this->vdeHelper()->isHighlightEnabled(), 'Highlight is not enabled by default');
-        $this->selectFrame('vde_container_frame');
+        $this->frame('vde_container_frame');
         $this->assertTrue($this->vdeHelper()->areHighlightBlocksShown(), 'Blocks are not highlighted');
-        $this->selectWindow('null');
+        $this->window(null);
 
         $this->vdeHelper()->disableHighlight();
         // Verify that containers are not highlighted
-        $this->selectFrame('vde_container_frame');
+        $this->frame('vde_container_frame');
         $this->assertFalse($this->vdeHelper()->areHighlightBlocksShown(),
             'Blocks are still highlighted after disable highlight');
     }

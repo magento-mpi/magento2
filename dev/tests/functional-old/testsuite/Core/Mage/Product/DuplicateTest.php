@@ -22,7 +22,6 @@ class Core_Mage_Product_DuplicateTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
         $this->navigate('manage_products');
-        $this->runMassAction('Delete', 'all');
     }
 
     protected function assertPreConditions()

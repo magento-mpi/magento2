@@ -11,8 +11,8 @@
 
 # 'Manage Statuses' page
 order_statuses:
-    mca: sales_order_status/
-    click_xpath: //*[@id='nav']//a[contains(@href, 'sales_order_status')]
+    mca: sales/order_status/
+    click_xpath: //ul[@id='nav']//a[contains(@href, '/sales/order_status/')]
     title: Order Status / Settings / Stores / Magento Admin
     uimap:
         form:
@@ -42,7 +42,7 @@ order_statuses:
 
 # 'New Order Status' Page
 new_order_status:
-    mca: sales_order_status/new/
+    mca: sales/order_status/new/
     title: Create New Order Status / Order Status / Settings / Stores / Magento Admin
     uimap:
         form:
@@ -65,7 +65,7 @@ new_order_status:
 
 # 'Assign Order Status to State' Page
 assign_order_status:
-    mca: sales_order_status/assign/
+    mca: sales/order_status/assign/
     title: Assign Order Status to State / Order Status / Settings / Stores / Magento Admin
     uimap:
         form:
@@ -73,7 +73,6 @@ assign_order_status:
                 -
                     assignment_information:
                         xpath: //form[@id='edit_form']
-                        
                         dropdowns:
                             order_status: //select[@id='status']
                             order_state: //select[@id='state']

@@ -3,11 +3,8 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  functional_tests
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {copyright}
+ * @license {license_link}
  */
 -->
 <phpunit bootstrap="bootstrap.php"
@@ -18,12 +15,12 @@
          verbose="true">
     <testsuites>
         <testsuite name="Mage Selenium Unit Tests">
-            <directory suffix="Test.php">testsuite</directory>
+            <directory suffix="Test.php">testsuite/</directory>
         </testsuite>
     </testsuites>
     <logging>
-        <log type="tap" target="../../../var/logs/unittests.tap"/>
-        <log type="testdox-html" target="../../../var/logs/unittests.html"/>
-        <log type="testdox-text" target="../../../var/logs/unittests.txt"/>
+        <log type="tap" target="../../var/logs/unitTests.tap"/>
+        <log type="testdox-html" target="../../var/logs/unitTests.html"/>
+        <log type="testdox-text" target="../../var/logs/unitTests.txt"/>
     </logging>
 </phpunit>

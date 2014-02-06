@@ -327,9 +327,9 @@ authorizenet_without_3Dsecure:
             authorize_net:
                 an_enabled: Yes
                 an_title: Credit Card (Authorize.net)
-                an_api_login_id: 268SAjtxZQ
+                an_api_login_id: 72nUK46WmnG
                 an_payment_action: Authorize Only
-                an_transaction_key: 5786QhH3D8q2vz6J
+                an_transaction_key: 45t2f69RH48MsKmy
                 an_new_order_status: %noValue%
                 an_test_mode: No
                 an_gateway_url: https://test.authorize.net/gateway/transact.dll
@@ -356,9 +356,9 @@ authorizenet_with_3Dsecure:
             authorize_net:
                 an_enabled: Yes
                 an_title: Credit Card (Authorize.net)
-                an_api_login_id: 268SAjtxZQ
+                an_api_login_id: 72nUK46WmnG
                 an_payment_action: Authorize Only
-                an_transaction_key: 5786QhH3D8q2vz6J
+                an_transaction_key: 45t2f69RH48MsKmy
                 an_new_order_status: %noValue%
                 an_test_mode: No
                 an_gateway_url: https://test.authorize.net/gateway/transact.dll
@@ -472,7 +472,7 @@ purchaseorder_disable:
                 po_enabled: No
 
 #<-------------Authorize.Net Direct Post------------------------>
-authorizenetdp_enable:
+authorizenetdp_without_3Dsecure:
     configuration_scope: Default Config
     tab_1:
         tab_name: sales_payment_methods
@@ -481,9 +481,9 @@ authorizenetdp_enable:
                 andp_enabled: Yes
                 andp_payment_action: Authorize Only
                 andp_title: Credit Card Direct Post (Authorize.net)
-                andp_api_login_id: 268SAjtxZQ
-                andp_transaction_key: 5786QhH3D8q2vz6J
-                andp_merchant_md5: varienmd5
+                andp_api_login_id: 72nUK46WmnG
+                andp_transaction_key: 45t2f69RH48MsKmy
+                andp_merchant_md5: mperfqa
                 andp_new_order_status: %noValue%
                 andp_test_mode: No
                 andp_gateway_url: https://test.authorize.net/gateway/transact.dll

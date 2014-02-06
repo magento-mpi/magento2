@@ -12,7 +12,6 @@ class Enterprise_Mage_Pbridge_Payment_ProfileTest extends Mage_Selenium_TestCase
 {
     public function setUpBeforeTests()
     {
-        $this->markTestIncomplete('MAGETWO-11604');
         $this->loginAdminUser();
         $this->systemConfigurationHelper()->useHttps('frontend', 'yes');
         $this->systemConfigurationHelper()->configure('PaymentMethod/authorizenet_pb_enable');
@@ -21,7 +20,6 @@ class Enterprise_Mage_Pbridge_Payment_ProfileTest extends Mage_Selenium_TestCase
 
     protected function tearDownAfterTestClass()
     {
-        $this->markTestIncomplete('MAGETWO-11604');
         $this->loginAdminUser();
         $this->systemConfigurationHelper()->useHttps('frontend', 'no');
         $this->systemConfigurationHelper()->configure('PaymentMethod/authorizenet_pb_disable');
@@ -35,7 +33,7 @@ class Enterprise_Mage_Pbridge_Payment_ProfileTest extends Mage_Selenium_TestCase
     public function isProfilePageSecure()
     {
         $userData = $this->loadDataSet('Customers', 'customer_account_register');
-        $this->frontend('customer_login');
+        $this->frontend();
         $this->customerHelper()->registerCustomer($userData);
         $this->assertMessagePresent('success', 'success_registration');
         $this->frontend('my_credit_cards');
