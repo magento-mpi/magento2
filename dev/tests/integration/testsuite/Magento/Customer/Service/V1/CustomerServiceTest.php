@@ -580,16 +580,13 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
      * @magentoAppArea adminhtml
      * @magentoDataFixture Magento/Customer/_files/customer.php
      * @magentoAppIsolation enabled
+     * @expectedException \Magento\Customer\Service\Entity\V1\Exception
+     * @expectedExceptionMessage No customer with customerId 1 exists.
      */
     public function testDeleteCustomer()
     {
         // _files/customer.php sets the customer id to 1
         $this->_service->deleteCustomer(1);
-        //Trying to fetch the customer after deleting should result in exception
-        $this->setExpectedException(
-            '\Magento\Customer\Service\Entity\V1\Exception',
-            'No customer with customerId 1 exists.'
-        );
         $this->_service->getCustomer(1);
     }
 
@@ -597,13 +594,11 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
      * @magentoAppIsolation enabled
+     * @expectedException \Magento\Customer\Service\Entity\V1\Exception
+     * @expectedExceptionMessage Cannot complete this operation from non-admin area.
      */
     public function testDeleteCustomerNonSecureArea()
     {
-        $this->setExpectedException(
-            '\Magento\Customer\Service\Entity\V1\Exception',
-            'Cannot complete this operation from non-admin area.'
-        );
         // _files/customer.php sets the customer id to 1
         $this->_service->deleteCustomer(1);
     }

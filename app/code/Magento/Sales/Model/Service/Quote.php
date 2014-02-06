@@ -283,14 +283,14 @@ class Quote
 
         $transaction = $this->_transactionFactory->create();
 
-        $orgCustomerDto = null;
+        $originalCustomerDto = null;
         if (!$quote->getCustomerIsGuest()) {
             $customerDto = $quote->getCustomerData();
             $addresses = $quote->getAddressData();
             if ($customerDto->getCustomerId()) {
                 //cache the original customer data for rollback if needed
-                $orgCustomerDto = $this->_customerService->getCustomer($customerDto->getCustomerId());
-                $orgAddresses = $this->_customerAddressService->getAddresses($customerDto->getCustomerId());
+                $originalCustomerDto = $this->_customerService->getCustomer($customerDto->getCustomerId());
+                $originalAddresses = $this->_customerAddressService->getAddresses($customerDto->getCustomerId());
                 //Save updated data
                 $this->_customerService->saveCustomer($customerDto);
                 $this->_customerAddressService->saveAddresses($customerDto->getCustomerId(), $addresses);
@@ -372,9 +372,9 @@ class Quote
                 'quote' => $quote
             ));
         } catch (\Exception $e) {
-            if ($orgCustomerDto) { //Restore original customer data if existing customer was updated
-                $this->_customerService->saveCustomer($orgCustomerDto);
-                $this->_customerAddressService->saveAddresses($customerDto->getCustomerId(), $orgAddresses);
+            if ($originalCustomerDto) { //Restore original customer data if existing customer was updated
+                $this->_customerService->saveCustomer($originalCustomerDto);
+                $this->_customerAddressService->saveAddresses($customerDto->getCustomerId(), $originalAddresses);
             } else { // Delete if new customer created
                 $this->_customerService->deleteCustomer($customerDto->getCustomerId());
                 foreach ($addresses as $address) {
