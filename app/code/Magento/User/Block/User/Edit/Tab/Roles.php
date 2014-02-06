@@ -7,8 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\User\Block\User\Edit\Tab;
+
+use Magento\Backend\Block\Widget\Grid\Column;
 
 class Roles extends \Magento\Backend\Block\Widget\Grid\Extended
 {
@@ -18,7 +19,6 @@ class Roles extends \Magento\Backend\Block\Widget\Grid\Extended
      * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
-
 
     /**
      * @var \Magento\User\Model\Resource\Role\CollectionFactory
@@ -52,6 +52,9 @@ class Roles extends \Magento\Backend\Block\Widget\Grid\Extended
         parent::__construct($context, $backendHelper, $data);
     }
 
+    /**
+     * Class constructor
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -62,6 +65,10 @@ class Roles extends \Magento\Backend\Block\Widget\Grid\Extended
         $this->setUseAjax(true);
     }
 
+    /**
+     * @param Column $column
+     * @return $this
+     */
     protected function _addColumnFilterToCollection($column)
     {
         if ($column->getId() == 'assigned_user_role') {
@@ -82,6 +89,9 @@ class Roles extends \Magento\Backend\Block\Widget\Grid\Extended
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareCollection()
     {
         $collection = $this->_userRolesFactory->create();
@@ -90,6 +100,9 @@ class Roles extends \Magento\Backend\Block\Widget\Grid\Extended
         return parent::_prepareCollection();
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareColumns()
     {
 
@@ -111,12 +124,19 @@ class Roles extends \Magento\Backend\Block\Widget\Grid\Extended
         return parent::_prepareColumns();
     }
 
+    /**
+     * @return string
+     */
     public function getGridUrl()
     {
         $userPermissions = $this->_coreRegistry->registry('permissions_user');
         return $this->getUrl('*/*/rolesGrid', array('user_id' => $userPermissions->getUserId()));
     }
 
+    /**
+     * @param bool $json
+     * @return array|string
+     */
     public function getSelectedRoles($json=false)
     {
         if ( $this->getRequest()->getParam('user_roles') != "" ) {

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\User\Model\Resource\Rules;
 
 /**
  * Rules collection
@@ -16,13 +16,10 @@
  * @package     Magento_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\User\Model\Resource\Rules;
-
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Initialize resource model
-     *
      */
     protected function _construct()
     {
@@ -33,7 +30,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Get rules by role id
      *
      * @param int $roleId
-     * @return \Magento\User\Model\Resource\Rules\Collection
+     * @return $this
      */
     public function getByRoles($roleId)
     {
@@ -44,7 +41,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Sort by length
      *
-     * @return \Magento\User\Model\Resource\Rules\Collection
+     * @return $this
      */
     public function addSortByLength()
     {

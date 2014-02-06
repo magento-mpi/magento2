@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\User\Model\Resource\Role\User;
 
 /**
  * Admin role users collection
@@ -16,13 +16,10 @@
  * @package     Magento_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\User\Model\Resource\Role\User;
-
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
      * Initialize resource model
-     *
      */
     protected function _construct()
     {
@@ -32,7 +29,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Initialize select
      *
-     * @return \Magento\User\Model\Resource\Role\User\Collection
+     * @return $this
      */
     protected function _initSelect()
     {

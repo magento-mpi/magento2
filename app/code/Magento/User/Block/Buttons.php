@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\User\Block;
 
 class Buttons extends \Magento\Backend\Block\Template
@@ -34,6 +33,9 @@ class Buttons extends \Magento\Backend\Block\Template
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return $this
+     */
     protected function _prepareLayout()
     {
         $this->addChild('backButton', 'Magento\Backend\Block\Widget\Button', array(
@@ -69,21 +71,33 @@ class Buttons extends \Magento\Backend\Block\Template
         return parent::_prepareLayout();
     }
 
+    /**
+     * @return string
+     */
     public function getBackButtonHtml()
     {
         return $this->getChildHtml('backButton');
     }
 
+    /**
+     * @return string
+     */
     public function getResetButtonHtml()
     {
         return $this->getChildHtml('resetButton');
     }
 
+    /**
+     * @return string
+     */
     public function getSaveButtonHtml()
     {
         return $this->getChildHtml('saveButton');
     }
 
+    /**
+     * @return string
+     */
     public function getDeleteButtonHtml()
     {
         if (intval($this->getRequest()->getParam('rid')) == 0 ) {
@@ -92,6 +106,9 @@ class Buttons extends \Magento\Backend\Block\Template
         return $this->getChildHtml('deleteButton');
     }
 
+    /**
+     * @return mixed
+     */
     public function getUser()
     {
         return $this->_coreRegistry->registry('user_data');

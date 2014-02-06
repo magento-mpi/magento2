@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\User\Block\User\Edit;
 
 /**
  * User page left menu
@@ -15,11 +16,12 @@
  * @package    Magento_User
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\User\Block\User\Edit;
-
 class Tabs extends \Magento\Backend\Block\Widget\Tabs
 {
 
+    /**
+     * Class constructor
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -28,6 +30,9 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
         $this->setTitle(__('User Information'));
     }
 
+    /**
+     * @return $this
+     */
     protected function _beforeToHtml()
     {
         $this->addTab('main_section', array(

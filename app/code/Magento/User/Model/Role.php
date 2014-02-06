@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\User\Model;
 
 /**
@@ -81,6 +80,9 @@ class Role extends \Magento\Core\Model\AbstractModel
      */
     protected $_eventPrefix = 'admin_roles';
 
+    /**
+     * Class constructor
+     */
     protected function _construct()
     {
         $this->_init('Magento\User\Model\Resource\Role');
@@ -89,7 +91,7 @@ class Role extends \Magento\Core\Model\AbstractModel
     /**
      * Update object into database
      *
-     * @return \Magento\User\Model\Role
+     * @return $this
      */
     public function update()
     {

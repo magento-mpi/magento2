@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\User\Model\Resource\Role;
 
 use Magento\User\Model\Acl\Role\Group as RoleGroup;
@@ -17,7 +16,6 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
 {
     /**
      * Initialize resource model
-     *
      */
     protected function _construct()
     {
@@ -29,7 +27,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      *
      * @param int $userId
      * @param string $userType
-     * @return \Magento\User\Model\Resource\Role\Collection
+     * @return $this
      */
     public function setUserFilter($userId, $userType)
     {
@@ -41,7 +39,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Set roles filter
      *
-     * @return \Magento\User\Model\Resource\Role\Collection
+     * @return $this
      */
     public function setRolesFilter()
     {
