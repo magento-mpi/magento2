@@ -7,6 +7,7 @@
  */
 namespace Magento\Webapi\Model\Rest;
 
+use Magento\Webapi\Controller\Rest\Router\Route;
 use \Magento\Webapi\Model\Config\Converter;
 
 /**
@@ -40,7 +41,7 @@ class Config
     protected $_routeFactory;
 
     /**
-     * @param \Magento\Webapi\Model\Config
+     * @param \Magento\Webapi\Model\Config $config
      * @param \Magento\Controller\Router\Route\Factory $routeFactory
      */
     public function __construct(
@@ -98,7 +99,7 @@ class Config
      * Generate the list of available REST routes. Current HTTP method is taken into account.
      *
      * @param \Magento\Webapi\Controller\Rest\Request $request
-     * @return array
+     * @return Route[]
      * @throws \Magento\Webapi\Exception
      */
     public function getRestRoutes(\Magento\Webapi\Controller\Rest\Request $request)
