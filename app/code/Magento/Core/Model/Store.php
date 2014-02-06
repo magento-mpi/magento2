@@ -22,7 +22,8 @@ namespace Magento\Core\Model;
  * @method \Magento\Core\Model\Store setSortOrder(int $value)
  * @method \Magento\Core\Model\Store setIsActive(int $value)
  */
-class Store extends AbstractModel implements \Magento\Url\ScopeInterface
+class Store extends AbstractModel
+    implements \Magento\BaseScopeInterface, \Magento\Url\ScopeInterface
 {
     /**
      * Entity name
@@ -647,7 +648,7 @@ class Store extends AbstractModel implements \Magento\Url\ScopeInterface
             && $this->_coreFileStorageDatabase->checkDbUsage()
         ) {
             return $this->getBaseUrl(\Magento\UrlInterface::URL_TYPE_WEB, $secure)
-                . $filesystem->getUri(\Magento\App\Filesystem::PUB_DIR) . '/' . self::MEDIA_REWRITE_SCRIPT;
+            . $filesystem->getUri(\Magento\App\Filesystem::PUB_DIR) . '/' . self::MEDIA_REWRITE_SCRIPT;
         }
         return false;
     }
@@ -674,8 +675,8 @@ class Store extends AbstractModel implements \Magento\Url\ScopeInterface
     public function isUseStoreInUrl()
     {
         return !($this->hasDisableStoreInUrl() && $this->getDisableStoreInUrl())
-            && $this->_appState->isInstalled()
-            && $this->getConfig(self::XML_PATH_STORE_IN_URL);
+        && $this->_appState->isInstalled()
+        && $this->getConfig(self::XML_PATH_STORE_IN_URL);
     }
 
     /**
@@ -728,7 +729,7 @@ class Store extends AbstractModel implements \Magento\Url\ScopeInterface
 
         if ($this->_appState->isInstalled()) {
             $secureBaseUrl = $this->_coreStoreConfig->getConfig(self::XML_PATH_SECURE_BASE_URL);
-            
+
             if (!$secureBaseUrl) {
                 return false;
             }
@@ -1134,9 +1135,9 @@ class Store extends AbstractModel implements \Magento\Url\ScopeInterface
         }
 
         return $storeParsedUrl['scheme'] . '://' . $storeParsedUrl['host']
-            . (isset($storeParsedUrl['port']) ? ':' . $storeParsedUrl['port'] : '')
-            . $storeParsedUrl['path'] . $requestString
-            . ($storeParsedQuery ? '?'.http_build_query($storeParsedQuery, '', '&amp;') : '');
+        . (isset($storeParsedUrl['port']) ? ':' . $storeParsedUrl['port'] : '')
+        . $storeParsedUrl['path'] . $requestString
+        . ($storeParsedQuery ? '?'.http_build_query($storeParsedQuery, '', '&amp;') : '');
     }
 
     /**

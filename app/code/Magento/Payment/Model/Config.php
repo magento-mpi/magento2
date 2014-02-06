@@ -151,6 +151,16 @@ class Config
     }
 
     /**
+     * Retrieve array of payment methods information
+     *
+     * @return array
+     */
+    public function getMethodsInfo()
+    {
+        return $this->_dataStorage->get('methods');
+    }
+
+    /**
      * Get payment groups
      *
      * @return array
