@@ -103,7 +103,7 @@ class Sendfriend extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Email\Model\TemplateFactory $templateFactory
-     * @param \Magento\Core\Model\Translate $translate
+     * @param \Magento\TranslateInterface $translate
      * @param \Magento\Catalog\Helper\Image $catalogImage
      * @param \Magento\Sendfriend\Helper\Data $sendfriendData
      * @param \Magento\Escaper $escaper
@@ -116,7 +116,7 @@ class Sendfriend extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Email\Model\TemplateFactory $templateFactory,
-        \Magento\Core\Model\Translate $translate,
+        \Magento\TranslateInterface $translate,
         \Magento\Catalog\Helper\Image $catalogImage,
         \Magento\Sendfriend\Helper\Data $sendfriendData,
         \Magento\Escaper $escaper,
@@ -164,7 +164,7 @@ class Sendfriend extends \Magento\Core\Model\AbstractModel
             );
         }
 
-        /* @var $translate \Magento\Core\Model\Translate */
+        /* @var $translate \Magento\TranslateInterface */
         $translate = $this->_translate;
         $translate->setTranslateInline(false);
 

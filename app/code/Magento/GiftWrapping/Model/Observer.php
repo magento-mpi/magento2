@@ -170,49 +170,34 @@ class Observer
     }
 
     /**
-     * Add gift wrapping items into PayPal checkout
+     * Add gift wrapping items into payment checkout
      *
      * @param \Magento\Event\Observer $observer
      */
-    public function addPaypalGiftWrappingItem(\Magento\Event\Observer $observer)
+    public function addPaymentGiftWrappingItem(\Magento\Event\Observer $observer)
     {
-        /** @var \Magento\Paypal\Model\Cart $paypalCart */
-        $paypalCart = $observer->getEvent()->getPaypalCart();
+        /** @var \Magento\Payment\Model\Cart $cart */
+        $cart = $observer->getEvent()->getCart();
         $totalWrapping = 0;
         $totalCard = 0;
-        if ($paypalCart) {
-            $salesEntity = $paypalCart->getSalesEntity();
-            if ($salesEntity instanceof \Magento\Sales\Model\Order) {
-                foreach ($salesEntity->getAllItems() as $_item) {
-                    if (!$_item->getParentItem() && $_item->getGwId() && $_item->getGwBasePrice()) {
-                        $totalWrapping += $_item->getGwBasePrice();
-                    }
-                }
-                if ($salesEntity->getGwId() && $salesEntity->getGwBasePrice()) {
-                    $totalWrapping += $salesEntity->getGwBasePrice();
-                }
-                if ($salesEntity->getGwAddCard() && $salesEntity->getGwCardBasePrice()) {
-                    $totalCard += $salesEntity->getGwCardBasePrice();
-                }
-            } else {
-                foreach ($salesEntity->getAllItems() as $_item) {
-                    if (!$_item->getParentItem() && $_item->getGwId() && $_item->getGwBasePrice()) {
-                        $totalWrapping += $_item->getGwBasePrice();
-                    }
-                }
-                if ($salesEntity->getGwId() && $salesEntity->getGwBasePrice()) {
-                    $totalWrapping += $salesEntity->getGwBasePrice();
-                }
-                if ($salesEntity->getGwAddCard() && $salesEntity->getGwCardBasePrice()) {
-                    $totalCard += $salesEntity->getGwCardBasePrice();
-                }
+        $salesEntity = $cart->getSalesModel();
+        foreach ($salesEntity->getAllItems() as $item) {
+            $originalItem = $item->getOriginalItem();
+            if (!$originalItem->getParentItem() && $originalItem->getGwId() && $originalItem->getGwBasePrice()) {
+                $totalWrapping += $originalItem->getGwBasePrice();
             }
-            if ($totalWrapping) {
-                $paypalCart->addItem(__('Gift Wrapping'),1,$totalWrapping);
-            }
-            if ($totalCard) {
-                $paypalCart->addItem(__('Printed Card'),1,$totalCard);
-            }
+        }
+        if ($salesEntity->getDataUsingMethod('gw_id') && $salesEntity->getDataUsingMethod('gw_base_price')) {
+            $totalWrapping += $salesEntity->getDataUsingMethod('gw_base_price');
+        }
+        if ($salesEntity->getDataUsingMethod('gw_add_card') && $salesEntity->getDataUsingMethod('gw_card_base_price')) {
+            $totalCard += $salesEntity->getDataUsingMethod('gw_card_base_price');
+        }
+        if ($totalWrapping) {
+            $cart->addCustomItem(__('Gift Wrapping'), 1, $totalWrapping);
+        }
+        if ($totalCard) {
+            $cart->addCustomItem(__('Printed Card'), 1, $totalCard);
         }
     }
 
