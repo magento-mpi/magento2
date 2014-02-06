@@ -15,7 +15,7 @@ namespace Magento\Customer\Service\V1\Dto;
  */
 class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\EntityInterface
 {
-    /**
+    /**#@+
      * constants defined for keys of array, makes typos less likely
      */
     const ID = 'id';
@@ -36,6 +36,7 @@ class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\Entity
     const WEBSITE_ID = 'website_id';
     const DEFAULT_BILLING = 'default_billing';
     const DEFAULT_SHIPPING = 'default_shipping';
+    /**#@-*/
 
     /**
      * A list of valid customer DTO attributes.
@@ -245,6 +246,6 @@ class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\Entity
      */
     public function getWebsiteId()
     {
-        return $this->_get(self::WEBSITE_ID, 0);
+        return (int)$this->_get(self::WEBSITE_ID);
     }
 }

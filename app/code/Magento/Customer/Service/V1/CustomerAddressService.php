@@ -10,6 +10,7 @@ namespace Magento\Customer\Service\V1;
 
 use Magento\Customer\Service\Entity\V1\AggregateException;
 use Magento\Customer\Service\Entity\V1\Exception;
+use Magento\Customer\Model\Address\Converter as AddressConverter;
 
 class CustomerAddressService implements CustomerAddressServiceInterface
 {
@@ -22,41 +23,25 @@ class CustomerAddressService implements CustomerAddressServiceInterface
     private $_converter;
 
     /**
-     * @var \Magento\Customer\Service\V1\Dto\RegionBuilder
+     * @var AddressConverter
      */
-    private $_regionBuilder;
-
-    /**
-     * @var \Magento\Customer\Service\V1\Dto\AddressBuilder
-     */
-    private $_addressBuilder;
-
+    private $_addressConverter;
 
     /**
      * Constructor
      *
-     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Customer\Model\AddressFactory $addressFactory
-     * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $eavMetadataService
-     * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Customer\Model\Converter $converter
-     * @param \Magento\Customer\Model\Metadata\Validator $validator
-     * @param \Magento\Customer\Service\V1\Dto\RegionBuilder $regionBuilder
-     * @param \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder
-     * @param \Magento\Customer\Service\V1\Dto\Response\CreateCustomerAccountResponseBuilder $createCustomerAccountResponseBuilder
+     * @param AddressConverter $addressConverter
      */
     public function __construct(
         \Magento\Customer\Model\AddressFactory $addressFactory,
         \Magento\Customer\Model\Converter $converter,
-        Dto\RegionBuilder $regionBuilder,
-        Dto\AddressBuilder $addressBuilder
+        AddressConverter $addressConverter
     ) {
         $this->_addressFactory = $addressFactory;
         $this->_converter = $converter;
-        $this->_regionBuilder = $regionBuilder;
-        $this->_addressBuilder = $addressBuilder;
+        $this->_addressConverter = $addressConverter;
     }
 
     /**
@@ -73,7 +58,7 @@ class CustomerAddressService implements CustomerAddressServiceInterface
         $result = array();
         /** @var $address \Magento\Customer\Model\Address */
         foreach ($addresses as $address) {
-            $result[] = $this->_createAddress(
+            $result[] = $this->_addressConverter->createAddressFromModel(
                 $address,
                 $defaultBillingId,
                 $defaultShippingId
@@ -93,7 +78,7 @@ class CustomerAddressService implements CustomerAddressServiceInterface
         if ($address === false) {
             return null;
         }
-        return $this->_createAddress(
+        return $this->_addressConverter->createAddressFromModel(
             $address,
             $customer->getDefaultBilling(),
             $customer->getDefaultShipping()
@@ -111,7 +96,7 @@ class CustomerAddressService implements CustomerAddressServiceInterface
         if ($address === false) {
             return null;
         }
-        return $this->_createAddress($address,
+        return $this->_addressConverter->createAddressFromModel($address,
             $customer->getDefaultBilling(),
             $customer->getDefaultShipping()
         );
@@ -131,59 +116,12 @@ class CustomerAddressService implements CustomerAddressServiceInterface
                 Exception::CODE_ADDRESS_NOT_FOUND
             );
         }
-        return $this->_createAddress(
+        return $this->_addressConverter->createAddressFromModel(
             $address,
             $customer->getDefaultBilling(),
             $customer->getDefaultShipping()
         );
     }
-
-    /**
-     * Create address based on model
-     *
-     * @param \Magento\Customer\Model\Address $addressModel
-     * @param int $defaultBillingId
-     * @param int $defaultShippingId
-     * @return \Magento\Customer\Service\V1\Dto\Address
-     */
-    private function _createAddress(\Magento\Customer\Model\Address $addressModel,
-                                      $defaultBillingId, $defaultShippingId
-    ) {
-        $addressId = $addressModel->getId();
-        $validAttributes = array_merge(
-            $addressModel->getDefaultAttributeCodes(),
-            [
-                'id', 'region_id', 'region', 'street', 'vat_is_valid',
-                'default_billing', 'default_shipping',
-                //TODO: create VAT object at MAGETWO-16860
-                'vat_request_id', 'vat_request_date', 'vat_request_success'
-            ]
-        );
-        $addressData = [];
-        foreach ($addressModel->getAttributes() as $attribute) {
-            $code = $attribute->getAttributeCode();
-            if (!in_array($code, $validAttributes) && $addressModel->getData($code) !== null) {
-                $addressData[$code] = $addressModel->getData($code);
-            }
-        }
-
-        $region = $this->_regionBuilder->setRegionCode($addressModel->getRegionCode())
-            ->setRegion($addressModel->getRegion())
-            ->setRegionId($addressModel->getRegionId())
-            ->create();
-        $this->_addressBuilder->populateWithArray(array_merge($addressData, [
-            'street' => $addressModel->getStreet(),
-            'id' => $addressId,
-            'default_billing' => $addressId === $defaultBillingId,
-            'default_shipping' => $addressId === $defaultShippingId,
-            'customer_id' => $addressModel->getCustomerId(),
-            'region' => $region
-        ]));
-
-        $retValue = $this->_addressBuilder->create();
-        return $retValue;
-    }
-
 
     /**
      * @inheritdoc
@@ -234,7 +172,7 @@ class CustomerAddressService implements CustomerAddressServiceInterface
                 $addressModel = $this->_addressFactory->create();
                 $addressModel->setCustomer($customerModel);
             }
-            $this->_updateAddressModel($addressModel, $address);
+            $this->_addressConverter->updateAddressModel($addressModel, $address);
 
             $validationErrors = $addressModel->validate();
             if ($validationErrors !== true) {
@@ -272,36 +210,4 @@ class CustomerAddressService implements CustomerAddressServiceInterface
 
         return $addressIds;
     }
-
-    /**
-     * Updates an Address Model based on information from an Address DTO.
-     *
-     * @param \Magento\Customer\Model\Address $addressModel
-     * @param \Magento\Customer\Service\V1\Dto\Address $address
-     * return null
-     */
-    private function _updateAddressModel(\Magento\Customer\Model\Address $addressModel, Dto\Address $address)
-    {
-        // Set all attributes
-        foreach ($address->getAttributes() as $attributeCode => $attributeData) {
-            if ('region' == $attributeCode
-                && $address->getRegion() instanceof Dto\Region
-            ) {
-                $addressModel->setData('region', $address->getRegion()->getRegion());
-                $addressModel->setData('region_code', $address->getRegion()->getRegionCode());
-                $addressModel->setData('region_id', $address->getRegion()->getRegionId());
-            } else {
-                $addressModel->setData($attributeCode, $attributeData);
-            }
-        }
-        // Set customer related data
-        $isBilling = $address->isDefaultBilling();
-        $addressModel->setIsDefaultBilling($isBilling);
-        $addressModel->setIsDefaultShipping($address->isDefaultShipping());
-        // Need to use attribute set or future updates can cause data loss
-        if (!$addressModel->getAttributeSetId()) {
-            $addressModel->setAttributeSetId(CustomerMetadataServiceInterface::ATTRIBUTE_SET_ID_ADDRESS);
-        }
-    }
-
 }

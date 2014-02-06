@@ -286,7 +286,7 @@ class Quote
         $orgCustomerDto = null;
         if (!$quote->getCustomerIsGuest()) {
             $customerDto = $quote->getCustomerData();
-            $addresses = $quote->getCustomerAddressData();
+            $addresses = $quote->getAddressData();
             if ($customerDto->getCustomerId()) {
                 //cache the original customer data for rollback if needed
                 $orgCustomerDto = $this->_customerService->getCustomer($customerDto->getCustomerId());
@@ -310,7 +310,7 @@ class Quote
 
             $quote->setCustomerData($customerDto);
             foreach ($addresses as $address) {
-                $quote->setCustomerAddressData($address);
+                $quote->addAddressData($address);
             }
         }
         $transaction->addObject($quote);

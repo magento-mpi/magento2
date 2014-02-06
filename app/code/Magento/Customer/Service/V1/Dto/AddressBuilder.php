@@ -9,8 +9,9 @@
  */
 namespace Magento\Customer\Service\V1\Dto;
 
-use Magento\Customer\Service\V1\Dto\Region;
-
+/**
+ * @method Address create()
+ */
 class AddressBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
 {
     protected $_regionBuilder;
@@ -18,9 +19,8 @@ class AddressBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
     /**
      * @param \Magento\Customer\Service\V1\Dto\RegionBuilder $regionBuilder
      */
-    public function __construct(
-      \Magento\Customer\Service\V1\Dto\RegionBuilder $regionBuilder
-    ) {
+    public function __construct(RegionBuilder $regionBuilder)
+    {
         parent::__construct();
         $this->_regionBuilder = $regionBuilder;
         $this->_data['region'] = $regionBuilder->create();
@@ -41,7 +41,7 @@ class AddressBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
      */
     public function setDefaultShipping($defaultShipping)
     {
-        return $this->_set(\Magento\Customer\Service\V1\Dto\Address::KEY_DEFAULT_SHIPPING, (bool)$defaultShipping);
+        return $this->_set(Address::IS_DEFAULT_SHIPPING, (bool)$defaultShipping);
     }
 
     /**
@@ -50,7 +50,7 @@ class AddressBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
      */
     public function setDefaultBilling($defaultBilling)
     {
-        return $this->_set(\Magento\Customer\Service\V1\Dto\Address::KEY_DEFAULT_BILLING, (bool)$defaultBilling);
+        return $this->_set(Address::IS_DEFAULT_BILLING, (bool)$defaultBilling);
     }
 
     /**

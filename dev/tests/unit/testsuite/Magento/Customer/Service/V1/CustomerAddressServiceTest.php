@@ -766,8 +766,11 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $customerService = new CustomerAddressService(
             $this->_addressFactoryMock,
             $this->_converter,
-            new Dto\RegionBuilder(),
-            $this->_addressBuilder
+            new \Magento\Customer\Model\Address\Converter(
+                $this->_addressBuilder,
+                $this->_addressFactoryMock,
+                new Dto\RegionBuilder()
+            )
         );
         return $customerService;
     }

@@ -48,15 +48,12 @@ class Converter
     /**
      * Convert a customer model to a customer entity
      *
-     * @param \Magento\Customer\Model\Customer $customerModel
+     * @param Customer $customerModel
      * @throws \InvalidArgumentException
      * @return \Magento\Customer\Service\V1\Dto\Customer
      */
-    public function createCustomerFromModel($customerModel)
+    public function createCustomerFromModel(Customer $customerModel)
     {
-        if (!($customerModel instanceof \Magento\Customer\Model\Customer)) {
-            throw new \InvalidArgumentException('customer model is invalid');
-        }
         $this->_convertAttributesFromModel($this->_customerBuilder, $customerModel);
         $this->_customerBuilder->setCustomerId($customerModel->getId());
         $this->_customerBuilder->setFirstname($customerModel->getFirstname());
