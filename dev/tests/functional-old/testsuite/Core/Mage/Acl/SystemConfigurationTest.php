@@ -45,7 +45,6 @@ class Core_Mage_Acl_SystemConfigurationTest extends Mage_Selenium_TestCase
      * @dataProvider systemConfigurationOneTabDataProvider
      * @test
      * @TestlinkId TL-MAGE-6016
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function systemConfigurationOneTab($resourceCheckbox, $tabName)
     {
@@ -66,7 +65,6 @@ class Core_Mage_Acl_SystemConfigurationTest extends Mage_Selenium_TestCase
         //Steps
         $this->admin('log_in_to_admin', false);
         $this->adminUserHelper()->loginAdmin($loginData);
-        $this->navigate('system_configuration', false);
         //verify that only one tab is presented on page
         $this->assertEquals(1, $this->getControlCount('tab', 'all_tabs'),
             'Not only "' . $tabName . '" is presented on page.');
@@ -151,7 +149,6 @@ class Core_Mage_Acl_SystemConfigurationTest extends Mage_Selenium_TestCase
      *
      * @test
      * @TestlinkId TL-MAGE-6005
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function systemConfiguration($testData)
     {
@@ -183,13 +180,9 @@ class Core_Mage_Acl_SystemConfigurationTest extends Mage_Selenium_TestCase
      *
      * @test
      * @TestlinkId TL-MAGE-6005
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function systemConfigurationForWebsite($testData)
     {
-        if ($this->getBrowser() == 'chrome') {
-            $this->markTestIncomplete('MAGETWO-11392');
-        }
         $this->adminUserHelper()->loginAdmin($testData);
         $this->navigate('system_configuration');
         //set the configuration scope Main Website

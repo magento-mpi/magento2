@@ -1048,6 +1048,9 @@ return array(
     array('Magento\Backup\Model\Resource\Helper\Mysql4', 'Magento\Backup\Model\Resource\Helper'),
     array('Magento\Sales\Model\CarrierFactory', 'Magento\Shipping\Model\CarrierFactory'),
     array('Magento\Sales\Model\Order\Pdf\Shipment\Packaging', 'Magento\Shipping\Model\Order\Pdf\Packaging'),
+    array(
+        'Magento\Sales\Model\Observer\Backend\RecurringProfile\FormRenderer', 'Magento\RecurringProfile\Model\Observer'
+    ),
     array('Magento\Sales\Model\ResourceFactory'),
     array('Magento\Sales\Model\Resource\Helper\Mysql4', 'Magento\Sales\Model\Resource\Helper'),
     array('Magento\Core\Model\Resource\Helper\Mysql4', 'Magento\Core\Model\Resource\Helper'),
@@ -1059,6 +1062,8 @@ return array(
     array('Magento\Sales\Model\Resource\Helper\HelperInterface', 'Magento\Sales\Model\Resource\HelperInterface'
     ),
     array('Magento\Reports\Model\Resource\Helper\HelperInterface', 'Magento\Reports\Model\Resource\HelperInterface'),
+    array('Magento\Payment\Block\Catalog\Product\View\Profile',
+        'Magento\RecurringProfile\Block\Catalog\Product\View\Profile'),
     array('Magento\Poll\Block\ActivePoll'),
     array('Magento\Poll\Controller\Vote'),
     array('Magento\Poll\Helper\Data'),
@@ -1832,8 +1837,48 @@ return array(
         'Magento\GroupedProduct\Block\Product\View\Type\Grouped'
     ),
     array(
+        'Magento\Sales\Block\Adminhtml\Customer\Edit\Tab\Recurring\Profile',
+        'Magento\RecurringProfile\Block\Adminhtml\Customer\Edit\Tab\RecurringProfile'
+    ),
+    array(
         'Magento\Sales\Block\Adminhtml\Items\Column\Name\Grouped',
         'Magento\GroupedProduct\Block\Adminhtml\Items\Column\Name\Grouped'
+    ),
+    array(
+        'Magento\Sales\Block\Adminhtml\Recurring\Profile',
+        'Magento\RecurringProfile\Block\Adminhtml\Profile'
+    ),
+    array(
+        'Magento\Sales\Block\Adminhtml\Recurring\Profile\Edit\Form',
+        'Magento\RecurringProfile\Block\Adminhtml\Profile\Edit\Form'
+    ),
+    array(
+        'Magento\Sales\Block\Adminhtml\Recurring\Profile\Grid',
+        'Magento\RecurringProfile\Block\Adminhtml\Profile\Grid'
+    ),
+    array(
+        'Magento\Sales\Block\Adminhtml\Recurring\Profile\View',
+        'Magento\RecurringProfile\Block\Adminhtml\Profile\View'
+    ),
+    array(
+        'Magento\Sales\Block\Adminhtml\Recurring\Profile\View\Getawayinfo',
+        'Magento\RecurringProfile\Block\Adminhtml\Profile\View\Getawayinfo'
+    ),
+    array(
+        'Magento\Sales\Block\Adminhtml\Recurring\Profile\View\Info',
+        'Magento\RecurringProfile\Block\Adminhtml\Profile\View\Info'
+    ),
+    array(
+        'Magento\Sales\Block\Adminhtml\Recurring\Profile\View\Items',
+        'Magento\RecurringProfile\Block\Adminhtml\Profile\View\Info'
+    ),
+    array(
+        'Magento\Sales\Block\Adminhtml\Recurring\Profile\View\Tab\Info',
+        'Magento\RecurringProfile\Block\Adminhtml\Profile\View\Tab\Info'
+    ),
+    array(
+        'Magento\Sales\Block\Adminhtml\Recurring\Profile\View\Tab\Orders',
+        'Magento\RecurringProfile\Block\Adminhtml\Profile\View\Tab\Orders'
     ),
     array(
         'Magento\Sales\Model\Order\Pdf\Items\Invoice\Grouped',
@@ -1842,6 +1887,46 @@ return array(
     array(
         'Magento\Sales\Block\Order\Item\Renderer\Grouped',
         'Magento\GroupedProduct\Block\Order\Item\Renderer\Grouped'
+    ),
+    array(
+        'Magento\Sales\Block\Recurring\Profile\Related\Orders\Grid',
+        'Magento\RecurringProfile\Block\Profile\Related\Orders\Grid'
+    ),
+    array(
+        'Magento\Sales\Block\Recurring\Profiles',
+        'Magento\RecurringProfile\Block\Profiles'
+    ),
+    array(
+        'Magento\Sales\Block\Recurring\Profile\Grid',
+        'Magento\RecurringProfile\Block\Profile\Grid'
+    ),
+    array(
+        'Magento\Sales\Block\Recurring\Profile\View',
+        'Magento\RecurringProfile\Block\Profile\View'
+    ),
+    array(
+        'Magento\Sales\Block\Recurring\Profile\View\Address',
+        'Magento\RecurringProfile\Block\Profile\View\Address'
+    ),
+    array(
+        'Magento\Sales\Block\Recurring\Profile\View\Data',
+        'Magento\RecurringProfile\Block\Profile\View\Data'
+    ),
+    array(
+        'Magento\Sales\Block\Recurring\Profile\View\Fees',
+        'Magento\RecurringProfile\Block\Profile\View\Fees'
+    ),
+    array(
+        'Magento\Sales\Block\Recurring\Profile\View\Item',
+        'Magento\RecurringProfile\Block\Profile\View\Item'
+    ),
+    array(
+        'Magento\Sales\Block\Recurring\Profile\View\Reference',
+        'Magento\RecurringProfile\Block\Profile\View\Reference'
+    ),
+    array(
+        'Magento\Sales\Block\Recurring\Profile\View\Schedule',
+        'Magento\RecurringProfile\Block\Profile\View\Schedule'
     ),
     array(
         'Magento\ImportExport\Model\Export\Entity\Product\Type\Grouped',
@@ -1871,5 +1956,15 @@ return array(
     array('Magento\Catalog\Model\Category\Indexer\Flat'),
     array('Magento\Config\Dom\Converter\ArrayConverter'),
     array('Magento\Acl\Resource\Config\Dom'),
+    array('Magento\Sales\Model\Recurring\Profile', 'Magento\RecurringProfile\Model\Profile'),
+    array('Magento\Sales\Model\Resource\Recurring\Profile', 'Magento\RecurringProfile\Model\Resource\Profile'),
+    array(
+        'Magento\Sales\Model\Resource\Recurring\Profile\Collection',
+        'Magento\RecurringProfile\Model\Resource\Profile\Collection'
+    ),
+    ['Magento\Payment\Model\Recurring\Profile', 'Magento\RecurringProfile\Model\RecurringProfile'],
+    ['Magento\Validator\Composite\VarienObject', 'Magento\Validator\Object'],
     array('Magento\GoogleShopping\Helper\Price', 'Magento\Catalog\Model\Product\CatalogPrice'),
+    ['Magento\Sales\Controller\Adminhtml\Recurring\Profile', 'Magento\RecurringProfile\Controller\Adminhtml\Profile'],
+    ['Magento\Sales\Controller\Recurring\Profile', 'Magento\RecurringProfile\Controller\Profile'],
 );

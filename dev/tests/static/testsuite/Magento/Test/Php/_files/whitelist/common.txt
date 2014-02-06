@@ -95,6 +95,7 @@ app/code/Magento/Log/Model/Shell.php
 app/code/Magento/Log/Model/Shell
 app/code/Magento/Theme/Block/Html/Head
 app/code/Magento/ProductAlert/Block/Product/View
+app/code/Magento/RecurringProfile
 app/code/Magento/Reports/Block/Adminhtml/Customer
 app/code/Magento/Reports/Block/Adminhtml/Product
 app/code/Magento/Reports/Controller/Adminhtml/Report/Customer.php
@@ -105,9 +106,6 @@ app/code/Magento/Reports/Model/Resource/Customer
 app/code/Magento/Reports/Model/Resource/Report/Collection.php
 app/code/Magento/Sales/Block/Guest/Link.php
 app/code/Magento/Sales/Block/Order/Link.php
-app/code/Magento/Sales/Block/Recurring/Profile/Grid.php
-app/code/Magento/Sales/Block/Recurring/Profile/Related/Orders/Grid.php
-app/code/Magento/Sales/Block/Recurring/Profile/View
 app/code/Magento/Sales/Model/Order/Pdf/Config
 app/code/Magento/Sales/Model/Order/Pdf/Config.php
 app/code/Magento/Sales/Model/Order/Pdf/Total/Factory.php

@@ -6,7 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-/*jshint evil:true browser:true jquery:true expr:true*/
+/*jshint browser:true jquery:true expr:true*/
 (function($) {
     $.widget('mage.zoom', {
         options: {

@@ -48,7 +48,11 @@
             <div class="title">
                 <strong><?php echo __('Shipping and Tracking Information') ?></strong>
                 <?php if ($trackingNumbers->count()): ?>
-                    <a class="action track" href="#" data-mage-init="{popupWindow: {windowURL:'<?php echo $this->helper('Magento\Rma\Helper\Data')->getTrackingPopupUrlBySalesModel($this->getRma()) ?>',windowName:'trackshipment',width:800,height:600,top:0,left:0,resizable:1,scrollbars:1}}" title="<?php echo __('Track this shipment') ?>">
+                    <a class="action track" href="#" data-mage-init='{"popupWindow": {
+                        "windowURL":"<?php echo $this->helper('Magento\Rma\Helper\Data')->getTrackingPopupUrlBySalesModel($this->getRma()) ?>",
+                        "windowName":"trackshipment",
+                        "width":800,"height":600,"top":0,"left":0,"resizable":1,"scrollbars":1
+                    }}' title="<?php echo __('Track this shipment') ?>">
                         <span><?php echo __('Track this shipment') ?></span>
                     </a>
                 <?php endif ?>
@@ -146,7 +150,7 @@
                         </dl>
                         <?php endif; ?>
                         <?php if ($_qna) : ?>
-                            <button class="action details" type="button" data-mage-init='{toggleAdvanced: {newLabel: "<?php echo __('Hide Details') ?>", toggleContainers: "#shf_<?php echo $key; ?>"}}'>
+                            <button class="action details" type="button" data-mage-init='{"toggleAdvanced": {"newLabel": "<?php echo __('Hide Details') ?>", "toggleContainers": "#shf_<?php echo $key; ?>"}}'>
                                 <span><?php echo __('Show Details') ?></span>
                             </button>
                         <?php endif; ?>

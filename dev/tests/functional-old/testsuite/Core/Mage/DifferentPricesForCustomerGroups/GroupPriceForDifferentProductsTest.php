@@ -156,27 +156,30 @@ class Core_Mage_DifferentPricesForCustomerGroups_GroupPriceForDifferentProductsT
                 'general_attribute_1' => $processedGroupNames['general_configurable_attribute_title']
             );
         }
-        $productData = $this->loadDataSet('Product', $productType . '_product_visible', null, $override);
-        $productData['prices_group_price_data'] = $this->loadDataSet('Product', 'prices_group_price_data', null, array(
+        $product = $this->loadDataSet('Product', $productType . '_product_visible', null, $override);
+        $product['prices_group_price_data'] = $this->loadDataSet('Product', 'prices_group_price_data', null, array(
             'group_1' => $processedGroupNames['general_group'],
             'group_2' => $processedGroupNames['wholesale_group'],
             'group_3' => $processedGroupNames['retailer_group']
         ));
         //Steps. Creating product with Grouped Price
         $this->navigate('manage_products');
-        $this->productHelper()->createProduct($productData, $productType);
+        $this->productHelper()->createProduct($product, $productType);
         $this->assertMessagePresent('success', 'success_saved_product');
         unset($processedGroupNames['general_configurable_attribute_title']);
         unset($processedGroupNames['attribute_option_name']);
         //Creating Customers
-        $userEmails = array();
-        foreach ($processedGroupNames as $groupKey => $groupName) {
-            $user = $this->loadDataSet('Customers', 'customer_account_register');
-            $searchUser = $this->loadDataSet('Customers', 'search_customer', array('email' => $user['email']));
-            $this->frontend('customer_login');
-            $this->customerHelper()->registerCustomer($user);
-            $this->assertMessagePresent('success', 'success_registration');
-            $this->logoutCustomer();
+        $user = $this->loadDataSet('Customers', 'customer_account_register');
+        $searchUser = $this->loadDataSet('Customers', 'search_customer', array(
+            'email' => $user['email'],
+            'group' => '%noValue%'
+        ));
+        $this->frontend();
+        $this->customerHelper()->registerCustomer($user);
+        $this->assertMessagePresent('success', 'success_registration');
+        $this->logoutCustomer();
+        $i = 1;
+        foreach ($processedGroupNames as $groupName) {
             $this->loginAdminUser();
             $this->navigate('manage_customers');
             $this->customerHelper()->openCustomer($searchUser);
@@ -184,19 +187,16 @@ class Core_Mage_DifferentPricesForCustomerGroups_GroupPriceForDifferentProductsT
             $this->fillDropdown('group', $groupName);
             $this->saveForm('save_customer');
             $this->assertMessagePresent('success', 'success_saved_customer');
-            $userEmails[$groupKey]['email'] = $user['email'];
-            $userEmails[$groupKey]['password'] = $user['password'];
-        }
-        //Steps. Verifying price on front-end for different customers
-        $i = 1;
-        foreach ($userEmails as $userInfo) {
-            $price = $productData['prices_group_price_data']['prices_group_price_' . $i++]['prices_group_price'];
-            $this->customerHelper()->frontLoginCustomer($userInfo);
-            $this->productHelper()->frontOpenProduct($productData['general_name']);
-            $this->addParameter('symbol', '$');
-            $this->addParameter('price', $price);
-            $this->verifyForm(array('group_price' => '$' . $price));
-            $this->assertEmptyVerificationErrors();
+            $expectedPrice = array(
+                'general_price' => $product['general_price'],
+                'prices_special_price' =>
+                    $product['prices_group_price_data']['prices_group_price_' . $i++]['prices_group_price']
+            );
+            $this->customerHelper()->frontLoginCustomer(
+                array('email' => $user['email'], 'password' => $user['password'])
+            );
+            $this->productHelper()->frontOpenProduct($product['general_name']);
+            $this->assertEquals($expectedPrice, $this->productHelper()->getFrontendProductPrices());
         }
     }
 

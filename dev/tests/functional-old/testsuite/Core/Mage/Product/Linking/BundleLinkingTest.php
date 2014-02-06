@@ -24,7 +24,6 @@ class Core_Mage_Product_Linking_BundleLinkingTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
         $this->navigate('manage_products');
-        $this->runMassAction('Delete', 'all');
     }
 
     protected function assertPreconditions()
@@ -104,9 +103,6 @@ class Core_Mage_Product_Linking_BundleLinkingTest extends Mage_Selenium_TestCase
      */
     public function crossSellsInStock($linkingType, $testData)
     {
-        if ($this->getBrowser() == 'chrome') {
-            $this->markTestIncomplete('MAGETWO-11557');
-        }
         //Data
         $assignType = 'cross_sells';
         $assignProductType = 'bundle';
@@ -246,9 +242,6 @@ class Core_Mage_Product_Linking_BundleLinkingTest extends Mage_Selenium_TestCase
      */
     public function crossSellsOutStock($linkingType, $testData)
     {
-        if ($this->getBrowser() == 'chrome') {
-            $this->markTestIncomplete('MAGETWO-11557');
-        }
         //Data
         $assignType = 'cross_sells';
         $assignProductType = 'bundle';
