@@ -9,7 +9,7 @@
 namespace Magento\Webapi\Controller;
 
 use Magento\Authz\Service\AuthorizationV1Interface as AuthorizationService;
-use Magento\Webapi\Controller\Rest\Request;
+use Magento\Webapi\Controller\Rest\Request as RestRequest;
 use Magento\Webapi\Controller\Rest\Response;
 use Magento\Webapi\Controller\Rest\Router;
 
@@ -25,7 +25,7 @@ class Rest implements \Magento\App\FrontControllerInterface
     /** @var Router */
     protected $_router;
 
-    /** @var Request */
+    /** @var RestRequest */
     protected $_request;
 
     /** @var Response */
@@ -55,7 +55,7 @@ class Rest implements \Magento\App\FrontControllerInterface
     /**
      * Initialize dependencies.
      *
-     * @param Request $request
+     * @param RestRequest $request
      * @param Response $response
      * @param Router $router
      * @param \Magento\ObjectManager $objectManager
@@ -70,7 +70,7 @@ class Rest implements \Magento\App\FrontControllerInterface
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        Request $request,
+        RestRequest $request,
         Response $response,
         Router $router,
         \Magento\ObjectManager $objectManager,
