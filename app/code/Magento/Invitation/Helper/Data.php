@@ -120,8 +120,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Checks is allowed registration in invitation controller
      *
-     * @param boolean $isAllowed
-     * @return boolean
+     * @param bool $isAllowed
+     * @return bool
      */
     public function isRegistrationAllowed($isAllowed = null)
     {

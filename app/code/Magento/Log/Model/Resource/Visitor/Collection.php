@@ -180,7 +180,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Return true if online filter used
      *
-     * @return boolean
+     * @return bool
      */
     public function getIsOnlineFilterUsed()
     {
