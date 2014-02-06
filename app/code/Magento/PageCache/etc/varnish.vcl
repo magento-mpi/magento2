@@ -62,20 +62,6 @@ sub vcl_hash {
     {{ design_exceptions_code }}
 }
 
-sub vcl_hit {
-    if (req.request == "PURGE") {
-        purge;
-        error 200 "Purged";
-    }
-}
-
-sub vcl_miss {
-    if (req.request == "PURGE") {
-        purge;
-        error 404 "Purged";
-    }
-}
-
 sub vcl_fetch {
     if (req.url !~ "\.(jpg|png|gif|tiff|bmp|gz|tgz|bz2|tbz|mp3|ogg|svg|swf)(\?|$)") {
         set beresp.do_gzip = true;
