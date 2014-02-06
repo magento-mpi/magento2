@@ -7,8 +7,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\PageCache\Model;
+
 use Magento\App\Request\Http;
 use Magento\Stdlib\Cookie;
 

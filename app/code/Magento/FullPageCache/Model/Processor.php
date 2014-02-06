@@ -268,7 +268,7 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\App\ResponseInterface $response
      * @param string $content
-     * @return string|bool
+     * @return string|false
      */
     public function extractContent(
         \Magento\App\RequestInterface $request,
@@ -484,7 +484,7 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
      * Associate tag with page cache request identifier
      *
      * @param string[]|string $tag
-     * @return \Magento\FullPageCache\Model\Processor
+     * @return $this
      */
     public function addRequestTag($tag)
     {
@@ -510,7 +510,7 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
      *
      * @param \Zend_Controller_Request_Http $request
      * @param \Magento\App\ResponseInterface $response
-     * @return \Magento\FullPageCache\Model\Processor
+     * @return $this
      */
     public function processRequestResponse(
         \Zend_Controller_Request_Http $request,
@@ -643,7 +643,7 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
      *
      * @param string $key
      * @param string $value
-     * @return \Magento\FullPageCache\Model\Processor
+     * @return $this
      */
     public function setMetadata($key, $value)
     {

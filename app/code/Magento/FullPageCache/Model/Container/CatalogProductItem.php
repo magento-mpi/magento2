@@ -171,7 +171,7 @@ class CatalogProductItem
      * Get shared info param
      *
      * @param string|null $key
-     * @return null
+     * @return mixed
      */
     protected function _getSharedParam($key = null)
     {
