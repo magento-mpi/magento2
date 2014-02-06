@@ -54,7 +54,7 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
     public function testHandleWithoutOriginalProductAttributes()
     {
         $this->productMock->expects($this->once())->method('getTypeId')
-            ->will($this->returnValue(\Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE));
+            ->will($this->returnValue(\Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE));
         $this->productTypeMock->expects($this->once())
             ->method('getConfigurableAttributesAsArray')
             ->with($this->productMock)
@@ -62,7 +62,7 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
 
         $attributeData = array(
             array(
-                'id' => 1,
+                'attribute_id' => 1,
                 'values' => array(
                     array(
                         'value_index' => 0, 'pricing_value' => 10, 'is_percent' => 1,
@@ -75,7 +75,7 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
 
         $expected = array(
             array(
-                'id' => 1,
+                'attribute_id' => 1,
                 'values' => array(array('value_index' => 0, 'pricing_value' => 0, 'is_percent' => 0)),
             )
         );
@@ -96,7 +96,7 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->productMock->expects($this->once())->method('getTypeId')
-            ->will($this->returnValue(\Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE));
+            ->will($this->returnValue(\Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE));
         $this->productTypeMock->expects($this->once())
             ->method('getConfigurableAttributesAsArray')
             ->with($this->productMock)
@@ -104,7 +104,7 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
 
         $attributeData = array(
             array(
-                'id' => 1,
+                'attribute_id' => 1,
                 'values' => array(
                     array('value_index' => 0, 'pricing_value' => 10, 'is_percent' => 1),
                     array('value_index' => 1, 'pricing_value' => 100, 'is_percent' => 200),
@@ -116,7 +116,7 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
 
         $expected = array(
             array(
-                'id' => 1,
+                'attribute_id' => 1,
                 'values' => array(
                     array('value_index' => 0, 'pricing_value' => 50, 'is_percent' => 10),
                     array('value_index' => 1, 'pricing_value' => 0, 'is_percent' => 0)
