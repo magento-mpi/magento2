@@ -33,6 +33,7 @@ class SetupTest extends \PHPUnit_Framework_TestCase
 
     public function testGetRealProductTypes()
     {
+        $this->markTestIncomplete('MAGETWO-20302');
         $types = array(
             'simple'       => array('custom_attributes' => array('is_real_product' => 'true')),
             'simple2'      => array(),

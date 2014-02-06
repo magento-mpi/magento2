@@ -5,7 +5,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\ProductType;
+
+namespace Magento\ConfigurableProduct\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler;
 
 class ConfigurableTest extends \PHPUnit_Framework_TestCase
 {
@@ -26,6 +27,7 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $this->markTestIncomplete('MAGETWO-20297');
         $this->productMock = $this->getMock('\Magento\Catalog\Model\Product',
             array(
                 'getConfigurableAttributesData', 'getTypeInstance', 'setConfigurableAttributesData', '__wakeup',

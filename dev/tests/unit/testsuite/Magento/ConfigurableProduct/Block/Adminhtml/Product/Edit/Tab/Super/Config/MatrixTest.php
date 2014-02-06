@@ -6,21 +6,21 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Super\Config;
+namespace Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Config;
 
 class MatrixTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Object under test
      *
-     * @var \Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Super\Config_Matrix
+     * @var \Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Config\Matrix
      */
     protected $_block;
 
-    /** @var \Magento\Core\Model\App|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_application;
 
-    /** @var \Magento\Core\Model\LocaleInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_locale;
 
     protected function setUp()
@@ -36,7 +36,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_object = $helper->getObject('Magento\Backend\Block\System\Config\Form', $data);
         $this->_block = $helper->getObject(
-            'Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Super\Config\Matrix', $data
+            'Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Config\Matrix', $data
         );
     }
 
