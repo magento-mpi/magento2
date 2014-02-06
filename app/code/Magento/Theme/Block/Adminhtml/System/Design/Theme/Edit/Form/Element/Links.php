@@ -63,7 +63,7 @@ class Links
     /**
      * Generate list of links for element content
      *
-     * @param string[] $option
+     * @param array $option
      * @return string
      */
     protected function _optionToHtml(array $option)
