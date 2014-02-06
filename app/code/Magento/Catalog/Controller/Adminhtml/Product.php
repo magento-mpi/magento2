@@ -411,17 +411,6 @@ class Product extends \Magento\Backend\App\Action
     }
 
     /**
-     * Get super config grid
-     *
-     */
-    public function superConfigAction()
-    {
-        $this->productBuilder->build($this->getRequest());
-        $this->_view->loadLayout(false);
-        $this->_view->renderLayout();
-    }
-
-    /**
      * Validate product
      *
      */
