@@ -34,6 +34,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
 
         // Expect these attributes to exist and check the value - values come from _files/customer.php
         $expectAttrsWithVals = array(
+            'id'                        => '1',
             'website_id'                => '1',
             'store_id'                  => '1',
             'group_id'                  => '1',

@@ -5,7 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Service\Entity;
+
+use Magento\Service\Entity\AbstractDto;
 
 abstract class AbstractDtoBuilder
 {
@@ -25,10 +28,10 @@ abstract class AbstractDtoBuilder
     /**
      * Populates the fields with an existing entity.
      *
-     * @param \Magento\Service\Entity\AbstractDto $prototype the prototype to base on
+     * @param AbstractDto $prototype the prototype to base on
      * @return AbstractDtoBuilder
      */
-    public function populate(\Magento\Service\Entity\AbstractDto $prototype)
+    public function populate(AbstractDto $prototype)
     {
         $this->_data = array();
         foreach (get_class_methods(get_class($prototype)) as $method) {
@@ -68,6 +71,32 @@ abstract class AbstractDtoBuilder
     }
 
     /**
+     * Merge second DTO data with first DTO data and create new DTO object based on merge result.
+     *
+     * @param AbstractDto $firstDto
+     * @param AbstractDto $secondDto
+     * @return AbstractDto
+     */
+    public function mergeDtos(AbstractDto $firstDto, AbstractDto $secondDto)
+    {
+        $this->_data = array_merge($firstDto->__toArray(), $secondDto->__toArray());
+        return $this->create();
+    }
+
+    /**
+     * Merged data provided in array format with DTO data and create new DTO object based on merge result.
+     *
+     * @param AbstractDto $dto
+     * @param array $data
+     * @return AbstractDto
+     */
+    public function mergeDtoWithArray(AbstractDto $dto, array $data)
+    {
+        $this->_data = array_merge($dto->__toArray(), $data);
+        return $this->create();
+    }
+
+    /**
      * Builds the entity.
      *
      * @return AbstractDto
@@ -91,5 +120,4 @@ abstract class AbstractDtoBuilder
         $this->_data[$key] = $value;
         return $this;
     }
-
 }

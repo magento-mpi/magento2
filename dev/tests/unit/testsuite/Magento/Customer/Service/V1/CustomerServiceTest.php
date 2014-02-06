@@ -241,7 +241,7 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(self::FIRSTNAME, $actualCustomer->getFirstName());
         $this->assertEquals(self::LASTNAME, $actualCustomer->getLastName());
         $this->assertEquals(self::EMAIL, $actualCustomer->getEmail());
-        $this->assertEquals(3, count($actualCustomer->getAttributes()));
+        $this->assertEquals(4, count($actualCustomer->getAttributes()));
         $attribute = $actualCustomer->getAttribute(self::ATTRIBUTE_CODE);
         $this->assertNull($attribute, 'Arbitrary attributes must not be available do DTO users.');
     }

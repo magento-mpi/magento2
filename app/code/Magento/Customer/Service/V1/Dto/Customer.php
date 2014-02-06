@@ -16,13 +16,9 @@ namespace Magento\Customer\Service\V1\Dto;
 class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\EntityInterface
 {
     /**
-     * name of field containing entity id, used to exclude this field from list of attributes.
-     */
-    const ID = 'id';
-
-    /**
      * constants defined for keys of array, makes typos less likely
      */
+    const ID = 'id';
     const CONFIRMATION = 'confirmation';
     const CREATED_AT = 'created_at';
     const CREATED_IN = 'created_in';
@@ -47,6 +43,7 @@ class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\Entity
      * @var string[]
      */
     protected $_validAttributes = [
+        self::ID,
         self::CONFIRMATION,
         self::CREATED_AT,
         self::CREATED_IN,
@@ -69,7 +66,7 @@ class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\Entity
     /**
      * Retrieve array of all attributes, in the form of 'attribute code' => <attribute value'
      *
-     * @return array|\ArrayAccess|\string[]
+     * @return array
      */
     public function getAttributes()
     {
@@ -84,7 +81,7 @@ class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\Entity
     }
 
     /**
-     * Gets an attribute value.
+     * Get an attribute value.
      *
      * @param string $attributeCode
      * @return mixed The attribute value or null if the attribute has not been set

@@ -1167,7 +1167,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         $customerForm = $this->_metadataFormFactory->create(
             \Magento\Customer\Service\V1\CustomerMetadataServiceInterface::ENTITY_TYPE_CUSTOMER,
             'adminhtml_checkout',
-            $customerDto->__toArray(),
+            $customerDto->getAttributes(),
             CustomerForm::DONT_IGNORE_INVISIBLE
         );
 
@@ -1421,7 +1421,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         $request = $form->prepareRequest($accountData);
         $data = $form->extractData($request);
         $data = $form->restoreData($data);
-        $this->getQuote()->updateCustomerData($this->_modifyCustomerDto($customer, $data));
+        $this->getQuote()->updateCustomerData($this->_customerBuilder->mergeDtoWithArray($customer, $data));
         $data = [];
 
         foreach ($form->getAttributes() as $attribute) {
@@ -1547,22 +1547,21 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         $customerDto = $this->getQuote()->getCustomerData();
         if ($customerDto->getCustomerId() && !$this->_customerIsInStore($store)) {
             /** Create a new customer record if it is not available in the specified store */
-            $customerData = array_merge($customerDto->__toArray(), [CustomerDto::STORE_ID => $store->getId()]);
-            /** Unset customer ID to ensure that new customer will be created */
-            $customerData[CustomerDto::ID] = null;
-            $customerData[CustomerDto::CREATED_AT] = null;
-            /** Refresh customer DTO after its persistence */
-            $customerDto = $this->_setupCustomer($customerData);
+            $customerDto = $this->_customerBuilder->mergeDtoWithArray(
+                $customerDto,
+                /** Unset customer ID to ensure that new customer will be created */
+                [CustomerDto::STORE_ID => $store->getId(), CustomerDto::ID => null, CustomerDto::CREATED_AT => null]
+            );
+            $this->_validateCustomerData($customerDto);
         } else if (!$customerDto->getCustomerId()) {
             /** Create new customer */
             $customerBillingAddressDto = $this->getBillingAddress()->exportCustomerAddressData();
-            $customerData = array_merge(
-                $customerDto->__toArray(),
-                $customerBillingAddressDto->__toArray(),
+            $customerDto = $this->_customerBuilder->mergeDtos($customerDto, $customerBillingAddressDto);
+            $customerDto = $this->_customerBuilder->mergeDtoWithArray(
+                $customerDto,
                 [CustomerDto::STORE_ID => $store->getId(), CustomerDto::EMAIL => $this->_getNewCustomerEmail()]
             );
-            /** Refresh customer DTO after its persistence */
-            $customerDto = $this->_setupCustomer($customerData);
+            $this->_validateCustomerData($customerDto);
         }
         /** Persist customer addresses if necessary */
         if ($this->getBillingAddress()->getSaveInAddressBook()) {
@@ -1573,27 +1572,13 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         }
         $this->getQuote()->updateCustomerData($customerDto);
 
-        $customerData = $customerDto->__toArray();
         foreach ($this->_createCustomerForm($customerDto)->getUserAttributes() as $attribute) {
-            if (isset($customerData[$attribute->getAttributeCode()])) {
+            if (!is_null($customerDto->getAttribute($attribute->getAttributeCode()))) {
                 $quoteCode = sprintf('customer_%s', $attribute->getAttributeCode());
-                $this->getQuote()->setData($quoteCode, $customerData[$attribute->getAttributeCode()]);
+                $this->getQuote()->setData($quoteCode, $customerDto->getAttribute($attribute->getAttributeCode()));
             }
         }
         return $this;
-    }
-
-    /**
-     * Create new customer.
-     *
-     * @param array $customerData
-     * @return CustomerDto Created customer data
-     */
-    protected function _setupCustomer($customerData)
-    {
-        $customerDto = $this->_customerBuilder->populateWithArray($customerData)->create();
-        $this->_validateCustomerData($customerDto);
-        return $customerDto;
     }
 
     /**
@@ -1609,14 +1594,13 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         $customerId = $customerDto->getCustomerId();
         $quoteCustomerAddress->setCustomerId($customerId);
         $customerAddressDto = $quoteCustomerAddress->exportCustomerAddressData();
-        $customerAddressData = $customerAddressDto->__toArray();
         $quoteAddressId = $quoteCustomerAddress->getCustomerAddressId();
         $addressType = $quoteCustomerAddress->getAddressType();
         if ($quoteAddressId) {
             /** Update existing address */
             $existingAddressDto = $this->_customerAddressService->getAddressById($customerId, $quoteAddressId);
             /** Update customer address data */
-            $customerAddressData = array_merge($existingAddressDto->__toArray(), $customerAddressData);
+            $customerAddressDto = $this->_customerAddressBuilder->mergeDtos($existingAddressDto, $customerAddressDto);
         } else if ($addressType == CustomerAddressDto::ADDRESS_TYPE_SHIPPING ) {
             try {
                 $billingAddressDto = $this->_customerAddressService->getDefaultBillingAddress($customerId);
@@ -1626,8 +1610,8 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
             $isShippingAsBilling = $quoteCustomerAddress->getSameAsBilling();
             if (isset($billingAddressDto) && $isShippingAsBilling) {
                 /** Set existing billing address as default shipping */
-                $customerAddressData = array_merge(
-                    $billingAddressDto->__toArray(),
+                $customerAddressDto = $this->_customerAddressBuilder->mergeDtoWithArray(
+                    $billingAddressDto,
                     [CustomerAddressDto::KEY_DEFAULT_SHIPPING => true]
                 );
             }
@@ -1636,20 +1620,23 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         switch ($addressType) {
             case CustomerAddressDto::ADDRESS_TYPE_BILLING:
                 if (is_null($customerDto->getDefaultBilling())) {
-                    $customerAddressData[CustomerAddressDto::KEY_DEFAULT_BILLING] = true;
+                    $customerAddressDto = $this->_customerAddressBuilder->mergeDtoWithArray(
+                        $customerAddressDto,
+                        [CustomerAddressDto::KEY_DEFAULT_BILLING => true]
+                    );
                 }
                 break;
             case CustomerAddressDto::ADDRESS_TYPE_SHIPPING:
                 if (is_null($customerDto->getDefaultShipping())) {
-                    $customerAddressData[CustomerAddressDto::KEY_DEFAULT_SHIPPING] = true;
+                    $customerAddressDto = $this->_customerAddressBuilder->mergeDtoWithArray(
+                        $customerAddressDto,
+                        [CustomerAddressDto::KEY_DEFAULT_SHIPPING => true]
+                    );
                 }
                 break;
             default:
                 throw new \InvalidArgumentException('Customer address type is invalid.');
         }
-
-        /** Update customer address DTO */
-        $customerAddressDto = $this->_customerAddressBuilder->populateWithArray($customerAddressData)->create();
         $this->getQuote()->setCustomerAddressData($customerAddressDto);
     }
 
@@ -1804,19 +1791,5 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
             $this->setData('account', $account);
         }
         return $email;
-    }
-
-    /**
-     * Get data from given DTO, modify with $newData and return new DTO
-     *
-     * @param CustomerDto $customer
-     * @param array $newData
-     * @return CustomerDto
-     */
-    protected function _modifyCustomerDto(CustomerDto $customer, array $newData)
-    {
-        return $this->_customerBuilder
-            ->populateWithArray(array_merge($customer->__toArray(), $newData))
-            ->create();
     }
 }

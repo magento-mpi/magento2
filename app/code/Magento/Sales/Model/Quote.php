@@ -648,7 +648,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     public function setCustomerData(\Magento\Customer\Service\V1\Dto\Customer $customerData)
     {
         $customer = $this->_customerFactory->create();
-        $customer->setData($customerData->__toArray());
+        $customer->setData($customerData->getAttributes());
         $customer->setId($customerData->getCustomerId());
         $this->setCustomer($customer);
         return $this;

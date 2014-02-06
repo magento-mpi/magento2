@@ -490,7 +490,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         $this->_objectCopyService->copyFieldsetToTarget(
             'customer_address',
             'to_quote_address',
-            $address->__toArray(),
+            $address->getAttributes(),
             $this
         );
         if ($address->getCustomerId()) {

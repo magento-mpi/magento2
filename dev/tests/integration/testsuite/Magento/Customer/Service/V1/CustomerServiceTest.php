@@ -193,17 +193,16 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
         $inBeforeOnly = array_diff_assoc($attributesBefore, $attributesAfter);
         $inAfterOnly = array_diff_assoc($attributesAfter, $attributesBefore);
         $expectedInBefore = array(
+            'email',
             'firstname',
             'lastname',
-            'email',
-            'password_hash',
         );
         $this->assertEquals($expectedInBefore, array_keys($inBeforeOnly));
         $this->assertContains('created_in', array_keys($inAfterOnly));
         $this->assertContains('firstname', array_keys($inAfterOnly));
         $this->assertContains('lastname', array_keys($inAfterOnly));
         $this->assertContains('email', array_keys($inAfterOnly));
-        $this->assertContains('password_hash', array_keys($inAfterOnly));
+        $this->assertNotContains('password_hash', array_keys($inAfterOnly));
     }
 
     /**
@@ -407,21 +406,21 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
         $inBeforeOnly = array_diff_assoc($attributesBefore, $attributesAfter);
         $inAfterOnly = array_diff_assoc($attributesAfter, $attributesBefore);
         $expectedInBefore = array(
-            'firstname',
-            'lastname',
             'email',
-            'password_hash',
+            'firstname',
+            'id',
+            'lastname'
         );
         sort($expectedInBefore);
         $actualInBeforeOnly = array_keys($inBeforeOnly);
         sort($actualInBeforeOnly);
         $this->assertEquals($expectedInBefore, $actualInBeforeOnly);
         $expectedInAfter = array(
-            'firstname',
-            'lastname',
-            'email',
             'created_in',
-            'password_hash',
+            'email',
+            'firstname',
+            'id',
+            'lastname',
         );
         sort($expectedInAfter);
         $actualInAfterOnly = array_keys($inAfterOnly);
@@ -466,23 +465,23 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
         $savedCustomer = $this->_service->getCustomer($customerId);
         $dataInService = $savedCustomer->getAttributes();
         foreach ($dataInModel as $key => $value) {
-            if (!in_array(
-                $key,
-                array('created_at', 'updated_at', 'email', 'entity_id', 'entity_type_id', 'is_active', 'password_hash',
-                     'attribute_set_id')
-            )) {
-                if (is_null($value)) {
-                    $this->assertArrayNotHasKey($key, $dataInService);
-                } else {
-                    $this->assertEquals($value, $dataInService[$key], 'Failed asserting value for '. $key);
-                }
+            $fieldsToValidate = [
+                'id',
+                'created_in',
+                'firstname',
+                'group_id',
+                'lastname',
+                'store_id',
+                'website_id',
+            ];
+            if (in_array($key, $fieldsToValidate)) {
+                $this->assertEquals($value, $dataInService[$key], 'Failed asserting value for ' . $key);
             }
         }
-        $this->assertArrayNotHasKey('is_active', $dataInService);
-        $this->assertNotNull($dataInService['created_at']);
-        $this->assertNotNull($dataInService['updated_at']);
-        $this->assertNotNull($dataInService['password_hash']);
         $this->assertEquals($email2, $dataInService['email']);
+        $this->assertArrayNotHasKey('is_active', $dataInService);
+        $this->assertArrayNotHasKey('updated_at', $dataInService);
+        $this->assertArrayNotHasKey('password_hash', $dataInService);
     }
 
     /**

@@ -89,6 +89,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $actualAttributes = $customer->getAttributes();
         $this->assertEquals(
             [
+                'id' => self::ID,
                 'confirmation' => self::CONFIRMATION,
                 'created_at' => self::CREATED_AT,
                 'created_in' => self::STORE_NAME,

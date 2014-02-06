@@ -126,9 +126,6 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     {
         $this->_fillAllFields($this->_addressBuilder);
         $expected = $this->_expectedValues;
-        unset($expected['id']);
-        unset($expected['default_billing']);
-        unset($expected['default_shipping']);
         $this->assertEquals($expected, $this->_addressBuilder->create()->getAttributes());
     }
 

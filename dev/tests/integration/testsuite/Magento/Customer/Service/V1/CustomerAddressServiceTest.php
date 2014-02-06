@@ -229,8 +229,16 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
 
         $addresses = $this->_service->getAddresses($customerId);
         $this->assertNotEquals($proposedAddress->getAttributes(), $addresses[1]->getAttributes());
-        $this->assertArrayHasKey('weird', $proposedAddress->getAttributes());
-        $this->assertArrayNotHasKey('weird', $addresses[1]->getAttributes());
+        $this->assertArrayNotHasKey(
+            'weird',
+            $proposedAddress->getAttributes(),
+            'Only valid attributes should be available.'
+        );
+        $this->assertArrayNotHasKey(
+            'weird',
+            $addresses[1]->getAttributes(),
+            'Only valid attributes should be available.'
+        );
     }
 
     /**
