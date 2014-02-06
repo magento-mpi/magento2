@@ -63,7 +63,7 @@ class Links
     /**
      * Generate list of links for element content
      *
-     * @param array $option
+     * @param string[] $option
      * @return string
      */
     protected function _optionToHtml(array $option)
@@ -89,7 +89,7 @@ class Links
     /**
      * Prepare array of anchor attributes
      *
-     * @return array
+     * @return string[]
      */
     public function getHtmlAttributes()
     {
