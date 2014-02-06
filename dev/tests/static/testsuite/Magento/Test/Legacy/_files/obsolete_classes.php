@@ -643,10 +643,6 @@ return array(
         'Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute\Collection'
     ),
     array(
-        'Magento\Catalog\Model\Product\Type\Configurable',
-        'Magento\ConfigurableProduct\Model\Product\Type\Configurable'
-    ),
-    array(
         'Magento\Catalog\Model\Resource\Product\Type\Configurable',
         'Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable'
     ),

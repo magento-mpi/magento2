@@ -28,7 +28,7 @@ class HandlerFactory
      *
      * @param string $instance
      * @param array $arguments
-     * @return HandlerInterface
+     * @return object
      * @throws \InvalidArgumentException
      */
     public function create($instance, array $arguments = array())

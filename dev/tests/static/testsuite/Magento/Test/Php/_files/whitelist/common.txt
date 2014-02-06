@@ -15,7 +15,6 @@ app/code/Magento/Catalog/Block/Adminhtml/Product/Edit/Tab/Options/Popup/Grid.php
 app/code/Magento/Catalog/Block/Adminhtml/Product/Helper/Form/Category.php
 app/code/Magento/Catalog/Block/Adminhtml/Product/Helper/Form/Weight.php
 app/code/Magento/Catalog/Block/Adminhtml/Product/Options/Ajax.php
-app/code/Magento/Catalog/Block/Product/Configurable
 app/code/Magento/Catalog/Block/Product/TemplateSelector.php
 app/code/Magento/Catalog/Block/Product/View/BaseImage.php
 app/code/Magento/Catalog/Block/Product/View/Gallery.php
