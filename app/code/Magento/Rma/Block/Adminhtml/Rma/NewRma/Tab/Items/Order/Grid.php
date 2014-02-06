@@ -68,6 +68,7 @@ class Grid
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Sales\Model\Order\Admin\Item $adminOrderItem
      * @param array $data
      */
     public function __construct(
