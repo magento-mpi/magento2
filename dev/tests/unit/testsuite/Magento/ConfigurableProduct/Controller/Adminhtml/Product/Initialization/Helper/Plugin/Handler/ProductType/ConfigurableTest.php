@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\ConfigurableProduct\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler;
+namespace Magento\ConfigurableProduct\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\ProductType;
 
 class ConfigurableTest extends \PHPUnit_Framework_TestCase
 {
@@ -27,7 +27,6 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->markTestIncomplete('MAGETWO-20297');
         $this->productMock = $this->getMock('\Magento\Catalog\Model\Product',
             array(
                 'getConfigurableAttributesData', 'getTypeInstance', 'setConfigurableAttributesData', '__wakeup',
@@ -55,7 +54,7 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
     public function testHandleWithoutOriginalProductAttributes()
     {
         $this->productMock->expects($this->once())->method('getTypeId')
-            ->will($this->returnValue(\Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE));
+            ->will($this->returnValue(\Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE));
         $this->productTypeMock->expects($this->once())
             ->method('getConfigurableAttributesAsArray')
             ->with($this->productMock)
@@ -97,7 +96,7 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->productMock->expects($this->once())->method('getTypeId')
-            ->will($this->returnValue(\Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE));
+            ->will($this->returnValue(\Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE));
         $this->productTypeMock->expects($this->once())
             ->method('getConfigurableAttributesAsArray')
             ->with($this->productMock)

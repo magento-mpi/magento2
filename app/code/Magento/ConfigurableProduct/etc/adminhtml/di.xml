@@ -26,7 +26,11 @@
             </array>
         </param>
     </type>
-    <type name="Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\DefaultHandler">
-        <plugin name="configurable" type="Magento\ConfigurableProduct\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\Configurable" />
+    <type name="Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\Composite">
+        <param name="handlers">
+            <array>
+                <item key="configurableProducts"><value>Magento\ConfigurableProduct\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\ProductType\Configurable</value></item>
+            </array>
+        </param>
     </type>
 </config>

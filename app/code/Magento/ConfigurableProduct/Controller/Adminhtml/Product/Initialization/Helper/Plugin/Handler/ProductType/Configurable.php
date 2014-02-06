@@ -6,24 +6,22 @@
  * @license     {license_link}
  */
 
-namespace Magento\ConfigurableProduct\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler;
+namespace Magento\ConfigurableProduct\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\ProductType;
 
-class Configurable
+use Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\HandlerInterface;
+use Magento\Catalog\Model\Product;
+
+class Configurable implements HandlerInterface
 {
     /**
      * Handle data received from Associated Products tab of configurable product
      *
-     * @param array $arguments
-     * @param \Magento\Code\Plugin\InvocationChain $invocationChain
+     * @param Product $product
      * @return void
      */
-    public function aroundHandle(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
+    public function handle(Product $product)
     {
-        /** @var \Magento\Catalog\Model\Product $product */
-        $product = &$arguments[0];
-
         if ($product->getTypeId() != \Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE) {
-            $invocationChain->proceed($arguments);
             return;
         }
 
@@ -61,7 +59,5 @@ class Configurable
             }
             $product->setConfigurableAttributesData($attributeData);
         }
-
-        $invocationChain->proceed($arguments);
     }
 } 

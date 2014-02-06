@@ -5,14 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler;
+namespace Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler;
 
 class CompositeTest extends \PHPUnit_Framework_TestCase
 {
     public function testHandle()
     {
         $factoryMock = $this->getMock(
-            '\Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\HandlerFactory',
+            '\Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\HandlerFactory',
             array(), array(), '', false
         );
 

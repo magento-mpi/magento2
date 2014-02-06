@@ -8,6 +8,7 @@
  */
 -->
 <config>
+    <preference for="Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\HandlerInterface" type="Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\Composite" />
     <type name="Magento\Catalog\Controller\Adminhtml\Product\Attribute">
         <param name="attributeLabelCache">
             <instance type="Magento\App\Cache\Type\Translate" />

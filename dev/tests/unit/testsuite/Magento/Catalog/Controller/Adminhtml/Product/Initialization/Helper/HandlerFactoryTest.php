@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin;
+namespace Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper;
 
 class HandlerFactoryTest extends \PHPUnit_Framework_TestCase
 {
@@ -41,12 +41,12 @@ class HandlerFactoryTest extends \PHPUnit_Framework_TestCase
         $this->_objectManagerMock->expects($this->once())
             ->method('create')
             ->with(
-                '\Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\Composite'
+                '\Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\Composite'
             )->will($this->returnValue('object'));
         $this->assertEquals(
             'object',
             $this->_model->create(
-                '\Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\Composite'
+                '\Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\Composite'
             )
         );
     }

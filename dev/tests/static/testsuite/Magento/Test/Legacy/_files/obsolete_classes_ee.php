@@ -101,6 +101,7 @@ return array(
         'Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\HandlerInterface',
     ),
     array(
-        'Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\ProductType\Configurable'
+        'Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\ProductType\Configurable',
+        'Magento\ConfigurableProduct\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\ProductType\Configurable'
     ),
 );

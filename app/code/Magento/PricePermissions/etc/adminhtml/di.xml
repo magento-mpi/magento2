@@ -13,13 +13,12 @@
     </type>
     <type name="Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\PricePermissions">
         <param name="productHandler">
-            <instance type="Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\Composite\Proxy" />
+            <instance type="Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\Composite\Proxy" />
         </param>
     </type>
-    <type name="Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\Composite">
+    <type name="Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\Composite">
         <param name="handlers">
             <array>
-                <item key="default"><value>Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\DefaultHandler</value></item>
                 <item key="customOptions"><value>Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\CustomOptions</value></item>
                 <item key="recurringProfile"><value>Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\RecurringProfile</value></item>
                 <item key="bundleProducts"><value>Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\ProductType\Bundle</value></item>
