@@ -26,10 +26,10 @@ sub vcl_recv {
         if (client.ip !~ purge) {
             error 405 "Method not allowed";
         }
-        if (req.http.X-Magento-Tags-Pattern) {
-            ban("obj.http.X-Magento-Tags ~ " + req.http.X-Magento-Tags-Pattern);
+        if (!req.http.X-Magento-Tags-Pattern) {
+            error 400 "X-Magento-Tags-Pattern header required";
         }
-        ban("obj.http.X-Url ~ " + req.url);
+        ban("obj.http.X-Magento-Tags ~ " + req.http.X-Magento-Tags-Pattern);
         error 200 "Purged";
     }
 
@@ -43,6 +43,7 @@ sub vcl_recv {
           /* Non-RFC2616 or CONNECT which is weird. */
           return (pipe);
     }
+
     # We only deal with GET and HEAD by default
     if (req.request != "GET" && req.request != "HEAD") {
         return (pass);
@@ -51,6 +52,8 @@ sub vcl_recv {
     if (req.url ~ "\.(css|js|jpg|png|gif|tiff|bmp|gz|tgz|bz2|tbz|mp3|ogg|svg|swf)(\?|$)") {
          unset req.http.Cookie;
     }
+
+    set req.grace = 1m;
 
     return (lookup);
 }
@@ -66,16 +69,8 @@ sub vcl_fetch {
     if (req.url !~ "\.(jpg|png|gif|tiff|bmp|gz|tgz|bz2|tbz|mp3|ogg|svg|swf)(\?|$)") {
         set beresp.do_gzip = true;
         if (req.url !~ "\.(css|js)(\?|$)") {
-            # set ttl from received Magento
-            set beresp.ttl = std.duration(beresp.http.X-Magento-ttl + "s", 0s);
             set beresp.do_esi = true;
         }
-    }
-
-    # validate if we need to cache it and prevent from setting cookie
-    # images, css and js are cacheable by default so we have to remove cookie also
-    if (beresp.ttl > 0s && (req.request == "GET" || req.request == "HEAD")) {
-        unset beresp.http.set-cookie;
     }
 
     # cache only successfully responses
@@ -83,13 +78,20 @@ sub vcl_fetch {
         set beresp.ttl = 0s;
         return (hit_for_pass);
     }
-    set beresp.http.X-Url = req.url;
+
+    # validate if we need to cache it and prevent from setting cookie
+    # images, css and js are cacheable by default so we have to remove cookie also
+    if (beresp.ttl > 0s && (req.request == "GET" || req.request == "HEAD")) {
+        unset beresp.http.set-cookie;
+        set beresp.http.Pragma = "no-cache";
+        set beresp.http.Expires = "-1";
+        set beresp.http.Cache-Control = "no-store, no-cache, must-revalidate, max-age=0";
+        set beresp.grace = 1m;
+    }
 }
 
 sub vcl_deliver {
     unset resp.http.X-Magento-Tags;
-    unset resp.http.X-Magento-ttl;
-    unset resp.http.X-Url;
     unset resp.http.X-Powered-By;
     unset resp.http.Server;
     unset resp.http.X-Varnish;
