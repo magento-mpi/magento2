@@ -427,8 +427,8 @@ class Banner
     /**
      * Sets rendered param information
      *
-     * @param mixed $key
-     * @param mixed $value
+     * @param string $key
+     * @param array $value
      * @return $this
      */
     protected function _setRenderedParam($key, $value)
