@@ -101,7 +101,7 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
         $self = $this;
         $this->_objectManager->expects($this->exactly(2))
             ->method('get')
-            ->will($this->returnCallback(function($className) use ($self) {
+            ->will($this->returnCallback(function ($className) use ($self) {
                 return $self->getMockForAbstractClass($className);
             }));
 

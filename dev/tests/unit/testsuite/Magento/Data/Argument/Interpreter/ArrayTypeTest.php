@@ -49,7 +49,7 @@ class ArrayTypeTest extends \PHPUnit_Framework_TestCase
     {
         $this->_interpreter->expects($this->any())
             ->method('evaluate')
-            ->will($this->returnCallback(function($input){
+            ->will($this->returnCallback(function ($input) {
                 return '-' . $input['value'] . '-';
             }));
         $input = array(array('value' => 'value 1'), array('value' => 'value 2'), array('value' => 'value 3'));

@@ -21,7 +21,7 @@ class StringTest extends \PHPUnit_Framework_TestCase
         $translateRenderer = $this->getMockForAbstractClass('Magento\Phrase\RendererInterface');
         $translateRenderer->expects($this->any())
             ->method('render')
-            ->will($this->returnCallback(function($input){
+            ->will($this->returnCallback(function ($input) {
                 return $input . ' (translated)';
             }));
         \Magento\Phrase::setRenderer($translateRenderer);
