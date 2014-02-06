@@ -7,16 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reports\Block\Product;
 
 /**
  * Reports Recently Viewed Products Block
  *
- * @category   Magento
- * @package    Magento_Reports
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reports\Block\Product;
-
 class Viewed extends \Magento\Reports\Block\Product\AbstractProduct
 {
     const XML_PATH_RECENTLY_VIEWED_COUNT    = 'catalog/recently_products/viewed_count';
@@ -43,6 +40,8 @@ class Viewed extends \Magento\Reports\Block\Product\AbstractProduct
 
     /**
      * Added predefined ids support
+     *
+     * @return int
      */
     public function getCount()
     {

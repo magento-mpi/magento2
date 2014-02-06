@@ -1,31 +1,51 @@
 * Modularity improvements:
-  * Consolidated PayPal in separate module
-  * Resolved dependencies on Magento_GroupedProduct module
-  * Added ability to enable/disable/remove Magento_GroupedProduct module without impact on the system
-* Oyejorge Less.php Adapter implemented
-* Less files import mechanism implemented
-* Added ability to configure certain cache frontend and associate it with multiple cache types, so avoiding duplication of cache configuration
-* Changed format of arrays definition in DI configuration to more strict and so:
-  * Covered array definitions with XSD and made whole DI configuration validated with XSD
-  * Added ability to define arrays with keys containing invalid XML characters, that was impossible when keys were represented by node names
+  * Abstract cart logic moved from Paypal module
+* Caching improvements:
+  * Added new mechanism to identify page content uniquely (hash-key for cache storage)
+  * Plugin "magentoZoom" is divided into widgets "gallery" and "zoom"
 * Fixed bugs:
-  * Fixed missed image for a cron job for the abandoned cart emails
-  * Restored ability to configure cache storage in `local.xml`
-  * Fixed broken css\js merging functionality
-  * Fixed selection customer on order creation page
-* AppInterface has been renamed to LauncherInterface
-* Removed reinit logic from Config object
-* Framework part of "URL" functionality moved out of modules
-* Framework part of "Config" functionality moved out of modules
-* Removed deprecated EAV structure creation method from EAV setup model
+  * Fixed an issue with insert image in WYSIWYG editor where selected folder was stored in session
+  * Fixed an issue with CMS Page Links not being shown due to empty text in the link
+  * Fixed an issue with disabling zoom functionality for responsive design only
+  * Fixed an issue with zoom on product page which shows parent image instead of image of selected options
+* Updated various PHPDoc with parameter and return types
+* Move Quote Multishipping specifics logic to Multishipping module
+* Resolve dependencies between Payment and Multishipping modules
+* Framework part of the "Translate" functionality removed from modules
+* Implemented E-mail template architecture in libraries
+* Applied unified approach of scope usage for "Config" functionality
+* Fixed Dependency static test
+
+-2.0.0.0-dev63
+-=============
+* Modularity improvements:
+  * Consolidated all PayPal-related logic in a separate module
+  * Resolved dependencies on the Magento_GroupedProduct module
+  * Added the ability to enable/disable/remove the Magento_GroupedProduct module without impact on the system
+* Implemented the Oyejorge Less.php adapter
+* Implemented the Less files importing mechanism
+* Added the ability to configure certain cache frontend, and associate it to multiple cache types, thus avoiding the duplication of cache configuration
+* Implemented the more strict format of array definition in the DI configuration:
+  * Covered array definitions with XSD, and made the whole DI configuration validated with XSD
+  * Added the ability to define arrays with keys containing invalid XML characters, that was impossible when keys were represented by the node names
+* Fixed bugs:
+  * Fixed an issue with missed image for a cron job for the abandoned cart emails
+  * Restored the ability to configure cache storage in `local.xml`
+  * Fixed an issue with the css\js merging functionality
+  * Fixed an issue with customer selection on the order creation page
+* AppInterface renamed to LauncherInterface
+* Removed the reinit logic from the Config object
+* Framework part of the "URL" functionality removed from modules
+* Framework part of the "Config" functionality removed from modules
+* Removed the deprecated EAV structure creation method from the EAV setup model
 * Updated various PHPDoc with parameter and return types
 * Indexer implementation:
-  * Implemented new indexer structure
-* Refactored Web API Framework to support Data Object based service interfaces
-* Refactored controllers, blocks and templates of the Sales Module to use customer service
+  * Implemented a new indexer structure
+* Refactored Web API Framework to support the Data Object based service interfaces
+* Refactored controllers, blocks and templates of the Sales module to use Customer service
 * GitHub requests:
   * [#275] (https://github.com/magento/magento2/issues/275) -- XSS Vulnerability in app/code/core/Mage/CatalogSearch/Block/Result.php
-* Removed outdated Customer Service
+* Removed the outdated Customer service
 
 2.0.0.0-dev62
 =============

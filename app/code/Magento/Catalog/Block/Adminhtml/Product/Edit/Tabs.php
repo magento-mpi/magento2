@@ -30,7 +30,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
      * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
-    
+
     /**
      * Catalog data
      *
@@ -56,6 +56,11 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
     protected $_moduleManager;
 
     /**
+     * @var \Magento\Translate\InlineInterface
+     */
+    protected $_translateInline;
+
+    /**
      * @param \Magento\Module\Manager $moduleManager
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Json\EncoderInterface $jsonEncoder
@@ -64,6 +69,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
      * @param \Magento\Catalog\Helper\Catalog $helperCatalog
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Translate\InlineInterface $translateInline,
      * @param array $data
      */
     public function __construct(
@@ -75,6 +81,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
         \Magento\Catalog\Helper\Catalog $helperCatalog,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Translate\InlineInterface $translateInline,
         array $data = array()
     ) {
         $this->_moduleManager = $moduleManager;
@@ -82,6 +89,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
         $this->_helperCatalog = $helperCatalog;
         $this->_catalogData = $catalogData;
         $this->_coreRegistry = $registry;
+        $this->_translateInline = $translateInline;
         parent::__construct($context, $jsonEncoder, $authSession, $data);
     }
 
@@ -288,7 +296,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
      */
     protected function _translateHtml($html)
     {
-        $this->_translator->processResponseBody($html);
+        $this->_translateInline->processResponseBody($html);
         return $html;
     }
 }

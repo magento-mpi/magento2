@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GoogleShopping\Block\Adminhtml\Items;
 
 /**
  * Google Shopping Items
@@ -15,8 +16,6 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GoogleShopping\Block\Adminhtml\Items;
-
 class Item extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
@@ -52,7 +51,7 @@ class Item extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare grid collection object
      *
-     * @return \Magento\GoogleShopping\Block\Adminhtml\Items\Item
+     * @return $this
      */
     protected function _prepareCollection()
     {
@@ -67,7 +66,7 @@ class Item extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare grid columns
      *
-     * @return \Magento\GoogleShopping\Block\Adminhtml\Items\Item
+     * @return $this
      */
     protected function _prepareColumns()
     {
@@ -92,7 +91,7 @@ class Item extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare grid massaction actions
      *
-     * @return \Magento\GoogleShopping\Block\Adminhtml\Items\Item
+     * @return $this
      */
     protected function _prepareMassaction()
     {

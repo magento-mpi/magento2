@@ -16,7 +16,7 @@ class Configurable extends \Magento\CatalogInventory\Model\Resource\Indexer\Stoc
      * Reindex stock data for defined configurable product ids
      *
      * @param int|array $entityIds
-     * @return \Magento\ConfigurableProduct\Model\Resource\Indexer\Stock\Configurable
+     * @return $this
      */
     public function reindexEntity($entityIds)
     {

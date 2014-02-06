@@ -8,11 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Reminder\Model\Condition\Combine;
+
+use Magento\DB\Select;
+
 /**
  * Abstract class for combine rule condition
  */
-namespace Magento\Reminder\Model\Condition\Combine;
-
 abstract class AbstractCombine extends \Magento\Rule\Model\Condition\Combine
 {
     /**
@@ -56,7 +58,7 @@ abstract class AbstractCombine extends \Magento\Rule\Model\Condition\Combine
      *
      * @param array $arr
      * @param string $key
-     * @return \Magento\Reminder\Model\Rule\Condition\Combine
+     * @return $this
      */
     public function loadArray($arr, $key = 'conditions')
     {
@@ -84,9 +86,9 @@ abstract class AbstractCombine extends \Magento\Rule\Model\Condition\Combine
     /**
      * Get filter by customer condition for rule matching sql
      *
-     * @param   int|Zend_Db_Expr $customer
-     * @param   string $fieldName
-     * @return  string
+     * @param null|int|\Zend_Db_Expr $customer
+     * @param string $fieldName
+     * @return string
      */
     protected function _createCustomerFilter($customer, $fieldName)
     {
@@ -96,9 +98,9 @@ abstract class AbstractCombine extends \Magento\Rule\Model\Condition\Combine
     /**
      * Build query for matching customer to rule condition
      *
-     * @param $customer
-     * @param $website
-     * @return \Magento\DB\Select
+     * @param null|int|\Zend_Db_Expr $customer
+     * @param int|\Zend_Db_Expr $website
+     * @return Select
      */
     protected function _prepareConditionsSql($customer, $website)
     {
@@ -122,9 +124,9 @@ abstract class AbstractCombine extends \Magento\Rule\Model\Condition\Combine
     /**
      * Get SQL select for matching customer to rule condition
      *
-     * @param $customer
-     * @param $website
-     * @return \Magento\DB\Select
+     * @param null|int|\Zend_Db_Expr $customer
+     * @param int|\Zend_Db_Expr $website
+     * @return Select
      */
     public function getConditionsSql($customer, $website)
     {
@@ -175,8 +177,9 @@ abstract class AbstractCombine extends \Magento\Rule\Model\Condition\Combine
     }
 
     /**
-     * Get infromation about subfilters map. Map contain children condition type and associated
-     * column name from itself select.
+     * Get information about sub-filters map.
+     *
+     * Map contain children condition type and associated column name from itself select.
      * Example: array('my_subtype'=>'my_table.my_column')
      * In practice - date range can be as subfilter for different types of condition combines.
      * Logic of this filter apply is same - but column names different
@@ -191,10 +194,10 @@ abstract class AbstractCombine extends \Magento\Rule\Model\Condition\Combine
     /**
      * Limit select by website with joining to store table
      *
-     * @param   \Zend_Db_Select $select
-     * @param   int|Zend_Db_Expr $website
-     * @param   string $storeIdField
-     * @return  \Magento\Reminder\Model\Condition\AbstractCondition
+     * @param \Zend_Db_Select $select
+     * @param int|Zend_Db_Expr $website
+     * @param string $storeIdField
+     * @return $this
      */
     protected function _limitByStoreWebsite(\Zend_Db_Select $select, $website, $storeIdField)
     {
