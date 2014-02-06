@@ -8,6 +8,6 @@
  */
 -->
 <page_types>
-    <type id="recurringprofile_index" label="Recurring Profile"/>
-    <type id="recurringprofile_view" label="Recurring Profile View"/>
+    <type id="sales_recurringprofile_index" label="Recurring Profile"/>
+    <type id="sales_recurringprofile_view" label="Recurring Profile View"/>
 </page_types>
