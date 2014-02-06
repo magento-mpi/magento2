@@ -1184,4 +1184,14 @@ return array(
     array('_getSession', 'Magento\CatalogSearch\Controller\Result'),
     array('addPriceBlockType', 'Magento\Rss\Block\Catalog\AbstractCatalog'),
     array('getAttributeDisabledTypes', 'Magento\Catalog\Helper\Data'),
+    array(
+        'transitionProductType',
+        'Magento\Catalog\Model\Observer',
+        'Magento\Catalog\Model\Product\TypeTransitionManager::processProduct'
+    ),
+    array(
+        'transitionProductType',
+        'Magento\Downloadable\Model\Observer',
+        'Magento\Downloadable\Model\Product\TypeTransitionManager\Plugin\Downloadable::aroundProcessProduct'
+    ),
 );

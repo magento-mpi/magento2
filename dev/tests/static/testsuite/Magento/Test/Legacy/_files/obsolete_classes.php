@@ -1946,4 +1946,12 @@ return array(
         'Magento\ConfigurableProduct\Model\Import\Entity\Product\Type\Configurable'
     ),
     array('Magento\Sales\Block\Adminhtml\Items\Renderer\Configurable'),
+    array(
+        'Magento\Catalog\Model\Resource\Product\Collection\AssociatedProduct',
+        'Magento\ConfigurableProduct\Model\Resource\Product\Collection\AssociatedProduct'
+    ),
+    array(
+        'Magento\Catalog\Model\Resource\Product\Collection\AssociatedProductUpdater',
+        'Magento\ConfigurableProduct\Model\Resource\Product\Collection\AssociatedProductUpdater'
+    ),
 );
