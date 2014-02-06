@@ -362,6 +362,7 @@ return array(
     array('getFacets'),
     array('getFallbackTheme'),
     array('getFileLayoutUpdatesXml', 'Magento\Core\Model\Layout\Update', 'Magento\Core\Model\Layout\Merge'),
+    array('getFormHtml', 'Magento\Sales\Block\Adminhtml\Order\Create'),
     array('getFormated', '', "getFormated(true) -> format('html'), getFormated() -> format('text')"),
     array('getFormObject', 'Magento\Backend\Block\Widget\Form'),
     array('getGiftmessageHtml', 'Magento\Sales\Block\Adminhtml\Order\View\Tab\Info'),

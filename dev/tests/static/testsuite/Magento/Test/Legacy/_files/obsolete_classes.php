@@ -1945,4 +1945,5 @@ return array(
         'Magento\ImportExport\Model\Import\Entity\Product\Type\Configurable',
         'Magento\ConfigurableProduct\Model\Import\Entity\Product\Type\Configurable'
     ),
+    array('Magento\Sales\Block\Adminhtml\Items\Renderer\Configurable'),
 );
