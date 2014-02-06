@@ -17,21 +17,8 @@ class ShortcutTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $context = $this->getMock('Magento\View\Element\Template\Context', [], [], '', false);
-        $paypalData = $this->getMock('Magento\Paypal\Helper\Data', [], [], '', false);
-        $paymentData = $this->getMock('Magento\Payment\Helper\Data', [], [], '', false);
-        $registry = $this->getMock('Magento\Core\Model\Registry', [], [], '', false);
-        $customerSession = $this->getMock('Magento\Customer\Model\Session', [], [], '', false);
-        $paypalConfigFactory = $this->getMock('Magento\Paypal\Model\ConfigFactory', [], [], '', false);
-        $checkoutFactory = $this->getMock('Magento\Paypal\Model\Express\Checkout\Factory', [], [], '', false);
-        $mathRandom = $this->getMock('Magento\Math\Random', [], [], '', false);
-        $productTypeConfig = $this->getMock('Magento\Catalog\Model\ProductTypes\ConfigInterface', [], [], '', false);
-        $checkoutSession = $this->getMock('Magento\Checkout\Model\Session', [], [], '', false);
-
-        $this->model = new \Magento\Paypal\Block\Express\Shortcut(
-            $context, $paypalData, $paymentData, $registry, $customerSession, $paypalConfigFactory,
-            $checkoutFactory, $mathRandom, $productTypeConfig, $checkoutSession, []
-        );
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->model = $helper->getObject('Magento\Paypal\Block\Express\Shortcut');
     }
 
     public function testGetAlias()
