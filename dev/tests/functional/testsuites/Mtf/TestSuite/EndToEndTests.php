@@ -1,6 +1,6 @@
 <?php
 /**
- * End-to-end scenarios without 3-rd party solutions (L3 plan)
+ * End-to-end scenarios without 3-rd party solutions
  *
  * {license_notice}
  *

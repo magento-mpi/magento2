@@ -2,9 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,8 +11,7 @@ use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
 
 /**
- * Class View
- * Product View block
+ * Catalog layered navigation view block
  *
  * @package Magento\Search\Test\Block\Catalog\Layer
  */
@@ -42,7 +38,6 @@ class View extends Block
      */
     protected $attributeOption = "//a[contains(text(), '%s')]";
 
-
     /**
      * Click on 'Clear All' link
      */
@@ -59,6 +54,7 @@ class View extends Block
      */
     public function selectPriceRange($range)
     {
+        $this->reinitRootElement();
         $this->_rootElement->find(sprintf($this->priceRange, $range))->click();
     }
 

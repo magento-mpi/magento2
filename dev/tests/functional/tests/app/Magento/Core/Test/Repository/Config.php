@@ -2016,7 +2016,7 @@ class Config extends AbstractRepository
                             'layered_navigation' => array(
                                 'fields' => array(
                                     'price_range_calculation' => array(
-                                        'value' => 'manual' //Price Navigation Step Calculation
+                                        'value' => 'manual' // Price Navigation Step Calculation
                                     ),
                                     'price_range_step' => array(
                                         'value' => '10' // Default Price Navigation Step

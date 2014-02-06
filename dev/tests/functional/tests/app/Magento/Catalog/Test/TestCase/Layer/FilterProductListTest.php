@@ -38,18 +38,18 @@ class FilterProductListTest extends Functional
         $category->persist();
 
         //Create simple product
-        $simple = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct(array(
+        $simple = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct([
             SimpleProduct::PRICE_VALUE => '20',
             'categories' => ['category' => $category],
-        ));
+        ]);
         $simple->switchData('simple');
         $simple->persist();
         $simpleName = $simple->getProductName();
 
         //Create configurable product
-        $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct(array(
+        $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct([
             'categories' => ['category' => $category],
-        ));
+        ]);
         $configurable->switchData('configurable');
         $configurable->persist();
         $configurableName = $configurable->getProductName();
@@ -60,6 +60,13 @@ class FilterProductListTest extends Functional
         $categoryPage = Factory::getPageFactory()->getCatalogCategoryView();
         $frontendHomePage->open();
         $frontendHomePage->getTopmenu()->selectCategoryByName($category->getCategoryName());
+
+        //Verifying
+        $productListBlock = $categoryPage->getListProductBlock();
+        $this->assertTrue($productListBlock->isProductVisible($simpleName), 'Product was not found.');
+        $this->assertTrue($productListBlock->isProductVisible($configurableName), 'Product was not found.');
+
+        //Steps
         $layeredNavigation = $categoryPage->getLayeredNavigationBlock();
         $layeredNavigation->selectPriceRange('10-20');
 

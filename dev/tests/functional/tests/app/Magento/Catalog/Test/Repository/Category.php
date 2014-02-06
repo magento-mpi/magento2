@@ -35,7 +35,7 @@ class Category extends AbstractRepository
             'config' => $defaultConfig,
             'data' => $defaultData
         );
-        $this->_data['anchor_category'] = $this->_anchorData();
+        $this->_data['anchor_category'] = $this->_getAnchorCategory();
     }
 
     /**
@@ -43,7 +43,7 @@ class Category extends AbstractRepository
      *
      * @return array
      */
-    protected function _anchorData()
+    protected function _getAnchorCategory()
     {
         $anchor = array(
             'data' => array(

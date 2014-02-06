@@ -88,7 +88,7 @@ class CatalogCategoryView extends Page
      */
     public function getLayeredNavigationBlock()
     {
-        return Factory::getBlockFactory()->getMagentoLayeredNavigation(
+        return Factory::getBlockFactory()->getMagentoSearchCatalogLayerView(
             $this->_browser->find($this->layeredNavigationBlock, Locator::SELECTOR_CSS)
         );
     }
