@@ -7,6 +7,7 @@
  */
 
 namespace Magento\Paypal\Model;
+use Magento\TestFramework\Matcher\MethodInvokedAtIndex as MethodInvokedAtIndex;
 
 class ObserverTest extends \PHPUnit_Framework_TestCase
 {
@@ -52,13 +53,16 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             'Magento\Paypal\Block\PayflowExpress\Shortcut'
         );
 
+        $blockInstances = array();
         foreach ($blocks as $atPosition => $blockName) {
             $block = $this->getMockBuilder($blockName)
                 ->setMethods(null)
                 ->disableOriginalConstructor()
                 ->getMock();
 
-            $layoutMock->expects($this->at($atPosition))
+            $blockInstances[$blockName] = $block;
+
+            $layoutMock->expects(new MethodInvokedAtIndex($atPosition, 'createBlock'))
                 ->method('createBlock')
                 ->with($blockName)
                 ->will($this->returnValue($block));
@@ -69,20 +73,15 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $shortcutButtonsMock->expects($this->at(0))
+        $shortcutButtonsMock->expects($this->any())
             ->method('getLayout')
             ->will($this->returnValue($layoutMock));
-        $shortcutButtonsMock->expects($this->at(1))
-            ->method('addShortcut')
-            ->with($this->isInstanceOf('Magento\Paypal\Block\Express\Shortcut'));
 
-        $shortcutButtonsMock->expects($this->at(2))
-            ->method('getLayout')
-            ->will($this->returnValue($layoutMock));
-        $shortcutButtonsMock->expects($this->at(3))
-            ->method('addShortcut')
-            ->with($this->isInstanceOf('Magento\Paypal\Block\PayflowExpress\Shortcut'));
-
+        foreach ($blocks as $atPosition => $blockName) {
+            $shortcutButtonsMock->expects(new MethodInvokedAtIndex($atPosition, 'addShortcut'))
+                ->method('addShortcut')
+                ->with($this->identicalTo($blockInstances[$blockName]));
+        }
 
         $this->_event->setContainer($shortcutButtonsMock);
         $this->_model->addPaypalShortcuts($this->_observer);
