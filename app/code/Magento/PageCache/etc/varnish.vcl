@@ -5,7 +5,7 @@ backend default {
     .port = "{{ port }}";
 }
 
-acl ban {
+acl purge {
 {{ ips }}
 }
 
@@ -22,15 +22,15 @@ sub vcl_recv {
         }
     }
 
-    if (req.request == "BAN") {
-        if (client.ip !~ ban) {
+    if (req.request == "PURGE") {
+        if (client.ip !~ purge) {
             error 405 "Method not allowed";
         }
-        if (!req.http.X-Magento-Tags-Pattern) {
-            error 400 "X-Magento-Tags-Pattern header required";
+        if (req.http.X-Magento-Tags-Pattern) {
+            ban("obj.http.X-Magento-Tags ~ " + req.http.X-Magento-Tags-Pattern);
         }
-        ban("obj.http.X-Magento-Tags ~ " + req.http.X-Magento-Tags-Pattern);
-        error 200 "Banned";
+        ban("obj.http.X-Url ~ " + req.url);
+        error 200 "Purged";
     }
 
     if (req.request != "GET" &&
@@ -83,13 +83,16 @@ sub vcl_fetch {
         set beresp.ttl = 0s;
         return (hit_for_pass);
     }
+    set beresp.http.X-Url = req.url;
 }
 
 sub vcl_deliver {
-    if (obj.hits > 0) {
-        set resp.http.X-Magento-Cache = "HIT";
-    } else {
-        set resp.http.X-Magento-Cache = "MISS";
-    }
     unset resp.http.X-Magento-Tags;
+    unset resp.http.X-Magento-ttl;
+    unset resp.http.X-Url;
+    unset resp.http.X-Powered-By;
+    unset resp.http.Server;
+    unset resp.http.X-Varnish;
+    unset resp.http.Via;
+    unset resp.http.Link;
 }
