@@ -2,13 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Checkout
- * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\ConfigurableProduct\Block\Cart\Item\Renderer;
 
 use Magento\ConfigurableProduct\Block\Cart\Item\Renderer\Configurable as Renderer;

@@ -659,7 +659,7 @@ return array(
         'Magento\ConfigurableProduct\Model\Product\Type\Configurable\Price'
     ),
     array(
-        'Magento\Catalog\Block\Cart\Item\Renderer\Configurable',
+        'Magento\Checkout\Block\Cart\Item\Renderer\Configurable',
         'Magento\ConfigurableProduct\Block\Cart\Item\Renderer\Configurable'
     ),
     array('Mage_Checkout_Block_Links'),
