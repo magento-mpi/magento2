@@ -26,6 +26,8 @@ class Converter
     }
 
     /**
+     * Modify global configuration for cron
+     *
      * @param array $result
      * @return array
      */
