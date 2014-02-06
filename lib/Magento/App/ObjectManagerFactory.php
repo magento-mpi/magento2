@@ -36,6 +36,13 @@ class ObjectManagerFactory
     protected $_configClassName = '\Magento\ObjectManager\Config\Config';
 
     /**
+     * Specific init param interpreter, which might get reset
+     *
+     * @var \Magento\App\Arguments\ArgumentInterpreter
+     */
+    protected $initParamInterpreter;
+
+    /**
      * Create object manager
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -151,6 +158,8 @@ class ObjectManagerFactory
         \Magento\ObjectManager\Config\Argument\ObjectFactory $objectFactory,
         \Magento\App\Arguments $appArguments
     ) {
+        $this->initParamInterpreter = new \Magento\App\Arguments\ArgumentInterpreter($appArguments);
+
         $result = new \Magento\Data\Argument\Interpreter\Composite(
             array(
                 'boolean' => new \Magento\Data\Argument\Interpreter\Boolean(),
@@ -159,7 +168,7 @@ class ObjectManagerFactory
                 'null' => new \Magento\Data\Argument\Interpreter\NullType(),
                 'const' => new \Magento\Data\Argument\Interpreter\Constant(),
                 'object' => new \Magento\ObjectManager\Config\Argument\Interpreter\Object($objectFactory),
-                'init_parameter' => new \Magento\App\Arguments\ArgumentInterpreter($appArguments),
+                'init_parameter' => $this->initParamInterpreter,
             ),
             \Magento\ObjectManager\Config\Reader\Dom::TYPE_ATTRIBUTE
         );

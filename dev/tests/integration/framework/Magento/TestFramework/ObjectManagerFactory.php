@@ -89,6 +89,7 @@ class ObjectManagerFactory extends \Magento\App\ObjectManagerFactory
         );
 
         $objectManager->addSharedInstance($options, 'Magento\App\Arguments');
+        $this->initParamInterpreter->setArguments($options);
         $objectManager->configure(
             $objectManager->get('Magento\App\ObjectManager\ConfigLoader')->load('global')
         );
