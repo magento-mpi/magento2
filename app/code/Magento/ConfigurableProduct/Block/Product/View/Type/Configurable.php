@@ -9,6 +9,8 @@
  */
 namespace Magento\ConfigurableProduct\Block\Product\View\Type;
 
+use Magento\Catalog\Model\Product\PriceModifierInterface;
+
 class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
 {
     /**
@@ -48,6 +50,11 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
     protected $priceHelper;
 
     /**
+     * @var \Magento\Catalog\Model\Product\PriceModifierInterface
+     */
+    protected $priceModifier;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Core\Model\Registry $registry
@@ -63,6 +70,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
      * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param \Magento\Catalog\Helper\Product\Price $priceHelper
+     * @param \Magento\Catalog\Model\Product\PriceModifierInterface $priceModifier
      * @param array $data
      * @param array $priceBlockTypes
      * 
@@ -84,6 +92,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Catalog\Helper\Product $catalogProduct,
         \Magento\Catalog\Helper\Product\Price $priceHelper,
+        PriceModifierInterface $priceModifier,
         array $data = array(),
         array $priceBlockTypes = array()
     ) {
@@ -91,6 +100,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
         $this->_catalogProduct = $catalogProduct;
         $this->_jsonEncoder = $jsonEncoder;
         $this->priceHelper = $priceHelper;
+        $this->priceModifier = $priceModifier;
         parent::__construct(
             $context,
             $catalogConfig,
@@ -249,10 +259,9 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
                         $this->_preparePrice($value['pricing_value'], $value['is_percent'])
                     );
                     $currentProduct->setParentId(true);
-                    $this->_eventManager->dispatch(
-                        'catalog_product_type_configurable_price',
-                        array('product' => $currentProduct)
-                    );
+                    $currentProduct->setConfigurablePrice($this->priceModifier->modifyPrice(
+                        $currentProduct->getConfigurablePrice(), $currentProduct
+                    ));
                     $configurablePrice = $currentProduct->getConfigurablePrice();
 
                     if (isset($options[$attributeId][$value['value_index']])) {

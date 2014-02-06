@@ -9,8 +9,35 @@
  */
 namespace Magento\ConfigurableProduct\Model\Product\Type\Configurable;
 
+use Magento\Catalog\Model\Product\PriceModifierInterface;
+
 class Price extends \Magento\Catalog\Model\Product\Type\Price
 {
+    /**
+     * @var \Magento\Catalog\Model\Product\PriceModifierInterface
+     */
+    protected $priceModifier;
+
+    /**
+     * @param \Magento\CatalogRule\Model\Resource\RuleFactory $ruleFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param PriceModifierInterface $priceModifier
+     */
+    public function __construct(
+        \Magento\CatalogRule\Model\Resource\RuleFactory $ruleFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Event\ManagerInterface $eventManager,
+        PriceModifierInterface $priceModifier
+    ) {
+        $this->priceModifier = $priceModifier;
+        parent::__construct($ruleFactory, $storeManager, $locale, $customerSession, $eventManager);
+    }
+
     /**
      * Get product final price
      *
@@ -69,9 +96,8 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
             if ($value) {
                 if ($value['pricing_value'] != 0) {
                     $product->setConfigurablePrice($this->_calcSelectionPrice($value, $finalPrice));
-                    $this->_eventManager->dispatch(
-                        'catalog_product_type_configurable_price',
-                        array('product' => $product)
+                    $product->setConfigurablePrice(
+                        $this->priceModifier->modifyPrice($product->getConfigurablePrice(), $product)
                     );
                     $price += $product->getConfigurablePrice();
                 }
