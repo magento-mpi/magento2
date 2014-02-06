@@ -20,7 +20,7 @@
     <type name="Magento\Backend\Model\Config\Structure\Converter">
         <plugin name="cron_backend_config_structure_converter_plugin" type="Magento\Cron\Model\Backend\Config\Structure\Converter" />
     </type>
-    <type name="Magento\Core\Model\Config\Initial\Converter">
+    <type name="Magento\App\Config\Initial\Converter">
         <plugin name="cron_system_config_initial_converter_plugin" type="Magento\Cron\Model\System\Config\Initial\Converter" />
     </type>
 </config>
