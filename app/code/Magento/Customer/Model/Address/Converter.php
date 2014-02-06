@@ -83,10 +83,10 @@ class Converter
     {
         // Set all attributes
         foreach ($address->getAttributes() as $attributeCode => $attributeData) {
-            if (Address::REGION == $attributeCode && $address->getRegion() instanceof Region) {
-                $addressModel->setData(Address::REGION, $address->getRegion()->getRegion());
+            if (Address::KEY_REGION == $attributeCode && $address->getRegion() instanceof Region) {
+                $addressModel->setData(Address::KEY_REGION, $address->getRegion()->getRegion());
                 $addressModel->setData('region_code', $address->getRegion()->getRegionCode());
-                $addressModel->setData(Address::REGION_ID, $address->getRegion()->getRegionId());
+                $addressModel->setData(Address::KEY_REGION_ID, $address->getRegion()->getRegionId());
             } else {
                 $addressModel->setData($attributeCode, $attributeData);
             }
@@ -115,8 +115,8 @@ class Converter
         $validAttributes = array_merge(
             $addressModel->getDefaultAttributeCodes(),
             [
-                Address::ID, Address::REGION_ID, Address::REGION, Address::STREET, 'vat_is_valid',
-                Address::IS_DEFAULT_BILLING, Address::IS_DEFAULT_SHIPPING,
+                Address::KEY_ID, Address::KEY_REGION_ID, Address::KEY_REGION, Address::KEY_STREET, 'vat_is_valid',
+                Address::KEY_DEFAULT_BILLING, Address::KEY_DEFAULT_SHIPPING,
                 //TODO: create VAT object at MAGETWO-16860
                 'vat_request_id', 'vat_request_date', 'vat_request_success'
             ]
@@ -134,12 +134,12 @@ class Converter
             ->setRegionId($addressModel->getRegionId())
             ->create();
         $this->_addressBuilder->populateWithArray(array_merge($addressData, [
-            Address::STREET => $addressModel->getStreet(),
-            Address::ID => $addressId,
-            Address::IS_DEFAULT_BILLING => $addressId === $defaultBillingId,
-            Address::IS_DEFAULT_SHIPPING => $addressId === $defaultShippingId,
-            Address::CUSTOMER_ID => $addressModel->getCustomerId(),
-            Address::REGION => $region
+            Address::KEY_STREET => $addressModel->getStreet(),
+            Address::KEY_ID => $addressId,
+            Address::KEY_DEFAULT_BILLING => $addressId === $defaultBillingId,
+            Address::KEY_DEFAULT_SHIPPING => $addressId === $defaultShippingId,
+            Address::KEY_CUSTOMER_ID => $addressModel->getCustomerId(),
+            Address::KEY_REGION => $region
         ]));
 
         $addressDto = $this->_addressBuilder->create();

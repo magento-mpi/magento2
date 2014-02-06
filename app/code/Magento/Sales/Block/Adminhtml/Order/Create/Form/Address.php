@@ -120,7 +120,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
         $emptyAddressForm = $this->_customerFormFactory->create(
             'customer_address',
             'adminhtml_customer_address',
-            [\Magento\Customer\Service\V1\Dto\Address::COUNTRY_ID => $defaultCountryId]
+            [\Magento\Customer\Service\V1\Dto\Address::KEY_COUNTRY_ID => $defaultCountryId]
         );
         $data = [0 => $emptyAddressForm->outputData(\Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_JSON)];
         foreach ($this->getAddressCollection() as $addressDto) {

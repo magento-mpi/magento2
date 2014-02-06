@@ -41,7 +41,7 @@ class AddressBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
      */
     public function setDefaultShipping($defaultShipping)
     {
-        return $this->_set(Address::IS_DEFAULT_SHIPPING, (bool)$defaultShipping);
+        return $this->_set(Address::KEY_DEFAULT_SHIPPING, (bool)$defaultShipping);
     }
 
     /**
@@ -50,7 +50,7 @@ class AddressBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
      */
     public function setDefaultBilling($defaultBilling)
     {
-        return $this->_set(Address::IS_DEFAULT_BILLING, (bool)$defaultBilling);
+        return $this->_set(Address::KEY_DEFAULT_BILLING, (bool)$defaultBilling);
     }
 
     /**
