@@ -44,11 +44,14 @@ class Config
     protected $_coreStoreConfig;
 
     /**
-     * Path to save temporary .vcl configuration
-     *
-     * @var string
+     * @var \Magento\App\ConfigInterface
      */
-    protected $_path = 'Magento/PageCache/etc/varnish.vcl';
+    protected $_config;
+
+    /**
+     * XML path to value for saving temporary .vcl configuration
+     */
+    const VARNISH_CONFIGURATION_SETTINGS_PATH = 'system/page_cache/varnish_configuration_settings_path';
 
     /**
      * @var \Magento\Filesystem\Directory\WriteInterface
@@ -57,10 +60,12 @@ class Config
 
     public function __construct(
         \Magento\App\Filesystem $filesystem,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\App\ConfigInterface $config
     ) {
         $this->_modulesDirectory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::MODULES_DIR);
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_config = $config;
     }
 
     /**
@@ -70,7 +75,9 @@ class Config
      */
     public function getVclFile()
     {
-        $data = $this->_modulesDirectory->readFile($this->_path);
+        $data = $this->_modulesDirectory->readFile(
+            $this->_config->getValue(self::VARNISH_CONFIGURATION_SETTINGS_PATH)
+        );
         return strtr($data, $this->_getReplacements());
     }
 

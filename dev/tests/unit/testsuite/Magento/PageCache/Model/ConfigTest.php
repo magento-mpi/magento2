@@ -22,6 +22,15 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $filesystemMock = $this->getMock('Magento\App\Filesystem', ['getDirectoryRead'], [], '', false);
         $coreStoreConfigMock = $this->getMock('Magento\Core\Model\Store\Config', ['getConfig'], [], '', false);
+        $appConfigMock = $this->getMockForAbstractClass(
+            'Magento\App\ConfigInterface',
+            [],
+            '',
+            true,
+            true,
+            true,
+            ['getValue']
+        );
 
         $modulesDirectoryMock = $this->getMock('Magento\Filesystem\Directory\Write', [], [], '', false);
         $filesystemMock->expects($this->once())
@@ -49,7 +58,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                 ]
             ]));
 
-        $this->_model = new \Magento\PageCache\Model\Config($filesystemMock, $coreStoreConfigMock);
+        $this->_model = new \Magento\PageCache\Model\Config($filesystemMock, $coreStoreConfigMock, $appConfigMock);
     }
 
     /**
