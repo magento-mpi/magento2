@@ -180,12 +180,12 @@ class AddressTest extends \PHPUnit_Framework_TestCase
 
         /** @var \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder */
         $addressBuilder = Bootstrap::getObjectManager()->create('Magento\Customer\Service\V1\Dto\AddressBuilder');
-        $addressBuilderDto = $addressBuilder
+        $addressDto = $addressBuilder
             ->setCity($city)
             ->setStreet($street)
             ->create();
 
-        $this->_address->importCustomerAddressData($addressBuilderDto);
+        $this->_address->importCustomerAddressData($addressDto);
 
         $this->assertEquals($street, $this->_address->getStreet(), 'Imported street is invalid.');
         $this->assertEquals($city, $this->_address->getCity(), 'Imported city is invalid.');
@@ -202,12 +202,12 @@ class AddressTest extends \PHPUnit_Framework_TestCase
 
         /** @var \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder */
         $addressBuilder = Bootstrap::getObjectManager()->create('Magento\Customer\Service\V1\Dto\AddressBuilder');
-        $addressBuilderDto = $addressBuilder
+        $addressDto = $addressBuilder
             ->setCustomerId($customerIdFromFixture)
             ->setCity($city)
             ->create();
 
-        $this->_address->importCustomerAddressData($addressBuilderDto);
+        $this->_address->importCustomerAddressData($addressDto);
 
         $this->assertEquals($customerEmailFromFixture, $this->_address->getEmail(), 'Email was imported incorrectly.');
         $this->assertEquals($city, $this->_address->getCity(), 'City was imported incorrectly.');
