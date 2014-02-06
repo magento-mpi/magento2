@@ -15,4 +15,7 @@
             </array>
         </param>
     </type>
+    <type name="Magento\Checkout\Model\Session">
+        <plugin name="paypal_billing_agreement" type="Magento\Paypal\Model\Checkout\SessionPlugin"/>
+    </type>
 </config>

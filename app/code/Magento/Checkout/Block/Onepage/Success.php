@@ -35,9 +35,9 @@ class Success extends \Magento\View\Element\Template
     protected $_orderFactory;
 
     /**
-     * @var \Magento\Paypal\Model\Billing\AgreementFactory
+     * @var \Magento\Event\ManagerInterface
      */
-    protected $_agreementFactory;
+    protected $_eventManager;
 
     /**
      * @var \Magento\Sales\Model\Resource\Recurring\Profile\CollectionFactory
@@ -54,7 +54,7 @@ class Success extends \Magento\View\Element\Template
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
-     * @param \Magento\Paypal\Model\Billing\AgreementFactory $agreementFactory
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Sales\Model\Resource\Recurring\Profile\CollectionFactory $recurringProfileCollectionFactory
      * @param \Magento\Sales\Model\Order\Config $orderConfig
      * @param array $data
@@ -64,7 +64,7 @@ class Success extends \Magento\View\Element\Template
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Sales\Model\OrderFactory $orderFactory,
-        \Magento\Paypal\Model\Billing\AgreementFactory $agreementFactory,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Sales\Model\Resource\Recurring\Profile\CollectionFactory $recurringProfileCollectionFactory,
         \Magento\Sales\Model\Order\Config $orderConfig,
         array $data = array()
@@ -73,7 +73,7 @@ class Success extends \Magento\View\Element\Template
         $this->_checkoutSession = $checkoutSession;
         $this->_customerSession = $customerSession;
         $this->_orderFactory = $orderFactory;
-        $this->_agreementFactory = $agreementFactory;
+        $this->_eventManager = $eventManager;
         $this->_recurringProfileCollectionFactory = $recurringProfileCollectionFactory;
         $this->_orderConfig = $orderConfig;
         $this->_isScopePrivate = true;
@@ -105,8 +105,8 @@ class Success extends \Magento\View\Element\Template
      */
     protected function _beforeToHtml()
     {
+        $this->_eventManager->dispatch('checkout_onepage_success_before_to_html', array('block' => $this));
         $this->_prepareLastOrder();
-        $this->_prepareLastBillingAgreement();
         $this->_prepareLastRecurringProfiles();
         return parent::_beforeToHtml();
     }
@@ -128,26 +128,6 @@ class Success extends \Magento\View\Element\Template
                     'can_print_order' => $isVisible,
                     'can_view_order'  => $this->_customerSession->isLoggedIn() && $isVisible,
                     'order_id'  => $order->getIncrementId(),
-                ));
-            }
-        }
-    }
-
-    /**
-     * Prepare billing agreement data from an identifier in the session
-     */
-    protected function _prepareLastBillingAgreement()
-    {
-        $agreementId = $this->_checkoutSession->getLastBillingAgreementId();
-        $customerId = $this->_customerSession->getCustomerId();
-        if ($agreementId && $customerId) {
-            $agreement = $this->_agreementFactory->create()->load($agreementId);
-            if ($agreement->getId() && $customerId == $agreement->getCustomerId()) {
-                $this->addData(array(
-                    'agreement_ref_id' => $agreement->getReferenceId(),
-                    'agreement_url' => $this->getUrl('sales/billing_agreement/view',
-                        array('agreement' => $agreementId)
-                    ),
                 ));
             }
         }

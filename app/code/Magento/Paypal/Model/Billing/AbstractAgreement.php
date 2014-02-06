@@ -2,18 +2,14 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Payment
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
  * Billing Agreement abstaract class
- *
- * @author Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Payment\Model\Billing;
+namespace Magento\Paypal\Model\Billing;
 
 abstract class AbstractAgreement extends \Magento\Core\Model\AbstractModel
 {

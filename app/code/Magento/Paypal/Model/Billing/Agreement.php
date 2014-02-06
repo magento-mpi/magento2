@@ -30,7 +30,7 @@ namespace Magento\Paypal\Model\Billing;
  * @method string getAgreementLabel()
  * @method \Magento\Paypal\Model\Billing\Agreement setAgreementLabel(string $value)
  */
-class Agreement extends \Magento\Payment\Model\Billing\AbstractAgreement
+class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
 {
     const STATUS_ACTIVE     = 'active';
     const STATUS_CANCELED   = 'canceled';

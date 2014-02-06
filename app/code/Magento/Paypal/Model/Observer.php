@@ -67,6 +67,11 @@ class Observer
     protected $_checkoutSession;
 
     /**
+     * @var \Magento\Customer\Model\Session
+     */
+    protected $_customerSession;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Paypal\Helper\Hss $paypalHss
      * @param \Magento\Core\Model\Registry $coreRegistry
@@ -76,6 +81,7 @@ class Observer
      * @param \Magento\AuthorizationInterface $authorization
      * @param \Magento\Paypal\Model\Billing\AgreementFactory $agreementFactory
      * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Customer\Model\Session $customerSession
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
@@ -86,7 +92,8 @@ class Observer
         \Magento\App\ViewInterface $view,
         \Magento\AuthorizationInterface $authorization,
         \Magento\Paypal\Model\Billing\AgreementFactory $agreementFactory,
-        \Magento\Checkout\Model\Session $checkoutSession
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Customer\Model\Session $customerSession
     ) {
         $this->_coreData = $coreData;
         $this->_paypalHss = $paypalHss;
@@ -97,6 +104,7 @@ class Observer
         $this->_authorization = $authorization;
         $this->_agreementFactory = $agreementFactory;
         $this->_checkoutSession = $checkoutSession;
+        $this->_customerSession = $customerSession;
     }
 
     /**
@@ -220,6 +228,29 @@ class Observer
             }
             $comment = $order->addStatusHistoryComment($message);
             $order->addRelatedObject($comment);
+        }
+    }
+
+    /**
+     * Prepare last billing agreement and add its related data to block
+     *
+     * @param \Magento\Event\Observer $observer
+     */
+    public function prepareLastBillingAgreementOnOrderSuccess(\Magento\Event\Observer $observer)
+    {
+        /** @var \Magento\Checkout\Block\Onepage\Success $block */
+        $block = $observer->getEvent()->getData('block');
+        $agreementId = $this->_checkoutSession->getLastBillingAgreementId();
+        $customerId = $this->_customerSession->getCustomerId();
+        if (!$agreementId || !$customerId) {
+            return;
+        }
+        $agreement = $this->_agreementFactory->create()->load($agreementId);
+        if ($agreement->getId() && $customerId == $agreement->getCustomerId()) {
+            $block->addData(array(
+                'agreement_ref_id' => $agreement->getReferenceId(),
+                'agreement_url'    => $block->getUrl('sales/billing_agreement/view', array('agreement' => $agreementId))
+            ));
         }
     }
 }

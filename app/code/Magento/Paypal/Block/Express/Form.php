@@ -79,4 +79,15 @@ class Form extends \Magento\Paypal\Block\Standard\Form
         }
         return parent::_beforeToHtml();
     }
+
+
+    /**
+     * Check whether current payment method can create billing agreement
+     *
+     * @return bool
+     */
+    public function canCreateBillingAgreement()
+    {
+        return $this->getMethod()->canCreateBillingAgreement();
+    }
 }

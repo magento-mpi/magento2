@@ -13,8 +13,8 @@
  */
 namespace Magento\Paypal\Model\Method;
 
-class Agreement extends \Magento\Sales\Model\Payment\Method\Billing\AbstractAgreement
-    implements \Magento\Payment\Model\Billing\Agreement\MethodInterface
+class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
+    implements \Magento\Paypal\Model\Billing\Agreement\MethodInterface
 {
     /**
      * Method code
