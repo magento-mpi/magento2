@@ -15,13 +15,6 @@ namespace Magento\Customer\Service\V1\Dto;
  */
 class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\EntityInterface
 {
-
-    /**
-     * @var array  Special attribute codes which cannot be set or gotten
-     * they are used by the model but should not be exposed in the DTO
-     */
-    private static $_nonAttributes = [self::ID];
-
     /**
      * name of field containing entity id, used to exclude this field from list of attributes.
      */
@@ -49,17 +42,45 @@ class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\Entity
     const DEFAULT_SHIPPING = 'default_shipping';
 
     /**
+     * A list of valid customer DTO attributes.
+     *
+     * @var string[]
+     */
+    protected $_validAttributes = [
+        self::CONFIRMATION,
+        self::CREATED_AT,
+        self::CREATED_IN,
+        self::DOB,
+        self::EMAIL,
+        self::FIRSTNAME,
+        self::GENDER,
+        self::GROUP_ID,
+        self::LASTNAME,
+        self::MIDDLENAME,
+        self::PREFIX,
+        self::STORE_ID,
+        self::SUFFIX,
+        self::TAXVAT,
+        self::WEBSITE_ID,
+        self::DEFAULT_BILLING,
+        self::DEFAULT_SHIPPING
+    ];
+
+    /**
      * Retrieve array of all attributes, in the form of 'attribute code' => <attribute value'
      *
      * @return array|\ArrayAccess|\string[]
      */
     public function getAttributes()
     {
-        $attributes = $this->__toArray();
-        foreach (self::$_nonAttributes as $keyName) {
-            unset ($attributes[$keyName]);
+        $unvalidatedData = $this->__toArray();
+        $validData = [];
+        foreach ($this->_validAttributes as $attributeCode) {
+            if (isset($unvalidatedData[$attributeCode])) {
+                $validData[$attributeCode] = $unvalidatedData[$attributeCode];
+            }
         }
-        return $attributes;
+        return $validData;
     }
 
     /**
@@ -70,7 +91,7 @@ class Customer extends \Magento\Service\Entity\AbstractDto implements Eav\Entity
      */
     public function getAttribute($attributeCode)
     {
-        if (isset($this->_data[$attributeCode])) {
+        if (in_array($attributeCode, $this->_validAttributes) && isset($this->_data[$attributeCode])) {
             return $this->_data[$attributeCode];
         } else {
             return null;

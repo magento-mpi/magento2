@@ -284,7 +284,6 @@ class Quote
         $transaction = $this->_transactionFactory->create();
 
         $orgCustomerDto = null;
-        // TODO: At the moment customer DTO does not contain some fields required for customer save, e.g. City
         if (!$quote->getCustomerIsGuest()) {
             $customerDto = $quote->getCustomerData();
             $addresses = $quote->getCustomerAddressData();
