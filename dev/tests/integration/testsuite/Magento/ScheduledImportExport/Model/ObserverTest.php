@@ -10,7 +10,9 @@ namespace Magento\ScheduledImportExport\Model;
 class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * @codingStandardsIgnoreStart
      * @magentoConfigFixture current_store crontab/default/jobs/magento_scheduled_import_export_log_clean/schedule/cron_expr 1
+     * @codingStandardsIgnoreEnd
      */
     public function testScheduledLogClean()
     {
