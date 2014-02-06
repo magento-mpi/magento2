@@ -53,11 +53,10 @@ class HeaderPluginTest extends \PHPUnit_Framework_TestCase
         $this->layoutMock = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false);
         $this->configMock = $this->getMock('Magento\App\ConfigInterface', array(), array(), '', false);
         $this->responseMock = $this->getMock('Magento\App\Response\Http', array(), array(), '', false);
-        $this->helperMock = $this->getMock('Magento\PageCache\Helper\Data', array(), array(), '', false);
         $this->versionMock = $this->getMockBuilder('Magento\PageCache\Model\Version')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->plugin = new HeaderPlugin($this->layoutMock, $this->configMock, $this->helperMock, $this->versionMock);
+        $this->plugin = new HeaderPlugin($this->layoutMock, $this->configMock, $this->versionMock);
     }
 
     /**
@@ -125,15 +124,14 @@ class HeaderPluginTest extends \PHPUnit_Framework_TestCase
      */
     public function testAfterDispatchPublicCache()
     {
-        $maxAge = 0;
+        $maxAge = 120;
         $pragma = 'cache';
         $cacheControl = 'public, max-age=' . $maxAge;
-        $ttl = 120;
 
         $this->configMock->expects($this->once())
             ->method('getValue')
             ->with($this->equalTo(\Magento\PageCache\Model\Config::XML_VARNISH_PAGECACHE_TTL))
-            ->will($this->returnValue(120));
+            ->will($this->returnValue($maxAge));
 
         $this->layoutMock->expects($this->once())
             ->method('isPrivate')
@@ -143,18 +141,13 @@ class HeaderPluginTest extends \PHPUnit_Framework_TestCase
             ->method('isCacheable')
             ->will($this->returnValue(true));
 
-        $this->helperMock->expects($this->once())->method('getPublicMaxAgeCache')->will($this->returnValue(0));
-
         $this->responseMock->expects($this->at(0))
             ->method('setHeader')
-            ->with($this->equalTo('X-Magento-ttl'), $this->equalTo($ttl), $this->equalTo(true));
+            ->with($this->equalTo('pragma'), $this->equalTo($pragma), $this->equalTo(true));
         $this->responseMock->expects($this->at(1))
             ->method('setHeader')
-            ->with($this->equalTo('pragma'), $this->equalTo($pragma), $this->equalTo(true));
-        $this->responseMock->expects($this->at(2))
-            ->method('setHeader')
             ->with($this->equalTo('cache-control'), $this->equalTo($cacheControl), $this->equalTo(true));
-        $this->responseMock->expects($this->at(3))
+        $this->responseMock->expects($this->at(2))
             ->method('setHeader')
             ->with($this->equalTo('expires'));
 

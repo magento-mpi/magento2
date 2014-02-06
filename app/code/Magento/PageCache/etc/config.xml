@@ -12,9 +12,6 @@
 <config>
     <default>
         <system>
-            <headers>
-                <public-max-age>0</public-max-age>
-            </headers>
             <page_cache>
                 <varnish_configuration_settings_path>Magento/PageCache/etc/varnish.vcl</varnish_configuration_settings_path>
             </page_cache>
