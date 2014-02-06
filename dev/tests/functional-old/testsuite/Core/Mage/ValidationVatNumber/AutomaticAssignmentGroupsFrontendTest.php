@@ -24,7 +24,7 @@ class Core_Mage_ValidationVatNumber_AutomaticAssignmentGroupsFrontendTest extend
         $this->clickControl('button', 'validate_vat_number', false);
         $this->pleaseWait();
         //Verification
-        if (!$this->controlIsVisible('pageelement', 'vat_number_is_valid')){
+        if (!$this->controlIsVisible('message', 'vat_number_is_valid')){
             $this->skipTestWithScreenshot('VAT Number is not valid');
         }
     }
@@ -89,7 +89,7 @@ class Core_Mage_ValidationVatNumber_AutomaticAssignmentGroupsFrontendTest extend
      *
      * @TestlinkId TL-MAGE-6203, TL-MAGE-6204,  TL-MAGE-6205
      */
-    public function AutomaticAssignmentGroupsBackendTest($vatNumber, $customerGroup, $vatGroup)
+    public function automaticAssignmentGroupsBackendTest($vatNumber, $customerGroup, $vatGroup)
     {
         //Data
         $userData = $this->loadDataSet('Customers', 'customer_account_register');
@@ -97,7 +97,6 @@ class Core_Mage_ValidationVatNumber_AutomaticAssignmentGroupsFrontendTest extend
         //Steps
         //Creating customer on front-end
         $this->frontend();
-        $this->navigate('customer_login');
         $this->customerHelper()->registerCustomer($userData);
         $this->assertMessagePresent('success', 'vat_number_message');
         //Filling Address Book and VAT Number
@@ -144,6 +143,7 @@ class Core_Mage_ValidationVatNumber_AutomaticAssignmentGroupsFrontendTest extend
      */
     public function customerWithValidVatIntraUnion($processedGroupNames)
     {
+        $this->markTestIncomplete('BUG: success_validate_intraunion_vat is not visible');
         //Data
         $userRegisterData = $this->loadDataSet('Customers', 'customer_account_register');
         $userAddressData = $this->loadDataSet('Customers', 'generic_address', array(
@@ -153,8 +153,7 @@ class Core_Mage_ValidationVatNumber_AutomaticAssignmentGroupsFrontendTest extend
             'default_billing_address' => '%noValue%'
         ));
         //Creating customer on front-end
-        $this->goToArea('frontend');
-        $this->navigate('customer_login');
+        $this->frontend();
         $this->customerHelper()->registerCustomer($userRegisterData);
         $this->assertMessagePresent('success', 'vat_number_message');
         //Filling Address Book and VAT Number
@@ -191,6 +190,6 @@ class Core_Mage_ValidationVatNumber_AutomaticAssignmentGroupsFrontendTest extend
         $this->systemConfigurationHelper()->expandFieldSet('store_information');
         $this->clickControl('button', 'validate_vat_number', false);
         $this->pleaseWait();
-        $this->assertTrue($this->controlIsVisible('pageelement', 'vat_number_is_invalid'));
+        $this->assertTrue($this->controlIsVisible('message', 'vat_number_is_invalid'));
     }
 }

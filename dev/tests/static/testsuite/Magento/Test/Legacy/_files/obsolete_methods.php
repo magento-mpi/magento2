@@ -315,6 +315,12 @@ return array(
     array('getAnonSuffix'),
     array('getAttributeDataModelFactory', 'Magento\Eav\Model\Validator\Attribute\Data'),
     array('getAttributesJson', 'Magento\Backend\Block\Catalog\Product\Edit\Tab\Super\Config', 'getAttributes'),
+    array(
+        'getAllStates',
+        'Magento\Sales\Model\Recurring\Profile',
+        'Magento\RecurringProfile\Model\States::toOptionArray()'
+    ),
+    array('getStateLabel', 'Magento\Sales\Model\Recurring\Profile'),
     array('getBaseTaxAmount', 'Magento\Sales\Model\Quote\Item\AbstractItem'),
     array('getBlockClassName', 'Magento\Core\Model\Config'),
     array('getButtonsHtml', 'Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search'),
@@ -640,7 +646,7 @@ return array(
     array('prepareRedirect', 'Magento\Core\Controller\Varien\Exception'),
     array('prepareItemInfo', 'Magento\Sales\Block\Recurring\Profile\View'),
     array('preparePriceAlertData', 'Magento\ProductAlert\Block\Product\View'),
-    array('prepareProfilesGrid', 'Magento\Sales\Block\Recurring\Profiles'),
+    array('prepareProfilesGrid', 'Magento\Sales\Block\Recurring\Profile'),
     array('prepareReferenceInfo', 'Magento\Sales\Block\Recurring\Profile\View'),
     array('prepareRelatedOrdersFrontendGrid', 'Magento\Sales\Block\Recurring\Profile\View'),
     array('prepareScheduleInfo', 'Magento\Sales\Block\Recurring\Profile\View'),
@@ -765,7 +771,11 @@ return array(
     ),
     array(
         'prepareProductEditFormRecurringProfile', 'Magento\Sales\Model\Observer',
-        'Magento_Sales_Model_Observer_Backend_RecurringProfile_FormRenderer::render'
+        'Magento\RecurringProfile\Model\Observer::addFieldsToProductEditForm'
+    ),
+    array(
+        'prepareProductRecurringProfileOptions', 'Magento\Payment\Model\Observer',
+        'Magento\RecurringProfile\Model\Observer::prepareProductRecurringProfileOptions'
     ),
     array(
         'restrictAdminBillingAgreementUsage', 'Magento\Sales\Model\Observer',
@@ -1180,6 +1190,28 @@ return array(
     array('getFileIdentifier', 'Magento\View\Layout\File\FileList', 'Magento\View\Layout\File'),
     array('_getInitialXml', 'Magento\Config\Theme'),
     array('_getIdAttributes', 'Magento\Config\Theme'),
+    [
+        'getAllPeriodUnits',
+        'Magento\Payment\Model\Recurring\Profile',
+        'Magento\RecurringProfile\Model\PeriodUnits::toOptionArray'
+    ],
+    [
+        'getPeriodUnitLabel',
+        'Magento\Payment\Model\Recurring\Profile',
+        'Magento\RecurringProfile\Model\PeriodUnits::toOptionArray()[\Magento\RecurringProfile\Model\PeriodUnits::DAY]'
+    ],
+    [
+        'getFieldComment',
+        'Magento\Payment\Model\Recurring\Profile',
+        'Magento\RecurringProfile\Block\Fields::getFieldComment',
+    ],
+    [
+        'getFieldLabel',
+        'Magento\Payment\Model\Recurring\Profile',
+        'Magento\RecurringProfile\Block\Fields::getFieldLabel',
+    ],
+    ['_ensureLocaleAndStore', 'Magento\Payment\Model\Recurring\Profile'],
+    ['setLocale', 'Magento\Payment\Model\Recurring\Profile', 'Locale instance injected via constructor'],
     array('_getSession', 'Magento\CatalogSearch\Controller\Result'),
     array('addPriceBlockType', 'Magento\Rss\Block\Catalog\AbstractCatalog'),
     array('getAttributeDisabledTypes', 'Magento\Catalog\Helper\Data'),

@@ -125,7 +125,6 @@ class Core_Mage_PriceRules_ShoppingCart_CreateTest extends Mage_Selenium_TestCas
      */
     public function createWithoutCoupon()
     {
-        $this->markTestIncomplete('BUG: Coupon Code field validation if field not visible');
         $this->navigate('manage_shopping_cart_price_rules');
         $ruleData = $this->loadDataSet('ShoppingCartPriceRule', 'scpr_all_fields', array(
             'coupon' => 'No Coupon',

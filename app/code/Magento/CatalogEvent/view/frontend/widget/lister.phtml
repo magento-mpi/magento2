@@ -14,7 +14,7 @@
  */
 ?>
 <div class="block widget event">
-    <div id="<?php echo $this->getHtmlId(); ?>" data-mage-init="{carousel: { pageSize: <?php echo $this->getPageSize(); ?>,scrollSize: <?php echo $this->getScrollSize() ?>,toggleInit: true}}" class="events slider"<?php if ($this->hasWidth()): ?> style="width:<?php echo (int)$this->getWidth()?>px !important;" <?php endif;?>>
+    <div id="<?php echo $this->getHtmlId(); ?>" data-mage-init='{"carousel":{"pageSize": <?php echo $this->getPageSize(); ?>,scrollSize: <?php echo $this->getScrollSize() ?>,toggleInit: true}}' class="events slider"<?php if ($this->hasWidth()): ?> style="width:<?php echo (int)$this->getWidth()?>px !important;" <?php endif;?>>
         <div data-slide-button="slide-button" class="action slider backward" title="<?php echo __('Previous') ?>"><span>&lt;</span></div>
         <div data-slider-panel="slider-panel" class="panel"<?php if ($this->hasWidth()): ?> style="width:<?php echo (int)$this->getWidth()?>px !important;" <?php endif;?>>
             <ul data-slider="slider" class="slider">
@@ -43,7 +43,7 @@
                                     case 'open': ?>
                                         <ul class="ticker"
                                             id="<?php echo $this->getHtmlId(); ?>-event-ticker-<?php echo $_event->getId() ?>"
-                                            data-mage-init="{ticker: {secondsToClose: <?php echo $this->getSecondsToClose($_event); ?>}}">
+                                            data-mage-init='{"ticker":{"secondsToClose": <?php echo $this->getSecondsToClose($_event); ?>}}'>
                                             <li class="days">
                                                 <span data-container="days" class="value">&nbsp;</span>
                                                 <span class="label"><?php echo __('Days') ?></span>
