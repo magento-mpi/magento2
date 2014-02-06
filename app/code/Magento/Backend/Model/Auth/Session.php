@@ -163,7 +163,7 @@ class Session
      */
     public function isFirstPageAfterLogin()
     {
-        if (is_null($this->_isFirstAfterLogin)) {
+        if (!$this->_isFirstAfterLogin) {
             $this->_isFirstAfterLogin = $this->getData('is_first_visit', true);
         }
         return $this->_isFirstAfterLogin;
