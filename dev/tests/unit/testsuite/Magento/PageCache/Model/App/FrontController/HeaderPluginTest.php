@@ -126,7 +126,7 @@ class HeaderPluginTest extends \PHPUnit_Framework_TestCase
     {
         $maxAge = 120;
         $pragma = 'cache';
-        $cacheControl = 'public, max-age=' . $maxAge;
+        $cacheControl = 'public, max-age=' . $maxAge . ', s-maxage=' . $maxAge;
 
         $this->configMock->expects($this->once())
             ->method('getValue')
