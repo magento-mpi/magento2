@@ -16,7 +16,7 @@ namespace Magento\PageCache\Controller\Adminhtml;
 class PageCache extends \Magento\Backend\App\Action
 {
     /**
-     * @var \Magento\App\Response\Http\FileFactory
+     * @var \Magento\Backend\App\Response\Http\FileFactory
      */
     protected $fileFactory;
 
