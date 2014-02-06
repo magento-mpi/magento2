@@ -16,4 +16,8 @@
         <title translate="true">Category Products</title>
         <description translate="true">Indexed category/products association</description>
     </indexer>
+    <indexer id="catalog_product_category" view_id="catalog_product_category" class="Magento\Catalog\Model\Indexer\Product\Category">
+        <title translate="true">Product Categories</title>
+        <description translate="true">Indexed product/categories association</description>
+    </indexer>
 </config>
