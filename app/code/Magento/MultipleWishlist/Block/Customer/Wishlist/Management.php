@@ -221,7 +221,7 @@ class Management extends \Magento\View\Element\Template
     /**
      * Check whether user multiple wishlist limit reached
      *
-     * @param $wishlists
+     * @param \Magento\Wishlist\Model\Resource\Wishlist\Collection $wishlists
      * @return bool
      */
     public function canCreateWishlists($wishlists)
