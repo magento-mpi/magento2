@@ -15,6 +15,7 @@ use Magento\TestFramework\Bootstrap;
 
 /**
  * @magentoAppArea adminhtml
+ * @SuppressWarnings
  */
 class PageCacheTest extends \Magento\TestFramework\TestCase\AbstractController
 {
@@ -23,7 +24,7 @@ class PageCacheTest extends \Magento\TestFramework\TestCase\AbstractController
      * @magentoConfigFixture current_store system/varnish_configuration_settings/access_list 127.0.0.1
      * @magentoConfigFixture current_store system/varnish_configuration_settings/backend_port 8080
      * @magentoConfigFixture current_store system/varnish_configuration_settings/backend_host 127.0.0.1
-     * @magentoConfigFixture current_store design/theme/ua_regexp a:1:{i:0;a:2:{s:6:"regexp";s:4:"/i/";s:5:"value";i:1;}}
+     * @magentoConfigFixture current_store design/theme/ua_regexp a:1:{i:0;a:2:{s:6:"regexp";s:4:"/ie/";s:5:"value";i:1;}}
      */
     public function testExportVarnishConfigAction()
     {
