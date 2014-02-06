@@ -1,3 +1,5 @@
+* Modularity improvements:
+  * Abstract cart logic moved from Paypal module
 * Caching improvements:
   * Added new mechanism to identify page content uniquely (hash-key for cache storage)
   * Plugin "magentoZoom" is divided into widgets "gallery" and "zoom"
@@ -12,6 +14,7 @@
 * Framework part of the "Translate" functionality removed from modules
 * Implemented E-mail template architecture in libraries
 * Applied unified approach of scope usage for "Config" functionality
+* Fixed Dependency static test
 
 -2.0.0.0-dev63
 -=============
