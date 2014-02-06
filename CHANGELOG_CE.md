@@ -1,3 +1,5 @@
+2.0.0.0-dev64
+=============
 * Modularity improvements:
   * Abstract cart logic moved from Paypal module
 * Caching improvements:
@@ -16,8 +18,8 @@
 * Applied unified approach of scope usage for "Config" functionality
 * Fixed Dependency static test
 
--2.0.0.0-dev63
--=============
+2.0.0.0-dev63
+=============
 * Modularity improvements:
   * Consolidated all PayPal-related logic in a separate module
   * Resolved dependencies on the Magento_GroupedProduct module
