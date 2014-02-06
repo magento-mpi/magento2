@@ -23,7 +23,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
     /**
      * @var \Magento\Catalog\Model\ProductTypes\ConfigInterface
      */
-    protected $taxableList;
+    protected $productTypeConfig;
 
     /**
      * @param \Magento\Core\Model\Resource\Setup\Context $context
@@ -43,12 +43,12 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
         \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory,
         \Magento\App\ConfigInterface $config,
         \Magento\Catalog\Model\Resource\SetupFactory $setupFactory,
-        \Magento\Catalog\Model\ProductTypes\ConfigInterface $taxableList,
+        \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
         $moduleName = 'Magento_Tax',
         $connectionName = ''
     ) {
         $this->_setupFactory = $setupFactory;
-        $this->taxableList = $taxableList;
+        $this->productTypeConfig = $productTypeConfig;
         parent::__construct($context, $resourceName, $cache, $attrGroupCollectionFactory, $config, $moduleName, $connectionName);
     }
 
@@ -82,6 +82,6 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
      */
     public function getTaxableItems()
     {
-        return $this->taxableList->filter('taxable');
+        return $this->productTypeConfig->filter('taxable');
     }
 }

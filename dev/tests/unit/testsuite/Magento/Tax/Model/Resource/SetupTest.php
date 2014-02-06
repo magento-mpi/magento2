@@ -6,14 +6,14 @@
  * @license     {license_link}
  */
 
-namespace Magento\GiftWrapping\Model\Resource;
+namespace Magento\Tax\Model\Resource;
 
 class SetupTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\GiftWrapping\Model\Resource\Setup
+     * @var \Magento\Tax\Model\Resource\Setup
      */
-    protected $giftRegistrySetup;
+    protected $taxSetup;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -24,21 +24,21 @@ class SetupTest extends \PHPUnit_Framework_TestCase
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->typeConfigMock = $this->getMock('Magento\Catalog\Model\ProductTypes\ConfigInterface');
-        $this->giftRegistrySetup = $helper->getObject('Magento\GiftWrapping\Model\Resource\Setup', array(
+        $this->taxSetup = $helper->getObject('Magento\Tax\Model\Resource\Setup', array(
                 'productTypeConfig' => $this->typeConfigMock
             )
         );
     }
 
-    public function testGetRealProductTypes()
+    public function testGetTaxableItems()
     {
-        $expected = array('simple', 'simple2');
+        $refundable = array('simple', 'simple2');
         $this->typeConfigMock
             ->expects($this->once())
             ->method('filter')
-            ->with('is_real_product')
-            ->will($this->returnValue($expected));
-        $this->assertEquals($expected, $this->giftRegistrySetup->getRealProductTypes());
+            ->with('taxable')
+            ->will($this->returnValue($refundable));
+        $this->assertEquals($refundable, $this->taxSetup->getTaxableItems());
     }
 }
 

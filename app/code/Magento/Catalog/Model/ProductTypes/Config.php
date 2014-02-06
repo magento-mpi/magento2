@@ -65,19 +65,19 @@ class Config extends \Magento\Config\Data implements \Magento\Catalog\Model\Prod
     }
 
     /**
-     * Get available products
+     * Get list of product types that comply with condition
      *
-     * @param string $customAttributeName
+     * @param string $attributeName
      * @param string $value
      * @return array
      */
-    public function filter($customAttributeName, $value = 'true')
+    public function filter($attributeName, $value = 'true')
     {
         $availableProductTypes = array();
         foreach ($this->getAll() as $type) {
-            if (!isset($type['custom_attributes'][$customAttributeName])
-                || $type['custom_attributes'][$customAttributeName] == $value) {
-                $availableProductTypes[] = $type['name'];
+            if (!isset($type['custom_attributes'][$attributeName])
+                || $type['custom_attributes'][$attributeName] == $value) {
+                $availableProductTypes['product_types'] = $type['name'];
             }
         }
         return $availableProductTypes;

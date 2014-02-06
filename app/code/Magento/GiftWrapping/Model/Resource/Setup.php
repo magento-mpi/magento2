@@ -31,11 +31,6 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
     protected $productTypeConfig;
 
     /**
-     * @var \Magento\Catalog\Model\ProductTypes\ConfigInterface
-     */
-    protected $realProductList;
-
-    /**
      * @param \Magento\Core\Model\Resource\Setup\Context $context
      * @param string $resourceName
      * @param \Magento\App\CacheInterface $cache
@@ -55,13 +50,13 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
         \Magento\App\ConfigInterface $config,
         \Magento\Catalog\Model\Product\TypeFactory $productTypeFactory,
         \Magento\Catalog\Model\Resource\SetupFactory $catalogSetupFactory,
-        \Magento\Catalog\Model\ProductTypes\ConfigInterface $realProductList,
+        \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
         $moduleName = 'Magento_GiftWrapping',
         $connectionName = ''
     ) {
         $this->_productTypeFactory = $productTypeFactory;
         $this->_catalogSetupFactory = $catalogSetupFactory;
-        $this->realProductList = $realProductList;
+        $this->productTypeConfig = $productTypeConfig;
         parent::__construct($context, $resourceName, $cache, $attrGroupCollectionFactory, $config, $moduleName, $connectionName);
     }
 
@@ -80,7 +75,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
      */
     public function getRealProductTypes()
     {
-        return $this->realProductList->filter('is_real_product');
+        return $this->productTypeConfig->filter('is_real_product');
     }
 
     /**
