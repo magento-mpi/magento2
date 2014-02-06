@@ -91,7 +91,6 @@ class Advanced extends \Magento\App\Action\Action
                 ->getUrl('*/*/');
             $this->getResponse()->setRedirect($this->_redirect->error($defaultUrl));
         }
-        $this->_view->getLayout()->initMessages();
         $this->_view->renderLayout();
     }
 }

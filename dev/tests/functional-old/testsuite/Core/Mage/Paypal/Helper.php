@@ -30,13 +30,8 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_AbstractHelper
     public function verifyMagentoPayPalErrors()
     {
         $paypalErrors = array(
-            'PayPal gateway rejected the request',
-            'PayPal gateway has rejected request',
-            'We can\'t contact the PayPal gateway.',
-            'Gateway error: This transaction cannot be accepted.',
-            'Gateway error: Unable to read response, or response is empty',
-            'Please verify the card with the issuer bank before placing the order.',
-            'Something went wrong processing your order. Please try again later.'
+            //'The PayPal gateway has rejected this request.',
+            //'This card has failed validation and cannot be used.',
         );
         $submitErrors = $this->getMessagesOnPage('error,validation,verification');
         foreach ($submitErrors as $error) {
@@ -68,22 +63,18 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_AbstractHelper
                 'login_email' => $this->getConfigHelper()->getDefaultLogin(),
                 'login_password' => $this->getConfigHelper()->getDefaultPassword()
             );
-            $this->clickButton('login_with_paypal', false);
-            $this->selectLastWindow();
+            $this->url($this->getControlAttribute('button', 'login_with_paypal', 'href'));
             $this->fillFieldset($loginData, 'login_form');
             $this->getControlElement('button', 'login')->click();
             $this->waitForElementVisible(array(
-                $this->_getControlXpath('pageelement', 'loadingHolder'),
-                $this->_getMessageXpath('general_validation')
+                $this->_getControlXpath('button', 'logout'),
+                $this->_getControlXpath('message', 'general_error')
             ));
-            $error = $this->errorMessage();
-            $validation = $this->validationMessage();
-            $this->assertFalse($error['success'] || $validation['success'], $this->getMessagesOnPage());
-            $this->waitForWindowToClose();
-            $this->waitForControlVisible('button', 'logout');
         }
-        $result = $this->errorMessage();
-        $this->assertFalse($result['success'], $this->getMessagesOnPage());
+        if ($this->controlIsVisible('message', 'unknown_error_after_login')) {
+            $this->paypalDeveloperLogin();
+        }
+        $this->assertMessageNotPresent('error');
     }
 
     /**
@@ -109,7 +100,38 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_AbstractHelper
             $this->createPreconfiguredAccount($parameters);
         }
 
-        return $this->getPaypalSandboxAccountInfo($parameters);
+        $accountInfo = $this->getPaypalSandboxAccountInfo($parameters);
+        if (isset($parameters['account_type_seller'])) {
+            $this->activatePaymentsPro($accountInfo['email']);
+        }
+        return $accountInfo;
+    }
+
+    /**
+     * Enable PayPal Payments Pro.
+     * @param $email
+     */
+    public function activatePaymentsPro($email)
+    {
+        static $errorCount = 1;
+        $this->openAccountDetailsTab($email, 'profile_tab');
+        if ($this->controlIsVisible('link', 'upgrade_to_pro')) {
+            $this->clickControl('link', 'upgrade_to_pro', false);
+            $this->waitForControlEditable('button', 'enable_pro_account');
+            $this->clickButton('enable_pro_account', false);
+            $this->waitForAjax();
+            $this->waitForElementVisible(array(
+                $this->_getMessageXpath('payments_pro_enabled'),
+                $this->_getMessageXpath('payments_pro_enable_error')
+            ));
+            if (!$this->controlIsVisible('message', 'payments_pro_enabled') && $errorCount < 5) {
+                $errorCount++;
+                $this->clickButton('close_popup_cross', false);
+                $this->waitForAjax();
+                $this->activatePaymentsPro($email);
+            }
+        }
+        $this->assertTrue($this->controlIsVisible(self::FIELD_TYPE_PAGEELEMENT, 'business_pro_account'));
     }
 
     /**
@@ -128,12 +150,12 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_AbstractHelper
         $this->addParameter('propertyName', 'Credit card number:');
         $data['credit_card']['card_number'] =
             $this->getControlAttribute(self::FIELD_TYPE_PAGEELEMENT, 'property', 'text');
-        $this->addParameter('propertyName', 'Expiration date:');
-        list($expMonth, $expYear) =
-            explode('/', $this->getControlAttribute(self::FIELD_TYPE_PAGEELEMENT, 'property', 'text'));
-        $data['credit_card']['expiration_month'] = self::$monthMap[trim($expMonth)];
-        $data['credit_card']['expiration_year'] = $expYear;
-        $data['credit_card'] = array_map('trim', $data['credit_card']);
+//        $this->addParameter('propertyName', 'Expiration date:');
+//        list($expMonth, $expYear) =
+//            explode('/', $this->getControlAttribute(self::FIELD_TYPE_PAGEELEMENT, 'property', 'text'));
+//        $data['credit_card']['expiration_month'] = self::$monthMap[trim($expMonth)];
+//        $data['credit_card']['expiration_year'] = $expYear;
+//        $data['credit_card'] = array_map('trim', $data['credit_card']);
 
         return $data;
     }
@@ -172,8 +194,8 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_AbstractHelper
         if (!$this->controlIsVisible(self::UIMAP_TYPE_FIELDSET, 'account_details_popup')) {
             $this->addParameter('accountEmail', $email);
             $this->clickControl(self::FIELD_TYPE_LINK, 'account_details', false);
-            $this->waitForControlVisible(self::FIELD_TYPE_LINK, 'account_profile');
             $this->clickControl(self::FIELD_TYPE_LINK, 'account_profile', false);
+            $this->waitForControlNotVisible(self::FIELD_TYPE_PAGEELEMENT, 'loadingHolder');
             $this->waitForControlVisible(self::UIMAP_TYPE_FIELDSET, 'account_details_popup');
         }
         $this->clickControl(self::FIELD_TYPE_LINK, $tabName, false);
@@ -241,8 +263,11 @@ class Core_Mage_Paypal_Helper extends Mage_Selenium_AbstractHelper
             if ($card != 'amex') {
                 $accounts[$card]['credit_card']['card_verification_number'] = '111';
             } else {
+                $accounts[$card]['credit_card']['card_type'] = 'American Express';
                 $accounts[$card]['credit_card']['card_verification_number'] = '1234';
             }
+//            $accounts[$card]['credit_card']['expiration_month'] = '01 - January';
+//            $accounts[$card]['credit_card']['expiration_year'] = '2015';
         }
         return $accounts;
     }

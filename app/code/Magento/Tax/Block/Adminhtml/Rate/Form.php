@@ -34,9 +34,9 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_taxData = null;
 
     /**
-     * @var \Magento\Tax\Block\Adminhtml\Rate\Title\Fieldset
+     * @var \Magento\Tax\Block\Adminhtml\Rate\Title\FieldsetFactory
      */
-    protected $_fieldset;
+    protected $_fieldsetFactory;
 
     /**
      * @var \Magento\Tax\Model\Calculation\RateFactory
@@ -64,7 +64,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Directory\Model\Config\Source\Country $country
-     * @param \Magento\Tax\Block\Adminhtml\Rate\Title\Fieldset $fieldset
+     * @param \Magento\Tax\Block\Adminhtml\Rate\Title\FieldsetFactory $fieldsetFactory
      * @param \Magento\Tax\Model\Calculation\RateFactory $rateFactory
      * @param \Magento\Tax\Model\Calculation\Rate $rate
      * @param \Magento\Tax\Helper\Data $taxData
@@ -76,7 +76,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Data\FormFactory $formFactory,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Directory\Model\Config\Source\Country $country,
-        \Magento\Tax\Block\Adminhtml\Rate\Title\Fieldset $fieldset,
+        \Magento\Tax\Block\Adminhtml\Rate\Title\FieldsetFactory $fieldsetFactory,
         \Magento\Tax\Model\Calculation\RateFactory $rateFactory,
         \Magento\Tax\Model\Calculation\Rate $rate,
         \Magento\Tax\Helper\Data $taxData,
@@ -84,7 +84,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     ) {
         $this->_regionFactory = $regionFactory;
         $this->_country = $country;
-        $this->_fieldset = $fieldset;
+        $this->_fieldsetFactory = $fieldsetFactory;
         $this->_rateFactory = $rateFactory;
         $this->_rate = $rate;
         $this->_taxData = $taxData;
@@ -212,7 +212,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
         if (!$this->_storeManager->hasSingleStore()) {
             $form->addElement(
-                $this->_fieldset->setLegend(__('Tax Titles'))
+                $this->_fieldsetFactory->create()->setLegend(__('Tax Titles'))
             );
         }
 

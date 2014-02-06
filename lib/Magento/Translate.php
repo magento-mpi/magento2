@@ -31,7 +31,7 @@ class Translate implements \Magento\TranslateInterface
     const CONFIG_KEY_AREA   = 'area';
 
     /**
-     * Configuration locale kay
+     * Configuration locale key
      */
     const CONFIG_KEY_LOCALE = 'locale';
 

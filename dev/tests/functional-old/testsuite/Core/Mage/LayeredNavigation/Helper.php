@@ -25,8 +25,9 @@ class Core_Mage_LayeredNavigation_Helper extends Mage_Selenium_AbstractHelper
      */
     public function setCategoryIdFromLink($categoryName)
     {
-        $this->addParameter('categoryName', $categoryName);
-        $link = $this->getControlAttribute('link', 'category_name', 'href');
+        $this->addParameter('groupName', 'Category');
+        $this->addParameter('optionName', $categoryName);
+        $link = $this->getControlAttribute('link', 'layered_link', 'href');
         // parse link received from xpath
         $parsedLink = parse_url($link);
         parse_str($parsedLink['query']);
@@ -38,23 +39,17 @@ class Core_Mage_LayeredNavigation_Helper extends Mage_Selenium_AbstractHelper
     }
 
     /**
-     * Set ID from link into UIMap
-     *
+     * Set Attribute ID from link into UIMap
      * @param string $attributeName
+     * @param string $attributeOption
      * @param string $attributeCode
-     * @param string $categoryName
      */
-    public function setAttributeIdFromLink($categoryName, $attributeCode, $attributeName = null)
+    public function setAttributeIdFromLink($attributeName, $attributeOption, $attributeCode)
     {
-        $this->addParameter('categoryName', $categoryName);
+        $this->addParameter('groupName', $attributeName);
+        $this->addParameter('optionName', $attributeOption);
         $this->addParameter('attributeCode', $attributeCode);
-        if (isset($attributeName)) {
-            $this->addParameter('attributeName', $attributeName);
-            $link = $this->getControlAttribute('link', 'attribute_name', 'href');
-        } else {
-            $this->addParameter('priceAttributeCode', $attributeCode);
-            $link = $this->getControlAttribute('link', 'price_attribute', 'href');
-        }
+        $link = $this->getControlAttribute('link', 'layered_link', 'href');
         // parse link received from xpath
         $parsedLink = parse_url($link);
         parse_str($parsedLink['query']);
@@ -70,10 +65,14 @@ class Core_Mage_LayeredNavigation_Helper extends Mage_Selenium_AbstractHelper
      */
     public function frontVerifyAfterSelectingAttribute()
     {
-        $this->assertTrue($this->controlIsPresent('pageelement', 'currently_shopping_by'),
-            'There is no currently_shopping_by block in layered navigation');
-        $this->assertTrue($this->controlIsPresent('button', 'remove_this_item'),
-            'There is no "remove this item" button');
+        $this->assertTrue(
+            $this->controlIsPresent('pageelement', 'currently_shopping_by'),
+            'There is no currently_shopping_by block in layered navigation'
+        );
+        $this->assertTrue(
+            $this->controlIsPresent('link', 'remove_this_item'),
+            'There is no "remove this item" button'
+        );
         $this->assertTrue($this->controlIsPresent('link', 'clear_all'), 'There is no "Clear All" link');
     }
 
@@ -82,11 +81,17 @@ class Core_Mage_LayeredNavigation_Helper extends Mage_Selenium_AbstractHelper
      */
     public function frontVerifyAfterRemovingAttribute()
     {
-        $this->assertFalse($this->controlIsPresent('button', 'remove_this_item'),
-            'remove_this_item button still present in layered navigation block');
-        $this->assertFalse($this->controlIsPresent('link', 'clear_all'),
-            '"Clear All" link still present in layered navigation block');
-        $this->assertFalse($this->controlIsPresent('pageelement', 'currently_shopping_by'),
-            'currently_shopping_by block still present in layered navigation block');
+        $this->assertFalse(
+            $this->controlIsPresent('link', 'remove_this_item'),
+            'remove_this_item button still present in layered navigation block'
+        );
+        $this->assertFalse(
+            $this->controlIsPresent('link', 'clear_all'),
+            '"Clear All" link still present in layered navigation block'
+        );
+        $this->assertFalse(
+            $this->controlIsPresent('pageelement', 'currently_shopping_by'),
+            'currently_shopping_by block still present in layered navigation block'
+        );
     }
 }

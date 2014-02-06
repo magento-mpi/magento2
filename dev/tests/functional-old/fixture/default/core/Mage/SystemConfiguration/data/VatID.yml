@@ -15,7 +15,7 @@ store_information_data:
         tab_name: general_general
         configuration:
             store_information:
-                store_name: Test Store Name
+                store_name: TestStoreName
                 store_contact_telephone: 111-222-333-444
                 store_country: Germany
                 billing_vat_number: 111607872
@@ -35,7 +35,7 @@ create_new_account_options:
                 group_invalid_vat: %noValue%
                 show_vat_number_frontend: Yes
                 default_value_for_disable_automatic_group: No
-            
+
 #<-------Disabling "Enable Automatic Assignment to Customer Group" option----------->
 create_new_account_options_disable:
     configuration_scope: Default Config

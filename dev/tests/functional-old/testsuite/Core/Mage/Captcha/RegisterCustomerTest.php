@@ -49,7 +49,8 @@ class Core_Mage_Captcha_RegisterCustomerTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('Captcha/enable_front_register_captcha');
-        $this->frontend('register_account');
+        $this->frontend();
+        $this->clickControl('link', 'register');
         //Validations
         $this->assertTrue($this->controlIsVisible('field', 'captcha'));
         $this->assertTrue($this->controlIsVisible('pageelement', 'captcha'));
@@ -69,7 +70,7 @@ class Core_Mage_Captcha_RegisterCustomerTest extends Mage_Selenium_TestCase
         $user = $this->loadDataSet('Customers', 'customer_account_register');
         $user['captcha'] = '1111';
         //Steps
-        $this->frontend('register_account');
+        $this->clickControl('link', 'register');
         $this->fillFieldset($user, 'account_info');
         $this->clickButton('submit');
         //Verification
@@ -89,7 +90,7 @@ class Core_Mage_Captcha_RegisterCustomerTest extends Mage_Selenium_TestCase
         $user = $this->loadDataSet('Customers', 'customer_account_register');
         $user['captcha'] = '1234';
         //Steps
-        $this->frontend('register_account');
+        $this->clickControl('link', 'register');
         $this->fillFieldset($user, 'account_info');
         $this->clickButton('submit');
         //Verification
@@ -108,7 +109,7 @@ class Core_Mage_Captcha_RegisterCustomerTest extends Mage_Selenium_TestCase
         //Data
         $user = $this->loadDataSet('Customers', 'customer_account_register');
         //Steps
-        $this->frontend('register_account');
+        $this->clickControl('link', 'register');
         $this->fillFieldset($user, 'account_info');
         $this->clickButton('submit', false);
         //Verification
@@ -126,7 +127,7 @@ class Core_Mage_Captcha_RegisterCustomerTest extends Mage_Selenium_TestCase
     public function refreshCaptcha()
     {
         //Steps
-        $this->frontend('register_account');
+        $this->clickControl('link', 'register');
         $captchaUrl1 = $this->getControlAttribute('pageelement', 'captcha', 'src');
         $this->clickControl('button', 'captcha_reload', false);
         $this->waitForAjax();

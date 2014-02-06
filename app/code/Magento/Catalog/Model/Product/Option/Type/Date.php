@@ -99,7 +99,7 @@ class Date extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
             } elseif (!$timeValid) {
                 throw new \Magento\Core\Exception(__('Please specify time required option(s).'));
             } else {
-                throw new \Magento\Core\Exception(__('Please specify the product required option(s).'));
+                throw new \Magento\Core\Exception(__('Please specify the product\'s required option(s).'));
             }
         } else {
             $this->setUserValue(null);

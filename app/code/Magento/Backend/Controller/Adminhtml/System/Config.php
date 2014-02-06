@@ -71,7 +71,7 @@ class Config extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
 
         $this->_view->loadLayout();
 
-        $this->_setActiveMenu('Magento_Adminhtml::system_config');
+        $this->_setActiveMenu('Magento_Backend::system_config');
         $this->_view->getLayout()->getBlock('menu')->setAdditionalCacheKeyInfo(array($current));
 
         $this->_addBreadcrumb(
