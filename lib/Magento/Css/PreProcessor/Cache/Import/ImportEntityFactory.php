@@ -30,7 +30,7 @@ class ImportEntityFactory
      * @param string $filePath
      * @param array $params
      * @return \Magento\Css\PreProcessor\Cache\Import\ImportEntityInterface
-     * @throws \Exception
+     * @throws \InvalidArgumentException
      */
     public function create($filePath, $params)
     {

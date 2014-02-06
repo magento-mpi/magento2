@@ -30,7 +30,7 @@ class CacheManagerFactory
      * @param string $filePath
      * @param array $params
      * @return \Magento\Css\PreProcessor\Cache\CacheManager
-     * @throws \Exception
+     * @throws \InvalidArgumentException
      */
     public function create($filePath, array $params)
     {
