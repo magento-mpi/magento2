@@ -256,5 +256,6 @@ return array(
     array('_messagesBlock', 'Magento\View\Element\AbstractBlock'),
     array('_messagesBlock', 'Magento\Connect\Helper\Data'),
     array('escapeMessageFlag', 'Magento\View\Block\Messages'),
-    array('fileIteratorFactory', 'Magento\Core\Model\Theme\Collection')
+    array('fileIteratorFactory', 'Magento\Core\Model\Theme\Collection'),
+    array('_handlerFactory', 'Magento\Backend\Block\Widget\Grid\Massaction\Additional'),
 );
