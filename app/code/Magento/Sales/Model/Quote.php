@@ -681,15 +681,21 @@ class Quote extends \Magento\Core\Model\AbstractModel
     /**
      * Get DTO addresses of the customer
      *
+     * TODO: Refactor once the addressDto property is on this class and used across all references
+     *
      * @return AddressDto[]
      */
     public function getAddressData()
     {
-        try {
-            return $this->_addressService->getAddresses($this->getCustomer()->getId());
-        } catch (\Magento\Customer\Service\Entity\V1\Exception $e) {
-            return [];
+        $customer = $this->getCustomerData();
+        $addresses = $this->getCustomer()->getAddresses();
+        $array = [];
+        foreach ($addresses as $address) {
+            $array[] = $this->_addressConverter->createAddressFromModel($address, $customer->getDefaultBilling(),
+                $customer->getDefaultShipping()
+            );
         }
+        return $array;
     }
 
     /**
