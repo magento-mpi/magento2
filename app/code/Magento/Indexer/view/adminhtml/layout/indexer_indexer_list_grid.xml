@@ -64,7 +64,7 @@
                         <argument name="width" xsi:type="string">150</argument>
                         <argument name="align" xsi:type="string">left</argument>
                         <argument name="getter" xsi:type="string">getMode</argument>
-                        <argument name="renderer" xsi:type="string">\Magento\Indexer\Block\Backend\Grid\Column\Renderer\Mode</argument>
+                        <argument name="renderer" xsi:type="string">Magento\Indexer\Block\Backend\Grid\Column\Renderer\Mode</argument>
                         <argument name="sortable" xsi:type="string">0</argument>
                         <argument name="column_css_class" xsi:type="string">indexer-mode</argument>
                     </arguments>
@@ -75,7 +75,7 @@
                         <argument name="width" xsi:type="string">120</argument>
                         <argument name="align" xsi:type="string">left</argument>
                         <argument name="getter" xsi:type="string">getStatus</argument>
-                        <argument name="renderer" xsi:type="string">\Magento\Indexer\Block\Backend\Grid\Column\Renderer\Status</argument>
+                        <argument name="renderer" xsi:type="string">Magento\Indexer\Block\Backend\Grid\Column\Renderer\Status</argument>
                         <argument name="sortable" xsi:type="string">0</argument>
                         <argument name="column_css_class" xsi:type="string">indexer-status</argument>
                     </arguments>
@@ -88,7 +88,7 @@
                         <argument name="index" xsi:type="string">updated</argument>
                         <argument name="type" xsi:type="string">datetime</argument>
                         <argument name="getter" xsi:type="string">getUpdated</argument>
-                        <argument name="renderer" xsi:type="string">\Magento\Indexer\Block\Backend\Grid\Column\Renderer\Updated</argument>
+                        <argument name="renderer" xsi:type="string">Magento\Indexer\Block\Backend\Grid\Column\Renderer\Updated</argument>
                         <argument name="sortable" xsi:type="string">0</argument>
                         <argument name="column_css_class" xsi:type="string">indexer-updated</argument>
                     </arguments>

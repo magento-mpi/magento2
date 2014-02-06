@@ -443,7 +443,7 @@
             </array>
         </param>
     </type>
-    <type name="\Magento\Image">
+    <type name="Magento\Image">
         <param name="adapter">
             <instance type="Magento\Image\Adapter\Gd2"/>
         </param>
