@@ -42,4 +42,11 @@
             </array>
         </param>
     </type>
+    <type name="Magento\ImportExport\Model\Export\RowCustomizer\Composite">
+        <param name="customizers">
+            <array>
+                <item key="configurableProduct"><value>Magento\ConfigurableProduct\Model\Export\RowCustomizer</value></item>
+            </array>
+        </param>
+    </type>
 </config>
