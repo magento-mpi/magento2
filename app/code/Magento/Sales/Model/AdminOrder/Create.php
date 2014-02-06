@@ -1526,7 +1526,6 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         } else {
             $form->restoreData($data);
         }
-        $this->_generateValidationException();
     }
 
     /**
@@ -1777,7 +1776,12 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
                 }
             }
         }
-        $this->_generateValidationException();
+        if (!empty($this->_errors)) {
+            foreach ($this->_errors as $error) {
+                $this->messageManager->addError($error);
+            }
+            throw new \Magento\Core\Exception('');
+        }
         return $this;
     }
 
@@ -1814,21 +1818,5 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         return $this->_customerBuilder
             ->populateWithArray(array_merge($customer->__toArray(), $newData))
             ->create();
-    }
-
-    /**
-     * Generate validation exception if any errors were found before this method invocation.
-     *
-     * @throws \Magento\Core\Exception
-     */
-    protected function _generateValidationException()
-    {
-        if (!empty($this->_errors)) {
-            foreach ($this->_errors as $error) {
-                $this->messageManager->addError($error);
-            }
-            throw new \Magento\Core\Exception('');
-        }
-        return $this;
     }
 }
