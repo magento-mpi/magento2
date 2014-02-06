@@ -36,6 +36,8 @@ class Core_Mage_Captcha_FrontendLoginTest extends Mage_Selenium_TestCase
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('Captcha/default_frontend_captcha');
+        $this->systemConfigurationHelper()->configure('MergeJS/disable_merge_js');
+        $this->flushCache();
     }
 
     /**
@@ -50,7 +52,7 @@ class Core_Mage_Captcha_FrontendLoginTest extends Mage_Selenium_TestCase
         //Data
         $userData = $this->loadDataSet('Customers', 'customer_account_register');
         //Steps
-        $this->frontend('customer_login');
+        $this->frontend();
         $this->customerHelper()->registerCustomer($userData);
         $this->assertMessagePresent('success', 'success_registration');
         $this->logoutCustomer();
@@ -98,34 +100,6 @@ class Core_Mage_Captcha_FrontendLoginTest extends Mage_Selenium_TestCase
     }
 
     /**
-     * <p>Refreshing CAPTCHA image for Login Form</p>
-     *
-     * @test
-     * @depends enableCaptcha
-     * @TestlinkId TL-MAGE-5781
-     */
-    public function refreshCaptchaWithMergeJS()
-    {
-        $this->markTestIncomplete('BUG: Fatal error on page');
-        //Steps
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('MergeJS/enable_merge_js');
-        $this->clearInvalidedCache();
-        $this->frontend('customer_login');
-        $captchaUrl1 = $this->getControlAttribute('pageelement', 'captcha', 'src');
-        $this->clickControl('button', 'captcha_reload', false);
-        $this->waitForAjax();
-        $captchaUrl2 = $this->getControlAttribute('pageelement', 'captcha', 'src');
-        //Verification
-        $this->assertNotEquals($captchaUrl1, $captchaUrl2, 'Captcha is not refreshed');
-        //PostConditions
-        $this->loginAdminUser();
-        $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('MergeJS/disable_merge_js');
-        $this->clearInvalidedCache();
-    }
-
-    /**
      *
      * <p>Correct CAPTCHA in Register Customer page</p>
      *
@@ -161,7 +135,6 @@ class Core_Mage_Captcha_FrontendLoginTest extends Mage_Selenium_TestCase
         $testUser['captcha'] = '1234';
         //Steps
         $this->customerHelper()->frontLoginCustomer($testUser, false);
-        $this->waitForPageToLoad();
         //Verification
         $this->validatePage('customer_login');
         $this->assertMessagePresent('error', 'incorrect_captcha');
@@ -185,6 +158,29 @@ class Core_Mage_Captcha_FrontendLoginTest extends Mage_Selenium_TestCase
         $this->validatePage('customer_login');
         $this->addFieldIdToMessage('field', 'captcha');
         $this->assertMessagePresent('validation', 'empty_required_field');
+    }
+
+    /**
+     * <p>Refreshing CAPTCHA image for Login Form</p>
+     *
+     * @test
+     * @depends enableCaptcha
+     * @TestlinkId TL-MAGE-5781
+     */
+    public function refreshCaptchaWithMergeJS()
+    {
+        $this->markTestIncomplete('MAGETWO-18750');
+        //Steps
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure('MergeJS/enable_merge_js');
+        $this->flushCache();
+        $this->frontend('customer_login');
+        $captchaUrl1 = $this->getControlAttribute('pageelement', 'captcha', 'src');
+        $this->clickControl('button', 'captcha_reload', false);
+        $this->waitForAjax();
+        $captchaUrl2 = $this->getControlAttribute('pageelement', 'captcha', 'src');
+        //Verification
+        $this->assertNotEquals($captchaUrl1, $captchaUrl2, 'Captcha is not refreshed');
     }
 
     /**

@@ -126,7 +126,7 @@ class Core_Mage_Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
      */
     public function withSpecialValues($specialValue)
     {
-        $this->markTestIncomplete('MAGETWO-8436, MAGETWO-9100, MAGETWO-9098');
+        //$this->markTestSkipped('\MAGETWO-8436, MAGETWO-9100, MAGETWO-9098');
         $this->clickButton('add_rule');
         $this->clickControl('link', 'tax_rule_info_additional_link');
         $this->fillCompositeMultiselect('product_tax_class', array($specialValue));
@@ -143,7 +143,7 @@ class Core_Mage_Tax_ProductTaxClass_CreateTest extends Mage_Selenium_TestCase
     {
         return array(
             array($this->generate('string', 255)),
-            array($this->generate('string', 50, ':punct:'))
+            array($this->generate('string', 5, ':punct:'))
         );
     }
 }

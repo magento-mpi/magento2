@@ -51,7 +51,7 @@ class Core_Mage_CheckoutOnePage_LoggedIn_WithProductsTest extends Mage_Selenium_
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->createProduct($virtual, 'virtual');
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->frontend('customer_login');
+        $this->frontend();
         $this->customerHelper()->registerCustomer($userData);
         $this->assertMessagePresent('success', 'success_registration');
 

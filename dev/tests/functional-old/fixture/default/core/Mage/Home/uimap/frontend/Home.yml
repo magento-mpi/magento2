@@ -12,34 +12,22 @@
 home:
     mca: home/
     title: Home page
-    uimap: &homePage
-        form:
-            fieldsets:
-                -
-                    compare_products:
-                        xpath: //div[contains(div/strong/span,'Compare Products')]
-                        links:
-                          compare_clear_all: //a[text()='Clear All']
-                          compare_delete_product: //li[p='%productName%']/a
-                          compare_product_link: //ol[@id='compare-items']//a[text()='%productName%']
-                        buttons:
-                          compare: //button[@title='Compare']
-                        pageelements:
-                          compare_block_empty: //p[text()='You have no items to compare.']
-                          compare_block_title: //div[@class='block-title' and contains(. /strong/span, 'Compare Products')]
-        messages: &homeMessages
-            tag_accepted_success: //li[normalize-space(@class)='success-msg' and contains(.,'%tagQty% tag(s) have been accepted for moderation.')]
-            tag_already_success: //li[normalize-space(@class)='notice-msg' and contains(.,'Tag "%tagName%" has already been added to the product.')]
-            confirmation_for_removing_product_from_compare: Are you sure you want to remove this item from the compared products?
-            confirmation_clear_all_from_compare: Are you sure you want to remove all products from your comparison?
-            compare_list_cleared: //li[normalize-space(@class)='success-msg' and contains(.//span,'You cleared the comparison list.')]
-            product_added_to_comparison: //li[normalize-space(@class)='success-msg' and contains(.//span,'You added product %productName% to the comparison list.')]
-            product_removed_from_comparison: //li[normalize-space(@class)='success-msg' and contains(.//span,'You removed product %productName% from the comparison list.')]
+    uimap: ~
 
 home_page:
     mca:
     title: Home page
-    uimap: *homePage
+    uimap: ~
+
+home_store:
+    mca: ?___store=%storeCode%
+    title: Home page
+    uimap: ~
+
+home_store_view:
+    mca: ?___store=%storeCode%&___from_store=%fromStore%
+    title: Home page
+    uimap: ~
 
 test_page:
     mca: %url_key%
@@ -49,16 +37,12 @@ test_page:
             fieldsets:
                 -
                     content_fieldset:
-                        xpath: //div[@class='col-main']
+                        xpath: //section[@class='page main']
                         pageelements:
-                            header: //div[@class='page-title']/h1[text()='%content_heading%']
+                            header: //div[@class='page title']/h1[span='%content_heading%']
                             widget_cms_link: //span[@class='widget widget-cms-link']
-                            widget_static_block: //div[@class='widget widget-static-block']
-                            widget_category_link: //span[@class='widget widget-category-link']
-                            widget_product_link: //span[@class='widget widget-product-link']
-                            widget_viewed: //div[@class='widget widget-viewed']
-
-home_storeview:
-    mca: ?___store=%storeViewCode%/
-    title: Home page
-    uimap: *homePage
+                            widget_static_block: //div[@class='widget static block']
+                            widget_category_link: //div[@class='widget category link']
+                            widget_product_link: //div[@class='widget product link']
+                            widget_viewed: //div[@class='block widget viewed grid']
+                            widget_new_products: //div[@class='block widget new grid']

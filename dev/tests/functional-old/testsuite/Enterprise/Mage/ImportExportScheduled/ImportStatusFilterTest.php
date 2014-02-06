@@ -55,7 +55,6 @@ class Enterprise_Mage_ImportExportScheduled_ImportStatusFilterTest extends Mage_
      */
     public function scheduledImportStatuses()
     {
-        $this->markTestIncomplete('BUG: behavior field is not editable');
         // Step 1
         $importData = $this->loadDataSet('ImportExportScheduled', 'scheduled_import', array(
             'entity_type' => 'Customers Main File',
@@ -382,7 +381,6 @@ class Enterprise_Mage_ImportExportScheduled_ImportStatusFilterTest extends Mage_
      */
     public function scheduledImportSearchByFilter()
     {
-        $this->markTestIncomplete('BUG: behavior field is not editable');
         $importProducts = array();
         $importCustomers = array();
         $importAddresses = array();

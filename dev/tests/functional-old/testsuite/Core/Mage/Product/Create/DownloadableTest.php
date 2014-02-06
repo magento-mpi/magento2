@@ -288,7 +288,6 @@ class Core_Mage_Product_Create_DownloadableTest extends Mage_Selenium_TestCase
      * @dataProvider invalidNumericFieldDataProvider
      * @depends requiredFieldsInDownloadable
      * @TestlinkId TL-MAGE-3396
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function invalidTierPriceInDownloadable($invalidTierData)
     {

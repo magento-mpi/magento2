@@ -33,6 +33,13 @@ sub_category_required:
     available_product_listing_config: No
     available_product_listing: Position, Name, Price
 
+sub_category_right_column:
+    parent_category: Default Category
+    name: Sub Category Required(%randomize%)
+    is_active: Yes
+    apply_to_products: Yes
+    custom_layout_update: '<referenceBlock name="root"><action method="setTemplate"><argument name="template" xsi:type="string">2columns-right.phtml</argument></action></referenceBlock>'
+
 root_category_all: &categoryAll
     #General Information
     name: Category All Data(%randomize%)
@@ -62,7 +69,7 @@ root_category_all: &categoryAll
     active_from: %currentDate%
     active_to: %currentDate%
     page_layout: 3 columns
-    custom_layout_update: Custom Layout Update
+    custom_layout_update: '<remove name="catalog.compare.sidebar"/>'
     #Category Products
     category_products_data:
         product_1: *product1

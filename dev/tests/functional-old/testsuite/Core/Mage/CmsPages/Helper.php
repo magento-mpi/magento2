@@ -28,6 +28,7 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_AbstractHelper
         $pageData = $this->fixtureDataToArray($pageData);
         $this->clickButton('add_new_page');
         if (isset($pageData['page_information'])) {
+            $this->openTab('page_information');
             $data = $pageData['page_information'];
             if (array_key_exists('store_view', $data) && !$this->controlIsVisible('multiselect', 'store_view')) {
                 unset($data['store_view']);
@@ -46,11 +47,11 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_AbstractHelper
         if (isset($pageData['meta_data'])) {
             $this->fillTab($pageData['meta_data'], 'meta_data');
         }
-        if (isset($cmsVars['additional_tabs'])) {
-            foreach ($cmsVars['additional_tabs'] as $tabName => $data) {
+        if (isset($pageData['additional_tabs'])) {
+            foreach ($pageData['additional_tabs'] as $tabName => $data) {
                 $this->fillTab($data, $tabName);
             }
-        }        
+        }
         $this->saveForm('save_page');
     }
 
@@ -98,19 +99,14 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_AbstractHelper
             $this->waitForControlStopsMoving('link', 'wysiwyg_' . $buttonName);
             $this->clickControl('link', 'wysiwyg_' . $buttonName, false);
         }
-        //@TODO remove when fixed bug for cms_static_block page
-        try {
-            $this->waitForControlVisible('dropdown', 'widget_type');
-        } catch (Exception $e) {
-            $this->markTestIncomplete('BUG: widget_insertion pop-up in not appears for '
-                . $this->getCurrentPage() . ' page');
-        }
+        $this->waitForControlVisible('dropdown', 'widget_type');
         $this->fillFieldset($widgetData, 'widget_insertion');
         if ($chooseOption) {
             $this->selectOptionItem($chooseOption);
         }
         $this->clickButton('submit_widget_insert', false);
         //@TODO wait for widget_insertion pop-up disappear or validation message appear
+        $this->pleaseWait();
         sleep(3);
         return !$this->elementIsPresent($this->_getControlXpath('fieldset', 'widget_insertion'));
     }
@@ -183,6 +179,7 @@ class Core_Mage_CmsPages_Helper extends Mage_Selenium_AbstractHelper
      */
     public function insertVariable($variable, $buttonName = 'insert_variable')
     {
+        $this->hidePageActionsPanel();
         if ($this->controlIsVisible('button', $buttonName)) {
             $this->clickButton($buttonName, false);
         } elseif ($this->waitForControlEditable('link', 'wysiwyg_' . $buttonName)) {

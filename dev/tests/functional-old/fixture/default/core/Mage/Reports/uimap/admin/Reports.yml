@@ -11,50 +11,50 @@
 ---
 # Sales: Total Ordered Report page
 reports_sales_sales:
-    mca: report_sales/sales/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_sales/sales/')]
+    mca: reports/report_sales/sales/
+    click_xpath: //ul[@id='nav']//a[contains(@href,'/report_sales/sales/')]
     title: Sales Report / Sales / Reports / Magento Admin
     uimap: ~
 
 # Sales: Order Taxes Report Grouped by Tax Rate page
 report_sales_tax:
-    mca: report_sales/tax/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_sales/tax/')]
+    mca: reports/report_sales/tax/
+    click_xpath: //ul[@id='nav']//a[contains(@href,'/report_sales/tax/')]
     title: Tax Report / Sales / Reports / Magento Admin
     uimap: ~
 
 # Sales: Total Invoiced vs. Paid Report page
 report_sales_invoiced:
-    mca: report_sales/invoiced/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_sales/invoiced/')]
+    mca: reports/report_sales/invoiced/
+    click_xpath: //ul[@id='nav']//a[contains(@href,'/report_sales/invoiced/')]
     title: Invoice Report / Sales / Reports / Magento Admin
     uimap: ~
 
 # Sales: Total Shipped Report page
 report_sales_shipping:
-    mca: report_sales/shipping/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_sales/shipping/')]
+    mca: reports/report_sales/shipping/
+    click_xpath: //ul[@id='nav']//a[contains(@href,'/report_sales/shipping/')]
     title: Shipping Report / Sales / Reports / Magento Admin
     uimap: ~
 
 # Sales: Total Refunded Report page
 report_sales_refunded:
-    mca: report_sales/refunded/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_sales/refunded/')]
+    mca: reports/report_sales/refunded/
+    click_xpath: //ul[@id='nav']//a[contains(@href,'/report_sales/refunded/')]
     title: Refunds Report / Sales / Reports / Magento Admin
     uimap: ~
 
 # Sales: Coupons Usage Report page
 report_sales_coupons:
-    mca: report_sales/coupons/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_sales/coupons/')]
+    mca: reports/report_sales/coupons/
+    click_xpath: //ul[@id='nav']//a[contains(@href,'/report_sales/coupons/')]
     title: Coupons Report / Sales / Reports / Magento Admin
     uimap: ~
 
 # Sales: PayPal Settlement Reports page
 paypal_reports:
     mca: paypal_reports/
-    click_xpath: //*[@class='navigation']//a[contains(@href, '/paypal_reports/')]
+    click_xpath: //ul[@id='nav']//a[contains(@href,'/paypal_reports/')]
     title:  PayPal Settlement Reports / Sales / Reports / Magento Admin
     uimap:
         form:
@@ -91,28 +91,28 @@ paypal_reports:
 
 # Shopping Cart: Products in carts page
 report_shopcart_product:
-    mca: report_shopcart/product/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_shopcart/product/')]
+    mca: reports/report_shopcart/product/
+    click_xpath: //ul[@id='nav']//a[contains(@href,'/report_shopcart/product/')]
     title: Products in Carts / Marketing / Reports / Magento Admin
 
 # Shopping Cart: Abandoned carts page
 report_shopcart_abandoned:
-    mca: report_shopcart/abandoned/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_shopcart/abandoned/')]
+    mca: reports/report_shopcart/abandoned/
+    click_xpath: //ul[@id='nav']//a[contains(@href,'/report_shopcart/abandoned/')]
     title: Abandoned Carts / Marketing / Reports / Magento Admin
     uimap: ~
 
 # Products:
 report_sales_bestsellers:
-    mca: report_sales/bestsellers/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_sales/bestsellers/')]
+    mca: reports/report_sales/bestsellers/
+    click_xpath: //ul[@id='nav']//a[contains(@href,'/report_sales/bestsellers/')]
     title: Best Sellers Report / Products / Reports / Magento Admin
     uimap: ~
 
 # Products: Products Ordered page
 report_product_sold:
-    mca: report_product/sold/
-    click_xpath: //ul[@id='nav']//a[contains(@href, '/report_product/sold/')]
+    mca: reports/report_product/sold/
+    click_xpath: //ul[@id='nav']//a[contains(@href,'/report_product/sold/')]
     title: Ordered Products Report / Products / Reports / Magento Admin
     uimap:
         form:
@@ -136,15 +136,15 @@ report_product_sold:
 
 # Products: Most Viewed page
 report_product_viewed:
-    mca: report_product/viewed/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_product/viewed/')]
+    mca: reports/report_product/viewed/
+    click_xpath: //ul[@id='nav']//a[contains(@href,'/report_product/viewed/')]
     title: Product Views Report / Products / Reports / Magento Admin
     uimap: ~
 
 # Products: Low stock page
 report_product_lowstock:
-    mca: report_product/lowstock/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_product/lowstock/')]
+    mca: reports/report_product/lowstock/
+    click_xpath: //ul[@id='nav']//a[contains(@href,'/report_product/lowstock/')]
     title: Low Stock Report / Products / Reports / Magento Admin
     uimap:
         form:
@@ -168,15 +168,15 @@ report_product_lowstock:
 
 # Products: Downloads page
 report_product_downloads:
-    mca: report_product/downloads/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_product/downloads/')]
+    mca: reports/report_product/downloads/
+    click_xpath: //ul[@id='nav']//a[contains(@href,'/report_product/downloads/')]
     title: Downloads Report / Products / Reports / Magento Admin
     uimap: ~
 
 # Customers: New Accounts page
 report_customer_accounts:
-    mca: report_customer/accounts/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_customer/accounts/')]
+    mca: reports/report_customer/accounts/
+    click_xpath: //ul[@id='nav']//a[contains(@href,'/report_customer/accounts/')]
     title: New Accounts Report / Customers / Reports / Magento Admin
     uimap:
         form:
@@ -201,8 +201,8 @@ report_customer_accounts:
 
 # Customers: Customers by Orders Total page
 report_customer_totals:
-    mca: report_customer/totals/
-    click_xpath: //ul[@id='nav']//a[contains(@href, '/report_customer/totals/')]
+    mca: reports/report_customer/totals/
+    click_xpath: //ul[@id='nav']//a[contains(@href,'/report_customer/totals/')]
     title: Order Total Report / Customers / Reports / Magento Admin
     uimap:
         form:
@@ -233,8 +233,8 @@ report_customer_totals:
 
 # Customers: Customers by number of orders page
 report_customer_orders:
-    mca: report_customer/orders/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_customer/orders/')]
+    mca: reports/report_customer/orders/
+    click_xpath: //ul[@id='nav']//a[contains(@href,'/report_customer/orders/')]
     title: Order Count Report / Customers / Reports / Magento Admin
     uimap:
         form:
@@ -255,129 +255,9 @@ report_customer_orders:
                              customer_orders_grid: //table[@id='gridOrdersCustomer_table']
                              customer_orders_grid_line: //table[@id='gridOrdersCustomer_table']/tfoot/tr
 
-# Tags: Customers Tags page
-report_tag_customer:
-    mca: report_tag/customer/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_tag/customer/')]
-    title: Customer Report / Tags / Reports / Magento Admin
-    uimap:
-        form:
-            fieldsets:
-                -
-                    report_tag_grid:
-                        xpath: //div[@id='grid']
-                        links:
-                            id: //a[label='ID']
-                            first_name: //a[label='First Name']
-                            last_name: //a[label='Last Name']
-                            total_tags: //a[label='Total Tags']
-                            action: //th[span='Action']
-                            show_tags: //a[text()='Show Tags' and parent::td[preceding-sibling::td[contains(.,'%firstName%')] and preceding-sibling::td[contains(.,'%lastName%')]]]
-                        dropdowns:
-                            view_limit: //select[@name='limit']
-                            export_to: //select[@id='grid_export']
-                        buttons:
-                            export: //button[span='Export']
-                        fields:
-                            page: //input[@name='page']
-
-# Tags: Tags Submitted by Customer
-tags_submitted_by_customer:
-    mca: report_tag/customerDetail/id/%id%/
-    title: Tags Submitted by %elementTitle% / Customer Report / Tags / Reports / Reports / Magento Admin
-    uimap:
-        form:
-            fieldsets:
-                -
-                    report_tag_grid:
-                        xpath: //div[@id='customers_grid']
-                        dropdowns:
-                            export_to: //select[@id='customers_grid_export']
-        buttons:
-            back: //button[span='Back']
-
-# Tags: Products Tags page
-report_tag_product:
-    mca: report_tag/product/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_tag/product/')]
-    title: Product Report / Tags / Reports / Reports / Magento Admin
-    uimap:
-        form:
-            fieldsets:
-                -
-                    report_tag_grid:
-                        xpath: //div[@id='gridProducts']
-                        links:
-                            id: //a[label='ID']
-                            product_name: //a[label='Product']
-                            unique_tags_number: //a[label='Unique Tags']
-                            total_tags_number: //a[label='Total Tags']
-                            action: //th[span='Action']
-                            show_tags: //a[text()='Show Tags' and parent::td[preceding-sibling::td[contains(.,'%productName%')]]]
-                        dropdowns:
-                            view_limit: //select[@name='limit']
-                            export_to: //select[@id='gridProducts_export']
-                        buttons:
-                            export: //button[span='Export']
-                        fields:
-                            page: //input[@name='page']
-
-# Tags: Tags Submitted to Product
-tags_submitted_to_product:
-    mca: report_tag/productDetail/id/%id%/
-    title: Tags submitted to %elementTitle% / Product Report / Tags / Reports / Magento Admin
-    uimap:
-        form:
-            fieldsets:
-                -
-                    report_tag_grid:
-                        xpath: //div[@id='grid']
-                        dropdowns:
-                            export_to: //select[@id='grid_export']
-        buttons:
-            back: //button[span='Back']
-
-# Tags: Popular Tags page
-report_tag_popular:
-    mca: report_tag/popular/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_tag/popular/')]
-    title: Popularity Report / Tags / Reports / Tags / Reports / Magento Admin
-    uimap:
-        form:
-            fieldsets:
-                -
-                    report_tag_grid:
-                        xpath: //div[@id='grid']
-                        links:
-                            tag_name: //a[label='Tag']
-                            popularity: //a[label='Popularity']
-                            action: //th[span='Action']
-                            show_details: //a[text()='Show Details' and parent::td[preceding-sibling::td[contains(.,'%tagName%')]]]
-                        dropdowns:
-                            view_limit: //select[@name='limit']
-                            export_to: //select[@id='grid_export']
-                        buttons:
-                            export: //button[span='Export']
-
-# Tags: Tag Details
-tag_details:
-    mca: report_tag/tagDetail/id/%id%/
-    title: Tag "%elementTitle%" details / Popularity Report / Tags / Reports / Magento Admin
-    uimap:
-        form:
-            fieldsets:
-                -
-                    report_tag_grid:
-                        xpath: //div[@id='tag_grid']
-                        dropdowns:
-                            export_to: //select[@id='tag_grid_export']
-        buttons:
-            back: //button[span='Back']
-
-# Reviews: Customers Reviews page
 report_review_customer:
-    mca: report_review/customer/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_review/customer/')]
+    mca: reports/report_review/customer/
+    click_xpath: //ul[@id='nav']//a[contains(@href,'/report_review/customer')]
     title: Customer Reviews Report / Reviews / Reports / Magento Admin
     uimap:
         form:
@@ -394,8 +274,8 @@ report_review_customer:
 
 # Reviews: Products Reviews
 report_review_product:
-    mca: report_review/product/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_review/product/')]
+    mca: reports/report_review/product/
+    click_xpath: //ul[@id='nav']//a[contains(@href,'/report_review/product/')]
     title: Product Reviews Report / Reviews / Reports / Magento Admin
     uimap:
         form:
@@ -412,8 +292,8 @@ report_review_product:
 
 # Search Terms page
 report_search:
-    mca: report/search/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'report/search/')]
+    mca: reports/index/search/
+    click_xpath: //ul[@id='nav']//li[a/span='Reports']//a[span='Search Terms']
     title: Search Terms Report / Marketing / Reports / Magento Admin
     uimap:
         form:
@@ -439,8 +319,8 @@ report_search:
 
 # Refresh Statistics page
 report_statistics:
-    mca: report_statistics/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_statistics/')]
+    mca: reports/report_statistics/
+    click_xpath: //ul[@id='nav']//a[contains(@href,'/report_statistics/')]
     title: Refresh Statistics / Statistics / Reports / Magento Admin
     uimap:
         form:

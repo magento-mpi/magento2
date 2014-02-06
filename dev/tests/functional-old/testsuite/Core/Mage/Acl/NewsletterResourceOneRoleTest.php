@@ -68,7 +68,6 @@ class Core_Mage_Acl_NewsletterResourceOneRoleTest extends Mage_Selenium_TestCase
      */
     public function verifyScopeNewsletterResource($loginData)
     {
-        $this->markTestIncomplete('MAGETWO-11337');
         //Steps
         $this->adminUserHelper()->loginAdmin($loginData);
         // Verify that navigation menu has only 1 parent element
