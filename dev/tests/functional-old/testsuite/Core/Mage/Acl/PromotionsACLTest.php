@@ -28,10 +28,12 @@ class Core_Mage_Acl_PromotionsACLTest extends Mage_Selenium_TestCase
     protected function assertPreConditions()
     {
         $this->loginAdminUser();
+        $this->navigate('manage_roles');
     }
 
     protected function tearDownAfterTest()
     {
+        $this->admin('log_in_to_admin', false);
         $this->logoutAdminUser();
     }
 
@@ -52,7 +54,6 @@ class Core_Mage_Acl_PromotionsACLTest extends Mage_Selenium_TestCase
     {
         //Preconditions
         //create specific role with full rights to Promotions Menu
-        $this->navigate('manage_roles');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
             array('resource_acl' => 'marketing-promotions'));
         $this->adminUserHelper()->createRole($roleSource);
@@ -93,7 +94,6 @@ class Core_Mage_Acl_PromotionsACLTest extends Mage_Selenium_TestCase
     {
         //Preconditions
         //create specific role with only to Catalog Promotions Menu rights
-        $this->navigate('manage_roles');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
             array('resource_acl' => 'marketing-promotions-catalog_price_rules'));
         $this->adminUserHelper()->createRole($roleSource);
@@ -133,7 +133,6 @@ class Core_Mage_Acl_PromotionsACLTest extends Mage_Selenium_TestCase
     {
         //Preconditions
         //create specific role with full rights to Promotion Menu
-        $this->navigate('manage_roles');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
             array('resource_acl' => 'marketing-promotions-cart_price_rules'));
         $this->adminUserHelper()->createRole($roleSource);

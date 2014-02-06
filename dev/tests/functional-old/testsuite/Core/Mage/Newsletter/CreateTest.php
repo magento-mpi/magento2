@@ -131,9 +131,10 @@ class Core_Mage_Newsletter_CreateTest extends Mage_Selenium_TestCase
     {
         //Steps
         $this->categoryHelper()->frontOpenCategory($category);
-        $this->newsletterHelper()->frontSubscribe('');
+        $this->saveForm('subscribe');
         //Verifying
-        $this->assertMessagePresent('validation', 'newsletter_required_field');
+        $this->addFieldIdToMessage('field', 'sign_up_newsletter');
+        $this->assertMessagePresent('validation', 'empty_required_field');
         $this->assertTrue($this->verifyMessagesCount(), $this->getParsedMessages());
     }
 
@@ -171,7 +172,7 @@ class Core_Mage_Newsletter_CreateTest extends Mage_Selenium_TestCase
         $search = $this->loadDataSet('Newsletter', 'search_newsletter_subscribers',
             array('filter_email' => $customer['email']));
         //Steps
-        $this->frontend('customer_login');
+        $this->frontend();
         $this->customerHelper()->registerCustomer($customer);
         $this->assertMessagePresent('success', 'success_registration');
         $this->categoryHelper()->frontOpenCategory($category);

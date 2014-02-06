@@ -33,7 +33,6 @@ class Enterprise_Mage_Acl_SystemConfigurationTest extends Mage_Selenium_TestCase
      * @dataProvider systemConfigurationOneTabDataProvider
      * @test
      * @TestlinkId TL-MAGE-6016
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function systemConfigurationOneTab($resourceCheckbox, $tabName)
     {
@@ -112,13 +111,9 @@ class Enterprise_Mage_Acl_SystemConfigurationTest extends Mage_Selenium_TestCase
      *
      * @test
      * @TestlinkId TL-MAGE-6006
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function systemConfigurationForWebsite($testData)
     {
-        if ($this->getBrowser() == 'chrome') {
-            $this->markTestIncomplete('MAGETWO-11392');
-        }
         $tabElement = $this->loadDataSet('SystemConfigurationMenu', 'configuration_menu_website');
         //Steps
         $this->adminUserHelper()->loginAdmin($testData);

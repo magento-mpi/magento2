@@ -37,9 +37,12 @@ class Core_Mage_GoogleOptimizer_ProductTest extends Mage_Selenium_TestCase
         // Delete fixture
         $this->loginAdminUser();
         $this->navigate('manage_products');
-        $this->productHelper()->openProduct(array('product_sku' => self::$_productData['general_sku']));
-        $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
-        $this->assertMessagePresent('success', 'success_deleted_product');
+        $this->searchAndChoose(array('product_sku' => self::$_productData['general_sku']), 'product_grid');
+        $this->addParameter('qtyDeletedProducts', 1);
+        $this->fillDropdown('mass_action_select_action', 'Delete');
+        $this->clickButtonAndConfirm('submit', 'confirmation_for_delete');
+        //Verifying
+        $this->assertMessagePresent('success', 'success_deleted_products_massaction');
     }
 
     /**
@@ -53,8 +56,10 @@ class Core_Mage_GoogleOptimizer_ProductTest extends Mage_Selenium_TestCase
         $this->productHelper()->frontOpenProduct(self::$_productData['general_name']);
 
         // Check result
-        $this->assertTrue($this->textIsPresent(self::$_productData['google_experiment_code']),
-            'Experiment code is not found.');
+        $this->assertTrue(
+            $this->textIsPresent(self::$_productData['google_experiment_code']),
+            'Experiment code is not found.'
+        );
     }
 
     /**
@@ -74,14 +79,17 @@ class Core_Mage_GoogleOptimizer_ProductTest extends Mage_Selenium_TestCase
         $this->productHelper()
             ->fillProductInfo(array('google_experiment_code' => self::$_productData['google_experiment_code']));
         $this->productHelper()->saveProduct();
+        $this->assertMessagePresent('success', 'success_saved_product');
 
         // Open product on frontend
         $this->frontend();
         $this->productHelper()->frontOpenProduct(self::$_productData['general_name']);
 
         // Check result
-        $this->assertTrue($this->textIsPresent(self::$_productData['google_experiment_code']),
-            'Experiment code is not equal.');
+        $this->assertTrue(
+            $this->textIsPresent(self::$_productData['google_experiment_code']),
+            'Experiment code is not equal.'
+        );
     }
 
     /**
@@ -95,13 +103,16 @@ class Core_Mage_GoogleOptimizer_ProductTest extends Mage_Selenium_TestCase
         // Disable in System Configuration
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('GoogleApi/content_experiments_disable');
+        $this->flushCache();
 
         // Open product on frontend
         $this->frontend();
         $this->productHelper()->frontOpenProduct(self::$_productData['general_name']);
 
         // Check result
-        $this->assertFalse($this->textIsPresent(self::$_productData['google_experiment_code']),
-            'Experiment code is not disabled.');
+        $this->assertFalse(
+            $this->textIsPresent(self::$_productData['google_experiment_code']),
+            'Experiment code is not disabled.'
+        );
     }
 }

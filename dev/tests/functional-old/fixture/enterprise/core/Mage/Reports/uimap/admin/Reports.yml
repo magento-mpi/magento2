@@ -11,8 +11,8 @@
 ---
 # Invitations General page
 reports_invitations_general:
-    mca: report_invitation/
-    click_xpath: //*[@id='nav']//a[contains(@href, 'report_invitation/index')]
+    mca: invitations/report_invitation/
+    click_xpath: //ul[@id='nav']//li[a/span='Reports']//a[span='Invitations']
     title: Invitations Report / Private Sales / Reports / Magento Admin
     uimap:
         form:
@@ -40,8 +40,8 @@ reports_invitations_general:
 
 #Invitations Customers page
 reports_invitations_customers:
-    mca: report_invitation/customer/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_invitation/customer/')]
+    mca: invitations/report_invitation/customer/
+    click_xpath: //ul[@id='nav']//li[a/span='Reports']//a[span='Invited Customers']
     title: Invited Customers Report / Private Sales / Reports / Magento Admin
     uimap:
         form:
@@ -65,8 +65,8 @@ reports_invitations_customers:
 
 # Invitations Order Conversion Rate page
 invitations_order_conversion_rate:
-    mca: report_invitation/order/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_invitation/order/')]
+    mca: invitations/report_invitation/order/
+    click_xpath: //ul[@id='nav']//li[a/span='Reports']//a[span='Conversions']
     title: Conversion Rate Report / Private Sales / Reports / Magento Admin
     uimap:
         form:
@@ -83,8 +83,8 @@ invitations_order_conversion_rate:
 
 # Customer Segment Report page
 customer_segment_report:
-    mca: report_customer_customersegment/segment/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_customer_customersegment/segment/')]
+    mca: customersegment/report_customer_customersegment/segment/
+    click_xpath: //ul[@id='nav']//li[a/span='Reports']//a[span='Segments']
     title: Customer Segment Report / Customers / Reports / Magento Admin
     uimap:
         form:
@@ -115,8 +115,8 @@ customer_segment_report:
 
 # Customer's Wish list Report page
 customer_wishlist_report:
-    mca: report_customer_wishlist/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'report_customer_wishlist/')]
+    mca: multiplewishlist/report_customer_wishlist/
+    click_xpath: //ul[@id='nav']//li[a/span='Reports']//a[span='Wish Lists']
     title: Customer Wish List Report / Customers / Reports / Magento Admin
     uimap:
         form:
@@ -129,22 +129,17 @@ customer_wishlist_report:
                             search: //button[span='Search']
                             export: //button[span='Export']
                         fields:
-                            filter_from: //input[@name='added_at[from]']
-                            filter_to: //input[@name='added_at[to]']
-                            comment: //input[@id='gridReportWishlists_filter_item_comment']
-                            wishlist_quantity_from: //input[@id='gridReportWishlists_filter_item_qty_from']
-                            wishlist_quantity_to: //input[@id='gridReportWishlists_filter_item_qty_to']
-                            store_quantity_from: //input[@id='gridReportWishlists_filter_product_qty_from']
-                            store_quantity_to: //input[@id='gridReportWishlists_filter_product_qty_to']
-                            surplus_from: //input[@id='gridReportWishlists_filter_qty_diff_from']
-                            surplus_to: //input[@id='gridReportWishlists_filter_qty_diff_to']
+                            filter_added_from: //input[@name='added_at[from]']
+                            filter_added_to: //input[@name='added_at[to]']
+                            filter_wishlist_name: //input[@name='wishlist_name']
+                            filter_comment: //input[@name='item_comment']
                         dropdowns:
                             view_per_page: //select[@name='limit']
-                            filter_status: //select[@id='gridReportWishlists_filter_visibility']
+                            filter_status: //select[@name='visibility']
 
 # Customer Segment Report page
 customer_segment_report_detail:
-    mca: report_customer_customersegment/detail/segment_id/%id%/
+    mca: customersegment/report_customer_customersegment/detail/segment_id/%id%/
     title: Details / Customer Segment Report / Customers / Reports / Magento Admin
     uimap:
         form:

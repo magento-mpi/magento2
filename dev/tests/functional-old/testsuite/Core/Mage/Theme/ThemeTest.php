@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
-    /**
-     * Theme management tests for Backend
-     *
-     * @package     selenium
-     * @subpackage  tests
-     * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
-     */
+/**
+ * Theme management tests for Backend
+ *
+ * @package     selenium
+ * @subpackage  tests
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
 {
     /**
@@ -106,12 +106,10 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
     public function createWithAllFields()
     {
         //Data
-        $themeData = $this->loadDataSet('Theme', 'new_theme',
-            array(
-                 'theme_version' => $this->themeHelper()->generateVersion(),
-                 'theme_title' => $this->generate('string', 65, ':alnum:'),
-            )
-        );
+        $themeData = $this->loadDataSet('Theme', 'new_theme', array(
+            'theme_version' => $this->themeHelper()->generateVersion(),
+            'theme_title' => $this->generate('string', 65, ':alnum:'),
+        ));
         $searchData = $this->loadDataSet('Theme', 'theme_search_data',
             array('theme_title' => $themeData['theme_settings']['theme_title']));
         //Steps
@@ -173,8 +171,7 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
             'theme_title' => $this->generate('string', 65, ':alnum:')
         ));
         $searchData = $this->loadDataSet('Theme', 'theme_search_data',
-            array('theme_title' => $themeData['theme_settings']['theme_title']
-        ));
+            array('theme_title' => $themeData['theme_settings']['theme_title']));
         //Steps
         $this->themeHelper()->createTheme($themeData);
         $this->assertMessagePresent('success', 'success_saved_theme');
@@ -228,7 +225,7 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
     {
         return array(
             array('theme_version', '0.0.0.1'),
-            array('theme_title', 'Copy of Magento Demo'),
+            array('theme_title', 'Copy of Magento Plushe'),
         );
     }
 
@@ -244,12 +241,11 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
             array('theme_title' => $this->generate('string', 65, ':alnum:')));
         $searchData = $this->loadDataSet('Theme', 'theme_search_data',
             array('theme_title' => $themeData['theme_settings']['theme_title']));
-        $editData = $this->loadDataSet('Theme', 'new_theme',
-            array('theme_parent' => '%noValue%',
-                 'theme_version' => $this->themeHelper()->generateVersion(),
-                 'theme_title' => $this->generate('string', 65, ':alnum:'),
-            )
-        );
+        $editData = $this->loadDataSet('Theme', 'new_theme', array(
+            'theme_parent' => '%noValue%',
+            'theme_version' => $this->themeHelper()->generateVersion(),
+            'theme_title' => $this->generate('string', 65, ':alnum:'),
+        ));
         //Steps
         $this->themeHelper()->createTheme($themeData);
         $this->assertMessagePresent('success', 'success_saved_theme');
@@ -277,13 +273,11 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
             array('theme_title' => $this->generate('string', 65, ':alnum:')));
         $searchData = $this->loadDataSet('Theme', 'theme_search_data',
             array('theme_title' => $themeData['theme_settings']['theme_title']));
-        $editData = $this->loadDataSet('Theme', 'new_theme',
-            array(
-                 'theme_parent' => '%noValue%',
-                 'theme_version' => $this->themeHelper()->generateVersion(),
-                 'theme_title' => $this->generate('string', 65, ':alnum:'),
-            )
-        );
+        $editData = $this->loadDataSet('Theme', 'new_theme', array(
+            'theme_parent' => '%noValue%',
+            'theme_version' => $this->themeHelper()->generateVersion(),
+            'theme_title' => $this->generate('string', 65, ':alnum:'),
+        ));
         //Steps:
         $this->themeHelper()->createTheme($themeData, false);
         $this->clickButton('save_and_continue_edit');
@@ -375,10 +369,8 @@ class Core_Mage_Theme_ThemeTest extends Mage_Selenium_TestCase
         return array(
             array('Mage_Catalog--widgets.css', 'mage_catalog_widget'),
             array('Mage_Catalog__zoom.css', 'mage_catalog_zoom'),
-            array('Mage_Cms__widgets.css', 'mage_cms_widgets'),
             array('Mage_Oauth--css-oauth-simple.css', 'mage_oauth_css_oauth_simple'),
             array('Mage_Page__css_tabs.css', 'mage_page_css_tabs'),
-            array('Mage_Reports__widgets.css', 'mage_reports_widgets'),
             array('Mage_Widget__widgets.css', 'mage_widget_widgets'),
             array('mage-calendar.css', 'mage_calendar'),
             array('css_print.css', 'css_print'),

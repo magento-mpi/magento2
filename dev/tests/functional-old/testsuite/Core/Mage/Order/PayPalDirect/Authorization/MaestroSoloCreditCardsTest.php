@@ -28,8 +28,6 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('Currency/enable_usd');
-        $this->paypalHelper()->paypalDeveloperLogin();
-        $this->paypalHelper()->deleteAllAccounts();
     }
 
     /**
@@ -54,9 +52,12 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
         $this->systemConfigurationHelper()->configurePaypal($settings);
         $this->systemConfigurationHelper()->configure('Currency/enable_gbp');
         $this->systemConfigurationHelper()->configure('PaymentMethod/enable_3d_secure');
+        $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
 
-        return array('api' => $api,
-                     'sku' => $productData['general_sku']);
+        return array(
+            'card' => $accountInfo['credit_card'],
+            'sku' => $productData['general_sku']
+        );
     }
 
     /**
@@ -71,11 +72,12 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
     public function orderWithSwitchMaestroCard($testData)
     {
         //Data
-        $paymentInfo = $this->loadDataSet('Payment', 'else_switch_maestro');
+        $paymentInfo = $this->loadDataSet('Payment', 'else_switch_maestro', $testData['card']);
         $paymentData = $this->loadDataSet('Payment', 'payment_paypaldirect', array('payment_info' => $paymentInfo));
-        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
-                                        array('filter_sku'  => $testData['sku'],
-                                             'payment_data' => $paymentData));
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa', array(
+            'filter_sku' => $testData['sku'],
+            'payment_data' => $paymentData
+        ));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -133,7 +135,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
         //Data
         $orderData['products_to_add']['product_1']['product_qty'] = 10;
         $invoice = $this->loadDataSet('SalesOrder', 'products_to_invoice',
-                                      array('invoice_product_sku' => $testData['sku']));
+            array('invoice_product_sku' => $testData['sku']));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -159,9 +161,8 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
     {
         //Steps and Verifying
         $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createOrder($orderData);
+        $orderId = $this->orderHelper()->createOrder($orderData);
         $this->assertMessagePresent('success', 'success_created_order');
-        $orderId = $this->orderHelper()->defineOrderId();
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty($captureType);
         $this->navigate('manage_sales_invoices');
         $this->orderInvoiceHelper()->openInvoice(array('filter_order_id' => $orderId));
@@ -186,12 +187,11 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
         //Data
         $orderData['products_to_add']['product_1']['product_qty'] = 10;
         $creditMemo = $this->loadDataSet('SalesOrder', 'products_to_refund',
-                                         array('return_filter_sku' => $testData['sku']));
+            array('return_filter_sku' => $testData['sku']));
         //Steps and Verifying
         $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createOrder($orderData);
+        $orderId = $this->orderHelper()->createOrder($orderData);
         $this->assertMessagePresent('success', 'success_created_order');
-        $orderId = $this->orderHelper()->defineOrderId();
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty($captureType);
         $this->navigate('manage_sales_invoices');
         $this->orderInvoiceHelper()->openInvoice(array('filter_order_id' => $orderId));
@@ -315,5 +315,9 @@ class Core_Mage_Order_PayPalDirect_Authorization_MaestroSoloCreditCardsTest exte
         //Verifying
         $this->paypalHelper()->verifyMagentoPayPalErrors();
         $this->assertMessagePresent('success', 'success_voided_order');
+    }
+
+    public function testForTearDown()
+    {
     }
 }
