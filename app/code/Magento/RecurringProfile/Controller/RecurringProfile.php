@@ -87,6 +87,14 @@ class RecurringProfile extends \Magento\App\Action\Action
     }
 
     /**
+     * Profile related orders view
+     */
+    public function ordersAction()
+    {
+        $this->_viewAction();
+    }
+
+    /**
      * Attempt to set profile state
      */
     public function updateStateAction()
