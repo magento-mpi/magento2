@@ -8,7 +8,6 @@
   * Fixed an issue with CMS Page Links not being shown due to empty text in the link
   * Fixed an issue with disabling zoom functionality for responsive design only
   * Fixed an issue with zoom on product page which shows parent image instead of image of selected options
-  * Fixed an issue with custom options where option price couldn't be updated after switching scope from default values to default store view
 * Updated various PHPDoc with parameter and return types
 * Move Quote Multishipping specifics logic to Multishipping module
 * Resolve dependencies between Payment and Multishipping modules
@@ -20,7 +19,8 @@
 * GitHub requests:
  * [#377] (https://github.com/magento/magento2/issues/377) Remove and avoid javascript eval() calls 
  * [#319] (https://github.com/magento/magento2/issues/319) No message was displayed when product added to shopping cart.
- * [#367] (https://github.com/magento/magento2/issues/367) -- Improve the error message from the contact form
+ * [#367] (https://github.com/magento/magento2/issues/367) Improve the error message from the contact form
+ * [#469] (https://github.com/magento/magento2/issues/469) Can't change prices on different websites for custom options
 
 -2.0.0.0-dev63
 -=============
