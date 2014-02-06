@@ -9,6 +9,8 @@
   * Fixed an issue with disabling zoom functionality for responsive design only
   * Fixed an issue with zoom on product page which shows parent image instead of image of selected options
 * Updated various PHPDoc with parameter and return types
+* Improvements in code coverage calculation:
+  * Added code coverage calculation in clover xml format for unit tests
 * Move Quote Multishipping specifics logic to Multishipping module
 * Resolve dependencies between Payment and Multishipping modules
 * Framework part of the "Translate" functionality removed from modules
