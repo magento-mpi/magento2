@@ -59,4 +59,4 @@ class ExportTest extends \PHPUnit_Framework_TestCase
         $this->_model->setForm($form);
         $this->assertEquals($expected, $this->_model->getElementHtml($elementMock));
     }
-} 
+}
