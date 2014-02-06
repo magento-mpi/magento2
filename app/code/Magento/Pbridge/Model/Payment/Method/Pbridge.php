@@ -344,9 +344,9 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
             ->setData('is_first_capture', $payment->hasFirstCaptureFlag() ? $payment->getFirstCaptureFlag() : true);
 
         $request->setData('billing_address', $this->_getAddressInfo($order->getBillingAddress()));
-        if ($order->getCustomer() && $order->getCustomer()->getId()) {
+        if ($order->getCustomerId()) {
             $email = $order->getCustomerEmail();
-            $id = $order->getCustomer()->getId();
+            $id = $order->getCustomerId();
             $request->setData('customer_id',
                 $this->_pbridgeData->getCustomerIdentifierByEmail($id, $order->getStore()->getId())
             );

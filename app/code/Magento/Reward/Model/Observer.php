@@ -530,11 +530,11 @@ class Observer
      */
     protected function _revertRewardPointsForOrder(\Magento\Sales\Model\Order $order)
     {
-        if (!$order->getCustomer()->getId()) {
+        if (!$order->getCustomerId()) {
             return $this;
         }
         $this->_getRewardModel()
-            ->setCustomerId($order->getCustomer()->getId())
+            ->setCustomerId($order->getCustomerId())
             ->setWebsiteId($this->_storeManager->getStore($order->getStoreId())->getWebsiteId())
             ->setPointsDelta($order->getRewardPointsBalance())
             ->setAction(\Magento\Reward\Model\Reward::REWARD_ACTION_REVERT)

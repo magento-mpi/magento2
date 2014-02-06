@@ -347,6 +347,7 @@ class Quote
             $order->addItem($orderItem);
         }
 
+        $order->setCustomerId($customerDto->getCustomerId());
         $order->setQuote($quote);
 
         $transaction->addObject($order);
