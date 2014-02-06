@@ -275,6 +275,11 @@ class Quote extends \Magento\Core\Model\AbstractModel
     protected $_converter;
 
     /**
+     * @var \Magento\Customer\Service\V1\Dto\Address[]
+     */
+    protected $_addressesData;
+
+    /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Sales\Helper\Data $salesData
@@ -657,7 +662,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      */
     public function getCustomerAddressData()
     {
-        return $this->addressData;
+        return isset($this->_addressesData) ? $this->_addressesData : [];
     }
 
     /**
@@ -670,11 +675,11 @@ class Quote extends \Magento\Core\Model\AbstractModel
      */
     public function setCustomerAddressData(\Magento\Customer\Service\V1\Dto\Address $addressData)
     {
-        if (!isset($this->addressData)) {
-            $this->addressData = [];
+        if (!isset($this->_addressesData)) {
+            $this->_addressesData = [];
         }
-        $this->addressData[] = $addressData;
-        return $this->addressData;
+        $this->_addressesData[] = $addressData;
+        return $this->_addressesData;
     }
 
     /**
