@@ -1,6 +1,7 @@
 <?php
 /**
  * Edit tabs for configurable products
+ *
  * {license_notice}
  *
  * @copyright   {copyright}

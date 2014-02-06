@@ -124,9 +124,17 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
         return $price;
     }
 
-    protected function _getValueByIndex($values, $index) {
+    /**
+     * Find value in array by index
+     *
+     * @param array $values
+     * @param string $index
+     * @return bool
+     */
+    protected function _getValueByIndex($values, $index)
+    {
         foreach ($values as $value) {
-            if($value['value_index'] == $index) {
+            if ($value['value_index'] == $index) {
                 return $value;
             }
         }
