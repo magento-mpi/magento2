@@ -7,16 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Shipping\Controller\Adminhtml\Order;
 
 /**
  * Adminhtml order shipment controller
  *
- * @category   Magento
- * @package    Magento_Sales
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Shipping\Controller\Adminhtml\Order;
-
 class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShipment
 {
     /**
@@ -56,6 +53,8 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
 
     /**
      * Initialize shipment items QTY
+     *
+     * @return array
      */
     protected function _getItemQtys()
     {
@@ -132,7 +131,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
      * Save shipment and order in one transaction
      *
      * @param \Magento\Sales\Model\Order\Shipment $shipment
-     * @return \Magento\Shipping\Controller\Adminhtml\Order\Shipment
+     * @return $this
      */
     protected function _saveShipment($shipment)
     {
@@ -147,6 +146,8 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
 
     /**
      * Shipment information page
+     *
+     * @return void
      */
     public function viewAction()
     {
@@ -165,6 +166,8 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
 
     /**
      * Start create shipment action
+     *
+     * @return void
      */
     public function startAction()
     {
@@ -176,6 +179,8 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
 
     /**
      * Shipment create page
+     *
+     * @return void
      */
     public function newAction()
     {
@@ -200,7 +205,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
      * Save shipment
      * We can save only new shipment. Existing shipments are not editable
      *
-     * @return null
+     * @return void
      */
     public function saveAction()
     {
@@ -282,6 +287,8 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
 
     /**
      * Send email with shipment data to customer
+     *
+     * @return void
      */
     public function emailAction()
     {
@@ -315,6 +322,9 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
 
     /**
      * Add new tracking number action
+     *
+     * @return void
+     * @throws \Magento\Core\Exception
      */
     public function addTrackAction()
     {
@@ -364,6 +374,8 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
 
     /**
      * Remove tracking number from shipment
+     *
+     * @return void
      */
     public function removeTrackAction()
     {
@@ -402,6 +414,8 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
 
     /**
      * Add comment to shipment history
+     *
+     * @return void
      */
     public function addCommentAction()
     {
@@ -495,6 +509,8 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
 
     /**
      * Create shipping label action for specific shipment
+     *
+     * @return void
      */
     public function createLabelAction()
     {
@@ -520,6 +536,8 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
 
     /**
      * Print label for one specific shipment
+     *
+     * @return \Magento\App\ResponseInterface|void
      */
     public function printLabelAction()
     {
@@ -569,7 +587,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
     /**
      * Create pdf document with information about packages
      *
-     * @return \Magento\App\ResponseInterface
+     * @return \Magento\App\ResponseInterface|void
      */
     public function printPackageAction()
     {
@@ -592,7 +610,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
      * Batch print shipping labels for whole shipments.
      * Push pdf document with shipping labels to user browser
      *
-     * @return null
+     * @return \Magento\App\ResponseInterface|void
      */
     public function massPrintShippingLabelAction()
     {
@@ -677,7 +695,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
      * Create \Zend_Pdf_Page instance with image from $imageString. Supports JPEG, PNG, GIF, WBMP, and GD2 formats.
      *
      * @param string $imageString
-     * @return \Zend_Pdf_Page|bool
+     * @return \Zend_Pdf_Page|false
      */
     protected function _createPdfPageFromImageString($imageString)
     {

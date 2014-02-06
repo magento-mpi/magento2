@@ -11,6 +11,9 @@ namespace Magento\Shipping\Model\Source;
 
 class HandlingAction implements \Magento\Core\Model\Option\ArrayInterface
 {
+    /**
+     * @return array
+     */
     public function toOptionArray()
     {
         return array(

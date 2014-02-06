@@ -139,9 +139,9 @@ abstract class AbstractCarrier extends Object implements AbstractCarrierInterfac
     /**
      * Collect and get rates
      *
-     * @abstract
      * @param \Magento\Sales\Model\Quote\Address\RateRequest $request
      * @return \Magento\Shipping\Model\Rate\Result|bool|null
+     * @abstract
      */
     abstract public function collectRates(\Magento\Sales\Model\Quote\Address\RateRequest $request);
 
@@ -161,7 +161,7 @@ abstract class AbstractCarrier extends Object implements AbstractCarrierInterfac
      * Do return of shipment
      * Implementation must be in overridden method
      *
-     * @param $request
+     * @param \Magento\Shipping\Model\Shipment\Request $request
      * @return Object
      */
     public function returnOfShipment($request)
@@ -284,7 +284,7 @@ abstract class AbstractCarrier extends Object implements AbstractCarrierInterfac
                    return $error;
              } else {
                  /*
-                * The admin set not to show the shipping module if the devliery country is not within specific countries
+                * The admin set not to show the shipping module if the delivery country is not within specific countries
                 */
                 return false;
              }
@@ -292,12 +292,11 @@ abstract class AbstractCarrier extends Object implements AbstractCarrierInterfac
         return $this;
     }
 
-
     /**
      * Processing additional validation to check is carrier applicable.
      *
      * @param \Magento\Sales\Model\Quote\Address\RateRequest $request
-     * @return \Magento\Shipping\Model\Carrier\AbstractCarrier|\Magento\Sales\Model\Quote\Address\RateResult\Error|boolean
+     * @return $this|bool|\Magento\Sales\Model\Quote\Address\RateResult\Error
      */
     public function proccessAdditionalValidation(\Magento\Sales\Model\Quote\Address\RateRequest $request)
     {
@@ -328,7 +327,7 @@ abstract class AbstractCarrier extends Object implements AbstractCarrierInterfac
     /**
      * Check if carrier has shipping tracking option available
      *
-     * @return boolean
+     * @return bool
      */
     public function isTrackingAvailable()
     {
@@ -338,7 +337,7 @@ abstract class AbstractCarrier extends Object implements AbstractCarrierInterfac
     /**
      * Check if carrier has shipping label option available
      *
-     * @return boolean
+     * @return bool
      */
     public function isShippingLabelsAvailable()
     {
@@ -357,7 +356,7 @@ abstract class AbstractCarrier extends Object implements AbstractCarrierInterfac
 
     /**
      * @param \Magento\Sales\Model\Quote\Address\RateRequest $request
-     * @return null
+     * @return void
      */
     protected function _updateFreeMethodQuote($request)
     {
@@ -494,8 +493,8 @@ abstract class AbstractCarrier extends Object implements AbstractCarrierInterfac
     /**
      *  Return weight in pounds
      *
-     *  @param integer Weight in someone measure
-     *  @return float Weight in pounds
+     *  @param int $weight in some measure
+     *  @return float $weight in pounds
      */
     public function convertWeightToLbs($weight)
     {
@@ -503,9 +502,10 @@ abstract class AbstractCarrier extends Object implements AbstractCarrierInterfac
     }
 
     /**
-     * set the number of boxes for shipping
+     * Sets the number of boxes for shipping
      *
-     * @return weight
+     * @param int $weight in some measure
+     * @return int
      */
     public function getTotalNumOfBoxes($weight)
     {
@@ -535,7 +535,7 @@ abstract class AbstractCarrier extends Object implements AbstractCarrierInterfac
     /**
      * Check if city option required
      *
-     * @return boolean
+     * @return bool
      */
     public function isCityRequired()
     {
@@ -557,6 +557,7 @@ abstract class AbstractCarrier extends Object implements AbstractCarrierInterfac
      * Log debug data to file
      *
      * @param mixed $debugData
+     * @return void
      */
     protected function _debug($debugData)
     {
@@ -581,6 +582,7 @@ abstract class AbstractCarrier extends Object implements AbstractCarrierInterfac
      * Used to call debug method from not Payment Method context
      *
      * @param mixed $debugData
+     * @return void
      */
     public function debugData($debugData)
     {

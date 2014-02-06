@@ -7,8 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Shipping\Model;
 
 class Info extends \Magento\Object
@@ -75,7 +73,7 @@ class Info extends \Magento\Object
      * Generating tracking info
      *
      * @param array $hash
-     * @return \Magento\Shipping\Model\Info
+     * @return $this
      */
     public function loadByHash($hash)
     {
@@ -207,7 +205,7 @@ class Info extends \Magento\Object
     }
 
     /**
-     * @param $shipment \Magento\Sales\Model\Order\Shipment
+     * @param \Magento\Sales\Model\Order\Shipment $shipment
      * @return \Magento\Shipping\Model\Resource\Order\Track\Collection
      */
     protected function _getTracksCollection(\Magento\Sales\Model\Order\Shipment $shipment)

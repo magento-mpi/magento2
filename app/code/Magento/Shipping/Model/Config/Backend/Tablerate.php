@@ -49,6 +49,9 @@ class Tablerate extends \Magento\Core\Model\Config\Value
         parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
     }
 
+    /**
+     * @return \Magento\Core\Model\AbstractModel|void
+     */
     public function _afterSave()
     {
         $this->_tablerateFactory->create()->uploadAndImport($this);

@@ -7,8 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Shipping\Model;
 
 use Magento\Sales\Model\Order\Shipment;
@@ -126,7 +124,7 @@ class Shipping implements RateCollectorInterface
      * Set shipping orig data
      *
      * @param array $data
-     * @return null
+     * @return void
      */
     public function setOrigData($data)
     {
@@ -157,9 +155,9 @@ class Shipping implements RateCollectorInterface
     /**
      * Retrieve all methods for supplied shipping data
      *
-     * @todo make it ordered
      * @param \Magento\Sales\Model\Quote\Address\RateRequest $request
      * @return $this
+     * @todo make it ordered
      */
     public function collectRates(\Magento\Sales\Model\Quote\Address\RateRequest $request)
     {
@@ -208,7 +206,7 @@ class Shipping implements RateCollectorInterface
      *
      * @param string $carrierCode
      * @param \Magento\Sales\Model\Quote\Address\RateRequest $request
-     * @return \Magento\Shipping\Model\Shipping
+     * @return $this
      */
     public function collectCarrierRates($carrierCode, $request)
     {
@@ -283,7 +281,7 @@ class Shipping implements RateCollectorInterface
 
     /**
      * Compose Packages For Carrier.
-     * Devides order into items and items into parts if it's necessary
+     * Divides order into items and items into parts if it's necessary
      *
      * @param \Magento\Shipping\Model\Carrier\AbstractCarrier $carrier
      * @param \Magento\Sales\Model\Quote\Address\RateRequest $request
@@ -371,7 +369,7 @@ class Shipping implements RateCollectorInterface
 
     /**
      * Make pieces
-     * Compose packeges list based on given items, so that each package is as heavy as possible
+     * Compose packages list based on given items, so that each package is as heavy as possible
      *
      * @param array $items
      * @param float $maxWeight
@@ -421,7 +419,7 @@ class Shipping implements RateCollectorInterface
      *
      * @param \Magento\Object $address
      * @param null|bool|array $limitCarrier
-     * @return \Magento\Shipping\Model\Shipping
+     * @return $this
      */
     public function collectRatesByAddress(\Magento\Object $address, $limitCarrier = null)
     {
@@ -451,7 +449,7 @@ class Shipping implements RateCollectorInterface
      * Set part of carrier xml config path
      *
      * @param string $code
-     * @return \Magento\Shipping\Model\Shipping
+     * @return $this
      */
     public function setCarrierAvailabilityConfigField($code = 'active')
     {

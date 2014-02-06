@@ -12,12 +12,20 @@ namespace Magento\Shipping\Model\Tracking;
 
 class Result
 {
-
+    /**
+     * @var array
+     */
     protected $_trackings = array();
+
+    /**
+     * @var null|array
+     */
     protected $_error = null;
 
     /**
      * Reset tracking
+     *
+     * @return $this
      */
     public function reset()
     {
@@ -25,17 +33,28 @@ class Result
         return $this;
     }
 
+    /**
+     * @param array $error
+     * @return void
+     */
     public function setError($error)
     {
         $this->_error = $error;
     }
 
+    /**
+     * @return array|null
+     */
     public function getError()
     {
         return $this->_error;
     }
+
     /**
      * Add a tracking to the result
+     *
+     * @param \Magento\Shipping\Model\Tracking\Result\AbstractResult|\Magento\Shipping\Model\Rate\Result $result
+     * @return $this
      */
     public function append($result)
     {
@@ -52,6 +71,8 @@ class Result
 
     /**
      * Return all trackings in the result
+     *
+     * @return array
      */
     public function getAllTrackings()
     {
