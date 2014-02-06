@@ -22,7 +22,6 @@ app/code/Magento/Catalog/Block/Product/View/Tabs.php
 app/code/Magento/Catalog/Model/Attribute/Config
 app/code/Magento/Catalog/Model/Attribute/Config.php
 app/code/Magento/Catalog/Model/Resource/Category/Collection
-app/code/Magento/Catalog/Model/Resource/Product/Collection
 app/code/Magento/Catalog/Model/Product/Type.php
 app/code/Magento/Catalog/Model/ProductOptions
 app/code/Magento/Catalog/Model/ProductTypes

@@ -181,7 +181,6 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
 
             /**
              * Do not change this tab id
-             * @see \Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tabs\Configurable
              * @see \Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tabs
              */
             if ($this->getChildBlock('customer_options')) {
