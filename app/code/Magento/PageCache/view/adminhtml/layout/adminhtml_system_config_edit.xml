@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <referenceContainer name="js">
+        <block class="\Magento\PageCache\Block\System\Config\Form\Field\Validation" template="Magento_PageCache::page_cache_validation.phtml"/>
+    </referenceContainer>
+</layout>

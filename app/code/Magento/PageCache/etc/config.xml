@@ -18,6 +18,12 @@
             <page_cache>
                 <varnish_configuration_settings_path>Magento/PageCache/etc/varnish.vcl</varnish_configuration_settings_path>
             </page_cache>
+            <varnish_configuration_settings>
+                <ttl>120</ttl>
+                <access_list>localhost</access_list>
+                <backend_host>localhost</backend_host>
+                <backend_port>8080</backend_port>
+            </varnish_configuration_settings>
         </system>
     </default>
 </config>

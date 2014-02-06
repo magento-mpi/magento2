@@ -1,0 +1,26 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+
+<?php /** @var \Magento\PageCache\Block\System\Config\Form\Field\Export $this */ ?>
+<script type="text/javascript">
+    //<![CDATA[
+    (function ($) {
+        $('#system_varnish_configuration_settings').on('change', function(e) {
+            var fields = $(this).find(':input:not(:hidden, button)').filter(function() {
+                return !$(this).val().length;
+            });
+            if (fields.length) {
+                $('#system_varnish_configuration_settings_varnish_configuration').prop('disabled', true);
+            } else {
+                $('#system_varnish_configuration_settings_varnish_configuration').prop('disabled', false);
+            }
+        })
+    })(jQuery);
+    //]]>
+</script>
