@@ -89,8 +89,10 @@ class Plugin
      */
     public function beforeProcessLessInstructions(array $arguments)
     {
-        list($lessFilePath, $params) = $arguments;
-        $this->cacheManager->addEntityToCache($lessFilePath, $params);
+        if (null !== $this->cacheManager) {
+            list($lessFilePath, $params) = $arguments;
+            $this->cacheManager->addEntityToCache($lessFilePath, $params);
+        }
         return $arguments;
     }
 }
