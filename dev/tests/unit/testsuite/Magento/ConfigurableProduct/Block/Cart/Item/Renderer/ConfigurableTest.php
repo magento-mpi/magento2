@@ -21,6 +21,8 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Core\Model\Store\Config|\PHPUnit_Framework_MockObject_MockObject */
     protected $_storeConfig;
 
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
+    protected $productConfigMock;
     /** @var Renderer */
     protected $_renderer;
 
@@ -37,12 +39,15 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->_storeConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false, false);
+        $this->productConfigMock =
+            $this->getMock('Magento\Catalog\Helper\Product\Configuration', array(), array(), '', false);
         $this->_renderer = $objectManagerHelper->getObject(
             'Magento\ConfigurableProduct\Block\Cart\Item\Renderer\Configurable',
             array(
                 'viewConfig' => $this->_configManager,
                 'imageHelper' => $this->_imageHelper,
                 'storeConfig' => $this->_storeConfig,
+                'productConfig' =>$this->productConfigMock,
             )
         );
     }
@@ -201,5 +206,13 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
         $this->_renderer->setItem($item);
 
         return ['parentProduct' => $parentProduct, 'childProduct' => $childProduct];
+    }
+
+    public function testGetOptionList()
+    {
+        $itemMock = $this->getMock('Magento\Sales\Model\Quote\Item\AbstractItem', array(), array(), '', false);
+        $this->_renderer->setItem($itemMock);
+        $this->productConfigMock->expects($this->once())->method('getOptions')->with($itemMock);
+        $this->_renderer->getOptionList();
     }
 }
