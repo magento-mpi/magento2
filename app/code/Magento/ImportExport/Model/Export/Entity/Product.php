@@ -188,7 +188,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
     protected $_linkTypeProvider;
 
     /**
-     * @var \Magento\ImportExport\Model\Export\RowCustomizer\Composite
+     * @var \Magento\ImportExport\Model\Export\RowCustomizerInterface
      */
     protected $rowCustomizer;
 
@@ -208,7 +208,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeColFactory
      * @param Product\Type\Factory $_typeFactory
      * @param \Magento\Catalog\Model\Product\LinkTypeProvider $linkTypeProvider
-     * @param \Magento\ImportExport\Model\Export\RowCustomizer\Composite $rowCustomizer
+     * @param \Magento\ImportExport\Model\Export\RowCustomizerInterface $rowCustomizer
      */
     public function __construct(
         \Magento\Core\Model\LocaleInterface $locale,
@@ -226,7 +226,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
         \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeColFactory,
         \Magento\ImportExport\Model\Export\Entity\Product\Type\Factory $_typeFactory,
         \Magento\Catalog\Model\Product\LinkTypeProvider $linkTypeProvider,
-        \Magento\ImportExport\Model\Export\RowCustomizer\Composite $rowCustomizer
+        \Magento\ImportExport\Model\Export\RowCustomizerInterface $rowCustomizer
     ) {
         $this->_entityCollection = $collection;
         $this->_exportConfig = $exportConfig;

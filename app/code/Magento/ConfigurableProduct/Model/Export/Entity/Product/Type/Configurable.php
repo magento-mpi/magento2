@@ -1,11 +1,7 @@
 <?php
 /**
- *  Export entity product type configurable model
- *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_ImportExport
  * @copyright   {copyright}
  * @license     {license_link}
  */
