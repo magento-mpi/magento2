@@ -7,12 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Sitemap\Model\Config\Source;
 
 class Frequency implements \Magento\Core\Model\Option\ArrayInterface
 {
+    /**
+     * @return array
+     */
     public function toOptionArray()
     {
         return array(

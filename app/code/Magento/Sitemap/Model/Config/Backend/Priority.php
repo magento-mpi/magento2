@@ -7,13 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Sitemap\Model\Config\Backend;
 
 class Priority extends \Magento\Core\Model\Config\Value
 {
-
+    /**
+     * @return $this
+     * @throws \Exception
+     */
     protected function _beforeSave()
     {
         $value     = $this->getValue();
