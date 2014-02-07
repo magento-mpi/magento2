@@ -200,7 +200,7 @@ class Profile extends \Magento\Backend\App\Action
     }
 
     /**
-     * Customer billing agreements ajax action
+     * Customer grid ajax action
      *
      */
     public function customerGridAction()

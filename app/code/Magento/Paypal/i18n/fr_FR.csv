@@ -60,6 +60,8 @@
 "Billing Agreement Signup ","Souscription aux accords de facturation"
 "Billing Agreement View","Voir l'accord de facturation"
 "Billing Agreements","Accords de facturation"
+"Billing Agreement status is not set.","Le statut du contrat de facturation n'est pas réglé."
+"Unable to save Billing Agreement:","Impossible d'enregistrer l'accord de facturation :"
 "Bonus for first ACH Use","Bonus pour première utilisation de l'ACH"
 "Buyer Credit Payment","Paiement acheteur"
 "Buyer\'s Tax ID","Identification fiscale de l'acheteur"
