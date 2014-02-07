@@ -151,17 +151,12 @@
             <instance type="Magento\Indexer\Model\IndexerInterface" shared="false"/>
         </param>
     </type>
-    <type name="Magento\Catalog\Model\Indexer\Category\Flat\Plugin\AbstractPlugin">
+    <type name="Magento\Catalog\Model\Indexer\Category\Flat\Plugin\StoreGroup">
         <param name="indexerCode">
             <value type="const">Magento\Catalog\Model\Indexer\Category\Flat\State::INDEXER_ID</value>
         </param>
     </type>
     <type name="Magento\Catalog\Model\Indexer\Category\Product\Plugin\StoreGroup">
-        <param name="indexerCode">
-            <value type="const">Magento\Catalog\Model\Indexer\Category\Product::INDEXER_ID</value>
-        </param>
-    </type>
-    <type name="Magento\Catalog\Model\Indexer\Category\Product\Plugin\StoreView">
         <param name="indexerCode">
             <value type="const">Magento\Catalog\Model\Indexer\Category\Product::INDEXER_ID</value>
         </param>

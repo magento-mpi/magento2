@@ -7,10 +7,13 @@
  */
 namespace Magento\Catalog\Model\Indexer\Category\Product\Plugin;
 
-class StoreView extends \Magento\Catalog\Model\Indexer\AbstractPlugin
+class StoreView extends StoreGroup
 {
     /**
-     * {@inheritdoc}
+     * Validate changes for invalidating indexer
+     *
+     * @param \Magento\Core\Model\AbstractModel $store
+     * @return bool
      */
     protected function validate(\Magento\Core\Model\AbstractModel $store)
     {
