@@ -5,9 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Model\Indexer\Category\Flat\Plugin;
+namespace Magento\Catalog\Model\Indexer\Category\Product\Plugin;
 
-class StoreView extends AbstractPlugin
+class StoreView extends \Magento\Catalog\Model\Indexer\AbstractPlugin
 {
     /**
      * {@inheritdoc}

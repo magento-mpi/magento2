@@ -43,6 +43,7 @@ class StoreViewTest extends \PHPUnit_Framework_TestCase
         );
         $this->model = new StoreView(
             $this->indexerMock,
+            'catalog_category_flat',
             $this->stateMock
         );
     }

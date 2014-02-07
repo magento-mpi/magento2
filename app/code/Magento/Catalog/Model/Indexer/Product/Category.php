@@ -94,7 +94,7 @@ class Category implements \Magento\Indexer\Model\ActionInterface, \Magento\Mview
     {
         $this->indexer->load(self::INDEXER_ID);
         if ($this->indexer->isInvalid()) {
-            return;
+            return $this;
         }
 
         /** @var Category\Action\Rows $action */

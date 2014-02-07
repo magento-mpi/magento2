@@ -7,13 +7,8 @@
  */
 namespace Magento\Catalog\Model\Indexer\Category\Flat\Plugin;
 
-class AbstractStore
+abstract class AbstractPlugin extends \Magento\Catalog\Model\Indexer\AbstractPlugin
 {
-    /**
-     * @var \Magento\Indexer\Model\IndexerInterface
-     */
-    protected $indexer;
-
     /**
      * @var \Magento\Catalog\Model\Indexer\Category\Flat\State
      */
@@ -21,31 +16,20 @@ class AbstractStore
 
     /**
      * @param \Magento\Indexer\Model\IndexerInterface $indexer
+     * @param string $indexerCode
      * @param \Magento\Catalog\Model\Indexer\Category\Flat\State $state
      */
     public function __construct(
         \Magento\Indexer\Model\IndexerInterface $indexer,
+        $indexerCode,
         \Magento\Catalog\Model\Indexer\Category\Flat\State $state
     ) {
-        $this->indexer = $indexer;
         $this->state = $state;
+        parent::__construct($indexer, $indexerCode);
     }
 
     /**
-     * Return own indexer object
-     *
-     * @return \Magento\Indexer\Model\IndexerInterface
-     */
-    protected function getIndexer()
-    {
-        if (!$this->indexer->getId()) {
-            $this->indexer->load(\Magento\Catalog\Model\Indexer\Category\Flat\State::INDEXER_ID);
-        }
-        return $this->indexer;
-    }
-
-    /**
-     * Invalidate indexer
+     * {@inheritdoc}
      */
     protected function invalidateIndexer()
     {
