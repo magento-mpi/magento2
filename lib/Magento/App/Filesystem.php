@@ -128,7 +128,7 @@ class Filesystem extends \Magento\Filesystem
      * @param string $code
      * @return string
      */
-    public function getPath($code = 'base')
+    public function getPath($code = self::ROOT_DIR)
     {
         $config = $this->directoryList->getConfig($code);
         $path = isset($config['path']) ? $config['path'] : '';
