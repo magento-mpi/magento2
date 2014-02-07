@@ -1,5 +1,5 @@
 * Modularity improvements:
-  * Consolidated PayPal in separate module
+  * Abstract cart logic moved from Paypal module
   * Moved Shortcut Buttons abstraction from PayPal to Catalog
 * Caching improvements:
   * Added new mechanism to identify page content uniquely (hash-key for cache storage)
