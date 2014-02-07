@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
 
 /**
  * Grid column widget for rendering action grid cells
@@ -15,8 +16,6 @@
  * @package    Magento_Backend
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
-
 class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Text
 {
     /**
@@ -75,7 +74,7 @@ class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Text
     /**
      * Render single action as dropdown option html
      *
-     * @param unknown_type $action
+     * @param array $action
      * @param \Magento\Object $row
      * @return string
      */
@@ -119,8 +118,8 @@ class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Text
     /**
      * Prepares action data for html render
      *
-     * @param array $action
-     * @param string $actionCaption
+     * @param array &$action
+     * @param string &$actionCaption
      * @param \Magento\Object $row
      * @return \Magento\Backend\Block\Widget\Grid\Column\Renderer\Action
      */

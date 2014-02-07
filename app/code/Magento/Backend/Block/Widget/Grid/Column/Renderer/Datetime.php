@@ -18,6 +18,8 @@ class Datetime
 {
     /**
      * Date format string
+     *
+     * @var string
      */
     protected static $_format = null;
 
