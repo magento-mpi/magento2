@@ -13,6 +13,8 @@
  */
 namespace Magento\MultipleWishlist\Block\Customer\Wishlist;
 
+use Magento\Wishlist\Model\Resource\Wishlist\Collection;
+
 class Management extends \Magento\View\Element\Template
 {
     /**
@@ -25,7 +27,7 @@ class Management extends \Magento\View\Element\Template
     /**
      * Wishlist Collection
      *
-     * @var \Magento\Wishlist\Model\Resource\Wishlist\Collection
+     * @var Collection
      */
     protected $_collection;
 
@@ -95,7 +97,7 @@ class Management extends \Magento\View\Element\Template
     /**
      * Retrieve wishlist collection
      *
-     * @return \Magento\Wishlist\Model\Resource\Wishlist\Collection
+     * @return Collection
      */
     public function getWishlists()
     {
@@ -221,7 +223,7 @@ class Management extends \Magento\View\Element\Template
     /**
      * Check whether user multiple wishlist limit reached
      *
-     * @param \Magento\Wishlist\Model\Resource\Wishlist\Collection $wishlists
+     * @param Collection $wishlists
      * @return bool
      */
     public function canCreateWishlists($wishlists)

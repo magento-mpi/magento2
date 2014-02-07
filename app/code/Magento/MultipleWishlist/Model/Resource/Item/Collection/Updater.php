@@ -10,6 +10,7 @@
 namespace Magento\MultipleWishlist\Model\Resource\Item\Collection;
 
 use Magento\Core\Model\Layout\Argument\UpdaterInterface;
+use Magento\Data\Collection\Db;
 
 /**
  * Multiple wishlist item resource collection
@@ -38,8 +39,8 @@ class Updater implements UpdaterInterface
     /**
      * Add filtration by customer id
      *
-     * @param \Magento\Data\Collection\Db $argument
-     * @return \Magento\Data\Collection\Db
+     * @param Db $argument
+     * @return Db
      */
     public function update($argument)
     {
