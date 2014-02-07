@@ -28,7 +28,7 @@ use Magento\Customer\Service\V1\Dto\AddressBuilder as CustomerAddressBuilder;
  * @method int getSaveInAddressBook()
  * @method \Magento\Sales\Model\Quote\Address setSaveInAddressBook(int $value)
  * @method int getCustomerAddressId()
- * @method \Magento\Sales\Model\Quote\Address setCustomerAddressId(\int $value)
+ * @method \Magento\Sales\Model\Quote\Address setCustomerAddressId(int $value)
  * @method \Magento\Customer\Model\Address getCustomerAddress()
  * @method \Magento\Sales\Model\Quote\Address setCustomerAddress(\Magento\Customer\Model\Address $value)
  * @method \Magento\Customer\Service\V1\Dto\Address getCustomerAddressData()
