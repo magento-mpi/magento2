@@ -87,7 +87,8 @@ class HeaderPluginTest extends \PHPUnit_Framework_TestCase
 
         $this->versionMock->expects($this->once())->method('process');
 
-        $this->plugin->afterDispatch($this->responseMock);
+        $result = $this->plugin->afterDispatch($this->responseMock);
+        $this->assertInstanceOf('Magento\App\ResponseInterface', $result);
     }
 
     /**
@@ -116,7 +117,8 @@ class HeaderPluginTest extends \PHPUnit_Framework_TestCase
         $this->layoutMock->expects($this->never())->method('isCacheable');
         $this->versionMock->expects($this->never())->method('process');
 
-        $this->plugin->afterDispatch($this->responseMock);
+        $result = $this->plugin->afterDispatch($this->responseMock);
+        $this->assertInstanceOf('Magento\App\ResponseInterface', $result);
     }
 
     /**
@@ -153,6 +155,7 @@ class HeaderPluginTest extends \PHPUnit_Framework_TestCase
 
         $this->versionMock->expects($this->once())->method('process');
 
-        $this->plugin->afterDispatch($this->responseMock);
+        $result = $this->plugin->afterDispatch($this->responseMock);
+        $this->assertInstanceOf('Magento\App\ResponseInterface', $result);
     }
 }

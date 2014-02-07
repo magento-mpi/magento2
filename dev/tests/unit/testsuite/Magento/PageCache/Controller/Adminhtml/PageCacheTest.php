@@ -37,7 +37,7 @@ class PageCacheTest extends \PHPUnit_Framework_TestCase
     protected $viewMock;
 
     /**
-     * @var \Magento\PageCache\Controller\Block
+     * @var \Magento\PageCache\Controller\Adminhtml\PageCache
      */
     protected $controller;
 
@@ -108,6 +108,7 @@ class PageCacheTest extends \PHPUnit_Framework_TestCase
             )
             ->will($this->returnValue($responseMock));
 
-        $this->controller->exportVarnishConfigAction();
+        $result = $this->controller->exportVarnishConfigAction();
+        $this->assertInstanceOf('Magento\App\ResponseInterface', $result);
     }
 }
