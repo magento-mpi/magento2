@@ -1503,9 +1503,10 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     }
 
     /**
-     * Set and validate Customer data
+     * Set and validate Customer data. Return the updated DTO merged with the account data
      *
      * @param CustomerDto $customerDto
+     * @return CustomerDto
      */
     protected function _validateCustomerData(CustomerDto $customerDto)
     {
@@ -1519,13 +1520,15 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
                 foreach ($errors as $error) {
                     $this->_errors[] = $error;
                 }
-                $form->restoreData($data);
-            } else {
-                $form->compactData($data);
             }
-        } else {
-            $form->restoreData($data);
         }
+        $data = $form->restoreData($data);
+        foreach($data as $key => $value) {
+            if(!$value){
+                unset($data[$key]);
+            }
+        }
+        return $this->_customerBuilder->mergeDtoWithArray($customerDto, $data);
     }
 
     /**
@@ -1561,7 +1564,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
                 $customerDto,
                 [CustomerDto::STORE_ID => $store->getId(), CustomerDto::EMAIL => $this->_getNewCustomerEmail()]
             );
-            $this->_validateCustomerData($customerDto);
+            $customerDto = $this->_validateCustomerData($customerDto);
         }
         /** Persist customer addresses if necessary */
         if ($this->getBillingAddress()->getSaveInAddressBook()) {
