@@ -88,6 +88,6 @@ class Form extends \Magento\Paypal\Block\Standard\Form
      */
     public function canCreateBillingAgreement()
     {
-        return $this->getMethod()->canCreateBillingAgreement();
+        return $this->getMethod()->getConfigData('can_create_billing_agreement');
     }
 }

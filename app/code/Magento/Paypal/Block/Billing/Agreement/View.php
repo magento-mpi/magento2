@@ -57,9 +57,9 @@ class View extends \Magento\View\Element\Template
     protected $_orderConfig;
 
     /**
-     * @var \Magento\Payment\Helper\Data
+     * @var \Magento\Paypal\Helper\Data
      */
-    protected $_paymentHelper;
+    protected $_helper;
 
     /**
      * @var \Magento\Paypal\Model\Resource\Billing\Agreement
@@ -72,7 +72,7 @@ class View extends \Magento\View\Element\Template
      * @param \Magento\Paypal\Model\Resource\Order\CollectionFactory $orderCollectionFactory
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Paypal\Model\Order\Config $orderConfig
-     * @param \Magento\Payment\Helper\Data $paymentHelper
+     * @param \Magento\Paypal\Helper\Data $helper
      * @param \Magento\Paypal\Model\Resource\Billing\Agreement $agreementResource
      * @param array $data
      */
@@ -82,11 +82,11 @@ class View extends \Magento\View\Element\Template
         \Magento\Paypal\Model\Resource\Order\CollectionFactory $orderCollectionFactory,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Paypal\Model\Order\Config $orderConfig,
-        \Magento\Payment\Helper\Data $paymentHelper,
+        \Magento\Paypal\Helper\Data $helper,
         \Magento\Paypal\Model\Resource\Billing\Agreement $agreementResource,
         array $data = array()
     ) {
-        $this->_paymentHelper = $paymentHelper;
+        $this->_helper = $helper;
         $this->_orderCollectionFactory = $orderCollectionFactory;
         $this->_customerSession = $customerSession;
         $this->_orderConfig = $orderConfig;
@@ -195,7 +195,7 @@ class View extends \Magento\View\Element\Template
     protected function _loadPaymentMethods()
     {
         if (!$this->_paymentMethods) {
-            foreach ($this->_paymentHelper->getBillingAgreementMethods() as $paymentMethod) {
+            foreach ($this->_helper->getBillingAgreementMethods() as $paymentMethod) {
                 $this->_paymentMethods[$paymentMethod->getCode()] = $paymentMethod->getTitle();
             }
         }

@@ -209,24 +209,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
     }
 
     /**
-     * Retrieve available billing agreement methods
-     *
-     * @param mixed $store
-     * @param \Magento\Sales\Model\Quote $quote
-     * @return array
-     */
-    public function getBillingAgreementMethods($store = null, $quote = null)
-    {
-        $result = array();
-        foreach ($this->getStoreMethods($store, $quote) as $method) {
-            if ($method->canManageBillingAgreements()) {
-                $result[] = $method;
-            }
-        }
-        return $result;
-    }
-
-    /**
      * Get payment methods that implement recurring profilez management
      *
      * @param mixed $store
@@ -321,27 +303,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
         }
 
         return $methods;
-    }
-
-    /**
-     * Retrieve all billing agreement methods (code and label)
-     *
-     * @return array
-     */
-    public function getAllBillingAgreementMethods()
-    {
-        $result = array();
-        $interface = 'Magento\Payment\Model\Billing\Agreement\MethodInterface';
-        foreach ($this->getPaymentMethods() as $code => $data) {
-            if (!isset($data['model'])) {
-                continue;
-            }
-            $method = $data['model'];
-            if (in_array($interface, class_implements($method))) {
-                $result[$code] = $data['title'];
-            }
-        }
-        return $result;
     }
 
     /**

@@ -38,25 +38,25 @@ class Agreements extends \Magento\View\Element\Template
     protected $_agreementCollection;
 
     /**
-     * @var \Magento\Payment\Helper\Data
+     * @var \Magento\Paypal\Helper\Data
      */
-    protected $_paymentHelper;
+    protected $_helper;
 
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Paypal\Model\Resource\Billing\Agreement\CollectionFactory $agreementCollection
-     * @param \Magento\Payment\Helper\Data $paymentHelper
+     * @param \Magento\Paypal\Helper\Data $helper
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Paypal\Model\Resource\Billing\Agreement\CollectionFactory $agreementCollection,
-        \Magento\Payment\Helper\Data $paymentHelper,
+        \Magento\Paypal\Helper\Data $helper,
         array $data = array()
     ) {
-        $this->_paymentHelper = $paymentHelper;
+        $this->_helper = $helper;
         $this->_customerSession = $customerSession;
         $this->_agreementCollection = $agreementCollection;
         parent::__construct($context, $data);
@@ -135,7 +135,7 @@ class Agreements extends \Magento\View\Element\Template
     protected function _loadPaymentMethods()
     {
         if (!$this->_paymentMethods) {
-            foreach ($this->_paymentHelper->getBillingAgreementMethods() as $paymentMethod) {
+            foreach ($this->_helper->getBillingAgreementMethods() as $paymentMethod) {
                 $this->_paymentMethods[$paymentMethod->getCode()] = $paymentMethod->getTitle();
             }
         }
@@ -150,7 +150,7 @@ class Agreements extends \Magento\View\Element\Template
     public function getWizardPaymentMethodOptions()
     {
         $paymentMethodOptions = array();
-        foreach ($this->_paymentHelper->getBillingAgreementMethods() as $paymentMethod) {
+        foreach ($this->_helper->getBillingAgreementMethods() as $paymentMethod) {
             if ($paymentMethod->getConfigData('allow_billing_agreement_wizard') == 1) {
                 $paymentMethodOptions[$paymentMethod->getCode()] = $paymentMethod->getTitle();
             }

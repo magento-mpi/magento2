@@ -14,11 +14,9 @@ namespace Magento\Paypal\Block\Adminhtml\Billing\Agreement;
 class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
-     * Payment data
-     *
-     * @var \Magento\Payment\Helper\Data
+     * @var \Magento\Paypal\Helper\Data
      */
-    protected $_paymentData = null;
+    protected $_helper = null;
 
     /**
      * @var \Magento\Paypal\Model\Resource\Billing\Agreement\CollectionFactory
@@ -33,7 +31,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
-     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Paypal\Helper\Data $helper
      * @param \Magento\Paypal\Model\Resource\Billing\Agreement\CollectionFactory $agreementFactory
      * @param \Magento\Paypal\Model\Billing\Agreement $agreementModel
      * @param array $data
@@ -41,12 +39,12 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
-        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Paypal\Helper\Data $helper,
         \Magento\Paypal\Model\Resource\Billing\Agreement\CollectionFactory $agreementFactory,
         \Magento\Paypal\Model\Billing\Agreement $agreementModel,
         array $data = array()
     ) {
-        $this->_paymentData = $paymentData;
+        $this->_helper = $helper;
         $this->_agreementFactory = $agreementFactory;
         $this->_agreementModel = $agreementModel;
         parent::__construct($context, $backendHelper, $data);
@@ -145,7 +143,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
             'header'            => __('Payment Method'),
             'index'             => 'method_code',
             'type'              => 'options',
-            'options'           => $this->_paymentData->getAllBillingAgreementMethods(),
+            'options'           => $this->_helper->getAllBillingAgreementMethods(),
             'header_css_class'  => 'col-payment',
             'column_css_class'  => 'col-payment'
         ));
