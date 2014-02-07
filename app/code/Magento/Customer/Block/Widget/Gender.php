@@ -2,22 +2,20 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Widget;
+
+use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
+use Magento\Customer\Service\V1\CustomerServiceInterface;
+use Magento\Customer\Service\V1\Dto\Customer;
+use Magento\Customer\Service\V1\Dto\Eav\Option;
 
 /**
  * Block to render customer's gender attribute
- *
- * @category   Magento
- * @package    Magento_Customer
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Block\Widget;
-
-class Gender extends \Magento\Customer\Block\Widget\AbstractWidget
+class Gender extends AbstractWidget
 {
     /**
      * @var \Magento\Customer\Model\Session
@@ -25,34 +23,37 @@ class Gender extends \Magento\Customer\Block\Widget\AbstractWidget
     protected $_customerSession;
 
     /**
-     * @var \Magento\Customer\Model\Resource\Customer
+     * @var CustomerServiceInterface
      */
-    protected $_customerResource;
+    protected $_customerService;
 
     /**
+     * Create an instance of the Gender widget
+     *
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Customer\Helper\Address $addressHelper
-     * @param \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $attributeMetadata
+     * @param CustomerMetadataServiceInterface $attributeMetadata
+     * @param CustomerServiceInterface $customerService
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Customer\Model\Resource\Customer $customerResource
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Customer\Helper\Address $addressHelper,
-        \Magento\Customer\Service\V1\CustomerMetadataServiceInterface $attributeMetadata,
+        CustomerMetadataServiceInterface $attributeMetadata,
+        CustomerServiceInterface $customerService,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Customer\Model\Resource\Customer $customerResource,
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;
-        $this->_customerResource = $customerResource;
-        parent::__construct($context, $addressHelper,  $attributeMetadata, $data);
+        $this->_customerService = $customerService;
+        parent::__construct($context, $addressHelper, $attributeMetadata, $data);
         $this->_isScopePrivate = true;
     }
 
     /**
      * Initialize block
+     * @return void
      */
     public function _construct()
     {
@@ -62,7 +63,6 @@ class Gender extends \Magento\Customer\Block\Widget\AbstractWidget
 
     /**
      * Check if gender attribute enabled in system
-     *
      * @return bool
      */
     public function isEnabled()
@@ -72,7 +72,6 @@ class Gender extends \Magento\Customer\Block\Widget\AbstractWidget
 
     /**
      * Check if gender attribute marked as required
-     *
      * @return bool
      */
     public function isRequired()
@@ -81,25 +80,20 @@ class Gender extends \Magento\Customer\Block\Widget\AbstractWidget
     }
 
     /**
-     * Get current customer from session
-     *
-     * @return \Magento\Customer\Model\Customer
+     * Get current customer from session using the customer service
+     * @return Customer
      */
     public function getCustomer()
     {
-        return $this->_customerSession->getCustomer();
+        return $this->_customerService->getCustomer($this->_customerSession->getCustomerId());
     }
 
     /**
-     * Returns options from gender source model
-     *
-     * @return array
+     * Returns options from gender attribute
+     * @return Option[]
      */
     public function getGenderOptions()
     {
-        return $this->_customerResource
-            ->getAttribute('gender')
-            ->getSource()
-            ->getAllOptions();
+         return $this->_getAttribute('gender')->getOptions();
     }
 }
