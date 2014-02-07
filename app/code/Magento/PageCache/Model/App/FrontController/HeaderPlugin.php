@@ -80,7 +80,7 @@ class HeaderPlugin
      */
     protected function setPublicHeaders(\Magento\App\Response\Http $response)
     {
-        $ttl = $this->config->getValue(\Magento\PageCache\Model\Config::XML_VARNISH_PAGECACHE_TTL);
+        $ttl = $this->config->getValue(\Magento\PageCache\Model\Config::XML_PAGECACHE_TTL);
         $maxAge = $this->helper->getPublicMaxAgeCache();
         $response->setHeader('X-Magento-ttl', $ttl, true);
         $response->setHeader('pragma', 'cache', true);
