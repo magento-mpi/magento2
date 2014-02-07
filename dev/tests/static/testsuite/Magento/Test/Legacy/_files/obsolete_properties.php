@@ -256,5 +256,7 @@ return array(
     array('_messagesBlock', 'Magento\View\Element\AbstractBlock'),
     array('_messagesBlock', 'Magento\Connect\Helper\Data'),
     array('escapeMessageFlag', 'Magento\View\Block\Messages'),
-    array('fileIteratorFactory', 'Magento\Core\Model\Theme\Collection')
+    array('fileIteratorFactory', 'Magento\Core\Model\Theme\Collection'),
+    array('_allowDuplication', 'Magento\View\Publisher'),
+    array('_modulesReader', 'Magento\View\Publisher'),
 );
