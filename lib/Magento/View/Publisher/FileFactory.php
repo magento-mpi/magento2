@@ -15,10 +15,17 @@ use Magento\ObjectManager;
  */
 class FileFactory
 {
+    const DEFAULT_FILE_INSTANCE_CLASS = 'Magento\View\Publisher\File';
+
     /**
      * @var ObjectManager
      */
     protected $objectManager;
+
+    /**
+     * @var string
+     */
+    protected $instanceName;
 
     /**
      * @var array
@@ -29,10 +36,12 @@ class FileFactory
 
     /**
      * @param ObjectManager $objectManager
+     * @param string $instanceName
      */
-    public function __construct(ObjectManager $objectManager)
+    public function __construct(ObjectManager $objectManager, $instanceName = self::DEFAULT_FILE_INSTANCE_CLASS)
     {
         $this->objectManager = $objectManager;
+        $this->instanceName = $instanceName;
     }
 
     /**
@@ -45,7 +54,7 @@ class FileFactory
      */
     public function create($filePath, array $viewParams)
     {
-        $instanceName = 'Magento\View\Publisher\File';
+        $instanceName = $this->instanceName;
         $extension = $this->getExtension($filePath);
         if (isset($this->publisherFileTypes[$extension])) {
             $instanceName = $this->publisherFileTypes[$extension];
