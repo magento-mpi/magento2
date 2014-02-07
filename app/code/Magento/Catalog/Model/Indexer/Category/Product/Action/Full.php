@@ -64,23 +64,23 @@ class Full
     protected $storeManager;
 
     /**
-     * @var \Magento\Eav\Model\Config
+     * @var \Magento\Catalog\Model\Config
      */
-    protected $eavConfig;
+    protected $config;
 
     /**
      * @param \Magento\App\Resource $resource
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Catalog\Model\Config $config
      */
     public function __construct(
         \Magento\App\Resource $resource,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Eav\Model\Config $eavConfig
+        \Magento\Catalog\Model\Config $config
     ) {
         $this->resource = $resource;
         $this->storeManager = $storeManager;
-        $this->eavConfig = $eavConfig;
+        $this->config = $config;
     }
 
     /**
@@ -252,7 +252,7 @@ class Full
      * @return \Magento\DB\Select
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    protected function _getSelectUnnecessaryData(array $rootCatIds)
+    protected function getSelectUnnecessaryData(array $rootCatIds)
     {
         return $this->getWriteAdapter()->select()
             ->from($this->getMainTable(), [])
@@ -275,7 +275,7 @@ class Full
     {
         $this->getWriteAdapter()->query(
             $this->getWriteAdapter()->deleteFromSelect(
-                $this->_getSelectUnnecessaryData($rootCatIds), $this->getMainTable()
+                $this->getSelectUnnecessaryData($rootCatIds), $this->getMainTable()
             )
         );
     }
@@ -288,7 +288,7 @@ class Full
         $select = $this->getWriteAdapter()->select()
             ->from($this->getMainTmpTable());
 
-        $queries = $this->_prepareSelectsByRange($select, 'category_id');
+        $queries = $this->prepareSelectsByRange($select, 'category_id');
 
         foreach ($queries as $query) {
             $this->getWriteAdapter()->query(
@@ -337,10 +337,10 @@ class Full
     protected function getNonAnchorCategoriesSelect(\Magento\Core\Model\Store $store)
     {
         if (!isset($this->nonAnchorSelects[$store->getId()])) {
-            $statusAttributeId = $this->eavConfig->getAttribute(
+            $statusAttributeId = $this->config->getAttribute(
                 \Magento\Catalog\Model\Product::ENTITY, 'status'
             )->getId();
-            $visibilityAttributeId = $this->eavConfig->getAttribute(
+            $visibilityAttributeId = $this->config->getAttribute(
                 \Magento\Catalog\Model\Product::ENTITY, 'visibility'
             )->getId();
 
@@ -428,7 +428,7 @@ class Full
      * @param int $range
      * @return \Magento\DB\Select[]
      */
-    protected function _prepareSelectsByRange(\Magento\DB\Select $select, $field, $range = self::RANGE_CATEGORY_STEP)
+    protected function prepareSelectsByRange(\Magento\DB\Select $select, $field, $range = self::RANGE_CATEGORY_STEP)
     {
         return $this->getWriteAdapter()->selectsByRange($field, $select, $range);
     }
@@ -440,7 +440,7 @@ class Full
      */
     protected function reindexNonAnchorCategories(\Magento\Core\Model\Store $store)
     {
-        $selects = $this->_prepareSelectsByRange($this->getNonAnchorCategoriesSelect($store), 'entity_id');
+        $selects = $this->prepareSelectsByRange($this->getNonAnchorCategoriesSelect($store), 'entity_id');
         foreach ($selects as $select) {
             $this->getWriteAdapter()->query(
                 $this->getWriteAdapter()->insertFromSelect(
@@ -457,17 +457,18 @@ class Full
      *
      * @param \Magento\Core\Model\Store $store
      * @return \Magento\DB\Select
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
-    protected function _getAnchorCategoriesSelect(\Magento\Core\Model\Store $store)
+    protected function getAnchorCategoriesSelect(\Magento\Core\Model\Store $store)
     {
         if (!isset($this->anchorSelects[$store->getId()])) {
-            $isAnchorAttributeId = $this->eavConfig->getAttribute(
+            $isAnchorAttributeId = $this->config->getAttribute(
                 \Magento\Catalog\Model\Category::ENTITY, 'is_anchor'
             )->getId();
-            $statusAttributeId = $this->eavConfig->getAttribute(
+            $statusAttributeId = $this->config->getAttribute(
                 \Magento\Catalog\Model\Product::ENTITY, 'status'
             )->getId();
-            $visibilityAttributeId = $this->eavConfig->getAttribute(
+            $visibilityAttributeId = $this->config->getAttribute(
                 \Magento\Catalog\Model\Product::ENTITY, 'visibility'
             )->getId();
 
@@ -572,7 +573,7 @@ class Full
      */
     protected function reindexAnchorCategories(\Magento\Core\Model\Store $store)
     {
-        $selects = $this->_prepareSelectsByRange($this->_getAnchorCategoriesSelect($store), 'entity_id');
+        $selects = $this->prepareSelectsByRange($this->getAnchorCategoriesSelect($store), 'entity_id');
 
         foreach ($selects as $select) {
             $this->getWriteAdapter()->query(
@@ -592,13 +593,13 @@ class Full
      * @param \Magento\Core\Model\Store $store
      * @return \Magento\DB\Select
      */
-    protected function _getAllProducts(\Magento\Core\Model\Store $store)
+    protected function getAllProducts(\Magento\Core\Model\Store $store)
     {
         if (!isset($this->productsSelects[$store->getId()])) {
-            $statusAttributeId = $this->eavConfig->getAttribute(
+            $statusAttributeId = $this->config->getAttribute(
                 \Magento\Catalog\Model\Product::ENTITY, 'status'
             )->getId();
-            $visibilityAttributeId = $this->eavConfig->getAttribute(
+            $visibilityAttributeId = $this->config->getAttribute(
                 \Magento\Catalog\Model\Product::ENTITY, 'visibility'
             )->getId();
 
@@ -679,7 +680,7 @@ class Full
      */
     protected function reindexRootCategory(\Magento\Core\Model\Store $store)
     {
-        $selects = $this->_prepareSelectsByRange($this->_getAllProducts($store), 'entity_id', self::RANGE_PRODUCT_STEP);
+        $selects = $this->prepareSelectsByRange($this->getAllProducts($store), 'entity_id', self::RANGE_PRODUCT_STEP);
 
         foreach ($selects as $select) {
             $this->getWriteAdapter()->query(
