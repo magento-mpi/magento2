@@ -55,6 +55,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Catalog\Model\Resource\Eav;
+use \Magento\Catalog\Model\Attribute\LockValidatorInterface;
 
 class Attribute extends \Magento\Eav\Model\Entity\Attribute
 {
@@ -93,8 +94,11 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
     protected $_indexIndexer;
 
     /**
-     * Class constructor
-     *
+     * @var LockValidatorInterface
+     */
+    protected $attrLockValidator;
+
+    /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Helper\Data $coreData
@@ -106,6 +110,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Catalog\Model\ProductFactory $catalogProductFactory
      * @param \Magento\Index\Model\Indexer $indexIndexer
+     * @param LockValidatorInterface $lockValidator
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -122,11 +127,13 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Catalog\Model\ProductFactory $catalogProductFactory,
         \Magento\Index\Model\Indexer $indexIndexer,
+        LockValidatorInterface $lockValidator,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_indexIndexer = $indexIndexer;
+        $this->attrLockValidator = $lockValidator;
         parent::__construct(
             $context,
             $registry,
@@ -162,11 +169,14 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
             if (!isset($this->_data['is_global'])) {
                 $this->_data['is_global'] = self::SCOPE_GLOBAL;
             }
-            if (($this->_data['is_global'] != $this->_origData['is_global'])
-                && $this->_getResource()->isUsedBySuperProducts($this)) {
-                throw new \Magento\Core\Exception(
-                    __('Do not change the scope. This attribute is used in configurable products.')
-                );
+            if ($this->_data['is_global'] != $this->_origData['is_global']) {
+                try {
+                    $this->attrLockValidator->validate($this);
+                } catch (\Magento\Core\Exception $exception) {
+                    throw new \Magento\Core\Exception(
+                        __('Do not change the scope. ' . $exception->getMessage())
+                    );
+                }
             }
         }
         if ($this->getFrontendInput() == 'price') {
@@ -207,9 +217,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
      */
     protected function _beforeDelete()
     {
-        if ($this->_getResource()->isUsedBySuperProducts($this)) {
-            throw new \Magento\Core\Exception(__('This attribute is used in configurable products.'));
-        }
+        $this->attrLockValidator->validate($this);
         $this->_indexIndexer->logEvent(
             $this, self::ENTITY, \Magento\Index\Model\Event::TYPE_DELETE
         );
