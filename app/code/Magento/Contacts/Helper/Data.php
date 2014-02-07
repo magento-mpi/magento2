@@ -51,11 +51,21 @@ class Data extends \Magento\App\Helper\AbstractHelper
         parent::__construct($context);
     }
 
+    /**
+     * Check if enabled
+     *
+     * @return mixed
+     */
     public function isEnabled()
     {
         return $this->_coreStoreConfig->getConfig( self::XML_PATH_ENABLED );
     }
 
+    /**
+     * Get user name
+     *
+     * @return string
+     */
     public function getUserName()
     {
         if (!$this->_customerSession->isLoggedIn()) {
@@ -65,6 +75,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
         return trim($customer->getName());
     }
 
+    /**
+     * Get user email
+     *
+     * @return string
+     */
     public function getUserEmail()
     {
         if (!$this->_customerSession->isLoggedIn()) {
