@@ -26,15 +26,13 @@ class Observer
     {
         /** @var \Magento\Core\Model\Layout $layout */
         $layout = $observer->getEvent()->getLayout();
-        if ($layout->isCacheable()) {
-            $name = $observer->getEvent()->getElementName();
-            $block = $layout->getBlock($name);
-            if ($block instanceof \Magento\View\Element\AbstractBlock && $block->isScopePrivate()) {
-                $transport = $observer->getEvent()->getTransport();
-                $output = $transport->getData('output');
-                $html = sprintf('<!-- BLOCK %1$s -->%2$s<!-- /BLOCK %1$s -->', $block->getNameInLayout(), $output);
-                $transport->setData('output', $html);
-            }
+        $name = $observer->getEvent()->getElementName();
+        $block = $layout->getBlock($name);
+        if ($block instanceof \Magento\View\Element\AbstractBlock && $block->isScopePrivate()) {
+            $transport = $observer->getEvent()->getTransport();
+            $output = $transport->getData('output');
+            $html = sprintf('<!-- BLOCK %1$s -->%2$s<!-- /BLOCK %1$s -->', $block->getNameInLayout(), $output);
+            $transport->setData('output', $html);
         }
     }
 }

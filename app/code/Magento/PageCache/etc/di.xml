@@ -11,14 +11,7 @@
     <type name="Magento\App\FrontControllerInterface">
         <plugin name="front-controller-head" type="Magento\PageCache\Model\App\FrontController\HeaderPlugin"/>
     </type>
-    <!--<type name="Magento\Customer\Model\Session">-->
-    <type name="Magento\Session\SessionManagerInterface">
-        <plugin name="plugin-333" type="Magento\PageCache\Model\Session\VaryPlugin" />
+    <type name="Magento\Core\Model\Layout">
+        <plugin name="front-view-session-stab" type="Magento\PageCache\Model\Layout\SessionPlugin" />
     </type>
-    <!--<type name="Magento\Customer\Model\Session">-->
-        <!--<plugin name="plugin-222" type="Magento\PageCache\Model\Session\VaryPlugin" />-->
-    <!--</type>-->
-    <!--<type name="Magento\Core\Model\Session">-->
-        <!--<plugin name="plugin-111" type="Magento\PageCache\Model\Session\VaryPlugin" />-->
-    <!--</type>-->
 </config>
