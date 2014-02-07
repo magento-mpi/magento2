@@ -19,13 +19,11 @@ custom_design:
     option_2:
         admin_option_name: Magento Blank
     option_3:
-        admin_option_name: Magento Demo
-    option_4:
-        admin_option_name: Magento Fixed Width
-    option_5:
         admin_option_name: Magento Iphone (HTML5)
+    option_4:
+        admin_option_name: Magento Plushe
     default_value: '-- Please Select --'
-    set_default_value: Magento Fixed Width
+    set_default_value: %design_theme%
 
 allow_open_amount:
     attribute_properties:

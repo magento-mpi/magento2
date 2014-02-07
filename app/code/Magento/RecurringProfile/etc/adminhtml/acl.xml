@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <acl>
+        <resources>
+            <resource id="Magento_Adminhtml::admin">
+                <resource id="Magento_Sales::sales" title="Sales" sortOrder="20">
+                    <resource id="Magento_Sales::sales_operation" title="Operations" sortOrder="10">
+                        <resource id="Magento_RecurringProfile::recurring_profile" title="Recurring Profiles" sortOrder="80" />
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

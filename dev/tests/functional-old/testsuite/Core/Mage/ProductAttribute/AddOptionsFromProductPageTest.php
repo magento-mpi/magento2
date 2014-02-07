@@ -166,10 +166,11 @@ class Core_Mage_ProductAttribute_AddOptionsFromProductPageTest extends Mage_Sele
         $this->productAttributeHelper()->openAttribute($searchData);
         //Verifying
         $this->productAttributeHelper()->verifyAttribute($verifyOption);
+        $this->frontend();
         $this->productHelper()->frontOpenProduct($productData['general_name']);
         //@TODO remove when verification method for configurable options will be added
-        $this->addParameter('title', $attributeData['store_view_titles']['Default Store View']);
-        $this->addParameter('optionTitle', $newOption['associated_attribute_value']);
-        $this->assertTrue($this->controlIsVisible(self::FIELD_TYPE_PAGEELEMENT, 'custom_option_select'));
+        $this->addParameter('title', $attributeData['attribute_properties']['attribute_label']);
+        $values = $this->select($this->getControlElement('dropdown', 'custom_option_dropdown'))->selectOptionLabels();
+        $this->assertTrue(in_array($newOption['associated_attribute_value'], $values));
     }
 }

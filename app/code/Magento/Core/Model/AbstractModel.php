@@ -241,6 +241,7 @@ abstract class AbstractModel extends \Magento\Object
     /**
      * Get collection instance
      *
+     * @deplacated
      * @throws \Magento\Core\Exception
      * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
      */
