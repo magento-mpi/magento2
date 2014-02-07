@@ -10,20 +10,10 @@ namespace Magento\Catalog\Model\Indexer\Category\Flat\Plugin;
 class StoreGroup extends AbstractStore
 {
     /**
-     * @param array $arguments
-     * @param \Magento\Code\Plugin\InvocationChain $invocationChain
-     * @return \Magento\Core\Model\Resource\Db\AbstractDb
+     * {@inheritdoc}
      */
-    public function aroundSave(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
+    protected function validate(\Magento\Core\Model\AbstractModel $group)
     {
-        /** @var \Magento\Core\Model\Store\Group $group */
-        $group = $arguments[0];
-        $needInvalidating = $group->dataHasChangedFor('root_category_id') && !$group->isObjectNew();
-        $objectResource = $invocationChain->proceed($arguments);
-        if ($needInvalidating) {
-            $this->invalidateIndexer();
-        }
-
-        return $objectResource;
+        return $group->dataHasChangedFor('root_category_id') && !$group->isObjectNew();
     }
 }

@@ -140,13 +140,30 @@
     </type>
     <type name="Magento\Core\Model\Resource\Store">
         <plugin name="storeViewResourceAroundSave" type="Magento\Catalog\Model\Indexer\Category\Flat\Plugin\StoreView"/>
+        <plugin name="categoryStoreAroundSave" type="Magento\Catalog\Model\Indexer\Category\Product\Plugin\StoreView"/>
     </type>
     <type name="Magento\Core\Model\Resource\Store\Group">
         <plugin name="storeGroupResourceAroundSave" type="Magento\Catalog\Model\Indexer\Category\Flat\Plugin\StoreGroup"/>
+        <plugin name="categoryStoreGroupAroundSave" type="Magento\Catalog\Model\Indexer\Category\Product\Plugin\StoreGroup"/>
     </type>
-    <type name="Magento\Catalog\Model\Indexer\Category\Flat\Plugin\AbstractStore">
+    <type name="Magento\Catalog\Model\Indexer\AbstractStore">
         <param name="indexer">
             <instance type="Magento\Indexer\Model\IndexerInterface" shared="false"/>
+        </param>
+    </type>
+    <type name="Magento\Catalog\Model\Indexer\Category\Flat\Plugin\AbstractStore">
+        <param name="indexerCode">
+            <value type="const">Magento\Catalog\Model\Indexer\Category\Flat\State::INDEXER_ID</value>
+        </param>
+    </type>
+    <type name="Magento\Catalog\Model\Indexer\Category\Product\Plugin\StoreGroup">
+        <param name="indexerCode">
+            <value type="const">Magento\Catalog\Model\Indexer\Category\Product::INDEXER_ID</value>
+        </param>
+    </type>
+    <type name="Magento\Catalog\Model\Indexer\Category\Product\Plugin\StoreView">
+        <param name="indexerCode">
+            <value type="const">Magento\Catalog\Model\Indexer\Category\Product::INDEXER_ID</value>
         </param>
     </type>
     <type name="Magento\Indexer\Model\Config\Data">

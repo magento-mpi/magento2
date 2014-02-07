@@ -5,19 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Model\Indexer\Category\Flat\Plugin;
+namespace Magento\Catalog\Model\Indexer\Category\Product\Plugin;
 
-class StoreGroupTest extends \PHPUnit_Framework_TestCase
+class StoreViewTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Indexer\Model\IndexerInterface
      */
     protected $indexerMock;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Catalog\Model\Indexer\Category\Flat\State
-     */
-    protected $stateMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Code\Plugin\InvocationChain
@@ -38,51 +33,50 @@ class StoreGroupTest extends \PHPUnit_Framework_TestCase
             'Magento\Indexer\Model\IndexerInterface',
             array(), '', false, false, true, array('getId', 'getState', '__wakeup')
         );
-        $this->stateMock = $this->getMock(
-            'Magento\Catalog\Model\Indexer\Category\Flat\State', array('isFlatEnabled'), array(), '', false
-        );
-        $this->model = new StoreGroup(
+        $this->model = new StoreView(
             $this->indexerMock,
-            'catalog_category_flat',
-            $this->stateMock
+            'catalog_category_product'
         );
     }
 
-    public function testAroundSave()
+    public function testAroundSaveNewObject()
     {
-        $this->mockConfigFlatEnabled();
         $this->mockIndexerMethods();
-        $groupMock = $this->getMock(
-            'Magento\Core\Model\Store\Group', array('dataHasChangedFor', 'isObjectNew', '__wakeup'), array(), '', false
+        $storeMock = $this->getMock(
+            'Magento\Core\Model\Store', array('isObjectNew', 'dataHasChangedFor', '__wakeup'), array(), '', false
         );
-        $groupMock->expects($this->once())
-            ->method('dataHasChangedFor')
-            ->with('root_category_id')
-            ->will($this->returnValue(true));
-        $groupMock->expects($this->once())
+        $storeMock->expects($this->once())
             ->method('isObjectNew')
-            ->will($this->returnValue(false));
-
-        $arguments = array($groupMock);
+            ->will($this->returnValue(true));
+        $arguments = array($storeMock);
         $this->mockPluginProceed($arguments);
         $this->assertFalse($this->model->aroundSave($arguments, $this->pluginMock));
     }
 
-    public function testAroundSaveNotNew()
+    public function testAroundSaveHasChanged()
     {
-        $this->mockConfigFlatEnabledNever();
-        $groupMock = $this->getMock(
-            'Magento\Core\Model\Store\Group', array('dataHasChangedFor', 'isObjectNew', '__wakeup'), array(), '', false
+        $storeMock = $this->getMock(
+            'Magento\Core\Model\Store', array('isObjectNew', 'dataHasChangedFor', '__wakeup'), array(), '', false
         );
-        $groupMock->expects($this->once())
+        $storeMock->expects($this->once())
             ->method('dataHasChangedFor')
-            ->with('root_category_id')
+            ->with('group_id')
             ->will($this->returnValue(true));
-        $groupMock->expects($this->once())
-            ->method('isObjectNew')
-            ->will($this->returnValue(true));
+        $arguments = array($storeMock);
+        $this->mockPluginProceed($arguments);
+        $this->assertFalse($this->model->aroundSave($arguments, $this->pluginMock));
+    }
 
-        $arguments = array($groupMock);
+    public function testAroundSaveNoNeed()
+    {
+        $storeMock = $this->getMock(
+            'Magento\Core\Model\Store', array('isObjectNew', 'dataHasChangedFor', '__wakeup'), array(), '', false
+        );
+        $storeMock->expects($this->once())
+            ->method('dataHasChangedFor')
+            ->with('group_id')
+            ->will($this->returnValue(false));
+        $arguments = array($storeMock);
         $this->mockPluginProceed($arguments);
         $this->assertFalse($this->model->aroundSave($arguments, $this->pluginMock));
     }
@@ -115,24 +109,11 @@ class StoreGroupTest extends \PHPUnit_Framework_TestCase
             ->method('invalidate');
     }
 
-    protected function mockConfigFlatEnabled()
-    {
-        $this->stateMock->expects($this->once())
-            ->method('isFlatEnabled')
-            ->will($this->returnValue(true));
-    }
-
     protected function mockPluginProceed($arguments, $returnValue = false)
     {
         $this->pluginMock->expects($this->once())
             ->method('proceed')
             ->with($arguments)
             ->will($this->returnValue($returnValue));
-    }
-
-    protected function mockConfigFlatEnabledNever()
-    {
-        $this->stateMock->expects($this->never())
-            ->method('isFlatEnabled');
     }
 }
