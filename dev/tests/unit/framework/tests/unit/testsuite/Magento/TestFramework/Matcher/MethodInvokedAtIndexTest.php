@@ -24,6 +24,10 @@ class MethodInvokedAtIndexTest extends \PHPUnit_Framework_TestCase
         );
         $matcher = new MethodInvokedAtIndex(0);
         $this->assertTrue($matcher->matches($invocationObject));
+
+        $matcher = new MethodInvokedAtIndex(1);
+        $matcher->matches($invocationObject);
+        $this->assertTrue($matcher->matches($invocationObject));
     }
 }
  

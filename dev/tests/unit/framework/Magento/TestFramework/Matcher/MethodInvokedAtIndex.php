@@ -30,5 +30,4 @@ class MethodInvokedAtIndex extends \PHPUnit_Framework_MockObject_Matcher_Invoked
 
         return $this->indexes[$invocation->methodName] == $this->sequenceIndex;
     }
-
-} 
+}
