@@ -45,13 +45,6 @@ class Account extends \Magento\App\Action\Action
     );
 
     /**
-     * Core registry
-     *
-     * @var \Magento\Core\Model\Registry
-     */
-    protected $_coreRegistry;
-
-    /**
      * @var \Magento\Customer\Model\Session
      */
     protected $_session;
@@ -116,7 +109,6 @@ class Account extends \Magento\App\Action\Action
 
     /**
      * @param \Magento\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\UrlFactory $urlFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
@@ -134,7 +126,6 @@ class Account extends \Magento\App\Action\Action
      */
     public function __construct(
         \Magento\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\UrlFactory $urlFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
@@ -151,7 +142,6 @@ class Account extends \Magento\App\Action\Action
         \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder
     ) {
         $this->_storeManager = $storeManager;
-        $this->_coreRegistry = $coreRegistry;
         $this->_session = $customerSession;
         $this->_urlFactory = $urlFactory;
         $this->_customerFactory = $customerFactory;

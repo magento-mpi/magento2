@@ -110,6 +110,7 @@ class Session extends \Magento\Session\SessionManager
      * @param \Magento\Core\Model\Session $session
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\App\ResponseInterface $response,
      * @param \Magento\Customer\Service\V1\CustomerServiceInterface $customerService
      * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
      * @param null $sessionName
@@ -122,11 +123,11 @@ class Session extends \Magento\Session\SessionManager
         \Magento\Session\SaveHandlerInterface $saveHandler,
         \Magento\Session\ValidatorInterface $validator,
         \Magento\Session\StorageInterface $storage,
-        \Magento\Customer\Model\Config\Share $configShare,
+        Config\Share $configShare,
         \Magento\Core\Helper\Url $coreUrl,
         \Magento\Customer\Helper\Data $customerData,
-        \Magento\Customer\Model\Resource\Customer $customerResource,
-        \Magento\Customer\Model\CustomerFactory $customerFactory,
+        Resource\Customer $customerResource,
+        CustomerFactory $customerFactory,
         \Magento\UrlFactory $urlFactory,
         \Magento\Core\Model\Session $session,
         \Magento\Event\ManagerInterface $eventManager,
@@ -190,12 +191,7 @@ class Session extends \Magento\Session\SessionManager
      */
     public function getCustomerDto()
     {
-        /*** XXX: shouldn't this be CustomerDto? ***/
-        if ($this->_customer instanceof Customer) {
-            return $this->_customer;
-        }
-
-        if ($this->getCustomerId()) {
+        if (!($this->_customer instanceof CustomerDto) && $this->getCustomerId()) {
             $this->_customer = $this->_customerService->getCustomer($this->getCustomerId());
         }
 
@@ -208,6 +204,7 @@ class Session extends \Magento\Session\SessionManager
      *
      * @param   Customer $customerModel
      * @return  \Magento\Customer\Model\Session
+     * @deprecated use setCustomerId() instead
      */
     public function setCustomer(Customer $customerModel)
     {
@@ -266,11 +263,22 @@ class Session extends \Magento\Session\SessionManager
         return null;
     }
 
+    /**
+     * Retrieve customer id from current session
+     *
+     * @return int|null
+     */
     public function getId()
     {
         return $this->getCustomerId();
     }
 
+    /**
+     * Set customer id
+     *
+     * @param int|null $customerId
+     * @return \Magento\Customer\Model\Session
+     */
     public function setId($customerId)
     {
         return $this->setCustomerId($customerId);
