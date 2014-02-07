@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento\Cms\Block\Adminhtml\Page\Grid\Renderer\Action">
+        <param name="urlBuilder">
+            <instance type="Magento\Url"/>
+        </param>
+    </type>
+</config>

@@ -13,18 +13,18 @@ namespace Magento\Cms\Block\Adminhtml\Page\Grid\Renderer;
 class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
-     * @var \Magento\Url
+     * @var \Magento\UrlInterface
      */
     protected $urlBuilder;
 
     /**
      * @param \Magento\Backend\Block\Context $context
-     * @param \Magento\Url $urlBuilder
+     * @param \Magento\UrlInterface $urlBuilder
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Context $context,
-        \Magento\Url $urlBuilder,
+        \Magento\UrlInterface $urlBuilder,
         array $data = array()
     ) {
         $this->urlBuilder = $urlBuilder;
