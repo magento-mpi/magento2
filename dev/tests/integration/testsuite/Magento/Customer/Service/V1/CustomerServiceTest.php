@@ -643,7 +643,7 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
     {
         /** @var $addressFactory \Magento\Customer\Model\AddressFactory*/
         $addressFactory = $this->_objectManager
-            ->create('\Magento\Customer\Model\AddressFactory');
+            ->create('Magento\Customer\Model\AddressFactory');
         $addressModel = $addressFactory->create()->load($addressId);
         $addressData = $addressModel->getData();
         $this->assertTrue(empty($addressData));
