@@ -103,20 +103,22 @@ class CacheTest extends \PHPUnit_Framework_TestCase
      */
     public function contentProvider()
     {
+        $currentTime = time();
+
         return [[[
             [
                 'content'  => 'h1 { background-color: red; }',
-                'mtime'    => 12345,
+                'mtime'    => $currentTime,
                 'expected' => 'background-color: red;'
             ],
             [
                 'content'  => 'h1 { background-color: green; }',
-                'mtime'    => 12345,
+                'mtime'    => $currentTime,
                 'expected' => 'background-color: red;'
             ],
             [
                 'content'  => 'h1 { background-color: blue; }',
-                'mtime'    => 54321,
+                'mtime'    => $currentTime + 1,
                 'expected' => 'background-color: blue;'
             ]
         ]]];
