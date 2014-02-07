@@ -21,6 +21,8 @@ class FileSystem
     protected $_resolutionPool;
 
     /**
+     * View service
+     *
      * @var Service
      */
     protected $_viewService;

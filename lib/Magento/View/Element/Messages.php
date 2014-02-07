@@ -75,12 +75,16 @@ class Messages extends Template
     protected $collectionFactory;
 
     /**
+     * Message manager
+     *
      * @var \Magento\Message\ManagerInterface
      */
     protected $messageManager;
     
     /**
-     * @param \Magento\View\Element\Template\Context $context
+     * Constructor
+     *
+     * @param Template\Context $context
      * @param \Magento\Message\Factory $messageFactory
      * @param \Magento\Message\CollectionFactory $collectionFactory
      * @param \Magento\Message\ManagerInterface $messageManager
@@ -102,7 +106,7 @@ class Messages extends Template
     /**
      * Preparing global layout
      *
-     * @return \Magento\View\Element\Messages
+     * @return $this
      */
     protected function _prepareLayout()
     {
@@ -116,7 +120,7 @@ class Messages extends Template
      * Set messages collection
      *
      * @param   \Magento\Message\Collection $messages
-     * @return  \Magento\View\Element\Messages
+     * @return  $this
      */
     public function setMessages(\Magento\Message\Collection $messages)
     {
@@ -128,7 +132,7 @@ class Messages extends Template
      * Add messages to display
      *
      * @param \Magento\Message\Collection $messages
-     * @return \Magento\View\Element\Messages
+     * @return $this
      */
     public function addMessages(\Magento\Message\Collection $messages)
     {
@@ -155,7 +159,7 @@ class Messages extends Template
      * Adding new message to message collection
      *
      * @param   \Magento\Message\AbstractMessage $message
-     * @return  \Magento\View\Element\Messages
+     * @return  $this
      */
     public function addMessage(\Magento\Message\AbstractMessage $message)
     {
@@ -167,7 +171,7 @@ class Messages extends Template
      * Adding new error message
      *
      * @param   string $message
-     * @return  \Magento\View\Element\Messages
+     * @return  $this
      */
     public function addError($message)
     {
@@ -179,7 +183,7 @@ class Messages extends Template
      * Adding new warning message
      *
      * @param   string $message
-     * @return  \Magento\View\Element\Messages
+     * @return  $this
      */
     public function addWarning($message)
     {
@@ -191,7 +195,7 @@ class Messages extends Template
      * Adding new notice message
      *
      * @param   string $message
-     * @return  \Magento\View\Element\Messages
+     * @return  $this
      */
     public function addNotice($message)
     {
@@ -203,7 +207,7 @@ class Messages extends Template
      * Adding new success message
      *
      * @param   string $message
-     * @return  \Magento\View\Element\Messages
+     * @return  $this
      */
     public function addSuccess($message)
     {
@@ -247,7 +251,8 @@ class Messages extends Template
     /**
      * Dispatch render after event
      *
-     * @param $html
+     * @param null|string|array|\Magento\Object &$html
+     * @return void
      */
     protected function _dispatchRenderGroupedAfterEvent(&$html)
     {
@@ -313,6 +318,7 @@ class Messages extends Template
      * Set messages first level html tag name for output messages as html
      *
      * @param string $tagName
+     * @return void
      */
     public function setFirstLevelTagName($tagName)
     {
@@ -323,6 +329,7 @@ class Messages extends Template
      * Set messages first level html tag name for output messages as html
      *
      * @param string $tagName
+     * @return void
      */
     public function setSecondLevelTagName($tagName)
     {
@@ -345,6 +352,7 @@ class Messages extends Template
      * Add used storage type
      *
      * @param string $type
+     * @return void
      */
     public function addStorageType($type)
     {

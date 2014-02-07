@@ -17,11 +17,15 @@ use Magento\View\Design\ThemeInterface;
 class Factory
 {
     /**
+     * Object manager
+     *
      * @var ObjectManager
      */
     private $objectManager;
 
     /**
+     * Constructor
+     *
      * @param ObjectManager $objectManager
      */
     public function __construct(ObjectManager $objectManager)
