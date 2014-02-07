@@ -8,15 +8,6 @@
 
 namespace Magento\Catalog\Model\Indexer\Product\Category\Action;
 
-class Full
+class Full extends \Magento\Catalog\Model\Indexer\Category\Product\Action\Full
 {
-    /**
-     * Run full reindex
-     *
-     * @return Full
-     */
-    public function reindexAll()
-    {
-        return $this;
-    }
 }

@@ -932,6 +932,17 @@ interface AdapterInterface
     public function insertFromSelect(\Magento\DB\Select $select, $table, array $fields = array(), $mode = false);
 
     /**
+     * Get insert queries in array for insert by range with step parameter
+     *
+     * @param string $rangeField
+     * @param \Magento\DB\Select $select
+     * @param int $stepCount
+     * @return \Magento\DB\Select[]
+     * @throws \Magento\DB\DBException
+     */
+    public function selectsByRange($rangeField, \Magento\DB\Select $select, $stepCount = 100);
+
+    /**
      * Get update table query using select object for join and update
      *
      * @param \Magento\DB\Select $select
