@@ -13,7 +13,7 @@
  */
 namespace Magento\Paypal\Model\Method;
 
-class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
+class Agreement extends \Magento\Paypal\Model\Payment\Method\Billing\AbstractAgreement
     implements \Magento\Paypal\Model\Billing\Agreement\MethodInterface
 {
     /**
@@ -126,10 +126,10 @@ class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
     /**
      * Init billing agreement
      *
-     * @param \Magento\Payment\Model\Billing\AbstractAgreement $agreement
+     * @param \Magento\Paypal\Model\Billing\AbstractAgreement $agreement
      * @return \Magento\Paypal\Model\Method\Agreement
      */
-    public function initBillingAgreementToken(\Magento\Payment\Model\Billing\AbstractAgreement $agreement)
+    public function initBillingAgreementToken(\Magento\Paypal\Model\Billing\AbstractAgreement $agreement)
     {
         $api = $this->_pro->getApi()
             ->setReturnUrl($agreement->getReturnUrl())
@@ -146,10 +146,10 @@ class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
     /**
      * Retrieve billing agreement customer details by token
      *
-     * @param \Magento\Payment\Model\Billing\AbstractAgreement $agreement
+     * @param \Magento\Paypal\Model\Billing\AbstractAgreement $agreement
      * @return array
      */
-    public function getBillingAgreementTokenInfo(\Magento\Payment\Model\Billing\AbstractAgreement $agreement)
+    public function getBillingAgreementTokenInfo(\Magento\Paypal\Model\Billing\AbstractAgreement $agreement)
     {
         $api = $this->_pro->getApi()
             ->setToken($agreement->getToken());
@@ -167,10 +167,10 @@ class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
     /**
      * Create billing agreement by token specified in request
      *
-     * @param \Magento\Payment\Model\Billing\AbstractAgreement $agreement
+     * @param \Magento\Paypal\Model\Billing\AbstractAgreement $agreement
      * @return \Magento\Paypal\Model\Method\Agreement
      */
-    public function placeBillingAgreement(\Magento\Payment\Model\Billing\AbstractAgreement $agreement)
+    public function placeBillingAgreement(\Magento\Paypal\Model\Billing\AbstractAgreement $agreement)
     {
         $api = $this->_pro->getApi()
             ->setToken($agreement->getToken());
@@ -182,11 +182,11 @@ class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
     /**
      * Update billing agreement status
      *
-     * @param \Magento\Payment\Model\Billing\AbstractAgreement $agreement
+     * @param \Magento\Paypal\Model\Billing\AbstractAgreement $agreement
      * @return \Magento\Paypal\Model\Method\Agreement
      * @throws \Exception|\Magento\Core\Exception
      */
-    public function updateBillingAgreementStatus(\Magento\Payment\Model\Billing\AbstractAgreement $agreement)
+    public function updateBillingAgreementStatus(\Magento\Paypal\Model\Billing\AbstractAgreement $agreement)
     {
         $targetStatus = $agreement->getStatus();
         $api = $this->_pro->getApi()

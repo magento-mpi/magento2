@@ -6,12 +6,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Sales\Controller\Billing;
+namespace Magento\Paypal\Controller\Billing;
 
 class AgreementTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Sales\Controller\Billing\Agreement
+     * @var \Magento\Paypal\Controller\Billing\Agreement
      */
     protected $_controller;
 
@@ -50,7 +50,7 @@ class AgreementTest extends \PHPUnit_Framework_TestCase
         $this->_session = $this->getMock('Magento\Customer\Model\Session', array(), array(), '', false);
 
         $this->_agreement = $this->getMock(
-            'Magento\Sales\Model\Billing\Agreement',
+            'Magento\Paypal\Model\Billing\Agreement',
             array('load', 'getId', 'getCustomerId', 'getReferenceId', 'canCancel', 'cancel', '__wakeup'),
             array(), '', false
         );
@@ -65,7 +65,7 @@ class AgreementTest extends \PHPUnit_Framework_TestCase
         $this->_objectManager
             ->expects($this->once())
             ->method('create')
-            ->with('Magento\Sales\Model\Billing\Agreement')
+            ->with('Magento\Paypal\Model\Billing\Agreement')
             ->will($this->returnValue($this->_agreement))
         ;
 
@@ -89,7 +89,7 @@ class AgreementTest extends \PHPUnit_Framework_TestCase
 
         $title = $this->getMock('Magento\App\Action\Title', array(), array(), '', false);
 
-        $this->_controller = new \Magento\Sales\Controller\Billing\Agreement($context, $this->_registry, $title);
+        $this->_controller = new Agreement($context, $this->_registry, $title);
     }
 
     public function testCancelActionSuccess()
