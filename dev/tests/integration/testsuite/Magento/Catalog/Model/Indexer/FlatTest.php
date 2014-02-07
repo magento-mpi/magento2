@@ -23,7 +23,7 @@ class FlatTest extends \PHPUnit_Framework_TestCase
     /**
      * List of attribute codes
      *
-     * @var array
+     * @var string[]
      */
     protected static $attributeCodes = array();
 
@@ -31,14 +31,14 @@ class FlatTest extends \PHPUnit_Framework_TestCase
      * List of attribute values
      * Data loaded from EAV
      *
-     * @var array
+     * @var string[]
      */
     protected static $attributeValues = array();
 
     /**
      * List of attributes to exclude
      *
-     * @var array
+     * @var string[]
      */
     protected static $attributesToExclude = array('url_path', 'display_mode');
 
@@ -112,7 +112,7 @@ class FlatTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Reindex Row
+     * Populate EAV category data
      *
      * @magentoConfigFixture current_store catalog/frontend/flat_catalog_category true
      */
@@ -155,6 +155,9 @@ class FlatTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test for reindex row action
+     * Check that category data created at testCreateCategory() were syncing to flat structure
+     *
      * @magentoConfigFixture current_store catalog/frontend/flat_catalog_category true
      * @magentoAppArea frontend
      *
@@ -199,7 +202,7 @@ class FlatTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Reindex List
+     * Move category and populate EAV category data
      *
      * @magentoConfigFixture current_store catalog/frontend/flat_catalog_category true
      */
@@ -230,6 +233,9 @@ class FlatTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test for reindex list action
+     * Check that category data created at testMoveCategory() were syncing to flat structure
+     *
      * @magentoConfigFixture current_store catalog/frontend/flat_catalog_category true
      * @magentoAppArea frontend
      *
@@ -264,6 +270,8 @@ class FlatTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Delete created categories at testCreateCategory()
+     *
      * @magentoConfigFixture current_store catalog/frontend/flat_catalog_category true
      * @magentoAppArea adminhtml
      */
@@ -286,6 +294,9 @@ class FlatTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test for reindex row action
+     * Check that category data deleted at testDeleteCategory() were syncing to flat structure
+     *
      * @magentoConfigFixture current_store catalog/frontend/flat_catalog_category true
      * @magentoAppArea frontend
      *
@@ -338,6 +349,11 @@ class FlatTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * Check EAV and flat data
+     *
+     * @param \Magento\Catalog\Model\Category $category
+     */
     protected function checkCategoryData(\Magento\Catalog\Model\Category $category)
     {
         foreach (self::$attributeCodes as $attributeCode) {
