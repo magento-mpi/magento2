@@ -5,12 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backup\Model\Config\Backend;
 
 /**
  * Backup by cron backend model
  */
-namespace Magento\Backup\Model\Config\Backend;
-
 class Cron extends \Magento\Core\Model\Config\Value
 {
     const CRON_STRING_PATH  = 'crontab/jobs/system_backup/schedule/cron_expr';
@@ -62,7 +61,7 @@ class Cron extends \Magento\Core\Model\Config\Value
     /**
      * Cron settings after save
      *
-     * @return \Magento\Backend\Model\Config\Backend\Log\Cron
+     * @return void
      * @throws \Magento\Core\Exception
      */
     protected function _afterSave()

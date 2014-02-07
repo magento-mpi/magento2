@@ -7,16 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backup\Block\Adminhtml;
 
 /**
  * Adminhtml rollback dialogs block
  *
- * @category   Magento
- * @package    Magento_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backup\Block\Adminhtml;
-
 class Dialogs extends \Magento\Backend\Block\Template
 {
     /**
@@ -29,6 +26,7 @@ class Dialogs extends \Magento\Backend\Block\Template
     /**
      * Include backup.js file in page before rendering
      *
+     * @return \Magento\View\Element\AbstractBlock|void
      * @see \Magento\View\Element\AbstractBlock::_prepareLayout()
      */
     protected function _prepareLayout()
