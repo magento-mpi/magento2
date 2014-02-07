@@ -181,7 +181,7 @@ class ComplexTypeStrategy extends AbstractComplexTypeStrategy
     /**
      * Revert required call info data if needed.
      *
-     * @param boolean $isRequired
+     * @param bool $isRequired
      * @param array &$callInfo
      * @return void
      */

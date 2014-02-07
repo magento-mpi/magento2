@@ -58,7 +58,7 @@ class Webapi extends \Magento\Backend\Block\Widget\Form\Generic
      * @param \Magento\Integration\Helper\Data $integrationData
      * @param array $data
      *
-     * TODO: Fix excessive number of arguments
+     * @todo Fix excessive number of arguments
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
