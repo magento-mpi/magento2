@@ -67,6 +67,7 @@ class Page extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Initialize resource model
      *
+     * @return void
      */
     protected function _construct()
     {

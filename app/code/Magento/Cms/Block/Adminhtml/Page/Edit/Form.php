@@ -21,6 +21,11 @@ namespace Magento\Cms\Block\Adminhtml\Page\Edit;
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
 
+    /**
+     * Prepare form
+     *
+     * @return $this
+     */
     protected function _prepareForm()
     {
         /** @var \Magento\Data\Form $form */

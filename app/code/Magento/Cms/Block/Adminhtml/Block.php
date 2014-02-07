@@ -20,6 +20,9 @@ namespace Magento\Cms\Block\Adminhtml;
 class Block extends \Magento\Backend\Block\Widget\Grid\Container
 {
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_blockGroup = 'Magento_Cms';

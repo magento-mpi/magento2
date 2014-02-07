@@ -56,6 +56,9 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         parent::__construct($context, $backendHelper, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -64,6 +67,11 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         $this->setDefaultDir('ASC');
     }
 
+    /**
+     * Prepare collection
+     *
+     * @return \Magento\Backend\Block\Widget\Grid
+     */
     protected function _prepareCollection()
     {
         $collection = $this->_collectionFactory->create();
@@ -74,6 +82,11 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         return parent::_prepareCollection();
     }
 
+    /**
+     * Prepare columns
+     *
+     * @return \Magento\Backend\Block\Widget\Grid\Extended
+     */
     protected function _prepareColumns()
     {
         $baseUrl = $this->getUrl();
@@ -143,12 +156,22 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         return parent::_prepareColumns();
     }
 
+    /**
+     * After load collection
+     *
+     * @return void
+     */
     protected function _afterLoadCollection()
     {
         $this->getCollection()->walk('afterLoad');
         parent::_afterLoadCollection();
     }
 
+    /**
+     * Filter store condition
+     *
+     * @return void
+     */
     protected function _filterStoreCondition($collection, $column)
     {
         if (!$value = $column->getFilter()->getValue()) {
@@ -161,6 +184,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Row click url
      *
+     * @param \Magento\Object $row
      * @return string
      */
     public function getRowUrl($row)

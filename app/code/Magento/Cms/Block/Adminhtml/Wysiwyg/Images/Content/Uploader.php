@@ -40,6 +40,9 @@ class Uploader extends \Magento\Backend\Block\Media\Uploader
         parent::__construct($context, $fileSize, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -64,6 +67,7 @@ class Uploader extends \Magento\Backend\Block\Media\Uploader
 
     /**
      * Return current media type based on request or data
+     *
      * @return string
      */
     protected function _getMediaType()

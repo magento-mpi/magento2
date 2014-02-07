@@ -49,6 +49,8 @@ class Design
 
     /**
      * Prepare form tab configuration
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -59,7 +61,7 @@ class Design
     /**
      * Initialise form fields
      *
-     * @return \Magento\Cms\Block\Adminhtml\Page\Edit\Tab\Design
+     * @return $this
      */
     protected function _prepareForm()
     {

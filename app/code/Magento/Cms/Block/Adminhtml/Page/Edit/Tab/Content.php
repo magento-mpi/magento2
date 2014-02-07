@@ -42,6 +42,8 @@ class Content
 
     /**
      * Load Wysiwyg on demand and Prepare layout
+     *
+     * @return void
      */
     protected function _prepareLayout()
     {
@@ -51,6 +53,11 @@ class Content
         }
     }
 
+    /**
+     * Prepare form
+     *
+     * @return $this
+     */
     protected function _prepareForm()
     {
         /** @var $model \Magento\Cms\Model\Page */

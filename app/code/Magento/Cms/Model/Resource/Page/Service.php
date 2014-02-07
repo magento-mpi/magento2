@@ -20,6 +20,7 @@ class Service extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Init cms page service model
      *
+     * @return void
      */
     protected function _construct()
     {

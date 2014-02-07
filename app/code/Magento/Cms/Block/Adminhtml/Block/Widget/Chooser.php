@@ -50,6 +50,8 @@ class Chooser extends \Magento\Backend\Block\Widget\Grid\Extended
 
     /**
      * Block construction, prepare grid params
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -162,6 +164,11 @@ class Chooser extends \Magento\Backend\Block\Widget\Grid\Extended
         return parent::_prepareColumns();
     }
 
+    /**
+     * Get grid url
+     *
+     * @return string
+     */
     public function getGridUrl()
     {
         return $this->getUrl('cms/block_widget/chooser', array('_current' => true));

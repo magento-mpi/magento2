@@ -45,6 +45,9 @@ class Block extends \Magento\Core\Model\AbstractModel
      */
     protected $_eventPrefix = 'cms_block';
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_init('Magento\Cms\Model\Resource\Block');

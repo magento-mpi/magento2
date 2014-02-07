@@ -40,6 +40,11 @@ class Main
         parent::__construct($context, $registry, $formFactory, $data);
     }
 
+    /**
+     * Prepare form
+     *
+     * @return $this
+     */
     protected function _prepareForm()
     {
         /* @var $model \Magento\Cms\Model\Page */

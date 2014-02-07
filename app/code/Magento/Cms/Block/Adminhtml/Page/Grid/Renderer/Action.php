@@ -32,6 +32,12 @@ class Action
         parent::__construct($context, $data);
     }
 
+    /**
+     * Render action
+     *
+     * @param \Magento\Object $row
+     * @return string
+     */
     public function render(\Magento\Object $row)
     {
         /** @var \Magento\UrlInterface $urlModel */

@@ -53,6 +53,8 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
     /**
      * Init form
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -63,6 +65,8 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
     /**
      * Load Wysiwyg on demand and Prepare layout
+     *
+     * @return void
      */
     protected function _prepareLayout()
     {
@@ -72,6 +76,11 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         }
     }
 
+    /**
+     * Prepare form
+     *
+     * @return void
+     */
     protected function _prepareForm()
     {
         $model = $this->_coreRegistry->registry('cms_block');
@@ -112,6 +121,8 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
         /**
          * Check is single store mode
+         *
+         * @return $this
          */
         if (!$this->_storeManager->isSingleStoreMode()) {
             $field =$fieldset->addField('store_id', 'multiselect', array(
