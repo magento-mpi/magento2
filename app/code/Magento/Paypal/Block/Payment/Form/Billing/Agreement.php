@@ -43,7 +43,7 @@ class Agreement extends \Magento\Payment\Block\Form
         parent::_construct();
 
         $this->setTransportName(
-            \Magento\Paypal\Model\Resource\Payment\Method\Billing\AbstractAgreement::TRANSPORT_BILLING_AGREEMENT_ID
+            \Magento\Paypal\Model\Payment\Method\Billing\AbstractAgreement::TRANSPORT_BILLING_AGREEMENT_ID
         );
     }
 

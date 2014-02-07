@@ -9,7 +9,7 @@
 /**
  * Billing Agreement Payment Method Abstract model
  */
-namespace Magento\Paypal\Model\Resource\Payment\Method\Billing;
+namespace Magento\Paypal\Model\Payment\Method\Billing;
 
 abstract class AbstractAgreement
     extends \Magento\Payment\Model\Method\AbstractMethod

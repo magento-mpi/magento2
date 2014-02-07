@@ -328,7 +328,7 @@ class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
         /** @var \Magento\Paypal\Model\Billing\Agreement $billingAgreement */
         $billingAgreement = $this->_agreementFactory->create()->load(
             $payment->getAdditionalInformation(
-                \Magento\Paypal\Model\Resource\Payment\Method\Billing\AbstractAgreement::TRANSPORT_BILLING_AGREEMENT_ID
+                \Magento\Paypal\Model\Payment\Method\Billing\AbstractAgreement::TRANSPORT_BILLING_AGREEMENT_ID
             )
         );
 
