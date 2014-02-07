@@ -15,7 +15,7 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Block\Adminhtml\Product\Attribute\Edit\Tab\Variations;
+namespace Magento\ConfigurableProduct\Block\Adminhtml\Product\Attribute\Edit\Tab\Variations;
 
 
 class Main extends \Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain
@@ -23,17 +23,16 @@ class Main extends \Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain
     /**
      * Adding product form elements for editing attribute
      *
-     * @return \Magento\Catalog\Block\Adminhtml\Product\Attribute\Edit\Tab\Variations\Main
+     * @return \Magento\ConfigurableProduct\Block\Adminhtml\Product\Attribute\Edit\Tab\Variations\Main
      */
     protected function _prepareForm()
     {
         parent::_prepareForm();
-        $attributeObject = $this->getAttributeObject();
         /* @var $form \Magento\Data\Form */
         $form = $this->getForm();
         /* @var $fieldset \Magento\Data\Form\Element\Fieldset */
         $fieldset = $form->getElement('base_fieldset');
-        $fiedsToRemove = array(
+        $fieldsToRemove = array(
             'attribute_code',
             'is_unique',
             'frontend_class',
@@ -42,10 +41,10 @@ class Main extends \Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain
         foreach ($fieldset->getElements() as $element) {
             /** @var \Magento\Data\Form\AbstractForm $element  */
             if (substr($element->getId(), 0, strlen('default_value')) == 'default_value') {
-                $fiedsToRemove[] = $element->getId();
+                $fieldsToRemove[] = $element->getId();
             }
         }
-        foreach ($fiedsToRemove as $id) {
+        foreach ($fieldsToRemove as $id) {
             $fieldset->removeField($id);
         }
         return $this;

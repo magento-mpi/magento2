@@ -36,4 +36,9 @@
     <type name="Magento\Catalog\Model\Attribute\Tree\Leaf">
         <plugin name="treeLeaf" type="Magento\ConfigurableProduct\Model\Attribute\Tree\Plugin\Leaf" />
     </type>
+    <type name="Magento\ConfigurableProduct\Block\Adminhtml\Product\Attribute\Edit\Tab\Variations\Main">
+        <param name="inputTypeFactory">
+            <instance type="Magento\Catalog\Model\System\Config\Source\InputtypeFactory" />
+        </param>
+    </type>
 </config>
