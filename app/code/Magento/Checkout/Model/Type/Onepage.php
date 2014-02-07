@@ -837,21 +837,7 @@ class Onepage
             }
         }
 
-        // add recurring profiles information to the session
-        $profiles = $service->getRecurringPaymentProfiles();
-        if ($profiles) {
-            $ids = array();
-            foreach ($profiles as $profile) {
-                $ids[] = $profile->getId();
-            }
-            $this->_checkoutSession->setLastRecurringProfileIds($ids);
-            // TODO: send recurring profile emails
-        }
-
-        $this->_eventManager->dispatch(
-            'checkout_submit_all_after',
-            array('order' => $order, 'quote' => $this->getQuote(), 'recurring_profiles' => $profiles)
-        );
+        $this->_eventManager->dispatch('checkout_submit_all_after', ['order' => $order, 'quote' => $this->getQuote()]);
 
         return $this;
     }

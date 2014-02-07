@@ -259,11 +259,6 @@ class Quote extends \Magento\Core\Model\AbstractModel
     protected $_quotePaymentCollectionFactory;
 
     /**
-     * @var \Magento\RecurringProfile\Model\Profile
-     */
-    protected $_recurringProfileFactory;
-
-    /**
      * @var \Magento\Object\Copy
      */
     protected $_objectCopyService;
@@ -286,7 +281,6 @@ class Quote extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Sales\Model\Quote\PaymentFactory $quotePaymentFactory
      * @param \Magento\Sales\Model\Resource\Quote\Payment\CollectionFactory $quotePaymentCollectionFactory
-     * @param \Magento\RecurringProfile\Model\ProfileFactory $recurringProfileFactory
      * @param \Magento\Object\Copy $objectCopyService
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -310,7 +304,6 @@ class Quote extends \Magento\Core\Model\AbstractModel
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Sales\Model\Quote\PaymentFactory $quotePaymentFactory,
         \Magento\Sales\Model\Resource\Quote\Payment\CollectionFactory $quotePaymentCollectionFactory,
-        \Magento\RecurringProfile\Model\ProfileFactory $recurringProfileFactory,
         \Magento\Object\Copy $objectCopyService,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
@@ -331,7 +324,6 @@ class Quote extends \Magento\Core\Model\AbstractModel
         $this->_productFactory = $productFactory;
         $this->_quotePaymentFactory = $quotePaymentFactory;
         $this->_quotePaymentCollectionFactory = $quotePaymentCollectionFactory;
-        $this->_recurringProfileFactory = $recurringProfileFactory;
         $this->_objectCopyService = $objectCopyService;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
@@ -2043,33 +2035,6 @@ class Quote extends \Magento\Core\Model\AbstractModel
             }
         }
         return true;
-    }
-
-    /**
-     * Create recurring payment profiles basing on the current items
-     *
-     * @return array
-     * @throws \Exception
-     */
-    public function prepareRecurringPaymentProfiles()
-    {
-        if (!$this->getTotalsCollectedFlag()) {
-            // Whoops! Make sure nominal totals must be calculated here.
-            throw new \Exception('Quote totals must be collected before this operation.');
-        }
-
-        $result = array();
-        foreach ($this->getAllVisibleItems() as $item) {
-            $product = $item->getProduct();
-            if (is_object($product) && ($product->isRecurring())
-                && $profile = $this->_recurringProfileFactory->create()->importProduct($product)
-            ) {
-                $profile->importQuote($this);
-                $profile->importQuoteItem($item);
-                $result[] = $profile;
-            }
-        }
-        return $result;
     }
 
     /**

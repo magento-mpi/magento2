@@ -102,13 +102,6 @@ class Checkout
     protected $_customerId;
 
     /**
-     * Recurring payment profiles
-     *
-     * @var array
-     */
-    protected $_recurringPaymentProfiles = array();
-
-    /**
      * Billing agreement that might be created during order placing
      *
      * @var \Magento\Sales\Model\Billing\Agreement
@@ -209,6 +202,11 @@ class Checkout
     protected $_objectCopyService;
 
     /**
+     * @var \Magento\Event\ManagerInterface
+     */
+    protected $_eventManager;
+
+    /**
      * Set config, session and quote instances
      *
      * @param \Magento\Logger $logger
@@ -228,6 +226,7 @@ class Checkout
      * @param \Magento\Sales\Model\Billing\AgreementFactory $agreementFactory
      * @param \Magento\Paypal\Model\Api\Type\Factory $apiTypeFactory
      * @param \Magento\Object\Copy $objectCopyService
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param array $params
      * @throws \Exception
      */
@@ -249,6 +248,7 @@ class Checkout
         \Magento\Sales\Model\Billing\AgreementFactory $agreementFactory,
         \Magento\Paypal\Model\Api\Type\Factory $apiTypeFactory,
         \Magento\Object\Copy $objectCopyService,
+        \Magento\Event\ManagerInterface $eventManager,
         $params = array()
     ) {
         $this->_customerData = $customerData;
@@ -268,6 +268,7 @@ class Checkout
         $this->_agreementFactory = $agreementFactory;
         $this->_apiTypeFactory = $apiTypeFactory;
         $this->_objectCopyService = $objectCopyService;
+        $this->_eventManager = $eventManager;
 
         if (isset($params['config']) && $params['config'] instanceof \Magento\Paypal\Model\Config) {
             $this->_config = $params['config'];
@@ -454,17 +455,9 @@ class Checkout
             }
         }
 
-        // add recurring payment profiles information
-        $profiles = $this->_quote->prepareRecurringPaymentProfiles();
-        if ($profiles) {
-            foreach ($profiles as $profile) {
-                $profile->setMethodCode(\Magento\Paypal\Model\Config::METHOD_WPP_EXPRESS);
-                if (!$profile->isValid()) {
-                    throw new \Magento\Core\Exception($profile->getValidationErrors());
-                }
-            }
-            $this->_api->addRecurringPaymentProfiles($profiles);
-        }
+        $this->_eventManager->dispatch('paypal_express_checkout_start_save_before', [
+            'api' => $this->_api, 'quote' => $this->_quote
+        ]);
 
         $this->_config->exportExpressCheckoutStyleSettings($this->_api);
 
@@ -693,9 +686,6 @@ class Checkout
             }
         }
 
-        $this->_recurringPaymentProfiles = $service->getRecurringPaymentProfiles();
-        // TODO: send recurring profile emails
-
         $order = $service->getOrder();
         if (!$order) {
             return;
@@ -748,16 +738,6 @@ class Checkout
     public function getRedirectUrl()
     {
         return $this->_redirectUrl;
-    }
-
-    /**
-     * Return recurring payment profiles
-     *
-     * @return array
-     */
-    public function getRecurringPaymentProfiles()
-    {
-        return $this->_recurringPaymentProfiles;
     }
 
     /**
