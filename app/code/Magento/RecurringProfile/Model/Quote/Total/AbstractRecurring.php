@@ -39,7 +39,7 @@ abstract class AbstractRecurring
      * Collect recurring item parameters and copy to the address items
      *
      * @param \Magento\Sales\Model\Quote\Address $address
-     * @return \Magento\Sales\Model\Quote\Address\Total\Nominal\AbstractRecurring
+     * @return \Magento\RecurringProfile\Model\Quote\Total\AbstractRecurring
      */
     public function collect(\Magento\Sales\Model\Quote\Address $address)
     {

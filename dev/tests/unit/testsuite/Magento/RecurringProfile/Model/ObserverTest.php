@@ -204,7 +204,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected function _prepareRecurringPaymentProfiles()
     {
         $product = $this->getMock('Magento\RecurringProfile\Model\Profile', [
-            'isRecurring','__sleep', '__wakeup'
+            'isRecurring', '__sleep', '__wakeup'
         ], [], '', false);
         $product->expects($this->once())->method('isRecurring')->will($this->returnValue(true));
 
