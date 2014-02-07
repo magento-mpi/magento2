@@ -38,6 +38,8 @@ class Edit extends \Magento\Backend\Block\Widget\Tabs
 
     /**
      * Class constructor
+     *
+     * @return void
      */
     protected function _construct()
     {

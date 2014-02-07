@@ -180,6 +180,8 @@ class User
 
     /**
      * Initialize user model
+     *
+     * @return void
      */
     protected function _construct()
     {

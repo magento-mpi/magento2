@@ -57,6 +57,8 @@ class User extends \Magento\Backend\Block\Widget\Grid\Extended
 
     /**
      * Class constructor
+     *
+     * @return void
      */
     protected function _construct()
     {

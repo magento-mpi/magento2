@@ -46,6 +46,8 @@ class Rules extends \Magento\Core\Model\AbstractModel
 
     /**
      * Class constructor
+     *
+     * @return void
      */
     protected function _construct()
     {

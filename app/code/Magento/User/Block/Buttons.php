@@ -96,7 +96,7 @@ class Buttons extends \Magento\Backend\Block\Template
     }
 
     /**
-     * @return string
+     * @return string|void
      */
     public function getDeleteButtonHtml()
     {

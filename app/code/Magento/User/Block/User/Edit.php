@@ -41,6 +41,8 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
 
     /**
      * Class constructor
+     *
+     * @return void
      */
     protected function _construct()
     {
