@@ -14,7 +14,7 @@
     <event name="googlecheckout_checkout_before">
         <observer name="magento_giftwrapping" instance="Magento\GiftWrapping\Model\Observer" method="googlecheckoutCheckoutBefore" />
     </event>
-    <event name="paypal_prepare_line_items">
-        <observer name="magento_giftwrapping" instance="Magento\GiftWrapping\Model\Observer" method="addPaypalGiftWrappingItem" />
+    <event name="payment_cart_collect_items_and_amounts">
+        <observer name="magento_giftwrapping" instance="Magento\GiftWrapping\Model\Observer" method="addPaymentGiftWrappingItem" />
     </event>
 </config>

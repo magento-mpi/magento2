@@ -10,67 +10,33 @@
  * @license     {license_link}
  */
 -->
-<phpunit bootstrap="bootstrap.php" backupGlobals="true" backupStaticAttributes="false" cacheTokens="true"
-         colors="true" convertErrorsToExceptions="true" convertNoticesToExceptions="true"
-         convertWarningsToExceptions="true" forceCoversAnnotation="false" mapTestClassNameToCoveredClassName="false"
-         printerClass="PHPUnit_TextUI_ResultPrinter" processIsolation="false" stopOnError="false" stopOnFailure="false"
-         stopOnIncomplete="false" stopOnSkipped="false" testSuiteLoaderClass="PHPUnit_Runner_StandardTestSuiteLoader"
-         strict="false" verbose="true" syntaxCheck="false">
+<phpunit bootstrap="./framework/bootstrap.php"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         stopOnError="false"
+         stopOnFailure="false"
+         stopOnIncomplete="false"
+         stopOnSkipped="false"
+         strict="false"
+         verbose="true">
     <testsuites>
         <testsuite name="All Tests">
-            <directory suffix="Test.php">testsuite/Core/Mage/</directory>
+            <directory suffix="Test.php">testsuite/</directory>
         </testsuite>
-        <!--
-        <!-- Test suite guaranteed coveres Magento's code -->
-        <testsuite name="All Tests Covergae list">
-            <directory suffix="Test.php">testsuite/Core/Mage/AdminUser</directory>
-            <directory suffix="Test.php">testsuite/Core/Mage/AttributeSet</directory>
-            <directory suffix="Test.php">testsuite/Core/Mage/Category</directory>
-            <directory suffix="Test.php">testsuite/Core/Mage/CheckoutOnePage</directory>
-            <directory suffix="Test.php">testsuite/Core/Mage/CheckoutMultipleAddresses</directory>
-            <directory suffix="Test.php">testsuite/Core/Mage/Customer</directory>
-            <directory suffix="Test.php">testsuite/Core/Mage/CmsPages</directory>
-            <directory suffix="Test.php">testsuite/Core/Mage/CmsStaticBlocks</directory>
-            <directory suffix="Test.php">testsuite/Core/Mage/CmsWidgets</directory>
-            <directory suffix="Test.php">testsuite/Core/Mage/CompareProducts</directory>
-            <directory suffix="Test.php">testsuite/Core/Mage/Newsletter</directory>
-            <directory suffix="Test.php">testsuite/Core/Mage/Order</directory>
-            <directory suffix="Test.php">testsuite/Core/Mage/Product</directory>
-            <directory suffix="Test.php">testsuite/Core/Mage/ProductAttribute</directory>
-            <directory suffix="Test.php">testsuite/Core/Mage/PriceRules</directory>
-            <directory suffix="Test.php">testsuite/Core/Mage/Rating</directory>
-            <directory suffix="Test.php">testsuite/Core/Mage/Review</directory>
-            <directory suffix="Test.php">testsuite/Core/Mage/Store</directory>
-            <directory suffix="Test.php">testsuite/Core/Mage/Tax</directory>
-            <directory suffix="Test.php">testsuite/Core/Mage/Wishlist</directory>
-        </testsuite>
-        -->
     </testsuites>
     <filter>
         <whitelist>
-            <directory>../app/code/Mage</directory>
+            <directory>../app/code/Magento/</directory>
             <exclude>
-                <directory>../lib</directory>
-                <directory>../app/code/Mage/Admin/Model/Acl/Assert</directory>
-                <directory>../app/code/Mage/Adminhtml/Block</directory>
-                <directory>../app/code/Mage/Install</directory>
-                <directory>../app/code/Mage/Reports</directory>
-                <directory>../app/code/Mage/Index</directory>
-                <directory>../app/code/Mage/Cybersource</directory>
-                <file>../app/code/Mage/Captcha/Model/Captcha.php</file>
-                <file>../app/code/Mage/Payment/Model/Paygate/Request.php</file>
-                <file>../app/code/Mage/Sales/Model/Mysql4/Report/Abstract.php</file>
-                <file>../app/code/Mage/Sales/Model/Mysql4/Abstract.php</file>
-                <file>../app/code/Mage/Adminhtml/Model/Extension.php</file>
-                <file>../app/code/Mage/Catalog/Model/Resource/Eav/Mysql4/Product/Indexer/Price/Interface.php</file>
-                <file>../app/code/Mage/Catalog/Model/Resource/Eav/Mysql4/Product/Indexer/Eav/Abstract.php</file>
-                <file>../app/code/Mage/Catalog/Model/Resource/Eav/Mysql4/Product/Indexer/Abstract.php</file>
-                <file>../app/code/Mage/CatalogInventory/Model/Mysql4/Indexer/Stock/Interface.php</file>
-                <directory prefix="data-upgrade-">../app/code/Mage</directory>
-                <directory prefix="data-install-">../app/code/Mage</directory>
-                <directory prefix="upgrade-">../app/code/Mage</directory>
-                <directory prefix="mysql4-">../app/code/Mage</directory>
-                <directory prefix="install-">../app/code/Mage</directory>
+                <directory>../lib/</directory>
+                <directory>../app/code/Magento/Install</directory>
+                <directory>../app/code/Magento/Index</directory>
+                <directory prefix="data-upgrade-">../app/code/Magento/</directory>
+                <directory prefix="data-install-">../app/code/Magento/</directory>
+                <directory prefix="upgrade-">../app/code/Magento/</directory>
+                <directory prefix="mysql4-">../app/code/Magento/</directory>
+                <directory prefix="install-">../app/code/Magento/</directory>
             </exclude>
         </whitelist>
     </filter>
@@ -80,10 +46,8 @@
         <log type="junit" target="./var/logs/logfile.xml" logIncompleteSkipped="false"/>
         <log type="testdox-html" target="./var/logs/testdox.html"/>
         <log type="testdox-text" target="./var/logs/testdox.txt"/>
-        <!-- PHPUnit 3.5.x -->
         <log type="coverage-clover" target="./var/logs/coverage.xml"/>
         <log type="coverage-html" target="./var/logs/report" charset="UTF-8" yui="true" highlight="false" lowUpperBound="35" highLowerBound="70"/>
-        <!-- PHPUnit 3.6.x -->
         <log type="coverage-php" target="./var/logs/coverage.serialized"/>
         <log type="coverage-text" target="php://stdout" showUncoveredFiles="false"/>
     </logging>

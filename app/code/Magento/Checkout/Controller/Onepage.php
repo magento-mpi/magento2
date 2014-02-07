@@ -37,6 +37,11 @@ class Onepage extends \Magento\Checkout\Controller\Action
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Translate\InlineInterface
+     */
+    protected $_translateInline;
+
+    /**
      * @var \Magento\Core\App\Action\FormKeyValidator
      */
     protected $_formKeyValidator;
@@ -45,15 +50,18 @@ class Onepage extends \Magento\Checkout\Controller\Action
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Translate\InlineInterface $translateInline,
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      */
     public function __construct(
         \Magento\App\Action\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Translate\InlineInterface $translateInline,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_translateInline = $translateInline;
         $this->_formKeyValidator = $formKeyValidator;
         parent::__construct($context, $customerSession);
     }
@@ -130,7 +138,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
         $layout->generateXml();
         $layout->generateElements();
         $output = $layout->getOutput();
-        $this->_objectManager->get('Magento\Core\Model\Translate')->processResponseBody($output);
+        $this->_translateInline->processResponseBody($output);
         return $output;
     }
 

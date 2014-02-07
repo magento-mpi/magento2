@@ -32,7 +32,7 @@ class Dashboard extends \Magento\Backend\App\Action
         $this->_title->add(__('Dashboard'));
 
         $this->_view->loadLayout();
-        $this->_setActiveMenu('Magento_Adminhtml::dashboard');
+        $this->_setActiveMenu('Magento_Backend::dashboard');
         $this->_addBreadcrumb(__('Dashboard'), __('Dashboard'));
         $this->_view->renderLayout();
     }

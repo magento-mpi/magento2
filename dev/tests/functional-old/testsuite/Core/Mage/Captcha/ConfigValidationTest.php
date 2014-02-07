@@ -43,8 +43,10 @@ class Core_Mage_Captcha_ConfigValidationTest extends Mage_Selenium_TestCase
     {
         $config = $this->loadDataSet('Captcha', 'front_captcha_after_attempts_to_login',
             array('captcha_word_length' => $value));
-        $this->setExpectedException('PHPUnit_Framework_AssertionFailedError',
-            '"Number of Symbols": The value is not within the specified range.');
+        $this->setExpectedException(
+            'PHPUnit_Framework_AssertionFailedError',
+            '"Number of Symbols": The value is not within the specified range.'
+        );
         $this->systemConfigurationHelper()->configure($config);
     }
 
@@ -55,7 +57,8 @@ class Core_Mage_Captcha_ConfigValidationTest extends Mage_Selenium_TestCase
             array('9'),
             array('0'),
             array('2-10'),
-            array('2.1'));
+            array('2.1')
+        );
     }
 
     /**
@@ -78,6 +81,7 @@ class Core_Mage_Captcha_ConfigValidationTest extends Mage_Selenium_TestCase
         return array(
             array('1'),
             array('8'),
-            array('2-5'));
+            array('2-5')
+        );
     }
 }

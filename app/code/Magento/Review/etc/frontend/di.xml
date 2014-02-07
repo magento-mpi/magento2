@@ -27,7 +27,6 @@
         </param>
     </type>
     <type name="Magento\Review\Controller\Product">
-        <plugin name="sessionInitializer" type="reviewProductInitSession" />
         <param name="reviewSession">
             <instance type="Magento\Review\Model\Session" />
         </param>
@@ -39,11 +38,4 @@
             </array>
         </param>
     </type>
-    <virtualType name="reviewProductInitSession" type="Magento\Core\App\Action\Plugin\Session">
-        <param name="cookieCheckActions">
-            <array>
-                <item key="productReviewPost"><value>post</value></item>
-            </array>
-        </param>
-    </virtualType>
 </config>

@@ -239,6 +239,7 @@ class Paypal extends \Magento\Paypal\Model\Direct
      */
     public function authorize(\Magento\Object $payment, $amount)
     {
+        $payment->setCart($this->_pbridgeData->preparePaypalCart($payment->getOrder()));
         $result = new \Magento\Object($this->getPbridgeMethodInstance()->authorize($payment, $amount));
         $order = $payment->getOrder();
         $result->setEmail($order->getCustomerEmail());
