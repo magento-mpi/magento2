@@ -189,7 +189,7 @@ class User
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     public function __sleep()
     {
