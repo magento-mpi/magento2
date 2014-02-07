@@ -345,7 +345,6 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
 
         $request->setData('billing_address', $this->_getAddressInfo($order->getBillingAddress()));
         if ($order->getCustomerId()) {
-            $email = $order->getCustomerEmail();
             $id = $order->getCustomerId();
             $request->setData('customer_id',
                 $this->_pbridgeData->getCustomerIdentifierByEmail($id, $order->getStore()->getId())
