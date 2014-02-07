@@ -64,12 +64,12 @@ class Config
         $this->_configurableType = $configurableType;
         $this->_coreRegistry = $coreRegistry;
         $this->_catalogData = $catalogData;
+        $this->_jsonEncoder = $jsonEncoder;
         parent::__construct($context, $data);
     }
 
     /**
      * Initialize block
-     *
      */
     protected function _construct()
     {
