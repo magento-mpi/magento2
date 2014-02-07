@@ -33,4 +33,7 @@
             </array>
         </param>
     </type>
+    <type name="Magento\Catalog\Model\Attribute\Tree\Leaf">
+        <plugin name="treeLeaf" type="Magento\ConfigurableProduct\Model\Attribute\Tree\Plugin\Leaf" />
+    </type>
 </config>
