@@ -81,8 +81,7 @@ class Observer
         '_setOptionsEditReadFalse' => array('admin.product.options'),
         '_setCanEditReadDefaultPrice' => array('adminhtml.catalog.product.bundle.edit.tab.attributes.price'),
         '_setCanEditReadChildBlock' => array('adminhtml.catalog.product.edit.tab.bundle.option'),
-        '_hidePriceElements' => array('adminhtml.catalog.product.edit.tab.attributes'),
-        '_setFormElementAttributes' => array('catalog.product.edit.tab.super.config.simple')
+        '_hidePriceElements' => array('adminhtml.catalog.product.edit.tab.attributes')
     );
 
     /**
@@ -306,28 +305,6 @@ class Observer
             $block->setCanEditPrice(false);
             if (!is_null($selectionTemplateBlock)) {
                 $selectionTemplateBlock->setCanEditPrice(false);
-            }
-        }
-    }
-
-    /**
-     * Set form element value and readonly
-     *
-     * @param Template $block
-     * @return void
-     */
-    protected function _setFormElementAttributes($block)
-    {
-        // Handle quick creation of simple product in products with variations
-        /** @var $form \Magento\Data\Form */
-        $form = $block->getForm();
-        if (!is_null($form)) {
-            if (!$this->_canEditProductStatus) {
-                $statusElement = $form->getElement('simple_product_status');
-                if (!is_null($statusElement)) {
-                    $statusElement->setValue(\Magento\Catalog\Model\Product\Status::STATUS_DISABLED);
-                    $statusElement->setReadonly(true, true);
-                }
             }
         }
     }
