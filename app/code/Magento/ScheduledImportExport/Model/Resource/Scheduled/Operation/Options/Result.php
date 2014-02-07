@@ -28,6 +28,7 @@ class Result
 
     /**
      * Return result array
+     *
      * @return array
      */
     public function toOptionArray()

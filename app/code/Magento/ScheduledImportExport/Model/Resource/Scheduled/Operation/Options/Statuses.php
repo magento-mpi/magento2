@@ -28,6 +28,7 @@ class Statuses
 
     /**
      * Return statuses array
+     *
      * @return array
      */
     public function toOptionArray()

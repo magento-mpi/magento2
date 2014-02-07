@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit;
 
 // @codingStandardsIgnoreStart
 /**
@@ -24,8 +25,6 @@
  * @method \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form setEmailSettingsLabel() setEmailSettingsLabel(string $value)
  */
 // @codingStandardsIgnoreEnd
-namespace Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit;
-
 abstract class Form
     extends \Magento\Backend\Block\Widget\Form\Generic
 {
@@ -329,7 +328,7 @@ abstract class Form
      * Set values to form from operation model
      *
      * @param array $data
-     * @return \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form|bool
+     * @return $this
      */
     protected function _setFormValues(array $data)
     {

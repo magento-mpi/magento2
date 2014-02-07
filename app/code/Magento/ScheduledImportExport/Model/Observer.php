@@ -167,7 +167,7 @@ class Observer
      *
      * @param string $logPath
      * @param int $level
-     * @return array
+     * @return string[]
      */
     protected function _getDirectoryList($logPath, $level = 1)
     {

@@ -44,14 +44,14 @@ class Finance extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCust
     /**
      * Permanent entity columns
      *
-     * @var array
+     * @var string[]
      */
     protected $_permanentAttributes = array(self::COLUMN_WEBSITE, self::COLUMN_EMAIL, self::COLUMN_FINANCE_WEBSITE);
 
     /**
      * Column names that holds values with particular meaning
      *
-     * @var array
+     * @var string[]
      */
     protected $_specialAttributes = array(
         self::COLUMN_ACTION,
@@ -337,6 +337,7 @@ class Finance extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCust
      *
      * @param \Magento\Customer\Model\Customer $customer
      * @param int $websiteId
+     * @return void
      */
     protected function _deleteRewardPoints(\Magento\Customer\Model\Customer $customer, $websiteId)
     {
@@ -348,6 +349,7 @@ class Finance extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCust
      *
      * @param \Magento\Customer\Model\Customer $customer
      * @param int $websiteId
+     * @return void
      */
     protected function _deleteCustomerBalance(\Magento\Customer\Model\Customer $customer, $websiteId)
     {

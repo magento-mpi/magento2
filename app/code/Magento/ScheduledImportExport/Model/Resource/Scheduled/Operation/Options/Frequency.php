@@ -27,6 +27,7 @@ class Frequency
 
     /**
      * Return frequency array
+     *
      * @return array
      */
     public function toOptionArray()

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ScheduledImportExport\Model\System\Config\Backend\Logclean;
 
 /**
  * Backend model for import/export log cleaning schedule options
@@ -15,8 +16,6 @@
  * @package    Magento_ScheduledImportExport
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ScheduledImportExport\Model\System\Config\Backend\Logclean;
-
 class Cron extends \Magento\Core\Model\Config\Value
 {
     /**

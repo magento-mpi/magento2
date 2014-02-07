@@ -27,6 +27,7 @@ class Entities
 
     /**
      * Return entities array
+     *
      * @return array
      */
     public function toOptionArray()

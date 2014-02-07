@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\ScheduledImportExport\Model\Resource\Customer;
 
 /**
  * Customized customers collection
@@ -16,15 +16,13 @@
  * @package     Magento_ScheduledImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ScheduledImportExport\Model\Resource\Customer;
-
 class Collection
     extends \Magento\Customer\Model\Resource\Customer\Collection
 {
     /**
      * Additional filters to use
      *
-     * @var array
+     * @var string[]
      */
     protected $_usedFiltersNotNull = array();
 

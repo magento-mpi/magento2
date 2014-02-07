@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ScheduledImportExport\Model\Export\Entity\Customer;
 
 /**
  * Export customer finance entity model
@@ -18,8 +19,6 @@
  *
  * @method      array getData() getData()
  */
-namespace Magento\ScheduledImportExport\Model\Export\Entity\Customer;
-
 class Finance
     extends \Magento\ImportExport\Model\Export\AbstractEntity
 {
@@ -55,14 +54,14 @@ class Finance
     /**
      * Array of attributes for export
      *
-     * @var array
+     * @var string[]
      */
     protected $_entityAttributes;
 
     /**
      * Permanent entity columns
      *
-     * @var array
+     * @var string[]
      */
     protected $_permanentAttributes = array(self::COLUMN_EMAIL, self::COLUMN_WEBSITE, self::COLUMN_FINANCE_WEBSITE);
 
@@ -156,7 +155,7 @@ class Finance
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function _getHeaderColumns()
     {
@@ -166,7 +165,7 @@ class Finance
     /**
      * Get list of permanent attributes
      *
-     * @return array
+     * @return string[]
      */
     public function getPermanentAttributes()
     {
@@ -222,7 +221,7 @@ class Finance
     /**
      * Set parameters (push filters from post into export customer model)
      *
-     * @param array $parameters
+     * @param string[] $parameters
      * @return \Magento\ImportExport\Model\Export\Entity\Eav\Customer\Address
      */
     public function setParameters(array $parameters)
@@ -259,7 +258,7 @@ class Finance
     /**
      * Get attributes for export
      *
-     * @return array
+     * @return string[]
      */
     protected function _getEntityAttributes()
     {

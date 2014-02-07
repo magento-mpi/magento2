@@ -27,6 +27,7 @@ class Operations
 
     /**
      * Return operations array
+     *
      * @return array
      */
     public function toOptionArray()

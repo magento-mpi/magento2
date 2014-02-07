@@ -394,7 +394,7 @@ abstract class AbstractEntity
     /**
      * Set parameters
      *
-     * @param array $parameters
+     * @param string[] $parameters
      * @return \Magento\ImportExport\Model\Export\AbstractEntity
      */
     public function setParameters(array $parameters)
