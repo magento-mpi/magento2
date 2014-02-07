@@ -273,10 +273,9 @@ class Builder
     {
         $validator = $this->_oneValidatorFactory->create(
             $data['class'],
-            array('options' => isset($data['options']['arguments'])
+            isset($data['options']['arguments'])
                 ? $this->_applyArgumentsCallback($data['options']['arguments'])
                 : array()
-            )
         );
 
         // Check validator type

@@ -10,6 +10,9 @@ namespace Magento\Backend\Block\Widget\Grid\Massaction;
 
 class AdditionalTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @magentoAppArea adminhtml
+     */
     public function testToHtml()
     {
         $interpreter = $this->getMock('Magento\View\Layout\Argument\Interpreter\Options', array(), array(), '', false);
