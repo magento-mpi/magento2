@@ -16,7 +16,7 @@ class Category implements \Magento\Indexer\Model\ActionInterface, \Magento\Mview
     const INDEXER_ID = 'catalog_category_product';
 
     /**
-     * @var \Magento\Catalog\Model\Indexer\Product\Category\Action\FullFactory
+     * @var \Magento\Catalog\Model\Indexer\Category\Product\Action\FullFactory
      */
     protected $fullActionFactory;
 
@@ -31,12 +31,12 @@ class Category implements \Magento\Indexer\Model\ActionInterface, \Magento\Mview
     protected $indexer;
 
     /**
-     * @param Category\Action\FullFactory $fullActionFactory
+     * @param \Magento\Catalog\Model\Indexer\Category\Product\Action\FullFactory $fullActionFactory
      * @param Category\Action\RowsFactory $rowsActionFactory
      * @param \Magento\Indexer\Model\IndexerInterface $indexer
      */
     public function __construct(
-        Category\Action\FullFactory $fullActionFactory,
+        \Magento\Catalog\Model\Indexer\Category\Product\Action\FullFactory $fullActionFactory,
         Category\Action\RowsFactory $rowsActionFactory,
         \Magento\Indexer\Model\IndexerInterface $indexer
     ) {
