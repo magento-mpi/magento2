@@ -7,7 +7,7 @@
  */
 namespace Magento\Catalog\Model\Indexer;
 
-abstract class AbstractStore
+abstract class AbstractPlugin
 {
     /**
      * @var \Magento\Indexer\Model\IndexerInterface
@@ -53,12 +53,16 @@ abstract class AbstractStore
     }
 
     /**
+     * Validate changes for invalidating indexer
+     *
      * @param \Magento\Core\Model\AbstractModel $object
      * @return bool
      */
     abstract protected function validate(\Magento\Core\Model\AbstractModel $object);
 
     /**
+     * Process to invalidate indexer
+     *
      * @param array $arguments
      * @param \Magento\Code\Plugin\InvocationChain $invocationChain
      * @return \Magento\Core\Model\Resource\Db\AbstractDb

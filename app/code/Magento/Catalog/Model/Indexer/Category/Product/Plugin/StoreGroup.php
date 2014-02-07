@@ -7,7 +7,7 @@
  */
 namespace Magento\Catalog\Model\Indexer\Category\Product\Plugin;
 
-class StoreGroup extends \Magento\Catalog\Model\Indexer\AbstractStore
+class StoreGroup extends \Magento\Catalog\Model\Indexer\AbstractPlugin
 {
     /**
      * {@inheritdoc}

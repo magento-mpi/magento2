@@ -7,7 +7,7 @@
  */
 namespace Magento\Catalog\Model\Indexer\Category\Flat\Plugin;
 
-abstract class AbstractStore extends \Magento\Catalog\Model\Indexer\AbstractStore
+abstract class AbstractPlugin extends \Magento\Catalog\Model\Indexer\AbstractPlugin
 {
     /**
      * @var \Magento\Catalog\Model\Indexer\Category\Flat\State

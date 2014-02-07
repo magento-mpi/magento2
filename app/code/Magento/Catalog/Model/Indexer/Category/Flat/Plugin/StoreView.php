@@ -7,7 +7,7 @@
  */
 namespace Magento\Catalog\Model\Indexer\Category\Flat\Plugin;
 
-class StoreView extends AbstractStore
+class StoreView extends AbstractPlugin
 {
     /**
      * {@inheritdoc}
