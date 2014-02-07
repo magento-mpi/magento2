@@ -34,7 +34,7 @@ class PageCache extends \Magento\Backend\App\Action
         \Magento\Backend\App\Action\Context $context,
         \Magento\App\Response\Http\FileFactory $fileFactory,
         \Magento\PageCache\Model\Config $config
-    ){
+    ) {
         parent::__construct($context);
         $this->config = $config;
         $this->fileFactory = $fileFactory;
