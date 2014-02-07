@@ -1520,7 +1520,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
         }
         $data = $form->restoreData($data);
         foreach($data as $key => $value) {
-            if(!$value){
+            if(!is_null($value)){
                 unset($data[$key]);
             }
         }
@@ -1551,7 +1551,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
                 /** Unset customer ID to ensure that new customer will be created */
                 [CustomerDto::STORE_ID => $store->getId(), CustomerDto::ID => null, CustomerDto::CREATED_AT => null]
             );
-            $this->_validateCustomerData($customerDto);
+            $customerDto = $this->_validateCustomerData($customerDto);
         } else if (!$customerDto->getCustomerId()) {
             /** Create new customer */
             $customerBillingAddressDto = $this->getBillingAddress()->exportCustomerAddressData();
@@ -1562,12 +1562,11 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
             );
             $customerDto = $this->_validateCustomerData($customerDto);
         }
-        /** Persist customer addresses if necessary */
         if ($this->getBillingAddress()->getSaveInAddressBook()) {
-            $this->_setupCustomerAddress($customerDto, $this->getBillingAddress());
+            $this->_prepareCustomerAddress($customerDto, $this->getBillingAddress());
         }
         if (!$this->getQuote()->isVirtual() && $this->getShippingAddress()->getSaveInAddressBook()) {
-            $this->_setupCustomerAddress($customerDto, $this->getShippingAddress());
+            $this->_prepareCustomerAddress($customerDto, $this->getShippingAddress());
         }
         $this->getQuote()->updateCustomerData($customerDto);
 
@@ -1587,7 +1586,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      * @param \Magento\Sales\Model\Quote\Address $quoteCustomerAddress
      * @throws \InvalidArgumentException
      */
-    protected function _setupCustomerAddress($customerDto, $quoteCustomerAddress)
+    protected function _prepareCustomerAddress($customerDto, $quoteCustomerAddress)
     {
         // Possible that customerId is null for new customers
         $customerId = $customerDto->getCustomerId();
