@@ -1,7 +1,7 @@
 * Indexer implementation:
   * Implemented new optimized Catalog Category Flat Indexer
 * Cron improvements:
-  * Added the ability to divide cron tasts into groups
+  * Added the ability to divide cron tasks into groups
   * Added the ability to run cron groups in separate processes
 * Modularity improvements:
   * Abstract cart logic moved from Paypal module
