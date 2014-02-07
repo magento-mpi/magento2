@@ -15,11 +15,6 @@ class StoreGroup
     protected $indexer;
 
     /**
-     * @var string
-     */
-    protected $indexerCode;
-
-    /**
      * @var \Magento\Catalog\Model\Indexer\Category\Flat\State
      */
     protected $state;
@@ -27,16 +22,13 @@ class StoreGroup
     /**
      * @param \Magento\Indexer\Model\IndexerInterface $indexer
      * @param \Magento\Catalog\Model\Indexer\Category\Flat\State $state
-     * @param $indexerCode
      */
     public function __construct(
         \Magento\Indexer\Model\IndexerInterface $indexer,
-        \Magento\Catalog\Model\Indexer\Category\Flat\State $state,
-        $indexerCode
+        \Magento\Catalog\Model\Indexer\Category\Flat\State $state
     ) {
         $this->indexer = $indexer;
         $this->state = $state;
-        $this->indexerCode = $indexerCode;
     }
 
     /**
@@ -47,7 +39,7 @@ class StoreGroup
     protected function getIndexer()
     {
         if (!$this->indexer->getId()) {
-            $this->indexer->load($this->indexerCode);
+            $this->indexer->load(\Magento\Catalog\Model\Indexer\Category\Flat\State::INDEXER_ID);
         }
         return $this->indexer;
     }

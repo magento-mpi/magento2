@@ -15,20 +15,12 @@ class StoreGroup
     protected $indexer;
 
     /**
-     * @var string
-     */
-    protected $indexerCode;
-
-    /**
      * @param \Magento\Indexer\Model\IndexerInterface $indexer
-     * @param string $indexerCode
      */
     public function __construct(
-        \Magento\Indexer\Model\IndexerInterface $indexer,
-        $indexerCode
+        \Magento\Indexer\Model\IndexerInterface $indexer
     ) {
         $this->indexer = $indexer;
-        $this->indexerCode = $indexerCode;
     }
 
     /**
@@ -39,7 +31,7 @@ class StoreGroup
     protected function getIndexer()
     {
         if (!$this->indexer->getId()) {
-            $this->indexer->load($this->indexerCode);
+            $this->indexer->load(\Magento\Catalog\Model\Indexer\Category\Product::INDEXER_ID);
         }
         return $this->indexer;
     }

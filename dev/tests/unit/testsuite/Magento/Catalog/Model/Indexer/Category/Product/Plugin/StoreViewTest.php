@@ -34,8 +34,7 @@ class StoreViewTest extends \PHPUnit_Framework_TestCase
             array(), '', false, false, true, array('getId', 'getState', '__wakeup')
         );
         $this->model = new StoreView(
-            $this->indexerMock,
-            'catalog_category_product'
+            $this->indexerMock
         );
     }
 

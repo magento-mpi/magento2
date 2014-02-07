@@ -43,8 +43,7 @@ class StoreGroupTest extends \PHPUnit_Framework_TestCase
         );
         $this->model = new StoreGroup(
             $this->indexerMock,
-            $this->stateMock,
-            'catalog_category_flat'
+            $this->stateMock
         );
     }
 
