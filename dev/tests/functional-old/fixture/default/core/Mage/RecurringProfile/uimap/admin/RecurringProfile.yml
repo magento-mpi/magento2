@@ -10,8 +10,8 @@
 ---
 #Sales Recurring profile page
 manage_sales_recurring_profile:
-    mca: sales_recurring_profile/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'sales_recurring_profile/')]
+    mca: sales/recurring_profile/
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'sales/recurring_profile/')]
     title: Recurring Billing Profiles / Operations / Sales / Magento Admin
     uimap:
         form: &salesRecurringProfiles
@@ -35,4 +35,3 @@ manage_sales_recurring_profile:
                             filter_updated_from: //input[@name='updated_at[from]']
                             filter_updated_to: //input[@name='updated_at[to]']
                             filter_schedule_description: //input[@name='schedule_description']
-

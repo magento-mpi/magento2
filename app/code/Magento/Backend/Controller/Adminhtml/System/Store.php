@@ -55,7 +55,7 @@ class Store extends \Magento\Backend\App\Action
     {
         // load layout, set active menu and breadcrumbs
         $this->_view->loadLayout();
-        $this->_setActiveMenu('Magento_Adminhtml::system_store')
+        $this->_setActiveMenu('Magento_Backend::system_store')
             ->_addBreadcrumb(__('System'), __('System'))
             ->_addBreadcrumb(__('Manage Stores'), __('Manage Stores'));
         return $this;

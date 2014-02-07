@@ -56,44 +56,30 @@ class Core_Mage_ImportExport_BackwardCompatibility_ExportTest extends Mage_Selen
      */
     public function searchByAttributeLabelAndResetFilter()
     {
-        $this->markTestIncomplete('BUG: Search not work');
+        $this->markTestIncomplete('BUG: Search does not work');
         //Steps 2-5
-        $this->importExportHelper()->chooseExportOptions('Customers', 'Magento 1.7 format');
+        $this->importExportHelper()->chooseExportOptions('Customers Main File');
         $this->importExportHelper()->customerFilterAttributes(array('attribute_label' => 'Created At'));
         //Verifying that required attribute is present in grid
-        $isFound = $this->importExportHelper()
-            ->customerSearchAttributes(array('attribute_label' => 'Created At'), 'grid_and_filter');
+        $isFound = $this->importExportHelper()->customerSearchAttributes(array('attribute_label' => 'Created At'));
         $this->assertNotNull($isFound, 'Attribute was not found after filtering');
         //Verifying that another attribute is not present in grid
-        $isFound = $this->importExportHelper()
-            ->customerSearchAttributes(array('attribute_label' => 'Is Confirmed'), 'grid_and_filter');
+        $isFound = $this->importExportHelper()->customerSearchAttributes(array('attribute_label' => 'Is Confirmed'));
         $this->assertNull($isFound, 'Attribute was found after filtering');
-        //Step 6
-        $this->clickButton('reset_filter', false);
-        $this->pleaseWait();
-        //Steps 7-8
+        //Steps 6-7
         $this->importExportHelper()->customerFilterAttributes(array('attribute_code' => 'created_at'));
         //Verifying that required attribute is present in grid
-        $isFound = $this->importExportHelper()
-            ->customerSearchAttributes(array('attribute_code' => 'created_at'), 'grid_and_filter');
+        $isFound = $this->importExportHelper()->customerSearchAttributes(array('attribute_code' => 'created_at'));
         $this->assertNotNull($isFound, 'Attribute was not found after filtering');
         //Verifying that another attribute is not present in grid
-        $isFound = $this->importExportHelper()
-            ->customerSearchAttributes(array('attribute_code' => 'confirmation'), 'grid_and_filter');
+        $isFound = $this->importExportHelper()->customerSearchAttributes(array('attribute_code' => 'confirmation'));
         $this->assertNull($isFound, 'Attribute was found after filtering');
-        //Step 9
-        $this->clickButton('reset_filter', false);
-        $this->waitForAjax();
         //Verifying that two attributes are present in grid
-        $isFound = $this->importExportHelper()->customerSearchAttributes(
-            array('attribute_label' => 'Created At', 'attribute_code' => 'created_at'),
-            'grid_and_filter'
-        );
+        $isFound = $this->importExportHelper()
+            ->customerSearchAttributes(array('attribute_label' => 'Created At', 'attribute_code' => 'created_at'));
         $this->assertNotNull($isFound, 'Attribute was not found after resetting filter');
-        $isFound = $this->importExportHelper()->customerSearchAttributes(
-            array('attribute_label' => 'Is Confirmed', 'attribute_code' => 'confirmation'),
-            'grid_and_filter'
-        );
+        $isFound = $this->importExportHelper()
+            ->customerSearchAttributes(array('attribute_label' => 'Is Confirmed', 'attribute_code' => 'confirmation'));
         $this->assertNotNull($isFound, 'Attribute was not found after resetting filter');
     }
 
@@ -117,7 +103,7 @@ class Core_Mage_ImportExport_BackwardCompatibility_ExportTest extends Mage_Selen
         $this->navigate('export');
         $this->assertTrue($this->checkCurrentPage('export'), $this->getParsedMessages());
         //Steps 2-3
-        $this->importExportHelper()->chooseExportOptions('Customers', 'Magento 1.7 format');
+        $this->importExportHelper()->chooseExportOptions('Customers Main File');
         //Steps 4-6
         $report = $this->importExportHelper()->export();
         //Verifying
@@ -140,7 +126,7 @@ class Core_Mage_ImportExport_BackwardCompatibility_ExportTest extends Mage_Selen
         //Step 1
         $this->assertTrue($this->checkCurrentPage('export'), $this->getParsedMessages());
         //Steps 2-3
-        $this->importExportHelper()->chooseExportOptions('Customers', 'Magento 1.7 format');
+        $this->importExportHelper()->chooseExportOptions('Customers Main File');
         //Step 4
         $this->importExportHelper()->setFilter(array('firstname' => $userData['first_name']));
         //Steps 5-6
@@ -166,7 +152,7 @@ class Core_Mage_ImportExport_BackwardCompatibility_ExportTest extends Mage_Selen
         //Step 1
         $this->assertTrue($this->checkCurrentPage('export'), $this->getParsedMessages());
         //Steps 2-3
-        $this->importExportHelper()->chooseExportOptions('Customers', 'Magento 1.7 format');
+        $this->importExportHelper()->chooseExportOptions('Customers Main File');
         //Step 4
         $isFound = $this->importExportHelper()
             ->customerSkipAttribute(array('attribute_label' => 'First Name'), 'grid_and_filter');

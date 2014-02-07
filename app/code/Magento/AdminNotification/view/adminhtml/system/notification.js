@@ -5,7 +5,12 @@
  * @license     {license_link}
  */
 /*jshint jquery:true*/
-(function ($) {
+jQuery(function ($) {
+    $.template(
+        'systemMessageDialog',
+        '<li class="{{if severity == 1}}error{{else}}warning{{/if}}">{{html text}}</li>'
+    );
+
     $.widget('mage.systemMessageDialog', $.ui.dialog, {
         options: {
             systemMessageTemplate: 'systemMessageDialog'
@@ -29,10 +34,6 @@
     });
 
     $(document).ready(function(){
-        $.template(
-            'systemMessageDialog',
-            '<li class="{{if severity == 1}}error{{else}}warning{{/if}}">{{html text}}</li>'
-        );
         $('body').on('surveyYes surveyNo', function(e, data) {
             if (e.type == 'surveyYes') {
                 var win = window.open(data.surveyUrl, '', 'width=900,height=600,resizable=1,scrollbars=1');
@@ -52,5 +53,5 @@
             $('#message-system-all').systemMessageDialog('open', 2);
         });
     });
-})(jQuery);
+});
 

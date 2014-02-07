@@ -238,32 +238,20 @@ product_attribute_dropdown_with_options: &productAttributeDropdownWithOptions
         is_default: No
         admin_option_name: Option_Admin_%randomize%
         option_position: 1
-        store_view_titles:
-            Default Store View: Option_StoreView_%randomize%
-        delete_option: %noValue%
     option_2:
         is_default: %noValue%
         admin_option_name: Option_Admin_%randomize%
         option_position: 2
-        store_view_titles:
-            Default Store View: Option_StoreView_%randomize%
-        delete_option: %noValue%
     option_3:
         is_default: %noValue%
         admin_option_name: Option_Admin_%randomize%
         option_position: 3
-        store_view_titles:
-            Default Store View: Option_StoreView_%randomize%
-        delete_option: %noValue%
 # Advanced Attribute Properties:
     advanced_attribute_properties:
         attribute_code: attr_dropdown_%randomize%
         scope: Global
         unique_value: %noValue%
         use_to_create_configurable_product: Yes
-# Manage Label
-    store_view_titles:
-        Default Store View: Dropdown_StoreView_%randomize%
 # Frontend Properties:
     frontend_properties:
         use_in_quick_search: %noValue%

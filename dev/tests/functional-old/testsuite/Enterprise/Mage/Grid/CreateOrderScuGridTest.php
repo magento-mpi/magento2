@@ -34,7 +34,7 @@ class Enterprise_Mage_Grid_CreateOrderSkuGridTest extends Mage_Selenium_TestCase
         //Steps
         $this->navigate('manage_sales_orders');
         $this->clickButton('create_new_order');
-        $this->clickButton('create_new_customer');
+        $this->clickButton('create_new_customer', false);
         $this->pleaseWait();
         if (!$this->controlIsPresent('button', 'add_products_by_sku')) {
             $this->clickControl('radiobutton', 'choose_first_store', false);

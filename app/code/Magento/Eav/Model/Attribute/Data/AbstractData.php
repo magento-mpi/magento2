@@ -538,7 +538,7 @@ abstract class AbstractData
      * Extract data from request and return value
      *
      * @param RequestInterface $request
-     * @return array|string
+     * @return array|string|bool
      */
     abstract public function extractValue(RequestInterface $request);
 

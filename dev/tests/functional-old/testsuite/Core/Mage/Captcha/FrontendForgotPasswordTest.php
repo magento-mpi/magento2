@@ -85,7 +85,6 @@ class Core_Mage_Captcha_FrontendForgotPasswordTest extends Mage_Selenium_TestCas
      */
     public function wrongCaptcha()
     {
-        $this->markTestIncomplete('BUG: Work with Wrong captcha');
         //Data
         $data = array('email' => $this->generate('email', 20, 'valid'), 'captcha' => '1234');
         //Steps
