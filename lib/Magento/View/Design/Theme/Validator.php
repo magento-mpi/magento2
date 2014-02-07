@@ -14,7 +14,6 @@ class Validator
 {
     /**
      * Validators list by data key
-     *
      * array('dataKey' => array('validator_name' => [validators], ...), ...)
      *
      * @var array
@@ -23,7 +22,6 @@ class Validator
 
     /**
      * List of errors after validation process
-     *
      * array('dataKey' => 'Error message')
      *
      * @var array
@@ -151,7 +149,7 @@ class Validator
     /**
      * Instantiate class validator
      *
-     * @param array $validators
+     * @param array &$validators
      * @return Validator
      */
     protected function _instantiateValidators(array &$validators)

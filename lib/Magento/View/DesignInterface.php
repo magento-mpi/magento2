@@ -26,9 +26,9 @@ interface DesignInterface
     /**
      * Set package area
      *
-     * @deprecated
      * @param string $area
      * @return DesignInterface
+     * @deprecated
      */
     public function setArea($area);
 

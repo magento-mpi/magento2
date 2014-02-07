@@ -15,6 +15,8 @@ namespace Magento\View\Asset\PreProcessor;
 interface PreProcessorInterface
 {
     /**
+     * Process
+     *
      * @param string $filePath
      * @param array $params
      * @param \Magento\Filesystem\Directory\WriteInterface $targetDirectory

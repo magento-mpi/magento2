@@ -13,6 +13,8 @@ namespace Magento\View\Design\Theme\File;
 interface CollectionInterface
 {
     /**
+     * Get items
+     *
      * @return \Magento\View\Design\Theme\FileInterface[]
      */
     public function getItems();

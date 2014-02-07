@@ -37,56 +37,77 @@ use Magento\Event\ManagerInterface;
 class Context
 {
     /**
+     * Request
+     *
      * @var Request
      */
     protected $request;
 
     /**
+     * Event manager
+     *
      * @var ManagerInterface
      */
     protected $eventManager;
 
     /**
+     * URL builder
      * @var \Magento\UrlInterface
      */
     protected $urlBuilder;
 
     /**
+     * Translator
+     *
      * @var \Magento\TranslateInterface
      */
     protected $translator;
 
     /**
+     * Cache
+     *
      * @var \Magento\App\CacheInterface
      */
     protected $cache;
 
     /**
+     * Design
+     *
      * @var \Magento\View\DesignInterface
      */
     protected $design;
 
     /**
+     * Session
+     *
      * @var \Magento\Session\SessionManagerInterface
      */
     protected $session;
 
     /**
+     * Store config
+     *
      * @var \Magento\Core\Model\Store\Config
      */
     protected $storeConfig;
 
     /**
+     * Front controller
+     *
      * @var FrontControllerInterface
      */
     protected $frontController;
 
     /**
+     * View URL
+     *
      * @var \Magento\View\Url
      */
     protected $viewUrl;
 
     /**
+     * Layout
+     *
      * @var \Magento\View\LayoutInterface
      */
     protected $layout;
@@ -99,26 +120,36 @@ class Context
     protected $viewConfig;
 
     /**
+     * Cache state
+     *
      * @var \Magento\App\Cache\StateInterface
      */
     protected $cacheState;
 
     /**
+     * Logger
+     *
      * @var \Magento\Logger
      */
     protected $logger;
 
     /**
+     * Application
+     *
      * @var \Magento\Core\Model\App
      */
     protected $app;
 
     /**
+     * Application state
+     *
      * @var \Magento\App\State
      */
     protected $appState;
 
     /**
+     * Constructor
+     *
      * @param Request $request
      * @param ManagerInterface $eventManager
      * @param UrlInterface $urlBuilder
@@ -174,6 +205,8 @@ class Context
     }
 
     /**
+     * Retrieve cache
+     *
      * @return \Magento\App\CacheInterface
      */
     public function getCache()
@@ -182,6 +215,8 @@ class Context
     }
 
     /**
+     * Retrieve design package
+     *
      * @return \Magento\View\DesignInterface
      */
     public function getDesignPackage()
@@ -190,6 +225,8 @@ class Context
     }
 
     /**
+     * Retrieve event manager
+     *
      * @return ManagerInterface
      */
     public function getEventManager()
@@ -198,6 +235,8 @@ class Context
     }
 
     /**
+     * Retrieve front controller
+     *
      * @return FrontControllerInterface
      */
     public function getFrontController()
@@ -206,6 +245,8 @@ class Context
     }
 
     /**
+     * Retrieve layout
+     *
      * @return \Magento\View\LayoutInterface
      */
     public function getLayout()
@@ -214,6 +255,8 @@ class Context
     }
 
     /**
+     * Retrieve request
+     *
      * @return Request
      */
     public function getRequest()
@@ -222,6 +265,8 @@ class Context
     }
 
     /**
+     * Retrieve session
+     *
      * @return \Magento\Session\SessionManagerInterface
      */
     public function getSession()
@@ -230,6 +275,8 @@ class Context
     }
 
     /**
+     * Retrieve store config
+     *
      * @return \Magento\Core\Model\Store\Config
      */
     public function getStoreConfig()
@@ -238,6 +285,8 @@ class Context
     }
 
     /**
+     * Retrieve translator
+     *
      * @return \Magento\TranslateInterface
      */
     public function getTranslator()
@@ -246,6 +295,8 @@ class Context
     }
 
     /**
+     * Retrieve URL builder
+     *
      * @return \Magento\UrlInterface
      */
     public function getUrlBuilder()
@@ -254,6 +305,8 @@ class Context
     }
 
     /**
+     * Retrieve View URL
+     *
      * @return \Magento\View\Url
      */
     public function getViewUrl()
@@ -262,6 +315,8 @@ class Context
     }
 
     /**
+     * Retrieve view config
+     *
      * @return \Magento\View\ConfigInterface
      */
     public function getViewConfig()
@@ -270,6 +325,8 @@ class Context
     }
 
     /**
+     * Retrieve cache state
+     *
      * @return \Magento\App\Cache\StateInterface
      */
     public function getCacheState()
@@ -278,6 +335,8 @@ class Context
     }
 
     /**
+     * Retrieve logger
+     *
      * @return \Magento\Logger
      */
     public function getLogger()
@@ -286,6 +345,8 @@ class Context
     }
 
     /**
+     * Retrieve application
+     *
      * @return \Magento\Core\Model\App
      */
     public function getApp()
@@ -356,6 +417,8 @@ class Context
     }
 
     /**
+     * Retrieve acceptance type
+     *
      * @return string
      */
     public function getAcceptType()
@@ -378,7 +441,7 @@ class Context
      *
      * @param string $key
      * @param mixed $default Default value to use if key not found
-     * @return mixed Returns null if key does not exist
+     * @return mixed|null if key does not exist
      */
     public function getPost($key = null, $default = null)
     {
@@ -422,7 +485,7 @@ class Context
     /**
      * Return the value of the given HTTP header.
      *
-     * @param $header
+     * @param string $header
      * @return string|false HTTP header value, or false if not found
      */
     public function getHeader($header)
@@ -441,6 +504,8 @@ class Context
     }
 
     /**
+     * Retrieve application state
+     *
      * @return \Magento\App\State
      */
     public function getAppState()

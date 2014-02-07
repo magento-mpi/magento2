@@ -16,21 +16,29 @@ use Magento\View\Element\BlockFactory;
 class DataSourcePool
 {
     /**
+     * Block factory
+     *
      * @var \Magento\View\Element\BlockFactory
      */
     protected $blockFactory;
 
     /**
+     * Data sources
+     *
      * @var array
      */
     protected $dataSources = array();
 
     /**
+     * Assignments
+     *
      * @var array
      */
     protected $assignments = array();
 
     /**
+     * Constructors
+     *
      * @param \Magento\View\Element\BlockFactory $blockFactory
      */
     public function __construct(BlockFactory $blockFactory)
@@ -39,6 +47,8 @@ class DataSourcePool
     }
 
     /**
+     * Add data source
+     *
      * @param string $name
      * @param string $class
      * @return object
@@ -61,6 +71,8 @@ class DataSourcePool
     }
 
     /**
+     * Get data source
+     *
      * @param null $name
      * @return array|object|null
      */
@@ -74,9 +86,11 @@ class DataSourcePool
     }
 
     /**
-     * @param $dataName
-     * @param $namespace
-     * @param $alias
+     * Assign
+     *
+     * @param string $dataName
+     * @param string $namespace
+     * @param string $alias
      */
     public function assign($dataName, $namespace, $alias)
     {
@@ -87,7 +101,9 @@ class DataSourcePool
     }
 
     /**
-     * @param $namespace
+     * Retrieve namespace data
+     *
+     * @param string $namespace
      * @return array
      */
     public function getNamespaceData($namespace)
