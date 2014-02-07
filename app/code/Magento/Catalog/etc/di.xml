@@ -162,6 +162,11 @@
             <instance type="Magento\Indexer\Model\IndexerInterface" shared="false"/>
         </param>
     </type>
+    <type name="Magento\Catalog\Model\Indexer\Product\Category">
+        <param name="indexer">
+            <instance type="Magento\Indexer\Model\IndexerInterface" shared="false"/>
+        </param>
+    </type>
     <type name="Magento\Catalog\Model\Product\LinkTypeProvider">
         <param name="linkTypes">
             <array>
