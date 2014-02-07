@@ -116,9 +116,8 @@ class Converter
             $addressModel->getDefaultAttributeCodes(),
             [
                 Address::KEY_ID, Address::KEY_REGION_ID, Address::KEY_REGION, Address::KEY_STREET, 'vat_is_valid',
-                Address::KEY_DEFAULT_BILLING, Address::KEY_DEFAULT_SHIPPING,
-                //TODO: create VAT object at MAGETWO-16860
-                'vat_request_id', 'vat_request_date', 'vat_request_success'
+                Address::KEY_DEFAULT_BILLING, Address::KEY_DEFAULT_SHIPPING, 'vat_request_id', 'vat_request_date',
+                'vat_request_success'
             ]
         );
         $addressData = [];

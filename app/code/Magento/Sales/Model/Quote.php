@@ -659,9 +659,26 @@ class Quote extends \Magento\Core\Model\AbstractModel
     public function setCustomerData(CustomerDto $customerData)
     {
         $customer = $this->_customerFactory->create();
-        $customer->setData($customerData->__toArray());
+        $customer->setData($customerData->getAttributes());
         $customer->setId($customerData->getCustomerId());
         $this->setCustomer($customer);
+        return $this;
+    }
+
+    /**
+     * Substitute customer's addresses
+     *
+     * @param AddressDto[] $addresses
+     * @return $this
+     */
+    public function setCustomerAddressData(array $addresses)
+    {
+        $this->getCustomer()->getAddressesCollection()->removeAllItems();
+
+        foreach ($addresses as $address) {
+            $this->addCustomerAddressData($address);
+        }
+
         return $this;
     }
 
@@ -671,7 +688,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      * @param AddressDto $address
      * @return $this
      */
-    public function addAddressData(AddressDto $address)
+    public function addCustomerAddressData(AddressDto $address)
     {
         $this->getCustomer()->addAddress($this->_addressConverter->createAddressModel($address));
 
@@ -685,7 +702,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      *
      * @return AddressDto[]
      */
-    public function getAddressData()
+    public function getCustomerAddressData()
     {
         $customer = $this->getCustomerData();
         $addresses = $this->getCustomer()->getAddresses();

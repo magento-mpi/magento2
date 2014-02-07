@@ -1640,7 +1640,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
             default:
                 throw new \InvalidArgumentException('Customer address type is invalid.');
         }
-        $this->getQuote()->addAddressData($customerAddressDto);
+        $this->getQuote()->addCustomerAddressData($customerAddressDto);
     }
 
     /**
