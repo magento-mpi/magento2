@@ -768,7 +768,6 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                             'Products with recurring profile participate in catalog as nominal items.',
                         'sort_order'                 => 1,
                         'apply_to'                   => 'simple,virtual',
-                        'is_configurable'            => false,
                         'group'                      => 'Recurring Profile',
                     ),
                     'recurring_profile'  => array(
@@ -779,7 +778,6 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'required'                   => false,
                         'sort_order'                 => 2,
                         'apply_to'                   => 'simple,virtual',
-                        'is_configurable'            => false,
                         'group'                      => 'Recurring Profile',
                     ),
                     'visibility'         => array(
@@ -884,7 +882,6 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'global'                     => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
                         'visible'                    => false,
                         'used_in_product_listing'    => true,
-                        'is_configurable'            => false,
                     ),
                     'small_image_label'  => array(
                         'type'                       => 'varchar',
@@ -895,7 +892,6 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'global'                     => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
                         'visible'                    => false,
                         'used_in_product_listing'    => true,
-                        'is_configurable'            => false,
                     ),
                     'thumbnail_label'    => array(
                         'type'                       => 'varchar',
@@ -906,7 +902,6 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'global'                     => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
                         'visible'                    => false,
                         'used_in_product_listing'    => true,
-                        'is_configurable'            => false,
                     ),
                     'created_at'         => array(
                         'type'                       => 'static',

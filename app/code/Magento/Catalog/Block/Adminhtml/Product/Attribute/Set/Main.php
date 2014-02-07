@@ -297,7 +297,6 @@ class Main extends \Magento\Backend\Block\Template
                 'allowDrag'         => true,
                 'leaf'              => true,
                 'is_user_defined'   => $child->getIsUserDefined(),
-                'is_configurable'   => false,
                 'entity_id'         => $child->getEntityId()
             );
 

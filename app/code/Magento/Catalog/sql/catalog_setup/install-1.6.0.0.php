@@ -2071,11 +2071,6 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'default'   => '0',
         ), 'Is Used For Sorting')
-    ->addColumn('is_configurable', \Magento\DB\Ddl\Table::TYPE_SMALLINT, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => '1',
-        ), 'Is Configurable')
     ->addColumn('apply_to', \Magento\DB\Ddl\Table::TYPE_TEXT, 255, array(
         'nullable'  => true,
         ), 'Apply To')

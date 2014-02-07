@@ -20,14 +20,6 @@ use Magento\Sales\Model\Quote\Item as QuoteItem;
 class Observer
 {
     /**
-     * Product qty's checked
-     * data is valid if you check quote item qty and use singleton instance
-     *
-     * @var array
-     */
-    protected $_checkedQuoteItems = array();
-
-    /**
      * @var Item[]
      */
     protected $_itemsForReindex = array();
