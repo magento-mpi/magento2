@@ -22,8 +22,11 @@
  * [#367] (https://github.com/magento/magento2/issues/367) Improve the error message from the contact form
  * [#469] (https://github.com/magento/magento2/issues/469) Can't change prices on different websites for custom options
 
--2.0.0.0-dev63
--=============
+* Update Customer Service Exception handling and add tests
+* Add usage of Customer Service to Customer Module, replacing some direct usage of Customer Model
+
+2.0.0.0-dev63
+=============
 * Modularity improvements:
   * Consolidated all PayPal-related logic in a separate module
   * Resolved dependencies on the Magento_GroupedProduct module
