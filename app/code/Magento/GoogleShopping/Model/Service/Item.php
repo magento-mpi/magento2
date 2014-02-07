@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GoogleShopping\Model\Service;
 
 /**
  * Google Content Item Model
@@ -15,8 +16,6 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GoogleShopping\Model\Service;
-
 class Item extends \Magento\GoogleShopping\Model\Service
 {
     /**
@@ -72,7 +71,7 @@ class Item extends \Magento\GoogleShopping\Model\Service
      * Insert Item into Google Content
      *
      * @param \Magento\GoogleShopping\Model\Item $item
-     * @return \Magento\GoogleShopping\Model\Service\Item
+     * @return $this
      */
     public function insert($item)
     {
@@ -99,7 +98,7 @@ class Item extends \Magento\GoogleShopping\Model\Service
      * Update Item data in Google Content
      *
      * @param \Magento\GoogleShopping\Model\Item $item
-     * @return \Magento\GoogleShopping\Model\Service\Item
+     * @return $this
      */
     public function update($item)
     {
@@ -121,7 +120,7 @@ class Item extends \Magento\GoogleShopping\Model\Service
      * Delete Item from Google Content
      *
      * @param \Magento\GoogleShopping\Model\Item $item
-     * @return \Magento\GoogleShopping\Model\Service\Item
+     * @return $this
      */
     public function delete($item)
     {
@@ -136,7 +135,7 @@ class Item extends \Magento\GoogleShopping\Model\Service
      * Convert Google Content date format to unix timestamp
      * Ex. 2008-12-08T16:57:23Z -> 2008-12-08 16:57:23
      *
-     * @param string Google Content datetime
+     * @param string $gContentDate Google Content datetime
      * @return int
      */
     public function convertContentDateToTimestamp($gContentDate)

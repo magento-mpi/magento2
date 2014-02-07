@@ -133,4 +133,13 @@
             <instance type="Magento\Catalog\Model\System\Config\Source\InputtypeFactory" />
         </param>
     </type>
+    <type name="Magento\Catalog\Model\Product\LinkTypeProvider">
+        <param name="linkTypes">
+            <array>
+                <item key="links_related"><value type="const">Magento\Catalog\Model\Product\Link::LINK_TYPE_RELATED</value></item>
+                <item key="links_crosssell"><value type="const">Magento\Catalog\Model\Product\Link::LINK_TYPE_CROSSSELL</value></item>
+                <item key="links_upsell"><value type="const">Magento\Catalog\Model\Product\Link::LINK_TYPE_UPSELL</value></item>
+            </array>
+        </param>
+    </type>
 </config>

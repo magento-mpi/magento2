@@ -4,8 +4,6 @@
  *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -26,7 +24,6 @@ class FormFactory
     {
         $this->_objectManager = $objectManager;
     }
-
 
     /**
      * Create Form
@@ -49,6 +46,6 @@ class FormFactory
             'attributeValues' => $attributeValues,
             'isAjax' => $isAjax,
         ];
-        return $this->_objectManager->create('\Magento\Customer\Model\Metadata\Form', $params);
+        return $this->_objectManager->create('Magento\Customer\Model\Metadata\Form', $params);
     }
 }

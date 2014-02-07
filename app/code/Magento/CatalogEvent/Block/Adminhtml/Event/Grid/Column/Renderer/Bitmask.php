@@ -17,8 +17,14 @@
  */
 namespace Magento\CatalogEvent\Block\Adminhtml\Event\Grid\Column\Renderer;
 
-class Bitmask extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Text
+use Magento\Backend\Block\Widget\Grid\Column\Renderer\Text;
+
+class Bitmask extends Text
 {
+    /**
+     * @param \Magento\Object $row
+     * @return string
+     */
     public function render(\Magento\Object $row)
     {
         $value = (int) $row->getData($this->getColumn()->getIndex());

@@ -19,6 +19,7 @@ class Core_Mage_ValidationVatNumber_FrontEndOrderCreation_OrderWithRegistrationT
 {
     public function setUpBeforeTests()
     {
+        $this->markTestIncomplete('MAGETWO-15584');
         $this->loginAdminUser();
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
@@ -26,7 +27,7 @@ class Core_Mage_ValidationVatNumber_FrontEndOrderCreation_OrderWithRegistrationT
         $this->clickControl('button', 'validate_vat_number', false);
         $this->pleaseWait();
         //Verification
-        if (!$this->controlIsVisible('pageelement', 'vat_number_is_valid')){
+        if (!$this->controlIsVisible('message', 'vat_number_is_valid')){
             $this->skipTestWithScreenshot('VAT Number is not valid');
         }
     }

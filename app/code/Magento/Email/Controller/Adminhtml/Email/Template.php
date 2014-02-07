@@ -38,6 +38,11 @@ class Template extends \Magento\Backend\App\Action
         parent::__construct($context);
     }
 
+    /**
+     * Index action
+     *
+     * @return void
+     */
     public function indexAction()
     {
         $this->_title->add(__('Email Templates'));
@@ -53,6 +58,11 @@ class Template extends \Magento\Backend\App\Action
         $this->_view->renderLayout();
     }
 
+    /**
+     * Grid action
+     *
+     * @return void
+     */
     public function gridAction()
     {
         $this->_view->loadLayout(false);
@@ -62,6 +72,7 @@ class Template extends \Magento\Backend\App\Action
     /**
      * New transactional email action
      *
+     * @return void
      */
     public function newAction()
     {
@@ -69,8 +80,9 @@ class Template extends \Magento\Backend\App\Action
     }
 
     /**
-     * Edit transactioanl email action
+     * Edit transactional email action
      *
+     * @return void
      */
     public function editAction()
     {
@@ -94,6 +106,11 @@ class Template extends \Magento\Backend\App\Action
         $this->_view->renderLayout();
     }
 
+    /**
+     * Save transactional email action
+     *
+     * @return void
+     */
     public function saveAction()
     {
         $request = $this->getRequest();
@@ -137,6 +154,11 @@ class Template extends \Magento\Backend\App\Action
 
     }
 
+    /**
+     * Delete transactional email action
+     *
+     * @return void
+     */
     public function deleteAction()
     {
         $template = $this->_initTemplate('id');
@@ -169,6 +191,11 @@ class Template extends \Magento\Backend\App\Action
         $this->_redirect('adminhtml/*/');
     }
 
+    /**
+     * Preview transactional email action
+     *
+     * @return void
+     */
     public function previewAction()
     {
         $this->_view->loadLayout('systemPreview');
@@ -178,6 +205,7 @@ class Template extends \Magento\Backend\App\Action
     /**
      * Set template data to retrieve it in template info form
      *
+     * @return void
      */
     public function defaultTemplateAction()
     {
@@ -223,6 +251,11 @@ class Template extends \Magento\Backend\App\Action
         return $model;
     }
 
+    /**
+     * Check if user has enough privileges
+     *
+     * @return bool
+     */
     protected function _isAllowed()
     {
         return $this->_authorization->isAllowed('Magento_Email::template');

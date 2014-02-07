@@ -49,7 +49,7 @@ class Enterprise_Mage_Rma_ItemAttribute_VerifyOnFrontendTest extends Mage_Seleni
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->frontend('customer_login');
+        $this->frontend();
         $this->customerHelper()->registerCustomer($userData);
         $this->assertMessagePresent('success', 'success_registration');
         $orderId = $this->checkoutOnePageHelper()->frontCreateCheckout($checkoutData);
@@ -158,12 +158,9 @@ class Enterprise_Mage_Rma_ItemAttribute_VerifyOnFrontendTest extends Mage_Seleni
      */
     public function systemAttributeNotShowOnFrontend($attributeLabel, $attributeName, $testData)
     {
-        //Data
-        $this->addParameter('attribute_attribute_label', $attributeLabel);
-        $this->addParameter('elementTitle', $attributeLabel);
-        $this->addParameter('orderId', $testData['order_id']);
+        $this->markTestIncomplete('BUG: "Use Default" jquery-widget does not work correct');
         //Steps
-        $this->searchAndOpen(array('filter_attribute_label' => $attributeLabel), 'rma_item_atribute_grid');
+        $this->attributesHelper()->openAttribute(array('filter_attribute_label' => $attributeLabel));
         $this->fillDropdown('show_on_frontend', 'No');
         $this->saveForm('save_attribute');
         $this->assertMessagePresent('success', 'success_saved_attribute');
@@ -174,11 +171,10 @@ class Enterprise_Mage_Rma_ItemAttribute_VerifyOnFrontendTest extends Mage_Seleni
         $this->clickControl('link', 'return');
         //Verification
         $this->assertFalse($this->controlIsPresent('dropdown', $attributeName), 'System RMA attribute must be absent');
-        //Postcondition
+        //PostCondition
         $this->loginAdminUser();
         $this->navigate('manage_rma_items_attribute');
-        $this->addParameter('elementTitle', $attributeLabel);
-        $this->searchAndOpen(array('filter_attribute_label' => $attributeLabel), 'rma_item_atribute_grid');
+        $this->attributesHelper()->openAttribute(array('filter_attribute_label' => $attributeLabel));
         $this->fillDropdown('show_on_frontend', 'Yes');
         $this->saveForm('save_attribute');
         $this->assertMessagePresent('success', 'success_saved_attribute');

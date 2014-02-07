@@ -362,7 +362,7 @@ fixed_bundle_for_order:
     autosettings_visibility: %noValue%
     websites: Main Website
     general_bundle_items:
-        ship_bundle_items: Separately
+        ship_bundle_items: Together
         item_1:
             bundle_items_default_title: Multiple Select
             bundle_items_input_type: Multiple Select
@@ -579,7 +579,7 @@ config_option_custom_options:
         field_dropdown_3:
             fieldType: dropdown
             fieldParameter: year
-            fieldsValue: 2013
+            fieldsValue: 2014
     option_4:
         title: Custom Options Date & Time
         field_dropdown_1:
@@ -593,7 +593,7 @@ config_option_custom_options:
         field_dropdown_3:
             fieldType: dropdown
             fieldParameter: year
-            fieldsValue: 2013
+            fieldsValue: 2014
         field_dropdown_4:
             fieldType: dropdown
             fieldParameter: hour

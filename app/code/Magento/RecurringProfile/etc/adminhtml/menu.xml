@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <menu>
+        <add id="Magento_RecurringProfile::recurring_profile" title="Recurring Billing"
+             module="Magento_RecurringProfile" sortOrder="80" parent="Magento_Sales::sales_operation"
+             action="sales/recurringProfile" resource="Magento_RecurringProfile::recurring_profile"/>
+    </menu>
+</config>

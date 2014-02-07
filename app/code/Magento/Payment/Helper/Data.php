@@ -54,7 +54,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_appEmulation;
 
     /**
-     * @var \Magento\Core\Model\Config\Initial
+     * @var \Magento\App\Config\Initial
      */
     protected $_initialConfig;
 
@@ -68,7 +68,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Core\Model\App\Emulation $appEmulation
      * @param \Magento\Payment\Model\Config $paymentConfig
-     * @param \Magento\Core\Model\Config\Initial $initialConfig
+     * @param \Magento\App\Config\Initial $initialConfig
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
@@ -78,7 +78,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\App\ConfigInterface $config,
         \Magento\Core\Model\App\Emulation $appEmulation,
         \Magento\Payment\Model\Config $paymentConfig,
-        \Magento\Core\Model\Config\Initial $initialConfig
+        \Magento\App\Config\Initial $initialConfig
     ) {
         parent::__construct($context);
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -251,7 +251,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getPaymentMethods()
     {
-        return $this->_initialConfig->getDefault()[self::XML_PATH_PAYMENT_METHODS];
+        return $this->_initialConfig->getData('default')[self::XML_PATH_PAYMENT_METHODS];
     }
 
     /**

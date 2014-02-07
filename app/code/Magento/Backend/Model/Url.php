@@ -93,6 +93,7 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
      * @param \Magento\Core\Model\Session $session
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Url\RouteParamsResolverFactory $routeParamsResolver
+     * @param \Magento\Url\QueryParamsResolverInterface $queryParamsResolver
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param Menu\Config $menuConfig
      * @param \Magento\App\CacheInterface $cache
@@ -103,7 +104,6 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
      * @param \Magento\App\ConfigInterface $coreConfig
      * @param \Magento\Data\Form\FormKey $formKey
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Url\QueryParamsResolverInterface $queryParamsResolver
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -116,6 +116,7 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
         \Magento\Core\Model\Session $session,
         \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Url\RouteParamsResolverFactory $routeParamsResolver,
+        \Magento\Url\QueryParamsResolverInterface $queryParamsResolver,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Backend\Model\Menu\Config $menuConfig,
         \Magento\App\CacheInterface $cache,
@@ -126,7 +127,6 @@ class Url extends \Magento\Url implements \Magento\Backend\Model\UrlInterface
         \Magento\App\ConfigInterface $coreConfig,
         \Magento\Data\Form\FormKey $formKey,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Url\QueryParamsResolverInterface $queryParamsResolver,
         array $data = array()
     ) {
         $this->_encryptor = $encryptor;
