@@ -1,3 +1,6 @@
+* LESS pre-processisng to CSS
+  * LESS files in library/theme/module, during materialization are automatically compiled into CSS
+  * LESS files compilation caching mechanism added for developer mode
 * Modularity improvements:
   * Abstract cart logic moved from Paypal module
 * Caching improvements:
