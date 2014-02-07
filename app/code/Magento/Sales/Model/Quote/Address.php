@@ -459,7 +459,6 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         /**
          * TODO: Remove this method when all dependencies are refactored to use
          * importCustomerAddressData() - MAGETWO-20858
-         *
          */
         $this->_objectCopyService->copyFieldsetToTarget('customer_address', 'to_quote_address', $address, $this);
         $email = null;
