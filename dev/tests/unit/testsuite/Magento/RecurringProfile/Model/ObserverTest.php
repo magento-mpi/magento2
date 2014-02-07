@@ -33,12 +33,27 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\RecurringProfile\Model\RecurringProfileFactory
      */
-    protected $_profileFactory;
+    protected $_recurringProfileFactory;
 
     /**
      * @var \Magento\Event
      */
     protected $_event;
+
+    /**
+     * @var \Magento\RecurringProfile\Model\ProfileFactory
+     */
+    protected $_profileFactory;
+
+    /**
+     * @var \Magento\RecurringProfile\Model\Profile
+     */
+    protected $_profile;
+
+    /**
+     * @var \Magento\Checkout\Model\Session
+     */
+    protected $_checkoutSession;
 
     protected function setUp()
     {
@@ -49,20 +64,30 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_fieldsBlock = $this->getMock(
             '\Magento\RecurringProfile\Block\Fields', ['getFieldLabel'], [], '', false
         );
-        $this->_profileFactory = $this->getMock(
+        $this->_recurringProfileFactory = $this->getMock(
             '\Magento\RecurringProfile\Model\RecurringProfileFactory', ['create'], [], '', false
+        );
+        $this->_profileFactory = $this->getMock(
+            '\Magento\RecurringProfile\Model\ProfileFactory', ['create', 'importProduct'], [], '', false
+        );
+        $this->_checkoutSession = $this->getMock(
+            '\Magento\Checkout\Model\Session', ['setLastRecurringProfileIds'], [], '', false
         );
 
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $this->_testModel = $helper->getObject('Magento\RecurringProfile\Model\Observer', [
             'blockFactory' => $this->_blockFactory,
+            'recurringProfileFactory' => $this->_recurringProfileFactory,
+            'fields' => $this->_fieldsBlock,
             'profileFactory' => $this->_profileFactory,
-            'fields' => $this->_fieldsBlock
+            'checkoutSession' => $this->_checkoutSession
         ]);
 
         $this->_event = $this->getMock(
-            'Magento\Event', ['getProductElement', 'getProduct', 'getResult', 'getBuyRequest'], [], '', false
+            'Magento\Event', [
+                'getProductElement', 'getProduct', 'getResult', 'getBuyRequest', 'getQuote', 'getApi'
+            ], [], '', false
         );
 
         $this->_observer->expects($this->any())->method('getEvent')->will($this->returnValue($this->_event));
@@ -92,7 +117,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $this->_fieldsBlock->expects($this->once())->method('getFieldLabel')->will($this->returnValue('Field Label'));
 
-        $this->_profileFactory->expects($this->once())->method('create')->will($this->returnValue($profile));
+        $this->_recurringProfileFactory->expects($this->once())->method('create')->will($this->returnValue($profile));
 
         $product = $this->getMock('Magento\Object', ['isRecurring', 'addCustomOption'], [], '', false);
         $product->expects($this->once())->method('isRecurring')->will($this->returnValue(true));
@@ -139,5 +164,71 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_event->expects($this->once())->method('getResult')->will($this->returnValue($result));
         $this->_testModel->addFieldsToProductEditForm($this->_observer);
         $this->assertEquals('htmlhtml', $result->output);
+    }
+
+    public function testSubmitRecurringPaymentProfiles()
+    {
+        $this->_prepareRecurringPaymentProfiles();
+
+        $this->_profile->expects($this->once())->method('isValid')->will($this->returnValue(true));
+        $this->_profile->expects($this->once())->method('submit');
+
+        $this->_testModel->submitRecurringPaymentProfiles($this->_observer);
+    }
+
+    public function testAddProfilesIdsToSession()
+    {
+        $this->_prepareRecurringPaymentProfiles();
+
+        $this->_profile->expects($this->once())->method('getId')->will($this->returnValue(1));
+
+        $this->_checkoutSession->expects($this->once())->method('setLastRecurringProfileIds')->with([1]);
+
+        $this->_testModel->addProfilesIdsToSession($this->_observer);
+    }
+
+    public function testApiAddRecurringProfiles()
+    {
+        $this->_prepareRecurringPaymentProfiles();
+
+        $this->_profile->expects($this->once())->method('isValid')->will($this->returnValue(true));
+
+        $api = $this->getMock('Magento\Paypal\Model\Api\Nvp', ['addRecurringPaymentProfiles'], [], '', false);
+        $api->expects($this->once())->method('addRecurringPaymentProfiles')->with([$this->_profile]);
+
+        $this->_event->expects($this->once())->method('getApi')->will($this->returnValue($api));
+
+        $this->_testModel->apiAddRecurringProfiles($this->_observer);
+    }
+
+    protected function _prepareRecurringPaymentProfiles()
+    {
+        $product = $this->getMock('Magento\RecurringProfile\Model\Profile', [
+            'isRecurring','__sleep', '__wakeup'
+        ], [], '', false);
+        $product->expects($this->once())->method('isRecurring')->will($this->returnValue(true));
+
+        $item = $this->getMock('Magento\Sales\Model\Quote\Item\AbstractItem', [
+            'getProduct', 'getQuote', 'getAddress', 'getOptionByCode', '__sleep', '__wakeup'
+        ], [], '', false);
+        $item->expects($this->once())->method('getProduct')->will($this->returnValue($product));
+
+        $this->_profile = $this->getMock('Magento\RecurringProfile\Model\Profile', [
+            '__sleep', '__wakeup', 'isValid', 'importQuote', 'importQuoteItem', 'submit', 'getId', 'setMethodCode'
+        ], [], '', false);
+        $this->_profile->expects($this->once())->method('importQuoteItem')->will($this->returnValue($this->_profile));
+
+        $quote = $this->getMock('Magento\Sales\Model\Quote', [
+            'getTotalsCollectedFlag', '__sleep', '__wakeup', 'getAllVisibleItems'
+        ], [], '', false);
+        $quote->expects($this->once())->method('getTotalsCollectedFlag')->will($this->returnValue(true));
+        $quote->expects($this->once())->method('getAllVisibleItems')->will($this->returnValue([$item]));
+
+        $this->_profileFactory->expects($this->once())
+            ->method('create')->will($this->returnValue($this->_profileFactory));
+        $this->_profileFactory->expects($this->once())
+            ->method('importProduct')->will($this->returnValue($this->_profile));
+
+        $this->_event->expects($this->once())->method('getQuote')->will($this->returnValue($quote));
     }
 }

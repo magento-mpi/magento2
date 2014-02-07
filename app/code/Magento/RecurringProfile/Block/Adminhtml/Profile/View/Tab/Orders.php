@@ -23,7 +23,7 @@ class Orders
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\Sales\Model\Resource\Order\Grid\CollectionFactory
+     * @var \Magento\RecurringProfile\Model\Resource\Order\CollectionFactory
      */
     protected $_orderCollection;
 
@@ -36,7 +36,7 @@ class Orders
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Sales\Model\Resource\Order\Grid\CollectionFactory $orderCollection
+     * @param \Magento\RecurringProfile\Model\Resource\Order\CollectionFactory $orderCollection
      * @param \Magento\Sales\Model\Order\ConfigFactory $orderConfig
      * @param array $data
      */
@@ -44,7 +44,7 @@ class Orders
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Sales\Model\Resource\Order\Grid\CollectionFactory $orderCollection,
+        \Magento\RecurringProfile\Model\Resource\Order\CollectionFactory $orderCollection,
         \Magento\Sales\Model\Order\ConfigFactory $orderConfig,
         array $data = array()
     ) {

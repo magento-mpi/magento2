@@ -32,7 +32,7 @@ class Observer
      *
      * @var \Magento\RecurringProfile\Model\RecurringProfileFactory
      */
-    protected $_profileFactory;
+    protected $_recurringProfileFactory;
 
     /**
      * @var \Magento\View\Element\BlockFactory
@@ -52,33 +52,33 @@ class Observer
     /**
      * @var \Magento\RecurringProfile\Model\ProfileFactory
      */
-    protected $_recurringProfileFactory;
+    protected $_profileFactory;
 
     /**
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\RecurringProfile\Model\RecurringProfileFactory $profileFactory
+     * @param \Magento\RecurringProfile\Model\RecurringProfileFactory $recurringProfileFactory
      * @param \Magento\View\Element\BlockFactory $blockFactory
      * @param \Magento\RecurringProfile\Block\Fields $fields
      * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param \Magento\RecurringProfile\Model\ProfileFactory $recurringProfileFactory
+     * @param \Magento\RecurringProfile\Model\ProfileFactory $profileFactory
      */
     public function __construct(
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\RecurringProfile\Model\RecurringProfileFactory $profileFactory,
+        \Magento\RecurringProfile\Model\RecurringProfileFactory $recurringProfileFactory,
         \Magento\View\Element\BlockFactory $blockFactory,
         \Magento\RecurringProfile\Block\Fields $fields,
         \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\RecurringProfile\Model\ProfileFactory $recurringProfileFactory
+        \Magento\RecurringProfile\Model\ProfileFactory $profileFactory
     ) {
         $this->_locale = $locale;
         $this->_storeManager = $storeManager;
-        $this->_profileFactory = $profileFactory;
+        $this->_recurringProfileFactory = $recurringProfileFactory;
         $this->_blockFactory = $blockFactory;
         $this->_fields = $fields;
         $this->_checkoutSession = $checkoutSession;
-        $this->_recurringProfileFactory = $recurringProfileFactory;
+        $this->_profileFactory = $profileFactory;
     }
 
     /**
@@ -98,7 +98,7 @@ class Observer
         }
 
         /** @var \Magento\RecurringProfile\Model\RecurringProfile $profile */
-        $profile = $this->_profileFactory->create(['locale' => $this->_locale]);
+        $profile = $this->_recurringProfileFactory->create(['locale' => $this->_locale]);
         $profile->setStore($this->_storeManager->getStore())
             ->importBuyRequest($buyRequest)
             ->importProduct($product);
@@ -230,7 +230,7 @@ class Observer
         foreach ($quote->getAllVisibleItems() as $item) {
             $product = $item->getProduct();
             if (is_object($product) && ($product->isRecurring())
-                && $profile = $this->_recurringProfileFactory->create()->importProduct($product)
+                && $profile = $this->_profileFactory->create()->importProduct($product)
             ) {
                 $profile->importQuote($quote);
                 $profile->importQuoteItem($item);

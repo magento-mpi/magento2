@@ -39,7 +39,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
         $collectionElement = $this->getMock('Magento\RecurringProfile\Model\Profile', $args, array(), '', false);
         $collectionElement->expects($this->once())->method('getIncrementId')
             ->will($this->returnValue(1));
-        $collection = $this->getMock('Magento\Sales\Model\Resource\Order\Collection', array(), array(), '', false);
+        $collection = $this->getMock('Magento\RecurringProfile\Model\Resource\Order\Collection', [], [], '', false);
         $collection->expects($this->any())->method('addFieldToFilter')
             ->will($this->returnValue($collection));
         $collection->expects($this->once())->method('addFieldToSelect')

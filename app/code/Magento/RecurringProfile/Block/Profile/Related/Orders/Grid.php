@@ -14,7 +14,7 @@ namespace Magento\RecurringProfile\Block\Profile\Related\Orders;
 class Grid extends \Magento\RecurringProfile\Block\Profile\View
 {
     /**
-     * @var \Magento\Sales\Model\Resource\Order\Collection
+     * @var \Magento\RecurringProfile\Model\Resource\Order\Collection
      */
     protected $_orderCollection;
     /**
@@ -30,7 +30,7 @@ class Grid extends \Magento\RecurringProfile\Block\Profile\View
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Sales\Model\Resource\Order\Collection $collection
+     * @param \Magento\RecurringProfile\Model\Resource\Order\Collection $collection
      * @param \Magento\Sales\Model\Order\Config $config
      * @param \Magento\Core\Helper\Data $coreHelper
      * @param array $data
@@ -38,7 +38,7 @@ class Grid extends \Magento\RecurringProfile\Block\Profile\View
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Sales\Model\Resource\Order\Collection $collection,
+        \Magento\RecurringProfile\Model\Resource\Order\Collection $collection,
         \Magento\Sales\Model\Order\Config $config,
         \Magento\Core\Helper\Data $coreHelper,
         array $data = array()
