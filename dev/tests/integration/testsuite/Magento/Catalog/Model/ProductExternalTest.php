@@ -309,5 +309,8 @@ class ProductExternalTest extends \PHPUnit_Framework_TestCase
         $actualCategoryIds = $this->_model->getAvailableInCategories();
         sort($actualCategoryIds); // not depend on the order of items
         $this->assertEquals(array(2, 3, 4), $actualCategoryIds);
+        //Check not visible product
+        $this->_model->load(3);
+        $this->assertEmpty($this->_model->getAvailableInCategories());
     }
 }
