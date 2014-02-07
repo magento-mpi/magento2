@@ -10,6 +10,10 @@
 
 namespace Magento\CatalogPermissions\Helper;
 
+use Magento\App\Helper\Context;
+use Magento\Core\Model\Store\ConfigInterface;
+use Magento\Customer\Model\Session;
+
 /**
  * Base helper
  */
@@ -28,24 +32,24 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Core store config
      *
-     * @var \Magento\Core\Model\Store\ConfigInterface
+     * @var ConfigInterface
      */
     protected $_coreStoreConfig;
 
     /**
-     * @var \Magento\Customer\Model\Session
+     * @var Session
      */
     protected $_customerSession;
 
     /**
-     * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
+     * @param Context $context
+     * @param Session $customerSession
+     * @param ConfigInterface $coreStoreConfig
      */
     public function __construct(
-        \Magento\App\Helper\Context $context,
-        \Magento\Customer\Model\Session $customerSession,
-        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
+        Context $context,
+        Session $customerSession,
+        ConfigInterface $coreStoreConfig
     ) {
         $this->_customerSession = $customerSession;
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -55,7 +59,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Retrieve config value for permission enabled
      *
-     * @return boolean
+     * @return bool
      */
     public function isEnabled()
     {
@@ -67,7 +71,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      *
      * @param int $customerGroupId
      * @param int $storeId
-     * @return boolean
+     * @return bool
      */
     public function isAllowedCategoryView($storeId = null, $customerGroupId = null)
     {
@@ -79,7 +83,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      *
      * @param int $customerGroupId
      * @param int $storeId
-     * @return boolean
+     * @return bool
      */
     public function isAllowedProductPrice($storeId = null, $customerGroupId = null)
     {
@@ -91,7 +95,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      *
      * @param int $customerGroupId
      * @param int $storeId
-     * @return boolean
+     * @return bool
      */
     public function isAllowedCheckoutItems($storeId = null, $customerGroupId = null)
     {
@@ -102,7 +106,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Retrieve config value for catalog search availability
      *
-     * @return boolean
+     * @return bool
      */
     public function isAllowedCatalogSearch()
     {
@@ -131,7 +135,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Retrieve is allowed grant from configuration
      *
      * @param string $configPath
-     * @return boolean
+     * @param int|null $storeId
+     * @param int|null $customerGroupId
+     * @return bool
      */
     protected function _getIsAllowedGrant($configPath, $storeId = null, $customerGroupId = null)
     {

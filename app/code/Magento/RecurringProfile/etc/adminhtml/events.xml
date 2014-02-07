@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="catalog_product_edit_form_render_recurring">
+        <observer name="payment" instance="Magento\RecurringProfile\Model\Observer" method="addFieldsToProductEditForm" />
+    </event>
+</config>

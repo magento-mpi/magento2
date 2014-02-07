@@ -48,7 +48,7 @@ class Core_Mage_Customer_RedirectAfterLoginTest extends Mage_Selenium_TestCase
         //Register customers
         $this->frontend();
         foreach ($usersData as $user) {
-            $this->frontend('customer_login');
+            $this->frontend();
             $this->customerHelper()->registerCustomer($user);
             $this->assertMessagePresent('success', 'success_registration');
             $this->logoutCustomer();

@@ -73,7 +73,7 @@ for ($i = 0; $i < $maxInstances; ++$i) {
     );
 }
 
-$whitelist = array();
+$whiteList = array();
 if (isset($cliOptions['whitelist'])) {
     foreach (file($cliOptions['whitelist'], FILE_IGNORE_NEW_LINES) as $pattern) {
         if (0 === strpos($pattern, '#')) {
@@ -84,21 +84,21 @@ if (isset($cliOptions['whitelist'])) {
             throw new Exception("The glob() pattern '{$pattern}' didn't return any result.");
         }
         foreach ($files as $file) {
-            $whitelist[str_replace(__DIR__ . '/', '', $file)] = true;
+            $whiteList[str_replace(__DIR__ . '/', '', $file)] = true;
         }
     }
 }
 
 $pathToTests = $argv[1];
 $testCases = array();
-foreach (glob($pathToTests, GLOB_BRACE | GLOB_ERR) ?: array() as $globItem) {
+foreach (glob($pathToTests, GLOB_BRACE | GLOB_ERR) ? : array() as $globItem) {
     if (is_dir($globItem)) {
         foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($globItem)) as $fileInfo) {
             $pathToTestCase = (string)$fileInfo;
             if (preg_match('/Test\.php$/', $pathToTestCase)
                 && (!isset($cliOptions['include-only']) || preg_match($cliOptions['include-only'], $pathToTestCase))
                 && (!isset($cliOptions['exclude']) || !preg_match($cliOptions['exclude'], $pathToTestCase))
-                && (empty($whitelist) || !empty($whitelist[$pathToTestCase]))
+                && (empty($whiteList) || !empty($whiteList[$pathToTestCase]))
             ) {
                 $testCases[$pathToTestCase] = true;
             }
@@ -106,7 +106,7 @@ foreach (glob($pathToTests, GLOB_BRACE | GLOB_ERR) ?: array() as $globItem) {
     } elseif (preg_match('/Test\.php$/', $globItem)
         && (!isset($cliOptions['include-only']) || preg_match($cliOptions['include-only'], $globItem))
         && (!isset($cliOptions['exclude']) || !preg_match($cliOptions['exclude'], $globItem))
-        && (empty($whitelist) || !empty($whitelist[$pathToTestCase]))
+        && (empty($whiteList) || !empty($whiteList[$pathToTestCase]))
     ) {
         $testCases[$globItem] = true;
     }
@@ -118,7 +118,7 @@ if (empty($testCases)) {
 }
 $testCases = array_keys($testCases); // automatically avoid file duplications
 
-$outputDir = __DIR__ . '/var/split-by-test/';
+$outputDir = str_replace('/', '/', __DIR__ . '/var/split-by-test/');
 if (!file_exists($outputDir)) {
     mkdir($outputDir);
 }
@@ -177,7 +177,7 @@ while ($testCasesLeft > 0) {
             if (!$status['running']) {
                 $cleanExitCode = $cleanExitCode && $status['exitcode'] === 0;
                 echo "{$testCases[$worker['test_case']]} test case finished on instance {$index} ",
-                    "with exit code {$status['exitcode']}.", PHP_EOL;
+                "with exit code {$status['exitcode']}.", PHP_EOL;
                 echo rtrim(stream_get_contents($worker['stdout']), PHP_EOL), PHP_EOL;
                 file_put_contents('php://stderr', stream_get_contents($worker['stderr']));
                 fclose($worker['stdout']);
@@ -194,17 +194,16 @@ while ($testCasesLeft > 0) {
                 );
 
                 $testCaseOutputDir = $outputDir . '/' . $testCaseId . '/';
-                $filesystemAdapter = new \Magento\Filesystem\Driver\File();
-                $filesystemAdapter->deleteDirectory($testCaseOutputDir);
+                \Magento\Io\File::rmdirRecursive($testCaseOutputDir);
                 mkdir($testCaseOutputDir);
 
-                $testCaseLogsDir = $worker['dir'] . '/var/logs';
+                $testCaseLogsDir = str_replace('/', '/', $worker['dir'] . '/var/logs');
                 rename($testCaseLogsDir, $testCaseOutputDir . 'logs');
                 mkdir($testCaseLogsDir);
 
-                $commonScreenshotsDir = __DIR__ . '/var/screenshots/';
-                $testCaseScreenshotsDir = $worker['dir'] . '/var/screenshots';
-                foreach (glob($testCaseScreenshotsDir . '/*.png') ?: array() as $png) {
+                $commonScreenshotsDir = str_replace('/', '/', __DIR__ . '/var/screenshots/');
+                $testCaseScreenshotsDir = str_replace('/', '/', $worker['dir'] . '/var/screenshots');
+                foreach (glob($testCaseScreenshotsDir . '/*.png') ? : array() as $png) {
                     rename($png, $commonScreenshotsDir . basename($png));
                 }
 
@@ -219,7 +218,7 @@ while ($testCasesLeft > 0) {
                 $testCasesLeft--;
             } elseif (time() - $worker['process_start_time'] > $maxExecutionTime) {
                 echo "{$testCases[$worker['test_case']]} test case on instance {$index} ",
-                    "exceeded execution time limit of {$maxExecutionTime} seconds and will be terminated.", PHP_EOL;
+                "exceeded execution time limit of {$maxExecutionTime} seconds and will be terminated.", PHP_EOL;
                 $worker['process_start_time'] = PHP_INT_MAX; // terminate process only once
                 proc_terminate($worker['process']);
             }

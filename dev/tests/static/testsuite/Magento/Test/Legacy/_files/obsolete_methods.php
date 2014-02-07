@@ -304,6 +304,7 @@ return array(
     array('getAclPrivilegeSet', 'Magento\Admin\Model\Config'),
     array('getAclResourceList', 'Magento\Admin\Model\Config'),
     array('getAclResourceTree', 'Magento\Admin\Model\Config'),
+    array('getAddress', 'Magento\Customer\Block\Form\Register'),
     array('getAddNewButtonHtml', 'Magento\Backend\Block\Catalog\Product'),
     array('getAddNewButtonHtml', 'Magento\Eav\Block\Adminhtml\Attribute\Edit\Options\AbstractOptions'),
     array('getAddToCartItemUrl', 'Magento\Wishlist\Block\Customer\Sidebar'),
@@ -315,6 +316,12 @@ return array(
     array('getAnonSuffix'),
     array('getAttributeDataModelFactory', 'Magento\Eav\Model\Validator\Attribute\Data'),
     array('getAttributesJson', 'Magento\Backend\Block\Catalog\Product\Edit\Tab\Super\Config', 'getAttributes'),
+    array(
+        'getAllStates',
+        'Magento\Sales\Model\Recurring\Profile',
+        'Magento\RecurringProfile\Model\States::toOptionArray()'
+    ),
+    array('getStateLabel', 'Magento\Sales\Model\Recurring\Profile'),
     array('getBaseTaxAmount', 'Magento\Sales\Model\Quote\Item\AbstractItem'),
     array('getBlockClassName', 'Magento\Core\Model\Config'),
     array('getButtonsHtml', 'Magento_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Bundle_Option_Search'),
@@ -384,7 +391,7 @@ return array(
     ),
     array('getInstance', 'Magento\TestFramework\Bootstrap', 'Magento_TestFramework_Helper_Bootstrap::getInstance'),
     array('getIsActiveAanalytics', '', 'getOnsubmitJs'),
-    array('getIsAjaxRequest', 'Magento\Core\Model\Translate\Inline'),
+    array('getIsAjaxRequest', 'Magento\Translate\Inline'),
     array('getIsEngineAvailable'),
     array('getIsGlobal', 'Magento\Eav\Model\Entity\Attribute\AbstractAttribute'),
     array('getIsInStock', 'Magento\Checkout\Block\Cart\Item\Renderer'),
@@ -446,6 +453,8 @@ return array(
     array('getPriceFormatted', 'Magento\Customer\Block\Adminhtml\Edit\Tab\View\Sales'),
     array('getPrices', 'Magento\Bundle\Model\Product\Price', 'getTotalPrices()'),
     array('getPricesDependingOnTax', 'Magento\Bundle\Model\Product\Price', 'getTotalPrices()'),
+    array('getPrimaryBillingAddress', 'Magento\Customer\Block\Address\Book', 'getDefaultBilling'),
+    array('getPrimaryShippingAddress', 'Magento\Customer\Block\Address\Book', 'getDefaultShipping'),
     array('getPrintUrl', 'Magento\Checkout\Block\Onepage\Success'),
     array('getPrintUrl', 'Magento\Sales\Block\Order\Info'),
     array('getProduct', 'Magento\Catalog\Model\Product\Type\AbstractType'),
@@ -640,7 +649,7 @@ return array(
     array('prepareRedirect', 'Magento\Core\Controller\Varien\Exception'),
     array('prepareItemInfo', 'Magento\Sales\Block\Recurring\Profile\View'),
     array('preparePriceAlertData', 'Magento\ProductAlert\Block\Product\View'),
-    array('prepareProfilesGrid', 'Magento\Sales\Block\Recurring\Profiles'),
+    array('prepareProfilesGrid', 'Magento\Sales\Block\Recurring\Profile'),
     array('prepareReferenceInfo', 'Magento\Sales\Block\Recurring\Profile\View'),
     array('prepareRelatedOrdersFrontendGrid', 'Magento\Sales\Block\Recurring\Profile\View'),
     array('prepareScheduleInfo', 'Magento\Sales\Block\Recurring\Profile\View'),
@@ -649,6 +658,7 @@ return array(
     array('preprocess', 'Magento\Newsletter\Model\Template'),
     array('processBeacon'),
     array('processBeforeVoid', 'Magento\Payment\Model\Method\AbstractMethod'),
+    array('canUseForMultishipping', 'Magento\Payment\Model\Method\AbstractMethod'),
     array('processRequest', 'Magento\App\Cache'),
     array('processSubst', 'Magento\Core\Model\Store'),
     array('productEventAggregate'),
@@ -690,7 +700,7 @@ return array(
     array('setCustomerId', 'Magento\Customer\Model\Resource\Address'),
     array('setDirectOutput', 'Magento\Core\Model\Layout'),
     array('setInstance', 'Magento\TestFramework\Bootstrap', 'Magento_TestFramework_Helper_Bootstrap::setInstance'),
-    array('setIsAjaxRequest', 'Magento\Core\Model\Translate\Inline'),
+    array('setIsAjaxRequest', 'Magento\Translate\Inline'),
     array('setNeedUsePriceExcludeTax', '', 'Magento_Tax_Model_Config::setPriceIncludesTax()'),
     array('setOption', 'Magento\Captcha\Helper\Data'),
     array('setOptions', 'Magento\Core\Model\Config'),
@@ -764,7 +774,11 @@ return array(
     ),
     array(
         'prepareProductEditFormRecurringProfile', 'Magento\Sales\Model\Observer',
-        'Magento_Sales_Model_Observer_Backend_RecurringProfile_FormRenderer::render'
+        'Magento\RecurringProfile\Model\Observer::addFieldsToProductEditForm'
+    ),
+    array(
+        'prepareProductRecurringProfileOptions', 'Magento\Payment\Model\Observer',
+        'Magento\RecurringProfile\Model\Observer::prepareProductRecurringProfileOptions'
     ),
     array(
         'restrictAdminBillingAgreementUsage', 'Magento\Sales\Model\Observer',
@@ -1179,4 +1193,29 @@ return array(
     array('getFileIdentifier', 'Magento\View\Layout\File\FileList', 'Magento\View\Layout\File'),
     array('_getInitialXml', 'Magento\Config\Theme'),
     array('_getIdAttributes', 'Magento\Config\Theme'),
+    [
+        'getAllPeriodUnits',
+        'Magento\Payment\Model\Recurring\Profile',
+        'Magento\RecurringProfile\Model\PeriodUnits::toOptionArray'
+    ],
+    [
+        'getPeriodUnitLabel',
+        'Magento\Payment\Model\Recurring\Profile',
+        'Magento\RecurringProfile\Model\PeriodUnits::toOptionArray()[\Magento\RecurringProfile\Model\PeriodUnits::DAY]'
+    ],
+    [
+        'getFieldComment',
+        'Magento\Payment\Model\Recurring\Profile',
+        'Magento\RecurringProfile\Block\Fields::getFieldComment',
+    ],
+    [
+        'getFieldLabel',
+        'Magento\Payment\Model\Recurring\Profile',
+        'Magento\RecurringProfile\Block\Fields::getFieldLabel',
+    ],
+    ['_ensureLocaleAndStore', 'Magento\Payment\Model\Recurring\Profile'],
+    ['setLocale', 'Magento\Payment\Model\Recurring\Profile', 'Locale instance injected via constructor'],
+    array('_getSession', 'Magento\CatalogSearch\Controller\Result'),
+    array('addPriceBlockType', 'Magento\Rss\Block\Catalog\AbstractCatalog'),
+    array('getAttributeDisabledTypes', 'Magento\Catalog\Helper\Data'),
 );

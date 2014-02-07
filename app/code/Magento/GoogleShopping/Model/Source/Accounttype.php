@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GoogleShopping\Model\Source;
 
 /**
  * Google Data Api account types Source
@@ -15,8 +16,6 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GoogleShopping\Model\Source;
-
 class Accounttype implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**

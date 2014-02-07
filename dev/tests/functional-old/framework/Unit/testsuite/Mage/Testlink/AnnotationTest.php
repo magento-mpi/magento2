@@ -1,32 +1,30 @@
 <?php
+
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  functional_tests
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {copyright}
+ * @license {license_link}
  */
 class Mage_Testlink_AnnotationTest extends Unit_PHPUnit_TestCase
 {
     /**
-     * @var Mage_Testlink_AnnotationMock
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
     protected $_annotationMock;
 
     /**
-     * @var Mage_Testlink_Listener
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
     protected $_listenerMock;
 
     /**
-     * @var Mage_Testlink_Connector
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
     protected $_connectorMock;
 
     /**
-     * @var PHPUnit_Framework_TestCase
+     * @var PHPUnit_Framework_MockObject_MockObject
      */
     protected $_testCaseMock;
 
@@ -41,13 +39,18 @@ class Mage_Testlink_AnnotationTest extends Unit_PHPUnit_TestCase
         $this->_testCaseMock = $this->getMock('PHPUnit_Framework_TestCase', array(), array(), '', false);
         $this->_listenerMock = $this->getMock('Mage_Testlink_Listener', array(), array(), '', false);
         $this->_listenerMock->expects($this->any())->method('getCurrentTest')
-                ->will($this->returnValue($this->_testCaseMock));
+            ->will($this->returnValue($this->_testCaseMock));
         $this->assertTrue(class_exists('Mage_Testlink_AnnotationMock'));
         $this->_annotationMock = new Mage_Testlink_AnnotationMock();
-        $this->_testResultMock = $this->getMock('PHPUnit_Framework_TestResult',
-                                               array('__construct', 'getTestResultObject'), array(), '', false);
+        $this->_testResultMock = $this->getMock(
+            'PHPUnit_Framework_TestResult',
+            array('__construct', 'getTestResultObject'),
+            array(),
+            '',
+            false
+        );
         $this->_testCaseMock->expects($this->any())->method('getTestResultObject')
-                ->will($this->returnValue($this->_testResultMock));
+            ->will($this->returnValue($this->_testResultMock));
     }
 
     /**
@@ -57,10 +60,10 @@ class Mage_Testlink_AnnotationTest extends Unit_PHPUnit_TestCase
     {
         $this->_annotationMock->__call('setListener', array($this->_listenerMock));
         $this->_listenerMock->expects($this->any())->method('getCurrentTest')
-                        ->will($this->returnValue($this->_testCaseMock));
+            ->will($this->returnValue($this->_testCaseMock));
         $this->assertNull($this->_annotationMock->__call('startTest', array()));
-
     }
+
     /**
      * @covers Mage_Testlink_Annotation::testFailed
      */

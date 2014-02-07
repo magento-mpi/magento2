@@ -186,7 +186,11 @@ class Cart
 
             $params->setBuyRequest($buyRequest);
 
-            $this->_objectManager->get('Magento\Catalog\Helper\Product\View')->prepareAndRender($id, $this, $params);
+            /** @var \Magento\Catalog\Helper\Product\View $view */
+            $view = $this->_objectManager->get('Magento\Catalog\Helper\Product\View');
+            $params->setBeforeHandles(array('catalog_product_view'));
+            $view->prepareAndRender($id, $this, $params);
+
         } catch (\Magento\Core\Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $this->_redirect('*');
