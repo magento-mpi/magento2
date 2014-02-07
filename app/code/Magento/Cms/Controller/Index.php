@@ -66,7 +66,7 @@ class Index extends \Magento\App\Action\Action
     /**
      * Render Disable cookies page
      *
-     *
+     * @return void
      */
     public function noCookiesAction()
     {
@@ -81,6 +81,7 @@ class Index extends \Magento\App\Action\Action
      * Default no cookies page action
      * Used if no cookies page don't configure or available
      *
+     * @return void
      */
     public function defaultNoCookiesAction()
     {
