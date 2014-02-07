@@ -39,19 +39,17 @@ class Composite implements PreProcessorInterface
     }
 
     /**
-     * @param string $filePath
-     * @param array $params
+     * @param \Magento\View\Publisher\FileInterface $publisherFile
      * @param \Magento\Filesystem\Directory\WriteInterface $targetDirectory
-     * @param null $sourcePath
      * @return null|string
      */
-    public function process($filePath, $params, $targetDirectory, $sourcePath = null)
+    public function process(\Magento\View\Publisher\FileInterface $publisherFile, $targetDirectory)
     {
         foreach ($this->preProcessors as $preProcessor) {
-            $sourcePath = $preProcessor->process($filePath, $params, $targetDirectory, $sourcePath);
+            $publisherFile->setSourcePath($preProcessor->process($publisherFile, $targetDirectory));
         }
 
-        return $sourcePath;
+        return $publisherFile->getSourcePath();
     }
 
     /**

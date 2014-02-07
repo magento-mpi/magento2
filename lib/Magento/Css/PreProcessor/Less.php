@@ -63,35 +63,36 @@ class Less implements PreProcessorInterface
     /**
      * Process LESS file content
      *
-     * @param string $filePath
-     * @param array $params
+     * @param \Magento\View\Publisher\FileInterface $publisherFile
      * @param \Magento\Filesystem\Directory\WriteInterface $targetDirectory
-     * @param null|string $sourcePath
      * @return string
      */
-    public function process($filePath, $params, $targetDirectory, $sourcePath = null)
+    public function process(\Magento\View\Publisher\FileInterface $publisherFile, $targetDirectory)
     {
         // if css file has being already found_by_fallback or prepared_by_previous_pre-processor
-        if ($sourcePath) {
-            return $sourcePath;
+        if ($publisherFile->getSourcePath()) {
+            return $publisherFile->getSourcePath();
         }
 
-        $lessFilePath = $this->replaceExtension($filePath, 'css', 'less');
+        $lessFilePath = $this->replaceExtension($publisherFile->getFilePath(), 'css', 'less');
         try {
-            $preparedLessFileSourcePath = $this->lessPreProcessor->processLessInstructions($lessFilePath, $params);
+            $preparedLessFileSourcePath = $this->lessPreProcessor->processLessInstructions(
+                $lessFilePath,
+                $publisherFile->getViewParams()
+            );
         } catch (\Magento\Filesystem\FilesystemException $e) {
             $this->logger->logException($e);
-            return $sourcePath;     // It's actually 'null'
+            return $publisherFile->getSourcePath();     // It's actually 'null'
         }
 
         try {
             $cssContent = $this->adapter->process($preparedLessFileSourcePath);
         } catch (\Magento\Css\PreProcessor\Adapter\AdapterException $e) {
             $this->logger->logException($e);
-            return $sourcePath;     // It's actually 'null'
+            return $publisherFile->getSourcePath();     // It's actually 'null'
         }
 
-        $tmpFilePath = $this->buildTmpFilePath($filePath, $params);
+        $tmpFilePath = $this->buildTmpFilePath($publisherFile->getFilePath(), $publisherFile->getViewParams());
 
         $targetDirectory->writeFile($tmpFilePath, $cssContent);
         return $targetDirectory->getAbsolutePath($tmpFilePath);
@@ -141,7 +142,7 @@ class Less implements PreProcessorInterface
     protected function replaceExtension($filePath, $search, $replace)
     {
         $extension = pathinfo($filePath, PATHINFO_EXTENSION);
-        if ($extension == $search) {
+        if ($extension === $search) {
             $dotPosition = strrpos($filePath, '.');
             $filePath = substr($filePath, 0, $dotPosition + 1) . $replace;
         }
