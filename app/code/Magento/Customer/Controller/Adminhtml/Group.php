@@ -20,6 +20,9 @@ use Magento\Customer\Service\V1\Dto\CustomerGroupBuilder;
  */
 class Group extends \Magento\Backend\App\Action
 {
+    /** Registry key for the current CustomerGroup Dto */
+    const REGISTRY_CURRENT_GROUP = 'current_group';
+
     /**
      * Core registry
      *
@@ -72,7 +75,7 @@ class Group extends \Magento\Backend\App\Action
         } else {
             $currentGroup = $this->_customerGroupBuilder->create();
         }
-        $this->_coreRegistry->register('current_group', $currentGroup);
+        $this->_coreRegistry->register(self::REGISTRY_CURRENT_GROUP, $currentGroup);
     }
 
     /**
@@ -103,7 +106,7 @@ class Group extends \Magento\Backend\App\Action
         $this->_addBreadcrumb(__('Customer Groups'), __('Customer Groups'), $this->getUrl('customer/group'));
 
         /** @var CustomerGroup $currentGroup */
-        $currentGroup = $this->_coreRegistry->registry('current_group');
+        $currentGroup = $this->_coreRegistry->registry(self::REGISTRY_CURRENT_GROUP);
 
         if (!is_null($currentGroup->getId())) {
             $this->_addBreadcrumb(__('Edit Group'), __('Edit Customer Groups'));
@@ -114,7 +117,7 @@ class Group extends \Magento\Backend\App\Action
         $this->_title->add($currentGroup->getId() ? $currentGroup->getCode() : __('New Customer Group'));
 
         $this->_view->getLayout()->addBlock('Magento\Customer\Block\Adminhtml\Group\Edit', 'group', 'content')
-            ->setEditMode((bool)$this->_coreRegistry->registry('current_group')->getId());
+            ->setEditMode((bool)$this->_coreRegistry->registry(self::REGISTRY_CURRENT_GROUP)->getId());
 
         $this->_view->renderLayout();
     }
@@ -159,7 +162,7 @@ class Group extends \Magento\Backend\App\Action
             } catch (\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 if ($customerGroup != null) {
-                    $this->_coreRegistry->register('current_group', $customerGroup);
+                    $this->_coreRegistry->register(self::REGISTRY_CURRENT_GROUP, $customerGroup);
                 }
                 $this->getResponse()->setRedirect($this->getUrl('customer/group/edit', array('id' => $id)));
                 return;
