@@ -62,7 +62,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
             $blockInstances[$blockName] = $block;
 
-            $layoutMock->expects(new MethodInvokedAtIndex($atPosition, 'createBlock'))
+            $layoutMock->expects(new MethodInvokedAtIndex($atPosition))
                 ->method('createBlock')
                 ->with($blockName)
                 ->will($this->returnValue($block));
@@ -78,7 +78,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($layoutMock));
 
         foreach ($blocks as $atPosition => $blockName) {
-            $shortcutButtonsMock->expects(new MethodInvokedAtIndex($atPosition, 'addShortcut'))
+            $shortcutButtonsMock->expects(new MethodInvokedAtIndex($atPosition))
                 ->method('addShortcut')
                 ->with($this->identicalTo($blockInstances[$blockName]));
         }
