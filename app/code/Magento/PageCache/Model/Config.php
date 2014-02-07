@@ -31,10 +31,10 @@ class Config
     /**#@+
      * XML path to Varnish settings
      */
-    const XML_VARNISH_PAGECACHE_TTL = 'system/varnish_configuration_settings/ttl';
-    const XML_VARNISH_PAGECACHE_ACCESS_LIST = 'system/varnish_configuration_settings/access_list';
-    const XML_VARNISH_PAGECACHE_BACKEND_PORT = 'system/varnish_configuration_settings/backend_port';
-    const XML_VARNISH_PAGECACHE_BACKEND_HOST = 'system/varnish_configuration_settings/backend_host';
+    const XML_PAGECACHE_TTL = 'system/full_page_cache/ttl';
+    const XML_VARNISH_PAGECACHE_ACCESS_LIST = 'system/full_page_cache/varnish/access_list';
+    const XML_VARNISH_PAGECACHE_BACKEND_PORT = 'system/full_page_cache/varnish/backend_port';
+    const XML_VARNISH_PAGECACHE_BACKEND_HOST = 'system/full_page_cache/varnish/backend_host';
     const XML_VARNISH_PAGECACHE_DESIGN_THEME_REGEX = 'design/theme/ua_regexp';
     /**#@-*/
 
@@ -51,7 +51,7 @@ class Config
     /**
      * XML path to value for saving temporary .vcl configuration
      */
-    const VARNISH_CONFIGURATION_SETTINGS_PATH = 'system/page_cache/varnish_configuration_settings_path';
+    const VARNISH_CONFIGURATION_PATH = 'system/full_page_cache/varnish/path';
 
     /**
      * @var \Magento\Filesystem\Directory\WriteInterface
@@ -76,7 +76,7 @@ class Config
     public function getVclFile()
     {
         $data = $this->_modulesDirectory->readFile(
-            $this->_config->getValue(self::VARNISH_CONFIGURATION_SETTINGS_PATH)
+            $this->_config->getValue(self::VARNISH_CONFIGURATION_PATH)
         );
         return strtr($data, $this->_getReplacements());
     }
@@ -114,9 +114,6 @@ class Config
         if (!empty($accessList)) {
             $ips = explode(', ', $accessList);
             foreach ($ips as $ip) {
-                if(!preg_match('/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\z/', $ip)) {
-                    continue;
-                }
                 $result[] = sprintf($tpl, $ip);
             }
             return implode("\n", $result);
