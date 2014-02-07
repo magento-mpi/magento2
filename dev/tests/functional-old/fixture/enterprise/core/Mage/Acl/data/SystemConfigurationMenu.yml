@@ -218,7 +218,6 @@ configuration_menu_default:
         currency: ~
         log_cleaning: ~
         notifications: ~
-        external_full_page_cache_settings: ~
         storage_configuration_for_media: ~
         admin_actions_log_archiving: ~
         scheduled_backup_settings: ~

@@ -19,7 +19,7 @@ advanced_search:
             fieldsets:
                 -
                     advanced_search_information:
-                        xpath: //div[h2='Search Settings']
+                        xpath: //fieldset[legend/span='Search Settings']
                         fields:
                             name: //input[@id='name']
                             description: //input[@id='description']
@@ -27,15 +27,14 @@ advanced_search:
                             sku: //input[@id='sku']
                             price_from: //input[@id='price']
                             price_to: //input[@id='price_to']
-                        multiselects:
+                        dropdowns:
                             tax_class: //select[@id='tax_class_id']
         buttons:
-            search: //div[contains(@class, 'buttons-set')]/button[span='Search']
+            search: //*[@id='form-validate']//button[span='Search']
         messages: &advanced_search-messages
-            error_message: //li[normalize-space(@class)='error-msg' and contains(.,'Please specify at least one search term.')]
-            error_message_wrong_entered_data: //p[normalize-space(@class)='error-msg' and contains(.,'We didn't find any items using this search criteria.')]
-            required_price: //div[@id='advice-validate-number-price' and text()='Please enter a valid number in this field.']
-            required_price_to: //div[@id='advice-validate-number-price_to' and text()='Please enter a valid number in this field.']
+            specify_search_term: //li[normalize-space(@class)='error-msg' and contains(.,'Please specify at least one search term.')]
+            not_find_any_items: //div[contains(text(),'No items were found using the following search criteria.') and a='Modify your search']
+            enter_valid_number: //div[@for='%fieldId%' and text()='Please enter a valid number.']
 
 advanced_search_no_data:
     mca: catalogsearch/advanced/?%searchResult%
@@ -50,13 +49,11 @@ advanced_search_result:
             fieldsets:
                 -
                     search_result:
-                        xpath: //div[@class='advanced-search-summary']
+                        xpath: //div[div/@class='search results']
                         links:
-                            modify_your_search: //div[@class='advanced-search-summary']//a[contains(@href, 'advanced/')]
+                            modify_your_search: //a[text()='Modify your search']
                         pageelements:
-                            name: //li[.//*[normalize-space(text())='Name:']][contains(text(), '%name%')]
-                            description: //li[.//*[normalize-space(text())='Description:']][contains(text(), '%description%')]
-                            short_description: //li[.//*[normalize-space(text())='Short Description:']][contains(text(), '%short_description%')]
-                            sku: //li[.//*[normalize-space(text())='SKU:']][contains(text(), '%sku%')]
-                            price: //li[.//*[normalize-space(text())='Price:']][contains(text(), '%price_from% - %price_to%')]
+                            name: "//li[strong='Name:'][contains(text(),'%name%')]"
+                            sku: "//li[strong='SKU:'][contains(text(),'%sku%')]"
+                            price: "//li[strong='Price:'][contains(text(),'%price_from% - %price_to%')]"
         messages: *advanced_search-messages

@@ -63,7 +63,7 @@ class Core_Mage_ImportExport_Customer_EmptyValuesTest extends Mage_Selenium_Test
         //Steps 1-2
         $this->navigate('import');
         $this->importExportHelper()->chooseImportOptions('Customers Main File', 'Add/Update Complex Data');
-        $this->waitForElementVisible($this->_getControlXpath('field', 'file_to_import'));
+        $this->waitForControlVisible('field', 'file_to_import');
         //Steps 3-5
         $report = $this->importExportHelper()->import($data);
         //Check import

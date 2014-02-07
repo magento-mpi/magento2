@@ -202,7 +202,6 @@ class Core_Mage_Grid_Reports_Customers_CustomerByOrdersTotalTest extends Mage_Se
         $beforeCount = trim($this->getElement($gridXpath)->text());
 
         $this->frontend();
-        $this->navigate('customer_login');
         $this->customerHelper()->registerCustomer($userData2);
         $this->assertMessagePresent('success', 'success_registration');
         $this->loginAdminUser();
@@ -213,7 +212,7 @@ class Core_Mage_Grid_Reports_Customers_CustomerByOrdersTotalTest extends Mage_Se
         $this->clickButton('refresh');
         //Verifying
         $afterCount = trim($this->getElement($gridXpath)->text());
-        $this->assertEquals($beforeCount + 1, $afterCount,
+        $this->assertEquals((int)$beforeCount + 1, $afterCount,
             'Wrong records number in grid report_customer_accounts_table. Before was ' . $afterCount
                 . ' after - ' . $afterCount);
     }

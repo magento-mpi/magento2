@@ -57,7 +57,7 @@ create_cms_widget:
                                 settings_fieldset:
                                     xpath: //fieldset[@id='base_fieldset']
                                     dropdowns:
-                                        type: //select[@name='type']
+                                        type: //select[@id='code']
                                         design_package_theme: //select[@id='theme_id']
                                     buttons:
                                         continue: //button[span='Continue']
@@ -67,7 +67,7 @@ create_cms_widget:
             reset: //button[span='Reset']
 
 add_widget_options:
-    mca: widget_instance/edit/type/%type%/theme_id/%theme_id%/
+    mca: widget_instance/edit/code/%type%/theme_id/%theme_id%/
     title: New Frontend App Instance / Frontend Apps / Elements / Content / Magento Admin
     uimap:
         form: &addWidgetOptions
@@ -80,7 +80,7 @@ add_widget_options:
                                 frontend_properties_fieldset:
                                     xpath: //fieldset[@id='base_fieldset']
                                     dropdowns:
-                                        type: //select[@name='type']
+                                        type: //select[@id='code']
                                         design_package_theme: //select[@name='package_theme']
                                     fields:
                                         widget_instance_title: //input[@name='title']
@@ -113,7 +113,6 @@ add_widget_options:
                                     links:
                                         open_chooser: //div[@id='%layout%_ids_%layoutIndex%']//a[@title='Open Chooser']
                                         apply: //div[@id='%layout%_ids_%layoutIndex%']//a[@title='Apply']
-#                                        select_category_anchor: //div[@id='page_group_container_%layoutIndex%']//a[span='%categoryName%']
                                         layout_updates_body_root_category: %widgetParam%//ul/div/li[contains(div/a/span,'%rootName%')]
                                         layout_updates_body_sub_category: %widgetParam%//*[@id='%parentCategoryId%']/ancestor::li/ul/li[contains(div/a/span,'%subName%') and not(div/a/span/@id='%parentCategoryId%')]
                                         layout_updates_body_expand_category: %widgetParam%//*[@id='%parentCategoryId%']/ancestor::div/img[contains(@class,'x-tree-elbow-plus') or contains(@class,'x-tree-elbow-end-plus')]
@@ -123,8 +122,6 @@ add_widget_options:
                                         layout_updates_body_category_index_link: %categoryXpath%[%index%]/div/a
                                         layout_updates_option_box: //div[@id='page_group_container_%layoutIndex%']
                                         layout_updates_option_boxes: //div[@id='page_group_container']/div
-#                                    checkboxes:
-#                                        select_category_non_anchor: //div[@id='page_group_container_%index%']//div[./a[span='%categoryName%']]//input[@type='checkbox']
                                     buttons:
                                         remove_layout_update: //div[@id='page_group_container_%layoutIndex%']//button[span='Remove Layout Update']
                             -
@@ -240,7 +237,7 @@ add_widget_options:
         messages: *cmsWidgetMessages
 
 edit_cms_widget:
-    mca: widget_instance/edit/instance_id/%id%/
+    mca: widget_instance/edit/instance_id/%id%/code/%type%
     title: %elementTitle% / Frontend Apps / Elements / Content / Magento Admin
     uimap:
         form: *addWidgetOptions
@@ -253,7 +250,7 @@ edit_cms_widget:
         messages: *cmsWidgetMessages
 
 save_and_continue_edit_cms_widget:
-    mca: widget_instance/edit/instance_id/%id%/back/edit/active_tab/%tab%/
+    mca: widget_instance/edit/instance_id/%id%/code/%type%/back/edit/active_tab/%tab%/
     title: %elementTitle% / Frontend Apps / Elements / Content / Magento Admin
     uimap:
         form: *addWidgetOptions

@@ -76,7 +76,7 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_InputDataValidationTe
      */
     public function withLongValues($testData)
     {
-        $this->markTestIncomplete('MAGETWO-8239');
+        //$this->markTestSkipped('\MAGETWO-8239');
         //Data
         $address = $this->loadDataSet('MultipleAddressesCheckout', 'register_data_long');
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_register',
@@ -176,7 +176,7 @@ class Core_Mage_CheckoutMultipleAddresses_WithRegistration_InputDataValidationTe
         $checkoutData = $this->loadDataSet('MultipleAddressesCheckout', 'multiple_with_register',
                                            array('general_customer_data' => $address),
                                            $testData);
-        $message = '"Email Address": Please enter a valid email address (for example, johndoe@domain.com.).';
+        $message = '"Email Address": Please enter a valid email address. For example johndoe@domain.com.';
         $this->setExpectedException('PHPUnit_Framework_AssertionFailedError', $message);
         //Steps
         $this->checkoutMultipleAddressesHelper()->frontMultipleCheckout($checkoutData);

@@ -66,12 +66,12 @@ class Core_Mage_ProductAttribute_Create_CodeGenerationTest extends Mage_Selenium
         $punct = str_replace(array('@', '&'), '', $this->generate('string', 30, ':punct:'));
 
         return array(
+//            array('Skład' . $index, 'sklad'. $index),
+//            array('Размер' . $index, 'razmer' . $index),
+//            array('@&™©' . $index, 'at_tmc'. $index),
             array('Size' . $index, 'size' . $index),
             array('Size UK' . $index, 'size_uk' . $index),
-            array('Skład' . $index, 'sklad'. $index),
-            array('Размер' . $index, 'razmer' . $index),
             array($number, 'attr_' . $number),
-            array('@&™©' . $index, 'at_tmc'. $index),
             array($punct . $index, $index),
         );
     }
@@ -88,47 +88,38 @@ class Core_Mage_ProductAttribute_Create_CodeGenerationTest extends Mage_Selenium
     {
         //Data
         $value = $this->generate('string', 45, ':lower:');
-        $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_textfield',
-            array(
-                 'attribute_code' => '%noValue%',
-                 'attribute_label' => $value
-            )
-        );
+        $attrData = $verify = $this->loadDataSet('ProductAttribute', 'product_attribute_textfield', array(
+            'attribute_code' => '%noValue%',
+            'attribute_label' => $value
+        ));
+        $verify['advanced_properties']['attribute_code'] = substr($value, 0, 29);
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_attribute');
         $this->productAttributeHelper()->openAttribute(array('attribute_label' => $value));
-        $validValue = substr($value, 0, 29);
-        $attrData['advanced_properties']['attribute_code'] = $validValue;
-        $this->productAttributeHelper()->verifyAttribute($attrData);
+        $this->productAttributeHelper()->verifyAttribute($verify);
 
-        return $validValue;
+        return $attrData;
     }
 
     /**
      * Checking generated from attribute label attribute code which already exist
      *
-     * @param string $validValue
+     * @param array $attrData
      *
      * @test
      * @depends verifyGeneratedLongValue
      * @TestlinkId TL-MAGETWO-15
      */
-    public function verifyExistValue($validValue)
+    public function verifyExistValue($attrData)
     {
         $this->markTestIncomplete('MAGETWO-8909');
-        //Data
-        $attrData = $this->loadDataSet('ProductAttribute', 'product_attribute_textfield',
-            array(
-                 'attribute_code' => '%noValue%',
-                 'attribute_label' => $validValue
-            )
-        );
         //Steps
         $this->productAttributeHelper()->createAttribute($attrData);
         //Verifying
-        $this->assertMessagePresent('error', 'exists_attribute_code');
+        $this->addParameter('code', substr($attrData['attribute_properties']['attribute_label'], 0, 29));
+        $this->assertMessagePresent('validation', 'with_same_code');
     }
 
     /**

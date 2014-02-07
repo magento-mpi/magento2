@@ -27,7 +27,7 @@ class Core_Mage_Tax_TaxRule_Helper extends Mage_Selenium_AbstractHelper
     {
         $taxItemData = $this->fixtureDataToArray($taxRateData);
         $this->clickButton('add_rate', false);
-        $this->waitForElementVisible($this->_getControlXpath('fieldset', 'tax_rate_form'));
+        $this->waitForControlVisible('fieldset', 'tax_rate_form');
         $this->_fillTaxRateForm($taxItemData);
         $this->clickButton('save_rate', false);
         $this->waitForControlNotVisible('fieldset', 'tax_rate_form');
