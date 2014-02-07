@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <preference for="Magento\Payment\Model\Method\SpecificationInterface" type="Magento\Payment\Model\Method\Specification\Composite" />
+</config>

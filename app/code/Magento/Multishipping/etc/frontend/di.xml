@@ -15,16 +15,6 @@
             </array>
         </param>
     </type>
-    <type name="Magento\Multishipping\Model\Checkout\Type\Multishipping">
-        <param name="paymentSpecification">
-            <instance type="Magento\Payment\Model\Method\Specification\Composite" />
-        </param>
-    </type>
-    <type name="Magento\Multishipping\Block\Checkout\Billing">
-        <param name="paymentSpecification">
-            <instance type="Magento\Payment\Model\Method\Specification\Composite" />
-        </param>
-    </type>
     <type name="Magento\Payment\Model\Method\Specification\Composite">
         <param name="specifications">
             <array>
