@@ -72,13 +72,25 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
 
     public static function setUpBeforeClass()
     {
-        self::$_objectManager = new \Magento\ObjectManager\ObjectManager();
+        $config = new \Magento\ObjectManager\Config\Config();
+
+        $creationStack = new \Magento\ObjectManager\Factory\CreationStack();
+        $dirList = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\App\Filesystem\DirectoryList');
+        $loader = new \Magento\App\Arguments\Loader($dirList);
+        $arguments = new \Magento\App\Arguments(array(), $loader);
+        $argInterpreter = new \Magento\App\Arguments\ArgumentInterpreter($arguments);
+        $argObjectFactory = new \Magento\ObjectManager\Config\Argument\ObjectFactory($config);
+        $factory = new \Magento\ObjectManager\Factory\Factory($config, $creationStack, $argInterpreter,
+            $argObjectFactory);
+
+        self::$_objectManager = new \Magento\ObjectManager\ObjectManager($factory, $config);
         self::$_objectManager->configure(array(
             'preferences' => array(
                 self::TEST_INTERFACE => self::TEST_INTERFACE_IMPLEMENTATION
             )
         ));
-
+        $argObjectFactory->setObjectManager(self::$_objectManager);
     }
 
     public static function tearDownAfterClass()
