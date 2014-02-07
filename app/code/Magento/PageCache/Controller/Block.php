@@ -10,8 +10,6 @@
 
 namespace Magento\PageCache\Controller;
 
-use Magento\PageCache\Helper\Data;
-
 class Block extends \Magento\App\Action\Action
 {
     /**
@@ -43,5 +41,27 @@ class Block extends \Magento\App\Action\Action
         $layout->setIsPrivate();
 
         $this->getResponse()->appendBody(json_encode($data));
+    }
+
+    /**
+     * Returns block content as part of ESI request from Varnish
+     */
+    public function wrapesiAction()
+    {
+        $handles = unserialize($this->getRequest()->getParam('handles', []));
+        $blockName = $this->getRequest()->getParam('blockname', '');
+
+        if (!$handles || !$blockName) {
+            return;
+        }
+        $data = '';
+
+        $this->_view->loadLayout($handles);
+        $blockInstance = $this->_view->getLayout()->getBlock($blockName);
+        if (is_object($blockInstance)) {
+            $data = $blockInstance->toHtml();
+        }
+
+        $this->getResponse()->appendBody($data);
     }
 }
