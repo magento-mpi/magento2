@@ -8,13 +8,11 @@
  * @license     {license_link}
  */
 
-/**
- * Catalog image helper
- *
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Catalog\Helper;
 
+/**
+ * Catalog image helper
+ */
 class Image extends \Magento\App\Helper\AbstractHelper
 {
     /**
@@ -325,7 +323,7 @@ class Image extends \Magento\App\Helper\AbstractHelper
      * @param int $imageOpacity
      * @return \Magento\Catalog\Helper\Image
      */
-    public function watermark($fileName, $position, $size=null, $imageOpacity=null)
+    public function watermark($fileName, $position, $size = null, $imageOpacity = null)
     {
         $this->setWatermark($fileName)
             ->setWatermarkPosition($position)
@@ -393,7 +391,12 @@ class Image extends \Magento\App\Helper\AbstractHelper
                 $url = $model->saveFile()->getUrl();
             }
         } catch (\Exception $e) {
-            $url = $this->_viewUrl->getViewFileUrl($this->getPlaceholder());
+            try {
+                $url = $this->_viewUrl->getViewFileUrl($this->getPlaceholder());
+            } catch (\Exception $e) {
+                $this->_logger->logException($e);
+                $url = $this->_urlBuilder->getUrl('', array('_direct' => 'core/index/notfound'));
+            }
         }
         return $url;
     }
