@@ -551,7 +551,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      */
     public function assignCustomer($customer)
     {
-        /* @TODO: refactor input type hint after external usages of assignCustomer are refactored in MAGETWO-19931 */
+        /* @TODO: refactor input type hint after external usages of assignCustomer are refactored in MAGETWO-19930 */
         return $this->assignCustomerWithAddressChange($customer);
     }
 
@@ -568,7 +568,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
         Address $billingAddress = null,
         Address $shippingAddress = null
     ) {
-        /* @TODO: refactor this once all the usages of assignCustomerWithAddressChange are refactored MAGETWO-19932 */
+        /* @TODO: refactor this once all the usages of assignCustomerWithAddressChange are refactored MAGETWO-19930 */
         if ($customer instanceof CustomerDto) {
             $customer = $this->_converter->createCustomerModel($customer);
         }
@@ -610,7 +610,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      */
     public function setCustomer(\Magento\Customer\Model\Customer $customer)
     {
-        /* @TODO: Remove the method after all external usages are refactored in MAGETWO-19933 */
+        /* @TODO: Remove the method after all external usages are refactored in MAGETWO-19930 */
         $this->_customer = $customer;
         $this->setCustomerId($customer->getId());
         $this->_objectCopyService->copyFieldsetToTarget('customer_account', 'to_quote', $customer, $this);
@@ -624,7 +624,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      */
     public function getCustomer()
     {
-        /* @TODO: Remove the method after all external usages are refactored in MAGETWO-19934 */
+        /* @TODO: Remove the method after all external usages are refactored in MAGETWO-19930 */
         if (null === $this->_customer) {
             $this->_customer = $this->_customerFactory->create();
             $customerId = $this->getCustomerId();
@@ -645,7 +645,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      */
     public function getCustomerData()
     {
-        /* @TODO: remove this code in favor of setCustomerData usage */
+        /* @TODO: remove this code in favor of setCustomerData usage MAGETWO-19930 */
         $customerModel = $this->getCustomer();
         return $this->_converter->createCustomerFromModel($customerModel);
     }
@@ -658,6 +658,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      */
     public function setCustomerData(CustomerDto $customerData)
     {
+        /* @TODO: remove model usage in favor of DTO in scope of MAGETWO-19930 */
         $customer = $this->_customerFactory->create();
         $customer->setData($customerData->getAttributes());
         $customer->setId($customerData->getCustomerId());
@@ -674,7 +675,6 @@ class Quote extends \Magento\Core\Model\AbstractModel
     public function setCustomerAddressData(array $addresses)
     {
         $this->getCustomer()->getAddressesCollection()->removeAllItems();
-
         foreach ($addresses as $address) {
             $this->addCustomerAddressData($address);
         }
@@ -684,6 +684,8 @@ class Quote extends \Magento\Core\Model\AbstractModel
 
     /**
      * Add address to the customer, created out of a DTO
+     *
+     * TODO refactor in scope of MAGETWO-19930
      *
      * @param AddressDto $address
      * @return $this
@@ -698,7 +700,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     /**
      * Get DTO addresses of the customer
      *
-     * TODO: Refactor once the addressDto property is on this class and used across all references
+     * TODO: Refactor to use addressDto property is used insead of customer model MAGETWO-19930
      *
      * @return AddressDto[]
      */
@@ -724,7 +726,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     public function updateCustomerData(CustomerDto $customerData)
     {
         $customer = $this->getCustomer();
-        /* @TODO: remove this code in favor of customer DTO usage */
+        /* @TODO: remove this code in favor of customer DTO usage MAGETWO-19930 */
         $this->_converter->updateCustomerModel($customer, $customerData);
         $this->setCustomer($customer);
         return $this;
