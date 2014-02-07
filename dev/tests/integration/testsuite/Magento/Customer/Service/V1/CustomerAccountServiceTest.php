@@ -196,6 +196,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidateResetPasswordLinkToken()
     {
+        $this->markTestIncomplete('Should be processed in MAGETWO-20703');
         $this->_customerBuilder->populateWithArray(array_merge($this->_customerService->getCustomer(1)->__toArray(), [
             'rp_token' => 'token',
             'rp_token_created_at' => date('Y-m-d')
@@ -284,6 +285,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testResetPassword()
     {
+        $this->markTestIncomplete('Should be processed in MAGETWO-20703');
         $resetToken = 'lsdj579slkj5987slkj595lkj';
         $password = 'password_secret';
 

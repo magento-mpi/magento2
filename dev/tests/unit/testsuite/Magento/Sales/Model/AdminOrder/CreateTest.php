@@ -139,6 +139,9 @@ class CreateTest extends \PHPUnit_Framework_TestCase
         $customerMock = $this->getMock('Magento\Customer\Service\V1\Dto\Customer', [], [], '', false);
         $customerMock->expects($this->any())->method('__toArray')->will($this->returnValue([]));
         $customerMock->expects($this->any())->method('getAttribute')->will($this->returnValueMap($attributes));
+        $customerMock->expects($this->any())->method('getAttributes')->will(
+            $this->returnValue(['email' => 'user@example.com', 'group_id' => 1])
+        );
         $quoteMock = $this->getMock('Magento\Sales\Model\Quote', [], [], '', false);
         $quoteMock->expects($this->any())->method('getCustomerData')->will($this->returnValue($customerMock));
 
@@ -157,6 +160,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
         $this->sessionQuoteMock->expects($this->any())->method('getQuote')->will($this->returnValue($quoteMock));
         $this->customerBuilderMock->expects($this->any())->method('populateWithArray')->will($this->returnSelf());
         $this->customerBuilderMock->expects($this->any())->method('create')->will($this->returnValue($customerMock));
+        $this->customerBuilderMock->expects($this->any())->method('mergeDtoWithArray')->will($this->returnArgument(0));
 
         $this->customerGroupServiceMock
             ->expects($this->once())
