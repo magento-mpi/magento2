@@ -221,6 +221,7 @@ class Config
      * Retrieve attributes data
      *
      * @return array
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function getAttributes()
     {
@@ -411,17 +412,6 @@ class Config
     public function isHidden()
     {
         return false;
-    }
-
-    /**
-     * Show "Use default price" checkbox
-     *
-     * @return bool
-     */
-    public function getShowUseDefaultPrice()
-    {
-        return !$this->_catalogData->isPriceGlobal()
-            && $this->getProduct()->getStoreId();
     }
 
     /**

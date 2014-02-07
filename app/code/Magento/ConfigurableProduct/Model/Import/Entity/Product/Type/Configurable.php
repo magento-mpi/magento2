@@ -302,6 +302,7 @@ class Configurable
      * @param array $superData
      * @param array $superAttributes
      * @return $this
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     protected function _processSuperData(array $superData, array &$superAttributes)
     {
@@ -360,6 +361,9 @@ class Configurable
      *
      * @throws \Exception
      * @return \Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     public function saveData()
     {

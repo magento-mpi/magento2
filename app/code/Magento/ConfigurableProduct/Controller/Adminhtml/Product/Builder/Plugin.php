@@ -38,6 +38,7 @@ class Plugin
      * @param array $arguments
      * @param InvocationChain $invocationChain
      * @return \Magento\Catalog\Model\Product
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function aroundBuild(array $arguments, InvocationChain $invocationChain)
     {

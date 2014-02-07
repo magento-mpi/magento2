@@ -103,6 +103,7 @@ class Configurable
      * and apply it to final price
      *
      * @return \Magento\ConfigurableProduct\Model\Resource\Product\Indexer\Price\Configurable
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     protected function _applyConfigurableOption()
     {

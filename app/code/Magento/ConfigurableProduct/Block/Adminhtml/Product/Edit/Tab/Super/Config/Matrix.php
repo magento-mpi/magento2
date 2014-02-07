@@ -86,6 +86,7 @@ class Matrix
      * Retrieve all possible attribute values combinations
      *
      * @return array
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function getVariations()
     {

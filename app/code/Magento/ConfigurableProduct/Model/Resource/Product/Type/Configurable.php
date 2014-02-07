@@ -96,6 +96,7 @@ class Configurable extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param int $parentId
      * @param bool $required
      * @return array
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getChildrenIds($parentId, $required = true)
     {
