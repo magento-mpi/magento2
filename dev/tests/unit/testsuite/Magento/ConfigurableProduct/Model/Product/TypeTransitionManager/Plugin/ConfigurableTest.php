@@ -59,7 +59,8 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
         $this->model->aroundProcessProduct(array($this->productMock), $this->invocationChainMock);
     }
 
-    public function testAroundProcessProductWithProductThatCannotBeTransformedToConfigurable() {
+    public function testAroundProcessProductWithProductThatCannotBeTransformedToConfigurable()
+    {
         $this->requestMock->expects($this->any())->method('getParam')->with('attributes')
             ->will($this->returnValue(null));
         $this->productMock->expects($this->never())->method('setTypeId');

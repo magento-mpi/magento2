@@ -115,7 +115,7 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
      */
     protected function _calcSelectionPrice($priceInfo, $productPrice)
     {
-        if($priceInfo['is_percent']) {
+        if ($priceInfo['is_percent']) {
             $ratio = $priceInfo['pricing_value']/100;
             $price = $productPrice * $ratio;
         } else {

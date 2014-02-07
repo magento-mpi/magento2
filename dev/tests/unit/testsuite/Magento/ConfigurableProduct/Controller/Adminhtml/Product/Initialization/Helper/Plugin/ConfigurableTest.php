@@ -41,7 +41,7 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
         $methods = array('setNewVariationsAttributeSetId', 'setAssociatedProductIds',
             'setCanSaveConfigurableAttributes', '__wakeup');
         $this->productMock = $this->getMock('Magento\Catalog\Model\Product', $methods, array(), '', false);
-        $this->plugin = new \Magento\ConfigurableProduct\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Configurable(
+        $this->plugin = new Configurable(
             $this->productTypeMock,
             $this->requestMock
         );

@@ -1,15 +1,11 @@
 <?php
 /**
+ * Adminhtml catalog super product link grid checkbox renderer
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Adminhtml
  * @copyright   {copyright}
  * @license     {license_link}
- */
-
-/**
- * Adminhtml catalog super product link grid checkbox renderer
  */
 
 namespace Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Config\Grid\Renderer;
@@ -46,20 +42,28 @@ class Checkbox extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Checkb
     public function render(\Magento\Object $row)
     {
         $result = parent::render($row);
-        return $result.'<input type="hidden" class="value-json" value="'.htmlspecialchars($this->getAttributesJson($row)).'" />';
+        return $result . '<input type="hidden" class="value-json" value="'
+            . htmlspecialchars($this->getAttributesJson($row)) . '" />';
     }
 
+    /**
+     * Get attributes json
+     *
+     * @param \Magento\Object $row
+     * @return string
+     */
     public function getAttributesJson(\Magento\Object $row)
     {
-        if(!$this->getColumn()->getAttributes()) {
+        if (!$this->getColumn()->getAttributes()) {
             return '[]';
         }
 
         $result = array();
-        foreach($this->getColumn()->getAttributes() as $attribute) {
+        foreach ($this->getColumn()->getAttributes() as $attribute) {
             $productAttribute = $attribute->getProductAttribute();
-            if($productAttribute->getSourceModel()) {
-                $label = $productAttribute->getSource()->getOptionText($row->getData($productAttribute->getAttributeCode()));
+            if ($productAttribute->getSourceModel()) {
+                $label = $productAttribute->getSource()
+                    ->getOptionText($row->getData($productAttribute->getAttributeCode()));
             } else {
                 $label = $row->getData($productAttribute->getAttributeCode());
             }

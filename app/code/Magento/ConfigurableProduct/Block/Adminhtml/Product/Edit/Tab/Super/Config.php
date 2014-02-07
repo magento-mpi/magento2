@@ -149,7 +149,10 @@ class Config
                             'event' => 'generate',
                             'target' => '#product-variations-matrix',
                             'eventData' => array(
-                                'url' => $this->getUrl('catalog/product_generateVariations/index', array('_current' => true)),
+                                'url' => $this->getUrl(
+                                        'catalog/product_generateVariations/index',
+                                        array('_current' => true)
+                                    ),
                             ),
                         ),
                     ),
@@ -264,7 +267,7 @@ class Config
     {
         $products = $this->_configurableType
             ->getUsedProducts($this->getProduct());
-        if(!$products) {
+        if (!$products) {
             return '{}';
         }
         $data = array();
@@ -280,7 +283,8 @@ class Config
      * @param \Magento\Catalog\Model\Product $product
      * @return array
      */
-    public function getConfigurableSettings($product) {
+    public function getConfigurableSettings($product)
+    {
         $data = array();
         $attributes = $this->_configurableType
             ->getUsedProductAttributes($this->getProduct());

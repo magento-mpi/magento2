@@ -13,8 +13,7 @@
  */
 namespace Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Config;
 
-class Simple
-    extends \Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Attributes
+class Simple extends \Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Attributes
 {
     /**
      * Link to currently editing product
@@ -50,6 +49,11 @@ class Simple
         parent::__construct($context, $registry, $formFactory, $wysiwygConfig, $catalogData, $data);
     }
 
+    /**
+     * Prepare form
+     *
+     * @return null|void
+     */
     protected function _prepareForm()
     {
         /** @var \Magento\Data\Form $form */
@@ -131,7 +135,7 @@ class Simple
         $usedAttributes = $this->getProduct()->getTypeInstance()->getUsedProductAttributes($this->getProduct());
         foreach ($usedAttributes as $attribute) {
             $attributeCode =  $attribute->getAttributeCode();
-            $fieldset->addField( 'simple_product_' . $attributeCode, 'select',  array(
+            $fieldset->addField('simple_product_' . $attributeCode, 'select', array(
                 'label' => $attribute->getFrontend()->getLabel(),
                 'name'  => $attributeCode,
                 'values' => $attribute->getSource()->getAllOptions(true, true),

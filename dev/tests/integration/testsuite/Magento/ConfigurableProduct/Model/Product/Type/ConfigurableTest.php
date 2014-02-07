@@ -78,8 +78,11 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
         $this->_model->setUsedProductAttributeIds(array($testConfigurable->getId()), $this->_product);
         $attributes = $this->_product->getData('_cache_instance_configurable_attributes');
         $this->assertArrayHasKey(0, $attributes);
-        $this->assertInstanceOf('Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute', $attributes[0]);
-        $this->assertSame($testConfigurable, $attributes[0]->getProductAttribute());
+        $this->assertInstanceOf(
+            'Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute',
+            $attributes[0]);
+        $this->assertSame($testConfigurable, $attributes[0]->getProductAttribute()
+        );
     }
 
     public function testGetUsedProductAttributes()
@@ -94,12 +97,16 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
     public function testGetConfigurableAttributes()
     {
         $collection = $this->_model->getConfigurableAttributes($this->_product);
-        $this->assertInstanceOf('Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute\Collection',
+        $this->assertInstanceOf(
+            'Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute\Collection',
             $collection
         );
         $testConfigurable = $this->_getAttributeByCode('test_configurable');
         foreach ($collection as $attribute) {
-            $this->assertInstanceOf('Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute', $attribute);
+            $this->assertInstanceOf(
+                'Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute',
+                $attribute
+            );
             $this->assertEquals($testConfigurable->getId(), $attribute->getAttributeId());
             $prices = $attribute->getPrices();
             $this->assertCount(2, $prices); // fixture
@@ -157,7 +164,8 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
     public function testGetConfigurableAttributeCollection()
     {
         $collection = $this->_model->getConfigurableAttributeCollection($this->_product);
-        $this->assertInstanceOf('Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute\Collection',
+        $this->assertInstanceOf(
+            'Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute\Collection',
             $collection
         );
     }
@@ -181,7 +189,8 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
 
     public function testGetUsedProductCollection()
     {
-        $this->assertInstanceOf('Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Product\Collection',
+        $this->assertInstanceOf(
+            'Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Product\Collection',
             $this->_model->getUsedProductCollection($this->_product)
         );
     }
@@ -259,7 +268,7 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
             'attributes',
             serialize(array($attribute['attribute_id'] => $optionValueId))
         );
-        /** @var \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute\Collection $configurableAttr */
+
         $configurableAttr = $this->_model->getConfigurableAttributes($this->_product);
         $attribute = $configurableAttr->getFirstItem();
 

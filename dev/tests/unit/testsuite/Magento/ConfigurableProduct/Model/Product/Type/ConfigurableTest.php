@@ -41,7 +41,8 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
         $setFactoryMock = $this->getMock('Magento\Eav\Model\Entity\Attribute\SetFactory', array(), array(), '', false);
         $attributeFactoryMock = $this->getMock('Magento\Catalog\Model\Resource\Eav\AttributeFactory', array(),
             array(), '', false);
-        $confAttrFactoryMock = $this->getMock('Magento\ConfigurableProduct\Model\Product\Type\Configurable\AttributeFactory',
+        $confAttrFactoryMock = $this->getMock(
+            'Magento\ConfigurableProduct\Model\Product\Type\Configurable\AttributeFactory',
             array(), array(), '', false);
         $productColFactory = $this->getMock(
             'Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Product\CollectionFactory',
@@ -51,22 +52,25 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
             'Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute\CollectionFactory',
             array(), array(), '', false
         );
-        $this->_model = $this->_objectHelper->getObject('Magento\ConfigurableProduct\Model\Product\Type\Configurable', array(
-            'productFactory' => $productFactoryMock,
-            'typeConfigurableFactory' => $confFactoryMock,
-            'entityFactory' => $entityFactoryMock,
-            'attributeSetFactory' => $setFactoryMock,
-            'eavAttributeFactory' => $attributeFactoryMock,
-            'configurableAttributeFactory' => $confAttrFactoryMock,
-            'productCollectionFactory' => $productColFactory,
-            'attributeCollectionFactory' => $attrColFactory,
-            'eventManager' => $eventManager,
-            'coreData' => $coreDataMock,
-            'fileStorageDb' => $fileStorageDbMock,
-            'filesystem' => $filesystem,
-            'coreRegistry' => $coreRegistry,
-            'logger' => $logger
-        ));
+        $this->_model = $this->_objectHelper->getObject(
+            'Magento\ConfigurableProduct\Model\Product\Type\Configurable',
+            array(
+                'productFactory' => $productFactoryMock,
+                'typeConfigurableFactory' => $confFactoryMock,
+                'entityFactory' => $entityFactoryMock,
+                'attributeSetFactory' => $setFactoryMock,
+                'eavAttributeFactory' => $attributeFactoryMock,
+                'configurableAttributeFactory' => $confAttrFactoryMock,
+                'productCollectionFactory' => $productColFactory,
+                'attributeCollectionFactory' => $attrColFactory,
+                'eventManager' => $eventManager,
+                'coreData' => $coreDataMock,
+                'fileStorageDb' => $fileStorageDbMock,
+                'filesystem' => $filesystem,
+                'coreRegistry' => $coreRegistry,
+                'logger' => $logger
+            )
+        );
     }
 
     public function testHasWeightTrue()

@@ -129,7 +129,7 @@ class Collection
      */
     public function orderByPosition($dir = self::SORT_ORDER_ASC)
     {
-        $this->setOrder('position ',  $dir);
+        $this->setOrder('position ', $dir);
         return $this;
     }
 
@@ -230,10 +230,10 @@ class Collection
                 ->where('def.store_id = ?', 0);
 
                 $result = $this->getConnection()->fetchAll($select);
-                foreach ($result as $data) {
-                    $this->getItemById($data['product_super_attribute_id'])->setLabel($data['label']);
-                    $this->getItemById($data['product_super_attribute_id'])->setUseDefault($data['use_default']);
-                }
+            foreach ($result as $data) {
+                $this->getItemById($data['product_super_attribute_id'])->setLabel($data['label']);
+                $this->getItemById($data['product_super_attribute_id'])->setUseDefault($data['use_default']);
+            }
         }
         return $this;
     }

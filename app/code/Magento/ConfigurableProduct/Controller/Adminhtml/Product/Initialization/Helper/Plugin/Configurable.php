@@ -9,7 +9,7 @@
  */
 namespace Magento\ConfigurableProduct\Controller\Adminhtml\Product\Initialization\Helper\Plugin;
 
-class Configurable 
+class Configurable
 {
     /**
      * @param \Magento\ConfigurableProduct\Model\Product\Type\Configurable $productType

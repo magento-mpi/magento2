@@ -10,22 +10,21 @@
 namespace Magento\ConfigurableProduct\Model\Product\Type\Configurable;
 
 /**
- * @method \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute _getResource()
- * @method \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute getResource()
+ * @method Attribute _getResource()
+ * @method Attribute getResource()
  * @method int getProductId()
- * @method \Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute setProductId(int $value)
+ * @method Attribute setProductId(int $value)
  * @method int getAttributeId()
- * @method \Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute setAttributeId(int $value)
+ * @method Attribute setAttributeId(int $value)
  * @method int getPosition()
- * @method \Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute setPosition(int $value)
- * @method \Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute setProductAttribute(\Magento\Eav\Model\Entity\Attribute\AbstractAttribute $value)
+ * @method Attribute setPosition(int $value)
+ * @method Attribute setProductAttribute(\Magento\Eav\Model\Entity\Attribute\AbstractAttribute $value)
  * @method \Magento\Eav\Model\Entity\Attribute\AbstractAttribute getProductAttribute()
  */
 class Attribute extends \Magento\Core\Model\AbstractModel
 {
     /**
      * Initialize resource model
-     *
      */
     protected function _construct()
     {
