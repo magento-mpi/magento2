@@ -89,8 +89,9 @@ class Dashboard extends \Magento\View\Element\Template
 
     public function getSubscriptionObject()
     {
-        if(is_null($this->_subscription)) {
-            $this->_subscription = $this->_createSubscriber()->loadByCustomer($this->getCustomer());
+        if (is_null($this->_subscription)) {
+            $this->_subscription =
+                $this->_createSubscriber()->loadByCustomer($this->_customerSession->getCustomerId());
         }
 
         return $this->_subscription;

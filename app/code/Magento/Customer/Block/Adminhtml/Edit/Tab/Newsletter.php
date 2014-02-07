@@ -2,21 +2,14 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
 /**
  * Customer account form block
- *
- * @category   Magento
- * @package    Magento_Customer
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
-
 class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic
 {
     protected $_template = 'tab/newsletter.phtml';
@@ -50,7 +43,7 @@ class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('_newsletter');
         $customer = $this->_coreRegistry->registry('current_customer');
-        $subscriber = $this->_subscriberFactory->create()->loadByCustomer($customer);
+        $subscriber = $this->_subscriberFactory->create()->loadByCustomer($customer->getId());
         $this->_coreRegistry->register('subscriber', $subscriber);
 
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>__('Newsletter Information')));
