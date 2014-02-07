@@ -25,6 +25,8 @@
  * [#377] (https://github.com/magento/magento2/issues/377) Remove and avoid javascript eval() calls 
  * [#319] (https://github.com/magento/magento2/issues/319) No message was displayed when product added to shopping cart.
 
+* Update Customer Service Exception handling and add tests
+* Add usage of Customer Service to Customer Module, replacing some direct usage of Customer Model
 
 2.0.0.0-dev63
 =============
