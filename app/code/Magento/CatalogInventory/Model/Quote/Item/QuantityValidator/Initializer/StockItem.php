@@ -7,16 +7,14 @@
  */
 
 namespace Magento\CatalogInventory\Model\Quote\Item\QuantityValidator\Initializer;
+use Magento\CatalogInventory\Model\Quote\Item\QuantityValidator\QuoteItemQtyList;
 
 class StockItem 
 {
     /**
-     * Product qty's checked
-     * data is valid if you check quote item qty and use singleton instance
-     *
-     * @var array
+     * @var QuoteItemQtyList
      */
-    protected $_checkedQuoteItems = array();
+    protected $quoteItemQtyList;
 
     /**
      * @var \Magento\Catalog\Model\ProductTypes\ConfigInterface
@@ -25,9 +23,13 @@ class StockItem
 
     /**
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $typeConfig
+     * @param QuoteItemQtyList $quoteItemQtyList
      */
-    public function __construct(\Magento\Catalog\Model\ProductTypes\ConfigInterface $typeConfig)
-    {
+    public function __construct(
+        \Magento\Catalog\Model\ProductTypes\ConfigInterface $typeConfig,
+        QuoteItemQtyList $quoteItemQtyList
+    ) {
+        $this->quoteItemQtyList = $quoteItemQtyList;
         $this->typeConfig = $typeConfig;
     }
 
@@ -54,7 +56,7 @@ class StockItem
             /**
              * we are using 0 because original qty was processed
              */
-            $qtyForCheck = $this->_getQuoteItemQtyForCheck(
+            $qtyForCheck = $this->quoteItemQtyList->getQty(
                 $quoteItem->getProduct()->getId(),
                 $quoteItem->getId(),
                 0
@@ -62,7 +64,7 @@ class StockItem
         } else {
             $increaseQty = $quoteItem->getQtyToAdd() ? $quoteItem->getQtyToAdd() : $qty;
             $rowQty = $qty;
-            $qtyForCheck = $this->_getQuoteItemQtyForCheck(
+            $qtyForCheck = $this->quoteItemQtyList->getQty(
                 $quoteItem->getProduct()->getId(),
                 $quoteItem->getId(),
                 $increaseQty
@@ -118,29 +120,5 @@ class StockItem
         }
 
         return $result;
-    }
-
-    /**
-     * Get product qty includes information from all quote items
-     * Need be used only in sungleton mode
-     *
-     * @param int   $productId
-     * @param int   $quoteItemId
-     * @param float $itemQty
-     *
-     * @return int
-     */
-    protected function _getQuoteItemQtyForCheck($productId, $quoteItemId, $itemQty)
-    {
-        $qty = $itemQty;
-        if (isset($this->_checkedQuoteItems[$productId]['qty']) &&
-            !in_array($quoteItemId, $this->_checkedQuoteItems[$productId]['items'])) {
-            $qty += $this->_checkedQuoteItems[$productId]['qty'];
-        }
-
-        $this->_checkedQuoteItems[$productId]['qty'] = $qty;
-        $this->_checkedQuoteItems[$productId]['items'][] = $quoteItemId;
-
-        return $qty;
     }
 } 
