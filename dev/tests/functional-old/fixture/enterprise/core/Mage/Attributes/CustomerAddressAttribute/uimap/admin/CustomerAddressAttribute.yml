@@ -49,7 +49,6 @@ manage_customer_address_attributes:
             use_numbers_only: //label[@class="mage-error" and contains(.,'Please enter a valid number in this field.')]
             delete_confirm_message: Are you sure you want to do this?
 
-
 # Add New Address Attribute page
 new_customer_address_attribute:
     mca: customer_address_attribute/new/

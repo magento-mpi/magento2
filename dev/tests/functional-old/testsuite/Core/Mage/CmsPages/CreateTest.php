@@ -42,9 +42,7 @@ class Core_Mage_CmsPages_CreateTest extends Mage_Selenium_TestCase
     {
         //Data
         $category = $this->loadDataSet('Category', 'sub_category_required');
-        $product = $this->loadDataSet(
-            'Product',
-            'simple_product_visible',
+        $product = $this->loadDataSet('Product', 'simple_product_visible',
             array('general_categories' => $category['parent_category'] . '/' . $category['name'])
         );
         //Steps
@@ -59,8 +57,10 @@ class Core_Mage_CmsPages_CreateTest extends Mage_Selenium_TestCase
         //Verifying
         $this->assertMessagePresent('success', 'success_saved_product');
 
-        return array('category_path' => $product['general_categories'],
-                     'filter_sku'    => $product['general_sku'],);
+        return array(
+            'category_path' => $product['general_categories'],
+            'filter_sku' => $product['general_sku']
+        );
     }
 
     /**
@@ -72,7 +72,6 @@ class Core_Mage_CmsPages_CreateTest extends Mage_Selenium_TestCase
      */
     public function withRequiredFields()
     {
-        $this->markTestIncomplete('MAGETWO-8415');
         //Data
         $pageData = $this->loadDataSet('CmsPage', 'new_cms_page_req');
         //Steps
@@ -96,7 +95,6 @@ class Core_Mage_CmsPages_CreateTest extends Mage_Selenium_TestCase
      */
     public function withAllFields($data)
     {
-        $this->markTestIncomplete('MAGETWO-8415');
         //Data
         $pageData = $this->loadDataSet('CmsPage', 'new_page_all_fields', $data);
         //Steps
@@ -120,7 +118,7 @@ class Core_Mage_CmsPages_CreateTest extends Mage_Selenium_TestCase
      */
     public function withEmptyRequiredFields($fieldName, $fieldType)
     {
-        $this->markTestIncomplete('BUG: Backend validation after js');
+        $this->markTestIncomplete('MAGETWO-15743');
         //Data
         $pageData = $this->loadDataSet('CmsPage', 'new_cms_page_req', array($fieldName => '%noValue%'));
         if ($fieldName == 'widget_type') {
@@ -182,9 +180,7 @@ class Core_Mage_CmsPages_CreateTest extends Mage_Selenium_TestCase
      */
     public function withWrongUrlKey($urlValue, $messageType)
     {
-        if ($messageType == 'validation') {
-            $this->markTestIncomplete('BUG: Backend validation after js');
-        }
+        $this->markTestIncomplete('MAGETWO-15743');
         //Data
         $pageData = $this->loadDataSet('CmsPage', 'new_cms_page_req', array('url_key' => $urlValue));
         //Steps

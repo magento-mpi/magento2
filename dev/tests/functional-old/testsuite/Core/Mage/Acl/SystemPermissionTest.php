@@ -76,6 +76,7 @@ class Core_Mage_Acl_SystemPermissionTest extends Mage_Selenium_TestCase
      */
     public function systemPermissions($testData)
     {
+        $this->markTestIncomplete('BUG: Fatal error when edit and save role.');
         $this->adminUserHelper()->loginAdmin($testData['login']);
         // Verify that navigation menu has only 2 child elements
         $this->assertEquals(1, $this->getControlCount('pageelement', 'navigation_menu_items'),

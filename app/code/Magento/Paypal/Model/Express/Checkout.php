@@ -461,7 +461,7 @@ class Checkout
             foreach ($profiles as $profile) {
                 $profile->setMethodCode(\Magento\Paypal\Model\Config::METHOD_WPP_EXPRESS);
                 if (!$profile->isValid()) {
-                    throw new \Magento\Core\Exception($profile->getValidationErrors(true, true));
+                    throw new \Magento\Core\Exception($profile->getValidationErrors());
                 }
             }
             $this->_api->addRecurringPaymentProfiles($profiles);

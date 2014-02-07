@@ -20,13 +20,8 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
 {
     protected function assertPreConditions()
     {
+        $this->markTestIncomplete('BUG: There is no "Website Payments Pro Payflow Edition" fiedset');
         $this->loginAdminUser();
-    }
-
-    protected function tearDownAfterTestClass()
-    {
-        $this->paypalHelper()->paypalDeveloperLogin();
-        $this->paypalHelper()->deleteAllAccounts();
     }
 
     /**
@@ -42,6 +37,7 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
         //Steps and Verifying
         $this->navigate('system_configuration');
         $this->systemConfigurationHelper()->configurePaypal('PaymentMethod/paypaldirectuk_without_3Dsecure');
+        $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData);
         $this->assertMessagePresent('success', 'success_saved_product');
@@ -68,8 +64,7 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
     public function orderWithout3DSecureSmoke($testData)
     {
         //Data
-        $paymentData = $this->loadDataSet('Payment', 'payment_paypaldirectuk',
-            array('payment_info' => $testData['cards']['mastercard']));
+        $paymentData = $this->loadDataSet('Payment', 'payment_paypaldirectuk', $testData['cards']['mastercard']);
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
             array('filter_sku'  => $testData['sku'], 'payment_data' => $paymentData));
         //Steps
@@ -96,7 +91,7 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
     public function orderWithDifferentCreditCard($card, $orderData, $testData)
     {
         //Data
-        $this->overrideDataByCondition('payment_info', $testData['cards'][$card], $orderData, 'byFieldKey');
+        $orderData = $this->overrideArrayData($testData['cards'][$card], $orderData, 'byFieldKey');
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -185,9 +180,8 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
     {
         //Steps and Verifying
         $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createOrder($orderData);
+        $orderId = $this->orderHelper()->createOrder($orderData);
         $this->assertMessagePresent('success', 'success_created_order');
-        $orderId = $this->orderHelper()->defineOrderId();
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty($captureType);
         $this->navigate('manage_sales_invoices');
         $this->orderInvoiceHelper()->openInvoice(array('filter_order_id' => $orderId));
@@ -215,9 +209,8 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
             $this->loadDataSet('SalesOrder', 'products_to_refund', array('return_filter_sku' => $testData['sku']));
         //Steps and Verifying
         $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createOrder($orderData);
+        $orderId = $this->orderHelper()->createOrder($orderData);
         $this->assertMessagePresent('success', 'success_created_order');
-        $orderId = $this->orderHelper()->defineOrderId();
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty($captureType);
         $this->navigate('manage_sales_invoices');
         $this->orderInvoiceHelper()->openInvoice(array('filter_order_id' => $orderId));
@@ -366,8 +359,7 @@ class Core_Mage_Order_PayPalDirectUk_Authorization_NewCustomerWithSimpleSmokeTes
     public function createOrderWith3DSecure($card, $needSetUp, $orderData)
     {
         //Data
-        $cardData = $this->loadDataSet('Payment', $card);
-        $this->overrideDataByCondition('payment_info', $cardData, $orderData, 'byFieldKey');
+        $orderData = $this->overrideArrayData($this->loadDataSet('Payment', $card), $orderData, 'byFieldKey');
         //Steps
         if ($needSetUp) {
             $this->systemConfigurationHelper()->useHttps('admin', 'yes');

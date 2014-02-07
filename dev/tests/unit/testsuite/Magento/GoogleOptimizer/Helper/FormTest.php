@@ -64,7 +64,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
 
     public function testAddFieldsWithoutExperimentCode()
     {
-        $experimentCode = array();
+        $experimentCode = '';
         $experimentCodeId = '';
         $this->_prepareFormMock($experimentCode, $experimentCodeId);
 
