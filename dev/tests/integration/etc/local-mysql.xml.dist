@@ -24,7 +24,7 @@
     <connection name="default">
         <host><![CDATA[localhost]]></host>
         <username><![CDATA[root]]></username>
-        <password><![CDATA[]]></password>
+        <password><![CDATA[root]]></password>
         <dbName><![CDATA[magento_integration_tests]]></dbName>
         <initStatements><![CDATA[SET NAMES utf8]]></initStatements>
         <model><![CDATA[mysql4]]></model>

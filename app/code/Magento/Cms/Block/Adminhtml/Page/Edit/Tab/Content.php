@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Cms\Block\Adminhtml\Page\Edit\Tab;
 
 /**
  * Cms page edit form main tab
  */
-namespace Magento\Cms\Block\Adminhtml\Page\Edit\Tab;
-
 class Content
     extends \Magento\Backend\Block\Widget\Form\Generic
     implements \Magento\Backend\Block\Widget\Tab\TabInterface

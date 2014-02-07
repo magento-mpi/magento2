@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Cms\Model\Page;
 
 /**
  * @method \Magento\Cms\Model\Resource\Page\Urlrewrite getResource() getResource()
@@ -15,8 +16,6 @@
  * @method \Magento\Cms\Model\Page\Urlrewrite setCmsPageId() setCmsPageId(int)
  * @method \Magento\Cms\Model\Page\Urlrewrite setUrlRewriteId() setUrlRewriteId(int)
  */
-namespace Magento\Cms\Model\Page;
-
 class Urlrewrite extends \Magento\Core\Model\AbstractModel
 {
     /**

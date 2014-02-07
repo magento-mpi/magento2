@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Cms\Model;
 
 /**
  * CMS block model
@@ -30,12 +31,13 @@
  * @package     Magento_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Cms\Model;
-
 class Block extends \Magento\Core\Model\AbstractModel
 {
     const CACHE_TAG     = 'cms_block';
+
+    /**
+     * @var string
+     */
     protected $_cacheTag= 'cms_block';
 
     /**

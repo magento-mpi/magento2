@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Cms\Block\Adminhtml\Wysiwyg\Images;
 
 /**
  * Directory tree renderer for Cms Wysiwyg Images
@@ -15,8 +16,6 @@
  * @package    Magento_Cms
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Cms\Block\Adminhtml\Wysiwyg\Images;
-
 class Tree extends \Magento\Backend\Block\Template
 {
     /**
@@ -115,6 +114,7 @@ class Tree extends \Magento\Backend\Block\Template
 
     /**
      * Get tree widget options
+     *
      * @return array
      */
     public function getTreeWidgetOptions()

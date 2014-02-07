@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Cms\Block\Adminhtml\Page;
 
 /**
  * Adminhtml cms pages grid
@@ -15,8 +16,6 @@
  * @package    Magento_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Cms\Block\Adminhtml\Page;
-
 class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**

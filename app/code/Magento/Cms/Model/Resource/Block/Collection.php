@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Cms\Model\Resource\Block;
 
 /**
  * CMS block model
@@ -16,8 +16,6 @@
  * @package     Magento_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Cms\Model\Resource\Block;
-
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
@@ -46,7 +44,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      *
      * @param int|\Magento\Core\Model\Store $store
      * @param bool $withAdmin
-     * @return \Magento\Cms\Model\Resource\Block\Collection
+     * @return $this
      */
     public function addStoreFilter($store, $withAdmin = true)
     {
@@ -84,6 +82,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
 
     /**
      * Join store relation table if there is store filter
+     *
+     * @return void
      */
     protected function _renderFiltersBefore()
     {

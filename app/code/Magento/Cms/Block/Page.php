@@ -96,7 +96,7 @@ class Page extends \Magento\View\Element\AbstractBlock
     /**
      * Prepare global layout
      *
-     * @return \Magento\Cms\Block\Page
+     * @return $this
      */
     protected function _prepareLayout()
     {

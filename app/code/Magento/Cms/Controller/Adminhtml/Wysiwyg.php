@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Cms\Controller\Adminhtml;
 
 /**
  * Wysiwyg controller for different purposes
@@ -15,14 +16,14 @@
  * @package     Magento_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Cms\Controller\Adminhtml;
-
 class Wysiwyg extends \Magento\Backend\App\Action
 {
     /**
      * Template directives callback
      *
      * TODO: move this to some model
+     *
+     * @return void
      */
     public function directiveAction()
     {

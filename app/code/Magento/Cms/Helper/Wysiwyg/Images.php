@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Cms\Helper\Wysiwyg;
 
 /**
  * Wysiwyg Images Helper
  */
-namespace Magento\Cms\Helper\Wysiwyg;
-
 class Images extends \Magento\App\Helper\AbstractHelper
 {
 
@@ -155,11 +154,11 @@ class Images extends \Magento\App\Helper\AbstractHelper
             return $this->getStorageRoot() . $this->idDecode($id);
         }
     }
-    
-    /*
+
+    /**
      * Check whether using static URLs is allowed
      *
-     * @return boolean
+     * @return bool
      */
     public function isUsingStaticUrlsAllowed()
     {
