@@ -245,7 +245,7 @@ class Form
             if (!isset($data[$attribute->getAttributeCode()])) {
                 $data[$attribute->getAttributeCode()] = false;
             }
-            $dataModel->restoreValue($data[$attribute->getAttributeCode()]);
+            $data[$attribute->getAttributeCode()] = $dataModel->restoreValue($data[$attribute->getAttributeCode()]);
         }
         return $data;
     }

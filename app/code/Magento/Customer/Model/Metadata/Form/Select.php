@@ -67,7 +67,7 @@ class Select extends AbstractData
     public function compactValue($value)
     {
         if ($value !== false) {
-            $value;
+            return $value;
         }
         return false;
     }
