@@ -114,9 +114,6 @@ class Config
         if (!empty($accessList)) {
             $ips = explode(', ', $accessList);
             foreach ($ips as $ip) {
-                if(!preg_match('/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\z/', $ip) && !preg_match('/^[localhost]/', $ip)) {
-                    continue;
-                }
                 $result[] = sprintf($tpl, $ip);
             }
             return implode("\n", $result);

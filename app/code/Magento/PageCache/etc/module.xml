@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <module name="Magento_PageCache" version="1.6.0.0" active="false">
+    <module name="Magento_PageCache" version="1.6.0.0" active="true">
         <sequence>
             <module name="Magento_Core"/>
         </sequence>

@@ -12,22 +12,21 @@
 <script type="text/javascript">
     //<![CDATA[
     (function ($) {
-        $('#system_full_page_cache_varnish').find(':input:not(:hidden, button)').on('focus', function(e) {
-            $(this).attr('previous-data', $(this).val());
+        var fieldset = $('#system_full_page_cache_varnish'),
+            fields = fieldset.find(':input:not(:hidden, button)');
+        fields.each(function (e) {
+            $(this).data('previous-value', $(this).val());
         });
-        $('#system_full_page_cache_varnish').on('change', function(e) {
-            var fields = $(this).find(':input:not(:hidden, button)').filter(function() {
-                var input = $(this);
-                var newValue = function(input) {
-                    return input.val() !== input.attr('previous-data');
-                };
-                return (!$(this).val().length || newValue(input));
+        fieldset.on('change', function (e) {
+            var invalidFields = fields.filter(function () {
+                return ($(this).val().length == 0 || ($(this).val() != $(this).data('previous-value')));
             });
-            $('#system_full_page_cache_varnish_export_button').prop('disabled', fields);
+            $('#system_full_page_cache_varnish_export_button').prop('disabled', (invalidFields.length > 0));
         });
-        $('#system_full_page_cache_ttl').on('change', function(e) {
-            if(!$(this).val().length)
+        $('#system_full_page_cache_ttl').on('change', function (e) {
+            if ($(this).val() == '') {
                 $(this).val('<?php echo $this->getTtlValue(); ?>');
+            }
         });
     })(jQuery);
     //]]>

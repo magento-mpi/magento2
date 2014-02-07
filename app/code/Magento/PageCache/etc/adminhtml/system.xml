@@ -18,7 +18,7 @@
                     <label>Caching Application</label>
                     <source_model>Magento\PageCache\Model\System\Config\Source\Application</source_model>
                 </field>
-                <group id="varnish" translate="label" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="600">
+                <group id="varnish" translate="label" showInDefault="1" showInWebsite="0" showInStore="0" sortOrder="605">
                     <label>Varnish Configuration</label>
                     <field id="access_list" type="text" translate="label comment" sortOrder="15" showInDefault="1" showInWebsite="0" showInStore="0">
                         <label>Access list</label>
@@ -54,7 +54,7 @@
                 </group>
                 <field id="ttl" type="text" translate="label comment" sortOrder="5" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>TTL for public content</label>
-                    <comment>Public content lifetime in seconds. If field is empty default value 120 will be saved. </comment>
+                    <comment>Public content cache lifetime in seconds. If field is empty default value 120 will be saved. </comment>
                 </field>
             </group>
         </section>
