@@ -25,6 +25,9 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
     /** @var CustomerAccountServiceInterface Needed for password checking */
     private $_accountService;
 
+    /** @var CustomerAddressServiceInterface Needed for verifying if addresses are deleted */
+    private $_addressService;
+
     /** @var \Magento\ObjectManager */
     private $_objectManager;
 
@@ -43,6 +46,8 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
         $this->_service = $this->_objectManager->create('Magento\Customer\Service\V1\CustomerServiceInterface');
         $this->_accountService = $this->_objectManager
             ->create('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
+        $this->_addressService = $this->_objectManager
+            ->create('Magento\Customer\Service\V1\CustomerAddressServiceInterface');
 
         $this->_addressBuilder = $this->_objectManager->create('Magento\Customer\Service\V1\Dto\AddressBuilder');
         $this->_customerBuilder = $this->_objectManager->create('Magento\Customer\Service\V1\Dto\CustomerBuilder');
@@ -590,6 +595,32 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
         $this->_service->getCustomer(1);
     }
 
+    /**
+     *
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     * @magentoDataFixture Magento/Customer/_files/customer_address.php
+     * @magentoDataFixture Magento/Customer/_files/customer_two_addresses.php
+     * @magentoAppArea adminhtml
+     * @magentoAppIsolation enabled
+     * @expectedException \Magento\Customer\Service\Entity\V1\Exception
+     * @expectedExceptionMessage No customer with customerId 1 exists.
+     */
+    public function testDeleteCustomerWithAddress()
+    {
+        //Verify address is created for the customer;
+        $result = $this->_addressService->getAddresses(1);
+        $this->assertEquals(2, count($result));
+        // _files/customer.php sets the customer id to 1
+        $this->_service->deleteCustomer(1);
+
+        // Verify by directly loading the address by id
+        $this->_verifyDeletedAddress(1);
+        $this->_verifyDeletedAddress(2);
+
+        //Verify by calling the Address Service. This will throw the expected exception since customerId doesn't exist
+        $result = $this->_addressService->getAddresses(1);
+        $this->assertTrue(empty($result));
+    }
 
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
@@ -603,4 +634,18 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
         $this->_service->deleteCustomer(1);
     }
 
+    /**
+     * Check if the Address with the give addressid is deleted
+     *
+     * @param int $addressId
+     */
+    private function _verifyDeletedAddress($addressId)
+    {
+        /** @var $addressFactory \Magento\Customer\Model\AddressFactory*/
+        $addressFactory = $this->_objectManager
+            ->create('\Magento\Customer\Model\AddressFactory');
+        $addressModel = $addressFactory->create()->load($addressId);
+        $addressData = $addressModel->getData();
+        $this->assertTrue(empty($addressData));
+    }
 }
