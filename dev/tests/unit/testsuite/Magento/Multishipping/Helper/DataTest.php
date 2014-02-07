@@ -14,11 +14,11 @@ namespace Magento\Multishipping\Helper;
 class DataTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Object Manager helper
+     * Multishipping data helper
      *
-     * @var \Magento\TestFramework\Helper\ObjectManager
+     * @var \Magento\Multishipping\Helper\Data
      */
-    protected $objectManager;
+    protected $helper;
 
     /**
      * Core store config mock
@@ -55,7 +55,25 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $this->checkoutSessionMock = $this->getMock('\Magento\Checkout\Model\Session', array(), array(), '', false);
         $this->quoteMock = $this->getMock('\Magento\Sales\Model\Quote', array(), array(), '', false);
 
-        $this->objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->helper = $objectManager->getObject(
+            'Magento\Multishipping\Helper\Data',
+            array(
+                'context' => $this->contextMock,
+                'coreStoreConfig' => $this->coreStoreConfigMock,
+                'checkoutSession' => $this->checkoutSessionMock,
+            )
+        );
+    }
+
+    public function testGetMaximumQty()
+    {
+        $maximumQty = 10;
+        $this->coreStoreConfigMock->expects($this->once())->method('getConfig')
+            ->with(\Magento\Multishipping\Helper\Data::XML_PATH_CHECKOUT_MULTIPLE_MAXIMUM_QUANTITY)
+            ->will($this->returnValue($maximumQty));
+
+        $this->assertEquals($maximumQty, $this->helper->getMaximumQty());
     }
 
     /**
@@ -94,16 +112,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($maximumQty));
         $this->quoteMock->expects($this->any())->method('hasNominalItems')->will($this->returnValue($hasNominalItems));
 
-        $helper = $this->objectManager->getObject(
-            'Magento\Multishipping\Helper\Data',
-            array(
-                'context' => $this->contextMock,
-                'coreStoreConfig' => $this->coreStoreConfigMock,
-                'checkoutSession' => $this->checkoutSessionMock,
-            )
-        );
-
-        $this->assertEquals($result, $helper->isMultishippingCheckoutAvailable());
+        $this->assertEquals($result, $this->helper->isMultishippingCheckoutAvailable());
     }
 
     /**

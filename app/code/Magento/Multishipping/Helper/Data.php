@@ -16,8 +16,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**#@+
      * Xml paths for multishipping checkout
      **/
-    const XML_PATH_CHECKOUT_MULTIPLE_AVAILABLE = 'shipping/option/checkout_multiple';
-    const XML_PATH_CHECKOUT_MULTIPLE_MAXIMUM_QUANTITY = 'shipping/option/checkout_multiple_maximum_qty';
+    const XML_PATH_CHECKOUT_MULTIPLE_AVAILABLE = 'multishipping/options/checkout_multiple';
+    const XML_PATH_CHECKOUT_MULTIPLE_MAXIMUM_QUANTITY = 'multishipping/options/checkout_multiple_maximum_qty';
     /**#@-*/
 
     /**
@@ -62,6 +62,16 @@ class Data extends \Magento\App\Helper\AbstractHelper
     }
 
     /**
+     * Get maximum quantity allowed for shipping to multiple addresses
+     *
+     * @return int
+     */
+    public function getMaximumQty()
+    {
+        return (int)$this->coreStoreConfig->getConfig(self::XML_PATH_CHECKOUT_MULTIPLE_MAXIMUM_QUANTITY);
+    }
+
+    /**
      * Check if multishipping checkout is available
      * There should be a valid quote in checkout session. If not, only the config value will be returned
      *
@@ -74,13 +84,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
         if (!$quote || !$quote->hasItems()) {
             return $isMultiShipping;
         }
-        $maximumQty = $this->coreStoreConfig->getConfig(self::XML_PATH_CHECKOUT_MULTIPLE_MAXIMUM_QUANTITY);
-
         return $isMultiShipping
             && !$quote->hasItemsWithDecimalQty()
             && $quote->validateMinimumAmount(true)
             && ($quote->getItemsSummaryQty() - $quote->getItemVirtualQty() > 0)
-            && ($quote->getItemsSummaryQty() <= $maximumQty)
+            && ($quote->getItemsSummaryQty() <= $this->getMaximumQty())
             && !$quote->hasNominalItems();
     }
 }
