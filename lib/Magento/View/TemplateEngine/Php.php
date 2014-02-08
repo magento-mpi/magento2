@@ -17,16 +17,22 @@ use Magento\View\Element\BlockInterface;
 class Php implements TemplateEngineInterface
 {
     /**
+     * Current block
+     *
      * @var BlockInterface
      */
     protected $_currentBlock;
 
     /**
+     * Helper factory
+     *
      * @var
      */
     protected $_helperFactory;
 
     /**
+     * Constructor
+     *
      * @param \Magento\ObjectManager $helperFactory
      */
     public function __construct(\Magento\ObjectManager $helperFactory)
@@ -44,7 +50,7 @@ class Php implements TemplateEngineInterface
      * @param string                   $fileName
      * @param array                    $dictionary
      * @return string
-     * @throws \Exception any exception that the template may throw
+     * @throws \Exception
      */
     public function render(BlockInterface $block, $fileName, array $dictionary = array())
     {

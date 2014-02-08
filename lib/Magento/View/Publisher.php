@@ -36,6 +36,8 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
     /**#@-*/
 
     /**
+     * File system
+     *
      * @var \Magento\App\Filesystem
      */
     protected $_filesystem;
@@ -48,16 +50,22 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
     protected $_cssUrlResolver;
 
     /**
+     * View service
+     *
      * @var \Magento\View\Service
      */
     protected $_viewService;
 
     /**
+     * View file system
+     *
      * @var \Magento\View\FileSystem
      */
     protected $_viewFileSystem;
 
     /**
+     * Logger
+     *
      * @var \Magento\Logger
      */
     protected $_logger;
@@ -70,26 +78,36 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
     protected $_allowDuplication;
 
     /**
+     * Modules reader
+     *
      * @var \Magento\Module\Dir\Reader
      */
     protected $_modulesReader;
 
     /**
+     * Root directory
+     *
      * @var WriteInterface
      */
     protected $rootDirectory;
 
     /**
+     * Related file
+     *
      * @var RelatedFile
      */
     protected $relatedFile;
 
     /**
+     * Pre-processor
+     *
      * @var \Magento\View\Asset\PreProcessor\PreProcessorInterface
      */
     protected $preProcessor;
 
     /**
+     * Constructor
+     *
      * @param \Magento\Logger $logger
      * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\View\Url\CssResolver $cssUrlResolver

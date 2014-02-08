@@ -18,7 +18,11 @@ class Config
      */
     protected $_pageTypes = null;
 
-    /** @var  \Magento\Config\DataInterface */
+    /**
+     * Data storage
+     *
+     * @var  \Magento\Config\DataInterface
+     */
     protected $_dataStorage;
 
     /**
@@ -35,7 +39,7 @@ class Config
     /**
      * Initialize page types list
      *
-     * @return \Magento\View\Layout\PageType\Config
+     * @return $this
      */
     protected function _initPageTypes()
     {
