@@ -356,7 +356,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
      * Returns new item or string on error.
      *
      * @param int|\Magento\Catalog\Model\Product $product
-     * @param \Magento\Object|array|string $buyRequest
+     * @param \Magento\Object|array|string|null $buyRequest
      * @param bool $forciblySetQty
      * @return Item|string
      */

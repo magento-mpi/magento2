@@ -462,7 +462,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Retrieve RSS URL
      *
-     * @param int|string $wishlistId
+     * @param int|string|null $wishlistId
      * @return string
      */
     public function getRssUrl($wishlistId = null)
