@@ -155,7 +155,7 @@ class Field
      *
      * @param string $fieldPrefix
      * @param string $elementType
-     * @return array
+     * @return string[]
      */
     protected function _getRequiredElements($fieldPrefix = '', $elementType = 'group')
     {
@@ -176,7 +176,7 @@ class Field
      * Get required groups paths for the field
      *
      * @param string $fieldPrefix
-     * @return array
+     * @return string[]
      */
     public function getRequiredGroups($fieldPrefix = '')
     {
@@ -188,7 +188,7 @@ class Field
      * Get required fields paths for the field
      *
      * @param string $fieldPrefix
-     * @return array
+     * @return string[]
      */
     public function getRequiredFields($fieldPrefix = '')
     {
@@ -290,6 +290,7 @@ class Field
      * Populate form element with field data
      *
      * @param \Magento\Data\Form\Element\AbstractElement $formField
+     * @return void
      */
     public function populateInput($formField)
     {
