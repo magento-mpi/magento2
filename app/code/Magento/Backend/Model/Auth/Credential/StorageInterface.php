@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Backend\Model\Auth\Credential;
 
 /**
  * Backend Auth Credential Storage interface
@@ -16,31 +16,32 @@
  * @package     Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backend\Model\Auth\Credential;
-
 interface StorageInterface
 {
     /**
      * Authenticate process.
      *
-     * @abstract
      * @param string $username
      * @param string $password
+     * @return bool
+     * @abstract
      */
     public function authenticate($username, $password);
 
     /**
      * Login action. Check if given username and password are valid
      *
-     * @abstract
      * @param $username
      * @param $password
+     * @return $this
+     * @abstract
      */
     public function login($username, $password);
 
     /**
      * Reload loaded (already authenticated) credential storage
      *
+     * @return $this
      * @abstract
      */
     public function reload();
@@ -48,16 +49,17 @@ interface StorageInterface
     /**
      * Check if user has available resources
      *
-     * @abstract
      * @return bool
+     * @abstract
      */
     public function hasAvailableResources();
 
     /**
      * Set user has available resources
      *
-     * @abstract
      * @param bool $hasResources
+     * @return $this
+     * @abstract
      */
     public function setHasAvailableResources($hasResources);
 }

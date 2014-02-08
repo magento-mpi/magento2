@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Model\Search;
 
 /**
  * Search Customer Model
@@ -15,8 +16,6 @@
  * @package     Magento_Backend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backend\Model\Search;
-
 class Customer extends \Magento\Object
 {
     /**
@@ -46,7 +45,7 @@ class Customer extends \Magento\Object
     /**
      * Load search results
      *
-     * @return \Magento\Backend\Model\Search\Customer
+     * @return $this
      */
     public function load()
     {
