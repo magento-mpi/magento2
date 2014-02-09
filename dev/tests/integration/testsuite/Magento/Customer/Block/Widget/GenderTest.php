@@ -23,7 +23,9 @@ class GenderTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_block = Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
+        $objectManager = Bootstrap::getObjectManager();
+        $objectManager->get('Magento\App\State')->setAreaCode('frontend');
+        $this->_block = $objectManager->get('Magento\View\LayoutInterface')
             ->createBlock('Magento\Customer\Block\Widget\Gender');
     }
 
@@ -36,5 +38,18 @@ class GenderTest extends \PHPUnit_Framework_TestCase
         $options = $this->_block->getGenderOptions();
         $this->assertInternalType('array', $options);
         $this->assertNotEmpty($options);
+        $this->assertContainsOnlyInstancesOf('Magento\Customer\Service\V1\Dto\Eav\Option', $options);
+    }
+
+    /**
+     * Test the Gender::toHtml() method.
+     * @return void
+     */
+    public function testToHtml()
+    {
+        $html = $this->_block->toHtml();
+        $this->assertContains('<span>Gender</span>', $html);
+        $this->assertContains('<option value="1">Male</option>', $html);
+        $this->assertContains('<option value="2">Female</option>', $html);
     }
 }
