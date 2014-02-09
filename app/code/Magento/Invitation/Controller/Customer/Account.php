@@ -19,6 +19,13 @@ use Magento\Customer\Service\V1\CustomerGroupServiceInterface;
 class Account extends \Magento\Customer\Controller\Account
 {
     /**
+     * Core Registry
+     *
+     * @var \Magento\Core\Model\Registry
+     */
+    protected $_coreRegistry;
+
+    /**
      * Invitation Config
      *
      * @var \Magento\Invitation\Model\Config
@@ -34,7 +41,6 @@ class Account extends \Magento\Customer\Controller\Account
 
     /**
      * @param \Magento\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\UrlFactory $urlFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
@@ -49,12 +55,12 @@ class Account extends \Magento\Customer\Controller\Account
      * @param \Magento\Customer\Service\V1\Dto\RegionBuilder $regionBuilder
      * @param \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder
      * @param \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Invitation\Model\Config $config
      * @param \Magento\Invitation\Model\InvitationFactory $invitationFactory
      */
     public function __construct(
         \Magento\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\UrlFactory $urlFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
@@ -69,12 +75,12 @@ class Account extends \Magento\Customer\Controller\Account
         \Magento\Customer\Service\V1\Dto\RegionBuilder $regionBuilder,
         \Magento\Customer\Service\V1\Dto\AddressBuilder $addressBuilder,
         \Magento\Customer\Service\V1\Dto\CustomerBuilder $customerBuilder,
+        \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Invitation\Model\Config $config,
         \Magento\Invitation\Model\InvitationFactory $invitationFactory
     ) {
         parent::__construct(
             $context,
-            $coreRegistry,
             $customerSession,
             $urlFactory,
             $customerFactory,
@@ -91,6 +97,7 @@ class Account extends \Magento\Customer\Controller\Account
             $customerBuilder
         );
         $this->_config = $config;
+        $this->_coreRegistry = $coreRegistry;
         $this->_invitationFactory = $invitationFactory;
     }
 
