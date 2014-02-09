@@ -71,7 +71,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             )
         );
 
-        if ($customerGroup->getId()==0 && $customerGroup->getCode() ) {
+        if ($customerGroup->getId() == 0 && $customerGroup->getCode()) {
             $name->setDisabled(true);
         }
 
@@ -96,17 +96,12 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             );
         }
 
-        if ( $this->_backendSession->getCustomerGroupData() ) {
-            $form->addValues($this->_backendSession->getCustomerGroupData());
-            $this->_backendSession->setCustomerGroupData(null);
-        } else {
-            // TODO: need to figure out how the DTOs can work with forms
-            $form->addValues([
-                'id'                  => $customerGroup->getId(),
-                'customer_group_code' => $customerGroup->getCode(),
-                'tax_class_id'        => $customerGroup->getTaxClassId(),
-            ]);
-        }
+        // TODO: need to figure out how the DTOs can work with forms
+        $form->addValues([
+            'id'                  => $customerGroup->getId(),
+            'customer_group_code' => $customerGroup->getCode(),
+            'tax_class_id'        => $customerGroup->getTaxClassId(),
+        ]);
 
         $form->setUseContainer(true);
         $form->setId('edit_form');

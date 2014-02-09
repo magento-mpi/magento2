@@ -62,7 +62,8 @@ class Group extends \Magento\Backend\App\Action
 
     /**
      * Initialize current group and set it in the registry.
-     * @return void
+     *
+     * @return CustomerGroup
      */
     protected function _initGroup()
     {
@@ -76,10 +77,13 @@ class Group extends \Magento\Backend\App\Action
             $currentGroup = $this->_customerGroupBuilder->create();
         }
         $this->_coreRegistry->register(self::REGISTRY_CURRENT_GROUP, $currentGroup);
+
+        return $currentGroup;
     }
 
     /**
      * Customer groups list.
+     *
      * @return void
      */
     public function indexAction()
@@ -95,18 +99,17 @@ class Group extends \Magento\Backend\App\Action
 
     /**
      * Edit or create customer group.
+     *
      * @return void
      */
     public function newAction()
     {
-        $this->_initGroup();
+        $currentGroup = $this->_initGroup();
+
         $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Customer::customer_group');
         $this->_addBreadcrumb(__('Customers'), __('Customers'));
         $this->_addBreadcrumb(__('Customer Groups'), __('Customer Groups'), $this->getUrl('customer/group'));
-
-        /** @var CustomerGroup $currentGroup */
-        $currentGroup = $this->_coreRegistry->registry(self::REGISTRY_CURRENT_GROUP);
 
         if (!is_null($currentGroup->getId())) {
             $this->_addBreadcrumb(__('Edit Group'), __('Edit Customer Groups'));
@@ -117,13 +120,14 @@ class Group extends \Magento\Backend\App\Action
         $this->_title->add($currentGroup->getId() ? $currentGroup->getCode() : __('New Customer Group'));
 
         $this->_view->getLayout()->addBlock('Magento\Customer\Block\Adminhtml\Group\Edit', 'group', 'content')
-            ->setEditMode((bool)$this->_coreRegistry->registry(self::REGISTRY_CURRENT_GROUP)->getId());
+            ->setEditMode((bool)$currentGroup->getId());
 
         $this->_view->renderLayout();
     }
 
     /**
      * Edit customer group action. Forward to new action.
+     *
      * @return void
      */
     public function editAction()
@@ -133,6 +137,7 @@ class Group extends \Magento\Backend\App\Action
 
     /**
      * Create or save customer group.
+     *
      * @return void
      */
     public function saveAction()
@@ -174,6 +179,7 @@ class Group extends \Magento\Backend\App\Action
 
     /**
      * Delete customer group.
+     *
      * @return void
      */
     public function deleteAction()
@@ -195,12 +201,12 @@ class Group extends \Magento\Backend\App\Action
                 return;
             }
         }
-
         $this->_redirect('customer/group');
     }
 
     /**
      * Determine if authorized to perform group actions.
+     *
      * @return bool
      */
     protected function _isAllowed()
