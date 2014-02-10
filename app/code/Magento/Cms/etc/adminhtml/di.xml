@@ -8,9 +8,14 @@
  */
 -->
 <config>
-    <type name="Magento\Cms\Block\Adminhtml\Page\Grid\Renderer\Action">
+    <type name="Magento\Cms\Block\Adminhtml\Page\Grid\Renderer\Action\Context">
         <param name="urlBuilder">
             <instance type="Magento\Url"/>
+        </param>
+    </type>
+    <type name="Magento\Cms\Block\Adminhtml\Page\Grid\Renderer\Action">
+        <param name="context">
+            <instance type="Magento\Cms\Block\Adminhtml\Page\Grid\Renderer\Action\Context"/>
         </param>
     </type>
 </config>
