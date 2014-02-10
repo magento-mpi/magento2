@@ -14,9 +14,8 @@ namespace Magento\Sales\Model\Quote;
 use Magento\TestFramework\Helper\Bootstrap;
 
 /**
- * @magentoDataFixture Magento/Customer/_files/customer.php
- * @magentoDataFixture Magento/Customer/_files/customer_two_addresses.php
  * @magentoDataFixture Magento/Sales/_files/quote_with_customer.php
+ * @magentoDataFixture Magento/Customer/_files/customer_two_addresses.php
  */
 class AddressTest extends \PHPUnit_Framework_TestCase
 {
