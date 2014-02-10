@@ -596,22 +596,29 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
      *
      * @param bool|null $allowDuplication
      */
-    protected function _initTestTheme($allowDuplication = null)
+    protected function _initTestTheme($allowDuplication = false)
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
             \Magento\App\Filesystem::PARAM_APP_DIRS => array(
-                \Magento\App\Filesystem::THEMES_DIR => array('path' => dirname(__DIR__) . '/Core/Model/_files/design/')
+                \Magento\App\Filesystem::THEMES_DIR => array('path' => dirname(__DIR__) . '/Core/Model/_files/design')
             )
         ));
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\App\State')->setAreaCode('frontend');
 
         if ($allowDuplication !== null) {
-            $publisher = $objectManager->create(
-                'Magento\View\Publisher',
-                array('allowDuplication' => $allowDuplication)
-            );
-            $objectManager->addSharedInstance($publisher, 'Magento\View\Publisher');
+            $objectManager->configure(array(
+                'Magento\View\Publisher\CssFile' => array(
+                    'parameters' => array(
+                        'allowDuplication' => $allowDuplication
+                    )
+                ),
+                'Magento\View\Publisher\File' => array(
+                    'parameters' => array(
+                        'allowDuplication' => $allowDuplication
+                    )
+                ),
+            ));
         }
 
         // Reinit model with new directories

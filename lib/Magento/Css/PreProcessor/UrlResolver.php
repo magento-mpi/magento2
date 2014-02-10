@@ -9,6 +9,7 @@
 namespace Magento\Css\PreProcessor;
 
 use \Magento\View\Asset\PreProcessor\PreProcessorInterface;
+use Magento\Filesystem\Directory\WriteInterface;
 
 /**
  * Css pre-processor url resolver
@@ -16,12 +17,58 @@ use \Magento\View\Asset\PreProcessor\PreProcessorInterface;
 class UrlResolver implements PreProcessorInterface
 {
     /**
+     * @var WriteInterface
+     */
+    protected $rootDirectory;
+
+    /**
+     * @var \Magento\View\FileSystem
+     */
+    protected $viewFileSystem;
+
+    /**
+     * @var \Magento\View\RelatedFile
+     */
+    protected $relatedFile;
+
+    /**
+     * Helper to process css content
+     *
+     * @var \Magento\View\Url\CssResolver
+     */
+    protected $cssUrlResolver;
+
+    /**
+     * @var \Magento\View\Publisher
+     */
+    protected $publisher;
+
+    /**
+     * @var \Magento\Logger
+     */
+    protected $logger;
+
+    /**
+     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\View\FileSystem $viewFileSystem
+     * @param \Magento\View\RelatedFile $relatedFile
+     * @param \Magento\View\Url\CssResolver $cssUrlResolver
+     * @param \Magento\View\Publisher $publisher
+     * @param \Magento\Logger $logger
      */
     public function __construct(
+        \Magento\App\Filesystem $filesystem,
         \Magento\View\FileSystem $viewFileSystem,
+        \Magento\View\RelatedFile $relatedFile,
+        \Magento\View\Url\CssResolver $cssUrlResolver,
+        \Magento\View\Publisher $publisher,
         \Magento\Logger $logger
     ) {
+        $this->rootDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR);
         $this->viewFileSystem = $viewFileSystem;
+        $this->relatedFile = $relatedFile;
+        $this->cssUrlResolver = $cssUrlResolver;
+        $this->publisher = $publisher;
         $this->logger = $logger;
     }
 
@@ -34,50 +81,44 @@ class UrlResolver implements PreProcessorInterface
      */
     public function process(\Magento\View\Publisher\FileInterface $publisherFile, $targetDirectory)
     {
-        $filePath = $this->_viewFileSystem->normalizePath($publisherFile->getFilePath());
-        $sourcePath = $this->_viewFileSystem->normalizePath($publisherFile->getSourcePath());
-        $targetPath = $this->pathBuilder->buildPublishedFilePath($publisherFile);
-        $cssContent = $this->_getPublicCssContent(
-            $sourcePath,
-            $targetPath,
-            $filePath,
-            $publisherFile->getViewParams()
-        );
-        /**
-         * TODO: Decide where it should be
-         */
-//        $targetDirectory = $this->_filesystem->getDirectoryWrite(\Magento\App\Filesystem::STATIC_VIEW_DIR);
-//        $targetDirectory->writeFile($targetPathRelative, $cssContent);
-        return $publisherFile->getSourcePath();
-    }
-
-    /**
-     * Retrieve processed CSS file content that contains URLs relative to the specified public directory
-     *
-     * @param string $sourcePath Absolute path to the current location of CSS file
-     * @param string $publicPath Absolute path to location of the CSS file, where it will be published
-     * @param string $fileName File name used for reference
-     * @param array $params Design parameters
-     * @return string
-     */
-    protected function _getPublicCssContent($sourcePath, $publicPath, $fileName, $params)
-    {
+        $filePath = $this->viewFileSystem->normalizePath($publisherFile->getFilePath());
+        $sourcePath = $this->viewFileSystem->normalizePath($publisherFile->getSourcePath());
+        $targetPath = $this->publisher->buildPublicViewFilename($publisherFile);
         $content = $this->rootDirectory->readFile($this->rootDirectory->getRelativePath($sourcePath));
+        $params = $publisherFile->getViewParams();
 
-        $callback = function ($fileId, $originalPath) use ($fileName, $params) {
-            $relatedPathPublic = $this->_publishRelatedViewFile(
+        $callback = function ($fileId, $originalPath) use ($filePath, $params) {
+            $relatedPathPublic = $this->publishRelatedViewFile(
                 $fileId,
                 $originalPath,
-                $fileName,
+                $filePath,
                 $params
             );
             return $relatedPathPublic;
         };
         try {
-            $content = $this->_cssUrlResolver->replaceCssRelativeUrls($content, $sourcePath, $publicPath, $callback);
+            $content = $this->cssUrlResolver->replaceCssRelativeUrls($content, $sourcePath, $targetPath, $callback);
         } catch (\Magento\Exception $e) {
-            $this->_logger->logException($e);
+            $this->logger->logException($e);
         }
-        return $content;
+
+        $tmpFilePath = 'view' . '/' .  $publisherFile->getPublicationPath();
+        $targetDirectory->writeFile($tmpFilePath, $content);
+        return $targetDirectory->getAbsolutePath($tmpFilePath);
+    }
+
+    /**
+     * Publish file identified by $fileId basing on information about parent file path and name.
+     *
+     * @param string $fileId URL to the file that was extracted from $parentFilePath
+     * @param string $parentFilePath path to the file
+     * @param string $parentFileName original file name identifier that was requested for processing
+     * @param array $params theme/module parameters array
+     * @return string
+     */
+    protected function publishRelatedViewFile($fileId, $parentFilePath, $parentFileName, $params)
+    {
+        $relativeFilePath = $this->relatedFile->buildPath($fileId, $parentFilePath, $parentFileName, $params);
+        return $this->publisher->getPublicFilePath($relativeFilePath, $params);
     }
 }

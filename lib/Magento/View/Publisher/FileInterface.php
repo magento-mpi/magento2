@@ -45,4 +45,11 @@ interface FileInterface
      * @return string|null
      */
     public function getSourcePath();
+
+    /**
+     * Build unique file path for publication
+     *
+     * @return string
+     */
+    public function getPublicationPath();
 }

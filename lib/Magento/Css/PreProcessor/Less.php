@@ -92,7 +92,7 @@ class Less implements PreProcessorInterface
             return $publisherFile->getSourcePath();     // It's actually 'null'
         }
 
-        $tmpFilePath = $this->buildTmpFilePath($publisherFile->getFilePath(), $publisherFile->getViewParams());
+        $tmpFilePath = self::TMP_VIEW_DIR . '/' . $publisherFile->getPublicationPath();
 
         $targetDirectory->writeFile($tmpFilePath, $cssContent);
         return $targetDirectory->getAbsolutePath($tmpFilePath);

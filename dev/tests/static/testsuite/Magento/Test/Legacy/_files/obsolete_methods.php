@@ -1254,8 +1254,8 @@ return array(
     array('getAttributeDisabledTypes', 'Magento\Catalog\Helper\Data'),
     array('canSkipFilePublication', 'Magento\View\Publisher'),
     array('_getExtension', 'Magento\View\Publisher'),
-    array('_buildPublishedFilePath', 'Magento\View\Publisher', 'Magento\View\Publisher\PathBuilder'),
-    array('_buildPublicViewRedundantFilename', 'Magento\View\Publisher', 'Magento\View\Publisher\PathBuilder'),
-    array('_buildPublicViewSufficientFilename', 'Magento\View\Publisher', 'Magento\View\Publisher\PathBuilder'),
-    array('_buildPublicViewFilename', 'Magento\View\Publisher', 'Magento\View\Publisher\PathBuilder'),
+    array('_buildPublishedFilePath', 'Magento\View\Publisher', 'Magento\View\Publisher\File'),
+    array('_buildPublicViewRedundantFilename', 'Magento\View\Publisher', 'Magento\View\Publisher\File'),
+    array('_buildPublicViewSufficientFilename', 'Magento\View\Publisher', 'Magento\View\Publisher\File'),
+    array('_buildPublicViewFilename', 'Magento\View\Publisher', 'Magento\View\Publisher'),
 );
