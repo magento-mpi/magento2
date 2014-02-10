@@ -141,8 +141,8 @@ class Sitemap extends \Magento\Core\Model\AbstractModel
     protected $dateTime;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Escaper $escaper
      * @param \Magento\Sitemap\Helper\Data $sitemapData
      * @param \Magento\App\Filesystem $filesystem
@@ -158,8 +158,8 @@ class Sitemap extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Escaper $escaper,
         \Magento\Sitemap\Helper\Data $sitemapData,
         \Magento\App\Filesystem $filesystem,

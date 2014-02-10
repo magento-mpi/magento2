@@ -11,7 +11,7 @@
 
 namespace Magento\Catalog\Model\Config\Source\Price;
 
-class Scope implements \Magento\Core\Model\Option\ArrayInterface
+class Scope implements \Magento\Option\ArrayInterface
 {
     public function toOptionArray()
     {

@@ -10,7 +10,7 @@
 
 namespace Magento\Catalog\Model\Config\Source\Price;
 
-class Step implements \Magento\Core\Model\Option\ArrayInterface
+class Step implements \Magento\Option\ArrayInterface
 {
     public function toOptionArray()
     {

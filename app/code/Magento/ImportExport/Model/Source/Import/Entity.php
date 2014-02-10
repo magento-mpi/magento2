@@ -17,7 +17,7 @@
  */
 namespace Magento\ImportExport\Model\Source\Import;
 
-class Entity implements \Magento\Core\Model\Option\ArrayInterface
+class Entity implements \Magento\Option\ArrayInterface
 {
     /**
      * @var \Magento\ImportExport\Model\Import\ConfigInterface

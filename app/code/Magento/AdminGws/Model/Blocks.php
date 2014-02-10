@@ -19,7 +19,7 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -37,13 +37,13 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * @param \Magento\AdminGws\Model\Role $role
      * @param \Magento\Cms\Model\Resource\Page $cmsPageResource
      * @param \Magento\Catalog\Model\Resource\Category $categoryResource
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      */
     public function __construct(
         \Magento\AdminGws\Model\Role $role,
         \Magento\Cms\Model\Resource\Page $cmsPageResource,
         \Magento\Catalog\Model\Resource\Category $categoryResource,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Registry $coreRegistry
     ) {
         $this->_cmsPageResource = $cmsPageResource;
         $this->_categoryResource = $categoryResource;

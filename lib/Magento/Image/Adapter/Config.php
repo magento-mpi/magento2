@@ -1,11 +1,11 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Image\Adapter;
+namespace Magento\Image\Adapter;
 
 class Config implements \Magento\Image\Adapter\ConfigInterface
 {

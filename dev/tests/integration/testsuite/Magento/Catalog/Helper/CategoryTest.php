@@ -30,7 +30,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
             $helperClass = get_class($this->_helper);
             /** @var $objectManager \Magento\TestFramework\ObjectManager */
             $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-            $objectManager->get('Magento\Core\Model\Registry')->unregister('_helper/' . $helperClass);
+            $objectManager->get('Magento\Registry')->unregister('_helper/' . $helperClass);
         }
         $this->_helper = null;
     }

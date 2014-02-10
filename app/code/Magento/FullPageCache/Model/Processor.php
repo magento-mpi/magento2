@@ -125,7 +125,7 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
      * @param \Magento\Event\ManagerInterface $eventManager
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_registry = null;
 
@@ -179,7 +179,7 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
      * @param Metadata $metadata
      * @param Store\Identifier $storeIdentifier
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\App\Cache\TypeListInterface $typeList
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param Cookie $fpcCookie
@@ -201,7 +201,7 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
         Metadata $metadata,
         Store\Identifier $storeIdentifier,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\App\Cache\TypeListInterface $typeList,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         Cookie $fpcCookie,

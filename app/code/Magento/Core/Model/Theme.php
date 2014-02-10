@@ -111,8 +111,8 @@ class Theme extends \Magento\Core\Model\AbstractModel implements ThemeInterface
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\View\Design\Theme\FlyweightFactory $themeFactory,
         \Magento\View\Design\Theme\Domain\Factory $domainFactory,
         \Magento\View\Design\Theme\ImageFactory $imageFactory,

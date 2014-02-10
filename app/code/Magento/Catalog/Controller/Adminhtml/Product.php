@@ -31,7 +31,7 @@ class Product extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $registry = null;
 
@@ -57,7 +57,7 @@ class Product extends \Magento\Backend\App\Action
 
     /**
      * @param Action\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Core\Filter\Date $dateFilter
      * @param Product\Initialization\Helper $initializationHelper
      * @param Product\Initialization\StockDataFilter $stockFilter
@@ -65,7 +65,7 @@ class Product extends \Magento\Backend\App\Action
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Core\Filter\Date $dateFilter,
         \Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper $initializationHelper,
         \Magento\Catalog\Controller\Adminhtml\Product\Initialization\StockDataFilter $stockFilter,

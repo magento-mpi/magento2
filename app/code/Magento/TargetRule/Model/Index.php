@@ -99,8 +99,8 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
     protected $_productFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\TargetRule\Model\Resource\Rule\CollectionFactory $ruleFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\LocaleInterface $locale
@@ -113,8 +113,8 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\TargetRule\Model\Resource\Rule\CollectionFactory $ruleFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\LocaleInterface $locale,

@@ -182,8 +182,8 @@ class Rma extends \Magento\Core\Model\AbstractModel
     protected $messageManager;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Core\Model\Session $session
      * @param \Magento\Email\Model\TemplateFactory $templateFactory
@@ -214,8 +214,8 @@ class Rma extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Core\Model\Session $session,
         \Magento\Email\Model\TemplateFactory $templateFactory,

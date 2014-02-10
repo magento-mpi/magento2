@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Image\Adapter;
+namespace Magento\Image\Adapter;
 
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {
@@ -13,7 +13,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         /** @var Config $config */
         $config = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Image\Adapter\Config');
+            ->create('Magento\Image\Adapter\Config');
         $this->assertEquals(\Magento\Image\Adapter\AdapterInterface::ADAPTER_GD2, $config->getAdapterAlias());
     }
 }

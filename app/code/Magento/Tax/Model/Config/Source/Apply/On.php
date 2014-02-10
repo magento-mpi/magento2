@@ -9,7 +9,7 @@
  */
 namespace Magento\Tax\Model\Config\Source\Apply;
 
-class On implements \Magento\Core\Model\Option\ArrayInterface
+class On implements \Magento\Option\ArrayInterface
 {
     public function toOptionArray()
     {

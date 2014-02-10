@@ -48,7 +48,7 @@ class Navigation extends \Magento\View\Element\Template
     protected $_catalogCategoryFlat = null;
 
     /**
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_registry;
 
@@ -81,7 +81,7 @@ class Navigation extends \Magento\View\Element\Template
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Catalog\Helper\Category\Flat $catalogCategoryFlat
      * @param \Magento\Catalog\Helper\Category $catalogCategory
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
@@ -92,7 +92,7 @@ class Navigation extends \Magento\View\Element\Template
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Catalog\Helper\Category\Flat $catalogCategoryFlat,
         \Magento\Catalog\Helper\Category $catalogCategory,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_productCollectionFactory = $productCollectionFactory;

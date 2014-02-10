@@ -14,7 +14,7 @@ class Grid
     extends \Magento\Banner\Block\Adminhtml\Banner\Grid
 {
     /**
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_registry;
 
@@ -28,7 +28,7 @@ class Grid
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Banner\Model\Resource\Banner\CollectionFactory $bannerColFactory
      * @param \Magento\Banner\Model\Config $bannerConfig
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Banner\Model\BannerFactory $bannerFactory
      * @param array $data
      */
@@ -37,7 +37,7 @@ class Grid
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Banner\Model\Resource\Banner\CollectionFactory $bannerColFactory,
         \Magento\Banner\Model\Config $bannerConfig,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Banner\Model\BannerFactory $bannerFactory,
         array $data = array()
     ) {

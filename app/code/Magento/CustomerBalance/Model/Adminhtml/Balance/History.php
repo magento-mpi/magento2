@@ -25,8 +25,8 @@ class History extends \Magento\CustomerBalance\Model\Balance\History
     protected $_authSession;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\Email\Model\TemplateFactory $templateFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -37,8 +37,8 @@ class History extends \Magento\CustomerBalance\Model\Balance\History
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Email\Model\TemplateFactory $templateFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\View\DesignInterface $design,

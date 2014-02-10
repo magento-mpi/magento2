@@ -18,11 +18,11 @@ class Returns extends \Magento\View\Element\Template
      * @var \Magento\Rma\Helper\Data
      */
     protected $_rmaData = null;
-    
+
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -41,7 +41,7 @@ class Returns extends \Magento\View\Element\Template
      * @param \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Rma\Helper\Data $rmaData
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
@@ -49,7 +49,7 @@ class Returns extends \Magento\View\Element\Template
         \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Rma\Helper\Data $rmaData,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_rmaData = $rmaData;

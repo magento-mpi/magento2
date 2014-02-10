@@ -17,7 +17,7 @@
  */
 namespace Magento\TargetRule\Model\Rule\Options;
 
-class Applies implements \Magento\Core\Model\Option\ArrayInterface
+class Applies implements \Magento\Option\ArrayInterface
 {
 
     /**
@@ -37,7 +37,7 @@ class Applies implements \Magento\Core\Model\Option\ArrayInterface
 
     /**
      * Return statuses array
-     * 
+     *
      * @return array
      */
     public function toOptionArray()

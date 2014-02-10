@@ -124,8 +124,8 @@ class Reward extends \Magento\Core\Model\AbstractModel
     protected $_reward;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Reward\Helper\Customer $rewardCustomer
      * @param \Magento\Reward\Helper\Data $rewardData
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -140,8 +140,8 @@ class Reward extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Reward\Helper\Customer $rewardCustomer,
         \Magento\Reward\Helper\Data $rewardData,
         \Magento\Core\Model\StoreManagerInterface $storeManager,

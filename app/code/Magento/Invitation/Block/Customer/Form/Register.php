@@ -18,7 +18,7 @@ class Register extends \Magento\Customer\Block\Form\Register
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -33,9 +33,9 @@ class Register extends \Magento\Customer\Block\Form\Register
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Model\AddressFactory $addressFactory
      * @param \Magento\Customer\Helper\Data $customerHelper
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param array $data
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -49,7 +49,7 @@ class Register extends \Magento\Customer\Block\Form\Register
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Model\AddressFactory $addressFactory,
         \Magento\Customer\Helper\Data $customerHelper,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;

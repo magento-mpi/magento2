@@ -84,13 +84,13 @@ class EntityTest extends \PHPUnit_Framework_TestCase
         $eventDispatcher = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false, false);
         $cacheManager = $this->getMock('Magento\App\CacheInterface', array(), array(), '', false, false);
         $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
-        $context = new \Magento\Core\Model\Context($logger, $eventDispatcher, $cacheManager, $appState, $storeManager);
+        $context = new \Magento\Model\Context($logger, $eventDispatcher, $cacheManager, $appState, $storeManager);
         $giftRegistryData = $this->getMock('Magento\GiftRegistry\Helper\Data', array('getRegistryLink'),
             array(), '', false, false);
         $giftRegistryData->expects($this->any())
             ->method('getRegistryLink')
             ->will($this->returnArgument(0));
-        $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
+        $coreRegistry = $this->getMock('Magento\Registry', array(), array(), '', false);
 
         $attributeConfig = $this->getMock('Magento\GiftRegistry\Model\Attribute\Config', array(), array(), '', false);
         $item = $this->getMock('Magento\GiftRegistry\Model\Item', array(), array(), '', false);

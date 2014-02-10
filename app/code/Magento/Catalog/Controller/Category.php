@@ -22,7 +22,7 @@ class Category extends \Magento\App\Action\Action
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -57,7 +57,7 @@ class Category extends \Magento\App\Action\Action
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Catalog\Model\Design $catalogDesign
      * @param \Magento\Catalog\Model\Session $catalogSession
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
@@ -65,7 +65,7 @@ class Category extends \Magento\App\Action\Action
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Catalog\Model\Design $catalogDesign,
         \Magento\Catalog\Model\Session $catalogSession,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_storeManager = $storeManager;

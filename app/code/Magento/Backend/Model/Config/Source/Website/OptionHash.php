@@ -11,7 +11,7 @@
 namespace Magento\Backend\Model\Config\Source\Website;
 
 class OptionHash
-    implements \Magento\Core\Model\Option\ArrayInterface
+    implements \Magento\Option\ArrayInterface
 {
     /**
      * System Store Model

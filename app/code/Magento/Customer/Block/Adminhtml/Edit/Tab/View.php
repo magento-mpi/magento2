@@ -30,7 +30,7 @@ class View
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -58,7 +58,7 @@ class View
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Customer\Model\GroupFactory $groupFactory
      * @param \Magento\Log\Model\CustomerFactory $logFactory
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Log\Model\Visitor $modelVisitor
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param array $data
@@ -67,7 +67,7 @@ class View
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Customer\Model\GroupFactory $groupFactory,
         \Magento\Log\Model\CustomerFactory $logFactory,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Log\Model\Visitor $modelVisitor,
         \Magento\Stdlib\DateTime $dateTime,
         array $data = array()

@@ -32,9 +32,9 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $this->_model = $this->getMockBuilder('Magento\Email\Model\Template')
             ->setMethods(array('_getMail'))
             ->setConstructorArgs(array(
-                $objectManager->get('Magento\Core\Model\Context'),
+                $objectManager->get('Magento\Model\Context'),
                 $objectManager->get('Magento\View\DesignInterface'),
-                $objectManager->get('Magento\Core\Model\Registry'),
+                $objectManager->get('Magento\Registry'),
                 $objectManager->get('Magento\Core\Model\App\Emulation'),
                 $objectManager->get('Magento\Core\Model\StoreManager'),
                 $objectManager->create('Magento\App\Filesystem'),

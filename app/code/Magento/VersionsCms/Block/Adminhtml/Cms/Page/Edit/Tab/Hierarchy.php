@@ -34,7 +34,7 @@ class Hierarchy
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -58,7 +58,7 @@ class Hierarchy
      * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Json\DecoderInterface $jsonDecoder
      * @param \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\VersionsCms\Model\Resource\Hierarchy\Node\CollectionFactory $nodeCollectionFactory
      * @param array $data
      */
@@ -67,7 +67,7 @@ class Hierarchy
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Json\DecoderInterface $jsonDecoder,
         \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\VersionsCms\Model\Resource\Hierarchy\Node\CollectionFactory $nodeCollectionFactory,
         array $data = array()
     ) {

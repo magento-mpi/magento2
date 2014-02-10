@@ -14,7 +14,7 @@
  */
 namespace Magento\Reward\Model\Source\Points;
 
-class ExpiryCalculation implements \Magento\Core\Model\Option\ArrayInterface
+class ExpiryCalculation implements \Magento\Option\ArrayInterface
 {
     /**
      * @return array

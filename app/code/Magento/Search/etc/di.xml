@@ -46,7 +46,7 @@
             <instance type="Magento\Search\Helper\Data\Proxy" />
         </param>
         <param name="coreRegistry">
-            <instance type="Magento\Core\Model\Registry\Proxy" />
+            <instance type="Magento\Registry\Proxy" />
         </param>
     </type>
     <type name="Magento\Search\Model\Resource\Engine">

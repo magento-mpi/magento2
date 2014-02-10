@@ -192,7 +192,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
     protected $_orderResourceFactory;
 
     /**
-     * @var \Magento\Core\Model\CalculatorFactory
+     * @var \Magento\Math\CalculatorFactory
      */
     protected $_calculatorFactory;
 
@@ -222,8 +222,8 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
     protected $_emailInfoFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\LocaleInterface $coreLocale
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Payment\Helper\Data $paymentData
@@ -232,7 +232,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
      * @param \Magento\Sales\Model\Order\Invoice\Config $invoiceConfig
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Sales\Model\Resource\OrderFactory $orderResourceFactory
-     * @param \Magento\Core\Model\CalculatorFactory $calculatorFactory
+     * @param \Magento\Math\CalculatorFactory $calculatorFactory
      * @param \Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory $invoiceItemCollectionFactory
      * @param \Magento\Sales\Model\Order\Invoice\CommentFactory $invoiceCommentFactory
      * @param \Magento\Sales\Model\Resource\Order\Invoice\Comment\CollectionFactory $commentCollectionFactory
@@ -243,8 +243,8 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Core\Model\LocaleInterface $coreLocale,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Payment\Helper\Data $paymentData,
@@ -253,7 +253,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
         \Magento\Sales\Model\Order\Invoice\Config $invoiceConfig,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Sales\Model\Resource\OrderFactory $orderResourceFactory,
-        \Magento\Core\Model\CalculatorFactory $calculatorFactory,
+        \Magento\Math\CalculatorFactory $calculatorFactory,
         \Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory $invoiceItemCollectionFactory,
         \Magento\Sales\Model\Order\Invoice\CommentFactory $invoiceCommentFactory,
         \Magento\Sales\Model\Resource\Order\Invoice\Comment\CollectionFactory $commentCollectionFactory,
@@ -584,7 +584,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
     {
         if ($price) {
             if (!isset($this->_rounders[$type])) {
-                $this->_rounders[$type] = $this->_calculatorFactory->create(array('store' => $this->getStore()));
+                $this->_rounders[$type] = $this->_calculatorFactory->create(array('scope' => $this->getStore()));
             }
             $price = $this->_rounders[$type]->deltaRound($price, $negative);
         }

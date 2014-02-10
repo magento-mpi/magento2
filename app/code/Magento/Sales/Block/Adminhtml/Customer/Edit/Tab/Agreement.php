@@ -29,7 +29,7 @@ class Agreement
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -39,7 +39,7 @@ class Agreement
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Sales\Model\Resource\Billing\Agreement\CollectionFactory $agreementFactory
      * @param \Magento\Sales\Model\Billing\Agreement $agreementModel
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
@@ -48,7 +48,7 @@ class Agreement
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Sales\Model\Resource\Billing\Agreement\CollectionFactory $agreementFactory,
         \Magento\Sales\Model\Billing\Agreement $agreementModel,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;

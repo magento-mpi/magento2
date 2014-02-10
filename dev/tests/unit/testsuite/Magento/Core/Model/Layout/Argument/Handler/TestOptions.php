@@ -11,7 +11,7 @@
 
 namespace Magento\Core\Model\Layout\Argument\Handler;
 
-class TestOptions implements \Magento\Core\Model\Option\ArrayInterface
+class TestOptions implements \Magento\Option\ArrayInterface
 {
     public function toOptionArray()
     {

@@ -18,7 +18,7 @@ class Index extends \Magento\Backend\App\Action
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -43,14 +43,14 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * @param Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Invitation\Model\InvitationFactory $invitationFactory
      * @param \Magento\Invitation\Model\Config $config
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\Invitation\Model\InvitationFactory $invitationFactory,
         \Magento\Invitation\Model\Config $config,
         \Magento\Core\Model\StoreManagerInterface $storeManager

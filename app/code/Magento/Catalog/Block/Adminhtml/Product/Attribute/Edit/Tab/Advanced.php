@@ -35,7 +35,7 @@ class Advanced
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Backend\Model\Config\Source\Yesno $yesNo
      * @param \Magento\Eav\Helper\Data $eavData
@@ -43,7 +43,7 @@ class Advanced
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Backend\Model\Config\Source\Yesno $yesNo,
         \Magento\Eav\Helper\Data $eavData,

@@ -17,7 +17,7 @@
  */
 namespace Magento\Pbridge\Model\Source\Payone;
 
-class PaymentAction implements \Magento\Core\Model\Option\ArrayInterface
+class PaymentAction implements \Magento\Option\ArrayInterface
 {
     /**
      * Return list of available payment actions for gateway

@@ -19,7 +19,7 @@ class Stub extends \Magento\Cms\Block\Page
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -31,7 +31,7 @@ class Stub extends \Magento\Cms\Block\Page
      * @param \Magento\Cms\Model\Template\FilterProvider $filterProvider
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Cms\Model\PageFactory $pageFactory
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
@@ -40,7 +40,7 @@ class Stub extends \Magento\Cms\Block\Page
         \Magento\Cms\Model\Template\FilterProvider $filterProvider,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Cms\Model\PageFactory $pageFactory,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         parent::__construct($context, $page, $filterProvider, $storeManager, $pageFactory, $data);

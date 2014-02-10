@@ -17,7 +17,7 @@
  */
 namespace Magento\Reward\Model\Source;
 
-class Website implements \Magento\Core\Model\Option\ArrayInterface
+class Website implements \Magento\Option\ArrayInterface
 {
     /**
      * @var \Magento\Core\Model\System\Store

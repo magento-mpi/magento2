@@ -16,21 +16,21 @@ namespace Magento\Sales\Model\Billing\Agreement;
 class OrdersUpdater implements \Magento\Core\Model\Layout\Argument\UpdaterInterface
 {
     /**
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_registryManager;
 
     /**
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param array $data
      * @throws \InvalidArgumentException
      */
-    public function __construct(\Magento\Core\Model\Registry $coreRegistry, array $data = array())
+    public function __construct(\Magento\Registry $coreRegistry, array $data = array())
     {
         $this->_registryManager = isset($data['registry']) ? $data['registry'] : $coreRegistry;
 
-        if (false === ($this->_registryManager instanceof \Magento\Core\Model\Registry)) {
-            throw new \InvalidArgumentException('registry object has to be an instance of \Magento\Core\Model\Registry');
+        if (false === ($this->_registryManager instanceof \Magento\Registry)) {
+            throw new \InvalidArgumentException('registry object has to be an instance of \Magento\Registry');
         }
     }
 

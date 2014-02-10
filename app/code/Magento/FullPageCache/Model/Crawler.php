@@ -74,8 +74,8 @@ class Crawler extends \Magento\Core\Model\AbstractModel
     protected $_storeManager;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\WebsiteRestriction\Helper\Data $websiteRestricData
      * @param \Magento\App\Cache\StateInterface $cacheState
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -84,8 +84,8 @@ class Crawler extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\WebsiteRestriction\Helper\Data $websiteRestricData,
         \Magento\App\Cache\StateInterface $cacheState,
         \Magento\Core\Model\StoreManagerInterface $storeManager,

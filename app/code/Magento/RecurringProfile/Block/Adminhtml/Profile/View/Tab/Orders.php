@@ -18,7 +18,7 @@ class Orders
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -35,7 +35,7 @@ class Orders
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Sales\Model\Resource\Order\Grid\CollectionFactory $orderCollection
      * @param \Magento\Sales\Model\Order\ConfigFactory $orderConfig
      * @param array $data
@@ -43,7 +43,7 @@ class Orders
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\Sales\Model\Resource\Order\Grid\CollectionFactory $orderCollection,
         \Magento\Sales\Model\Order\ConfigFactory $orderConfig,
         array $data = array()

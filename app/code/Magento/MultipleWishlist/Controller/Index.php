@@ -59,7 +59,7 @@ class Index extends \Magento\Wishlist\Controller\Index
     /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Wishlist\Model\Config $wishlistConfig
      * @param \Magento\App\Response\Http\FileFactory $fileResponseFactory
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
@@ -72,7 +72,7 @@ class Index extends \Magento\Wishlist\Controller\Index
     public function __construct(
         \Magento\App\Action\Context $context,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\Wishlist\Model\Config $wishlistConfig,
         \Magento\App\Response\Http\FileFactory $fileResponseFactory,
         \Magento\Wishlist\Model\ItemFactory $itemFactory,

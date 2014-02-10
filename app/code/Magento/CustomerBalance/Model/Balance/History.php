@@ -67,8 +67,8 @@ class History extends \Magento\Core\Model\AbstractModel
     protected $_templateFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Email\Model\TemplateFactory $templateFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\View\DesignInterface $design
@@ -78,8 +78,8 @@ class History extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Email\Model\TemplateFactory $templateFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\View\DesignInterface $design,

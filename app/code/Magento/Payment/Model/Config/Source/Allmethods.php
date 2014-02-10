@@ -10,7 +10,7 @@
 
 namespace Magento\Payment\Model\Config\Source;
 
-class Allmethods implements \Magento\Core\Model\Option\ArrayInterface
+class Allmethods implements \Magento\Option\ArrayInterface
 {
     /**
      * Payment data

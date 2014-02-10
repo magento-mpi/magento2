@@ -42,7 +42,7 @@ class Grid
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -62,7 +62,7 @@ class Grid
      * @param \Magento\Rma\Model\Resource\ItemFactory $itemFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Rma\Helper\Data $rmaData
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
@@ -71,7 +71,7 @@ class Grid
         \Magento\Rma\Model\Resource\ItemFactory $itemFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Rma\Helper\Data $rmaData,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_itemFactory = $itemFactory;

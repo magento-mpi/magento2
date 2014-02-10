@@ -269,8 +269,8 @@ class Quote extends \Magento\Core\Model\AbstractModel
     protected $_objectCopyService;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Sales\Helper\Data $salesData
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
@@ -293,8 +293,8 @@ class Quote extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Sales\Helper\Data $salesData,
         \Magento\Catalog\Helper\Product $catalogProduct,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,

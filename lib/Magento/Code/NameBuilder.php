@@ -1,19 +1,15 @@
 <?php
 /**
+ * Name builder
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Code;
 
-namespace Magento\Core\Helper;
-
-/**
- * Core data helper
- */
-class String extends \Magento\App\Helper\AbstractHelper
+class NameBuilder
 {
     /**
      * Builds namespace + classname out of the parts array
@@ -24,7 +20,7 @@ class String extends \Magento\App\Helper\AbstractHelper
      * @param $parts
      * @return string
      */
-    public static function buildClassName($parts)
+    public function buildClassName($parts)
     {
         $separator = \Magento\Autoload\IncludePath::NS_SEPARATOR;
         $string = join($separator, $parts);

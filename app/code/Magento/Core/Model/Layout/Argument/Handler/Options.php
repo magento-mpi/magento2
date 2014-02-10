@@ -83,7 +83,7 @@ class Options extends \Magento\Core\Model\Layout\Argument\AbstractHandler
             );
         }
 
-        if (!is_subclass_of($value['model'], 'Magento\Core\Model\Option\ArrayInterface')) {
+        if (!is_subclass_of($value['model'], 'Magento\Option\ArrayInterface')) {
             throw new \InvalidArgumentException(
                 'Incorrect options model. ' . $this->_getArgumentInfo($argument)
             );

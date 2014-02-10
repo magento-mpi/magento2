@@ -12,12 +12,12 @@ use Magento\Integration\Controller\Adminhtml\Integration as IntegrationControlle
 
 class Data extends \Magento\App\Helper\AbstractHelper
 {
-    /** @var \Magento\Core\Model\Registry */
+    /** @var \Magento\Registry */
     protected $_registry;
 
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\Core\Model\Registry $registry
+        \Magento\Registry $registry
     ) {
         $this->_registry = $registry;
         parent::__construct($context);

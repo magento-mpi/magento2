@@ -18,7 +18,7 @@
  */
 namespace Magento\Catalog\Model\Config\Source;
 
-class ListPerPage implements \Magento\Core\Model\Option\ArrayInterface
+class ListPerPage implements \Magento\Option\ArrayInterface
 {
     /**
      * @var array

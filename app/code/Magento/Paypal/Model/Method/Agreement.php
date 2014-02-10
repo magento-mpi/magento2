@@ -63,7 +63,7 @@ class Agreement extends \Magento\Sales\Model\Payment\Method\Billing\AbstractAgre
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
-     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory
      * @param \Magento\Sales\Model\Billing\AgreementFactory $agreementFactory
@@ -77,7 +77,7 @@ class Agreement extends \Magento\Sales\Model\Payment\Method\Billing\AbstractAgre
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
-        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Sales\Model\Billing\AgreementFactory $agreementFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory,

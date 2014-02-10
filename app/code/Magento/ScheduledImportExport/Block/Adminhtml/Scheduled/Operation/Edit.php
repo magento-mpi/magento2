@@ -30,7 +30,7 @@ class Edit
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -43,14 +43,14 @@ class Edit
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\ScheduledImportExport\Model\Scheduled\OperationFactory $operationFactory
      * @param \Magento\ScheduledImportExport\Helper\Data $importExportData
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\ScheduledImportExport\Model\Scheduled\OperationFactory $operationFactory,
         \Magento\ScheduledImportExport\Helper\Data $importExportData,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_operationFactory = $operationFactory;

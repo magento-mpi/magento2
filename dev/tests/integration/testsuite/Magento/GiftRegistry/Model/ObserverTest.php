@@ -26,7 +26,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     {
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Core\Model\Registry')->register('isSecureArea', true);
+        $objectManager->get('Magento\Registry')->register('isSecureArea', true);
 
         $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Customer\Model\Customer');

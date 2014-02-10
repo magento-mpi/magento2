@@ -1,17 +1,13 @@
 <?php
 /**
+ * Array optioned object factory
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Array optioned object factory
- */
-namespace Magento\Core\Model\Option;
+namespace Magento\Option;
 
 class ArrayPool
 {
@@ -33,14 +29,14 @@ class ArrayPool
      *
      * @param string $model
      * @throws \InvalidArgumentException
-     * @return \Magento\Core\Model\Option\ArrayInterface
+     * @return \Magento\Option\ArrayInterface
      */
     public function get($model)
     {
         $modelInstance = $this->_objectManager->get($model);
-        if (false == ($modelInstance instanceof \Magento\Core\Model\Option\ArrayInterface)) {
+        if (false == ($modelInstance instanceof \Magento\Option\ArrayInterface)) {
             throw new \InvalidArgumentException(
-                $model . 'doesn\'t implement \Magento\Core\Model\Option\ArrayInterface'
+                $model . 'doesn\'t implement \Magento\Option\ArrayInterface'
             );
         }
         return $modelInstance;

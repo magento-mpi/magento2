@@ -18,7 +18,7 @@
  */
 namespace Magento\Usa\Model\Shipping\Carrier\Ups\Source;
 
-class Mode implements \Magento\Core\Model\Option\ArrayInterface
+class Mode implements \Magento\Option\ArrayInterface
 {
     /**
      * @return array

@@ -25,7 +25,7 @@ class AssociatedProductTest extends \PHPUnit_Framework_TestCase
         $product->setId(10);
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Core\Model\Registry')->register('current_product', $product);
+        $objectManager->get('Magento\Registry')->register('current_product', $product);
         $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Catalog\Model\Resource\Product\Collection\AssociatedProduct');
         $collectionProduct = $collection->getFirstItem();
@@ -48,7 +48,7 @@ class AssociatedProductTest extends \PHPUnit_Framework_TestCase
         $product->load(1); // fixture
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Core\Model\Registry')->register('current_product', $product);
+        $objectManager->get('Magento\Registry')->register('current_product', $product);
         $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Catalog\Model\Resource\Product\Collection\AssociatedProduct');
         $this->assertEmpty($collection->count());

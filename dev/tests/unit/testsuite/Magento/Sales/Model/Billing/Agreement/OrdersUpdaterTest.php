@@ -52,7 +52,7 @@ class OrdersUpdaterTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_registryMock = $this->getMock(
-            'Magento\Core\Model\Registry',
+            'Magento\Registry',
             array(),
             array(),
             '',

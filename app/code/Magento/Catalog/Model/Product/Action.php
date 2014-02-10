@@ -35,8 +35,8 @@ class Action extends \Magento\Core\Model\AbstractModel
     protected $_productWebsiteFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Model\Context $context
+     * @param \Magento\Registry $registry
      * @param \Magento\Catalog\Model\Product\WebsiteFactory $productWebsiteFactory
      * @param \Magento\Index\Model\Indexer $indexIndexer
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -44,8 +44,8 @@ class Action extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Model\Context $context,
+        \Magento\Registry $registry,
         \Magento\Catalog\Model\Product\WebsiteFactory $productWebsiteFactory,
         \Magento\Index\Model\Indexer $indexIndexer,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,

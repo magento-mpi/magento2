@@ -17,7 +17,7 @@
  */
 namespace Magento\Catalog\Model\Config\Source\Product;
 
-class Thumbnail implements \Magento\Core\Model\Option\ArrayInterface
+class Thumbnail implements \Magento\Option\ArrayInterface
 {
     const OPTION_USE_PARENT_IMAGE = 'parent';
     const OPTION_USE_OWN_IMAGE = 'itself';

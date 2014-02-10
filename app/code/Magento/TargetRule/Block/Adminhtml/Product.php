@@ -30,7 +30,7 @@ class Product extends \Magento\Backend\Block\Widget
      * @param \Magento\TargetRule\Helper\Data $targetRuleData
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -43,14 +43,14 @@ class Product extends \Magento\Backend\Block\Widget
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\TargetRule\Model\Source\Position $position
      * @param \Magento\TargetRule\Helper\Data $targetRuleData
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\TargetRule\Model\Source\Position $position,
         \Magento\TargetRule\Helper\Data $targetRuleData,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_position = $position;

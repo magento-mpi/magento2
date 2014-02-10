@@ -57,9 +57,9 @@ class QueueTest extends \PHPUnit_Framework_TestCase
         $emailTemplate = $this->getMock('Magento\Email\Model\Template',
             array('_getMail', '_getLogoUrl', '__wakeup', 'setTemplateFilter'),
             array(
-                $objectManager->get('Magento\Core\Model\Context'),
+                $objectManager->get('Magento\Model\Context'),
                 $design,
-                $objectManager->get('Magento\Core\Model\Registry'),
+                $objectManager->get('Magento\Registry'),
                 $appEmulation,
                 $objectManager->get('Magento\Core\Model\StoreManagerInterface'),
                 $objectManager->get('Magento\App\Filesystem'),
@@ -103,9 +103,9 @@ class QueueTest extends \PHPUnit_Framework_TestCase
         $template = $this->getMock('Magento\Email\Model\Template',
             array('_getMail', '_getLogoUrl', '__wakeup'),
             array(
-                $objectManager->get('Magento\Core\Model\Context'),
+                $objectManager->get('Magento\Model\Context'),
                 $objectManager->get('Magento\Core\Model\View\Design'),
-                $objectManager->get('Magento\Core\Model\Registry'),
+                $objectManager->get('Magento\Registry'),
                 $objectManager->get('Magento\Core\Model\App\Emulation'),
                 $objectManager->get('Magento\Core\Model\StoreManagerInterface'),
                 $objectManager->get('Magento\App\Filesystem'),

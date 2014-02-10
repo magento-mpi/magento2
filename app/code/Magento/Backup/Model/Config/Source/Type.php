@@ -17,7 +17,7 @@
  */
 namespace Magento\Backup\Model\Config\Source;
 
-class Type implements \Magento\Core\Model\Option\ArrayInterface
+class Type implements \Magento\Option\ArrayInterface
 {
     /**
      * Backup data
