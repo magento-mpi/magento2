@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ScheduledImportExport\Model;
+
+use Magento\Filesystem\FilesystemException;
 
 /**
  * ImportExport module observer
@@ -15,10 +18,6 @@
  * @package     Magento_ScheduledImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ScheduledImportExport\Model;
-
-use Magento\Filesystem\FilesystemException;
-
 class Observer
 {
     /**
@@ -88,7 +87,7 @@ class Observer
      * @param \Magento\Email\Model\InfoFactory $emailInfoFactory
      * @param \Magento\Email\Model\Template\Mailer $templateMailer
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager,
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\Filesystem $filesystem
      */
     public function __construct(
@@ -112,7 +111,7 @@ class Observer
      *
      * @param \Magento\Cron\Model\Schedule $schedule
      * @param bool $forceRun
-     * @return bool
+     * @return bool|void
      */
     public function scheduledLogClean($schedule, $forceRun = false)
     {

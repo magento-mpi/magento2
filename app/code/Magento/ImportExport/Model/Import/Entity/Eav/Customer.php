@@ -423,7 +423,7 @@ class Customer
      *
      * @param array $rowData
      * @param int $rowNumber
-     * @return null
+     * @return void
      */
     protected function _validateRowForUpdate(array $rowData, $rowNumber)
     {
@@ -464,7 +464,7 @@ class Customer
      *
      * @param array $rowData
      * @param int $rowNumber
-     * @return null
+     * @return void
      */
     protected function _validateRowForDelete(array $rowData, $rowNumber)
     {

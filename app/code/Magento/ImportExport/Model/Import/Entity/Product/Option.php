@@ -698,6 +698,7 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      *
      * @param string $errorCode
      * @param array $errorNumbers
+     * @return void
      */
     protected function _addRowsErrors($errorCode, array $errorNumbers)
     {
@@ -753,7 +754,8 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      * Save validated option data
      *
      * @param array $rowData
-     * @param $rowNumber
+     * @param int $rowNumber
+     * @return void
      */
     protected function _saveNewOptionData(array $rowData, $rowNumber)
     {
@@ -958,8 +960,8 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     /**
      * Checks that complex options contain values
      *
-     * @param array $options
-     * @param array $titles
+     * @param array &$options
+     * @param array &$titles
      * @param array $typeValues
      * @return bool
      */
@@ -1065,10 +1067,10 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      * Collect custom option main data to import
      *
      * @param array $rowData
-     * @param int $prevOptionId
-     * @param int $nextOptionId
-     * @param array $products
-     * @param array $prices
+     * @param int &$prevOptionId
+     * @param int &$nextOptionId
+     * @param array &$products
+     * @param array &$prices
      * @return array|null
      */
     protected function _collectOptionMainData(array $rowData, &$prevOptionId, &$nextOptionId, array &$products,
@@ -1098,11 +1100,12 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      * Collect custom option type data to import
      *
      * @param array $rowData
-     * @param int $prevOptionId
-     * @param int $nextValueId
-     * @param array $typeValues
-     * @param array $typePrices
-     * @param array $typeTitles
+     * @param int &$prevOptionId
+     * @param int &$nextValueId
+     * @param array &$typeValues
+     * @param array &$typePrices
+     * @param array &$typeTitles
+     * @return void
      */
     protected function _collectOptionTypeData(array $rowData, &$prevOptionId, &$nextValueId, array &$typeValues,
         array &$typePrices, array &$typeTitles
@@ -1143,7 +1146,8 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      *
      * @param array $rowData
      * @param int $prevOptionId
-     * @param array $titles
+     * @param array &$titles
+     * @return void
      */
     protected function _collectOptionTitle(array $rowData, $prevOptionId, array &$titles)
     {
@@ -1160,10 +1164,10 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     /**
      * Find duplicated custom options and update existing options data
      *
-     * @param array $options
-     * @param array $titles
-     * @param array $prices
-     * @param array $typeValues
+     * @param array &$options
+     * @param array &$titles
+     * @param array &$prices
+     * @param array &$typeValues
      * @return $this
      */
     protected function _compareOptionsWithExisting(array &$options, array &$titles, array &$prices, array &$typeValues)

@@ -161,7 +161,7 @@ class Configurable
     /**
      * Add attribute parameters to appropriate attribute set.
      *
-     * @param string $attrParams Name of attribute set.
+     * @param string $attrSetName Name of attribute set.
      * @param array $attrParams Refined attribute parameters.
      * @return \Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType
      */
@@ -308,7 +308,7 @@ class Configurable
      * Validate and prepare data about super attributes and associated products.
      *
      * @param array $superData
-     * @param array $superAttributes
+     * @param array &$superAttributes
      * @return $this
      */
     protected function _processSuperData(array $superData, array &$superAttributes)

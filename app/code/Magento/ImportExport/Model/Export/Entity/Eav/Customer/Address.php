@@ -91,7 +91,9 @@ class Address
     protected $_customerEntity;
 
     /**
-     * Existing customers information. In form of:
+     * Existing customers information.
+     *
+     * In form of:
      *
      * [customer e-mail] => array(
      *    [website id 1] => customer_id 1,
@@ -221,7 +223,7 @@ class Address
      * Export given customer address data plus related customer data (required for import)
      *
      * @param \Magento\Customer\Model\Address $item
-     * @return string
+     * @return void
      */
     public function exportItem($item)
     {

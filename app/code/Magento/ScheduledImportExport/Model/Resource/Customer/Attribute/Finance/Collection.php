@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance;
 
 /**
  * Export customer finance entity model
@@ -15,8 +16,6 @@
  * @package     Magento_ScheduledImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance;
-
 class Collection
     extends \Magento\Data\Collection
 {
@@ -34,7 +33,9 @@ class Collection
     const COLUMN_REWARD_POINTS    = 'reward_points';
     /**#@-*/
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $_orderField;
 
     /**

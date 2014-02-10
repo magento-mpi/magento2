@@ -126,13 +126,13 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
      * @param \Magento\Core\Model\Log\AdapterFactory $adapterFactory
      * @param \Magento\ImportExport\Helper\Data $importExportData
      * @param \Magento\App\ConfigInterface $coreConfig
-     * @param Import\ConfigInterface $importConfig
-     * @param Import\Entity\Factory $entityFactory
-     * @param Resource\Import\Data $importData
-     * @param Export\Adapter\CsvFactory $csvFactory
-     * @param FileTransferFactory $httpFactory
+     * @param \Magento\ImportExport\Model\Import\ConfigInterface $importConfig
+     * @param \Magento\ImportExport\Model\Import\Entity\Factory $entityFactory
+     * @param \Magento\ImportExport\Model\Resource\Import\Data $importData
+     * @param \Magento\ImportExport\Model\Export\Adapter\CsvFactory $csvFactory
+     * @param \Magento\HTTP\Adapter\FileTransferFactory $httpFactory
      * @param \Magento\Core\Model\File\UploaderFactory $uploaderFactory
-     * @param Source\Import\Behavior\Factory $behaviorFactory
+     * @param \Magento\ImportExport\Model\Source\Import\Behavior\Factory $behaviorFactory
      * @param \Magento\Index\Model\Indexer $indexer
      * @param array $data
      */

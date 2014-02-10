@@ -164,8 +164,8 @@ class Export extends \Magento\ImportExport\Model\AbstractModel
     /**
      * Export data.
      *
-     * @throws \Magento\Core\Exception
      * @return string
+     * @throws \Magento\Core\Exception
      */
     public function export()
     {

@@ -124,7 +124,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
     /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\App\Filesystem $filesystem,
+     * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\GenericFactory $schedOperFactory
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\DataFactory $operationFactory
@@ -388,9 +388,9 @@ class Operation extends \Magento\Core\Model\AbstractModel
      * Load operation by cron job code.
      * Operation id must present in job code.
      *
-     * @throws \Magento\Core\Exception
      * @param string $jobCode
      * @return $this
+     * @throws \Magento\Core\Exception
      */
     public function loadByJobCode($jobCode)
     {
@@ -491,10 +491,10 @@ class Operation extends \Magento\Core\Model\AbstractModel
     /**
      * Save/upload file to server (ftp, local)
      *
-     * @throws \Magento\Core\Exception
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface $operation
      * @param string $fileContent
      * @return bool
+     * @throws \Magento\Core\Exception
      */
     public function saveFileSource(
         \Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface $operation,
@@ -569,9 +569,9 @@ class Operation extends \Magento\Core\Model\AbstractModel
     /**
      * Save operation file history.
      *
-     * @throws \Magento\Core\Exception
      * @param string $source
      * @return $this
+     * @throws \Magento\Core\Exception
      */
     protected function _saveOperationHistory($source)
     {

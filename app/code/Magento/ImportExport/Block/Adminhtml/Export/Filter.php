@@ -9,6 +9,8 @@
  */
 namespace Magento\ImportExport\Block\Adminhtml\Export;
 
+use Magento\Eav\Model\Entity\Attribute;
+
 /**
  * Export filter block
  *
@@ -50,6 +52,8 @@ class Filter extends \Magento\Backend\Block\Widget\Grid\Extended
 
     /**
      * Set grid parameters.
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -69,11 +73,11 @@ class Filter extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Date 'from-to' filter HTML with values
      *
-     * @param \Magento\Eav\Model\Entity\Attribute $attribute
+     * @param Attribute $attribute
      * @param mixed $value
      * @return string
      */
-    protected function _getDateFromToHtmlWithValue(\Magento\Eav\Model\Entity\Attribute $attribute, $value)
+    protected function _getDateFromToHtmlWithValue(Attribute $attribute, $value)
     {
         $arguments = array(
             'name'         => $this->getFilterElementName($attribute->getAttributeCode()) . '[]',
@@ -102,11 +106,11 @@ class Filter extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Input text filter HTML with value
      *
-     * @param \Magento\Eav\Model\Entity\Attribute $attribute
+     * @param Attribute $attribute
      * @param mixed $value
      * @return string
      */
-    protected function _getInputHtmlWithValue(\Magento\Eav\Model\Entity\Attribute $attribute, $value)
+    protected function _getInputHtmlWithValue(Attribute $attribute, $value)
     {
         $html = '<input type="text" name="' . $this->getFilterElementName($attribute->getAttributeCode())
              . '" class="input-text input-text-export-filter"';
@@ -119,11 +123,11 @@ class Filter extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Multiselect field filter HTML with selected values
      *
-     * @param \Magento\Eav\Model\Entity\Attribute $attribute
+     * @param Attribute $attribute
      * @param mixed $value
      * @return string
      */
-    protected function _getMultiSelectHtmlWithValue(\Magento\Eav\Model\Entity\Attribute $attribute, $value)
+    protected function _getMultiSelectHtmlWithValue(Attribute $attribute, $value)
     {
         if ($attribute->getFilterOptions()) {
             $options = $attribute->getFilterOptions();
@@ -159,11 +163,11 @@ class Filter extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Number 'from-to' field filter HTML with selected value.
      *
-     * @param \Magento\Eav\Model\Entity\Attribute $attribute
+     * @param Attribute $attribute
      * @param mixed $value
      * @return string
      */
-    protected function _getNumberFromToHtmlWithValue(\Magento\Eav\Model\Entity\Attribute $attribute, $value)
+    protected function _getNumberFromToHtmlWithValue(Attribute $attribute, $value)
     {
         $fromValue = null;
         $toValue = null;
@@ -184,11 +188,11 @@ class Filter extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Select field filter HTML with selected value.
      *
-     * @param \Magento\Eav\Model\Entity\Attribute $attribute
+     * @param Attribute $attribute
      * @param mixed $value
      * @return string
      */
-    protected function _getSelectHtmlWithValue(\Magento\Eav\Model\Entity\Attribute $attribute, $value)
+    protected function _getSelectHtmlWithValue(Attribute $attribute, $value)
     {
         if ($attribute->getFilterOptions()) {
             $options = array();
@@ -281,12 +285,12 @@ class Filter extends \Magento\Backend\Block\Widget\Grid\Extended
      * Create filter fields for 'Filter' column.
      *
      * @param mixed $value
-     * @param \Magento\Eav\Model\Entity\Attribute $row
+     * @param Attribute $row
      * @param \Magento\Object $column
      * @param boolean $isExport
      * @return string
      */
-    public function decorateFilter($value, \Magento\Eav\Model\Entity\Attribute $row, \Magento\Object $column, $isExport)
+    public function decorateFilter($value, Attribute $row, \Magento\Object $column, $isExport)
     {
         $value  = null;
         $values = $column->getValues();
@@ -337,7 +341,7 @@ class Filter extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Get row edit URL.
      *
-     * @param $row
+     * @param Attribute $row
      * @return string|false
      */
     public function getRowUrl($row)

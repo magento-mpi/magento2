@@ -56,6 +56,7 @@ class Uploader extends \Magento\Core\Model\File\Uploader
      * @param \Magento\Core\Helper\File\Storage $coreFileStorage
      * @param \Magento\Image\AdapterFactory $imageFactory
      * @param \Magento\Core\Model\File\Validator\NotProtectedExtension $validator
+     * @param \Magento\App\Filesystem $filesystem
      * @param string $filePath
      */
     public function __construct(

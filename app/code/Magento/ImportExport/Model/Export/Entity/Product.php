@@ -538,8 +538,8 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
     /**
      * Update data row with information about categories. Return true, if data row was updated
      *
-     * @param array $dataRow
-     * @param array $rowCategories
+     * @param array &$dataRow
+     * @param array &$rowCategories
      * @param int $productId
      * @return bool
      */

@@ -192,7 +192,7 @@ class Finance
      * Export given customer data
      *
      * @param \Magento\Customer\Model\Customer $item
-     * @return string
+     * @return void
      */
     public function exportItem($item)
     {

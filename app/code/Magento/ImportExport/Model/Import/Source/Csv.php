@@ -58,8 +58,6 @@ class Csv extends \Magento\ImportExport\Model\Import\AbstractSource
 
     /**
      * Close file handle
-     *
-     * @return void
      */
     public function __destruct()
     {

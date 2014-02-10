@@ -387,7 +387,7 @@ class Finance extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCust
      *
      * @param array $rowData
      * @param int $rowNumber
-     * @return null
+     * @return void
      */
     protected function _validateRowForUpdate(array $rowData, $rowNumber)
     {
@@ -431,7 +431,7 @@ class Finance extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCust
      *
      * @param array $rowData
      * @param int $rowNumber
-     * @return null
+     * @return void
      */
     protected function _validateRowForDelete(array $rowData, $rowNumber)
     {
