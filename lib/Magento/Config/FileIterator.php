@@ -59,7 +59,7 @@ class FileIterator implements \Iterator, \Countable
     /**
      *Rewind
      *
-     * @return mixed the value of the first array element, or false if the array is empty
+     * @return void
      */
     function rewind()
     {
@@ -93,8 +93,7 @@ class FileIterator implements \Iterator, \Countable
     /**
      * Next
      *
-     * @return mixed the array value in the next place that's pointed to by the
-     * internal array pointer, or false if there are no more elements.
+     * @return void
      */
     function next()
     {

@@ -106,7 +106,6 @@ class SessionManager implements SessionManagerInterface
     /**
      * This method needs to support sessions with APC enabled
      * @return void
-     *
      */
     public function writeClose()
     {
