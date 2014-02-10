@@ -31,12 +31,12 @@ class RelatedFile
     /**
      * @param Service $viewService
      * @param FileSystem $viewFileSystem
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
      */
     public function __construct(
         Service $viewService,
         FileSystem $viewFileSystem,
-        \Magento\Filesystem $filesystem
+        \Magento\App\Filesystem $filesystem
     ) {
         $this->viewService = $viewService;
         $this->viewFileSystem = $viewFileSystem;

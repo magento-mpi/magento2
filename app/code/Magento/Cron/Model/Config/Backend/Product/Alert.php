@@ -22,12 +22,12 @@ class Alert extends \Magento\Core\Model\Config\Value
     /**
      * Cron string path
      */
-    const CRON_STRING_PATH = 'crontab/jobs/catalog_product_alert/schedule/cron_expr';
+    const CRON_STRING_PATH = 'crontab/default/jobs/catalog_product_alert/schedule/cron_expr';
 
     /**
      * Cron model path
      */
-    const CRON_MODEL_PATH  = 'crontab/jobs/catalog_product_alert/run/model';
+    const CRON_MODEL_PATH  = 'crontab/default/jobs/catalog_product_alert/run/model';
 
     /**
      * @var \Magento\Core\Model\Config\ValueFactory
