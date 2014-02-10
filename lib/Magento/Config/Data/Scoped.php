@@ -52,6 +52,8 @@ class Scoped extends \Magento\Config\Data
     protected $_loadedScopes = array();
 
     /**
+     * Constructor
+     *
      * @param \Magento\Config\ReaderInterface $reader
      * @param \Magento\Config\ScopeInterface $configScope
      * @param \Magento\Config\CacheInterface $cache
@@ -84,6 +86,8 @@ class Scoped extends \Magento\Config\Data
 
     /**
      * Load data for current scope
+     *
+     * @return void
      */
     protected function _loadScopedData()
     {

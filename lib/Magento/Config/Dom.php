@@ -104,6 +104,7 @@ class Dom
      *
      * @param \DOMElement $node
      * @param string $parentPath path to parent node
+     * @return void
      */
     protected function _mergeNode(\DOMElement $node, $parentPath)
     {
@@ -141,7 +142,7 @@ class Dom
     /**
      * Check if the node content is text
      *
-     * @param $node
+     * @param \DOMElement $node
      * @return bool
      */
     protected function _isTextNode($node)
@@ -152,9 +153,9 @@ class Dom
     /**
      * Merges attributes of the merge node to the base node
      *
-     * @param $baseNode
-     * @param $mergeNode
-     * @return null
+     * @param \DOMElement $baseNode
+     * @param \DOMElement $mergeNode
+     * @return void
      */
     protected function _mergeAttributes($baseNode, $mergeNode)
     {
@@ -203,7 +204,7 @@ class Dom
      * Getter for node by path
      *
      * @param string $nodePath
-     * @throws \Magento\Exception an exception is possible if original document contains multiple nodes for identifier
+     * @throws \Magento\Exception An exception is possible if original document contains multiple nodes for identifier
      * @return \DOMElement | null
      */
     protected function _getMatchedNode($nodePath)
@@ -336,7 +337,7 @@ class Dom
     /**
      * Returns the attribute name with prefix, if there is one
      *
-     * @param DOMAttr $attribute
+     * @param \DOMAttr $attribute
      * @return string
      */
     private function _getAttributeName($attribute)

@@ -14,26 +14,36 @@ namespace Magento\Config;
 class FileIterator implements \Iterator, \Countable
 {
     /**
+     * Cache
+     *
      * @var array
      */
     protected $cached = array();
 
     /**
+     * Paths
+     *
      * @var array
      */
     protected $paths = array();
 
     /**
+     * Position
+     *
      * @var int
      */
     protected $position;
 
     /**
+     * Read directory
+     *
      * @var \Magento\Filesystem\Directory\ReadInterface
      */
     protected $directoryRead;
 
     /**
+     * Constructor
+     *
      * @param \Magento\Filesystem\Directory\ReadInterface $directory
      * @param array $paths
      */
@@ -47,7 +57,9 @@ class FileIterator implements \Iterator, \Countable
     }
 
     /**
+     *Rewind
      *
+     * @return mixed the value of the first array element, or false if the array is empty
      */
     function rewind()
     {
@@ -55,6 +67,8 @@ class FileIterator implements \Iterator, \Countable
     }
 
     /**
+     * Current
+     *
      * @return string
      */
     function current()
@@ -67,6 +81,8 @@ class FileIterator implements \Iterator, \Countable
     }
 
     /**
+     * Key
+     *
      * @return mixed
      */
     function key()
@@ -75,7 +91,10 @@ class FileIterator implements \Iterator, \Countable
     }
 
     /**
+     * Next
      *
+     * @return mixed the array value in the next place that's pointed to by the
+     * internal array pointer, or false if there are no more elements.
      */
     function next()
     {
@@ -83,6 +102,8 @@ class FileIterator implements \Iterator, \Countable
     }
 
     /**
+     * Valid
+     *
      * @return bool
      */
     function valid()
@@ -91,6 +112,8 @@ class FileIterator implements \Iterator, \Countable
     }
 
     /**
+     * Convert to an array
+     *
      * @return array
      */
     public function toArray()
@@ -103,6 +126,8 @@ class FileIterator implements \Iterator, \Countable
     }
 
     /**
+     * Count
+     *
      * @return int
      */
     public function count()
