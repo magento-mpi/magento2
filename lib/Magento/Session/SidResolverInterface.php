@@ -20,6 +20,8 @@ interface SidResolverInterface
     const SESSION_ID_QUERY_PARAM = 'SID';
 
     /**
+     * Get SID
+     *
      * @param \Magento\Session\SessionManagerInterface $session
      * @return string
      */

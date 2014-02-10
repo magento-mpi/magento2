@@ -41,6 +41,8 @@ class DbTable extends \SessionHandler
 
     /**
      * Check DB connection
+     *
+     * @return void
      */
     protected function checkConnection()
     {
