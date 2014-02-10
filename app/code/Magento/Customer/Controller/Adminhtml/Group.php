@@ -21,7 +21,7 @@ use Magento\Customer\Service\V1\Dto\CustomerGroupBuilder;
 class Group extends \Magento\Backend\App\Action
 {
     /** Registry key for the current CustomerGroup Dto */
-    const REGISTRY_CURRENT_GROUP = 'current_group';
+    const REGISTRY_CURRENT_GROUP_ID = 'current_group_id';
 
     /**
      * Core registry
@@ -63,22 +63,16 @@ class Group extends \Magento\Backend\App\Action
     /**
      * Initialize current group and set it in the registry.
      *
-     * @return CustomerGroup
+     * @return int
      */
     protected function _initGroup()
     {
         $this->_title->add(__('Customer Groups'));
 
-        $currentGroup = null;
         $groupId = $this->getRequest()->getParam('id');
-        if (!is_null($groupId)) {
-            $currentGroup = $this->_groupService->getGroup($groupId);
-        } else {
-            $currentGroup = $this->_customerGroupBuilder->create();
-        }
-        $this->_coreRegistry->register(self::REGISTRY_CURRENT_GROUP, $currentGroup);
+        $this->_coreRegistry->register(self::REGISTRY_CURRENT_GROUP_ID, $groupId);
 
-        return $currentGroup;
+        return $groupId;
     }
 
     /**
@@ -104,23 +98,24 @@ class Group extends \Magento\Backend\App\Action
      */
     public function newAction()
     {
-        $currentGroup = $this->_initGroup();
+        $groupId = $this->_initGroup();
 
         $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Customer::customer_group');
         $this->_addBreadcrumb(__('Customers'), __('Customers'));
         $this->_addBreadcrumb(__('Customer Groups'), __('Customer Groups'), $this->getUrl('customer/group'));
 
-        if (!is_null($currentGroup->getId())) {
-            $this->_addBreadcrumb(__('Edit Group'), __('Edit Customer Groups'));
-        } else {
+        if (is_null($groupId)) {
             $this->_addBreadcrumb(__('New Group'), __('New Customer Groups'));
+            $this->_title->add(__('New Customer Group'));
+        } else {
+            $this->_addBreadcrumb(__('Edit Group'), __('Edit Customer Groups'));
+            $this->_title->add($this->_groupService->getGroup($groupId)->getCode());
         }
 
-        $this->_title->add($currentGroup->getId() ? $currentGroup->getCode() : __('New Customer Group'));
-
-        $this->_view->getLayout()->addBlock('Magento\Customer\Block\Adminhtml\Group\Edit', 'group', 'content')
-            ->setEditMode((bool)$currentGroup->getId());
+        $this->_view->getLayout()
+            ->addBlock('Magento\Customer\Block\Adminhtml\Group\Edit', 'group', 'content')
+            ->setEditMode((bool)$groupId);
 
         $this->_view->renderLayout();
     }
@@ -167,9 +162,10 @@ class Group extends \Magento\Backend\App\Action
             } catch (\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 if ($customerGroup != null) {
-                    $this->_coreRegistry->register(self::REGISTRY_CURRENT_GROUP, $customerGroup);
+                    $this->_coreRegistry->register(self::REGISTRY_CURRENT_GROUP_ID, $customerGroup->getId());
                 }
-                $this->getResponse()->setRedirect($this->getUrl('customer/group/edit', array('id' => $id)));
+                $this->getResponse()
+                    ->setRedirect($this->getUrl('customer/group/edit', ['id' => $customerGroup->getId()]));
                 return;
             }
         } else {
@@ -197,7 +193,7 @@ class Group extends \Magento\Backend\App\Action
                 return;
             } catch (\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
-                $this->getResponse()->setRedirect($this->getUrl('customer/group/edit', array('id' => $id)));
+                $this->getResponse()->setRedirect($this->getUrl('customer/group/edit', ['id' => $id]));
                 return;
             }
         }
