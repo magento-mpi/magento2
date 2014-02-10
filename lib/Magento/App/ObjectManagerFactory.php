@@ -36,13 +36,6 @@ class ObjectManagerFactory
     protected $_configClassName = '\Magento\ObjectManager\Config\Config';
 
     /**
-     * Specific init param interpreter, which might get reset
-     *
-     * @var \Magento\App\Arguments\ArgumentInterpreter
-     */
-    protected $initParamInterpreter;
-
-    /**
      * Create object manager
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -64,29 +57,21 @@ class ObjectManagerFactory
             array($directoryList->getDir(\Magento\App\Filesystem::GENERATION_DIR))
         );
 
-        $options = new \Magento\App\Arguments(
-            $arguments,
-            new \Magento\App\Arguments\Loader(
-                $directoryList,
-                isset($arguments[\Magento\App\Arguments\Loader::PARAM_CUSTOM_FILE])
-                    ? $arguments[\Magento\App\Arguments\Loader::PARAM_CUSTOM_FILE]
-                    : null
-            )
-        );
+        $appArguments = $this->createAppArguments($directoryList, $arguments);
 
         $definitionFactory = new \Magento\ObjectManager\DefinitionFactory(
             new \Magento\Filesystem\Driver\File(),
             $directoryList->getDir(\Magento\App\Filesystem::DI_DIR),
             $directoryList->getDir(\Magento\App\Filesystem::GENERATION_DIR),
-            $options->get('definition.format', 'serialized')
+            $appArguments->get('definition.format', 'serialized')
         );
 
-        $definitions = $definitionFactory->createClassDefinition($options->get('definitions'));
+        $definitions = $definitionFactory->createClassDefinition($appArguments->get('definitions'));
         $relations = $definitionFactory->createRelations();
         $configClass = $this->_configClassName;
         /** @var \Magento\ObjectManager\Config\Config $diConfig */
         $diConfig = new $configClass($relations, $definitions);
-        $appMode = $options->get(State::PARAM_MODE, State::MODE_DEFAULT);
+        $appMode = $appArguments->get(State::PARAM_MODE, State::MODE_DEFAULT);
 
         $configData = $this->_loadPrimaryConfig($directoryList, $appMode);
 
@@ -96,7 +81,7 @@ class ObjectManagerFactory
 
         $creationStack = new \Magento\ObjectManager\Factory\CreationStack();
         $argObjectFactory = new \Magento\ObjectManager\Config\Argument\ObjectFactory($diConfig);
-        $argInterpreter = $this->createArgumentInterpreter($argObjectFactory, $options);
+        $argInterpreter = $this->createArgumentInterpreter($argObjectFactory, $appArguments);
         $factory = new \Magento\ObjectManager\Factory\Factory(
             $diConfig, $creationStack, $argInterpreter, $argObjectFactory, $definitions
         );
@@ -104,7 +89,7 @@ class ObjectManagerFactory
         $className = $this->_locatorClassName;
         /** @var \Magento\ObjectManager $objectManager */
         $objectManager = new $className($factory, $diConfig, array(
-            'Magento\App\Arguments' => $options,
+            'Magento\App\Arguments' => $appArguments,
             'Magento\App\Filesystem\DirectoryList' => $directoryList,
             'Magento\Filesystem\DirectoryList' => $directoryList
         ));
@@ -148,6 +133,26 @@ class ObjectManagerFactory
     }
 
     /**
+     * Create instance of application arguments
+     *
+     * @param Filesystem\DirectoryList $directoryList
+     * @param array $arguments
+     * @return Arguments
+     */
+    protected function createAppArguments(\Magento\App\Filesystem\DirectoryList $directoryList, array $arguments)
+    {
+        return new \Magento\App\Arguments(
+            $arguments,
+            new \Magento\App\Arguments\Loader(
+                $directoryList,
+                isset($arguments[\Magento\App\Arguments\Loader::PARAM_CUSTOM_FILE])
+                    ? $arguments[\Magento\App\Arguments\Loader::PARAM_CUSTOM_FILE]
+                    : null
+            )
+        );
+    }
+
+    /**
      * Return newly created instance on an argument interpreter, suitable for processing DI arguments
      *
      * @param \Magento\ObjectManager\Config\Argument\ObjectFactory $objectFactory
@@ -158,8 +163,6 @@ class ObjectManagerFactory
         \Magento\ObjectManager\Config\Argument\ObjectFactory $objectFactory,
         \Magento\App\Arguments $appArguments
     ) {
-        $this->initParamInterpreter = new \Magento\App\Arguments\ArgumentInterpreter($appArguments);
-
         $result = new \Magento\Data\Argument\Interpreter\Composite(
             array(
                 'boolean' => new \Magento\Data\Argument\Interpreter\Boolean(),
@@ -168,7 +171,7 @@ class ObjectManagerFactory
                 'null' => new \Magento\Data\Argument\Interpreter\NullType(),
                 'const' => new \Magento\Data\Argument\Interpreter\Constant(),
                 'object' => new \Magento\ObjectManager\Config\Argument\Interpreter\Object($objectFactory),
-                'init_parameter' => $this->initParamInterpreter,
+                'init_parameter' => new \Magento\App\Arguments\ArgumentInterpreter($appArguments),
             ),
             \Magento\ObjectManager\Config\Reader\Dom::TYPE_ATTRIBUTE
         );

@@ -49,14 +49,4 @@ class ArgumentInterpreter implements InterpreterInterface
         }
         return $result;
     }
-
-    /**
-     * Set new instance of arguments
-     *
-     * @param Arguments $arguments
-     */
-    public function setArguments(Arguments $arguments)
-    {
-        $this->arguments = $arguments;
-    }
 }

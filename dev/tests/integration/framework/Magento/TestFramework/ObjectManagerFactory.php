@@ -41,6 +41,28 @@ class ObjectManagerFactory extends \Magento\App\ObjectManagerFactory
     protected $_pluginList = null;
 
     /**
+     * Proxy over arguments instance, used by the application and all the DI stuff
+     *
+     * @var App\Arguments\Proxy
+     */
+    protected $appArgumentsProxy;
+
+    /**
+     * Override the parent method and return proxied instance instead, so that we can reset the actual app arguments
+     * instance for all its clients at any time
+     *
+     * @param \Magento\App\Filesystem\DirectoryList $directoryList
+     * @param array $arguments
+     * @return App\Arguments\Proxy
+     */
+    protected function createAppArguments(\Magento\App\Filesystem\DirectoryList $directoryList, array $arguments)
+    {
+        $appArguments = parent::createAppArguments($directoryList, $arguments);
+        $this->appArgumentsProxy = new App\Arguments\Proxy($appArguments);
+        return $this->appArgumentsProxy;
+    }
+
+    /**
      * Restore locator instance
      *
      * @param ObjectManager $objectManager
@@ -83,13 +105,10 @@ class ObjectManagerFactory extends \Magento\App\ObjectManagerFactory
             ),
         ));
 
-        $options = new \Magento\App\Arguments(
-            $arguments,
-            new \Magento\App\Arguments\Loader($directoryList)
-        );
+        $appArguments = parent::createAppArguments($directoryList, $arguments);
+        $this->appArgumentsProxy->setSubject($appArguments);
+        $objectManager->addSharedInstance($appArguments, 'Magento\App\Arguments');
 
-        $objectManager->addSharedInstance($options, 'Magento\App\Arguments');
-        $this->initParamInterpreter->setArguments($options);
         $objectManager->configure(
             $objectManager->get('Magento\App\ObjectManager\ConfigLoader')->load('global')
         );
