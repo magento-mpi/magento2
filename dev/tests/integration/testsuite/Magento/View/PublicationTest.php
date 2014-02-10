@@ -596,7 +596,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
      *
      * @param bool|null $allowDuplication
      */
-    protected function _initTestTheme($allowDuplication = false)
+    protected function _initTestTheme($allowDuplication = null)
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
             \Magento\App\Filesystem::PARAM_APP_DIRS => array(
