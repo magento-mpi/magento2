@@ -233,7 +233,7 @@ class Quote
     public function submitNominalItems()
     {
         $this->_validate();
-        $this->_eventManager->dispatch('sales_model_service_quote_submit_after_validation', ['quote' => $this->_quote]);
+        $this->_eventManager->dispatch('sales_model_service_quote_submit_nominal_items', ['quote' => $this->_quote]);
         $this->_inactivateQuote();
         $this->_deleteNominalItems();
     }

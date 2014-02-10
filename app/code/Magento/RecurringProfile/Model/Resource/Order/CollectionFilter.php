@@ -12,23 +12,24 @@
  */
 namespace Magento\RecurringProfile\Model\Resource\Order;
 
-class Collection extends \Magento\Sales\Model\Resource\Order\Collection
+class CollectionFilter
 {
     /**
      * Add filter by specified recurring profile id(s)
      *
+     * @param \Magento\Core\Model\Resource\Db\Collection\AbstractCollection $collection
      * @param array|int $ids
      * @return \Magento\RecurringProfile\Model\Resource\Order\Collection
      */
-    public function addRecurringProfilesFilter($ids)
+    public function byIds($collection, $ids)
     {
         $ids = (is_array($ids)) ? $ids : array($ids);
-        $this->getSelect()
+        $collection->getSelect()
             ->joinInner(
-                array('srpo' => $this->getTable('recurring_profile_order')),
-                'main_table.entity_id = srpo.order_id',
+                array('rpo' => $collection->getTable('recurring_profile_order')),
+                'main_table.entity_id = rpo.order_id',
                 array())
-            ->where('srpo.profile_id IN(?)', $ids);
-        return $this;
+            ->where('rpo.profile_id IN(?)', $ids);
+        return $collection;
     }
 }

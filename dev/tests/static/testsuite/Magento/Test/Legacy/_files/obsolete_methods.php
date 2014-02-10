@@ -859,7 +859,7 @@ return array(
     array('getValidateHttpUserAgentSkip', 'Magento\Core\Model\Session\AbstractSession'),
     array('addProductAttributes', 'Magento\SalesRule\Model\Observer'),
     array('addRecurringProfilesFilter', 'Magento\Sales\Model\Resource\Order',
-        '\Magento\RecurringProfile\Model\Resource\Order\Collection::addRecurringProfilesFilter'),
+        '\Magento\RecurringProfile\Model\Resource\Order\CollectionFilter::byIds'),
     array('_helper', 'Magento\Catalog\Model\Product\Type\AbstractType'),
     array('getHelper', 'Magento\Catalog\Model\Resource\Product\Type\Configurable\Attribute\Collection'),
     array('getHelper', 'Magento\Cms\Model\Wysiwyg\Images\Storage'),

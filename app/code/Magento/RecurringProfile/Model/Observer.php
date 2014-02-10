@@ -50,9 +50,9 @@ class Observer
     protected $_checkoutSession;
 
     /**
-     * @var \Magento\RecurringProfile\Model\ProfileFactory
+     * @var Quote
      */
-    protected $_profileFactory;
+    protected $_quote;
 
     /**
      * @param \Magento\Core\Model\LocaleInterface $locale
@@ -61,7 +61,7 @@ class Observer
      * @param \Magento\View\Element\BlockFactory $blockFactory
      * @param \Magento\RecurringProfile\Block\Fields $fields
      * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param \Magento\RecurringProfile\Model\ProfileFactory $profileFactory
+     * @param Quote $quote
      */
     public function __construct(
         \Magento\Core\Model\LocaleInterface $locale,
@@ -70,7 +70,7 @@ class Observer
         \Magento\View\Element\BlockFactory $blockFactory,
         \Magento\RecurringProfile\Block\Fields $fields,
         \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\RecurringProfile\Model\ProfileFactory $profileFactory
+        \Magento\RecurringProfile\Model\Quote $quote
     ) {
         $this->_locale = $locale;
         $this->_storeManager = $storeManager;
@@ -78,7 +78,7 @@ class Observer
         $this->_blockFactory = $blockFactory;
         $this->_fields = $fields;
         $this->_checkoutSession = $checkoutSession;
-        $this->_profileFactory = $profileFactory;
+        $this->_quote = $quote;
     }
 
     /**
@@ -161,12 +161,12 @@ class Observer
     /**
      * Submit recurring profiles
      *
-     * @param $observer
+     * @param \Magento\Event\Observer $observer
      * @throws \Magento\Core\Exception
      */
     public function submitRecurringPaymentProfiles($observer)
     {
-        $profiles = $this->_prepareRecurringPaymentProfiles($observer->getEvent()->getQuote());
+        $profiles = $this->_quote->prepareRecurringPaymentProfiles($observer->getEvent()->getQuote());
         foreach ($profiles as $profile) {
             if (!$profile->isValid()) {
                 throw new \Magento\Core\Exception($profile->getValidationErrors());
@@ -175,14 +175,9 @@ class Observer
         }
     }
 
-    /**
-     * Add recurring profiles information to the session
-     *
-     * @param $observer
-     */
-    public function addProfilesIdsToSession($observer)
+    public function addRecurringProfileIdsToSession($observer)
     {
-        $profiles = $this->_prepareRecurringPaymentProfiles($observer->getEvent()->getQuote());
+        $profiles = $this->_quote->prepareRecurringPaymentProfiles($observer->getEvent()->getQuote());
         if ($profiles) {
             $ids = array();
             foreach ($profiles as $profile) {
@@ -190,53 +185,5 @@ class Observer
             }
             $this->_checkoutSession->setLastRecurringProfileIds($ids);
         }
-    }
-
-    /**
-     * Add recurring payment profiles information to api
-     *
-     * @param $observer
-     * @throws \Magento\Core\Exception
-     */
-    public function apiAddRecurringProfiles($observer)
-    {
-        $profiles = $this->_prepareRecurringPaymentProfiles($observer->getEvent()->getQuote());
-        if ($profiles) {
-            foreach ($profiles as $profile) {
-                $profile->setMethodCode(\Magento\Paypal\Model\Config::METHOD_WPP_EXPRESS);
-                if (!$profile->isValid()) {
-                    throw new \Magento\Core\Exception($profile->getValidationErrors());
-                }
-            }
-            $observer->getEvent()->getApi()->addRecurringPaymentProfiles($profiles);
-        }
-    }
-
-    /**
-     * Create recurring profiles collection
-     *
-     * @param \Magento\Sales\Model\Quote $quote
-     * @return array
-     * @throws \Exception
-     */
-    protected function _prepareRecurringPaymentProfiles(\Magento\Sales\Model\Quote $quote)
-    {
-        if (!$quote->getTotalsCollectedFlag()) {
-            // Whoops! Make sure nominal totals must be calculated here.
-            throw new \Exception('Quote totals must be collected before this operation.');
-        }
-
-        $result = [];
-        foreach ($quote->getAllVisibleItems() as $item) {
-            $product = $item->getProduct();
-            if (is_object($product) && ($product->isRecurring())
-                && $profile = $this->_profileFactory->create()->importProduct($product)
-            ) {
-                $profile->importQuote($quote);
-                $profile->importQuoteItem($item);
-                $result[] = $profile;
-            }
-        }
-        return $result;
     }
 }
