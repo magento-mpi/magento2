@@ -7,17 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Authorizenet\Model\Authorizenet\Source;
 
 /**
  *
- * Authorizenet Payment Action Dropdown source
+ * Authorize.net Payment Action Dropdown source
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Authorizenet\Model\Authorizenet\Source;
-
 class PaymentAction implements \Magento\Core\Model\Option\ArrayInterface
 {
+    /**
+     * @return string[]
+     */
     public function toOptionArray()
     {
         return array(

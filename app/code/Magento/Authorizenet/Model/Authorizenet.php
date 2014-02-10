@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Authorizenet\Model;
 
 class Authorizenet extends \Magento\Payment\Model\Method\Cc
@@ -65,20 +64,29 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
 
     const TRANSACTION_STATUS_EXPIRED = 'expired';
 
+    /**
+     * @var string
+     */
     protected $_code  = self::METHOD_CODE;
 
     /**
      * Form block type
+     *
+     * @var string
      */
     protected $_formBlockType = 'Magento\Authorizenet\Block\Authorizenet\Form\Cc';
 
     /**
      * Info block type
+     *
+     * @var string
      */
     protected $_infoBlockType = 'Magento\Authorizenet\Block\Authorizenet\Info\Cc';
 
-    /**
+    /**#@+
      * Availability options
+     *
+     * @var bool
      */
     protected $_isGateway               = true;
     protected $_canAuthorize            = true;
@@ -91,13 +99,17 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
     protected $_canUseCheckout          = true;
     protected $_canSaveCc = false;
     protected $_canFetchTransactionInfo = true;
+    /**#@-*/
 
+    /**
+     * @var string[]
+     */
     protected $_allowCurrencyCode = array('USD');
 
     /**
      * Fields that should be replaced in debug with '***'
      *
-     * @var array
+     * @var string[]
      */
     protected $_debugReplacePrivateDataKeys = array('x_login', 'x_tran_key',
                                                     'x_card_num', 'x_exp_date',
@@ -145,7 +157,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
     /**
      * Fields for creating place request checksum
      *
-     * @var array
+     * @var string[]
      */
     protected $_partialAuthorizationChecksumDataKeys = array(
         'x_version', 'x_test_request', 'x_login', 'x_test_request', 'x_allow_partial_auth', 'x_amount',
@@ -159,7 +171,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
     /**
      * Centinel cardinal fields map
      *
-     * @var array
+     * @var string[]
      */
     protected $_centinelFieldMap = array(
         'centinel_cavv' => 'x_cardholder_authentication_value',
@@ -172,7 +184,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
     protected $_cardsStorage = null;
 
     /**
-     * Authorizenet data
+     * Authorize.net data
      *
      * @var \Magento\Authorizenet\Helper\Data
      */
@@ -272,7 +284,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
      * Check method for processing with base currency
      *
      * @param string $currencyCode
-     * @return boolean
+     * @return bool
      */
     public function canUseForCurrency($currencyCode)
     {
@@ -350,7 +362,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
     /**
      * Check void availability
      *
-     * @param   \Magento\Object $invoicePayment
+     * @param   \Magento\Object $payment
      * @return  bool
      */
     public function canVoid(\Magento\Object $payment)
@@ -364,8 +376,8 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
     /**
      * Set partial authorization last action state into session
      *
-     * @param string $message
-     * @return \Magento\Authorizenet\Model\Authorizenet
+     * @param string $state
+     * @return $this
      */
     public function setPartialAuthorizationLastActionState($state)
     {
@@ -386,7 +398,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
     /**
      * Unset partial authorization last action state in session
      *
-     * @return \Magento\Authorizenet\Model\Authorizenet
+     * @return $this
      */
     public function unsetPartialAuthorizationLastActionState()
     {
@@ -398,8 +410,9 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
      * Send authorize request to gateway
      *
      * @param  \Magento\Payment\Model\Info $payment
-     * @param  decimal $amount
-     * @return \Magento\Authorizenet\Model\Authorizenet
+     * @param  float $amount
+     * @return $this
+     * @throws \Magento\Core\Exception
      */
     public function authorize(\Magento\Object $payment, $amount)
     {
@@ -424,8 +437,9 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
      * Send capture request to gateway
      *
      * @param \Magento\Payment\Model\Info $payment
-     * @param decimal $amount
-     * @return \Magento\Authorizenet\Model\Authorizenet
+     * @param float $amount
+     * @return $this
+     * @throws \Magento\Core\Exception
      */
     public function capture(\Magento\Object $payment, $amount)
     {
@@ -448,7 +462,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
      * Void the payment through gateway
      *
      * @param  \Magento\Payment\Model\Info $payment
-     * @return \Magento\Authorizenet\Model\Authorizenet
+     * @return $this
      */
     public function void(\Magento\Object $payment)
     {
@@ -482,7 +496,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
      * Cancel the payment through gateway
      *
      * @param  \Magento\Payment\Model\Info $payment
-     * @return \Magento\Authorizenet\Model\Authorizenet
+     * @return $this
      */
     public function cancel(\Magento\Object $payment)
     {
@@ -493,8 +507,8 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
      * Refund the amount with transaction id
      *
      * @param \Magento\Payment\Model\Info $payment
-     * @param decimal $amount
-     * @return \Magento\Authorizenet\Model\Authorizenet
+     * @param float $requestedAmount
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     public function refund(\Magento\Object $payment, $requestedAmount)
@@ -550,6 +564,8 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
      * Cancel partial authorizations and flush current split_tender_id record
      *
      * @param \Magento\Payment\Model\Info $payment
+     * @return void
+     * @throws \Magento\Core\Exception
      */
     public function cancelPartialAuthorization(\Magento\Payment\Model\Info $payment) {
         if (!$payment->getAdditionalInformation($this->_splitTenderIdKey)) {
@@ -581,9 +597,9 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
      * Send request with new payment to gateway
      *
      * @param \Magento\Payment\Model\Info $payment
-     * @param decimal $amount
+     * @param float $amount
      * @param string $requestType
-     * @return \Magento\Authorizenet\Model\Authorizenet
+     * @return $this
      * @throws \Magento\Core\Exception
      */
     protected function _place($payment, $amount, $requestType)
@@ -671,9 +687,11 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
      * Send request with new payment to gateway during partial authorization process
      *
      * @param \Magento\Payment\Model\Info $payment
-     * @param decimal $amount
+     * @param float $amount
      * @param string $requestType
-     * @return \Magento\Authorizenet\Model\Authorizenet
+     * @return $this
+     * @throws \Magento\Payment\Model\Info\Exception
+     * @throws \Magento\Core\Exception
      */
     protected function _partialAuthorization($payment, $amount, $requestType)
     {
@@ -763,8 +781,9 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
      * Send capture request to gateway for capture authorized transactions
      *
      * @param \Magento\Payment\Model\Info $payment
-     * @param decimal $amount
-     * @return \Magento\Authorizenet\Model\Authorizenet
+     * @param float $requestAmount
+     * @return $this
+     * @throws \Magento\Core\Exception
      */
     protected function _preauthorizeCapture($payment, $requestedAmount)
     {
@@ -874,6 +893,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
      * @param \Magento\Payment\Model\Info $payment
      * @param \Magento\Object $card
      * @return \Magento\Sales\Model\Order\Payment\Transaction
+     * @throws \Magento\Core\Exception
      */
     protected function _voidCardTransaction($payment, $card)
     {
@@ -968,9 +988,10 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
      * Refund the card transaction through gateway
      *
      * @param \Magento\Payment\Model\Info $payment
-     * @param $amount
+     * @param float $amount
      * @param \Magento\Object $card
      * @return \Magento\Sales\Model\Order\Payment\Transaction
+     * @throws \Magento\Core\Exception
      */
     protected function _refundCardTransaction($payment, $amount, $card)
     {
@@ -1039,6 +1060,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
      * Init cards storage model
      *
      * @param \Magento\Payment\Model\Info $payment
+     * @return void
      */
     protected function _initCardsStorage($payment)
     {
@@ -1063,7 +1085,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
     }
 
     /**
-     * If parial authorization is started method will returne true
+     * If partial authorization is started method will return true
      *
      * @param \Magento\Payment\Model\Info $payment
      * @return bool
@@ -1081,7 +1103,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
      *
      * @param \Magento\Sales\Model\Order\Invoice $invoice
      * @param \Magento\Sales\Model\Order\Payment $payment
-     * @return \Magento\Payment\Model\Method\AbstractMethod
+     * @return $this
      */
     public function processInvoice($invoice, $payment)
     {
@@ -1093,7 +1115,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
      * Set transaction ID into creditmemo for informational purposes
      * @param \Magento\Sales\Model\Order\Creditmemo $creditmemo
      * @param \Magento\Sales\Model\Order\Payment $payment
-     * @return \Magento\Payment\Model\Method\AbstractMethod
+     * @return $this
      */
     public function processCreditmemo($creditmemo, $payment)
     {
@@ -1136,10 +1158,10 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
     }
 
     /**
-     * Set split_tender_id to quote payment if neeeded
+     * Set split_tender_id to quote payment if needed
      *
      * @param \Magento\Object $response
-     * @param $orderPayment
+     * @param float $orderPayment
      * @throws \Magento\Payment\Model\Info\Exception
      * @return bool
      */
@@ -1221,9 +1243,9 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
     /**
      * Prepare request to gateway
      *
-     * @link http://www.authorize.net/support/AIM_guide.pdf
      * @param \Magento\Object|\Magento\Payment\Model\Info $payment
      * @return \Magento\Authorizenet\Model\Authorizenet\Request
+     * @link http://www.authorize.net/support/AIM_guide.pdf
      */
     protected function _buildRequest(\Magento\Object $payment)
     {
@@ -1329,10 +1351,11 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
     }
 
     /**
-     * Post request to gateway and return responce
+     * Post request to gateway and return response
      *
-     * @param \Magento\Authorizenet\Model\Authorizenet\Request $request)
+     * @param \Magento\Authorizenet\Model\Authorizenet\Request $request
      * @return \Magento\Authorizenet\Model\Authorizenet\Result
+     * @throws \Magento\Core\Exception
      */
     protected function _postRequest(\Magento\Object $request)
     {
@@ -1451,7 +1474,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
     /**
      * Reset assigned data in payment info model
      *
-     * @param \Magento\Payment\Model\Info
+     * @param \Magento\Payment\Model\Info $payment
      * @return \Magento\Authorizenet\Model\Authorizenet
      */
     private function _clearAssignedData($payment)
@@ -1535,6 +1558,8 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
      * @param  \Magento\Payment\Model\Info $payment
      * @param  string $messages
      * @param  bool $isSuccessfulTransactions
+     * @return void
+     * @throws \Magento\Core\Exception
      */
     protected function _processFailureMultitransactionAction($payment, $messages, $isSuccessfulTransactions)
     {
@@ -1579,10 +1604,11 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
     /**
      * This function returns full transaction details for a specified transaction ID.
      *
-     * @link http://www.authorize.net/support/ReportingGuide_XML.pdf
-     * @link http://developer.authorize.net/api/transaction_details/
      * @param string $transactionId
      * @return \Magento\Object
+     * @throws \Magento\Core\Exception
+     * @link http://www.authorize.net/support/ReportingGuide_XML.pdf
+     * @link http://developer.authorize.net/api/transaction_details/
      */
     protected function _getTransactionDetails($transactionId)
     {

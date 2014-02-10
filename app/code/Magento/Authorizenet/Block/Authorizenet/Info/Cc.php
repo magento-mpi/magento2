@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Authorizenet\Block\Authorizenet\Info;
 
 use Magento\Payment\Block\Info;
@@ -21,6 +20,9 @@ class Cc extends \Magento\Payment\Block\Info\Cc
      */
     protected $_isCheckoutProgressBlockFlag = true;
 
+    /**
+     * @var string
+     */
     protected $_template = 'Magento_Authorizenet::info/cc.phtml';
 
     /**
@@ -58,7 +60,7 @@ class Cc extends \Magento\Payment\Block\Info\Cc
     /**
      * Retrieve card info object
      *
-     * @return mixed
+     * @return \Magento\Payment\Model\Info
      */
     public function getInfo()
     {

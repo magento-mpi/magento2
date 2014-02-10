@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Ogone\Model;
 
 /**
@@ -22,13 +21,30 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
      */
     const PAYMENT_CODE = 'ogone';
 
+    /**
+     * @var string
+     */
     protected $_code  = self::PAYMENT_CODE;
-    protected $_formBlockType = 'Magento\Ogone\Block\Form';
-    protected $_infoBlockType = 'Magento\Ogone\Block\Info';
-    protected $_config = null;
 
     /**
+     * @var string
+     */
+    protected $_formBlockType = 'Magento\Ogone\Block\Form';
+
+    /**
+     * @var string
+     */
+    protected $_infoBlockType = 'Magento\Ogone\Block\Info';
+
+    /**
+     * @var Config|null
+     */
+    protected $_config = null;
+
+    /**#@+
      * Availability options
+     *
+     * @var bool
      */
     protected $_isGateway               = false;
     protected $_canAuthorize            = true;
@@ -38,8 +54,9 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
     protected $_canVoid                 = false;
     protected $_canUseInternal          = false;
     protected $_canUseCheckout          = true;
+    /**#@-*/
 
-    /**
+    /**#@+
      * "OUT" hash string components, correspond to the "IN" signature in Ogone.
      * "Out" relative to Magento, "in" relative to Ogone.
      *
@@ -95,8 +112,9 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
         'WIN3DS', 'WITHROOT',
     );
     protected static $_outShortMap = array('ORDERID', 'AMOUNT', 'CURRENCY', 'PSPID', 'OPERATION',);
+    /**#@-*/
 
-    /**
+    /**#@+
      * "IN" hash string components, correspond to the "OUT" signature in Ogone.
      * "In" relative to Magento, "out" relative to Ogone.
      *
@@ -116,6 +134,7 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
         'DCC_INDICATOR', 'DCC_EXCHRATE', 'DCC_EXCHRATETS', 'DCC_CONVCCY', 'DCC_CONVAMOUNT', 'DCC_VALIDHOURS',
         'DCC_EXCHRATESOURCE', 'DCC_MARGINPERCENTAGE', 'DCC_COMMPERCENTAGE',
     );
+    /**#@-*/
 
     /* Ogone template modes */
     const TEMPLATE_OGONE            = 'ogone';
@@ -129,7 +148,7 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
     const WAITING_AUTHORIZATION     = 'waiting_authorozation';
     const PROCESSED_OGONE_STATUS    = 'processed_ogone';
 
-    /* Ogone responce statuses */
+    /* Ogone response statuses */
     const OGONE_PAYMENT_REQUESTED_STATUS    = 9;
     const OGONE_PAYMENT_PROCESSING_STATUS   = 91;
     const OGONE_AUTH_UKNKOWN_STATUS         = 52;
@@ -217,7 +236,7 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
     }
 
     /**
-     * Return ogone config instance
+     * Return Ogone config instance
      *
      * @return \Magento\Ogone\Model\Config
      */
@@ -227,7 +246,7 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
     }
 
     /**
-     * Flag witch prevent automatic invoice creation
+     * Flag which prevent automatic invoice creation
      *
      * @return bool
      */
@@ -237,7 +256,7 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
     }
 
     /**
-     * Redirect url to ogone submit form
+     * Redirect url to Ogone submit form
      *
      * @return string
      */
@@ -257,9 +276,9 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
     }
 
     /**
-     * Rrepare params array to send it to gateway page via POST
+     * Prepare params array to send it to gateway page via POST
      *
-     * @param \Magento\Sales\Model\Order
+     * @param \Magento\Sales\Model\Order $order
      * @return array
      */
     public function getFormFields($order)
@@ -326,6 +345,7 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
      * Debug specified order fields if needed
      *
      * @param \Magento\Sales\Model\Order $order
+     * @return void
      */
     public function debugOrder(\Magento\Sales\Model\Order $order)
     {
@@ -341,7 +361,7 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
      * @param string $passPhrase
      * @param string $direction
      * @param bool|int $mapAllParams
-     * @param string $algorithm
+     * @param null|string $algorithm
      * @return string
      * @throws \Exception
      */
@@ -395,8 +415,11 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
     }
 
     /**
-     * to translate UTF 8 to ISO 8859-1
+     * To translate UTF 8 to ISO 8859-1
      * Ogone system is only compatible with iso-8859-1 and does not (yet) fully support the utf-8
+     *
+     * @param string $text
+     * @return string
      */
     protected function _translate($text)
     {
@@ -406,7 +429,6 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Get Ogone Payment Action value
      *
-     * @param string
      * @return string
      */
     protected function _getOgonePaymentOperation()
@@ -421,9 +443,9 @@ class Api extends \Magento\Payment\Model\Method\AbstractMethod
     }
 
     /**
-     * get formated order description
+     * Get formatted order description
      *
-     * @param \Magento\Sales\Model\Order
+     * @param \Magento\Sales\Model\Order $order
      * @return string
      */
     protected function _getOrderDescription($order)
