@@ -95,35 +95,6 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider createCustomerFromModelBadParamDataProvider
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage customer model is invalid
-     */
-    public function testCreateCustomerFromModelBadParam($param)
-    {
-        $customerBuilder = $this->getMockBuilder('Magento\Customer\Service\V1\Dto\CustomerBuilder')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $customerFactory = $this->getMockBuilder('Magento\Customer\Model\CustomerFactory')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $converter = new Converter($customerBuilder, $customerFactory);
-        $converter->createCustomerFromModel($param);
-    }
-
-    public function createCustomerFromModelBadParamDataProvider()
-    {
-        return [
-            [null],
-            ['a string'],
-            [5],
-            [new \Magento\Object()],
-        ];
-    }
-
-    /**
      * @param \PHPUnit_Framework_MockObject_MockObject $mock
      * @param array $valueMap
      */
