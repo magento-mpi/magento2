@@ -33,6 +33,7 @@ class CartTest extends \Magento\Backend\Utility\Controller
     }
 
     /**
+     * @magentoDbIsolation enabled
      * @magentoDataFixture Magento/Customer/_files/customer.php
      * @magentoDataFixture Magento/Customer/_files/quote.php
      */
@@ -66,6 +67,7 @@ class CartTest extends \Magento\Backend\Utility\Controller
     }
 
     /**
+     * @magentoDbIsolation enabled
      * @magentoDataFixture Magento/Customer/_files/customer.php
      * @magentoDataFixture Magento/Customer/_files/quote.php
      */
