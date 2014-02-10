@@ -39,6 +39,22 @@ class Multishipping extends \Magento\GiftRegistry\Block\Customer\Checkout
     }
 
     /**
+     * Get quote gift registry items
+     *
+     * @return array
+     */
+    public function getItems()
+    {
+        $items = array();
+        foreach ($this->_getGiftRegistryQuoteItems() as $quoteItemId => $item) {
+            if ($item['is_address']) {
+                $items[$quoteItemId] = $item;
+            }
+        }
+        return $items;
+    }
+
+    /**
      * Retrieve giftregistry selected addresses indexes
      *
      * @return array

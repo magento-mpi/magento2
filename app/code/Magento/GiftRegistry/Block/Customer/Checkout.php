@@ -98,22 +98,6 @@ class Checkout extends \Magento\View\Element\Template
         return $items;
     }
 
-   /**
-     * Get quote gift registry items for multishipping checkout
-     *
-     * @return array
-     */
-    public function getItems()
-    {
-        $items = array();
-        foreach ($this->_getGiftRegistryQuoteItems() as $quoteItemId => $item) {
-            if ($item['is_address']) {
-                $items[$quoteItemId] = $item;
-            }
-        }
-        return $items;
-    }
-
     /**
      * Get quote unique gift registry item for onepage checkout
      *
