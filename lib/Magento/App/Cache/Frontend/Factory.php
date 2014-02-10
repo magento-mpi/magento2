@@ -261,12 +261,10 @@ class Factory
                 }
         }
 
-        if (!$backendType) {
-            $backendType = $this->_defaultBackend;
-            foreach ($this->_backendOptions as $option => $value) {
-                if (!array_key_exists($option, $options)) {
-                    $options[$option] = $value;
-                }
+        $backendType = $this->_defaultBackend;
+        foreach ($this->_backendOptions as $option => $value) {
+            if (!array_key_exists($option, $options)) {
+                $options[$option] = $value;
             }
         }
 
