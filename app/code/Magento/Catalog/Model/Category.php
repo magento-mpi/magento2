@@ -81,7 +81,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
     /**
      * Category design attributes
      *
-     * @var array
+     * @var string[]
      */
     protected $_designAttributes  = array(
         'custom_design',
@@ -826,7 +826,8 @@ class Category extends \Magento\Catalog\Model\AbstractModel
     /**
      * Before delete process
      *
-     * @return \Magento\Catalog\Model\Category
+     * @throws \Magento\Core\Exception
+     * @return $this
      */
     protected function _beforeDelete()
     {
@@ -1030,6 +1031,8 @@ class Category extends \Magento\Catalog\Model\AbstractModel
 
     /**
      * Init indexing process after category save
+     *
+     * @return void
      */
     public function reindex()
     {
