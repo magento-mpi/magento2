@@ -32,12 +32,11 @@ class Rows extends Full
     /**
      * Return select for remove unnecessary data
      *
-     * @param int[] $rootCatIds
      * @return \Magento\DB\Select
      */
-    protected function getSelectUnnecessaryData(array $rootCatIds)
+    protected function getSelectUnnecessaryData()
     {
-        $select = parent::getSelectUnnecessaryData($rootCatIds);
+        $select = parent::getSelectUnnecessaryData();
         return $select->where($this->getMainTable() . '.product_id IN (?)', $this->limitationByProducts);
     }
 
@@ -78,16 +77,12 @@ class Rows extends Full
     }
 
     /**
-     * Return selects cut by min and max
+     * Check whether select ranging is needed
      *
-     * @param \Magento\DB\Select $select
-     * @param string $field
-     * @param int $range
-     * @return \Magento\DB\Select[]
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @return bool
      */
-    protected function prepareSelectsByRange(\Magento\DB\Select $select, $field, $range = self::RANGE_CATEGORY_STEP)
+    protected function isRangingNeeded()
     {
-        return array($select);
+        return false;
     }
 }
