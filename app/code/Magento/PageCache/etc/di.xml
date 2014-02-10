@@ -8,7 +8,6 @@
  */
 -->
 <config>
-    <preference for="Magento\Session\SessionManagerInterface" type="Magento\Core\Model\Session\Proxy"/>
     <type name="Magento\App\FrontControllerInterface">
         <plugin name="front-controller-head" type="Magento\PageCache\Model\App\FrontController\HeaderPlugin"/>
     </type>
