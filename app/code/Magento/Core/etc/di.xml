@@ -61,6 +61,7 @@
     <preference for="Magento\Translate\ResourceInterface" type="Magento\Core\Model\Resource\Translate" />
     <preference for="Magento\BaseScopeResolverInterface" type="Magento\Core\Model\BaseScopeResolver" />
     <preference for="Magento\Less\PreProcessor\ErrorHandlerInterface" type="Magento\Less\PreProcessor\ErrorHandler" />
+    <preference for="Magento\View\Publisher\PathBuilderInterface" type="Magento\View\Publisher\PathBuilder" />
     <type name="Magento\Translate\Inline">
         <param name="templateFileName">
             <value>Magento_Core::translate_inline.phtml</value>
@@ -351,6 +352,11 @@
         </param>
     </type>
     <type name="Magento\View\Publisher\File">
+        <param name="allowDuplication">
+            <value type="bool">true</value>
+        </param>
+    </type>
+    <type name="Magento\View\Publisher\PathBuilder">
         <param name="allowDuplication">
             <value type="bool">true</value>
         </param>
