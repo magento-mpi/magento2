@@ -139,7 +139,7 @@ class CopyRule
             $paths = $directoryHandler->search($patternTrailing, $patternBaseDir);
         } else {
             // pattern is already a valid path containing no placeholders
-            $paths = array($dirPattern);
+            $paths = array($directoryHandler->getRelativePath($dirPattern));
         }
         $result = array();
         foreach ($paths as $path) {

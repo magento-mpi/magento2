@@ -39,7 +39,7 @@ class CopyRuleTest extends \PHPUnit_Framework_TestCase
         );
         $this->_directoryMock = $this->getMock(
             '\Magento\Filesystem\Directory\Read',
-            array('search', 'isDirectory', 'getAbsolutePath'),
+            array('search', 'isDirectory', 'getAbsolutePath', 'getRelativePath'),
             array(),
             '',
             false
@@ -95,6 +95,11 @@ class CopyRuleTest extends \PHPUnit_Framework_TestCase
             ->expects($this->atLeastOnce())
             ->method('search')
             ->will($this->returnValueMap($filesystemGlobMap))
+        ;
+        $this->_directoryMock
+            ->expects($this->any())
+            ->method('getRelativePath')
+            ->will($this->returnArgument(0))
         ;
         $this->_directoryMock
             ->expects($this->any())
