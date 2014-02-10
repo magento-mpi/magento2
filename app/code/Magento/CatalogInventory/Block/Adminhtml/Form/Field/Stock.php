@@ -41,13 +41,6 @@ class Stock extends \Magento\Data\Form\Element\Select
     protected $_factoryText;
 
     /**
-     * Disabler conditions
-     *
-     * @var array
-     */
-    protected $disablerConditions;
-
-    /**
      * @param \Magento\Data\Form\Element\Factory $factoryElement
      * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
      * @param \Magento\Escaper $escaper
@@ -67,13 +60,6 @@ class Stock extends \Magento\Data\Form\Element\Select
     ) {
         $this->_factoryText = $factoryText;
         $this->_qty = isset($data['qty']) ? $data['qty'] : $this->_createQtyElement();
-
-        $defaultConditions = array(
-            '$.inArray(productType, ' . json_encode(array_values($complexProductTypes)) . ') >= 0',
-            'hasVariation'
-        );
-        $this->disablerConditions = array_merge($disablerConditions, $defaultConditions);
-
         unset($data['qty']);
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);
         $this->setName($data['name']);
@@ -184,7 +170,6 @@ class Stock extends \Magento\Data\Form\Element\Select
      */
     protected function _getJs($quantityFieldId, $inStockFieldId)
     {
-        $disablerConditions = implode(' || ', $this->disablerConditions);
         // @codingStandardsIgnoreStart
         return "
             <script>
@@ -196,18 +181,18 @@ class Stock extends \Magento\Data\Form\Element\Select
                         useConfigManageStockField = $('#inventory_use_config_manage_stock');
 
                     var disabler = function(event) {
-                        var hasVariation = $('[data-panel=product-variations]').is('.opened');
-                        if ({$disablerConditions}) {
-                            return;
-                        }
-                        var manageStockValue = (qty.val() === '') ? 0 : 1;
-                        stockAvailabilityField.prop('disabled', !manageStockValue);
-                        if (manageStockField.val() != manageStockValue && !(event && event.type == 'keyup')) {
-                            if (useConfigManageStockField.val() == 1) {
-                                useConfigManageStockField.removeAttr('checked').val(0);
+                        var stockBeforeDisable = $.Event('stockbeforedisable', {productType: productType});
+                        $('#product_info_tabs_product-details_content').trigger(stockBeforeDisable);
+                        if (stockBeforeDisable.result !== false) {
+                            var manageStockValue = (qty.val() === '') ? 0 : 1;
+                            stockAvailabilityField.prop('disabled', !manageStockValue);
+                            if (manageStockField.val() != manageStockValue && !(event && event.type == 'keyup')) {
+                                if (useConfigManageStockField.val() == 1) {
+                                    useConfigManageStockField.removeAttr('checked').val(0);
+                                }
+                                manageStockField.toggleClass('disabled', false).prop('disabled', false);
+                                manageStockField.val(manageStockValue);
                             }
-                            manageStockField.toggleClass('disabled', false).prop('disabled', false);
-                            manageStockField.val(manageStockValue);
                         }
                     };
 
