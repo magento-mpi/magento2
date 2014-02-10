@@ -164,8 +164,7 @@ class Group extends \Magento\Backend\App\Action
                 if ($customerGroup != null) {
                     $this->_coreRegistry->register(self::REGISTRY_CURRENT_GROUP_ID, $customerGroup->getId());
                 }
-                $this->getResponse()
-                    ->setRedirect($this->getUrl('customer/group/edit', ['id' => $customerGroup->getId()]));
+                $this->getResponse()->setRedirect($this->getUrl('customer/group/edit', ['id' => $id]));
                 return;
             }
         } else {
