@@ -16,6 +16,7 @@
                 <public-max-age>0</public-max-age>
             </headers>
             <full_page_cache>
+                <caching_application>1</caching_application>
                 <varnish>
                     <path>Magento/PageCache/etc/varnish.vcl</path>
                     <access_list>localhost</access_list>

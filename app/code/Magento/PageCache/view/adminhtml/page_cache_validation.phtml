@@ -13,7 +13,11 @@
     //<![CDATA[
     (function ($) {
         var fieldset = $('#system_full_page_cache_varnish'),
-            fields = fieldset.find(':input:not(:hidden, button)');
+            fields = fieldset.find(':input:not(button)');
+        if (fieldset.is(':visible') == false) {
+            fieldset.show();
+            fields.show();
+        }
         fields.each(function (e) {
             $(this).data('previous-value', $(this).val());
         });
