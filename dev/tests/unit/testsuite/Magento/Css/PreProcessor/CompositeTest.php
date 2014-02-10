@@ -22,7 +22,7 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
     protected $preProcessorFactoryMock;
 
     /**
-     * @var array
+     * @var \PHPUnit_Framework_MockObject_MockObject[]
      */
     protected $callMap = [];
 
@@ -33,25 +33,33 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param array $params
      * @param array $preProcessors
      * @param array $createMap
      * @param string $expectedResult
      * @dataProvider processDataProvider
      */
-    public function testProcess($params, $preProcessors, $createMap, $expectedResult)
+    public function testProcess($preProcessors, $createMap, $expectedResult)
     {
-        $targetDir = $this->getMock($params['targetDirectory'], array(), array(), '', false);
+        $publisherFile = $this->getMock('Magento\View\Publisher\CssFile', [], [], '', false);
+        if (count($preProcessors)) {
+            $publisherFile->expects($this->atLeastOnce())
+                ->method('setSourcePath')
+                ->with($this->equalTo($expectedResult));
+        }
+
+        $publisherFile->expects($this->once())
+            ->method('getSourcePath')
+            ->will($this->returnValue($expectedResult));
+
+        $targetDir = $this->getMock('Magento\Filesystem\Directory\WriteInterface', array(), array(), '', false);
 
         foreach ($createMap as $className) {
-            $this->callMap[$className] = $this->getMock($className, array('process'), array(), '', false);
+            $this->callMap[$className] = $this->getMock($className, array(), array(), '', false);
             $this->callMap[$className]->expects($this->once())
                 ->method('process')
                 ->with(
-                    $this->equalTo($params['filePath']),
-                    $this->equalTo($params['params']),
-                    $this->equalTo($targetDir),
-                    $this->equalTo($params['sourcePath'])
+                    $this->equalTo($publisherFile),
+                    $this->equalTo($targetDir)
                 )
                 ->will($this->returnValue($expectedResult));
         }
@@ -68,12 +76,7 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
             ]
         );
 
-        $result = $this->composite->process(
-            $params['filePath'],
-            $params['params'],
-            $targetDir,
-            $params['sourcePath']
-        );
+        $result = $this->composite->process($publisherFile, $targetDir);
         $this->assertEquals($expectedResult, $result);
     }
 
@@ -95,12 +98,6 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'one processor - LESS' => [
-                'params' => [
-                    'filePath' => '/some/file/path_one.css',
-                    'params' => ['theme' => 'some_theme', 'area' => 'frontend'],
-                    'targetDirectory' => 'Magento\Filesystem\Directory\WriteInterface',
-                    'sourcePath' => 'result_source_path_one'
-                ],
                 'preProcessors' => [
                     'css_source_processor' => 'Magento\Css\PreProcessor\Less',
                 ],
@@ -110,29 +107,17 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
                 'expectedResult' => 'result_source_path_one'
             ],
             'list of pre-processors' => [
-                'params' => [
-                    'filePath' => '/some/file/path.css',
-                    'params' => ['theme' => 'some_theme', 'area' => 'frontend'],
-                    'targetDirectory' => 'Magento\Filesystem\Directory\WriteInterface',
-                    'sourcePath' => 'result_source_path_two'
-                ],
                 'preProcessors' => [
                     'css_source_processor' => 'Magento\Css\PreProcessor\Less',
-                    'css_source_processor2' => 'Magento\Css\PreProcessor\Less2',
+                    'css_url_processor' => 'Magento\Css\PreProcessor\UrlResolver',
                 ],
                 'createMap' => [
                     'Magento\Css\PreProcessor\Less',
-                    'Magento\Css\PreProcessor\Less2',
+                    'Magento\Css\PreProcessor\UrlResolver',
                 ],
                 'expectedResult' => 'result_source_path_two'
             ],
             'no result' => [
-                'params' => [
-                    'filePath' => '/some/file/path_other.css',
-                    'params' => ['theme' => 'some_theme', 'area' => 'frontend'],
-                    'targetDirectory' => 'Magento\Filesystem\Directory\WriteInterface',
-                    'sourcePath' => null
-                ],
                 'preProcessors' => [
                     'css_source_processor' => 'Magento\Css\PreProcessor\Less',
                 ],
@@ -142,12 +127,6 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
                 'expectedResult' => null
             ],
             'no processors' => [
-                'params' => [
-                    'filePath' => '/some/file/some_path.css',
-                    'params' => ['theme' => 'some_theme', 'area' => 'frontend'],
-                    'targetDirectory' => 'Magento\Filesystem\Directory\WriteInterface',
-                    'sourcePath' => null
-                ],
                 'preProcessors' => [],
                 'createMap' => [],
                 'expectedResult' => null
