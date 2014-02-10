@@ -16,7 +16,25 @@ class DomTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_mapper = new \Magento\ObjectManager\Config\Mapper\Dom();
+        $callback = function ($argument) {
+            /** @var $argument \DOMElement */
+            if ($argument->getAttribute('name') == 'test name'
+                && $argument->getAttribute('xsi:type') == 'test_type'
+                && $argument->nodeValue == 'test value'
+            ) {
+                return array(
+                    'name' => 'test name',
+                    'xsi:type' => 'test_type',
+                    'value' => 'test value'
+                );
+            }
+        };
+
+        $argumentParserMock = $this->getMock('\Magento\ObjectManager\Config\Mapper\ArgumentParser');
+        $argumentParserMock->expects($this->any())
+            ->method('parse')
+            ->will($this->returnCallback($callback));
+        $this->_mapper = new \Magento\ObjectManager\Config\Mapper\Dom($argumentParserMock);
     }
 
     public function testConvert()
@@ -55,9 +73,9 @@ class DomTest extends \PHPUnit_Framework_TestCase
                     . '</type></config>',
             ),
             array(
-                '<?xml version="1.0"?><config><type name="some_type">'
-                    . '<param name="some_param"><wrong_node name="wrong_node" /></param>'
-                    . '</type></config>',
+                '<?xml version="1.0"?><config><virtualType name="some_type">'
+                    . '<wrong_node name="wrong_node" />'
+                    . '</virtualType></config>',
             ),
             array(
                 '<?xml version="1.0"?><config>'

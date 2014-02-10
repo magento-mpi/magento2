@@ -11,59 +11,25 @@
     <!-- Comment within root node -->
     <preference for="Magento\Module\UpdaterInterface" type="Magento\Module\Updaterter" />
     <preference for="Magento\AppInterface" type="Magento\Core\Model\App\Proxy" />
+    <!--Arguments only-->
     <type name="Magento\App\State">
         <arguments>
-            <argument name="mode" xsi:type="init_parameter">Magento\App\State::PARAM_MODE</argument>
+            <argument name="test name" xsi:type="test_type">test value</argument>
         </arguments>
     </type>
+    <!--Arguments and plugins-->
     <type name="Magento\Core\Model\Config\Modules">
-        <!-- Comment within type node -->
         <arguments>
-            <argument name="storage" xsi:type="object" shared="false"><!-- Comment within param node -->Magento\Core\Model\Config\Storage\Modules</argument>
+            <argument name="test name" xsi:type="test_type">test value</argument>
         </arguments>
         <plugin name="simple_modules_plugin" type="Magento\Core\Model\Config\Modules\Plugin" disabled="true" sortOrder="10" />
         <plugin name="simple_modules_plugin_advanced" type="Magento\Core\Model\Config\Modules\PluginAdvanced" />
         <plugin name="overridden_plugin" sortOrder="30" disabled="true" />
     </type>
+    <!--Shared type-->
     <type name="Magento\Http\Handler\Composite" shared="false">
         <arguments>
-            <argument name="factory" xsi:type="object">Magento\Http\HandlerFactory</argument>
-            <argument name="handlers" xsi:type="array">
-                <!-- Comment within value node -->
-                <item name="custom_handler" xsi:type="array">
-                    <item name="sortOrder" xsi:type="string">25</item>
-                    <item name="class" xsi:type="string">Custom_Cache_Model_Http_Handler</item>
-                </item>
-                <item name="other_handler" xsi:type="array">
-                    <!-- Comment within child node of the value node that represents an assoc array -->
-                    <item name="sortOrder" xsi:type="string">10</item>
-                    <item name="class" xsi:type="string"><![CDATA[Other_Cache_Model_Http_Handler]]></item>
-                </item>
-            </argument>
-        </arguments>
-    </type>
-    <type name="Magento\Data\Collection\Db\FetchStrategy\Cache">
-        <arguments>
-            <argument name="cacheIdPrefix" xsi:type="string"><![CDATA[collection_]]></argument>
-            <argument name="cacheLifetime" xsi:type="string">86400</argument>
-            <argument name="cacheTags" xsi:type="array">
-                <item name="const" xsi:type="const">Magento\Core\Model\Website::CACHE_TAG</item>
-                <item name="boolFalse" xsi:type="boolean">false</item>
-                <item name="boolTrue" xsi:type="boolean">true</item>
-                <item name="boolOne" xsi:type="boolean">1</item>
-                <item name="boolZero" xsi:type="boolean">0</item>
-                <item name="intValue" xsi:type="number">100500</item>
-                <item name="nullValue" xsi:type="null"/>
-                <item name="stringPattern" xsi:type="string">az-value</item>
-            </argument>
-            <argument name="constParam" xsi:type="const">Magento\Core\Model\Website::CACHE_TAG</argument>
-            <argument name="boolFalseParam" xsi:type="boolean">false</argument>
-            <argument name="boolTrueParam" xsi:type="boolean">true</argument>
-            <argument name="boolOneParam" xsi:type="boolean">1</argument>
-            <argument name="boolZeroParam" xsi:type="boolean">0</argument>
-            <argument name="intValueParam" xsi:type="number">100500</argument>
-            <argument name="nullValueParam" xsi:type="null"/>
-            <argument name="stringPatternParam" xsi:type="string">az-value</argument>
+            <argument name="test name" xsi:type="test_type">test value</argument>
         </arguments>
     </type>
     <virtualType name="customCacheInstance" type="Magento\App\Cache" shared="true" />
