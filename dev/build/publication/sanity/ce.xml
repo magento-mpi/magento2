@@ -433,6 +433,10 @@
             <word>CustomAttribute</word>
         </item>
         <item>
+            <path>app/code/Magento/Catalog/Model/ProductTypes/ConfigInterface.php</path>
+            <word>CustomAttribute</word>
+        </item>
+        <item>
             <path>app/code/Magento/Catalog/etc/product_types.xml</path>
             <word>CustomAttribute</word>
         </item>
@@ -450,6 +454,10 @@
         </item>
         <item>
             <path>app/code/Magento/Downloadable/etc/product_types.xml</path>
+            <word>CustomAttribute</word>
+        </item>
+        <item>
+            <path>app/code/Magento/GroupedProduct/etc/product_types.xml</path>
             <word>CustomAttribute</word>
         </item>
         <item>
