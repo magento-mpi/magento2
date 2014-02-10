@@ -10,6 +10,7 @@ namespace Magento\Less\PreProcessor\Instruction;
 
 use Magento\Less\PreProcessor;
 use Magento\Less\PreProcessorInterface;
+use Magento\View;
 
 /**
  * Less @magento_import instruction preprocessor
@@ -42,15 +43,15 @@ class MagentoImport implements PreProcessorInterface
     protected $viewService;
 
     /**
-     * @param \Magento\View\Layout\File\SourceInterface $fileSource
-     * @param \Magento\View\Service $viewService
-     * @param \Magento\View\RelatedFile $relatedFile
+     * @param View\Layout\File\SourceInterface $fileSource
+     * @param View\Service $viewService
+     * @param View\RelatedFile $relatedFile
      * @param PreProcessor\ErrorHandlerInterface $errorHandler
      */
     public function __construct(
-        \Magento\View\Layout\File\SourceInterface $fileSource,
-        \Magento\View\Service $viewService,
-        \Magento\View\RelatedFile $relatedFile,
+        View\Layout\File\SourceInterface $fileSource,
+        View\Service $viewService,
+        View\RelatedFile $relatedFile,
         PreProcessor\ErrorHandlerInterface $errorHandler
     ) {
         $this->fileSource = $fileSource;
@@ -85,14 +86,15 @@ class MagentoImport implements PreProcessorInterface
         try {
             $resolvedPath = $this->relatedFile->buildPath(
                 $matchContent['path'],
-                $paths['parentAbsolutePath'],
                 $paths['parentPath'],
                 $viewParams
             );
             $importFiles = $this->fileSource->getFiles($viewParams['themeModel'], $resolvedPath);
             /** @var $importFile \Magento\View\Layout\File */
             foreach ($importFiles as $importFile) {
-                $importsContent .= "@import '{$importFile->getFilename()}';\n";
+                $importsContent .=  $importFile->getModule()
+                    ? "@import '{$importFile->getModule()}::{$resolvedPath}';\n"
+                    : "@import '{$matchContent['path']}';\n";
             }
         } catch (\LogicException $e) {
             $this->errorHandler->processException($e);

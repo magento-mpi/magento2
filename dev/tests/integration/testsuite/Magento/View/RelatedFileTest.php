@@ -29,7 +29,6 @@ class RelatedFileTest extends \PHPUnit_Framework_TestCase
     {
         $path = $this->model->buildPath(
             $arguments['relatedFilePath'],
-            $arguments['parentPath'],
             $arguments['parentRelativePath'],
             $arguments['params']
         );
@@ -42,14 +41,10 @@ class RelatedFileTest extends \PHPUnit_Framework_TestCase
      */
     public function buildPathDataProvider()
     {
-        $themesPath = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Filesystem')->getPath(\Magento\App\Filesystem::THEMES_DIR);
-
         return array(
             array(
                 'arguments' => array(
                     'relatedFilePath' => '../directory/file.css',
-                    'parentPath' => '/root/app/design/frontend/magento_plushe/css/source.css',
                     'parentRelativePath' => 'css/source.css',
                     'params' => ['module' => false]
                 ),
@@ -61,7 +56,6 @@ class RelatedFileTest extends \PHPUnit_Framework_TestCase
             array(
                 'arguments' => array(
                     'relatedFilePath' => '../some_dir/file.css',
-                    'parentPath' => ($themesPath . '/frontend/magento_plushe/css/source.css'),
                     'parentRelativePath' => 'css/source.css',
                     'params' => ['module' => 'Magento_Theme']
                 ),
@@ -73,7 +67,6 @@ class RelatedFileTest extends \PHPUnit_Framework_TestCase
             array(
                 'arguments' => array(
                     'relatedFilePath' => 'Magento_Theme::some_dir/file.css',
-                    'parentPath' => ($themesPath . '/frontend/magento_plushe/css/source.css'),
                     'parentRelativePath' => 'css/source.css',
                     'params' => ['module' => false]
                 ),

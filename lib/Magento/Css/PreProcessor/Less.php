@@ -23,11 +23,6 @@ class Less implements PreProcessorInterface
     /**#@-*/
 
     /**
-     * @var \Magento\View\FileSystem
-     */
-    protected $viewFileSystem;
-
-    /**
      * @var \Magento\Less\PreProcessor
      */
     protected $lessPreProcessor;
@@ -43,18 +38,15 @@ class Less implements PreProcessorInterface
     protected $logger;
 
     /**
-     * @param \Magento\View\FileSystem $viewFileSystem
      * @param \Magento\Less\PreProcessor $lessPreProcessor
      * @param AdapterInterface $adapter
      * @param \Magento\Logger $logger
      */
     public function __construct(
-        \Magento\View\FileSystem $viewFileSystem,
         \Magento\Less\PreProcessor $lessPreProcessor,
         \Magento\Css\PreProcessor\AdapterInterface $adapter,
         \Magento\Logger $logger
     ) {
-        $this->viewFileSystem = $viewFileSystem;
         $this->lessPreProcessor = $lessPreProcessor;
         $this->adapter = $adapter;
         $this->logger = $logger;
@@ -73,20 +65,15 @@ class Less implements PreProcessorInterface
         if ($publisherFile->getSourcePath()) {
             return $publisherFile->getSourcePath();
         }
-
-        $lessFilePath = $this->replaceExtension($publisherFile->getFilePath(), 'css', 'less');
         try {
             $preparedLessFileSourcePath = $this->lessPreProcessor->processLessInstructions(
-                $lessFilePath,
+                $this->replaceExtension($publisherFile->getFilePath(), 'css', 'less'),
                 $publisherFile->getViewParams()
             );
+            $cssContent = $this->adapter->process($preparedLessFileSourcePath);
         } catch (\Magento\Filesystem\FilesystemException $e) {
             $this->logger->logException($e);
             return $publisherFile->getSourcePath();     // It's actually 'null'
-        }
-
-        try {
-            $cssContent = $this->adapter->process($preparedLessFileSourcePath);
         } catch (\Magento\Css\PreProcessor\Adapter\AdapterException $e) {
             $this->logger->logException($e);
             return $publisherFile->getSourcePath();     // It's actually 'null'

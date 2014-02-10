@@ -87,13 +87,8 @@ class UrlResolver implements PreProcessorInterface
         $content = $this->rootDirectory->readFile($this->rootDirectory->getRelativePath($sourcePath));
         $params = $publisherFile->getViewParams();
 
-        $callback = function ($fileId, $originalPath) use ($filePath, $params) {
-            $relatedPathPublic = $this->publishRelatedViewFile(
-                $fileId,
-                $originalPath,
-                $filePath,
-                $params
-            );
+        $callback = function ($fileId) use ($filePath, $params) {
+            $relatedPathPublic = $this->publishRelatedViewFile($fileId, $filePath, $params);
             return $relatedPathPublic;
         };
         try {
@@ -111,14 +106,13 @@ class UrlResolver implements PreProcessorInterface
      * Publish file identified by $fileId basing on information about parent file path and name.
      *
      * @param string $fileId URL to the file that was extracted from $parentFilePath
-     * @param string $parentFilePath path to the file
      * @param string $parentFileName original file name identifier that was requested for processing
      * @param array $params theme/module parameters array
      * @return string
      */
-    protected function publishRelatedViewFile($fileId, $parentFilePath, $parentFileName, $params)
+    protected function publishRelatedViewFile($fileId, $parentFileName, $params)
     {
-        $relativeFilePath = $this->relatedFile->buildPath($fileId, $parentFilePath, $parentFileName, $params);
+        $relativeFilePath = $this->relatedFile->buildPath($fileId, $parentFileName, $params);
         return $this->publisher->getPublicFilePath($relativeFilePath, $params);
     }
 }

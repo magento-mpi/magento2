@@ -10,6 +10,7 @@ namespace Magento\Less\PreProcessor\Instruction;
 
 use Magento\Less\PreProcessorInterface;
 use Magento\Less\PreProcessor;
+use Magento\View;
 
 /**
  * Less @import instruction preprocessor
@@ -28,7 +29,7 @@ class Import implements PreProcessorInterface
     protected $preProcessor;
 
     /**
-     * @var \Magento\View\RelatedFile
+     * @var View\RelatedFile
      */
     protected $relatedFile;
 
@@ -40,12 +41,12 @@ class Import implements PreProcessorInterface
     /**
      * @param PreProcessor $preProcessor
      * @param PreProcessor\ErrorHandlerInterface $errorHandler
-     * @param \Magento\View\RelatedFile $relatedFile
+     * @param View\RelatedFile $relatedFile
      */
     public function __construct(
         PreProcessor $preProcessor,
         PreProcessor\ErrorHandlerInterface $errorHandler,
-        \Magento\View\RelatedFile $relatedFile
+        View\RelatedFile $relatedFile
     ) {
         $this->preProcessor = $preProcessor;
         $this->errorHandler = $errorHandler;
@@ -64,17 +65,12 @@ class Import implements PreProcessorInterface
     {
         $importPaths = array();
         foreach ($matchedPaths as $path) {
-            $resolvedPath = $this->relatedFile->buildPath(
-                $this->preparePath($path),
-                $params['parentAbsolutePath'],
-                $params['parentPath'],
-                $viewParams
-            );
             try {
-                $importPaths[$path] = $this->preProcessor->processLessInstructions(
-                    $resolvedPath,
-                    $viewParams
+                $tempViewParams = $viewParams;
+                $resolvedPath = $this->relatedFile->buildPath(
+                    $this->preparePath($path), $params['parentPath'], $tempViewParams
                 );
+                $importPaths[$path] = $this->preProcessor->processLessInstructions($resolvedPath, $tempViewParams);
             } catch (\Magento\Filesystem\FilesystemException $e) {
                 $this->errorHandler->processException($e);
             }
@@ -111,7 +107,7 @@ class Import implements PreProcessorInterface
      * Replace import path to file
      *
      * @param array $matchContent
-     * @param $importPaths
+     * @param array $importPaths
      * @return string
      */
     protected function replace($matchContent, $importPaths)
@@ -120,8 +116,8 @@ class Import implements PreProcessorInterface
         if (empty($importPaths[$path])) {
             return '';
         }
-        $typeString  = empty($matchContent['type']) ? '' : '(' . $matchContent['type'] . ') ';
-        $mediaString  = empty($matchContent['media']) ? '' : ' ' . $matchContent['media'];
+        $typeString = empty($matchContent['type']) ? '' : '(' . $matchContent['type'] . ') ';
+        $mediaString = empty($matchContent['media']) ? '' : ' ' . $matchContent['media'];
         return "@import {$typeString}'{$importPaths[$path]}'{$mediaString};";
     }
 }

@@ -59,7 +59,7 @@ class CssResolver
         $relativeUrls = $this->_extractCssRelativeUrls($cssContent);
         foreach ($relativeUrls as $urlNotation => $originalRelativeUrl) {
             if ($cbRelUrlToPublicPath) {
-                $filePath = call_user_func($cbRelUrlToPublicPath, $originalRelativeUrl, $originalPath);
+                $filePath = call_user_func($cbRelUrlToPublicPath, $originalRelativeUrl);
             } else {
                 $filePath = dirname($originalPath) . '/' . $originalRelativeUrl;
             }
