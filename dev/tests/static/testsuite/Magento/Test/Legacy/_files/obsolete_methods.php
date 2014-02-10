@@ -922,6 +922,7 @@ return array(
     array('splitInjection', '\Magento\Core\Helper\String', '\Magento\Stdlib\String::splitInjection'),
     array('truncate', '\Magento\Core\Helper\String', '\Magento\Filter\Truncate'),
     array('ksortMultibyte', '\Magento\Core\Helper\String'),
+    array('buildClassName', '\Magento\Core\Helper\String', '\Magento\Code\NameBuilder'),
     array('uc_words'),
     array('is_empty_date'),
     array('now'),

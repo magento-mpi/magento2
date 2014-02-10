@@ -27,7 +27,7 @@ class Category extends \Magento\Core\Model\Config\Value
     protected $_catalogCategory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
@@ -37,7 +37,7 @@ class Category extends \Magento\Core\Model\Config\Value
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
+        \Magento\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,

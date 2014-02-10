@@ -47,7 +47,7 @@ class ValueTest extends \PHPUnit_Framework_TestCase
     public function testSaveValueTitles()
     {
         $object = new Stub(
-            $this->getMock('Magento\Core\Model\Context', array(), array(), '', false),
+            $this->getMock('Magento\Model\Context', array(), array(), '', false),
             $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false),
             null,
             null,

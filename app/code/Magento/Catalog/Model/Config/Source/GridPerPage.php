@@ -18,7 +18,7 @@
  */
 namespace Magento\Catalog\Model\Config\Source;
 
-class GridPerPage implements \Magento\Core\Model\Option\ArrayInterface
+class GridPerPage implements \Magento\Option\ArrayInterface
 {
     /**
      * @var array

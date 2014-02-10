@@ -1,22 +1,13 @@
 <?php
 /**
+ * Calculations library
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
-/**
- * Calculations model
- *
- * @category    Magento
- * @package     Magento_Core
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-namespace Magento\Core\Model;
+namespace Magento\Math;
 
 class Calculator
 {
@@ -32,20 +23,20 @@ class Calculator
      *
      * @var \Magento\Core\Model\Store|null
      */
-    protected $_store = null;
+    protected $_scope = null;
 
     /**
      * Initialize calculator
      *
-     * @param \Magento\Core\Model\Store|int $store
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\BaseScopeResolverInterface $scopeResolver
+     * @param \Magento\BaseScopeInterface|int $scope
      */
-    public function __construct($store, \Magento\Core\Model\StoreManagerInterface $storeManager)
+    public function __construct(\Magento\BaseScopeResolverInterface $scopeResolver, $scope = null)
     {
-        if (!($store instanceof \Magento\Core\Model\Store)) {
-            $store = $storeManager->getStore($store);
+        if (!($scope instanceof \Magento\BaseScopeInterface)) {
+            $scope = $scopeResolver->getScope($scope);
         }
-        $this->_store = $store;
+        $this->_scope = $scope;
     }
 
     /**
@@ -63,7 +54,7 @@ class Calculator
                 $this->_delta = -$this->_delta;
             }
             $price  += $this->_delta;
-            $roundedPrice = $this->_store->roundPrice($price);
+            $roundedPrice = $this->_scope->roundPrice($price);
             $this->_delta = $price - $roundedPrice;
             if ($negative) {
                 $this->_delta = -$this->_delta;

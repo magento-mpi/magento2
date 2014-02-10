@@ -32,7 +32,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     protected $_actions;
 
     /**
-     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Model\LocaleInterface $locale
@@ -43,7 +43,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
+        \Magento\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Core\Model\LocaleInterface $locale,

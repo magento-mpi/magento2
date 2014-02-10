@@ -48,7 +48,7 @@ class InvoiceTest extends \PHPUnit_Framework_TestCase
                 'Magento\Sales\Model\Resource\OrderFactory', array(), array(), '', false
             ),
             'calculatorFactory' => $this->getMock(
-                'Magento\Core\Model\CalculatorFactory', array(), array(), '', false
+                'Magento\Math\CalculatorFactory', array(), array(), '', false
             ),
             'invoiceItemCollectionFactory' => $this->getMock(
                 'Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory', array(), array(), '', false

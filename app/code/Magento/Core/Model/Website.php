@@ -164,7 +164,7 @@ class Website extends \Magento\Core\Model\AbstractModel
     protected $_currencyFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Resource\Config\Data $configDataResource
      * @param \Magento\App\ConfigInterface $coreConfig
@@ -179,7 +179,7 @@ class Website extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
+        \Magento\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Resource\Config\Data $configDataResource,
         \Magento\App\ConfigInterface $coreConfig,

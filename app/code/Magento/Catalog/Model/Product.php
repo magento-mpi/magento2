@@ -197,7 +197,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     protected $_filesystem;
 
     /**
-     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param Product\Url $url
@@ -224,7 +224,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
+        \Magento\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Product\Url $url,

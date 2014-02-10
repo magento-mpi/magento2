@@ -95,7 +95,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
     /**
      * Class constructor
      *
-     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Eav\Model\Config $eavConfig
@@ -111,7 +111,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
+        \Magento\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Eav\Model\Config $eavConfig,

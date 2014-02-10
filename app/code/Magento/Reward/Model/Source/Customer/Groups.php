@@ -18,7 +18,7 @@
  */
 namespace Magento\Reward\Model\Source\Customer;
 
-class Groups implements \Magento\Core\Model\Option\ArrayInterface
+class Groups implements \Magento\Option\ArrayInterface
 {
     /**
      * @var \Magento\Customer\Model\Resource\Group\CollectionFactory

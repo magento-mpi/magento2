@@ -11,7 +11,7 @@
 
 namespace Magento\Shipping\Model\Config\Source;
 
-class Allspecificcountries implements \Magento\Core\Model\Option\ArrayInterface
+class Allspecificcountries implements \Magento\Option\ArrayInterface
 {
     public function toOptionArray()
     {

@@ -50,7 +50,7 @@ class Link extends \Magento\Core\Model\AbstractModel
     protected $_linkCollectionFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Catalog\Model\Resource\Product\Link\CollectionFactory $linkCollectionFactory
      * @param \Magento\Catalog\Model\Resource\Product\Link\Product\CollectionFactory $productCollectionFactory
@@ -59,7 +59,7 @@ class Link extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
+        \Magento\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Catalog\Model\Resource\Product\Link\CollectionFactory $linkCollectionFactory,
         \Magento\Catalog\Model\Resource\Product\Link\Product\CollectionFactory $productCollectionFactory,

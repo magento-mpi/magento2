@@ -123,7 +123,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
     protected $filesystem;
 
     /**
-     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\App\Filesystem $filesystem,
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -140,7 +140,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
+        \Magento\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\App\Filesystem $filesystem,
         \Magento\Core\Model\StoreManagerInterface $storeManager,

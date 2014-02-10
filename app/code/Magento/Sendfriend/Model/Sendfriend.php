@@ -99,7 +99,7 @@ class Sendfriend extends \Magento\Core\Model\AbstractModel
     protected $_escaper;
 
     /**
-     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Email\Model\TemplateFactory $templateFactory
@@ -112,7 +112,7 @@ class Sendfriend extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
+        \Magento\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Email\Model\TemplateFactory $templateFactory,

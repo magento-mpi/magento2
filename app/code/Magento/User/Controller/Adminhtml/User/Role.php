@@ -202,7 +202,7 @@ class Role extends \Magento\Backend\App\AbstractAction
 
         $isAll = $this->getRequest()->getParam('all');
         if ($isAll) {
-            $resource = array($this->_objectManager->get('Magento\Core\Model\Acl\RootResource')->getId());
+            $resource = array($this->_objectManager->get('Magento\Acl\RootResource')->getId());
         }
 
         $role = $this->_initRole('role_id');

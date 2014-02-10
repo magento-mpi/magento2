@@ -40,7 +40,7 @@ class Export
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Core\Model\Option\ArrayPool $optionArrayPool
+     * @param \Magento\Option\ArrayPool $optionArrayPool
      * @param \Magento\Backend\Model\Config\Source\Email\Method $emailMethod
      * @param \Magento\Backend\Model\Config\Source\Email\Identity $emailIdentity
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data $operationData
@@ -54,7 +54,7 @@ class Export
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
-        \Magento\Core\Model\Option\ArrayPool $optionArrayPool,
+        \Magento\Option\ArrayPool $optionArrayPool,
         \Magento\Backend\Model\Config\Source\Email\Method $emailMethod,
         \Magento\Backend\Model\Config\Source\Email\Identity $emailIdentity,
         \Magento\ScheduledImportExport\Model\Scheduled\Operation\Data $operationData,

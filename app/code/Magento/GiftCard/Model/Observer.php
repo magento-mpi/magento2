@@ -90,7 +90,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
     protected $_locale;
 
     /**
-     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\View\LayoutInterface $layout
@@ -109,7 +109,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
      * @throws \InvalidArgumentException
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
+        \Magento\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\View\LayoutInterface $layout,

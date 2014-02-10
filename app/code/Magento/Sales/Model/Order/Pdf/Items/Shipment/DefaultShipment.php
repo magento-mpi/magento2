@@ -23,7 +23,7 @@ class DefaultShipment extends \Magento\Sales\Model\Order\Pdf\Items\AbstractItems
     protected $string;
 
     /**
-     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\App\Filesystem $filesystem
@@ -34,7 +34,7 @@ class DefaultShipment extends \Magento\Sales\Model\Order\Pdf\Items\AbstractItems
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
+        \Magento\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\App\Filesystem $filesystem,

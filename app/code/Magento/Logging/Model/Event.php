@@ -26,7 +26,7 @@ class Event extends \Magento\Core\Model\AbstractModel
     /**
      * Construct
      *
-     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\User\Model\UserFactory $userFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -34,7 +34,7 @@ class Event extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
+        \Magento\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\User\Model\UserFactory $userFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,

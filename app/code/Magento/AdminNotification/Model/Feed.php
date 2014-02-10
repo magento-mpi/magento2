@@ -43,7 +43,7 @@ class Feed extends \Magento\Core\Model\AbstractModel
     protected $_inboxFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Backend\App\ConfigInterface $backendConfig
      * @param \Magento\AdminNotification\Model\InboxFactory $inboxFactory
@@ -52,7 +52,7 @@ class Feed extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
+        \Magento\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Backend\App\ConfigInterface $backendConfig,
         \Magento\AdminNotification\Model\InboxFactory $inboxFactory,

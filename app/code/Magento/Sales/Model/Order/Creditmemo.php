@@ -186,7 +186,7 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
     protected $_cmItemCollectionFactory;
 
     /**
-     * @var \Magento\Core\Model\CalculatorFactory
+     * @var \Magento\Math\CalculatorFactory
      */
     protected $_calculatorFactory;
 
@@ -216,7 +216,7 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
     protected $_emailInfoFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\LocaleInterface $coreLocale
      * @param \Magento\Stdlib\DateTime $dateTime
@@ -226,7 +226,7 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
      * @param \Magento\Sales\Model\Order\Creditmemo\Config $creditmemoConfig
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Sales\Model\Resource\Order\Creditmemo\Item\CollectionFactory $cmItemCollectionFactory
-     * @param \Magento\Core\Model\CalculatorFactory $calculatorFactory
+     * @param \Magento\Math\CalculatorFactory $calculatorFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Sales\Model\Order\Creditmemo\CommentFactory $commentFactory
      * @param \Magento\Sales\Model\Resource\Order\Creditmemo\Comment\CollectionFactory $commentCollectionFactory
@@ -237,7 +237,7 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
+        \Magento\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\LocaleInterface $coreLocale,
         \Magento\Stdlib\DateTime $dateTime,
@@ -247,7 +247,7 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
         \Magento\Sales\Model\Order\Creditmemo\Config $creditmemoConfig,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Sales\Model\Resource\Order\Creditmemo\Item\CollectionFactory $cmItemCollectionFactory,
-        \Magento\Core\Model\CalculatorFactory $calculatorFactory,
+        \Magento\Math\CalculatorFactory $calculatorFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Sales\Model\Order\Creditmemo\CommentFactory $commentFactory,
         \Magento\Sales\Model\Resource\Order\Creditmemo\Comment\CollectionFactory $commentCollectionFactory,
@@ -437,7 +437,7 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
     {
         if ($price) {
             if (!isset($this->_calculators[$type])) {
-                $this->_calculators[$type] = $this->_calculatorFactory->create(array('store' => $this->getStore()));
+                $this->_calculators[$type] = $this->_calculatorFactory->create(array('scope' => $this->getStore()));
             }
             $price = $this->_calculators[$type]->deltaRound($price, $negative);
         }

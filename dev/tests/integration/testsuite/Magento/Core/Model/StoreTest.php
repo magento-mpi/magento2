@@ -35,7 +35,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_modelParams = array(
-            'context'                 => $objectManager->get('Magento\Core\Model\Context'),
+            'context'                 => $objectManager->get('Magento\Model\Context'),
             'registry'                => $objectManager->get('Magento\Core\Model\Registry'),
             'coreFileStorageDatabase' => $objectManager->get('Magento\Core\Helper\File\Storage\Database'),
             'configCacheType'         => $objectManager->get('Magento\App\Cache\Type\Config'),
@@ -361,7 +361,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
 
         $params = $this->_modelParams;
         $params['context'] = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Context', array('appState' => $appStateMock));
+            ->create('Magento\Model\Context', array('appState' => $appStateMock));
 
         $model = $this->getMock('Magento\Core\Model\Store', array('getConfig'), $params);
 

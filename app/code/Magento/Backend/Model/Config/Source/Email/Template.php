@@ -8,7 +8,7 @@
 namespace Magento\Backend\Model\Config\Source\Email;
 
 class Template extends \Magento\Object
-    implements \Magento\Core\Model\Option\ArrayInterface
+    implements \Magento\Option\ArrayInterface
 {
     /**
      * @var \Magento\Core\Model\Registry

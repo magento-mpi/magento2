@@ -9,7 +9,7 @@
  */
 namespace Magento\Customer\Model\Resource\Customer;
 
-class CustomersTypeOptions implements \Magento\Core\Model\Option\ArrayInterface
+class CustomersTypeOptions implements \Magento\Option\ArrayInterface
 {
     /**
      * Return statuses option array

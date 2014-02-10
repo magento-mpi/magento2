@@ -17,7 +17,7 @@
  */
 namespace Magento\VersionsCms\Model\Source;
 
-class Versioning implements \Magento\Core\Model\Option\ArrayInterface
+class Versioning implements \Magento\Option\ArrayInterface
 {
     /**
      * Retrieve options array

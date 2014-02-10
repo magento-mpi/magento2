@@ -42,7 +42,7 @@ class Consumer extends \Magento\Core\Model\AbstractModel implements ConsumerInte
     protected $_keyLengthFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Integration\Model\Oauth\Consumer\Validator\KeyLengthFactory $keyLengthFactory
      * @param \Magento\Url\Validator $urlValidator
@@ -51,7 +51,7 @@ class Consumer extends \Magento\Core\Model\AbstractModel implements ConsumerInte
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
+        \Magento\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Integration\Model\Oauth\Consumer\Validator\KeyLengthFactory $keyLengthFactory,
         \Magento\Url\Validator $urlValidator,

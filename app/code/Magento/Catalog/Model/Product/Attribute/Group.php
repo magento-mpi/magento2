@@ -22,7 +22,7 @@ class Group extends \Magento\Eav\Model\Entity\Attribute\Group
     protected $_attributeCollectionFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -30,7 +30,7 @@ class Group extends \Magento\Eav\Model\Entity\Attribute\Group
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
+        \Magento\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,

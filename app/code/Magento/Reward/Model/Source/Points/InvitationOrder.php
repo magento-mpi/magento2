@@ -14,7 +14,7 @@
  */
 namespace Magento\Reward\Model\Source\Points;
 
-class InvitationOrder implements \Magento\Core\Model\Option\ArrayInterface
+class InvitationOrder implements \Magento\Option\ArrayInterface
 {
     /**
      * @return array

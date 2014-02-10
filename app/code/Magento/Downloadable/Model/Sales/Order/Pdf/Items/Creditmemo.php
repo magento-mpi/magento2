@@ -21,7 +21,7 @@ class Creditmemo extends \Magento\Downloadable\Model\Sales\Order\Pdf\Items\Abstr
     protected $string;
 
     /**
-     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\App\Filesystem $filesystem
@@ -35,7 +35,7 @@ class Creditmemo extends \Magento\Downloadable\Model\Sales\Order\Pdf\Items\Abstr
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
+        \Magento\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\App\Filesystem $filesystem,

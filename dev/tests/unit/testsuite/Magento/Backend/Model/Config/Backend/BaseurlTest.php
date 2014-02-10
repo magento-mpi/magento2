@@ -16,7 +16,7 @@ class BaseurlTest extends \PHPUnit_Framework_TestCase
         $storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
         $cacheManager = $this->getMock('Magento\App\CacheInterface');
         $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
-        $context = new \Magento\Core\Model\Context(
+        $context = new \Magento\Model\Context(
             $logger,
             $eventDispatcher,
             $cacheManager,

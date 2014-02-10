@@ -9,7 +9,7 @@
  */
 namespace Magento\Search\Model\Adminhtml\Search\Grid;
 
-class Options implements \Magento\Core\Model\Option\ArrayInterface
+class Options implements \Magento\Option\ArrayInterface
 {
     /**
      * @var \Magento\App\RequestInterface

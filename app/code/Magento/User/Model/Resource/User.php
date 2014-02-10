@@ -130,7 +130,7 @@ class User extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Check if user is assigned to any role
      *
-     * @param int|\Magento\Core\Admin\Model\User $user
+     * @param int|\Magento\Core\Model\AbstractModel $user
      * @return null|false|array
      */
     public function hasAssigned2Role($user)

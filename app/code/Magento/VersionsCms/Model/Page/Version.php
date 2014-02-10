@@ -80,7 +80,7 @@ class Version extends \Magento\Core\Model\AbstractModel
     protected $_pageRevisionFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\VersionsCms\Model\IncrementFactory $cmsIncrementFactory
      * @param \Magento\Core\Model\Date $coreDate
@@ -94,7 +94,7 @@ class Version extends \Magento\Core\Model\AbstractModel
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
+        \Magento\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\VersionsCms\Model\IncrementFactory $cmsIncrementFactory,
         \Magento\Core\Model\Date $coreDate,

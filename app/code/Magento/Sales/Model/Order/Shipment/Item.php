@@ -49,7 +49,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     protected $_orderItemFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Sales\Model\Order\ItemFactory $orderItemFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -57,7 +57,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
+        \Magento\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Sales\Model\Order\ItemFactory $orderItemFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,

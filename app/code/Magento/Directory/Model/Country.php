@@ -45,7 +45,7 @@ class Country extends \Magento\Core\Model\AbstractModel
     protected $_regionCollectionFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Directory\Model\Country\FormatFactory $formatFactory
@@ -55,7 +55,7 @@ class Country extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
+        \Magento\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Directory\Model\Country\FormatFactory $formatFactory,

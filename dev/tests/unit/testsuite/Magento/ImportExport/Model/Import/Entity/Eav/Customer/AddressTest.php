@@ -230,7 +230,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             $arguments = $this->_objectManagerMock->getConstructArguments(
                 'Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
                 array(
-                    $this->getMock('Magento\Core\Model\Context', array(), array(), '', false, false),
+                    $this->getMock('Magento\Model\Context', array(), array(), '', false, false),
                     $this->getMock('Magento\Core\Model\Registry'),
                     $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false, false),
                     $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false, false),

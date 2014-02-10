@@ -22,7 +22,7 @@ class Allow extends \Magento\Backend\Model\Config\Backend\Currency\AbstractCurre
     protected $_locale;
 
     /**
-     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
@@ -33,7 +33,7 @@ class Allow extends \Magento\Backend\Model\Config\Backend\Currency\AbstractCurre
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
+        \Magento\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,

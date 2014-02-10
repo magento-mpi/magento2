@@ -47,7 +47,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
     protected $_mediaHelper;
 
     /**
-     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
      * @param \Magento\Core\Model\Date $dateModel
@@ -60,7 +60,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
+        \Magento\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
         \Magento\Core\Model\Date $dateModel,

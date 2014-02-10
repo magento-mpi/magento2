@@ -48,7 +48,7 @@ use Magento\CatalogSearch\Model\Resource\EngineInterface;
 use Magento\CatalogSearch\Model\Resource\EngineProvider;
 use Magento\Core\Exception;
 use Magento\Core\Model\AbstractModel;
-use Magento\Core\Model\Context;
+use Magento\Model\Context;
 use Magento\Core\Model\Registry;
 use Magento\Core\Model\StoreManagerInterface;
 use Magento\Directory\Model\Currency;

@@ -9,7 +9,7 @@
  */
 namespace Magento\Catalog\Model\Config\Source\Product\Options;
 
-class Type implements \Magento\Core\Model\Option\ArrayInterface
+class Type implements \Magento\Option\ArrayInterface
 {
     /**
      * @var \Magento\Catalog\Model\ProductOptions\ConfigInterface

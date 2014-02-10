@@ -48,7 +48,7 @@ class Rate extends \Magento\Core\Model\AbstractModel
     protected $_titleFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Tax\Model\Calculation\Rate\TitleFactory $taxTitleFactory
@@ -57,7 +57,7 @@ class Rate extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
+        \Magento\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Tax\Model\Calculation\Rate\TitleFactory $taxTitleFactory,

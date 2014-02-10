@@ -182,7 +182,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
     protected $dateTime;
 
     /**
-     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Email\Model\Sender $sender
@@ -204,7 +204,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
+        \Magento\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Customer\Helper\Data $customerData,
         \Magento\Email\Model\Sender $sender,

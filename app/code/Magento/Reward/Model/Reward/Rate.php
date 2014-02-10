@@ -52,7 +52,7 @@ class Rate extends \Magento\Core\Model\AbstractModel
     protected $_locale;
 
     /**
-     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Reward\Helper\Data $rewardData
      * @param \Magento\Reward\Model\Resource\Reward\Rate $resource
@@ -62,7 +62,7 @@ class Rate extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
+        \Magento\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Reward\Helper\Data $rewardData,
         \Magento\Reward\Model\Resource\Reward\Rate $resource,

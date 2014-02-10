@@ -59,7 +59,7 @@ class Type extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig
      * @param \Magento\GiftRegistry\Model\Attribute\ProcessorFactory $processorFactory
@@ -70,7 +70,7 @@ class Type extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
+        \Magento\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig,
         \Magento\GiftRegistry\Model\Attribute\ProcessorFactory $processorFactory,

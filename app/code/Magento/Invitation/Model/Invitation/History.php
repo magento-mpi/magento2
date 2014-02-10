@@ -41,7 +41,7 @@ class History extends \Magento\Core\Model\AbstractModel
     protected $dateTime;
 
     /**
-     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Invitation\Model\Source\Invitation\Status $invitationStatus
      * @param \Magento\Stdlib\DateTime $dateTime
@@ -50,7 +50,7 @@ class History extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
+        \Magento\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Invitation\Model\Source\Invitation\Status $invitationStatus,
         \Magento\Stdlib\DateTime $dateTime,

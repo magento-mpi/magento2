@@ -134,7 +134,7 @@ class User
     protected $dateTime;
 
     /**
-     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\User\Helper\Data $userData
      * @param \Magento\Email\Model\Sender $sender
@@ -152,7 +152,7 @@ class User
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
+        \Magento\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\User\Helper\Data $userData,
         \Magento\Email\Model\Sender $sender,

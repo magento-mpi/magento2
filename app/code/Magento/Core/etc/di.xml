@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <preference for="Magento\Acl\CacheInterface" type="Magento\Core\Model\Acl\Cache" />
+    <preference for="Magento\Acl\CacheInterface" type="Magento\Acl\Cache" />
     <preference for="Magento\Module\Updater\SetupInterface" type="Magento\Core\Model\Resource\Setup" />
     <preference for="Magento\Module\ResourceResolverInterface" type="Magento\Module\ResourceResolver" />
     <preference for="Magento\AuthorizationInterface" type="Magento\Authorization" />
@@ -112,7 +112,7 @@
             <instance type="Magento\UrlInterface" shared="false"/>
         </param>
     </type>
-    <type name="Magento\Core\Model\Acl\Cache">
+    <type name="Magento\Acl\Cache">
         <param name="cacheKey">
             <value>global_acl_resources</value>
         </param>
@@ -266,7 +266,7 @@
     </type>
     <type name="Magento\Core\Model\Translate\Inline\Parser">
         <param name="inputFilter">
-            <instance type="Magento\Core\Model\Input\Filter\MaliciousCode" />
+            <instance type="Magento\Filter\Input\MaliciousCode" />
         </param>
     </type>
     <type name="Magento\App\Config\ScopePool">

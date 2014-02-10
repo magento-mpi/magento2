@@ -40,14 +40,14 @@ class State extends \Magento\Core\Model\AbstractModel
     protected $_eventObject = 'indexer_state';
 
     /**
-     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Indexer\Model\Resource\Indexer\State $resource
      * @param \Magento\Indexer\Model\Resource\Indexer\State\Collection $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
+        \Magento\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Indexer\Model\Resource\Indexer\State $resource,
         \Magento\Indexer\Model\Resource\Indexer\State\Collection $resourceCollection,

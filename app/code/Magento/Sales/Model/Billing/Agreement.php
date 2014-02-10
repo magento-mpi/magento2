@@ -55,7 +55,7 @@ class Agreement extends \Magento\Payment\Model\Billing\AbstractAgreement
     protected $_dateFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Sales\Model\Resource\Billing\Agreement\CollectionFactory $billingAgreementFactory
@@ -65,7 +65,7 @@ class Agreement extends \Magento\Payment\Model\Billing\AbstractAgreement
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
+        \Magento\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Sales\Model\Resource\Billing\Agreement\CollectionFactory $billingAgreementFactory,

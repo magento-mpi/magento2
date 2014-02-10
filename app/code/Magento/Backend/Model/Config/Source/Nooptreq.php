@@ -9,7 +9,7 @@
  */
 namespace Magento\Backend\Model\Config\Source;
 
-class Nooptreq implements \Magento\Core\Model\Option\ArrayInterface
+class Nooptreq implements \Magento\Option\ArrayInterface
 {
     public function toOptionArray()
     {

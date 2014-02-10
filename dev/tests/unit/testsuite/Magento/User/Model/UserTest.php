@@ -27,7 +27,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Email\Model\Sender|PHPUnit_Framework_MockObject_MockObject */
     protected $_senderMock;
 
-    /** @var \Magento\Core\Model\Context|PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Model\Context|PHPUnit_Framework_MockObject_MockObject */
     protected $_contextMock;
 
     /** @var \Magento\User\Model\Resource\User|PHPUnit_Framework_MockObject_MockObject */
@@ -53,7 +53,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(array('send'))
             ->getMock();
-        $this->_contextMock = $this->getMockBuilder('Magento\Core\Model\Context')
+        $this->_contextMock = $this->getMockBuilder('Magento\Model\Context')
             ->disableOriginalConstructor()
             ->setMethods(array())
             ->getMock();

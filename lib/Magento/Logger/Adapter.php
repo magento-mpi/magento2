@@ -1,27 +1,19 @@
 <?php
 /**
+ * Logger Adapter
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Log Adapter
- *
- * @category   Magento
- * @package    Magento_Core
- * @author     Magento Core Team <core@magentocommerce.com>
- */
-namespace Magento\Core\Model\Log;
+namespace Magento\Logger;
 
 class Adapter
 {
 
     /**
-     * Store log file name
+     * Log file name
      *
      * @var string
      */
@@ -62,7 +54,7 @@ class Adapter
      * Perform forced log data to file
      *
      * @param mixed $data
-     * @return \Magento\Core\Model\Log\Adapter
+     * @return $this
      */
     public function log($data = null)
     {
@@ -85,8 +77,7 @@ class Adapter
      *
      * @param string|array $key
      * @param mixed $value
-     * @return \Magento\Core\Model\Log\Adapter
-     * @todo replace whole data
+     * @return $this
      */
     public function setData($key, $value = null)
     {
@@ -103,7 +94,7 @@ class Adapter
      * Setter for private data keys, that should be replaced in debug data with '***'
      *
      * @param array $keys
-     * @return \Magento\Core\Model\Log\Adapter
+     * @return $this
      */
     public function setFilterDataKeys($keys)
     {

@@ -19,7 +19,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      * @var array
      */
     protected $_blockInjections = array(
-        'Magento\Core\Model\Context',
+        'Magento\Model\Context',
         'Magento\Core\Model\Registry',
         'Magento\App\Filesystem',
         'Magento\View\Url',
@@ -49,7 +49,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             'Magento\Email\Model\Template',
             array('_getMail'),
             array(
-                $objectManager->get('Magento\Core\Model\Context'),
+                $objectManager->get('Magento\Model\Context'),
                 $objectManager->get('Magento\View\DesignInterface'),
                 $objectManager->get('Magento\Core\Model\Registry'),
                 $objectManager->get('Magento\Core\Model\App\Emulation'),

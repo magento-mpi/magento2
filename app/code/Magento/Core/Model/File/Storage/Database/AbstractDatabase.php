@@ -42,7 +42,7 @@ abstract class AbstractDatabase extends \Magento\Core\Model\AbstractModel
     protected $_app;
 
     /**
-     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
      * @param \Magento\Core\Model\Date $dateModel
@@ -53,7 +53,7 @@ abstract class AbstractDatabase extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
+        \Magento\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
         \Magento\Core\Model\Date $dateModel,

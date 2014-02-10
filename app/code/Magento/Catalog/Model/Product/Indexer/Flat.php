@@ -79,7 +79,7 @@ class Flat extends \Magento\Index\Model\Indexer\AbstractIndexer
     protected $_flatIndexerFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Catalog\Model\Product\Flat\IndexerFactory $flatIndexerFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -90,7 +90,7 @@ class Flat extends \Magento\Index\Model\Indexer\AbstractIndexer
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
+        \Magento\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Catalog\Model\Product\Flat\IndexerFactory $flatIndexerFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,

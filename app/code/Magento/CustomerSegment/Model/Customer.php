@@ -81,7 +81,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
     protected $response;
 
     /**
-     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param Resource\Segment\CollectionFactory $collectionFactory
      * @param \Magento\Customer\Model\Resource\Customer $resourceCustomer
@@ -95,7 +95,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
+        \Magento\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\CustomerSegment\Model\Resource\Segment\CollectionFactory $collectionFactory,
         \Magento\Customer\Model\Resource\Customer $resourceCustomer,

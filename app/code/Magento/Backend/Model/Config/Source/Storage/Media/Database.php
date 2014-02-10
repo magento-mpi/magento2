@@ -13,7 +13,7 @@
  */
 namespace Magento\Backend\Model\Config\Source\Storage\Media;
 
-class Database implements \Magento\Core\Model\Option\ArrayInterface
+class Database implements \Magento\Option\ArrayInterface
 {
     /**
      * @var \Magento\App\Arguments

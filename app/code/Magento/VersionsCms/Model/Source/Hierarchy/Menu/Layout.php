@@ -13,7 +13,7 @@
  */
 namespace Magento\VersionsCms\Model\Source\Hierarchy\Menu;
 
-class Layout implements \Magento\Core\Model\Option\ArrayInterface
+class Layout implements \Magento\Option\ArrayInterface
 {
     /**
      * @var \Magento\VersionsCms\Model\Hierarchy\ConfigInterface

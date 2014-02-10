@@ -7,7 +7,7 @@
  * Model for multi-filtering all data which set to models
  * Example:
  * <code>
- * /** @var $filterFactory \Magento\Core\Model\Input\FilterFactory {@*}
+ * /** @var $filterFactory \Magento\Filter\InputFactory {@*}
  * $filter = $filterFactory->create()
  *     ->setFilters(array(
  *      'list_values' => array(
@@ -25,11 +25,11 @@
  *                      'zend' => 'StringToUpper',
  *                      'args' => array('encoding' => 'utf-8'))),
  *              'item2' => array(
- *                  array('model' => 'core/input_filter_maliciousCode')
+ *                  array('model' => 'Magento\Filter\Input\MaliciousCode')
  *              ),
  *              'item3' => array(
  *                  array(
- *                      'helper' => 'core',
+ *                      'helper' => 'Module\Helper\Class\Name',
  *                      'method' => 'stripTags',
  *                      'args' => array('<p> <div>', true))
  *              )
@@ -76,13 +76,12 @@
  *  ));
  * </code>
  *
- * @see \Magento\Core\Model\Input\FilterTest    See this class for manual
  * @copyright  {copyright}
  * @license    {license_link}
  */
-namespace Magento\Core\Model\Input;
+namespace Magento\Filter;
 
-class Filter implements \Zend_Filter_Interface
+class Input implements \Zend_Filter_Interface
 {
     /**
      * @var \Magento\ObjectManager
@@ -110,7 +109,7 @@ class Filter implements \Zend_Filter_Interface
      * @param string $name
      * @param array|\Zend_Filter_Interface $filter
      * @param string $placement
-     * @return \Magento\Core\Model\Input\Filter
+     * @return $this
      */
     public function addFilter($name, $filter, $placement = \Zend_Filter::CHAIN_APPEND)
     {
@@ -126,7 +125,7 @@ class Filter implements \Zend_Filter_Interface
      * Add a filter to the end of the chain
      *
      * @param  array|\Zend_Filter_Interface $filter
-     * @return \Magento\Core\Model\Input\Filter
+     * @return $this
      */
     public function appendFilter(\Zend_Filter_Interface $filter)
     {
@@ -137,7 +136,7 @@ class Filter implements \Zend_Filter_Interface
      * Add a filter to the start of the chain
      *
      * @param  array|\Zend_Filter_Interface $filter
-     * @return \Magento\Core\Model\Input\Filter
+     * @return $this
      */
     public function prependFilter($filter)
     {
@@ -155,7 +154,7 @@ class Filter implements \Zend_Filter_Interface
      *      )
      *
      * @param array $filters
-     * @return \Magento\Core\Model\Input\Filter
+     * @return $this
      */
     public function addFilters(array $filters)
     {
@@ -167,7 +166,7 @@ class Filter implements \Zend_Filter_Interface
      * Set filters
      *
      * @param array $filters
-     * @return \Magento\Core\Model\Input\Filter
+     * @return $this
      */
     public function setFilters(array $filters)
     {
@@ -248,6 +247,7 @@ class Filter implements \Zend_Filter_Interface
      * @param \Magento\App\Helper\AbstractHelper $helper
      * @param array $filterData
      * @return mixed
+     * @throws \Exception
      */
     protected function _applyFiltrationWithHelper($value, \Magento\App\Helper\AbstractHelper $helper, array $filterData)
     {
@@ -307,7 +307,7 @@ class Filter implements \Zend_Filter_Interface
     /**
      * Get Magento filters
      *
-     * @param $filterData
+     * @param array $filterData
      * @return \Zend_Filter_Interface
      * @throws \Exception
      */
@@ -320,8 +320,8 @@ class Filter implements \Zend_Filter_Interface
             //use only first element because object manager cannot get more
             $filterData['args'] = $filterData['args'][0];
         }
-        if (is_string($filterData['model'])) {
-            $filter = $this->_objectManager->create($filterData['model'], $filterData['args']);
+        if (is_string($filter)) {
+            $filter = $this->_objectManager->create($filter, $filterData['args']);
         }
         if (!($filter instanceof \Zend_Filter_Interface)) {
             throw new \Exception('Filter is not instance of \Zend_Filter_Interface');

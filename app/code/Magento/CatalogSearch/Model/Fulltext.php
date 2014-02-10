@@ -29,7 +29,7 @@ namespace Magento\CatalogSearch\Model;
 use Magento\CatalogSearch\Helper\Data;
 use Magento\CatalogSearch\Model\Query;
 use Magento\Core\Model\AbstractModel;
-use Magento\Core\Model\Context;
+use Magento\Model\Context;
 use Magento\Core\Model\Registry;
 use Magento\Core\Model\Resource\AbstractResource;
 use Magento\Core\Model\Store\Config;

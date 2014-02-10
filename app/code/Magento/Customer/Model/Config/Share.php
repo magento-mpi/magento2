@@ -18,14 +18,14 @@
 namespace Magento\Customer\Model\Config;
 
 class Share extends \Magento\Core\Model\Config\Value
-    implements \Magento\Core\Model\Option\ArrayInterface
+    implements \Magento\Option\ArrayInterface
 {
     /**
      * Xml config path to customers sharing scope value
      *
      */
     const XML_PATH_CUSTOMER_ACCOUNT_SHARE = 'customer/account_share/scope';
-    
+
     /**
      * Possible customer sharing scopes
      *
@@ -48,7 +48,7 @@ class Share extends \Magento\Core\Model\Config\Value
     /**
      * Constructor
      *
-     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
@@ -59,7 +59,7 @@ class Share extends \Magento\Core\Model\Config\Value
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
+        \Magento\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,

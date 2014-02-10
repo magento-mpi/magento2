@@ -22,7 +22,7 @@ use Magento\Catalog\Model\Resource\Eav\Attribute;
 use Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory;
 use Magento\CatalogSearch\Model\Fulltext as ModelFulltext;
 use Magento\CatalogSearch\Model\Resource\Indexer\Fulltext as IndexerFulltext;
-use Magento\Core\Model\Context;
+use Magento\Model\Context;
 use Magento\Core\Model\Registry;
 use Magento\Core\Model\Resource\AbstractResource;
 use Magento\Core\Model\Store;

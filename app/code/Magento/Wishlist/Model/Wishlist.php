@@ -106,7 +106,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
     protected $_useCurrentWebsite;
 
     /**
-     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param \Magento\Wishlist\Helper\Data $wishlistData
@@ -123,7 +123,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
+        \Magento\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Catalog\Helper\Product $catalogProduct,
         \Magento\Wishlist\Helper\Data $wishlistData,

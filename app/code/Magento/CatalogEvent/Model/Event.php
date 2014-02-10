@@ -12,7 +12,7 @@ use Magento\Catalog\Model\Category;
 use Magento\CatalogEvent\Model\Resource\Event as ResourceEvent;
 use Magento\Core\Exception;
 use Magento\Core\Model\AbstractModel;
-use Magento\Core\Model\Context;
+use Magento\Model\Context;
 use Magento\Core\Model\LocaleInterface;
 use Magento\Core\Model\Registry;
 use Magento\Core\Model\Store;

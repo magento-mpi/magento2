@@ -11,7 +11,7 @@
 
 namespace Magento\Catalog\Model\Config\Source;
 
-class ListMode implements \Magento\Core\Model\Option\ArrayInterface
+class ListMode implements \Magento\Option\ArrayInterface
 {
     public function toOptionArray()
     {

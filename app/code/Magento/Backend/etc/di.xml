@@ -113,12 +113,12 @@
             <instance type="Magento\Acl\Loader\Resource"/>
         </param>
     </type>
-    <type name="Magento\Core\Model\Acl\Cache">
+    <type name="Magento\Acl\Cache">
         <param name="cacheKey">
             <value>backend_acl_resources</value>
         </param>
     </type>
-    <type name="Magento\Core\Model\Acl\RootResource">
+    <type name="Magento\Acl\RootResource">
         <param name="identifier">
             <value>Magento_Adminhtml::all</value>
         </param>

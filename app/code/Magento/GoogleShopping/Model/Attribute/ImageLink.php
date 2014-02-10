@@ -24,7 +24,7 @@ class ImageLink extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
     protected $_catalogProduct = null;
 
     /**
-     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\GoogleShopping\Helper\Data $gsData
@@ -36,7 +36,7 @@ class ImageLink extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
+        \Magento\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\GoogleShopping\Helper\Data $gsData,

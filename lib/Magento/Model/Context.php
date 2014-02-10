@@ -7,7 +7,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Core\Model;
+namespace Magento\Model;
 
 class Context implements \Magento\ObjectManager\ContextInterface
 {

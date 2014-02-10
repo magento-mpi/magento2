@@ -26,7 +26,7 @@ class ProductType extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribu
     protected $_categoryFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\GoogleShopping\Helper\Data $gsData
@@ -38,7 +38,7 @@ class ProductType extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribu
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
+        \Magento\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\GoogleShopping\Helper\Data $gsData,

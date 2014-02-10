@@ -111,7 +111,7 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Logger\AdapterFactory $logAdapterFactory
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
      * @param \Magento\Pbridge\Model\Session $pbridgeSession
      * @param \Magento\UrlInterface $url
@@ -124,7 +124,7 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Pbridge\Helper\Data $pbridgeData,
         \Magento\Pbridge\Model\Session $pbridgeSession,
         \Magento\UrlInterface $url,

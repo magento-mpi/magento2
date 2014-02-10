@@ -9,7 +9,7 @@
  */
 
 
-namespace Magento\Core\Model\Input\Filter;
+namespace Magento\Filter\Input;
 
 class MaliciousCode implements \Zend_Filter_Interface
 {
@@ -52,7 +52,7 @@ class MaliciousCode implements \Zend_Filter_Interface
      * Add expression
      *
      * @param string $expression
-     * @return \Magento\Core\Model\Input\Filter\MaliciousCode
+     * @return $this
      */
     public function addExpression($expression)
     {
@@ -66,7 +66,7 @@ class MaliciousCode implements \Zend_Filter_Interface
      * Set expressions
      *
      * @param array $expressions
-     * @return \Magento\Core\Model\Input\Filter\MaliciousCode
+     * @return $this
      */
     public function setExpressions(array $expressions)
     {

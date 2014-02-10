@@ -21,7 +21,7 @@ namespace Magento\CatalogSearch\Model\Config\Backend\Search;
 use Magento\App\ConfigInterface;
 use Magento\CatalogSearch\Model\Fulltext;
 use Magento\Core\Model\Config\Value;
-use Magento\Core\Model\Context;
+use Magento\Model\Context;
 use Magento\Core\Model\Registry;
 use Magento\Core\Model\Resource\AbstractResource;
 use Magento\Core\Model\StoreManagerInterface;

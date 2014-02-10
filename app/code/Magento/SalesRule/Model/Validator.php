@@ -88,7 +88,7 @@ class Validator extends \Magento\Core\Model\AbstractModel
     protected $_customerFactory;
 
     /**
-     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\SalesRule\Model\Resource\Coupon\UsageFactory $usageFactory
      * @param \Magento\SalesRule\Model\Resource\Rule\CollectionFactory $collectionFactory
@@ -100,7 +100,7 @@ class Validator extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
+        \Magento\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\SalesRule\Model\Resource\Coupon\UsageFactory $usageFactory,
         \Magento\SalesRule\Model\Resource\Rule\CollectionFactory $collectionFactory,

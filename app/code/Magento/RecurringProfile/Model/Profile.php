@@ -119,7 +119,7 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
     protected $states;
 
     /**
-     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param PeriodUnits $periodUnits
@@ -137,7 +137,7 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
+        \Magento\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\RecurringProfile\Model\PeriodUnits $periodUnits,

@@ -22,7 +22,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      * @var array
      */
     protected $_blockInjections = array(
-        'Magento\Core\Model\Context',
+        'Magento\Model\Context',
         'Magento\Core\Model\Registry',
         null,
         null

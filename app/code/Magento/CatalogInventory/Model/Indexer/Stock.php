@@ -82,7 +82,7 @@ class Stock extends \Magento\Index\Model\Indexer\AbstractIndexer
     protected $_indexer;
 
     /**
-     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Index\Model\Indexer $indexer
      * @param \Magento\CatalogInventory\Helper\Data $catalogInventoryData
@@ -91,7 +91,7 @@ class Stock extends \Magento\Index\Model\Indexer\AbstractIndexer
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Context $context,
+        \Magento\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Index\Model\Indexer $indexer,
         \Magento\CatalogInventory\Helper\Data $catalogInventoryData,

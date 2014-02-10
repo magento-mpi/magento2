@@ -1,23 +1,14 @@
 <?php
 /**
+ * Shell scripts abstract class
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Shell scripts abstract class
- *
- * @category    Magento
- * @package     Magento_Core
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-namespace Magento\Core\Model;
-
-use Magento\Filesystem\Directory\ReadInterface;
+namespace Magento\App;
 
 abstract class AbstractShell
 {
@@ -43,7 +34,7 @@ abstract class AbstractShell
     protected $_entryPoint = null;
 
     /**
-     * @var ReadInterface
+     * @var \Magento\Filesystem\Directory\ReadInterface
      */
     protected $rootDirectory;
 
@@ -71,7 +62,7 @@ abstract class AbstractShell
      * Sets raw arguments to be parsed
      *
      * @param array $args
-     * @return \Magento\Core\Model\AbstractShell
+     * @return $this
      */
     public function setRawArgs($args)
     {
@@ -83,7 +74,7 @@ abstract class AbstractShell
     /**
      * Parses .htaccess file and apply php settings to shell script
      *
-     * @return \Magento\Core\Model\AbstractShell
+     * @return $this
      */
     protected function _applyPhpVariables()
     {
@@ -111,7 +102,7 @@ abstract class AbstractShell
     /**
      * Parses input arguments
      *
-     * @return \Magento\Core\Model\AbstractShell
+     * @return $this
      */
     protected function _parseArgs()
     {
@@ -142,7 +133,7 @@ abstract class AbstractShell
     /**
      * Runs script
      *
-     * @return \Magento\Core\Model\AbstractShell
+     * @return $this
      */
     abstract public function run();
 
