@@ -457,7 +457,7 @@
             <word>CustomAttribute</word>
         </item>
         <item>
-            <path>app/code/Magento/GroupedProduct/etc/product_types.xml</path>
+            <path>app/code/Magento/ConfigurableProduct/etc/product_types.xml</path>
             <word>CustomAttribute</word>
         </item>
         <item>
