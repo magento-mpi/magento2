@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ImportExport\Block\Adminhtml\Import\Frame;
+
+use Magento\View\Element\Template;
 
 /**
  * Import frame result block.
@@ -15,10 +18,6 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ImportExport\Block\Adminhtml\Import\Frame;
-
-use Magento\View\Element\Template;
-
 class Result extends \Magento\Backend\Block\Template
 {
     /**
@@ -113,8 +112,8 @@ class Result extends \Magento\Backend\Block\Template
     /**
      * Add notice message.
      *
-     * @param mixed $message Message text
-     * @param boolean $appendImportButton OPTIONAL Append import button to message?
+     * @param array|string $message Message text
+     * @param bool $appendImportButton OPTIONAL Append import button to message?
      * @return \Magento\ImportExport\Block\Adminhtml\Import\Frame\Result
      */
     public function addNotice($message, $appendImportButton = false)
@@ -132,8 +131,8 @@ class Result extends \Magento\Backend\Block\Template
     /**
      * Add success message.
      *
-     * @param mixed $message Message text
-     * @param boolean $appendImportButton OPTIONAL Append import button to message?
+     * @param array|string $message Message text
+     * @param bool $appendImportButton OPTIONAL Append import button to message?
      * @return \Magento\ImportExport\Block\Adminhtml\Import\Frame\Result
      */
     public function addSuccess($message, $appendImportButton = false)

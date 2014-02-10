@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ImportExport\Model\Import\Entity\Product\Type;
 
 /**
  * Import entity configurable product type model
@@ -15,8 +16,6 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ImportExport\Model\Import\Entity\Product\Type;
-
 class Configurable
     extends \Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType
 {
@@ -43,7 +42,7 @@ class Configurable
     /**
      * Column names that holds values with particular meaning.
      *
-     * @var array
+     * @var string[]
      */
     protected $_specialAttributes = array(
         '_super_products_sku', '_super_attribute_code', '_super_attribute_option',

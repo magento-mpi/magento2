@@ -1345,7 +1345,7 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      *
      * @param array $rowData
      * @param int $optionTypeId
-     * @return array|bool
+     * @return array|false
      */
     protected function _getSpecificTypeData(array $rowData, $optionTypeId)
     {
@@ -1410,7 +1410,7 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     /**
      * Save custom options main info
      *
-     * @param array $options options data
+     * @param array $options Options data
      * @return \Magento\ImportExport\Model\Import\Entity\Product\Option
      */
     protected function _saveOptions(array $options)
@@ -1423,7 +1423,7 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     /**
      * Save custom option titles
      *
-     * @param array $titles option titles data
+     * @param array $titles Option titles data
      * @return \Magento\ImportExport\Model\Import\Entity\Product\Option
      */
     protected function _saveTitles(array $titles)
@@ -1451,7 +1451,7 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     /**
      * Save custom option prices
      *
-     * @param array $prices option prices data
+     * @param array $prices Option prices data
      * @return \Magento\ImportExport\Model\Import\Entity\Product\Option
      */
     protected function _savePrices(array $prices)
@@ -1469,7 +1469,7 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     /**
      * Save custom option type values
      *
-     * @param array $typeValues option type values
+     * @param array $typeValues Option type values
      * @return \Magento\ImportExport\Model\Import\Entity\Product\Option
      */
     protected function _saveSpecificTypeValues(array $typeValues)
@@ -1521,7 +1521,7 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     /**
      * Save custom option type titles
      *
-     * @param array $typeTitles option type titles
+     * @param array $typeTitles Option type titles
      * @return \Magento\ImportExport\Model\Import\Entity\Product\Option
      */
     protected function _saveSpecificTypeTitles(array $typeTitles)
@@ -1549,7 +1549,7 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     /**
      * Update product data which related to custom options information
      *
-     * @param array $data product data which will be updated
+     * @param array $data Product data which will be updated
      * @return \Magento\ImportExport\Model\Import\Entity\Product\Option
      */
     protected function _updateProducts(array $data)

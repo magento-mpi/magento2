@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ImportExport\Model\Export\Entity\Eav\Customer;
 
 /**
  * Export customer address entity model
@@ -18,8 +19,6 @@
  *
  * @method \Magento\Customer\Model\Resource\Address\Attribute\Collection getAttributeCollection() getAttributeCollection()
  */
-namespace Magento\ImportExport\Model\Export\Entity\Eav\Customer;
-
 class Address
     extends \Magento\ImportExport\Model\Export\Entity\AbstractEav
 {
@@ -56,7 +55,7 @@ class Address
     /**
      * Permanent entity columns
      *
-     * @var array
+     * @var string[]
      */
     protected $_permanentAttributes = array(self::COLUMN_WEBSITE, self::COLUMN_EMAIL, self::COLUMN_ADDRESS_ID);
 
@@ -178,7 +177,7 @@ class Address
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function _getHeaderColumns()
     {
@@ -251,7 +250,7 @@ class Address
      * Set parameters (push filters from post into export customer model)
      *
      * @param array $parameters
-     * @return \Magento\ImportExport\Model\Export\Entity\Eav\Customer\Address
+     * @return $this
      */
     public function setParameters(array $parameters)
     {

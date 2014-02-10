@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ImportExport\Model\Source\Import\Behavior;
 
 /**
  * Import behavior source model used in import for product and customer import entities.
@@ -16,8 +17,6 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ImportExport\Model\Source\Import\Behavior;
-
 class Basic
     extends \Magento\ImportExport\Model\Source\Import\AbstractBehavior
 {

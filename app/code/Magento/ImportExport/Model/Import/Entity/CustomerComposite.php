@@ -61,7 +61,7 @@ class CustomerComposite
     /**
      * Column names that holds values with particular meaning
      *
-     * @var array
+     * @var string[]
      */
     protected $_specialAttributes = array(
         \Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_WEBSITE,
@@ -73,7 +73,7 @@ class CustomerComposite
     /**
      * Permanent entity columns
      *
-     * @var array
+     * @var string[]
      */
     protected $_permanentAttributes = array(
         \Magento\ImportExport\Model\Import\Entity\Eav\Customer::COLUMN_EMAIL,
@@ -83,14 +83,14 @@ class CustomerComposite
     /**
      * Customer attributes
      *
-     * @var array
+     * @var string[]
      */
     protected $_customerAttributes = array();
 
     /**
      * Address attributes
      *
-     * @var array
+     * @var string[]
      */
     protected $_addressAttributes = array();
 
@@ -266,7 +266,7 @@ class CustomerComposite
      *
      * @param array $rowData
      * @param int $rowNumber
-     * @return boolean
+     * @return bool
      */
     public function validateRow(array $rowData, $rowNumber)
     {

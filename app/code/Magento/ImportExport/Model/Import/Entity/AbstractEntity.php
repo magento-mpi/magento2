@@ -103,7 +103,7 @@ abstract class AbstractEntity
     /**
      * Notice messages.
      *
-     * @var array
+     * @var string[]
      */
     protected $_notices = array();
 
@@ -117,14 +117,14 @@ abstract class AbstractEntity
     /**
      * Column names that holds values with particular meaning.
      *
-     * @var array
+     * @var string[]
      */
     protected $_specialAttributes = array();
 
     /**
      * Permanent entity columns.
      *
-     * @var array
+     * @var string[]
      */
     protected $_permanentAttributes = array();
 
@@ -497,7 +497,7 @@ abstract class AbstractEntity
     /**
      * Returns model notices.
      *
-     * @return array
+     * @return string[]
      */
     public function getNotices()
     {

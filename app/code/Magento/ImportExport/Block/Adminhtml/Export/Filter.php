@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ImportExport\Block\Adminhtml\Export;
 
 /**
  * Export filter block
@@ -15,8 +16,6 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ImportExport\Block\Adminhtml\Export;
-
 class Filter extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
@@ -339,7 +338,7 @@ class Filter extends \Magento\Backend\Block\Widget\Grid\Extended
      * Get row edit URL.
      *
      * @param $row
-     * @return string|boolean
+     * @return string|false
      */
     public function getRowUrl($row)
     {

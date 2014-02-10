@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ImportExport\Model\Export\Adapter;
 
 /**
  * Export adapter csv.
@@ -15,8 +16,6 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ImportExport\Model\Export\Adapter;
-
 class Csv extends \Magento\ImportExport\Model\Export\Adapter\AbstractAdapter
 {
     /**

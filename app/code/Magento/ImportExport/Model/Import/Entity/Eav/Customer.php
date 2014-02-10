@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ImportExport\Model\Import\Entity\Eav;
 
 /**
  * Import entity customer model
@@ -18,8 +19,6 @@
  * @todo finish moving dependencies to constructor in the scope of
  * @todo https://wiki.magento.com/display/MAGE2/Technical+Debt+%28Team-Donetsk-B%29
  */
-namespace Magento\ImportExport\Model\Import\Entity\Eav;
-
 class Customer
     extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer
 {
@@ -78,7 +77,7 @@ class Customer
      * For example, when entity attribute has own validation and import procedures
      * or just to deny this attribute processing.
      *
-     * @var array
+     * @var string[]
      */
     protected $_ignoredAttributes = array('website_id', 'store_id');
 

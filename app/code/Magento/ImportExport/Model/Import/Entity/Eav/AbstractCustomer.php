@@ -41,7 +41,7 @@ abstract class AbstractCustomer extends \Magento\ImportExport\Model\Import\Entit
      * For example, when entity attribute has own validation and import procedures
      * or just to deny this attribute processing.
      *
-     * @var array
+     * @var string[]
      */
     protected $_ignoredAttributes = array('website_id', 'store_id', 'default_billing', 'default_shipping');
 
@@ -153,7 +153,7 @@ abstract class AbstractCustomer extends \Magento\ImportExport\Model\Import\Entit
      *
      * @param array $rowData
      * @param int $rowNumber
-     * @return boolean
+     * @return bool
      */
     public function validateRow(array $rowData, $rowNumber)
     {
@@ -195,7 +195,7 @@ abstract class AbstractCustomer extends \Magento\ImportExport\Model\Import\Entit
      *
      * @param array $rowData
      * @param int $rowNumber
-     * @return boolean
+     * @return bool
      */
     protected function _checkUniqueKey(array $rowData, $rowNumber)
     {

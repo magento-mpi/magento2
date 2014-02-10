@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ImportExport\Model\Import\Source;
 
 /**
  * CSV import adapter
  */
-namespace Magento\ImportExport\Model\Import\Source;
-
 class Csv extends \Magento\ImportExport\Model\Import\AbstractSource
 {
     /**
@@ -59,6 +58,8 @@ class Csv extends \Magento\ImportExport\Model\Import\AbstractSource
 
     /**
      * Close file handle
+     *
+     * @return void
      */
     public function __destruct()
     {
@@ -79,6 +80,8 @@ class Csv extends \Magento\ImportExport\Model\Import\AbstractSource
 
     /**
      * Rewind the \Iterator to the first element (\Iterator interface)
+     *
+     * @return void
      */
     public function rewind()
     {

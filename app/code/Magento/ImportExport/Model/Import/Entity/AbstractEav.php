@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ImportExport\Model\Import\Entity;
 
 /**
  * Import EAV entity abstract model
  */
-namespace Magento\ImportExport\Model\Import\Entity;
-
 abstract class AbstractEav
     extends \Magento\ImportExport\Model\Import\AbstractEntity
 {
@@ -119,8 +118,8 @@ abstract class AbstractEav
     /**
      * Retrieve website id by code or false when website code not exists
      *
-     * @param $websiteCode
-     * @return bool|int
+     * @param string $websiteCode
+     * @return int|false
      */
     public function getWebsiteId($websiteCode)
     {

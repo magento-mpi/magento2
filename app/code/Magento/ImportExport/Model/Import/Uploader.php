@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ImportExport\Model\Import;
 
 /**
  * Import entity product model
@@ -15,18 +16,29 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ImportExport\Model\Import;
-
 class Uploader extends \Magento\Core\Model\File\Uploader
 {
+
+    /**
+     * @var string
+     */
     protected $_tmpDir  = '';
+
+    /**
+     * @var string
+     */
     protected $_destDir = '';
+
+    /**
+     * @var array
+     */
     protected $_allowedMimeTypes = array(
         'jpg' => 'image/jpeg',
         'jpeg' => 'image/jpeg',
         'gif' => 'image/gif',
         'png' => 'image/png'
     );
+
     const DEFAULT_FILE_TYPE = 'application/octet-stream';
 
     /**
@@ -66,6 +78,8 @@ class Uploader extends \Magento\Core\Model\File\Uploader
 
     /**
      * Initiate uploader defoult settings
+     *
+     * @return void
      */
     public function init()
     {
@@ -97,6 +111,7 @@ class Uploader extends \Magento\Core\Model\File\Uploader
      * Prepare information about the file for moving
      *
      * @param string $filePath
+     * @return void
      * @throws \Magento\Core\Exception
      */
     protected function _setUploadFile($filePath)
@@ -129,6 +144,8 @@ class Uploader extends \Magento\Core\Model\File\Uploader
 
     /**
      * Validate uploaded file by type and etc.
+     *
+     * @return void
      */
     protected function _validateFile()
     {

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ImportExport\Model\Export;
 
 /**
  * Export entity abstract model
@@ -15,8 +16,6 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ImportExport\Model\Export;
-
 abstract class AbstractEntity
 {
     /**#@+
@@ -118,7 +117,7 @@ abstract class AbstractEntity
     /**
      * Disabled attributes
      *
-     * @var array
+     * @var string[]
      */
     protected $_disabledAttributes = array();
 
@@ -254,6 +253,7 @@ abstract class AbstractEntity
      * Export one item
      *
      * @param \Magento\Core\Model\AbstractModel $item
+     * @return void
      */
     abstract public function exportItem($item);
 
@@ -261,6 +261,7 @@ abstract class AbstractEntity
      * Iterate through given collection page by page and export items
      *
      * @param \Magento\Data\Collection\Db $collection
+     * @return void
      */
     protected function _exportCollectionByPages(\Magento\Data\Collection\Db $collection)
     {
@@ -395,7 +396,7 @@ abstract class AbstractEntity
      * Set parameters
      *
      * @param string[] $parameters
-     * @return \Magento\ImportExport\Model\Export\AbstractEntity
+     * @return $this
      */
     public function setParameters(array $parameters)
     {
@@ -421,6 +422,7 @@ abstract class AbstractEntity
      * Set export file name
      *
      * @param null|string $fileName
+     * @return void
      */
     public function setFileName($fileName)
     {
@@ -440,7 +442,7 @@ abstract class AbstractEntity
     /**
      * Retrieve list of disabled attributes codes
      *
-     * @return array
+     * @return string[]
      */
     public function getDisabledAttributes()
     {

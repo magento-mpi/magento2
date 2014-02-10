@@ -105,7 +105,7 @@ abstract class AbstractEntity
     /**
      * Notice messages
      *
-     * @var array
+     * @var string[]
      */
     protected $_notices = array();
 
@@ -133,14 +133,14 @@ abstract class AbstractEntity
     /**
      * Column names that holds values with particular meaning
      *
-     * @var array
+     * @var string[]
      */
     protected $_specialAttributes = array(self::COLUMN_ACTION);
 
     /**
      * Permanent entity columns
      *
-     * @var array
+     * @var string[]
      */
     protected $_permanentAttributes = array();
 
@@ -193,7 +193,7 @@ abstract class AbstractEntity
     /**
      * List of available behaviors
      *
-     * @var array
+     * @var string[]
      */
     protected $_availableBehaviors = array(
         \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE,
@@ -486,7 +486,7 @@ abstract class AbstractEntity
     /**
      * Returns model notices
      *
-     * @return array
+     * @return string[]
      */
     public function getNotices()
     {
@@ -555,7 +555,7 @@ abstract class AbstractEntity
      * @param array $attributeParams Attribute params
      * @param array $rowData Row data
      * @param int $rowNumber
-     * @return boolean
+     * @return bool
      */
     public function isAttributeValid($attributeCode, array $attributeParams, array $rowData, $rowNumber)
     {
@@ -641,7 +641,7 @@ abstract class AbstractEntity
      *
      * @param array $rowData
      * @param int $rowNumber
-     * @return boolean
+     * @return bool
      */
     abstract public function validateRow(array $rowData, $rowNumber);
 
@@ -649,7 +649,7 @@ abstract class AbstractEntity
      * Set data from outside to change behavior
      *
      * @param array $parameters
-     * @return \Magento\ImportExport\Model\Import\AbstractEntity
+     * @return $this
      */
     public function setParameters(array $parameters)
     {

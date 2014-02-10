@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ImportExport\Model;
+
+use Magento\HTTP\Adapter\FileTransferFactory;
 
 /**
  * Import model
@@ -18,10 +21,6 @@
  * @method string getBehavior() getBehavior()
  * @method \Magento\ImportExport\Model\Import setEntity() setEntity(string $value)
  */
-namespace Magento\ImportExport\Model;
-
-use Magento\HTTP\Adapter\FileTransferFactory;
-
 class Import extends \Magento\ImportExport\Model\AbstractModel
 {
     /**#@+
@@ -228,7 +227,7 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
      * Return operation result messages
      *
      * @param bool $validationResult
-     * @return array
+     * @return string[]
      */
     public function getOperationResultMessages($validationResult)
     {
@@ -369,7 +368,7 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
     /**
      * Returns entity model noticees.
      *
-     * @return array
+     * @return string[]
      */
     public function getNotices()
     {

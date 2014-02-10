@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ImportExport\Model;
 
 /**
  * Export model
@@ -15,8 +16,6 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ImportExport\Model;
-
 class Export extends \Magento\ImportExport\Model\AbstractModel
 {
     const FILTER_ELEMENT_GROUP = 'export_filter';

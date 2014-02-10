@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ImportExport\Model\Resource\Import;
 
 /**
  * ImportExport import data resource model
@@ -15,8 +16,6 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ImportExport\Model\Resource\Import;
-
 class Data
     extends \Magento\Core\Model\Resource\Db\AbstractDb
     implements \IteratorAggregate

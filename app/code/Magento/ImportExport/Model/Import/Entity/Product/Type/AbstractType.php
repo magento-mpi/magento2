@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ImportExport\Model\Import\Entity\Product\Type;
 
 /**
  * Import entity abstract product type model
@@ -15,8 +16,6 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ImportExport\Model\Import\Entity\Product\Type;
-
 abstract class AbstractType
 {
     /**
@@ -39,14 +38,14 @@ abstract class AbstractType
     /**
      * Attributes' codes which will be allowed anyway, independently from its visibility property.
      *
-     * @var array
+     * @var string[]
      */
     protected $_forcedAttributesCodes = array();
 
     /**
      * Attributes with index (not label) value.
      *
-     * @var array
+     * @var string[]
      */
     protected $_indexValueAttributes = array();
 
@@ -60,7 +59,7 @@ abstract class AbstractType
     /**
      * Column names that holds values with particular meaning.
      *
-     * @var array
+     * @var string[]
      */
     protected $_specialAttributes = array();
 
@@ -125,7 +124,7 @@ abstract class AbstractType
      *
      * @param string $attrSetName Name of attribute set.
      * @param array $attrParams Refined attribute parameters.
-     * @return \Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType
+     * @return $this
      */
     protected function _addAttributeParams($attrSetName, array $attrParams)
     {
@@ -231,7 +230,7 @@ abstract class AbstractType
     /**
      * Particular attribute names getter.
      *
-     * @return array
+     * @return string[]
      */
     public function getParticularAttributes()
     {
@@ -243,8 +242,8 @@ abstract class AbstractType
      *
      * @param array $rowData
      * @param int $rowNum
-     * @param boolean $isNewProduct OPTIONAL
-     * @return boolean
+     * @param bool $isNewProduct Optional
+     * @return bool
      */
     public function isRowValid(array $rowData, $rowNum, $isNewProduct = true)
     {

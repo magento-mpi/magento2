@@ -116,7 +116,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     /**
      * Attributes with index (not label) value.
      *
-     * @var array
+     * @var string[]
      */
     protected $_indexValueAttributes = array(
         'status',
@@ -200,7 +200,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     /**
      * Column names that holds values with particular meaning.
      *
-     * @var array
+     * @var string[]
      */
     protected $_specialAttributes = array(
         '_store', '_attribute_set', '_type', self::COL_CATEGORY, self::COL_ROOT_CATEGORY, '_product_websites',
@@ -218,7 +218,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     /**
      * Column names that holds images files names
      *
-     * @var array
+     * @var string[]
      */
     protected $_imagesArrayKeys = array(
         '_media_image', 'image', 'small_image', 'thumbnail'
@@ -227,7 +227,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     /**
      * Permanent entity columns.
      *
-     * @var array
+     * @var string[]
      */
     protected $_permanentAttributes = array(self::COL_SKU);
 
@@ -1402,6 +1402,8 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
 
     /**
      * Returns an object for upload a media files
+     *
+     * @return \Magento\ImportExport\Model\Import\Uploader
      */
     protected function _getUploader()
     {
@@ -1869,7 +1871,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     /**
      * Get array of affected products
      *
-     * @return array
+     * @return int[]
      */
     public function getAffectedEntityIds()
     {

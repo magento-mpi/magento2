@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\ImportExport\Model\Export\Adapter;
 
 /**
  * Abstract adapter model
@@ -15,8 +16,6 @@
  * @package     Magento_ImportExport
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\ImportExport\Model\Export\Adapter;
-
 abstract class AbstractAdapter
 {
     /**
@@ -112,7 +111,7 @@ abstract class AbstractAdapter
      * Set column names
      *
      * @param array $headerColumns
-     * @return \Magento\ImportExport\Model\Export\Adapter\AbstractAdapter
+     * @return $this
      */
     public function setHeaderCols(array $headerColumns)
     {
@@ -123,7 +122,7 @@ abstract class AbstractAdapter
      * Write row data to source file
      *
      * @param array $rowData
-     * @return \Magento\ImportExport\Model\Export\Adapter\AbstractAdapter
+     * @return $this
      */
     abstract public function writeRow(array $rowData);
 }
