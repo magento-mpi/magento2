@@ -50,7 +50,7 @@ class Block extends \Magento\App\Action\Action
     {
         $request = $this->getRequest();
         $response = $this->getResponse();
-        $handles = unserialize($request->getParam('handles', []));
+        $handles = unserialize($request->getParam('handles', serialize(array())));
         $blockName = $request->getParam('blockname', '');
         $ttl = $request->getParam('ttl', 0);
 
