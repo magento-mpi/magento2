@@ -54,7 +54,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
     /**
      * Cron config template
      */
-    const CRON_STRING_PATH = 'crontab/jobs/scheduled_operation_%d/%s';
+    const CRON_STRING_PATH = 'crontab/default/jobs/scheduled_operation_%d/%s';
 
     /**
      * Cron callback config
