@@ -20,6 +20,7 @@ use Magento\Catalog\Test\Fixture\SimpleProduct;
  *
  * Class EditSimpleProductTest
  * @package Magento\Catalog\Test\TestCase\Product\Flat
+ * @ZephyrId MAGETWO-21125
  */
 class EditSimpleProductTest extends \Magento\Catalog\Test\TestCase\Product\EditSimpleProductTest
 {
@@ -33,13 +34,35 @@ class EditSimpleProductTest extends \Magento\Catalog\Test\TestCase\Product\EditS
     }
 
     /**
+     * Assert product data on category page
+     *
      * @param SimpleProduct $product
      * @param string $categoryName
-     * @param bool $assertOnProductPage
      */
-    protected function assertOnCategory($product, $categoryName, $assertOnProductPage = true)
+    protected function assertOnCategoryPage($product, $categoryName)
     {
-        parent::assertOnCategory($product, $categoryName, false);
+        parent::assertOnCategoryPage($product, $categoryName);
     }
 
+    /**
+     * Skip assertion on product page
+     *
+     * @param SimpleProduct $productOld
+     * @param SimpleProduct $productEdited
+     */
+    protected function assertOnProductPage($productOld, $productEdited)
+    {
+        return;
+    }
+
+    /**
+     * Disable product flat
+     */
+    protected function tearDown()
+    {
+        $config = Factory::getFixtureFactory()->getMagentoCoreConfig();
+        $config->switchData('disable_product_flat');
+        $config->persist();
+        parent::tearDown();
+    }
 }

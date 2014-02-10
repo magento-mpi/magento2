@@ -229,7 +229,7 @@ abstract class Grid extends Block
     /**
      * Perform selected massaction over checked items
      *
-     * @param $actionType
+     * @param string $actionType
      * @param array $items
      * @param bool $acceptAlert
      */
@@ -257,16 +257,6 @@ abstract class Grid extends Block
     public function delete($items = array())
     {
         $this->massaction('Delete', $items, true);
-    }
-
-    /**
-     * Update attributes for selected items
-     *
-     * @param array $items
-     */
-    public function updateAttributes(array $items = array())
-    {
-        $this->massaction('Update Attributes', $items);
     }
 
     /**

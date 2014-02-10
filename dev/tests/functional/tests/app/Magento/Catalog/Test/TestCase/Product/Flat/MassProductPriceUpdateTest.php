@@ -13,7 +13,6 @@ namespace Magento\Catalog\Test\TestCase\Product\Flat;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\Catalog\Test\Fixture\SimpleProduct;
 
 /**
  * Product massaction with enabled flat
@@ -32,6 +31,11 @@ class MassProductPriceUpdateTest extends Functional
         $config->persist();
     }
 
+    /**
+     * Edit Simple product using mass action with enabled Catalog Product Flat
+     *
+     * @ZephyrId MAGETWO-21128
+     */
     public function testMassAction()
     {
         $product = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
@@ -45,7 +49,7 @@ class MassProductPriceUpdateTest extends Functional
             'sku' => $product->getProductSku()
         )));
 
-        $updateProductPrice = Factory::getFixtureFactory()->getMagentoCatalogProductAttribute();
+        $updateProductPrice = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
         $updateProductPrice->switchData('price_massaction');
 
         $attributeMassactionPage = Factory::getPageFactory()->getCatalogProductActionAttributeEdit();
@@ -61,7 +65,7 @@ class MassProductPriceUpdateTest extends Functional
 
         $productGridPage->getMessageBlock()->assertSuccessMessage();
 
-        $this->assertTrue($this->_isOnGrid(array(
+        $this->assertTrue($this->isOnGrid(array(
             'sku' => $product->getProductSku(),
             'price_from' => $updateProductPrice->getData('fields/price/value'),
             'price_to' => $updateProductPrice->getData('fields/price/value')
@@ -71,10 +75,16 @@ class MassProductPriceUpdateTest extends Functional
         $cachePage->open();
         $cachePage->getActionsBlock()->flushMagentoCache();
 
-        $this->_assertOnCategory($product, '$' . $updateProductPrice->getData('fields/price/value'));
+        $this->assertOnCategory($product, '$' . $updateProductPrice->getData('fields/price/value'));
     }
 
-    protected function _isOnGrid($productData)
+    /**
+     * Check whether product with specified filters is visible in grid
+     *
+     * @param array $productData
+     * @return bool
+     */
+    protected function isOnGrid(array $productData)
     {
         $productGridPage = Factory::getPageFactory()->getCatalogProductIndex();
         $productGridPage->open();
@@ -85,7 +95,13 @@ class MassProductPriceUpdateTest extends Functional
         return $gridBlock->isRowVisible($productData, false);
     }
 
-    protected function _assertOnCategory($product, $productPrice)
+    /**
+     * Assert specified product with specified price on category view page
+     *
+     * @param \Magento\Catalog\Test\Fixture\SimpleProduct $product
+     * @param int|string $productPrice
+     */
+    protected function assertOnCategory($product, $productPrice)
     {
         $frontendHomePage = Factory::getPageFactory()->getCmsIndexIndex();
         $categoryPage = Factory::getPageFactory()->getCatalogCategoryView();
@@ -96,5 +112,16 @@ class MassProductPriceUpdateTest extends Functional
         $productListBlock = $categoryPage->getListProductBlock();
         $this->assertTrue($productListBlock->isProductVisible($product->getProductName()));
         $this->assertEquals($productPrice, $productListBlock->getPrice($product->getProductId()));
+    }
+
+    /**
+     * Disable product flat
+     */
+    protected function tearDown()
+    {
+        $config = Factory::getFixtureFactory()->getMagentoCoreConfig();
+        $config->switchData('disable_product_flat');
+        $config->persist();
+        parent::tearDown();
     }
 }

@@ -43,4 +43,14 @@ class ProductGrid extends Grid
             'selector' => '#productGrid_product_filter_price_to'
         )
     );
+
+    /**
+     * Update attributes for selected items
+     *
+     * @param array $items
+     */
+    public function updateAttributes(array $items = array())
+    {
+        $this->massaction('Update Attributes', $items);
+    }
 }

@@ -83,6 +83,7 @@ class Config extends AbstractRepository
         $this->_data['show_out_of_stock'] = $this->_getShowOutOfStock();
         $this->_data['enable_product_flat'] = $this->_getProductFlatEnabled();
         $this->_data['manual_layered_navigation_mysql'] = $this->_getManualPriceLayeredNavigationMysql();
+        $this->_data['disable_product_flat'] = $this->_getProductFlatDisabled();
         //Sales
         $this->_data['enable_map_config'] = $this->_getMapEnabled();
         $this->_data['disable_secret_key'] = $this->_getSecretKeyEnabled();
@@ -1975,7 +1976,7 @@ class Config extends AbstractRepository
      *
      * @return array
      */
-    public function _getProductFlatEnabled()
+    protected function _getProductFlatEnabled()
     {
         return array(
             'data' => array(
@@ -1988,7 +1989,36 @@ class Config extends AbstractRepository
                             'frontend' => array( //Frontend
                                 'fields' => array(
                                     'flat_catalog_product' => array( //Enabled
-                                        'value' => 1 //Yes
+                                        'value' => self::YES_VALUE
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+    }
+
+    /**
+     * Disable product flat
+     *
+     * @return array
+     */
+    protected function _getProductFlatDisabled()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'catalog' => array(
+                        'section' => 'catalog',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'frontend' => array( //Frontend
+                                'fields' => array(
+                                    'flat_catalog_product' => array( //Disabled
+                                        'value' => self::NO_VALUE
                                     )
                                 )
                             )

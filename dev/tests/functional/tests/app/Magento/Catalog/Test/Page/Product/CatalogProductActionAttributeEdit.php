@@ -13,11 +13,11 @@ namespace Magento\Catalog\Test\Page\Product;
 
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
-use Mtf\Fixture\DataFixture;
 use Mtf\Client\Element\Locator;
 
 /**
  * Class CatalogProductActionAttributeEdit
+ *
  * @package Magento\Catalog\Test\Page\Product
  */
 class CatalogProductActionAttributeEdit extends Page
@@ -28,17 +28,21 @@ class CatalogProductActionAttributeEdit extends Page
     const MCA = 'catalog/product_action_attribute/edit';
 
     /**
+     * CSS selector for attributes form block
+     *
      * @var string
      */
-    protected $_attributesFormBlock = 'body';
+    protected $attributesFormBlock = 'body';
 
     /**
-     * @return \Magento\Catalog\Test\Block\Backend\Product\Attribute\MassAction\Edit
+     * Retrieve attributes form block
+     *
+     * @return \Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Action\Attribute
      */
     public function getAttributesBlockForm()
     {
-        return Factory::getBlockFactory()->getMagentoCatalogBackendProductAttributeMassActionEdit(
-            $this->_browser->find($this->_attributesFormBlock, Locator::SELECTOR_CSS)
+        return Factory::getBlockFactory()->getMagentoCatalogAdminhtmlProductEditActionAttribute(
+            $this->_browser->find($this->attributesFormBlock, Locator::SELECTOR_CSS)
         );
     }
 }
