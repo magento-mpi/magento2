@@ -1,20 +1,18 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Magento
- * @package     Magento_PageCache
- * @subpackage  unit_tests
- * @copyright   {copyright}
- * @license     {license_link}
+ * Created by PhpStorm.
+ * User: akaplya
+ * Date: 2/10/14
+ * Time: 7:58 PM
  */
 
-namespace Magento\PageCache\Model\Layout;
+namespace Magento\Customer\Model\Layout;
 
-class SessionPluginTest extends \PHPUnit_Framework_TestCase
+
+class DepersonalizePluginTest  extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\PageCache\Model\Layout\SessionPlugin
+     * @var \Magento\Customer\Model\Layout\DepersonalizePluginTest
      */
     protected $plugin;
 
@@ -76,7 +74,7 @@ class SessionPluginTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($this->customerMock));
 
-        $this->plugin = new \Magento\PageCache\Model\Layout\SessionPlugin(
+        $this->plugin = new \Magento\Customer\Model\Layout\DepersonalizePlugin(
             $this->layoutMock,
             $this->sessionMock,
             $this->customerSessionMock,

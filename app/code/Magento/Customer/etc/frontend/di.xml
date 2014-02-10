@@ -20,4 +20,7 @@
             </array>
         </param>
     </type>
+    <type name="Magento\Core\Model\Layout">
+        <plugin name="customer-session-stab" type="Magento\Customer\Model\Layout\DepersonalizePlugin"/>
+    </type>
 </config>

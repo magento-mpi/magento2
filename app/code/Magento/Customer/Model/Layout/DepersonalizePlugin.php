@@ -1,21 +1,21 @@
 <?php
 /**
- * Layout session plugin
- *
- * Disable session if page is public
+ * Customer session storage
  *
  * {license_notice}
  *
+ * @category    Magento
+ * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-namespace Magento\PageCache\Model\Layout;
+namespace Magento\Customer\Model\Layout;
 
 /**
- * Class SessionPlugin
+ * Class DepersonalizePlugin
  */
-class SessionPlugin
+class DepersonalizePlugin
 {
     /**
      * @var \Magento\View\LayoutInterface
