@@ -14,21 +14,29 @@ namespace Magento\View;
 class RelatedFile
 {
     /**
+     * View service
+     *
      * @var Service
      */
     protected $viewService;
 
     /**
+     * View file system
+     *
      * @var FileSystem
      */
     protected $viewFileSystem;
 
     /**
+     * File system
+     *
      * @var \Magento\Filesystem
      */
     protected $filesystem;
 
     /**
+     * Constructor
+     *
      * @param Service $viewService
      * @param FileSystem $viewFileSystem
      * @param \Magento\App\Filesystem $filesystem
