@@ -73,7 +73,12 @@ class HeaderPlugin
      */
     protected function setPublicHeaders(\Magento\App\Response\Http $response)
     {
-        $maxAge = $this->config->getValue(\Magento\PageCache\Model\Config::XML_VARNISH_PAGECACHE_TTL);
+        $esiTtl = $response->getHeader('X-Magento-Ttl');
+        if (!isset($esiTtl)) {
+            $maxAge = $this->config->getValue(\Magento\PageCache\Model\Config::XML_VARNISH_PAGECACHE_TTL);
+        } else {
+            $maxAge = $esiTtl;
+        }
         $response->setHeader('pragma', 'cache', true);
         $response->setHeader('cache-control', 'public, max-age=' . $maxAge . ', s-maxage=' . $maxAge, true);
         $response->setHeader('expires', gmdate('D, d M Y H:i:s T', strtotime('+' . $maxAge . ' seconds')), true);

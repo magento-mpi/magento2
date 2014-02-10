@@ -46,31 +46,46 @@ class Observer
      */
     public function processLayoutRenderElement(\Magento\Event\Observer $observer)
     {
+        $event = $observer->getEvent();
         /** @var \Magento\Core\Model\Layout $layout */
-        $layout = $observer->getEvent()->getLayout();
+        $layout = $event->getLayout();
         $varnishIsEnabledFlag = $this->_config->isSetFlag(self::XML_PATH_VARNISH_ENABLED);
         if ($layout->isCacheable()) {
-            $name = $observer->getEvent()->getElementName();
+            $name = $event->getElementName();
             $block = $layout->getBlock($name);
+            $transport = $event->getTransport();
             if ($block instanceof \Magento\View\Element\AbstractBlock) {
-                if ($varnishIsEnabledFlag && $block->getTtl()) {
-                    $transport = $observer->getEvent()->getTransport();
-                    $url = $block->getUrl(
-                        'page_cache/block/wrapesi',
-                        [
-                            'blockname' => $block->getNameInLayout(),
-                            'handles' => serialize($layout->getUpdate()->getHandles())
-                        ]
-                    );
-                    $html = sprintf('<esi:include src="%s" />', $url);
-                    $transport->setData('output', $html);
-                } elseif ($block->isScopePrivate()) {
-                    $transport = $observer->getEvent()->getTransport();
-                    $output = $transport->getData('output');
-                    $html = sprintf('<!-- BLOCK %1$s -->%2$s<!-- /BLOCK %1$s -->', $block->getNameInLayout(), $output);
-                    $transport->setData('output', $html);
+                $output = $transport->getData('output');
+                if ($varnishIsEnabledFlag && !empty($block->getTtl())) {
+                    $output = $this->_wrapEsi($block, $layout);
                 }
+                if ($block->isScopePrivate()) {
+                    $output = sprintf('<!-- BLOCK %1$s -->%2$s<!-- /BLOCK %1$s -->', $block->getNameInLayout(), $output);
+                }
+                $transport->setData('output', $output);
             }
         }
+    }
+
+    /**
+     * Replace the output of the block with ttl with ESI tag
+     *
+     * @param \Magento\View\Element\AbstractBlock $block
+     * @param \Magento\Core\Model\Layout $layout
+     * @return string
+     */
+    protected function _wrapEsi(
+        \Magento\View\Element\AbstractBlock $block,
+        \Magento\Core\Model\Layout $layout)
+    {
+        $url = $block->getUrl(
+            'page_cache/block/wrapesi',
+            [
+                'blockname' => $block->getNameInLayout(),
+                'handles'   => serialize($layout->getUpdate()->getHandles()),
+                'ttl'       => $block->getTtl()
+            ]
+        );
+        return sprintf('<esi:include src="%s" />', $url);
     }
 }

@@ -67,7 +67,5 @@ class Block extends \Magento\App\Action\Action
 
         $response->appendBody($data);
         $response->setHeader('X-Magento-Ttl', $ttl);
-
-
     }
 }
