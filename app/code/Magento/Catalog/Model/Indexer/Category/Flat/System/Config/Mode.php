@@ -2,32 +2,28 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
+namespace Magento\Catalog\Model\Indexer\Category\Flat\System\Config;
+
 /**
  * Flat category on/off backend
  */
-namespace Magento\Catalog\Model\System\Config\Backend\Catalog\Category;
-
-class Flat extends \Magento\Core\Model\Config\Value
+class Mode extends \Magento\Core\Model\Config\Value
 {
     /**
-     * Indexer factory
-     *
-     * @var \Magento\Index\Model\IndexerFactory
+     * @var \Magento\Indexer\Model\IndexerInterface
      */
-    protected $_indexerFactory;
+    protected $flatIndexer;
 
     /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
-     * @param \Magento\Index\Model\IndexerFactory $indexerFactory
+     * @param \Magento\Indexer\Model\IndexerInterface $flatIndexer
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -37,28 +33,38 @@ class Flat extends \Magento\Core\Model\Config\Value
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,
-        \Magento\Index\Model\IndexerFactory $indexerFactory,
+        \Magento\Indexer\Model\IndexerInterface $flatIndexer,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_indexerFactory = $indexerFactory;
+        $this->flatIndexer = $flatIndexer;
         parent::__construct($context, $registry, $storeManager, $config, $resource, $resourceCollection, $data);
     }
 
     /**
-     * After enable flat category required reindex
+     * Set after commit callback
      *
-     * @return \Magento\Catalog\Model\System\Config\Backend\Catalog\Category\Flat
+     * @return \Magento\Catalog\Model\Indexer\Category\Flat\System\Config\Mode
      */
     protected function _afterSave()
     {
-        if ($this->isValueChanged() && $this->getValue()) {
-            $this->_indexerFactory->create()
-                ->getProcessByCode(\Magento\Catalog\Helper\Category\Flat::CATALOG_CATEGORY_FLAT_PROCESS_CODE)
-                ->changeStatus(\Magento\Index\Model\Process::STATUS_REQUIRE_REINDEX);
-        }
-
+        $this->_getResource()->addCommitCallback(array($this, 'processValue'));
         return $this;
+    }
+
+    /**
+     * Process flat enabled mode change
+     */
+    public function processValue()
+    {
+        if ($this->isValueChanged()) {
+            $this->flatIndexer->load(\Magento\Catalog\Model\Indexer\Category\Flat\State::INDEXER_ID);
+            if ($this->getValue()) {
+                $this->flatIndexer->invalidate();
+            } else {
+                $this->flatIndexer->setScheduled(false);
+            }
+        }
     }
 }
