@@ -11,6 +11,7 @@
 namespace Magento\Wishlist\Model;
 
 use Magento\Core\Exception;
+use Magento\Customer\Model\Customer;
 use Magento\Wishlist\Model\Resource\Item\CollectionFactory;
 use Magento\Wishlist\Model\Resource\Wishlist as ResourceWishlist;
 use Magento\Wishlist\Model\Resource\Wishlist\Collection;
