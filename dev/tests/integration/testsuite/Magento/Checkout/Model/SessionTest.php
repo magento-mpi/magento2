@@ -24,7 +24,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test covers case when quote is not yet initialized and customer data is set to session model.
+     * Test covers case when quote is not yet initialized and customer data is set to checkout session model.
      *
      * Expected result - quote object should be loaded and customer data should be set to it.
      *
@@ -34,10 +34,34 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     {
         /** Preconditions */
         $customerIdFromFixture = 1;
-        /** @var \Magento\Customer\Model\Customer $customer */
-        $customer = Bootstrap::getObjectManager()->create('Magento\Customer\Model\Customer');
-        $customer->load($customerIdFromFixture);
-        $this->_checkoutSession->setCustomer($customer);
+        /** @var \Magento\Customer\Service\V1\CustomerServiceInterface $customerService */
+        $customerService = Bootstrap::getObjectManager()->get('Magento\Customer\Service\V1\CustomerServiceInterface');
+        $customer = $customerService->getCustomer($customerIdFromFixture);
+        $this->_checkoutSession->setCustomerData($customer);
+
+        /** Execute SUT */
+        $quote = $this->_checkoutSession->getQuote();
+        $this->_validateCustomerDataInQuote($quote);
+    }
+
+    /**
+     * Test covers case when quote is not yet initialized and customer data is set to customer session model.
+     *
+     * Expected result - quote object should be loaded and customer data should be set to it.
+     *
+     * @magentoDataFixture Magento/Sales/_files/quote_with_customer.php
+     * @magentoAppIsolation enabled
+     */
+    public function testGetQuoteNotInitializedCustomerLoggedIn()
+    {
+        /** Preconditions */
+        $customerIdFromFixture = 1;
+        /** @var \Magento\Customer\Service\V1\CustomerServiceInterface $customerService */
+        $customerService = Bootstrap::getObjectManager()->get('Magento\Customer\Service\V1\CustomerServiceInterface');
+        $customer = $customerService->getCustomer($customerIdFromFixture);
+        /** @var \Magento\Customer\Model\Session $customerSession */
+        $customerSession = Bootstrap::getObjectManager()->get('Magento\Customer\Model\Session');
+        $customerSession->setCustomerData($customer);
 
         /** Execute SUT */
         $quote = $this->_checkoutSession->getQuote();
@@ -65,12 +89,12 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         $this->assertEmpty($quote->getCustomerId(), 'Precondition failed: Customer data must not be set to quote');
         $this->assertEmpty($quote->getCustomerEmail(), 'Precondition failed: Customer data must not be set to quote');
 
-        /** @var \Magento\Customer\Model\Customer $customer */
-        $customer = Bootstrap::getObjectManager()->create('Magento\Customer\Model\Customer');
-        $customer->load($customerIdFromFixture);
+        /** @var \Magento\Customer\Service\V1\CustomerServiceInterface $customerService */
+        $customerService = Bootstrap::getObjectManager()->get('Magento\Customer\Service\V1\CustomerServiceInterface');
+        $customer = $customerService->getCustomer($customerIdFromFixture);
         /** @var \Magento\Customer\Model\Session $customerSession */
         $customerSession = Bootstrap::getObjectManager()->get('Magento\Customer\Model\Session');
-        $customerSession->setCustomer($customer);
+        $customerSession->setCustomerData($customer);
 
         /** Ensure that customer data is still unavailable before SUT invocation */
         $quote = $this->_checkoutSession->getQuote();
