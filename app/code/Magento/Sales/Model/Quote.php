@@ -278,7 +278,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     /** @var \Magento\Customer\Model\Converter */
     protected $_converter;
 
-    /** @var \Magento\Customer\Service\V1\Dto\AddressBuilder */
+    /** @var \Magento\Customer\Service\V1\CustomerAddressService */
     protected $_addressService;
 
     /** @var \Magento\Customer\Model\Address\Converter */
@@ -667,7 +667,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Substitute customer's addresses
+     * Substitute customer addresses
      *
      * @param AddressDto[] $addresses
      * @return $this
@@ -708,13 +708,15 @@ class Quote extends \Magento\Core\Model\AbstractModel
     {
         $customer = $this->getCustomerData();
         $addresses = $this->getCustomer()->getAddresses();
-        $array = [];
+        $addressDtos = [];
         foreach ($addresses as $address) {
-            $array[] = $this->_addressConverter->createAddressFromModel($address, $customer->getDefaultBilling(),
+            $addressDtos[] = $this->_addressConverter->createAddressFromModel(
+                $address,
+                $customer->getDefaultBilling(),
                 $customer->getDefaultShipping()
             );
         }
-        return $array;
+        return $addressDtos;
     }
 
     /**
