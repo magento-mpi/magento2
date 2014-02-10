@@ -45,26 +45,6 @@ class Core_Mage_CheckoutOnePage_WithRegistration_CheckingValidationTest extends 
     }
 
     /**
-     * <p>Product not defined to shopping cart</p>
-     * <p>Steps</p>
-     * <p>1. Do not add product to shopping Cart</p>
-     * <p>2. Click "Checkout" button</p>
-     * <p>Expected Result</p>
-     * <p>Shopping Cart is Empty page appears</p>
-     *
-     * @test
-     * @TestlinkId TL-MAGE-5309
-     */
-    public function emptyShoppingCart()
-    {
-        //Steps
-        $this->clickControl('link', 'checkout');
-        $this->validatePage('shopping_cart');
-        //Verifying
-        $this->assertTrue($this->controlIsPresent('message', 'shopping_cart_is_empty'), 'Shopping cart is not empty');
-    }
-
-    /**
      * <p>Checkout method is not defined</p>
      * <p>Preconditions</p>
      * <p>1. Add product to Shopping Cart</p>
@@ -281,6 +261,7 @@ class Core_Mage_CheckoutOnePage_WithRegistration_CheckingValidationTest extends 
      */
     public function specialValuesForAddressFields($dataName, $simpleSku)
     {
+        $this->markTestIncomplete('BUG: Progress bar text overlap steps');
         //Data
         $checkoutData = $this->loadDataSet('OnePageCheckout', $dataName, array('general_name' => $simpleSku));
         //Steps
@@ -326,7 +307,7 @@ class Core_Mage_CheckoutOnePage_WithRegistration_CheckingValidationTest extends 
     public function emptyRequiredFieldsInShippingAddress($field, $message, $simpleSku)
     {
         if ($field == 'shipping_state') {
-            $this->markTestIncomplete('MAGETWO-8745');
+            //$this->markTestSkipped('\MAGETWO-8745');
         }
         //Data
         if ($field != 'shipping_country') {

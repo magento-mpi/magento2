@@ -12,7 +12,7 @@
 #CMS Widgets page
 add_widget_options:
     uimap: &addWidgetOptions
-        form: 
+        form:
             tabs:
                 -
                     frontend_properties:
