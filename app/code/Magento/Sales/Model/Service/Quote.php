@@ -284,6 +284,7 @@ class Quote
         $transaction = $this->_transactionFactory->create();
 
         $originalCustomerDto = null;
+        $customerDto = null;
         if (!$quote->getCustomerIsGuest()) {
             $customerDto = $quote->getCustomerData();
             $addresses = $quote->getCustomerAddressData();
@@ -343,7 +344,9 @@ class Quote
             $order->addItem($orderItem);
         }
 
-        $order->setCustomerId($customerDto->getCustomerId());
+        if ($customerDto) {
+            $order->setCustomerId($customerDto->getCustomerId());
+        }
         $order->setQuote($quote);
 
         $transaction->addObject($order);

@@ -32,7 +32,7 @@ class AddressBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
      */
     public function setId($id)
     {
-        return $this->_set('id', (string)$id);
+        return $this->_set(Address::KEY_ID, (string)$id);
     }
 
     /**

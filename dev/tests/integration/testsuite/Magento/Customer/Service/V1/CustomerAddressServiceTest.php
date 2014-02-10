@@ -1,16 +1,19 @@
 <?php
 
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
 namespace Magento\Customer\Service\V1;
+
 use Magento\Customer\Service\V1;
 use Magento\Customer\Service\Entity\V1\Exception;
 
 /**
  * Integration test for service layer \Magento\Customer\Service\V1\CustomerAddressService
- *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
  *
  * @SuppressWarnings(PHPMD.TooManyMethods)
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
