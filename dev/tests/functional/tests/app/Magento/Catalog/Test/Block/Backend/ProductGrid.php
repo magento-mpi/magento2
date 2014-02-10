@@ -35,6 +35,12 @@ class ProductGrid extends Grid
         'type' => array(
             'selector' => '#productGrid_product_filter_type',
             'input' => 'select'
+        ),
+        'price_from' => array(
+            'selector' => '#productGrid_product_filter_price_from'
+        ),
+        'price_to' => array(
+            'selector' => '#productGrid_product_filter_price_to'
         )
     );
 }

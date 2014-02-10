@@ -81,6 +81,7 @@ class Config extends AbstractRepository
         $this->_data['enable_mysql_search'] = $this->_getMysqlSearchEnabled();
         $this->_data['check_money_order'] = $this->getCheckmo();
         $this->_data['show_out_of_stock'] = $this->_getShowOutOfStock();
+        $this->_data['enable_product_flat'] = $this->_getProductFlatEnabled();
         //Sales
         $this->_data['enable_map_config'] = $this->_getMapEnabled();
         $this->_data['disable_secret_key'] = $this->_getSecretKeyEnabled();
@@ -1958,6 +1959,35 @@ class Config extends AbstractRepository
                                     ),
                                     'country_id' => array( // United States
                                         'value' => 'US'
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+    }
+
+    /**
+     * Enable product flat
+     *
+     * @return array
+     */
+    public function _getProductFlatEnabled()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'catalog' => array(
+                        'section' => 'catalog',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'frontend' => array( //Frontend
+                                'fields' => array(
+                                    'flat_catalog_product' => array( //Enabled
+                                        'value' => 1 //Yes
                                     )
                                 )
                             )

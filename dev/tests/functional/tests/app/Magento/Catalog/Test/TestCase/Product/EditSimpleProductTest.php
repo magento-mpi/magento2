@@ -84,8 +84,9 @@ class EditSimpleProductTest extends Functional
      *
      * @param SimpleProduct $product
      * @param string $categoryName
+     * @param bool $assertOnProductPage
      */
-    protected function assertOnCategory($product, $categoryName)
+    protected function assertOnCategory($product, $categoryName, $assertOnProductPage = true)
     {
         //Pages
         $frontendHomePage = Factory::getPageFactory()->getCmsIndexIndex();
@@ -97,10 +98,13 @@ class EditSimpleProductTest extends Functional
         //Verification on category product list
         $productListBlock = $categoryPage->getListProductBlock();
         $this->assertTrue($productListBlock->isProductVisible($product->getProductName()));
-        $productListBlock->openProductViewPage($product->getProductName());
+
         //Verification on product detail page
-        $productViewBlock = $productPage->getViewBlock();
-        $this->assertEquals($product->getProductName(), $productViewBlock->getProductName());
-        $this->assertEquals($product->getProductPrice(), $productViewBlock->getProductPrice());
+        if ($assertOnProductPage) {
+            $productListBlock->openProductViewPage($product->getProductName());
+            $productViewBlock = $productPage->getViewBlock();
+            $this->assertEquals($product->getProductName(), $productViewBlock->getProductName());
+            $this->assertEquals($product->getProductPrice(), $productViewBlock->getProductPrice());
+        }
     }
 }

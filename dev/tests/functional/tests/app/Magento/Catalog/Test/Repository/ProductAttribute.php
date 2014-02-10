@@ -39,6 +39,14 @@ class ProductAttribute extends AbstractRepository
             'config' => $defaultConfig,
             'data' => $this->buildNewAttributeData($defaultData),
         );
+
+        $this->_data['price_massaction'] = array(
+            'data' => array(
+                'fields' => array(
+                    'price' => array('value' => '1.99', 'group' => 'attributes_update_tabs_attributes')
+                )
+            )
+        );
     }
 
     /**

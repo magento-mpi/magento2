@@ -90,8 +90,8 @@ class Product extends \Magento\Backend\App\Action
 
         $productId  = (int)$this->getRequest()->getParam('id');
         /** @var $product \Magento\Catalog\Model\Product */
-        $product    = $this->_objectManager->create('Magento\Catalog\Model\Product')
-            ->setStoreId($this->getRequest()->getParam('store', 0));
+        $product    = $this->_objectManager->create('Magento\Catalog\Model\Product');
+        $product->setStoreId($this->getRequest()->getParam('store', 0));
 
         $typeId = $this->getRequest()->getParam('type');
         if (!$productId && $typeId) {

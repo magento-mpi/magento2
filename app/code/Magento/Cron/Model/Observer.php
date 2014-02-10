@@ -288,7 +288,7 @@ class Observer
         foreach ($jobs as $jobCode => $jobConfig) {
             $cronExpr = null;
             if (isset($jobConfig['config_path'])) {
-                $cronExpr = $this->_coreStoreConfig->getConfig($jobConfig['config_path'], 'default');
+                $cronExpr = $this->_coreStoreConfig->getConfig($jobConfig['config_path']);
             } elseif (empty($cronExpr) && isset($jobConfig['schedule'])) {
                 $cronExpr = $jobConfig['schedule'];
             }

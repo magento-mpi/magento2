@@ -28,30 +28,12 @@ class Flatproduct
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Catalog\Helper\Product\Flat $flatProduct
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Catalog\Helper\Product\Flat $flatProduct,
         array $data = array()
     ) {
-        $this->_flatProduct = $flatProduct;
         parent::__construct($context, $data);
     }
-
-    /**
-     * Retrieve Element HTML
-     *
-     * @param \Magento\Data\Form\Element\AbstractElement $element
-     * @return string
-     */
-    protected function _getElementHtml(\Magento\Data\Form\Element\AbstractElement $element) {
-        if (!$this->_flatProduct->isBuilt()) {
-            $element->setDisabled(true)
-                ->setValue(0);
-        }
-        return parent::_getElementHtml($element);
-    }
-
 }
