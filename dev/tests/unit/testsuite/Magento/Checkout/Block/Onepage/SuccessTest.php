@@ -65,4 +65,31 @@ class SuccessTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertEquals('', $block->toHtml());
     }
+
+    public function testBeforeToHtml()
+    {
+        $eventsManagerMock = $this->getMockBuilder('Magento\Event\ManagerInterface')
+            ->setMethods(array('dispatch'))
+            ->getMock();
+        $block = $this->objectManager->getObject(
+            'Magento\Checkout\Block\Onepage\Success',
+            array(
+                'eventManager' => $eventsManagerMock
+            )
+        );
+        $eventsManagerMock->expects($this->at(0))
+            ->method('dispatch')
+            ->with(
+                'view_block_abstract_to_html_before',
+                array('block' => $block)
+            );
+
+        $eventsManagerMock->expects($this->at(1))
+            ->method('dispatch')
+            ->with(
+                'checkout_onepage_success_before_to_html',
+                array('block' => $block)
+            );
+        $block->toHtml();
+    }
 }
