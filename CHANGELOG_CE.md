@@ -11,6 +11,7 @@
   * Fixed an issue with CMS Page Links not being shown due to empty text in the link
   * Fixed an issue with disabling zoom functionality for responsive design only
   * Fixed an issue with zoom on product page which shows parent image instead of image of selected options
+  * Fixed an issue with Backup module feature not possible to store files
 * Updated various PHPDoc with parameter and return types
 * Move Quote Multishipping specifics logic to Multishipping module
 * Resolve dependencies between Payment and Multishipping modules
