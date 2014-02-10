@@ -54,6 +54,8 @@
  */
 namespace Magento\Catalog\Model\Entity;
 
+use \Magento\Catalog\Model\Attribute\LockValidatorInterface;
+
 class Attribute extends \Magento\Eav\Model\Entity\Attribute
 {
     protected $_eventPrefix = 'catalog_entity_attribute';
@@ -61,8 +63,11 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
     const MODULE_NAME = 'Magento_Catalog';
 
     /**
-     * Class constructor
-     *
+     * @var LockValidatorInterface
+     */
+    protected $attrLockValidator;
+
+    /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Helper\Data $coreData
@@ -73,6 +78,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
      * @param \Magento\Validator\UniversalFactory $universalFactory
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Catalog\Model\ProductFactory $catalogProductFactory
+     * @param LockValidatorInterface $lockValidator
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -88,10 +94,12 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
         \Magento\Validator\UniversalFactory $universalFactory,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Catalog\Model\ProductFactory $catalogProductFactory,
+        LockValidatorInterface $lockValidator,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->attrLockValidator = $lockValidator;
         parent::__construct(
             $context,
             $registry,
@@ -117,9 +125,12 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
      */
     protected function _beforeSave()
     {
-        if ($this->_getResource()->isUsedBySuperProducts($this)) {
-            throw new \Magento\Eav\Exception(__('This attribute is used in configurable products'));
+        try {
+            $this->attrLockValidator->validate($this);
+        } catch (\Magento\Core\Exception $exception) {
+            throw new \Magento\Eav\Exception($exception->getMessage());
         }
+
         $this->setData('modulePrefix', self::MODULE_NAME);
         return parent::_beforeSave();
     }

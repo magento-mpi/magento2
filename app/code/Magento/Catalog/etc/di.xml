@@ -11,6 +11,7 @@
     <preference for="Magento\Catalog\Model\ProductTypes\ConfigInterface" type="Magento\Catalog\Model\ProductTypes\Config" />
     <preference for="Magento\Catalog\Model\ProductOptions\ConfigInterface" type="Magento\Catalog\Model\ProductOptions\Config" />
     <preference for="Magento\Catalog\Model\Product\PriceModifierInterface" type="Magento\Catalog\Model\Product\PriceModifier\Composite" />
+    <preference for="Magento\Catalog\Model\Attribute\LockValidatorInterface" type="Magento\Catalog\Model\Attribute\LockValidatorComposite" />
     <preference for="Magento\Catalog\Model\Entity\Product\Attribute\Group\AttributeMapperInterface" type="Magento\Catalog\Model\Entity\Product\Attribute\Group\AttributeMapper" />
     <type name="Magento\Log\Model\Resource\Log">
         <plugin name="catalogLog" type="Magento\Catalog\Model\Plugin\Log" />
@@ -128,6 +129,11 @@
     <type name="Magento\Catalog\Model\Session">
         <param name="storage">
             <instance type="Magento\Catalog\Model\Session\Storage" />
+        </param>
+    </type>
+    <type name="Magento\Catalog\Block\Adminhtml\Product\Attribute\Edit\Tab\Variations\Main">
+        <param name="inputTypeFactory">
+            <instance type="Magento\Catalog\Model\System\Config\Source\InputtypeFactory" />
         </param>
     </type>
     <type name="Magento\Catalog\Model\Product\LinkTypeProvider">

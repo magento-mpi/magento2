@@ -1230,4 +1230,9 @@ return array(
         'Magento\Downloadable\Model\Observer',
         'Magento\Downloadable\Model\Product\TypeTransitionManager\Plugin\Downloadable::aroundProcessProduct'
     ),
+    array(
+        'isUsedBySuperProducts',
+        'Magento\Catalog\Model\Resource\Attribute',
+        'Magento\ConfigurableProduct\Model\Attribute\LockValidator::validate'
+    ),
 );
