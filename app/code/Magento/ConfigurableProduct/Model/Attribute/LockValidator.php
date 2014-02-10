@@ -15,7 +15,15 @@ class LockValidator implements LockValidatorInterface
     /**
      * @var \Magento\App\Resource
      */
-    protected $resorce;
+    protected $resource;
+
+    /**
+     * @param \Magento\App\Resource $resource
+     */
+    public function __construct(\Magento\App\Resource $resource)
+    {
+        $this->resource = $resource;
+    }
 
     /**
      * Check attribute lock state
@@ -28,9 +36,9 @@ class LockValidator implements LockValidatorInterface
      */
     public function validate(\Magento\Core\Model\AbstractModel $object, $attributeSet = null)
     {
-        $adapter = $this->resorce->getConnection('read');
-        $attrTable    = $this->resorce->getTableName('catalog_product_super_attribute');
-        $productTable = $this->resorce->getTableName('catalog_product_entity');
+        $adapter = $this->resource->getConnection('read');
+        $attrTable    = $this->resource->getTableName('catalog_product_super_attribute');
+        $productTable = $this->resource->getTableName('catalog_product_entity');
 
         $bind = array('attribute_id' => $object->getAttributeId());
         $select = clone $adapter->select();
