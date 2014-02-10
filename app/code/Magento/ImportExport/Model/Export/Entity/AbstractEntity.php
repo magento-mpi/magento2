@@ -170,7 +170,7 @@ abstract class AbstractEntity
     /**
      * Initialize stores hash.
      *
-     * @return \Magento\ImportExport\Model\Export\Entity\AbstractEntity
+     * @return $this
      */
     protected function _initStores()
     {
@@ -226,7 +226,7 @@ abstract class AbstractEntity
     /**
      * Initialize attribute option values.
      *
-     * @return \Magento\ImportExport\Model\Export\Entity\AbstractEntity
+     * @return $this
      */
     protected function _initAttrValues()
     {
@@ -490,7 +490,7 @@ abstract class AbstractEntity
      * Set parameters.
      *
      * @param array $parameters
-     * @return \Magento\ImportExport\Model\Export\Entity\AbstractEntity
+     * @return $this
      */
     public function setParameters(array $parameters)
     {
@@ -503,7 +503,7 @@ abstract class AbstractEntity
      * Writer model setter.
      *
      * @param \Magento\ImportExport\Model\Export\Adapter\AbstractAdapter $writer
-     * @return \Magento\ImportExport\Model\Export\Entity\AbstractEntity
+     * @return $this
      */
     public function setWriter(\Magento\ImportExport\Model\Export\Adapter\AbstractAdapter $writer)
     {

@@ -183,7 +183,7 @@ abstract class AbstractEntity
     /**
      * Initialize stores hash
      *
-     * @return \Magento\ImportExport\Model\Export\AbstractEntity
+     * @return $this
      */
     protected function _initStores()
     {
@@ -200,7 +200,7 @@ abstract class AbstractEntity
      * Initialize website values
      *
      * @param bool $withDefault
-     * @return \Magento\ImportExport\Model\Export\AbstractEntity
+     * @return $this
      */
     protected function _initWebsites($withDefault = false)
     {
@@ -216,7 +216,7 @@ abstract class AbstractEntity
      *
      * @param string $errorCode Error code or simply column name
      * @param int $errorRowNum Row number
-     * @return \Magento\ImportExport\Model\Export\AbstractEntity
+     * @return $this
      */
     public function addRowError($errorCode, $errorRowNum)
     {
@@ -233,7 +233,7 @@ abstract class AbstractEntity
      *
      * @param string $errorCode Error code
      * @param string $message Message template
-     * @return \Magento\ImportExport\Model\Export\AbstractEntity
+     * @return $this
      */
     public function addMessageTemplate($errorCode, $message)
     {
@@ -409,7 +409,7 @@ abstract class AbstractEntity
      * Writer model setter
      *
      * @param \Magento\ImportExport\Model\Export\Adapter\AbstractAdapter $writer
-     * @return \Magento\ImportExport\Model\Export\AbstractEntity
+     * @return $this
      */
     public function setWriter(\Magento\ImportExport\Model\Export\Adapter\AbstractAdapter $writer)
     {

@@ -116,7 +116,7 @@ abstract class AbstractCustomer extends \Magento\ImportExport\Model\Import\Entit
      * Initialize existent customers data
      *
      * @param array $data
-     * @return \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCustomer
+     * @return $this
      */
     protected function _initCustomers(array $data)
     {

@@ -89,7 +89,7 @@ class Edit
      * Set form object to container.
      *
      * @throws \Magento\Core\Exception
-     * @return \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit
+     * @return $this
      */
     protected function _prepareLayout()
     {

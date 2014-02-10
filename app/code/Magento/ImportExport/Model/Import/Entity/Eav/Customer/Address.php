@@ -339,7 +339,7 @@ class Address
     /**
      * Initialize existent addresses data
      *
-     * @return \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address
+     * @return $this
      */
     protected function _initAddresses()
     {
@@ -360,7 +360,7 @@ class Address
     /**
      * Initialize country regions hash for clever recognition
      *
-     * @return \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address
+     * @return $this
      */
     protected function _initCountryRegions()
     {
@@ -527,7 +527,7 @@ class Address
      * Update and insert data in entity table
      *
      * @param array $entityRows Rows for insert
-     * @return \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address
+     * @return $this
      */
     protected function _saveAddressEntities(array $entityRows)
     {
@@ -541,7 +541,7 @@ class Address
      * Save customer address attributes
      *
      * @param array $attributesData
-     * @return \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address
+     * @return $this
      */
     protected function _saveAddressAttributes(array $attributesData)
     {
@@ -566,7 +566,7 @@ class Address
      * Save customer default addresses
      *
      * @param array $defaults
-     * @return \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address
+     * @return $this
      */
     protected function _saveCustomerDefaults(array $defaults)
     {
@@ -595,7 +595,7 @@ class Address
      * Delete data from entity table
      *
      * @param array $entityRowIds Row IDs for delete
-     * @return \Magento\ImportExport\Model\Import\Entity\Eav\Customer\Address
+     * @return $this
      */
     protected function _deleteAddressEntities(array $entityRowIds)
     {

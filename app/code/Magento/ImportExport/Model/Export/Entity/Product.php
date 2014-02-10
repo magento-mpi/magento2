@@ -249,7 +249,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
     /**
      * Initialize attribute sets code-to-id pairs.
      *
-     * @return \Magento\ImportExport\Model\Export\Entity\Product
+     * @return $this
      */
     protected function _initAttributeSets()
     {
@@ -263,7 +263,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
     /**
      * Initialize categories ID to text-path hash.
      *
-     * @return \Magento\ImportExport\Model\Export\Entity\Product
+     * @return $this
      */
     protected function _initCategories()
     {
@@ -291,7 +291,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
      * Initialize product type models.
      *
      * @throws \Magento\Core\Exception
-     * @return \Magento\ImportExport\Model\Export\Entity\Product
+     * @return $this
      */
     protected function _initTypeModels()
     {
@@ -324,7 +324,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
     /**
      * Initialize website values.
      *
-     * @return \Magento\ImportExport\Model\Export\Entity\Product
+     * @return $this
      */
     protected function _initWebsites()
     {
@@ -1134,7 +1134,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
     /**
      * Initialize attribute option values and types.
      *
-     * @return \Magento\ImportExport\Model\Export\Entity\Product
+     * @return $this
      */
     protected function _initAttributes()
     {

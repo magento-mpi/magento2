@@ -134,7 +134,7 @@ abstract class AbstractEav
      * Initialize website values
      *
      * @param bool $withDefault
-     * @return \Magento\ImportExport\Model\Import\Entity\AbstractEav
+     * @return $this
      */
     protected function _initWebsites($withDefault = false)
     {
@@ -149,7 +149,7 @@ abstract class AbstractEav
      * Initialize stores data
      *
      * @param bool $withDefault
-     * @return \Magento\ImportExport\Model\Import\Entity\AbstractEav
+     * @return $this
      */
     protected function _initStores($withDefault = false)
     {
@@ -163,7 +163,7 @@ abstract class AbstractEav
     /**
      * Initialize entity attributes
      *
-     * @return \Magento\ImportExport\Model\Import\Entity\AbstractEav
+     * @return $this
      */
     protected function _initAttributes()
     {

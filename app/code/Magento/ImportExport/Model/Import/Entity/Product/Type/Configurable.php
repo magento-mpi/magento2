@@ -248,7 +248,7 @@ class Configurable
     /**
      * Array of SKU to array of super attribute values for all products.
      *
-     * @return \Magento\ImportExport\Model\Import\Entity\Product\Type\Configurable
+     * @return $this
      */
     protected function _loadSkuSuperAttributeValues()
     {
@@ -275,7 +275,7 @@ class Configurable
     /**
      * Array of SKU to array of super attribute values for all products.
      *
-     * @return \Magento\ImportExport\Model\Import\Entity\Product\Type\Configurable
+     * @return $this
      */
     protected function _loadSkuSuperData()
     {
@@ -309,7 +309,7 @@ class Configurable
      *
      * @param array $superData
      * @param array $superAttributes
-     * @return \Magento\ImportExport\Model\Import\Entity\Product\Type\Configurable
+     * @return $this
      */
     protected function _processSuperData(array $superData, array &$superAttributes)
     {

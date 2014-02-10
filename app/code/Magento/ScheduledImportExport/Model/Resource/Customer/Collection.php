@@ -99,7 +99,7 @@ class Collection
     /**
      * Join with reward points table
      *
-     * @return \Magento\ScheduledImportExport\Model\Resource\Customer\Collection
+     * @return $this
      */
     public function joinWithRewardPoints()
     {
@@ -133,7 +133,7 @@ class Collection
     /**
      * Join with store credit table
      *
-     * @return \Magento\ScheduledImportExport\Model\Resource\Customer\Collection
+     * @return $this
      */
     public function joinWithCustomerBalance()
     {
@@ -167,7 +167,7 @@ class Collection
     /**
      * Additional filters
      *
-     * @return \Magento\ScheduledImportExport\Model\Resource\Customer\Collection
+     * @return $this
      */
     protected function _beforeLoad()
     {

@@ -228,7 +228,7 @@ class Filter extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Add columns to grid
      *
-     * @return \Magento\ImportExport\Block\Adminhtml\Export\Filter
+     * @return $this
      */
     protected function _prepareColumns()
     {

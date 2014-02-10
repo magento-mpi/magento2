@@ -209,7 +209,7 @@ class CustomerComposite
     /**
      * Collect customer attributes
      *
-     * @return \Magento\ImportExport\Model\Import\Entity\CustomerComposite
+     * @return $this
      */
     protected function _initCustomerAttributes()
     {
@@ -224,7 +224,7 @@ class CustomerComposite
     /**
      * Collect address attributes
      *
-     * @return \Magento\ImportExport\Model\Import\Entity\CustomerComposite
+     * @return $this
      */
     protected function _initAddressAttributes()
     {
@@ -384,7 +384,7 @@ class CustomerComposite
      * Set data from outside to change behavior
      *
      * @param array $parameters
-     * @return \Magento\ImportExport\Model\Import\Entity\CustomerComposite
+     * @return $this
      */
     public function setParameters(array $parameters)
     {

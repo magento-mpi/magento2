@@ -154,7 +154,7 @@ class Address
     /**
      * Initialize existent customers data
      *
-     * @return \Magento\ImportExport\Model\Export\Entity\Eav\Customer\Address
+     * @return $this
      */
     protected function _initCustomers()
     {

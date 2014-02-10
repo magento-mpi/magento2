@@ -95,7 +95,7 @@ class Collection
      *
      * @param  string $field
      * @param  string $direction
-     * @return \Magento\ScheduledImportExport\Model\Resource\Customer\Attribute\Finance\Collection
+     * @return $this
      */
     public function setOrder($field, $direction = self::SORT_ORDER_DESC)
     {

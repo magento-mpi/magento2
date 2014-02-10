@@ -35,7 +35,7 @@ class Collection
     /**
      * Call afterLoad method for each item
      *
-     * @return \Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation\Collection
+     * @return $this
      */
     protected function _afterLoad()
     {

@@ -193,7 +193,7 @@ class Customer
      *
      * @param array $entitiesToCreate Rows for insert
      * @param array $entitiesToUpdate Rows for update
-     * @return \Magento\ImportExport\Model\Import\Entity\Eav\Customer
+     * @return $this
      */
     protected function _saveCustomerEntities(array $entitiesToCreate, array $entitiesToUpdate)
     {
@@ -216,7 +216,7 @@ class Customer
      * Save customer attributes.
      *
      * @param array $attributesData
-     * @return \Magento\ImportExport\Model\Import\Entity\Eav\Customer
+     * @return $this
      */
     protected function _saveCustomerAttributes(array $attributesData)
     {
@@ -242,7 +242,7 @@ class Customer
      * Delete list of customers
      *
      * @param array $entitiesToDelete customers id list
-     * @return \Magento\ImportExport\Model\Import\Entity\Eav\Customer
+     * @return $this
      */
     protected function _deleteCustomerEntities(array $entitiesToDelete)
     {

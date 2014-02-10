@@ -302,7 +302,7 @@ abstract class AbstractEntity
     /**
      * Validate data rows and save bunches to DB
      *
-     * @return \Magento\ImportExport\Model\Import\AbstractEntity
+     * @return $this
      */
     protected function _saveValidatedBunches()
     {
@@ -362,7 +362,7 @@ abstract class AbstractEntity
      * @param string $errorCode Error code or simply column name
      * @param int $errorRowNum Row number
      * @param string $columnName OPTIONAL Column name
-     * @return \Magento\ImportExport\Model\Import\AbstractEntity
+     * @return $this
      */
     public function addRowError($errorCode, $errorRowNum, $columnName = null)
     {
@@ -379,7 +379,7 @@ abstract class AbstractEntity
      *
      * @param string $errorCode Error code
      * @param string $message Message template
-     * @return \Magento\ImportExport\Model\Import\AbstractEntity
+     * @return $this
      */
     public function addMessageTemplate($errorCode, $message)
     {
@@ -661,7 +661,7 @@ abstract class AbstractEntity
      * Source model setter
      *
      * @param \Magento\ImportExport\Model\Import\AbstractSource $source
-     * @return \Magento\ImportExport\Model\Import\AbstractEntity
+     * @return $this
      */
     public function setSource(\Magento\ImportExport\Model\Import\AbstractSource $source)
     {
@@ -675,7 +675,7 @@ abstract class AbstractEntity
      * Validate data
      *
      * @throws \Exception
-     * @return \Magento\ImportExport\Model\Import\AbstractEntity
+     * @return $this
      */
     public function validateData()
     {

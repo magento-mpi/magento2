@@ -600,7 +600,7 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
     /**
      * Invalidate indexes by process codes.
      *
-     * @return \Magento\ImportExport\Model\Import
+     * @return $this
      */
     public function invalidateIndex()
     {

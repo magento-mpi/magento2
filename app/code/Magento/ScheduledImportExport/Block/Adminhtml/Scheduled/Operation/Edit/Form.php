@@ -94,7 +94,7 @@ abstract class Form
     /**
      * Prepare general form for scheduled operation
      *
-     * @return \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form
+     * @return $this
      */
     protected function _prepareForm()
     {
@@ -134,7 +134,7 @@ abstract class Form
      *
      * @param \Magento\Data\Form $form
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation $operation
-     * @return \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form
+     * @return $this
      */
     protected function _addGeneralSettings($form, $operation)
     {
@@ -211,7 +211,7 @@ abstract class Form
      *
      * @param \Magento\Data\Form $form
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation $operation
-     * @return \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form
+     * @return $this
      */
     protected function _addFileSettings($form, $operation)
     {
@@ -280,7 +280,7 @@ abstract class Form
      *
      * @param \Magento\Data\Form $form
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation $operation
-     * @return \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form
+     * @return $this
      */
     protected function _addEmailSettings($form, $operation)
     {

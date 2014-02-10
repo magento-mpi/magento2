@@ -287,7 +287,7 @@ abstract class AbstractEntity
     /**
      * Validate data rows and save bunches to DB.
      *
-     * @return \Magento\ImportExport\Model\Import\Entity\AbstractEntity
+     * @return $this
      */
     protected function _saveValidatedBunches()
     {
@@ -362,7 +362,7 @@ abstract class AbstractEntity
      *
      * @param string $errorCode Error code
      * @param string $message Message template
-     * @return \Magento\ImportExport\Model\Import\Entity\AbstractEntity
+     * @return $this
      */
     public function addMessageTemplate($errorCode, $message)
     {
@@ -658,7 +658,7 @@ abstract class AbstractEntity
      * Set data from outside to change behavior. I.e. for setting some default parameters etc.
      *
      * @param array $params
-     * @return \Magento\ImportExport\Model\Import\Entity\AbstractEntity
+     * @return $this
      */
     public function setParameters(array $params)
     {
@@ -670,7 +670,7 @@ abstract class AbstractEntity
      * Source model setter.
      *
      * @param \Magento\ImportExport\Model\Import\AbstractSource $source
-     * @return \Magento\ImportExport\Model\Import\Entity\AbstractEntity
+     * @return $this
      */
     public function setSource(\Magento\ImportExport\Model\Import\AbstractSource $source)
     {
@@ -684,7 +684,7 @@ abstract class AbstractEntity
      * Validate data.
      *
      * @throws \Exception
-     * @return \Magento\ImportExport\Model\Import\Entity\AbstractEntity
+     * @return $this
      */
     public function validateData()
     {

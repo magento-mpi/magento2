@@ -70,7 +70,7 @@ abstract class AbstractAdapter
     /**
      * Method called as last step of object instance creation. Can be overridden in child classes.
      *
-     * @return \Magento\ImportExport\Model\Export\Adapter\AbstractAdapter
+     * @return $this
      */
     protected function _init()
     {

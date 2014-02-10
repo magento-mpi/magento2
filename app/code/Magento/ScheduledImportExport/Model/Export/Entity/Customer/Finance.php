@@ -130,7 +130,7 @@ class Finance
     /**
      * Initialize frontend websites
      *
-     * @return \Magento\ScheduledImportExport\Model\Export\Entity\Customer\Finance
+     * @return $this
      */
     protected function _initFrontendWebsites()
     {

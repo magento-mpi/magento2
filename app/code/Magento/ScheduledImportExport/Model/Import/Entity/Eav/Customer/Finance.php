@@ -175,7 +175,7 @@ class Finance extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCust
     /**
      * Initialize entity attributes
      *
-     * @return \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance
+     * @return $this
      */
     protected function _initAttributes()
     {

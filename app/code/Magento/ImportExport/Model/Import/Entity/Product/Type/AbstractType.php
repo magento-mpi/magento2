@@ -152,7 +152,7 @@ abstract class AbstractType
     /**
      * Initialize attributes parameters for all attributes' sets.
      *
-     * @return \Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType
+     * @return $this
      */
     protected function _initAttributes()
     {
@@ -336,7 +336,7 @@ abstract class AbstractType
     /**
      * Save product type specific data.
      *
-     * @return \Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType
+     * @return $this
      */
     public function saveData()
     {

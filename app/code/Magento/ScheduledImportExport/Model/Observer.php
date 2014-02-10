@@ -213,7 +213,7 @@ class Observer
      * Send email notification
      *
      * @param array $vars
-     * @return \Magento\ScheduledImportExport\Model\Observer
+     * @return $this
      */
     protected function _sendEmailNotification($vars)
     {

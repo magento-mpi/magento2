@@ -102,7 +102,7 @@ class Storage
      * Add customer to array
      *
      * @param \Magento\Object|\Magento\Customer\Model\Customer $customer
-     * @return \Magento\ImportExport\Model\Resource\Customer\Storage
+     * @return $this
      */
     public function addCustomer(\Magento\Object $customer)
     {
