@@ -1,32 +1,41 @@
+* Fixed bugs:
+  * Fixed an issue with Backup module feature not possible to store files
+* Indexer implementation:
+  * Implemented new optimized Catalog Category Flat Indexer
+* Cron improvements:
+  * Added the ability to divide cron tasks into groups
+  * Added the ability to run cron groups in separate processes
 * LESS pre-processisng to CSS
   * LESS files in library/theme/module, during materialization are automatically compiled into CSS
   * LESS files compilation caching mechanism added for developer mode
-* Modularity improvements:
-  * Abstract cart logic moved from Paypal module
-* Caching improvements:
-  * Added new mechanism to identify page content uniquely (hash-key for cache storage)
-  * Plugin "magentoZoom" is divided into widgets "gallery" and "zoom"
-* Fixed bugs:
-  * Fixed an issue with insert image in WYSIWYG editor where selected folder was stored in session
-  * Fixed an issue with CMS Page Links not being shown due to empty text in the link
-  * Fixed an issue with disabling zoom functionality for responsive design only
-  * Fixed an issue with zoom on product page which shows parent image instead of image of selected options
-* Updated various PHPDoc with parameter and return types
-* Move Quote Multishipping specifics logic to Multishipping module
-* Resolve dependencies between Payment and Multishipping modules
-* Framework part of the "Translate" functionality removed from modules
-* Implemented E-mail template architecture in libraries
-* Applied unified approach of scope usage for "Config" functionality
-* Fixed Dependency static test
 * Move Recurring profile functionality into separate module
 * GitHub requests:
  * [#377] (https://github.com/magento/magento2/issues/377) Remove and avoid javascript eval() calls 
  * [#319] (https://github.com/magento/magento2/issues/319) No message was displayed when product added to shopping cart.
  * [#367] (https://github.com/magento/magento2/issues/367) Improve the error message from the contact form
  * [#469] (https://github.com/magento/magento2/issues/469) Can't change prices on different websites for custom options
-
 * Update Customer Service Exception handling and add tests
 * Add usage of Customer Service to Customer Module, replacing some direct usage of Customer Model
+
+2.0.0.0-dev64
+=============
+* Modularity improvements:
+  * Moved abstract shopping cart logic from the Paypal module to the Payments module
+* Caching improvements:
+  * Added a new mechanism to uniquely identify page content (a hash-key for cache storage)
+  * Replaced the "magentoZoom" plugin with two widgets: the "gallery" and "zoom"
+* Fixed bugs:
+  * Fixed an issue with inserting an image in WYSIWYG editor where the selected folder was stored in session
+  * Fixed an issue with CMS Page Links not being shown because of the empty text in the link
+  * Fixed an issue where zooming functionality was not disabled for the responsive design
+  * Fixed an issue with zooming on a configurable product page where the main product image was shown instead of the selected option images
+* Updated various PHPDoc with parameter and return types
+* Moved quote-related multishipping logic to the Multishipping module
+* Resolved dependencies between the Payment and Multishipping modules
+* Moved the framework part of the Translate functionality from modules to the library
+* Created the architecture for the email template library
+* Introduced a consistent approach for using the Config scope
+* Fixed an issue with the dependency static test
 
 2.0.0.0-dev63
 =============

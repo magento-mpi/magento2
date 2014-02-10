@@ -43,7 +43,7 @@ class RelatedFileTest extends \PHPUnit_Framework_TestCase
     public function buildPathDataProvider()
     {
         $themesPath = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Filesystem')->getPath(\Magento\App\Filesystem::THEMES_DIR);
+            ->get('Magento\App\Filesystem')->getPath(\Magento\App\Filesystem::THEMES_DIR);
 
         return array(
             array(
