@@ -181,6 +181,26 @@ class Area
      */
     protected function _applyUserAgentDesignException($request)
     {
+        $theme = $this->getThemeForUserAgent($request);
+        try {
+            if (false !== $theme) {
+                $this->_getDesign()->setDesignTheme($theme);
+                return true;
+            }
+        } catch (\Exception $e) {
+            $this->_logger->logException($e);
+        }
+        return false;
+    }
+
+    /**
+     * Get theme that should be applied for current user-agent according to design exceptions configuration
+     *
+     * @param \Magento\App\Request\Http $request
+     * @return string|bool
+     */
+    public function getThemeForUserAgent(\Magento\App\Request\Http $request)
+    {
         $userAgent = $request->getServer('HTTP_USER_AGENT');
         if (empty($userAgent)) {
             return false;
@@ -193,8 +213,7 @@ class Area
             $expressions = unserialize($expressions);
             foreach ($expressions as $rule) {
                 if (preg_match($rule['regexp'], $userAgent)) {
-                    $this->_getDesign()->setDesignTheme($rule['value']);
-                    return true;
+                    return $rule['value'];
                 }
             }
         } catch (\Exception $e) {
