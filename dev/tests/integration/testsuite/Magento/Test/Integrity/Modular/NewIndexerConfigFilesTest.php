@@ -29,7 +29,7 @@ class NewIndexerConfigFilesTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->schemeFile = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Filesystem')
+        $this->schemeFile = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Filesystem')
             ->getPath(\Magento\App\Filesystem::APP_DIR) . '/code/Magento/Indexer/etc/indexer.xsd';
     }
 
@@ -55,7 +55,7 @@ class NewIndexerConfigFilesTest extends \PHPUnit_Framework_TestCase
     public function indexerConfigFileDataProvider()
     {
         $fileList = glob(
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Filesystem')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Filesystem')
                 ->getPath(\Magento\App\Filesystem::APP_DIR) . '/*/*/*/etc/indexer.xml'
         );
         $dataProviderResult = array();
