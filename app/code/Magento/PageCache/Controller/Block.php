@@ -48,8 +48,11 @@ class Block extends \Magento\App\Action\Action
      */
     public function wrapesiAction()
     {
-        $handles = unserialize($this->getRequest()->getParam('handles', []));
-        $blockName = $this->getRequest()->getParam('blockname', '');
+        $request = $this->getRequest();
+        $response = $this->getResponse();
+        $handles = unserialize($request->getParam('handles', []));
+        $blockName = $request->getParam('blockname', '');
+        $ttl = $request->getParam('ttl', 0);
 
         if (!$handles || !$blockName) {
             return;
@@ -62,6 +65,9 @@ class Block extends \Magento\App\Action\Action
             $data = $blockInstance->toHtml();
         }
 
-        $this->getResponse()->appendBody($data);
+        $response->appendBody($data);
+        $response->setHeader('X-Magento-Ttl', $ttl);
+
+
     }
 }
