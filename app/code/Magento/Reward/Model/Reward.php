@@ -114,9 +114,9 @@ class Reward extends \Magento\Core\Model\AbstractModel
     protected $_rateFactory;
 
     /**
-     * @var \Magento\Email\Model\TemplateFactory
+     * @var \Magento\Mail\Template\TransportBuilder
      */
-    protected $_templateFactory;
+    protected $_transportBuilder;
 
     /**
      * @var \Magento\Reward\Model\Reward
@@ -134,7 +134,7 @@ class Reward extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Reward\Model\ActionFactory $actionFactory
      * @param \Magento\Reward\Model\Reward\HistoryFactory $historyFactory
      * @param \Magento\Reward\Model\Reward\RateFactory $rateFactory
-     * @param \Magento\Email\Model\TemplateFactory $templateFactory
+     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -150,7 +150,7 @@ class Reward extends \Magento\Core\Model\AbstractModel
         \Magento\Reward\Model\ActionFactory $actionFactory,
         \Magento\Reward\Model\Reward\HistoryFactory $historyFactory,
         \Magento\Reward\Model\Reward\RateFactory $rateFactory,
-        \Magento\Email\Model\TemplateFactory $templateFactory,
+        \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -163,7 +163,7 @@ class Reward extends \Magento\Core\Model\AbstractModel
         $this->_actionFactory = $actionFactory;
         $this->_historyFactory = $historyFactory;
         $this->_rateFactory = $rateFactory;
-        $this->_templateFactory = $templateFactory;
+        $this->_transportBuilder = $transportBuilder;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -706,35 +706,41 @@ class Reward extends \Magento\Core\Model\AbstractModel
         }
         $history = $this->getHistory();
         $store = $this->_storeManager->getStore($this->getStore());
-        $mail  = $this->_templateFactory->create();
-        /* @var $mail \Magento\Email\Model\Template */
-        $mail->setDesignConfig(array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $store->getId()));
-        $templateVars = array(
-            'store' => $store,
-            'customer' => $this->getCustomer(),
-            'unsubscription_url' => $this->_rewardCustomer
-                ->getUnsubscribeUrl('update', $store->getId()),
-            'points_balance' => $this->getPointsBalance(),
-            'reward_amount_was' => $this->_rewardData->formatAmount(
-                $this->getCurrencyAmount() - $history->getCurrencyDelta(), true, $store->getStoreId()
-            ),
-            'reward_amount_now' => $this->_rewardData->formatAmount(
-                $this->getCurrencyAmount(), true, $store->getStoreId()
-            ),
-            'reward_pts_was' => ($this->getPointsBalance() - $delta),
-            'reward_pts_change' => $delta,
-            'update_message' => $this->getHistory()->getMessage(),
-            'update_comment' => $history->getComment()
-        );
-        $mail->sendTransactional(
-            $store->getConfig(self::XML_PATH_BALANCE_UPDATE_TEMPLATE),
-            $store->getConfig(self::XML_PATH_EMAIL_IDENTITY),
-            $this->getCustomer()->getEmail(),
-            null,
-            $templateVars,
-            $store->getId()
-        );
-        if ($mail->getSentSuccess()) {
+
+        $this->_transportBuilder
+            ->setTemplateIdentifier($store->getConfig(self::XML_PATH_BALANCE_UPDATE_TEMPLATE))
+            ->setTemplateOptions(array(
+                'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+                'store' => $store->getId()
+            ))
+            ->setTemplateVars(array(
+                'store' => $store,
+                'customer' => $this->getCustomer(),
+                'unsubscription_url' => $this->_rewardCustomer
+                        ->getUnsubscribeUrl('update', $store->getId()),
+                'points_balance' => $this->getPointsBalance(),
+                'reward_amount_was' => $this->_rewardData->formatAmount(
+                        $this->getCurrencyAmount() - $history->getCurrencyDelta(), true, $store->getStoreId()
+                    ),
+                'reward_amount_now' => $this->_rewardData->formatAmount(
+                        $this->getCurrencyAmount(), true, $store->getStoreId()
+                    ),
+                'reward_pts_was' => ($this->getPointsBalance() - $delta),
+                'reward_pts_change' => $delta,
+                'update_message' => $this->getHistory()->getMessage(),
+                'update_comment' => $history->getComment()
+            ))
+            ->setFrom($store->getConfig(self::XML_PATH_EMAIL_IDENTITY))
+            ->addTo($this->getCustomer()->getEmail());
+        $transport = $this->_transportBuilder->getTransport();
+        $error = false;
+        try {
+            $transport->sendMessage();
+        } catch (\Magento\Mail\Exception $e) {
+            $error = true;
+        }
+
+        if (!$error) {
             $this->setBalanceUpdateSent(true);
         }
         return $this;
@@ -750,35 +756,33 @@ class Reward extends \Magento\Core\Model\AbstractModel
      */
     public function sendBalanceWarningNotification($item, $websiteId)
     {
-        $mail  = $this->_templateFactory->create();
-        /* @var $mail \Magento\Email\Model\Template */
-        $mail->setDesignConfig(array(
-            'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
-            'store' => $item->getStoreId()
-        ));
         $store = $this->_storeManager->getStore($item->getStoreId());
         $helper = $this->_rewardData;
         $amount = $helper
             ->getRateFromRatesArray($item->getPointsBalanceTotal(), $websiteId, $item->getCustomerGroupId());
         $action = $this->getActionInstance($item->getAction());
-        $templateVars = array(
-            'store' => $store,
-            'customer_name' => $item->getCustomerFirstname().' '.$item->getCustomerLastname(),
-            'unsubscription_url' => $this->_rewardCustomer->getUnsubscribeUrl('warning'),
-            'remaining_days' => $store->getConfig('magento_reward/notification/expiry_day_before'),
-            'points_balance' => $item->getPointsBalanceTotal(),
-            'points_expiring' => $item->getTotalExpired(),
-            'reward_amount_now' => $helper->formatAmount($amount, true, $item->getStoreId()),
-            'update_message' => ($action !== null ? $action->getHistoryMessage($item->getAdditionalData()) : '')
-        );
-        $mail->sendTransactional(
-            $store->getConfig(self::XML_PATH_BALANCE_WARNING_TEMPLATE),
-            $store->getConfig(self::XML_PATH_EMAIL_IDENTITY),
-            $item->getCustomerEmail(),
-            null,
-            $templateVars,
-            $store->getId()
-        );
+
+        $this->_transportBuilder
+            ->setTemplateIdentifier($store->getConfig(self::XML_PATH_BALANCE_WARNING_TEMPLATE))
+            ->setTemplateOptions(array(
+                'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+                'store' => $item->getStoreId()
+            ))
+            ->setTemplateVars(array(
+                'store' => $store,
+                'customer_name' => $item->getCustomerFirstname().' '.$item->getCustomerLastname(),
+                'unsubscription_url' => $this->_rewardCustomer->getUnsubscribeUrl('warning'),
+                'remaining_days' => $store->getConfig('magento_reward/notification/expiry_day_before'),
+                'points_balance' => $item->getPointsBalanceTotal(),
+                'points_expiring' => $item->getTotalExpired(),
+                'reward_amount_now' => $helper->formatAmount($amount, true, $item->getStoreId()),
+                'update_message' => ($action !== null ? $action->getHistoryMessage($item->getAdditionalData()) : '')
+            ))
+            ->setFrom($store->getConfig(self::XML_PATH_EMAIL_IDENTITY))
+            ->addTo($item->getCustomerEmail());
+        $transport = $this->_transportBuilder->getTransport();
+        $transport->sendMessage();
+
         return $this;
     }
 
