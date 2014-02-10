@@ -154,7 +154,7 @@ class Core_Mage_Order_Create_NewCustomerTest extends Mage_Selenium_TestCase
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
         //Verifying
-        $this->assertMessagePresent('error', 'customer_email_already_exists');
+        $this->assertMessagePresent('error', 'customer_email_exist');
     }
 
     /**

@@ -11,6 +11,11 @@
  */
 namespace Magento\ConfigurableProduct\Model\Product\Type;
 
+/**
+ * @SuppressWarnings(PHPMD.TooManyFields)
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
 {
     const TYPE_CODE = 'configurable';
@@ -159,7 +164,7 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable $catalogProductTypeConfigurable
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -585,6 +590,7 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
      *
      * @param \Magento\Catalog\Model\Product $product
      * @return bool
+     * @SuppressWarnings(PHPMD.BooleanGetMethodName)
      */
     public function getIsSalable($product)
     {
@@ -672,6 +678,8 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Catalog\Model\Product $product
      * @param string $processMode
      * @return array|string
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     protected function _prepareProduct(\Magento\Object $buyRequest, $product, $processMode)
     {
@@ -889,6 +897,7 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param  \Magento\Sales\Model\Quote\Item\Option $option
      * @param  \Magento\Catalog\Model\Product|null $product
      * @return \Magento\ConfigurableProduct\Model\Product\Type\Configurable
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function assignProductToOption($optionProduct, $option, $product)
     {
@@ -941,6 +950,7 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param  \Magento\Catalog\Model\Product $product
      * @param  \Magento\Object $buyRequest
      * @return array
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function processBuyRequest($product, $buyRequest)
     {
@@ -958,6 +968,7 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Catalog\Model\Product $product
      * @param int $visibility
      * @return bool|null
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function isMapEnabledInOptions($product, $visibility = null)
     {
@@ -1084,6 +1095,8 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Catalog\Model\Product $product
      * @param \Magento\Catalog\Model\Product $parentProduct
      * @param array $postData
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     protected function _fillSimpleProductData(
         \Magento\Catalog\Model\Product $product,

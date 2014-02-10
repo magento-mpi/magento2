@@ -7,17 +7,22 @@
  */
 
 namespace Magento\CatalogInventory\Model\Quote\Item\QuantityValidator\Initializer;
+use Magento\CatalogInventory\Model\Quote\Item\QuantityValidator\QuoteItemQtyList;
 
 class Option
 {
     /**
-     * Product qty's checked
-     * data is valid if you check quote item qty and use singleton instance
-     *
-     * @var array
+     * @var QuoteItemQtyList
      */
-    protected $_checkedQuoteItems = array();
+    protected $quoteItemQtyList;
 
+    /**
+     * @param QuoteItemQtyList $quoteItemQtyList
+     */
+    public function __construct(QuoteItemQtyList $quoteItemQtyList)
+    {
+        $this->quoteItemQtyList = $quoteItemQtyList;
+    }
 
     /**
      * Initialize item option
@@ -55,7 +60,7 @@ class Option
          */
         $stockItem->setSuppressCheckQtyIncrements(true);
 
-        $qtyForCheck = $this->_getQuoteItemQtyForCheck(
+        $qtyForCheck = $this->quoteItemQtyList->getQty(
             $option->getProduct()->getId(),
             $quoteItem->getId(),
             $increaseOptionQty
@@ -87,28 +92,5 @@ class Option
         $stockItem->unsIsChildItem();
 
         return $result;
-    }
-
-    /**
-     * Get product qty includes information from all quote items
-     * Need be used only in sungleton mode
-     *
-     * @param int   $productId
-     * @param int   $quoteItemId
-     * @param float $itemQty
-     * @return int
-     */
-    protected function _getQuoteItemQtyForCheck($productId, $quoteItemId, $itemQty)
-    {
-        $qty = $itemQty;
-        if (isset($this->_checkedQuoteItems[$productId]['qty']) &&
-            !in_array($quoteItemId, $this->_checkedQuoteItems[$productId]['items'])) {
-            $qty += $this->_checkedQuoteItems[$productId]['qty'];
-        }
-
-        $this->_checkedQuoteItems[$productId]['qty'] = $qty;
-        $this->_checkedQuoteItems[$productId]['items'][] = $quoteItemId;
-
-        return $qty;
     }
 } 

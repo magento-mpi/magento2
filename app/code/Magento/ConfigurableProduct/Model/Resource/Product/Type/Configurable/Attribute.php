@@ -122,6 +122,9 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param \Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute $attribute
      * @return \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     public function savePrices($attribute)
     {
@@ -292,6 +295,7 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param $attributeId
      *
      * @return string
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getIdByProductIdAndAttributeId($attribute, $productId, $attributeId)
     {

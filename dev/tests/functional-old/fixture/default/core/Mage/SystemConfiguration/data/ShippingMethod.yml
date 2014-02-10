@@ -92,7 +92,7 @@ upsxml_enable:
                 ups_enabled: Yes
                 ups_ups_type: United Parcel Service XML
                 ups_password: magento200
-                ups_access_license_number: 8C7A97595F3B8818
+                ups_access_license_number: ECAB751ABF189ECA
                 ups_userid: magento
                 ups_mode: Development
                 ups_gateway_xml_url: https://onlinetools.ups.com/ups.app/xml/Rate
@@ -102,7 +102,7 @@ upsxml_enable:
                 ups_shipper_number: 207W88
                 ups_container: %noValue%
                 ups_destination_type: %noValue%
-                ups_tracking_xml_url: https://www.ups.com/ups.app/xml/Track
+                ups_tracking_xml_url: https://onlinetools.ups.com/ups.app/xml/Track
                 ups_pickup_method: %noValue%
                 ups_maximum_package_weight: 150
                 ups_minimum_package_weight: 0.1

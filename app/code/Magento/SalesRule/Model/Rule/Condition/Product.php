@@ -71,6 +71,7 @@ class Product extends \Magento\Rule\Model\Condition\Product\AbstractProduct
      */
     public function validate(\Magento\Object $object)
     {
+        //@todo reimplement this method when is fixed MAGETWO-5713
         /** @var \Magento\Catalog\Model\Product $product */
         $product = $object->getProduct();
         if (!($product instanceof \Magento\Catalog\Model\Product)) {
@@ -81,12 +82,6 @@ class Product extends \Magento\Rule\Model\Condition\Product\AbstractProduct
             ->setQuoteItemPrice($object->getPrice()) // possible bug: need to use $object->getBasePrice()
             ->setQuoteItemRowTotal($object->getBaseRowTotal());
 
-        $valid = parent::validate($product);
-        if (!$valid && $product->getTypeId() == \Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE) {
-            $children = $object->getChildren();
-            $valid = $children && $this->validate($children[0]);
-        }
-
-        return $valid;
+        return parent::validate($product);
     }
 }

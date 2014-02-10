@@ -130,6 +130,7 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
      * @param array $values
      * @param string $index
      * @return bool
+     * @SuppressWarnings(PHPMD.BooleanGetMethodName)
      */
     protected function _getValueByIndex($values, $index)
     {

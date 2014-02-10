@@ -130,11 +130,6 @@
             <instance type="Magento\Catalog\Model\Session\Storage" />
         </param>
     </type>
-    <type name="Magento\Catalog\Block\Adminhtml\Product\Attribute\Edit\Tab\Variations\Main">
-        <param name="inputTypeFactory">
-            <instance type="Magento\Catalog\Model\System\Config\Source\InputtypeFactory" />
-        </param>
-    </type>
     <type name="Magento\Catalog\Model\Product\LinkTypeProvider">
         <param name="linkTypes">
             <array>

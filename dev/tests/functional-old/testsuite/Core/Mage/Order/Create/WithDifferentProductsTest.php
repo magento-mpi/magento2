@@ -84,7 +84,6 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
         $this->saveForm('save_attribute_set');
         $this->assertMessagePresent('success', 'success_attribute_set_saved');
         $this->navigate('manage_products');
-        $this->runMassAction('Delete', 'all');
         $this->productHelper()->createProduct($configurable, 'configurable');
         $this->assertMessagePresent('success', 'success_saved_product');
         $this->productHelper()->createProduct($simple);
@@ -114,7 +113,7 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
             'configurable_sku' => $configurable['general_sku'],
             'grouped_name' => $grouped['general_name'],
             'grouped_sku' => $grouped['general_sku'],
-            'title' => $attrData['store_view_titles']['Default Store View']
+            'title' => $attrData['attribute_properties']['attribute_label']
         );
     }
 
@@ -149,7 +148,6 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
      */
     public function withCustomOptions($productType, $order)
     {
-        $this->markTestIncomplete('MAGETWO-9088');
         //Data
         $customOption = $this->loadDataSet('Product', 'custom_options_data');
         $orderCustomOption = $this->loadDataSet('SalesOrder', 'config_option_custom_options');
@@ -172,7 +170,6 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
      */
     public function withDownloadableConfigProduct()
     {
-        $this->markTestIncomplete('MAGETWO-8835');
         //Data
         $downloadable = $this->loadDataSet('Product', 'downloadable_product_visible');
         $orderProductOption = $this->loadDataSet('SalesOrder', 'config_option_download');
@@ -199,7 +196,6 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
      */
     public function withBundleProduct($productType, $order, $testData)
     {
-        $this->markTestIncomplete('MAGETWO-9149');
         //Order Data
         $multiSelect = $this->loadDataSet('SalesOrder', 'configure_field_multiselect',
             array('fieldsValue' => $testData[$productType . '_name']));
@@ -235,7 +231,9 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
      */
     public function withConfigurableProduct($productType, $order, $testData)
     {
-        $this->markTestIncomplete('MAGETWO-8962');
+        if ($productType == 'downloadable') {
+            $this->markTestIncomplete('MAGETWO-9155');
+        }
         //Data
         $orderProductOption = $this->loadDataSet('SalesOrder', 'config_option_configurable',
             array('title' => $testData['title'], 'fieldsValue' => $testData[$productType . '_option']));
@@ -259,7 +257,9 @@ class Core_Mage_Order_Create_WithDifferentProductsTest extends Mage_Selenium_Tes
      */
     public function withGroupedProduct($productType, $order, $testData)
     {
-        $this->markTestIncomplete('MAGETWO-9068, MAGETWO-9155');
+        if ($productType == 'downloadable') {
+            $this->markTestIncomplete('MAGETWO-9155');
+        }
         //Data
         $orderProductOption = $this->loadDataSet('SalesOrder', 'config_option_grouped',
             array('fieldParameter' => $testData[$productType . '_sku']));

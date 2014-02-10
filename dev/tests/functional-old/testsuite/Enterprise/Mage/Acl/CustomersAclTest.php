@@ -287,14 +287,11 @@ class Enterprise_Mage_Acl_CustomersAclTest extends Mage_Selenium_TestCase
     }
 
     /**
-     *
      * @test
-     *
      * @TestlinkId TL-MAGE-5739
      */
     public function roleResourceAccessRewardPoints()
     {
-        $this->markTestIncomplete('MAGETWO-8404');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_acl',
             array('resource_acl' => 'stores-other_settings-reward_exchange_rates'));
         $testAdminUser = $this->loadDataSet('AdminUsers', 'generic_admin_user',
@@ -323,7 +320,6 @@ class Enterprise_Mage_Acl_CustomersAclTest extends Mage_Selenium_TestCase
         //Verifying that Global Search fieldset is present or not present
         $this->assertFalse($this->controlIsPresent('field', 'global_record_search'), 'Global Search is on the page');
         $this->clickButton('add_new_rate');
-        $this->assertTrue($this->checkCurrentPage('new_reward_rate'), $this->getParsedMessages());
         $this->fillField('rate_value', $rewardData['reward_rate_properties']['rate_value']);
         $this->fillField('rate_equal_value', $rewardData['reward_rate_properties']['rate_equal_value']);
         $this->saveForm('save');
@@ -332,13 +328,12 @@ class Enterprise_Mage_Acl_CustomersAclTest extends Mage_Selenium_TestCase
         $this->_prepareDataForSearch($rewardData);
         $xpathTR = $this->search($rewardData, 'reward_point_grid');
         $this->assertNotNull($xpathTR, 'Reward rate is not found');
-        $cellId = $this->getColumnIdByName('ID');
-        $param = $this->getElementsValue($xpathTR . '//td[' . $cellId . ']', 'text');
-        $this->addParameter('id', end($param));
-        $this->addParameter('elementTitle', '#' . end($param));
-        $element = $this->getElement($xpathTR . '//td[' . $cellId . ']');
-        $element->click();
-        $this->waitForPageToLoad();
+        $rowElement = $this->getElement($xpathTR);
+        $url = $rowElement->attribute('title');
+        $id = $this->defineIdFromUrl($url);
+        $this->addParameter('elementTitle', '#' . $id);
+        $this->addParameter('id', $id);
+        $this->url($url);
         $this->validatePage();
         $this->clickButtonAndConfirm('delete', 'confirmation_for_delete');
         $this->assertMessagePresent('success', 'success_delete_rate');

@@ -1,3 +1,6 @@
+* LESS pre-processisng to CSS
+  * LESS files in library/theme/module, during materialization are automatically compiled into CSS
+  * LESS files compilation caching mechanism added for developer mode
 * Modularity improvements:
   * Abstract cart logic moved from Paypal module
 * Caching improvements:
@@ -15,9 +18,16 @@
 * Implemented E-mail template architecture in libraries
 * Applied unified approach of scope usage for "Config" functionality
 * Fixed Dependency static test
+* Move Recurring profile functionality into separate module
+* GitHub requests:
+ * [#377] (https://github.com/magento/magento2/issues/377) Remove and avoid javascript eval() calls 
+ * [#319] (https://github.com/magento/magento2/issues/319) No message was displayed when product added to shopping cart.
 
--2.0.0.0-dev63
--=============
+* Update Customer Service Exception handling and add tests
+* Add usage of Customer Service to Customer Module, replacing some direct usage of Customer Model
+
+2.0.0.0-dev63
+=============
 * Modularity improvements:
   * Consolidated all PayPal-related logic in a separate module
   * Resolved dependencies on the Magento_GroupedProduct module

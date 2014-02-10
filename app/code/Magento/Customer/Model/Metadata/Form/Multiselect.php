@@ -4,23 +4,21 @@
  *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 namespace Magento\Customer\Model\Metadata\Form;
 
+use Magento\App\RequestInterface;
+use Magento\Customer\Model\Metadata\ElementFactory;
+
 class Multiselect extends Select
 {
     /**
-     * Extract data from request and return value
-     *
-     * @param \Magento\App\RequestInterface $request
-     * @return array|string
+     * {@inheritdoc}
      */
-    public function extractValue(\Magento\App\RequestInterface $request)
+    public function extractValue(RequestInterface $request)
     {
         $values = $this->_getRequestValue($request);
         if ($values !== false && !is_array($values)) {
@@ -30,53 +28,43 @@ class Multiselect extends Select
     }
 
     /**
-     * Export attribute value to entity model
-     *
-     * @param array|string $value
-     * @return \Magento\Customer\Model\Metadata\Form\Multiselect
+     * {@inheritdoc}
      */
     public function compactValue($value)
     {
         if (is_array($value)) {
+            foreach($value as $key => $val) {
+                $value[$key] = parent::compactValue($val);
+            }
+
             $value = implode(',', $value);
         }
         return parent::compactValue($value);
     }
 
     /**
-     * Return formated attribute value from entity model
-     *
-     * @param string $format
-     * @return array|string
+     * {@inheritdoc}
      */
-    public function outputValue($format = \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_TEXT)
+    public function outputValue($format = ElementFactory::OUTPUT_FORMAT_TEXT)
     {
         $values = $this->_value;
         if (!is_array($values)) {
             $values = explode(',', $values);
         }
 
-        switch ($format) {
-            case \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_JSON:
-            case \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_ARRAY:
-                $output = $values;
-            default:
-                $output = array();
-                foreach ($values as $value) {
-                    if (!$value) {
-                        continue;
-                    }
-                    $optionText = false;
-                    foreach ($this->getAttribute()->getOptions() as $optionKey => $optionValue) {
-                        if ($optionValue == $value) {
-                            $optionText = $optionKey;
-                        }
-                    }
-                    $output[] = $optionText;
-                }
-                $output = implode(', ', $output);
-                break;
+        if (ElementFactory::OUTPUT_FORMAT_ARRAY === $format || ElementFactory::OUTPUT_FORMAT_JSON === $format) {
+            return $values;
         }
+
+        $output = [];
+        foreach ($values as $value) {
+            if (!$value) {
+                continue;
+            }
+            $output[] = $this->_getOptionText($value);
+        }
+
+        $output = implode(', ', $output);
 
         return $output;
     }

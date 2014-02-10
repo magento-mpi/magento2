@@ -98,7 +98,7 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_AbstractHelper
         $this->openTab('addresses');
         $this->clickButton('add_new_address', false);
         $this->addAddressNumber();
-        $this->waitForElement($this->_getControlXpath('fieldset', 'edit_address'));
+        $this->waitForControl('fieldset', 'edit_address');
         //Fill in 'Customer's Address' tab
         $this->fillTab($addressData, 'addresses');
     }
@@ -176,22 +176,12 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_AbstractHelper
      * PreConditions: 'Login or Create an Account' page is opened.
      *
      * @param array $registerData
-     * @param bool $disableCaptcha
      *
      * @return void
      */
-    public function registerCustomer(array $registerData, $disableCaptcha = true)
+    public function registerCustomer(array $registerData)
     {
-        $currentPage = $this->getCurrentPage();
-        $this->clickButton('create_account');
-        // Disable CAPTCHA if present
-        if ($disableCaptcha && $this->controlIsPresent('pageelement', 'captcha')) {
-            $this->loginAdminUser();
-            $this->navigate('system_configuration');
-            $this->systemConfigurationHelper()->configure('Captcha/disable_frontend_captcha');
-            $this->frontend($currentPage);
-            $this->clickButton('create_account');
-        }
+        $this->clickControl('link', 'register');
         $this->fillForm($registerData);
         $waitConditions = array(
             $this->_getMessageXpath('general_error'),
@@ -214,7 +204,9 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_AbstractHelper
         if ($this->getArea() !== 'frontend' || !$this->controlIsVisible('link', 'log_in')) {
             $this->logoutCustomer();
         }
-        $this->clickControl('link', 'log_in');
+        if ($this->getCurrentPage() !== 'customer_login') {
+            $this->clickControl('link', 'log_in');
+        }
         $this->fillFieldset($loginData, 'log_in_customer');
         $waitConditions = array(
             $this->_getMessageXpath('general_error'),
@@ -226,7 +218,7 @@ class Core_Mage_Customer_Helper extends Mage_Selenium_AbstractHelper
         $this->addParameter('id', $this->defineIdFromUrl());
         $this->setCurrentPage($this->_findCurrentPageFromUrl());
         if ($validateLogin) {
-            $this->assertTrue($this->controlIsPresent('link', 'log_out'), 'Customer is not logged in.');
+            $this->assertTrue($this->controlIsVisible('fieldset', 'customer_menu'), 'Customer is not logged in.');
         }
     }
 

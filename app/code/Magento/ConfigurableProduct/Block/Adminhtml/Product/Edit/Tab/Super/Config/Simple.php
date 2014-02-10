@@ -53,6 +53,8 @@ class Simple extends \Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Attribute
      * Prepare form
      *
      * @return null|void
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     protected function _prepareForm()
     {

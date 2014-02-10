@@ -40,7 +40,7 @@ class AttributeTest extends \Magento\Backend\Utility\Controller
         $this->dispatch('backend/catalog/product_attribute/save');
         $model = $this->_objectManager->create('Magento\Catalog\Model\Resource\Eav\Attribute');
         $model->load($postData['attribute_id']);
-        $this->assertEquals('simple,configurable', $model->getData('apply_to'));
+        $this->assertEquals('simple', $model->getData('apply_to'));
     }
 
     /**
@@ -54,7 +54,7 @@ class AttributeTest extends \Magento\Backend\Utility\Controller
         $this->dispatch('backend/catalog/product_attribute/save');
         $model = $this->_objectManager->create('Magento\Catalog\Model\Resource\Eav\Attribute');
         $model->load($postData['attribute_id']);
-        $this->assertEquals(array('simple', 'configurable'), $model->getApplyTo());
+        $this->assertEquals(array('simple'), $model->getApplyTo());
     }
 
     /**
@@ -128,7 +128,7 @@ class AttributeTest extends \Magento\Backend\Utility\Controller
             'is_visible_on_front' => '0',
             'used_in_product_listing' => '1',
             'used_for_sort_by' => '0',
-            'apply_to' => array('simple', 'configurable'),
+            'apply_to' => array('simple'),
             'frontend_label' => array(
                 \Magento\Core\Model\Store::DEFAULT_STORE_ID => 'Fixture String',
             ),
