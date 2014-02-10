@@ -7,18 +7,27 @@
  */
 namespace Magento\ObjectManager\Config\Mapper;
 
+use Magento\Stdlib\BooleanUtils;
+
 class Dom implements \Magento\Config\ConverterInterface
 {
+    /**
+     * @var BooleanUtils
+     */
+    private $booleanUtils;
+
     /**
      * @var ArgumentParser
      */
     private $argumentParser;
 
     /**
+     * @param BooleanUtils $booleanUtils
      * @param ArgumentParser $argumentParser
      */
-    public function __construct(ArgumentParser $argumentParser)
+    public function __construct(BooleanUtils $booleanUtils, ArgumentParser $argumentParser)
     {
+        $this->booleanUtils = $booleanUtils;
         $this->argumentParser = $argumentParser;
     }
 
@@ -53,7 +62,7 @@ class Dom implements \Magento\Config\ConverterInterface
                     $typeNodeAttributes = $node->attributes;
                     $typeNodeShared = $typeNodeAttributes->getNamedItem('shared');
                     if ($typeNodeShared) {
-                        $typeData['shared'] = ($typeNodeShared->nodeValue != 'false');
+                        $typeData['shared'] = $this->booleanUtils->toBoolean($typeNodeShared->nodeValue);
                     }
                     if ($node->nodeName == 'virtualType') {
                         $attributeType = $typeNodeAttributes->getNamedItem('type');
@@ -90,7 +99,8 @@ class Dom implements \Magento\Config\ConverterInterface
                                     'sortOrder' => ($pluginSortOrderNode) ? (int)$pluginSortOrderNode->nodeValue : 0,
                                 );
                                 if ($pluginDisabledNode) {
-                                    $pluginData['disabled'] = ($pluginDisabledNode->nodeValue == 'true');
+                                    $pluginData['disabled']
+                                        = $this->booleanUtils->toBoolean($pluginDisabledNode->nodeValue);
                                 }
                                 if ($pluginTypeNode) {
                                     $pluginData['instance'] = $pluginTypeNode->nodeValue;

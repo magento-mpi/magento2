@@ -34,7 +34,16 @@ class DomTest extends \PHPUnit_Framework_TestCase
         $argumentParserMock->expects($this->any())
             ->method('parse')
             ->will($this->returnCallback($callback));
-        $this->_mapper = new \Magento\ObjectManager\Config\Mapper\Dom($argumentParserMock);
+
+        $booleanUtilsMock = $this->getMock('\Magento\Stdlib\BooleanUtils');
+        $booleanUtilsMock->expects($this->any())
+            ->method('toBoolean')
+            ->will($this->returnValueMap(array(
+                array('true', true),
+                array('false', false),
+            )));
+
+        $this->_mapper = new \Magento\ObjectManager\Config\Mapper\Dom($booleanUtilsMock, $argumentParserMock);
     }
 
     public function testConvert()

@@ -9,14 +9,26 @@
 namespace Magento\Data\Argument\Interpreter;
 
 use Magento\Data\Argument\InterpreterInterface;
+use Magento\Stdlib\BooleanUtils;
 
 /**
  * Interpreter of boolean data type, such as boolean itself or boolean string
- *
- * @link http://www.php.net/manual/en/filter.filters.validate.php Supported boolean string values
  */
 class Boolean implements InterpreterInterface
 {
+    /**
+     * @var BooleanUtils
+     */
+    private $booleanUtils;
+
+    /**
+     * @param BooleanUtils $booleanUtils
+     */
+    public function __construct(BooleanUtils $booleanUtils)
+    {
+        $this->booleanUtils = $booleanUtils;
+    }
+
     /**
      * {@inheritdoc}
      * @return bool
@@ -27,11 +39,7 @@ class Boolean implements InterpreterInterface
         if (!isset($data['value'])) {
             throw new \InvalidArgumentException('Boolean value is missing.');
         }
-        $result = $data['value'];
-        $result = filter_var($result, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-        if ($result === null) {
-            throw new \InvalidArgumentException('Value is expected to be boolean or boolean string.');
-        }
-        return $result;
+        $value = $data['value'];
+        return $this->booleanUtils->toBoolean($value);
     }
 }

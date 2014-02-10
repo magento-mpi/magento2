@@ -165,7 +165,7 @@ class ObjectManagerFactory
     ) {
         $result = new \Magento\Data\Argument\Interpreter\Composite(
             array(
-                'boolean' => new \Magento\Data\Argument\Interpreter\Boolean(),
+                'boolean' => new \Magento\Data\Argument\Interpreter\Boolean(new \Magento\Stdlib\BooleanUtils()),
                 'string' => new \Magento\Data\Argument\Interpreter\String(),
                 'number' => new \Magento\Data\Argument\Interpreter\Number(),
                 'null' => new \Magento\Data\Argument\Interpreter\NullType(),

@@ -33,7 +33,7 @@ class Flat
     }
 
     /**
-     * Convert dom node tree to array
+     * Convert dom node tree to array in general case or to string in a case of a text node
      *
      * Example:
      * <node attr="val">

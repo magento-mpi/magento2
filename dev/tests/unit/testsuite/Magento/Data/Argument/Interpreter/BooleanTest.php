@@ -15,59 +15,37 @@ class BooleanTest extends \PHPUnit_Framework_TestCase
      */
     protected $_model;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_booleanUtils;
+
     protected function setUp()
     {
-        $this->_model = new Boolean();
+        $this->_booleanUtils = $this->getMock('\Magento\Stdlib\BooleanUtils');
+        $this->_model = new Boolean($this->_booleanUtils);
     }
 
     /**
-     * @dataProvider evaluateExceptionDataProvider
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage Boolean value is missing
      */
-    public function testEvaluateException($input, $expectedExceptionMessage)
+    public function testEvaluateException()
     {
-        $this->setExpectedException('\InvalidArgumentException', $expectedExceptionMessage);
-        $this->_model->evaluate($input);
+        $this->_model->evaluate(array());
     }
 
-    public function evaluateExceptionDataProvider()
+    public function testEvaluate()
     {
-        return array(
-            'no value' => array(array(), 'Boolean value is missing'),
-            'non-boolean value' => array(
-                array('value' => 'non-boolean'),
-                'Value is expected to be boolean or boolean string'
-            ),
-        );
-    }
-
-    /**
-     * @param array $input
-     * @param bool $expected
-     *
-     * @dataProvider evaluateDataProvider
-     */
-    public function testEvaluate($input, $expected)
-    {
+        $input = new \stdClass();
+        $expected = new \stdClass();
+        $this->_booleanUtils
+            ->expects($this->once())
+            ->method('toBoolean')
+            ->with($this->identicalTo($input))
+            ->will($this->returnValue($expected))
+        ;
         $actual = $this->_model->evaluate(array('value' => $input));
         $this->assertSame($expected, $actual);
-    }
-
-    public function evaluateDataProvider()
-    {
-        return array(
-            'boolean "true"'         => array(true, true),
-            'boolean "false"'        => array(false, false),
-            'boolean string "true"'  => array('true', true),
-            'boolean string "false"' => array('false', false),
-            'boolean numeric "1"'    => array(1, true),
-            'boolean numeric "0"'    => array(0, false),
-            'boolean string "1"'     => array('1', true),
-            'boolean string "0"'     => array('0', false),
-            'boolean string "on"'    => array('on', true),
-            'boolean string "off"'   => array('off', false),
-            'boolean string "yes"'   => array('yes', true),
-            'boolean string "no"'    => array('no', false),
-            'boolean empty string'   => array('', false),
-        );
     }
 }

@@ -68,6 +68,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
         $this->_command = 'php ' . $basePath
             . '/dev/tools/Magento/Tools/Di/compiler.php --generation=%s --di=%s';
         $this->_mapper = new \Magento\ObjectManager\Config\Mapper\Dom(
+            new \Magento\Stdlib\BooleanUtils(),
             new \Magento\ObjectManager\Config\Mapper\ArgumentParser()
         );
         $this->_validator = new \Magento\Code\Validator();
