@@ -182,11 +182,6 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
      */
     protected function _getPublishedFilePath(Publisher\FileInterface $publisherFile)
     {
-        //TODO: Do we need this? It throws exception in production mode!
-        if (!$this->_viewService->isViewFileOperationAllowed()) {
-            throw new \Magento\Exception('Filesystem operations are not permitted for view files');
-        }
-
         /** If $filePath points to file with protected extension - no publishing, return null */
         if (!$this->isAllowedExtension($publisherFile->getExtension())) {
             return null;
