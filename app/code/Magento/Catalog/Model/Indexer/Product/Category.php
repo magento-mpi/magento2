@@ -13,7 +13,7 @@ class Category implements \Magento\Indexer\Model\ActionInterface, \Magento\Mview
     /**
      * Indexer ID in configuration
      */
-    const INDEXER_ID = 'catalog_category_product';
+    const INDEXER_ID = 'catalog_product_category';
 
     /**
      * @var \Magento\Catalog\Model\Indexer\Category\Product\Action\FullFactory
