@@ -80,9 +80,12 @@ class Core_Mage_Grid_Reports_GridTest extends Mage_Selenium_TestCase
         $data = $this->loadDataSet('Report', $dataSet);
         $this->fillFieldset($data, $page);
         $this->clickButton('refresh');
-        $gridXpath = $this->_getControlXpath('pageelement', $gridTableElement);
-        $this->assertCount(3, $this->getElements($gridXpath . '/tbody/tr'),
-            "Wrong records number in grid $gridTableElement");
+        $gridElement = $this->getControlElement('pageelement', $gridTableElement);
+        $this->assertCount(
+            3,
+            $this->getChildElements($gridElement, 'tbody/tr', false),
+            "Wrong records number in $gridTableElement grid"
+        );
     }
 
     public function countGridRowsTestDataProvider()
@@ -151,7 +154,7 @@ class Core_Mage_Grid_Reports_GridTest extends Mage_Selenium_TestCase
         $this->gridHelper()->fillDateFromTo($firstDate, $secondDate);
         $this->clickButton('refresh');
         $totalAfter = trim($this->getElement($lineLocator)->text());
-        $this->assertEquals($totalBefore + 1, $totalAfter,
+        $this->assertEquals((int)$totalBefore + 1, $totalAfter,
             'Wrong records number in grid product_sold_grid_line. Before was ' . $totalBefore
                 . ' after - ' . $totalAfter);
     }
@@ -203,7 +206,7 @@ class Core_Mage_Grid_Reports_GridTest extends Mage_Selenium_TestCase
         $this->clickButton('refresh');
         //Check Quantity Ordered after  new order created
         $totalAfter = trim($this->getElement($lineLocator)->text());
-        $this->assertEquals($totalBefore + 1, $totalAfter,
+        $this->assertEquals((int)$totalBefore + 1, $totalAfter,
             'Wrong records number in report_customer_orders grid. Before was ' . $totalBefore
                 . ' after - ' . $totalAfter);
     }

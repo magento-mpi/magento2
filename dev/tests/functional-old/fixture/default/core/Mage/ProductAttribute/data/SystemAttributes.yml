@@ -19,9 +19,9 @@ custom_design:
     option_2:
         admin_option_name: Magento Blank
     option_3:
-        admin_option_name: Magento Demo
+        admin_option_name: Magento Plushe
     default_value: '-- Please Select --'
-    set_default_value: Magento Blank
+    set_default_value: Magento Plushe
 
 enable_googlecheckout:
     attribute_properties:

@@ -12,7 +12,7 @@
 
 manage_categories:
     mca: catalog/category/
-    click_xpath: //*[@class='navigation']//a[contains(@href, '/catalog/category/')]
+    click_xpath: //ul[@id='nav']//a[contains(@href, '/catalog/category/')]
     title: Categories / Categories / Inventory / Products / Magento Admin
     uimap: &categoryUimap
         form:

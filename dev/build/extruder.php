@@ -80,7 +80,7 @@ try {
     $verbose = isset($options['v']);
 
     // perform "extrusion"
-    $shell = new \Magento\Shell($verbose ? $logger : null);
+    $shell = new \Magento\Shell(new \Magento\OSInfo(), $verbose ? $logger : null);
     foreach ($list as $item) {
         if (!file_exists($item)) {
             throw new Exception("The file or directory '{$item} is marked for deletion, but it doesn't exist.");

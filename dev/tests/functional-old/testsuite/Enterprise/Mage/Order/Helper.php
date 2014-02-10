@@ -19,47 +19,52 @@
 class Enterprise_Mage_Order_Helper extends Core_Mage_Order_Helper
 {
     /**
+     * @param string $wrappingName
+     * @param string $type
+     */
+    public function verifyGiftWrapping($wrappingName, $type = 'order')
+    {
+        if (!$this->controlIsVisible('dropdown', $type . '_gift_wrapping_design')) {
+            $actual = $this->getControlAttribute('pageelement', $type . '_gift_wrapping', 'text');
+        } else {
+            $actual = $this->getControlAttribute('dropdown', $type . '_gift_wrapping_design', 'selectedLabel');
+        }
+        if ($actual !== $wrappingName) {
+            $this->addVerificationMessage(
+                sprintf(
+                    "Gift Wrapping for the %s is wrong: ('%s' != '%s')",
+                    ($type == 'order' ? 'Entire Order' : 'Order Item'),
+                    $wrappingName,
+                    $actual
+                )
+            );
+        }
+    }
+
+    /**
      * Verify gift Options
      *
      * @param array $giftMessages
      */
     public function verifyGiftOptions(array $giftMessages)
     {
-        if (array_key_exists('entire_order', $giftMessages)) {
-            if (array_key_exists('order_gift_wrapping_design', $giftMessages['entire_order'])
-                && !$this->controlIsVisible('dropdown', 'order_gift_wrapping_design')
-            ) {
-                $wrapping = $giftMessages['entire_order']['order_gift_wrapping_design'];
-                $actual = $this->getControlAttribute('pageelement', 'order_gift_wrapping', 'text');
-                if ($actual !== $wrapping) {
-                    $this->addVerificationMessage("Gift Wrapping for the Entire Order is wrong: ('"
-                        . $wrapping . "' != '" . $actual . "')");
-                }
-                unset($giftMessages['entire_order']['order_gift_wrapping_design']);
-            }
-            $this->verifyForm($giftMessages['entire_order']);
+        if (isset($giftMessages['entire_order']['order_gift_wrapping'])) {
+            $this->verifyGiftWrapping($giftMessages['entire_order']['order_gift_wrapping']);
         }
-        if (array_key_exists('individual', $giftMessages)) {
+        if (isset($giftMessages['entire_order'])) {
+            $this->verifyForm($giftMessages['entire_order'], null, array('order_gift_wrapping_design'));
+        }
+        if (isset($giftMessages['individual'])) {
             foreach ($giftMessages['individual'] as $options) {
-                if (is_array($options) && isset($options['sku_product'])) {
-                    $this->addParameter('sku', $options['sku_product']);
-                    unset($options['sku_product']);
-                    $this->clickControl('link', 'gift_options', false);
-                    $this->waitForControlVisible('fieldset', 'gift_options');
-                    if (array_key_exists('item_gift_wrapping_design', $options)
-                        && !$this->controlIsVisible('dropdown', 'item_gift_wrapping_design')
-                    ) {
-                        $actual = $this->getControlAttribute('pageelement', 'item_gift_wrapping', 'text');
-                        if ($actual !== $options['item_gift_wrapping_design']) {
-                            $this->addVerificationMessage("Gift Wrapping for the Entire Order is wrong: ('"
-                                . $options['item_gift_wrapping_design'] . "' != '" . $actual . "')");
-                        }
-                        unset($options['item_gift_wrapping_design']);
-                    }
-                    $this->verifyForm($options, null, array('sku_product'));
-                    $this->clickButton('ok', false);
-                    $this->pleaseWait();
+                $this->addParameter('sku', $options['sku_product']);
+                $this->clickControl('link', 'gift_options', false);
+                $this->waitForControlVisible('fieldset', 'gift_options');
+                if (isset($options['item_gift_wrapping'])) {
+                    $this->verifyGiftWrapping($options['item_gift_wrapping'], 'item');
                 }
+                $this->verifyForm($options, null, array('sku_product', 'item_gift_wrapping_design'));
+                $this->clickButton('ok', false);
+                $this->pleaseWait();
             }
         }
         $this->assertEmptyVerificationErrors();

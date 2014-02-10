@@ -38,15 +38,17 @@ class Core_Mage_Order_SavedCC_MaestroCreditCardTest extends Mage_Selenium_TestCa
     {
         //Data
         $productData = $this->loadDataSet('Product', 'simple_product_visible');
+        $config = $this->loadDataSet('PaymentMethod','savedcc_without_3Dsecure',
+            array('scc_request_card_security_code' => 'No'));
         //Steps
         $this->loginAdminUser();
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($productData);
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->systemConfigurationHelper()->useHttps('admin', 'yes');
-        $this->systemConfigurationHelper()->configure('PaymentMethod/savedcc_with_3Dsecure');
+        $this->navigate('system_configuration');
+        $this->systemConfigurationHelper()->configure($config);
         $this->systemConfigurationHelper()->configure('Currency/enable_gbp');
-        $this->systemConfigurationHelper()->configure('PaymentMethod/enable_3d_secure');
+        $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
 
         return $productData['general_sku'];
     }
@@ -62,13 +64,14 @@ class Core_Mage_Order_SavedCC_MaestroCreditCardTest extends Mage_Selenium_TestCa
      */
     public function orderWithSwitchMaestroCard($sku)
     {
-        $this->markTestIncomplete('MAGETWO-2706');
         //Data
-        $paymentInfo = $this->loadDataSet('Payment', 'saved_switch_maestro');
+        $paymentInfo = $this->loadDataSet('Payment', 'saved_switch_maestro',
+            array('card_verification_number' => '%noValue%'));
         $paymentData = $this->loadDataSet('Payment', 'payment_savedcc', array('payment_info' => $paymentInfo));
-        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
-                                        array('filter_sku'  => $sku,
-                                             'payment_data' => $paymentData));
+        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa', array(
+            'filter_sku' => $sku,
+            'payment_data' => $paymentData
+        ));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -113,8 +116,7 @@ class Core_Mage_Order_SavedCC_MaestroCreditCardTest extends Mage_Selenium_TestCa
     {
         //Data
         $orderData['products_to_add']['product_1']['product_qty'] = 10;
-        $invoice = $this->loadDataSet('SalesOrder', 'products_to_invoice',
-                                      array('invoice_product_sku' => $sku));
+        $invoice = $this->loadDataSet('SalesOrder', 'products_to_invoice', array('invoice_product_sku' => $sku));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -158,8 +160,7 @@ class Core_Mage_Order_SavedCC_MaestroCreditCardTest extends Mage_Selenium_TestCa
     {
         //Data
         $orderData['products_to_add']['product_1']['product_qty'] = 10;
-        $creditMemo = $this->loadDataSet('SalesOrder', 'products_to_refund',
-                                         array('return_filter_sku' => $sku));
+        $creditMemo = $this->loadDataSet('SalesOrder', 'products_to_refund', array('return_filter_sku' => $sku));
         //Steps and Verifying
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -204,7 +205,7 @@ class Core_Mage_Order_SavedCC_MaestroCreditCardTest extends Mage_Selenium_TestCa
         $this->assertMessagePresent('success', 'success_created_order');
         //Steps
         $this->clickButton('reorder');
-        $this->orderHelper()->validate3dSecure();
+        $this->fillField('issue_number', $orderData['payment_data']['payment_info']['issue_number']);
         $this->orderHelper()->submitOrder();
         //Verifying
         $this->assertMessagePresent('success', 'success_created_order');
@@ -247,5 +248,9 @@ class Core_Mage_Order_SavedCC_MaestroCreditCardTest extends Mage_Selenium_TestCa
         $this->assertMessagePresent('success', 'success_created_order');
         $this->clickButtonAndConfirm('cancel', 'confirmation_for_cancel');
         $this->assertMessagePresent('success', 'success_canceled_order');
+    }
+
+    public function testForTearDown()
+    {
     }
 }

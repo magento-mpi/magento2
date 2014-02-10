@@ -106,7 +106,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
     {
         $this->admin('system_configuration');
         $this->systemConfigurationHelper()->openConfigurationTab('catalog_catalog');
-        $this->assertFalse($this->controlIsPresent('fieldset', 'price'), "Fieldset Price is present on the page");
+        $this->assertFalse($this->controlIsVisible('fieldset', 'price'), "Fieldset Price is present on the page");
     }
 
     /**
@@ -133,10 +133,7 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
         $this->markTestIncomplete('MAGETWO-3502');
         //Steps
         $this->admin('system_configuration');
-        $tabs = $this->getCurrentUimapPage()->getMainForm()->getAllTabs();
-        foreach ($tabs as $tabName => $tabUimap) {
-            $this->systemConfigurationHelper()->verifyTabFieldsAvailability($tabName);
-        }
+        $this->systemConfigurationHelper()->verifyTabFieldsAvailability();
     }
 
     /**
@@ -218,30 +215,6 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
     }
 
     /**
-     * <p> Tags page </p>
-     *
-     * @test
-     * @TestLinkId TL-MAGE-6319
-     */
-    public function verificationTags()
-    {
-        $this->markTestIncomplete('Tag module is disabled');
-        //Steps
-        $this->admin('all_tags');
-        //Verifying
-        $this->assertFalse($this->controlIsPresent('dropdown', 'store_view'),
-            "There is 'Store View' column on the page");
-        $this->assertFalse($this->controlIsPresent('dropdown', 'store_view'),
-            "There is 'Store View' column on the page");
-        //Steps
-        $this->addParameter('storeId', '1');
-        $this->clickButton('add_new_tag');
-        //Verifying
-        $this->assertFalse($this->controlIsPresent('dropdown', 'choose_store_view'),
-            "There is 'Store Switcher' dropdown on the page");
-    }
-
-    /**
      * <p> URL Rewrite Management page </p>
      *
      * @test
@@ -264,7 +237,6 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      */
     public function verificationManageContent()
     {
-        $this->markTestIncomplete('MAGETWO-7394');
         $this->navigate('manage_cms_pages');
         $this->assertTrue($this->controlIsPresent('button', 'add_new_page'),
             'There is no "Add New Page" button on the page');
@@ -368,26 +340,27 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
      */
     public function editCustomer($userData)
     {
-        $this->markTestIncomplete('BUG: Fatal error on customer wishlist tab');
         //Steps
         $this->navigate('manage_customers');
         $this->customerHelper()->openCustomer(array('email' => $userData['email']));
-        $columnsName = $this->shoppingCartHelper()->getColumnNamesAndNumbers('sales_statistics_head');
-        $this->assertTrue((!isset($columnsName['website']) && !isset($columnsName['store'])
-            && !isset($columnsName['store_view'])), "Sales Statistics table contain unnecessary column");
+        $columnsName = $this->getTableHeadRowNames($this->_getControlXpath('fieldset', 'sales_statistics'));
+        $this->assertFalse(in_array('Web Site', $columnsName), "Sales Statistics table not contain 'Web Site' column");
+        $this->assertFalse(in_array('Store', $columnsName), "Sales Statistics table not contain 'Store' column");
+        $this->assertFalse(in_array('Store View', $columnsName),
+            "Sales Statistics table not contain 'Store View' column");
         $this->openTab('account_information');
-        $this->assertFalse($this->controlIsPresent('dropdown', 'associate_to_website'),
+        $this->assertFalse($this->controlIsVisible('dropdown', 'associate_to_website'),
             "Dropdown associate_to_website present on page");
         $this->openTab('orders');
-        $this->assertFalse($this->controlIsPresent('dropdown', 'filter_bought_from'),
+        $this->assertFalse($this->controlIsVisible('dropdown', 'filter_bought_from'),
             "Table contain 'bought_from' column");
         $this->openTab('recuring_profiles');
-        $this->assertFalse($this->controlIsPresent('dropdown', 'filter_store'), "Table contain 'store' column");
+        $this->assertFalse($this->controlIsVisible('dropdown', 'filter_store'), "Table contain 'store' column");
         $this->openTab('wishlist');
-        $this->assertFalse($this->controlIsPresent('dropdown', 'filter_added_from'),
+        $this->assertFalse($this->controlIsVisible('dropdown', 'filter_added_from'),
             "Table contain 'added_from' column");
         $this->openTab('product_review');
-        $this->assertFalse($this->controlIsPresent('dropdown', 'filter_visible_in'),
+        $this->assertFalse($this->controlIsVisible('dropdown', 'filter_visible_in'),
             "Table contain 'visible_in' column");
     }
 
@@ -478,7 +451,6 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
             array('report_customer_accounts'),
             array('report_customer_totals'),
             array('report_customer_orders'),
-            //array('report_tag_popular'),
         );
     }
 
@@ -496,8 +468,8 @@ class Core_Mage_Store_SingleStoreMode_EnableSingleStoreModeTest extends Mage_Sel
         //Steps
         $this->navigate('manage_sales_orders');
         $this->clickButton('create_new_order');
-        $this->searchAndOpen(array('email' => $userData['email']), 'order_customer_grid', true);
-        $this->waitForAjax();
+        $this->searchAndOpen(array('email' => $userData['email']), 'order_customer_grid', false);
+        $this->pleaseWait();
         $this->assertFalse($this->controlIsVisible('fieldset', 'order_store_selector'),
             'There is "Please Select a Store" field set on the page');
     }
