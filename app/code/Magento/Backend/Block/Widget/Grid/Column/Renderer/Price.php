@@ -54,7 +54,7 @@ class Price
      * Returns currency code for the row, false on error
      *
      * @param \Magento\Object $row
-     * @return string|bool
+     * @return string|false
      */
     protected function _getCurrencyCode($row)
     {

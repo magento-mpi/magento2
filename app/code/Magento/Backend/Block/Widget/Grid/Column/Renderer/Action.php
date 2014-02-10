@@ -121,7 +121,7 @@ class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Text
      * @param array &$action
      * @param string &$actionCaption
      * @param \Magento\Object $row
-     * @return \Magento\Backend\Block\Widget\Grid\Column\Renderer\Action
+     * @return $this
      */
     protected function _transformActionData(&$action, &$actionCaption, \Magento\Object $row)
     {

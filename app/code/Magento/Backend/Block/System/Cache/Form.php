@@ -44,7 +44,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Initialize cache management form
      *
-     * @return \Magento\Backend\Block\System\Cache\Form
+     * @return $this
      */
     public function initForm()
     {

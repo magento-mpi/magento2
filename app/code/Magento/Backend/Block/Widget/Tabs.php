@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 namespace Magento\Backend\Block\Widget;
+
 use Magento\Backend\Block\Widget\Tab\TabInterface;
 
 /**

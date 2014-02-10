@@ -86,7 +86,7 @@ class Price extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFil
     /**
      * Retrieve display currency select
      *
-     * @return bool|mixed
+     * @return true|mixed
      */
     public function getDisplayCurrencySelect()
     {
@@ -100,7 +100,7 @@ class Price extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFil
     /**
      * Retrieve currency affect
      *
-     * @return bool|mixed
+     * @return true|mixed
      */
     public function getCurrencyAffect()
     {

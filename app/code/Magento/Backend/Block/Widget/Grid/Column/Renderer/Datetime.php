@@ -26,7 +26,7 @@ class Datetime
     /**
      * Retrieve datetime format
      *
-     * @return unknown
+     * @return string|null
      */
     protected function _getFormat()
     {

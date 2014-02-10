@@ -9,6 +9,8 @@
  */
 namespace Magento\Backend\Block\Widget\Grid;
 
+use Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFilter;
+
 /**
  * Grid column block
  *
@@ -35,7 +37,7 @@ class Column extends \Magento\Backend\Block\Widget
     /**
      * Column filter
      *
-     * @var \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFilter
+     * @var AbstractFilter
      */
     protected $_filter;
 
@@ -368,7 +370,7 @@ class Column extends \Magento\Backend\Block\Widget
      * Set column renderer
      *
      * @param \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer $renderer
-     * @return \Magento\Backend\Block\Widget\Grid\Column
+     * @return $this
      */
     public function setRenderer($renderer)
     {
@@ -464,7 +466,7 @@ class Column extends \Magento\Backend\Block\Widget
     /**
      * Get filter block
      *
-     * @return \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFilter|bool
+     * @return AbstractFilter|false
      */
     public function getFilter()
     {

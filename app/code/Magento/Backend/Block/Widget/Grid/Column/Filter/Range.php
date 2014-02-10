@@ -40,7 +40,7 @@ class Range extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFil
 
     /**
      * @param string|null $index
-     * @return mixed|null
+     * @return mixed
      */
     public function getValue($index=null)
     {

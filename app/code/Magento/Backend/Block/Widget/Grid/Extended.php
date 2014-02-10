@@ -618,7 +618,7 @@ class Extended
      * Set label for empty cell
      *
      * @param string $label
-     * @return \Magento\Backend\Block\Widget\Grid
+     * @return $this
      */
     public function setEmptyCellLabel($label)
     {

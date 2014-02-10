@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 namespace Magento\Backend\Block\System\Config\Form\Field;
+
 use Magento\Data\Form\Element\AbstractElement;
 
 /**

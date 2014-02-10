@@ -320,7 +320,7 @@ class ColumnSet extends \Magento\View\Element\Template
      *
      * @param \Magento\Object $item
      * @param \Magento\Backend\Block\Widget\Grid\Column $column
-     * @return integer|boolean
+     * @return int|false
      */
     public function getRowspan($item, $column)
     {
@@ -500,6 +500,7 @@ class ColumnSet extends \Magento\View\Element\Template
 
     /**
      * Return grid of current column set
+     *
      * @return \Magento\Backend\Block\Widget\Grid
      */
     public function getGrid()
@@ -509,6 +510,7 @@ class ColumnSet extends \Magento\View\Element\Template
 
     /**
      * Return collection of current grid
+     *
      * @return \Magento\Data\Collection
      */
     public function getCollection()
