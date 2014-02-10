@@ -23,28 +23,23 @@ class ServiceLocator
     private static $xmlDependenciesParser;
 
     /**
-     * @var \Magento\Tools\Dependency\Report\Writer\Csv
-     */
-    private static $csvReportWriter;
-
-    /**
      * Dictionary generator
      *
-     * @var \Magento\Tools\Dependency\Report\Builder\Module
+     * @var \Magento\Tools\Dependency\Report\Builder
      */
     private static $modulesDependenciesReportBuilder;
 
     /**
      * Get modules dependencies report builder
      *
-     * @return \Magento\Tools\Dependency\Report\Builder\Module
+     * @return \Magento\Tools\Dependency\Report\Builder
      */
     public static function getModulesDependenciesReportBuilder()
     {
         if (null === self::$modulesDependenciesReportBuilder) {
-            self::$modulesDependenciesReportBuilder = new Builder\Module(
+            self::$modulesDependenciesReportBuilder = new Builder(
                 self::getXmlDependenciesParser(),
-                self::getCsvReportWriter()
+                new Writer\Csv\Module()
             );
         }
         return self::$modulesDependenciesReportBuilder;
@@ -79,18 +74,5 @@ class ServiceLocator
             self::$xmlDependenciesParser = new Parser\Xml();
         }
         return self::$xmlDependenciesParser;
-    }
-
-    /**
-     * Get csv report writer
-     *
-     * @return \Magento\Tools\Dependency\Report\Writer\Csv
-     */
-    private static function getCsvReportWriter()
-    {
-        if (null === self::$csvReportWriter) {
-            self::$csvReportWriter = new Writer\Csv();
-        }
-        return self::$csvReportWriter;
     }
 }

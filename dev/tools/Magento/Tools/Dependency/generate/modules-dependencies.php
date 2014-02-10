@@ -15,7 +15,7 @@ try {
 
     ServiceLocator::getModulesDependenciesReportBuilder()->build(array(
         'filename' => 'modules-dependencies.csv',
-        'moduleConfigs' => Files::init()->getConfigFiles('module.xml', array(), false),
+        'configFiles' => Files::init()->getConfigFiles('module.xml', array(), false),
     ));
 
     fwrite(STDOUT, PHP_EOL . 'Report successfully processed.' . PHP_EOL);

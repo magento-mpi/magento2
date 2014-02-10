@@ -40,10 +40,15 @@ class Dependency
      * @param string $module
      * @param string $type One of self::TYPE_* constants
      */
-    public function __construct($module, $type)
+    public function __construct($module, $type = self::TYPE_HARD)
     {
         $this->module = $module;
-        $this->type = (self::TYPE_HARD == $type) ? self::TYPE_HARD : self::TYPE_SOFT;
+
+        if ($type) {
+            $this->type = (self::TYPE_HARD == $type) ? self::TYPE_HARD : self::TYPE_SOFT;
+        } else {
+            $this->type = self::TYPE_HARD;
+        }
     }
 
     /**
@@ -64,5 +69,15 @@ class Dependency
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * Check is hard dependency
+     *
+     * @return bool
+     */
+    public function isHard()
+    {
+        return self::TYPE_HARD == $this->getType();
     }
 }

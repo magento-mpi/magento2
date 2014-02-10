@@ -9,7 +9,7 @@
 namespace Magento\Tools\Dependency;
 
 /**
- * Generator Interface
+ * Module
  */
 class Module
 {
@@ -55,5 +55,57 @@ class Module
     public function getDependencies()
     {
         return $this->dependencies;
+    }
+
+    /**
+     * Check if is module has dependencies
+     *
+     * @return bool
+     */
+    public function hasDependencies()
+    {
+        return (bool)$this->dependencies;
+    }
+
+    /**
+     * Get total dependencies count
+     *
+     * @return int
+     */
+    public function getDependenciesCount()
+    {
+        return count($this->dependencies);
+    }
+
+    /**
+     * Get hard dependencies count
+     *
+     * @return int
+     */
+    public function getHardDependenciesCount()
+    {
+        $dependenciesCount = 0;
+        foreach ($this->getDependencies() as $dependency) {
+            if ($dependency->isHard()) {
+                $dependenciesCount++;
+            }
+        }
+        return $dependenciesCount;
+    }
+
+    /**
+     * Get soft dependencies count
+     *
+     * @return int
+     */
+    public function getSoftDependenciesCount()
+    {
+        $dependenciesCount = 0;
+        foreach ($this->getDependencies() as $dependency) {
+            if (!$dependency->isHard()) {
+                $dependenciesCount++;
+            }
+        }
+        return $dependenciesCount;
     }
 }

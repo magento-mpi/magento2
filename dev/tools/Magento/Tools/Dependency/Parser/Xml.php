@@ -8,6 +8,7 @@
 
 namespace Magento\Tools\Dependency\Parser;
 
+use Magento\Tools\Dependency\Config;
 use Magento\Tools\Dependency\Dependency;
 use Magento\Tools\Dependency\Module;
 use Magento\Tools\Dependency\ParserInterface;
@@ -30,7 +31,7 @@ class Xml implements ParserInterface
                 $this->extractDependencies($config)
             );
         }
-        return $modules;
+        return new Config($modules);
     }
 
     /**

@@ -6,16 +6,14 @@
  * @license   {license_link}
  */
 
-namespace Magento\Tools\Dependency\Report\Builder;
+namespace Magento\Tools\Dependency\Report;
 
 use Magento\Tools\Dependency\ParserInterface;
-use Magento\Tools\Dependency\Report\BuilderInterface;
-use Magento\Tools\Dependency\Report\WriterInterface;
 
 /**
- *  Abstract dependencies report builder
+ *  Dependencies report builder
  */
-abstract class AbstractBuilder implements BuilderInterface
+class Builder implements BuilderInterface
 {
     /**
      * @var \Magento\Tools\Dependency\ParserInterface
@@ -40,23 +38,12 @@ abstract class AbstractBuilder implements BuilderInterface
     }
 
     /**
-     * Template method. Main algorithm
-     *
      * {@inheritdoc}
      */
     public function build(array $options)
     {
-        $dependencies = $this->dependenciesParser->parse($options['moduleConfigs']);
-        $reportData = $this->buildReportData($dependencies);
+        $config = $this->dependenciesParser->parse($options['configFiles']);
 
-        $this->reportWriter->write($reportData, $options['filename']);
+        $this->reportWriter->write($config, $options['filename']);
     }
-
-    /**
-     * Template method. Step of main algorithm
-     *
-     * @param array $dependencies
-     * @return array
-     */
-    abstract protected function buildReportData($dependencies);
 }
