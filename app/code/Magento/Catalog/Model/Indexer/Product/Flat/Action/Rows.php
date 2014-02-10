@@ -16,8 +16,11 @@ namespace Magento\Catalog\Model\Indexer\Product\Flat\Action;
 class Rows extends \Magento\Catalog\Model\Indexer\Product\Flat\AbstractAction
 {
     /**
+     * Execute multiple rows reindex action
+     *
      * @param array $ids
-     * @return \Magento\Catalog\Model\Indexer\Product\Flat\Action\Rows|void
+     *
+     * @return \Magento\Catalog\Model\Indexer\Product\Flat\Action\Rows
      * @throws \Magento\Core\Exception
      */
     public function execute($ids)
@@ -67,7 +70,6 @@ class Rows extends \Magento\Catalog\Model\Indexer\Product\Flat\AbstractAction
             $sql = $select->insertFromSelect($flatTable, $columns);
             $this->_connection->query($sql);
 
-            //drop "temporary" table after reindex
             $this->_connection->dropTable(
                 $this->_getTemporaryTableName($this->_productIndexerHelper->getFlatTableName($this->_storeId))
             );

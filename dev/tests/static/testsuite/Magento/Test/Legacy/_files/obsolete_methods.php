@@ -1252,4 +1252,8 @@ return array(
     array('_getSession', 'Magento\CatalogSearch\Controller\Result'),
     array('addPriceBlockType', 'Magento\Rss\Block\Catalog\AbstractCatalog'),
     array('getAttributeDisabledTypes', 'Magento\Catalog\Helper\Data'),
+    array('useDbCompatibleMode', 'Magento\Core\Helper\Data'),
+    array('getFlag', 'Magento\Catalog\Helper\Product\Flat'),
+    array('isBuilt', 'Magento\Catalog\Helper\Product\Flat'),
+    array('getIndexerIds', 'Magento\Indexer\Model\Config'),
 );

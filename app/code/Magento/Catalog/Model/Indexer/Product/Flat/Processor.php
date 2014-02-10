@@ -40,6 +40,8 @@ class Processor
     }
 
     /**
+     * Get indexer instance
+     *
      * @return \Magento\Indexer\Model\Indexer
      */
     public function getIndexer()
@@ -51,6 +53,8 @@ class Processor
     }
 
     /**
+     * Reindex single row by id
+     *
      * @param int $id
      */
     public function reindexRow($id)
@@ -62,6 +66,8 @@ class Processor
     }
 
     /**
+     * Reindex multiple rows by ids
+     *
      * @param int[] $ids
      */
     public function reindexList($ids)

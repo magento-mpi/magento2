@@ -16,9 +16,11 @@ namespace Magento\Catalog\Model\Indexer\Product\Flat\Action;
 class Full extends \Magento\Catalog\Model\Indexer\Product\Flat\AbstractAction
 {
     /**
+     * Execute full reindex action
+     *
      * @param null|array $ids
      *
-     * @return \Magento\Catalog\Model\Indexer\Product\Flat\Action\Full|mixed
+     * @return \Magento\Catalog\Model\Indexer\Product\Flat\Action\Full
      * @throws \Magento\Exception
      * @throws \Exception
      */

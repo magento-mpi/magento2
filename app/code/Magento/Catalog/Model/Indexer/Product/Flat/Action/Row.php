@@ -16,8 +16,10 @@ namespace Magento\Catalog\Model\Indexer\Product\Flat\Action;
 class Row extends \Magento\Catalog\Model\Indexer\Product\Flat\AbstractAction
 {
     /**
+     * Execute row reindex action
+     *
      * @param int|null $id
-     * @return \Magento\Catalog\Model\Indexer\Product\Flat\Action\Row|void
+     * @return \Magento\Catalog\Model\Indexer\Product\Flat\Action\Row
      * @throws \Magento\Core\Exception
      */
     public function execute($id = null)

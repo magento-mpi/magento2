@@ -27,6 +27,8 @@ class Import
     }
 
     /**
+     * After improt handler
+     *
      * @param Object $import
      * @return mixed
      */

@@ -27,8 +27,11 @@ class IndexerConfigData
     }
 
     /**
+     * Around get handler
+     *
      * @param array $arguments
      * @param \Magento\Code\Plugin\InvocationChain $invocationChain
+     *
      * @return mixed|null
      */
     public function aroundGet(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)

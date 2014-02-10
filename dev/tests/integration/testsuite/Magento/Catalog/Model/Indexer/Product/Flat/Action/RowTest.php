@@ -53,7 +53,7 @@ class RowTest extends \Magento\TestFramework\Indexer\TestCase
      * @magentoDbIsolation enabled
      * @magentoAppIsolation enabled
      * @magentoDataFixture Magento/Catalog/_files/row_fixture.php
-     * @magentoConfigFixture current_store catalog/frontend/flat_catalog_product true
+     * @magentoConfigFixture current_store catalog/frontend/flat_catalog_product 1
      */
     public function testProductUpdate()
     {

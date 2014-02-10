@@ -193,7 +193,7 @@ abstract class AbstractAction
      * Execute action for given ids
      *
      * @param array|int $ids
-     * @return mixed
+     * @return \Magento\Catalog\Model\Indexer\Product\Flat\AbstractAction
      */
     abstract public function execute($ids);
 
@@ -286,7 +286,6 @@ abstract class AbstractAction
             $this->_connection->createTemporaryTable($temporaryTable);
 
             if (count($valueTemporaryTable->getColumns()) > 1) {
-                //If we have composite attributes we should process not only id but and value of attribute
                 $this->_connection->dropTemporaryTable($valueTableName);
                 $this->_connection->createTemporaryTable($valueTemporaryTable);
                 $this->_valueTables[$valueTableName] = $valueTableName;
@@ -309,7 +308,6 @@ abstract class AbstractAction
         if (!empty($columns)) {
             $select = $this->_connection->select();
             $temporaryEntityTable = $this->_getTemporaryTableName($tableName);
-            //List of attributes that aren't listed in EAV but need to be selected too
             $idsColumns = array(
                 'entity_id',
                 'type_id',
@@ -386,7 +384,6 @@ abstract class AbstractAction
                         array($columnName => 'value')
                     );
 
-                    //Skip possible attributes with source model without data in DB
                     if ($attribute->getFlatUpdateSelect($this->_storeId) instanceof \Magento\DB\Select) {
                         $attributeCode   = $attribute->getAttributeCode();
                         $columnValueName = $attributeCode . $this->_valueFieldSuffix;
@@ -459,10 +456,8 @@ abstract class AbstractAction
      */
     protected function _createTemporaryFlatTable()
     {
-        // Extract columns we need to have in flat table
         $columns = $this->_productIndexerHelper->getFlatColumns();
 
-        // Extract indexes we need to have in flat table
         $indexesNeed  = $this->_productIndexerHelper->getFlatIndexes();
 
         $maxIndex = $this->_config->getValue(self::XML_NODE_MAX_INDEX_COUNT);
@@ -475,7 +470,6 @@ abstract class AbstractAction
             );
         }
 
-        // Process indexes to create names for them in MMDB-style and reformat to common index definition
         $indexKeys = array();
         $indexProps = array_values($indexesNeed);
         $upperPrimaryKey = strtoupper(\Magento\DB\Adapter\AdapterInterface::INDEX_TYPE_PRIMARY);
@@ -499,9 +493,8 @@ abstract class AbstractAction
             );
             $indexKeys[$i] = $indexKey;
         }
-        $indexesNeed = array_combine($indexKeys, $indexProps); // Array with index names as keys, except for primary
+        $indexesNeed = array_combine($indexKeys, $indexProps);
 
-        // Create table or modify existing one
         /** @var $table \Magento\DB\Ddl\Table */
         $table = $this->_connection->newTable(
             $this->_getTemporaryTableName($this->_productIndexerHelper->getFlatTableName($this->_storeId))
@@ -1009,7 +1002,6 @@ abstract class AbstractAction
                     'value'        =>  $this->_connection->getIfNullSql('`t2`.`value`', '`t`.`value`'),
                 );
 
-                //EAV table/attributes
                 if ($tableName != $this->_productIndexerHelper->getTable('catalog_product_entity')) {
                     $valueColumns = array();
                     $ids          = array();
@@ -1127,12 +1119,12 @@ abstract class AbstractAction
                     array('entity_id IN(?)' => $productId)
                 );
             }
-            return;
+        } else {
+            $this->_connection->delete(
+                $this->_productIndexerHelper->getFlatTableName((int)$storeId),
+                array('entity_id IN(?)' => $productId)
+            );
         }
-        $this->_connection->delete(
-            $this->_productIndexerHelper->getFlatTableName((int)$storeId),
-            array('entity_id IN(?)' => $productId)
-        );
     }
 
     /**

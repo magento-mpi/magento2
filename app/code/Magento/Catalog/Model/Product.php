@@ -661,6 +661,8 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     }
 
     /**
+     * Callback for entity reindex
+     *
      * @return $this
      */
     public function reindexCallback()

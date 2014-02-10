@@ -175,7 +175,6 @@ class Attribute extends \Magento\Backend\App\Action
                 __('A total of %1 record(s) were updated.', count($this->_helper->getProductIds()))
             );
 
-            //Reindex products
             $this->_productFlatIndexerProcessor->reindexList($this->_helper->getProductIds());
 
         } catch (\Magento\Core\Exception $e) {
