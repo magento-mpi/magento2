@@ -18,8 +18,8 @@ $table = $installer->getConnection()->addColumn(
     array(
         'type'      => \Magento\DB\Ddl\Table::TYPE_SMALLINT,
         'unsigned'  => true,
-        'nullable'  => false,
-        'default'   => '1',
+        'default'   => null,
+        'comment'   => 'Can be used to create configurable product'
     )
 );
 

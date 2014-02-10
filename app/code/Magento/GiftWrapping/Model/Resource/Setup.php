@@ -1,15 +1,11 @@
 <?php
 /**
+ * Gift wrapping resource setup
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftWrapping
  * @copyright   {copyright}
  * @license     {license_link}
- */
-
-/**
- * Gift wrapping resource setup
  */
 namespace Magento\GiftWrapping\Model\Resource;
 
@@ -31,19 +27,19 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
     protected $productTypeConfig;
 
     /**
-     * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param \Magento\Eav\Model\Entity\Setup\Context $context
      * @param string $resourceName
      * @param \Magento\App\CacheInterface $cache
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Catalog\Model\Product\TypeFactory $productTypeFactory
      * @param \Magento\Catalog\Model\Resource\SetupFactory $catalogSetupFactory
-     * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $realProductList
+     * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
      * @param string $moduleName
      * @param string $connectionName
      */
     public function __construct(
-        \Magento\Core\Model\Resource\Setup\Context $context,
+        \Magento\Eav\Model\Entity\Setup\Context $context,
         $resourceName,
         \Magento\App\CacheInterface $cache,
         \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory,
@@ -57,7 +53,9 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
         $this->_productTypeFactory = $productTypeFactory;
         $this->_catalogSetupFactory = $catalogSetupFactory;
         $this->productTypeConfig = $productTypeConfig;
-        parent::__construct($context, $resourceName, $cache, $attrGroupCollectionFactory, $config, $moduleName, $connectionName);
+        parent::__construct(
+            $context, $resourceName, $cache, $attrGroupCollectionFactory, $config, $moduleName, $connectionName
+        );
     }
 
     /**

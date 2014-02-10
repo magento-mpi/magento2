@@ -11,6 +11,7 @@
     <preference for="Magento\Catalog\Model\ProductTypes\ConfigInterface" type="Magento\Catalog\Model\ProductTypes\Config" />
     <preference for="Magento\Catalog\Model\ProductOptions\ConfigInterface" type="Magento\Catalog\Model\ProductOptions\Config" />
     <preference for="Magento\Catalog\Model\Product\PriceModifierInterface" type="Magento\Catalog\Model\Product\PriceModifier\Composite" />
+    <preference for="Magento\Catalog\Model\Entity\Product\Attribute\Group\AttributeMapperInterface" type="Magento\Catalog\Model\Entity\Product\Attribute\Group\AttributeMapper" />
     <type name="Magento\Log\Model\Resource\Log">
         <plugin name="catalogLog" type="Magento\Catalog\Model\Plugin\Log" />
     </type>
@@ -148,6 +149,13 @@
             <array>
                 <item key="simple"><value type="const">Magento\Catalog\Model\Product\Type::TYPE_SIMPLE</value></item>
                 <item key="virtual"><value type="const">Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL</value></item>
+            </array>
+        </param>
+    </type>
+    <type name="Magento\Eav\Model\Entity\Setup\PropertyMapper\Composite">
+        <param name="propertyMappers">
+            <array>
+                <item key="catalog"><value>Magento\Catalog\Model\Resource\Setup\PropertyMapper</value></item>
             </array>
         </param>
     </type>

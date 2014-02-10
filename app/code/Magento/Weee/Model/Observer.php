@@ -145,7 +145,6 @@ class Observer extends \Magento\Core\Model\AbstractModel
                 'is_required',
                 'frontend_class',
                 'is_configurable',
-
                 '_scope',
                 '_default_value',
                 '_front_fieldset',

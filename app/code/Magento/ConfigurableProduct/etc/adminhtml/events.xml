@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <event name="product_attribute_form_build">
+        <observer name="configurable" instance="Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Advanced\Observer" method="observe" />
+    </event>
+</config>

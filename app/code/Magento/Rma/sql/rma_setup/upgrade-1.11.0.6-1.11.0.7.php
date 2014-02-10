@@ -34,6 +34,5 @@ $installer->addAttribute(\Magento\Catalog\Model\Product::ENTITY, 'is_returnable'
     'visible_on_front'  => false,
     'unique'            => false,
     'apply_to'          => implode(',', $this->getRefundableProducts()),
-    'is_configurable'   => false,
     'input_renderer'    => 'Magento\Rma\Block\Adminhtml\Product\Renderer',
 ));

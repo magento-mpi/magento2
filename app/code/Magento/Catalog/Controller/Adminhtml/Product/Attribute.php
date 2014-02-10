@@ -329,7 +329,6 @@ class Attribute extends \Magento\Backend\App\Action
             }
 
             $data += array(
-                'is_configurable' => 0,
                 'is_filterable' => 0,
                 'is_filterable_in_search' => 0,
                 'apply_to' => array(),

@@ -1,20 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @category    Magento
- * @package     Magento_Catalog
- * @copyright   {copyright}
- * @license     {license_link}
- */
-
-
-/**
  * Catalog entity setup
  *
- * @category    Magento
- * @package     Magento_Catalog
- * @author      Magento Core Team <core@magentocommerce.com>
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 namespace Magento\Catalog\Model\Resource;
 
@@ -42,18 +33,18 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
     protected $_eavAttributeResourceFactory;
 
     /**
-     * @param \Magento\Core\Model\Resource\Setup\Context $context
-     * @param string $resourceName
+     * @param \Magento\Eav\Model\Entity\Setup\Context $context
+     * @param $resourceName
      * @param \Magento\App\CacheInterface $cache
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Index\Model\IndexerFactory $indexerFactory
-     * @param \Magento\Catalog\Model\Resource\Eav\AttributeFactory $eavAttributeResourceFactory
+     * @param Eav\AttributeFactory $eavAttributeResourceFactory
      * @param string $moduleName
      * @param string $connectionName
      */
     public function __construct(
-        \Magento\Core\Model\Resource\Setup\Context $context,
+        \Magento\Eav\Model\Entity\Setup\Context $context,
         $resourceName,
         \Magento\App\CacheInterface $cache,
         \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGroupCollectionFactory,
@@ -66,7 +57,9 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
         $this->_categoryFactory = $categoryFactory;
         $this->_indexerFactory = $indexerFactory;
         $this->_eavAttributeResourceFactory = $eavAttributeResourceFactory;
-        parent::__construct($context, $resourceName, $cache, $attrGroupCollectionFactory, $moduleName, $connectionName);
+        parent::__construct(
+            $context, $resourceName, $cache, $attrGroupCollectionFactory, $moduleName, $connectionName
+        );
     }
 
     /**
@@ -112,41 +105,6 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
     public function createEavAttributeResource($data = array())
     {
         return $this->_eavAttributeResourceFactory->create($data);
-    }
-
-    /**
-     * Prepare catalog attribute values to save
-     *
-     * @param array $attr
-     * @return array
-     */
-    protected function _prepareValues($attr)
-    {
-        $data = parent::_prepareValues($attr);
-        $data = array_merge($data, array(
-            'frontend_input_renderer'       => $this->_getValue($attr, 'input_renderer'),
-            'is_global'                     => $this->_getValue(
-                $attr,
-                'global',
-                \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_GLOBAL
-            ),
-            'is_visible'                    => $this->_getValue($attr, 'visible', 1),
-            'is_searchable'                 => $this->_getValue($attr, 'searchable', 0),
-            'is_filterable'                 => $this->_getValue($attr, 'filterable', 0),
-            'is_comparable'                 => $this->_getValue($attr, 'comparable', 0),
-            'is_visible_on_front'           => $this->_getValue($attr, 'visible_on_front', 0),
-            'is_wysiwyg_enabled'            => $this->_getValue($attr, 'wysiwyg_enabled', 0),
-            'is_html_allowed_on_front'      => $this->_getValue($attr, 'is_html_allowed_on_front', 0),
-            'is_visible_in_advanced_search' => $this->_getValue($attr, 'visible_in_advanced_search', 0),
-            'is_filterable_in_search'       => $this->_getValue($attr, 'filterable_in_search', 0),
-            'used_in_product_listing'       => $this->_getValue($attr, 'used_in_product_listing', 0),
-            'used_for_sort_by'              => $this->_getValue($attr, 'used_for_sort_by', 0),
-            'apply_to'                      => $this->_getValue($attr, 'apply_to'),
-            'position'                      => $this->_getValue($attr, 'position', 0),
-            'is_configurable'               => $this->_getValue($attr, 'is_configurable', 1),
-            'is_used_for_promo_rules'       => $this->_getValue($attr, 'used_for_promo_rules', 0)
-        ));
-        return $data;
     }
 
     /**

@@ -37,8 +37,6 @@
  * @method int setUsedInProductListing(int $value)
  * @method \Magento\Catalog\Model\Resource\Eav\Attribute getUsedForSortBy()
  * @method int setUsedForSortBy(int $value)
- * @method \Magento\Catalog\Model\Resource\Eav\Attribute getIsConfigurable()
- * @method int setIsConfigurable(int $value)
  * @method string setApplyTo(string $value)
  * @method \Magento\Catalog\Model\Resource\Eav\Attribute getIsVisibleInAdvancedSearch()
  * @method int setIsVisibleInAdvancedSearch(int $value)
