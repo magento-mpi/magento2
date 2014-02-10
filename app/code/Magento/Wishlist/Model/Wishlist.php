@@ -249,7 +249,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
     /**
      * Save related items
      *
-     * @return \Magento\Sales\Model\Quote
+     * @return $this
      */
     protected function _afterSave()
     {
@@ -326,7 +326,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
      * Retrieve wishlist item collection
      *
      * @param int $itemId
-     * @return Item
+     * @return false|Item
      */
     public function getItem($itemId)
     {

@@ -564,7 +564,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     }
 
     /**
-     * @return $this|\Magento\Data\Collection\Db
+     * @return $this
      */
     protected function _afterLoadData()
     {

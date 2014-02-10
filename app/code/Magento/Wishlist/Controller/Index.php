@@ -106,8 +106,9 @@ class Index
 
     /**
      * Retrieve wishlist object
+     *
      * @param int $wishlistId
-     * @return \Magento\Wishlist\Model\Wishlist|bool
+     * @return \Magento\Wishlist\Model\Wishlist|false
      */
     protected function _getWishlist($wishlistId = null)
     {
