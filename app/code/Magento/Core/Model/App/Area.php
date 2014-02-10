@@ -54,14 +54,14 @@ class Area
     /**
      * Translator
      *
-     * @var \Magento\Core\Model\Translate
+     * @var \Magento\TranslateInterface
      */
     protected $_translator;
 
     /**
      * Application config
      *
-     * @var \Magento\Core\Model\Config
+     * @var \Magento\App\ConfigInterface
      */
     protected $_config;
 
@@ -105,8 +105,8 @@ class Area
     /**
      * @param \Magento\Logger $logger
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Model\Translate $translator
-     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\TranslateInterface $translator
+     * @param \Magento\App\ConfigInterface $config
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\App\ObjectManager\ConfigLoader $diConfigLoader
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
@@ -117,8 +117,8 @@ class Area
     public function __construct(
         \Magento\Logger $logger,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Model\Translate $translator,
-        \Magento\Core\Model\Config $config,
+        \Magento\TranslateInterface $translator,
+        \Magento\App\ConfigInterface $config,
         \Magento\ObjectManager $objectManager,
         \Magento\App\ObjectManager\ConfigLoader $diConfigLoader,
         \Magento\Core\Model\Store\Config $coreStoreConfig,

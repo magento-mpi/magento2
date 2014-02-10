@@ -13,6 +13,9 @@
  */
 namespace Magento\Pbridge\Model\Payment\Method\Pbridge;
 
+use Magento\Sales\Model\Order;
+use Magento\Sales\Model\Order\Status\History;
+
 class Ipn
 {
     const STATUS_CREATED      = 'Created';
@@ -31,7 +34,7 @@ class Ipn
     const AUTH_STATUS_COMPLETED   = 'Completed';
 
     /*
-     * @param \Magento\Sales\Model\Order
+     * @param Order
      */
     protected $_order = null;
 
@@ -50,7 +53,7 @@ class Ipn
     /**
      * Fields that should be replaced in debug with '***'
      *
-     * @var array
+     * @var string[]
      */
     protected $_debugReplacePrivateDataKeys = array();
 
@@ -137,6 +140,7 @@ class Ipn
 
     /**
      * Get ipn data, send verification to PayPal, run corresponding handler
+     * @return void
      */
     public function processIpnRequest()
     {
@@ -180,7 +184,7 @@ class Ipn
     /**
      * Load and validate order
      *
-     * @return \Magento\Sales\Model\Order
+     * @return Order
      * @throws \Exception
      */
     protected function _getOrder()
@@ -202,10 +206,11 @@ class Ipn
     /**
      * Validate incoming request data, as PayPal recommends
      *
-     * @param \Magento\Sales\Model\Order $order
+     * @param Order $order
      * @throws \Magento\Core\Exception
+     * @return void
      */
-    protected function _verifyOrder(\Magento\Sales\Model\Order $order)
+    protected function _verifyOrder(Order $order)
     {
         // verify merchant email intended to receive notification
         $merchantEmail = $this->_config->businessAccount;
@@ -225,6 +230,8 @@ class Ipn
      * IPN workflow implementation
      * Everything should be added to order comments. In positive processing cases customer will get email notifications.
      * Admin will be notified on errors.
+     *
+     * @return void
      */
     public function processIpnVerified()
     {
@@ -311,6 +318,7 @@ class Ipn
      *
      * Everything after saving order is not critical, thus done outside the transaction.
      *
+     * @return void
      * @throws \Magento\Core\Exception
      */
     protected function _registerPaymentCapture()
@@ -338,6 +346,8 @@ class Ipn
 
     /**
      * Treat failed payment as order cancellation
+     *
+     * @return void
      */
     protected function _registerPaymentFailure($explanationMessage = '')
     {
@@ -347,8 +357,7 @@ class Ipn
     }
 
     /**
-     *
-     *
+     * @return void
      */
     protected function _registerPaymentRefund()
     {
@@ -378,6 +387,7 @@ class Ipn
 
     /**
      * @see pending_reason at https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_admin_IPNReference
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function _registerPaymentPending()
@@ -428,6 +438,8 @@ class Ipn
 
     /**
      * Register authorization of a payment: create a non-paid invoice
+     *
+     * @return void
      */
     protected function _registerPaymentAuthorization()
     {
@@ -447,6 +459,8 @@ class Ipn
      * Process transaction voiding.
      * We just can void only authorized transaction
      * Check if transaction authorized and not captured
+     *
+     * @return void
      */
     protected function _registerPaymentVoid($explanationMessage = '')
     {
@@ -466,7 +480,7 @@ class Ipn
      *
      * @param string $comment
      * @param bool $addToHistory
-     * @return string|\Magento\Sales\Model\Order\Status\History
+     * @return string|History
      */
     protected function _createIpnComment($comment = '', $addToHistory = true)
     {
@@ -490,6 +504,7 @@ class Ipn
      *
      * @param $message
      * @param \Exception $exception
+     * @return void
      */
     protected function _notifyAdmin($message, \Exception $exception = null)
     {
@@ -510,7 +525,8 @@ class Ipn
      * Should be invoked only on refunds
      * @see payment_status at https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_admin_IPNReference
      *
-     * @return \Magento\Sales\Model\Order\Status\History
+     * @param bool $addToHistory
+     * @return History
      */
     private function _explainRefundReason($addToHistory = true)
     {

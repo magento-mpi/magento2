@@ -143,7 +143,7 @@ class Index extends \Magento\Backend\App\Action
             }
 
             if ($type != \Magento\Backup\Factory::TYPE_DB) {
-                $backupManager->setRootDir($this->_objectManager->get('Magento\Filesystem')->getPath())
+                $backupManager->setRootDir($this->_objectManager->get('Magento\App\Filesystem')->getPath())
                     ->addIgnorePaths($helper->getBackupIgnorePaths());
             }
 
@@ -196,7 +196,13 @@ class Index extends \Magento\Backend\App\Action
         $fileName = $this->_objectManager->get('Magento\Backup\Helper\Data')
             ->generateBackupDownloadName($backup);
 
-        $response = $this->_fileFactory->create($fileName, null, 'application/octet-stream', $backup->getSize());
+        $response = $this->_fileFactory->create(
+            $fileName,
+            null,
+            \Magento\App\Filesystem::VAR_DIR,
+            'application/octet-stream',
+            $backup->getSize()
+        );
 
         $response->sendHeaders();
 
@@ -274,7 +280,7 @@ class Index extends \Magento\Backend\App\Action
 
             if ($type != \Magento\Backup\Factory::TYPE_DB) {
 
-                $backupManager->setRootDir($this->_objectManager->get('Magento\Filesystem')->getPath())
+                $backupManager->setRootDir($this->_objectManager->get('Magento\App\Filesystem')->getPath())
                     ->addIgnorePaths($helper->getRollbackIgnorePaths());
 
                 if ($this->getRequest()->getParam('use_ftp', false)) {

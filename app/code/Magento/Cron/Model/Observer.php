@@ -25,12 +25,12 @@ class Observer
     /**#@+
      * List of configurable constants used to calculate and validate during handling cron jobs
      */
-    const XML_PATH_SCHEDULE_GENERATE_EVERY  = 'system/cron/schedule_generate_every';
-    const XML_PATH_SCHEDULE_AHEAD_FOR       = 'system/cron/schedule_ahead_for';
-    const XML_PATH_SCHEDULE_LIFETIME        = 'system/cron/schedule_lifetime';
-    const XML_PATH_HISTORY_CLEANUP_EVERY    = 'system/cron/history_cleanup_every';
-    const XML_PATH_HISTORY_SUCCESS          = 'system/cron/history_success_lifetime';
-    const XML_PATH_HISTORY_FAILURE          = 'system/cron/history_failure_lifetime';
+    const XML_PATH_SCHEDULE_GENERATE_EVERY  = 'schedule_generate_every';
+    const XML_PATH_SCHEDULE_AHEAD_FOR       = 'schedule_ahead_for';
+    const XML_PATH_SCHEDULE_LIFETIME        = 'schedule_lifetime';
+    const XML_PATH_HISTORY_CLEANUP_EVERY    = 'history_cleanup_every';
+    const XML_PATH_HISTORY_SUCCESS          = 'history_success_lifetime';
+    const XML_PATH_HISTORY_FAILURE          = 'history_failure_lifetime';
     /**#@-*/
 
     /**
@@ -52,27 +52,51 @@ class Observer
     /** @var \Magento\Core\Model\App */
     protected $_app;
 
-    /** @var \Magento\Core\Model\Store\Config */
-    protected $_coreStoreConfig;
-    
     /**
-     * Initialize parameters
-     *
-     * @param \Magento\ObjectManager              $objectManager
-     * @param \Magento\Core\Model\AppInterface    $app
-     * @param \Magento\Cron\Model\ConfigInterface $config
-     * @param \Magento\Core\Model\Store\Config    $coreStoreConfig
+     * @var \Magento\Core\Model\Store\Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
+     * @var ScheduleFactory
+     */
+    protected $_scheduleFactory;
+
+    /**
+     * @var \Magento\App\Console\Request
+     */
+    protected $_request;
+
+    /**
+     * @var \Magento\Shell
+     */
+    protected $_shell;
+
+    /**
+     * @param \Magento\ObjectManager $objectManager
+     * @param ScheduleFactory $scheduleFactory
+     * @param \Magento\AppInterface $app
+     * @param ConfigInterface $config
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\App\Console\Request $request
+     * @param \Magento\Shell $shell
      */
     public function __construct(
         \Magento\ObjectManager $objectManager,
-        \Magento\Core\Model\AppInterface $app,
+        \Magento\Cron\Model\ScheduleFactory $scheduleFactory,
+        \Magento\AppInterface $app,
         \Magento\Cron\Model\ConfigInterface $config,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\App\Console\Request $request,
+        \Magento\Shell $shell
     ) {
         $this->_objectManager = $objectManager;
+        $this->_scheduleFactory = $scheduleFactory;
         $this->_app = $app;
         $this->_config = $config;
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_request = $request;
+        $this->_shell = $shell;
     }
 
     /**
@@ -86,30 +110,50 @@ class Observer
     {
         $pendingJobs = $this->_getPendingSchedules();
         $currentTime = time();
-        $jobsRoot = $this->_config->getJobs();
+        $jobGroupsRoot = $this->_config->getJobs();
 
         /** @var $schedule \Magento\Cron\Model\Schedule */
-        foreach ($pendingJobs as $schedule) {
-            $jobConfig = isset($jobsRoot[$schedule->getJobCode()]) ? $jobsRoot[$schedule->getJobCode()] : null;
-            if (!$jobConfig) {
+        foreach ($jobGroupsRoot as $groupId => $jobsRoot) {
+            if (
+                $this->_request->getParam('group') === null
+                && $this->_coreStoreConfig->getConfig(
+                    'system/cron/' . $groupId . '/use_separate_process',
+                    'default'
+                ) == 1
+            ) {
+                $this->_shell->executeInBackground(
+                    '"' . PHP_BINARY . '" -f ' . BP . DIRECTORY_SEPARATOR
+                    . \Magento\App\Filesystem::PUB_DIR . DIRECTORY_SEPARATOR
+                    . 'cron.php -- --group=' . $groupId
+                );
+                continue;
+            }
+            if ($this->_request->getParam('group') !== null && $this->_request->getParam('group') != $groupId) {
                 continue;
             }
 
-            $scheduledTime = strtotime($schedule->getScheduledAt());
-            if ($scheduledTime > $currentTime || !$schedule->tryLockJob()) {
-                continue;
+            foreach ($pendingJobs as $schedule) {
+                $jobConfig = isset($jobsRoot[$schedule->getJobCode()]) ? $jobsRoot[$schedule->getJobCode()] : null;
+                if (!$jobConfig) {
+                    continue;
+                }
+
+                $scheduledTime = strtotime($schedule->getScheduledAt());
+                if ($scheduledTime > $currentTime || !$schedule->tryLockJob()) {
+                    continue;
+                }
+
+                try {
+                    $this->_runJob($scheduledTime, $currentTime, $jobConfig, $schedule, $groupId);
+                } catch (\Exception $e) {
+                    $schedule->setMessages($e->getMessage());
+                }
+                $schedule->save();
             }
 
-            try {
-                $this->_runJob($scheduledTime, $currentTime, $jobConfig, $schedule);
-            } catch (\Exception $e) {
-                $schedule->setMessages($e->getMessage());
-            }
-            $schedule->save();
+            $this->_generate($groupId);
+            $this->_cleanup($groupId);
         }
-
-        $this->_generate();
-        $this->_cleanup();
     }
 
     /**
@@ -118,13 +162,17 @@ class Observer
      * @param $scheduledTime
      * @param $currentTime
      * @param $jobConfig
-     * @param \Magento\Cron\Model\Schedule $schedule
+     * @param $schedule
+     * @param string $groupId
      *
      * @throws \Exception
      */
-    protected function _runJob($scheduledTime, $currentTime, $jobConfig, $schedule)
+    protected function _runJob($scheduledTime, $currentTime, $jobConfig, $schedule, $groupId)
     {
-        $scheduleLifetime = (int)$this->_coreStoreConfig->getConfig(self::XML_PATH_SCHEDULE_LIFETIME, 'default');
+        $scheduleLifetime = (int)$this->_coreStoreConfig->getConfig(
+            'system/cron/' . $groupId . '/' . self::XML_PATH_SCHEDULE_LIFETIME,
+            'default'
+        );
         $scheduleLifetime = $scheduleLifetime * self::SECONDS_IN_MINUTE;
         if ($scheduledTime < $currentTime - $scheduleLifetime) {
             $schedule->setStatus(\Magento\Cron\Model\Schedule::STATUS_MISSED);
@@ -168,7 +216,7 @@ class Observer
     protected function _getPendingSchedules()
     {
         if (!$this->_pendingSchedules) {
-            $this->_pendingSchedules = $this->_objectManager->create('Magento\Cron\Model\Schedule')->getCollection()
+            $this->_pendingSchedules = $this->_scheduleFactory->create()->getCollection()
                 ->addFieldToFilter('status', \Magento\Cron\Model\Schedule::STATUS_PENDING)
                 ->load();
         }
@@ -178,15 +226,19 @@ class Observer
     /**
      * Generate cron schedule
      *
+     * @param string $groupId
      * @return \Magento\Cron\Model\Observer
      */
-    protected function _generate()
+    protected function _generate($groupId)
     {
         /**
          * check if schedule generation is needed
          */
         $lastRun = (int)$this->_app->loadCache(self::CACHE_KEY_LAST_SCHEDULE_GENERATE_AT);
-        $rawSchedulePeriod = (int)$this->_coreStoreConfig->getConfig(self::XML_PATH_SCHEDULE_GENERATE_EVERY, 'default');
+        $rawSchedulePeriod = (int)$this->_coreStoreConfig->getConfig(
+            'system/cron/' . $groupId . '/' . self::XML_PATH_SCHEDULE_GENERATE_EVERY,
+            'default'
+        );
         $schedulePeriod = $rawSchedulePeriod * self::SECONDS_IN_MINUTE;
         if ($lastRun > time() - $schedulePeriod) {
             return $this;
@@ -203,7 +255,7 @@ class Observer
          * generate global crontab jobs
          */
         $jobs = $this->_config->getJobs();
-        $this->_generateJobs($jobs, $exists);
+        $this->_generateJobs($jobs[$groupId], $exists, $groupId);
 
         /**
          * save time schedules generation was ran with no expiration
@@ -218,14 +270,20 @@ class Observer
      *
      * @param   $jobs
      * @param   array $exists
+     * @param   string $groupId
      * @return  \Magento\Cron\Model\Observer
      */
-    protected function _generateJobs($jobs, $exists)
+    protected function _generateJobs($jobs, $exists, $groupId)
     {
-        $scheduleAheadFor = (int)$this->_coreStoreConfig->getConfig(self::XML_PATH_SCHEDULE_AHEAD_FOR, 'default');
+        $scheduleAheadFor = (int)$this->_coreStoreConfig->getConfig(
+            'system/cron/' . $groupId . '/' . self::XML_PATH_SCHEDULE_AHEAD_FOR,
+            'default'
+        );
         $scheduleAheadFor = $scheduleAheadFor * self::SECONDS_IN_MINUTE;
-        /** @var \Magento\Cron\Model\Schedule $schedule */
-        $schedule = $this->_objectManager->create('Magento\Cron\Model\Schedule');
+        /**
+         * @var \Magento\Cron\Model\Schedule $schedule
+         */
+        $schedule = $this->_scheduleFactory->create();
 
         foreach ($jobs as $jobCode => $jobConfig) {
             $cronExpr = null;
@@ -264,27 +322,39 @@ class Observer
     /**
      * Clean existed jobs
      *
+     * @param string $groupId
      * @return $this
      */
-    protected function _cleanup()
+    protected function _cleanup($groupId)
     {
         // check if history cleanup is needed
         $lastCleanup = (int)$this->_app->loadCache(self::CACHE_KEY_LAST_HISTORY_CLEANUP_AT);
-        $historyCleanUp = (int)$this->_coreStoreConfig->getConfig(self::XML_PATH_HISTORY_CLEANUP_EVERY, 'default');
+        $historyCleanUp = (int)$this->_coreStoreConfig->getConfig(
+            'system/cron/' . $groupId . '/' . self::XML_PATH_HISTORY_CLEANUP_EVERY,
+            'default'
+        );
         if ($lastCleanup > time() - $historyCleanUp * self::SECONDS_IN_MINUTE) {
             return $this;
         }
 
-        /** @var \Magento\Cron\Model\Resource\Schedule\Collection $history */
-        $history = $this->_objectManager->create('Magento\Cron\Model\Schedule')->getCollection()
+        /**
+         * @var \Magento\Cron\Model\Resource\Schedule\Collection $history
+         */
+        $history = $this->_scheduleFactory->create()->getCollection()
             ->addFieldToFilter('status', array('in' => array(
                 \Magento\Cron\Model\Schedule::STATUS_SUCCESS,
                 \Magento\Cron\Model\Schedule::STATUS_MISSED,
                 \Magento\Cron\Model\Schedule::STATUS_ERROR,
             )))->load();
 
-        $historySuccess = (int)$this->_coreStoreConfig->getConfig(self::XML_PATH_HISTORY_SUCCESS, 'default');
-        $historyFailure = (int)$this->_coreStoreConfig->getConfig(self::XML_PATH_HISTORY_FAILURE, 'default');
+        $historySuccess = (int)$this->_coreStoreConfig->getConfig(
+            'system/cron/' . $groupId . '/' . self::XML_PATH_HISTORY_SUCCESS,
+            'default'
+        );
+        $historyFailure = (int)$this->_coreStoreConfig->getConfig(
+            'system/cron/' . $groupId . '/' . self::XML_PATH_HISTORY_FAILURE,
+            'default'
+        );
         $historyLifetimes = array(
             \Magento\Cron\Model\Schedule::STATUS_SUCCESS => $historySuccess * self::SECONDS_IN_MINUTE,
             \Magento\Cron\Model\Schedule::STATUS_MISSED => $historyFailure * self::SECONDS_IN_MINUTE,

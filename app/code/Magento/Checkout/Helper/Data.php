@@ -47,7 +47,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * @var \Magento\Checkout\Model\Resource\Agreement\CollectionFactory
      */
-    protected $_agreementCollFactory;
+    protected $_agreementCollectionFactory;
 
     /**
      * @var \Magento\Email\Model\TemplateFactory
@@ -55,13 +55,21 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_emailTemplFactory;
 
     /**
+     * Translator model
+     *
+     * @var \Magento\TranslateInterface
+     */
+    protected $_translator;
+
+    /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param \Magento\Checkout\Model\Resource\Agreement\CollectionFactory $agreementCollFactory
+     * @param \Magento\Checkout\Model\Resource\Agreement\CollectionFactory $agreementCollectionFactory
      * @param \Magento\Email\Model\TemplateFactory $emailTemplFactory
+     * @param \Magento\TranslateInterface $translator
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
@@ -69,15 +77,17 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\Checkout\Model\Resource\Agreement\CollectionFactory $agreementCollFactory,
-        \Magento\Email\Model\TemplateFactory $emailTemplFactory
+        \Magento\Checkout\Model\Resource\Agreement\CollectionFactory $agreementCollectionFactory,
+        \Magento\Email\Model\TemplateFactory $emailTemplFactory,
+        \Magento\TranslateInterface $translator
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_storeManager = $storeManager;
         $this->_checkoutSession = $checkoutSession;
         $this->_locale = $locale;
-        $this->_agreementCollFactory = $agreementCollFactory;
+        $this->_agreementCollectionFactory = $agreementCollectionFactory;
         $this->_emailTemplFactory = $emailTemplFactory;
+        $this->_translator = $translator;
         parent::__construct($context);
     }
 
@@ -117,7 +127,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
             if (!$this->_coreStoreConfig->getConfigFlag('checkout/options/enable_agreements')) {
                 $this->_agreements = array();
             } else {
-                $this->_agreements = $this->_agreementCollFactory->create()
+                $this->_agreements = $this->_agreementCollectionFactory->create()
                     ->addStoreFilter($this->_storeManager->getStore()->getId())
                     ->addFieldToFilter('is_active', 1)
                     ->getAllIds();

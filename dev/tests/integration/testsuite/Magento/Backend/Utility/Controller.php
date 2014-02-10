@@ -32,13 +32,24 @@ class Controller extends \Magento\TestFramework\TestCase\AbstractController
     {
         parent::setUp();
 
-        $this->_objectManager->get('Magento\Backend\Model\Url')->turnOffSecretKey();
+        $this->_objectManager->get('Magento\Backend\Model\UrlInterface')->turnOffSecretKey();
 
         $this->_auth = $this->_objectManager->get('Magento\Backend\Model\Auth');
         $this->_session = $this->_auth->getAuthStorage();
-        $this->_auth->login(
-            \Magento\TestFramework\Bootstrap::ADMIN_NAME,
-            \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD
+        $credentials = $this->_getAdminCredentials();
+        $this->_auth->login($credentials['user'], $credentials['password']);
+    }
+
+    /**
+     * Get credentials to login admin user
+     *
+     * @return array
+     */
+    protected function _getAdminCredentials()
+    {
+        return array(
+            'user' => \Magento\TestFramework\Bootstrap::ADMIN_NAME,
+            'password' => \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD,
         );
     }
 
@@ -47,7 +58,7 @@ class Controller extends \Magento\TestFramework\TestCase\AbstractController
         $this->_auth->logout();
         $this->_auth = null;
         $this->_session = null;
-        $this->_objectManager->get('Magento\Backend\Model\Url')->turnOnSecretKey();
+        $this->_objectManager->get('Magento\Backend\Model\UrlInterface')->turnOnSecretKey();
         parent::tearDown();
     }
 

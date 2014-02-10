@@ -16,12 +16,12 @@ namespace Magento\Theme\Model;
 class Config
 {
     /**
-     * @var \Magento\Core\Model\Config\Storage\WriterInterface
+     * @var \Magento\App\Config\Storage\WriterInterface
      */
     protected $_configWriter;
 
     /**
-     * @var \Magento\Core\Model\Config\Value
+     * @var \Magento\App\Config\ValueInterface
      */
     protected $_configData;
 
@@ -48,16 +48,16 @@ class Config
     protected $_layoutCache;
 
     /**
-     * @param \Magento\Core\Model\Config\Value $configData
-     * @param \Magento\Core\Model\Config\Storage\WriterInterface $configWriter
+     * @param \Magento\App\Config\ValueInterface $configData
+     * @param \Magento\App\Config\Storage\WriterInterface $configWriter
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Cache\FrontendInterface $configCache
      * @param \Magento\Cache\FrontendInterface $layoutCache
      */
     public function __construct(
-        \Magento\Core\Model\Config\Value $configData,
-        \Magento\Core\Model\Config\Storage\WriterInterface $configWriter,
+        \Magento\App\Config\ValueInterface $configData,
+        \Magento\App\Config\Storage\WriterInterface $configWriter,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Cache\FrontendInterface $configCache,
@@ -79,8 +79,11 @@ class Config
      * @param string $scope
      * @return $this
      */
-    public function assignToStore($theme, array $stores = array(), $scope = \Magento\Core\Model\Config::SCOPE_STORES)
-    {
+    public function assignToStore(
+        $theme,
+        array $stores = array(),
+        $scope = \Magento\Core\Model\ScopeInterface::SCOPE_STORES
+    ) {
         $isReassigned = false;
 
         $this->_unassignThemeFromStores(
@@ -175,7 +178,7 @@ class Config
     protected function _assignThemeToDefaultScope($themeId, &$isReassigned)
     {
         $configPath = \Magento\View\DesignInterface::XML_PATH_THEME_ID;
-        $this->_configWriter->save($configPath, $themeId, \Magento\Core\Model\Config::SCOPE_DEFAULT);
+        $this->_configWriter->save($configPath, $themeId, \Magento\BaseScopeInterface::SCOPE_DEFAULT);
         $isReassigned = true;
         return $this;
     }

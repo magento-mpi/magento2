@@ -117,7 +117,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     {
         try {
             if (!($store instanceof \Magento\Core\Model\Store)) {
-                $store = $this->_app->getStore($store);
+                $store = $this->_storeManager->getStore($store);
             }
 
             $value = $store->convertPrice($value, $format, $includeContainer);
@@ -200,8 +200,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function jsonEncode($valueToEncode, $cycleCheck = false, $options = array())
     {
         $json = \Zend_Json::encode($valueToEncode, $cycleCheck, $options);
-        if ($this->_translator->isAllowed()) {
-            $this->_translator->processResponseBody($json, true);
+        $translateInline = $this->_inlineFactory->get();
+        if ($translateInline->isAllowed()) {
+            $translateInline->processResponseBody($json, true);
         }
 
         return $json;

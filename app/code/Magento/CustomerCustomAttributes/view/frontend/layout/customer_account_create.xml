@@ -12,7 +12,7 @@
         <action method="setTemplate">
             <argument name="template" xsi:type="string">Magento_CustomerCustomAttributes::/customer/form/register.phtml</argument>
         </action>
-        <block class="Magento\CustomerCustomAttributes\Block\Form" template="form/userattributes.phtml" name="customer_form_user_attributes">
+        <block class="Magento\CustomerCustomAttributes\Block\Form" template="form/userattributes.phtml" name="customer_form_user_attributes" cacheable="false">
             <action method="setFormCode">
                 <argument name="code" xsi:type="string">customer_account_create</argument>
             </action>
@@ -20,7 +20,7 @@
                 <argument name="code" xsi:type="string">Magento\Customer\Model\Customer</argument>
             </action>
         </block>
-        <block class="Magento\CustomerCustomAttributes\Block\Form" template="form/userattributes.phtml" name="customer_form_address_user_attributes">
+        <block class="Magento\CustomerCustomAttributes\Block\Form" template="form/userattributes.phtml" name="customer_form_address_user_attributes" cacheable="false">
             <action method="setFormCode">
                 <argument name="code" xsi:type="string">customer_register_address</argument>
             </action>

@@ -188,7 +188,15 @@ class Index
 
         $session = $this->_objectManager->get('Magento\Customer\Model\Session');
 
-        $productId = (int) $this->getRequest()->getParam('product');
+        $requestParams = $this->getRequest()->getParams();
+
+        if ($session->getBeforeWishlistRequest()) {
+            $requestParams = $session->getBeforeWishlistRequest();
+            $session->unsBeforeWishlistRequest();
+        }
+
+        $productId = isset($requestParams['product']) ? (int) $requestParams['product'] : null;
+
         if (!$productId) {
             $this->_redirect('*/');
             return;
@@ -202,11 +210,6 @@ class Index
         }
 
         try {
-            $requestParams = $this->getRequest()->getParams();
-            if ($session->getBeforeWishlistRequest()) {
-                $requestParams = $session->getBeforeWishlistRequest();
-                $session->unsBeforeWishlistRequest();
-            }
             $buyRequest = new \Magento\Object($requestParams);
 
             $result = $wishlist->addNewItem($product, $buyRequest);
@@ -240,8 +243,7 @@ class Index
             $helper = $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
             $message = __('%1 has been added to your wishlist. Click <a href="%2">here</a> to continue shopping.', $this->_objectManager->get('Magento\Escaper')->escapeHtml($product->getName()), $this->_objectManager->get('Magento\Escaper')->escapeUrl($referer));
             $this->messageManager->addSuccess($message);
-        }
-        catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->messageManager->addError(
                 __('An error occurred while adding item to wish list: %1', $e->getMessage())
             );
@@ -338,8 +340,11 @@ class Index
                 ->save();
 
             $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
-            $this->_eventManager->dispatch('wishlist_update_item', array(
-                'wishlist' => $wishlist, 'product' => $product, 'item' => $wishlist->getItem($id))
+            $this->_eventManager->dispatch(
+                'wishlist_update_item',
+                array(
+                    'wishlist' => $wishlist, 'product' => $product, 'item' => $wishlist->getItem($id)
+                )
             );
 
             $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
@@ -430,8 +435,7 @@ class Index
                 try {
                     $wishlist->save();
                     $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
-                }
-                catch (\Exception $e) {
+                } catch (\Exception $e) {
                     $this->messageManager->addError(__('Can\'t update wish list'));
                 }
             }
@@ -534,18 +538,26 @@ class Index
             $cart->save()->getQuote()->collectTotals();
             $wishlist->save();
 
+            if (!$cart->getQuote()->getHasError()) {
+                $message = __(
+                    'You added %1 to your shopping cart.',
+                    $this->_objectManager->get('Magento\Escaper')->escapeHtml($item->getProduct()->getName())
+                );
+                $this->messageManager->addSuccess($message);
+            }
+
             $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
 
             if ($this->_objectManager->get('Magento\Checkout\Helper\Cart')->getShouldRedirectToCart()) {
                 $redirectUrl = $this->_objectManager->get('Magento\Checkout\Helper\Cart')->getCartUrl();
-            } else if ($this->_redirect->getRefererUrl()) {
+            } elseif ($this->_redirect->getRefererUrl()) {
                 $redirectUrl = $this->_redirect->getRefererUrl();
             }
             $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
         } catch (\Magento\Core\Exception $e) {
             if ($e->getCode() == \Magento\Wishlist\Model\Item::EXCEPTION_CODE_NOT_SALABLE) {
                 $this->messageManager->addError(__('This product(s) is out of stock.'));
-            } else if ($e->getCode() == \Magento\Wishlist\Model\Item::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS) {
+            } elseif ($e->getCode() == \Magento\Wishlist\Model\Item::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS) {
                 $this->messageManager->addNotice($e->getMessage());
                 $redirectUrl = $this->_url->getUrl('*/*/configure/', array('id' => $item->getId()));
             } else {
@@ -578,7 +590,7 @@ class Index
         $cart = $this->_objectManager->get('Magento\Checkout\Model\Cart');
         $session = $this->_objectManager->get('Magento\Checkout\Model\Session');
 
-        try{
+        try {
             $item = $cart->getQuote()->getItemById($itemId);
             if (!$item) {
                 throw new \Magento\Core\Exception(
@@ -607,7 +619,9 @@ class Index
             $this->messageManager->addException($e, __('We can\'t move the item to the wish list.'));
         }
 
-        return $this->getResponse()->setRedirect($this->_objectManager->get('Magento\Checkout\Helper\Cart')->getCartUrl());
+        return $this->getResponse()->setRedirect(
+            $this->_objectManager->get('Magento\Checkout\Helper\Cart')->getCartUrl()
+        );
     }
 
     /**
@@ -672,8 +686,8 @@ class Index
             return;
         }
 
-        $translate = $this->_objectManager->get('Magento\Core\Model\Translate');
-        /* @var $translate \Magento\Core\Model\Translate */
+        $translate = $this->_objectManager->get('Magento\TranslateInterface');
+        /* @var $translate \Magento\TranslateInterface */
         $translate->setTranslateInline(false);
         $sent = 0;
 
@@ -688,7 +702,10 @@ class Index
                     ->toHtml();
                 $message .= $rss_url;
             }
-            $wishlistBlock = $this->_view->getLayout()->createBlock('Magento\Wishlist\Block\Share\Email\Items')->toHtml();
+            $wishlistBlock = $this->_view
+                ->getLayout()
+                ->createBlock('Magento\Wishlist\Block\Share\Email\Items')
+                ->toHtml();
 
             $emails = array_unique($emails);
             /* @var $emailModel \Magento\Email\Model\Template */
@@ -699,8 +716,12 @@ class Index
             try {
                 foreach ($emails as $email) {
                     $emailModel->sendTransactional(
-                        $this->_objectManager->get('Magento\Core\Model\Store\Config')->getConfig('wishlist/email/email_template'),
-                        $this->_objectManager->get('Magento\Core\Model\Store\Config')->getConfig('wishlist/email/email_identity'),
+                        $this->_objectManager
+                            ->get('Magento\Core\Model\Store\Config')
+                            ->getConfig('wishlist/email/email_template'),
+                        $this->_objectManager
+                            ->get('Magento\Core\Model\Store\Config')
+                            ->getConfig('wishlist/email/email_identity'),
                         $email,
                         null,
                         array(
@@ -751,7 +772,11 @@ class Index
 
         $optionId = null;
         if (strpos($option->getCode(), \Magento\Catalog\Model\Product\Type\AbstractType::OPTION_PREFIX) === 0) {
-            $optionId = str_replace(\Magento\Catalog\Model\Product\Type\AbstractType::OPTION_PREFIX, '', $option->getCode());
+            $optionId = str_replace(
+                \Magento\Catalog\Model\Product\Type\AbstractType::OPTION_PREFIX,
+                '',
+                $option->getCode()
+            );
             if ((int)$optionId != $optionId) {
                 return $this->_forward('noroute');
             }
@@ -768,18 +793,22 @@ class Index
 
         try {
             $info      = unserialize($option->getValue());
-            $filePath  = $this->_objectManager->get('Magento\Filesystem')->getPath(\Magento\Filesystem::ROOT)
+            $filePath  = $this->_objectManager->get('Magento\App\Filesystem')->getPath(\Magento\App\Filesystem::ROOT_DIR)
                 . $info['quote_path'];
             $secretKey = $this->getRequest()->getParam('key');
 
             if ($secretKey == $info['secret_key']) {
-                $this->_fileResponseFactory->create($info['title'], array(
-                    'value' => $filePath,
-                    'type'  => 'filename'
-                ));
+                $this->_fileResponseFactory->create(
+                    $info['title'],
+                    array(
+                        'value' => $filePath,
+                        'type'  => 'filename'
+                    ),
+                    \Magento\App\Filesystem::ROOT_DIR
+                );
             }
 
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $this->_forward('noroute');
         }
         exit(0);

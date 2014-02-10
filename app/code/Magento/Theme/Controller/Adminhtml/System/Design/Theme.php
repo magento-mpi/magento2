@@ -280,7 +280,8 @@ class Theme extends \Magento\Backend\App\Action
                     array(
                         'type'  => 'filename',
                         'value' => $customCssFile->getFullPath()
-                    )
+                    ),
+                    \Magento\App\Filesystem::ROOT_DIR
                 );
             }
         } catch (\Exception $e) {
@@ -315,10 +316,14 @@ class Theme extends \Magento\Backend\App\Action
                 );
             }
 
-            return $this->_fileFactory->create($fileName, array(
-                'type'  => 'filename',
-                'value' => $themeCss[$fileName]['path']
-            ));
+            return $this->_fileFactory->create(
+                $fileName,
+                array(
+                    'type'  => 'filename',
+                    'value' => $themeCss[$fileName]['path']
+                ),
+                \Magento\App\Filesystem::ROOT_DIR
+            );
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('We cannot find file "%1".', $fileName));
             $this->getResponse()->setRedirect($this->_redirect->getRefererUrl());

@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Reports\Model\Product\Index;
 
 /**
  * Catalog Viewed Product Index
@@ -26,8 +26,6 @@
  * @package     Magento_Reports
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reports\Model\Product\Index;
-
 class Viewed extends \Magento\Reports\Model\Product\Index\AbstractIndex
 {
     /**
@@ -40,6 +38,7 @@ class Viewed extends \Magento\Reports\Model\Product\Index\AbstractIndex
     /**
      * Initialize resource model
      *
+     * @return void
      */
     protected function _construct()
     {

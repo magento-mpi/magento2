@@ -23,12 +23,17 @@
     </type>
     <virtualType name="compareProductInitSession" type="Magento\Core\App\Action\Plugin\Session">
         <param name="cookieCheckActions">
-            <value>
-                <compareProductAdd>add</compareProductAdd>
-            </value>
+            <array>
+                <item key="compareProductAdd"><value>add</value></item>
+            </array>
         </param>
     </virtualType>
     <type name="Magento\Catalog\Controller\Product\Compare">
         <plugin name="sessionInitializer" type="compareProductInitSession" />
+    </type>
+    <type name="Magento\Catalog\Model\Indexer\AbstractFlatState">
+        <param name="isAvailable">
+            <value type="bool">true</value>
+        </param>
     </type>
 </config>

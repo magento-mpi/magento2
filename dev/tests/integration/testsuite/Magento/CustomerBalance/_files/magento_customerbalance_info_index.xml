@@ -10,9 +10,9 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  type="page">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <block class="Magento\View\Element\Template" name="customerbalance.wrapper" template="Magento_CustomerBalance::account/wrapper.phtml">
-        <block class="Magento\CustomerBalance\Block\Account\Balance" name="balance" template="account/balance.phtml" before="-"/>
-        <block class="Magento\CustomerBalance\Block\Account\History" name="history" template="account/history.phtml" after="-"/>
+        <block class="Magento\CustomerBalance\Block\Account\Balance" name="balance" template="account/balance.phtml" before="-" />
+        <block class="Magento\CustomerBalance\Block\Account\History" name="history" template="account/history.phtml" after="-" />
     </block>
 </layout>

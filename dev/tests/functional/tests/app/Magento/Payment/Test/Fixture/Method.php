@@ -33,6 +33,16 @@ class Method extends DataFixture
     }
 
     /**
+     * Get payment action
+     *
+     * @return null|string
+     */
+    public function getPaymentAction()
+    {
+        return $this->getData('fields/payment_action');
+    }
+
+    /**
      * {inheritdoc}
      */
     protected function _initData()

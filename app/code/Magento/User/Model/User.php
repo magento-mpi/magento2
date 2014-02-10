@@ -105,9 +105,9 @@ class User
     /**
      * Factory for validator composite object
      *
-     * @var \Magento\Validator\Composite\VarienObjectFactory
+     * @var \Magento\Validator\ObjectFactory
      */
-    protected $_validatorComposite;
+    protected $_validatorObject;
 
     /**
      * Role model factory
@@ -139,7 +139,7 @@ class User
      * @param \Magento\User\Helper\Data $userData
      * @param \Magento\Email\Model\Sender $sender
      * @param \Magento\Backend\App\ConfigInterface $config
-     * @param \Magento\Validator\Composite\VarienObjectFactory $validatorCompositeFactory
+     * @param \Magento\Validator\ObjectFactory $validatorObjectFactory
      * @param \Magento\User\Model\RoleFactory $roleFactory
      * @param \Magento\Email\Model\InfoFactory $emailInfoFactory
      * @param \Magento\Email\Model\Template\MailerFactory $mailerFactory
@@ -157,7 +157,7 @@ class User
         \Magento\User\Helper\Data $userData,
         \Magento\Email\Model\Sender $sender,
         \Magento\Backend\App\ConfigInterface $config,
-        \Magento\Validator\Composite\VarienObjectFactory $validatorCompositeFactory,
+        \Magento\Validator\ObjectFactory $validatorObjectFactory,
         \Magento\User\Model\RoleFactory $roleFactory,
         \Magento\Email\Model\InfoFactory $emailInfoFactory,
         \Magento\Email\Model\Template\MailerFactory $mailerFactory,
@@ -173,7 +173,7 @@ class User
         $this->_userData = $userData;
         $this->_sender = $sender;
         $this->_config = $config;
-        $this->_validatorComposite = $validatorCompositeFactory;
+        $this->_validatorObject = $validatorObjectFactory;
         $this->_roleFactory = $roleFactory;
         $this->_emailInfoFactory = $emailInfoFactory;
         $this->_mailer = $mailerFactory->create();
@@ -195,7 +195,7 @@ class User
             '_sender',
             '_userData',
             '_config',
-            '_validatorComposite',
+            '_validatorObject',
             '_roleFactory',
             '_emailInfoFactory',
             '_mailer',
@@ -212,7 +212,7 @@ class User
         $this->_userData        = $objectManager->get('Magento\User\Helper\Data');
         $this->_config = $objectManager->get('Magento\Backend\App\ConfigInterface');
         $this->_coreRegistry    = $objectManager->get('Magento\Core\Model\Registry');
-        $this->_validatorComposite = $objectManager->get('Magento\Validator\Composite\VarienObjectFactory');
+        $this->_validatorObject = $objectManager->get('Magento\Validator\ObjectFactory');
         $this->_roleFactory = $objectManager->get('Magento\User\Model\RoleFactory');
         $this->_emailInfoFactory = $objectManager->get('Magento\Email\Model\InfoFactory');
         $this->_mailer = $objectManager->get('Magento\Email\Model\Template\MailerFactory');
@@ -293,8 +293,8 @@ class User
             \Zend_Validate_EmailAddress::INVALID
         );
 
-        /** @var $validator \Magento\Validator\Composite\VarienObject */
-        $validator = $this->_validatorComposite->create();
+        /** @var $validator \Magento\Validator\Object */
+        $validator = $this->_validatorObject->create();
         $validator->addRule($userNameNotEmpty, 'username')
             ->addRule($firstNameNotEmpty, 'firstname')
             ->addRule($lastNameNotEmpty, 'lastname')
@@ -309,9 +309,9 @@ class User
     /**
      * Add validation rules for the password management fields
      *
-     * @param \Magento\Validator\Composite\VarienObject $validator
+     * @param \Magento\Validator\Object $validator
      */
-    protected function _addPasswordValidation(\Magento\Validator\Composite\VarienObject $validator)
+    protected function _addPasswordValidation(\Magento\Validator\Object $validator)
     {
         $passwordNotEmpty = new \Zend_Validate_NotEmpty();
         $passwordNotEmpty->setMessage(
@@ -516,7 +516,7 @@ class User
      */
     public function authenticate($username, $password)
     {
-        $config = $this->_config->getFlag('admin/security/use_case_sensitive_login');
+        $config = $this->_config->isSetFlag('admin/security/use_case_sensitive_login');
         $result = false;
 
         try {

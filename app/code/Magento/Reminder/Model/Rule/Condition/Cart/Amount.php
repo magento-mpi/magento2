@@ -7,12 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reminder\Model\Rule\Condition\Cart;
+
+use Magento\Core\Exception;
+use Magento\DB\Select;
 
 /**
  * Cart totals amount condition
  */
-namespace Magento\Reminder\Model\Rule\Condition\Cart;
-
 class Amount
     extends \Magento\Reminder\Model\Condition\AbstractCondition
 {
@@ -51,7 +53,7 @@ class Amount
     /**
      * Init available options list
      *
-     * @return \Magento\Reminder\Model\Rule\Condition\Cart\Amount
+     * @return $this
      */
     public function loadAttributeOptions()
     {
@@ -77,10 +79,10 @@ class Amount
     /**
      * Build condition limitations sql string for specific website
      *
-     * @param $customer
-     * @param int | \Zend_Db_Expr $website
-     * @return \Magento\DB\Select
-     * @throws \Magento\Core\Exception
+     * @param null|int|\Zend_Db_Expr $customer
+     * @param int|\Zend_Db_Expr $website
+     * @return Select
+     * @throws Exception
      */
     public function getConditionsSql($customer, $website)
     {
@@ -98,7 +100,7 @@ class Amount
                 $field = 'quote.base_grand_total';
                 break;
             default:
-                throw new \Magento\Core\Exception(
+                throw new Exception(
                     __('Unknown quote total specified')
                 );
         }

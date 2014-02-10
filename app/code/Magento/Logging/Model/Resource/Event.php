@@ -34,19 +34,19 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Class constructor
      *
      * @param \Magento\App\Resource $resource
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\Logging\Model\ArchiveFactory $archiveFactory
      * @param \Magento\Stdlib\DateTime $dateTime
      */
     public function __construct(
         \Magento\App\Resource $resource,
-        \Magento\Filesystem $filesystem,
+        \Magento\App\Filesystem $filesystem,
         \Magento\Logging\Model\ArchiveFactory $archiveFactory,
         \Magento\Stdlib\DateTime $dateTime
     ) {
         parent::__construct($resource);
         $this->_archiveFactory = $archiveFactory;
-        $this->directory = $filesystem->getDirectoryWrite(\Magento\Filesystem::VAR_DIR);
+        $this->directory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
         $this->dateTime = $dateTime;
     }
 
@@ -76,6 +76,7 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Rotate logs - get from database and pump to CSV-file
      *
      * @param int $lifetime
+     * @return void
      */
     public function rotate($lifetime)
     {

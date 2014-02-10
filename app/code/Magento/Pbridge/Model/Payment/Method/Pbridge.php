@@ -56,7 +56,7 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * List of address fields
      *
-     * @var array
+     * @var string[]
      */
     protected $_addressFileds = array(
         'prefix', 'firstname', 'middlename', 'lastname', 'suffix',
@@ -237,7 +237,7 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Retrieve Payment Bridge response from the Info instance additional data storage
      *
-     * @param string $key
+     * @param string|null $key
      * @return mixed
      */
     public function getPbridgeResponse($key = null)
@@ -339,7 +339,7 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
             ->setData('customer_email', $order->getCustomerEmail())
             ->setData('is_virtual', $order->getIsVirtual())
             ->setData('notify_url',
-                $this->_url->getUrl('magento_pbridge/PbridgeIpn/', array('_store' =>  $order->getStore()->getStoreId()))
+                $this->_url->getUrl('magento_pbridge/PbridgeIpn/', array('_scope' =>  $order->getStore()->getStoreId()))
             )
             ->setData('is_first_capture', $payment->hasFirstCaptureFlag() ? $payment->getFirstCaptureFlag() : true);
 
@@ -356,7 +356,7 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
             $request->setData('shipping_address', $this->_getAddressInfo($order->getShippingAddress()));
         }
 
-        $request->setData('cart', $this->_getCart($order));
+        $request->setData('cart', $payment->hasCart() ? $payment->getCart() : $this->_pbridgeData->prepareCart($order));
 
         $api = $this->_getApi()->doAuthorize($request);
         $apiResponse = $api->getResponse();
@@ -538,26 +538,6 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
     public function getAddressInfo($address)
     {
         return $this->_getAddressInfo($address);
-    }
-
-    /**
-     * Fill cart request section from order
-     *
-     * @param \Magento\Core\Model\AbstractModel $order
-     *
-     * @return array
-     */
-    protected function _getCart(\Magento\Core\Model\AbstractModel $order)
-    {
-        list($items, $totals) = $this->_pbridgeData->prepareCart($order);
-        //Getting cart items
-        $result = array();
-
-        foreach ($items as $item) {
-            $result['items'][] = $item->getData();
-        }
-
-        return array_merge($result, $totals);
     }
 
     /**

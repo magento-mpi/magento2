@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <group id="default">
+        <job name="aggregate_sales_report_shipment_data" instance="Magento\Shipping\Model\Observer" method="aggregateSalesReportShipmentData">
+            <schedule>0 0 * * *</schedule>
+        </job>
+    </group>
+</config>

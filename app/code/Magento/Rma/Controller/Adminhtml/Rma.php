@@ -23,7 +23,7 @@ class Rma extends \Magento\Backend\App\Action
     protected $_coreRegistry;
 
     /**
-     * @var \Magento\Filesystem
+     * @var \Magento\App\Filesystem
      */
     protected $filesystem;
 
@@ -38,19 +38,20 @@ class Rma extends \Magento\Backend\App\Action
     protected $_fileFactory;
 
     /**
-     * @param \Magento\Backend\App\Action\Context $context
+     * @param Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     * @param \Magento\App\Filesystem $filesystem
      */
     public function __construct(
         Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\App\Response\Http\FileFactory $fileFactory,
-        \Magento\Filesystem $filesystem
+        \Magento\App\Filesystem $filesystem
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->filesystem = $filesystem;
-        $this->readDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::MEDIA);
+        $this->readDirectory = $filesystem->getDirectoryRead(\Magento\App\Filesystem::MEDIA_DIR);
         $this->_fileFactory = $fileFactory;
         parent::__construct($context);
     }
@@ -129,6 +130,8 @@ class Rma extends \Magento\Backend\App\Action
 
     /**
      * Default action
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -139,6 +142,7 @@ class Rma extends \Magento\Backend\App\Action
     /**
      * Create new RMA
      *
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function newAction()
@@ -170,6 +174,8 @@ class Rma extends \Magento\Backend\App\Action
 
     /**
      * Choose Order action during new RMA creation
+     *
+     * @return void
      */
     public function chooseorderAction()
     {
@@ -183,6 +189,7 @@ class Rma extends \Magento\Backend\App\Action
     /**
      * Edit RMA
      *
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function editAction()
@@ -205,6 +212,7 @@ class Rma extends \Magento\Backend\App\Action
     /**
      * Save new RMA request
      *
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function saveNewAction()
@@ -297,6 +305,7 @@ class Rma extends \Magento\Backend\App\Action
     /**
      * Save RMA request
      *
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function saveAction()
@@ -415,6 +424,8 @@ class Rma extends \Magento\Backend\App\Action
 
     /**
      * Delete rma
+     *
+     * @return void
      */
     public function deleteAction()
     {
@@ -423,6 +434,8 @@ class Rma extends \Magento\Backend\App\Action
 
     /**
      * Close action for rma
+     *
+     * @return void
      */
     public function closeAction(){
         $entityId = $this->getRequest()->getParam('entity_id');
@@ -529,6 +542,8 @@ class Rma extends \Magento\Backend\App\Action
 
     /**
      * Generate RMA grid for ajax request from customer page
+     *
+     * @return void
      */
     public function rmaCustomerAction()
     {
@@ -545,6 +560,8 @@ class Rma extends \Magento\Backend\App\Action
 
     /**
      * Generate RMA grid for ajax request from order page
+     *
+     * @return void
      */
     public function rmaOrderAction()
     {
@@ -560,6 +577,7 @@ class Rma extends \Magento\Backend\App\Action
     /**
      * Generate RMA items grid for ajax request from selecting product grid during RMA creation
      *
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function addProductGridAction()
@@ -593,6 +611,8 @@ class Rma extends \Magento\Backend\App\Action
 
     /**
      * Generate PDF form of RMA
+     *
+     * @return void
      */
     public function printAction()
     {
@@ -609,6 +629,7 @@ class Rma extends \Magento\Backend\App\Action
                 return $this->_fileFactory->create(
                     'rma' . $dateModel->date('Y-m-d_H-i-s') . '.pdf',
                     $pdf->render(),
+                    \Magento\App\Filesystem::MEDIA_DIR,
                     'application/pdf'
                 );
             }
@@ -620,6 +641,7 @@ class Rma extends \Magento\Backend\App\Action
     /**
      * Load user-defined attributes of RMA's item
      *
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function loadAttributesAction()
@@ -670,6 +692,8 @@ class Rma extends \Magento\Backend\App\Action
 
     /**
      * Load user-defined attributes for new RMA's item
+     *
+     * @return void
      */
     public function loadNewAttributesAction()
     {
@@ -700,6 +724,7 @@ class Rma extends \Magento\Backend\App\Action
     /**
      * Load new row of RMA's item for Split Line functionality
      *
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function loadSplitLineAction()
@@ -754,7 +779,7 @@ class Rma extends \Magento\Backend\App\Action
     /**
      * Check the permission
      *
-     * @return boolean
+     * @return bool
      */
     protected function _isAllowed()
     {
@@ -764,6 +789,7 @@ class Rma extends \Magento\Backend\App\Action
     /**
      * Shows bundle items on rma create
      *
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function showBundleItemsAction()
@@ -815,6 +841,7 @@ class Rma extends \Magento\Backend\App\Action
     /**
      * Action for view full sized item attribute image
      *
+     * @return void
      * @throws NotFoundException
      */
     public function viewfileAction()
@@ -859,10 +886,14 @@ class Rma extends \Magento\Backend\App\Action
             }
         } else {
             $name = pathinfo($fileName, PATHINFO_BASENAME);
-            $this->_fileFactory->create($name, array(
-                'type'  => 'filename',
-                'value' => $this->readDirectory->getAbsolutePath($filePath)
-            ))->sendResponse();
+            $this->_fileFactory->create(
+                $name,
+                array(
+                    'type'  => 'filename',
+                    'value' => $this->readDirectory->getAbsolutePath($filePath)
+                ),
+                \Magento\App\Filesystem::MEDIA_DIR
+            )->sendResponse();
         }
 
         exit();
@@ -891,6 +922,7 @@ class Rma extends \Magento\Backend\App\Action
     /**
      * Shows available shipping methods
      *
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function showShippingMethodsAction()
@@ -1041,6 +1073,8 @@ class Rma extends \Magento\Backend\App\Action
 
     /**
      * Return grid with shipping items for Ajax request
+     *
+     * @return void
      */
     public function getShippingItemsGridAction()
     {
@@ -1061,6 +1095,7 @@ class Rma extends \Magento\Backend\App\Action
      * Save shipment
      * We can save only new shipment. Existing shipments are not editable
      *
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function saveShippingAction()
@@ -1093,6 +1128,7 @@ class Rma extends \Magento\Backend\App\Action
     /**
      * Create shipping label action for specific shipment
      *
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function createLabelAction()
@@ -1233,6 +1269,7 @@ class Rma extends \Magento\Backend\App\Action
                 return $this->_fileFactory->create(
                     'ShippingLabel(' . $model->getIncrementId() . ').pdf',
                     $pdfContent,
+                    \Magento\App\Filesystem::MEDIA_DIR,
                     'application/pdf'
                 );
             }
@@ -1249,6 +1286,8 @@ class Rma extends \Magento\Backend\App\Action
 
     /**
      * Create pdf document with information about packages
+     *
+     * @return void
      */
     public function printPackageAction()
     {
@@ -1258,8 +1297,8 @@ class Rma extends \Magento\Backend\App\Action
         $shipment = $shippingModel->getShippingLabelByRma($model);
 
         if ($shipment) {
-            /** @var $orderPdf \Magento\Sales\Model\Order\Pdf\Shipment\Packaging */
-            $orderPdf = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Shipment\Packaging');
+            /** @var $orderPdf \Magento\Shipping\Model\Order\Pdf\Packaging */
+            $orderPdf = $this->_objectManager->create('Magento\Shipping\Model\Order\Pdf\Packaging');
             /** @var $block \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shippingmethod */
             $block = $this->_view->getLayout()->getBlockSingleton(
                 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shippingmethod'
@@ -1269,7 +1308,9 @@ class Rma extends \Magento\Backend\App\Action
             /** @var $dateModel \Magento\Core\Model\Date */
             $dateModel = $this->_objectManager->get('Magento\Core\Model\Date');
             return $this->_fileFactory->create(
-                'packingslip' . $dateModel->date('Y-m-d_H-i-s') . '.pdf', $pdf->render(),
+                'packingslip' . $dateModel->date('Y-m-d_H-i-s') . '.pdf',
+                $pdf->render(),
+                \Magento\App\Filesystem::MEDIA_DIR,
                 'application/pdf'
             );
         } else {
@@ -1295,7 +1336,7 @@ class Rma extends \Magento\Backend\App\Action
         $page = new \Zend_Pdf_Page($xSize, $ySize);
 
         imageinterlace($image, 0);
-        $dir = $this->filesystem->getDirectoryWrite(\Magento\Filesystem::SYS_TMP);
+        $dir = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::SYS_TMP_DIR);
         $tmpFileName = 'shipping_labels_' . uniqid(mt_rand()) . time() . '.png';
         $tmpFilePath = $dir->getAbsolutePath($tmpFileName);
         imagepng($image, $tmpFilePath);
@@ -1308,7 +1349,7 @@ class Rma extends \Magento\Backend\App\Action
     /**
      * Combine Labels Pdf
      *
-     * @param array $labelsContent
+     * @param string[] $labelsContent
      * @return \Zend_Pdf
      */
     protected function _combineLabelsPdf(array $labelsContent)
@@ -1333,6 +1374,7 @@ class Rma extends \Magento\Backend\App\Action
     /**
      * Add new tracking number action
      *
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function addTrackAction()
@@ -1388,6 +1430,8 @@ class Rma extends \Magento\Backend\App\Action
 
     /**
      * Remove tracking number from shipment
+     *
+     * @return void
      */
     public function removeTrackAction()
     {

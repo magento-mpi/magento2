@@ -332,14 +332,17 @@ class Agreement extends \Magento\Sales\Model\Payment\Method\Billing\AbstractAgre
             )
         );
 
-        $parameters = array('params' => array($order));
+        $cart = $this->_cartFactory->create(array('salesModel' => $order));
+
+        $proConfig = $this->_pro->getConfig();
         $api = $this->_pro->getApi()
             ->setReferenceId($billingAgreement->getReferenceId())
-            ->setPaymentAction($this->_pro->getConfig()->paymentAction)
+            ->setPaymentAction($proConfig->paymentAction)
             ->setAmount($amount)
+            ->setCurrencyCode($payment->getOrder()->getBaseCurrencyCode())
             ->setNotifyUrl($this->_urlBuilder->getUrl('paypal/ipn/'))
-            ->setPaypalCart($this->_cartFactory->create($parameters))
-            ->setIsLineItemsEnabled($this->_pro->getConfig()->lineItemsEnabled)
+            ->setPaypalCart($cart)
+            ->setIsLineItemsEnabled($proConfig->lineItemsEnabled)
             ->setInvNum($order->getIncrementId());
 
         // call api and import transaction and other payment information

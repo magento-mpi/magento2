@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Rma\Model\Rma\Status;
+
 /**
  * RMA model
  */
-namespace Magento\Rma\Model\Rma\Status;
-
 class History extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -31,7 +31,7 @@ class History extends \Magento\Core\Model\AbstractModel
     protected $_rmaConfig;
 
     /**
-     * @var \Magento\Core\Model\Translate
+     * @var \Magento\TranslateInterface
      */
     protected $_translate;
 
@@ -51,7 +51,7 @@ class History extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Rma\Model\RmaFactory $rmaFactory
      * @param \Magento\Rma\Model\Config $rmaConfig
-     * @param \Magento\Core\Model\Translate $translate
+     * @param \Magento\TranslateInterface $translate
      * @param \Magento\Email\Model\TemplateFactory $templateFactory
      * @param \Magento\Core\Model\Date $date
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -64,7 +64,7 @@ class History extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Rma\Model\RmaFactory $rmaFactory,
         \Magento\Rma\Model\Config $rmaConfig,
-        \Magento\Core\Model\Translate $translate,
+        \Magento\TranslateInterface $translate,
         \Magento\Email\Model\TemplateFactory $templateFactory,
         \Magento\Core\Model\Date $date,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
@@ -120,7 +120,7 @@ class History extends \Magento\Core\Model\AbstractModel
     /**
      * Sending email with comment data
      *
-     * @return \Magento\Rma\Model\Rma\Status\History
+     * @return $this
      */
     public function sendCommentEmail()
     {
@@ -143,7 +143,7 @@ class History extends \Magento\Core\Model\AbstractModel
     /**
      * Sending email to admin with customer's comment data
      *
-     * @return \Magento\Rma\Model\Rma\Status\History
+     * @return $this
      */
     public function sendCustomerCommentEmail()
     {
@@ -162,7 +162,7 @@ class History extends \Magento\Core\Model\AbstractModel
      * @param string $rootConfig Current config root
      * @param array $sendTo mail recipient array
      * @param bool $isGuestAvailable
-     * @return \Magento\Rma\Model\Rma\Status\History
+     * @return $this
      */
     public function _sendCommentEmail($rootConfig, $sendTo, $isGuestAvailable = true)
     {

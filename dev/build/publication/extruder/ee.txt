@@ -4,7 +4,11 @@
 LICENSE_EE.html
 LICENSE_EE.txt
 app/design/adminhtml/magento_backend/css/styles-ee.css
+app/design/adminhtml/magento_backend/css/admin-ee.css
+app/design/adminhtml/magento_backend/css/styles-ie8-ee.css
 app/design/adminhtml/magento_backend/less/styles-ee.less
+app/design/adminhtml/magento_backend/less/styles/admin-ee.less
+app/design/adminhtml/magento_backend/less/styles/styles-ie8-ee.less
 app/design/adminhtml/magento_backend/Magento_Enterprise/
 app/design/frontend/magento_iphone_html5
 app/design/frontend/magento_plushe/Magento_Enterprise
@@ -75,6 +79,7 @@ app/code/Magento/GiftCard
 dev/tests/unit/testsuite/Magento/GiftCard
 dev/tests/integration/testsuite/Magento/GiftCard
 app/code/Magento/GiftCardAccount
+dev/tests/unit/testsuite/Magento/GiftCardAccount
 dev/tests/integration/testsuite/Magento/GiftCardAccount
 app/code/Magento/GiftRegistry
 dev/tests/unit/testsuite/Magento/GiftRegistry
@@ -86,7 +91,6 @@ app/code/Magento/Invitation
 dev/tests/unit/testsuite/Magento/Invitation
 dev/tests/integration/testsuite/Magento/Invitation
 dev/tests/unit/testsuite/Magento/Invitation
-app/code/Magento/License
 app/code/Magento/Logging
 dev/tests/integration/testsuite/Magento/Logging
 dev/tests/unit/testsuite/Magento/Logging
@@ -96,6 +100,7 @@ dev/tests/unit/testsuite/Magento/Pbridge
 dev/tests/integration/testsuite/Magento/Pbridge
 app/code/Magento/Pci
 dev/tests/integration/testsuite/Magento/Pci
+dev/tests/unit/testsuite/Magento/Pci
 app/code/Magento/PricePermissions
 dev/tests/unit/testsuite/Magento/PricePermissions
 dev/tests/integration/testsuite/Magento/PricePermissions
@@ -140,7 +145,7 @@ app/code/Magento/MultipleWishlist
 dev/tests/integration/testsuite/Magento/MultipleWishlist
 dev/tests/unit/testsuite/Magento/WebsiteRestriction
 dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/LoggingConfigFilesTest.php
-dev/tests/static/framework/Magento/TestFramework/Dependency/_files/tables_ee.php
+dev/tests/static/testsuite/Magento/Test/Integrity/_files/dependency_test/tables_ee.php
 dev/tests/static/testsuite/Magento/Test/Integrity/Magento/Reward/LayoutTest.php
 dev/tools/xml/logging.xslt
 dev/tools/xml/transform_logging.php

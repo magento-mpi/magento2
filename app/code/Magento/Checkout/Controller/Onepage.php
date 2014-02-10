@@ -37,16 +37,32 @@ class Onepage extends \Magento\Checkout\Controller\Action
     protected $_coreRegistry = null;
 
     /**
+     * @var \Magento\Translate\InlineInterface
+     */
+    protected $_translateInline;
+
+    /**
+     * @var \Magento\Core\App\Action\FormKeyValidator
+     */
+    protected $_formKeyValidator;
+
+    /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Translate\InlineInterface $translateInline,
+     * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      */
     public function __construct(
         \Magento\App\Action\Context $context,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Translate\InlineInterface $translateInline,
+        \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_translateInline = $translateInline;
+        $this->_formKeyValidator = $formKeyValidator;
         parent::__construct($context, $customerSession);
     }
 
@@ -62,10 +78,10 @@ class Onepage extends \Magento\Checkout\Controller\Action
         $this->_request = $request;
         $this->_preDispatchValidateCustomer();
 
-        $checkoutSessionQuote = $this->_objectManager->get('Magento\Checkout\Model\Session')->getQuote();
-        if ($checkoutSessionQuote->getIsMultiShipping()) {
-            $checkoutSessionQuote->setIsMultiShipping(false);
-            $checkoutSessionQuote->removeAllAddresses();
+        /** @var \Magento\Sales\Model\Quote $quote */
+        $quote = $this->_objectManager->get('Magento\Checkout\Model\Session')->getQuote();
+        if ($quote->isMultipleShippingAddresses()) {
+            $quote->removeAllAddresses();
         }
 
         if (!$this->_canShowForUnregisteredUsers()) {
@@ -94,7 +110,6 @@ class Onepage extends \Magento\Checkout\Controller\Action
     {
         if (!$this->getOnepage()->getQuote()->hasItems()
             || $this->getOnepage()->getQuote()->getHasError()
-            || $this->getOnepage()->getQuote()->getIsMultiShipping()
         ) {
             $this->_ajaxRedirectResponse();
             return true;
@@ -123,7 +138,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
         $layout->generateXml();
         $layout->generateElements();
         $output = $layout->getOutput();
-        $this->_objectManager->get('Magento\Core\Model\Translate')->processResponseBody($output);
+        $this->_translateInline->processResponseBody($output);
         return $output;
     }
 
@@ -518,6 +533,11 @@ class Onepage extends \Magento\Checkout\Controller\Action
      */
     public function saveOrderAction()
     {
+        if (!$this->_formKeyValidator->validate($this->getRequest())) {
+            $this->_redirect('*/*/');
+            return;
+        }
+
         if ($this->_expireAjax()) {
             return;
         }

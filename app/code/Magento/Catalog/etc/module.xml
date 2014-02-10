@@ -37,6 +37,9 @@
             <module name="Magento_Sales"/>
             <module name="Magento_CatalogSearch"/>
             <module name="Magento_Weee"/>
+            <module name="Magento_ProductAlert"/>
+            <module name="Magento_Rating"/>
+            <module name="Magento_Indexer"/>
         </depends>
     </module>
 </config>

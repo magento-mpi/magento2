@@ -40,7 +40,7 @@ class Success extends \Magento\View\Element\Template
     protected $_agreementFactory;
 
     /**
-     * @var \Magento\Sales\Model\Resource\Recurring\Profile\CollectionFactory
+     * @var \Magento\RecurringProfile\Model\Resource\Profile\CollectionFactory
      */
     protected $_recurringProfileCollectionFactory;
 
@@ -55,7 +55,7 @@ class Success extends \Magento\View\Element\Template
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Sales\Model\Billing\AgreementFactory $agreementFactory
-     * @param \Magento\Sales\Model\Resource\Recurring\Profile\CollectionFactory $recurringProfileCollectionFactory
+     * @param \Magento\RecurringProfile\Model\Resource\Profile\CollectionFactory $recurringProfileCollectionFactory
      * @param \Magento\Sales\Model\Order\Config $orderConfig
      * @param array $data
      */
@@ -65,7 +65,7 @@ class Success extends \Magento\View\Element\Template
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Sales\Model\Billing\AgreementFactory $agreementFactory,
-        \Magento\Sales\Model\Resource\Recurring\Profile\CollectionFactory $recurringProfileCollectionFactory,
+        \Magento\RecurringProfile\Model\Resource\Profile\CollectionFactory $recurringProfileCollectionFactory,
         \Magento\Sales\Model\Order\Config $orderConfig,
         array $data = array()
     ) {
@@ -76,6 +76,7 @@ class Success extends \Magento\View\Element\Template
         $this->_agreementFactory = $agreementFactory;
         $this->_recurringProfileCollectionFactory = $recurringProfileCollectionFactory;
         $this->_orderConfig = $orderConfig;
+        $this->_isScopePrivate = true;
     }
 
     /**
@@ -96,7 +97,7 @@ class Success extends \Magento\View\Element\Template
      */
     public function getProfileUrl(\Magento\Object $profile)
     {
-        return $this->getUrl('sales/recurring_profile/view', array('profile' => $profile->getId()));
+        return $this->getUrl('sales/recurringProfile/view', array('profile' => $profile->getId()));
     }
 
     /**

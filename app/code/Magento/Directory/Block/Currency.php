@@ -42,6 +42,7 @@ class Currency extends \Magento\View\Element\Template
         $this->_directoryUrl = $directoryUrl;
         $this->_currencyFactory = $currencyFactory;
         parent::__construct($context, $data);
+        $this->_isScopePrivate = true;
     }
 
     /**
@@ -115,11 +116,11 @@ class Currency extends \Magento\View\Element\Template
     public function getCurrentCurrencyCode()
     {
         if (is_null($this->_getData('current_currency_code'))) {
+
             // do not use $this->_storeManager->getStore()->getCurrentCurrencyCode() because of probability
             // to get an invalid (without base rate) currency from code saved in session
             $this->setData('current_currency_code', $this->_storeManager->getStore()->getCurrentCurrency()->getCode());
         }
-
         return $this->_getData('current_currency_code');
     }
 

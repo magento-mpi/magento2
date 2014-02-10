@@ -8,11 +8,13 @@
  */
 -->
 <config>
+    <preference for="Magento\Payment\Model\Cart\SalesModel\Order" type="Magento\CustomerBalance\Model\Cart\SalesModel\Order" />
+    <preference for="Magento\Payment\Model\Cart\SalesModel\Quote" type="Magento\CustomerBalance\Model\Cart\SalesModel\Quote" />
     <type name="Magento\Module\Manager">
         <param name="outputConfigPaths">
-            <value>
-                <Magento_CustomerBalance>Magento\CustomerBalance\Helper\Data::XML_PATH_ENABLED</Magento_CustomerBalance>
-            </value>
+            <array>
+                <item key="Magento_CustomerBalance"><value>Magento\CustomerBalance\Helper\Data::XML_PATH_ENABLED</value></item>
+            </array>
         </param>
     </type>
     <type name="Magento\CustomerBalance\Model\Observer">
@@ -22,9 +24,9 @@
     </type>
     <type name="Magento\Module\Updater\SetupFactory">
         <param name="resourceTypes">
-            <value>
-                <customerbalance_setup>Magento\Sales\Model\Resource\Setup</customerbalance_setup>
-            </value>
+            <array>
+                <item key="customerbalance_setup"><value>Magento\Sales\Model\Resource\Setup</value></item>
+            </array>
         </param>
     </type>
 </config>

@@ -190,14 +190,9 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     protected $_itemOptionFactory;
 
     /**
-     * @var \Magento\App\State
-     */
-    protected $_appState;
-
-    /**
      * Filesystem facade
      *
-     * @var \Magento\Filesystem
+     * @var \Magento\App\Filesystem
      */
     protected $_filesystem;
 
@@ -223,9 +218,9 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      * @param Resource\Product $resource
      * @param Resource\Product\Collection $resourceCollection
      * @param \Magento\Data\CollectionFactory $collectionFactory
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
      * @param array $data
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -250,7 +245,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         \Magento\Catalog\Model\Resource\Product $resource,
         \Magento\Catalog\Model\Resource\Product\Collection $resourceCollection,
         \Magento\Data\CollectionFactory $collectionFactory,
-        \Magento\Filesystem $filesystem,
+        \Magento\App\Filesystem $filesystem,
         array $data = array()
     ) {
         $this->_itemOptionFactory = $itemOptionFactory;
@@ -1054,23 +1049,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         $collection->joinAttributes();
         return $collection;
     }
-
-    /**
-     * Retrieve collection grouped link
-     *
-     * @return \Magento\Catalog\Model\Resource\Product\Link\Collection
-     */
-    public function getGroupedLinkCollection()
-    {
-        $collection = $this->getLinkInstance()->useGroupedLinks()
-            ->getLinkCollection();
-        $collection->setProduct($this);
-        $collection->addLinkTypeIdFilter();
-        $collection->addProductIdFilter();
-        $collection->joinAttributes();
-        return $collection;
-    }
-
 /*******************************************************************************
  ** Media API
  */
@@ -1100,7 +1078,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      */
     public function getMediaGalleryImages()
     {
-        $directory = $this->_filesystem->getDirectoryRead(\Magento\Filesystem::MEDIA);
+        $directory = $this->_filesystem->getDirectoryRead(\Magento\App\Filesystem::MEDIA_DIR);
         if(!$this->hasData('media_gallery_images') && is_array($this->getMediaGallery('images'))) {
             $images = $this->_collectionFactory->create();
             foreach ($this->getMediaGallery('images') as $image) {
@@ -1151,137 +1129,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     }
 
     /**
-     * Create duplicate
-     *
-     * @return \Magento\Catalog\Model\Product
-     */
-    public function duplicate()
-    {
-        $this->getWebsiteIds();
-        $this->getCategoryIds();
-
-        /* @var $newProduct \Magento\Catalog\Model\Product */
-        $newProduct = $this->_productFactory->create()->setData($this->getData())
-            ->setIsDuplicate(true)
-            ->setOriginalId($this->getId())
-            ->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_DISABLED)
-            ->setCreatedAt(null)
-            ->setUpdatedAt(null)
-            ->setId(null)
-            ->setStoreId($this->_storeManager->getStore()->getId());
-
-        $this->_eventManager->dispatch(
-            'catalog_model_product_duplicate',
-            array('current_product' => $this, 'new_product' => $newProduct)
-        );
-
-        /* Prepare Related*/
-        $data = array();
-        $this->getLinkInstance()->useRelatedLinks();
-        $attributes = array();
-        foreach ($this->getLinkInstance()->getAttributes() as $_attribute) {
-            if (isset($_attribute['code'])) {
-                $attributes[] = $_attribute['code'];
-            }
-        }
-        foreach ($this->getRelatedLinkCollection() as $_link) {
-            $data[$_link->getLinkedProductId()] = $_link->toArray($attributes);
-        }
-        $newProduct->setRelatedLinkData($data);
-
-        /* Prepare UpSell*/
-        $data = array();
-        $this->getLinkInstance()->useUpSellLinks();
-        $attributes = array();
-        foreach ($this->getLinkInstance()->getAttributes() as $_attribute) {
-            if (isset($_attribute['code'])) {
-                $attributes[] = $_attribute['code'];
-            }
-        }
-        foreach ($this->getUpSellLinkCollection() as $_link) {
-            $data[$_link->getLinkedProductId()] = $_link->toArray($attributes);
-        }
-        $newProduct->setUpSellLinkData($data);
-
-        /* Prepare Cross Sell */
-        $data = array();
-        $this->getLinkInstance()->useCrossSellLinks();
-        $attributes = array();
-        foreach ($this->getLinkInstance()->getAttributes() as $_attribute) {
-            if (isset($_attribute['code'])) {
-                $attributes[] = $_attribute['code'];
-            }
-        }
-        foreach ($this->getCrossSellLinkCollection() as $_link) {
-            $data[$_link->getLinkedProductId()] = $_link->toArray($attributes);
-        }
-        $newProduct->setCrossSellLinkData($data);
-
-        /* Prepare Grouped */
-        $data = array();
-        $this->getLinkInstance()->useGroupedLinks();
-        $attributes = array();
-        foreach ($this->getLinkInstance()->getAttributes() as $_attribute) {
-            if (isset($_attribute['code'])) {
-                $attributes[] = $_attribute['code'];
-            }
-        }
-        foreach ($this->getGroupedLinkCollection() as $_link) {
-            $data[$_link->getLinkedProductId()] = $_link->toArray($attributes);
-        }
-        $newProduct->setGroupedLinkData($data);
-
-        $newProduct->save();
-
-        $this->getOptionInstance()->duplicate($this->getId(), $newProduct->getId());
-        $this->getResource()->duplicate($this->getId(), $newProduct->getId());
-
-        // TODO - duplicate product on all stores of the websites it is associated with
-        /*if ($storeIds = $this->getWebsiteIds()) {
-            foreach ($storeIds as $storeId) {
-                $this->setStoreId($storeId)
-                   ->load($this->getId());
-
-                $newProduct->setData($this->getData())
-                    ->setSku(null)
-                    ->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_DISABLED)
-                    ->setId($newId)
-                    ->save();
-            }
-        }*/
-        return $newProduct;
-    }
-
-    /**
-     * Is product grouped
-     *
-     * @return bool
-     */
-    public function isSuperGroup()
-    {
-        return $this->getTypeId() == \Magento\Catalog\Model\Product\Type::TYPE_GROUPED;
-    }
-
-    /**
-     * Alias for isConfigurable()
-     *
-     * @return bool
-     */
-    public function isSuperConfig()
-    {
-        return $this->isConfigurable();
-    }
-    /**
-     * Check is product grouped
-     *
-     * @return bool
-     */
-    public function isGrouped()
-    {
-        return $this->getTypeId() == \Magento\Catalog\Model\Product\Type::TYPE_GROUPED;
-    }
-
-    /**
      * Check is product configurable
      *
      * @return bool
@@ -1289,16 +1136,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     public function isConfigurable()
     {
         return $this->getTypeId() == \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE;
-    }
-
-    /**
-     * Whether product configurable or grouped
-     *
-     * @return bool
-     */
-    public function isSuper()
-    {
-        return $this->isConfigurable() || $this->isGrouped();
     }
 
     /**
@@ -1471,7 +1308,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     /**
      * Get attribute text by its code
      *
-     * @param $attributeCode Code of the attribute
+     * @param string $attributeCode Code of the attribute
      * @return string
      */
     public function getAttributeText($attributeCode)
@@ -1864,9 +1701,9 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     }
 
     /**
-     *  Returns system reserved attribute codes
+     * Returns system reserved attribute codes
      *
-     *  @return array Reserved attribute names
+     * @return array Reserved attribute names
      */
     public function getReservedAttributes()
     {
@@ -1889,10 +1726,10 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     }
 
     /**
-     *  Check whether attribute reserved or not
+     * Check whether attribute reserved or not
      *
-     *  @param \Magento\Catalog\Model\Entity\Attribute $attribute Attribute model object
-     *  @return boolean
+     * @param \Magento\Catalog\Model\Entity\Attribute $attribute Attribute model object
+     * @return boolean
      */
     public function isReservedAttribute ($attribute)
     {
@@ -2003,12 +1840,12 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      */
     public function getPreconfiguredValues()
     {
-        $preconfiguredValues = $this->getData('preconfigured_values');
-        if (!$preconfiguredValues) {
-            $preconfiguredValues = new \Magento\Object();
+        $preConfiguredValues = $this->getData('preconfigured_values');
+        if (!$preConfiguredValues) {
+            $preConfiguredValues = new \Magento\Object();
         }
 
-        return $preconfiguredValues;
+        return $preConfiguredValues;
     }
 
     /**
@@ -2046,8 +1883,8 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      */
     protected function _clearData()
     {
-        foreach ($this->_data as $data){
-            if (is_object($data) && method_exists($data, 'reset')){
+        foreach ($this->_data as $data) {
+            if (is_object($data) && method_exists($data, 'reset')) {
                 $data->reset();
             }
         }

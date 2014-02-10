@@ -31,6 +31,13 @@ class Paypal extends Page
     const MCA = 'paypal';
 
     /**
+     * Link for customer login
+     *
+     * @var string
+     */
+    protected $billingModuleBlock = '#billingModule';
+
+    /**
      * Form for customer login
      *
      * @var string
@@ -43,6 +50,13 @@ class Paypal extends Page
      * @var string
      */
     protected $reviewBlock = '#reviewModule';
+
+    /**
+     * Paypal main panel block
+     *
+     * @var string
+     */
+    protected $panelMainBlock = '#panelMain';
 
     /**
      * Custom constructor
@@ -73,6 +87,30 @@ class Paypal extends Page
     {
         return Factory::getBlockFactory()->getMagentoPaypalReview(
             $this->_browser->find($this->reviewBlock, Locator::SELECTOR_CSS)
+        );
+    }
+
+    /**
+     * Get billing module block
+     *
+     * @return \Magento\Paypal\Test\Block\Billing
+     */
+    public function getBillingBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoPaypalBilling(
+            $this->_browser->find($this->billingModuleBlock, Locator::SELECTOR_CSS)
+        );
+    }
+
+    /**
+     * Get main panel block
+     *
+     * @return \Magento\Paypal\Test\Block\MainPanel
+     */
+    public function getMainPanelBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoPaypalMainPanel(
+            $this->_browser->find($this->panelMainBlock, Locator::SELECTOR_CSS)
         );
     }
 }

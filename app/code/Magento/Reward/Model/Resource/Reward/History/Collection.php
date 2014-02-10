@@ -96,7 +96,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Join reward table and retrieve total balance total with customer_id
      *
-     * @return \Magento\Reward\Model\Resource\Reward\History\Collection
+     * @return $this
      */
     protected function _joinReward()
     {
@@ -130,7 +130,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Setter for $_expiryConfig
      *
      * @param array $config
-     * @return \Magento\Reward\Model\Resource\Reward\History\Collection
+     * @return $this
      */
     public function setExpiryConfig($config)
     {
@@ -145,7 +145,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Join reward table to filter history by customer id
      *
      * @param string $customerId
-     * @return \Magento\Reward\Model\Resource\Reward\History\Collection
+     * @return $this
      */
     public function addCustomerFilter($customerId)
     {
@@ -159,7 +159,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Skip Expired duplicates records (with action = -1)
      *
-     * @return \Magento\Reward\Model\Resource\Reward\History\Collection
+     * @return $this
      */
     public function skipExpiredDuplicates()
     {
@@ -170,8 +170,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Add filter by website id
      *
-     * @param integer|array $websiteId
-     * @return \Magento\Reward\Model\Resource\Reward\History\Collection
+     * @param int|array $websiteId
+     * @return $this
      */
     public function addWebsiteFilter($websiteId)
     {
@@ -184,7 +184,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Join additional customer information, such as email, name etc.
      *
-     * @return \Magento\Reward\Model\Resource\Reward\History\Collection
+     * @return $this
      */
     public function addCustomerInfo()
     {
@@ -246,7 +246,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * CASE ... WHEN ... THEN is used only in admin area to show expiration date for all stores
      *
      * @param int $websiteId
-     * @return \Magento\Reward\Model\Resource\Reward\History\Collection
+     * @return $this
      */
     public function addExpirationDate($websiteId = null)
     {
@@ -281,7 +281,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      *
      * @param int $websiteId Specified Website
      * @param bool $subscribedOnly Whether to load expired soon points only for subscribed customers
-     * @return \Magento\Reward\Model\Resource\Reward\History\Collection
+     * @return $this
      */
     public function loadExpiredSoonPoints($websiteId, $subscribedOnly = true)
     {
@@ -329,7 +329,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Add filter for notification_sent field
      *
      * @param bool $flag
-     * @return \Magento\Reward\Model\Resource\Reward\History\Collection
+     * @return $this
      */
     public function addNotificationSentFlag($flag)
     {
@@ -377,7 +377,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Order by primary key desc
      *
-     * @return \Magento\Reward\Model\Resource\Reward\History\Collection
+     * @return $this
      */
     public function setDefaultOrder()
     {

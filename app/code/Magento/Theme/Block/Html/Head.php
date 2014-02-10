@@ -192,6 +192,7 @@ class Head extends \Magento\View\Element\Template
                 $result .= sprintf($template, $asset->getUrl());
             }
         } catch (\Magento\Exception $e) {
+            $this->_logger->logException($e);
             $result .= sprintf($template, $this->_getNotFoundUrl());
         }
         return $result;
@@ -370,7 +371,8 @@ class Head extends \Magento\View\Element\Template
         $folderName = \Magento\Backend\Model\Config\Backend\Image\Favicon::UPLOAD_DIR;
         $storeConfig = $this->_storeConfig->getConfig('design/head/shortcut_icon');
         $path = $folderName . '/' . $storeConfig;
-        $faviconFile = $this->_storeManager->getStore()->getBaseUrl('media') . $path;
+        $faviconFile = $this->_storeManager->getStore()
+            ->getBaseUrl(\Magento\UrlInterface::URL_TYPE_MEDIA) . $path;
 
         if (!is_null($storeConfig) && $this->_isFile($path)) {
             $url = $faviconFile;
@@ -388,10 +390,10 @@ class Head extends \Magento\View\Element\Template
      */
     protected function _isFile($filename)
     {
-        if ($this->_fileStorageDatabase->checkDbUsage() && !$this->mediaDirectory->isFile($filename)) {
+        if ($this->_fileStorageDatabase->checkDbUsage() && !$this->getMediaDirectory()->isFile($filename)) {
             $this->_fileStorageDatabase->saveFileToFilesystem($filename);
         }
-        return $this->mediaDirectory->isFile($filename);
+        return $this->getMediaDirectory()->isFile($filename);
     }
 
     /**

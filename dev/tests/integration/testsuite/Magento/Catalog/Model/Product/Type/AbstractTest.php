@@ -28,7 +28,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         $eventManager = $this->getMock('Magento\Event\ManagerInterface', array('dispatch'), array(), '', false);
         $coreData = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
         $fileStorageDb = $this->getMock('Magento\Core\Helper\File\Storage\Database', array(), array(), '', false);
-        $filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
+        $filesystem = $this->getMock('Magento\App\Filesystem', array(), array(), '', false);
         $registry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
         $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
         $this->_model = $this->getMockForAbstractClass('Magento\Catalog\Model\Product\Type\AbstractType',
@@ -177,7 +177,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
             ->create('Magento\Catalog\Model\Product');
         $product->load(1); // fixture
         $this->assertEquals(
-            'Please specify the product required option(s).',
+            'Please specify the product\'s required option(s).',
             $this->_model->prepareForCart(new \Magento\Object, $product)
         );
     }

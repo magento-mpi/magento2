@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GoogleShopping\Model\Attribute;
 
 /**
  * Tax attribute model
@@ -15,8 +16,6 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GoogleShopping\Model\Attribute;
-
 class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
 {
     /**
@@ -28,6 +27,9 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      * @var \Magento\Tax\Helper\Data|null
      */
     protected $_taxData = null;
+
+    /** @var \Magento\GoogleCheckout\Helper\Data  */
+    protected $checkoutDataHelper;
 
     /**
      * Config
@@ -42,8 +44,9 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\GoogleShopping\Helper\Data $gsData
      * @param \Magento\GoogleShopping\Helper\Product $gsProduct
-     * @param \Magento\GoogleShopping\Helper\Price $gsPrice
+     * @param \Magento\Catalog\Model\Product\CatalogPrice $catalogPrice
      * @param \Magento\GoogleShopping\Model\Resource\Attribute $resource
+     * @param \Magento\GoogleCheckout\Helper\Data $checkoutDataHelper
      * @param \Magento\GoogleShopping\Model\Config $config
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -55,8 +58,9 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\GoogleShopping\Helper\Data $gsData,
         \Magento\GoogleShopping\Helper\Product $gsProduct,
-        \Magento\GoogleShopping\Helper\Price $gsPrice,
+        \Magento\Catalog\Model\Product\CatalogPrice $catalogPrice,
         \Magento\GoogleShopping\Model\Resource\Attribute $resource,
+        \Magento\GoogleCheckout\Helper\Data $checkoutDataHelper,
         \Magento\GoogleShopping\Model\Config $config,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Data\Collection\Db $resourceCollection = null,
@@ -64,13 +68,14 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
     ) {
         $this->_config = $config;
         $this->_taxData = $taxData;
+        $this->checkoutDataHelper = $checkoutDataHelper;
         parent::__construct(
             $context,
             $registry,
             $productFactory,
             $gsData,
             $gsProduct,
-            $gsPrice,
+            $catalogPrice,
             $resource,
             $resourceCollection,
             $data
@@ -121,7 +126,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      *
      * @param string $state
      * @param string $zip
-     * @return array
+     * @return string[]
      */
     protected function _parseRegions($state, $zip)
     {
@@ -132,14 +137,14 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      * Retrieve array of regions characterized by provided zip code
      *
      * @param string $zip
-     * @return array
+     * @return string[]
      */
     protected function _parseZip($zip)
     {
         if (strpos($zip, '-') == -1) {
             return array($zip);
         } else {
-            return $this->_gsData->zipRangeToZipPattern($zip);
+            return $this->checkoutDataHelper->zipRangeToZipPattern($zip);
         }
     }
 }

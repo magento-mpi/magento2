@@ -36,7 +36,6 @@ class Core_Mage_Store_Website_DeleteTest extends Mage_Selenium_TestCase
      */
     public function deleteWithoutStore()
     {
-        $this->markTestIncomplete('MAGETWO-11690');
         //Preconditions
         $websiteData = $this->loadDataSet('Website', 'generic_website');
         $this->storeHelper()->createStore($websiteData, 'website');

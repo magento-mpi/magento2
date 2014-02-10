@@ -71,7 +71,7 @@ class Config extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
 
         $this->_view->loadLayout();
 
-        $this->_setActiveMenu('Magento_Adminhtml::system_config');
+        $this->_setActiveMenu('Magento_Backend::system_config');
         $this->_view->getLayout()->getBlock('menu')->setAdditionalCacheKeyInfo(array($current));
 
         $this->_addBreadcrumb(
@@ -116,6 +116,6 @@ class Config extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
         }
         $gridBlock->setWebsiteId($website->getId())->setConditionName($conditionName);
         $content = $gridBlock->getCsvFile();
-        return $this->_fileFactory->create($fileName, $content);
+        return $this->_fileFactory->create($fileName, $content, \Magento\App\Filesystem::VAR_DIR);
     }
 }

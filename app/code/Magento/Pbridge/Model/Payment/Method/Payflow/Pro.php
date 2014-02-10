@@ -2,101 +2,73 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Pbridge
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Authoreze.Net dummy payment method model
+ * Payflow Pro implementation for payment method instances
+ * This model was created because right now PayPal Direct and PayPal Express payment methods cannot have same abstract
  */
 namespace Magento\Pbridge\Model\Payment\Method\Payflow;
 
-class Pro extends \Magento\Paypal\Model\Payflowpro
+class Pro extends \Magento\Paypal\Model\Payflow\Pro
 {
-    /**
-     * Credit card form block
-     *
-     * @var string
-     */
-    protected $_formBlock;
-
     /**
      * Payment Bridge Payment Method Instance
      *
      * @var \Magento\Pbridge\Model\Payment\Method\Pbridge
      */
-    protected $_pbridgeMethodInstance = null;
-    protected $_canFetchTransactionInfo = false;
+    protected $_pbridgeMethodInstance;
 
     /**
-     * Pbridge data
+     * Paypal pbridge payment method
      *
-     * @var \Magento\Pbridge\Helper\Data
+     * @var \Magento\Pbridge\Model\Payment\Method\Paypal
      */
-    protected $_pbridgeData;
+    protected $_pbridgePaymentMethod;
 
     /**
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * Payment data
+     *
+     * @var \Magento\Payment\Helper\Data
+     */
+    protected $_paymentData;
+
+    /**
+     * Info factory
+     *
+     * @var \Magento\Paypal\Model\InfoFactory
+     */
+    protected $_infoFactory;
+
+    /**
+     * Construct
+     *
+     * @param \Magento\Paypal\Model\Config\Factory $configFactory
+     * @param \Magento\Paypal\Model\Api\Type\Factory $apiFactory
+     * @param \Magento\Paypal\Model\InfoFactory $infoFactory
      * @param \Magento\Payment\Helper\Data $paymentData
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
-     * @param \Magento\Logger $logger
-     * @param \Magento\Module\ModuleListInterface $moduleList
-     * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param \Magento\Centinel\Model\Service $centinelService
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Paypal\Model\ConfigFactory $configFactory
-     * @param \Magento\Math\Random $mathRandom
-     * @param \Magento\Pbridge\Helper\Data $pbridgeData
-     * @param string $formBlock
-     * @param array $data
-     * 
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Payment\Helper\Data $paymentData,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
-        \Magento\Logger $logger,
-        \Magento\Module\ModuleListInterface $moduleList,
-        \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\Centinel\Model\Service $centinelService,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Paypal\Model\ConfigFactory $configFactory,
-        \Magento\Math\Random $mathRandom,
-        \Magento\Pbridge\Helper\Data $pbridgeData,
-        $formBlock,
-        array $data = array()
+        \Magento\Paypal\Model\Config\Factory $configFactory,
+        \Magento\Paypal\Model\Api\Type\Factory $apiFactory,
+        \Magento\Paypal\Model\InfoFactory $infoFactory,
+        \Magento\Payment\Helper\Data $paymentData
     ) {
-        $this->_pbridgeData = $pbridgeData;
-        $this->_formBlock = $formBlock;
-        parent::__construct(
-            $eventManager,
-            $paymentData,
-            $coreStoreConfig,
-            $logAdapterFactory,
-            $logger,
-            $moduleList,
-            $locale,
-            $centinelService,
-            $storeManager,
-            $configFactory,
-            $mathRandom,
-            $data
-        );
+        $this->_paymentData = $paymentData;
+        parent::__construct($configFactory, $apiFactory, $infoFactory);
     }
 
     /**
-     * Return that current payment method is dummy
+     * Pbridge payment method setter
      *
-     * @return boolean
+     * @param \Magento\Pbridge\Model\Payment\Method\Paypal $pbridgePaymentMethod
      */
-    public function getIsDummy()
+
+    public function setPaymentMethod($pbridgePaymentMethod)
     {
-        return true;
+        $this->_pbridgePaymentMethod = $pbridgePaymentMethod;
     }
 
     /**
@@ -108,183 +80,119 @@ class Pro extends \Magento\Paypal\Model\Payflowpro
     {
         if ($this->_pbridgeMethodInstance === null) {
             $this->_pbridgeMethodInstance = $this->_paymentData->getMethodInstance('pbridge');
-            $this->_pbridgeMethodInstance->setOriginalMethodInstance($this);
+            $this->_pbridgeMethodInstance->setOriginalMethodInstance($this->_pbridgePaymentMethod);
         }
         return $this->_pbridgeMethodInstance;
     }
 
     /**
-     * Retrieve dummy payment method code
-     *
-     * @return string
-     */
-    public function getCode()
-    {
-        return 'pbridge_' . parent::getCode();
-    }
-
-    /**
-     * Retrieve original payment method code
-     *
-     * @return string
-     */
-    public function getOriginalCode()
-    {
-        return parent::getCode();
-    }
-
-    /**
-     * @return string
-     */
-    public function getTitle()
-    {
-        return parent::getTitle();
-    }
-
-    /**
-     * Assign data to info model instance
-     *
-     * @param  mixed $data
-     * @return \Magento\Payment\Model\Info
-     */
-    public function assignData($data)
-    {
-        $this->getPbridgeMethodInstance()->assignData($data);
-        return $this;
-    }
-
-    /**
-     * Retrieve information from payment configuration
-     *
-     * @param string $field
-     * @param null $storeId
-     * @return string|null
-     */
-    public function getConfigData($field, $storeId = null)
-    {
-        if (null === $storeId) {
-            $storeId = $this->getStore();
-        }
-        $path = 'payment/' . $this->getOriginalCode() . '/' . $field;
-        return $this->_coreStoreConfig->getConfig($path, $storeId);
-    }
-
-    /**
-     * Check whether payment method can be used
-     *
-     * @param \Magento\Sales\Model\Quote $quote
-     * @return boolean
-     */
-    public function isAvailable($quote = null)
-    {
-        $storeId = $this->_storeManager->getStore($this->getStore())->getId();
-        $config = $this->_configFactory->create()->setStoreId($storeId);
-
-        return $this->getPbridgeMethodInstance()->isDummyMethodAvailable($quote)
-            && $config->isMethodAvailable($this->getOriginalCode());
-    }
-
-    /**
-     * Retrieve block type for method form generation
-     *
-     * @return string
-     */
-    public function getFormBlockType()
-    {
-        return $this->_formBlock;
-    }
-
-    /**
-     * Validate payment method information object
-     *
-     * @return \Magento\Pbridge\Model\Payment\Method\Payflow\Pro
-     */
-    public function validate()
-    {
-        $this->getPbridgeMethodInstance()->validate();
-        return $this;
-    }
-
-    /**
-     * Authorization method being executed via Payment Bridge
+     * Attempt to capture payment
+     * Will return false if the payment is not supposed to be captured
      *
      * @param \Magento\Object $payment
      * @param float $amount
-     * @return \Magento\Pbridge\Model\Payment\Method\Payflow\Pro
-     */
-    public function authorize(\Magento\Object $payment, $amount)
-    {
-        $response = $this->getPbridgeMethodInstance()->authorize($payment, $amount);
-        $payment->addData((array)$response);
-        $payment->setIsTransactionClosed(0);
-        return $this;
-    }
-
-    /**
-     * Capturing method being executed via Payment Bridge
-     *
-     * @param \Magento\Object $payment
-     * @param float $amount
-     * @return \Magento\Pbridge\Model\Payment\Method\Payflow\Pro
+     * @return false|null
      */
     public function capture(\Magento\Object $payment, $amount)
     {
-        $payment->setShouldCloseParentTransaction(!$this->_getCaptureAmount($amount));
-        $payment->setFirstCaptureFlag(!$this->getInfoInstance()->hasAmountPaid());
-        $response = $this->getPbridgeMethodInstance()->capture($payment, $amount);
-        if (!$response) {
-            $response = $this->getPbridgeMethodInstance()->authorize($payment, $amount);
+        $result = $this->getPbridgeMethodInstance()->capture($payment, $amount);
+        if (false !== $result) {
+            $result = new \Magento\Object($result);
+            $this->_importCaptureResultToPayment($result, $payment);
         }
-        $payment->addData((array)$response);
-        $payment->setIsTransactionClosed(0);
-        return $this;
+        return $result;
     }
 
+
     /**
-     * Refunding method being executed via Payment Bridge
+     * Refund a capture transaction
      *
      * @param \Magento\Object $payment
      * @param float $amount
-     * @return \Magento\Pbridge\Model\Payment\Method\Payflow\Pro
+     * @return \Magento\Object|array|null
      */
     public function refund(\Magento\Object $payment, $amount)
     {
-        $response = $this->getPbridgeMethodInstance()->refund($payment, $amount);
-        $payment->addData((array)$response);
-        $payment->setShouldCloseParentTransaction(!$payment->getCreditmemo()->getInvoice()->canRefund());
-        return $this;
+        $result = $this->getPbridgeMethodInstance()->refund($payment, $amount);
+
+        if ($result) {
+            $result = new \Magento\Object($result);
+            $canRefundMore = $payment->getOrder()->canCreditmemo();
+            $this->_importRefundResultToPayment($result, $payment, $canRefundMore);
+        }
+
+        return $result;
     }
 
     /**
-     * Voiding method being executed via Payment Bridge
+     * Refund a capture transaction
      *
      * @param \Magento\Object $payment
-     * @return \Magento\Pbridge\Model\Payment\Method\Payflow\Pro
+     * @return array|null
      */
     public function void(\Magento\Object $payment)
     {
-        $response = $this->getPbridgeMethodInstance()->void($payment);
-        $payment->addData((array)$response);
-        return $this;
-    }
-    /**
-     * Disable magento centinel validation for pbridge payment methods
-     */
-    public function getIsCentinelValidationEnabled()
-    {
-        return false;
+        $result = $this->getPbridgeMethodInstance()->void($payment);
+        $this->_infoFactory->create()->importToPayment(new \Magento\Object($result), $payment);
+        return $result;
     }
 
     /**
-     * Store id setter, also set storeId to helper
+     * Cancel payment
      *
-     * @param int $store
-     * @return $this
+     * @param \Magento\Object $payment
      */
-    public function setStore($store)
+    public function cancel(\Magento\Object $payment)
     {
-        $this->setData('store', $store);
-        $this->_pbridgeData->setStoreId(is_object($store) ? $store->getId() : $store);
-        return $this;
+        if (!$payment->getOrder()->getInvoiceCollection()->count()) {
+            $result = $this->getPbridgeMethodInstance()->void($payment);
+            $this->_infoFactory->create()->importToPayment(new \Magento\Object($result), $payment);
+        }
+    }
+
+
+    /**
+     * Parent transaction id getter
+     *
+     * @param \Magento\Object $payment
+     * @return string
+     */
+    protected function _getParentTransactionId(\Magento\Object $payment)
+    {
+        return $payment->getParentTransactionId();
+    }
+
+
+    /**
+     * Import capture results to payment
+     *
+     * @param \Magento\Paypal\Model\Api\Nvp
+     * @param \Magento\Sales\Model\Order\Payment
+     */
+    protected function _importCaptureResultToPayment($api, $payment)
+    {
+        $payment->setTransactionId($api->getTransactionId())->setIsTransactionClosed(false);
+        $payment->setPreparedMessage(
+            __('Payflow PNREF: #%1.', $api->getData(self::TRANSPORT_PAYFLOW_TXN_ID))
+        );
+        $this->_infoFactory->create()->importToPayment($api, $payment);
+    }
+
+    /**
+     * Import refund results to payment
+     *
+     * @param \Magento\Paypal\Model\Api\Nvp $api
+     * @param \Magento\Sales\Model\Order\Payment $payment
+     * @param bool $canRefundMore
+     */
+    protected function _importRefundResultToPayment($api, $payment, $canRefundMore)
+    {
+        $payment->setTransactionId($api->getTransactionId())
+                ->setIsTransactionClosed(1) // refund initiated by merchant
+                ->setShouldCloseParentTransaction(!$canRefundMore)
+                ->setTransactionAdditionalInfo(self::TRANSPORT_PAYFLOW_TXN_ID, $api->getPayflowTrxid());
+
+        $payment->setPreparedMessage(__('Payflow PNREF: #%1.', $api->getData(self::TRANSPORT_PAYFLOW_TXN_ID)));
+        $this->_infoFactory->create()->importToPayment($api, $payment);
     }
 }

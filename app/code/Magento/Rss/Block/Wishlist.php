@@ -78,6 +78,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
      * @param \Magento\Rss\Model\RssFactory $rssFactory
      * @param \Magento\Catalog\Helper\Output $outputHelper
      * @param array $data
+     * @param array $priceBlockTypes
      * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -100,7 +101,8 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Rss\Model\RssFactory $rssFactory,
         \Magento\Catalog\Helper\Output $outputHelper,
-        array $data = array()
+        array $data = array(),
+        array $priceBlockTypes = array()
     ) {
         $this->_outputHelper = $outputHelper;
         $this->_coreData = $coreData;
@@ -121,7 +123,8 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
             $imageHelper,
             $customerSession,
             $productFactory,
-            $data
+            $data,
+            $priceBlockTypes
         );
     }
 

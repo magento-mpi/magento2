@@ -100,13 +100,6 @@ class Entity extends \Magento\Core\Model\AbstractModel
     protected $_store;
 
     /**
-     * Application instance
-     *
-     * @var \Magento\Core\Model\App
-     */
-    protected $_app;
-
-    /**
      * Resource instance
      *
      * @var null
@@ -116,7 +109,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
     /**
      * Translate instance
      *
-     * @var \Magento\Core\Model\Translate
+     * @var \Magento\TranslateInterface
      */
     protected $_translate;
 
@@ -196,9 +189,8 @@ class Entity extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
-     * @param \Magento\Core\Model\App $application
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Translate $translate
+     * @param \Magento\TranslateInterface $translate
      * @param \Magento\Email\Model\TemplateFactory $templateFactory
      * @param \Magento\GiftRegistry\Model\Type $type
      * @param \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig
@@ -224,9 +216,8 @@ class Entity extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
-        \Magento\Core\Model\App $application,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Translate $translate,
+        \Magento\TranslateInterface $translate,
         \Magento\Email\Model\TemplateFactory $templateFactory,
         \Magento\GiftRegistry\Model\Type $type,
         \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig,
@@ -249,7 +240,6 @@ class Entity extends \Magento\Core\Model\AbstractModel
         array $data = array()
     ) {
         $this->_giftRegistryData = $giftRegistryData;
-        $this->_app = $application;
         $this->_store = $storeManager->getStore();
         $this->_translate = $translate;
         $this->_templateFactory = $templateFactory;
@@ -421,7 +411,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
         if (is_null($storeId)) {
             $storeId = $this->getStoreId();
         }
-        $store = $this->_app->getStore($storeId);
+        $store = $this->storeManager->getStore($storeId);
         $mail = $this->_templateFactory->create();
 
         if (is_array($recipient)) {

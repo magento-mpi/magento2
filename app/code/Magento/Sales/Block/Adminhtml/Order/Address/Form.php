@@ -2,21 +2,15 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Sales
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Adminhtml sales order edit address block
- *
- * @category    Magento
- * @package     Magento_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Sales\Block\Adminhtml\Order\Address;
 
+/**
+ * Adminhtml sales order address block
+ */
 class Form
     extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
 {
@@ -36,13 +30,12 @@ class Form
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Json\EncoderInterface $jsonEncoder
-     * @param \Magento\Customer\Model\AddressFactory $addressFactory
-     * @param \Magento\Customer\Model\FormFactory $customerFormFactory
-     * @param \Magento\Backend\Helper\Addresses $adminhtmlAddresses
+     * @param \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory
      * @param \Magento\Customer\Helper\Data $customerHelper
+     * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
+     * @param \Magento\Customer\Helper\Address $addressHelper
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
-     * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -52,10 +45,10 @@ class Form
         \Magento\Data\FormFactory $formFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Json\EncoderInterface $jsonEncoder,
-        \Magento\Customer\Model\AddressFactory $addressFactory,
-        \Magento\Customer\Model\FormFactory $customerFormFactory,
-        \Magento\Backend\Helper\Addresses $adminhtmlAddresses,
+        \Magento\Customer\Model\Metadata\FormFactory $customerFormFactory,
         \Magento\Customer\Helper\Data $customerHelper,
+        \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
+        \Magento\Customer\Helper\Address $addressHelper,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
@@ -67,10 +60,10 @@ class Form
             $formFactory,
             $coreData,
             $jsonEncoder,
-            $addressFactory,
             $customerFormFactory,
-            $adminhtmlAddresses,
             $customerHelper,
+            $addressService,
+            $addressHelper,
             $data
         );
     }
@@ -95,7 +88,9 @@ class Form
         parent::_prepareForm();
         $this->_form->setId('edit_form');
         $this->_form->setMethod('post');
-        $this->_form->setAction($this->getUrl('sales/*/addressSave', array('address_id'=>$this->_getAddress()->getId())));
+        $this->_form->setAction(
+            $this->getUrl('sales/*/addressSave', array('address_id' => $this->_getAddress()->getId()))
+        );
         $this->_form->setUseContainer(true);
         return $this;
     }

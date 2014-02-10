@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reminder\Model;
 
 /**
  * Reminder Rule data model
@@ -38,14 +39,14 @@
  * @package     Magento_Reminder
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reminder\Model;
-
 class Rule extends \Magento\Rule\Model\AbstractModel
 {
     const XML_PATH_EMAIL_TEMPLATE  = 'magento_reminder_email_template';
 
     /**
      * Store template data defined per store view, will be used in email templates as variables
+     *
+     * @var array
      */
     protected $_storeData = array();
 
@@ -67,12 +68,12 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     protected $collectionFactory;
 
     /**
-     * @var \Magento\Email\Model\Template
+     * @var \Magento\Email\Model\TemplateFactory
      */
     protected $emailTemplateFactory;
 
     /**
-     * @var \Magento\Core\Model\Translate
+     * @var \Magento\TranslateInterface
      */
     protected $translate;
 
@@ -108,8 +109,8 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Reminder\Model\Rule\Condition\Combine\RootFactory $rootFactory
      * @param \Magento\Rule\Model\Action\CollectionFactory $collectionFactory
-     * @param \Magento\Email\Model\Template $emailTemplateFactory
-     * @param \Magento\Core\Model\Translate $translate
+     * @param \Magento\Email\Model\TemplateFactory $emailTemplateFactory
+     * @param \Magento\TranslateInterface $translate
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\SalesRule\Model\CouponFactory $couponFactory
@@ -127,8 +128,8 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Reminder\Model\Rule\Condition\Combine\RootFactory $rootFactory,
         \Magento\Rule\Model\Action\CollectionFactory $collectionFactory,
-        \Magento\Email\Model\Template $emailTemplateFactory,
-        \Magento\Core\Model\Translate $translate,
+        \Magento\Email\Model\TemplateFactory $emailTemplateFactory,
+        \Magento\TranslateInterface $translate,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\SalesRule\Model\CouponFactory $couponFactory,
@@ -166,7 +167,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Set template, label and description data per store
      *
-     * @return \Magento\Reminder\Model\Rule
+     * @return $this
      */
     protected function _afterLoad()
     {
@@ -188,7 +189,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Set aggregated conditions SQL and reset sales rule Id if applicable
      *
-     * @return \Magento\Reminder\Model\Rule
+     * @return $this
      */
     protected function _beforeSave()
     {
@@ -227,7 +228,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Send reminder emails
      *
-     * @return \Magento\Reminder\Model\Rule
+     * @return $this
      */
     public function sendReminderEmails()
     {
@@ -294,14 +295,13 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * Match customers for current rule and assign coupons
      *
-     * @return \Magento\Reminder\Model\Observer
+     * @return $this
      */
     protected function _matchCustomers()
     {
         $threshold   = $this->_reminderData->getSendFailureThreshold();
         $currentDate = $this->dateFactory->create()->date('Y-m-d');
         $rules       = $this->getCollection()->addDateFilter($currentDate)->addIsActiveFilter(1);
-
         if ($this->getRuleId()) {
             $rules->addRuleFilter($this->getRuleId());
         }
@@ -330,7 +330,6 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      *
      * @param int $ruleId
      * @param int $storeId
-     *
      * @return array|false
      */
     public function getStoreData($ruleId, $storeId)
@@ -354,7 +353,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * Detaches Sales Rule from all Email Remainder Rules that uses it
      *
      * @param int $salesRuleId
-     * @return \Magento\Reminder\Model\Rule
+     * @return $this
      */
     public function detachSalesRule($salesRuleId)
     {
@@ -364,6 +363,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
 
     /**
      * Retrieve active from date.
+     *
      * Implemented for backwards compatibility with old property called "active_from"
      *
      * @return string
@@ -375,6 +375,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
 
     /**
      * Retrieve active to date.
+     *
      * Implemented for backwards compatibility with old property called "active_to"
      *
      * @return string

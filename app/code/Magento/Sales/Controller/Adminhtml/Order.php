@@ -41,24 +41,25 @@ class Order extends \Magento\Backend\App\Action
     protected $_fileFactory;
 
     /**
-     * @var \Magento\Core\Model\Translate
+     * @var \Magento\Translate\InlineInterface
      */
-    protected $_translator;
+    protected $_translateInline;
 
     /**
-     * @param \Magento\Backend\App\Action\Context $context
+     * @param Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     * @param \Magento\Translate\InlineInterface $translateInline
      */
     public function __construct(
         Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\App\Response\Http\FileFactory $fileFactory,
-        \Magento\Core\Model\Translate $translator
+        \Magento\Translate\InlineInterface $translateInline
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_fileFactory = $fileFactory;
-        $this->_translator = $translator;
+        $this->_translateInline = $translateInline;
         parent::__construct($context);
     }
 
@@ -125,7 +126,18 @@ class Order extends \Magento\Backend\App\Action
 
         $order = $this->_initOrder();
         if ($order) {
-            $this->_initAction();
+            try {
+                $this->_initAction();
+            } catch (\Magento\App\Action\Exception $e) {
+                $this->messageManager->addError($e->getMessage());
+                $this->_redirect('sales/order/index');
+                return;
+            } catch(\Exception $e) {
+                $this->_objectManager->get('Magento\Logger')->logException($e);
+                $this->messageManager->addError(__('Exception occurred during order load'));
+                $this->_redirect('sales/order/index');
+                return;
+            }
             $this->_title->add(sprintf("#%s", $order->getRealOrderId()));
             $this->_view->renderLayout();
         }
@@ -353,8 +365,8 @@ class Order extends \Magento\Backend\App\Action
         $this->_initOrder();
         $html = $this->_view->getLayout()
             ->createBlock('Magento\Sales\Block\Adminhtml\Order\View\Tab\History')->toHtml();
-        if ($this->_translator->isAllowed()) {
-            $this->_translator->processResponseBody($html);
+        if ($this->_translateInline->isAllowed()) {
+            $this->_translateInline->processResponseBody($html);
         }
         $this->getResponse()->setBody($html);
     }
@@ -501,6 +513,7 @@ class Order extends \Magento\Backend\App\Action
                 return $this->_fileFactory->create(
                     'invoice' . $this->_objectManager->get('Magento\Core\Model\Date')->date('Y-m-d_H-i-s') . '.pdf',
                     $pdf->render(),
+                    \Magento\App\Filesystem::VAR_DIR,
                     'application/pdf'
                 );
             } else {
@@ -539,6 +552,7 @@ class Order extends \Magento\Backend\App\Action
                 return $this->_fileFactory->create(
                     'packingslip' . $this->_objectManager->get('Magento\Core\Model\Date')->date('Y-m-d_H-i-s') . '.pdf',
                     $pdf->render(),
+                    \Magento\App\Filesystem::VAR_DIR,
                     'application/pdf'
                 );
             } else {
@@ -577,6 +591,7 @@ class Order extends \Magento\Backend\App\Action
                 return $this->_fileFactory->create(
                     'creditmemo' . $this->_objectManager->get('Magento\Core\Model\Date')->date('Y-m-d_H-i-s') . '.pdf',
                     $pdf->render(),
+                    \Magento\App\Filesystem::VAR_DIR,
                     'application/pdf'
                 );
             } else {
@@ -641,6 +656,7 @@ class Order extends \Magento\Backend\App\Action
                 return $this->_fileFactory->create(
                     'docs' . $this->_objectManager->get('Magento\Core\Model\Date')->date('Y-m-d_H-i-s') . '.pdf',
                     $pdf->render(),
+                    \Magento\App\Filesystem::VAR_DIR,
                     'application/pdf'
                 );
             } else {
@@ -729,7 +745,7 @@ class Order extends \Magento\Backend\App\Action
         $fileName = 'orders.csv';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock  */
         $exportBlock = $this->_view->getLayout()->getChildBlock('sales.order.grid', 'grid.export');
-        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile());
+        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile(), \Magento\App\Filesystem::VAR_DIR);
     }
 
     /**
@@ -741,7 +757,11 @@ class Order extends \Magento\Backend\App\Action
         $fileName = 'orders.xml';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock  */
         $exportBlock = $this->_view->getLayout()->getChildBlock('sales.order.grid', 'grid.export');
-        return $this->_fileFactory->create($fileName, $exportBlock->getExcelFile($fileName));
+        return $this->_fileFactory->create(
+            $fileName,
+            $exportBlock->getExcelFile($fileName),
+            \Magento\App\Filesystem::VAR_DIR
+        );
     }
 
     /**

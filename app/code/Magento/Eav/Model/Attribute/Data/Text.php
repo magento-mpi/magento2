@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Eav\Model\Attribute\Data;
 
+use Magento\App\RequestInterface;
 
 /**
  * EAV Entity Attribute Text Data Model
@@ -16,8 +18,6 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Eav\Model\Attribute\Data;
-
 class Text extends \Magento\Eav\Model\Attribute\Data\AbstractData
 {
     /**
@@ -42,10 +42,10 @@ class Text extends \Magento\Eav\Model\Attribute\Data\AbstractData
     /**
      * Extract data from request and return value
      *
-     * @param \Magento\App\RequestInterface $request
+     * @param RequestInterface $request
      * @return array|string
      */
-    public function extractValue(\Magento\App\RequestInterface $request)
+    public function extractValue(RequestInterface $request)
     {
         $value = $this->_getRequestValue($request);
         return $this->_applyInputFilter($value);
@@ -56,7 +56,7 @@ class Text extends \Magento\Eav\Model\Attribute\Data\AbstractData
      * Return true or array of errors
      *
      * @param array|string $value
-     * @return boolean|array
+     * @return bool|array
      */
     public function validateValue($value)
     {
@@ -105,7 +105,7 @@ class Text extends \Magento\Eav\Model\Attribute\Data\AbstractData
      * Export attribute value to entity model
      *
      * @param array|string $value
-     * @return \Magento\Eav\Model\Attribute\Data\Text
+     * @return $this
      */
     public function compactValue($value)
     {
@@ -119,7 +119,7 @@ class Text extends \Magento\Eav\Model\Attribute\Data\AbstractData
      * Restore attribute value from SESSION to entity model
      *
      * @param array|string $value
-     * @return \Magento\Eav\Model\Attribute\Data\Text
+     * @return $this
      */
     public function restoreValue($value)
     {

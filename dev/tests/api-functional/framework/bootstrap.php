@@ -35,12 +35,12 @@ $bootstrap = new \Magento\TestFramework\Bootstrap(
     new \Magento\TestFramework\Bootstrap\Environment(),
     new \Magento\TestFramework\Bootstrap\WebapiDocBlock("{$integrationTestsDir}/testsuite"),
     new \Magento\TestFramework\Bootstrap\Profiler(new \Magento\Profiler\Driver\Standard()),
-    new \Magento\Shell(),
+    new \Magento\Shell(new \Magento\OSInfo()),
     $testsTmpDir
 );
 $bootstrap->runBootstrap();
 \Magento\TestFramework\Helper\Bootstrap::setInstance(new \Magento\TestFramework\Helper\Bootstrap($bootstrap));
-\Magento\TestFramework\Utility\Files::init(new \Magento\TestFramework\Utility\Files($magentoBaseDir));
+\Magento\TestFramework\Utility\Files::setInstance(new \Magento\TestFramework\Utility\Files($magentoBaseDir));
 
 /** Magento installation */
 if (defined('TESTS_MAGENTO_INSTALLATION') && TESTS_MAGENTO_INSTALLATION === 'enabled') {

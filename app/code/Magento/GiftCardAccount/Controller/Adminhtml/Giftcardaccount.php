@@ -66,7 +66,7 @@ class Giftcardaccount extends \Magento\Backend\App\Action
         if ($this->_showCodePoolStatusMessage) {
             $usage = $this->_objectManager->create('Magento\GiftCardAccount\Model\Pool')->getPoolUsageInfo();
 
-            $url = $this->_objectManager->get('Magento\Backend\Model\Url')->getUrl('adminhtml/*/generate');
+            $url = $this->_objectManager->get('Magento\Backend\Model\UrlInterface')->getUrl('adminhtml/*/generate');
             $notice = __('Code Pool used: <b>%1%%</b> (free <b>%2</b> of <b>%3</b> total). Generate new code pool <a href="%4">here</a>.', $usage->getPercent(), $usage->getFree(), $usage->getTotal(), $url);
             if ($usage->getPercent() == 100) {
                 $this->messageManager->addError($notice);
@@ -269,7 +269,8 @@ class Giftcardaccount extends \Magento\Backend\App\Action
         } catch (\Exception $e) {
             $this->messageManager->addException($e, __('We were unable to generate a new code pool.'));
         }
-        $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl($this->getUrl('*/*/')));
+
+        $this->_redirect($this->getUrl('*/*/'));
     }
 
     /**
@@ -329,7 +330,11 @@ class Giftcardaccount extends \Magento\Backend\App\Action
         $fileName = 'giftcardaccounts.xml';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
         $exportBlock = $this->_view->getLayout()->getChildBlock('gift.card.account.grid', 'grid.export');
-        return $this->_fileFactory->create($fileName, $exportBlock->getExcelFile($fileName));
+        return $this->_fileFactory->create(
+            $fileName,
+            $exportBlock->getExcelFile($fileName),
+            \Magento\App\Filesystem::VAR_DIR
+        );
     }
 
     /**
@@ -341,7 +346,11 @@ class Giftcardaccount extends \Magento\Backend\App\Action
         $fileName = 'giftcardaccounts.csv';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
         $exportBlock = $this->_view->getLayout()->getChildBlock('gift.card.account.grid', 'grid.export');
-        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile($fileName));
+        return $this->_fileFactory->create(
+            $fileName,
+            $exportBlock->getCsvFile($fileName),
+            \Magento\App\Filesystem::VAR_DIR
+        );
     }
 
     /**

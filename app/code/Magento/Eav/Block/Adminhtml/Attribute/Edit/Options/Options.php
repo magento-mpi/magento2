@@ -17,13 +17,15 @@
  */
 namespace Magento\Eav\Block\Adminhtml\Attribute\Edit\Options;
 
+use Magento\Core\Model\Resource\Store\Collection;
+
 class Options extends \Magento\Backend\Block\Template
 {
     /** @var \Magento\Core\Model\Registry */
     protected $_registry;
 
     /** @var \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory */
-    protected $_attrOptCollFactory;
+    protected $_attrOptionCollectionFactory;
 
     /**
      * @inheritdoc
@@ -38,20 +40,20 @@ class Options extends \Magento\Backend\Block\Template
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptCollFactory
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory
      * @param \Magento\Validator\UniversalFactory $universalFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptCollFactory,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory,
         \Magento\Validator\UniversalFactory $universalFactory,
         array $data = array()
     ) {
         parent::__construct($context, $data);
         $this->_registry = $registry;
-        $this->_attrOptCollFactory = $attrOptCollFactory;
+        $this->_attrOptionCollectionFactory = $attrOptionCollectionFactory;
         $this->_universalFactory = $universalFactory;
     }
 
@@ -71,7 +73,7 @@ class Options extends \Magento\Backend\Block\Template
     /**
      * Retrieve stores collection with default store
      *
-     * @return array
+     * @return Collection
      */
     public function getStores()
     {
@@ -149,7 +151,7 @@ class Options extends \Magento\Backend\Block\Template
                 ->getAllOptions();
             return $options;
         } else {
-            return $this->_attrOptCollFactory->create()
+            return $this->_attrOptionCollectionFactory->create()
                 ->setAttributeFilter($attribute->getId())
                 ->setPositionOrder('asc', true)
                 ->load();
@@ -224,7 +226,7 @@ class Options extends \Magento\Backend\Block\Template
     /**
      * Retrieve attribute option values for given store id
      *
-     * @param integer $storeId
+     * @param int $storeId
      * @return array
      */
     public function getStoreOptionValues($storeId)
@@ -232,7 +234,7 @@ class Options extends \Magento\Backend\Block\Template
         $values = $this->getData('store_option_values_'.$storeId);
         if (is_null($values)) {
             $values = array();
-            $valuesCollection = $this->_attrOptCollFactory->create()
+            $valuesCollection = $this->_attrOptionCollectionFactory->create()
                 ->setAttributeFilter($this->getAttributeObject()->getId())
                 ->setStoreFilter($storeId, false)
                 ->load();

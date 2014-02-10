@@ -42,8 +42,7 @@ class Log
     }
 
     /**
-     * Clean events by old visitors
-     * after plugin for clean method
+     * Clean events by old visitors after plugin for clean method
      *
      * @see Global Log Clean Settings
      *

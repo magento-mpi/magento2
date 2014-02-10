@@ -169,7 +169,7 @@ class Checkout
     protected $_storeManager;
 
     /**
-     * @var \Magento\Core\Model\Url
+     * @var \Magento\UrlInterface
      */
     protected $_coreUrl;
 
@@ -220,7 +220,7 @@ class Checkout
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Paypal\Model\Info $paypalInfo
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Url $coreUrl
+     * @param \Magento\UrlInterface $coreUrl
      * @param \Magento\Paypal\Model\CartFactory $cartFactory
      * @param \Magento\Core\Model\Log\AdapterFactory $logFactory
      * @param \Magento\Checkout\Model\Type\OnepageFactory $onepageFactory
@@ -241,7 +241,7 @@ class Checkout
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Paypal\Model\Info $paypalInfo,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Url $coreUrl,
+        \Magento\UrlInterface $coreUrl,
         \Magento\Paypal\Model\CartFactory $cartFactory,
         \Magento\Core\Model\Log\AdapterFactory $logFactory,
         \Magento\Checkout\Model\Type\OnepageFactory $onepageFactory,
@@ -435,13 +435,14 @@ class Checkout
         }
 
         // add line items
-        $parameters = array('params' => array($this->_quote));
-        $paypalCart = $this->_cartFactory->create($parameters);
-        $this->_api->setPaypalCart($paypalCart)
+        /** @var $cart \Magento\Payment\Model\Cart */
+        $cart = $this->_cartFactory->create(array('salesModel' => $this->_quote));
+        $this->_api->setPaypalCart($cart)
             ->setIsLineItemsEnabled($this->_config->lineItemsEnabled);
 
         // add shipping options if needed and line items are available
-        if ($this->_config->lineItemsEnabled && $this->_config->transferShippingOptions && $paypalCart->getItems()) {
+        $cartItems = $cart->getAllItems();
+        if ($this->_config->lineItemsEnabled && $this->_config->transferShippingOptions && !empty($cartItems)) {
             if (!$this->_quote->getIsVirtual() && !$this->_quote->hasNominalItems()) {
                 $options = $this->_prepareShippingOptions($address, true);
                 if ($options) {
@@ -460,7 +461,7 @@ class Checkout
             foreach ($profiles as $profile) {
                 $profile->setMethodCode(\Magento\Paypal\Model\Config::METHOD_WPP_EXPRESS);
                 if (!$profile->isValid()) {
-                    throw new \Magento\Core\Exception($profile->getValidationErrors(true, true));
+                    throw new \Magento\Core\Exception($profile->getValidationErrors());
                 }
             }
             $this->_api->addRecurringPaymentProfiles($profiles);

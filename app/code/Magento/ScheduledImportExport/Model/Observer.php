@@ -24,7 +24,7 @@ class Observer
     /**
      * Cron tab expression path
      */
-    const CRON_STRING_PATH = 'crontab/jobs/magento_scheduled_import_export_log_clean/schedule/cron_expr';
+    const CRON_STRING_PATH = 'crontab/default/jobs/magento_scheduled_import_export_log_clean/schedule/cron_expr';
 
     /**
      * Configuration path of log status
@@ -89,7 +89,7 @@ class Observer
      * @param \Magento\Email\Model\Template\Mailer $templateMailer
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager,
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
      */
     public function __construct(
         \Magento\ScheduledImportExport\Model\Scheduled\OperationFactory $operationFactory,
@@ -97,14 +97,14 @@ class Observer
         \Magento\Email\Model\Template\Mailer $templateMailer,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Filesystem $filesystem
+        \Magento\App\Filesystem $filesystem
     ) {
         $this->_operationFactory = $operationFactory;
         $this->_emailInfoFactory = $emailInfoFactory;
         $this->_templateMailer = $templateMailer;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_storeManager = $storeManager;
-        $this->_logDirectory = $filesystem->getDirectoryWrite(\Magento\Filesystem::LOG);
+        $this->_logDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::LOG_DIR);
     }
 
     /**

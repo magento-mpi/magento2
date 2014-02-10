@@ -27,7 +27,7 @@ class Minsaleqty extends \Magento\Core\Model\Config\Value
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\App\ConfigInterface $config
      * @param \Magento\CatalogInventory\Helper\Minsaleqty $catalogInventoryMinsaleqty
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -37,7 +37,7 @@ class Minsaleqty extends \Magento\Core\Model\Config\Value
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Config $config,
+        \Magento\App\ConfigInterface $config,
         \Magento\CatalogInventory\Helper\Minsaleqty $catalogInventoryMinsaleqty,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
@@ -49,6 +49,8 @@ class Minsaleqty extends \Magento\Core\Model\Config\Value
 
     /**
      * Process data after load
+     *
+     * @return void
      */
     protected function _afterLoad()
     {
@@ -59,6 +61,8 @@ class Minsaleqty extends \Magento\Core\Model\Config\Value
 
     /**
      * Prepare data before save
+     *
+     * @return void
      */
     protected function _beforeSave()
     {

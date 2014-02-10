@@ -18,8 +18,8 @@ paypal_developer_home:
                     navigation_menu:
                         xpath: //div[@class='topnav']
                         buttons:
-                            login_with_paypal: //a[contains(@class, 'ppAccess-login')]
-                            logout: //a[text()='Log out']
+                            login_with_paypal: //a[normalize-space(text())='Log In']
+                            logout: //a[normalize-space(text())='Log out']
                 #PayPal Login popup
                 -
                     login_form:
@@ -65,8 +65,10 @@ paypal_developer_sandbox_accounts:
                             account_line: //tr[normalize-space(td/div)='%accountEmail%']
                 -
                     account_details_popup:
-                        xpath: //div[div/h3='Account details']
+                        xpath: //div[div/h1='Account details']
                         links:
+                            upgrade_to_pro: //a[normalize-space(text())='Upgrade to Pro']
+                            profile_tab: //a[@href='#tab-profile']
                             api_credentials_tab: //a[@href='#tab-api']
                             funding_tab: //a[@href='#tab-funding']
                         pageelements:
@@ -75,8 +77,10 @@ paypal_developer_sandbox_accounts:
                             api_password: "//div[label[normalize-space(text())='Password:']]//div[contains(@class, 'controls')]/label[not(@id)]"
                             api_signature: "//div[label[normalize-space(text())='Signature:']]//div[contains(@class, 'controls')]/label"
                             active_tab: //li[@class='active']/a[text()='%tabTitle%']
+                            business_pro_account: "//div[normalize-space(label)='Account type:']//div[@class='controls'][normalize-space(label)='Business-Pro']"
                         buttons:
                             close_popup_cross: //button[@class='close']
+                            enable_pro_account: //*[@id='enableProForm']//input[@value='Enable']
                 -
                     delete_account_popup:
                         xpath: //div[@class='modal' and contains(., 'Delete accounts')]
@@ -93,7 +97,7 @@ paypal_developer_create_account:
             fieldsets:
                 -
                     create_test_account_form:
-                        xpath: //div[h1='Create test account']
+                        xpath: //form[@id='createAccountForm']
                         dropdowns:
                             country: //select[@name='country']
                             add_credit_card: //select[@id='ccType']

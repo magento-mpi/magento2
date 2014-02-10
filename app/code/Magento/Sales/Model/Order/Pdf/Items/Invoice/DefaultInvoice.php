@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Sales\Model\Order\Pdf\Items\Invoice;
+
 /**
  * Sales Order Invoice Pdf default items renderer
  */
-namespace Magento\Sales\Model\Order\Pdf\Items\Invoice;
-
 class DefaultInvoice extends \Magento\Sales\Model\Order\Pdf\Items\AbstractItems
 {
     /**
@@ -26,7 +26,8 @@ class DefaultInvoice extends \Magento\Sales\Model\Order\Pdf\Items\AbstractItems
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Filter\FilterManager $filterManager
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -36,14 +37,24 @@ class DefaultInvoice extends \Magento\Sales\Model\Order\Pdf\Items\AbstractItems
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
-        \Magento\Filesystem $filesystem,
+        \Magento\App\Filesystem $filesystem,
+        \Magento\Filter\FilterManager $filterManager,
         \Magento\Stdlib\String $string,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->string = $string;
-        parent::__construct($context, $registry, $taxData, $filesystem, $resource, $resourceCollection, $data);
+        parent::__construct(
+            $context,
+            $registry,
+            $taxData,
+            $filesystem,
+            $filterManager,
+            $resource,
+            $resourceCollection,
+            $data
+        );
     }
 
     /**
@@ -82,7 +93,7 @@ class DefaultInvoice extends \Magento\Sales\Model\Order\Pdf\Items\AbstractItems
         $prices = $this->getItemPricesForDisplay();
         $feedPrice = 395;
         $feedSubtotal = $feedPrice + 170;
-        foreach ($prices as $priceData){
+        foreach ($prices as $priceData) {
             if (isset($priceData['label'])) {
                 // draw Price label
                 $lines[$i][] = array(
@@ -129,18 +140,18 @@ class DefaultInvoice extends \Magento\Sales\Model\Order\Pdf\Items\AbstractItems
             foreach ($options as $option) {
                 // draw options label
                 $lines[][] = array(
-                    'text' => $this->string->split(strip_tags($option['label']), 40, true, true),
+                    'text' => $this->string->split($this->filterManager->stripTags($option['label']), 40, true, true),
                     'font' => 'italic',
                     'feed' => 35
                 );
 
                 if ($option['value']) {
                     if (isset($option['print_value'])) {
-                        $_printValue = $option['print_value'];
+                        $printValue = $option['print_value'];
                     } else {
-                        $_printValue = strip_tags($option['value']);
+                        $printValue = $this->filterManager->stripTags($option['value']);
                     }
-                    $values = explode(', ', $_printValue);
+                    $values = explode(', ', $printValue);
                     foreach ($values as $value) {
                         $lines[][] = array(
                             'text' => $this->string->split($value, 30, true, true),

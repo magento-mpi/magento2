@@ -14,7 +14,7 @@
  * @see \Magento\CatalogEvent\Block\Event\Lister
  */
 ?>
-<div id="<?php echo $this->getHtmlId(); ?>" data-mage-init="{carousel: { pageSize: <?php echo $this->getPageSize(); ?>,scrollSize: <?php echo $this->getScrollSize() ?> }}"
+<div id="<?php echo $this->getHtmlId(); ?>" data-mage-init='{"carousel":{"pageSize": <?php echo $this->getPageSize(); ?>,scrollSize: <?php echo $this->getScrollSize() ?> }}'
      class="events-slider"<?php if ($this->hasWidth()): ?> style="width:<?php echo (int)$this->getWidth()?>px !important;" <?php endif;?>>
     <div data-slide-button="slide-button" class="slide-button backward">&laquo;</div>
     <div data-slider-panel="slider-panel"
@@ -45,7 +45,7 @@
 
                                 <?php break;
                             case 'open': ?>
-                                <div class="event-ticker" id="<?php echo $this->getHtmlId(); ?>-event-ticker-<?php echo $_event->getId()?>" data-mage-init="{ticker: {secondsToClose: <?php echo $this->getSecondsToClose($_event); ?>}}">
+                                <div class="event-ticker" id="<?php echo $this->getHtmlId(); ?>-event-ticker-<?php echo $_event->getId()?>" data-mage-init='{"ticker":{"secondsToClose": <?php echo $this->getSecondsToClose($_event); ?>}}'>
                                     <div class="container">
                                         <span data-container="days" class="days">00</span><span data-container="delimiter" class="delimiter">:</span><span data-container="hour" class="hour">00</span><span data-container="delimiter" class="delimiter">:</span><span data-container="minute" class="minute">00</span><span data-container="delimiter" class="delimiter">:</span><span data-container="second" class="second">00</span>
                                     </div>

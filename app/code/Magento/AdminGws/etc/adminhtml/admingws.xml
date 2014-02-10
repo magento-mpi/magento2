@@ -50,7 +50,8 @@
         <callback class="magento_reward_model_resource_reward_history_collection" method="limitRewardHistoryWebsites" />
         <callback class="magento_reward_model_resource_reward_collection" method="limitRewardBalanceWebsites" />
         <callback class="magento_reward_model_resource_reward_rate_collection" method="limitRewardBalanceWebsites" />
-        <callback class="magento_customerBalance_model_resource_balance_history_collection" method="limitStoreCredits" />
+        <callback class="magento_customerBalance_model_resource_balance_history_collection" method="limitStoreCreditsHistory" />
+        <callback class="magento_customerBalance_model_resource_balance_collection" method="limitStoreCredits" />
         <callback class="magento_giftRegistry_model_resource_entity_collection" method="limitGiftRegistryEntityWebsites" />
         <callback class="magento_review_model_resource_review_product_collection" method="limitProductReviews" />
         <callback class="magento_rma_model_resource_rma_grid_collection" method="addStoreAttributeToFilter" />
@@ -186,7 +187,6 @@
         <callback class="adminhtml__sales_order_shipment__print" method="validateSalesOrderShipmentViewAction" />
         <callback class="adminhtml__sales_order_shipment__" method="validateSalesOrderShipmentCreateAction" />
         <callback class="adminhtml__sales_order_shipment__removeTrack" method="validateSalesOrderShipmentTrackAction" />
-        <callback class="adminhtml__sales_order_shipment__viewTrack" method="validateSalesOrderShipmentTrackAction" />
         <callback class="adminhtml__checkout_agreement__edit" method="validateCheckoutAgreementEditAction" />
         <callback class="adminhtml__permissions_user__edit" method="validateAdminUserAction" />
         <callback class="adminhtml__permissions_user__save" method="validateAdminUserAction" />
@@ -210,9 +210,6 @@
         <callback class="adminhtml__process__massReindex" method="blockIndexAction" />
         <callback class="adminhtml__process__reindexProcess" method="blockIndexAction" />
         <callback class="adminhtml__process__reindexAllAction" method="blockIndexAction" />
-        <callback class="adminhtml__targetrule__new" method="blockIndexAction" />
-        <callback class="adminhtml__targetrule__save" method="blockIndexAction" />
-        <callback class="adminhtml__targetrule__delete" method="blockIndexAction" />
         <callback class="adminhtml__cms_hierarchy__save" method="blockIndexAction" />
         <callback class="adminhtml__customer_group__save" method="blockCustomerGroupSave" />
         <callback class="adminhtml__tax_rule__save" method="blockTaxChange" />
@@ -239,7 +236,9 @@
         <callback class="magento_adminhtml_block_customer" method="widgetCustomerGridContainer" />
         <callback class="magento_adminhtml_block_system_store_store" method="widgetManageStores" />
         <callback class="magento_catalog_block_adminhtml_product" method="widgetProductGridContainer" />
-        <callback class="magento_catalogEvent_block_adminhtml_event" method="restrictCatalogEventEditForm" />
+        <callback class="magento_catalogEvent_block_adminhtml_event" method="widgetCatalogEventGridContainer" />
+        <callback class="magento_catalogEvent_block_adminhtml_event_edit" method="removeCatalogEventControlButtons" />
+        <callback class="magento_catalogEvent_block_adminhtml_event_edit_form" method="restrictCatalogEventEditForm" />
         <callback class="magento_catalog_block_adminhtml_product_attribute" method="removeCatalogProductAttributeAddButton" />
         <callback class="magento_catalog_block_adminhtml_product_attribute_edit" method="removeCatalogProductAttributeButtons" />
         <callback class="magento_catalog_block_adminhtml_product_attribute_edit_tab_main" method="disableCatalogProductAttributeEditTabMainFields" />
@@ -258,11 +257,14 @@
         <callback class="magento_giftWrapping_block_adminhtml_giftwrapping_edit" method="removeGiftWrappingEditButtons" />
         <callback class="magento_versionsCms_block_adminhtml_cms_page_revision_edit" method="removeRevisionEditButtons" />
         <callback class="magento_versionsCms_block_adminhtml_cms_page_preview_buttons" method="removePreviewPublishButton" />
-        <callback class="magento_giftCardAccount_block_adminhtml_giftcardaccount" method="removeGiftCardAccountControlButtons" />
+        <callback class="magento_giftCardAccount_block_adminhtml_giftcardaccount" method="removeGiftCardAccountAddButton" />
+        <callback class="magento_giftCardAccount_block_adminhtml_giftcardaccount_edit" method="removeGiftCardAccountControlButtons" />
         <callback class="magento_currencySymbol_block_adminhtml_system_currency" method="removeManageCurrencyRatesButtons" />
         <callback class="magento_adminhtml_block_system_email_template" method="removeEmailTemplateGridButtons" />
         <callback class="magento_adminhtml_block_system_email_template_edit" method="removeTransactionalEmailsEditButtons" />
-        <callback class="magento_targetRule_block_adminhtml_product" method="removeTargetRuleEditButtons" />
+        <callback class="magento_targetRule_block_adminhtml_product" method="readonlyTargetRuleProductAttribute" />
+        <callback class="magento_targetRule_block_adminhtml_product_targetrule" method="removeTargetRuleGridButtons" />
+        <callback class="magento_targetRule_block_adminhtml_product_targetrule_edit" method="removeTargetRuleEditButtons" />
         <callback class="magento_catalogPermissions_block_adminhtml_catalog_category_tab_permissions" method="validateCatalogPermissions" />
         <callback class="magento_widget_block_adminhtml_widget_instance_edit" method="removeWidgetInstanceButtons" />
         <callback class="magento_banner_block_adminhtml_banner_edit" method="validateBannerPermissions" />

@@ -10,8 +10,8 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="customer_account"/>
     <referenceContainer name="my.account.wrapper">
-        <block class="Magento\Customer\Block\Address\Edit" name="customer_address_edit" template="address/edit.phtml">
-            <block class="Magento\CustomerCustomAttributes\Block\Form" template="form/userattributes.phtml" name="customer_form_user_attributes">
+        <block class="Magento\Customer\Block\Address\Edit" name="customer_address_edit" template="address/edit.phtml" cacheable="false">
+            <block class="Magento\CustomerCustomAttributes\Block\Form" template="form/userattributes.phtml" name="customer_form_address_user_attributes" cacheable="false">
                 <action method="setFormCode">
                     <argument name="code" xsi:type="string">customer_address_edit</argument>
                 </action>

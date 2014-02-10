@@ -8,13 +8,15 @@
  * @license     {license_link}
  */
 
+namespace Magento\Reminder\Model\Rule\Condition;
+
+use Magento\DB\Select;
+use Magento\Core\Exception;
+
 /**
  * Customer cart conditions combine
  */
-namespace Magento\Reminder\Model\Rule\Condition;
-
-class Cart
-    extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
+class Cart extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
 {
     /**
      * @var \Magento\Core\Model\Date
@@ -24,9 +26,9 @@ class Cart
     /**
      * Core resource helper
      *
-     * @var \Magento\Reminder\Model\Resource\HelperFactory
+     * @var \Magento\Core\Model\Resource\Helper
      */
-    protected $_resHelperFactory;
+    protected $_resourceHelper;
 
     /**
      * Cart Combine Factory
@@ -39,7 +41,7 @@ class Cart
      * @param \Magento\Rule\Model\Condition\Context $context
      * @param \Magento\Reminder\Model\Resource\Rule $ruleResource
      * @param \Magento\Core\Model\Date $dateModel
-     * @param \Magento\Reminder\Model\Resource\HelperFactory $resHelperFactory
+     * @param \Magento\Core\Model\Resource\Helper $resourceHelper
      * @param \Magento\Reminder\Model\Rule\Condition\Cart\CombineFactory $combineFactory
      * @param array $data
      */
@@ -47,7 +49,7 @@ class Cart
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\Reminder\Model\Resource\Rule $ruleResource,
         \Magento\Core\Model\Date $dateModel,
-        \Magento\Reminder\Model\Resource\HelperFactory $resHelperFactory,
+        \Magento\Core\Model\Resource\Helper $resourceHelper,
         \Magento\Reminder\Model\Rule\Condition\Cart\CombineFactory $combineFactory,
         array $data = array()
     ) {
@@ -55,12 +57,12 @@ class Cart
         $this->_dateModel = $dateModel;
         $this->setType('Magento\Reminder\Model\Rule\Condition\Cart');
         $this->setValue(null);
-        $this->_resHelperFactory = $resHelperFactory;
+        $this->_resourceHelper = $resourceHelper;
         $this->_combineFactory = $combineFactory;
     }
 
     /**
-     * Get list of available subconditions
+     * Get list of available sub conditions
      *
      * @return array
      */
@@ -82,7 +84,7 @@ class Cart
     /**
      * Override parent method
      *
-     * @return \Magento\Reminder\Model\Rule\Condition\Cart
+     * @return $this
      */
     public function loadValueOptions()
     {
@@ -93,7 +95,7 @@ class Cart
     /**
      * Prepare operator select options
      *
-     * @return \Magento\Reminder\Model\Rule\Condition\Cart
+     * @return $this
      */
     public function loadOperatorOptions()
     {
@@ -131,10 +133,10 @@ class Cart
     /**
      * Get condition SQL select
      *
-     * @param   int|Zend_Db_Expr $customer
-     * @param   int|Zend_Db_Expr $website
-     * @return  \Magento\DB\Select
-     * @throws \Magento\Core\Exception
+     * @param null|int|Zend_Db_Expr $customer
+     * @param int|Zend_Db_Expr $website
+     * @return Select
+     * @throws Exception
      */
     protected function _prepareConditionsSql($customer, $website)
     {
@@ -155,24 +157,14 @@ class Cart
 
         $currentTime = $this->_dateModel->gmtDate('Y-m-d');
 
-        /** @var $helper \Magento\Core\Model\Resource\Helper */
-        $helper = $this->_resHelperFactory->create();
-        $daysDiffSql = $helper->getDateDiff(
-            'quote.updated_at', $select->getAdapter()->formatDate($currentTime)
-        );
-        if ($operator == '=') {
-            $select->where($daysDiffSql . ' < ?', $conditionValue);
-            $select->where($daysDiffSql . ' > ?', $conditionValue - 1);
-        } else {
-            if ($operator == '>=' && $conditionValue == 0) {
-                $currentTime = $this->_dateModel->gmtDate();
-                $daysDiffSql = $helper->getDateDiff(
-                    'quote.updated_at', $select->getAdapter()->formatDate($currentTime)
-                );
-            }
-            $select->where($daysDiffSql . " {$operator} ?", $conditionValue);
+        $daysDiffSql = $this->_resourceHelper->getDateDiff('quote.updated_at', $select->getAdapter()
+            ->formatDate($currentTime));
+        if ($operator == '>=' && $conditionValue == 0) {
+            $currentTime = $this->_dateModel->gmtDate();
+            $daysDiffSql = $this->_resourceHelper->getDateDiff('quote.updated_at', $select->getAdapter()
+                ->formatDate($currentTime));
         }
-
+        $select->where($daysDiffSql . " {$operator} ?", $conditionValue);
         $select->where('quote.is_active = 1');
         $select->where('quote.items_count > 0');
         $select->where($this->_createCustomerFilter($customer, 'quote.customer_id'));
@@ -183,9 +175,9 @@ class Cart
     /**
      * Get base SQL select
      *
-     * @param   int|Zend_Db_Expr $customer
-     * @param   int|Zend_Db_Expr $website
-     * @return  \Magento\DB\Select
+     * @param null|int|Zend_Db_Expr $customer
+     * @param int|Zend_Db_Expr $website
+     * @return Select
      */
     public function getConditionsSql($customer, $website)
     {

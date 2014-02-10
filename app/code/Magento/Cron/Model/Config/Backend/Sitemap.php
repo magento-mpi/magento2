@@ -22,12 +22,12 @@ class Sitemap extends \Magento\Core\Model\Config\Value
     /**
      * Cron string path
      */
-    const CRON_STRING_PATH = 'crontab/jobs/sitemap_generate/schedule/cron_expr';
+    const CRON_STRING_PATH = 'crontab/default/jobs/sitemap_generate/schedule/cron_expr';
 
     /**
      * Cron mode path
      */
-    const CRON_MODEL_PATH  = 'crontab/jobs/sitemap_generate/run/model';
+    const CRON_MODEL_PATH  = 'crontab/default/jobs/sitemap_generate/run/model';
 
     /**
      * @var \Magento\Core\Model\Config\ValueFactory
@@ -43,7 +43,7 @@ class Sitemap extends \Magento\Core\Model\Config\Value
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Core\Model\Config\ValueFactory $configValueFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -54,7 +54,7 @@ class Sitemap extends \Magento\Core\Model\Config\Value
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Config $config,
+        \Magento\App\ConfigInterface $config,
         \Magento\Core\Model\Config\ValueFactory $configValueFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,

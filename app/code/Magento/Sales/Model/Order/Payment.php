@@ -181,7 +181,7 @@ class Payment extends \Magento\Payment\Model\Info
     /**
      * @var \Magento\Sales\Model\Resource\Order\Payment\Transaction\CollectionFactory
      */
-    protected $_transactionCollFactory;
+    protected $_transactionCollectionFactory;
 
     /**
      * @var \Magento\Sales\Model\Billing\AgreementFactory
@@ -200,7 +200,7 @@ class Payment extends \Magento\Payment\Model\Info
      * @param \Magento\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Sales\Model\Service\OrderFactory $serviceOrderFactory
      * @param \Magento\Sales\Model\Order\Payment\TransactionFactory $transactionFactory
-     * @param \Magento\Sales\Model\Resource\Order\Payment\Transaction\CollectionFactory $transactionCollFactory
+     * @param \Magento\Sales\Model\Resource\Order\Payment\Transaction\CollectionFactory $transactionCollectionFactory
      * @param \Magento\Sales\Model\Billing\AgreementFactory $agreementFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -214,7 +214,7 @@ class Payment extends \Magento\Payment\Model\Info
         \Magento\Encryption\EncryptorInterface $encryptor,
         \Magento\Sales\Model\Service\OrderFactory $serviceOrderFactory,
         \Magento\Sales\Model\Order\Payment\TransactionFactory $transactionFactory,
-        \Magento\Sales\Model\Resource\Order\Payment\Transaction\CollectionFactory $transactionCollFactory,
+        \Magento\Sales\Model\Resource\Order\Payment\Transaction\CollectionFactory $transactionCollectionFactory,
         \Magento\Sales\Model\Billing\AgreementFactory $agreementFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
@@ -223,7 +223,7 @@ class Payment extends \Magento\Payment\Model\Info
     ) {
         $this->_serviceOrderFactory = $serviceOrderFactory;
         $this->_transactionFactory = $transactionFactory;
-        $this->_transactionCollFactory = $transactionCollFactory;
+        $this->_transactionCollectionFactory = $transactionCollectionFactory;
         $this->_agreementFactory = $agreementFactory;
         $this->_storeManager = $storeManager;
         parent::__construct($context, $registry, $paymentData, $encryptor, $resource, $resourceCollection, $data);
@@ -800,8 +800,8 @@ class Payment extends \Magento\Payment\Model\Info
         $creditmemo->setPaymentRefundDisallowed(true)
             ->setAutomaticallyCreated(true)
             ->register()
-            ->addComment(__('The credit memo has been created automatically.'))
-            ->save();
+            ->addComment(__('The credit memo has been created automatically.'));
+        $creditmemo->save();
 
         $this->_updateTotals(array(
             'amount_refunded' => $creditmemo->getGrandTotal(),
@@ -1402,7 +1402,7 @@ class Payment extends \Magento\Payment\Model\Info
     {
         if (!$txnId) {
             if ($txnType && $this->getId()) {
-                $collection = $this->_transactionCollFactory->create()
+                $collection = $this->_transactionCollectionFactory->create()
                     ->setOrderFilter($this->getOrder())
                     ->addPaymentIdFilter($this->getId())
                     ->addTxnTypeFilter($txnType)

@@ -54,8 +54,10 @@ class Config extends AbstractRepository
         $this->_data['paypal_express'] = $this->_getPaypalExpress();
         $this->_data['paypal_direct'] = $this->_getPaypalDirect();
         $this->_data['paypal_disabled_all_methods'] = $this->_getPaypalDisabled();
+        $this->_data['paypal_payflow_link'] = $this->_getPaypalPayFlowLink();
         $this->_data['paypal_payflow_pro'] = $this->_getPaypalPayFlowPro();
         $this->_data['paypal_advanced'] = $this->_getPaypalAdvanced();
+        $this->_data['paypal_standard'] = $this->_getPaypalStandard();
         $this->_data['paypal_payflow_pro_3d_secure'] = $this->_getPayPalPayflowPro3dSecure();
         $this->_data['paypal_payments_pro_3d_secure'] = $this->_getPayPalPaymentsPro3dSecure();
         $this->_data['authorizenet_disable'] = $this->_getAuthorizeNetDisable();
@@ -762,14 +764,14 @@ class Config extends AbstractRepository
                                     )
                                 )
                             ),
-                            'verisign' => array(
+                            'payflowpro' => array(
                                 'fields' => array(
                                     'active' => array(
                                         'value' => self::NO_VALUE
                                     )
                                 )
                             ),
-                            'paypaluk_express' => array(
+                            'payflow_express' => array(
                                 'fields' => array(
                                     'active' => array(
                                         'value' => self::NO_VALUE
@@ -890,7 +892,7 @@ class Config extends AbstractRepository
                         'groups' => array(
                             'paypal_group_all_in_one' => array( //PayPal All-in-One Payment Solutions
                                 'groups' => array(
-                                    'payflow_advanced_us' => array( //Payments Pro (Includes Express Checkout)
+                                    'payflow_advanced_us' => array( //PayPal Payments Advanced (Includes Express Checkout)
                                         'groups' => array(
                                             'required_settings' => array( //Required PayPal Settings
                                                 'groups' => array(
@@ -911,18 +913,18 @@ class Config extends AbstractRepository
                                                             'pwd' => array( //Password
                                                                 'value' => 'Temp1234'
                                                             ),
-                                                            'sandbox_flag' => array( //Sandbox Mode
-                                                                'value' => 1 //Yes
+                                                            'sandbox_flag' => array( //Test Mode
+                                                                'value' => self::YES_VALUE
                                                             ),
-                                                            'use_proxy' => array( //API Uses Proxy
-                                                                'value' => 0 //No
+                                                            'use_proxy' => array( //Use Proxy
+                                                                'value' => self::NO_VALUE
                                                             )
                                                         )
                                                     )
                                                 ),
                                                 'fields' => array(
                                                     'enable_payflow_advanced' => array( //Enable this Solution
-                                                        'value' => 1 //Yes
+                                                        'value' => self::YES_VALUE
                                                     )
                                                 )
                                             ),
@@ -940,7 +942,7 @@ class Config extends AbstractRepository
                             'paypal_express' => array(
                                 'fields' => array(
                                     'active' => array(
-                                        'value' => 1
+                                        'value' => self::YES_VALUE
                                     )
                                 )
                             )
@@ -950,6 +952,67 @@ class Config extends AbstractRepository
             )
         );
     }
+
+    protected function _getPaypalStandard()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'payment' => array(
+                        'section' => 'payment',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'paypal_group_all_in_one' => array( //PayPal All-in-One Payment Solutions
+                                'groups' => array(
+                                    'wps_us' => array( //Payments Standard
+                                        'groups' => array(
+                                            'wps_required_settings' => array( //Required PayPal Settings
+                                                'fields' => array(
+                                                    'business_account' => array( //Email Associated with PayPal Merchant Account
+                                                        'value' => 'rlus_1349181941_biz@ebay.com'
+                                                    ),
+                                                    'enable_wps' => array( //Enable this Solution
+                                                        'value' => 1 //Yes
+                                                    )
+                                                )
+                                            ),
+                                            'settings_payments_standart' => array( //Basic Settings - PayPal Payments Standard
+                                                'fields' => array(
+                                                    'payment_action' => array( //Payment Action
+                                                        'value' => 'Sale' //Sale
+                                                    )
+                                                ),
+                                                'groups' => array(
+                                                    'settings_payments_standart_advanced' => array(
+                                                        'fields' => array(
+                                                            'allowspecific' => array(  // Payment Applicable From
+                                                                'value' => 'All Allowed Countries'
+                                                            ),
+                                                            'sandbox_flag' => array( //Sandbox Mode
+                                                                'value' => 1 //Yes
+                                                            ),
+                                                            'line_items_enabled' => array( //Transfer Cart Line Items
+                                                                'value' => 1 //Yes
+                                                            ),
+                                                            'verify_peer' => array( //Enable SSL verification
+                                                                'value' => 0 //No
+                                                            )
+                                                        )
+                                                    )
+                                                )
+                                            )
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+    }
+
 
     protected function _getPaypalExpress()
     {
@@ -1027,6 +1090,87 @@ class Config extends AbstractRepository
     }
 
     /**
+     * Get Configuration Settings for PayPal Payflow Link Payment Method
+     *
+     * @return array
+     */
+    protected function _getPaypalPayFlowLink()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'payment' => array(
+                        'section' => 'payment',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'paypal_payment_gateways' => array( // PayPal Payment Gateways
+                                'groups' => array(
+                                    'payflow_link_us' => array( // Payflow Link(Includes Express Checkout)
+                                        'groups' => array(
+                                            'payflow_link_required' => array( // Required Paypal Settings
+                                                'groups' => array(
+                                                    'payflow_link_payflow_link' => array( // Payflow Link and Express Checkout
+                                                        'fields' => array(
+                                                            'business_account' => array( // Email Associated with PayPal Merchant Account
+                                                                'value' => 'rlus_1349181941_biz@ebay.com'
+                                                            ),
+                                                            'partner' => array( // Partner
+                                                                'value' => 'PayPal'
+                                                            ),
+                                                            'user' => array( // API User
+                                                                'value' => 'rlpayflowlinknew'
+                                                            ),
+                                                            'vendor' => array( // Vendor
+                                                                'value' => 'rlpayflowlinknew'
+                                                            ),
+                                                            'pwd' => array( // API Password
+                                                                'value' => 'Temp1234'
+                                                            ),
+                                                            'sandbox_flag' => array( // Test Mode
+                                                                'value' => self::YES_VALUE
+                                                            ),
+                                                            'use_proxy' => array( // Use Proxy
+                                                                'value' => self::NO_VALUE
+                                                            )
+                                                        )
+                                                    )
+                                                ),
+                                                'fields' => array(
+                                                    'enable_payflow_link' => array( // Enable this solution
+                                                        'value' => self::YES_VALUE
+                                                    ),
+                                                    'enable_express_checkout' => array( // Enable this solution
+                                                        'value' => self::YES_VALUE
+                                                    )
+                                                )
+                                            ),
+                                            'settings_payflow_link' => array( // Basic Settings - PayPal Payflow Link
+                                                'fields' => array(
+                                                    'payment_action' => array( // Payment Action
+                                                        'value' => 'Authorization'
+                                                    )
+                                                )
+                                            ),
+                                            'settings_payflow_link_express_checkout' => array( // Basic Settings - PayPal Express Checkout
+                                                'fields' => array(
+                                                    'payment_action' => array( // Payment Action
+                                                        'value' => 'Authorization'
+                                                    )
+                                                )
+                                            )
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+    }
+
+    /**
      * Get Configuration Settings for PayPal Payflow Pro Payment Method
      *
      * @return array
@@ -1043,7 +1187,7 @@ class Config extends AbstractRepository
                         'groups' => array(
                             'paypal_payment_gateways' => array( // PayPal Payment Gateways
                                 'groups' => array(
-                                    'paypal_verisign_with_express_checkout_us' => array( // Payflow Pro (Includes Express Checkout)
+                                    'paypal_payflowpro_with_express_checkout_us' => array( // Payflow Pro (Includes Express Checkout)
                                         'groups' => array(
                                             'paypal_payflow_required' => array( // Required Paypal Settings
                                                 'groups' => array(
@@ -1099,7 +1243,7 @@ class Config extends AbstractRepository
                                     )
                                 )
                             ),
-                            'paypaluk_express' => array(
+                            'payflow_express' => array(
                                 'fields' => array(
                                     'active' => array(
                                         'value' => self::YES_VALUE
@@ -1128,7 +1272,7 @@ class Config extends AbstractRepository
                         'groups' => array(
                             'paypal_payment_gateways' => array(
                                 'groups' => array(
-                                    'paypal_verisign_with_express_checkout_us' => array(
+                                    'paypal_payflowpro_with_express_checkout_us' => array(
                                         'groups' => array(
                                             'settings_paypal_payflow' => array(
                                                 'groups' => array(
@@ -1304,7 +1448,7 @@ class Config extends AbstractRepository
                         'groups' => array(
                             'paypal_payment_gateways' => array(
                                 'groups' => array(
-                                    'paypal_verisign_with_express_checkout_us' => array(
+                                    'paypal_payflowpro_with_express_checkout_us' => array(
                                         'groups' => array(
                                             'paypal_payflow_required' => array(
                                                 'groups' => array(

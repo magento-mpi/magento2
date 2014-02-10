@@ -1,0 +1,26 @@
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+#grouped_grid .col-name {
+    width: 25%;
+}
+
+#grouped_grid .col-sku {
+    width: 10%;
+}
+
+#grouped_grid .col-qty {
+    width: 7%;
+}
+
+.ui-dialog.grouped .massaction {
+    display: none;
+}
+
+.ui-dialog.grouped .col-entity_id {
+    width: 2%;
+}

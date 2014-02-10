@@ -5,40 +5,36 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Json;
 
-use Magento\TranslateInterface;
-
-/**
- * @package Magento\Json
- */
 class Encoder implements EncoderInterface
 {
     /**
      * Translator
      *
-     * @var TranslateInterface
+     * @var \Magento\Translate\InlineInterface
      */
-    protected $translator;
+    protected $translateInline;
 
     /**
-     * @param TranslateInterface $translator
+     * @param \Magento\Translate\InlineInterface $translateInline
      */
-    public function __construct(TranslateInterface $translator)
+    public function __construct(\Magento\Translate\InlineInterface $translateInline)
     {
-        $this->translator = $translator;
+        $this->translateInline = $translateInline;
     }
 
     /**
+     * Encode the mixed $data into the JSON format.
+     *
      * @param mixed $data
      * @return string
      */
     public function encode($data)
     {
         $json = \Zend_Json::encode($data);
-        if ($this->translator->isAllowed()) {
-            $this->translator->processResponseBody($json, true);
+        if ($this->translateInline->isAllowed()) {
+            $this->translateInline->processResponseBody($json, true);
         }
 
         return $json;

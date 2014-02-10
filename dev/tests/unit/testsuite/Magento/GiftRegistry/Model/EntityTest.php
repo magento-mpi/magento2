@@ -44,9 +44,8 @@ class EntityTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $app = $this->getMock('Magento\Core\Model\App', array(), array(), '', false);
         $resource = $this->getMock('Magento\GiftRegistry\Model\Resource\Entity', array(), array(), '', false);
-        $translate = $this->getMock('Magento\Core\Model\Translate', array(), array(), '', false);
+        $translate = $this->getMock('Magento\TranslateInterface', array(), array(), '', false);
 
         $factory = $this->getMock('Magento\Email\Model\TemplateFactory', array('create'), array(), '', false);
         $this->_store = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
@@ -64,10 +63,6 @@ class EntityTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-
-        $app->expects($this->any())
-            ->method('getStore')
-            ->will($this->returnValue($this->_store));
 
         $this->_store->expects($this->any())
             ->method('getId')
@@ -120,7 +115,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnArgument(0));
         $mathRandom = $this->getMock('Magento\Math\Random', array(), array(), '', false, false);
         $this->_model = new \Magento\GiftRegistry\Model\Entity(
-            $context, $coreRegistry, $giftRegistryData, $app, $this->_storeManagerMock, $translate, $factory,
+            $context, $coreRegistry, $giftRegistryData, $this->_storeManagerMock, $translate, $factory,
             $type, $attributeConfig, $item, $inventoryStockItem, $session,
             $quoteFactory, $customerFactory, $personFactory, $itemFactory, $addressFactory, $productFactory,
             $dateFactory, $loggingEventFactory, $request, $escaper, $mathRandom, $resource, null, array()

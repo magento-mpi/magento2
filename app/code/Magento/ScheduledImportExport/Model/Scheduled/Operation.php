@@ -54,7 +54,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
     /**
      * Cron config template
      */
-    const CRON_STRING_PATH = 'crontab/jobs/scheduled_operation_%d/%s';
+    const CRON_STRING_PATH = 'crontab/default/jobs/scheduled_operation_%d/%s';
 
     /**
      * Cron callback config
@@ -118,14 +118,14 @@ class Operation extends \Magento\Core\Model\AbstractModel
     /**
      * Filesystem instance
      *
-     * @var \Magento\Filesystem
+     * @var \Magento\App\Filesystem
      */
     protected $filesystem;
 
     /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Filesystem $filesystem,
+     * @param \Magento\App\Filesystem $filesystem,
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\GenericFactory $schedOperFactory
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\DataFactory $operationFactory
@@ -142,7 +142,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
     public function __construct(
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Filesystem $filesystem,
+        \Magento\App\Filesystem $filesystem,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\ScheduledImportExport\Model\Scheduled\Operation\GenericFactory $schedOperFactory,
         \Magento\ScheduledImportExport\Model\Scheduled\Operation\DataFactory $operationFactory,
@@ -428,7 +428,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
             $operation->addLogComment($e->getMessage());
         }
 
-        $logDirectory = $this->filesystem->getDirectoryWrite(\Magento\Filesystem::LOG);
+        $logDirectory = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::LOG_DIR);
         $filePath = $this->getHistoryFilePath();
 
         if ($logDirectory->isExist($logDirectory->getRelativePath($filePath))) {
@@ -473,8 +473,8 @@ class Operation extends \Magento\Core\Model\AbstractModel
         $extension = pathinfo($fileInfo['file_name'], PATHINFO_EXTENSION);
         $filePath  = $fileInfo['file_name'];
 
-        $varDirectory = $this->filesystem->getDirectoryRead(\Magento\Filesystem::VAR_DIR);
-        $tmpDirectory = $this->filesystem->getDirectoryWrite(\Magento\Filesystem::SYS_TMP);
+        $varDirectory = $this->filesystem->getDirectoryRead(\Magento\App\Filesystem::VAR_DIR);
+        $tmpDirectory = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::SYS_TMP_DIR);
         $tmpFile = uniqid(time(), true) . '.' . $extension;
         $tmpFilePath = $tmpDirectory->getAbsolutePath($tmpFile);
 
@@ -507,7 +507,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
         $fileInfo = $this->getFileInfo();
         $fileName = $operation->getScheduledFileName() . '.' . $fileInfo['file_format'];
         try {
-            $varDirectory = $this->filesystem->getDirectoryWrite(\Magento\Filesystem::VAR_DIR);
+            $varDirectory = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
             $varDirectory->writeFile($fileInfo['file_path'] . '/' . $fileName, $fileContent);
         } catch (\Magento\Filesystem\FilesystemException $e) {
             throw new \Magento\Core\Exception(__(
@@ -576,7 +576,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
      */
     protected function _saveOperationHistory($source)
     {
-        $logDirectory = $this->filesystem->getDirectoryWrite(\Magento\Filesystem::LOG);
+        $logDirectory = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::LOG_DIR);
         $filePath = $logDirectory->getRelativePath($this->getHistoryFilePath());
 
         try {
@@ -595,7 +595,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
      */
     public function getHistoryFilePath()
     {
-        $logDirectory = $this->filesystem->getDirectoryWrite(\Magento\Filesystem::LOG);
+        $logDirectory = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::LOG_DIR);
         $dirPath = self::LOG_DIRECTORY . date('Y/m/d') . '/' . self::FILE_HISTORY_DIRECTORY;
         $logDirectory->create($dirPath);
 

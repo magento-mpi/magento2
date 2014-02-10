@@ -17,6 +17,8 @@
  */
 namespace Magento\Reports\Controller\Adminhtml;
 
+use Magento\App\ResponseInterface;
+
 class Index extends \Magento\Backend\App\Action
 {
     /**
@@ -36,6 +38,11 @@ class Index extends \Magento\Backend\App\Action
         parent::__construct($context);
     }
 
+    /**
+     * Add reports to breadcrumb
+     *
+     * @return $this
+     */
     public function _initAction()
     {
         $this->_view->loadLayout();
@@ -43,7 +50,11 @@ class Index extends \Magento\Backend\App\Action
         return $this;
     }
 
-
+    /**
+     * Search terms report action
+     *
+     * @return void
+     */
     public function searchAction()
     {
         $this->_title->add(__('Search Terms Report'));
@@ -58,24 +69,33 @@ class Index extends \Magento\Backend\App\Action
 
     /**
      * Export search report grid to CSV format
+     *
+     * @return ResponseInterface
      */
     public function exportSearchCsvAction()
     {
         $this->_view->loadLayout(false);
         $content = $this->_view->getLayout()->getChildBlock('adminhtml.report.search.grid', 'grid.export');
-        return $this->_fileFactory->create('search.csv', $content->getCsvFile());
+        return $this->_fileFactory->create('search.csv', $content->getCsvFile(), \Magento\App\Filesystem::VAR_DIR);
     }
 
     /**
      * Export search report to Excel XML format
+     *
+     * @return ResponseInterface
      */
     public function exportSearchExcelAction()
     {
         $this->_view->loadLayout(false);
         $content = $this->_view->getLayout()->getChildBlock('adminhtml.report.search.grid', 'grid.export');
-        return $this->_fileFactory->create('search.xml', $content->getExcelFile());
+        return $this->_fileFactory->create('search.xml', $content->getExcelFile(), \Magento\App\Filesystem::VAR_DIR);
     }
 
+    /**
+     * Determine if action is allowed for reports module
+     *
+     * @return bool
+     */
     protected function _isAllowed()
     {
         switch ($this->getRequest()->getActionName()) {

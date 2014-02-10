@@ -65,7 +65,7 @@ class AbstractShipment extends \Magento\Backend\App\Action
     public function viewAction()
     {
         if ($shipmentId = $this->getRequest()->getParam('shipment_id')) {
-            $this->_forward('view', 'order_shipment', null, array('come_from'=>'shipment'));
+            $this->_forward('view', 'order_shipment', 'admin', array('come_from'=>'shipment'));
         } else {
             $this->_forward('noroute');
         }
@@ -83,26 +83,33 @@ class AbstractShipment extends \Magento\Backend\App\Action
                 $pdf = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Shipment')->getPdf($shipments);
             } else {
                 $pages = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Shipment')->getPdf($shipments);
-                $pdf->pages = array_merge ($pdf->pages, $pages->pages);
+                $pdf->pages = array_merge($pdf->pages, $pages->pages);
             }
             $date = $this->_objectManager->get('Magento\Core\Model\Date')->date('Y-m-d_H-i-s');
-            return $this->_fileFactory->create('packingslip' . $date . '.pdf', $pdf->render(), 'application/pdf');
+            return $this->_fileFactory->create(
+                'packingslip' . $date . '.pdf',
+                $pdf->render(),
+                \Magento\App\Filesystem::VAR_DIR,
+                'application/pdf'
+            );
         }
         $this->_redirect('sales/*/');
     }
 
     public function printAction()
     {
-        /** @see \Magento\Sales\Controller\Adminhtml\Order\Invoice */
-        $shipmentId = $this->getRequest()->getParam('invoice_id');
-        if ($shipmentId) { // invoice_id o_0
+        $shipmentId = $this->getRequest()->getParam('shipment_id');
+        if ($shipmentId) {
             $shipment = $this->_objectManager->create('Magento\Sales\Model\Order\Shipment')->load($shipmentId);
             if ($shipment) {
                 $pdf = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Shipment')
                     ->getPdf(array($shipment));
                 $date = $this->_objectManager->get('Magento\Core\Model\Date')->date('Y-m-d_H-i-s');
                 return $this->_fileFactory->create(
-                    'packingslip' . $date . '.pdf', $pdf->render(), 'application/pdf'
+                    'packingslip' . $date . '.pdf',
+                    $pdf->render(),
+                    \Magento\App\Filesystem::VAR_DIR,
+                    'application/pdf'
                 );
             }
         } else {

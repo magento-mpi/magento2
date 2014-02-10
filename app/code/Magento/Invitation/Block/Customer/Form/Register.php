@@ -27,15 +27,14 @@ class Register extends \Magento\Customer\Block\Form\Register
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\App\Cache\Type\Config $configCacheType
-     * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory
-     * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory
+     * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory
+     * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory
      * @param \Magento\Module\Manager $moduleManager
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Customer\Model\AddressFactory $addressFactory
      * @param \Magento\Customer\Helper\Data $customerHelper
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -43,11 +42,10 @@ class Register extends \Magento\Customer\Block\Form\Register
         \Magento\Core\Helper\Data $coreData,
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\App\Cache\Type\Config $configCacheType,
-        \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory,
-        \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory,
+        \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollectionFactory,
+        \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollectionFactory,
         \Magento\Module\Manager $moduleManager,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Customer\Model\AddressFactory $addressFactory,
         \Magento\Customer\Helper\Data $customerHelper,
         \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
@@ -58,14 +56,14 @@ class Register extends \Magento\Customer\Block\Form\Register
             $coreData,
             $jsonEncoder,
             $configCacheType,
-            $regionCollFactory,
-            $countryCollFactory,
+            $regionCollectionFactory,
+            $countryCollectionFactory,
             $moduleManager,
             $customerSession,
-            $addressFactory,
             $customerHelper,
             $data
         );
+        $this->_isScopePrivate = true;
     }
 
     /**

@@ -7,12 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab;
+
+use Magento\Backend\Block\Widget\Form;
 
 /**
  * Reminder rules edit form general fields
  */
-namespace Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab;
-
 class General
     extends \Magento\Backend\Block\Widget\Form\Generic
 {
@@ -44,7 +45,7 @@ class General
     /**
      * Prepare general properties form
      *
-     * @return \Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\General
+     * @return Form
      */
     protected function _prepareForm()
     {
@@ -86,7 +87,7 @@ class General
         ));
 
         $model->unsSalesruleId();
-        $helperBlock = $this->getLayout()->createBlock('Magento\CatalogRule\Block\Adminhtml\Promo\Widget\Chooser');
+        $helperBlock = $this->getLayout()->createBlock('Magento\SalesRule\Block\Adminhtml\Promo\Widget\Chooser');
 
         if ($helperBlock instanceof \Magento\Object) {
             $helperBlock->setConfig($this->getChooserConfig())

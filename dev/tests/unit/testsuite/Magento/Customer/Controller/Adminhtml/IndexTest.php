@@ -105,11 +105,6 @@ class IndexTest extends \PHPUnit_Framework_TestCase
             ->setMethods(array('getUrl'))
             ->getMock();
 
-        $translator = $this->getMockBuilder('Magento\Core\Model\Translate')
-            ->disableOriginalConstructor()
-            ->setMethods(array('getTranslateInline', '__wakeup'))
-            ->getMock();
-
         $this->messageManager = $this->getMockBuilder('Magento\Message\Manager')
             ->disableOriginalConstructor()
             ->setMethods(array('addSuccess'))
@@ -138,7 +133,6 @@ class IndexTest extends \PHPUnit_Framework_TestCase
 
         $contextMock->expects($this->any())->method('getHelper')->will($this->returnValue($this->_helper));
         $contextMock->expects($this->any())->method('getSession')->will($this->returnValue($this->_session));
-        $contextMock->expects($this->any())->method('getTranslator')->will($this->returnValue($translator));
         $contextMock->expects($this->any())
             ->method('getMessageManager')
             ->will($this->returnValue($this->messageManager));
@@ -231,7 +225,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
             ->method('generateResetPasswordLinkToken')
             ->will($this->returnValue($token));
 
-        $coreHelperMock = $this->getMockBuilder('Magento\Core\Model\Url')
+        $coreHelperMock = $this->getMockBuilder('Magento\Url')
             ->disableOriginalConstructor()
             ->setMethods(array('getUrl', '__wakeup'))
             ->getMock();
@@ -249,7 +243,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
 
         $this->_objectManager->expects($this->at(2))
             ->method('create')
-            ->with($this->equalTo('Magento\Core\Model\Url'))
+            ->with($this->equalTo('Magento\UrlInterface'))
             ->will($this->returnValue($coreHelperMock));
 
         $this->messageManager->expects($this->once())

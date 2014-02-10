@@ -8,29 +8,28 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <update handle="checkout_onepage_review_item_renderers" />
     <referenceBlock name="root">
         <action method="setTemplate">
             <argument name="template" xsi:type="string">1column.phtml</argument>
         </action>
     </referenceBlock>
     <referenceContainer name="content">
-        <block class="Magento\GiftRegistry\Block\View" name="magento.giftregistry.view" template="view.phtml">
-            <block class="Magento\GiftRegistry\Block\Items" name="giftregistry_items" template="view/items.phtml">
+        <block class="Magento\GiftRegistry\Block\View" name="magento.giftregistry.view" template="view.phtml" cacheable="false">
+            <block class="Magento\GiftRegistry\Block\Items" name="giftregistry_items" template="view/items.phtml" cacheable="false">
+                <arguments>
+                    <argument name="renderer_template" xsi:type="string">Magento_GiftRegistry::view/items/default.phtml</argument>
+                </arguments>
                 <block class="Magento\Catalog\Block\Product\Price" template="product/price_msrp_item.phtml" name="magento.giftregistry.item.price"/>
-                <block class="Magento\Checkout\Block\Cart\Item\Renderer" as="default" template="Magento_GiftRegistry::view/items/default.phtml"/>
-                <block class="Magento\Checkout\Block\Cart\Item\Renderer" as="simple" template="Magento_GiftRegistry::view/items/default.phtml"/>
-                <block class="Magento\Checkout\Block\Cart\Item\Renderer\Grouped" as="grouped" template="Magento_GiftRegistry::view/items/default.phtml"/>
-                <block class="Magento\Checkout\Block\Cart\Item\Renderer\Configurable" as="configurable" template="Magento_GiftRegistry::view/items/default.phtml"/>
-                <block class="Magento\Bundle\Block\Checkout\Cart\Item\Renderer" as="bundle" template="Magento_GiftRegistry::view/items/default.phtml"/>
-                <block class="Magento\GiftCard\Block\Checkout\Cart\Item\Renderer" as="giftcard" template="Magento_GiftRegistry::view/items/default.phtml"/>
+                <block class="Magento\View\Element\RendererList" name="checkout.onepage.review.item.renderers" as="renderer.list" />
             </block>
-            <block class="Magento\GiftRegistry\Block\Customer\Items" name="giftregistry.view.items" template="view/items.phtml"/>
+            <block class="Magento\GiftRegistry\Block\Customer\Items" name="giftregistry.view.items" template="view/items.phtml" cacheable="false"/>
         </block>
     </referenceContainer>
     <update handle="MAP_popup"/>
     <referenceBlock name="product.tooltip">
         <container name="product.info.addtocart.paypal.wrapper" label="PayPal Express Checkout Shortcut Wrapper" htmlTag="div">
-            <block class="Magento\Paypal\Block\Express\Shortcut" name="product.info.addtocart.paypal" template="express/shortcut.phtml">
+            <block class="Magento\Paypal\Block\Express\Shortcut" name="product.info.addtocart.paypal" template="express/shortcut.phtml" cacheable="false">
                 <action method="setIsInCatalogProduct">
                     <argument name="value" xsi:type="string">1</argument>
                 </action>

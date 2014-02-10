@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 
-/*jshint evil:true browser:true jquery:true*/
+/*jshint browser:true jquery:true*/
 (function($) {
     $.widget('mage.tierPrice', {
         options: {
@@ -33,18 +33,18 @@
          * @return {Boolean}
          */
         _showTierPrice: function(e) {
-            var json = eval('(' + $(e.target).data('tier-price') + ')');
+            var data = $(e.target).data('tier-price');
             $(this.options.popupCartButtonId).off('click');
             $(this.options.popupCartButtonId).on('click', $.proxy(function() {
-                this.element.find(this.options.inputQty).val(json.qty);
+                this.element.find(this.options.inputQty).val(data.qty);
                 this.element.submit();
             }, this));
-            $(this.options.popupHeading).text(json.name);
-            $(this.options.popupPrice).html($(json.price)).find('[id^="product-price-"]').attr('id', function() {
+            $(this.options.popupHeading).text(data.name);
+            $(this.options.popupPrice).html($(data.price)).find('[id^="product-price-"]').attr('id', function() {
                 // change price element id, so price option won't update the tier price
                 return 'tier' + $(this).attr('id');
             });
-            $(this.options.popupMsrp).html(json.msrp);
+            $(this.options.popupMsrp).html(data.msrp);
             var width = $(this.options.popup).width();
             var offsetX = e.pageX - (width / 2) + "px";
             $(this.options.popup).css({left: offsetX, top: e.pageY}).show();

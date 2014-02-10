@@ -19,7 +19,11 @@ namespace Magento\Rma\Model\Resource;
 
 class Grid extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
+    /**
+     * @var bool
+     */
     protected $_isPkAutoIncrement    = false;
+
     /**
      * Internal constructor
      */

@@ -96,7 +96,11 @@ class Wishlist extends \Magento\Backend\App\Action
             $this->_view
                 ->getLayout()
                 ->getChildBlock('adminhtml.block.report.customer.wishlist.grid', 'grid.export');
-        return $this->_fileFactory->create($fileName, $exportBlock->getExcelFile($fileName));
+        return $this->_fileFactory->create(
+            $fileName,
+            $exportBlock->getExcelFile($fileName),
+            \Magento\App\Filesystem::VAR_DIR
+        );
     }
 
     /**
@@ -107,8 +111,12 @@ class Wishlist extends \Magento\Backend\App\Action
         $this->_view->loadLayout();
         $fileName = 'customer_wishlists.csv';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock  */
- 	 	$exportBlock = $this->_view->getLayout()->getChildBlock('adminhtml.block.report.customer.wishlist.grid', 'grid.export');
- 	 	return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile());
+        $exportBlock = $this->_view->getLayout()->getChildBlock('adminhtml.block.report.customer.wishlist.grid', 'grid.export');
+        return $this->_fileFactory->create(
+            $fileName,
+            $exportBlock->getCsvFile(),
+            \Magento\App\Filesystem::VAR_DIR
+        );
     }
 
     /**

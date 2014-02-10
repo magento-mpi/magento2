@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <preference for="Magento\Core\Model\Config\Storage\WriterInterface" type="Magento\Core\Model\Config\Storage\Writer\Db" />
+    <preference for="Magento\App\Config\Storage\WriterInterface" type="Magento\Core\Model\Config\Storage\Db" />
     <preference for="Magento\App\Request\PathInfoProcessorInterface" type="Magento\Backend\App\Request\PathInfoProcessor" />
     <preference for="Magento\Backend\Model\Auth\StorageInterface" type="Magento\Backend\Model\Auth\Session" />
     <preference for="Magento\Backend\Model\Config\Structure\SearchInterface" type="Magento\Backend\Model\Config\Structure" />
@@ -16,14 +16,17 @@
     <preference for="Magento\Backend\Model\Auth\Credential\StorageInterface" type="Magento\User\Model\User" />
     <preference for="Magento\Adminhtml\Helper\Data" type="Magento\Backend\Helper\Data" />
     <preference for="Magento\Backend\App\ConfigInterface" type="Magento\Backend\App\Config" />
+    <preference for="Magento\Backend\Model\UrlInterface" type="Magento\Backend\Model\Url" />
     <type name="Magento\App\AreaList">
         <param name="areas">
-            <value>
-                <adminhtml>
-                    <frontNameResolver>Magento\Backend\App\Area\FrontNameResolver</frontNameResolver>
-                    <router>admin</router>
-                </adminhtml>
-            </value>
+            <array>
+                <item key="adminhtml">
+                    <array>
+                        <item key="frontNameResolver"><value>Magento\Backend\App\Area\FrontNameResolver</value></item>
+                        <item key="router"><value>admin</value></item>
+                    </array>
+                </item>
+            </array>
         </param>
     </type>
     <type name="Magento\Backend\App\Router\DefaultRouter">
@@ -46,7 +49,7 @@
     </type>
     <type name="Magento\Backend\Helper\Data">
         <param name="backendUrl">
-            <instance type="Magento\Backend\Model\Url\Proxy" />
+            <instance type="Magento\Backend\Model\UrlInterface\Proxy" />
         </param>
         <param name="auth">
             <instance type="Magento\Backend\Model\Auth\Proxy" />
@@ -54,22 +57,29 @@
     </type>
     <type name="Magento\App\Router\NoRouteHandlerList">
         <param name="handlerClassesList">
-            <value>
-                <backend>
-                    <instance>Magento\Backend\App\Router\NoRouteHandler</instance>
-                    <sortOrder>10</sortOrder>
-                </backend>
-            </value>
+            <array>
+                <item key="backend">
+                    <array>
+                        <item key="instance"><value>Magento\Backend\App\Router\NoRouteHandler</value></item>
+                        <item key="sortOrder"><value>10</value></item>
+                    </array>
+                </item>
+            </array>
         </param>
     </type>
     <type name="Magento\Backend\Model\Widget\Grid\Row\UrlGenerator">
         <param name="backendUrl">
-            <instance type="Magento\Backend\Model\Url\Proxy" />
+            <instance type="Magento\Backend\Model\UrlInterface\Proxy" />
         </param>
     </type>
     <type name="\Magento\Backend\Model\Observer">
         <param name="backendSession">
             <instance type="Magento\Backend\Model\Session\Proxy" />
+        </param>
+    </type>
+    <type name="Magento\Backend\Model\Url\ScopeResolver">
+        <param name="areaCode">
+            <value>adminhtml</value>
         </param>
     </type>
     <type name="Magento\Backend\Model\Url">
@@ -78,14 +88,6 @@
         </param>
         <param name="formKey">
             <instance type="Magento\Data\Form\FormKey\Proxy" />
-        </param>
-        <param name="areaCode">
-            <value>adminhtml</value>
-        </param>
-    </type>
-    <type name="Magento\Core\Model\Url">
-        <param name="areaCode">
-            <value>frontend</value>
         </param>
     </type>
     <type name="Magento\Backend\Helper\Dashboard\Data">
@@ -123,20 +125,26 @@
     </type>
     <type name="Magento\Backend\Controller\Adminhtml\Index">
         <param name="searchModules">
-            <value>
-                <products>
-                    <class>Magento\Backend\Model\Search\Catalog</class>
-                    <acl>Magento_Catalog::catalog</acl>
-                </products>
-                <customers>
-                    <class>Magento\Backend\Model\Search\Customer</class>
-                    <acl>Magento_Customer::customer</acl>
-                </customers>
-                <sales>
-                    <class>Magento\Backend\Model\Search\Order</class>
-                    <acl>Magento_Sales::sales</acl>
-                </sales>
-            </value>
+            <array>
+                <item key="products">
+                    <array>
+                        <item key="class"><value>Magento\Backend\Model\Search\Catalog</value></item>
+                        <item key="acl"><value>Magento_Catalog::catalog</value></item>
+                    </array>
+                </item>
+                <item key="customers">
+                    <array>
+                        <item key="class"><value>Magento\Backend\Model\Search\Customer</value></item>
+                        <item key="acl"><value>Magento_Customer::customer</value></item>
+                    </array>
+                </item>
+                <item key="sales">
+                    <array>
+                        <item key="class"><value>Magento\Backend\Model\Search\Order</value></item>
+                        <item key="acl"><value>Magento_Sales::sales</value></item>
+                    </array>
+                </item>
+            </array>
         </param>
     </type>
     <virtualType name="Magento\Backend\Model\Auth\Session\Storage" type="Magento\Session\Storage">

@@ -141,13 +141,7 @@ class Shippingmethod
      */
     public function getPackages()
     {
-        $packages = $this->getShipment()->getPackages();
-        if ($packages) {
-            $packages = unserialize($packages);
-        } else {
-            $packages = array();
-        }
-        return $packages;
+        return $this->getShipment()->getPackages();
     }
 
     /**
@@ -307,7 +301,7 @@ class Shippingmethod
         $carrierCode= $this->getShipment()->getCarrierCode();
         $carrier    = $this->_rmaData->getCarrier($carrierCode, $storeId);
 
-        $countryShipper = $this->_storeConfig->getConfig(\Magento\Shipping\Model\Shipping::XML_PATH_STORE_COUNTRY_ID, $storeId);
+        $countryShipper = $this->_storeConfig->getConfig(\Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_COUNTRY_ID, $storeId);
         if ($carrier) {
             $params = new \Magento\Object(array(
                 'method'            => $carrier->getMethod(),

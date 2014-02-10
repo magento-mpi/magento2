@@ -7,12 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reminder\Model\Rule\Condition\Cart;
+
+use Magento\Core\Exception;
+use Magento\DB\Select;
 
 /**
  * Cart items attributes subselection condition
  */
-namespace Magento\Reminder\Model\Rule\Condition\Cart;
-
 class Attributes
     extends \Magento\Reminder\Model\Condition\AbstractCondition
 {
@@ -50,7 +52,7 @@ class Attributes
     /**
      * Init available options list
      *
-     * @return \Magento\Reminder\Model\Rule\Condition\Cart\Attributes
+     * @return $this
      */
     public function loadAttributeOptions()
     {
@@ -79,10 +81,10 @@ class Attributes
     /**
      * Build condition limitations sql string for specific website
      *
-     * @param $customer
-     * @param int | \Zend_Db_Expr $website
-     * @return \Magento\DB\Select
-     * @throws \Magento\Core\Exception
+     * @param null|int|\Zend_Db_Expr $customer
+     * @param int|\Zend_Db_Expr $website
+     * @return Select
+     * @throws Exception
      */
     public function getConditionsSql($customer, $website)
     {
@@ -116,7 +118,7 @@ class Attributes
                 $field = 'item.base_cost';
                 break;
             default:
-                throw new \Magento\Core\Exception(
+                throw new Exception(
                     __('Unknown attribute specified')
                 );
         }

@@ -838,6 +838,21 @@ body {
     dd.complete {
         padding: 0;
         margin: 0 0 30px;
+        .cards.items {
+            dd {
+                margin-left: 0;
+                .card.item {
+                    font-size: 12px;
+                    margin: 5px 0 10px;
+                    dt {
+                        font-weight: bold;
+                    }
+                    dd {
+                        margin-bottom: 5px;
+                    }
+                }
+            }
+        }
     }
     address {
         font-style: normal;
@@ -1224,6 +1239,26 @@ body {
     tr.grand.total .amount {
         font-size: 24px;
         color: @secondary1;
+    }
+    tr.tax.totals.details {
+        display: none;
+        &.shown {
+            display: table-row;
+        }
+    }
+    tr.tax.totals.summary {
+        .detailed {
+            cursor: pointer;
+            .iconBefore(@content: @icon-expand, @size: 18px, @font: "icons");
+            &:before {
+                vertical-align: top;
+                font-size: 12px;
+                margin-right: 5px;
+            }
+        }
+        &.expanded .detailed:before {
+            content: @icon-collapse;
+        }
     }
     tfoot {
         .amount {
@@ -4500,7 +4535,8 @@ img[align="right"] {
     }
 }
 
-.customer.welcome + li {
+.customer.welcome + li,
+.customer.welcome + .greet.welcome + li {
     display: none !important;
 }
 
@@ -4620,102 +4656,7 @@ img[align="right"] {
 .form.password.reset,
 .form.paypal.review,
 .form.send.confirmation {
-    .fieldset {
-        .box-sizing();
-        .formCols();
-        .formFieldset();
-        width: 690px;
-        background: @primary1;
-        padding: 30px 10px 30px 30px;
-        border: 0;
-        margin: 0 0 40px;
-        position: relative;
-        z-index: 1;
-        .legend {
-            float: left;
-            line-height: 1.2;
-            font-size: 20px;
-            font-weight: @baseFontWeight;
-            padding-bottom: 20px;
-            width: 100%;
-            padding: 0 40px 20px 0;
-            background: #fff;
-            margin: -30px -10px 30px -30px;
-            & + br {
-                display: block;
-                clear: both;
-            }
-        }
-        > .field {
-            .formField();
-            .fieldStyle();
-            > .label {
-                display: block;
-                padding: 0 0 5px;
-            }
-            margin-bottom: 20px;
-        }
-        > .field.note,
-        .field.street,
-        .field.choice.newsletter {
-            width: 100%;
-        }
-        .field.fullname {
-            width: 100%;
-            .fields.group-5 .field {
-                width: 20%;
-            }
-        }
-        .field.dob {
-            .fields.group .field {
-                .box-sizing();
-                width: 33%;
-                position: relative;
-                z-index: 1;
-                .label {
-                    position: absolute;
-                    top: 10px;
-                    font-size: @baseFontSizeMiddle;
-                    line-height: 16px;
-                }
-                .control {
-                    margin-left: 27px;
-                }
-                &:last-child {
-                    padding-right: 0;
-                    width: 34%;
-                }
-            }
-        }
-    }
-    .action.save,
-    .action.submit,
-    .action.add {
-        &:extend(.primary.action all);
-    }
-    .actions {
-        .clearfix();
-        .primary {
-            float: right;
-        }
-        .secondary {
-            float: left;
-        }
-        width: 690px;
-    }
-    .fieldset.create.account {
-        &:after {
-            content: attr(data-hasrequired);
-            display: block;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            padding: 10px 0 0;
-            letter-spacing: normal;
-            word-spacing: normal;
-            color: @secondary1;
-        }
-    }
+    .formCommon();
 }
 
 .form.send.friend {
