@@ -79,11 +79,11 @@ class Url
      *
      * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\UrlInterface $urlBuilder
-     * @param Url\ConfigInterface $config
-     * @param Service $viewService
-     * @param Publisher $publisher
-     * @param DeployedFilesManager $deployedFileManager
-     * @param \Magento\View\FileSystem $viewFileSystem,
+     * @param \Magento\View\Url\ConfigInterface $config
+     * @param \Magento\View\Service $viewService
+     * @param \Magento\View\Publisher $publisher
+     * @param \Magento\View\DeployedFilesManager $deployedFileManager
+     * @param \Magento\View\FileSystem $viewFileSystem
      * @param array $fileUrlMap
      */
     public function __construct(

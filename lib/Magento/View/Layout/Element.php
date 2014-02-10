@@ -76,6 +76,8 @@ class Element extends \Magento\Simplexml\Element
     }
 
     /**
+     * Get block name
+     *
      * @return bool|string
      */
     public function getBlockName()

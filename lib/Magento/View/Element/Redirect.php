@@ -30,7 +30,7 @@ class Redirect extends Template
     /**
      * Constructor
      *
-     * @param \Magento\View\Element\Template\Context $context
+     * @param Template\Context $context
      * @param \Magento\Data\FormFactory $formFactory
      * @param array $data
      */

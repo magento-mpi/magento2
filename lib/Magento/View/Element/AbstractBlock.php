@@ -207,6 +207,8 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      * Internal constructor, that is called from real constructor
      *
      * Please override this one instead of overriding real __construct constructor
+     *
+     * @return void
      */
     protected function _construct()
     {

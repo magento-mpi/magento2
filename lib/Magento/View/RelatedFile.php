@@ -49,7 +49,7 @@ class RelatedFile
      * @param string $relatedFilePath URL to the file that was extracted from $parentPath
      * @param string $parentPath path to the file
      * @param string $parentRelativePath original file name identifier that was requested for processing
-     * @param array $params theme/module parameters array
+     * @param array &$params theme/module parameters array
      * @return string
      */
     public function buildPath($relatedFilePath, $parentPath, $parentRelativePath, &$params)

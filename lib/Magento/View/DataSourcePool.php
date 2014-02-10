@@ -39,7 +39,7 @@ class DataSourcePool
     /**
      * Constructors
      *
-     * @param \Magento\View\Element\BlockFactory $blockFactory
+     * @param BlockFactory $blockFactory
      */
     public function __construct(BlockFactory $blockFactory)
     {
@@ -91,6 +91,7 @@ class DataSourcePool
      * @param string $dataName
      * @param string $namespace
      * @param string $alias
+     * @return void
      */
     public function assign($dataName, $namespace, $alias)
     {

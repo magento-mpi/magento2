@@ -28,6 +28,8 @@ class FileSystem
     protected $_viewService;
 
     /**
+     * Constructor
+     *
      * @param \Magento\View\Design\FileResolution\StrategyPool $resolutionPool
      * @param Service $viewService
      */

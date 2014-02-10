@@ -34,6 +34,8 @@ class RenderFactory
     }
 
     /**
+     * Get method
+     *
      * @param string $type
      * @return RenderInterface
      * @throws \InvalidArgumentException

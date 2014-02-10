@@ -111,8 +111,8 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
      * @param \Magento\Logger $logger
      * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\View\Url\CssResolver $cssUrlResolver
-     * @param Service $viewService
-     * @param FileSystem $viewFileSystem
+     * @param \Magento\View\Service $viewService
+     * @param \Magento\View\FileSystem $viewFileSystem
      * @param \Magento\Module\Dir\Reader $modulesReader
      * @param RelatedFile $relatedFile
      * @param \Magento\View\Asset\PreProcessor\PreProcessorInterface $preProcessor

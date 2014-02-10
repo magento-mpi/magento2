@@ -26,7 +26,7 @@ class Php implements TemplateEngineInterface
     /**
      * Helper factory
      *
-     * @var
+     * @var \Magento\ObjectManager
      */
     protected $_helperFactory;
 
