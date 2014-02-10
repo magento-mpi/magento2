@@ -55,19 +55,19 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_addressBuilder = Bootstrap::getObjectManager()->create(
+        $this->_addressBuilder = Bootstrap::getObjectManager()->get(
             'Magento\Customer\Service\V1\Dto\AddressBuilder'
         );
-        $this->_customerBuilder = Bootstrap::getObjectManager()->create(
+        $this->_customerBuilder = Bootstrap::getObjectManager()->get(
             'Magento\Customer\Service\V1\Dto\CustomerBuilder'
         );
-        $this->_customerAccountService = Bootstrap::getObjectManager()->create(
+        $this->_customerAccountService = Bootstrap::getObjectManager()->get(
             'Magento\Customer\Service\V1\CustomerAccountService'
         );
-        $this->_customerService = Bootstrap::getObjectManager()->create(
+        $this->_customerService = Bootstrap::getObjectManager()->get(
             'Magento\Customer\Service\V1\CustomerService'
         );
-        $this->_customerAddressService = Bootstrap::getObjectManager()->create(
+        $this->_customerAddressService = Bootstrap::getObjectManager()->get(
             'Magento\Customer\Service\V1\CustomerAddressService'
         );
     }
@@ -118,10 +118,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
             $customerDto,
             [CustomerDto::EMAIL => 'new@example.com']
         );
-
         $addresses = $this->_customerAddressService->getAddresses($existingCustomerId);
-
-
         $this->_serviceQuote->getQuote()->setCustomerData($customerDto);
         $this->_serviceQuote->getQuote()->setCustomerAddressData($addresses);
         $this->_serviceQuote->submitOrderWithDto();

@@ -33,7 +33,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     const REGION = 'Texas';
 
     protected $_expectedValues = [
-        'entity_id' => 14,
+        'id' => 14,
         'default_shipping' => true,
         'default_billing' => false,
         'company' => 'Company Name',
@@ -97,7 +97,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $address = $this->_addressBuilder->create();
 
         $this->_assertMinimumRequiredFields($address);
-        $this->assertEquals($this->_expectedValues['entity_id'], $address->getId());
+        $this->assertEquals($this->_expectedValues['id'], $address->getId());
         $this->assertEquals($this->_expectedValues['default_shipping'], $address->isDefaultShipping());
         $this->assertEquals($this->_expectedValues['default_billing'], $address->isDefaultBilling());
         $this->assertEquals($this->_expectedValues['company'], $address->getCompany());
@@ -167,7 +167,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     {
         $this->_fillMinimumRequiredFields($addressBuilder);
 
-        $addressBuilder->setId($this->_expectedValues['entity_id']);
+        $addressBuilder->setId($this->_expectedValues['id']);
         $addressBuilder->setSuffix($this->_expectedValues['suffix']);
         $addressBuilder->setMiddlename($this->_expectedValues['middlename']);
         $addressBuilder->setPrefix($this->_expectedValues['prefix']);
