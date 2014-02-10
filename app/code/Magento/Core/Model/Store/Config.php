@@ -52,7 +52,7 @@ class Config implements \Magento\Core\Model\Store\ConfigInterface
      *
      * @param string $path
      * @param mixed $store
-     * @return mixed
+     * @return string|null
      */
     public function getConfig($path, $store = null)
     {

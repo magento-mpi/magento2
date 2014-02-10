@@ -7,16 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Usa\Model\Shipping\Carrier\Dhl\International\Source;
 
 /**
  * Source model for DHL Content Type
  *
- * @category   Magento
- * @package    Magento_Usa
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Usa\Model\Shipping\Carrier\Dhl\International\Source;
-
 class Contenttype implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
