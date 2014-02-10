@@ -7,8 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Shipping\Model\Tracking;
+
+use Magento\Shipping\Model\Tracking\Result\AbstractResult;
+use Magento\Shipping\Model\Rate\Result as RateResult;
 
 class Result
 {
@@ -53,14 +55,14 @@ class Result
     /**
      * Add a tracking to the result
      *
-     * @param \Magento\Shipping\Model\Tracking\Result\AbstractResult|\Magento\Shipping\Model\Rate\Result $result
+     * @param AbstractResult|RateResult $result
      * @return $this
      */
     public function append($result)
     {
-        if ($result instanceof \Magento\Shipping\Model\Tracking\Result\AbstractResult) {
+        if ($result instanceof AbstractResult) {
             $this->_trackings[] = $result;
-        } elseif ($result instanceof \Magento\Shipping\Model\Rate\Result) {
+        } elseif ($result instanceof RateResult) {
             $trackings = $result->getAllTrackings();
             foreach ($trackings as $track) {
                 $this->append($track);

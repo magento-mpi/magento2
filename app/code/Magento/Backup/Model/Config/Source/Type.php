@@ -33,9 +33,7 @@ class Type implements \Magento\Core\Model\Option\ArrayInterface
     }
 
     /**
-     * Return possible options
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function toOptionArray()
     {

@@ -9,6 +9,8 @@
  */
 namespace Magento\Backup\Block\Adminhtml;
 
+use Magento\View\Element\AbstractBlock;
+
 /**
  * Adminhtml backup page content block
  *
@@ -24,7 +26,7 @@ class Backup extends \Magento\Backend\Block\Template
     protected $_template = 'Magento_Backup::backup/list.phtml';
 
     /**
-     * @return \Magento\View\Element\AbstractBlock|void
+     * @return AbstractBlock|void
      */
     protected function _prepareLayout()
     {

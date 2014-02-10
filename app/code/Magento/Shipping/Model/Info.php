@@ -9,6 +9,8 @@
  */
 namespace Magento\Shipping\Model;
 
+use Magento\Sales\Model\Order\Shipment;
+
 class Info extends \Magento\Object
 {
     /**
@@ -125,11 +127,11 @@ class Info extends \Magento\Object
     /**
      * Instantiate ship model
      *
-     * @return \Magento\Sales\Model\Order\Shipment|bool
+     * @return Shipment|bool
      */
     protected function _initShipment()
     {
-        /* @var $model \Magento\Sales\Model\Order\Shipment */
+        /* @var $model Shipment */
         $model = $this->_shipmentFactory->create();
         $ship = $model->load($this->getShipId());
         if (!$ship->getEntityId() || $this->getProtectCode() != $ship->getProtectCode()) {
@@ -205,10 +207,10 @@ class Info extends \Magento\Object
     }
 
     /**
-     * @param \Magento\Sales\Model\Order\Shipment $shipment
+     * @param Shipment $shipment
      * @return \Magento\Shipping\Model\Resource\Order\Track\Collection
      */
-    protected function _getTracksCollection(\Magento\Sales\Model\Order\Shipment $shipment)
+    protected function _getTracksCollection(Shipment $shipment)
     {
         $tracks = $this->_trackCollectionFactory->create()->setShipmentFilter($shipment->getId());
 

@@ -12,7 +12,7 @@ namespace Magento\Shipping\Model\Source;
 class HandlingType implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
-     * @return array
+     * {@inheritdoc}
      */
     public function toOptionArray()
     {

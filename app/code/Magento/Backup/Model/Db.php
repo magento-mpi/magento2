@@ -158,13 +158,11 @@ class Db implements \Magento\Backup\Db\BackupDbInterface
                     if ($tableStatus->getAvgRowLength() < self::BUFFER_LENGTH) {
                         $limit = floor(self::BUFFER_LENGTH / $tableStatus->getAvgRowLength());
                         $multiRowsLength = ceil($tableStatus->getRows() / $limit);
-                    }
-                    else {
+                    } else {
                         $limit = 1;
                         $multiRowsLength = $tableStatus->getRows();
                     }
-                }
-                else {
+                } else {
                     $limit = $tableStatus->getRows();
                     $multiRowsLength = 1;
                 }
@@ -189,7 +187,7 @@ class Db implements \Magento\Backup\Db\BackupDbInterface
     /**
      * Returns the list of tables which data should not be backed up
      *
-     * @return array
+     * @return string[]
      */
     public function getIgnoreDataTablesList()
     {

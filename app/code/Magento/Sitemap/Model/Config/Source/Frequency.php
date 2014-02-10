@@ -12,7 +12,7 @@ namespace Magento\Sitemap\Model\Config\Source;
 class Frequency implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
-     * @return array
+     * {@inheritdoc}
      */
     public function toOptionArray()
     {

@@ -75,7 +75,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Get all possible backup type values
      *
-     * @return array
+     * @return string[]
      */
     public function getBackupTypesList()
     {
@@ -160,7 +160,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Get paths that should be ignored when creating system snapshots
      *
-     * @return array
+     * @return string[]
      */
     public function getBackupIgnorePaths()
     {
@@ -180,7 +180,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Get paths that should be ignored when rolling back system snapshots
      *
-     * @return array
+     * @return string[]
      */
     public function getRollbackIgnorePaths()
     {

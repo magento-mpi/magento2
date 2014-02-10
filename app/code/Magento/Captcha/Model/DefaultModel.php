@@ -135,7 +135,7 @@ class DefaultModel extends \Zend_Captcha_Image implements \Magento\Captcha\Model
     /**
      * Check if CAPTCHA has to be shown to logged in user on this form
      *
-     * @return boolean
+     * @return bool
      */
     public function isShownToLoggedInUser()
     {
@@ -149,7 +149,7 @@ class DefaultModel extends \Zend_Captcha_Image implements \Magento\Captcha\Model
     }
 
     /**
-     * Check is overlimit attempts
+     * Check is over limit attempts
      *
      * @param string $login
      * @return bool
@@ -460,7 +460,7 @@ class DefaultModel extends \Zend_Captcha_Image implements \Magento\Captcha\Model
      * Set captcha word
      *
      * @param  string $word
-     * @return \Zend_Captcha_Word
+     * @return $this
      */
     protected function _setWord($word)
     {

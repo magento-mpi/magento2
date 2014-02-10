@@ -9,6 +9,8 @@
  */
 namespace Magento\Backup\Block\Adminhtml;
 
+use Magento\View\Element\AbstractBlock;
+
 /**
  * Adminhtml rollback dialogs block
  *
@@ -26,8 +28,8 @@ class Dialogs extends \Magento\Backend\Block\Template
     /**
      * Include backup.js file in page before rendering
      *
-     * @return \Magento\View\Element\AbstractBlock|void
-     * @see \Magento\View\Element\AbstractBlock::_prepareLayout()
+     * @return AbstractBlock|void
+     * @see AbstractBlock::_prepareLayout()
      */
     protected function _prepareLayout()
     {

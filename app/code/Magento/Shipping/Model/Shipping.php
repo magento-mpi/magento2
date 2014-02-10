@@ -134,7 +134,7 @@ class Shipping implements RateCollectorInterface
     /**
      * Reset cached result
      *
-     * @return \Magento\Shipping\Model\Shipping
+     * @return $this
      */
     public function resetResult()
     {

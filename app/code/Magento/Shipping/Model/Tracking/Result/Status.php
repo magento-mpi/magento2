@@ -35,7 +35,8 @@ class Status extends \Magento\Shipping\Model\Tracking\Result\AbstractResult
     /**
      * @return array
      */
-    public function getAllData(){
+    public function getAllData()
+    {
         return $this->_data;
     }
 }

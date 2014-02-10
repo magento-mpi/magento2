@@ -7,17 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Shipping\Model\Carrier;
 
+use Magento\Shipping\Model\Rate\Result;
 
 /**
  * Flat rate shipping model
  *
- * @category   Magento
- * @package    Magento_Shipping
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Shipping\Model\Carrier;
-
 class Flatrate
     extends \Magento\Shipping\Model\Carrier\AbstractCarrier
     implements \Magento\Shipping\Model\Carrier\CarrierInterface
@@ -65,7 +63,7 @@ class Flatrate
 
     /**
      * @param \Magento\Sales\Model\Quote\Address\RateRequest $request
-     * @return \Magento\Shipping\Model\Rate\Result|bool
+     * @return Result|bool
      */
     public function collectRates(\Magento\Sales\Model\Quote\Address\RateRequest $request)
     {
@@ -94,7 +92,7 @@ class Flatrate
         }
         $this->setFreeBoxes($freeBoxes);
 
-        /** @var \Magento\Shipping\Model\Rate\Result $result */
+        /** @var Result $result */
         $result = $this->_rateResultFactory->create();
         if ($this->getConfigData('type') == 'O') { // per order
             $shippingPrice = $this->getConfigData('price');

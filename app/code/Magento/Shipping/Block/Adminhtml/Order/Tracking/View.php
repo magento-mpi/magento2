@@ -74,7 +74,7 @@ class View extends \Magento\Shipping\Block\Adminhtml\Order\Tracking
     /**
      * Retrieve remove url
      *
-     * @param Magento\Sales\Model\Order\Shipment\Track $track
+     * @param \Magento\Sales\Model\Order\Shipment\Track $track
      * @return string
      */
     public function getRemoveUrl($track)
@@ -87,7 +87,7 @@ class View extends \Magento\Shipping\Block\Adminhtml\Order\Tracking
 
     /**
      * @param string $code
-     * @return bool|string
+     * @return false|string
      */
     public function getCarrierTitle($code)
     {

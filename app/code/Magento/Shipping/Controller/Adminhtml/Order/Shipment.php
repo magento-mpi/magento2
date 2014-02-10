@@ -9,6 +9,8 @@
  */
 namespace Magento\Shipping\Controller\Adminhtml\Order;
 
+use Magento\App\ResponseInterface;
+
 /**
  * Adminhtml order shipment controller
  *
@@ -537,7 +539,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
     /**
      * Print label for one specific shipment
      *
-     * @return \Magento\App\ResponseInterface|void
+     * @return ResponseInterface|void
      */
     public function printLabelAction()
     {
@@ -587,7 +589,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
     /**
      * Create pdf document with information about packages
      *
-     * @return \Magento\App\ResponseInterface|void
+     * @return ResponseInterface|void
      */
     public function printPackageAction()
     {
@@ -610,7 +612,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
      * Batch print shipping labels for whole shipments.
      * Push pdf document with shipping labels to user browser
      *
-     * @return \Magento\App\ResponseInterface|void
+     * @return ResponseInterface|void
      */
     public function massPrintShippingLabelAction()
     {
@@ -723,7 +725,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
     /**
      * Return grid with shipping items for Ajax request
      *
-     * @return \Magento\App\ResponseInterface
+     * @return ResponseInterface
      */
     public function getShippingItemsGridAction()
     {

@@ -29,7 +29,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Filter collection by specified store ids
      *
-     * @param array|int $storeIds
+     * @param array|int[] $storeIds
      * @return $this
      */
     public function addStoreFilter($storeIds)

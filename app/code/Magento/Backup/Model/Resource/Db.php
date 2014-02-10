@@ -102,7 +102,7 @@ class Db
         $fkScript = '';
         if (!$tableName) {
             $tables = $this->getTables();
-            foreach($tables as $table) {
+            foreach ($tables as $table) {
                 $tableFkScript = $this->_resourceHelper->getTableForeignKeysSql($table);
                 if (!empty($tableFkScript)) {
                     $fkScript .= "\n" . $tableFkScript;

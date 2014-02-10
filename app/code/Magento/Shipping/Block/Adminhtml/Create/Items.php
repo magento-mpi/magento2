@@ -60,7 +60,7 @@ class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
     /**
      * Retrieve source
      *
-     * @return \Magento\Sales\Model\Order\Invoice
+     * @return \Magento\Sales\Model\Order\Shipment
      */
     public function getSource()
     {
