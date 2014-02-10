@@ -124,7 +124,8 @@ class SessionPluginTest extends \PHPUnit_Framework_TestCase
         $this->customerSessionMock->expects($this->once())
             ->method('setCustomer')
             ->with($this->equalTo($this->customerMock));
-        $this->plugin->beforeGenerateXml(array());
+        $output = $this->plugin->beforeGenerateXml(null);
+        $this->assertEquals(null, $output);
     }
 
     /**
@@ -137,7 +138,8 @@ class SessionPluginTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(true));
         $this->layoutMock->expects($this->never())
             ->method('isCacheable');
-        $this->plugin->beforeGenerateXml(array());
+        $output = $this->plugin->beforeGenerateXml(null);
+        $this->assertEquals(null, $output);
     }
 
     /**
@@ -153,6 +155,7 @@ class SessionPluginTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(false));
         $this->eventManagerMock->expects($this->never())
             ->method('dispatch');
-        $this->plugin->beforeGenerateXml(array());
+        $output = $this->plugin->beforeGenerateXml(null);
+        $this->assertEquals(null, $output);
     }
 }

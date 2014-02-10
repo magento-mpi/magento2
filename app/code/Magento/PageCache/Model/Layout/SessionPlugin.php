@@ -75,8 +75,8 @@ class SessionPlugin
     /**
      * Before layout generate
      *
-     * @param $arguments
-     * @return mixed
+     * @param null $arguments
+     * @return null
      */
     public function beforeGenerateXml($arguments)
     {
