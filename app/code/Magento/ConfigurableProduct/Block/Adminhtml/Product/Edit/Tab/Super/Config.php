@@ -150,9 +150,9 @@ class Config
                             'target' => '#product-variations-matrix',
                             'eventData' => array(
                                 'url' => $this->getUrl(
-                                        'catalog/product_generateVariations/index',
-                                        array('_current' => true)
-                                    ),
+                                    'catalog/product_generateVariations/index',
+                                    array('_current' => true)
+                                ),
                             ),
                         ),
                     ),
