@@ -94,7 +94,7 @@ abstract class AbstractXml
      * Perform xml validation
      *
      * @param string $file
-     * @return \Magento\Config\AbstractXml
+     * @return $this
      * @throws \Magento\Exception If invalid XML-file passed
      */
     protected function _performValidate($file = null)

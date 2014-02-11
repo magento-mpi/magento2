@@ -105,7 +105,7 @@ class FlyweightFactory
      * Add theme to shared collection
      *
      * @param \Magento\View\Design\ThemeInterface $themeModel
-     * @return FlyweightFactory
+     * @return $this
      */
     protected function _addTheme(\Magento\View\Design\ThemeInterface $themeModel)
     {

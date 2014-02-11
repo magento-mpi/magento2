@@ -78,7 +78,7 @@ class Data implements \Magento\Config\DataInterface
      *
      * @param string $path
      * @param mixed $default
-     * @return mixed
+     * @return array|mixed|null
      */
     public function get($path = null, $default = null)
     {

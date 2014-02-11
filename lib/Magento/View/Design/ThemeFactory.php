@@ -38,7 +38,7 @@ class ThemeFactory
      * Get theme
      *
      * @param int $themeId
-     * @return \Magento\View\Design\ThemeInterface
+     * @return null|\Magento\View\Design\ThemeInterface
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function getTheme($themeId)

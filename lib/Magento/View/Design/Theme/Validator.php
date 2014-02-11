@@ -41,7 +41,7 @@ class Validator
     /**
      * Set version validators
      *
-     * @return Validator
+     * @return $this
      */
     protected function _setVersionValidators()
     {
@@ -61,7 +61,7 @@ class Validator
     /**
      * Set title validators
      *
-     * @return Validator
+     * @return $this
      */
     protected function _setTitleValidators()
     {
@@ -82,7 +82,7 @@ class Validator
     /**
      * Set theme type validators
      *
-     * @return Validator
+     * @return $this
      */
     protected function _setTypeValidators()
     {
@@ -119,7 +119,7 @@ class Validator
      *
      * @param string $dataKey
      * @param array $validators
-     * @return Validator
+     * @return $this
      */
     public function addDataValidators($dataKey, $validators)
     {
@@ -150,7 +150,7 @@ class Validator
      * Instantiate class validator
      *
      * @param array &$validators
-     * @return Validator
+     * @return $this
      */
     protected function _instantiateValidators(array &$validators)
     {

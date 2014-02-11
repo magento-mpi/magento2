@@ -9,11 +9,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Config;
+
 /**
  * Magento configuration DOM factory
  */
-namespace Magento\Config;
-
 class DomFactory
 {
 

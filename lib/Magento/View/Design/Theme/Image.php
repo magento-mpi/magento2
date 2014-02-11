@@ -97,7 +97,7 @@ class Image
      * Create preview image
      *
      * @param string $imagePath
-     * @return Image
+     * @return $this
      */
     public function createPreviewImage($imagePath)
     {
@@ -166,7 +166,7 @@ class Image
      * Upload and create preview image
      *
      * @param string $scope the request key for file
-     * @return Image
+     * @return $this
      */
     public function uploadPreviewImage($scope)
     {

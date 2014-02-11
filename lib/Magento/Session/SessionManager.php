@@ -135,7 +135,7 @@ class SessionManager implements SessionManagerInterface
      * Configure session handler and start session
      *
      * @param string $sessionName
-     * @return \Magento\Session\SessionManager
+     * @return $this
      */
     public function start($sessionName = null)
     {
@@ -230,7 +230,7 @@ class SessionManager implements SessionManagerInterface
      * Set session name
      *
      * @param string $name
-     * @return \Magento\Session\SessionManager
+     * @return $this
      */
     public function setName($name)
     {
@@ -311,7 +311,7 @@ class SessionManager implements SessionManagerInterface
      * Specify session identifier
      *
      * @param   string|null $sessionId
-     * @return  \Magento\Session\SessionManager
+     * @return  $this
      */
     public function setSessionId($sessionId)
     {
@@ -384,7 +384,7 @@ class SessionManager implements SessionManagerInterface
     /**
      * Register request host name as used with session
      *
-     * @return \Magento\Session\SessionManager
+     * @return $this
      */
     protected function _addHost()
     {

@@ -205,7 +205,7 @@ class Dom
      *
      * @param string $nodePath
      * @throws \Magento\Exception An exception is possible if original document contains multiple nodes for identifier
-     * @return \DOMElement | null
+     * @return \DOMElement|null
      */
     protected function _getMatchedNode($nodePath)
     {
@@ -326,7 +326,7 @@ class Dom
      * Set schema file
      *
      * @param string $schemaFile
-     * @return \Magento\Config\Dom
+     * @return $this
      */
     public function setSchemaFile($schemaFile)
     {
