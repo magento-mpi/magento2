@@ -623,18 +623,6 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoDataFixture Magento/Customer/_files/customer.php
-     * @magentoAppIsolation enabled
-     * @expectedException \Magento\Customer\Service\Entity\V1\Exception
-     * @expectedExceptionMessage Cannot complete this operation from non-admin area.
-     */
-    public function testDeleteCustomerNonSecureArea()
-    {
-        // _files/customer.php sets the customer id to 1
-        $this->_service->deleteCustomer(1);
-    }
-
-    /**
      * Check if the Address with the give addressid is deleted
      *
      * @param int $addressId
