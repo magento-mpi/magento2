@@ -23,7 +23,7 @@ sku_widget_without_link:
             select_block_reference: Left Column
     widget_options:
         sku_file_link_enable: No
-        
+
 sku_widget_with_link:
     settings:
         type: Order by SKU
@@ -37,8 +37,8 @@ sku_widget_with_link:
             select_block_reference: Left Column
     widget_options:
         sku_file_link_enable: Yes
-        sku_link_text: 'Load a list of SKUs'
-        
+        sku_link_text: Load a list of SKUs_%randomize%
+
 widget_options_for_edit:
     sku_file_link_enable: Yes
-    sku_link_text: 'Load a list of SKUs_%randomize%'
+    sku_link_text: Load a list of SKUs_%randomize%

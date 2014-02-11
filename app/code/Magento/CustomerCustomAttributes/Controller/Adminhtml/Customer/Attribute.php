@@ -87,7 +87,7 @@ class Attribute
     protected function _initAction()
     {
         $this->_view->loadLayout();
-        $this->_setActiveMenu('Magento_Adminhtml::stores_attributes')
+        $this->_setActiveMenu('Magento_Backend::stores_attributes')
             ->_addBreadcrumb(
                 __('Customer'),
                 __('Customer'))

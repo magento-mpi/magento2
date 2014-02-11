@@ -8,7 +8,9 @@
  */
 -->
 <config>
-    <job name="magento_salesarchive_archive_orders" instance="Magento\SalesArchive\Model\Observer" method="archiveOrdersByCron">
-        <schedule>0 0 * * *</schedule>
-    </job>
+    <group id="default">
+        <job name="magento_salesarchive_archive_orders" instance="Magento\SalesArchive\Model\Observer" method="archiveOrdersByCron">
+            <schedule>0 0 * * *</schedule>
+        </job>
+    </group>
 </config>

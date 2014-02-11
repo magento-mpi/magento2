@@ -1,26 +1,72 @@
-* Modularity improvements:
-  * Consolidated PayPal in separate module
-* Oyejorge Less.php Adapter implemented
-* Less files import mechanism implemented
-* Added ability to configure certain cache frontend and associate it with multiple cache types, so avoiding duplication of cache configuration
-* Changed format of arrays definition in DI configuration to more strict and so:
-  * Covered array definitions with XSD and made whole DI configuration validated with XSD
-  * Added ability to define arrays with keys containing invalid XML characters, that was impossible when keys were represented by node names
 * Fixed bugs:
-  * Fixed missed image for a cron job for the abandoned cart emails
-  * Restored ability to configure cache storage in `local.xml`
-  * Fixed broken css\js merging functionality
-  * Fixed selection customer on order creation page
-* AppInterface has been renamed to LauncherInterface
-* Removed reinit logic from Config object
-* Framework part of "URL" functionality moved out of modules
-* Framework part of "Config" functionality moved out of modules
-* Removed deprecated EAV structure creation method from EAV setup model
+  * Fixed an issue with Backup module feature not possible to store files
+* Indexer implementation:
+  * Implemented new optimized Catalog Category Flat Indexer
+* Cron improvements:
+  * Added the ability to divide cron tasks into groups
+  * Added the ability to run cron groups in separate processes
+* LESS pre-processisng to CSS
+  * LESS files in library/theme/module, during materialization are automatically compiled into CSS
+  * LESS files compilation caching mechanism added for developer mode
+* Move Recurring profile functionality into separate module
+* GitHub requests:
+ * [#377] (https://github.com/magento/magento2/issues/377) Remove and avoid javascript eval() calls 
+ * [#319] (https://github.com/magento/magento2/issues/319) No message was displayed when product added to shopping cart.
+ * [#367] (https://github.com/magento/magento2/issues/367) Improve the error message from the contact form
+ * [#469] (https://github.com/magento/magento2/issues/469) Can't change prices on different websites for custom options
+* Update Customer Service Exception handling and add tests
+* Add usage of Customer Service to Customer Module, replacing some direct usage of Customer Model
+
+2.0.0.0-dev64
+=============
+* Modularity improvements:
+  * Moved abstract shopping cart logic from the Paypal module to the Payments module
+* Caching improvements:
+  * Added a new mechanism to uniquely identify page content (a hash-key for cache storage)
+  * Replaced the "magentoZoom" plugin with two widgets: the "gallery" and "zoom"
+* Fixed bugs:
+  * Fixed an issue with inserting an image in WYSIWYG editor where the selected folder was stored in session
+  * Fixed an issue with CMS Page Links not being shown because of the empty text in the link
+  * Fixed an issue where zooming functionality was not disabled for the responsive design
+  * Fixed an issue with zooming on a configurable product page where the main product image was shown instead of the selected option images
+* Updated various PHPDoc with parameter and return types
+* Moved quote-related multishipping logic to the Multishipping module
+* Resolved dependencies between the Payment and Multishipping modules
+* Moved the framework part of the Translate functionality from modules to the library
+* Created the architecture for the email template library
+* Introduced a consistent approach for using the Config scope
+* Fixed an issue with the dependency static test
+
+2.0.0.0-dev63
+=============
+* Modularity improvements:
+  * Consolidated all PayPal-related logic in a separate module
+  * Resolved dependencies on the Magento_GroupedProduct module
+  * Added the ability to enable/disable/remove the Magento_GroupedProduct module without impact on the system
+* Implemented the Oyejorge Less.php adapter
+* Implemented the Less files importing mechanism
+* Added the ability to configure certain cache frontend, and associate it to multiple cache types, thus avoiding the duplication of cache configuration
+* Implemented the more strict format of array definition in the DI configuration:
+  * Covered array definitions with XSD, and made the whole DI configuration validated with XSD
+  * Added the ability to define arrays with keys containing invalid XML characters, that was impossible when keys were represented by the node names
+* Fixed bugs:
+  * Fixed an issue with missed image for a cron job for the abandoned cart emails
+  * Restored the ability to configure cache storage in `local.xml`
+  * Fixed an issue with the css\js merging functionality
+  * Fixed an issue with customer selection on the order creation page
+* AppInterface renamed to LauncherInterface
+* Removed the reinit logic from the Config object
+* Framework part of the "URL" functionality removed from modules
+* Framework part of the "Config" functionality removed from modules
+* Removed the deprecated EAV structure creation method from the EAV setup model
 * Updated various PHPDoc with parameter and return types
 * Indexer implementation:
-  * Implemented new indexer structure
-* Refactored Web API Framework to support Data Object based service interfaces
-* Refactored controllers, blocks and templates of the Sales Module to use customer service
+  * Implemented a new indexer structure
+* Refactored Web API Framework to support the Data Object based service interfaces
+* Refactored controllers, blocks and templates of the Sales module to use Customer service
+* GitHub requests:
+  * [#275] (https://github.com/magento/magento2/issues/275) -- XSS Vulnerability in app/code/core/Mage/CatalogSearch/Block/Result.php
+* Removed the outdated Customer service
 
 2.0.0.0-dev62
 =============

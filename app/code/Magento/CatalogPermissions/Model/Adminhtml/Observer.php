@@ -16,22 +16,42 @@
  */
 namespace Magento\CatalogPermissions\Model\Adminhtml;
 
+use Magento\App\CacheInterface;
+use Magento\AuthorizationInterface;
+use Magento\Catalog\Block\Adminhtml\Category\Tabs;
+use Magento\Catalog\Model\Category;
+use Magento\Catalog\Model\CategoryFactory;
+use Magento\CatalogPermissions\App\ConfigInterface;
+use Magento\CatalogPermissions\Helper\Data;
+use Magento\CatalogPermissions\Model\Permission;
+use Magento\CatalogPermissions\Model\Permission\Index;
+use Magento\Event\Observer as EventObserver;
+use Magento\Index\Model\Event;
+use Magento\Index\Model\Indexer;
+
 class Observer
 {
     const FORM_SELECT_ALL_VALUES = -1;
 
+    /**
+     * @var array
+     */
     protected $_indexQueue = array();
+
+    /**
+     * @var array
+     */
     protected $_indexProductQueue = array();
 
     /**
-     * @var \Magento\AuthorizationInterface
+     * @var AuthorizationInterface
      */
     protected $_authorization;
 
     /**
      * Catalog permissions data
      *
-     * @var \Magento\CatalogPermissions\Helper\Data
+     * @var Data
      */
     protected $_catalogPermData = null;
 
@@ -41,42 +61,42 @@ class Observer
     protected $_permissionFactory;
 
     /**
-     * @var \Magento\Catalog\Model\CategoryFactory
+     * @var CategoryFactory
      */
     protected $_categoryFactory;
 
     /**
-     * @var \Magento\Index\Model\Indexer
+     * @var Indexer
      */
     protected $_indexer;
 
     /**
-     * @var \Magento\App\CacheInterface
+     * @var CacheInterface
      */
     protected $_coreCache;
 
     /**
-     * @var \Magento\CatalogPermissions\App\ConfigInterface
+     * @var ConfigInterface
      */
     protected $_permissionsConfig;
 
     /**
-     * @param \Magento\CatalogPermissions\App\ConfigInterface $permissionsConfig
-     * @param \Magento\App\CacheInterface $coreCache
-     * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     * @param ConfigInterface $permissionsConfig
+     * @param CacheInterface $coreCache
+     * @param CategoryFactory $categoryFactory
      * @param \Magento\CatalogPermissions\Model\PermissionFactory $permissionFactory
-     * @param \Magento\Index\Model\Indexer $indexer
-     * @param \Magento\CatalogPermissions\Helper\Data $catalogPermData
-     * @param \Magento\AuthorizationInterface $authorization
+     * @param Indexer $indexer
+     * @param Data $catalogPermData
+     * @param AuthorizationInterface $authorization
      */
     public function __construct(
-        \Magento\CatalogPermissions\App\ConfigInterface $permissionsConfig,
-        \Magento\App\CacheInterface $coreCache,
-        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
+        ConfigInterface $permissionsConfig,
+        CacheInterface $coreCache,
+        CategoryFactory $categoryFactory,
         \Magento\CatalogPermissions\Model\PermissionFactory $permissionFactory,
-        \Magento\Index\Model\Indexer $indexer,
-        \Magento\CatalogPermissions\Helper\Data $catalogPermData,
-        \Magento\AuthorizationInterface $authorization
+        Indexer $indexer,
+        Data $catalogPermData,
+        AuthorizationInterface $authorization
     ) {
         $this->_permissionsConfig = $permissionsConfig;
         $this->_coreCache = $coreCache;
@@ -90,17 +110,17 @@ class Observer
     /**
      * Save category permissions on category after save event
      *
-     * @param \Magento\Event\Observer $observer
-     * @return \Magento\CatalogPermissions\Model\Adminhtml\Observer
+     * @param EventObserver $observer
+     * @return $this
      */
-    public function saveCategoryPermissions(\Magento\Event\Observer $observer)
+    public function saveCategoryPermissions(EventObserver $observer)
     {
         if (!$this->_permissionsConfig->isEnabled()) {
             return $this;
         }
 
         $category = $observer->getEvent()->getCategory();
-        /* @var $category \Magento\Catalog\Model\Category */
+        /* @var $category Category */
         if ($category->hasData('permissions') && is_array($category->getData('permissions'))
             && $this->_authorization
                 ->isAllowed('Magento_CatalogPermissions::catalog_magento_catalogpermissions')
@@ -128,15 +148,13 @@ class Observer
 
                 $permission->addData($data);
                 $categoryViewPermission = $permission->getGrantCatalogCategoryView();
-                if (\Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY == $categoryViewPermission) {
-                    $permission->setGrantCatalogProductPrice(
-                        \Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY
-                    );
+                if (Permission::PERMISSION_DENY == $categoryViewPermission) {
+                    $permission->setGrantCatalogProductPrice(Permission::PERMISSION_DENY);
                 }
 
                 $productPricePermission = $permission->getGrantCatalogProductPrice();
-                if (\Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY == $productPricePermission) {
-                    $permission->setGrantCheckoutItems(\Magento\CatalogPermissions\Model\Permission::PERMISSION_DENY);
+                if (Permission::PERMISSION_DENY == $productPricePermission) {
+                    $permission->setGrantCheckoutItems(Permission::PERMISSION_DENY);
                 }
                 $permission->setCategoryId($category->getId());
                 $permission->save();
@@ -149,10 +167,10 @@ class Observer
     /**
      * Reindex category permissions on category move event
      *
-     * @param \Magento\Event\Observer $observer
-     * @return \Magento\CatalogPermissions\Model\Adminhtml\Observer
+     * @param EventObserver $observer
+     * @return $this
      */
-    public function reindexCategoryPermissionOnMove(\Magento\Event\Observer $observer)
+    public function reindexCategoryPermissionOnMove(EventObserver $observer)
     {
         $category = $this->_categoryFactory->create()
             ->load($observer->getEvent()->getCategoryId());
@@ -163,42 +181,41 @@ class Observer
     /**
      * Reindex permissions in queue on postdipatch
      *
-     * @param   \Magento\Event\Observer $observer
-     * @return  \Magento\CatalogPermissions\Model\Adminhtml\Observer
+     * @return  $this
      */
     public function reindexPermissions()
     {
         if (!empty($this->_indexQueue)) {
-            /** @var $indexer \Magento\Index\Model\Indexer */
+            /** @var $indexer Indexer */
             $indexer = $this->_indexer;
             foreach ($this->_indexQueue as $item) {
                 $indexer->logEvent(
                     new \Magento\Object(array('id' => $item)),
-                    \Magento\CatalogPermissions\Model\Permission\Index::ENTITY_CATEGORY,
-                    \Magento\CatalogPermissions\Model\Permission\Index::EVENT_TYPE_REINDEX_PRODUCTS
+                    Index::ENTITY_CATEGORY,
+                    Index::EVENT_TYPE_REINDEX_PRODUCTS
                 );
             }
             $this->_indexQueue = array();
             $indexer->indexEvents(
-                \Magento\CatalogPermissions\Model\Permission\Index::ENTITY_CATEGORY,
-                \Magento\CatalogPermissions\Model\Permission\Index::EVENT_TYPE_REINDEX_PRODUCTS
+                Index::ENTITY_CATEGORY,
+                Index::EVENT_TYPE_REINDEX_PRODUCTS
             );
-            $this->_coreCache->clean(array(\Magento\Catalog\Model\Category::CACHE_TAG));
+            $this->_coreCache->clean(array(Category::CACHE_TAG));
         }
 
         if (!empty($this->_indexProductQueue)) {
-            /** @var $indexer \Magento\Index\Model\Indexer */
+            /** @var $indexer Indexer */
             $indexer = $this->_indexer;
             foreach ($this->_indexProductQueue as $item) {
                 $indexer->logEvent(
                     new \Magento\Object(array('id' => $item)),
-                    \Magento\CatalogPermissions\Model\Permission\Index::ENTITY_PRODUCT,
-                    \Magento\CatalogPermissions\Model\Permission\Index::EVENT_TYPE_REINDEX_PRODUCTS
+                    Index::ENTITY_PRODUCT,
+                    Index::EVENT_TYPE_REINDEX_PRODUCTS
                 );
             }
             $indexer->indexEvents(
-                \Magento\CatalogPermissions\Model\Permission\Index::ENTITY_PRODUCT,
-                \Magento\CatalogPermissions\Model\Permission\Index::EVENT_TYPE_REINDEX_PRODUCTS
+                Index::ENTITY_PRODUCT,
+                Index::EVENT_TYPE_REINDEX_PRODUCTS
             );
             $this->_indexProductQueue = array();
         }
@@ -209,15 +226,15 @@ class Observer
     /**
      * Refresh category related cache on catalog permissions config save
      *
-     * @return \Magento\CatalogPermissions\Model\Adminhtml\Observer
+     * @return $this
      */
     public function cleanCacheOnConfigChange()
     {
-        $this->_coreCache->cleanCache(array(\Magento\Catalog\Model\Category::CACHE_TAG));
+        $this->_coreCache->cleanCache(array(Category::CACHE_TAG));
         $this->_indexer->processEntityAction(
             new \Magento\Object(),
-            \Magento\CatalogPermissions\Model\Permission\Index::ENTITY_CONFIG,
-            \Magento\Index\Model\Event::TYPE_SAVE
+            Index::ENTITY_CONFIG,
+            Event::TYPE_SAVE
         );
         return $this;
     }
@@ -225,7 +242,7 @@ class Observer
     /**
      * Rebuild index for products
      *
-     * @return  \Magento\CatalogPermissions\Model\Adminhtml\Observer
+     * @return $this
      */
     public function reindexProducts()
     {
@@ -236,8 +253,7 @@ class Observer
     /**
      * Rebuild index
      *
-     * @param   \Magento\Event\Observer $observer
-     * @return  \Magento\CatalogPermissions\Model\Adminhtml\Observer
+     * @return $this
      */
     public function reindex()
     {
@@ -248,10 +264,10 @@ class Observer
     /**
      * Rebuild index after product assigned websites
      *
-     * @param   \Magento\Event\Observer $observer
-     * @return  \Magento\CatalogPermissions\Model\Adminhtml\Observer
+     * @param EventObserver $observer
+     * @return $this
      */
-    public function reindexAfterProductAssignedWebsite(\Magento\Event\Observer $observer)
+    public function reindexAfterProductAssignedWebsite(EventObserver $observer)
     {
         $productIds = $observer->getEvent()->getProducts();
         $this->_indexProductQueue = array_merge($this->_indexProductQueue, $productIds);
@@ -262,10 +278,10 @@ class Observer
     /**
      * Save product permission index
      *
-     * @param   \Magento\Event\Observer $observer
-     * @return  \Magento\CatalogPermissions\Model\Adminhtml\Observer
+     * @param EventObserver $observer
+     * @return $this
      */
-    public function saveProductPermissionIndex(\Magento\Event\Observer $observer)
+    public function saveProductPermissionIndex(EventObserver $observer)
     {
         $product = $observer->getEvent()->getProduct();
         $this->_indexProductQueue[] = $product->getId();
@@ -275,10 +291,10 @@ class Observer
     /**
      * Add permission tab on category edit page
      *
-     * @param \Magento\Event\Observer $observer
-     * @return \Magento\CatalogPermissions\Model\Adminhtml\Observer
+     * @param EventObserver $observer
+     * @return $this
      */
-    public function addCategoryPermissionTab(\Magento\Event\Observer $observer)
+    public function addCategoryPermissionTab(EventObserver $observer)
     {
         if (!$this->_permissionsConfig->isEnabled()) {
             return $this;
@@ -288,7 +304,7 @@ class Observer
         }
 
         $tabs = $observer->getEvent()->getTabs();
-        /* @var $tabs \Magento\Catalog\Block\Adminhtml\Category\Tabs */
+        /* @var $tabs Tabs */
 
         //if ($this->_catalogPermissionsData->isAllowedCategory($tabs->getCategory())) {
             $tabs->addTab(
@@ -303,9 +319,10 @@ class Observer
     /**
      * Apply categories and products permissions after reindex category products
      *
-     * @param \Magento\Event\Observer $observer
+     * @param EventObserver $observer
+     * @return void
      */
-    public function applyPermissionsAfterReindex(\Magento\Event\Observer $observer)
+    public function applyPermissionsAfterReindex(EventObserver $observer)
     {
         $this->_indexer->getProcessByCode('catalogpermissions')->reindexEverything();
     }

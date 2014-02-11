@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar\Buttons;
 
 /**
  * Save button block
@@ -15,8 +16,6 @@
  * @method \Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar\Buttons\Save setHasThemeAssigned(bool $flag)
  * @method \Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar\Buttons\Save setMode(bool $flag)
  */
-namespace Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar\Buttons;
-
 class Save extends \Magento\Backend\Block\Widget\Button\SplitButton
 {
     /**
@@ -83,7 +82,7 @@ class Save extends \Magento\Backend\Block\Widget\Button\SplitButton
     /**
      * Whether button is disabled
      *
-     * @return mixed
+     * @return bool
      */
     public function getDisabled()
     {

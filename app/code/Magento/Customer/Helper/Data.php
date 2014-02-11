@@ -83,11 +83,15 @@ class Data extends \Magento\App\Helper\AbstractHelper
     const VAT_CLASS_ERROR       = 'error';
 
     /**
+     * Customer groups collection
+     *
      * @var \Magento\Customer\Model\Resource\Group\Collection
      */
     protected $_groups;
 
     /**
+     * Core data
+     *
      * @var \Magento\Core\Helper\Data
      */
     protected $_coreData;
@@ -123,9 +127,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_customerSession;
 
     /**
-     * @var \Magento\Customer\Model\GroupFactory
+     * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
      */
-    protected $_groupFactory;
+    protected $_groupService;
 
     /**
      * @var \Magento\Customer\Model\FormFactory
@@ -143,6 +147,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $mathRandom;
 
     /**
+     * @var \Magento\Customer\Model\Converter
+     */
+    protected $_converter;
+
+    /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Customer\Helper\Address $customerAddress
      * @param \Magento\Core\Helper\Data $coreData
@@ -151,10 +160,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\App\ConfigInterface $coreConfig
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Customer\Model\GroupFactory $groupFactory
+     * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService
      * @param \Magento\Customer\Model\FormFactory $formFactory
      * @param \Magento\Escaper $escaper
      * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\Customer\Model\Converter
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
@@ -165,10 +175,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\App\ConfigInterface $coreConfig,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Customer\Model\GroupFactory $groupFactory,
+        \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService,
         \Magento\Customer\Model\FormFactory $formFactory,
         \Magento\Escaper $escaper,
-        \Magento\Math\Random $mathRandom
+        \Magento\Math\Random $mathRandom,
+        \Magento\Customer\Model\Converter $converter
     ) {
         $this->_customerAddress = $customerAddress;
         $this->_coreData = $coreData;
@@ -177,10 +188,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_coreConfig = $coreConfig;
         $this->_customerSession = $customerSession;
-        $this->_groupFactory = $groupFactory;
+        $this->_groupService = $groupService;
         $this->_formFactory = $formFactory;
         $this->_escaper = $escaper;
         $this->mathRandom = $mathRandom;
+        $this->_converter = $converter;
         parent::__construct($context);
     }
 
@@ -240,21 +252,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
             $this->_customer = $this->_customerSession->getCustomer();
         }
         return $this->_customer;
-    }
-
-    /**
-     * Retrieve customer groups collection
-     *
-     * @return \Magento\Customer\Model\Resource\Group\Collection
-     */
-    public function getGroups()
-    {
-        if (empty($this->_groups)) {
-            $this->_groups = $this->_createGroup()->getResourceCollection()
-                ->setRealGroupsFilter()
-                ->load();
-        }
-        return $this->_groups;
     }
 
     /**
@@ -531,7 +528,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getDefaultCustomerGroupId($store = null)
     {
-        return (int)$this->_coreStoreConfig->getConfig(\Magento\Customer\Model\Group::XML_PATH_DEFAULT_ID, $store);
+        return $this->_groupService->getDefaultGroup($store)->getId();
     }
 
     /**
@@ -692,7 +689,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $message = '';
         $isError = true;
         $customerVatClass = $this->getCustomerVatClass($customerAddress->getCountryId(), $validationResult);
-        $groupAutoAssignDisabled = $this->_coreStoreConfig->getConfigFlag(self::XML_PATH_CUSTOMER_VIV_GROUP_AUTO_ASSIGN);
+        $groupAutoAssignDisabled = $this->_coreStoreConfig->getConfigFlag(
+            self::XML_PATH_CUSTOMER_VIV_GROUP_AUTO_ASSIGN);
 
         $willChargeTaxMessage    = __('You will be charged tax.');
         $willNotChargeTaxMessage = __('You will not be charged tax.');
@@ -714,8 +712,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
             if (!$groupAutoAssignDisabled && !$customerGroupAutoAssignDisabled) {
                 $message .= $willChargeTaxMessage;
             }
-        }
-        else {
+        } else {
             $contactUsMessage = sprintf(__('If you believe this is an error, please contact us at %s'),
                 $this->_coreStoreConfig->getConfig(self::XML_PATH_SUPPORT_EMAIL));
 
@@ -785,14 +782,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
     }
 
     /**
-     * @return \Magento\Customer\Model\Group
-     */
-    protected function _createGroup()
-    {
-        return $this->_groupFactory->create();
-    }
-
-    /**
      * @return \Magento\Customer\Model\Form
      */
     protected function _createForm()
@@ -800,36 +789,17 @@ class Data extends \Magento\App\Helper\AbstractHelper
         return $this->_formFactory->create();
     }
 
-
     /**
-     * Check store availability for customer given the customerId
+     * Loads the values from a customer model.
+     * This is a wrapper for the converter object.
      *
-     * @param int $customerWebsiteId
-     * @param int $storeId
-     * @return bool
-     */
-    public function isCustomerInStore($customerWebsiteId, $storeId)
-    {
-        $ids = $this->getSharedStoreIds($customerWebsiteId);
-        return in_array($storeId, $ids);
-    }
-
-    /**
-     * Retrieve shared store ids
+     * TODO to be removed after service refactoring is done
      *
-     * @param int $customerWebsiteId
-     * @return array
+     * @param \Magento\Customer\Model\Customer $customerModel
+     * @return \Magento\Customer\Service\V1\Dto\Customer
      */
-    public function getSharedStoreIds($customerWebsiteId)
+    public function createCustomerFromModel($customerModel)
     {
-        $ids = array();
-        if ((bool)$this->_configShare->isWebsiteScope()) {
-            $ids = $this->_storeManager->getWebsite($customerWebsiteId)->getStoreIds();
-        } else {
-            foreach ($this->_storeManager->getStores() as $store) {
-                $ids[] = $store->getId();
-            }
-        }
-        return $ids;
+        return $this->_formFactory->create();
     }
 }

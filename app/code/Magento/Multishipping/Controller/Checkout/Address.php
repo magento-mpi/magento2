@@ -96,7 +96,7 @@ class Address extends \Magento\App\Action\Action
             }
 
             if ($this->_getCheckout()->getCustomerDefaultShippingAddress()) {
-                $addressForm->setBackUrl($this->_url->getUrl('*/multishipping/shipping'));
+                $addressForm->setBackUrl($this->_url->getUrl('*/checkout/shipping'));
             }
         }
         $this->_view->renderLayout();
@@ -108,7 +108,7 @@ class Address extends \Magento\App\Action\Action
             $this->_objectManager->create('Magento\Multishipping\Model\Checkout\Type\Multishipping')
                 ->updateQuoteCustomerShippingAddress($addressId);
         }
-        $this->_redirect('*/multishipping/shipping');
+        $this->_redirect('*/checkout/shipping');
     }
 
     public function selectBillingAction()
@@ -164,7 +164,7 @@ class Address extends \Magento\App\Action\Action
             $addressForm->setTitle(__('Edit Billing Address'))
                 ->setSuccessUrl($this->_url->getUrl('*/*/saveBilling', array('id'=>$this->getRequest()->getParam('id'))))
                 ->setErrorUrl($this->_url->getUrl('*/*/*', array('id'=>$this->getRequest()->getParam('id'))))
-                ->setBackUrl($this->_url->getUrl('*/multishipping/overview'));
+                ->setBackUrl($this->_url->getUrl('*/checkout/overview'));
             if ($headBlock = $this->_view->getLayout()->getBlock('head')) {
                 $headBlock->setTitle($addressForm->getTitle() . ' - ' . $headBlock->getDefaultTitle());
             }
@@ -178,7 +178,7 @@ class Address extends \Magento\App\Action\Action
             $this->_objectManager->create('Magento\Multishipping\Model\Checkout\Type\Multishipping')
                 ->setQuoteCustomerBillingAddress($addressId);
         }
-        $this->_redirect('*/multishipping/billing');
+        $this->_redirect('*/checkout/billing');
     }
 
     public function saveBillingAction()
@@ -187,6 +187,6 @@ class Address extends \Magento\App\Action\Action
             $this->_objectManager->create('Magento\Multishipping\Model\Checkout\Type\Multishipping')
                 ->setQuoteCustomerBillingAddress($addressId);
         }
-        $this->_redirect('*/multishipping/overview');
+        $this->_redirect('*/checkout/overview');
     }
 }

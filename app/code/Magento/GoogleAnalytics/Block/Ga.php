@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\GoogleAnalytics\Block;
 
 /**
  * GoogleAnalitics Page Block
@@ -16,8 +16,6 @@
  * @package    Magento_GoogleAnalytics
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GoogleAnalytics\Block;
-
 class Ga extends \Magento\View\Element\Template
 {
     /**

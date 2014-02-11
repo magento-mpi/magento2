@@ -5,14 +5,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Service\V1;
 
-use Magento\Customer\Service\Entity\V1\Exception;
-use Magento\Customer\Service\V1;
+use Magento\Exception\InputException;
+use Magento\Exception\NoSuchEntityException;
 
 /**
- * Integration test for service layer \Magento\Customer\Service\CustomerV1
+ * Integration test for service layer \Magento\Customer\Service\V1\CustomerService
  *
  * @SuppressWarnings(PHPMD.TooManyMethods)
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
@@ -95,7 +94,7 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @param mixed $custId
      * @dataProvider invalidCustomerIdsDataProvider
-     * @expectedException Exception
+     * @expectedException \Magento\Exception\NoSuchEntityException
      * @expectedExceptionMessage customerId
      */
     public function testInvalidCustomerIds($custId)
@@ -143,14 +142,19 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Lastname', $customer->getLastname());
     }
 
-    /**
-     * @expectedException Exception
-     * @expectedExceptionMessage No customer with customerId 1 exists.
-     */
     public function testGetCustomerNotExist()
     {
-        // No fixture, so customer with id 1 shouldn't exist, exception should be thrown
-        $this->_service->getCustomer(1);
+        try {
+            // No fixture, so customer with id 1 shouldn't exist, exception should be thrown
+            $this->_service->getCustomer(1);
+            $this->fail('Did not throw expected exception.');
+        } catch (NoSuchEntityException $nsee) {
+            $expectedParams = [
+                'customerId' => '1',
+            ];
+            $this->assertEquals($expectedParams, $nsee->getParams());
+            $this->assertEquals('No such entity with customerId = 1', $nsee->getMessage());
+        }
     }
 
     /**
@@ -343,8 +347,6 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoDbIsolation enabled
-     * @expectedException \Magento\Validator\ValidatorException
-     * @expectedExceptionMessage Please correct this email address
      */
     public function testSaveCustomerException()
     {
@@ -357,10 +359,26 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
 
         try {
             $this->_service->saveCustomer($customerEntity);
-        } catch (Exception $e) {
-            $this->assertEquals('There were one or more errors validating the customer object.', $e->getMessage());
-            $this->assertEquals(Exception::CODE_VALIDATION_FAILED, $e->getCode());
-            throw $e->getPrevious();
+            $this->fail('Expected exception not thrown');
+        } catch (InputException $ie) {
+            $expectedParams = [
+                [
+                    'fieldName' => 'firstname',
+                    'value' => '',
+                    'code' => InputException::REQUIRED_FIELD,
+                ],
+                [
+                    'fieldName' => 'lastname',
+                    'value' => '',
+                    'code' => InputException::REQUIRED_FIELD,
+                ],
+                [
+                    'fieldName' => 'email',
+                    'value' => '',
+                    'code' => InputException::INVALID_FIELD_VALUE,
+                ],
+            ];
+            $this->assertEquals($expectedParams, $ie->getParams());
         }
     }
 
@@ -469,18 +487,15 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertNotNull($customerId);
         $savedCustomer = $this->_service->getCustomer($customerId);
         $dataInService = $savedCustomer->getAttributes();
+        $expectedDifferences = ['created_at', 'updated_at', 'email', 'is_active', 'entity_id', 'password_hash',
+            'attribute_set_id', 'confirmation'];
         foreach ($dataInModel as $key => $value) {
-            $fieldsToValidate = [
-                'id',
-                'created_in',
-                'firstname',
-                'group_id',
-                'lastname',
-                'store_id',
-                'website_id',
-            ];
-            if (in_array($key, $fieldsToValidate)) {
-                $this->assertEquals($value, $dataInService[$key], 'Failed asserting value for ' . $key);
+            if (!in_array($key, $expectedDifferences)) {
+                if (is_null($value)) {
+                    $this->assertArrayNotHasKey($key, $dataInService);
+                } else {
+                    $this->assertEquals($value, $dataInService[$key], 'Failed asserting value for '. $key);
+                }
             }
         }
         $this->assertEquals($email2, $dataInService['email']);
@@ -579,73 +594,5 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
         $customer = $this->_service->getCustomer(1);
         $this->assertEquals('Firstname', $customer->getFirstname());
         $this->assertNull($customer->getAttribute('rp_token'));
-    }
-
-    /**
-     * @magentoAppArea adminhtml
-     * @magentoDataFixture Magento/Customer/_files/customer.php
-     * @magentoAppIsolation enabled
-     * @expectedException \Magento\Customer\Service\Entity\V1\Exception
-     * @expectedExceptionMessage No customer with customerId 1 exists.
-     */
-    public function testDeleteCustomer()
-    {
-        // _files/customer.php sets the customer id to 1
-        $this->_service->deleteCustomer(1);
-        $this->_service->getCustomer(1);
-    }
-
-    /**
-     *
-     * @magentoDataFixture Magento/Customer/_files/customer.php
-     * @magentoDataFixture Magento/Customer/_files/customer_address.php
-     * @magentoDataFixture Magento/Customer/_files/customer_two_addresses.php
-     * @magentoAppArea adminhtml
-     * @magentoAppIsolation enabled
-     * @expectedException \Magento\Customer\Service\Entity\V1\Exception
-     * @expectedExceptionMessage No customer with customerId 1 exists.
-     */
-    public function testDeleteCustomerWithAddress()
-    {
-        //Verify address is created for the customer;
-        $result = $this->_addressService->getAddresses(1);
-        $this->assertEquals(2, count($result));
-        // _files/customer.php sets the customer id to 1
-        $this->_service->deleteCustomer(1);
-
-        // Verify by directly loading the address by id
-        $this->_verifyDeletedAddress(1);
-        $this->_verifyDeletedAddress(2);
-
-        //Verify by calling the Address Service. This will throw the expected exception since customerId doesn't exist
-        $result = $this->_addressService->getAddresses(1);
-        $this->assertTrue(empty($result));
-    }
-
-    /**
-     * @magentoDataFixture Magento/Customer/_files/customer.php
-     * @magentoAppIsolation enabled
-     * @expectedException \Magento\Customer\Service\Entity\V1\Exception
-     * @expectedExceptionMessage Cannot complete this operation from non-admin area.
-     */
-    public function testDeleteCustomerNonSecureArea()
-    {
-        // _files/customer.php sets the customer id to 1
-        $this->_service->deleteCustomer(1);
-    }
-
-    /**
-     * Check if the Address with the give addressid is deleted
-     *
-     * @param int $addressId
-     */
-    private function _verifyDeletedAddress($addressId)
-    {
-        /** @var $addressFactory \Magento\Customer\Model\AddressFactory*/
-        $addressFactory = $this->_objectManager
-            ->create('Magento\Customer\Model\AddressFactory');
-        $addressModel = $addressFactory->create()->load($addressId);
-        $addressData = $addressModel->getData();
-        $this->assertTrue(empty($addressData));
     }
 }

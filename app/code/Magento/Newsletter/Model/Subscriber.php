@@ -95,7 +95,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
     /**
      * Translate
      *
-     * @var \Magento\Core\Model\Translate
+     * @var \Magento\TranslateInterface
      */
     protected $_translate;
 
@@ -130,7 +130,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Email\Model\TemplateFactory $emailTemplateFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Translate $translate
+     * @param \Magento\TranslateInterface $translate
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -144,7 +144,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
         \Magento\Email\Model\TemplateFactory $emailTemplateFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Translate $translate,
+        \Magento\TranslateInterface $translate,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
@@ -456,6 +456,24 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
         $this->setSubscriberStatus(self::STATUS_UNSUBSCRIBED)
             ->save();
         $this->sendUnsubscriptionEmail();
+        return $this;
+    }
+
+    /**
+     * Update newsletter subscription for given customer
+     *
+     * @param int $customerId
+     * @param boolean $subscribe
+     *
+     * @return  \Magento\Newsletter\Model\Subscriber
+     */
+    public function updateSubscription($customerId, $subscribe)
+    {
+        /** @var \Magento\Customer\Model\Customer $customerModel */
+        $customerModel = $this->_customerFactory->create()->load($customerId);
+        $customerModel->setIsSubscribed($subscribe);
+        $this->subscribeCustomer($customerModel);
+
         return $this;
     }
 

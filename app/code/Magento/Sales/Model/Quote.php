@@ -261,7 +261,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
     protected $_quotePaymentCollectionFactory;
 
     /**
-     * @var \Magento\Sales\Model\Recurring\ProfileFactory
+     * @var \Magento\RecurringProfile\Model\Profile
      */
     protected $_recurringProfileFactory;
 
@@ -302,7 +302,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Sales\Model\Quote\PaymentFactory $quotePaymentFactory
      * @param \Magento\Sales\Model\Resource\Quote\Payment\CollectionFactory $quotePaymentCollectionFactory
-     * @param \Magento\Sales\Model\Recurring\ProfileFactory $recurringProfileFactory
+     * @param \Magento\RecurringProfile\Model\ProfileFactory $recurringProfileFactory
      * @param \Magento\Object\Copy $objectCopyService
      * @param \Magento\Customer\Model\Converter $converter
      * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
@@ -329,7 +329,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Sales\Model\Quote\PaymentFactory $quotePaymentFactory,
         \Magento\Sales\Model\Resource\Quote\Payment\CollectionFactory $quotePaymentCollectionFactory,
-        \Magento\Sales\Model\Recurring\ProfileFactory $recurringProfileFactory,
+        \Magento\RecurringProfile\Model\ProfileFactory $recurringProfileFactory,
         \Magento\Object\Copy $objectCopyService,
         \Magento\Customer\Model\Converter $converter,
         \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
@@ -2275,5 +2275,15 @@ class Quote extends \Magento\Core\Model\AbstractModel
             return $this;
         }
         return parent::save();
+    }
+
+    /**
+     * Check if there are more than one shipping address
+     *
+     * @return bool
+     */
+    public function isMultipleShippingAddresses()
+    {
+        return \count($this->getAllShippingAddresses()) > 1;
     }
 }

@@ -10,9 +10,11 @@
 
 namespace Magento\CatalogRule\Block\Adminhtml\Promo\Catalog\Edit\Tab;
 
-class Actions
-    extends \Magento\Backend\Block\Widget\Form\Generic
-    implements \Magento\Backend\Block\Widget\Tab\TabInterface
+use Magento\Backend\Block\Widget\Form;
+use Magento\Backend\Block\Widget\Form\Generic;
+use Magento\Backend\Block\Widget\Tab\TabInterface;
+
+class Actions extends Generic implements TabInterface
 {
     /**
      * Prepare content for tab
@@ -37,7 +39,7 @@ class Actions
     /**
      * Returns status flag about this tab can be showen or not
      *
-     * @return true
+     * @return bool
      */
     public function canShowTab()
     {
@@ -47,13 +49,16 @@ class Actions
     /**
      * Returns status flag about this tab hidden or not
      *
-     * @return true
+     * @return bool
      */
     public function isHidden()
     {
         return false;
     }
 
+    /**
+     * @return Form
+     */
     protected function _prepareForm()
     {
         $model = $this->_coreRegistry->registry('current_promo_catalog_rule');

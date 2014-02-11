@@ -355,7 +355,7 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
             $request->setData('shipping_address', $this->_getAddressInfo($order->getShippingAddress()));
         }
 
-        $request->setData('cart', $this->_getCart($order));
+        $request->setData('cart', $payment->hasCart() ? $payment->getCart() : $this->_pbridgeData->prepareCart($order));
 
         $api = $this->_getApi()->doAuthorize($request);
         $apiResponse = $api->getResponse();
@@ -537,26 +537,6 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
     public function getAddressInfo($address)
     {
         return $this->_getAddressInfo($address);
-    }
-
-    /**
-     * Fill cart request section from order
-     *
-     * @param \Magento\Core\Model\AbstractModel $order
-     *
-     * @return array
-     */
-    protected function _getCart(\Magento\Core\Model\AbstractModel $order)
-    {
-        list($items, $totals) = $this->_pbridgeData->prepareCart($order);
-        //Getting cart items
-        $result = array();
-
-        foreach ($items as $item) {
-            $result['items'][] = $item->getData();
-        }
-
-        return array_merge($result, $totals);
     }
 
     /**

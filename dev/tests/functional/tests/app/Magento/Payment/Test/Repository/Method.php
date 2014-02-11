@@ -162,7 +162,8 @@ class Method extends AbstractRepository
             'config' => array(),
             'data' => array(
                 'fields' => array(
-                    'payment_code' => 'paypal_standard'
+                    'payment_code' => 'paypal_standard',
+                    'payment_action' => 'Sale'
                 ),
             )
         );

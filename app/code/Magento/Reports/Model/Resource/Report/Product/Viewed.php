@@ -73,6 +73,7 @@ class Viewed extends \Magento\Sales\Model\Resource\Report\AbstractReport
     /**
      * Model initialization
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -82,9 +83,9 @@ class Viewed extends \Magento\Sales\Model\Resource\Report\AbstractReport
     /**
      * Aggregate products view data
      *
-     * @param mixed $from
-     * @param mixed $to
-     * @return \Magento\Sales\Model\Resource\Report\Bestsellers
+     * @param null|mixed $from
+     * @param null|mixed $to
+     * @return $this
      */
     public function aggregate($from = null, $to = null)
     {

@@ -44,7 +44,6 @@ class Core_Mage_CmsWidgets_CreateTest extends Mage_Selenium_TestCase
         $this->categoryHelper()->createCategory($category);
         $this->assertMessagePresent('success', 'success_saved_category');
         $this->navigate('manage_products');
-        $this->runMassAction('Delete', 'all');
         $productData = $this->productHelper()->createConfigurableProduct(true);
         $categoryPath = $productData['category']['path'];
         $bundle = $this->loadDataSet('SalesOrder', 'fixed_bundle_for_order',

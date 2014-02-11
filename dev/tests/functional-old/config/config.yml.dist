@@ -23,6 +23,8 @@ browsers:
         sessionStrategy: shared
         desiredCapabilities:
             platform: ANY
+            chromeOptions:
+                args: ["no-sandbox"]
     firefox: &firefox
         browser: 'Firefox'
         browserName: 'firefox'
@@ -41,7 +43,7 @@ browsers:
         sessionStrategy: shared
         desiredCapabilities:
             platform: ANY
-    default: *firefox
+    default: *googlechrome
 ################################################################################
 #                                                                              #
 #                     Framework configuration                                  #
@@ -63,9 +65,9 @@ framework:
 ################################################################################
 applications:
     ce: &ce
-        fallbackOrderFixture: 'themes/frontend/plushe, default'
+        fallbackOrderFixture: 'default'
         fallbackOrderHelper: 'Core'
-        design_theme: Magento Demo
+        design_theme: Magento Plushe
         ftp: &ftp
             url: 'localhost'
             base_dir: '/'
@@ -98,7 +100,7 @@ applications:
     ee: &ee
         fallbackOrderFixture: 'enterprise, default'
         fallbackOrderHelper: 'Enterprise, Core'
-        design_theme: Magento Fixed Width
+        design_theme: Magento Plushe
         ftp: *ftp
         areas:
             admin:

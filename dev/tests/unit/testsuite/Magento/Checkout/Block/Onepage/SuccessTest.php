@@ -37,7 +37,7 @@ class SuccessTest extends \PHPUnit_Framework_TestCase
             ->method('getLastRecurringProfileIds')
             ->will($this->returnValue([1, 2, 3]));
         $collection = $this->getMock(
-            'Magento\Sales\Model\Resource\Recurring\Profile\Collection',
+            'Magento\RecurringProfile\Model\Resource\Profile\Collection',
             ['addFieldToFilter'],
             [],
             '',
@@ -46,7 +46,7 @@ class SuccessTest extends \PHPUnit_Framework_TestCase
         $collection->expects($this->once())->method('addFieldToFilter')
             ->with('profile_id', ['in' => [1, 2, 3]])->will($this->returnValue([]));
         $recurringProfileCollectionFactory = $this->getMock(
-            'Magento\Sales\Model\Resource\Recurring\Profile\CollectionFactory',
+            'Magento\RecurringProfile\Model\Resource\Profile\CollectionFactory',
             ['create'],
             [],
             '',

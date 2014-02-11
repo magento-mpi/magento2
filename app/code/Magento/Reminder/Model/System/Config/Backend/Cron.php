@@ -7,16 +7,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reminder\Model\System\Config\Backend;
+
+use Magento\Core\Exception;
+use Magento\Core\Model\AbstractModel;
 
 /**
  * Reminder Cron Backend Model
  */
-namespace Magento\Reminder\Model\System\Config\Backend;
-
 class Cron extends \Magento\Core\Model\Config\Value
 {
-    const CRON_STRING_PATH  = 'crontab/jobs/send_notification/schedule/cron_expr';
-    const CRON_MODEL_PATH   = 'crontab/jobs/send_notification/run/model';
+    const CRON_STRING_PATH  = 'crontab/default/jobs/send_notification/schedule/cron_expr';
+    const CRON_MODEL_PATH   = 'crontab/default/jobs/send_notification/run/model';
 
     /**
      * Configuration Value Factory
@@ -61,8 +63,8 @@ class Cron extends \Magento\Core\Model\Config\Value
     /**
      * Cron settings after save
      *
-     * @return \Magento\Reminder\Model\System\Config\Backend\Cron
-     * @throws \Magento\Core\Exception
+     * @return AbstractModel|void
+     * @throws Exception
      */
     protected function _afterSave()
     {
@@ -85,7 +87,7 @@ class Cron extends \Magento\Core\Model\Config\Value
                     $cronExprString = "{$minutes} * * * *";
                 }
                 else {
-                    throw new \Magento\Core\Exception(__('Please specify a valid number of minute.'));
+                    throw new Exception(__('Please specify a valid number of minute.'));
                 }
             }
             elseif ($frequency == $daily) {
@@ -111,7 +113,7 @@ class Cron extends \Magento\Core\Model\Config\Value
         }
 
         catch (\Exception $e) {
-            throw new \Magento\Core\Exception(__('Unable to save Cron expression'));
+            throw new Exception(__('Unable to save Cron expression'));
         }
     }
 }
