@@ -81,6 +81,9 @@ class UrlResolver implements PreProcessorInterface
      */
     public function process(\Magento\View\Publisher\FileInterface $publisherFile, $targetDirectory)
     {
+        if (!$publisherFile->isPublicationAllowed()) {
+            return $publisherFile->getSourcePath();
+        }
         $filePath = $this->viewFileSystem->normalizePath($publisherFile->getFilePath());
         $sourcePath = $this->viewFileSystem->normalizePath($publisherFile->getSourcePath());
         $targetPath = $this->publisher->buildPublicViewFilename($publisherFile);

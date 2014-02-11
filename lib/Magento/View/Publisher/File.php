@@ -122,13 +122,37 @@ class File implements FileInterface
     {
         $filePath = str_replace('\\', '/', $this->sourcePath);
 
-        $pubLibDir = $this->filesystem->getPath(\Magento\App\Filesystem::PUB_LIB_DIR) . '/';
-        if (strncmp($filePath, $pubLibDir, strlen($pubLibDir)) === 0) {
+        if ($this->isLibFile($filePath)) {
             return false;
         }
 
+        if (!$this->isViewStaticFile($filePath)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @param string $filePath
+     * @return bool
+     */
+    protected function isLibFile($filePath)
+    {
+        $pubLibDir = $this->filesystem->getPath(\Magento\App\Filesystem::PUB_LIB_DIR) . '/';
+        if (strncmp($filePath, $pubLibDir, strlen($pubLibDir)) === 0) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @param string $filePath
+     * @return bool
+     */
+    protected function isViewStaticFile($filePath)
+    {
         $pubStaticDir = $this->filesystem->getPath(\Magento\App\Filesystem::STATIC_VIEW_DIR) . '/';
-        if (strncmp($filePath, $pubStaticDir, strlen($pubStaticDir)) !== 0) {
+        if (strncmp($filePath, $pubStaticDir, strlen($pubStaticDir)) === 0) {
             return true;
         }
         return false;

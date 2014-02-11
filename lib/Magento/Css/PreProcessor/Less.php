@@ -15,12 +15,10 @@ use \Magento\View\Asset\PreProcessor\PreProcessorInterface;
  */
 class Less implements PreProcessorInterface
 {
-    /**#@+
-     * Temporary directories prefix group
+    /**
+     * Temporary directory prefix
      */
     const TMP_VIEW_DIR   = 'view';
-    const TMP_THEME_DIR  = 'theme_';
-    /**#@-*/
 
     /**
      * @var \Magento\Less\PreProcessor
@@ -83,41 +81,6 @@ class Less implements PreProcessorInterface
 
         $targetDirectory->writeFile($tmpFilePath, $cssContent);
         return $targetDirectory->getAbsolutePath($tmpFilePath);
-    }
-
-    /**
-     * Build unique file path for a view file that includes area/theme/locale/module parts
-     *
-     * @param string $file
-     * @param array $params - 'themeModel', 'area', 'locale', 'module' keys are used
-     * @return string
-     */
-    protected function buildTmpFilePath($file, array $params)
-    {
-        /** @var $theme \Magento\View\Design\ThemeInterface */
-        $theme = $params['themeModel'];
-        $designPath = null;
-        if ($theme->getThemePath()) {
-            $designPath = $theme->getThemePath();
-        } elseif ($theme->getId()) {
-            $designPath = self::TMP_THEME_DIR . $theme->getId();
-        }
-
-        $parts = array();
-        $parts[] = self::TMP_VIEW_DIR;
-        $parts[] = $params['area'];
-        if ($designPath) {
-            $parts[] = $designPath;
-        }
-        $parts[] = $params['locale'];
-        if ($params['module']) {
-            $parts[] = $params['module'];
-        }
-        $parts[] = $file;
-
-        $publicFile = join('/', $parts);
-
-        return $publicFile;
     }
 
     /**

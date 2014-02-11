@@ -22,11 +22,17 @@ class CssFile extends File
      */
     public function isPublicationAllowed()
     {
-        $result = parent::isPublicationAllowed();
-        if (!$result) {
-            $result = $this->viewService->getAppMode() === \Magento\App\State::MODE_DEVELOPER;
+        $filePath = str_replace('\\', '/', $this->sourcePath);
+
+        if ($this->isLibFile($filePath)) {
+            return false;
         }
-        return $result;
+
+        if (!$this->isViewStaticFile($filePath)) {
+            return true;
+        }
+
+        return $this->viewService->getAppMode() === \Magento\App\State::MODE_DEVELOPER;
     }
 
     /**
