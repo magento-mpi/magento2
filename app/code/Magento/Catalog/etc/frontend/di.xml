@@ -31,4 +31,9 @@
     <type name="Magento\Catalog\Controller\Product\Compare">
         <plugin name="sessionInitializer" type="compareProductInitSession" />
     </type>
+    <type name="Magento\Catalog\Model\Indexer\AbstractFlatState">
+        <param name="isAvailable">
+            <value type="bool">true</value>
+        </param>
+    </type>
 </config>
