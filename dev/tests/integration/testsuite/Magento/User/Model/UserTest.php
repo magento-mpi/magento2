@@ -316,6 +316,22 @@ class UserTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @magentoDbIsolation enabled
+     */
+    public function testBeforeSavePasswordHash()
+    {
+        $this->_model->setUsername('john.doe')
+            ->setFirstname('John')
+            ->setLastname('Doe')
+            ->setEmail('jdoe@gmail.com')
+            ->setPassword('123123q')
+        ;
+        $this->_model->save();
+        $this->assertNotEquals('123123q', $this->_model->getPassword());
+        $this->assertRegExp('/^[0-9a-f]{64}:[0-9a-zA-Z]{32}$/', $this->_model->getPassword());
+    }
+
+    /**
      * @expectedException \Magento\Core\Exception
      * @expectedExceptionMessage Your password confirmation must match your password.
      * @magentoDbIsolation enabled
