@@ -7,20 +7,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Review\Model\Resource\Review\Summary;
 
 /**
  * Review summery collection
  *
- * @category    Magento
- * @package     Magento_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Review\Model\Resource\Review\Summary;
-
 class Collection extends \Magento\Data\Collection\Db
 {
     /**
+     * Summary table name
+     *
      * @var string
      */
     protected $_summaryTable;
@@ -52,7 +50,7 @@ class Collection extends \Magento\Data\Collection\Db
      *
      * @param int|string $entityId
      * @param int $entityType
-     * @return \Magento\Review\Model\Resource\Review\Summary\Collection
+     * @return $this
      */
     public function addEntityFilter($entityId, $entityType = 1)
     {
@@ -65,7 +63,7 @@ class Collection extends \Magento\Data\Collection\Db
      * Add store filter
      *
      * @param int $storeId
-     * @return \Magento\Review\Model\Resource\Review\Summary\Collection
+     * @return $this
      */
     public function addStoreFilter($storeId)
     {

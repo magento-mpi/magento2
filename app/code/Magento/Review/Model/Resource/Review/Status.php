@@ -7,23 +7,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Review\Model\Resource\Review;
 
 /**
  * Review status resource model
  *
- * @category    Magento
- * @package     Magento_Review
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Review\Model\Resource\Review;
-
 class Status extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
 
     /**
      * Resource status model initialization
      *
+     * @return void
      */
     protected function _construct()
     {

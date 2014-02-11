@@ -11,11 +11,14 @@ class Backend
     implements \Magento\Reward\Model\Observer\PlaceOrder\RestrictionInterface
 {
     /**
+     * Reward data
      * @var \Magento\Reward\Helper\Data
      */
     protected $_helper;
 
     /**
+     * Authoriztion interface
+     *
      * @var \Magento\AuthorizationInterface
      */
     protected $_authorization;
