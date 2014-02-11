@@ -45,8 +45,6 @@ class Stock extends \Magento\Data\Form\Element\Select
      * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
      * @param \Magento\Escaper $escaper
      * @param \Magento\Data\Form\Element\TextFactory $factoryText
-     * @param array $complexProductTypes
-     * @param array $disablerConditions
      * @param array $data
      */
     public function __construct(
@@ -54,8 +52,6 @@ class Stock extends \Magento\Data\Form\Element\Select
         \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
         \Magento\Escaper $escaper,
         \Magento\Data\Form\Element\TextFactory $factoryText,
-        array $complexProductTypes = array(),
-        array $disablerConditions = array(),
         array $data = array()
     ) {
         $this->_factoryText = $factoryText;
