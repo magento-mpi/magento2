@@ -54,7 +54,7 @@ class LayoutPlugin
 
     public function afterGenerateXml()
     {
-        $varnishIsEnabled = $this->_config->isSetFlag(\Magento\PageCache\Model\Config::XML_PATH_VARNISH_ENABLED);
+        $varnishIsEnabled = $this->config->isSetFlag(\Magento\PageCache\Model\Config::XML_PATH_VARNISH_ENABLED);
         if ($varnishIsEnabled) {
             if (!$this->layout->isCacheable()) {
                 $maxAge = $this->config->getValue(\Magento\PageCache\Model\Config::XML_VARNISH_PAGECACHE_TTL);
