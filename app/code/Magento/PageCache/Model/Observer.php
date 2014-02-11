@@ -50,16 +50,16 @@ class Observer
         /** @var \Magento\Core\Model\Layout $layout */
         $layout = $event->getLayout();
         $varnishIsEnabledFlag = $this->_config->isSetFlag(self::XML_PATH_VARNISH_ENABLED);
-        if ($layout->isCacheable()) {
+        if (!$layout->isCacheable()) {
             $name = $event->getElementName();
             $block = $layout->getBlock($name);
             $transport = $event->getTransport();
             if ($block instanceof \Magento\View\Element\AbstractBlock) {
                 $output = $transport->getData('output');
-                if ($varnishIsEnabledFlag && !empty($block->getTtl())) {
+                $blockTtl = $block->getTtl();
+                if ($varnishIsEnabledFlag && isset($blockTtl)) {
                     $output = $this->_wrapEsi($block, $layout);
-                }
-                if ($block->isScopePrivate()) {
+                } elseif ($block->isScopePrivate()) {
                     $output = sprintf('<!-- BLOCK %1$s -->%2$s<!-- /BLOCK %1$s -->', $block->getNameInLayout(), $output);
                 }
                 $transport->setData('output', $output);
@@ -76,14 +76,14 @@ class Observer
      */
     protected function _wrapEsi(
         \Magento\View\Element\AbstractBlock $block,
-        \Magento\Core\Model\Layout $layout)
-    {
+        \Magento\Core\Model\Layout $layout
+    ) {
+
         $url = $block->getUrl(
-            'page_cache/block/wrapesi',
+            'page_cache/block/esi',
             [
-                'blockname' => $block->getNameInLayout(),
-                'handles'   => serialize($layout->getUpdate()->getHandles()),
-                'ttl'       => $block->getTtl()
+                'blocks' => json_encode([$block->getNameInLayout()]),
+                'handles'   => json_encode($layout->getUpdate()->getHandles())
             ]
         );
         return sprintf('<esi:include src="%s" />', $url);

@@ -129,7 +129,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'Varnish enabled, public scope, ttl is set' =>
-                [true, false, 360, '<esi:include src="page_caches/block/wrapesi/with/handles/and/other/stuff" />'],
+                [true, false, 360, '<esi:include src="page_cache/block/wrapesi/with/handles/and/other/stuff" />'],
             'Varnish enabled, public scope, ttl is not set' => [true, false, null, 'test output html'],
             'Varnish disabled, public scope, ttl is set' => [false, false, 360, 'test output html'],
             'Varnish disabled, public scope, ttl is not set' => [false, false, null, 'test output html'],

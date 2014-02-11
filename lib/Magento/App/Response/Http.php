@@ -24,6 +24,14 @@ class Http extends \Zend_Controller_Response_Http implements \Magento\App\Respon
     protected $vary;
 
     /**
+     * Construct
+     */
+    public function __construct()
+    {
+        $this->setNoCacheHeaders();
+    }
+
+    /**
      * Get header value by name.
      * Returns first found header by passed name.
      * If header with specified name was not found returns false.
@@ -81,5 +89,48 @@ class Http extends \Zend_Controller_Response_Http implements \Magento\App\Respon
         }
 
         return sha1(serialize($this->vary));
+    }
+
+    /**
+     * Set headers for public cache
+     * Accepts the time-to-live (max-age) parameter
+     *
+     * @param int $ttl
+     * @throws \InvalidArgumentException
+     */
+    public function setPublicHeaders($ttl)
+    {
+        if (!$ttl) {
+            throw new \InvalidArgumentException('time to live is a mandatory parameter for set public headers');
+        }
+        $this->setHeader('pragma', 'cache', true);
+        $this->setHeader('cache-control', 'public, max-age=' . $ttl . ', s-maxage=' . $ttl, true);
+        $this->setHeader('expires', gmdate('D, d M Y H:i:s T', strtotime('+' . $ttl . ' seconds')), true);
+    }
+
+    /**
+     * Set headers for private cache
+     *
+     * @param int $ttl
+     * @throws \InvalidArgumentException
+     */
+    public function setPrivateHeaders($ttl)
+    {
+        if (!$ttl) {
+            throw new \InvalidArgumentException('time to live is a mandatory parameter for set public headers');
+        }
+        $this->setHeader('pragma', 'cache', true);
+        $this->setHeader('cache-control', 'private, max-age=' . $ttl, true);
+        $this->setHeader('expires', gmdate('D, d M Y H:i:s T', strtotime('+' . $ttl . ' seconds')), true);
+    }
+
+    /**
+     * Set headers for no-cache responses
+     */
+    public function setNoCacheHeaders()
+    {
+        $this->setHeader('pragma', 'no-cache', true);
+        $this->setHeader('cache-control', 'no-store, no-cache, must-revalidate, max-age=0', true);
+        $this->setHeader('expires', gmdate('D, d M Y H:i:s T', strtotime('-1 year')), true);
     }
 }

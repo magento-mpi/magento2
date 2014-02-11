@@ -94,7 +94,6 @@ sub vcl_fetch {
 
 sub vcl_deliver {
     unset resp.http.X-Magento-Tags;
-    unset resp.http.X-Magento-Ttl;
     unset resp.http.X-Powered-By;
     unset resp.http.Server;
     unset resp.http.X-Varnish;
