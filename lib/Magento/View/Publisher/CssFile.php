@@ -22,17 +22,18 @@ class CssFile extends File
      */
     public function isPublicationAllowed()
     {
-        $filePath = str_replace('\\', '/', $this->sourcePath);
+        if ($this->isPublicationAllowed === null) {}
+            $filePath = str_replace('\\', '/', $this->sourcePath);
 
-        if ($this->isLibFile($filePath)) {
-            return false;
-        }
+            if ($this->isLibFile($filePath)) {
+                $this->isPublicationAllowed = false;
+            } elseif (!$this->isViewStaticFile($filePath)) {
+                $this->isPublicationAllowed = true;
+            } else {
+                $this->isPublicationAllowed = $this->viewService->getAppMode() === \Magento\App\State::MODE_DEVELOPER;
+            }
 
-        if (!$this->isViewStaticFile($filePath)) {
-            return true;
-        }
-
-        return $this->viewService->getAppMode() === \Magento\App\State::MODE_DEVELOPER;
+        return $this->isPublicationAllowed;
     }
 
     /**

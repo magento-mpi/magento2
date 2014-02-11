@@ -56,6 +56,11 @@ class File implements FileInterface
     protected $allowDuplication;
 
     /**
+     * @var bool|null
+     */
+    protected $isPublicationAllowed;
+
+    /**
      * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\View\Service $viewService
      * @param \Magento\Module\Dir\Reader $modulesReader
@@ -122,16 +127,12 @@ class File implements FileInterface
      */
     public function isPublicationAllowed()
     {
-        $filePath = str_replace('\\', '/', $this->sourcePath);
-
-        if ($this->isLibFile($filePath)) {
-            return false;
+        if ($this->isPublicationAllowed === null) {
+            $filePath = str_replace('\\', '/', $this->sourcePath);
+            $this->isPublicationAllowed = !$this->isLibFile($filePath) && !$this->isViewStaticFile($filePath);
         }
 
-        if (!$this->isViewStaticFile($filePath)) {
-            return true;
-        }
-        return false;
+        return $this->isPublicationAllowed;
     }
 
     /**
