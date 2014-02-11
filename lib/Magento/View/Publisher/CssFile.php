@@ -42,6 +42,6 @@ class CssFile extends File
      */
     public function getPublicationPath()
     {
-        return $this->buildPublicViewRedundantFilename($this->getFilePath(), $this->getViewParams());
+        return $this->buildPublicViewRedundantFilename();
     }
 }
