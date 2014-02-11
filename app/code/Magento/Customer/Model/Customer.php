@@ -37,7 +37,6 @@ class Customer extends \Magento\Core\Model\AbstractModel
 
     const XML_PATH_RESET_PASSWORD_TEMPLATE = 'customer/password/reset_password_template';
 
-    const XML_PATH_DEFAULT_EMAIL_DOMAIN         = 'customer/create_account/email_domain';
     const XML_PATH_IS_CONFIRM                   = 'customer/create_account/confirm';
     const XML_PATH_CONFIRM_EMAIL_TEMPLATE       = 'customer/create_account/email_confirmation_template';
     const XML_PATH_CONFIRMED_EMAIL_TEMPLATE     = 'customer/create_account/email_confirmed_template';
@@ -1019,7 +1018,8 @@ class Customer extends \Magento\Core\Model\AbstractModel
      */
     protected function _beforeDelete()
     {
-        $this->_protectFromNonAdmin();
+        //TODO : Revisit and figure handling permissions in MAGETWO-11084 Implementation: Service Context Provider
+        //$this->_protectFromNonAdmin();
         return parent::_beforeDelete();
     }
 

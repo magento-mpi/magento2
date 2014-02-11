@@ -84,11 +84,11 @@ class Converter
         // Set all attributes
         foreach ($address->getAttributes() as $attributeCode => $attributeData) {
             if (Address::KEY_REGION == $attributeCode && $address->getRegion() instanceof Region) {
-                $addressModel->setData(Address::KEY_REGION, $address->getRegion()->getRegion());
-                $addressModel->setData('region_code', $address->getRegion()->getRegionCode());
-                $addressModel->setData(Address::KEY_REGION_ID, $address->getRegion()->getRegionId());
+                $addressModel->setDataUsingMethod(Address::KEY_REGION, $address->getRegion()->getRegion());
+                $addressModel->setDataUsingMethod('region_code', $address->getRegion()->getRegionCode());
+                $addressModel->setDataUsingMethod(Address::KEY_REGION_ID, $address->getRegion()->getRegionId());
             } else {
-                $addressModel->setData($attributeCode, $attributeData);
+                $addressModel->setDataUsingMethod($attributeCode, $attributeData);
             }
         }
         // Set customer related data

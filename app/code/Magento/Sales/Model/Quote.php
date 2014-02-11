@@ -624,7 +624,10 @@ class Quote extends \Magento\Core\Model\AbstractModel
      */
     public function getCustomer()
     {
-        /* @TODO: Remove the method after all external usages are refactored in MAGETWO-19930 */
+        /**
+         * @TODO: Remove the method after all external usages are refactored in MAGETWO-19930
+         * _customer and _customerFactory variables should be eliminated as well
+         */
         if (null === $this->_customer) {
             $this->_customer = $this->_customerFactory->create();
             $customerId = $this->getCustomerId();
@@ -746,6 +749,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
         } elseif ($this->getCustomerId()) {
             return $this->getCustomer()->getGroupId();
         } else {
+            /** TODO: Magento\Customer\Model\Group usage should be eliminated in scope of MAGETWO-21105 */
             return \Magento\Customer\Model\Group::NOT_LOGGED_IN_ID;
         }
     }
@@ -760,6 +764,10 @@ class Quote extends \Magento\Core\Model\AbstractModel
          * we need to retrieve from db every time to get the correct tax class
          */
         //if (!$this->getData('customer_group_id') && !$this->getData('customer_tax_class_id')) {
+        /**
+         * TODO: Magento\Customer\Model\GroupFactory usage should be eliminated in scope of MAGETWO-21105
+         * _customerGroupFactory should be removed as well
+         */
         $classId = $this->_customerGroupFactory->create()->getTaxClassId($this->getCustomerGroupId());
         $this->setCustomerTaxClassId($classId);
         //}

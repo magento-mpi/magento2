@@ -205,7 +205,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $address = $customerService->getDefaultBillingAddress($customerId);
 
         $expected = [
-            'entity_id' => 1,
+            'id' => 1,
             'default_billing' => true,
             'default_shipping' => false,
             'customer_id' => self::ID,
@@ -251,7 +251,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $address = $customerService->getDefaultShippingAddress($customerId);
 
         $expected = [
-            'entity_id' => 1,
+            'id' => 1,
             'default_shipping' => true,
             'default_billing' => false,
             'customer_id' => self::ID,
@@ -301,7 +301,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $address = $customerService->getAddressById($addressId);
 
         $expected = [
-            'entity_id' => 1,
+            'id' => 1,
             'default_shipping' => true,
             'default_billing' => false,
             'customer_id' => self::ID,
@@ -351,7 +351,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
 
         $expected = [
             [
-                'entity_id' => 1,
+                'id' => 1,
                 'default_shipping' => true,
                 'default_billing' => false,
                 'customer_id' => self::ID,
@@ -368,7 +368,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
                 'firstname' => 'John',
                 'lastname' => 'Doe',
             ], [
-                'entity_id' => 2,
+                'id' => 2,
                 'default_billing' => true,
                 'default_shipping' => false,
                 'customer_id' => self::ID,

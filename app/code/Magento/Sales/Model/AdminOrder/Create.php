@@ -23,6 +23,8 @@ use Magento\Customer\Service\V1\Dto\Address as CustomerAddressDto;
  */
 class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartInterface
 {
+    const XML_PATH_DEFAULT_EMAIL_DOMAIN = 'customer/create_account/email_domain';
+
     /**
      * Quote session object
      *
@@ -71,20 +73,6 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
      * @var boolean
      */
     protected $_isValidate              = false;
-
-    /**
-     * Customer instance
-     *
-     * @var \Magento\Customer\Model\Customer
-     */
-    protected $_customer;
-
-    /**
-     * Customer Address Form instance
-     *
-     * @var \Magento\Customer\Model\Form
-     */
-    protected $_customerAddressForm;
 
     /**
      * Array of validate errors
@@ -1767,9 +1755,7 @@ class Create extends \Magento\Object implements \Magento\Checkout\Model\Cart\Car
     {
         $email = $this->getData('account/email');
         if (empty($email)) {
-            $host = $this->getSession()
-                ->getStore()
-                ->getConfig(\Magento\Customer\Model\Customer::XML_PATH_DEFAULT_EMAIL_DOMAIN);
+            $host = $this->getSession()->getStore()->getConfig(self::XML_PATH_DEFAULT_EMAIL_DOMAIN);
             $account = time();
             $email = $account.'@'. $host;
             $account = $this->getData('account');

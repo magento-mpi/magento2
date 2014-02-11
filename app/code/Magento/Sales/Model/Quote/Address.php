@@ -502,7 +502,10 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      */
     public function exportCustomerAddress()
     {
-        // TODO: Remove this method when all dependencies are refactored to use exportCustomerAddressData()
+        /**
+         * TODO: Remove this method when all dependencies are refactored to use exportCustomerAddressData()
+         * _addressFactory variable should be removed in scope of MAGETWO-21105 as well
+         */
         $address = $this->_addressFactory->create();
         $this->_objectCopyService->copyFieldsetToTarget(
             'sales_convert_quote_address', 'to_customer_address', $this, $address
