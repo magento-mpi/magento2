@@ -40,6 +40,11 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
     protected $_quoteFactory;
 
     /**
+     * @var string
+     */
+    protected $_parentTemplate;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
@@ -61,6 +66,9 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
         parent::__construct($context, $backendHelper, $data);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -80,14 +88,19 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
         parent::_prepareGrid();
     }
 
+    /**
+     * Prepare collection
+     *
+     * @return \Magento\Backend\Block\Widget\Grid
+     */
     protected function _prepareCollection()
     {
-        $customer = $this->_coreRegistry->registry('current_customer');
+        $customerId = $this->_coreRegistry->registry('current_customer_id');
         $storeIds = $this->_storeManager->getWebsite($this->getWebsiteId())->getStoreIds();
 
         $quote = $this->_quoteFactory->create()
             ->setSharedStoreIds($storeIds)
-            ->loadByCustomer($customer);
+            ->loadByCustomer($customerId);
 
         if ($quote) {
             $collection = $quote->getItemsCollection(false);
@@ -103,7 +116,7 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
     }
 
     /**
-     * @return \Magento\Backend\Block\Widget\Grid\Extended
+     * {@inheritdoc}
      */
     protected function _prepareColumns()
     {
@@ -132,19 +145,27 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
             'width'     => '60px',
         ));
 
-        $this->addColumn('price', array(
-            'header'        => __('Price'),
-            'index'         => 'price',
-            'type'          => 'currency',
-            'currency_code' => (string) $this->_storeConfig->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE),
-        ));
+        $this->addColumn(
+            'price',
+            array(
+                'header'        => __('Price'),
+                'index'         => 'price',
+                'type'          => 'currency',
+                'currency_code' =>
+                    (string)$this->_storeConfig->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE),
+            )
+        );
 
-        $this->addColumn('total', array(
-            'header'        => __('Total'),
-            'index'         => 'row_total',
-            'type'          => 'currency',
-            'currency_code' => (string) $this->_storeConfig->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE),
-        ));
+        $this->addColumn(
+            'total',
+            array(
+                'header'        => __('Total'),
+                'index'         => 'row_total',
+                'type'          => 'currency',
+                'currency_code' =>
+                    (string)$this->_storeConfig->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE),
+            )
+        );
 
         $this->addColumn('action', array(
             'header'    => __('Action'),
@@ -173,15 +194,15 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Gets customer assigned to this block
      *
-     * @return \Magento\Customer\Model\Customer
+     * @return int
      */
-    public function getCustomer()
+    public function getCustomerId()
     {
-        return $this->_coreRegistry->registry('current_customer');
+        return $this->_coreRegistry->registry('current_customer_id');
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getGridUrl()
     {
@@ -189,6 +210,8 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
     }
 
     /**
+     * Gets grid parent html
+     *
      * @return string
      */
     public function getGridParentHtml()
@@ -197,6 +220,9 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
         return $this->fetchView($templateName);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getRowUrl($row)
     {
         return $this->getUrl('catalog/product/edit', array('id' => $row->getProductId()));
