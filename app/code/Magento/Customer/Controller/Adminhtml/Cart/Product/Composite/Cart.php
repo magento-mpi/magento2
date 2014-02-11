@@ -69,7 +69,7 @@ class Cart extends \Magento\Backend\App\Action
     }
 
     /**
-     * Ajax handler to response configuration fieldSet of composite product in customer's cart
+     * Ajax handler to response configuration fieldset of composite product in customer's cart
      *
      * @return void
      */
