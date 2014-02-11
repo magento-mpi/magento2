@@ -176,7 +176,7 @@ class ObjectManagerFactory
                 'null' => new \Magento\Data\Argument\Interpreter\NullType(),
                 'const' => $const,
                 'object' => new \Magento\ObjectManager\Config\Argument\Interpreter\Object($booleanUtils, $objFactory),
-                'init_parameter' => new \Magento\App\Arguments\ArgumentInterpreter($appArguments),
+                'init_parameter' => new \Magento\App\Arguments\ArgumentInterpreter($appArguments, $const),
             ),
             \Magento\ObjectManager\Config\Reader\Dom::TYPE_ATTRIBUTE
         );
