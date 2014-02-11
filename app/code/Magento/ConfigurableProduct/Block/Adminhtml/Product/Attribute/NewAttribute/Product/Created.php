@@ -15,7 +15,7 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Block\Adminhtml\Product\Attribute\NewAttribute\Product;
+namespace Magento\ConfigurableProduct\Block\Adminhtml\Product\Attribute\NewAttribute\Product;
 
 class Created extends \Magento\Backend\Block\Widget
 {

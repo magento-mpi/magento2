@@ -612,16 +612,6 @@ class Product extends \Magento\Backend\App\Action
         $this->_view->renderLayout();
     }
 
-    public function addAttributeAction()
-    {
-        $this->_view->loadLayout('popup');
-        $this->productBuilder->build($this->getRequest());
-        $this->_addContent(
-            $this->_view->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Attribute\NewAttribute\Product\Created')
-        );
-        $this->_view->renderLayout();
-    }
-
     public function massDeleteAction()
     {
         $productIds = $this->getRequest()->getParam('product');
