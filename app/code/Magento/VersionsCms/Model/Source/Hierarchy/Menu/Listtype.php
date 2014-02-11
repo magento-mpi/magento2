@@ -18,8 +18,6 @@ namespace Magento\VersionsCms\Model\Source\Hierarchy\Menu;
 class Listtype implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
-     * Retrieve options array
-     *
      * {@inheritdoc}
      */
     public function toOptionArray()

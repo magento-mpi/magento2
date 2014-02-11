@@ -12,8 +12,6 @@ namespace Magento\VersionsCms\Model\Source\Hierarchy;
 class Visibility implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
-     * Retrieve options array
-     *
      * {@inheritdoc}
      */
     public function toOptionArray()

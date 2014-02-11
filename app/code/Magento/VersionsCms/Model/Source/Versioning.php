@@ -18,8 +18,6 @@ namespace Magento\VersionsCms\Model\Source;
 class Versioning implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
-     * Retrieve options array
-     *
      * {@inheritdoc}
      */
     public function toOptionArray()
