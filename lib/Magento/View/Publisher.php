@@ -63,13 +63,6 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
     protected $_logger;
 
     /**
-     * Indicates how to materialize view files: with or without "duplication"
-     *
-     * @var bool
-     */
-    protected $_allowDuplication;
-
-    /**
      * @var \Magento\Module\Dir\Reader
      */
     protected $_modulesReader;
@@ -98,7 +91,6 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
      * @param \Magento\Module\Dir\Reader $modulesReader
      * @param RelatedFile $relatedFile
      * @param \Magento\View\Asset\PreProcessor\PreProcessorInterface $preProcessor
-     * @param bool $allowDuplication
      */
     public function __construct(
         \Magento\Logger $logger,
@@ -108,8 +100,7 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
         \Magento\View\FileSystem $viewFileSystem,
         \Magento\Module\Dir\Reader $modulesReader,
         RelatedFile $relatedFile,
-        \Magento\View\Asset\PreProcessor\PreProcessorInterface $preProcessor,
-        $allowDuplication
+        \Magento\View\Asset\PreProcessor\PreProcessorInterface $preProcessor
     ) {
         $this->_filesystem = $filesystem;
         $this->rootDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR);
@@ -118,7 +109,6 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
         $this->_viewFileSystem = $viewFileSystem;
         $this->_modulesReader = $modulesReader;
         $this->_logger = $logger;
-        $this->_allowDuplication = $allowDuplication;
         $this->relatedFile = $relatedFile;
         $this->preProcessor = $preProcessor;
     }
@@ -224,7 +214,7 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
     {
         $filePath = $this->_viewFileSystem->normalizePath($filePath);
         $sourcePath = $this->_viewFileSystem->normalizePath($sourcePath);
-        $targetPath = $this->_buildPublishedFilePath($filePath, $params, $sourcePath);
+        $targetPath = $this->_buildPublicViewFilename($filePath, $params);
 
         $targetDirectory = $this->_filesystem->getDirectoryWrite(\Magento\App\Filesystem::STATIC_VIEW_DIR);
         $sourcePathRelative = $this->rootDirectory->getRelativePath($sourcePath);
@@ -249,27 +239,6 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
         }
 
         $this->_viewFileSystem->notifyViewFileLocationChanged($targetPath, $filePath, $params);
-        return $targetPath;
-    }
-
-    /**
-     * Build published file path
-     *
-     * @param string $filePath
-     * @param array $params
-     * @param string $sourcePath
-     * @return string
-     */
-    protected function _buildPublishedFilePath($filePath, $params, $sourcePath)
-    {
-        $isCssFile = $this->_getExtension($filePath) == self::CONTENT_TYPE_CSS;
-        if ($this->_allowDuplication || $isCssFile) {
-            $targetPath = $this->_buildPublicViewRedundantFilename($filePath, $params);
-        } else {
-            $targetPath = $this->_buildPublicViewSufficientFilename($sourcePath, $params);
-        }
-        $targetPath = $this->_buildPublicViewFilename($targetPath);
-
         return $targetPath;
     }
 
@@ -327,13 +296,13 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
     }
 
     /**
-     * Build public filename for a theme file that always includes area/package/theme/locate parameters
+     * Build published file path
      *
      * @param string $file
      * @param array $params
      * @return string
      */
-    protected function _buildPublicViewRedundantFilename($file, array $params)
+    protected function _buildPublicViewFilename($file, array $params)
     {
         /** @var $theme \Magento\View\Design\ThemeInterface */
         $theme = $params['themeModel'];
@@ -348,30 +317,7 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
         $publicFile = $params['area'] . '/' . $designPath . '/' . $params['locale'] .
             ($params['module'] ? '/' . $params['module'] : '') . '/' . $file;
 
-        return $publicFile;
-    }
-
-    /**
-     * Build public filename for a view file that sufficiently depends on the passed parameters
-     *
-     * @param string $filename
-     * @param array $params
-     * @return string
-     */
-    protected function _buildPublicViewSufficientFilename($filename, array $params)
-    {
-        $designDir = $this->_filesystem->getPath(\Magento\App\Filesystem::THEMES_DIR) . '/';
-        if (0 === strpos($filename, $designDir)) {
-            // theme file
-            $publicFile = substr($filename, strlen($designDir));
-        } else {
-            // modular file
-            $module = $params['module'];
-            $moduleDir = $this->_modulesReader->getModuleDir('theme', $module) . '/';
-            $publicFile = substr($filename, strlen($moduleDir));
-            $publicFile = self::PUBLIC_MODULE_DIR . '/' . $module . '/' . $publicFile;
-        }
-        return $publicFile;
+        return $this->_viewService->getPublicDir() . '/' . $publicFile;
     }
 
     /**
@@ -399,16 +345,5 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
             $this->_logger->logException($e);
         }
         return $content;
-    }
-
-    /**
-     * Build path to file located in public folder
-     *
-     * @param string $file
-     * @return string
-     */
-    protected function _buildPublicViewFilename($file)
-    {
-        return $this->_viewService->getPublicDir() . '/' . $file;
     }
 }

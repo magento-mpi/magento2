@@ -63,16 +63,13 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test that URL for a view file meets expectations
-     *
-     * @param string $file
-     * @param string $expectedUrl
-     * @param string|null $locale
-     * @param bool|null $allowDuplication
+     * @magentoDataFixture Magento/Core/Model/_files/design/themes.php
+     * @magentoAppIsolation enabled
+     * @dataProvider getViewUrlFilesDuplicationDataProvider
      */
-    protected function _testGetViewUrl($file, $expectedUrl, $locale = null, $allowDuplication = null)
+    public function testGetViewUrlFilesDuplication($file, $expectedUrl, $locale = null)
     {
-        $this->_initTestTheme($allowDuplication);
+        $this->_initTestTheme();
 
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\LocaleInterface')
             ->setLocale($locale);
@@ -80,16 +77,6 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         $this->assertStringEndsWith($expectedUrl, $url);
         $viewFile = $this->_fileSystem->getViewFile($file);
         $this->assertFileExists($viewFile);
-    }
-
-    /**
-     * @magentoDataFixture Magento/Core/Model/_files/design/themes.php
-     * @magentoAppIsolation enabled
-     * @dataProvider getViewUrlFilesDuplicationDataProvider
-     */
-    public function testGetViewUrlFilesDuplication($file, $expectedUrl, $locale = null)
-    {
-        $this->_testGetViewUrl($file, $expectedUrl, $locale, true);
     }
 
     /**
@@ -114,38 +101,6 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
             'lib folder' => array(
                 'varien',
                 'http://localhost/pub/lib/varien',
-            )
-        );
-    }
-
-    /**
-     * @magentoDataFixture Magento/Core/Model/_files/design/themes.php
-     * @magentoAppIsolation enabled
-     * @dataProvider testGetViewUrlNoFilesDuplicationDataProvider
-     */
-    public function testGetViewUrlNoFilesDuplication($file, $expectedUrl, $locale = null)
-    {
-        $this->_testGetViewUrl($file, $expectedUrl, $locale, false);
-    }
-
-    /**
-     * @return array
-     */
-    public function testGetViewUrlNoFilesDuplicationDataProvider()
-    {
-        return array(
-            'theme css file' => array(
-                'css/styles.css',
-                'static/frontend/test_default/en_US/css/styles.css',
-            ),
-            'theme file' => array(
-                'images/logo.gif',
-                'static/frontend/test_default/images/logo.gif',
-            ),
-            'theme localized file' => array(
-                'logo.gif',
-                'static/frontend/test_default/i18n/fr_FR/logo.gif',
-                'fr_FR',
             )
         );
     }
@@ -593,10 +548,8 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
     /**
      * Init the model with a test theme from fixture themes dir
      * Init application with custom view dir, @magentoAppIsolation required
-     *
-     * @param bool|null $allowDuplication
      */
-    protected function _initTestTheme($allowDuplication = null)
+    protected function _initTestTheme()
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
             \Magento\App\Filesystem::PARAM_APP_DIRS => array(
@@ -605,14 +558,6 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         ));
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\App\State')->setAreaCode('frontend');
-
-        if ($allowDuplication !== null) {
-            $publisher = $objectManager->create(
-                'Magento\View\Publisher',
-                array('allowDuplication' => $allowDuplication)
-            );
-            $objectManager->addSharedInstance($publisher, 'Magento\View\Publisher');
-        }
 
         // Reinit model with new directories
         $this->_model = $objectManager->get('Magento\View\DesignInterface');

@@ -344,9 +344,6 @@
         <param name="preProcessor">
             <instance type="Magento\View\Asset\PreProcessor\Composite" />
         </param>
-        <param name="allowDuplication">
-            <value type="bool">true</value>
-        </param>
     </type>
     <type name="Magento\View\Asset\PreProcessor\Composite">
         <param name="preProcessorsConfig">
