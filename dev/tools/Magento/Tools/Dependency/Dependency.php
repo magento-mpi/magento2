@@ -44,11 +44,7 @@ class Dependency
     {
         $this->module = $module;
 
-        if ($type) {
-            $this->type = (self::TYPE_HARD == $type) ? self::TYPE_HARD : self::TYPE_SOFT;
-        } else {
-            $this->type = self::TYPE_HARD;
-        }
+        $this->type = (self::TYPE_SOFT == $type) ? self::TYPE_SOFT : self::TYPE_HARD;
     }
 
     /**
@@ -79,5 +75,15 @@ class Dependency
     public function isHard()
     {
         return self::TYPE_HARD == $this->getType();
+    }
+
+    /**
+     * Check is soft dependency
+     *
+     * @return bool
+     */
+    public function isSoft()
+    {
+        return self::TYPE_SOFT == $this->getType();
     }
 }

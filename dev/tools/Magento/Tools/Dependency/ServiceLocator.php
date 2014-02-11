@@ -18,6 +18,8 @@ use Magento\Tools\Dependency\Report\Writer;
 class ServiceLocator
 {
     /**
+     * Xml dependencies parser
+     *
      * @var \Magento\Tools\Dependency\Parser\Xml
      */
     private static $xmlDependenciesParser;
@@ -32,7 +34,7 @@ class ServiceLocator
     /**
      * Get modules dependencies report builder
      *
-     * @return \Magento\Tools\Dependency\Report\Builder
+     * @return \Magento\Tools\Dependency\Report\BuilderInterface
      */
     public static function getModulesDependenciesReportBuilder()
     {
@@ -66,7 +68,7 @@ class ServiceLocator
     /**
      * Get dependencies parser from xml files
      *
-     * @return \Magento\Tools\Dependency\Parser\Xml
+     * @return \Magento\Tools\Dependency\ParserInterface
      */
     private static function getXmlDependenciesParser()
     {

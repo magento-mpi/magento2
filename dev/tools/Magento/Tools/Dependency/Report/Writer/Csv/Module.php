@@ -25,28 +25,32 @@ class Module extends AbstractWriter
             $config->getHardDependenciesCount(),
             $config->getSoftDependenciesCount(),
         ];
-        $data[] = ['', '', ''];
+        $data[] = [];
 
-        $data[] = ['Dependencies for each module:', 'All', 'Hard', 'Soft'];
-        foreach ($config->getModules() as $module) {
-            if ($module->hasDependencies()) {
-                $data[] = [
-                    $module->getName(),
-                    $module->getDependenciesCount(),
-                    $module->getHardDependenciesCount(),
-                    $module->getSoftDependenciesCount(),
-                ];
-                foreach ($module->getDependencies() as $dependency) {
+        if ($config->hasDependencies()) {
+            $data[] = ['Dependencies for each module:', 'All', 'Hard', 'Soft'];
+            foreach ($config->getModules() as $module) {
+                if ($module->hasDependencies()) {
                     $data[] = [
-                        ' -- ' . $dependency->getModule(),
-                        '',
-                        (int)$dependency->isHard(),
-                        (int)!$dependency->isHard(),
+                        $module->getName(),
+                        $module->getDependenciesCount(),
+                        $module->getHardDependenciesCount(),
+                        $module->getSoftDependenciesCount(),
                     ];
+                    foreach ($module->getDependencies() as $dependency) {
+                        $data[] = [
+                            ' -- ' . $dependency->getModule(),
+                            '',
+                            (int)$dependency->isHard(),
+                            (int)!$dependency->isHard(),
+                        ];
+                    }
+                    $data[] = [];
                 }
-                $data[] = ['', '', ''];
             }
         }
+        array_pop($data);
+
         return $data;
     }
 }

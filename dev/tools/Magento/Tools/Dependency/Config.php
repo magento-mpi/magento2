@@ -25,17 +25,29 @@ class Config
      *
      * @param \Magento\Tools\Dependency\Module[] $modules
      */
-    public function __construct(array $modules = array())
+    public function __construct(array $modules = [])
     {
         $this->modules = $modules;
     }
 
     /**
+     * Get modules
+     *
      * @return \Magento\Tools\Dependency\Module[]
      */
     public function getModules()
     {
         return $this->modules;
+    }
+
+    /**
+     * Check if there is dependencies
+     *
+     * @return bool
+     */
+    public function hasDependencies()
+    {
+        return $this->getHardDependenciesCount() || $this->getSoftDependenciesCount();
     }
 
     /**

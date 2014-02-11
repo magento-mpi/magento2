@@ -13,10 +13,10 @@ use Magento\Tools\Dependency\ServiceLocator;
 
 try {
 
-    ServiceLocator::getModulesDependenciesReportBuilder()->build(array(
+    ServiceLocator::getModulesDependenciesReportBuilder()->build([
         'filename' => 'modules-dependencies.csv',
         'configFiles' => Files::init()->getConfigFiles('module.xml', array(), false),
-    ));
+    ]);
 
     fwrite(STDOUT, PHP_EOL . 'Report successfully processed.' . PHP_EOL);
 

@@ -19,11 +19,13 @@ use Magento\Tools\Dependency\ParserInterface;
 class Xml implements ParserInterface
 {
     /**
+     * Template method. Main algorithm
+     *
      * {@inheritdoc}
      */
     public function parse(array $files)
     {
-        $modules = array();
+        $modules = [];
         foreach ($files as $file) {
             $config = $this->getModuleConfig($file);
             $modules[] = new Module(
@@ -35,6 +37,8 @@ class Xml implements ParserInterface
     }
 
     /**
+     * Template method. Extract module step
+     *
      * @param \SimpleXMLElement $config
      * @return string
      */
@@ -44,12 +48,14 @@ class Xml implements ParserInterface
     }
 
     /**
+     * Template method. Extract dependencies step
+     *
      * @param \SimpleXMLElement $config
      * @return array
      */
     protected function extractDependencies($config)
     {
-        $dependencies = array();
+        $dependencies = [];
         /** @var \SimpleXMLElement $dependency */
         if ($config->depends) {
             foreach ($config->depends->module as $dependency) {
@@ -63,6 +69,8 @@ class Xml implements ParserInterface
     }
 
     /**
+     * Template method. Load module config step
+     *
      * @param string $file
      * @return \SimpleXMLElement
      */

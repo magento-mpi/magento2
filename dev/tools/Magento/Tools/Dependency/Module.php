@@ -33,7 +33,7 @@ class Module
      * @param array $name
      * @param \Magento\Tools\Dependency\Dependency[] $dependencies
      */
-    public function __construct($name, array $dependencies = array())
+    public function __construct($name, array $dependencies = [])
     {
         $this->name = $name;
         $this->dependencies = $dependencies;
@@ -50,6 +50,8 @@ class Module
     }
 
     /**
+     * Get dependencies
+     *
      * @return \Magento\Tools\Dependency\Dependency[]
      */
     public function getDependencies()
@@ -102,7 +104,7 @@ class Module
     {
         $dependenciesCount = 0;
         foreach ($this->getDependencies() as $dependency) {
-            if (!$dependency->isHard()) {
+            if ($dependency->isSoft()) {
                 $dependenciesCount++;
             }
         }
