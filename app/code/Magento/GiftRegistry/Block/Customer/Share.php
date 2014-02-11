@@ -2,22 +2,18 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GiftRegistry
  * @copyright   {copyright}
  * @license     {license_link}
- */
-
-/**
- * Customer gift registry share block
  */
 namespace Magento\GiftRegistry\Block\Customer;
 
 use Magento\Customer\Service\V1\CustomerServiceInterface;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 
-class Share
-    extends \Magento\Customer\Block\Account\Dashboard
+/**
+ * Customer gift registry share block
+ */
+class Share extends \Magento\Customer\Block\Account\Dashboard
 {
     protected $_formData = null;
 
@@ -70,7 +66,7 @@ class Share
      */
     public function getCustomerName()
     {
-        return $this->escapeHtml($this->getCustomer()->getName());
+        return $this->escapeHtml($this->_customerSession->getCustomer()->getName());
     }
 
     /**

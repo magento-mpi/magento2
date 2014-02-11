@@ -2,20 +2,17 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Invitation
  * @copyright   {copyright}
  * @license     {license_link}
- */
-
-/**
- * Customer invitation list block
  */
 namespace Magento\Invitation\Block\Customer;
 
 use Magento\Customer\Service\V1\CustomerServiceInterface;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 
+/**
+ * Customer invitation list block
+ */
 class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
 {
     /**

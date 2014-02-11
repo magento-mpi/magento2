@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Review
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -14,10 +12,6 @@ use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 
 /**
  * Customer Reviews list block
- *
- * @category   Magento
- * @package    Magento_Review
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
 {

@@ -2,24 +2,17 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
- */
-
-/**
- * Customer edit form block
- *
- * @category   Magento
- * @package    Magento_Customer
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Customer\Block\Form;
 
 use Magento\Customer\Service\V1\CustomerServiceInterface;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 
+/**
+ * Customer edit form block
+ */
 class Edit extends \Magento\Customer\Block\Account\Dashboard
 {
     /**
