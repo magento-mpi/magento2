@@ -11,11 +11,11 @@ namespace Magento\Catalog\Model\Indexer\Product\Category\Action;
 class Rows extends \Magento\Catalog\Model\Indexer\Category\Product\Action\Full
 {
     /**
-     * Limitation by categories
+     * Limitation by products
      *
      * @var int[]
      */
-    protected $limitationByCategories;
+    protected $limitationByProducts;
 
     /**
      * Refresh entities index
@@ -25,7 +25,7 @@ class Rows extends \Magento\Catalog\Model\Indexer\Category\Product\Action\Full
      */
     public function execute(array $entityIds = array())
     {
-        $this->limitationByCategories = $entityIds;
+        $this->limitationByProducts = $entityIds;
         return parent::execute();
     }
 
@@ -37,7 +37,7 @@ class Rows extends \Magento\Catalog\Model\Indexer\Category\Product\Action\Full
     protected function getSelectUnnecessaryData()
     {
         $select = parent::getSelectUnnecessaryData();
-        return $select->where($this->getMainTable() . '.category_id IN (?)', $this->limitationByCategories);
+        return $select->where($this->getMainTable() . '.product_id IN (?)', $this->limitationByProducts);
     }
 
     /**
@@ -49,7 +49,7 @@ class Rows extends \Magento\Catalog\Model\Indexer\Category\Product\Action\Full
     protected function getNonAnchorCategoriesSelect(\Magento\Core\Model\Store $store)
     {
         $select = parent::getNonAnchorCategoriesSelect($store);
-        return $select->where('cc.entity_id IN (?)', $this->limitationByCategories);
+        return $select->where('ccp.product_id IN (?)', $this->limitationByProducts);
     }
 
     /**
@@ -61,7 +61,7 @@ class Rows extends \Magento\Catalog\Model\Indexer\Category\Product\Action\Full
     protected function getAnchorCategoriesSelect(\Magento\Core\Model\Store $store)
     {
         $select = parent::getAnchorCategoriesSelect($store);
-        return $select->where('cc.entity_id IN (?)', $this->limitationByCategories);
+        return $select->where('ccp.product_id IN (?)', $this->limitationByProducts);
     }
 
     /**
@@ -73,7 +73,7 @@ class Rows extends \Magento\Catalog\Model\Indexer\Category\Product\Action\Full
     protected function getAllProducts(\Magento\Core\Model\Store $store)
     {
         $select = parent::getAllProducts($store);
-        return $select->where($store->getRootCategoryId() . ' IN (?)', $this->limitationByCategories);
+        return $select->where('cp.entity_id IN (?)', $this->limitationByProducts);
     }
 
     /**

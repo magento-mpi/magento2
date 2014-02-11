@@ -11,11 +11,11 @@ namespace Magento\Catalog\Model\Indexer\Category\Product\Action;
 class Rows extends Full
 {
     /**
-     * Limitation by products
+     * Limitation by categories
      *
      * @var int[]
      */
-    protected $limitationByProducts;
+    protected $limitationByCategories;
 
     /**
      * Refresh entities index
@@ -25,7 +25,7 @@ class Rows extends Full
      */
     public function execute(array $entityIds = array())
     {
-        $this->limitationByProducts = $entityIds;
+        $this->limitationByCategories = $entityIds;
         return parent::execute();
     }
 
@@ -37,7 +37,7 @@ class Rows extends Full
     protected function getSelectUnnecessaryData()
     {
         $select = parent::getSelectUnnecessaryData();
-        return $select->where($this->getMainTable() . '.product_id IN (?)', $this->limitationByProducts);
+        return $select->where($this->getMainTable() . '.category_id IN (?)', $this->limitationByCategories);
     }
 
     /**
@@ -49,7 +49,7 @@ class Rows extends Full
     protected function getNonAnchorCategoriesSelect(\Magento\Core\Model\Store $store)
     {
         $select = parent::getNonAnchorCategoriesSelect($store);
-        return $select->where('ccp.product_id IN (?)', $this->limitationByProducts);
+        return $select->where('cc.entity_id IN (?)', $this->limitationByCategories);
     }
 
     /**
@@ -61,7 +61,7 @@ class Rows extends Full
     protected function getAnchorCategoriesSelect(\Magento\Core\Model\Store $store)
     {
         $select = parent::getAnchorCategoriesSelect($store);
-        return $select->where('ccp.product_id IN (?)', $this->limitationByProducts);
+        return $select->where('cc.entity_id IN (?)', $this->limitationByCategories);
     }
 
     /**
@@ -73,7 +73,7 @@ class Rows extends Full
     protected function getAllProducts(\Magento\Core\Model\Store $store)
     {
         $select = parent::getAllProducts($store);
-        return $select->where('cp.entity_id IN (?)', $this->limitationByProducts);
+        return $select->where($store->getRootCategoryId() . ' IN (?)', $this->limitationByCategories);
     }
 
     /**
