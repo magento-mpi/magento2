@@ -166,18 +166,17 @@ class Publisher implements PublicFilesManagerInterface
         }
 
         $this->publishFile($publisherFile);
-        return $publisherFile->getPublicationPath();
+        return $publisherFile->buildPublicViewFilename();
     }
 
     /**
      * Publish file
      *
      * @param Publisher\FileInterface $publisherFile
-     * @return string
+     * @return $this
      */
     protected function publishFile(Publisher\FileInterface $publisherFile)
     {
-        $filePath = $this->viewFileSystem->normalizePath($publisherFile->getFilePath());
         $sourcePath = $this->viewFileSystem->normalizePath($publisherFile->getSourcePath());
         $targetPath = $publisherFile->buildPublicViewFilename();
 
@@ -197,7 +196,7 @@ class Publisher implements PublicFilesManagerInterface
             }
         }
 
-        $this->viewFileSystem->notifyViewFileLocationChanged($targetPath, $filePath, $publisherFile->getViewParams());
+        $this->viewFileSystem->notifyViewFileLocationChanged($publisherFile);
         return $this;
     }
 }

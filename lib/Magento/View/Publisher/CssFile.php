@@ -11,7 +11,7 @@ namespace Magento\View\Publisher;
 /**
  * Publisher file type CSS
  */
-class CssFile extends File
+class CssFile extends FileAbstract
 {
     /**
      * Determine whether a file needs to be published
