@@ -29,7 +29,7 @@ class MviewConfigFilesTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->schemeFile = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Filesystem')
+        $this->schemeFile = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Filesystem')
             ->getPath(\Magento\App\Filesystem::LIB_DIR) . '/Magento/Mview/etc/mview.xsd';
     }
 
@@ -55,7 +55,7 @@ class MviewConfigFilesTest extends \PHPUnit_Framework_TestCase
     public function mviewConfigFileDataProvider()
     {
         $fileList = glob(
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Filesystem')
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Filesystem')
                 ->getPath(\Magento\App\Filesystem::APP_DIR) . '/*/*/*/etc/mview.xml'
         );
         $dataProviderResult = array();
