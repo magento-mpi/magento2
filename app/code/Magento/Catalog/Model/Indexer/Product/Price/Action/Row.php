@@ -7,10 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Catalog\Model\Indexer\Product\Price\Action;
 
 /**
  * Class Row reindex action
+ *
  * @package Magento\Catalog\Model\Indexer\Product\Price\Action
  */
 class Row extends \Magento\Catalog\Model\Indexer\Product\Price\AbstractAction
