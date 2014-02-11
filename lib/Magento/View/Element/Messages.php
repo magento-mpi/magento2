@@ -51,7 +51,7 @@ class Messages extends Template
     /**
      * Grouped message types
      *
-     * @var array
+     * @var string[]
      */
     protected $messageTypes = array(
         \Magento\Message\MessageInterface::TYPE_ERROR,

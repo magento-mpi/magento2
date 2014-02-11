@@ -38,7 +38,7 @@ interface CollectionInterface
     /**
      * Add field filter to collection
      *
-     * @param string|array $field
+     * @param string $field
      * @param null|string|array $condition
      * @return CollectionInterface
      */

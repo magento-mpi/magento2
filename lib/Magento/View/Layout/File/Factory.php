@@ -38,7 +38,7 @@ class Factory
      *
      * @param string $filename
      * @param string $module
-     * @param ThemeInterface $theme
+     * @param ThemeInterface|null $theme
      * @return \Magento\View\Layout\File
      */
     public function create($filename, $module, ThemeInterface $theme = null)

@@ -138,7 +138,7 @@ class Element extends \Magento\Simplexml\Element
     /**
      * Add parent element name to parent attribute
      *
-     * @return Element
+     * @return $this
      */
     public function prepareBlock()
     {

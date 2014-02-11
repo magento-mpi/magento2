@@ -56,7 +56,7 @@ class Config
     /**
      * Retrieve available page types
      *
-     * @return array \Magento\Object[]
+     * @return \Magento\Object[]
      */
     public function getPageTypes()
     {

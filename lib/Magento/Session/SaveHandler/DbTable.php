@@ -43,6 +43,7 @@ class DbTable extends \SessionHandler
      * Check DB connection
      *
      * @return void
+     * @throws \Magento\Session\SaveHandlerException
      */
     protected function checkConnection()
     {

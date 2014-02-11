@@ -73,7 +73,7 @@ class DataSourcePool
     /**
      * Get data source
      *
-     * @param null $name
+     * @param string|null $name
      * @return array|object|null
      */
     public function get($name = null)

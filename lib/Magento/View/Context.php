@@ -451,7 +451,7 @@ class Context
     /**
      * Retrieve a member of the $_POST superglobal
      *
-     * @param string $key
+     * @param string|null $key
      * @param mixed $default Default value to use if key not found
      * @return mixed alias of getPost
      */
@@ -463,7 +463,7 @@ class Context
     /**
      * Retrieve a parameter
      *
-     * @param mixed $key
+     * @param string|null $key
      * @param mixed $default Default value to use if key not found
      * @return mixed
      */

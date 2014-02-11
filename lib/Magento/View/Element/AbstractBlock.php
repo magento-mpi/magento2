@@ -239,7 +239,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      * Set layout object
      *
      * @param   \Magento\View\LayoutInterface $layout
-     * @return  \Magento\View\Element\AbstractBlock
+     * @return  $this
      */
     public function setLayout(\Magento\View\LayoutInterface $layout)
     {
@@ -253,7 +253,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      *
      * You can redefine this method in child classes for changing layout
      *
-     * @return \Magento\View\Element\AbstractBlock
+     * @return $this
      */
     protected function _prepareLayout()
     {
@@ -274,7 +274,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      * Sets/changes name of a block in layout
      *
      * @param string $name
-     * @return \Magento\View\Element\AbstractBlock
+     * @return $this
      */
     public function setNameInLayout($name)
     {
@@ -364,7 +364,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      * Unset child block
      *
      * @param  string $alias
-     * @return \Magento\View\Element\AbstractBlock
+     * @return $this
      */
     public function unsetChild($alias)
     {
@@ -705,8 +705,8 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      * @param string $file path to file in theme
      * @param array $params
      * @return string
-     * @throws \Magento\Exception
      */
+
     public function getViewFileUrl($file = null, array $params = array())
     {
         try {
@@ -787,7 +787,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      * Escape html entities
      *
      * @param   string|array $data
-     * @param   array $allowedTags
+     * @param   array|null $allowedTags
      * @return  string
      */
     public function escapeHtml($data, $allowedTags = null)
@@ -799,7 +799,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      * Wrapper for standard strip_tags() function with extra functionality for html entities
      *
      * @param string $data
-     * @param string $allowableTags
+     * @param string|null $allowableTags
      * @param bool $allowHtmlEntities
      * @return string
      */
@@ -988,7 +988,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      * Module name can be omitted. If omitted, it will be determined automatically.
      *
      * @param string $name variable name
-     * @param string $module optional module name
+     * @param string|null $module optional module name
      * @return string|false
      */
     public function getVar($name, $module = null)
