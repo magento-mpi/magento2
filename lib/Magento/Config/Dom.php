@@ -34,11 +34,9 @@ class Dom
     protected $_dom;
 
     /**
-     * List of id attributes for merge
-     *
-     * @var array
+     * @var Dom\NodeMergingConfig
      */
-    protected $_idAttributes;
+    protected $_nodeMergingConfig;
 
     /**
      * Name of attribute that specifies type of argument node
@@ -88,7 +86,7 @@ class Dom
         $errorFormat = self::ERROR_FORMAT_DEFAULT
     ) {
         $this->_schemaFile    = $schemaFile;
-        $this->_idAttributes  = new \Magento\Config\Dom\NodePathConfig($idAttributes);
+        $this->_nodeMergingConfig = new Dom\NodeMergingConfig(new Dom\NodePathMatcher, $idAttributes);
         $this->_typeAttributeName = $typeAttributeName;
         $this->_errorFormat   = $errorFormat;
         $this->_dom           = $this->_initDom($xml);
@@ -178,8 +176,8 @@ class Dom
     /**
      * Merges attributes of the merge node to the base node
      *
-     * @param $baseNode
-     * @param $mergeNode
+     * @param \DOMElement $baseNode
+     * @param \DOMNode $mergeNode
      * @return null
      */
     protected function _mergeAttributes($baseNode, $mergeNode)
@@ -200,7 +198,7 @@ class Dom
     {
         $prefix = is_null($this->_rootNamespace) ? '' : self::ROOT_NAMESPACE_PREFIX . ':';
         $path = $parentPath . '/' . $prefix . $node->tagName;
-        $idAttribute = $this->_idAttributes->getNodeInfo($path);
+        $idAttribute = $this->_nodeMergingConfig->getIdAttribute($path);
         if ($idAttribute && $value = $node->getAttribute($idAttribute)) {
             $path .= "[@{$idAttribute}='{$value}']";
         }

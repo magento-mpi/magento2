@@ -27,7 +27,6 @@ class Proxy extends \Magento\App\Arguments
     public function __construct(\Magento\App\Arguments $subject)
     {
         $this->setSubject($subject);
-
     }
 
     /**

@@ -38,7 +38,7 @@ class HelperMethodTest extends \PHPUnit_Framework_TestCase
     {
         $input = array(
             'value' => 'some text',
-            'helper' => 'Magento\View\Layout\Argument\Interpreter\Decorator\HelperTest::help'
+            'helper' => __CLASS__ . '::help'
         );
 
         $evaluatedValue = array('value' => 'some text (evaluated)');
@@ -49,7 +49,7 @@ class HelperMethodTest extends \PHPUnit_Framework_TestCase
 
         $this->_objectManager->expects($this->once())
             ->method('get')
-            ->with('Magento\View\Layout\Argument\Interpreter\Decorator\HelperTest')
+            ->with(__CLASS__)
             ->will($this->returnValue($this));
 
         $expected = 'some text (evaluated) (updated)';
@@ -64,15 +64,31 @@ class HelperMethodTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Helper method name in format "\Class\Name::methodName" is expected
+     * @param string $helperMethod
+     * @param string $expectedExceptionMessage
+     *
+     * @dataProvider evaluateExceptionDataProvider
      */
-    public function testEvaluateWrongHelper()
+    public function testEvaluateException($helperMethod, $expectedExceptionMessage)
     {
+        $this->setExpectedException('\InvalidArgumentException', $expectedExceptionMessage);
         $input = array(
             'value' => 'some text',
-            'helper' => 'Helper'
+            'helper' => $helperMethod
         );
         $this->_model->evaluate($input);
+    }
+
+    public function evaluateExceptionDataProvider()
+    {
+        $nonExistingHelper = __CLASS__ . '::non_existing';
+        return array(
+            'wrong method format' => array(
+                'help', 'Helper method name in format "\Class\Name::methodName" is expected'
+            ),
+            'non-existing method' => array(
+                $nonExistingHelper, "Helper method '$nonExistingHelper' does not exist"
+            ),
+        );
     }
 }

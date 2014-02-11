@@ -7,7 +7,7 @@
  */
 namespace Magento\Config\Converter\Dom;
 
-use Magento\Config\Dom\NodePathConfig;
+use Magento\Config\Dom\ArrayNodeConfig;
 
 /**
  * Universal converter of any XML data to an array representation with no data loss
@@ -15,21 +15,16 @@ use Magento\Config\Dom\NodePathConfig;
 class Flat
 {
     /**
-     * Special array key attribute that means numeric array in node path configuration
+     * @var ArrayNodeConfig
      */
-    const ARRAY_KEY_NUMERIC = '#';
+    protected $arrayNodeConfig;
 
     /**
-     * @var NodePathConfig
+     * @param ArrayNodeConfig $arrayNodeConfig
      */
-    protected $arrayKeyAttributes;
-
-    /**
-     * @param NodePathConfig $arrayKeyAttributes
-     */
-    public function __construct(NodePathConfig $arrayKeyAttributes)
+    public function __construct(ArrayNodeConfig $arrayNodeConfig)
     {
-        $this->arrayKeyAttributes = $arrayKeyAttributes;
+        $this->arrayNodeConfig = $arrayNodeConfig;
     }
 
     /**
@@ -64,8 +59,9 @@ class Flat
                 $nodeName = $node->nodeName;
                 $nodePath = $basePath . '/' . $nodeName;
 
-                $arrayKeyAttribute = $this->arrayKeyAttributes->getNodeInfo($nodePath);
-                $isArrayNode = (bool)$arrayKeyAttribute;
+                $arrayKeyAttribute = $this->arrayNodeConfig->getAssocArrayKeyAttribute($nodePath);
+                $isNumericArrayNode = $this->arrayNodeConfig->isNumericArray($nodePath);
+                $isArrayNode = $isNumericArrayNode || $arrayKeyAttribute;
 
                 if (isset($value[$nodeName]) && !$isArrayNode) {
                     throw new \UnexpectedValueException(
@@ -76,7 +72,7 @@ class Flat
                 $nodeData = $this->convert($node, $nodePath);
 
                 if ($isArrayNode) {
-                    if ($arrayKeyAttribute == self::ARRAY_KEY_NUMERIC) {
+                    if ($isNumericArrayNode) {
                         $value[$nodeName][] = $nodeData;
                     } else if (isset($nodeData[$arrayKeyAttribute])) {
                         $arrayKeyValue = $nodeData[$arrayKeyAttribute];

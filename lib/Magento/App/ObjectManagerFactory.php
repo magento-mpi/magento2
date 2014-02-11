@@ -80,8 +80,9 @@ class ObjectManagerFactory
         }
 
         $creationStack = new \Magento\ObjectManager\Factory\CreationStack();
+        $booleanUtils = new \Magento\Stdlib\BooleanUtils();
         $argObjectFactory = new \Magento\ObjectManager\Config\Argument\ObjectFactory($diConfig);
-        $argInterpreter = $this->createArgumentInterpreter($argObjectFactory, $appArguments);
+        $argInterpreter = $this->createArgumentInterpreter($booleanUtils, $argObjectFactory, $appArguments);
         $factory = new \Magento\ObjectManager\Factory\Factory(
             $diConfig, $creationStack, $argInterpreter, $argObjectFactory, $definitions
         );
@@ -91,7 +92,8 @@ class ObjectManagerFactory
         $objectManager = new $className($factory, $diConfig, array(
             'Magento\App\Arguments' => $appArguments,
             'Magento\App\Filesystem\DirectoryList' => $directoryList,
-            'Magento\Filesystem\DirectoryList' => $directoryList
+            'Magento\Filesystem\DirectoryList' => $directoryList,
+            'Magento\Stdlib\BooleanUtils' => $booleanUtils,
         ));
 
         $argObjectFactory->setObjectManager($objectManager);
@@ -155,24 +157,26 @@ class ObjectManagerFactory
     /**
      * Return newly created instance on an argument interpreter, suitable for processing DI arguments
      *
-     * @param \Magento\ObjectManager\Config\Argument\ObjectFactory $objectFactory
+     * @param \Magento\Stdlib\BooleanUtils $booleanUtils
+     * @param \Magento\ObjectManager\Config\Argument\ObjectFactory $objFactory
      * @param \Magento\App\Arguments $appArguments
      * @return \Magento\Data\Argument\InterpreterInterface
      */
     protected function createArgumentInterpreter(
-        \Magento\ObjectManager\Config\Argument\ObjectFactory $objectFactory,
+        \Magento\Stdlib\BooleanUtils $booleanUtils,
+        \Magento\ObjectManager\Config\Argument\ObjectFactory $objFactory,
         \Magento\App\Arguments $appArguments
     ) {
         $const = new \Magento\Data\Argument\Interpreter\Constant();
         $result = new \Magento\Data\Argument\Interpreter\Composite(
             array(
-                'boolean' => new \Magento\Data\Argument\Interpreter\Boolean(new \Magento\Stdlib\BooleanUtils()),
-                'string' => new \Magento\Data\Argument\Interpreter\String(),
+                'boolean' => new \Magento\Data\Argument\Interpreter\Boolean($booleanUtils),
+                'string' => new \Magento\Data\Argument\Interpreter\String($booleanUtils),
                 'number' => new \Magento\Data\Argument\Interpreter\Number(),
                 'null' => new \Magento\Data\Argument\Interpreter\NullType(),
                 'const' => $const,
-                'object' => new \Magento\ObjectManager\Config\Argument\Interpreter\Object($objectFactory),
-                'init_parameter' => new \Magento\App\Arguments\ArgumentInterpreter($appArguments, $const),
+                'object' => new \Magento\ObjectManager\Config\Argument\Interpreter\Object($booleanUtils, $objFactory),
+                'init_parameter' => new \Magento\App\Arguments\ArgumentInterpreter($appArguments),
             ),
             \Magento\ObjectManager\Config\Reader\Dom::TYPE_ATTRIBUTE
         );

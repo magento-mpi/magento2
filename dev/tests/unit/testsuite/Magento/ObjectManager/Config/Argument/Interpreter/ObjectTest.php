@@ -8,6 +8,8 @@
 
 namespace Magento\ObjectManager\Config\Argument\Interpreter;
 
+use Magento\Stdlib\BooleanUtils;
+
 class ObjectTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -21,7 +23,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
         $expected = 'a value';
         $factory = $this->getMock('\Magento\ObjectManager\Config\Argument\ObjectFactory', array('create'), array(), '', false);
         $factory->expects($this->once())->method('create')->with($className, $isShared)->will($this->returnValue($expected));
-        $interpreter = new Object($factory);
+        $interpreter = new Object(new BooleanUtils, $factory);
         $this->assertEquals($expected, $interpreter->evaluate($data));
     }
 
@@ -32,9 +34,14 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(array('value' => 'Class'), 'Class', false),
+            array(array('value' => 'Class', 'shared' => false), 'Class', false),
+            array(array('value' => 'Class', 'shared' => 0), 'Class', false),
+            array(array('value' => 'Class', 'shared' => '0'), 'Class', false),
             array(array('value' => 'Class', 'shared' => 'false'), 'Class', false),
-            array(array('value' => 'Class', 'shared' => ''), 'Class', true),
+            array(array('value' => 'Class', 'shared' => true), 'Class', true),
+            array(array('value' => 'Class', 'shared' => 1), 'Class', true),
             array(array('value' => 'Class', 'shared' => '1'), 'Class', true),
+            array(array('value' => 'Class', 'shared' => 'true'), 'Class', true),
         );
     }
 
@@ -47,7 +54,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
     public function testEvaluateNoClass($data)
     {
         $factory = $this->getMock('\Magento\ObjectManager\Config\Argument\ObjectFactory', array(), array(), '', false);
-        $interpreter = new Object($factory);
+        $interpreter = new Object(new BooleanUtils, $factory);
         $interpreter->evaluate($data);
     }
 
