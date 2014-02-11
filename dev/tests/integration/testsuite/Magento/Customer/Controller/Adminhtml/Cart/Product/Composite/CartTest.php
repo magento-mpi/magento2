@@ -12,6 +12,19 @@ namespace Magento\Customer\Controller\Adminhtml\Cart\Product\Composite;
  */
 class CartTest extends \Magento\Backend\Utility\Controller
 {
+    /**
+     * @var \Magento\Sales\Model\Resource\Quote\Item\CollectionFactory
+     */
+    protected $quoteItemCollectionFactory;
+
+    public function setUp()
+    {
+        parent::setUp();
+        $this->quoteItemCollectionFactory = $this->_objectManager->get(
+            '\Magento\Sales\Model\Resource\Quote\Item\CollectionFactory'
+        );
+    }
+
     public function testConfigureActionNoCustomerId()
     {
         $this->dispatch('backend/customer/cart_product_composite_cart/configure');
@@ -34,14 +47,17 @@ class CartTest extends \Magento\Backend\Utility\Controller
 
     /**
      * @magentoDbIsolation enabled
+     * @magentoAppIsolation enabled
      * @magentoDataFixture Magento/Customer/_files/customer.php
      * @magentoDataFixture Magento/Customer/_files/quote.php
      */
     public function testConfigureAction()
     {
+        $items = $this->quoteItemCollectionFactory->create();
+        $itemId = $items->getAllIds()[0];
         $this->getRequest()->setParam('customer_id', 1);
         $this->getRequest()->setParam('website_id', 1);
-        $this->getRequest()->setParam('id', 1);
+        $this->getRequest()->setParam('id', $itemId);
         $this->dispatch('backend/customer/cart_product_composite_cart/configure');
         $this->assertContains(
             '<input id="product_composite_configure_input_qty" class="input-text" type="text" name="qty" value="1">',
@@ -68,14 +84,17 @@ class CartTest extends \Magento\Backend\Utility\Controller
 
     /**
      * @magentoDbIsolation enabled
+     * @magentoAppIsolation enabled
      * @magentoDataFixture Magento/Customer/_files/customer.php
      * @magentoDataFixture Magento/Customer/_files/quote.php
      */
     public function testUpdateAction()
     {
+        $items = $this->quoteItemCollectionFactory->create();
+        $itemId = $items->getAllIds()[0];
         $this->getRequest()->setParam('customer_id', 1);
         $this->getRequest()->setParam('website_id', 1);
-        $this->getRequest()->setParam('id', 1);
+        $this->getRequest()->setParam('id', $itemId);
 
         $this->dispatch('backend/customer/cart_product_composite_cart/update');
         $this->assertRedirect($this->stringContains('catalog/product/showUpdateResult'));
