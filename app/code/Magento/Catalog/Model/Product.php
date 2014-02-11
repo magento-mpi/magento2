@@ -197,6 +197,11 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     protected $_filesystem;
 
     /**
+     * @var \Magento\Indexer\Model\IndexerInterface
+     */
+    protected $categoryIndexer;
+
+    /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -219,6 +224,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      * @param Resource\Product\Collection $resourceCollection
      * @param \Magento\Data\CollectionFactory $collectionFactory
      * @param \Magento\App\Filesystem $filesystem
+     * @param \Magento\Indexer\Model\IndexerInterface $categoryIndexer
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -246,6 +252,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         \Magento\Catalog\Model\Resource\Product\Collection $resourceCollection,
         \Magento\Data\CollectionFactory $collectionFactory,
         \Magento\App\Filesystem $filesystem,
+        \Magento\Indexer\Model\IndexerInterface $categoryIndexer,
         array $data = array()
     ) {
         $this->_itemOptionFactory = $itemOptionFactory;
@@ -265,6 +272,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         $this->_urlModel = $url;
         $this->_linkInstance = $productLink;
         $this->_filesystem = $filesystem;
+        $this->categoryIndexer = $categoryIndexer;
         parent::__construct($context, $registry, $storeManager, $resource, $resourceCollection, $data);
     }
 
@@ -274,6 +282,19 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     protected function _construct()
     {
         $this->_init('Magento\Catalog\Model\Resource\Product');
+    }
+
+    /**
+     * Return product category indexer object
+     *
+     * @return \Magento\Indexer\Model\IndexerInterface
+     */
+    protected function getCategoryIndexer()
+    {
+        if (!$this->categoryIndexer->getId()) {
+            $this->categoryIndexer->load(Indexer\Product\Category::INDEXER_ID);
+        }
+        return $this->categoryIndexer;
     }
 
     /**
@@ -647,7 +668,19 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         $this->_indexIndexer->processEntityAction(
             $this, self::ENTITY, \Magento\Index\Model\Event::TYPE_SAVE
         );
+        $this->_getResource()->addCommitCallback(array($this, 'reindex'));
         return $result;
+    }
+
+
+    /**
+     * Init indexing process after product save
+     */
+    public function reindex()
+    {
+        if (!$this->getCategoryIndexer()->isScheduled()) {
+            $this->getCategoryIndexer()->reindexRow($this->getId());
+        }
     }
 
     /**
@@ -673,6 +706,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      */
     protected function _afterDeleteCommit()
     {
+        $this->reindex();
         parent::_afterDeleteCommit();
         $this->_indexIndexer->indexEvents(
             self::ENTITY, \Magento\Index\Model\Event::TYPE_DELETE

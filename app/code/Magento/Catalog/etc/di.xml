@@ -186,4 +186,19 @@
             </array>
         </param>
     </type>
+    <type name="Magento\Catalog\Model\Category">
+        <param name="productIndexer">
+            <instance type="Magento\Indexer\Model\IndexerInterface" shared="false"/>
+        </param>
+    </type>
+    <type name="Magento\Catalog\Model\Product">
+        <param name="categoryIndexer">
+            <instance type="Magento\Indexer\Model\IndexerInterface" shared="false"/>
+        </param>
+    </type>
+    <type name="Magento\Catalog\Model\Product\Action">
+        <param name="categoryIndexer">
+            <instance type="Magento\Indexer\Model\IndexerInterface" shared="false"/>
+        </param>
+    </type>
 </config>
