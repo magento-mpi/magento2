@@ -45,7 +45,7 @@ class Templates
     /**
      * Prepare general properties form
      *
-     * @return Form
+     * @return $this
      */
     protected function _prepareForm()
     {

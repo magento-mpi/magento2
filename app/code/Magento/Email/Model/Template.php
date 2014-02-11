@@ -73,7 +73,7 @@ class Template extends \Magento\Core\Model\Template
     /**
      * Email template filter
      *
-     * @var Filter
+     * @var FilterTemplate
      */
     protected $_templateFilter;
 
@@ -205,8 +205,7 @@ class Template extends \Magento\Core\Model\Template
     }
 
     /**
-     * Return logo URL for emails
-     * Take logo from theme if custom logo is undefined
+     * Return logo URL for emails. Take logo from theme if custom logo is undefined
      *
      * @param  \Magento\Core\Model\Store|int|string $store
      * @return string
@@ -360,7 +359,7 @@ class Template extends \Magento\Core\Model\Template
      * Set id of template
      *
      * @param int $value
-     * @return \Magento\Email\Model\Template
+     * @return $this
      */
     public function setId($value)
     {
@@ -474,8 +473,8 @@ class Template extends \Magento\Core\Model\Template
      * @param array|string $email E-mail(s)
      * @param array|string|null $name receiver name(s)
      * @param array $variables template variables
-     * @return boolean
-     **/
+     * @return bool
+     */
     public function send($email, $name = null, array $variables = array())
     {
         if (!$this->isValidForSend()) {
@@ -732,7 +731,7 @@ class Template extends \Magento\Core\Model\Template
      * Validate email template code
      *
      * @throws Exception
-     * @return \Magento\Email\Model\Template
+     * @return $this
      */
     protected function _beforeSave()
     {

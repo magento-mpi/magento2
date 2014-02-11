@@ -44,6 +44,8 @@ class Returnaddress
 
     /**
      * Constructor
+     *
+     * @return void
      */
     public function _construct()
     {

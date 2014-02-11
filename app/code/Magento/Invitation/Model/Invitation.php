@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Invitation\Model;
 
 /**
  * Invitation data model
@@ -37,8 +38,6 @@
  * @package     Magento_Invitation
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Invitation\Model;
-
 class Invitation extends \Magento\Core\Model\AbstractModel
 {
     const STATUS_NEW      = 'new';
@@ -54,17 +53,17 @@ class Invitation extends \Magento\Core\Model\AbstractModel
     const ERROR_CUSTOMER_EXISTS = 3;
 
     /**
-     * @inheritdoc
+     * @var array
      */
     private static $_customerExistsLookup = array();
 
     /**
-     * @inheritdoc
+     * @var string
      */
     protected $_eventPrefix = 'magento_invitation';
 
     /**
-     * @inheritdoc
+     * @var string
      */
     protected $_eventObject = 'invitation';
 
@@ -163,6 +162,8 @@ class Invitation extends \Magento\Core\Model\AbstractModel
 
     /**
      * Intialize resource
+     *
+     * @return void
      */
     protected function _construct()
     {

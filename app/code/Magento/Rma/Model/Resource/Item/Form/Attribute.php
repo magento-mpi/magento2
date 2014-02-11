@@ -7,20 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Rma\Model\Resource\Item\Form;
 
 /**
  * RMA entity Form Attribute resource model
  *
- * @category   Magento
- * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Rma\Model\Resource\Item\Form;
-
 class Attribute extends \Magento\Eav\Model\Resource\Form\Attribute
 {
     /**
      * Initialize connection and define main table
+     *
+     * @return void
      */
     protected function _construct()
     {
