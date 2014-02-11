@@ -11,9 +11,14 @@ namespace Magento\Css\PreProcessor\Cache;
 class CacheTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Sub directory in library
+     * @var \Magento\Css\PreProcessor\Less
      */
-    const LIB_SUB_DIR = 'less_cache';
+    protected $model;
+
+    /**
+     * @var \Magento\Css\PreProcessor\Cache\CacheManagerFactory
+     */
+    protected $cacheManagerFactory;
 
     /**
      * @var \Magento\App\Filesystem
@@ -21,106 +26,79 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     protected $filesystem;
 
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\View\Service
      */
-    protected $objectManager;
+    protected $viewService;
 
-    /**
-     * @var \Magento\Filesystem\Directory\WriteInterface
-     */
-    protected $tmpDirectory;
-
-    /**
-     * @var \Magento\Css\PreProcessor\Less
-     */
-    protected $preprocessorLess;
-
-    protected function setUp()
+    public function setUp()
     {
-        $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $this->model = $objectManager->create('Magento\Css\PreProcessor\Less');
+        $this->cacheManagerFactory = $objectManager->create('Magento\Css\PreProcessor\Cache\CacheManagerFactory');
+        $this->filesystem = $objectManager->get('Magento\Filesystem');
+        $this->viewService = $objectManager->get('Magento\View\Service');
 
-        $this->filesystem = $this->objectManager->get('Magento\Filesystem');
-        $this->objectManager->get('Magento\App\State')->setAreaCode('frontend');
-        /** @var \Magento\Css\PreProcessor\Less $less */
-        $this->preprocessorLess = $this->objectManager->create('Magento\Css\PreProcessor\Less');
-        $this->tmpDirectory = $this->objectManager->create('Magento\App\Filesystem')
-            ->getDirectoryWrite(\Magento\App\Filesystem::TMP_DIR);
+        $this->clearCache();
 
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
             \Magento\App\Filesystem::PARAM_APP_DIRS => array(
                 \Magento\App\Filesystem::PUB_LIB_DIR => array(
-                    'path' => $this->tmpDirectory->getAbsolutePath() . '/' . self::LIB_SUB_DIR
+                    'path' => __DIR__ . '/../_files/cache/lib'
                 ),
             )
         ));
     }
 
-    /**
-     * @param array $content
-     * @dataProvider contentProvider
-     */
-    public function testCacheGeneration($content)
+    public function testProcess()
     {
-        $designParams = array('area' => 'frontend');
-        /** @var \Magento\View\Service $viewService */
-        $viewService = $this->objectManager->get('Magento\View\Service');
-        $viewService->updateDesignParams($designParams);
+        $sourceFilePath = 'oyejorge.less';
+
+        $designParams = $this->getDesignParams();
+        $targetDirectory = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::TMP_DIR);
 
         /**
-         * Validate that content will be changed only when file will be edited (mtime changed)
+         * cache was not initialize yet and will return empty value
+         *
+         * @var \Magento\Css\PreProcessor\Cache\CacheManager $cacheManagerEmpty
          */
-        foreach ($content as $testData) {
-            $cachedContent = $this->processLess($designParams, $testData['content'], $testData['mtime']);
-            $this->assertContains($testData['expected'], $cachedContent);
-        }
-    }
+        $cacheManagerEmpty = $this->cacheManagerFactory->create($sourceFilePath, $designParams);
+        $this->assertEmpty($cacheManagerEmpty->getCachedFile());
 
-    /**
-     * @param array $designParams
-     * @param string $content
-     * @param int $mtime
-     * @return string
-     */
-    protected function processLess($designParams, $content, $mtime)
-    {
-        if (!$this->tmpDirectory->isDirectory(self::LIB_SUB_DIR)) {
-            $this->tmpDirectory->create(self::LIB_SUB_DIR);
-        }
+        $this->model->process($sourceFilePath, $designParams, $targetDirectory);
 
-        $this->tmpDirectory->writeFile(self::LIB_SUB_DIR . '/test_main.less', '@import "test_import.less";');
-        $this->tmpDirectory->writeFile(self::LIB_SUB_DIR . '/test_import.less', $content);
-        $this->tmpDirectory->touch(self::LIB_SUB_DIR . '/test_import.less', $mtime);
+        /**
+         * cache initialized and will return cached file
+         *
+         * @var \Magento\Css\PreProcessor\Cache\CacheManager $cacheManagerGenerated
+         */
+        $cacheManagerGenerated = $this->cacheManagerFactory->create($sourceFilePath, $designParams);
 
-        $publishedFile = $this->preprocessorLess->process(
-            'test_main.less', $designParams, $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::TMP_DIR)
-        );
-
-        return $this->tmpDirectory->readFile($this->tmpDirectory->getRelativePath($publishedFile));
+        $this->assertNotEmpty($cacheManagerGenerated->getCachedFile());
     }
 
     /**
      * @return array
      */
-    public function contentProvider()
+    protected function getDesignParams()
     {
-        $currentTime = time();
+        $designParams = ['area' => 'frontend'];
+        /** @var \Magento\View\Service $viewService */
+        $this->viewService->updateDesignParams($designParams);
 
-        return [[[
-            [
-                'content'  => 'h1 { background-color: red; }',
-                'mtime'    => $currentTime,
-                'expected' => 'background-color: red;'
-            ],
-            [
-                'content'  => 'h1 { background-color: green; }',
-                'mtime'    => $currentTime,
-                'expected' => 'background-color: red;'
-            ],
-            [
-                'content'  => 'h1 { background-color: blue; }',
-                'mtime'    => $currentTime + 1,
-                'expected' => 'background-color: blue;'
-            ]
-        ]]];
+        return $designParams;
+    }
+
+    /**
+     * @return $this
+     */
+    protected function clearCache()
+    {
+        /** @var \Magento\Filesystem\Directory\WriteInterface $mapsDirectory */
+        $mapsDirectory = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
+
+        if ($mapsDirectory->isDirectory(\Magento\Css\PreProcessor\Cache\Import\Map\Storage::MAPS_DIR)) {
+            $mapsDirectory->delete(\Magento\Css\PreProcessor\Cache\Import\Map\Storage::MAPS_DIR);
+        }
+        return $this;
     }
 }
