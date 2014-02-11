@@ -7,7 +7,8 @@
  */
 ?>
 
-<?php /** @var \Magento\PageCache\Block\System\Config\Form\Field\Export $this */
+<?php /** @var \Magento\PageCache\Block\System\Config\Form\Field\
+ * Export $this */
 ?>
 <script type="text/javascript">
     //<![CDATA[
@@ -26,11 +27,6 @@
                 return ($(this).val().length == 0 || ($(this).val() != $(this).data('previous-value')));
             });
             $('#system_full_page_cache_varnish_export_button').prop('disabled', (invalidFields.length > 0));
-        });
-        $('#system_full_page_cache_ttl').on('change', function (e) {
-            if ($(this).val() == '') {
-                $(this).val('<?php echo $this->getTtlValue(); ?>');
-            }
         });
     })(jQuery);
     //]]>

@@ -34,7 +34,6 @@ class HeaderPlugin
      *
      * @param \Magento\Core\Model\Layout $layout
      * @param \Magento\App\ConfigInterface $config
-     * @param \Magento\PageCache\Helper\Data
      * @param \Magento\PageCache\Model\Version $version
      */
     public function __construct(

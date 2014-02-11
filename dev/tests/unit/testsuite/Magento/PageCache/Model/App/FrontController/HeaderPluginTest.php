@@ -132,7 +132,7 @@ class HeaderPluginTest extends \PHPUnit_Framework_TestCase
 
         $this->configMock->expects($this->once())
             ->method('getValue')
-            ->with($this->equalTo(\Magento\PageCache\Model\Config::XML_VARNISH_PAGECACHE_TTL))
+            ->with($this->equalTo(\Magento\PageCache\Model\Config::XML_PAGECACHE_TTL))
             ->will($this->returnValue($maxAge));
 
         $this->layoutMock->expects($this->once())
