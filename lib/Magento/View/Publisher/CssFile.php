@@ -22,7 +22,7 @@ class CssFile extends FileAbstract
      */
     public function isPublicationAllowed()
     {
-        if ($this->isPublicationAllowed === null) {}
+        if ($this->isPublicationAllowed === null) {
             $filePath = str_replace('\\', '/', $this->sourcePath);
 
             if ($this->isLibFile($filePath)) {
@@ -32,7 +32,7 @@ class CssFile extends FileAbstract
             } else {
                 $this->isPublicationAllowed = $this->viewService->getAppMode() === \Magento\App\State::MODE_DEVELOPER;
             }
-
+        }
         return $this->isPublicationAllowed;
     }
 
