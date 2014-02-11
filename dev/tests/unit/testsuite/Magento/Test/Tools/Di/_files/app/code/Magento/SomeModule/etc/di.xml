@@ -17,6 +17,9 @@
     <type name="Magento\SomeModule\Model\Test">
         <arguments>
             <argument name="proxy" xsi:type="object">\Magento\SomeModule\Model\Element\Proxy</argument>
+            <argument name="array" xsi:type="array">
+                <item xsi:type="object">\Magento\SomeModule\Model\Nested\Element\Proxy</item>
+            </argument>
         </arguments>
     </type>
 </config>
