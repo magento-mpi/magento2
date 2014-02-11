@@ -8,7 +8,7 @@
 
 namespace Magento\Css\PreProcessor;
 
-use \Magento\View\Asset\PreProcessor\PreProcessorInterface;
+use Magento\View\Asset\PreProcessor\PreProcessorInterface;
 use Magento\Filesystem\Directory\WriteInterface;
 
 /**

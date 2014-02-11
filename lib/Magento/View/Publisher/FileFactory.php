@@ -15,6 +15,9 @@ use Magento\ObjectManager;
  */
 class FileFactory
 {
+    /**
+     * Default publisher file class
+     */
     const DEFAULT_FILE_INSTANCE_CLASS = 'Magento\View\Publisher\File';
 
     /**

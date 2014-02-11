@@ -99,7 +99,7 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
      */
     public function getPublicFilePath($filePath, $params)
     {
-        return $this->_getPublishedFilePath($this->fileFactory->create($filePath, $params));
+        return $this->getPublishedFilePath($this->fileFactory->create($filePath, $params));
     }
 
     /**
@@ -125,16 +125,11 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
      * Check, if requested theme file has public access, and move it to public folder, if the file has no public access
      *
      * @param Publisher\FileInterface $publisherFile
-     * @throws \Magento\Exception
      * @return string|null
+     * @throws \Magento\Exception
      */
-    protected function _getPublishedFilePath(Publisher\FileInterface $publisherFile)
+    protected function getPublishedFilePath(Publisher\FileInterface $publisherFile)
     {
-        //TODO: Do we need this? It throws exception in production mode!
-        if (!$this->viewService->isViewFileOperationAllowed()) {
-            throw new \Magento\Exception('Filesystem operations are not permitted for view files');
-        }
-
         /** If $filePath points to file with protected extension - no publishing, return null */
         if (!$this->isAllowedExtension($publisherFile->getExtension())) {
             return null;
@@ -186,7 +181,7 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
             return $publisherFile->getSourcePath();
         }
 
-        return $this->_publishFile($publisherFile);
+        return $this->publishFile($publisherFile);
     }
 
     /**
@@ -195,7 +190,7 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
      * @param Publisher\FileInterface $publisherFile
      * @return string
      */
-    protected function _publishFile(Publisher\FileInterface $publisherFile)
+    protected function publishFile(Publisher\FileInterface $publisherFile)
     {
         $filePath = $this->viewFileSystem->normalizePath($publisherFile->getFilePath());
         $sourcePath = $this->viewFileSystem->normalizePath($publisherFile->getSourcePath());
