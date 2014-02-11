@@ -9,6 +9,6 @@
 -->
 <config>
     <type name="Magento\App\FrontControllerInterface">
-        <plugin name="front-controller-head" type="Magento\PageCache\Model\App\FrontController\HeaderPlugin"/>
+        <plugin name="front-controller-cache" type="Magento\PageCache\Model\App\FrontController\CachePlugin"/>
     </type>
 </config>
