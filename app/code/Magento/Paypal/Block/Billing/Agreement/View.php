@@ -52,7 +52,7 @@ class View extends \Magento\View\Element\Template
     protected $_customerSession;
 
     /**
-     * @var \Magento\Paypal\Model\Order\Config
+     * @var \Magento\Sales\Model\Order\Config
      */
     protected $_orderConfig;
 
@@ -71,7 +71,7 @@ class View extends \Magento\View\Element\Template
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollectionFactory
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Paypal\Model\Order\Config $orderConfig
+     * @param \Magento\Sales\Model\Order\Config $orderConfig
      * @param \Magento\Paypal\Helper\Data $helper
      * @param \Magento\Paypal\Model\Resource\Billing\Agreement $agreementResource
      * @param array $data
@@ -81,7 +81,7 @@ class View extends \Magento\View\Element\Template
         \Magento\Core\Model\Registry $registry,
         \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollectionFactory,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Paypal\Model\Order\Config $orderConfig,
+        \Magento\Sales\Model\Order\Config $orderConfig,
         \Magento\Paypal\Helper\Data $helper,
         \Magento\Paypal\Model\Resource\Billing\Agreement $agreementResource,
         array $data = array()
