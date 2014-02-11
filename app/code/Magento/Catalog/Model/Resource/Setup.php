@@ -74,18 +74,6 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
     }
 
     /**
-     * Creates indexer model
-     *
-     * @param array $data
-     * @return \Magento\Index\Model\Indexer
-     */
-    public function createIndexer($data = array())
-    {
-        return $this->_indexerFactory
-            ->create($data);
-    }
-
-    /**
      * Creates setup migration model
      *
      * @param array $data

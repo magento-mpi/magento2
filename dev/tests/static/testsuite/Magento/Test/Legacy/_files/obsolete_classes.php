@@ -603,8 +603,49 @@ return array(
     array('Mage_Catalog_Model_Resource_Product_Attribute_Frontend_Image'),
     array('Mage_Catalog_Model_Resource_Product_Attribute_Frontend_Tierprice'),
     array(
+        'Magento\Catalog\Block\Adminhtml\Product\Attribute\Edit\Tab\Variations\Main',
+        'Magento\ConfigurableProduct\Block\Adminhtml\Product\Attribute\Edit\Tab\Variations\Main'
+    ),
+    array(
+        'Magento\Catalog\Block\Adminhtml\Product\Attribute\NewAttribute\Product\Created',
+        'Magento\ConfigurableProduct\Block\Adminhtml\Product\Attribute\NewAttribute\Product\Created'
+    ),
+    array(
         'Magento\Catalog\Block\Adminhtml\Product\Composite\Fieldset\Configurable',
         'Magento\ConfigurableProduct\Block\Adminhtml\Product\Composite\Fieldset\Configurable'
+    ),
+    array('Magento\Catalog\Block\Adminhtml\Product\Created'),
+    array(
+        'Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Super\Config\Grid\Filter\Inventory',
+        'Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Config\Grid\Filter\Inventory'
+    ),
+    array(
+        'Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Super\Config\Grid\Renderer\Checkbox',
+        'Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Config\Grid\Renderer\Checkbox'
+    ),
+    array(
+        'Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Super\Config\Grid\Renderer\Inventory',
+        'Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Config\Grid\Renderer\Inventory'
+    ),
+    array(
+        'Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Super\Config\Attribute',
+        'Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Config\Attribute'
+    ),
+    array(
+        '\Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Super\Config\Matrix',
+        '\Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Config\Matrix'
+    ),
+    array(
+        'Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Super\Config\Simple',
+        'Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Config\Simple'
+    ),
+    array(
+        'Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Super\Config',
+        'Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Config'
+    ),
+    array(
+        '\Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Super\Settings',
+        '\Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Settings'
     ),
     array(
         'Magento\Catalog\Block\Adminhtml\Product\Edit\Tabs\Configurable',
@@ -2007,6 +2048,9 @@ return array(
     array('Magento\PageCache\Model\Control\Zend'),
     array('Magento\PageCache\Model\System\Config\Source\Controls'),
     array('Magento\PageCache\Model\CacheControlFactory'),
+    array('Magento\Catalog\Block\Adminhtml\System\Config\Form\Field\Select\Flatcatalog'),
+    array('Magento\Catalog\Helper\Category\Flat'),
+    array('Magento\Catalog\Model\Category\Indexer\Flat'),
     array('Magento\Config\Dom\Converter\ArrayConverter'),
     array('Magento\Acl\Resource\Config\Dom'),
     array('Magento\Sales\Model\Recurring\Profile', 'Magento\RecurringProfile\Model\Profile'),

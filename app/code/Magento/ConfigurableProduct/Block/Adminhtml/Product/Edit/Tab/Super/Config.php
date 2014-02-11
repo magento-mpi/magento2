@@ -321,60 +321,6 @@ class Config
     }
 
     /**
-     * Retrieve Create New Empty Product URL
-     *
-     * @return string
-     */
-    public function getNewEmptyProductUrl()
-    {
-        return $this->getUrl(
-            '*/*/new',
-            array(
-                'set'      => $this->getProduct()->getAttributeSetId(),
-                'type'     => \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE,
-                'required' => $this->_getRequiredAttributesIds(),
-                'popup'    => 1
-            )
-        );
-    }
-
-    /**
-     * Retrieve Create New Product URL
-     *
-     * @return string
-     */
-    public function getNewProductUrl()
-    {
-        return $this->getUrl(
-            '*/*/new',
-            array(
-                'set'      => $this->getProduct()->getAttributeSetId(),
-                'type'     => \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE,
-                'required' => $this->_getRequiredAttributesIds(),
-                'popup'    => 1,
-                'product'  => $this->getProduct()->getId()
-            )
-        );
-    }
-
-    /**
-     * Retrieve Required attributes Ids (comma separated)
-     *
-     * @return string
-     */
-    protected function _getRequiredAttributesIds()
-    {
-        $attributesIds = array();
-        $configurableAttributes = $this->getProduct()
-            ->getTypeInstance()->getConfigurableAttributes($this->getProduct());
-        foreach ($configurableAttributes as $attribute) {
-            $attributesIds[] = $attribute->getProductAttribute()->getId();
-        }
-
-        return implode(',', $attributesIds);
-    }
-
-    /**
      * Retrieve Tab label
      *
      * @return string

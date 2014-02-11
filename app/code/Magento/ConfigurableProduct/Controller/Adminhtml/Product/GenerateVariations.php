@@ -114,4 +114,5 @@ class GenerateVariations extends Action
 
         $this->getRequest()->setParam('product', $productData);
     }
-} 
+}
+

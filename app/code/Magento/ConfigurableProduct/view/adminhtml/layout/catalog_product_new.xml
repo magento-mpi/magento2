@@ -11,6 +11,7 @@
     <referenceContainer name="js">
         <block class="Magento\ConfigurableProduct\Block\Product\Configurable\AttributeSelector" template="product/configurable/attribute-selector/js.phtml"/>
         <block class="Magento\ConfigurableProduct\Block\Product\Configurable\AttributeSelector" template="product/configurable/affected-attribute-set-selector/js.phtml"/>
+        <block class="Magento\View\Element\Template" template="Magento_ConfigurableProduct::product/configurable/stock/disabler.phtml"/>
     </referenceContainer>
     <referenceBlock name="head">
         <block class="Magento\Theme\Block\Html\Head\Script" name="magento-adminhtml-catalog-product-variation-js">
