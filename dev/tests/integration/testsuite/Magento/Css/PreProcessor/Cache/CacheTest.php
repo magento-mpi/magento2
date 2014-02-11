@@ -37,6 +37,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $this->markTestIncomplete('MAGETWO-18229');
         $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         $this->filesystem = $this->objectManager->get('Magento\Filesystem');
