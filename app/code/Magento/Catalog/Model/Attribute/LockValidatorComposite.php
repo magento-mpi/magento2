@@ -15,12 +15,12 @@ class LockValidatorComposite implements LockValidatorInterface
     /**
      * @var LockValidatorInterface[]
      */
-    protected $validators;
+    protected $validators = array();
 
     /**
      * @param \Magento\ObjectManager $objectManager
      * @param array $validators
-     * @trwows \InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function __construct(\Magento\ObjectManager $objectManager, array $validators = array())
     {

@@ -59,4 +59,11 @@
             </array>
         </param>
     </type>
+    <type name="Magento\Catalog\Model\Attribute\LockValidatorComposite">
+        <param name="validators">
+            <array>
+                <item key="configurable"><value>Magento\ConfigurableProduct\Model\Attribute\LockValidator</value></item>
+            </array>
+        </param>
+    </type>
 </config>
