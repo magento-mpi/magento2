@@ -56,6 +56,11 @@ abstract class FileAbstract implements FileInterface
     protected $allowDuplication;
 
     /**
+     * @var bool
+     */
+    protected $isPublicationAllowed;
+
+    /**
      * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\View\Service $viewService
      * @param \Magento\Module\Dir\Reader $modulesReader
