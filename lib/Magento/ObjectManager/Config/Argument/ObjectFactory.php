@@ -55,7 +55,7 @@ class ObjectFactory
     protected function getObjectManager()
     {
         if (!$this->objectManager) {
-            throw new \LogicException('Object manger has not been assigned yet.');
+            throw new \LogicException('Object manager has not been assigned yet.');
         }
         return $this->objectManager;
     }

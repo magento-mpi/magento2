@@ -9,6 +9,7 @@
 namespace Magento\App\Arguments;
 
 use Magento\Data\Argument\InterpreterInterface;
+use Magento\Data\Argument\Interpreter\Constant;
 use Magento\Data\Argument\MissingOptionalValueException;
 use Magento\App\Arguments;
 
@@ -23,26 +24,28 @@ class ArgumentInterpreter implements InterpreterInterface
     private $arguments;
 
     /**
-     * @param Arguments $arguments
+     * @var Constant
      */
-    public function __construct(Arguments $arguments)
+    private $interpreter;
+
+    /**
+     * @param Arguments $arguments
+     * @param Constant $interpreter
+     */
+    public function __construct(Arguments $arguments, Constant $interpreter)
     {
         $this->arguments = $arguments;
+        $this->interpreter = $interpreter;
     }
 
     /**
      * {@inheritdoc}
      * @return mixed
-     * @throws \InvalidArgumentException
      * @throws MissingOptionalValueException
      */
     public function evaluate(array $data)
     {
-        if (!isset($data['value']) || !defined($data['value'])) {
-            throw new \InvalidArgumentException('Constant name of application argument is expected.');
-        }
-        $constantName = $data['value'];
-        $argumentName = constant($constantName);
+        $argumentName = $this->interpreter->evaluate($data);
         $result = $this->arguments->get($argumentName);
         if ($result === null) {
             throw new MissingOptionalValueException("Value of application argument '$argumentName' is not defined.");

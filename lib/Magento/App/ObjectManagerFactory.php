@@ -163,15 +163,16 @@ class ObjectManagerFactory
         \Magento\ObjectManager\Config\Argument\ObjectFactory $objectFactory,
         \Magento\App\Arguments $appArguments
     ) {
+        $const = new \Magento\Data\Argument\Interpreter\Constant();
         $result = new \Magento\Data\Argument\Interpreter\Composite(
             array(
                 'boolean' => new \Magento\Data\Argument\Interpreter\Boolean(new \Magento\Stdlib\BooleanUtils()),
                 'string' => new \Magento\Data\Argument\Interpreter\String(),
                 'number' => new \Magento\Data\Argument\Interpreter\Number(),
                 'null' => new \Magento\Data\Argument\Interpreter\NullType(),
-                'const' => new \Magento\Data\Argument\Interpreter\Constant(),
+                'const' => $const,
                 'object' => new \Magento\ObjectManager\Config\Argument\Interpreter\Object($objectFactory),
-                'init_parameter' => new \Magento\App\Arguments\ArgumentInterpreter($appArguments),
+                'init_parameter' => new \Magento\App\Arguments\ArgumentInterpreter($appArguments, $const),
             ),
             \Magento\ObjectManager\Config\Reader\Dom::TYPE_ATTRIBUTE
         );

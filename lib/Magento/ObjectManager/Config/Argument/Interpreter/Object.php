@@ -37,7 +37,7 @@ class Object implements InterpreterInterface
      */
     public function evaluate(array $data)
     {
-        if (!isset($data['value'])) {
+        if (empty($data['value'])) {
             throw new \InvalidArgumentException('Object class name is missing.');
         }
         $className = $data['value'];

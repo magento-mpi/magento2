@@ -22,7 +22,7 @@ class ArgumentParser
     private $converter;
 
     /**
-     * Build and return array representation of layout argument node
+     * Build and return array representation of DI argument node
      *
      * @param \DOMNode $argumentNode
      * @return array|string
