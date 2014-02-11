@@ -37,14 +37,6 @@ class StoreGroup
     }
 
     /**
-     * Invalidate indexer
-     */
-    protected function invalidateIndexer()
-    {
-        $this->getIndexer()->invalidate();
-    }
-
-    /**
      * Process to invalidate indexer
      *
      * @param array $arguments
@@ -56,7 +48,7 @@ class StoreGroup
         $needInvalidating = $this->validate($arguments[0]);
         $objectResource = $invocationChain->proceed($arguments);
         if ($needInvalidating) {
-            $this->invalidateIndexer();
+            $this->getIndexer()->invalidate();
         }
 
         return $objectResource;
