@@ -9,7 +9,8 @@
 namespace Magento\View\Layout\Argument;
 
 use Magento\Config\Converter\Dom\Flat as FlatConverter;
-use Magento\Config\Dom\NodePathConfig;
+use Magento\Config\Dom\NodePathMatcher;
+use Magento\Config\Dom\ArrayNodeConfig;
 
 /**
  * Parser of a layout argument node that returns its array representation with no data loss
@@ -41,13 +42,17 @@ class Parser
     protected function getConverter()
     {
         if (!$this->converter) {
-            $this->converter = new FlatConverter(
-                new NodePathConfig(array(
-                    'argument/updater' => FlatConverter::ARRAY_KEY_NUMERIC,
+            $arrayNodeConfig = new ArrayNodeConfig(
+                new NodePathMatcher(),
+                array(
                     'argument/param' => 'name',
                     'argument(/item)+' => 'name',
-                ))
+                ),
+                array(
+                    'argument/updater',
+                )
             );
+            $this->converter = new FlatConverter($arrayNodeConfig);
         }
         return $this->converter;
     }
