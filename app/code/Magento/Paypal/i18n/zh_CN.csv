@@ -62,6 +62,7 @@
 "Billing Agreements","记账协议"
 "Billing Agreement status is not set.","记账协议状态未设置。"
 "Unable to save Billing Agreement:","无法保存记账协议："
+"Your billing agreement # is: %s.","您的账单编号为： %s"
 "Bonus for first ACH Use","首次使用ACH奖励"
 "Buyer Credit Payment","买家信用支付"
 "Buyer\'s Tax ID","买家的纳税人 ID"

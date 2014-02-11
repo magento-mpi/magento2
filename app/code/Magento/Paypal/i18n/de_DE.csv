@@ -62,6 +62,7 @@
 "Billing Agreements","Rechnungsvereinbarungen"
 "Billing Agreement status is not set.","Abrechnungsvereinbarungsstatus ist nicht gesetzt."
 "Unable to save Billing Agreement:","Abrechnungsvereinbarung kann nicht gespeichert werden:"
+"Your billing agreement # is: %s.","Die Nummer Ihrer Zustimmung zur Abrechnung lautet: %s."
 "Bonus for first ACH Use","Bonus für erste ACH-Benutzung"
 "Buyer Credit Payment","Käuferkredit Zahlung"
 "Buyer\'s Tax ID","Steuernummer des Käufers"

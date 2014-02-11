@@ -62,6 +62,7 @@
 "Billing Agreements","Facturering Overeenkomsten"
 "Billing Agreement status is not set.","Betaalovereenkomst status is niet opgesteld."
 "Unable to save Billing Agreement:","Niet mogelijk om Betalingsovereenkomst op te slaan:"
+"Your billing agreement # is: %s.","Uw factureringsovereenkomst # is: %s."
 "Bonus for first ACH Use","Bonus voor eerste ACH gebruik"
 "Buyer Credit Payment","Koper krediet betaling"
 "Buyer\'s Tax ID","Kopers Belastings ID"
