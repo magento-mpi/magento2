@@ -9,22 +9,22 @@
  * @license     {license_link}
  */
 
-namespace Magento\Sales\Block\Adminhtml\Billing\Agreement\View\Tab;
+namespace Magento\Paypal\Block\Adminhtml\Billing\Agreement\View\Tab;
 
 class InfoTest extends \Magento\Backend\Utility\Controller
 {
     /**
      * @magentoDataFixture Magento/Customer/_files/customer.php
-     * @magentoDataFixture Magento/Sales/_files/billing_agreement.php
+     * @magentoDataFixture Magento/Paypal/_files/billing_agreement.php
      */
     public function testCustomerGridAction()
     {
         /** @var \Magento\Paypal\Model\Resource\Billing\Agreement\Collection $billingAgreementCollection */
         $billingAgreementCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Sales\Model\Resource\Billing\Agreement\Collection')
+            ->create('Magento\Paypal\Model\Resource\Billing\Agreement\Collection')
             ->load();
         $agreementId = $billingAgreementCollection->getFirstItem()->getId();
-        $this->dispatch('backend/sales/billing_agreement/view/agreement/' . $agreementId);
+        $this->dispatch('backend/paypal/billing_agreement/view/agreement/' . $agreementId);
 
         $this->assertSelectCount('a[name="billing_agreement_info"]', 1, $this->getResponse()->getBody(),
            'Response for billing agreement info doesn\'t contain billing agreement info tab');

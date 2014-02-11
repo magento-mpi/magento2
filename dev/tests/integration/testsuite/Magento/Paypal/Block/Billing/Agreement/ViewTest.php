@@ -1,6 +1,6 @@
 <?php
 /**
- * Test for \Magento\Sales\Block\Billing\Agreement\View
+ * Test for \Magento\Paypal\Block\Billing\Agreement\View
  *
  * {license_notice}
  *
@@ -8,18 +8,18 @@
  * @license     {license_link}
  */
 
-namespace Magento\Sales\Block\Billing\Agreement;
+namespace Magento\Paypal\Block\Billing\Agreement;
 
 use \Magento\TestFramework\Helper\Bootstrap;
 
 class ViewTest extends \Magento\Backend\Utility\Controller
 {
-    /** @var \Magento\Sales\Block\Billing\Agreement\View */
+    /** @var \Magento\Paypal\Block\Billing\Agreement\View */
     protected $_block;
 
     protected function setUp()
     {
-        $this->_block = Bootstrap::getObjectManager()->create('Magento\Sales\Block\Billing\Agreement\View');
+        $this->_block = Bootstrap::getObjectManager()->create('Magento\Paypal\Block\Billing\Agreement\View');
         parent::setUp();
     }
 
@@ -29,7 +29,7 @@ class ViewTest extends \Magento\Backend\Utility\Controller
      * Create two identical orders, associate one of them with billing agreement and invoke testGetRelatedOrders()
      *
      * @magentoDataFixture Magento/Customer/_files/customer.php
-     * @magentoDataFixture Magento/Sales/_files/billing_agreement.php
+     * @magentoDataFixture Magento/Paypal/_files/billing_agreement.php
      * @magentoDataFixture Magento/Sales/_files/order.php
      * @magentoDbIsolation enabled
      * @magentoAppIsolation enabled
@@ -61,7 +61,7 @@ class ViewTest extends \Magento\Backend\Utility\Controller
 
         /** @var \Magento\Paypal\Model\Resource\Billing\Agreement\Collection $billingAgreementCollection */
         $billingAgreementCollection = Bootstrap::getObjectManager()
-            ->create('Magento\Sales\Model\Resource\Billing\Agreement\Collection');
+            ->create('Magento\Paypal\Model\Resource\Billing\Agreement\Collection');
         /** @var \Magento\Paypal\Model\Billing\Agreement $billingAgreement */
         $billingAgreement = $billingAgreementCollection->getFirstItem();
         $billingAgreement->addOrderRelation($orderA->getId())->save();
