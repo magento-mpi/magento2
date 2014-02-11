@@ -67,7 +67,7 @@ class HelperMethodTest extends \PHPUnit_Framework_TestCase
      * @param string $helperMethod
      * @param string $expectedExceptionMessage
      *
-     * @dataProvider evaluateException
+     * @dataProvider evaluateExceptionDataProvider
      */
     public function testEvaluateException($helperMethod, $expectedExceptionMessage)
     {
@@ -79,7 +79,7 @@ class HelperMethodTest extends \PHPUnit_Framework_TestCase
         $this->_model->evaluate($input);
     }
 
-    public function evaluateException()
+    public function evaluateExceptionDataProvider()
     {
         $nonExistingHelper = __CLASS__ . '::non_existing';
         return array(
