@@ -90,9 +90,6 @@
         <copy file="${basedir}/${env.build_customization_dir}/composer.json" failonerror="true" overwrite="true"
               tofile="${basedir}/dev/tests/functional/composer.json"/>
 
-        <copy file="${basedir}/${env.build_customization_dir}/composer.json" failonerror="true" overwrite="true"
-              tofile="${basedir}/dev/tests/functional/composer.json"/>
-
         <exec executable="/usr/local/bin/composer" dir="${basedir}/dev/tests/functional/" failonerror="true">
             <arg line="install"/>
         </exec>
@@ -200,9 +197,6 @@
         <antcall target="_product_edition">
             <param name="product_edition_code" value="ce"/>
         </antcall>
-
-        <copy file="${basedir}/${env.build_customization_dir}/composer.json" failonerror="true" overwrite="true"
-              tofile="${basedir}/dev/tests/functional/composer.json"/>
 
         <copy file="${basedir}/${env.build_customization_dir}/composer.json" failonerror="true" overwrite="true"
               tofile="${basedir}/dev/tests/functional/composer.json"/>

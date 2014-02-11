@@ -69,6 +69,9 @@ class EndToEndCETests
         // Currency
         $suite->addTestSuite('Magento\Directory\Test\TestCase\CurrencyTest');
 
+        // Layered navigation
+        $suite->addTestSuite('Magento\Catalog\Test\TestCase\Layer\FilterProductListTest');
+
         return $suite;
     }
 }
