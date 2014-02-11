@@ -69,7 +69,7 @@ class Form extends \Magento\Paypal\Block\Standard\Form
      *
      * @return bool
      */
-    public function getBillingAgreementcode()
+    public function getBillingAgreementCode()
     {
         $customerId = $this->_customerSession->getCustomerId();
         return $this->_paypalData->shouldAskToCreateBillingAgreement($this->_config, $customerId)

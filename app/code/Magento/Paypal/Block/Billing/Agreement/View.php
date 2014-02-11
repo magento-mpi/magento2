@@ -42,7 +42,7 @@ class View extends \Magento\View\Element\Template
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\Paypal\Model\Resource\Order\CollectionFactory
+     * @var \Magento\Sales\Model\Resource\Order\CollectionFactory
      */
     protected $_orderCollectionFactory;
 
@@ -69,7 +69,7 @@ class View extends \Magento\View\Element\Template
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Paypal\Model\Resource\Order\CollectionFactory $orderCollectionFactory
+     * @param \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollectionFactory
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Paypal\Model\Order\Config $orderConfig
      * @param \Magento\Paypal\Helper\Data $helper
@@ -79,7 +79,7 @@ class View extends \Magento\View\Element\Template
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Paypal\Model\Resource\Order\CollectionFactory $orderCollectionFactory,
+        \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollectionFactory,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Paypal\Model\Order\Config $orderConfig,
         \Magento\Paypal\Helper\Data $helper,

@@ -22,7 +22,7 @@ class Form extends \Magento\Paypal\Block\Express\Form
      *
      * @return bool
      */
-    public function getBillingAgreementcode()
+    public function getBillingAgreementCode()
     {
         return false;
     }

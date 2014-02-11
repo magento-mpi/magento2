@@ -32,7 +32,7 @@ class Agreement
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
-     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Paypal\Helper\Data $paymentData
      * @param \Magento\Paypal\Model\Resource\Billing\Agreement\CollectionFactory $agreementFactory
      * @param \Magento\Paypal\Model\Billing\Agreement $agreementModel
      * @param \Magento\Core\Model\Registry $coreRegistry
@@ -41,7 +41,7 @@ class Agreement
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
-        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Paypal\Helper\Data $paymentData,
         \Magento\Paypal\Model\Resource\Billing\Agreement\CollectionFactory $agreementFactory,
         \Magento\Paypal\Model\Billing\Agreement $agreementModel,
         \Magento\Core\Model\Registry $coreRegistry,
