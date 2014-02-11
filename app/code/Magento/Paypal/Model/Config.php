@@ -1428,7 +1428,6 @@ class Config
             case 'sort_order':
             case 'debug':
             case 'verify_peer':
-            case 'can_create_billing_agreement':
                 return "payment/{$this->_methodCode}/{$fieldName}";
             default:
                 return null;

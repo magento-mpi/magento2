@@ -39,7 +39,6 @@
                 <payment_action>Authorization</payment_action>
                 <solution_type>Mark</solution_type>
                 <line_items_enabled>1</line_items_enabled>
-                <can_create_billing_agreement>1</can_create_billing_agreement>
                 <visible_on_cart>1</visible_on_cart>
                 <visible_on_product>1</visible_on_product>
                 <allow_ba_signup>never</allow_ba_signup>

@@ -65,29 +65,14 @@ class Form extends \Magento\Paypal\Block\Standard\Form
     }
 
     /**
-     * Set data to block
-     *
-     * @return \Magento\View\Element\AbstractBlock
-     */
-    protected function _beforeToHtml()
-    {
-        $customerId = $this->_customerSession->getCustomerId();
-        if ($this->_paypalData->shouldAskToCreateBillingAgreement($this->_config, $customerId)
-            && $this->canCreateBillingAgreement()
-        ) {
-            $this->setCreateBACode(\Magento\Paypal\Model\Express\Checkout::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT);
-        }
-        return parent::_beforeToHtml();
-    }
-
-
-    /**
-     * Check whether current payment method can create billing agreement
+     * Get billing agreement code
      *
      * @return bool
      */
-    public function canCreateBillingAgreement()
+    public function getBillingAgreementcode()
     {
-        return $this->getMethod()->getConfigData('can_create_billing_agreement');
+        $customerId = $this->_customerSession->getCustomerId();
+        return $this->_paypalData->shouldAskToCreateBillingAgreement($this->_config, $customerId)
+            ? \Magento\Paypal\Model\Express\Checkout::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT : null;
     }
 }
