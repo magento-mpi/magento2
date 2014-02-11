@@ -546,6 +546,7 @@ return array(
     array('getTrackingPopUpUrlByShipId', '', 'getTrackingPopupUrlBySalesModel'),
     array('getTrackingPopUpUrlByTrackId', '', 'getTrackingPopupUrlBySalesModel'),
     array('getUnixProcessMemoryUsage', 'Magento\TestFramework\Helper\Memory', 'getRealMemoryUsage'),
+    array('getUnassignableAttributes', 'Magento\Catalog\Helper\Product'),
     array('getUnprocessedEvents', 'Magento\Index\Model\Resource\Event',
         'Magento_Index_Model_EventRepository::getUnprocessed()'
     ),
@@ -985,6 +986,7 @@ return array(
     array('preDispatch', '\Magento\Core\Controller\Varien\Action'),
     array('postDispatch', '\Magento\Core\Controller\Varien\Action'),
     array('hasAction', '\Magento\Core\Controller\Varien\Action'),
+    array('hasConfigurableAttributes', '\Magento\Catalog\Model\Product\Attribute\Group'),
     array('_startSession', '\Magento\Core\Controller\Varien\Action',
         '\Magento\Core\App\Action\Plugin\Session::aroundDispatch'
     ),

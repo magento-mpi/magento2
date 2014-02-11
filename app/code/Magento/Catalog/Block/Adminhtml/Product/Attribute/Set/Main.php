@@ -66,7 +66,6 @@ class Main extends \Magento\Backend\Block\Template
      * @param \Magento\Eav\Model\Entity\TypeFactory $typeFactory
      * @param \Magento\Eav\Model\Entity\Attribute\GroupFactory $groupFactory
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $collectionFactory
-     * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param \Magento\Core\Model\Registry $registry
      * @param AttributeMapperInterface $attributeMapper
      * @param array $data
@@ -77,7 +76,6 @@ class Main extends \Magento\Backend\Block\Template
         \Magento\Eav\Model\Entity\TypeFactory $typeFactory,
         \Magento\Eav\Model\Entity\Attribute\GroupFactory $groupFactory,
         \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $collectionFactory,
-        \Magento\Catalog\Helper\Product $catalogProduct,
         \Magento\Core\Model\Registry $registry,
         AttributeMapperInterface $attributeMapper,
         array $data = array()
@@ -87,7 +85,6 @@ class Main extends \Magento\Backend\Block\Template
         $this->_groupFactory = $groupFactory;
         $this->_collectionFactory = $collectionFactory;
         $this->_coreRegistry = $registry;
-        $this->_catalogProduct = $catalogProduct;
         $this->attributeMapper = $attributeMapper;
         parent::__construct($context, $data);
     }
