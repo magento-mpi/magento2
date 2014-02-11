@@ -12,9 +12,9 @@
         <block class="Magento\MultipleWishlist\Block\Link" name="wish-list-link"/>
     </referenceBlock>
     <referenceContainer name="right">
-        <block class="Magento\MultipleWishlist\Block\Customer\Sidebar" name="wishlist_sidebar" template="Magento_Wishlist::sidebar.phtml" cacheable="false"/>
+        <block class="Magento\MultipleWishlist\Block\Customer\Sidebar" name="wishlist_sidebar" template="Magento_Wishlist::sidebar.phtml"/>
     </referenceContainer>
     <referenceContainer name="before_body_end">
-        <block class="Magento\MultipleWishlist\Block\Behaviour" name="wishlist_behaviour" as="wishlist_behaviour" template="behaviour.phtml" cacheable="false"/>
+        <block class="Magento\MultipleWishlist\Block\Behaviour" name="wishlist_behaviour" as="wishlist_behaviour" template="behaviour.phtml"/>
     </referenceContainer>
 </layout>

@@ -80,7 +80,7 @@ class DepersonalizePlugin
      */
     public function beforeGenerateXml($arguments)
     {
-        if (!$this->request->isAjax() && $this->layout->isCacheable()) {
+        if (!$this->request->isAjax() && $this->layout->isCacheable() && $this->layout->isPrivate()) {
             $customerSegmentIds  = $this->customerSession->getCustomerSegmentIds();
             $customerGroupId    = $this->customerSession->getCustomerGroupId();
             $this->eventManager->dispatch('before_session_write_close');
