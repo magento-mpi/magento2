@@ -36,4 +36,14 @@ interface CustomerServiceInterface
      */
     public function getCustomer($customerId);
 
+    /**
+     * Indicates if the Customer for the provided customerId is restricted to being read only
+     * for the currently logged in user.
+     *
+     * @param int $customerId
+     * @throws NoSuchEntityException If customer with customerId is not found.
+     * @return bool
+     */
+    public function isReadonly($customerId);
+
 }
