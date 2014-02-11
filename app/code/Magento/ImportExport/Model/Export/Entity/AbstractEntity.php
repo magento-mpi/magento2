@@ -9,6 +9,8 @@
  */
 namespace Magento\ImportExport\Model\Export\Entity;
 
+use Magento\ImportExport\Model\Export\Adapter\AbstractAdapter;
+
 /**
  * Export entity abstract model
  *
@@ -134,7 +136,7 @@ abstract class AbstractEntity
     /**
      * Source model.
      *
-     * @var \Magento\ImportExport\Model\Export\Adapter\AbstractAdapter
+     * @var AbstractAdapter
      */
     protected $_writer;
 
@@ -273,11 +275,11 @@ abstract class AbstractEntity
                         $to   = array_shift($exportFilter[$attrCode]);
 
                         if (is_scalar($from) && !empty($from)) {
-                            $date = $this->_locale->date($from,null,null,false)->toString('MM/dd/YYYY');
+                            $date = $this->_locale->date($from, null, null, false)->toString('MM/dd/YYYY');
                             $collection->addAttributeToFilter($attrCode, array('from' => $date, 'date' => true));
                         }
                         if (is_scalar($to) && !empty($to)) {
-                            $date = $this->_locale->date($to,null,null,false)->toString('MM/dd/YYYY');
+                            $date = $this->_locale->date($to, null, null, false)->toString('MM/dd/YYYY');
                             $collection->addAttributeToFilter($attrCode, array('to' => $date, 'date' => true));
                         }
                     }
@@ -475,8 +477,8 @@ abstract class AbstractEntity
     /**
      * Inner writer object getter.
      *
-     * @throws \Exception
-     * @return \Magento\ImportExport\Model\Export\Adapter\AbstractAdapter
+     * @return AbstractAdapter
+     * @throws \Magento\Core\Exception
      */
     public function getWriter()
     {
@@ -502,10 +504,10 @@ abstract class AbstractEntity
     /**
      * Writer model setter.
      *
-     * @param \Magento\ImportExport\Model\Export\Adapter\AbstractAdapter $writer
+     * @param AbstractAdapter $writer
      * @return $this
      */
-    public function setWriter(\Magento\ImportExport\Model\Export\Adapter\AbstractAdapter $writer)
+    public function setWriter(AbstractAdapter $writer)
     {
         $this->_writer = $writer;
 

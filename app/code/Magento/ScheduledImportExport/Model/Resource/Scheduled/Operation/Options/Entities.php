@@ -26,9 +26,7 @@ class Entities
     }
 
     /**
-     * Return entities array
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function toOptionArray()
     {

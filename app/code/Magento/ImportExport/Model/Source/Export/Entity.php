@@ -33,9 +33,7 @@ class Entity implements \Magento\Core\Model\Option\ArrayInterface
     }
 
     /**
-     * Prepare and return array of export entities ids and their names
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function toOptionArray()
     {

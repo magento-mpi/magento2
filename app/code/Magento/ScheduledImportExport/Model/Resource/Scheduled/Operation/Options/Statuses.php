@@ -27,9 +27,7 @@ class Statuses
     }
 
     /**
-     * Return statuses array
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function toOptionArray()
     {

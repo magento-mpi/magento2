@@ -662,8 +662,8 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     /**
      * Initialize product type models.
      *
-     * @throws \Exception
      * @return $this
+     * @throws \Magento\Core\Exception
      */
     protected function _initTypeModels()
     {
@@ -1404,6 +1404,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      * Returns an object for upload a media files
      *
      * @return \Magento\ImportExport\Model\Import\Uploader
+     * @throws \Magento\Core\Exception
      */
     protected function _getUploader()
     {

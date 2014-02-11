@@ -26,9 +26,7 @@ class Operations
     }
 
     /**
-     * Return operations array
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function toOptionArray()
     {

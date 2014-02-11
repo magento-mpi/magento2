@@ -78,7 +78,7 @@ class Address
     /**
      * Existing addresses
      *
-     * [customer ID] => array(
+     * Example Array: [customer ID] => array(
      *     address ID 1,
      *     address ID 2,
      *     ...
@@ -106,7 +106,7 @@ class Address
     /**
      * Countries and regions
      *
-     * array(
+     * Example array: array(
      *   [country_id_lowercased_1] => array(
      *     [region_code_lowercased_1]         => region_id_1,
      *     [region_default_name_lowercased_1] => region_id_1,

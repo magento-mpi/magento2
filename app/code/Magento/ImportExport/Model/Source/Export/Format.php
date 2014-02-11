@@ -33,9 +33,7 @@ class Format implements \Magento\Core\Model\Option\ArrayInterface
     }
 
     /**
-     * Prepare and return array of import entities ids and their names
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function toOptionArray()
     {

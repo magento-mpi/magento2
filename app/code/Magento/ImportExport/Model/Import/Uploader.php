@@ -147,6 +147,7 @@ class Uploader extends \Magento\Core\Model\File\Uploader
      * Validate uploaded file by type and etc.
      *
      * @return void
+     * @throws \Exception
      */
     protected function _validateFile()
     {

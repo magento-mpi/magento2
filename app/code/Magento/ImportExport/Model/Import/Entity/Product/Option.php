@@ -439,6 +439,7 @@ class Option extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      *
      * @param array $data
      * @return $this
+     * @throws \Magento\Core\Exception
      */
     protected function _initSourceEntities(array $data)
     {

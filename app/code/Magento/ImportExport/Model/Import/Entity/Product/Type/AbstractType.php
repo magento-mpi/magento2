@@ -21,7 +21,7 @@ abstract class AbstractType
     /**
      * Product type attribute sets and attributes parameters.
      *
-     * [attr_set_name_1] => array(
+     * Example: [attr_set_name_1] => array(
      *     [attr_code_1] => array(
      *         'options' => array(),
      *         'type' => 'text', 'price', 'textarea', 'select', etc.

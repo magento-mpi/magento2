@@ -239,7 +239,7 @@ class CustomerComposite
     /**
      * Import data rows
      *
-     * @return boolean
+     * @return bool
      */
     protected function _importData()
     {

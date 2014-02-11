@@ -7,8 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\ImportExport\Model\Import;
+
+use Magento\ImportExport\Model\Import\AbstractSource
 
 /**
  * Import entity abstract model
@@ -179,7 +180,7 @@ abstract class AbstractEntity
     /**
      * Source model
      *
-     * @var \Magento\ImportExport\Model\Import\AbstractSource
+     * @var AbstractSource
      */
     protected $_source;
 
@@ -516,8 +517,8 @@ abstract class AbstractEntity
     /**
      * Source object getter
      *
-     * @throws \Exception
-     * @return \Magento\ImportExport\Model\Import\AbstractSource
+     * @return AbstractSource
+     * @throws \Magento\Core\Exception
      */
     public function getSource()
     {
@@ -660,10 +661,10 @@ abstract class AbstractEntity
     /**
      * Source model setter
      *
-     * @param \Magento\ImportExport\Model\Import\AbstractSource $source
+     * @param AbstractSource $source
      * @return $this
      */
-    public function setSource(\Magento\ImportExport\Model\Import\AbstractSource $source)
+    public function setSource(AbstractSource $source)
     {
         $this->_source = $source;
         $this->_dataValidated = false;
@@ -674,8 +675,8 @@ abstract class AbstractEntity
     /**
      * Validate data
      *
-     * @throws \Exception
      * @return $this
+     * @throws \Magento\Core\Exception
      */
     public function validateData()
     {

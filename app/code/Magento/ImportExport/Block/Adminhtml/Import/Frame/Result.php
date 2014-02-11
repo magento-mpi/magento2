@@ -112,7 +112,7 @@ class Result extends \Magento\Backend\Block\Template
     /**
      * Add notice message.
      *
-     * @param array|string $message Message text
+     * @param string[]|string $message Message text
      * @param bool $appendImportButton OPTIONAL Append import button to message?
      * @return $this
      */
@@ -131,7 +131,7 @@ class Result extends \Magento\Backend\Block\Template
     /**
      * Add success message.
      *
-     * @param array|string $message Message text
+     * @param string[]|string $message Message text
      * @param bool $appendImportButton OPTIONAL Append import button to message?
      * @return $this
      */

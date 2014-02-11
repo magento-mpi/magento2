@@ -41,7 +41,7 @@ abstract class AbstractAdapter
      * Constructor
      *
      * @param \Magento\App\Filesystem $filesystem
-     * @param null                $destination
+     * @param string|null $destination
      * @throws \Magento\Core\Exception
      */
     public function __construct(\Magento\App\Filesystem $filesystem, $destination = null)

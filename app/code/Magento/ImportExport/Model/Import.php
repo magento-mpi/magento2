@@ -630,6 +630,7 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
      * )
      *
      * @return array
+     * @throws \Magento\Core\Exception
      */
     public function getEntityBehaviors()
     {

@@ -52,7 +52,7 @@ class Configurable
     /**
      * Reference array of existing product-attribute to product super attribute ID.
      *
-     * product_1 (underscore) attribute_id_1 => product_super_attr_id_1,
+     * Example: product_1 (underscore) attribute_id_1 => product_super_attr_id_1,
      * product_1 (underscore) attribute_id_2 => product_super_attr_id_2,
      * ...,
      * product_n (underscore) attribute_id_n => product_super_attr_id_n
@@ -205,7 +205,7 @@ class Configurable
      * Is attribute is super-attribute?
      *
      * @param string $attrCode
-     * @return boolean
+     * @return bool
      */
     protected function _isAttributeSuper($attrCode)
     {
@@ -367,7 +367,7 @@ class Configurable
      * Save product type specific data.
      *
      * @throws \Exception
-     * @return \Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType
+     * @return $this
      */
     public function saveData()
     {

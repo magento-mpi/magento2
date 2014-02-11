@@ -26,9 +26,7 @@ class Frequency
     }
 
     /**
-     * Return frequency array
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function toOptionArray()
     {

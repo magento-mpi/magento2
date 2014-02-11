@@ -22,7 +22,7 @@ class Simple
     /**
      * Attributes' codes which will be allowed anyway, independently from its visibility property.
      *
-     * @var array
+     * @var string[]
      */
     protected $_forcedAttributesCodes = array(
         'related_tgtr_position_behavior', 'related_tgtr_position_limit',

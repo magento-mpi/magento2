@@ -27,9 +27,7 @@ class Result
     }
 
     /**
-     * Return result array
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function toOptionArray()
     {

@@ -85,8 +85,8 @@ class Export extends \Magento\ImportExport\Model\AbstractModel
     /**
      * Create instance of entity adapter and return it
      *
-     * @throws \Magento\Core\Exception
      * @return \Magento\ImportExport\Model\Export\Entity\AbstractEntity|\Magento\ImportExport\Model\Export\AbstractEntity
+     * @throws \Magento\Core\Exception
      */
     protected function _getEntityAdapter()
     {
@@ -130,8 +130,8 @@ class Export extends \Magento\ImportExport\Model\AbstractModel
     /**
      * Get writer object.
      *
-     * @throws \Magento\Core\Exception
      * @return \Magento\ImportExport\Model\Export\Adapter\AbstractAdapter
+     * @throws \Magento\Core\Exception
      */
     protected function _getWriter()
     {
@@ -210,8 +210,8 @@ class Export extends \Magento\ImportExport\Model\AbstractModel
      *
      * @static
      * @param \Magento\Eav\Model\Entity\Attribute $attribute
-     * @throws \Exception
      * @return string
+     * @throws \Magento\Core\Exception
      */
     public static function getAttributeFilterType(\Magento\Eav\Model\Entity\Attribute $attribute)
     {
@@ -246,8 +246,8 @@ class Export extends \Magento\ImportExport\Model\AbstractModel
     /**
      * Override standard entity getter.
      *
-     * @throw \Exception
      * @return string
+     * @throws \Magento\Core\Exception
      */
     public function getEntity()
     {
@@ -270,8 +270,8 @@ class Export extends \Magento\ImportExport\Model\AbstractModel
     /**
      * Override standard entity getter.
      *
-     * @throw \Exception
      * @return string
+     * @throws \Magento\Core\Exception
      */
     public function getFileFormat()
     {

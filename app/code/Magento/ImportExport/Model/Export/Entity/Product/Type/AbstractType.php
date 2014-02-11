@@ -9,6 +9,8 @@
  */
 namespace Magento\ImportExport\Model\Export\Entity\Product\Type;
 
+use Magento\Catalog\Model\Resource\Eav\Attribute;
+
 /**
  * Export entity product type abstract model
  *
@@ -72,10 +74,10 @@ abstract class AbstractType
     /**
      * Add additional data to attribute.
      *
-     * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
-     * @return boolean
+     * @param Attribute $attribute
+     * @return bool
      */
-    public function overrideAttribute(\Magento\Catalog\Model\Resource\Eav\Attribute $attribute)
+    public function overrideAttribute(Attribute $attribute)
     {
         if (!empty($this->_attributeOverrides[$attribute->getAttributeCode()])) {
             $data = $this->_attributeOverrides[$attribute->getAttributeCode()];
