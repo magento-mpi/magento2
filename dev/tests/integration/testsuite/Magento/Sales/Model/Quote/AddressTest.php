@@ -48,6 +48,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $this->_address = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Sales\Model\Quote\Address');
         $this->_address->load(1);
+        $this->_address->setQuote($this->_quote);
     }
 
     /**

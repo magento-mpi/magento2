@@ -1,3 +1,5 @@
+                $addressModel->setData('region_code', $address->getRegion()->getRegionCode());
+                $addressModel->setData('region_id', $address->getRegion()->getRegionId());
 <?php
 /**
  *
@@ -115,7 +117,7 @@ class Converter
         $validAttributes = array_merge(
             $addressModel->getDefaultAttributeCodes(),
             [
-                Address::KEY_ID, Address::KEY_REGION_ID, Address::KEY_REGION, Address::KEY_STREET, 'vat_is_valid',
+                Address::KEY_ID, 'region_id', Address::KEY_REGION, Address::KEY_STREET, 'vat_is_valid',
                 Address::KEY_DEFAULT_BILLING, Address::KEY_DEFAULT_SHIPPING, 'vat_request_id', 'vat_request_date',
                 'vat_request_success'
             ]

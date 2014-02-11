@@ -143,7 +143,6 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(self::LASTNAME, $customer->getLastname());
         $this->assertEquals(self::EMAIL, $customer->getEmail());
         $this->assertEquals(self::ID, $customer->getCustomerId());
-        $this->assertEquals(self::ID, $customer->getAttribute('entity_id'));
     }
 
     /**

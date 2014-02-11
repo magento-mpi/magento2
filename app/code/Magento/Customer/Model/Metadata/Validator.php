@@ -44,7 +44,7 @@ class Validator extends \Magento\Eav\Model\Validator\Attribute\Data
         } else {
             $this->_entityData = $entityData;
         }
-        $this->validateData($this->_entityData, $this->_attributes, $this->_entityType);
+        return $this->validateData($this->_entityData, $this->_attributes, $this->_entityType);
     }
 
     /**
@@ -53,7 +53,7 @@ class Validator extends \Magento\Eav\Model\Validator\Attribute\Data
      * @param string                                                   $entityType
      * @return bool
      */
-    public function validateData($data, $attributes, $entityType)
+    public function validateData(array $data, $attributes, $entityType)
     {
         foreach ($attributes as $attribute) {
             $attributeCode = $attribute->getAttributeCode();

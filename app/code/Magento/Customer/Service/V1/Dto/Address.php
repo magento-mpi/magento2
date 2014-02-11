@@ -93,11 +93,6 @@ class Address extends \Magento\Service\Entity\AbstractDto implements Eav\EntityI
                 $validData[$attributeCode] = $unvalidatedData[$attributeCode];
             }
         }
-        /** This triggers some code in _updateAddressModel in CustomerV1 Service */
-        if (!is_null($this->getRegion())) {
-            $validData['region']['region_id'] = $this->getRegion()->getRegionId();
-            $validData['region']['region'] = $this->getRegion()->getRegion();
-        }
         return $validData;
     }
 

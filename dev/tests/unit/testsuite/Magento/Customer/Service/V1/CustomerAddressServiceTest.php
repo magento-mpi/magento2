@@ -223,7 +223,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             'lastname' => 'Doe',
         ];
 
-        $this->assertEquals($expected, $address->__toArray());
+        $this->assertEquals($expected, $address->getAttributes());
     }
 
     public function testGetAddressesDefaultShipping()

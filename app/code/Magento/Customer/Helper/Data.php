@@ -83,13 +83,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
     const VAT_CLASS_ERROR       = 'error';
 
     /**
-     * Customer groups collection
-     *
-     * @var \Magento\Customer\Model\Resource\Group\Collection
-     */
-    protected $_groups;
-
-    /**
      * Core data
      *
      * @var \Magento\Core\Helper\Data
@@ -97,6 +90,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_coreData;
 
     /**
+     * Customer address
+     *
      * @var \Magento\Customer\Helper\Address
      */
     protected $_customerAddress = null;
@@ -147,11 +142,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $mathRandom;
 
     /**
-     * @var \Magento\Customer\Model\Converter
-     */
-    protected $_converter;
-
-    /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Customer\Helper\Address $customerAddress
      * @param \Magento\Core\Helper\Data $coreData
@@ -164,7 +154,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Customer\Model\FormFactory $formFactory
      * @param \Magento\Escaper $escaper
      * @param \Magento\Math\Random $mathRandom
-     * @param \Magento\Customer\Model\Converter
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
@@ -178,8 +167,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService,
         \Magento\Customer\Model\FormFactory $formFactory,
         \Magento\Escaper $escaper,
-        \Magento\Math\Random $mathRandom,
-        \Magento\Customer\Model\Converter $converter
+        \Magento\Math\Random $mathRandom
     ) {
         $this->_customerAddress = $customerAddress;
         $this->_coreData = $coreData;
@@ -192,7 +180,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $this->_formFactory = $formFactory;
         $this->_escaper = $escaper;
         $this->mathRandom = $mathRandom;
-        $this->_converter = $converter;
         parent::__construct($context);
     }
 
@@ -789,17 +776,36 @@ class Data extends \Magento\App\Helper\AbstractHelper
         return $this->_formFactory->create();
     }
 
+
     /**
-     * Loads the values from a customer model.
-     * This is a wrapper for the converter object.
+     * Check store availability for customer given the customerId
      *
-     * TODO to be removed after service refactoring is done
-     *
-     * @param \Magento\Customer\Model\Customer $customerModel
-     * @return \Magento\Customer\Service\V1\Dto\Customer
+     * @param int $customerWebsiteId
+     * @param int $storeId
+     * @return bool
      */
-    public function createCustomerFromModel($customerModel)
+    public function isCustomerInStore($customerWebsiteId, $storeId)
     {
-        return $this->_formFactory->create();
+        $ids = $this->getSharedStoreIds($customerWebsiteId);
+        return in_array($storeId, $ids);
+    }
+
+    /**
+     * Retrieve shared store ids
+     *
+     * @param int $customerWebsiteId
+     * @return array
+     */
+    public function getSharedStoreIds($customerWebsiteId)
+    {
+        $ids = array();
+        if ((bool)$this->_configShare->isWebsiteScope()) {
+            $ids = $this->_storeManager->getWebsite($customerWebsiteId)->getStoreIds();
+        } else {
+            foreach ($this->_storeManager->getStores() as $store) {
+                $ids[] = $store->getId();
+            }
+        }
+        return $ids;
     }
 }

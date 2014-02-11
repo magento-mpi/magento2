@@ -651,4 +651,101 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
         $addressData = $addressModel->getData();
         $this->assertTrue(empty($addressData));
     }
+
+    /**
+     * @magentoAppArea adminhtml
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     * @magentoAppIsolation enabled
+     * @expectedException \Magento\Customer\Service\Entity\V1\Exception
+     * @expectedExceptionMessage No customer with customerId 1 exists.
+     */
+    public function testDeleteCustomer()
+    {
+        // _files/customer.php sets the customer id to 1
+        $this->_service->deleteCustomer(1);
+        $this->_service->getCustomer(1);
+    }
+
+    /**
+     *
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     * @magentoDataFixture Magento/Customer/_files/customer_address.php
+     * @magentoDataFixture Magento/Customer/_files/customer_two_addresses.php
+     * @magentoAppArea adminhtml
+     * @magentoAppIsolation enabled
+     * @expectedException \Magento\Customer\Service\Entity\V1\Exception
+     * @expectedExceptionMessage No customer with customerId 1 exists.
+     */
+    public function testDeleteCustomerWithAddress()
+    {
+        //Verify address is created for the customer;
+        $result = $this->_addressService->getAddresses(1);
+        $this->assertEquals(2, count($result));
+        // _files/customer.php sets the customer id to 1
+        $this->_service->deleteCustomer(1);
+
+        // Verify by directly loading the address by id
+        $this->_verifyDeletedAddress(1);
+        $this->_verifyDeletedAddress(2);
+
+        //Verify by calling the Address Service. This will throw the expected exception since customerId doesn't exist
+        $result = $this->_addressService->getAddresses(1);
+        $this->assertTrue(empty($result));
+    }
+
+    /**
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     * @magentoAppIsolation enabled
+     * @expectedException \Magento\Customer\Service\Entity\V1\Exception
+     * @expectedExceptionMessage Cannot complete this operation from non-admin area.
+     */
+    public function testDeleteCustomerNonSecureArea()
+    {
+        // _files/customer.php sets the customer id to 1
+        $this->_service->deleteCustomer(1);
+    }
+
+    /**
+     * Check if the Address with the give addressid is deleted
+     *
+     * @param int $addressId
+     */
+    private function _verifyDeletedAddress($addressId)
+    {
+        /** @var $addressFactory \Magento\Customer\Model\AddressFactory*/
+        $addressFactory = $this->_objectManager
+            ->create('Magento\Customer\Model\AddressFactory');
+        $addressModel = $addressFactory->create()->load($addressId);
+        $addressData = $addressModel->getData();
+        $this->assertTrue(empty($addressData));
+    }
+
+    /**
+     * @magentoDbIsolation enabled
+     */
+    public function testSaveCustomerNewThenUpdateFirstName()
+    {
+        $email = 'first_last@example.com';
+        $storeId = 1;
+        $firstname = 'Tester';
+        $lastname = 'McTest';
+        $groupId = 1;
+
+        $this->_customerBuilder->setStoreId($storeId)
+            ->setEmail($email)
+            ->setFirstname($firstname)
+            ->setLastname($lastname)
+            ->setGroupId($groupId);
+        $newCustomerEntity = $this->_customerBuilder->create();
+        $customerId = $this->_service->saveCustomer($newCustomerEntity, 'aPassword');
+
+        $this->_customerBuilder->populate($this->_service->getCustomer($customerId));
+        $this->_customerBuilder->setFirstname('Tested');
+        $this->_service->saveCustomer($this->_customerBuilder->create());
+
+        $customer = $this->_service->getCustomer($customerId);
+
+        $this->assertEquals('Tested', $customer->getFirstname());
+        $this->assertEquals($lastname, $customer->getLastname());
+    }
 }

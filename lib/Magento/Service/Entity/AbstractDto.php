@@ -21,10 +21,17 @@ abstract class AbstractDto
     /**
      * Initialize internal storage
      *
-     * @param array $data
+     * @param array|AbstractDto $data
+     * @throws \InvalidArgumentException
      */
-    public function __construct(array $data)
+    public function __construct($data)
     {
+        if ($data instanceof AbstractDto) {
+            $data = $data->__toArray();
+        } else if (!is_array($data)) {
+            throw new \InvalidArgumentException('$data expected to be an array or AbstractDto');
+        }
+
         $this->_data = $data;
     }
 

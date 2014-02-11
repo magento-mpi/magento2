@@ -34,16 +34,6 @@ class CustomerAddressService implements CustomerAddressServiceInterface
     private $_addressConverter;
 
     /**
-     * @var Dto\RegionBuilder
-     */
-    private $_regionBuilder;
-
-    /**
-     * @var Dto\AddressBuilder
-     */
-    private $_addressBuilder;
-
-    /**
      * Directory data
      *
      * @var \Magento\Directory\Helper\Data
@@ -56,23 +46,17 @@ class CustomerAddressService implements CustomerAddressServiceInterface
      * @param \Magento\Customer\Model\AddressFactory $addressFactory
      * @param \Magento\Customer\Model\Converter $converter
      * @param AddressConverter $addressConverter
-     * @param Dto\RegionBuilder $regionBuilder
-     * @param Dto\AddressBuilder $addressBuilder
      * @param \Magento\Directory\Helper\Data $directoryData
      */
     public function __construct(
         \Magento\Customer\Model\AddressFactory $addressFactory,
         \Magento\Customer\Model\Converter $converter,
         AddressConverter $addressConverter,
-        Dto\RegionBuilder $regionBuilder,
-        Dto\AddressBuilder $addressBuilder,
         \Magento\Directory\Helper\Data $directoryData
     ) {
         $this->_addressFactory = $addressFactory;
         $this->_converter = $converter;
         $this->_addressConverter = $addressConverter;
-        $this->_regionBuilder = $regionBuilder;
-        $this->_addressBuilder = $addressBuilder;
         $this->_directoryData = $directoryData;
     }
 
@@ -145,6 +129,9 @@ class CustomerAddressService implements CustomerAddressServiceInterface
         if (!$address->getId()) {
             throw new NoSuchEntityException('addressId', $addressId);
         }
+
+        $customer = $this->_converter->getCustomerModel($address->getCustomerId());
+
         return $this->_addressConverter->createAddressFromModel(
             $address,
             $customer->getDefaultBilling(),
@@ -156,21 +143,6 @@ class CustomerAddressService implements CustomerAddressServiceInterface
      * {@inheritdoc}
      */
     public function deleteAddress($addressId)
-    {
-        $address = $this->_addressFactory->create();
-        $address->load($addressId);
-
-        if (!$address->getId()) {
-            throw new NoSuchEntityException('addressId', $addressId);
-        }
-
-        $address->delete();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function deleteAddressFromCustomer($customerId, $addressId)
     {
         $address = $this->_addressFactory->create();
         $address->load($addressId);
