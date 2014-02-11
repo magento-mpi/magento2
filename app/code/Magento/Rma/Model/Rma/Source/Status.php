@@ -32,6 +32,8 @@ class Status extends \Magento\Rma\Model\Rma\Source\AbstractSource
     const STATE_PROCESSED_CLOSED   = 'processed_closed';
 
     /**
+     * Rma item attribute status factory
+     *
      * @var \Magento\Rma\Model\Item\Attribute\Source\StatusFactory
      */
     protected $_statusFactory;

@@ -235,6 +235,7 @@ class Config implements \Magento\ObjectManager\Config
      * Merge configuration
      *
      * @param array $configuration
+     * @return void
      */
     protected function _mergeConfiguration(array $configuration)
     {
@@ -274,6 +275,7 @@ class Config implements \Magento\ObjectManager\Config
      * Extend configuration
      *
      * @param array $configuration
+     * @return void
      */
     public function extend(array $configuration)
     {

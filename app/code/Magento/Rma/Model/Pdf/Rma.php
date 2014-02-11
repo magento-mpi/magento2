@@ -38,6 +38,8 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
     protected $_rmaEav;
 
     /**
+     * Core store manager interface
+     *
      * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;

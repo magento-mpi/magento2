@@ -225,7 +225,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
      *
      * @param \Magento\Eav\Model\Entity\AbstractEntity $entity
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Eav\Exception
      */
     public function setEntity($entity)
     {
@@ -243,7 +243,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
      * Get collection's entity object
      *
      * @return \Magento\Eav\Model\Entity\AbstractEntity
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Eav\Exception
      */
     public function getEntity()
     {
@@ -284,7 +284,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
      *
      * @param \Magento\Object $object
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Eav\Exception
      */
     public function addItem(\Magento\Object $object)
     {
@@ -318,11 +318,13 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
      *     array('attribute'=>'lastname', 'like'=>'test%'),
      * )
      *
-     * @see self::_getConditionSql for $condition
      * @param \Magento\Eav\Model\Entity\Attribute\AttributeInterface|integer|string|array $attribute
      * @param null|string|array $condition
      * @param string $joinType
      * @return $this
+     * @throws \Magento\Core\Exception
+     *
+     * @see self::_getConditionSql for $condition
      */
     public function addAttributeToFilter($attribute, $condition = null, $joinType = 'inner')
     {
@@ -447,7 +449,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
      * @param array|string|integer|\Magento\Core\Model\Config\Element $attribute
      * @param bool|string $joinType flag for joining attribute
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Eav\Exception
      */
     public function addAttributeToSelect($attribute, $joinType = false)
     {
@@ -485,6 +487,8 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
     }
 
     /**
+     * Add entity type to select statement
+     *
      * @param string $entityType
      * @param string $prefix
      * @return $this
@@ -523,7 +527,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
      * @param string $expression
      * @param string $attribute
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Eav\Exception
      */
     public function addExpressionAttributeToSelect($alias, $expression, $attribute)
     {
@@ -631,7 +635,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
      * @param string $joinType inner|left
      * @param null $storeId
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Eav\Exception
      */
     public function joinAttribute($alias, $attribute, $bind, $filter = null, $joinType = 'inner', $storeId = null)
     {
@@ -721,7 +725,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
      * @param string|array $cond "{{table}}.language_code='en'" OR array('language_code'=>'en')
      * @param string $joinType 'left'
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Eav\Exception
      */
     public function joinField($alias, $table, $field, $bind, $cond = null, $joinType = 'inner')
     {
@@ -785,7 +789,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
      * @param null|array $cond
      * @param string $joinType
      * @return $this
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Eav\Exception
      */
     public function joinTable($table, $bind, $fields = null, $cond = null, $joinType = 'inner')
     {
@@ -1058,6 +1062,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
 
     /**
      * Set row id field name
+     *
      * @param string $fieldName
      * @return $this
      */
@@ -1068,7 +1073,6 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
 
     /**
      * Load entities records into items
-     *
      *
      * @param bool $printQuery
      * @param bool $logQuery
@@ -1192,6 +1196,8 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
     }
 
     /**
+     * Add select values
+     *
      * @param \Magento\DB\Select $select
      * @param string $table
      * @param string $type
@@ -1206,11 +1212,11 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
     /**
      * Initialize entity ubject property value
      *
-     * $valueInfo is _getLoadAttributesSelect fetch result row
+     * Parameter $valueInfo is _getLoadAttributesSelect fetch result row
      *
-     * @param   array $valueInfo
-     * @return  $this
-     * @throws \Magento\Core\Exception
+     * @param array $valueInfo
+     * @return $this
+     * @throws \Magento\Eav\Exception
      */
     protected function _setItemAttributeValue($valueInfo)
     {
@@ -1253,7 +1259,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
      *
      * @param string $attributeCode
      * @return string
-     * @throws \Magento\Core\Exception
+     * @throws \Magento\Eav\Exception
      */
     protected function _getAttributeFieldName($attributeCode)
     {
@@ -1395,11 +1401,12 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
     /**
      * Get condition sql for the attribute
      *
-     * @see self::_getConditionSql
      * @param string $attribute
      * @param mixed $condition
      * @param string $joinType
      * @return string
+     *
+     * @see self::_getConditionSql
      */
     protected function _getAttributeConditionSql($attribute, $condition, $joinType = 'inner')
     {
@@ -1438,7 +1445,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
     /**
      * Set sorting order
      *
-     * $attribute can also be an array of attributes
+     * Parameter $attribute can also be an array of attributes
      *
      * @param string|array $attribute
      * @param string $dir
