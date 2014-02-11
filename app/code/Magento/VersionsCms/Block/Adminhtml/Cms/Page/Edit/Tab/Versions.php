@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Edit\Tab;
 
 /**
  * Cms page edit form revisions tab
  */
-namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Edit\Tab;
-
 class Versions
     extends \Magento\Backend\Block\Widget\Grid\Extended
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
@@ -81,6 +80,9 @@ class Versions
         parent::__construct($context, $backendHelper, $data);
     }
 
+    /**
+     * @return void
+     */
     public function _construct()
     {
         parent::_construct();
@@ -92,7 +94,7 @@ class Versions
     /**
      * Prepares collection of versions
      *
-     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Edit\Tab\Versions
+     * @return $this
      */
     protected function _prepareCollection()
     {
@@ -131,7 +133,7 @@ class Versions
     /**
      * Prepare versions grid columns
      *
-     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Edit\Tab\Versions
+     * @return $this
      */
     protected function _prepareColumns()
     {
@@ -239,7 +241,7 @@ class Versions
      * Prepare massactions for this grid.
      * For now it is only ability to remove versions
      *
-     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Edit\Tab\Versions
+     * @return $this
      */
     protected function _prepareMassaction()
     {

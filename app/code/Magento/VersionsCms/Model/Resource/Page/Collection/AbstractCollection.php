@@ -31,6 +31,7 @@ abstract class AbstractCollection
     /**
      * Initialization
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -43,7 +44,7 @@ abstract class AbstractCollection
      * Parameter $page can be int or cms page object.
      *
      * @param mixed $page
-     * @return \Magento\VersionsCms\Model\Resource\Page\Collection\AbstractCollection
+     * @return $this
      */
     public function addPageFilter($page)
     {
@@ -65,7 +66,7 @@ abstract class AbstractCollection
      *
      * @param mixed $userId
      * @param mixed $accessLevel
-     * @return \Magento\VersionsCms\Model\Resource\Page\Collection\AbstractCollection
+     * @return $this
      */
     public function addVisibilityFilter($userId, $accessLevel = \Magento\VersionsCms\Model\Page\Version::ACCESS_LEVEL_PUBLIC)
     {
@@ -95,7 +96,7 @@ abstract class AbstractCollection
     /**
      * Mapping user_id to user column with additional value for non-existent users
      *
-     * @return \Magento\VersionsCms\Model\Resource\Page\Collection\AbstractCollection
+     * @return $this
      */
     public function addUserColumn()
     {
@@ -110,7 +111,7 @@ abstract class AbstractCollection
     /**
      * Join username from system user table
      *
-     * @return \Magento\VersionsCms\Model\Resource\Page\Collection\AbstractCollection
+     * @return $this
      */
     public function addUserNameColumn()
     {
@@ -158,7 +159,7 @@ abstract class AbstractCollection
      * Add filtering by user id.
      *
      * @param int|null $userId
-     * @return \Magento\VersionsCms\Model\Resource\Page\Collection\AbstractCollection
+     * @return $this
      */
     public function addUserIdFilter($userId = null)
     {

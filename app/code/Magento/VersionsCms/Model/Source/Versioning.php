@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\VersionsCms\Model\Source;
 
 /**
  * Versioning configuration source model
@@ -15,8 +15,6 @@
  * @category   Magento
  * @package    Magento_VersionsCms
  */
-namespace Magento\VersionsCms\Model\Source;
-
 class Versioning implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**

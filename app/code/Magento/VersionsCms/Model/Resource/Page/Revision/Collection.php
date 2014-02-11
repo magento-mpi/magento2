@@ -7,18 +7,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Model\Resource\Page\Revision;
 
 /**
  * Cms page revision collection
  */
-namespace Magento\VersionsCms\Model\Resource\Page\Revision;
-
 class Collection
     extends \Magento\VersionsCms\Model\Resource\Page\Collection\AbstractCollection
 {
     /**
      * Constructor
      *
+     * @return void
      */
     protected function _construct()
     {

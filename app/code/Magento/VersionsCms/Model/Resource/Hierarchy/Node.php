@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Model\Resource\Hierarchy;
 
 /**
  * Cms Hierarchy Pages Node Resource Model
  */
-namespace Magento\VersionsCms\Model\Resource\Hierarchy;
-
 class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -76,6 +75,8 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
 
     /**
      * Initialize connection and define main table and field
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -135,7 +136,7 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Add attributes filter to select object based on flags
      *
      * @param \Zend_Db_Select $select Select object instance
-     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node
+     * @return $this
      */
     protected function _applyParamFilters($select)
     {
@@ -153,7 +154,7 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Flag to indicate whether append active pages only or not
      *
      * @param bool $flag
-     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node
+     * @return $this
      */
     public function setAppendActivePagesOnly($flag)
     {
@@ -165,7 +166,7 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Flag to indicate whether append included pages (menu_excluded=0) only or not
      *
      * @param bool $flag
-     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node
+     * @return $this
      */
     public function setAppendIncludedPagesOnly($flag)
     {
@@ -178,7 +179,7 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param \Magento\VersionsCms\Model\Hierarchy\Node $object
      * @param string $url
-     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node
+     * @return $this
      */
     public function loadByRequestUrl($object, $url)
     {
@@ -205,7 +206,7 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param \Magento\VersionsCms\Model\Hierarchy\Node $object
      * @param int $parentNodeId
-     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node
+     * @return $this
      */
     public function loadFirstChildByParent($object, $parentNodeId)
     {
@@ -229,7 +230,7 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Remove children by root node.
      *
      * @param \Magento\VersionsCms\Model\Hierarchy\Node $object
-     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node
+     * @return $this
      */
     public function removeTreeChilds($object)
     {
@@ -262,7 +263,7 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Rebuild URL rewrites for a tree with specified path.
      *
      * @param string $xpath
-     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node
+     * @return $this
      */
     public function updateRequestUrlsForTreeByXpath($xpath)
     {
@@ -309,7 +310,7 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param array $nodes
      * @param int $parentNodeId
      * @param string $path
-     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node
+     * @return $this
      */
     protected function _updateNodeRequestUrls(array $nodes, $parentNodeId = 0, $path = null)
     {
@@ -378,7 +379,7 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Prepare xpath after object save
      *
      * @param \Magento\Core\Model\AbstractModel|\Magento\VersionsCms\Model\Hierarchy\Node $object
-     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node
+     * @return $this
      */
     protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
     {
@@ -398,7 +399,7 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Saving meta if such available for node (in case node is root node of three)
      *
      * @param \Magento\Core\Model\AbstractModel $object
-     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node
+     * @return $this
      */
     public function saveMetaData(\Magento\Core\Model\AbstractModel $object)
     {
@@ -512,7 +513,7 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Setter for $_treeMaxDepth
      *
      * @param int $depth
-     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node
+     * @return $this
      */
     public function setTreeMaxDepth($depth)
     {
@@ -524,7 +525,7 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Setter for $_treeIsBrief
      *
      * @param bool $brief
-     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node
+     * @return $this
      */
     public function setTreeIsBrief($brief)
     {
@@ -537,8 +538,8 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
      * 2 level array
      *
      * @param \Magento\VersionsCms\Model\Hierarchy\Node $object
-     * @param int $up, if equals zero - no limitation
-     * @param int $down, if equals zero - no limitation
+     * @param int $up ,if equals zero - no limitation
+     * @param int $down ,if equals zero - no limitation
      * @return array
      */
     public function getTreeSlice($object, $up = 0, $down = 0)
@@ -708,7 +709,7 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Load page data for model if defined page id
      *
      * @param \Magento\VersionsCms\Model\Hierarchy\Node $object
-     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node
+     * @return $this
      */
     public function loadPageData($object)
     {
@@ -737,7 +738,7 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param int $pageId
      * @param int|array $nodes
-     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node
+     * @return $this
      */
     public function removePageFromNodes($pageId, $nodes)
     {
@@ -754,7 +755,7 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Which will also remove their child nodes by foreign key.
      *
      * @param int|array $nodeIds
-     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node
+     * @return $this
      */
     public function dropNodes($nodeIds)
     {
@@ -800,7 +801,7 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param int $nodeId
      * @param int $sortOrder
-     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node
+     * @return $this
      */
     public function updateSortOrder($nodeId, $sortOrder)
     {
@@ -817,7 +818,7 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param string $scope
      * @param int $scopeId
      * @param \Magento\VersionsCms\Model\Resource\Hierarchy\Node\Collection $collection
-     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node
+     * @return $this
      * @throws \Exception
      */
     public function copyTo($scope, $scopeId, $collection)
@@ -863,7 +864,7 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param string $scope
      * @param int $scopeId
-     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node
+     * @return $this
      */
     public function deleteByScope($scope, $scopeId)
     {
@@ -918,6 +919,7 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param string $scope
      * @param int $scopeId
+     * @return void
      */
     public function addEmptyNode($scope, $scopeId)
     {

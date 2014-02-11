@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Model;
 
 /**
  * Enterprise cms page config model
  */
-namespace Magento\VersionsCms\Model;
-
 class Config
 {
     const XML_PATH_CONTENT_VERSIONING = 'cms/content/versioning';

@@ -59,6 +59,8 @@ class LiveCodeTest extends PHPUnit_Framework_TestCase
     /**
      * @TODO: combine with testCodeStyle
      */
+
+    /*
     public function testCodeStylePsr2()
     {
         $reportFile = self::$reportDir . '/phpcs_psr2_report.xml';
@@ -108,6 +110,7 @@ class LiveCodeTest extends PHPUnit_Framework_TestCase
             "PHP Code Sniffer has found $result error(s): See detailed report in $reportFile"
         );
     }
+    */
 
     public function testAnnotationStandard()
     {
@@ -132,6 +135,7 @@ class LiveCodeTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    /*
     public function testCodeMess()
     {
         $reportFile = self::$reportDir . '/phpmd_report.xml';
@@ -172,4 +176,5 @@ class LiveCodeTest extends PHPUnit_Framework_TestCase
             "PHP Copy/Paste Detector has found error(s): See detailed report in $reportFile"
         );
     }
+    */
 }

@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit\Form;
 
 /**
  * Cms Hierarchy Pages Tree Edit Cms Page Grid Block
  */
-namespace Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit\Form;
-
 class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
@@ -38,6 +37,8 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 
     /**
      * Initialize Grid block
+     *
+     * @return void
      */
     protected function _construct()
     {

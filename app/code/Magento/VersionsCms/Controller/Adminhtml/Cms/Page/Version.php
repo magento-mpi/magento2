@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Controller\Adminhtml\Cms\Page;
 
 /**
  * Manage version controller
  */
-namespace Magento\VersionsCms\Controller\Adminhtml\Cms\Page;
-
 class Version
     extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page
 {
@@ -65,7 +64,7 @@ class Version
     /**
      * Init actions
      *
-     * @return \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Version
+     * @return $this
      */
     protected function _initAction()
     {
@@ -106,7 +105,7 @@ class Version
     /**
      * Edit version of CMS page
      *
-     * @return \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Version
+     * @return void
      */
     public function editAction()
     {
@@ -137,7 +136,7 @@ class Version
     /**
      * Save Action
      *
-     * @return \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Version
+     * @return void
      */
     public function saveAction()
     {
@@ -193,7 +192,7 @@ class Version
     /**
      * Action for ajax grid with revisions
      *
-     * @return \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Version
+     * @return void
      */
     public function revisionsAction()
     {
@@ -207,7 +206,7 @@ class Version
     /**
      * Mass deletion for revisions
      *
-     * @return \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Version
+     * @return void
      */
     public function massDeleteRevisionsAction()
     {
@@ -242,7 +241,7 @@ class Version
     /**
      * Delete action
      *
-     * @return \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Version
+     * @return void
      */
     public function deleteAction()
     {
@@ -283,7 +282,7 @@ class Version
     /**
      * New Version
      *
-     * @return \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Version
+     * @return void
      */
     public function newAction()
     {
@@ -344,7 +343,7 @@ class Version
      * Check the permission to run it
      * May be in future there will be separate permissions for operations with version
      *
-     * @return boolean
+     * @return bool
      */
     protected function _isAllowed()
     {

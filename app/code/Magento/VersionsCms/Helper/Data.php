@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Helper;
 
 /**
  * Base helper
  */
-namespace Magento\VersionsCms\Helper;
-
 class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**

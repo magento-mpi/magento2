@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Model\Resource\Hierarchy\Node;
 
 /**
  * Cms Page Hierarchy Tree Nodes Collection
  */
-namespace Magento\VersionsCms\Model\Resource\Hierarchy\Node;
-
 class Collection
     extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
@@ -45,6 +44,8 @@ class Collection
 
     /**
      * Define resource model for collection
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -54,7 +55,7 @@ class Collection
     /**
      * Join Cms Page data to collection
      *
-     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node\Collection
+     * @return $this
      */
     public function joinCmsPage()
     {
@@ -77,7 +78,7 @@ class Collection
      *
      * @param int|\Magento\Core\Model\Store $store
      * @param bool $withAdmin Include admin store or not
-     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node\Collection
+     * @return $this
      */
     public function addStoreFilter($store, $withAdmin = true)
     {
@@ -102,7 +103,7 @@ class Collection
     /**
      * Adding sub query for custom column to determine on which stores page active.
      *
-     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node\Collection
+     * @return $this
      */
     public function addCmsPageInStoresColumn()
     {
@@ -124,7 +125,7 @@ class Collection
     /**
      * Order nodes as tree
      *
-     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node\Collection
+     * @return $this
      */
     public function setTreeOrder()
     {
@@ -140,7 +141,7 @@ class Collection
     /**
      * Order tree by level and position
      *
-     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node\Collection
+     * @return $this
      */
     public function setOrderByLevel()
     {
@@ -151,7 +152,7 @@ class Collection
     /**
      * Join meta data for tree root nodes from extra table.
      *
-     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node\Collection
+     * @return $this
      */
     public function joinMetaData()
     {
@@ -188,7 +189,7 @@ class Collection
      * have defined page as direct child node.
      *
      * @param int|\Magento\Cms\Model\Page $page
-     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node\Collection
+     * @return $this
      */
     public function joinPageExistsNodeInfo($page)
     {
@@ -223,7 +224,7 @@ class Collection
      *
      * @param int|array $nodeIds
      * @param int|\Magento\Cms\Model\Page|null $page
-     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node\Collection
+     * @return $this
      */
     public function applyPageExistsOrNodeIdFilter($nodeIds, $page = null)
     {
@@ -246,7 +247,7 @@ class Collection
      * Adds dynamic column with maximum value (which means that it
      * is sort_order of last direct child) of sort_order column in scope of one node.
      *
-     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node\Collection
+     * @return $this
      */
     public function addLastChildSortOrderColumn()
     {
@@ -264,7 +265,7 @@ class Collection
     /**
      * Apply filter to retrieve only root nodes.
      *
-     * @return \Magento\VersionsCms\Model\Resource\Hierarchy\Node\Collection
+     * @return $this
      */
     public function applyRootNodeFilter()
     {

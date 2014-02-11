@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\VersionsCms\Model\Source\Hierarchy\Menu;
 
 /**
  * CMS Hierarchy Navigation Menu source model for Display list mode
@@ -15,8 +15,6 @@
  * @category   Magento
  * @package    Magento_VersionsCms
  */
-namespace Magento\VersionsCms\Model\Source\Hierarchy\Menu;
-
 class Listmode implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**

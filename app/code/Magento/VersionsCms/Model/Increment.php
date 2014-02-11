@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\VersionsCms\Model;
 
 /**
  * Increment model
@@ -39,9 +39,6 @@
  * @package     Magento_VersionsCms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\VersionsCms\Model;
-
 class Increment extends \Magento\Core\Model\AbstractModel
 {
     /*
@@ -57,6 +54,8 @@ class Increment extends \Magento\Core\Model\AbstractModel
 
     /**
      * Constructor
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -70,7 +69,7 @@ class Increment extends \Magento\Core\Model\AbstractModel
      * @param int $type
      * @param int $node
      * @param int $level
-     * @return \Magento\VersionsCms\Model\Increment
+     * @return $this
      */
     public function loadByTypeNodeLevel($type, $node, $level)
     {

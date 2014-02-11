@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\VersionsCms\Model\Source\Hierarchy;
 
 class Visibility implements \Magento\Core\Model\Option\ArrayInterface

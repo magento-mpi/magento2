@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Helper;
 
 /**
  * CMS Hierarchy data helper
  */
-namespace Magento\VersionsCms\Helper;
-
 class Hierarchy extends \Magento\App\Helper\AbstractHelper
 {
     const XML_PATH_HIERARCHY_ENABLED    = 'cms/hierarchy/enabled';
