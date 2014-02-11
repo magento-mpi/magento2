@@ -29,9 +29,12 @@ class SessionPlugin
 
     /**
      * Reset Last Billing Agreement Id in checkout session
+     *
+     * @return array
      */
     public function beforeClearHelperData()
     {
         $this->_checkoutSession->setLastBillingAgreementId(null);
+        return [];
     }
 }
