@@ -204,17 +204,6 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($exception, $this->_model->getSendingException());
     }
 
-    public function testSendTransactional()
-    {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
-            ->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
-        $this->_model->sendTransactional('customer_create_account_email_template',
-            array('name' => 'Sender Name', 'email' => 'sender@example.com'), 'recipient@example.com', 'Recipient Name'
-        );
-        $this->assertEquals('customer_create_account_email_template', $this->_model->getId());
-        $this->assertTrue($this->_model->getSentSuccess());
-    }
-
     /**
      * @expectedException \UnexpectedValueException
      * @expectedExceptionMessage Email template 'wrong_id' is not defined

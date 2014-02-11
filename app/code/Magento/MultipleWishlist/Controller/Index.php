@@ -68,6 +68,7 @@ class Index extends \Magento\Wishlist\Controller\Index
      * @param \Magento\Session\Generic $wishlistSession
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Wishlist\Model\Resource\Wishlist\CollectionFactory $wishlistCollectionFactory
+     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      */
     public function __construct(
         \Magento\App\Action\Context $context,
@@ -79,7 +80,8 @@ class Index extends \Magento\Wishlist\Controller\Index
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
         \Magento\Session\Generic $wishlistSession,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Wishlist\Model\Resource\Wishlist\CollectionFactory $wishlistCollectionFactory
+        \Magento\Wishlist\Model\Resource\Wishlist\CollectionFactory $wishlistCollectionFactory,
+        \Magento\Mail\Template\TransportBuilder $transportBuilder
     ) {
         $this->_itemFactory = $itemFactory;
         $this->_wishlistFactory = $wishlistFactory;
@@ -87,7 +89,7 @@ class Index extends \Magento\Wishlist\Controller\Index
         $this->_customerSession = $customerSession;
         $this->_wishlistCollectionFactory = $wishlistCollectionFactory;
         parent::__construct(
-            $context, $formKeyValidator, $coreRegistry, $wishlistConfig, $fileResponseFactory
+            $context, $formKeyValidator, $coreRegistry, $wishlistConfig, $fileResponseFactory, $transportBuilder
         );
     }
 

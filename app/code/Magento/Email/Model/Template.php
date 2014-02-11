@@ -470,54 +470,6 @@ class Template extends \Magento\Core\Model\Template implements  \Magento\Mail\Te
     }
 
     /**
-     * Send transactional email to recipient
-     *
-     * @param int|string $templateId
-     * @param string|array $sender sender information, can be declared as part of config path
-     * @param string $email recipient email
-     * @param string $name recipient name
-     * @param array $vars variables which can be used in template
-     * @param int|null $storeId
-     * @return $this
-     * @throws \Magento\Mail\Exception
-     */
-    public function sendTransactional($templateId, $sender, $email, $name, $vars = array(), $storeId = null)
-    {
-        $this->setSentSuccess(false);
-        if (($storeId === null) && $this->getDesignConfig()->getStore()) {
-            $storeId = $this->getDesignConfig()->getStore();
-        }
-
-        if (is_numeric($templateId)) {
-            $this->load($templateId);
-        } else {
-            $this->loadDefault($templateId);
-        }
-
-        if (!$this->getId()) {
-            throw new \Magento\Mail\Exception(__('Invalid transactional email code: %1', $templateId));
-        }
-
-        if (!is_array($sender)) {
-            $this->setSenderName(
-                $this->_coreStoreConfig->getConfig('trans_email/ident_' . $sender . '/name', $storeId)
-            );
-            $this->setSenderEmail(
-                $this->_coreStoreConfig->getConfig('trans_email/ident_' . $sender . '/email', $storeId)
-            );
-        } else {
-            $this->setSenderName($sender['name']);
-            $this->setSenderEmail($sender['email']);
-        }
-
-        if (!isset($vars['store'])) {
-            $vars['store'] = $this->_storeManager->getStore($storeId);
-        }
-        $this->setSentSuccess($this->send($email, $name, $vars));
-        return $this;
-    }
-
-    /**
      * Process email subject
      *
      * @param array $variables

@@ -59,12 +59,6 @@ class InvoiceTest extends \PHPUnit_Framework_TestCase
             'commentCollectionFactory' => $this->getMock(
                 'Magento\Sales\Model\Resource\Order\Invoice\Comment\CollectionFactory', array(), array(), '', false
             ),
-            'templateMailerFactory' => $this->getMock(
-                'Magento\Email\Model\Template\MailerFactory', array(), array(), '', false
-            ),
-            'emailInfoFactory' => $this->getMock(
-                'Magento\Email\Model\InfoFactory', array(), array(), '', false
-            ),
         );
         $this->_model = $helperManager->getObject('Magento\Sales\Model\Order\Invoice', $arguments);
         $this->_model->setOrder($this->_orderMock);

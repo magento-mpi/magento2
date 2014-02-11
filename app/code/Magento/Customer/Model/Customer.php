@@ -110,9 +110,6 @@ class Customer extends \Magento\Core\Model\AbstractModel
      */
     private static $_isConfirmationRequired;
 
-    /** @var \Magento\Email\Model\Sender */
-    protected $_sender;
-
     /** @var \Magento\Core\Model\StoreManagerInterface */
     protected $_storeManager;
 
@@ -147,14 +144,9 @@ class Customer extends \Magento\Core\Model\AbstractModel
     protected $_addressesFactory;
 
     /**
-     * @var \Magento\Email\Model\Template\MailerFactory
+     * @var \Magento\Mail\Template\TransportBuilder
      */
-    protected $_mailerFactory;
-
-    /**
-     * @var \Magento\Email\Model\InfoFactory
-     */
-    protected $_emailInfoFactory;
+    protected $_transportBuilder;
 
     /**
      * @var \Magento\Customer\Model\AttributeFactory
@@ -185,7 +177,6 @@ class Customer extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Customer\Helper\Data $customerData
-     * @param \Magento\Email\Model\Sender $sender
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Config $config
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
@@ -193,8 +184,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
      * @param Config\Share $configShare
      * @param AddressFactory $addressFactory
      * @param Resource\Address\CollectionFactory $addressesFactory
-     * @param \Magento\Email\Model\Template\MailerFactory $mailerFactory
-     * @param \Magento\Email\Model\InfoFactory $emailInfoFactory
+     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService
      * @param AttributeFactory $attributeFactory
      * @param \Magento\Encryption\EncryptorInterface $encryptor
@@ -207,7 +197,6 @@ class Customer extends \Magento\Core\Model\AbstractModel
         \Magento\Model\Context $context,
         \Magento\Registry $registry,
         \Magento\Customer\Helper\Data $customerData,
-        \Magento\Email\Model\Sender $sender,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Config $config,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
@@ -215,8 +204,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
         \Magento\Customer\Model\Config\Share $configShare,
         \Magento\Customer\Model\AddressFactory $addressFactory,
         \Magento\Customer\Model\Resource\Address\CollectionFactory $addressesFactory,
-        \Magento\Email\Model\Template\MailerFactory $mailerFactory,
-        \Magento\Email\Model\InfoFactory $emailInfoFactory,
+        \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService,
         \Magento\Customer\Model\AttributeFactory $attributeFactory,
         \Magento\Encryption\EncryptorInterface $encryptor,
@@ -227,14 +215,12 @@ class Customer extends \Magento\Core\Model\AbstractModel
     ) {
         $this->_customerData = $customerData;
         $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_sender = $sender;
         $this->_storeManager = $storeManager;
         $this->_config = $config;
         $this->_configShare = $configShare;
         $this->_addressFactory = $addressFactory;
         $this->_addressesFactory = $addressesFactory;
-        $this->_mailerFactory = $mailerFactory;
-        $this->_emailInfoFactory = $emailInfoFactory;
+        $this->_transportBuilder = $transportBuilder;
         $this->_groupService = $groupService;
         $this->_attributeFactory = $attributeFactory;
         $this->_encryptor = $encryptor;
@@ -685,7 +671,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
         }
 
         $this->_sendEmailTemplate($types[$type], self::XML_PATH_REGISTER_EMAIL_IDENTITY,
-            array('customer' => $this, 'back_url' => $backUrl), $storeId);
+            array('customer' => $this, 'back_url' => $backUrl, 'store' => $this->getStore()), $storeId);
 
         return $this;
     }
@@ -726,7 +712,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
     public function sendPasswordReminderEmail()
     {
         $this->_sendEmailTemplate(self::XML_PATH_REMIND_EMAIL_TEMPLATE, self::XML_PATH_FORGOT_EMAIL_IDENTITY,
-            array('customer' => $this), $this->getStoreId());
+            array('customer' => $this, 'store' => $this->getStore()), $this->getStoreId());
 
         return $this;
     }
@@ -742,18 +728,19 @@ class Customer extends \Magento\Core\Model\AbstractModel
      */
     protected function _sendEmailTemplate($template, $sender, $templateParams = array(), $storeId = null)
     {
-        /** @var $mailer \Magento\Email\Model\Template\Mailer */
-        $mailer = $this->_createMailer();
-        $emailInfo = $this->_createEmailInfo();
-        $emailInfo->addTo($this->getEmail(), $this->getName());
-        $mailer->addEmailInfo($emailInfo);
+        /** @var \Magento\Mail\TransportInterface $transport */
+        $transport =  $this->_transportBuilder
+            ->setTemplateIdentifier($this->_coreStoreConfig->getConfig($template, $storeId))
+            ->setTemplateOptions(array(
+                'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+                'store' => $storeId
+            ))
+            ->setTemplateVars($templateParams)
+            ->setFrom($this->_coreStoreConfig->getConfig($sender, $storeId))
+            ->addTo($this->getEmail(), $this->getName())
+            ->getTransport();
+        $transport->sendMessage();
 
-        // Set all required params and send emails
-        $mailer->setSender($this->_coreStoreConfig->getConfig($sender, $storeId));
-        $mailer->setStoreId($storeId);
-        $mailer->setTemplateId($this->_coreStoreConfig->getConfig($template, $storeId));
-        $mailer->setTemplateParams($templateParams);
-        $mailer->send();
         return $this;
     }
 
@@ -770,7 +757,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
         }
 
         $this->_sendEmailTemplate(self::XML_PATH_FORGOT_EMAIL_TEMPLATE, self::XML_PATH_FORGOT_EMAIL_IDENTITY,
-            array('customer' => $this), $storeId
+            array('customer' => $this, 'store' => $this->getStore()), $storeId
         );
 
         return $this;
@@ -788,14 +775,21 @@ class Customer extends \Magento\Core\Model\AbstractModel
             $storeId = $this->_getWebsiteStoreId();
         }
 
-        $this->_sender->send(
-            $this->getEmail(),
-            $this->getName(),
-            self::XML_PATH_RESET_PASSWORD_TEMPLATE,
-            self::XML_PATH_FORGOT_EMAIL_IDENTITY,
-            array('customer' => $this),
-            $storeId
-        );
+        /** @var \Magento\Mail\TransportInterface $transport */
+        $transport =  $this->_transportBuilder
+            ->setTemplateIdentifier(
+                $this->_coreStoreConfig->getConfig(self::XML_PATH_RESET_PASSWORD_TEMPLATE, $storeId)
+            )
+            ->setTemplateOptions(array(
+                'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+                'store' => $storeId
+            ))
+            ->setTemplateVars(array('customer' => $this, 'store' => $this->getStore()))
+            ->setFrom($this->_coreStoreConfig->getConfig(self::XML_PATH_FORGOT_EMAIL_IDENTITY, $storeId))
+            ->addTo($this->getEmail(), $this->getName())
+            ->getTransport();
+        $transport->sendMessage();
+
         return $this;
     }
 
@@ -1226,22 +1220,6 @@ class Customer extends \Magento\Core\Model\AbstractModel
     protected function _createAddressCollection()
     {
         return $this->_addressesFactory->create();
-    }
-
-    /**
-     * @return \Magento\Email\Model\Template\Mailer
-     */
-    protected function _createMailer()
-    {
-        return $this->_mailerFactory->create();
-    }
-
-    /**
-     * @return \Magento\Email\Model\Info
-     */
-    protected function _createEmailInfo()
-    {
-        return $this->_emailInfoFactory->create();
     }
 
     /**

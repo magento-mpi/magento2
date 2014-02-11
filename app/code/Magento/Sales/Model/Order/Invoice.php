@@ -212,14 +212,9 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
     protected $_commentCollectionFactory;
 
     /**
-     * @var \Magento\Email\Model\Template\MailerFactory
+     * @var \Magento\Mail\Template\TransportBuilder
      */
-    protected $_templateMailerFactory;
-
-    /**
-     * @var \Magento\Email\Model\InfoFactory
-     */
-    protected $_emailInfoFactory;
+    protected $_transportBuilder;
 
     /**
      * @param \Magento\Model\Context $context
@@ -236,8 +231,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
      * @param \Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory $invoiceItemCollectionFactory
      * @param \Magento\Sales\Model\Order\Invoice\CommentFactory $invoiceCommentFactory
      * @param \Magento\Sales\Model\Resource\Order\Invoice\Comment\CollectionFactory $commentCollectionFactory
-     * @param \Magento\Email\Model\Template\MailerFactory $templateMailerFactory
-     * @param \Magento\Email\Model\InfoFactory $emailInfoFactory
+     * @param \Magento\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -257,8 +251,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
         \Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory $invoiceItemCollectionFactory,
         \Magento\Sales\Model\Order\Invoice\CommentFactory $invoiceCommentFactory,
         \Magento\Sales\Model\Resource\Order\Invoice\Comment\CollectionFactory $commentCollectionFactory,
-        \Magento\Email\Model\Template\MailerFactory $templateMailerFactory,
-        \Magento\Email\Model\InfoFactory $emailInfoFactory,
+        \Magento\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -273,8 +266,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
         $this->_invoiceItemCollectionFactory = $invoiceItemCollectionFactory;
         $this->_invoiceCommentFactory = $invoiceCommentFactory;
         $this->_commentCollectionFactory = $commentCollectionFactory;
-        $this->_templateMailerFactory = $templateMailerFactory;
-        $this->_emailInfoFactory = $emailInfoFactory;
+        $this->_transportBuilder = $transportBuilder;
         parent::__construct($context, $registry, $coreLocale, $dateTime, $resource, $resourceCollection, $data);
     }
 
@@ -869,40 +861,57 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
             $customerName = $order->getCustomerName();
         }
 
-        $mailer = $this->_templateMailerFactory->create();
         if ($notifyCustomer) {
-            $emailInfo = $this->_emailInfoFactory->create();
-            $emailInfo->addTo($order->getCustomerEmail(), $customerName);
+            $this->_transportBuilder
+                ->setTemplateIdentifier($templateId)
+                ->setTemplateOptions(array(
+                    'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+                    'store' => $storeId
+                ))
+                ->setTemplateVars(array(
+                    'order'        => $order,
+                    'invoice'      => $this,
+                    'comment'      => $comment,
+                    'billing'      => $order->getBillingAddress(),
+                    'payment_html' => $paymentBlockHtml,
+                    'store'        => $this->getStore()
+                ))
+                ->setFrom($this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_IDENTITY, $storeId))
+                ->addTo($order->getCustomerEmail(), $customerName);
             if ($copyTo && $copyMethod == 'bcc') {
                 // Add bcc to customer email
                 foreach ($copyTo as $email) {
-                    $emailInfo->addBcc($email);
+                    $this->_transportBuilder->addBcc($email);
                 }
             }
-            $mailer->addEmailInfo($emailInfo);
+            /** @var \Magento\Mail\TransportInterface $transport */
+            $transport =  $this->_transportBuilder->getTransport();
+            $transport->sendMessage();
         }
 
         // Email copies are sent as separated emails if their copy method is 'copy' or a customer should not be notified
         if ($copyTo && ($copyMethod == 'copy' || !$notifyCustomer)) {
             foreach ($copyTo as $email) {
-                $emailInfo = $this->_emailInfoFactory->create();
-                $emailInfo->addTo($email);
-                $mailer->addEmailInfo($emailInfo);
+                $this->_transportBuilder
+                    ->setTemplateIdentifier($templateId)
+                    ->setTemplateOptions(array(
+                        'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+                        'store' => $storeId
+                    ))
+                    ->setTemplateVars(array(
+                        'order'        => $order,
+                        'invoice'      => $this,
+                        'comment'      => $comment,
+                        'billing'      => $order->getBillingAddress(),
+                        'payment_html' => $paymentBlockHtml,
+                        'store'        => $this->getStore()
+                    ))
+                    ->setFrom($this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_IDENTITY, $storeId))
+                    ->addTo($email)
+                    ->getTransport()
+                    ->sendMessage();
             }
         }
-
-        // Set all required params and send emails
-        $mailer->setSender($this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_IDENTITY, $storeId));
-        $mailer->setStoreId($storeId);
-        $mailer->setTemplateId($templateId);
-        $mailer->setTemplateParams(array(
-            'order'        => $order,
-            'invoice'      => $this,
-            'comment'      => $comment,
-            'billing'      => $order->getBillingAddress(),
-            'payment_html' => $paymentBlockHtml
-        ));
-        $mailer->send();
 
         $this->setEmailSent(true);
         $this->_getResource()->saveAttribute($this, 'email_sent');
@@ -942,40 +951,57 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
             $customerName = $order->getCustomerName();
         }
 
-        $mailer = $this->_templateMailerFactory->create();
         if ($notifyCustomer) {
-            $emailInfo = $this->_emailInfoFactory->create();
-            $emailInfo->addTo($order->getCustomerEmail(), $customerName);
+            $this->_transportBuilder
+                ->setTemplateIdentifier($templateId)
+                ->setTemplateOptions(array(
+                    'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+                    'store' => $storeId
+                ))
+                ->setTemplateVars(array(
+                    'order'        => $order,
+                    'invoice'      => $this,
+                    'comment'      => $comment,
+                    'billing'      => $order->getBillingAddress(),
+                    'store'        => $this->getStore()
+                ))
+                ->setFrom($this->_coreStoreConfig->getConfig(self::XML_PATH_UPDATE_EMAIL_IDENTITY, $storeId))
+                ->addTo($order->getCustomerEmail(), $customerName);
             if ($copyTo && $copyMethod == 'bcc') {
                 // Add bcc to customer email
                 foreach ($copyTo as $email) {
-                    $emailInfo->addBcc($email);
+                    $this->_transportBuilder->addBcc($email);
                 }
             }
-            $mailer->addEmailInfo($emailInfo);
+            /** @var \Magento\Mail\TransportInterface $transport */
+            $transport =  $this->_transportBuilder->getTransport();
+            $transport->sendMessage();
         }
 
         // Email copies are sent as separated emails if their copy method is 'copy' or a customer should not be notified
         if ($copyTo && ($copyMethod == 'copy' || !$notifyCustomer)) {
             foreach ($copyTo as $email) {
-                $emailInfo = $this->_emailInfoFactory->create();
-                $emailInfo->addTo($email);
-                $mailer->addEmailInfo($emailInfo);
+                $this->_transportBuilder
+                    ->setTemplateIdentifier($templateId)
+                    ->setTemplateOptions(array(
+                            'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
+                            'store' => $storeId
+                        )
+                    )
+                    ->setTemplateVars(array(
+                            'order'        => $order,
+                            'invoice'      => $this,
+                            'comment'      => $comment,
+                            'billing'      => $order->getBillingAddress(),
+                            'store'        => $this->getStore()
+                        )
+                    )
+                    ->setFrom($this->_coreStoreConfig->getConfig(self::XML_PATH_UPDATE_EMAIL_IDENTITY, $storeId))
+                    ->addTo($email)
+                    ->getTransport()
+                    ->sendMessage();
             }
         }
-
-        // Set all required params and send emails
-        $mailer->setSender($this->_coreStoreConfig->getConfig(self::XML_PATH_UPDATE_EMAIL_IDENTITY, $storeId));
-        $mailer->setStoreId($storeId);
-        $mailer->setTemplateId($templateId);
-        $mailer->setTemplateParams(array(
-                'order'        => $order,
-                'invoice'      => $this,
-                'comment'      => $comment,
-                'billing'      => $order->getBillingAddress()
-            )
-        );
-        $mailer->send();
 
         return $this;
     }
