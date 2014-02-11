@@ -20,15 +20,7 @@
             </array>
         </param>
     </type>
-    <virtualType name="customerAccountInitSession" type="Magento\Core\App\Action\Plugin\Session">
-        <param name="cookieCheckActions">
-            <array>
-                <item key="customerLogin"><value>loginPost</value></item>
-                <item key="customerCreate"><value>createpost</value></item>
-            </array>
-        </param>
-    </virtualType>
-    <type name="Magento\Customer\Controller\Account">
-        <plugin name="sessionInitializer" type="customerAccountInitSession" />
+    <type name="Magento\Core\Model\Layout">
+        <plugin name="customer-session-stab" type="Magento\Customer\Model\Layout\DepersonalizePlugin"/>
     </type>
 </config>
