@@ -165,7 +165,7 @@ abstract class AbstractCarrier extends \Magento\Shipping\Model\Carrier\AbstractC
      * Get tracking information
      *
      * @param string $tracking
-     * @return bool|string
+     * @return string|false
      */
     public function getTrackingInfo($tracking)
     {
@@ -402,7 +402,7 @@ abstract class AbstractCarrier extends \Magento\Shipping\Model\Carrier\AbstractC
      * Do request to shipment
      *
      * @param Request $request
-     * @return \Magento\Object|Object
+     * @return \Magento\Object
      * @throws Exception
      */
     public function requestToShipment($request)
@@ -451,7 +451,7 @@ abstract class AbstractCarrier extends \Magento\Shipping\Model\Carrier\AbstractC
      * Do request to RMA shipment
      *
      * @param Request $request
-     * @return \Magento\Object|Object
+     * @return \Magento\Object
      * @throws Exception
      */
     public function returnOfShipment($request)

@@ -31,9 +31,7 @@ abstract class AbstractMethod extends \Magento\Usa\Model\Shipping\Carrier\Dhl\In
     protected $_noneMethod = false;
 
     /**
-     * Returns array to be used in multiselect on back-end
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function toOptionArray()
     {

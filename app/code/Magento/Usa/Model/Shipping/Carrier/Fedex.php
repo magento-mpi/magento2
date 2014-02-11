@@ -792,7 +792,7 @@ class Fedex
      *
      * @param string $type
      * @param string $code
-     * @return array|bool
+     * @return array|false
      */
     public function getCode($type, $code='')
     {
