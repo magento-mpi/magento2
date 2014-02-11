@@ -574,6 +574,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
 
         $this->_viewUrl->getViewFileUrl('style.css', array('locale' => 'en_US'));
 
+        //It's added to make 'mtime' really different for source and origin files
         sleep(1);
 
         // Change referenced files
