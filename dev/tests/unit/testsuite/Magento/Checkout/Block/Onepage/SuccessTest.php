@@ -66,30 +66,16 @@ class SuccessTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('', $block->toHtml());
     }
 
-    public function testBeforeToHtml()
+    public function testGetAdditionalInfoHtml()
     {
-        $eventsManagerMock = $this->getMockBuilder('Magento\Event\ManagerInterface')
-            ->setMethods(array('dispatch'))
-            ->getMock();
-        $block = $this->objectManager->getObject(
-            'Magento\Checkout\Block\Onepage\Success',
-            array(
-                'eventManager' => $eventsManagerMock
-            )
-        );
-        $eventsManagerMock->expects($this->at(0))
-            ->method('dispatch')
-            ->with(
-                'view_block_abstract_to_html_before',
-                array('block' => $block)
-            );
-
-        $eventsManagerMock->expects($this->at(1))
-            ->method('dispatch')
-            ->with(
-                'checkout_onepage_success_before_to_html',
-                array('block' => $block)
-            );
-        $block->toHtml();
+        /** @var \Magento\Checkout\Block\Onepage\Success $block */
+        $block = $this->objectManager->getObject('Magento\Checkout\Block\Onepage\Success');
+        $layout = $this->getMock('Magento\View\LayoutInterface', [], [], '',false);
+        $layout->expects($this->once())
+            ->method('renderElement')
+            ->with('order.success.additional.info')
+            ->will($this->returnValue('AdditionalInfoHtml'));
+        $block->setLayout($layout);
+        $this->assertEquals('AdditionalInfoHtml', $block->getAdditionalInfoHtml());
     }
 }
