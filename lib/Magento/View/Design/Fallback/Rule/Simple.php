@@ -28,6 +28,8 @@ class Simple implements RuleInterface
     protected $pattern;
 
     /**
+     * Constructor
+     *
      * @param string $pattern
      * @param array $optionalParams
      */
