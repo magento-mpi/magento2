@@ -331,6 +331,9 @@ class Builder
     protected function _applyArgumentsCallback(array $arguments)
     {
         foreach ($arguments as &$argument) {
+            if (is_array($argument)) {
+                $argument = $this->_applyArgumentsCallback($argument);
+            }
             if ($argument instanceof OptionInterface) {
                 $argument = $argument->getValue();
             }

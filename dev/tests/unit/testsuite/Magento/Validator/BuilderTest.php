@@ -18,9 +18,24 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      */
     protected $_objectManager;
 
+    /**
+     * @var \Magento\ObjectManager\ObjectManager
+     */
+    protected $_realObjectManager;
+
     protected function setUp()
     {
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+
+        $creationStack = $this->getMock('\Magento\ObjectManager\Factory\CreationStack');
+        $argInterpreter = $this->getMock('\Magento\Data\Argument\InterpreterInterface', array(), array(), '', false);
+        $argObjectFactory =
+            $this->getMock('\Magento\ObjectManager\Config\Argument\ObjectFactory', array(), array(), '', false);
+        $config = new \Magento\ObjectManager\Config\Config(new \Magento\ObjectManager\Relations\Runtime());
+        $factory = new \Magento\ObjectManager\Factory\Factory(
+            $config, $creationStack, $argInterpreter, $argObjectFactory, null
+        );
+        $this->_realObjectManager = new \Magento\ObjectManager\ObjectManager($factory, $config);
     }
 
     /**
@@ -37,12 +52,9 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
         $builder = $this->_objectManager->getObject(
             'Magento\Validator\Builder',
             array(
-                'constraintFactory'
-                    => new \Magento\Validator\ConstraintFactory(new \Magento\ObjectManager\ObjectManager()),
-                'validatorFactory'
-                    => new \Magento\ValidatorFactory(new \Magento\ObjectManager\ObjectManager()),
-                'oneValidatorFactory'
-                    => new \Magento\Validator\UniversalFactory(new \Magento\ObjectManager\ObjectManager()),
+                'constraintFactory' => new \Magento\Validator\ConstraintFactory($this->_realObjectManager),
+                'validatorFactory' => new \Magento\ValidatorFactory($this->_realObjectManager),
+                'oneValidatorFactory' => new \Magento\Validator\UniversalFactory($this->_realObjectManager),
                 'constraints' => $constraints
             )
         );
@@ -69,7 +81,9 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
             'alias' => 'name_alias',
             'class' => 'Magento\Validator\Test\StringLength',
             'options' => array(
-                'arguments' => array('min' => 1, 'max' => new \Magento\Validator\Constraint\Option(20))
+                'arguments' => array(
+                    'options' => array('min' => 1, 'max' => new \Magento\Validator\Constraint\Option(20))
+                )
             ),
             'property' => 'name',
             'type' => 'property',
@@ -395,7 +409,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
                     'options' => null,
                     'type' => 'entity'
                 )),
-                'validatorFactory' => new \Magento\ValidatorFactory(new \Magento\ObjectManager\ObjectManager()),
+                'validatorFactory' => new \Magento\ValidatorFactory($this->_realObjectManager),
             )
         );
         $builder->createValidator();
