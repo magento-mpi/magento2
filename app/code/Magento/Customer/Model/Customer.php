@@ -1026,6 +1026,8 @@ class Customer extends \Magento\Core\Model\AbstractModel
      */
     protected function _beforeDelete()
     {
+        //TODO : Revisit and figure handling permissions in MAGETWO-11084 Implementation: Service Context Provider
+        //$this->_protectFromNonAdmin();
         return parent::_beforeDelete();
     }
 
