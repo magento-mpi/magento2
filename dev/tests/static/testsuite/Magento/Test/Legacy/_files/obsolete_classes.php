@@ -1974,4 +1974,5 @@ return array(
     ['Magento\Core\Model\Option\ArrayPool', 'Magento\Option\ArrayPool'],
     ['Magento\Core\Helper\String', 'Magento\Code\NameBuilder'],
     ['Magento\Core\Model\Context', 'Magento\Model\Context'],
+    ['Magento\Registry', 'Magento\Registry'],
 );

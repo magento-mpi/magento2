@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,7 +9,7 @@
 /**
  * Registry model. Used to manage values in registry
  */
-namespace Magento\Core\Model;
+namespace Magento;
 
 class Registry
 {
