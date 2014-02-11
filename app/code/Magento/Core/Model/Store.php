@@ -23,7 +23,7 @@ namespace Magento\Core\Model;
  * @method \Magento\Core\Model\Store setIsActive(int $value)
  */
 class Store extends AbstractModel
-    implements \Magento\BaseScopeInterface, \Magento\Url\ScopeInterface
+    implements \Magento\BaseScopeInterface, \Magento\Url\ScopeInterface,\Magento\Object\IdentityInterface
 {
     /**
      * Entity name
@@ -1264,5 +1264,15 @@ class Store extends AbstractModel
     public function getUrlModel()
     {
         return $this->_url;
+    }
+
+    /**
+     * Get identities
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return array(self::CACHE_TAG . '_' . $this->getId());
     }
 }
