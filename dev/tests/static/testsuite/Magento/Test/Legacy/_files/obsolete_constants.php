@@ -584,4 +584,6 @@ return array(
         '\Magento\Payment\Model\Recurring\Profile',
         '\Magento\RecurringProfile\Model\PeriodUnits::YEAR'
     ],
+    array('XML_PATH_IS_ENABLED_FLAT_CATALOG_CATEGORY', '\Magento\Catalog\Helper\Category\Flat',
+        '\Magento\Catalog\Model\Indexer\Category\Flat\Config::XML_PATH_IS_ENABLED_FLAT_CATALOG_CATEGORY'),
 );
