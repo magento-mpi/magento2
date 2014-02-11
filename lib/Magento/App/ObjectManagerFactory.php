@@ -163,10 +163,11 @@ class ObjectManagerFactory
         \Magento\ObjectManager\Config\Argument\ObjectFactory $objectFactory,
         \Magento\App\Arguments $appArguments
     ) {
+        $booleanUtils = new \Magento\Stdlib\BooleanUtils();
         $result = new \Magento\Data\Argument\Interpreter\Composite(
             array(
-                'boolean' => new \Magento\Data\Argument\Interpreter\Boolean(new \Magento\Stdlib\BooleanUtils()),
-                'string' => new \Magento\Data\Argument\Interpreter\String(),
+                'boolean' => new \Magento\Data\Argument\Interpreter\Boolean($booleanUtils),
+                'string' => new \Magento\Data\Argument\Interpreter\String($booleanUtils),
                 'number' => new \Magento\Data\Argument\Interpreter\Number(),
                 'null' => new \Magento\Data\Argument\Interpreter\NullType(),
                 'const' => new \Magento\Data\Argument\Interpreter\Constant(),
