@@ -360,6 +360,7 @@ return array(
     array('getDirectOutput', 'Magento\Core\Model\Layout'),
     array('getDirectOutput', 'Magento\View\LayoutInterface'),
     array('getDistroServerVars', 'Magento\Core\Model\Config', 'getDistroBaseUrl'),
+    array('getDuplicateButtonHtml', 'Magento\Catalog\Block\Adminhtml\Product\Edit'),
     array('getElementClass', 'Magento\Core\Model\Layout\Update'),
     array('getEngineFactory', 'Magento\View\Element\Template\Context', 'getEnginePool'),
     array('getEntityIdsToIncrementIds', 'Magento\Rss\Model\Resource\Order'),
@@ -936,6 +937,8 @@ return array(
     ),
     array('getMerchantVatNumber', '\Magento\Core\Helper\Data', '\Magento\Customer\Helper\Data::getMerchantVatNumber'),
     array('isCountryInEU', '\Magento\Core\Helper\Data', '\Magento\Customer\Helper\Data::isCountryInEU'),
+    array('isConfigurable', 'Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Inventory'),
+    array('isConfigurable', 'Magento\Catalog\Model\Product'),
     array('assocToXml', '\Magento\Core\Helper\Data', '\Magento\Convert\ConvertArray::assocToXml'),
     array('xmlToAssoc', '\Magento\Core\Helper\Data', '\Magento\Convert\Xml::xmlToAssoc'),
     array('checkLfiProtection', '\Magento\Core\Helper\Data', '\Magento\Filesystem::checkLfiProtection'),
@@ -1028,6 +1031,9 @@ return array(
     ),
     array('addActionLayoutHandles', '\Magento\Core\Controller\Varien\Action',
         '\Magento\App\ViewInterface::addActionLayoutHandles'
+    ),
+    array('addAttributeAction', 'Magento\Catalog\Controller\Adminhtml\Product',
+        'Magento\ConfigurableProduct\Controller\Adminhtml\Product'
     ),
     array('getTranslator', '\Magento\App\Helper\Context'),
     array('getTranslator', '\Magento\Core\Helper\Data'),
