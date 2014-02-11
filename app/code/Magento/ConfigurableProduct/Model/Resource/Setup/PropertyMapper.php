@@ -18,6 +18,9 @@ class PropertyMapper extends PropertyMapperAbstract
      *
      * @param array $input
      * @param int $entityTypeId
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     *
      * @return array
      */
     public function map(array $input, $entityTypeId)

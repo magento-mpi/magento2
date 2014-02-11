@@ -77,7 +77,7 @@ class Created extends \Magento\Backend\Block\Widget
         $attributes = array();
         /** @var $product \Magento\Catalog\Model\Product */
         $product = $this->_coreRegistry->registry('product');
-        foreach($product->getAttributes($this->getRequest()->getParam('group')) as $attribute) {
+        foreach ($product->getAttributes($this->getRequest()->getParam('group')) as $attribute) {
             /** @var $attribute \Magento\Eav\Model\Entity\Attribute */
             if ($attribute->getId() == $this->getRequest()->getParam('attribute')) {
                 $attributes[] = $attribute;

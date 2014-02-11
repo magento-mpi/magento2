@@ -65,11 +65,17 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
     const ENTITY                                = 'catalog_eav_attribute';
 
     /**
-     * Event prefix
+     * Index indexer
      *
-     * @var string
+     * @var \Magento\Index\Model\Indexer
      */
-    protected $_eventPrefix                     = 'catalog_entity_attribute';
+    protected $_indexIndexer;
+
+    /**
+     * @var LockValidatorInterface
+     */
+    protected $attrLockValidator;
+
     /**
      * Event object name
      *
@@ -85,16 +91,11 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
     static protected $_labels                   = null;
 
     /**
-     * Index indexer
+     * Event prefix
      *
-     * @var \Magento\Index\Model\Indexer
+     * @var string
      */
-    protected $_indexIndexer;
-
-    /**
-     * @var LockValidatorInterface
-     */
-    protected $attrLockValidator;
+    protected $_eventPrefix                     = 'catalog_entity_attribute';
 
     /**
      * @param \Magento\Core\Model\Context $context
