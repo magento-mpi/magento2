@@ -90,6 +90,7 @@ class Edit extends \Magento\Directory\Block\Data
 
     /**
      * Prepare the layout of the address edit block.
+     *
      * @return $this
      */
     protected function _prepareLayout()
@@ -134,7 +135,7 @@ class Edit extends \Magento\Directory\Block\Data
     }
 
     /**
-     * Generate name block html
+     * Generate name block html.
      *
      * @return string
      */
@@ -149,6 +150,7 @@ class Edit extends \Magento\Directory\Block\Data
 
     /**
      * Return the title, either editing an existing address, or adding a new one.
+     *
      * @return string
      */
     public function getTitle()
@@ -166,6 +168,7 @@ class Edit extends \Magento\Directory\Block\Data
 
     /**
      * Return the Url to go back.
+     *
      * @return string
      */
     public function getBackUrl()
@@ -183,6 +186,7 @@ class Edit extends \Magento\Directory\Block\Data
 
     /**
      * Return the Url for saving.
+     *
      * @return string
      */
     public function getSaveUrl()
@@ -195,6 +199,7 @@ class Edit extends \Magento\Directory\Block\Data
 
     /**
      * Return the associated address.
+     *
      * @return Address
      */
     public function getAddress()
@@ -204,6 +209,7 @@ class Edit extends \Magento\Directory\Block\Data
 
     /**
      * Return the specified numbered street line.
+     *
      * @param int $lineNumber
      * @return string
      */
@@ -215,6 +221,7 @@ class Edit extends \Magento\Directory\Block\Data
 
     /**
      * Return the country Id.
+     *
      * @return int|null|string
      */
     public function getCountryId()
@@ -226,7 +233,7 @@ class Edit extends \Magento\Directory\Block\Data
     }
 
     /**
-     * Return the name of the region for the address being edited
+     * Return the name of the region for the address being edited.
      *
      * @return string region name
      */
@@ -237,7 +244,7 @@ class Edit extends \Magento\Directory\Block\Data
     }
 
     /**
-     * Return the id of the region being edited
+     * Return the id of the region being edited.
      *
      * @return int region id
      */
@@ -249,6 +256,7 @@ class Edit extends \Magento\Directory\Block\Data
 
     /**
      * Retrieve the number of addresses associated with the customer given a customer Id.
+     *
      * @return int
      */
     public function getCustomerAddressCount()
@@ -258,6 +266,7 @@ class Edit extends \Magento\Directory\Block\Data
 
     /**
      * Determine if the address can be set as the default billing address.
+     *
      * @return bool|int
      */
     public function canSetAsDefaultBilling()
@@ -270,6 +279,7 @@ class Edit extends \Magento\Directory\Block\Data
 
     /**
      * Determine if the address can be set as the default shipping address.
+     *
      * @return bool|int
      */
     public function canSetAsDefaultShipping()
@@ -282,6 +292,7 @@ class Edit extends \Magento\Directory\Block\Data
 
     /**
      * Is the address the default billing address?
+     *
      * @return bool
      */
     public function isDefaultBilling()
@@ -291,6 +302,7 @@ class Edit extends \Magento\Directory\Block\Data
 
     /**
      * Is the address the default shipping address?
+     *
      * @return bool
      */
     public function isDefaultShipping()
@@ -300,6 +312,7 @@ class Edit extends \Magento\Directory\Block\Data
 
     /**
      * Retrieve the Customer Dto using the customer Id from the customer session.
+     *
      * @return Customer
      */
     public function getCustomer()
@@ -309,6 +322,7 @@ class Edit extends \Magento\Directory\Block\Data
 
     /**
      * Return back button Url, either to customer address or account.
+     *
      * @return string
      */
     public function getBackButtonUrl()
@@ -321,7 +335,7 @@ class Edit extends \Magento\Directory\Block\Data
     }
 
     /**
-     * Get config
+     * Get config value.
      *
      * @param string $path
      * @return string|null
