@@ -16,8 +16,9 @@ namespace Magento\Catalog\Model\Indexer\Product\Price\Action;
 class Row extends \Magento\Catalog\Model\Indexer\Product\Price\AbstractAction
 {
     /**
+     * Execute Row reindex
+     *
      * @param int|null $id
-     * @return \Magento\Catalog\Model\Indexer\Product\Price\Action\Row|void
      * @throws \Magento\Core\Exception
      */
     public function execute($id = null)
@@ -28,6 +29,5 @@ class Row extends \Magento\Catalog\Model\Indexer\Product\Price\AbstractAction
         foreach ($this->_storeManager->getStores() as $store) {
             $this->_logger->log('Row reindex for store - ' . $store->getId() . ' and product - ' . $id . '');
         }
-        return $this;
     }
 }

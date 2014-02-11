@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 namespace Magento\Catalog\Model\Indexer\Product\Price\Action;
+
 /**
  * Class Rows reindex action for mass actions
  *
@@ -16,8 +17,9 @@ namespace Magento\Catalog\Model\Indexer\Product\Price\Action;
 class Rows extends \Magento\Catalog\Model\Indexer\Product\Price\AbstractAction
 {
     /**
+     * Execute Rows reindex
+     *
      * @param array $ids
-     * @return \Magento\Catalog\Model\Indexer\Product\Price\Action\Rows|void
      * @throws \Magento\Core\Exception
      */
     public function execute($ids)
@@ -28,6 +30,5 @@ class Rows extends \Magento\Catalog\Model\Indexer\Product\Price\AbstractAction
         foreach ($this->_storeManager->getStores() as $store) {
             $this->_logger->log('Rows reindex for store - ' . $store->getId() . ' and products - ' . implode(",", $ids) . '');
         }
-        return $this;
     }
 }

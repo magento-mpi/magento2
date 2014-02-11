@@ -44,7 +44,6 @@ abstract class AbstractAction
      * Execute action for given ids
      *
      * @param array|int $ids
-     * @return mixed
      */
     abstract public function execute($ids);
 
