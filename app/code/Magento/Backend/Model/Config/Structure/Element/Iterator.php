@@ -105,7 +105,7 @@ class Iterator implements \Iterator
     /**
      * Return the key of the current element
      *
-     * @return mixed scalar on success, or null on failure.
+     * @return void
      */
     public function key()
     {

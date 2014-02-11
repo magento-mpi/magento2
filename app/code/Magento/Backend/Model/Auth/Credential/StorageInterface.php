@@ -24,7 +24,6 @@ interface StorageInterface
      * @param string $username
      * @param string $password
      * @return bool
-     * @abstract
      */
     public function authenticate($username, $password);
 
