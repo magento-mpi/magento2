@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Css\PreProcessor\Cache;
+namespace Magento\Css\PreProcessor;
 
 class CacheTest extends \PHPUnit_Framework_TestCase
 {
@@ -43,7 +43,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
             \Magento\App\Filesystem::PARAM_APP_DIRS => array(
                 \Magento\App\Filesystem::PUB_LIB_DIR => array(
-                    'path' => __DIR__ . '/../_files/cache/lib'
+                    'path' => __DIR__ . '/_files/cache/lib'
                 ),
             )
         ));
@@ -77,7 +77,6 @@ class CacheTest extends \PHPUnit_Framework_TestCase
          * @var \Magento\Css\PreProcessor\Cache\CacheManager $cacheManagerGenerated
          */
         $cacheManagerGenerated = $this->cacheManagerFactory->create($sourceFilePath, $designParams);
-
         $this->assertNotEmpty($cacheManagerGenerated->getCachedFile());
     }
 
