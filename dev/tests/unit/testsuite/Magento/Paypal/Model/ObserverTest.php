@@ -49,7 +49,13 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_observer->setEvent($this->_event);
 
         $this->_authorization = $this->getMockForAbstractClass('Magento\AuthorizationInterface');
-        $this->_agreementFactory = $this->getMock('Magento\Paypal\Model\Billing\AgreementFactory', ['create'], [], '', false);
+        $this->_agreementFactory = $this->getMock(
+            'Magento\Paypal\Model\Billing\AgreementFactory',
+            ['create'],
+            [],
+            '',
+            false
+        );
         $this->_checkoutSession = $this->getMock('Magento\Checkout\Model\Session', [], [], '', false);
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);

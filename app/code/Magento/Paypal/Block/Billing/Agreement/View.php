@@ -30,7 +30,7 @@ class View extends \Magento\View\Element\Template
     /**
      * Related orders collection
      *
-     * @var \Magento\Paypal\Model\Resource\Order\Collection
+     * @var \Magento\Sales\Model\Resource\Order\Collection
      */
     protected $_relatedOrders = null;
 
@@ -99,7 +99,7 @@ class View extends \Magento\View\Element\Template
     /**
      * Retrieve related orders collection
      *
-     * @return \Magento\Paypal\Model\Resource\Order\Collection
+     * @return \Magento\Sales\Model\Resource\Order\Collection
      */
     public function getRelatedOrders()
     {
@@ -122,11 +122,11 @@ class View extends \Magento\View\Element\Template
     /**
      * Retrieve order item value by key
      *
-     * @param \Magento\Paypal\Model\Order $order
+     * @param \Magento\Sales\Model\Order $order
      * @param string $key
      * @return string
      */
-    public function getOrderItemValue(\Magento\Paypal\Model\Order $order, $key)
+    public function getOrderItemValue(\Magento\Sales\Model\Order $order, $key)
     {
         $escape = true;
         switch ($key) {

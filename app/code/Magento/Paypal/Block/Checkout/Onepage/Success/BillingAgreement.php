@@ -29,17 +29,17 @@ class BillingAgreement extends \Magento\View\Element\Template
     protected $_agreementFactory;
 
     /**
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Paypal\Model\Billing\AgreementFactory $agreementFactory
-     * @param \Magento\View\Element\Template\Context $context
      * @param array $data
      */
     public function __construct(
+        \Magento\View\Element\Template\Context $context,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Paypal\Model\Billing\AgreementFactory $agreementFactory,
-        \Magento\View\Element\Template\Context $context,
         array $data = array()
     ) {
         $this->_checkoutSession = $checkoutSession;
