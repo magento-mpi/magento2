@@ -13,12 +13,22 @@ namespace Magento\View\Publisher;
  */
 interface FileInterface
 {
+    /**#@+
+     * Public directories prefix group
+     */
+    const PUBLIC_MODULE_DIR = '_module';
+    const PUBLIC_VIEW_DIR   = '_view';
+    const PUBLIC_THEME_DIR  = '_theme';
+    /**#@-*/
+
     /**
      * @return string
      */
     public function getFilePath();
 
     /**
+     * Original file extension
+     *
      * @return string
      */
     public function getExtension();
@@ -52,4 +62,11 @@ interface FileInterface
      * @return string
      */
     public function getPublicationPath();
+
+    /**
+     * Build path to file located in public folder
+     *
+     * @return string
+     */
+    public function buildPublicViewFilename();
 }

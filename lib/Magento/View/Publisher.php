@@ -13,7 +13,7 @@ use Magento\Filesystem\Directory\WriteInterface;
 /**
  * Magento view file publisher
  */
-class Publisher implements \Magento\View\PublicFilesManagerInterface
+class Publisher implements PublicFilesManagerInterface
 {
     /**#@+
      * Extensions group for static files
@@ -30,23 +30,10 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
     const CONTENT_TYPE_XML   = 'xml';
     /**#@-*/
 
-    /**#@+
-     * Public directories prefix group
-     */
-    const PUBLIC_MODULE_DIR = '_module';
-    const PUBLIC_VIEW_DIR   = '_view';
-    const PUBLIC_THEME_DIR  = '_theme';
-    /**#@-*/
-
     /**
      * @var \Magento\App\Filesystem
      */
     protected $filesystem;
-
-    /**
-     * @var \Magento\View\Service
-     */
-    protected $viewService;
 
     /**
      * @var \Magento\View\FileSystem
@@ -70,21 +57,18 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
 
     /**
      * @param \Magento\App\Filesystem $filesystem
-     * @param Service $viewService
      * @param FileSystem $viewFileSystem
      * @param \Magento\View\Asset\PreProcessor\PreProcessorInterface $preProcessor
      * @param Publisher\FileFactory $fileFactory
      */
     public function __construct(
         \Magento\App\Filesystem $filesystem,
-        \Magento\View\Service $viewService,
         \Magento\View\FileSystem $viewFileSystem,
         \Magento\View\Asset\PreProcessor\PreProcessorInterface $preProcessor,
         Publisher\FileFactory $fileFactory
     ) {
         $this->filesystem = $filesystem;
         $this->rootDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR);
-        $this->viewService = $viewService;
         $this->viewFileSystem = $viewFileSystem;
         $this->preProcessor = $preProcessor;
         $this->fileFactory = $fileFactory;
@@ -181,7 +165,8 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
             return $publisherFile->getSourcePath();
         }
 
-        return $this->publishFile($publisherFile);
+        $this->publishFile($publisherFile);
+        return $publisherFile->getPublicationPath();
     }
 
     /**
@@ -194,7 +179,7 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
     {
         $filePath = $this->viewFileSystem->normalizePath($publisherFile->getFilePath());
         $sourcePath = $this->viewFileSystem->normalizePath($publisherFile->getSourcePath());
-        $targetPath = $this->buildPublicViewFilename($publisherFile);
+        $targetPath = $publisherFile->buildPublicViewFilename();
 
         $targetDirectory = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::STATIC_VIEW_DIR);
         $sourcePathRelative = $this->rootDirectory->getRelativePath($sourcePath);
@@ -213,17 +198,6 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
         }
 
         $this->viewFileSystem->notifyViewFileLocationChanged($targetPath, $filePath, $publisherFile->getViewParams());
-        return $targetPath;
-    }
-
-    /**
-     * Build path to file located in public folder
-     *
-     * @param Publisher\FileInterface $publisherFile
-     * @return string
-     */
-    public function buildPublicViewFilename(Publisher\FileInterface $publisherFile)
-    {
-        return $this->viewService->getPublicDir() . '/' . $publisherFile->getPublicationPath();
+        return $this;
     }
 }

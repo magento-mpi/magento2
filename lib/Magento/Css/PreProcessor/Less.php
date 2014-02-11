@@ -26,7 +26,7 @@ class Less implements PreProcessorInterface
     protected $lessPreProcessor;
 
     /**
-     * @var \Magento\Css\PreProcessor\AdapterInterface
+     * @var AdapterInterface
      */
     protected $adapter;
 
@@ -42,7 +42,7 @@ class Less implements PreProcessorInterface
      */
     public function __construct(
         \Magento\Less\PreProcessor $lessPreProcessor,
-        \Magento\Css\PreProcessor\AdapterInterface $adapter,
+        AdapterInterface $adapter,
         \Magento\Logger $logger
     ) {
         $this->lessPreProcessor = $lessPreProcessor;
@@ -72,14 +72,12 @@ class Less implements PreProcessorInterface
         } catch (\Magento\Filesystem\FilesystemException $e) {
             $this->logger->logException($e);
             return $publisherFile->getSourcePath();     // It's actually 'null'
-        } catch (\Magento\Css\PreProcessor\Adapter\AdapterException $e) {
+        } catch (Adapter\AdapterException $e) {
             $this->logger->logException($e);
             return $publisherFile->getSourcePath();     // It's actually 'null'
         }
 
-        $tmpFilePath = \Magento\Css\PreProcessor\Composite::TMP_VIEW_DIR . '/' . self::TMP_LESS_DIR . '/'
-            . $publisherFile->getPublicationPath();
-
+        $tmpFilePath = Composite::TMP_VIEW_DIR . '/' . self::TMP_LESS_DIR . '/' . $publisherFile->getPublicationPath();
         $targetDirectory->writeFile($tmpFilePath, $cssContent);
         return $targetDirectory->getAbsolutePath($tmpFilePath);
     }

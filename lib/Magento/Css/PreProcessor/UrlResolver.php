@@ -91,7 +91,6 @@ class UrlResolver implements PreProcessorInterface
         }
         $filePath = $this->viewFileSystem->normalizePath($publisherFile->getFilePath());
         $sourcePath = $this->viewFileSystem->normalizePath($publisherFile->getSourcePath());
-        $targetPath = $this->publisher->buildPublicViewFilename($publisherFile);
         $content = $this->rootDirectory->readFile($this->rootDirectory->getRelativePath($sourcePath));
         $params = $publisherFile->getViewParams();
 
@@ -100,12 +99,17 @@ class UrlResolver implements PreProcessorInterface
             return $relatedPathPublic;
         };
         try {
-            $content = $this->cssUrlResolver->replaceCssRelativeUrls($content, $sourcePath, $targetPath, $callback);
+            $content = $this->cssUrlResolver->replaceCssRelativeUrls(
+                $content,
+                $sourcePath,
+                $publisherFile->buildPublicViewFilename(),
+                $callback
+            );
         } catch (\Magento\Exception $e) {
             $this->logger->logException($e);
         }
 
-        $tmpFilePath = \Magento\Css\PreProcessor\Composite::TMP_VIEW_DIR . '/' . self::TMP_RESOLVER_DIR . '/'
+        $tmpFilePath = Composite::TMP_VIEW_DIR . '/' . self::TMP_RESOLVER_DIR . '/'
             . $publisherFile->getPublicationPath();
         $targetDirectory->writeFile($tmpFilePath, $content);
         return $targetDirectory->getAbsolutePath($tmpFilePath);

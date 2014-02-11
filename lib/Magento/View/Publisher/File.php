@@ -91,6 +91,8 @@ class File implements FileInterface
     }
 
     /**
+     * Original file extension
+     *
      * @return string
      */
     public function getExtension()
@@ -184,9 +186,9 @@ class File implements FileInterface
     public function getPublicationPath()
     {
         if ($this->allowDuplication) {
-            $targetPath = $this->buildPublicViewRedundantFilename($this->getFilePath(), $this->getViewParams());
+            $targetPath = $this->buildPublicViewRedundantFilename();
         } else {
-            $targetPath = $this->buildPublicViewSufficientFilename($this->getSourcePath(), $this->getViewParams());
+            $targetPath = $this->buildPublicViewSufficientFilename();
         }
         return $targetPath;
     }
@@ -194,24 +196,23 @@ class File implements FileInterface
     /**
      * Build public filename for a theme file that always includes area/package/theme/locate parameters
      *
-     * @param string $file
-     * @param array $params
      * @return string
      */
-    protected function buildPublicViewRedundantFilename($file, array $params)
+    protected function buildPublicViewRedundantFilename()
     {
         /** @var $theme \Magento\View\Design\ThemeInterface */
-        $theme = $params['themeModel'];
+        $theme = $this->getViewParams()['themeModel'];
         if ($theme->getThemePath()) {
             $designPath = $theme->getThemePath();
         } elseif ($theme->getId()) {
-            $designPath = \Magento\View\Publisher::PUBLIC_THEME_DIR . $theme->getId();
+            $designPath = self::PUBLIC_THEME_DIR . $theme->getId();
         } else {
-            $designPath = \Magento\View\Publisher::PUBLIC_VIEW_DIR;
+            $designPath = self::PUBLIC_VIEW_DIR;
         }
 
-        $publicFile = $params['area'] . '/' . $designPath . '/' . $params['locale']
-            . ($params['module'] ? '/' . $params['module'] : '') . '/' . $file;
+        $publicFile = $this->getViewParams()['area'] . '/' . $designPath . '/' . $this->getViewParams()['locale']
+            . ($this->getViewParams()['module'] ? '/' . $this->getViewParams()['module'] : '')
+            . '/' . $this->getFilePath();
 
         return $publicFile;
     }
@@ -219,23 +220,31 @@ class File implements FileInterface
     /**
      * Build public filename for a view file that sufficiently depends on the passed parameters
      *
-     * @param string $filename
-     * @param array $params
      * @return string
      */
-    protected function buildPublicViewSufficientFilename($filename, array $params)
+    protected function buildPublicViewSufficientFilename()
     {
         $designDir = $this->filesystem->getPath(\Magento\App\Filesystem::THEMES_DIR) . '/';
-        if (0 === strpos($filename, $designDir)) {
+        if (0 === strpos($this->getSourcePath(), $designDir)) {
             // theme file
-            $publicFile = substr($filename, strlen($designDir));
+            $publicFile = substr($this->getSourcePath(), strlen($designDir));
         } else {
             // modular file
-            $module = $params['module'];
+            $module = $this->getViewParams()['module'];
             $moduleDir = $this->modulesReader->getModuleDir('theme', $module) . '/';
-            $publicFile = substr($filename, strlen($moduleDir));
-            $publicFile = \Magento\View\Publisher::PUBLIC_MODULE_DIR . '/' . $module . '/' . $publicFile;
+            $publicFile = substr($this->getSourcePath(), strlen($moduleDir));
+            $publicFile = self::PUBLIC_MODULE_DIR . '/' . $module . '/' . $publicFile;
         }
         return $publicFile;
+    }
+
+    /**
+     * Build path to file located in public folder
+     *
+     * @return string
+     */
+    public function buildPublicViewFilename()
+    {
+        return $this->viewService->getPublicDir() . '/' . $this->getPublicationPath();
     }
 }
