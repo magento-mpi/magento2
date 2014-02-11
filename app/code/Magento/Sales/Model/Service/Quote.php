@@ -12,7 +12,7 @@ use Magento\Customer\Service\V1\CustomerServiceInterface;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Customer\Service\V1\Dto\AddressBuilder;
-use Magento\Customer\Service\V1\Dto\CustomerBuilder;
+use Magento\Customer\Service\V1\Dto\Customer as CustomerDto;
 
 /**
  * Quote submit service model
@@ -379,7 +379,7 @@ class Quote
             } else if ($customerDto->getCustomerId()) { // Delete if new customer created
                 $this->_customerService->deleteCustomer($customerDto->getCustomerId());
                 $order->setCustomerId(null);
-                $quote->setCustomerData((new CustomerBuilder())->create());
+                $quote->setCustomerData(new CustomerDto([]));
             }
 
             //reset order ID's on exception, because order not saved
