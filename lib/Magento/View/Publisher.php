@@ -202,6 +202,11 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
 
         $fileMTime = $this->rootDirectory->stat($sourcePathRelative)['mtime'];
 
+        if ($publisherFile->getFilePath() == 'sub.css' && $targetDirectory->isExist($targetPathRelative)) {
+            var_dump($fileMTime);
+            var_dump($fileMTime == $targetDirectory->stat($targetPathRelative)['mtime']);
+        }
+
         if (!$targetDirectory->isExist($targetPathRelative)
             || $fileMTime != $targetDirectory->stat($targetPathRelative)['mtime']
         ) {

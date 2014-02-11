@@ -574,6 +574,8 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
 
         $this->_viewUrl->getViewFileUrl('style.css', array('locale' => 'en_US'));
 
+        sleep(1);
+
         // Change referenced files
         copy($fixtureViewPath . 'images/rectangle.gif', $fixtureViewPath . 'images/square.gif');
         touch($fixtureViewPath . 'images/square.gif');
