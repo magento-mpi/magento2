@@ -607,6 +607,10 @@ return array(
         'Magento\ConfigurableProduct\Block\Adminhtml\Product\Attribute\Edit\Tab\Variations\Main'
     ),
     array(
+        'Magento\Catalog\Block\Adminhtml\Product\Attribute\NewAttribute\Product\Created',
+        'Magento\ConfigurableProduct\Block\Adminhtml\Product\Attribute\NewAttribute\Product\Created'
+    ),
+    array(
         'Magento\Catalog\Block\Adminhtml\Product\Composite\Fieldset\Configurable',
         'Magento\ConfigurableProduct\Block\Adminhtml\Product\Composite\Fieldset\Configurable'
     ),
