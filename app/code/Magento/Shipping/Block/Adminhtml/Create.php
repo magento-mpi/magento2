@@ -7,13 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Shipping\Block\Adminhtml;
 
 /**
  * Adminhtml shipment create
  */
-
-namespace Magento\Shipping\Block\Adminhtml;
-
 class Create extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
@@ -37,6 +35,9 @@ class Create extends \Magento\Backend\Block\Widget\Form\Container
         parent::__construct($context, $data);
     }
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_objectId = 'order_id';
@@ -58,12 +59,18 @@ class Create extends \Magento\Backend\Block\Widget\Form\Container
         return $this->_coreRegistry->registry('current_shipment');
     }
 
+    /**
+     * @return string
+     */
     public function getHeaderText()
     {
         $header = __('New Shipment for Order #%1', $this->getShipment()->getOrder()->getRealOrderId());
         return $header;
     }
 
+    /**
+     * @return string
+     */
     public function getBackUrl()
     {
         return $this->getUrl(

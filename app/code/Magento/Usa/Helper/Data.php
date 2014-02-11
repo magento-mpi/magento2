@@ -7,17 +7,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Usa\Helper;
 
 /**
  * Usa data helper
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Usa\Helper;
-
 class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
+     * Locale interface
+     *
      * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
@@ -35,9 +36,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Convert weight in different measure types
      *
-     * @param  mixed $value
-     * @param  string $sourceWeightMeasure
-     * @param  string $toWeightMeasure
+     * @param int|float $value
+     * @param string $sourceWeightMeasure
+     * @param string $toWeightMeasure
      * @return int|null|string
      */
     public function convertMeasureWeight($value, $sourceWeightMeasure, $toWeightMeasure)
@@ -54,7 +55,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Convert dimensions in different measure types
      *
-     * @param  mixed $value
+     * @param  int|float $value
      * @param  string $sourceDimensionMeasure
      * @param  string $toDimensionMeasure
      * @return int|null|string
@@ -73,7 +74,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Get name of measure by its type
      *
-     * @param  $key
+     * @param string $key
      * @return string
      */
     public function getMeasureWeightName($key)
@@ -89,7 +90,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Get name of measure by its type
      *
-     * @param  $key
+     * @param string $key
      * @return string
      */
     public function getMeasureDimensionName($key)

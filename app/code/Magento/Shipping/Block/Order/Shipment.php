@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Shipping\Block\Order;
 
 /**
  * Sales order view block
  */
-namespace Magento\Shipping\Block\Order;
-
 class Shipment extends \Magento\View\Element\Template
 {
     /**
@@ -58,6 +57,9 @@ class Shipment extends \Magento\View\Element\Template
         $this->_isScopePrivate = true;
     }
 
+    /**
+     * @return void
+     */
     protected function _prepareLayout()
     {
         $headBlock = $this->getLayout()->getBlock('head');
