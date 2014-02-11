@@ -24,7 +24,7 @@ class BackgroundUploader
     /**
      * Add form elements
      *
-     * @return \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\BackgroundUploader
+     * @return $this
      */
     protected function _addFields()
     {
@@ -65,7 +65,7 @@ class BackgroundUploader
     /**
      * Add element types used in composite font element
      *
-     * @return \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\BackgroundUploader
+     * @return $this
      */
     protected function _addElementTypes()
     {

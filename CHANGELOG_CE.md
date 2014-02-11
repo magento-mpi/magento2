@@ -8,7 +8,9 @@
 * LESS pre-processisng to CSS
   * LESS files in library/theme/module, during materialization are automatically compiled into CSS
   * LESS files compilation caching mechanism added for developer mode
-* Move Recurring profile functionality into separate module
+* Modularity improvements:
+  * Moved Shortcut Buttons abstraction from PayPal to Catalog 
+  * Moved Recurring profile functionality into separate module
 * GitHub requests:
  * [#377] (https://github.com/magento/magento2/issues/377) Remove and avoid javascript eval() calls 
  * [#319] (https://github.com/magento/magento2/issues/319) No message was displayed when product added to shopping cart.
