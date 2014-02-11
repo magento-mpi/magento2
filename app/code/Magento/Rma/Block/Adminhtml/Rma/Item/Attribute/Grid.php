@@ -13,14 +13,14 @@ namespace Magento\Rma\Block\Adminhtml\Rma\Item\Attribute;
 /**
  * RMA Item Attributes Grid Block
  *
- * @category    Magento
- * @package     Magento_Rma
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Grid
     extends \Magento\Eav\Block\Adminhtml\Attribute\Grid\AbstractGrid
 {
     /**
+     * Rma item attribute collection
+     *
      * @var \Magento\Rma\Model\Resource\Item\Attribute\CollectionFactory
      */
     protected $_collectionFactory;
@@ -44,6 +44,7 @@ class Grid
     /**
      * Initialize grid, set grid Id
      *
+     * @return void
      */
     protected function _construct()
     {

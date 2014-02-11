@@ -7,19 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
-/**
- * Reward sales quote total model
- *
- * @category    Magento
- * @package     Magento_Reward
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Reward\Model\Total\Quote;
 
 use Magento\Sales\Model\Quote\Address;
 
+/**
+ * Reward sales quote total model
+ *
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
 class Reward extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
     /**
@@ -30,6 +26,8 @@ class Reward extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
     protected $_rewardData = null;
 
     /**
+     * Reward factory
+     *
      * @var \Magento\Reward\Model\RewardFactory
      */
     protected $_rewardFactory;

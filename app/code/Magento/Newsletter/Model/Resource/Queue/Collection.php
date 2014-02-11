@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Newsletter\Model\Resource\Queue;
 
 /**
  * Newsletter queue collection.
@@ -16,8 +16,6 @@
  * @package     Magento_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Newsletter\Model\Resource\Queue;
-
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
@@ -66,6 +64,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     /**
      * Initializes collection
      *
+     * @return void
      */
     protected function _construct()
     {

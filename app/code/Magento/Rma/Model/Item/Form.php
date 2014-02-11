@@ -30,6 +30,8 @@ class Form extends \Magento\Eav\Model\Form
     protected $_entityTypeCode = 'rma_item';
 
     /**
+     * Rma item form attribute collection
+     *
      * @var \Magento\Rma\Model\Resource\Item\Form\Attribute\CollectionFactory
      */
     protected $_collectionFactory;
