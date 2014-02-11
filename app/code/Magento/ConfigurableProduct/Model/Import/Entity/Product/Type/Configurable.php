@@ -152,18 +152,18 @@ class Configurable
 
     /**
      * Add attribute parameters to appropriate attribute set.
-     *
-     * @param string $attrParams Name of attribute set.
-     * @param array $attrParams Refined attribute parameters.
+     * @param string $attrSetName
+     * @param array $attrParams
+     * @param mixed $attribute
      * @return \Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType
      */
-    protected function _addAttributeParams($attrSetName, array $attrParams)
+    protected function _addAttributeParams($attrSetName, array $attrParams, $attribute)
     {
         // save super attributes for simplier and quicker search in future
-        if ('select' == $attrParams['type'] && 1 == $attrParams['is_global'] && $attrParams['for_configurable']) {
+        if ('select' == $attrParams['type'] && 1 == $attrParams['is_global'] && $attribute->getIsConfigurable()) {
             $this->_superAttributes[$attrParams['code']] = $attrParams;
         }
-        return parent::_addAttributeParams($attrSetName, $attrParams);
+        return parent::_addAttributeParams($attrSetName, $attrParams, $attribute);
     }
 
     /**

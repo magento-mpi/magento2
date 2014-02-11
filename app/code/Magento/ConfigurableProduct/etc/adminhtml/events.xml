@@ -9,6 +9,6 @@
 -->
 <config>
     <event name="product_attribute_form_build">
-        <observer name="configurable" instance="Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Advanced\Observer" method="observe" />
+        <observer name="configurable" instance="Magento\ConfigurableProduct\Block\Adminhtml\Product\Attribute\Edit\Tab\Advanced\Observer" method="observe" />
     </event>
 </config>

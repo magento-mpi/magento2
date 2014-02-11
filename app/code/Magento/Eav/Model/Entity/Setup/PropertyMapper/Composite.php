@@ -38,10 +38,11 @@ class Composite implements PropertyMapperInterface
      * Map input attribute properties to storage representation
      *
      * @param array $input
+     * @param int $entityTypeId
      * @return array
      * @throws \InvalidArgumentException
      */
-    public function map(array $input)
+    public function map(array $input, $entityTypeId)
     {
         $data = array();
         foreach ($this->propertyMappers as $class) {
@@ -51,7 +52,7 @@ class Composite implements PropertyMapperInterface
                         . ' implement \Magento\Eav\Model\Entity\Setup\PropertyMapperInterface'
                 );
             }
-            $data = array_replace($data, $this->objectManager->get($class)->map($input));
+            $data = array_replace($data, $this->objectManager->get($class)->map($input, $entityTypeId));
         }
         return $data;
     }

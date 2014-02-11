@@ -17,9 +17,10 @@ class PropertyMapper extends PropertyMapperAbstract
      * Map input attribute properties to storage representation
      *
      * @param array $input
+     * @param int $entityTypeId
      * @return array
      */
-    public function map(array $input)
+    public function map(array $input, $entityTypeId)
     {
         return array(
             'is_visible'                => $this->_getValue($input, 'visible', 1),

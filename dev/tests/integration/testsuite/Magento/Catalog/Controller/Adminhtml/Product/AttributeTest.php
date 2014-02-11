@@ -117,7 +117,6 @@ class AttributeTest extends \Magento\Backend\Utility\Controller
             'default_value_textarea' => '0',
             'is_required' => '1',
             'frontend_class' => '',
-            'is_configurable' => '0',
             'is_searchable' => '0',
             'is_visible_in_advanced_search' => '0',
             'is_comparable' => '0',

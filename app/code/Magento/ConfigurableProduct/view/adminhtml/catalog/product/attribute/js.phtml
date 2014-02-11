@@ -1,0 +1,34 @@
+<?php
+/**
+ *
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<script type="text/javascript">
+function checkIsConfigurableVisibility()
+{
+    if (!$('is_configurable') || !$('is_global') || !$('frontend_input')) return;
+    if ($F('is_global')==1 && $F('frontend_input')=='select') {
+        setRowVisibility('is_configurable', true);
+    } else {
+        setRowVisibility('is_configurable', false);
+    }
+}
+
+switchDefaultValueField.wrap(function(original) {
+    original();
+    checkIsConfigurableVisibility();
+});
+
+showDefaultRows.wrap(function(original) {
+    original();
+    setRowVisibility('is_configurable', true);
+});
+
+if($('frontend_input')){
+    Event.observe($('is_global'), 'change', checkIsConfigurableVisibility);
+}
+</script>

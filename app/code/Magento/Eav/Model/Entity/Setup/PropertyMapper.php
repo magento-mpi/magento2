@@ -17,11 +17,12 @@ class PropertyMapper extends PropertyMapperAbstract
      * Map input attribute properties to storage representation
      *
      * @param array $input
+     * @param int $entityTypeId
      * @return array
      */
-    public function map(array $input)
+    public function map(array $input, $entityTypeId)
     {
-        array(
+        return array(
             'backend_model'   => $this->_getValue($input, 'backend'),
             'backend_type'    => $this->_getValue($input, 'type', 'varchar'),
             'backend_table'   => $this->_getValue($input, 'table'),

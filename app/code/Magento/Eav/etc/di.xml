@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <preference for="Magento\Eav\Model\Entity\Setup\PropertyMapperInterface" name="Magento\Eav\Model\Entity\Setup\PropertyMapper\Composite" />
+    <preference for="Magento\Eav\Model\Entity\Setup\PropertyMapperInterface" type="Magento\Eav\Model\Entity\Setup\PropertyMapper\Composite" />
     <type name="Magento\Eav\Model\Resource\Helper">
         <param name="modulePrefix">
             <value>eav</value>

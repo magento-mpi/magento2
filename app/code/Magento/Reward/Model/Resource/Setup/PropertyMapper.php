@@ -34,7 +34,7 @@ class PropertyMapper extends PropertyMapperAbstract
      * @param null $entityTypeId
      * @return array
      */
-    public function map(array $input, $entityTypeId = null)
+    public function map(array $input, $entityTypeId)
     {
         if ($entityTypeId == $this->entityTypeId) {
             return array(

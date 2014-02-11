@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Advanced;
+namespace Magento\ConfigurableProduct\Block\Adminhtml\Product\Attribute\Edit\Tab\Advanced;
 
 use Magento\Backend\Model\Config\Source;
 
