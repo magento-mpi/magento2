@@ -35,11 +35,6 @@ class Success extends \Magento\View\Element\Template
     protected $_orderFactory;
 
     /**
-     * @var \Magento\Event\ManagerInterface
-     */
-    protected $_eventManager;
-
-    /**
      * @var \Magento\Sales\Model\Resource\Recurring\Profile\CollectionFactory
      */
     protected $_recurringProfileCollectionFactory;
@@ -54,7 +49,6 @@ class Success extends \Magento\View\Element\Template
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
-     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Sales\Model\Resource\Recurring\Profile\CollectionFactory $recurringProfileCollectionFactory
      * @param \Magento\Sales\Model\Order\Config $orderConfig
      * @param array $data
@@ -64,7 +58,6 @@ class Success extends \Magento\View\Element\Template
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Sales\Model\OrderFactory $orderFactory,
-        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Sales\Model\Resource\Recurring\Profile\CollectionFactory $recurringProfileCollectionFactory,
         \Magento\Sales\Model\Order\Config $orderConfig,
         array $data = array()
@@ -73,7 +66,6 @@ class Success extends \Magento\View\Element\Template
         $this->_checkoutSession = $checkoutSession;
         $this->_customerSession = $customerSession;
         $this->_orderFactory = $orderFactory;
-        $this->_eventManager = $eventManager;
         $this->_recurringProfileCollectionFactory = $recurringProfileCollectionFactory;
         $this->_orderConfig = $orderConfig;
         $this->_isScopePrivate = true;
@@ -101,11 +93,20 @@ class Success extends \Magento\View\Element\Template
     }
 
     /**
+     * Render additional order information lines and return result html
+     *
+     * @return string
+     */
+    public function getAdditionalInfoHtml()
+    {
+        return $this->_layout->renderElement('order.success.additional.info');
+    }
+
+    /**
      * Initialize data and prepare it for output
      */
     protected function _beforeToHtml()
     {
-        $this->_eventManager->dispatch('checkout_onepage_success_before_to_html', array('block' => $this));
         $this->_prepareLastOrder();
         $this->_prepareLastRecurringProfiles();
         return parent::_beforeToHtml();
