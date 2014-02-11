@@ -51,4 +51,23 @@ class StringTest extends \PHPUnit_Framework_TestCase
             'translation not required' => array(array('value' => 'some value', 'translate' => false), 'some value'),
         );
     }
+
+    /**
+     * @param array $input
+     *
+     * @dataProvider evaluateExceptionDataProvider
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage String value is expected
+     */
+    public function testEvaluateException($input)
+    {
+        $this->_model->evaluate($input);
+    }
+
+    public function evaluateExceptionDataProvider()
+    {
+        return array(
+            'not a string' => array(array('value' => 123)),
+        );
+    }
 }

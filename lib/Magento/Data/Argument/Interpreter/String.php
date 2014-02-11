@@ -18,11 +18,15 @@ class String implements InterpreterInterface
     /**
      * {@inheritdoc}
      * @return string
+     * @throws \InvalidArgumentException
      */
     public function evaluate(array $data)
     {
         if (isset($data['value'])) {
             $result = $data['value'];
+            if (!is_string($result)) {
+                throw new \InvalidArgumentException('String value is expected.');
+            }
             $needTranslation = !empty($data['translate']);
             if ($needTranslation) {
                 $result = __($result);
