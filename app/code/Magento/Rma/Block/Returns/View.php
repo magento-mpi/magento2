@@ -67,7 +67,7 @@ class View extends \Magento\Rma\Block\Form
     /**
      * Eav model form factory
      *
-     * @var \Magento\Eav\Model\Form\Factory
+     * @var \Magento\Rma\Model\Item\FormFactory
      */
     protected $_itemFormFactory;
 
@@ -125,7 +125,6 @@ class View extends \Magento\Rma\Block\Form
         $this->_customerSession = $customerSession;
         $this->_eavConfig = $eavConfig;
         parent::__construct($context, $modelFactory, $formFactory, $eavConfig, $data);
-        $this->_isScopePrivate = true;
     }
 
     /**

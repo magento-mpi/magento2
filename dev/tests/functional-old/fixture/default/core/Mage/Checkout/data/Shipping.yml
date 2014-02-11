@@ -26,7 +26,7 @@ shipping_upsxml:
 
 shipping_usps:
     shipping_service: United States Postal Service
-    shipping_method: Express Mail Hold For Pickup
+    shipping_method: Standard Post
 
 shipping_fedex:
     shipping_service: Federal Express

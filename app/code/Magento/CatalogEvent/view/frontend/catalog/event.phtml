@@ -34,7 +34,7 @@
         <?php break;
             case 'open': ?>
             <ul class="ticker" id="event-ticker-<?php echo $_event->getId() ?>"
-                data-mage-init="{ticker: {secondsToClose: <?php echo $this->getSecondsToClose($_event); ?>}}">
+                data-mage-init='{"ticker":{"secondsToClose": <?php echo $this->getSecondsToClose($_event); ?>}}'>
                 <li class="days">
                     <span data-container="days" class="value">&nbsp;</span>
                     <span class="label"><?php echo __('Days') ?></span>

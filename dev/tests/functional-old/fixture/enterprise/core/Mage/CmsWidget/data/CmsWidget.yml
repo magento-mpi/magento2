@@ -136,7 +136,6 @@ banner_rotator_widget:
         active_banner_filter: Yes
         banner_name: %noValue%
 
-
 #<---------------------Required Fields With Layout Updates--------------------->
 #<------------------------- Banner Rotator ---------------------------------->
 banner_rotator_widget_req:

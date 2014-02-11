@@ -75,7 +75,7 @@ class Enterprise_Mage_PageCache_BreadcrumbsTest extends Mage_Selenium_TestCase
      */
     public function testBreadcrumb(array $category)
     {
-        $this->goToArea('frontend');
+        $this->frontend();
 
         // magento will generate category page content first end put page content with placeholders for blocks to FPC
         // on the second refresh placeholders will be replaced with block html using applyInApp() method

@@ -17,8 +17,8 @@ use Magento\Core\Model\AbstractModel;
  */
 class Cron extends \Magento\Core\Model\Config\Value
 {
-    const CRON_STRING_PATH  = 'crontab/jobs/send_notification/schedule/cron_expr';
-    const CRON_MODEL_PATH   = 'crontab/jobs/send_notification/run/model';
+    const CRON_STRING_PATH  = 'crontab/default/jobs/send_notification/schedule/cron_expr';
+    const CRON_MODEL_PATH   = 'crontab/default/jobs/send_notification/run/model';
 
     /**
      * Configuration Value Factory

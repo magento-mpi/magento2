@@ -51,7 +51,7 @@ class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Test
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->frontend('customer_login');
+        $this->frontend();
         $this->customerHelper()->registerCustomer($userData);
         $this->assertMessagePresent('success', 'success_registration');
 
@@ -78,10 +78,10 @@ class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Test
         //Steps:
         $this->navigate('order_by_sku');
         $this->addBySkuHelper()->frontFulfillSkuQtyRows(array($data['simple'], $data['simple']));
-        $this->saveForm('add_to_cart');
+        $this->saveForm('add_to_cart_by_sku');
         //Verifying
-        $this->addParameter('number', '2');
-        $this->assertMessagePresent('success', 'products_added_to_cart_by_sku');
+        $this->addParameter('productName', '2 products');
+        $this->assertMessagePresent('success', 'product_added_to_cart');
     }
 
     /**
@@ -100,9 +100,10 @@ class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Test
         //Steps:
         $this->navigate('order_by_sku');
         $this->addBySkuHelper()->frontFulfillSkuQtyRows(array($data['simple'], $data['nonExistent']));
-        $this->saveForm('add_to_cart');
+        $this->saveForm('add_to_cart_by_sku');
         //Verifying
-        $this->assertMessagePresent('success', 'product_added_to_cart_by_sku');
+        $this->addParameter('productName', '1 product');
+        $this->assertMessagePresent('success', 'product_added_to_cart');
         $this->assertMessagePresent('error', 'required_attention_product');
     }
 
@@ -117,16 +118,15 @@ class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Test
      */
     public function removeAllProductFromAttentionGrid($data)
     {
-        $this->markTestIncomplete('BUG: remove_all button does not work');
         //Preconditions:
         $this->customerHelper()->frontLoginCustomer($data['customer']);
         //Steps:
         $this->navigate('order_by_sku');
         $this->addBySkuHelper()->frontFulfillSkuQtyRows(array($data['nonExistent']));
-        $this->saveForm('add_to_cart');
-        $this->assertTrue($this->controlIsVisible('pageelement', 'requiring_attention_title'));
+        $this->saveForm('add_to_cart_by_sku');
+        $this->assertTrue($this->controlIsVisible('fieldset', 'products_requiring_attention'));
         $this->assertMessagePresent('error', 'required_attention_product');
-        $this->assertMessagePresent('validation', 'sku_not_found');
+        $this->assertMessagePresent('error', 'sku_not_found');
         $this->clickButton('remove_all');
         //Verifying
         $this->assertMessagePresent('success', 'items_removed');
@@ -155,7 +155,7 @@ class Enterprise_Mage_AddBySku_FrontendOrderBySkuTest extends Mage_Selenium_Test
             array('sku' => $data['nonExistent']['sku'] . '-3', 'qty' => $data['nonExistent']['qty']),
             array('sku' => $data['nonExistent']['sku'] . '-4', 'qty' => $data['nonExistent']['qty']),
         ));
-        $this->clickButton('add_to_cart');
+        $this->clickButton('add_to_cart_by_sku');
         $this->addBySkuHelper()->frontDeleteItems(array('4', '3', '2', '1'));
         //Verifying
         $this->assertFalse($this->controlIsPresent('fieldset', 'products_requiring_attention'),

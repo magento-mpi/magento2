@@ -43,7 +43,7 @@ class Design extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('Store Design'));
         $this->_view->loadLayout();
-        $this->_setActiveMenu('Magento_Adminhtml::system_design_schedule');
+        $this->_setActiveMenu('Magento_Backend::system_design_schedule');
         $this->_view->renderLayout();
     }
 
@@ -63,7 +63,7 @@ class Design extends \Magento\Backend\App\Action
         $this->_title->add(__('Store Design'));
 
         $this->_view->loadLayout();
-        $this->_setActiveMenu('Magento_Adminhtml::system_design_schedule');
+        $this->_setActiveMenu('Magento_Backend::system_design_schedule');
         $this->_view->getLayout()->getBlock('head')->setCanLoadExtJs(true);
 
         $id  = (int)$this->getRequest()->getParam('id');

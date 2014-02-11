@@ -205,7 +205,7 @@ class DefaultType extends \Magento\Object
 
         $option = $this->getOption();
         if (!isset($values[$option->getId()]) && $option->getIsRequire() && !$this->getSkipCheckRequiredOption()) {
-            throw new \Magento\Core\Exception(__('Please specify the product required option(s).'));
+            throw new \Magento\Core\Exception(__('Please specify the product\'s required option(s).'));
         } elseif (isset($values[$option->getId()])) {
             $this->setUserValue($values[$option->getId()]);
             $this->setIsValid(true);

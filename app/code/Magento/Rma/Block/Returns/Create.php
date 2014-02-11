@@ -69,7 +69,6 @@ class Create extends \Magento\Rma\Block\Form
         $this->_itemFactory = $itemFactory;
         $this->_itemFormFactory = $itemFormFactory;
         parent::__construct($context, $modelFactory, $formFactory, $eavConfig, $data);
-        $this->_isScopePrivate = true;
     }
 
     /**

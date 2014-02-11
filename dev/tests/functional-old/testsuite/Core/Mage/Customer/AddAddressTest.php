@@ -18,8 +18,6 @@
  */
 class Core_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
 {
-    protected static $_clientTitleParam = '';
-
     /**
      * <p>Preconditions:</p>
      * <p>Navigate to System -> Manage Customers</p>
@@ -28,7 +26,6 @@ class Core_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
     {
         $this->loginAdminUser();
         $this->navigate('manage_customers');
-        $this->addParameter('elementTitle', self::$_clientTitleParam);
     }
 
     /**
@@ -41,7 +38,6 @@ class Core_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
         //Data
         $userData = $this->loadDataSet('Customers', 'generic_customer_account');
         $searchData = $this->loadDataSet('Customers', 'search_customer', array('email' => $userData['email']));
-        self::$_clientTitleParam = $userData['first_name'] . ' ' . $userData['last_name'];
         //Steps
         $this->customerHelper()->createCustomer($userData);
         //Verifying
@@ -207,9 +203,6 @@ class Core_Mage_Customer_AddAddressTest extends Mage_Selenium_TestCase
      */
     public function withLongValuesExceptCountry(array $searchData)
     {
-        if ($this->getBrowser() == 'chrome') {
-            $this->markTestIncomplete('MAGETWO-11620');
-        }
         //Data
         $addressData = $this->loadDataSet('Customers', 'long_values_address');
         //Steps

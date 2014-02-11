@@ -43,8 +43,9 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_AbstractHelper
             }
             $waitConditions = $this->getBasicXpathMessagesExcludeCurrent(array('success', 'error', 'validation'));
             if ($possibleLogOut) {
-                $waitConditions[] = $this->_getControlXpath('field', 'user_name',
-                    $this->getUimapPage('admin', 'log_in_to_admin'));
+                $waitConditions[] = $this->_getControlXpath(
+                    'field', 'user_name', $this->getUimapPage('admin', 'log_in_to_admin')
+                );
             }
             $this->clickButton('save_config', false);
             $this->waitForElementVisible($waitConditions);
@@ -59,7 +60,6 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_AbstractHelper
             } else {
                 $this->assertMessagePresent('success', 'success_saved_config');
             }
-            $this->verifyConfigurationOptions($value['configuration'], $value['tab_name']);
         }
     }
 
@@ -76,7 +76,6 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_AbstractHelper
             $fieldsetLink = $this->getControlElement('link', $fieldsetName . '_link');
             $this->focusOnElement($fieldsetLink);
             $fieldsetLink->click();
-            $this->clearActiveFocus();
             if (!$formLocator->displayed()) {
                 $this->fail('Could not expand System Configuration section');
             }
@@ -96,7 +95,7 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_AbstractHelper
         $messages = $this->getParsedMessages('verification');
         if ($messages) {
             $this->clearMessages('verification');
-            $skipError = preg_quote("' != '**");
+            $skipError = preg_quote('" != "******")');
             foreach ($messages as $errorMessage) {
                 if (!preg_match('#' . $skipError . '#i', $errorMessage)) {
                     $this->addVerificationMessage($errorMessage);
@@ -210,6 +209,13 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_AbstractHelper
         }
         $this->saveForm('save_config');
         $this->assertMessagePresent('success', 'success_saved_config');
+    }
+
+    /**
+     * @param array $configuration
+     */
+    public function verifyPaypalSettings(array $configuration)
+    {
         foreach ($configuration as $payment) {
             $this->disclosePaypalFieldset($payment['general_fieldset']);
             if ($this->controlIsVisible('button', $payment['payment_name'] . '_configure')) {
@@ -225,7 +231,7 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_AbstractHelper
         $messages = $this->getParsedMessages('verification');
         if ($messages) {
             $this->clearMessages('verification');
-            $skipError = preg_quote("' != '**");
+            $skipError = preg_quote('" != "******")');
             foreach ($messages as $errorMessage) {
                 if (!preg_match('#' . $skipError . '#i', $errorMessage)) {
                     $this->addVerificationMessage($errorMessage);
@@ -236,34 +242,55 @@ class Core_Mage_SystemConfiguration_Helper extends Mage_Selenium_AbstractHelper
     }
 
     /**
-     * @param string $tabName
+     * Verify Tab Fields Availability
      */
-    public function verifyTabFieldsAvailability($tabName)
+    public function verifyTabFieldsAvailability()
     {
-        $needFieldTypes = array('multiselect', 'dropdown', 'field');
-        $tabUimap = $this->_findUimapElement('tab', $tabName);
-        $this->systemConfigurationHelper()->openConfigurationTab($tabName);
-        $uimapFields = $tabUimap->getTabElements($this->getParamsHelper());
-        $storeView = $this->_getControlXpath('pageelement', 'store_view_hint');
-        $globalView = $this->_getControlXpath('pageelement', 'global_view_hint');
-        $websiteView = $this->_getControlXpath('pageelement', 'website_view_hint');
-        foreach ($uimapFields as $fieldType => $fieldTypeData) {
-            if (!in_array($fieldType, $needFieldTypes)) {
+        $openedTabs = 0;
+        $tabsCount = $this->getControlCount('tab', 'all_tabs') - 1;
+        /** @var $tabUimap Mage_Selenium_Uimap_Tab */
+        foreach ($this->getCurrentUimapPage()->getMainForm()->getAllTabs() as $tabName => $tabUimap) {
+            if ($tabName == 'all_tabs' || $tabName == 'sales_payment_methods') {
                 continue;
             }
-            foreach ($fieldTypeData as $fieldName => $fieldLocator) {
-                if (!$this->elementIsPresent($fieldLocator)) {
-                    $this->addVerificationMessage("Element $fieldName with locator $fieldLocator is not on the page");
-                    continue;
+            $this->openConfigurationTab($tabName);
+            $openedTabs++;
+            $openedFieldsets = 0;
+            $fieldsetCount = $this->getControlCount('fieldset', 'all_fieldsets');
+            /** @var $fieldsetUimap Mage_Selenium_Uimap_Fieldset */
+            foreach ($tabUimap->getAllFieldsets() as $fieldsetName => $fieldsetUimap) {
+                $this->expandFieldSet($fieldsetName);
+                foreach ($fieldsetUimap->getFieldsetElements() as $fieldType => $fieldsData) {
+                    foreach ($fieldsData as $fieldName => $fieldLocator) {
+                        if (in_array($fieldName, array('store_state_region', 'origin_region'))
+                            || preg_match('/%\w+%/', $fieldLocator)
+                        ) {
+                            continue;
+                        }
+                        if (!$this->elementIsPresent($fieldLocator)) {
+                            $this->addVerificationMessage(
+                                sprintf('%s tab: "%s" %s is not visible on the page', $tabName, $fieldName, $fieldType)
+                            );
+                        }
+                    }
                 }
-                if (!$this->elementIsPresent($fieldLocator . $globalView)
-                    && !$this->elementIsPresent($fieldLocator . $websiteView)
-                    && !$this->elementIsPresent($fieldLocator . $storeView)
-                ) {
-                    $this->addVerificationMessage('Scope label for element "' . $fieldName . '" with locator "'
-                    . $fieldLocator . '" is not on the page');
-                }
+                $openedFieldsets++;
             }
+            if ($fieldsetCount != $openedFieldsets) {
+                $this->addVerificationMessage(
+                    sprintf(
+                        'There are more fieldsets on "%s" tab then defined(%s != %s)',
+                        $tabName,
+                        $fieldsetCount,
+                        $openedFieldsets
+                    )
+                );
+            }
+        }
+        if ($tabsCount != $openedTabs) {
+            $this->addVerificationMessage(
+                sprintf('There are more tabs then defined(%s != %s)', $openedTabs, $tabsCount)
+            );
         }
         $this->assertEmptyVerificationErrors();
     }

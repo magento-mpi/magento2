@@ -461,6 +461,24 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
     }
 
     /**
+     * Update newsletter subscription for given customer
+     *
+     * @param int $customerId
+     * @param boolean $subscribe
+     *
+     * @return  \Magento\Newsletter\Model\Subscriber
+     */
+    public function updateSubscription($customerId, $subscribe)
+    {
+        /** @var \Magento\Customer\Model\Customer $customerModel */
+        $customerModel = $this->_customerFactory->create()->load($customerId);
+        $customerModel->setIsSubscribed($subscribe);
+        $this->subscribeCustomer($customerModel);
+
+        return $this;
+    }
+
+    /**
      * Saving customer subscription status
      *
      * @param   \Magento\Customer\Model\Customer $customer

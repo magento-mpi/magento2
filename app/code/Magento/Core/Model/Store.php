@@ -398,7 +398,7 @@ class Store extends AbstractModel
      */
     protected function _getValidationRulesBeforeSave()
     {
-        $validator = new \Magento\Validator\Composite\VarienObject();
+        $validator = new \Magento\Validator\Object();
 
         $storeLabelRule = new \Zend_Validate_NotEmpty();
         $storeLabelRule->setMessage(

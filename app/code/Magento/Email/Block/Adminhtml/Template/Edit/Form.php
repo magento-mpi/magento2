@@ -81,7 +81,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                 'magento-adminhtml-variables-js',
                 'Magento\Theme\Block\Html\Head\Script',
                 array(
-                    'file' => 'Magento_Adminhtml::variables.js'
+                    'file' => 'Magento_Backend::variables.js'
                 )
             );
         }
