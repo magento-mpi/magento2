@@ -210,14 +210,13 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
         );
         $someMethod = array('method' => 'getMessages');
         $methodWithArgs = array('method' => 'setMax', 'arguments' => array(100));
-        $constructorArgs = array('arguments' => array(array('max' => '50')));
         $callbackConfig = array('callback' => $callback);
 
         $configuredConstraint = array(
             'alias' => 'current_alias',
-            'class' => 'Magento\Validator\Test\NotEmpty',
+            'class' => 'Some\Validator\Class',
             'options' => array(
-                'arguments' => array(array('min' => 1)),
+                'arguments' => array('some_argument' => 'some_value'),
                 'callback' => array($callback),
                 'methods' => array($someMethod)
             ),
@@ -226,15 +225,15 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
         );
         $emptyConstraint = array(
             'alias' => 'current_alias',
-            'class' => 'Magento\Validator\Test\NotEmpty',
+            'class' => 'Some\Validator\Class',
             'options' => null,
             'property' => 'int',
             'type' => 'property'
         );
         $constraintWithArgs = array(
             'alias' => 'current_alias',
-            'class' => 'Magento\Validator\Test\NotEmpty',
-            'options' => array('arguments' => array(array('min' => 1))),
+            'class' => 'Some\Validator\Class',
+            'options' => array('arguments' => array('options' => array('min' => 1))),
             'property' => 'int',
             'type' => 'property'
         );
@@ -249,8 +248,25 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
                 $callbackConfig, array($this->_getExpectedConstraints($emptyConstraint, 'callback', array($callback)))),
 
             'constraint options initialized with arguments' => array(
-                array($emptyConstraint), 'current_alias', $constructorArgs,
-                array($this->_getExpectedConstraints($emptyConstraint, 'arguments', array(array('max' => '50'))))
+                array($emptyConstraint),
+                'current_alias',
+                array('arguments' => array('some_argument' => 'some_value')),
+                array(
+                    $this->_getExpectedConstraints($emptyConstraint, 'arguments',
+                        array('some_argument' => 'some_value')
+                    ),
+                ),
+            ),
+
+            'constraint options arguments overwritten by newer arguments' => array(
+                array($configuredConstraint),
+                'current_alias',
+                array('arguments' => array('some_argument' => 'some_value')),
+                array(
+                    $this->_getExpectedConstraints($configuredConstraint, 'arguments',
+                        array('some_argument' => 'some_value')
+                    ),
+                ),
             ),
 
             'methods initialized' => array(
@@ -312,7 +328,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
         }
         $constraints = array(array(
             'alias' => 'alias',
-            'class' => 'Magento\Validator\Test\True',
+            'class' => 'Some\Validator\Class',
             'options' => $options,
             'type' => 'entity'
         ));
@@ -337,7 +353,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
 
         $constraints = array(array(
             'alias' => 'alias',
-            'class' => 'Magento\Validator\Test\True',
+            'class' => 'Some\Validator\Class',
             'options' => null,
             'type' => 'entity'
         ));
@@ -429,7 +445,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     {
         $constraints = array(array(
             'alias' => 'alias',
-            'class' => 'Magento\Validator\Test\True',
+            'class' => 'Some\Validator\Class',
             'options' => null,
             'type' => 'entity'
         ));

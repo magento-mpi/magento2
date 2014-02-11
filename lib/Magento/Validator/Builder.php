@@ -333,8 +333,7 @@ class Builder
         foreach ($arguments as &$argument) {
             if (is_array($argument)) {
                 $argument = $this->_applyArgumentsCallback($argument);
-            }
-            if ($argument instanceof OptionInterface) {
+            } else if ($argument instanceof OptionInterface) {
                 $argument = $argument->getValue();
             }
         }
