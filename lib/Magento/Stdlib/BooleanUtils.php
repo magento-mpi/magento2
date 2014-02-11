@@ -42,7 +42,7 @@ class BooleanUtils
     /**
      * Retrieve boolean value for an expression
      *
-     * @param bool|string $value Boolean or boolean string
+     * @param mixed $value Boolean expression
      * @return bool
      * @throws \InvalidArgumentException
      */
