@@ -8,6 +8,7 @@
 
 namespace Magento\Test\Tools\Dependency\Report\Writer;
 
+use Magento\File\Csv;
 use Magento\Tools\Dependency\Config;
 use Magento\Tools\Dependency\Dependency;
 use Magento\Tools\Dependency\Module;
@@ -35,7 +36,7 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
         $this->fixtureDir = realpath(__DIR__ . '/../../../_files') . '/';
         $this->sourceFilename = $this->fixtureDir . 'modules-dependencies.csv';
 
-        $this->writer = new ReportModuleWriter();
+        $this->writer = new ReportModuleWriter((new Csv())->setDelimiter(';'));
     }
 
     public function testWrite()
@@ -51,7 +52,7 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
                 new Dependency('Module2'),
             ]),
         ]);
-        $this->writer->write($config, $this->sourceFilename);
+        $this->writer->write($this->sourceFilename, $config);
 
         $this->assertFileEquals(
             $this->fixtureDir . 'expected/modules-dependencies.csv',
@@ -65,7 +66,7 @@ class ModuleTest extends \PHPUnit_Framework_TestCase
             new Module('Module1', []),
             new Module('Module2', []),
         ]);
-        $this->writer->write($config, $this->sourceFilename);
+        $this->writer->write($this->sourceFilename, $config);
 
         $this->assertFileEquals(
             $this->fixtureDir . 'expected/modules-without-dependencies.csv',

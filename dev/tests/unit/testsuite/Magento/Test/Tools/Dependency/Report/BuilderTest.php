@@ -86,11 +86,11 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     public function testBuild()
     {
         $options = ['configFiles' => [1, 2, 3], 'filename' => 'some_filename'];
-        $parseResult = $this->getMock('Magento\Tools\Dependency\Config', [], [], '', false);
+        $configMock = $this->getMock('Magento\Tools\Dependency\Config', [], [], '', false);
 
         $this->dependenciesParserMock->expects($this->once())->method('parse')->with($options['configFiles'])
-            ->will($this->returnValue($parseResult));
-        $this->reportWriterMock->expects($this->once())->method('write')->with($parseResult, $options['filename']);
+            ->will($this->returnValue($configMock));
+        $this->reportWriterMock->expects($this->once())->method('write')->with($options['filename'], $configMock);
 
         $this->builder->build($options);
     }

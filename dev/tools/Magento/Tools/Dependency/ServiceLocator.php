@@ -8,6 +8,7 @@
 
 namespace Magento\Tools\Dependency;
 
+use Magento\File\Csv;
 use Magento\Tools\Dependency\Report\Builder;
 use Magento\Tools\Dependency\Parser;
 use Magento\Tools\Dependency\Report\Writer;
@@ -27,7 +28,7 @@ class ServiceLocator
     /**
      * Dictionary generator
      *
-     * @var \Magento\Tools\Dependency\Report\Builder
+     * @var \Magento\Tools\Dependency\Report\BuilderInterface
      */
     private static $modulesDependenciesReportBuilder;
 
@@ -41,7 +42,7 @@ class ServiceLocator
         if (null === self::$modulesDependenciesReportBuilder) {
             self::$modulesDependenciesReportBuilder = new Builder(
                 self::getXmlDependenciesParser(),
-                new Writer\Csv\Module()
+                new Writer\Csv\Module((new Csv())->setDelimiter(';'))
             );
         }
         return self::$modulesDependenciesReportBuilder;

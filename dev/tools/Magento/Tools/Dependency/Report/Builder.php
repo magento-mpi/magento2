@@ -50,7 +50,7 @@ class Builder implements BuilderInterface
 
         $config = $this->dependenciesParser->parse($options['configFiles']);
 
-        $this->reportWriter->write($config, $options['filename']);
+        $this->reportWriter->write($options['filename'], $config);
     }
 
     /**

@@ -17,20 +17,20 @@ use Magento\Tools\Dependency\Report\WriterInterface;
 abstract class AbstractWriter implements WriterInterface
 {
     /**
-     * Csv cell delimiter
+     * Csv write object
      *
-     * @var string
+     * @var \Magento\File\Csv
      */
-    protected $delimiter;
+    protected $writer;
 
     /**
      * Writer constructor
      *
-     * @param string $delimiter
+     * @param \Magento\File\Csv $writer
      */
-    public function __construct($delimiter = ';')
+    public function __construct($writer)
     {
-        $this->delimiter = $delimiter;
+        $this->writer = $writer;
     }
 
     /**
@@ -38,9 +38,9 @@ abstract class AbstractWriter implements WriterInterface
      *
      * {@inheritdoc}
      */
-    public function write(Config $config, $filename)
+    public function write($filename, Config $config)
     {
-        $this->writeToFile($this->prepareData($config), $filename);
+        $this->writeToFile($filename, $this->prepareData($config));
     }
 
     /**
@@ -54,15 +54,11 @@ abstract class AbstractWriter implements WriterInterface
     /**
      * Template method. Write to file step
      *
-     * @param array $data
      * @param string $filename
+     * @param array $data
      */
-    protected function writeToFile($data, $filename)
+    protected function writeToFile($filename, $data)
     {
-        $fp = fopen($filename, 'w');
-        foreach ($data as $row) {
-            fputcsv($fp, $row, $this->delimiter);
-        }
-        fclose($fp);
+        $this->writer->saveData($filename, $data);
     }
 }
