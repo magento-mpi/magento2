@@ -75,7 +75,7 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
 
     /**
      * @param \Magento\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -86,7 +86,7 @@ class Rewrite extends \Magento\Core\Model\AbstractModel
      */
     public function __construct(
         \Magento\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\App $app,
         \Magento\Core\Model\StoreManagerInterface $storeManager,

@@ -19,7 +19,7 @@ class IncludePrice extends \Magento\Core\Model\Config\Value
 
     /**
      * @param \Magento\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\Core\Model\App $app
@@ -29,7 +29,7 @@ class IncludePrice extends \Magento\Core\Model\Config\Value
      */
     public function __construct(
         \Magento\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,
         \Magento\Core\Model\App $app,

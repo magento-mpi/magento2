@@ -38,7 +38,7 @@ class Message extends \Magento\Core\Model\AbstractModel
 
     /**
      * @param \Magento\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\GiftMessage\Model\Resource\Message $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param \Magento\GiftMessage\Model\TypeFactory $typeFactory
@@ -46,7 +46,7 @@ class Message extends \Magento\Core\Model\AbstractModel
      */
     public function __construct(
         \Magento\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\GiftMessage\Model\Resource\Message $resource,
         \Magento\Data\Collection\Db $resourceCollection,
         \Magento\GiftMessage\Model\TypeFactory $typeFactory,

@@ -49,7 +49,7 @@ class Selection extends \Magento\Core\Model\AbstractModel
 
     /**
      * @param \Magento\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Bundle\Model\Resource\Selection $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -57,7 +57,7 @@ class Selection extends \Magento\Core\Model\AbstractModel
      */
     public function __construct(
         \Magento\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Bundle\Model\Resource\Selection $resource,
         \Magento\Data\Collection\Db $resourceCollection = null,

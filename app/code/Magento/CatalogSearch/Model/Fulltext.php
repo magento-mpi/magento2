@@ -30,7 +30,7 @@ use Magento\CatalogSearch\Helper\Data;
 use Magento\CatalogSearch\Model\Query;
 use Magento\Core\Model\AbstractModel;
 use Magento\Model\Context;
-use Magento\Core\Model\Registry;
+use Magento\Registry;
 use Magento\Core\Model\Resource\AbstractResource;
 use Magento\Core\Model\Store\Config;
 use Magento\Data\Collection\Db;

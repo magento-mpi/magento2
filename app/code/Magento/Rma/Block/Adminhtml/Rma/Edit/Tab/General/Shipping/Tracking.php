@@ -18,7 +18,7 @@ class Tracking extends \Magento\Backend\Block\Template
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -44,7 +44,7 @@ class Tracking extends \Magento\Backend\Block\Template
      * @param \Magento\Rma\Model\Resource\Shipping\CollectionFactory $shippingCollectionFactory
      * @param \Magento\Shipping\Model\CarrierFactory $carrierFactory
      * @param \Magento\Rma\Helper\Data $rmaData
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
@@ -52,7 +52,7 @@ class Tracking extends \Magento\Backend\Block\Template
         \Magento\Rma\Model\Resource\Shipping\CollectionFactory $shippingCollectionFactory,
         \Magento\Shipping\Model\CarrierFactory $carrierFactory,
         \Magento\Rma\Helper\Data $rmaData,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_shippingCollectionFactory = $shippingCollectionFactory;

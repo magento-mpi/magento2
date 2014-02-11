@@ -66,21 +66,21 @@ class Ordered
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Data\CollectionFactory $collectionFactory
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\CatalogInventory\Model\Stock\Status $stockStatus
      * @param \Magento\Sales\Model\Resource\Order\CollectionFactory $ordersFactory
      * @param \Magento\Sales\Model\Config $salesConfig
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param array $data
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Data\CollectionFactory $collectionFactory,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\CatalogInventory\Model\Stock\Status $stockStatus,
         \Magento\Sales\Model\Resource\Order\CollectionFactory $ordersFactory,

@@ -29,14 +29,14 @@ class State extends \Magento\Core\Model\AbstractModel implements \Magento\Mview\
 
     /**
      * @param \Magento\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\Resource\Mview\View\State $resource
      * @param \Magento\Core\Model\Resource\Mview\View\State\Collection $resourceCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Core\Model\Resource\Mview\View\State $resource,
         \Magento\Core\Model\Resource\Mview\View\State\Collection $resourceCollection,
         array $data = array()

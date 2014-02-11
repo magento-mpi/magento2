@@ -22,7 +22,7 @@
             <instance type="Magento\CustomerSegment\Helper\Data" />
         </param>
         <param name="coreRegistry">
-            <instance type="Magento\Core\Model\Registry" />
+            <instance type="Magento\Registry" />
         </param>
     </type>
     <type name="Magento\CustomerSegment\Helper\Data">

@@ -124,7 +124,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
      * Construct
      *
      * @param \Magento\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Newsletter\Helper\Data $newsletterData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Email\Model\TemplateFactory $emailTemplateFactory
@@ -138,7 +138,7 @@ class Subscriber extends \Magento\Core\Model\AbstractModel
      */
     public function __construct(
         \Magento\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Newsletter\Helper\Data $newsletterData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Email\Model\TemplateFactory $emailTemplateFactory,

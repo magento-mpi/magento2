@@ -128,7 +128,7 @@ class Node extends \Magento\Core\Model\AbstractModel
 
     /**
      * @param \Magento\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy
      * @param \Magento\VersionsCms\Model\Hierarchy\ConfigInterface $hierarchyConfig
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
@@ -141,7 +141,7 @@ class Node extends \Magento\Core\Model\AbstractModel
      */
     public function __construct(
         \Magento\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy,
         \Magento\VersionsCms\Model\Hierarchy\ConfigInterface $hierarchyConfig,
         \Magento\Core\Model\Store\Config $coreStoreConfig,

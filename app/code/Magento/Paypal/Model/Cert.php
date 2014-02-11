@@ -34,7 +34,7 @@ class Cert extends \Magento\Core\Model\AbstractModel
 
     /**
      * @param \Magento\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -43,7 +43,7 @@ class Cert extends \Magento\Core\Model\AbstractModel
      */
     public function __construct(
         \Magento\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\App\Filesystem $filesystem,
         \Magento\Encryption\EncryptorInterface $encryptor,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,

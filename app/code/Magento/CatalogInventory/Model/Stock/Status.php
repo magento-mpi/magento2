@@ -76,7 +76,7 @@ class Status extends \Magento\Core\Model\AbstractModel
 
     /**
      * @param \Magento\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param Type $productType
      * @param \Magento\Catalog\Model\Product\Status $productStatus
      * @param \Magento\Catalog\Model\Product\Website $productWebsite
@@ -89,7 +89,7 @@ class Status extends \Magento\Core\Model\AbstractModel
      */
     public function __construct(
         \Magento\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         Type $productType,
         \Magento\Catalog\Model\Product\Status $productStatus,
         \Magento\Catalog\Model\Product\Website $productWebsite,

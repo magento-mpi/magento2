@@ -34,10 +34,10 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
-    
+
     /**
      * Customer segment data
      *
@@ -97,7 +97,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
      * @param \Magento\Customer\Model\Session $session
      * @param \Magento\CustomerSegment\Helper\Data $customerSegmentData
      * @param \Magento\TargetRule\Helper\Data $targetRuleData
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      */
     public function __construct(
         \Magento\App\Resource $resource,
@@ -111,7 +111,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
         \Magento\Customer\Model\Session $session,
         \Magento\CustomerSegment\Helper\Data $customerSegmentData,
         \Magento\TargetRule\Helper\Data $targetRuleData,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Registry $coreRegistry
     ) {
         $this->_indexPool = $indexPool;
         $this->_rule = $rule;

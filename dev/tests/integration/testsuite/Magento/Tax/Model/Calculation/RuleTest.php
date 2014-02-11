@@ -129,12 +129,12 @@ class RuleTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \Magento\Core\Model\Registry
+     * @return \Magento\Registry
      */
     protected function _getRegistryClassMock()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        return $objectManager->get('Magento\Core\Model\Registry');
+        return $objectManager->get('Magento\Registry');
     }
 
     /**
@@ -165,7 +165,7 @@ class RuleTest extends \PHPUnit_Framework_TestCase
             array('getCollection'),
             array(
                 $this->_objectManager->create('Magento\Model\Context'),
-                $this->_objectManager->get('Magento\Core\Model\Registry'),
+                $this->_objectManager->get('Magento\Registry'),
                 $this->_objectManager->get('Magento\Tax\Model\TaxClass\Factory'),
             ),
             '',

@@ -39,7 +39,7 @@ class View extends \Magento\Rma\Block\Form
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -85,7 +85,7 @@ class View extends \Magento\Rma\Block\Form
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Rma\Helper\Data $rmaData
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param array $data
      */
     public function __construct(
@@ -100,7 +100,7 @@ class View extends \Magento\Rma\Block\Form
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Helper\Data $customerData,
         \Magento\Rma\Helper\Data $rmaData,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         array $data = array()
     ) {
         $this->_customerData = $customerData;

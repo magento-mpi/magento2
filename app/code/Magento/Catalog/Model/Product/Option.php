@@ -82,7 +82,7 @@ class Option extends \Magento\Core\Model\AbstractModel
 
     /**
      * @param \Magento\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Catalog\Model\Product\Option\Value $productOptionValue
      * @param \Magento\Catalog\Model\Product\Option\Type\Factory $optionFactory
      * @param \Magento\Stdlib\String $string
@@ -92,7 +92,7 @@ class Option extends \Magento\Core\Model\AbstractModel
      */
     public function __construct(
         \Magento\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Catalog\Model\Product\Option\Value $productOptionValue,
         \Magento\Catalog\Model\Product\Option\Type\Factory $optionFactory,
         \Magento\Stdlib\String $string,

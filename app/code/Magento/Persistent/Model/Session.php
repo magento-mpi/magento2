@@ -86,7 +86,7 @@ class Session extends \Magento\Core\Model\AbstractModel
      * Construct
      *
      * @param \Magento\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\App\ConfigInterface $coreConfig
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Persistent\Helper\Data $persistentData
@@ -100,7 +100,7 @@ class Session extends \Magento\Core\Model\AbstractModel
      */
     public function __construct(
         \Magento\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\App\ConfigInterface $coreConfig,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Persistent\Helper\Data $persistentData,

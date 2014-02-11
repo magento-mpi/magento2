@@ -35,11 +35,11 @@ class Packaging extends \Magento\Backend\Block\Template
      * @var \Magento\Usa\Helper\Data
      */
     protected $_usaData = null;
-    
+
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -57,7 +57,7 @@ class Packaging extends \Magento\Backend\Block\Template
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Usa\Helper\Data $usaData
      * @param \Magento\Rma\Helper\Data $rmaData
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Usa\Model\Shipping\Carrier\Usps\Source\SizeFactory $sizeFactory
      * @param array $data
@@ -66,7 +66,7 @@ class Packaging extends \Magento\Backend\Block\Template
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Usa\Helper\Data $usaData,
         \Magento\Rma\Helper\Data $rmaData,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Usa\Model\Shipping\Carrier\Usps\Source\SizeFactory $sizeFactory,
         array $data = array()

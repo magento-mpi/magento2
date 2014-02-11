@@ -14,7 +14,7 @@ use Magento\Core\Exception;
 use Magento\Core\Model\AbstractModel;
 use Magento\Model\Context;
 use Magento\Core\Model\LocaleInterface;
-use Magento\Core\Model\Registry;
+use Magento\Registry;
 use Magento\Core\Model\Store;
 use Magento\Core\Model\StoreManagerInterface;
 use Magento\Core\Model\File\Uploader;

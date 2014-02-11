@@ -28,7 +28,7 @@ class Rules extends \Magento\Core\Model\AbstractModel
 {
     public function __construct(
         \Magento\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\User\Model\Resource\Rules $resource,
         \Magento\User\Model\Resource\Permissions\Collection $resourceCollection,
         array $data = array()

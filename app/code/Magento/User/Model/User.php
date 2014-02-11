@@ -135,7 +135,7 @@ class User
 
     /**
      * @param \Magento\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\User\Helper\Data $userData
      * @param \Magento\Email\Model\Sender $sender
      * @param \Magento\Backend\App\ConfigInterface $config
@@ -153,7 +153,7 @@ class User
      */
     public function __construct(
         \Magento\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\User\Helper\Data $userData,
         \Magento\Email\Model\Sender $sender,
         \Magento\Backend\App\ConfigInterface $config,
@@ -211,7 +211,7 @@ class User
         $this->_sender          = $objectManager->get('Magento\Email\Model\Sender');
         $this->_userData        = $objectManager->get('Magento\User\Helper\Data');
         $this->_config = $objectManager->get('Magento\Backend\App\ConfigInterface');
-        $this->_coreRegistry    = $objectManager->get('Magento\Core\Model\Registry');
+        $this->_coreRegistry    = $objectManager->get('Magento\Registry');
         $this->_validatorObject = $objectManager->get('Magento\Validator\ObjectFactory');
         $this->_roleFactory = $objectManager->get('Magento\User\Model\RoleFactory');
         $this->_emailInfoFactory = $objectManager->get('Magento\Email\Model\InfoFactory');

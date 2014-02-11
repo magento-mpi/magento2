@@ -24,7 +24,7 @@ class DefaultCreditmemo extends \Magento\Sales\Model\Order\Pdf\Items\AbstractIte
 
     /**
      * @param \Magento\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\Filter\FilterManager $filterManager
@@ -35,7 +35,7 @@ class DefaultCreditmemo extends \Magento\Sales\Model\Order\Pdf\Items\AbstractIte
      */
     public function __construct(
         \Magento\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\App\Filesystem $filesystem,
         \Magento\Filter\FilterManager $filterManager,

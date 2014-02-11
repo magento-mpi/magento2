@@ -20,7 +20,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     protected $_blockInjections = array(
         'Magento\Model\Context',
-        'Magento\Core\Model\Registry',
+        'Magento\Registry',
         'Magento\App\Filesystem',
         'Magento\View\Url',
         'Magento\View\FileSystem',
@@ -51,7 +51,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             array(
                 $objectManager->get('Magento\Model\Context'),
                 $objectManager->get('Magento\View\DesignInterface'),
-                $objectManager->get('Magento\Core\Model\Registry'),
+                $objectManager->get('Magento\Registry'),
                 $objectManager->get('Magento\Core\Model\App\Emulation'),
                 $objectManager->get('Magento\Core\Model\StoreManager'),
                 $objectManager->get('Magento\App\Filesystem'),

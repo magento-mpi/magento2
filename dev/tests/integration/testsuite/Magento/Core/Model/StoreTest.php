@@ -36,7 +36,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_modelParams = array(
             'context'                 => $objectManager->get('Magento\Model\Context'),
-            'registry'                => $objectManager->get('Magento\Core\Model\Registry'),
+            'registry'                => $objectManager->get('Magento\Registry'),
             'coreFileStorageDatabase' => $objectManager->get('Magento\Core\Helper\File\Storage\Database'),
             'configCacheType'         => $objectManager->get('Magento\App\Cache\Type\Config'),
             'url'                     => $objectManager->get('Magento\Url'),

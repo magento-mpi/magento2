@@ -44,7 +44,7 @@ use Magento\CatalogSearch\Model\Resource\Search\Collection;
 use Magento\CatalogSearch\Model\Resource\Search\CollectionFactory;
 use Magento\Core\Model\AbstractModel;
 use Magento\Model\Context;
-use Magento\Core\Model\Registry;
+use Magento\Registry;
 use Magento\Core\Model\Resource\AbstractResource;
 use Magento\Core\Model\Store\Config;
 use Magento\Core\Model\StoreManagerInterface;

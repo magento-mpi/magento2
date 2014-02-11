@@ -28,7 +28,7 @@ class Service extends \Magento\Object
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -65,14 +65,14 @@ class Service extends \Magento\Object
      * attributes This behavior may change in child classes
      *
      * @param \Magento\Logger\AdapterFactory $logAdapterFactory
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\GoogleShopping\Model\Config $config
      * @param \Magento\Gdata\Gshopping\ContentFactory $contentFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Logger\AdapterFactory $logAdapterFactory,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\GoogleShopping\Model\Config $config,
         \Magento\Gdata\Gshopping\ContentFactory $contentFactory,
         array $data = array()

@@ -59,7 +59,7 @@ class QueueTest extends \PHPUnit_Framework_TestCase
             array(
                 $objectManager->get('Magento\Model\Context'),
                 $design,
-                $objectManager->get('Magento\Core\Model\Registry'),
+                $objectManager->get('Magento\Registry'),
                 $appEmulation,
                 $objectManager->get('Magento\Core\Model\StoreManagerInterface'),
                 $objectManager->get('Magento\App\Filesystem'),
@@ -105,7 +105,7 @@ class QueueTest extends \PHPUnit_Framework_TestCase
             array(
                 $objectManager->get('Magento\Model\Context'),
                 $objectManager->get('Magento\Core\Model\View\Design'),
-                $objectManager->get('Magento\Core\Model\Registry'),
+                $objectManager->get('Magento\Registry'),
                 $objectManager->get('Magento\Core\Model\App\Emulation'),
                 $objectManager->get('Magento\Core\Model\StoreManagerInterface'),
                 $objectManager->get('Magento\App\Filesystem'),

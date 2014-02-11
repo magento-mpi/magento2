@@ -64,7 +64,7 @@ class Item extends \Magento\Core\Model\AbstractModel
 
     /**
      * @param \Magento\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\GoogleShopping\Model\Service\ItemFactory $itemFactory
      * @param \Magento\GoogleShopping\Model\TypeFactory $typeFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -75,7 +75,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      */
     public function __construct(
         \Magento\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\GoogleShopping\Model\Service\ItemFactory $itemFactory,
         \Magento\GoogleShopping\Model\TypeFactory $typeFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,

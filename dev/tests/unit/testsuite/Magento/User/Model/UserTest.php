@@ -65,7 +65,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(array())
             ->getMock();
-        $coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
+        $coreRegistry = $this->getMock('Magento\Registry', array(), array(), '', false);
 
         $eventManagerMock = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false);
         $objectFactoryMock = $this->getMock('Magento\Validator\ObjectFactory', array('create'),

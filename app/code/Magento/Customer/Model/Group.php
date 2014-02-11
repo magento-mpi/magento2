@@ -69,7 +69,7 @@ class Group extends \Magento\Core\Model\AbstractModel
      * Constructor
      *
      * @param \Magento\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\Index\Model\Indexer $indexer
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -78,7 +78,7 @@ class Group extends \Magento\Core\Model\AbstractModel
      */
     public function __construct(
         \Magento\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Core\Model\Store\Config $storeConfig,
         \Magento\Index\Model\Indexer $indexer,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,

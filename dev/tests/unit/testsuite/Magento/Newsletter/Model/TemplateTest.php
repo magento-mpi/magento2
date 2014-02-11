@@ -18,7 +18,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     {
         $design = $this->getMock('Magento\View\DesignInterface');
         $context = $this->getMock('Magento\Model\Context', array(), array(), '', false);
-        $registry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
+        $registry = $this->getMock('Magento\Registry', array(), array(), '', false);
 
         $storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
         $storeManager->expects($this->once())

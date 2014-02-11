@@ -38,7 +38,7 @@ class Variable extends \Magento\Core\Model\AbstractModel
 
     /**
      * @param \Magento\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Escaper $escaper
      * @param \Magento\Core\Model\Resource\Variable $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -46,7 +46,7 @@ class Variable extends \Magento\Core\Model\AbstractModel
      */
     public function __construct(
         \Magento\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Escaper $escaper,
         \Magento\Core\Model\Resource\Variable $resource,
         \Magento\Data\Collection\Db $resourceCollection = null,

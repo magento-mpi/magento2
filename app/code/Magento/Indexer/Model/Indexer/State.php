@@ -41,14 +41,14 @@ class State extends \Magento\Core\Model\AbstractModel
 
     /**
      * @param \Magento\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Indexer\Model\Resource\Indexer\State $resource
      * @param \Magento\Indexer\Model\Resource\Indexer\State\Collection $resourceCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Indexer\Model\Resource\Indexer\State $resource,
         \Magento\Indexer\Model\Resource\Indexer\State\Collection $resourceCollection,
         array $data = array()

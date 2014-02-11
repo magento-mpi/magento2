@@ -61,7 +61,7 @@ abstract class Form
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Option\ArrayPool $optionArrayPool
      * @param \Magento\Backend\Model\Config\Source\Email\Method $emailMethod
@@ -73,7 +73,7 @@ abstract class Form
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Option\ArrayPool $optionArrayPool,
         \Magento\Backend\Model\Config\Source\Email\Method $emailMethod,

@@ -22,7 +22,7 @@ class AssociatedProduct
     /**
      * Registry instance
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_registryManager;
 
@@ -59,11 +59,11 @@ class AssociatedProduct
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Stdlib\DateTime $dateTime
-     * @param \Magento\Core\Model\Registry $registryManager
+     * @param \Magento\Registry $registryManager
      * @param \Magento\Catalog\Model\Product\Type\Configurable $productType
      * @param \Magento\Catalog\Helper\Product\Configuration $configurationHelper
      * @param mixed $connection
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -85,7 +85,7 @@ class AssociatedProduct
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Stdlib\DateTime $dateTime,
-        \Magento\Core\Model\Registry $registryManager,
+        \Magento\Registry $registryManager,
         \Magento\Catalog\Model\Product\Type\Configurable $productType,
         \Magento\Catalog\Helper\Product\Configuration $configurationHelper,
         $connection = null

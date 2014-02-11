@@ -108,7 +108,7 @@ abstract class AbstractModel extends \Magento\Object
     protected $_cacheManager;
 
     /**
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -124,14 +124,14 @@ abstract class AbstractModel extends \Magento\Object
 
     /**
      * @param \Magento\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -189,7 +189,7 @@ abstract class AbstractModel extends \Magento\Object
         $objectManager = \Magento\App\ObjectManager::getInstance();
         $this->_eventManager = $objectManager->get('Magento\Event\ManagerInterface');
         $this->_cacheManager = $objectManager->get('Magento\App\CacheInterface');
-        $this->_coreRegistry = $objectManager->get('Magento\Core\Model\Registry');
+        $this->_coreRegistry = $objectManager->get('Magento\Registry');
         $context = $objectManager->get('Magento\Model\Context');
         if ($context instanceof \Magento\Model\Context) {
             $this->_appState = $context->getAppState();

@@ -59,7 +59,7 @@ class Massgenerator extends \Magento\Core\Model\AbstractModel
 
     /**
      * @param \Magento\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\SalesRule\Helper\Coupon $salesRuleCoupon
      * @param \Magento\SalesRule\Model\CouponFactory $couponFactory
      * @param \Magento\Core\Model\Date $date
@@ -70,7 +70,7 @@ class Massgenerator extends \Magento\Core\Model\AbstractModel
      */
     public function __construct(
         \Magento\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\SalesRule\Helper\Coupon $salesRuleCoupon,
         \Magento\SalesRule\Model\CouponFactory $couponFactory,
         \Magento\Core\Model\Date $date,

@@ -34,7 +34,7 @@ class Versions
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry;
 
@@ -57,7 +57,7 @@ class Versions
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\VersionsCms\Helper\Data $cmsData
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Registry $coreRegistry
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      * @param \Magento\VersionsCms\Model\Config $cmsConfig
      * @param \Magento\VersionsCms\Model\Resource\Page\Version\CollectionFactory $versionCollectionFactory
@@ -67,7 +67,7 @@ class Versions
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\VersionsCms\Helper\Data $cmsData,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Registry $coreRegistry,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
         \Magento\VersionsCms\Model\Config $cmsConfig,
         \Magento\VersionsCms\Model\Resource\Page\Version\CollectionFactory $versionCollectionFactory,

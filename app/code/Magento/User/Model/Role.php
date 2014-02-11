@@ -37,7 +37,7 @@ class Role extends \Magento\Core\Model\AbstractModel
 
     /**
      * @param \Magento\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\User\Model\Resource\Role\User\CollectionFactory $userRolesFactory
      * @param \Magento\User\Model\Resource\Role $resource
      * @param \Magento\User\Model\Resource\Role\Collection $resourceCollection
@@ -45,7 +45,7 @@ class Role extends \Magento\Core\Model\AbstractModel
      */
     public function __construct(
         \Magento\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\User\Model\Resource\Role\User\CollectionFactory $userRolesFactory,
         \Magento\User\Model\Resource\Role $resource,
         \Magento\User\Model\Resource\Role\Collection $resourceCollection,

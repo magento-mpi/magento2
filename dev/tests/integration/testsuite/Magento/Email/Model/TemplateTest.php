@@ -34,7 +34,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
             ->setConstructorArgs(array(
                 $objectManager->get('Magento\Model\Context'),
                 $objectManager->get('Magento\View\DesignInterface'),
-                $objectManager->get('Magento\Core\Model\Registry'),
+                $objectManager->get('Magento\Registry'),
                 $objectManager->get('Magento\Core\Model\App\Emulation'),
                 $objectManager->get('Magento\Core\Model\StoreManager'),
                 $objectManager->create('Magento\App\Filesystem'),

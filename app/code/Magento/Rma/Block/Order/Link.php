@@ -26,7 +26,7 @@ class Link extends \Magento\Sales\Block\Order\Link
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\App\DefaultPathInterface $defaultPath
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory
      * @param \Magento\Rma\Helper\Data $rmaHelper
      * @param array $data
@@ -34,7 +34,7 @@ class Link extends \Magento\Sales\Block\Order\Link
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\App\DefaultPathInterface $defaultPath,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory,
         \Magento\Rma\Helper\Data $rmaHelper,
         array $data = array()

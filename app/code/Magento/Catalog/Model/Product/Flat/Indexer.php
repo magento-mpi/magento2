@@ -65,7 +65,7 @@ class Indexer extends \Magento\Core\Model\AbstractModel
 
     /**
      * @param \Magento\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Index\Model\Indexer $index
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -74,7 +74,7 @@ class Indexer extends \Magento\Core\Model\AbstractModel
      */
     public function __construct(
         \Magento\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Index\Model\Indexer $index,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,

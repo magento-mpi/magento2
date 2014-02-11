@@ -26,7 +26,7 @@ class Option extends \Magento\Backend\Block\Widget
     /**
      * Core registry
      *
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_coreRegistry = null;
 
@@ -55,7 +55,7 @@ class Option extends \Magento\Backend\Block\Widget
      * @param \Magento\Backend\Model\Config\Source\Yesno $configYesNo
      * @param \Magento\Catalog\Model\Config\Source\Product\Options\Type $optionType
      * @param \Magento\Catalog\Model\Product $product
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Catalog\Model\ProductOptions\ConfigInterface $productOptionConfig
      * @param array $data
      */
@@ -64,7 +64,7 @@ class Option extends \Magento\Backend\Block\Widget
         \Magento\Backend\Model\Config\Source\Yesno $configYesNo,
         \Magento\Catalog\Model\Config\Source\Product\Options\Type $optionType,
         \Magento\Catalog\Model\Product $product,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Catalog\Model\ProductOptions\ConfigInterface $productOptionConfig,
         array $data = array()
     ) {

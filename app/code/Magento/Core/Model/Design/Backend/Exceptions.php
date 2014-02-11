@@ -21,7 +21,7 @@ class Exceptions extends \Magento\Backend\Model\Config\Backend\Serialized\ArrayS
 
     /**
      * @param \Magento\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ConfigInterface $config
      * @param \Magento\View\DesignInterface $design
@@ -31,7 +31,7 @@ class Exceptions extends \Magento\Backend\Model\Config\Backend\Serialized\ArrayS
      */
     public function __construct(
         \Magento\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ConfigInterface $config,
         \Magento\View\DesignInterface $design,

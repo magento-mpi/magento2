@@ -17,7 +17,7 @@ class Options implements \Magento\Option\ArrayInterface
     protected $_request;
 
     /**
-     * @var \Magento\Core\Model\Registry
+     * @var \Magento\Registry
      */
     protected $_registryManager;
 
@@ -28,12 +28,12 @@ class Options implements \Magento\Option\ArrayInterface
 
     /**
      * @param \Magento\App\RequestInterface $request
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Registry $registry
      * @param \Magento\Search\Model\Resource\Recommendations $searchResourceModel
      */
     public function __construct(
         \Magento\App\RequestInterface $request,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Registry $registry,
         \Magento\Search\Model\Resource\Recommendations $searchResourceModel
     ) {
         $this->_request = $request;
