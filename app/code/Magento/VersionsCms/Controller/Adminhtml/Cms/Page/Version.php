@@ -80,7 +80,7 @@ class Version
      * Prepare and place version's model into registry
      * with loaded data if id parameter present
      *
-     * @param int $versionId
+     * @param int|null $versionId
      * @return \Magento\VersionsCms\Model\Page\Version
      */
     protected function _initVersion($versionId = null)

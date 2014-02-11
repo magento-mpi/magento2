@@ -103,7 +103,8 @@ class Hierarchy
      *
      * @return array
      */
-    public function getNodes() {
+    public function getNodes()
+    {
         if (is_null($this->_nodes)) {
             $this->_nodes = array();
             try{

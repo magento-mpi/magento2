@@ -54,7 +54,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare Cms Page Collection for Grid
      *
-     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit\Form\Grid
+     * @return $this
      */
     protected function _prepareCollection()
     {
@@ -72,7 +72,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare Grid columns
      *
-     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit\Form\Grid
+     * @return $this
      */
     protected function _prepareColumns()
     {

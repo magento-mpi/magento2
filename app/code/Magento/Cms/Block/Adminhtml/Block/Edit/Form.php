@@ -117,11 +117,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             'class'     => 'validate-xml-identifier',
         ));
 
-        /**
-         * Check is single store mode
-         *
-         * @return $this
-         */
+        /* Check is single store mode */
         if (!$this->_storeManager->isSingleStoreMode()) {
             $field =$fieldset->addField('store_id', 'multiselect', array(
                 'name'      => 'stores[]',

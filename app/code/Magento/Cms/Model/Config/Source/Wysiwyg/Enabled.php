@@ -19,9 +19,7 @@ namespace Magento\Cms\Model\Config\Source\Wysiwyg;
 class Enabled implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
-     * Return array of options
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function toOptionArray()
     {

@@ -54,7 +54,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Check if enabled
      *
-     * @return mixed
+     * @return string|null
      */
     public function isEnabled()
     {

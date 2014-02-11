@@ -156,7 +156,7 @@ class Main
     /**
      * Returns status flag about this tab can be shown or not
      *
-     * @return true
+     * {@inheritdoc}
      */
     public function canShowTab()
     {
@@ -166,7 +166,7 @@ class Main
     /**
      * Returns status flag about this tab hidden or not
      *
-     * @return true
+     * {@inheritdoc}
      */
     public function isHidden()
     {

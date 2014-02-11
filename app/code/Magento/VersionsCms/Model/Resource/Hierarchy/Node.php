@@ -754,7 +754,7 @@ class Node extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Remove nodes defined by id.
      * Which will also remove their child nodes by foreign key.
      *
-     * @param int|array $nodeIds
+     * @param int|int[] $nodeIds
      * @return $this
      */
     public function dropNodes($nodeIds)

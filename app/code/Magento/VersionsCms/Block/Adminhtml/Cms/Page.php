@@ -21,7 +21,7 @@ class Page extends \Magento\Backend\Block\Template
     /**
      * Add  column Versioned to cms page grid
      *
-     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page
+     * @return $this
      */
     protected function _prepareLayout()
     {
@@ -29,7 +29,7 @@ class Page extends \Magento\Backend\Block\Template
         $page = $this->getLayout()->getBlock('cms_page');
         if ($page) {
             $pageGrid = $page->getChildBlock('grid');
-            if($pageGrid) {
+            if ($pageGrid) {
                 $pageGrid->addColumnAfter('versioned', array(
                     'index'     => 'under_version_control',
                     'header'    => __('Version Control'),

@@ -170,10 +170,10 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      * Filter store condition
      *
      * @param $collection
-     * @param $column
+     * @param \Magento\Object $column
      * @return void
      */
-    protected function _filterStoreCondition($collection, $column)
+    protected function _filterStoreCondition($collection, \Magento\Object $column)
     {
         if (!$value = $column->getFilter()->getValue()) {
             return;

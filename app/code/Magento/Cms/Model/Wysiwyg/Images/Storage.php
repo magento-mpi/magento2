@@ -300,7 +300,7 @@ class Storage extends \Magento\Object
      * Storage collection
      *
      * @param string $path Path to the directory
-     * @return $this\Collection
+     * @return \Magento\Cms\Model\Wysiwyg\Images\Storage\Collection
      */
     public function getCollection($path = null)
     {

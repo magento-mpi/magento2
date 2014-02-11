@@ -7,7 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\VersionsCms\Model\Resource\Page\Collection;
 
+use Magento\Cms\Model\Page;
 
 /**
  * Cms page revision collection
@@ -16,8 +18,6 @@
  * @package     Magento_VersionsCms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\VersionsCms\Model\Resource\Page\Collection;
-
 abstract class AbstractCollection
     extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
@@ -43,12 +43,12 @@ abstract class AbstractCollection
      * Add filtering by page id.
      * Parameter $page can be int or cms page object.
      *
-     * @param mixed $page
+     * @param Page|array $page
      * @return $this
      */
     public function addPageFilter($page)
     {
-        if ($page instanceof \Magento\Cms\Model\Page) {
+        if ($page instanceof Page) {
             $page = $page->getId();
         }
 
@@ -65,7 +65,7 @@ abstract class AbstractCollection
      * Adds filter by version access level specified by owner.
      *
      * @param mixed $userId
-     * @param mixed $accessLevel
+     * @param string|string[] $accessLevel
      * @return $this
      */
     public function addVisibilityFilter($userId, $accessLevel = \Magento\VersionsCms\Model\Page\Version::ACCESS_LEVEL_PUBLIC)
@@ -75,7 +75,7 @@ abstract class AbstractCollection
         if (is_array($userId)) {
             $_condition[] = $this->_getConditionSql(
                 $this->_getMappedField('user_id'), array('in' => $userId));
-        } else if ($userId){
+        } else if ($userId) {
             $_condition[] = $this->_getConditionSql(
                 $this->_getMappedField('user_id'), $userId);
         }

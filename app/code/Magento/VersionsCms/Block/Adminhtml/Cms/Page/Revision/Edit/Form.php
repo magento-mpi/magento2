@@ -21,7 +21,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Preparing from for revision page
      *
-     * @return \Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit\Form
+     * @return $this
      */
     protected function _prepareForm()
     {

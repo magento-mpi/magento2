@@ -21,7 +21,7 @@ class Wysiwyg extends \Magento\Backend\App\Action
     /**
      * Template directives callback
      *
-     * TODO: move this to some model
+     * @todo: move this to some model
      *
      * @return void
      */

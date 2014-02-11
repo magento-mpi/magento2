@@ -74,7 +74,7 @@ class Hierarchy extends \Magento\App\Helper\AbstractHelper
     /**
      * Retrieve metadata fields
      *
-     * @return array
+     * @return string[]
      */
     public function getMetadataFields()
     {

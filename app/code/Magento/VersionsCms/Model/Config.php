@@ -94,7 +94,7 @@ class Config
     /**
      * Returns array of access levels which can be viewed by current user.
      *
-     * @return array
+     * @return string|string[]
      */
     public function getAllowedAccessLevel()
     {
@@ -181,7 +181,7 @@ class Config
     /**
      * Compare current user with passed owner of version or author of revision.
      *
-     * @param $userId
+     * @param int $userId
      * @return bool
      */
     public function isCurrentUserOwner($userId)

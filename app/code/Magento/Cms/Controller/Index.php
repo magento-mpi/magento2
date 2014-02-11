@@ -21,7 +21,7 @@ class Index extends \Magento\App\Action\Action
     /**
      * Renders CMS Home page
      *
-     * @param string $coreRoute
+     * @param string|null $coreRoute
      * @return void
      */
     public function indexAction($coreRoute = null)

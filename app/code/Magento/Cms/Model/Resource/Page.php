@@ -291,10 +291,9 @@ class Page extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      *  Check whether page identifier is numeric
      *
-     * @date Wed Mar 26 18:12:28 EET 2008
-     *
      * @param \Magento\Core\Model\AbstractModel $object
      * @return bool
+     * @date Wed Mar 26 18:12:28 EET 2008
      */
     protected function isNumericPageIdentifier(\Magento\Core\Model\AbstractModel $object)
     {
@@ -304,8 +303,8 @@ class Page extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      *  Check whether page identifier is valid
      *
-     *  @param    \Magento\Core\Model\AbstractModel $object
-     *  @return   bool
+     * @param \Magento\Core\Model\AbstractModel $object
+     * @return bool
      */
     protected function isValidPageIdentifier(\Magento\Core\Model\AbstractModel $object)
     {
@@ -401,7 +400,7 @@ class Page extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Get store ids to which specified item is assigned
      *
-     * @param int $id
+     * @param int $pageId
      * @return array
      */
     public function lookupStoreIds($pageId)
@@ -410,7 +409,7 @@ class Page extends \Magento\Core\Model\Resource\Db\AbstractDb
 
         $select  = $adapter->select()
             ->from($this->getTable('cms_page_store'), 'store_id')
-            ->where('page_id = ?',(int)$pageId);
+            ->where('page_id = ?', (int)$pageId);
 
         return $adapter->fetchCol($select);
     }

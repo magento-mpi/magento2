@@ -85,12 +85,11 @@ class Images extends \Magento\App\Helper\AbstractHelper
         $this->_directory->create(\Magento\Cms\Model\Wysiwyg\Config::IMAGE_DIRECTORY);
     }
 
-
     /**
      * Set a specified store ID value
      *
      * @param int $store
-     * @return \Magento\Cms\Helper\Wysiwyg\Images
+     * @return $this
      */
     public function setStoreId($store)
     {

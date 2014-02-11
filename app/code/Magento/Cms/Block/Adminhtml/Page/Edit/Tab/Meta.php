@@ -91,7 +91,7 @@ class Meta
     /**
      * Returns status flag about this tab can be showen or not
      *
-     * @return true
+     * {@inheritdoc}
      */
     public function canShowTab()
     {
@@ -101,7 +101,7 @@ class Meta
     /**
      * Returns status flag about this tab hidden or not
      *
-     * @return false
+     * {@inheritdoc}
      */
     public function isHidden()
     {

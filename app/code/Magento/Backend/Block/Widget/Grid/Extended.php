@@ -171,9 +171,6 @@ class Extended
      */
     protected $_path = 'export';
 
-    /**
-     * @return void
-     */
     protected function _construct()
     {
         parent::_construct();
@@ -372,7 +369,7 @@ class Extended
     /**
      * Initialize grid columns
      *
-     * @return $this
+     * @return \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareColumns()
     {
@@ -408,7 +405,7 @@ class Extended
     /**
      * Prepare grid massaction column
      *
-     * @return $this
+     * @return \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareMassactionColumn()
     {
@@ -470,7 +467,7 @@ class Extended
     /**
      * Initialize grid before rendering
      *
-     * @return $this|void
+     * @return \Magento\Backend\Block\Widget\Grid\Extended|void
      */
     protected function _prepareGrid()
     {

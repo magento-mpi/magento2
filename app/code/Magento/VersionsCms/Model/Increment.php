@@ -81,7 +81,7 @@ class Increment extends \Magento\Core\Model\AbstractModel
     /**
      * Get incremented value of counter.
      *
-     * @return mixed
+     * @return int
      */
     protected function _getNextId()
     {

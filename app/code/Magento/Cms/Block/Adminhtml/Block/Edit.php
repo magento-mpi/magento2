@@ -83,8 +83,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     {
         if ($this->_coreRegistry->registry('cms_block')->getId()) {
             return __("Edit Block '%1'", $this->escapeHtml($this->_coreRegistry->registry('cms_block')->getTitle()));
-        }
-        else {
+        } else {
             return __('New Block');
         }
     }

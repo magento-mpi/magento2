@@ -178,7 +178,7 @@ class Revision extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Loading revision's data with extra access level checking.
      *
      * @param \Magento\VersionsCms\Model\Page\Revision $object
-     * @param array|string $accessLevel
+     * @param string|string[] $accessLevel
      * @param int $userId
      * @param int|string $value
      * @param string|null $field
@@ -232,7 +232,7 @@ class Revision extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param \Magento\VersionsCms\Model\Page\Revision $object
      * @param int $versionId
      * @param int $pageId
-     * @param array|string $accessLevel
+     * @param string|string[] $accessLevel
      * @param int $userId
      * @return $this
      */
@@ -279,7 +279,7 @@ class Revision extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Preparing array of conditions based on user id and version's access level.
      *
-     * @param array|string $accessLevel
+     * @param string|string[] $accessLevel
      * @param int $userId
      * @return string
      */

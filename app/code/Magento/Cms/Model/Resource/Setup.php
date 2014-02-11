@@ -36,7 +36,7 @@ class Setup extends \Magento\Core\Model\Resource\Setup\Generic
      */
     public function __construct(
         \Magento\Core\Model\Resource\Setup\Context $context,
-        string $resourceName,
+        $resourceName,
         \Magento\Cms\Model\BlockFactory $blockFactory,
         \Magento\Cms\Model\PageFactory $pageFactory,
         $moduleName = 'Magento_Cms',

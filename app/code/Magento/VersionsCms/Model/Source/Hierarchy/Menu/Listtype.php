@@ -20,7 +20,7 @@ class Listtype implements \Magento\Core\Model\Option\ArrayInterface
     /**
      * Retrieve options array
      *
-     * @return array
+     * {@inheritdoc}
      */
     public function toOptionArray()
     {

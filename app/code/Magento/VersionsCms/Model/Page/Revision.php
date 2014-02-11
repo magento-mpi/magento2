@@ -134,7 +134,7 @@ class Revision extends \Magento\Core\Model\AbstractModel
     /**
      * Get cache tags associated with object id
      *
-     * @return array
+     * @return string[]
      */
     public function getCacheIdTags()
     {
@@ -175,7 +175,7 @@ class Revision extends \Magento\Core\Model\AbstractModel
     /**
      * Check data which is under revision control if it was modified.
      *
-     * @return array
+     * @return bool
      */
     protected function _revisionedDataWasModified()
     {

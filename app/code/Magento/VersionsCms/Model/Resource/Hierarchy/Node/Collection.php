@@ -222,7 +222,7 @@ class Collection
      * were defined as parameter or nodes which contain
      * defined page in their direct children.
      *
-     * @param int|array $nodeIds
+     * @param int|int[] $nodeIds
      * @param int|\Magento\Cms\Model\Page|null $page
      * @return $this
      */
