@@ -113,7 +113,6 @@ class Core_Mage_Category_Helper extends Mage_Selenium_AbstractHelper
      * Fill in Category information
      *
      * @param array $categoryData
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function fillCategoryInfo(array $categoryData)
     {
@@ -224,16 +223,14 @@ class Core_Mage_Category_Helper extends Mage_Selenium_AbstractHelper
     public function frontOpenCategoryAndValidateProduct($productsInfo)
     {
         $productsInfo = $this->fixtureDataToArray($productsInfo);
-        $category = (isset($productsInfo['category'])) ? $productsInfo['category'] : null;
+        $categoryName = (isset($productsInfo['category'])) ? $productsInfo['category'] : null;
         $productName = (isset($productsInfo['product_name'])) ? $productsInfo['product_name'] : null;
         $verificationData = (isset($productsInfo['verification'])) ? $productsInfo['verification'] : array();
-        if (is_null($category) || is_null($productName)) {
+        if (is_null($categoryName) || is_null($productName)) {
             $this->fail('Category or product name is not specified');
-
         }
-        $foundIt = $this->frontSearchAndOpenPageWithProduct($productName, $category);
-        if (!$foundIt) {
-            $this->fail('Could not find the product');
+        if (!$this->frontSearchAndOpenPageWithProduct($productName, $categoryName)) {
+            $this->fail('Could not find "' . $productName . '" product on "' . $categoryName . '" category page');
         }
         $this->frontVerifyProductPrices($verificationData);
     }
@@ -298,12 +295,11 @@ class Core_Mage_Category_Helper extends Mage_Selenium_AbstractHelper
             $this->fail('"' . $categoryPath . '" category page could not be opened with locator ' . $link);
         }
         //Determine category mca parameters
-        $mca = $this->getMcaFromUrl($availableElement->attribute('href'));
+        $url = $availableElement->attribute('href');
+        $mca = $this->getMcaFromUrl($url);
         $this->_determineMcaParams($mca);
-        $availableElement->click();
-        $this->waitForPageToLoad();
+        $this->url($url);
         $this->validatePage();
-
     }
 
     /**
@@ -320,9 +316,9 @@ class Core_Mage_Category_Helper extends Mage_Selenium_AbstractHelper
         $this->addParameter('productName', $productName);
         $value = 1;
         for (; ;) {
-            if ($this->controlIsPresent('pageelement', 'product_name')) {
+            if ($this->controlIsVisible('fieldset', 'product_view')) {
                 return $value;
-            } elseif ($this->controlIsPresent('link', 'next_page')) {
+            } elseif ($this->controlIsVisible('link', 'next_page')) {
                 $value++;
                 $this->addParameter('categoryParam', '?p=' . $value);
                 $this->navigate('category_page_index');

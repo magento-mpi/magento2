@@ -1,12 +1,8 @@
 #
 # {license_notice}
 #
-# @category    Magento
-# @package     Mage_Catalog
-# @subpackage  functional_tests
 # @copyright   {copyright}
 # @license     {license_link}
-#
 #
 ---
 google_content_manage_attributes:
@@ -32,5 +28,5 @@ google_content_manage_attributes:
 
 google_content_manage_items:
     mca: googleshopping_items/index/store/1/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'googleshopping_items/')]
+    click_xpath: //ul[@id='nav']//a[contains(@href, '/googleshopping_items/')]
     title: Google Content Items / Google Content / Products / Magento Admin

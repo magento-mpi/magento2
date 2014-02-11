@@ -11,7 +11,7 @@
 # Theme page
 theme_list:
     mca: system_design_theme/
-    click_xpath: //*[@class='navigation']//a[contains(@href, '/system_design_theme/')]
+    click_xpath: //ul[@id='nav']//a[contains(@href, '/system_design_theme/')]
     title: Design / Content / Magento Admin
     uimap: &listTheme
         form: &searchThemeGrid

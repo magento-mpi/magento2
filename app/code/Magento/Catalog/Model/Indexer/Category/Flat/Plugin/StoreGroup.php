@@ -45,16 +45,6 @@ class StoreGroup
     }
 
     /**
-     * Invalidate indexer
-     */
-    protected function invalidateIndexer()
-    {
-        if ($this->state->isFlatEnabled()) {
-            $this->getIndexer()->invalidate();
-        }
-    }
-
-    /**
      * Validate changes for invalidating indexer
      *
      * @param \Magento\Core\Model\AbstractModel $group
@@ -76,8 +66,8 @@ class StoreGroup
     {
         $needInvalidating = $this->validate($arguments[0]);
         $objectResource = $invocationChain->proceed($arguments);
-        if ($needInvalidating) {
-            $this->invalidateIndexer();
+        if ($needInvalidating && $this->state->isFlatEnabled()) {
+            $this->getIndexer()->invalidate();
         }
 
         return $objectResource;

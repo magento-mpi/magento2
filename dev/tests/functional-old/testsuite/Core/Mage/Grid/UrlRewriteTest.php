@@ -16,7 +16,6 @@ class Core_Mage_Grid_UrlRewriteTest extends Mage_Selenium_TestCase
 {
     protected function assertPreConditions()
     {
-        $this->markTestIncomplete('MAGETWO-11231');
         $this->loginAdminUser();
     }
 
@@ -36,8 +35,8 @@ class Core_Mage_Grid_UrlRewriteTest extends Mage_Selenium_TestCase
     public function checkUrlCatalogAdded()
     {
         $categoryData = $this->loadDataSet('Category', 'sub_category_required');
-        $fieldData = $this->loadDataSet('UrlRewrite', 'url_rewrite_category',array(
-            'category'=> $categoryData['parent_category'] . '/' . $categoryData['name']
+        $fieldData = $this->loadDataSet('UrlRewrite', 'url_rewrite_category', array(
+            'category' => $categoryData['parent_category'] . '/' . $categoryData['name']
         ));
         //Create Category
         $this->navigate('manage_categories', false);
@@ -49,7 +48,8 @@ class Core_Mage_Grid_UrlRewriteTest extends Mage_Selenium_TestCase
         $this->navigate('url_rewrite_management');
         $this->urlRewriteHelper()->createUrlRewrite($fieldData);
         $this->assertMessagePresent('success', 'success_saved_url_rewrite');
-        $locator = $this->search(array('filter_request_path' => $fieldData['rewrite_info']['request_path']), 'url_rewrite_grid');
+        $locator = $this->search(array('filter_request_path' => $fieldData['rewrite_info']['request_path']),
+            'url_rewrite_grid');
         $this->assertNotNull($locator, 'URL Rewrite Rule is not added');
     }
 }

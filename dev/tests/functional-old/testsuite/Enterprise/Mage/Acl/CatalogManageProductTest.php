@@ -12,11 +12,6 @@
  */
 class Enterprise_Mage_Acl_CatalogManageProductTest extends Mage_Selenium_TestCase
 {
-    public function setUpBeforeTests()
-    {
-        $this->markTestIncomplete('BUG: It is impossible to create any product');
-    }
-
     protected function assertPreConditions()
     {
         $this->admin('log_in_to_admin');
@@ -103,6 +98,7 @@ class Enterprise_Mage_Acl_CatalogManageProductTest extends Mage_Selenium_TestCas
      */
     public function roleResourceAccessWithoutProductPrice()
     {
+        $this->markTestIncomplete('BUG: There is no possibility to create product without price');
         $roleSource = $this->loadDataSet('AdminUserRole', 'generic_admin_user_role_custom_website', array(
             'resource_acl' => 'products-inventory-catalog',
             'resource_acl_skip' => 'products-inventory-catalog-read_product_price'

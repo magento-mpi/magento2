@@ -57,11 +57,11 @@ manage_products:
             success_duplicated_product: //li[normalize-space(@class)='success-msg' and contains(.,'You duplicated the product.')]
             success_created_product: //li[normalize-space(@class)='success-msg' and contains(.,'You created the product.')]
             success_saved_product: //li[normalize-space(@class)='success-msg' and contains(.,'You saved the product.')]
-            specify_url: "//div[@id='advice-validate-downloadable-url-%fieldId%' and not(contains(@style,'display: none;'))]"
+            specify_url: "//div[@id='advice-validate-downloadable-url-%fieldId%']"
             incorrect_sku_length: //*[@class='mage-error' and text()='Maximum length of this field must be equal or less than 64 symbols.']
-            enter_valid_number: //*[@class='mage-error' and @for='%fieldId%' and text()='Please enter a valid number in this field.' and not(contains(@style,'display: none;'))]
+            enter_valid_number: //*[@class='mage-error' and @for='%fieldId%' and text()='Please enter a valid number in this field.']
             enter_zero_or_greater: //*[@class='mage-error' and @for='%fieldId%' and text()='Please enter a number 0 or greater in this field.']
-            enter_greater_than_zero: //*[@class='mage-error' and @for='tier_price_row_0_price' and text()='Please enter a number greater than 0 in this field.' and not(contains(@style,'display: none;'))]
+            enter_greater_than_zero: //*[@class='mage-error' and @for='tier_price_row_0_price' and text()='Please enter a number greater than 0 in this field.']
             existing_sku: //div[@class='validation-advice' and contains(text(),'The value of attribute "SKU" must be unique')]
             select_type_of_option: //*[@class='mage-error' and @for='product_option_%optionId%_type' and contains(., 'Select type of option')]
             confirmation_for_delete: Are you sure?
@@ -805,43 +805,6 @@ edit_product:
                 -
                     downloadable_information: *downloadableInformationTab
                 -
-                    product_tags:
-                        xpath: //a[@title='Product Tags']
-                        fieldsets:
-                            -
-                                product_tags:
-                                    xpath: //div[@id='tag_grid']
-                                    buttons:
-                                        reset_filter: //button[span='Reset Filter']
-                                        search: //button[span='Search']
-                                    dropdowns:
-                                        tag_search_status: //select[@name='status']
-                                    fields:
-                                        tag_search_name: //input[@name='name']
-                                        tag_search_num_of_use_from: //input[@name='popularity[from]']
-                                        tag_search_num_of_use_to: //input[@name='popularity[to]']
-                                    pageelements:
-                                        tags_grid_head: //table[@id='tag_grid_table']//thead/tr[@class='headings']
-                                        tags_grid: //table[@id='tag_grid_table']
-                -
-                    customer_tags:
-                        xpath: //a[@title='Customers Tagged Product']
-                        fieldsets:
-                            -
-                                customer_tags:
-                                    xpath: //div[@id='tag_customers_grid']
-                                    buttons:
-                                        reset_filter: //button[span='Reset Filter']
-                                        search: //button[span='Search']
-                                    fields:
-                                        tag_customer_search_name: //input[@name='name']
-                                        tag_customer_search_first_name: //input[@name='firstname']
-                                        tag_customer_search_last_name: //input[@name='lastname']
-                                        tag_customer_search_email: //input[@name='email']
-                                    pageelements:
-                                        tags_grid_head: //table[@id='tag_customers_grid_table']//thead/tr[@class='headings']
-                                        tags_grid: //table[@id='tag_customers_grid_table']
-                -
                     user_tab: *userTab
                 -
                     google_experiment: *google_experiment
@@ -851,6 +814,11 @@ edit_product:
             save_split_select: //div[@class='page-actions']//*[@data-ui-id='product-edit-save-split-button-dropdown']
             save_product_by_action: //div[@class='page-actions']//*[@id='save-split-button-%additionalAction%-button']
         messages: *productMesssages
+
+edit_product_other_store:
+    mca: catalog/product/edit/id/%id%/store/%storeId%/active_tab/%tab%/
+    title: %elementTitle% / Products / Inventory / Products / Magento Admin
+    uimap: *editProduct
 
 new_product_save_and_continue:
     mca: catalog/product/edit/id/%id%/set/%setId%/type/%productType%/back/edit/active_tab/%tab%/
@@ -964,7 +932,7 @@ updating_products:
                         fieldsets:
                             -
                                 inventory:
-                                    xpath: //div[contains(div/div/h4,'Advanced Inventory')]
+                                    xpath: //div[contains(div/*/*,'Advanced Inventory')]
                                     checkboxes:
                                         inventory_change_manage_stock: //*[@id='inventory_manage_stock_checkbox']
                                         inventory_ucs_manage_stock: //*[@id='inventory_use_config_manage_stock']

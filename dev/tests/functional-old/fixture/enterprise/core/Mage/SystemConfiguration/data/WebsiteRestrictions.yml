@@ -17,7 +17,6 @@ disable_website_restrictions:
             website_restriction:
                 access_restriction: No
 
-
 website_closed_response_200:
     configuration_scope: Default Config
     tab_1:
@@ -28,7 +27,7 @@ website_closed_response_200:
                 restriction_mode: "Website Closed"
                 landing_page_restriction: 503 Service Unavailable
                 http_response: 200 OK
-        
+
 website_closed_response_503:
     configuration_scope: Default Config
     tab_1:
@@ -50,7 +49,7 @@ login_and_register_to_login_form:
                 restriction_mode: "Private Sales: Login and Register"
                 startup_page: To login form (302 Found)
                 landing_page_restriction: About Us
-      
+
 login_only_to_login_form:
     configuration_scope: Default Config
     tab_1:

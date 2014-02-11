@@ -1,12 +1,10 @@
 <?php
+
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  functional_tests
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {copyright}
+ * @license {license_link}
  */
 class Mage_Selenium_Uimap_FormTest extends Unit_PHPUnit_TestCase
 {
@@ -23,8 +21,8 @@ class Mage_Selenium_Uimap_FormTest extends Unit_PHPUnit_TestCase
     public function testGetTab()
     {
         $uimapHelper = $this->_testConfig->getHelper('uimap');
-        $uipage = $uimapHelper->getUimapPage('admin', 'create_customer');
-        $tab = $uipage->getMainForm()->getTabs()->getTab('addresses');
+        $page = $uimapHelper->getUimapPage('admin', 'create_customer');
+        $tab = $page->getMainForm()->getTabs()->getTab('addresses');
         $this->assertInstanceOf('Mage_Selenium_Uimap_Tab', $tab);
     }
 }

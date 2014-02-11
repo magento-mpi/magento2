@@ -10,8 +10,8 @@
 ---
 # Sales Credit Memos page
 manage_sales_credit_memos:
-    mca: sales_creditmemo/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'sales_creditmemo/')]
+    mca: sales/creditmemo/
+    click_xpath: //ul[@id='nav']//a[contains(@href, '/sales/creditmemo/')]
     title: Credit Memos / Operations / Sales / Magento Admin
     uimap:
         form: &salesCreditmemos
@@ -45,11 +45,11 @@ manage_sales_credit_memos:
             confirmation_to_procced: This will create an offline refund. To create an online refund, open an invoice and create credit memo for it. Do you want to continue?
             success_creating_creditmemo: //li[normalize-space(@class)='success-msg' and contains(.,'You created the credit memo.')]
             failed_authorize_online_refund: "//li[normalize-space(@class)='error-msg' and contains(.,'Gateway error: The referenced transaction does not meet the criteria for issuing a credit. If the invoice was created offline, try creating an offline credit memo.')]"
-            order_id: "//*[contains(@class,'head-sales-order')][contains(text(), 'Order #')]"
+            order_id: //h1[@class='title'][contains(text(),'#')]
             failed_authorizedp_online_refund: //li[normalize-space(@class)='error-msg' and contains(.,'Gateway error: The referenced transaction does not meet the criteria for issuing a credit.')]
 
 create_credit_memo:
-    mca: sales_order_creditmemo/new/order_id/%id%/
+    mca: sales/order_creditmemo/new/order_id/%id%/
     title: New Memo / Credit Memos / Operations / Sales / Magento Admin
     uimap: &orderCreditmemo
         form:
@@ -120,12 +120,12 @@ create_credit_memo:
         messages: *creditMemoMessages
 
 create_credit_memo_for_invoice:
-    mca: sales_order_creditmemo/new/order_id/%id%/invoice_id/%invoice_id%/
+    mca: sales/order_creditmemo/new/order_id/%id%/invoice_id/%invoice_id%/
     title: New Memo for %elementTitle% / Credit Memos / Operations / Sales / Magento Admin
     uimap: *orderCreditmemo
 
 view_credit_memo:
-    mca: sales_creditmemo/view/creditmemo_id/%id%/
+    mca: sales/creditmemo/view/creditmemo_id/%id%/
     title: View Memo / Credit Memos / Operations / Sales / Magento Admin
     uimap:
         form: &viewCreditmemo
@@ -177,5 +177,5 @@ view_credit_memo:
         messages: *creditMemoMessages
 
 create_credit_memo_denied:
-    mca: sales_order_creditmemo/start/order_id/%id%/
+    mca: sales/order_creditmemo/start/order_id/%id%/
     title: Magento Admin
