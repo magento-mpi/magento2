@@ -16,10 +16,7 @@ namespace Magento\PageCache\Model;
  */
 class Observer
 {
-    /**
-     * Path to varnish setting about if the Varnish is enabled
-     */
-    const XML_PATH_VARNISH_ENABLED = 'system/varnish_configuration_settings/caching_application';
+
 
     /**
      * Application config object
@@ -49,7 +46,7 @@ class Observer
         $event = $observer->getEvent();
         /** @var \Magento\Core\Model\Layout $layout */
         $layout = $event->getLayout();
-        $varnishIsEnabledFlag = $this->_config->isSetFlag(self::XML_PATH_VARNISH_ENABLED);
+        $varnishIsEnabledFlag = $this->_config->isSetFlag(\Magento\PageCache\Model\Config::XML_PATH_VARNISH_ENABLED);
         if (!$layout->isCacheable()) {
             $name = $event->getElementName();
             $block = $layout->getBlock($name);
