@@ -81,13 +81,13 @@ class CircularDependencyTest extends \PHPUnit_Framework_TestCase
             }
 
             foreach ($dependenciesByModule as $module => $moduleCircular) {
-                $result .= "$module dependencies:" . PHP_EOL;
+                $result .= $module . ' dependencies:' . PHP_EOL;
                 foreach ($moduleCircular as $chain) {
-                    $result .= "Chain : " . implode('->', $chain) . PHP_EOL;
+                    $result .= 'Chain : ' . implode('->', $chain) . PHP_EOL;
                 }
                 $result .= PHP_EOL;
             }
-            $this->fail("Circular dependencies:" . PHP_EOL . $result);
+            $this->fail('Circular dependencies:' . PHP_EOL . $result);
         }
     }
 }
