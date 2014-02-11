@@ -2,17 +2,16 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Adminhtml\Group;
+
+use Magento\Customer\Controller\Adminhtml\Group;
 
 /**
  * Customer group edit block
  */
-namespace Magento\Customer\Block\Adminhtml\Group;
-
 class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
@@ -23,6 +22,8 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     protected $_coreRegistry = null;
 
     /**
+     * Customer Group Service
+     *
      * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface
      */
     protected $_groupService = null;
@@ -48,6 +49,8 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
 
     /**
      * Update Save and Delete buttons. Remove Delete button if group can't be deleted.
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -73,7 +76,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
      */
     public function getHeaderText()
     {
-        $groupId = $this->_coreRegistry->registry('current_group_id');
+        $groupId = $this->_coreRegistry->registry(Group::REGISTRY_CURRENT_GROUP_ID);
         if (is_null($groupId)) {
             return __('New Customer Group');
         } else {

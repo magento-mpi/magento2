@@ -2,12 +2,9 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Customer\Controller\Adminhtml;
 
 use Magento\Exception\NoSuchEntityException;
@@ -155,14 +152,14 @@ class Group extends \Magento\Backend\App\Action
                 $this->_customerGroupBuilder->setTaxClassId($taxClass);
                 $customerGroup = $this->_customerGroupBuilder->create();
 
-                $this->_groupService->saveGroup($customerGroup);
+                $id = $this->_groupService->saveGroup($customerGroup);
                 $this->messageManager->addSuccess(__('The customer group has been saved.'));
                 $this->getResponse()->setRedirect($this->getUrl('customer/group'));
                 return;
             } catch (\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 if ($customerGroup != null) {
-                    $this->_coreRegistry->register(self::REGISTRY_CURRENT_GROUP_ID, $customerGroup->getId());
+                    $this->_coreRegistry->register(self::REGISTRY_CURRENT_GROUP_ID, $id);
                 }
                 $this->getResponse()->setRedirect($this->getUrl('customer/group/edit', ['id' => $id]));
                 return;

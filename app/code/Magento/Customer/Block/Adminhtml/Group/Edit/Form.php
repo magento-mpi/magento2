@@ -2,21 +2,16 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Adminhtml\Group\Edit;
+
+use Magento\Customer\Controller\Adminhtml\Group;
 
 /**
  * Adminhtml customer groups edit form
- *
- * @category   Magento
- * @package    Magento_Customer
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Block\Adminhtml\Group\Edit;
-
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
@@ -68,7 +63,8 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
 
-        if (is_null($groupId = $this->_coreRegistry->registry('current_group_id'))) {
+        $groupId = $this->_coreRegistry->registry(Group::REGISTRY_CURRENT_GROUP_ID);
+        if (is_null($groupId)) {
             $customerGroup = $this->_groupBuilder->create();
         } else {
             $customerGroup = $this->_groupService->getGroup($groupId);
