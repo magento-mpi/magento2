@@ -9,7 +9,7 @@
  */
 namespace Magento\ImportExport\Model\Import;
 
-use Magento\ImportExport\Model\Import\AbstractSource
+use Magento\ImportExport\Model\Import\AbstractSource;
 
 /**
  * Import entity abstract model
