@@ -17,6 +17,11 @@ use Magento\Filesystem\Directory\WriteInterface;
 class UrlResolver implements PreProcessorInterface
 {
     /**
+     * Temporary directory prefix
+     */
+    const TMP_RESOLVER_DIR   = 'resolver';
+
+    /**
      * @var WriteInterface
      */
     protected $rootDirectory;
@@ -100,7 +105,8 @@ class UrlResolver implements PreProcessorInterface
             $this->logger->logException($e);
         }
 
-        $tmpFilePath = 'view' . '/' .  $publisherFile->getPublicationPath();
+        $tmpFilePath = \Magento\Css\PreProcessor\Composite::TMP_VIEW_DIR . '/' . self::TMP_RESOLVER_DIR . '/'
+            . $publisherFile->getPublicationPath();
         $targetDirectory->writeFile($tmpFilePath, $content);
         return $targetDirectory->getAbsolutePath($tmpFilePath);
     }

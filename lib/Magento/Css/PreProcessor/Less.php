@@ -18,7 +18,7 @@ class Less implements PreProcessorInterface
     /**
      * Temporary directory prefix
      */
-    const TMP_VIEW_DIR   = 'view';
+    const TMP_LESS_DIR   = 'less';
 
     /**
      * @var \Magento\Less\PreProcessor
@@ -77,7 +77,8 @@ class Less implements PreProcessorInterface
             return $publisherFile->getSourcePath();     // It's actually 'null'
         }
 
-        $tmpFilePath = self::TMP_VIEW_DIR . '/' . $publisherFile->getPublicationPath();
+        $tmpFilePath = \Magento\Css\PreProcessor\Composite::TMP_VIEW_DIR . '/' . self::TMP_LESS_DIR . '/'
+            . $publisherFile->getPublicationPath();
 
         $targetDirectory->writeFile($tmpFilePath, $cssContent);
         return $targetDirectory->getAbsolutePath($tmpFilePath);
