@@ -21,8 +21,6 @@ use Magento\Catalog\Model\Entity\Product\Attribute\Group\AttributeMapperInterfac
 
 class Main extends \Magento\Backend\Block\Template
 {
-    protected $_template = 'catalog/product/attribute/set/main.phtml';
-
     /**
      * Catalog product
      *

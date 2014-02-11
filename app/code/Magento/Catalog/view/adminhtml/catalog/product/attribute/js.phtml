@@ -304,9 +304,9 @@ if ($('is_filterable')) {
 if ($('is_required')) {
     Event.observe($('is_required'), 'change', updateRequriedOptions);
 }
-bindAttributeInputType();
 
 jQuery(function($) {
+    bindAttributeInputType();
     // @todo: refactor collapsable component
     $('.attribute-popup .collapse, [data-role="advanced_fieldset-content"]')
         .collapsable()

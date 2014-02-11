@@ -18,12 +18,12 @@ function checkIsConfigurableVisibility()
     }
 }
 
-switchDefaultValueField.wrap(function(original) {
+switchDefaultValueField = switchDefaultValueField.wrap(function(original) {
     original();
     checkIsConfigurableVisibility();
 });
 
-showDefaultRows.wrap(function(original) {
+showDefaultRows = showDefaultRows.wrap(function(original) {
     original();
     setRowVisibility('is_configurable', true);
 });
