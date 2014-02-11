@@ -36,6 +36,7 @@ class Config
     const XML_VARNISH_PAGECACHE_BACKEND_PORT = 'system/full_page_cache/varnish/backend_port';
     const XML_VARNISH_PAGECACHE_BACKEND_HOST = 'system/full_page_cache/varnish/backend_host';
     const XML_VARNISH_PAGECACHE_DESIGN_THEME_REGEX = 'design/theme/ua_regexp';
+    const XML_PATH_VARNISH_ENABLED = 'system/varnish_configuration_settings/caching_application';
     /**#@-*/
 
     /**

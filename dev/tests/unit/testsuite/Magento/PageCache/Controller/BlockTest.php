@@ -149,4 +149,63 @@ class BlockTest extends \PHPUnit_Framework_TestCase
 
         $this->controller->renderAction();
     }
+
+    public function testWrapesiAction()
+    {
+
+        $block = 'block';
+        $handles = array('handle1', 'handle2');
+        $html = 'some-html';
+
+        $blockInstance1 = $this->getMockForAbstractClass(
+            'Magento\View\Element\AbstractBlock', array(), '', false, true, true, array('toHtml')
+        );
+
+        $blockInstance1->expects($this->once())
+            ->method('toHtml')
+            ->will($this->returnValue($html));
+
+        $this->requestMock->expects($this->any())
+            ->method('getParam')
+            ->will($this->returnValueMap(array(
+                array('blockname', '', $block),
+                array('handles', serialize(array()), serialize($handles))
+            )));
+
+        $this->viewMock->expects($this->once())
+            ->method('loadLayout')
+            ->with($this->equalTo($handles));
+
+        $this->viewMock->expects($this->once())
+            ->method('getLayout')
+            ->will($this->returnValue($this->layoutMock));
+
+        $this->layoutMock->expects($this->once())
+            ->method('getBlock')
+            ->with($this->equalTo($block))
+            ->will($this->returnValue($blockInstance1));
+
+        $this->responseMock->expects($this->once())
+            ->method('appendBody')
+            ->with($this->equalTo($html));
+
+        $this->controller->wrapesiAction();
+    }
+
+    public function testWrapesiActionBlockNotExists()
+    {
+        $handles = array('handle1', 'handle2');
+
+        $this->requestMock->expects($this->any())
+            ->method('getParam')
+            ->will($this->returnValueMap(array(
+                array('blockname', '', null),
+                array('handles', serialize(array()), serialize($handles))
+            )));
+        $this->viewMock->expects($this->never())
+            ->method('getLayout')
+            ->will($this->returnValue($this->layoutMock));
+
+        $this->controller->wrapesiAction();
+    }
 }

@@ -90,8 +90,8 @@
             for (var i = 0; i < placeholders.length; i++) {
                 data.blocks.push(placeholders[i].name);
             }
-            data.blocks.sort();
-            data.handles.sort();
+            data.blocks = JSON.stringify(data.blocks.sort());
+            data.handles = JSON.stringify(data.handles.sort());
             $.ajax({
                 url: this.options.url,
                 data: data,

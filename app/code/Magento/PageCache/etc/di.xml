@@ -11,4 +11,7 @@
     <type name="Magento\App\FrontControllerInterface">
         <plugin name="front-controller-head" type="Magento\PageCache\Model\App\FrontController\HeaderPlugin"/>
     </type>
+    <type name="Magento\Core\Model\Layout">
+        <plugin name="layout-model-caching-unique-name" type="Magento\PageCache\Model\Layout\LayoutPlugin"/>
+    </type>
 </config>

@@ -823,6 +823,11 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
             $block->setTemplate($templateFileName);
         }
 
+        if (!empty($node['ttl'])) {
+            $ttl = (int)$node['ttl'];
+            $block->setTtl($ttl);
+        }
+
         $this->_scheduledStructure->unsetElement($elementName);
 
         // execute block methods
