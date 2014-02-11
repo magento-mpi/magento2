@@ -7,12 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-namespace Magento\PageCache\Model;
+namespace Magento\App\PageCache;
 
 /**
  * Class Version
- * @package Magento\PageCache\Model
+ *
+ * @package Magento\App\PageCache
  */
 class Version
 {
@@ -75,7 +75,7 @@ class Version
     public function process()
     {
         if ($this->request->isPost()) {
-                $this->set();
+            $this->set();
         }
     }
 }

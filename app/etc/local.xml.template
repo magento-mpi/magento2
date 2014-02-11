@@ -51,4 +51,14 @@
         <!-- Routing path of a backend area. Any string like 'backend', 'admin' or whatsoever. -->
         <frontName>{{backend_frontname}}</frontName>
     </backend>
+    <cache>
+        <frontend name="page_cache">
+            <backend>Cm_Cache_Backend_File</backend>
+            <backend_options>
+                <use_chmod>1</use_chmod>
+                <directory_mode>0777</directory_mode>
+                <file_mode>0666</file_mode>
+            </backend_options>
+        </frontend>
+    </cache>
 </config>

@@ -26,7 +26,7 @@ class Javascript extends \Magento\View\Element\Template
         $params = array(
             'url' => $this->getUrl('page_cache/block/render/'),
             'handles' => $this->getLayout()->getUpdate()->getHandles(),
-            'versionCookieName' => \Magento\PageCache\Model\Version::COOKIE_NAME
+            'versionCookieName' => \Magento\App\PageCache\Version::COOKIE_NAME
         );
         return json_encode($params);
     }
