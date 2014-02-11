@@ -14,7 +14,10 @@
         <plugin name="catalogLog" type="Magento\Catalog\Model\Plugin\Log" />
     </type>
     <type name="Magento\Indexer\Model\Indexer\State">
-        <plugin name="getStatus" type="Magento\Catalog\Model\Indexer\State\Plugin\Status" />
+        <plugin name="setStatusFroIndexer" type="Magento\Catalog\Model\Indexer\State\Plugin\Status" />
+    </type>
+    <type name="Magento\Mview\View\StateInterface">
+        <plugin name="setStatusForMview" type="Magento\Catalog\Model\Mview\View\State\Plugin\Status" />
     </type>
     <type name="Magento\Catalog\Helper\Product">
         <param name="typeSwitcherLabel">

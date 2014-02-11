@@ -62,6 +62,7 @@ class State extends \Magento\Core\Model\AbstractModel implements \Magento\Mview\
         if (!$this->getId()) {
             $this->setViewId($viewId);
         }
+        return $this;
     }
 
     /**

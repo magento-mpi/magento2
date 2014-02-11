@@ -51,7 +51,6 @@ class Status
                 ->load($indexerId, 'indexer_id');
 
             $relatedIndexerState->setData('status', $state->getStatus())
-                ->setData('updated', $state->getUpdated())
                 ->save();
         }
 
