@@ -19,9 +19,15 @@
         <span id="gc-please-wait" class="load indicator" style="display:none;">
             <span><?php echo __('Please wait, loading...') ?></span>
         </span>
-        <form class="form giftcard add" id="giftcard-form" action="<?php echo $this->getUrl('magento_giftcardaccount/cart/add') ?>" method="post" data-mage-init="{giftCard: {giftCardCodeSelector: '#giftcard-code', checkStatus: '.action.check',
-            giftCardStatusUrl: '<?php echo $this->getUrl('magento_giftcardaccount/cart/quickCheck',  array('_secure' => true)) ?>',
-            giftCardStatusId: '#giftcard-balance-lookup', giftCardSpinnerId: '#gc-please-wait', messages: '.page.messages .messages'}}">
+        <form class="form giftcard add" id="giftcard-form" action="<?php echo $this->getUrl('magento_giftcardaccount/cart/add') ?>" method="post"
+              data-mage-init='{"giftCard": {
+                "giftCardCodeSelector": "#giftcard-code",
+                "checkStatus": ".action.check",
+                "giftCardStatusUrl": "<?php echo $this->getUrl('magento_giftcardaccount/cart/quickCheck',  array('_secure' => true)) ?>",
+                "giftCardStatusId": "#giftcard-balance-lookup",
+                "giftCardSpinnerId": "#gc-please-wait",
+                "messages": ".page.messages .messages"
+              }}'>
             <fieldset class="fieldset">
                 <div class="field">
                     <label class="label" for="giftcard-code"><span><?php echo __('Enter the gift card code') ?></span></label>

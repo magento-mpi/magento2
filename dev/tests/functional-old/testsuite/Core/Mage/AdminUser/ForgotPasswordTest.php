@@ -26,7 +26,8 @@ class Core_Mage_AdminUser_ForgotPasswordTest extends Mage_Selenium_TestCase
     public function validateForgotPasswordPage()
     {
         //Steps
-        $this->admin('forgot_password');
+        $this->admin('log_in_to_admin');
+        $this->clickControl('link', 'forgot_password');
         //Verification
         $this->assertTrue($this->controlIsVisible('field', 'email'));
         $this->assertTrue($this->controlIsVisible('button', 'retrieve_password'));

@@ -225,7 +225,7 @@ class Collection extends \Magento\Sales\Model\Resource\Collection\AbstractCollec
         $ids = (is_array($ids)) ? $ids : array($ids);
         $this->getSelect()
             ->joinInner(
-                array('srpo' => $this->getTable('sales_recurring_profile_order')),
+                array('srpo' => $this->getTable('recurring_profile_order')),
                 'main_table.entity_id = srpo.order_id',
                 array())
             ->where('srpo.profile_id IN(?)', $ids);

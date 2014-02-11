@@ -332,7 +332,8 @@ class Agreement extends \Magento\Paypal\Model\Payment\Method\Billing\AbstractAgr
             )
         );
 
-        $parameters = array('params' => array($order));
+        $cart = $this->_cartFactory->create(array('salesModel' => $order));
+
         $proConfig = $this->_pro->getConfig();
         $api = $this->_pro->getApi()
             ->setReferenceId($billingAgreement->getReferenceId())
@@ -340,7 +341,7 @@ class Agreement extends \Magento\Paypal\Model\Payment\Method\Billing\AbstractAgr
             ->setAmount($amount)
             ->setCurrencyCode($payment->getOrder()->getBaseCurrencyCode())
             ->setNotifyUrl($this->_urlBuilder->getUrl('paypal/ipn/'))
-            ->setPaypalCart($this->_cartFactory->create($parameters))
+            ->setPaypalCart($cart)
             ->setIsLineItemsEnabled($proConfig->lineItemsEnabled)
             ->setInvNum($order->getIncrementId());
 

@@ -222,4 +222,35 @@ class Observer
             $order->addRelatedObject($comment);
         }
     }
+
+    /**
+     * Add PayPal shortcut buttons
+     *
+     * @param \Magento\Event\Observer $observer
+     */
+    public function addPaypalShortcuts(\Magento\Event\Observer $observer)
+    {
+        /** @var \Magento\Catalog\Block\ShortcutButtons $shortcutButtons */
+        $shortcutButtons = $observer->getEvent()->getContainer();
+        // PayPal Express Checkout
+        $shortcut = $shortcutButtons->getLayout()->createBlock(
+            'Magento\Paypal\Block\Express\Shortcut',
+            '',
+            array('checkoutSession' => $observer->getEvent()->getCheckoutSession())
+        );
+        $shortcut->setIsInCatalogProduct($observer->getEvent()->getIsCatalogProduct())
+            ->setShowOrPosition($observer->getEvent()->getOrPosition())
+            ->setTemplate('express/shortcut.phtml');
+        $shortcutButtons->addShortcut($shortcut);
+        // PayPal Express Checkout Payflow Edition
+        $shortcut = $shortcutButtons->getLayout()->createBlock(
+            'Magento\Paypal\Block\PayflowExpress\Shortcut',
+            '',
+            array('checkoutSession' => $observer->getEvent()->getCheckoutSession())
+        );
+        $shortcut->setIsInCatalogProduct($observer->getEvent()->getIsCatalogProduct())
+            ->setShowOrPosition($observer->getEvent()->getOrPosition())
+            ->setTemplate('express/shortcut.phtml');
+        $shortcutButtons->addShortcut($shortcut);
+    }
 }

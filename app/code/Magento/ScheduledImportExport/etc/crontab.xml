@@ -8,5 +8,7 @@
  */
 -->
 <config>
-    <job name="magento_scheduled_import_export_log_clean" instance="Magento\ScheduledImportExport\Model\Observer" method="scheduledLogClean" />
+    <group id="default">
+        <job name="magento_scheduled_import_export_log_clean" instance="Magento\ScheduledImportExport\Model\Observer" method="scheduledLogClean" />
+    </group>
 </config>

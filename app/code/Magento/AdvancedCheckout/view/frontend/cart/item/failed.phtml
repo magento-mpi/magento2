@@ -27,7 +27,7 @@ if ($_item->getQtyMaxAllowed()) {
 $qtyDisabled = !$this->hasProductUrl() ||
         $_item->getCode() == \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK;
 ?>
-<tbody class="cart item" data-mage-init='{orderBySkuFailure:{}}'>
+<tbody class="cart item" data-mage-init='{"orderBySkuFailure":{}}'>
     <tr class="item info">
         <td class="col item">
             <?php if ($this->hasProductUrl()):?><a href="<?php echo $this->getProductUrl() ?>" title="<?php echo $this->escapeHtml($this->getProductName()) ?>" class="product photo">

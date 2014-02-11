@@ -37,7 +37,6 @@ class Core_Mage_ImportExport_Product_CustomOptions_ImportTest extends Mage_Selen
         $this->systemConfigurationHelper()->configure('Advanced/enable_secret_key');
     }
 
-
     /**
      * Precondition:
      * Create new product
@@ -50,7 +49,7 @@ class Core_Mage_ImportExport_Product_CustomOptions_ImportTest extends Mage_Selen
         $this->navigate('manage_products');
         $productData = $this->loadDataSet('Product', 'simple_product_required');
         $productData['custom_options_data'] = $this->loadDataSet('Product', 'custom_options_data');
-        unset($productData['custom_options_data']['custom_options_file']);
+        unset($productData['custom_options_data']['option_10']);
         //Steps
         $this->productHelper()->createProduct($productData);
         //Verifying
@@ -101,7 +100,7 @@ class Core_Mage_ImportExport_Product_CustomOptions_ImportTest extends Mage_Selen
      */
     public function preconditionWithDifferentStoreViews()
     {
-        $this->markTestIncomplete('Need fix for select Store View on product page');
+        $this->markTestIncomplete('BUG: custom_options_default_value checkbox is not present on product page');
         $this->navigate('manage_products');
         $productData = $this->loadDataSet('Product', 'simple_product_required');
         $productData['custom_options_data'] = array(
@@ -123,9 +122,7 @@ class Core_Mage_ImportExport_Product_CustomOptions_ImportTest extends Mage_Selen
             $this->loadDataSet('Product', 'product_search', array('product_sku' => $productData['general_sku']));
         //Steps
         $this->productHelper()->openProduct($productSearch);
-        $this->selectStoreScope('dropdown', 'choose_store_view',
-            'Main Website/Main Website Store/' . $storeViewData['store_view_name'], true);
-        $this->waitForPageToLoad();
+        $this->productHelper()->selectStoreScope($storeViewData['store_view_name']);
         $this->productHelper()->openProductTab('custom_options');
         //Need to update custom option, get optionId by Title
         $optionId = $this->productHelper()->getCustomOptionIdByName('Custom Option Field');

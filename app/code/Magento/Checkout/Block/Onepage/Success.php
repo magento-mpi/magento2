@@ -35,7 +35,7 @@ class Success extends \Magento\View\Element\Template
     protected $_orderFactory;
 
     /**
-     * @var \Magento\Sales\Model\Resource\Recurring\Profile\CollectionFactory
+     * @var \Magento\RecurringProfile\Model\Resource\Profile\CollectionFactory
      */
     protected $_recurringProfileCollectionFactory;
 
@@ -49,7 +49,7 @@ class Success extends \Magento\View\Element\Template
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
-     * @param \Magento\Sales\Model\Resource\Recurring\Profile\CollectionFactory $recurringProfileCollectionFactory
+     * @param \Magento\RecurringProfile\Model\Resource\Profile\CollectionFactory $recurringProfileCollectionFactory
      * @param \Magento\Sales\Model\Order\Config $orderConfig
      * @param array $data
      */
@@ -58,7 +58,7 @@ class Success extends \Magento\View\Element\Template
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Sales\Model\OrderFactory $orderFactory,
-        \Magento\Sales\Model\Resource\Recurring\Profile\CollectionFactory $recurringProfileCollectionFactory,
+        \Magento\RecurringProfile\Model\Resource\Profile\CollectionFactory $recurringProfileCollectionFactory,
         \Magento\Sales\Model\Order\Config $orderConfig,
         array $data = array()
     ) {
@@ -82,17 +82,6 @@ class Success extends \Magento\View\Element\Template
     }
 
     /**
-     * Getter for recurring profile view page
-     *
-     * @param $profile
-     * @return string
-     */
-    public function getProfileUrl(\Magento\Object $profile)
-    {
-        return $this->getUrl('sales/recurring_profile/view', array('profile' => $profile->getId()));
-    }
-
-    /**
      * Render additional order information lines and return result html
      *
      * @return string
@@ -100,6 +89,17 @@ class Success extends \Magento\View\Element\Template
     public function getAdditionalInfoHtml()
     {
         return $this->_layout->renderElement('order.success.additional.info');
+    }
+
+    /**
+     * Getter for recurring profile view page
+     *
+     * @param $profile
+     * @return string
+     */
+    public function getProfileUrl(\Magento\Object $profile)
+    {
+        return $this->getUrl('sales/recurringProfile/view', array('profile' => $profile->getId()));
     }
 
     /**

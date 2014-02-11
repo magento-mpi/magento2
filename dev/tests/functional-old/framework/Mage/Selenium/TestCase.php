@@ -49,7 +49,7 @@
  * @method Core_Mage_Reports_Helper                                                                    reportsHelper()
  * @method Core_Mage_Review_Helper                                                                     reviewHelper()
  * @method Core_Mage_RssFeeds_Helper                                                                   rssFeedsHelper()
- * @method Core_Mage_ShoppingCart_Helper|Enterprise_Mage_ShoppingCart_Helper                           shoppingCartHelper()
+ * @method Core_Mage_ShoppingCart_Helper                                                               shoppingCartHelper()
  * @method Core_Mage_Store_Helper                                                                      storeHelper()
  * @method Core_Mage_SystemConfiguration_Helper                                                        systemConfigurationHelper()
  * @method Core_Mage_Tax_Helper                                                                        taxHelper()
@@ -59,10 +59,11 @@
  * @method Core_Mage_TransactionalEmails_Helper                                                        transactionalEmailsHelper()
  * @method Core_Mage_UrlRewrite_Helper                                                                 urlRewriteHelper()
  * @method Core_Mage_Vde_Helper                                                                        vdeHelper()
- * @method Core_Mage_Wishlist_Helper|Enterprise_Mage_Wishlist_Helper                                   wishlistHelper()
+ * @method Core_Mage_Wishlist_Helper                                                                   wishlistHelper()
  * @method Core_Mage_XmlSitemap_Helper                                                                 xmlSitemapHelper()
  * @method Enterprise_Mage_AddBySku_Helper                                                             addBySkuHelper()
  * @method Enterprise_Mage_Attributes_Helper                                                           attributesHelper()
+ * @method Enterprise_Mage_Backup_Helper                                                               backupHelper()
  * @method Enterprise_Mage_CacheStorageManagement_Helper                                               cacheStorageManagementHelper()
  * @method Enterprise_Mage_CmsBanners_Helper                                                           cmsBannersHelper()
  * @method Enterprise_Mage_CustomerSegment_Helper                                                      customerSegmentHelper()
@@ -71,8 +72,9 @@
  * @method Enterprise_Mage_ImportExportScheduled_Helper                                                importExportScheduledHelper()
  * @method Enterprise_Mage_Invitation_Helper                                                           invitationHelper()
  * @method Enterprise_Mage_Rma_Helper                                                                  rmaHelper()
- * @method Enterprise_Mage_Rollback_Helper                                                             rollbackHelper()
  * @method Enterprise_Mage_WebsiteRestrictions_Helper                                                  websiteRestrictionsHelper()
+ * @method PHPUnit_Extensions_Selenium2TestCase_Window              currentWindow()
+ * @method PHPUnit_Extensions_Selenium2TestCase_Session_Cookie      cookie()
  */
 //@codingStandardsIgnoreEnd
 class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
@@ -251,6 +253,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * @param string $command Command (method) name to call
      * @param array $arguments Arguments to be sent to the called command (method)
      *
+     * @throws Exception|PHPUnit_Extensions_Selenium2TestCase_WebDriverException
      * @return mixed
      */
     public function __call($command, $arguments)
@@ -266,6 +269,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             return parent::__call($command, $arguments);
         } catch (PHPUnit_Extensions_Selenium2TestCase_NoSeleniumException $e) {
             $this->markTestIncomplete($e->getMessage());
+        } catch (PHPUnit_Extensions_Selenium2TestCase_WebDriverException $e) {
+            if (strpos($e->getMessage(), 'unknown error') !== false) {
+                $this->markTestIncomplete($e->getMessage());
+            }
+            if (strpos($e->getMessage(), 'Error communicating with the remote browser. It may have died.') !== false) {
+                $this->markTestIncomplete($e->getMessage());
+            }
+            throw $e;
         }
     }
 
@@ -308,14 +319,16 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
         $this->setBrowserUrl($this->_configHelper->getBaseUrl());
         $this->prepareSession();
+        $this->currentWindow()->maximize();
+        if (self::$browserSessionStrategy instanceof PHPUnit_Extensions_Selenium2TestCase_SessionStrategy_Shared) {
+            $this->cookie()->clear();
+            $this->refresh();
+        }
     }
 
     public final function setUp()
     {
         $this->prepareBrowserSession();
-        $this->currentWindow()->maximize();
-        $this->cookie()->clear();
-        $this->refresh();
         $this->setUpBeforeTestClass();
     }
 
@@ -472,7 +485,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $fileName = preg_replace('/"/', '\'', $fileName);
         $fileName = preg_replace('/ with data set #/', '__DataSet_', $fileName);
         $url = $this->takeScreenshot($fileName);
-        $this->markTestSkipped($message . "\n" . $url);
+        $this->clearMessages('verification');
+        $this->markTestIncomplete($message . "\n" . $url);
     }
 
     /**
@@ -780,8 +794,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                     $isFound = ($currentKey === $overrideKey);
                     break;
                 case 'byValueParam':
-                    $isFound = (!is_array($currentValue)) ? preg_match(
-                        '/' . preg_quote('%' . $overrideKey . '%') . '/', $currentValue) : false;
+                    $isFound = (!is_array($currentValue))
+                        ? preg_match('/' . preg_quote('%' . $overrideKey . '%') . '/', $currentValue)
+                        : false;
                     break;
                 default:
                     throw new OutOfRangeException('Wrong condition');
@@ -789,8 +804,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             }
             if ($isFound) {
                 if ($condition == 'byValueParam') {
-                    $currentValue = (!is_array($overrideValue)) ? str_replace(
-                        '%' . $overrideKey . '%', $overrideValue, $currentValue) : $overrideValue;
+                    $currentValue = (!is_array($overrideValue))
+                        ? str_replace('%' . $overrideKey . '%', $overrideValue, $currentValue)
+                        : $overrideValue;
                 } else {
                     $currentValue = $overrideValue;
                 }
@@ -829,16 +845,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $value = preg_replace('/%currentDate%/', date("n/j/Y"), $value);
         }
         if (preg_match('/^%next(\w)+%$/', $value)) {
-            $fallbackOrderHelper = $this->_configHelper->getFixturesFallbackOrder();
             $param = strtoupper(substr(substr($value, 0, -1), 5));
-            switch (end($fallbackOrderHelper)) {
-                case 'enterprise':
-                    $value = preg_replace('/%next(\w)+%/', date("n/j/Y", strtotime("+1 $param")), $value);
-                    break;
-                default:
-                    $value = preg_replace('/%next(\w)+%/', date("n/j/y", strtotime("+1 $param")), $value);
-                    break;
-            }
+            $value = preg_replace('/%next(\w)+%/', date("n/j/Y", strtotime("+1 $param")), $value);
         }
         if (preg_match('/%design_theme%/', $value)) {
             $value = preg_replace('/%design_theme%/', $this->_configHelper->getApplicationDesignTheme(), $value);
@@ -918,52 +926,50 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     public function parseValidationMessages()
     {
         /** @var PHPUnit_Extensions_Selenium2TestCase_Element $tab */
-        /** @var PHPUnit_Extensions_Selenium2TestCase_Element $message */
-        /** @var PHPUnit_Extensions_Selenium2TestCase_Element $nameElement */
-        $messageLocator = $this->getCurrentUimapPage()->findMessage('general_validation');
         $tabsWithErrors = $this->getElements("//a[contains(@class,'error')]", false);
-        $messages = array();
         if (empty($tabsWithErrors)) {
-            $validationMessages = $this->getElements($messageLocator, false);
-            foreach ($validationMessages as $message) {
-                if (!$message->displayed()) {
-                    continue;
-                }
-                $fieldId = $message->attribute('for');
-                $this->addParameter('fieldId', $fieldId);
-                $nameElement = $this->elementIsPresent($this->_getControlXpath('pageelement', 'field_label'));
-                $fieldName = ($nameElement) ? trim($nameElement->text(), " *\t\n\r") : $fieldId;
-                $messages[] = '"' . $fieldName . '": ' . $message->text();
+            return $this->getValidationMessages();
+        }
+        $messages = array();
+        foreach ($tabsWithErrors as $tab) {
+            $isTabOpened = $this->getChildElement($tab, '..')->attribute('aria-selected');
+            $isTabActive = strpos($tab->attribute('class'), 'active');
+            //Expand Advanced Settings block on Product Page if need
+            if (!$tab->displayed()) {
+                $this->getChildElement($tab, 'ancestor::div/h3')->click();
+                $this->waitForElementStopsMoving($tab);
             }
-        } else {
-            foreach ($tabsWithErrors as $tab) {
-                $isTabOpened = $this->getChildElement($tab, '..')->attribute('aria-selected');
-                $isTabActive = strpos($tab->attribute('class'), 'active');
-                //Expand Advanced Settings block on Product Page if need
-                if (!$tab->displayed()) {
-                    $this->getChildElement($tab, 'ancestor::div/h3')->click();
-                    $this->waitForElementStopsMoving($tab);
-                }
-                if ($isTabOpened == 'false' || $isTabActive === false) {
-                    $waitAjax = strpos($tab->attribute('class'), 'ajax');
-                    $this->focusOnElement($tab);
-                    $tab->click();
-                    if ($waitAjax !== false) {
-                        $this->pleaseWait();
-                    }
-                }
-                $validationMessages = $this->getElements($messageLocator, false);
-                foreach ($validationMessages as $message) {
-                    if (!$message->displayed()) {
-                        continue;
-                    }
-                    $fieldId = $message->attribute('for');
-                    $this->addParameter('fieldId', $fieldId);
-                    $nameElement = $this->elementIsPresent($this->_getControlXpath('pageelement', 'field_label'));
-                    $fieldName = ($nameElement) ? trim($nameElement->text(), " *\t\n\r") : $fieldId;
-                    $messages[] = '"' . $fieldName . '": ' . $message->text();
+            if ($isTabOpened == 'false' || $isTabActive === false) {
+                $waitAjax = strpos($tab->attribute('class'), 'ajax');
+                $this->focusOnElement($tab);
+                $tab->click();
+                if ($waitAjax !== false) {
+                    $this->pleaseWait();
                 }
             }
+            $messages = array_merge($messages, $this->getValidationMessages());
+        }
+        return $messages;
+    }
+
+    /**
+     * @return array
+     */
+    private function getValidationMessages()
+    {
+        $messages = array();
+        /** @var PHPUnit_Extensions_Selenium2TestCase_Element $message */
+        foreach ($this->getControlElements(self::UIMAP_TYPE_MESSAGE, 'general_validation', null, false) as $message) {
+            if (!$message->displayed()) {
+                continue;
+            }
+            $fieldId = $message->attribute('for');
+            $this->addParameter('fieldId', $fieldId);
+            $nameElement = $this->elementIsPresent(
+                $this->_getControlXpath(self::FIELD_TYPE_PAGEELEMENT, 'field_label')
+            );
+            $fieldName = ($nameElement) ? trim($nameElement->text(), " *\t\n\r") : $fieldId;
+            $messages[] = '"' . $fieldName . '": ' . $message->text();
         }
         return $messages;
     }
@@ -1036,7 +1042,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     {
         $this->addMessage('verification', $message);
     }
-
 
     /**
      * Verifies messages count
@@ -1217,8 +1222,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function locationToString()
     {
-        return "\nCurrent url: '" . $this->url() . "'\nCurrent page: '" . $this->getCurrentPage()
-            . "'\nCurrent area: '" . $this->getArea() . "'\n";
+        return sprintf(
+            "\nCurrent url: '%s'\nCurrent page: '%s'\nCurrent area: '%s'\n",
+            $this->url(),
+            $this->getCurrentPage(),
+            $this->getArea()
+        );
     }
 
     ################################################################################
@@ -1296,6 +1305,28 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     }
 
     /**
+     * Hide Page Actions Panel
+     */
+    public function hidePageActionsPanel()
+    {
+        if ($this->getArea() == 'admin' && !$this->controlIsVisible(self::FIELD_TYPE_PAGEELEMENT, 'actions_panel')) {
+            $this->moveto($this->getControlElement(self::FIELD_TYPE_PAGEELEMENT, 'admin_logo'));
+        }
+    }
+
+    /**
+     * @param string $url
+     * @return string
+     */
+    private static function formatUrl($url)
+    {
+        $url = preg_replace('|/index.php/?|', '/', $url);
+        $url = preg_replace('|^http([s]{0,1})://|', '', $url);
+        $url = preg_replace('|^www\.|', '', $url);
+        return trim(preg_replace('#backend/(backend|admin)/?#', 'backend/', $url), " /\\#");
+    }
+
+    /**
      * Navigates to the specified page in the current area.<br>
      * Page identifier must be described in the UIMap.
      *
@@ -1306,6 +1337,10 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function navigate($page, $validatePage = true)
     {
+        $pageUrl = self::formatUrl($this->_uimapHelper->getPageUrl($this->getArea(), $page, $this->_paramsHelper));
+        if (strpos(self::formatUrl($this->url()), $pageUrl) !== false && $this->getCurrentPage() == $page) {
+            return $this;
+        }
         $area = $this->_configHelper->getArea();
         $clickLocator = $this->_uimapHelper->getPageClickXpath($area, $page, $this->_paramsHelper);
         $availableElement = ($clickLocator) ? $this->elementIsPresent($clickLocator) : false;
@@ -1379,10 +1414,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     public function closeLastWindow()
     {
         $windowHandles = $this->windowHandles();
-        if (count($windowHandles) > 1) {
+        $base = array_shift($windowHandles);
+        if (!empty($windowHandles)) {
             $this->window(end($windowHandles));
             $this->closeWindow();
-            $this->window('');
+            $this->window($base);
             $this->validatePage();
         }
     }
@@ -1417,15 +1453,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     protected static function _getAreaFromCurrentUrl($areasConfig, $currentUrl)
     {
+        if (!preg_match('/^http/', $currentUrl)) {
+            return Mage_Selenium_Helper_Config::DEFAULT_AREA;
+        }
         $currentArea = '';
-        $currentUrl = preg_replace('|^http([s]{0,1})://|', '', preg_replace('|/index.php/?|', '/', $currentUrl));
-        $currentUrl = preg_replace('#backend(/backend|/admin)?/?#', 'backend/', $currentUrl);
+        $currentUrl = self::formatUrl($currentUrl);
         $possibleAreas = array();
         foreach ($areasConfig as $area => $areaConfig) {
-            $areaUrl =
-                preg_replace('|^http([s]{0,1})://|', '', preg_replace('|/index.php/?|', '/', $areaConfig['url']));
-            //@TODO Fix for StoreLauncher tests
-            $areaUrl = preg_replace('#backend/(backend|admin)/?$#', 'backend/', $areaUrl);
+            $areaUrl = self::formatUrl($areaConfig['url']);
             if (strpos($currentUrl, $areaUrl) === 0) {
                 $possibleAreas[$area] = $areaUrl;
             }
@@ -1558,12 +1593,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     {
         if (is_null($url)) {
             $url = $this->url();
-            $url = str_replace(
-                array(
-                    $this->getUrlPostfix(),
-                    $this->getUrlPrefix()
-                ), '', $url
-            );
+            $url = str_replace(array($this->getUrlPostfix(), $this->getUrlPrefix()), '', $url);
         }
         $areasConfig = $this->_configHelper->getConfigAreas();
         $mca = self::_getMcaFromCurrentUrl($areasConfig, $url);
@@ -1607,7 +1637,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         } else {
             $page = $this->_findCurrentPageFromUrl();
         }
-        $this->assertEmptyPageErrors();
         $expectedTitle = $this->getUimapPage($this->_configHelper->getArea(), $page)->getTitle($this->_paramsHelper);
         $actualTitle = $this->title();
         if (!is_null($expectedTitle) && $expectedTitle !== $actualTitle) {
@@ -1620,18 +1649,32 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $this->fail($errorMessage);
         }
         $this->setCurrentPage($page);
+        $this->assertEmptyPageErrors();
         $this->closeSystemMessagesDialog();
     }
 
     public function assertEmptyPageErrors()
     {
         $errorMessages = array(
-            'Fatal error', 'Parse error', 'was not found', 'Unable to connect',
+            'Fatal error',
+            'Parse error',
+            'Unable to connect',
             'There has been an error processing your request',
             'The page you requested was not found',
             "The page isn't redirecting properly",
             'If you typed the URL directly',
-            'Internal server error', 'Notice: ', 'Warning: '
+            'The connection was reset',
+            'Internal server error',
+            'could not connect to',
+            'No data received',
+            'Network Error',
+            'Warning: ',
+            '/app/code/',
+            '/lib/Magento/',
+            'was not found',
+            'Notice: ',
+            'Whoops, our bad',
+            '404 Error'
         );
         $pageText = $this->getElement('/*')->text();
         foreach ($errorMessages as $message) {
@@ -1639,7 +1682,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                 $this->fail('Page validation is not done, because there is  message "' . $message . '" on it');
             }
         }
-        if ($this->controlIsVisible('message', 'general_js_error')) {
+        if (in_array($this->getArea(), array('admin', 'frontend'))
+            && $this->controlIsVisible(self::UIMAP_TYPE_MESSAGE, 'general_js_error')
+        ) {
             $this->fail($this->locationToString() . 'JS error on page.');
         }
     }
@@ -1662,15 +1707,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     protected static function _getMcaFromCurrentUrl($areasConfig, $currentUrl)
     {
         $mca = '';
-        $currentArea = self::_getAreaFromCurrentUrl($areasConfig, $currentUrl);
-        $baseUrl = preg_replace('|^www\.|', '', preg_replace('|^http([s]{0,1})://|', '',
-            preg_replace('|/index.php/?|', '/', $areasConfig[$currentArea]['url'])));
-        $currentUrl = preg_replace('|^www\.|', '',
-            preg_replace('|^http([s]{0,1})://|', '', preg_replace('|/index.php/?|', '/', $currentUrl)));
-
-        //@TODO Fix for StoreLauncher tests
-        $baseUrl = preg_replace('#backend/(backend|admin)/?$#', 'backend/', $baseUrl);
-        $currentUrl = preg_replace('#backend(/backend|/admin)?/?#', 'backend/', $currentUrl);
+        if (!preg_match('/^http/', $currentUrl)) {
+            return $mca;
+        }
+        $area = self::_getAreaFromCurrentUrl($areasConfig, $currentUrl);
+        $baseUrl = self::formatUrl($areasConfig[$area]['url']);
+        $currentUrl = self::formatUrl($currentUrl);
         if (strpos($currentUrl, $baseUrl) !== false) {
             $mca = trim(substr($currentUrl, strlen($baseUrl)), " /\\#");
         }
@@ -1743,7 +1785,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                     return $this->_paramsHelper->replaceParameters($generalButtons[$elementName]);
                 }
             }
-            if ($elementType != 'fieldset' && $elementType != 'tab') {
+            if ($elementType != self::UIMAP_TYPE_FIELDSET && $elementType != self::UIMAP_TYPE_TAB) {
                 $uimap = $this->_getActiveTabUimap();
                 if (is_null($uimap)) {
                     $uimap = $this->getCurrentUimapPage();
@@ -1818,7 +1860,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function _getControlXpath($controlType, $controlName, $uimap = null)
     {
-        if ($controlType === 'message') {
+        if ($controlType === self::UIMAP_TYPE_MESSAGE) {
             return $this->_getMessageXpath($controlName);
         }
         $locator = $this->_findUimapElement($controlType, $controlName, $uimap);
@@ -1941,10 +1983,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             foreach ($fieldsetsElements as $fieldsetContent) {
                 foreach ($fieldsetContent as $fieldsType => $fieldsData) {
                     if (array_key_exists($dataFieldName, $fieldsData)) {
-                        $dataMap[$dataFieldName] = array(
+                        $dataMap[] = array(
                             'type' => $fieldsType,
+                            'name' => $dataFieldName,
                             'value' => $dataFieldValue,
-                            'path' => $fieldsData[$dataFieldName]
+                            'locator' => $fieldsData[$dataFieldName]
                         );
                         break 2;
                     }
@@ -2013,6 +2056,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         curl_setopt($curl, CURLOPT_HEADER, true);
         curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 60);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
         curl_exec($curl);
         $info = curl_getinfo($curl);
@@ -2054,8 +2098,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 60);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_HEADER, true);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($curl, CURLOPT_COOKIE, 'PHPSESSID=' . $this->cookie()->get('PHPSESSID'));
+        curl_setopt($curl, CURLOPT_COOKIE, 'adminhtml=' . $this->cookie()->get('adminhtml'));
         $data = curl_exec($curl);
         if (curl_errno($curl)) {
             $error = 'Error connection[' . curl_errno($curl) . '] to ' . $url . ': ' . curl_error($curl);
@@ -2215,12 +2260,19 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     public function clickControl($controlType, $controlName, $willChangePage = true)
     {
         $locator = $this->_getControlXpath($controlType, $controlName);
-        $availableElement = $this->elementIsPresent($locator);
-        if (!$availableElement || !$availableElement->displayed()) {
-            $this->fail($this->locationToString() . "Problem with $controlType '$controlName', xpath '$locator':\n"
-                . 'Control is not present(visible) on the page');
+        $element = $this->getElement($locator);
+        if (!$element->displayed() || !$element->enabled()) {
+            $this->fail(
+                sprintf(
+                    "%sProblem with '%s' %s: Control is not visible on the page\n[locator='%s']",
+                    $this->locationToString(),
+                    $controlName,
+                    $controlType,
+                    $locator
+                )
+            );
         }
-        $this->focusOnElement($availableElement);
+        $this->focusOnElement($element);
         $this->getElement($locator)->click();
         if ($willChangePage) {
             $this->waitForPageToLoad();
@@ -2257,12 +2309,20 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     public function clickControlAndConfirm($controlType, $controlName, $message, $willChangePage = true)
     {
         $locator = $this->_getControlXpath($controlType, $controlName);
-        $availableElement = $this->elementIsPresent($locator);
-        if (!$availableElement) {
-            $this->fail("There is no way to click on control(There is no '$controlName' $controlType)");
+        $element = $this->getElement($locator);
+        if (!$element->displayed() || !$element->enabled()) {
+            $this->fail(
+                sprintf(
+                    "%sProblem with '%s' %s: Control is not visible on the page\n[locator='%s']",
+                    $this->locationToString(),
+                    $controlName,
+                    $controlType,
+                    $locator
+                )
+            );
         }
         $expectedMessage = $this->_getMessageXpath($message);
-        $this->focusOnElement($availableElement);
+        $this->focusOnElement($element);
         $this->getElement($locator)->click();
         $actualText = $this->alertText();
         $this->acceptAlert();
@@ -2380,7 +2440,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function openTab($tabName)
     {
-        $tabElement = $this->getControlElement('tab', $tabName);
+        $tabElement = $this->getControlElement(self::UIMAP_TYPE_TAB, $tabName);
         if (!$tabElement->displayed()) {
             $this->fail($this->locationToString() . "Problem with tab '$tabName':\nTab is not visible on the page");
         }
@@ -2391,7 +2451,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
         $waitAjax = strpos($tabElement->attribute('class'), 'ajax');
         $this->focusOnElement($tabElement);
-        $this->getControlElement('tab', $tabName)->click();
+        $this->getControlElement(self::UIMAP_TYPE_TAB, $tabName)->click();
         if ($waitAjax !== false) {
             $this->pleaseWait();
             $this->assertEmptyPageErrors();
@@ -2647,8 +2707,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                 if ($this->alertIsPresent()) {
                     return true;
                 }
-                if ($this->elementIsPresent($locator)) {
-                    return true;
+                /** @var PHPUnit_Extensions_Selenium2TestCase_Element $availableElement */
+                $availableElements = $this->getElements($locator, false);
+                foreach ($availableElements as $availableElement) {
+                    if ($availableElement->displayed()) {
+                        return true;
+                    }
                 }
                 usleep(500000);
             } catch (Exception $e) {
@@ -2852,14 +2916,17 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $tabUimap = $this->_getActiveTabUimap();
         if (!is_null($tabUimap)) {
             $tabName = $tabUimap->getTabId();
-            $this->addParameter('tab', $this->getControlAttribute('tab', $tabName, 'name'));
+            $this->addParameter('tab', $this->getControlAttribute(self::UIMAP_TYPE_TAB, $tabName, 'name'));
         }
         $this->clickControlAndWaitMessage($controlType, $controlName);
         $this->pleaseWait();
         if (!is_null($tabUimap)) {
             $this->openTab($tabName); //@TODO remove when fixed for shopping cart price rules
-            $this->assertSame($tabName, $this->_getActiveTabUimap()->getTabId(),
-                $this->locationToString() . 'Opened wrong tab after Save and Continue Edit action');
+            $this->assertSame(
+                $tabName,
+                $this->_getActiveTabUimap()->getTabId(),
+                $this->locationToString() . 'Opened wrong tab after Save and Continue Edit action'
+            );
         }
     }
 
@@ -3014,7 +3081,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function search(array $data, $fieldsetName)
     {
-        $fieldsetUimap = $this->_findUimapElement('fieldset', $fieldsetName);
+        $fieldsetUimap = $this->_findUimapElement(self::UIMAP_TYPE_FIELDSET, $fieldsetName);
         $fieldsetLocator = $fieldsetUimap->getXpath($this->_paramsHelper);
         $trLocator = $fieldsetLocator . $this->formSearchXpath($data);
         if ($this->elementIsPresent($trLocator)) {
@@ -3036,12 +3103,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
         $this->addParameter('tableXpath', $fieldsetLocator);
         $noRecordsLocator = $this->_getMessageXpath('specific_table_no_records_found');
-        $anyDataTrLocator = $this->_getControlXpath('pageelement', 'specific_table_default_row');
+        $anyDataTrLocator = $this->_getControlXpath(self::FIELD_TYPE_PAGEELEMENT, 'specific_table_default_row');
         if ($this->elementIsPresent($noRecordsLocator) || !$this->elementIsPresent($anyDataTrLocator)) {
             return null;
         }
         $qtyElementsInTable = $this->_getControlXpath(self::FIELD_TYPE_PAGEELEMENT, 'qtyElementsInTable');
-        $totalCount = $this->getTotalRecordsInTable('fieldset', $fieldsetName);
+        $totalCount = $this->getTotalRecordsInTable(self::UIMAP_TYPE_FIELDSET, $fieldsetName);
         $pagerLocator = $fieldsetLocator . $qtyElementsInTable . "[not(text()='" . $totalCount . "')]";
         // Fill in search form and click 'Search' button
         $this->fillFieldset($data, $fieldsetName);
@@ -3065,7 +3132,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     public function formSearchXpath(array $data, $trLocator = null)
     {
         if (is_null($trLocator)) {
-            $trLocator = $this->_getControlXpath('pageelement', 'default_table_row');
+            $trLocator = $this->_getControlXpath(self::FIELD_TYPE_PAGEELEMENT, 'default_table_row');
         }
         foreach ($data as $key => $value) {
             if (!preg_match('/_from/', $key) && !preg_match('/_to/', $key) && !is_array($value)) {
@@ -3092,7 +3159,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     public function fillFieldset(array $data, $fieldsetId, $failXpathNotFound = true)
     {
         $this->assertNotEmpty($data);
-        $fillData = $this->getDataMapForFill($data, 'fieldset', $fieldsetId);
+        $fillData = $this->getDataMapForFill($data, self::UIMAP_TYPE_FIELDSET, $fieldsetId);
 
         if (!isset($fillData['isPresent']) && !$failXpathNotFound) {
             return false;
@@ -3124,7 +3191,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
     public function fillTab(array $data, $tabId, $failXpathNotFound = true)
     {
         $this->assertNotEmpty($data);
-        $fillData = $this->getDataMapForFill($data, 'tab', $tabId);
+        $fillData = $this->getDataMapForFill($data, self::UIMAP_TYPE_TAB, $tabId);
 
         if (!isset($fillData['isPresent']) && !$failXpathNotFound) {
             return false;
@@ -3149,13 +3216,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * Fills any form with the provided data. Specific Tab can be filled only if $tabId is provided.
      *
      * @param array|string $data Array of data to fill or data source name
-     * @param string $tabId Tab ID from UIMap (by default = '')
+     * @param string $tabId Tab ID from UIMap (by default = null)
      *
-     * @throws OutOfRangeException|PHPUnit_Framework_Exception
+     * @throws OutOfRangeException
      * @deprecated
      * @see fillTab() or fillFieldset()
      */
-    public function fillForm($data, $tabId = '')
+    public function fillForm($data, $tabId = null)
     {
         if (is_string($data)) {
             $elements = explode('/', $data);
@@ -3164,48 +3231,18 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
 
         $formData = $this->getCurrentUimapPage()->getMainForm();
-        if ($tabId && $formData->getTab($tabId)) {
-            $fieldsets = $formData->getTab($tabId)->getAllFieldsets($this->_paramsHelper);
-        } else {
-            $fieldsets = $formData->getAllFieldsets($this->_paramsHelper);
-        }
+        $fieldsets = ($tabId !== null)
+            ? $formData->getTab($tabId)->getAllFieldsets($this->_paramsHelper)
+            : $formData->getAllFieldsets($this->_paramsHelper);
         // if we have got empty UIMap but not empty dataset
         if (empty($fieldsets)) {
             throw new OutOfRangeException($this->locationToString() . 'Can not find main form in UIMap array');
         }
-
-        $formDataMap = $this->_getFormDataMap($fieldsets, $data);
-
         if ($tabId) {
             $this->openTab($tabId);
         }
-
-        try {
-            foreach ($formDataMap as $formFieldName => $formField) {
-                switch ($formField['type']) {
-                    case self::FIELD_TYPE_INPUT:
-                        $this->fillField($formFieldName, $formField['value'], $formField['path']);
-                        break;
-                    case self::FIELD_TYPE_CHECKBOX:
-                        $this->fillCheckbox($formFieldName, $formField['value'], $formField['path']);
-                        break;
-                    case self::FIELD_TYPE_DROPDOWN:
-                        $this->fillDropdown($formFieldName, $formField['value'], $formField['path']);
-                        break;
-                    case self::FIELD_TYPE_RADIOBUTTON:
-                        $this->fillRadiobutton($formFieldName, $formField['value'], $formField['path']);
-                        break;
-                    case self::FIELD_TYPE_MULTISELECT:
-                        $this->fillMultiselect($formFieldName, $formField['value'], $formField['path']);
-                        break;
-                    default:
-                        throw new PHPUnit_Framework_Exception('Unsupported field type ' . $formField['type']);
-                }
-            }
-        } catch (PHPUnit_Framework_Exception $e) {
-            $errorMessage = isset($formFieldName) ? 'Problem with field \'' . $formFieldName . '\': ' . $e->getMessage()
-                : $e->getMessage();
-            $this->fail($errorMessage);
+        foreach ($this->_getFormDataMap($fieldsets, $data) as $fieldData) {
+            $this->_fill($fieldData);
         }
     }
 
@@ -3213,15 +3250,14 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * Verifies values on the opened form
      *
      * @param array|string $data Array of data to verify or data source name
-     * @param string $tabId Defines a specific Tab on the page that contains the form to verify (by default = '')
+     * @param string $tabId Defines a specific Tab on the page that contains the form to verify (by default = null)
      * @param array $skipElements Array of elements that will be skipped during verification <br>
      * (default = array('password'))
      *
      * @throws OutOfRangeException
-     * @throws RuntimeException
      * @return bool
      */
-    public function verifyForm($data, $tabId = '', $skipElements = array('password', 'password_confirmation'))
+    public function verifyForm($data, $tabId = null, $skipElements = array('password', 'password_confirmation'))
     {
         if (is_string($data)) {
             $elements = explode('/', $data);
@@ -3230,11 +3266,9 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         }
 
         $formData = $this->getCurrentUimapPage()->getMainForm();
-        if ($tabId && $formData->getTab($tabId)) {
-            $fieldsets = $formData->getTab($tabId)->getAllFieldsets($this->_paramsHelper);
-        } else {
-            $fieldsets = $formData->getAllFieldsets($this->_paramsHelper);
-        }
+        $fieldsets = ($tabId !== null)
+            ? $formData->getTab($tabId)->getAllFieldsets($this->_paramsHelper)
+            : $formData->getAllFieldsets($this->_paramsHelper);
         // if we have got empty UIMap but not empty dataset
         if (empty($fieldsets)) {
             throw new OutOfRangeException($this->locationToString() . 'Can not find main form in UIMap array');
@@ -3249,45 +3283,58 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                 unset($data[$key]);
             }
         }
-        $formDataMap = $this->_getFormDataMap($fieldsets, $data);
-
         $resultFlag = true;
-        foreach ($formDataMap as $formFieldName => $formField) {
-            $availableElement = $this->elementIsPresent($formField['path']);
+        foreach ($this->_getFormDataMap($fieldsets, $data) as $fieldData) {
+            $availableElement = $this->elementIsPresent($fieldData['locator']);
             if (!$availableElement) {
                 $this->addVerificationMessage(
-                    'Can not find ' . $formField['type'] . ' (xpath: ' . $formField['path'] . ')');
+                    'Can not find ' . $fieldData['type'] . ' (xpath: ' . $fieldData['locator'] . ')'
+                );
                 $resultFlag = false;
                 continue;
             }
             $this->focusOnElement($availableElement);
-            switch ($formField['type']) {
+            switch ($fieldData['type']) {
                 case self::FIELD_TYPE_INPUT:
-                    $actualValue = $availableElement->value();
-                    if ((string)$actualValue != (string)$formField['value']) {
-                        $this->addVerificationMessage($formFieldName
-                            . ": The stored value is not equal to specified: ('" . $formField['value']
-                            . "' != '" . $actualValue . "')");
+                    $actual = $availableElement->value();
+                    if ((string)$actual != (string)$fieldData['value']) {
+                        $this->addVerificationMessage(
+                            sprintf(
+                                '%s: The stored value is not equal to specified: ("%s" != "%s")',
+                                $fieldData['name'],
+                                $fieldData['value'],
+                                $actual
+                            )
+                        );
                         $resultFlag = false;
                     }
                     break;
                 case self::FIELD_TYPE_CHECKBOX:
                 case self::FIELD_TYPE_RADIOBUTTON:
-                    $actualValue = ($availableElement->selected()) ? 'yes' : 'no';
-                    if ($actualValue != strtolower($formField['value'])) {
-                        $this->addVerificationMessage($formFieldName
-                            . ": The stored value is not equal to specified: ('" . $formField['value']
-                            . "' != '" . $actualValue . "')");
+                    $actual = ($availableElement->selected()) ? 'yes' : 'no';
+                    if ($actual != strtolower($fieldData['value'])) {
+                        $this->addVerificationMessage(
+                            sprintf(
+                                '%s: The stored value is not equal to specified: ("%s" != "%s")',
+                                $fieldData['name'],
+                                $fieldData['value'],
+                                $actual
+                            )
+                        );
                         $resultFlag = false;
                     }
                     break;
                 case self::FIELD_TYPE_DROPDOWN:
-                    $actualValue = trim($this->select($availableElement)->selectedLabel(),
-                        chr(0xC2) . chr(0xA0) . ' ');
-                    if ($actualValue != $formField['value']) {
-                        $this->addVerificationMessage($formFieldName
-                            . ": The stored value is not equal to specified: ('" . $formField['value']
-                            . "' != '" . $actualValue . "')");
+                    $actual = trim($this->select($availableElement)->selectedLabel(), chr(0xC2) . chr(0xA0) . ' ');
+                    if ($actual != $fieldData['value']) {
+                        $this->addVerificationMessage(
+                            sprintf(
+                                '%s: The stored value is not equal to specified: ("%s" != "%s")',
+                                $fieldData['name'],
+                                $fieldData['value'],
+                                $actual
+                            )
+                        );
                         $resultFlag = false;
                     }
                     break;
@@ -3295,38 +3342,54 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                     $selectedLabels = $this->select($availableElement)->selectedLabels();
                     $selectedLabels = array_map('trim', $selectedLabels, array(" \t\n\r\0\x0B"));
                     $selectedLabels = array_map('trim', $selectedLabels);
-                    if (strtolower($formField['value']) == 'all') {
+                    if (strtolower($fieldData['value']) == 'all') {
                         $expectedLabels = $this->select($availableElement)->selectOptionLabels();
                     } else {
-                        $expectedLabels = explode(',', $formField['value']);
+                        $expectedLabels = explode(',', $fieldData['value']);
                     }
                     $expectedLabels = array_map('trim', $expectedLabels, array(" \t\n\r\0\x0B"));
                     $expectedLabels = array_map('trim', $expectedLabels);
                     $expectedLabels = array_diff($expectedLabels, array(''));
                     foreach ($expectedLabels as $value) {
                         if (!in_array($value, $selectedLabels)) {
-                            $this->addVerificationMessage($formFieldName
-                                . ": The value '" . $value . "' is not selected. (Selected values are: '"
-                                . implode(', ', $selectedLabels) . "')");
+                            $this->addVerificationMessage(
+                                sprintf(
+                                    '%s: The value "%s" is not selected. (Selected values are: "%s")',
+                                    $fieldData['name'],
+                                    $value,
+                                    implode(', ', $selectedLabels)
+                                )
+                            );
                             $resultFlag = false;
                         }
                     }
                     if (count($selectedLabels) != count($expectedLabels)) {
-                        $this->addVerificationMessage("Amounts of the expected options are not equal to selected: ('"
-                            . $formField['value'] . "' != '" . implode(', ', $selectedLabels) . "')");
+                        $this->addVerificationMessage(
+                            sprintf(
+                                '%s: Amounts of the expected options are not equal to selected: ("%s" != "%s")',
+                                $fieldData['name'],
+                                $fieldData['value'],
+                                implode(', ', $selectedLabels)
+                            )
+                        );
                         $resultFlag = false;
                     }
                     break;
                 case self::FIELD_TYPE_COMPOSITE_MULTISELECT:
-                    $result = $this->verifyCompositeMultiselect($formFieldName, array($formField['value']));
+                    $result = $this->verifyCompositeMultiselect($fieldData['name'], array($fieldData['value']));
                     $resultFlag = ($result) ? $resultFlag : false;
                     break;
                 case self::FIELD_TYPE_PAGEELEMENT:
-                    $actualValue = trim($availableElement->text());
-                    if ($actualValue != $formField['value']) {
-                        $this->addVerificationMessage($formFieldName
-                            . ": The stored value is not equal to specified: ('" . $formField['value']
-                            . "' != '" . $actualValue . "')");
+                    $actual = trim($availableElement->text());
+                    if ($actual != $fieldData['value']) {
+                        $this->addVerificationMessage(
+                            sprintf(
+                                '%s: The stored value is not equal to specified: ("%s" != "%s")',
+                                $fieldData['name'],
+                                $fieldData['value'],
+                                $actual
+                            )
+                        );
                         $resultFlag = false;
                     }
                     break;
@@ -3438,7 +3501,6 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             }
             $this->fail('Option with name "' . $value . '" is not exist in "' . $name . '" multiselect field');
         }
-        $this->clearActiveFocus();
         $this->waitForAjax();
     }
 
@@ -3750,25 +3812,30 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function pleaseWait($waitDisappear = null)
     {
-        if ($this->controlIsVisible('message', 'general_js_error')) {
-            $this->fail($this->locationToString() . 'JS error on page.');
+        if (is_null($waitDisappear)) {
+            $waitDisappear = $this->_browserTimeout;
         }
+        $this->waitForAjax();
         $this->waitUntil(
-            function ($testCase) {
+            function ($testCase) use ($waitDisappear) {
                 /** @var Mage_Selenium_TestCase $testCase */
-                /** @var PHPUnit_Extensions_Selenium2TestCase_Element $element */
+                $iStartTime = time();
                 do {
                     $isLoaderDisplay = false;
-                    $elements = $testCase->getControlElements('pageelement', 'loadingHolder');
+                    $elements = $testCase->getControlElements('pageelement', 'loadingHolder', null, false);
+                    /** @var PHPUnit_Extensions_Selenium2TestCase_Element $element */
                     foreach ($elements as $element) {
                         $isLoaderDisplay = $element->displayed() || $isLoaderDisplay;
                     }
-                    $testCase->waitForAjax();
-                } while ($isLoaderDisplay == true);
-                return true;
+                    $isTimeExist = $waitDisappear > time() - $iStartTime;
+                } while ($isLoaderDisplay && $isTimeExist);
+                return $isTimeExist;
             },
             $waitDisappear
         );
+        if ($this->controlIsVisible(self::UIMAP_TYPE_MESSAGE, 'general_js_error')) {
+            $this->fail($this->locationToString() . 'JS error on page.');
+        }
     }
 
     /**
@@ -3786,22 +3853,17 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $this->validatePage('log_in_to_admin');
             $this->fillFieldset($loginData, 'log_in');
             $this->clickButton('login', false);
-            $this->waitForElement(array(
-                $this->_getControlXpath(self::FIELD_TYPE_PAGEELEMENT, 'admin_logo'),
-                $this->_getMessageXpath('general_error'),
-                $this->_getMessageXpath('general_validation')
-            ));
+            $this->waitForElement(
+                array(
+                    $this->_getControlXpath(self::FIELD_TYPE_PAGEELEMENT, 'admin_logo'),
+                    $this->_getMessageXpath('general_error'),
+                    $this->_getMessageXpath('general_validation')
+                )
+            );
         }
         $this->checkCurrentPage($this->pageAfterAdminLogin);
         $this->assertEmptyVerificationErrors();
         $this->setCurrentPage($this->pageAfterAdminLogin);
-        if ($this->pageAfterAdminLogin == 'store_launcher' &&
-            $this->controlIsVisible(self::FIELD_TYPE_PAGEELEMENT, 'welcome_popup')
-        ) {
-            $this->waitForControlStopsMoving(self::FIELD_TYPE_PAGEELEMENT, 'welcome_popup');
-            $this->clickButton('back_to_storelauncher', false);
-            $this->waitForControlNotVisible(self::FIELD_TYPE_PAGEELEMENT, 'welcome_popup');
-        }
         $this->closeSystemMessagesDialog();
         if ($this->controlIsVisible('button', 'close_notification')) {
             $this->clickControl('button', 'close_notification', false);
@@ -3818,13 +3880,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         if ($this->getArea() !== 'admin') {
             $this->admin('log_in_to_admin', false);
         }
-        $logOutLocator = $this->_getControlXpath('link', 'log_out');
-        $adminUserLocator = $this->_getControlXpath('link', 'account_avatar');
-        $availableElement = $this->elementIsPresent($adminUserLocator);
-        if ($availableElement) {
-            $this->focusOnElement($availableElement);
-            $availableElement->click();
-            $this->elementIsPresent($logOutLocator)->click();
+        if ($this->controlIsVisible(self::FIELD_TYPE_LINK, 'account_avatar')) {
+            $this->hidePageActionsPanel();
+            if (!$this->isControlExpanded(self::FIELD_TYPE_LINK, 'account_avatar')) {
+                $this->getControlElement(self::FIELD_TYPE_LINK, 'account_avatar')->click();
+            }
+            $this->waitForControlVisible(self::FIELD_TYPE_LINK, 'log_out')->click();
             $this->waitForPageToLoad();
         }
         $this->validatePage('log_in_to_admin');
@@ -3842,8 +3903,8 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         ) {
             try {
                 $this->clickControl('button', 'close_messages_list', false);
-                $this->waitForControlNotVisible(self::UIMAP_TYPE_FIELDSET, 'system_messages_list');
-            } catch (PHPUnit_Extensions_Selenium2TestCase_WebDriverException $e) {
+                $this->waitForControlNotVisible(self::UIMAP_TYPE_FIELDSET, 'system_messages_list', 5);
+            } catch (Exception $e) {
             }
         }
     }
@@ -3918,7 +3979,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $element = $this->getElement($locator . "[$i]");
             $name = trim($this->getChildElement($element, "td[$cellId]")->text());
             $this->addParameter('indexName', $name);
-            $this->clickControl('link', 'reindex_index', false);
+            $this->clickControl(self::FIELD_TYPE_LINK, 'reindex_index', false);
             $this->waitForNewPage();
             $this->validatePage('index_management');
             $this->assertMessagePresent('success', 'success_reindex');
@@ -3954,13 +4015,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         if ($this->getArea() !== 'frontend' || !preg_match('/^http/', $this->url())) {
             $this->frontend();
         }
-        if ($this->controlIsPresent('link', 'log_out')) {
-            //For GO default theme(Plushe). Open links menu
-            if ($this->controlIsPresent(self::FIELD_TYPE_PAGEELEMENT, 'menu')) {
-                $this->clickControl(self::FIELD_TYPE_PAGEELEMENT, 'menu', false);
-                $this->waitForControlVisible(self::FIELD_TYPE_PAGEELEMENT, 'menu_active');
+        if ($this->controlIsVisible(self::UIMAP_TYPE_FIELDSET, 'customer_menu')) {
+            if (!$this->isControlExpanded(self::UIMAP_TYPE_FIELDSET, 'customer_menu')) {
+                $this->clickControl(self::FIELD_TYPE_LINK, 'expand_customer_menu', false);
             }
-            $this->clickControl('link', 'log_out', false);
+            $this->clickControl(self::FIELD_TYPE_LINK, 'log_out', false);
             $this->waitForTextPresent('You are now logged out');
             $this->waitForTextNotPresent('You are now logged out');
             $this->validatePage('home_page');
@@ -3976,19 +4035,47 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function selectFrontStoreView($storeViewName = 'Default Store View')
     {
-        if ($this->controlIsPresent(self::FIELD_TYPE_DROPDOWN, 'your_language')) {
-            $this->selectStoreScope(self::FIELD_TYPE_DROPDOWN, 'your_language', $storeViewName);
+        $this->addParameter('storeView', $storeViewName);
+        if (!$this->controlIsVisible(self::FIELD_TYPE_PAGEELEMENT, 'selected_store_view')) {
+            $this->clickButton('change_store_view', false);
+            $this->waitForControlVisible(self::FIELD_TYPE_PAGEELEMENT, 'store_views_list');
+            $this->getControlElement(self::FIELD_TYPE_LINK, 'select_store_view')->click();
+            $this->waitForControlVisible(self::FIELD_TYPE_PAGEELEMENT, 'selected_store_view');
+        }
+        $parsedUrl = parse_url($this->url());
+        if (isset($parsedUrl['query'])) {
+            parse_str($parsedUrl['query']);
+            if (isset($___store)) {
+                $this->addParameter('storeCode', $___store);
+            }
+            if (isset($___from_store)) {
+                $this->addParameter('fromStore', $___from_store);
+            }
+        }
+        $this->validatePage();
+    }
+
+    /**
+     * Selects Store on Frontend
+     *
+     * @param string $storeName
+     */
+    public function selectFrontendStore($storeName = 'Main Website Store')
+    {
+        $this->addParameter('store', $storeName);
+        if ($this->controlIsVisible(self::FIELD_TYPE_PAGEELEMENT, 'selected_store')) {
             return;
         }
-        $this->addParameter('storeView', $storeViewName);
-        $isSelectedLocator = $this->_getControlXpath(self::FIELD_TYPE_PAGEELEMENT, 'selected_store_view');
-        $isSelected = $this->elementIsPresent($isSelectedLocator) ? true : false;
-        if (!$isSelected) {
-            $this->clickControl(self::FIELD_TYPE_PAGEELEMENT, 'change_store_view', false);
-            $this->waitForElementVisible($this->_getControlXpath('link', 'your_language'))->click();
-            $isSelected = $this->elementIsPresent($isSelectedLocator) ? true : false;
+        $this->clickControl(self::FIELD_TYPE_LINK, 'select_store', false);
+        $this->waitForPageToLoad();
+        $parsedUrl = parse_url($this->url());
+        if (isset($parsedUrl['query'])) {
+            parse_str($parsedUrl['query']);
+            if (isset($___store)) {
+                $this->addParameter('storeCode', $___store);
+            }
         }
-        $this->assertTrue($isSelected, 'Store view not changed to ' . $storeViewName);
+        $this->validatePage();
     }
 
     /**
@@ -4003,9 +4090,13 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * @throws OutOfRangeException
      * @return bool
      */
-    public function selectStoreScope($controlType, $controlName, $scopePath = null,
-                                     $confirmation = false, $scopeType = 'storeView')
-    {
+    public function selectStoreScope(
+        $controlType,
+        $controlName,
+        $scopePath = null,
+        $confirmation = false,
+        $scopeType = 'storeView'
+    ) {
         if (is_null($scopePath)) {
             $scopePath = 'Main Website/Main Website Store/Default Store View';
         }
@@ -4031,10 +4122,12 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                         list($website, $store, $storeView) = $scopePath;
                         $websiteElement =
                             $element->element($this->using('xpath')->value("*[normalize-space(@label)='$website']"));
-                        $storeElement = $websiteElement->element($this->using('xpath')
-                            ->value("following-sibling::*[contains(@label,'$store')]"));
-                        $storeViewElement = $storeElement->element($this->using('xpath')
-                            ->value("option[contains(text(),'$storeView')]"));
+                        $storeElement = $websiteElement->element(
+                            $this->using('xpath')->value("following-sibling::*[contains(@label,'$store')]")
+                        );
+                        $storeViewElement = $storeElement->element(
+                            $this->using('xpath')->value("option[contains(text(),'$storeView')]")
+                        );
                         $value = $storeViewElement->attribute('value');
                         $this->$method($controlName, $value, $locator, $confirmation);
                         break;
@@ -4092,6 +4185,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      * @param string $locator
      * @param bool $failIfEmpty
      *
+     * @throws Exception|PHPUnit_Extensions_Selenium2TestCase_WebDriverException
      * @return array
      */
     public function getElements($locator, $failIfEmpty = true)
@@ -4101,11 +4195,20 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
             $elements = $this->elements($this->using($locatorType)->value($locator));
         } catch (PHPUnit_Extensions_Selenium2TestCase_NoSeleniumException $e) {
             $this->markTestIncomplete($e->getMessage());
+        } catch (PHPUnit_Extensions_Selenium2TestCase_WebDriverException $e) {
+            if (strpos($e->getMessage(), 'unknown error') !== false) {
+                $this->markTestIncomplete($e->getMessage());
+            }
+            if (strpos($e->getMessage(), 'Error communicating with the remote browser. It may have died.') !== false) {
+                $this->markTestIncomplete($e->getMessage());
+            }
+            throw $e;
         }
         if (empty($elements) && $failIfEmpty) {
             $this->assertEmptyPageErrors();
-            $this->fail($this->locationToString() . 'Element(s) with locator: "' . $locator
-                . '" is not found on page');
+            $this->fail(
+                $this->locationToString() . 'Element(s) with locator: "' . $locator . '" is not found on page'
+            );
         }
         return $elements;
     }
@@ -4132,9 +4235,11 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      *
      * @return array
      */
-    public function getChildElements(PHPUnit_Extensions_Selenium2TestCase_Element $parentElement, $childLocator,
-                                     $failIfEmpty = true)
-    {
+    public function getChildElements(
+        PHPUnit_Extensions_Selenium2TestCase_Element $parentElement,
+        $childLocator,
+        $failIfEmpty = true
+    ) {
         if (preg_match('|^//|', $childLocator)) {
             $childLocator = '.' . $childLocator;
         }
@@ -4418,7 +4523,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function runMassAction($action, $select = null, $message = 'confirmation_for_delete')
     {
-        if ($this->controlIsVisible('message', 'no_records_found')) {
+        if ($this->controlIsVisible(self::UIMAP_TYPE_MESSAGE, 'no_records_found')) {
             return;
         }
         if ($select) {
@@ -4478,7 +4583,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         /** @var $item PHPUnit_Extensions_Selenium2TestCase_Element */
         foreach ($blocks as $item) {
             if ($fieldType == self::FIELD_TYPE_INPUT) {
-                if($item->attribute('type') == 'hidden') {
+                if ($item->attribute('type') == 'hidden') {
                     preg_match_all('/\d+/', $item->attribute('name'), $matches);
                     $key = array_pop($matches[0]);
                 } else {
@@ -4521,7 +4626,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
                 $locationBeforeMove = $attributeBlock2->location();
                 $attempts = 2;
                 while ($attempts > 0) {
-                    $this->moveto($this->getControlElement(self::FIELD_TYPE_PAGEELEMENT, 'admin_logo'));
+                    $this->hidePageActionsPanel();
                     $this->moveto($attributeBlock1);
                     $this->buttondown();
                     $this->moveto($attributeBlock2);
@@ -4577,14 +4682,17 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
      */
     public function waitForWindowToClose($countBeforeClose = 2, $timeout = null)
     {
-        $this->waitUntil(function ($testCase) use ($countBeforeClose) {
-            /** @var Mage_Selenium_TestCase $testCase */
-            if (count($testCase->windowHandles()) == $countBeforeClose - 1) {
-                $testCase->window('');
-                return true;
-            }
-            sleep(1);
-        }, $timeout);
+        $this->waitUntil(
+            function ($testCase) use ($countBeforeClose) {
+                /** @var Mage_Selenium_TestCase $testCase */
+                if (count($testCase->windowHandles()) == $countBeforeClose - 1) {
+                    $testCase->window('');
+                    return true;
+                }
+                sleep(1);
+            },
+            $timeout
+        );
     }
 
     /**

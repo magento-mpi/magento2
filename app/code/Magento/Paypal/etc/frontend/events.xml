@@ -14,6 +14,9 @@
     <event name="controller_action_postdispatch_checkout_onepage_saveOrder">
         <observer name="hss_save_order_onepage" instance="Magento\Paypal\Model\Observer" method="setResponseAfterSaveOrder" />
     </event>
+    <event name="shortcut_buttons_container">
+        <observer name="paypal_shortcuts" instance="Magento\Paypal\Model\Observer" method="addPaypalShortcuts" />
+    </event>
     <event name="checkout_onepage_success_before_to_html">
         <observer name="onepage_success_prepare_last_billing_agreement" instance="Magento\Paypal\Model\Observer" method="prepareLastBillingAgreementOnOrderSuccess" />
     </event>

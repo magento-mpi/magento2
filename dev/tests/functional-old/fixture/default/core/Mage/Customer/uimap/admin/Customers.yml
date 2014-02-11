@@ -12,7 +12,7 @@
 # 'Manage Customers' page
 manage_customers:
     mca: customer/
-    click_xpath: //*[@id='nav']//a[contains(@href, 'customer/')]
+    click_xpath: //ul[@id='nav']//a[contains(@href, 'customer/')]
     title: Customers / Customers / Magento Admin
     uimap:
         form: &searchCustomerGrid
@@ -49,7 +49,7 @@ manage_customers:
             success_deleted_customer_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'A total of %qtyDeletedCustomers% record(s) were deleted.')]
             success_subscribe_unsubscribe_customer_massaction: //li[normalize-space(@class)='success-msg' and contains(.,'A total of %qtySubscribeCustomers% record(s) were updated.')]
             wrong_data_of_birth: //li[normalize-space(@class)='error-msg' and contains(.,'"Date Of Birth" does not fit the entered date format.')]
-            customer_email_exist: //li[normalize-space(@class)='error-msg' and contains(.,'Customer with the same email already exists.')]
+            customer_email_exist: //li[normalize-space(@class)='error-msg' and contains(.,'Customer with the same email already exists in associated website.')]
             success_deleted_customer: //li[normalize-space(@class)='success-msg' and contains(.,'You deleted the customer.')]
             success_saved_customer: //li[normalize-space(@class)='success-msg' and contains(.,'You saved the customer.')]
             customer_invalid_email: //li[normalize-space(@class)='error-msg' and contains(.,'"Email" is not a valid')]
@@ -61,7 +61,7 @@ manage_customers:
 
 # 'New Customer' Page
 create_customer:
-    mca: customer/new/
+    mca: customer/index/new/
     title: New Customer / Customers / Customers / Magento Admin
     uimap:
         form: &newCustomerForm
@@ -92,14 +92,6 @@ create_customer:
                                         tax_vat_number: //input[@id='_accounttaxvat']
                                         custom_attribute: //input[@id='_account%attribute_name%']
                                     required: [associate_to_website, group, first_name, last_name, email]
-#                            -
-#                                password:
-#                                    xpath: //fieldset[@id='_accountpassword_fieldset']
-#                                    checkboxes:
-#                                        auto_generated_password: //input[@id='account-send-pass']
-#                                    fields:
-#                                        password: //input[@id='_accountpassword' and not(@disabled)]
-#                                    required: [password]
                 -
                     addresses:
                         xpath: //a[@id='customer_info_tabs_addresses']
@@ -138,7 +130,6 @@ create_customer:
                                         telephone: //input[@id='_item%address_number%telephone']
                                         fax: //input[@id='_item%address_number%fax']
                                         vat_number: //input[@id='_item%address_number%vat_id']
-                                        state: //input[@id='_item%address_number%region_id']
                                     required: [first_name, last_name, street_address_line_1, city, country, state, zip_code, telephone]
         buttons:
             back: //button[span='Back']
@@ -149,7 +140,7 @@ create_customer:
 
 # 'Edit Customer' Page
 edit_customer:
-    mca: customer/edit/id/%id%/
+    mca: customer/index/edit/id/%id%/
     title: %elementTitle% / Customers / Customers / Magento Admin
     uimap: &edit_customer-uimap
         form: &editCustomerForm
@@ -194,14 +185,6 @@ edit_customer:
                                         date_of_birth: //input[@id='_accountdob']
                                         tax_vat_number: //input[@id='_accounttaxvat']
                                     required: [group, first_name, last_name, email]
-#                            -
-#                                password:
-#                                    xpath: //fieldset[@id='_accountpassword_fieldset']
-#                                    checkboxes:
-#                                        auto_generated_password: //input[@id='account-send-pass']
-#                                    fields:
-#                                        new_password: //input[@id='_accountnew_password']
-#                                    required: [new_password]
                 -
                     addresses:
                         xpath: //a[@id='customer_info_tabs_addresses']
@@ -311,18 +294,6 @@ edit_customer:
                                         search: //button[span='Search']
                                     dropdowns:
                                         filter_visible_in: //select[@name='visible_in']
-                -
-                    product_tags:
-                        xpath: //a[@id='customer_info_tabs_tags']
-                        fieldsets:
-                            -
-                                product_tags:
-                                    xpath: //div[@id='tag_grid']
-                                    links:
-                                      next_page: //a[@title="Next page"]
-                                    pageelements:
-                                      tags_grid_head: //table[@id='tag_grid_table']//thead/tr[@class='headings']
-                                      tags_grid: //table[@id='tag_grid_table']
         buttons:
             back: //button[span='Back']
             reset: //button[span='Reset']
@@ -335,24 +306,24 @@ edit_customer:
         messages: *customerMessages
 
 edit_customer_save_and_continue:
-    mca: customer/edit/id/%id%/back/edit/active_tab/%tab%/
+    mca: customer/index/edit/id/%id%/back/edit/active_tab/%tab%/
     title: %elementTitle% / Customers / Customers / Magento Admin
     uimap: *edit_customer-uimap
 
 new_customer_with_error_account:
-    mca: customer/new/active_tab/account/
+    mca: customer/index/new/active_tab/account/
     title: New Customer / Customers / Customers / Magento Admin
     uimap: *edit_customer-uimap
 
 new_customer_with_error_addresses:
-    mca: customer/new/active_tab/addresses/
-    title: New Customer / Manage Customers / Customers / Magento Admin
+    mca: customer/index/new/active_tab/addresses/
+    title: New Customer / Customers / Customers / Magento Admin
     uimap: *edit_customer-uimap
 
 # 'Online Customers' Page
 online_customers:
-    mca: customer_online/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'customer_online/')]
+    mca: customer/online/
+    click_xpath: //ul[@id='nav']//a[contains(@href, '/customer/online/')]
     title: Customers Now Online / Customers / Magento Admin
     uimap:
         form:

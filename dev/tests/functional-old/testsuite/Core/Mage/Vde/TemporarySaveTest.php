@@ -109,7 +109,8 @@ class Core_Mage_Vde_TemporarySaveTest extends Mage_Selenium_TestCase
 
         // Open required page on frontend
         $this->window('');
-        $this->frontend('advanced_search');
+        $this->frontend();
+        $this->clickControl('link', 'advanced_search');
         $this->fillFieldset(array('name' => 'test'), 'advanced_search_information');
         $this->clickButton('search', false);
 

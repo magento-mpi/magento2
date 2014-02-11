@@ -104,7 +104,7 @@ class Form
         $ignoreInvisible = true,
         $filterAttributes = [],
         $isAjax = false
-    ) {
+    )  {
         $this->_eavMetadataService = $eavMetadataService;
         $this->_elementFactory = $elementFactory;
         $this->_attributeValues = $attributeValues;
@@ -171,7 +171,7 @@ class Form
      */
     public function getAllowedAttributes()
     {
-        $attributes = $this->_eavMetadataService->getAttributes($this->_entityType, $this->_formCode);
+        $attributes = $this->getAttributes();
         foreach ($attributes as $attributeCode => $attribute) {
             if (
                 $this->_ignoreInvisible && !$attribute->isVisible()
@@ -194,7 +194,6 @@ class Form
     public function extractData(\Magento\App\RequestInterface $request, $scope = null, $scopeOnly = true)
     {
         $data = array();
-        /** @var $attribute \Magento\Eav\Model\Attribute */
         foreach ($this->getAllowedAttributes() as $attribute) {
             $dataModel = $this->_getAttributeDataModel($attribute);
             $dataModel->setRequestScope($scope);
@@ -231,7 +230,6 @@ class Form
      */
     public function restoreData(array $data)
     {
-        /** @var $attribute \Magento\Eav\Model\Attribute */
         foreach ($this->getAllowedAttributes() as $attribute) {
             $dataModel = $this->_getAttributeDataModel($attribute);
             $dataModel->setExtractedData($data);
@@ -246,7 +244,7 @@ class Form
     /**
      * Return attribute data model by attribute
      *
-     * @param \Magento\Eav\Model\Entity\Attribute $attribute
+     * @param \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute
      * @return \Magento\Eav\Model\Attribute\Data\AbstractData
      */
     protected function _getAttributeDataModel($attribute)
