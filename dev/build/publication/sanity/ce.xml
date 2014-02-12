@@ -392,6 +392,7 @@
             <!-- Incorrect dependency: EE functionality mentioned in CE test for layer navigation. -->
             <path>dev/tests/functional/tests/app/Magento/Search/Test/Block/Catalog/Layer/View.php</path>
             <word>Magento\Search</word>
+            <word>Magento/Search</word>
         </item>
         <item>
             <!-- Skip all words in CE check as currently this testsuites are used only for EE -->
