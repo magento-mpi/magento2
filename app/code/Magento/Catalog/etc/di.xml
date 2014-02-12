@@ -44,6 +44,9 @@
         <param name="catalogProductStatus">
             <instance type="Magento\Catalog\Model\Product\Status\Proxy" />
         </param>
+        <param name="categoryIndexer">
+            <instance type="Magento\Indexer\Model\IndexerInterface" shared="false"/>
+        </param>
     </type>
     <type name="Magento\Catalog\Model\Resource\Product\Flat\Indexer">
         <param name="maxIndexCount">
@@ -151,6 +154,9 @@
         <param name="flatIndexer">
             <instance type="Magento\Indexer\Model\IndexerInterface" shared="false"/>
         </param>
+        <param name="productIndexer">
+            <instance type="Magento\Indexer\Model\IndexerInterface" shared="false"/>
+        </param>
     </type>
     <type name="Magento\Catalog\Model\Indexer\Category\Flat\System\Config\Mode">
         <param name="flatIndexer">
@@ -200,16 +206,6 @@
                 <item key="links_crosssell"><value type="const">Magento\Catalog\Model\Product\Link::LINK_TYPE_CROSSSELL</value></item>
                 <item key="links_upsell"><value type="const">Magento\Catalog\Model\Product\Link::LINK_TYPE_UPSELL</value></item>
             </array>
-        </param>
-    </type>
-    <type name="Magento\Catalog\Model\Category">
-        <param name="productIndexer">
-            <instance type="Magento\Indexer\Model\IndexerInterface" shared="false"/>
-        </param>
-    </type>
-    <type name="Magento\Catalog\Model\Product">
-        <param name="categoryIndexer">
-            <instance type="Magento\Indexer\Model\IndexerInterface" shared="false"/>
         </param>
     </type>
     <type name="Magento\Catalog\Model\Product\Action">
