@@ -374,7 +374,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Catalog Product Review before save
      *
-     * @param  \Magento\Review\Model\Review
+     * @param  \Magento\Review\Model\Review $model
      * @return void
      */
     public function catalogProductReviewSaveBefore($model)
@@ -392,7 +392,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * Catalog Product Review before delete
      *
-     * @param  \Magento\Review\Model\Review
+     * @param  \Magento\Review\Model\Review $model
      * @return void
      */
     public function catalogProductReviewDeleteBefore($model)
