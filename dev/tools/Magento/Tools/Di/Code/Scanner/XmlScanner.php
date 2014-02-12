@@ -38,10 +38,9 @@ class XmlScanner implements ScannerInterface
             $xpath = new \DOMXPath($dom);
             $xpath->registerNamespace("php", "http://php.net/xpath");
             $xpath->registerPhpFunctions('preg_match');
-            $regex = '/(.*)\\\(.*)Proxy/';
+            $regex = '/^(.*)\\\(.*)Proxy$/';
             $query = "/config/preference[ php:functionString('preg_match', '$regex', @type) > 0]/@type | "
-                . "/config/type/arguments/argument"
-                . "[@xsi:type='object' and php:functionString('preg_match', '$regex', text()) > 0] |"
+                . "//argument[@xsi:type='object' and php:functionString('preg_match', '$regex', text()) > 0] |"
                 . "//item[@xsi:type='object' and php:functionString('preg_match', '$regex', text()) > 0] |"
                 . "/config/virtualType[ php:functionString('preg_match', '$regex', @type) > 0]/@type";
             /** @var \DOMNode $node */
