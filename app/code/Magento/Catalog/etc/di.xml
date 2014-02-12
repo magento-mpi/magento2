@@ -42,7 +42,7 @@
     </type>
     <type name="Magento\Catalog\Model\Product">
         <param name="catalogProductStatus">
-            <instance type="Magento\Catalog\Model\Product\Status\Proxy" />
+            <instance type="Magento\Catalog\Model\Product\Attribute\Source\Status\Proxy" />
         </param>
         <param name="categoryIndexer">
             <instance type="Magento\Indexer\Model\IndexerInterface" shared="false"/>

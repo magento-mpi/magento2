@@ -150,7 +150,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     /**
      * Catalog product status
      *
-     * @var \Magento\Catalog\Model\Product\Status
+     * @var \Magento\Catalog\Model\Product\Attribute\Source\Status
      */
     protected $_catalogProductStatus;
 
@@ -213,7 +213,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      * @param CategoryFactory $categoryFactory
      * @param Product\Option $catalogProductOption
      * @param Product\Visibility $catalogProductVisibility
-     * @param Product\Status $catalogProductStatus
+     * @param \Magento\Catalog\Model\Product\Attribute\Source\Status $catalogProductStatus
      * @param Product\Media\Config $catalogProductMediaConfig
      * @param \Magento\Index\Model\Indexer $indexIndexer
      * @param Product\Type $catalogProductType
@@ -241,7 +241,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Catalog\Model\Product\Option $catalogProductOption,
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
-        \Magento\Catalog\Model\Product\Status $catalogProductStatus,
+        \Magento\Catalog\Model\Product\Attribute\Source\Status $catalogProductStatus,
         \Magento\Catalog\Model\Product\Media\Config $catalogProductMediaConfig,
         \Magento\Index\Model\Indexer $indexIndexer,
         \Magento\Catalog\Model\Product\Type $catalogProductType,
@@ -400,7 +400,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     public function getStatus()
     {
         if (is_null($this->_getData('status'))) {
-            $this->setData('status', \Magento\Catalog\Model\Product\Status::STATUS_ENABLED);
+            $this->setData('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
         }
         return $this->_getData('status');
     }
@@ -1336,7 +1336,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      */
     public function isInStock()
     {
-        return $this->getStatus() == \Magento\Catalog\Model\Product\Status::STATUS_ENABLED;
+        return $this->getStatus() == \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED;
     }
 
     /**
@@ -1971,7 +1971,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      */
     public function isDisabled()
     {
-        return $this->getStatus() == \Magento\Catalog\Model\Product\Status::STATUS_DISABLED;
+        return $this->getStatus() == \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED;
     }
 
     /**
