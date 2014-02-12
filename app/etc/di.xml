@@ -257,6 +257,7 @@
                 <item name="helper" xsi:type="object">Magento\View\Layout\Argument\Interpreter\HelperMethod</item>
                 <item name="number" xsi:type="object">Magento\Data\Argument\Interpreter\Number</item>
                 <item name="string" xsi:type="object">Magento\Data\Argument\Interpreter\String</item>
+                <item name="null" xsi:type="object">Magento\Data\Argument\Interpreter\NullType</item>
             </argument>
             <argument name="discriminator" xsi:type="const">Magento\Core\Model\Layout\Merge::TYPE_ATTRIBUTE</argument>
         </arguments>
