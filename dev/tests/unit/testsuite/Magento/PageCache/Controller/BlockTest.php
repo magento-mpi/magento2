@@ -152,10 +152,13 @@ class BlockTest extends \PHPUnit_Framework_TestCase
 
     public function testWrapesiAction()
     {
-
         $block = 'block';
         $handles = array('handle1', 'handle2');
         $html = 'some-html';
+        $mapData = array(
+            array('blockname', '', $block),
+            array('handles', array(), $handles)
+        );
 
         $blockInstance1 = $this->getMockForAbstractClass(
             'Magento\View\Element\AbstractBlock', array(), '', false, true, true, array('toHtml')
@@ -167,10 +170,7 @@ class BlockTest extends \PHPUnit_Framework_TestCase
 
         $this->requestMock->expects($this->any())
             ->method('getParam')
-            ->will($this->returnValueMap(array(
-                array('blockname', '', $block),
-                array('handles', serialize(array()), serialize($handles))
-            )));
+            ->will($this->returnValueMap($mapData));
 
         $this->viewMock->expects($this->once())
             ->method('loadLayout')
@@ -189,23 +189,26 @@ class BlockTest extends \PHPUnit_Framework_TestCase
             ->method('appendBody')
             ->with($this->equalTo($html));
 
-        $this->controller->wrapesiAction();
+        $result = $this->controller->esiAction();
+        $this->assertNull($result);
     }
 
-    public function testWrapesiActionBlockNotExists()
+    public function testEsiActionBlockNotExists()
     {
         $handles = array('handle1', 'handle2');
+        $mapData = array(
+            array('blockname', '', null),
+            array('handles', array(), $handles)
+        );
 
         $this->requestMock->expects($this->any())
             ->method('getParam')
-            ->will($this->returnValueMap(array(
-                array('blockname', '', null),
-                array('handles', serialize(array()), serialize($handles))
-            )));
+            ->will($this->returnValueMap($mapData));
         $this->viewMock->expects($this->never())
             ->method('getLayout')
             ->will($this->returnValue($this->layoutMock));
 
-        $this->controller->wrapesiAction();
+        $result = $this->controller->esiAction();
+        $this->assertNull($result);
     }
 }
