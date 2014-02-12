@@ -37,20 +37,19 @@ class Core_Mage_Various_AddToShoppingCartTest extends Mage_Selenium_TestCase
      */
     public function bundleWithSimpleProductPercentPrice()
     {
-        if ($this->getBrowser() == 'chrome') {
-            $this->markTestIncomplete('MAGETWO-11557');
-        }
         //Data
         $simpleData = $this->loadDataSet('Product', 'simple_product_visible');
-        $bundleData = $this->loadDataSet('Product', 'fixed_bundle_visible');
-        $bundleData['general_bundle_items']['item_1'] = $this->loadDataSet('Product', 'bundle_item_2',
-            array('associated_search_sku'   => $simpleData['general_sku'],
-                  'selection_item_price'      => '10',
-                  'selection_item_price_type' => 'Percent',));
+        $item = $this->loadDataSet('Product', 'bundle_item_4',array(
+            'bundle_items_is_required' => 'No',
+            'associated_search_sku' => $simpleData['general_sku'],
+            'selection_item_price' => '10',
+            'selection_item_price_type' => 'Percent'
+        ));
+        $bundleData = $this->loadDataSet('Product', 'fixed_bundle_visible', array('item_1' => $item));
         $productSearch =
             $this->loadDataSet('Product', 'product_search', array('product_sku' => $bundleData['general_sku']));
-        $options['option_1'] = $this->loadDataSet('Product', 'bundle_options_to_add_to_shopping_cart/option_4', null,
-            array('subProduct_4' => $simpleData['general_name']));
+        $options['option_1'] = $this->loadDataSet('Product', 'bundle_options_to_add_to_shopping_cart/option_3', null,
+            array('subProduct_3' => $simpleData['general_name']));
         //Steps
         $this->productHelper()->createProduct($simpleData);
         //Verifying

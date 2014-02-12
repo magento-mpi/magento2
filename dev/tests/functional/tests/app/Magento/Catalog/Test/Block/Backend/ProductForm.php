@@ -202,9 +202,7 @@ class ProductForm extends FormTabs
     public function showAdvanced()
     {
         $this->_rootElement->find('ui-accordion-product_info_tabs-advanced-header-0', Locator::SELECTOR_ID)->click();
-        $this->waitForElementVisible(
-            '[aria-labelledby="ui-accordion-product_info_tabs-advanced-header-0"] [role="tab"]:last-child'
-        );
+        $this->waitForElementVisible('ui-accordion-product_info_tabs-advanced-panel-0', Locator::SELECTOR_ID);
     }
 
     /**

@@ -23,12 +23,6 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
         $this->loginAdminUser();
     }
 
-    protected function tearDownAfterTestClass()
-    {
-        $this->paypalHelper()->paypalDeveloperLogin();
-        $this->paypalHelper()->deleteAllAccounts();
-    }
-
     /**
      * <p>Create a Sandbox Test Accounts and configure paypal settings</p>
      *
@@ -71,8 +65,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
     public function orderWithout3DSecureSmoke($testData)
     {
         //Data
-        $paymentData = $this->loadDataSet('Payment', 'payment_paypaldirect',
-            array('payment_info' => $testData['cards']['mastercard']));
+        $paymentData = $this->loadDataSet('Payment', 'payment_paypaldirect', $testData['cards']['mastercard']);
         $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
             array('filter_sku'   => $testData['sku'],
                   'payment_data' => $paymentData));
@@ -100,7 +93,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
     public function orderWithDifferentCreditCard($card, $orderData, $testData)
     {
         //Data
-        $this->overrideDataByCondition('payment_info', $testData['cards'][$card], $orderData, 'byFieldKey');
+        $orderData = $this->overrideArrayData($testData['cards'][$card], $orderData, 'byFieldKey');
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -189,12 +182,10 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
      */
     public function fullCreditMemo($captureType, $refundType, $orderData)
     {
-        $this->markTestIncomplete('MAGETWO-2706');
         //Steps and Verifying
         $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createOrder($orderData);
+        $orderId = $this->orderHelper()->createOrder($orderData);
         $this->assertMessagePresent('success', 'success_created_order');
-        $orderId = $this->orderHelper()->defineOrderId();
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty($captureType);
         $this->navigate('manage_sales_invoices');
         $this->orderInvoiceHelper()->openInvoice(array('filter_order_id' => $orderId));
@@ -216,16 +207,14 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
      */
     public function partialCreditMemo($captureType, $refundType, $orderData, $testData)
     {
-        $this->markTestIncomplete('MAGETWO-2706');
         //Data
         $orderData['products_to_add']['product_1']['product_qty'] = 10;
         $creditMemo =
             $this->loadDataSet('SalesOrder', 'products_to_refund', array('return_filter_sku' => $testData['sku']));
         //Steps and Verifying
         $this->navigate('manage_sales_orders');
-        $this->orderHelper()->createOrder($orderData);
+        $orderId = $this->orderHelper()->createOrder($orderData);
         $this->assertMessagePresent('success', 'success_created_order');
-        $orderId = $this->orderHelper()->defineOrderId();
         $this->orderInvoiceHelper()->createInvoiceAndVerifyProductQty($captureType);
         $this->navigate('manage_sales_invoices');
         $this->orderInvoiceHelper()->openInvoice(array('filter_order_id' => $orderId));
@@ -367,8 +356,7 @@ class Core_Mage_Order_PayPalDirect_Authorization_NewCustomerWithSimpleSmokeTest 
     public function createOrderWith3DSecure($card, $needSetUp, $orderData, $testData)
     {
         //Data
-        $cardData = $this->loadDataSet('Payment', $card);
-        $this->overrideDataByCondition('payment_info', $cardData, $orderData, 'byFieldKey');
+        $orderData = $this->overrideArrayData($this->loadDataSet('Payment', $card), $orderData, 'byFieldKey');
         //Steps
         if ($needSetUp) {
             $this->systemConfigurationHelper()->useHttps('admin', 'yes');

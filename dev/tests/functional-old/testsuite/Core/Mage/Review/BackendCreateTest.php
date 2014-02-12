@@ -55,12 +55,16 @@ class Core_Mage_Review_BackendCreateTest extends Mage_Selenium_TestCase
         $this->ratingHelper()->createRating($ratingData);
         //Verification
         $this->assertMessagePresent('success', 'success_saved_rating');
-        return array('sku'        => $simpleData['general_sku'],
-                     'name'       => $simpleData['general_name'],
-                     'store'      => $storeView['store_view_name'],
-                     'withRating' => array('filter_sku'  => $simpleData['general_sku'],
-                                           'rating_name' => $ratingData['default_value'],
-                                           'visible_in'  => $storeView['store_view_name']));
+        return array(
+            'sku' => $simpleData['general_sku'],
+            'name' => $simpleData['general_name'],
+            'store' => $storeView['store_view_name'],
+            'withRating' => array(
+                'filter_sku' => $simpleData['general_sku'],
+                'rating_name' => $ratingData['default_value'],
+                'visible_in' => $storeView['store_view_name']
+            )
+        );
     }
 
     /**
@@ -91,12 +95,16 @@ class Core_Mage_Review_BackendCreateTest extends Mage_Selenium_TestCase
         $this->ratingHelper()->createRating($ratingData);
         //Verification
         $this->assertMessagePresent('success', 'success_saved_rating');
-        return array('sku'        => $simpleData['general_sku'],
-                     'name'       => $simpleData['general_name'],
-                     'store'      => $storeView['store_view_name'],
-                     'withRating' => array('filter_sku'  => $simpleData['general_sku'],
-                                           'rating_name' => $ratingData['default_value'],
-                                           'visible_in'  => $storeView['store_view_name']));
+        return array(
+            'sku' => $simpleData['general_sku'],
+            'name' => $simpleData['general_name'],
+            'store' => $storeView['store_view_name'],
+            'withRating' => array(
+                'filter_sku' => $simpleData['general_sku'],
+                'rating_name' => $ratingData['default_value'],
+                'visible_in' => $storeView['store_view_name']
+            )
+        );
     }
 
     /**
@@ -123,7 +131,7 @@ class Core_Mage_Review_BackendCreateTest extends Mage_Selenium_TestCase
         $this->frontend();
         $this->productHelper()->frontOpenProduct($data['name']);
         //Verification
-        $this->reviewHelper()->frontVerifyReviewDisplaying($reviewData, $data['name']);
+        $this->reviewHelper()->frontVerifyReviewDisplaying($reviewData);
     }
 
     /**
@@ -150,13 +158,16 @@ class Core_Mage_Review_BackendCreateTest extends Mage_Selenium_TestCase
         $this->selectFrontStoreView($data['store']);
         $this->productHelper()->frontOpenProduct($data['name']);
         //Verification
-        $this->reviewHelper()->frontVerifyReviewDisplaying($reviewData, $data['name']);
+        $this->reviewHelper()->frontVerifyReviewDisplaying($reviewData);
         //Steps
+        $this->frontend();
         $this->selectFrontStoreView();
         $this->productHelper()->frontOpenProduct($data['name']);
         //Verification
-        $this->assertFalse($this->controlIsPresent('link', 'reviews'),
-            'Review for product displayed for \'Default Store View\' store view');
+        $this->assertFalse(
+            $this->controlIsPresent('link', 'reviews'),
+            'Review for product displayed for \'Default Store View\' store view'
+        );
     }
 
     /**
@@ -173,6 +184,9 @@ class Core_Mage_Review_BackendCreateTest extends Mage_Selenium_TestCase
      */
     public function withEmptyRequiredFields($emptyField, $fieldType, $data)
     {
+        if ($emptyField == 'product_rating') {
+            $this->markTestIncomplete('BUG: There is no validation on empty rating');
+        }
         //Data
         $reviewData = $this->loadDataSet('ReviewAndRating', 'review_required_with_rating', $data['withRating']);
         $reviewData = $this->overrideArrayData(array($emptyField => '%noValue%'), $reviewData, 'byFieldKey');
@@ -197,7 +211,7 @@ class Core_Mage_Review_BackendCreateTest extends Mage_Selenium_TestCase
     {
         return array(
             array('visible_in', 'multiselect'),
-            //array('product_rating', 'radiobutton'),  @TODO
+            array('product_rating', 'radiobutton'),
             array('nickname', 'field'),
             array('summary_of_review', 'field'),
             array('review', 'field'),
@@ -218,9 +232,10 @@ class Core_Mage_Review_BackendCreateTest extends Mage_Selenium_TestCase
         //Data
         $reviewData =
             $this->loadDataSet('ReviewAndRating', 'admin_review_long_values', array('filter_sku' => $data['sku']));
-        $search = $this->loadDataSet('ReviewAndRating', 'search_review_admin',
-            array('filter_nickname'    => $reviewData['nickname'],
-                  'filter_product_sku' => $data['sku']));
+        $search = $this->loadDataSet('ReviewAndRating', 'search_review_admin', array(
+            'filter_nickname' => $reviewData['nickname'],
+            'filter_product_sku' => $data['sku']
+        ));
         //Steps
         $this->navigate('manage_all_reviews');
         $this->reviewHelper()->createReview($reviewData);
@@ -246,9 +261,10 @@ class Core_Mage_Review_BackendCreateTest extends Mage_Selenium_TestCase
         //Data
         $reviewData =
             $this->loadDataSet('ReviewAndRating', 'admin_review_special_symbols', array('filter_sku' => $data['sku']));
-        $search = $this->loadDataSet('ReviewAndRating', 'search_review_admin',
-            array('filter_nickname'    => $reviewData['nickname'],
-                  'filter_product_sku' => $data['sku']));
+        $search = $this->loadDataSet('ReviewAndRating', 'search_review_admin', array(
+            'filter_nickname' => $reviewData['nickname'],
+            'filter_product_sku' => $data['sku']
+        ));
         //Steps
         $this->navigate('manage_all_reviews');
         $this->reviewHelper()->createReview($reviewData);
@@ -274,9 +290,10 @@ class Core_Mage_Review_BackendCreateTest extends Mage_Selenium_TestCase
         //Data
         $reviewData = $this->loadDataSet('ReviewAndRating', 'review_required_without_rating',
             array('filter_sku' => $data['sku']));
-        $search = $this->loadDataSet('ReviewAndRating', 'search_review_admin',
-            array('filter_nickname'    => $reviewData['nickname'],
-                  'filter_product_sku' => $data['sku']));
+        $search = $this->loadDataSet('ReviewAndRating', 'search_review_admin', array(
+            'filter_nickname' => $reviewData['nickname'],
+            'filter_product_sku' => $data['sku']
+        ));
         //Steps
         $this->navigate('manage_all_reviews');
         $this->reviewHelper()->createReview($reviewData);

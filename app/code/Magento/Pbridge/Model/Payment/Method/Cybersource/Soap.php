@@ -69,11 +69,6 @@ class Soap extends \Magento\Pbridge\Model\Payment\Method
     /**
      * @var bool
      */
-    protected $_canUseForMultishipping  = true;
-
-    /**
-     * @var bool
-     */
     protected $_canSaveCc               = false;
 
     /**

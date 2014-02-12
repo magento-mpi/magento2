@@ -235,7 +235,6 @@ class Core_Mage_Tax_TaxRate_CreateTest extends Mage_Selenium_TestCase
      */
     public function withStoreViewTitle()
     {
-        $this->markTestIncomplete('MAGETWO-9043');
         //Preconditions
         $this->navigate('manage_stores');
         $storeViewData = $this->loadDataSet('StoreView', 'generic_store_view');

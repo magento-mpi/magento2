@@ -51,6 +51,7 @@ class Enterprise_Mage_Rma_Helper extends Mage_Selenium_AbstractHelper
         if (empty($orderId)) {
             $this->fail("Order Id parameter is missing");
         }
+        $this->addParameter('elementTitle', $orderId);
         $this->addParameter('orderId', $orderId);
         $this->frontend('my_orders_history');
         $this->clickControl('link', 'view_order');

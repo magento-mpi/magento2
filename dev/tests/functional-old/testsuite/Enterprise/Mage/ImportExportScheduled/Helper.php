@@ -209,7 +209,7 @@ class Enterprise_Mage_ImportExportScheduled_Helper extends Mage_Selenium_Abstrac
         }
         $this->fillForm($exportData);
         foreach ($skipped as $attributeToSkip) {
-            $this->importExportHelper()->customerSkipAttribute($attributeToSkip, 'grid_and_filter');
+            $this->importExportHelper()->customerSkipAttribute($attributeToSkip);
         }
         $this->importExportHelper()->setFilter($filters);
         $this->saveForm('save');
@@ -227,11 +227,7 @@ class Enterprise_Mage_ImportExportScheduled_Helper extends Mage_Selenium_Abstrac
         $this->_fillConnectionParameters($importData);
         $this->addParameter('type', 'Import');
         $this->clickButton('add_scheduled_import');
-        try {
-            $this->fillForm($importData);
-        } catch (RuntimeException $e) {
-            $this->markTestIncomplete('BUG: field behavior is not editable for import.');
-        }
+        $this->fillForm($importData);
         $this->saveForm('save');
     }
 
@@ -343,7 +339,13 @@ class Enterprise_Mage_ImportExportScheduled_Helper extends Mage_Selenium_Abstrac
     public function searchImportExport(array $data)
     {
         $this->_prepareDataForSearch($data);
-        return $this->search($data, 'grid_and_filter');
+        $trLocator = $this->_getControlXpath('fieldset', 'grid_and_filter') . $this->formSearchXpath($data);
+        $this->clickButton('reset_filter', false);
+        $this->pleaseWait();
+        $this->fillFieldset($data, 'grid_and_filter');
+        $this->clickButton('search', false);
+        $this->pleaseWait();
+        return $this->elementIsPresent($trLocator) ? $trLocator : null;
     }
 
     /**

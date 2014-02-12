@@ -44,6 +44,8 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     protected $_coreRegistry;
 
     /**
+     * Rma item status
+     *
      * @var \Magento\Rma\Model\Item\Status
      */
     protected $_itemStatus;
@@ -72,6 +74,8 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 
     /**
      * Block constructor
+     *
+     * @return void
      */
     public function _construct()
     {
@@ -358,7 +362,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Sets all available fields in editable state
      *
-     * @return \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid
+     * @return $this
      */
     public function setAllFieldsEditable()
     {

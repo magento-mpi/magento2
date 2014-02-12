@@ -13,6 +13,8 @@ namespace Magento\Rma\Model;
 class RefundableList
 {
     /**
+     * Catalog product types config interface
+     *
      * @var \Magento\Catalog\Model\ProductTypes\ConfigInterface
      */
     protected $productTypesConfig;

@@ -90,7 +90,6 @@ class Core_Mage_DesignEditor_ThemeSelectorTest extends Mage_Selenium_TestCase
         return $themeId;
     }
 
-
     /**
      * <p>Test Theme selector page when customized themes present</p>
      *

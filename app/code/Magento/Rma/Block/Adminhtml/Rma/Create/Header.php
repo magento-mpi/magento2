@@ -16,6 +16,8 @@ namespace Magento\Rma\Block\Adminhtml\Rma\Create;
 class Header extends \Magento\Rma\Block\Adminhtml\Rma\Create\AbstractCreate
 {
     /**
+     * Create new rma content
+     *
      * @return string
      */
     protected function _toHtml()

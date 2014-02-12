@@ -12,8 +12,8 @@
 
 # Sales Shipments page
 manage_sales_shipments:
-    mca: sales_shipment/
-    click_xpath: //ul[@id='nav']//a[contains(@href, '/sales_shipment/')]
+    mca: sales/shipment/
+    click_xpath: //ul[@id='nav']//a[contains(@href, '/sales/shipment/')]
     title: Shipments / Operations / Sales / Magento Admin
     uimap:
         form: &salesShipments
@@ -44,7 +44,7 @@ manage_sales_shipments:
                             filter_qty_to: //input[@name='total_qty[to]']
 
 create_shipment:
-    mca: sales_order_shipment/new/order_id/%id%/
+    mca: order_shipment/new/order_id/%id%/
     title: New Shipment / Shipments / Operations / Sales / Magento Admin
     uimap: &create_shipment-uimap
         form: &orderShipment
@@ -105,5 +105,5 @@ create_shipment:
             reset: //div[@class='page-actions']//button[span='Reset']
 
 create_shipment_denied:
-    mca: sales_order_shipment/start/order_id/%id%/
+    mca: order_shipment/start/order_id/%id%/
     title: Magento Admin

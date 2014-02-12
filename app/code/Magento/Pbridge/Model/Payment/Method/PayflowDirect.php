@@ -5,15 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Payflow Direct dummy payment method model
- */
 namespace Magento\Pbridge\Model\Payment\Method;
 
 use Magento\Paypal\Model\Direct;
 use Magento\Sales\Model\Order\Payment;
 
+/**
+ * Payflow Direct dummy payment method model
+ */
 class PayflowDirect extends \Magento\Paypal\Model\PayflowDirect
 {
     /**
@@ -161,7 +160,7 @@ class PayflowDirect extends \Magento\Paypal\Model\PayflowDirect
      * Assign data to info model instance
      *
      * @param  mixed $data
-     * @return \Magento\Payment\Model\Info
+     * @return $this
      */
     public function assignData($data)
     {
@@ -210,7 +209,7 @@ class PayflowDirect extends \Magento\Paypal\Model\PayflowDirect
     /**
      * Prepare info instance for save
      *
-     * @return \Magento\Pbridge\Model\Payment\Method\Paypal
+     * @return $this
      */
     public function prepareSave()
     {
@@ -220,7 +219,7 @@ class PayflowDirect extends \Magento\Paypal\Model\PayflowDirect
     /**
      * Validate payment method information object
      *
-     * @return \Magento\Pbridge\Model\Payment\Method\Paypal
+     * @return $this
      */
     public function validate()
     {
@@ -233,10 +232,11 @@ class PayflowDirect extends \Magento\Paypal\Model\PayflowDirect
      *
      * @param \Magento\Object $payment
      * @param float $amount
-     * @return Direct
+     * @return $this
      */
     public function authorize(\Magento\Object $payment, $amount)
     {
+        $payment->setCart($this->_pbridgeData->preparePaypalCart($payment->getOrder()));
         $result = new \Magento\Object($this->getPbridgeMethodInstance()->authorize($payment, $amount));
         $order = $payment->getOrder();
         $result->setEmail($order->getCustomerEmail());
@@ -249,7 +249,7 @@ class PayflowDirect extends \Magento\Paypal\Model\PayflowDirect
      *
      * @param \Magento\Object $payment
      * @param float $amount
-     * @return Direct
+     * @return $this
      */
     public function capture(\Magento\Object $payment, $amount)
     {
@@ -262,9 +262,9 @@ class PayflowDirect extends \Magento\Paypal\Model\PayflowDirect
     /**
      * Refund capture
      *
-     * @param Payment $payment
+     * @param \Magento\Object $payment
      * @param float $amount
-     * @return Direct
+     * @return $this
      */
     public function refund(\Magento\Object $payment, $amount)
     {
@@ -275,8 +275,8 @@ class PayflowDirect extends \Magento\Paypal\Model\PayflowDirect
     /**
      * Void payment
      *
-     * @param Payment $payment
-     * @return Direct
+     * @param \Magento\Object $payment
+     * @return $this
      */
     public function void(\Magento\Object $payment)
     {
@@ -288,8 +288,8 @@ class PayflowDirect extends \Magento\Paypal\Model\PayflowDirect
      * Import direct payment results to payment
      *
      * @param \Magento\Object $api
-     * @param \Magento\Object $payment
      * @param Payment $payment
+     * @return void
      */
     protected function _importResultToPayment($api, $payment)
     {

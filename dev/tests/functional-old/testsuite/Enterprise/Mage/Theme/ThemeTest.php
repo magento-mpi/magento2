@@ -9,13 +9,13 @@
  * @license     {license_link}
  */
 
-    /**
-     * Theme management tests for Backend
-     *
-     * @package     selenium
-     * @subpackage  tests
-     * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
-     */
+/**
+ * Theme management tests for Backend
+ *
+ * @package     selenium
+ * @subpackage  tests
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
 class Enterprise_Mage_Theme_ThemeTest extends Core_Mage_Theme_ThemeTest
 {
     /**
@@ -27,7 +27,7 @@ class Enterprise_Mage_Theme_ThemeTest extends Core_Mage_Theme_ThemeTest
     {
         return array(
             array('theme_version', '0.0.0.1'),
-            array('theme_title', 'Copy of Magento Fixed Width'),
+            array('theme_title', 'Copy of Magento Plushe'),
         );
     }
 

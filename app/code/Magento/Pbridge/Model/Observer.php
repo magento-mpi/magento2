@@ -7,20 +7,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Pbridge\Model;
 
 /**
  * Pbridge observer
  *
- * @category    Magento
- * @package     Magento_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Pbridge\Model;
-
 class Observer
 {
     /**
+     * Cache type configuration
+     *
      * @var \Magento\App\Cache\Type\Config
      */
     protected $_configCacheType;
@@ -28,7 +26,7 @@ class Observer
     /**
      * Writer of configuration storage
      *
-     * @var \Magento\Core\Model\Config\Storage\WriterInterface
+     * @var \Magento\App\Config\Storage\WriterInterface
      */
     protected $_configWriter;
 
@@ -49,13 +47,13 @@ class Observer
     /**
      * Construct
      *
-     * @param \Magento\Core\Model\Config\Storage\WriterInterface $configWriter
+     * @param \Magento\App\Config\Storage\WriterInterface $configWriter
      * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\Core\Model\Config\Storage\WriterInterface $configWriter,
+        \Magento\App\Config\Storage\WriterInterface $configWriter,
         \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -70,7 +68,7 @@ class Observer
      * Check payment methods availability
      *
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Pbridge\Model\Observer
+     * @return $this
      */
     public function isPaymentMethodAvailable(\Magento\Event\Observer $observer)
     {
@@ -90,7 +88,7 @@ class Observer
     /**
      * Update Payment Profiles functionality switcher
      * @param \Magento\Event\Observer $observer
-     * @return \Magento\Pbridge\Model\Observer
+     * @return $this
      */
     public function updatePaymentProfileStatus(\Magento\Event\Observer $observer)
     {
