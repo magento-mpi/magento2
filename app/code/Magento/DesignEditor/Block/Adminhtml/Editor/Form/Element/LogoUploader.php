@@ -24,7 +24,7 @@ class LogoUploader
     const CONTROL_TYPE = 'logo-uploader';
 
     /**
-     * Ability to upload multiple files by default is disabled for logo
+     * @var bool Ability to upload multiple files by default is disabled for logo
      */
     protected $_multipleFiles = false;
 }

@@ -87,7 +87,7 @@ class Guest extends \Magento\App\Action\Action
      * Try to load valid rma by entity_id and register it
      *
      * @param int $entityId
-     * @return bool
+     * @return void|bool
      */
     protected function _loadValidRma($entityId = null)
     {

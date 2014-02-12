@@ -46,6 +46,7 @@ class NewRma extends \Magento\Backend\Block\Widget\Form\Container
     /**
      * Initialize RMA new page. Set management buttons
      *
+     * @return void
      */
     protected function _construct()
     {
