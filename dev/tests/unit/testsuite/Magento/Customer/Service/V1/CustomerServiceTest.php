@@ -12,6 +12,7 @@ use Magento\Exception\InputException;
 /**
  * \Magento\Customer\Service\V1\CustomerService
  *
+ * @magentoDbIsolation enabled
  * @SuppressWarnings(PHPMD.TooManyMethods)
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
