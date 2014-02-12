@@ -25,6 +25,6 @@ class Category extends \Magento\Catalog\Model\Indexer\Category\Product
         Category\Action\RowsFactory $rowsActionFactory,
         \Magento\Indexer\Model\IndexerInterface $indexer
     ) {
-        parent::__costruct($fullActionFactory, $rowsActionFactory, $indexer);
+        parent::__construct($fullActionFactory, $rowsActionFactory, $indexer);
     }
 }

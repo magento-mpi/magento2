@@ -264,7 +264,9 @@ class View extends \Magento\Object implements ViewInterface
      */
     public function clearChangelog()
     {
-        $this->getChangelog()->clear($this->getState()->getVersionId());
+        if ($this->getState()->getMode() == View\StateInterface::MODE_ENABLED) {
+            $this->getChangelog()->clear($this->getState()->getVersionId());
+        }
     }
 
     /**

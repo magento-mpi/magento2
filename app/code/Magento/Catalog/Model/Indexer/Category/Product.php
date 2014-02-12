@@ -16,12 +16,12 @@ class Product implements \Magento\Indexer\Model\ActionInterface, \Magento\Mview\
     const INDEXER_ID = 'catalog_category_product';
 
     /**
-     * @var \Magento\Catalog\Model\Indexer\Category\Product\Action\FullFactory
+     * @var Product\Action\FullFactory
      */
     protected $fullActionFactory;
 
     /**
-     * @var \Magento\Catalog\Model\Indexer\Category\Product\Action\RowsFactory
+     * @var Product\Action\RowsFactory
      */
     protected $rowsActionFactory;
 
@@ -93,7 +93,7 @@ class Product implements \Magento\Indexer\Model\ActionInterface, \Magento\Mview\
     protected function executeAction($ids)
     {
         $ids = array_unique($ids);
-        $this->indexer->load(self::INDEXER_ID);
+        $this->indexer->load(static::INDEXER_ID);
 
         /** @var Product\Action\Rows $action */
         $action = $this->rowsActionFactory->create();
