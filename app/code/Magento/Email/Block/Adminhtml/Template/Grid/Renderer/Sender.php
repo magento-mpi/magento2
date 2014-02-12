@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Email\Block\Adminhtml\Template\Grid\Renderer;
 
 /**
  * Adminhtml system templates grid block sender item renderer
@@ -15,9 +16,6 @@
  * @package    Magento_Email
  * @author      Magento Core Team <core@magentocommerce.com>
  */
- 
-namespace Magento\Email\Block\Adminhtml\Template\Grid\Renderer;
-
 class Sender extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**

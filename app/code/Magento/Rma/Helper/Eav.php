@@ -17,23 +17,29 @@ namespace Magento\Rma\Helper;
 class Eav extends \Magento\Eav\Helper\Data
 {
     /**
-     * complicated array of select-typed attribute values for all stores
+     * Complicated array of select-typed attribute values for all stores
      *
      * @var array
      */
     protected $_attributeOptionValues = array();
 
     /**
+     * Core store manager interface
+     *
      * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
+     * Eav entity attribute option collection
+     *
      * @var \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
+     * Application resource
+     *
      * @var \Magento\App\Resource
      */
     protected $_resource;
