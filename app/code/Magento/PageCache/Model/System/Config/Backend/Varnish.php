@@ -64,6 +64,7 @@ class Varnish extends \Magento\Core\Model\Config\Value
             foreach ($data as $field => $value) {
                 if(strstr($this->getPath(), $field)) {
                     $this->setValue($value);
+                    $this->save();
                     break;
                 }
             }
