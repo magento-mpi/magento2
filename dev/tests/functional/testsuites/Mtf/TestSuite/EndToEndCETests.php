@@ -1,6 +1,6 @@
 <?php
 /**
- * End-to-end scenarios without 3-rd party solutions
+ * End-to-end scenarios without 3-rd party solutions for CE
  *
  * {license_notice}
  *
@@ -10,11 +10,11 @@
 
 namespace Mtf\TestSuite;
 
-class EndToEndTests
+class EndToEndCETests
 {
     public static function suite()
     {
-        $suite = new \PHPUnit_Framework_TestSuite('End-to-end Scenarios without 3-rd Party Solutions');
+        $suite = new \PHPUnit_Framework_TestSuite('End-to-end Scenarios without 3-rd Party Solutions for CE');
 
         // Products
         // Simple
@@ -29,8 +29,6 @@ class EndToEndTests
         // Configurable
         // Downloadable
         $suite->addTestSuite('Magento\Downloadable\Test\TestCase\Create\LinksPurchasedSeparatelyTest');
-        // Gift Card
-        $suite->addTestSuite('Magento\GiftCard\Test\TestCase\RequiredFieldsTest');
         // Bundle
         $suite->addTestSuite('Magento\Bundle\Test\TestCase\BundleDynamicTest');
         $suite->addTestSuite('Magento\Bundle\Test\TestCase\EditBundleTest');
@@ -42,10 +40,6 @@ class EndToEndTests
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\CrosssellTest');
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\RelatedProductTest');
 
-        // Shopping Cart
-        // Simple product with recurring profile
-        $suite->addTestSuite('Magento\Payment\Test\TestCase\RecurringProfileTest');
-
         // Product search
         $suite->addTestSuite('Magento\CatalogSearch\Test\TestCase\AdvancedSearchTest');
 
@@ -54,18 +48,11 @@ class EndToEndTests
         $suite->addTestSuite('Magento\Backend\Test\TestCase\Urlrewrite\CategoryTest');
 
         // Admin user
-        $suite->addTestSuite('Magento\Pci\Test\TestCase\LockedTest');
-        $suite->addTestSuite('Magento\User\Test\TestCase\UserWithRestrictedRoleTest');
-
-        // Admin logging
-        $suite->addTestSuite('Magento\Logging\Test\TestCase\LogReportTest');
+        $suite->addTest(new \Magento\User\Test\TestCase\UserWithRestrictedRoleTest('testAclRoleWithFullGwsScope'));
 
         // Customer
         $suite->addTestSuite('Magento\Customer\Test\TestCase\BackendCustomerCreateTest');
         $suite->addTestSuite('Magento\Customer\Test\TestCase\CreateOnFrontendTest');
-
-        // Customer Segment
-        $suite->addTestSuite('Magento\CustomerSegment\Test\TestCase\CreateTest');
 
         // Review
         $suite->addTestSuite('Magento\Review\Test\TestCase\ReviewTest');
@@ -77,14 +64,10 @@ class EndToEndTests
         $suite->addTestSuite('Magento\Tax\Test\TestCase\TaxRuleTest');
 
         // Catalog Price Rule
-        $suite->addTestSuite('Magento\CatalogRule\Test\TestCase\CatalogPriceRule\ApplyCatalogPriceRuleTest');
         $suite->addTestSuite('Magento\CatalogRule\Test\TestCase\CatalogPriceRule\ApplyCustomerGroupCatalogRuleTest');
 
         // Currency
         $suite->addTestSuite('Magento\Directory\Test\TestCase\CurrencyTest');
-
-        // Cms
-        $suite->addTestSuite('Magento\Cms\Test\TestCase\CreatePageTest');
 
         // Layered navigation
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Layer\FilterProductListTest');
