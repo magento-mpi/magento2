@@ -36,6 +36,9 @@ class Factory implements \Magento\Mail\Template\FactoryInterface
      */
     public function get($identifier)
     {
-        return $this->_objectManager->create($this->_instanceName, array('templateId' => $identifier));
+        return $this->_objectManager->create(
+            $this->_instanceName,
+            array('data' => array('template_id' => $identifier))
+        );
     }
 }

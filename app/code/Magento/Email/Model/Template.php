@@ -105,7 +105,6 @@ class Template extends \Magento\Core\Model\Template implements  \Magento\Mail\Te
      */
     protected $_replyTo = '';
     protected $_vars = array();
-    protected $_templateId;
 
     /**
      * @var \Exception|null
@@ -161,7 +160,6 @@ class Template extends \Magento\Core\Model\Template implements  \Magento\Mail\Te
      * @param \Magento\App\ConfigInterface $coreConfig
      * @param Template\FilterFactory $emailFilterFactory
      * @param Template\Config $emailConfig
-     * @param null $templateId
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -179,7 +177,6 @@ class Template extends \Magento\Core\Model\Template implements  \Magento\Mail\Te
         \Magento\App\ConfigInterface $coreConfig,
         \Magento\Email\Model\Template\FilterFactory $emailFilterFactory,
         \Magento\Email\Model\Template\Config $emailConfig,
-        $templateId = null,
         array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -189,7 +186,6 @@ class Template extends \Magento\Core\Model\Template implements  \Magento\Mail\Te
         $this->_coreConfig = $coreConfig;
         $this->_emailFilterFactory = $emailFilterFactory;
         $this->_emailConfig = $emailConfig;
-        $this->_templateId = $templateId;
         parent::__construct($context, $design, $registry, $appEmulation, $storeManager, $data);
     }
 
@@ -342,7 +338,7 @@ class Template extends \Magento\Core\Model\Template implements  \Magento\Mail\Te
      */
     public function getId()
     {
-        return $this->_templateId;
+        return $this->getTemplateId();
     }
 
     /**
@@ -353,7 +349,7 @@ class Template extends \Magento\Core\Model\Template implements  \Magento\Mail\Te
      */
     public function setId($value)
     {
-        return $this->_templateId = $value;
+        return $this->setTemplateId($value);
     }
 
     /**
@@ -377,7 +373,7 @@ class Template extends \Magento\Core\Model\Template implements  \Magento\Mail\Te
     public function getType()
     {
         $templateType = $this->getTemplateType();
-        if (is_null($templateType)) {
+        if (is_null($templateType) && $this->getId()) {
             $templateType = $this->_emailConfig->getTemplateType($this->getId());
             $templateType = $templateType == 'html' ? self::TYPE_HTML : self::TYPE_TEXT;
         }
