@@ -25,9 +25,9 @@ class SimpleProduct extends Product
      */
     public function __construct(Config $configuration, $placeholders = array())
     {
-        parent::__construct($configuration, $placeholders);
-
         $this->_placeholders[self::PRICE_VALUE] = 10;
+
+        parent::__construct($configuration, $placeholders);
     }
 
     /**
