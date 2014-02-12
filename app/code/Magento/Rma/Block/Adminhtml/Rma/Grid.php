@@ -16,11 +16,15 @@ namespace Magento\Rma\Block\Adminhtml\Rma;
 class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
+     * Rma grid collection
+     *
      * @var \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
+     * Rma model
+     *
      * @var \Magento\Rma\Model\RmaFactory
      */
     protected $_rmaFactory;
@@ -46,6 +50,8 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 
     /**
      * Initialize grid
+     *
+     * @return void
      */
     public function _construct()
     {
@@ -70,7 +76,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Configuring and setting collection
      *
-     * @return \Magento\Rma\Block\Adminhtml\Rma\Grid
+     * @return $this
      */
     protected function _beforePrepareCollection()
     {
@@ -166,7 +172,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare massaction
      *
-     * @return \Magento\Rma\Block\Adminhtml\Rma\Grid
+     * @return $this
      */
     protected function _prepareMassaction()
     {

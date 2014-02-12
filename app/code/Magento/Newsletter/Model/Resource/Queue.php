@@ -7,7 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Newsletter\Model\Resource;
 
+use Magento\Newsletter\Model\Queue as ModelQueue;
+use Magento\Core\Model\AbstractModel;
 
 /**
  * Newsletter queue resource model
@@ -16,11 +19,6 @@
  * @package     Magento_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Newsletter\Model\Resource;
-
-use Magento\Newsletter\Model\Queue as ModelQueue;
-use Magento\Core\Model\AbstractModel;
-
 class Queue extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -47,6 +45,7 @@ class Queue extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Define main table
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -58,6 +57,7 @@ class Queue extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param ModelQueue $queue
      * @param array $subscriberIds
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function addSubscribersToQueue(ModelQueue $queue, array $subscriberIds)

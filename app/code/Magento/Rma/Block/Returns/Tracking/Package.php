@@ -13,6 +13,8 @@ namespace Magento\Rma\Block\Returns\Tracking;
 class Package extends \Magento\Shipping\Block\Tracking\Popup
 {
     /**
+     * Rma data
+     *
      * @var \Magento\Rma\Helper\Data
      */
     protected $_rmaData;
@@ -36,6 +38,8 @@ class Package extends \Magento\Shipping\Block\Tracking\Popup
 
     /**
      * Class constructor
+     *
+     * @return void
      */
     protected function _construct()
     {
