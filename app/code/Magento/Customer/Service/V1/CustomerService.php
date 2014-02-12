@@ -129,7 +129,6 @@ class CustomerService implements CustomerServiceInterface
      */
     public function isReadonly($customerId)
     {
-        // Need to refactor or replace this function when AdminGws is refactored.
         $customerModel = $this->_converter->getCustomerModel($customerId);
         return $customerModel->isReadonly();
     }
