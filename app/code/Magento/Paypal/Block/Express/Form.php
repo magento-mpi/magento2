@@ -67,7 +67,7 @@ class Form extends \Magento\Paypal\Block\Standard\Form
     /**
      * Get billing agreement code
      *
-     * @return bool
+     * @return string|null
      */
     public function getBillingAgreementCode()
     {

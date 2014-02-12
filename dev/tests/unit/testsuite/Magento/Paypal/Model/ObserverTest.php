@@ -170,6 +170,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(null));
         $this->_event->setPayment($payment);
         $this->_agreementFactory->expects($this->never())->method('create');
+        $this->_checkoutSession->expects($this->once())
+            ->method('__call')
+            ->with('unsLastBillingAgreementReferenceId');
         $this->_model->addBillingAgreementToSession($this->_observer);
     }
 
@@ -200,25 +203,20 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             )
             ->will($this->returnValue($comment));
         if ($isValid) {
-            $agreement->expects($this->once())
+            $agreement->expects($this->any())
                 ->method('__call')
                 ->with('getReferenceId')
                 ->will($this->returnValue('agreement reference id'));
-            $agreement->expects($this->once())
-                ->method('getId')
-                ->will($this->returnValue('agreement id'));
             $order->expects(new MethodInvokedAtIndex(0))
                 ->method('addRelatedObject')
                 ->with($agreement);
-            $this->_checkoutSession->expects(new MethodInvokedAtIndex(0))
+            $this->_checkoutSession->expects($this->once())
                 ->method('__call')
-                ->with('setBillingAgreement', [$agreement]);
-            $this->_checkoutSession->expects(new MethodInvokedAtIndex(1))
-                ->method('__call')
-                ->with('setLastBillingAgreementId', ['agreement id']);
+                ->with('setLastBillingAgreementReferenceId', ['agreement reference id']);
         } else {
-            $this->_checkoutSession->expects($this->never())
-                ->method('__call');
+            $this->_checkoutSession->expects($this->once())
+                ->method('__call')
+                ->with('unsLastBillingAgreementReferenceId');
             $agreement->expects($this->never())
                 ->method('__call');
         }

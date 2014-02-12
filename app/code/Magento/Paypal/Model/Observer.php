@@ -207,19 +207,24 @@ class Observer
     {
         /** @var \Magento\Sales\Model\Order\Payment $orderPayment */
         $orderPayment = $observer->getEvent()->getPayment();
+        $agreementCreated = false;
         if ($orderPayment->getBillingAgreementData()) {
             $order = $orderPayment->getOrder();
+            /** @var \Magento\Paypal\Model\Billing\Agreement $agreement */
             $agreement = $this->_agreementFactory->create()->importOrderPayment($orderPayment);
             if ($agreement->isValid()) {
                 $message = __('Created billing agreement #%1.', $agreement->getReferenceId());
                 $order->addRelatedObject($agreement);
-                $this->_checkoutSession->setBillingAgreement($agreement);
-                $this->_checkoutSession->setLastBillingAgreementId($agreement->getId());
+                $this->_checkoutSession->setLastBillingAgreementReferenceId($agreement->getReferenceId());
+                $agreementCreated = true;
             } else {
                 $message = __('We couldn\'t create a billing agreement for this order.');
             }
             $comment = $order->addStatusHistoryComment($message);
             $order->addRelatedObject($comment);
+        }
+        if (!$agreementCreated) {
+            $this->_checkoutSession->unsLastBillingAgreementReferenceId();
         }
     }
 

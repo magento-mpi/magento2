@@ -709,7 +709,6 @@ class Checkout
         if (!$order) {
             return;
         }
-        $this->_billingAgreement = $this->_checkoutSession->getBillingAgreement();
 
         // commence redirecting to finish payment, if paypal requires it
         if ($order->getPayment()->getAdditionalInformation(

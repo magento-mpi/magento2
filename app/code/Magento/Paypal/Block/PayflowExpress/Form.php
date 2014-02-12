@@ -20,7 +20,7 @@ class Form extends \Magento\Paypal\Block\Express\Form
     /**
      * No billing agreements available for payflow express
      *
-     * @return bool
+     * @return string|null
      */
     public function getBillingAgreementCode()
     {
