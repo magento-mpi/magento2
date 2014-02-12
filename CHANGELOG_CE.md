@@ -1,5 +1,7 @@
 * Caching improvements:
   * Added new mechanism to identify page content uniquely (hash-key for cache storage)
+  * Added new System Configuration tab for Page Cache mechanism.
+  * Implemented possibility to configure setting for Varnish caching server and download it like `*.vcl` file
 * Fixed bugs:
   * Fixed an issue with insert image in WYSIWYG editor where selected folder was stored in session
   * Fixed an issue with CMS Page Links not being shown due to empty text in the link 
