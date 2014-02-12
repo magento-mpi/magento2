@@ -56,7 +56,7 @@ class UnreadMessagePopup extends \Magento\Backend\Block\Template
     /**
      * Retrieve list of unread messages
      *
-     * @return mixed
+     * @return \Magento\AdminNotification\Model\System\MessageInterface[]
      */
     public function getUnreadMessages()
     {
