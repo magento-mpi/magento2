@@ -18,6 +18,8 @@
  */
 namespace Magento\Widget\Model\Resource\Widget;
 
+use Magento\Core\Model\AbstractModel;
+
 class Instance extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -36,7 +38,7 @@ class Instance extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param \Magento\Widget\Model\Widget\Instance $object
      * @return $this
      */
-    protected function _afterLoad(\Magento\Core\Model\AbstractModel $object)
+    protected function _afterLoad(AbstractModel $object)
     {
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()
@@ -53,7 +55,7 @@ class Instance extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param \Magento\Widget\Model\Widget\Instance $object
      * @return $this
      */
-    protected function _afterSave(\Magento\Core\Model\AbstractModel $object)
+    protected function _afterSave(AbstractModel $object)
     {
         $pageTable         = $this->getTable('widget_instance_page');
         $pageLayoutTable   = $this->getTable('widget_instance_page_layout');
@@ -174,10 +176,10 @@ class Instance extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Perform actions before object delete.
      * Collect page ids and layout update ids and set to object for further delete
      *
-     * @param \Magento\Core\Model\AbstractModel $object
+     * @param AbstractModel $object
      * @return $this
      */
-    protected function _beforeDelete(\Magento\Core\Model\AbstractModel $object)
+    protected function _beforeDelete(AbstractModel $object)
     {
         $writeAdapter = $this->_getWriteAdapter();
         $select = $writeAdapter->select()
@@ -200,7 +202,7 @@ class Instance extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param \Magento\Widget\Model\Widget\Instance $object
      * @return $this
      */
-    protected function _afterDelete(\Magento\Core\Model\AbstractModel $object)
+    protected function _afterDelete(AbstractModel $object)
     {
         $this->_deleteLayoutUpdates($object->getLayoutUpdateIdsToDelete());
         return parent::_afterDelete($object);
