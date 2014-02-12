@@ -17,11 +17,6 @@ class StatusTest extends \PHPUnit_Framework_TestCase
         $testableStatus = \Magento\Mview\View\StateInterface::STATUS_SUSPENDED;
         $testableVersion = 'testable_version';
 
-        $changelogFactory = $this->getMockBuilder('Magento\Mview\View\ChangelogInterfaceFactory')
-            ->setMethods(array('create'))
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $changelog = $this->getMockBuilder('Magento\Mview\View\ChangelogInterface')
             ->disableOriginalConstructor()
             ->getMock();
@@ -34,15 +29,6 @@ class StatusTest extends \PHPUnit_Framework_TestCase
         $changelog->expects($this->once())
             ->method('getVersion')
             ->will($this->returnValue($testableVersion));
-
-        $changelogFactory->expects($this->once())
-            ->method('create')
-            ->will($this->returnValue($changelog));
-
-        $stateFactory = $this->getMockBuilder('Magento\Mview\View\StateInterfaceFactory')
-            ->setMethods(array('create'))
-            ->disableOriginalConstructor()
-            ->getMock();
 
         $testableState = $this->getMockBuilder('Magento\Mview\View\StateInterface')
             ->disableOriginalConstructor()
@@ -83,13 +69,9 @@ class StatusTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo($testableStatus))
             ->will($this->returnSelf());
 
-        $stateFactory->expects($this->once())
-            ->method('create')
-            ->will($this->returnValue($state));
-
         $model = new \Magento\Catalog\Model\Mview\View\State\Plugin\Status(
-            $stateFactory,
-            $changelogFactory
+            $state,
+            $changelog
         );
         $this->assertInstanceOf('\Magento\Mview\View\StateInterface', $model->afterSetStatus($testableState));
     }

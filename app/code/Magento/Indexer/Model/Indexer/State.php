@@ -12,7 +12,6 @@ namespace Magento\Indexer\Model\Indexer;
  * @method string getIndexerId()
  * @method \Magento\Indexer\Model\Indexer\State setIndexerId($value)
  * @method string getStatus()
- * @method \Magento\Indexer\Model\Indexer\State setStatus($value)
  * @method string getUpdated()
  * @method \Magento\Indexer\Model\Indexer\State setUpdated($value)
  */
@@ -57,6 +56,17 @@ class State extends \Magento\Core\Model\AbstractModel
             $data['status'] = self::STATUS_INVALID;
         }
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
+     * Status setter
+     *
+     * @param string $status
+     * @return $this
+     */
+    public function setStatus($status)
+    {
+        return parent::setStatus($status);
     }
 
     protected function _beforeSave()

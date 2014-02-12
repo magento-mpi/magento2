@@ -12,9 +12,9 @@ namespace Magento\Catalog\Model\Indexer\State\Plugin;
 class Status
 {
     /**
-     * @var \Magento\Indexer\Model\Indexer\StateFactory
+     * @var \Magento\Indexer\Model\Indexer\State
      */
-    protected $stateFactory;
+    protected $state;
 
     /**
      * ids list
@@ -27,28 +27,27 @@ class Status
     );
 
     /**
-     * @param \Magento\Indexer\Model\Indexer\StateFactory $stateFactory
+     * @param \Magento\Indexer\Model\Indexer\State $state
      */
-    public function __construct(\Magento\Indexer\Model\Indexer\StateFactory $stateFactory)
+    public function __construct(\Magento\Indexer\Model\Indexer\State $state)
     {
-        $this->stateFactory = $stateFactory;
+        $this->state = $state;
     }
 
     /**
      * Synchronize status for indexers
      *
-     * @param \Magento\Indexer\Model\Indexer\State $state
-     * @return \Magento\Indexer\Model\Indexer\State
+     * @param \Magento\Object $state
+     * @return \Magento\Object
      */
-    public function afterSetStatus(\Magento\Indexer\Model\Indexer\State $state)
+    public function afterSetStatus(\Magento\Object $state)
     {
         if (in_array($state->getIndexerId(), $this->indexerIds)) {
             $indexerId = $state->getIndexerId() == \Magento\Catalog\Model\Indexer\Category\Product::INDEXER_ID
                 ? \Magento\Catalog\Model\Indexer\Product\Category::INDEXER_ID
                 : \Magento\Catalog\Model\Indexer\Category\Product::INDEXER_ID;
 
-            $relatedIndexerState = $this->stateFactory->create()
-                ->load($indexerId, 'indexer_id');
+            $relatedIndexerState = $this->state->load($indexerId, 'indexer_id');
 
             $relatedIndexerState->setData('status', $state->getStatus())
                 ->save();

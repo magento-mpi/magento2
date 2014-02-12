@@ -16,11 +16,6 @@ class StatusTest extends \PHPUnit_Framework_TestCase
         $changedIndex   = \Magento\Catalog\Model\Indexer\Category\Product::INDEXER_ID;
         $testableStatus = 'testable_status';
 
-        $stateFactory = $this->getMockBuilder('Magento\Indexer\Model\Indexer\StateFactory')
-            ->setMethods(array('create'))
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $testableState = $this->getMockBuilder('Magento\Indexer\Model\Indexer\State')
             ->setMethods(array('getIndexerId', 'getStatus', '__wakeup'))
             ->disableOriginalConstructor()
@@ -63,11 +58,7 @@ class StatusTest extends \PHPUnit_Framework_TestCase
             )
             ->will($this->returnSelf());
 
-        $stateFactory->expects($this->once())
-            ->method('create')
-            ->will($this->returnValue($state));
-
-        $model = new \Magento\Catalog\Model\Indexer\State\Plugin\Status($stateFactory);
+        $model = new \Magento\Catalog\Model\Indexer\State\Plugin\Status($state);
         $this->assertInstanceOf('\Magento\Indexer\Model\Indexer\State', $model->afterSetStatus($testableState));
     }
 }

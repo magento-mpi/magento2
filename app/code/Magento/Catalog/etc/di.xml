@@ -19,6 +19,19 @@
     <type name="Magento\Mview\View\StateInterface">
         <plugin name="setStatusForMview" type="Magento\Catalog\Model\Mview\View\State\Plugin\Status" />
     </type>
+    <type name="Magento\Catalog\Model\Indexer\State\Plugin\Status">
+        <param name="state">
+            <instance type="Magento\Indexer\Model\Indexer\State" shared="false"/>
+        </param>
+    </type>
+    <type name="Magento\Catalog\Model\Mview\View\State\Plugin\Status">
+        <param name="state">
+            <instance type="Magento\Mview\View\StateInterface" shared="false"/>
+        </param>
+        <param name="changelog">
+            <instance type="Magento\Mview\View\ChangelogInterface" shared="false"/>
+        </param>
+    </type>
     <type name="Magento\Catalog\Helper\Product">
         <param name="typeSwitcherLabel">
             <value>Virtual</value>

@@ -12,14 +12,14 @@ namespace Magento\Catalog\Model\Mview\View\State\Plugin;
 class Status
 {
     /**
-     * @var \Magento\Mview\View\StateInterfaceFactory
+     * @var \Magento\Mview\View\StateInterface
      */
-    protected $stateFactory;
+    protected $state;
 
     /**
-     * @var \Magento\Mview\View\ChangelogInterfaceFactory
+     * @var \Magento\Mview\View\ChangelogInterface
      */
-    protected $changelogFactory;
+    protected $changelog;
 
     /**
      * ids list
@@ -32,15 +32,15 @@ class Status
     );
 
     /**
-     * @param \Magento\Mview\View\StateInterfaceFactory $stateFactory
-     * @param \Magento\Mview\View\ChangelogInterfaceFactory $changelogFactory
+     * @param \Magento\Mview\View\StateInterface $state
+     * @param \Magento\Mview\View\ChangelogInterface $changelog
      */
     public function __construct(
-        \Magento\Mview\View\StateInterfaceFactory $stateFactory,
-        \Magento\Mview\View\ChangelogInterfaceFactory $changelogFactory
+        \Magento\Mview\View\StateInterface $state,
+        \Magento\Mview\View\ChangelogInterface $changelog
     ) {
-        $this->stateFactory = $stateFactory;
-        $this->changelogFactory = $changelogFactory;
+        $this->state = $state;
+        $this->changelog = $changelog;
     }
 
     /**
@@ -56,8 +56,7 @@ class Status
                 ? \Magento\Catalog\Model\Indexer\Product\Category::INDEXER_ID
                 : \Magento\Catalog\Model\Indexer\Category\Product::INDEXER_ID;
 
-            $relatedViewState = $this->stateFactory->create()
-                ->loadByView($viewId);
+            $relatedViewState = $this->state->loadByView($viewId);
 
             if ($state->getStatus() == $relatedViewState->getStatus()) {
                 return $state;
@@ -65,8 +64,7 @@ class Status
 
             $relatedViewState->setStatus($state->getStatus());
             if ($state->getStatus() == \Magento\Mview\View\StateInterface::STATUS_SUSPENDED) {
-                $changelog = $this->changelogFactory->create()->setViewId($viewId);
-                $relatedViewState->setVersionId($changelog->getVersion());
+                $relatedViewState->setVersionId($this->changelog->setViewId($viewId)->getVersion());
             }
             $relatedViewState->save();
         }
