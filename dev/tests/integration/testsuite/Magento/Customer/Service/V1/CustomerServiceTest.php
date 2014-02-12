@@ -57,7 +57,7 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
             ->setDefaultBilling(true)
             ->setDefaultShipping(true)
             ->setPostcode('75477')
-            ->setRegion(new V1\Dto\Region([
+            ->setRegion(new Dto\Region([
                 'region_code' => 'AL',
                 'region' => 'Alabama',
                 'region_id' => 1
@@ -76,7 +76,7 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
             ->setDefaultBilling(false)
             ->setDefaultShipping(false)
             ->setPostcode('47676')
-            ->setRegion(new V1\Dto\Region([
+            ->setRegion(new Dto\Region([
                 'region_code' => 'AL',
                 'region' => 'Alabama',
                 'region_id' => 1
@@ -487,8 +487,8 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertNotNull($customerId);
         $savedCustomer = $this->_service->getCustomer($customerId);
         $dataInService = $savedCustomer->getAttributes();
-        $expectedDifferences = ['created_at', 'updated_at', 'email', 'is_active', 'entity_id', 'password_hash',
-            'attribute_set_id', 'confirmation'];
+        $expectedDifferences = ['created_at', 'updated_at', 'email', 'is_active', 'entity_id', 'entity_type_id',
+            'password_hash', 'attribute_set_id', 'disable_auto_group_change', 'confirmation'];
         foreach ($dataInModel as $key => $value) {
             if (!in_array($key, $expectedDifferences)) {
                 if (is_null($value)) {
@@ -600,8 +600,8 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
      * @magentoAppArea adminhtml
      * @magentoDataFixture Magento/Customer/_files/customer.php
      * @magentoAppIsolation enabled
-     * @expectedException \Magento\Customer\Service\Entity\V1\Exception
-     * @expectedExceptionMessage No customer with customerId 1 exists.
+     * @expectedException \Magento\Exception\NoSuchEntityException
+     * @expectedExceptionMessage No such entity with customerId = 1
      */
     public function testDeleteCustomer()
     {
@@ -617,8 +617,8 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/Customer/_files/customer_two_addresses.php
      * @magentoAppArea adminhtml
      * @magentoAppIsolation enabled
-     * @expectedException \Magento\Customer\Service\Entity\V1\Exception
-     * @expectedExceptionMessage No customer with customerId 1 exists.
+     * @expectedException \Magento\Exception\NoSuchEntityException
+     * @expectedExceptionMessage No such entity with customerId = 1
      */
     public function testDeleteCustomerWithAddress()
     {
@@ -629,8 +629,8 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
         $this->_service->deleteCustomer(1);
 
         // Verify by directly loading the address by id
-        $this->_verifyDeletedAddress(1);
-        $this->_verifyDeletedAddress(2);
+        $this->verifyDeletedAddress(1);
+        $this->verifyDeletedAddress(2);
 
         //Verify by calling the Address Service. This will throw the expected exception since customerId doesn't exist
         $result = $this->_addressService->getAddresses(1);
@@ -642,7 +642,7 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
      *
      * @param int $addressId
      */
-    private function _verifyDeletedAddress($addressId)
+    protected function verifyDeletedAddress($addressId)
     {
         /** @var $addressFactory \Magento\Customer\Model\AddressFactory*/
         $addressFactory = $this->_objectManager
@@ -653,71 +653,16 @@ class CustomerServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoAppArea adminhtml
      * @magentoDataFixture Magento/Customer/_files/customer.php
      * @magentoAppIsolation enabled
-     * @expectedException \Magento\Customer\Service\Entity\V1\Exception
-     * @expectedExceptionMessage No customer with customerId 1 exists.
-     */
-    public function testDeleteCustomer()
-    {
-        // _files/customer.php sets the customer id to 1
-        $this->_service->deleteCustomer(1);
-        $this->_service->getCustomer(1);
-    }
-
-    /**
-     *
-     * @magentoDataFixture Magento/Customer/_files/customer.php
-     * @magentoDataFixture Magento/Customer/_files/customer_address.php
-     * @magentoDataFixture Magento/Customer/_files/customer_two_addresses.php
-     * @magentoAppArea adminhtml
-     * @magentoAppIsolation enabled
-     * @expectedException \Magento\Customer\Service\Entity\V1\Exception
-     * @expectedExceptionMessage No customer with customerId 1 exists.
-     */
-    public function testDeleteCustomerWithAddress()
-    {
-        //Verify address is created for the customer;
-        $result = $this->_addressService->getAddresses(1);
-        $this->assertEquals(2, count($result));
-        // _files/customer.php sets the customer id to 1
-        $this->_service->deleteCustomer(1);
-
-        // Verify by directly loading the address by id
-        $this->_verifyDeletedAddress(1);
-        $this->_verifyDeletedAddress(2);
-
-        //Verify by calling the Address Service. This will throw the expected exception since customerId doesn't exist
-        $result = $this->_addressService->getAddresses(1);
-        $this->assertTrue(empty($result));
-    }
-
-    /**
-     * @magentoDataFixture Magento/Customer/_files/customer.php
-     * @magentoAppIsolation enabled
-     * @expectedException \Magento\Customer\Service\Entity\V1\Exception
+     * @expectedException
+     * V1\Exception
      * @expectedExceptionMessage Cannot complete this operation from non-admin area.
      */
     public function testDeleteCustomerNonSecureArea()
     {
-        // _files/customer.php sets the customer id to 1
+        /** _files/customer.php sets the customer id to 1 */
         $this->_service->deleteCustomer(1);
-    }
-
-    /**
-     * Check if the Address with the give addressid is deleted
-     *
-     * @param int $addressId
-     */
-    private function _verifyDeletedAddress($addressId)
-    {
-        /** @var $addressFactory \Magento\Customer\Model\AddressFactory*/
-        $addressFactory = $this->_objectManager
-            ->create('Magento\Customer\Model\AddressFactory');
-        $addressModel = $addressFactory->create()->load($addressId);
-        $addressData = $addressModel->getData();
-        $this->assertTrue(empty($addressData));
     }
 
     /**
