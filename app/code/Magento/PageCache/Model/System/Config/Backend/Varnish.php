@@ -17,7 +17,7 @@ namespace Magento\PageCache\Model\System\Config\Backend;
 class Varnish extends \Magento\Core\Model\Config\Value
 {
     /**
-     * @var mixed|string
+     * @var array
      */
     protected $defaultValues;
 
@@ -44,7 +44,7 @@ class Varnish extends \Magento\Core\Model\Config\Value
     /**
      * Get Default Config Values
      *
-     * @return mixed|string
+     * @return array
      */
     protected function _getDefaultValues()
     {
@@ -52,5 +52,25 @@ class Varnish extends \Magento\Core\Model\Config\Value
             $this->defaultValues = $this->_config->getValue('system/full_page_cache/default');
         }
         return $this->defaultValues;
+    }
+
+    /**
+     * If fields are empty fill them with default data
+     *
+     * @return $this|\Magento\Core\Model\AbstractModel
+     */
+    protected function _afterLoad()
+    {
+        $data = $this->_getDefaultValues();
+        $currentValue = $this->getValue();
+        if(!$currentValue) {
+            foreach ($data as $field => $value) {
+                if(strstr($this->getPath(), $field)) {
+                    $this->setValue($value);
+                    break;
+                }
+            }
+        }
+        return $this;
     }
 }
