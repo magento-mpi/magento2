@@ -1,6 +1,6 @@
 <?php
 /**
- * End-to-end scenarios that works with 3-rd party solutions
+ * End-to-end scenarios that works with 3-rd party solutions for CE
  *
  * {license_notice}
  *
@@ -10,11 +10,11 @@
 
 namespace Mtf\TestSuite;
 
-class EndToEndWithExternalSolutionsTests
+class EndToEndWithExternalSolutionsCETests
 {
     public static function suite()
     {
-        $suite = new \PHPUnit_Framework_TestSuite('End-to-end Scenarios with 3-rd Party Solutions');
+        $suite = new \PHPUnit_Framework_TestSuite('End-to-end Scenarios with 3-rd Party Solutions for CE');
 
         // Checkout
         // 3D Secure
@@ -36,15 +36,8 @@ class EndToEndWithExternalSolutionsTests
         // Multishipping
         $suite->addTestSuite('Magento\Multishipping\Test\TestCase\MultishippingTest');
 
-        // RMA
-        $suite->addTestSuite('Magento\Rma\Test\TestCase\RmaTest');
-
         // Orders. Backend
         $suite->addTestSuite('Magento\Sales\Test\TestCase\CloseOrderTest');
-
-        // Refunds
-        $suite->addTestSuite('Magento\Sales\Test\TestCase\OnlineRefundTest');
-        $suite->addTestSuite('Magento\Sales\Test\TestCase\OfflineRefundTest');
 
         // VAT
         $suite->addTestSuite('Magento\Tax\Test\TestCase\AutomaticTaxApplyingTest');
