@@ -81,7 +81,7 @@ class Product implements \Magento\Indexer\Model\ActionInterface, \Magento\Mview\
      */
     public function executeRow($id)
     {
-        $this->executeAction(array($id));
+        $this->executeAction([$id]);
     }
 
     /**
@@ -92,14 +92,15 @@ class Product implements \Magento\Indexer\Model\ActionInterface, \Magento\Mview\
      */
     protected function executeAction($ids)
     {
+        $ids = array_unique($ids);
         $this->indexer->load(self::INDEXER_ID);
-        if ($this->indexer->isInvalid()) {
-            return $this;
-        }
 
         /** @var Product\Action\Rows $action */
-        $this->rowsActionFactory->create()
-            ->execute($ids);
+        $action = $this->rowsActionFactory->create();
+        if ($this->indexer->isWorking()) {
+            $action->execute($ids, true);
+        }
+        $action->execute($ids);
 
         return $this;
     }

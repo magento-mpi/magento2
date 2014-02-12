@@ -868,6 +868,7 @@ class Category extends \Magento\Catalog\Model\Resource\AbstractResource
 
         // Update category object to new data
         $category->addData($data);
+        $category->unsetData('path_ids');
 
         return $this;
     }

@@ -14,7 +14,7 @@ namespace Magento\Catalog\Model;
  * @method setAffectedProductIds(array $productIds)
  * @method array getAffectedProductIds()
  * @method setMovedCategoryId(array $productIds)
- * @method int metMovedCategoryId()
+ * @method int getMovedCategoryId()
  * @method setAffectedCategoryIds(array $categoryIds)
  * @method array getAffectedCategoryIds()
  *
@@ -349,6 +349,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
         */
         $this->setMovedCategoryId($this->getId());
         $oldParentId = $this->getParentId();
+        $oldParentIds = $this->getParentIds();
 
         $eventParams = array(
             $this->_eventObject => $this,
@@ -379,7 +380,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
             $this->getFlatIndexer()->reindexList(array($this->getId(), $oldParentId, $parentId));
         }
         if (!$this->getProductIndexer()->isScheduled()) {
-            $this->getProductIndexer()->reindexList(array($this->getId(), $oldParentId, $parentId));
+            $this->getProductIndexer()->reindexList(array_merge($this->getPathIds(), $oldParentIds));
         }
         $this->_cacheManager->clean(array(self::CACHE_TAG));
 
@@ -1059,7 +1060,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
             $this->getFlatIndexer()->reindexRow($this->getId());
         }
         if (!$this->getProductIndexer()->isScheduled()) {
-            $this->getProductIndexer()->reindexRow($this->getId());
+            $this->getProductIndexer()->reindexList($this->getPathIds());
         }
     }
 
