@@ -100,21 +100,21 @@ class FileSystem
      */
     public function notifyViewFileLocationChanged(Publisher\FileInterface $publisherFile)
     {
-        $skipProxy = isset($publisherFile->getViewParams()['skipProxy'])
-            && $publisherFile->getViewParams()['skipProxy'];
+        $params = $publisherFile->getViewParams();
+        $skipProxy = isset($params['skipProxy']) && $params['skipProxy'];
         $strategy = $this->_resolutionPool->getViewStrategy($skipProxy);
         if ($strategy instanceof Design\FileResolution\Strategy\View\NotifiableInterface) {
             /** @var $strategy Design\FileResolution\Strategy\View\NotifiableInterface  */
             $filePath = $this->_viewService->extractScope(
                 $this->normalizePath($publisherFile->getFilePath()),
-                $publisherFile->getViewParams()
+                $params
             );
-            $this->_viewService->updateDesignParams($publisherFile->getViewParams());
+            $this->_viewService->updateDesignParams($params);
             $strategy->setViewFilePathToMap(
-                $publisherFile->getViewParams()['area'],
-                $publisherFile->getViewParams()['themeModel'],
-                $publisherFile->getViewParams()['locale'],
-                $publisherFile->getViewParams()['module'],
+                $params['area'],
+                $params['themeModel'],
+                $params['locale'],
+                $params['module'],
                 $filePath,
                 $publisherFile->buildPublicViewFilename()
             );
