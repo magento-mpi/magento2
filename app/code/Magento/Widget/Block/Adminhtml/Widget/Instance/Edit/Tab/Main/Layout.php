@@ -7,14 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Main;
 
 /**
  * Widget Instance page groups (predefined layouts group) to display on
  *
  * @method \Magento\Widget\Model\Widget\Instance getWidgetInstance()
  */
-namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Main;
-
 class Layout
     extends \Magento\Backend\Block\Template implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
@@ -23,6 +22,9 @@ class Layout
      */
     protected $_element = null;
 
+    /**
+     * @var string
+     */
     protected $_template = 'instance/edit/layout.phtml';
 
     /**
@@ -47,6 +49,7 @@ class Layout
     /**
      * Render given element (return html of element)
      *
+     * @param \Magento\Data\Form\Element\AbstractElement $element
      * @return string
      */
     public function render(\Magento\Data\Form\Element\AbstractElement $element)
@@ -59,7 +62,7 @@ class Layout
      * Setter
      *
      * @param \Magento\Data\Form\Element\AbstractElement $element
-     * @return
+     * @return $this
      */
     public function setElement(\Magento\Data\Form\Element\AbstractElement $element)
     {
