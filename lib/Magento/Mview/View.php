@@ -241,10 +241,10 @@ class View extends \Magento\Object implements ViewInterface
      */
     public function suspend()
     {
-        $this->getState()
-            ->setVersionId($this->getChangelog()->getVersion())
-            ->setStatus(View\StateInterface::STATUS_SUSPENDED)
-            ->save();
+        $state = $this->getState();
+        $state->setVersionId($this->getChangelog()->getVersion());
+        $state->setStatus(View\StateInterface::STATUS_SUSPENDED);
+        $state->save();
     }
 
     /**
@@ -252,8 +252,10 @@ class View extends \Magento\Object implements ViewInterface
      */
     public function resume()
     {
-        if ($this->getState()->getStatus() == View\StateInterface::STATUS_SUSPENDED) {
-            $this->getState()->setStatus(View\StateInterface::STATUS_IDLE)->save();
+        $state = $this->getState();
+        if ($state->getStatus() == View\StateInterface::STATUS_SUSPENDED) {
+            $state->setStatus(View\StateInterface::STATUS_IDLE);
+            $state->save();
         }
     }
 

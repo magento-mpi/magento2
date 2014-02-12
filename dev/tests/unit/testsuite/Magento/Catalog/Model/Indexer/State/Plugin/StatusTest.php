@@ -15,7 +15,6 @@ class StatusTest extends \PHPUnit_Framework_TestCase
         $testableIndex  = \Magento\Catalog\Model\Indexer\Product\Category::INDEXER_ID;
         $changedIndex   = \Magento\Catalog\Model\Indexer\Category\Product::INDEXER_ID;
         $testableStatus = 'testable_status';
-        $testableDate   = 'testable_date';
 
         $stateFactory = $this->getMockBuilder('Magento\Indexer\Model\Indexer\StateFactory')
             ->setMethods(array('create'))
@@ -23,7 +22,7 @@ class StatusTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $testableState = $this->getMockBuilder('Magento\Indexer\Model\Indexer\State')
-            ->setMethods(array('getIndexerId', 'getStatus', 'getUpdated', '__wakeup'))
+            ->setMethods(array('getIndexerId', 'getStatus', '__wakeup'))
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -34,10 +33,6 @@ class StatusTest extends \PHPUnit_Framework_TestCase
         $testableState->expects($this->once())
             ->method('getStatus')
             ->will($this->returnValue($testableStatus));
-
-        $testableState->expects($this->once())
-            ->method('getUpdated')
-            ->will($this->returnValue($testableDate));
 
         $state = $this->getMockBuilder('Magento\Indexer\Model\Indexer\State')
             ->setMethods(array('setData', 'load', 'save', '__wakeup'))
@@ -58,18 +53,12 @@ class StatusTest extends \PHPUnit_Framework_TestCase
             ->method('save')
             ->will($this->returnSelf());
 
-        $state->expects($this->exactly(2))
+        $state->expects($this->once())
             ->method('setData')
             ->with(
                 $this->logicalOr(
-                    $this->logicalOr(
-                        $this->equalTo('status'),
-                            $this->equalTo($testableStatus)
-                    ),
-                    $this->logicalOr(
-                        $this->equalTo('updated'),
-                            $this->equalTo($testableDate)
-                    )
+                    $this->equalTo('status'),
+                    $this->equalTo($testableStatus)
                 )
             )
             ->will($this->returnSelf());

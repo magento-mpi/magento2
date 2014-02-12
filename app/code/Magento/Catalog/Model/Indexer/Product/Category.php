@@ -8,27 +8,12 @@
 
 namespace Magento\Catalog\Model\Indexer\Product;
 
-class Category implements \Magento\Indexer\Model\ActionInterface, \Magento\Mview\ActionInterface
+class Category extends \Magento\Catalog\Model\Indexer\Category\Product
 {
     /**
      * Indexer ID in configuration
      */
     const INDEXER_ID = 'catalog_product_category';
-
-    /**
-     * @var \Magento\Catalog\Model\Indexer\Category\Product\Action\FullFactory
-     */
-    protected $fullActionFactory;
-
-    /**
-     * @var \Magento\Catalog\Model\Indexer\Product\Category\Action\RowsFactory
-     */
-    protected $rowsActionFactory;
-
-    /**
-     * @var \Magento\Indexer\Model\IndexerInterface
-     */
-    protected $indexer;
 
     /**
      * @param \Magento\Catalog\Model\Indexer\Category\Product\Action\FullFactory $fullActionFactory
@@ -40,68 +25,6 @@ class Category implements \Magento\Indexer\Model\ActionInterface, \Magento\Mview
         Category\Action\RowsFactory $rowsActionFactory,
         \Magento\Indexer\Model\IndexerInterface $indexer
     ) {
-        $this->fullActionFactory = $fullActionFactory;
-        $this->rowsActionFactory = $rowsActionFactory;
-        $this->indexer = $indexer;
-    }
-
-    /**
-     * Execute materialization on ids entities
-     *
-     * @param int[] $ids
-     */
-    public function execute($ids)
-    {
-        $this->executeAction($ids);
-    }
-
-    /**
-     * Execute full indexation
-     */
-    public function executeFull()
-    {
-        $this->fullActionFactory->create()
-            ->execute();
-    }
-
-    /**
-     * Execute partial indexation by ID list
-     *
-     * @param int[] $ids
-     */
-    public function executeList($ids)
-    {
-        $this->executeAction($ids);
-    }
-
-    /**
-     * Execute partial indexation by ID
-     *
-     * @param int $id
-     */
-    public function executeRow($id)
-    {
-        $this->executeAction([$id]);
-    }
-
-    /**
-     * Execute action for single entity or list of entities
-     *
-     * @param int[] $ids
-     * @return $this
-     */
-    protected function executeAction($ids)
-    {
-        $ids = array_unique($ids);
-        $this->indexer->load(self::INDEXER_ID);
-
-        /** @var Category\Action\Rows $action */
-        $action = $this->rowsActionFactory->create();
-        if ($this->indexer->isWorking()) {
-            $action->execute($ids, true);
-        }
-        $action->execute($ids);
-
-        return $this;
+        parent::__costruct($fullActionFactory, $rowsActionFactory, $indexer);
     }
 }
