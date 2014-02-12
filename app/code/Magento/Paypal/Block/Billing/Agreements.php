@@ -106,7 +106,7 @@ class Agreements extends \Magento\View\Element\Template
         switch ($key) {
             case 'created_at':
             case 'updated_at':
-                $value = ($item->getData($key))
+                $value = $item->getData($key)
                     ? $this->formatDate($item->getData($key), 'short', true)
                     : __('N/A');
                 break;
@@ -115,13 +115,13 @@ class Agreements extends \Magento\View\Element\Template
                 break;
             case 'payment_method_label':
                 $label = $item->getAgreementLabel();
-                $value = ($label) ? $label : __('N/A');
+                $value = $label ? $label : __('N/A');
                 break;
             case 'status':
                 $value = $item->getStatusLabel();
                 break;
             default:
-                $value = ($item->getData($key)) ? $item->getData($key) : __('N/A');
+                $value = $item->getData($key) ? $item->getData($key) : __('N/A');
                 break;
         }
         return $this->escapeHtml($value);

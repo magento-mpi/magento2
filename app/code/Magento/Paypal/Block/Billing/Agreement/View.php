@@ -228,7 +228,7 @@ class View extends \Magento\View\Element\Template
             $createdAt = $billingAgreement->getCreatedAt();
             $updatedAt = $billingAgreement->getUpdatedAt();
             $this->setAgreementCreatedAt(
-                ($createdAt)
+                $createdAt
                     ? $this->formatDate($createdAt, 'short', true)
                     : __('N/A')
             );
