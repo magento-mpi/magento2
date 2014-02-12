@@ -32,7 +32,7 @@ class AbstractWriterTest extends \PHPUnit_Framework_TestCase
     public function testWrite()
     {
         $filename = 'some_filename';
-        $configMock = $this->getMock('Magento\Tools\Dependency\Config', [], [], '', false);
+        $configMock = $this->getMock('Magento\Tools\Dependency\Report\Data\ConfigInterface');
         $preparedData = ['foo', 'baz', 'bar'];
 
         $this->writer->expects($this->once())->method('prepareData')->with($configMock)

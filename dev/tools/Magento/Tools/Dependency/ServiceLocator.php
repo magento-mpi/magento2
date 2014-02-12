@@ -9,9 +9,10 @@
 namespace Magento\Tools\Dependency;
 
 use Magento\File\Csv;
-use Magento\Tools\Dependency\Report\Builder;
 use Magento\Tools\Dependency\Parser;
-use Magento\Tools\Dependency\Report\Writer;
+use Magento\Tools\Dependency\Report\Dependency;
+use Magento\Tools\Dependency\Report\Circular;
+use Magento\TestFramework\Dependency\Circular as CircularTool;
 
 /**
  *  Service Locator (instead DI container)
@@ -21,31 +22,38 @@ class ServiceLocator
     /**
      * Xml dependencies parser
      *
-     * @var \Magento\Tools\Dependency\Parser\Xml
+     * @var \Magento\Tools\Dependency\ParserInterface
      */
-    private static $xmlDependenciesParser;
+    private static $configDependenciesParser;
 
     /**
-     * Dictionary generator
+     * Dependencies report builder
      *
      * @var \Magento\Tools\Dependency\Report\BuilderInterface
      */
-    private static $modulesDependenciesReportBuilder;
+    private static $dependenciesReportBuilder;
+
+    /**
+     * Circular dependencies report builder
+     *
+     * @var \Magento\Tools\Dependency\Report\BuilderInterface
+     */
+    private static $circularDependenciesReportBuilder;
 
     /**
      * Get modules dependencies report builder
      *
      * @return \Magento\Tools\Dependency\Report\BuilderInterface
      */
-    public static function getModulesDependenciesReportBuilder()
+    public static function getDependenciesReportBuilder()
     {
-        if (null === self::$modulesDependenciesReportBuilder) {
-            self::$modulesDependenciesReportBuilder = new Builder(
-                self::getXmlDependenciesParser(),
-                new Writer\Csv\Module((new Csv())->setDelimiter(';'))
+        if (null === self::$dependenciesReportBuilder) {
+            self::$dependenciesReportBuilder = new Dependency\Builder(
+                self::getConfigDependenciesParser(),
+                new Dependency\Writer((new Csv())->setDelimiter(';'))
             );
         }
-        return self::$modulesDependenciesReportBuilder;
+        return self::$dependenciesReportBuilder;
     }
 
     /**
@@ -53,8 +61,16 @@ class ServiceLocator
      *
      * @return \Magento\Tools\Dependency\Report\BuilderInterface
      */
-    public static function getModulesCircularDependenciesReportBuilder()
+    public static function getCircularDependenciesReportBuilder()
     {
+        if (null === self::$circularDependenciesReportBuilder) {
+            self::$circularDependenciesReportBuilder = new Circular\Builder(
+                self::getConfigDependenciesParser(),
+                new Circular\Writer((new Csv())->setDelimiter(';')),
+                new CircularTool(array(), null)
+            );
+        }
+        return self::$circularDependenciesReportBuilder;
     }
 
     /**
@@ -67,15 +83,15 @@ class ServiceLocator
     }
 
     /**
-     * Get dependencies parser from xml files
+     * Get dependencies parser from config files
      *
      * @return \Magento\Tools\Dependency\ParserInterface
      */
-    private static function getXmlDependenciesParser()
+    private static function getConfigDependenciesParser()
     {
-        if (null === self::$xmlDependenciesParser) {
-            self::$xmlDependenciesParser = new Parser\Xml();
+        if (null === self::$configDependenciesParser) {
+            self::$configDependenciesParser = new Parser\Config();
         }
-        return self::$xmlDependenciesParser;
+        return self::$configDependenciesParser;
     }
 }

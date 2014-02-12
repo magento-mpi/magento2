@@ -8,15 +8,12 @@
 
 namespace Magento\Tools\Dependency\Parser;
 
-use Magento\Tools\Dependency\Config;
-use Magento\Tools\Dependency\Dependency;
-use Magento\Tools\Dependency\Module;
 use Magento\Tools\Dependency\ParserInterface;
 
 /**
- * Xml parser
+ * Config parser
  */
-class Xml implements ParserInterface
+class Config implements ParserInterface
 {
     /**
      * Template method. Main algorithm
@@ -28,12 +25,12 @@ class Xml implements ParserInterface
         $modules = [];
         foreach ($files as $file) {
             $config = $this->getModuleConfig($file);
-            $modules[] = new Module(
-                $this->extractModuleName($config),
-                $this->extractDependencies($config)
-            );
+            $modules[] = [
+                'name' => $this->extractModuleName($config),
+                'dependencies' => $this->extractDependencies($config),
+            ];
         }
-        return new Config($modules);
+        return $modules;
     }
 
     /**
@@ -59,10 +56,10 @@ class Xml implements ParserInterface
         /** @var \SimpleXMLElement $dependency */
         if ($config->depends) {
             foreach ($config->depends->module as $dependency) {
-                $dependencies[] = new Dependency(
-                    (string)$dependency->attributes()->name,
-                    (string)$dependency->attributes()->type
-                );
+                $dependencies[] = [
+                    'module' => (string)$dependency->attributes()->name,
+                    'type' => (string)$dependency->attributes()->type
+                ];
             }
         }
         return $dependencies;

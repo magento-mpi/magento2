@@ -10,7 +10,7 @@ namespace Magento\Test\Tools\Dependency\Report\Builder;
 
 use Magento\Tools\Dependency\ServiceLocator;
 
-class ModulesDependencies extends \PHPUnit_Framework_TestCase
+class Dependency extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var string
@@ -29,10 +29,10 @@ class ModulesDependencies extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->fixtureDir = realpath(__DIR__ . '/../../_files') . '/';
+        $this->fixtureDir = realpath(__DIR__ . '/../_files') . '/';
         $this->sourceFilename = $this->fixtureDir . 'modules-dependencies.csv';
 
-        $this->builder = ServiceLocator::getModulesDependenciesReportBuilder();
+        $this->builder = ServiceLocator::getDependenciesReportBuilder();
     }
 
     public function testBuild()
@@ -47,6 +47,21 @@ class ModulesDependencies extends \PHPUnit_Framework_TestCase
 
         $this->assertFileEquals(
             $this->fixtureDir . 'expected/modules-dependencies.csv',
+            $this->sourceFilename
+        );
+    }
+
+    public function testBuildWithoutDependencies()
+    {
+        $this->builder->build([
+            'configFiles' => [
+                $this->fixtureDir . 'config3.xml',
+            ],
+            'filename' => $this->sourceFilename,
+        ]);
+
+        $this->assertFileEquals(
+            $this->fixtureDir . 'expected/modules-without-dependencies.csv',
             $this->sourceFilename
         );
     }

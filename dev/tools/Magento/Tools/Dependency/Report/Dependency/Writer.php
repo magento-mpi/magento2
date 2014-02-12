@@ -6,15 +6,20 @@
  * @license   {license_link}
  */
 
-namespace Magento\Tools\Dependency\Report\Writer\Csv;
+namespace Magento\Tools\Dependency\Report\Dependency;
+
+use Magento\Tools\Dependency\Report\Writer\Csv\AbstractWriter;
 
 /**
- * Csv file writer for Modules dependencies report
+ * Csv file writer for dependencies report
  */
-class Module extends AbstractWriter
+class Writer extends AbstractWriter
 {
     /**
-     * {@inheritdoc}
+     * Template method. Prepare data step
+     *
+     * @param \Magento\Tools\Dependency\Report\Dependency\Data\Config $config
+     * @return array
      */
     protected function prepareData($config)
     {
@@ -27,10 +32,10 @@ class Module extends AbstractWriter
         ];
         $data[] = [];
 
-        if ($config->hasDependencies()) {
+        if ($config->getDependenciesCount()) {
             $data[] = ['Dependencies for each module:', 'All', 'Hard', 'Soft'];
             foreach ($config->getModules() as $module) {
-                if ($module->hasDependencies()) {
+                if ($module->getDependenciesCount()) {
                     $data[] = [
                         $module->getName(),
                         $module->getDependenciesCount(),

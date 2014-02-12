@@ -6,14 +6,16 @@
  * @license   {license_link}
  */
 
-namespace Magento\Tools\Dependency\Report;
+namespace Magento\Tools\Dependency\Report\Builder;
 
+use Magento\Tools\Dependency\Report\BuilderInterface;
 use Magento\Tools\Dependency\ParserInterface;
+use Magento\Tools\Dependency\Report\WriterInterface;
 
 /**
- *  Dependencies report builder
+ *  Abstract report builder
  */
-class Builder implements BuilderInterface
+abstract class AbstractBuilder implements BuilderInterface
 {
     /**
      * Dependencies parser
@@ -35,26 +37,30 @@ class Builder implements BuilderInterface
      * @param \Magento\Tools\Dependency\ParserInterface $dependenciesParser
      * @param \Magento\Tools\Dependency\Report\WriterInterface $reportWriter
      */
-    public function __construct(ParserInterface $dependenciesParser, WriterInterface $reportWriter)
-    {
+    public function __construct(
+        ParserInterface $dependenciesParser,
+        WriterInterface $reportWriter
+    ) {
         $this->dependenciesParser = $dependenciesParser;
         $this->reportWriter = $reportWriter;
     }
 
     /**
+     * Template method. Main algorithm
+     *
      * {@inheritdoc}
      */
     public function build(array $options)
     {
         $this->checkOptions($options);
 
-        $config = $this->dependenciesParser->parse($options['configFiles']);
+        $config = $this->prepareData($this->dependenciesParser->parse($options['configFiles']));
 
         $this->reportWriter->write($options['filename'], $config);
     }
 
     /**
-     * Check passed options
+     * Template method. Check passed options step
      *
      * @param array $options
      * @throws \InvalidArgumentException
@@ -69,4 +75,12 @@ class Builder implements BuilderInterface
             throw new \InvalidArgumentException('Passed option "filename" is wrong.');
         }
     }
+
+    /**
+     * Template method. Prepare data for writer step
+     *
+     * @param array $modulesData
+     * @return Object
+     */
+    abstract protected function prepareData($modulesData);
 }

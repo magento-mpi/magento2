@@ -8,7 +8,7 @@
 
 namespace Magento\Tools\Dependency\Report;
 
-use Magento\Tools\Dependency\Config;
+use Magento\Tools\Dependency\Report\Data\ConfigInterface;
 
 /**
  *  Writer Interface
@@ -19,7 +19,7 @@ interface WriterInterface
      * Write a report file
      *
      * @param string $filename
-     * @param \Magento\Tools\Dependency\Config $config
+     * @param \Magento\Tools\Dependency\Report\Data\ConfigInterface $config
      */
-    public function write($filename, Config $config);
+    public function write($filename, ConfigInterface $config);
 }

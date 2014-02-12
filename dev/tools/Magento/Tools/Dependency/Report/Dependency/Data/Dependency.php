@@ -6,7 +6,7 @@
  * @license   {license_link}
  */
 
-namespace Magento\Tools\Dependency;
+namespace Magento\Tools\Dependency\Report\Dependency\Data;
 
 /**
  * Dependency

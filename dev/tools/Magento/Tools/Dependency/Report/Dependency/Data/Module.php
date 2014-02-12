@@ -6,7 +6,7 @@
  * @license   {license_link}
  */
 
-namespace Magento\Tools\Dependency;
+namespace Magento\Tools\Dependency\Report\Dependency\Data;
 
 /**
  * Module
@@ -23,7 +23,7 @@ class Module
     /**
      * Module dependencies
      *
-     * @var \Magento\Tools\Dependency\Dependency[]
+     * @var \Magento\Tools\Dependency\Report\Dependency\Data\Dependency[]
      */
     private $dependencies;
 
@@ -31,7 +31,7 @@ class Module
      * Module construct
      *
      * @param array $name
-     * @param \Magento\Tools\Dependency\Dependency[] $dependencies
+     * @param \Magento\Tools\Dependency\Report\Dependency\Data\Dependency[] $dependencies
      */
     public function __construct($name, array $dependencies = [])
     {
@@ -52,21 +52,11 @@ class Module
     /**
      * Get dependencies
      *
-     * @return \Magento\Tools\Dependency\Dependency[]
+     * @return \Magento\Tools\Dependency\Report\Dependency\Data\Dependency[]
      */
     public function getDependencies()
     {
         return $this->dependencies;
-    }
-
-    /**
-     * Check if is module has dependencies
-     *
-     * @return bool
-     */
-    public function hasDependencies()
-    {
-        return (bool)$this->dependencies;
     }
 
     /**

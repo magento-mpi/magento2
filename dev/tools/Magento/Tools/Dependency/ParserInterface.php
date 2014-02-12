@@ -17,7 +17,7 @@ interface ParserInterface
      * Parse files
      *
      * @param array $files
-     * @return \Magento\Tools\Dependency\Config
+     * @return array
      */
     public function parse(array $files);
 }

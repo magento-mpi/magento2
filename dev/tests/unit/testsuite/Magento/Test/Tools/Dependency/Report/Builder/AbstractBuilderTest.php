@@ -6,17 +6,10 @@
  * @license   {license_link}
  */
 
-namespace Magento\Test\Tools\Dependency\Report;
+namespace Magento\Test\Tools\Dependency\Report\Builder;
 
-use Magento\TestFramework\Helper\ObjectManager;
-
-class BuilderTest extends \PHPUnit_Framework_TestCase
+class AbstractBuilderTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var \Magento\Tools\Dependency\Report\Builder
-     */
-    protected $builder;
-
     /**
      * @var \Magento\Tools\Dependency\ParserInterface|\PHPUnit_Framework_MockObject_MockObject
      */
@@ -27,13 +20,17 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
      */
     protected $reportWriterMock;
 
+    /**
+     * @var \Magento\Tools\Dependency\Report\Builder\AbstractBuilder|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $builder;
+
     protected function setUp()
     {
         $this->dependenciesParserMock = $this->getMock('Magento\Tools\Dependency\ParserInterface');
         $this->reportWriterMock = $this->getMock('Magento\Tools\Dependency\Report\WriterInterface');
 
-        $objectManagerHelper = new ObjectManager($this);
-        $this->builder = $objectManagerHelper->getObject('Magento\Tools\Dependency\Report\Builder', [
+        $this->builder = $this->getMockForAbstractClass('Magento\Tools\Dependency\Report\Builder\AbstractBuilder', [
             'dependenciesParser' => $this->dependenciesParserMock,
             'reportWriter' => $this->reportWriterMock,
         ]);
@@ -86,9 +83,12 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     public function testBuild()
     {
         $options = ['configFiles' => [1, 2, 3], 'filename' => 'some_filename'];
-        $configMock = $this->getMock('Magento\Tools\Dependency\Config', [], [], '', false);
+        $parseResult = ['foo', 'bar', 'baz'];
+        $configMock = $this->getMock('\Magento\Tools\Dependency\Report\Data\ConfigInterface');
 
         $this->dependenciesParserMock->expects($this->once())->method('parse')->with($options['configFiles'])
+            ->will($this->returnValue($parseResult));
+        $this->builder->expects($this->once())->method('prepareData')->with($parseResult)
             ->will($this->returnValue($configMock));
         $this->reportWriterMock->expects($this->once())->method('write')->with($options['filename'], $configMock);
 

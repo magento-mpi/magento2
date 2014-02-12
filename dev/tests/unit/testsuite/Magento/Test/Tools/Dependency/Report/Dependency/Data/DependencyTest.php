@@ -6,35 +6,42 @@
  * @license   {license_link}
  */
 
-namespace Magento\Test\Tools\Dependency;
+namespace Magento\Test\Tools\Dependency\Report\Dependency\Data;
 
 use Magento\TestFramework\Helper\ObjectManager;
-use Magento\Tools\Dependency\Dependency;
+use Magento\Tools\Dependency\Report\Dependency\Data\Dependency;
 
 class DependencyTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param string $module
      * @param string|null $type One of \Magento\Tools\Dependency\Dependency::TYPE_ const
-     * @return \Magento\Tools\Dependency\Dependency
+     * @return \Magento\Tools\Dependency\Report\Dependency\Data\Dependency
      */
     protected function createDependency($module, $type = null)
     {
         $objectManagerHelper = new ObjectManager($this);
-        return $objectManagerHelper->getObject('Magento\Tools\Dependency\Dependency', [
+        return $objectManagerHelper->getObject('Magento\Tools\Dependency\Report\Dependency\Data\Dependency', [
             'module' => $module,
             'type' => $type,
         ]);
     }
 
-    public function testAccessor()
+    public function testGetModule()
     {
         $module = 'module';
-        $type = Dependency::TYPE_SOFT;
 
-        $dependency = $this->createDependency($module, $type);
+        $dependency = $this->createDependency($module);
 
         $this->assertEquals($module, $dependency->getModule());
+    }
+
+    public function testGetType()
+    {
+        $type = Dependency::TYPE_SOFT;
+
+        $dependency = $this->createDependency('module', $type);
+
         $this->assertEquals($type, $dependency->getType());
     }
 

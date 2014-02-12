@@ -6,54 +6,19 @@
  * @license   {license_link}
  */
 
-namespace Magento\Tools\Dependency;
+namespace Magento\Tools\Dependency\Report\Dependency\Data;
+
+use Magento\Tools\Dependency\Report\Data\Config\AbstractConfig;
 
 /**
  * Config
+ *
+ * @method \Magento\Tools\Dependency\Report\Dependency\Data\Module[] getModules()
  */
-class Config
+class Config extends AbstractConfig
 {
     /**
-     * Modules
-     *
-     * @var \Magento\Tools\Dependency\Module[]
-     */
-    private $modules;
-
-    /**
-     * Config construct
-     *
-     * @param \Magento\Tools\Dependency\Module[] $modules
-     */
-    public function __construct(array $modules = [])
-    {
-        $this->modules = $modules;
-    }
-
-    /**
-     * Get modules
-     *
-     * @return \Magento\Tools\Dependency\Module[]
-     */
-    public function getModules()
-    {
-        return $this->modules;
-    }
-
-    /**
-     * Check if there is dependencies
-     *
-     * @return bool
-     */
-    public function hasDependencies()
-    {
-        return $this->getHardDependenciesCount() || $this->getSoftDependenciesCount();
-    }
-
-    /**
-     * Get total dependencies count
-     *
-     * @return int
+     * {@inheritdoc}
      */
     public function getDependenciesCount()
     {

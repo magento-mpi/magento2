@@ -29,6 +29,8 @@ class Circular
     protected $circularDependencies = array();
 
     /**
+     * Graph object
+     *
      * @var \Magento\Data\Graph
      */
     protected $graph;
@@ -41,8 +43,7 @@ class Circular
      */
     public function buildModulesDependencies($dependencies)
     {
-        $this->dependencies = $dependencies;
-        $this->graph = new Graph(array_keys($this->dependencies), array());
+        $this->init($dependencies);
 
         foreach (array_keys($this->dependencies) as $vertex) {
             $this->expandDependencies($vertex);
@@ -53,7 +54,20 @@ class Circular
             array_shift($circular);
             $this->buildCircular($circular);
         }
-        return $this->circularDependencies;
+
+        return $this->divideByModules($this->circularDependencies);
+    }
+
+    /**
+     * Init data before building
+     *
+     * @param array $dependencies
+     */
+    protected function init($dependencies)
+    {
+        $this->dependencies = $dependencies;
+        $this->circularDependencies = array();
+        $this->graph = new Graph(array_keys($this->dependencies), array());
     }
 
     /**
@@ -101,5 +115,23 @@ class Circular
         $this->circularDependencies[$path] = $modules;
         array_push($modules, array_shift($modules));
         $this->buildCircular($modules);
+    }
+
+    /**
+     * Divide dependencies by modules
+     *
+     * @param array $circularDependencies
+     * @return array
+     */
+    protected function divideByModules($circularDependencies)
+    {
+        $dependenciesByModule = array();
+        foreach ($circularDependencies as $circularDependency) {
+            $module = $circularDependency[0];
+            array_push($circularDependency, $module);
+            $dependenciesByModule[$module][] = $circularDependency;
+        }
+
+        return $dependenciesByModule;
     }
 }

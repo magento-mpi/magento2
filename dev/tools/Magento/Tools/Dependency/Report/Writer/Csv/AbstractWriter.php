@@ -8,7 +8,7 @@
 
 namespace Magento\Tools\Dependency\Report\Writer\Csv;
 
-use Magento\Tools\Dependency\Config;
+use Magento\Tools\Dependency\Report\Data\ConfigInterface;
 use Magento\Tools\Dependency\Report\WriterInterface;
 
 /**
@@ -38,7 +38,7 @@ abstract class AbstractWriter implements WriterInterface
      *
      * {@inheritdoc}
      */
-    public function write($filename, Config $config)
+    public function write($filename, ConfigInterface $config)
     {
         $this->writeToFile($filename, $this->prepareData($config));
     }
@@ -46,7 +46,7 @@ abstract class AbstractWriter implements WriterInterface
     /**
      * Template method. Prepare data step
      *
-     * @param \Magento\Tools\Dependency\Config $config
+     * @param \Magento\Tools\Dependency\Report\Data\ConfigInterface $config
      * @return array
      */
     abstract protected function prepareData($config);
