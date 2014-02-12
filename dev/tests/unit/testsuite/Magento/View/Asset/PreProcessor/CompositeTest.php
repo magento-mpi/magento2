@@ -38,10 +38,9 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
      * @param array $extension
      * @param array $preProcessorsConfig
      * @param array $createMap
-     * @param string $expectedResult
      * @dataProvider processDataProvider
      */
-    public function testProcess($extension, $preProcessorsConfig, $createMap, $expectedResult)
+    public function testProcess($extension, $preProcessorsConfig, $createMap)
     {
         $this->composite = $this->objectManagerHelper->getObject(
             'Magento\View\Asset\PreProcessor\Composite',
@@ -58,11 +57,7 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
 
         $targetDir = $this->getMock('Magento\Filesystem\Directory\WriteInterface', array(), array(), '', false);
 
-        $willSourcePathChanged = false;
         foreach ($createMap as $className => $isExpected) {
-            if (!$willSourcePathChanged) {
-                $willSourcePathChanged = $isExpected === 'expected';
-            }
             $this->callMap[$className] = $this->getMock($className, array('process'), array(), '', false);
 
             if ($isExpected === 'expected') {
@@ -72,28 +67,17 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
                         $this->equalTo($publisherFile),
                         $this->equalTo($targetDir)
                     )
-                    ->will($this->returnValue($expectedResult));
+                    ->will($this->returnValue($publisherFile));
             } else {
                 $this->callMap[$className]->expects($this->never())->method('process');
             }
         }
 
-        if ($willSourcePathChanged) {
-            $publisherFile->expects($this->atLeastOnce())
-                ->method('setSourcePath')
-                ->with($this->equalTo($expectedResult));
-        }
-
-        $publisherFile->expects($this->once())
-            ->method('getSourcePath')
-            ->will($this->returnValue($expectedResult));
-
         $this->preProcessorFactoryMock->expects($this->any())
             ->method('create')
             ->will($this->returnCallback(array($this, 'createProcessor')));
 
-        $result = $this->composite->process($publisherFile, $targetDir);
-        $this->assertEquals($expectedResult, $result);
+        $this->assertEquals($publisherFile, $this->composite->process($publisherFile, $targetDir));
     }
 
     /**
@@ -129,7 +113,6 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
                     'Magento\Css\PreProcessor\Composite' => 'expected',
                     'Magento\Css\PreProcessor\Composite2' => 'expected'
                 ],
-                'expectedResult' => 'result_source_path'
             ],
             'one processor for css' => [
                 'extension' => 'css',
@@ -142,26 +125,11 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
                 'createMap' => [
                     'Magento\Css\PreProcessor\Composite' => 'expected',
                 ],
-                'expectedResult' => 'result_source_path_one'
-            ],
-            'one processor for css with no result' => [
-                'extension' => 'css',
-                'preProcessorsConfig' => [
-                    'css_preprocessor' => [
-                        'class' => 'Magento\Css\PreProcessor\Composite',
-                        'asset_type' => 'css'
-                    ],
-                ],
-                'createMap' => [
-                    'Magento\Css\PreProcessor\Composite' => 'expected',
-                ],
-                'expectedResult' => null
             ],
             'no processors' => [
                 'extension' => 'css',
                 'preProcessorsConfig' => [],
                 'createMap' => [],
-                'expectedResult' => null
             ],
             'one processor for xyz' => [
                 'extension' => 'css',
@@ -174,7 +142,6 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
                 'createMap' => [
                     'Magento\Css\PreProcessor\Composite' => 'not expected',
                 ],
-                'expectedResult' => null
             ],
 
         ];
