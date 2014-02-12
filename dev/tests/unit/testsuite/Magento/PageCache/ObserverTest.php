@@ -98,7 +98,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $this->_configMock->expects($this->once())
             ->method('isSetFlag')
-            ->with(\Magento\PageCache\Model\Config::XML_PATH_VARNISH_ENABLED)
+            ->with(\Magento\PageCache\Model\Config::XML_PAGECACHE_TYPE)
             ->will($this->returnValue($varnishIsEnabled));
         if ($varnishIsEnabled) {
             $this->_blockMock->setTtl($blockTtl);

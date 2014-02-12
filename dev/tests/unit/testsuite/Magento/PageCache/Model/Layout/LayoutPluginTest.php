@@ -78,7 +78,7 @@ class LayoutPluginTest extends \PHPUnit_Framework_TestCase
 
         $this->configMock->expects($this->once())
             ->method('isSetFlag')
-            ->with(\Magento\PageCache\Model\Config::XML_PATH_VARNISH_ENABLED)
+            ->with(\Magento\PageCache\Model\Config::XML_PAGECACHE_TYPE)
             ->will($this->returnValue(true));
 
         if ($layoutIsCacheable) {
