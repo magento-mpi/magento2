@@ -2,24 +2,17 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
- */
-
-/**
- * Customer dashboard block
- *
- * @category   Magento
- * @package    Magento_Customer
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Customer\Block\Account;
 
 use Magento\Customer\Service\V1\CustomerServiceInterface;
 use Magento\Customer\Service\V1\CustomerAddressServiceInterface;
 
+/**
+ * Customer dashboard block
+ */
 class Dashboard extends \Magento\View\Element\Template
 {
     /**
