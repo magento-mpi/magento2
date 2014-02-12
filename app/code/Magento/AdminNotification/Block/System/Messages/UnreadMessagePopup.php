@@ -56,7 +56,7 @@ class UnreadMessagePopup extends \Magento\Backend\Block\Template
     /**
      * Retrieve list of unread messages
      *
-     * @return \Magento\AdminNotification\Model\System\MessageInterface[]
+     * @return mixed
      */
     public function getUnreadMessages()
     {
@@ -82,7 +82,7 @@ class UnreadMessagePopup extends \Magento\Backend\Block\Template
      * Retrieve item class by severity
      *
      * @param \Magento\AdminNotification\Model\System\MessageInterface $message
-     * @return string
+     * @return mixed
      */
     public function getItemClass(\Magento\AdminNotification\Model\System\MessageInterface $message)
     {
