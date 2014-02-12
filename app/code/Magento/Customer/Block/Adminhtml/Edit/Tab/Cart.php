@@ -16,12 +16,15 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
+use \Magento\Directory\Model\Currency;
 
 /**
  * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
 {
+    const CURRENT_CUSTOMER_ID = 'current_customer_id';
+
     /**
      * Core registry
      *
@@ -58,7 +61,7 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Data\CollectionFactory $dataCollectionFactory,
         \Magento\Core\Model\Registry $coreRegistry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_dataCollectionFactory = $dataCollectionFactory;
         $this->_coreRegistry = $coreRegistry;
@@ -95,7 +98,7 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareCollection()
     {
-        $customerId = $this->_coreRegistry->registry('current_customer_id');
+        $customerId = $this->_coreRegistry->registry(self::CURRENT_CUSTOMER_ID);
         $storeIds = $this->_storeManager->getWebsite($this->getWebsiteId())->getStoreIds();
 
         $quote = $this->_quoteFactory->create()
@@ -108,7 +111,7 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
             $collection = $this->_dataCollectionFactory->create();
         }
 
-        $collection->addFieldToFilter('parent_item_id', array('null' => true));
+        $collection->addFieldToFilter('parent_item_id', ['null' => true]);
 
         $this->setCollection($collection);
 
@@ -120,73 +123,72 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('product_id', array(
+        $this->addColumn('product_id', [
             'header'    => __('ID'),
             'index'     => 'product_id',
             'width'     => '100px',
-        ));
+        ]);
 
-        $this->addColumn('name', array(
+        $this->addColumn('name', [
             'header'    => __('Product'),
             'index'     => 'name',
             'renderer'  => 'Magento\Customer\Block\Adminhtml\Edit\Tab\View\Grid\Renderer\Item'
-        ));
+        ]);
 
-        $this->addColumn('sku', array(
+        $this->addColumn('sku', [
             'header'    => __('SKU'),
             'index'     => 'sku',
             'width'     => '100px',
-        ));
+        ]);
 
-        $this->addColumn('qty', array(
+        $this->addColumn('qty', [
             'header'    => __('Quantity'),
             'index'     => 'qty',
             'type'      => 'number',
             'width'     => '60px',
-        ));
+        ]);
 
         $this->addColumn(
             'price',
-            array(
+            [
                 'header'        => __('Price'),
                 'index'         => 'price',
                 'type'          => 'currency',
-                'currency_code' =>
-                    (string)$this->_storeConfig->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE),
-            )
+                'currency_code' => (string)$this->_storeConfig->getConfig(Currency::XML_PATH_CURRENCY_BASE),
+            ]
         );
 
         $this->addColumn(
             'total',
-            array(
+            [
                 'header'        => __('Total'),
                 'index'         => 'row_total',
                 'type'          => 'currency',
                 'currency_code' =>
-                    (string)$this->_storeConfig->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE),
-            )
+                    (string)$this->_storeConfig->getConfig(Currency::XML_PATH_CURRENCY_BASE),
+            ]
         );
 
-        $this->addColumn('action', array(
+        $this->addColumn('action', [
             'header'    => __('Action'),
             'index'     => 'quote_item_id',
             'renderer'  => 'Magento\Customer\Block\Adminhtml\Grid\Renderer\Multiaction',
             'filter'    => false,
             'sortable'  => false,
-            'actions'   => array(
-                array(
+            'actions'   => [
+                [
                     'caption'           => __('Configure'),
                     'url'               => 'javascript:void(0)',
                     'process'           => 'configurable',
                     'control_object'    => $this->getJsObjectName() . 'cartControl'
-                ),
-                array(
+                ],
+                [
                     'caption'   => __('Delete'),
                     'url'       => '#',
                     'onclick'   => 'return ' . $this->getJsObjectName() . 'cartControl.removeItem($item_id);'
-                )
-            )
-        ));
+                ]
+            ]
+        ]);
 
         return parent::_prepareColumns();
     }
@@ -198,7 +200,7 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function getCustomerId()
     {
-        return $this->_coreRegistry->registry('current_customer_id');
+        return $this->_coreRegistry->registry(self::CURRENT_CUSTOMER_ID);
     }
 
     /**
@@ -206,7 +208,7 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function getGridUrl()
     {
-        return $this->getUrl('customer/*/cart', array('_current'=>true, 'website_id' => $this->getWebsiteId()));
+        return $this->getUrl('customer/*/cart', ['_current'=>true, 'website_id' => $this->getWebsiteId()]);
     }
 
     /**
@@ -216,7 +218,7 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function getGridParentHtml()
     {
-        $templateName = $this->_viewFileSystem->getFilename($this->_parentTemplate, array('_relative' => true));
+        $templateName = $this->_viewFileSystem->getFilename($this->_parentTemplate, ['_relative' => true]);
         return $this->fetchView($templateName);
     }
 
@@ -225,6 +227,6 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('catalog/product/edit', array('id' => $row->getProductId()));
+        return $this->getUrl('catalog/product/edit', ['id' => $row->getProductId()]);
     }
 }

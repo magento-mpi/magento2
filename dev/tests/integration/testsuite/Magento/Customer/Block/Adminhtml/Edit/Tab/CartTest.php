@@ -51,7 +51,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
                 'Magento\Customer\Block\Adminhtml\Edit\Tab\Cart',
                 '',
                 array(
-                    'context'  => $this->_context,
+                    'context' => $this->_context,
                     'registry' => $this->_coreRegistry
                 )
             );
@@ -97,6 +97,13 @@ class CartTest extends \PHPUnit_Framework_TestCase
 
     public function testGetHtml()
     {
-        $this->assertContains("<div id=\"customer_cart_grid\">", $this->_block->getHtml());
+        $html = $this->_block->getHtml();
+        $this->assertContains("<div id=\"customer_cart_grid\">", $html);
+        $this->assertContains("<div class=\"grid-actions\">", $html);
+        $this->assertContains("customer_cart_gridJsObject = new varienGrid('customer_cart_grid',", $html);
+        $this->assertContains(
+            "backend/customer/cart_product_composite_cart/configure/customer_id/" . self::CUSTOMER_ID_VALUE,
+            $html
+        );
     }
 }
