@@ -13,21 +13,13 @@ return array(
 
     'Magento\App\State' => array(
         'arguments' => array(
-            'test name' => array(
-                'name' => 'test name',
-                'xsi:type' => 'test_type',
-                'value' => 'test value',
-            )
+            'test name' => 'arg1',
         ),
     ),
 
     'Magento\Core\Model\Config\Modules' => array(
         'arguments' => array(
-            'test name' => array(
-                'name' => 'test name',
-                'xsi:type' => 'test_type',
-                'value' => 'test value',
-            )
+            'test name' => 'arg2',
         ),
         'plugins' => array(
             'simple_modules_plugin' => array(
@@ -49,11 +41,7 @@ return array(
     'Magento\Http\Handler\Composite' => array(
         'shared' => false,
         'arguments' => array(
-            'test name' => array(
-                'name' => 'test name',
-                'xsi:type' => 'test_type',
-                'value' => 'test value',
-            )
+            'test name' => 'arg3',
         ),
     ),
 

@@ -74,7 +74,6 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
     {
         $config = new \Magento\ObjectManager\Config\Config();
 
-        $creationStack = new \Magento\ObjectManager\Factory\CreationStack();
         $dirList = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\App\Filesystem\DirectoryList');
         $loader = new \Magento\App\Arguments\Loader($dirList);
@@ -82,8 +81,7 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
         $const = new \Magento\Data\Argument\Interpreter\Constant();
         $argInterpreter = new \Magento\App\Arguments\ArgumentInterpreter($arguments, $const);
         $argObjectFactory = new \Magento\ObjectManager\Config\Argument\ObjectFactory($config);
-        $factory = new \Magento\ObjectManager\Factory\Factory($config, $creationStack, $argInterpreter,
-            $argObjectFactory);
+        $factory = new \Magento\ObjectManager\Factory\Factory($config, $argInterpreter, $argObjectFactory);
 
         self::$_objectManager = new \Magento\ObjectManager\ObjectManager($factory, $config);
         self::$_objectManager->configure(array(

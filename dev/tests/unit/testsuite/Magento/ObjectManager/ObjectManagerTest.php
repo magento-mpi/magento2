@@ -32,13 +32,15 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $creationStack = new \Magento\ObjectManager\Factory\CreationStack;
         $this->_argInterpreterMock =
             $this->getMock('\Magento\Data\Argument\InterpreterInterface', array(), array(), '', false);
         $config = new \Magento\ObjectManager\Config\Config(new \Magento\ObjectManager\Relations\Runtime());
         $argObjectFactory = new \Magento\ObjectManager\Config\Argument\ObjectFactory($config);
         $factory = new \Magento\ObjectManager\Factory\Factory(
-            $config, $creationStack, $this->_argInterpreterMock, $argObjectFactory, null
+            $config,
+            $this->_argInterpreterMock,
+            $argObjectFactory,
+            null
         );
         $this->_object = new \Magento\ObjectManager\ObjectManager($factory, $config);
         $argObjectFactory->setObjectManager($this->_object);

@@ -1,7 +1,5 @@
 <?php
 /**
- * Magento application object manager. Configures and application application
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -11,6 +9,8 @@ namespace Magento\App;
 use Magento\ObjectManager\Factory;
 
 /**
+ * A wrapper around object manager with workarounds to access it in client code
+ *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class ObjectManager extends \Magento\ObjectManager\ObjectManager
@@ -19,11 +19,6 @@ class ObjectManager extends \Magento\ObjectManager\ObjectManager
      * @var \Magento\App\ObjectManager
      */
     protected static $_instance;
-
-    /**
-     * @var \Magento\ObjectManager\Relations
-     */
-    protected $_compiledRelations;
 
     /**
      * Retrieve object manager

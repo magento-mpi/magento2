@@ -16,34 +16,20 @@ class DomTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $callback = function ($argument) {
-            /** @var $argument \DOMElement */
-            if ($argument->getAttribute('name') == 'test name'
-                && $argument->getAttribute('xsi:type') == 'test_type'
-                && $argument->nodeValue == 'test value'
-            ) {
-                return array(
-                    'name' => 'test name',
-                    'xsi:type' => 'test_type',
-                    'value' => 'test value'
-                );
-            }
-        };
-
-        $argumentParserMock = $this->getMock('\Magento\ObjectManager\Config\Mapper\ArgumentParser');
-        $argumentParserMock->expects($this->any())
+        $argumentParser = $this->getMock('\Magento\ObjectManager\Config\Mapper\ArgumentParser');
+        $argumentParser->expects($this->any())
             ->method('parse')
-            ->will($this->returnCallback($callback));
+            ->will($this->onConsecutiveCalls('arg1', 'arg2', 'arg3'));
 
-        $booleanUtilsMock = $this->getMock('\Magento\Stdlib\BooleanUtils');
-        $booleanUtilsMock->expects($this->any())
+        $booleanUtils = $this->getMock('\Magento\Stdlib\BooleanUtils');
+        $booleanUtils->expects($this->any())
             ->method('toBoolean')
             ->will($this->returnValueMap(array(
                 array('true', true),
                 array('false', false),
             )));
 
-        $this->_mapper = new \Magento\ObjectManager\Config\Mapper\Dom($booleanUtilsMock, $argumentParserMock);
+        $this->_mapper = new Dom($booleanUtils, $argumentParser);
     }
 
     public function testConvert()

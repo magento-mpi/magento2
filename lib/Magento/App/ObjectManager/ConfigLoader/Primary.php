@@ -1,7 +1,5 @@
 <?php
 /**
- * Primary configuration loader for application object manager
- *
  * {license_notice}
  *
  * @copyright {copyright}
@@ -9,6 +7,9 @@
  */
 namespace Magento\App\ObjectManager\ConfigLoader;
 
+/**
+ * Primary configuration loader for application object manager
+ */
 class Primary
 {
     /**

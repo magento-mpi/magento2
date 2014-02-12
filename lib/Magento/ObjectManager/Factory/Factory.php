@@ -22,9 +22,9 @@ class Factory implements \Magento\ObjectManager\Factory
     protected $_definitions;
 
     /**
-     * @var CreationStack
+     * @var array
      */
-    protected $_creationStack;
+    private $_creationStack = array();
 
     /**
      * @var \Magento\Data\Argument\InterpreterInterface
@@ -38,20 +38,17 @@ class Factory implements \Magento\ObjectManager\Factory
 
     /**
      * @param \Magento\ObjectManager\Config $config
-     * @param CreationStack $creationStack
      * @param \Magento\Data\Argument\InterpreterInterface $argInterpreter
      * @param \Magento\ObjectManager\Config\Argument\ObjectFactory $argObjectFactory
      * @param \Magento\ObjectManager\Definition $definitions
      */
     public function __construct(
         \Magento\ObjectManager\Config $config,
-        CreationStack $creationStack,
         \Magento\Data\Argument\InterpreterInterface $argInterpreter,
         \Magento\ObjectManager\Config\Argument\ObjectFactory $argObjectFactory,
         \Magento\ObjectManager\Definition $definitions = null
     ) {
         $this->_config = $config;
-        $this->_creationStack = $creationStack;
         $this->_argInterpreter = $argInterpreter;
         $this->_argObjectFactory = $argObjectFactory;
         $this->_definitions = $definitions ? : new \Magento\ObjectManager\Definition\Runtime();
@@ -111,8 +108,7 @@ class Factory implements \Magento\ObjectManager\Factory
      * @param string $requestedType
      * @param array $arguments
      * @return object
-     * @throws \LogicException
-     * @throws \BadMethodCallException
+     * @throws \Exception
      *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
@@ -123,12 +119,13 @@ class Factory implements \Magento\ObjectManager\Factory
         if ($parameters == null) {
             return new $type();
         }
-        $this->_creationStack->add($requestedType);
+        $this->_assertNoCircularDependency($requestedType);
+        $this->_creationStack[$requestedType] = $requestedType;
         try {
             $args = $this->_resolveArguments($requestedType, $parameters, $arguments);
-            $this->_creationStack->remove($requestedType);
+            unset($this->_creationStack[$requestedType]);
         } catch (\Exception $e) {
-            $this->_creationStack->remove($requestedType);
+            unset($this->_creationStack[$requestedType]);
             throw $e;
         }
         switch (count($args)) {
@@ -151,6 +148,21 @@ class Factory implements \Magento\ObjectManager\Factory
             default:
                 $reflection = new \ReflectionClass($type);
                 return $reflection->newInstanceArgs($args);
+        }
+    }
+
+    /**
+     * Prevent circular dependencies using creation stack
+     *
+     * @param string $type
+     * @throws \LogicException
+     */
+    private function _assertNoCircularDependency($type)
+    {
+        if (isset($this->_creationStack[$type])) {
+            $lastFound = end($this->_creationStack);
+            $this->_creationStack = array();
+            throw new \LogicException("Circular dependency: {$type} depends on {$lastFound} and vice versa.");
         }
     }
 }

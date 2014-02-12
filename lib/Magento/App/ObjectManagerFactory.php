@@ -79,13 +79,10 @@ class ObjectManagerFactory
             $diConfig->extend($configData);
         }
 
-        $creationStack = new \Magento\ObjectManager\Factory\CreationStack();
         $booleanUtils = new \Magento\Stdlib\BooleanUtils();
-        $argObjectFactory = new \Magento\ObjectManager\Config\Argument\ObjectFactory($diConfig);
-        $argInterpreter = $this->createArgumentInterpreter($booleanUtils, $argObjectFactory, $appArguments);
-        $factory = new \Magento\ObjectManager\Factory\Factory(
-            $diConfig, $creationStack, $argInterpreter, $argObjectFactory, $definitions
-        );
+        $argFactory = new \Magento\ObjectManager\Config\Argument\ObjectFactory($diConfig);
+        $argInterpreter = $this->createArgumentInterpreter($booleanUtils, $argFactory, $appArguments);
+        $factory = new \Magento\ObjectManager\Factory\Factory($diConfig, $argInterpreter, $argFactory, $definitions);
 
         $className = $this->_locatorClassName;
         /** @var \Magento\ObjectManager $objectManager */
@@ -96,7 +93,7 @@ class ObjectManagerFactory
             'Magento\Stdlib\BooleanUtils' => $booleanUtils,
         ));
 
-        $argObjectFactory->setObjectManager($objectManager);
+        $argFactory->setObjectManager($objectManager);
         \Magento\App\ObjectManager::setInstance($objectManager);
 
         /** @var \Magento\App\Filesystem\DirectoryList\Verification $verification */

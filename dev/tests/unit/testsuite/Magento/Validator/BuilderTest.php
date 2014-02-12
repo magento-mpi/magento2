@@ -27,13 +27,12 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     {
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $creationStack = $this->getMock('\Magento\ObjectManager\Factory\CreationStack');
         $argInterpreter = $this->getMock('\Magento\Data\Argument\InterpreterInterface', array(), array(), '', false);
         $argObjectFactory =
             $this->getMock('\Magento\ObjectManager\Config\Argument\ObjectFactory', array(), array(), '', false);
         $config = new \Magento\ObjectManager\Config\Config(new \Magento\ObjectManager\Relations\Runtime());
         $factory = new \Magento\ObjectManager\Factory\Factory(
-            $config, $creationStack, $argInterpreter, $argObjectFactory, null
+            $config, $argInterpreter, $argObjectFactory, null
         );
         $this->_realObjectManager = new \Magento\ObjectManager\ObjectManager($factory, $config);
     }
