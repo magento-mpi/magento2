@@ -15,6 +15,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
     /**
      * Initialize RMA edit page tabs
      *
+     * @return void
      */
     public function _construct()
     {

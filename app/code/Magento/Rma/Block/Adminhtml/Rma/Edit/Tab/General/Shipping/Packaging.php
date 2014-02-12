@@ -44,11 +44,15 @@ class Packaging extends \Magento\Backend\Block\Template
     protected $_coreRegistry;
 
     /**
+     * Sales order factory
+     *
      * @var \Magento\Sales\Model\OrderFactory
      */
     protected $_orderFactory;
 
     /**
+     * Usps shipping carrier size factory
+     *
      * @var \Magento\Usa\Model\Shipping\Carrier\Usps\Source\SizeFactory
      */
     protected $_sizeFactory;

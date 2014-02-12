@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Email\Model\Template;
+
+use Magento\Email\Model\Info;
 
 /**
  * Email Template Mailer Model
@@ -15,17 +18,13 @@
  * @package     Magento_Email
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Email\Model\Template;
-
-use Magento\Email\Model\Info;
-
 class Mailer extends \Magento\Object
 {
     /**
      * List of email infos
-     * @see Info
      *
      * @var array
+     * @see Info
      */
     protected $_emailInfos = array();
 
@@ -64,7 +63,7 @@ class Mailer extends \Magento\Object
      * Send all emails from email list
      * @see self::$_emailInfos
      *
-     * @return \Magento\Email\Model\Template\Mailer
+     * @return $this
      */
     public function send()
     {
@@ -98,7 +97,7 @@ class Mailer extends \Magento\Object
      * Set email sender
      *
      * @param string|array $sender
-     * @return \Magento\Email\Model\Template\Mailer
+     * @return $this
      */
     public function setSender($sender)
     {
@@ -119,7 +118,7 @@ class Mailer extends \Magento\Object
      * Set store id
      *
      * @param int $storeId
-     * @return \Magento\Email\Model\Template\Mailer
+     * @return $this
      */
     public function setStoreId($storeId)
     {
@@ -140,7 +139,7 @@ class Mailer extends \Magento\Object
      * Set template id
      *
      * @param int $templateId
-     * @return \Magento\Email\Model\Template\Mailer
+     * @return $this
      */
     public function setTemplateId($templateId)
     {
@@ -161,7 +160,7 @@ class Mailer extends \Magento\Object
      * Set template parameters
      *
      * @param array $templateParams
-     * @return \Magento\Email\Model\Template\Mailer
+     * @return $this
      */
     public function setTemplateParams(array $templateParams)
     {
