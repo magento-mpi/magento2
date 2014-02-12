@@ -701,9 +701,9 @@ class Index extends \Magento\Backend\App\Action
     public function newsletterAction()
     {
         $this->_initCustomer();
-        $customer = $this->_coreRegistry->registry(self::REGISTRY_CURRENT_CUSTOMER);
+        $customerId = $this->_coreRegistry->registry(self::REGISTRY_CURRENT_CUSTOMER_ID);
         $subscriber = $this->_objectManager->create('Magento\Newsletter\Model\Subscriber')
-            ->loadByCustomer($customer->getId());
+            ->loadByCustomer($customerId);
 
         $this->_coreRegistry->register('subscriber', $subscriber);
         $this->_view->loadLayout()->renderLayout();

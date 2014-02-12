@@ -7,6 +7,8 @@
  */
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
+use Magento\Customer\Controller\Adminhtml\Index;
+
 /**
  * Customer account form block
  */
@@ -60,11 +62,11 @@ class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic
         /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('_newsletter');
-        $customer = $this->_coreRegistry->registry('current_customer');
-        $subscriber = $this->_subscriberFactory->create()->loadByCustomer($customer->getId());
+        $customerId = $this->_coreRegistry->registry(Index::REGISTRY_CURRENT_CUSTOMER_ID);
+        $subscriber = $this->_subscriberFactory->create()->loadByCustomer($customerId);
         $this->_coreRegistry->register('subscriber', $subscriber);
 
-        $fieldset = $form->addFieldset('base_fieldset', ['legend'=>__('Newsletter Information')]);
+        $fieldset = $form->addFieldset('base_fieldset', ['legend' => __('Newsletter Information')]);
 
         $fieldset->addField('subscription', 'checkbox', [
                 'label' => __('Subscribed to Newsletter'),
@@ -72,7 +74,7 @@ class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic
             ]
         );
 
-        if ($this->_customerService->isReadonly($customer->getId())) {
+        if ($this->_customerService->isReadonly($customerId)) {
             $form->getElement('subscription')->setReadonly(true, true);
         }
 
