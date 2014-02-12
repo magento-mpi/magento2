@@ -15,7 +15,7 @@
             </array>
         </param>
     </type>
-    <type name="Magento\Payment\Model\Method\Specification\Composite">
+    <virtualType name="multishippingPaymentSpecificationRules" type="Magento\Payment\Model\Method\Specification\Composite">
         <param name="specifications">
             <array>
                 <item key="enabled">
@@ -25,6 +25,16 @@
                     <value>\Magento\Multishipping\Model\Payment\Method\Specification\Is3DSecure</value>
                 </item>
             </array>
+        </param>
+    </virtualType>
+    <type name="Magento\Multishipping\Block\Checkout\Billing">
+        <param name="paymentSpecification">
+            <instance type="multishippingPaymentSpecificationRules" />
+        </param>
+    </type>
+    <type name="Magento\Multishipping\Model\Checkout\Type\Multishipping">
+        <param name="paymentSpecification">
+            <instance type="multishippingPaymentSpecificationRules" />
         </param>
     </type>
 </config>
