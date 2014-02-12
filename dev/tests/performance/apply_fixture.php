@@ -44,7 +44,7 @@ $logWriter = new \Zend_Log_Writer_Stream('php://output');
 $logWriter->setFormatter(new \Zend_Log_Formatter_Simple('%message%' . PHP_EOL));
 $logger = new \Zend_Log($logWriter);
 
-$shell = new \Magento\Shell($logger);
+$shell = new \Magento\Shell(new \Magento\OSInfo(), $logger);
 $scenarioHandler = new \Magento\TestFramework\Performance\Scenario\Handler\FileFormat();
 $scenarioHandler->register('jmx', new \Magento\TestFramework\Performance\Scenario\Handler\Jmeter($shell))
     ->register('php', new \Magento\TestFramework\Performance\Scenario\Handler\Php($shell));

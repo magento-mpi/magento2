@@ -7,14 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Eav\Model\Cache;
 
 /**
  * System / Cache Management / Cache type "EAV types and attributes"
  *
  * @todo utilize the class for all manipulations with the cache type
  */
-namespace Magento\Eav\Model\Cache;
-
 class Type extends \Magento\Cache\Frontend\Decorator\TagScope
 {
     /**
