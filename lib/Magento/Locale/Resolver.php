@@ -8,7 +8,7 @@
 
 namespace Magento\Locale;
 
-class Resolver
+class Resolver implements \Magento\Locale\ResolverInterface
 {
     /**
      * Default locale code
@@ -59,10 +59,7 @@ class Resolver
     }
 
     /**
-     * Set default locale code
-     *
-     * @param   string $locale
-     * @return  $this
+     * {@inheritdoc}
      */
     public function setDefaultLocale($locale)
     {
@@ -71,16 +68,14 @@ class Resolver
     }
 
     /**
-     * Retrieve default locale code
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getDefaultLocale()
     {
         if (!$this->_defaultLocale) {
-            $locale = $this->_coreStoreConfig->getConfig(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_LOCALE);
+            $locale = $this->_coreStoreConfig->getConfig(\Magento\Locale\ResolverInterface::XML_PATH_DEFAULT_LOCALE);
             if (!$locale) {
-                $locale = \Magento\Core\Model\LocaleInterface::DEFAULT_LOCALE;
+                $locale = \Magento\Locale\ResolverInterface::DEFAULT_LOCALE;
             }
             $this->_defaultLocale = $locale;
         }
@@ -88,10 +83,7 @@ class Resolver
     }
 
     /**
-     * Set locale
-     *
-     * @param   string $locale
-     * @return  $this
+     * {@inheritdoc}
      */
     public function setLocale($locale = null)
     {
@@ -104,9 +96,7 @@ class Resolver
     }
 
     /**
-     * Retrieve locale object
-     *
-     * @return \Zend_Locale
+     * {@inheritdoc}
      */
     public function getLocale()
     {
@@ -121,9 +111,7 @@ class Resolver
     }
 
     /**
-     * Retrieve locale code
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getLocaleCode()
     {
@@ -134,10 +122,7 @@ class Resolver
     }
 
     /**
-     * Specify current locale code
-     *
-     * @param   string $code
-     * @return  $this
+     * {@inheritdoc}
      */
     public function setLocaleCode($code)
     {

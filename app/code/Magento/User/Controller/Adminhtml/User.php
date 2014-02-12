@@ -89,7 +89,7 @@ class User extends \Magento\Backend\App\AbstractAction
                 return;
             }
         } else {
-            $model->setInterfaceLocale(\Magento\Core\Model\LocaleInterface::DEFAULT_LOCALE);
+            $model->setInterfaceLocale(\Magento\Locale\ResolverInterface::DEFAULT_LOCALE);
         }
 
         $this->_title->add($model->getId() ? $model->getName() : __('New User'));

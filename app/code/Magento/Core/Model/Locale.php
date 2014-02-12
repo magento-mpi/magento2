@@ -163,9 +163,9 @@ class Locale implements LocaleInterface
     public function getDefaultLocale()
     {
         if (!$this->_defaultLocale) {
-            $locale = $this->_coreStoreConfig->getConfig(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_LOCALE);
+            $locale = $this->_coreStoreConfig->getConfig(\Magento\Locale\ResolverInterface::XML_PATH_DEFAULT_LOCALE);
             if (!$locale) {
-                $locale = \Magento\Core\Model\LocaleInterface::DEFAULT_LOCALE;
+                $locale = \Magento\Locale\ResolverInterface::DEFAULT_LOCALE;
             }
             $this->_defaultLocale = $locale;
         }
@@ -816,7 +816,7 @@ class Locale implements LocaleInterface
             $this->_emulatedLocales[] = clone $this->getLocale();
             $this->_locale = new \Zend_Locale(
                 $this->_coreStoreConfig->getConfig(
-                    \Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_LOCALE, $storeId
+                    \Magento\Locale\ResolverInterface::XML_PATH_DEFAULT_LOCALE, $storeId
             ));
             $this->_localeCode = $this->_locale->toString();
 

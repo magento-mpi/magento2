@@ -33,7 +33,7 @@ class LocaleTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetLocaleWithDefaultLocale()
     {
-        $this->_checkSetLocale(\Magento\Core\Model\LocaleInterface::DEFAULT_LOCALE);
+        $this->_checkSetLocale(\Magento\Locale\ResolverInterface::DEFAULT_LOCALE);
     }
 
     /**

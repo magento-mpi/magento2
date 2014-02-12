@@ -335,7 +335,7 @@ class Data extends \Magento\App\Helper\AbstractHelper implements \Magento\Search
         }
 
         $locale = $this->_storeManager->getStore()
-            ->getConfig(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_LOCALE);
+            ->getConfig(\Magento\Locale\ResolverInterface::XML_PATH_DEFAULT_LOCALE);
         $languageSuffix = $this->getLanguageSuffix($locale);
 
         $field = $attribute->getAttributeCode();

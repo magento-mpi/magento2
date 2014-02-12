@@ -401,7 +401,7 @@ class Collection
         $store  = $this->_storeManager->getStore();
         $params = array(
             'store_id'      => $store->getId(),
-            'locale_code'   => $store->getConfig(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_LOCALE),
+            'locale_code'   => $store->getConfig(\Magento\Locale\ResolverInterface::XML_PATH_DEFAULT_LOCALE),
             'filters'       => $this->_searchQueryFilters
         );
         $params['filters']     = $this->_searchQueryFilters;

@@ -887,7 +887,7 @@ class Fulltext extends \Magento\Core\Model\Resource\Db\AbstractDb
                 \Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE, $storeId
             );
             $locale   = $this->_coreStoreConfig->getConfig(
-                \Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_LOCALE, $storeId
+                \Magento\Locale\ResolverInterface::XML_PATH_DEFAULT_LOCALE, $storeId
             );
             $locale   = new \Zend_Locale($locale);
 

@@ -20,14 +20,12 @@ interface LocaleInterface
     /**
      * Default locale name
      */
-    const DEFAULT_LOCALE    = 'en_US';
     const DEFAULT_TIMEZONE  = 'UTC';
     const DEFAULT_CURRENCY  = 'USD';
 
     /**
      * XML path constants
      */
-    const XML_PATH_DEFAULT_LOCALE   = 'general/locale/code';
     const XML_PATH_DEFAULT_TIMEZONE = 'general/locale/timezone';
     const XML_PATH_ALLOW_CURRENCIES_INSTALLED = 'system/currency/installed';
 

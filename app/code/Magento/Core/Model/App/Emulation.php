@@ -208,7 +208,7 @@ class Emulation extends \Magento\Object
     {
         $initialLocaleCode = $this->_locale->getLocaleCode();
         $newLocaleCode = $this->_coreStoreConfig->getConfig(
-            \Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_LOCALE,
+            \Magento\Locale\ResolverInterface::XML_PATH_DEFAULT_LOCALE,
             $storeId
         );
         $this->_locale->setLocaleCode($newLocaleCode);
