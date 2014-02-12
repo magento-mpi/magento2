@@ -47,4 +47,77 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($expected, $this->_model->getVaryString());
     }
+
+    /**
+     * Test setting public cache headers
+     */
+    public function testSetPublicHeaders()
+    {
+        $ttl = 120;
+        $pragma = 'cache';
+        $cacheControl = 'public, max-age=' . $ttl . ', s-maxage=' . $ttl;
+        $expires = gmdate('D, d M Y H:i:s T', strtotime('+' . $ttl . ' seconds'));
+
+        $this->_model->setPublicHeaders($ttl);
+        $this->assertEquals($pragma, $this->_model->getHeader('Pragma')['value']);
+        $this->assertEquals($cacheControl, $this->_model->getHeader('Cache-Control')['value']);
+        $this->assertEquals($expires, $this->_model->getHeader('Expires')['value']);
+    }
+
+
+    /**
+     * Test for setting public headers without time to live parameter
+     */
+    public function testSetPublicHeadersWithoutTtl()
+    {
+        $this->setExpectedException(
+            'InvalidArgumentException',
+            'time to live is a mandatory parameter for set public headers'
+        );
+        $this->_model->setPublicHeaders(null);
+    }
+
+    /**
+     * Test setting public cache headers
+     */
+    public function testSetPrivateHeaders()
+    {
+        $ttl = 120;
+        $pragma = 'cache';
+        $cacheControl = 'private, max-age=' . $ttl;
+        $expires = gmdate('D, d M Y H:i:s T', strtotime('+' . $ttl . ' seconds'));
+
+        $this->_model->setPrivateHeaders($ttl);
+        $this->assertEquals($pragma, $this->_model->getHeader('Pragma')['value']);
+        $this->assertEquals($cacheControl, $this->_model->getHeader('Cache-Control')['value']);
+        $this->assertEquals($expires, $this->_model->getHeader('Expires')['value']);
+    }
+
+    /**
+     * Test for setting public headers without time to live parameter
+     */
+    public function testSetPrivateHeadersWithoutTtl()
+    {
+        $this->setExpectedException(
+            'InvalidArgumentException',
+            'time to live is a mandatory parameter for set private headers'
+        );
+        $this->_model->setPrivateHeaders(null);
+    }
+
+    /**
+     * Test setting public cache headers
+     */
+    public function testSetNoCacheHeaders()
+    {
+        $pragma = 'no-cache';
+        $cacheControl = 'no-store, no-cache, must-revalidate, max-age=0';
+        $expires = gmdate('D, d M Y H:i:s T', strtotime('-1 year'));
+
+        $this->_model->setNoCacheHeaders();
+        $this->assertEquals($pragma, $this->_model->getHeader('Pragma')['value']);
+        $this->assertEquals($cacheControl, $this->_model->getHeader('Cache-Control')['value']);
+        $this->assertEquals($expires, $this->_model->getHeader('Expires')['value']);
+    }
+
 }

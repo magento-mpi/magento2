@@ -36,7 +36,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->_configMock = $this->getMock('Magento\Core\Model\Config', [], [], '', false);
+        $this->_configMock = $this->getMock('\Magento\App\ConfigInterface', [], [], '', false);
         $this->_model = new \Magento\PageCache\Model\Observer($this->_configMock);
         $this->_observerMock = $this->getMock('Magento\Event\Observer', ['getEvent'], [], '', false);
         $eventMock = $this->getMock('Magento\Event', ['getLayout', 'getElementName', 'getTransport'], [], '', false);
@@ -98,11 +98,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $this->_configMock->expects($this->once())
             ->method('isSetFlag')
-            ->with(\Magento\PageCache\Model\Observer::XML_PATH_VARNISH_ENABLED)
+            ->with(\Magento\PageCache\Model\Config::XML_PATH_VARNISH_ENABLED)
             ->will($this->returnValue($varnishIsEnabled));
-        $this->_blockMock->expects($this->once())
-            ->method('isScopePrivate')
-            ->will($this->returnValue($scopeIsPrivate));
         if ($varnishIsEnabled) {
             $this->_blockMock->setTtl($blockTtl);
             $this->_blockMock->expects($this->any())
@@ -113,6 +110,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             $this->_blockMock->expects($this->once())
                 ->method('getNameInLayout')
                 ->will($this->returnValue('testBlockName'));
+            $this->_blockMock->expects($this->once())
+                ->method('isScopePrivate')
+                ->will($this->returnValue($scopeIsPrivate));
         }
 
         $this->_model->processLayoutRenderElement($this->_observerMock);

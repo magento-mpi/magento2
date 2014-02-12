@@ -93,12 +93,12 @@ class BlockTest extends \PHPUnit_Framework_TestCase
         $this->requestMock->expects($this->once())->method('isAjax')->will($this->returnValue(true));
         $this->requestMock->expects($this->at(1))
             ->method('getParam')
-            ->with($this->equalTo('blocks'), $this->equalTo([]))
-            ->will($this->returnValue([]));
+            ->with($this->equalTo('blocks'), $this->equalTo(''))
+            ->will($this->returnValue(''));
         $this->requestMock->expects($this->at(2))
             ->method('getParam')
-            ->with($this->equalTo('handles'), $this->equalTo([]))
-            ->will($this->returnValue([]));
+            ->with($this->equalTo('handles'), $this->equalTo(''))
+            ->will($this->returnValue(''));
         $result = $this->controller->renderAction();
         $this->assertNull($result);
     }
@@ -122,12 +122,12 @@ class BlockTest extends \PHPUnit_Framework_TestCase
         $this->requestMock->expects($this->once())->method('isAjax')->will($this->returnValue(true));
         $this->requestMock->expects($this->at(1))
             ->method('getParam')
-            ->with($this->equalTo('blocks'), $this->equalTo([]))
-            ->will($this->returnValue($blocks));
+            ->with($this->equalTo('blocks'), $this->equalTo(''))
+            ->will($this->returnValue(json_encode($blocks)));
         $this->requestMock->expects($this->at(2))
             ->method('getParam')
-            ->with($this->equalTo('handles'), $this->equalTo([]))
-            ->will($this->returnValue($handles));
+            ->with($this->equalTo('handles'), $this->equalTo(''))
+            ->will($this->returnValue(json_encode($handles)));
         $this->viewMock->expects($this->once())
             ->method('loadLayout')
             ->with($this->equalTo($handles));
@@ -150,23 +150,24 @@ class BlockTest extends \PHPUnit_Framework_TestCase
         $this->controller->renderAction();
     }
 
-    public function testWrapesiAction()
+    public function testEsiAction()
     {
         $block = 'block';
-        $handles = array('handle1', 'handle2');
+        $handles = ['handle1', 'handle2'];
         $html = 'some-html';
         $mapData = array(
-            array('blockname', '', $block),
-            array('handles', array(), $handles)
+            array('blocks', '', json_encode([$block])),
+            array('handles', '', json_encode($handles))
         );
 
         $blockInstance1 = $this->getMockForAbstractClass(
-            'Magento\View\Element\AbstractBlock', array(), '', false, true, true, array('toHtml')
+            'Magento\View\Element\AbstractBlock', array(), '', false, true, true, array('toHtml', 'getTtl')
         );
 
         $blockInstance1->expects($this->once())
             ->method('toHtml')
             ->will($this->returnValue($html));
+        $blockInstance1->setTtl(360);
 
         $this->requestMock->expects($this->any())
             ->method('getParam')
@@ -195,10 +196,10 @@ class BlockTest extends \PHPUnit_Framework_TestCase
 
     public function testEsiActionBlockNotExists()
     {
-        $handles = array('handle1', 'handle2');
+        $handles = json_encode(array('handle1', 'handle2'));
         $mapData = array(
-            array('blockname', '', null),
-            array('handles', array(), $handles)
+            array('blocks', '', null),
+            array('handles', [],  $handles)
         );
 
         $this->requestMock->expects($this->any())

@@ -24,14 +24,6 @@ class Http extends \Zend_Controller_Response_Http implements \Magento\App\Respon
     protected $vary;
 
     /**
-     * Construct
-     */
-    public function __construct()
-    {
-        $this->setNoCacheHeaders();
-    }
-
-    /**
      * Get header value by name.
      * Returns first found header by passed name.
      * If header with specified name was not found returns false.
@@ -62,7 +54,9 @@ class Http extends \Zend_Controller_Response_Http implements \Magento\App\Respon
             $value = serialize($value);
         }
         $this->vary[$name] = $value;
-        setcookie(self::COOKIE_VARY_STRING, $this->getVaryString(), null, '/');
+        if (!headers_sent()) {
+            setcookie(self::COOKIE_VARY_STRING, $this->getVaryString(), null, '/');
+        }
         return $this;
     }
 
@@ -106,7 +100,7 @@ class Http extends \Zend_Controller_Response_Http implements \Magento\App\Respon
     public function setPrivateHeaders($ttl)
     {
         if (!$ttl) {
-            throw new \InvalidArgumentException('time to live is a mandatory parameter for set public headers');
+            throw new \InvalidArgumentException('time to live is a mandatory parameter for set private headers');
         }
         $this->setHeader('pragma', 'cache', true);
         $this->setHeader('cache-control', 'private, max-age=' . $ttl, true);

@@ -52,16 +52,18 @@ class Block extends \Magento\App\Action\Action
     }
 
     /**
-     * @return array $data['output', 'ttl']
+     * @return array [\Element\BlockInterface]
      */
     protected function _getBlocks()
     {
-        $blocks = json_decode($this->getRequest()->getParam('blocks', []));
-        $handles = json_decode($this->getRequest()->getParam('handles', []));
+        $blocks = $this->getRequest()->getParam('blocks', '');
+        $handles = $this->getRequest()->getParam('handles', '');
 
         if (!$handles || !$blocks) {
             return [];
         }
+        $blocks = json_decode($blocks);
+        $handles = json_decode($handles);
 
         $this->_view->loadLayout($handles);
         $data = array();
@@ -70,7 +72,7 @@ class Block extends \Magento\App\Action\Action
         foreach ($blocks as $blockName) {
             $blockInstance = $layout->getBlock($blockName);
             if (is_object($blockInstance)) {
-                $data[] = $blockInstance;
+                $data[$blockName] = $blockInstance;
             }
         }
 
