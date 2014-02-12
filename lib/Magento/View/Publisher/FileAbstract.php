@@ -51,7 +51,7 @@ abstract class FileAbstract implements FileInterface
     protected $viewParams;
 
     /**
-     * @var null|string
+     * @var string|null
      */
     protected $sourcePath;
 
@@ -71,6 +71,13 @@ abstract class FileAbstract implements FileInterface
      * @var WriteInterface
      */
     protected $rootDirectory;
+
+    /**
+     * Makes sure that fallback is only used once per file and only if no 'valid' source path was passed to constructor
+     *
+     * @var bool
+     */
+    protected $useFallback;
 
     /**
      * @param \Magento\App\Filesystem $filesystem
@@ -100,7 +107,13 @@ abstract class FileAbstract implements FileInterface
         $this->viewParams = $viewParams;
         $this->viewFileSystem = $viewFileSystem;
         $this->rootDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR);
-        $this->sourcePath = $sourcePath;
+        $this->setSourcePath($sourcePath);
+
+        if ($this->sourcePath === null) {
+            $this->useFallback = true;
+        } else {
+            $this->useFallback = false;
+        }
     }
 
     /**
@@ -129,7 +142,9 @@ abstract class FileAbstract implements FileInterface
      */
     public function getSourcePath()
     {
-        if ($this->sourcePath === null) {
+        if ($this->useFallback) {
+            $this->useFallback = false;
+
             // Fallback look-up for view files. Remember it can be file of any type: CSS, LESS, JS, image
             $fallbackSourcePath = $this->viewFileSystem->getViewFile($this->getFilePath(), $this->getViewParams());
             $this->setSourcePath($fallbackSourcePath);
@@ -144,7 +159,6 @@ abstract class FileAbstract implements FileInterface
     protected function setSourcePath($sourcePath)
     {
         if (!$this->rootDirectory->isExist($this->rootDirectory->getRelativePath($sourcePath))) {
-            //TODO null can be ambiguous: it can mean that value was not initialized or null is actually returned
             $this->sourcePath = null;
         } else {
             $this->sourcePath = $sourcePath;
