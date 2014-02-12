@@ -8,6 +8,8 @@
 
 namespace Magento\View\Publisher;
 
+use Magento\Filesystem\Directory\WriteInterface;
+
 /**
  * Abstract publisher file type
  */
@@ -27,6 +29,11 @@ abstract class FileAbstract implements FileInterface
      * @var \Magento\Module\Dir\Reader
      */
     protected $modulesReader;
+
+    /**
+     * @var \Magento\View\FileSystem
+     */
+    protected $viewFileSystem;
 
     /**
      * @var string
@@ -61,9 +68,15 @@ abstract class FileAbstract implements FileInterface
     protected $isPublicationAllowed;
 
     /**
+     * @var WriteInterface
+     */
+    protected $rootDirectory;
+
+    /**
      * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\View\Service $viewService
      * @param \Magento\Module\Dir\Reader $modulesReader
+     * @param \Magento\View\FileSystem $viewFileSystem
      * @param string $filePath
      * @param string $extension
      * @param bool $allowDuplication
@@ -73,6 +86,7 @@ abstract class FileAbstract implements FileInterface
         \Magento\App\Filesystem $filesystem,
         \Magento\View\Service $viewService,
         \Magento\Module\Dir\Reader $modulesReader,
+        \Magento\View\FileSystem $viewFileSystem,
         $filePath,
         $extension,
         $allowDuplication,
@@ -85,6 +99,8 @@ abstract class FileAbstract implements FileInterface
         $this->extension = $extension;
         $this->allowDuplication = $allowDuplication;
         $this->viewParams = $viewParams;
+        $this->viewFileSystem = $viewFileSystem;
+        $this->rootDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR);
     }
 
     /**
@@ -168,6 +184,17 @@ abstract class FileAbstract implements FileInterface
      */
     public function getSourcePath()
     {
+        if ($this->sourcePath === null) {
+
+            // 1. Fallback look-up for view files. Remember it can be file of any type: CSS, LESS, JS, image
+            $fallbackSourcePath = $this->viewFileSystem->getViewFile($this->getFilePath(), $this->getViewParams());
+
+            // 2. If $sourcePath returned actually not exists replace it with null value.
+            if (!$this->rootDirectory->isExist($this->rootDirectory->getRelativePath($fallbackSourcePath))) {
+                $this->sourcePath = null;
+                //TODO null can be ambiguous: it can mean that value was not initialized or null is actually returned
+            }
+        }
         return $this->sourcePath;
     }
 

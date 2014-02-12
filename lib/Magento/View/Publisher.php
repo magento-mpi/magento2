@@ -58,7 +58,7 @@ class Publisher implements PublicFilesManagerInterface
     /**
      * @param \Magento\App\Filesystem $filesystem
      * @param FileSystem $viewFileSystem
-     * @param \Magento\View\Asset\PreProcessor\PreProcessorInterface $preProcessor
+     * @param Asset\PreProcessor\PreProcessorInterface $preProcessor
      * @param Publisher\FileFactory $fileFactory
      */
     public function __construct(
@@ -119,54 +119,37 @@ class Publisher implements PublicFilesManagerInterface
             return null;
         }
 
-        // 1. Fallback look-up for view files. Remember it can be file of any type: CSS, LESS, JS, image
-        $publisherFile->setSourcePath(
-            $this->viewFileSystem->getViewFile(
-                $publisherFile->getFilePath(),
-                $publisherFile->getViewParams()
-            )
-        );
-
-        // 2. If $sourcePath returned actually not exists replace it with null value.
-        if (!$this->rootDirectory->isExist($this->rootDirectory->getRelativePath($publisherFile->getSourcePath()))) {
-            $publisherFile->setSourcePath(null);
-        }
-
         /**
-         * 3. Target directory to save temporary files in. It was 'pub/static' dir, but I guess it's more correct
+         * 1. Target directory to save temporary files in. It was 'pub/static' dir, but I guess it's more correct
          * to have it in 'var/tmp' dir.
          */
         //TODO: Why should publisher control where pre-processors save temporary files
         $targetDirectory = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
 
         /**
-         * 4. Execute asset pre-processors
-         *      in case if $sourcePath was null, then pre-processors will be executed and original source file
-         *          will be processed, then new $sourcePath targeting pre-processed file in 'var/tmp' dir
-         *          will be returned back
-         *      in case if $sourcePath was not null then $sourcePath passed will be returned back
+         * 2. Execute asset pre-processors
          */
-        $publisherFile->setSourcePath($this->preProcessor->process($publisherFile, $targetDirectory));
+        $fileToPublish = $this->preProcessor->process($publisherFile, $targetDirectory);
 
-        // 5. If $sourcePath returned still doesn't exists throw Exception
-        if (null === $publisherFile->getSourcePath()
-            || !$this->rootDirectory->isExist($this->rootDirectory->getRelativePath($publisherFile->getSourcePath()))
+        // 3. If $sourcePath returned still doesn't exists throw Exception
+        if (null === $fileToPublish->getSourcePath()
+            || !$this->rootDirectory->isExist($this->rootDirectory->getRelativePath($fileToPublish->getSourcePath()))
         ) {
-            throw new \Magento\Exception("Unable to locate theme file '{$publisherFile->getFilePath()}'.");
+            throw new \Magento\Exception("Unable to locate theme file '{$fileToPublish->getFilePath()}'.");
         }
 
         /**
-         * 6.
+         * 4.
          * If $sourcePath points to file in 'pub/lib' dir - no publishing required
          * If $sourcePath points to file in 'pub/static' dir - no publishing required
          * If $sourcePath points to CSS file and developer mode is enabled - publish file
          */
-        if (!$publisherFile->isPublicationAllowed()) {
-            return $publisherFile->getSourcePath();
+        if (!$fileToPublish->isPublicationAllowed()) {
+            return $fileToPublish->getSourcePath();
         }
 
-        $this->publishFile($publisherFile);
-        return $publisherFile->buildPublicViewFilename();
+        $this->publishFile($fileToPublish);
+        return $fileToPublish->buildPublicViewFilename();
     }
 
     /**
@@ -179,6 +162,7 @@ class Publisher implements PublicFilesManagerInterface
     {
         $sourcePath = $this->viewFileSystem->normalizePath($publisherFile->getSourcePath());
         $targetPath = $publisherFile->buildPublicViewFilename();
+        //TODO: we get absolute path and then make relative out of it to use with $targetDirectory
 
         $targetDirectory = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::STATIC_VIEW_DIR);
         $sourcePathRelative = $this->rootDirectory->getRelativePath($sourcePath);

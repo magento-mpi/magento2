@@ -19,7 +19,7 @@ interface PreProcessorInterface
      *
      * @param \Magento\View\Publisher\FileInterface $publisherFile
      * @param \Magento\Filesystem\Directory\WriteInterface $targetDirectory
-     * @return string
+     * @return \Magento\View\Publisher\FileInterface
      */
     public function process(\Magento\View\Publisher\FileInterface $publisherFile, $targetDirectory);
 }
