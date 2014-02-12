@@ -62,19 +62,8 @@ class Http extends \Zend_Controller_Response_Http implements \Magento\App\Respon
             $value = serialize($value);
         }
         $this->vary[$name] = $value;
-        return $this;
-    }
-
-    /**
-     * Send the response, including all headers, rendering exceptions if so
-     * requested.
-     *
-     * @return void
-     */
-    public function sendResponse()
-    {
         setcookie(self::COOKIE_VARY_STRING, $this->getVaryString(), null, '/');
-        parent::sendResponse();
+        return $this;
     }
 
     /**

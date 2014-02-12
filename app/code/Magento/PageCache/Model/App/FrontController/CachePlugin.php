@@ -42,7 +42,7 @@ class CachePlugin
     /**
      * @param array $arguments
      * @param \Magento\Code\Plugin\InvocationChain $invocationChain
-     * @return false|\Magento\App\Response\Http
+     * @return \Magento\App\Response\Http
      */
     public function aroundDispatch(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
     {

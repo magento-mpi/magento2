@@ -36,7 +36,7 @@ class Kernel
      */
     public function load()
     {
-        return $this->cache->load($this->identifier->getValue());
+        return unserialize($this->cache->load($this->identifier->getValue()));
     }
 
     /**
@@ -44,11 +44,15 @@ class Kernel
      */
     public function process(\Magento\App\Response\Http $response)
     {
-        if (preg_match('/public/', $response->getHeader('Cache-Control')) && $response->getHttpResponseCode() == 200) {
-//            $response->setNoCacheHeaders();
+        $maxAge = 0;
+        if (preg_match('/public.*s-maxage=(\d+)/', $response->getHeader('Cache-Control')['value'], $matches)) {
+            $maxAge = $matches[1];
+        }
+        if ($maxAge && $response->getHttpResponseCode() == 200) {
+            $response->setNoCacheHeaders();
             $response->clearHeader('Set-Cookie');
             header_remove('Set-Cookie');
-//            $this->cache->save($response, $this->identifier->getValue(), array(), $response->getTtl());
+            $this->cache->save(serialize($response), $this->identifier->getValue(), array(), $maxAge);
         }
     }
 }
