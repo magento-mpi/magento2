@@ -42,7 +42,7 @@ class FrontController implements FrontControllerInterface
                     $actionInstance = $router->match($request);
                     if ($actionInstance) {
                         $request->setDispatched(true);
-                        $actionInstance->getResponse()->setNoCacheHeaders();
+                        //$actionInstance->getResponse()->setNoCacheHeaders(); #@todo fixme no response object here
                         $response = $actionInstance->dispatch($request);
                         break;
                     }
