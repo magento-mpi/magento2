@@ -21,8 +21,8 @@ class Export extends \Magento\Backend\Block\System\Config\Form\Field
     protected $config;
 
     public function __construct(
-        \Magento\App\ConfigInterface $config,
         \Magento\Backend\Block\Template\Context $context,
+        \Magento\App\ConfigInterface $config,
         array $data = array()
     ){
         $this->config = $config;
