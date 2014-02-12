@@ -22,6 +22,11 @@ use Magento\Backend\App\Action;
 class Product extends \Magento\Backend\App\Action
 {
     /**
+     * @var \Magento\Catalog\Model\Indexer\Product\Price\Processor
+     */
+    protected $_productPriceIndexerProcessor;
+
+    /**
      * Array of actions which can be processed without secret key validation
      *
      * @var array
@@ -62,6 +67,7 @@ class Product extends \Magento\Backend\App\Action
      * @param Product\Initialization\Helper $initializationHelper
      * @param Product\Initialization\StockDataFilter $stockFilter
      * @param \Magento\Catalog\Model\Product\Copier $productCopier
+     * @param \Magento\Catalog\Model\Indexer\Product\Price\Processor $productPriceIndexerProcessor
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
@@ -69,13 +75,15 @@ class Product extends \Magento\Backend\App\Action
         \Magento\Core\Filter\Date $dateFilter,
         \Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper $initializationHelper,
         \Magento\Catalog\Controller\Adminhtml\Product\Initialization\StockDataFilter $stockFilter,
-        \Magento\Catalog\Model\Product\Copier $productCopier
+        \Magento\Catalog\Model\Product\Copier $productCopier,
+        \Magento\Catalog\Model\Indexer\Product\Price\Processor $productPriceIndexerProcessor
     ) {
         $this->stockFilter = $stockFilter;
         $this->initializationHelper = $initializationHelper;
         $this->registry = $registry;
         $this->_dateFilter = $dateFilter;
         $this->productCopier = $productCopier;
+        $this->_productPriceIndexerProcessor = $productPriceIndexerProcessor;
         parent::__construct($context);
     }
 
@@ -881,6 +889,8 @@ class Product extends \Magento\Backend\App\Action
             $this->messageManager->addSuccess(
                 __('A total of %1 record(s) have been updated.', count($productIds))
             );
+
+            $this->_productPriceIndexerProcessor->reindexList($productIds);
         } catch (\Magento\Core\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
         } catch (\Magento\Core\Exception $e) {

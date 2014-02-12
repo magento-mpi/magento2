@@ -23,15 +23,23 @@ use Magento\Backend\App\Action;
 class Attribute extends \Magento\Backend\App\Action
 {
     /**
+     * @var \Magento\Catalog\Model\Indexer\Product\Price\Processor
+     */
+    protected $_productPriceIndexerProcessor;
+
+    /**
      * @param Action\Context $context
      * @param \Magento\Catalog\Helper\Product\Edit\Action\Attribute $helper
+     * @param \Magento\Catalog\Model\Indexer\Product\Price\Processor $productPriceIndexerProcessor
      */
     public function __construct(
         Action\Context $context,
-        \Magento\Catalog\Helper\Product\Edit\Action\Attribute $helper
+        \Magento\Catalog\Helper\Product\Edit\Action\Attribute $helper,
+        \Magento\Catalog\Model\Indexer\Product\Price\Processor $productPriceIndexerProcessor
     ) {
         parent::__construct($context);
         $this->_helper = $helper;
+        $this->_productPriceIndexerProcessor = $productPriceIndexerProcessor;
     }
 
     public function editAction()
@@ -166,6 +174,10 @@ class Attribute extends \Magento\Backend\App\Action
             $this->messageManager->addSuccess(
                 __('A total of %1 record(s) were updated.', count($this->_helper->getProductIds()))
             );
+
+            if (isset($attributesData['price']) || !empty($websiteRemoveData) || !empty($websiteAddData)) {
+                $this->_productPriceIndexerProcessor->reindexList($this->_helper->getProductIds());
+            }
         }
         catch (\Magento\Core\Exception $e) {
             $this->messageManager->addError($e->getMessage());

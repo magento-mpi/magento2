@@ -667,8 +667,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      */
     public function reindexCallback()
     {
-        $test = $this->getOrigData('test');
-
         $originEntityId = $this->getOrigData('entity_id');
 
         $newPrice = $this->getData('price');
