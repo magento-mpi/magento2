@@ -223,7 +223,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             'lastname' => 'Doe',
         ];
 
-        $this->assertEquals($expected, $address->getAttributes());
+        $this->assertEquals($expected, $address->__toArray());
     }
 
     public function testGetAddressesDefaultShipping()
@@ -256,10 +256,10 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
             'default_billing' => false,
             'customer_id' => self::ID,
             'region' => [
-                    'region_id' => self::REGION_ID,
-                    'region_code' => '',
-                    'region' => self::REGION
-                ],
+                'region_id' => self::REGION_ID,
+                'region_code' => '',
+                'region' => self::REGION
+            ],
             'country_id' => self::COUNTRY_ID,
             'street' => [self::STREET],
             'telephone' => self::TELEPHONE,

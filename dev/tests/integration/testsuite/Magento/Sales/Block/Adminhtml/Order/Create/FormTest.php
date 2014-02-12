@@ -94,7 +94,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
              "store_id":1,"currency_symbol":"$","shipping_method_reseted":true,"payment_method":null
          }
 ORDER_DATA_JSON;
-file_put_contents('c:\temp\a.json', $orderDataJson);
+
         $this->assertEquals(json_decode($expectedOrderDataJson), json_decode($orderDataJson));
     }
 

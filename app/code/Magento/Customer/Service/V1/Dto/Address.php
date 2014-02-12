@@ -18,8 +18,8 @@ class Address extends \Magento\Service\Entity\AbstractDto implements Eav\EntityI
     const KEY_DEFAULT_SHIPPING = 'default_shipping';
     const KEY_ID = 'id';
     const KEY_CUSTOMER_ID = 'customer_id';
-    const KEY_REGION = 'region';
-    const KEY_REGION_ID = 'region_id';
+    const KEY_REGION = Region::KEY_REGION;
+    const KEY_REGION_ID = Region::KEY_REGION_ID;
     const KEY_STREET = 'street';
     const KEY_COMPANY = 'company';
     const KEY_TELEPHONE = 'telephone';

@@ -14,16 +14,17 @@ namespace Magento\Customer\Service\V1\Dto;
  */
 class AddressBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
 {
+    /** @var RegionBuilder */
     protected $_regionBuilder;
 
     /**
-     * @param \Magento\Customer\Service\V1\Dto\RegionBuilder $regionBuilder
+     * @param RegionBuilder $regionBuilder
      */
     public function __construct(RegionBuilder $regionBuilder)
     {
         parent::__construct();
         $this->_regionBuilder = $regionBuilder;
-        $this->_data['region'] = $regionBuilder->create();
+        $this->_data[Address::KEY_REGION] = $regionBuilder->create();
     }
 
     /**
@@ -55,11 +56,18 @@ class AddressBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
 
     /**
      * {@inheritdoc}
+     * @throws \InvalidArgumentException
      */
     public function populateWithArray(array $data)
     {
-        if (isset($data['region'])) {
-            $data['region'] = new Region($data['region']);
+        if (isset($data[Address::KEY_REGION])) {
+            $regionData = $data[Address::KEY_REGION];
+
+            if (!is_array($regionData)) {
+                throw new \InvalidArgumentException("'region' expected to be an array");
+            }
+
+            $data[Address::KEY_REGION] = $this->_regionBuilder->populateWithArray($regionData)->create();
         }
 
         return parent::populateWithArray($data);
@@ -71,7 +79,7 @@ class AddressBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
      */
     public function setRegion(Region $region)
     {
-        return $this->_set('region', $region);
+        return $this->_set(Address::KEY_REGION, $region);
     }
 
     /**
@@ -80,7 +88,7 @@ class AddressBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
      */
     public function setCountryId($countryId)
     {
-        return $this->_set('country_id', $countryId);
+        return $this->_set(Address::KEY_COUNTRY_ID, $countryId);
     }
 
     /**
@@ -89,7 +97,7 @@ class AddressBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
      */
     public function setStreet($street)
     {
-        return $this->_set('street', $street);
+        return $this->_set(Address::KEY_STREET, $street);
     }
 
     /**
@@ -98,7 +106,7 @@ class AddressBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
      */
     public function setCompany($company)
     {
-        return $this->_set('company', $company);
+        return $this->_set(Address::KEY_COMPANY, $company);
     }
 
     /**
@@ -107,7 +115,7 @@ class AddressBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
      */
     public function setTelephone($telephone)
     {
-        return $this->_set('telephone', $telephone);
+        return $this->_set(Address::KEY_TELEPHONE, $telephone);
     }
 
     /**
@@ -116,7 +124,7 @@ class AddressBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
      */
     public function setFax($fax)
     {
-        return $this->_set('fax', $fax);
+        return $this->_set(Address::KEY_FAX, $fax);
     }
 
     /**
@@ -125,7 +133,7 @@ class AddressBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
      */
     public function setPostcode($postcode)
     {
-        return $this->_set('postcode', $postcode);
+        return $this->_set(Address::KEY_POSTCODE, $postcode);
     }
 
     /**
@@ -134,7 +142,7 @@ class AddressBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
      */
     public function setCity($city)
     {
-        return $this->_set('city', $city);
+        return $this->_set(Address::KEY_CITY, $city);
     }
 
     /**
@@ -143,7 +151,7 @@ class AddressBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
      */
     public function setFirstname($firstname)
     {
-        return $this->_set('firstname', $firstname);
+        return $this->_set(Address::KEY_FIRSTNAME, $firstname);
     }
 
     /**
@@ -152,7 +160,7 @@ class AddressBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
      */
     public function setLastname($lastname)
     {
-        return $this->_set('lastname', $lastname);
+        return $this->_set(Address::KEY_LASTNAME, $lastname);
     }
 
     /**
@@ -161,7 +169,7 @@ class AddressBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
      */
     public function setMiddlename($middlename)
     {
-        return $this->_set('middlename', $middlename);
+        return $this->_set(Address::KEY_MIDDLENAME, $middlename);
     }
 
     /**
@@ -170,7 +178,7 @@ class AddressBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
      */
     public function setPrefix($prefix)
     {
-        return $this->_set('prefix', $prefix);
+        return $this->_set(Address::KEY_PREFIX, $prefix);
     }
 
     /**
@@ -179,7 +187,7 @@ class AddressBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
      */
     public function setSuffix($suffix)
     {
-        return $this->_set('suffix', $suffix);
+        return $this->_set(Address::KEY_SUFFIX, $suffix);
     }
 
     /**
@@ -188,7 +196,7 @@ class AddressBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
      */
     public function setVatId($vatId)
     {
-        return $this->_set('vat_id', $vatId);
+        return $this->_set(Address::KEY_VAT_ID, $vatId);
     }
 
     /**
@@ -198,6 +206,6 @@ class AddressBuilder extends \Magento\Service\Entity\AbstractDtoBuilder
     public function setCustomerId($customerId)
     {
         /** XXX: (string) Needed for tests to pass */
-        return $this->_set('customer_id', (string)$customerId);
+        return $this->_set(Address::KEY_CUSTOMER_ID, (string)$customerId);
     }
 }
