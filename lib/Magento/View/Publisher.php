@@ -132,9 +132,7 @@ class Publisher implements PublicFilesManagerInterface
         $fileToPublish = $this->preProcessor->process($publisherFile, $targetDirectory);
 
         // 3. If $sourcePath returned still doesn't exists throw Exception
-        if (null === $fileToPublish->getSourcePath()
-            || !$this->rootDirectory->isExist($this->rootDirectory->getRelativePath($fileToPublish->getSourcePath()))
-        ) {
+        if (!$fileToPublish->isSourceFileExists()) {
             throw new \Magento\Exception("Unable to locate theme file '{$fileToPublish->getFilePath()}'.");
         }
 

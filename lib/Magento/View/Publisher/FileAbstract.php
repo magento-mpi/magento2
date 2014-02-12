@@ -138,36 +138,6 @@ abstract class FileAbstract implements FileInterface
     abstract public function getPublicationPath();
 
     /**
-     * @return string|null
-     */
-    public function getSourcePath()
-    {
-        if ($this->useFallback) {
-            $this->useFallback = false;
-
-            // Fallback look-up for view files. Remember it can be file of any type: CSS, LESS, JS, image
-            $fallbackSourcePath = $this->viewFileSystem->getViewFile($this->getFilePath(), $this->getViewParams());
-            $this->setSourcePath($fallbackSourcePath);
-        }
-        return $this->sourcePath;
-    }
-
-    /**
-     * @param string $sourcePath
-     * @return $this
-     */
-    protected function setSourcePath($sourcePath)
-    {
-        if (!$this->rootDirectory->isExist($this->rootDirectory->getRelativePath($sourcePath))) {
-            $this->sourcePath = null;
-        } else {
-            $this->sourcePath = $sourcePath;
-        }
-
-        return $this;
-    }
-
-    /**
      * Original file extension
      *
      * @return string
@@ -178,6 +148,14 @@ abstract class FileAbstract implements FileInterface
             $this->extension = strtolower(pathinfo($this->getFilePath(), PATHINFO_EXTENSION));
         }
         return $this->extension;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSourceFileExists()
+    {
+        return $this->sourcePath !== null;
     }
 
     /**
@@ -204,6 +182,38 @@ abstract class FileAbstract implements FileInterface
     public function buildPublicViewFilename()
     {
         return $this->viewService->getPublicDir() . '/' . $this->getPublicationPath();
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSourcePath()
+    {
+        if ($this->useFallback) {
+            $this->useFallback = false;
+
+            // Fallback look-up for view files. Remember it can be file of any type: CSS, LESS, JS, image
+            $fallbackSourcePath = $this->viewFileSystem->getViewFile($this->getFilePath(), $this->getViewParams());
+            $this->setSourcePath($fallbackSourcePath);
+        }
+        return $this->sourcePath;
+    }
+
+    /**
+     * @param string $sourcePath
+     * @return $this
+     */
+    protected function setSourcePath($sourcePath)
+    {
+        if ($sourcePath === null
+            || !$this->rootDirectory->isExist($this->rootDirectory->getRelativePath($sourcePath))
+        ) {
+            $this->sourcePath = null;
+        } else {
+            $this->sourcePath = $sourcePath;
+        }
+
+        return $this;
     }
 
     /**

@@ -22,33 +22,11 @@ interface FileInterface
     /**#@-*/
 
     /**
-     * @return string
-     */
-    public function getFilePath();
-
-    /**
-     * Original file extension
-     *
-     * @return string
-     */
-    public function getExtension();
-
-    /**
-     * @return array
-     */
-    public function getViewParams();
-
-    /**
      * Check is publication allowed for a file
      *
      * @return bool
      */
     public function isPublicationAllowed();
-
-    /**
-     * @return string|null
-     */
-    public function getSourcePath();
 
     /**
      * Build unique file path for publication
@@ -58,9 +36,36 @@ interface FileInterface
     public function getPublicationPath();
 
     /**
+     * Original file extension
+     *
+     * @return string
+     */
+    public function getExtension();
+
+    /**
+     * @return bool
+     */
+    public function isSourceFileExists();
+
+    /**
+     * @return string
+     */
+    public function getFilePath();
+
+    /**
+     * @return array
+     */
+    public function getViewParams();
+
+    /**
      * Build path to file located in public folder
      *
      * @return string
      */
     public function buildPublicViewFilename();
+
+    /**
+     * @return string|null
+     */
+    public function getSourcePath();
 }
