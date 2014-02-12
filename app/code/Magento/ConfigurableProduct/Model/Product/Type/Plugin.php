@@ -6,8 +6,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-namespace Magento\GroupedProduct\Model\Product\Type;
+namespace Magento\ConfigurableProduct\Model\Product\Type;
 
 use Magento\Module\Manager;
 
@@ -34,8 +33,8 @@ class Plugin
      */
     public function afterGetOptionArray($result)
     {
-        if (!$this->moduleManager->isOutputEnabled('Magento_GroupedProduct')) {
-            unset($result[Grouped::TYPE_CODE]);
+        if (!$this->moduleManager->isOutputEnabled('Magento_ConfigurableProduct')) {
+            unset($result[Configurable::TYPE_CODE]);
         }
         return $result;
     }

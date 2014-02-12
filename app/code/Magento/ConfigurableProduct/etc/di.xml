@@ -66,4 +66,7 @@
             </array>
         </param>
     </type>
+    <type name="Magento\Catalog\Model\Product\Type">
+        <plugin name="configurable_output" type="Magento\ConfigurableProduct\Model\Product\Type\Plugin" />
+    </type>
 </config>
