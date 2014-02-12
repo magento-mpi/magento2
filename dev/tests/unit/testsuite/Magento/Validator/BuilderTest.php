@@ -209,7 +209,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
             array('Magento\Validator\Test\Callback', 'getId')
         );
         $someMethod = array('method' => 'getMessages');
-        $methodWithArgs = array('method' => 'setMax', 'arguments' => array(100));
+        $methodWithArgs = array('method' => 'someMethod', 'arguments' => array('some_value_to_pass'));
         $callbackConfig = array('callback' => $callback);
 
         $configuredConstraint = array(
@@ -233,7 +233,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
         $constraintWithArgs = array(
             'alias' => 'current_alias',
             'class' => 'Some\Validator\Class',
-            'options' => array('arguments' => array('options' => array('min' => 1))),
+            'options' => array('arguments' => array('some_argument' => 'some_value')),
             'property' => 'int',
             'type' => 'property'
         );
