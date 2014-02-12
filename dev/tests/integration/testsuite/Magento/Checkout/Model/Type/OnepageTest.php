@@ -4,52 +4,51 @@
  *
  * @category    Magento
  * @package     Magento_Checkout
- * @subpackage  integration_tests
- * @copyright   {copyright}
- * @license     {license_link}
  */
 
 namespace Magento\Checkout\Model\Type;
 
+use Magento\TestFramework\Helper\Bootstrap;
+
 /**
+ * @magentoDataFixture Magento/Checkout/_files/quote_with_product_and_payment.php
  * @magentoAppArea frontend
  */
 class OnepageTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @magentoAppIsolation enabled
-     * @magentoDataFixture Magento/Checkout/_files/quote_with_product_and_payment.php
-     * @dataProvider saveOrderDataProvider
-     *
-     * @param array $customerData
-     */
-    public function testSaveOrder($customerData)
-    {
-        /** @var $model \Magento\Checkout\Model\Type\Onepage */
-        $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Checkout\Model\Type\Onepage');
+    /** @var  \Magento\Checkout\Model\Type\Onepage*/
+    protected $_model;
 
+    protected function setUp()
+    {
+        parent::setUp();
+        $this->_model = Bootstrap::getObjectManager()
+            ->create('Magento\Checkout\Model\Type\Onepage');
         /** @var \Magento\Sales\Model\Resource\Quote\Collection $quoteCollection */
-        $quoteCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+        $quoteCollection = Bootstrap::getObjectManager()
             ->create('Magento\Sales\Model\Resource\Quote\Collection');
         /** @var \Magento\Sales\Model\Quote $quote */
         $quote = $quoteCollection->getLastItem();
-
-        $model->setQuote($quote);
-        $model->saveBilling($customerData, null);
-
+        $this->_model->setQuote($quote);
+        $this->_model->saveBilling($this->_getCustomerData(), null);
         $this->_prepareQuote($quote);
+    }
 
-        $model->saveOrder();
+    /**
+     * @magentoAppIsolation enabled
+     */
+    public function testSaveOrder()
+    {
+        $this->_model->saveOrder();
 
         /** @var $order \Magento\Sales\Model\Order */
         $order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Sales\Model\Order');
-        $order->loadByIncrementId($model->getLastOrderId());
+        $order->loadByIncrementId($this->_model->getLastOrderId());
 
-        $this->assertNotEmpty($quote->getShippingAddress()->getCustomerAddressId(),
+        $this->assertNotEmpty($this->_model->getQuote()->getShippingAddress()->getCustomerAddressId(),
             'Quote shipping CustomerAddressId should not be empty');
-        $this->assertNotEmpty($quote->getBillingAddress()->getCustomerAddressId(),
+        $this->assertNotEmpty($this->_model->getQuote()->getBillingAddress()->getCustomerAddressId(),
             'Quote billing CustomerAddressId should not be empty');
 
         $this->assertNotEmpty($order->getShippingAddress()->getCustomerAddressId(),
@@ -58,12 +57,46 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
             'Order billing CustomerAddressId should not be empty');
     }
 
-
-    public function saveOrderDataProvider()
+    /**
+     * @magentoAppIsolation enabled
+     */
+    public function testInitCheckoutNotLoggedIn()
     {
-        return array(
-            array($this->_getCustomerData()),
+        $emailFromBillingData = 'John.Smith@example.com';
+        $this->assertTrue($this->_model->getCheckout()->getSteps()['shipping']['allow']);
+        $this->assertTrue($this->_model->getCheckout()->getSteps()['billing']['allow']);
+        $this->_model->initCheckout();
+        $this->assertFalse($this->_model->getCheckout()->getSteps()['shipping']['allow']);
+        $this->assertFalse($this->_model->getCheckout()->getSteps()['billing']['allow']);
+        $this->assertEquals($emailFromBillingData, $this->_model->getQuote()->getCustomerData()->getEmail());
+    }
+
+    /**
+     * @magentoAppIsolation enabled
+     * @magentoDataFixture Magento/Customer/_files/customer.php
+     */
+    public function testInitCheckoutLoggedIn()
+    {
+        $customerIdFromFixture = 1;
+        $emailFromFixture = 'customer@example.com';
+        /** @var $customerSession \Magento\Customer\Model\Session*/
+        $customerSession = Bootstrap::getObjectManager()->create(
+            '\Magento\Customer\Model\Session');
+        /** @var $customerService \Magento\Customer\Service\V1\CustomerService*/
+        $customerService = Bootstrap::getObjectManager()->create('\Magento\Customer\Service\V1\CustomerService');
+        $customerDto = $customerService->getCustomer($customerIdFromFixture);
+        $customerSession->setCustomerData($customerDto);
+        $this->_model = Bootstrap::getObjectManager()->create(
+            'Magento\Checkout\Model\Type\Onepage',
+            ['customerSession' => $customerSession]
         );
+        $this->assertTrue($this->_model->getCheckout()->getSteps()['shipping']['allow']);
+        $this->assertTrue($this->_model->getCheckout()->getSteps()['billing']['allow']);
+        $this->_model->initCheckout();
+        $this->assertFalse($this->_model->getCheckout()->getSteps()['shipping']['allow']);
+        //When the user is logged in and for Step billing - allow is not reset to true
+        $this->assertTrue($this->_model->getCheckout()->getSteps()['billing']['allow']);
+        $this->assertEquals($emailFromFixture, $this->_model->getQuote()->getCustomerData()->getEmail());
     }
 
     /**
