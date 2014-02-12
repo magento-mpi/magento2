@@ -8,7 +8,7 @@
 
 namespace Magento\Catalog\Model\Indexer\Product\Category\Action;
 
-class Rows extends \Magento\Catalog\Model\Indexer\Category\Product\Action\Full
+class Rows extends \Magento\Catalog\Model\Indexer\Category\Product\AbstractAction
 {
     /**
      * Limitation by products
@@ -21,23 +21,30 @@ class Rows extends \Magento\Catalog\Model\Indexer\Category\Product\Action\Full
      * Refresh entities index
      *
      * @param int[] $entityIds
+     * @param bool $useTempTable
      * @return $this
      */
-    public function execute(array $entityIds = array())
+    public function execute(array $entityIds = array(), $useTempTable = false)
     {
         $this->limitationByProducts = $entityIds;
-        return parent::execute();
+        $this->useTempTable = $useTempTable;
+
+        $this->removeEntries();
+
+        $this->reindex();
+
+        return $this;
     }
 
     /**
-     * Return select for remove unnecessary data
-     *
-     * @return \Magento\DB\Select
+     * Remove index entries before reindexation
      */
-    protected function getSelectUnnecessaryData()
+    protected function removeEntries()
     {
-        $select = parent::getSelectUnnecessaryData();
-        return $select->where($this->getMainTable() . '.product_id IN (?)', $this->limitationByProducts);
+        $this->getWriteAdapter()->delete(
+            $this->getMainTable(),
+            ['product_id IN (?)' => $this->limitationByProducts]
+        );
     }
 
     /**
