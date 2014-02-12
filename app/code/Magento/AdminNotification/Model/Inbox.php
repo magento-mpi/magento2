@@ -52,7 +52,7 @@ class Inbox extends \Magento\Core\Model\AbstractModel
      * Retrieve Severity collection array
      *
      * @param int|null $severity
-     * @return array|null
+     * @return array|string|null
      */
     public function getSeverities($severity = null)
     {
