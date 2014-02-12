@@ -15,7 +15,7 @@
             </array>
         </param>
     </type>
-    <virtualType name="multishippingPaymentSpecificationRules" type="Magento\Payment\Model\Method\Specification\Composite">
+    <virtualType name="multishippingPaymentSpecification" type="Magento\Payment\Model\Method\Specification\Composite">
         <param name="specifications">
             <array>
                 <item key="enabled">
@@ -29,12 +29,12 @@
     </virtualType>
     <type name="Magento\Multishipping\Block\Checkout\Billing">
         <param name="paymentSpecification">
-            <instance type="multishippingPaymentSpecificationRules" />
+            <instance type="multishippingPaymentSpecification" />
         </param>
     </type>
     <type name="Magento\Multishipping\Model\Checkout\Type\Multishipping">
         <param name="paymentSpecification">
-            <instance type="multishippingPaymentSpecificationRules" />
+            <instance type="multishippingPaymentSpecification" />
         </param>
     </type>
 </config>
