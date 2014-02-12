@@ -720,12 +720,13 @@ class Index
 
             try {
                 $storeConfig = $this->_objectManager->get('Magento\Core\Model\Store\Config');
+                $storeManager = $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface');
                 foreach ($emails as $email) {
                     $transport = $this->_transportBuilder
                         ->setTemplateIdentifier($storeConfig->getConfig('wishlist/email/email_template'))
                         ->setTemplateOptions(array(
                             'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
-                            'store' => $this->_storeManager->getStore()->getStoreId()
+                            'store' => $storeManager->getStore()->getStoreId()
                         ))
                         ->setTemplateVars(array(
                             'customer'      => $customer,
@@ -733,7 +734,8 @@ class Index
                             'items'         => $wishlistBlock,
                             'addAllLink'    => $this->_url->getUrl('*/shared/allcart', array('code' => $sharingCode)),
                             'viewOnSiteLink'=> $this->_url->getUrl('*/shared/index', array('code' => $sharingCode)),
-                            'message'       => $message
+                            'message'       => $message,
+                            'store'         => $storeManager->getStore()
                         ))
                         ->setFrom($storeConfig->getConfig('wishlist/email/email_identity'))
                         ->addTo($email)
