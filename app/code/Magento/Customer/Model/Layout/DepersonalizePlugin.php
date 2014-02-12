@@ -83,10 +83,12 @@ class DepersonalizePlugin
         if (!$this->request->isAjax() && $this->layout->isCacheable()) {
             $customerSegmentIds = $this->customerSession->getCustomerSegmentIds();
             $customerGroupId = $this->customerSession->getCustomerGroupId();
+            $formKey = $this->session->getData(\Magento\Data\Form\FormKey::FORM_KEY);
             $this->eventManager->dispatch('before_session_write_close');
             session_write_close();
             $this->session->clearStorage();
             $this->customerSession->clearStorage();
+            $formKey = $this->session->setData(\Magento\Data\Form\FormKey::FORM_KEY, $formKey);
             $this->customerSession->setCustomerSegmentIds($customerSegmentIds);
             $this->customerSession->setCustomerGroupId($customerGroupId);
             $this->customer->setGroupId($customerGroupId);
