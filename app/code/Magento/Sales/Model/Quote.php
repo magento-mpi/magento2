@@ -865,11 +865,14 @@ class Quote extends \Magento\Core\Model\AbstractModel
     }
 
     /**
+     * Get quote address by customer address ID.
+     *
      * @param int|string $addressId
-     * @return bool
+     * @return \Magento\Sales\Model\Quote\Address|bool
      */
     public function getShippingAddressByCustomerAddressId($addressId)
     {
+        /** @var \Magento\Sales\Model\Quote\Address $address */
         foreach ($this->getAddressesCollection() as $address) {
             if (!$address->isDeleted() && $address->getAddressType() == Address::TYPE_SHIPPING
                 && $address->getCustomerAddressId() == $addressId
