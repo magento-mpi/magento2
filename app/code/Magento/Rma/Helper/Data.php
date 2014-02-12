@@ -68,46 +68,64 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_coreData;
 
     /**
+     * Core store manager interface
+     *
      * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
+     * Core locale interface
+     *
      * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
+     * Rma item factory
+     *
      * @var \Magento\Rma\Model\Resource\ItemFactory
      */
     protected $_itemFactory;
 
     /**
+     * Customer session model
+     *
      * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
 
     /**
+     * Backend authorization session model
+     *
      * @var \Magento\Backend\Model\Auth\Session
      */
     protected $_authSession;
 
     /**
+     * Sales quote address factory
+     *
      * @var \Magento\Sales\Model\Quote\AddressFactory
      */
     protected $_addressFactory;
 
     /**
+     * Rma carrier factory
+     *
      * @var \Magento\Rma\Model\CarrierFactory
      */
     protected $_carrierFactory;
 
     /**
+     * Filter manager
+     *
      * @var \Magento\Filter\FilterManager
      */
     protected $_filterManager;
 
     /**
+     * Date time formatter
+     *
      * @var \Magento\Stdlib\DateTime
      */
     protected $dateTime;

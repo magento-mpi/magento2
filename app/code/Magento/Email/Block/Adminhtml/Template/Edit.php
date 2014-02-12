@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Email\Block\Adminhtml\Template;
 
 /**
  * Adminhtml system template edit block
@@ -16,8 +17,6 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  * @method array getTemplateOptions()
  */
-namespace Magento\Email\Block\Adminhtml\Template;
-
 class Edit extends \Magento\Backend\Block\Widget
 {
     /**
@@ -86,6 +85,11 @@ class Edit extends \Magento\Backend\Block\Widget
         parent::__construct($context, $data);
     }
 
+    /**
+     * Prepare layout
+     *
+     * @return $this
+     */
     protected function _prepareLayout()
     {
         $this->setChild('back_button',
@@ -185,7 +189,7 @@ class Edit extends \Magento\Backend\Block\Widget
     /**
      * Collect, sort and set template options
      *
-     * @return \Magento\Email\Block\Adminhtml\Template\Edit
+     * @return $this
      */
     protected function _beforeToHtml()
     {
@@ -220,46 +224,91 @@ class Edit extends \Magento\Backend\Block\Widget
         return $options;
     }
 
+    /**
+     * Get the html element for back button
+     *
+     * @return string
+     */
     public function getBackButtonHtml()
     {
         return $this->getChildHtml('back_button');
     }
 
+    /**
+     * Get the html element for toggle button
+     *
+     * @return string
+     */
     public function getToggleButtonHtml()
     {
         return $this->getChildHtml('toggle_button');
     }
 
+    /**
+     * Get the html element for reset button
+     *
+     * @return string
+     */
     public function getResetButtonHtml()
     {
         return $this->getChildHtml('reset_button');
     }
 
+    /**
+     * Get the html element for to plain button
+     *
+     * @return string
+     */
     public function getToPlainButtonHtml()
     {
         return $this->getChildHtml('to_plain_button');
     }
 
+    /**
+     * Get the 'to html' button
+     *
+     * @return string
+     */
     public function getToHtmlButtonHtml()
     {
         return $this->getChildHtml('to_html_button');
     }
 
+    /**
+     * Get the html element for save button
+     *
+     * @return string
+     */
     public function getSaveButtonHtml()
     {
         return $this->getChildHtml('save_button');
     }
 
+    /**
+     * Get the html element for preview button
+     *
+     * @return string
+     */
     public function getPreviewButtonHtml()
     {
         return $this->getChildHtml('preview_button');
     }
 
+    /**
+     * Get the html element for delete button
+     *
+     * @return string
+     */
     public function getDeleteButtonHtml()
     {
         return $this->getChildHtml('delete_button');
     }
 
+    /**
+     * Get the html element for load button
+     *
+     * @return string
+     */
     public function getLoadButtonHtml()
     {
         return $this->getChildHtml('load_button');
@@ -318,6 +367,11 @@ class Edit extends \Magento\Backend\Block\Widget
         return $this->getUrl('adminhtml/*/preview');
     }
 
+    /**
+     * Return true if template type is text; return false otherwise
+     *
+     * @return bool
+     */
     public function isTextType()
     {
         return $this->getEmailTemplate()->isPlain();
@@ -392,9 +446,9 @@ class Edit extends \Magento\Backend\Block\Widget
     /**
      * Convert xml config paths to decorated names
      *
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @param array $paths
      * @return array
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     protected function _getSystemConfigPathsParts($paths)
     {

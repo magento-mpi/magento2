@@ -118,6 +118,7 @@ class Core_Mage_CmsWidgets_Helper extends Mage_Selenium_AbstractHelper
                 $this->searchAndChoose($value, 'layout_products_fieldset');
             }
         }
+        $this->hidePageActionsPanel();
         $this->clickControl('link', 'apply', false);
         $selectedIds = explode(',', $this->getControlAttribute('field', 'specific_category', 'value'));
         $selectedIds = array_diff($selectedIds, array(''));
@@ -157,6 +158,7 @@ class Core_Mage_CmsWidgets_Helper extends Mage_Selenium_AbstractHelper
         $cellElement = $this->getChildElement($widgetRowElement, 'td[' . $cellId . ']');
         $this->addParameter('elementTitle', trim($cellElement->text()));
         $this->addParameter('id', $this->defineIdFromUrl($widgetUrl));
+        $this->addParameter('type', $this->defineParameterFromUrl('code', $widgetUrl));
         //Open Widget
         $this->url($widgetUrl);
         $this->pleaseWait();
@@ -190,8 +192,7 @@ class Core_Mage_CmsWidgets_Helper extends Mage_Selenium_AbstractHelper
                 $widgetUrl[$title] = trim($element->attribute('title'));
             }
             if ($isNextPage) {
-                $this->clickControl('link', 'next_page', false);
-                $this->waitForPageToLoad();
+                $this->clickControl('link', 'next_page');
             }
         } while ($isNextPage);
         foreach ($widgetUrl as $title => $url) {

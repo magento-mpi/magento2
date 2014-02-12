@@ -7,8 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Eav\Model\Entity\Attribute\Source;
 
 class Boolean extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
@@ -83,8 +81,8 @@ class Boolean extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
     /**
      * Get a text for option value
      *
-     * @param string|integer $value
-     * @return string
+     * @param string|int $value
+     * @return string|false
      */
     public function getOptionText($value)
     {

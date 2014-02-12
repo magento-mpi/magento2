@@ -49,6 +49,8 @@ class Minsaleqty extends \Magento\Core\Model\Config\Value
 
     /**
      * Process data after load
+     *
+     * @return void
      */
     protected function _afterLoad()
     {
@@ -59,6 +61,8 @@ class Minsaleqty extends \Magento\Core\Model\Config\Value
 
     /**
      * Prepare data before save
+     *
+     * @return void
      */
     protected function _beforeSave()
     {

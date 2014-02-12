@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reminder\Model\Rule\Condition\Wishlist;
 
 /**
  * Rule conditions items subselection container
  */
-namespace Magento\Reminder\Model\Rule\Condition\Wishlist;
-
 class Subcombine
     extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
 {

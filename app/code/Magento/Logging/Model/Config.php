@@ -163,7 +163,7 @@ class Config
     /**
      * Load values from System Configuration
      *
-     * @return \Magento\Logging\Model\Config
+     * @return $this
      */
     protected function _initSystemConfigValues()
     {

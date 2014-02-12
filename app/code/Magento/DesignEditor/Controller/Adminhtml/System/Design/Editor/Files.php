@@ -7,18 +7,18 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\DesignEditor\Controller\Adminhtml\System\Design\Editor;
 
 /**
  * Files controller
  */
-
-namespace Magento\DesignEditor\Controller\Adminhtml\System\Design\Editor;
-
 class Files
     extends \Magento\Theme\Controller\Adminhtml\System\Design\Wysiwyg\Files
 {
     /**
      * Tree json action
+     *
+     * @return void
      */
     public function treeJsonAction()
     {
@@ -35,6 +35,8 @@ class Files
 
     /**
      * Contents action
+     *
+     * @return void
      */
     public function contentsAction()
     {

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Email\Block\Adminhtml\Template\Grid\Renderer;
 
 /**
  * Email templates grid block action item renderer
@@ -15,11 +16,14 @@
  * @package    Magento_Email
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Email\Block\Adminhtml\Template\Grid\Renderer;
-
 class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Action
 {
+    /**
+     * Render grid column
+     *
+     * @param \Magento\Object $row
+     * @return string
+     */
     public function render(\Magento\Object $row)
     {
         $actions = array();
@@ -35,11 +39,23 @@ class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Action
         return parent::render($row);
     }
 
+    /**
+     * Get escaped value
+     *
+     * @param string $value
+     * @return string
+     */
     protected function _getEscapedValue($value)
     {
         return addcslashes(htmlspecialchars($value), '\\\'');
     }
 
+    /**
+     * Convert actions to html
+     *
+     * @param array $actions
+     * @return string
+     */
     protected function _actionsToHtml(array $actions)
     {
         $html = array();

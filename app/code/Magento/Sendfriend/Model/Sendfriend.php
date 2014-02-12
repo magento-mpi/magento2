@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Sendfriend\Model;
+
+use Magento\Core\Exception as CoreException;
 
 /**
  * SendFriend Log
@@ -22,8 +25,6 @@
  * @package     Magento_Sendfriend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Sendfriend\Model;
-
 class Sendfriend extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -43,7 +44,7 @@ class Sendfriend extends \Magento\Core\Model\AbstractModel
     /**
      * Sender data array
      *
-     * @var array
+     * @var \Magento\Object|array
      */
     protected $_sender  = array();
 
@@ -102,7 +103,7 @@ class Sendfriend extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Email\Model\TemplateFactory $templateFactory
-     * @param \Magento\Core\Model\Translate $translate
+     * @param \Magento\TranslateInterface $translate
      * @param \Magento\Catalog\Helper\Image $catalogImage
      * @param \Magento\Sendfriend\Helper\Data $sendfriendData
      * @param \Magento\Escaper $escaper
@@ -115,7 +116,7 @@ class Sendfriend extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Email\Model\TemplateFactory $templateFactory,
-        \Magento\Core\Model\Translate $translate,
+        \Magento\TranslateInterface $translate,
         \Magento\Catalog\Helper\Image $catalogImage,
         \Magento\Sendfriend\Helper\Data $sendfriendData,
         \Magento\Escaper $escaper,
@@ -135,6 +136,7 @@ class Sendfriend extends \Magento\Core\Model\AbstractModel
     /**
      * Initialize resource model
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -151,6 +153,10 @@ class Sendfriend extends \Magento\Core\Model\AbstractModel
         return $this->_sendfriendData;
     }
 
+    /**
+     * @return $this
+     * @throws CoreException
+     */
     public function send()
     {
         if ($this->isExceedLimit()) {
@@ -159,7 +165,7 @@ class Sendfriend extends \Magento\Core\Model\AbstractModel
             );
         }
 
-        /* @var $translate \Magento\Core\Model\Translate */
+        /* @var $translate \Magento\TranslateInterface */
         $translate = $this->_translate;
         $translate->setTranslateInline(false);
 
@@ -207,7 +213,7 @@ class Sendfriend extends \Magento\Core\Model\AbstractModel
     /**
      * Validate Form data
      *
-     * @return bool|array
+     * @return bool|string[]
      */
     public function validate()
     {
@@ -256,7 +262,7 @@ class Sendfriend extends \Magento\Core\Model\AbstractModel
      * Set cookie instance
      *
      * @param \Magento\Stdlib\Cookie $cookie
-     * @return \Magento\Sendfriend\Model\Sendfriend
+     * @return $this
      */
     public function setCookie($cookie)
     {
@@ -282,7 +288,7 @@ class Sendfriend extends \Magento\Core\Model\AbstractModel
      * Set Visitor Remote Address
      *
      * @param int $ipAddr the IP address on Long Format
-     * @return \Magento\Sendfriend\Model\Sendfriend
+     * @return $this
      */
     public function setRemoteAddr($ipAddr)
     {
@@ -304,7 +310,7 @@ class Sendfriend extends \Magento\Core\Model\AbstractModel
      * Set Website Id
      *
      * @param int $id - website id
-     * @return \Magento\Sendfriend\Model\Sendfriend
+     * @return $this
      */
     public function setWebsiteId($id)
     {
@@ -326,7 +332,7 @@ class Sendfriend extends \Magento\Core\Model\AbstractModel
      * Set Recipients
      *
      * @param array $recipients
-     * @return \Magento\Sendfriend\Model\Sendfriend
+     * @return $this
      */
     public function setRecipients($recipients)
     {
@@ -378,7 +384,7 @@ class Sendfriend extends \Magento\Core\Model\AbstractModel
      * Set product instance
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @return \Magento\Sendfriend\Model\Sendfriend
+     * @return $this
      */
     public function setProduct($product)
     {
@@ -404,7 +410,7 @@ class Sendfriend extends \Magento\Core\Model\AbstractModel
      * Set Sender Information array
      *
      * @param array $sender
-     * @return \Magento\Sendfriend\Model\Sendfriend
+     * @return $this
      */
     public function setSender($sender)
     {
@@ -580,7 +586,7 @@ class Sendfriend extends \Magento\Core\Model\AbstractModel
     /**
      * Register self in global register with name send_to_friend_model
      *
-     * @return \Magento\Sendfriend\Model\Sendfriend
+     * @return $this
      */
     public function register()
     {

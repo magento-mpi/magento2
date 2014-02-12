@@ -7,12 +7,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reminder\Model\Rule\Condition\Combine;
+
+use Magento\Customer\Model\Customer;
+use Magento\DB\Select;
 
 /**
  * Root rule condition (top level condition)
  */
-namespace Magento\Reminder\Model\Rule\Condition\Combine;
-
 class Root
     extends \Magento\Reminder\Model\Rule\Condition\Combine
 {
@@ -43,9 +45,9 @@ class Root
     /**
      * Prepare base select with limitation by customer
      *
-     * @param   null | array | int | \Magento\Customer\Model\Customer $customer
-     * @param   int | \Zend_Db_Expr $website
-     * @return  \Magento\DB\Select
+     * @param null|array|int|Customer $customer
+     * @param int|\Zend_Db_Expr $website
+     * @return Select
      */
     protected function _prepareConditionsSql($customer, $website)
     {
@@ -71,11 +73,12 @@ class Root
 
     /**
      * Get SQL select.
-     * Rewrited for cover root conditions combination with additional condition by customer
      *
-     * @param   \Magento\Customer\Model\Customer | \Zend_Db_Select | \Zend_Db_Expr $customer
-     * @param   int | \Zend_Db_Expr $website
-     * @return  \Magento\DB\Select
+     * Rewritten for cover root conditions combination with additional condition by customer
+     *
+     * @param Customer|\Zend_Db_Select|\Zend_Db_Expr $customer
+     * @param int|\Zend_Db_Expr $website
+     * @return Select
      */
     public function getConditionsSql($customer, $website)
     {

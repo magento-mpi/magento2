@@ -2,11 +2,8 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento
- * @subpackage  functional_tests
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {copyright}
+ * @license {license_link}
  */
 require_once __DIR__ . '/_files/Simple1Test.php';
 
@@ -61,8 +58,8 @@ class Mage_Selenium_TestSuiteTest extends Unit_PHPUnit_TestCase
     public function testAddTestFromDirectory()
     {
         $suite = $this->getMock('Mage_Selenium_TestSuite', array('addTestFiles'));
-        $path = implode('/', array(__DIR__, '_files', 'Simple1Test.php'));
-        $suite->expects($this->once())->method('addTestFiles')->with($this->equalTo(array($path)));
+        $suite->expects($this->once())->method('addTestFiles')
+            ->with($this->equalTo(array(realpath(__DIR__ . '/_files/Simple1Test.php'))));
         $suite->addTestFromDirectory(__DIR__ . '/_files');
     }
 }

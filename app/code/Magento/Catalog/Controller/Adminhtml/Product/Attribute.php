@@ -236,7 +236,7 @@ class Attribute extends \Magento\Backend\App\Action
             if (!empty($data['new_attribute_set_name'])) {
                 /** @var $attributeSet \Magento\Eav\Model\Entity\Attribute\Set */
                 $attributeSet = $this->_objectManager->create('Magento\Eav\Model\Entity\Attribute\Set');
-                $name = $this->_objectManager->get('Magento\Backend\Helper\Data')
+                $name = $this->_objectManager->get('Magento\Filter\FilterManager')
                     ->stripTags($data['new_attribute_set_name']);
                 $name = trim($name);
                 $attributeSet->setEntityTypeId($this->_entityTypeId)

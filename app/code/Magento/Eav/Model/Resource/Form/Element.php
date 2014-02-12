@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Eav\Model\Resource\Form;
 
 /**
  * Eav Form Element Resource Model
@@ -16,12 +16,12 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Eav\Model\Resource\Form;
-
 class Element extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
      * Initialize connection and define main table
+     *
+     * @return void
      */
     protected function _construct()
     {

@@ -11,7 +11,7 @@
 # Design editor theme selector page
 design_editor_selector:
     mca: system_design_editor/
-    click_xpath: //*[@class='navigation']//a[contains(@href, '/system_design_editor/')]
+    click_xpath: //ul[@id='nav']//a[contains(@href, '/system_design_editor/')]
     title: Store Designer / Design / Content / Magento Admin
     uimap: &designEditorSelector
         form:
@@ -87,7 +87,7 @@ design_editor_selector:
 
 design_editor_selector_first_assign:
     mca: system_design_editor/#theme_selector_tabs_available_themes_content
-    click_xpath: //*[@class='navigation']//a[contains(@href, '/system_design_editor/')]
+    click_xpath: //ul[@id='nav']//a[contains(@href, '/system_design_editor/')]
     title: Store Designer / Design / Content / Magento Admin
     uimap: *designEditorSelector
 

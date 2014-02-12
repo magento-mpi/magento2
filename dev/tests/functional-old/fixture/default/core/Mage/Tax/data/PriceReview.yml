@@ -81,13 +81,12 @@ checkout_data:
         billing_state: California
         billing_zip_code: 94306
         billing_telephone: 091019019 billing
-    ship_to_this_address: Yes
+        ship_to_this_address: Yes
     shipping_data:
         shipping_service: Flat Rate
         shipping_method: Fixed
     payment_data:
         payment_method: Check / Money order
-
 
 ################################################################################
 #                                                                              #
@@ -181,6 +180,7 @@ unit_cat_ex_ship_ex_backend_create_order:
 unit_cat_ex_ship_ex_backend_product_prices_after_order:
     product_1:
         product: %noValue%
+        item_status: Ordered
         original_price: $111.11
         price_excl_tax: $111.11
         price_incl_tax: $120.28
@@ -193,6 +193,7 @@ unit_cat_ex_ship_ex_backend_product_prices_after_order:
         row_total: $240.56
     product_2:
         product: %noValue%
+        item_status: Ordered
         original_price: $100.00
         price_excl_tax: $100.00
         price_incl_tax: $108.25
@@ -205,6 +206,7 @@ unit_cat_ex_ship_ex_backend_product_prices_after_order:
         row_total: $324.75
     product_3:
         product: %noValue%
+        item_status: Ordered
         original_price: $15.51
         price_excl_tax: $15.51
         price_incl_tax: $16.79
@@ -596,8 +598,8 @@ row_cat_ex_ship_ex_backend_product_prices_before_order: &rowCatExShipExBackendPr
         subtotal_excl_tax: $222.22
         subtotal_incl_tax: $240.55
         discount: $0.00
-        row_subtotal_excl_tax: $222.22
-        row_subtotal_incl_tax: $240.55
+        row_subtotal_excl_tax: $222.23
+        row_subtotal_incl_tax: $240.56
     product_2:
         product: %noValue%
         price_excl_tax: $100.00
@@ -669,18 +671,20 @@ row_cat_ex_ship_ex_backend_create_order:
 row_cat_ex_ship_ex_backend_product_prices_after_order:
     product_1:
         product: %noValue%
+        item_status: Ordered
         original_price: $111.11
         price_excl_tax: $111.11
         price_incl_tax: $120.28
         qty_ordered: 2
         subtotal_excl_tax: $222.22
         subtotal_incl_tax: $240.55
-        tax_amount: $18.34
+        tax_amount: $18.33
         tax_percent: 8.25%
         discount_amount: $0.00
-        row_total: $240.56
+        row_total: $240.55
     product_2:
         product: %noValue%
+        item_status: Ordered
         original_price: $100.00
         price_excl_tax: $100.00
         price_incl_tax: $108.25
@@ -693,6 +697,7 @@ row_cat_ex_ship_ex_backend_product_prices_after_order:
         row_total: $324.75
     product_3:
         product: %noValue%
+        item_status: Ordered
         original_price: $15.51
         price_excl_tax: $15.51
         price_incl_tax: $16.79
@@ -725,9 +730,9 @@ row_cat_ex_ship_ex_backend_product_prices_before_invoice:
         qty_ordered: 2
         subtotal_excl_tax: $222.22
         subtotal_incl_tax: $240.55
-        tax_amount: $18.34
+        tax_amount: $18.33
         discount_amount: $0.00
-        row_total: $240.56
+        row_total: $240.55
     product_2:
         product: %noValue%
         price_excl_tax: $100.00
@@ -770,10 +775,10 @@ row_cat_ex_ship_ex_backend_product_prices_after_invoice:
         qty_invoiced: 2
         subtotal_excl_tax: $222.22
         subtotal_incl_tax: $240.55
-        tax_amount: $18.34
+        tax_amount: $18.33
         tax_percent: 8.25%
         discount_amount: $0.00
-        row_total: $240.56
+        row_total: $240.55
     product_2:
         product: %noValue%
         item_status: Invoiced
@@ -824,9 +829,9 @@ row_cat_ex_ship_ex_backend_product_prices_after_invoice_on_invoice:
         qty: 2
         subtotal_excl_tax: $222.22
         subtotal_incl_tax: $240.55
-        tax_amount: $18.34
+        tax_amount: $18.33
         discount_amount: $0.00
-        row_total: $240.56
+        row_total: $240.55
     product_2:
         product: %noValue%
         price_excl_tax: $100.00
@@ -870,10 +875,10 @@ row_cat_ex_ship_ex_backend_product_prices_after_shipment:
         qty_shipped: 2
         subtotal_excl_tax: $222.22
         subtotal_incl_tax: $240.55
-        tax_amount: $18.34
+        tax_amount: $18.33
         tax_percent: 8.25%
         discount_amount: $0.00
-        row_total: $240.56
+        row_total: $240.55
     product_2:
         product: %noValue%
         item_status: Shipped
@@ -928,9 +933,9 @@ row_cat_ex_ship_ex_backend_product_prices_before_refund:
         qty_shipped: 2
         subtotal_excl_tax: $222.22
         subtotal_incl_tax: $240.55
-        tax_amount: $18.34
+        tax_amount: $18.33
         discount_amount: $0.00
-        row_total: $240.56
+        row_total: $240.55
     product_2:
         product: %noValue%
         price_excl_tax: $100.00
@@ -977,10 +982,10 @@ row_cat_ex_ship_ex_backend_product_prices_after_refund:
         qty_refunded: 2
         subtotal_excl_tax: $222.22
         subtotal_incl_tax: $240.55
-        tax_amount: $18.34
+        tax_amount: $18.33
         tax_percent: 8.25%
         discount_amount: $0.00
-        row_total: $240.56
+        row_total: $240.55
     product_2:
         product: %noValue%
         item_status: Refunded
@@ -1035,9 +1040,9 @@ row_cat_ex_ship_ex_backend_product_prices_after_refund_on_refund:
         qty: 2
         subtotal_excl_tax: $222.22
         subtotal_incl_tax: $240.55
-        tax_amount: $18.34
+        tax_amount: $18.33
         discount_amount: $0.00
-        row_total: $240.56
+        row_total: $240.55
     product_2:
         product: %noValue%
         price_excl_tax: $100.00
@@ -1084,8 +1089,8 @@ total_cat_ex_ship_ex_backend_product_prices_before_order: &totalCatExShipExBacke
         subtotal_excl_tax: $222.22
         subtotal_incl_tax: $240.55
         discount: $0.00
-        row_subtotal_excl_tax: $222.22
-        row_subtotal_incl_tax: $240.55
+        row_subtotal_excl_tax: $222.23
+        row_subtotal_incl_tax: $240.56
     product_2:
         product: %noValue%
         price_excl_tax: $100.00
@@ -1109,9 +1114,9 @@ total_cat_ex_ship_ex_backend_product_prices_before_order: &totalCatExShipExBacke
 
 total_cat_ex_ship_ex_backend_products_total_before_order: &totalCatExShipExBackendProductsTotalBeforeOrderCreation
     product: Total 3 product(s)
-    subtotal: $649.26
+    subtotal: $649.25
     discount: $0.00
-    row_subtotal: $649.26
+    row_subtotal: $649.25
 
 total_cat_ex_ship_ex_backend_total_before_order: &totalCatExShipExBackendTotalBeforeOrderCreation
     subtotal_excl_tax: $599.77
@@ -1157,18 +1162,20 @@ total_cat_ex_ship_ex_backend_create_order:
 total_cat_ex_ship_ex_backend_product_prices_after_order:
     product_1:
         product: %noValue%
+        item_status: Ordered
         original_price: $111.11
         price_excl_tax: $111.11
         price_incl_tax: $120.28
         qty_ordered: 2
         subtotal_excl_tax: $222.22
         subtotal_incl_tax: $240.55
-        tax_amount: $18.34
+        tax_amount: $18.33
         tax_percent: 8.25%
         discount_amount: $0.00
-        row_total: $240.56
+        row_total: $240.55
     product_2:
         product: %noValue%
+        item_status: Ordered
         original_price: $100.00
         price_excl_tax: $100.00
         price_incl_tax: $108.25
@@ -1181,6 +1188,7 @@ total_cat_ex_ship_ex_backend_product_prices_after_order:
         row_total: $324.75
     product_3:
         product: %noValue%
+        item_status: Ordered
         original_price: $15.51
         price_excl_tax: $15.51
         price_incl_tax: $16.79
@@ -1213,9 +1221,9 @@ total_cat_ex_ship_ex_backend_product_prices_before_invoice:
         qty_ordered: 2
         subtotal_excl_tax: $222.22
         subtotal_incl_tax: $240.55
-        tax_amount: $18.34
+        tax_amount: $18.33
         discount_amount: $0.00
-        row_total: $240.56
+        row_total: $240.55
     product_2:
         product: %noValue%
         price_excl_tax: $100.00
@@ -1258,10 +1266,10 @@ total_cat_ex_ship_ex_backend_product_prices_after_invoice:
         qty_invoiced: 2
         subtotal_excl_tax: $222.22
         subtotal_incl_tax: $240.55
-        tax_amount: $18.34
+        tax_amount: $18.33
         tax_percent: 8.25%
         discount_amount: $0.00
-        row_total: $240.56
+        row_total: $240.55
     product_2:
         product: %noValue%
         item_status: Invoiced
@@ -1312,9 +1320,9 @@ total_cat_ex_ship_ex_backend_product_prices_after_invoice_on_invoice:
         qty: 2
         subtotal_excl_tax: $222.22
         subtotal_incl_tax: $240.55
-        tax_amount: $18.34
+        tax_amount: $18.33
         discount_amount: $0.00
-        row_total: $240.56
+        row_total: $240.55
     product_2:
         product: %noValue%
         price_excl_tax: $100.00
@@ -1358,10 +1366,10 @@ total_cat_ex_ship_ex_backend_product_prices_after_shipment:
         qty_shipped: 2
         subtotal_excl_tax: $222.22
         subtotal_incl_tax: $240.55
-        tax_amount: $18.34
+        tax_amount: $18.33
         tax_percent: 8.25%
         discount_amount: $0.00
-        row_total: $240.56
+        row_total: $240.55
     product_2:
         product: %noValue%
         item_status: Shipped
@@ -1416,9 +1424,9 @@ total_cat_ex_ship_ex_backend_product_prices_before_refund:
         qty_shipped: 2
         subtotal_excl_tax: $222.22
         subtotal_incl_tax: $240.55
-        tax_amount: $18.34
+        tax_amount: $18.33
         discount_amount: $0.00
-        row_total: $240.56
+        row_total: $240.55
     product_2:
         product: %noValue%
         price_excl_tax: $100.00
@@ -1465,10 +1473,10 @@ total_cat_ex_ship_ex_backend_product_prices_after_refund:
         qty_refunded: 2
         subtotal_excl_tax: $222.22
         subtotal_incl_tax: $240.55
-        tax_amount: $18.34
+        tax_amount: $18.33
         tax_percent: 8.25%
         discount_amount: $0.00
-        row_total: $240.56
+        row_total: $240.55
     product_2:
         product: %noValue%
         item_status: Refunded
@@ -1523,9 +1531,9 @@ total_cat_ex_ship_ex_backend_product_prices_after_refund_on_refund:
         qty: 2
         subtotal_excl_tax: $222.22
         subtotal_incl_tax: $240.55
-        tax_amount: $18.34
+        tax_amount: $18.33
         discount_amount: $0.00
-        row_total: $240.56
+        row_total: $240.55
     product_2:
         product: %noValue%
         price_excl_tax: $100.00
@@ -1597,9 +1605,9 @@ unit_cat_ex_ship_in_backend_product_prices_before_order: &unitCatExShipInBackend
 
 unit_cat_ex_ship_in_backend_products_total_before_order: &unitCatExShipInBackendProductsTotalBeforeOrderCreation
     product: Total 3 product(s)
-    subtotal: $649.25
+    subtotal: $649.26
     discount: $0.00
-    row_subtotal: $649.25
+    row_subtotal: $649.26
 
 unit_cat_ex_ship_in_backend_total_before_order: &unitCatExShipInBackendTotalBeforeOrderCreation
     subtotal_excl_tax: $599.77
@@ -1645,6 +1653,7 @@ unit_cat_ex_ship_in_backend_create_order:
 unit_cat_ex_ship_in_backend_product_prices_after_order:
     product_1:
         product: %noValue%
+        item_status: Ordered
         original_price: $111.11
         price_excl_tax: $111.11
         price_incl_tax: $120.28
@@ -1654,9 +1663,10 @@ unit_cat_ex_ship_in_backend_product_prices_after_order:
         tax_amount: $18.34
         tax_percent: 8.25%
         discount_amount: $0.00
-        row_total: $240.55
+        row_total: $240.56
     product_2:
         product: %noValue%
+        item_status: Ordered
         original_price: $100.00
         price_excl_tax: $100.00
         price_incl_tax: $108.25
@@ -1669,6 +1679,7 @@ unit_cat_ex_ship_in_backend_product_prices_after_order:
         row_total: $324.75
     product_3:
         product: %noValue%
+        item_status: Ordered
         original_price: $15.51
         price_excl_tax: $15.51
         price_incl_tax: $16.79
@@ -1690,7 +1701,7 @@ unit_cat_ex_ship_in_backend_total_after_order:
     grand_total_incl_tax: $659.26
     total_paid: $0.00
     total_refunded: $0.00
-    total_due: $657.60
+    total_due: $659.26
 
 #<---------------Test Data for Price review during invoice creation------------>
 unit_cat_ex_ship_in_backend_product_prices_before_invoice:
@@ -1703,7 +1714,7 @@ unit_cat_ex_ship_in_backend_product_prices_before_invoice:
         subtotal_incl_tax: $240.56
         tax_amount: $18.34
         discount_amount: $0.00
-        row_total: $240.55
+        row_total: $240.56
     product_2:
         product: %noValue%
         price_excl_tax: $100.00
@@ -1749,7 +1760,7 @@ unit_cat_ex_ship_in_backend_product_prices_after_invoice:
         tax_amount: $18.34
         tax_percent: 8.25%
         discount_amount: $0.00
-        row_total: $240.55
+        row_total: $240.56
     product_2:
         product: %noValue%
         item_status: Invoiced
@@ -1789,7 +1800,7 @@ unit_cat_ex_ship_in_backend_total_after_invoice:
     grand_total_incl_tax: $659.26
     total_due: $0.00
     total_refunded: $0.00
-    total_paid: $657.60
+    total_paid: $659.26
 
 #<-------Test Data for Price review after invoice creation on invoice page----->
 unit_cat_ex_ship_in_backend_product_prices_after_invoice_on_invoice:
@@ -1802,7 +1813,7 @@ unit_cat_ex_ship_in_backend_product_prices_after_invoice_on_invoice:
         subtotal_incl_tax: $240.56
         tax_amount: $18.34
         discount_amount: $0.00
-        row_total: $240.55
+        row_total: $240.56
     product_2:
         product: %noValue%
         price_excl_tax: $100.00
@@ -1849,7 +1860,7 @@ unit_cat_ex_ship_in_backend_product_prices_after_shipment:
         tax_amount: $18.34
         tax_percent: 8.25%
         discount_amount: $0.00
-        row_total: $240.55
+        row_total: $240.56
     product_2:
         product: %noValue%
         item_status: Shipped
@@ -1891,7 +1902,7 @@ unit_cat_ex_ship_in_backend_total_after_shipment:
     grand_total_incl_tax: $659.26
     total_due: $0.00
     total_refunded: $0.00
-    total_paid: $657.60
+    total_paid: $659.26
 
 #<-------Test Data for Price review before refund creation on refund page------>
 unit_cat_ex_ship_in_backend_product_prices_before_refund:
@@ -1906,7 +1917,7 @@ unit_cat_ex_ship_in_backend_product_prices_before_refund:
         subtotal_incl_tax: $240.56
         tax_amount: $18.34
         discount_amount: $0.00
-        row_total: $240.55
+        row_total: $240.56
     product_2:
         product: %noValue%
         price_excl_tax: $100.00
@@ -1956,7 +1967,7 @@ unit_cat_ex_ship_in_backend_product_prices_after_refund:
         tax_amount: $18.34
         tax_percent: 8.25%
         discount_amount: $0.00
-        row_total: $240.55
+        row_total: $240.56
     product_2:
         product: %noValue%
         item_status: Refunded
@@ -1999,8 +2010,8 @@ unit_cat_ex_ship_in_backend_total_after_refund:
     tax: $50.25
     grand_total_incl_tax: $659.26
     total_due: $0.00
-    total_refunded: $657.60
-    total_paid: $657.60
+    total_refunded: $659.26
+    total_paid: $659.26
 
 #<-------Test Data for Price review after refund creation on refund page------->
 unit_cat_ex_ship_in_backend_product_prices_after_refund_on_refund:
@@ -2013,7 +2024,7 @@ unit_cat_ex_ship_in_backend_product_prices_after_refund_on_refund:
         subtotal_incl_tax: $240.56
         tax_amount: $18.34
         discount_amount: $0.00
-        row_total: $240.55
+        row_total: $240.56
     product_2:
         product: %noValue%
         price_excl_tax: $100.00
@@ -2060,8 +2071,8 @@ row_cat_ex_ship_in_backend_product_prices_before_order: &rowCatExShipInBackendPr
         subtotal_excl_tax: $222.22
         subtotal_incl_tax: $240.55
         discount: $0.00
-        row_subtotal_excl_tax: $222.22
-        row_subtotal_incl_tax: $240.55
+        row_subtotal_excl_tax: $222.23
+        row_subtotal_incl_tax: $240.56
     product_2:
         product: %noValue%
         price_excl_tax: $100.00
@@ -2133,18 +2144,20 @@ row_cat_ex_ship_in_backend_create_order:
 row_cat_ex_ship_in_backend_product_prices_after_order:
     product_1:
         product: %noValue%
+        item_status: Ordered
         original_price: $111.11
         price_excl_tax: $111.11
         price_incl_tax: $120.28
         qty_ordered: 2
         subtotal_excl_tax: $222.22
         subtotal_incl_tax: $240.55
-        tax_amount: $18.34
+        tax_amount: $18.33
         tax_percent: 8.25%
         discount_amount: $0.00
-        row_total: $240.56
+        row_total: $240.55
     product_2:
         product: %noValue%
+        item_status: Ordered
         original_price: $100.00
         price_excl_tax: $100.00
         price_incl_tax: $108.25
@@ -2157,6 +2170,7 @@ row_cat_ex_ship_in_backend_product_prices_after_order:
         row_total: $324.75
     product_3:
         product: %noValue%
+        item_status: Ordered
         original_price: $15.51
         price_excl_tax: $15.51
         price_incl_tax: $16.79
@@ -2189,9 +2203,9 @@ row_cat_ex_ship_in_backend_product_prices_before_invoice:
         qty_ordered: 2
         subtotal_excl_tax: $222.22
         subtotal_incl_tax: $240.55
-        tax_amount: $18.34
+        tax_amount: $18.33
         discount_amount: $0.00
-        row_total: $240.56
+        row_total: $240.55
     product_2:
         product: %noValue%
         price_excl_tax: $100.00
@@ -2234,10 +2248,10 @@ row_cat_ex_ship_in_backend_product_prices_after_invoice:
         qty_invoiced: 2
         subtotal_excl_tax: $222.22
         subtotal_incl_tax: $240.55
-        tax_amount: $18.34
+        tax_amount: $18.33
         tax_percent: 8.25%
         discount_amount: $0.00
-        row_total: $240.56
+        row_total: $240.55
     product_2:
         product: %noValue%
         item_status: Invoiced
@@ -2288,9 +2302,9 @@ row_cat_ex_ship_in_backend_product_prices_after_invoice_on_invoice:
         qty: 2
         subtotal_excl_tax: $222.22
         subtotal_incl_tax: $240.55
-        tax_amount: $18.34
+        tax_amount: $18.33
         discount_amount: $0.00
-        row_total: $240.56
+        row_total: $240.55
     product_2:
         product: %noValue%
         price_excl_tax: $100.00
@@ -2334,10 +2348,10 @@ row_cat_ex_ship_in_backend_product_prices_after_shipment:
         qty_shipped: 2
         subtotal_excl_tax: $222.22
         subtotal_incl_tax: $240.55
-        tax_amount: $18.34
+        tax_amount: $18.33
         tax_percent: 8.25%
         discount_amount: $0.00
-        row_total: $240.56
+        row_total: $240.55
     product_2:
         product: %noValue%
         item_status: Shipped
@@ -2392,9 +2406,9 @@ row_cat_ex_ship_in_backend_product_prices_before_refund:
         qty_shipped: 2
         subtotal_excl_tax: $222.22
         subtotal_incl_tax: $240.55
-        tax_amount: $18.34
+        tax_amount: $18.33
         discount_amount: $0.00
-        row_total: $240.56
+        row_total: $240.55
     product_2:
         product: %noValue%
         price_excl_tax: $100.00
@@ -2441,10 +2455,10 @@ row_cat_ex_ship_in_backend_product_prices_after_refund:
         qty_refunded: 2
         subtotal_excl_tax: $222.22
         subtotal_incl_tax: $240.55
-        tax_amount: $18.34
+        tax_amount: $18.33
         tax_percent: 8.25%
         discount_amount: $0.00
-        row_total: $240.56
+        row_total: $240.55
     product_2:
         product: %noValue%
         item_status: Refunded
@@ -2499,9 +2513,9 @@ row_cat_ex_ship_in_backend_product_prices_after_refund_on_refund:
         qty: 2
         subtotal_excl_tax: $222.22
         subtotal_incl_tax: $240.55
-        tax_amount: $18.34
+        tax_amount: $18.33
         discount_amount: $0.00
-        row_total: $240.56
+        row_total: $240.55
     product_2:
         product: %noValue%
         price_excl_tax: $100.00
@@ -2548,8 +2562,8 @@ total_cat_ex_ship_in_backend_product_prices_before_order: &totalCatExShipInBacke
         subtotal_excl_tax: $222.22
         subtotal_incl_tax: $240.55
         discount: $0.00
-        row_subtotal_excl_tax: $222.22
-        row_subtotal_incl_tax: $240.55
+        row_subtotal_excl_tax: $222.23
+        row_subtotal_incl_tax: $240.56
     product_2:
         product: %noValue%
         price_excl_tax: $100.00
@@ -2621,18 +2635,20 @@ total_cat_ex_ship_in_backend_create_order:
 total_cat_ex_ship_in_backend_product_prices_after_order:
     product_1:
         product: %noValue%
+        item_status: Ordered
         original_price: $111.11
         price_excl_tax: $111.11
         price_incl_tax: $120.28
         qty_ordered: 2
         subtotal_excl_tax: $222.22
         subtotal_incl_tax: $240.55
-        tax_amount: $18.34
+        tax_amount: $18.33
         tax_percent: 8.25%
         discount_amount: $0.00
-        row_total: $240.56
+        row_total: $240.55
     product_2:
         product: %noValue%
+        item_status: Ordered
         original_price: $100.00
         price_excl_tax: $100.00
         price_incl_tax: $108.25
@@ -2645,6 +2661,7 @@ total_cat_ex_ship_in_backend_product_prices_after_order:
         row_total: $324.75
     product_3:
         product: %noValue%
+        item_status: Ordered
         original_price: $15.51
         price_excl_tax: $15.51
         price_incl_tax: $16.79
@@ -2677,9 +2694,9 @@ total_cat_ex_ship_in_backend_product_prices_before_invoice:
         qty_ordered: 2
         subtotal_excl_tax: $222.22
         subtotal_incl_tax: $240.55
-        tax_amount: $18.34
+        tax_amount: $18.33
         discount_amount: $0.00
-        row_total: $240.56
+        row_total: $240.55
     product_2:
         product: %noValue%
         price_excl_tax: $100.00
@@ -2722,10 +2739,10 @@ total_cat_ex_ship_in_backend_product_prices_after_invoice:
         qty_invoiced: 2
         subtotal_excl_tax: $222.22
         subtotal_incl_tax: $240.55
-        tax_amount: $18.34
+        tax_amount: $18.33
         tax_percent: 8.25%
         discount_amount: $0.00
-        row_total: $240.56
+        row_total: $240.55
     product_2:
         product: %noValue%
         item_status: Invoiced
@@ -2776,9 +2793,9 @@ total_cat_ex_ship_in_backend_product_prices_after_invoice_on_invoice:
         qty: 2
         subtotal_excl_tax: $222.22
         subtotal_incl_tax: $240.55
-        tax_amount: $18.34
+        tax_amount: $18.33
         discount_amount: $0.00
-        row_total: $240.56
+        row_total: $240.55
     product_2:
         product: %noValue%
         price_excl_tax: $100.00
@@ -2822,10 +2839,10 @@ total_cat_ex_ship_in_backend_product_prices_after_shipment:
         qty_shipped: 2
         subtotal_excl_tax: $222.22
         subtotal_incl_tax: $240.55
-        tax_amount: $18.34
+        tax_amount: $18.33
         tax_percent: 8.25%
         discount_amount: $0.00
-        row_total: $240.56
+        row_total: $240.55
     product_2:
         product: %noValue%
         item_status: Shipped
@@ -2880,9 +2897,9 @@ total_cat_ex_ship_in_backend_product_prices_before_refund:
         qty_shipped: 2
         subtotal_excl_tax: $222.22
         subtotal_incl_tax: $240.55
-        tax_amount: $18.34
+        tax_amount: $18.33
         discount_amount: $0.00
-        row_total: $240.56
+        row_total: $240.55
     product_2:
         product: %noValue%
         price_excl_tax: $100.00
@@ -2929,10 +2946,10 @@ total_cat_ex_ship_in_backend_product_prices_after_refund:
         qty_refunded: 2
         subtotal_excl_tax: $222.22
         subtotal_incl_tax: $240.55
-        tax_amount: $18.34
+        tax_amount: $18.33
         tax_percent: 8.25%
         discount_amount: $0.00
-        row_total: $240.56
+        row_total: $240.55
     product_2:
         product: %noValue%
         item_status: Refunded
@@ -2987,9 +3004,9 @@ total_cat_ex_ship_in_backend_product_prices_after_refund_on_refund:
         qty: 2
         subtotal_excl_tax: $222.22
         subtotal_incl_tax: $240.55
-        tax_amount: $18.34
+        tax_amount: $18.33
         discount_amount: $0.00
-        row_total: $240.56
+        row_total: $240.55
     product_2:
         product: %noValue%
         price_excl_tax: $100.00
@@ -3109,6 +3126,7 @@ unit_cat_in_ship_ex_backend_create_order:
 unit_cat_in_ship_ex_backend_product_prices_after_order:
     product_1:
         product: %noValue%
+        item_status: Ordered
         original_price: $111.11
         price_excl_tax: $102.64
         price_incl_tax: $111.11
@@ -3121,6 +3139,7 @@ unit_cat_in_ship_ex_backend_product_prices_after_order:
         row_total: $222.22
     product_2:
         product: %noValue%
+        item_status: Ordered
         original_price: $100.00
         price_excl_tax: $92.38
         price_incl_tax: $100.00
@@ -3133,6 +3152,7 @@ unit_cat_in_ship_ex_backend_product_prices_after_order:
         row_total: $300.00
     product_3:
         product: %noValue%
+        item_status: Ordered
         original_price: $15.51
         price_excl_tax: $14.33
         price_incl_tax: $15.51
@@ -3597,6 +3617,7 @@ row_cat_in_ship_ex_backend_create_order:
 row_cat_in_ship_ex_backend_product_prices_after_order:
     product_1:
         product: %noValue%
+        item_status: Ordered
         original_price: $111.11
         price_excl_tax: $102.64
         price_incl_tax: $111.11
@@ -3609,6 +3630,7 @@ row_cat_in_ship_ex_backend_product_prices_after_order:
         row_total: $222.22
     product_2:
         product: %noValue%
+        item_status: Ordered
         original_price: $100.00
         price_excl_tax: $92.38
         price_incl_tax: $100.00
@@ -3621,13 +3643,14 @@ row_cat_in_ship_ex_backend_product_prices_after_order:
         row_total: $300.00
     product_3:
         product: %noValue%
+        item_status: Ordered
         original_price: $15.51
         price_excl_tax: $14.33
         price_incl_tax: $15.51
         qty_ordered: 5
         subtotal_excl_tax: $71.64
         subtotal_incl_tax: $77.55
-        tax_amount: $5.90
+        tax_amount: $5.91
         tax_percent: 8.25%
         discount_amount: $0.00
         row_total: $77.55
@@ -3673,7 +3696,7 @@ row_cat_in_ship_ex_backend_product_prices_before_invoice:
         qty_ordered: 5
         subtotal_excl_tax: $71.64
         subtotal_incl_tax: $77.55
-        tax_amount: $5.90
+        tax_amount: $5.91
         discount_amount: $0.00
         row_total: $77.55
 
@@ -3726,7 +3749,7 @@ row_cat_in_ship_ex_backend_product_prices_after_invoice:
         qty_invoiced: 5
         subtotal_excl_tax: $71.64
         subtotal_incl_tax: $77.55
-        tax_amount: $5.90
+        tax_amount: $5.91
         tax_percent: 8.25%
         discount_amount: $0.00
         row_total: $77.55
@@ -3772,7 +3795,7 @@ row_cat_in_ship_ex_backend_product_prices_after_invoice_on_invoice:
         qty: 5
         subtotal_excl_tax: $71.64
         subtotal_incl_tax: $77.55
-        tax_amount: $5.90
+        tax_amount: $5.91
         discount_amount: $0.00
         row_total: $77.55
 
@@ -3828,7 +3851,7 @@ row_cat_in_ship_ex_backend_product_prices_after_shipment:
         qty_shipped: 5
         subtotal_excl_tax: $71.64
         subtotal_incl_tax: $77.55
-        tax_amount: $5.90
+        tax_amount: $5.91
         tax_percent: 8.25%
         discount_amount: $0.00
         row_total: $77.55
@@ -3880,7 +3903,7 @@ row_cat_in_ship_ex_backend_product_prices_before_refund:
         qty_shipped: 5
         subtotal_excl_tax: $71.64
         subtotal_incl_tax: $77.55
-        tax_amount: $5.90
+        tax_amount: $5.91
         discount_amount: $0.00
         row_total: $77.55
 
@@ -3937,7 +3960,7 @@ row_cat_in_ship_ex_backend_product_prices_after_refund:
         qty_refunded: 5
         subtotal_excl_tax: $71.64
         subtotal_incl_tax: $77.55
-        tax_amount: $5.90
+        tax_amount: $5.91
         tax_percent: 8.25%
         discount_amount: $0.00
         row_total: $77.55
@@ -3983,7 +4006,7 @@ row_cat_in_ship_ex_backend_product_prices_after_refund_on_refund:
         qty: 5
         subtotal_excl_tax: $71.64
         subtotal_incl_tax: $77.55
-        tax_amount: $5.90
+        tax_amount: $5.91
         discount_amount: $0.00
         row_total: $77.55
 
@@ -4085,6 +4108,7 @@ total_cat_in_ship_ex_backend_create_order:
 total_cat_in_ship_ex_backend_product_prices_after_order:
     product_1:
         product: %noValue%
+        item_status: Ordered
         original_price: $111.11
         price_excl_tax: $102.64
         price_incl_tax: $111.11
@@ -4097,6 +4121,7 @@ total_cat_in_ship_ex_backend_product_prices_after_order:
         row_total: $222.22
     product_2:
         product: %noValue%
+        item_status: Ordered
         original_price: $100.00
         price_excl_tax: $92.38
         price_incl_tax: $100.00
@@ -4109,6 +4134,7 @@ total_cat_in_ship_ex_backend_product_prices_after_order:
         row_total: $300.00
     product_3:
         product: %noValue%
+        item_status: Ordered
         original_price: $15.51
         price_excl_tax: $14.33
         price_incl_tax: $15.51
@@ -4573,6 +4599,7 @@ unit_cat_in_ship_in_backend_create_order:
 unit_cat_in_ship_in_backend_product_prices_after_order:
     product_1:
         product: %noValue%
+        item_status: Ordered
         original_price: $111.11
         price_excl_tax: $102.64
         price_incl_tax: $111.11
@@ -4585,6 +4612,7 @@ unit_cat_in_ship_in_backend_product_prices_after_order:
         row_total: $222.22
     product_2:
         product: %noValue%
+        item_status: Ordered
         original_price: $100.00
         price_excl_tax: $92.38
         price_incl_tax: $100.00
@@ -4597,6 +4625,7 @@ unit_cat_in_ship_in_backend_product_prices_after_order:
         row_total: $300.00
     product_3:
         product: %noValue%
+        item_status: Ordered
         original_price: $15.51
         price_excl_tax: $14.33
         price_incl_tax: $15.51
@@ -5061,6 +5090,7 @@ row_cat_in_ship_in_backend_create_order:
 row_cat_in_ship_in_backend_product_prices_after_order:
     product_1:
         product: %noValue%
+        item_status: Ordered
         original_price: $111.11
         price_excl_tax: $102.64
         price_incl_tax: $111.11
@@ -5073,6 +5103,7 @@ row_cat_in_ship_in_backend_product_prices_after_order:
         row_total: $222.22
     product_2:
         product: %noValue%
+        item_status: Ordered
         original_price: $100.00
         price_excl_tax: $92.38
         price_incl_tax: $100.00
@@ -5085,13 +5116,14 @@ row_cat_in_ship_in_backend_product_prices_after_order:
         row_total: $300.00
     product_3:
         product: %noValue%
+        item_status: Ordered
         original_price: $15.51
         price_excl_tax: $14.33
         price_incl_tax: $15.51
         qty_ordered: 5
         subtotal_excl_tax: $71.64
         subtotal_incl_tax: $77.55
-        tax_amount: $5.90
+        tax_amount: $5.91
         tax_percent: 8.25%
         discount_amount: $0.00
         row_total: $77.55
@@ -5137,7 +5169,7 @@ row_cat_in_ship_in_backend_product_prices_before_invoice:
         qty_ordered: 5
         subtotal_excl_tax: $71.64
         subtotal_incl_tax: $77.55
-        tax_amount: $5.90
+        tax_amount: $5.91
         discount_amount: $0.00
         row_total: $77.55
 
@@ -5190,7 +5222,7 @@ row_cat_in_ship_in_backend_product_prices_after_invoice:
         qty_invoiced: 5
         subtotal_excl_tax: $71.64
         subtotal_incl_tax: $77.55
-        tax_amount: $5.90
+        tax_amount: $5.91
         tax_percent: 8.25%
         discount_amount: $0.00
         row_total: $77.55
@@ -5236,7 +5268,7 @@ row_cat_in_ship_in_backend_product_prices_after_invoice_on_invoice:
         qty: 5
         subtotal_excl_tax: $71.64
         subtotal_incl_tax: $77.55
-        tax_amount: $5.90
+        tax_amount: $5.91
         discount_amount: $0.00
         row_total: $77.55
 
@@ -5292,7 +5324,7 @@ row_cat_in_ship_in_backend_product_prices_after_shipment:
         qty_shipped: 5
         subtotal_excl_tax: $71.64
         subtotal_incl_tax: $77.55
-        tax_amount: $5.90
+        tax_amount: $5.91
         tax_percent: 8.25%
         discount_amount: $0.00
         row_total: $77.55
@@ -5344,7 +5376,7 @@ row_cat_in_ship_in_backend_product_prices_before_refund:
         qty_shipped: 5
         subtotal_excl_tax: $71.64
         subtotal_incl_tax: $77.55
-        tax_amount: $5.90
+        tax_amount: $5.91
         discount_amount: $0.00
         row_total: $77.55
 
@@ -5401,7 +5433,7 @@ row_cat_in_ship_in_backend_product_prices_after_refund:
         qty_refunded: 5
         subtotal_excl_tax: $71.64
         subtotal_incl_tax: $77.55
-        tax_amount: $5.90
+        tax_amount: $5.91
         tax_percent: 8.25%
         discount_amount: $0.00
         row_total: $77.55
@@ -5447,7 +5479,7 @@ row_cat_in_ship_in_backend_product_prices_after_refund_on_refund:
         qty: 5
         subtotal_excl_tax: $71.64
         subtotal_incl_tax: $77.55
-        tax_amount: $5.90
+        tax_amount: $5.91
         discount_amount: $0.00
         row_total: $77.55
 
@@ -5549,6 +5581,7 @@ total_cat_in_ship_in_backend_create_order:
 total_cat_in_ship_in_backend_product_prices_after_order:
     product_1:
         product: %noValue%
+        item_status: Ordered
         original_price: $111.11
         price_excl_tax: $102.64
         price_incl_tax: $111.11
@@ -5561,6 +5594,7 @@ total_cat_in_ship_in_backend_product_prices_after_order:
         row_total: $222.22
     product_2:
         product: %noValue%
+        item_status: Ordered
         original_price: $100.00
         price_excl_tax: $92.38
         price_incl_tax: $100.00
@@ -5573,6 +5607,7 @@ total_cat_in_ship_in_backend_product_prices_after_order:
         row_total: $300.00
     product_3:
         product: %noValue%
+        item_status: Ordered
         original_price: $15.51
         price_excl_tax: $14.33
         price_incl_tax: $15.51
@@ -5950,7 +5985,6 @@ total_cat_in_ship_in_backend_total_after_refund_on_refund:
     tax: $46.47
     grand_total_incl_tax: $609.77
 
-
 ################################################################################
 #                                                                              #
 #                         Preconditions - Frontend                             #
@@ -6025,6 +6059,7 @@ billing_data_for_price_review: &billingAddress
     billing_country: United States
     billing_state: California
     billing_zip_code: 90232
+    ship_to_this_address: Yes
 
 #######################################################################################
 #                                                                                     #
@@ -6035,22 +6070,22 @@ unit_cat_ex_ship_ex_front_prices_in_category_simple_1:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_excluding_tax: $111.11
-        price_including_tax: $120.28
+        general_price_excl_tax: $111.11
+        general_price_incl_tax: $120.28
 
 unit_cat_ex_ship_ex_front_prices_in_category_simple_2:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_excluding_tax: $100.00
-        price_including_tax: $108.25
+        general_price_excl_tax: $100.00
+        general_price_incl_tax: $108.25
 
 unit_cat_ex_ship_ex_front_prices_in_category_simple_3:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_excluding_tax: $15.51
-        price_including_tax: $16.79
+        general_price_excl_tax: $15.51
+        general_price_incl_tax: $16.79
 
 unit_cat_ex_ship_ex_front_prices_in_cart_simple: &unit_cat_ex_ship_ex_products
     product_1:
@@ -6076,24 +6111,22 @@ unit_cat_ex_ship_ex_front_prices_in_cart_simple: &unit_cat_ex_ship_ex_products
         subtotal_incl_tax: $83.95
 
 unit_cat_ex_ship_ex_front_prices_in_product_simple_1:
-    qty: 2
-    price_excluding_tax: $111.11
-    price_including_tax: $120.28
+    qty: '2'
+    general_price_excl_tax: $111.11
+    general_price_incl_tax: $120.28
 
 unit_cat_ex_ship_ex_front_prices_in_product_simple_2:
-    qty: 3
-    price_excluding_tax: $100.00
-    price_including_tax: $108.25
-
+    qty: '3'
+    general_price_excl_tax: $100.00
+    general_price_incl_tax: $108.25
 
 unit_cat_ex_ship_ex_front_prices_in_product_simple_3:
-    qty: 5
-    price_excluding_tax: $15.51
-    price_including_tax: $16.79
+    qty: '5'
+    general_price_excl_tax: $15.51
+    general_price_incl_tax: $16.79
 
 unit_cat_ex_ship_ex_front_prices_checkout_data:
     billing_address_data: *billingAddress
-    ship_to_this_address: Yes
     shipping_data:
         shipping_service: Flat Rate
         shipping_method: Fixed
@@ -6174,22 +6207,22 @@ row_cat_ex_ship_ex_front_prices_in_category_simple_1:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_excluding_tax: $111.11
-        price_including_tax: $120.28
+        general_price_excl_tax: $111.11
+        general_price_incl_tax: $120.28
 
 row_cat_ex_ship_ex_front_prices_in_category_simple_2:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_excluding_tax: $100.00
-        price_including_tax: $108.25
+        general_price_excl_tax: $100.00
+        general_price_incl_tax: $108.25
 
 row_cat_ex_ship_ex_front_prices_in_category_simple_3:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_excluding_tax: $15.51
-        price_including_tax: $16.79
+        general_price_excl_tax: $15.51
+        general_price_incl_tax: $16.79
 
 row_cat_ex_ship_ex_front_prices_in_cart_simple:
     product_1:
@@ -6215,24 +6248,22 @@ row_cat_ex_ship_ex_front_prices_in_cart_simple:
         subtotal_incl_tax: $83.95
 
 row_cat_ex_ship_ex_front_prices_in_product_simple_1:
-    qty: 2
-    price_excluding_tax: $111.11
-    price_including_tax: $120.28
+    qty: '2'
+    general_price_excl_tax: $111.11
+    general_price_incl_tax: $120.28
 
 row_cat_ex_ship_ex_front_prices_in_product_simple_2:
-    qty: 3
-    price_excluding_tax: $100.00
-    price_including_tax: $108.25
-
+    qty: '3'
+    general_price_excl_tax: $100.00
+    general_price_incl_tax: $108.25
 
 row_cat_ex_ship_ex_front_prices_in_product_simple_3:
-    qty: 5
-    price_excluding_tax: $15.51
-    price_including_tax: $16.79
+    qty: '5'
+    general_price_excl_tax: $15.51
+    general_price_incl_tax: $16.79
 
 row_cat_ex_ship_ex_front_prices_checkout_data:
     billing_address_data: *billingAddress
-    ship_to_this_address: Yes
     shipping_data:
         shipping_service: Flat Rate
         shipping_method: Fixed
@@ -6313,22 +6344,22 @@ total_cat_ex_ship_ex_front_prices_in_category_simple_1:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_excluding_tax: $111.11
-        price_including_tax: $120.28
+        general_price_excl_tax: $111.11
+        general_price_incl_tax: $120.28
 
 total_cat_ex_ship_ex_front_prices_in_category_simple_2:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_excluding_tax: $100.00
-        price_including_tax: $108.25
+        general_price_excl_tax: $100.00
+        general_price_incl_tax: $108.25
 
 total_cat_ex_ship_ex_front_prices_in_category_simple_3:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_excluding_tax: $15.51
-        price_including_tax: $16.79
+        general_price_excl_tax: $15.51
+        general_price_incl_tax: $16.79
 
 total_cat_ex_ship_ex_front_prices_in_cart_simple:
     product_1:
@@ -6354,24 +6385,22 @@ total_cat_ex_ship_ex_front_prices_in_cart_simple:
         subtotal_incl_tax: $83.95
 
 total_cat_ex_ship_ex_front_prices_in_product_simple_1:
-    qty: 2
-    price_excluding_tax: $111.11
-    price_including_tax: $120.28
+    qty: '2'
+    general_price_excl_tax: $111.11
+    general_price_incl_tax: $120.28
 
 total_cat_ex_ship_ex_front_prices_in_product_simple_2:
-    qty: 3
-    price_excluding_tax: $100.00
-    price_including_tax: $108.25
-
+    qty: '3'
+    general_price_excl_tax: $100.00
+    general_price_incl_tax: $108.25
 
 total_cat_ex_ship_ex_front_prices_in_product_simple_3:
-    qty: 5
-    price_excluding_tax: $15.51
-    price_including_tax: $16.79
+    qty: '5'
+    general_price_excl_tax: $15.51
+    general_price_incl_tax: $16.79
 
 total_cat_ex_ship_ex_front_prices_checkout_data:
     billing_address_data: *billingAddress
-    ship_to_this_address: Yes
     shipping_data:
         shipping_service: Flat Rate
         shipping_method: Fixed
@@ -6452,22 +6481,22 @@ unit_cat_ex_ship_in_front_prices_in_category_simple_1:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_excluding_tax: $111.11
-        price_including_tax: $120.28
+        general_price_excl_tax: $111.11
+        general_price_incl_tax: $120.28
 
 unit_cat_ex_ship_in_front_prices_in_category_simple_2:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_excluding_tax: $100.00
-        price_including_tax: $108.25
+        general_price_excl_tax: $100.00
+        general_price_incl_tax: $108.25
 
 unit_cat_ex_ship_in_front_prices_in_category_simple_3:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_excluding_tax: $15.51
-        price_including_tax: $16.79
+        general_price_excl_tax: $15.51
+        general_price_incl_tax: $16.79
 
 unit_cat_ex_ship_in_front_prices_in_cart_simple:
     product_1:
@@ -6493,24 +6522,22 @@ unit_cat_ex_ship_in_front_prices_in_cart_simple:
         subtotal_incl_tax: $83.95
 
 unit_cat_ex_ship_in_front_prices_in_product_simple_1:
-    qty: 2
-    price_excluding_tax: $111.11
-    price_including_tax: $120.28
+    qty: '2'
+    general_price_excl_tax: $111.11
+    general_price_incl_tax: $120.28
 
 unit_cat_ex_ship_in_front_prices_in_product_simple_2:
-    qty: 3
-    price_excluding_tax: $100.00
-    price_including_tax: $108.25
-
+    qty: '3'
+    general_price_excl_tax: $100.00
+    general_price_incl_tax: $108.25
 
 unit_cat_ex_ship_in_front_prices_in_product_simple_3:
-    qty: 5
-    price_excluding_tax: $15.51
-    price_including_tax: $16.79
+    qty: '5'
+    general_price_excl_tax: $15.51
+    general_price_incl_tax: $16.79
 
 unit_cat_ex_ship_in_front_prices_checkout_data:
     billing_address_data: *billingAddress
-    ship_to_this_address: Yes
     shipping_data:
         shipping_service: Flat Rate
         shipping_method: Fixed
@@ -6591,22 +6618,22 @@ row_cat_ex_ship_in_front_prices_in_category_simple_1:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_excluding_tax: $111.11
-        price_including_tax: $120.28
+        general_price_excl_tax: $111.11
+        general_price_incl_tax: $120.28
 
 row_cat_ex_ship_in_front_prices_in_category_simple_2:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_excluding_tax: $100.00
-        price_including_tax: $108.25
+        general_price_excl_tax: $100.00
+        general_price_incl_tax: $108.25
 
 row_cat_ex_ship_in_front_prices_in_category_simple_3:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_excluding_tax: $15.51
-        price_including_tax: $16.79
+        general_price_excl_tax: $15.51
+        general_price_incl_tax: $16.79
 
 row_cat_ex_ship_in_front_prices_in_cart_simple:
     product_1:
@@ -6632,24 +6659,22 @@ row_cat_ex_ship_in_front_prices_in_cart_simple:
         subtotal_incl_tax: $83.95
 
 row_cat_ex_ship_in_front_prices_in_product_simple_1:
-    qty: 2
-    price_excluding_tax: $111.11
-    price_including_tax: $120.28
+    qty: '2'
+    general_price_excl_tax: $111.11
+    general_price_incl_tax: $120.28
 
 row_cat_ex_ship_in_front_prices_in_product_simple_2:
-    qty: 3
-    price_excluding_tax: $100.00
-    price_including_tax: $108.25
-
+    qty: '3'
+    general_price_excl_tax: $100.00
+    general_price_incl_tax: $108.25
 
 row_cat_ex_ship_in_front_prices_in_product_simple_3:
-    qty: 5
-    price_excluding_tax: $15.51
-    price_including_tax: $16.79
+    qty: '5'
+    general_price_excl_tax: $15.51
+    general_price_incl_tax: $16.79
 
 row_cat_ex_ship_in_front_prices_checkout_data:
     billing_address_data: *billingAddress
-    ship_to_this_address: Yes
     shipping_data:
         shipping_service: Flat Rate
         shipping_method: Fixed
@@ -6730,22 +6755,22 @@ total_cat_ex_ship_in_front_prices_in_category_simple_1:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_excluding_tax: $111.11
-        price_including_tax: $120.28
+        general_price_excl_tax: $111.11
+        general_price_incl_tax: $120.28
 
 total_cat_ex_ship_in_front_prices_in_category_simple_2:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_excluding_tax: $100.00
-        price_including_tax: $108.25
+        general_price_excl_tax: $100.00
+        general_price_incl_tax: $108.25
 
 total_cat_ex_ship_in_front_prices_in_category_simple_3:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_excluding_tax: $15.51
-        price_including_tax: $16.79
+        general_price_excl_tax: $15.51
+        general_price_incl_tax: $16.79
 
 total_cat_ex_ship_in_front_prices_in_cart_simple:
     product_1:
@@ -6771,24 +6796,22 @@ total_cat_ex_ship_in_front_prices_in_cart_simple:
         subtotal_incl_tax: $83.95
 
 total_cat_ex_ship_in_front_prices_in_product_simple_1:
-    qty: 2
-    price_excluding_tax: $111.11
-    price_including_tax: $120.28
+    qty: '2'
+    general_price_excl_tax: $111.11
+    general_price_incl_tax: $120.28
 
 total_cat_ex_ship_in_front_prices_in_product_simple_2:
-    qty: 3
-    price_excluding_tax: $100.00
-    price_including_tax: $108.25
-
+    qty: '3'
+    general_price_excl_tax: $100.00
+    general_price_incl_tax: $108.25
 
 total_cat_ex_ship_in_front_prices_in_product_simple_3:
-    qty: 5
-    price_excluding_tax: $15.51
-    price_including_tax: $16.79
+    qty: '5'
+    general_price_excl_tax: $15.51
+    general_price_incl_tax: $16.79
 
 total_cat_ex_ship_in_front_prices_checkout_data:
     billing_address_data: *billingAddress
-    ship_to_this_address: Yes
     shipping_data:
         shipping_service: Flat Rate
         shipping_method: Fixed
@@ -6869,22 +6892,22 @@ unit_cat_in_ship_ex_front_prices_in_category_simple_1:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_excluding_tax: $102.64
-        price_including_tax: $111.11
+        general_price_excl_tax: $102.64
+        general_price_incl_tax: $111.11
 
 unit_cat_in_ship_ex_front_prices_in_category_simple_2:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_excluding_tax: $92.38
-        price_including_tax: $100.00
+        general_price_excl_tax: $92.38
+        general_price_incl_tax: $100.00
 
 unit_cat_in_ship_ex_front_prices_in_category_simple_3:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_excluding_tax: $14.33
-        price_including_tax: $15.51
+        general_price_excl_tax: $14.33
+        general_price_incl_tax: $15.51
 
 unit_cat_in_ship_ex_front_prices_in_cart_simple:
     product_1:
@@ -6910,24 +6933,22 @@ unit_cat_in_ship_ex_front_prices_in_cart_simple:
         subtotal_incl_tax: $77.55
 
 unit_cat_in_ship_ex_front_prices_in_product_simple_1:
-    qty: 2
-    price_excluding_tax: $102.64
-    price_including_tax: $111.11
+    qty: '2'
+    general_price_excl_tax: $102.64
+    general_price_incl_tax: $111.11
 
 unit_cat_in_ship_ex_front_prices_in_product_simple_2:
-    qty: 3
-    price_excluding_tax: $92.38
-    price_including_tax: $100.00
-
+    qty: '3'
+    general_price_excl_tax: $92.38
+    general_price_incl_tax: $100.00
 
 unit_cat_in_ship_ex_front_prices_in_product_simple_3:
-    qty: 5
-    price_excluding_tax: $14.33
-    price_including_tax: $15.51
+    qty: '5'
+    general_price_excl_tax: $14.33
+    general_price_incl_tax: $15.51
 
 unit_cat_in_ship_ex_front_prices_checkout_data:
     billing_address_data: *billingAddress
-    ship_to_this_address: Yes
     shipping_data:
         shipping_service: Flat Rate
         shipping_method: Fixed
@@ -7008,22 +7029,22 @@ row_cat_in_ship_ex_front_prices_in_category_simple_1:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_excluding_tax: $102.64
-        price_including_tax: $111.11
+        general_price_excl_tax: $102.64
+        general_price_incl_tax: $111.11
 
 row_cat_in_ship_ex_front_prices_in_category_simple_2:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_excluding_tax: $92.38
-        price_including_tax: $100.00
+        general_price_excl_tax: $92.38
+        general_price_incl_tax: $100.00
 
 row_cat_in_ship_ex_front_prices_in_category_simple_3:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_excluding_tax: $14.33
-        price_including_tax: $15.51
+        general_price_excl_tax: $14.33
+        general_price_incl_tax: $15.51
 
 row_cat_in_ship_ex_front_prices_in_cart_simple:
     product_1:
@@ -7049,24 +7070,22 @@ row_cat_in_ship_ex_front_prices_in_cart_simple:
         subtotal_incl_tax: $77.55
 
 row_cat_in_ship_ex_front_prices_in_product_simple_1:
-    qty: 2
-    price_excluding_tax: $102.64
-    price_including_tax: $111.11
+    qty: '2'
+    general_price_excl_tax: $102.64
+    general_price_incl_tax: $111.11
 
 row_cat_in_ship_ex_front_prices_in_product_simple_2:
-    qty: 3
-    price_excluding_tax: $92.38
-    price_including_tax: $100.00
-
+    qty: '3'
+    general_price_excl_tax: $92.38
+    general_price_incl_tax: $100.00
 
 row_cat_in_ship_ex_front_prices_in_product_simple_3:
-    qty: 5
-    price_excluding_tax: $14.33
-    price_including_tax: $15.51
+    qty: '5'
+    general_price_excl_tax: $14.33
+    general_price_incl_tax: $15.51
 
 row_cat_in_ship_ex_front_prices_checkout_data:
     billing_address_data: *billingAddress
-    ship_to_this_address: Yes
     shipping_data:
         shipping_service: Flat Rate
         shipping_method: Fixed
@@ -7147,22 +7166,22 @@ total_cat_in_ship_ex_front_prices_in_category_simple_1:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_excluding_tax: $102.64
-        price_including_tax: $111.11
+        general_price_excl_tax: $102.64
+        general_price_incl_tax: $111.11
 
 total_cat_in_ship_ex_front_prices_in_category_simple_2:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_excluding_tax: $92.38
-        price_including_tax: $100.00
+        general_price_excl_tax: $92.38
+        general_price_incl_tax: $100.00
 
 total_cat_in_ship_ex_front_prices_in_category_simple_3:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_excluding_tax: $14.33
-        price_including_tax: $15.51
+        general_price_excl_tax: $14.33
+        general_price_incl_tax: $15.51
 
 total_cat_in_ship_ex_front_prices_in_cart_simple:
     product_1:
@@ -7188,24 +7207,22 @@ total_cat_in_ship_ex_front_prices_in_cart_simple:
         subtotal_incl_tax: $77.55
 
 total_cat_in_ship_ex_front_prices_in_product_simple_1:
-    qty: 2
-    price_excluding_tax: $102.64
-    price_including_tax: $111.11
+    qty: '2'
+    general_price_excl_tax: $102.64
+    general_price_incl_tax: $111.11
 
 total_cat_in_ship_ex_front_prices_in_product_simple_2:
-    qty: 3
-    price_excluding_tax: $92.38
-    price_including_tax: $100.00
-
+    qty: '3'
+    general_price_excl_tax: $92.38
+    general_price_incl_tax: $100.00
 
 total_cat_in_ship_ex_front_prices_in_product_simple_3:
-    qty: 5
-    price_excluding_tax: $14.33
-    price_including_tax: $15.51
+    qty: '5'
+    general_price_excl_tax: $14.33
+    general_price_incl_tax: $15.51
 
 total_cat_in_ship_ex_front_prices_checkout_data:
     billing_address_data: *billingAddress
-    ship_to_this_address: Yes
     shipping_data:
         shipping_service: Flat Rate
         shipping_method: Fixed
@@ -7286,22 +7303,22 @@ unit_cat_in_ship_in_front_prices_in_category_simple_1:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_excluding_tax: $102.64
-        price_including_tax: $111.11
+        general_price_excl_tax: $102.64
+        general_price_incl_tax: $111.11
 
 unit_cat_in_ship_in_front_prices_in_category_simple_2:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_excluding_tax: $92.38
-        price_including_tax: $100.00
+        general_price_excl_tax: $92.38
+        general_price_incl_tax: $100.00
 
 unit_cat_in_ship_in_front_prices_in_category_simple_3:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_excluding_tax: $14.33
-        price_including_tax: $15.51
+        general_price_excl_tax: $14.33
+        general_price_incl_tax: $15.51
 
 unit_cat_in_ship_in_front_prices_in_cart_simple:
     product_1:
@@ -7327,24 +7344,22 @@ unit_cat_in_ship_in_front_prices_in_cart_simple:
         subtotal_incl_tax: $77.55
 
 unit_cat_in_ship_in_front_prices_in_product_simple_1:
-    qty: 2
-    price_excluding_tax: $102.64
-    price_including_tax: $111.11
+    qty: '2'
+    general_price_excl_tax: $102.64
+    general_price_incl_tax: $111.11
 
 unit_cat_in_ship_in_front_prices_in_product_simple_2:
-    qty: 3
-    price_excluding_tax: $92.38
-    price_including_tax: $100.00
-
+    qty: '3'
+    general_price_excl_tax: $92.38
+    general_price_incl_tax: $100.00
 
 unit_cat_in_ship_in_front_prices_in_product_simple_3:
-    qty: 5
-    price_excluding_tax: $14.33
-    price_including_tax: $15.51
+    qty: '5'
+    general_price_excl_tax: $14.33
+    general_price_incl_tax: $15.51
 
 unit_cat_in_ship_in_front_prices_checkout_data:
     billing_address_data: *billingAddress
-    ship_to_this_address: Yes
     shipping_data:
         shipping_service: Flat Rate
         shipping_method: Fixed
@@ -7425,22 +7440,22 @@ row_cat_in_ship_in_front_prices_in_category_simple_1:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_excluding_tax: $102.64
-        price_including_tax: $111.11
+        general_price_excl_tax: $102.64
+        general_price_incl_tax: $111.11
 
 row_cat_in_ship_in_front_prices_in_category_simple_2:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_excluding_tax: $92.38
-        price_including_tax: $100.00
+        general_price_excl_tax: $92.38
+        general_price_incl_tax: $100.00
 
 row_cat_in_ship_in_front_prices_in_category_simple_3:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_excluding_tax: $14.33
-        price_including_tax: $15.51
+        general_price_excl_tax: $14.33
+        general_price_incl_tax: $15.51
 
 row_cat_in_ship_in_front_prices_in_cart_simple:
     product_1:
@@ -7466,24 +7481,22 @@ row_cat_in_ship_in_front_prices_in_cart_simple:
         subtotal_incl_tax: $77.55
 
 row_cat_in_ship_in_front_prices_in_product_simple_1:
-    qty: 2
-    price_excluding_tax: $102.64
-    price_including_tax: $111.11
+    qty: '2'
+    general_price_excl_tax: $102.64
+    general_price_incl_tax: $111.11
 
 row_cat_in_ship_in_front_prices_in_product_simple_2:
-    qty: 3
-    price_excluding_tax: $92.38
-    price_including_tax: $100.00
-
+    qty: '3'
+    general_price_excl_tax: $92.38
+    general_price_incl_tax: $100.00
 
 row_cat_in_ship_in_front_prices_in_product_simple_3:
-    qty: 5
-    price_excluding_tax: $14.33
-    price_including_tax: $15.51
+    qty: '5'
+    general_price_excl_tax: $14.33
+    general_price_incl_tax: $15.51
 
 row_cat_in_ship_in_front_prices_checkout_data:
     billing_address_data: *billingAddress
-    ship_to_this_address: Yes
     shipping_data:
         shipping_service: Flat Rate
         shipping_method: Fixed
@@ -7564,22 +7577,22 @@ total_cat_in_ship_in_front_prices_in_category_simple_1:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_excluding_tax: $102.64
-        price_including_tax: $111.11
+        general_price_excl_tax: $102.64
+        general_price_incl_tax: $111.11
 
 total_cat_in_ship_in_front_prices_in_category_simple_2:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_excluding_tax: $92.38
-        price_including_tax: $100.00
+        general_price_excl_tax: $92.38
+        general_price_incl_tax: $100.00
 
 total_cat_in_ship_in_front_prices_in_category_simple_3:
     category: %noValue%
     product_name: %noValue%
     verification:
-        price_excluding_tax: $14.33
-        price_including_tax: $15.51
+        general_price_excl_tax: $14.33
+        general_price_incl_tax: $15.51
 
 total_cat_in_ship_in_front_prices_in_cart_simple:
     product_1:
@@ -7605,24 +7618,22 @@ total_cat_in_ship_in_front_prices_in_cart_simple:
         subtotal_incl_tax: $77.55
 
 total_cat_in_ship_in_front_prices_in_product_simple_1:
-    qty: 2
-    price_excluding_tax: $102.64
-    price_including_tax: $111.11
+    qty: '2'
+    general_price_excl_tax: $102.64
+    general_price_incl_tax: $111.11
 
 total_cat_in_ship_in_front_prices_in_product_simple_2:
-    qty: 3
-    price_excluding_tax: $92.38
-    price_including_tax: $100.00
-
+    qty: '3'
+    general_price_excl_tax: $92.38
+    general_price_incl_tax: $100.00
 
 total_cat_in_ship_in_front_prices_in_product_simple_3:
-    qty: 5
-    price_excluding_tax: $14.33
-    price_including_tax: $15.51
+    qty: '5'
+    general_price_excl_tax: $14.33
+    general_price_incl_tax: $15.51
 
 total_cat_in_ship_in_front_prices_checkout_data:
     billing_address_data: *billingAddress
-    ship_to_this_address: Yes
     shipping_data:
         shipping_service: Flat Rate
         shipping_method: Fixed

@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\GoogleShopping\Model\Attribute;
 
 /**
  * Tax attribute model
@@ -15,8 +16,6 @@
  * @package    Magento_GoogleShopping
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\GoogleShopping\Model\Attribute;
-
 class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
 {
     /**
@@ -29,7 +28,9 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      */
     protected $_taxData = null;
 
-    /** @var \Magento\GoogleCheckout\Helper\Data  */
+    /**
+     * @var \Magento\GoogleCheckout\Helper\Data
+     */
     protected $checkoutDataHelper;
 
     /**
@@ -127,7 +128,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      *
      * @param string $state
      * @param string $zip
-     * @return array
+     * @return string[]
      */
     protected function _parseRegions($state, $zip)
     {
@@ -138,7 +139,7 @@ class Tax extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
      * Retrieve array of regions characterized by provided zip code
      *
      * @param string $zip
-     * @return array
+     * @return string[]
      */
     protected function _parseZip($zip)
     {

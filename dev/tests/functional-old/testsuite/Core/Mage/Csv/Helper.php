@@ -36,7 +36,7 @@ class Core_Mage_Csv_Helper extends Mage_Selenium_AbstractHelper
         while (($line = fgetcsv($temp, 10000, $delimiter, '"', '\\')) !== false) {
             if ($header) {
                 if (count($header) !== count($line)) {
-                    $this->markTestIncomplete('MAGETWO-3858: Both parameters should have an equal number of elements');
+                    $this->fail("Both parameters should have an equal number of elements\n" . print_r($input, true));
                 }
                 $data[] = array_combine($header, $line);
             } else {
@@ -60,9 +60,9 @@ class Core_Mage_Csv_Helper extends Mage_Selenium_AbstractHelper
         $header = null;
         foreach ($input as $line) {
             if (!is_array($line)) {
-                $this->markTestIncomplete('MAGETWO-3858');
+                $this->fail('Parameter is not array.' . print_r($line, true) . "\n" . print_r($input, true));
             }
-            if (!$header) {
+            if ($header === null) {
                 $header = array_keys($line);
                 fputcsv($temp, $header, $delimiter, '"');
             }

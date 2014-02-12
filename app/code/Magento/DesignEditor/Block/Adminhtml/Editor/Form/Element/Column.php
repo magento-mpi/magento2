@@ -7,14 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element;
 
 /**
  * Column renderer to Quick Styles panel in VDE
  *
  * @method \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Column setClass($class)
  */
-namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element;
-
 class Column
     extends \Magento\Data\Form\Element\Fieldset
     implements \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\ContainerInterface
@@ -36,6 +35,8 @@ class Column
 
     /**
      * Constructor helper
+     *
+     * @return void
      */
     public function _construct()
     {
@@ -48,7 +49,7 @@ class Column
     /**
      * Add element types that can be added to 'column' element
      *
-     * @return \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Column
+     * @return $this
      */
     protected function _addElementTypes()
     {
@@ -73,7 +74,7 @@ class Column
 
     /**
      * @param \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Renderer\Factory $factory
-     * @return \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Column
+     * @return $this
      */
     public function setRendererFactory($factory)
     {
@@ -95,7 +96,7 @@ class Column
 
     /**
      * @param \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Element\Factory $factory
-     * @return \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Column
+     * @return $this
      */
     public function setElementsFactory($factory)
     {

@@ -7,17 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Reward\Model\Resource;
 
 /**
  * Reward resource setup model
  *
- * @category    Magento
- * @package     Magento_Reward
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Reward\Model\Resource;
-
 class Setup extends \Magento\Sales\Model\Resource\Setup
 {
     /**
@@ -28,6 +24,8 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
     protected $_currentEntityTypeId;
 
     /**
+     * Cms page factory
+     *
      * @var \Magento\Cms\Model\PageFactory
      */
     protected $_pageFactory;
@@ -72,6 +70,8 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
     }
 
     /**
+     * Get page
+     *
      * @return \Magento\Cms\Model\Page
      */
     public function getPage()

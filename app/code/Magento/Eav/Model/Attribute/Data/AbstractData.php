@@ -7,7 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Eav\Model\Attribute\Data;
 
+use Magento\App\RequestInterface;
+use Magento\Core\Exception as CoreException;
 
 /**
  * EAV Attribute Abstract Data Model
@@ -16,8 +19,6 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Eav\Model\Attribute\Data;
-
 abstract class AbstractData
 {
     /**
@@ -44,14 +45,14 @@ abstract class AbstractData
     /**
      * Scope visibility flag
      *
-     * @var boolean
+     * @var bool
      */
     protected $_requestScopeOnly    = true;
 
     /**
      * Is AJAX request flag
      *
-     * @var boolean
+     * @var bool
      */
     protected $_isAjax              = false;
 
@@ -98,7 +99,7 @@ abstract class AbstractData
      * Set attribute instance
      *
      * @param \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute
-     * @return \Magento\Eav\Model\Attribute\Data\AbstractData
+     * @return $this
      */
     public function setAttribute(\Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute)
     {
@@ -109,13 +110,13 @@ abstract class AbstractData
     /**
      * Return Attribute instance
      *
-     * @throws \Magento\Core\Exception
+     * @throws CoreException
      * @return \Magento\Eav\Model\Attribute
      */
     public function getAttribute()
     {
         if (!$this->_attribite) {
-            throw new \Magento\Core\Exception(__('Attribute object is undefined'));
+            throw new CoreException(__('Attribute object is undefined'));
         }
         return $this->_attribite;
     }
@@ -124,7 +125,7 @@ abstract class AbstractData
      * Set Request scope
      *
      * @param string $scope
-     * @return string
+     * @return $this
      */
     public function setRequestScope($scope)
     {
@@ -136,8 +137,8 @@ abstract class AbstractData
      * Set scope visibility
      * Search value only in scope or search value in scope and global
      *
-     * @param boolean $flag
-     * @return \Magento\Eav\Model\Attribute\Data\AbstractData
+     * @param bool $flag
+     * @return $this
      */
     public function setRequestScopeOnly($flag)
     {
@@ -149,7 +150,7 @@ abstract class AbstractData
      * Set entity instance
      *
      * @param \Magento\Core\Model\AbstractModel $entity
-     * @return \Magento\Eav\Model\Attribute\Data\AbstractData
+     * @return $this
      */
     public function setEntity(\Magento\Core\Model\AbstractModel $entity)
     {
@@ -165,7 +166,7 @@ abstract class AbstractData
     public function getEntity()
     {
         if (!$this->_entity) {
-            throw new \Magento\Core\Exception(__('Entity object is undefined'));
+            throw new CoreException(__('Entity object is undefined'));
         }
         return $this->_entity;
     }
@@ -174,7 +175,7 @@ abstract class AbstractData
      * Set array of full extracted data
      *
      * @param array $data
-     * @return \Magento\Eav\Model\Attribute\Data\AbstractData
+     * @return $this
      */
     public function setExtractedData(array $data)
     {
@@ -243,7 +244,7 @@ abstract class AbstractData
      * Get/Set/Reset date filter format
      *
      * @param string|null|false $format
-     * @return \Magento\Eav\Model\Attribute\Data\AbstractData|string
+     * @return $this|string
      */
     protected function _dateFilterFormat($format = null)
     {
@@ -283,7 +284,7 @@ abstract class AbstractData
      * Validate value by attribute input validation rule
      *
      * @param string $value
-     * @return string
+     * @return string|true
      */
     protected function _validateInputRule($value)
     {
@@ -475,8 +476,8 @@ abstract class AbstractData
     /**
      * Set is AJAX Request flag
      *
-     * @param boolean $flag
-     * @return \Magento\Eav\Model\Attribute\Data\AbstractData
+     * @param bool $flag
+     * @return $this
      */
     public function setIsAjaxRequest($flag = true)
     {
@@ -487,7 +488,7 @@ abstract class AbstractData
     /**
      * Return is AJAX Request
      *
-     * @return boolean
+     * @return bool
      */
     public function getIsAjaxRequest()
     {
@@ -497,10 +498,10 @@ abstract class AbstractData
     /**
      * Return Original Attribute value from Request
      *
-     * @param \Magento\App\RequestInterface $request
+     * @param RequestInterface $request
      * @return mixed
      */
-    protected function _getRequestValue(\Magento\App\RequestInterface $request)
+    protected function _getRequestValue(RequestInterface $request)
     {
         $attrCode  = $this->getAttribute()->getAttributeCode();
         if ($this->_requestScope) {
@@ -536,17 +537,17 @@ abstract class AbstractData
     /**
      * Extract data from request and return value
      *
-     * @param \Magento\App\RequestInterface $request
-     * @return array|string
+     * @param RequestInterface $request
+     * @return array|string|bool
      */
-    abstract public function extractValue(\Magento\App\RequestInterface $request);
+    abstract public function extractValue(RequestInterface $request);
 
     /**
      * Validate data
      *
      * @param array|string $value
-     * @throws \Magento\Core\Exception
-     * @return boolean
+     * @throws CoreException
+     * @return bool
      */
     abstract public function validateValue($value);
 
@@ -554,7 +555,7 @@ abstract class AbstractData
      * Export attribute value to entity model
      *
      * @param array|string $value
-     * @return \Magento\Eav\Model\Attribute\Data\AbstractData
+     * @return $this
      */
     abstract public function compactValue($value);
 
@@ -562,7 +563,7 @@ abstract class AbstractData
      * Restore attribute value from SESSION to entity model
      *
      * @param array|string $value
-     * @return \Magento\Eav\Model\Attribute\Data\AbstractData
+     * @return $this
      */
     abstract public function restoreValue($value);
 

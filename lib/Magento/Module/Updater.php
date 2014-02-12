@@ -39,7 +39,7 @@ class Updater implements \Magento\Module\UpdaterInterface
     protected $_appState;
 
     /**
-     * if it set to true, we will ignore applying scheme updates
+     * If it set to true, we will ignore applying scheme updates
      *
      * @var bool
      */

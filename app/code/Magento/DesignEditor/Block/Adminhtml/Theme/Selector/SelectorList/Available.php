@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList;
 
 /**
  * Available theme list
@@ -14,8 +15,6 @@
  * @method int getNextPage()
  * @method \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList\Available setNextPage(int $page)
  */
-namespace Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList;
-
 class Available
     extends \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList\AbstractSelectorList
 {
@@ -45,7 +44,7 @@ class Available
      * Get edit button
      *
      * @param \Magento\DesignEditor\Block\Adminhtml\Theme $themeBlock
-     * @return $this
+     * @return void
      */
     protected function _addEditButtonHtml($themeBlock)
     {
@@ -76,7 +75,7 @@ class Available
      * Add theme buttons
      *
      * @param \Magento\DesignEditor\Block\Adminhtml\Theme $themeBlock
-     * @return \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\SelectorList\AbstractSelectorList
+     * @return $this
      */
     protected function _addThemeButtons($themeBlock)
     {

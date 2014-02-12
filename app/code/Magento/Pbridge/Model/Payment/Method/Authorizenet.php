@@ -7,25 +7,25 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Pbridge\Model\Payment\Method;
 
 /**
  * Authoreze.Net dummy payment method model
  *
- * @category    Magento
- * @package     Magento_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Pbridge\Model\Payment\Method;
-
 class Authorizenet extends \Magento\Pbridge\Model\Payment\Method
 {
     /**
+     * Payment method code
+     *
      * @var string
      */
     protected $_code  = 'authorizenet';
 
     /**
+     * Array of allowed currency codes
+     *
      * @var array
      */
     protected $_allowCurrencyCode = array('USD');
@@ -75,11 +75,6 @@ class Authorizenet extends \Magento\Pbridge\Model\Payment\Method
      * @var bool
      */
     protected $_canUseCheckout          = true;
-
-    /**
-     * @var bool
-     */
-    protected $_canUseForMultishipping  = true;
 
     /**
      * @var bool

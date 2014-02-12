@@ -1,7 +1,7 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,18 +11,17 @@ namespace Magento\Mview;
 interface ConfigInterface
 {
     /**
-     * Get indexer's config
+     * Get views list
      *
-     * @return array
+     * @return array[]
      */
-    public function getAll();
+    public function getViews();
 
     /**
-     * Get config value by key
+     * Get view by ID
      *
-     * @param string $path
-     * @param mixed $default
-     * @return mixed
+     * @param string $viewId
+     * @return array
      */
-    public function get($path = null, $default = null);
+    public function getView($viewId);
 }

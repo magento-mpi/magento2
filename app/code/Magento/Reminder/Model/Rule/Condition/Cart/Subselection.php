@@ -7,12 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Reminder\Model\Rule\Condition\Cart;
+
+use Magento\DB\Select;
 
 /**
  * Cart items subselection condition
  */
-namespace Magento\Reminder\Model\Rule\Condition\Cart;
-
 class Subselection
     extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
 {
@@ -63,7 +64,7 @@ class Subselection
     /**
      * Prepare operator select options
      *
-     * @return \Magento\Reminder\Model\Rule\Condition\Cart\Subselection
+     * @return $this
      */
     public function loadOperatorOptions()
     {
@@ -91,9 +92,9 @@ class Subselection
     /**
      * Build query for matching shopping cart items
      *
-     * @param $customer
-     * @param int | \Zend_Db_Expr $website
-     * @return \Magento\DB\Select
+     * @param null|int|\Zend_Db_Expr $customer
+     * @param int|\Zend_Db_Expr $website
+     * @return Select
      */
     protected function _prepareConditionsSql($customer, $website)
     {

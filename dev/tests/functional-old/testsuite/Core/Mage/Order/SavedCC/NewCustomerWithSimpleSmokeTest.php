@@ -18,16 +18,14 @@
  */
 class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Selenium_TestCase
 {
-    /**
-     * <p>Preconditions:</p>
-     * <p>Log in to Backend.</p>
-     */
     public function setUpBeforeTests()
     {
+        $config = $this->loadDataSet('PaymentMethod','savedcc_without_3Dsecure',
+            array('scc_request_card_security_code' => 'No'));
         //Steps
         $this->loginAdminUser();
         $this->navigate('system_configuration');
-        $this->systemConfigurationHelper()->configure('PaymentMethod/savedcc_without_3Dsecure');
+        $this->systemConfigurationHelper()->configure($config);
         $this->systemConfigurationHelper()->configure('ShippingMethod/flatrate_enable');
     }
 
@@ -66,12 +64,13 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
      */
     public function orderWithout3DSecureSmoke($simpleSku)
     {
-        $this->markTestIncomplete('MAGETWO-9242');
         //Data
-        $paymentData = $this->loadDataSet('Payment', 'payment_savedcc');
-        $orderData = $this->loadDataSet('SalesOrder', 'order_newcustomer_checkmoney_flatrate_usa',
-                                        array('filter_sku'  => $simpleSku,
-                                             'payment_data' => $paymentData));
+        $paymentData = $this->loadDataSet('Payment', 'payment_savedcc',
+            array('card_verification_number' => '%noValue%'));
+        $orderData = $this->loadDataSet('SalesOrder','order_newcustomer_checkmoney_flatrate_usa',array(
+            'filter_sku' => $simpleSku,
+            'payment_data' => $paymentData
+        ));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -94,7 +93,8 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
     public function differentCardInSavedCC($card, $orderData)
     {
         //Data
-        $orderData['payment_data']['payment_info'] = $this->loadDataSet('Payment', $card);
+        $orderData['payment_data']['payment_info'] = $this->loadDataSet('Payment', $card,
+            array('card_verification_number' => '%noValue%'));
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);
@@ -298,8 +298,6 @@ class Core_Mage_Order_SavedCC_NewCustomerWithSimpleSmokeTest extends Mage_Seleni
      */
     public function reorderPendingOrder($orderData)
     {
-        $this->markTestIncomplete('There is a problem with CVV field, but SavedCC payment method '
-            . 'is going to be removed, so no need to fix it for now. See MAGETWO-2705 for details.');
         //Steps
         $this->navigate('manage_sales_orders');
         $this->orderHelper()->createOrder($orderData);

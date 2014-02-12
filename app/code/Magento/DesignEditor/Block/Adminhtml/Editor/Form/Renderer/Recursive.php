@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer;
 
 /**
  * Recursive renderer that uses several templates
@@ -14,8 +15,6 @@
  * @method string getHtml()
  * @method \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer\Recursive setHtml($html)
  */
-namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer;
-
 class Recursive extends \Magento\Backend\Block\Template
     implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
@@ -40,7 +39,7 @@ class Recursive extends \Magento\Backend\Block\Template
      *
      * Upper is rendered first and is inserted into next using <?php echo $this->getHtml() ?>
      *
-     * @var array
+     * @var string[]
      */
     protected $_templates = array();
 

@@ -18,13 +18,27 @@
  */
 class Enterprise_Mage_Grid_Reports_Invitations_GridTest extends Mage_Selenium_TestCase
 {
-    /**
-     * <p> Preconditions before test</p>
-     * <p>Create invitation
-     */
+    protected $registerDate;
+
     public function setUpBeforeTests()
     {
-        $this->invitationHelper()->sendInvitationWithNewlyCreatedCustomer(1);
+        $userData = $this->loadDataSet('Customers', 'customer_account_register');
+        $this->frontend();
+        $this->customerHelper()->registerCustomer($userData);
+        $this->assertMessagePresent('success', 'success_registration');
+        $this->invitationHelper()->sendInvitationFrontend(1);
+        $this->logoutCustomer();
+
+        $this->loginAdminUser();
+        $this->navigate('manage_customers');
+        $this->registerDate = $this->customerHelper()->getCustomerRegistrationDate(
+            array('email' => $userData['email'])
+        );
+    }
+
+    protected function assertPreConditions()
+    {
+        $this->loginAdminUser();
     }
 
     /**
@@ -50,20 +64,20 @@ class Enterprise_Mage_Grid_Reports_Invitations_GridTest extends Mage_Selenium_Te
      */
     public function verifyCustomerGrid()
     {
-        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
-        $this->loginAdminUser();
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData);
-        $firstDate = $this->customerHelper()->getCustomerRegistrationDate(array('email' => $userData['email']));
         //Count qty of rows
         $this->navigate('reports_invitations_customers');
-        $this->gridHelper()->fillDateFromTo($firstDate, $firstDate);
+        $this->gridHelper()->fillDateFromTo($this->registerDate, $this->registerDate);
         $this->clickButton('refresh');
         $count = $this->getControlCount('pageelement', 'report_invitations_customers_grid_line');
-        $this->invitationHelper()->sendInvitationWithNewlyCreatedCustomer(1);
+
+        $this->frontend();
+        $this->customerHelper()->registerCustomer($this->loadDataSet('Customers', 'customer_account_register'));
+        $this->assertMessagePresent('success', 'success_registration');
+        $this->invitationHelper()->sendInvitationFrontend(1);
+
         $this->loginAdminUser();
         $this->navigate('reports_invitations_customers');
-        $this->gridHelper()->fillDateFromTo($firstDate, $firstDate);
+        $this->gridHelper()->fillDateFromTo($this->registerDate, $this->registerDate);
         $this->clickButton('refresh');
         //Verifying
         $this->assertEquals(
@@ -96,24 +110,27 @@ class Enterprise_Mage_Grid_Reports_Invitations_GridTest extends Mage_Selenium_Te
      */
     public function verifyGeneralGrid()
     {
-        $userData = $this->loadDataSet('Customers', 'generic_customer_account');
-        $this->loginAdminUser();
-        $this->navigate('manage_customers');
-        $this->customerHelper()->createCustomer($userData);
-        $firstDate = $this->customerHelper()->getCustomerRegistrationDate(array('email' => $userData['email']));
+        //Count qty of rows
         $this->navigate('reports_invitations_general');
-        $this->gridHelper()->fillDateFromTo($firstDate, $firstDate);
+        $this->gridHelper()->fillDateFromTo($this->registerDate, $this->registerDate);
         $this->clickButton('refresh');
         $gridXpath = $this->_getControlXpath('pageelement', 'report_invitations_general_grid') . '/tbody/tr/td[2]';
-        //See qty in Sent column
-        $count = $this->getElement($gridXpath)->text();
-        $this->invitationHelper()->sendInvitationWithNewlyCreatedCustomer(1);
+        $count = (int)$this->getElement($gridXpath)->text();
+
+        $this->frontend();
+        $this->customerHelper()->registerCustomer($this->loadDataSet('Customers', 'customer_account_register'));
+        $this->assertMessagePresent('success', 'success_registration');
+        $this->invitationHelper()->sendInvitationFrontend(1);
+
         $this->loginAdminUser();
         $this->navigate('reports_invitations_general');
-        $this->gridHelper()->fillDateFromTo($firstDate, $firstDate);
+        $this->gridHelper()->fillDateFromTo($this->registerDate, $this->registerDate);
         $this->clickButton('refresh');
-        $newCount = $this->getElement($gridXpath)->text();
         //Verifying
-        $this->assertEquals($count + 1, $newCount, 'Wrong records number in reports_invitations_general grid');
+        $this->assertEquals(
+            1 + $count,
+            (int)$this->getElement($gridXpath)->text(),
+            'Wrong records number in reports_invitations_general grid'
+        );
     }
 }

@@ -24,7 +24,7 @@ class Observer
     /**
      * Cron tab expression path
      */
-    const CRON_STRING_PATH = 'crontab/jobs/magento_scheduled_import_export_log_clean/schedule/cron_expr';
+    const CRON_STRING_PATH = 'crontab/default/jobs/magento_scheduled_import_export_log_clean/schedule/cron_expr';
 
     /**
      * Configuration path of log status

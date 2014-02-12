@@ -22,7 +22,7 @@ abstract class AbstractOptions extends \Magento\View\Element\AbstractBlock
     /**
      * Preparing layout, adding buttons
      *
-     * @return \Magento\Eav\Block\Adminhtml\Attribute\Edit\Options\AbstractOptions
+     * @return $this
      */
     protected function _prepareLayout()
     {
@@ -38,7 +38,7 @@ abstract class AbstractOptions extends \Magento\View\Element\AbstractBlock
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      * @return string
      */
     protected function _toHtml()

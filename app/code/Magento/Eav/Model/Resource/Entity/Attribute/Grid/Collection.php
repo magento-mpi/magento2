@@ -7,6 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Eav\Model\Resource\Entity\Attribute\Grid;
+
+use Magento\Core\Model\Resource\Db\Collection\AbstractCollection;
 
 /**
  * Eav Resource Attribute Set Collection
@@ -15,8 +18,6 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Eav\Model\Resource\Entity\Attribute\Grid;
-
 class Collection
     extends \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection
 {
@@ -50,7 +51,7 @@ class Collection
     /**
      *  Add filter by entity type id to collection
      *
-     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection|\Magento\Eav\Model\Resource\Entity\Attribute\Grid\Collection
+     * @return AbstractCollection|$this
      */
     protected function _initSelect()
     {

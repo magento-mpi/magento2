@@ -8,7 +8,9 @@
  */
 -->
 <config>
-    <job name="magento_full_page_cache_crawler" instance="Magento\FullPageCache\Model\Crawler" method="crawl">
-        <schedule>0 3 * * *</schedule>
-    </job>
+    <group id="default">
+        <job name="magento_full_page_cache_crawler" instance="Magento\FullPageCache\Model\Crawler" method="crawl">
+            <schedule>0 3 * * *</schedule>
+        </job>
+    </group>
 </config>

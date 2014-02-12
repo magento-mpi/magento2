@@ -1,35 +1,46 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 namespace Magento\Mview;
 
-class Config extends \Magento\Config\Data implements ConfigInterface
+class Config implements ConfigInterface
 {
     /**
-     * @param \Magento\Mview\Config\Reader $reader
-     * @param \Magento\Config\CacheInterface $cache
-     * @param string $cacheId
+     * @var Config\Data
      */
-    public function __construct(
-        \Magento\Mview\Config\Reader $reader,
-        \Magento\Config\CacheInterface $cache,
-        $cacheId = 'mview_config'
-    ) {
-        parent::__construct($reader, $cache, $cacheId);
+    protected $configData;
+
+    /**
+     * @param Config\Data $configData
+     */
+    public function __construct(Config\Data $configData)
+    {
+        $this->configData = $configData;
     }
 
     /**
-     * Get views configuration
+     * Get views list
      *
-     * @return mixed
+     * @return array[]
      */
-    public function getAll()
+    public function getViews()
     {
-        return $this->get();
+        return $this->configData->get();
+    }
+
+    /**
+     * Get view by ID
+     *
+     * @param string $viewId
+     * @return array
+     */
+    public function getView($viewId)
+    {
+        return $this->configData->get($viewId);
     }
 }
