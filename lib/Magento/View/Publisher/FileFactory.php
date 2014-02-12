@@ -52,9 +52,9 @@ class FileFactory
      *
      * @param string $filePath
      * @param array $viewParams
-     * @param null $sourcePath
-     * @throws \UnexpectedValueException
+     * @param null|string $sourcePath
      * @return FileInterface
+     * @throws \UnexpectedValueException
      */
     public function create($filePath, array $viewParams, $sourcePath = null)
     {
