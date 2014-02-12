@@ -65,6 +65,8 @@ interface FileInterface
     public function buildPublicViewFilename();
 
     /**
+     * Returns absolute path
+     *
      * @return string|null
      */
     public function getSourcePath();

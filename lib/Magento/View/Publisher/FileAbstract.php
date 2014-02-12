@@ -77,7 +77,14 @@ abstract class FileAbstract implements FileInterface
      *
      * @var bool
      */
-    protected $useFallback;
+    protected $isFallbackUsed = false;
+
+    /**
+     * Makes sure that source path is not overwritten when 'valid' value of source path was passed to constructor
+     *
+     * @var bool
+     */
+    protected $isSourcePathProvided;
 
     /**
      * @param \Magento\App\Filesystem $filesystem
@@ -108,12 +115,7 @@ abstract class FileAbstract implements FileInterface
         $this->viewFileSystem = $viewFileSystem;
         $this->rootDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR);
         $this->setSourcePath($sourcePath);
-
-        if ($this->sourcePath === null) {
-            $this->useFallback = true;
-        } else {
-            $this->useFallback = false;
-        }
+        $this->isSourcePathProvided = $sourcePath !== null;
     }
 
     /**
@@ -155,7 +157,7 @@ abstract class FileAbstract implements FileInterface
      */
     public function isSourceFileExists()
     {
-        return $this->sourcePath !== null;
+        return $this->getSourcePath() !== null;
     }
 
     /**
@@ -189,8 +191,8 @@ abstract class FileAbstract implements FileInterface
      */
     public function getSourcePath()
     {
-        if ($this->useFallback) {
-            $this->useFallback = false;
+        if (!$this->isSourcePathProvided && !$this->isFallbackUsed) {
+            $this->isFallbackUsed = false;
 
             // Fallback look-up for view files. Remember it can be file of any type: CSS, LESS, JS, image
             $fallbackSourcePath = $this->viewFileSystem->getViewFile($this->getFilePath(), $this->getViewParams());
