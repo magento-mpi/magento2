@@ -20,15 +20,23 @@ class Kernel
     protected $identifier;
 
     /**
+     * @var \Magento\App\Request\Http
+     */
+    protected $request;
+
+    /**
      * @param Cache $cache
      * @param Identifier $identifier
+     * @param \Magento\App\Request\Http $request
      */
     public function __construct(
         \Magento\App\PageCache\Cache $cache,
-        \Magento\App\PageCache\Identifier $identifier
+        \Magento\App\PageCache\Identifier $identifier,
+        \Magento\App\Request\Http $request
     ) {
         $this->cache = $cache;
         $this->identifier = $identifier;
+        $this->request = $request;
     }
 
     /**
@@ -36,7 +44,12 @@ class Kernel
      */
     public function load()
     {
-        return unserialize($this->cache->load($this->identifier->getValue()));
+        if ($this->request->isGet() || $this->request->isHead()) {
+            $response = unserialize($this->cache->load($this->identifier->getValue()));
+        } else {
+            $response = false;
+        }
+        return $response;
     }
 
     /**
@@ -44,17 +57,14 @@ class Kernel
      */
     public function process(\Magento\App\Response\Http $response)
     {
-        $maxAge = 0;
         if (preg_match('/public.*s-maxage=(\d+)/', $response->getHeader('Cache-Control')['value'], $matches)) {
             $maxAge = $matches[1];
-        }
-        if ($maxAge) {
             $response->setNoCacheHeaders();
-            $response->clearHeader('Set-Cookie');
-            if (!headers_sent()) {
-                header_remove('Set-Cookie');
-            }
-            if ($response->getHttpResponseCode() == 200) {
+            if ($response->getHttpResponseCode() == 200 && ($this->request->isGet() || $this->request->isHead())) {
+                $response->clearHeader('Set-Cookie');
+                if (!headers_sent()) {
+                    header_remove('Set-Cookie');
+                }
                 $this->cache->save(serialize($response), $this->identifier->getValue(), array(), $maxAge);
             }
         }
