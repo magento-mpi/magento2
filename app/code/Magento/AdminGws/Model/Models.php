@@ -1079,8 +1079,8 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Prevent loosing disallowed websites from model
      *
      * @param array $websiteIds
-     * @throws Exception
      * @return array
+     * @throws Exception
      */
     protected function _forceAssignToWebsite($websiteIds)
     {
@@ -1095,8 +1095,8 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * Prevent losing disallowed store views from model
      *
      * @param array $storeIds
-     * @throws Exception
      * @return array
+     * @throws Exception
      */
     protected function _forceAssignToStore($storeIds)
     {

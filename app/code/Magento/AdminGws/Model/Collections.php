@@ -7,12 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\AdminGws\Model;
 /**
  * Collections limiter model
  */
-namespace Magento\AdminGws\Model;
-
 class Collections extends \Magento\AdminGws\Model\Observer\AbstractObserver
 {
     /**
