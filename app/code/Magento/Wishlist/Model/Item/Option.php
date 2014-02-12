@@ -2,21 +2,14 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Wishlist
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Wishlist\Model\Item;
 
 /**
  * Item option model
- *
- * @category    Magento
- * @package     Magento_Wishlist
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Wishlist\Model\Item;
-
 class Option extends \Magento\Core\Model\AbstractModel
     implements \Magento\Catalog\Model\Product\Configuration\Item\Option\OptionInterface
 {
@@ -25,6 +18,8 @@ class Option extends \Magento\Core\Model\AbstractModel
 
     /**
      * Initialize resource model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -34,7 +29,7 @@ class Option extends \Magento\Core\Model\AbstractModel
     /**
      * Checks that item option model has data changes
      *
-     * @return boolean
+     * @return bool
      */
     protected function _hasModelChanged()
     {
@@ -48,8 +43,8 @@ class Option extends \Magento\Core\Model\AbstractModel
     /**
      * Set quote item
      *
-     * @param   \Magento\Wishlist\Model\Item $item
-     * @return  \Magento\Wishlist\Model\Item\Option
+     * @param \Magento\Wishlist\Model\Item $item
+     * @return $this
      */
     public function setItem($item)
     {
@@ -71,8 +66,8 @@ class Option extends \Magento\Core\Model\AbstractModel
     /**
      * Set option product
      *
-     * @param   \Magento\Catalog\Model\Product $product
-     * @return  \Magento\Wishlist\Model\Item\Option
+     * @param \Magento\Catalog\Model\Product $product
+     * @return $this
      */
     public function setProduct($product)
     {
@@ -117,7 +112,7 @@ class Option extends \Magento\Core\Model\AbstractModel
     /**
      * Clone option object
      *
-     * @return \Magento\Wishlist\Model\Item\Option
+     * @return $this
      */
     public function __clone()
     {

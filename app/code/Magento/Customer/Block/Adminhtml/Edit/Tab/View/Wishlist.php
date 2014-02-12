@@ -2,36 +2,33 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Customer
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Customer\Block\Adminhtml\Edit\Tab\View;
 
 /**
  * Adminhtml customer view wishlist block
- *
- * @category   Magento
- * @package    Magento_Customer
- * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Customer\Block\Adminhtml\Edit\Tab\View;
-
 class Wishlist extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
-     * Core registry
+     * Core registry.
      *
      * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
 
     /**
+     * Wishlist item collection factory.
+     *
      * @var \Magento\Wishlist\Model\Resource\Item\CollectionFactory
      */
     protected $_collectionFactory;
 
     /**
+     * Constructor
+     *
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Wishlist\Model\Resource\Item\CollectionFactory $collectionFactory
@@ -51,7 +48,7 @@ class Wishlist extends \Magento\Backend\Block\Widget\Grid\Extended
     }
 
     /**
-     * Initial settings
+     * Initial settings.
      *
      * @return void
      */
@@ -66,14 +63,14 @@ class Wishlist extends \Magento\Backend\Block\Widget\Grid\Extended
     }
 
     /**
-     * Prepare collection
+     * Prepare collection.
      *
      * @return \Magento\Customer\Block\Adminhtml\Edit\Tab\View\Wishlist
      */
     protected function _prepareCollection()
     {
         $collection = $this->_collectionFactory->create()
-            ->addCustomerIdFilter($this->_coreRegistry->registry('current_customer')->getId())
+            ->addCustomerIdFilter($this->_coreRegistry->registry('current_customer_id'))
             ->addDaysInWishlist()
             ->addStoreData()
             ->setInStockFilter(true);
@@ -84,47 +81,47 @@ class Wishlist extends \Magento\Backend\Block\Widget\Grid\Extended
     }
 
     /**
-     * Prepare columns
+     * Prepare columns.
      *
      * @return \Magento\Customer\Block\Adminhtml\Edit\Tab\View\Wishlist
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('product_id', array(
+        $this->addColumn('product_id', [
             'header'    => __('ID'),
             'index'     => 'product_id',
             'type'      => 'number',
             'width'     => '100px'
-        ));
+        ]);
 
-        $this->addColumn('product_name', array(
+        $this->addColumn('product_name', [
             'header'    => __('Product'),
             'index'     => 'product_name',
             'renderer'  => 'Magento\Customer\Block\Adminhtml\Edit\Tab\View\Grid\Renderer\Item'
-        ));
+        ]);
 
         if (!$this->_storeManager->isSingleStoreMode()) {
-            $this->addColumn('store', array(
+            $this->addColumn('store', [
                 'header'    => __('Add Locale'),
                 'index'     => 'store_id',
                 'type'      => 'store',
                 'width'     => '160px',
-            ));
+            ]);
         }
 
-        $this->addColumn('added_at', array(
+        $this->addColumn('added_at', [
             'header'    => __('Add Date'),
             'index'     => 'added_at',
             'type'      => 'date',
             'width'     => '140px',
-        ));
+        ]);
 
-        $this->addColumn('days', array(
+        $this->addColumn('days', [
             'header'    => __('Days in Wish List'),
             'index'     => 'days_in_wishlist',
             'type'      => 'number',
             'width'     => '140px',
-        ));
+        ]);
 
         return parent::_prepareColumns();
     }
@@ -140,13 +137,10 @@ class Wishlist extends \Magento\Backend\Block\Widget\Grid\Extended
     }
 
     /**
-     * Get row url
-     *
-     * @param \Magento\Wishlist\Model\Item $item
-     * @return string
+     * {@inheritdoc}
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('catalog/product/edit', array('id' => $row->getProductId()));
+        return $this->getUrl('catalog/product/edit', ['id' => $row->getProductId()]);
     }
 }
