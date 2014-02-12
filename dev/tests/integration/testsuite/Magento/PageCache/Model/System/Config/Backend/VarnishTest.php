@@ -38,34 +38,6 @@ class VarnishTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider beforeSaveDataProviderForException
-     */
-    public function testBeforeSaveWithException($value, $path)
-    {
-        $fieldName = 'field_' . $path;
-        $expectedMessage = "Field {$fieldName} not matched with default field";
-
-        $this->_model->setValue($value);
-        $this->_model->setPath($path);
-        $this->_model->setField($fieldName);
-        try {
-            $this->_model->save();
-        } catch (\Magento\Core\Exception $e) {
-            $this->assertEquals($expectedMessage, $e->getMessage());
-        }
-    }
-
-    public function beforeSaveDataProviderForException()
-    {
-        return array(
-            array('', 'access_list'),
-            array('', 'backend_host'),
-            array(0, 'backend_port'),
-            array(0, 'ttl'),
-        );
-    }
-
-    /**
      * @dataProvider beforeSaveDataProvider
      *
      * @param $value
@@ -100,6 +72,37 @@ class VarnishTest extends \PHPUnit_Framework_TestCase
             array('', 'backend_host', 'localhost', true),
             array(0, 'backend_port', 8080, true),
             array(0, 'ttl', 120, true),
+        );
+    }
+
+    /**
+     * @dataProvider afterLoadDataProvider
+     *
+     * @param $path
+     * @param $expected
+     * @param $needUpdate
+     */
+    public function testAfterLoad($path, $expected, $needUpdate)
+    {
+        if ($needUpdate) {
+            $this->_model->load($path, 'path');
+        }
+        $this->_model->setValue('');
+        $this->_model->setPath($path);
+        $this->_model->setField($path);
+        $this->_model->save();
+        $value = $this->_model->getValue();
+
+        $this->assertEquals($value, $expected);
+    }
+
+    public function afterLoadDataProvider()
+    {
+        return array(
+            array('access_list', 'localhost', true),
+            array('backend_host', 'localhost', true),
+            array('backend_port', 8080, true),
+            array('ttl', 120, true),
         );
     }
 }

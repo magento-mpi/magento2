@@ -33,9 +33,6 @@ class Varnish extends \Magento\Core\Model\Config\Value
         $currentValue = $this->getValue();
         if(!$currentValue) {
             $replaceValue = isset($data[$this->getField()]) ? $data[$this->getField()] : false;
-            if (!$replaceValue) {
-                throw new \Magento\Core\Exception(__("Field {$this->getField()} not matched with default field"));
-            }
             $this->setValue($replaceValue);
         }
         return $this;
