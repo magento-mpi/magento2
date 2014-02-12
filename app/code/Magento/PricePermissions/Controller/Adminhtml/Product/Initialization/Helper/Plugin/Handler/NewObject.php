@@ -15,11 +15,15 @@ use Magento\Catalog\Model\Product;
 class NewObject implements HandlerInterface
 {
     /**
+     * Request interface
+     *
      * @var \Magento\App\RequestInterface
      */
     protected $request;
 
     /**
+     * Store manager interface
+     *
      * @var StoreManagerInterface
      */
     protected $storeManager;
@@ -47,6 +51,8 @@ class NewObject implements HandlerInterface
     }
 
     /**
+     * Handle new object
+     *
      * @param Product $product
      * @return void
      */

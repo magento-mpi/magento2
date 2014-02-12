@@ -20,8 +20,6 @@ use Magento\Sales\Model\Order\Item as OrderItem;
 /**
  * RMA entity resource model
  *
- * @category   Magento
- * @package    Magento_Rma
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Item extends \Magento\Eav\Model\Entity\AbstractEntity
@@ -35,21 +33,29 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
 
 
     /**
+     * Rma data
+     *
      * @var \Magento\Rma\Helper\Data
      */
     protected $_rmaData;
 
     /**
+     * Sales order item collection
+     *
      * @var \Magento\Sales\Model\Resource\Order\Item\CollectionFactory
      */
     protected $_ordersFactory;
 
     /**
+     * Catalog product factory
+     *
      * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
 
     /**
+     * Rma refundable list
+     * 
      * @var \Magento\Catalog\Model\ProductTypes\ConfigInterface
      */
     protected $refundableList;
@@ -97,6 +103,8 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
 
     /**
      * Resource initialization
+     *
+     * @return void
      */
     public function _construct()
     {

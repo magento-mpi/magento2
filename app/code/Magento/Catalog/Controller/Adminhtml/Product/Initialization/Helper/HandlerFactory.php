@@ -11,6 +11,8 @@ namespace Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper;
 class HandlerFactory
 {
     /**
+     * Object manager
+     *
      * @var \Magento\ObjectManager
      */
     protected $objectManager;

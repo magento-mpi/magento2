@@ -11,16 +11,22 @@ namespace Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\H
 class PricePermissions 
 {
     /**
+     * Backend authorization session
+     *
      * @var \Magento\Backend\Model\Auth\Session
      */
     protected $authSession;
 
     /**
+     * Helper data
+     *
      * @var \Magento\PricePermissions\Helper\Data
      */
     protected $pricePermData;
 
     /**
+     * Handler interface
+     *
      * @var HandlerInterface
      */
     protected $productHandler;

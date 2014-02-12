@@ -47,11 +47,15 @@ class Grid
     protected $registry;
 
     /**
+     * Rma item factory
+     *
      * @var \Magento\Rma\Model\Resource\ItemFactory
      */
     protected $_itemFactory;
 
     /**
+     * Catalog product model
+     *
      * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
@@ -91,6 +95,8 @@ class Grid
 
     /**
      * Block constructor
+     *
+     * @return void
      */
     public function _construct()
     {
