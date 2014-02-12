@@ -1,5 +1,6 @@
 * Fixed bugs:
   * Fixed an issue with Backup module feature not possible to store files
+  * Fixed absence of scheduled information in shopping cart for products with recurring profile
 * Indexer implementation:
   * Implemented new optimized Catalog Category Flat Indexer
 * Cron improvements:
@@ -18,6 +19,8 @@
  * [#469] (https://github.com/magento/magento2/issues/469) Can't change prices on different websites for custom options
 * Update Customer Service Exception handling and add tests
 * Add usage of Customer Service to Customer Module, replacing some direct usage of Customer Model
+* Introduced an ability to hash a password with a random salt of default length (32 chars) by the encryption library
+* Utilized a random salt of default length for admin users and frontend customers
 
 2.0.0.0-dev64
 =============
