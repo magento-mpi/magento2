@@ -46,7 +46,7 @@ class Observer
         $event = $observer->getEvent();
         /** @var \Magento\Core\Model\Layout $layout */
         $layout = $event->getLayout();
-        $varnishIsEnabledFlag = $this->_config->isSetFlag(\Magento\PageCache\Model\Config::XML_PATH_VARNISH_ENABLED);
+        $varnishIsEnabledFlag = $this->_config->isSetFlag(\Magento\PageCache\Model\Config::XML_PAGECACHE_TYPE);
         if ($layout->isCacheable()) {
             $name = $event->getElementName();
             $block = $layout->getBlock($name);
