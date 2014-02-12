@@ -48,11 +48,15 @@ class Kernel
         if (preg_match('/public.*s-maxage=(\d+)/', $response->getHeader('Cache-Control')['value'], $matches)) {
             $maxAge = $matches[1];
         }
-        if ($maxAge && $response->getHttpResponseCode() == 200) {
+        if ($maxAge) {
             $response->setNoCacheHeaders();
             $response->clearHeader('Set-Cookie');
-            header_remove('Set-Cookie');
-            $this->cache->save(serialize($response), $this->identifier->getValue(), array(), $maxAge);
+            if (!headers_sent()) {
+                header_remove('Set-Cookie');
+            }
+            if ($response->getHttpResponseCode() == 200) {
+                $this->cache->save(serialize($response), $this->identifier->getValue(), array(), $maxAge);
+            }
         }
     }
 }

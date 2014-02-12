@@ -2,40 +2,34 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_PageCache
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-namespace Magento\PageCache\Model;
+namespace Magento\App\PageCache;
 
-/**
- * Class VersionTest
- * @package Magento\PageCache\Model
- */
 class VersionTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * Version instance
+     *
+     * @var Version
+     */
+    protected $version;
+
     /**
      * Cookie mock
      *
      * @var \Magento\Stdlib\Cookie|\PHPUnit_Framework_MockObject_MockObject
      */
-    private $cookieMock;
+    protected $cookieMock;
 
     /**
      * Request mock
      *
      * @var \Magento\App\Request\Http|\PHPUnit_Framework_MockObject_MockObject
      */
-    private $requestMock;
-
-    /**
-     * Version instance
-     *
-     * @var Version
-     */
-    private $versionInstance;
+    protected $requestMock;
 
     /**
      * Create cookie and request mock, version instance
@@ -44,7 +38,7 @@ class VersionTest extends \PHPUnit_Framework_TestCase
     {
         $this->cookieMock = $this->getMock('Magento\Stdlib\Cookie', array('set'), array(), '', false);
         $this->requestMock = $this->getMock('Magento\App\Request\Http', array('isPost'), array(), '', false);
-        $this->versionInstance =  new Version($this->cookieMock, $this->requestMock);
+        $this->version =  new Version($this->cookieMock, $this->requestMock);
     }
 
     /**
@@ -65,7 +59,7 @@ class VersionTest extends \PHPUnit_Framework_TestCase
         if ($isPost) {
             $this->cookieMock->expects($this->once())->method('set');
         }
-        $this->versionInstance->process();
+        $this->version->process();
     }
 
     /**
