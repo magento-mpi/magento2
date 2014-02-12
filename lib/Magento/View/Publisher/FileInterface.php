@@ -46,12 +46,6 @@ interface FileInterface
     public function isPublicationAllowed();
 
     /**
-     * @param string $sourcePath
-     * @return $this
-     */
-    public function setSourcePath($sourcePath);
-
-    /**
      * @return string|null
      */
     public function getSourcePath();

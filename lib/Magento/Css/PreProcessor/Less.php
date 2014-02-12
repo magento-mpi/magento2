@@ -36,18 +36,26 @@ class Less implements PreProcessorInterface
     protected $logger;
 
     /**
+     * @var \Magento\View\Publisher\FileFactory
+     */
+    protected $fileFactory;
+
+    /**
      * @param \Magento\Less\PreProcessor $lessPreProcessor
      * @param AdapterInterface $adapter
      * @param \Magento\Logger $logger
+     * @param \Magento\View\Publisher\FileFactory $fileFactory
      */
     public function __construct(
         \Magento\Less\PreProcessor $lessPreProcessor,
         AdapterInterface $adapter,
-        \Magento\Logger $logger
+        \Magento\Logger $logger,
+        \Magento\View\Publisher\FileFactory $fileFactory
     ) {
         $this->lessPreProcessor = $lessPreProcessor;
         $this->adapter = $adapter;
         $this->logger = $logger;
+        $this->fileFactory = $fileFactory;
     }
 
     /**
@@ -55,14 +63,15 @@ class Less implements PreProcessorInterface
      *
      * @param \Magento\View\Publisher\FileInterface $publisherFile
      * @param \Magento\Filesystem\Directory\WriteInterface $targetDirectory
-     * @return string
+     * @return \Magento\View\Publisher\FileInterface
      */
     public function process(\Magento\View\Publisher\FileInterface $publisherFile, $targetDirectory)
     {
         // if css file has being already found_by_fallback or prepared_by_previous_pre-processor
         if ($publisherFile->getSourcePath()) {
-            return $publisherFile->getSourcePath();
+            return $publisherFile;
         }
+
         try {
             $preparedLessFileSourcePath = $this->lessPreProcessor->processLessInstructions(
                 $this->replaceExtension($publisherFile->getFilePath(), 'css', 'less'),
@@ -71,15 +80,22 @@ class Less implements PreProcessorInterface
             $cssContent = $this->adapter->process($preparedLessFileSourcePath);
         } catch (\Magento\Filesystem\FilesystemException $e) {
             $this->logger->logException($e);
-            return $publisherFile->getSourcePath();     // It's actually 'null'
+            return $publisherFile;     // It has 'null' source path
         } catch (Adapter\AdapterException $e) {
             $this->logger->logException($e);
-            return $publisherFile->getSourcePath();     // It's actually 'null'
+            return $publisherFile;     // It has 'null' source path
         }
 
         $tmpFilePath = Composite::TMP_VIEW_DIR . '/' . self::TMP_LESS_DIR . '/' . $publisherFile->getPublicationPath();
         $targetDirectory->writeFile($tmpFilePath, $cssContent);
-        return $targetDirectory->getAbsolutePath($tmpFilePath);
+
+        $processedFile = $this->fileFactory->create(
+            $publisherFile->getFilePath(),
+            $publisherFile->getViewParams(),
+            $targetDirectory->getAbsolutePath($tmpFilePath)
+        );
+
+        return $processedFile;
     }
 
     /**

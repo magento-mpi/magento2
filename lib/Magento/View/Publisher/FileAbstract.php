@@ -78,9 +78,9 @@ abstract class FileAbstract implements FileInterface
      * @param \Magento\Module\Dir\Reader $modulesReader
      * @param \Magento\View\FileSystem $viewFileSystem
      * @param string $filePath
-     * @param string $extension
      * @param bool $allowDuplication
      * @param array $viewParams
+     * @param string|null $sourcePath
      */
     public function __construct(
         \Magento\App\Filesystem $filesystem,
@@ -88,45 +88,19 @@ abstract class FileAbstract implements FileInterface
         \Magento\Module\Dir\Reader $modulesReader,
         \Magento\View\FileSystem $viewFileSystem,
         $filePath,
-        $extension,
         $allowDuplication,
-        array $viewParams
+        array $viewParams,
+        $sourcePath = null
     ) {
         $this->filesystem = $filesystem;
         $this->viewService = $viewService;
         $this->modulesReader = $modulesReader;
         $this->filePath = $filePath;
-        $this->extension = $extension;
         $this->allowDuplication = $allowDuplication;
         $this->viewParams = $viewParams;
         $this->viewFileSystem = $viewFileSystem;
         $this->rootDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR);
-    }
-
-    /**
-     * @return string
-     */
-    public function getFilePath()
-    {
-        return $this->filePath;
-    }
-
-    /**
-     * Original file extension
-     *
-     * @return string
-     */
-    public function getExtension()
-    {
-        return $this->extension;
-    }
-
-    /**
-     * @return array
-     */
-    public function getViewParams()
-    {
-        return $this->viewParams;
+        $this->sourcePath = $sourcePath;
     }
 
     /**
@@ -142,6 +116,65 @@ abstract class FileAbstract implements FileInterface
      * @return bool
      */
     abstract public function isPublicationAllowed();
+
+    /**
+     * Build unique file path for publication
+     *
+     * @return string
+     */
+    abstract public function getPublicationPath();
+
+    /**
+     * @return string|null
+     */
+    public function getSourcePath()
+    {
+        if ($this->sourcePath === null) {
+            // Fallback look-up for view files. Remember it can be file of any type: CSS, LESS, JS, image
+            $fallbackSourcePath = $this->viewFileSystem->getViewFile($this->getFilePath(), $this->getViewParams());
+            $this->setSourcePath($fallbackSourcePath);
+        }
+        return $this->sourcePath;
+    }
+
+    /**
+     * Original file extension
+     *
+     * @return string
+     */
+    public function getExtension()
+    {
+        if ($this->extension === null) {
+            $this->extension = strtolower(pathinfo($this->getFilePath(), PATHINFO_EXTENSION));
+        }
+        return $this->extension;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFilePath()
+    {
+        return $this->filePath;
+    }
+
+    /**
+     * @return array
+     */
+    public function getViewParams()
+    {
+        return $this->viewParams;
+    }
+
+    /**
+     * Build path to file located in public folder
+     *
+     * @return string
+     */
+    public function buildPublicViewFilename()
+    {
+        return $this->viewService->getPublicDir() . '/' . $this->getPublicationPath();
+    }
 
     /**
      * @param string $filePath
@@ -173,37 +206,17 @@ abstract class FileAbstract implements FileInterface
      * @param string $sourcePath
      * @return $this
      */
-    public function setSourcePath($sourcePath)
+    protected function setSourcePath($sourcePath)
     {
-        $this->sourcePath = $sourcePath;
+        if (!$this->rootDirectory->isExist($this->rootDirectory->getRelativePath($sourcePath))) {
+            //TODO null can be ambiguous: it can mean that value was not initialized or null is actually returned
+            $this->sourcePath = null;
+        } else {
+            $this->sourcePath = $sourcePath;
+        }
+
         return $this;
     }
-
-    /**
-     * @return string|null
-     */
-    public function getSourcePath()
-    {
-        if ($this->sourcePath === null) {
-
-            // 1. Fallback look-up for view files. Remember it can be file of any type: CSS, LESS, JS, image
-            $fallbackSourcePath = $this->viewFileSystem->getViewFile($this->getFilePath(), $this->getViewParams());
-
-            // 2. If $sourcePath returned actually not exists replace it with null value.
-            if (!$this->rootDirectory->isExist($this->rootDirectory->getRelativePath($fallbackSourcePath))) {
-                $this->sourcePath = null;
-                //TODO null can be ambiguous: it can mean that value was not initialized or null is actually returned
-            }
-        }
-        return $this->sourcePath;
-    }
-
-    /**
-     * Build unique file path for publication
-     *
-     * @return string
-     */
-    abstract public function getPublicationPath();
 
     /**
      * Build public filename for a theme file that always includes area/package/theme/locate parameters
@@ -248,15 +261,5 @@ abstract class FileAbstract implements FileInterface
             $publicFile = self::PUBLIC_MODULE_DIR . '/' . $module . '/' . $publicFile;
         }
         return $publicFile;
-    }
-
-    /**
-     * Build path to file located in public folder
-     *
-     * @return string
-     */
-    public function buildPublicViewFilename()
-    {
-        return $this->viewService->getPublicDir() . '/' . $this->getPublicationPath();
     }
 }

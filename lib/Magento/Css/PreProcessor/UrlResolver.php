@@ -54,12 +54,18 @@ class UrlResolver implements PreProcessorInterface
     protected $logger;
 
     /**
+     * @var \Magento\View\Publisher\FileFactory
+     */
+    protected $fileFactory;
+
+    /**
      * @param \Magento\App\Filesystem $filesystem
      * @param \Magento\View\FileSystem $viewFileSystem
      * @param \Magento\View\RelatedFile $relatedFile
      * @param \Magento\View\Url\CssResolver $cssUrlResolver
      * @param \Magento\View\Publisher $publisher
      * @param \Magento\Logger $logger
+     * @param \Magento\View\Publisher\FileFactory $fileFactory
      */
     public function __construct(
         \Magento\App\Filesystem $filesystem,
@@ -67,7 +73,8 @@ class UrlResolver implements PreProcessorInterface
         \Magento\View\RelatedFile $relatedFile,
         \Magento\View\Url\CssResolver $cssUrlResolver,
         \Magento\View\Publisher $publisher,
-        \Magento\Logger $logger
+        \Magento\Logger $logger,
+        \Magento\View\Publisher\FileFactory $fileFactory
     ) {
         $this->rootDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR);
         $this->viewFileSystem = $viewFileSystem;
@@ -75,6 +82,7 @@ class UrlResolver implements PreProcessorInterface
         $this->cssUrlResolver = $cssUrlResolver;
         $this->publisher = $publisher;
         $this->logger = $logger;
+        $this->fileFactory = $fileFactory;
     }
 
     /**
@@ -82,12 +90,12 @@ class UrlResolver implements PreProcessorInterface
      *
      * @param \Magento\View\Publisher\FileInterface $publisherFile
      * @param \Magento\Filesystem\Directory\WriteInterface $targetDirectory
-     * @return string
+     * @return \Magento\View\Publisher\FileInterface
      */
     public function process(\Magento\View\Publisher\FileInterface $publisherFile, $targetDirectory)
     {
         if (!$publisherFile->isPublicationAllowed()) {
-            return $publisherFile->getSourcePath();
+            return $publisherFile;
         }
         $filePath = $this->viewFileSystem->normalizePath($publisherFile->getFilePath());
         $sourcePath = $this->viewFileSystem->normalizePath($publisherFile->getSourcePath());
@@ -112,7 +120,14 @@ class UrlResolver implements PreProcessorInterface
         $tmpFilePath = Composite::TMP_VIEW_DIR . '/' . self::TMP_RESOLVER_DIR . '/'
             . $publisherFile->getPublicationPath();
         $targetDirectory->writeFile($tmpFilePath, $content);
-        return $targetDirectory->getAbsolutePath($tmpFilePath);
+
+        $processedFile = $this->fileFactory->create(
+            $publisherFile->getFilePath(),
+            $params,
+            $targetDirectory->getAbsolutePath($tmpFilePath)
+        );
+
+        return $processedFile;
     }
 
     /**

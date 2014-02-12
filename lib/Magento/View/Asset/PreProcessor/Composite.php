@@ -54,10 +54,10 @@ class Composite implements PreProcessorInterface
         $assetType = $publisherFile->getExtension();
 
         foreach ($this->getAssetTypePreProcessors($assetType) as $preProcessor) {
-            $publisherFile->setSourcePath($preProcessor->process($publisherFile, $targetDirectory));
+            $publisherFile = $preProcessor->process($publisherFile, $targetDirectory);
         }
 
-        return $publisherFile->getSourcePath();
+        return $publisherFile;
     }
 
     /**

@@ -51,10 +51,10 @@ class Composite implements PreProcessorInterface
     public function process(\Magento\View\Publisher\FileInterface $publisherFile, $targetDirectory)
     {
         foreach ($this->preProcessors as $preProcessor) {
-            $publisherFile->setSourcePath($preProcessor->process($publisherFile, $targetDirectory));
+            $publisherFile = $preProcessor->process($publisherFile, $targetDirectory);
         }
 
-        return $publisherFile->getSourcePath();
+        return $publisherFile;
     }
 
     /**

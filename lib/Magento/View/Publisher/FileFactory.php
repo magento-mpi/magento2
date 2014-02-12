@@ -52,10 +52,11 @@ class FileFactory
      *
      * @param string $filePath
      * @param array $viewParams
-     * @return FileInterface
+     * @param null $sourcePath
      * @throws \UnexpectedValueException
+     * @return FileInterface
      */
-    public function create($filePath, array $viewParams)
+    public function create($filePath, array $viewParams, $sourcePath = null)
     {
         $instanceName = $this->instanceName;
         $extension = $this->getExtension($filePath);
@@ -65,9 +66,9 @@ class FileFactory
         $publisherFile = $this->objectManager->create(
             $instanceName,
             [
-                'filePath' => $filePath,
+                'filePath'   => $filePath,
                 'viewParams' => $viewParams,
-                'extension' => $extension
+                'sourcePath' => $sourcePath
             ]
         );
 
