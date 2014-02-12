@@ -1,5 +1,3 @@
-                $addressModel->setData('region_code', $address->getRegion()->getRegionCode());
-                $addressModel->setData('region_id', $address->getRegion()->getRegionId());
 <?php
 /**
  *

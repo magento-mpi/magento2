@@ -90,6 +90,9 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
      */
     private $_customerHelperMock;
 
+    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\ObjectManager */
+    protected $_objectManagerMock;
+
     public function setUp()
     {
         $this->_customerFactoryMock = $this->getMockBuilder('Magento\Customer\Model\CustomerFactory')
@@ -186,13 +189,20 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
                 ->getMock();
 
         $this->_customerHelperMock =
-            $this->getMockBuilder('\Magento\Customer\Helper\Data')
+            $this->getMockBuilder('Magento\Customer\Helper\Data')
                 ->disableOriginalConstructor()
                 ->setMethods(['isCustomerInStore'])
                 ->getMock();
         $this->_customerHelperMock->expects($this->any())
             ->method('isCustomerInStore')
             ->will($this->returnValue(false));
+
+        $this->_objectManagerMock = $this->getMock('Magento\ObjectManager', [], [], '', false);
+        $this->_objectManagerMock
+            ->expects($this->any())
+            ->method('create')
+            ->with('Magento\Customer\Helper\Data')
+            ->will($this->returnValue($this->_customerHelperMock));
     }
 
 
@@ -987,7 +997,7 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             new Dto\Response\CreateCustomerAccountResponseBuilder(),
             $this->_customerServiceMock,
             $this->_customerAddressServiceMock,
-            $this->_customerHelperMock
+            $this->_objectManagerMock
         );
         return $customerService;
     }
