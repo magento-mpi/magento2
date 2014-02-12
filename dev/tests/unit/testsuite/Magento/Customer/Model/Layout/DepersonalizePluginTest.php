@@ -1,14 +1,19 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: akaplya
- * Date: 2/10/14
- * Time: 7:58 PM
+ * {license_notice}
+ *
+ * @category    Magento
+ * @package     Magento_Customer
+ * @subpackage  unit_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
-
 namespace Magento\Customer\Model\Layout;
 
-
+/**
+ * Class DepersonalizePluginTest
+ * @package Magento\Customer\Model\Layout
+ */
 class DepersonalizePluginTest  extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -122,8 +127,8 @@ class DepersonalizePluginTest  extends \PHPUnit_Framework_TestCase
         $this->customerSessionMock->expects($this->once())
             ->method('setCustomer')
             ->with($this->equalTo($this->customerMock));
-        $output = $this->plugin->beforeGenerateXml(null);
-        $this->assertEquals(null, $output);
+        $output = $this->plugin->beforeGenerateXml();
+        $this->assertNull($output);
     }
 
     /**
@@ -136,8 +141,8 @@ class DepersonalizePluginTest  extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(true));
         $this->layoutMock->expects($this->never())
             ->method('isCacheable');
-        $output = $this->plugin->beforeGenerateXml(null);
-        $this->assertEquals(null, $output);
+        $output = $this->plugin->beforeGenerateXml();
+        $this->assertNull($output);
     }
 
     /**
@@ -153,7 +158,7 @@ class DepersonalizePluginTest  extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(false));
         $this->eventManagerMock->expects($this->never())
             ->method('dispatch');
-        $output = $this->plugin->beforeGenerateXml(null);
-        $this->assertEquals(null, $output);
+        $output = $this->plugin->beforeGenerateXml();
+        $this->assertNull($output);
     }
 }

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Index\Block\Adminhtml\Process;
 
 class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
@@ -62,6 +61,8 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 
     /**
      * Class constructor
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -74,7 +75,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare grid collection
      *
-     * @return \Magento\Index\Block\Adminhtml\Process\Grid
+     * @return $this
      */
     protected function _prepareCollection()
     {
@@ -87,7 +88,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Add name and description to collection elements
      *
-     * @return \Magento\Index\Block\Adminhtml\Process\Grid
+     * @return $this
      */
     protected function _afterLoadCollection()
     {
@@ -110,7 +111,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Prepare grid columns
      *
-     * @return \Magento\Index\Block\Adminhtml\Process\Grid
+     * @return $this
      */
     protected function _prepareColumns()
     {
@@ -275,7 +276,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Add mass-actions to grid
      *
-     * @return \Magento\Index\Block\Adminhtml\Process\Grid
+     * @return $this
      */
     protected function _prepareMassaction()
     {

@@ -1,6 +1,6 @@
 <?php
 /**
- * Customer session storage
+ * Depersonalize customer session data
  *
  * {license_notice}
  *
@@ -62,7 +62,7 @@ class DepersonalizePlugin
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Event\Manager $eventManager,
         \Magento\App\RequestInterface $request
-    ){
+    ) {
         $this->layout = $layout;
         $this->session = $session;
         $this->customerSession = $customerSession;
@@ -78,11 +78,11 @@ class DepersonalizePlugin
      * @param null $arguments
      * @return null
      */
-    public function beforeGenerateXml($arguments)
+    public function beforeGenerateXml($arguments = null)
     {
         if (!$this->request->isAjax() && $this->layout->isCacheable()) {
-            $customerSegmentIds  = $this->customerSession->getCustomerSegmentIds();
-            $customerGroupId    = $this->customerSession->getCustomerGroupId();
+            $customerSegmentIds = $this->customerSession->getCustomerSegmentIds();
+            $customerGroupId = $this->customerSession->getCustomerGroupId();
             $this->eventManager->dispatch('before_session_write_close');
             session_write_close();
             $this->session->clearStorage();

@@ -7,6 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Invitation\Controller\Adminhtml\Report;
+
+use Magento\App\ViewInterface;
+use Magento\App\ResponseInterface;
 
 /**
  * Invitation reports controller
@@ -14,12 +18,6 @@
  * @category   Magento
  * @package    Magento_Invitation
  */
-
-namespace Magento\Invitation\Controller\Adminhtml\Report;
-
-use Magento\App\ViewInterface;
-use Magento\App\ResponseInterface;
-
 class Invitation extends \Magento\Backend\App\Action
 {
     /**
@@ -71,7 +69,7 @@ class Invitation extends \Magento\Backend\App\Action
     /**
      * General report action
      *
-     * @return ViewInterface
+     * @return void
      */
     public function indexAction()
     {
@@ -119,7 +117,7 @@ class Invitation extends \Magento\Backend\App\Action
     /**
      * Report by customers action
      *
-     * @return  ViewInterface
+     * @return void
      */
     public function customerAction()
     {
@@ -167,7 +165,7 @@ class Invitation extends \Magento\Backend\App\Action
     /**
      * Report by order action
      *
-     * @return ViewInterface
+     * @return void
      */
     public function orderAction()
     {

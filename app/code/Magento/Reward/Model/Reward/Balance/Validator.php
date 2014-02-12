@@ -12,16 +12,22 @@ use Magento\Reward\Model\Reward\Balance\Exception;
 class Validator
 {
     /**
+     * Reward factory
+     *
      * @var \Magento\Reward\Model\RewardFactory
      */
     protected $_modelFactory;
 
     /**
+     * Core model store manager interface
+     *
      * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
+     * Checkout session model
+     *
      * @var \Magento\Checkout\Model\Session
      */
     protected $_session;
