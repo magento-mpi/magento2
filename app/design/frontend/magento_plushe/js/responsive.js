@@ -19,11 +19,10 @@
                 $('.action.showcart').addClass('is-disabled');
 
                 $('.action.showcart').on( "click", function() {
-                if ($(this).hasClass('is-disabled')) {
-                    window.location = $(this).attr("href");
-                }
+                    if ($(this).hasClass('is-disabled')) {
+                        window.location = $(this).attr("href");
+                    }
                 });
-
 
                 $('.action.toggle.checkout.progress')
                     .on('click.gotoCheckoutProgress', function(e){
@@ -43,7 +42,7 @@
                     var productInfoMain = $('.product.info.main'),
                         productInfoAdditional = $("#product-info-additional");
 
-                    if(!productInfoAdditional.length) {
+                    if (!productInfoAdditional.length) {
 
                         var productTitle = productInfoMain.find(".page.title.product").clone(),
                             productStock = productInfoMain.find(".stock:not(.alert)").clone();
@@ -68,7 +67,10 @@
 
                 })();
 
-
+                var galleryElement = $('[data-role=media-gallery]');
+                if (galleryElement.length && galleryElement.data('zoom')) {
+                    galleryElement.zoom('disable');
+                }
             },
 
             // Switch to Desktop Version
@@ -88,6 +90,10 @@
 
                 })();
 
+                var galleryElement = $('[data-role=media-gallery]');
+                if (galleryElement.length && galleryElement.data('zoom')) {
+                    galleryElement.zoom('enable');
+                }
             }
         });
     });

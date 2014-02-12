@@ -24,11 +24,15 @@ class Item extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_rmaData;
 
     /**
+     * Rma item form model
+     *
      * @var \Magento\Rma\Model\Item\FormFactory
      */
     protected $_itemFormFactory;
 
     /**
+     * Sales order item model
+     *
      * @var \Magento\Sales\Model\Order\ItemFactory
      */
     protected $_itemFactory;

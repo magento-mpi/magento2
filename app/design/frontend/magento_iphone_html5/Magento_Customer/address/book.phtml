@@ -25,7 +25,7 @@
         <ol>
         <?php if($_pAddsses = $this->getDefaultBilling()): ?>
             <li class="info-box">
-                <h3 class="box-title"><?php echo __('Default Billing Address') ?> <span class="separator">|</span> <a href="<?php echo $this->getAddressEditUrl($this->getAddressById($_pAddsses)) ?>"><?php echo __('Edit') ?></a></h3>
+                <h3 class="box-title"><?php echo __('Default Billing Address') ?> <span class="separator">|</span> <a href="<?php echo $this->getAddressEditUrl($_pAddsses) ?>"><?php echo __('Edit') ?></a></h3>
                 <address class="box-content">
                 <?php echo $this->getAddressHtml($this->getAddressById($_pAddsses)) ?>
                 </address>
@@ -39,7 +39,7 @@
 
         <?php if($_pAddsses = $this->getDefaultShipping()): ?>
             <li class="info-box">
-                <h3 class="box-title"><?php echo __('Default Shipping Address') ?> <span class="separator">|</span> <a href="<?php echo $this->getAddressEditUrl($this->getAddressById($_pAddsses)) ?>"><?php echo __('Edit') ?></a></h3>
+                <h3 class="box-title"><?php echo __('Default Shipping Address') ?> <span class="separator">|</span> <a href="<?php echo $this->getAddressEditUrl($_pAddsses) ?>"><?php echo __('Edit') ?></a></h3>
                 <address class="box-content">
                     <?php echo $this->getAddressHtml($this->getAddressById($_pAddsses)) ?>
                 </address>

@@ -1,14 +1,11 @@
 <?php
+
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     functional_test
- * @subpackage  unit_tests
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright {copyright}
+ * @license {license_link}
  */
-
 class Mage_Test_SkipFilter_RegexpTest extends Unit_PHPUnit_TestCase
 {
     /**

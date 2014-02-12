@@ -85,7 +85,7 @@ gift_wrapping_for_item:
     individual:
         product_1:
             sku_product: %product1%
-            item_gift_message_from: billing_Steven billing_Stevenson
-            item_gift_message_to: billing_Steven billing_Stevenson
-            item_gift_message: message_%randomize%
+#            item_gift_message_from: billing_Steven billing_Stevenson
+#            item_gift_message_to: billing_Steven billing_Stevenson
+#            item_gift_message: message_%randomize%
             item_gift_wrapping_design: %giftWrappingDesign%

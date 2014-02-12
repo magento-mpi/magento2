@@ -27,7 +27,8 @@ class Core_Mage_AdvancedSearch_AdvancedSearchTest extends Mage_Selenium_TestCase
 
     public function assertPreConditions()
     {
-        $this->frontend('advanced_search');
+        $this->frontend();
+        $this->clickControl('link', 'advanced_search');
     }
 
     /**
@@ -60,12 +61,10 @@ class Core_Mage_AdvancedSearch_AdvancedSearchTest extends Mage_Selenium_TestCase
      */
     public function withAllEmptyFields()
     {
-        $this->markTestIncomplete('BUG: "Resource is not set." message after search');
         //Steps
-        $this->advancedSearchHelper()->formAdvancedSearchUrlParameter();
-        $this->saveForm('search');
+        $this->advancedSearchHelper()->frontCatalogAdvancedSearch();
         //Verifying
-        $this->assertMessagePresent('error', 'error_message');
+        $this->assertMessagePresent('error', 'specify_search_term');
     }
 
     /**
@@ -76,7 +75,6 @@ class Core_Mage_AdvancedSearch_AdvancedSearchTest extends Mage_Selenium_TestCase
      */
     public function fillFieldsWithNotExistingData()
     {
-        $this->markTestIncomplete('BUG: "Resource is not set." message after search');
         //Data
         $searchData = $this->loadDataSet('AdvancedSearch', 'generic_product_advanced_search', array(
             'name' => $this->generate('string', 10, ':punct:'),
@@ -87,7 +85,7 @@ class Core_Mage_AdvancedSearch_AdvancedSearchTest extends Mage_Selenium_TestCase
         //Steps
         $this->advancedSearchHelper()->frontCatalogAdvancedSearch($searchData);
         //Verify
-        $this->assertMessagePresent('error', 'error_message_wrong_entered_data');
+        $this->assertMessagePresent('error', 'not_find_any_items');
     }
 
     /**
@@ -101,7 +99,6 @@ class Core_Mage_AdvancedSearch_AdvancedSearchTest extends Mage_Selenium_TestCase
      */
     public function fillAllFields($productData)
     {
-        $this->markTestIncomplete('BUG: "Resource is not set." message after search');
         //Data
         $searchData = $this->loadDataSet('AdvancedSearch', 'generic_product_advanced_search_with_price', array(
             'name' => $productData['general_name'],
@@ -112,8 +109,8 @@ class Core_Mage_AdvancedSearch_AdvancedSearchTest extends Mage_Selenium_TestCase
         //Verifying
         $this->addParameter('name', $searchData['name']);
         $this->addParameter('sku', $searchData['sku']);
-        $this->assertTrue($this->controlIsPresent('pageelement', 'name'), 'There is no Name block in search result');
-        $this->assertTrue($this->controlIsPresent('pageelement', 'sku'), 'There is no SKU block in search result');
+        $this->assertTrue($this->controlIsVisible('pageelement', 'name'), 'There is no Name block in search result');
+        $this->assertTrue($this->controlIsVisible('pageelement', 'sku'), 'There is no SKU block in search result');
     }
 
     /**
@@ -127,7 +124,6 @@ class Core_Mage_AdvancedSearch_AdvancedSearchTest extends Mage_Selenium_TestCase
      */
     public function fillPriceFields($productData)
     {
-        $this->markTestIncomplete('BUG: "Resource is not set." message after search');
         //Data
         $searchData = $this->loadDataSet('AdvancedSearch', 'generic_product_advanced_search_with_price', array(
             'price_from' => $productData['prices_special_price'],
@@ -138,7 +134,7 @@ class Core_Mage_AdvancedSearch_AdvancedSearchTest extends Mage_Selenium_TestCase
         //Verifying
         $this->addParameter('price_from', $searchData['price_from']);
         $this->addParameter('price_to', $searchData['price_to']);
-        $this->assertTrue($this->controlIsPresent('pageelement', 'price'), 'There is no Price block in search result');
+        $this->assertTrue($this->controlIsVisible('pageelement', 'price'), 'There is no Price block in search result');
     }
 
     /**
@@ -152,17 +148,27 @@ class Core_Mage_AdvancedSearch_AdvancedSearchTest extends Mage_Selenium_TestCase
      */
     public function incorrectDataInPrices($productData)
     {
-        $this->markTestIncomplete('BUG: "Resource is not set." message after search');
         //Data
-        $searchData = $this->loadDataSet('AdvancedSearch', 'generic_product_advanced_search_with_price', array(
-            'price_from' => $productData['general_price'] + 1,
-            'price_to' => $productData['general_price'] * 5
+        $search = $this->loadDataSet('AdvancedSearch', 'generic_product_advanced_search_with_price', array(
+            'price_from' => 'wrongData',
+            'price_to' => $productData['general_price']
         ));
         //Steps
-        $this->advancedSearchHelper()->frontCatalogAdvancedSearch($searchData);
+        $this->advancedSearchHelper()->frontCatalogAdvancedSearch($search);
         //Verifying
-        $this->assertMessagePresent('validation', 'required_price');
-        $this->assertMessagePresent('validation', 'required_price_to');
+        $this->addFieldIdToMessage('field', 'price_from');
+        $this->assertMessagePresent('validation', 'enter_valid_number');
+        $this->frontend();
+        $this->clickControl('link', 'advanced_search');
+        //Data
+        $search = $this->loadDataSet('AdvancedSearch', 'generic_product_advanced_search_with_price', array(
+            'price_to' => 'wrongData',
+            'price_from' => $productData['general_price']
+        ));
+        //Steps
+        $this->advancedSearchHelper()->frontCatalogAdvancedSearch($search);
+        $this->addFieldIdToMessage('field', 'price_to');
+        $this->assertMessagePresent('validation', 'enter_valid_number');
     }
 
     /**
@@ -176,7 +182,6 @@ class Core_Mage_AdvancedSearch_AdvancedSearchTest extends Mage_Selenium_TestCase
      */
     public function fillWithExistAndWrongData($productData)
     {
-        $this->markTestIncomplete('BUG: "Resource is not set." message after search');
         //Data
         $searchData = $this->loadDataSet('AdvancedSearch', 'generic_product_advanced_search_with_price', array(
             'name' => $productData['general_name'],
@@ -187,7 +192,7 @@ class Core_Mage_AdvancedSearch_AdvancedSearchTest extends Mage_Selenium_TestCase
         //Steps
         $this->advancedSearchHelper()->frontCatalogAdvancedSearch($searchData);
         //Verifying
-        $this->assertMessagePresent('error', 'error_message_wrong_entered_data');
+        $this->assertMessagePresent('error', 'not_find_any_items');
     }
 
     /**
@@ -203,24 +208,18 @@ class Core_Mage_AdvancedSearch_AdvancedSearchTest extends Mage_Selenium_TestCase
      */
     public function searchByOneField($field, $productData)
     {
-        $this->markTestIncomplete('BUG: "Resource is not set." message after search');
         //Steps
-        $checkValues = array(
-            'name' => 'name',
-            'sku' => 'sku',
-            'description' => 'description',
-            'short_description' => 'short_description'
-        );
+        $checkValues = array('name', 'sku');
         //Steps
         $this->advancedSearchHelper()->frontCatalogAdvancedSearch(array($field => $productData['general_' . $field]));
         //Verifying
         $this->addParameter($field, $productData['general_' . $field]);
-        $this->assertTrue($this->controlIsPresent('pageelement', $field));
-        unset($checkValues[$field]);
+        $this->assertTrue($this->controlIsVisible('pageelement', $field));
+        unset($checkValues[array_search($field, $checkValues)]);
         foreach ($checkValues as $value) {
             $this->addParameter($value, $productData['general_' . $value]);
-            if ($this->controlIsPresent('pageelement', $value)) {
-                $this->addVerificationMessage("Control '$value' is present in Search Block");
+            if ($this->controlIsVisible('pageelement', $value)) {
+                $this->addVerificationMessage("Field '$value' is used fot search");
             }
         }
         $this->assertEmptyVerificationErrors();
@@ -229,8 +228,8 @@ class Core_Mage_AdvancedSearch_AdvancedSearchTest extends Mage_Selenium_TestCase
     public function searchWithOneFieldDataProvider()
     {
         return array(
-            array('name', 'sku'),
-            array('sku', 'name')
+            array('name'),
+            array('sku')
         );
     }
 }

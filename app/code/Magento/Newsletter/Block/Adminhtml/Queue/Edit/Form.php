@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Newsletter\Block\Adminhtml\Queue\Edit;
 
 /**
  * Newsletter queue edit form
@@ -15,9 +16,6 @@
  * @package    Magento_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-namespace Magento\Newsletter\Block\Adminhtml\Queue\Edit;
-
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
@@ -64,8 +62,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * Form can be run from newsletter template grid by option "Queue newsletter"
      * or from  newsletter queue grid by edit option.
      *
-     * @param void
-     * @return \Magento\Newsletter\Block\Adminhtml\Queue\Edit\Form
+     * @return $this
      */
     protected function _prepareForm()
     {

@@ -61,7 +61,7 @@ class Core_Mage_CheckoutOnePage_LoggedIn_ShippingMethodsTest extends Mage_Seleni
         $this->navigate('manage_products');
         $this->productHelper()->createProduct($simple);
         $this->assertMessagePresent('success', 'success_saved_product');
-        $this->frontend('customer_login');
+        $this->frontend();
         $this->customerHelper()->registerCustomer($userData);
         $this->assertMessagePresent('success', 'success_registration');
 

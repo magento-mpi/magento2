@@ -13,7 +13,7 @@
 # 'Orders' page
 manage_sales_orders:
     mca: sales/order/
-    click_xpath: //ul[@id='nav']//a[contains(@href, 'sales/order/')]
+    click_xpath: //ul[@id='nav']//a[contains(@href, '/sales/order/')]
     title: Orders / Operations / Sales / Magento Admin
     uimap:
         form:
@@ -91,10 +91,10 @@ manage_sales_orders:
             invalid_exp_date: //li[normalize-space(@class)='error-msg' and contains(.,'We found an incorrect credit card expiration date.')]
             out_of_stock_product: //div[@id='order-items_grid']//div[text()='This product is out of stock.']
             requested_quantity_not_available: //div[@id='order-items_grid']//div[text()=concat("We don't",' have as many "%productTitle%" as you requested.')]
-            min_allowed_quantity_error: //div[@id='order-items_grid']//div[text()='The most you may purchase is %qty%.']
+            min_allowed_quantity_error: //div[@id='order-items_grid']//div[text()='The fewest you may purchase is %qty%.']
             max_allowed_quantity_error: //div[@id='order-items_grid']//div[text()='The most you may purchase is %qty%.']
             wrong_increments_qty: //div[@id='order-items_grid']//div[text()='You can buy this product only in increments of %qty%.']
-            customer_email_already_exists: //li[normalize-space(@class)='error-msg' and contains(.,'Customer with the same email already exists.')]
+            customer_email_exist: //li[normalize-space(@class)='error-msg' and contains(.,'Customer with the same email already exists in associated website.')]
             email_exceeds_allowed_length: //li[normalize-space(@class)='error-msg' and contains(.,'"Email" exceeds the allowed length.')]
             email_is_not_valid_hostname: //li[normalize-space(@class)='error-msg' and contains(.,'"Email" is not a valid hostname.')]
             not_valid_hostname: //li[normalize-space(@class)='error-msg' and contains(.,"appears to be a DNS hostname but cannot match against hostname schema for TLD")]
@@ -121,7 +121,7 @@ manage_sales_orders:
 
 # 'New Order' page
 create_order_for_new_customer:
-    mca: sales_order_create/
+    mca: sales/order_create/
     title: New Order / Orders / Operations / Sales / Magento Admin
     uimap: &create_order_for_new_customer
         form:
@@ -178,19 +178,23 @@ create_order_for_new_customer:
                             product_line: //table[@class='data order-tables']/tbody
                         buttons:
                             add_products: //button[span='Add Products']
-                            configure: //tr[td/@class='first'][contains(.,'%sku%')]//button[span='Configure']
-                            disabled_configure: //tr[td/@class='first'][contains(.,'%sku%')]//button[span='Configure'][@disabled]
                             update_items_and_quantity: //button[contains(span, 'Update Items and Qty')]
+                -
+                    ordered_item: &orderedOneItem
+                        xpath: "//tbody[.//div[strong='SKU:' and contains(.,'%sku%')]]"
+                        buttons:
+                            configure: //button[span='Configure']
+                            disabled_configure: //button[span='Configure'][@disabled]
                         checkboxes:
-                            custom_price_use: //tr[td/@class='first'][contains(.,'%sku%')]//div[label='Custom Price*']/input
-                            apply: //tr[td/@class='first'][contains(.,'%sku%')]//input[contains(@id,'item_use_discount_')]
+                            custom_price_use: //div[label='Custom Price*']/input
+                            apply: "//input[contains(@name,'[use_discount]')]"
                         dropdowns:
-                            action: //tr[td/@class='first'][contains(.,'%sku%')]//select
+                            action: "//select[contains(@name,'[action]')]"
                         fields:
-                            product_qty: //tr[contains(.,'%sku%')]//input[@class='input-text item-qty']
-                            custom_price: //tr[contains(.,'%sku%')]//div[label='Custom Price*']/../input
+                            product_qty: "//input[contains(@name,'[qty]')]"
+                            custom_price: "//input[contains(@name,'[custom_price]')]"
                         links:
-                            gift_options: //tbody[contains(., '%sku%')]//a[text()='Gift Options']
+                            gift_options: //a[text()='Gift Options']
                 -
                     order_apply_coupon_code: &orderApplyCouponCode
                         xpath: //div[div/h4[contains(text(),'Apply Coupon Cod')]]
@@ -287,7 +291,7 @@ create_order_for_new_customer:
                             selected_one_payment: //label[normalize-space(text())='%paymentTitle%']
                 -
                     3d_secure_card_validation: &3DSecureCardValidation
-                        xpath: //div[div/h4[contains(text(),'3D Secure Card Validation')]]
+                        xpath: //div[div/span='3D Secure Card Validation']
                         pageelements:
                             3d_secure_iframe: //iframe[@id='centinel_authenticate_iframe']
                         buttons:
@@ -303,6 +307,8 @@ create_order_for_new_customer:
                         pageelements:
                             incorrect_password: //b[text()='Incorrect, Please try again']
                             verification_successful: //h1[text()='Verification Successful']
+                            verification_failed: //h4[text()='Verification Failed']
+                            verification_cannot_processed: //h4[text()='Verification cannot be processed']
                 -
                     order_history: &orderHistory
                         xpath: //div[div/h4[contains(text(),'Order History')]]
@@ -312,11 +318,11 @@ create_order_for_new_customer:
                     order_totals: &orderTotals
                         xpath: //fieldset[legend/span[contains(text(),'Order Totals')]]
                         pageelements:
-                            price_totals: //*[@id='order-totals']//tbody
-                            price_totals_line: //*[@id='order-totals']//tbody/descendant::tr
-                            price_totals_line_index: //*[@id='order-totals']//tbody/descendant::tr[%index%]
-                            price_totals_line_index_name: //*[@id='order-totals']//tbody/descendant::tr[%index%]/*[1]
-                            price_totals_line_index_value: //*[@id='order-totals']//tbody/descendant::tr[%index%]/*[2]
+                            price_totals: //table/tbody
+                            price_totals_line: //table/tbody//tr
+                            price_totals_line_index: //table/tbody//tr[%index%]
+                            price_totals_line_index_name: //table/tbody//tr[%index%]/td[1]
+                            price_totals_line_index_value: //table/tbody//tr[%index%]/td[2]
                             total_subtotal_excluding_tax: //tr[normalize-space(td)='Subtotal (Excl. Tax)']/td[span='%price%']
                             total_subtotal_including_tax: //tr[normalize-space(td)='Subtotal (Incl. Tax)']/td[span='%price%']
                             total_subtotal: //tr[normalize-space(td)='Subtotal']/td[span='%price%']
@@ -346,16 +352,16 @@ create_order_for_new_customer:
                         checkboxes:
                             option_checkbox_1: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//li[contains(span/label,'%optionParameter%')]//input[@type='checkbox']
                             option_checkbox_2: //div[contains(label[@class='label'],'%optionTitle%')]//div[contains(label/span,'%optionParameter%')]//input[@type='checkbox']
+                            option_checkbox_3: //div[contains(label[@class='label'],'%optionTitle%')]//div[contains(label,'%optionParameter%')]//input[@type='checkbox']
                         fields:
                             option_field_1: //div[contains(label[@class='label'],'%optionTitle%')]//input[@type='text']
                             option_field_2: //div[contains(label[@class='label'],'%optionTitle%')]//textarea
                             option_field_3: //tr[td='%optionParameter%']//input[@type='text']
                             option_field_4: //dt[contains(label,'%optionTitle%')][contains(.,'%optionParameter%')]//input[@type='text']
-#                            option_field_2: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//input[@type='text']
-#                            option_field_3: //dt[contains(label,'%optionTitle%')]//input[@type='text']
                         dropdowns:
-                            option_dropdown_1: //dd[div[@class='input-box']]//select[not(contains(@class,'multiselect'))]
-                            option_dropdown_2: //div[contains(label[@class='label'],'%optionTitle%')]//select
+                            option_dropdown_1: //div[contains(label[@class='label'],'%optionTitle%')]//select[contains(@name,'%optionParameter%')]
+                            option_dropdown_2: //dd[div[@class='input-box']]//select[not(contains(@class,'multiselect'))]
+                            option_dropdown_3: //div[contains(label[@class='label'],'%optionTitle%')]//select
                         multiselects:
                             option_multiselect_1: //dt[contains(label,'%optionTitle%')]//following-sibling::dd[1]//select[contains(@class,'multiselect')]
                             option_multiselect_2: //div[contains(label[@class='label'],'%optionTitle%')]//select[contains(@class,'multiselect')]
@@ -393,12 +399,12 @@ create_order_for_new_customer:
         messages: *orderMessages
 
 reorder_create_new_order:
-    mca: sales_order_create/reorder/order_id/%id%/
+    mca: sales/order_create/reorder/order_id/%id%/
     title: New Order / Orders / Operations / Sales / Magento Admin
     uimap: *create_order_for_new_customer
 
 create_order_for_existing_customer:
-    mca: sales_order_create/index/customer_id/%id%/
+    mca: sales/order_create/index/customer_id/%id%/
     title: New Order / Orders / Operations / Sales / Magento Admin
     uimap:
         form: &newOrderForExistCustomerForm
@@ -411,6 +417,8 @@ create_order_for_existing_customer:
                     select_products_to_add: *selectProductsToAdd
                 -
                     order_items_ordered: *orderItemsOrdered
+                -
+                    ordered_item: *orderedOneItem
                 -
                     order_apply_coupon_code: *orderApplyCouponCode
                 -
@@ -510,7 +518,7 @@ view_order:
                                     xpath: //div[div/span='Shipping & Handling Information']
                             -
                                 items_ordered:
-                                    xpath: //div[@class='grid']
+                                    xpath: //div[div/span='Items Ordered']
                                     fields:
                                         qty_ordered: //tbody[@class][tr[contains(.,'%sku%')]]//tr[td='Ordered'][td/strong='%orderedQty%']
                                         qty_invoiced: //tbody[@class][tr[contains(.,'%sku%')]]//tr[td='Invoiced'][td/strong='%invoicedQty%']
@@ -519,8 +527,8 @@ view_order:
                                     links:
                                         gift_options: //tbody[contains(., '%sku%')]//a[text()='Gift Options']
                                     pageelements:
-                                        product_table_head: //table[@class='data order-tables']/thead
-                                        product_line: //table[@class='data order-tables']/tbody
+                                        product_table_head: //table[@class='data']/thead
+                                        product_line: //table[@class='data']/tbody
                             -
                                 gift_options: *giftMessage
                             -
@@ -541,11 +549,11 @@ view_order:
                                 order_totals:
                                     xpath: //div[@class='order-totals']
                                     pageelements:
-                                        price_totals: //div[@class='order-totals']/table
-                                        price_totals_line: //div[@class='order-totals']/table/descendant::tr
-                                        price_totals_line_index: //div[@class='order-totals']/table/descendant::tr[%index%]
-                                        price_totals_line_index_name: //div[@class='order-totals']/table/descendant::tr[%index%]/*[1]
-                                        price_totals_line_index_value: //div[@class='order-totals']/table/descendant::tr[%index%]/*[2]
+                                        price_totals: //div/table
+                                        price_totals_line: //div/table//tr
+                                        price_totals_line_index: //div/table//tr[%index%]
+                                        price_totals_line_index_name: //div/table//tr[%index%]/td[1]
+                                        price_totals_line_index_value: //div/table//tr[%index%]/td[2]
                                         total_subtotal: //tr[normalize-space(td)='Subtotal']/td[span='%price%']
                                         total_subtotal_excl_tax: //tr[normalize-space(td)='Subtotal (Excl.Tax)']/td[span='%price%']
                                         total_subtotal_incl_tax: //tr[normalize-space(td)='Subtotal (Incl.Tax)']/td[span='%price%']
@@ -671,7 +679,7 @@ view_order:
         messages: *orderMessages
 
 edit_order:
-    mca: sales_order_edit/
+    mca: sales/order_edit/
     title: Edit Order / Orders / Operations / Sales / Magento Admin
     uimap:
         form: *newOrderForExistCustomerForm

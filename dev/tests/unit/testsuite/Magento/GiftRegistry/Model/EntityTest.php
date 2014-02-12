@@ -45,7 +45,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $resource = $this->getMock('Magento\GiftRegistry\Model\Resource\Entity', array(), array(), '', false);
-        $translate = $this->getMock('Magento\Core\Model\Translate', array(), array(), '', false);
+        $translate = $this->getMock('Magento\TranslateInterface', array(), array(), '', false);
 
         $factory = $this->getMock('Magento\Email\Model\TemplateFactory', array('create'), array(), '', false);
         $this->_store = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);

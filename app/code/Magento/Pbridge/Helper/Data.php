@@ -7,7 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Pbridge\Helper;
 
+use Magento\Core\Model\Store;
+use Magento\Pbridge\Model\Encryption;
+use Magento\Sales\Model\Quote;
 
 /**
  * Pbridge helper
@@ -16,8 +20,6 @@
  * @package     Magento_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Pbridge\Helper;
-
 class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
@@ -37,29 +39,28 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Payment Bridge payment methods available for the current merchant
      *
-     * $var array
+     * @var array
      */
     protected $_pbridgeAvailableMethods = array();
 
     /**
-     * Payment Bridge payment methods available for the current merchant
-     * and usable for current conditions
+     * Payment Bridge payment methods available for the current merchant and usable for current conditions
      *
-     * $var array
+     * @var array
      */
     protected $_pbridgeUsableMethods = array();
 
     /**
      * Encryptor model
      *
-     * @var \Magento\Pbridge\Model\Encryption
+     * @var Encryption|null
      */
     protected $_encryptor = null;
 
     /**
      * Store id
      *
-     * @var unknown_type
+     * @var int|null
      */
     protected $_storeId = null;
 
@@ -113,16 +114,21 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_encryptionFactory;
 
     /**
-     * Cart factory
-     *
-     * @var \Magento\Paypal\Model\CartFactory
+     * Application state
+     * 
+     * @var \Magento\App\State
+     */
+    protected $_appState;
+
+    /**
+     * @var \Magento\Payment\Model\CartFactory
      */
     protected $_cartFactory;
 
     /**
-     * @var \Magento\App\State
+     * @var \Magento\Paypal\Model\CartFactory
      */
-    protected $_appState;
+    protected $_paypalCartFactory;
 
     /**
      * Construct
@@ -135,8 +141,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Pbridge\Model\EncryptionFactory $encryptionFactory
-     * @param \Magento\Paypal\Model\CartFactory $cartFactory
      * @param \Magento\App\State $appState
+     * @param \Magento\Payment\Model\CartFactory $cartFactory
+     * @param \Magento\Paypal\Model\CartFactory $paypalCartFactory
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
@@ -147,8 +154,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\View\LayoutInterface $layout,
         \Magento\Pbridge\Model\EncryptionFactory $encryptionFactory,
-        \Magento\Paypal\Model\CartFactory $cartFactory,
-        \Magento\App\State $appState
+        \Magento\App\State $appState,
+        \Magento\Payment\Model\CartFactory $cartFactory,
+        \Magento\Paypal\Model\CartFactory $paypalCartFactory
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_customerSession = $customerSession;
@@ -157,15 +165,16 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $this->_locale = $locale;
         $this->_layout = $layout;
         $this->_encryptionFactory = $encryptionFactory;
-        $this->_cartFactory = $cartFactory;
         $this->_appState = $appState;
+        $this->_cartFactory = $cartFactory;
+        $this->_paypalCartFactory = $paypalCartFactory;
         parent::__construct($context);
     }
 
     /**
      * Check if Payment Bridge Magento Module is enabled in configuration
      *
-     * @param \Magento\Core\Model\Store $store
+     * @param Store $store
      * @return bool
      */
     public function isEnabled($store = null)
@@ -176,7 +185,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Check if Payment Bridge supports Payment Profiles
      *
-     * @param \Magento\Core\Model\Store $store
+     * @param Store|null $store
      * @return bool
      */
     public function arePaymentProfilesEnables($store = null)
@@ -189,8 +198,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Check if enough config paramters to use Pbridge module
      *
-     * @param \Magento\Core\Model\Store | integer $store
-     * @return boolean
+     * @param Store|int|null $store
+     * @return bool
      */
     public function isAvailable($store = null)
     {
@@ -202,12 +211,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Getter
      *
-     * @param \Magento\Sales\Model\Quote $quote
-     * @return \Magento\Sales\Model\Quote | null
+     * @param Quote|null $quote
+     * @return Quote|null
      */
     protected function _getQuote($quote = null)
     {
-        if ($quote && $quote instanceof \Magento\Sales\Model\Quote) {
+        if ($quote && $quote instanceof Quote) {
             return $quote;
         }
         return $this->_checkoutSession->getQuote();
@@ -286,7 +295,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * Return payment Bridge request URL to display gateway form
      *
      * @param array $params OPTIONAL
-     * @param \Magento\Sales\Model\Quote $quote
+     * @param Quote|null $quote
      * @return string
      */
     public function getGatewayFormUrl(array $params = array(), $quote = null)
@@ -347,7 +356,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Return a modified encryptor
      *
-     * @return \Magento\Pbridge\Model\Encryption
+     * @return Encryption
      */
     public function getEncryptor()
     {
@@ -407,9 +416,35 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function prepareCart($order)
     {
-        $paypalCart = $this->_cartFactory->create(array('params' => array($order)))
-            ->isDiscountAsItem(true);
-        return array($paypalCart->getItems(true), $paypalCart->getTotals());
+        return $this->_prepareCart($this->_cartFactory->create(array('salesModel' => $order)));
+    }
+
+    /**
+     * Prepare PayPal cart from order
+     *
+     * @param \Magento\Core\Model\AbstractModel $order
+     * @return array
+     */
+    public function preparePaypalCart($order)
+    {
+        return $this->_prepareCart($this->_paypalCartFactory->create(array('salesModel' => $order)));
+    }
+
+    /**
+     * Prepare cart line items
+     *
+     * @param \Magento\Payment\Model\Cart $cart
+     */
+    protected function _prepareCart(\Magento\Payment\Model\Cart $cart)
+    {
+        $items = $cart->getAllItems();
+
+        $result = array();
+        foreach ($items as $item) {
+            $result['items'][] = $item->getData();
+        }
+
+        return array_merge($result, $cart->getAmounts());
     }
 
     /**

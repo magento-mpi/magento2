@@ -227,7 +227,6 @@ scpr_all_fields:
         store_view_labels:
             Default Store View: rule label(shop.cart) for store view
 
-
 #<-----------------------------------------Percent of Product Price Discount------------------------------------------->
 scpr_percent_of_product_price_discount:
     info:
@@ -281,7 +280,6 @@ totals_for_percent_of_product_price_discount:
     discount_rule_label_shop_cart_for_store_view: -$89.97
     tax: $49.48
     grand_total: $609.28
-
 
 #<----------------------------------------------Fixed Amount Discount-------------------------------------------------->
 

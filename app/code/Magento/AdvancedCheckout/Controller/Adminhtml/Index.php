@@ -80,7 +80,9 @@ class Index extends \Magento\Backend\App\Action
         }
 
         $storeManager = $this->_objectManager->get('Magento\Core\Model\StoreManager');
-        if ($storeManager->getStore()->getWebsiteId() == $customer->getWebsiteId()) {
+        if ($storeManager->getStore(\Magento\Core\Model\Store::ADMIN_CODE)->getWebsiteId() ==
+            $customer->getWebsiteId()
+        ) {
             if ($useRedirects) {
                 $this->messageManager->addError(
                     __('Shopping cart management disabled for this customer.')

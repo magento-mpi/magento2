@@ -14,8 +14,8 @@ url_rewrite_custom:
     rewrite_type: Custom
     rewrite_info:
         id_path: %randomize%_id
-        store: %noValue%
-        request_path: %randomize%_request_path
+        store: Default Store View
+        request_path: %randomize%_request_path.html
         target_path: %randomize%_target_path
         redirect: No
         description: %noValue%
@@ -30,22 +30,17 @@ url_rewrite_product:
     select_category:
         category: %noValue%
     rewrite_info:
-        store: %noValue%
+        store: Default Store View
         request_path: product-%randomize%.html
         redirect: No
         description: %noValue%
-
-url_rewrite_product_custom:
-    id_path: %randomize%
-    request_path: Product(%randomize%).html
-    target_path: %noValue%
 
 url_rewrite_category:
     rewrite_type: For category
     select_category:
         category: %noValue%
     rewrite_info:
-        store: %noValue%
+        store: Default Store View
         request_path: category_%randomize%.html
         redirect: No
         description: %noValue%
@@ -58,33 +53,7 @@ url_rewrite_cms_page:
         filter_title: %noValue%
         filter_url_key: %noValue%
     rewrite_info:
-        store: %noValue%
+        store: Default Store View
         request_path: cms_page_url_%randomize%
         redirect: No
         description: %noValue%
-
-url_rewrite_custom_sample:
-    target_path: customer-service
-    description: Test description
-    request_store: Default Store View
-
-url_cms_page_req:
-    page_information:
-        page_title: new cms page(%randomize%)
-        url_key: cms_page_url_%randomize%
-        store_view: Default Store View
-        status: Enabled
-    content:
-        content_heading: test
-        editor: test
-
-url_search_url:
-    url_key: %noValue%
-
-url_sub_category_required:
-    parent_category: Default Category
-    name: Sub Category Required(%randomize%)
-    url_key: %noValue%
-    is_active: Yes
-    available_product_listing_config: No
-    available_product_listing: Position, Name, Price

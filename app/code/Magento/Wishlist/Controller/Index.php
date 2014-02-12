@@ -538,6 +538,14 @@ class Index
             $cart->save()->getQuote()->collectTotals();
             $wishlist->save();
 
+            if (!$cart->getQuote()->getHasError()) {
+                $message = __(
+                    'You added %1 to your shopping cart.',
+                    $this->_objectManager->get('Magento\Escaper')->escapeHtml($item->getProduct()->getName())
+                );
+                $this->messageManager->addSuccess($message);
+            }
+
             $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
 
             if ($this->_objectManager->get('Magento\Checkout\Helper\Cart')->getShouldRedirectToCart()) {
@@ -678,8 +686,8 @@ class Index
             return;
         }
 
-        $translate = $this->_objectManager->get('Magento\Core\Model\Translate');
-        /* @var $translate \Magento\Core\Model\Translate */
+        $translate = $this->_objectManager->get('Magento\TranslateInterface');
+        /* @var $translate \Magento\TranslateInterface */
         $translate->setTranslateInline(false);
         $sent = 0;
 

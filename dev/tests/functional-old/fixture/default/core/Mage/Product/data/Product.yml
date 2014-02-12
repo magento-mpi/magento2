@@ -503,6 +503,7 @@ simple_product_visible:
     general_weight: 1.14
     general_categories: Default Category
     general_description: %noValue%
+    prices_special_price: %noValue%
     autosettings_visibility: %noValue%
     autosettings_short_description: %noValue%
     websites: Main Website
@@ -545,7 +546,7 @@ simple_product:
     design_custom_design: %design_theme%
     design_active_from: %currentDate%
     design_active_to: %currentDate%
-    design_custom_layout_update: Custom Layout Update
+    design_custom_layout_update: '<remove name="catalog.compare.sidebar"/>'
     design_page_layout: 3 columns
     design_display_product_options_in: Product Info Column
     autosettings_news_from: %currentDate%
@@ -615,7 +616,7 @@ duplicate_simple:
     design_custom_design: %design_theme%
     design_active_from: %currentDate%
     design_active_to: %currentDate%
-    design_custom_layout_update: Custom Layout Update
+    design_custom_layout_update: '<remove name="catalog.compare.sidebar"/>'
     design_page_layout: 3 columns
     design_display_product_options_in: Product Info Column
     autosettings_news_from: %currentDate%
@@ -712,7 +713,7 @@ virtual_product:
     design_custom_design: %design_theme%
     design_active_from: %currentDate%
     design_active_to: %currentDate%
-    design_custom_layout_update: Custom Layout Update
+    design_custom_layout_update: '<remove name="catalog.compare.sidebar"/>'
     design_page_layout: 3 columns
     design_display_product_options_in: Product Info Column
     autosettings_short_description: %noValue%
@@ -781,7 +782,7 @@ duplicate_virtual:
     design_custom_design: %design_theme%
     design_active_from: %currentDate%
     design_active_to: %currentDate%
-    design_custom_layout_update: Custom Layout Update
+    design_custom_layout_update: '<remove name="catalog.compare.sidebar"/>'
     design_page_layout: 3 columns
     design_display_product_options_in: Product Info Column
     autosettings_allow_gift_message_default: No
@@ -895,7 +896,7 @@ dynamic_bundle:
     design_custom_design: %design_theme%
     design_active_from: %currentDate%
     design_active_to: %currentDate%
-    design_custom_layout_update: Custom Layout Update
+    design_custom_layout_update: '<remove name="catalog.compare.sidebar"/>'
     design_page_layout: 3 columns
     design_display_product_options_in: Product Info Column
     inventory_manage_stock_default: No
@@ -942,7 +943,7 @@ fixed_bundle:
     design_custom_design: %design_theme%
     design_active_from: %currentDate%
     design_active_to: %currentDate%
-    design_custom_layout_update: Custom Layout Update
+    design_custom_layout_update: '<remove name="catalog.compare.sidebar"/>'
     design_page_layout: 3 columns
     design_display_product_options_in: Product Info Column
     autosettings_allow_gift_message_default: No
@@ -990,7 +991,7 @@ duplicate_fixed_bundle:
     design_custom_design: %design_theme%
     design_active_from: %currentDate%
     design_active_to: %currentDate%
-    design_custom_layout_update: Custom Layout Update
+    design_custom_layout_update: '<remove name="catalog.compare.sidebar"/>'
     design_page_layout: 3 columns
     design_display_product_options_in: Product Info Column
     autosettings_short_description: %noValue%
@@ -1053,7 +1054,7 @@ duplicate_dynamic_bundle:
     design_custom_design: %design_theme%
     design_active_from: %currentDate%
     design_active_to: %currentDate%
-    design_custom_layout_update: Custom Layout Update
+    design_custom_layout_update: '<remove name="catalog.compare.sidebar"/>'
     design_page_layout: 3 columns
     design_display_product_options_in: Product Info Column
     autosettings_short_description: %noValue%
@@ -1132,7 +1133,7 @@ grouped_product:
     design_custom_design: %design_theme%
     design_active_from: %currentDate%
     design_active_to: %currentDate%
-    design_custom_layout_update: Custom Layout Update
+    design_custom_layout_update: '<remove name="catalog.compare.sidebar"/>'
     design_page_layout: 3 columns
     design_display_product_options_in: Product Info Column
     autosettings_allow_gift_message_default: No
@@ -1170,7 +1171,7 @@ duplicate_grouped:
     design_custom_design: %design_theme%
     design_active_from: %currentDate%
     design_active_to: %currentDate%
-    design_custom_layout_update: Custom Layout Update
+    design_custom_layout_update: '<remove name="catalog.compare.sidebar"/>'
     design_page_layout: 3 columns
     design_display_product_options_in: Product Info Column
     autosettings_allow_gift_message_default: No
@@ -1261,7 +1262,7 @@ configurable_product:
     design_custom_design: %design_theme%
     design_active_from: %currentDate%
     design_active_to: %currentDate%
-    design_custom_layout_update: Custom Layout Update
+    design_custom_layout_update: '<remove name="catalog.compare.sidebar"/>'
     design_page_layout: 3 columns
     design_display_product_options_in: Product Info Column
     autosettings_short_description: %noValue%
@@ -1310,7 +1311,7 @@ duplicate_configurable:
     design_custom_design: %design_theme%
     design_active_from: %currentDate%
     design_active_to: %currentDate%
-    design_custom_layout_update: Custom Layout Update
+    design_custom_layout_update: '<remove name="catalog.compare.sidebar"/>'
     design_page_layout: 3 columns
     design_display_product_options_in: Product Info Column
     autosettings_short_description: %noValue%
@@ -1388,7 +1389,7 @@ downloadable_product:
     design_custom_design: %design_theme%
     design_active_from: %currentDate%
     design_active_to: %currentDate%
-    design_custom_layout_update: Custom Layout Update
+    design_custom_layout_update: '<remove name="catalog.compare.sidebar"/>'
     design_page_layout: 3 columns
     design_display_product_options_in: Product Info Column
     autosettings_short_description: %noValue%
@@ -1442,7 +1443,7 @@ duplicate_downloadable:
     design_custom_design: %design_theme%
     design_active_from: %currentDate%
     design_active_to: %currentDate%
-    design_custom_layout_update: Custom Layout Update
+    design_custom_layout_update: '<remove name="catalog.compare.sidebar"/>'
     design_page_layout: 3 columns
     design_display_product_options_in: Product Info Column
     autosettings_short_description: %noValue%
@@ -1744,14 +1745,14 @@ custom_options_to_add_to_shopping_cart:
         options_to_choose:
             custom_option_day: 15
             custom_option_month: 10
-            custom_option_year: 2013
+            custom_option_year: 2014
     option_8:
         parameters:
             title: Custom Options Date & Time
         options_to_choose:
             custom_option_day: 15
             custom_option_month: 10
-            custom_option_year: 2013
+            custom_option_year: 2014
             custom_option_hour: 10
             custom_option_minute: 10
             custom_option_day_part: PM
@@ -1796,28 +1797,28 @@ downloadable_options_to_add_to_shopping_cart:
 bundle_options_to_add_to_shopping_cart:
     option_1:
         parameters:
-            title: Multiple Select
-        options_to_choose:
-            custom_option_multiselect: %subProduct_1%
-    option_2:
-        parameters:
-            title: Checkbox
-            optionTitle: %subProduct_2%
-        options_to_choose:
-            custom_option_checkbox: Yes
-    option_3:
-        parameters:
-            title: Radio Buttons
-            optionTitle: %subProduct_3%
-        options_to_choose:
-            custom_option_radiobutton: Yes
-            bundle_item_qty: 3
-    option_4:
-        parameters:
             title: Drop-down
         options_to_choose:
-            custom_option_dropdown: %subProduct_4%
-            bundle_item_qty: 3
+            custom_option_dropdown: %subProduct_1%
+            #bundle_item_qty: 3
+    option_2:
+        parameters:
+            title: Multiple Select
+        options_to_choose:
+            custom_option_multiselect: %subProduct_2%
+    option_3:
+        parameters:
+            title: Checkbox
+            optionTitle: %subProduct_3%
+        options_to_choose:
+            custom_option_checkbox: Yes
+    option_4:
+        parameters:
+            title: Radio Buttons
+            optionTitle: %subProduct_4%
+        options_to_choose:
+            custom_option_radiobutton: Yes
+            #bundle_item_qty: 3
 
 configurable_options_to_add_to_shopping_cart:
     option_1:
@@ -2252,7 +2253,7 @@ product_update_attributes_tab:
     attributes_change_active_to: Yes
     attributes_active_to: %currentDate%
     attributes_change_custom_layout_update: Yes
-    attributes_custom_layout_update: Custom Layout Update
+    attributes_custom_layout_update: '<remove name="catalog.compare.sidebar"/>'
     attributes_change_page_layaout: Yes
     attributes_page_layaout: 3 columns
     attributes_change_display_product_options_in: Yes
@@ -2392,7 +2393,7 @@ simple_product_url_rewrite:
     general_categories: Default Category
     general_description: %noValue%
     autosettings_short_description: %noValue%
-    autosettings_url_key: simple-product-url-key(%randomize%)
+    autosettings_url_key: simple-product-url-key-%randomize%
     autosettings_visibility: Catalog, Search
     websites: Main Website
 
@@ -2437,6 +2438,7 @@ compare_simple_product:
     autosettings_short_description: %noValue%
     autosettings_visibility: %noValue%
     websites: Main Website
+    design_page_layout: 3 columns
 
 compare_virtual_product:
     product_attribute_set: Default
@@ -2458,3 +2460,4 @@ compare_virtual_product:
     autosettings_short_description: %noValue%
     autosettings_visibility: %noValue%
     websites: Main Website
+    design_page_layout: 3 columns

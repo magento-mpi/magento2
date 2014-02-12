@@ -29,7 +29,7 @@ class Observer
     /**
      * Cronjob expression configuration
      */
-    const XML_PATH_CRON_EXPR = 'crontab/jobs/generate_sitemaps/schedule/cron_expr';
+    const XML_PATH_CRON_EXPR = 'crontab/default/jobs/generate_sitemaps/schedule/cron_expr';
 
     /**
      * Error email template configuration
@@ -64,20 +64,20 @@ class Observer
     protected $_templateFactory;
 
     /**
-     * @var \Magento\Core\Model\Translate
+     * @var \Magento\TranslateInterface
      */
     protected $_translateModel;
 
     /**
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Sitemap\Model\Resource\Sitemap\CollectionFactory $collectionFactory
-     * @param \Magento\Core\Model\Translate $translateModel
+     * @param \Magento\TranslateInterface $translateModel
      * @param \Magento\Email\Model\TemplateFactory $templateFactory
      */
     public function __construct(
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Sitemap\Model\Resource\Sitemap\CollectionFactory $collectionFactory,
-        \Magento\Core\Model\Translate $translateModel,
+        \Magento\TranslateInterface $translateModel,
         \Magento\Email\Model\TemplateFactory $templateFactory
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;

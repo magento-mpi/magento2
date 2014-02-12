@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Pbridge\Model\Payment\Method;
 
 /**
  * Paypal Direct dummy payment method model
  */
-namespace Magento\Pbridge\Model\Payment\Method;
-
 class Paypal extends \Magento\Paypal\Model\Direct
 {
     /**
@@ -207,7 +206,7 @@ class Paypal extends \Magento\Paypal\Model\Direct
     /**
      * Prepare info instance for save
      *
-     * @return \Magento\Pbridge\Model\Payment\Method\Paypal
+     * @return $this
      */
     public function prepareSave()
     {
@@ -224,7 +223,7 @@ class Paypal extends \Magento\Paypal\Model\Direct
     /**
      * Validate payment method information object
      *
-     * @return \Magento\Pbridge\Model\Payment\Method\Paypal
+     * @return $this
      */
     public function validate()
     {
@@ -233,12 +232,15 @@ class Paypal extends \Magento\Paypal\Model\Direct
     }
 
     /**
+     * Authorize payment
+     *
      * @param \Magento\Object $payment
-     * @param float amount
+     * @param float $amount
      * @return $this
      */
     public function authorize(\Magento\Object $payment, $amount)
     {
+        $payment->setCart($this->_pbridgeData->preparePaypalCart($payment->getOrder()));
         $result = new \Magento\Object($this->getPbridgeMethodInstance()->authorize($payment, $amount));
         $order = $payment->getOrder();
         $result->setEmail($order->getCustomerEmail());
@@ -247,8 +249,10 @@ class Paypal extends \Magento\Paypal\Model\Direct
     }
 
     /**
+     * Capture payment
+     *
      * @param \Magento\Object $payment
-     * @param float amount
+     * @param float $amount
      * @return $this
      */
     public function capture(\Magento\Object $payment, $amount)
@@ -260,8 +264,10 @@ class Paypal extends \Magento\Paypal\Model\Direct
     }
 
     /**
+     * Refund payment
+     *
      * @param \Magento\Object $payment
-     * @param float amount
+     * @param float $amount
      * @return $this
      */
     public function refund(\Magento\Object $payment, $amount)
@@ -271,8 +277,9 @@ class Paypal extends \Magento\Paypal\Model\Direct
     }
 
     /**
+     * Void payment
+     *
      * @param \Magento\Object $payment
-     * @param float amount
      * @return $this
      */
     public function void(\Magento\Object $payment)
@@ -294,7 +301,7 @@ class Paypal extends \Magento\Paypal\Model\Direct
      * Store id setter, also set storeId to helper
      *
      * @param int $store
-     * @return \Magento\Pbridge\Model\Payment\Method\Paypal
+     * @return $this
      */
     public function setStore($store)
     {
