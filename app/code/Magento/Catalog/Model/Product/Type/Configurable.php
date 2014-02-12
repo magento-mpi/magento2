@@ -1137,7 +1137,7 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType
         }
         $product->addData($postData)
             ->setWebsiteIds($parentProduct->getWebsiteIds())
-            ->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
+            ->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED)
             ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_NOT_VISIBLE);
     }
 }

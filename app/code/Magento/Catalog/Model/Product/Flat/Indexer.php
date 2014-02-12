@@ -203,7 +203,7 @@ class Indexer extends \Magento\Core\Model\AbstractModel
             return $this;
         }
 
-        if ($status == \Magento\Catalog\Model\Product\Status::STATUS_ENABLED) {
+        if ($status == \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED) {
             $this->_getResource()->updateProduct($productId, $store);
             $this->_getResource()->updateChildrenDataFromParent($store, $productId);
         } else {

@@ -18,6 +18,8 @@
  */
 namespace Magento\Catalog\Model\Resource\Product\Indexer\Eav;
 
+use \Magento\Catalog\Model\Product\Attribute\Source\Status as ProductStatus;
+
 class Source
     extends \Magento\Catalog\Model\Resource\Product\Indexer\Eav\AbstractEav
 {
@@ -226,7 +228,7 @@ class Source
             ->where('cs.store_id!=?', \Magento\Core\Model\Store::DEFAULT_STORE_ID)
             ->where('pvd.attribute_id IN(?)', $attrIds);
 
-        $statusCond = $adapter->quoteInto('=?', \Magento\Catalog\Model\Product\Status::STATUS_ENABLED);
+        $statusCond = $adapter->quoteInto('=?', ProductStatus::STATUS_ENABLED);
         $this->_addAttributeToSelect($select, 'status', 'pvd.entity_id', 'cs.store_id', $statusCond);
 
         if (!is_null($entityIds)) {

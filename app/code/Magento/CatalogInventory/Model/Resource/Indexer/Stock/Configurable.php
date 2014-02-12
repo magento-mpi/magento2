@@ -18,6 +18,8 @@
  */
 namespace Magento\CatalogInventory\Model\Resource\Indexer\Stock;
 
+use \Magento\Catalog\Model\Product\Attribute\Source\Status as ProductStatus;
+
 class Configurable extends DefaultStock
 {
     /**
@@ -74,7 +76,7 @@ class Configurable extends DefaultStock
             ->group(array('e.entity_id', 'cw.website_id', 'cis.stock_id'));
 
         $psExpr = $this->_addAttributeToSelect($select, 'status', 'e.entity_id', 'cs.store_id');
-        $psCond = $adapter->quoteInto($psExpr . '=?', \Magento\Catalog\Model\Product\Status::STATUS_ENABLED);
+        $psCond = $adapter->quoteInto($psExpr . '=?', ProductStatus::STATUS_ENABLED);
 
         if ($this->_isManageStock()) {
             $statusExpr = $adapter->getCheckSql('cisi.use_config_manage_stock = 0 AND cisi.manage_stock = 0',

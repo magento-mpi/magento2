@@ -30,7 +30,7 @@ class CatalogProductQuote
      */
     protected function _recollectQuotes($productId, $status)
     {
-        if ($status != \Magento\Catalog\Model\Product\Status::STATUS_ENABLED) {
+        if ($status != \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED) {
             $this->_quote->markQuotesRecollect($productId);
         }
     }

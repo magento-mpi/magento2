@@ -338,7 +338,7 @@ abstract class AbstractType
      */
     public function isSalable($product)
     {
-        $salable = $product->getStatus() == \Magento\Catalog\Model\Product\Status::STATUS_ENABLED;
+        $salable = $product->getStatus() == \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED;
         if ($salable && $product->hasData('is_salable')) {
             $salable = $product->getData('is_salable');
         }

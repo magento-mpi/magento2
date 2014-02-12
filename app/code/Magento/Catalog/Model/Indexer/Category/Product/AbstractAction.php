@@ -243,7 +243,7 @@ abstract class AbstractAction
                 ->where('cpw.website_id = ?', $store->getWebsiteId())
                 ->where(
                     $this->getWriteAdapter()->getIfNullSql('cpss.value', 'cpsd.value') . ' = ?',
-                    \Magento\Catalog\Model\Product\Status::STATUS_ENABLED
+                    \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED
                 )
                 ->where(
                     $this->getWriteAdapter()->getIfNullSql('cpvs.value', 'cpvd.value') . ' IN (?)',
@@ -403,7 +403,7 @@ abstract class AbstractAction
             ->where('cpw.website_id = ?', $store->getWebsiteId())
             ->where(
                 $this->getWriteAdapter()->getIfNullSql('cpss.value', 'cpsd.value') . ' = ?',
-                \Magento\Catalog\Model\Product\Status::STATUS_ENABLED
+                \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED
             )
             ->where(
                 $this->getWriteAdapter()->getIfNullSql('cpvs.value', 'cpvd.value') . ' IN (?)',
@@ -516,7 +516,7 @@ abstract class AbstractAction
                 ->where('cpw.website_id = ?', $store->getWebsiteId())
                 ->where(
                     $this->getWriteAdapter()->getIfNullSql('cpss.value', 'cpsd.value') . ' = ?',
-                    \Magento\Catalog\Model\Product\Status::STATUS_ENABLED
+                    \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED
                 )
                 ->where(
                     $this->getWriteAdapter()->getIfNullSql('cpvs.value', 'cpvd.value') . ' IN (?)',

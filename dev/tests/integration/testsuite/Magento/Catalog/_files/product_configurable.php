@@ -74,7 +74,7 @@ foreach ($options as $option) {
         ->setPrice(10)
         ->setTestConfigurable($option->getId())
         ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_NOT_VISIBLE)
-        ->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
+        ->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED)
         ->setStockData(array(
             'use_config_manage_stock' => 1,
             'qty'                     => 100,
@@ -103,7 +103,7 @@ $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE)
     ->setSku('configurable')
     ->setPrice(100)
     ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH)
-    ->setStatus(\Magento\Catalog\Model\Product\Status::STATUS_ENABLED)
+    ->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED)
     ->setStockData(array(
         'use_config_manage_stock' => 1,
         'is_in_stock'             => 1,

@@ -230,7 +230,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $formElement = $this->getMock('Magento\Data\Form\Element\Text',
             array('setValue', 'setReadOnly'), array(), '', false);
         $formElement->expects($this->once())->method('setValue')
-            ->with(\Magento\Catalog\Model\Product\Status::STATUS_DISABLED);
+            ->with(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED);
         $formElement->expects($this->once())->method('setReadOnly')
             ->with(true, true);
         $form = $this->getMock('Magento\Data\Form',

@@ -903,7 +903,7 @@ class Product extends \Magento\Backend\App\Action
      */
     public function _validateMassStatus(array $productIds, $status)
     {
-        if ($status == \Magento\Catalog\Model\Product\Status::STATUS_ENABLED) {
+        if ($status == \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED) {
             if (!$this->_objectManager->create('Magento\Catalog\Model\Product')->isProductsHasSku($productIds)) {
                 throw new \Magento\Core\Exception(
                     __('Please make sure to define SKU values for all processed products.')

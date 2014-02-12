@@ -450,7 +450,7 @@ class Product extends \Magento\Catalog\Model\Resource\AbstractResource
         $updateCond[]         = $adapter->quoteInto('attribute_id = ?', $statusAttributeId);
         $adapter->update(
             $statusAttributeTable,
-            array('value' => \Magento\Catalog\Model\Product\Status::STATUS_DISABLED),
+            array('value' => \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED),
             $updateCond
         );
 
