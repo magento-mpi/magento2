@@ -27,11 +27,6 @@ class UrlResolver implements PreProcessorInterface
     protected $rootDirectory;
 
     /**
-     * @var \Magento\View\FileSystem
-     */
-    protected $viewFileSystem;
-
-    /**
      * @var \Magento\View\RelatedFile
      */
     protected $relatedFile;
@@ -60,7 +55,6 @@ class UrlResolver implements PreProcessorInterface
 
     /**
      * @param \Magento\App\Filesystem $filesystem
-     * @param \Magento\View\FileSystem $viewFileSystem
      * @param \Magento\View\RelatedFile $relatedFile
      * @param \Magento\View\Url\CssResolver $cssUrlResolver
      * @param \Magento\View\Publisher $publisher
@@ -69,7 +63,6 @@ class UrlResolver implements PreProcessorInterface
      */
     public function __construct(
         \Magento\App\Filesystem $filesystem,
-        \Magento\View\FileSystem $viewFileSystem,
         \Magento\View\RelatedFile $relatedFile,
         \Magento\View\Url\CssResolver $cssUrlResolver,
         \Magento\View\Publisher $publisher,
@@ -77,7 +70,6 @@ class UrlResolver implements PreProcessorInterface
         \Magento\View\Publisher\FileFactory $fileFactory
     ) {
         $this->rootDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR);
-        $this->viewFileSystem = $viewFileSystem;
         $this->relatedFile = $relatedFile;
         $this->cssUrlResolver = $cssUrlResolver;
         $this->publisher = $publisher;
@@ -97,8 +89,8 @@ class UrlResolver implements PreProcessorInterface
         if (!$publisherFile->isPublicationAllowed()) {
             return $publisherFile;
         }
-        $filePath = $this->viewFileSystem->normalizePath($publisherFile->getFilePath());
-        $sourcePath = $this->viewFileSystem->normalizePath($publisherFile->getSourcePath());
+        $filePath = $publisherFile->getFilePath();
+        $sourcePath = $publisherFile->getSourcePath();
         $content = $this->rootDirectory->readFile($this->rootDirectory->getRelativePath($sourcePath));
         $params = $publisherFile->getViewParams();
 

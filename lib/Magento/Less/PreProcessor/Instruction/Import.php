@@ -68,7 +68,9 @@ class Import implements PreProcessorInterface
             try {
                 $tempViewParams = $viewParams;
                 $resolvedPath = $this->relatedFile->buildPath(
-                    $this->preparePath($path), $params['parentPath'], $tempViewParams
+                    $this->preparePath($path),
+                    $params['parentPath'],
+                    $tempViewParams
                 );
                 $importPaths[$path] = $this->preProcessor->processLessInstructions($resolvedPath, $tempViewParams);
             } catch (\Magento\Filesystem\FilesystemException $e) {

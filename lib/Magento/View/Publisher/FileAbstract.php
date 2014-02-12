@@ -138,6 +138,22 @@ abstract class FileAbstract implements FileInterface
     }
 
     /**
+     * @param string $sourcePath
+     * @return $this
+     */
+    protected function setSourcePath($sourcePath)
+    {
+        if (!$this->rootDirectory->isExist($this->rootDirectory->getRelativePath($sourcePath))) {
+            //TODO null can be ambiguous: it can mean that value was not initialized or null is actually returned
+            $this->sourcePath = null;
+        } else {
+            $this->sourcePath = $sourcePath;
+        }
+
+        return $this;
+    }
+
+    /**
      * Original file extension
      *
      * @return string
@@ -200,22 +216,6 @@ abstract class FileAbstract implements FileInterface
             return true;
         }
         return false;
-    }
-
-    /**
-     * @param string $sourcePath
-     * @return $this
-     */
-    protected function setSourcePath($sourcePath)
-    {
-        if (!$this->rootDirectory->isExist($this->rootDirectory->getRelativePath($sourcePath))) {
-            //TODO null can be ambiguous: it can mean that value was not initialized or null is actually returned
-            $this->sourcePath = null;
-        } else {
-            $this->sourcePath = $sourcePath;
-        }
-
-        return $this;
     }
 
     /**

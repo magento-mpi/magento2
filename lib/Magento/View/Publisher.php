@@ -160,7 +160,7 @@ class Publisher implements PublicFilesManagerInterface
      */
     protected function publishFile(Publisher\FileInterface $publisherFile)
     {
-        $sourcePath = $this->viewFileSystem->normalizePath($publisherFile->getSourcePath());
+        $sourcePath = $publisherFile->getSourcePath();
         $targetPath = $publisherFile->buildPublicViewFilename();
         //TODO: we get absolute path and then make relative out of it to use with $targetDirectory
 

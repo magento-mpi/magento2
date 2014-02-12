@@ -105,17 +105,12 @@ class FileSystem
         $strategy = $this->_resolutionPool->getViewStrategy($skipProxy);
         if ($strategy instanceof Design\FileResolution\Strategy\View\NotifiableInterface) {
             /** @var $strategy Design\FileResolution\Strategy\View\NotifiableInterface  */
-            $filePath = $this->_viewService->extractScope(
-                $this->normalizePath($publisherFile->getFilePath()),
-                $params
-            );
-            $this->_viewService->updateDesignParams($params);
             $strategy->setViewFilePathToMap(
                 $params['area'],
                 $params['themeModel'],
                 $params['locale'],
                 $params['module'],
-                $filePath,
+                $publisherFile->getFilePath(),
                 $publisherFile->buildPublicViewFilename()
             );
         }
