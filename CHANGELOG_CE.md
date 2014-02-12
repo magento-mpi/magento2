@@ -11,6 +11,8 @@
 * Modularity improvements:
   * Moved Shortcut Buttons abstraction from PayPal to Catalog 
   * Moved Recurring profile functionality into separate module
+* Improvements in code coverage calculation:
+  * Added code coverage calculation in clover xml format for unit tests
 * GitHub requests:
  * [#377] (https://github.com/magento/magento2/issues/377) Remove and avoid javascript eval() calls 
  * [#319] (https://github.com/magento/magento2/issues/319) No message was displayed when product added to shopping cart.
