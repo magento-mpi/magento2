@@ -7,19 +7,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Pci\Model;
+
+use Magento\Event\Observer as EventObserver;
 
 /**
  * Pci backend observer model
  *
  * Implements hashes upgrading
  */
-namespace Magento\Pci\Model;
-
-use Magento\Event\Observer as EventObserver;
-
 class Observer
 {
     /**
+     * Pci encryption model
+     *
      * @var \Magento\Pci\Model\Encryption
      */
     protected $_encryptor;

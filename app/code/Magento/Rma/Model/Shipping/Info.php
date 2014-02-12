@@ -30,11 +30,15 @@ class Info extends \Magento\Object
     protected $_rmaData;
 
     /**
+     * Rma factory
+     *
      * @var \Magento\Rma\Model\RmaFactory
      */
     protected $_rmaFactory;
 
     /**
+     * Rma shipping factory
+     *
      * @var \Magento\Rma\Model\ShippingFactory
      */
     protected $_shippingFactory;

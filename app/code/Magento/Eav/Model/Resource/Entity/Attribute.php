@@ -7,7 +7,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Eav\Model\Resource\Entity;
 
+use Magento\Core\Model\AbstractModel;
+use Magento\Eav\Model\Entity\Attribute as EntityAttribute;
+use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
+use Magento\DB\Select;
 
 /**
  * EAV attribute resource model
@@ -16,12 +21,6 @@
  * @package     Magento_Eav
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Eav\Model\Resource\Entity;
-
-use Magento\Core\Model\AbstractModel;
-use Magento\Eav\Model\Entity\Attribute as EntityAttribute;
-use Magento\DB\Select;
-
 class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -531,11 +530,11 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Retrieve Select For Flat Attribute update
      *
-     * @param EntityAttribute\AbstractAttribute $attribute
+     * @param AbstractAttribute $attribute
      * @param int $storeId
      * @return Select
      */
-    public function getFlatUpdateSelect(\Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute, $storeId)
+    public function getFlatUpdateSelect(AbstractAttribute $attribute, $storeId)
     {
         $adapter = $this->_getReadAdapter();
         $joinConditionTemplate = "%s.entity_id=%s.entity_id"

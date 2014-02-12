@@ -7,17 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\Pbridge\Block\Adminhtml\Sales\Order\Create;
 
 /**
  * Paypal Direct payment block
  *
- * @category    Magento
- * @package     Magento_Pbridge
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Pbridge\Block\Adminhtml\Sales\Order\Create;
-
 class AbstractCreate
     extends \Magento\Pbridge\Block\Payment\Form\AbstractForm
 {
@@ -64,6 +60,8 @@ class AbstractCreate
     protected $_adminhtmlSessionQuote;
 
     /**
+     * Configuration interface
+     *
      * @var \Magento\App\ConfigInterface
      */
     protected $_config;

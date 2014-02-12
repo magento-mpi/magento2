@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Newsletter\Model;
 
 /**
  * Newsletter queue model.
@@ -35,8 +36,6 @@
  * @method \Magento\Newsletter\Model\Queue setQueueFinishAt(string $value)
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-namespace Magento\Newsletter\Model;
-
 class Queue extends \Magento\Core\Model\Template
 {
     /**
@@ -162,6 +161,8 @@ class Queue extends \Magento\Core\Model\Template
 
     /**
      * Initialize resource model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -337,7 +338,6 @@ class Queue extends \Magento\Core\Model\Template
     /**
      * Getter for save stores flag.
      *
-     * @param void
      * @return boolean
      */
     public function getSaveStoresFlag()

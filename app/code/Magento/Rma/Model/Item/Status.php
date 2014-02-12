@@ -33,6 +33,8 @@ class Status extends \Magento\Object
     protected $_isSpecialStatus = false;
 
     /**
+     * Rma item attribute source status
+     *
      * @var \Magento\Rma\Model\Item\Attribute\Source\Status
      */
     protected $_sourceStatus;
