@@ -26,23 +26,15 @@ class Flat implements \Magento\Indexer\Model\ActionInterface, \Magento\Mview\Act
     protected $_productFlatIndexerFull;
 
     /**
-     * @var \Magento\ObjectManager
-     */
-    protected $_objectManager;
-
-    /**
-     * @param \Magento\ObjectManager $objectManager
      * @param Flat\Action\Row $productFlatIndexerRow
      * @param Flat\Action\Rows $productFlatIndexerRows
      * @param Flat\Action\Full $productFlatIndexerFull
      */
     public function __construct(
-        \Magento\ObjectManager $objectManager,
         \Magento\Catalog\Model\Indexer\Product\Flat\Action\Row $productFlatIndexerRow,
         \Magento\Catalog\Model\Indexer\Product\Flat\Action\Rows $productFlatIndexerRows,
         \Magento\Catalog\Model\Indexer\Product\Flat\Action\Full $productFlatIndexerFull
     ) {
-        $this->_objectManager = $objectManager;
         $this->_productFlatIndexerRow = $productFlatIndexerRow;
         $this->_productFlatIndexerRows = $productFlatIndexerRows;
         $this->_productFlatIndexerFull = $productFlatIndexerFull;
