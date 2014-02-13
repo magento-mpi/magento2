@@ -908,7 +908,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
             unset($customOptionsDataPre);
 
             $this->_setHeaderColumns($customOptionsData, $stockItemRows);
-            $this->rowCustomizer->addHeaderColumns($this->_headerColumns);
+            $this->_headerColumns = $this->rowCustomizer->addHeaderColumns($this->_headerColumns);
 
             foreach ($dataRows as $productId => &$productData) {
                 foreach ($productData as $storeId => &$dataRow) {
