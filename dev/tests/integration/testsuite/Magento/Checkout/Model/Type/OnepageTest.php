@@ -62,13 +62,12 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
      */
     public function testInitCheckoutNotLoggedIn()
     {
-        $emailFromBillingData = 'John.Smith@example.com';
         $this->assertTrue($this->_model->getCheckout()->getSteps()['shipping']['allow']);
         $this->assertTrue($this->_model->getCheckout()->getSteps()['billing']['allow']);
         $this->_model->initCheckout();
         $this->assertFalse($this->_model->getCheckout()->getSteps()['shipping']['allow']);
         $this->assertFalse($this->_model->getCheckout()->getSteps()['billing']['allow']);
-        $this->assertEquals($emailFromBillingData, $this->_model->getQuote()->getCustomerData()->getEmail());
+        $this->assertNull($this->_model->getQuote()->getCustomerData()->getEmail());
     }
 
     /**
