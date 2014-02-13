@@ -53,8 +53,6 @@ class LayoutPlugin
         if ($this->layout->isCacheable()) {
             $maxAge = $this->config->getValue(\Magento\PageCache\Model\Config::XML_PAGECACHE_TTL);
             $this->response->setPublicHeaders($maxAge);
-        } else {
-            $this->response->setNoCacheHeaders();
         }
     }
 }

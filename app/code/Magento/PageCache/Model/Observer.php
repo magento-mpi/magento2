@@ -16,8 +16,6 @@ namespace Magento\PageCache\Model;
  */
 class Observer
 {
-
-
     /**
      * Application config object
      *
@@ -46,7 +44,6 @@ class Observer
         $event = $observer->getEvent();
         /** @var \Magento\Core\Model\Layout $layout */
         $layout = $event->getLayout();
-        $varnishIsEnabledFlag = $this->_config->isSetFlag(\Magento\PageCache\Model\Config::XML_PAGECACHE_TYPE);
         if ($layout->isCacheable()) {
             $name = $event->getElementName();
             $block = $layout->getBlock($name);
@@ -54,10 +51,15 @@ class Observer
             if ($block instanceof \Magento\View\Element\AbstractBlock) {
                 $output = $transport->getData('output');
                 $blockTtl = $block->getTtl();
+                $varnishIsEnabledFlag = $this->_config->isSetFlag(\Magento\PageCache\Model\Config::XML_PAGECACHE_TYPE);
                 if ($varnishIsEnabledFlag && isset($blockTtl)) {
                     $output = $this->_wrapEsi($block, $layout);
                 } elseif ($block->isScopePrivate()) {
-                    $output = sprintf('<!-- BLOCK %1$s -->%2$s<!-- /BLOCK %1$s -->', $block->getNameInLayout(), $output);
+                    $output = sprintf(
+                        '<!-- BLOCK %1$s -->%2$s<!-- /BLOCK %1$s -->',
+                        $block->getNameInLayout(),
+                        $output
+                    );
                 }
                 $transport->setData('output', $output);
             }
