@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
-
+use Magento\Customer\Controller\Adminhtml\Index;
 /**
  * Magento\Customer\Block\Adminhtml\Edit\Tab\Cart
  *
@@ -14,7 +14,6 @@ namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
  */
 class CartTest extends \PHPUnit_Framework_TestCase
 {
-    const CURRENT_CUSTOMER_ID = 'current_customer_id';
     const CUSTOMER_ID_VALUE = 1234;
 
     /** @var \Magento\Backend\Block\Template\Context */
@@ -44,7 +43,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
             );
 
         $this->_coreRegistry = $this->_objectManager->get('Magento\Core\Model\Registry');
-        $this->_coreRegistry->register(self::CURRENT_CUSTOMER_ID, self::CUSTOMER_ID_VALUE);
+        $this->_coreRegistry->register(Index::REGISTRY_CURRENT_CUSTOMER_ID, self::CUSTOMER_ID_VALUE);
 
         $this->_block = $this->_objectManager->get('Magento\View\LayoutInterface')
             ->createBlock(
@@ -59,7 +58,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
 
     public function tearDown()
     {
-        $this->_coreRegistry->unregister(self::CURRENT_CUSTOMER_ID);
+        $this->_coreRegistry->unregister(Index::REGISTRY_CURRENT_CUSTOMER_ID);
     }
 
     public function testGetCustomerId()
@@ -80,7 +79,6 @@ class CartTest extends \PHPUnit_Framework_TestCase
                 '',
                 array()
             );
-        // TODO: set collection
         $mockCollection = $this->getMockBuilder('\Magento\Data\Collection')
             ->disableOriginalConstructor()
             ->getMock();
