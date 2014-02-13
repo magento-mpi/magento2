@@ -21,21 +21,17 @@ class Calculator
     /**
      * Store instance
      *
-     * @var \Magento\Core\Model\Store|null
+     * @var \Magento\BaseScopeInterface
      */
     protected $_scope = null;
 
     /**
      * Initialize calculator
      *
-     * @param \Magento\BaseScopeResolverInterface $scopeResolver
-     * @param \Magento\BaseScopeInterface|int $scope
+     * @param \Magento\BaseScopeInterface
      */
-    public function __construct(\Magento\BaseScopeResolverInterface $scopeResolver, $scope = null)
+    public function __construct(\Magento\BaseScopeInterface $scope)
     {
-        if (!($scope instanceof \Magento\BaseScopeInterface)) {
-            $scope = $scopeResolver->getScope($scope);
-        }
         $this->_scope = $scope;
     }
 
