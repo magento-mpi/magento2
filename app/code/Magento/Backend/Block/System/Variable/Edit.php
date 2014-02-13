@@ -7,12 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Backend\Block\System\Variable;
 
 /**
  * Custom Variable Edit Container
  */
-namespace Magento\Backend\Block\System\Variable;
-
 class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
@@ -39,6 +38,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     /**
      * Internal constructor
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -63,7 +63,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
      * Prepare layout.
      * Adding save_and_continue button
      *
-     * @return \Magento\Backend\Block\System\Variable\Edit
+     * @return $this
      */
     protected function _preparelayout()
     {

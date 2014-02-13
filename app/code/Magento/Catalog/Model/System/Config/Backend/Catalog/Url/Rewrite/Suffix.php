@@ -49,7 +49,7 @@ class Suffix extends \Magento\Core\Model\Config\Value
     /**
      * Check url rewrite suffix - whether we can support it
      *
-     * @return \Magento\Catalog\Model\System\Config\Backend\Catalog\Url\Rewrite\Suffix
+     * @return $this
      */
     protected function _beforeSave()
     {

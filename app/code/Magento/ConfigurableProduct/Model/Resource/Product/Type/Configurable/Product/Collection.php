@@ -21,6 +21,8 @@ class Collection
 
     /**
      * Assign link table name
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -30,7 +32,7 @@ class Collection
 
     /**
      * Init select
-     * @return \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Product\Collection
+     * @return $this|\Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Product\Collection
      */
     protected function _initSelect()
     {
@@ -47,7 +49,7 @@ class Collection
      * Set Product filter to result
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @return \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Product\Collection
+     * @return $this
      */
     public function setProductFilter($product)
     {

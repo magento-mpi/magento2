@@ -18,8 +18,13 @@
  */
 namespace Magento\Catalog\Block\Product\View;
 
+use Magento\Catalog\Model\Product;
+
 class Options extends \Magento\View\Element\Template
 {
+    /**
+     * @var Product
+     */
     protected $_product;
 
     /**
@@ -46,7 +51,7 @@ class Options extends \Magento\View\Element\Template
     /**
      * Catalog product
      *
-     * @var \Magento\Catalog\Model\Product
+     * @var Product
      */
     protected $_catalogProduct;
 
@@ -92,7 +97,7 @@ class Options extends \Magento\View\Element\Template
     /**
      * Retrieve product object
      *
-     * @return \Magento\Catalog\Model\Product
+     * @return Product
      * @throws \LogicExceptions
      */
     public function getProduct()
@@ -110,15 +115,19 @@ class Options extends \Magento\View\Element\Template
     /**
      * Set product object
      *
-     * @param \Magento\Catalog\Model\Product $product
+     * @param Product $product
      * @return \Magento\Catalog\Block\Product\View\Options
      */
-    public function setProduct(\Magento\Catalog\Model\Product $product = null)
+    public function setProduct(Product $product = null)
     {
         $this->_product = $product;
         return $this;
     }
 
+    /**
+     * @param string $type
+     * @return string
+     */
     public function getGroupOfOption($type)
     {
         $group = $this->_option->getGroupByType($type);
@@ -136,6 +145,9 @@ class Options extends \Magento\View\Element\Template
         return $this->getProduct()->getOptions();
     }
 
+    /**
+     * @return bool
+     */
     public function hasOptions()
     {
         if ($this->getOptions()) {
@@ -210,10 +222,10 @@ class Options extends \Magento\View\Element\Template
     /**
      * Decorate a plain array of arrays or objects
      *
-     * @param mixed $array
+     * @param array $array
      * @param string $prefix
      * @param bool $forceSetAll
-     * @return mixed
+     * @return array
      */
     public function decorateArray($array, $prefix = 'decorated_', $forceSetAll = false)
     {

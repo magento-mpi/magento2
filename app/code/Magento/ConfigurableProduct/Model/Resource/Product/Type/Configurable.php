@@ -33,6 +33,7 @@ class Configurable extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Init resource
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -44,7 +45,7 @@ class Configurable extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param \Magento\Catalog\Model\Product $mainProduct the parent id
      * @param array $productIds the children id array
-     * @return \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable
+     * @return $this
      */
     public function saveProducts($mainProduct, $productIds)
     {
@@ -122,7 +123,7 @@ class Configurable extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Retrieve parent ids array by requered child
      *
      * @param int|array $childId
-     * @return array
+     * @return string[]
      */
     public function getParentIdsByChild($childId)
     {

@@ -20,6 +20,9 @@ namespace Magento\Wishlist\Block\Share\Email;
 
 class Items extends \Magento\Wishlist\Block\AbstractBlock
 {
+    /**
+     * @var string
+     */
     protected $_template = 'email/items.phtml';
 
     /**
@@ -50,7 +53,7 @@ class Items extends \Magento\Wishlist\Block\AbstractBlock
     }
 
     /**
-     * Check whether whishlist item has description
+     * Check whether wishlist item has description
      *
      * @param \Magento\Wishlist\Model\Item $item
      * @return bool

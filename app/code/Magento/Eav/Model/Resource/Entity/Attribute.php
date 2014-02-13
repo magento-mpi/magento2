@@ -43,7 +43,7 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_storeManager;
 
     /**
-     * @var \Magento\Eav\Model\Resource\Entity\Type
+     * @var Type
      */
     protected $_eavEntityType;
 
@@ -52,12 +52,12 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
      *
      * @param \Magento\App\Resource $resource
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Eav\Model\Resource\Entity\Type $eavEntityType
+     * @param Type $eavEntityType
      */
     public function __construct(
         \Magento\App\Resource $resource,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Eav\Model\Resource\Entity\Type $eavEntityType
+        Type $eavEntityType
     ) {
         $this->_storeManager = $storeManager;
         $this->_eavEntityType = $eavEntityType;

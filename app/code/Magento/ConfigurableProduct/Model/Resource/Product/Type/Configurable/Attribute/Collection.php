@@ -66,7 +66,7 @@ class Collection
      * @param \Magento\ConfigurableProduct\Model\Product\Type\Configurable $catalogProductTypeConfigurable
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute $resource
-     * @param mixed $connection
+     * @param \Zend_Db_Adapter_Abstract $connection
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
@@ -88,6 +88,7 @@ class Collection
     /**
      * Initialize connection and define table names
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -103,7 +104,7 @@ class Collection
      * Set Product filter (Configurable)
      *
      * @param \Magento\Catalog\Model\Product $product
-     * @return \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute\Collection
+     * @return $this
      */
     public function setProductFilter($product)
     {
@@ -125,7 +126,7 @@ class Collection
      * Set order collection by Position
      *
      * @param string $dir
-     * @return \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute\Collection
+     * @return $this
      */
     public function orderByPosition($dir = self::SORT_ORDER_ASC)
     {
@@ -146,7 +147,7 @@ class Collection
     /**
      * After load collection process
      *
-     * @return \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute\Collection
+     * @return $this
      */
     protected function _afterLoad()
     {
@@ -169,7 +170,7 @@ class Collection
     /**
      * Add product attributes to collection items
      *
-     * @return \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute\Collection
+     * @return $this
      */
     protected function _addProductAttributes()
     {
@@ -184,7 +185,7 @@ class Collection
     /**
      * Add Associated Product Filters (From Product Type Instance)
      *
-     * @return \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute\Collection
+     * @return $this
      */
     public function _addAssociatedProductFilters()
     {
@@ -197,7 +198,7 @@ class Collection
     /**
      * Load attribute labels
      *
-     * @return \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute\Collection
+     * @return $this
      */
     protected function _loadLabels()
     {
@@ -229,7 +230,7 @@ class Collection
                 ->where('def.product_super_attribute_id IN (?)', array_keys($this->_items))
                 ->where('def.store_id = ?', 0);
 
-                $result = $this->getConnection()->fetchAll($select);
+            $result = $this->getConnection()->fetchAll($select);
             foreach ($result as $data) {
                 $this->getItemById($data['product_super_attribute_id'])->setLabel($data['label']);
                 $this->getItemById($data['product_super_attribute_id'])->setUseDefault($data['use_default']);
@@ -241,7 +242,7 @@ class Collection
     /**
      * Load attribute prices information
      *
-     * @return \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute\Collection
+     * @return $this
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */

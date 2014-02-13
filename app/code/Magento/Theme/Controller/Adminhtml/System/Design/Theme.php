@@ -13,6 +13,8 @@
  */
 namespace Magento\Theme\Controller\Adminhtml\System\Design;
 
+use Magento\App\ResponseInterface;
+
 class Theme extends \Magento\Backend\App\Action
 {
     /**
@@ -44,6 +46,8 @@ class Theme extends \Magento\Backend\App\Action
 
     /**
      * Index action
+     *
+     * @return void
      */
     public function indexAction()
     {
@@ -54,6 +58,8 @@ class Theme extends \Magento\Backend\App\Action
 
     /**
      * Grid ajax action
+     *
+     * @return void
      */
     public function gridAction()
     {
@@ -63,6 +69,8 @@ class Theme extends \Magento\Backend\App\Action
 
     /**
      * Create new theme
+     *
+     * @return void
      */
     public function newAction()
     {
@@ -71,6 +79,8 @@ class Theme extends \Magento\Backend\App\Action
 
     /**
      * Edit theme
+     *
+     * @return void
      */
     public function editAction()
     {
@@ -107,6 +117,8 @@ class Theme extends \Magento\Backend\App\Action
 
     /**
      * Save action
+     *
+     * @return void
      */
     public function saveAction()
     {
@@ -164,6 +176,8 @@ class Theme extends \Magento\Backend\App\Action
 
     /**
      * Delete action
+     *
+     * @return void
      */
     public function deleteAction()
     {
@@ -198,6 +212,8 @@ class Theme extends \Magento\Backend\App\Action
 
     /**
      * Upload css file
+     *
+     * @return void
      */
     public function uploadCssAction()
     {
@@ -218,6 +234,7 @@ class Theme extends \Magento\Backend\App\Action
     /**
      * Upload js file
      *
+     * @return void
      * @throws \Magento\Core\Exception
      */
     public function uploadJsAction()
@@ -257,6 +274,8 @@ class Theme extends \Magento\Backend\App\Action
 
     /**
      * Download custom css file
+     *
+     * @return ResponseInterface|void
      */
     public function downloadCustomCssAction()
     {
@@ -293,6 +312,8 @@ class Theme extends \Magento\Backend\App\Action
 
     /**
      * Download css file
+     *
+     * @return ResponseInterface|void
      */
     public function downloadCssAction()
     {

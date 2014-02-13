@@ -7,8 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Product\Flat;
+
+use Magento\Event\Observer as EventObserver;
 
 /**
  * Catalog Product Flat observer
@@ -70,17 +71,18 @@ class Observer
      *
      * @return \Magento\Catalog\Model\Product\Flat\Indexer
      */
-    protected function _getIndexer() {
+    protected function _getIndexer()
+    {
         return $this->_catalogProductFlatIndexer;
     }
 
     /**
      * Catalog Entity attribute after save process
      *
-     * @param \Magento\Event\Observer $observer
-     * @return \Magento\Catalog\Model\Product\Flat\Observer
+     * @param EventObserver $observer
+     * @return $this
      */
-    public function catalogEntityAttributeSaveAfter(\Magento\Event\Observer $observer)
+    public function catalogEntityAttributeSaveAfter(EventObserver $observer)
     {
         if (!$this->_getHelper()->isAvailable() || !$this->_getHelper()->isBuilt()) {
             return $this;
@@ -105,8 +107,7 @@ class Observer
         if ($enableBefore && !$enableAfter) {
             // delete attribute data from flat
             $this->_getIndexer()->prepareDataStorage();
-        }
-        else {
+        } else {
             $this->_getIndexer()->updateAttribute($attribute->getAttributeCode());
         }
 
@@ -116,10 +117,10 @@ class Observer
     /**
      * Catalog Product Status Update
      *
-     * @param \Magento\Event\Observer $observer
-     * @return \Magento\Catalog\Model\Product\Flat\Observer
+     * @param EventObserver $observer
+     * @return $this
      */
-    public function catalogProductStatusUpdate(\Magento\Event\Observer $observer)
+    public function catalogProductStatusUpdate(EventObserver $observer)
     {
         if (!$this->_getHelper()->isAvailable() || !$this->_getHelper()->isBuilt()) {
             return $this;
@@ -138,10 +139,10 @@ class Observer
     /**
      * Catalog Product Website(s) update
      *
-     * @param \Magento\Event\Observer $observer
-     * @return \Magento\Catalog\Model\Product\Flat\Observer
+     * @param EventObserver $observer
+     * @return $this
      */
-    public function catalogProductWebsiteUpdate(\Magento\Event\Observer $observer)
+    public function catalogProductWebsiteUpdate(EventObserver $observer)
     {
         if (!$this->_getHelper()->isAvailable() || !$this->_getHelper()->isBuilt()) {
             return $this;
@@ -155,8 +156,7 @@ class Observer
             foreach ($website->getStores() as $store) {
                 if ($observer->getEvent()->getAction() == 'remove') {
                     $this->_getIndexer()->removeProduct($productIds, $store->getId());
-                }
-                else {
+                } else {
                     $this->_getIndexer()->updateProduct($productIds, $store->getId());
                 }
             }
@@ -168,10 +168,10 @@ class Observer
     /**
      * Catalog Product After Save
      *
-     * @param \Magento\Event\Observer $observer
-     * @return \Magento\Catalog\Model\Product\Flat\Observer
+     * @param EventObserver $observer
+     * @return $this
      */
-    public function catalogProductSaveAfter(\Magento\Event\Observer $observer) {
+    public function catalogProductSaveAfter(EventObserver $observer) {
         if (!$this->_getHelper()->isAvailable() || !$this->_getHelper()->isBuilt()) {
             return $this;
         }
@@ -187,10 +187,10 @@ class Observer
     /**
      * Add new store flat process
      *
-     * @param \Magento\Event\Observer $observer
-     * @return \Magento\Catalog\Model\Product\Flat\Observer
+     * @param EventObserver $observer
+     * @return $this
      */
-    public function storeAdd(\Magento\Event\Observer $observer)
+    public function storeAdd(EventObserver $observer)
     {
         if (!$this->_getHelper()->isAvailable() || !$this->_getHelper()->isBuilt()) {
             return $this;
@@ -206,10 +206,10 @@ class Observer
     /**
      * Store edit action, check change store group
      *
-     * @param \Magento\Event\Observer $observer
-     * @return \Magento\Catalog\Model\Product\Flat\Observer
+     * @param EventObserver $observer
+     * @return $this
      */
-    public function storeEdit(\Magento\Event\Observer $observer)
+    public function storeEdit(EventObserver $observer)
     {
         if (!$this->_getHelper()->isAvailable() || !$this->_getHelper()->isBuilt()) {
             return $this;
@@ -227,10 +227,10 @@ class Observer
     /**
      * Store delete after process
      *
-     * @param \Magento\Event\Observer $observer
-     * @return \Magento\Catalog\Model\Product\Flat\Observer
+     * @param EventObserver $observer
+     * @return $this
      */
-    public function storeDelete(\Magento\Event\Observer $observer)
+    public function storeDelete(EventObserver $observer)
     {
         if (!$this->_getHelper()->isAvailable() || !$this->_getHelper()->isBuilt()) {
             return $this;
@@ -247,10 +247,10 @@ class Observer
     /**
      * Store Group Save process
      *
-     * @param \Magento\Event\Observer $observer
-     * @return \Magento\Catalog\Model\Product\Flat\Observer
+     * @param EventObserver $observer
+     * @return $this
      */
-    public function storeGroupSave(\Magento\Event\Observer $observer)
+    public function storeGroupSave(EventObserver $observer)
     {
         if (!$this->_getHelper()->isAvailable() || !$this->_getHelper()->isBuilt()) {
             return $this;
@@ -272,10 +272,10 @@ class Observer
     /**
      * Catalog Product Import After process
      *
-     * @param \Magento\Event\Observer $observer
-     * @return \Magento\Catalog\Model\Product\Flat\Observer
+     * @param EventObserver $observer
+     * @return $this
      */
-    public function catalogProductImportAfter(\Magento\Event\Observer $observer)
+    public function catalogProductImportAfter(EventObserver $observer)
     {
         if (!$this->_getHelper()->isAvailable() || !$this->_getHelper()->isBuilt()) {
             return $this;
@@ -289,10 +289,10 @@ class Observer
     /**
      * Customer Group save after process
      *
-     * @param \Magento\Event\Observer\Collection $observer
-     * @return \Magento\Catalog\Model\Product\Flat\Observer
+     * @param EventObserver $observer
+     * @return $this
      */
-    public function customerGroupSaveAfter(\Magento\Event\Observer $observer)
+    public function customerGroupSaveAfter(EventObserver $observer)
     {
         if (!$this->_getHelper()->isAvailable() || !$this->_getHelper()->isBuilt()) {
             return $this;

@@ -67,7 +67,7 @@ class Sitemap extends \Magento\Core\Model\Config\Value
     }
 
     /**
-     * @return \Magento\Core\Model\AbstractModel
+     * @return void
      * @throws \Exception
      */
     protected function _afterSave()

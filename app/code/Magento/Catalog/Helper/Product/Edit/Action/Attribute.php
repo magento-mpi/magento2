@@ -32,7 +32,7 @@ class Attribute extends \Magento\Backend\Helper\Data
     /**
      * Excluded from batch update attribute codes
      *
-     * @var array
+     * @var string[]
      */
     protected $_excludedAttributes = array('url_key');
 

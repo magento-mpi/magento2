@@ -21,6 +21,8 @@ use Magento\Catalog\Model\Entity\Product\Attribute\Group\AttributeMapperInterfac
 
 class Main extends \Magento\Backend\Block\Template
 {
+    protected $_template = 'catalog/product/attribute/set/main.phtml';
+
     /**
      * Catalog product
      *
@@ -92,7 +94,7 @@ class Main extends \Magento\Backend\Block\Template
     /**
      * Prepare Global Layout
      *
-     * @return \Magento\Catalog\Block\Adminhtml\Product\Attribute\Set\Main
+     * @return $this
      */
     protected function _prepareLayout()
     {

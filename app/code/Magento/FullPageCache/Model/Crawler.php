@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\FullPageCache\Model;
 
 /**
  * @method \Magento\FullPageCache\Model\Resource\Crawler _getResource()
@@ -34,8 +35,6 @@
  * @package     Magento_FullPageCache
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\FullPageCache\Model;
-
 class Crawler extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -101,6 +100,8 @@ class Crawler extends \Magento\Core\Model\AbstractModel
 
     /**
      * Set resource model
+     *
+     * @return void
      */
     protected function _construct()
     {
@@ -163,7 +164,7 @@ class Crawler extends \Magento\Core\Model\AbstractModel
     /**
      * Crawl all system urls
      *
-     * @return \Magento\FullPageCache\Model\Crawler
+     * @return $this
      */
     public function crawl()
     {

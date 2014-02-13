@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Catalog\Helper\Product;
 
 /**
  * Adminhtml catalog product composite helper
@@ -15,8 +16,6 @@
  * @package    Magento_Catalog
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Catalog\Helper\Product;
-
 class Composite extends \Magento\App\Helper\AbstractHelper
 {
     /**
@@ -83,7 +82,7 @@ class Composite extends \Magento\App\Helper\AbstractHelper
     /**
      * Init layout of product configuration update result
      *
-     * @return \Magento\Catalog\Helper\Product\Composite
+     * @return $this
      */
     protected function _initUpdateResultLayout()
     {
@@ -99,7 +98,7 @@ class Composite extends \Magento\App\Helper\AbstractHelper
      * when single configuration submitted
      *
      * @param \Magento\Object $updateResult
-     * @return \Magento\Catalog\Helper\Product\Composite
+     * @return void
      */
     public function renderUpdateResult(\Magento\Object $updateResult)
     {
@@ -109,16 +108,16 @@ class Composite extends \Magento\App\Helper\AbstractHelper
         $this->_view->renderLayout();
     }
 
-     /**
-      * Init composite product configuration layout
-      *
-      * $isOk - true or false, whether action was completed nicely or with some error
-      * If $isOk is FALSE (some error during configuration), so $productType must be null
-      *
-      * @param bool $isOk
-      * @param string $productType
-      * @return \Magento\Catalog\Helper\Product\Composite
-      */
+    /**
+     * Init composite product configuration layout
+     *
+     * $isOk - true or false, whether action was completed nicely or with some error
+     * If $isOk is FALSE (some error during configuration), so $productType must be null
+     *
+     * @param bool $isOk
+     * @param string $productType
+     * @return $this
+     */
     protected function _initConfigureResultLayout($isOk, $productType)
     {
         $update = $this->_view->getLayout()->getUpdate();
@@ -142,7 +141,7 @@ class Composite extends \Magento\App\Helper\AbstractHelper
      *  - 'error' = true, and 'message' to show
      *
      * @param \Magento\Object $configureResult
-     * @return \Magento\Catalog\Helper\Product\Composite
+     * @return void
      */
     public function renderConfigureResult(\Magento\Object $configureResult)
     {

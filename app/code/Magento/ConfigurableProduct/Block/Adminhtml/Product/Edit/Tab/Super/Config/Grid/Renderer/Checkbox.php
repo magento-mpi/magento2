@@ -36,8 +36,8 @@ class Checkbox extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Checkb
     /**
      * Renders grid column
      *
-     * @param   \Magento\Object $row
-     * @return  string
+     * @param \Magento\Object $row
+     * @return string
      */
     public function render(\Magento\Object $row)
     {

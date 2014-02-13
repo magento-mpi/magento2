@@ -57,6 +57,7 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Inititalize connection and define tables
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -79,7 +80,7 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Save Custom labels for Attribute name
      *
      * @param \Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute $attribute
-     * @return \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute
+     * @return $this
      */
     public function saveLabel($attribute)
     {
@@ -121,7 +122,7 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Save Options prices (Depends from price save scope)
      *
      * @param \Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute $attribute
-     * @return \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute
+     * @return $this
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
@@ -255,7 +256,6 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
             $write->insertMultiple($this->_priceTable, $insert);
         }
 
-
         return $this;
     }
 
@@ -291,8 +291,8 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Get configurable attribute id by product id and attribute id
      *
      * @param \Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute $attribute
-     * @param $productId
-     * @param $attributeId
+     * @param mixed $productId
+     * @param mixed $attributeId
      *
      * @return string
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
@@ -309,7 +309,8 @@ class Attribute extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Delete configurable attributes by product id
      *
-     * @param $productId
+     * @param mixed $productId
+     * @return void
      */
     public function deleteAttributesByProductId($productId)
     {

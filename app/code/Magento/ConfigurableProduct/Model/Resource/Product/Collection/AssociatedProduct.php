@@ -12,6 +12,8 @@
 namespace Magento\ConfigurableProduct\Model\Resource\Product\Collection;
 
 /**
+ * Catalog compare item resource model
+ *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class AssociatedProduct
@@ -60,7 +62,7 @@ class AssociatedProduct
      * @param \Magento\Core\Model\Registry $registryManager
      * @param \Magento\ConfigurableProduct\Model\Product\Type\Configurable $productType
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
-     * @param mixed $connection
+     * @param \Zend_Db_Adapter_Abstract $connection
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -136,6 +138,8 @@ class AssociatedProduct
 
     /**
      * Add attributes to select
+     *
+     * @return $this
      */
     public function _initSelect()
     {

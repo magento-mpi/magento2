@@ -13,17 +13,20 @@
  */
 namespace Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Config;
 
+use Magento\Catalog\Model\Product;
+use Magento\Catalog\Model\ProductFactory;
+
 class Simple extends \Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Attributes
 {
     /**
      * Link to currently editing product
      *
-     * @var \Magento\Catalog\Model\Product
+     * @var Product
      */
     protected $_product = null;
 
     /**
-     * @var \Magento\Catalog\Model\ProductFactory
+     * @var ProductFactory
      */
     protected $_productFactory;
 
@@ -33,7 +36,7 @@ class Simple extends \Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Attribute
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param ProductFactory $productFactory
      * @param array $data
      */
     public function __construct(
@@ -42,7 +45,7 @@ class Simple extends \Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Attribute
         \Magento\Data\FormFactory $formFactory,
         \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
+        ProductFactory $productFactory,
         array $data = array()
     ) {
         $this->_productFactory = $productFactory;
@@ -196,7 +199,7 @@ class Simple extends \Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Attribute
     /**
      * Retrieve currently edited product object
      *
-     * @return \Magento\Catalog\Model\Product
+     * @return Product
      */
     public function getProduct()
     {

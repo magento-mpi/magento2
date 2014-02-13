@@ -18,7 +18,7 @@ class Db implements \Magento\Config\ConverterInterface
     /**
      * Convert data
      *
-     * @param mixed $source
+     * @param array $source
      * @return array
      */
     public function convert($source)
@@ -59,6 +59,7 @@ class Db implements \Magento\Config\ConverterInterface
      * @param array  $jobConfig
      * @param string $jobName
      * @param array  $result
+     * @return void
      */
     protected function _processConfigParam(array $jobConfig, $jobName, array &$result)
     {
@@ -72,6 +73,7 @@ class Db implements \Magento\Config\ConverterInterface
      * @param array  $jobConfig
      * @param string $jobName
      * @param array  $result
+     * @return void
      */
     protected function _processScheduleParam(array $jobConfig, $jobName, array &$result)
     {
@@ -86,6 +88,7 @@ class Db implements \Magento\Config\ConverterInterface
      * @param array  $jobConfig
      * @param string $jobName
      * @param array  $result
+     * @return void
      */
     protected function _processRunModel(array $jobConfig, $jobName, array &$result)
     {

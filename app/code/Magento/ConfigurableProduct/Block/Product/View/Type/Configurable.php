@@ -176,7 +176,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
     }
 
     /**
-     * retrieve current store
+     * Retrieve current store
      *
      * @return \Magento\Core\Model\Store
      */
@@ -354,7 +354,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
      * @param int $attributeId
      * @param array $value
      * @param array $options
-     * @return boolean
+     * @return bool
      */
     protected function _validateAttributeValue($attributeId, &$value, &$options)
     {
@@ -369,7 +369,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
      * Validation of super product option
      *
      * @param array $info
-     * @return boolean
+     * @return bool
      */
     protected function _validateAttributeInfo(&$info)
     {
@@ -384,7 +384,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
      *
      * @param float $price
      * @param bool $isPercent
-     * @return mixed
+     * @return string
      */
     protected function _preparePrice($price, $isPercent = false)
     {
@@ -400,7 +400,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
      *
      * @param float $price
      * @param bool $isPercent
-     * @return mixed
+     * @return string
      */
     protected function _prepareOldPrice($price, $isPercent = false)
     {
@@ -426,7 +426,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
      * Convert price from default currency to current currency
      *
      * @param float $price
-     * @param boolean $round
+     * @param bool $round
      * @return float
      */
     protected function _convertPrice($price, $round = false)

@@ -41,9 +41,9 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
     /**
      * Get product final price
      *
-     * @param   double $qty
+     * @param   float $qty
      * @param   \Magento\Catalog\Model\Product $product
-     * @return  double
+     * @return  float
      */
     public function getFinalPrice($qty, $product)
     {
@@ -110,8 +110,8 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
      * Calculate configurable product selection price
      *
      * @param   array $priceInfo
-     * @param   decimal $productPrice
-     * @return  decimal
+     * @param   float $productPrice
+     * @return  float
      */
     protected function _calcSelectionPrice($priceInfo, $productPrice)
     {
