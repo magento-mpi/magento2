@@ -40,7 +40,7 @@ class File extends FileAbstract
      *
      * @return string
      */
-    public function getPublicationPath()
+    public function buildUniquePath()
     {
         if ($this->allowDuplication) {
             $targetPath = $this->buildPublicViewRedundantFilename();

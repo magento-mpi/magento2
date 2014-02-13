@@ -33,7 +33,7 @@ interface FileInterface
      *
      * @return string
      */
-    public function getPublicationPath();
+    public function buildUniquePath();
 
     /**
      * Original file extension

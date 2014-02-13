@@ -86,7 +86,7 @@ class Less implements PreProcessorInterface
             return $publisherFile;     // It has 'null' source path
         }
 
-        $tmpFilePath = Composite::TMP_VIEW_DIR . '/' . self::TMP_LESS_DIR . '/' . $publisherFile->getPublicationPath();
+        $tmpFilePath = Composite::TMP_VIEW_DIR . '/' . self::TMP_LESS_DIR . '/' . $publisherFile->buildUniquePath();
         $targetDirectory->writeFile($tmpFilePath, $cssContent);
 
         $processedFile = $this->fileFactory->create(

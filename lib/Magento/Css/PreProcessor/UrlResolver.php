@@ -110,7 +110,7 @@ class UrlResolver implements PreProcessorInterface
         }
 
         $tmpFilePath = Composite::TMP_VIEW_DIR . '/' . self::TMP_RESOLVER_DIR . '/'
-            . $publisherFile->getPublicationPath();
+            . $publisherFile->buildUniquePath();
         $targetDirectory->writeFile($tmpFilePath, $content);
 
         $processedFile = $this->fileFactory->create(

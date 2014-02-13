@@ -41,7 +41,7 @@ class CssFile extends FileAbstract
      *
      * @return string
      */
-    public function getPublicationPath()
+    public function buildUniquePath()
     {
         return $this->buildPublicViewRedundantFilename();
     }

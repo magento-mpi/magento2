@@ -31,19 +31,9 @@ class Publisher implements PublicFilesManagerInterface
     /**#@-*/
 
     /**
-     * @var \Magento\App\Filesystem
-     */
-    protected $filesystem;
-
-    /**
      * @var \Magento\View\FileSystem
      */
     protected $viewFileSystem;
-
-    /**
-     * @var WriteInterface
-     */
-    protected $rootDirectory;
 
     /**
      * @var \Magento\View\Asset\PreProcessor\PreProcessorInterface
@@ -54,6 +44,21 @@ class Publisher implements PublicFilesManagerInterface
      * @var Publisher\FileFactory
      */
     protected $fileFactory;
+
+    /**
+     * @var WriteInterface
+     */
+    protected $rootDirectory;
+
+    /**
+     * @var WriteInterface
+     */
+    protected $tmpDirectory;
+
+    /**
+     * @var WriteInterface
+     */
+    protected $pubDirectory;
 
     /**
      * @param \Magento\App\Filesystem $filesystem
@@ -67,8 +72,9 @@ class Publisher implements PublicFilesManagerInterface
         \Magento\View\Asset\PreProcessor\PreProcessorInterface $preProcessor,
         Publisher\FileFactory $fileFactory
     ) {
-        $this->filesystem = $filesystem;
         $this->rootDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::ROOT_DIR);
+        $this->tmpDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
+        $this->pubDirectory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::STATIC_VIEW_DIR);
         $this->viewFileSystem = $viewFileSystem;
         $this->preProcessor = $preProcessor;
         $this->fileFactory = $fileFactory;
@@ -119,29 +125,12 @@ class Publisher implements PublicFilesManagerInterface
             return null;
         }
 
-        /**
-         * 1. Target directory to save temporary files in. It was 'pub/static' dir, but I guess it's more correct
-         * to have it in 'var/tmp' dir.
-         */
-        //TODO: Why should publisher control where pre-processors save temporary files
-        $targetDirectory = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
+        $fileToPublish = $this->preProcessor->process($publisherFile, $this->tmpDirectory);
 
-        /**
-         * 2. Execute asset pre-processors
-         */
-        $fileToPublish = $this->preProcessor->process($publisherFile, $targetDirectory);
-
-        // 3. If $sourcePath returned still doesn't exists throw Exception
         if (!$fileToPublish->isSourceFileExists()) {
             throw new \Magento\Exception("Unable to locate theme file '{$fileToPublish->getFilePath()}'.");
         }
 
-        /**
-         * 4.
-         * If $sourcePath points to file in 'pub/lib' dir - no publishing required
-         * If $sourcePath points to file in 'pub/static' dir - no publishing required
-         * If $sourcePath points to CSS file and developer mode is enabled - publish file
-         */
         if (!$fileToPublish->isPublicationAllowed()) {
             return $fileToPublish->getSourcePath();
         }
@@ -159,12 +148,11 @@ class Publisher implements PublicFilesManagerInterface
     protected function publishFile(Publisher\FileInterface $publisherFile)
     {
         $sourcePath = $publisherFile->getSourcePath();
-        $targetPath = $publisherFile->buildPublicViewFilename();
-        //TODO: we get absolute path and then make relative out of it to use with $targetDirectory
-
-        $targetDirectory = $this->filesystem->getDirectoryWrite(\Magento\App\Filesystem::STATIC_VIEW_DIR);
         $sourcePathRelative = $this->rootDirectory->getRelativePath($sourcePath);
-        $targetPathRelative = $targetDirectory->getRelativePath($targetPath);
+
+        $targetPathRelative = $publisherFile->buildUniquePath();
+
+        $targetDirectory = $this->pubDirectory;
 
         $fileMTime = $this->rootDirectory->stat($sourcePathRelative)['mtime'];
         if (!$targetDirectory->isExist($targetPathRelative)

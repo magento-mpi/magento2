@@ -137,7 +137,7 @@ abstract class FileAbstract implements FileInterface
      *
      * @return string
      */
-    abstract public function getPublicationPath();
+    abstract public function buildUniquePath();
 
     /**
      * Original file extension
@@ -183,7 +183,7 @@ abstract class FileAbstract implements FileInterface
      */
     public function buildPublicViewFilename()
     {
-        return $this->viewService->getPublicDir() . '/' . $this->getPublicationPath();
+        return $this->viewService->getPublicDir() . '/' . $this->buildUniquePath();
     }
 
     /**
