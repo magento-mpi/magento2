@@ -23,24 +23,22 @@ class Collection extends \Magento\Data\Collection\Filesystem
     protected $_allowedFilesMask = '/^[a-z0-9\.\-\_]+\.csv$/i';
 
     /**
-     * Locale model
-     *
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\Locale\ResolverInterface
      */
-    protected $_locale;
+    protected $_localeResolver;
 
     /**
      * Set target dir for scanning
      *
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logging\Model\Archive $archive
-     * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param \Magento\App\Filesystem $filesystem
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logging\Model\Archive $archive,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Locale\ResolverInterface $localeResolver,
         \Magento\App\Filesystem $filesystem
     ) {
         parent::__construct($entityFactory);
@@ -48,7 +46,7 @@ class Collection extends \Magento\Data\Collection\Filesystem
         $dir = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::VAR_DIR);
         $dir->create($dir->getRelativePath($basePath));
         $this->addTargetDir($basePath);
-        $this->_locale = $locale;
+        $this->_localeResolver = $localeResolver;
     }
 
     /**
@@ -62,13 +60,15 @@ class Collection extends \Magento\Data\Collection\Filesystem
     protected function _generateRow($filename)
     {
         $row = parent::_generateRow($filename);
-        $date = new \Zend_Date(str_replace('.csv', '', $row['basename']), 'yyyyMMddHH', $this->_locale->getLocaleCode());
+        $date = new \Zend_Date(
+            str_replace('.csv', '', $row['basename']), 'yyyyMMddHH', $this->_localeResolver->getLocaleCode()
+        );
         $row['time'] = $date;
         /**
          * Used in date filter, becouse $date contains hours
          */
         $dateWithoutHours = new \Zend_Date(str_replace('.csv', '', $row['basename']), 'yyyyMMdd',
-            $this->_locale->getLocaleCode());
+            $this->_localeResolver->getLocaleCode());
         $row['timestamp'] = $dateWithoutHours->toString('yyyy-MM-dd');
         return $row;
     }

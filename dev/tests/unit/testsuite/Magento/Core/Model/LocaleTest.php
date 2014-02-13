@@ -40,6 +40,7 @@ class LocaleTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $this->markTestIncomplete('MAGETWO-20693');
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $this->_app = $this->getMock(

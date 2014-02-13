@@ -78,7 +78,9 @@ class Attribute extends \Magento\Backend\Helper\Data
         $this->_eavConfig = $eavConfig;
         $this->_session = $session;
         $this->_productsFactory = $productsFactory;
-        parent::__construct($context, $routeConfig, $app, $backendUrl, $auth, $frontNameResolver, $mathRandom);
+        parent::__construct(
+            $context, $routeConfig, $app, $backendUrl, $auth, $frontNameResolver, $mathRandom
+        );
     }
 
     /**

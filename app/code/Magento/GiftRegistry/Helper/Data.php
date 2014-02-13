@@ -71,6 +71,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_escaper;
 
     /**
+     * @var \Magento\Locale\ResolverInterface
+     */
+    protected $_localeResolver;
+
+    /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Customer\Model\Session $customerSession
@@ -79,6 +84,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\UrlFactory $urlFactory
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Escaper $escaper
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
@@ -88,7 +94,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\UrlFactory $urlFactory,
         \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\Escaper $escaper
+        \Magento\Escaper $escaper,
+        \Magento\Locale\ResolverInterface $localeResolver
     ) {
         parent::__construct($context);
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -98,6 +105,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $this->urlFactory = $urlFactory;
         $this->locale = $locale;
         $this->_escaper = $escaper;
+        $this->_localeResolver = $localeResolver;
     }
 
     /**
@@ -246,7 +254,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         }
         $filterInput = new \Zend_Filter_LocalizedToNormalized(array(
             'date_format' => $formatIn,
-            'locale'      => $this->locale->getLocaleCode()
+            'locale'      => $this->_localeResolver->getLocaleCode()
         ));
         $filterInternal = new \Zend_Filter_NormalizedToLocalized(array(
             'date_format' => \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT

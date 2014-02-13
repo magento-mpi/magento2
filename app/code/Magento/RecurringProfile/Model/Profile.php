@@ -125,6 +125,7 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
      * @param PeriodUnits $periodUnits
      * @param \Magento\RecurringProfile\Block\Fields $fields
      * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Sales\Model\Order\AddressFactory $addressFactory
      * @param \Magento\Sales\Model\Order\PaymentFactory $paymentFactory
@@ -143,6 +144,7 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
         \Magento\RecurringProfile\Model\PeriodUnits $periodUnits,
         \Magento\RecurringProfile\Block\Fields $fields,
         \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Locale\ResolverInterface $localeResolver,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Sales\Model\Order\AddressFactory $addressFactory,
         \Magento\Sales\Model\Order\PaymentFactory $paymentFactory,
@@ -166,6 +168,7 @@ class Profile extends \Magento\RecurringProfile\Model\RecurringProfile
             $periodUnits,
             $fields,
             $locale,
+            $localeResolver,
             $resource,
             $resourceCollection,
             $data

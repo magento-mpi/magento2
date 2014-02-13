@@ -119,6 +119,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_taxItemFactory;
 
     /**
+     * @var \Magento\Locale\ResolverInterface
+     */
+    protected $_localeResolver;
+
+    /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Registry $coreRegistry
@@ -129,6 +134,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory
      * @param \Magento\Tax\Model\Resource\Sales\Order\Tax\ItemFactory $taxItemFactory
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
@@ -140,7 +146,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory,
-        \Magento\Tax\Model\Resource\Sales\Order\Tax\ItemFactory $taxItemFactory
+        \Magento\Tax\Model\Resource\Sales\Order\Tax\ItemFactory $taxItemFactory,
+        \Magento\Locale\ResolverInterface $localeResolver
     ) {
         parent::__construct($context);
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -152,6 +159,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $this->_locale = $locale;
         $this->_attributeFactory = $attributeFactory;
         $this->_taxItemFactory = $taxItemFactory;
+        $this->_localeResolver = $localeResolver;
     }
 
     /**
@@ -434,9 +442,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getPriceFormat($store = null)
     {
-        $this->_locale->emulate($store);
+        $this->_localeResolver->emulate($store);
         $priceFormat = $this->_locale->getJsPriceFormat();
-        $this->_locale->revert();
+        $this->_localeResolver->revert();
         if ($store) {
             $priceFormat['pattern'] = $this->_storeManager->getStore($store)->getCurrentCurrency()->getOutputFormat();
         }

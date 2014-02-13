@@ -31,20 +31,28 @@ class Search extends \Magento\App\Action\Action
     protected $locale;
 
     /**
+     * @var \Magento\Locale\ResolverInterface
+     */
+    protected $_localeResolver;
+
+    /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Registry $coreRegistry
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      */
     public function __construct(
         \Magento\App\Action\Context $context,
         \Magento\Registry $coreRegistry,
         \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Locale\ResolverInterface $localeResolver
     ) {
         $this->_storeManager = $storeManager;
         $this->_coreRegistry = $coreRegistry;
         $this->locale = $locale;
+        $this->_localeResolver = $localeResolver;
         parent::__construct($context);
 
     }
@@ -199,7 +207,7 @@ class Search extends \Magento\App\Action\Action
         }
 
         $filterInput = new \Zend_Filter_LocalizedToNormalized(array(
-            'locale' => $this->locale->getLocaleCode(),
+            'locale' => $this->_localeResolver->getLocaleCode(),
             'date_format' => $this->locale->getDateFormat($format)
         ));
         $filterInternal = new \Zend_Filter_NormalizedToLocalized(array(

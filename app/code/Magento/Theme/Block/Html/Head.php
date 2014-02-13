@@ -403,6 +403,6 @@ class Head extends \Magento\View\Element\Template
      */
     public function getLocale()
     {
-        return substr($this->_locale->getLocaleCode(), 0, 2);
+        return substr($this->_app->getLocaleResolver()->getLocaleCode(), 0, 2);
     }
 }

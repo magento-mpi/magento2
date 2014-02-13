@@ -55,7 +55,7 @@ class Calendar extends \Magento\View\Element\Template
      */
     protected function _toHtml()
     {
-        $localeCode = $this->_locale->getLocaleCode();
+        $localeCode = $this->_app->getLocaleResolver()->getLocaleCode();
 
         // get days names
         $days = \Zend_Locale_Data::getList($localeCode, 'days');

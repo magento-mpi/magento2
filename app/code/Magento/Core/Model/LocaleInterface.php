@@ -38,29 +38,6 @@ interface LocaleInterface
     const FORMAT_TYPE_SHORT = 'short';
 
     /**
-     * Set default locale code
-     *
-     * @param   string $locale
-     * @return  $this
-     */
-    public function setDefaultLocale($locale);
-
-    /**
-     * Retrieve default locale code
-     *
-     * @return string
-     */
-    public function getDefaultLocale();
-
-    /**
-     * Set locale
-     *
-     * @param   string $locale
-     * @return  $this
-     */
-    public function setLocale($locale = null);
-
-    /**
      * Retrieve timezone code
      *
      * @return string
@@ -73,28 +50,6 @@ interface LocaleInterface
      * @return string
      */
     public function getCurrency();
-
-    /**
-     * Retrieve locale object
-     *
-     * @return \Zend_Locale
-     */
-    public function getLocale();
-
-    /**
-     * Retrieve locale code
-     *
-     * @return string
-     */
-    public function getLocaleCode();
-
-    /**
-     * Specify current locale code
-     *
-     * @param   string $code
-     * @return  $this
-     */
-    public function setLocaleCode($code);
 
     /**
      * Get options array for locale dropdown in current locale
@@ -269,22 +224,6 @@ interface LocaleInterface
      * @return array
      */
     public function getJsPriceFormat();
-
-    /**
-     * Push current locale to stack and replace with locale from specified store
-     * Event is not dispatched.
-     *
-     * @param int $storeId
-     * @return void
-     */
-    public function emulate($storeId);
-
-    /**
-     * Get last locale, used before last emulation
-     *
-     * @return void
-     */
-    public function revert();
 
     /**
      * Returns localized informations as array, supported are several

@@ -71,6 +71,13 @@ interface AppInterface
     public function getLocale();
 
     /**
+     * Retrieve application locale resolver object
+     *
+     * @return \Magento\Locale\ResolverInterface
+     */
+    public function getLocaleResolver();
+
+    /**
      * Retrieve layout object
      *
      * @return \Magento\View\LayoutInterface

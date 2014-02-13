@@ -61,6 +61,11 @@ class Context extends \Magento\App\Action\Context
     protected $_session;
 
     /**
+     * @var \Magento\Locale\ResolverInterface
+     */
+    protected $_localeResolver;
+
+    /**
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\App\ResponseInterface $response
      * @param \Magento\ObjectManager $objectManager
@@ -78,6 +83,7 @@ class Context extends \Magento\App\Action\Context
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      * @param \Magento\App\Action\Title $title
      * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param bool $canUseBaseUrl
      */
     public function __construct(
@@ -98,6 +104,7 @@ class Context extends \Magento\App\Action\Context
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
         \Magento\App\Action\Title $title,
         \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Locale\ResolverInterface $localeResolver,
         $canUseBaseUrl = false
     ) {
         parent::__construct(
@@ -120,6 +127,7 @@ class Context extends \Magento\App\Action\Context
         $this->_formKeyValidator = $formKeyValidator;
         $this->_title = $title;
         $this->_locale = $locale;
+        $this->_localeResolver = $localeResolver;
         $this->_canUseBaseUrl = $canUseBaseUrl;
     }
 
@@ -177,6 +185,14 @@ class Context extends \Magento\App\Action\Context
     public function getLocale()
     {
         return $this->_locale;
+    }
+
+    /**
+     * @return \Magento\Core\Model\LocaleInterface
+     */
+    public function getLocaleResolver()
+    {
+        return $this->_localeResolver;
     }
 
     /**

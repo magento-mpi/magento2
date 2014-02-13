@@ -26,7 +26,7 @@ class Date
         if (!$format) {
             if (is_null(self::$_format)) {
                 try {
-                    $localeCode = $this->_locale->getLocaleCode();
+                    $localeCode = $this->_app->getLocaleResolver()->getLocaleCode();
                     $localeData = new \Zend_Locale_Data;
                     switch ($this->getColumn()->getPeriodType()) {
                         case 'month' :

@@ -13,7 +13,7 @@ namespace Magento\Core\Model;
 /**
  * Locale model
  */
-class Locale implements LocaleInterface
+class Locale implements \Magento\Core\Model\LocaleInterface
 {
     /**
      * Default locale code
@@ -73,7 +73,7 @@ class Locale implements LocaleInterface
     protected $_appState;
 
     /**
-     * @var StoreManagerInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -83,7 +83,7 @@ class Locale implements LocaleInterface
     protected $_config;
 
     /**
-     * @var App
+     * @var \Magento\Core\Model\App
      */
     protected $_app;
 
@@ -93,9 +93,14 @@ class Locale implements LocaleInterface
     protected $dateTime;
 
     /**
-     * @var Date
+     * @var \Magento\Core\Model\Date
      */
     protected $_dateModel;
+
+    /**
+     * @var \Magento\Locale\ResolverInterface
+     */
+    protected $_localeResolver;
 
     /**
      * @var string[]
@@ -117,6 +122,7 @@ class Locale implements LocaleInterface
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Core\Model\Date $dateModel
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param string $locale
      */
     public function __construct(
@@ -129,6 +135,7 @@ class Locale implements LocaleInterface
         \Magento\Core\Model\App $app,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Core\Model\Date $dateModel,
+        \Magento\Locale\ResolverInterface $localeResolver,
         $locale = null
     ) {
         $this->_eventManager = $eventManager;
@@ -140,52 +147,8 @@ class Locale implements LocaleInterface
         $this->_app = $app;
         $this->dateTime = $dateTime;
         $this->_dateModel = $dateModel;
-        $this->setLocale($locale);
-    }
-
-    /**
-     * Set default locale code
-     *
-     * @param   string $locale
-     * @return  $this
-     */
-    public function setDefaultLocale($locale)
-    {
-        $this->_defaultLocale = $locale;
-        return $this;
-    }
-
-    /**
-     * Retrieve default locale code
-     *
-     * @return string
-     */
-    public function getDefaultLocale()
-    {
-        if (!$this->_defaultLocale) {
-            $locale = $this->_coreStoreConfig->getConfig(\Magento\Locale\ResolverInterface::XML_PATH_DEFAULT_LOCALE);
-            if (!$locale) {
-                $locale = \Magento\Locale\ResolverInterface::DEFAULT_LOCALE;
-            }
-            $this->_defaultLocale = $locale;
-        }
-        return $this->_defaultLocale;
-    }
-
-    /**
-     * Set locale
-     *
-     * @param   string $locale
-     * @return  $this
-     */
-    public function setLocale($locale = null)
-    {
-        if (($locale !== null) && is_string($locale)) {
-            $this->_localeCode = $locale;
-        } else {
-            $this->_localeCode = $this->getDefaultLocale();
-        }
-        return $this;
+        $this->_localeResolver = $localeResolver;
+        $this->_localeResolver->setLocale($locale);
     }
 
     /**
@@ -219,49 +182,6 @@ class Locale implements LocaleInterface
     }
 
     /**
-     * Retrieve locale object
-     *
-     * @return \Zend_Locale
-     */
-    public function getLocale()
-    {
-        if (!$this->_locale) {
-            \Zend_Locale_Data::setCache($this->_app->getCache()->getLowLevelFrontend());
-            $this->_locale = new \Zend_Locale($this->getLocaleCode());
-        } elseif ($this->_locale->__toString() != $this->_localeCode) {
-            $this->setLocale($this->_localeCode);
-        }
-
-        return $this->_locale;
-    }
-
-    /**
-     * Retrieve locale code
-     *
-     * @return string
-     */
-    public function getLocaleCode()
-    {
-        if ($this->_localeCode === null) {
-            $this->setLocale();
-        }
-        return $this->_localeCode;
-    }
-
-    /**
-     * Specify current locale code
-     *
-     * @param   string $code
-     * @return  LocaleInterface
-     */
-    public function setLocaleCode($code)
-    {
-        $this->_localeCode = $code;
-        $this->_locale = null;
-        return $this;
-    }
-
-    /**
      * Get options array for locale dropdown in current locale
      *
      * @return array
@@ -290,8 +210,10 @@ class Locale implements LocaleInterface
     protected function _getOptionLocales($translatedName = false)
     {
         $options    = array();
-        $locales    = $this->getLocale()->getLocaleList();
-        $languages  = $this->getLocale()->getTranslationList('language', $this->getLocale());
+        $locales    = $this->_localeResolver->getLocale()->getLocaleList();
+        $languages  = $this->_localeResolver->getLocale()->getTranslationList(
+            'language', $this->_localeResolver->getLocale()
+        );
         $countries  = $this->getCountryTranslationList();
 
         $allowed    = $this->getAllowLocales();
@@ -305,8 +227,10 @@ class Locale implements LocaleInterface
                     continue;
                 }
                 if ($translatedName) {
-                    $label = ucwords($this->getLocale()->getTranslation($data[0], 'language', $code))
-                        . ' (' . $this->getLocale()->getTranslation($data[1], 'country', $code) . ') / '
+                    $label = ucwords($this->_localeResolver->getLocale()->getTranslation($data[0], 'language', $code))
+                        . ' ('
+                        . $this->_localeResolver->getLocale()->getTranslation($data[1], 'country', $code)
+                        . ') / '
                         . $languages[$data[0]] . ' (' . $countries[$data[1]] . ')';
                 } else {
                     $label = $languages[$data[0]] . ' (' . $countries[$data[1]] . ')';
@@ -527,7 +451,7 @@ class Locale implements LocaleInterface
     public function date($date = null, $part = null, $locale = null, $useTimezone = true)
     {
         if (is_null($locale)) {
-            $locale = $this->getLocale();
+            $locale = $this->_localeResolver->getLocale();
         }
 
         if (empty($date)) {
@@ -558,7 +482,7 @@ class Locale implements LocaleInterface
     {
         $timezone = $this->_storeManager->getStore($store)
             ->getConfig(\Magento\Core\Model\LocaleInterface::XML_PATH_DEFAULT_TIMEZONE);
-        $date = new \Zend_Date($date, null, $this->getLocale());
+        $date = new \Zend_Date($date, null, $this->_localeResolver->getLocale());
         $date->setTimezone($timezone);
         if (!$includeTime) {
             $date->setHour(0)
@@ -682,12 +606,12 @@ class Locale implements LocaleInterface
     public function currency($currency)
     {
         \Magento\Profiler::start('locale/currency');
-        if (!isset(self::$_currencyCache[$this->getLocaleCode()][$currency])) {
+        if (!isset(self::$_currencyCache[$this->_localeResolver->getLocaleCode()][$currency])) {
             $options = array();
             try {
-                $currencyObject = new \Zend_Currency($currency, $this->getLocale());
+                $currencyObject = new \Zend_Currency($currency, $this->_localeResolver->getLocale());
             } catch (\Exception $e) {
-                $currencyObject = new \Zend_Currency($this->getCurrency(), $this->getLocale());
+                $currencyObject = new \Zend_Currency($this->getCurrency(), $this->_localeResolver->getLocale());
                 $options['name'] = $currency;
                 $options['currency'] = $currency;
                 $options['symbol'] = $currency;
@@ -700,10 +624,10 @@ class Locale implements LocaleInterface
             ));
 
             $currencyObject->setFormat($options->toArray());
-            self::$_currencyCache[$this->getLocaleCode()][$currency] = $currencyObject;
+            self::$_currencyCache[$this->_localeResolver->getLocaleCode()][$currency] = $currencyObject;
         }
         \Magento\Profiler::stop('locale/currency');
-        return self::$_currencyCache[$this->getLocaleCode()][$currency];
+        return self::$_currencyCache[$this->_localeResolver->getLocaleCode()][$currency];
     }
 
     /**
@@ -761,8 +685,8 @@ class Locale implements LocaleInterface
      */
     public function getJsPriceFormat()
     {
-        $format = \Zend_Locale_Data::getContent($this->getLocaleCode(), 'currencynumber');
-        $symbols = \Zend_Locale_Data::getList($this->getLocaleCode(), 'symbols');
+        $format = \Zend_Locale_Data::getContent($this->_localeResolver->getLocaleCode(), 'currencynumber');
+        $symbols = \Zend_Locale_Data::getList($this->_localeResolver->getLocaleCode(), 'symbols');
 
         $pos = strpos($format, ';');
         if ($pos !== false) {
@@ -804,45 +728,6 @@ class Locale implements LocaleInterface
     }
 
     /**
-     * Push current locale to stack and replace with locale from specified store
-     * Event is not dispatched.
-     *
-     * @param int $storeId
-     * @return void
-     */
-    public function emulate($storeId)
-    {
-        if ($storeId) {
-            $this->_emulatedLocales[] = clone $this->getLocale();
-            $this->_locale = new \Zend_Locale(
-                $this->_coreStoreConfig->getConfig(
-                    \Magento\Locale\ResolverInterface::XML_PATH_DEFAULT_LOCALE, $storeId
-            ));
-            $this->_localeCode = $this->_locale->toString();
-
-            $this->_translate->initTranslate($this->_localeCode, true);
-        } else {
-            $this->_emulatedLocales[] = false;
-        }
-    }
-
-    /**
-     * Get last locale, used before last emulation
-     *
-     * @return void
-     */
-    public function revert()
-    {
-        $locale = array_pop($this->_emulatedLocales);
-        if ($locale) {
-            $this->_locale = $locale;
-            $this->_localeCode = $this->_locale->toString();
-
-            $this->_translate->initTranslate($this->_localeCode, true);
-        }
-    }
-
-    /**
      * Returns localized informations as array, supported are several
      * types of information.
      * For detailed information about the types look into the documentation
@@ -853,7 +738,8 @@ class Locale implements LocaleInterface
      */
     public function getTranslationList($path = null, $value = null)
     {
-        return $this->getLocale()->getTranslationList($path, $this->getLocale(), $value);
+        return $this->_localeResolver->getLocale()
+            ->getTranslationList($path, $this->_localeResolver->getLocale(), $value);
     }
 
     /**
@@ -866,7 +752,8 @@ class Locale implements LocaleInterface
      */
     public function getTranslation($value = null, $path = null)
     {
-        return $this->getLocale()->getTranslation($value, $path, $this->getLocale());
+        return $this->_localeResolver->getLocale()
+            ->getTranslation($value, $path, $this->_localeResolver->getLocale());
     }
 
     /**
@@ -877,7 +764,8 @@ class Locale implements LocaleInterface
      */
     public function getCountryTranslation($value)
     {
-        return $this->getLocale()->getTranslation($value, 'country', $this->getLocale());
+        return $this->_localeResolver->getLocale()
+            ->getTranslation($value, 'country', $this->_localeResolver->getLocale());
     }
 
     /**
@@ -887,7 +775,8 @@ class Locale implements LocaleInterface
      */
     public function getCountryTranslationList()
     {
-        return $this->getLocale()->getTranslationList('territory', $this->getLocale(), 2);
+        return $this->_localeResolver->getLocale()
+            ->getTranslationList('territory', $this->_localeResolver->getLocale(), 2);
     }
 
     /**

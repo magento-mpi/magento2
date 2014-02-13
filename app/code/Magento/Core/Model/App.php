@@ -76,6 +76,13 @@ class App implements \Magento\AppInterface
     protected $_locale;
 
     /**
+     * Application locale resolver object
+     *
+     * @var \Magento\Locale\ResolverInterface
+     */
+    protected $_localeResolver;
+
+    /**
      * Application configuration object
      *
      * @var \Magento\App\ConfigInterface
@@ -259,6 +266,19 @@ class App implements \Magento\AppInterface
             $this->_locale = $this->_objectManager->get('Magento\Core\Model\LocaleInterface');
         }
         return $this->_locale;
+    }
+
+    /**
+     * Retrieve application locale object
+     *
+     * @return \Magento\Locale\ResolverInterface
+     */
+    public function getLocaleResolver()
+    {
+        if (!$this->_localeResolver) {
+            $this->_localeResolver = $this->_objectManager->get('Magento\Locale\ResolverInterface');
+        }
+        return $this->_localeResolver;
     }
 
     /**

@@ -21,18 +21,26 @@ class Date
     protected $mathRandom;
 
     /**
+     * @var \Magento\Locale\ResolverInterface
+     */
+    protected $_localeResolver;
+
+    /**
      * @param \Magento\Backend\Block\Context $context
      * @param \Magento\Core\Model\Resource\Helper $resourceHelper
      * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Context $context,
         \Magento\Core\Model\Resource\Helper $resourceHelper,
         \Magento\Math\Random $mathRandom,
+        \Magento\Locale\ResolverInterface $localeResolver,
         array $data = array()
     ) {
         $this->mathRandom = $mathRandom;
+        $this->_localeResolver = $localeResolver;
         parent::__construct($context, $resourceHelper, $data);
     }
 
@@ -65,7 +73,7 @@ class Date
                 . $this->getUiId('filter', $this->_getHtmlName(), 'to') . '/>'
             . '</div></div>';
         $html .= '<input type="hidden" name="' . $this->_getHtmlName() . '[locale]"'
-            . ' value="' . $this->getLocale()->getLocaleCode() . '"/>';
+            . ' value="' . $this->getLocaleResolver()->getLocaleCode() . '"/>';
         $html .= '<script type="text/javascript">
             (function( $ ) {
                 $("#' . $htmlId . '_range").dateRange({
@@ -157,6 +165,16 @@ class Date
     public function getLocale()
     {
         return $this->_locale;
+    }
+
+    /**
+    * Retrieve locale resolver
+    *
+    * @return \Magento\Locale\ResolverInterface
+    */
+    public function getLocaleResolver()
+    {
+        return $this->_localeResolver;
     }
 
     /**

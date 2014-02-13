@@ -38,9 +38,9 @@ class Observer
     protected $_reportRule;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\Locale\ResolverInterface
      */
-    protected $_locale;
+    protected $_localeResolver;
 
     /**
      * @var \Magento\SalesRule\Model\Resource\Rule\CollectionFactory
@@ -58,7 +58,7 @@ class Observer
      * @param \Magento\SalesRule\Model\Coupon $coupon
      * @param \Magento\SalesRule\Model\Resource\Coupon\Usage $couponUsage
      * @param \Magento\SalesRule\Model\Resource\Report\Rule $reportRule
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param \Magento\SalesRule\Model\Resource\Rule\CollectionFactory $collectionFactory
      * @param \Magento\Message\ManagerInterface $messageManager
      */
@@ -68,7 +68,7 @@ class Observer
         \Magento\SalesRule\Model\Coupon $coupon,
         \Magento\SalesRule\Model\Resource\Coupon\Usage $couponUsage,
         \Magento\SalesRule\Model\Resource\Report\Rule $reportRule,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Locale\ResolverInterface $localeResolver,
         \Magento\SalesRule\Model\Resource\Rule\CollectionFactory $collectionFactory,
         \Magento\Message\ManagerInterface $messageManager
     ) {
@@ -77,7 +77,7 @@ class Observer
         $this->_coupon = $coupon;
         $this->_couponUsage = $couponUsage;
         $this->_reportRule = $reportRule;
-        $this->_locale = $locale;
+        $this->_localeResolver = $localeResolver;
         $this->_collectionFactory = $collectionFactory;
         $this->messageManager = $messageManager;
     }
@@ -149,11 +149,11 @@ class Observer
      */
     public function aggregateSalesReportCouponsData($schedule)
     {
-        $this->_locale->emulate(0);
+        $this->_localeResolver->emulate(0);
         $currentDate = $this->_locale->date();
         $date = $currentDate->subHour(25);
         $this->_reportRule->aggregate($date);
-        $this->_locale->revert();
+        $this->_localeResolver->revert();
         return $this;
     }
 

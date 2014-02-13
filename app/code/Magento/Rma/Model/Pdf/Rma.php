@@ -45,6 +45,11 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
     protected $_storeManager;
 
     /**
+     * @var \Magento\Locale\ResolverInterface
+     */
+    protected $_localeResolver;
+
+    /**
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
@@ -57,6 +62,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
      * @param \Magento\Rma\Helper\Eav $rmaEav
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -74,11 +80,13 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         \Magento\Rma\Helper\Eav $rmaEav,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Locale\ResolverInterface $localeResolver,
         array $data = array()
     ) {
         $this->_rmaEav = $rmaEav;
         $this->_rmaData = $rmaData;
         $this->_storeManager = $storeManager;
+        $this->_localeResolver = $localeResolver;
 
         parent::__construct(
             $paymentData,
@@ -117,7 +125,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
 
         $storeId = $rma->getOrder()->getStore()->getId();
         if ($storeId) {
-            $this->locale->emulate($storeId);
+            $this->_localeResolver->emulate($storeId);
             $this->_storeManager->setCurrentStore($storeId);
         }
 
@@ -247,7 +255,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         }
 
         if ($storeId) {
-            $this->locale->revert();
+            $this->_localeResolver->revert();
         }
 
         $this->_afterGetPdf();

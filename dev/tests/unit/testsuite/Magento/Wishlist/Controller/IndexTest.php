@@ -38,7 +38,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
 
         $objectManager = $this->getMock('Magento\ObjectManager');
 
-        $locale = $this->getMock('Magento\Core\Model\Locale', [], [], '', false);
+        $locale = $this->getMock('Magento\Locale\Resolver', [], [], '', false);
 
         $optionCollection  = $this->getMock(
             'Magento\Wishlist\Model\Resource\Item\Option\Collection',
@@ -68,7 +68,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
         );
 
         $mapGet = [
-            ['Magento\Core\Model\LocaleInterface', $locale],
+            ['Magento\Locale\ResolverInterface', $locale],
             ['Magento\Checkout\Model\Cart', $cart],
             ['Magento\Catalog\Helper\Product', $product],
             ['Magento\Escaper', $escaper],

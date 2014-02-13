@@ -20,7 +20,7 @@ class Resolver implements \Magento\Locale\ResolverInterface
     /**
      * Locale object
      *
-     * @var \Zend_Locale
+     * @var \Magento\LocaleInterface
      */
     protected $_locale;
 
@@ -51,20 +51,30 @@ class Resolver implements \Magento\Locale\ResolverInterface
     protected $_emulatedLocales = array();
 
     /**
+     * Object Manager instance
+     *
+     * @var \Magento\ObjectManager
+     */
+    protected $_objectManager = null;
+
+    /**
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\AppInterface $app
      * @param \Magento\Core\Helper\Translate $translate
-     * @param null $locale
+     * @param \Magento\ObjectManager $objectManager
+     * @param string|null $locale
      */
     public function __construct(
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\AppInterface $app,
         \Magento\Core\Helper\Translate $translate,
+        \Magento\ObjectManager $objectManager,
         $locale = null
     ) {
         $this->_app = $app;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_translate = $translate;
+        $this->_objectManager = $objectManager;
         $this->setLocale($locale);
     }
 
@@ -112,7 +122,9 @@ class Resolver implements \Magento\Locale\ResolverInterface
     {
         if (!$this->_locale) {
             \Zend_Locale_Data::setCache($this->_app->getCache()->getLowLevelFrontend());
-            $this->_locale = new \Zend_Locale($this->getLocaleCode());
+            $this->_locale = $this->_objectManager->create(
+                'Magento\LocaleInterface', array('locale' => $this->getLocaleCode())
+            );
         } elseif ($this->_locale->__toString() != $this->_localeCode) {
             $this->setLocale($this->_localeCode);
         }
@@ -142,18 +154,17 @@ class Resolver implements \Magento\Locale\ResolverInterface
     }
 
     /**
-     * Push current locale to stack and replace with locale from specified store
-     *
-     * @param int $storeId
+     * {@inheritdoc}
      */
     public function emulate($storeId)
     {
         if ($storeId) {
             $this->_emulatedLocales[] = clone $this->getLocale();
-            $this->_locale = new \Zend_Locale(
-                $this->_coreStoreConfig->getConfig(
+            $this->_locale = $this->_objectManager->create('Magento\LocaleInterface', array(
+                'locale' => $this->_coreStoreConfig->getConfig(
                     \Magento\Locale\ResolverInterface::XML_PATH_DEFAULT_LOCALE, $storeId
-                ));
+                )
+            ));
             $this->_localeCode = $this->_locale->toString();
 
             $this->_translate->initTranslate($this->_localeCode, true);
@@ -163,7 +174,7 @@ class Resolver implements \Magento\Locale\ResolverInterface
     }
 
     /**
-     * Get last locale, used before last emulation
+     * {@inheritdoc}
      */
     public function revert()
     {

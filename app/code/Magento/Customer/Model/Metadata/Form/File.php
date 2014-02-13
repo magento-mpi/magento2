@@ -40,6 +40,7 @@ class File extends AbstractData
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Logger $logger
      * @param \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param null $value
      * @param $entityTypeCode
      * @param bool $isAjax
@@ -51,6 +52,7 @@ class File extends AbstractData
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Logger $logger,
         \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute,
+        \Magento\Locale\ResolverInterface $localeResolver,
         $value = null,
         $entityTypeCode,
         $isAjax = false,

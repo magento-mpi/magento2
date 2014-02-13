@@ -28,6 +28,11 @@ class Packaging extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
     protected $_layout;
 
     /**
+     * @var \Magento\Locale\ResolverInterface
+     */
+    protected $_localeResolver;
+
+    /**
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
@@ -40,6 +45,7 @@ class Packaging extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
      * @param \Magento\Usa\Helper\Data $usaData
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\View\LayoutInterface $layout
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -57,11 +63,13 @@ class Packaging extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         \Magento\Usa\Helper\Data $usaData,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\View\LayoutInterface $layout,
+        \Magento\Locale\ResolverInterface $localeResolver,
         array $data = array()
     ) {
         $this->_usaData = $usaData;
         $this->_storeManager = $storeManager;
         $this->_layout = $layout;
+        $this->_localeResolver = $localeResolver;
 
         parent::__construct(
             $paymentData,
@@ -93,7 +101,7 @@ class Packaging extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         $page = $this->newPage();
 
         if ($shipment->getStoreId()) {
-            $this->locale->emulate($shipment->getStoreId());
+            $this->_localeResolver->emulate($shipment->getStoreId());
             $this->_storeManager->setCurrentStore($shipment->getStoreId());
         }
 
@@ -106,7 +114,7 @@ class Packaging extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         $this->_afterGetPdf();
 
         if ($shipment->getStoreId()) {
-            $this->locale->revert();
+            $this->_localeResolver->revert();
         }
         return $pdf;
     }

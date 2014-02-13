@@ -54,6 +54,8 @@ class InvoiceTest extends \PHPUnit_Framework_TestCase
             false);
         $storeManagerMock = $this->getMock('Magento\Core\Model\StoreManagerInterface', array(), array(), '', false,
             false);
+        $localeResolverMock = $this->getMock('Magento\Locale\ResolverInterface', array(), array(), '', false,
+            false);
 
         $this->_model = new \Magento\Sales\Model\Order\Pdf\Invoice(
             $paymentDataMock,
@@ -66,6 +68,7 @@ class InvoiceTest extends \PHPUnit_Framework_TestCase
             $pdfItemsFactoryMock,
             $localeMock,
             $storeManagerMock,
+            $localeResolverMock,
             array()
         );
     }

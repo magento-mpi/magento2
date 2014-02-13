@@ -50,6 +50,10 @@ class Soap implements \Magento\App\FrontControllerInterface
     /** @var \Magento\Oauth\OauthInterface */
     protected $_oauthService;
 
+    /** @var \Magento\Locale\ResolverInterface */
+    protected $_localeResolver;
+
+
     /**
      * Initialize dependencies.
      *
@@ -61,6 +65,7 @@ class Soap implements \Magento\App\FrontControllerInterface
      * @param \Magento\App\State $appState
      * @param \Magento\AppInterface $application
      * @param \Magento\Oauth\OauthInterface $oauthService
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      */
     public function __construct(
         \Magento\Webapi\Controller\Soap\Request $request,
@@ -70,7 +75,8 @@ class Soap implements \Magento\App\FrontControllerInterface
         ErrorProcessor $errorProcessor,
         \Magento\App\State $appState,
         \Magento\AppInterface $application,
-        \Magento\Oauth\OauthInterface $oauthService
+        \Magento\Oauth\OauthInterface $oauthService,
+        \Magento\Locale\ResolverInterface $localeResolver
     ) {
         $this->_request = $request;
         $this->_response = $response;
@@ -80,6 +86,7 @@ class Soap implements \Magento\App\FrontControllerInterface
         $this->_appState = $appState;
         $this->_application = $application;
         $this->_oauthService = $oauthService;
+        $this->_localeResolver = $localeResolver;
     }
 
     /**
@@ -159,7 +166,10 @@ class Soap implements \Magento\App\FrontControllerInterface
         }
         $this->_setResponseContentType($contentType);
         $this->_response->setHttpResponseCode($httpCode);
-        $soapFault = new \Magento\Webapi\Model\Soap\Fault($this->_application, $this->_soapServer, $maskedException);
+
+        $soapFault = new \Magento\Webapi\Model\Soap\Fault(
+            $this->_application, $this->_soapServer, $maskedException, $this->_localeResolver
+        );
         // TODO: Generate list of available URLs when invalid WSDL URL specified
         $this->_setResponseBody($soapFault->toXml());
     }

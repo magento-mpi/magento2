@@ -165,7 +165,7 @@ class Html extends \Magento\View\Element\Template
     public function getLang()
     {
         if (!$this->hasData('lang')) {
-            $this->setData('lang', substr($this->_locale->getLocaleCode(), 0, 2));
+            $this->setData('lang', substr($this->_app->getLocaleResolver()->getLocaleCode(), 0, 2));
         }
         return $this->getData('lang');
     }

@@ -77,22 +77,28 @@ abstract class AbstractData
     protected $_locale;
 
     /**
+     * @var \Magento\Locale\ResolverInterface
+     */
+    protected $_localeResolver;
+
+    /**
      * @var \Magento\Logger
      */
     protected $_logger;
 
     /**
-     * Constructor
-     *
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Logger $logger
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      */
     public function __construct(
         \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\Logger $logger
+        \Magento\Logger $logger,
+        \Magento\Locale\ResolverInterface $localeResolver
     ) {
         $this->_locale = $locale;
         $this->_logger = $logger;
+        $this->_localeResolver = $localeResolver;
     }
 
     /**
@@ -231,7 +237,7 @@ abstract class AbstractData
         if ($filterCode) {
             $filterClass = 'Magento\Data\Form\Filter\\' . ucfirst($filterCode);
             if ($filterCode == 'date') {
-                $filter = new $filterClass($this->_dateFilterFormat(), $this->_locale->getLocale());
+                $filter = new $filterClass($this->_dateFilterFormat(), $this->_localeResolver->getLocale());
             } else {
                 $filter = new $filterClass();
             }

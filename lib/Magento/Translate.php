@@ -491,7 +491,7 @@ class Translate implements \Magento\TranslateInterface
     protected function getLocale()
     {
         if (null === $this->_localeCode) {
-            $this->_localeCode = $this->_app->getLocale()->getLocaleCode();
+            $this->_localeCode = $this->_app->getLocaleResolver()->getLocaleCode();
         }
         return $this->_localeCode;
     }

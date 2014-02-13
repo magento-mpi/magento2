@@ -20,6 +20,7 @@ class Text extends AbstractData
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Logger $logger
      * @param \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param string $value
      * @param string $entityTypeCode
      * @param bool $isAjax
@@ -29,12 +30,13 @@ class Text extends AbstractData
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Logger $logger,
         \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute,
+        \Magento\Locale\ResolverInterface $localeResolver,
         $value,
         $entityTypeCode,
         $isAjax = false,
         \Magento\Stdlib\String $stringHelper
     ) {
-        parent::__construct($locale, $logger, $attribute, $value, $entityTypeCode, $isAjax);
+        parent::__construct($locale, $logger, $attribute, $localeResolver,  $value, $entityTypeCode, $isAjax);
         $this->_string = $stringHelper;
     }
 

@@ -118,6 +118,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
      * @param \Magento\Validator\UniversalFactory $universalFactory
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Catalog\Model\ProductFactory $catalogProductFactory
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param \Magento\Index\Model\Indexer $indexIndexer
      * @param \Magento\Catalog\Model\Indexer\Product\Flat\Processor $productFlatIndexerProcessor
      * @param \Magento\Catalog\Helper\Product\Flat $productFlatHelper
@@ -137,6 +138,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
         \Magento\Validator\UniversalFactory $universalFactory,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Catalog\Model\ProductFactory $catalogProductFactory,
+        \Magento\Locale\ResolverInterface $localeResolver,
         \Magento\Index\Model\Indexer $indexIndexer,
         \Magento\Catalog\Model\Indexer\Product\Flat\Processor $productFlatIndexerProcessor,
         \Magento\Catalog\Helper\Product\Flat $productFlatHelper,
@@ -160,6 +162,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
             $universalFactory,
             $locale,
             $catalogProductFactory,
+            $localeResolver,
             $resource,
             $resourceCollection,
             $data

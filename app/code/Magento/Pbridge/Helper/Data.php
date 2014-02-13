@@ -72,11 +72,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_coreStoreConfig;
 
     /**
-     * Locale
-     *
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\Locale\ResolverInterface
      */
-    protected $_locale;
+    protected $_localeResolver;
 
     /**
      * Store manager
@@ -138,7 +136,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Pbridge\Model\EncryptionFactory $encryptionFactory
      * @param \Magento\App\State $appState
@@ -151,7 +149,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Locale\ResolverInterface $localeResolver,
         \Magento\View\LayoutInterface $layout,
         \Magento\Pbridge\Model\EncryptionFactory $encryptionFactory,
         \Magento\App\State $appState,
@@ -162,7 +160,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $this->_customerSession = $customerSession;
         $this->_checkoutSession = $checkoutSession;
         $this->_storeManager = $storeManager;
-        $this->_locale = $locale;
+        $this->_localeResolver = $localeResolver;
         $this->_layout = $layout;
         $this->_encryptionFactory = $encryptionFactory;
         $this->_appState = $appState;
@@ -280,7 +278,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function getRequestParams(array $params = array())
     {
         $params = array_merge(array(
-            'locale' => $this->_locale->getLocaleCode(),
+            'locale' => $this->_localeResolver->getLocaleCode(),
         ), $params);
 
         $params['merchant_key']  = trim($this->_coreStoreConfig->getConfig('payment/pbridge/merchantkey', $this->_storeId));

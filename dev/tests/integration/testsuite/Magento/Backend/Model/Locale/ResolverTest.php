@@ -9,15 +9,15 @@
  * @license     {license_link}
  */
 
-namespace Magento\Backend\Model;
+namespace Magento\Backend\Model\Locale;
 
 /**
  * @magentoAppArea adminhtml
  */
-class LocaleTest extends \PHPUnit_Framework_TestCase
+class ResolverTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\Locale\ResolverInterface
      */
     protected $_model;
 
@@ -25,7 +25,7 @@ class LocaleTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Backend\Model\Locale');
+            ->create('Magento\Backend\Model\Locale\Resolver');
     }
 
     /**

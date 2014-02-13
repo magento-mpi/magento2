@@ -54,6 +54,11 @@ abstract class AbstractData
     protected $_locale;
 
     /**
+     * @var \Magento\Locale\ResolverInterface
+     */
+    protected $_localeResolver;
+
+    /**
      * @var \Magento\Logger
      */
     protected $_logger;
@@ -75,7 +80,8 @@ abstract class AbstractData
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Logger $logger
      * @param \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute
-     * @param string $value
+     * @param \Magento\Locale\ResolverInterface $localeResolver
+     * @param null $value
      * @param $entityTypeCode
      * @param bool $isAjax
      */
@@ -83,11 +89,13 @@ abstract class AbstractData
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Logger $logger,
         \Magento\Customer\Service\V1\Dto\Eav\AttributeMetadata $attribute,
+        \Magento\Locale\ResolverInterface $localeResolver,
         $value = null,
         $entityTypeCode,
         $isAjax = false
     ) {
         $this->_locale = $locale;
+        $this->_localeResolver = $localeResolver;
         $this->_logger = $logger;
         $this->_attribute = $attribute;
         $this->_value = $value;
@@ -194,7 +202,7 @@ abstract class AbstractData
         if ($filterCode) {
             $filterClass = 'Magento\Data\Form\Filter\\' . ucfirst($filterCode);
             if ($filterCode == 'date') {
-                $filter = new $filterClass($this->_dateFilterFormat(), $this->_locale->getLocale());
+                $filter = new $filterClass($this->_dateFilterFormat(), $this->_localeResolver->getLocale());
             } else {
                 $filter = new $filterClass();
             }

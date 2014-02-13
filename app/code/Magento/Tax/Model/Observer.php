@@ -48,12 +48,18 @@ class Observer
     protected $_reportTaxFactory;
 
     /**
+     * @var \Magento\Locale\ResolverInterface
+     */
+    protected $_localeResolver;
+
+    /**
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Tax\Model\Sales\Order\TaxFactory $orderTaxFactory
      * @param \Magento\Tax\Model\Sales\Order\Tax\ItemFactory $taxItemFactory
      * @param \Magento\Tax\Model\Calculation $calculation
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Tax\Model\Resource\Report\TaxFactory $reportTaxFactory
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      */
     public function __construct(
         \Magento\Tax\Helper\Data $taxData,
@@ -61,7 +67,8 @@ class Observer
         \Magento\Tax\Model\Sales\Order\Tax\ItemFactory $taxItemFactory,
         \Magento\Tax\Model\Calculation $calculation,
         \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\Tax\Model\Resource\Report\TaxFactory $reportTaxFactory
+        \Magento\Tax\Model\Resource\Report\TaxFactory $reportTaxFactory,
+        \Magento\Locale\ResolverInterface $localeResolver
     ) {
         $this->_taxData = $taxData;
         $this->_orderTaxFactory = $orderTaxFactory;
@@ -69,6 +76,7 @@ class Observer
         $this->_calculation = $calculation;
         $this->_locale = $locale;
         $this->_reportTaxFactory = $reportTaxFactory;
+        $this->_localeResolver = $localeResolver;
     }
 
     /**
@@ -238,13 +246,13 @@ class Observer
      */
     public function aggregateSalesReportTaxData($schedule)
     {
-        $this->_locale->emulate(0);
+        $this->_localeResolver->emulate(0);
         $currentDate = $this->_locale->date();
         $date = $currentDate->subHour(25);
         /** @var $reportTax \Magento\Tax\Model\Resource\Report\Tax */
         $reportTax = $this->_reportTaxFactory->create();
         $reportTax->aggregate($date);
-        $this->_locale->revert();
+        $this->_localeResolver->revert();
         return $this;
     }
 

@@ -47,9 +47,9 @@ class Emulation extends \Magento\Object
     protected $_coreStoreConfig;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
+     * @var \Magento\Locale\ResolverInterface
      */
-    protected $_locale;
+    protected $_localeResolver;
 
     /**
      * @var \Magento\Core\Model\Design
@@ -70,7 +70,7 @@ class Emulation extends \Magento\Object
      * @param \Magento\Core\Helper\Translate $helperTranslate
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Translate\Inline\ConfigFactory $configFactory
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param array $data
      */
     public function __construct(
@@ -82,10 +82,10 @@ class Emulation extends \Magento\Object
         \Magento\Core\Helper\Translate $helperTranslate,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Translate\Inline\ConfigFactory $configFactory,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Locale\ResolverInterface $localeResolver,
         array $data = array()
     ) {
-        $this->_locale = $locale;
+        $this->_localeResolver = $localeResolver;
         parent::__construct($data);
         $this->_app = $app;
         $this->_storeManager = $storeManager;
@@ -206,12 +206,12 @@ class Emulation extends \Magento\Object
      */
     protected function _emulateLocale($storeId, $area = \Magento\Core\Model\App\Area::AREA_FRONTEND)
     {
-        $initialLocaleCode = $this->_locale->getLocaleCode();
+        $initialLocaleCode = $this->_localeResolver->getLocaleCode();
         $newLocaleCode = $this->_coreStoreConfig->getConfig(
             \Magento\Locale\ResolverInterface::XML_PATH_DEFAULT_LOCALE,
             $storeId
         );
-        $this->_locale->setLocaleCode($newLocaleCode);
+        $this->_localeResolver->setLocaleCode($newLocaleCode);
         $this->_helperTranslate->initTranslate($newLocaleCode, true, $area);
         return $initialLocaleCode;
     }
@@ -249,7 +249,7 @@ class Emulation extends \Magento\Object
      */
     protected function _restoreInitialLocale($initialLocaleCode, $initialArea = \Magento\Core\Model\App\Area::AREA_ADMIN)
     {
-        $this->_app->getLocale()->setLocaleCode($initialLocaleCode);
+        $this->_app->getLocaleResolver()->setLocaleCode($initialLocaleCode);
         $this->_helperTranslate->initTranslate($initialLocaleCode, true);
         return $this;
     }

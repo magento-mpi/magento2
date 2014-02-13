@@ -47,6 +47,7 @@ class File extends \Magento\Eav\Model\Attribute\Data\AbstractData
     /**
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Logger $logger
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\File\Validator\NotProtectedExtension $fileValidator
      * @param \Magento\App\Filesystem $filesystem
@@ -54,11 +55,12 @@ class File extends \Magento\Eav\Model\Attribute\Data\AbstractData
     public function __construct(
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Logger $logger,
+        \Magento\Locale\ResolverInterface $localeResolver,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\File\Validator\NotProtectedExtension $fileValidator,
         \Magento\App\Filesystem $filesystem
     ) {
-        parent::__construct($locale, $logger);
+        parent::__construct($locale, $logger, $localeResolver);
         $this->_coreData = $coreData;
         $this->_fileValidator = $fileValidator;
         $this->_directory = $filesystem->getDirectoryWrite(\Magento\App\Filesystem::MEDIA_DIR);

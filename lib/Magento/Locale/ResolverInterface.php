@@ -24,7 +24,7 @@ interface ResolverInterface
      * Set default locale code
      *
      * @param   string $locale
-     * @return  \Magento\LocaleResolverInterface
+     * @return  \Magento\Locale\ResolverInterface
      */
     public function setDefaultLocale($locale);
 
@@ -39,14 +39,14 @@ interface ResolverInterface
      * Set locale
      *
      * @param   string $locale
-     * @return  \Magento\LocaleResolverInterface
+     * @return  \Magento\Locale\ResolverInterface
      */
     public function setLocale($locale = null);
 
     /**
      * Retrieve locale object
      *
-     * @return \Zend_Locale
+     * @return \Magento\LocaleInterface
      */
     public function getLocale();
 
@@ -61,7 +61,19 @@ interface ResolverInterface
      * Specify current locale code
      *
      * @param   string $code
-     * @return  \Magento\LocaleResolverInterface
+     * @return  \Magento\Locale\ResolverInterface
      */
     public function setLocaleCode($code);
+
+    /**
+     * Push current locale to stack and replace with locale from specified store
+     *
+     * @param int $storeId
+     */
+    public function emulate($storeId);
+
+    /**
+     * Get last locale, used before last emulation
+     */
+    public function revert();
 }

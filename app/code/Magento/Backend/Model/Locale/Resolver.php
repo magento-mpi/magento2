@@ -11,10 +11,8 @@ namespace Magento\Backend\Model;
 
 /**
  * Backend locale model
- *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Locale extends \Magento\Core\Model\Locale
+class Resolver extends \Magento\Locale\Resolver
 {
     /**
      * @var \Magento\Backend\Model\Session
@@ -37,33 +35,21 @@ class Locale extends \Magento\Core\Model\Locale
     protected $_localeValidator;
 
     /**
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
+     * @param \Magento\AppInterface $app
      * @param \Magento\Core\Helper\Translate $translate
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\App\State $appState
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Locale\Config $config
-     * @param \Magento\Core\Model\App $app
-     * @param \Magento\Stdlib\DateTime $dateTime
-     * @param \Magento\Core\Model\Date $dateModel
+     * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Backend\Model\Session $session
-     * @param \Magento\Backend\Model\Locale\Manager $localeManager
+     * @param Manager $localeManager
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Core\Model\Locale\Validator $localeValidator
-     * @param mixed $locale
-     * 
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     * @param string|null $locale
      */
     public function __construct(
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
+        \Magento\AppInterface $app,
         \Magento\Core\Helper\Translate $translate,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\App\State $appState,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Locale\Config $config,
-        \Magento\Core\Model\App $app,
-        \Magento\Stdlib\DateTime $dateTime,
-        \Magento\Core\Model\Date $dateModel,
+        \Magento\ObjectManager $objectManager,
         \Magento\Backend\Model\Session $session,
         \Magento\Backend\Model\Locale\Manager $localeManager,
         \Magento\App\RequestInterface $request,
@@ -74,18 +60,7 @@ class Locale extends \Magento\Core\Model\Locale
         $this->_localeManager = $localeManager;
         $this->_request = $request;
         $this->_localeValidator = $localeValidator;
-        parent::__construct(
-            $eventManager,
-            $translate,
-            $coreStoreConfig,
-            $appState,
-            $storeManager,
-            $config,
-            $app,
-            $dateTime,
-            $dateModel,
-            $locale
-        );
+        parent::__construct($coreStoreConfig, $app, $translate, $objectManager, $locale);
     }
 
     /**

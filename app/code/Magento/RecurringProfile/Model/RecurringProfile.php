@@ -72,15 +72,23 @@ class RecurringProfile extends \Magento\Core\Model\AbstractModel
     protected $_locale;
 
     /**
+     * @var \Magento\Locale\ResolverInterface
+     */
+    protected $_localeResolver;
+
+    /**
      * @param \Magento\Model\Context $context
      * @param \Magento\Registry $registry
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param PeriodUnits $periodUnits
      * @param \Magento\RecurringProfile\Block\Fields $fields
      * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Locale\ResolverInterface $localeResolver
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Model\Context $context,
@@ -89,6 +97,7 @@ class RecurringProfile extends \Magento\Core\Model\AbstractModel
         \Magento\RecurringProfile\Model\PeriodUnits $periodUnits,
         \Magento\RecurringProfile\Block\Fields $fields,
         \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Locale\ResolverInterface $localeResolver,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -98,6 +107,7 @@ class RecurringProfile extends \Magento\Core\Model\AbstractModel
         $this->_periodUnits = $periodUnits;
         $this->_fields = $fields;
         $this->_locale = $locale;
+        $this->_localeResolver = $localeResolver;
     }
 
     /**
@@ -235,7 +245,7 @@ class RecurringProfile extends \Magento\Core\Model\AbstractModel
                 throw new \Exception('Locale and store instances must be set for this operation.');
             }
             $dateFormat = $this->_locale->getDateTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
-            $localeCode = $this->_locale->getLocaleCode();
+            $localeCode = $this->_localeResolver->getLocaleCode();
             if (!\Zend_Date::isDate($startDate, $dateFormat, $localeCode)) {
                 throw new \Magento\Core\Exception(__('The recurring profile start date has invalid format.'));
             }
