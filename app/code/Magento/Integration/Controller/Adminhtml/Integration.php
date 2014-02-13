@@ -192,7 +192,7 @@ class Integration extends Action
      * Save integration action.
      *
      * @return void
-     * TODO: Fix cyclomatic complexity.
+     * @todo: Fix cyclomatic complexity.
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function saveAction()

@@ -19,8 +19,7 @@ use Magento\Object;
 class Button extends AbstractRenderer
 {
     /**
-     * {@inheritDoc}
-     * @return string
+     * {@inheritdoc}
      */
     public function render(Object $row)
     {

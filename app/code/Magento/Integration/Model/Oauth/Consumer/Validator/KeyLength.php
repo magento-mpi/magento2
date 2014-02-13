@@ -80,7 +80,7 @@ class KeyLength extends \Zend_Validate_StringLength
     /**
      * Set length
      *
-     * @param integer|null $length
+     * @param int|null $length
      * @return $this
      */
     public function setLength($length)
