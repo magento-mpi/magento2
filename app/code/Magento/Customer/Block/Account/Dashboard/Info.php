@@ -73,9 +73,7 @@ class Info extends \Magento\View\Element\Template
     public function getCustomer()
     {
         try {
-            return $this->_customerSession->getCustomer();
-            // temporary removed, for correct fpc work
-            //return $this->_customerService->getCustomer($this->_customerSession->getId());
+            return $this->_customerService->getCustomer($this->_customerSession->getId());
         } catch (NoSuchEntityException $e) {
             return null;
         }

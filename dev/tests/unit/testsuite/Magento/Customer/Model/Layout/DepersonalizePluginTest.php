@@ -62,7 +62,7 @@ class DepersonalizePluginTest  extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->layoutMock = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false);
-        $this->sessionMock = $this->getMock('Magento\Core\Model\Session', array('clearStorage'), array(), '', false);
+        $this->sessionMock = $this->getMock('Magento\Core\Model\Session', array('clearStorage', 'setData', 'getData'), array(), '', false);
         $this->customerSessionMock = $this->getMock('Magento\Customer\Model\Session',
             array('getCustomerSegmentIds', 'getCustomerGroupId', 'setCustomerSegmentIds',
                 'setCustomerGroupId', 'clearStorage', 'setCustomer'),
@@ -94,6 +94,7 @@ class DepersonalizePluginTest  extends \PHPUnit_Framework_TestCase
      */
     public function testDepersonalize()
     {
+        $formKey = md5('form_key');
         $expectedCustomerSegmentIds = array(1, 2, 3);
         $expectedCustomerGroupId = 3;
         $this->requestMock->expects($this->once())
@@ -102,6 +103,10 @@ class DepersonalizePluginTest  extends \PHPUnit_Framework_TestCase
         $this->layoutMock->expects($this->once())
             ->method('isCacheable')
             ->will($this->returnValue(true));
+        $this->sessionMock->expects($this->any())
+            ->method('getData')
+            ->with($this->equalTo(\Magento\Data\Form\FormKey::FORM_KEY))
+            ->will($this->returnValue($formKey));
         $this->customerSessionMock->expects($this->once())
             ->method('getCustomerSegmentIds')
             ->will($this->returnValue($expectedCustomerSegmentIds));
@@ -124,6 +129,10 @@ class DepersonalizePluginTest  extends \PHPUnit_Framework_TestCase
         $this->customerMock->expects($this->once())
             ->method('setGroupId')
             ->with($this->equalTo($expectedCustomerGroupId));
+        $this->sessionMock->expects($this->once())
+            ->method('setData')
+            ->with($this->equalTo(\Magento\Data\Form\FormKey::FORM_KEY),
+                $this->equalTo($formKey));
         $this->customerSessionMock->expects($this->once())
             ->method('setCustomer')
             ->with($this->equalTo($this->customerMock));

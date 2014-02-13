@@ -23,4 +23,7 @@
     <type name="Magento\Core\Model\Layout">
         <plugin name="customer-session-stab" type="Magento\Customer\Model\Layout\DepersonalizePlugin"/>
     </type>
+    <type name="Magento\Customer\Model\Converter">
+        <plugin name="customer-session-stab" type="Magento\Customer\Model\Converter\DepersonalizePlugin"/>
+    </type>
 </config>
