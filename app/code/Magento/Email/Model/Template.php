@@ -601,11 +601,6 @@ class Template extends \Magento\Core\Model\Template implements  \Magento\Mail\Te
     public function processTemplate()
     {
         $templateId = $this->getId();
-        if (is_numeric($templateId)) {
-            $this->load($templateId);
-        } else {
-            $this->loadDefault($templateId);
-        }
 
         if (!$this->getId()) {
             throw new \Magento\Mail\Exception(__('Invalid transactional email code: %1', $templateId));
