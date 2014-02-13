@@ -1,5 +1,7 @@
 * Fixed bugs:
   * Fixed an issue with Backup module feature not possible to store files
+  * Fixed an issue with "Add to Cart" button on MAP popup of compound products
+  * Fixed an issue with product addition to custom wishlist from product view page(Multiple wishlist)
 * Indexer implementation:
   * Implemented new optimized Catalog Category Flat Indexer
 * Cron improvements:
