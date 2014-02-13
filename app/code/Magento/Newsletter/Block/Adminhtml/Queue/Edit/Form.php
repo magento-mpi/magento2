@@ -66,8 +66,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     protected function _prepareForm()
     {
-        /* @var $queue \Magento\Newsletter\Model\Queue */
-        $queue = $this->_queueFactory->create();
+        $queue = $this->getQueue();
 
         /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
@@ -227,5 +226,19 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
         $this->setForm($form);
         return $this;
+    }
+
+    /**
+     * Retrieve queue object
+     *
+     * @return \Magento\Newsletter\Model\Queue
+     */
+    protected function getQueue()
+    {
+        $queue = $this->_coreRegistry->registry('current_queue');
+        if (!$queue) {
+            $queue = $this->_queueFactory->create();
+        }
+        return $queue;
     }
 }
