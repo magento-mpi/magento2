@@ -609,7 +609,6 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
         }
 
         $indexers = self::$_entityInvalidatedIndexes[$this->getEntity()];
-        $indexers = self::$_entityInvalidatedIndexes[$this->getEntity()];
         foreach ($indexers as $indexer) {
             $indexProcess = $this->_indexer->getProcessByCode($indexer);
             if ($indexProcess) {
