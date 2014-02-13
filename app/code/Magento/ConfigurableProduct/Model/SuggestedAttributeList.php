@@ -50,7 +50,7 @@ class SuggestedAttributeList
         $collection = $this->_attributeColFactory->create();
         $collection->addFieldToFilter('frontend_input', 'select')
             ->addFieldToFilter('frontend_label', array('like' => $escapedLabelPart))
-            ->addFieldToFilter('is_configurable', array("neq" => 0))
+            ->addFieldToFilter('is_configurable', array(array("eq" => 1), array('null' => true)))
             ->addFieldToFilter('is_user_defined', 1)
             ->addFieldToFilter('is_global', \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_GLOBAL);
 
