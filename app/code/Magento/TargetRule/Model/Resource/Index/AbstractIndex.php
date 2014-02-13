@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+namespace Magento\TargetRule\Model\Resource\Index;
 
 /**
  * TargetRule Product List Abstract Indexer Resource Model
@@ -16,8 +16,6 @@
  * @package     Magento_TargetRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\TargetRule\Model\Resource\Index;
-
 abstract class AbstractIndex extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -42,13 +40,11 @@ abstract class AbstractIndex extends \Magento\Core\Model\Resource\Db\AbstractDb
         parent::__construct($resource);
     }
 
-
     /**
      * Retrieve Product List Type identifier
      *
-     * @throws \Magento\Core\Exception
-     *
      * @return int
+     * @throws \Magento\Core\Exception
      */
     public function getListType()
     {
@@ -64,7 +60,7 @@ abstract class AbstractIndex extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Set Product List identifier
      *
      * @param int $listType
-     * @return \Magento\TargetRule\Model\Resource\Index\AbstractIndex
+     * @return $this
      */
     public function setListType($listType)
     {
@@ -82,6 +78,11 @@ abstract class AbstractIndex extends \Magento\Core\Model\Resource\Db\AbstractDb
         return $this->_product;
     }
 
+    /**
+     * @param \Magento\TargetRule\Model\Index $object
+     * @param int $segmentId
+     * @return array
+     */
     public function loadProductIdsBySegmentId($object, $segmentId)
     {
         $select = $this->_getReadAdapter()->select()
@@ -98,7 +99,7 @@ abstract class AbstractIndex extends \Magento\Core\Model\Resource\Db\AbstractDb
         );
         $value  = $this->_getReadAdapter()->fetchOne($select, $bind);
 
-        return (!empty($value)) ? explode(',', $value) :array();
+        return (!empty($value)) ? explode(',', $value) : array();
     }
 
     /**
@@ -136,7 +137,7 @@ abstract class AbstractIndex extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param \Magento\TargetRule\Model\Index $object
      * @param int $segmentId
      * @param string $productIds
-     * @return \Magento\TargetRule\Model\Resource\Index\AbstractIndex
+     * @return $this
      */
     public function saveResultForCustomerSegments($object, $segmentId, $productIds)
     {
@@ -179,7 +180,7 @@ abstract class AbstractIndex extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Remove index by product ids
      *
      * @param \Magento\DB\Select|array $entityIds
-     * @return \Magento\TargetRule\Model\Resource\Index\AbstractIndex
+     * @return $this
      */
     public function removeIndex($entityIds)
     {
@@ -193,8 +194,8 @@ abstract class AbstractIndex extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Remove all data from index
      *
-     * @param \Magento\Core\Model\Store|int|array $store
-     * @return \Magento\TargetRule\Model\Resource\Index\AbstractIndex
+     * @param \Magento\Core\Model\Store|int|array|null $store
+     * @return $this
      */
     public function cleanIndex($store = null)
     {

@@ -45,7 +45,7 @@ class Targetrule extends \Magento\Backend\App\Action
     /**
      * Initial actions
      *
-     * @return unknown
+     * @return $this
      */
     protected function _initAction()
     {
@@ -57,6 +57,7 @@ class Targetrule extends \Magento\Backend\App\Action
     /**
      * Index grid
      *
+     * @return void
      */
     public function indexAction()
     {
@@ -68,6 +69,8 @@ class Targetrule extends \Magento\Backend\App\Action
 
     /**
      * Grid ajax action
+     *
+     * @return void
      */
     public function gridAction()
     {
@@ -78,6 +81,7 @@ class Targetrule extends \Magento\Backend\App\Action
     /**
      * Create new target rule
      *
+     * @return void
      */
     public function newAction()
     {
@@ -87,6 +91,7 @@ class Targetrule extends \Magento\Backend\App\Action
     /**
      * Edit action
      *
+     * @return void
      */
     public function editAction()
     {
@@ -121,12 +126,16 @@ class Targetrule extends \Magento\Backend\App\Action
     /**
      * Ajax conditions
      *
+     * @return void
      */
     public function newConditionHtmlAction()
     {
         $this->conditionsHtmlAction('conditions');
     }
 
+    /**
+     * @return void
+     */
     public function newActionsHtmlAction()
     {
         $this->conditionsHtmlAction('actions');
@@ -134,6 +143,8 @@ class Targetrule extends \Magento\Backend\App\Action
 
     /**
      * Save action
+     *
+     * @return void
      */
     public function saveAction()
     {
@@ -220,6 +231,8 @@ class Targetrule extends \Magento\Backend\App\Action
 
     /**
      * Delete target rule
+     *
+     * @return void
      */
     public function deleteAction()
     {
@@ -246,6 +259,8 @@ class Targetrule extends \Magento\Backend\App\Action
      * Generate elements for condition forms
      *
      * @param string $prefix Form prefix
+     *
+     * @return void
      */
     protected function conditionsHtmlAction($prefix)
     {

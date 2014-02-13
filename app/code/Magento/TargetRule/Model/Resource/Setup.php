@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\TargetRule\Model\Resource;
 
 /**
  * TargetRule Setup Resource Model
@@ -15,8 +16,6 @@
  * @package     Magento_TargetRule
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\TargetRule\Model\Resource;
-
 class Setup extends \Magento\Catalog\Model\Resource\Setup
 {
     /**
@@ -58,7 +57,7 @@ class Setup extends \Magento\Catalog\Model\Resource\Setup
      * Create migration setup
      *
      * @param array $data
-     * @return \Magento\Enterprise\Model\Resource\Setup\Migration
+     * @return \Magento\Core\Model\Resource\Setup\Migration
      */
     public function createMigrationSetup(array $data = array())
     {
