@@ -17,6 +17,10 @@
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Super;
 
+use Magento\Catalog\Model\Product;
+use Magento\Core\Model\App;
+use Magento\Core\Model\LocaleInterface;
+
 class Config
     extends \Magento\Backend\Block\Widget
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
@@ -72,6 +76,7 @@ class Config
     /**
      * Initialize block
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -96,7 +101,7 @@ class Config
     /**
      * Check block is readonly
      *
-     * @return boolean
+     * @return bool
      */
     public function isReadonly()
     {
@@ -106,7 +111,7 @@ class Config
     /**
      * Check whether attributes of configurable products can be editable
      *
-     * @return boolean
+     * @return bool
      */
     public function isAttributesConfigurationReadonly()
     {
@@ -116,7 +121,7 @@ class Config
     /**
      * Check whether prices of configurable products can be editable
      *
-     * @return boolean
+     * @return bool
      */
     public function isAttributesPricesReadonly()
     {
@@ -127,7 +132,7 @@ class Config
     /**
      * Prepare Layout data
      *
-     * @return \Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Super\Config
+     * @return $this
      */
     protected function _prepareLayout()
     {
@@ -208,7 +213,7 @@ class Config
     /**
      * Retrieve currently edited product object
      *
-     * @return \Magento\Catalog\Model\Product
+     * @return Product
      */
     public function getProduct()
     {
@@ -278,10 +283,11 @@ class Config
     /**
      * Retrieve configurable settings
      *
-     * @param \Magento\Catalog\Model\Product $product
+     * @param Product $product
      * @return array
      */
-    public function getConfigurableSettings($product) {
+    public function getConfigurableSettings($product)
+    {
         $data = array();
         $attributes = $this->_configurableType
             ->getUsedProductAttributes($this->getProduct());
@@ -444,7 +450,7 @@ class Config
     }
 
     /**
-     * @return \Magento\Core\Model\App
+     * @return App
      */
     public function getApp()
     {
@@ -452,7 +458,7 @@ class Config
     }
 
     /**
-     * @return \Magento\Core\Model\LocaleInterface
+     * @return LocaleInterface
      */
     public function getLocale()
     {

@@ -7,7 +7,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Model\Widget\Grid;
 
 class Parser
@@ -15,7 +14,7 @@ class Parser
     /**
      * List of allowed operations
      *
-     * @var array
+     * @var string[]
      */
     protected $_operations = array('-', '+', '/', '*');
 
@@ -47,7 +46,7 @@ class Parser
     /**
      * Check if string is operation
      *
-     * @param $operation
+     * @param string $operation
      * @return bool
      */
     public function isOperation($operation)

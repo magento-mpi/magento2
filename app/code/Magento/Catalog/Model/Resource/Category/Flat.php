@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Model\Resource\Category;
 
 /**
@@ -105,6 +104,7 @@ class Flat extends \Magento\Index\Model\Resource\AbstractResource
     /**
      * Resource initializations
      *
+     * @return void
      */
     protected function _construct()
     {
@@ -115,7 +115,7 @@ class Flat extends \Magento\Index\Model\Resource\AbstractResource
      * Set store id
      *
      * @param integer $storeId
-     * @return \Magento\Catalog\Model\Resource\Category\Flat
+     * @return $this
      */
     public function setStoreId($storeId)
     {
@@ -172,7 +172,7 @@ class Flat extends \Magento\Index\Model\Resource\AbstractResource
      * Add inactive categories ids
      *
      * @param array $ids
-     * @return \Magento\Catalog\Model\Resource\Category\Flat
+     * @return $this
      */
     public function addInactiveCategoryIds($ids)
     {
@@ -186,7 +186,7 @@ class Flat extends \Magento\Index\Model\Resource\AbstractResource
     /**
      * Retrieve inactive categories ids
      *
-     * @return \Magento\Catalog\Model\Resource\Category\Flat
+     * @return $this
      */
     protected function _initInactiveCategoryIds()
     {
@@ -215,7 +215,7 @@ class Flat extends \Magento\Index\Model\Resource\AbstractResource
      * @param \Magento\Catalog\Model\Category|int $parentNode
      * @param integer $recursionLevel
      * @param integer $storeId
-     * @return \Magento\Catalog\Model\Resource\Category\Flat
+     * @return array
      */
     protected function _loadNodes($parentNode = null, $recursionLevel = 0, $storeId = 0)
     {

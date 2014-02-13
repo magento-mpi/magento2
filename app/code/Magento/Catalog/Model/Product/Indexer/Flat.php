@@ -1,7 +1,4 @@
 <?php
-
-namespace Magento\Catalog\Model\Product\Indexer;
-
 /**
  * {license_notice}
  *
@@ -9,7 +6,12 @@ namespace Magento\Catalog\Model\Product\Indexer;
  * @package     Magento_Catalog
  * @copyright   {copyright}
  * @license     {license_link}
- *
+ */
+namespace Magento\Catalog\Model\Product\Indexer;
+
+use Magento\Catalog\Helper\Product\Flat as ProductFlat;
+
+/**
  * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Flat extends \Magento\Index\Model\Indexer\AbstractIndexer
@@ -53,7 +55,7 @@ class Flat extends \Magento\Index\Model\Indexer\AbstractIndexer
     /**
      * Catalog product flat
      *
-     * @var \Magento\Catalog\Helper\Product\Flat
+     * @var ProductFlat
      */
     protected $_catalogProductFlat = null;
 
@@ -84,7 +86,7 @@ class Flat extends \Magento\Index\Model\Indexer\AbstractIndexer
      * @param \Magento\Catalog\Model\Product\Flat\IndexerFactory $flatIndexerFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Product\Flat\Indexer $catalogProductFlatIndexer
-     * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
+     * @param ProductFlat $catalogProductFlat
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -95,7 +97,7 @@ class Flat extends \Magento\Index\Model\Indexer\AbstractIndexer
         \Magento\Catalog\Model\Product\Flat\IndexerFactory $flatIndexerFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Product\Flat\Indexer $catalogProductFlatIndexer,
-        \Magento\Catalog\Helper\Product\Flat $catalogProductFlat,
+        ProductFlat $catalogProductFlat,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -107,9 +109,12 @@ class Flat extends \Magento\Index\Model\Indexer\AbstractIndexer
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
+    /**
+     * @return bool
+     */
     public function isVisible()
     {
-        /** @var $productFlatHelper \Magento\Catalog\Helper\Product\Flat */
+        /** @var $productFlatHelper ProductFlat */
         $productFlatHelper = $this->_catalogProductFlat;
         return $productFlatHelper->isEnabled() || !$productFlatHelper->isBuilt();
     }
@@ -144,7 +149,7 @@ class Flat extends \Magento\Index\Model\Indexer\AbstractIndexer
      */
     public function matchEvent(\Magento\Index\Model\Event $event)
     {
-        /** @var $productFlatHelper \Magento\Catalog\Helper\Product\Flat */
+        /** @var $productFlatHelper ProductFlat */
         $productFlatHelper = $event->getFlatHelper() ?: $this->_catalogProductFlat;
         if (!$productFlatHelper->isAvailable() || !$productFlatHelper->isBuilt()) {
             return false;
@@ -220,7 +225,7 @@ class Flat extends \Magento\Index\Model\Indexer\AbstractIndexer
      * Whether an attribute available for matching or not
      *
      * @param \Magento\Index\Model\Event $event
-     * @param $productFlatHelper
+     * @param ProductFlat $productFlatHelper
      * @return bool
      */
     protected function _matchAttributeEvent(\Magento\Index\Model\Event $event, $productFlatHelper)
@@ -246,12 +251,12 @@ class Flat extends \Magento\Index\Model\Indexer\AbstractIndexer
      * Whether an attribute available for matching or not
      *
      * @param \Magento\Catalog\Model\Resource\Eav\Attribute $attribute
-     * @param \Magento\Catalog\Helper\Product\Flat $productFlatHelper
+     * @param ProductFlat $productFlatHelper
      * @param bool $before
      * @return bool
      */
-    protected function _isAttributeEnabled($attribute, $productFlatHelper, $before = true) {
-
+    protected function _isAttributeEnabled($attribute, $productFlatHelper, $before = true)
+    {
         $method = $before ? 'getOrigData': 'getData';
 
         return $attribute && (($attribute->$method('backend_type') == 'static')
@@ -265,6 +270,7 @@ class Flat extends \Magento\Index\Model\Indexer\AbstractIndexer
      * Register data required by process in event object
      *
      * @param \Magento\Index\Model\Event $event
+     * @return void
      */
     protected function _registerEvent(\Magento\Index\Model\Event $event)
     {
@@ -298,7 +304,7 @@ class Flat extends \Magento\Index\Model\Indexer\AbstractIndexer
      * Register data required by catalog product process in event object
      *
      * @param \Magento\Index\Model\Event $event
-     * @return \Magento\Catalog\Model\Product\Indexer\Flat
+     * @return $this
      */
     protected function _registerCatalogProductEvent(\Magento\Index\Model\Event $event)
     {
@@ -357,7 +363,7 @@ class Flat extends \Magento\Index\Model\Indexer\AbstractIndexer
      * Register core store delete process
      *
      * @param \Magento\Index\Model\Event $event
-     * @return \Magento\Catalog\Model\Product\Indexer\Flat
+     * @return $this
      */
     protected function _registerCoreStoreEvent(\Magento\Index\Model\Event $event)
     {
@@ -373,6 +379,7 @@ class Flat extends \Magento\Index\Model\Indexer\AbstractIndexer
      * Process event
      *
      * @param \Magento\Index\Model\Event $event
+     * @return void
      */
     protected function _processEvent(\Magento\Index\Model\Event $event)
     {
@@ -423,6 +430,7 @@ class Flat extends \Magento\Index\Model\Indexer\AbstractIndexer
     /**
      * Rebuild all index data
      *
+     * @return void
      */
     public function reindexAll()
     {

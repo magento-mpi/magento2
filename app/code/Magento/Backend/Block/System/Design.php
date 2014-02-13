@@ -7,12 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-
 namespace Magento\Backend\Block\System;
 
 class Design extends \Magento\Backend\Block\Template
 {
+    /**
+     * {@inheritdoc}
+     */
     protected function _prepareLayout()
     {
         $this->setTemplate('Magento_Backend::system/design/index.phtml');

@@ -23,7 +23,7 @@ class HeaderPlugin
      * @var \Magento\App\ConfigInterface
      */
     protected $config;
-    
+
     /**
      * @var \Magento\PageCache\Model\Version
      */
@@ -39,7 +39,7 @@ class HeaderPlugin
      *
      * @param \Magento\Core\Model\Layout $layout
      * @param \Magento\App\ConfigInterface $config
-     * @param \Magento\PageCache\Helper\Data
+     * @param \Magento\PageCache\Helper\Data $helper
      * @param \Magento\PageCache\Model\Version $version
      */
     public function __construct(
@@ -77,6 +77,7 @@ class HeaderPlugin
 
     /**
      * @param \Magento\App\Response\Http $response
+     * @return void
      */
     protected function setPublicHeaders(\Magento\App\Response\Http $response)
     {
@@ -92,6 +93,7 @@ class HeaderPlugin
 
     /**
      * @param \Magento\App\Response\Http $response
+     * @return void
      */
     protected function setNocacheHeaders(\Magento\App\Response\Http $response)
     {
@@ -108,6 +110,7 @@ class HeaderPlugin
      * Set header parameters for private cache
      *
      * @param \Magento\App\Response\Http $response
+     * @return void
      */
     protected function setPrivateHeaders(\Magento\App\Response\Http $response)
     {

@@ -7,12 +7,15 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Core\Model\Resource\Entity;
 
 abstract class AbstractEntity
 {
+    /**
+     * @var string
+     */
     protected $_name = null;
+
     /**
      * Configuration object
      *
@@ -34,7 +37,7 @@ abstract class AbstractEntity
      * Get config by key
      *
      * @param string $key
-     * @return string|boolean
+     * @return \Magento\Simplexml\Config|string|false
      */
     public function getConfig($key = '')
     {

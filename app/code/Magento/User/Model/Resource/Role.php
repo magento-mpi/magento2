@@ -5,7 +5,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\User\Model\Resource;
 
 use Magento\User\Model\Acl\Role\User as RoleUser;
@@ -45,6 +44,7 @@ class Role extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param \Magento\App\Resource $resource
      * @param \Magento\App\CacheInterface $cache
      * @param \Magento\Stdlib\DateTime $dateTime
+     * @return void
      */
     public function __construct(
         \Magento\App\Resource $resource,
@@ -58,7 +58,6 @@ class Role extends \Magento\Core\Model\Resource\Db\AbstractDb
 
     /**
      * Define main table
-     *
      */
     protected function _construct()
     {
@@ -72,7 +71,7 @@ class Role extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Process role before saving
      *
      * @param \Magento\Core\Model\AbstractModel $role
-     * @return \Magento\User\Model\Resource\Role
+     * @return $this
      */
     protected function _beforeSave(\Magento\Core\Model\AbstractModel $role)
     {
@@ -118,7 +117,7 @@ class Role extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Process role after saving
      *
      * @param \Magento\Core\Model\AbstractModel $role
-     * @return \Magento\User\Model\Resource\Role
+     * @return $this
      */
     protected function _afterSave(\Magento\Core\Model\AbstractModel $role)
     {
@@ -132,7 +131,7 @@ class Role extends \Magento\Core\Model\Resource\Db\AbstractDb
      * Process role after deleting
      *
      * @param \Magento\Core\Model\AbstractModel $role
-     * @return \Magento\User\Model\Resource\Role
+     * @return $this
      */
     protected function _afterDelete(\Magento\Core\Model\AbstractModel $role)
     {
