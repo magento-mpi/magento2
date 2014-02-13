@@ -548,23 +548,37 @@ abstract class AbstractAction
     }
 
     /**
+     * Check whether indexation of root category is needed
+     *
+     * @return bool
+     */
+    protected function isIndexRootCategoryNeeded()
+    {
+        return true;
+    }
+
+    /**
      * Reindex all products to root category
      *
      * @param \Magento\Core\Model\Store $store
      */
     protected function reindexRootCategory(\Magento\Core\Model\Store $store)
     {
-        $selects = $this->prepareSelectsByRange($this->getAllProducts($store), 'entity_id', self::RANGE_PRODUCT_STEP);
-
-        foreach ($selects as $select) {
-            $this->getWriteAdapter()->query(
-                $this->getWriteAdapter()->insertFromSelect(
-                    $select,
-                    $this->getMainTmpTable(),
-                    ['category_id', 'product_id', 'position', 'is_parent', 'store_id', 'visibility'],
-                    \Magento\DB\Adapter\AdapterInterface::INSERT_ON_DUPLICATE
-                )
+        if ($this->isIndexRootCategoryNeeded()) {
+            $selects = $this->prepareSelectsByRange(
+                $this->getAllProducts($store), 'entity_id', self::RANGE_PRODUCT_STEP
             );
+
+            foreach ($selects as $select) {
+                $this->getWriteAdapter()->query(
+                    $this->getWriteAdapter()->insertFromSelect(
+                        $select,
+                        $this->getMainTmpTable(),
+                        ['category_id', 'product_id', 'position', 'is_parent', 'store_id', 'visibility'],
+                        \Magento\DB\Adapter\AdapterInterface::INSERT_ON_DUPLICATE
+                    )
+                );
+            }
         }
     }
 }

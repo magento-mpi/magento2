@@ -37,13 +37,30 @@ class Rows extends \Magento\Catalog\Model\Indexer\Category\Product\AbstractActio
     }
 
     /**
+     * Return array of all category root IDs + tree root ID
+     *
+     * @return int[]
+     */
+    protected function getRootCategoryIds()
+    {
+        $rootIds = [\Magento\Catalog\Model\Category::TREE_ROOT_ID];
+        foreach ($this->storeManager->getStores() as $store) {
+            if ($this->getPathFromCategoryId($store->getRootCategoryId())) {
+                $rootIds[] = $store->getRootCategoryId();
+            }
+        }
+        return $rootIds;
+    }
+
+    /**
      * Remove index entries before reindexation
      */
     protected function removeEntries()
     {
+        $removalCategoryIds = array_diff($this->limitationByCategories, $this->getRootCategoryIds());
         $this->getWriteAdapter()->delete(
             $this->getMainTable(),
-            ['category_id IN (?)' => $this->limitationByCategories]
+            ['category_id IN (?)' => $removalCategoryIds]
         );
     }
 
@@ -72,23 +89,21 @@ class Rows extends \Magento\Catalog\Model\Indexer\Category\Product\AbstractActio
     }
 
     /**
-     * Get select for all products
-     *
-     * @param \Magento\Core\Model\Store $store
-     * @return \Magento\DB\Select
-     */
-    protected function getAllProducts(\Magento\Core\Model\Store $store)
-    {
-        $select = parent::getAllProducts($store);
-        return $select->where($store->getRootCategoryId() . ' IN (?)', $this->limitationByCategories);
-    }
-
-    /**
      * Check whether select ranging is needed
      *
      * @return bool
      */
     protected function isRangingNeeded()
+    {
+        return false;
+    }
+
+    /**
+     * Check whether indexation of root category is needed
+     *
+     * @return bool
+     */
+    protected function isIndexRootCategoryNeeded()
     {
         return false;
     }
