@@ -14,9 +14,9 @@ namespace Magento\Catalog\Controller\Adminhtml;
 class ProductTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Catalog\Model\Product
+     * @var \Magento\Catalog\Controller\Adminhtml\Product
      */
-    protected $_model;
+    protected $_controller;
 
     /**
      * @var \Magento\Catalog\Model\Indexer\Product\Price\Processor
@@ -103,7 +103,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             ->method('getHelper')
             ->will($this->returnValue($helperDataMock));
 
-        $this->_model = new \Magento\Catalog\Controller\Adminhtml\Product(
+        $this->_controller = new \Magento\Catalog\Controller\Adminhtml\Product(
             $contextMock,
             $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false),
             $this->getMock('Magento\Core\Filter\Date', array(), array(), '', false),
@@ -125,6 +125,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->_priceProcessor->expects($this->once())
             ->method('reindexList');
 
-        $this->_model->massStatusAction();
+        $this->_controller->massStatusAction();
     }
 }
