@@ -9,6 +9,8 @@
  */
 namespace Magento\TargetRule\Model\Resource\Index;
 
+use Magento\TargetRule\Model\Index;
+
 /**
  * TargetRule Product List Abstract Indexer Resource Model
  *
@@ -79,7 +81,7 @@ abstract class AbstractIndex extends \Magento\Core\Model\Resource\Db\AbstractDb
     }
 
     /**
-     * @param \Magento\TargetRule\Model\Index $object
+     * @param Index $object
      * @param int $segmentId
      * @return array
      */
@@ -105,7 +107,7 @@ abstract class AbstractIndex extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Load Product Ids by Index object
      *
-     * @param \Magento\TargetRule\Model\Index $object
+     * @param Index $object
      * @return array
      * @deprecated after 1.12.0.0
      */
@@ -134,7 +136,7 @@ abstract class AbstractIndex extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Save matched product Ids by customer segments
      *
-     * @param \Magento\TargetRule\Model\Index $object
+     * @param Index $object
      * @param int $segmentId
      * @param string $productIds
      * @return $this
@@ -156,7 +158,7 @@ abstract class AbstractIndex extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * Save matched product Ids
      *
-     * @param \Magento\TargetRule\Model\Index $object
+     * @param Index $object
      * @param string $value
      * @return \Magento\TargetRule\Model\Resource\Index\AbstractIndex
      * @deprecated after 1.12.0.0

@@ -259,7 +259,6 @@ class Targetrule extends \Magento\Backend\App\Action
      * Generate elements for condition forms
      *
      * @param string $prefix Form prefix
-     *
      * @return void
      */
     protected function conditionsHtmlAction($prefix)

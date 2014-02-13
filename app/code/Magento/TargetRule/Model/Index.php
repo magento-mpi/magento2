@@ -10,6 +10,8 @@
 
 namespace Magento\TargetRule\Model;
 
+use Magento\TargetRule\Model\Resource\Rule\CollectionFactory;
+
 /**
  * TargetRule Product Index by Rule Product List Type Model
  *
@@ -92,7 +94,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
     protected $_locale;
 
     /**
-     * @var \Magento\TargetRule\Model\Resource\Rule\CollectionFactory
+     * @var CollectionFactory
      */
     protected $_ruleCollectionFactory;
 
@@ -104,7 +106,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
     /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\TargetRule\Model\Resource\Rule\CollectionFactory $ruleFactory
+     * @param CollectionFactory $ruleFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Index\Model\Indexer $indexer
@@ -118,7 +120,7 @@ class Index extends \Magento\Index\Model\Indexer\AbstractIndexer
     public function __construct(
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
-        \Magento\TargetRule\Model\Resource\Rule\CollectionFactory $ruleFactory,
+        CollectionFactory $ruleFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Index\Model\Indexer $indexer,
