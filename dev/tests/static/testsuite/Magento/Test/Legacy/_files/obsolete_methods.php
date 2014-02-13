@@ -1262,4 +1262,6 @@ return array(
     array('getProductStatus', 'Magento\Catalog\Model\Product\Status'),
     array('addValueSortToCollection', 'Magento\Catalog\Model\Product\Status',
         'Magento\CatalogInventory\Model\Resource\Stock\Status'),
+    array('catalogProductStatusUpdate', 'Magento\Sales\Model\Observer\Backend\CatalogProductQuote'),
+    array('applyPermissionsAfterReindex', 'Magento\CatalogPermissions\Model\Adminhtml\Observer'),
 );

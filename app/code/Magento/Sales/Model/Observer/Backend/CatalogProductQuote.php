@@ -47,18 +47,6 @@ class CatalogProductQuote
     }
 
     /**
-     * Catalog Mass Status update process
-     *
-     * @param \Magento\Event\Observer $observer
-     */
-    public function catalogProductStatusUpdate(\Magento\Event\Observer $observer)
-    {
-        $status = $observer->getEvent()->getStatus();
-        $productId  = $observer->getEvent()->getProductId();
-        $this->_recollectQuotes($productId, $status);
-    }
-
-    /**
      * When deleting product, subtract it from all quotes quantities
      *
      * @param \Magento\Event\Observer
